@@ -16,7 +16,7 @@ include(cmake/variables.cmake)
 
 add_library(
     aq-nwb_lib OBJECT
-    src/lib.cpp
+    src/FileWriter.cpp
 )
 
 target_include_directories(
@@ -37,6 +37,13 @@ set_property(TARGET aq-nwb_exe PROPERTY OUTPUT_NAME aq-nwb)
 target_compile_features(aq-nwb_exe PRIVATE cxx_std_17)
 
 target_link_libraries(aq-nwb_exe PRIVATE aq-nwb_lib)
+
+# ---- Additional libraries needed ----
+set(ENV{HDF5_ROOT} "/Applications/HDF_Group/HDF5/1.14.3")
+
+find_package(HDF5 REQUIRED COMPONENTS CXX)
+target_link_libraries(aq-nwb_lib ${HDF5_CXX_LIBRARIES})
+target_include_directories(aq-nwb_lib PRIVATE ${HDF5_INCLUDE_DIRS})
 
 # ---- Install rules ----
 
