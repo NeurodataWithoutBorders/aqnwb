@@ -28,9 +28,3 @@ void FileWriter::createDataset(const std::string& datasetName,
   // Write data to the dataset
   dataset.write(data, H5::PredType::STD_I32LE);
 }
-
-// void HDF5FileBase::close()
-// {
-//     file = nullptr;
-//     opened = false;
-// }

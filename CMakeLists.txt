@@ -39,6 +39,7 @@ target_compile_features(aq-nwb_exe PRIVATE cxx_std_17)
 target_link_libraries(aq-nwb_exe PRIVATE aq-nwb_lib)
 
 # ---- Additional libraries needed ----
+
 set(ENV{HDF5_ROOT} "/Applications/HDF_Group/HDF5/1.14.3")
 
 find_package(HDF5 REQUIRED COMPONENTS CXX)
