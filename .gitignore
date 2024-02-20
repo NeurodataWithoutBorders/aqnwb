@@ -1,7 +1,13 @@
+# folders
 **/.DS_Store
+/tests/data/*
+
+# IDEs
 .idea/
 .vs/
 .vscode/
+
+# build / cmake
 build/
 cmake-build-*/
 prefix/
