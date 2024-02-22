@@ -1,20 +1,28 @@
 
 #include <catch2/catch_test_macros.hpp>
+#include "HDF5IO.hpp"
+#include "BaseIO.hpp"
 
-#include "FileWriter.hpp"
+std::string test_filename = "test.h5";
 
-TEST_CASE("write_file", "[io]")
+TEST_CASE("get_filename", "[io]")
 {
-  const std::string fileName = "test.h5";
+  // Create instance of hdf5io
+  HDF5IO hdf5io(test_filename);
+  CHECK(test_filename == hdf5io.getFileName());
+}
 
-  // Create instance of filewriter
-  FileWriter fileWriter;
+TEST_CASE("write_attribute", "[io]")
+{
+  // create file
+  HDF5IO hdf5io(test_filename);
+  hdf5io.open();
 
-  // Create new HDF5 file
-  fileWriter.createFile(fileName);
+  // Write data to file
+  const signed int data = 1;
+	hdf5io.createGroup("/data");
+  hdf5io.setAttribute(AQNWBIO::BaseDataType::I32, &data, "/test", "single_value");
 
-  const int data[] = {1, 2, 3, 4, 5};
-  const int dataSize = sizeof(data) / sizeof(data[0]);
-
-  fileWriter.createDataset("test_dataset", data, dataSize);
+  // close file
+  hdf5io.close();
 }
