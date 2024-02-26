@@ -25,15 +25,19 @@ const BaseDataType BaseDataType::I32 = BaseDataType(T_I32, 1);
 const BaseDataType BaseDataType::I64 = BaseDataType(T_I64, 1);
 const BaseDataType BaseDataType::F32 = BaseDataType(T_F32, 1);
 const BaseDataType BaseDataType::F64 = BaseDataType(T_F64, 1);
+const BaseDataType BaseDataType::STR_ARR = BaseDataType(T_STR_ARR, 1);
 const BaseDataType BaseDataType::DSTR = BaseDataType(T_STR, DEFAULT_STR_SIZE);
+
 // BaseIO
 
 BaseIO::BaseIO()
-    : readyToOpen(true)  //TODO - move the readyToOpen flag to the NWBFile building part 
-    , opened(false) {}
+    : readyToOpen(
+        true)  // TODO - move the readyToOpen flag to the NWBFile building part
+    , opened(false)
+{
+}
 
-BaseIO::~BaseIO()
-{}
+BaseIO::~BaseIO() {}
 
 bool BaseIO::isOpen() const
 {

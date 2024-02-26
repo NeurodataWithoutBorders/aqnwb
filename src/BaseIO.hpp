@@ -8,7 +8,7 @@
 namespace AQNWBIO
 {
 
-class BaseRecordingData; 
+class BaseRecordingData;
 
 class BaseDataType
 {
@@ -26,6 +26,7 @@ public:
     T_F32,
     T_F64,
     T_STR,
+    T_STR_ARR,
   };
   BaseDataType(Type t = T_I32, size_t s = 1);
   Type type;
@@ -43,6 +44,7 @@ public:
   static const BaseDataType F32;
   static const BaseDataType F64;
   static const BaseDataType DSTR;
+  static const BaseDataType STR_ARR;
   static BaseDataType STR(size_t size);
 };
 
@@ -62,11 +64,11 @@ public:
   /** Destructor */
   virtual ~BaseIO();
 
-	// ------------------------------------------------------------
-	//                  PURE VIRTUAL METHODS
-	//         (must be implemented by all IO classes)
-	// ------------------------------------------------------------
-  
+  // ------------------------------------------------------------
+  //                  PURE VIRTUAL METHODS
+  //         (must be implemented by all IO classes)
+  // ------------------------------------------------------------
+
   /** Returns the full path to the file */
   virtual std::string getFileName() = 0;
 
@@ -78,10 +80,10 @@ public:
 
   /** Sets an attribute at a given location in the file */
   virtual int setAttribute(BaseDataType type,
-                   const void* data,
-                   std::string path,
-                   std::string name,
-                   int size = 1) = 0;
+                           const void* data,
+                           std::string path,
+                           std::string name,
+                           int size = 1) = 0;
 
   // virtual int setAttributeStrArray(std::vector<const char*>& data,
   //                          int maxSize,
@@ -91,9 +93,9 @@ public:
   /** Creates a new group */
   virtual int createGroup(std::string path) = 0;
 
-	// ------------------------------------------------------------
-	//                    OTHER METHODS
-	// ------------------------------------------------------------
+  // ------------------------------------------------------------
+  //                    OTHER METHODS
+  // ------------------------------------------------------------
 
   /** Returns true if the file is open */
   bool isOpen() const;
@@ -106,7 +108,8 @@ public:
 
 protected:
   /** Creates the basic file structure upon opening */
-  virtual int createFileStructure() = 0;  // TODO - not sure if this needs to be here or ust in the NWB side
+  virtual int createFileStructure() = 0;  // TODO - not sure if this needs to be
+                                          // here or ust in the NWB side
 
   /** Creates a new group (ignores if it exists) */
   virtual int createGroupIfDoesNotExist(std::string path) = 0;
@@ -114,7 +117,6 @@ protected:
   bool readyToOpen;
   bool opened;
   bool newfile;
-
 };
 
 /**
@@ -127,16 +129,16 @@ class BaseRecordingData
 public:
   /** Constructor */
   BaseRecordingData();
-  BaseRecordingData(const BaseRecordingData&) = delete;  // non construction-copyable
-  BaseRecordingData& operator=(const BaseRecordingData&) = delete;  // non copiable
+  BaseRecordingData(const BaseRecordingData&) =
+      delete;  // non construction-copyable
+  BaseRecordingData& operator=(const BaseRecordingData&) =
+      delete;  // non copiable
 
   /** Destructor */
   virtual ~BaseRecordingData();
 
   /** Writes a 1D block of data (samples) */
-  int writeDataBlock(int xDataSize,
-                             BaseDataType type,
-                             const void* data);
+  int writeDataBlock(int xDataSize, BaseDataType type, const void* data);
 
   /** Writes a 2D block of data (samples x channels) */
   virtual int writeDataBlock(int xDataSize,
