@@ -26,7 +26,6 @@ public:
     T_F32,
     T_F64,
     T_STR,
-    T_STR_ARR,
   };
   BaseDataType(Type t = T_I32, size_t s = 1);
   Type type;
@@ -44,7 +43,6 @@ public:
   static const BaseDataType F32;
   static const BaseDataType F64;
   static const BaseDataType DSTR;
-  static const BaseDataType STR_ARR;
   static BaseDataType STR(size_t size);
 };
 
@@ -73,7 +71,7 @@ public:
   virtual std::string getFileName() = 0;
 
   /** Opens the file for writing */
-  virtual int open() = 0;
+  virtual int open(std::string fileName) = 0;
 
   /** Closes the file */
   virtual void close() = 0;
@@ -85,10 +83,21 @@ public:
                            std::string name,
                            int size = 1) = 0;
 
-  // virtual int setAttributeStrArray(std::vector<const char*>& data,
-  //                          int maxSize,
-  //                          std::string path,
-  //                          std::string name) = 0;
+  // /** Sets a string attribute at a given location in the file */
+  virtual int setAttribute(const std::string& data,
+                   std::string path,
+                   std::string name) = 0;
+
+  /** Sets a std::string array attribute at a given location in the file */
+  virtual int setAttribute(const std::vector<std::string>& data,
+                   std::string path,
+                   std::string name) = 0;
+
+  /** Sets a std::string array attribute at a given location in the file */
+  virtual int setAttribute(const std::vector<const char*>& data,
+                   std::string path,
+                   std::string name,
+                   size_t maxSize) = 0;
 
   /** Creates a new group */
   virtual int createGroup(std::string path) = 0;
