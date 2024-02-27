@@ -24,8 +24,6 @@ public:
   /** Constructor */
   HDF5IO();
 
-  HDF5IO(std::string fileName);  // TODO - move this to NWB constructor
-
   /** Destructor */
   ~HDF5IO();
 
@@ -33,13 +31,13 @@ public:
   std::string getFileName() override;
 
   /** Opens the file for writing */
-  int open() override;
+  int open(std::string fileName) override;
 
   /** Closes the file */
   void close() override;
 
-  static H5::DataType getNativeType(BaseDataType type, size_t maxSize = 1);
-  static H5::DataType getH5Type(BaseDataType type, size_t maxSize = 1);
+  static H5::DataType getNativeType(BaseDataType type);
+  static H5::DataType getH5Type(BaseDataType type);
 
   /** Sets an attribute at a given location in the file */
   int setAttribute(BaseDataType type,
@@ -48,28 +46,21 @@ public:
                    std::string name,
                    int size = 1) override;
 
-  /** Sets a std::string array attribute at a given location in the file */
-  int setAttributeStr(BaseDataType type,
-                      const std::vector<std::string>& data,
-                      std::string path,
-                      std::string name);
-
-  /** Sets a std::string array attribute at a given location in the file */
-  int setAttributeStr(BaseDataType type,
-                      const std::vector<const char*>& data,
-                      std::string path,
-                      std::string name,
-                      size_t maxSize);
-
-  // /** Sets an attribute at a given location in the file */
-  // int setAttributeStrArray(std::vector<const char*>& data,
-  //                          int maxSize,
-  //                          std::string path,
-  //                          std::string name);
-
   // /** Sets a string attribute at a given location in the file */
-  // int setAttribute(const std::string& value, std::string path, std::string
-  // name);
+  int setAttribute(const std::string& data,
+                   std::string path,
+                   std::string name) override;
+
+  /** Sets a std::string array attribute at a given location in the file */
+  int setAttribute(const std::vector<std::string>& data,
+                   std::string path,
+                   std::string name) override;
+
+  /** Sets a std::string array attribute at a given location in the file */
+  int setAttribute(const std::vector<const char*>& data,
+                   std::string path,
+                   std::string name,
+                   size_t maxSize) override;
 
   // /** Sets an object reference attribute for a given location in the file */
   // int setAttributeRef(std::string referencePath, std::string attributePath,
@@ -112,7 +103,7 @@ public:
   }
 
 protected:
-  const std::string filename;
+  std::string filename;
 
   /** Creates a new group (ignores if it exists) */
   int createGroupIfDoesNotExist(std::string path) override;

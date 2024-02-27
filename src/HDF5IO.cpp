@@ -20,18 +20,15 @@ HDF5IO::~HDF5IO()
   close();
 }
 
-HDF5IO::HDF5IO(std::string fileName)
-    : filename(fileName)
-{
-}
-
 std::string HDF5IO::getFileName()
 {
   return filename;
 }
 
-int HDF5IO::open()
+int HDF5IO::open(std::string fileName)
 {
+  filename = fileName;
+
   if (!readyToOpen)
     return -1;
 
@@ -134,8 +131,17 @@ int HDF5IO::setAttribute(BaseDataType type,
   return 0;
 }
 
-int HDF5IO::setAttributeStr(BaseDataType type,
-                            const std::vector<std::string>& data,
+int HDF5IO::setAttribute(const std::string& data,
+                            std::string path,
+                            std::string name)
+{
+  std::vector<const char*> dataPtrs;
+  dataPtrs.push_back(data.c_str());
+
+  return setAttribute(dataPtrs, path, name, data.length());
+}
+
+int HDF5IO::setAttribute(const std::vector<std::string>& data,
                             std::string path,
                             std::string name)
 {
@@ -147,11 +153,10 @@ int HDF5IO::setAttributeStr(BaseDataType type,
     dataPtrs.push_back(str.c_str());
   }
 
-  return setAttributeStr(type, dataPtrs, path, name, maxLength + 1);
+  return setAttribute(dataPtrs, path, name, maxLength + 1);
 }
 
-int HDF5IO::setAttributeStr(BaseDataType type,
-                            const std::vector<const char*>& data,
+int HDF5IO::setAttribute(const std::vector<const char*>& data,
                             std::string path,
                             std::string name,
                             size_t maxSize)
@@ -160,13 +165,13 @@ int HDF5IO::setAttributeStr(BaseDataType type,
   Group gloc;
   DataSet dloc;
   Attribute attr;
-  DataType H5type;
   hsize_t dims[1];
 
   if (!opened)
     return -1;
 
-  H5type = getH5Type(type, maxSize);
+  StrType H5type(PredType::C_S1, maxSize);
+  H5type.setSize(H5T_VARIABLE);
 
   try {
     gloc = file->openGroup(path);
@@ -349,7 +354,7 @@ HDF5RecordingData* HDF5IO::createDataSet(BaseDataType type,
   return new HDF5RecordingData(data.release());
 }
 
-H5::DataType HDF5IO::getNativeType(BaseDataType type, size_t maxSize)
+H5::DataType HDF5IO::getNativeType(BaseDataType type)
 {
   H5::DataType baseType;
 
@@ -387,12 +392,6 @@ H5::DataType HDF5IO::getNativeType(BaseDataType type, size_t maxSize)
     case BaseDataType::Type::T_STR:
       return StrType(PredType::C_S1, type.typeSize);
       break;
-    case BaseDataType::Type::T_STR_ARR: {
-      StrType outputType(PredType::C_S1, maxSize);
-      outputType.setSize(H5T_VARIABLE);
-      return outputType;
-      break;
-    }
     default:
       baseType = PredType::NATIVE_INT32;
   }
@@ -403,7 +402,7 @@ H5::DataType HDF5IO::getNativeType(BaseDataType type, size_t maxSize)
     return baseType;
 }
 
-H5::DataType HDF5IO::getH5Type(BaseDataType type, size_t maxSize)
+H5::DataType HDF5IO::getH5Type(BaseDataType type)
 {
   H5::DataType baseType;
 
@@ -441,12 +440,6 @@ H5::DataType HDF5IO::getH5Type(BaseDataType type, size_t maxSize)
     case BaseDataType::Type::T_STR:
       return StrType(PredType::C_S1, type.typeSize);
       break;
-    case BaseDataType::Type::T_STR_ARR: {
-      StrType outputType(PredType::C_S1, maxSize);
-      outputType.setSize(H5T_VARIABLE);
-      return outputType;
-      break;
-    }
     default:
       return PredType::STD_I32LE;
   }
