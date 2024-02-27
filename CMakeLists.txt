@@ -18,6 +18,7 @@ add_library(
     aq-nwb_lib OBJECT
     src/HDF5IO.cpp
     src/BaseIO.cpp
+    src/NWBFile.cpp
 )
 
 target_include_directories(
