@@ -42,9 +42,12 @@ target_link_libraries(aq-nwb_exe PRIVATE aq-nwb_lib)
 
 # ---- Additional libraries needed ----
 find_package(HDF5 REQUIRED COMPONENTS CXX)
+include_directories(${HDF5_INCLUDE_DIRS})
 
-target_link_libraries(aq-nwb_lib ${HDF5_CXX_LIBRARIES})
-target_include_directories(aq-nwb_lib PRIVATE ${HDF5_INCLUDE_DIRS})
+find_package(Boost REQUIRED)
+include_directories(${Boost_INCLUDE_DIRS})
+
+target_link_libraries(aq-nwb_lib ${HDF5_CXX_LIBRARIES} ${Boost_LIBRARIES})
 
 # ---- Install rules ----
 
