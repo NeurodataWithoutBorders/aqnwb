@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+
 #include "BaseIO.hpp"
 #include "HDF5IO.hpp"
 
@@ -15,18 +16,20 @@ class NWBFile
 {
 public:
   /** Constructor */
-  NWBFile(std::string fileName, std::string idText, std::unique_ptr<BaseIO> io);
+  NWBFile(std::string idText, std::unique_ptr<BaseIO> io);
   NWBFile(const NWBFile&) = delete;  // non construction-copyable
   NWBFile& operator=(const NWBFile&) = delete;  // non copiable
 
   /** Destructor */
   ~NWBFile();
 
-  /** Opens the file for writing */
-  void open();
+  /** Initilaizes the file - opens and sets up file structure */
+  void initialize();
 
-  void close();
+  /** Finalizes the file - closes*/
+  void finalize();
 
+  /** Starts a recording */
   bool startRecording(int recordingNumber);
 
   /** Writes the num_samples value and closes the relevant datasets */
@@ -39,14 +42,8 @@ public:
                  const float* data,
                  float bitVolts);
 
-  /** Saves the specification files for the schema */
-  void cacheSpecifications(std::string specPath, std::string versionNumber);
-
-  /** Returns the name of this NWB file */
-  std::string getFileName();
-
-//   /** Generate a new uuid string*/
-//   std::string generateUuid();
+  /** Generate a new uuid string*/
+  std::string generateUuid();
 
   /** Indicate NWB version files will be saved as */
   const std::string NWBVersion = "2.7.0";
@@ -59,24 +56,28 @@ protected:
   int createFileStructure();
 
 private:
+  /** Saves the specification files for the schema */
+  void cacheSpecifications(std::string specPath, std::string versionNumber);
+
   /** Creates a new dataset to hold text data (messages) */
   void createTextDataSet(std::string path, std::string name, std::string text);
 
-  const std::string filename;
+  /** Creates a new dataset to hold text data (messages) */
+  std::string getCurrentTime();
+
   const std::string identifierText;
   std::unique_ptr<BaseIO> io;
-  std::vector<float> scaledBuffer;  // TODO - switched out for std::vector, not sure if it's best substitute
+  std::vector<float> scaledBuffer;  // TODO - switched out for std::vector, not
+                                    // sure if it's best substitute
   std::vector<int16_t> intBuffer;
   size_t bufferSize;
-  bool readyToOpen;
-
 };
 
 /**
 
     Represents an NWB recording engine to manage recording process
 
-    */
+*/
 class NWBRecordingEngine
 {
 public:

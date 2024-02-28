@@ -71,7 +71,10 @@ public:
   virtual std::string getFileName() = 0;
 
   /** Opens the file for writing */
-  virtual int open(std::string fileName) = 0;
+  virtual int open() = 0;
+
+  /** Opens the file for writing */
+  virtual int open(bool newfile) = 0;
 
   /** Closes the file */
   virtual void close() = 0;
@@ -85,22 +88,25 @@ public:
 
   // /** Sets a string attribute at a given location in the file */
   virtual int setAttribute(const std::string& data,
-                   std::string path,
-                   std::string name) = 0;
+                           std::string path,
+                           std::string name) = 0;
 
   /** Sets a std::string array attribute at a given location in the file */
   virtual int setAttribute(const std::vector<std::string>& data,
-                   std::string path,
-                   std::string name) = 0;
+                           std::string path,
+                           std::string name) = 0;
 
   /** Sets a std::string array attribute at a given location in the file */
   virtual int setAttribute(const std::vector<const char*>& data,
-                   std::string path,
-                   std::string name,
-                   size_t maxSize) = 0;
+                           std::string path,
+                           std::string name,
+                           size_t maxSize) = 0;
 
   /** Creates a new group */
   virtual int createGroup(std::string path) = 0;
+
+  /** Creates a non-modifiable dataset with a string value */
+  virtual void createStringDataSet(std::string path, std::string value) = 0;
 
   // ------------------------------------------------------------
   //                    OTHER METHODS
@@ -116,16 +122,11 @@ public:
   const std::string filename;
 
 protected:
-  /** Creates the basic file structure upon opening */
-  virtual int createFileStructure() = 0;  // TODO - not sure if this needs to be
-                                          // here or ust in the NWB side
-
   /** Creates a new group (ignores if it exists) */
   virtual int createGroupIfDoesNotExist(std::string path) = 0;
 
   bool readyToOpen;
   bool opened;
-  bool newfile;
 };
 
 /**

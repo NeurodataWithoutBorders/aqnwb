@@ -24,14 +24,20 @@ public:
   /** Constructor */
   HDF5IO();
 
+  /** Constructor */
+  HDF5IO(std::string fileName);
+
   /** Destructor */
   ~HDF5IO();
 
   /** Returns the full path to the HDF5 file */
   std::string getFileName() override;
 
-  /** Opens the file for writing */
-  int open(std::string fileName) override;
+  /** Opens existing file or creates new file for writing */
+  int open() override;
+
+  /** Opens existing file or creates new file for writing */
+  int open(bool newfile) override;
 
   /** Closes the file */
   void close() override;
@@ -69,11 +75,11 @@ public:
   /** Creates a new group (throws an exception if it exists) */
   int createGroup(std::string path) override;
 
-  /** Creates the basic file structure upon opening */
-  int createFileStructure() override;
-
   // /** Returns a pointer to a dataset at a given path*/
   HDF5RecordingData* getDataSet(std::string path);
+
+  /** Creates a non-modifiable dataset with a string value */
+  void createStringDataSet(std::string path, std::string value) override;
 
   /** aliases for   createDataSet */
   HDF5RecordingData* createDataSet(BaseDataType type,
@@ -96,20 +102,11 @@ public:
                                    int chunkY,
                                    std::string path);
 
-  inline int showError(const char* error)
-  {
-    std::cerr << error << std::endl;
-    return -1;
-  }
-
 protected:
   std::string filename;
 
   /** Creates a new group (ignores if it exists) */
   int createGroupIfDoesNotExist(std::string path) override;
-
-  /** Opens existing file or creates new file  */
-  int open(bool newfile);
 
 private:
   std::unique_ptr<H5::H5File> file;
@@ -150,3 +147,9 @@ public:
 private:
   std::unique_ptr<H5::DataSet> dSet;
 };
+
+inline int showError(const char* error)
+{
+  std::cerr << error << std::endl;
+  return -1;
+}

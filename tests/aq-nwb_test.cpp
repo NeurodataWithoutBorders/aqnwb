@@ -9,83 +9,68 @@
 
 namespace fs = std::filesystem;
 
-
-// TODO - change setup/teardown of data folder when running tests
 std::string getTestFilePath(std::string filename)
 {
+  // create data directory if it doesn't exist
   fs::path dirPath = fs::current_path() / "data";
   fs::directory_entry dir(dirPath);
   if (!dir.exists()) {
     fs::create_directory(dir);
   }
+
+  // get filename and remove old file
   fs::path filepath = dirPath / filename;
+  if (fs::exists(filepath)) {
+    fs::remove(filepath);
+  }
 
   return filepath.u8string();
 }
 
-
-TEST_CASE("write_attribute", "[io]")
+TEST_CASE("write_attributes", "[hdf5io]")
 {
-  std::string filename = getTestFilePath("test_attribute.h5");
+  // create and open file
+  std::string filename = getTestFilePath("test_attributes.h5");
+  HDF5IO hdf5io(filename);
+  hdf5io.open();
 
-  // create file
-  HDF5IO hdf5io;
-  hdf5io.open(filename);
-
-  // Write data to file
-  const signed int data = 1;
   hdf5io.createGroup("/data");
-  hdf5io.setAttribute(
-      AQNWBIO::BaseDataType::I32, &data, "/data", "single_value");
+
+  // single attribute
+  SECTION("single_value")
+  {
+    const signed int data = 1;
+    hdf5io.setAttribute(
+        AQNWBIO::BaseDataType::I32, &data, "/data", "single_value");
+  }
+
+  // integer array
+  SECTION("int_array")
+  {
+    const int data[] = {1, 2, 3, 4, 5};
+    const int dataSize = sizeof(data) / sizeof(data[0]);
+
+    hdf5io.setAttribute(
+        AQNWBIO::BaseDataType::I32, &data, "/data", "array", dataSize);
+  }
+
+  // integer array
+  SECTION("str_array")
+  {
+    const std::vector<std::string> data = {"col1", "col2", "col3"};
+
+    hdf5io.setAttribute(data, "/data", "string_array");
+  }
 
   // close file
   hdf5io.close();
-  // std::remove(filename.c_str());
 }
 
-TEST_CASE("write_int_array", "[io]")
+TEST_CASE("generate_nwbfile", "[nwb]")
 {
-  std::string filename = getTestFilePath("test_int_array.h5");
+  std::string filename = getTestFilePath("test_nwb_file.h5");
 
-  HDF5IO hdf5io;
-  hdf5io.open(filename);
-
-  // Setup data structures
-  const int data[] = {1, 2, 3, 4, 5};
-  const int dataSize = sizeof(data) / sizeof(data[0]);
-
-  // Write data to file
-  hdf5io.createGroup("/data");
-  hdf5io.setAttribute(
-      AQNWBIO::BaseDataType::I32, &data, "/data", "array", dataSize);
-
-  hdf5io.close();
-  // std::remove(filename.c_str());
-}
-
-TEST_CASE("write_str_array", "[io]")
-{
-  std::string filename = getTestFilePath("test_str_array.h5");
-
-  HDF5IO hdf5io;
-  hdf5io.open(filename);
-
-  // Setup data structures
-  const std::vector<std::string> data = {"col1", "col2", "col3"};
-
-  // Write data to file
-  hdf5io.createGroup("/data");
-  hdf5io.setAttribute(data, "/data", "string_array");
-
-  hdf5io.close();
-  // std::remove(filename.c_str());
-}
-
-TEST_CASE("nwbfile_generation", "[nwb]")
-{
-std::string filename = getTestFilePath("test_nwb_file.h5");
-
-NWBFile nwbfile(filename, "123", std::make_unique<HDF5IO>());
-nwbfile.open();
-nwbfile.close();
+  NWBFile nwbfile("123", std::make_unique<HDF5IO>(filename));
+  nwbfile.initialize();
+  nwbfile.finalize();
 }

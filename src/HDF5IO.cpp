@@ -3,10 +3,10 @@
 #include <iostream>
 #include <memory>
 #include <vector>
-#include <H5Cpp.h>
 
 #include "HDF5IO.hpp"
 
+#include <H5Cpp.h>
 
 using namespace H5;
 using namespace AQNWBIO;
@@ -14,6 +14,11 @@ using namespace AQNWBIO;
 // HDF5IO
 
 HDF5IO::HDF5IO() {}
+
+HDF5IO::HDF5IO(std::string fileName)
+    : filename(fileName)
+{
+}
 
 HDF5IO::~HDF5IO()
 {
@@ -25,27 +30,18 @@ std::string HDF5IO::getFileName()
   return filename;
 }
 
-int HDF5IO::open(std::string fileName)
+int HDF5IO::open()
 {
-  filename = fileName;
-
-  if (!readyToOpen)
-    return -1;
-
-  if (std::filesystem::exists(getFileName()))
-    newfile = false;
-  else
-    newfile = true;
-
-  if (opened)
-    return -1;
-
-  return open(newfile);
+  if (std::filesystem::exists(getFileName())) {
+    return open(false);
+  } else {
+    return open(true);
+  }
 }
 
 int HDF5IO::open(bool newfile)
 {
-  int accFlags, ret = 0;
+  int accFlags = 0;
 
   if (opened)
     return -1;
@@ -56,32 +52,18 @@ int HDF5IO::open(bool newfile)
     accFlags = H5F_ACC_TRUNC;
   else
     accFlags = H5F_ACC_RDWR;
+
   file = std::make_unique<H5::H5File>(
       getFileName(), accFlags, FileCreatPropList::DEFAULT, props);
   opened = true;
 
-  if (newfile) {
-    ret = createFileStructure();
-  }
-
-  if (ret) {
-    file = nullptr;
-    opened = false;
-    std::cerr << "Error creating file structure" << std::endl;
-  }
-
-  return ret;
+  return 0;
 }
 
 void HDF5IO::close()
 {
   file = nullptr;
   opened = false;
-}
-
-int HDF5IO::createFileStructure()  // TODO - move this to NWB class
-{
-  return 0;
 }
 
 int HDF5IO::setAttribute(BaseDataType type,
@@ -132,8 +114,8 @@ int HDF5IO::setAttribute(BaseDataType type,
 }
 
 int HDF5IO::setAttribute(const std::string& data,
-                            std::string path,
-                            std::string name)
+                         std::string path,
+                         std::string name)
 {
   std::vector<const char*> dataPtrs;
   dataPtrs.push_back(data.c_str());
@@ -142,8 +124,8 @@ int HDF5IO::setAttribute(const std::string& data,
 }
 
 int HDF5IO::setAttribute(const std::vector<std::string>& data,
-                            std::string path,
-                            std::string name)
+                         std::string path,
+                         std::string name)
 {
   std::vector<const char*> dataPtrs;
   size_t maxLength = 0;
@@ -157,9 +139,9 @@ int HDF5IO::setAttribute(const std::vector<std::string>& data,
 }
 
 int HDF5IO::setAttribute(const std::vector<const char*>& data,
-                            std::string path,
-                            std::string name,
-                            size_t maxSize)
+                         std::string path,
+                         std::string name,
+                         size_t maxSize)
 {
   H5Object* loc;
   Group gloc;
@@ -251,18 +233,26 @@ HDF5RecordingData* HDF5IO::getDataSet(std::string path)
     data = std::make_unique<H5::DataSet>(file->openDataSet(path));
     return new HDF5RecordingData(data.release());
   } catch (DataSetIException error) {
-    // std::cout << "DataSetIException" << std::endl;
     error.printErrorStack();
     return nullptr;
   } catch (FileIException error) {
-    // std::cout << "FileIException" << std::endl;
     error.printErrorStack();
     return nullptr;
   } catch (DataSpaceIException error) {
-    // std::cout << "DataSpaceIException" << std::endl;
     error.printErrorStack();
     return nullptr;
   }
+}
+
+void HDF5IO::createStringDataSet(std::string path, std::string value)
+{
+  std::unique_ptr<H5::DataSet> dataset;
+  DataType H5type = getH5Type(BaseDataType::STR(value.length()));
+  DataSpace dSpace(H5S_SCALAR);
+
+  dataset =
+      std::make_unique<H5::DataSet>(file->createDataSet(path, H5type, dSpace));
+  dataset->write(value.c_str(), H5type);
 }
 
 HDF5RecordingData* HDF5IO::createDataSet(BaseDataType type,
