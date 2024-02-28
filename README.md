@@ -3,7 +3,7 @@
 This is the aq-nwb project.
 
 # Requirements
-* A C++14-compliant compiler
+* A C++17-compliant compiler
 * CMake `>= 3.15`
 * Doxygen (optional, documentation building is skipped if missing)
 
