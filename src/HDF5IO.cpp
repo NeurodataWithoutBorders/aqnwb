@@ -192,7 +192,9 @@ int HDF5IO::setAttribute(const std::vector<const char*>& data,
   return 0;
 }
 
-int HDF5IO::setAttributeRef(std::string referencePath, std::string path, std::string name)
+int HDF5IO::setAttributeRef(std::string referencePath,
+                            std::string path,
+                            std::string name)
 {
   H5Object* loc;
   Group gloc;
@@ -221,11 +223,12 @@ int HDF5IO::setAttributeRef(std::string referencePath, std::string path, std::st
       attr = loc->createAttribute(name, data_type, attr_space);
     }
 
-    hobj_ref_t* rdata = (hobj_ref_t*) malloc(sizeof(hobj_ref_t));
+    hobj_ref_t* rdata = new hobj_ref_t[sizeof(hobj_ref_t)];
+
     file->reference(rdata, referencePath.c_str());
 
     attr.write(H5T_STD_REF_OBJ, rdata);
-    free(rdata);
+    delete[] rdata;
 
   } catch (GroupIException error) {
     showError(error.getCDetailMsg());
@@ -236,16 +239,20 @@ int HDF5IO::setAttributeRef(std::string referencePath, std::string path, std::st
   } catch (DataSetIException error) {
     showError(error.getCDetailMsg());
   }
-  
+
   return 0;
 }
 
-int HDF5IO::setGroupAttributes(std::string path, std::string groupNamespace, std::string neurodataType, std::string description)
+int HDF5IO::setGroupAttributes(std::string path,
+                               std::string groupNamespace,
+                               std::string neurodataType,
+                               std::string description)
 {
   setAttribute(groupNamespace, path, "namespace");
   setAttribute(neurodataType, path, "neurodata_type");
   setAttribute(generateUuid(), path, "object_id");
-  if (description != "") setAttribute(description, path, "description");
+  if (description != "")
+    setAttribute(description, path, "description");
   return 0;
 }
 
@@ -278,43 +285,41 @@ int HDF5IO::createGroupIfDoesNotExist(std::string path)
 /** Creates a link to another location in the file */
 void HDF5IO::createLink(std::string path, std::string reference)
 {
-  herr_t error = H5Lcreate_soft(reference.c_str(), file->getLocId(), path.c_str(), H5P_DEFAULT, H5P_DEFAULT);
+  H5Lcreate_soft(reference.c_str(),
+                 file->getLocId(),
+                 path.c_str(),
+                 H5P_DEFAULT,
+                 H5P_DEFAULT);
 }
 
-void HDF5IO::createReferenceDataSet(std::string path, std::vector<std::string> references)
+void HDF5IO::createReferenceDataSet(std::string path,
+                                    std::vector<std::string> references)
 {
+  const hsize_t size = references.size();
 
-    const hsize_t size = references.size();
+  hobj_ref_t* rdata = new hobj_ref_t[size * sizeof(hobj_ref_t)];
 
-    hobj_ref_t* rdata = (hobj_ref_t*)malloc(size * sizeof(hobj_ref_t));
-    
-    for (int i = 0; i < size; i++)
-    {
-        file->reference(&rdata[i], references[i].c_str()); 
-    }
+  for (size_t i = 0; i < size; i++) {
+    file->reference(&rdata[i], references[i].c_str());
+  }
 
-    hid_t space = H5Screate_simple(1, &size, NULL);
+  hid_t space = H5Screate_simple(1, &size, NULL);
 
-    hid_t dset = H5Dcreate(file->getLocId(), 
-        path.c_str(), 
-        H5T_STD_REF_OBJ, 
-        space, 
-        H5P_DEFAULT,
-        H5P_DEFAULT, 
-        H5P_DEFAULT);
+  hid_t dset = H5Dcreate(file->getLocId(),
+                         path.c_str(),
+                         H5T_STD_REF_OBJ,
+                         space,
+                         H5P_DEFAULT,
+                         H5P_DEFAULT,
+                         H5P_DEFAULT);
 
-    herr_t status = H5Dwrite(dset,
-        H5T_STD_REF_OBJ,
-        H5S_ALL,
-        H5S_ALL,
-        H5P_DEFAULT,
-        rdata);
+  herr_t status =
+      H5Dwrite(dset, H5T_STD_REF_OBJ, H5S_ALL, H5S_ALL, H5P_DEFAULT, rdata);
 
-    free(rdata);
+  delete[] rdata;
 
-    status = H5Dclose(dset);
-    status = H5Dclose(space);
-
+  status = H5Dclose(dset);
+  status = H5Dclose(space);
 }
 
 HDF5RecordingData* HDF5IO::getDataSet(std::string path)
