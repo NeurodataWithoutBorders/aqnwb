@@ -4,13 +4,14 @@
 #include <fstream>
 #include <iomanip>
 #include <iostream>
+#include <map>
 #include <sstream>
 #include <string>
-#include <map>
 
 #include "NWBFile.hpp"
-#include "NWBDataTypes.hpp"
+
 #include "BaseIO.hpp"
+#include "NWBDataTypes.hpp"
 
 using namespace AQNWBIO;
 namespace fs = std::filesystem;
@@ -23,8 +24,6 @@ NWBFile::NWBFile(std::string idText, std::shared_ptr<BaseIO> io)
     : identifierText(idText)
     , io(io)
 {
-  //   scaledBuffer.malloc(MAX_BUFFER_SIZE);  TODO - JUCE types, need to adapt
-  //   for std library intBuffer.malloc(MAX_BUFFER_SIZE);
   bufferSize = MAX_BUFFER_SIZE;
 }
 
@@ -78,55 +77,50 @@ int NWBFile::createFileStructure()
 
 bool NWBFile::startRecording()
 {
-  // store all recorded data in the acquisition group
-  std::string rootPath = "/acquisition/";
-  std::string electrodePath = "general/extracellular_ephys/electrodes/";
-
-  // Later this will be inputs but self generate for now
+  // Later channels/continuous array will be input from the acquisition system
+  // but self generating for now
   std::vector<int> continuousArray;
-  for (int i = 1; i <= 32; ++i) {
+  for (int i = 1; i <= 1; ++i) {
     continuousArray.push_back(i);
-  }  
-  // 1. Create continuous datasets
-  for (size_t i = 0; i < continuousArray.size(); i++)
-  {
-    std::string groupName = "electrode" + std::to_string(continuousArray[i]);
-    std::string fullPath = "general/extracellular_ephys/" + groupName;
-    io->createGroup(fullPath);
-    io->setGroupAttributes(fullPath, "core", "ElectrodeGroup", "description");
-    io->setAttribute("unknown", fullPath, "location");
-
-    std::string devicePath = "general/devices/" + groupName;
-    Device* device = new Device(devicePath, io);
-    io->createLink("/" + fullPath + "/device", devicePath);
   }
-
-  // Create electrode table
-  std::vector<int> channels;    // NOTE - Later channels/continuous array will be inputs but self generate for now
+  std::vector<int> channels;
   for (int i = 1; i <= 32; ++i) {
     channels.push_back(i);
   }
 
-  ElectrodeTable* elecTable = new ElectrodeTable(electrodePath, io);
-  elecTable->initialize(channels);
+  // store all recorded data in the acquisition group
+  std::string rootPath = "/acquisition/";
 
-  elecTable->electrodeDataset = createRecordingData(BaseDataType::I32, 1, 1, "general/extracellular_ephys/electrodes/id");
-  checkError(elecTable->electrodeDataset->writeDataBlock(static_cast<int>(elecTable->electrodeNumbers.size()), BaseDataType::I32, &elecTable->electrodeNumbers[0]));
-  elecTable->groupNamesDataset = createRecordingData(BaseDataType::STR(250), 0, 1, electrodePath + "group_name");
-  elecTable->locationsDataset = createRecordingData(BaseDataType::STR(250), 0, 1, electrodePath + "location");
+  // 1. Create continuous datasets
+  for (size_t i = 0; i < continuousArray.size(); i++) {
+    // Setup electrodes and devices
+    std::string groupName = "array" + std::to_string(continuousArray[i]);
+    std::string devicePath = "general/devices/" + groupName;
+    std::string elecPath = "general/extracellular_ephys/" + groupName;
 
-  for (size_t i = 0; i < elecTable->groupNames.size(); i++)
-    elecTable->groupNamesDataset->writeDataBlock(1, BaseDataType::STR(elecTable->groupNames[i].size()), &elecTable->groupNames[i]);
+    ElectrodeGroup elecGroup = ElectrodeGroup(elecPath, io);
+    elecGroup.device = devicePath;
+    elecGroup.initialize();
 
-  for (size_t i = 0; i < elecTable->groupNames.size(); i++)
-    elecTable->locationsDataset->writeDataBlock(1, BaseDataType::STR(7), "unknown");
+    Device device = Device(devicePath, io);
+    device.initialize();
+    elecGroup.linkDevice();
+  }
 
-  io->createReferenceDataSet("general/extracellular_ephys/electrodes/group", elecTable->groupReferences);  // TODO - leaving off erroring here
-  
-  elecTable->addIdentifiers("id", "a reference to the ElectrodeGroup this electrode is a part of");
-  elecTable->addColumn("group_name", "the name of the ElectrodeGroup this electrode is a part of");
-  elecTable->addColumn("location", "the location of channel within the subject e.g. brain region");
-  elecTable->addColumn("group", "a reference to the ElectrodeGroup this electrode is a part of");
+  // Create electrode table
+  std::string electrodePath = "general/extracellular_ephys/electrodes/";
+  std::unique_ptr<ElectrodeTable> elecTable =
+      std::make_unique<ElectrodeTable>(electrodePath, io);
+
+  elecTable->channels = channels;
+  elecTable->electrodeDataset->dataset =
+      createRecordingData(BaseDataType::I32, 1, 1, electrodePath + "id");
+  elecTable->groupNamesDataset->dataset = createRecordingData(
+      BaseDataType::STR(250), 0, 1, electrodePath + "group_name");
+  elecTable->locationsDataset->dataset = createRecordingData(
+      BaseDataType::STR(250), 0, 1, electrodePath + "location");
+
+  elecTable->initialize();
 
   return true;
 }
@@ -183,10 +177,12 @@ std::string NWBFile::getCurrentTime()
 }
 
 // recording data factory method /
-std::unique_ptr<BaseRecordingData> NWBFile::createRecordingData(BaseDataType type, int sizeX, int chunkX, const std::string& path) {  
-    return std::unique_ptr<BaseRecordingData>(io->createDataSet(type, sizeX, chunkX, path));
+std::unique_ptr<BaseRecordingData> NWBFile::createRecordingData(
+    BaseDataType type, int sizeX, int chunkX, const std::string& path)
+{
+  return std::unique_ptr<BaseRecordingData>(
+      io->createDataSet(type, sizeX, chunkX, path));
 }
-
 
 // NWBRecordingEngine
 NWBRecordingEngine::NWBRecordingEngine()
