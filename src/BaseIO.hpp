@@ -154,7 +154,7 @@ public:
 protected:
   /** Creates a new group (ignores if it exists) */
   virtual int createGroupIfDoesNotExist(std::string path) = 0;
-  
+
   bool readyToOpen;
   bool opened;
 };
