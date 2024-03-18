@@ -19,6 +19,7 @@ add_library(
     src/HDF5IO.cpp
     src/BaseIO.cpp
     src/NWBFile.cpp
+    src/NWBDataTypes.cpp
 )
 
 target_include_directories(
