@@ -16,7 +16,7 @@ class NWBFile
 {
 public:
   /** Constructor */
-  NWBFile(std::string idText, std::unique_ptr<BaseIO> io);
+  NWBFile(std::string idText, std::shared_ptr<BaseIO> io);
   NWBFile(const NWBFile&) = delete;  // non construction-copyable
   NWBFile& operator=(const NWBFile&) = delete;  // non copiable
 
@@ -30,7 +30,7 @@ public:
   void finalize();
 
   /** Starts a recording */
-  bool startRecording(int recordingNumber);
+  bool startRecording();
 
   /** Writes the num_samples value and closes the relevant datasets */
   void stopRecording();
@@ -41,9 +41,6 @@ public:
                  int nSamples,
                  const float* data,
                  float bitVolts);
-
-  /** Generate a new uuid string*/
-  std::string generateUuid();
 
   /** Indicate NWB version files will be saved as */
   const std::string NWBVersion = "2.7.0";
@@ -56,6 +53,9 @@ protected:
   int createFileStructure();
 
 private:
+  /** recording data factory method */
+  std::unique_ptr<BaseRecordingData> createRecordingData(BaseDataType type, int sizeX, int chunkX, const std::string& path);
+
   /** Saves the specification files for the schema */
   void cacheSpecifications(std::string specPath, std::string versionNumber);
 
@@ -66,7 +66,7 @@ private:
   std::string getCurrentTime();
 
   const std::string identifierText;
-  std::unique_ptr<BaseIO> io;
+  std::shared_ptr<BaseIO> io;
   std::vector<float> scaledBuffer;  // TODO - switched out for std::vector, not
                                     // sure if it's best substitute
   std::vector<int16_t> intBuffer;

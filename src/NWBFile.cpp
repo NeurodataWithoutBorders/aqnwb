@@ -6,26 +6,22 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <map>
 
 #include "NWBFile.hpp"
-
-#include <boost/uuid/uuid.hpp>
-#include <boost/uuid/uuid_generators.hpp>
-#include <boost/uuid/uuid_io.hpp>
-
+#include "NWBDataTypes.hpp"
 #include "BaseIO.hpp"
 
 using namespace AQNWBIO;
 namespace fs = std::filesystem;
 
-#define MAX_BUFFER_SIZE \
-  40960  // TODO - maybe instead use constexpr size_t MAX_BUFFER_SIZE = 40960;
+constexpr size_t MAX_BUFFER_SIZE = 40960;
 
 // NWBFile
 
-NWBFile::NWBFile(std::string idText, std::unique_ptr<BaseIO> io)
+NWBFile::NWBFile(std::string idText, std::shared_ptr<BaseIO> io)
     : identifierText(idText)
-    , io(std::move(io))
+    , io(io)
 {
   //   scaledBuffer.malloc(MAX_BUFFER_SIZE);  TODO - JUCE types, need to adapt
   //   for std library intBuffer.malloc(MAX_BUFFER_SIZE);
@@ -65,30 +61,13 @@ int NWBFile::createFileStructure()
   io->createGroup("/general");
   io->createGroup("general/devices");
   io->createGroup("general/extracellular_ephys");
-  io->createGroup("general/extracellular_ephys/electrodes");
-
-  const std::vector<std::string> colnames = {"group", "group_name", "location"};
-
-  io->setAttribute(
-      colnames, "general/extracellular_ephys/electrodes", "colnames");
-  io->setAttribute("metadata about extracellular electrodes",
-                   "general/extracellular_ephys/electrodes",
-                   "description");
-  io->setAttribute(
-      "hdmf-common", "general/extracellular_ephys/electrodes", "namespace");
-  io->setAttribute("DynamicTable",
-                   "general/extracellular_ephys/electrodes",
-                   "neurodata_type");
-  io->setAttribute(
-      generateUuid(), "general/extracellular_ephys/electrodes", "object_id");
 
   io->createGroup("/specifications");
   cacheSpecifications("core/", NWBVersion);
   cacheSpecifications("hdmf-common/", HDMFVersion);
 
   std::string time = getCurrentTime();
-  io->createStringDataSet("/file_create_date",
-                          time);  // TODO - this should be an array
+  io->createStringDataSet("/file_create_date", time);  // TODO - change to array
   io->createStringDataSet("/session_description", "a recording session");
   io->createStringDataSet("/session_start_time", time);
   io->createStringDataSet("/timestamps_reference_time", time);
@@ -97,12 +76,58 @@ int NWBFile::createFileStructure()
   return 0;
 }
 
-bool NWBFile::startRecording(int recordingNumber)
+bool NWBFile::startRecording()
 {
-  // all recorded data is stored in the "acquisition" group
+  // store all recorded data in the acquisition group
   std::string rootPath = "/acquisition/";
+  std::string electrodePath = "general/extracellular_ephys/electrodes/";
 
-  // TODO - tons of setup things here
+  // Later this will be inputs but self generate for now
+  std::vector<int> continuousArray;
+  for (int i = 1; i <= 32; ++i) {
+    continuousArray.push_back(i);
+  }  
+  // 1. Create continuous datasets
+  for (size_t i = 0; i < continuousArray.size(); i++)
+  {
+    std::string groupName = "electrode" + std::to_string(continuousArray[i]);
+    std::string fullPath = "general/extracellular_ephys/" + groupName;
+    io->createGroup(fullPath);
+    io->setGroupAttributes(fullPath, "core", "ElectrodeGroup", "description");
+    io->setAttribute("unknown", fullPath, "location");
+
+    std::string devicePath = "general/devices/" + groupName;
+    Device* device = new Device(devicePath, io);
+    io->createLink("/" + fullPath + "/device", devicePath);
+  }
+
+  // Create electrode table
+  std::vector<int> channels;    // NOTE - Later channels/continuous array will be inputs but self generate for now
+  for (int i = 1; i <= 32; ++i) {
+    channels.push_back(i);
+  }
+
+  ElectrodeTable* elecTable = new ElectrodeTable(electrodePath, io);
+  elecTable->initialize(channels);
+
+  elecTable->electrodeDataset = createRecordingData(BaseDataType::I32, 1, 1, "general/extracellular_ephys/electrodes/id");
+  checkError(elecTable->electrodeDataset->writeDataBlock(static_cast<int>(elecTable->electrodeNumbers.size()), BaseDataType::I32, &elecTable->electrodeNumbers[0]));
+  elecTable->groupNamesDataset = createRecordingData(BaseDataType::STR(250), 0, 1, electrodePath + "group_name");
+  elecTable->locationsDataset = createRecordingData(BaseDataType::STR(250), 0, 1, electrodePath + "location");
+
+  for (size_t i = 0; i < elecTable->groupNames.size(); i++)
+    elecTable->groupNamesDataset->writeDataBlock(1, BaseDataType::STR(elecTable->groupNames[i].size()), &elecTable->groupNames[i]);
+
+  for (size_t i = 0; i < elecTable->groupNames.size(); i++)
+    elecTable->locationsDataset->writeDataBlock(1, BaseDataType::STR(7), "unknown");
+
+  io->createReferenceDataSet("general/extracellular_ephys/electrodes/group", elecTable->groupReferences);  // TODO - leaving off erroring here
+  
+  elecTable->addIdentifiers("id", "a reference to the ElectrodeGroup this electrode is a part of");
+  elecTable->addColumn("group_name", "the name of the ElectrodeGroup this electrode is a part of");
+  elecTable->addColumn("location", "the location of channel within the subject e.g. brain region");
+  elecTable->addColumn("group", "a reference to the ElectrodeGroup this electrode is a part of");
+
   return true;
 }
 
@@ -141,14 +166,6 @@ void NWBFile::cacheSpecifications(std::string specPath,
     }
 }
 
-std::string NWBFile::generateUuid()
-{
-  boost::uuids::uuid uuid = boost::uuids::random_generator()();
-  std::string uuidStr = boost::uuids::to_string(uuid);
-
-  return uuidStr;
-}
-
 std::string NWBFile::getCurrentTime()
 {
   // Get current time
@@ -164,6 +181,12 @@ std::string NWBFile::getCurrentTime()
 
   return oss.str();
 }
+
+// recording data factory method /
+std::unique_ptr<BaseRecordingData> NWBFile::createRecordingData(BaseDataType type, int sizeX, int chunkX, const std::string& path) {  
+    return std::unique_ptr<BaseRecordingData>(io->createDataSet(type, sizeX, chunkX, path));
+}
+
 
 // NWBRecordingEngine
 NWBRecordingEngine::NWBRecordingEngine()
