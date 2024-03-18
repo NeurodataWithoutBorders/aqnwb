@@ -182,17 +182,70 @@ int HDF5IO::setAttribute(const std::vector<const char*>& data,
     attr.write(H5type, data.data());
   } catch (GroupIException error) {
     showError(error.getCDetailMsg());
-    ;
   } catch (AttributeIException error) {
     showError(error.getCDetailMsg());
-    ;
   } catch (FileIException error) {
     showError(error.getCDetailMsg());
-    ;
   } catch (DataSetIException error) {
     showError(error.getCDetailMsg());
-    ;
   }
+  return 0;
+}
+
+int HDF5IO::setAttributeRef(std::string referencePath, std::string path, std::string name)
+{
+  H5Object* loc;
+  Group gloc;
+  DataSet dloc;
+  Attribute attr;
+
+  if (!opened)
+    return -1;
+
+  try {
+    gloc = file->openGroup(path);
+    loc = &gloc;
+  } catch (FileIException
+               error)  // If there is no group with that path, try a dataset
+  {
+    dloc = file->openDataSet(path);
+    loc = &dloc;
+  }
+
+  try {
+    if (loc->attrExists(name)) {
+      attr = loc->openAttribute(name);
+    } else {
+      DataType data_type(H5T_STD_REF_OBJ);
+      DataSpace attr_space(H5S_SCALAR);
+      attr = loc->createAttribute(name, data_type, attr_space);
+    }
+
+    hobj_ref_t* rdata = (hobj_ref_t*) malloc(sizeof(hobj_ref_t));
+    file->reference(rdata, referencePath.c_str());
+
+    attr.write(H5T_STD_REF_OBJ, rdata);
+    free(rdata);
+
+  } catch (GroupIException error) {
+    showError(error.getCDetailMsg());
+  } catch (AttributeIException error) {
+    showError(error.getCDetailMsg());
+  } catch (FileIException error) {
+    showError(error.getCDetailMsg());
+  } catch (DataSetIException error) {
+    showError(error.getCDetailMsg());
+  }
+  
+  return 0;
+}
+
+int HDF5IO::setGroupAttributes(std::string path, std::string groupNamespace, std::string neurodataType, std::string description)
+{
+  setAttribute(groupNamespace, path, "namespace");
+  setAttribute(neurodataType, path, "neurodata_type");
+  setAttribute(generateUuid(), path, "object_id");
+  if (description != "") setAttribute(description, path, "description");
   return 0;
 }
 
@@ -220,6 +273,48 @@ int HDF5IO::createGroupIfDoesNotExist(std::string path)
     return createGroup(path);
   }
   return 0;
+}
+
+/** Creates a link to another location in the file */
+void HDF5IO::createLink(std::string path, std::string reference)
+{
+  herr_t error = H5Lcreate_soft(reference.c_str(), file->getLocId(), path.c_str(), H5P_DEFAULT, H5P_DEFAULT);
+}
+
+void HDF5IO::createReferenceDataSet(std::string path, std::vector<std::string> references)
+{
+
+    const hsize_t size = references.size();
+
+    hobj_ref_t* rdata = (hobj_ref_t*)malloc(size * sizeof(hobj_ref_t));
+    
+    for (int i = 0; i < size; i++)
+    {
+        file->reference(&rdata[i], references[i].c_str()); 
+    }
+
+    hid_t space = H5Screate_simple(1, &size, NULL);
+
+    hid_t dset = H5Dcreate(file->getLocId(), 
+        path.c_str(), 
+        H5T_STD_REF_OBJ, 
+        space, 
+        H5P_DEFAULT,
+        H5P_DEFAULT, 
+        H5P_DEFAULT);
+
+    herr_t status = H5Dwrite(dset,
+        H5T_STD_REF_OBJ,
+        H5S_ALL,
+        H5S_ALL,
+        H5P_DEFAULT,
+        rdata);
+
+    free(rdata);
+
+    status = H5Dclose(dset);
+    status = H5Dclose(space);
+
 }
 
 HDF5RecordingData* HDF5IO::getDataSet(std::string path)
@@ -255,7 +350,7 @@ void HDF5IO::createStringDataSet(std::string path, std::string value)
   dataset->write(value.c_str(), H5type);
 }
 
-HDF5RecordingData* HDF5IO::createDataSet(BaseDataType type,
+BaseRecordingData* HDF5IO::createDataSet(BaseDataType type,
                                          int sizeX,
                                          int chunkX,
                                          std::string path)
@@ -264,7 +359,7 @@ HDF5RecordingData* HDF5IO::createDataSet(BaseDataType type,
   return createDataSet(type, 1, &sizeX, chunks, path);
 }
 
-HDF5RecordingData* HDF5IO::createDataSet(
+BaseRecordingData* HDF5IO::createDataSet(
     BaseDataType type, int sizeX, int sizeY, int chunkX, std::string path)
 {
   int size[2];
@@ -274,7 +369,7 @@ HDF5RecordingData* HDF5IO::createDataSet(
   return createDataSet(type, 2, size, chunks, path);
 }
 
-HDF5RecordingData* HDF5IO::createDataSet(BaseDataType type,
+BaseRecordingData* HDF5IO::createDataSet(BaseDataType type,
                                          int sizeX,
                                          int sizeY,
                                          int sizeZ,
@@ -289,7 +384,7 @@ HDF5RecordingData* HDF5IO::createDataSet(BaseDataType type,
   return createDataSet(type, 3, size, chunks, path);
 }
 
-HDF5RecordingData* HDF5IO::createDataSet(BaseDataType type,
+BaseRecordingData* HDF5IO::createDataSet(BaseDataType type,
                                          int sizeX,
                                          int sizeY,
                                          int sizeZ,
@@ -305,7 +400,7 @@ HDF5RecordingData* HDF5IO::createDataSet(BaseDataType type,
   return createDataSet(type, 3, size, chunks, path);
 }
 
-HDF5RecordingData* HDF5IO::createDataSet(BaseDataType type,
+BaseRecordingData* HDF5IO::createDataSet(BaseDataType type,
                                          int dimension,
                                          int* size,
                                          int* chunking,

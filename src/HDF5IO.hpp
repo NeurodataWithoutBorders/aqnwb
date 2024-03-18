@@ -68,33 +68,41 @@ public:
                    std::string name,
                    size_t maxSize) override;
 
-  // /** Sets an object reference attribute for a given location in the file */
-  // int setAttributeRef(std::string referencePath, std::string attributePath,
-  // std::string attributeName);
+	/** Sets an object reference attribute for a given location in the file */
+  int setAttributeRef(std::string referencePath, std::string path, std::string name) override;
 
   /** Creates a new group (throws an exception if it exists) */
   int createGroup(std::string path) override;
 
+	/** Sets up the attributes for a group */
+  int setGroupAttributes(std::string path, std::string groupNamespace, std::string neurodataType, std::string description="") override;
+
   // /** Returns a pointer to a dataset at a given path*/
   HDF5RecordingData* getDataSet(std::string path);
+
+  /** Creates a link to another location in the file */
+	void createLink(std::string path, std::string reference) override;
 
   /** Creates a non-modifiable dataset with a string value */
   void createStringDataSet(std::string path, std::string value) override;
 
-  /** aliases for   createDataSet */
-  HDF5RecordingData* createDataSet(BaseDataType type,
+  /** Creates a dataset that holds an array of references to groups within the file */
+  void createReferenceDataSet(std::string path, std::vector<std::string> references) override;
+  
+  /** aliases for createDataSet */
+  BaseRecordingData* createDataSet(BaseDataType type,
                                    int sizeX,
                                    int chunkX,
-                                   std::string path);
-  HDF5RecordingData* createDataSet(
+                                   std::string path) override;
+  BaseRecordingData* createDataSet(
       BaseDataType type, int sizeX, int sizeY, int chunkX, std::string path);
-  HDF5RecordingData* createDataSet(BaseDataType type,
+  BaseRecordingData* createDataSet(BaseDataType type,
                                    int sizeX,
                                    int sizeY,
                                    int sizeZ,
                                    int chunkX,
                                    std::string path);
-  HDF5RecordingData* createDataSet(BaseDataType type,
+  BaseRecordingData* createDataSet(BaseDataType type,
                                    int sizeX,
                                    int sizeY,
                                    int sizeZ,
@@ -111,7 +119,7 @@ protected:
 private:
   std::unique_ptr<H5::H5File> file;
 
-  HDF5RecordingData* createDataSet(
+  BaseRecordingData* createDataSet(
       BaseDataType type,  // TODO - Is there a specific reason this is private?
       int dimension,
       int* size,
@@ -147,9 +155,3 @@ public:
 private:
   std::unique_ptr<H5::DataSet> dSet;
 };
-
-inline int showError(const char* error)
-{
-  std::cerr << error << std::endl;
-  return -1;
-}
