@@ -104,13 +104,19 @@ public:
                            size_t maxSize) = 0;
 
   /** Sets an object reference attribute for a given location in the file */
-  virtual int setAttributeRef(std::string referencePath, std::string path, std::string name) = 0;
+  virtual int setAttributeRef(std::string referencePath,
+                              std::string path,
+                              std::string name) = 0;
 
   /** Creates a new group */
   virtual int createGroup(std::string path) = 0;
 
+
   /** Sets up the attributes for a group */
-  virtual int setGroupAttributes(std::string path, std::string group_namespace, std::string neurodata_type, std::string description="") = 0;
+  virtual int setGroupAttributes(std::string path,
+                                 std::string group_namespace,
+                                 std::string neurodata_type,
+                                 std::string description = "") = 0;
 
   /** Creates a link to another location in the file */
   virtual void createLink(std::string path, std::string reference) = 0;
@@ -118,11 +124,16 @@ public:
   /** Creates a non-modifiable dataset with a string value */
   virtual void createStringDataSet(std::string path, std::string value) = 0;
 
-  /** Creates a dataset that holds an array of references to groups within the file */
-  virtual void createReferenceDataSet(std::string path, std::vector<std::string> references) = 0;
+  /** Creates a dataset that holds an array of references to groups within the
+   * file */
+  virtual void createReferenceDataSet(std::string path,
+                                      std::vector<std::string> references) = 0;
 
   /** Create an extendable dataset */
-  virtual BaseRecordingData* createDataSet(BaseDataType type, int sizeX, int chunkX, std::string path) = 0;
+  virtual BaseRecordingData* createDataSet(BaseDataType type,
+                                           int sizeX,
+                                           int chunkX,
+                                           std::string path) = 0;
 
   // ------------------------------------------------------------
   //                    OTHER METHODS
@@ -143,7 +154,7 @@ public:
 protected:
   /** Creates a new group (ignores if it exists) */
   virtual int createGroupIfDoesNotExist(std::string path) = 0;
-
+  
   bool readyToOpen;
   bool opened;
 };

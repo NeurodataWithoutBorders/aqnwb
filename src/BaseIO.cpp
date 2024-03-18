@@ -1,8 +1,8 @@
+#include "BaseIO.hpp"
+
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
-
-#include "BaseIO.hpp"
 
 using namespace AQNWBIO;
 

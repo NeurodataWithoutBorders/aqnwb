@@ -68,27 +68,34 @@ public:
                    std::string name,
                    size_t maxSize) override;
 
-	/** Sets an object reference attribute for a given location in the file */
-  int setAttributeRef(std::string referencePath, std::string path, std::string name) override;
+  /** Sets an object reference attribute for a given location in the file */
+  int setAttributeRef(std::string referencePath,
+                      std::string path,
+                      std::string name) override;
 
   /** Creates a new group (throws an exception if it exists) */
   int createGroup(std::string path) override;
 
-	/** Sets up the attributes for a group */
-  int setGroupAttributes(std::string path, std::string groupNamespace, std::string neurodataType, std::string description="") override;
+  /** Sets up the attributes for a group */
+  int setGroupAttributes(std::string path,
+                         std::string groupNamespace,
+                         std::string neurodataType,
+                         std::string description = "") override;
 
   // /** Returns a pointer to a dataset at a given path*/
   HDF5RecordingData* getDataSet(std::string path);
 
   /** Creates a link to another location in the file */
-	void createLink(std::string path, std::string reference) override;
+  void createLink(std::string path, std::string reference) override;
 
   /** Creates a non-modifiable dataset with a string value */
   void createStringDataSet(std::string path, std::string value) override;
 
-  /** Creates a dataset that holds an array of references to groups within the file */
-  void createReferenceDataSet(std::string path, std::vector<std::string> references) override;
-  
+  /** Creates a dataset that holds an array of references to groups within the
+   * file */
+  void createReferenceDataSet(std::string path,
+                              std::vector<std::string> references) override;
+
   /** aliases for createDataSet */
   BaseRecordingData* createDataSet(BaseDataType type,
                                    int sizeX,
