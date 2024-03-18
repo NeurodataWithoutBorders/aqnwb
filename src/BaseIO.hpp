@@ -121,6 +121,9 @@ public:
   /** Returns name of the file */
   const std::string filename;
 
+  /** Generate a new uuid string*/
+  std::string generateUuid();
+
 protected:
   /** Creates a new group (ignores if it exists) */
   virtual int createGroupIfDoesNotExist(std::string path) = 0;

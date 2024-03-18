@@ -1,3 +1,7 @@
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
+#include <boost/uuid/uuid_io.hpp>
+
 #include "BaseIO.hpp"
 
 using namespace AQNWBIO;
@@ -46,6 +50,14 @@ bool BaseIO::isOpen() const
 bool BaseIO::isReadyToOpen() const
 {
   return readyToOpen;
+}
+
+std::string BaseIO::generateUuid()
+{
+  boost::uuids::uuid uuid = boost::uuids::random_generator()();
+  std::string uuidStr = boost::uuids::to_string(uuid);
+
+  return uuidStr;
 }
 
 // BaseRecordingData
