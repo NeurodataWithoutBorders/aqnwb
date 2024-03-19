@@ -111,13 +111,6 @@ public:
   /** Creates a new group */
   virtual int createGroup(std::string path) = 0;
 
-
-  /** Sets up the attributes for a group */
-  virtual int setGroupAttributes(std::string path,
-                                 std::string group_namespace,
-                                 std::string neurodata_type,
-                                 std::string description = "") = 0;
-
   /** Creates a link to another location in the file */
   virtual void createLink(std::string path, std::string reference) = 0;
 
@@ -138,6 +131,12 @@ public:
   // ------------------------------------------------------------
   //                    OTHER METHODS
   // ------------------------------------------------------------
+
+  /** Sets up the attributes for a group */
+  int setCommonNWBAttributes(std::string path,
+                             std::string group_namespace,
+                             std::string neurodata_type,
+                             std::string description = "");
 
   /** Returns true if the file is open */
   bool isOpen() const;

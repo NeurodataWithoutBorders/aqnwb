@@ -76,12 +76,6 @@ public:
   /** Creates a new group (throws an exception if it exists) */
   int createGroup(std::string path) override;
 
-  /** Sets up the attributes for a group */
-  int setGroupAttributes(std::string path,
-                         std::string groupNamespace,
-                         std::string neurodataType,
-                         std::string description = "") override;
-
   // /** Returns a pointer to a dataset at a given path*/
   HDF5RecordingData* getDataSet(std::string path);
 

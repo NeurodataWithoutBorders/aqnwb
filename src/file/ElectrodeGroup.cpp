@@ -12,7 +12,7 @@ ElectrodeGroup::~ElectrodeGroup() {}
 
 void ElectrodeGroup::initialize()
 {
-  io->setGroupAttributes(path, "core", "ElectrodeGroup", description);
+  io->setCommonNWBAttributes(path, "core", "ElectrodeGroup", description);
   io->setAttribute(location, path, "location");
 }
 

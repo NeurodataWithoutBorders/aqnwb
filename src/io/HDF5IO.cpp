@@ -244,19 +244,6 @@ int HDF5IO::setAttributeRef(std::string referencePath,
   return 0;
 }
 
-int HDF5IO::setGroupAttributes(std::string path,
-                               std::string groupNamespace,
-                               std::string neurodataType,
-                               std::string description)
-{
-  setAttribute(groupNamespace, path, "namespace");
-  setAttribute(neurodataType, path, "neurodata_type");
-  setAttribute(generateUuid(), path, "object_id");
-  if (description != "")
-    setAttribute(description, path, "description");
-  return 0;
-}
-
 int HDF5IO::createGroup(std::string path)
 {
   if (!opened)

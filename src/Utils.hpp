@@ -5,7 +5,7 @@
 #include <boost/uuid/uuid_io.hpp>
 
 /** Generate a new uuid string*/
-std::string generateUuid()
+inline std::string generateUuid()
 {
   boost::uuids::uuid uuid = boost::uuids::random_generator()();
   std::string uuidStr = boost::uuids::to_string(uuid);
