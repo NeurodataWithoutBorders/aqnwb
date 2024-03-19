@@ -54,7 +54,7 @@ protected:
 private:
   /** recording data factory method */
   std::unique_ptr<BaseRecordingData> createRecordingData(
-      BaseDataType type, int sizeX, int chunkX, const std::string& path);
+    BaseDataType type, const std::vector<int>& size, const std::vector<int>& chunking, const std::string& path);
 
   /** Saves the specification files for the schema */
   void cacheSpecifications(std::string specPath, std::string versionNumber);

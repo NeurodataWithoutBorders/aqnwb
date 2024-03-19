@@ -344,60 +344,9 @@ void HDF5IO::createStringDataSet(std::string path, std::string value)
 }
 
 BaseRecordingData* HDF5IO::createDataSet(BaseDataType type,
-                                         int sizeX,
-                                         int chunkX,
-                                         std::string path)
-{
-  int chunks[3] = {chunkX, 0, 0};
-  return createDataSet(type, 1, &sizeX, chunks, path);
-}
-
-BaseRecordingData* HDF5IO::createDataSet(
-    BaseDataType type, int sizeX, int sizeY, int chunkX, std::string path)
-{
-  int size[2];
-  int chunks[3] = {chunkX, 0, 0};
-  size[0] = sizeX;
-  size[1] = sizeY;
-  return createDataSet(type, 2, size, chunks, path);
-}
-
-BaseRecordingData* HDF5IO::createDataSet(BaseDataType type,
-                                         int sizeX,
-                                         int sizeY,
-                                         int sizeZ,
-                                         int chunkX,
-                                         std::string path)
-{
-  int size[3];
-  int chunks[3] = {chunkX, 0, 0};
-  size[0] = sizeX;
-  size[1] = sizeY;
-  size[2] = sizeZ;
-  return createDataSet(type, 3, size, chunks, path);
-}
-
-BaseRecordingData* HDF5IO::createDataSet(BaseDataType type,
-                                         int sizeX,
-                                         int sizeY,
-                                         int sizeZ,
-                                         int chunkX,
-                                         int chunkY,
-                                         std::string path)
-{
-  int size[3];
-  int chunks[3] = {chunkX, chunkY, 0};
-  size[0] = sizeX;
-  size[1] = sizeY;
-  size[2] = sizeZ;
-  return createDataSet(type, 3, size, chunks, path);
-}
-
-BaseRecordingData* HDF5IO::createDataSet(BaseDataType type,
-                                         int dimension,
-                                         int* size,
-                                         int* chunking,
-                                         std::string path)
+                                         const std::vector<int>& size,
+                                         const std::vector<int>& chunking,
+                                         std::string const path)
 {
   std::unique_ptr<DataSet> data;
   DSetCreatPropList prop;
@@ -406,6 +355,7 @@ BaseRecordingData* HDF5IO::createDataSet(BaseDataType type,
 
   // Right now this classes don't support datasets with rank > 3.
   // If it's needed in the future we can extend them to be of generic rank
+  size_t dimension = size.size();
   if ((dimension > 3) || (dimension < 1))
     return nullptr;
 

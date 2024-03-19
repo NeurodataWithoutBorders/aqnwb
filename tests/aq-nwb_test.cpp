@@ -111,10 +111,10 @@ TEST_CASE("ElectrodeTable", "[datatypes]")
     electrodeTable.groupPath = "array1";
     electrodeTable.electrodeDataset->dataset =
         std::unique_ptr<BaseRecordingData>(
-            io->createDataSet(BaseDataType::I32, 1, 1, path + "id"));
+            io->createDataSet(BaseDataType::I32, std::vector<int>{1}, std::vector<int>{1}, path + "id"));
     electrodeTable.locationsDataset->dataset =
         std::unique_ptr<BaseRecordingData>(
-            io->createDataSet(BaseDataType::STR(250), 0, 1, path + "location"));
+            io->createDataSet(BaseDataType::STR(250), std::vector<int>{0}, std::vector<int>{1}, path + "location"));
     electrodeTable.initialize();
 
     // Check if the groupReferences, groupNames, electrodeNumbers, and

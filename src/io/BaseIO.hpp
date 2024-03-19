@@ -117,16 +117,16 @@ public:
   /** Creates a non-modifiable dataset with a string value */
   virtual void createStringDataSet(std::string path, std::string value) = 0;
 
-  /** Creates a dataset that holds an array of references to groups within the
-   * file */
+  /** Creates a dataset that holds an array of references to groups / datasets
+   *  within the file */
   virtual void createReferenceDataSet(std::string path,
                                       std::vector<std::string> references) = 0;
 
   /** Create an extendable dataset */
   virtual BaseRecordingData* createDataSet(BaseDataType type,
-                                           int sizeX,
-                                           int chunkX,
-                                           std::string path) = 0;
+                                           const std::vector<int>& size,
+                                           const std::vector<int>& chunking,
+                                           const std::string path) = 0;
 
   // ------------------------------------------------------------
   //                    OTHER METHODS

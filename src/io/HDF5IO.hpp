@@ -92,24 +92,9 @@ public:
 
   /** aliases for createDataSet */
   BaseRecordingData* createDataSet(BaseDataType type,
-                                   int sizeX,
-                                   int chunkX,
-                                   std::string path) override;
-  BaseRecordingData* createDataSet(
-      BaseDataType type, int sizeX, int sizeY, int chunkX, std::string path);
-  BaseRecordingData* createDataSet(BaseDataType type,
-                                   int sizeX,
-                                   int sizeY,
-                                   int sizeZ,
-                                   int chunkX,
-                                   std::string path);
-  BaseRecordingData* createDataSet(BaseDataType type,
-                                   int sizeX,
-                                   int sizeY,
-                                   int sizeZ,
-                                   int chunkX,
-                                   int chunkY,
-                                   std::string path);
+                                   const std::vector<int>& size,
+                                   const std::vector<int>& chunking,
+                                   const std::string path) override;
 
 protected:
   std::string filename;
@@ -120,12 +105,6 @@ protected:
 private:
   std::unique_ptr<H5::H5File> file;
 
-  BaseRecordingData* createDataSet(
-      BaseDataType type,  // TODO - Is there a specific reason this is private?
-      int dimension,
-      int* size,
-      int* chunking,
-      std::string path);
 };
 
 /**
