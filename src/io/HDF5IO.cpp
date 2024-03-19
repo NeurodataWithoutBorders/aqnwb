@@ -71,7 +71,7 @@ int HDF5IO::setAttribute(BaseDataType type,
                          const void* data,
                          std::string path,
                          std::string name,
-                         int size)
+                         size_t size)
 {
   H5Object* loc;
   Group gloc;
@@ -344,8 +344,8 @@ void HDF5IO::createStringDataSet(std::string path, std::string value)
 }
 
 BaseRecordingData* HDF5IO::createDataSet(BaseDataType type,
-                                         const std::vector<int>& size,
-                                         const std::vector<int>& chunking,
+                                         const std::vector<size_t>& size,
+                                         const std::vector<size_t>& chunking,
                                          std::string const path)
 {
   std::unique_ptr<DataSet> data;
@@ -363,7 +363,7 @@ BaseRecordingData* HDF5IO::createDataSet(BaseDataType type,
 
   hsize_t dims[3], chunk_dims[3], max_dims[3];
 
-  for (int i = 0; i < dimension; i++) {
+  for (size_t i = 0; i < dimension; i++) {
     dims[i] = static_cast<hsize_t>(size[i]);
     if (chunking[i] > 0) {
       chunk_dims[i] = static_cast<hsize_t>(chunking[i]);
@@ -374,8 +374,8 @@ BaseRecordingData* HDF5IO::createDataSet(BaseDataType type,
     }
   }
 
-  DataSpace dSpace(dimension, dims, max_dims);
-  prop.setChunk(dimension, chunk_dims);
+  DataSpace dSpace(static_cast<int>(dimension), dims, max_dims);
+  prop.setChunk(static_cast<int>(dimension), chunk_dims);
 
   data = std::make_unique<H5::DataSet>(
       file->createDataSet(path, H5type, dSpace, prop));
@@ -492,19 +492,19 @@ HDF5RecordingData::HDF5RecordingData(H5::DataSet* data)
   prop = data->getCreatePlist();
 
   dimension = dSpace.getSimpleExtentDims(dims);
-  prop.getChunk(dimension, chunk);
+  prop.getChunk(static_cast<int>(dimension), chunk);
 
-  this->size[0] = static_cast<int>(dims[0]);
+  this->size[0] = dims[0];
   if (dimension > 1)
-    this->size[1] = static_cast<int>(dims[1]);
+    this->size[1] = dims[1];
   else
     this->size[1] = 1;
   if (dimension > 1)
-    this->size[2] = static_cast<int>(dims[2]);
+    this->size[2] = dims[2];
   else
     this->size[2] = 1;
 
-  this->xChunkSize = static_cast<int>(chunk[0]);
+  this->xChunkSize = chunk[0];
   this->xPos = 0;
   this->dSet = std::make_unique<H5::DataSet>(*data);
   ;
@@ -521,8 +521,8 @@ HDF5RecordingData::~HDF5RecordingData()
   dSet->flush(H5F_SCOPE_GLOBAL);
 }
 
-int HDF5RecordingData::writeDataBlock(int xDataSize,
-                                      int yDataSize,
+int HDF5RecordingData::writeDataBlock(size_t xDataSize,
+                                      size_t yDataSize,
                                       BaseDataType type,
                                       const void* data)
 {
@@ -536,23 +536,23 @@ int HDF5RecordingData::writeDataBlock(int xDataSize,
     dim[1] = static_cast<hsize_t>(yDataSize);
   else
     dim[1] = static_cast<hsize_t>(size[1]);
-  dim[0] = static_cast<hsize_t>(xPos + xDataSize);
+  dim[0] = static_cast<hsize_t>(xPos) + xDataSize;
 
   // First be sure that we have enough space
   dSet->extend(dim);
 
   fSpace = dSet->getSpace();
   fSpace.getSimpleExtentDims(dim);
-  size[0] = static_cast<int>(dim[0]);
+  size[0] = dim[0];
   if (dimension > 1)
-    size[1] = static_cast<int>(dim[1]);
+    size[1] = dim[1];
 
   // Create memory space
   dim[0] = static_cast<hsize_t>(xDataSize);
   dim[1] = static_cast<hsize_t>(yDataSize);
   dim[2] = static_cast<hsize_t>(size[2]);
 
-  DataSpace mSpace(dimension, dim);
+  DataSpace mSpace(static_cast<int>(dimension), dim);
   // select where to write
   offset[0] = static_cast<hsize_t>(xPos);
   offset[1] = 0;

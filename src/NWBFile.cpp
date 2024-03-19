@@ -116,11 +116,11 @@ bool NWBFile::startRecording()
 
   elecTable->channels = channels;
   elecTable->electrodeDataset->dataset =
-      createRecordingData(BaseDataType::I32, std::vector<int>{1}, std::vector<int>{1}, electrodePath + "id");
+      createRecordingData(BaseDataType::I32, std::vector<size_t>{1}, std::vector<size_t>{1}, electrodePath + "id");
   elecTable->groupNamesDataset->dataset = createRecordingData(
-      BaseDataType::STR(250), std::vector<int>{0}, std::vector<int>{1}, electrodePath + "group_name");
+      BaseDataType::STR(250), std::vector<size_t>{0}, std::vector<size_t>{1}, electrodePath + "group_name");
   elecTable->locationsDataset->dataset = createRecordingData(
-      BaseDataType::STR(250), std::vector<int>{0}, std::vector<int>{1}, electrodePath + "location");
+      BaseDataType::STR(250), std::vector<size_t>{0}, std::vector<size_t>{1}, electrodePath + "location");
 
   elecTable->initialize();
 
@@ -180,7 +180,7 @@ std::string NWBFile::getCurrentTime()
 
 // recording data factory method /
 std::unique_ptr<BaseRecordingData> NWBFile::createRecordingData(
-    BaseDataType type, const std::vector<int>& size, const std::vector<int>& chunking, const std::string& path)
+    BaseDataType type, const std::vector<size_t>& size, const std::vector<size_t>& chunking, const std::string& path)
 {
   return std::unique_ptr<BaseRecordingData>(
       io->createDataSet(type, size, chunking, path));

@@ -68,7 +68,7 @@ BaseRecordingData::BaseRecordingData() {}
 
 BaseRecordingData::~BaseRecordingData() {}
 
-int BaseRecordingData::writeDataBlock(int xDataSize,
+int BaseRecordingData::writeDataBlock(size_t xDataSize,
                                       BaseDataType type,
                                       const void* data)
 {

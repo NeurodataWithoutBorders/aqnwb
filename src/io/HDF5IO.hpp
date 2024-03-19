@@ -50,7 +50,7 @@ public:
                    const void* data,
                    std::string path,
                    std::string name,
-                   int size = 1) override;
+                   size_t size = 1) override;
 
   // /** Sets a string attribute at a given location in the file */
   int setAttribute(const std::string& data,
@@ -92,8 +92,8 @@ public:
 
   /** aliases for createDataSet */
   BaseRecordingData* createDataSet(BaseDataType type,
-                                   const std::vector<int>& size,
-                                   const std::vector<int>& chunking,
+                                   const std::vector<size_t>& size,
+                                   const std::vector<size_t>& chunking,
                                    const std::string path) override;
 
 protected:
@@ -127,8 +127,8 @@ public:
   ~HDF5RecordingData();
 
   /** Writes a 2D block of data (samples x channels) */
-  int writeDataBlock(int xDataSize,
-                     int yDataSize,
+  int writeDataBlock(size_t xDataSize,
+                     size_t yDataSize,
                      BaseDataType type,
                      const void* data);
 

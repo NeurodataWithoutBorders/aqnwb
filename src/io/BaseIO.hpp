@@ -85,7 +85,7 @@ public:
                            const void* data,
                            std::string path,
                            std::string name,
-                           int size = 1) = 0;
+                           size_t size = 1) = 0;
 
   // /** Sets a string attribute at a given location in the file */
   virtual int setAttribute(const std::string& data,
@@ -124,8 +124,8 @@ public:
 
   /** Create an extendable dataset */
   virtual BaseRecordingData* createDataSet(BaseDataType type,
-                                           const std::vector<int>& size,
-                                           const std::vector<int>& chunking,
+                                           const std::vector<size_t>& size,
+                                           const std::vector<size_t>& chunking,
                                            const std::string path) = 0;
 
   // ------------------------------------------------------------
@@ -174,19 +174,19 @@ public:
   virtual ~BaseRecordingData();
 
   /** Writes a 1D block of data (samples) */
-  int writeDataBlock(int xDataSize, BaseDataType type, const void* data);
+  int writeDataBlock(size_t xDataSize, BaseDataType type, const void* data);
 
   /** Writes a 2D block of data (samples x channels) */
-  virtual int writeDataBlock(int xDataSize,
-                             int yDataSize,
+  virtual int writeDataBlock(size_t xDataSize,
+                             size_t yDataSize,
                              BaseDataType type,
                              const void* data) = 0;
 
 protected:
   int xPos;
-  int xChunkSize;
-  int size[3];
-  int dimension;
+  size_t xChunkSize;
+  size_t size[3];
+  size_t dimension;
   std::vector<uint32_t> rowXPos;
 };
 

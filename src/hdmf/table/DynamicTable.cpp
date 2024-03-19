@@ -44,7 +44,7 @@ void DynamicTable::addColumn(std::string name,
     std::cerr << "ElementIdentifiers dataset is not initialized" << std::endl;
   } else {
     elementIDs->dataset->writeDataBlock(
-        static_cast<int>(values.size()), BaseDataType::I32, &values[0]);
+        values.size(), BaseDataType::I32, &values[0]);
     io->setCommonNWBAttributes(
         path + name, "hdmf-common", "ElementIdentifiers", colDescription);
   }
