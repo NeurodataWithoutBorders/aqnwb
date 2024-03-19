@@ -46,30 +46,30 @@ public:
   static H5::DataType getH5Type(BaseDataType type);
 
   /** Sets an attribute at a given location in the file */
-  int setAttribute(BaseDataType type,
+  int createAttribute(BaseDataType type,
                    const void* data,
                    std::string path,
                    std::string name,
                    size_t size = 1) override;
 
   // /** Sets a string attribute at a given location in the file */
-  int setAttribute(const std::string& data,
+  int createAttribute(const std::string& data,
                    std::string path,
                    std::string name) override;
 
   /** Sets a std::string array attribute at a given location in the file */
-  int setAttribute(const std::vector<std::string>& data,
+  int createAttribute(const std::vector<std::string>& data,
                    std::string path,
                    std::string name) override;
 
   /** Sets a std::string array attribute at a given location in the file */
-  int setAttribute(const std::vector<const char*>& data,
+  int createAttribute(const std::vector<const char*>& data,
                    std::string path,
                    std::string name,
                    size_t maxSize) override;
 
   /** Sets an object reference attribute for a given location in the file */
-  int setAttributeRef(std::string referencePath,
+  int createAttributeRef(std::string referencePath,
                       std::string path,
                       std::string name) override;
 
@@ -87,7 +87,7 @@ public:
 
   /** Creates a dataset that holds an array of references to groups within the
    * file */
-  void createReferenceDataSet(std::string path,
+  void createDataSetOfReferences(std::string path,
                               std::vector<std::string> references) override;
 
   /** aliases for createDataSet */

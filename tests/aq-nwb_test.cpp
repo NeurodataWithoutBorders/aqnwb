@@ -41,7 +41,7 @@ TEST_CASE("writeAttributes", "[hdf5io]")
   SECTION("single_value")
   {
     const signed int data = 1;
-    hdf5io.setAttribute(
+    hdf5io.createAttribute(
         AQNWBIO::BaseDataType::I32, &data, "/data", "single_value");
   }
 
@@ -51,7 +51,7 @@ TEST_CASE("writeAttributes", "[hdf5io]")
     const int data[] = {1, 2, 3, 4, 5};
     const int dataSize = sizeof(data) / sizeof(data[0]);
 
-    hdf5io.setAttribute(
+    hdf5io.createAttribute(
         AQNWBIO::BaseDataType::I32, &data, "/data", "array", dataSize);
   }
 
@@ -60,7 +60,7 @@ TEST_CASE("writeAttributes", "[hdf5io]")
   {
     const std::vector<std::string> data = {"col1", "col2", "col3"};
 
-    hdf5io.setAttribute(data, "/data", "string_array");
+    hdf5io.createAttribute(data, "/data", "string_array");
   }
 
   // soft link

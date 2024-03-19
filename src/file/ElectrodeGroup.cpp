@@ -12,8 +12,8 @@ ElectrodeGroup::~ElectrodeGroup() {}
 
 void ElectrodeGroup::initialize()
 {
-  io->setCommonNWBAttributes(path, "core", "ElectrodeGroup", description);
-  io->setAttribute(location, path, "location");
+  io->createCommonNWBAttributes(path, "core", "ElectrodeGroup", description);
+  io->createAttribute(location, path, "location");
 }
 
 void ElectrodeGroup::linkDevice()

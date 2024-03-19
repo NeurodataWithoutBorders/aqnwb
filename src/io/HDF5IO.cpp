@@ -67,7 +67,7 @@ void HDF5IO::close()
   opened = false;
 }
 
-int HDF5IO::setAttribute(BaseDataType type,
+int HDF5IO::createAttribute(BaseDataType type,
                          const void* data,
                          std::string path,
                          std::string name,
@@ -114,17 +114,17 @@ int HDF5IO::setAttribute(BaseDataType type,
   return 0;
 }
 
-int HDF5IO::setAttribute(const std::string& data,
+int HDF5IO::createAttribute(const std::string& data,
                          std::string path,
                          std::string name)
 {
   std::vector<const char*> dataPtrs;
   dataPtrs.push_back(data.c_str());
 
-  return setAttribute(dataPtrs, path, name, data.length());
+  return createAttribute(dataPtrs, path, name, data.length());
 }
 
-int HDF5IO::setAttribute(const std::vector<std::string>& data,
+int HDF5IO::createAttribute(const std::vector<std::string>& data,
                          std::string path,
                          std::string name)
 {
@@ -136,10 +136,10 @@ int HDF5IO::setAttribute(const std::vector<std::string>& data,
     dataPtrs.push_back(str.c_str());
   }
 
-  return setAttribute(dataPtrs, path, name, maxLength + 1);
+  return createAttribute(dataPtrs, path, name, maxLength + 1);
 }
 
-int HDF5IO::setAttribute(const std::vector<const char*>& data,
+int HDF5IO::createAttribute(const std::vector<const char*>& data,
                          std::string path,
                          std::string name,
                          size_t maxSize)
@@ -193,7 +193,7 @@ int HDF5IO::setAttribute(const std::vector<const char*>& data,
   return 0;
 }
 
-int HDF5IO::setAttributeRef(std::string referencePath,
+int HDF5IO::createAttributeRef(std::string referencePath,
                             std::string path,
                             std::string name)
 {
@@ -280,7 +280,7 @@ void HDF5IO::createLink(std::string path, std::string reference)
                  H5P_DEFAULT);
 }
 
-void HDF5IO::createReferenceDataSet(std::string path,
+void HDF5IO::createDataSetOfReferences(std::string path,
                                     std::vector<std::string> references)
 {
   const hsize_t size = references.size();

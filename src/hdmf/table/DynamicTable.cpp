@@ -14,8 +14,8 @@ DynamicTable::~DynamicTable() {}
 /** Initialization function*/
 void DynamicTable::initialize()
 {
-  io->setCommonNWBAttributes(path, "hdmf-common", "DynamicTable", getDescription());
-  io->setAttribute(getColNames(), path, "colnames");
+  io->createCommonNWBAttributes(path, "hdmf-common", "DynamicTable", getDescription());
+  io->createAttribute(getColNames(), path, "colnames");
 }
 
 /** Add column to table */
@@ -30,7 +30,7 @@ void DynamicTable::addColumn(std::string name,
     for (size_t i = 0; i < values.size(); i++)
       vectorData->dataset->writeDataBlock(
           1, BaseDataType::STR(values[i].size()), &values[i]);
-    io->setCommonNWBAttributes(
+    io->createCommonNWBAttributes(
         path + name, "hdmf-common", "VectorData", colDescription);
   }
 }
@@ -45,7 +45,7 @@ void DynamicTable::addColumn(std::string name,
   } else {
     elementIDs->dataset->writeDataBlock(
         values.size(), BaseDataType::I32, &values[0]);
-    io->setCommonNWBAttributes(
+    io->createCommonNWBAttributes(
         path + name, "hdmf-common", "ElementIdentifiers", colDescription);
   }
 }
@@ -57,8 +57,8 @@ void DynamicTable::addColumn(std::string name,
   if (values.empty()) {
     std::cerr << "Data to add to column is empty" << std::endl;
   } else {
-    io->createReferenceDataSet(path + name, values);
-    io->setCommonNWBAttributes(
+    io->createDataSetOfReferences(path + name, values);
+    io->createCommonNWBAttributes(
         path + name, "hdmf-common", "VectorData", colDescription);
   }
 }

@@ -48,10 +48,10 @@ void NWBFile::finalize()
 
 int NWBFile::createFileStructure()
 {
-  io->setAttribute("core", "/", "namespace");
-  io->setAttribute("NWBFile", "/", "neurodata_type");
-  io->setAttribute(NWBVersion, "/", "nwb_version");
-  io->setAttribute(identifierText, "/", "object_id");
+  io->createAttribute("core", "/", "namespace");
+  io->createAttribute("NWBFile", "/", "neurodata_type");
+  io->createAttribute(NWBVersion, "/", "nwb_version");
+  io->createAttribute(identifierText, "/", "object_id");
 
   io->createGroup("/acquisition");
   io->createGroup("/analysis");

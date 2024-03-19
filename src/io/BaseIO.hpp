@@ -81,30 +81,30 @@ public:
   virtual void close() = 0;
 
   /** Sets an attribute at a given location in the file */
-  virtual int setAttribute(BaseDataType type,
+  virtual int createAttribute(BaseDataType type,
                            const void* data,
                            std::string path,
                            std::string name,
                            size_t size = 1) = 0;
 
   // /** Sets a string attribute at a given location in the file */
-  virtual int setAttribute(const std::string& data,
+  virtual int createAttribute(const std::string& data,
                            std::string path,
                            std::string name) = 0;
 
   /** Sets a std::string array attribute at a given location in the file */
-  virtual int setAttribute(const std::vector<std::string>& data,
+  virtual int createAttribute(const std::vector<std::string>& data,
                            std::string path,
                            std::string name) = 0;
 
   /** Sets a std::string array attribute at a given location in the file */
-  virtual int setAttribute(const std::vector<const char*>& data,
+  virtual int createAttribute(const std::vector<const char*>& data,
                            std::string path,
                            std::string name,
                            size_t maxSize) = 0;
 
   /** Sets an object reference attribute for a given location in the file */
-  virtual int setAttributeRef(std::string referencePath,
+  virtual int createAttributeRef(std::string referencePath,
                               std::string path,
                               std::string name) = 0;
 
@@ -119,7 +119,7 @@ public:
 
   /** Creates a dataset that holds an array of references to groups / datasets
    *  within the file */
-  virtual void createReferenceDataSet(std::string path,
+  virtual void createDataSetOfReferences(std::string path,
                                       std::vector<std::string> references) = 0;
 
   /** Create an extendable dataset */
@@ -133,7 +133,7 @@ public:
   // ------------------------------------------------------------
 
   /** Sets up the attributes for a group */
-  int setCommonNWBAttributes(std::string path,
+  int createCommonNWBAttributes(std::string path,
                              std::string group_namespace,
                              std::string neurodata_type,
                              std::string description = "");
