@@ -10,8 +10,10 @@
 
 #include "NWBFile.hpp"
 
-#include "BaseIO.hpp"
-#include "NWBDataTypes.hpp"
+#include "io/BaseIO.hpp"
+#include "file/ElectrodeGroup.hpp"
+#include "file/ElectrodeTable.hpp"
+#include "device/Device.hpp"
 
 using namespace AQNWBIO;
 namespace fs = std::filesystem;

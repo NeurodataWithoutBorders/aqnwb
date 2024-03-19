@@ -2,8 +2,7 @@
 
 #include <cstdint>
 
-#include "BaseIO.hpp"
-#include "HDF5IO.hpp"
+#include "io/BaseIO.hpp"
 
 using namespace AQNWBIO;
 

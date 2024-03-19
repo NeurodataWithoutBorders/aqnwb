@@ -3,9 +3,9 @@
 
 #include <catch2/catch_test_macros.hpp>
 
-#include "BaseIO.hpp"
-#include "HDF5IO.hpp"
-#include "NWBDataTypes.hpp"
+#include "io/BaseIO.hpp"
+#include "io/HDF5IO.hpp"
+#include "file/ElectrodeTable.hpp"
 #include "NWBFile.hpp"
 
 namespace fs = std::filesystem;
