@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "HDF5IO.hpp"
+#include "Utils.hpp"
 
 #include <H5Cpp.h>
 

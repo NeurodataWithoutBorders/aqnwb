@@ -148,9 +148,6 @@ public:
   /** Returns name of the file */
   const std::string filename;
 
-  /** Generate a new uuid string*/
-  std::string generateUuid();
-
 protected:
   /** Creates a new group (ignores if it exists) */
   virtual int createGroupIfDoesNotExist(std::string path) = 0;
@@ -196,14 +193,4 @@ protected:
 
 }  // namespace AQNWBIO
 
-inline int showError(const char* error)
-{
-  std::cerr << error << std::endl;
-  return -1;
-}
 
-inline void checkError(int output)
-{
-  if (output)
-    std::cerr << "Error at " << __FILE__ " " << __LINE__ << std::endl;
-}

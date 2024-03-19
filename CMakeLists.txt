@@ -20,6 +20,8 @@ add_library(
     src/BaseIO.cpp
     src/NWBFile.cpp
     src/NWBDataTypes.cpp
+    src/Utils.hpp
+
 )
 
 target_include_directories(
