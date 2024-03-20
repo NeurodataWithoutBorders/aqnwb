@@ -12,15 +12,3 @@ inline std::string generateUuid()
 
   return uuidStr;
 }
-
-inline int showError(const char* error)
-{
-  std::cerr << error << std::endl;
-  return -1;
-}
-
-inline void checkError(int output)
-{
-  if (output)
-    std::cerr << "Error at " << __FILE__ " " << __LINE__ << std::endl;
-}

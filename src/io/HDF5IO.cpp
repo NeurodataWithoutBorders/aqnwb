@@ -182,13 +182,13 @@ int HDF5IO::createAttribute(const std::vector<const char*>& data,
     }
     attr.write(H5type, data.data());
   } catch (GroupIException error) {
-    showError(error.getCDetailMsg());
+    error.printErrorStack();
   } catch (AttributeIException error) {
-    showError(error.getCDetailMsg());
+    error.printErrorStack();
   } catch (FileIException error) {
-    showError(error.getCDetailMsg());
+    error.printErrorStack();
   } catch (DataSetIException error) {
-    showError(error.getCDetailMsg());
+    error.printErrorStack();
   }
   return 0;
 }
@@ -232,13 +232,13 @@ int HDF5IO::createAttributeRef(std::string referencePath,
     delete[] rdata;
 
   } catch (GroupIException error) {
-    showError(error.getCDetailMsg());
+    error.printErrorStack();
   } catch (AttributeIException error) {
-    showError(error.getCDetailMsg());
+    error.printErrorStack();
   } catch (FileIException error) {
-    showError(error.getCDetailMsg());
+    error.printErrorStack();
   } catch (DataSetIException error) {
-    showError(error.getCDetailMsg());
+    error.printErrorStack();
   }
 
   return 0;
@@ -251,9 +251,9 @@ int HDF5IO::createGroup(std::string path)
   try {
     file->createGroup(path);
   } catch (FileIException error) {
-    showError(error.getCDetailMsg());
+    error.printErrorStack();
   } catch (GroupIException error) {
-    showError(error.getCDetailMsg());
+    error.printErrorStack();
   }
   return 0;
 }
