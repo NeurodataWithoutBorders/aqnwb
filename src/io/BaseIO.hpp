@@ -2,9 +2,14 @@
 
 #include <iostream>
 #include <string>
+#include "Types.hpp"
 
 #define DEFAULT_STR_SIZE 256
 #define DEFAULT_ARRAY_SIZE 1
+
+using Status = Types::Status;
+using SizeArray = Types::SizeArray;
+using SizeType = Types::SizeType;
 
 namespace AQNWBIO
 {
@@ -28,9 +33,9 @@ public:
     T_F64,
     T_STR,
   };
-  BaseDataType(Type t = T_I32, size_t s = 1);
+  BaseDataType(Type t = T_I32, SizeType s = 1);
   Type type;
-  size_t typeSize;
+  SizeType typeSize;
 
   // handy accessors
   static const BaseDataType U8;
@@ -44,7 +49,7 @@ public:
   static const BaseDataType F32;
   static const BaseDataType F64;
   static const BaseDataType DSTR;
-  static BaseDataType STR(size_t size);
+  static BaseDataType STR(SizeType size);
 };
 
 /**
@@ -72,44 +77,44 @@ public:
   virtual std::string getFileName() = 0;
 
   /** Opens the file for writing */
-  virtual int open() = 0;
+  virtual Status open() = 0;
 
   /** Opens the file for writing */
-  virtual int open(bool newfile) = 0;
+  virtual Status open(bool newfile) = 0;
 
   /** Closes the file */
   virtual void close() = 0;
 
   /** Sets an attribute at a given location in the file */
-  virtual int createAttribute(BaseDataType type,
+  virtual Status createAttribute(BaseDataType type,
                            const void* data,
                            std::string path,
                            std::string name,
-                           size_t size = 1) = 0;
+                           SizeType size = 1) = 0;
 
   // /** Sets a string attribute at a given location in the file */
-  virtual int createAttribute(const std::string& data,
+  virtual Status createAttribute(const std::string& data,
                            std::string path,
                            std::string name) = 0;
 
   /** Sets a std::string array attribute at a given location in the file */
-  virtual int createAttribute(const std::vector<std::string>& data,
+  virtual Status createAttribute(const std::vector<std::string>& data,
                            std::string path,
                            std::string name) = 0;
 
   /** Sets a std::string array attribute at a given location in the file */
-  virtual int createAttribute(const std::vector<const char*>& data,
+  virtual Status createAttribute(const std::vector<const char*>& data,
                            std::string path,
                            std::string name,
-                           size_t maxSize) = 0;
+                           SizeType maxSize) = 0;
 
   /** Sets an object reference attribute for a given location in the file */
-  virtual int createAttributeRef(std::string referencePath,
+  virtual Status createAttributeRef(std::string referencePath,
                               std::string path,
                               std::string name) = 0;
 
   /** Creates a new group */
-  virtual int createGroup(std::string path) = 0;
+  virtual Status createGroup(std::string path) = 0;
 
   /** Creates a link to another location in the file */
   virtual void createLink(std::string path, std::string reference) = 0;
@@ -124,8 +129,8 @@ public:
 
   /** Create an extendable dataset */
   virtual BaseRecordingData* createDataSet(BaseDataType type,
-                                           const std::vector<size_t>& size,
-                                           const std::vector<size_t>& chunking,
+                                           const SizeArray& size,
+                                           const SizeArray& chunking,
                                            const std::string path) = 0;
 
   /** Returns a pointer to a dataset at a given path*/
@@ -136,7 +141,7 @@ public:
   // ------------------------------------------------------------
 
   /** Sets up the attributes for a group */
-  int createCommonNWBAttributes(std::string path,
+  Status createCommonNWBAttributes(std::string path,
                              std::string group_namespace,
                              std::string neurodata_type,
                              std::string description = "");
@@ -152,7 +157,7 @@ public:
 
 protected:
   /** Creates a new group (ignores if it exists) */
-  virtual int createGroupIfDoesNotExist(std::string path) = 0;
+  virtual Status createGroupIfDoesNotExist(std::string path) = 0;
 
   bool readyToOpen;
   bool opened;
@@ -177,19 +182,19 @@ public:
   virtual ~BaseRecordingData();
 
   /** Writes a 1D block of data (samples) */
-  int writeDataBlock(size_t xDataSize, BaseDataType type, const void* data);
+  Status writeDataBlock(SizeType xDataSize, BaseDataType type, const void* data);
 
   /** Writes a 2D block of data (samples x channels) */
-  virtual int writeDataBlock(size_t xDataSize,
-                             size_t yDataSize,
+  virtual Status writeDataBlock(SizeType xDataSize,
+                             SizeType yDataSize,
                              BaseDataType type,
                              const void* data) = 0;
 
 protected:
   int xPos;
-  size_t xChunkSize;
-  size_t size[3];
-  size_t dimension;
+  SizeType xChunkSize;
+  SizeType size[3];
+  SizeType dimension;
   std::vector<uint32_t> rowXPos;
 };
 

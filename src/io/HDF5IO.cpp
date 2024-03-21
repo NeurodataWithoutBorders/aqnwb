@@ -31,7 +31,7 @@ std::string HDF5IO::getFileName()
   return filename;
 }
 
-int HDF5IO::open()
+Status HDF5IO::open()
 {
   if (std::filesystem::exists(getFileName())) {
     return open(false);
@@ -40,12 +40,12 @@ int HDF5IO::open()
   }
 }
 
-int HDF5IO::open(bool newfile)
+Status HDF5IO::open(bool newfile)
 {
   int accFlags = 0;
 
   if (opened)
-    return -1;
+    return Status::Failure;
 
   FileAccPropList props = FileAccPropList::DEFAULT;
 
@@ -58,7 +58,7 @@ int HDF5IO::open(bool newfile)
       getFileName(), accFlags, FileCreatPropList::DEFAULT, props);
   opened = true;
 
-  return 0;
+  return Status::Success;
 }
 
 void HDF5IO::close()
@@ -67,11 +67,11 @@ void HDF5IO::close()
   opened = false;
 }
 
-int HDF5IO::createAttribute(BaseDataType type,
+Status HDF5IO::createAttribute(BaseDataType type,
                          const void* data,
                          std::string path,
                          std::string name,
-                         size_t size)
+                         SizeType size)
 {
   H5Object* loc;
   Group gloc;
@@ -81,7 +81,7 @@ int HDF5IO::createAttribute(BaseDataType type,
   DataType origType;
 
   if (!opened)
-    return -1;
+    return Status::Failure;
 
   try {
     gloc = file->openGroup(path);
@@ -111,10 +111,10 @@ int HDF5IO::createAttribute(BaseDataType type,
 
   attr.write(origType, data);
 
-  return 0;
+  return Status::Success;
 }
 
-int HDF5IO::createAttribute(const std::string& data,
+Status HDF5IO::createAttribute(const std::string& data,
                          std::string path,
                          std::string name)
 {
@@ -124,14 +124,14 @@ int HDF5IO::createAttribute(const std::string& data,
   return createAttribute(dataPtrs, path, name, data.length());
 }
 
-int HDF5IO::createAttribute(const std::vector<std::string>& data,
+Status HDF5IO::createAttribute(const std::vector<std::string>& data,
                          std::string path,
                          std::string name)
 {
   std::vector<const char*> dataPtrs;
-  size_t maxLength = 0;
+  SizeType maxLength = 0;
   for (const std::string& str : data) {
-    size_t length = str.length();
+    SizeType length = str.length();
     maxLength = std::max(maxLength, length);
     dataPtrs.push_back(str.c_str());
   }
@@ -139,10 +139,10 @@ int HDF5IO::createAttribute(const std::vector<std::string>& data,
   return createAttribute(dataPtrs, path, name, maxLength + 1);
 }
 
-int HDF5IO::createAttribute(const std::vector<const char*>& data,
+Status HDF5IO::createAttribute(const std::vector<const char*>& data,
                          std::string path,
                          std::string name,
-                         size_t maxSize)
+                         SizeType maxSize)
 {
   H5Object* loc;
   Group gloc;
@@ -151,7 +151,7 @@ int HDF5IO::createAttribute(const std::vector<const char*>& data,
   hsize_t dims[1];
 
   if (!opened)
-    return -1;
+    return Status::Failure;
 
   StrType H5type(PredType::C_S1, maxSize);
   H5type.setSize(H5T_VARIABLE);
@@ -168,11 +168,11 @@ int HDF5IO::createAttribute(const std::vector<const char*>& data,
 
   try {
     if (loc->attrExists(name)) {
-      return -1;  // don't allow overwriting because string attributes cannot
+      return Status::Failure;  // don't allow overwriting because string attributes cannot
                   // change size easily
     } else {
       DataSpace attr_dataspace;
-      size_t nStrings = data.size();
+      SizeType nStrings = data.size();
       if (nStrings > 1) {
         dims[0] = nStrings;
         attr_dataspace = DataSpace(1, dims);
@@ -190,10 +190,10 @@ int HDF5IO::createAttribute(const std::vector<const char*>& data,
   } catch (DataSetIException error) {
     error.printErrorStack();
   }
-  return 0;
+  return Status::Success;
 }
 
-int HDF5IO::createAttributeRef(std::string referencePath,
+Status HDF5IO::createAttributeRef(std::string referencePath,
                             std::string path,
                             std::string name)
 {
@@ -203,7 +203,7 @@ int HDF5IO::createAttributeRef(std::string referencePath,
   Attribute attr;
 
   if (!opened)
-    return -1;
+    return Status::Failure;
 
   try {
     gloc = file->openGroup(path);
@@ -241,13 +241,13 @@ int HDF5IO::createAttributeRef(std::string referencePath,
     error.printErrorStack();
   }
 
-  return 0;
+  return Status::Success;
 }
 
-int HDF5IO::createGroup(std::string path)
+Status HDF5IO::createGroup(std::string path)
 {
   if (!opened)
-    return -1;
+    return Status::Failure;
   try {
     file->createGroup(path);
   } catch (FileIException error) {
@@ -255,19 +255,19 @@ int HDF5IO::createGroup(std::string path)
   } catch (GroupIException error) {
     error.printErrorStack();
   }
-  return 0;
+  return Status::Success;
 }
 
-int HDF5IO::createGroupIfDoesNotExist(std::string path)
+Status HDF5IO::createGroupIfDoesNotExist(std::string path)
 {
   if (!opened)
-    return -1;
+    return Status::Failure;
   try {
     file->childObjType(path);
   } catch (FileIException) {
     return createGroup(path);
   }
-  return 0;
+  return Status::Success;
 }
 
 /** Creates a link to another location in the file */
@@ -287,7 +287,7 @@ void HDF5IO::createDataSetOfReferences(std::string path,
 
   hobj_ref_t* rdata = new hobj_ref_t[size * sizeof(hobj_ref_t)];
 
-  for (size_t i = 0; i < size; i++) {
+  for (SizeType i = 0; i < size; i++) {
     file->reference(&rdata[i], references[i].c_str());
   }
 
@@ -344,8 +344,8 @@ void HDF5IO::createStringDataSet(std::string path, std::string value)
 }
 
 BaseRecordingData* HDF5IO::createDataSet(BaseDataType type,
-                                         const std::vector<size_t>& size,
-                                         const std::vector<size_t>& chunking,
+                                         const SizeArray& size,
+                                         const SizeArray& chunking,
                                          std::string const path)
 {
   std::unique_ptr<DataSet> data;
@@ -355,7 +355,7 @@ BaseRecordingData* HDF5IO::createDataSet(BaseDataType type,
 
   // Right now this classes don't support datasets with rank > 3.
   // If it's needed in the future we can extend them to be of generic rank
-  size_t dimension = size.size();
+  SizeType dimension = size.size();
   if ((dimension > 3) || (dimension < 1))
     return nullptr;
 
@@ -363,7 +363,7 @@ BaseRecordingData* HDF5IO::createDataSet(BaseDataType type,
 
   hsize_t dims[3], chunk_dims[3], max_dims[3];
 
-  for (size_t i = 0; i < dimension; i++) {
+  for (SizeType i = 0; i < dimension; i++) {
     dims[i] = static_cast<hsize_t>(size[i]);
     if (chunking[i] > 0) {
       chunk_dims[i] = static_cast<hsize_t>(chunking[i]);
@@ -510,7 +510,7 @@ HDF5RecordingData::HDF5RecordingData(H5::DataSet* data)
   ;
   this->rowXPos.clear();
   this->rowXPos.insert(
-      this->rowXPos.end(), static_cast<size_t>(this->size[1]), 0);
+      this->rowXPos.end(), static_cast<SizeType>(this->size[1]), 0);
 }
 
 // HDF5RecordingData
@@ -521,8 +521,8 @@ HDF5RecordingData::~HDF5RecordingData()
   dSet->flush(H5F_SCOPE_GLOBAL);
 }
 
-int HDF5RecordingData::writeDataBlock(size_t xDataSize,
-                                      size_t yDataSize,
+Status HDF5RecordingData::writeDataBlock(SizeType xDataSize,
+                                      SizeType yDataSize,
                                       BaseDataType type,
                                       const void* data)
 {
@@ -565,12 +565,12 @@ int HDF5RecordingData::writeDataBlock(size_t xDataSize,
   dSet->write(data, nativeType, mSpace, fSpace);
   xPos += xDataSize;
 
-  return 0;
+  return Status::Success;
 }
 
 void HDF5RecordingData::readDataBlock(BaseDataType type, void* buffer)
 {
-    size_t numElements = dSet->getSpace().getSimpleExtentNpoints();
+    SizeType numElements = dSet->getSpace().getSimpleExtentNpoints();
     DataSpace fSpace = dSet->getSpace();
     DataType nativeType = HDF5IO::getNativeType(type);
     dSet->read(buffer, nativeType, fSpace, fSpace);

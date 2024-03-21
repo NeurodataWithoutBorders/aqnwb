@@ -89,10 +89,10 @@ TEST_CASE("startRecording", "[nwb]")
 
   NWBFile nwbfile("123", std::make_unique<HDF5IO>(filename));
   nwbfile.initialize();
-  bool result = nwbfile.startRecording();
+  Status result = nwbfile.startRecording();
   nwbfile.finalize();
 
-  REQUIRE(result == true);
+  REQUIRE(result == Status::Success);
 }
 
 TEST_CASE("ElectrodeTable", "[datatypes]")
@@ -109,11 +109,11 @@ TEST_CASE("ElectrodeTable", "[datatypes]")
     electrodeTable.setGroupPath("array1");
     electrodeTable.electrodeDataset->dataset =
       std::unique_ptr<BaseRecordingData>(
-        io->createDataSet(BaseDataType::I32, std::vector<size_t>{1}, std::vector<size_t>{1}, path + "id"));
+        io->createDataSet(BaseDataType::I32, SizeArray{1}, SizeArray{1}, path + "id"));
 
     electrodeTable.locationsDataset->dataset =
       std::unique_ptr<BaseRecordingData>(
-        io->createDataSet(BaseDataType::STR(250), std::vector<size_t>{0}, std::vector<size_t>{1}, path + "location"));
+        io->createDataSet(BaseDataType::STR(250), SizeArray{0}, SizeArray{1}, path + "location"));
     electrodeTable.initialize();
 
     BaseRecordingData* data = io->getDataSet(path + "id");

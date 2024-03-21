@@ -29,7 +29,7 @@ public:
   void finalize();
 
   /** Starts a recording */
-  bool startRecording();
+  Status startRecording();
 
   /** Writes the num_samples value and closes the relevant datasets */
   void stopRecording();
@@ -49,12 +49,12 @@ public:
 
 protected:
   /** Create the default file structure */
-  int createFileStructure();
+  Status createFileStructure();
 
 private:
   /** recording data factory method */
   std::unique_ptr<BaseRecordingData> createRecordingData(
-    BaseDataType type, const std::vector<size_t>& size, const std::vector<size_t>& chunking, const std::string& path);
+    BaseDataType type, const SizeArray& size, const SizeArray& chunking, const std::string& path);
 
   /** Saves the specification files for the schema */
   void cacheSpecifications(std::string specPath, std::string versionNumber);
@@ -70,7 +70,7 @@ private:
   std::vector<float> scaledBuffer;  // TODO - switched out for std::vector, not
                                     // sure if it's best substitute
   std::vector<int16_t> intBuffer;
-  size_t bufferSize;
+  SizeType bufferSize;
 };
 
 /**

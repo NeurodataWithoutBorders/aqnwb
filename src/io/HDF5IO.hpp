@@ -5,7 +5,7 @@
 #include <string>
 
 #include "BaseIO.hpp"
-
+#include "Types.hpp"
 namespace H5
 {
 class DataSet;
@@ -34,10 +34,10 @@ public:
   std::string getFileName() override;
 
   /** Opens existing file or creates new file for writing */
-  int open() override;
+  Status open() override;
 
   /** Opens existing file or creates new file for writing */
-  int open(bool newfile) override;
+  Status open(bool newfile) override;
 
   /** Closes the file */
   void close() override;
@@ -46,35 +46,35 @@ public:
   static H5::DataType getH5Type(BaseDataType type);
 
   /** Sets an attribute at a given location in the file */
-  int createAttribute(BaseDataType type,
+  Status createAttribute(BaseDataType type,
                    const void* data,
                    std::string path,
                    std::string name,
-                   size_t size = 1) override;
+                   SizeType size = 1) override;
 
   // /** Sets a string attribute at a given location in the file */
-  int createAttribute(const std::string& data,
+  Status createAttribute(const std::string& data,
                    std::string path,
                    std::string name) override;
 
   /** Sets a std::string array attribute at a given location in the file */
-  int createAttribute(const std::vector<std::string>& data,
+  Status createAttribute(const std::vector<std::string>& data,
                    std::string path,
                    std::string name) override;
 
   /** Sets a std::string array attribute at a given location in the file */
-  int createAttribute(const std::vector<const char*>& data,
+  Status createAttribute(const std::vector<const char*>& data,
                    std::string path,
                    std::string name,
-                   size_t maxSize) override;
+                   SizeType maxSize) override;
 
   /** Sets an object reference attribute for a given location in the file */
-  int createAttributeRef(std::string referencePath,
+  Status createAttributeRef(std::string referencePath,
                       std::string path,
                       std::string name) override;
 
   /** Creates a new group (throws an exception if it exists) */
-  int createGroup(std::string path) override;
+  Status createGroup(std::string path) override;
 
   /** Creates a link to another location in the file */
   void createLink(std::string path, std::string reference) override;
@@ -89,8 +89,8 @@ public:
 
   /** aliases for createDataSet */
   BaseRecordingData* createDataSet(BaseDataType type,
-                                   const std::vector<size_t>& size,
-                                   const std::vector<size_t>& chunking,
+                                   const SizeArray& size,
+                                   const SizeArray& chunking,
                                    const std::string path) override;
 
   // /** Returns a pointer to a dataset at a given path*/
@@ -100,7 +100,7 @@ protected:
   std::string filename;
 
   /** Creates a new group (ignores if it exists) */
-  int createGroupIfDoesNotExist(std::string path) override;
+  Status createGroupIfDoesNotExist(std::string path) override;
 
 private:
   std::unique_ptr<H5::H5File> file;
@@ -127,8 +127,8 @@ public:
   ~HDF5RecordingData();
 
   /** Writes a 2D block of data (samples x channels) */
-  int writeDataBlock(size_t xDataSize,
-                     size_t yDataSize,
+  Status writeDataBlock(SizeType xDataSize,
+                     SizeType yDataSize,
                      BaseDataType type,
                      const void* data);
 

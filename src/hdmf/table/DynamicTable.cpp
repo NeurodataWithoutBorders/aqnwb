@@ -27,7 +27,7 @@ void DynamicTable::addColumn(std::string name,
   if (vectorData->dataset == nullptr) {
     std::cerr << "VectorData dataset is not initialized" << std::endl;
   } else {
-    for (size_t i = 0; i < values.size(); i++)
+    for (SizeType i = 0; i < values.size(); i++)
       vectorData->dataset->writeDataBlock(
           1, BaseDataType::STR(values[i].size()), &values[i]);
     io->createCommonNWBAttributes(

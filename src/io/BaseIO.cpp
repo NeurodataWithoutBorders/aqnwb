@@ -5,13 +5,13 @@ using namespace AQNWBIO;
 
 // BaseDataType
 
-BaseDataType::BaseDataType(BaseDataType::Type t, size_t s)
+BaseDataType::BaseDataType(BaseDataType::Type t, SizeType s)
     : type(t)
     , typeSize(s)
 {
 }
 
-BaseDataType BaseDataType::STR(size_t size)
+BaseDataType BaseDataType::STR(SizeType size)
 {
   return BaseDataType(T_STR, size);
 }
@@ -49,7 +49,7 @@ bool BaseIO::isReadyToOpen() const
   return readyToOpen;
 }
 
-int BaseIO::createCommonNWBAttributes(std::string path,
+Status BaseIO::createCommonNWBAttributes(std::string path,
                                std::string groupNamespace,
                                std::string neurodataType,
                                std::string description)
@@ -59,7 +59,7 @@ int BaseIO::createCommonNWBAttributes(std::string path,
   createAttribute(generateUuid(), path, "object_id");
   if (description != "")
     createAttribute(description, path, "description");
-  return 0;
+  return Status::Success;
 }
 
 // BaseRecordingData
@@ -68,7 +68,7 @@ BaseRecordingData::BaseRecordingData() {}
 
 BaseRecordingData::~BaseRecordingData() {}
 
-int BaseRecordingData::writeDataBlock(size_t xDataSize,
+Status BaseRecordingData::writeDataBlock(SizeType xDataSize,
                                       BaseDataType type,
                                       const void* data)
 {

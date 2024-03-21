@@ -44,7 +44,7 @@ void NWBFile::finalize()
   io->close();
 }
 
-int NWBFile::createFileStructure()
+Status NWBFile::createFileStructure()
 {
   io->createAttribute("core", "/", "namespace");
   io->createAttribute("NWBFile", "/", "neurodata_type");
@@ -72,13 +72,13 @@ int NWBFile::createFileStructure()
   io->createStringDataSet("/timestamps_reference_time", time);
   io->createStringDataSet("/identifier", "test-identifier");
 
-  return 0;
+  return Status::Success;
 }
 
-bool NWBFile::startRecording()
+Status NWBFile::startRecording()
 {
-  // Later channels/continuous array will be input from the acquisition system
-  // but self generating for now
+  // Later channels/continuous array will be input from the acquisition system 
+  // with unknown size but self generating for now
   std::vector<int> continuousArray;
   for (int i = 1; i <= 1; ++i) {
     continuousArray.push_back(i);
@@ -92,7 +92,7 @@ bool NWBFile::startRecording()
   std::string rootPath = "/acquisition/";
 
   // 1. Create continuous datasets
-  for (size_t i = 0; i < continuousArray.size(); i++) {
+  for (SizeType i = 0; i < continuousArray.size(); i++) {
     // Setup electrodes and devices
     std::string groupName = "array" + std::to_string(continuousArray[i]);
     std::string devicePath = "general/devices/" + groupName;
@@ -111,15 +111,15 @@ bool NWBFile::startRecording()
 
 
   elecTable.electrodeDataset->dataset =
-      createRecordingData(BaseDataType::I32, std::vector<size_t>{1}, std::vector<size_t>{1}, electrodePath + "id");
+      createRecordingData(BaseDataType::I32, SizeArray{1}, SizeArray{1}, electrodePath + "id");
   elecTable.groupNamesDataset->dataset = createRecordingData(
-      BaseDataType::STR(250), std::vector<size_t>{0}, std::vector<size_t>{1}, electrodePath + "group_name");
+      BaseDataType::STR(250), SizeArray{0}, SizeArray{1}, electrodePath + "group_name");
   elecTable.locationsDataset->dataset = createRecordingData(
-      BaseDataType::STR(250), std::vector<size_t>{0}, std::vector<size_t>{1}, electrodePath + "location");
+      BaseDataType::STR(250), SizeArray{0}, SizeArray{1}, electrodePath + "location");
 
   elecTable.initialize();
 
-  return true;
+  return Status::Success;
 }
 
 void NWBFile::stopRecording() {}
@@ -175,7 +175,7 @@ std::string NWBFile::getCurrentTime()
 
 // recording data factory method /
 std::unique_ptr<BaseRecordingData> NWBFile::createRecordingData(
-    BaseDataType type, const std::vector<size_t>& size, const std::vector<size_t>& chunking, const std::string& path)
+    BaseDataType type, const SizeArray& size, const SizeArray& chunking, const std::string& path)
 {
   return std::unique_ptr<BaseRecordingData>(
       io->createDataSet(type, size, chunking, path));
