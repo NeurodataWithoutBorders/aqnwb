@@ -17,7 +17,7 @@ class ElectrodeTable : public DynamicTable
 {
 public:
   /** Constructor */
-  ElectrodeTable(std::string path, std::shared_ptr<BaseIO> io);
+  ElectrodeTable(std::string path, std::shared_ptr<BaseIO> io, std::vector<int> channels, std::string description = "metadata about extracellular electrodes");
 
   /** Destructor */
   ~ElectrodeTable();
@@ -25,19 +25,28 @@ public:
   /** Initialization function */
   void initialize();
 
+  /** Getter for colNames */
   std::vector<std::string> getColNames() const override;
 
-  std::string getDescription() const override;
+  /** Setter for colNames */
+  void setColNames(const std::vector<std::string>& newColNames);
 
-  std::vector<int> channels;
+  /** Getter for groupPath */
+  std::string getGroupPath() const;
+
+  /** Setter for groupPath */
+  void setGroupPath(const std::string& groupPath);
+
   std::unique_ptr<ElementIdentifiers> electrodeDataset = std::make_unique<ElementIdentifiers>();
   std::unique_ptr<VectorData> groupNamesDataset = std::make_unique<VectorData>();
   std::unique_ptr<VectorData> locationsDataset = std::make_unique<VectorData>();
+
+private:
+  std::vector<int> channels;
   std::vector<int> electrodeNumbers;
   std::vector<std::string> groupNames;
-  std::vector<std::string> groupReferences;
   std::vector<std::string> locationNames;
-  std::vector<std::string> colnames = {"group", "group_name", "location"};
-  std::string description = "metadata about extracellular electrodes";
+  std::vector<std::string> groupReferences;
+  std::vector<std::string> colNames = {"group", "group_name", "location"};
   std::string groupPath = "/general/extracellular_ephys/array1";
 };

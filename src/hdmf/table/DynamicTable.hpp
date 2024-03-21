@@ -17,19 +17,15 @@ class DynamicTable : public Container
 {
 public:
   /** Constructor */
-  DynamicTable(std::string path, std::shared_ptr<BaseIO> io);
+  DynamicTable(std::string path, std::shared_ptr<BaseIO> io, std::string description = " ");
 
   /** Destructor */
   virtual ~DynamicTable();
 
   /** Initialization function */
   void initialize();
-  
-  virtual std::vector<std::string> getColNames() const = 0;
 
-  virtual std::string getDescription() const = 0;
-
-  /** Add a column of vector data to the table */
+  /** Add a column of vector string data to the table */
   void addColumn(std::string name, std::string colDescription, std::unique_ptr<VectorData>& vectorData, std::vector<std::string> values);
 
   /** Add a column of element identifiers to the table */
@@ -38,7 +34,14 @@ public:
   /** Add a column of references */
   void addColumn(std::string name, std::string colDescription, std::vector<std::string> dataset);
 
+  /** Getter for description */
+  std::string getDescription() const;
+
+  /** Getter for column names */
+  virtual std::vector<std::string> getColNames() const = 0;
+
+private:
   std::unique_ptr<BaseRecordingData> idDataset;
   std::string description;
-  std::vector<std::string> colnames;
+  std::vector<std::string> colNames;
 };

@@ -15,7 +15,7 @@ class Device : public Container
 {
 public:
   /** Constructor */
-  Device(std::string path, std::shared_ptr<BaseIO> io);
+  Device(std::string path, std::shared_ptr<BaseIO> io, std::string description, std::string manufacturer);
 
   /** Destructor */
   ~Device();
@@ -23,6 +23,13 @@ public:
   /** Initialization function */
   void initialize();
 
-  std::string manufacturer = "unknown";
-  std::string description = "description";
+  // Getter for manufacturer
+  std::string getManufacturer() const;
+
+  // Getter for description
+  std::string getDescription() const;
+  
+private:
+  std::string description;
+  std::string manufacturer;
 };

@@ -20,6 +20,9 @@ public:
   /** Destructor */
   virtual ~Container();
 
+  /** Getter for path */
+  std::string getPath() const;
+
 protected:
   std::string path;
   std::shared_ptr<BaseIO> io;

@@ -3,6 +3,7 @@
 #include <string>
 #include "hdmf/base/Container.hpp"
 #include "io/BaseIO.hpp"
+#include "device/Device.hpp"
 
 using namespace AQNWBIO;
 
@@ -15,7 +16,7 @@ class ElectrodeGroup : public Container
 {
 public:
   /** Constructor */
-  ElectrodeGroup(std::string path, std::shared_ptr<BaseIO> io);
+  ElectrodeGroup(std::string path, std::shared_ptr<BaseIO> io, std::string description, std::string location, Device device);
 
   /** Destructor */
   ~ElectrodeGroup();
@@ -23,11 +24,18 @@ public:
   /** Initialization function */
   void initialize();
 
-  /** Add link to acquisition device */
-  void linkDevice();
+  /** Getter for description */
+  std::string getDescription() const;
 
+  /** Getter for location */
+  std::string getLocation() const;
+
+  /** Getter for devicePath */
+  Device getDevice() const;
+
+private:
   std::unique_ptr<BaseRecordingData> positionDataset;
-  std::string device;  // path to be linked
-  std::string description = "description";
-  std::string location = "unknown";
+  std::string description;
+  std::string location;
+  Device device;
 };  

@@ -128,6 +128,9 @@ public:
                                            const std::vector<size_t>& chunking,
                                            const std::string path) = 0;
 
+  /** Returns a pointer to a dataset at a given path*/
+  virtual BaseRecordingData* getDataSet(std::string path) = 0;
+
   // ------------------------------------------------------------
   //                    OTHER METHODS
   // ------------------------------------------------------------

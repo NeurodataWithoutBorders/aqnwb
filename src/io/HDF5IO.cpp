@@ -307,10 +307,10 @@ void HDF5IO::createDataSetOfReferences(std::string path,
   delete[] rdata;
 
   status = H5Dclose(dset);
-  status = H5Dclose(space);
+  status = H5Dclose(space);  // TODO - should this be H5Sclose?
 }
 
-HDF5RecordingData* HDF5IO::getDataSet(std::string path)
+BaseRecordingData* HDF5IO::getDataSet(std::string path)
 {
   std::unique_ptr<DataSet> data;
 
@@ -566,4 +566,12 @@ int HDF5RecordingData::writeDataBlock(size_t xDataSize,
   xPos += xDataSize;
 
   return 0;
+}
+
+void HDF5RecordingData::readDataBlock(BaseDataType type, void* buffer)
+{
+    size_t numElements = dSet->getSpace().getSimpleExtentNpoints();
+    DataSpace fSpace = dSet->getSpace();
+    DataType nativeType = HDF5IO::getNativeType(type);
+    dSet->read(buffer, nativeType, fSpace, fSpace);
 }

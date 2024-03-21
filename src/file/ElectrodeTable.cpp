@@ -3,8 +3,8 @@
 // ElectrodeTable
 
 /** Constructor */
-ElectrodeTable::ElectrodeTable(std::string path, std::shared_ptr<BaseIO> io)
-    : DynamicTable(path, io)
+ElectrodeTable::ElectrodeTable(std::string path, std::shared_ptr<BaseIO> io, std::vector<int> channels, std::string description)
+    : DynamicTable(path, io, description), channels(channels)
 {
 }
 
@@ -19,10 +19,8 @@ void ElectrodeTable::initialize()
 
   // create datasets
   for (auto ch : channels) {
-    groupReferences.push_back(
-        groupPath);  // TODO - would get this info from channel input
-    groupNames.push_back(
-        "array1");  // TODO - would get this info from channel input
+    groupReferences.push_back(groupPath);  // TODO - would get this info from channel input
+    groupNames.push_back("array1");  // TODO - would get this info from channel input
     electrodeNumbers.push_back(ch);
     locationNames.push_back("unknown");
   }
@@ -45,12 +43,26 @@ void ElectrodeTable::initialize()
             groupReferences);
 }
 
+// Getter for colNames
 std::vector<std::string> ElectrodeTable::getColNames() const
 {
-  return colnames;
+  return colNames;
 }
 
-std::string ElectrodeTable::getDescription() const
+// Setter for colNames
+void ElectrodeTable::setColNames(const std::vector<std::string>& newColNames)
 {
-  return description;
+  colNames = newColNames;
+}
+
+// Getter for groupPath
+std::string ElectrodeTable::getGroupPath() const
+{
+  return groupPath;
+}
+
+// Setter for colNames
+void ElectrodeTable::setGroupPath(const std::string& newgroupPath)
+{
+  groupPath = newgroupPath;
 }

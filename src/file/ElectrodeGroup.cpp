@@ -1,9 +1,10 @@
 #include "ElectrodeGroup.hpp"
 
 // ElectrodeGroup
-// /** Constructor */
-ElectrodeGroup::ElectrodeGroup(std::string path, std::shared_ptr<BaseIO> io)
-    : Container(path, io)
+
+/** Constructor */
+ElectrodeGroup::ElectrodeGroup(std::string path, std::shared_ptr<BaseIO> io, std::string description, std::string location, Device device)
+  : Container(path, io), description(description), location(location), device(device)
 {
 }
 
@@ -14,9 +15,24 @@ void ElectrodeGroup::initialize()
 {
   io->createCommonNWBAttributes(path, "core", "ElectrodeGroup", description);
   io->createAttribute(location, path, "location");
+  io->createLink("/" + path + "/device", "/" + device.getPath());
+
 }
 
-void ElectrodeGroup::linkDevice()
+// Getter for description
+std::string ElectrodeGroup::getDescription() const
 {
-  io->createLink("/" + path + "/device", "/" + device);
+  return description;
+}
+
+// Getter for location
+std::string ElectrodeGroup::getLocation() const
+{
+  return location;
+}
+
+// Getter for device
+Device ElectrodeGroup::getDevice() const
+{
+  return device;
 }

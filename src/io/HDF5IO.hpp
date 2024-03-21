@@ -76,9 +76,6 @@ public:
   /** Creates a new group (throws an exception if it exists) */
   int createGroup(std::string path) override;
 
-  // /** Returns a pointer to a dataset at a given path*/
-  HDF5RecordingData* getDataSet(std::string path);
-
   /** Creates a link to another location in the file */
   void createLink(std::string path, std::string reference) override;
 
@@ -95,6 +92,9 @@ public:
                                    const std::vector<size_t>& size,
                                    const std::vector<size_t>& chunking,
                                    const std::string path) override;
+
+  // /** Returns a pointer to a dataset at a given path*/
+  BaseRecordingData* getDataSet(std::string path) override;
 
 protected:
   std::string filename;
@@ -131,6 +131,8 @@ public:
                      size_t yDataSize,
                      BaseDataType type,
                      const void* data);
+
+  void readDataBlock(BaseDataType type, void* buffer);  
 
 private:
   std::unique_ptr<H5::DataSet> dSet;

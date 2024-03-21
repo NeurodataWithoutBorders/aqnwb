@@ -18,7 +18,6 @@
 using namespace AQNWBIO;
 namespace fs = std::filesystem;
 
-constexpr size_t MAX_BUFFER_SIZE = 40960;
 
 // NWBFile
 
@@ -26,7 +25,6 @@ NWBFile::NWBFile(std::string idText, std::shared_ptr<BaseIO> io)
     : identifierText(idText)
     , io(io)
 {
-  bufferSize = MAX_BUFFER_SIZE;
 }
 
 NWBFile::~NWBFile() {}
@@ -100,29 +98,26 @@ bool NWBFile::startRecording()
     std::string devicePath = "general/devices/" + groupName;
     std::string elecPath = "general/extracellular_ephys/" + groupName;
 
-    ElectrodeGroup elecGroup = ElectrodeGroup(elecPath, io);
-    elecGroup.device = devicePath;
-    elecGroup.initialize();
-
-    Device device = Device(devicePath, io);
+    Device device = Device(devicePath, io, "description", "unknown");
     device.initialize();
-    elecGroup.linkDevice();
+
+    ElectrodeGroup elecGroup = ElectrodeGroup(elecPath, io, "description", "unknown", device);
+    elecGroup.initialize();
   }
 
   // Create electrode table
   std::string electrodePath = "general/extracellular_ephys/electrodes/";
-  std::unique_ptr<ElectrodeTable> elecTable =
-      std::make_unique<ElectrodeTable>(electrodePath, io);
+  ElectrodeTable elecTable = ElectrodeTable(electrodePath, io, channels);
 
-  elecTable->channels = channels;
-  elecTable->electrodeDataset->dataset =
+
+  elecTable.electrodeDataset->dataset =
       createRecordingData(BaseDataType::I32, std::vector<size_t>{1}, std::vector<size_t>{1}, electrodePath + "id");
-  elecTable->groupNamesDataset->dataset = createRecordingData(
+  elecTable.groupNamesDataset->dataset = createRecordingData(
       BaseDataType::STR(250), std::vector<size_t>{0}, std::vector<size_t>{1}, electrodePath + "group_name");
-  elecTable->locationsDataset->dataset = createRecordingData(
+  elecTable.locationsDataset->dataset = createRecordingData(
       BaseDataType::STR(250), std::vector<size_t>{0}, std::vector<size_t>{1}, electrodePath + "location");
 
-  elecTable->initialize();
+  elecTable.initialize();
 
   return true;
 }

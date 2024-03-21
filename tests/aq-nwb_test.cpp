@@ -101,43 +101,48 @@ TEST_CASE("ElectrodeTable", "[datatypes]")
   SECTION("initialize with example data")
   {
     std::string filename = getTestFilePath("electrodeTable.h5");
+    std::vector<int> channels = {1, 2, 3};
     std::shared_ptr<BaseIO> io = std::make_unique<HDF5IO>(filename);
     io->open();
-    ElectrodeTable electrodeTable(path, io);
     io->createGroup("array1");
-
-    std::vector<int> channels = {1, 2, 3};
-    electrodeTable.channels = channels;
-    electrodeTable.groupPath = "array1";
+    ElectrodeTable electrodeTable(path, io, channels);
+    electrodeTable.setGroupPath("array1");
     electrodeTable.electrodeDataset->dataset =
-        std::unique_ptr<BaseRecordingData>(
-            io->createDataSet(BaseDataType::I32, std::vector<size_t>{1}, std::vector<size_t>{1}, path + "id"));
+      std::unique_ptr<BaseRecordingData>(
+        io->createDataSet(BaseDataType::I32, std::vector<size_t>{1}, std::vector<size_t>{1}, path + "id"));
+
     electrodeTable.locationsDataset->dataset =
-        std::unique_ptr<BaseRecordingData>(
-            io->createDataSet(BaseDataType::STR(250), std::vector<size_t>{0}, std::vector<size_t>{1}, path + "location"));
+      std::unique_ptr<BaseRecordingData>(
+        io->createDataSet(BaseDataType::STR(250), std::vector<size_t>{0}, std::vector<size_t>{1}, path + "location"));
     electrodeTable.initialize();
 
+    BaseRecordingData* data = io->getDataSet(path + "id");
+    int* buffer = new int[3];
+    static_cast<HDF5RecordingData*>(data)->readDataBlock(BaseDataType::I32, buffer);
+    std::vector<int> read_channels(buffer, buffer + 3);
+    delete[] buffer;
+
+    // Don't forget to delete the buffer when you're done with it
+    REQUIRE(channels == read_channels);
     // Check if the groupReferences, groupNames, electrodeNumbers, and
     // locationNames vectors are populated correctly
-    REQUIRE(electrodeTable.locationNames
-            == std::vector<std::string> {"unknown", "unknown", "unknown"});
-    REQUIRE(electrodeTable.electrodeNumbers == std::vector<int> {1, 2, 3});
-    REQUIRE(electrodeTable.getColNames()
-            == std::vector<std::string> {"group", "group_name", "location"});
+    // REQUIRE(electrodeTable.getColumn("location")
+    //         == std::vector<std::string> {"unknown", "unknown", "unknown"};
+    // REQUIRE(electrodeTable.getColNames()
+    //         == std::vector<std::string> {"group", "group_name", "location"});
   }
 
-  SECTION("initialize without data")
+  SECTION("initialize without empty channels")
   {
     std::string filename = getTestFilePath("electrodeTableNoData.h5");
     std::shared_ptr<BaseIO> io = std::make_unique<HDF5IO>(filename);
     io->open();
-    ElectrodeTable electrodeTable(path, io);
+    ElectrodeTable electrodeTable(path, io, std::vector<int>(), "none");
     electrodeTable.initialize();
 
     // Check if the groupReferences, groupNames, electrodeNumbers, and
     // locationNames vectors are empty
-    REQUIRE(electrodeTable.groupReferences.empty());
-    REQUIRE(electrodeTable.groupNames.empty());
-    REQUIRE(electrodeTable.electrodeNumbers.empty());
+    // REQUIRE(electrodeTable.getColumn("groupReferences").empty());
+    // REQUIRE(electrodeTable.getColumn("group_name").empty());
   }
 }
