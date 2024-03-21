@@ -8,34 +8,64 @@
 using namespace AQNWBIO;
 
 /**
-
-A physical grouping of electrodes, e.g. a shank of an array.
-
-*/
+ * @brief The ElectrodeGroup class represents a physical grouping of electrodes, e.g. a shank of an array.
+ */
 class ElectrodeGroup : public Container
 {
 public:
-  /** Constructor */
+  /**
+   * @brief Constructer.
+   * @param path The location in the file of the electrode group.
+   * @param io A shared pointer to the IO object.
+   * @param description The description of the electrode group.
+   * @param location The location of electrode group within the subject e.g. brain region.
+   * @param device The device associated with the electrode group.
+   */
   ElectrodeGroup(std::string path, std::shared_ptr<BaseIO> io, std::string description, std::string location, Device device);
 
-  /** Destructor */
+  /**
+   * @brief Destructor.
+   */
   ~ElectrodeGroup();
 
-  /** Initialization function */
+  /**
+   * @brief Initializes the ElectrodeGroup object.
+   * 
+   * Initializes the ElectrodeGroup by creating NWB related attributes and linking to the Device object.
+   */
   void initialize();
 
-  /** Getter for description */
+  /**
+   * @brief Gets the description of the electrode group.
+   * @return The description of the electrode group.
+   */
   std::string getDescription() const;
 
-  /** Getter for location */
+  /**
+   * @brief Gets the location of the electrode group.
+   * @return The location of the electrode group.
+   */
   std::string getLocation() const;
 
-  /** Getter for devicePath */
+  /**
+   * @brief Gets the device associated with the electrode group.
+   * @return The device associated with the electrode group.
+   */
   Device getDevice() const;
 
 private:
-  std::unique_ptr<BaseRecordingData> positionDataset;
+  /**
+   * @brief The description of the electrode group.
+   */ 
   std::string description;
+
+  /**
+   * @brief The location of electrode group within the subject e.g. brain region.
+   */ 
   std::string location;
+
+  /**
+   * @brief The device associated with the electrode group.
+   */ 
   Device device;
-};  
+};

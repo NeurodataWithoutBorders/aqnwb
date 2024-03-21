@@ -50,11 +50,11 @@ bool BaseIO::isReadyToOpen() const
 }
 
 Status BaseIO::createCommonNWBAttributes(std::string path,
-                               std::string groupNamespace,
+                               std::string objectNamespace,
                                std::string neurodataType,
                                std::string description)
 {
-  createAttribute(groupNamespace, path, "namespace");
+  createAttribute(objectNamespace, path, "namespace");
   createAttribute(neurodataType, path, "neurodata_type");
   createAttribute(generateUuid(), path, "object_id");
   if (description != "")

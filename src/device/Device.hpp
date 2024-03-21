@@ -7,29 +7,50 @@
 using namespace AQNWBIO;
 
 /**
-
-Metadata about a data acquisition device, e.g., recording system, electrode, microscope.
-
-*/
+ * @brief Metadata about a data acquisition device, e.g., recording system, electrode, microscope.
+ */
 class Device : public Container
 {
 public:
-  /** Constructor */
+  /**
+   * @brief Constructer.
+   * @param path The location of the device in the file.
+   * @param io A shared pointer to the IO object.
+   * @param description The description of the device.
+   * @param manufacturer The manufacturer of the device.
+   */
   Device(std::string path, std::shared_ptr<BaseIO> io, std::string description, std::string manufacturer);
 
-  /** Destructor */
+  /**
+   * @brief Destructor
+   */
   ~Device();
 
-  /** Initialization function */
+  /**
+   * @brief Initializes the device by creating NWB related attributes and writing the manufactor and description metadata.
+   */
   void initialize();
 
-  // Getter for manufacturer
+  /**
+   * @brief Gets the manufacturer of the device.
+   * @return The manufacturer of the device.
+   */
   std::string getManufacturer() const;
 
-  // Getter for description
+  /**
+   * @brief Gets the description of the device.
+   * @return The description of the device.
+   */
   std::string getDescription() const;
   
 private:
+  /**
+   * @brief The description of the device.
+   */
   std::string description;
+
+  /**
+   * @brief The manufacturer of the device.
+   */
   std::string manufacturer;
 };

@@ -1,5 +1,3 @@
-#include <chrono>
-#include <ctime>
 #include <filesystem>
 #include <fstream>
 #include <iomanip>
@@ -14,6 +12,7 @@
 #include "file/ElectrodeGroup.hpp"
 #include "file/ElectrodeTable.hpp"
 #include "device/Device.hpp"
+#include "Utils.hpp"
 
 using namespace AQNWBIO;
 namespace fs = std::filesystem;
@@ -157,21 +156,7 @@ void NWBFile::cacheSpecifications(std::string specPath,
     }
 }
 
-std::string NWBFile::getCurrentTime()
-{
-  // Get current time
-  auto currentTime =
-      std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
-  // Convert to tm struct to extract date and time components
-  std::tm utcTime = *std::gmtime(&currentTime);
-
-  // Format the date and time in ISO 8601 format with the UTC offset
-  std::ostringstream oss;
-  oss << std::put_time(&utcTime, "%FT%T%z");
-
-  return oss.str();
-}
 
 // recording data factory method /
 std::unique_ptr<BaseRecordingData> NWBFile::createRecordingData(

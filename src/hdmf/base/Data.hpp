@@ -4,18 +4,23 @@
 #include "io/BaseIO.hpp"
 
 /**
-
-An abstract data type for a dataset.
-
-*/
+ * @brief An abstract data type for a dataset.
+ */
 class Data
 {
 public:
-  /** Constructor */
+  /**
+   * @brief Constructor.
+   */
   Data(){}
 
-  /** Destructor */
+  /**
+   * @brief Destructor.
+   */
   ~Data(){}
 
+  /**
+   * @brief Pointer to dataset.
+   */
   std::unique_ptr<BaseRecordingData> dataset;
 };

@@ -483,9 +483,6 @@ HDF5RecordingData::HDF5RecordingData(H5::DataSet* data)
 {
   DataSpace dSpace;
   DSetCreatPropList prop;
-  //   std::unique_ptr<H5::DataSet> dataSet =
-  //   std::make_unique<H5::DataSet>(*data);
-  // ScopedPointer<DataSet> dataSet = data;
   hsize_t dims[3], chunk[3];
 
   dSpace = data->getSpace();
