@@ -3,7 +3,7 @@
 // Container
 
 /** Constructor */
-Container::Container(std::string path, std::shared_ptr<BaseIO> io)
+Container::Container(const std::string& path, std::shared_ptr<BaseIO> io)
   : path(path)
   , io(io)
 {

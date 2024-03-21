@@ -19,7 +19,7 @@ public:
    * @param description The description of the device.
    * @param manufacturer The manufacturer of the device.
    */
-  Device(std::string path, std::shared_ptr<BaseIO> io, std::string description, std::string manufacturer);
+  Device(const std::string& path, std::shared_ptr<BaseIO> io, const std::string& description, const std::string& manufacturer);
 
   /**
    * @brief Destructor

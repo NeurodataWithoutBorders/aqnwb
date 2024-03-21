@@ -17,7 +17,7 @@ public:
    * @param path The path of the container.
    * @param io A shared pointer to the IO object.
    */
-  Container(std::string path, std::shared_ptr<BaseIO> io); 
+  Container(const std::string& path, std::shared_ptr<BaseIO> io); 
 
   /**
    * @brief Destructor.

@@ -3,7 +3,7 @@
 // DynamicTable
 
 /** Constructor */
-DynamicTable::DynamicTable(std::string path, std::shared_ptr<BaseIO> io, std::string description)
+DynamicTable::DynamicTable(const std::string& path, std::shared_ptr<BaseIO> io, const std::string& description)
     : Container(path, io), description(description)
 {
 }
@@ -19,10 +19,10 @@ void DynamicTable::initialize()
 }
 
 /** Add column to table */
-void DynamicTable::addColumn(std::string name,
-                             std::string colDescription,
+void DynamicTable::addColumn(const std::string& name,
+                             const std::string& colDescription,
                              std::unique_ptr<VectorData>& vectorData,
-                             std::vector<std::string> values)
+                             const std::vector<std::string>& values)
 {
   if (vectorData->dataset == nullptr) {
     std::cerr << "VectorData dataset is not initialized" << std::endl;
@@ -35,10 +35,10 @@ void DynamicTable::addColumn(std::string name,
   }
 }
 
-void DynamicTable::addColumn(std::string name,
-                             std::string colDescription,
+void DynamicTable::addColumn(const std::string& name,
+                             const std::string& colDescription,
                              std::unique_ptr<ElementIdentifiers>& elementIDs,
-                             std::vector<int> values)
+                             const std::vector<int>& values)
 {
   if (elementIDs->dataset == nullptr) {
     std::cerr << "ElementIdentifiers dataset is not initialized" << std::endl;
@@ -50,9 +50,9 @@ void DynamicTable::addColumn(std::string name,
   }
 }
 
-void DynamicTable::addColumn(std::string name,
-                             std::string colDescription,
-                             std::vector<std::string> values)
+void DynamicTable::addColumn(const std::string& name,
+                             const std::string& colDescription,
+                             const std::vector<std::string>& values)
 {
   if (values.empty()) {
     std::cerr << "Data to add to column is empty" << std::endl;

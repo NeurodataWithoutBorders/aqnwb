@@ -16,7 +16,7 @@ using namespace AQNWBIO;
 
 HDF5IO::HDF5IO() {}
 
-HDF5IO::HDF5IO(std::string fileName)
+HDF5IO::HDF5IO(const std::string& fileName)
     : filename(fileName)
 {
 }
@@ -67,11 +67,11 @@ void HDF5IO::close()
   opened = false;
 }
 
-Status HDF5IO::createAttribute(BaseDataType type,
+Status HDF5IO::createAttribute(const BaseDataType& type,
                          const void* data,
-                         std::string path,
-                         std::string name,
-                         SizeType size)
+                         const std::string& path,
+                         const std::string& name,
+                         const SizeType& size)
 {
   H5Object* loc;
   Group gloc;
@@ -115,8 +115,8 @@ Status HDF5IO::createAttribute(BaseDataType type,
 }
 
 Status HDF5IO::createAttribute(const std::string& data,
-                         std::string path,
-                         std::string name)
+                         const std::string& path,
+                         const std::string& name)
 {
   std::vector<const char*> dataPtrs;
   dataPtrs.push_back(data.c_str());
@@ -125,8 +125,8 @@ Status HDF5IO::createAttribute(const std::string& data,
 }
 
 Status HDF5IO::createAttribute(const std::vector<std::string>& data,
-                         std::string path,
-                         std::string name)
+                         const std::string& path,
+                         const std::string& name)
 {
   std::vector<const char*> dataPtrs;
   SizeType maxLength = 0;
@@ -140,9 +140,9 @@ Status HDF5IO::createAttribute(const std::vector<std::string>& data,
 }
 
 Status HDF5IO::createAttribute(const std::vector<const char*>& data,
-                         std::string path,
-                         std::string name,
-                         SizeType maxSize)
+                         const std::string& path,
+                         const std::string& name,
+                         const SizeType& maxSize)
 {
   H5Object* loc;
   Group gloc;
@@ -193,9 +193,9 @@ Status HDF5IO::createAttribute(const std::vector<const char*>& data,
   return Status::Success;
 }
 
-Status HDF5IO::createAttributeRef(std::string referencePath,
-                            std::string path,
-                            std::string name)
+Status HDF5IO::createAttributeRef(const std::string& referencePath,
+                            const std::string& path,
+                            const std::string& name)
 {
   H5Object* loc;
   Group gloc;
@@ -244,7 +244,7 @@ Status HDF5IO::createAttributeRef(std::string referencePath,
   return Status::Success;
 }
 
-Status HDF5IO::createGroup(std::string path)
+Status HDF5IO::createGroup(const std::string& path)
 {
   if (!opened)
     return Status::Failure;
@@ -258,7 +258,7 @@ Status HDF5IO::createGroup(std::string path)
   return Status::Success;
 }
 
-Status HDF5IO::createGroupIfDoesNotExist(std::string path)
+Status HDF5IO::createGroupIfDoesNotExist(const std::string& path)
 {
   if (!opened)
     return Status::Failure;
@@ -271,7 +271,7 @@ Status HDF5IO::createGroupIfDoesNotExist(std::string path)
 }
 
 /** Creates a link to another location in the file */
-void HDF5IO::createLink(std::string path, std::string reference)
+void HDF5IO::createLink(const std::string& path, const std::string& reference)
 {
   H5Lcreate_soft(reference.c_str(),
                  file->getLocId(),
@@ -280,8 +280,8 @@ void HDF5IO::createLink(std::string path, std::string reference)
                  H5P_DEFAULT);
 }
 
-void HDF5IO::createDataSetOfReferences(std::string path,
-                                    std::vector<std::string> references)
+void HDF5IO::createDataSetOfReferences(const std::string& path,
+                                    const std::vector<std::string>& references)
 {
   const hsize_t size = references.size();
 
@@ -310,7 +310,7 @@ void HDF5IO::createDataSetOfReferences(std::string path,
   status = H5Dclose(space);  // TODO - should this be H5Sclose?
 }
 
-BaseRecordingData* HDF5IO::getDataSet(std::string path)
+BaseRecordingData* HDF5IO::getDataSet(const std::string& path)
 {
   std::unique_ptr<DataSet> data;
 
@@ -332,7 +332,7 @@ BaseRecordingData* HDF5IO::getDataSet(std::string path)
   }
 }
 
-void HDF5IO::createStringDataSet(std::string path, std::string value)
+void HDF5IO::createStringDataSet(const std::string& path, const std::string& value)
 {
   std::unique_ptr<H5::DataSet> dataset;
   DataType H5type = getH5Type(BaseDataType::STR(value.length()));
@@ -343,10 +343,10 @@ void HDF5IO::createStringDataSet(std::string path, std::string value)
   dataset->write(value.c_str(), H5type);
 }
 
-BaseRecordingData* HDF5IO::createDataSet(BaseDataType type,
+BaseRecordingData* HDF5IO::createDataSet(const BaseDataType& type,
                                          const SizeArray& size,
                                          const SizeArray& chunking,
-                                         std::string const path)
+                                         const std::string& path)
 {
   std::unique_ptr<DataSet> data;
   DSetCreatPropList prop;
@@ -518,9 +518,9 @@ HDF5RecordingData::~HDF5RecordingData()
   dSet->flush(H5F_SCOPE_GLOBAL);
 }
 
-Status HDF5RecordingData::writeDataBlock(SizeType xDataSize,
-                                      SizeType yDataSize,
-                                      BaseDataType type,
+Status HDF5RecordingData::writeDataBlock(const SizeType& xDataSize,
+                                      const SizeType& yDataSize,
+                                      const BaseDataType& type,
                                       const void* data)
 {
   hsize_t dim[3], offset[3];
@@ -565,7 +565,7 @@ Status HDF5RecordingData::writeDataBlock(SizeType xDataSize,
   return Status::Success;
 }
 
-void HDF5RecordingData::readDataBlock(BaseDataType type, void* buffer)
+void HDF5RecordingData::readDataBlock(const BaseDataType& type, void* buffer)
 {
     SizeType numElements = dSet->getSpace().getSimpleExtentNpoints();
     DataSpace fSpace = dSet->getSpace();

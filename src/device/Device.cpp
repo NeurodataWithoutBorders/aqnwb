@@ -2,7 +2,7 @@
 
 // Device
 /** Constructor */
-Device::Device(std::string path, std::shared_ptr<BaseIO> io, std::string description, std::string manufacturer)
+Device::Device(const std::string& path, std::shared_ptr<BaseIO> io, const std::string& description, const std::string& manufacturer)
   : Container(path, io), description(description), manufacturer(manufacturer)
 {
 }

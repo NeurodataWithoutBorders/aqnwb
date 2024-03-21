@@ -17,7 +17,7 @@ public:
    * @param idText The identifier text for the NWBFile.
    * @param io The shared pointer to the IO object.
    */
-  NWBFile(std::string idText, std::shared_ptr<BaseIO> io);
+  NWBFile(const std::string& idText, std::shared_ptr<BaseIO> io);
 
   /**
    * @brief Deleted copy constructor to prevent construction-copying.
@@ -56,20 +56,6 @@ public:
   void stopRecording();
 
   /**
-   * @brief Writes continuous data for a particular channel.
-   * @param datasetID The ID of the dataset.
-   * @param channel The channel number.
-   * @param nSamples The number of samples.
-   * @param data The pointer to the data array.
-   * @param bitVolts The bit to volts conversion factor.
-   */
-  void writeData(int datasetID,
-                 int channel,
-                 int nSamples,
-                 const float* data,
-                 float bitVolts);
-
-  /**
    * @brief Indicates the NWB schema version.
    */
   const std::string NWBVersion = "2.7.0";
@@ -103,7 +89,7 @@ private:
    * @param specPath The location in the file to store the spec information.
    * @param versionNumber The version number of the specification files.
    */
-  void cacheSpecifications(std::string specPath, std::string versionNumber);
+  void cacheSpecifications(const std::string& specPath, const std::string& versionNumber);
 
   /**
    * @brief Creates a new dataset to hold text data (messages).
@@ -111,7 +97,7 @@ private:
    * @param name The name of the dataset.
    * @param text The text data to be stored in the dataset.
    */
-  void createTextDataSet(std::string path, std::string name, std::string text);
+  void createTextDataSet(const std::string& path, const std::string& name, const std::string& text);
 
   const std::string identifierText;
   std::shared_ptr<BaseIO> io;
@@ -153,7 +139,7 @@ public:
    * @param experimentNumber The experiment number.
    * @param recordingNumber The recording number.
    */
-  void openFiles(std::string rootFolder,
+  void openFiles(const std::string& rootFolder,
                  int experimentNumber,
                  int recordingNumber);
 

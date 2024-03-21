@@ -131,11 +131,11 @@ public:
    * @param size The size of the attribute (default is 1).
    * @return The status of the attribute creation operation.
    */
-  virtual Status createAttribute(BaseDataType type,
+  virtual Status createAttribute(const BaseDataType& type,
                            const void* data,
-                           std::string path,
-                           std::string name,
-                           SizeType size = 1) = 0;
+                           const std::string& path,
+                           const std::string& name,
+                           const SizeType& size = 1) = 0;
 
   /**
    * @brief Creates a string attribute at a given location in the file.
@@ -145,8 +145,8 @@ public:
    * @return The status of the attribute creation operation.
    */
   virtual Status createAttribute(const std::string& data,
-                           std::string path,
-                           std::string name) = 0;
+                           const std::string& path,
+                           const std::string& name) = 0;
 
   /**
    * @brief Creates a string array attribute at a given location in the file.
@@ -156,8 +156,8 @@ public:
    * @return The status of the attribute creation operation.
    */
   virtual Status createAttribute(const std::vector<std::string>& data,
-                           std::string path,
-                           std::string name) = 0;
+                           const std::string& path,
+                           const std::string& name) = 0;
 
   /**
    * @brief Creates a string array attribute at a given location in the file.
@@ -168,9 +168,9 @@ public:
    * @return The status of the attribute creation operation.
    */
   virtual Status createAttribute(const std::vector<const char*>& data,
-                           std::string path,
-                           std::string name,
-                           SizeType maxSize) = 0;
+                           const std::string& path,
+                           const std::string& name,
+                           const SizeType& maxSize) = 0;
 
   /**
    * @brief Sets an object reference attribute for a given location in the file.
@@ -179,38 +179,38 @@ public:
    * @param name The name of the attribute.
    * @return The status of the attribute creation operation.
    */
-  virtual Status createAttributeRef(std::string referencePath,
-                              std::string path,
-                              std::string name) = 0;
+  virtual Status createAttributeRef(const std::string& referencePath,
+                              const std::string& path,
+                              const std::string& name) = 0;
 
   /**
    * @brief Creates a new group in the file.
    * @param path The location in the file of the new group.
    * @return The status of the group creation operation.
    */
-  virtual Status createGroup(std::string path) = 0;
+  virtual Status createGroup(const std::string& path) = 0;
 
   /**
    * @brief Creates a soft link to another location in the file.
    * @param path The location in the file to the new link.
    * @param reference The location in the file of the object that is being linked to.
    */
-  virtual void createLink(std::string path, std::string reference) = 0;
+  virtual void createLink(const std::string& path, const std::string& reference) = 0;
 
   /**
    * @brief Creates a non-modifiable dataset with a string value.
    * @param path The location in the file of the dataset.
    * @param value The string value of the dataset.
    */
-  virtual void createStringDataSet(std::string path, std::string value) = 0;
+  virtual void createStringDataSet(const std::string& path, const std::string& value) = 0;
 
   /**
    * @brief Creates a dataset that holds an array of references to groups within the file.
    * @param path The location in the file of the new dataset.
    * @param references The array of references.
    */
-  virtual void createDataSetOfReferences(std::string path,
-                                      std::vector<std::string> references) = 0;
+  virtual void createDataSetOfReferences(const std::string& path,
+                                      const std::vector<std::string>& references) = 0;
 
   /**
    * @brief Creates an extendable dataset with a given base data type, size, chunking, and path.
@@ -220,17 +220,17 @@ public:
    * @param path The location in the file of the new dataset.
    * @return A pointer to the created dataset.
    */
-  virtual BaseRecordingData* createDataSet(BaseDataType type,
+  virtual BaseRecordingData* createDataSet(const BaseDataType& type,
                                            const SizeArray& size,
                                            const SizeArray& chunking,
-                                           const std::string path) = 0;
+                                           const std::string& path) = 0;
 
   /**
    * @brief Returns a pointer to a dataset at a given path.
    * @param path The location in the file of the dataset.
    * @return A pointer to the dataset.
    */
-  virtual BaseRecordingData* getDataSet(std::string path) = 0;
+  virtual BaseRecordingData* getDataSet(const std::string& path) = 0;
 
   /**
    * @brief Convenience function for creating NWB related attributes.
@@ -240,10 +240,10 @@ public:
    * @param description The description of the object (default is empty).
    * @return The status of the operation.
    */
-   Status createCommonNWBAttributes(std::string path,
-                             std::string objectNamespace,
-                             std::string neurodataType,
-                             std::string description = "");
+   Status createCommonNWBAttributes(const std::string& path,
+                             const std::string& objectNamespace,
+                             const std::string& neurodataType,
+                             const std::string& description = "");
 
   /**
    * @brief Returns true if the file is open.
@@ -268,7 +268,7 @@ protected:
    * @param path The location of the group in the file.
    * @return The status of the operation.
    */
-  virtual Status createGroupIfDoesNotExist(std::string path) = 0;
+  virtual Status createGroupIfDoesNotExist(const std::string& path) = 0;
 
   /**
    * @brief Whether the file is ready to be opened.
@@ -317,7 +317,7 @@ public:
    * @param data A pointer to the data block.
    * @return The status of the write operation.
    */
-  Status writeDataBlock(SizeType xDataSize, BaseDataType type, const void* data);
+  Status writeDataBlock(const SizeType& xDataSize, const BaseDataType& type, const void* data);
 
   /** 
    * @brief Writes a 2D block of data (samples x channels).
@@ -327,9 +327,9 @@ public:
    * @param data A pointer to the data block.
    * @return The status of the write operation.
    */
-  virtual Status writeDataBlock(SizeType xDataSize,
-                             SizeType yDataSize,
-                             BaseDataType type,
+  virtual Status writeDataBlock(const SizeType& xDataSize,
+                             const SizeType& yDataSize,
+                             const BaseDataType& type,
                              const void* data) = 0;
 
 protected:

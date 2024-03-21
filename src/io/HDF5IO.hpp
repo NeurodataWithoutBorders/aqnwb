@@ -33,7 +33,7 @@ public:
    * @brief Constructor for the HDF5IO class that takes a file name as input.
    * @param fileName The name of the HDF5 file.
    */
-  HDF5IO(std::string fileName);
+  HDF5IO(const std::string& fileName);
 
   /**
    * @brief Destructor for the HDF5IO class.
@@ -73,11 +73,11 @@ public:
    * @param size The size of the attribute (default is 1).
    * @return The status of the attribute creation operation.
    */
-  Status createAttribute(BaseDataType type,
+  Status createAttribute(const BaseDataType& type,
                    const void* data,
-                   std::string path,
-                   std::string name,
-                   SizeType size = 1) override;
+                   const std::string& path,
+                   const std::string& name,
+                   const SizeType& size = 1) override;
 
   /**
    * @brief Creates a string attribute at a given location in the file.
@@ -87,8 +87,8 @@ public:
    * @return The status of the attribute creation operation.
    */
   Status createAttribute(const std::string& data,
-                   std::string path,
-                   std::string name) override;
+                   const std::string& path,
+                   const std::string& name) override;
 
   /**
    * @brief Creates a string array attribute at a given location in the file.
@@ -98,8 +98,8 @@ public:
    * @return The status of the attribute creation operation.
    */
   Status createAttribute(const std::vector<std::string>& data,
-                   std::string path,
-                   std::string name) override;
+                   const std::string& path,
+                   const std::string& name) override;
 
   /**
    * @brief Creates a string array attribute at a given location in the file.
@@ -110,9 +110,9 @@ public:
    * @return The status of the attribute creation operation.
    */
   Status createAttribute(const std::vector<const char*>& data,
-                   std::string path,
-                   std::string name,
-                   SizeType maxSize) override;
+                   const std::string& path,
+                   const std::string& name,
+                   const SizeType& maxSize) override;
 
   /**
    * @brief Sets an object reference attribute for a given location in the file.
@@ -121,38 +121,38 @@ public:
    * @param name The name of the attribute.
    * @return The status of the attribute creation operation.
    */
-  Status createAttributeRef(std::string referencePath,
-                      std::string path,
-                      std::string name) override;
+  Status createAttributeRef(const std::string& referencePath,
+                      const std::string& path,
+                      const std::string& name) override;
 
   /**
    * @brief Creates a new group in the file.
    * @param path The location in the file of the new group.
    * @return The status of the group creation operation.
    */
-  Status createGroup(std::string path) override;
+  Status createGroup(const std::string& path) override;
 
   /**
    * @brief Creates a soft link to another location in the file.
    * @param path The location in the file to the new link.
    * @param reference The location in the file of the object that is being linked to.
    */
-  void createLink(std::string path, std::string reference) override;
+  void createLink(const std::string& path, const std::string& reference) override;
 
   /**
    * @brief Creates a non-modifiable dataset with a string value.
    * @param path The location in the file of the dataset.
    * @param value The string value of the dataset.
    */
-  void createStringDataSet(std::string path, std::string value) override;
+  void createStringDataSet(const std::string& path, const std::string& value) override;
 
   /**
    * @brief Creates a dataset that holds an array of references to groups within the file.
    * @param path The location in the file of the new dataset.
    * @param references The array of references.
    */
-  void createDataSetOfReferences(std::string path,
-                              std::vector<std::string> references) override;
+  void createDataSetOfReferences(const std::string& path,
+                              const std::vector<std::string>& references) override;
 
   /**
    * @brief Creates an extendable dataset with a given base data type, size, chunking, and path.
@@ -162,17 +162,17 @@ public:
    * @param path The location in the file of the new dataset.
    * @return A pointer to the created dataset.
    */
-  BaseRecordingData* createDataSet(BaseDataType type,
+  BaseRecordingData* createDataSet(const BaseDataType& type,
                                    const SizeArray& size,
                                    const SizeArray& chunking,
-                                   const std::string path) override;
+                                   const std::string& path) override;
 
   /**
    * @brief Returns a pointer to a dataset at a given path.
    * @param path The location in the file of the dataset.
    * @return A pointer to the dataset.
    */
-  BaseRecordingData* getDataSet(std::string path) override;
+  BaseRecordingData* getDataSet(const std::string& path) override;
 
   /**
    * @brief Returns the HDF5 native data type for a given base data type.
@@ -196,7 +196,7 @@ protected:
    * @param path The location in the file of the group.
    * @return The status of the group creation operation.
    */
-  Status createGroupIfDoesNotExist(std::string path) override;
+  Status createGroupIfDoesNotExist(const std::string& path) override;
 
 private:
   std::unique_ptr<H5::H5File> file;
@@ -243,9 +243,9 @@ public:
    * @param data A pointer to the data block.
    * @return The status of the write operation.
    */
-  Status writeDataBlock(SizeType xDataSize,
-                        SizeType yDataSize,
-                        BaseDataType type,
+  Status writeDataBlock(const SizeType& xDataSize,
+                        const SizeType& yDataSize,
+                        const BaseDataType& type,
                         const void* data);
 
   /**
@@ -253,7 +253,7 @@ public:
    * @param type The data type of the data block.
    * @param buffer A pointer to the buffer to store the read data.
    */
-  void readDataBlock(BaseDataType type, void* buffer);
+  void readDataBlock(const BaseDataType& type, void* buffer);
 
 private:
   /**

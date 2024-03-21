@@ -20,7 +20,7 @@ namespace fs = std::filesystem;
 
 // NWBFile
 
-NWBFile::NWBFile(std::string idText, std::shared_ptr<BaseIO> io)
+NWBFile::NWBFile(const std::string& idText, std::shared_ptr<BaseIO> io)
     : identifierText(idText)
     , io(io)
 {
@@ -123,14 +123,8 @@ Status NWBFile::startRecording()
 
 void NWBFile::stopRecording() {}
 
-void NWBFile::writeData(
-    int datasetID, int channel, int nSamples, const float* data, float bitVolts)
-{
-  // TODO - some things here
-}
-
-void NWBFile::cacheSpecifications(std::string specPath,
-                                  std::string versionNumber)
+void NWBFile::cacheSpecifications(const std::string& specPath,
+                                  const std::string& versionNumber)
 {
   io->createGroup("/specifications/" + specPath);
   io->createGroup("/specifications/" + specPath + versionNumber);
@@ -180,7 +174,7 @@ NWBRecordingEngine::~NWBRecordingEngine()
   }
 }
 
-void NWBRecordingEngine::openFiles(std::string rootFolder,
+void NWBRecordingEngine::openFiles(const std::string& rootFolder,
                                    int experimentNumber,
                                    int recordingNumber)
 {

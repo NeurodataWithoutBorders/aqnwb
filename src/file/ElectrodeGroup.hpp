@@ -21,7 +21,7 @@ public:
    * @param location The location of electrode group within the subject e.g. brain region.
    * @param device The device associated with the electrode group.
    */
-  ElectrodeGroup(std::string path, std::shared_ptr<BaseIO> io, std::string description, std::string location, Device device);
+  ElectrodeGroup(const std::string& path, std::shared_ptr<BaseIO> io, const std::string& description, const std::string& location, const Device& device);
 
   /**
    * @brief Destructor.

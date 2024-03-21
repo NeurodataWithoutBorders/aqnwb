@@ -3,7 +3,7 @@
 // ElectrodeTable
 
 /** Constructor */
-ElectrodeTable::ElectrodeTable(std::string path, std::shared_ptr<BaseIO> io, std::vector<int> channels, std::string description)
+ElectrodeTable::ElectrodeTable(const std::string& path, std::shared_ptr<BaseIO> io, const std::vector<int>& channels, const std::string& description)
     : DynamicTable(path, io, description), channels(channels)
 {
 }

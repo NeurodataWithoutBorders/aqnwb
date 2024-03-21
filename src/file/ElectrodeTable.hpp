@@ -21,7 +21,7 @@ public:
    * @param channels The vector of channel numbers.
    * @param description The description of the table (default: "metadata about extracellular electrodes").
    */
-  ElectrodeTable(std::string path, std::shared_ptr<BaseIO> io, std::vector<int> channels, std::string description = "metadata about extracellular electrodes");
+  ElectrodeTable(const std::string& path, std::shared_ptr<BaseIO> io, const std::vector<int>& channels, const std::string& description = "metadata about extracellular electrodes");
 
   /**
    * @brief Destructor.

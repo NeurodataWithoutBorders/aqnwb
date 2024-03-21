@@ -22,7 +22,7 @@ public:
    * @param io A shared pointer to the IO object.
    * @param description The description of the table (optional).
    */
-  DynamicTable(std::string path, std::shared_ptr<BaseIO> io, std::string description = " ");
+  DynamicTable(const std::string& path, std::shared_ptr<BaseIO> io, const std::string& description = " ");
 
   /**
    * @brief Destructor
@@ -41,7 +41,7 @@ public:
    * @param vectorData A unique pointer to the `VectorData` dataset.
    * @param values The vector of string values.
    */
-  void addColumn(std::string name, std::string colDescription, std::unique_ptr<VectorData>& vectorData, std::vector<std::string> values);
+  void addColumn(const std::string& name, const std::string& colDescription, std::unique_ptr<VectorData>& vectorData, const std::vector<std::string>& values);
 
   /**
    * @brief Adds a column of element identifiers to the table.
@@ -50,7 +50,7 @@ public:
    * @param elementIDs A unique pointer to the `ElementIdentifiers` dataset.
    * @param values The vector of id values.
    */
-  void addColumn(std::string name, std::string colDescription, std::unique_ptr<ElementIdentifiers>& elementIDs, std::vector<int> values);
+  void addColumn(const std::string& name, const std::string& colDescription, std::unique_ptr<ElementIdentifiers>& elementIDs, const std::vector<int>& values);
 
   /**
    * @brief Adds a column of references to the table.
@@ -58,7 +58,7 @@ public:
    * @param colDescription The description of the column.
    * @param dataset The vector of string values representing the references.
    */
-  void addColumn(std::string name, std::string colDescription, std::vector<std::string> dataset);
+  void addColumn(const std::string& name, const std::string& colDescription, const std::vector<std::string>& dataset);
 
   /**
    * @brief Gets the description of the table.

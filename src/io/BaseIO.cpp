@@ -49,10 +49,10 @@ bool BaseIO::isReadyToOpen() const
   return readyToOpen;
 }
 
-Status BaseIO::createCommonNWBAttributes(std::string path,
-                               std::string objectNamespace,
-                               std::string neurodataType,
-                               std::string description)
+Status BaseIO::createCommonNWBAttributes(const std::string& path,
+                               const std::string& objectNamespace,
+                               const std::string& neurodataType,
+                               const std::string& description)
 {
   createAttribute(objectNamespace, path, "namespace");
   createAttribute(neurodataType, path, "neurodata_type");
@@ -68,8 +68,8 @@ BaseRecordingData::BaseRecordingData() {}
 
 BaseRecordingData::~BaseRecordingData() {}
 
-Status BaseRecordingData::writeDataBlock(SizeType xDataSize,
-                                      BaseDataType type,
+Status BaseRecordingData::writeDataBlock(const SizeType& xDataSize,
+                                      const BaseDataType& type,
                                       const void* data)
 {
   return writeDataBlock(xDataSize, size[1], type, data);
