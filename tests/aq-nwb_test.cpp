@@ -116,20 +116,14 @@ TEST_CASE("ElectrodeTable", "[datatypes]")
         io->createDataSet(BaseDataType::STR(250), SizeArray{0}, SizeArray{1}, path + "location"));
     electrodeTable.initialize();
 
-    BaseRecordingData* data = io->getDataSet(path + "id");
-    int* buffer = new int[3];
-    static_cast<HDF5RecordingData*>(data)->readDataBlock(BaseDataType::I32, buffer);
-    std::vector<int> read_channels(buffer, buffer + 3);
+    // Check if id datasets are created correctly
+    size_t numChannels = 3;
+    BaseRecordingData* id_data = io->getDataSet(path + "id");
+    int* buffer = new int[numChannels];
+    static_cast<HDF5RecordingData*>(id_data)->readDataBlock(BaseDataType::I32, buffer);
+    std::vector<int> read_channels(buffer, buffer + numChannels);
     delete[] buffer;
-
-    // Don't forget to delete the buffer when you're done with it
     REQUIRE(channels == read_channels);
-    // Check if the groupReferences, groupNames, electrodeNumbers, and
-    // locationNames vectors are populated correctly
-    // REQUIRE(electrodeTable.getColumn("location")
-    //         == std::vector<std::string> {"unknown", "unknown", "unknown"};
-    // REQUIRE(electrodeTable.getColNames()
-    //         == std::vector<std::string> {"group", "group_name", "location"});
   }
 
   SECTION("initialize without empty channels")
@@ -139,10 +133,5 @@ TEST_CASE("ElectrodeTable", "[datatypes]")
     io->open();
     ElectrodeTable electrodeTable(path, io, std::vector<int>(), "none");
     electrodeTable.initialize();
-
-    // Check if the groupReferences, groupNames, electrodeNumbers, and
-    // locationNames vectors are empty
-    // REQUIRE(electrodeTable.getColumn("groupReferences").empty());
-    // REQUIRE(electrodeTable.getColumn("group_name").empty());
   }
 }
