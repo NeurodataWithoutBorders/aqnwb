@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+
 #include "io/BaseIO.hpp"
 
 /**
@@ -12,12 +13,12 @@ public:
   /**
    * @brief Constructor.
    */
-  Data(){}
+  Data() {}
 
   /**
    * @brief Destructor.
    */
-  ~Data(){}
+  ~Data() {}
 
   /**
    * @brief Pointer to dataset.

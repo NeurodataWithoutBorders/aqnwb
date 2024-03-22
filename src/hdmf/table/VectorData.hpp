@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+
 #include "hdmf/base/Data.hpp"
 
 /**
@@ -9,7 +10,6 @@
 class VectorData : public Data
 {
 public:
-
   /**
    * @brief Description of VectorData.
    */

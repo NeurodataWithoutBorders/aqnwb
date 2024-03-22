@@ -3,8 +3,11 @@
 // DynamicTable
 
 /** Constructor */
-DynamicTable::DynamicTable(const std::string& path, std::shared_ptr<BaseIO> io, const std::string& description)
-    : Container(path, io), description(description)
+DynamicTable::DynamicTable(const std::string& path,
+                           std::shared_ptr<BaseIO> io,
+                           const std::string& description)
+    : Container(path, io)
+    , description(description)
 {
 }
 
@@ -14,7 +17,8 @@ DynamicTable::~DynamicTable() {}
 /** Initialization function*/
 void DynamicTable::initialize()
 {
-  io->createCommonNWBAttributes(path, "hdmf-common", "DynamicTable", getDescription());
+  io->createCommonNWBAttributes(
+      path, "hdmf-common", "DynamicTable", getDescription());
   io->createAttribute(getColNames(), path, "colnames");
 }
 
@@ -63,6 +67,7 @@ void DynamicTable::addColumn(const std::string& name,
   }
 }
 
-std::string DynamicTable::getDescription() const {
-    return description;
+std::string DynamicTable::getDescription() const
+{
+  return description;
 }

@@ -1,15 +1,17 @@
 #pragma once
 
-#include <string>
 #include <memory>
+#include <string>
+
 #include "io/BaseIO.hpp"
 
 using namespace AQNWBIO;
 
 /**
- * @brief Abstract data type for a group storing collections of data and metadata
+ * @brief Abstract data type for a group storing collections of data and
+ * metadata
  */
-class Container 
+class Container
 {
 public:
   /**
@@ -17,7 +19,7 @@ public:
    * @param path The path of the container.
    * @param io A shared pointer to the IO object.
    */
-  Container(const std::string& path, std::shared_ptr<BaseIO> io); 
+  Container(const std::string& path, std::shared_ptr<BaseIO> io);
 
   /**
    * @brief Destructor.
@@ -41,4 +43,3 @@ protected:
    */
   std::shared_ptr<BaseIO> io;
 };
-

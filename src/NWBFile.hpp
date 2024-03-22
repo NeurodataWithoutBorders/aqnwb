@@ -7,7 +7,8 @@
 using namespace AQNWBIO;
 
 /**
- * @brief The NWBFile class provides an interface for setting up and managing the NWB file.
+ * @brief The NWBFile class provides an interface for setting up and managing
+ * the NWB file.
  */
 class NWBFile
 {
@@ -35,7 +36,8 @@ public:
   ~NWBFile();
 
   /**
-   * @brief Initializes the NWB file by opening and setting up the file structure.
+   * @brief Initializes the NWB file by opening and setting up the file
+   * structure.
    */
   void initialize();
 
@@ -79,17 +81,22 @@ private:
    * @param size The size of the dataset.
    * @param chunking The chunking size of the dataset.
    * @param path The location in the file of the new dataset.
-   * @return std::unique_ptr<BaseRecordingData> The unique pointer to the created recording data.
+   * @return std::unique_ptr<BaseRecordingData> The unique pointer to the
+   * created recording data.
    */
   std::unique_ptr<BaseRecordingData> createRecordingData(
-    BaseDataType type, const SizeArray& size, const SizeArray& chunking, const std::string& path);
+      BaseDataType type,
+      const SizeArray& size,
+      const SizeArray& chunking,
+      const std::string& path);
 
   /**
    * @brief Saves the specification files for the schema.
    * @param specPath The location in the file to store the spec information.
    * @param versionNumber The version number of the specification files.
    */
-  void cacheSpecifications(const std::string& specPath, const std::string& versionNumber);
+  void cacheSpecifications(const std::string& specPath,
+                           const std::string& versionNumber);
 
   /**
    * @brief Creates a new dataset to hold text data (messages).
@@ -97,7 +104,9 @@ private:
    * @param name The name of the dataset.
    * @param text The text data to be stored in the dataset.
    */
-  void createTextDataSet(const std::string& path, const std::string& name, const std::string& text);
+  void createTextDataSet(const std::string& path,
+                         const std::string& name,
+                         const std::string& text);
 
   const std::string identifierText;
   std::shared_ptr<BaseIO> io;
@@ -105,7 +114,6 @@ private:
   std::vector<int16_t> intBuffer;
   SizeType bufferSize;
 };
-
 
 /**
  * @brief The NWBRecordingEngine class manages the recording process
@@ -144,7 +152,8 @@ public:
                  int recordingNumber);
 
   /**
-   * @brief Closes all the files and performs necessary cleanup when recording stops.
+   * @brief Closes all the files and performs necessary cleanup when recording
+   * stops.
    */
   void closeFiles();
 

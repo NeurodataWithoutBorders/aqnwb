@@ -1,10 +1,14 @@
-#include "ElectrodeTable.hpp" 
+#include "ElectrodeTable.hpp"
 
 // ElectrodeTable
 
 /** Constructor */
-ElectrodeTable::ElectrodeTable(const std::string& path, std::shared_ptr<BaseIO> io, const std::vector<int>& channels, const std::string& description)
-    : DynamicTable(path, io, description), channels(channels)
+ElectrodeTable::ElectrodeTable(const std::string& path,
+                               std::shared_ptr<BaseIO> io,
+                               const std::vector<int>& channels,
+                               const std::string& description)
+    : DynamicTable(path, io, description)
+    , channels(channels)
 {
 }
 
@@ -19,8 +23,10 @@ void ElectrodeTable::initialize()
 
   // create datasets
   for (auto ch : channels) {
-    groupReferences.push_back(groupPath);  // TODO - would get this info from channel input
-    groupNames.push_back("array1");  // TODO - would get this info from channel input
+    groupReferences.push_back(
+        groupPath);  // TODO - would get this info from channel input
+    groupNames.push_back(
+        "array1");  // TODO - would get this info from channel input
     electrodeNumbers.push_back(ch);
     locationNames.push_back("unknown");
   }

@@ -1,4 +1,5 @@
 #include "BaseIO.hpp"
+
 #include "Utils.hpp"
 
 using namespace AQNWBIO;
@@ -50,9 +51,9 @@ bool BaseIO::isReadyToOpen() const
 }
 
 Status BaseIO::createCommonNWBAttributes(const std::string& path,
-                               const std::string& objectNamespace,
-                               const std::string& neurodataType,
-                               const std::string& description)
+                                         const std::string& objectNamespace,
+                                         const std::string& neurodataType,
+                                         const std::string& description)
 {
   createAttribute(objectNamespace, path, "namespace");
   createAttribute(neurodataType, path, "neurodata_type");
@@ -69,8 +70,8 @@ BaseRecordingData::BaseRecordingData() {}
 BaseRecordingData::~BaseRecordingData() {}
 
 Status BaseRecordingData::writeDataBlock(const SizeType& xDataSize,
-                                      const BaseDataType& type,
-                                      const void* data)
+                                         const BaseDataType& type,
+                                         const void* data)
 {
   return writeDataBlock(xDataSize, size[1], type, data);
 }

@@ -3,10 +3,10 @@
 
 #include <catch2/catch_test_macros.hpp>
 
+#include "NWBFile.hpp"
+#include "file/ElectrodeTable.hpp"
 #include "io/BaseIO.hpp"
 #include "io/HDF5IO.hpp"
-#include "file/ElectrodeTable.hpp"
-#include "NWBFile.hpp"
 
 namespace fs = std::filesystem;
 
@@ -108,19 +108,23 @@ TEST_CASE("ElectrodeTable", "[datatypes]")
     ElectrodeTable electrodeTable(path, io, channels);
     electrodeTable.setGroupPath("array1");
     electrodeTable.electrodeDataset->dataset =
-      std::unique_ptr<BaseRecordingData>(
-        io->createDataSet(BaseDataType::I32, SizeArray{1}, SizeArray{1}, path + "id"));
+        std::unique_ptr<BaseRecordingData>(io->createDataSet(
+            BaseDataType::I32, SizeArray {1}, SizeArray {1}, path + "id"));
 
     electrodeTable.locationsDataset->dataset =
-      std::unique_ptr<BaseRecordingData>(
-        io->createDataSet(BaseDataType::STR(250), SizeArray{0}, SizeArray{1}, path + "location"));
+        std::unique_ptr<BaseRecordingData>(
+            io->createDataSet(BaseDataType::STR(250),
+                              SizeArray {0},
+                              SizeArray {1},
+                              path + "location"));
     electrodeTable.initialize();
 
     // Check if id datasets are created correctly
     size_t numChannels = 3;
     BaseRecordingData* id_data = io->getDataSet(path + "id");
     int* buffer = new int[numChannels];
-    static_cast<HDF5RecordingData*>(id_data)->readDataBlock(BaseDataType::I32, buffer);
+    static_cast<HDF5RecordingData*>(id_data)->readDataBlock(BaseDataType::I32,
+                                                            buffer);
     std::vector<int> read_channels(buffer, buffer + numChannels);
     delete[] buffer;
     REQUIRE(channels == read_channels);

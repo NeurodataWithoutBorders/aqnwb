@@ -19,7 +19,8 @@ using namespace AQNWBIO;
 class HDF5RecordingData;  // declare here because gets used in HDF5IO class
 
 /**
- * @brief The HDF5IO class provides an interface for reading and writing data to HDF5 files.
+ * @brief The HDF5IO class provides an interface for reading and writing data to
+ * HDF5 files.
  */
 class HDF5IO : public BaseIO
 {
@@ -74,10 +75,10 @@ public:
    * @return The status of the attribute creation operation.
    */
   Status createAttribute(const BaseDataType& type,
-                   const void* data,
-                   const std::string& path,
-                   const std::string& name,
-                   const SizeType& size = 1) override;
+                         const void* data,
+                         const std::string& path,
+                         const std::string& name,
+                         const SizeType& size = 1) override;
 
   /**
    * @brief Creates a string attribute at a given location in the file.
@@ -87,8 +88,8 @@ public:
    * @return The status of the attribute creation operation.
    */
   Status createAttribute(const std::string& data,
-                   const std::string& path,
-                   const std::string& name) override;
+                         const std::string& path,
+                         const std::string& name) override;
 
   /**
    * @brief Creates a string array attribute at a given location in the file.
@@ -98,8 +99,8 @@ public:
    * @return The status of the attribute creation operation.
    */
   Status createAttribute(const std::vector<std::string>& data,
-                   const std::string& path,
-                   const std::string& name) override;
+                         const std::string& path,
+                         const std::string& name) override;
 
   /**
    * @brief Creates a string array attribute at a given location in the file.
@@ -110,9 +111,9 @@ public:
    * @return The status of the attribute creation operation.
    */
   Status createAttribute(const std::vector<const char*>& data,
-                   const std::string& path,
-                   const std::string& name,
-                   const SizeType& maxSize) override;
+                         const std::string& path,
+                         const std::string& name,
+                         const SizeType& maxSize) override;
 
   /**
    * @brief Sets an object reference attribute for a given location in the file.
@@ -122,8 +123,8 @@ public:
    * @return The status of the attribute creation operation.
    */
   Status createReferenceAttribute(const std::string& referencePath,
-                      const std::string& path,
-                      const std::string& name) override;
+                                  const std::string& path,
+                                  const std::string& name) override;
 
   /**
    * @brief Creates a new group in the file.
@@ -135,27 +136,33 @@ public:
   /**
    * @brief Creates a soft link to another location in the file.
    * @param path The location in the file to the new link.
-   * @param reference The location in the file of the object that is being linked to.
+   * @param reference The location in the file of the object that is being
+   * linked to.
    */
-  void createLink(const std::string& path, const std::string& reference) override;
+  void createLink(const std::string& path,
+                  const std::string& reference) override;
 
   /**
    * @brief Creates a non-modifiable dataset with a string value.
    * @param path The location in the file of the dataset.
    * @param value The string value of the dataset.
    */
-  void createStringDataSet(const std::string& path, const std::string& value) override;
+  void createStringDataSet(const std::string& path,
+                           const std::string& value) override;
 
   /**
-   * @brief Creates a dataset that holds an array of references to groups within the file.
+   * @brief Creates a dataset that holds an array of references to groups within
+   * the file.
    * @param path The location in the file of the new dataset.
    * @param references The array of references.
    */
-  void createReferenceDataSet(const std::string& path,
-                              const std::vector<std::string>& references) override;
+  void createReferenceDataSet(
+      const std::string& path,
+      const std::vector<std::string>& references) override;
 
   /**
-   * @brief Creates an extendable dataset with a given base data type, size, chunking, and path.
+   * @brief Creates an extendable dataset with a given base data type, size,
+   * chunking, and path.
    * @param type The base data type of the dataset.
    * @param size The size of the dataset.
    * @param chunking The chunking size of the dataset.
@@ -200,9 +207,7 @@ protected:
 
 private:
   std::unique_ptr<H5::H5File> file;
-
 };
-
 
 /**
  * @brief Represents an HDF5 Dataset that can be extended indefinitely

@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+
 #include "Types.hpp"
 
 #define DEFAULT_STR_SIZE 256
@@ -19,8 +20,9 @@ class BaseRecordingData;
 /**
  * @brief Represents a base data type.
  *
- * This class provides an enumeration of different data types and their corresponding sizes.
- * It also includes handy accessors for commonly used data types.
+ * This class provides an enumeration of different data types and their
+ * corresponding sizes. It also includes handy accessors for commonly used data
+ * types.
  */
 class BaseDataType
 {
@@ -30,11 +32,11 @@ public:
    */
   enum Type
   {
-    T_U8,   ///< Unsigned 8-bit integer
+    T_U8,  ///< Unsigned 8-bit integer
     T_U16,  ///< Unsigned 16-bit integer
     T_U32,  ///< Unsigned 32-bit integer
     T_U64,  ///< Unsigned 64-bit integer
-    T_I8,   ///< Signed 8-bit integer
+    T_I8,  ///< Signed 8-bit integer
     T_I16,  ///< Signed 16-bit integer
     T_I32,  ///< Signed 32-bit integer
     T_I64,  ///< Signed 64-bit integer
@@ -50,29 +52,32 @@ public:
    */
   BaseDataType(Type t = T_I32, SizeType s = 1);
 
-  Type type;         ///< The data type.
-  SizeType typeSize; ///< The size of the data type.
+  Type type;  ///< The data type.
+  SizeType typeSize;  ///< The size of the data type.
 
   // handy accessors
-  static const BaseDataType U8;   ///< Accessor for unsigned 8-bit integer.
+  static const BaseDataType U8;  ///< Accessor for unsigned 8-bit integer.
   static const BaseDataType U16;  ///< Accessor for unsigned 16-bit integer.
   static const BaseDataType U32;  ///< Accessor for unsigned 32-bit integer.
   static const BaseDataType U64;  ///< Accessor for unsigned 64-bit integer.
-  static const BaseDataType I8;   ///< Accessor for signed 8-bit integer.
+  static const BaseDataType I8;  ///< Accessor for signed 8-bit integer.
   static const BaseDataType I16;  ///< Accessor for signed 16-bit integer.
   static const BaseDataType I32;  ///< Accessor for signed 32-bit integer.
   static const BaseDataType I64;  ///< Accessor for signed 64-bit integer.
   static const BaseDataType F32;  ///< Accessor for 32-bit floating point.
   static const BaseDataType F64;  ///< Accessor for 64-bit floating point.
-  static const BaseDataType DSTR; ///< Accessor for dynamic string.
-  static BaseDataType STR(SizeType size); ///< Accessor for string with specified size.
+  static const BaseDataType DSTR;  ///< Accessor for dynamic string.
+  static BaseDataType STR(
+      SizeType size);  ///< Accessor for string with specified size.
 };
 
 /**
- * @brief The BaseIO class is an abstract base class that defines the interface for input/output (IO) operations on a file.
- * 
- * This class provides pure virtual methods that must be implemented by all IO classes. It also includes other methods for common IO operations.
- * 
+ * @brief The BaseIO class is an abstract base class that defines the interface
+ * for input/output (IO) operations on a file.
+ *
+ * This class provides pure virtual methods that must be implemented by all IO
+ * classes. It also includes other methods for common IO operations.
+ *
  * @note This class cannot be instantiated directly as it is an abstract class.
  */
 class BaseIO
@@ -132,10 +137,10 @@ public:
    * @return The status of the attribute creation operation.
    */
   virtual Status createAttribute(const BaseDataType& type,
-                           const void* data,
-                           const std::string& path,
-                           const std::string& name,
-                           const SizeType& size = 1) = 0;
+                                 const void* data,
+                                 const std::string& path,
+                                 const std::string& name,
+                                 const SizeType& size = 1) = 0;
 
   /**
    * @brief Creates a string attribute at a given location in the file.
@@ -145,8 +150,8 @@ public:
    * @return The status of the attribute creation operation.
    */
   virtual Status createAttribute(const std::string& data,
-                           const std::string& path,
-                           const std::string& name) = 0;
+                                 const std::string& path,
+                                 const std::string& name) = 0;
 
   /**
    * @brief Creates a string array attribute at a given location in the file.
@@ -156,8 +161,8 @@ public:
    * @return The status of the attribute creation operation.
    */
   virtual Status createAttribute(const std::vector<std::string>& data,
-                           const std::string& path,
-                           const std::string& name) = 0;
+                                 const std::string& path,
+                                 const std::string& name) = 0;
 
   /**
    * @brief Creates a string array attribute at a given location in the file.
@@ -168,9 +173,9 @@ public:
    * @return The status of the attribute creation operation.
    */
   virtual Status createAttribute(const std::vector<const char*>& data,
-                           const std::string& path,
-                           const std::string& name,
-                           const SizeType& maxSize) = 0;
+                                 const std::string& path,
+                                 const std::string& name,
+                                 const SizeType& maxSize) = 0;
 
   /**
    * @brief Sets an object reference attribute for a given location in the file.
@@ -180,8 +185,8 @@ public:
    * @return The status of the attribute creation operation.
    */
   virtual Status createReferenceAttribute(const std::string& referencePath,
-                              const std::string& path,
-                              const std::string& name) = 0;
+                                          const std::string& path,
+                                          const std::string& name) = 0;
 
   /**
    * @brief Creates a new group in the file.
@@ -193,27 +198,32 @@ public:
   /**
    * @brief Creates a soft link to another location in the file.
    * @param path The location in the file to the new link.
-   * @param reference The location in the file of the object that is being linked to.
+   * @param reference The location in the file of the object that is being
+   * linked to.
    */
-  virtual void createLink(const std::string& path, const std::string& reference) = 0;
+  virtual void createLink(const std::string& path,
+                          const std::string& reference) = 0;
 
   /**
    * @brief Creates a non-modifiable dataset with a string value.
    * @param path The location in the file of the dataset.
    * @param value The string value of the dataset.
    */
-  virtual void createStringDataSet(const std::string& path, const std::string& value) = 0;
+  virtual void createStringDataSet(const std::string& path,
+                                   const std::string& value) = 0;
 
   /**
-   * @brief Creates a dataset that holds an array of references to groups within the file.
+   * @brief Creates a dataset that holds an array of references to groups within
+   * the file.
    * @param path The location in the file of the new dataset.
    * @param references The array of references.
    */
-  virtual void createReferenceDataSet(const std::string& path,
-                                      const std::vector<std::string>& references) = 0;
+  virtual void createReferenceDataSet(
+      const std::string& path, const std::vector<std::string>& references) = 0;
 
   /**
-   * @brief Creates an extendable dataset with a given base data type, size, chunking, and path.
+   * @brief Creates an extendable dataset with a given base data type, size,
+   * chunking, and path.
    * @param type The base data type of the dataset.
    * @param size The size of the dataset.
    * @param chunking The chunking size of the dataset.
@@ -240,10 +250,10 @@ public:
    * @param description The description of the object (default is empty).
    * @return The status of the operation.
    */
-   Status createCommonNWBAttributes(const std::string& path,
-                             const std::string& objectNamespace,
-                             const std::string& neurodataType,
-                             const std::string& description = "");
+  Status createCommonNWBAttributes(const std::string& path,
+                                   const std::string& objectNamespace,
+                                   const std::string& neurodataType,
+                                   const std::string& description = "");
 
   /**
    * @brief Returns true if the file is open.
@@ -281,45 +291,46 @@ protected:
   bool opened;
 };
 
-
 /**
  * @brief The base class to represent recording data that can be extended.
- * 
+ *
  * This class provides functionality for writing 1D and 2D blocks of data.
  */
 class BaseRecordingData
 {
 public:
-  /** 
+  /**
    * @brief Default constructor.
    */
   BaseRecordingData();
 
-  /** 
+  /**
    * @brief Deleted copy constructor to prevent construction-copying.
    */
   BaseRecordingData(const BaseRecordingData&) = delete;
 
-  /** 
+  /**
    * @brief Deleted copy assignment operator to prevent copying.
    */
   BaseRecordingData& operator=(const BaseRecordingData&) = delete;
 
-  /** 
+  /**
    * @brief Destructor.
    */
   virtual ~BaseRecordingData();
 
-  /** 
+  /**
    * @brief Writes a 1D block of data (samples).
    * @param xDataSize The size of the data block in the x dimension (samples).
    * @param type The data type of the elements in the data block.
    * @param data A pointer to the data block.
    * @return The status of the write operation.
    */
-  Status writeDataBlock(const SizeType& xDataSize, const BaseDataType& type, const void* data);
+  Status writeDataBlock(const SizeType& xDataSize,
+                        const BaseDataType& type,
+                        const void* data);
 
-  /** 
+  /**
    * @brief Writes a 2D block of data (samples x channels).
    * @param xDataSize The size of the data block in the x dimension (samples).
    * @param yDataSize The size of the data block in the y dimension (channels).
@@ -328,9 +339,9 @@ public:
    * @return The status of the write operation.
    */
   virtual Status writeDataBlock(const SizeType& xDataSize,
-                             const SizeType& yDataSize,
-                             const BaseDataType& type,
-                             const void* data) = 0;
+                                const SizeType& yDataSize,
+                                const BaseDataType& type,
+                                const void* data) = 0;
 
 protected:
   /**
@@ -352,9 +363,10 @@ protected:
    * @brief The number of dimensions in the data block.
    */
   SizeType dimension; /**< The number of dimensions in the data block. */
-  
+
   /**
-   * @brief The position in the x dimension of samples written for each row (channel).
+   * @brief The position in the x dimension of samples written for each row
+   * (channel).
    */
   std::vector<uint32_t> rowXPos;
 };

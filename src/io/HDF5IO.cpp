@@ -5,9 +5,10 @@
 #include <vector>
 
 #include "HDF5IO.hpp"
-#include "Utils.hpp"
 
 #include <H5Cpp.h>
+
+#include "Utils.hpp"
 
 using namespace H5;
 using namespace AQNWBIO;
@@ -68,10 +69,10 @@ void HDF5IO::close()
 }
 
 Status HDF5IO::createAttribute(const BaseDataType& type,
-                         const void* data,
-                         const std::string& path,
-                         const std::string& name,
-                         const SizeType& size)
+                               const void* data,
+                               const std::string& path,
+                               const std::string& name,
+                               const SizeType& size)
 {
   H5Object* loc;
   Group gloc;
@@ -115,8 +116,8 @@ Status HDF5IO::createAttribute(const BaseDataType& type,
 }
 
 Status HDF5IO::createAttribute(const std::string& data,
-                         const std::string& path,
-                         const std::string& name)
+                               const std::string& path,
+                               const std::string& name)
 {
   std::vector<const char*> dataPtrs;
   dataPtrs.push_back(data.c_str());
@@ -125,8 +126,8 @@ Status HDF5IO::createAttribute(const std::string& data,
 }
 
 Status HDF5IO::createAttribute(const std::vector<std::string>& data,
-                         const std::string& path,
-                         const std::string& name)
+                               const std::string& path,
+                               const std::string& name)
 {
   std::vector<const char*> dataPtrs;
   SizeType maxLength = 0;
@@ -140,9 +141,9 @@ Status HDF5IO::createAttribute(const std::vector<std::string>& data,
 }
 
 Status HDF5IO::createAttribute(const std::vector<const char*>& data,
-                         const std::string& path,
-                         const std::string& name,
-                         const SizeType& maxSize)
+                               const std::string& path,
+                               const std::string& name,
+                               const SizeType& maxSize)
 {
   H5Object* loc;
   Group gloc;
@@ -168,8 +169,8 @@ Status HDF5IO::createAttribute(const std::vector<const char*>& data,
 
   try {
     if (loc->attrExists(name)) {
-      return Status::Failure;  // don't allow overwriting because string attributes cannot
-                  // change size easily
+      return Status::Failure;  // don't allow overwriting because string
+                               // attributes cannot change size easily
     } else {
       DataSpace attr_dataspace;
       SizeType nStrings = data.size();
@@ -194,8 +195,8 @@ Status HDF5IO::createAttribute(const std::vector<const char*>& data,
 }
 
 Status HDF5IO::createReferenceAttribute(const std::string& referencePath,
-                            const std::string& path,
-                            const std::string& name)
+                                        const std::string& path,
+                                        const std::string& name)
 {
   H5Object* loc;
   Group gloc;
@@ -332,7 +333,8 @@ BaseRecordingData* HDF5IO::getDataSet(const std::string& path)
   }
 }
 
-void HDF5IO::createStringDataSet(const std::string& path, const std::string& value)
+void HDF5IO::createStringDataSet(const std::string& path,
+                                 const std::string& value)
 {
   std::unique_ptr<H5::DataSet> dataset;
   DataType H5type = getH5Type(BaseDataType::STR(value.length()));
@@ -519,9 +521,9 @@ HDF5RecordingData::~HDF5RecordingData()
 }
 
 Status HDF5RecordingData::writeDataBlock(const SizeType& xDataSize,
-                                      const SizeType& yDataSize,
-                                      const BaseDataType& type,
-                                      const void* data)
+                                         const SizeType& yDataSize,
+                                         const BaseDataType& type,
+                                         const void* data)
 {
   hsize_t dim[3], offset[3];
   DataSpace fSpace;
@@ -567,8 +569,8 @@ Status HDF5RecordingData::writeDataBlock(const SizeType& xDataSize,
 
 void HDF5RecordingData::readDataBlock(const BaseDataType& type, void* buffer)
 {
-    SizeType numElements = dSet->getSpace().getSimpleExtentNpoints();
-    DataSpace fSpace = dSet->getSpace();
-    DataType nativeType = HDF5IO::getNativeType(type);
-    dSet->read(buffer, nativeType, fSpace, fSpace);
+  SizeType numElements = dSet->getSpace().getSimpleExtentNpoints();
+  DataSpace fSpace = dSet->getSpace();
+  DataType nativeType = HDF5IO::getNativeType(type);
+  dSet->read(buffer, nativeType, fSpace, fSpace);
 }
