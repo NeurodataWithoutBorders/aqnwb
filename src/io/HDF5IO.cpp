@@ -193,7 +193,7 @@ Status HDF5IO::createAttribute(const std::vector<const char*>& data,
   return Status::Success;
 }
 
-Status HDF5IO::createAttributeRef(const std::string& referencePath,
+Status HDF5IO::createReferenceAttribute(const std::string& referencePath,
                             const std::string& path,
                             const std::string& name)
 {
@@ -280,7 +280,7 @@ void HDF5IO::createLink(const std::string& path, const std::string& reference)
                  H5P_DEFAULT);
 }
 
-void HDF5IO::createDataSetOfReferences(const std::string& path,
+void HDF5IO::createReferenceDataSet(const std::string& path,
                                     const std::vector<std::string>& references)
 {
   const hsize_t size = references.size();

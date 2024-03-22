@@ -57,7 +57,7 @@ void DynamicTable::addColumn(const std::string& name,
   if (values.empty()) {
     std::cerr << "Data to add to column is empty" << std::endl;
   } else {
-    io->createDataSetOfReferences(path + name, values);
+    io->createReferenceDataSet(path + name, values);
     io->createCommonNWBAttributes(
         path + name, "hdmf-common", "VectorData", colDescription);
   }

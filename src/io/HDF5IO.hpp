@@ -121,7 +121,7 @@ public:
    * @param name The name of the attribute.
    * @return The status of the attribute creation operation.
    */
-  Status createAttributeRef(const std::string& referencePath,
+  Status createReferenceAttribute(const std::string& referencePath,
                       const std::string& path,
                       const std::string& name) override;
 
@@ -151,7 +151,7 @@ public:
    * @param path The location in the file of the new dataset.
    * @param references The array of references.
    */
-  void createDataSetOfReferences(const std::string& path,
+  void createReferenceDataSet(const std::string& path,
                               const std::vector<std::string>& references) override;
 
   /**
