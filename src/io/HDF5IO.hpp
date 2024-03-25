@@ -62,8 +62,9 @@ public:
 
   /**
    * @brief Closes the file.
+   * @return The status of the file closing operation.
    */
-  void close() override;
+  Status close() override;
 
   /**
    * @brief Creates an attribute at a given location in the file.
@@ -138,16 +139,18 @@ public:
    * @param path The location in the file to the new link.
    * @param reference The location in the file of the object that is being
    * linked to.
+   * @return The status of the link creation operation.
    */
-  void createLink(const std::string& path,
+  Status createLink(const std::string& path,
                   const std::string& reference) override;
 
   /**
    * @brief Creates a non-modifiable dataset with a string value.
    * @param path The location in the file of the dataset.
    * @param value The string value of the dataset.
+   * @return The status of the dataset creation operation.
    */
-  void createStringDataSet(const std::string& path,
+  Status createStringDataSet(const std::string& path,
                            const std::string& value) override;
 
   /**
@@ -155,8 +158,9 @@ public:
    * the file.
    * @param path The location in the file of the new dataset.
    * @param references The array of references.
+   * @return The status of the dataset creation operation.  
    */
-  void createReferenceDataSet(
+  Status createReferenceDataSet(
       const std::string& path,
       const std::vector<std::string>& references) override;
 
@@ -265,5 +269,10 @@ private:
    * @brief Pointer to an extendable HDF5 dataset
    */
   std::unique_ptr<H5::DataSet> dSet;
+
+  /**
+   * @brief Return status of HDF5 operations.
+   */
+  Status checkStatus(int status);
 };
 }  // namespace AQNWBIO

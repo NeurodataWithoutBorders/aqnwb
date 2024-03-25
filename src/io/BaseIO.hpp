@@ -124,8 +124,9 @@ public:
 
   /**
    * @brief Closes the file.
+   * @return The status of the file closing operation.
    */
-  virtual void close() = 0;
+  virtual Status close() = 0;
 
   /**
    * @brief Creates an attribute at a given location in the file.
@@ -200,16 +201,18 @@ public:
    * @param path The location in the file to the new link.
    * @param reference The location in the file of the object that is being
    * linked to.
+   * @return The status of the link creation operation.
    */
-  virtual void createLink(const std::string& path,
+  virtual Status createLink(const std::string& path,
                           const std::string& reference) = 0;
 
   /**
    * @brief Creates a non-modifiable dataset with a string value.
    * @param path The location in the file of the dataset.
    * @param value The string value of the dataset.
+   * @return The status of the dataset creation operation.
    */
-  virtual void createStringDataSet(const std::string& path,
+  virtual Status createStringDataSet(const std::string& path,
                                    const std::string& value) = 0;
 
   /**
@@ -217,8 +220,9 @@ public:
    * the file.
    * @param path The location in the file of the new dataset.
    * @param references The array of references.
+   * @return The status of the dataset creation operation.
    */
-  virtual void createReferenceDataSet(
+  virtual Status createReferenceDataSet(
       const std::string& path, const std::vector<std::string>& references) = 0;
 
   /**

@@ -62,10 +62,20 @@ Status HDF5IO::open(bool newfile)
   return Status::Success;
 }
 
-void HDF5IO::close()
+Status HDF5IO::close()
 {
   file = nullptr;
   opened = false;
+  
+  return Status::Success;
+}
+
+Status checkStatus(int status)
+{
+  if (status < 0)
+    return Status::Failure;
+  else
+    return Status::Success;
 }
 
 Status HDF5IO::createAttribute(const BaseDataType& type,
@@ -272,16 +282,18 @@ Status HDF5IO::createGroupIfDoesNotExist(const std::string& path)
 }
 
 /** Creates a link to another location in the file */
-void HDF5IO::createLink(const std::string& path, const std::string& reference)
+Status HDF5IO::createLink(const std::string& path, const std::string& reference)
 {
-  H5Lcreate_soft(reference.c_str(),
+  herr_t error = H5Lcreate_soft(reference.c_str(),
                  file->getLocId(),
                  path.c_str(),
                  H5P_DEFAULT,
                  H5P_DEFAULT);
+  
+  return checkStatus(error);
 }
 
-void HDF5IO::createReferenceDataSet(const std::string& path,
+Status HDF5IO::createReferenceDataSet(const std::string& path,
                                     const std::vector<std::string>& references)
 {
   const hsize_t size = references.size();
@@ -302,13 +314,32 @@ void HDF5IO::createReferenceDataSet(const std::string& path,
                          H5P_DEFAULT,
                          H5P_DEFAULT);
 
-  herr_t status =
+  herr_t writeStatus =
       H5Dwrite(dset, H5T_STD_REF_OBJ, H5S_ALL, H5S_ALL, H5P_DEFAULT, rdata);
 
   delete[] rdata;
 
-  status = H5Dclose(dset);
-  status = H5Dclose(space);  // TODO - should this be H5Sclose?
+  herr_t dsetStatus = H5Dclose(dset);
+  herr_t spaceStatus = H5Dclose(space);  // TODO - should this be H5Sclose?
+
+  return checkStatus(writeStatus);
+}
+
+Status HDF5IO::createStringDataSet(const std::string& path,
+                                 const std::string& value)
+{
+  if (!opened)
+    return Status::Failure;
+
+  std::unique_ptr<H5::DataSet> dataset;
+  DataType H5type = getH5Type(BaseDataType::STR(value.length()));
+  DataSpace dSpace(H5S_SCALAR);
+
+  dataset =
+      std::make_unique<H5::DataSet>(file->createDataSet(path, H5type, dSpace));
+  dataset->write(value.c_str(), H5type);
+
+  return Status::Success;
 }
 
 BaseRecordingData* HDF5IO::getDataSet(const std::string& path)
@@ -331,18 +362,6 @@ BaseRecordingData* HDF5IO::getDataSet(const std::string& path)
     error.printErrorStack();
     return nullptr;
   }
-}
-
-void HDF5IO::createStringDataSet(const std::string& path,
-                                 const std::string& value)
-{
-  std::unique_ptr<H5::DataSet> dataset;
-  DataType H5type = getH5Type(BaseDataType::STR(value.length()));
-  DataSpace dSpace(H5S_SCALAR);
-
-  dataset =
-      std::make_unique<H5::DataSet>(file->createDataSet(path, H5type, dSpace));
-  dataset->write(value.c_str(), H5type);
 }
 
 BaseRecordingData* HDF5IO::createDataSet(const BaseDataType& type,
