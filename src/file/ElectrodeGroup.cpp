@@ -38,7 +38,7 @@ std::string ElectrodeGroup::getLocation() const
 }
 
 // Getter for device
-Device ElectrodeGroup::getDevice() const
+const Device& ElectrodeGroup::getDevice() const
 {
   return device;
 }

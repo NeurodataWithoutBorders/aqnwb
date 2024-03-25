@@ -59,7 +59,7 @@ public:
    * @brief Gets the device associated with the electrode group.
    * @return The device associated with the electrode group.
    */
-  Device getDevice() const;
+  const Device& getDevice() const;
 
 private:
   /**

@@ -84,7 +84,7 @@ public:
    * @brief Gets the column names of the table.
    * @return A vector of column names.
    */
-  virtual std::vector<std::string> getColNames() const = 0;
+  virtual const std::vector<std::string>& getColNames() const = 0;
 
 private:
   /**
