@@ -1,5 +1,7 @@
 #include "Device.hpp"
 
+using namespace AQNWBIO;
+
 // Device
 /** Constructor */
 Device::Device(const std::string& path,

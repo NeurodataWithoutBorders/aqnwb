@@ -14,8 +14,8 @@ class DataType;
 class Exception;
 }  // namespace H5
 
-using namespace AQNWBIO;
-
+namespace AQNWBIO
+{
 class HDF5RecordingData;  // declare here because gets used in HDF5IO class
 
 /**
@@ -266,3 +266,4 @@ private:
    */
   std::unique_ptr<H5::DataSet> dSet;
 };
+}  // namespace AQNWBIO

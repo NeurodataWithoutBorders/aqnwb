@@ -6,8 +6,8 @@
 #include "hdmf/base/Container.hpp"
 #include "io/BaseIO.hpp"
 
-using namespace AQNWBIO;
-
+namespace AQNWBIO
+{
 /**
  * @brief The ElectrodeGroup class represents a physical grouping of electrodes,
  * e.g. a shank of an array.
@@ -78,3 +78,4 @@ private:
    */
   Device device;
 };
+} // namespace AQNWBIO

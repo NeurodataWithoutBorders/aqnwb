@@ -1,5 +1,7 @@
 #include "ElectrodeTable.hpp"
 
+using namespace AQNWBIO;
+
 // ElectrodeTable
 
 /** Constructor */

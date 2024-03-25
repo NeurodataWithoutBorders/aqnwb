@@ -2,6 +2,7 @@
 
 #include <vector>
 
+
 /**
  * @brief Provides definitions for various types used in the project.
  */

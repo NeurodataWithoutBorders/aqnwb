@@ -5,8 +5,8 @@
 #include "hdmf/base/Container.hpp"
 #include "io/BaseIO.hpp"
 
-using namespace AQNWBIO;
-
+namespace AQNWBIO
+{
 /**
  * @brief Metadata about a data acquisition device, e.g., recording system,
  * electrode, microscope.
@@ -60,3 +60,4 @@ private:
    */
   std::string manufacturer;
 };
+} // namespace AQNWBIO

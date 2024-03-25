@@ -1,5 +1,7 @@
 #include "DynamicTable.hpp"
 
+using namespace AQNWBIO;
+
 // DynamicTable
 
 /** Constructor */

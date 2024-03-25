@@ -1,5 +1,7 @@
 #include "Container.hpp"
 
+using namespace AQNWBIO;
+
 // Container
 
 /** Constructor */

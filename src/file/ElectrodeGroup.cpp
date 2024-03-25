@@ -1,5 +1,7 @@
 #include "ElectrodeGroup.hpp"
 
+using namespace AQNWBIO;
+
 // ElectrodeGroup
 
 /** Constructor */

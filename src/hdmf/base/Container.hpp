@@ -5,8 +5,8 @@
 
 #include "io/BaseIO.hpp"
 
-using namespace AQNWBIO;
-
+namespace AQNWBIO
+{
 /**
  * @brief Abstract data type for a group storing collections of data and
  * metadata
@@ -43,3 +43,4 @@ protected:
    */
   std::shared_ptr<BaseIO> io;
 };
+} // namespace AQNWBIO

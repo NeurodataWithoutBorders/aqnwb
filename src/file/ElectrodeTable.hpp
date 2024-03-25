@@ -7,8 +7,8 @@
 #include "hdmf/table/VectorData.hpp"
 #include "io/BaseIO.hpp"
 
-using namespace AQNWBIO;
-
+namespace AQNWBIO
+{
 /**
  * @brief Represents a table containing electrode metadata.
  */
@@ -109,3 +109,4 @@ private:
    */
   std::string groupPath = "/general/extracellular_ephys/array1";
 };
+} // namespace AQNWBIO

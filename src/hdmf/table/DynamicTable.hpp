@@ -7,8 +7,8 @@
 #include "hdmf/table/VectorData.hpp"
 #include "io/BaseIO.hpp"
 
-using namespace AQNWBIO;
-
+namespace AQNWBIO
+{
 /**
  * @brief Represents a group containing multiple datasets that are aligned on
  * the first dimension
@@ -97,3 +97,4 @@ private:
    */
   std::vector<std::string> colNames;
 };
+} // namespace AQNWBIO

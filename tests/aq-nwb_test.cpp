@@ -8,6 +8,8 @@
 #include "io/BaseIO.hpp"
 #include "io/HDF5IO.hpp"
 
+using namespace AQNWBIO;
+
 namespace fs = std::filesystem;
 
 std::string getTestFilePath(std::string filename)
