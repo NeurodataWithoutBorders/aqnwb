@@ -50,7 +50,7 @@ void ElectrodeTable::initialize()
 }
 
 // Getter for colNames
-std::vector<std::string> ElectrodeTable::getColNames() const
+const std::vector<std::string>& ElectrodeTable::getColNames()
 {
   return colNames;
 }

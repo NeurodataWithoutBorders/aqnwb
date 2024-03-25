@@ -46,7 +46,7 @@ public:
    * @brief Gets the column names of the ElectrodeTable.
    * @return The vector of column names.
    */
-  std::vector<std::string> getColNames() const override;
+  const std::vector<std::string>& getColNames() override;
 
   /**
    * @brief Sets the column names of the ElectrodeTable.
