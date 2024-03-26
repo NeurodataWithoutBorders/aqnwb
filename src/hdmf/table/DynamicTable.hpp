@@ -27,7 +27,7 @@ public:
    */
   DynamicTable(const std::string& path,
                std::shared_ptr<BaseIO> io,
-               const std::string& description = " ");
+               const std::string& description);
 
   /**
    * @brief Destructor
