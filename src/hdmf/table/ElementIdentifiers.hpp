@@ -11,4 +11,4 @@ namespace AQNWBIO
 class ElementIdentifiers : public Data
 {
 };
-} // namespace AQNWBIO
+}  // namespace AQNWBIO

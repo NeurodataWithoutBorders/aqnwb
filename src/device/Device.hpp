@@ -60,4 +60,4 @@ private:
    */
   std::string manufacturer;
 };
-} // namespace AQNWBIO
+}  // namespace AQNWBIO

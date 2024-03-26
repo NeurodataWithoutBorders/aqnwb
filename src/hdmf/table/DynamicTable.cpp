@@ -20,7 +20,7 @@ DynamicTable::~DynamicTable() {}
 void DynamicTable::initialize()
 {
   Container::initialize();
-  
+
   io->createCommonNWBAttributes(
       path, "hdmf-common", "DynamicTable", getDescription());
   io->createAttribute(getColNames(), path, "colnames");

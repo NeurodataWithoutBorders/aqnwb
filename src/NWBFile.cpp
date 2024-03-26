@@ -80,12 +80,12 @@ Status NWBFile::startRecording()
   std::vector<int> continuousArray;
   continuousArray.resize(1);
   for (std::size_t i = 0; i < continuousArray.size(); i++) {
-    continuousArray[i] = i+1;
+    continuousArray[i] = i + 1;
   }
   std::vector<int> channels;
   channels.resize(32);
   for (std::size_t i = 0; i < channels.size(); i++) {
-    channels[i] = i+1;
+    channels[i] = i + 1;
   }
 
   // store all recorded data in the acquisition group

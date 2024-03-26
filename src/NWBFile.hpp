@@ -168,4 +168,4 @@ private:
    */
   std::vector<int64_t> smpBuffer;
 };
-} // namespace AQNWBIO
+}  // namespace AQNWBIO

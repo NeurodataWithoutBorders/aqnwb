@@ -115,4 +115,4 @@ private:
    */
   std::string groupPath = "/general/extracellular_ephys/array1";
 };
-} // namespace AQNWBIO
+}  // namespace AQNWBIO

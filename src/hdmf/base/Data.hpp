@@ -27,4 +27,4 @@ public:
    */
   std::unique_ptr<BaseRecordingData> dataset;
 };
-} // namespace AQNWBIO
+}  // namespace AQNWBIO

@@ -204,7 +204,7 @@ public:
    * @return The status of the link creation operation.
    */
   virtual Status createLink(const std::string& path,
-                          const std::string& reference) = 0;
+                            const std::string& reference) = 0;
 
   /**
    * @brief Creates a non-modifiable dataset with a string value.
@@ -213,7 +213,7 @@ public:
    * @return The status of the dataset creation operation.
    */
   virtual Status createStringDataSet(const std::string& path,
-                                   const std::string& value) = 0;
+                                     const std::string& value) = 0;
 
   /**
    * @brief Creates a dataset that holds an array of references to groups within

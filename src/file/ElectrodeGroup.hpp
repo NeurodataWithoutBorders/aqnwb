@@ -78,4 +78,4 @@ private:
    */
   Device device;
 };
-} // namespace AQNWBIO
+}  // namespace AQNWBIO

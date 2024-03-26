@@ -142,7 +142,7 @@ public:
    * @return The status of the link creation operation.
    */
   Status createLink(const std::string& path,
-                  const std::string& reference) override;
+                    const std::string& reference) override;
 
   /**
    * @brief Creates a non-modifiable dataset with a string value.
@@ -151,14 +151,14 @@ public:
    * @return The status of the dataset creation operation.
    */
   Status createStringDataSet(const std::string& path,
-                           const std::string& value) override;
+                             const std::string& value) override;
 
   /**
    * @brief Creates a dataset that holds an array of references to groups within
    * the file.
    * @param path The location in the file of the new dataset.
    * @param references The array of references.
-   * @return The status of the dataset creation operation.  
+   * @return The status of the dataset creation operation.
    */
   Status createReferenceDataSet(
       const std::string& path,

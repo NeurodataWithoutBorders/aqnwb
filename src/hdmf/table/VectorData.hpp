@@ -24,4 +24,4 @@ private:
    */
   std::string description;
 };
-} // namespace AQNWBIO
+}  // namespace AQNWBIO

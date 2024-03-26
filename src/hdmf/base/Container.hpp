@@ -48,4 +48,4 @@ protected:
    */
   std::shared_ptr<BaseIO> io;
 };
-} // namespace AQNWBIO
+}  // namespace AQNWBIO

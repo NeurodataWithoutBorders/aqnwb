@@ -40,4 +40,4 @@ inline std::string getCurrentTime()
 
   return oss.str();
 }
-} // namespace AQNWBIO
+}  // namespace AQNWBIO

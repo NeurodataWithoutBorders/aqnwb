@@ -66,7 +66,7 @@ Status HDF5IO::close()
 {
   file = nullptr;
   opened = false;
-  
+
   return Status::Success;
 }
 
@@ -285,16 +285,16 @@ Status HDF5IO::createGroupIfDoesNotExist(const std::string& path)
 Status HDF5IO::createLink(const std::string& path, const std::string& reference)
 {
   herr_t error = H5Lcreate_soft(reference.c_str(),
-                 file->getLocId(),
-                 path.c_str(),
-                 H5P_DEFAULT,
-                 H5P_DEFAULT);
-  
+                                file->getLocId(),
+                                path.c_str(),
+                                H5P_DEFAULT,
+                                H5P_DEFAULT);
+
   return checkStatus(error);
 }
 
-Status HDF5IO::createReferenceDataSet(const std::string& path,
-                                    const std::vector<std::string>& references)
+Status HDF5IO::createReferenceDataSet(
+    const std::string& path, const std::vector<std::string>& references)
 {
   const hsize_t size = references.size();
 
@@ -326,7 +326,7 @@ Status HDF5IO::createReferenceDataSet(const std::string& path,
 }
 
 Status HDF5IO::createStringDataSet(const std::string& path,
-                                 const std::string& value)
+                                   const std::string& value)
 {
   if (!opened)
     return Status::Failure;

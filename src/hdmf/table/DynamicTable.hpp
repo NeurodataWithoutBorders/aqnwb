@@ -97,4 +97,4 @@ private:
    */
   std::vector<std::string> colNames;
 };
-} // namespace AQNWBIO
+}  // namespace AQNWBIO
