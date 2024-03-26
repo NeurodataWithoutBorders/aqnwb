@@ -27,6 +27,10 @@ void ElectrodeTable::initialize()
 void ElectrodeTable::addElectrodes()
 {
   // create datasets
+  groupReferences.reserve(channels.size());
+  groupNames.reserve(channels.size());
+  electrodeNumbers.reserve(channels.size());
+  locationNames.reserve(channels.size());
   for (auto ch : channels) {
     groupReferences.push_back(
         groupPath);  // TODO - would get this info from channel input
