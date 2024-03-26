@@ -43,6 +43,12 @@ public:
   void initialize();
 
   /**
+   * @brief Sets up the ElectrodeTable by adding electrodes and their metadata.
+   *
+   */
+  void addElectrodes();
+
+  /**
    * @brief Gets the column names of the ElectrodeTable.
    * @return The vector of column names.
    */

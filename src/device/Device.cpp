@@ -19,6 +19,8 @@ Device::~Device() {}
 
 void Device::initialize()
 {
+  Container::initialize();
+
   io->createCommonNWBAttributes(path, "core", "Device", description);
   io->createAttribute(manufacturer, path, "manufacturer");
 }

@@ -22,7 +22,10 @@ void ElectrodeTable::initialize()
 {
   // create group
   DynamicTable::initialize();
+}
 
+void ElectrodeTable::addElectrodes()
+{
   // create datasets
   for (auto ch : channels) {
     groupReferences.push_back(

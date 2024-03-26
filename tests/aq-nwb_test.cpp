@@ -108,6 +108,7 @@ TEST_CASE("ElectrodeTable", "[datatypes]")
     io->open();
     io->createGroup("array1");
     ElectrodeTable electrodeTable(path, io, channels);
+    electrodeTable.initialize();
     electrodeTable.setGroupPath("array1");
     electrodeTable.electrodeDataset->dataset =
         std::unique_ptr<BaseRecordingData>(io->createDataSet(
@@ -119,7 +120,7 @@ TEST_CASE("ElectrodeTable", "[datatypes]")
                               SizeArray {0},
                               SizeArray {1},
                               path + "location"));
-    electrodeTable.initialize();
+    electrodeTable.addElectrodes();
 
     // Check if id datasets are created correctly
     size_t numChannels = 3;

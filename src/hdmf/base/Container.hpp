@@ -27,6 +27,11 @@ public:
   virtual ~Container();
 
   /**
+   * @brief Initialize the container.
+   */
+  void initialize();
+
+  /**
    * @brief Gets the path of the container.
    * @return The path of the container.
    */

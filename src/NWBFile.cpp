@@ -78,12 +78,14 @@ Status NWBFile::startRecording()
   // Later channels/continuous array will be input from the acquisition system
   // with unknown size but self generating for now
   std::vector<int> continuousArray;
-  for (int i = 1; i <= 1; ++i) {
-    continuousArray.push_back(i);
+  continuousArray.resize(1);
+  for (std::size_t i = 0; i < continuousArray.size(); i++) {
+    continuousArray[i] = i+1;
   }
   std::vector<int> channels;
-  for (int i = 1; i <= 32; ++i) {
-    channels.push_back(i);
+  channels.resize(32);
+  for (std::size_t i = 0; i < channels.size(); i++) {
+    channels[i] = i+1;
   }
 
   // store all recorded data in the acquisition group
@@ -107,6 +109,7 @@ Status NWBFile::startRecording()
   // Create electrode table
   std::string electrodePath = "general/extracellular_ephys/electrodes/";
   ElectrodeTable elecTable = ElectrodeTable(electrodePath, io, channels);
+  elecTable.initialize();
 
   elecTable.electrodeDataset->dataset = createRecordingData(
       BaseDataType::I32, SizeArray {1}, SizeArray {1}, electrodePath + "id");
@@ -121,7 +124,7 @@ Status NWBFile::startRecording()
                           SizeArray {1},
                           electrodePath + "location");
 
-  elecTable.initialize();
+  elecTable.addElectrodes();
 
   return Status::Success;
 }
