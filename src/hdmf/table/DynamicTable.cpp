@@ -43,9 +43,7 @@ void DynamicTable::addColumn(const std::string& name,
   }
 }
 
-void DynamicTable::addColumn(const std::string& name,
-                             const std::string& colDescription,
-                             std::unique_ptr<ElementIdentifiers>& elementIDs,
+void DynamicTable::setRowIDs(std::unique_ptr<ElementIdentifiers>& elementIDs,
                              const std::vector<int>& values)
 {
   if (elementIDs->dataset == nullptr) {
@@ -54,7 +52,7 @@ void DynamicTable::addColumn(const std::string& name,
     elementIDs->dataset->writeDataBlock(
         values.size(), BaseDataType::I32, &values[0]);
     io->createCommonNWBAttributes(
-        path + name, "hdmf-common", "ElementIdentifiers", colDescription);
+        path + "id", "hdmf-common", "ElementIdentifiers");
   }
 }
 

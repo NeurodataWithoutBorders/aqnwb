@@ -41,10 +41,7 @@ void ElectrodeTable::addElectrodes()
   }
 
   // add columns
-  addColumn("id",
-            "a reference to the ElectrodeGroup this electrode is a part of",
-            electrodeDataset,
-            electrodeNumbers);
+  setRowIDs(electrodeDataset, electrodeNumbers);
   addColumn("group_name",
             "the name of the ElectrodeGroup this electrode is a part of",
             groupNamesDataset,

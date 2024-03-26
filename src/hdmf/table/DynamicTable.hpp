@@ -53,18 +53,6 @@ public:
                  const std::vector<std::string>& values);
 
   /**
-   * @brief Adds a column of element identifiers to the table.
-   * @param name The name of the column. Usually `id`.
-   * @param colDescription The description of the column.
-   * @param elementIDs A unique pointer to the `ElementIdentifiers` dataset.
-   * @param values The vector of id values.
-   */
-  void addColumn(const std::string& name,
-                 const std::string& colDescription,
-                 std::unique_ptr<ElementIdentifiers>& elementIDs,
-                 const std::vector<int>& values);
-
-  /**
    * @brief Adds a column of references to the table.
    * @param name The name of the column.
    * @param colDescription The description of the column.
@@ -73,6 +61,15 @@ public:
   void addColumn(const std::string& name,
                  const std::string& colDescription,
                  const std::vector<std::string>& dataset);
+
+  /**
+   * @brief Adds a column of element identifiers to the table.
+   * @param idDescription The description of the column.
+   * @param elementIDs A unique pointer to the `ElementIdentifiers` dataset.
+   * @param values The vector of id values.
+   */
+  void setRowIDs(std::unique_ptr<ElementIdentifiers>& elementIDs,
+                 const std::vector<int>& values);
 
   /**
    * @brief Gets the description of the table.
