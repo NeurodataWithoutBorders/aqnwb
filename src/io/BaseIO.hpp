@@ -354,11 +354,6 @@ protected:
   int xPos;
 
   /**
-   * @brief The size of each chunk in the x dimension.
-   */
-  SizeType xChunkSize;
-
-  /**
    * @brief The size of the data block in each dimension.
    */
   SizeType size[3];

@@ -522,7 +522,6 @@ HDF5RecordingData::HDF5RecordingData(H5::DataSet* data)
   else
     this->size[2] = 1;
 
-  this->xChunkSize = chunk[0];
   this->xPos = 0;
   this->dSet = std::make_unique<H5::DataSet>(*data);
   ;
