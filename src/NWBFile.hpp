@@ -2,108 +2,170 @@
 
 #include <cstdint>
 
-#include "BaseIO.hpp"
-#include "HDF5IO.hpp"
+#include "io/BaseIO.hpp"
 
-using namespace AQNWBIO;
-
+namespace AQNWBIO
+{
 /**
-
-Represents an NWB File
-
-*/
+ * @brief The NWBFile class provides an interface for setting up and managing
+ * the NWB file.
+ */
 class NWBFile
 {
 public:
-  /** Constructor */
-  NWBFile(std::string idText, std::unique_ptr<BaseIO> io);
-  NWBFile(const NWBFile&) = delete;  // non construction-copyable
-  NWBFile& operator=(const NWBFile&) = delete;  // non copiable
+  /**
+   * @brief Constructor for NWBFile class.
+   * @param idText The identifier text for the NWBFile.
+   * @param io The shared pointer to the IO object.
+   */
+  NWBFile(const std::string& idText, std::shared_ptr<BaseIO> io);
 
-  /** Destructor */
+  /**
+   * @brief Deleted copy constructor to prevent construction-copying.
+   */
+  NWBFile(const NWBFile&) = delete;
+
+  /**
+   * @brief Deleted copy assignment operator to prevent copying.
+   */
+  NWBFile& operator=(const NWBFile&) = delete;
+
+  /**
+   * @brief Destructor for NWBFile class.
+   */
   ~NWBFile();
 
-  /** Initilaizes the file - opens and sets up file structure */
+  /**
+   * @brief Initializes the NWB file by opening and setting up the file
+   * structure.
+   */
   void initialize();
 
-  /** Finalizes the file - closes*/
+  /**
+   * @brief Finalizes the NWB file by closing it.
+   */
   void finalize();
 
-  /** Starts a recording */
-  bool startRecording(int recordingNumber);
+  /**
+   * @brief Starts a recording.
+   * @return Status The status of the recording operation.
+   */
+  Status startRecording();
 
-  /** Writes the num_samples value and closes the relevant datasets */
+  /**
+   * @brief Closes the relevant datasets.
+   */
   void stopRecording();
 
-  /** Writes continuous data for a particular channel */
-  void writeData(int datasetID,
-                 int channel,
-                 int nSamples,
-                 const float* data,
-                 float bitVolts);
-
-  /** Generate a new uuid string*/
-  std::string generateUuid();
-
-  /** Indicate NWB version files will be saved as */
+  /**
+   * @brief Indicates the NWB schema version.
+   */
   const std::string NWBVersion = "2.7.0";
 
-  /** Indicate HDMF version for schema files */
+  /**
+   * @brief Indicates the HDMF schema version.
+   */
   const std::string HDMFVersion = "1.8.0";
 
 protected:
-  /** Create the default file structure */
-  int createFileStructure();
+  /**
+   * @brief Creates the default file structure.
+   * @return Status The status of the file structure creation.
+   */
+  Status createFileStructure();
 
 private:
-  /** Saves the specification files for the schema */
-  void cacheSpecifications(std::string specPath, std::string versionNumber);
+  /**
+   * @brief Factory method for creating recording data.
+   * @param type The base data type.
+   * @param size The size of the dataset.
+   * @param chunking The chunking size of the dataset.
+   * @param path The location in the file of the new dataset.
+   * @return std::unique_ptr<BaseRecordingData> The unique pointer to the
+   * created recording data.
+   */
+  std::unique_ptr<BaseRecordingData> createRecordingData(
+      BaseDataType type,
+      const SizeArray& size,
+      const SizeArray& chunking,
+      const std::string& path);
 
-  /** Creates a new dataset to hold text data (messages) */
-  void createTextDataSet(std::string path, std::string name, std::string text);
+  /**
+   * @brief Saves the specification files for the schema.
+   * @param specPath The location in the file to store the spec information.
+   * @param versionNumber The version number of the specification files.
+   */
+  void cacheSpecifications(const std::string& specPath,
+                           const std::string& versionNumber);
 
-  /** Creates a new dataset to hold text data (messages) */
-  std::string getCurrentTime();
+  /**
+   * @brief Creates a new dataset to hold text data (messages).
+   * @param path The location in the file for the dataset.
+   * @param name The name of the dataset.
+   * @param text The text data to be stored in the dataset.
+   */
+  void createTextDataSet(const std::string& path,
+                         const std::string& name,
+                         const std::string& text);
 
   const std::string identifierText;
-  std::unique_ptr<BaseIO> io;
-  std::vector<float> scaledBuffer;  // TODO - switched out for std::vector, not
-                                    // sure if it's best substitute
+  std::shared_ptr<BaseIO> io;
+  std::vector<float> scaledBuffer;
   std::vector<int16_t> intBuffer;
-  size_t bufferSize;
+  SizeType bufferSize;
 };
 
 /**
-
-    Represents an NWB recording engine to manage recording process
-
-*/
+ * @brief The NWBRecordingEngine class manages the recording process
+ */
 class NWBRecordingEngine
 {
 public:
-  /** Constructor */
+  /**
+   * @brief Default constructor for NWBRecordingEngine.
+   */
   NWBRecordingEngine();
-  NWBRecordingEngine(const NWBRecordingEngine&) =
-      delete;  // non construction-copyable
-  NWBRecordingEngine& operator=(const NWBRecordingEngine&) =
-      delete;  // non copiable
 
-  /** Destructor */
+  /**
+   * @brief Deleted copy constructor to prevent construction-copying.
+   */
+  NWBRecordingEngine(const NWBRecordingEngine&) = delete;
+
+  /**
+   * @brief Deleted copy assignment operator to prevent copying.
+   */
+  NWBRecordingEngine& operator=(const NWBRecordingEngine&) = delete;
+
+  /**
+   * @brief Destructor for NWBRecordingEngine.
+   */
   ~NWBRecordingEngine();
 
-  /** Called when recording starts to open all needed files */
-  void openFiles(std::string rootFolder,
+  /**
+   * @brief Opens all the necessary files for recording.
+   * @param rootFolder The root folder where the files will be stored.
+   * @param experimentNumber The experiment number.
+   * @param recordingNumber The recording number.
+   */
+  void openFiles(const std::string& rootFolder,
                  int experimentNumber,
                  int recordingNumber);
 
-  /** Called when recording stops to close all files and do all the necessary
-   * cleanup */
+  /**
+   * @brief Closes all the files and performs necessary cleanup when recording
+   * stops.
+   */
   void closeFiles();
 
 private:
-  /** Pointer to the current NWB file */
+  /**
+   * @brief Pointer to the current NWB file.
+   */
   std::unique_ptr<NWBFile> nwb;
 
-  /** Holds integer sample numbers for writing */
+  /**
+   * @brief Holds integer sample numbers for writing.
+   */
   std::vector<int64_t> smpBuffer;
 };
+}  // namespace AQNWBIO
