@@ -33,11 +33,11 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       run: |
         sudo apt-get update
-        sudo apt-get install -y libhdf5-dev libboost-all-dev catch2 doxygen
+        sudo apt-get install -y libhdf5-dev libboost-all-dev catch2
     
     - name: Install dependencies - macos
       if: matrix.os == 'macos-latest'
-      run: brew install hdf5 boost catch2 doxygen
+      run: brew install hdf5 boost catch2
 
     - name: Install dependencies - windows
       if: matrix.os == 'windows-latest'
@@ -46,7 +46,7 @@ jobs:
         cd vcpkg
         ./bootstrap-vcpkg.bat
         ./vcpkg integrate install
-        ./vcpkg install hdf5 boost catch2 doxygen
+        ./vcpkg install hdf5 boost catch2
 
     - name: Install static analyzers
       if: matrix.os == 'ubuntu-latest'
