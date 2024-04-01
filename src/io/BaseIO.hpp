@@ -10,9 +10,9 @@
 #define DEFAULT_STR_SIZE 256
 #define DEFAULT_ARRAY_SIZE 1
 
-using Status = Types::Status;
-using SizeArray = Types::SizeArray;
-using SizeType = Types::SizeType;
+using Status = AQNWBIO::Types::Status;
+using SizeArray = AQNWBIO::Types::SizeArray;
+using SizeType = AQNWBIO::Types::SizeType;
 
 namespace AQNWBIO
 {
