@@ -33,7 +33,12 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       run: |
         sudo apt-get update
-        sudo apt-get install -y libhdf5-dev libboost-all-dev catch2
+        sudo apt-get install -y libhdf5-dev libboost-all-dev
+        git clone https://github.com/catchorg/Catch2.git
+        cd Catch2
+        git checkout "v3.5.3"
+        cmake -Bbuild -H. -DBUILD_TESTING=OFF
+        sudo cmake --build build/ --target install
     
     - name: Install dependencies - macos
       if: matrix.os == 'macos-latest'
