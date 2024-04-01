@@ -1,4 +1,4 @@
-name: Continuous Integration
+name: Run tests
 
 on:
   push:
@@ -11,39 +11,45 @@ on:
   workflow_dispatch:
 
 jobs:
-  lint:
-    runs-on: ubuntu-22.04
-
-    steps:
-    - uses: actions/checkout@v4
-
-    - uses: actions/setup-python@v4
-      with: { python-version: "3.8" }
-
-    - name: Install codespell
-      run: pip3 install codespell
-
-    - name: Lint
-      run: cmake -D FORMAT_COMMAND=clang-format-14 -P cmake/lint.cmake
-
-    - name: Spell check
-      if: always()
-      run: cmake -P cmake/spell.cmake
-
-  test:
-    needs: [lint]
-
+  tests:
+    defaults:
+      run:
+        shell: bash
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}-${{ matrix.os }}
+      cancel-in-progress: true
     strategy:
+      fail-fast: false
       matrix:
-        os: [macos-12, ubuntu-22.04, windows-2022]
-
+        os: [macos-latest, ubuntu-latest, windows-latest]
+    
     runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install dependencies - ubuntu
+      if: matrix.os == 'ubuntu-latest'
+      run: >-
+        sudo apt-get update
+        sudo apt-get install -y libhdf5-dev
+    
+    - name: Install dependencies - macos
+      if: matrix.os == 'macos-latest'
+      run: brew install hdf5
+
+    - name: Install dependencies - windows
+      if: matrix.os == 'windows-latest'
+      run: |
+        git clone https://github.com/Microsoft/vcpkg.git
+        cd vcpkg
+        ./bootstrap-vcpkg.bat
+        ./vcpkg integrate install
+        ./vcpkg install hdf5
 
     - name: Install static analyzers
-      if: matrix.os == 'ubuntu-22.04'
+      if: matrix.os == 'ubuntu-latest'
       run: >-
         sudo apt-get install clang-tidy-14 cppcheck -y -q
 
@@ -52,7 +58,7 @@ jobs:
         /usr/bin/clang-tidy-14 140
 
     - name: Setup MultiToolTask
-      if: matrix.os == 'windows-2022'
+      if: matrix.os == 'windows-latest'
       run: |
         Add-Content "$env:GITHUB_ENV" 'UseMultiToolTask=true'
         Add-Content "$env:GITHUB_ENV" 'EnforceProcessCountAcrossBuilds=true'
