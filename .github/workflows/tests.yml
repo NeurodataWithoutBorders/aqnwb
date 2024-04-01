@@ -31,13 +31,13 @@ jobs:
 
     - name: Install dependencies - ubuntu
       if: matrix.os == 'ubuntu-latest'
-      run: >-
+      run: |
         sudo apt-get update
-        sudo apt-get install -y libhdf5-dev
+        sudo apt-get install -y libhdf5-dev libboost-all-dev
     
     - name: Install dependencies - macos
       if: matrix.os == 'macos-latest'
-      run: brew install hdf5
+      run: brew install hdf5 boost
 
     - name: Install dependencies - windows
       if: matrix.os == 'windows-latest'
@@ -46,7 +46,7 @@ jobs:
         cd vcpkg
         ./bootstrap-vcpkg.bat
         ./vcpkg integrate install
-        ./vcpkg install hdf5
+        ./vcpkg install hdf5 boost
 
     - name: Install static analyzers
       if: matrix.os == 'ubuntu-latest'
