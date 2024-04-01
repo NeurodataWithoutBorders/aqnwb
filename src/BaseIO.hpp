@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 #define DEFAULT_STR_SIZE 256
 #define DEFAULT_ARRAY_SIZE 1
