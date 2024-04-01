@@ -12,7 +12,7 @@ add_custom_target(
 )
 add_dependencies(run-exe aq-nwb_exe)
 
-option(BUILD_DOCS "Build documentation using Doxygen" ON)
+option(BUILD_DOCS "Build documentation using Doxygen" OFF)
 if(BUILD_DOCS)
   include(cmake/docs.cmake)
 endif()

@@ -1,0 +1,21 @@
+name: Linter
+
+on:
+  push:
+    branches:
+    - main
+
+  pull_request:
+    branches:
+    - main
+  workflow_dispatch:
+
+jobs:
+  lint:
+    name: Run linter
+    runs-on: ubuntu-latest
+    steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+        - name: Lint
+          run: cmake -D FORMAT_COMMAND=clang-format-14 -P cmake/lint.cmake
