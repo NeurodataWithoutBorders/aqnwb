@@ -1,8 +1,8 @@
 #pragma once
 
+#include <cstdint>
 #include <string>
 #include <vector>
-#include <cstdint>
 
 #define DEFAULT_STR_SIZE 256
 #define DEFAULT_ARRAY_SIZE 1
