@@ -4,7 +4,7 @@
 
 #include "io/BaseIO.hpp"
 
-namespace AQNWBIO
+namespace AQNWB::Schema
 {
 /**
  * @brief An abstract data type for a dataset.
@@ -27,4 +27,4 @@ public:
    */
   std::unique_ptr<BaseRecordingData> dataset;
 };
-}  // namespace AQNWBIO
+}  // namespace AQNWB::Schema

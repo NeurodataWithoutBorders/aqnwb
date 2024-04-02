@@ -4,12 +4,11 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include "NWBFile.hpp"
-#include "file/ElectrodeTable.hpp"
 #include "io/BaseIO.hpp"
 #include "io/HDF5IO.hpp"
+#include "schema/nwb/file/ElectrodeTable.hpp"
 
-using namespace AQNWBIO;
-
+using namespace AQNWB;
 namespace fs = std::filesystem;
 
 std::string getTestFilePath(std::string filename)
@@ -34,7 +33,7 @@ TEST_CASE("writeAttributes", "[hdf5io]")
 {
   // create and open file
   std::string filename = getTestFilePath("test_attributes.h5");
-  HDF5IO hdf5io(filename);
+  HDF5::HDF5IO hdf5io(filename);
   hdf5io.open();
 
   hdf5io.createGroup("/data");
@@ -43,8 +42,7 @@ TEST_CASE("writeAttributes", "[hdf5io]")
   SECTION("single_value")
   {
     const signed int data = 1;
-    hdf5io.createAttribute(
-        AQNWBIO::BaseDataType::I32, &data, "/data", "single_value");
+    hdf5io.createAttribute(BaseDataType::I32, &data, "/data", "single_value");
   }
 
   // integer array
@@ -54,7 +52,7 @@ TEST_CASE("writeAttributes", "[hdf5io]")
     const int dataSize = sizeof(data) / sizeof(data[0]);
 
     hdf5io.createAttribute(
-        AQNWBIO::BaseDataType::I32, &data, "/data", "array", dataSize);
+        BaseDataType::I32, &data, "/data", "array", dataSize);
   }
 
   // string array
@@ -80,7 +78,7 @@ TEST_CASE("saveNWBFile", "[nwb]")
 {
   std::string filename = getTestFilePath("test_nwb_file.h5");
 
-  NWBFile nwbfile("123", std::make_unique<HDF5IO>(filename));
+  NWBFile nwbfile("123", std::make_unique<HDF5::HDF5IO>(filename));
   nwbfile.initialize();
   nwbfile.finalize();
 }
@@ -89,7 +87,7 @@ TEST_CASE("startRecording", "[nwb]")
 {
   std::string filename = getTestFilePath("test_recording.h5");
 
-  NWBFile nwbfile("123", std::make_unique<HDF5IO>(filename));
+  NWBFile nwbfile("123", std::make_unique<HDF5::HDF5IO>(filename));
   nwbfile.initialize();
   Status result = nwbfile.startRecording();
   nwbfile.finalize();
@@ -104,10 +102,10 @@ TEST_CASE("ElectrodeTable", "[datatypes]")
   {
     std::string filename = getTestFilePath("electrodeTable.h5");
     std::vector<int> channels = {1, 2, 3};
-    std::shared_ptr<BaseIO> io = std::make_unique<HDF5IO>(filename);
+    std::shared_ptr<BaseIO> io = std::make_unique<HDF5::HDF5IO>(filename);
     io->open();
     io->createGroup("array1");
-    ElectrodeTable electrodeTable(path, io, channels);
+    Schema::ElectrodeTable electrodeTable(path, io, channels);
     electrodeTable.initialize();
     electrodeTable.setGroupPath("array1");
     electrodeTable.electrodeDataset->dataset =
@@ -126,8 +124,8 @@ TEST_CASE("ElectrodeTable", "[datatypes]")
     size_t numChannels = 3;
     BaseRecordingData* id_data = io->getDataSet(path + "id");
     int* buffer = new int[numChannels];
-    static_cast<HDF5RecordingData*>(id_data)->readDataBlock(BaseDataType::I32,
-                                                            buffer);
+    static_cast<HDF5::HDF5RecordingData*>(id_data)->readDataBlock(
+        BaseDataType::I32, buffer);
     std::vector<int> read_channels(buffer, buffer + numChannels);
     delete[] buffer;
     REQUIRE(channels == read_channels);
@@ -136,9 +134,9 @@ TEST_CASE("ElectrodeTable", "[datatypes]")
   SECTION("initialize without empty channels")
   {
     std::string filename = getTestFilePath("electrodeTableNoData.h5");
-    std::shared_ptr<BaseIO> io = std::make_unique<HDF5IO>(filename);
+    std::shared_ptr<BaseIO> io = std::make_unique<HDF5::HDF5IO>(filename);
     io->open();
-    ElectrodeTable electrodeTable(path, io, std::vector<int>(), "none");
+    Schema::ElectrodeTable electrodeTable(path, io, std::vector<int>(), "none");
     electrodeTable.initialize();
   }
 }

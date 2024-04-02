@@ -1,6 +1,6 @@
-#include "VectorData.hpp"
+#include "schema/hdmf/table/VectorData.hpp"
 
-using namespace AQNWBIO;
+using namespace AQNWB::Schema;
 
 // VectorData
 std::string VectorData::getDescription() const

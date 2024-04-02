@@ -2,12 +2,12 @@
 
 #include <string>
 
-#include "hdmf/table/DynamicTable.hpp"
-#include "hdmf/table/ElementIdentifiers.hpp"
-#include "hdmf/table/VectorData.hpp"
 #include "io/BaseIO.hpp"
+#include "schema/hdmf/table/DynamicTable.hpp"
+#include "schema/hdmf/table/ElementIdentifiers.hpp"
+#include "schema/hdmf/table/VectorData.hpp"
 
-namespace AQNWBIO
+namespace AQNWB::Schema
 {
 /**
  * @brief Represents a table containing electrode metadata.
@@ -115,4 +115,4 @@ private:
    */
   std::string groupPath = "/general/extracellular_ephys/array1";
 };
-}  // namespace AQNWBIO
+}  // namespace AQNWB::Schema

@@ -1,6 +1,6 @@
-#include "Device.hpp"
+#include "schema/nwb/device/Device.hpp"
 
-using namespace AQNWBIO;
+using namespace AQNWB::Schema;
 
 // Device
 /** Constructor */

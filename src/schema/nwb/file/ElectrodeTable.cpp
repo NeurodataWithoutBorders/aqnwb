@@ -1,6 +1,6 @@
-#include "ElectrodeTable.hpp"
+#include "schema/nwb/file/ElectrodeTable.hpp"
 
-using namespace AQNWBIO;
+using namespace AQNWB::Schema;
 
 // ElectrodeTable
 

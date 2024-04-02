@@ -7,7 +7,7 @@
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 
-namespace AQNWBIO
+namespace AQNWB
 {
 /**
  * @brief Generates a UUID (Universally Unique Identifier) as a string.
@@ -40,4 +40,4 @@ inline std::string getCurrentTime()
 
   return oss.str();
 }
-}  // namespace AQNWBIO
+}  // namespace AQNWB

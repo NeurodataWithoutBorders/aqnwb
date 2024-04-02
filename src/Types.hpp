@@ -2,7 +2,7 @@
 
 #include <vector>
 
-namespace AQNWBIO
+namespace AQNWB
 {
 /**
  * @brief Provides definitions for various types used in the project.
@@ -29,4 +29,4 @@ public:
    */
   using SizeArray = std::vector<size_t>;
 };
-}  // namespace AQNWBIO
+}  // namespace AQNWB

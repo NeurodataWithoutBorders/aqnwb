@@ -4,7 +4,7 @@
 
 #include "io/BaseIO.hpp"
 
-namespace AQNWBIO
+namespace AQNWB
 {
 /**
  * @brief The NWBFile class provides an interface for setting up and managing
@@ -168,4 +168,4 @@ private:
    */
   std::vector<int64_t> smpBuffer;
 };
-}  // namespace AQNWBIO
+}  // namespace AQNWB

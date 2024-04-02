@@ -9,13 +9,12 @@
 #include "NWBFile.hpp"
 
 #include "Utils.hpp"
-#include "device/Device.hpp"
-#include "file/ElectrodeGroup.hpp"
-#include "file/ElectrodeTable.hpp"
 #include "io/BaseIO.hpp"
+#include "schema/nwb/device/Device.hpp"
+#include "schema/nwb/file/ElectrodeGroup.hpp"
+#include "schema/nwb/file/ElectrodeTable.hpp"
 
-using namespace AQNWBIO;
-namespace fs = std::filesystem;
+using namespace AQNWB;
 
 // NWBFile
 
@@ -98,17 +97,19 @@ Status NWBFile::startRecording()
     std::string devicePath = "general/devices/" + groupName;
     std::string elecPath = "general/extracellular_ephys/" + groupName;
 
-    Device device = Device(devicePath, io, "description", "unknown");
+    Schema::Device device =
+        Schema::Device(devicePath, io, "description", "unknown");
     device.initialize();
 
-    ElectrodeGroup elecGroup =
-        ElectrodeGroup(elecPath, io, "description", "unknown", device);
+    Schema::ElectrodeGroup elecGroup =
+        Schema::ElectrodeGroup(elecPath, io, "description", "unknown", device);
     elecGroup.initialize();
   }
 
   // Create electrode table
   std::string electrodePath = "general/extracellular_ephys/electrodes/";
-  ElectrodeTable elecTable = ElectrodeTable(electrodePath, io, channels);
+  Schema::ElectrodeTable elecTable =
+      Schema::ElectrodeTable(electrodePath, io, channels);
   elecTable.initialize();
 
   elecTable.electrodeDataset->dataset = createRecordingData(
@@ -137,12 +138,14 @@ void NWBFile::cacheSpecifications(const std::string& specPath,
   io->createGroup("/specifications/" + specPath);
   io->createGroup("/specifications/" + specPath + versionNumber);
 
-  fs::path currentFile = __FILE__;
-  fs::path schemaDir = currentFile.parent_path().parent_path()
+  std::filesystem::path currentFile = __FILE__;
+  std::filesystem::path schemaDir = currentFile.parent_path().parent_path()
       / "resources/spec" / specPath / versionNumber;
 
-  for (auto const& entry : fs::directory_iterator {schemaDir})
-    if (fs::is_regular_file(entry) && entry.path().extension() == ".json") {
+  for (auto const& entry : std::filesystem::directory_iterator {schemaDir})
+    if (std::filesystem::is_regular_file(entry)
+        && entry.path().extension() == ".json")
+    {
       std::string specName =
           entry.path().filename().replace_extension("").string();
       if (specName.find("namespace") != std::string::npos)

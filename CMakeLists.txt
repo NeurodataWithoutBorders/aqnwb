@@ -20,14 +20,14 @@ add_library(
     src/Utils.hpp
     src/io/HDF5IO.cpp
     src/io/BaseIO.cpp
-    src/hdmf/base/Data.hpp
-    src/hdmf/base/Container.cpp
-    src/hdmf/table/DynamicTable.cpp
-    src/hdmf/table/ElementIdentifiers.hpp
-    src/hdmf/table/VectorData.hpp
-    src/device/Device.cpp
-    src/file/ElectrodeGroup.cpp
-    src/file/ElectrodeTable.cpp
+    src/schema/hdmf/base/Data.hpp
+    src/schema/hdmf/base/Container.cpp
+    src/schema/hdmf/table/DynamicTable.cpp
+    src/schema/hdmf/table/ElementIdentifiers.hpp
+    src/schema/hdmf/table/VectorData.hpp
+    src/schema/nwb/device/Device.cpp
+    src/schema/nwb/file/ElectrodeGroup.cpp
+    src/schema/nwb/file/ElectrodeTable.cpp
 )
 
 target_include_directories(
