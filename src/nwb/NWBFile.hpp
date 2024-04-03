@@ -6,6 +6,8 @@
 
 namespace AQNWB
 {
+namespace NWB
+{
 /**
  * @brief The NWBFile class provides an interface for setting up and managing
  * the NWB file.
@@ -168,4 +170,5 @@ private:
    */
   std::vector<int64_t> smpBuffer;
 };
+}  // namespace NWB
 }  // namespace AQNWB

@@ -5,7 +5,9 @@
 #include "BaseIO.hpp"
 #include "nwb/hdmf/base/Container.hpp"
 
-namespace AQNWB::NWB
+namespace AQNWB
+{
+namespace NWB
 {
 /**
  * @brief Metadata about a data acquisition device, e.g., recording system,
@@ -60,4 +62,5 @@ private:
    */
   std::string manufacturer;
 };
-}  // namespace AQNWB::NWB
+}  // namespace NWB
+}  // namespace AQNWB

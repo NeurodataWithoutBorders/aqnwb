@@ -5,7 +5,9 @@
 
 #include "BaseIO.hpp"
 
-namespace AQNWB::NWB
+namespace AQNWB
+{
+namespace NWB
 {
 /**
  * @brief Abstract data type for a group storing collections of data and
@@ -48,4 +50,5 @@ protected:
    */
   std::shared_ptr<BaseIO> io;
 };
-}  // namespace AQNWB::NWB
+}  // namespace NWB
+}  // namespace AQNWB

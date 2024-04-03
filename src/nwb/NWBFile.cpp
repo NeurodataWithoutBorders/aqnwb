@@ -10,11 +10,11 @@
 
 #include "BaseIO.hpp"
 #include "Utils.hpp"
-#include "nwb/core/device/Device.hpp"
-#include "nwb/core/file/ElectrodeGroup.hpp"
-#include "nwb/core/file/ElectrodeTable.hpp"
+#include "nwb/device/Device.hpp"
+#include "nwb/file/ElectrodeGroup.hpp"
+#include "nwb/file/ElectrodeTable.hpp"
 
-using namespace AQNWB;
+using namespace AQNWB::NWB;
 
 // NWBFile
 
@@ -162,7 +162,7 @@ void NWBFile::cacheSpecifications(const std::string& specPath,
 }
 
 // recording data factory method /
-std::unique_ptr<BaseRecordingData> NWBFile::createRecordingData(
+std::unique_ptr<AQNWB::BaseRecordingData> NWBFile::createRecordingData(
     BaseDataType type,
     const SizeArray& size,
     const SizeArray& chunking,

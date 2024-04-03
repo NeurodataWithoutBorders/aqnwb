@@ -1,4 +1,4 @@
-#include "nwb/core/file/ElectrodeTable.hpp"
+#include "nwb/file/ElectrodeTable.hpp"
 
 using namespace AQNWB::NWB;
 

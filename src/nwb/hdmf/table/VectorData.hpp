@@ -4,7 +4,9 @@
 
 #include "nwb/hdmf/base/Data.hpp"
 
-namespace AQNWB::NWB
+namespace AQNWB
+{
+namespace NWB
 {
 /**
  * @brief An n-dimensional dataset representing a column of a DynamicTable.
@@ -24,4 +26,5 @@ private:
    */
   std::string description;
 };
-}  // namespace AQNWB::NWB
+}  // namespace NWB
+}  // namespace AQNWB

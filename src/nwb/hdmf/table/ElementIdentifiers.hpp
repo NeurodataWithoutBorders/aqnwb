@@ -2,7 +2,9 @@
 
 #include "nwb/hdmf/base/Data.hpp"
 
-namespace AQNWB::NWB
+namespace AQNWB
+{
+namespace NWB
 {
 /**
  * @brief A list of unique identifiers for values within a dataset, e.g. rows of
@@ -11,4 +13,5 @@ namespace AQNWB::NWB
 class ElementIdentifiers : public Data
 {
 };
-}  // namespace AQNWB::NWB
+}  // namespace NWB
+}  // namespace AQNWB
