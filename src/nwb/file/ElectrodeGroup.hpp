@@ -2,11 +2,11 @@
 
 #include <string>
 
-#include "device/Device.hpp"
-#include "hdmf/base/Container.hpp"
-#include "io/BaseIO.hpp"
+#include "BaseIO.hpp"
+#include "nwb/device/Device.hpp"
+#include "nwb/hdmf/base/Container.hpp"
 
-namespace AQNWBIO
+namespace AQNWB::NWB
 {
 /**
  * @brief The ElectrodeGroup class represents a physical grouping of electrodes,
@@ -78,4 +78,4 @@ private:
    */
   Device device;
 };
-}  // namespace AQNWBIO
+}  // namespace AQNWB::NWB

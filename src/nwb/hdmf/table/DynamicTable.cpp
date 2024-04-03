@@ -1,6 +1,6 @@
-#include "DynamicTable.hpp"
+#include "nwb/hdmf/table/DynamicTable.hpp"
 
-using namespace AQNWBIO;
+using namespace AQNWB::NWB;
 
 // DynamicTable
 

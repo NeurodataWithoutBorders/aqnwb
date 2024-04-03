@@ -11,7 +11,7 @@
 #include "Utils.hpp"
 
 using namespace H5;
-using namespace AQNWBIO;
+using namespace AQNWB::HDF5;
 
 // HDF5IO
 
@@ -342,7 +342,7 @@ Status HDF5IO::createStringDataSet(const std::string& path,
   return Status::Success;
 }
 
-BaseRecordingData* HDF5IO::getDataSet(const std::string& path)
+AQNWB::BaseRecordingData* HDF5IO::getDataSet(const std::string& path)
 {
   std::unique_ptr<DataSet> data;
 
@@ -364,10 +364,10 @@ BaseRecordingData* HDF5IO::getDataSet(const std::string& path)
   }
 }
 
-BaseRecordingData* HDF5IO::createDataSet(const BaseDataType& type,
-                                         const SizeArray& size,
-                                         const SizeArray& chunking,
-                                         const std::string& path)
+AQNWB::BaseRecordingData* HDF5IO::createDataSet(const BaseDataType& type,
+                                                const SizeArray& size,
+                                                const SizeArray& chunking,
+                                                const std::string& path)
 {
   std::unique_ptr<DataSet> data;
   DSetCreatPropList prop;

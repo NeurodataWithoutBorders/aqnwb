@@ -1,6 +1,6 @@
-#include "ElectrodeGroup.hpp"
+#include "nwb/file/ElectrodeGroup.hpp"
 
-using namespace AQNWBIO;
+using namespace AQNWB::NWB;
 
 // ElectrodeGroup
 

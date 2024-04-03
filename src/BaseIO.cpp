@@ -2,7 +2,7 @@
 
 #include "Utils.hpp"
 
-using namespace AQNWBIO;
+using namespace AQNWB;
 
 // BaseDataType
 

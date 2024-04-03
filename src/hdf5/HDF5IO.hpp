@@ -14,7 +14,7 @@ class DataType;
 class Exception;
 }  // namespace H5
 
-namespace AQNWBIO
+namespace AQNWB::HDF5
 {
 class HDF5RecordingData;  // declare here because gets used in HDF5IO class
 
@@ -216,10 +216,10 @@ private:
 /**
  * @brief Represents an HDF5 Dataset that can be extended indefinitely
         in blocks.
- *
- * This class provides functionality for reading and writing 2D blocks of data
- * (samples x channels) to an HDF5 dataset.
- */
+*
+* This class provides functionality for reading and writing 2D blocks of data
+* (samples x channels) to an HDF5 dataset.
+*/
 class HDF5RecordingData : public BaseRecordingData
 {
 public:
@@ -275,4 +275,4 @@ private:
    */
   Status checkStatus(int status);
 };
-}  // namespace AQNWBIO
+}  // namespace AQNWB::HDF5

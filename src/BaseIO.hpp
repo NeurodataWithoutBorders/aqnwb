@@ -10,11 +10,11 @@
 #define DEFAULT_STR_SIZE 256
 #define DEFAULT_ARRAY_SIZE 1
 
-using Status = Types::Status;
-using SizeArray = Types::SizeArray;
-using SizeType = Types::SizeType;
+using Status = AQNWB::Types::Status;
+using SizeArray = AQNWB::Types::SizeArray;
+using SizeType = AQNWB::Types::SizeType;
 
-namespace AQNWBIO
+namespace AQNWB
 {
 
 class BaseRecordingData;
@@ -372,4 +372,4 @@ protected:
   std::vector<uint32_t> rowXPos;
 };
 
-}  // namespace AQNWBIO
+}  // namespace AQNWB

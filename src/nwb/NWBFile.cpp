@@ -8,14 +8,13 @@
 
 #include "NWBFile.hpp"
 
+#include "BaseIO.hpp"
 #include "Utils.hpp"
-#include "device/Device.hpp"
-#include "file/ElectrodeGroup.hpp"
-#include "file/ElectrodeTable.hpp"
-#include "io/BaseIO.hpp"
+#include "nwb/device/Device.hpp"
+#include "nwb/file/ElectrodeGroup.hpp"
+#include "nwb/file/ElectrodeTable.hpp"
 
-using namespace AQNWBIO;
-namespace fs = std::filesystem;
+using namespace AQNWB::NWB;
 
 // NWBFile
 
@@ -137,12 +136,15 @@ void NWBFile::cacheSpecifications(const std::string& specPath,
   io->createGroup("/specifications/" + specPath);
   io->createGroup("/specifications/" + specPath + versionNumber);
 
-  fs::path currentFile = __FILE__;
-  fs::path schemaDir = currentFile.parent_path().parent_path()
-      / "resources/spec" / specPath / versionNumber;
+  std::filesystem::path currentFile = __FILE__;
+  std::filesystem::path schemaDir =
+      currentFile.parent_path().parent_path().parent_path() / "resources/spec"
+      / specPath / versionNumber;
 
-  for (auto const& entry : fs::directory_iterator {schemaDir})
-    if (fs::is_regular_file(entry) && entry.path().extension() == ".json") {
+  for (auto const& entry : std::filesystem::directory_iterator {schemaDir})
+    if (std::filesystem::is_regular_file(entry)
+        && entry.path().extension() == ".json")
+    {
       std::string specName =
           entry.path().filename().replace_extension("").string();
       if (specName.find("namespace") != std::string::npos)
@@ -159,7 +161,7 @@ void NWBFile::cacheSpecifications(const std::string& specPath,
 }
 
 // recording data factory method /
-std::unique_ptr<BaseRecordingData> NWBFile::createRecordingData(
+std::unique_ptr<AQNWB::BaseRecordingData> NWBFile::createRecordingData(
     BaseDataType type,
     const SizeArray& size,
     const SizeArray& chunking,

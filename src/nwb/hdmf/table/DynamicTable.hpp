@@ -2,12 +2,12 @@
 
 #include <string>
 
-#include "hdmf/base/Container.hpp"
-#include "hdmf/table/ElementIdentifiers.hpp"
-#include "hdmf/table/VectorData.hpp"
-#include "io/BaseIO.hpp"
+#include "BaseIO.hpp"
+#include "nwb/hdmf/base/Container.hpp"
+#include "nwb/hdmf/table/ElementIdentifiers.hpp"
+#include "nwb/hdmf/table/VectorData.hpp"
 
-namespace AQNWBIO
+namespace AQNWB::NWB
 {
 /**
  * @brief Represents a group containing multiple datasets that are aligned on
@@ -94,4 +94,4 @@ private:
    */
   std::vector<std::string> colNames;
 };
-}  // namespace AQNWBIO
+}  // namespace AQNWB::NWB
