@@ -1,8 +1,8 @@
 #pragma once
 
-#include "schema/hdmf/base/Data.hpp"
+#include "nwb/hdmf/base/Data.hpp"
 
-namespace AQNWB::Schema
+namespace AQNWB::NWB
 {
 /**
  * @brief A list of unique identifiers for values within a dataset, e.g. rows of
@@ -11,4 +11,4 @@ namespace AQNWB::Schema
 class ElementIdentifiers : public Data
 {
 };
-}  // namespace AQNWB::Schema
+}  // namespace AQNWB::NWB

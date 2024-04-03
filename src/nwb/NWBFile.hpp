@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-#include "io/BaseIO.hpp"
+#include "BaseIO.hpp"
 
 namespace AQNWB
 {

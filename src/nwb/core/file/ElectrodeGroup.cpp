@@ -1,6 +1,6 @@
-#include "schema/nwb/file/ElectrodeGroup.hpp"
+#include "nwb/core/file/ElectrodeGroup.hpp"
 
-using namespace AQNWB::Schema;
+using namespace AQNWB::NWB;
 
 // ElectrodeGroup
 

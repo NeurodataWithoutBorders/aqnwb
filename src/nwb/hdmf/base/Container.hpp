@@ -3,9 +3,9 @@
 #include <memory>
 #include <string>
 
-#include "io/BaseIO.hpp"
+#include "BaseIO.hpp"
 
-namespace AQNWB::Schema
+namespace AQNWB::NWB
 {
 /**
  * @brief Abstract data type for a group storing collections of data and
@@ -48,4 +48,4 @@ protected:
    */
   std::shared_ptr<BaseIO> io;
 };
-}  // namespace AQNWB::Schema
+}  // namespace AQNWB::NWB

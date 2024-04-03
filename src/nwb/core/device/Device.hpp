@@ -2,10 +2,10 @@
 
 #include <string>
 
-#include "io/BaseIO.hpp"
-#include "schema/hdmf/base/Container.hpp"
+#include "BaseIO.hpp"
+#include "nwb/hdmf/base/Container.hpp"
 
-namespace AQNWB::Schema
+namespace AQNWB::NWB
 {
 /**
  * @brief Metadata about a data acquisition device, e.g., recording system,
@@ -60,4 +60,4 @@ private:
    */
   std::string manufacturer;
 };
-}  // namespace AQNWB::Schema
+}  // namespace AQNWB::NWB

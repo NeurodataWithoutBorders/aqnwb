@@ -8,11 +8,11 @@
 
 #include "NWBFile.hpp"
 
+#include "BaseIO.hpp"
 #include "Utils.hpp"
-#include "io/BaseIO.hpp"
-#include "schema/nwb/device/Device.hpp"
-#include "schema/nwb/file/ElectrodeGroup.hpp"
-#include "schema/nwb/file/ElectrodeTable.hpp"
+#include "nwb/core/device/Device.hpp"
+#include "nwb/core/file/ElectrodeGroup.hpp"
+#include "nwb/core/file/ElectrodeTable.hpp"
 
 using namespace AQNWB;
 
@@ -97,19 +97,18 @@ Status NWBFile::startRecording()
     std::string devicePath = "general/devices/" + groupName;
     std::string elecPath = "general/extracellular_ephys/" + groupName;
 
-    Schema::Device device =
-        Schema::Device(devicePath, io, "description", "unknown");
+    NWB::Device device = NWB::Device(devicePath, io, "description", "unknown");
     device.initialize();
 
-    Schema::ElectrodeGroup elecGroup =
-        Schema::ElectrodeGroup(elecPath, io, "description", "unknown", device);
+    NWB::ElectrodeGroup elecGroup =
+        NWB::ElectrodeGroup(elecPath, io, "description", "unknown", device);
     elecGroup.initialize();
   }
 
   // Create electrode table
   std::string electrodePath = "general/extracellular_ephys/electrodes/";
-  Schema::ElectrodeTable elecTable =
-      Schema::ElectrodeTable(electrodePath, io, channels);
+  NWB::ElectrodeTable elecTable =
+      NWB::ElectrodeTable(electrodePath, io, channels);
   elecTable.initialize();
 
   elecTable.electrodeDataset->dataset = createRecordingData(
@@ -139,8 +138,9 @@ void NWBFile::cacheSpecifications(const std::string& specPath,
   io->createGroup("/specifications/" + specPath + versionNumber);
 
   std::filesystem::path currentFile = __FILE__;
-  std::filesystem::path schemaDir = currentFile.parent_path().parent_path()
-      / "resources/spec" / specPath / versionNumber;
+  std::filesystem::path schemaDir =
+      currentFile.parent_path().parent_path().parent_path() / "resources/spec"
+      / specPath / versionNumber;
 
   for (auto const& entry : std::filesystem::directory_iterator {schemaDir})
     if (std::filesystem::is_regular_file(entry)

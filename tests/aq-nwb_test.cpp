@@ -3,10 +3,10 @@
 
 #include <catch2/catch_test_macros.hpp>
 
-#include "NWBFile.hpp"
-#include "io/BaseIO.hpp"
-#include "io/HDF5IO.hpp"
-#include "schema/nwb/file/ElectrodeTable.hpp"
+#include "BaseIO.hpp"
+#include "hdf5/HDF5IO.hpp"
+#include "nwb/NWBFile.hpp"
+#include "nwb/core/file/ElectrodeTable.hpp"
 
 using namespace AQNWB;
 namespace fs = std::filesystem;
@@ -105,7 +105,7 @@ TEST_CASE("ElectrodeTable", "[datatypes]")
     std::shared_ptr<BaseIO> io = std::make_unique<HDF5::HDF5IO>(filename);
     io->open();
     io->createGroup("array1");
-    Schema::ElectrodeTable electrodeTable(path, io, channels);
+    NWB::ElectrodeTable electrodeTable(path, io, channels);
     electrodeTable.initialize();
     electrodeTable.setGroupPath("array1");
     electrodeTable.electrodeDataset->dataset =
@@ -136,7 +136,7 @@ TEST_CASE("ElectrodeTable", "[datatypes]")
     std::string filename = getTestFilePath("electrodeTableNoData.h5");
     std::shared_ptr<BaseIO> io = std::make_unique<HDF5::HDF5IO>(filename);
     io->open();
-    Schema::ElectrodeTable electrodeTable(path, io, std::vector<int>(), "none");
+    NWB::ElectrodeTable electrodeTable(path, io, std::vector<int>(), "none");
     electrodeTable.initialize();
   }
 }

@@ -1,6 +1,6 @@
-#include "schema/hdmf/base/Container.hpp"
+#include "nwb/hdmf/base/Container.hpp"
 
-using namespace AQNWB::Schema;
+using namespace AQNWB::NWB;
 
 // Container
 
