@@ -97,18 +97,17 @@ Status NWBFile::startRecording()
     std::string devicePath = "general/devices/" + groupName;
     std::string elecPath = "general/extracellular_ephys/" + groupName;
 
-    NWB::Device device = NWB::Device(devicePath, io, "description", "unknown");
+    Device device = Device(devicePath, io, "description", "unknown");
     device.initialize();
 
-    NWB::ElectrodeGroup elecGroup =
-        NWB::ElectrodeGroup(elecPath, io, "description", "unknown", device);
+    ElectrodeGroup elecGroup =
+        ElectrodeGroup(elecPath, io, "description", "unknown", device);
     elecGroup.initialize();
   }
 
   // Create electrode table
   std::string electrodePath = "general/extracellular_ephys/electrodes/";
-  NWB::ElectrodeTable elecTable =
-      NWB::ElectrodeTable(electrodePath, io, channels);
+  ElectrodeTable elecTable = ElectrodeTable(electrodePath, io, channels);
   elecTable.initialize();
 
   elecTable.electrodeDataset->dataset = createRecordingData(
