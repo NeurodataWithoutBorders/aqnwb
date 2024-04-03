@@ -7,9 +7,7 @@
 #include "nwb/hdmf/table/ElementIdentifiers.hpp"
 #include "nwb/hdmf/table/VectorData.hpp"
 
-namespace AQNWB
-{
-namespace NWB
+namespace AQNWB::NWB
 {
 /**
  * @brief Represents a group containing multiple datasets that are aligned on
@@ -96,5 +94,4 @@ private:
    */
   std::vector<std::string> colNames;
 };
-}  // namespace NWB
-}  // namespace AQNWB
+}  // namespace AQNWB::NWB

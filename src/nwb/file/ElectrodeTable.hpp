@@ -7,9 +7,7 @@
 #include "nwb/hdmf/table/ElementIdentifiers.hpp"
 #include "nwb/hdmf/table/VectorData.hpp"
 
-namespace AQNWB
-{
-namespace NWB
+namespace AQNWB::NWB
 {
 /**
  * @brief Represents a table containing electrode metadata.
@@ -117,5 +115,4 @@ private:
    */
   std::string groupPath = "/general/extracellular_ephys/array1";
 };
-}  // namespace NWB
-}  // namespace AQNWB
+}  // namespace AQNWB::NWB

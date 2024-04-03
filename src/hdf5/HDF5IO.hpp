@@ -14,9 +14,7 @@ class DataType;
 class Exception;
 }  // namespace H5
 
-namespace AQNWB
-{
-namespace HDF5
+namespace AQNWB::HDF5
 {
 class HDF5RecordingData;  // declare here because gets used in HDF5IO class
 
@@ -277,5 +275,4 @@ private:
    */
   Status checkStatus(int status);
 };
-}  // namespace HDF5
-}  // namespace AQNWB
+}  // namespace AQNWB::HDF5

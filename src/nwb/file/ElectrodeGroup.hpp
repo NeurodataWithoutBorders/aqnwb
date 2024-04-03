@@ -6,9 +6,7 @@
 #include "nwb/device/Device.hpp"
 #include "nwb/hdmf/base/Container.hpp"
 
-namespace AQNWB
-{
-namespace NWB
+namespace AQNWB::NWB
 {
 /**
  * @brief The ElectrodeGroup class represents a physical grouping of electrodes,
@@ -80,5 +78,4 @@ private:
    */
   Device device;
 };
-}  // namespace NWB
-}  // namespace AQNWB
+}  // namespace AQNWB::NWB
