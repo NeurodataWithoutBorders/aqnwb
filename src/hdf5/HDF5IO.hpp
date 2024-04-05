@@ -187,13 +187,6 @@ public:
   BaseRecordingData* getDataSet(const std::string& path) override;
 
   /**
-   * @brief Returns a pointer to a dataset or group at a given path.
-   * @param path The location in the file of the object.
-   * @return A pointer to the object.
-   */
-  std::shared_ptr<H5::H5Object> getObject(const std::string& path);
-
-  /**
    * @brief Returns the HDF5 native data type for a given base data type.
    * @param type The base data type.
    * @return The HDF5 native data type.
@@ -216,6 +209,13 @@ protected:
    * @return The status of the group creation operation.
    */
   Status createGroupIfDoesNotExist(const std::string& path) override;
+
+  /**
+   * @brief Returns a pointer to a dataset or group at a given path.
+   * @param path The location in the file of the object.
+   * @return A pointer to the object.
+   */
+  std::shared_ptr<H5::H5Object> getObject(const std::string& path);
 
 private:
   std::unique_ptr<H5::H5File> file;
