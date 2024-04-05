@@ -12,6 +12,7 @@ class DataSet;
 class H5File;
 class DataType;
 class Exception;
+class H5Object;
 }  // namespace H5
 
 namespace AQNWB::HDF5
@@ -184,6 +185,13 @@ public:
    * @return A pointer to the dataset.
    */
   BaseRecordingData* getDataSet(const std::string& path) override;
+
+  /**
+   * @brief Returns a pointer to a dataset or group at a given path.
+   * @param path The location in the file of the object.
+   * @return A pointer to the object.
+   */
+  std::shared_ptr<H5::H5Object> getObject(const std::string& path);
 
   /**
    * @brief Returns the HDF5 native data type for a given base data type.

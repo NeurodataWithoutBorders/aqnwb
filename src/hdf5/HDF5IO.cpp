@@ -84,9 +84,6 @@ Status HDF5IO::createAttribute(const BaseDataType& type,
                                const std::string& name,
                                const SizeType& size)
 {
-  H5Object* loc;
-  Group gloc;
-  DataSet dloc;
   Attribute attr;
   DataType H5type;
   DataType origType;
@@ -94,15 +91,7 @@ Status HDF5IO::createAttribute(const BaseDataType& type,
   if (!opened)
     return Status::Failure;
 
-  try {
-    gloc = file->openGroup(path);
-    loc = &gloc;
-  } catch (FileIException
-               error)  // If there is no group with that path, try a dataset
-  {
-    dloc = file->openDataSet(path);
-    loc = &dloc;
-  }
+  std::shared_ptr<H5::H5Object> loc = getObject(path);
 
   H5type = getH5Type(type);
   origType = getNativeType(type);
@@ -155,9 +144,6 @@ Status HDF5IO::createAttribute(const std::vector<const char*>& data,
                                const std::string& name,
                                const SizeType& maxSize)
 {
-  H5Object* loc;
-  Group gloc;
-  DataSet dloc;
   Attribute attr;
   hsize_t dims[1];
 
@@ -167,15 +153,7 @@ Status HDF5IO::createAttribute(const std::vector<const char*>& data,
   StrType H5type(PredType::C_S1, maxSize);
   H5type.setSize(H5T_VARIABLE);
 
-  try {
-    gloc = file->openGroup(path);
-    loc = &gloc;
-  } catch (FileIException
-               error)  // If there is no group with that path, try a dataset
-  {
-    dloc = file->openDataSet(path);
-    loc = &dloc;
-  }
+  std::shared_ptr<H5::H5Object> loc = getObject(path);
 
   try {
     if (loc->attrExists(name)) {
@@ -208,23 +186,12 @@ Status HDF5IO::createReferenceAttribute(const std::string& referencePath,
                                         const std::string& path,
                                         const std::string& name)
 {
-  H5Object* loc;
-  Group gloc;
-  DataSet dloc;
   Attribute attr;
 
   if (!opened)
     return Status::Failure;
 
-  try {
-    gloc = file->openGroup(path);
-    loc = &gloc;
-  } catch (FileIException
-               error)  // If there is no group with that path, try a dataset
-  {
-    dloc = file->openDataSet(path);
-    loc = &dloc;
-  }
+  std::shared_ptr<H5::H5Object> loc = getObject(path);
 
   try {
     if (loc->attrExists(name)) {
@@ -401,6 +368,17 @@ AQNWB::BaseRecordingData* HDF5IO::createDataSet(const BaseDataType& type,
   data = std::make_unique<H5::DataSet>(
       file->createDataSet(path, H5type, dSpace, prop));
   return new HDF5RecordingData(data.release());
+}
+
+std::shared_ptr<H5::H5Object> HDF5IO::getObject(const std::string& path)
+{
+  std::shared_ptr<H5::H5Object> objectLocation;
+  try {
+    objectLocation = std::make_unique<Group>(file->openGroup(path));
+  } catch (FileIException error) {
+    objectLocation = std::make_unique<DataSet>(file->openDataSet(path));
+  }
+  return objectLocation;
 }
 
 H5::DataType HDF5IO::getNativeType(BaseDataType type)
