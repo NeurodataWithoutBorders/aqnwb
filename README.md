@@ -5,6 +5,8 @@ This is the aq-nwb project.
 # Requirements
 * A C++17-compliant compiler
 * CMake `>= 3.15`
+* HDF5
+* Boost
 * Doxygen (optional, documentation building is skipped if missing)
 
 
