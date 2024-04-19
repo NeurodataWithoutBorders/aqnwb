@@ -34,7 +34,12 @@ cmake --install build --config Release
 
 Build system targets that are only useful for developers of this project are
 hidden if the `aq-nwb_DEVELOPER_MODE` option is disabled. Enabling this
-option makes tests and other developer targets and options available.
+option makes tests and other developer targets and options available. You can enable
+the option when configuring the build by adding ``-Daq-nwb_DEVELOPER_MODE=ON``, e.g.,:
+
+```sh
+cmake -S . -B build -Daq-nwb_DEVELOPER_MODE=ON
+```
 
 ### Configure, build and test
 
