@@ -76,7 +76,7 @@ TEST_CASE("writeAttributes", "[hdf5io]")
 
 TEST_CASE("saveNWBFile", "[nwb]")
 {
-  std::string filename = getTestFilePath("test_nwb_file.h5");
+  std::string filename = getTestFilePath("test_nwb_file.nwb");
 
   NWB::NWBFile nwbfile("123", std::make_unique<HDF5::HDF5IO>(filename));
   nwbfile.initialize();
@@ -85,7 +85,7 @@ TEST_CASE("saveNWBFile", "[nwb]")
 
 TEST_CASE("startRecording", "[nwb]")
 {
-  std::string filename = getTestFilePath("test_recording.h5");
+  std::string filename = getTestFilePath("test_recording.nwb");
 
   NWB::NWBFile nwbfile("123", std::make_unique<HDF5::HDF5IO>(filename));
   nwbfile.initialize();

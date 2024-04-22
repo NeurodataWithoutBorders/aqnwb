@@ -57,3 +57,42 @@ jobs:
     - name: Test
       working-directory: build
       run: ctest --output-on-failure --no-tests=error -C Release -j 2
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-files-${{ matrix.os }}
+        path: |
+          build/tests/data/*.nwb  # TODO - check this is the correct path
+
+  validate:
+    needs: tests
+    defaults:
+      run:
+        shell: bash
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}-${{ matrix.os }}
+      cancel-in-progress: true
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Download test files
+      uses: actions/download-artifact@v3
+      with:
+        name: test-files-${{ matrix.os }}
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Install pynwb and run validation
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install pynwb
+        python -m pynwb.validate *.nwb
