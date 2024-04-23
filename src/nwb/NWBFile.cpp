@@ -63,7 +63,7 @@ Status NWBFile::createFileStructure()
   cacheSpecifications("hdmf-common/", HDMFVersion);
 
   std::string time = getCurrentTime();
-  io->createStringDataSet("/file_create_date", time);  // TODO - change to array
+  io->createStringArrayDataSet("/file_create_date", time);
   io->createStringDataSet("/session_description", "a recording session");
   io->createStringDataSet("/session_start_time", time);
   io->createStringDataSet("/timestamps_reference_time", time);

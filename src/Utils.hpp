@@ -41,12 +41,13 @@ inline std::string getCurrentTime()
   // Get the timezone offset
   auto localTime = std::localtime(&currentTime);
   auto utcOffset = localTime->tm_hour - utcTime.tm_hour;
-  auto utcOffsetMinutes = (utcOffset < 0 ? -1 : 1) * (localTime->tm_min - utcTime.tm_min);
+  auto utcOffsetMinutes =
+      (utcOffset < 0 ? -1 : 1) * (localTime->tm_min - utcTime.tm_min);
 
   // Add the timezone offset to the date and time string
-  oss << (utcOffset < 0 ? "-" : "+")
-      << std::setw(2) << std::setfill('0') << std::abs(utcOffset) << ":"
-      << std::setw(2) << std::setfill('0') << std::abs(utcOffsetMinutes);
+  oss << (utcOffset < 0 ? "-" : "+") << std::setw(2) << std::setfill('0')
+      << std::abs(utcOffset) << ":" << std::setw(2) << std::setfill('0')
+      << std::abs(utcOffsetMinutes);
 
   return oss.str();
 }

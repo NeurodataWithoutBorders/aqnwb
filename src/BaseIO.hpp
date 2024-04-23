@@ -218,6 +218,15 @@ public:
                                      const std::string& value) = 0;
 
   /**
+   * @brief Creates a dataset that holds an array of a single datetime value.
+   * @param path The location in the file of the dataset.
+   * @param text The text value of the dataset.
+   * @return The status of the dataset creation operation.
+   */
+  virtual Status createStringArrayDataSet(const std::string& path,
+                                          const std::string& text) = 0;
+
+  /**
    * @brief Creates a dataset that holds an array of references to groups within
    * the file.
    * @param path The location in the file of the new dataset.
