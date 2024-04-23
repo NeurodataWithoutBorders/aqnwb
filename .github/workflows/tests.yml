@@ -63,7 +63,7 @@ jobs:
       with:
         name: test-files-${{ matrix.os }}
         path: |
-          build/tests/data/*.nwb  # TODO - check this is the correct path
+          build/tests/data/*.nwb
 
   validate:
     needs: tests
