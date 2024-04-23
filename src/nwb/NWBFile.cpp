@@ -59,8 +59,10 @@ Status NWBFile::createFileStructure()
   io->createGroup("general/extracellular_ephys");
 
   io->createGroup("/specifications");
+  io->createReferenceAttribute("/specifications", "/", ".specloc");
   cacheSpecifications("core/", NWBVersion);
   cacheSpecifications("hdmf-common/", HDMFVersion);
+  cacheSpecifications("hdmf-experimental/", HDMFExperimentalVersion);
 
   std::string time = getCurrentTime();
   io->createStringArrayDataSet("/file_create_date", time);
