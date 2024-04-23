@@ -345,17 +345,6 @@ Status HDF5IO::createStringDataSet(const std::string& path,
 Status HDF5IO::createStringArrayDataSet(const std::string& path,
                                         const std::string& text)
 {
-  // std::unique_ptr<H5::DataSet> dataset;
-  // DataType H5type = getH5Type(BaseDataType::STR(text.length()));
-  // // DataSpace dSpace(H5S_SCALAR);
-
-  // DataSpace dSpace(1, 1, 1);
-
-  // dataset =
-  //     std::make_unique<H5::DataSet>(file->createDataSet(path + "/" + name,
-  //     H5type, dSpace));
-  // dataset->writeDataBlock(1, BaseDataType::STR(text.length()), text.c_str());
-
   std::unique_ptr<BaseRecordingData> dataset;
   BaseDataType textType = BaseDataType::STR(text.length());
 
