@@ -226,14 +226,6 @@ public:
    */
   virtual Status createStringDataSet(const std::string& path,
                                      const std::vector<std::string>& values) = 0;
-  /**
-   * @brief Creates a dataset that holds an array of a single string value.
-   * @param path The location in the file of the dataset.
-   * @param text The text value of the dataset.
-   * @return The status of the dataset creation operation.
-   */
-  virtual Status createStringArrayDataSet(const std::string& path,
-                                          const std::string& text) = 0;
 
   /**
    * @brief Creates a dataset that holds an array of references to groups within
@@ -352,8 +344,7 @@ public:
    */
   Status writeDataBlock(const SizeType& xDataSize,
                         const BaseDataType& type,
-                        const void* data,
-                        const bool isVlenStr = false);
+                        const void* data);
 
   /**
    * @brief Writes a 2D block of data (samples x channels).
@@ -366,8 +357,7 @@ public:
   virtual Status writeDataBlock(const SizeType& xDataSize,
                                 const SizeType& yDataSize,
                                 const BaseDataType& type,
-                                const void* data,
-                                const bool isVlenStr = false) = 0;
+                                const void* data) = 0;
 
 protected:
   /**

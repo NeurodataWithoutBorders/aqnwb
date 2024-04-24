@@ -163,15 +163,6 @@ public:
                              const std::vector<std::string>& values) override;
 
   /**
-   * @brief Creates a dataset that holds an array of a vlen string value.
-   * @param path The location in the file of the dataset.
-   * @param text The text value of the dataset.
-   * @return The status of the dataset creation operation.
-   */
-  Status createStringArrayDataSet(const std::string& path,
-                                  const std::string& text) override;
-
-  /**
    * @brief Creates a dataset that holds an array of references to groups within
    * the file.
    * @param path The location in the file of the new dataset.
@@ -273,8 +264,7 @@ public:
   Status writeDataBlock(const SizeType& xDataSize,
                         const SizeType& yDataSize,
                         const BaseDataType& type,
-                        const void* data,
-                        const bool isVlenStr = false);
+                        const void* data);
 
   /**
    * @brief Reads a block of data from the HDF5 dataset.

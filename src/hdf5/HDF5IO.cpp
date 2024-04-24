@@ -356,20 +356,8 @@ Status HDF5IO::createStringDataSet(const std::string& path,
 
   std::unique_ptr<BaseRecordingData> dataset;
   dataset = std::unique_ptr<BaseRecordingData>(
-      createDataSet(BaseDataType::V_STR, SizeArray {0}, SizeArray {1}, path));
+      createDataSet(BaseDataType::V_STR, SizeArray{values.size()}, SizeArray{1}, path));
   dataset->writeDataBlock(1, BaseDataType::V_STR, cStrs.data());
-
-  return Status::Success;
-}
-
-Status HDF5IO::createStringArrayDataSet(const std::string& path,
-                                            const std::string& text)
-{
-  std::unique_ptr<BaseRecordingData> dataset;
-
-  dataset = std::unique_ptr<BaseRecordingData>(
-      createDataSet(BaseDataType::V_STR, SizeArray {0}, SizeArray {1}, path));
-  dataset->writeDataBlock(1, BaseDataType::V_STR, text.c_str(), true);
 
   return Status::Success;
 }
@@ -579,8 +567,7 @@ HDF5RecordingData::~HDF5RecordingData()
 Status HDF5RecordingData::writeDataBlock(const SizeType& xDataSize,
                                          const SizeType& yDataSize,
                                          const BaseDataType& type,
-                                         const void* data,
-                                         const bool isVlenStr)
+                                         const void* data)
 {
   hsize_t dim[3], offset[3];
   DataSpace fSpace;
@@ -618,13 +605,7 @@ Status HDF5RecordingData::writeDataBlock(const SizeType& xDataSize,
 
   nativeType = HDF5IO::getNativeType(type);
 
-  if (isVlenStr) {
-    const char* cstr = static_cast<const char*>(data);
-    std::string dataStr = cstr;
-    dSet->write(dataStr, nativeType, mSpace, fSpace);
-  } else {
-    dSet->write(data, nativeType, mSpace, fSpace);
-  }
+  dSet->write(data, nativeType, mSpace, fSpace);
   xPos += xDataSize;
 
   return Status::Success;
