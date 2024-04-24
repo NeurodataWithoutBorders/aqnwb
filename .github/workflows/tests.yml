@@ -85,6 +85,7 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: test-files-${{ matrix.os }}
+        path: nwb_files
 
     - name: Set up Python
       uses: actions/setup-python@v5
@@ -94,5 +95,5 @@ jobs:
     - name: Install pynwb and run validation
       run: |
         python -m pip install --upgrade pip
-        python -m pip install pynwb
-        python -m pynwb.validate *.nwb
+        python -m pip install nwbinspector
+        nwbinspector nwb_files --threshold BEST_PRACTICE_VIOLATION

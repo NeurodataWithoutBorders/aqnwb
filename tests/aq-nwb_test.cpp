@@ -4,10 +4,10 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include "BaseIO.hpp"
+#include "Utils.hpp"
 #include "hdf5/HDF5IO.hpp"
 #include "nwb/NWBFile.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
-#include "Utils.hpp"
 
 using namespace AQNWB;
 namespace fs = std::filesystem;
@@ -79,7 +79,8 @@ TEST_CASE("saveNWBFile", "[nwb]")
 {
   std::string filename = getTestFilePath("test_nwb_file.nwb");
 
-  NWB::NWBFile nwbfile(generateUuid(), std::make_unique<HDF5::HDF5IO>(filename));
+  NWB::NWBFile nwbfile(generateUuid(),
+                       std::make_unique<HDF5::HDF5IO>(filename));
   nwbfile.initialize();
   nwbfile.finalize();
 }
@@ -88,7 +89,8 @@ TEST_CASE("startRecording", "[nwb]")
 {
   std::string filename = getTestFilePath("test_recording.nwb");
 
-  NWB::NWBFile nwbfile(generateUuid(), std::make_unique<HDF5::HDF5IO>(filename));
+  NWB::NWBFile nwbfile(generateUuid(),
+                       std::make_unique<HDF5::HDF5IO>(filename));
   nwbfile.initialize();
   Status result = nwbfile.startRecording();
   nwbfile.finalize();
