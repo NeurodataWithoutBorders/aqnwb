@@ -224,8 +224,8 @@ public:
    * @param values The vector of string values of the dataset.
    * @return The status of the dataset creation operation.
    */
-  virtual Status createStringDataSet(const std::string& path,
-                                     const std::vector<std::string>& values) = 0;
+  virtual Status createStringDataSet(
+      const std::string& path, const std::vector<std::string>& values) = 0;
 
   /**
    * @brief Creates a dataset that holds an array of references to groups within

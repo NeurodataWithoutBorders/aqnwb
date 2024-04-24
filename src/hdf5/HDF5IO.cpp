@@ -350,13 +350,13 @@ Status HDF5IO::createStringDataSet(const std::string& path,
 
   std::vector<const char*> cStrs;
   cStrs.reserve(values.size());
-  for(const auto& str : values) {
-      cStrs.push_back(str.c_str());
+  for (const auto& str : values) {
+    cStrs.push_back(str.c_str());
   }
 
   std::unique_ptr<BaseRecordingData> dataset;
-  dataset = std::unique_ptr<BaseRecordingData>(
-      createDataSet(BaseDataType::V_STR, SizeArray{values.size()}, SizeArray{1}, path));
+  dataset = std::unique_ptr<BaseRecordingData>(createDataSet(
+      BaseDataType::V_STR, SizeArray {values.size()}, SizeArray {1}, path));
   dataset->writeDataBlock(1, BaseDataType::V_STR, cStrs.data());
 
   return Status::Success;
