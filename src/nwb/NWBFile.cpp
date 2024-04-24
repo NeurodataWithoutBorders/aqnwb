@@ -43,10 +43,8 @@ void NWBFile::finalize()
 
 Status NWBFile::createFileStructure()
 {
-  io->createAttribute("core", "/", "namespace");
-  io->createAttribute("NWBFile", "/", "neurodata_type");
+  io->createCommonNWBAttributes("/", "core", "NWBFile", "");
   io->createAttribute(NWBVersion, "/", "nwb_version");
-  io->createAttribute(identifierText, "/", "object_id");
 
   io->createGroup("/acquisition");
   io->createGroup("/analysis");
@@ -70,7 +68,7 @@ Status NWBFile::createFileStructure()
   io->createStringDataSet("/session_description", "a recording session");
   io->createStringDataSet("/session_start_time", time);
   io->createStringDataSet("/timestamps_reference_time", time);
-  io->createStringDataSet("/identifier", "test-identifier");
+  io->createStringDataSet("/identifier", identifierText);
 
   return Status::Success;
 }
