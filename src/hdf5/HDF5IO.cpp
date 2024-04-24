@@ -342,15 +342,34 @@ Status HDF5IO::createStringDataSet(const std::string& path,
   return Status::Success;
 }
 
+Status HDF5IO::createStringDataSet(const std::string& path,
+                                   const std::vector<std::string>& values)
+{
+  if (!opened)
+    return Status::Failure;
+
+  std::vector<const char*> cStrs;
+  cStrs.reserve(values.size());
+  for(const auto& str : values) {
+      cStrs.push_back(str.c_str());
+  }
+
+  std::unique_ptr<BaseRecordingData> dataset;
+  dataset = std::unique_ptr<BaseRecordingData>(
+      createDataSet(BaseDataType::V_STR, SizeArray {0}, SizeArray {1}, path));
+  dataset->writeDataBlock(1, BaseDataType::V_STR, cStrs.data());
+
+  return Status::Success;
+}
+
 Status HDF5IO::createStringArrayDataSet(const std::string& path,
-                                        const std::string& text)
+                                            const std::string& text)
 {
   std::unique_ptr<BaseRecordingData> dataset;
-  BaseDataType textType = BaseDataType::STR(text.length());
 
   dataset = std::unique_ptr<BaseRecordingData>(
-      createDataSet(textType, SizeArray {0}, SizeArray {1}, path));
-  dataset->writeDataBlock(1, textType, text.c_str());
+      createDataSet(BaseDataType::V_STR, SizeArray {0}, SizeArray {1}, path));
+  dataset->writeDataBlock(1, BaseDataType::V_STR, text.c_str(), true);
 
   return Status::Success;
 }
@@ -454,6 +473,9 @@ H5::DataType HDF5IO::getNativeType(BaseDataType type)
     case BaseDataType::Type::T_STR:
       return StrType(PredType::C_S1, type.typeSize);
       break;
+    case BaseDataType::Type::V_STR:
+      return StrType(PredType::C_S1, H5T_VARIABLE);
+      break;
     default:
       baseType = PredType::NATIVE_INT32;
   }
@@ -501,6 +523,9 @@ H5::DataType HDF5IO::getH5Type(BaseDataType type)
       break;
     case BaseDataType::Type::T_STR:
       return StrType(PredType::C_S1, type.typeSize);
+      break;
+    case BaseDataType::Type::V_STR:
+      return StrType(PredType::C_S1, H5T_VARIABLE);
       break;
     default:
       return PredType::STD_I32LE;
@@ -554,7 +579,8 @@ HDF5RecordingData::~HDF5RecordingData()
 Status HDF5RecordingData::writeDataBlock(const SizeType& xDataSize,
                                          const SizeType& yDataSize,
                                          const BaseDataType& type,
-                                         const void* data)
+                                         const void* data,
+                                         const bool isVlenStr)
 {
   hsize_t dim[3], offset[3];
   DataSpace fSpace;
@@ -592,7 +618,13 @@ Status HDF5RecordingData::writeDataBlock(const SizeType& xDataSize,
 
   nativeType = HDF5IO::getNativeType(type);
 
-  dSet->write(data, nativeType, mSpace, fSpace);
+  if (isVlenStr) {
+    const char* cstr = static_cast<const char*>(data);
+    std::string dataStr = cstr;
+    dSet->write(dataStr, nativeType, mSpace, fSpace);
+  } else {
+    dSet->write(data, nativeType, mSpace, fSpace);
+  }
   xPos += xDataSize;
 
   return Status::Success;

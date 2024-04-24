@@ -65,7 +65,9 @@ Status NWBFile::createFileStructure()
   cacheSpecifications("hdmf-experimental/", HDMFExperimentalVersion);
 
   std::string time = getCurrentTime();
-  io->createStringArrayDataSet("/file_create_date", time);
+  // io->createStringArrayDataSet("/file_create_date", time);
+  std::vector<std::string> timeVec = {time};
+  io->createStringDataSet("/file_create_date", timeVec);
   io->createStringDataSet("/session_description", "a recording session");
   io->createStringDataSet("/session_start_time", time);
   io->createStringDataSet("/timestamps_reference_time", time);

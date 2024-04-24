@@ -71,7 +71,8 @@ BaseRecordingData::~BaseRecordingData() {}
 
 Status BaseRecordingData::writeDataBlock(const SizeType& xDataSize,
                                          const BaseDataType& type,
-                                         const void* data)
+                                         const void* data,
+                                         const bool isVlenStr)
 {
-  return writeDataBlock(xDataSize, size[1], type, data);
+  return writeDataBlock(xDataSize, size[1], type, data, isVlenStr);
 }
