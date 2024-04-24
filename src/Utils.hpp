@@ -30,19 +30,24 @@ inline std::string getCurrentTime()
   // Get current time
   auto currentTime =
       std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-
-  // Convert to tm struct to extract date and time components
   std::tm utcTime = *std::gmtime(&currentTime);
-
-  // Format the date and time in ISO 8601 format with the UTC offset
-  std::ostringstream oss;
-  oss << std::put_time(&utcTime, "%FT%T");
 
   // Get the timezone offset
   auto localTime = std::localtime(&currentTime);
   auto utcOffset = localTime->tm_hour - utcTime.tm_hour;
   auto utcOffsetMinutes =
       (utcOffset < 0 ? -1 : 1) * (localTime->tm_min - utcTime.tm_min);
+
+  // Adjust the UTC time to the local time
+  utcTime.tm_hour += utcOffset;
+  if (utcTime.tm_hour < 0) {
+    utcTime.tm_hour += 24;
+    utcTime.tm_mday -= 1;
+  }
+
+  // Format the date and time in ISO 8601 format with the UTC offset
+  std::ostringstream oss;
+  oss << std::put_time(&utcTime, "%FT%T");
 
   // Add the timezone offset to the date and time string
   oss << (utcOffset < 0 ? "-" : "+") << std::setw(2) << std::setfill('0')
