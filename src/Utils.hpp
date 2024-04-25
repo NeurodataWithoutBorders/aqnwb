@@ -3,10 +3,11 @@
 #include <iomanip>
 #include <sstream>
 
+#include <boost/date_time.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
-#include <boost/date_time.hpp>
+
 #include "boost/date_time/c_local_time_adjustor.hpp"
 
 namespace AQNWB
@@ -30,7 +31,8 @@ inline std::string generateUuid()
 inline std::string getCurrentTime()
 {
   // Set up boost time zone adjustment and time facet
-  using local_adj = boost::date_time::c_local_adjustor<boost::posix_time::ptime>;
+  using local_adj =
+      boost::date_time::c_local_adjustor<boost::posix_time::ptime>;
   boost::posix_time::time_facet* f = new boost::posix_time::time_facet();
   f->time_duration_format("%+%H:%M");
 
