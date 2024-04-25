@@ -6,6 +6,8 @@
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
+#include <boost/date_time.hpp>
+#include "boost/date_time/c_local_time_adjustor.hpp"
 
 namespace AQNWB
 {
@@ -27,33 +29,24 @@ inline std::string generateUuid()
  */
 inline std::string getCurrentTime()
 {
-  // Get current time
-  auto currentTime =
-      std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-  std::tm utcTime = *std::gmtime(&currentTime);
+  // Set up boost time zone adjustment and time facet
+  using local_adj = boost::date_time::c_local_adjustor<boost::posix_time::ptime>;
+  boost::posix_time::time_facet* f = new boost::posix_time::time_facet();
+  f->time_duration_format("%+%H:%M");
 
-  // Get the timezone offset
-  auto localTime = std::localtime(&currentTime);
-  auto utcOffset = localTime->tm_hour - utcTime.tm_hour;
-  auto utcOffsetMinutes =
-      (utcOffset < 0 ? -1 : 1) * (localTime->tm_min - utcTime.tm_min);
-
-  // Adjust the UTC time to the local time
-  utcTime.tm_hour += utcOffset;
-  if (utcTime.tm_hour < 0) {
-    utcTime.tm_hour += 24;
-    utcTime.tm_mday -= 1;
-  }
+  // get local time, utc time, and offset
+  auto now = boost::posix_time::microsec_clock::universal_time();
+  auto utc_now = local_adj::utc_to_local(now);
+  boost::posix_time::time_duration td = utc_now - now;
 
   // Format the date and time in ISO 8601 format with the UTC offset
-  std::ostringstream oss;
-  oss << std::put_time(&utcTime, "%FT%T");
+  std::ostringstream oss_offset;
+  oss_offset.imbue(std::locale(oss_offset.getloc(), f));
+  oss_offset << td;
 
-  // Add the timezone offset to the date and time string
-  oss << (utcOffset < 0 ? "-" : "+") << std::setw(2) << std::setfill('0')
-      << std::abs(utcOffset) << ":" << std::setw(2) << std::setfill('0')
-      << std::abs(utcOffsetMinutes);
+  std::string currentTime = to_iso_extended_string(utc_now);
+  currentTime += oss_offset.str();
 
-  return oss.str();
+  return currentTime;
 }
 }  // namespace AQNWB
