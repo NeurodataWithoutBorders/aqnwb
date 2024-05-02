@@ -342,6 +342,26 @@ Status HDF5IO::createStringDataSet(const std::string& path,
   return Status::Success;
 }
 
+Status HDF5IO::createStringDataSet(const std::string& path,
+                                   const std::vector<std::string>& values)
+{
+  if (!opened)
+    return Status::Failure;
+
+  std::vector<const char*> cStrs;
+  cStrs.reserve(values.size());
+  for (const auto& str : values) {
+    cStrs.push_back(str.c_str());
+  }
+
+  std::unique_ptr<BaseRecordingData> dataset;
+  dataset = std::unique_ptr<BaseRecordingData>(createDataSet(
+      BaseDataType::V_STR, SizeArray {values.size()}, SizeArray {1}, path));
+  dataset->writeDataBlock(1, BaseDataType::V_STR, cStrs.data());
+
+  return Status::Success;
+}
+
 AQNWB::BaseRecordingData* HDF5IO::getDataSet(const std::string& path)
 {
   std::unique_ptr<DataSet> data;
@@ -441,6 +461,9 @@ H5::DataType HDF5IO::getNativeType(BaseDataType type)
     case BaseDataType::Type::T_STR:
       return StrType(PredType::C_S1, type.typeSize);
       break;
+    case BaseDataType::Type::V_STR:
+      return StrType(PredType::C_S1, H5T_VARIABLE);
+      break;
     default:
       baseType = PredType::NATIVE_INT32;
   }
@@ -488,6 +511,9 @@ H5::DataType HDF5IO::getH5Type(BaseDataType type)
       break;
     case BaseDataType::Type::T_STR:
       return StrType(PredType::C_S1, type.typeSize);
+      break;
+    case BaseDataType::Type::V_STR:
+      return StrType(PredType::C_S1, H5T_VARIABLE);
       break;
     default:
       return PredType::STD_I32LE;

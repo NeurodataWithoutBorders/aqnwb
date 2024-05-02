@@ -45,6 +45,7 @@ public:
     T_F32,  ///< 32-bit floating point
     T_F64,  ///< 64-bit floating point
     T_STR,  ///< String
+    V_STR,  ///< Variable length string
   };
 
   /**
@@ -216,6 +217,15 @@ public:
    */
   virtual Status createStringDataSet(const std::string& path,
                                      const std::string& value) = 0;
+
+  /**
+   * @brief Creates a dataset that holds an array of string values.
+   * @param path The location in the file of the dataset.
+   * @param values The vector of string values of the dataset.
+   * @return The status of the dataset creation operation.
+   */
+  virtual Status createStringDataSet(
+      const std::string& path, const std::vector<std::string>& values) = 0;
 
   /**
    * @brief Creates a dataset that holds an array of references to groups within

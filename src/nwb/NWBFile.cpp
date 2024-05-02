@@ -43,10 +43,8 @@ void NWBFile::finalize()
 
 Status NWBFile::createFileStructure()
 {
-  io->createAttribute("core", "/", "namespace");
-  io->createAttribute("NWBFile", "/", "neurodata_type");
+  io->createCommonNWBAttributes("/", "core", "NWBFile", "");
   io->createAttribute(NWBVersion, "/", "nwb_version");
-  io->createAttribute(identifierText, "/", "object_id");
 
   io->createGroup("/acquisition");
   io->createGroup("/analysis");
@@ -59,15 +57,18 @@ Status NWBFile::createFileStructure()
   io->createGroup("general/extracellular_ephys");
 
   io->createGroup("/specifications");
+  io->createReferenceAttribute("/specifications", "/", ".specloc");
   cacheSpecifications("core/", NWBVersion);
   cacheSpecifications("hdmf-common/", HDMFVersion);
+  cacheSpecifications("hdmf-experimental/", HDMFExperimentalVersion);
 
   std::string time = getCurrentTime();
-  io->createStringDataSet("/file_create_date", time);  // TODO - change to array
+  std::vector<std::string> timeVec = {time};
+  io->createStringDataSet("/file_create_date", timeVec);
   io->createStringDataSet("/session_description", "a recording session");
   io->createStringDataSet("/session_start_time", time);
   io->createStringDataSet("/timestamps_reference_time", time);
-  io->createStringDataSet("/identifier", "test-identifier");
+  io->createStringDataSet("/identifier", identifierText);
 
   return Status::Success;
 }

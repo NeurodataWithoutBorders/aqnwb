@@ -67,6 +67,11 @@ public:
    */
   const std::string HDMFVersion = "1.8.0";
 
+  /**
+   * @brief Indicates the HDMF experimental version.
+   */
+  const std::string HDMFExperimentalVersion = "0.5.0";
+
 protected:
   /**
    * @brief Creates the default file structure.
