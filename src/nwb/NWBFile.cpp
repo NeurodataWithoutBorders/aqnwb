@@ -13,8 +13,12 @@
 #include "nwb/device/Device.hpp"
 #include "nwb/file/ElectrodeGroup.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
+#include "nwb/ecephys/ElectricalSeries.hpp"
+#include "nwb/hdmf/table/DynamicTableRegion.hpp"
 
 using namespace AQNWB::NWB;
+
+constexpr int CHUNK_XSIZE = 2048;
 
 // NWBFile
 
@@ -75,54 +79,87 @@ Status NWBFile::createFileStructure()
 
 Status NWBFile::startRecording()
 {
-  // Later channels/continuous array will be input from the acquisition system
+  // TODO - update these inputs below to be passed in from the acquisition
+  // All of these values will be inputs from the acquisition system
   // with unknown size but self generating for now
+  float samplingRate = 30000;
   std::vector<int> continuousArray;
   continuousArray.resize(1);
   for (std::size_t i = 0; i < continuousArray.size(); i++) {
     continuousArray[i] = i + 1;
   }
   std::vector<int> channels;
+  std::vector<int> electrodeInds;
+  std::vector<float> channelConversions;
   channels.resize(32);
+  channelConversions.resize(32);
+  electrodeInds.resize(32);
   for (std::size_t i = 0; i < channels.size(); i++) {
     channels[i] = i + 1;
+    electrodeInds[i] = i;
+    channelConversions[i] = 1e6;
   }
+
+  // Create empty electrode table
+  std::string electrodeTablePath = "general/extracellular_ephys/electrodes/";
+  ElectrodeTable elecTable = ElectrodeTable(electrodeTablePath, io, channels);
+  elecTable.initialize();
 
   // store all recorded data in the acquisition group
   std::string rootPath = "/acquisition/";
 
-  // 1. Create continuous datasets
+  // Create continuous datasets
   for (SizeType i = 0; i < continuousArray.size(); i++) {
     // Setup electrodes and devices
     std::string groupName = "array" + std::to_string(continuousArray[i]);
     std::string devicePath = "general/devices/" + groupName;
-    std::string elecPath = "general/extracellular_ephys/" + groupName;
+    std::string electrodePath = "general/extracellular_ephys/" + groupName;
+    std::string electricalSeriesPath = rootPath + groupName;
 
     Device device = Device(devicePath, io, "description", "unknown");
     device.initialize();
 
     ElectrodeGroup elecGroup =
-        ElectrodeGroup(elecPath, io, "description", "unknown", device);
+        ElectrodeGroup(electrodePath, io, "description", "unknown", device);
     elecGroup.initialize();
+        
+    // Setup electrical series datasets
+    ElectricalSeries* electricalSeries = new ElectricalSeries(electricalSeriesPath, io,
+        "Stores continuously sampled voltage data from an extracellular ephys recording",
+        elecTable.getPath());
+    electricalSeries->initialize();
+
+    electricalSeries->data = createRecordingData(
+        BaseDataType::I16, SizeArray {0}, SizeArray {CHUNK_XSIZE}, electricalSeries->getPath() + "/data");
+    io->createDataAttributes(electricalSeries->getPath(), channelConversions[0], -1.0f, "volts");
+    
+    electricalSeries->timestamps = createRecordingData(
+        BaseDataType::F64, SizeArray {0}, SizeArray {CHUNK_XSIZE}, electricalSeries->getPath() + "/timestamps");
+    io->createTimestampsAttributes(electricalSeries->getPath(), 1/samplingRate);
+
+    electricalSeries->channelConversion = createRecordingData(
+        BaseDataType::F32, SizeArray {1}, SizeArray {CHUNK_XSIZE}, electricalSeries->getPath() + "/channel_conversion");
+    io->createCommonNWBAttributes(electricalSeries->getPath() + "/channel_conversion", "hdmf-common", "", "Bit volts values for all channels");
+
+    electricalSeries->electrodesDataset = createRecordingData(BaseDataType::I32, SizeArray {1}, SizeArray {CHUNK_XSIZE}, electricalSeries->getPath() + "/electrodes");
+    electricalSeries->electrodesDataset->writeDataBlock(electrodeInds.size(), BaseDataType::I32, &electrodeInds[0]);
+    io->createCommonNWBAttributes(electricalSeries->getPath() + "/electrodes", "hdmf-common", "DynamicTableRegion", "");
+    io->createReferenceAttribute(elecTable.getPath(), electricalSeries->getPath() + "/electrodes", "table");
   }
 
-  // Create electrode table
-  std::string electrodePath = "general/extracellular_ephys/electrodes/";
-  ElectrodeTable elecTable = ElectrodeTable(electrodePath, io, channels);
-  elecTable.initialize();
-
+  // Add electrode information to electrode table
   elecTable.electrodeDataset->dataset = createRecordingData(
-      BaseDataType::I32, SizeArray {1}, SizeArray {1}, electrodePath + "id");
+      BaseDataType::I32, SizeArray {1}, SizeArray {1}, electrodeTablePath + "id");
   elecTable.groupNamesDataset->dataset =
       createRecordingData(BaseDataType::STR(250),
                           SizeArray {0},
                           SizeArray {1},
-                          electrodePath + "group_name");
+                          electrodeTablePath + "group_name");
   elecTable.locationsDataset->dataset =
       createRecordingData(BaseDataType::STR(250),
                           SizeArray {0},
                           SizeArray {1},
-                          electrodePath + "location");
+                          electrodeTablePath + "location");
 
   elecTable.addElectrodes();
 
