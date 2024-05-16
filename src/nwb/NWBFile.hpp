@@ -3,6 +3,7 @@
 #include <cstdint>
 
 #include "BaseIO.hpp"
+#include "Types.hpp"
 
 namespace AQNWB::NWB
 {
@@ -50,7 +51,7 @@ public:
    * @brief Starts a recording.
    * @return Status The status of the recording operation.
    */
-  Status startRecording();
+  Status startRecording(std::vector<Types::ChannelGroup> recordingArrays);  // TODO - add recording number to stop and restart recording to same file
 
   /**
    * @brief Closes the relevant datasets.

@@ -7,7 +7,7 @@ using namespace AQNWB::NWB;
 /** Constructor */
 ElectrodeTable::ElectrodeTable(const std::string& path,
                                std::shared_ptr<BaseIO> io,
-                               const std::vector<int>& channels,
+                               std::vector<Channel> channels,
                                const std::string& description)
     : DynamicTable(path, io, description)
     , channels(channels)
@@ -27,16 +27,10 @@ void ElectrodeTable::initialize()
 void ElectrodeTable::addElectrodes()
 {
   // create datasets
-  groupReferences.reserve(channels.size());
-  groupNames.reserve(channels.size());
-  electrodeNumbers.reserve(channels.size());
-  locationNames.reserve(channels.size());
-  for (auto ch : channels) {
-    groupReferences.push_back(
-        groupPath);  // TODO - would get this info from channel input
-    groupNames.push_back(
-        "array1");  // TODO - would get this info from channel input
-    electrodeNumbers.push_back(ch);
+  for (const auto& ch : channels) {
+    groupReferences.push_back(groupPathBase + ch.groupName); // TODO - initialize these with the size of channels
+    groupNames.push_back(ch.groupName);
+    electrodeNumbers.push_back(ch.globalIndex);
     locationNames.push_back("unknown");
   }
 
@@ -70,11 +64,5 @@ void ElectrodeTable::setColNames(const std::vector<std::string>& newColNames)
 // Getter for groupPath
 std::string ElectrodeTable::getGroupPath() const
 {
-  return groupPath;
-}
-
-// Setter for colNames
-void ElectrodeTable::setGroupPath(const std::string& newgroupPath)
-{
-  groupPath = newgroupPath;
+  return groupReferences[0];  // all channel in channelGroup should have the same groupName
 }

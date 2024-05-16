@@ -25,7 +25,7 @@ public:
    */
   ElectrodeTable(const std::string& path,
                  std::shared_ptr<BaseIO> io,
-                 const std::vector<int>& channels,
+                 std::vector<Channel> channels,
                  const std::string& description =
                      "metadata about extracellular electrodes");
 
@@ -83,7 +83,7 @@ private:
   /**
    * @brief The channel information from the acquisition system.
    */
-  std::vector<int> channels;
+  std::vector<Channel> channels;
 
   /**
    * @brief The global indices for each electrode.
@@ -113,6 +113,6 @@ private:
   /**
    * @brief The references path to the ElectrodeGroup
    */
-  std::string groupPath = "/general/extracellular_ephys/array1";
+  std::string groupPathBase = "/general/extracellular_ephys/";
 };
 }  // namespace AQNWB::NWB
