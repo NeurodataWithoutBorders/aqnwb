@@ -11,7 +11,10 @@ include(Catch)
 
 # ---- Tests ----
 
-add_executable(aq-nwb_test aq-nwb_test.cpp)
+add_executable(aq-nwb_test
+    testEcephys.cpp
+    testHDF5IO.cpp
+    testNWBFile.cpp)
 target_link_libraries(
     aq-nwb_test PRIVATE
     aq-nwb_lib
