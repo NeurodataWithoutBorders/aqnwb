@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+
 #include "Channel.hpp"
 
 namespace AQNWB
@@ -31,9 +32,8 @@ public:
   using SizeArray = std::vector<size_t>;
 
   /**
-   * @brief Alias for a group of channels. 
+   * @brief Alias for a group of channels.
    */
   using ChannelGroup = std::vector<Channel>;
-
 };
 }  // namespace AQNWB

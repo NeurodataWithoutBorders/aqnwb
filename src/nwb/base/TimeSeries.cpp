@@ -6,9 +6,9 @@ using namespace AQNWB::NWB;
 
 /** Constructor */
 TimeSeries::TimeSeries(const std::string& path,
-                               std::shared_ptr<BaseIO> io,
-                               const std::string& description,
-                               const std::string& comments)
+                       std::shared_ptr<BaseIO> io,
+                       const std::string& description,
+                       const std::string& comments)
     : Container(path, io)
     , description(description)
     , comments(comments)
@@ -25,4 +25,3 @@ void TimeSeries::initialize()
   io->createCommonNWBAttributes(path, "core", neurodataType, description);
   io->createAttribute(comments, path, "comments");
 }
-

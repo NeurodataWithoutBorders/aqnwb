@@ -19,13 +19,13 @@ public:
    * @param path The location of the ElectricalSeries in the file.
    * @param io A shared pointer to the IO object.
    * @param description The description of the TimeSeries.
-   * @param electrodesTablePath Location of the ElectrodesTable this time series was generated from
+   * @param electrodesTablePath Location of the ElectrodesTable this time series
+   * was generated from
    */
   ElectricalSeries(const std::string& path,
-         std::shared_ptr<BaseIO> io,
-         const std::string& description,
-         const std::string& electrodesTablePath
-         );
+                   std::shared_ptr<BaseIO> io,
+                   const std::string& description,
+                   const std::string& electrodesTablePath);
 
   /**
    * @brief Destructor
@@ -43,19 +43,21 @@ public:
   std::string electrodesTablePath;
 
   /**
-   * @brief Pointer to DynamicTableRegion object this time series was generated from.
+   * @brief Pointer to DynamicTableRegion object this time series was generated
+   * from.
    */
   std::unique_ptr<DynamicTableRegion> electrodes;
 
   /**
-   * @brief Pointer to channel-specific conversion factor dataset. 
+   * @brief Pointer to channel-specific conversion factor dataset.
    */
   std::unique_ptr<BaseRecordingData> channelConversion;
 
   /**
-   * @brief Pointer to channel-specific conversion factor dataset. 
+   * @brief Pointer to channel-specific conversion factor dataset.
    */
   std::unique_ptr<BaseRecordingData> electrodesDataset;
+
 private:
   /**
    * @brief The neurodataType of the TimeSeries.

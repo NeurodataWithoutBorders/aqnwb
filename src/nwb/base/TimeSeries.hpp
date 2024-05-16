@@ -21,9 +21,9 @@ public:
    * @param comments Human-readable comments about the TimeSeries
    */
   TimeSeries(const std::string& path,
-         std::shared_ptr<BaseIO> io,
-         const std::string& description = "no description",
-         const std::string& comments = "no comments");
+             std::shared_ptr<BaseIO> io,
+             const std::string& description = "no description",
+             const std::string& comments = "no comments");
 
   /**
    * @brief Destructor
@@ -45,7 +45,6 @@ public:
    * @brief Pointer to timestamp values.
    */
   std::unique_ptr<BaseRecordingData> timestamps;
-
 
 private:
   /**

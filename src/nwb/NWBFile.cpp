@@ -11,9 +11,9 @@
 #include "BaseIO.hpp"
 #include "Utils.hpp"
 #include "nwb/device/Device.hpp"
+#include "nwb/ecephys/ElectricalSeries.hpp"
 #include "nwb/file/ElectrodeGroup.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
-#include "nwb/ecephys/ElectricalSeries.hpp"
 #include "nwb/hdmf/table/DynamicTableRegion.hpp"
 
 using namespace AQNWB::NWB;
@@ -86,7 +86,8 @@ Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays)
   for (const auto& channelGroup : recordingArrays) {
     // Setup electrode table
     std::string electrodeTablePath = "general/extracellular_ephys/electrodes/";
-    ElectrodeTable elecTable = ElectrodeTable(electrodeTablePath, io, channelGroup);
+    ElectrodeTable elecTable =
+        ElectrodeTable(electrodeTablePath, io, channelGroup);
     elecTable.initialize();
 
     // Setup electrodes and devices
@@ -106,33 +107,66 @@ Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays)
     ElectrodeGroup elecGroup =
         ElectrodeGroup(electrodePath, io, "description", "unknown", device);
     elecGroup.initialize();
-        
+
     // Setup electrical series datasets
-    ElectricalSeries* electricalSeries = new ElectricalSeries(electricalSeriesPath, io,
-        "Stores continuously sampled voltage data from an extracellular ephys recording",
-        elecTable.getPath());
+    ElectricalSeries* electricalSeries =
+        new ElectricalSeries(electricalSeriesPath,
+                             io,
+                             "Stores continuously sampled voltage data from an "
+                             "extracellular ephys recording",
+                             elecTable.getPath());
     electricalSeries->initialize();
 
-    electricalSeries->data = createRecordingData(
-        BaseDataType::I16, SizeArray {0}, SizeArray {CHUNK_XSIZE}, electricalSeries->getPath() + "/data");
-    io->createDataAttributes(electricalSeries->getPath(), channelGroup[0].conversion, -1.0f, "volts");
-    
-    electricalSeries->timestamps = createRecordingData(
-        BaseDataType::F64, SizeArray {0}, SizeArray {CHUNK_XSIZE}, electricalSeries->getPath() + "/timestamps");
-    io->createTimestampsAttributes(electricalSeries->getPath(), 1/channelGroup[0].samplingRate);
+    electricalSeries->data =
+        createRecordingData(BaseDataType::I16,
+                            SizeArray {0},
+                            SizeArray {CHUNK_XSIZE},
+                            electricalSeries->getPath() + "/data");
+    io->createDataAttributes(electricalSeries->getPath(),
+                             channelGroup[0].conversion,
+                             -1.0f,
+                             "volts");
+
+    electricalSeries->timestamps =
+        createRecordingData(BaseDataType::F64,
+                            SizeArray {0},
+                            SizeArray {CHUNK_XSIZE},
+                            electricalSeries->getPath() + "/timestamps");
+    io->createTimestampsAttributes(electricalSeries->getPath(),
+                                   1 / channelGroup[0].samplingRate);
 
     electricalSeries->channelConversion = createRecordingData(
-        BaseDataType::F32, SizeArray {1}, SizeArray {CHUNK_XSIZE}, electricalSeries->getPath() + "/channel_conversion");
-    io->createCommonNWBAttributes(electricalSeries->getPath() + "/channel_conversion", "hdmf-common", "", "Bit volts values for all channels");
+        BaseDataType::F32,
+        SizeArray {1},
+        SizeArray {CHUNK_XSIZE},
+        electricalSeries->getPath() + "/channel_conversion");
+    io->createCommonNWBAttributes(
+        electricalSeries->getPath() + "/channel_conversion",
+        "hdmf-common",
+        "",
+        "Bit volts values for all channels");
 
-    electricalSeries->electrodesDataset = createRecordingData(BaseDataType::I32, SizeArray {1}, SizeArray {CHUNK_XSIZE}, electricalSeries->getPath() + "/electrodes");
-    electricalSeries->electrodesDataset->writeDataBlock(channelGroup.size(), BaseDataType::I32, &electrodeInds[0]);
-    io->createCommonNWBAttributes(electricalSeries->getPath() + "/electrodes", "hdmf-common", "DynamicTableRegion", "");
-    io->createReferenceAttribute(elecTable.getPath(), electricalSeries->getPath() + "/electrodes", "table");
-  
+    electricalSeries->electrodesDataset =
+        createRecordingData(BaseDataType::I32,
+                            SizeArray {1},
+                            SizeArray {CHUNK_XSIZE},
+                            electricalSeries->getPath() + "/electrodes");
+    electricalSeries->electrodesDataset->writeDataBlock(
+        channelGroup.size(), BaseDataType::I32, &electrodeInds[0]);
+    io->createCommonNWBAttributes(electricalSeries->getPath() + "/electrodes",
+                                  "hdmf-common",
+                                  "DynamicTableRegion",
+                                  "");
+    io->createReferenceAttribute(elecTable.getPath(),
+                                 electricalSeries->getPath() + "/electrodes",
+                                 "table");
+
     // Add electrode information to electrode table
-    elecTable.electrodeDataset->dataset = createRecordingData(
-        BaseDataType::I32, SizeArray {1}, SizeArray {1}, electrodeTablePath + "id");
+    elecTable.electrodeDataset->dataset =
+        createRecordingData(BaseDataType::I32,
+                            SizeArray {1},
+                            SizeArray {1},
+                            electrodeTablePath + "id");
     elecTable.groupNamesDataset->dataset =
         createRecordingData(BaseDataType::STR(250),
                             SizeArray {0},

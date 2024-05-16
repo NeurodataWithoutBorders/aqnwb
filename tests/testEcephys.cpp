@@ -2,8 +2,8 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include "BaseIO.hpp"
-#include "Types.hpp"
 #include "Channel.hpp"
+#include "Types.hpp"
 #include "hdf5/HDF5IO.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
 #include "testUtils.hpp"
@@ -23,9 +23,11 @@ TEST_CASE("ElectrodeTable", "[ecephys]")
     io->createGroup("/general/extracellular_ephys/array1");
 
     std::vector<int> channelIDs = {0, 1, 2};
-    std::vector<Channel> channels = {Channel("ch0", "array1", channelIDs[0], 0),
-                                     Channel("ch1", "array1", channelIDs[1], 1),
-                                     Channel("ch2", "array1", channelIDs[2], 2),};
+    std::vector<Channel> channels = {
+        Channel("ch0", "array1", channelIDs[0], 0),
+        Channel("ch1", "array1", channelIDs[1], 1),
+        Channel("ch2", "array1", channelIDs[2], 2),
+    };
 
     NWB::ElectrodeTable electrodeTable(path, io, channels);
     electrodeTable.initialize();
@@ -64,7 +66,6 @@ TEST_CASE("ElectrodeTable", "[ecephys]")
   }
 }
 
-
 TEST_CASE("ElectricalSeries", "[ecephys]")
 {
   std::string filename = getTestFilePath("ElectricalSeries.h5");
@@ -73,12 +74,7 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
   std::vector<Types::ChannelGroup> mockArrays = getMockTestArrays();
 
   std::string path = "/electrodes/";
-  SECTION("test initialization")
-  {
-  }
+  SECTION("test initialization") {}
 
-  SECTION("test linking to electrode table region")
-  {
-  }
-  
+  SECTION("test linking to electrode table region") {}
 }

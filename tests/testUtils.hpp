@@ -5,8 +5,8 @@
 
 #include <catch2/catch_test_macros.hpp>
 
-#include "Types.hpp"
 #include "Channel.hpp"
+#include "Types.hpp"
 
 using namespace AQNWB;
 namespace fs = std::filesystem;
@@ -35,7 +35,7 @@ inline std::vector<Types::ChannelGroup> getMockTestArrays()
   Channel ch1 = Channel("ch1", "array1", 1, 1);
   Channel ch3 = Channel("ch3", "array2", 0, 2);
   Channel ch4 = Channel("ch4", "array2", 1, 3);
-  std::vector<Types::ChannelGroup> arrays = {Types::ChannelGroup{ch0, ch1}};
+  std::vector<Types::ChannelGroup> arrays = {Types::ChannelGroup {ch0, ch1}};
 
   return arrays;
 }

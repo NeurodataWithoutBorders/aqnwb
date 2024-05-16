@@ -51,7 +51,10 @@ public:
    * @brief Starts a recording.
    * @return Status The status of the recording operation.
    */
-  Status startRecording(std::vector<Types::ChannelGroup> recordingArrays);  // TODO - add recording number to stop and restart recording to same file
+  Status startRecording(
+      std::vector<Types::ChannelGroup>
+          recordingArrays);  // TODO - add recording number to stop and restart
+                             // recording to same file
 
   /**
    * @brief Closes the relevant datasets.

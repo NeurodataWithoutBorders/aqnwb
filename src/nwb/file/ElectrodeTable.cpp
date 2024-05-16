@@ -28,7 +28,9 @@ void ElectrodeTable::addElectrodes()
 {
   // create datasets
   for (const auto& ch : channels) {
-    groupReferences.push_back(groupPathBase + ch.groupName); // TODO - initialize these with the size of channels
+    groupReferences.push_back(
+        groupPathBase
+        + ch.groupName);  // TODO - initialize these with the size of channels
     groupNames.push_back(ch.groupName);
     electrodeNumbers.push_back(ch.globalIndex);
     locationNames.push_back("unknown");
@@ -64,5 +66,6 @@ void ElectrodeTable::setColNames(const std::vector<std::string>& newColNames)
 // Getter for groupPath
 std::string ElectrodeTable::getGroupPath() const
 {
-  return groupReferences[0];  // all channel in channelGroup should have the same groupName
+  return groupReferences[0];  // all channel in channelGroup should have the
+                              // same groupName
 }

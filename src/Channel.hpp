@@ -13,27 +13,34 @@ public:
   /**
    * @brief Constructor.
    */
-  Channel(std::string name, 
-          std::string groupName, 
-          int localIndex, 
-          int globalIndex, 
-          float conversion = 1e6, 
-          float samplingRate = 30000, 
-          std::vector<float> position = {0, 0, 0}):
-      name(name), groupName(groupName), conversion(conversion), samplingRate(samplingRate), localIndex(localIndex), globalIndex(globalIndex), position(position)
-      {}
+  Channel(std::string name,
+          std::string groupName,
+          int localIndex,
+          int globalIndex,
+          float conversion = 1e6,
+          float samplingRate = 30000,
+          std::vector<float> position = {0, 0, 0})
+      : name(name)
+      , groupName(groupName)
+      , conversion(conversion)
+      , samplingRate(samplingRate)
+      , localIndex(localIndex)
+      , globalIndex(globalIndex)
+      , position(position)
+  {
+  }
 
   /**
    * @brief Destructor
    */
-  ~Channel(){}
+  ~Channel() {}
 
   /**
    * @brief Name of the channel.
    */
   std::string name;
 
-   /**
+  /**
    * @brief Name of the array group the channel belongs to.
    */
   std::string groupName;
@@ -44,7 +51,7 @@ public:
   float conversion;
 
   /**
-   * @brief Sampling rate of the channel. 
+   * @brief Sampling rate of the channel.
    */
   float samplingRate;
 
@@ -66,4 +73,3 @@ public:
 private:
 };
 }  // namespace AQNWB
-

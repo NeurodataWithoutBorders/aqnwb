@@ -2,27 +2,33 @@
 
 #include <string>
 
-#include "nwb/hdmf/table/VectorData.hpp"
 #include "nwb/hdmf/table/DynamicTable.hpp"
+#include "nwb/hdmf/table/VectorData.hpp"
 
 namespace AQNWB::NWB
 {
 /**
  * @brief An n-dimensional dataset representing a column of a DynamicTable.
  */
-class DynamicTableRegion : public VectorData  // TODO - I think path should maybe get initialized in VectorData instead
-{ 
-    friend class NWBFile;  // TODO - not sure if the best way to set this up
+class DynamicTableRegion
+    : public VectorData  // TODO - I think path should maybe get initialized in
+                         // VectorData instead
+{
+  friend class NWBFile;  // TODO - not sure if the best way to set this up
 
 public:
   /**
    * @brief Constructor.
    * @param path The location of the DynamicTableRegion in the file.
    * @param io A shared pointer to the IO object.
-   * @param tablePath The location of the DynamicTable object this region applies to.
+   * @param tablePath The location of the DynamicTable object this region
+   * applies to.
    * @param description The description of what this table region points to.
    */
-  DynamicTableRegion(const std::string& path, std::shared_ptr<BaseIO> io, const std::string& tablePath, const std::string& description);
+  DynamicTableRegion(const std::string& path,
+                     std::shared_ptr<BaseIO> io,
+                     const std::string& tablePath,
+                     const std::string& description);
 
   /**
    * @brief Destructor.
@@ -44,7 +50,7 @@ protected:
    * @brief A shared pointer to the IO object.
    */
   std::shared_ptr<BaseIO> io;
-  
+
   /**
    * @brief Description of what this table region points to.
    */

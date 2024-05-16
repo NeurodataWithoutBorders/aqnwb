@@ -4,8 +4,8 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include "BaseIO.hpp"
-#include "Types.hpp"
 #include "Channel.hpp"
+#include "Types.hpp"
 #include "hdf5/HDF5IO.hpp"
 #include "nwb/NWBFile.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
@@ -13,7 +13,6 @@
 
 using namespace AQNWB;
 namespace fs = std::filesystem;
-
 
 TEST_CASE("writeGroup", "[hdf5io]")
 {
@@ -27,24 +26,16 @@ TEST_CASE("writeGroup", "[hdf5io]")
     hdf5io.createGroup("/data");
     hdf5io.close();
   }
-  
-  SECTION("initialize group if it already exists")
-  {
-    hdf5io.createGroup("/data");
-    hdf5io.close();
-  }
+
+  SECTION("initialize group if it already exists") {}
+
+  SECTION("initialize group without parent group") {}
 }
 
 TEST_CASE("writeDataset", "[hdf5io]")
 {
   // TODO write tests for writing datasets
 }
-
-TEST_CASE("writeLink", "[hdf5io]")
-{
-  // TODO write tests for writing soft links
-}
-
 
 TEST_CASE("writeAttributes", "[hdf5io]")
 {
@@ -90,4 +81,3 @@ TEST_CASE("writeAttributes", "[hdf5io]")
   // close file
   hdf5io.close();
 }
-

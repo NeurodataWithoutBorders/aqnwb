@@ -79,7 +79,8 @@ Status BaseIO::createDataAttributes(const std::string& path,
 Status BaseIO::createTimestampsAttributes(const std::string& path,
                                           const float& interval)
 {
-  createAttribute(BaseDataType::F32, &interval, path + "/timestamps", "interval");
+  createAttribute(
+      BaseDataType::F32, &interval, path + "/timestamps", "interval");
   createAttribute("unit", path + "/timestamps", "unit");
 
   return Status::Success;
