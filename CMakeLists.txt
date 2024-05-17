@@ -19,6 +19,7 @@ add_library(
     src/BaseIO.cpp
     src/hdf5/HDF5IO.cpp
     src/nwb/NWBFile.cpp
+    src/nwb/NWBRecording.cpp
     src/nwb/base/TimeSeries.cpp
     src/nwb/device/Device.cpp
     src/nwb/ecephys/ElectricalSeries.cpp

@@ -62,6 +62,11 @@ public:
   void stopRecording();
 
   /**
+   * @brief Getter for timeseries data
+   */
+  Types::TimeSeriesData* getTimeSeriesData();
+
+  /**
    * @brief Indicates the NWB schema version.
    */
   const std::string NWBVersion = "2.7.0";
@@ -122,59 +127,6 @@ private:
   std::vector<float> scaledBuffer;
   std::vector<int16_t> intBuffer;
   SizeType bufferSize;
-};
-
-/**
- * @brief The NWBRecordingEngine class manages the recording process
- */
-class NWBRecordingEngine
-{
-public:
-  /**
-   * @brief Default constructor for NWBRecordingEngine.
-   */
-  NWBRecordingEngine();
-
-  /**
-   * @brief Deleted copy constructor to prevent construction-copying.
-   */
-  NWBRecordingEngine(const NWBRecordingEngine&) = delete;
-
-  /**
-   * @brief Deleted copy assignment operator to prevent copying.
-   */
-  NWBRecordingEngine& operator=(const NWBRecordingEngine&) = delete;
-
-  /**
-   * @brief Destructor for NWBRecordingEngine.
-   */
-  ~NWBRecordingEngine();
-
-  /**
-   * @brief Opens all the necessary files for recording.
-   * @param rootFolder The root folder where the files will be stored.
-   * @param experimentNumber The experiment number.
-   * @param recordingNumber The recording number.
-   */
-  void openFiles(const std::string& rootFolder,
-                 int experimentNumber,
-                 int recordingNumber);
-
-  /**
-   * @brief Closes all the files and performs necessary cleanup when recording
-   * stops.
-   */
-  void closeFiles();
-
-private:
-  /**
-   * @brief Pointer to the current NWB file.
-   */
-  std::unique_ptr<NWBFile> nwb;
-
-  /**
-   * @brief Holds integer sample numbers for writing.
-   */
-  std::vector<int64_t> smpBuffer;
+  Types::TimeSeriesData timeseriesData;
 };
 }  // namespace AQNWB::NWB

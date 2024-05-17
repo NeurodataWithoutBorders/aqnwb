@@ -82,6 +82,9 @@ Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays)
   // store all recorded data in the acquisition group
   std::string rootPath = "/acquisition/";
 
+  timeseriesData.clear();
+  timeseriesData.reserve(recordingArrays.size());
+
   // Create continuous datasets
   for (const auto& channelGroup : recordingArrays) {
     // Setup electrode table
@@ -123,7 +126,7 @@ Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays)
                             SizeArray {CHUNK_XSIZE},
                             electricalSeries->getPath() + "/data");
     io->createDataAttributes(electricalSeries->getPath(),
-                             channelGroup[0].conversion,
+                             channelGroup[0].getConversion(),
                              -1.0f,
                              "volts");
 
@@ -133,7 +136,7 @@ Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays)
                             SizeArray {CHUNK_XSIZE},
                             electricalSeries->getPath() + "/timestamps");
     io->createTimestampsAttributes(electricalSeries->getPath(),
-                                   1 / channelGroup[0].samplingRate);
+                                   1 / channelGroup[0].getSamplingRate());
 
     electricalSeries->channelConversion = createRecordingData(
         BaseDataType::F32,
@@ -161,6 +164,8 @@ Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays)
                                  electricalSeries->getPath() + "/electrodes",
                                  "table");
 
+    timeseriesData.push_back(electricalSeries);
+
     // Add electrode information to electrode table
     elecTable.electrodeDataset->dataset =
         createRecordingData(BaseDataType::I32,
@@ -184,6 +189,11 @@ Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays)
 }
 
 void NWBFile::stopRecording() {}
+
+Types::TimeSeriesData NWBFile::getTimeSeriesDatasets()
+{
+  return timeseriesData;
+}
 
 void NWBFile::cacheSpecifications(const std::string& specPath,
                                   const std::string& versionNumber)
@@ -224,29 +234,4 @@ std::unique_ptr<AQNWB::BaseRecordingData> NWBFile::createRecordingData(
 {
   return std::unique_ptr<BaseRecordingData>(
       io->createDataSet(type, size, chunking, path));
-}
-
-// NWBRecordingEngine
-NWBRecordingEngine::NWBRecordingEngine()
-{
-  //  smpBuffer.malloc(MAX_BUFFER_SIZE); // TODO - JUCE type, need to adapt
-}
-
-NWBRecordingEngine::~NWBRecordingEngine()
-{
-  if (nwb != nullptr) {
-    //  nwb->close();  // TODO - figure out which BaseIO / RecordingData things
-    //  to handle nwb.reset();
-  }
-}
-
-void NWBRecordingEngine::openFiles(const std::string& rootFolder,
-                                   int experimentNumber,
-                                   int recordingNumber)
-{
-}
-
-void NWBRecordingEngine::closeFiles()
-{
-  nwb->stopRecording();
 }
