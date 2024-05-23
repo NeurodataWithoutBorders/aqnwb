@@ -36,13 +36,9 @@ inline std::vector<Types::ChannelGroup> getMockChannelArrays()
   Channel ch1 = Channel("ch1", "array1", 1, 1);
   Channel ch2 = Channel("ch2", "array2", 0, 2);
   Channel ch3 = Channel("ch3", "array2", 1, 3);
-  // std::vector<Types::ChannelGroup> arrays = {Types::ChannelGroup {ch0, ch1,
-  // ch2, ch3}}; // TODO - make this work for multiple channel groups
   std::vector<Types::ChannelGroup> arrays = {
       Types::ChannelGroup {ch0, ch1},
-      Types::ChannelGroup {
-          ch2, ch3}};  // TODO - make this work for multiple channel groups
-
+      Types::ChannelGroup {ch2, ch3}};  
   return arrays;
 }
 

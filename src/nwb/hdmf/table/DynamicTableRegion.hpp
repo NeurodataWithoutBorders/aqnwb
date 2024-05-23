@@ -14,8 +14,6 @@ class DynamicTableRegion
     : public VectorData  // TODO - I think path should maybe get initialized in
                          // VectorData instead
 {
-  friend class NWBFile;  // TODO - not sure if the best way to set this up
-
 public:
   /**
    * @brief Constructor.

@@ -30,7 +30,7 @@ void ElectrodeTable::addElectrodes(std::vector<Channel> channels)
     groupNames.push_back(ch.groupName);
     electrodeNumbers.push_back(ch.globalIndex);
     locationNames.push_back("unknown");
-  }
+  } // TODO  - update this to use addRows if columns already exist to avoid saving all data
 
   // add columns
   setRowIDs(electrodeDataset, electrodeNumbers);

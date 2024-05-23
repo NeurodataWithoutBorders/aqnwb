@@ -32,8 +32,7 @@ const BaseDataType BaseDataType::DSTR = BaseDataType(T_STR, DEFAULT_STR_SIZE);
 // BaseIO
 
 BaseIO::BaseIO()
-    : readyToOpen(
-        true)  // TODO - move the readyToOpen flag to the NWBFile building part
+    : readyToOpen(true) 
     , opened(false)
 {
 }

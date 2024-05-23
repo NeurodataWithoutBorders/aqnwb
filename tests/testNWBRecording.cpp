@@ -71,6 +71,18 @@ TEST_CASE("writeContinuousData", "[recording]")
     }
   }
 
-  // TODO - what other tests should be added here?
-  SECTION("test data and timestamps stream") {}
+  SECTION("check contents of data and timestamps", "[recording]") 
+  {
+    // TODO 
+  }
+
+  SECTION("test if more samples than buffer size", "[recording]") 
+  {
+    // TODO 
+  }
+
+  SECTION("add a new recording number to the same file", "[recording]") 
+  {
+    // TODO 
+  }
 }

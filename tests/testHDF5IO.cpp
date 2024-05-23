@@ -27,14 +27,28 @@ TEST_CASE("writeGroup", "[hdf5io]")
     hdf5io.close();
   }
 
-  SECTION("initialize group if it already exists") {}
+  SECTION("try initializing group that already exists") 
+  {
+    // TODO
+  }
 
-  SECTION("initialize group without parent group") {}
+  SECTION("try initializing group without parent group") 
+  {
+    // TODO
+  }
 }
 
 TEST_CASE("writeDataset", "[hdf5io]")
 {
-  // TODO write tests for writing datasets
+  SECTION("create dataset and write data row") 
+  {
+    // TODO
+  }
+
+  SECTION("create dataset and write data block") 
+  {
+    // TODO
+  }
 }
 
 TEST_CASE("writeAttributes", "[hdf5io]")
@@ -76,6 +90,12 @@ TEST_CASE("writeAttributes", "[hdf5io]")
   {
     std::vector<std::string> data;
     hdf5io.createLink("/data/link", "linked_data");
+  }
+
+  // reference
+  SECTION("reference")
+  {
+    // TODO
   }
 
   // close file
