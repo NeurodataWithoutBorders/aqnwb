@@ -1,6 +1,5 @@
 #pragma once
 
-#include "BaseIO.hpp"
 #include "Types.hpp"
 #include "nwb/NWBFile.hpp"
 
@@ -44,7 +43,8 @@ public:
   Status openFiles(const std::string& rootFolder,
                    const std::string& baseName,
                    int experimentNumber,
-                   std::vector<Types::ChannelGroup> recordingArrays);
+                   std::vector<Types::ChannelGroup> recordingArrays,
+                   const std::string& IOType = "HDF5");
 
   /**
    * @brief Closes all the files and performs necessary cleanup when recording

@@ -48,16 +48,13 @@ inline std::vector<std::vector<float>> getMockData(int numChannels = 4,
   std::vector<std::vector<float>> mockData(numChannels,
                                            std::vector<float>(numSamples));
 
-  std::random_device
-      rd;  // Will be used to obtain a seed for the random number engine
-  std::mt19937 gen(rd());  // Standard mersenne_twister_engine seeded with rd()
-  std::uniform_real_distribution<> dis(
-      0.0, 1.0);  // Define the range for your floats here
+  std::random_device rd;
+  std::mt19937 rng(rd());  // random number generator
+  std::uniform_real_distribution<> dis(-1.0, 1.0);  //range of floats
 
   for (auto& channelData : mockData) {
     for (auto& data : channelData) {
-      data = dis(
-          gen);  // Generate a random float and assign it to the current element
+      data = dis(rng) * 1000;  // approximate microvolt unit range
     }
   }
 

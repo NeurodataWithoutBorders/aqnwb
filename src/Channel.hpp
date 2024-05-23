@@ -17,10 +17,10 @@ public:
           std::string groupName,
           int localIndex,
           int globalIndex,
-          float conversion = 1e6,
-          float samplingRate = 30000,
-          float bitVolts = 0.195,
-          std::vector<float> position = {0, 0, 0})
+          float conversion = 1e6f,  // uV to V
+          float samplingRate = 30000.f,
+          float bitVolts = 0.000002f,  // least significant bit needed to convert 16-bit int to volts
+          std::vector<float> position = {0.f, 0.f, 0.f})
       : name(name)
       , groupName(groupName)
       , conversion(conversion)
@@ -41,7 +41,7 @@ public:
    * @brief Getter for conversion factor
    * @return The conversion value.
    */
-  float getConversion() const { return conversion; }
+  float getConversion() const { return bitVolts / conversion; }
 
   /**
    * @brief Getter for samplingRate

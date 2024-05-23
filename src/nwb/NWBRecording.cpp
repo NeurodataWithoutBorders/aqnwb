@@ -25,7 +25,8 @@ NWBRecording::~NWBRecording()
 Status NWBRecording::openFiles(const std::string& rootFolder,
                                const std::string& baseName,
                                int experimentNumber,
-                               std::vector<Types::ChannelGroup> recordingArrays)
+                               std::vector<Types::ChannelGroup> recordingArrays,
+                               const std::string& IOType)
 {
   std::string filename =
       rootFolder + baseName + std::to_string(experimentNumber) + ".nwb";
@@ -33,18 +34,12 @@ Status NWBRecording::openFiles(const std::string& rootFolder,
   // initialize nwbfile object and create base structure
   nwbfile = std::make_unique<NWB::NWBFile>(
       generateUuid(),
-      std::make_unique<HDF5::HDF5IO>(
-          filename));  // TODO make this generic IO, what's the best way to
-                       // switch between?
+      createIO(IOType, filename));
   nwbfile->initialize();
-
-  // TODO - use number of channels detected to open a file with optimal chunking
-  // for channels
 
   // start the new recording
   return nwbfile->startRecording(
-      recordingArrays);  // TODO - add recording number to stop and restart
-                         // recording to same file
+      recordingArrays);
 }
 
 void NWBRecording::closeFiles()
@@ -60,7 +55,7 @@ void NWBRecording::writeTimeseriesData(int timeseriesInd,
                                        int numSamples)
 {
   // copy data and multiply by scaling factor
-  double multFactor = 1 / (float(0x7fff) * channel.getBitVolts());
+  double multFactor = 1 / (32767.0f * channel.getBitVolts());
   std::transform(dataBuffer,
                  dataBuffer + numSamples,
                  scaledBuffer.get(),
@@ -71,17 +66,17 @@ void NWBRecording::writeTimeseriesData(int timeseriesInd,
                  scaledBuffer.get() + numSamples,
                  intBuffer.get(),
                  [](float value) {
-                   return static_cast<int16_t>(std::lround(value * 32767.0f));
+                   return static_cast<int16_t>(std::clamp(value, -32768.0f, 32767.0f));
                  });
 
   // write intBuffer data to dataset
-  nwbfile->writeContinuousData(timeseriesInd,
+  nwbfile->writeTimeseriesData(timeseriesInd,
                                channel.localIndex,
                                numSamples,
                                BaseDataType::I16,
                                intBuffer.get());
-  if (timeseriesInd == 0) {
-    nwbfile->writeContinuousData(
+  if (channel.localIndex == 0) {
+    nwbfile->writeTimeseriesTimestamps(
         timeseriesInd, numSamples, BaseDataType::F64, timestampBuffer);
   }
 }
