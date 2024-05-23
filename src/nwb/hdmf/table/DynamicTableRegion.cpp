@@ -22,8 +22,6 @@ DynamicTableRegion::~DynamicTableRegion() {}
 /** Initialization function*/
 void DynamicTableRegion::initialize()
 {
-  // io->createGroup(path);  // TODO - this should maybe be on VectorData
-  // initialization? But I'm not sure
   io->createCommonNWBAttributes(
       path, "hdmf-common", neurodataType, description);
   io->createReferenceAttribute(tablePath, path, "table");

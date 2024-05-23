@@ -11,8 +11,7 @@ namespace AQNWB::NWB
  * @brief An n-dimensional dataset representing a column of a DynamicTable.
  */
 class DynamicTableRegion
-    : public VectorData  // TODO - I think path should maybe get initialized in
-                         // VectorData instead
+    : public VectorData
 {
 public:
   /**
