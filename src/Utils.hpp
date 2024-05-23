@@ -7,8 +7,10 @@
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
-
 #include "boost/date_time/c_local_time_adjustor.hpp"
+
+#include "BaseIO.hpp"
+#include "hdf5/HDF5IO.hpp"
 
 namespace AQNWB
 {
@@ -50,5 +52,17 @@ inline std::string getCurrentTime()
   currentTime += oss_offset.str();
 
   return currentTime;
+}
+
+/**
+ * @brief Factory method to create an IO object.
+ * @return A pointer to a BaseIO object
+ */
+inline std::unique_ptr<BaseIO> createIO(const std::string& type, const std::string& filename) {
+    if (type == "HDF5") {
+        return std::make_unique<HDF5::HDF5IO>(filename);
+    } else {
+        throw std::invalid_argument("Invalid IO type");
+    }
 }
 }  // namespace AQNWB
