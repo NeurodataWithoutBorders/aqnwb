@@ -29,7 +29,7 @@ TEST_CASE("ElectrodeTable", "[ecephys]")
         Channel("ch2", "array1", channelIDs[2], 2),
     };
 
-    NWB::ElectrodeTable electrodeTable(path, io, channels);
+    NWB::ElectrodeTable electrodeTable(path, io);
     electrodeTable.initialize();
     electrodeTable.electrodeDataset->dataset =
         std::unique_ptr<BaseRecordingData>(io->createDataSet(
@@ -41,7 +41,7 @@ TEST_CASE("ElectrodeTable", "[ecephys]")
                               SizeArray {0},
                               SizeArray {1},
                               path + "location"));
-    electrodeTable.addElectrodes();
+    electrodeTable.addElectrodes(channels);
 
     // Check if id datasets are created correctly
     size_t numChannels = 3;
@@ -61,7 +61,7 @@ TEST_CASE("ElectrodeTable", "[ecephys]")
     std::string filename = getTestFilePath("electrodeTableNoData.h5");
     std::shared_ptr<BaseIO> io = std::make_unique<HDF5::HDF5IO>(filename);
     io->open();
-    NWB::ElectrodeTable electrodeTable(path, io, channels, "none");
+    NWB::ElectrodeTable electrodeTable(path, io);
     electrodeTable.initialize();
   }
 }
@@ -71,7 +71,7 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
   std::string filename = getTestFilePath("ElectricalSeries.h5");
 
   // setup recording info
-  std::vector<Types::ChannelGroup> mockArrays = getMockTestArrays();
+  std::vector<Types::ChannelGroup> mockArrays = getMockChannelArrays();
 
   std::string path = "/electrodes/";
   SECTION("test initialization") {}

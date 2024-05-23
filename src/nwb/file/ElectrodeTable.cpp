@@ -7,10 +7,8 @@ using namespace AQNWB::NWB;
 /** Constructor */
 ElectrodeTable::ElectrodeTable(const std::string& path,
                                std::shared_ptr<BaseIO> io,
-                               std::vector<Channel> channels,
                                const std::string& description)
     : DynamicTable(path, io, description)
-    , channels(channels)
 {
 }
 
@@ -24,13 +22,13 @@ void ElectrodeTable::initialize()
   DynamicTable::initialize();
 }
 
-void ElectrodeTable::addElectrodes()
+void ElectrodeTable::addElectrodes(std::vector<Channel> channels)
 {
   // create datasets
   for (const auto& ch : channels) {
     groupReferences.push_back(
         groupPathBase
-        + ch.groupName);  // TODO - initialize these with the size of channels
+        + ch.groupName);
     groupNames.push_back(ch.groupName);
     electrodeNumbers.push_back(ch.globalIndex);
     locationNames.push_back("unknown");

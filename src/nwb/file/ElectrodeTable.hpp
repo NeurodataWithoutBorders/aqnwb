@@ -25,7 +25,6 @@ public:
    */
   ElectrodeTable(const std::string& path,
                  std::shared_ptr<BaseIO> io,
-                 std::vector<Channel> channels,
                  const std::string& description =
                      "metadata about extracellular electrodes");
 
@@ -46,7 +45,7 @@ public:
    * @brief Sets up the ElectrodeTable by adding electrodes and their metadata.
    *
    */
-  void addElectrodes();
+  void addElectrodes(std::vector<Channel> channels);
 
   /**
    * @brief Gets the column names of the ElectrodeTable.
