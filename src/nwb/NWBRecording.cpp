@@ -22,30 +22,20 @@ NWBRecording::~NWBRecording()
 }
 
 Status NWBRecording::openFiles(const std::string& rootFolder,
-                             const std::string& baseName,
-                             int experimentNumber)
+                               const std::string& baseName,
+                               int experimentNumber,
+                               std::vector<Types::ChannelGroup> recordingArrays)
 {
     std::string filename = rootFolder + baseName + std::to_string(experimentNumber) + ".nwb";
 
     // initialize nwbfile object and create base structure
-    nwbfile = std::make_unique<NWB::NWBFile>(generateUuid(), std::make_unique<HDF5::HDF5IO>(filename));  // TODO make this generic IO
+    nwbfile = std::make_unique<NWB::NWBFile>(generateUuid(), std::make_unique<HDF5::HDF5IO>(filename));  // TODO make this generic IO, whats the best way to switch between?
     nwbfile->initialize();
-
-
-    // get channel group information from acquisition system
-    // TODO - adapt this for customizability but right now use test array
-    Channel ch0 = Channel("ch0", "array1", 0, 0);
-    Channel ch1 = Channel("ch1", "array1", 1, 1);
-    Channel ch3 = Channel("ch3", "array2", 0, 2);
-    Channel ch4 = Channel("ch4", "array2", 1, 3);
-    std::vector<Types::ChannelGroup> arrays = {Types::ChannelGroup {ch0, ch1}};
 
     // TODO - use number of channels detected to open a file with optimal chunking for channels
 
     // start the new recording
-    Status result = nwbfile->startRecording(arrays);  // TODO - add recording number to stop and restart recording to same file
-
-    return result;
+    return nwbfile->startRecording(recordingArrays);  // TODO - add recording number to stop and restart recording to same file
 }
 
 void NWBRecording::closeFiles()
@@ -54,15 +44,12 @@ void NWBRecording::closeFiles()
   nwbfile->finalize();
 }
 
-void NWBRecording::writeTimeseriesData(int timeseriesInd,  // TODO - do I want to pass in a timeseries itself here?
+void NWBRecording::writeTimeseriesData(int timeseriesInd,
                         Channel channel,
                         const float *dataBuffer,
                         const double *timestampBuffer,
                         int numSamples)
 {
-
-  // TODO - add lines here that map from channel indices to dataset indices
-
   // copy data and multiply by scaling factor
   double multFactor = 1 / (float(0x7fff) * channel.getBitVolts());
   std::transform(dataBuffer, dataBuffer + numSamples, scaledBuffer.get(), [multFactor](float value) {
@@ -76,10 +63,9 @@ void NWBRecording::writeTimeseriesData(int timeseriesInd,  // TODO - do I want t
   });
 
   // write intBuffer data to dataset
-  Types::TimeSeriesData* tsData = nwbfile->getTimeSeriesData();
-  // tsData[timeseriesInd]->data->writeDataRow(numSamples, channel.localIndex, BaseDataType::I16, intBuffer);
-  // if (timeseriesInd == 0)
-  // {
-  //     tsData[timeseriesInd]->timestamps->writeDataBlock(numSamples, BaseDataType::F64, timestampBuffer);
-  // }
+  nwbfile->writeContinuousData(timeseriesInd, channel.localIndex, numSamples, BaseDataType::I16, intBuffer.get());
+  if (timeseriesInd == 0)
+  {
+    nwbfile->writeContinuousData(timeseriesInd, numSamples, BaseDataType::F64, timestampBuffer);
+  }
 }

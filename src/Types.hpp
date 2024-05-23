@@ -3,7 +3,6 @@
 #include <vector>
 
 #include "Channel.hpp"
-#include "nwb/base/TimeSeries.hpp"
 
 namespace AQNWB
 {
@@ -37,9 +36,5 @@ public:
    */
   using ChannelGroup = std::vector<Channel>;
 
-  /**
-   * @brief Alias for a group of channel groups.
-   */
-  using TimeSeriesData = std::vector<std::unique_ptr<NWB::TimeSeries>>;
 };
 }  // namespace AQNWB

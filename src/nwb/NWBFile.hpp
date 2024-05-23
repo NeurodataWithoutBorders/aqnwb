@@ -4,9 +4,13 @@
 
 #include "BaseIO.hpp"
 #include "Types.hpp"
+#include "nwb/base/TimeSeries.hpp"
 
 namespace AQNWB::NWB
 {
+
+  using TimeSeriesData = std::vector<std::unique_ptr<TimeSeries>>;
+
 /**
  * @brief The NWBFile class provides an interface for setting up and managing
  * the NWB file.
@@ -62,9 +66,23 @@ public:
   void stopRecording();
 
   /**
-   * @brief Getter for timeseries data
+   * @brief Write continuous data to the NWB file. 
+   * @param datasetID The index of the continuous dataset.
+   * @param numSamples The number of samples to write.
+   * @param type The base data type.
+   * @param data The data to write.
    */
-  Types::TimeSeriesData* getTimeSeriesData();
+  Status writeContinuousData(int datasetInd, int numSamples, BaseDataType type, const void* data);
+
+  /**
+   * @brief Write a row of continuous data to the NWB file. 
+   * @param datasetID The index of the continuous dataset.
+   * @param rowID The index of the row to write.
+   * @param numSamples The number of samples to write.
+   * @param type The base data type.
+   * @param data The data to write.
+   */
+  Status writeContinuousData(int datasetInd, int rowInd, int numSamples, BaseDataType type, const void* data);
 
   /**
    * @brief Indicates the NWB schema version.
@@ -127,6 +145,6 @@ private:
   std::vector<float> scaledBuffer;
   std::vector<int16_t> intBuffer;
   SizeType bufferSize;
-  Types::TimeSeriesData timeseriesData;
+  TimeSeriesData timeseriesData;
 };
 }  // namespace AQNWB::NWB

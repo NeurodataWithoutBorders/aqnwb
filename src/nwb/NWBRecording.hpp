@@ -43,7 +43,8 @@ public:
    */
   Status openFiles(const std::string& rootFolder,
                    const std::string& baseName,
-                   int experimentNumber);
+                   int experimentNumber,
+                   std::vector<Types::ChannelGroup> recordingArrays);
 
   /**
    * @brief Closes all the files and performs necessary cleanup when recording
