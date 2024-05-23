@@ -569,8 +569,7 @@ Status HDF5RecordingData::writeDataBlock(const SizeType& xDataSize,
                                          const BaseDataType& type,
                                          const void* data)
 {
-  try
-  {
+  try {
     hsize_t dim[3], offset[3];
     DataSpace fSpace;
     DataType nativeType;
@@ -610,7 +609,7 @@ Status HDF5RecordingData::writeDataBlock(const SizeType& xDataSize,
     dSet->write(data, nativeType, mSpace, fSpace);
     xPos += xDataSize;
   } catch (DataSetIException error) {
-    error.printErrorStack();  
+    error.printErrorStack();
   } catch (DataSpaceIException error) {
     error.printErrorStack();
   } catch (FileIException error) {
@@ -627,35 +626,33 @@ void HDF5RecordingData::readDataBlock(const BaseDataType& type, void* buffer)
   dSet->read(buffer, nativeType, fSpace, fSpace);
 }
 
-
 Status HDF5RecordingData::writeDataRow(const SizeType& xDataSize,
-                                         const int& yPos,
-                                         const BaseDataType& type,
-                                         const void* data)
+                                       const int& yPos,
+                                       const BaseDataType& type,
+                                       const void* data)
 {
   hsize_t dim[2], offset[2];
   DataSpace fSpace;
   DataType nativeType;
-  
-  if (dimension > 2) return Status::Failure;  // not currently writing rows in datasets > 2d
-  if ((yPos < 0) || (yPos >= size[1])) return Status::Failure;  // yPosition out of bounds
 
-  try
-  {
+  if (dimension > 2)
+    return Status::Failure;  // not currently writing rows in datasets > 2d
+  if ((yPos < 0) || (yPos >= size[1]))
+    return Status::Failure;  // yPosition out of bounds
+
+  try {
     // Check dimensions
-    if (rowXPos[yPos]+xDataSize > size[0])
-    {
-        dim[1] = size[1];
-        dim[0] = rowXPos[yPos] + xDataSize;
-        dSet->extend(dim);
+    if (rowXPos[yPos] + xDataSize > size[0]) {
+      dim[1] = size[1];
+      dim[0] = rowXPos[yPos] + xDataSize;
+      dSet->extend(dim);
 
-        fSpace = dSet->getSpace();
-        fSpace.getSimpleExtentDims(dim);
-        size[0] = (int) dim[0];
+      fSpace = dSet->getSpace();
+      fSpace.getSimpleExtentDims(dim);
+      size[0] = (int)dim[0];
     }
-    if (rowXPos[yPos]+xDataSize > xPos)
-    {
-        xPos = rowXPos[yPos]+xDataSize;
+    if (rowXPos[yPos] + xDataSize > xPos) {
+      xPos = rowXPos[yPos] + xDataSize;
     }
 
     // Create memory space
@@ -674,18 +671,18 @@ Status HDF5RecordingData::writeDataRow(const SizeType& xDataSize,
 
     dSet->write(data, nativeType, mSpace, fSpace);
     if (yPos < rowXPos.size()) {
-        rowXPos[yPos] += xDataSize;
+      rowXPos[yPos] += xDataSize;
     } else {
-        rowXPos.push_back(xDataSize);
+      rowXPos.push_back(xDataSize);
     }
 
   } catch (DataSetIException error) {
-    error.printErrorStack();  
+    error.printErrorStack();
   } catch (DataSpaceIException error) {
     error.printErrorStack();
   } catch (FileIException error) {
     error.printErrorStack();
   }
 
-  return Status::Success;  
+  return Status::Success;
 };

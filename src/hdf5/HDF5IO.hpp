@@ -285,6 +285,7 @@ public:
                       const int& yPos,
                       const BaseDataType& type,
                       const void* data);
+
 private:
   /**
    * @brief Pointer to an extendable HDF5 dataset

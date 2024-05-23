@@ -35,6 +35,5 @@ public:
    * @brief Alias for a group of channels.
    */
   using ChannelGroup = std::vector<Channel>;
-
 };
 }  // namespace AQNWB

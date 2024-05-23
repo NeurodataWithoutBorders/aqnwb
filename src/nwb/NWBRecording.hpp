@@ -4,7 +4,6 @@
 #include "Types.hpp"
 #include "nwb/NWBFile.hpp"
 
-
 namespace AQNWB::NWB
 {
 /**
@@ -37,7 +36,8 @@ public:
   /**
    * @brief Opens all the necessary files for recording.
    * @param rootFolder The root folder where the files will be stored.
-   * @param baseName The base name of the files (will be appended with experiment number).
+   * @param baseName The base name of the files (will be appended with
+   * experiment number).
    * @param experimentNumber The experiment number.
    * @param recordingNumber The recording number.
    */
@@ -57,8 +57,8 @@ public:
    */
   void writeTimeseriesData(int timeSeriesID,
                            Channel systemChannel,
-                           const float *dataBuffer,
-                           const double *timestampBuffer,
+                           const float* dataBuffer,
+                           const double* timestampBuffer,
                            int size);
 
 private:
@@ -68,19 +68,18 @@ private:
   std::unique_ptr<NWBFile> nwbfile;
 
   /**
-   * @brief Holds integer sample numbers for writing. 
+   * @brief Holds integer sample numbers for writing.
    */
   std::unique_ptr<int[]> sampleBuffer = nullptr;
 
   /**
-   * @brief Holds scaled samples for writing. 
+   * @brief Holds scaled samples for writing.
    */
   std::unique_ptr<float[]> scaledBuffer = nullptr;
 
   /**
-   * @brief Holds integer samples for writing. 
+   * @brief Holds integer samples for writing.
    */
   std::unique_ptr<int16_t[]> intBuffer = nullptr;
-
 };
 }  // namespace AQNWB::NWB

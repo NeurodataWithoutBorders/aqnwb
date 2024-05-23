@@ -36,37 +36,47 @@ inline std::vector<Types::ChannelGroup> getMockChannelArrays()
   Channel ch1 = Channel("ch1", "array1", 1, 1);
   Channel ch2 = Channel("ch2", "array2", 0, 2);
   Channel ch3 = Channel("ch3", "array2", 1, 3);
-  // std::vector<Types::ChannelGroup> arrays = {Types::ChannelGroup {ch0, ch1, ch2, ch3}}; // TODO - make this work for multiple channel groups
-  std::vector<Types::ChannelGroup> arrays = {Types::ChannelGroup {ch0, ch1},
-                                             Types::ChannelGroup {ch2, ch3}}; // TODO - make this work for multiple channel groups
+  // std::vector<Types::ChannelGroup> arrays = {Types::ChannelGroup {ch0, ch1,
+  // ch2, ch3}}; // TODO - make this work for multiple channel groups
+  std::vector<Types::ChannelGroup> arrays = {
+      Types::ChannelGroup {ch0, ch1},
+      Types::ChannelGroup {
+          ch2, ch3}};  // TODO - make this work for multiple channel groups
 
   return arrays;
 }
 
-inline std::vector<std::vector<float>> getMockData(int numChannels = 4, int numSamples = 1000)
+inline std::vector<std::vector<float>> getMockData(int numChannels = 4,
+                                                   int numSamples = 1000)
 {
-  std::vector<std::vector<float>> mockData(numChannels, std::vector<float>(numSamples));
+  std::vector<std::vector<float>> mockData(numChannels,
+                                           std::vector<float>(numSamples));
 
-  std::random_device rd;  // Will be used to obtain a seed for the random number engine
-  std::mt19937 gen(rd()); // Standard mersenne_twister_engine seeded with rd()
-  std::uniform_real_distribution<> dis(0.0, 1.0); // Define the range for your floats here
+  std::random_device
+      rd;  // Will be used to obtain a seed for the random number engine
+  std::mt19937 gen(rd());  // Standard mersenne_twister_engine seeded with rd()
+  std::uniform_real_distribution<> dis(
+      0.0, 1.0);  // Define the range for your floats here
 
-  for(auto& channelData : mockData) {
-      for(auto& data : channelData) {
-          data = dis(gen); // Generate a random float and assign it to the current element
-      }
+  for (auto& channelData : mockData) {
+    for (auto& data : channelData) {
+      data = dis(
+          gen);  // Generate a random float and assign it to the current element
+    }
   }
 
   return mockData;
 }
 
-inline std::vector<double> getMockTimestamps(int numSamples = 1000, int samplingRate = 30000)
+inline std::vector<double> getMockTimestamps(int numSamples = 1000,
+                                             int samplingRate = 30000)
 {
   std::vector<double> mockTimestamps(numSamples);
   double samplingPeriod = 1.0 / samplingRate;
 
-  for(int i = 0; i < numSamples; ++i) {
-      mockTimestamps[i] = i * samplingPeriod; // Each timestamp is the sample number times the sampling period
+  for (int i = 0; i < numSamples; ++i) {
+    mockTimestamps[i] = i * samplingPeriod;  // Each timestamp is the sample
+                                             // number times the sampling period
   }
 
   return mockTimestamps;

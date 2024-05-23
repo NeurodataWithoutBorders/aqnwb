@@ -384,15 +384,17 @@ public:
   /**
    * @brief Writes a row of data in a 2D block.
    * @param xDataSize The size of the data row in the x dimension (samples).
-   * @param yPosition The position of the data row in the y dimension (channels).
+   * @param yPosition The position of the data row in the y dimension
+   * (channels).
    * @param type The data type of the elements in the data block.
    * @param data A pointer to the data block.
    * @return The status of the write operation.
    */
   virtual Status writeDataRow(const SizeType& xDataSize,
-                      const int& yPos,
-                      const BaseDataType& type,
-                      const void* data) = 0;
+                              const int& yPos,
+                              const BaseDataType& type,
+                              const void* data) = 0;
+
 protected:
   /**
    * @brief The current position in the x dimension.

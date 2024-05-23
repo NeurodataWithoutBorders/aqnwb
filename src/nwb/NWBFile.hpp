@@ -9,7 +9,7 @@
 namespace AQNWB::NWB
 {
 
-  using TimeSeriesData = std::vector<std::unique_ptr<TimeSeries>>;
+using TimeSeriesData = std::vector<std::unique_ptr<TimeSeries>>;
 
 /**
  * @brief The NWBFile class provides an interface for setting up and managing
@@ -66,23 +66,30 @@ public:
   void stopRecording();
 
   /**
-   * @brief Write continuous data to the NWB file. 
+   * @brief Write continuous data to the NWB file.
    * @param datasetID The index of the continuous dataset.
    * @param numSamples The number of samples to write.
    * @param type The base data type.
    * @param data The data to write.
    */
-  Status writeContinuousData(int datasetInd, int numSamples, BaseDataType type, const void* data);
+  Status writeContinuousData(int datasetInd,
+                             int numSamples,
+                             BaseDataType type,
+                             const void* data);
 
   /**
-   * @brief Write a row of continuous data to the NWB file. 
+   * @brief Write a row of continuous data to the NWB file.
    * @param datasetID The index of the continuous dataset.
    * @param rowID The index of the row to write.
    * @param numSamples The number of samples to write.
    * @param type The base data type.
    * @param data The data to write.
    */
-  Status writeContinuousData(int datasetInd, int rowInd, int numSamples, BaseDataType type, const void* data);
+  Status writeContinuousData(int datasetInd,
+                             int rowInd,
+                             int numSamples,
+                             BaseDataType type,
+                             const void* data);
 
   /**
    * @brief Indicates the NWB schema version.

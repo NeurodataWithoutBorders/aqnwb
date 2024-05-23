@@ -87,8 +87,7 @@ Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays)
 
   // Setup electrode table
   std::string electrodeTablePath = "general/extracellular_ephys/electrodes/";
-  ElectrodeTable elecTable =
-      ElectrodeTable(electrodeTablePath, io);
+  ElectrodeTable elecTable = ElectrodeTable(electrodeTablePath, io);
   elecTable.initialize();
   elecTable.electrodeDataset->dataset =
       createRecordingData(BaseDataType::I32,
@@ -108,7 +107,6 @@ Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays)
 
   // Create continuous datasets
   for (const auto& channelGroup : recordingArrays) {
-
     // Setup electrodes and devices
     std::string groupName = channelGroup[0].groupName;
     std::string devicePath = "general/devices/" + groupName;
@@ -116,7 +114,7 @@ Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays)
     std::string electricalSeriesPath = rootPath + groupName;
     std::vector<int> electrodeInds(channelGroup.size());
     for (size_t i = 0; i < channelGroup.size(); ++i) {
-        electrodeInds[i] = channelGroup[i].globalIndex;
+      electrodeInds[i] = channelGroup[i].globalIndex;
     }
 
     Device device = Device(devicePath, io, "description", "unknown");
@@ -127,12 +125,12 @@ Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays)
     elecGroup.initialize();
 
     // Setup electrical series datasets
-    auto electricalSeries =
-        std::make_unique<ElectricalSeries>(electricalSeriesPath,
-                             io,
-                             "Stores continuously sampled voltage data from an "
-                             "extracellular ephys recording",
-                             elecTable.getPath());
+    auto electricalSeries = std::make_unique<ElectricalSeries>(
+        electricalSeriesPath,
+        io,
+        "Stores continuously sampled voltage data from an "
+        "extracellular ephys recording",
+        elecTable.getPath());
     electricalSeries->initialize();
 
     electricalSeries->data =
@@ -190,20 +188,29 @@ Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays)
 
 void NWBFile::stopRecording() {}
 
-Status NWBFile::writeContinuousData(int datasetInd, int numSamples, BaseDataType type, const void* data)
-{
-  if (!timeseriesData[datasetInd])
-		 return Status::Failure;
-
-  return timeseriesData[datasetInd]->data->writeDataBlock(numSamples, type, data);
-}
-
-Status NWBFile::writeContinuousData(int datasetInd, int rowInd, int numSamples, BaseDataType type, const void* data)
+Status NWBFile::writeContinuousData(int datasetInd,
+                                    int numSamples,
+                                    BaseDataType type,
+                                    const void* data)
 {
   if (!timeseriesData[datasetInd])
     return Status::Failure;
 
-  return timeseriesData[datasetInd]->data->writeDataRow(numSamples, rowInd, type, data);
+  return timeseriesData[datasetInd]->data->writeDataBlock(
+      numSamples, type, data);
+}
+
+Status NWBFile::writeContinuousData(int datasetInd,
+                                    int rowInd,
+                                    int numSamples,
+                                    BaseDataType type,
+                                    const void* data)
+{
+  if (!timeseriesData[datasetInd])
+    return Status::Failure;
+
+  return timeseriesData[datasetInd]->data->writeDataRow(
+      numSamples, rowInd, type, data);
 }
 
 void NWBFile::cacheSpecifications(const std::string& specPath,

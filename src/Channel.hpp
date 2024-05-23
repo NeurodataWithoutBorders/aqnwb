@@ -5,7 +5,7 @@
 namespace AQNWB
 {
 /**
- * @brief Class for storing aquisition system channel information.
+ * @brief Class for storing acquisition system channel information.
  */
 class Channel
 {
