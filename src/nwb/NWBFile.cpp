@@ -135,7 +135,7 @@ Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays)
 
     electricalSeries->data =
         createRecordingData(BaseDataType::I16,
-                            SizeArray {0},
+                            SizeArray {0, channelGroup.size()},
                             SizeArray {CHUNK_XSIZE},
                             electricalSeries->getPath() + "/data");
     io->createDataAttributes(electricalSeries->getPath(),
@@ -179,9 +179,11 @@ Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays)
 
     timeseriesData.push_back(std::move(electricalSeries));
 
-    // Add electrode information to electrode table
+    // Add electrode information to electrode table (does not write to datasets yet)
     elecTable.addElectrodes(channelGroup);
   }
+
+  elecTable.finalize(); // write electrode information to datasets
 
   return Status::Success;
 }

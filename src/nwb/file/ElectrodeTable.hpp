@@ -42,6 +42,14 @@ public:
   void initialize();
 
   /**
+   * @brief Finalizes the ElectrodeTable.
+   *
+   * Finalizes the ElectrodeTable by adding the required columns and writing
+   * the data to the file.
+   */
+  void finalize();
+
+  /**
    * @brief Sets up the ElectrodeTable by adding electrodes and their metadata.
    *
    */

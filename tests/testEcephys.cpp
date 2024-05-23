@@ -42,6 +42,7 @@ TEST_CASE("ElectrodeTable", "[ecephys]")
                               SizeArray {1},
                               path + "location"));
     electrodeTable.addElectrodes(channels);
+    electrodeTable.finalize();
 
     // Check if id datasets are created correctly
     size_t numChannels = 3;
@@ -63,6 +64,11 @@ TEST_CASE("ElectrodeTable", "[ecephys]")
     io->open();
     NWB::ElectrodeTable electrodeTable(path, io);
     electrodeTable.initialize();
+  }
+
+  SECTION("test table creation with multiple arrays")
+  {
+    // TODO
   }
 }
 
