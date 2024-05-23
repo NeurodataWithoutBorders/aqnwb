@@ -28,7 +28,6 @@ add_library(
     src/nwb/hdmf/base/Data.hpp
     src/nwb/hdmf/base/Container.cpp
     src/nwb/hdmf/table/DynamicTable.cpp
-    src/nwb/hdmf/table/DynamicTableRegion.cpp
     src/nwb/hdmf/table/ElementIdentifiers.hpp
     src/nwb/hdmf/table/VectorData.hpp
 )

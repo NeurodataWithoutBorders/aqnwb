@@ -14,7 +14,6 @@
 #include "nwb/ecephys/ElectricalSeries.hpp"
 #include "nwb/file/ElectrodeGroup.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
-#include "nwb/hdmf/table/DynamicTableRegion.hpp"
 
 using namespace AQNWB::NWB;
 

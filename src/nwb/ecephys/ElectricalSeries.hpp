@@ -4,7 +4,6 @@
 
 #include "BaseIO.hpp"
 #include "nwb/base/TimeSeries.hpp"
-#include "nwb/hdmf/table/DynamicTableRegion.hpp"
 
 namespace AQNWB::NWB
 {
@@ -43,18 +42,12 @@ public:
   std::string electrodesTablePath;
 
   /**
-   * @brief Pointer to DynamicTableRegion object this time series was generated
-   * from.
-   */
-  std::unique_ptr<DynamicTableRegion> electrodes;
-
-  /**
    * @brief Pointer to channel-specific conversion factor dataset.
    */
   std::unique_ptr<BaseRecordingData> channelConversion;
 
   /**
-   * @brief Pointer to channel-specific conversion factor dataset.
+   * @brief Pointer to electrodes dataset.
    */
   std::unique_ptr<BaseRecordingData> electrodesDataset;
 

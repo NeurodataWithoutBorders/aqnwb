@@ -1,7 +1,5 @@
 #include "nwb/ecephys/ElectricalSeries.hpp"
 
-#include "nwb/hdmf/table/DynamicTableRegion.hpp"
-
 using namespace AQNWB::NWB;
 
 // ElectricalSeries
@@ -23,9 +21,4 @@ ElectricalSeries::~ElectricalSeries() {}
 void ElectricalSeries::initialize()
 {
   TimeSeries::initialize();
-
-  // std::unique_ptr<DynamicTableRegion> electrodes =
-  // std::make_unique<DynamicTableRegion>(getPath() + "/electrodes", io,
-  // electrodesTablePath, "Electrode index for each channel");
-  // electrodes->initialize();
 }
