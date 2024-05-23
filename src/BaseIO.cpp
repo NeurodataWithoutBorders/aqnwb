@@ -70,7 +70,7 @@ Status BaseIO::createDataAttributes(const std::string& path,
 {
   createAttribute(BaseDataType::F32, &conversion, path + "/data", "conversion");
   createAttribute(BaseDataType::F32, &resolution, path + "/data", "resolution");
-  createAttribute("unit", path + "/data", "unit");
+  createAttribute(unit, path + "/data", "unit");
 
   return Status::Success;
 }
@@ -80,7 +80,7 @@ Status BaseIO::createTimestampsAttributes(const std::string& path,
 {
   createAttribute(
       BaseDataType::F32, &interval, path + "/timestamps", "interval");
-  createAttribute("unit", path + "/timestamps", "unit");
+  createAttribute("seconds", path + "/timestamps", "unit");
 
   return Status::Success;
 }
