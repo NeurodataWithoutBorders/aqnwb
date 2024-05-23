@@ -291,8 +291,7 @@ public:
    * @param interval Value is '1'
    * @return The status of the operation.
    */
-  Status createTimestampsAttributes(const std::string& path,
-                                    const float& interval);
+  Status createTimestampsAttributes(const std::string& path);
   /**
    * @brief Returns true if the file is open.
    * @return True if the file is open, false otherwise.

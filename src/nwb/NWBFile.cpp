@@ -148,8 +148,7 @@ Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays)
                             SizeArray {0},
                             SizeArray {CHUNK_XSIZE},
                             electricalSeries->getPath() + "/timestamps");
-    io->createTimestampsAttributes(electricalSeries->getPath(),
-                                   1 / channelGroup[0].getSamplingRate());
+    io->createTimestampsAttributes(electricalSeries->getPath());
 
     electricalSeries->channelConversion = createRecordingData(
         BaseDataType::F32,
