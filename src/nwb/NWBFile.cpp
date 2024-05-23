@@ -183,14 +183,15 @@ Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays)
     elecTable.addElectrodes(channelGroup);
   }
 
-  elecTable.finalize(); // write electrode information to datasets
+  // write electrode information to datasets
+  elecTable.finalize();
 
   return Status::Success;
 }
 
 void NWBFile::stopRecording() {}
 
-Status NWBFile::writeContinuousData(int datasetInd,
+Status NWBFile::writeTimeseriesTimestamps(int datasetInd,
                                     int numSamples,
                                     BaseDataType type,
                                     const void* data)
@@ -198,11 +199,11 @@ Status NWBFile::writeContinuousData(int datasetInd,
   if (!timeseriesData[datasetInd])
     return Status::Failure;
 
-  return timeseriesData[datasetInd]->data->writeDataBlock(
+  return timeseriesData[datasetInd]->timestamps->writeDataBlock(
       numSamples, type, data);
 }
 
-Status NWBFile::writeContinuousData(int datasetInd,
+Status NWBFile::writeTimeseriesData(int datasetInd,
                                     int rowInd,
                                     int numSamples,
                                     BaseDataType type,

@@ -47,11 +47,11 @@ TEST_CASE("writeContinuousData", "[recording]")
         const auto& channelGroup = mockRecordingArrays[i];
         for (const auto& channel : channelGroup) {
           // copy data into buffer
-          std::copy(mockData[channel.globalIndex].begin(),
-                    mockData[channel.globalIndex].begin() + numSamples / 10,
+          std::copy(mockData[channel.globalIndex].begin() + samplesRecorded,
+                    mockData[channel.globalIndex].begin() + samplesRecorded + numSamples / 10,
                     dataBuffer.begin());
-          std::copy(mockTimestamps.begin(),
-                    mockTimestamps.begin() + numSamples / 10,
+          std::copy(mockTimestamps.begin() + samplesRecorded,
+                    mockTimestamps.begin() + samplesRecorded + numSamples / 10,
                     timestampsBuffer.begin());
 
           // write timseries data
@@ -61,12 +61,12 @@ TEST_CASE("writeContinuousData", "[recording]")
                                            timestampsBuffer.data(),
                                            dataBuffer.size());
 
-          // check if recording is done
-          samplesRecorded += dataBuffer.size();
-          if (samplesRecorded > numSamples) {
-            isRecording = false;
-          }
         }
+      }
+      // check if recording is done
+      samplesRecorded += dataBuffer.size();
+      if (samplesRecorded >= numSamples) {
+        isRecording = false;
       }
     }
   }

@@ -57,8 +57,7 @@ public:
    */
   Status startRecording(
       std::vector<Types::ChannelGroup>
-          recordingArrays);  // TODO - add recording number to stop and restart
-                             // recording to same file
+          recordingArrays);
 
   /**
    * @brief Closes the relevant datasets.
@@ -66,26 +65,26 @@ public:
   void stopRecording();
 
   /**
-   * @brief Write continuous data to the NWB file.
-   * @param datasetID The index of the continuous dataset.
+   * @brief Write timeseries timestamps to the NWB file.
+   * @param datasetID The index of the timeseries dataset.
    * @param numSamples The number of samples to write.
    * @param type The base data type.
    * @param data The data to write.
    */
-  Status writeContinuousData(int datasetInd,
+  Status writeTimeseriesTimestamps(int datasetInd,
                              int numSamples,
                              BaseDataType type,
                              const void* data);
 
   /**
-   * @brief Write a row of continuous data to the NWB file.
-   * @param datasetID The index of the continuous dataset.
+   * @brief Write a row of timeseries data to the NWB file.
+   * @param datasetID The index of the timeseries dataset.
    * @param rowID The index of the row to write.
    * @param numSamples The number of samples to write.
    * @param type The base data type.
    * @param data The data to write.
    */
-  Status writeContinuousData(int datasetInd,
+  Status writeTimeseriesData(int datasetInd,
                              int rowInd,
                              int numSamples,
                              BaseDataType type,
