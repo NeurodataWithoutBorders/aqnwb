@@ -320,7 +320,7 @@ Status HDF5IO::createReferenceDataSet(
   delete[] rdata;
 
   herr_t dsetStatus = H5Dclose(dset);
-  herr_t spaceStatus = H5Dclose(space);  // TODO - should this be H5Sclose?
+  herr_t spaceStatus = H5Sclose(space);
 
   return checkStatus(writeStatus);
 }
