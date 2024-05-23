@@ -29,7 +29,7 @@ TEST_CASE("startRecording", "[nwb]")
   nwbfile.initialize();
 
   // start recording
-  std::vector<Types::ChannelGroup> mockArrays = getMockTestArrays();
+  std::vector<Types::ChannelGroup> mockArrays = getMockChannelArrays();
   Status result = nwbfile.startRecording(mockArrays);
   nwbfile.finalize();
 
