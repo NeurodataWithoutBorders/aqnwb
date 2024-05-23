@@ -32,7 +32,7 @@ const BaseDataType BaseDataType::DSTR = BaseDataType(T_STR, DEFAULT_STR_SIZE);
 // BaseIO
 
 BaseIO::BaseIO()
-    : readyToOpen(true) 
+    : readyToOpen(true)
     , opened(false)
 {
 }
@@ -78,7 +78,10 @@ Status BaseIO::createDataAttributes(const std::string& path,
 Status BaseIO::createTimestampsAttributes(const std::string& path)
 {
   int interval = 1;
-  createAttribute(BaseDataType::I32, static_cast<const void*>(&interval), path + "/timestamps", "interval");
+  createAttribute(BaseDataType::I32,
+                  static_cast<const void*>(&interval),
+                  path + "/timestamps",
+                  "interval");
   createAttribute("seconds", path + "/timestamps", "unit");
 
   return Status::Success;

@@ -178,7 +178,8 @@ Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays)
 
     timeseriesData.push_back(std::move(electricalSeries));
 
-    // Add electrode information to electrode table (does not write to datasets yet)
+    // Add electrode information to electrode table (does not write to datasets
+    // yet)
     elecTable.addElectrodes(channelGroup);
   }
 
@@ -191,9 +192,9 @@ Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays)
 void NWBFile::stopRecording() {}
 
 Status NWBFile::writeTimeseriesTimestamps(int datasetInd,
-                                    int numSamples,
-                                    BaseDataType type,
-                                    const void* data)
+                                          int numSamples,
+                                          BaseDataType type,
+                                          const void* data)
 {
   if (!timeseriesData[datasetInd])
     return Status::Failure;

@@ -10,8 +10,7 @@ namespace AQNWB::NWB
 /**
  * @brief An n-dimensional dataset representing a column of a DynamicTable.
  */
-class DynamicTableRegion
-    : public VectorData
+class DynamicTableRegion : public VectorData
 {
 public:
   /**

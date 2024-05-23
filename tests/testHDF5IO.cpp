@@ -27,12 +27,12 @@ TEST_CASE("writeGroup", "[hdf5io]")
     hdf5io.close();
   }
 
-  SECTION("try initializing group that already exists") 
+  SECTION("try initializing group that already exists")
   {
     // TODO
   }
 
-  SECTION("try initializing group without parent group") 
+  SECTION("try initializing group without parent group")
   {
     // TODO
   }
@@ -40,12 +40,12 @@ TEST_CASE("writeGroup", "[hdf5io]")
 
 TEST_CASE("writeDataset", "[hdf5io]")
 {
-  SECTION("create dataset and write data row") 
+  SECTION("create dataset and write data row")
   {
     // TODO
   }
 
-  SECTION("create dataset and write data block") 
+  SECTION("create dataset and write data block")
   {
     // TODO
   }

@@ -19,7 +19,8 @@ public:
           int globalIndex,
           float conversion = 1e6f,  // uV to V
           float samplingRate = 30000.f,
-          float bitVolts = 0.000002f,  // least significant bit needed to convert 16-bit int to volts
+          float bitVolts = 0.000002f,  // least significant bit needed to
+                                       // convert 16-bit int to volts
           std::vector<float> position = {0.f, 0.f, 0.f})
       : name(name)
       , groupName(groupName)

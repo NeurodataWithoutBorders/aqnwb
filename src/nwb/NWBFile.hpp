@@ -55,9 +55,7 @@ public:
    * @brief Starts a recording.
    * @return Status The status of the recording operation.
    */
-  Status startRecording(
-      std::vector<Types::ChannelGroup>
-          recordingArrays);
+  Status startRecording(std::vector<Types::ChannelGroup> recordingArrays);
 
   /**
    * @brief Closes the relevant datasets.
@@ -72,9 +70,9 @@ public:
    * @param data The data to write.
    */
   Status writeTimeseriesTimestamps(int datasetInd,
-                             int numSamples,
-                             BaseDataType type,
-                             const void* data);
+                                   int numSamples,
+                                   BaseDataType type,
+                                   const void* data);
 
   /**
    * @brief Write a row of timeseries data to the NWB file.

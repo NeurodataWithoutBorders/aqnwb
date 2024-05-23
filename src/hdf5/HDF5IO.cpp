@@ -685,4 +685,4 @@ Status HDF5RecordingData::writeDataRow(const SizeType& xDataSize,
   }
 
   return Status::Success;
-};
+}

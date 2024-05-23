@@ -36,9 +36,8 @@ inline std::vector<Types::ChannelGroup> getMockChannelArrays()
   Channel ch1 = Channel("ch1", "array1", 1, 1);
   Channel ch2 = Channel("ch2", "array2", 0, 2);
   Channel ch3 = Channel("ch3", "array2", 1, 3);
-  std::vector<Types::ChannelGroup> arrays = {
-      Types::ChannelGroup {ch0, ch1},
-      Types::ChannelGroup {ch2, ch3}};  
+  std::vector<Types::ChannelGroup> arrays = {Types::ChannelGroup {ch0, ch1},
+                                             Types::ChannelGroup {ch2, ch3}};
   return arrays;
 }
 
@@ -50,7 +49,7 @@ inline std::vector<std::vector<float>> getMockData(int numChannels = 4,
 
   std::random_device rd;
   std::mt19937 rng(rd());  // random number generator
-  std::uniform_real_distribution<> dis(-1.0, 1.0);  //range of floats
+  std::uniform_real_distribution<> dis(-1.0, 1.0);  // range of floats
 
   for (auto& channelData : mockData) {
     for (auto& data : channelData) {

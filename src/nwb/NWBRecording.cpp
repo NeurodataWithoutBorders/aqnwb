@@ -32,14 +32,12 @@ Status NWBRecording::openFiles(const std::string& rootFolder,
       rootFolder + baseName + std::to_string(experimentNumber) + ".nwb";
 
   // initialize nwbfile object and create base structure
-  nwbfile = std::make_unique<NWB::NWBFile>(
-      generateUuid(),
-      createIO(IOType, filename));
+  nwbfile = std::make_unique<NWB::NWBFile>(generateUuid(),
+                                           createIO(IOType, filename));
   nwbfile->initialize();
 
   // start the new recording
-  return nwbfile->startRecording(
-      recordingArrays);
+  return nwbfile->startRecording(recordingArrays);
 }
 
 void NWBRecording::closeFiles()
@@ -62,12 +60,12 @@ void NWBRecording::writeTimeseriesData(int timeseriesInd,
                  [multFactor](float value) { return value * multFactor; });
 
   // convert float to int16
-  std::transform(scaledBuffer.get(),
-                 scaledBuffer.get() + numSamples,
-                 intBuffer.get(),
-                 [](float value) {
-                   return static_cast<int16_t>(std::clamp(value, -32768.0f, 32767.0f));
-                 });
+  std::transform(
+      scaledBuffer.get(),
+      scaledBuffer.get() + numSamples,
+      intBuffer.get(),
+      [](float value)
+      { return static_cast<int16_t>(std::clamp(value, -32768.0f, 32767.0f)); });
 
   // write intBuffer data to dataset
   nwbfile->writeTimeseriesData(timeseriesInd,

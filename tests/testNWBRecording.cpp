@@ -48,7 +48,8 @@ TEST_CASE("writeContinuousData", "[recording]")
         for (const auto& channel : channelGroup) {
           // copy data into buffer
           std::copy(mockData[channel.globalIndex].begin() + samplesRecorded,
-                    mockData[channel.globalIndex].begin() + samplesRecorded + numSamples / 10,
+                    mockData[channel.globalIndex].begin() + samplesRecorded
+                        + numSamples / 10,
                     dataBuffer.begin());
           std::copy(mockTimestamps.begin() + samplesRecorded,
                     mockTimestamps.begin() + samplesRecorded + numSamples / 10,
@@ -60,7 +61,6 @@ TEST_CASE("writeContinuousData", "[recording]")
                                            dataBuffer.data(),
                                            timestampsBuffer.data(),
                                            dataBuffer.size());
-
         }
       }
       // check if recording is done
@@ -71,18 +71,18 @@ TEST_CASE("writeContinuousData", "[recording]")
     }
   }
 
-  SECTION("check contents of data and timestamps", "[recording]") 
+  SECTION("check contents of data and timestamps", "[recording]")
   {
-    // TODO 
+    // TODO
   }
 
-  SECTION("test if more samples than buffer size", "[recording]") 
+  SECTION("test if more samples than buffer size", "[recording]")
   {
-    // TODO 
+    // TODO
   }
 
-  SECTION("add a new recording number to the same file", "[recording]") 
+  SECTION("add a new recording number to the same file", "[recording]")
   {
-    // TODO 
+    // TODO
   }
 }
