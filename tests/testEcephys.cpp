@@ -31,16 +31,6 @@ TEST_CASE("ElectrodeTable", "[ecephys]")
 
     NWB::ElectrodeTable electrodeTable(path, io);
     electrodeTable.initialize();
-    electrodeTable.electrodeDataset->dataset =
-        std::unique_ptr<BaseRecordingData>(io->createDataSet(
-            BaseDataType::I32, SizeArray {1}, SizeArray {1}, path + "id"));
-
-    electrodeTable.locationsDataset->dataset =
-        std::unique_ptr<BaseRecordingData>(
-            io->createDataSet(BaseDataType::STR(250),
-                              SizeArray {0},
-                              SizeArray {1},
-                              path + "location"));
     electrodeTable.addElectrodes(channels);
     electrodeTable.finalize();
 

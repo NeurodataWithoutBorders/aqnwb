@@ -89,21 +89,6 @@ Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays)
   std::string electrodeTablePath = "general/extracellular_ephys/electrodes/";
   ElectrodeTable elecTable = ElectrodeTable(electrodeTablePath, io);
   elecTable.initialize();
-  elecTable.electrodeDataset->dataset =
-      createRecordingData(BaseDataType::I32,
-                          SizeArray {1},
-                          SizeArray {1},
-                          electrodeTablePath + "id");
-  elecTable.groupNamesDataset->dataset =
-      createRecordingData(BaseDataType::STR(250),
-                          SizeArray {0},
-                          SizeArray {1},
-                          electrodeTablePath + "group_name");
-  elecTable.locationsDataset->dataset =
-      createRecordingData(BaseDataType::STR(250),
-                          SizeArray {0},
-                          SizeArray {1},
-                          electrodeTablePath + "location");
 
   // Create continuous datasets
   for (const auto& channelGroup : recordingArrays) {
