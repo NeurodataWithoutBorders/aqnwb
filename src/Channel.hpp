@@ -17,8 +17,8 @@ public:
   /**
    * @brief Constructor.
    */
-  Channel(std::string name,
-          std::string groupName,
+  Channel(const std::string name,
+          const std::string groupName,
           SizeType localIndex,
           SizeType globalIndex,
           float conversion = 1e6f,  // uV to V
@@ -26,7 +26,7 @@ public:
           float bitVolts = 0.000002f,  // least significant bit needed to
                                        // convert 16-bit int to volts
                                        // currently a placeholder
-          std::vector<float> position = {0.f, 0.f, 0.f});
+          std::array<float, 3> position = {0.f, 0.f, 0.f});
 
   /**
    * @brief Destructor
@@ -73,7 +73,7 @@ public:
   /**
    * @brief Coordinates of channel (x, y, z) within the recording array.
    */
-  std::vector<float> position;
+  std::array<float, 3> position;
 
 private:
   /**

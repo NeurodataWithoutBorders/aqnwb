@@ -11,7 +11,7 @@ Channel::Channel(std::string name,
                  float conversion,
                  float samplingRate,
                  float bitVolts,
-                 std::vector<float> position)
+                 std::array<float, 3> position)
     : name(name)
     , groupName(groupName)
     , localIndex(localIndex)
