@@ -3,6 +3,7 @@
 #include <string>
 
 #include "BaseIO.hpp"
+#include "Channel.hpp"
 #include "nwb/base/TimeSeries.hpp"
 
 namespace AQNWB::NWB
@@ -24,6 +25,8 @@ public:
   ElectricalSeries(const std::string& path,
                    std::shared_ptr<BaseIO> io,
                    const std::string& description,
+                   const Types::ChannelGroup& channelGroup,
+                   const SizeType& chunkSize,
                    const std::string& electrodesTablePath);
 
   /**
@@ -35,6 +38,16 @@ public:
    * @brief Initializes the Electrical Series
    */
   void initialize();
+
+  /**
+   * @brief Channel group that this time series is associated with.
+   */
+  Types::ChannelGroup channelGroup;
+
+  /**
+   * @brief Chunk size to use in dataset creation.
+   */
+  SizeType chunkSize;
 
   /**
    * @brief Path to the electrodes table this time series references
