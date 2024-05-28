@@ -282,7 +282,7 @@ public:
    * @return The status of the write operation.
    */
   Status writeDataRow(const SizeType& xDataSize,
-                      const int& yPos,
+                      const SizeType& yPos,
                       const BaseDataType& type,
                       const void* data);
 

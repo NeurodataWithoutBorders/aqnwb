@@ -2,6 +2,10 @@
 
 #include <string>
 
+#include "Types.hpp"
+
+using SizeType = AQNWB::Types::SizeType;
+
 namespace AQNWB
 {
 /**
@@ -15,47 +19,36 @@ public:
    */
   Channel(std::string name,
           std::string groupName,
-          int localIndex,
-          int globalIndex,
+          SizeType localIndex,
+          SizeType globalIndex,
           float conversion = 1e6f,  // uV to V
           float samplingRate = 30000.f,  // placeholder
           float bitVolts = 0.000002f,  // least significant bit needed to
                                        // convert 16-bit int to volts
                                        // currently a placeholder
-          std::vector<float> position = {0.f, 0.f, 0.f})
-      : name(name)
-      , groupName(groupName)
-      , conversion(conversion)
-      , samplingRate(samplingRate)
-      , bitVolts(bitVolts)
-      , localIndex(localIndex)
-      , globalIndex(globalIndex)
-      , position(position)
-  {
-  }
+          std::vector<float> position = {0.f, 0.f, 0.f});
 
   /**
    * @brief Destructor
    */
-  ~Channel() {}
+  ~Channel();
 
   /**
    * @brief Getter for conversion factor
    * @return The conversion value.
    */
-  float getConversion() const { return bitVolts / conversion; }
+  float getConversion() const;
 
   /**
    * @brief Getter for samplingRate
    * @return The samplingRate value.
    */
-  float getSamplingRate() const { return samplingRate; }
-
+  float getSamplingRate() const;
   /**
    * @brief Getter for bitVolts
    * @return The bitVolts value.
    */
-  float getBitVolts() const { return bitVolts; }
+  float getBitVolts() const;
 
   /**
    * @brief Name of the channel.
@@ -70,12 +63,12 @@ public:
   /**
    * @brief Index of channel within the recording array.
    */
-  int localIndex;
+  SizeType localIndex;
 
   /**
    * @brief Index of channel across the recording system.
    */
-  int globalIndex;
+  SizeType globalIndex;
 
   /**
    * @brief Coordinates of channel (x, y, z) within the recording array.

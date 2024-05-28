@@ -55,11 +55,11 @@ public:
   /**
    * @brief Writes data for a timeseries.
    */
-  void writeTimeseriesData(int timeSeriesID,
+  void writeTimeseriesData(SizeType timeSeriesID,
                            Channel systemChannel,
                            const float* dataBuffer,
                            const double* timestampBuffer,
-                           int size);
+                           SizeType size);
 
 private:
   /**

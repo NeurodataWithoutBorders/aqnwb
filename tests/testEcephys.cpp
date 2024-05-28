@@ -22,7 +22,7 @@ TEST_CASE("ElectrodeTable", "[ecephys]")
     io->createGroup("/general/extracellular_ephys");
     io->createGroup("/general/extracellular_ephys/array1");
 
-    std::vector<int> channelIDs = {0, 1, 2};
+    std::vector<SizeType> channelIDs = {0, 1, 2};
     std::vector<Channel> channels = {
         Channel("ch0", "array1", channelIDs[0], 0),
         Channel("ch1", "array1", channelIDs[1], 1),
@@ -50,7 +50,7 @@ TEST_CASE("ElectrodeTable", "[ecephys]")
     int* buffer = new int[numChannels];
     static_cast<HDF5::HDF5RecordingData*>(id_data)->readDataBlock(
         BaseDataType::I32, buffer);
-    std::vector<int> read_channels(buffer, buffer + numChannels);
+    std::vector<SizeType> read_channels(buffer, buffer + numChannels);
     delete[] buffer;
     REQUIRE(channelIDs == read_channels);
   }

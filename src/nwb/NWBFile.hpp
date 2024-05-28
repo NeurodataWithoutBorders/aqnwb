@@ -69,8 +69,8 @@ public:
    * @param type The base data type.
    * @param data The data to write.
    */
-  Status writeTimeseriesTimestamps(int datasetInd,
-                                   int numSamples,
+  Status writeTimeseriesTimestamps(SizeType datasetInd,
+                                   SizeType numSamples,
                                    BaseDataType type,
                                    const void* data);
 
@@ -82,9 +82,9 @@ public:
    * @param type The base data type.
    * @param data The data to write.
    */
-  Status writeTimeseriesData(int datasetInd,
-                             int rowInd,
-                             int numSamples,
+  Status writeTimeseriesData(SizeType datasetInd,
+                             SizeType rowInd,
+                             SizeType numSamples,
                              BaseDataType type,
                              const void* data);
 

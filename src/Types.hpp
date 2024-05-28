@@ -2,10 +2,12 @@
 
 #include <vector>
 
-#include "Channel.hpp"
-
 namespace AQNWB
 {
+
+// Forward declaration of Channel
+class Channel;
+
 /**
  * @brief Provides definitions for various types used in the project.
  */

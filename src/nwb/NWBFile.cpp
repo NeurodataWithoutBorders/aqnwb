@@ -9,6 +9,7 @@
 #include "NWBFile.hpp"
 
 #include "BaseIO.hpp"
+#include "Channel.hpp"
 #include "Utils.hpp"
 #include "nwb/device/Device.hpp"
 #include "nwb/ecephys/ElectricalSeries.hpp"
@@ -17,7 +18,7 @@
 
 using namespace AQNWB::NWB;
 
-constexpr int CHUNK_XSIZE = 2048;
+constexpr SizeType CHUNK_XSIZE = 2048;
 
 // NWBFile
 
@@ -190,8 +191,8 @@ Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays)
 
 void NWBFile::stopRecording() {}
 
-Status NWBFile::writeTimeseriesTimestamps(int datasetInd,
-                                          int numSamples,
+Status NWBFile::writeTimeseriesTimestamps(SizeType datasetInd,
+                                          SizeType numSamples,
                                           BaseDataType type,
                                           const void* data)
 {
@@ -202,9 +203,9 @@ Status NWBFile::writeTimeseriesTimestamps(int datasetInd,
       numSamples, type, data);
 }
 
-Status NWBFile::writeTimeseriesData(int datasetInd,
-                                    int rowInd,
-                                    int numSamples,
+Status NWBFile::writeTimeseriesData(SizeType datasetInd,
+                                    SizeType rowInd,
+                                    SizeType numSamples,
                                     BaseDataType type,
                                     const void* data)
 {

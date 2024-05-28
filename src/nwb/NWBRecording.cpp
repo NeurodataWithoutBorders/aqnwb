@@ -1,9 +1,10 @@
 #include "NWBRecording.hpp"
 
+#include "Channel.hpp"
 #include "Utils.hpp"
 #include "hdf5/HDF5IO.hpp"
 
-constexpr int MAX_BUFFER_SIZE = 40960;
+constexpr SizeType MAX_BUFFER_SIZE = 40960;
 
 using namespace AQNWB::NWB;
 
@@ -46,11 +47,11 @@ void NWBRecording::closeFiles()
   nwbfile->finalize();
 }
 
-void NWBRecording::writeTimeseriesData(int timeseriesInd,
+void NWBRecording::writeTimeseriesData(SizeType timeseriesInd,
                                        Channel channel,
                                        const float* dataBuffer,
                                        const double* timestampBuffer,
-                                       int numSamples)
+                                       SizeType numSamples)
 {
   // copy data and multiply by scaling factor
   double multFactor = 1 / (32767.0f * channel.getBitVolts());

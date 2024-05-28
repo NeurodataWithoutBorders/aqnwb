@@ -390,7 +390,7 @@ public:
    * @return The status of the write operation.
    */
   virtual Status writeDataRow(const SizeType& xDataSize,
-                              const int& yPos,
+                              const SizeType& yPos,
                               const BaseDataType& type,
                               const void* data) = 0;
 
@@ -398,7 +398,7 @@ protected:
   /**
    * @brief The current position in the x dimension.
    */
-  int xPos;
+  SizeType xPos;
 
   /**
    * @brief The size of the data block in each dimension.

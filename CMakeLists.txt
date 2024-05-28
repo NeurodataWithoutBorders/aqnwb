@@ -17,6 +17,7 @@ include(cmake/variables.cmake)
 add_library(
     aq-nwb_lib OBJECT
     src/BaseIO.cpp
+    src/Channel.cpp
     src/hdf5/HDF5IO.cpp
     src/nwb/NWBFile.cpp
     src/nwb/NWBRecording.cpp

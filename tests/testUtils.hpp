@@ -41,8 +41,8 @@ inline std::vector<Types::ChannelGroup> getMockChannelArrays()
   return arrays;
 }
 
-inline std::vector<std::vector<float>> getMockData(int numChannels = 4,
-                                                   int numSamples = 1000)
+inline std::vector<std::vector<float>> getMockData(SizeType numChannels = 4,
+                                                   SizeType numSamples = 1000)
 {
   std::vector<std::vector<float>> mockData(numChannels,
                                            std::vector<float>(numSamples));
@@ -53,20 +53,21 @@ inline std::vector<std::vector<float>> getMockData(int numChannels = 4,
 
   for (auto& channelData : mockData) {
     for (auto& data : channelData) {
-      data = dis(rng) * 1000;  // approximate microvolt unit range
+      data = static_cast<float>(dis(rng))
+          * 1000.f;  // approximate microvolt unit range
     }
   }
 
   return mockData;
 }
 
-inline std::vector<double> getMockTimestamps(int numSamples = 1000,
-                                             int samplingRate = 30000)
+inline std::vector<double> getMockTimestamps(SizeType numSamples = 1000,
+                                             SizeType samplingRate = 30000)
 {
   std::vector<double> mockTimestamps(numSamples);
   double samplingPeriod = 1.0 / samplingRate;
 
-  for (int i = 0; i < numSamples; ++i) {
+  for (SizeType i = 0; i < numSamples; ++i) {
     mockTimestamps[i] = i * samplingPeriod;  // Each timestamp is the sample
                                              // number times the sampling period
   }

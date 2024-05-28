@@ -33,8 +33,8 @@ TEST_CASE("startRecording", "[nwb]")
   Status result = nwbfile.startRecording(mockArrays);
 
   // write timeseries data
-  std::vector<float> mockData = {1.0, 2.0, 3.0, 4.0, 5.0};
-  std::vector<float> mockTimestamps = {0.1, 0.2, 0.3, 0.4, 0.5};
+  std::vector<float> mockData = {1.0f, 2.0f, 3.0f, 4.0f, 5.0f};
+  std::vector<float> mockTimestamps = {0.1f, 0.2f, 0.3f, 0.4f, 0.5f};
   nwbfile.writeTimeseriesData(0, 0, 5, BaseDataType::F32, mockData.data());
   nwbfile.writeTimeseriesTimestamps(
       0, 5, BaseDataType::F32, mockTimestamps.data());

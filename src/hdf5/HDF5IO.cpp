@@ -620,14 +620,13 @@ Status HDF5RecordingData::writeDataBlock(const SizeType& xDataSize,
 
 void HDF5RecordingData::readDataBlock(const BaseDataType& type, void* buffer)
 {
-  SizeType numElements = dSet->getSpace().getSimpleExtentNpoints();
   DataSpace fSpace = dSet->getSpace();
   DataType nativeType = HDF5IO::getNativeType(type);
   dSet->read(buffer, nativeType, fSpace, fSpace);
 }
 
 Status HDF5RecordingData::writeDataRow(const SizeType& xDataSize,
-                                       const int& yPos,
+                                       const SizeType& yPos,
                                        const BaseDataType& type,
                                        const void* data)
 {
@@ -649,7 +648,7 @@ Status HDF5RecordingData::writeDataRow(const SizeType& xDataSize,
 
       fSpace = dSet->getSpace();
       fSpace.getSimpleExtentDims(dim);
-      size[0] = (int)dim[0];
+      size[0] = static_cast<SizeType>(dim[0]);
     }
     if (rowXPos[yPos] + xDataSize > xPos) {
       xPos = rowXPos[yPos] + xDataSize;

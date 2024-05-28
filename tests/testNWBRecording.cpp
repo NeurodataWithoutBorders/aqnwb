@@ -22,10 +22,10 @@ TEST_CASE("writeContinuousData", "[recording]")
     }
 
     // setup mock data
-    int numChannels = 4;
-    int numSamples = 1000;
-    int samplesRecorded = 0;
-    std::size_t bufferSize = numSamples / 10;
+    SizeType numChannels = 4;
+    SizeType numSamples = 1000;
+    SizeType samplesRecorded = 0;
+    SizeType bufferSize = numSamples / 10;
     std::vector<float> dataBuffer(bufferSize);
     std::vector<double> timestampsBuffer(bufferSize);
 
