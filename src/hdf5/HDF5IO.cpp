@@ -230,16 +230,15 @@ Status HDF5IO::createReferenceAttribute(const std::string& referencePath,
     if (loc->attrExists(name)) {
       attr = loc->openAttribute(name);
     } else {
-      DataType data_type(H5T_STD_REF_OBJ);
       DataSpace attr_space(H5S_SCALAR);
-      attr = loc->createAttribute(name, data_type, attr_space);
+      attr = loc->createAttribute(name, H5::PredType::STD_REF_OBJ, attr_space);
     }
 
     hobj_ref_t* rdata = new hobj_ref_t[sizeof(hobj_ref_t)];
 
     file->reference(rdata, referencePath.c_str());
 
-    attr.write(H5T_STD_REF_OBJ, rdata);
+    attr.write(H5::PredType::STD_REF_OBJ, rdata);
     delete[] rdata;
 
   } catch (GroupIException error) {
