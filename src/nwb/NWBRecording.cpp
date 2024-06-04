@@ -23,7 +23,7 @@ NWBRecording::~NWBRecording()
   }
 }
 
-Status NWBRecording::openFiles(const std::string& rootFolder,
+Status NWBRecording::openFile(const std::string& rootFolder,
                                const std::string& baseName,
                                int experimentNumber,
                                std::vector<Types::ChannelGroup> recordingArrays,
@@ -41,7 +41,7 @@ Status NWBRecording::openFiles(const std::string& rootFolder,
   return nwbfile->startRecording(recordingArrays);
 }
 
-void NWBRecording::closeFiles()
+void NWBRecording::closeFile()
 {
   nwbfile->stopRecording();
   nwbfile->finalize();

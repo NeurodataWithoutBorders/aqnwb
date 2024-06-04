@@ -33,24 +33,24 @@ public:
   ~NWBRecording();
 
   /**
-   * @brief Opens all the necessary files for recording.
-   * @param rootFolder The root folder where the files will be stored.
-   * @param baseName The base name of the files (will be appended with
+   * @brief Opens the file for recording.
+   * @param rootFolder The root folder where the file will be stored.
+   * @param baseName The base name of the file (will be appended with
    * experiment number).
    * @param experimentNumber The experiment number.
    * @param recordingNumber The recording number.
    */
-  Status openFiles(const std::string& rootFolder,
+  Status openFile(const std::string& rootFolder,
                    const std::string& baseName,
                    int experimentNumber,
                    std::vector<Types::ChannelGroup> recordingArrays,
                    const std::string& IOType = "HDF5");
 
   /**
-   * @brief Closes all the files and performs necessary cleanup when recording
+   * @brief Closes the file and performs necessary cleanup when recording
    * stops.
    */
-  void closeFiles();
+  void closeFile();
 
   /**
    * @brief Writes data for a timeseries.
