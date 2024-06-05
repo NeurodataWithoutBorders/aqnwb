@@ -4,14 +4,14 @@
 
 using namespace AQNWB;
 
-Channel::Channel(std::string name,
-                 std::string groupName,
-                 SizeType localIndex,
-                 SizeType globalIndex,
-                 float conversion,
-                 float samplingRate,
-                 float bitVolts,
-                 std::array<float, 3> position)
+Channel::Channel(const std::string name,
+                 const std::string groupName,
+                 const SizeType localIndex,
+                 const SizeType globalIndex,
+                 const float conversion,
+                 const float samplingRate,
+                 const float bitVolts,
+                 const std::array<float, 3> position)
     : name(name)
     , groupName(groupName)
     , localIndex(localIndex)

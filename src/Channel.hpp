@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <array>
 
 #include "Types.hpp"
 
@@ -19,14 +20,14 @@ public:
    */
   Channel(const std::string name,
           const std::string groupName,
-          SizeType localIndex,
-          SizeType globalIndex,
-          float conversion = 1e6f,  // uV to V
-          float samplingRate = 30000.f,  // placeholder
-          float bitVolts = 0.000002f,  // least significant bit needed to
+          const SizeType localIndex,
+          const SizeType globalIndex,
+          const float conversion = 1e6f,  // uV to V
+          const float samplingRate = 30000.f,  // placeholder
+          const float bitVolts = 0.000002f,  // least significant bit needed to
                                        // convert 16-bit int to volts
                                        // currently a placeholder
-          std::array<float, 3> position = {0.f, 0.f, 0.f});
+          const std::array<float, 3> position = {0.f, 0.f, 0.f});
 
   /**
    * @brief Destructor
