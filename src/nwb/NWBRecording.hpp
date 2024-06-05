@@ -41,10 +41,10 @@ public:
    * @param recordingNumber The recording number.
    */
   Status openFile(const std::string& rootFolder,
-                   const std::string& baseName,
-                   int experimentNumber,
-                   std::vector<Types::ChannelGroup> recordingArrays,
-                   const std::string& IOType = "HDF5");
+                  const std::string& baseName,
+                  int experimentNumber,
+                  std::vector<Types::ChannelGroup> recordingArrays,
+                  const std::string& IOType = "HDF5");
 
   /**
    * @brief Closes the file and performs necessary cleanup when recording

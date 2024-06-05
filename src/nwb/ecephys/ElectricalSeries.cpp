@@ -32,46 +32,43 @@ void ElectricalSeries::initialize()
   }
 
   // make data dataset
-  data = std::unique_ptr<BaseRecordingData>(io->createDataSet(BaseDataType::I16, 
-                                            SizeArray {0, channelGroup.size()}, 
-                                            SizeArray {chunkSize}, 
-                                            getPath() + "/data"));
-  io->createDataAttributes(getPath(),
-                           channelGroup[0].getConversion(),
-                           -1.0f,
-                           "volts");
+  data = std::unique_ptr<BaseRecordingData>(
+      io->createDataSet(BaseDataType::I16,
+                        SizeArray {0, channelGroup.size()},
+                        SizeArray {chunkSize},
+                        getPath() + "/data"));
+  io->createDataAttributes(
+      getPath(), channelGroup[0].getConversion(), -1.0f, "volts");
 
   // make timestamps dataset
-  timestamps = std::unique_ptr<BaseRecordingData>(io->createDataSet(BaseDataType::F64,
-                                                  SizeArray {0},
-                                                  SizeArray {chunkSize},
-                                                  getPath() + "/timestamps"));
+  timestamps = std::unique_ptr<BaseRecordingData>(
+      io->createDataSet(BaseDataType::F64,
+                        SizeArray {0},
+                        SizeArray {chunkSize},
+                        getPath() + "/timestamps"));
   io->createTimestampsAttributes(getPath());
 
   // make channel conversion dataset
-  channelConversion = std::unique_ptr<BaseRecordingData>(io->createDataSet(BaseDataType::F32,
-                                                                           SizeArray {1},
-                                                                           SizeArray {chunkSize},
-                                                                           getPath() + "/channel_conversion"));
+  channelConversion = std::unique_ptr<BaseRecordingData>(
+      io->createDataSet(BaseDataType::F32,
+                        SizeArray {1},
+                        SizeArray {chunkSize},
+                        getPath() + "/channel_conversion"));
   io->createCommonNWBAttributes(getPath() + "/channel_conversion",
                                 "hdmf-common",
                                 "",
                                 "Bit volts values for all channels");
 
   // make electrodes dataset
-  electrodesDataset = std::unique_ptr<BaseRecordingData>(io->createDataSet(BaseDataType::I32,
-                                                                           SizeArray {1},
-                                                                           SizeArray {chunkSize},
-                                                                           getPath() + "/electrodes"));
-  electrodesDataset->writeDataBlock(channelGroup.size(), 
-                                    BaseDataType::I32, 
-                                    &electrodeInds[0]);
-  io->createCommonNWBAttributes(getPath() + "/electrodes",
-                                "hdmf-common",
-                                "DynamicTableRegion",
-                                "");
-  io->createReferenceAttribute(electrodesTablePath,
-                               getPath() + "/electrodes",
-                               "table");
+  electrodesDataset = std::unique_ptr<BaseRecordingData>(
+      io->createDataSet(BaseDataType::I32,
+                        SizeArray {1},
+                        SizeArray {chunkSize},
+                        getPath() + "/electrodes"));
+  electrodesDataset->writeDataBlock(
+      channelGroup.size(), BaseDataType::I32, &electrodeInds[0]);
+  io->createCommonNWBAttributes(
+      getPath() + "/electrodes", "hdmf-common", "DynamicTableRegion", "");
+  io->createReferenceAttribute(
+      electrodesTablePath, getPath() + "/electrodes", "table");
 }
-

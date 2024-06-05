@@ -24,10 +24,10 @@ NWBRecording::~NWBRecording()
 }
 
 Status NWBRecording::openFile(const std::string& rootFolder,
-                               const std::string& baseName,
-                               int experimentNumber,
-                               std::vector<Types::ChannelGroup> recordingArrays,
-                               const std::string& IOType)
+                              const std::string& baseName,
+                              int experimentNumber,
+                              std::vector<Types::ChannelGroup> recordingArrays,
+                              const std::string& IOType)
 {
   std::string filename =
       rootFolder + baseName + std::to_string(experimentNumber) + ".nwb";
@@ -54,12 +54,11 @@ void NWBRecording::writeTimeseriesData(SizeType timeseriesInd,
                                        SizeType numSamples)
 {
   // check if more samples than allocated buffer size
-  if (numSamples > bufferSize)
-	 {
-		 bufferSize = numSamples;
-     scaledBuffer = std::make_unique<float[]>(numSamples);
-     intBuffer = std::make_unique<int16_t[]>(numSamples);
-	 }
+  if (numSamples > bufferSize) {
+    bufferSize = numSamples;
+    scaledBuffer = std::make_unique<float[]>(numSamples);
+    intBuffer = std::make_unique<int16_t[]>(numSamples);
+  }
 
   // copy data and multiply by scaling factor
   double multFactor = 1 / (32767.0f * channel.getBitVolts());

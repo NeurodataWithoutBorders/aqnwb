@@ -30,15 +30,17 @@ inline std::string getTestFilePath(std::string filename)
   return filepath.u8string();
 }
 
-inline std::vector<Types::ChannelGroup> getMockChannelArrays(SizeType numChannels = 2, SizeType numArrays = 2)
+inline std::vector<Types::ChannelGroup> getMockChannelArrays(
+    SizeType numChannels = 2, SizeType numArrays = 2)
 {
   std::vector<Types::ChannelGroup> arrays(numArrays);
-  for (SizeType i = 0; i < numArrays; i++)
-  {
+  for (SizeType i = 0; i < numArrays; i++) {
     std::vector<Channel> chGroup;
-    for (SizeType j = 0; j < numChannels; j++)
-    {
-      Channel ch ("ch" + std::to_string(j), "array" + std::to_string(i), j, i*numArrays + j);
+    for (SizeType j = 0; j < numChannels; j++) {
+      Channel ch("ch" + std::to_string(j),
+                 "array" + std::to_string(i),
+                 j,
+                 i * numArrays + j);
       chGroup.push_back(ch);
     }
     arrays[i] = chGroup;
