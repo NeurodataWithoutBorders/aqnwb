@@ -146,9 +146,6 @@ private:
 
   const std::string identifierText;
   std::shared_ptr<BaseIO> io;
-  std::vector<float> scaledBuffer;
-  std::vector<int16_t> intBuffer;
-  SizeType bufferSize;
   TimeSeriesData timeseriesData;
 };
 }  // namespace AQNWB::NWB

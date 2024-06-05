@@ -68,11 +68,6 @@ private:
   std::unique_ptr<NWBFile> nwbfile;
 
   /**
-   * @brief Holds integer sample numbers for writing.
-   */
-  std::unique_ptr<int[]> sampleBuffer = nullptr;
-
-  /**
    * @brief Holds scaled samples for writing.
    */
   std::unique_ptr<float[]> scaledBuffer = nullptr;
@@ -81,5 +76,10 @@ private:
    * @brief Holds integer samples for writing.
    */
   std::unique_ptr<int16_t[]> intBuffer = nullptr;
+
+  /**
+   * @brief Maximum buffer size for writing data.
+   */
+  SizeType bufferSize;
 };
 }  // namespace AQNWB::NWB

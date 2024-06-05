@@ -11,9 +11,9 @@ using namespace AQNWB::NWB;
 // NWBRecordingEngine
 NWBRecording::NWBRecording()
 {
-  sampleBuffer = std::make_unique<int[]>(MAX_BUFFER_SIZE);
   scaledBuffer = std::make_unique<float[]>(MAX_BUFFER_SIZE);
   intBuffer = std::make_unique<int16_t[]>(MAX_BUFFER_SIZE);
+  bufferSize = MAX_BUFFER_SIZE;
 }
 
 NWBRecording::~NWBRecording()
@@ -53,6 +53,14 @@ void NWBRecording::writeTimeseriesData(SizeType timeseriesInd,
                                        const double* timestampBuffer,
                                        SizeType numSamples)
 {
+  // check if more samples than allocated buffer size
+  if (numSamples > bufferSize)
+	 {
+		 bufferSize = numSamples;
+     scaledBuffer = std::make_unique<float[]>(numSamples);
+     intBuffer = std::make_unique<int16_t[]>(numSamples);
+	 }
+
   // copy data and multiply by scaling factor
   double multFactor = 1 / (32767.0f * channel.getBitVolts());
   std::transform(dataBuffer,
@@ -68,7 +76,7 @@ void NWBRecording::writeTimeseriesData(SizeType timeseriesInd,
       [](float value)
       { return static_cast<int16_t>(std::clamp(value, -32768.0f, 32767.0f)); });
 
-  // write intBuffer data to dataset
+  // write data and timestamps to datasets
   nwbfile->writeTimeseriesData(timeseriesInd,
                                channel.localIndex,
                                numSamples,
