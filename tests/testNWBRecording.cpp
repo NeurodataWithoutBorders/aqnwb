@@ -74,7 +74,7 @@ TEST_CASE("writeContinuousData", "[recording]")
     nwbRecording.closeFile();
 
     // check contents of data
-    std::string dataPath = "/acquisition/array1/data";
+    std::string dataPath = "/acquisition/array0/data";
     std::unique_ptr<H5::H5File> file = std::make_unique<H5::H5File>(path + "Recording1.nwb", H5F_ACC_RDONLY);
     std::unique_ptr<H5::DataSet> dataset = std::make_unique<H5::DataSet>(file->openDataSet(dataPath));
     SizeType numChannelsToRead = numChannels / 2;
@@ -97,7 +97,7 @@ TEST_CASE("writeContinuousData", "[recording]")
     REQUIRE_THAT(dataOut[1], Catch::Matchers::Approx(mockData[1]).margin(1));
 
     // check contents of timestamps
-    std::string timestampsPath = "/acquisition/array1/timestamps";
+    std::string timestampsPath = "/acquisition/array0/timestamps";
     std::unique_ptr<H5::DataSet> tsDataset = std::make_unique<H5::DataSet>(file->openDataSet(timestampsPath));
     double* tsBuffer = new double[numSamples];
 
@@ -119,13 +119,14 @@ TEST_CASE("writeContinuousData", "[recording]")
     }
 
     // setup mock data
-    SizeType numChannels = 2;
+    SizeType numChannels = 1;
+    SizeType numArrays = 1;
     SizeType numSamples = 45000;
     std::vector<float> dataBuffer(numSamples);
     std::vector<double> timestampsBuffer(numSamples);
 
     std::vector<Types::ChannelGroup> mockRecordingArrays =
-        getMockChannelArrays();
+        getMockChannelArrays(numChannels, numArrays);
     std::vector<std::vector<float>> mockData =
         getMockData(numChannels, numSamples);
     std::vector<double> mockTimestamps = getMockTimestamps(numSamples);
@@ -153,7 +154,7 @@ TEST_CASE("writeContinuousData", "[recording]")
     nwbRecording.closeFile();
 
     // check contents of data
-    std::string dataPath = "/acquisition/array1/data";
+    std::string dataPath = "/acquisition/array0/data";
     std::unique_ptr<H5::H5File> file = std::make_unique<H5::H5File>(path + "Recording1.nwb", H5F_ACC_RDONLY);
     std::unique_ptr<H5::DataSet> dataset = std::make_unique<H5::DataSet>(file->openDataSet(dataPath));
 

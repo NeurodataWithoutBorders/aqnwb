@@ -20,13 +20,13 @@ TEST_CASE("ElectrodeTable", "[ecephys]")
     io->open();
     io->createGroup("/general");
     io->createGroup("/general/extracellular_ephys");
-    io->createGroup("/general/extracellular_ephys/array1");
+    io->createGroup("/general/extracellular_ephys/array0");
 
     std::vector<SizeType> channelIDs = {0, 1, 2};
     std::vector<Channel> channels = {
-        Channel("ch0", "array1", channelIDs[0], 0),
-        Channel("ch1", "array1", channelIDs[1], 1),
-        Channel("ch2", "array1", channelIDs[2], 2),
+        Channel("ch0", "array0", channelIDs[0], 0),
+        Channel("ch1", "array0", channelIDs[1], 1),
+        Channel("ch2", "array0", channelIDs[2], 2),
     };
 
     NWB::ElectrodeTable electrodeTable(path, io);
