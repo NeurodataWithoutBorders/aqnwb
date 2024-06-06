@@ -35,7 +35,7 @@ TEST_CASE("ElectrodeTable", "[ecephys]")
     electrodeTable.finalize();
 
     // Check if id datasets are created correctly
-    size_t numChannels = 3;
+    SizeType numChannels = 3;
     BaseRecordingData* id_data = io->getDataSet(path + "id");
     int* buffer = new int[numChannels];
     static_cast<HDF5::HDF5RecordingData*>(id_data)->readDataBlock(

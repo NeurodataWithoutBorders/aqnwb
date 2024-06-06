@@ -45,7 +45,7 @@ TEST_CASE("writeContinuousData", "[recording]")
     bool isRecording = true;
     while (isRecording) {
       // write data to the file for each channel
-      for (size_t i = 0; i < mockRecordingArrays.size(); ++i) {
+      for (SizeType i = 0; i < mockRecordingArrays.size(); ++i) {
         const auto& channelGroup = mockRecordingArrays[i];
         for (const auto& channel : channelGroup) {
           // copy data into buffer
