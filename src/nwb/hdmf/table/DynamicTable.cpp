@@ -69,7 +69,14 @@ void DynamicTable::addColumn(const std::string& name,
   }
 }
 
+// Getter for description
 std::string DynamicTable::getDescription() const
 {
   return description;
+}
+
+// Getter for colNames
+const std::vector<std::string>& DynamicTable::getColNames()
+{
+  return colNames;
 }

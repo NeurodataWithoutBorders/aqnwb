@@ -3,9 +3,14 @@
 #include <cstdint>
 
 #include "BaseIO.hpp"
+#include "Types.hpp"
+#include "nwb/base/TimeSeries.hpp"
 
 namespace AQNWB::NWB
 {
+
+using TimeSeriesData = std::vector<std::unique_ptr<TimeSeries>>;
+
 /**
  * @brief The NWBFile class provides an interface for setting up and managing
  * the NWB file.
@@ -50,12 +55,38 @@ public:
    * @brief Starts a recording.
    * @return Status The status of the recording operation.
    */
-  Status startRecording();
+  Status startRecording(std::vector<Types::ChannelGroup> recordingArrays);
 
   /**
    * @brief Closes the relevant datasets.
    */
   void stopRecording();
+
+  /**
+   * @brief Write timeseries timestamps to the NWB file.
+   * @param datasetID The index of the timeseries dataset.
+   * @param numSamples The number of samples to write.
+   * @param type The base data type.
+   * @param data The data to write.
+   */
+  Status writeTimeseriesTimestamps(SizeType datasetInd,
+                                   SizeType numSamples,
+                                   BaseDataType type,
+                                   const void* data);
+
+  /**
+   * @brief Write a row of timeseries data to the NWB file.
+   * @param datasetID The index of the timeseries dataset.
+   * @param rowID The index of the row to write.
+   * @param numSamples The number of samples to write.
+   * @param type The base data type.
+   * @param data The data to write.
+   */
+  Status writeTimeseriesData(SizeType datasetInd,
+                             SizeType rowInd,
+                             SizeType numSamples,
+                             BaseDataType type,
+                             const void* data);
 
   /**
    * @brief Indicates the NWB schema version.
@@ -115,62 +146,6 @@ private:
 
   const std::string identifierText;
   std::shared_ptr<BaseIO> io;
-  std::vector<float> scaledBuffer;
-  std::vector<int16_t> intBuffer;
-  SizeType bufferSize;
-};
-
-/**
- * @brief The NWBRecordingEngine class manages the recording process
- */
-class NWBRecordingEngine
-{
-public:
-  /**
-   * @brief Default constructor for NWBRecordingEngine.
-   */
-  NWBRecordingEngine();
-
-  /**
-   * @brief Deleted copy constructor to prevent construction-copying.
-   */
-  NWBRecordingEngine(const NWBRecordingEngine&) = delete;
-
-  /**
-   * @brief Deleted copy assignment operator to prevent copying.
-   */
-  NWBRecordingEngine& operator=(const NWBRecordingEngine&) = delete;
-
-  /**
-   * @brief Destructor for NWBRecordingEngine.
-   */
-  ~NWBRecordingEngine();
-
-  /**
-   * @brief Opens all the necessary files for recording.
-   * @param rootFolder The root folder where the files will be stored.
-   * @param experimentNumber The experiment number.
-   * @param recordingNumber The recording number.
-   */
-  void openFiles(const std::string& rootFolder,
-                 int experimentNumber,
-                 int recordingNumber);
-
-  /**
-   * @brief Closes all the files and performs necessary cleanup when recording
-   * stops.
-   */
-  void closeFiles();
-
-private:
-  /**
-   * @brief Pointer to the current NWB file.
-   */
-  std::unique_ptr<NWBFile> nwb;
-
-  /**
-   * @brief Holds integer sample numbers for writing.
-   */
-  std::vector<int64_t> smpBuffer;
+  TimeSeriesData timeseriesData;
 };
 }  // namespace AQNWB::NWB

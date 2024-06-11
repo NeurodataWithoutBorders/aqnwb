@@ -268,9 +268,30 @@ public:
    */
   Status createCommonNWBAttributes(const std::string& path,
                                    const std::string& objectNamespace,
-                                   const std::string& neurodataType,
+                                   const std::string& neurodataType = "",
                                    const std::string& description = "");
 
+  /**
+   * @brief Convenience function for creating data related attributes.
+   * @param path The location of the object in the file.
+   * @param conversion Scalar to multiply each element in data to convert it to
+   * the specified ‘unit’.
+   * @param resolution Smallest meaningful difference between values in data.
+   * @param unit Base unit of measurement for working with the data.
+   * @return The status of the operation.
+   */
+  Status createDataAttributes(const std::string& path,
+                              const float& conversion,
+                              const float& resolution,
+                              const std::string& unit);
+
+  /**
+   * @brief Convenience function for creating timestamp related attributes.
+   * @param path The location of the object in the file.
+   * @param interval Value is '1'
+   * @return The status of the operation.
+   */
+  Status createTimestampsAttributes(const std::string& path);
   /**
    * @brief Returns true if the file is open.
    * @return True if the file is open, false otherwise.
@@ -359,11 +380,25 @@ public:
                                 const BaseDataType& type,
                                 const void* data) = 0;
 
+  /**
+   * @brief Writes a row of data in a 2D block.
+   * @param xDataSize The size of the data row in the x dimension (samples).
+   * @param yPosition The position of the data row in the y dimension
+   * (channels).
+   * @param type The data type of the elements in the data block.
+   * @param data A pointer to the data block.
+   * @return The status of the write operation.
+   */
+  virtual Status writeDataRow(const SizeType& xDataSize,
+                              const SizeType& yPos,
+                              const BaseDataType& type,
+                              const void* data) = 0;
+
 protected:
   /**
    * @brief The current position in the x dimension.
    */
-  int xPos;
+  SizeType xPos;
 
   /**
    * @brief The size of the data block in each dimension.

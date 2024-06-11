@@ -17,9 +17,13 @@ include(cmake/variables.cmake)
 add_library(
     aq-nwb_lib OBJECT
     src/BaseIO.cpp
+    src/Channel.cpp
     src/hdf5/HDF5IO.cpp
     src/nwb/NWBFile.cpp
+    src/nwb/NWBRecording.cpp
+    src/nwb/base/TimeSeries.cpp
     src/nwb/device/Device.cpp
+    src/nwb/ecephys/ElectricalSeries.cpp
     src/nwb/file/ElectrodeGroup.cpp
     src/nwb/file/ElectrodeTable.cpp
     src/nwb/hdmf/base/Data.hpp
@@ -27,7 +31,6 @@ add_library(
     src/nwb/hdmf/table/DynamicTable.cpp
     src/nwb/hdmf/table/ElementIdentifiers.hpp
     src/nwb/hdmf/table/VectorData.hpp
-
 )
 
 target_include_directories(

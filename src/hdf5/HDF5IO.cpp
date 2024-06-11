@@ -230,16 +230,15 @@ Status HDF5IO::createReferenceAttribute(const std::string& referencePath,
     if (loc->attrExists(name)) {
       attr = loc->openAttribute(name);
     } else {
-      DataType data_type(H5T_STD_REF_OBJ);
       DataSpace attr_space(H5S_SCALAR);
-      attr = loc->createAttribute(name, data_type, attr_space);
+      attr = loc->createAttribute(name, H5::PredType::STD_REF_OBJ, attr_space);
     }
 
     hobj_ref_t* rdata = new hobj_ref_t[sizeof(hobj_ref_t)];
 
     file->reference(rdata, referencePath.c_str());
 
-    attr.write(H5T_STD_REF_OBJ, rdata);
+    attr.write(H5::PredType::STD_REF_OBJ, rdata);
     delete[] rdata;
 
   } catch (GroupIException error) {
@@ -320,7 +319,7 @@ Status HDF5IO::createReferenceDataSet(
   delete[] rdata;
 
   herr_t dsetStatus = H5Dclose(dset);
-  herr_t spaceStatus = H5Dclose(space);  // TODO - should this be H5Sclose?
+  herr_t spaceStatus = H5Sclose(space);
 
   return checkStatus(writeStatus);
 }
@@ -569,52 +568,119 @@ Status HDF5RecordingData::writeDataBlock(const SizeType& xDataSize,
                                          const BaseDataType& type,
                                          const void* data)
 {
-  hsize_t dim[3], offset[3];
-  DataSpace fSpace;
-  DataType nativeType;
+  try {
+    hsize_t dim[3], offset[3];
+    DataSpace fSpace;
+    DataType nativeType;
 
-  dim[2] = static_cast<hsize_t>(size[2]);
-  // only modify y size if new required size is larger than what we had.
-  if (yDataSize > size[1])
+    dim[2] = static_cast<hsize_t>(size[2]);
+    // only modify y size if new required size is larger than what we had.
+    if (yDataSize > size[1])
+      dim[1] = static_cast<hsize_t>(yDataSize);
+    else
+      dim[1] = static_cast<hsize_t>(size[1]);
+    dim[0] = static_cast<hsize_t>(xPos) + xDataSize;
+
+    // First be sure that we have enough space
+    dSet->extend(dim);
+
+    fSpace = dSet->getSpace();
+    fSpace.getSimpleExtentDims(dim);
+    size[0] = dim[0];
+    if (dimension > 1)
+      size[1] = dim[1];
+
+    // Create memory space
+    dim[0] = static_cast<hsize_t>(xDataSize);
     dim[1] = static_cast<hsize_t>(yDataSize);
-  else
-    dim[1] = static_cast<hsize_t>(size[1]);
-  dim[0] = static_cast<hsize_t>(xPos) + xDataSize;
+    dim[2] = static_cast<hsize_t>(size[2]);
 
-  // First be sure that we have enough space
-  dSet->extend(dim);
+    DataSpace mSpace(static_cast<int>(dimension), dim);
+    // select where to write
+    offset[0] = static_cast<hsize_t>(xPos);
+    offset[1] = 0;
+    offset[2] = 0;
 
-  fSpace = dSet->getSpace();
-  fSpace.getSimpleExtentDims(dim);
-  size[0] = dim[0];
-  if (dimension > 1)
-    size[1] = dim[1];
+    fSpace.selectHyperslab(H5S_SELECT_SET, dim, offset);
 
-  // Create memory space
-  dim[0] = static_cast<hsize_t>(xDataSize);
-  dim[1] = static_cast<hsize_t>(yDataSize);
-  dim[2] = static_cast<hsize_t>(size[2]);
+    nativeType = HDF5IO::getNativeType(type);
 
-  DataSpace mSpace(static_cast<int>(dimension), dim);
-  // select where to write
-  offset[0] = static_cast<hsize_t>(xPos);
-  offset[1] = 0;
-  offset[2] = 0;
-
-  fSpace.selectHyperslab(H5S_SELECT_SET, dim, offset);
-
-  nativeType = HDF5IO::getNativeType(type);
-
-  dSet->write(data, nativeType, mSpace, fSpace);
-  xPos += xDataSize;
-
+    dSet->write(data, nativeType, mSpace, fSpace);
+    xPos += xDataSize;
+  } catch (DataSetIException error) {
+    error.printErrorStack();
+  } catch (DataSpaceIException error) {
+    error.printErrorStack();
+  } catch (FileIException error) {
+    error.printErrorStack();
+  }
   return Status::Success;
 }
 
 void HDF5RecordingData::readDataBlock(const BaseDataType& type, void* buffer)
 {
-  SizeType numElements = dSet->getSpace().getSimpleExtentNpoints();
   DataSpace fSpace = dSet->getSpace();
   DataType nativeType = HDF5IO::getNativeType(type);
   dSet->read(buffer, nativeType, fSpace, fSpace);
+}
+
+Status HDF5RecordingData::writeDataRow(const SizeType& xDataSize,
+                                       const SizeType& yPos,
+                                       const BaseDataType& type,
+                                       const void* data)
+{
+  hsize_t dim[2], offset[2];
+  DataSpace fSpace;
+  DataType nativeType;
+
+  if (dimension > 2)
+    return Status::Failure;  // not currently writing rows in datasets > 2d
+  if ((yPos < 0) || (yPos >= size[1]))
+    return Status::Failure;  // yPosition out of bounds
+
+  try {
+    // Check dimensions
+    if (rowXPos[yPos] + xDataSize > size[0]) {
+      dim[1] = size[1];
+      dim[0] = rowXPos[yPos] + xDataSize;
+      dSet->extend(dim);
+
+      fSpace = dSet->getSpace();
+      fSpace.getSimpleExtentDims(dim);
+      size[0] = static_cast<SizeType>(dim[0]);
+    }
+    if (rowXPos[yPos] + xDataSize > xPos) {
+      xPos = rowXPos[yPos] + xDataSize;
+    }
+
+    // Create memory space
+    dim[0] = static_cast<hsize_t>(xDataSize);
+    dim[1] = static_cast<hsize_t>(1);
+    DataSpace mSpace(static_cast<int>(dimension), dim);
+
+    // select where to write
+    fSpace = dSet->getSpace();
+    offset[0] = rowXPos[yPos];
+    offset[1] = yPos;
+
+    fSpace.selectHyperslab(H5S_SELECT_SET, dim, offset);
+
+    nativeType = HDF5IO::getNativeType(type);
+
+    dSet->write(data, nativeType, mSpace, fSpace);
+    if (yPos < rowXPos.size()) {
+      rowXPos[yPos] += xDataSize;
+    } else {
+      rowXPos.push_back(xDataSize);
+    }
+
+  } catch (DataSetIException error) {
+    error.printErrorStack();
+  } catch (DataSpaceIException error) {
+    error.printErrorStack();
+  } catch (FileIException error) {
+    error.printErrorStack();
+  }
+
+  return Status::Success;
 }

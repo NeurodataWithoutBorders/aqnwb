@@ -1,5 +1,7 @@
 #include "nwb/file/ElectrodeTable.hpp"
 
+#include "Channel.hpp"
+
 using namespace AQNWB::NWB;
 
 // ElectrodeTable
@@ -7,10 +9,8 @@ using namespace AQNWB::NWB;
 /** Constructor */
 ElectrodeTable::ElectrodeTable(const std::string& path,
                                std::shared_ptr<BaseIO> io,
-                               const std::vector<int>& channels,
                                const std::string& description)
     : DynamicTable(path, io, description)
-    , channels(channels)
 {
 }
 
@@ -22,25 +22,33 @@ void ElectrodeTable::initialize()
 {
   // create group
   DynamicTable::initialize();
+
+  electrodeDataset->dataset =
+      std::unique_ptr<BaseRecordingData>(io->createDataSet(
+          BaseDataType::I32, SizeArray {1}, SizeArray {1}, path + "id"));
+  groupNamesDataset->dataset = std::unique_ptr<BaseRecordingData>(
+      io->createDataSet(BaseDataType::STR(250),
+                        SizeArray {0},
+                        SizeArray {1},
+                        path + "group_name"));
+  locationsDataset
+      ->dataset = std::unique_ptr<BaseRecordingData>(io->createDataSet(
+      BaseDataType::STR(250), SizeArray {0}, SizeArray {1}, path + "location"));
 }
 
-void ElectrodeTable::addElectrodes()
+void ElectrodeTable::addElectrodes(std::vector<Channel> channels)
 {
   // create datasets
-  groupReferences.reserve(channels.size());
-  groupNames.reserve(channels.size());
-  electrodeNumbers.reserve(channels.size());
-  locationNames.reserve(channels.size());
-  for (auto ch : channels) {
-    groupReferences.push_back(
-        groupPath);  // TODO - would get this info from channel input
-    groupNames.push_back(
-        "array1");  // TODO - would get this info from channel input
-    electrodeNumbers.push_back(ch);
+  for (const auto& ch : channels) {
+    groupReferences.push_back(groupPathBase + ch.groupName);
+    groupNames.push_back(ch.groupName);
+    electrodeNumbers.push_back(ch.globalIndex);
     locationNames.push_back("unknown");
   }
+}
 
-  // add columns
+void ElectrodeTable::finalize()
+{
   setRowIDs(electrodeDataset, electrodeNumbers);
   addColumn("group_name",
             "the name of the ElectrodeGroup this electrode is a part of",
@@ -70,11 +78,6 @@ void ElectrodeTable::setColNames(const std::vector<std::string>& newColNames)
 // Getter for groupPath
 std::string ElectrodeTable::getGroupPath() const
 {
-  return groupPath;
-}
-
-// Setter for colNames
-void ElectrodeTable::setGroupPath(const std::string& newgroupPath)
-{
-  groupPath = newgroupPath;
+  return groupReferences[0];  // all channel in channelGroup should have the
+                              // same groupName
 }

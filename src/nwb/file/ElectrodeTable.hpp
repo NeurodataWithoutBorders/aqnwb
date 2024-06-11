@@ -25,7 +25,6 @@ public:
    */
   ElectrodeTable(const std::string& path,
                  std::shared_ptr<BaseIO> io,
-                 const std::vector<int>& channels,
                  const std::string& description =
                      "metadata about extracellular electrodes");
 
@@ -43,10 +42,18 @@ public:
   void initialize();
 
   /**
+   * @brief Finalizes the ElectrodeTable.
+   *
+   * Finalizes the ElectrodeTable by adding the required columns and writing
+   * the data to the file.
+   */
+  void finalize();
+
+  /**
    * @brief Sets up the ElectrodeTable by adding electrodes and their metadata.
    *
    */
-  void addElectrodes();
+  void addElectrodes(std::vector<Channel> channels);
 
   /**
    * @brief Gets the column names of the ElectrodeTable.
@@ -83,7 +90,7 @@ private:
   /**
    * @brief The channel information from the acquisition system.
    */
-  std::vector<int> channels;
+  std::vector<Channel> channels;
 
   /**
    * @brief The global indices for each electrode.
@@ -113,6 +120,6 @@ private:
   /**
    * @brief The references path to the ElectrodeGroup
    */
-  std::string groupPath = "/general/extracellular_ephys/array1";
+  std::string groupPathBase = "/general/extracellular_ephys/";
 };
 }  // namespace AQNWB::NWB
