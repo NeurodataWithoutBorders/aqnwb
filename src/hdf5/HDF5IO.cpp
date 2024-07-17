@@ -102,12 +102,12 @@ Status HDF5IO::createAttribute(const BaseDataType& type,
   // open the group or dataset
   switch (objectType) {
     case H5O_TYPE_GROUP:
-    gloc = file->openGroup(path);
-    loc = &gloc;
+      gloc = file->openGroup(path);
+      loc = &gloc;
       break;
     case H5O_TYPE_DATASET:
-    dloc = file->openDataSet(path);
-    loc = &dloc;
+      dloc = file->openDataSet(path);
+      loc = &dloc;
       break;
     default:
       return Status::Failure; // not a valid dataset or group type
@@ -184,12 +184,12 @@ Status HDF5IO::createAttribute(const std::vector<const char*>& data,
   // open the group or dataset
   switch (objectType) {
     case H5O_TYPE_GROUP:
-    gloc = file->openGroup(path);
-    loc = &gloc;
+      gloc = file->openGroup(path);
+      loc = &gloc;
       break;
     case H5O_TYPE_DATASET:
-    dloc = file->openDataSet(path);
-    loc = &dloc;
+      dloc = file->openDataSet(path);
+      loc = &dloc;
       break;
     default:
       return Status::Failure; // not a valid dataset or group type
@@ -242,12 +242,12 @@ Status HDF5IO::createReferenceAttribute(const std::string& referencePath,
   // open the group or dataset
   switch (objectType) {
     case H5O_TYPE_GROUP:
-    gloc = file->openGroup(path);
-    loc = &gloc;
+      gloc = file->openGroup(path);
+      loc = &gloc;
       break;
     case H5O_TYPE_DATASET:
-    dloc = file->openDataSet(path);
-    loc = &dloc;
+      dloc = file->openDataSet(path);
+      loc = &dloc;
       break;
     default:
       return Status::Failure; // not a valid dataset or group type
@@ -383,7 +383,8 @@ Status HDF5IO::createStringDataSet(const std::string& path,
   std::unique_ptr<BaseRecordingData> dataset;
   dataset = std::unique_ptr<BaseRecordingData>(createDataSet(
       BaseDataType::V_STR, SizeArray {values.size()}, SizeArray {1}, path));
-  dataset->writeDataBlock(1, BaseDataType::V_STR, cStrs.data());
+  // dataset->writeDataBlock(1, BaseDataType::V_STR, cStrs.data());
+  dataset->writeDataBlockNew(std::vector<SizeType>(1, 1), BaseDataType::V_STR, cStrs.data());
 
   return Status::Success;
 }
@@ -443,6 +444,47 @@ AQNWB::BaseRecordingData* HDF5IO::createDataSet(const BaseDataType& type,
 
   DataSpace dSpace(static_cast<int>(dimension), dims, max_dims);
   prop.setChunk(static_cast<int>(dimension), chunk_dims);
+
+  data = std::make_unique<H5::DataSet>(
+      file->createDataSet(path, H5type, dSpace, prop));
+  return new HDF5RecordingData(data.release());
+}
+
+
+AQNWB::BaseRecordingData* HDF5IO::createDataSetNew(const BaseDataType& type,
+                                                const SizeArray& size,
+                                                const SizeArray& chunking,
+                                                const std::string& path)
+{
+  std::unique_ptr<DataSet> data;
+  DSetCreatPropList prop;
+  if (!opened)
+    return nullptr;
+
+  // Right now this classes don't support datasets with rank > 3.
+  // If it's needed in the future we can extend them to be of generic rank
+  SizeType dimension = size.size();
+  if (dimension < 1) // Check for at least one dimension
+    return nullptr;
+
+  DataType H5type = getH5Type(type);
+
+  // Use vectors to support an arbitrary number of dimensions
+  std::vector<hsize_t> dims(dimension), chunk_dims(dimension), max_dims(dimension);
+
+  for (SizeType i = 0; i < dimension; i++) {
+    dims[i] = static_cast<hsize_t>(size[i]);
+    if (chunking[i] > 0) {
+      chunk_dims[i] = static_cast<hsize_t>(chunking[i]);
+      max_dims[i] = H5S_UNLIMITED;
+    } else {
+      chunk_dims[i] = static_cast<hsize_t>(size[i]);
+      max_dims[i] = static_cast<hsize_t>(size[i]);
+    }
+  }
+
+  DataSpace dSpace(static_cast<int>(dimension), dims.data(), max_dims.data());
+  prop.setChunk(static_cast<int>(dimension), chunk_dims.data());
 
   data = std::make_unique<H5::DataSet>(
       file->createDataSet(path, H5type, dSpace, prop));
@@ -554,32 +596,52 @@ H5::DataType HDF5IO::getH5Type(BaseDataType type)
 // HDF5RecordingData
 HDF5RecordingData::HDF5RecordingData(H5::DataSet* data)
 {
-  DataSpace dSpace;
-  DSetCreatPropList prop;
-  hsize_t dims[3], chunk[3];
+  DataSpace dSpace = data->getSpace();
+  DSetCreatPropList prop = data->getCreatePlist();
 
-  dSpace = data->getSpace();
-  prop = data->getCreatePlist();
+  int nDimensions = dSpace.getSimpleExtentNdims();
+  std::vector<hsize_t> dims(nDimensions), chunk(nDimensions);
 
-  dimension = dSpace.getSimpleExtentDims(dims);
-  prop.getChunk(static_cast<int>(dimension), chunk);
+  nDimensions = dSpace.getSimpleExtentDims(dims.data()); // TODO -redefine here or use original?
+  prop.getChunk(static_cast<int>(nDimensions), chunk.data());
 
-  this->size[0] = dims[0];
-  if (dimension > 1)
-    this->size[1] = dims[1];
-  else
-    this->size[1] = 1;
-  if (dimension > 1)
-    this->size[2] = dims[2];
-  else
-    this->size[2] = 1;
-
-  this->xPos = 0;
+  this->size = std::vector<SizeType>(nDimensions);
+  for (int i = 0; i < nDimensions; ++i) {
+    this->size[i] = dims[i];
+  }
+  this->nDimensions = nDimensions;
+  this->position = std::vector<SizeType>(nDimensions, 0); // Initialize position with 0 for each dimension
   this->dSet = std::make_unique<H5::DataSet>(*data);
-  ;
   this->rowXPos.clear();
   this->rowXPos.insert(
       this->rowXPos.end(), static_cast<SizeType>(this->size[1]), 0);
+
+//   DataSpace dSpace;
+//   DSetCreatPropList prop;
+//   hsize_t dims[3], chunk[3];
+
+//   dSpace = data->getSpace();
+//   prop = data->getCreatePlist();
+
+//   dimension = dSpace.getSimpleExtentDims(dims);
+//   prop.getChunk(static_cast<int>(dimension), chunk);
+
+//   this->size[0] = dims[0];
+//   if (dimension > 1)
+//     this->size[1] = dims[1];
+//   else
+//     this->size[1] = 1;
+//   if (dimension > 1)
+//     this->size[2] = dims[2];
+//   else
+//     this->size[2] = 1;
+
+//   this->xPos = 0;
+//   this->dSet = std::make_unique<H5::DataSet>(*data);
+//   ;
+//   this->rowXPos.clear();
+//   this->rowXPos.insert(
+//       this->rowXPos.end(), static_cast<SizeType>(this->size[1]), 0);
 }
 
 // HDF5RecordingData
@@ -614,7 +676,7 @@ Status HDF5RecordingData::writeDataBlock(const SizeType& xDataSize,
     fSpace = dSet->getSpace();
     fSpace.getSimpleExtentDims(dim);
     size[0] = dim[0];
-    if (dimension > 1)
+    if (nDimensions > 1)
       size[1] = dim[1];
 
     // Create memory space
@@ -622,7 +684,7 @@ Status HDF5RecordingData::writeDataBlock(const SizeType& xDataSize,
     dim[1] = static_cast<hsize_t>(yDataSize);
     dim[2] = static_cast<hsize_t>(size[2]);
 
-    DataSpace mSpace(static_cast<int>(dimension), dim);
+    DataSpace mSpace(static_cast<int>(nDimensions), dim);
     // select where to write
     offset[0] = static_cast<hsize_t>(xPos);
     offset[1] = 0;
@@ -644,63 +706,57 @@ Status HDF5RecordingData::writeDataBlock(const SizeType& xDataSize,
   return Status::Success;
 }
 
-void HDF5RecordingData::readDataBlock(const BaseDataType& type, void* buffer)
+Status HDF5RecordingData::writeDataBlockNew(const std::vector<SizeType>& dataShape,
+                                         const std::vector<SizeType>& positionOffset,
+                                         const BaseDataType& type,
+                                         const void* data)
 {
-  DataSpace fSpace = dSet->getSpace();
-  DataType nativeType = HDF5IO::getNativeType(type);
-  dSet->read(buffer, nativeType, fSpace, fSpace);
-}
-
-Status HDF5RecordingData::writeDataRow(const SizeType& xDataSize,
-                                       const SizeType& yPos,
-                                       const BaseDataType& type,
-                                       const void* data)
-{
-  hsize_t dim[2], offset[2];
-  DataSpace fSpace;
-  DataType nativeType;
-
-  if (dimension > 2)
-    return Status::Failure;  // not currently writing rows in datasets > 2d
-  if ((yPos < 0) || (yPos >= size[1]))
-    return Status::Failure;  // yPosition out of bounds
-
   try {
-    // Check dimensions
-    if (rowXPos[yPos] + xDataSize > size[0]) {
-      dim[1] = size[1];
-      dim[0] = rowXPos[yPos] + xDataSize;
-      dSet->extend(dim);
-
-      fSpace = dSet->getSpace();
-      fSpace.getSimpleExtentDims(dim);
-      size[0] = static_cast<SizeType>(dim[0]);
-    }
-    if (rowXPos[yPos] + xDataSize > xPos) {
-      xPos = rowXPos[yPos] + xDataSize;
+    // check dataShape and positionOffset inputs match the dimensions of the dataset
+    if (dataShape.size() != nDimensions || positionOffset.size() != nDimensions) {
+      return Status::Failure;
     }
 
-    // Create memory space
-    dim[0] = static_cast<hsize_t>(xDataSize);
-    dim[1] = static_cast<hsize_t>(1);
-    DataSpace mSpace(static_cast<int>(dimension), dim);
+    // Ensure that we have enough space to accomodate new data  
+    std::vector<hsize_t> dSetDims(nDimensions), offset(nDimensions);
+    for (int i = 0; i < nDimensions; ++i) {
+      offset[i] = static_cast<hsize_t>(positionOffset[i]);
 
-    // select where to write
-    fSpace = dSet->getSpace();
-    offset[0] = rowXPos[yPos];
-    offset[1] = yPos;
+      if (dataShape[i] + offset[i] > size[i])  // TODO - do I need offset here
+        dSetDims[i] = dataShape[i] + offset[i];
+      else
+        dSetDims[i] = size[i];
+    }
 
-    fSpace.selectHyperslab(H5S_SELECT_SET, dim, offset);
+    // Adjust dataset dimensions if necessary
+    dSet->extend(dSetDims.data());
 
-    nativeType = HDF5IO::getNativeType(type);
+    // Set size to new size based on updated dimensionality
+    DataSpace fSpace = dSet->getSpace();
+    fSpace.getSimpleExtentDims(dSetDims.data());
+    for (int i = 0; i < nDimensions; ++i) {
+      size[i] = dSetDims[i];
+    }
 
+    // Create memory space with the shape of the data
+    // DataSpace mSpace(dimension, dSetDim.data());
+    std::vector<hsize_t> dataDims(nDimensions);
+    for (int i = 0; i < nDimensions; ++i) {
+      dataDims[i] = static_cast<hsize_t>(dataShape[i]);
+    }
+    DataSpace mSpace(static_cast<int>(nDimensions), dataDims.data());
+
+    // Select hyperslab in the file space
+    fSpace.selectHyperslab(H5S_SELECT_SET, dataDims.data(), offset.data());
+
+    // Write the data
+    DataType nativeType = HDF5IO::getNativeType(type);
     dSet->write(data, nativeType, mSpace, fSpace);
-    if (yPos < rowXPos.size()) {
-      rowXPos[yPos] += xDataSize;
-    } else {
-      rowXPos.push_back(xDataSize);
-    }
 
+    // Update position if we decide to track it here
+    for (int i = 0; i < dataShape.size(); ++i) {
+      position[i] += dataShape[i];
+    }
   } catch (DataSetIException error) {
     error.printErrorStack();
   } catch (DataSpaceIException error) {
@@ -708,6 +764,73 @@ Status HDF5RecordingData::writeDataRow(const SizeType& xDataSize,
   } catch (FileIException error) {
     error.printErrorStack();
   }
-
   return Status::Success;
 }
+
+void HDF5RecordingData::readDataBlock(const BaseDataType& type, void* buffer)
+{
+  DataSpace fSpace = dSet->getSpace();
+  DataType nativeType = HDF5IO::getNativeType(type);
+  dSet->read(buffer, nativeType, fSpace, fSpace);
+}
+
+// Status HDF5RecordingData::writeDataRow(const SizeType& xDataSize,
+//                                        const SizeType& yPos,
+//                                        const BaseDataType& type,
+//                                        const void* data)
+// {
+//   hsize_t dim[2], offset[2];
+//   DataSpace fSpace;
+//   DataType nativeType;
+
+//   if (dimension > 2)
+//     return Status::Failure;  // not currently writing rows in datasets > 2d
+//   if ((yPos < 0) || (yPos >= size[1]))
+//     return Status::Failure;  // yPosition out of bounds
+
+//   try {
+//     // Check dimensions
+//     if (rowXPos[yPos] + xDataSize > size[0]) {
+//       dim[1] = size[1];
+//       dim[0] = rowXPos[yPos] + xDataSize;
+//       dSet->extend(dim);
+
+//       fSpace = dSet->getSpace();
+//       fSpace.getSimpleExtentDims(dim);
+//       size[0] = static_cast<SizeType>(dim[0]);
+//     }
+//     if (rowXPos[yPos] + xDataSize > xPos) {
+//       xPos = rowXPos[yPos] + xDataSize;
+//     }
+
+//     // Create memory space
+//     dim[0] = static_cast<hsize_t>(xDataSize);
+//     dim[1] = static_cast<hsize_t>(1);
+//     DataSpace mSpace(static_cast<int>(dimension), dim);
+
+//     // select where to write
+//     fSpace = dSet->getSpace();
+//     offset[0] = rowXPos[yPos];
+//     offset[1] = yPos;
+
+//     fSpace.selectHyperslab(H5S_SELECT_SET, dim, offset);
+
+//     nativeType = HDF5IO::getNativeType(type);
+
+//     dSet->write(data, nativeType, mSpace, fSpace);
+//     if (yPos < rowXPos.size()) {
+//       rowXPos[yPos] += xDataSize;
+//     } else {
+//       rowXPos.push_back(xDataSize);
+//     }
+
+//   } catch (DataSetIException error) {
+//     error.printErrorStack();
+//   } catch (DataSpaceIException error) {
+//     error.printErrorStack();
+//   } catch (FileIException error) {
+//     error.printErrorStack();
+//   }
+
+//   return Status::Success;
+// }

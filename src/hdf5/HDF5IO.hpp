@@ -188,6 +188,20 @@ public:
                                    const std::string& path) override;
 
   /**
+   * @brief Creates an extendable dataset with a given base data type, size,
+   * chunking, and path.
+   * @param type The base data type of the dataset.
+   * @param size The size of the dataset.
+   * @param chunking The chunking size of the dataset.
+   * @param path The location in the file of the new dataset.
+   * @return A pointer to the created dataset.
+   */
+  BaseRecordingData* createDataSetNew(const BaseDataType& type,
+                                   const SizeArray& size,
+                                   const SizeArray& chunking,
+                                   const std::string& path) override;
+
+  /**
    * @brief Returns a pointer to a dataset at a given path.
    * @param path The location in the file of the dataset.
    * @return A pointer to the dataset.
@@ -267,24 +281,37 @@ public:
                         const void* data);
 
   /**
+   * @brief Writes a 2D block of data to the HDF5 dataset.
+   * @param dataShape The size of the data block.
+   * @param positionOffset The position of the data block to write to.
+   * @param type The data type of the elements in the data block.
+   * @param data A pointer to the data block.
+   * @return The status of the write operation.
+   */
+  Status writeDataBlockNew(const std::vector<SizeType>& dataShape,
+                        const std::vector<SizeType>& positionOffset,
+                        const BaseDataType& type,
+                        const void* data);
+
+  /**
    * @brief Reads a block of data from the HDF5 dataset.
    * @param type The data type of the data block.
    * @param buffer A pointer to the buffer to store the read data.
    */
   void readDataBlock(const BaseDataType& type, void* buffer);
 
-  /**
-   * @brief Writes a row of data in a 2D block.
-   * @param xDataSize The size of the data row in the x dimension (samples).
-   * @param yPos The position of the data row in the y dimension (channels).
-   * @param type The data type of the elements in the data block.
-   * @param data A pointer to the data block.
-   * @return The status of the write operation.
-   */
-  Status writeDataRow(const SizeType& xDataSize,
-                      const SizeType& yPos,
-                      const BaseDataType& type,
-                      const void* data);
+  // /**
+  //  * @brief Writes a row of data in a 2D block.
+  //  * @param xDataSize The size of the data row in the x dimension (samples).
+  //  * @param yPos The position of the data row in the y dimension (channels).
+  //  * @param type The data type of the elements in the data block.
+  //  * @param data A pointer to the data block.
+  //  * @return The status of the write operation.
+  //  */
+  // Status writeDataRow(const SizeType& xDataSize,
+  //                     const SizeType& yPos,
+  //                     const BaseDataType& type,
+  //                     const void* data);
 
 private:
   /**
