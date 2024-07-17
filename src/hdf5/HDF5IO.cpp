@@ -94,14 +94,23 @@ Status HDF5IO::createAttribute(const BaseDataType& type,
   if (!opened)
     return Status::Failure;
 
-  try {
+  // get whether path is a dataset or group
+  H5O_info_t objInfo; // Structure to hold information about the object
+  H5Oget_info_by_name(file->getId(), path.c_str(), &objInfo, H5O_INFO_BASIC, H5P_DEFAULT);
+  H5O_type_t objectType = objInfo.type;
+
+  // open the group or dataset
+  switch (objectType) {
+    case H5O_TYPE_GROUP:
     gloc = file->openGroup(path);
     loc = &gloc;
-  } catch (FileIException
-               error)  // If there is no group with that path, try a dataset
-  {
+      break;
+    case H5O_TYPE_DATASET:
     dloc = file->openDataSet(path);
     loc = &dloc;
+      break;
+    default:
+      return Status::Failure; // not a valid dataset or group type
   }
 
   H5type = getH5Type(type);
@@ -167,14 +176,23 @@ Status HDF5IO::createAttribute(const std::vector<const char*>& data,
   StrType H5type(PredType::C_S1, maxSize);
   H5type.setSize(H5T_VARIABLE);
 
-  try {
+  // get whether path is a dataset or group
+  H5O_info_t objInfo; // Structure to hold information about the object
+  H5Oget_info_by_name(file->getId(), path.c_str(), &objInfo, H5O_INFO_BASIC, H5P_DEFAULT);
+  H5O_type_t objectType = objInfo.type;
+
+  // open the group or dataset
+  switch (objectType) {
+    case H5O_TYPE_GROUP:
     gloc = file->openGroup(path);
     loc = &gloc;
-  } catch (FileIException
-               error)  // If there is no group with that path, try a dataset
-  {
+      break;
+    case H5O_TYPE_DATASET:
     dloc = file->openDataSet(path);
     loc = &dloc;
+      break;
+    default:
+      return Status::Failure; // not a valid dataset or group type
   }
 
   try {
@@ -216,14 +234,23 @@ Status HDF5IO::createReferenceAttribute(const std::string& referencePath,
   if (!opened)
     return Status::Failure;
 
-  try {
+  // get whether path is a dataset or group
+  H5O_info_t objInfo; // Structure to hold information about the object
+  H5Oget_info_by_name(file->getId(), path.c_str(), &objInfo, H5O_INFO_BASIC, H5P_DEFAULT);
+  H5O_type_t objectType = objInfo.type;
+
+  // open the group or dataset
+  switch (objectType) {
+    case H5O_TYPE_GROUP:
     gloc = file->openGroup(path);
     loc = &gloc;
-  } catch (FileIException
-               error)  // If there is no group with that path, try a dataset
-  {
+      break;
+    case H5O_TYPE_DATASET:
     dloc = file->openDataSet(path);
     loc = &dloc;
+      break;
+    default:
+      return Status::Failure; // not a valid dataset or group type
   }
 
   try {
