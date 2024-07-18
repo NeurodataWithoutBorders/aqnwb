@@ -418,56 +418,14 @@ AQNWB::BaseRecordingData* HDF5IO::createDataSet(const BaseDataType& type,
 {
   std::unique_ptr<DataSet> data;
   DSetCreatPropList prop;
-  if (!opened)
-    return nullptr;
-
-  // Right now this classes don't support datasets with rank > 3.
-  // If it's needed in the future we can extend them to be of generic rank
-  SizeType dimension = size.size();
-  if ((dimension > 3) || (dimension < 1))
-    return nullptr;
-
   DataType H5type = getH5Type(type);
 
-  hsize_t dims[3], chunk_dims[3], max_dims[3];
-
-  for (SizeType i = 0; i < dimension; i++) {
-    dims[i] = static_cast<hsize_t>(size[i]);
-    if (chunking[i] > 0) {
-      chunk_dims[i] = static_cast<hsize_t>(chunking[i]);
-      max_dims[i] = H5S_UNLIMITED;
-    } else {
-      chunk_dims[i] = static_cast<hsize_t>(size[i]);
-      max_dims[i] = static_cast<hsize_t>(size[i]);
-    }
-  }
-
-  DataSpace dSpace(static_cast<int>(dimension), dims, max_dims);
-  prop.setChunk(static_cast<int>(dimension), chunk_dims);
-
-  data = std::make_unique<H5::DataSet>(
-      file->createDataSet(path, H5type, dSpace, prop));
-  return new HDF5RecordingData(data.release());
-}
-
-
-AQNWB::BaseRecordingData* HDF5IO::createDataSetNew(const BaseDataType& type,
-                                                const SizeArray& size,
-                                                const SizeArray& chunking,
-                                                const std::string& path)
-{
-  std::unique_ptr<DataSet> data;
-  DSetCreatPropList prop;
   if (!opened)
     return nullptr;
 
-  // Right now this classes don't support datasets with rank > 3.
-  // If it's needed in the future we can extend them to be of generic rank
   SizeType dimension = size.size();
   if (dimension < 1) // Check for at least one dimension
     return nullptr;
-
-  DataType H5type = getH5Type(type);
 
   // Use vectors to support an arbitrary number of dimensions
   std::vector<hsize_t> dims(dimension), chunk_dims(dimension), max_dims(dimension);

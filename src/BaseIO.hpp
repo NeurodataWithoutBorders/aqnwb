@@ -247,19 +247,6 @@ public:
    * @return A pointer to the created dataset.
    */
   virtual BaseRecordingData* createDataSet(const BaseDataType& type,
-                                           const SizeArray& size,
-                                           const SizeArray& chunking,
-                                           const std::string& path) = 0;
-  /**
-   * @brief Creates an extendable dataset with a given base data type, size,
-   * chunking, and path.
-   * @param type The base data type of the dataset.
-   * @param size The size of the dataset.
-   * @param chunking The chunking size of the dataset.
-   * @param path The location in the file of the new dataset.
-   * @return A pointer to the created dataset.
-   */
-  virtual BaseRecordingData* createDataSetNew(const BaseDataType& type,
                                               const SizeArray& size,
                                               const SizeArray& chunking,
                                               const std::string& path) = 0;

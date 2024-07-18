@@ -188,20 +188,6 @@ public:
                                    const std::string& path) override;
 
   /**
-   * @brief Creates an extendable dataset with a given base data type, size,
-   * chunking, and path.
-   * @param type The base data type of the dataset.
-   * @param size The size of the dataset.
-   * @param chunking The chunking size of the dataset.
-   * @param path The location in the file of the new dataset.
-   * @return A pointer to the created dataset.
-   */
-  BaseRecordingData* createDataSetNew(const BaseDataType& type,
-                                   const SizeArray& size,
-                                   const SizeArray& chunking,
-                                   const std::string& path) override;
-
-  /**
    * @brief Returns a pointer to a dataset at a given path.
    * @param path The location in the file of the dataset.
    * @return A pointer to the dataset.
