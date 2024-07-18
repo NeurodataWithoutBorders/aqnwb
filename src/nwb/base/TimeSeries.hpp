@@ -42,18 +42,15 @@ public:
    * @brief Writes a timeseries data block to the file.
    * @param dataShape The size of the data block.
    * @param positionOffset The position of the data block to write to.
-   * @param type The data type of the elements in the data block.
    * @param data A pointer to the data block.
-   * @param data A pointer to the timestamps block. May be null if
+   * @param timestamps A pointer to the timestamps block. May be null if
    * multidimensional TimeSeries and only need to write the timestamps once but
-   * write data multiple times.
+   * write data in separate blocks.
    * @return The status of the write operation.
    */
-  Status writeDataBlock(const std::vector<SizeType>& dataShape,
+  Status writeData(const std::vector<SizeType>& dataShape,
                         const std::vector<SizeType>& positionOffset,
-                        const BaseDataType& dataType,
                         const void* data,
-                        const BaseDataType& timestampsType = BaseDataType::F64,
                         const void* timestamps = nullptr);
 
   /**

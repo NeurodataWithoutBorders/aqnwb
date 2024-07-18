@@ -30,7 +30,7 @@ TEST_CASE("TimeSeries", "[base]")
     ts.initialize();
 
     // Write data to file
-    Status writeStatus = ts.writeDataBlock(dataShape, positionOffset, dataType, data.data(), timestampsType, timestamps.data());
+    Status writeStatus = ts.writeData(dataShape, positionOffset, data.data(), timestamps.data());
     REQUIRE(writeStatus == Status::Success);
 
     // Read data back from file
@@ -59,7 +59,7 @@ TEST_CASE("TimeSeries", "[base]")
     ts.initialize();
 
     // Write data to file
-    Status writeStatus = ts.writeDataBlock(dataShape, positionOffset, dataType, data.data());
+    Status writeStatus = ts.writeData(dataShape, positionOffset, data.data());
     REQUIRE(writeStatus == Status::Success);
 
     // Read data back from file

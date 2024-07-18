@@ -146,8 +146,8 @@ Status NWBFile::writeTimeseries(SizeType datasetInd,
   if (!timeseriesData[datasetInd])
     return Status::Failure;
 
-  return timeseriesData[datasetInd]->writeDataBlock(
-      dataShape, positionOffset, dataType, data, timestampsType, timestamps);
+  return timeseriesData[datasetInd]->writeData(
+      dataShape, positionOffset, data, timestamps);
 }
 
 void NWBFile::cacheSpecifications(const std::string& specPath,

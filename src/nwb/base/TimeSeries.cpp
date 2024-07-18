@@ -59,11 +59,9 @@ void TimeSeries::initialize()
   io->createTimestampsAttributes(getPath());
 }
 
-Status TimeSeries::writeDataBlock(const std::vector<SizeType>& dataShape,
+Status TimeSeries::writeData(const std::vector<SizeType>& dataShape,
                                   const std::vector<SizeType>& positionOffset,
-                                  const BaseDataType& dataType,
                                   const void* data,
-                                  const BaseDataType& timestampsType,
                                   const void* timestamps)
 {
   Status tsStatus = Status::Success;
@@ -73,11 +71,11 @@ Status TimeSeries::writeDataBlock(const std::vector<SizeType>& dataShape,
                         // dimension
     const std::vector<SizeType> timestampsPositionOffset = {positionOffset[0]};
     tsStatus = this->timestamps->writeDataBlock(
-        timestampsShape, timestampsPositionOffset, timestampsType, timestamps);
+        timestampsShape, timestampsPositionOffset, this->timestampsType, timestamps);
   }
 
   Status dataStatus =
-      this->data->writeDataBlock(dataShape, positionOffset, dataType, data);
+      this->data->writeDataBlock(dataShape, positionOffset, this->dataType, data);
 
   if ((dataStatus != Status::Success) or (tsStatus != Status::Success)) {
     return Status::Failure;
