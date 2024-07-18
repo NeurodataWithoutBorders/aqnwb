@@ -59,7 +59,8 @@ public:
                            Channel systemChannel,
                            const float* dataBuffer,
                            const double* timestampBuffer,
-                           SizeType size);
+                           SizeType size, 
+                           std::vector<SizeType> positionOffset);
 
 private:
   /**
@@ -70,16 +71,12 @@ private:
   /**
    * @brief Holds scaled samples for writing.
    */
-  std::unique_ptr<float[]> scaledBuffer = nullptr;
+  std::unique_ptr<float[]> scaledData = nullptr;
 
   /**
    * @brief Holds integer samples for writing.
    */
-  std::unique_ptr<int16_t[]> intBuffer = nullptr;
+  std::unique_ptr<int16_t[]> intData = nullptr;
 
-  /**
-   * @brief Maximum buffer size for writing data.
-   */
-  SizeType bufferSize;
 };
 }  // namespace AQNWB::NWB

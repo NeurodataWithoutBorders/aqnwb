@@ -4,16 +4,12 @@
 #include "Utils.hpp"
 #include "hdf5/HDF5IO.hpp"
 
-constexpr SizeType MAX_BUFFER_SIZE = 40960;
 
 using namespace AQNWB::NWB;
 
 // NWBRecordingEngine
 NWBRecording::NWBRecording()
 {
-  scaledBuffer = std::make_unique<float[]>(MAX_BUFFER_SIZE);
-  intBuffer = std::make_unique<int16_t[]>(MAX_BUFFER_SIZE);
-  bufferSize = MAX_BUFFER_SIZE;
 }
 
 NWBRecording::~NWBRecording()
@@ -49,29 +45,27 @@ void NWBRecording::closeFile()
 
 void NWBRecording::writeTimeseriesData(SizeType timeseriesInd,
                                        Channel channel,
-                                       const float* dataBuffer,
-                                       const double* timestampBuffer,
-                                       SizeType numSamples)
+                                       const float* data,
+                                       const double* timestamps,
+                                       SizeType numSamples,
+                                       std::vector<SizeType> positionOffset
+)
 {
-  // check if more samples than allocated buffer size
-  if (numSamples > bufferSize) {
-    bufferSize = numSamples;
-    scaledBuffer = std::make_unique<float[]>(numSamples);
-    intBuffer = std::make_unique<int16_t[]>(numSamples);
-  }
+  scaledData = std::make_unique<float[]>(numSamples);
+  intData = std::make_unique<int16_t[]>(numSamples);
 
   // copy data and multiply by scaling factor
   double multFactor = 1 / (32767.0f * channel.getBitVolts());
-  std::transform(dataBuffer,
-                 dataBuffer + numSamples,
-                 scaledBuffer.get(),
+  std::transform(data,
+                 data + numSamples,
+                 scaledData.get(),
                  [multFactor](float value) { return value * multFactor; });
 
   // convert float to int16
   std::transform(
-      scaledBuffer.get(),
-      scaledBuffer.get() + numSamples,
-      intBuffer.get(),
+      scaledData.get(),
+      scaledData.get() + numSamples,
+      intData.get(),
       [](float value)
       { return static_cast<int16_t>(std::clamp(value, -32768.0f, 32767.0f)); });
 
@@ -80,9 +74,10 @@ void NWBRecording::writeTimeseriesData(SizeType timeseriesInd,
                                channel.localIndex,
                                numSamples,
                                BaseDataType::I16,
-                               intBuffer.get());
+                               positionOffset,
+                               intData.get());
   if (channel.localIndex == 0) {
     nwbfile->writeTimeseriesTimestamps(
-        timeseriesInd, numSamples, BaseDataType::F64, timestampBuffer);
+        timeseriesInd, numSamples, BaseDataType::F64, timestamps);
   }
 }
