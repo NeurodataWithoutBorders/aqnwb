@@ -24,10 +24,18 @@ public:
    */
   ElectricalSeries(const std::string& path,
                    std::shared_ptr<BaseIO> io,
-                   const std::string& description,
+                   const BaseDataType& dataType,
+                   const BaseDataType& timestampsType,
                    const Types::ChannelGroup& channelGroup,
-                   const SizeType& chunkSize,
-                   const std::string& electrodesTablePath);
+                   const std::string& electrodesTablePath,
+                   const std::string& unit = "volts",
+                   const std::string& description = "no description",
+                   const std::string& comments = "no comments",
+                   const SizeArray& dsetSize = SizeArray{0},
+                   const SizeArray& chunkSize = SizeArray{1},
+                   const float& conversion = 1.0f,
+                   const float& resolution = -1.0f,
+                   const float& offset = 0.0f);
 
   /**
    * @brief Destructor
@@ -43,11 +51,6 @@ public:
    * @brief Channel group that this time series is associated with.
    */
   Types::ChannelGroup channelGroup;
-
-  /**
-   * @brief Chunk size to use in dataset creation.
-   */
-  SizeType chunkSize;
 
   /**
    * @brief Path to the electrodes table this time series references

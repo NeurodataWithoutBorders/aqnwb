@@ -7,13 +7,20 @@ using namespace AQNWB::NWB;
 /** Constructor */
 ElectricalSeries::ElectricalSeries(const std::string& path,
                                    std::shared_ptr<BaseIO> io,
-                                   const std::string& description,
+                                   const BaseDataType& dataType,
+                                   const BaseDataType& timestampsType,
                                    const Types::ChannelGroup& channelGroup,
-                                   const SizeType& chunkSize,
-                                   const std::string& electrodesTablePath)
-    : TimeSeries(path, io, description)
+                                   const std::string& electrodesTablePath,
+                                   const std::string& unit,
+                                   const std::string& description,
+                                   const std::string& comments,
+                                   const SizeArray& dsetSize,
+                                   const SizeArray& chunkSize,
+                                   const float& conversion,
+                                   const float& resolution,
+                                   const float& offset)
+    : TimeSeries(path, io, dataType, timestampsType, unit, description, comments, dsetSize, chunkSize, channelGroup[0].getConversion(), resolution, offset)
     , channelGroup(channelGroup)
-    , chunkSize(chunkSize)
     , electrodesTablePath(electrodesTablePath)
 {
 }
@@ -31,28 +38,11 @@ void ElectricalSeries::initialize()
     electrodeInds[i] = channelGroup[i].globalIndex;
   }
 
-  // make data dataset
-  data = std::unique_ptr<BaseRecordingData>(
-      io->createDataSet(BaseDataType::I16,
-                        SizeArray {0, channelGroup.size()},
-                        SizeArray {chunkSize},
-                        getPath() + "/data"));
-  io->createDataAttributes(
-      getPath(), channelGroup[0].getConversion(), -1.0f, "volts");
-
-  // make timestamps dataset
-  timestamps = std::unique_ptr<BaseRecordingData>(
-      io->createDataSet(BaseDataType::F64,
-                        SizeArray {0},
-                        SizeArray {chunkSize},
-                        getPath() + "/timestamps"));
-  io->createTimestampsAttributes(getPath());
-
   // make channel conversion dataset
   channelConversion = std::unique_ptr<BaseRecordingData>(
       io->createDataSet(BaseDataType::F32,
                         SizeArray {1},
-                        SizeArray {chunkSize},
+                        chunkSize,
                         getPath() + "/channel_conversion"));
   io->createCommonNWBAttributes(getPath() + "/channel_conversion",
                                 "hdmf-common",
@@ -63,7 +53,7 @@ void ElectricalSeries::initialize()
   electrodesDataset = std::unique_ptr<BaseRecordingData>(
       io->createDataSet(BaseDataType::I32,
                         SizeArray {1},
-                        SizeArray {chunkSize},
+                        chunkSize,
                         getPath() + "/electrodes"));
   electrodesDataset->writeDataBlock(
       std::vector<SizeType>(1, channelGroup.size()),

@@ -6,12 +6,28 @@ using namespace AQNWB::NWB;
 
 /** Constructor */
 TimeSeries::TimeSeries(const std::string& path,
-                       std::shared_ptr<BaseIO> io,
-                       const std::string& description,
-                       const std::string& comments)
+             std::shared_ptr<BaseIO> io,
+             const BaseDataType& dataType,
+             const BaseDataType& timestampsType,
+             const std::string& unit,
+             const std::string& description,
+             const std::string& comments,
+             const SizeArray& dsetSize,
+             const SizeArray& chunkSize,
+             const float& conversion,
+             const float& resolution,
+             const float& offset)
     : Container(path, io)
+    , dataType(dataType)
+    , timestampsType(timestampsType)
+    , unit(unit)
     , description(description)
     , comments(comments)
+    , dsetSize(dsetSize)
+    , chunkSize(chunkSize)  
+    , conversion(conversion)
+    , resolution(resolution)
+    , offset(offset)
 {
 }
 
@@ -22,8 +38,25 @@ void TimeSeries::initialize()
 {
   Container::initialize();
 
+  // setup attributes
   io->createCommonNWBAttributes(path, "core", neurodataType, description);
   io->createAttribute(comments, path, "comments");
+
+  // setup datasets
+  this->data = std::unique_ptr<BaseRecordingData>(
+      io->createDataSet(dataType,
+                        dsetSize,
+                        chunkSize,
+                        getPath() + "/data"));
+  io->createDataAttributes(getPath(), conversion, resolution, unit);
+
+  SizeArray tsDsetSize = {dsetSize[0]}; // timestamps match data along first dimension
+  this->timestamps = std::unique_ptr<BaseRecordingData>(
+      io->createDataSet(timestampsType,
+                        tsDsetSize,
+                        chunkSize,
+                        getPath() + "/timestamps"));
+  io->createTimestampsAttributes(getPath());
 }
 
 Status TimeSeries::writeDataBlock(const std::vector<SizeType>& dataShape,

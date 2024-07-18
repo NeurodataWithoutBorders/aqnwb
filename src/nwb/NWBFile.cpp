@@ -109,11 +109,16 @@ Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays)
     auto electricalSeries = std::make_unique<ElectricalSeries>(
         electricalSeriesPath,
         io,
+        BaseDataType::I16,
+        BaseDataType::F64,
+        channelGroup,
+        elecTable.getPath(),
+        "volts",
         "Stores continuously sampled voltage data from an "
         "extracellular ephys recording",
-        channelGroup,
-        CHUNK_XSIZE,
-        elecTable.getPath());
+        "no comments",
+        SizeArray{0, channelGroup.size()},
+        SizeArray{CHUNK_XSIZE});
     electricalSeries->initialize();
     timeseriesData.push_back(std::move(electricalSeries));
 
