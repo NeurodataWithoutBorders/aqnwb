@@ -34,7 +34,7 @@ TEST_CASE("writeContinuousData", "[recording]")
     std::vector<Types::ChannelGroup> mockRecordingArrays =
         getMockChannelArrays();
     std::vector<std::vector<float>> mockData =
-        getMockData(numChannels, numSamples);
+        getMockData2D(numSamples, numChannels);
     std::vector<double> mockTimestamps = getMockTimestamps(numSamples);
 
     // open files

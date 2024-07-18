@@ -48,8 +48,23 @@ inline std::vector<Types::ChannelGroup> getMockChannelArrays(
   return arrays;
 }
 
-inline std::vector<std::vector<float>> getMockData(SizeType numChannels = 4,
-                                                   SizeType numSamples = 1000)
+inline std::vector<float> getMockData1D(SizeType numSamples = 1000)
+{
+  std::vector<float> mockData(numSamples);
+
+  std::random_device rd;
+  std::mt19937 rng(rd());  // random number generator
+  std::uniform_real_distribution<> dis(-1.0, 1.0);  // range of floats
+
+  for (auto& data : mockData) {
+    data = static_cast<float>(dis(rng)) * 1000.f;  // approximate microvolt unit range
+  }
+
+  return mockData;
+}
+
+inline std::vector<std::vector<float>> getMockData2D(SizeType numSamples = 1000,
+                                                   SizeType numChannels = 4)
 {
   std::vector<std::vector<float>> mockData(numChannels,
                                            std::vector<float>(numSamples));
