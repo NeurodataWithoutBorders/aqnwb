@@ -138,31 +138,23 @@ Status NWBFile::writeTimeseriesTimestamps(SizeType datasetInd,
   if (!timeseriesData[datasetInd])
     return Status::Failure;
 
-  return timeseriesData[datasetInd]->timestamps->writeDataBlockNew(
+  return timeseriesData[datasetInd]->timestamps->writeDataBlock(
       std::vector<SizeType>(1, numSamples), type, data);  // TODO - might need to change datashape to reflect different dimension
-
-    // return timeseriesData[datasetInd]->timestamps->writeDataBlock(
-    //     numSamples, type, data);
 }
-
 
 Status NWBFile::writeTimeseriesData(SizeType datasetInd,
                                     SizeType rowInd,
                                     SizeType numSamples,
                                     BaseDataType type,
+                                    const std::vector<SizeType>& positionOffset,
                                     const void* data)
 {
   if (!timeseriesData[datasetInd])
     return Status::Failure;
 
-  std::vector<SizeType> positionOffset = {0, rowInd};  // TODO - write to the last sample for each row
   std::vector<SizeType> dataShape = {numSamples, 0}; // writing along the first dimension (numSamples)
-  // return timeseriesData[datasetInd]->data->writeDataBlock(
-  //     numSamples, type, data);
-  return timeseriesData[datasetInd]->data->writeDataBlockNew(
-      dataShape, positionOffset, type, data); // TODO - might need to change dataShape to reflect different dimension
-  // return timeseriesData[datasetInd]->data->writeDataRow(
-  //     numSamples, rowInd, type, data);
+  return timeseriesData[datasetInd]->data->writeDataBlock(
+      dataShape, positionOffset, type, data);
 }
 
 void NWBFile::cacheSpecifications(const std::string& specPath,

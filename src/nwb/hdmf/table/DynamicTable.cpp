@@ -37,10 +37,8 @@ void DynamicTable::addColumn(const std::string& name,
   } else {
     // write in loop because variable length string
     for (SizeType i = 0; i < values.size(); i++)
-      // vectorData->dataset->writeDataBlock(
-      //     1, BaseDataType::STR(values[i].size()), &values[i]);
-      vectorData->dataset->writeDataBlockNew(
-          std::vector<SizeType>(1, 1), std::vector<SizeType>(1, i), BaseDataType::STR(values[i].size()), &values[i]);
+      vectorData->dataset->writeDataBlock(
+          std::vector<SizeType>(1, 1), BaseDataType::STR(values[i].size()), &values[i]);
     io->createCommonNWBAttributes(
         path + name, "hdmf-common", "VectorData", colDescription);
   }
@@ -52,9 +50,7 @@ void DynamicTable::setRowIDs(std::unique_ptr<ElementIdentifiers>& elementIDs,
   if (elementIDs->dataset == nullptr) {
     std::cerr << "ElementIdentifiers dataset is not initialized" << std::endl;
   } else {
-    // elementIDs->dataset->writeDataBlock(
-    //     values.size(), BaseDataType::I32, &values[0]);
-    elementIDs->dataset->writeDataBlockNew(
+    elementIDs->dataset->writeDataBlock(
         std::vector<SizeType>(1, values.size()), BaseDataType::I32, &values[0]);
     io->createCommonNWBAttributes(
         path + "id", "hdmf-common", "ElementIdentifiers");

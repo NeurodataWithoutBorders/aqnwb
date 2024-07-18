@@ -269,26 +269,13 @@ public:
 
   /**
    * @brief Writes a 2D block of data to the HDF5 dataset.
-   * @param xDataSize The size of the data block in the x dimension (samples).
-   * @param yDataSize The size of the data block in the y dimension (channels).
-   * @param type The data type of the elements in the data block.
-   * @param data A pointer to the data block.
-   * @return The status of the write operation.
-   */
-  Status writeDataBlock(const SizeType& xDataSize,
-                        const SizeType& yDataSize,
-                        const BaseDataType& type,
-                        const void* data);
-
-  /**
-   * @brief Writes a 2D block of data to the HDF5 dataset.
    * @param dataShape The size of the data block.
    * @param positionOffset The position of the data block to write to.
    * @param type The data type of the elements in the data block.
    * @param data A pointer to the data block.
    * @return The status of the write operation.
    */
-  Status writeDataBlockNew(const std::vector<SizeType>& dataShape,
+  Status writeDataBlock(const std::vector<SizeType>& dataShape,
                         const std::vector<SizeType>& positionOffset,
                         const BaseDataType& type,
                         const void* data);
@@ -300,18 +287,6 @@ public:
    */
   void readDataBlock(const BaseDataType& type, void* buffer);
 
-  // /**
-  //  * @brief Writes a row of data in a 2D block.
-  //  * @param xDataSize The size of the data row in the x dimension (samples).
-  //  * @param yPos The position of the data row in the y dimension (channels).
-  //  * @param type The data type of the elements in the data block.
-  //  * @param data A pointer to the data block.
-  //  * @return The status of the write operation.
-  //  */
-  // Status writeDataRow(const SizeType& xDataSize,
-  //                     const SizeType& yPos,
-  //                     const BaseDataType& type,
-  //                     const void* data);
 
 private:
   /**

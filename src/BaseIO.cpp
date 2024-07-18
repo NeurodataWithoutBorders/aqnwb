@@ -93,16 +93,9 @@ BaseRecordingData::BaseRecordingData() {}
 
 BaseRecordingData::~BaseRecordingData() {}
 
-Status BaseRecordingData::writeDataBlock(const SizeType& xDataSize,
-                                         const BaseDataType& type,
-                                         const void* data)
-{
-  return writeDataBlock(xDataSize, size[1], type, data);
-}
-
-// Overload that uses the member variable position as the default positionOffset
-Status BaseRecordingData::writeDataBlockNew(const std::vector<SizeType>& dataShape,
+// Overload that uses the member variable positionOffsetß (works for simple data extension)ß
+Status BaseRecordingData::writeDataBlock(const std::vector<SizeType>& dataShape,
                                          const BaseDataType& type,
                                          const void* data) {
-    return writeDataBlockNew(dataShape, position, type, data);
+    return writeDataBlock(dataShape, position, type, data);
 }

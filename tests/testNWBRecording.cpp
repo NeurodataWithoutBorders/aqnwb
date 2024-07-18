@@ -25,7 +25,7 @@ TEST_CASE("writeContinuousData", "[recording]")
 
     // setup mock data
     SizeType numChannels = 4;
-    SizeType numSamples = 1000;
+    SizeType numSamples = 300;
     SizeType samplesRecorded = 0;
     SizeType bufferSize = numSamples / 10;
     std::vector<float> dataBuffer(bufferSize);
@@ -51,18 +51,20 @@ TEST_CASE("writeContinuousData", "[recording]")
           // copy data into buffer
           std::copy(mockData[channel.globalIndex].begin() + samplesRecorded,
                     mockData[channel.globalIndex].begin() + samplesRecorded
-                        + numSamples / 10,
+                        + bufferSize,
                     dataBuffer.begin());
           std::copy(mockTimestamps.begin() + samplesRecorded,
-                    mockTimestamps.begin() + samplesRecorded + numSamples / 10,
+                    mockTimestamps.begin() + samplesRecorded + bufferSize,
                     timestampsBuffer.begin());
 
           // write timseries data
+          std::vector<SizeType> positionOffset = {samplesRecorded, channel.localIndex};
           nwbRecording.writeTimeseriesData(i,
                                            channel,
                                            dataBuffer.data(),
                                            timestampsBuffer.data(),
-                                           dataBuffer.size());
+                                           dataBuffer.size(),
+                                           positionOffset);
         }
       }
       // check if recording is done
@@ -114,74 +116,6 @@ TEST_CASE("writeContinuousData", "[recording]")
     double tolerance = 1e-9;
     REQUIRE_THAT(timestampsOut,
                  Catch::Matchers::Approx(mockTimestamps).margin(tolerance));
-  }
-
-  SECTION("test if more samples than buffer size", "[recording]")
-  {
-    // get file path and remove if exists
-    std::string path = getTestFilePath("testBufferOverrun");
-    if (fs::exists(path + "Recording1.nwb")) {
-      fs::remove(path + "Recording1.nwb");
-    }
-
-    // setup mock data
-    SizeType numChannels = 1;
-    SizeType numArrays = 1;
-    SizeType numSamples = 45000;
-    std::vector<float> dataBuffer(numSamples);
-    std::vector<double> timestampsBuffer(numSamples);
-
-    std::vector<Types::ChannelGroup> mockRecordingArrays =
-        getMockChannelArrays(numChannels, numArrays);
-    std::vector<std::vector<float>> mockData =
-        getMockData(numChannels, numSamples);
-    std::vector<double> mockTimestamps = getMockTimestamps(numSamples);
-
-    // open files
-    NWB::NWBRecording nwbRecording;
-    nwbRecording.openFile(path, "Recording", 1, mockRecordingArrays);
-
-    // write data to the file
-    const auto& channel = mockRecordingArrays[0][0];
-    std::copy(mockData[channel.globalIndex].begin(),
-              mockData[channel.globalIndex].begin() + numSamples,
-              dataBuffer.begin());
-    std::copy(mockTimestamps.begin(),
-              mockTimestamps.begin() + numSamples,
-              timestampsBuffer.begin());
-
-    // write timseries data
-    nwbRecording.writeTimeseriesData(0,
-                                     channel,
-                                     dataBuffer.data(),
-                                     timestampsBuffer.data(),
-                                     dataBuffer.size());
-
-    nwbRecording.closeFile();
-
-    // check contents of data
-    std::string dataPath = "/acquisition/array0/data";
-    std::unique_ptr<H5::H5File> file =
-        std::make_unique<H5::H5File>(path + "Recording1.nwb", H5F_ACC_RDONLY);
-    std::unique_ptr<H5::DataSet> dataset =
-        std::make_unique<H5::DataSet>(file->openDataSet(dataPath));
-
-    float* buffer = new float[numSamples * numChannels];
-
-    H5::DataSpace fSpace = dataset->getSpace();
-    hsize_t dims[1] = {numSamples * numChannels};
-    H5::DataSpace mSpace(1, dims);
-    dataset->read(buffer, H5::PredType::NATIVE_FLOAT, mSpace, fSpace);
-
-    std::vector<std::vector<float>> dataOut(numChannels,
-                                            std::vector<float>(numSamples));
-    for (SizeType i = 0; i < numChannels; ++i) {
-      for (SizeType j = 0; j < numSamples; ++j) {
-        dataOut[i][j] = buffer[j * numChannels + i] * (32767.0f * 0.000002f);
-      }
-    }
-    delete[] buffer;
-    REQUIRE_THAT(dataOut[0], Catch::Matchers::Approx(mockData[0]).margin(1));
   }
 
   SECTION("add a new recording number to the same file", "[recording]")

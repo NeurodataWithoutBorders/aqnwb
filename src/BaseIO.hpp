@@ -370,39 +370,15 @@ public:
   virtual ~BaseRecordingData();
 
   /**
-   * @brief Writes a 1D block of data (samples).
-   * @param xDataSize The size of the data block in the x dimension (samples).
-   * @param type The data type of the elements in the data block.
-   * @param data A pointer to the data block.
-   * @return The status of the write operation.
-   */
-  Status writeDataBlock(const SizeType& xDataSize,
-                        const BaseDataType& type,
-                        const void* data);
-
-  /**
    * @brief Writes a block of data using the stored position information.
    * @param dataShape The size of the data block.
    * @param type The data type of the elements in the data block.
    * @param data A pointer to the data block.
    * @return The status of the write operation.
    */
-  Status writeDataBlockNew(const std::vector<SizeType>& dataShape,
+  Status writeDataBlock(const std::vector<SizeType>& dataShape,
                            const BaseDataType& type,
                            const void* data);
-
-  /**
-   * @brief Writes a 2D block of data to the HDF5 dataset.
-   * @param xDataSize The size of the data block in the x dimension (samples).
-   * @param yDataSize The size of the data block in the y dimension (channels).
-   * @param type The data type of the elements in the data block.
-   * @param data A pointer to the data block.
-   * @return The status of the write operation.
-   */
-  virtual Status writeDataBlock(const SizeType& xDataSize,
-                                const SizeType& yDataSize,
-                                const BaseDataType& type,
-                                const void* data) = 0;
 
   /**
    * @brief Writes a block of data (any number of dimensions).
@@ -412,35 +388,17 @@ public:
    * @param data A pointer to the data block.
    * @return The status of the write operation.
    */
-  virtual Status writeDataBlockNew(const std::vector<SizeType>& dataShape,
+  virtual Status writeDataBlock(const std::vector<SizeType>& dataShape,
                                    const std::vector<SizeType>& positionOffset,
                                    const BaseDataType& type,
                                    const void* data) = 0;
 
-  // /**
-  //  * @brief Writes a row of data in a 2D block.
-  //  * @param xDataSize The size of the data row in the x dimension (samples).
-  //  * @param yPosition The position of the data row in the y dimension
-  //  * (channels).
-  //  * @param type The data type of the elements in the data block.
-  //  * @param data A pointer to the data block.
-  //  * @return The status of the write operation.
-  //  */
-  // virtual Status writeDataRow(const SizeType& xDataSize,
-  //                             const SizeType& yPos,
-  //                             const BaseDataType& type,
-  //                             const void* data) = 0;
 
 protected:
   /**
    * @brief The current position in the x dimension.
    */
   SizeType xPos;
-
-  // /**
-  //  * @brief The size of the data block in each dimension.
-  //  */
-  // SizeType size[3];
 
   /**
    * @brief The size of the dataset in each dimension.
@@ -457,11 +415,6 @@ protected:
    */
   SizeType nDimensions; /**< The number of dimensions in the dataset. */
 
-  /**
-   * @brief The position in the x dimension of samples written for each row
-   * (channel).
-   */
-  std::vector<uint32_t> rowXPos;  // TODO - change this
 };
 
 }  // namespace AQNWB

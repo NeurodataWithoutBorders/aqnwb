@@ -86,6 +86,7 @@ public:
                              SizeType rowInd,
                              SizeType numSamples,
                              BaseDataType type,
+                             const std::vector<SizeType>& positionOffset,
                              const void* data);
 
   /**
