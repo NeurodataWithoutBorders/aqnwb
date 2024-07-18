@@ -58,7 +58,8 @@ TEST_CASE("writeContinuousData", "[recording]")
                     timestampsBuffer.begin());
 
           // write timseries data
-          std::vector<SizeType> positionOffset = {samplesRecorded, channel.localIndex};
+          std::vector<SizeType> positionOffset = {samplesRecorded,
+                                                  channel.localIndex};
           nwbRecording.writeTimeseriesData(i,
                                            channel,
                                            dataBuffer.data(),

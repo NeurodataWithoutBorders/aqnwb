@@ -66,7 +66,9 @@ void ElectricalSeries::initialize()
                         SizeArray {chunkSize},
                         getPath() + "/electrodes"));
   electrodesDataset->writeDataBlock(
-      std::vector<SizeType>(1, channelGroup.size()), BaseDataType::I32, &electrodeInds[0]);
+      std::vector<SizeType>(1, channelGroup.size()),
+      BaseDataType::I32,
+      &electrodeInds[0]);
   io->createCommonNWBAttributes(
       getPath() + "/electrodes", "hdmf-common", "DynamicTableRegion", "");
   io->createReferenceAttribute(

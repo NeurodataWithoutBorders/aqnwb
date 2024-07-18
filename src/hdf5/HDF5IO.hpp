@@ -273,7 +273,6 @@ public:
    */
   void readDataBlock(const BaseDataType& type, void* buffer);
 
-
 private:
   /**
    * @brief Pointer to an extendable HDF5 dataset

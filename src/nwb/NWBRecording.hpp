@@ -59,7 +59,7 @@ public:
                            Channel systemChannel,
                            const float* dataBuffer,
                            const double* timestampBuffer,
-                           SizeType size, 
+                           SizeType size,
                            std::vector<SizeType> positionOffset);
 
 private:
@@ -77,6 +77,5 @@ private:
    * @brief Holds integer samples for writing.
    */
   std::unique_ptr<int16_t[]> intData = nullptr;
-
 };
 }  // namespace AQNWB::NWB

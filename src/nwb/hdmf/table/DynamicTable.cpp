@@ -37,8 +37,9 @@ void DynamicTable::addColumn(const std::string& name,
   } else {
     // write in loop because variable length string
     for (SizeType i = 0; i < values.size(); i++)
-      vectorData->dataset->writeDataBlock(
-          std::vector<SizeType>(1, 1), BaseDataType::STR(values[i].size()), &values[i]);
+      vectorData->dataset->writeDataBlock(std::vector<SizeType>(1, 1),
+                                          BaseDataType::STR(values[i].size()),
+                                          &values[i]);
     io->createCommonNWBAttributes(
         path + name, "hdmf-common", "VectorData", colDescription);
   }

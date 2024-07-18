@@ -96,8 +96,9 @@ Status HDF5IO::createAttribute(const BaseDataType& type,
     return Status::Failure;
 
   // get whether path is a dataset or group
-  H5O_info_t objInfo; // Structure to hold information about the object
-  H5Oget_info_by_name(file->getId(), path.c_str(), &objInfo, H5O_INFO_BASIC, H5P_DEFAULT);
+  H5O_info_t objInfo;  // Structure to hold information about the object
+  H5Oget_info_by_name(
+      file->getId(), path.c_str(), &objInfo, H5O_INFO_BASIC, H5P_DEFAULT);
   H5O_type_t objectType = objInfo.type;
 
   // open the group or dataset
@@ -111,7 +112,7 @@ Status HDF5IO::createAttribute(const BaseDataType& type,
       loc = &dloc;
       break;
     default:
-      return Status::Failure; // not a valid dataset or group type
+      return Status::Failure;  // not a valid dataset or group type
   }
 
   H5type = getH5Type(type);
@@ -178,8 +179,9 @@ Status HDF5IO::createAttribute(const std::vector<const char*>& data,
   H5type.setSize(H5T_VARIABLE);
 
   // get whether path is a dataset or group
-  H5O_info_t objInfo; // Structure to hold information about the object
-  H5Oget_info_by_name(file->getId(), path.c_str(), &objInfo, H5O_INFO_BASIC, H5P_DEFAULT);
+  H5O_info_t objInfo;  // Structure to hold information about the object
+  H5Oget_info_by_name(
+      file->getId(), path.c_str(), &objInfo, H5O_INFO_BASIC, H5P_DEFAULT);
   H5O_type_t objectType = objInfo.type;
 
   // open the group or dataset
@@ -193,7 +195,7 @@ Status HDF5IO::createAttribute(const std::vector<const char*>& data,
       loc = &dloc;
       break;
     default:
-      return Status::Failure; // not a valid dataset or group type
+      return Status::Failure;  // not a valid dataset or group type
   }
 
   try {
@@ -236,8 +238,9 @@ Status HDF5IO::createReferenceAttribute(const std::string& referencePath,
     return Status::Failure;
 
   // get whether path is a dataset or group
-  H5O_info_t objInfo; // Structure to hold information about the object
-  H5Oget_info_by_name(file->getId(), path.c_str(), &objInfo, H5O_INFO_BASIC, H5P_DEFAULT);
+  H5O_info_t objInfo;  // Structure to hold information about the object
+  H5Oget_info_by_name(
+      file->getId(), path.c_str(), &objInfo, H5O_INFO_BASIC, H5P_DEFAULT);
   H5O_type_t objectType = objInfo.type;
 
   // open the group or dataset
@@ -251,7 +254,7 @@ Status HDF5IO::createReferenceAttribute(const std::string& referencePath,
       loc = &dloc;
       break;
     default:
-      return Status::Failure; // not a valid dataset or group type
+      return Status::Failure;  // not a valid dataset or group type
   }
 
   try {
@@ -384,7 +387,8 @@ Status HDF5IO::createStringDataSet(const std::string& path,
   std::unique_ptr<BaseRecordingData> dataset;
   dataset = std::unique_ptr<BaseRecordingData>(createDataSet(
       BaseDataType::V_STR, SizeArray {values.size()}, SizeArray {1}, path));
-  dataset->writeDataBlock(std::vector<SizeType>(1, 1), BaseDataType::V_STR, cStrs.data());
+  dataset->writeDataBlock(
+      std::vector<SizeType>(1, 1), BaseDataType::V_STR, cStrs.data());
 
   return Status::Success;
 }
@@ -424,11 +428,12 @@ AQNWB::BaseRecordingData* HDF5IO::createDataSet(const BaseDataType& type,
     return nullptr;
 
   SizeType dimension = size.size();
-  if (dimension < 1) // Check for at least one dimension
+  if (dimension < 1)  // Check for at least one dimension
     return nullptr;
 
   // Use vectors to support an arbitrary number of dimensions
-  std::vector<hsize_t> dims(dimension), chunk_dims(dimension), max_dims(dimension);
+  std::vector<hsize_t> dims(dimension), chunk_dims(dimension),
+      max_dims(dimension);
 
   for (SizeType i = 0; i < dimension; i++) {
     dims[i] = static_cast<hsize_t>(size[i]);
@@ -560,7 +565,8 @@ HDF5RecordingData::HDF5RecordingData(H5::DataSet* data)
   int nDimensions = dSpace.getSimpleExtentNdims();
   std::vector<hsize_t> dims(nDimensions), chunk(nDimensions);
 
-  nDimensions = dSpace.getSimpleExtentDims(dims.data()); // TODO -redefine here or use original?
+  nDimensions = dSpace.getSimpleExtentDims(
+      dims.data());  // TODO -redefine here or use original?
   prop.getChunk(static_cast<int>(nDimensions), chunk.data());
 
   this->size = std::vector<SizeType>(nDimensions);
@@ -568,7 +574,8 @@ HDF5RecordingData::HDF5RecordingData(H5::DataSet* data)
     this->size[i] = dims[i];
   }
   this->nDimensions = nDimensions;
-  this->position = std::vector<SizeType>(nDimensions, 0); // Initialize position with 0 for each dimension
+  this->position = std::vector<SizeType>(
+      nDimensions, 0);  // Initialize position with 0 for each dimension
   this->dSet = std::make_unique<H5::DataSet>(*data);
 }
 
@@ -580,18 +587,21 @@ HDF5RecordingData::~HDF5RecordingData()
   dSet->flush(H5F_SCOPE_GLOBAL);
 }
 
-Status HDF5RecordingData::writeDataBlock(const std::vector<SizeType>& dataShape,
-                                         const std::vector<SizeType>& positionOffset,
-                                         const BaseDataType& type,
-                                         const void* data)
+Status HDF5RecordingData::writeDataBlock(
+    const std::vector<SizeType>& dataShape,
+    const std::vector<SizeType>& positionOffset,
+    const BaseDataType& type,
+    const void* data)
 {
   try {
-    // check dataShape and positionOffset inputs match the dimensions of the dataset
-    if (dataShape.size() != nDimensions || positionOffset.size() != nDimensions) {
+    // check dataShape and positionOffset inputs match the dimensions of the
+    // dataset
+    if (dataShape.size() != nDimensions || positionOffset.size() != nDimensions)
+    {
       return Status::Failure;
     }
 
-    // Ensure that we have enough space to accomodate new data  
+    // Ensure that we have enough space to accommodate new data
     std::vector<hsize_t> dSetDims(nDimensions), offset(nDimensions);
     for (int i = 0; i < nDimensions; ++i) {
       offset[i] = static_cast<hsize_t>(positionOffset[i]);
@@ -616,8 +626,7 @@ Status HDF5RecordingData::writeDataBlock(const std::vector<SizeType>& dataShape,
     // DataSpace mSpace(dimension, dSetDim.data());
     std::vector<hsize_t> dataDims(nDimensions);
     for (int i = 0; i < nDimensions; ++i) {
-      if (dataShape[i] == 0)
-      {  
+      if (dataShape[i] == 0) {
         dataDims[i] = 1;
       } else {
         dataDims[i] = static_cast<hsize_t>(dataShape[i]);
@@ -652,4 +661,3 @@ void HDF5RecordingData::readDataBlock(const BaseDataType& type, void* buffer)
   DataType nativeType = HDF5IO::getNativeType(type);
   dSet->read(buffer, nativeType, fSpace, fSpace);
 }
-

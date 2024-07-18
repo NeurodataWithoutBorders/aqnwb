@@ -247,9 +247,9 @@ public:
    * @return A pointer to the created dataset.
    */
   virtual BaseRecordingData* createDataSet(const BaseDataType& type,
-                                              const SizeArray& size,
-                                              const SizeArray& chunking,
-                                              const std::string& path) = 0;
+                                           const SizeArray& size,
+                                           const SizeArray& chunking,
+                                           const std::string& path) = 0;
 
   /**
    * @brief Returns a pointer to a dataset at a given path.
@@ -364,8 +364,8 @@ public:
    * @return The status of the write operation.
    */
   Status writeDataBlock(const std::vector<SizeType>& dataShape,
-                           const BaseDataType& type,
-                           const void* data);
+                        const BaseDataType& type,
+                        const void* data);
 
   /**
    * @brief Writes a block of data (any number of dimensions).
@@ -376,10 +376,9 @@ public:
    * @return The status of the write operation.
    */
   virtual Status writeDataBlock(const std::vector<SizeType>& dataShape,
-                                   const std::vector<SizeType>& positionOffset,
-                                   const BaseDataType& type,
-                                   const void* data) = 0;
-
+                                const std::vector<SizeType>& positionOffset,
+                                const BaseDataType& type,
+                                const void* data) = 0;
 
 protected:
   /**
@@ -401,7 +400,6 @@ protected:
    * @brief The number of dimensions in the data block.
    */
   SizeType nDimensions; /**< The number of dimensions in the dataset. */
-
 };
 
 }  // namespace AQNWB

@@ -4,13 +4,10 @@
 #include "Utils.hpp"
 #include "hdf5/HDF5IO.hpp"
 
-
 using namespace AQNWB::NWB;
 
 // NWBRecordingEngine
-NWBRecording::NWBRecording()
-{
-}
+NWBRecording::NWBRecording() {}
 
 NWBRecording::~NWBRecording()
 {
@@ -48,8 +45,7 @@ void NWBRecording::writeTimeseriesData(SizeType timeseriesInd,
                                        const float* data,
                                        const double* timestamps,
                                        SizeType numSamples,
-                                       std::vector<SizeType> positionOffset
-)
+                                       std::vector<SizeType> positionOffset)
 {
   scaledData = std::make_unique<float[]>(numSamples);
   intData = std::make_unique<int16_t[]>(numSamples);
