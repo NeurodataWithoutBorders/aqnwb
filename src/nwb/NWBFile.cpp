@@ -130,35 +130,19 @@ Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays)
 
 void NWBFile::stopRecording() {}
 
-Status NWBFile::writeTimeseriesTimestamps(SizeType datasetInd,
-                                          SizeType numSamples,
-                                          BaseDataType type,
-                                          const void* data)
+Status NWBFile::writeTimeseries(SizeType datasetInd,
+                                const std::vector<SizeType>& dataShape,
+                                const std::vector<SizeType>& positionOffset,
+                                const BaseDataType& dataType,
+                                const void* data,
+                                const BaseDataType& timestampsType,
+                                const void* timestamps)
 {
   if (!timeseriesData[datasetInd])
     return Status::Failure;
 
-  return timeseriesData[datasetInd]->timestamps->writeDataBlock(
-      std::vector<SizeType>(1, numSamples),
-      type,
-      data);  // TODO - might need to change datashape to reflect different
-              // dimension
-}
-
-Status NWBFile::writeTimeseriesData(SizeType datasetInd,
-                                    SizeType rowInd,
-                                    SizeType numSamples,
-                                    BaseDataType type,
-                                    const std::vector<SizeType>& positionOffset,
-                                    const void* data)
-{
-  if (!timeseriesData[datasetInd])
-    return Status::Failure;
-
-  std::vector<SizeType> dataShape = {
-      numSamples, 0};  // writing along the first dimension (numSamples)
-  return timeseriesData[datasetInd]->data->writeDataBlock(
-      dataShape, positionOffset, type, data);
+  return timeseriesData[datasetInd]->writeDataBlock(
+      dataShape, positionOffset, dataType, data, timestampsType, timestamps);
 }
 
 void NWBFile::cacheSpecifications(const std::string& specPath,

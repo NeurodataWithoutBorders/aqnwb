@@ -63,31 +63,24 @@ public:
   void stopRecording();
 
   /**
-   * @brief Write timeseries timestamps to the NWB file.
-   * @param datasetID The index of the timeseries dataset.
-   * @param numSamples The number of samples to write.
-   * @param type The base data type.
-   * @param data The data to write.
+   * @brief Write timeseries to an NWB file.
+   * @param datasetInd The index of the timeseries dataset.
+   * @param dataShape The size of the data block.
+   * @param positionOffset The position of the data block to write to.
+   * @param type The data type of the elements in the data block.
+   * @param data A pointer to the data block.
+   * @param data A pointer to the timestamps block. May be null if
+   * multidimensional TimeSeries and only need to write the timestamps once but
+   * write data multiple times.
+   * @return The status of the write operation.
    */
-  Status writeTimeseriesTimestamps(SizeType datasetInd,
-                                   SizeType numSamples,
-                                   BaseDataType type,
-                                   const void* data);
-
-  /**
-   * @brief Write a row of timeseries data to the NWB file.
-   * @param datasetID The index of the timeseries dataset.
-   * @param rowID The index of the row to write.
-   * @param numSamples The number of samples to write.
-   * @param type The base data type.
-   * @param data The data to write.
-   */
-  Status writeTimeseriesData(SizeType datasetInd,
-                             SizeType rowInd,
-                             SizeType numSamples,
-                             BaseDataType type,
-                             const std::vector<SizeType>& positionOffset,
-                             const void* data);
+  Status writeTimeseries(SizeType datasetInd,
+                         const std::vector<SizeType>& dataShape,
+                         const std::vector<SizeType>& positionOffset,
+                         const BaseDataType& dataType,
+                         const void* data,
+                         const BaseDataType& timestampsType = BaseDataType::F64,
+                         const void* timestamps = nullptr);
 
   /**
    * @brief Indicates the NWB schema version.
