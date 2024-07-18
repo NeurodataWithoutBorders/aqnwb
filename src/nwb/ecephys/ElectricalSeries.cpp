@@ -33,10 +33,12 @@ void ElectricalSeries::initialize()
 {
   TimeSeries::initialize();
 
+  // setup variables based on number of channels
   std::vector<SizeType> electrodeInds(channelGroup.size());
   for (size_t i = 0; i < channelGroup.size(); ++i) {
     electrodeInds[i] = channelGroup[i].globalIndex;
   }
+  samplesRecorded = SizeArray(channelGroup.size(), 0);
 
   // make channel conversion dataset
   channelConversion = std::unique_ptr<BaseRecordingData>(
@@ -63,4 +65,24 @@ void ElectricalSeries::initialize()
       getPath() + "/electrodes", "hdmf-common", "DynamicTableRegion", "");
   io->createReferenceAttribute(
       electrodesTablePath, getPath() + "/electrodes", "table");
+}
+
+Status ElectricalSeries::writeChannel(SizeType channelInd,
+                                      const SizeType& numSamples,
+                                      const void* data,
+                                      const void* timestamps)
+{
+  // get offsets and datashape
+  std::vector<SizeType> dataShape = {numSamples, 1}; // Note: schema has 1D and 3D but planning to deprecate
+  std::vector<SizeType> positionOffset = {samplesRecorded[channelInd], channelInd};
+
+  // write channel data
+  if (channelInd == 0) {
+    return writeData(dataShape, positionOffset, data, timestamps);
+  } else {
+    return writeData(dataShape, positionOffset, data);
+  }
+
+  // track samples recorded per channel
+  samplesRecorded[channelInd] += numSamples;
 }
