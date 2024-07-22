@@ -27,8 +27,8 @@ public:
              const std::string& unit,
              const std::string& description = "no description",
              const std::string& comments = "no comments",
-             const SizeArray& dsetSize = SizeArray{0},
-             const SizeArray& chunkSize = SizeArray{1},
+             const SizeArray& dsetSize = SizeArray {0},
+             const SizeArray& chunkSize = SizeArray {1},
              const float& conversion = 1.0f,
              const float& resolution = -1.0f,
              const float& offset = 0.0f);
@@ -49,9 +49,9 @@ public:
    * @return The status of the write operation.
    */
   Status writeData(const std::vector<SizeType>& dataShape,
-                        const std::vector<SizeType>& positionOffset,
-                        const void* data,
-                        const void* timestamps = nullptr);
+                   const std::vector<SizeType>& positionOffset,
+                   const void* data,
+                   const void* timestamps = nullptr);
 
   /**
    * @brief Initializes the TimeSeries by creating NWB related attributes and
@@ -71,16 +71,18 @@ public:
 
   /**
    * @brief Data type of the data.
-  */
+   */
   BaseDataType dataType;
 
   /**
    * @brief Data type of the timestamps.
-  */
+   */
   BaseDataType timestampsType;
 
   /**
-   * @brief Base unit of measurement for working with the data. Actual stored values are not necessarily stored in these units. To access the data in these units, multiply ‘data’ by ‘conversion’ and add ‘offset’.
+   * @brief Base unit of measurement for working with the data. Actual stored
+   * values are not necessarily stored in these units. To access the data in
+   * these units, multiply ‘data’ by ‘conversion’ and add ‘offset’.
    */
   std::string unit;
 
@@ -95,7 +97,8 @@ public:
   std::string comments;
 
   /**
-   * @brief Size used in dataset creation. Can be expanded when writing if needed.
+   * @brief Size used in dataset creation. Can be expanded when writing if
+   * needed.
    */
   SizeArray dsetSize;
 
@@ -105,17 +108,20 @@ public:
   SizeArray chunkSize;
 
   /**
-   * @brief Scalar to multiply each element in data to convert it to the specified ‘unit’.
+   * @brief Scalar to multiply each element in data to convert it to the
+   * specified ‘unit’.
    */
   float conversion;
 
   /**
-   * @brief Smallest meaningful difference between values in data, stored in the specified by unit. 
+   * @brief Smallest meaningful difference between values in data, stored in the
+   * specified by unit.
    */
   float resolution;
 
   /**
-   * @brief Scalar to add to the data after scaling by ‘conversion’ to finalize its coercion to the specified ‘unit’.
+   * @brief Scalar to add to the data after scaling by ‘conversion’ to finalize
+   * its coercion to the specified ‘unit’.
    */
   float offset;
 

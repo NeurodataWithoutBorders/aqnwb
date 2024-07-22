@@ -5,12 +5,12 @@
 #include "BaseIO.hpp"
 #include "Channel.hpp"
 #include "Types.hpp"
+#include "Utils.hpp"
 #include "hdf5/HDF5IO.hpp"
-#include "nwb/file/ElectrodeTable.hpp"
 #include "nwb/device/Device.hpp"
 #include "nwb/ecephys/ElectricalSeries.hpp"
 #include "nwb/file/ElectrodeGroup.hpp"
-#include "Utils.hpp"
+#include "nwb/file/ElectrodeTable.hpp"
 #include "testUtils.hpp"
 
 using namespace AQNWB;
@@ -26,40 +26,53 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
   std::vector<Types::ChannelGroup> mockArrays = getMockChannelArrays();
   std::string dataPath = "/esdata";
   BaseDataType dataType = BaseDataType::F32;
-  std::vector<std::vector<float>> mockData = getMockData2D(numSamples, numChannels);
+  std::vector<std::vector<float>> mockData =
+      getMockData2D(numSamples, numChannels);
   BaseDataType timestampsType = BaseDataType::F64;
   std::vector<double> mockTimestamps = getMockTimestamps(numSamples, 1);
   std::string devicePath = "/device";
   std::string electrodePath = "/elecgroup/";
 
-
-  SECTION("test initialization") {
+  SECTION("test initialization")
+  {
     // TODO
   }
 
-  SECTION("test linking to electrode table region") {
+  SECTION("test linking to electrode table region")
+  {
     // TODO
   }
 
-  SECTION("test writing channels"){
+  SECTION("test writing channels")
+  {
     // setup io object
     std::string path = getTestFilePath("ElectricalSeries.h5");
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
 
     // setup electrode table, device, and electrode group
-    std::string elecTablePath =  "/electrodes/";
+    std::string elecTablePath = "/electrodes/";
     NWB::ElectrodeTable elecTable = NWB::ElectrodeTable(elecTablePath, io);
     elecTable.initialize();
 
     // setup electrical series
-    NWB::ElectricalSeries es = NWB::ElectricalSeries(dataPath, io, dataType, timestampsType, mockArrays[0], elecTable.getPath(), "volts", "no description", "no comments",
-        SizeArray{0, mockArrays[0].size()});
+    NWB::ElectricalSeries es =
+        NWB::ElectricalSeries(dataPath,
+                              io,
+                              dataType,
+                              timestampsType,
+                              mockArrays[0],
+                              elecTable.getPath(),
+                              "volts",
+                              "no description",
+                              "no comments",
+                              SizeArray {0, mockArrays[0].size()});
     es.initialize();
 
     // write channel data
     for (SizeType ch = 0; ch < numChannels; ++ch) {
-      es.writeChannel(ch, numSamples, mockData[ch].data(), mockTimestamps.data());
+      es.writeChannel(
+          ch, numSamples, mockData[ch].data(), mockTimestamps.data());
     }
     io->close();
 
@@ -76,7 +89,7 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     hsize_t dims[1] = {numSamples * numChannels};
     H5::DataSpace mSpace(1, dims);
     dataset->read(buffer, H5::PredType::NATIVE_FLOAT, mSpace, fSpace);
-    
+
     for (SizeType i = 0; i < numChannels; ++i) {
       for (SizeType j = 0; j < numSamples; ++j) {
         dataOut[i][j] = buffer[j * numChannels + i];
@@ -87,35 +100,46 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     REQUIRE_THAT(dataOut[1], Catch::Matchers::Approx(mockData[1]).margin(1));
   }
 
-  SECTION("test samples recorded tracking") {
+  SECTION("test samples recorded tracking")
+  {
     // setup io object
     std::string path = getTestFilePath("ElectricalSeriesSampleTracking.h5");
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
 
     // setup electrode table
-    std::string elecTablePath =  "/electrodes/";
+    std::string elecTablePath = "/electrodes/";
     NWB::ElectrodeTable elecTable = NWB::ElectrodeTable(elecTablePath, io);
     elecTable.initialize();
 
     // setup electrical series
-    NWB::ElectricalSeries es = NWB::ElectricalSeries(dataPath, io, dataType, timestampsType, mockArrays[0], elecTable.getPath(), "volts", "no description", "no comments",
-        SizeArray{0, mockArrays[0].size()});
+    NWB::ElectricalSeries es =
+        NWB::ElectricalSeries(dataPath,
+                              io,
+                              dataType,
+                              timestampsType,
+                              mockArrays[0],
+                              elecTable.getPath(),
+                              "volts",
+                              "no description",
+                              "no comments",
+                              SizeArray {0, mockArrays[0].size()});
     es.initialize();
 
     // write channel data in segments
     for (SizeType ch = 0; ch < numChannels; ++ch) {
       SizeType samplesRecorded = 0;
       for (SizeType b = 0; b * bufferSize < numSamples; b += 1) {
-        // copy chunk of data 
+        // copy chunk of data
         std::copy(mockData[ch].begin() + samplesRecorded,
                   mockData[ch].begin() + samplesRecorded + bufferSize,
                   dataBuffer.begin());
         std::copy(mockTimestamps.begin() + samplesRecorded,
-          mockTimestamps.begin() + samplesRecorded + bufferSize,
-          timestampsBuffer.begin());
+                  mockTimestamps.begin() + samplesRecorded + bufferSize,
+                  timestampsBuffer.begin());
 
-        es.writeChannel(ch, dataBuffer.size(), dataBuffer.data(), timestampsBuffer.data());
+        es.writeChannel(
+            ch, dataBuffer.size(), dataBuffer.data(), timestampsBuffer.data());
         samplesRecorded += bufferSize;
       }
     }
@@ -134,7 +158,7 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     hsize_t dims[1] = {numSamples * numChannels};
     H5::DataSpace mSpace(1, dims);
     dataset->read(buffer, H5::PredType::NATIVE_FLOAT, mSpace, fSpace);
-    
+
     for (SizeType i = 0; i < numChannels; ++i) {
       for (SizeType j = 0; j < numSamples; ++j) {
         dataOut[i][j] = buffer[j * numChannels + i];

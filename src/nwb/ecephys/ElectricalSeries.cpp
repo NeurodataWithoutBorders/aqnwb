@@ -19,7 +19,18 @@ ElectricalSeries::ElectricalSeries(const std::string& path,
                                    const float& conversion,
                                    const float& resolution,
                                    const float& offset)
-    : TimeSeries(path, io, dataType, timestampsType, unit, description, comments, dsetSize, chunkSize, channelGroup[0].getConversion(), resolution, offset)
+    : TimeSeries(path,
+                 io,
+                 dataType,
+                 timestampsType,
+                 unit,
+                 description,
+                 comments,
+                 dsetSize,
+                 chunkSize,
+                 channelGroup[0].getConversion(),
+                 resolution,
+                 offset)
     , channelGroup(channelGroup)
     , electrodesTablePath(electrodesTablePath)
 {
@@ -52,11 +63,8 @@ void ElectricalSeries::initialize()
                                 "Bit volts values for all channels");
 
   // make electrodes dataset
-  electrodesDataset = std::unique_ptr<BaseRecordingData>(
-      io->createDataSet(BaseDataType::I32,
-                        SizeArray {1},
-                        chunkSize,
-                        getPath() + "/electrodes"));
+  electrodesDataset = std::unique_ptr<BaseRecordingData>(io->createDataSet(
+      BaseDataType::I32, SizeArray {1}, chunkSize, getPath() + "/electrodes"));
   electrodesDataset->writeDataBlock(
       std::vector<SizeType>(1, channelGroup.size()),
       BaseDataType::I32,
@@ -73,8 +81,10 @@ Status ElectricalSeries::writeChannel(SizeType channelInd,
                                       const void* timestamps)
 {
   // get offsets and datashape
-  std::vector<SizeType> dataShape = {numSamples, 1}; // Note: schema has 1D and 3D but planning to deprecate
-  std::vector<SizeType> positionOffset = {samplesRecorded[channelInd], channelInd};
+  std::vector<SizeType> dataShape = {
+      numSamples, 1};  // Note: schema has 1D and 3D but planning to deprecate
+  std::vector<SizeType> positionOffset = {samplesRecorded[channelInd],
+                                          channelInd};
 
   // track samples recorded per channel
   samplesRecorded[channelInd] += numSamples;

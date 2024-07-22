@@ -117,8 +117,8 @@ Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays)
         "Stores continuously sampled voltage data from an "
         "extracellular ephys recording",
         "no comments",
-        SizeArray{0, channelGroup.size()},
-        SizeArray{CHUNK_XSIZE});
+        SizeArray {0, channelGroup.size()},
+        SizeArray {CHUNK_XSIZE});
     electricalSeries->initialize();
     timeseriesData.push_back(std::move(electricalSeries));
 

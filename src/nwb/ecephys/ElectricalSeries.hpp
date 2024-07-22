@@ -31,8 +31,8 @@ public:
                    const std::string& unit = "volts",
                    const std::string& description = "no description",
                    const std::string& comments = "no comments",
-                   const SizeArray& dsetSize = SizeArray{0},
-                   const SizeArray& chunkSize = SizeArray{1},
+                   const SizeArray& dsetSize = SizeArray {0},
+                   const SizeArray& chunkSize = SizeArray {1},
                    const float& conversion = 1.0f,
                    const float& resolution = -1.0f,
                    const float& offset = 0.0f);
@@ -46,7 +46,6 @@ public:
    * @brief Initializes the Electrical Series
    */
   void initialize();
-
 
   /**
    * @brief Writes a channel to an ElectricalSeries dataset.
