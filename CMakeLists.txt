@@ -41,17 +41,6 @@ target_include_directories(
 
 target_compile_features(aq-nwb_lib PUBLIC cxx_std_17)
 
-# ---- Declare executable ----
-
-add_executable(aq-nwb_exe src/main.cpp)
-add_executable(aq-nwb::exe ALIAS aq-nwb_exe)
-
-set_property(TARGET aq-nwb_exe PROPERTY OUTPUT_NAME aq-nwb)
-
-target_compile_features(aq-nwb_exe PRIVATE cxx_std_17)
-
-target_link_libraries(aq-nwb_exe PRIVATE aq-nwb_lib)
-
 # ---- Additional libraries needed ----
 find_package(HDF5 REQUIRED COMPONENTS CXX)
 include_directories(${HDF5_INCLUDE_DIRS})
