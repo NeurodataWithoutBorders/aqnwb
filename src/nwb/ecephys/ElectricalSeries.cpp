@@ -76,13 +76,13 @@ Status ElectricalSeries::writeChannel(SizeType channelInd,
   std::vector<SizeType> dataShape = {numSamples, 1}; // Note: schema has 1D and 3D but planning to deprecate
   std::vector<SizeType> positionOffset = {samplesRecorded[channelInd], channelInd};
 
+  // track samples recorded per channel
+  samplesRecorded[channelInd] += numSamples;
+
   // write channel data
   if (channelInd == 0) {
     return writeData(dataShape, positionOffset, data, timestamps);
   } else {
     return writeData(dataShape, positionOffset, data);
   }
-
-  // track samples recorded per channel
-  samplesRecorded[channelInd] += numSamples;
 }
