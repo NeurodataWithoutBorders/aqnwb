@@ -42,29 +42,11 @@ void NWBRecording::closeFile()
 
 void NWBRecording::writeTimeseriesData(SizeType timeseriesInd,
                                        Channel channel,
-                                       const float* data,
-                                       const double* timestamps,
+                                       const void* data,
+                                       const void* timestamps,
                                        SizeType numSamples,
                                        std::vector<SizeType> positionOffset)
 {
-  scaledData = std::make_unique<float[]>(numSamples);
-  intData = std::make_unique<int16_t[]>(numSamples);
-
-  // copy data and multiply by scaling factor
-  double multFactor = 1 / (32767.0f * channel.getBitVolts());
-  std::transform(data,
-                 data + numSamples,
-                 scaledData.get(),
-                 [multFactor](float value) { return value * multFactor; });
-
-  // convert float to int16
-  std::transform(
-      scaledData.get(),
-      scaledData.get() + numSamples,
-      intData.get(),
-      [](float value)
-      { return static_cast<int16_t>(std::clamp(value, -32768.0f, 32767.0f)); });
-
   // write data and timestamps to datasets
   std::vector<SizeType> dataShape = {numSamples, 1};
   if (channel.localIndex == 0) {
@@ -73,15 +55,12 @@ void NWBRecording::writeTimeseriesData(SizeType timeseriesInd,
                              dataShape,
                              positionOffset,
                              BaseDataType::I16,
-                             intData.get(),
+                             data,
                              BaseDataType::F64,
                              timestamps);
   } else {
     // write without timestamps if its another channel in the same timeseries
-    nwbfile->writeTimeseries(timeseriesInd,
-                             dataShape,
-                             positionOffset,
-                             BaseDataType::I16,
-                             intData.get());
+    nwbfile->writeTimeseries(
+        timeseriesInd, dataShape, positionOffset, BaseDataType::I16, data);
   }
 }

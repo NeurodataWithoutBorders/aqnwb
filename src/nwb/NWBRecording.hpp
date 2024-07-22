@@ -57,8 +57,8 @@ public:
    */
   void writeTimeseriesData(SizeType timeSeriesID,
                            Channel systemChannel,
-                           const float* dataBuffer,
-                           const double* timestampBuffer,
+                           const void* dataBuffer,
+                           const void* timestampBuffer,
                            SizeType size,
                            std::vector<SizeType> positionOffset);
 
@@ -67,15 +67,5 @@ private:
    * @brief Pointer to the current NWB file.
    */
   std::unique_ptr<NWBFile> nwbfile;
-
-  /**
-   * @brief Holds scaled samples for writing.
-   */
-  std::unique_ptr<float[]> scaledData = nullptr;
-
-  /**
-   * @brief Holds integer samples for writing.
-   */
-  std::unique_ptr<int16_t[]> intData = nullptr;
 };
 }  // namespace AQNWB::NWB

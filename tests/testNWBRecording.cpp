@@ -6,6 +6,7 @@
 #include "BaseIO.hpp"
 #include "Channel.hpp"
 #include "Types.hpp"
+#include "Utils.hpp"
 #include "hdf5/HDF5IO.hpp"
 #include "nwb/NWBRecording.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
@@ -60,9 +61,12 @@ TEST_CASE("writeContinuousData", "[recording]")
           // write timseries data
           std::vector<SizeType> positionOffset = {samplesRecorded,
                                                   channel.localIndex};
+          std::unique_ptr<int16_t[]> intBuffer = transformToInt16(
+              dataBuffer.size(), channel.getBitVolts(), dataBuffer.data());
+
           nwbRecording.writeTimeseriesData(i,
                                            channel,
-                                           dataBuffer.data(),
+                                           intBuffer.get(),
                                            timestampsBuffer.data(),
                                            dataBuffer.size(),
                                            positionOffset);
