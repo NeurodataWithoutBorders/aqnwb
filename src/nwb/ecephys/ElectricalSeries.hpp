@@ -25,7 +25,6 @@ public:
   ElectricalSeries(const std::string& path,
                    std::shared_ptr<BaseIO> io,
                    const BaseDataType& dataType,
-                   const BaseDataType& timestampsType,
                    const Types::ChannelGroup& channelGroup,
                    const std::string& electrodesTablePath,
                    const std::string& unit = "volts",

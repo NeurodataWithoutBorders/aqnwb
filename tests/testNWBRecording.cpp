@@ -67,6 +67,7 @@ TEST_CASE("writeContinuousData", "[recording]")
           nwbRecording.writeTimeseriesData(i,
                                            channel,
                                            intBuffer.get(),
+                                           BaseDataType::I16,
                                            timestampsBuffer.data(),
                                            dataBuffer.size(),
                                            positionOffset);

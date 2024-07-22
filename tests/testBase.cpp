@@ -27,8 +27,7 @@ TEST_CASE("TimeSeries", "[base]")
     std::string path = getTestFilePath("testTimeseries.h5");
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
-    NWB::TimeSeries ts =
-        NWB::TimeSeries(dataPath, io, dataType, timestampsType, "unit");
+    NWB::TimeSeries ts = NWB::TimeSeries(dataPath, io, dataType, "unit");
     ts.initialize();
 
     // Write data to file
@@ -61,8 +60,7 @@ TEST_CASE("TimeSeries", "[base]")
     std::string path = getTestFilePath("testTimeseriesNoTimestamps.h5");
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
-    NWB::TimeSeries ts =
-        NWB::TimeSeries(dataPath, io, dataType, timestampsType, "unit");
+    NWB::TimeSeries ts = NWB::TimeSeries(dataPath, io, dataType, "unit");
     ts.initialize();
 
     // Write data to file

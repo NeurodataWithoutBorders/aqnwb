@@ -28,7 +28,6 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
   BaseDataType dataType = BaseDataType::F32;
   std::vector<std::vector<float>> mockData =
       getMockData2D(numSamples, numChannels);
-  BaseDataType timestampsType = BaseDataType::F64;
   std::vector<double> mockTimestamps = getMockTimestamps(numSamples, 1);
   std::string devicePath = "/device";
   std::string electrodePath = "/elecgroup/";
@@ -60,7 +59,6 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
         NWB::ElectricalSeries(dataPath,
                               io,
                               dataType,
-                              timestampsType,
                               mockArrays[0],
                               elecTable.getPath(),
                               "volts",
@@ -117,7 +115,6 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
         NWB::ElectricalSeries(dataPath,
                               io,
                               dataType,
-                              timestampsType,
                               mockArrays[0],
                               elecTable.getPath(),
                               "volts",

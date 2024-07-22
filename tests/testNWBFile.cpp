@@ -21,7 +21,7 @@ TEST_CASE("saveNWBFile", "[nwb]")
 
 TEST_CASE("startRecording", "[nwb]")
 {
-  std::string filename = getTestFilePath("test_recording.nwb");
+  std::string filename = getTestFilePath("testStartRecording.nwb");
 
   // initialize nwbfile object and create base structure
   NWB::NWBFile nwbfile(generateUuid(),
@@ -29,25 +29,23 @@ TEST_CASE("startRecording", "[nwb]")
   nwbfile.initialize();
 
   // start recording
-  std::vector<Types::ChannelGroup> mockArrays = getMockChannelArrays();
-  Status result = nwbfile.startRecording(mockArrays);
+  std::vector<Types::ChannelGroup> mockArrays = getMockChannelArrays(1, 2);
+  Status result = nwbfile.startRecording(mockArrays, BaseDataType::F32);
 
   // write timeseries data
   std::vector<float> mockData = {1.0f, 2.0f, 3.0f, 4.0f, 5.0f};
-  std::vector<float> mockTimestamps = {0.1f, 0.2f, 0.3f, 0.4f, 0.5f};
-  std::vector<SizeType> positionOffset = {0};
-  std::vector<SizeType> dataShape = {5};
+  std::vector<double> mockTimestamps = {0.1, 0.2, 0.3, 0.4, 0.5};
+  std::vector<SizeType> positionOffset = {0, 0};
+  std::vector<SizeType> dataShape = {mockData.size(), 0};
   nwbfile.writeTimeseries(0,
                           dataShape,
                           positionOffset,
-                          BaseDataType::F32,
                           mockData.data(),
                           BaseDataType::F32,
                           mockTimestamps.data());
   nwbfile.writeTimeseries(1,
                           dataShape,
                           positionOffset,
-                          BaseDataType::F32,
                           mockData.data(),
                           BaseDataType::F32,
                           mockTimestamps.data());

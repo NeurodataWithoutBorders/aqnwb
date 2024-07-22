@@ -23,7 +23,6 @@ public:
   TimeSeries(const std::string& path,
              std::shared_ptr<BaseIO> io,
              const BaseDataType& dataType,
-             const BaseDataType& timestampsType,
              const std::string& unit,
              const std::string& description = "no description",
              const std::string& comments = "no comments",
@@ -75,9 +74,9 @@ public:
   BaseDataType dataType;
 
   /**
-   * @brief Data type of the timestamps.
+   * @brief Data type of the timestamps (float64).
    */
-  BaseDataType timestampsType;
+  BaseDataType timestampsType = BaseDataType::F64;
 
   /**
    * @brief Base unit of measurement for working with the data. Actual stored

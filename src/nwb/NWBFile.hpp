@@ -53,9 +53,11 @@ public:
 
   /**
    * @brief Starts a recording.
+   * @param dataType The data type of the elements in the data block.
    * @return Status The status of the recording operation.
    */
-  Status startRecording(std::vector<Types::ChannelGroup> recordingArrays);
+  Status startRecording(std::vector<Types::ChannelGroup> recordingArrays,
+                        const BaseDataType& dataType = BaseDataType::I16);
 
   /**
    * @brief Closes the relevant datasets.
@@ -67,9 +69,9 @@ public:
    * @param datasetInd The index of the timeseries dataset.
    * @param dataShape The size of the data block.
    * @param positionOffset The position of the data block to write to.
-   * @param type The data type of the elements in the data block.
+   * @param dataType The data type of the elements in the data block.
    * @param data A pointer to the data block.
-   * @param data A pointer to the timestamps block. May be null if
+   * @param timestamps A pointer to the timestamps block. May be null if
    * multidimensional TimeSeries and only need to write the timestamps once but
    * write data multiple times.
    * @return The status of the write operation.
@@ -77,9 +79,8 @@ public:
   Status writeTimeseries(SizeType datasetInd,
                          const std::vector<SizeType>& dataShape,
                          const std::vector<SizeType>& positionOffset,
-                         const BaseDataType& dataType,
                          const void* data,
-                         const BaseDataType& timestampsType = BaseDataType::F64,
+                         const BaseDataType& dataType = BaseDataType::I16,
                          const void* timestamps = nullptr);
 
   /**

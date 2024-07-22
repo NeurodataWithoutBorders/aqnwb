@@ -77,7 +77,8 @@ Status NWBFile::createFileStructure()
   return Status::Success;
 }
 
-Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays)
+Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays,
+                               const BaseDataType& dataType)
 {
   // store all recorded data in the acquisition group
   std::string rootPath = "/acquisition/";
@@ -109,8 +110,7 @@ Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays)
     auto electricalSeries = std::make_unique<ElectricalSeries>(
         electricalSeriesPath,
         io,
-        BaseDataType::I16,
-        BaseDataType::F64,
+        dataType,
         channelGroup,
         elecTable.getPath(),
         "volts",
@@ -138,9 +138,8 @@ void NWBFile::stopRecording() {}
 Status NWBFile::writeTimeseries(SizeType datasetInd,
                                 const std::vector<SizeType>& dataShape,
                                 const std::vector<SizeType>& positionOffset,
-                                const BaseDataType& dataType,
                                 const void* data,
-                                const BaseDataType& timestampsType,
+                                const BaseDataType& dataType,
                                 const void* timestamps)
 {
   if (!timeseriesData[datasetInd])

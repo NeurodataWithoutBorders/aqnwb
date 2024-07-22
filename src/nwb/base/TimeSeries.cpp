@@ -8,7 +8,6 @@ using namespace AQNWB::NWB;
 TimeSeries::TimeSeries(const std::string& path,
                        std::shared_ptr<BaseIO> io,
                        const BaseDataType& dataType,
-                       const BaseDataType& timestampsType,
                        const std::string& unit,
                        const std::string& description,
                        const std::string& comments,
@@ -19,7 +18,6 @@ TimeSeries::TimeSeries(const std::string& path,
                        const float& offset)
     : Container(path, io)
     , dataType(dataType)
-    , timestampsType(timestampsType)
     , unit(unit)
     , description(description)
     , comments(comments)
@@ -50,7 +48,7 @@ void TimeSeries::initialize()
   SizeArray tsDsetSize = {
       dsetSize[0]};  // timestamps match data along first dimension
   this->timestamps = std::unique_ptr<BaseRecordingData>(io->createDataSet(
-      timestampsType, tsDsetSize, chunkSize, getPath() + "/timestamps"));
+      this->timestampsType, tsDsetSize, chunkSize, getPath() + "/timestamps"));
   io->createTimestampsAttributes(getPath());
 }
 

@@ -54,12 +54,20 @@ public:
 
   /**
    * @brief Writes data for a timeseries.
+   * @param timeseriesInd The index of the timeseries.
+   * @param channel The channel information.
+   * @param data The data to write.
+   * @param dataType The data type of the data.
+   * @param timestamps The timestamps for the data.
+   * @param numSamples The number of samples to write.
+   * @param positionOffset The position offset for the data.
    */
-  void writeTimeseriesData(SizeType timeSeriesID,
-                           Channel systemChannel,
-                           const void* dataBuffer,
-                           const void* timestampBuffer,
-                           SizeType size,
+  void writeTimeseriesData(SizeType timeseriesInd,
+                           Channel channel,
+                           const void* data,
+                           const BaseDataType& dataType,
+                           const void* timestamps,
+                           SizeType numSamples,
                            std::vector<SizeType> positionOffset);
 
 private:

@@ -43,6 +43,7 @@ void NWBRecording::closeFile()
 void NWBRecording::writeTimeseriesData(SizeType timeseriesInd,
                                        Channel channel,
                                        const void* data,
+                                       const BaseDataType& dataType,
                                        const void* timestamps,
                                        SizeType numSamples,
                                        std::vector<SizeType> positionOffset)
@@ -51,16 +52,11 @@ void NWBRecording::writeTimeseriesData(SizeType timeseriesInd,
   std::vector<SizeType> dataShape = {numSamples, 1};
   if (channel.localIndex == 0) {
     // write with timestamps if it's the first channel
-    nwbfile->writeTimeseries(timeseriesInd,
-                             dataShape,
-                             positionOffset,
-                             BaseDataType::I16,
-                             data,
-                             BaseDataType::F64,
-                             timestamps);
+    nwbfile->writeTimeseries(
+        timeseriesInd, dataShape, positionOffset, data, dataType, timestamps);
   } else {
     // write without timestamps if its another channel in the same timeseries
     nwbfile->writeTimeseries(
-        timeseriesInd, dataShape, positionOffset, BaseDataType::I16, data);
+        timeseriesInd, dataShape, positionOffset, data, dataType);
   }
 }
