@@ -83,8 +83,11 @@ Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays,
   // store all recorded data in the acquisition group
   std::string rootPath = "/acquisition/";
 
-  timeseriesData.clear();
-  timeseriesData.reserve(recordingArrays.size());
+  // setup containers for different data types (e.g. SpikeEventSeries container
+  // would go here as well)
+  std::unique_ptr<RecordingContainer> electricalSeriesContainer =
+      std::make_unique<RecordingContainer>("ElectricalSeries",
+                                           recordingArrays.size());
 
   // Setup electrode table
   std::string electrodeTablePath = "general/extracellular_ephys/electrodes/";
@@ -120,7 +123,7 @@ Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays,
         SizeArray {0, channelGroup.size()},
         SizeArray {CHUNK_XSIZE});
     electricalSeries->initialize();
-    timeseriesData.push_back(std::move(electricalSeries));
+    electricalSeriesContainer->addData(std::move(electricalSeries));
 
     // Add electrode information to electrode table (does not write to datasets
     // yet)
@@ -130,24 +133,13 @@ Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays,
   // write electrode information to datasets
   elecTable.finalize();
 
+  // add all data containers to the recording container manager
+  recordingContainers.push_back(std::move(electricalSeriesContainer));
+
   return Status::Success;
 }
 
 void NWBFile::stopRecording() {}
-
-Status NWBFile::writeTimeseries(SizeType datasetInd,
-                                const std::vector<SizeType>& dataShape,
-                                const std::vector<SizeType>& positionOffset,
-                                const void* data,
-                                const BaseDataType& dataType,
-                                const void* timestamps)
-{
-  if (!timeseriesData[datasetInd])
-    return Status::Failure;
-
-  return timeseriesData[datasetInd]->writeData(
-      dataShape, positionOffset, data, timestamps);
-}
 
 void NWBFile::cacheSpecifications(const std::string& specPath,
                                   const std::string& versionNumber)
@@ -188,4 +180,36 @@ std::unique_ptr<AQNWB::BaseRecordingData> NWBFile::createRecordingData(
 {
   return std::unique_ptr<BaseRecordingData>(
       io->createDataSet(type, size, chunking, path));
+}
+
+TimeSeries* NWBFile::getTimeSeries(const std::string& containerName,
+                                   const SizeType& timeseriesInd)
+{
+  for (auto& container : this->recordingContainers) {
+    if (container->containerName == containerName) {
+      if (timeseriesInd >= container->data.size()) {
+        return nullptr;
+      } else {
+        return container->data[timeseriesInd].get();
+      }
+    }
+  }
+  return nullptr;
+}
+
+// Recording Container
+
+RecordingContainer::RecordingContainer(const std::string& containerName,
+                                       const SizeType& containerSize)
+    : containerName(containerName)
+    , containerSize(containerSize)
+{
+  this->data.reserve(containerSize);
+};
+
+RecordingContainer::~RecordingContainer() {}
+
+void RecordingContainer::addData(std::unique_ptr<TimeSeries> data)
+{
+  this->data.push_back(std::move(data));
 }

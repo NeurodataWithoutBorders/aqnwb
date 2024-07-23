@@ -61,16 +61,17 @@ TEST_CASE("writeContinuousData", "[recording]")
           // write timseries data
           std::vector<SizeType> positionOffset = {samplesRecorded,
                                                   channel.localIndex};
+          std::vector<SizeType> dataShape = {dataBuffer.size(), 1};
           std::unique_ptr<int16_t[]> intBuffer = transformToInt16(
               dataBuffer.size(), channel.getBitVolts(), dataBuffer.data());
 
-          nwbRecording.writeTimeseriesData(i,
+          nwbRecording.writeTimeseriesData("ElectricalSeries",
+                                           i,
                                            channel,
+                                           dataShape,
+                                           positionOffset,
                                            intBuffer.get(),
-                                           BaseDataType::I16,
-                                           timestampsBuffer.data(),
-                                           dataBuffer.size(),
-                                           positionOffset);
+                                           timestampsBuffer.data());
         }
       }
       // check if recording is done

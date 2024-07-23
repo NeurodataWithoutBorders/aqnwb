@@ -4,6 +4,7 @@
 #include "Utils.hpp"
 #include "hdf5/HDF5IO.hpp"
 #include "nwb/NWBFile.hpp"
+#include "nwb/base/TimeSeries.hpp"
 #include "testUtils.hpp"
 
 using namespace AQNWB;
@@ -37,18 +38,13 @@ TEST_CASE("startRecording", "[nwb]")
   std::vector<double> mockTimestamps = {0.1, 0.2, 0.3, 0.4, 0.5};
   std::vector<SizeType> positionOffset = {0, 0};
   std::vector<SizeType> dataShape = {mockData.size(), 0};
-  nwbfile.writeTimeseries(0,
-                          dataShape,
-                          positionOffset,
-                          mockData.data(),
-                          BaseDataType::F32,
-                          mockTimestamps.data());
-  nwbfile.writeTimeseries(1,
-                          dataShape,
-                          positionOffset,
-                          mockData.data(),
-                          BaseDataType::F32,
-                          mockTimestamps.data());
+
+  NWB::TimeSeries* ts0 = nwbfile.getTimeSeries("ElectricalSeries", 0);
+  ts0->writeData(
+      dataShape, positionOffset, mockData.data(), mockTimestamps.data());
+  NWB::TimeSeries* ts1 = nwbfile.getTimeSeries("ElectricalSeries", 1);
+  ts1->writeData(
+      dataShape, positionOffset, mockData.data(), mockTimestamps.data());
 
   nwbfile.finalize();
 

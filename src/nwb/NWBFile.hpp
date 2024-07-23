@@ -9,7 +9,7 @@
 namespace AQNWB::NWB
 {
 
-using TimeSeriesData = std::vector<std::unique_ptr<TimeSeries>>;
+class RecordingContainer;  // declare here because gets used in NWBFile class
 
 /**
  * @brief The NWBFile class provides an interface for setting up and managing
@@ -65,25 +65,6 @@ public:
   void stopRecording();
 
   /**
-   * @brief Write timeseries to an NWB file.
-   * @param datasetInd The index of the timeseries dataset.
-   * @param dataShape The size of the data block.
-   * @param positionOffset The position of the data block to write to.
-   * @param dataType The data type of the elements in the data block.
-   * @param data A pointer to the data block.
-   * @param timestamps A pointer to the timestamps block. May be null if
-   * multidimensional TimeSeries and only need to write the timestamps once but
-   * write data multiple times.
-   * @return The status of the write operation.
-   */
-  Status writeTimeseries(SizeType datasetInd,
-                         const std::vector<SizeType>& dataShape,
-                         const std::vector<SizeType>& positionOffset,
-                         const void* data,
-                         const BaseDataType& dataType = BaseDataType::I16,
-                         const void* timestamps = nullptr);
-
-  /**
    * @brief Indicates the NWB schema version.
    */
   const std::string NWBVersion = "2.7.0";
@@ -97,6 +78,14 @@ public:
    * @brief Indicates the HDMF experimental version.
    */
   const std::string HDMFExperimentalVersion = "0.5.0";
+
+  /**
+   * @brief Gets the TimeSeries object from the recording containers
+   * @param containerName The name of the timeseries group.
+   * @param timeseriesInd The index of the timeseries dataset within the group.
+   */
+  TimeSeries* getTimeSeries(const std::string& containerName,
+                            const SizeType& timeseriesInd);
 
 protected:
   /**
@@ -129,18 +118,50 @@ private:
   void cacheSpecifications(const std::string& specPath,
                            const std::string& versionNumber);
 
-  /**
-   * @brief Creates a new dataset to hold text data (messages).
-   * @param path The location in the file for the dataset.
-   * @param name The name of the dataset.
-   * @param text The text data to be stored in the dataset.
-   */
-  void createTextDataSet(const std::string& path,
-                         const std::string& name,
-                         const std::string& text);
-
   const std::string identifierText;
   std::shared_ptr<BaseIO> io;
-  TimeSeriesData timeseriesData;
+  std::vector<std::unique_ptr<RecordingContainer>> recordingContainers;
 };
+
+/**
+ * @brief The RecordingContainer class provides an interface for managing
+ * groups of TimeSeries acquired during a recording.
+ */
+class RecordingContainer
+{
+public:
+  /**
+   * @brief Constructor for RecordingContainer class.
+   * @param containerName The name of the group of time series
+   * @param containerSize The size to preallocate for the group of timeseries.
+   */
+  RecordingContainer(const std::string& containerName,
+                     const SizeType& containerSize);
+
+  /**
+   * @brief Deleted copy constructor to prevent construction-copying.
+   */
+  RecordingContainer(const RecordingContainer&) = delete;
+
+  /**
+   * @brief Deleted copy assignment operator to prevent copying.
+   */
+  RecordingContainer& operator=(const RecordingContainer&) = delete;
+
+  /**
+   * @brief Destructor for RecordingContainer class.
+   */
+  ~RecordingContainer();
+
+  /**
+   * @brief Adds a TimeSeries object to the container.
+   * @param data The TimeSeries object to add.
+   */
+  void addData(std::unique_ptr<TimeSeries> data);
+
+  std::vector<std::unique_ptr<TimeSeries>> data;
+  std::string containerName;
+  SizeType containerSize;
+};
+
 }  // namespace AQNWB::NWB

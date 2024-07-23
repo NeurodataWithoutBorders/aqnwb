@@ -53,22 +53,26 @@ public:
   void closeFile();
 
   /**
-   * @brief Writes data for a timeseries.
-   * @param timeseriesInd The index of the timeseries.
-   * @param channel The channel information.
-   * @param data The data to write.
-   * @param dataType The data type of the data.
-   * @param timestamps The timestamps for the data.
-   * @param numSamples The number of samples to write.
-   * @param positionOffset The position offset for the data.
+   * @brief Write timeseries to an NWB file.
+   * @param containerName The name of the timeseries group to write to.
+   * @param timeseriesInd The index of the timeseries dataset within the
+   * timeseries group.
+   * @param channel The channel index to use for writing timestamps.
+   * @param dataShape The size of the data block.
+   * @param positionOffset The position of the data block to write to.
+   * @param data A pointer to the data block.
+   * @param timestamps A pointer to the timestamps block. May be null if
+   * multidimensional TimeSeries and only need to write the timestamps once but
+   * write data multiple times.
+   * @return The status of the write operation.
    */
-  void writeTimeseriesData(SizeType timeseriesInd,
-                           Channel channel,
-                           const void* data,
-                           const BaseDataType& dataType,
-                           const void* timestamps,
-                           SizeType numSamples,
-                           std::vector<SizeType> positionOffset);
+  Status writeTimeseriesData(const std::string& containerName,
+                             const SizeType& timeseriesInd,
+                             const Channel& channel,
+                             const std::vector<SizeType>& dataShape,
+                             const std::vector<SizeType>& positionOffset,
+                             const void* data,
+                             const void* timestamps);
 
 private:
   /**
