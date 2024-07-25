@@ -267,11 +267,10 @@ public:
                         const void* data);
 
   /**
-   * @brief Reads a block of data from the HDF5 dataset.
-   * @param type The data type of the data block.
-   * @param buffer A pointer to the buffer to store the read data.
+   * @brief Gets a const pointer to the HDF5 dataset.
+   * @return A const pointer to the HDF5 dataset.
    */
-  void readDataBlock(const BaseDataType& type, void* buffer);
+  const H5::DataSet* getDataSet();
 
 private:
   /**

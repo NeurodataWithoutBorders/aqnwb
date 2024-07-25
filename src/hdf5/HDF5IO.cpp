@@ -655,9 +655,6 @@ Status HDF5RecordingData::writeDataBlock(
   return Status::Success;
 }
 
-void HDF5RecordingData::readDataBlock(const BaseDataType& type, void* buffer)
-{
-  DataSpace fSpace = dSet->getSpace();
-  DataType nativeType = HDF5IO::getNativeType(type);
-  dSet->read(buffer, nativeType, fSpace, fSpace);
-}
+const H5::DataSet* HDF5RecordingData::getDataSet(){
+  return dSet.get();
+};

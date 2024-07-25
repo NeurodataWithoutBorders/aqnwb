@@ -38,8 +38,9 @@ TEST_CASE("TimeSeries", "[base]")
     // Read data back from file
     double* tsBuffer = new double[numSamples];
     BaseRecordingData* tsDset = io->getDataSet(dataPath + "/timestamps");
-    static_cast<HDF5::HDF5RecordingData*>(tsDset)->readDataBlock(timestampsType,
-                                                                 tsBuffer);
+    readH5DataBlock(static_cast<HDF5::HDF5RecordingData*>(tsDset)->getDataSet(), 
+                                timestampsType,
+                                tsBuffer);
     std::vector<double> tsRead(tsBuffer, tsBuffer + numSamples);
     delete[] tsBuffer;
     REQUIRE(tsRead == timestamps);
@@ -47,8 +48,9 @@ TEST_CASE("TimeSeries", "[base]")
     // Read data back from file
     float* dataBuffer = new float[numSamples];
     BaseRecordingData* dataDset = io->getDataSet(dataPath + "/data");
-    static_cast<HDF5::HDF5RecordingData*>(dataDset)->readDataBlock(dataType,
-                                                                   dataBuffer);
+    readH5DataBlock(static_cast<HDF5::HDF5RecordingData*>(dataDset)->getDataSet(),
+                    dataType,
+                    dataBuffer);
     std::vector<float> dataRead(dataBuffer, dataBuffer + numSamples);
     delete[] dataBuffer;
     REQUIRE_THAT(dataRead, Catch::Matchers::Approx(data).margin(1));
@@ -70,8 +72,9 @@ TEST_CASE("TimeSeries", "[base]")
     // Read data back from file
     double* tsBuffer = new double[numSamples];
     BaseRecordingData* tsDset = io->getDataSet(dataPath + "/timestamps");
-    static_cast<HDF5::HDF5RecordingData*>(tsDset)->readDataBlock(timestampsType,
-                                                                 tsBuffer);
+    readH5DataBlock(static_cast<HDF5::HDF5RecordingData*>(tsDset)->getDataSet(),
+                    timestampsType,
+                    tsBuffer);
     std::vector<double> tsRead(tsBuffer, tsBuffer + numSamples);
     delete[] tsBuffer;
     std::vector<double> zeros(numSamples, 0.0);
