@@ -93,7 +93,7 @@ BaseRecordingData::BaseRecordingData() {}
 
 BaseRecordingData::~BaseRecordingData() {}
 
-// Overload that uses the member variable positionOffset (works for simple data
+// Overload that uses the member variable position (works for simple data
 // extension)
 Status BaseRecordingData::writeDataBlock(const std::vector<SizeType>& dataShape,
                                          const BaseDataType& type,
