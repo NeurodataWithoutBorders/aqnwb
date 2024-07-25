@@ -100,8 +100,9 @@ inline std::vector<double> getMockTimestamps(SizeType numSamples = 1000,
   return mockTimestamps;
 }
 
-inline void readH5DataBlock(const H5::DataSet* dSet, const BaseDataType& type, void*
-buffer)
+inline void readH5DataBlock(const H5::DataSet* dSet,
+                            const BaseDataType& type,
+                            void* buffer)
 {
   H5::DataSpace fSpace = dSet->getSpace();
   H5::DataType nativeType = HDF5::HDF5IO::getNativeType(type);

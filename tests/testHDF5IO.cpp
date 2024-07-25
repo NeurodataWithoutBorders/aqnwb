@@ -65,9 +65,10 @@ TEST_CASE("writeDataset", "[hdf5io]")
 
     BaseRecordingData* dataRead = hdf5io->getDataSet(dataPath);
     int* buffer = new int[numSamples];
-    readH5DataBlock(static_cast<HDF5::HDF5RecordingData*>(dataRead)->getDataSet(),
-                    BaseDataType::I32,
-                    buffer);
+    readH5DataBlock(
+        static_cast<HDF5::HDF5RecordingData*>(dataRead)->getDataSet(),
+        BaseDataType::I32,
+        buffer);
     std::vector<int> dataOut(buffer, buffer + numSamples);
     delete[] buffer;
 
@@ -100,9 +101,10 @@ TEST_CASE("writeDataset", "[hdf5io]")
     // Read back the 1D data block from 3D dataset
     BaseRecordingData* dataRead1D = hdf5io->getDataSet(dataPath);
     int* buffer1D = new int[numCols];
-    readH5DataBlock(static_cast<HDF5::HDF5RecordingData*>(dataRead1D)->getDataSet(),
-                    BaseDataType::I32, 
-                    buffer1D);
+    readH5DataBlock(
+        static_cast<HDF5::HDF5RecordingData*>(dataRead1D)->getDataSet(),
+        BaseDataType::I32,
+        buffer1D);
     std::vector<int> dataOut1D(buffer1D, buffer1D + numCols);
     delete[] buffer1D;
 
@@ -139,8 +141,10 @@ TEST_CASE("writeDataset", "[hdf5io]")
     // Read back the 2D data block
     BaseRecordingData* dataRead = hdf5io->getDataSet(dataPath);
     int* buffer = new int[numRows * numCols];
-    readH5DataBlock(static_cast<HDF5::HDF5RecordingData*>(dataRead)->getDataSet(),
-        BaseDataType::I32, buffer);
+    readH5DataBlock(
+        static_cast<HDF5::HDF5RecordingData*>(dataRead)->getDataSet(),
+        BaseDataType::I32,
+        buffer);
     std::vector<int> dataOut(buffer, buffer + numRows * numCols);
     delete[] buffer;
 
@@ -175,8 +179,10 @@ TEST_CASE("writeDataset", "[hdf5io]")
     BaseRecordingData* dataRead1D = hdf5io->getDataSet(dataPath);
     int* buffer1D =
         new int[width];  // Assuming 'width' is the size of the 1D data block
-    readH5DataBlock(static_cast<HDF5::HDF5RecordingData*>(dataRead1D)->getDataSet(),
-    BaseDataType::I32, buffer1D);
+    readH5DataBlock(
+        static_cast<HDF5::HDF5RecordingData*>(dataRead1D)->getDataSet(),
+        BaseDataType::I32,
+        buffer1D);
     std::vector<int> dataOut1D(buffer1D, buffer1D + width);
     delete[] buffer1D;
 
@@ -211,7 +217,10 @@ TEST_CASE("writeDataset", "[hdf5io]")
     int* buffer2D =
         new int[height * width];  // Assuming 'numRows' and 'numCols' define the
                                   // 2D data block size
-    readH5DataBlock(static_cast<HDF5::HDF5RecordingData*>(dataRead2D)->getDataSet(), BaseDataType::I32, buffer2D);
+    readH5DataBlock(
+        static_cast<HDF5::HDF5RecordingData*>(dataRead2D)->getDataSet(),
+        BaseDataType::I32,
+        buffer2D);
     std::vector<int> dataOut2D(buffer2D, buffer2D + height * width);
     delete[] buffer2D;
 

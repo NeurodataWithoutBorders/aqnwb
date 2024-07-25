@@ -37,9 +37,10 @@ TEST_CASE("ElectrodeTable", "[ecephys]")
     SizeType numChannels = 3;
     BaseRecordingData* id_data = io->getDataSet(path + "id");
     int* buffer = new int[numChannels];
-    readH5DataBlock(static_cast<HDF5::HDF5RecordingData*>(id_data)->getDataSet(),
-                    BaseDataType::I32,
-                    buffer);
+    readH5DataBlock(
+        static_cast<HDF5::HDF5RecordingData*>(id_data)->getDataSet(),
+        BaseDataType::I32,
+        buffer);
     std::vector<SizeType> read_channels(buffer, buffer + numChannels);
     delete[] buffer;
     REQUIRE(channelIDs == read_channels);

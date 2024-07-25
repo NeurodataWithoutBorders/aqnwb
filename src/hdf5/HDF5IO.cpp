@@ -656,6 +656,7 @@ Status HDF5RecordingData::writeDataBlock(
   return Status::Success;
 }
 
-const H5::DataSet* HDF5RecordingData::getDataSet(){
+const H5::DataSet* HDF5RecordingData::getDataSet()
+{
   return dSet.get();
 };
