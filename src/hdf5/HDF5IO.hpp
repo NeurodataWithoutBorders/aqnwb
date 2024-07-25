@@ -226,8 +226,8 @@ private:
  * @brief Represents an HDF5 Dataset that can be extended indefinitely
         in blocks.
 *
-* This class provides functionality for reading and writing 2D blocks of data
-* (samples x channels) to an HDF5 dataset.
+* This class provides functionality for reading and writing blocks of data
+* to an HDF5 dataset.
 */
 class HDF5RecordingData : public BaseRecordingData
 {
@@ -254,7 +254,7 @@ public:
   ~HDF5RecordingData();
 
   /**
-   * @brief Writes a 2D block of data to the HDF5 dataset.
+   * @brief Writes a block of data to the HDF5 dataset.
    * @param dataShape The size of the data block.
    * @param positionOffset The position of the data block to write to.
    * @param type The data type of the elements in the data block.
