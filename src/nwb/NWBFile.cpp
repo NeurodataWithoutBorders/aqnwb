@@ -202,7 +202,6 @@ TimeSeries* NWBFile::getTimeSeries(const std::string& containerName,
 RecordingContainer::RecordingContainer(const std::string& containerName,
                                        const SizeType& containerSize)
     : containerName(containerName)
-    , containerSize(containerSize)
 {
   this->data.reserve(containerSize);
 };

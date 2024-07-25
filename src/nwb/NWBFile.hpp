@@ -161,7 +161,6 @@ public:
 
   std::vector<std::unique_ptr<TimeSeries>> data;
   std::string containerName;
-  SizeType containerSize;
 };
 
 }  // namespace AQNWB::NWB
