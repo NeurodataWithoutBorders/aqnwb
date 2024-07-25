@@ -29,7 +29,6 @@ public:
                    const std::string& electrodesTablePath,
                    const std::string& unit = "volts",
                    const std::string& description = "no description",
-                   const std::string& comments = "no comments",
                    const SizeArray& dsetSize = SizeArray {0},
                    const SizeArray& chunkSize = SizeArray {1},
                    const float& conversion = 1.0f,

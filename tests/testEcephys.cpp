@@ -63,7 +63,6 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
                               elecTable.getPath(),
                               "volts",
                               "no description",
-                              "no comments",
                               SizeArray {0, mockArrays[0].size()});
     es.initialize();
 
@@ -119,7 +118,6 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
                               elecTable.getPath(),
                               "volts",
                               "no description",
-                              "no comments",
                               SizeArray {0, mockArrays[0].size()});
     es.initialize();
 

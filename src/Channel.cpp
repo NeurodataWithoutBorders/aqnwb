@@ -11,7 +11,8 @@ Channel::Channel(const std::string name,
                  const float conversion,
                  const float samplingRate,
                  const float bitVolts,
-                 const std::array<float, 3> position)
+                 const std::array<float, 3> position,
+                 const std::string comments)
     : name(name)
     , groupName(groupName)
     , localIndex(localIndex)
@@ -20,6 +21,7 @@ Channel::Channel(const std::string name,
     , conversion(conversion)
     , samplingRate(samplingRate)
     , bitVolts(bitVolts)
+    , comments(comments)
 {
 }
 

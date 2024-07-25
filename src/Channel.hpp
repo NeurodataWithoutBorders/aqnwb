@@ -27,7 +27,8 @@ public:
           const float bitVolts = 0.000002f,  // least significant bit needed to
                                              // convert 16-bit int to volts
                                              // currently a placeholder
-          const std::array<float, 3> position = {0.f, 0.f, 0.f});
+          const std::array<float, 3> position = {0.f, 0.f, 0.f},
+          const std::string comments = "no comments");
 
   /**
    * @brief Destructor
@@ -45,6 +46,7 @@ public:
    * @return The samplingRate value.
    */
   float getSamplingRate() const;
+
   /**
    * @brief Getter for bitVolts
    * @return The bitVolts value.
@@ -75,6 +77,11 @@ public:
    * @brief Coordinates of channel (x, y, z) within the recording array.
    */
   std::array<float, 3> position;
+
+  /**
+   * @brief Comments about the channel.
+   */
+  std::string comments;
 
 private:
   /**
