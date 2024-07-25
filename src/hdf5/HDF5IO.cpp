@@ -7,7 +7,6 @@
 #include "HDF5IO.hpp"
 
 #include <H5Cpp.h>
-#include <H5Opublic.h>
 
 #include "Utils.hpp"
 
@@ -95,13 +94,8 @@ Status HDF5IO::createAttribute(const BaseDataType& type,
   if (!opened)
     return Status::Failure;
 
-  // get whether path is a dataset or group
-  H5O_info_t objInfo;  // Structure to hold information about the object
-  H5Oget_info_by_name(
-      file->getId(), path.c_str(), &objInfo, H5O_INFO_BASIC, H5P_DEFAULT);
-  H5O_type_t objectType = objInfo.type;
-
   // open the group or dataset
+  H5O_type_t objectType = getObjectType(path);
   switch (objectType) {
     case H5O_TYPE_GROUP:
       gloc = file->openGroup(path);
@@ -178,13 +172,8 @@ Status HDF5IO::createAttribute(const std::vector<const char*>& data,
   StrType H5type(PredType::C_S1, maxSize);
   H5type.setSize(H5T_VARIABLE);
 
-  // get whether path is a dataset or group
-  H5O_info_t objInfo;  // Structure to hold information about the object
-  H5Oget_info_by_name(
-      file->getId(), path.c_str(), &objInfo, H5O_INFO_BASIC, H5P_DEFAULT);
-  H5O_type_t objectType = objInfo.type;
-
   // open the group or dataset
+  H5O_type_t objectType = getObjectType(path);
   switch (objectType) {
     case H5O_TYPE_GROUP:
       gloc = file->openGroup(path);
@@ -237,13 +226,8 @@ Status HDF5IO::createReferenceAttribute(const std::string& referencePath,
   if (!opened)
     return Status::Failure;
 
-  // get whether path is a dataset or group
-  H5O_info_t objInfo;  // Structure to hold information about the object
-  H5Oget_info_by_name(
-      file->getId(), path.c_str(), &objInfo, H5O_INFO_BASIC, H5P_DEFAULT);
-  H5O_type_t objectType = objInfo.type;
-
   // open the group or dataset
+  H5O_type_t objectType = getObjectType(path);
   switch (objectType) {
     case H5O_TYPE_GROUP:
       gloc = file->openGroup(path);
@@ -452,6 +436,23 @@ AQNWB::BaseRecordingData* HDF5IO::createDataSet(const BaseDataType& type,
   data = std::make_unique<H5::DataSet>(
       file->createDataSet(path, H5type, dSpace, prop));
   return new HDF5RecordingData(data.release());
+}
+
+H5O_type_t HDF5IO::getObjectType(const std::string& path)
+{
+#if H5_VERSION_GE(1, 12, 0)
+  // get whether path is a dataset or group
+  H5O_info_t objInfo;  // Structure to hold information about the object
+  H5Oget_info_by_name(
+      this->file->getId(), path.c_str(), &objInfo, H5O_INFO_BASIC, H5P_DEFAULT);
+#else
+  // get whether path is a dataset or group
+  H5O_info_t objInfo;  // Structure to hold information about the object
+  H5Oget_info_by_name(this->file->getId(), path.c_str(), &objInfo, H5P_DEFAULT);
+#endif
+  H5O_type_t objectType = objInfo.type;
+
+  return objectType;
 }
 
 H5::DataType HDF5IO::getNativeType(BaseDataType type)

@@ -4,8 +4,11 @@
 #include <memory>
 #include <string>
 
+#include <H5Opublic.h>
+
 #include "BaseIO.hpp"
 #include "Types.hpp"
+
 namespace H5
 {
 class DataSet;
@@ -193,6 +196,13 @@ public:
    * @return A pointer to the dataset.
    */
   BaseRecordingData* getDataSet(const std::string& path) override;
+
+  /**
+   * @brief Returns the HDF5 type of object at a given path.
+   * @param path The location in the file of the object.
+   * @return The type of object at the given path.
+   */
+  H5O_type_t getObjectType(const std::string& path);
 
   /**
    * @brief Returns the HDF5 native data type for a given base data type.
