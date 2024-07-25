@@ -399,7 +399,7 @@ protected:
   /**
    * @brief The number of dimensions in the data block.
    */
-  SizeType nDimensions; /**< The number of dimensions in the dataset. */
+  SizeType nDimensions;
 };
 
 }  // namespace AQNWB
