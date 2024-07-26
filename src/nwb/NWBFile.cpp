@@ -175,7 +175,7 @@ std::unique_ptr<AQNWB::BaseRecordingData> NWBFile::createRecordingData(
 
 TimeSeries* NWBFile::getTimeSeries(const SizeType& timeseriesInd)
 {
-if (timeseriesInd >= this->recordingContainers->containers.size()) {
+  if (timeseriesInd >= this->recordingContainers->containers.size()) {
     return nullptr;
   } else {
     return this->recordingContainers->containers[timeseriesInd].get();
@@ -186,7 +186,8 @@ if (timeseriesInd >= this->recordingContainers->containers.size()) {
 
 RecordingContainers::RecordingContainers(const std::string& name)
     : name(name)
-{}
+{
+}
 
 RecordingContainers::~RecordingContainers() {}
 

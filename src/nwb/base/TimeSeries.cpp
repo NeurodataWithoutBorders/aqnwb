@@ -41,8 +41,8 @@ void TimeSeries::initialize()
   io->createAttribute(comments, path, "comments");
 
   // setup datasets
-  this->data = std::unique_ptr<BaseRecordingData>(
-      io->createArrayDataSet(dataType, dsetSize, chunkSize, getPath() + "/data"));
+  this->data = std::unique_ptr<BaseRecordingData>(io->createArrayDataSet(
+      dataType, dsetSize, chunkSize, getPath() + "/data"));
   io->createDataAttributes(getPath(), conversion, resolution, unit);
 
   SizeArray tsDsetSize = {

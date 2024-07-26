@@ -1,8 +1,8 @@
 #pragma once
 
 #include <cstdint>
-#include <vector>
 #include <memory>
+#include <vector>
 
 #include "BaseIO.hpp"
 #include "Types.hpp"
@@ -122,7 +122,8 @@ private:
 
   const std::string identifierText;
   std::shared_ptr<BaseIO> io;
-  std::unique_ptr<RecordingContainers> recordingContainers = std::make_unique<RecordingContainers>("RecordingContainers");
+  std::unique_ptr<RecordingContainers> recordingContainers =
+      std::make_unique<RecordingContainers>("RecordingContainers");
 };
 
 /**
