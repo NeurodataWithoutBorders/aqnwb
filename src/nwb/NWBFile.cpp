@@ -77,7 +77,7 @@ Status NWBFile::createFileStructure()
   return Status::Success;
 }
 
-Status NWBFile::startElectricalSeriesRecording(
+Status NWBFile::createElectricalSeries(
     std::vector<Types::ChannelVector> recordingArrays,
     const BaseDataType& dataType)
 {

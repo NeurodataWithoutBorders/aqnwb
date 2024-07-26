@@ -31,7 +31,7 @@ Status NWBRecording::openFile(const std::string& rootFolder,
   nwbfile->initialize();
 
   // start the new recording
-  return nwbfile->startElectricalSeriesRecording(recordingArrays);
+  return nwbfile->createElectricalSeries(recordingArrays);
 }
 
 void NWBRecording::closeFile()

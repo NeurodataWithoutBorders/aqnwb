@@ -54,11 +54,12 @@ public:
   void finalize();
 
   /**
-   * @brief Starts a recording.
+   * @brief Create ElectricalSeries objects to record data into.
+   * Created objects are stored in recordingContainers.
    * @param dataType The data type of the elements in the data block.
-   * @return Status The status of the recording operation.
+   * @return Status The status of the object creation operation.
    */
-  Status startElectricalSeriesRecording(
+  Status createElectricalSeries(
       std::vector<Types::ChannelVector> recordingArrays,
       const BaseDataType& dataType = BaseDataType::I16);
 

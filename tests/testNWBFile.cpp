@@ -20,9 +20,9 @@ TEST_CASE("saveNWBFile", "[nwb]")
   nwbfile.finalize();
 }
 
-TEST_CASE("startElectricalSeriesRecording", "[nwb]")
+TEST_CASE("createElectricalSeries", "[nwb]")
 {
-  std::string filename = getTestFilePath("startElectricalSeriesRecording.nwb");
+  std::string filename = getTestFilePath("createElectricalSeries.nwb");
 
   // initialize nwbfile object and create base structure
   NWB::NWBFile nwbfile(generateUuid(),
@@ -31,8 +31,7 @@ TEST_CASE("startElectricalSeriesRecording", "[nwb]")
 
   // start recording
   std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(1, 2);
-  Status result =
-      nwbfile.startElectricalSeriesRecording(mockArrays, BaseDataType::F32);
+  Status result = nwbfile.createElectricalSeries(mockArrays, BaseDataType::F32);
 
   // write timeseries data
   std::vector<float> mockData = {1.0f, 2.0f, 3.0f, 4.0f, 5.0f};
