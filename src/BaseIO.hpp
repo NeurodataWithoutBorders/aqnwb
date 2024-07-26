@@ -246,10 +246,10 @@ public:
    * @param path The location in the file of the new dataset.
    * @return A pointer to the created dataset.
    */
-  virtual BaseRecordingData* createDataSet(const BaseDataType& type,
-                                           const SizeArray& size,
-                                           const SizeArray& chunking,
-                                           const std::string& path) = 0;
+  virtual BaseRecordingData* createArrayDataSet(const BaseDataType& type,
+                                                const SizeArray& size,
+                                                const SizeArray& chunking,
+                                                const std::string& path) = 0;
 
   /**
    * @brief Returns a pointer to a dataset at a given path.
@@ -358,6 +358,8 @@ public:
 
   /**
    * @brief Writes a block of data using the stored position information.
+   * This is not intended to be overwritten by derived classes, but is a
+   * convenience function for writing data using the last recorded position.
    * @param dataShape The size of the data block.
    * @param type The data type of the elements in the data block.
    * @param data A pointer to the data block.

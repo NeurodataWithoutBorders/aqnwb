@@ -35,8 +35,8 @@ public:
   using SizeArray = std::vector<size_t>;
 
   /**
-   * @brief Alias for a group of channels.
+   * @brief Alias for a vector of channels.
    */
-  using ChannelGroup = std::vector<Channel>;
+  using ChannelVector = std::vector<Channel>;
 };
 }  // namespace AQNWB

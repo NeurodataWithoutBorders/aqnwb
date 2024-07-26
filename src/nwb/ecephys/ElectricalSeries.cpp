@@ -8,7 +8,7 @@ using namespace AQNWB::NWB;
 ElectricalSeries::ElectricalSeries(const std::string& path,
                                    std::shared_ptr<BaseIO> io,
                                    const BaseDataType& dataType,
-                                   const Types::ChannelGroup& channelGroup,
+                                   const Types::ChannelVector& channelVector,
                                    const std::string& electrodesTablePath,
                                    const std::string& unit,
                                    const std::string& description,
@@ -22,13 +22,13 @@ ElectricalSeries::ElectricalSeries(const std::string& path,
                  dataType,
                  unit,
                  description,
-                 channelGroup[0].comments,
+                 channelVector[0].comments,
                  dsetSize,
                  chunkSize,
-                 channelGroup[0].getConversion(),
+                 channelVector[0].getConversion(),
                  resolution,
                  offset)
-    , channelGroup(channelGroup)
+    , channelVector(channelVector)
     , electrodesTablePath(electrodesTablePath)
 {
 }
@@ -42,28 +42,28 @@ void ElectricalSeries::initialize()
   TimeSeries::initialize();
 
   // setup variables based on number of channels
-  std::vector<SizeType> electrodeInds(channelGroup.size());
-  for (size_t i = 0; i < channelGroup.size(); ++i) {
-    electrodeInds[i] = channelGroup[i].globalIndex;
+  std::vector<SizeType> electrodeInds(channelVector.size());
+  for (size_t i = 0; i < channelVector.size(); ++i) {
+    electrodeInds[i] = channelVector[i].globalIndex;
   }
-  samplesRecorded = SizeArray(channelGroup.size(), 0);
+  samplesRecorded = SizeArray(channelVector.size(), 0);
 
   // make channel conversion dataset
   channelConversion = std::unique_ptr<BaseRecordingData>(
-      io->createDataSet(BaseDataType::F32,
-                        SizeArray {1},
-                        chunkSize,
-                        getPath() + "/channel_conversion"));
+      io->createArrayDataSet(BaseDataType::F32,
+                             SizeArray {1},
+                             chunkSize,
+                             getPath() + "/channel_conversion"));
   io->createCommonNWBAttributes(getPath() + "/channel_conversion",
                                 "hdmf-common",
                                 "",
                                 "Bit volts values for all channels");
 
   // make electrodes dataset
-  electrodesDataset = std::unique_ptr<BaseRecordingData>(io->createDataSet(
+  electrodesDataset = std::unique_ptr<BaseRecordingData>(io->createArrayDataSet(
       BaseDataType::I32, SizeArray {1}, chunkSize, getPath() + "/electrodes"));
   electrodesDataset->writeDataBlock(
-      std::vector<SizeType>(1, channelGroup.size()),
+      std::vector<SizeType>(1, channelVector.size()),
       BaseDataType::I32,
       &electrodeInds[0]);
   io->createCommonNWBAttributes(

@@ -25,7 +25,7 @@ public:
   ElectricalSeries(const std::string& path,
                    std::shared_ptr<BaseIO> io,
                    const BaseDataType& dataType,
-                   const Types::ChannelGroup& channelGroup,
+                   const Types::ChannelVector& channelVector,
                    const std::string& electrodesTablePath,
                    const std::string& unit = "volts",
                    const std::string& description = "no description",
@@ -61,7 +61,7 @@ public:
   /**
    * @brief Channel group that this time series is associated with.
    */
-  Types::ChannelGroup channelGroup;
+  Types::ChannelVector channelVector;
 
   /**
    * @brief Path to the electrodes table this time series references

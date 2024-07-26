@@ -77,8 +77,9 @@ Status NWBFile::createFileStructure()
   return Status::Success;
 }
 
-Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays,
-                               const BaseDataType& dataType)
+Status NWBFile::startElectricalSeriesRecording(
+    std::vector<Types::ChannelVector> recordingArrays,
+    const BaseDataType& dataType)
 {
   // store all recorded data in the acquisition group
   std::string rootPath = "/acquisition/";
@@ -95,9 +96,9 @@ Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays,
   elecTable.initialize();
 
   // Create continuous datasets
-  for (const auto& channelGroup : recordingArrays) {
+  for (const auto& channelVector : recordingArrays) {
     // Setup electrodes and devices
-    std::string groupName = channelGroup[0].groupName;
+    std::string groupName = channelVector[0].groupName;
     std::string devicePath = "general/devices/" + groupName;
     std::string electrodePath = "general/extracellular_ephys/" + groupName;
     std::string electricalSeriesPath = rootPath + groupName;
@@ -114,19 +115,19 @@ Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays,
         electricalSeriesPath,
         io,
         dataType,
-        channelGroup,
+        channelVector,
         elecTable.getPath(),
         "volts",
         "Stores continuously sampled voltage data from an "
         "extracellular ephys recording",
-        SizeArray {0, channelGroup.size()},
+        SizeArray {0, channelVector.size()},
         SizeArray {CHUNK_XSIZE});
     electricalSeries->initialize();
     electricalSeriesContainer->addData(std::move(electricalSeries));
 
     // Add electrode information to electrode table (does not write to datasets
     // yet)
-    elecTable.addElectrodes(channelGroup);
+    elecTable.addElectrodes(channelVector);
   }
 
   // write electrode information to datasets
@@ -178,7 +179,7 @@ std::unique_ptr<AQNWB::BaseRecordingData> NWBFile::createRecordingData(
     const std::string& path)
 {
   return std::unique_ptr<BaseRecordingData>(
-      io->createDataSet(type, size, chunking, path));
+      io->createArrayDataSet(type, size, chunking, path));
 }
 
 TimeSeries* NWBFile::getTimeSeries(const std::string& containerName,

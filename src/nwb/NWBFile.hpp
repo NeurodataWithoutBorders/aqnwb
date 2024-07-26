@@ -56,8 +56,9 @@ public:
    * @param dataType The data type of the elements in the data block.
    * @return Status The status of the recording operation.
    */
-  Status startRecording(std::vector<Types::ChannelGroup> recordingArrays,
-                        const BaseDataType& dataType = BaseDataType::I16);
+  Status startElectricalSeriesRecording(
+      std::vector<Types::ChannelVector> recordingArrays,
+      const BaseDataType& dataType = BaseDataType::I16);
 
   /**
    * @brief Closes the relevant datasets.

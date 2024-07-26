@@ -54,7 +54,7 @@ TEST_CASE("writeDataset", "[hdf5io]")
     SizeType numSamples = 10;
 
     // Create HDF5RecordingData object and dataset
-    BaseRecordingData* dataset = hdf5io->createDataSet(
+    BaseRecordingData* dataset = hdf5io->createArrayDataSet(
         BaseDataType::I32, SizeArray {0}, SizeArray {1}, dataPath);
 
     // Write data block
@@ -90,10 +90,10 @@ TEST_CASE("writeDataset", "[hdf5io]")
     std::vector<SizeType> positionOffset = {0, 0};
 
     BaseRecordingData* dataset =
-        hdf5io->createDataSet(BaseDataType::I32,
-                              SizeArray {numRows, numCols},
-                              SizeArray {0, 0},
-                              dataPath);
+        hdf5io->createArrayDataSet(BaseDataType::I32,
+                                   SizeArray {numRows, numCols},
+                                   SizeArray {0, 0},
+                                   dataPath);
     Status status =
         static_cast<HDF5::HDF5RecordingData*>(dataset)->writeDataBlock(
             dataShape, positionOffset, BaseDataType::I32, testData.data());
@@ -127,11 +127,11 @@ TEST_CASE("writeDataset", "[hdf5io]")
     std::vector<SizeType> positionOffset = {0, 0};
 
     // Create HDF5RecordingData object and dataset for 2D data
-    BaseRecordingData* dataset =
-        hdf5io->createDataSet(BaseDataType::I32,
-                              SizeArray {numRows, numCols},  // Initial size
-                              SizeArray {0, 0},  // chunking
-                              dataPath);
+    BaseRecordingData* dataset = hdf5io->createArrayDataSet(
+        BaseDataType::I32,
+        SizeArray {numRows, numCols},  // Initial size
+        SizeArray {0, 0},  // chunking
+        dataPath);
 
     // Write 2D data block
     Status status =
@@ -167,10 +167,10 @@ TEST_CASE("writeDataset", "[hdf5io]")
     std::vector<SizeType> positionOffset = {0, 0, 0};
 
     BaseRecordingData* dataset =
-        hdf5io->createDataSet(BaseDataType::I32,
-                              SizeArray {depth, height, width},
-                              SizeArray {0, 0, 0},
-                              dataPath);
+        hdf5io->createArrayDataSet(BaseDataType::I32,
+                                   SizeArray {depth, height, width},
+                                   SizeArray {0, 0, 0},
+                                   dataPath);
     Status status =
         static_cast<HDF5::HDF5RecordingData*>(dataset)->writeDataBlock(
             dataShape, positionOffset, BaseDataType::I32, testData.data());
@@ -204,10 +204,10 @@ TEST_CASE("writeDataset", "[hdf5io]")
     std::vector<SizeType> positionOffset = {0, 0, 0};
 
     BaseRecordingData* dataset =
-        hdf5io->createDataSet(BaseDataType::I32,
-                              SizeArray {depth, height, width},
-                              SizeArray {0, 0, 0},
-                              dataPath);
+        hdf5io->createArrayDataSet(BaseDataType::I32,
+                                   SizeArray {depth, height, width},
+                                   SizeArray {0, 0, 0},
+                                   dataPath);
     Status status =
         static_cast<HDF5::HDF5RecordingData*>(dataset)->writeDataBlock(
             dataShape, positionOffset, BaseDataType::I32, testData.data());

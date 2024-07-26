@@ -369,7 +369,7 @@ Status HDF5IO::createStringDataSet(const std::string& path,
   }
 
   std::unique_ptr<BaseRecordingData> dataset;
-  dataset = std::unique_ptr<BaseRecordingData>(createDataSet(
+  dataset = std::unique_ptr<BaseRecordingData>(createArrayDataSet(
       BaseDataType::V_STR, SizeArray {values.size()}, SizeArray {1}, path));
   dataset->writeDataBlock(
       std::vector<SizeType>(1, 1), BaseDataType::V_STR, cStrs.data());
@@ -399,10 +399,10 @@ AQNWB::BaseRecordingData* HDF5IO::getDataSet(const std::string& path)
   }
 }
 
-AQNWB::BaseRecordingData* HDF5IO::createDataSet(const BaseDataType& type,
-                                                const SizeArray& size,
-                                                const SizeArray& chunking,
-                                                const std::string& path)
+AQNWB::BaseRecordingData* HDF5IO::createArrayDataSet(const BaseDataType& type,
+                                                     const SizeArray& size,
+                                                     const SizeArray& chunking,
+                                                     const std::string& path)
 {
   std::unique_ptr<DataSet> data;
   DSetCreatPropList prop;

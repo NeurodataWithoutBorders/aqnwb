@@ -19,7 +19,7 @@ NWBRecording::~NWBRecording()
 Status NWBRecording::openFile(const std::string& rootFolder,
                               const std::string& baseName,
                               int experimentNumber,
-                              std::vector<Types::ChannelGroup> recordingArrays,
+                              std::vector<Types::ChannelVector> recordingArrays,
                               const std::string& IOType)
 {
   std::string filename =
@@ -31,7 +31,7 @@ Status NWBRecording::openFile(const std::string& rootFolder,
   nwbfile->initialize();
 
   // start the new recording
-  return nwbfile->startRecording(recordingArrays);
+  return nwbfile->startElectricalSeriesRecording(recordingArrays);
 }
 
 void NWBRecording::closeFile()

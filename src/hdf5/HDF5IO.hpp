@@ -185,10 +185,10 @@ public:
    * @param path The location in the file of the new dataset.
    * @return A pointer to the created dataset.
    */
-  BaseRecordingData* createDataSet(const BaseDataType& type,
-                                   const SizeArray& size,
-                                   const SizeArray& chunking,
-                                   const std::string& path) override;
+  BaseRecordingData* createArrayDataSet(const BaseDataType& type,
+                                        const SizeArray& size,
+                                        const SizeArray& chunking,
+                                        const std::string& path) override;
 
   /**
    * @brief Returns a pointer to a dataset at a given path.

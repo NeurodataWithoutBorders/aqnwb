@@ -43,7 +43,7 @@ public:
   Status openFile(const std::string& rootFolder,
                   const std::string& baseName,
                   int experimentNumber,
-                  std::vector<Types::ChannelGroup> recordingArrays,
+                  std::vector<Types::ChannelVector> recordingArrays,
                   const std::string& IOType = "HDF5");
 
   /**

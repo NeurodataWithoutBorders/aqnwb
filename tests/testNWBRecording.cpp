@@ -32,7 +32,7 @@ TEST_CASE("writeContinuousData", "[recording]")
     std::vector<float> dataBuffer(bufferSize);
     std::vector<double> timestampsBuffer(bufferSize);
 
-    std::vector<Types::ChannelGroup> mockRecordingArrays =
+    std::vector<Types::ChannelVector> mockRecordingArrays =
         getMockChannelArrays();
     std::vector<std::vector<float>> mockData =
         getMockData2D(numSamples, numChannels);
@@ -47,8 +47,8 @@ TEST_CASE("writeContinuousData", "[recording]")
     while (isRecording) {
       // write data to the file for each channel
       for (SizeType i = 0; i < mockRecordingArrays.size(); ++i) {
-        const auto& channelGroup = mockRecordingArrays[i];
-        for (const auto& channel : channelGroup) {
+        const auto& channelVector = mockRecordingArrays[i];
+        for (const auto& channel : channelVector) {
           // copy data into buffer
           std::copy(mockData[channel.globalIndex].begin() + samplesRecorded,
                     mockData[channel.globalIndex].begin() + samplesRecorded

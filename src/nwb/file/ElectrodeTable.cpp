@@ -24,15 +24,15 @@ void ElectrodeTable::initialize()
   DynamicTable::initialize();
 
   electrodeDataset->dataset =
-      std::unique_ptr<BaseRecordingData>(io->createDataSet(
+      std::unique_ptr<BaseRecordingData>(io->createArrayDataSet(
           BaseDataType::I32, SizeArray {1}, SizeArray {1}, path + "id"));
   groupNamesDataset->dataset = std::unique_ptr<BaseRecordingData>(
-      io->createDataSet(BaseDataType::STR(250),
-                        SizeArray {0},
-                        SizeArray {1},
-                        path + "group_name"));
+      io->createArrayDataSet(BaseDataType::STR(250),
+                             SizeArray {0},
+                             SizeArray {1},
+                             path + "group_name"));
   locationsDataset
-      ->dataset = std::unique_ptr<BaseRecordingData>(io->createDataSet(
+      ->dataset = std::unique_ptr<BaseRecordingData>(io->createArrayDataSet(
       BaseDataType::STR(250), SizeArray {0}, SizeArray {1}, path + "location"));
 }
 
@@ -78,6 +78,6 @@ void ElectrodeTable::setColNames(const std::vector<std::string>& newColNames)
 // Getter for groupPath
 std::string ElectrodeTable::getGroupPath() const
 {
-  return groupReferences[0];  // all channel in channelGroup should have the
+  return groupReferences[0];  // all channels in ChannelVector should have the
                               // same groupName
 }

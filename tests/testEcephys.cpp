@@ -23,7 +23,7 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
   SizeType bufferSize = numSamples / 5;
   std::vector<float> dataBuffer(bufferSize);
   std::vector<double> timestampsBuffer(bufferSize);
-  std::vector<Types::ChannelGroup> mockArrays = getMockChannelArrays();
+  std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays();
   std::string dataPath = "/esdata";
   BaseDataType dataType = BaseDataType::F32;
   std::vector<std::vector<float>> mockData =
