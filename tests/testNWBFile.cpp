@@ -40,10 +40,10 @@ TEST_CASE("startElectricalSeriesRecording", "[nwb]")
   std::vector<SizeType> positionOffset = {0, 0};
   std::vector<SizeType> dataShape = {mockData.size(), 0};
 
-  NWB::TimeSeries* ts0 = nwbfile.getTimeSeries("ElectricalSeries", 0);
+  NWB::TimeSeries* ts0 = nwbfile.getTimeSeries(0);
   ts0->writeData(
       dataShape, positionOffset, mockData.data(), mockTimestamps.data());
-  NWB::TimeSeries* ts1 = nwbfile.getTimeSeries("ElectricalSeries", 1);
+  NWB::TimeSeries* ts1 = nwbfile.getTimeSeries(1);
   ts1->writeData(
       dataShape, positionOffset, mockData.data(), mockTimestamps.data());
 

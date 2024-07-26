@@ -42,12 +42,12 @@ void TimeSeries::initialize()
 
   // setup datasets
   this->data = std::unique_ptr<BaseRecordingData>(
-      io->createDataSet(dataType, dsetSize, chunkSize, getPath() + "/data"));
+      io->createArrayDataSet(dataType, dsetSize, chunkSize, getPath() + "/data"));
   io->createDataAttributes(getPath(), conversion, resolution, unit);
 
   SizeArray tsDsetSize = {
       dsetSize[0]};  // timestamps match data along first dimension
-  this->timestamps = std::unique_ptr<BaseRecordingData>(io->createDataSet(
+  this->timestamps = std::unique_ptr<BaseRecordingData>(io->createArrayDataSet(
       this->timestampsType, tsDsetSize, chunkSize, getPath() + "/timestamps"));
   io->createTimestampsAttributes(getPath());
 }

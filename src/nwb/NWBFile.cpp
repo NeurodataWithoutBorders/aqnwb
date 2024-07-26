@@ -84,12 +84,6 @@ Status NWBFile::startElectricalSeriesRecording(
   // store all recorded data in the acquisition group
   std::string rootPath = "/acquisition/";
 
-  // setup containers for different data types (e.g. SpikeEventSeries container
-  // would go here as well)
-  std::unique_ptr<RecordingContainer> electricalSeriesContainer =
-      std::make_unique<RecordingContainer>("ElectricalSeries",
-                                           recordingArrays.size());
-
   // Setup electrode table
   std::string electrodeTablePath = "general/extracellular_ephys/electrodes/";
   ElectrodeTable elecTable = ElectrodeTable(electrodeTablePath, io);
@@ -123,7 +117,7 @@ Status NWBFile::startElectricalSeriesRecording(
         SizeArray {0, channelVector.size()},
         SizeArray {CHUNK_XSIZE});
     electricalSeries->initialize();
-    electricalSeriesContainer->addData(std::move(electricalSeries));
+    recordingContainers->addData(std::move(electricalSeries));
 
     // Add electrode information to electrode table (does not write to datasets
     // yet)
@@ -132,9 +126,6 @@ Status NWBFile::startElectricalSeriesRecording(
 
   // write electrode information to datasets
   elecTable.finalize();
-
-  // add all data containers to the recording container manager
-  recordingContainers.push_back(std::move(electricalSeriesContainer));
 
   return Status::Success;
 }
@@ -182,33 +173,24 @@ std::unique_ptr<AQNWB::BaseRecordingData> NWBFile::createRecordingData(
       io->createArrayDataSet(type, size, chunking, path));
 }
 
-TimeSeries* NWBFile::getTimeSeries(const std::string& containerName,
-                                   const SizeType& timeseriesInd)
+TimeSeries* NWBFile::getTimeSeries(const SizeType& timeseriesInd)
 {
-  for (auto& container : this->recordingContainers) {
-    if (container->containerName == containerName) {
-      if (timeseriesInd >= container->data.size()) {
-        return nullptr;
-      } else {
-        return container->data[timeseriesInd].get();
-      }
-    }
+if (timeseriesInd >= this->recordingContainers->containers.size()) {
+    return nullptr;
+  } else {
+    return this->recordingContainers->containers[timeseriesInd].get();
   }
-  return nullptr;
 }
 
 // Recording Container
 
-RecordingContainer::RecordingContainer(const std::string& containerName,
-                                       const SizeType& containerSize)
-    : containerName(containerName)
-{
-  this->data.reserve(containerSize);
-};
+RecordingContainers::RecordingContainers(const std::string& name)
+    : name(name)
+{}
 
-RecordingContainer::~RecordingContainer() {}
+RecordingContainers::~RecordingContainers() {}
 
-void RecordingContainer::addData(std::unique_ptr<TimeSeries> data)
+void RecordingContainers::addData(std::unique_ptr<TimeSeries> data)
 {
-  this->data.push_back(std::move(data));
+  this->containers.push_back(std::move(data));
 }

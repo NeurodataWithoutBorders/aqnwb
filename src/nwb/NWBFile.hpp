@@ -1,6 +1,8 @@
 #pragma once
 
 #include <cstdint>
+#include <vector>
+#include <memory>
 
 #include "BaseIO.hpp"
 #include "Types.hpp"
@@ -9,7 +11,7 @@
 namespace AQNWB::NWB
 {
 
-class RecordingContainer;  // declare here because gets used in NWBFile class
+class RecordingContainers;  // declare here because gets used in NWBFile class
 
 /**
  * @brief The NWBFile class provides an interface for setting up and managing
@@ -85,8 +87,7 @@ public:
    * @param containerName The name of the timeseries group.
    * @param timeseriesInd The index of the timeseries dataset within the group.
    */
-  TimeSeries* getTimeSeries(const std::string& containerName,
-                            const SizeType& timeseriesInd);
+  TimeSeries* getTimeSeries(const SizeType& timeseriesInd);
 
 protected:
   /**
@@ -121,38 +122,36 @@ private:
 
   const std::string identifierText;
   std::shared_ptr<BaseIO> io;
-  std::vector<std::unique_ptr<RecordingContainer>> recordingContainers;
+  std::unique_ptr<RecordingContainers> recordingContainers = std::make_unique<RecordingContainers>("RecordingContainers");
 };
 
 /**
- * @brief The RecordingContainer class provides an interface for managing
+ * @brief The RecordingContainers class provides an interface for managing
  * groups of TimeSeries acquired during a recording.
  */
-class RecordingContainer
+class RecordingContainers
 {
 public:
   /**
    * @brief Constructor for RecordingContainer class.
-   * @param containerName The name of the group of time series
-   * @param containerSize The size to preallocate for the group of timeseries.
+   * @param name The name of the group of time series
    */
-  RecordingContainer(const std::string& containerName,
-                     const SizeType& containerSize);
+  RecordingContainers(const std::string& name);
 
   /**
    * @brief Deleted copy constructor to prevent construction-copying.
    */
-  RecordingContainer(const RecordingContainer&) = delete;
+  RecordingContainers(const RecordingContainers&) = delete;
 
   /**
    * @brief Deleted copy assignment operator to prevent copying.
    */
-  RecordingContainer& operator=(const RecordingContainer&) = delete;
+  RecordingContainers& operator=(const RecordingContainers&) = delete;
 
   /**
    * @brief Destructor for RecordingContainer class.
    */
-  ~RecordingContainer();
+  ~RecordingContainers();
 
   /**
    * @brief Adds a TimeSeries object to the container.
@@ -160,8 +159,8 @@ public:
    */
   void addData(std::unique_ptr<TimeSeries> data);
 
-  std::vector<std::unique_ptr<TimeSeries>> data;
-  std::string containerName;
+  std::vector<std::unique_ptr<TimeSeries>> containers;
+  std::string name;
 };
 
 }  // namespace AQNWB::NWB

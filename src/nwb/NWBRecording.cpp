@@ -49,7 +49,7 @@ Status NWBRecording::writeTimeseriesData(
     const void* data,
     const void* timestamps)
 {
-  TimeSeries* ts = nwbfile->getTimeSeries(containerName, timeseriesInd);
+  TimeSeries* ts = nwbfile->getTimeSeries(timeseriesInd);
 
   if (ts == nullptr)
     return Status::Failure;
