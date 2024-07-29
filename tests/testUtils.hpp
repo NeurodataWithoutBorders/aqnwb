@@ -4,7 +4,9 @@
 #include <filesystem>
 #include <random>
 
+#include <H5Cpp.h>
 #include <catch2/catch_test_macros.hpp>
+#include <hdf5/HDF5IO.hpp>
 
 #include "Channel.hpp"
 #include "Types.hpp"
@@ -30,10 +32,10 @@ inline std::string getTestFilePath(std::string filename)
   return filepath.u8string();
 }
 
-inline std::vector<Types::ChannelGroup> getMockChannelArrays(
+inline std::vector<Types::ChannelVector> getMockChannelArrays(
     SizeType numChannels = 2, SizeType numArrays = 2)
 {
-  std::vector<Types::ChannelGroup> arrays(numArrays);
+  std::vector<Types::ChannelVector> arrays(numArrays);
   for (SizeType i = 0; i < numArrays; i++) {
     std::vector<Channel> chGroup;
     for (SizeType j = 0; j < numChannels; j++) {
@@ -48,8 +50,24 @@ inline std::vector<Types::ChannelGroup> getMockChannelArrays(
   return arrays;
 }
 
-inline std::vector<std::vector<float>> getMockData(SizeType numChannels = 4,
-                                                   SizeType numSamples = 1000)
+inline std::vector<float> getMockData1D(SizeType numSamples = 1000)
+{
+  std::vector<float> mockData(numSamples);
+
+  std::random_device rd;
+  std::mt19937 rng(rd());  // random number generator
+  std::uniform_real_distribution<> dis(-1.0, 1.0);  // range of floats
+
+  for (auto& data : mockData) {
+    data = static_cast<float>(dis(rng))
+        * 1000.f;  // approximate microvolt unit range
+  }
+
+  return mockData;
+}
+
+inline std::vector<std::vector<float>> getMockData2D(SizeType numSamples = 1000,
+                                                     SizeType numChannels = 4)
 {
   std::vector<std::vector<float>> mockData(numChannels,
                                            std::vector<float>(numSamples));
@@ -80,4 +98,13 @@ inline std::vector<double> getMockTimestamps(SizeType numSamples = 1000,
   }
 
   return mockTimestamps;
+}
+
+inline void readH5DataBlock(const H5::DataSet* dSet,
+                            const BaseDataType& type,
+                            void* buffer)
+{
+  H5::DataSpace fSpace = dSet->getSpace();
+  H5::DataType nativeType = HDF5::HDF5IO::getNativeType(type);
+  dSet->read(buffer, nativeType, fSpace, fSpace);
 }

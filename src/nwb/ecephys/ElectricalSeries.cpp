@@ -7,13 +7,28 @@ using namespace AQNWB::NWB;
 /** Constructor */
 ElectricalSeries::ElectricalSeries(const std::string& path,
                                    std::shared_ptr<BaseIO> io,
+                                   const BaseDataType& dataType,
+                                   const Types::ChannelVector& channelVector,
+                                   const std::string& electrodesTablePath,
+                                   const std::string& unit,
                                    const std::string& description,
-                                   const Types::ChannelGroup& channelGroup,
-                                   const SizeType& chunkSize,
-                                   const std::string& electrodesTablePath)
-    : TimeSeries(path, io, description)
-    , channelGroup(channelGroup)
-    , chunkSize(chunkSize)
+                                   const SizeArray& dsetSize,
+                                   const SizeArray& chunkSize,
+                                   const float& conversion,
+                                   const float& resolution,
+                                   const float& offset)
+    : TimeSeries(path,
+                 io,
+                 dataType,
+                 unit,
+                 description,
+                 channelVector[0].comments,
+                 dsetSize,
+                 chunkSize,
+                 channelVector[0].getConversion(),
+                 resolution,
+                 offset)
+    , channelVector(channelVector)
     , electrodesTablePath(electrodesTablePath)
 {
 }
@@ -26,49 +41,55 @@ void ElectricalSeries::initialize()
 {
   TimeSeries::initialize();
 
-  std::vector<SizeType> electrodeInds(channelGroup.size());
-  for (size_t i = 0; i < channelGroup.size(); ++i) {
-    electrodeInds[i] = channelGroup[i].globalIndex;
+  // setup variables based on number of channels
+  std::vector<SizeType> electrodeInds(channelVector.size());
+  for (size_t i = 0; i < channelVector.size(); ++i) {
+    electrodeInds[i] = channelVector[i].globalIndex;
   }
-
-  // make data dataset
-  data = std::unique_ptr<BaseRecordingData>(
-      io->createDataSet(BaseDataType::I16,
-                        SizeArray {0, channelGroup.size()},
-                        SizeArray {chunkSize},
-                        getPath() + "/data"));
-  io->createDataAttributes(
-      getPath(), channelGroup[0].getConversion(), -1.0f, "volts");
-
-  // make timestamps dataset
-  timestamps = std::unique_ptr<BaseRecordingData>(
-      io->createDataSet(BaseDataType::F64,
-                        SizeArray {0},
-                        SizeArray {chunkSize},
-                        getPath() + "/timestamps"));
-  io->createTimestampsAttributes(getPath());
+  samplesRecorded = SizeArray(channelVector.size(), 0);
 
   // make channel conversion dataset
   channelConversion = std::unique_ptr<BaseRecordingData>(
-      io->createDataSet(BaseDataType::F32,
-                        SizeArray {1},
-                        SizeArray {chunkSize},
-                        getPath() + "/channel_conversion"));
+      io->createArrayDataSet(BaseDataType::F32,
+                             SizeArray {1},
+                             chunkSize,
+                             getPath() + "/channel_conversion"));
   io->createCommonNWBAttributes(getPath() + "/channel_conversion",
                                 "hdmf-common",
                                 "",
                                 "Bit volts values for all channels");
 
   // make electrodes dataset
-  electrodesDataset = std::unique_ptr<BaseRecordingData>(
-      io->createDataSet(BaseDataType::I32,
-                        SizeArray {1},
-                        SizeArray {chunkSize},
-                        getPath() + "/electrodes"));
+  electrodesDataset = std::unique_ptr<BaseRecordingData>(io->createArrayDataSet(
+      BaseDataType::I32, SizeArray {1}, chunkSize, getPath() + "/electrodes"));
   electrodesDataset->writeDataBlock(
-      channelGroup.size(), BaseDataType::I32, &electrodeInds[0]);
+      std::vector<SizeType>(1, channelVector.size()),
+      BaseDataType::I32,
+      &electrodeInds[0]);
   io->createCommonNWBAttributes(
       getPath() + "/electrodes", "hdmf-common", "DynamicTableRegion", "");
   io->createReferenceAttribute(
       electrodesTablePath, getPath() + "/electrodes", "table");
+}
+
+Status ElectricalSeries::writeChannel(SizeType channelInd,
+                                      const SizeType& numSamples,
+                                      const void* data,
+                                      const void* timestamps)
+{
+  // get offsets and datashape
+  std::vector<SizeType> dataShape = {
+      numSamples, 1};  // Note: schema has 1D and 3D but planning to deprecate
+  std::vector<SizeType> positionOffset = {samplesRecorded[channelInd],
+                                          channelInd};
+
+  // track samples recorded per channel
+  samplesRecorded[channelInd] += numSamples;
+
+  // write channel data
+  if (channelInd == 0) {
+    return writeData(dataShape, positionOffset, data, timestamps);
+  } else {
+    return writeData(dataShape, positionOffset, data);
+  }
 }

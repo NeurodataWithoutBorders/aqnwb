@@ -24,10 +24,16 @@ public:
    */
   ElectricalSeries(const std::string& path,
                    std::shared_ptr<BaseIO> io,
-                   const std::string& description,
-                   const Types::ChannelGroup& channelGroup,
-                   const SizeType& chunkSize,
-                   const std::string& electrodesTablePath);
+                   const BaseDataType& dataType,
+                   const Types::ChannelVector& channelVector,
+                   const std::string& electrodesTablePath,
+                   const std::string& unit = "volts",
+                   const std::string& description = "no description",
+                   const SizeArray& dsetSize = SizeArray {0},
+                   const SizeArray& chunkSize = SizeArray {1},
+                   const float& conversion = 1.0f,
+                   const float& resolution = -1.0f,
+                   const float& offset = 0.0f);
 
   /**
    * @brief Destructor
@@ -40,14 +46,22 @@ public:
   void initialize();
 
   /**
-   * @brief Channel group that this time series is associated with.
+   * @brief Writes a channel to an ElectricalSeries dataset.
+   * @param channelInd The channel index within the ElectricalSeries
+   * @param numSamples The number of samples to write (length in time).
+   * @param data A pointer to the data block.
+   * @param timestamps A pointer to the timestamps block.
+   * @return The status of the write operation.
    */
-  Types::ChannelGroup channelGroup;
+  Status writeChannel(SizeType channelInd,
+                      const SizeType& numSamples,
+                      const void* data,
+                      const void* timestamps);
 
   /**
-   * @brief Chunk size to use in dataset creation.
+   * @brief Channel group that this time series is associated with.
    */
-  SizeType chunkSize;
+  Types::ChannelVector channelVector;
 
   /**
    * @brief Path to the electrodes table this time series references
@@ -69,5 +83,10 @@ private:
    * @brief The neurodataType of the TimeSeries.
    */
   std::string neurodataType = "ElectricalSeries";
+
+  /**
+   * @brief The number of samples already written per channel.
+   */
+  SizeArray samplesRecorded;
 };
 }  // namespace AQNWB::NWB

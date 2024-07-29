@@ -77,13 +77,12 @@ Status NWBFile::createFileStructure()
   return Status::Success;
 }
 
-Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays)
+Status NWBFile::createElectricalSeries(
+    std::vector<Types::ChannelVector> recordingArrays,
+    const BaseDataType& dataType)
 {
   // store all recorded data in the acquisition group
   std::string rootPath = "/acquisition/";
-
-  timeseriesData.clear();
-  timeseriesData.reserve(recordingArrays.size());
 
   // Setup electrode table
   std::string electrodeTablePath = "general/extracellular_ephys/electrodes/";
@@ -91,9 +90,9 @@ Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays)
   elecTable.initialize();
 
   // Create continuous datasets
-  for (const auto& channelGroup : recordingArrays) {
+  for (const auto& channelVector : recordingArrays) {
     // Setup electrodes and devices
-    std::string groupName = channelGroup[0].groupName;
+    std::string groupName = channelVector[0].groupName;
     std::string devicePath = "general/devices/" + groupName;
     std::string electrodePath = "general/extracellular_ephys/" + groupName;
     std::string electricalSeriesPath = rootPath + groupName;
@@ -109,17 +108,20 @@ Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays)
     auto electricalSeries = std::make_unique<ElectricalSeries>(
         electricalSeriesPath,
         io,
+        dataType,
+        channelVector,
+        elecTable.getPath(),
+        "volts",
         "Stores continuously sampled voltage data from an "
         "extracellular ephys recording",
-        channelGroup,
-        CHUNK_XSIZE,
-        elecTable.getPath());
+        SizeArray {0, channelVector.size()},
+        SizeArray {CHUNK_XSIZE});
     electricalSeries->initialize();
-    timeseriesData.push_back(std::move(electricalSeries));
+    recordingContainers->addData(std::move(electricalSeries));
 
     // Add electrode information to electrode table (does not write to datasets
     // yet)
-    elecTable.addElectrodes(channelGroup);
+    elecTable.addElectrodes(channelVector);
   }
 
   // write electrode information to datasets
@@ -129,31 +131,6 @@ Status NWBFile::startRecording(std::vector<Types::ChannelGroup> recordingArrays)
 }
 
 void NWBFile::stopRecording() {}
-
-Status NWBFile::writeTimeseriesTimestamps(SizeType datasetInd,
-                                          SizeType numSamples,
-                                          BaseDataType type,
-                                          const void* data)
-{
-  if (!timeseriesData[datasetInd])
-    return Status::Failure;
-
-  return timeseriesData[datasetInd]->timestamps->writeDataBlock(
-      numSamples, type, data);
-}
-
-Status NWBFile::writeTimeseriesData(SizeType datasetInd,
-                                    SizeType rowInd,
-                                    SizeType numSamples,
-                                    BaseDataType type,
-                                    const void* data)
-{
-  if (!timeseriesData[datasetInd])
-    return Status::Failure;
-
-  return timeseriesData[datasetInd]->data->writeDataRow(
-      numSamples, rowInd, type, data);
-}
 
 void NWBFile::cacheSpecifications(const std::string& specPath,
                                   const std::string& versionNumber)
@@ -193,5 +170,28 @@ std::unique_ptr<AQNWB::BaseRecordingData> NWBFile::createRecordingData(
     const std::string& path)
 {
   return std::unique_ptr<BaseRecordingData>(
-      io->createDataSet(type, size, chunking, path));
+      io->createArrayDataSet(type, size, chunking, path));
+}
+
+TimeSeries* NWBFile::getTimeSeries(const SizeType& timeseriesInd)
+{
+  if (timeseriesInd >= this->recordingContainers->containers.size()) {
+    return nullptr;
+  } else {
+    return this->recordingContainers->containers[timeseriesInd].get();
+  }
+}
+
+// Recording Container
+
+RecordingContainers::RecordingContainers(const std::string& name)
+    : name(name)
+{
+}
+
+RecordingContainers::~RecordingContainers() {}
+
+void RecordingContainers::addData(std::unique_ptr<TimeSeries> data)
+{
+  this->containers.push_back(std::move(data));
 }

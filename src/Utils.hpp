@@ -67,4 +67,29 @@ inline std::unique_ptr<BaseIO> createIO(const std::string& type,
     throw std::invalid_argument("Invalid IO type");
   }
 }
+
+inline std::unique_ptr<int16_t[]> transformToInt16(SizeType numSamples,
+                                                   float conversion_factor,
+                                                   const float* data)
+{
+  std::unique_ptr<float[]> scaledData = std::make_unique<float[]>(numSamples);
+  std::unique_ptr<int16_t[]> intData = std::make_unique<int16_t[]>(numSamples);
+
+  // copy data and multiply by scaling factor
+  double multFactor = 1 / (32767.0f * conversion_factor);
+  std::transform(data,
+                 data + numSamples,
+                 scaledData.get(),
+                 [multFactor](float value) { return value * multFactor; });
+
+  // convert float to int16
+  std::transform(
+      scaledData.get(),
+      scaledData.get() + numSamples,
+      intData.get(),
+      [](float value)
+      { return static_cast<int16_t>(std::clamp(value, -32768.0f, 32767.0f)); });
+
+  return intData;
+}
 }  // namespace AQNWB

@@ -4,8 +4,11 @@
 #include <memory>
 #include <string>
 
+#include <H5Opublic.h>
+
 #include "BaseIO.hpp"
 #include "Types.hpp"
+
 namespace H5
 {
 class DataSet;
@@ -182,10 +185,10 @@ public:
    * @param path The location in the file of the new dataset.
    * @return A pointer to the created dataset.
    */
-  BaseRecordingData* createDataSet(const BaseDataType& type,
-                                   const SizeArray& size,
-                                   const SizeArray& chunking,
-                                   const std::string& path) override;
+  BaseRecordingData* createArrayDataSet(const BaseDataType& type,
+                                        const SizeArray& size,
+                                        const SizeArray& chunking,
+                                        const std::string& path) override;
 
   /**
    * @brief Returns a pointer to a dataset at a given path.
@@ -193,6 +196,13 @@ public:
    * @return A pointer to the dataset.
    */
   BaseRecordingData* getDataSet(const std::string& path) override;
+
+  /**
+   * @brief Returns the HDF5 type of object at a given path.
+   * @param path The location in the file of the object.
+   * @return The type of object at the given path.
+   */
+  H5O_type_t getObjectType(const std::string& path);
 
   /**
    * @brief Returns the HDF5 native data type for a given base data type.
@@ -226,8 +236,8 @@ private:
  * @brief Represents an HDF5 Dataset that can be extended indefinitely
         in blocks.
 *
-* This class provides functionality for reading and writing 2D blocks of data
-* (samples x channels) to an HDF5 dataset.
+* This class provides functionality for reading and writing blocks of data
+* to an HDF5 dataset.
 */
 class HDF5RecordingData : public BaseRecordingData
 {
@@ -254,37 +264,23 @@ public:
   ~HDF5RecordingData();
 
   /**
-   * @brief Writes a 2D block of data to the HDF5 dataset.
-   * @param xDataSize The size of the data block in the x dimension (samples).
-   * @param yDataSize The size of the data block in the y dimension (channels).
+   * @brief Writes a block of data to the HDF5 dataset.
+   * @param dataShape The size of the data block.
+   * @param positionOffset The position of the data block to write to.
    * @param type The data type of the elements in the data block.
    * @param data A pointer to the data block.
    * @return The status of the write operation.
    */
-  Status writeDataBlock(const SizeType& xDataSize,
-                        const SizeType& yDataSize,
+  Status writeDataBlock(const std::vector<SizeType>& dataShape,
+                        const std::vector<SizeType>& positionOffset,
                         const BaseDataType& type,
                         const void* data);
 
   /**
-   * @brief Reads a block of data from the HDF5 dataset.
-   * @param type The data type of the data block.
-   * @param buffer A pointer to the buffer to store the read data.
+   * @brief Gets a const pointer to the HDF5 dataset.
+   * @return A const pointer to the HDF5 dataset.
    */
-  void readDataBlock(const BaseDataType& type, void* buffer);
-
-  /**
-   * @brief Writes a row of data in a 2D block.
-   * @param xDataSize The size of the data row in the x dimension (samples).
-   * @param yPos The position of the data row in the y dimension (channels).
-   * @param type The data type of the elements in the data block.
-   * @param data A pointer to the data block.
-   * @return The status of the write operation.
-   */
-  Status writeDataRow(const SizeType& xDataSize,
-                      const SizeType& yPos,
-                      const BaseDataType& type,
-                      const void* data);
+  const H5::DataSet* getDataSet();
 
 private:
   /**

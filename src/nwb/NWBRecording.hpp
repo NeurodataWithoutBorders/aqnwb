@@ -43,7 +43,7 @@ public:
   Status openFile(const std::string& rootFolder,
                   const std::string& baseName,
                   int experimentNumber,
-                  std::vector<Types::ChannelGroup> recordingArrays,
+                  std::vector<Types::ChannelVector> recordingArrays,
                   const std::string& IOType = "HDF5");
 
   /**
@@ -53,33 +53,31 @@ public:
   void closeFile();
 
   /**
-   * @brief Writes data for a timeseries.
+   * @brief Write timeseries to an NWB file.
+   * @param containerName The name of the timeseries group to write to.
+   * @param timeseriesInd The index of the timeseries dataset within the
+   * timeseries group.
+   * @param channel The channel index to use for writing timestamps.
+   * @param dataShape The size of the data block.
+   * @param positionOffset The position of the data block to write to.
+   * @param data A pointer to the data block.
+   * @param timestamps A pointer to the timestamps block. May be null if
+   * multidimensional TimeSeries and only need to write the timestamps once but
+   * write data multiple times.
+   * @return The status of the write operation.
    */
-  void writeTimeseriesData(SizeType timeSeriesID,
-                           Channel systemChannel,
-                           const float* dataBuffer,
-                           const double* timestampBuffer,
-                           SizeType size);
+  Status writeTimeseriesData(const std::string& containerName,
+                             const SizeType& timeseriesInd,
+                             const Channel& channel,
+                             const std::vector<SizeType>& dataShape,
+                             const std::vector<SizeType>& positionOffset,
+                             const void* data,
+                             const void* timestamps);
 
 private:
   /**
    * @brief Pointer to the current NWB file.
    */
   std::unique_ptr<NWBFile> nwbfile;
-
-  /**
-   * @brief Holds scaled samples for writing.
-   */
-  std::unique_ptr<float[]> scaledBuffer = nullptr;
-
-  /**
-   * @brief Holds integer samples for writing.
-   */
-  std::unique_ptr<int16_t[]> intBuffer = nullptr;
-
-  /**
-   * @brief Maximum buffer size for writing data.
-   */
-  SizeType bufferSize;
 };
 }  // namespace AQNWB::NWB

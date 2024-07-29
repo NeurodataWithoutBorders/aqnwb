@@ -1,76 +1,166 @@
-
+#include <H5Cpp.h>
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/matchers/catch_matchers_all.hpp>
 
 #include "BaseIO.hpp"
 #include "Channel.hpp"
 #include "Types.hpp"
+#include "Utils.hpp"
 #include "hdf5/HDF5IO.hpp"
+#include "nwb/device/Device.hpp"
+#include "nwb/ecephys/ElectricalSeries.hpp"
+#include "nwb/file/ElectrodeGroup.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
 #include "testUtils.hpp"
 
 using namespace AQNWB;
 
-TEST_CASE("ElectrodeTable", "[ecephys]")
+TEST_CASE("ElectricalSeries", "[ecephys]")
 {
-  std::string path = "/electrodes/";
+  // setup recording info
+  SizeType numSamples = 100;
+  SizeType numChannels = 2;
+  SizeType bufferSize = numSamples / 5;
+  std::vector<float> dataBuffer(bufferSize);
+  std::vector<double> timestampsBuffer(bufferSize);
+  std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays();
+  std::string dataPath = "/esdata";
+  BaseDataType dataType = BaseDataType::F32;
+  std::vector<std::vector<float>> mockData =
+      getMockData2D(numSamples, numChannels);
+  std::vector<double> mockTimestamps = getMockTimestamps(numSamples, 1);
+  std::string devicePath = "/device";
+  std::string electrodePath = "/elecgroup/";
+
   SECTION("test initialization")
-  {
-    std::string filename = getTestFilePath("electrodeTable.h5");
-    std::shared_ptr<BaseIO> io = std::make_unique<HDF5::HDF5IO>(filename);
-    io->open();
-    io->createGroup("/general");
-    io->createGroup("/general/extracellular_ephys");
-    io->createGroup("/general/extracellular_ephys/array0");
-
-    std::vector<SizeType> channelIDs = {0, 1, 2};
-    std::vector<Channel> channels = {
-        Channel("ch0", "array0", channelIDs[0], 0),
-        Channel("ch1", "array0", channelIDs[1], 1),
-        Channel("ch2", "array0", channelIDs[2], 2),
-    };
-
-    NWB::ElectrodeTable electrodeTable(path, io);
-    electrodeTable.initialize();
-    electrodeTable.addElectrodes(channels);
-    electrodeTable.finalize();
-
-    // Check if id datasets are created correctly
-    SizeType numChannels = 3;
-    BaseRecordingData* id_data = io->getDataSet(path + "id");
-    int* buffer = new int[numChannels];
-    static_cast<HDF5::HDF5RecordingData*>(id_data)->readDataBlock(
-        BaseDataType::I32, buffer);
-    std::vector<SizeType> read_channels(buffer, buffer + numChannels);
-    delete[] buffer;
-    REQUIRE(channelIDs == read_channels);
-  }
-
-  SECTION("test initialization with empty channels")
-  {
-    std::vector<Channel> channels = {};
-
-    std::string filename = getTestFilePath("electrodeTableNoData.h5");
-    std::shared_ptr<BaseIO> io = std::make_unique<HDF5::HDF5IO>(filename);
-    io->open();
-    NWB::ElectrodeTable electrodeTable(path, io);
-    electrodeTable.initialize();
-  }
-
-  SECTION("test table creation with multiple arrays")
   {
     // TODO
   }
-}
 
-TEST_CASE("ElectricalSeries", "[ecephys]")
-{
-  std::string filename = getTestFilePath("ElectricalSeries.h5");
+  SECTION("test linking to electrode table region")
+  {
+    // TODO
+  }
 
-  // setup recording info
-  std::vector<Types::ChannelGroup> mockArrays = getMockChannelArrays();
+  SECTION("test writing channels")
+  {
+    // setup io object
+    std::string path = getTestFilePath("ElectricalSeries.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
 
-  std::string path = "/electrodes/";
-  SECTION("test initialization") {}
+    // setup electrode table, device, and electrode group
+    std::string elecTablePath = "/electrodes/";
+    NWB::ElectrodeTable elecTable = NWB::ElectrodeTable(elecTablePath, io);
+    elecTable.initialize();
 
-  SECTION("test linking to electrode table region") {}
+    // setup electrical series
+    NWB::ElectricalSeries es =
+        NWB::ElectricalSeries(dataPath,
+                              io,
+                              dataType,
+                              mockArrays[0],
+                              elecTable.getPath(),
+                              "volts",
+                              "no description",
+                              SizeArray {0, mockArrays[0].size()});
+    es.initialize();
+
+    // write channel data
+    for (SizeType ch = 0; ch < numChannels; ++ch) {
+      es.writeChannel(
+          ch, numSamples, mockData[ch].data(), mockTimestamps.data());
+    }
+    io->close();
+
+    // Read data back from file
+    std::unique_ptr<H5::H5File> file =
+        std::make_unique<H5::H5File>(path, H5F_ACC_RDONLY);
+    std::unique_ptr<H5::DataSet> dataset =
+        std::make_unique<H5::DataSet>(file->openDataSet(dataPath + "/data"));
+    std::vector<std::vector<float>> dataOut(numChannels,
+                                            std::vector<float>(numSamples));
+    float* buffer = new float[numSamples * numChannels];
+
+    H5::DataSpace fSpace = dataset->getSpace();
+    hsize_t dims[1] = {numSamples * numChannels};
+    H5::DataSpace mSpace(1, dims);
+    dataset->read(buffer, H5::PredType::NATIVE_FLOAT, mSpace, fSpace);
+
+    for (SizeType i = 0; i < numChannels; ++i) {
+      for (SizeType j = 0; j < numSamples; ++j) {
+        dataOut[i][j] = buffer[j * numChannels + i];
+      }
+    }
+    delete[] buffer;
+    REQUIRE_THAT(dataOut[0], Catch::Matchers::Approx(mockData[0]).margin(1));
+    REQUIRE_THAT(dataOut[1], Catch::Matchers::Approx(mockData[1]).margin(1));
+  }
+
+  SECTION("test samples recorded tracking")
+  {
+    // setup io object
+    std::string path = getTestFilePath("ElectricalSeriesSampleTracking.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    // setup electrode table
+    std::string elecTablePath = "/electrodes/";
+    NWB::ElectrodeTable elecTable = NWB::ElectrodeTable(elecTablePath, io);
+    elecTable.initialize();
+
+    // setup electrical series
+    NWB::ElectricalSeries es =
+        NWB::ElectricalSeries(dataPath,
+                              io,
+                              dataType,
+                              mockArrays[0],
+                              elecTable.getPath(),
+                              "volts",
+                              "no description",
+                              SizeArray {0, mockArrays[0].size()});
+    es.initialize();
+
+    // write channel data in segments
+    for (SizeType ch = 0; ch < numChannels; ++ch) {
+      SizeType samplesRecorded = 0;
+      for (SizeType b = 0; b * bufferSize < numSamples; b += 1) {
+        // copy chunk of data
+        std::copy(mockData[ch].begin() + samplesRecorded,
+                  mockData[ch].begin() + samplesRecorded + bufferSize,
+                  dataBuffer.begin());
+        std::copy(mockTimestamps.begin() + samplesRecorded,
+                  mockTimestamps.begin() + samplesRecorded + bufferSize,
+                  timestampsBuffer.begin());
+
+        es.writeChannel(
+            ch, dataBuffer.size(), dataBuffer.data(), timestampsBuffer.data());
+        samplesRecorded += bufferSize;
+      }
+    }
+    io->close();
+
+    // Read data back from file
+    std::unique_ptr<H5::H5File> file =
+        std::make_unique<H5::H5File>(path, H5F_ACC_RDONLY);
+    std::unique_ptr<H5::DataSet> dataset =
+        std::make_unique<H5::DataSet>(file->openDataSet(dataPath + "/data"));
+    std::vector<std::vector<float>> dataOut(numChannels,
+                                            std::vector<float>(numSamples));
+    float* buffer = new float[numSamples * numChannels];
+
+    H5::DataSpace fSpace = dataset->getSpace();
+    hsize_t dims[1] = {numSamples * numChannels};
+    H5::DataSpace mSpace(1, dims);
+    dataset->read(buffer, H5::PredType::NATIVE_FLOAT, mSpace, fSpace);
+
+    for (SizeType i = 0; i < numChannels; ++i) {
+      for (SizeType j = 0; j < numSamples; ++j) {
+        dataOut[i][j] = buffer[j * numChannels + i];
+      }
+    }
+    delete[] buffer;
+    REQUIRE_THAT(dataOut[0], Catch::Matchers::Approx(mockData[0]).margin(1));
+    REQUIRE_THAT(dataOut[1], Catch::Matchers::Approx(mockData[1]).margin(1));
+  }
 }
