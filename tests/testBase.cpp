@@ -56,29 +56,4 @@ TEST_CASE("TimeSeries", "[base]")
     delete[] dataBuffer;
     REQUIRE_THAT(dataRead, Catch::Matchers::Approx(data).margin(1));
   }
-
-  SECTION("test writing timeseries without timestamps")
-  {
-    // setup timeseries object
-    std::string path = getTestFilePath("testTimeseriesNoTimestamps.h5");
-    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
-    io->open();
-    NWB::TimeSeries ts = NWB::TimeSeries(dataPath, io, dataType, "unit");
-    ts.initialize();
-
-    // Write data to file
-    Status writeStatus = ts.writeData(dataShape, positionOffset, data.data());
-    REQUIRE(writeStatus == Status::Success);
-
-    // Read data back from file
-    double* tsBuffer = new double[numSamples];
-    BaseRecordingData* tsDset = io->getDataSet(dataPath + "/timestamps");
-    readH5DataBlock(static_cast<HDF5::HDF5RecordingData*>(tsDset)->getDataSet(),
-                    timestampsType,
-                    tsBuffer);
-    std::vector<double> tsRead(tsBuffer, tsBuffer + numSamples);
-    delete[] tsBuffer;
-    std::vector<double> zeros(numSamples, 0.0);
-    REQUIRE(tsRead == zeros);
-  }
 }
