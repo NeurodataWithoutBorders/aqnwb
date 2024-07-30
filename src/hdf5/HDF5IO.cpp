@@ -415,6 +415,9 @@ AQNWB::BaseRecordingData* HDF5IO::createArrayDataSet(const BaseDataType& type,
   if (dimension < 1)  // Check for at least one dimension
     return nullptr;
 
+  // Ensure chunking is properly allocated and has at least 'dimension' elements
+  assert(chunking.size() >= dimension);
+
   // Use vectors to support an arbitrary number of dimensions
   std::vector<hsize_t> dims(dimension), chunk_dims(dimension),
       max_dims(dimension);

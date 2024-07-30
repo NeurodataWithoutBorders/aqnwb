@@ -63,7 +63,8 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
                               elecTable.getPath(),
                               "volts",
                               "no description",
-                              SizeArray {0, mockArrays[0].size()});
+                              SizeArray {0, mockArrays[0].size()},
+                              SizeArray {1, 1});
     es.initialize();
 
     // write channel data
@@ -118,7 +119,8 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
                               elecTable.getPath(),
                               "volts",
                               "no description",
-                              SizeArray {0, mockArrays[0].size()});
+                              SizeArray {0, mockArrays[0].size()},
+                              SizeArray {1, 1});
     es.initialize();
 
     // write channel data in segments
