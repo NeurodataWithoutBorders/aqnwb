@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  tests:
+  test:
     defaults:
       run:
         shell: bash
@@ -65,8 +65,46 @@ jobs:
         path: |
           build/tests/data/*.nwb
 
+  sanitize:
+    needs: test
+    
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libhdf5-dev libboost-all-dev
+        git clone https://github.com/catchorg/Catch2.git
+        cd Catch2
+        git checkout "v3.5.3"
+        cmake -Bbuild -H. -DBUILD_TESTING=OFF
+        sudo cmake --build build/ --target install
+
+    - name: Configure
+      run: cmake --preset=ci-sanitize
+
+    - name: Build
+      run: cmake --build build/sanitize -j 2
+
+    - name: Test
+      working-directory: build/sanitize
+      env:
+        ASAN_OPTIONS: "strict_string_checks=1:\
+          detect_stack_use_after_return=1:\
+          check_initialization_order=1:\
+          strict_init_order=1:\
+          detect_leaks=1:\
+          halt_on_error=1"
+        UBSAN_OPTIONS: "print_stacktrace=1:\
+          halt_on_error=1"
+      run: ctest --output-on-failure --no-tests=error -j 2
+
   validate:
-    needs: tests
+    needs: [test, sanitize]
     defaults:
       run:
         shell: bash

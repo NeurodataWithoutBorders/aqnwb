@@ -185,17 +185,19 @@ public:
    * @param path The location in the file of the new dataset.
    * @return A pointer to the created dataset.
    */
-  BaseRecordingData* createArrayDataSet(const BaseDataType& type,
-                                        const SizeArray& size,
-                                        const SizeArray& chunking,
-                                        const std::string& path) override;
+  std::unique_ptr<BaseRecordingData> createArrayDataSet(
+      const BaseDataType& type,
+      const SizeArray& size,
+      const SizeArray& chunking,
+      const std::string& path) override;
 
   /**
    * @brief Returns a pointer to a dataset at a given path.
    * @param path The location in the file of the dataset.
    * @return A pointer to the dataset.
    */
-  BaseRecordingData* getDataSet(const std::string& path) override;
+  std::unique_ptr<BaseRecordingData> getDataSet(
+      const std::string& path) override;
 
   /**
    * @brief Returns the HDF5 type of object at a given path.
@@ -246,7 +248,7 @@ public:
    * @brief Constructs an HDF5RecordingData object.
    * @param data A pointer to the HDF5 dataset.
    */
-  HDF5RecordingData(H5::DataSet* data);
+  HDF5RecordingData(std::unique_ptr<H5::DataSet> data);
 
   /**
    * @brief Deleted copy constructor to prevent construction-copying.

@@ -115,7 +115,7 @@ Status NWBFile::createElectricalSeries(
         "Stores continuously sampled voltage data from an "
         "extracellular ephys recording",
         SizeArray {0, channelVector.size()},
-        SizeArray {CHUNK_XSIZE});
+        SizeArray {CHUNK_XSIZE, 0});
     electricalSeries->initialize();
     recordingContainers->addData(std::move(electricalSeries));
 
