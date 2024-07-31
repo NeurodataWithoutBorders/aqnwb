@@ -377,7 +377,8 @@ Status HDF5IO::createStringDataSet(const std::string& path,
   return Status::Success;
 }
 
-AQNWB::BaseRecordingData* HDF5IO::getDataSet(const std::string& path)
+std::unique_ptr<AQNWB::BaseRecordingData> HDF5IO::getDataSet(
+    const std::string& path)
 {
   std::unique_ptr<DataSet> data;
 
@@ -386,7 +387,7 @@ AQNWB::BaseRecordingData* HDF5IO::getDataSet(const std::string& path)
 
   try {
     data = std::make_unique<H5::DataSet>(file->openDataSet(path));
-    return new HDF5RecordingData(data.release());
+    return std::make_unique<HDF5RecordingData>(std::move(data));
   } catch (DataSetIException error) {
     error.printErrorStack();
     return nullptr;
@@ -399,10 +400,11 @@ AQNWB::BaseRecordingData* HDF5IO::getDataSet(const std::string& path)
   }
 }
 
-AQNWB::BaseRecordingData* HDF5IO::createArrayDataSet(const BaseDataType& type,
-                                                     const SizeArray& size,
-                                                     const SizeArray& chunking,
-                                                     const std::string& path)
+std::unique_ptr<AQNWB::BaseRecordingData> HDF5IO::createArrayDataSet(
+    const BaseDataType& type,
+    const SizeArray& size,
+    const SizeArray& chunking,
+    const std::string& path)
 {
   std::unique_ptr<DataSet> data;
   DSetCreatPropList prop;
@@ -439,10 +441,7 @@ AQNWB::BaseRecordingData* HDF5IO::createArrayDataSet(const BaseDataType& type,
   data = std::make_unique<H5::DataSet>(
       file->createDataSet(path, H5type, dSpace, prop));
 
-  std::unique_ptr<HDF5RecordingData> recordingData =
-      std::make_unique<HDF5RecordingData>(data.release());
-
-  return recordingData.release();
+  return std::make_unique<HDF5RecordingData>(std::move(data));
 }
 
 H5O_type_t HDF5IO::getObjectType(const std::string& path)
@@ -565,7 +564,7 @@ H5::DataType HDF5IO::getH5Type(BaseDataType type)
 }
 
 // HDF5RecordingData
-HDF5RecordingData::HDF5RecordingData(H5::DataSet* data)
+HDF5RecordingData::HDF5RecordingData(std::unique_ptr<H5::DataSet> data)
 {
   DataSpace dSpace = data->getSpace();
   DSetCreatPropList prop = data->getCreatePlist();

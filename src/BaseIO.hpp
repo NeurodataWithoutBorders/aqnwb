@@ -246,17 +246,19 @@ public:
    * @param path The location in the file of the new dataset.
    * @return A pointer to the created dataset.
    */
-  virtual BaseRecordingData* createArrayDataSet(const BaseDataType& type,
-                                                const SizeArray& size,
-                                                const SizeArray& chunking,
-                                                const std::string& path) = 0;
+  virtual std::unique_ptr<BaseRecordingData> createArrayDataSet(
+      const BaseDataType& type,
+      const SizeArray& size,
+      const SizeArray& chunking,
+      const std::string& path) = 0;
 
   /**
    * @brief Returns a pointer to a dataset at a given path.
    * @param path The location in the file of the dataset.
    * @return A pointer to the dataset.
    */
-  virtual BaseRecordingData* getDataSet(const std::string& path) = 0;
+  virtual std::unique_ptr<BaseRecordingData> getDataSet(
+      const std::string& path) = 0;
 
   /**
    * @brief Convenience function for creating NWB related attributes.
@@ -383,11 +385,6 @@ public:
                                 const void* data) = 0;
 
 protected:
-  /**
-   * @brief The current position in the x dimension.
-   */
-  SizeType xPos;
-
   /**
    * @brief The size of the dataset in each dimension.
    */

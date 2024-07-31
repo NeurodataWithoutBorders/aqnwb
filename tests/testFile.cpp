@@ -35,12 +35,11 @@ TEST_CASE("ElectrodeTable", "[ecephys]")
 
     // Check if id datasets are created correctly
     SizeType numChannels = 3;
-    BaseRecordingData* id_data = io->getDataSet(path + "id");
+    std::unique_ptr<BaseRecordingData> id_data = io->getDataSet(path + "id");
+    std::unique_ptr<HDF5::HDF5RecordingData> idDataset(
+        dynamic_cast<HDF5::HDF5RecordingData*>(id_data.release()));
     int* buffer = new int[numChannels];
-    readH5DataBlock(
-        static_cast<HDF5::HDF5RecordingData*>(id_data)->getDataSet(),
-        BaseDataType::I32,
-        buffer);
+    readH5DataBlock(idDataset->getDataSet(), BaseDataType::I32, buffer);
     std::vector<SizeType> read_channels(buffer, buffer + numChannels);
     delete[] buffer;
     REQUIRE(channelIDs == read_channels);

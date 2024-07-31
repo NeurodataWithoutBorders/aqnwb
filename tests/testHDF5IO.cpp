@@ -54,21 +54,20 @@ TEST_CASE("writeDataset", "[hdf5io]")
     SizeType numSamples = 10;
 
     // Create HDF5RecordingData object and dataset
-    BaseRecordingData* dataset = hdf5io->createArrayDataSet(
+    std::unique_ptr<BaseRecordingData> dataset = hdf5io->createArrayDataSet(
         BaseDataType::I32, SizeArray {0}, SizeArray {1}, dataPath);
 
     // Write data block
     std::vector<SizeType> dataShape = {numSamples};
     std::vector<SizeType> positionOffset = {0};
-    static_cast<HDF5::HDF5RecordingData*>(dataset)->writeDataBlock(
+    dataset->writeDataBlock(
         dataShape, positionOffset, BaseDataType::I32, &testData[0]);
 
-    BaseRecordingData* dataRead = hdf5io->getDataSet(dataPath);
+    std::unique_ptr<BaseRecordingData> dataRead = hdf5io->getDataSet(dataPath);
+    std::unique_ptr<HDF5::HDF5RecordingData> datasetRead1D(
+        dynamic_cast<HDF5::HDF5RecordingData*>(dataRead.release()));
     int* buffer = new int[numSamples];
-    readH5DataBlock(
-        static_cast<HDF5::HDF5RecordingData*>(dataRead)->getDataSet(),
-        BaseDataType::I32,
-        buffer);
+    readH5DataBlock(datasetRead1D->getDataSet(), BaseDataType::I32, buffer);
     std::vector<int> dataOut(buffer, buffer + numSamples);
     delete[] buffer;
 
@@ -89,22 +88,21 @@ TEST_CASE("writeDataset", "[hdf5io]")
     std::vector<SizeType> dataShape = {numRows, numCols};
     std::vector<SizeType> positionOffset = {0, 0};
 
-    BaseRecordingData* dataset =
+    std::unique_ptr<BaseRecordingData> dataset =
         hdf5io->createArrayDataSet(BaseDataType::I32,
                                    SizeArray {numRows, numCols},
                                    SizeArray {0, 0},
                                    dataPath);
-    Status status =
-        static_cast<HDF5::HDF5RecordingData*>(dataset)->writeDataBlock(
-            dataShape, positionOffset, BaseDataType::I32, testData.data());
+    Status status = dataset->writeDataBlock(
+        dataShape, positionOffset, BaseDataType::I32, testData.data());
 
     // Read back the 1D data block from 3D dataset
-    BaseRecordingData* dataRead1D = hdf5io->getDataSet(dataPath);
+    std::unique_ptr<BaseRecordingData> dataRead1D =
+        hdf5io->getDataSet(dataPath);
+    std::unique_ptr<HDF5::HDF5RecordingData> dataset1DRead(
+        dynamic_cast<HDF5::HDF5RecordingData*>(dataRead1D.release()));
     int* buffer1D = new int[numCols];
-    readH5DataBlock(
-        static_cast<HDF5::HDF5RecordingData*>(dataRead1D)->getDataSet(),
-        BaseDataType::I32,
-        buffer1D);
+    readH5DataBlock(dataset1DRead->getDataSet(), BaseDataType::I32, buffer1D);
     std::vector<int> dataOut1D(buffer1D, buffer1D + numCols);
     delete[] buffer1D;
 
@@ -127,24 +125,23 @@ TEST_CASE("writeDataset", "[hdf5io]")
     std::vector<SizeType> positionOffset = {0, 0};
 
     // Create HDF5RecordingData object and dataset for 2D data
-    BaseRecordingData* dataset = hdf5io->createArrayDataSet(
+    std::unique_ptr<BaseRecordingData> dataset = hdf5io->createArrayDataSet(
         BaseDataType::I32,
         SizeArray {numRows, numCols},  // Initial size
         SizeArray {0, 0},  // chunking
         dataPath);
 
     // Write 2D data block
-    Status status =
-        static_cast<HDF5::HDF5RecordingData*>(dataset)->writeDataBlock(
-            dataShape, positionOffset, BaseDataType::I32, testData.data());
+    Status status = dataset->writeDataBlock(
+        dataShape, positionOffset, BaseDataType::I32, testData.data());
 
     // Read back the 2D data block
-    BaseRecordingData* dataRead = hdf5io->getDataSet(dataPath);
+    std::unique_ptr<BaseRecordingData> dsetRead2D =
+        hdf5io->getDataSet(dataPath);
+    std::unique_ptr<HDF5::HDF5RecordingData> data2DRead(
+        dynamic_cast<HDF5::HDF5RecordingData*>(dsetRead2D.release()));
     int* buffer = new int[numRows * numCols];
-    readH5DataBlock(
-        static_cast<HDF5::HDF5RecordingData*>(dataRead)->getDataSet(),
-        BaseDataType::I32,
-        buffer);
+    readH5DataBlock(data2DRead->getDataSet(), BaseDataType::I32, buffer);
     std::vector<int> dataOut(buffer, buffer + numRows * numCols);
     delete[] buffer;
 
@@ -166,23 +163,22 @@ TEST_CASE("writeDataset", "[hdf5io]")
     std::vector<SizeType> dataShape = {depth, height, width};
     std::vector<SizeType> positionOffset = {0, 0, 0};
 
-    BaseRecordingData* dataset =
+    std::unique_ptr<BaseRecordingData> dataset =
         hdf5io->createArrayDataSet(BaseDataType::I32,
                                    SizeArray {depth, height, width},
                                    SizeArray {0, 0, 0},
                                    dataPath);
-    Status status =
-        static_cast<HDF5::HDF5RecordingData*>(dataset)->writeDataBlock(
-            dataShape, positionOffset, BaseDataType::I32, testData.data());
+    Status status = dataset->writeDataBlock(
+        dataShape, positionOffset, BaseDataType::I32, testData.data());
 
     // Read back the 1D data block from 3D dataset
-    BaseRecordingData* dataRead1D = hdf5io->getDataSet(dataPath);
+    std::unique_ptr<BaseRecordingData> dataRead1D =
+        hdf5io->getDataSet(dataPath);
+    std::unique_ptr<HDF5::HDF5RecordingData> dSet1D(
+        dynamic_cast<HDF5::HDF5RecordingData*>(dataRead1D.release()));
     int* buffer1D =
         new int[width];  // Assuming 'width' is the size of the 1D data block
-    readH5DataBlock(
-        static_cast<HDF5::HDF5RecordingData*>(dataRead1D)->getDataSet(),
-        BaseDataType::I32,
-        buffer1D);
+    readH5DataBlock(dSet1D->getDataSet(), BaseDataType::I32, buffer1D);
     std::vector<int> dataOut1D(buffer1D, buffer1D + width);
     delete[] buffer1D;
 
@@ -203,24 +199,23 @@ TEST_CASE("writeDataset", "[hdf5io]")
     std::vector<SizeType> dataShape = {depth, height, width};
     std::vector<SizeType> positionOffset = {0, 0, 0};
 
-    BaseRecordingData* dataset =
+    std::unique_ptr<BaseRecordingData> dataset =
         hdf5io->createArrayDataSet(BaseDataType::I32,
                                    SizeArray {depth, height, width},
                                    SizeArray {0, 0, 0},
                                    dataPath);
-    Status status =
-        static_cast<HDF5::HDF5RecordingData*>(dataset)->writeDataBlock(
-            dataShape, positionOffset, BaseDataType::I32, testData.data());
+    Status status = dataset->writeDataBlock(
+        dataShape, positionOffset, BaseDataType::I32, testData.data());
 
     // Read back the 2D data block from 3D dataset
-    BaseRecordingData* dataRead2D = hdf5io->getDataSet(dataPath);
+    std::unique_ptr<BaseRecordingData> dataRead2D =
+        hdf5io->getDataSet(dataPath);
+    std::unique_ptr<HDF5::HDF5RecordingData> dSetRead2D(
+        dynamic_cast<HDF5::HDF5RecordingData*>(dataset.release()));
     int* buffer2D =
         new int[height * width];  // Assuming 'numRows' and 'numCols' define the
                                   // 2D data block size
-    readH5DataBlock(
-        static_cast<HDF5::HDF5RecordingData*>(dataRead2D)->getDataSet(),
-        BaseDataType::I32,
-        buffer2D);
+    readH5DataBlock(dSetRead2D->getDataSet(), BaseDataType::I32, buffer2D);
     std::vector<int> dataOut2D(buffer2D, buffer2D + height * width);
     delete[] buffer2D;
 
