@@ -64,6 +64,11 @@ public:
       const BaseDataType& dataType = BaseDataType::I16);
 
   /**
+   * @brief Starts the recording.
+   */
+  Status startRecording();
+
+  /**
    * @brief Closes the relevant datasets.
    */
   void stopRecording();

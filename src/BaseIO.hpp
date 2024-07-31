@@ -239,6 +239,12 @@ public:
       const std::string& path, const std::vector<std::string>& references) = 0;
 
   /**
+   * @brief Starts the recording process.
+   * @return The status of the operation.
+   */
+  virtual Status startRecording() = 0;
+
+  /**
    * @brief Creates an extendable dataset with a given base data type, size,
    * chunking, and path.
    * @param type The base data type of the dataset.

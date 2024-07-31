@@ -7,6 +7,7 @@
 #include "HDF5IO.hpp"
 
 #include <H5Cpp.h>
+#include <H5Fpublic.h>
 
 #include "Utils.hpp"
 
@@ -374,6 +375,15 @@ Status HDF5IO::createStringDataSet(const std::string& path,
   dataset->writeDataBlock(
       std::vector<SizeType>(1, 1), BaseDataType::V_STR, cStrs.data());
 
+  return Status::Success;
+}
+
+
+Status HDF5IO::startRecording()
+{
+  if (H5Fstart_swmr_write(this->file->getId()) < 0) {
+    return Status::Failure;
+  }
   return Status::Success;
 }
 

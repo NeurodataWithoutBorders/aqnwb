@@ -177,6 +177,12 @@ public:
       const std::vector<std::string>& references) override;
 
   /**
+   * @brief Start SWMR write to start recording process
+   * @return The status of the start recording operation.
+   */
+  Status startRecording() override;
+
+  /**
    * @brief Creates an extendable dataset with a given base data type, size,
    * chunking, and path.
    * @param type The base data type of the dataset.
