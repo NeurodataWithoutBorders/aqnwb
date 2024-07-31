@@ -438,7 +438,11 @@ AQNWB::BaseRecordingData* HDF5IO::createArrayDataSet(const BaseDataType& type,
 
   data = std::make_unique<H5::DataSet>(
       file->createDataSet(path, H5type, dSpace, prop));
-  return new HDF5RecordingData(data.release());
+
+  std::unique_ptr<HDF5RecordingData> recordingData =
+      std::make_unique<HDF5RecordingData>(data.release());
+
+  return recordingData.release();
 }
 
 H5O_type_t HDF5IO::getObjectType(const std::string& path)
