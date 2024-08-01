@@ -30,27 +30,27 @@ NWBFile::NWBFile(const std::string& idText, std::shared_ptr<BaseIO> io)
 
 NWBFile::~NWBFile() {}
 
-void NWBFile::initialize()
+Status NWBFile::initialize()
 {
+  if (isRecording) {
+    return Status::Failure;  // cannot initialize new datasets in recording mode
+  }
+
   if (std::filesystem::exists(io->getFileName())) {
-    io->open(false);
+    return io->open(false);
   } else {
     io->open(true);
-    createFileStructure();
+    return createFileStructure();
   }
 }
 
-void NWBFile::finalize()
+Status NWBFile::finalize()
 {
-  io->close();
+  return io->close();
 }
 
 Status NWBFile::createFileStructure()
 {
-  if (isRecording) {
-    return Status::Failure;  // cannot create new datasets in recording mode
-  }
-
   io->createCommonNWBAttributes("/", "core", "NWBFile", "");
   io->createAttribute(NWBVersion, "/", "nwb_version");
 
@@ -144,7 +144,10 @@ Status NWBFile::startRecording()
   return io->startRecording();
 }
 
-void NWBFile::stopRecording() {}
+void NWBFile::stopRecording()
+{
+  isRecording = false;
+}
 
 void NWBFile::cacheSpecifications(const std::string& specPath,
                                   const std::string& versionNumber)

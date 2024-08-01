@@ -46,12 +46,12 @@ public:
    * @brief Initializes the NWB file by opening and setting up the file
    * structure.
    */
-  void initialize();
+  Status initialize();
 
   /**
    * @brief Finalizes the NWB file by closing it.
    */
-  void finalize();
+  Status finalize();
 
   /**
    * @brief Create ElectricalSeries objects to record data into.
