@@ -39,7 +39,6 @@ Status NWBRecording::openFile(const std::string& rootFolder,
 
 void NWBRecording::closeFile()
 {
-  nwbfile->stopRecording();
   nwbfile->finalize();
 }
 

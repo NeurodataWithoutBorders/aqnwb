@@ -79,6 +79,5 @@ TEST_CASE("setRecordingMode", "[nwb]")
   REQUIRE(resultCreatePostStart == Status::Failure);
 
   // stop recording
-  nwbfile.stopRecording();
   nwbfile.finalize();
 }
