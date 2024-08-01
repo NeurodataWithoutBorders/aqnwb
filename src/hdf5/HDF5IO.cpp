@@ -49,7 +49,8 @@ Status HDF5IO::open(bool newfile)
   if (opened)
     return Status::Failure;
 
-  FileAccPropList props = FileAccPropList::DEFAULT;
+  FileAccPropList fapl = FileAccPropList::DEFAULT;
+  H5Pset_libver_bounds(fapl.getId(), H5F_LIBVER_LATEST, H5F_LIBVER_LATEST);
 
   if (newfile)
     accFlags = H5F_ACC_TRUNC;
@@ -57,7 +58,7 @@ Status HDF5IO::open(bool newfile)
     accFlags = H5F_ACC_RDWR;
 
   file = std::make_unique<H5::H5File>(
-      getFileName(), accFlags, FileCreatPropList::DEFAULT, props);
+      getFileName(), accFlags, FileCreatPropList::DEFAULT, fapl);
   opened = true;
 
   return Status::Success;
@@ -377,7 +378,6 @@ Status HDF5IO::createStringDataSet(const std::string& path,
 
   return Status::Success;
 }
-
 
 Status HDF5IO::startRecording()
 {
