@@ -34,7 +34,7 @@ TEST_CASE("createElectricalSeries", "[nwb]")
   Status resultCreate =
       nwbfile.createElectricalSeries(mockArrays, BaseDataType::F32);
 
-  // start Recording
+  // start recording
   Status resultStart = nwbfile.startRecording();
 
   // write timeseries data
@@ -65,18 +65,15 @@ TEST_CASE("setRecordingMode", "[nwb]")
   nwbfile.initialize();
 
   // start recording
-  std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(1, 2);
-  Status result = nwbfile.createElectricalSeries(mockArrays, BaseDataType::F32);
-
-  // start Recording
   Status resultStart = nwbfile.startRecording();
   REQUIRE(resultStart == Status::Success);
 
-  // test that additional initialization / dataset creation fails after starting
-  // the recording
+  // test that additional initialization fails after starting the recording
   Status resultInitializePostStart = nwbfile.initialize();
   REQUIRE(resultInitializePostStart == Status::Failure);
 
+  // test that dataset creation fails after starting the recording
+  std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(1, 2);
   Status resultCreatePostStart =
       nwbfile.createElectricalSeries(mockArrays, BaseDataType::F32);
   REQUIRE(resultCreatePostStart == Status::Failure);
