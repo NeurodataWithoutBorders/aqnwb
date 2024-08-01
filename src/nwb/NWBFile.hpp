@@ -44,7 +44,7 @@ public:
 
   /**
    * @brief Initializes the NWB file by opening and setting up the file
-   * structure.
+   * structure. Note, this function will fail if the file is in recording mode.
    */
   Status initialize();
 
@@ -56,6 +56,7 @@ public:
   /**
    * @brief Create ElectricalSeries objects to record data into.
    * Created objects are stored in recordingContainers.
+   * Note, this function will fail if the file is in recording mode.
    * @param dataType The data type of the elements in the data block.
    * @return Status The status of the object creation operation.
    */
@@ -125,12 +126,6 @@ private:
    */
   void cacheSpecifications(const std::string& specPath,
                            const std::string& versionNumber);
-
-  /**
-   * @brief Whether the file is in recording mode (can write / append to
-   * existing datasets but cannot create new groups or datasets)
-   */
-  bool isRecording = false;
 
   const std::string identifierText;
   std::shared_ptr<BaseIO> io;

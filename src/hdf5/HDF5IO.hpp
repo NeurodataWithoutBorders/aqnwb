@@ -183,6 +183,12 @@ public:
   Status startRecording() override;
 
   /**
+   * @brief Stops the recording process.
+   * @return The status of the stop recording operation.
+   */
+  Status stopRecording() override;
+
+  /**
    * @brief Creates an extendable dataset with a given base data type, size,
    * chunking, and path.
    * @param type The base data type of the dataset.

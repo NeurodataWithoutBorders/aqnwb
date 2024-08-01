@@ -245,6 +245,12 @@ public:
   virtual Status startRecording() = 0;
 
   /**
+   * @brief Stops the recording process.
+   * @return The status of the operation.
+   */
+  virtual Status stopRecording() = 0;
+
+  /**
    * @brief Creates an extendable dataset with a given base data type, size,
    * chunking, and path.
    * @param type The base data type of the dataset.
@@ -314,6 +320,12 @@ public:
   bool isReadyToOpen() const;
 
   /**
+   * @brief Returns true if the file is in recording mode
+   * @return True if the file is in recording mode, false otherwise.
+   */
+  bool isRecording() const;
+
+  /**
    * @brief The name of the file.
    */
   const std::string filename;
@@ -335,6 +347,11 @@ protected:
    * @brief Whether the file is currently open.
    */
   bool opened;
+
+  /**
+   * @brief Whether the file is in recording mode
+   */
+  bool recording = false;
 };
 
 /**

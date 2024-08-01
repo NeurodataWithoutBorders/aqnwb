@@ -32,8 +32,8 @@ NWBFile::~NWBFile() {}
 
 Status NWBFile::initialize()
 {
-  if (isRecording) {
-    return Status::Failure;  // cannot initialize new datasets in recording mode
+  if (io->isRecording()) {
+    return Status::Failure;  // cannot initialize a new file when recording
   }
 
   if (std::filesystem::exists(io->getFileName())) {
@@ -46,6 +46,7 @@ Status NWBFile::initialize()
 
 Status NWBFile::finalize()
 {
+  io->stopRecording();
   return io->close();
 }
 
@@ -85,7 +86,7 @@ Status NWBFile::createElectricalSeries(
     std::vector<Types::ChannelVector> recordingArrays,
     const BaseDataType& dataType)
 {
-  if (isRecording) {
+  if (io->isRecording()) {
     return Status::Failure;  // cannot create new datasets in recording mode
   }
 
@@ -140,13 +141,12 @@ Status NWBFile::createElectricalSeries(
 
 Status NWBFile::startRecording()
 {
-  isRecording = true;
   return io->startRecording();
 }
 
 void NWBFile::stopRecording()
 {
-  isRecording = false;
+  io->stopRecording();
 }
 
 void NWBFile::cacheSpecifications(const std::string& specPath,

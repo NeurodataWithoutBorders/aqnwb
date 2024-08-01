@@ -381,9 +381,16 @@ Status HDF5IO::createStringDataSet(const std::string& path,
 
 Status HDF5IO::startRecording()
 {
+  recording = true;
   if (H5Fstart_swmr_write(this->file->getId()) < 0) {
     return Status::Failure;
   }
+  return Status::Success;
+}
+
+Status HDF5IO::stopRecording()
+{
+  recording = false;
   return Status::Success;
 }
 
