@@ -47,6 +47,10 @@ void NWBFile::finalize()
 
 Status NWBFile::createFileStructure()
 {
+  if (isRecording) {
+    return Status::Failure;  // cannot create new datasets in recording mode
+  }
+
   io->createCommonNWBAttributes("/", "core", "NWBFile", "");
   io->createAttribute(NWBVersion, "/", "nwb_version");
 
@@ -81,6 +85,10 @@ Status NWBFile::createElectricalSeries(
     std::vector<Types::ChannelVector> recordingArrays,
     const BaseDataType& dataType)
 {
+  if (isRecording) {
+    return Status::Failure;  // cannot create new datasets in recording mode
+  }
+
   // store all recorded data in the acquisition group
   std::string rootPath = "/acquisition/";
 
@@ -132,6 +140,7 @@ Status NWBFile::createElectricalSeries(
 
 Status NWBFile::startRecording()
 {
+  isRecording = true;
   return io->startRecording();
 }
 

@@ -126,6 +126,12 @@ private:
   void cacheSpecifications(const std::string& specPath,
                            const std::string& versionNumber);
 
+  /**
+   * @brief Whether the file is in recording mode (can write / append to
+   * existing datasets but cannot create new groups or datasets)
+   */
+  bool isRecording = false;
+
   const std::string identifierText;
   std::shared_ptr<BaseIO> io;
   std::unique_ptr<RecordingContainers> recordingContainers =
