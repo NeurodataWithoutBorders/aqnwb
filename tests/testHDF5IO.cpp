@@ -26,16 +26,6 @@ TEST_CASE("writeGroup", "[hdf5io]")
     hdf5io.createGroup("/data");
     hdf5io.close();
   }
-
-  SECTION("try initializing group that already exists")
-  {
-    // TODO
-  }
-
-  SECTION("try initializing group without parent group")
-  {
-    // TODO
-  }
 }
 
 TEST_CASE("writeDataset", "[hdf5io]")
@@ -274,4 +264,35 @@ TEST_CASE("writeAttributes", "[hdf5io]")
 
   // close file
   hdf5io.close();
+}
+
+TEST_CASE("useSWMRmode", "[hdf5io]")
+{
+  // create and open file
+  std::string path = getTestFilePath("test_swmr.h5");
+  std::unique_ptr<HDF5::HDF5IO> hdf5io = std::make_unique<HDF5::HDF5IO>(path);
+  hdf5io->open();
+
+  // add a dataset
+  std::vector<int> testData = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+  std::string dataPath = "/data";
+  SizeType numSamples = testData.size();
+  std::unique_ptr<BaseRecordingData> dataset = hdf5io->createArrayDataSet(
+      BaseDataType::I32, SizeArray {0}, SizeArray {1}, dataPath);
+
+  // turn on swmr mode
+  Status status = hdf5io->startRecording();
+  REQUIRE(status == Status::Success);
+
+  // write data block and flush
+  std::vector<SizeType> dataShape = {numSamples};
+  std::vector<SizeType> positionOffset = {0};
+  dataset->writeDataBlock(
+      dataShape, positionOffset, BaseDataType::I32, &testData[0]);
+  H5Dflush(static_cast<HDF5::HDF5RecordingData*>(dataset.get())
+               ->getDataSet()
+               ->getId());
+
+  // close file
+  hdf5io->close();
 }
