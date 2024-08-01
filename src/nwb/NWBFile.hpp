@@ -122,7 +122,7 @@ private:
                            const std::string& versionNumber);
 
   /**
-   * @brief Holds the TimeSeries objects that have been created in the nwb file.
+   * @brief Holds the Containers (usually TimeSeries) objects that have been created in the nwb file for recording.
    */
   std::unique_ptr<RecordingContainers> recordingContainers =
       std::make_unique<RecordingContainers>("RecordingContainers");
