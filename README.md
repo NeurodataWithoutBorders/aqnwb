@@ -11,7 +11,7 @@ Below is a high-level overview of the project structure and capabilities we are 
 # Requirements
 * A C++17-compliant compiler
 * CMake `>= 3.15`
-* HDF5
+* HDF5 `>= 1.10`
 * Boost
 * Doxygen (optional, documentation building is skipped if missing)
 
