@@ -56,6 +56,9 @@ public:
   /**
    * @brief Create ElectricalSeries objects to record data into.
    * Created objects are stored in recordingContainers.
+   * @param recordingArrays vector of ChannelVector indicating the electrodes to 
+   *                        record from. A seperate ElectricalSeries will be 
+   *                        created for each ChannelVector
    * @param dataType The data type of the elements in the data block.
    * @return Status The status of the object creation operation.
    */
@@ -84,8 +87,7 @@ public:
   const std::string HDMFExperimentalVersion = "0.5.0";
 
   /**
-   * @brief Gets the TimeSeries object from the recording containers
-   * @param containerName The name of the timeseries group.
+   * @brief Gets the TimeSeries object from the recordingContainers
    * @param timeseriesInd The index of the timeseries dataset within the group.
    */
   TimeSeries* getTimeSeries(const SizeType& timeseriesInd);

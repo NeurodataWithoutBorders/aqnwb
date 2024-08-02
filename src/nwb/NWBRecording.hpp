@@ -38,7 +38,9 @@ public:
    * @param baseName The base name of the file (will be appended with
    * experiment number).
    * @param experimentNumber The experiment number.
-   * @param recordingNumber The recording number.
+   * @param recordingArrays ChannelVector objets indicating the electrodes to use for 
+   *                        ElectricalSeries recordings 
+   * @param IOType Type of backend IO to use
    */
   Status openFile(const std::string& rootFolder,
                   const std::string& baseName,

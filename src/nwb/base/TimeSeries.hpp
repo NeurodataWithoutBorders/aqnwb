@@ -17,8 +17,21 @@ public:
    * @brief Constructor.
    * @param path The location of the TimeSeries in the file.
    * @param io A shared pointer to the IO object.
+   * @param dataType The data type to use for storing the recorded voltage signal
+   * @param unit Unit for the electrical signal. Must be "volts"
    * @param description The description of the TimeSeries.
    * @param comments Human-readable comments about the TimeSeries
+   * @param dsetSize Intial size of the main dataset. This must be a vector with two
+   *                 elements. The first element specifies the lenght in time and
+   *                 the second element must be equal to the lenght of channelVector
+   * @param chunkSize Chunk size to use. The number of elements must be two to 
+   *                 specify the size of a chunk in the time and electrode dimension
+   * @param conversion Scalar to multiply each element in data to convert it to 
+   *                 the specified ‘unit’
+   * @param resolution Smallest meaningful difference between values in data, stored 
+   *                 in the specified by unit
+   * @param offset Scalar to add to the data after scaling by ‘conversion’ to finalize
+   *                 its coercion to the specified ‘unit'
    */
   TimeSeries(const std::string& path,
              std::shared_ptr<BaseIO> io,
