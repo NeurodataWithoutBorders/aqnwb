@@ -36,10 +36,10 @@ public:
    * @brief Opens the file for recording.
    * @param rootFolder The root folder where the file will be stored.
    * @param baseName The base name of the file (will be appended with
-   * experiment number).
+   *                 experiment number).
    * @param experimentNumber The experiment number.
-   * @param recordingArrays ChannelVector objects indicating the electrodes to use for
-   *                        ElectricalSeries recordings 
+   * @param recordingArrays ChannelVector objects indicating the electrodes to
+   *                        use for ElectricalSeries recordings
    * @param IOType Type of backend IO to use
    */
   Status openFile(const std::string& rootFolder,
