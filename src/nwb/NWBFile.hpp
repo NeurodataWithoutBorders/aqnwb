@@ -57,7 +57,7 @@ public:
    * @brief Create ElectricalSeries objects to record data into.
    * Created objects are stored in recordingContainers.
    * @param recordingArrays vector of ChannelVector indicating the electrodes to 
-   *                        record from. A seperate ElectricalSeries will be 
+   *                        record from. A separate ElectricalSeries will be
    *                        created for each ChannelVector
    * @param dataType The data type of the elements in the data block.
    * @return Status The status of the object creation operation.

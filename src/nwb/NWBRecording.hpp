@@ -38,7 +38,7 @@ public:
    * @param baseName The base name of the file (will be appended with
    * experiment number).
    * @param experimentNumber The experiment number.
-   * @param recordingArrays ChannelVector objets indicating the electrodes to use for 
+   * @param recordingArrays ChannelVector objects indicating the electrodes to use for
    *                        ElectricalSeries recordings 
    * @param IOType Type of backend IO to use
    */

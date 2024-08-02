@@ -23,9 +23,9 @@ public:
    * @param electrodesTablePath Path to the electrodes table
    * @param unit Unit for the electrical signal. Must be "volts". 
    * @param description The description of the TimeSeries.
-   * @param dsetSize Intial size of the main dataset. This must be a vector with two
-   *                 elements. The first element specifies the lenght in time and
-   *                 the second element must be equal to the lenght of channelVector
+   * @param dsetSize Initial size of the main dataset. This must be a vector with two
+   *                 elements. The first element specifies the length in time and
+   *                 the second element must be equal to the length of channelVector
    * @param chunkSize Chunk size to use. The number of elements must be two to 
    *                 specify the size of a chunk in the time and electrode dimension
    * @param conversion Scalar to multiply each element in data to convert it to 
