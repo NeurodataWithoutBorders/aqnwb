@@ -49,9 +49,9 @@ bool BaseIO::isReadyToOpen() const
   return readyToOpen;
 }
 
-bool BaseIO::isRecording() const
+bool BaseIO::canModifyObjects() const
 {
-  return recording;
+  return modifyObjects;
 }
 
 Status BaseIO::createCommonNWBAttributes(const std::string& path,

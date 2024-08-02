@@ -32,10 +32,6 @@ NWBFile::~NWBFile() {}
 
 Status NWBFile::initialize()
 {
-  if (io->isRecording()) {
-    return Status::Failure;  // cannot initialize a new file when recording
-  }
-
   if (std::filesystem::exists(io->getFileName())) {
     return io->open(false);
   } else {
@@ -52,6 +48,10 @@ Status NWBFile::finalize()
 
 Status NWBFile::createFileStructure()
 {
+  if (!io->canModifyObjects()) {
+    return Status::Failure;
+  }
+
   io->createCommonNWBAttributes("/", "core", "NWBFile", "");
   io->createAttribute(NWBVersion, "/", "nwb_version");
 
@@ -86,8 +86,8 @@ Status NWBFile::createElectricalSeries(
     std::vector<Types::ChannelVector> recordingArrays,
     const BaseDataType& dataType)
 {
-  if (io->isRecording()) {
-    return Status::Failure;  // cannot create new datasets in recording mode
+  if (!io->canModifyObjects()) {
+    return Status::Failure;
   }
 
   // store all recorded data in the acquisition group

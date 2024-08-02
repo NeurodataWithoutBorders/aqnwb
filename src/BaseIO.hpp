@@ -320,10 +320,12 @@ public:
   bool isReadyToOpen() const;
 
   /**
-   * @brief Returns true if the file is in recording mode
-   * @return True if the file is in recording mode, false otherwise.
+   * @brief Returns true if the file is in a mode where objects can
+   * be added or deleted. Note, this does not apply to the modification
+   * of raw data on already existing objects.
+   * @return True if the file is in a modification mode, false otherwise.
    */
-  bool isRecording() const;
+  bool canModifyObjects() const;
 
   /**
    * @brief The name of the file.
@@ -349,9 +351,11 @@ protected:
   bool opened;
 
   /**
-   * @brief Whether the file is in recording mode
+   * @brief Whether the file is in a mode where objects can
+   * be added or deleted. Note, this does not apply to the modification
+   * of raw data on already existing objects.
    */
-  bool recording = false;
+  bool modifyObjects = true;
 };
 
 /**

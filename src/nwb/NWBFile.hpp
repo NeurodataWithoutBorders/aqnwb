@@ -44,7 +44,7 @@ public:
 
   /**
    * @brief Initializes the NWB file by opening and setting up the file
-   * structure. Note, this function will fail if the file is in recording mode.
+   * structure.
    */
   Status initialize();
 
@@ -56,7 +56,8 @@ public:
   /**
    * @brief Create ElectricalSeries objects to record data into.
    * Created objects are stored in recordingContainers.
-   * Note, this function will fail if the file is in recording mode.
+   * Note, this function will fail if the file is in a mode where
+   * new objects cannot be added.
    * @param dataType The data type of the elements in the data block.
    * @return Status The status of the object creation operation.
    */
@@ -99,6 +100,8 @@ public:
 protected:
   /**
    * @brief Creates the default file structure.
+   * Note, this function will fail if the file is in a mode where
+   * new objects cannot be added.
    * @return Status The status of the file structure creation.
    */
   Status createFileStructure();

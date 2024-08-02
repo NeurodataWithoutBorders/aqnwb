@@ -55,9 +55,9 @@ TEST_CASE("createElectricalSeries", "[nwb]")
   REQUIRE(resultCreate == Status::Success);
 }
 
-TEST_CASE("setRecordingMode", "[nwb]")
+TEST_CASE("setCanModifyObjectsMode", "[nwb]")
 {
-  std::string filename = getTestFilePath("testRecordingMode.nwb");
+  std::string filename = getTestFilePath("testCanModifyObjectsMode.nwb");
 
   // initialize nwbfile object and create base structure
   NWB::NWBFile nwbfile(generateUuid(),

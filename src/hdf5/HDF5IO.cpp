@@ -381,7 +381,7 @@ Status HDF5IO::createStringDataSet(const std::string& path,
 
 Status HDF5IO::startRecording()
 {
-  recording = true;
+  modifyObjects = false;
   if (H5Fstart_swmr_write(this->file->getId()) < 0) {
     return Status::Failure;
   }
@@ -390,7 +390,7 @@ Status HDF5IO::startRecording()
 
 Status HDF5IO::stopRecording()
 {
-  recording = false;
+  modifyObjects = true;
   return Status::Success;
 }
 
