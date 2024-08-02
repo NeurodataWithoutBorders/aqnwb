@@ -14,6 +14,7 @@ Below is a high-level overview of the project structure and capabilities we are 
 * HDF5
 * Boost
 * Doxygen (optional, documentation building is skipped if missing)
+* cppcheck (optional, only needed when building in developer mode `dev`)
 
 
 # Building and installing
