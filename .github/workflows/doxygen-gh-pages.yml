@@ -37,7 +37,7 @@ jobs:
         shell: bash
 
       - name: Build the docs
-        run : cmake --build build --target=docs
+        run : cmake --build --preset=ci-ubuntu --target=docs
         shell: bash
 
       - name: ls to check
@@ -52,5 +52,5 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          branch: test_gh_pages_action
+          branch: gh_pages
           folder: build/docs/html
