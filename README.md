@@ -13,7 +13,9 @@ Below is a high-level overview of the project structure and capabilities we are 
 * CMake `>= 3.15`
 * HDF5
 * Boost
-* Doxygen (optional, documentation building is skipped if missing)
+* Additional requirements for building the documentation (optional)
+    * Doxygen
+    * Graphviz
 * Additional requirements for developers (mode `dev`)
     * cppcheck
     * clang-format
