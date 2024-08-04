@@ -29,7 +29,11 @@ jobs:
       - name: Configure and build the API
         run: |
           cmake --preset=ci-ubuntu
-          cmake --build
+          cmake --build build
+        shell: bash
+
+      - name: ls to check
+        run: ls -la build
         shell: bash
 
       - name: Build the docs
@@ -37,8 +41,12 @@ jobs:
           cmake --build --target=docs
         shell: bash
 
+      - name: ls to check
+        run: ls -la build/docs
+        shell: bash
+
       - name: Create .nojekyll to ensure pages with underscores work on gh pages
-        run: touch build/dev/docs/html/.nojekyll
+        run: touch build/docs/html/.nojekyll
         shell: bash
 
       - name: Deploy to GitHub Pages
@@ -46,4 +54,4 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: test_gh_pages_action
-          folder: build/dev/docs/html
+          folder: build/docs/html
