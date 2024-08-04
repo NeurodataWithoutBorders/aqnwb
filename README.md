@@ -27,7 +27,7 @@ cmake -S . -B build
 cmake --build build --config Release
 ```
 
-Note, if you are using custom installs of HDF5 or BOOST that are not being detected 
+Note, if you are using custom installations of HDF5 or BOOST that are not being detected 
 automatically by cmake, you can specify `HDF5_ROOT` and `BOOST_ROOT` environment variables to 
 point to install directories of HDF5 and BOOST respectively. 
 
