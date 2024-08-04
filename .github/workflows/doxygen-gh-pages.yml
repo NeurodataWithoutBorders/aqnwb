@@ -28,8 +28,8 @@ jobs:
 
       - name: Configure and build the API
         run: |
-          cmake --preset=ci-ubuntu
-          cmake --build build -Daq-nwb_DEVELOPER_MODE=ON
+          cmake --preset=dev-mode
+          cmake --build --preset=dev-mode
         shell: bash
 
       - name: ls to check
@@ -38,7 +38,7 @@ jobs:
 
       - name: Build the docs
         run : |
-          cmake --build build --target=docs
+          cmake --build --preset=dev-mode --target=docs
         shell: bash
 
       - name: ls to check
