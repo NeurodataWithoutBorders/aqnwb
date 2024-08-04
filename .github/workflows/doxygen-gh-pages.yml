@@ -29,12 +29,12 @@ jobs:
       - name: Configure and build the API
         run: |
           cmake --preset=ci-ubuntu
-          cmake --build --preset=ci-ubuntu -j 2
+          cmake --build
         shell: bash
 
       - name: Build the docs
         run : |
-          cmake --build --preset=ci-ubuntu --target=docs
+          cmake --build --target=docs
         shell: bash
 
       - name: Create .nojekyll to ensure pages with underscores work on gh pages
