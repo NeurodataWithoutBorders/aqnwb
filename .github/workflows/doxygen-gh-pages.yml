@@ -29,8 +29,8 @@ jobs:
       - name: Configure and build API
         run: |
           cmake -S . -B build -Daq-nwb_DEVELOPER_MODE=ON
-          cmake --preset=dev
-          cmake --build --preset=dev
+          cmake --preset=ci-ubuntu
+          cmake --build --preset=ci-ubuntu
         shell: bash
 
       - name: Build the docs
