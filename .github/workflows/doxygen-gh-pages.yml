@@ -28,8 +28,8 @@ jobs:
 
       - name: Configure and build the API
         run: |
-          cmake --preset=dev-mode
-          cmake --build --preset=dev-mode
+          cmake --preset=ci-ubuntu
+          cmake --build build
         shell: bash
 
       - name: ls to check
@@ -38,7 +38,7 @@ jobs:
 
       - name: Build the docs
         run : |
-          cmake --build --preset=dev-mode --target=docs
+          cmake --build --preset=ci-ubuntu --target=docs
         shell: bash
 
       - name: ls to check
