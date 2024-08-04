@@ -26,11 +26,9 @@ jobs:
           sudo cmake --build build/ --target install
         shell: bash
 
-      - name: Configure and build API
+      - name: Configure and build the API
         run: |
           cmake -S . -B build -Daq-nwb_DEVELOPER_MODE=ON
-          cmake --preset=ci-ubuntu
-          cmake --build --preset=ci-ubuntu
         shell: bash
 
       - name: Build the docs
