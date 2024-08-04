@@ -29,7 +29,7 @@ jobs:
       - name: Configure and build the API
         run: |
           cmake --preset=ci-ubuntu
-          cmake --build build
+          cmake --build build -Daq-nwb_DEVELOPER_MODE=ON
         shell: bash
 
       - name: ls to check
