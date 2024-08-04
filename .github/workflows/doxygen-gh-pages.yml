@@ -28,12 +28,13 @@ jobs:
 
       - name: Configure and build the API
         run: |
-          cmake -S . -B build -Daq-nwb_DEVELOPER_MODE=ON
+          cmake --preset=dev
+          cmake --build --preset=dev -Daq-nwb_DEVELOPER_MODE=ON
         shell: bash
 
       - name: Build the docs
         run : |
-          cmake --build --preset=dev --target=docs
+          cmake --build --target=docs
         shell: bash
 
       - name: Create .nojekyll to ensure pages with underscores work on gh pages
