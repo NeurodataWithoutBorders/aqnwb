@@ -37,7 +37,7 @@ jobs:
         shell: bash
 
       - name: Build the docs
-        run : cmake --build build/docs --target=docs
+        run : cmake --build build --target=docs
         shell: bash
 
       - name: ls to check
