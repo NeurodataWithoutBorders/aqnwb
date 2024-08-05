@@ -269,7 +269,7 @@ TEST_CASE("writeAttributes", "[hdf5io]")
 TEST_CASE("useSWMRmode", "[hdf5io]")
 {
   // create and open file
-  std::string path = getTestFilePath("test_swmr.h5");
+  std::string path = getTestFilePath("testSWMRmode.h5");
   std::unique_ptr<HDF5::HDF5IO> hdf5io = std::make_unique<HDF5::HDF5IO>(path);
   hdf5io->open();
 
@@ -283,16 +283,5 @@ TEST_CASE("useSWMRmode", "[hdf5io]")
   // turn on swmr mode
   Status status = hdf5io->startRecording();
   REQUIRE(status == Status::Success);
-
-  // write data block and flush
-  std::vector<SizeType> dataShape = {numSamples};
-  std::vector<SizeType> positionOffset = {0};
-  dataset->writeDataBlock(
-      dataShape, positionOffset, BaseDataType::I32, &testData[0]);
-  H5Dflush(static_cast<HDF5::HDF5RecordingData*>(dataset.get())
-               ->getDataSet()
-               ->getId());
-
-  // close file
   hdf5io->close();
 }

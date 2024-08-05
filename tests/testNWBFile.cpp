@@ -59,7 +59,7 @@ TEST_CASE("setCanModifyObjectsMode", "[nwb]")
 {
   std::string filename = getTestFilePath("testCanModifyObjectsMode.nwb");
 
-  // initialize nwbfile object and create base structure
+  // initialize nwbfile object and create base structure with HDF5IO object
   NWB::NWBFile nwbfile(generateUuid(),
                        std::make_unique<HDF5::HDF5IO>(filename));
   nwbfile.initialize();
@@ -68,7 +68,7 @@ TEST_CASE("setCanModifyObjectsMode", "[nwb]")
   Status resultStart = nwbfile.startRecording();
   REQUIRE(resultStart == Status::Success);
 
-  // test that additional initialization fails after starting the recording
+  // test that modifying the file structure after starting the recording fails
   Status resultInitializePostStart = nwbfile.initialize();
   REQUIRE(resultInitializePostStart == Status::Failure);
 
