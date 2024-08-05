@@ -6,7 +6,9 @@ Our goal is to provide a lightweight API to integrate with existing acquisition 
 Please note, AqNWB is currently under development and should not yet be used in practice.
 
 Below is a high-level overview of the project structure and capabilities we are targeting: 
-<img src="resources/images/aqnwb_objective.png" alt="Project Overview" width="500"/>
+
+![Project Overview](resources/images/aqnwb_objective_500px.png)
+
 
 # Requirements
 * A C++17-compliant compiler
