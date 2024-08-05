@@ -42,6 +42,7 @@ void NWBFile::initialize()
 
 void NWBFile::finalize()
 {
+  recordingContainers.reset();
   io->close();
 }
 
