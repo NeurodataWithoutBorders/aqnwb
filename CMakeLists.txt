@@ -27,6 +27,8 @@ add_library(
     src/nwb/base/TimeSeries.cpp
     src/nwb/device/Device.cpp
     src/nwb/ecephys/ElectricalSeries.cpp
+    src/nwb/ecephys/SpikeEventSeries.cpp
+    src/nwb/misc/AnnotationSeries.cpp
     src/nwb/file/ElectrodeGroup.cpp
     src/nwb/file/ElectrodeTable.cpp
     src/nwb/hdmf/base/Container.cpp
