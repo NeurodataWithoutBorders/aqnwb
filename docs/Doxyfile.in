@@ -44,3 +44,7 @@ HAVE_DOT = YES
 DOT_IMAGE_FORMAT = svg
 # DOT_TRANSPARENT = YES
 INTERACTIVE_SVG = YES  # Enable highlighting by hovering on elements
+
+# Add header customization
+HTML_HEADER            = "@PROJECT_SOURCE_DIR@/docs/layout/header.html"
+PROJECT_LOGO           = "@PROJECT_SOURCE_DIR@/resources/logo/aqnwb-logo.png"
