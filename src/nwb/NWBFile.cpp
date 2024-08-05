@@ -13,11 +13,14 @@
 #include "Utils.hpp"
 #include "nwb/device/Device.hpp"
 #include "nwb/ecephys/ElectricalSeries.hpp"
+#include "nwb/ecephys/SpikeEventSeries.hpp"
 #include "nwb/file/ElectrodeGroup.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
+#include "nwb/misc/AnnotationSeries.hpp"
 #include "spec/core.hpp"
 #include "spec/hdmf_common.hpp"
 #include "spec/hdmf_experimental.hpp"
+
 
 using namespace AQNWB::NWB;
 
@@ -150,6 +153,21 @@ Status NWBFile::createElectricalSeries(
 
   // write electrode information to datasets
   elecTable.finalize();
+
+  return Status::Success;
+}
+
+Status NWBFile::createAnnotationSeries(std::string name)
+{
+  // store all recorded data in the acquisition group
+  std::string rootPath = "/acquisition/";
+
+  // Setup electrical series datasets
+  auto annotationSeries = std::make_unique<AnnotationSeries>(
+      rootPath + name,
+      io);
+  annotationSeries->initialize();
+  recordingContainers->addData(std::move(annotationSeries));
 
   return Status::Success;
 }

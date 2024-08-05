@@ -71,15 +71,46 @@ public:
    * @param recordingArrays vector of ChannelVector indicating the electrodes to
    *                        record from. A separate ElectricalSeries will be
    *                        created for each ChannelVector.
+   * @param dataType The data type of the elements in the data block.
    * @param recordingContainers The container to store the created TimeSeries.
    * @param containerIndexes The indexes of the containers added to
    * recordingContainers
-   * @param dataType The data type of the elements in the data block.
    * @return Status The status of the object creation operation.
    */
   Status createElectricalSeries(
       std::vector<Types::ChannelVector> recordingArrays,
       const BaseDataType& dataType = BaseDataType::I16,
+      RecordingContainers* recordingContainers = nullptr,
+      std::vector<SizeType>& containerIndexes = emptyContainerIndexes);
+
+  /**
+   * @brief Create SpikeEventSeries objects to record data into.
+   * Created objects are stored in recordingContainers.
+   * @param recordingArrays vector of ChannelVector indicating the electrodes to
+   *                        record from. A separate ElectricalSeries will be
+   *                        created for each ChannelVector.
+   * @param dataType The data type of the elements in the data block.
+   * @param recordingContainers The container to store the created TimeSeries.
+   * @param containerIndexes The indexes of the containers added to
+   * recordingContainers
+   * @return Status The status of the object creation operation.
+   */
+  Status createSpikeEventSeries(
+      std::vector<Types::ChannelVector> recordingArrays,
+      const BaseDataType& dataType = BaseDataType::I16,
+      RecordingContainers* recordingContainers = nullptr,
+      std::vector<SizeType>& containerIndexes = emptyContainerIndexes);
+
+  /**
+   * @brief Create AnnotationSeries objects to record data into.
+   * Created objects are stored in recordingContainers.
+   * @param name The name of the annotation series.
+   * @param recordingContainers The container to store the created TimeSeries.
+   * @param containerIndexes The indexes of the containers added to
+   * recordingContainers
+   * @return Status The status of the object creation operation.
+   */
+  Status createAnnotationSeries(std::string name,
       RecordingContainers* recordingContainers = nullptr,
       std::vector<SizeType>& containerIndexes = emptyContainerIndexes);
 

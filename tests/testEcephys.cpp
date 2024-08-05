@@ -9,6 +9,7 @@
 #include "hdf5/HDF5IO.hpp"
 #include "nwb/device/Device.hpp"
 #include "nwb/ecephys/ElectricalSeries.hpp"
+#include "nwb/ecephys/SpikeEventSeries.hpp"
 #include "nwb/file/ElectrodeGroup.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
 #include "testUtils.hpp"
@@ -31,16 +32,6 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
   std::vector<double> mockTimestamps = getMockTimestamps(numSamples, 1);
   std::string devicePath = "/device";
   std::string electrodePath = "/elecgroup/";
-
-  SECTION("test initialization")
-  {
-    // TODO
-  }
-
-  SECTION("test linking to electrode table region")
-  {
-    // TODO
-  }
 
   SECTION("test writing channels")
   {
@@ -137,6 +128,80 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
             ch, dataBuffer.size(), dataBuffer.data(), timestampsBuffer.data());
         samplesRecorded += bufferSize;
       }
+    }
+    io->close();
+
+    // Read data back from file
+    std::unique_ptr<H5::H5File> file =
+        std::make_unique<H5::H5File>(path, H5F_ACC_RDONLY);
+    std::unique_ptr<H5::DataSet> dataset =
+        std::make_unique<H5::DataSet>(file->openDataSet(dataPath + "/data"));
+    std::vector<std::vector<float>> dataOut(numChannels,
+                                            std::vector<float>(numSamples));
+    float* buffer = new float[numSamples * numChannels];
+
+    H5::DataSpace fSpace = dataset->getSpace();
+    hsize_t dims[1] = {numSamples * numChannels};
+    H5::DataSpace mSpace(1, dims);
+    dataset->read(buffer, H5::PredType::NATIVE_FLOAT, mSpace, fSpace);
+
+    for (SizeType i = 0; i < numChannels; ++i) {
+      for (SizeType j = 0; j < numSamples; ++j) {
+        dataOut[i][j] = buffer[j * numChannels + i];
+      }
+    }
+    delete[] buffer;
+    REQUIRE_THAT(dataOut[0], Catch::Matchers::Approx(mockData[0]).margin(1));
+    REQUIRE_THAT(dataOut[1], Catch::Matchers::Approx(mockData[1]).margin(1));
+  }
+}
+
+TEST_CASE("SpikeEventSeries", "[ecephys]")
+{
+  // setup recording info
+  SizeType numSamples = 100;
+  SizeType numChannels = 2;
+  SizeType bufferSize = numSamples / 5;
+  std::vector<float> dataBuffer(bufferSize);
+  std::vector<double> timestampsBuffer(bufferSize);
+  std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays();
+  std::string dataPath = "/esdata";
+  BaseDataType dataType = BaseDataType::F32;
+  std::vector<std::vector<float>> mockData =
+      getMockData2D(numSamples, numChannels);
+  std::vector<double> mockTimestamps = getMockTimestamps(numSamples, 1);
+  std::string devicePath = "/device";
+  std::string electrodePath = "/elecgroup/";
+
+  SECTION("test writing channels")
+  {
+    // setup io object
+    std::string path = getTestFilePath("SpikeEventSeries.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    // setup electrode table, device, and electrode group
+    std::string elecTablePath = "/electrodes/";
+    NWB::ElectrodeTable elecTable = NWB::ElectrodeTable(elecTablePath, io);
+    elecTable.initialize();
+
+    // setup electrical series
+    NWB::SpikeEventSeries ses =
+        NWB::SpikeEventSeries(dataPath,
+                              io,
+                              dataType,
+                              mockArrays[0],
+                              elecTable.getPath(),
+                              "volts",
+                              "no description",
+                              SizeArray {0, mockArrays[0].size()},
+                              SizeArray {1, 1});
+    ses.initialize();
+
+    // write channel data
+    for (SizeType ch = 0; ch < numChannels; ++ch) {
+      ses.writeChannel(
+          ch, numSamples, mockData[ch].data(), mockTimestamps.data());
     }
     io->close();
 
