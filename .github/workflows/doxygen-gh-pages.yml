@@ -33,7 +33,7 @@ jobs:
         shell: bash
 
       - name: Build the docs
-        run : cmake --build --preset=ci-ubuntu --target=docs
+        run : cmake "-DPROJECT_SOURCE_DIR=$PWD" "-DPROJECT_BINARY_DIR=$PWD/build" -P cmake/docs-ci.cmake
         shell: bash
 
       - name: Create .nojekyll to ensure pages with underscores work on gh pages

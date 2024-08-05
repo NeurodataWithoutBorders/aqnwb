@@ -8,13 +8,6 @@ endforeach()
 set(bin "${PROJECT_BINARY_DIR}")
 set(src "${PROJECT_SOURCE_DIR}")
 
-# ---- Dependencies ----
-
-find_program(Python3_EXECUTABLE NAMES python3 python)
-if(NOT Python3_EXECUTABLE)
-  message(FATAL_ERROR "Python executable was not found")
-endif()
-
 # ---- Process project() call in CMakeLists.txt ----
 
 file(READ "${src}/CMakeLists.txt" content)
@@ -76,3 +69,10 @@ endforeach()
 set(config "${bin}/docs/conf.py")
 
 file(REMOVE_RECURSE "${out}/html" "${out}/xml")
+
+execute_process(
+    COMMAND doxygen "${bin}/docs/Doxyfile"
+    COMMENT "Building documentation using Doxygen"
+    VERBATIM
+    RESULT_VARIABLE result
+)
