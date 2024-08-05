@@ -121,10 +121,15 @@ private:
   void cacheSpecifications(const std::string& specPath,
                            const std::string& versionNumber);
 
-  const std::string identifierText;
-  std::shared_ptr<BaseIO> io;
+  /**
+   * @brief Holds the Container (usually TimeSeries) objects that have been
+   * created in the nwb file for recording.
+   */
   std::unique_ptr<RecordingContainers> recordingContainers =
       std::make_unique<RecordingContainers>("RecordingContainers");
+
+  const std::string identifierText;
+  std::shared_ptr<BaseIO> io;
 };
 
 /**
