@@ -8,6 +8,7 @@ PROJECT_NUMBER = "@PROJECT_VERSION@"
 
 # Add sources
 INPUT = "@PROJECT_SOURCE_DIR@/README.md" "@PROJECT_SOURCE_DIR@/include" "@PROJECT_SOURCE_DIR@/src" "@PROJECT_SOURCE_DIR@/docs/pages"
+IMAGE_PATH = "@PROJECT_SOURCE_DIR@/resources/images"
 EXTRACT_ALL = YES
 RECURSIVE = YES
 OUTPUT_DIRECTORY = "@DOXYGEN_OUTPUT_DIRECTORY@"
@@ -30,3 +31,21 @@ CREATE_SUBDIRS = NO
 # Include all directories, files and namespaces in the documentation
 # Disable to include only explicitly documented objects
 M_SHOW_UNDOCUMENTED = YES
+
+# Doxygen Awesome Style settings for sidebar-only layout
+GENERATE_TREEVIEW      = YES # required!
+DISABLE_INDEX          = NO
+FULL_SIDEBAR           = YES
+HTML_EXTRA_STYLESHEET  =  "@PROJECT_SOURCE_DIR@/docs/layout/doxygen-awesome.css" \
+                         "@PROJECT_SOURCE_DIR@/docs/layout/doxygen-awesome-sidebar-only.css"
+HTML_COLORSTYLE        = LIGHT # required with Doxygen >= 1.9.5
+
+# Use Graphviz to generate UML diagrams as vector graphics with transparent background
+HAVE_DOT = YES
+DOT_IMAGE_FORMAT = svg
+# DOT_TRANSPARENT = YES
+INTERACTIVE_SVG = YES  # Enable highlighting by hovering on elements
+
+# Add header customization
+HTML_HEADER            = "@PROJECT_SOURCE_DIR@/docs/layout/header.html"
+PROJECT_LOGO           = "@PROJECT_SOURCE_DIR@/resources/logo/aqnwb-logo.png"

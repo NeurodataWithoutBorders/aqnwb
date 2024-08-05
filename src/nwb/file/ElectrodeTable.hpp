@@ -19,7 +19,6 @@ public:
    * @brief Constructor.
    * @param path The path of the table.
    * @param io The shared pointer to the BaseIO object.
-   * @param channels The vector of channel numbers.
    * @param description The description of the table (default: "metadata about
    * extracellular electrodes").
    */

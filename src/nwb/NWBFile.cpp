@@ -43,6 +43,7 @@ Status NWBFile::initialize()
 Status NWBFile::finalize()
 {
   io->stopRecording();
+  recordingContainers.reset();
   return io->close();
 }
 

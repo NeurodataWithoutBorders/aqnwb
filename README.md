@@ -6,15 +6,21 @@ Our goal is to provide a lightweight API to integrate with existing acquisition 
 Please note, AqNWB is currently under development and should not yet be used in practice.
 
 Below is a high-level overview of the project structure and capabilities we are targeting: 
-<img src="resources/images/aqnwb_objective.png" alt="Project Overview" width="500"/>
+
+![Project Overview](resources/images/aqnwb_objective_500px.png)
+
 
 # Requirements
 * A C++17-compliant compiler
 * CMake `>= 3.15`
 * HDF5 `>= 1.10`
 * Boost
-* Doxygen (optional, documentation building is skipped if missing)
-
+* Additional requirements for building the documentation (optional)
+    * Doxygen
+    * Graphviz
+* Additional requirements for developers (mode `dev`)
+    * cppcheck
+    * clang-format
 
 # Building and installing
 
@@ -41,7 +47,7 @@ multi-configuration generator:
 cmake --install build --config Release
 ```
 
-# Developing
+## Developing
 
 Build system targets that are only useful for developers of this project are
 hidden if the `aq-nwb_DEVELOPER_MODE` option is disabled. Enabling this
@@ -78,7 +84,7 @@ cmake --build --preset=dev --target=<name of the target>
 
 # Code of Conduct
 
-This project and everyone participating in it is govered by our [code of conduct guidelines](./.github/CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code.
+This project and everyone participating in it is govered by our [code of conduct guidelines](https://github.com/NeurodataWithoutBorders/aqnwb/blob/main/.github/CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code.
 
 # LICENSE
 

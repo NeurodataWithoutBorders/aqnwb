@@ -58,6 +58,9 @@ public:
    * Created objects are stored in recordingContainers.
    * Note, this function will fail if the file is in a mode where
    * new objects cannot be added.
+   * @param recordingArrays vector of ChannelVector indicating the electrodes to
+   *                        record from. A separate ElectricalSeries will be
+   *                        created for each ChannelVector.
    * @param dataType The data type of the elements in the data block.
    * @return Status The status of the object creation operation.
    */
@@ -91,8 +94,7 @@ public:
   const std::string HDMFExperimentalVersion = "0.5.0";
 
   /**
-   * @brief Gets the TimeSeries object from the recording containers
-   * @param containerName The name of the timeseries group.
+   * @brief Gets the TimeSeries object from the recordingContainers
    * @param timeseriesInd The index of the timeseries dataset within the group.
    */
   TimeSeries* getTimeSeries(const SizeType& timeseriesInd);
@@ -130,10 +132,15 @@ private:
   void cacheSpecifications(const std::string& specPath,
                            const std::string& versionNumber);
 
-  const std::string identifierText;
-  std::shared_ptr<BaseIO> io;
+  /**
+   * @brief Holds the Container (usually TimeSeries) objects that have been
+   * created in the nwb file for recording.
+   */
   std::unique_ptr<RecordingContainers> recordingContainers =
       std::make_unique<RecordingContainers>("RecordingContainers");
+
+  const std::string identifierText;
+  std::shared_ptr<BaseIO> io;
 };
 
 /**
