@@ -291,7 +291,6 @@ public:
   /**
    * @brief Convenience function for creating timestamp related attributes.
    * @param path The location of the object in the file.
-   * @param interval Value is '1'
    * @return The status of the operation.
    */
   Status createTimestampsAttributes(const std::string& path);
