@@ -1,0 +1,9 @@
+<map id="AQNWB::NWB::Container" name="AQNWB::NWB::Container">
+<area shape="rect" id="node1" title="Abstract data type for a group storing collections of data and metadata." alt="" coords="5,81,189,108"/>
+<area shape="rect" id="node2" href="$classAQNWB_1_1NWB_1_1Device.html" title="Metadata about a data acquisition device, e.g., recording system, electrode, microscope." alt="" coords="265,5,431,32"/>
+<area shape="rect" id="node3" href="$classAQNWB_1_1NWB_1_1DynamicTable.html" title="Represents a group containing multiple datasets that are aligned on the first dimension." alt="" coords="241,56,455,83"/>
+<area shape="rect" id="node5" href="$classAQNWB_1_1NWB_1_1ElectrodeGroup.html" title="The ElectrodeGroup class represents a physical grouping of electrodes, e.g. a shank of an array." alt="" coords="237,107,459,133"/>
+<area shape="rect" id="node6" href="$classAQNWB_1_1NWB_1_1TimeSeries.html" title="General purpose time series." alt="" coords="251,157,445,184"/>
+<area shape="rect" id="node4" href="$classAQNWB_1_1NWB_1_1ElectrodeTable.html" title="Represents a table containing electrode metadata." alt="" coords="509,56,725,83"/>
+<area shape="rect" id="node7" href="$classAQNWB_1_1NWB_1_1ElectricalSeries.html" title="General purpose time series." alt="" coords="507,157,728,184"/>
+</map>
