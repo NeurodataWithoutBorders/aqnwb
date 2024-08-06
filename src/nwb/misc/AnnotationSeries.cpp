@@ -15,7 +15,7 @@ AnnotationSeries::AnnotationSeries(const std::string& path,
     : TimeSeries(path,
                  io,
                  dataType,
-                 "n/a",  // unit is 'n/a' for AnnotationSeries
+                 "n/a",  // default unit is 'n/a' for AnnotationSeries
                  description,
                  comments,
                  dsetSize,
