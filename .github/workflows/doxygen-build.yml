@@ -1,12 +1,13 @@
-name: Doxygen GitHub Pages Deploy Action
+name: Doxygen Build Test
 
 on:
   push:
     branches:
       - main
+  pull_request:
 
 jobs:
-  deploy:
+  test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -34,14 +35,3 @@ jobs:
       - name: Build the docs
         run : cmake "-DPROJECT_SOURCE_DIR=$PWD" "-DPROJECT_BINARY_DIR=$PWD/build" -P cmake/docs-ci.cmake
         shell: bash
-
-      - name: Create .nojekyll to ensure pages with underscores work on gh pages
-        run: touch build/docs/html/.nojekyll
-        shell: bash
-
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: gh_pages
-          folder: build/docs/html
