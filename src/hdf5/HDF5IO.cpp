@@ -437,6 +437,16 @@ bool HDF5IO::canModifyObjects()
   return statusOK && !inSWMRMode;
 }
 
+bool HDF5IO::objectExists(const std::string& path)
+{
+  htri_t exists = H5Lexists(file->getId(), path.c_str(), H5P_DEFAULT);
+  if (exists < 0) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
 std::unique_ptr<AQNWB::BaseRecordingData> HDF5IO::getDataSet(
     const std::string& path)
 {

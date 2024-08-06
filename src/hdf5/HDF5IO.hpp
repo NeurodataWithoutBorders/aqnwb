@@ -235,6 +235,13 @@ public:
       const std::string& path) override;
 
   /**
+   * @brief Checks whether an object already exists at the location in the file.
+   * @param path The location of the object in the file.
+   * @return Whether the object exists.
+   */
+  bool objectExists(const std::string& path) override;
+
+  /**
    * @brief Returns the HDF5 type of object at a given path.
    * @param path The location in the file of the object.
    * @return The type of object at the given path.
