@@ -42,7 +42,6 @@ Status NWBFile::initialize()
 
 Status NWBFile::finalize()
 {
-  io->stopRecording();
   recordingContainers.reset();
   return io->close();
 }
@@ -145,9 +144,9 @@ Status NWBFile::startRecording()
   return io->startRecording();
 }
 
-void NWBFile::stopRecording()
+void NWBFile::pauseRecording()
 {
-  io->stopRecording();
+  io->pauseRecording();
 }
 
 void NWBFile::cacheSpecifications(const std::string& specPath,

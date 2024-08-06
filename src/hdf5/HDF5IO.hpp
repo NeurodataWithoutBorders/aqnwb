@@ -183,9 +183,10 @@ public:
   Status startRecording() override;
 
   /**
-   * @brief Stops the recording process.
-   * @return The status of the stop recording operation.
+   * @brief Pause the recording process.
+   * @return The status of the pause recording operation.
    */
+  Status pauseRecording() override;
 
   /**
    * @brief Checks whether the file is in a mode where objects

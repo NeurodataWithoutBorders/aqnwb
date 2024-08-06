@@ -57,7 +57,8 @@ public:
    * @brief Create ElectricalSeries objects to record data into.
    * Created objects are stored in recordingContainers.
    * Note, this function will fail if the file is in a mode where
-   * new objects cannot be added.
+   * new objects cannot be added, which can be checked via
+   * nwbfile.io->canModifyObjects()
    * @param recordingArrays vector of ChannelVector indicating the electrodes to
    *                        record from. A separate ElectricalSeries will be
    *                        created for each ChannelVector.
@@ -74,9 +75,9 @@ public:
   Status startRecording();
 
   /**
-   * @brief Closes the relevant datasets.
+   * @brief Pauses the recording but allows the file to remain open.
    */
-  void stopRecording();
+  void pauseRecording();
 
   /**
    * @brief Indicates the NWB schema version.

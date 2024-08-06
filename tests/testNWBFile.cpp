@@ -33,9 +33,11 @@ TEST_CASE("createElectricalSeries", "[nwb]")
   std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(1, 2);
   Status resultCreate =
       nwbfile.createElectricalSeries(mockArrays, BaseDataType::F32);
+  REQUIRE(resultCreate == Status::Success);
 
   // start recording
   Status resultStart = nwbfile.startRecording();
+  REQUIRE(resultStart == Status::Success);
 
   // write timeseries data
   std::vector<float> mockData = {1.0f, 2.0f, 3.0f, 4.0f, 5.0f};
@@ -51,8 +53,6 @@ TEST_CASE("createElectricalSeries", "[nwb]")
       dataShape, positionOffset, mockData.data(), mockTimestamps.data());
 
   nwbfile.finalize();
-
-  REQUIRE(resultCreate == Status::Success);
 }
 
 TEST_CASE("setCanModifyObjectsMode", "[nwb]")
@@ -77,6 +77,48 @@ TEST_CASE("setCanModifyObjectsMode", "[nwb]")
   Status resultCreatePostStart =
       nwbfile.createElectricalSeries(mockArrays, BaseDataType::F32);
   REQUIRE(resultCreatePostStart == Status::Failure);
+
+  // stop recording
+  nwbfile.finalize();
+}
+
+
+TEST_CASE("pauseRecording", "[nwb]")
+{
+  std::string filename = getTestFilePath("testPauseRecording.nwb");
+
+// initialize nwbfile object and create base structure
+  NWB::NWBFile nwbfile(generateUuid(),
+                       std::make_unique<HDF5::HDF5IO>(filename));
+  nwbfile.initialize();
+
+  // create Electrical Series
+  std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(1, 2);
+  Status resultCreate =
+      nwbfile.createElectricalSeries(mockArrays, BaseDataType::F32);
+  REQUIRE(resultCreate == Status::Success);
+
+  // start recording
+  Status resultStart = nwbfile.startRecording();
+  REQUIRE(resultStart == Status::Success);
+
+  // write timeseries data
+  std::vector<float> mockData = {1.0f, 2.0f, 3.0f, 4.0f, 5.0f};
+  std::vector<double> mockTimestamps = {0.1, 0.2, 0.3, 0.4, 0.5};
+  std::vector<SizeType> positionOffset = {0, 0};
+  std::vector<SizeType> dataShape = {mockData.size(), 0};
+
+  NWB::TimeSeries* ts0 = nwbfile.getTimeSeries(0);
+  ts0->writeData(
+      dataShape, positionOffset, mockData.data(), mockTimestamps.data());
+  NWB::TimeSeries* ts1 = nwbfile.getTimeSeries(1);
+  ts1->writeData(
+      dataShape, positionOffset, mockData.data(), mockTimestamps.data());
+
+  // pause recording and check recording containers still exist
+  nwbfile.pauseRecording();
+  NWB::TimeSeries* ts0AfterPause = nwbfile.getTimeSeries(0);
+  REQUIRE(ts0AfterPause != nullptr);
 
   // stop recording
   nwbfile.finalize();

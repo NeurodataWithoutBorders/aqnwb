@@ -248,6 +248,8 @@ public:
    * @brief Stops the recording process.
    * @return The status of the operation.
    */
+  virtual Status pauseRecording() = 0;
+
   /**
    * @brief Returns true if the file is in a mode where objects can
    * be added or deleted. Note, this does not apply to the modification
