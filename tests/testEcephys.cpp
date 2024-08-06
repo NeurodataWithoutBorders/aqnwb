@@ -48,10 +48,11 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     std::string path = getTestFilePath("ElectricalSeries.h5");
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
+    io->createGroup("/general");
+    io->createGroup("/general/extracellular_ephys");
 
     // setup electrode table, device, and electrode group
-    std::string elecTablePath = "/electrodes/";
-    NWB::ElectrodeTable elecTable = NWB::ElectrodeTable(elecTablePath, io);
+    NWB::ElectrodeTable elecTable = NWB::ElectrodeTable(io);
     elecTable.initialize();
 
     // setup electrical series
@@ -60,8 +61,6 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
                               io,
                               dataType,
                               mockArrays[0],
-                              elecTable.getPath(),
-                              "volts",
                               "no description",
                               SizeArray {0, mockArrays[0].size()},
                               SizeArray {1, 1});
@@ -104,10 +103,11 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     std::string path = getTestFilePath("ElectricalSeriesSampleTracking.h5");
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
+    io->createGroup("/general");
+    io->createGroup("/general/extracellular_ephys");
 
     // setup electrode table
-    std::string elecTablePath = "/electrodes/";
-    NWB::ElectrodeTable elecTable = NWB::ElectrodeTable(elecTablePath, io);
+    NWB::ElectrodeTable elecTable = NWB::ElectrodeTable(io);
     elecTable.initialize();
 
     // setup electrical series
@@ -116,8 +116,6 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
                               io,
                               dataType,
                               mockArrays[0],
-                              elecTable.getPath(),
-                              "volts",
                               "no description",
                               SizeArray {0, mockArrays[0].size()},
                               SizeArray {1, 1});

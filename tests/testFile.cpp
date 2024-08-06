@@ -11,7 +11,7 @@ using namespace AQNWB;
 
 TEST_CASE("ElectrodeTable", "[ecephys]")
 {
-  std::string path = "/electrodes/";
+  std::string path = "/general/extracellular_ephys/electrodes/";
   SECTION("test initialization")
   {
     std::string filename = getTestFilePath("electrodeTable.h5");
@@ -28,7 +28,7 @@ TEST_CASE("ElectrodeTable", "[ecephys]")
         Channel("ch2", "array0", channelIDs[2], 2),
     };
 
-    NWB::ElectrodeTable electrodeTable(path, io);
+    NWB::ElectrodeTable electrodeTable(io);
     electrodeTable.initialize();
     electrodeTable.addElectrodes(channels);
     electrodeTable.finalize();
@@ -52,7 +52,9 @@ TEST_CASE("ElectrodeTable", "[ecephys]")
     std::string filename = getTestFilePath("electrodeTableNoData.h5");
     std::shared_ptr<BaseIO> io = std::make_unique<HDF5::HDF5IO>(filename);
     io->open();
-    NWB::ElectrodeTable electrodeTable(path, io);
+    io->createGroup("/general");
+    io->createGroup("/general/extracellular_ephys");
+    NWB::ElectrodeTable electrodeTable(io);
     electrodeTable.initialize();
   }
 

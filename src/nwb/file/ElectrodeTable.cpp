@@ -7,10 +7,13 @@ using namespace AQNWB::NWB;
 // ElectrodeTable
 
 /** Constructor */
-ElectrodeTable::ElectrodeTable(const std::string& path,
-                               std::shared_ptr<BaseIO> io,
+ElectrodeTable::ElectrodeTable(std::shared_ptr<BaseIO> io,
                                const std::string& description)
-    : DynamicTable(path, io, description)
+    : DynamicTable(
+        "/general/extracellular_ephys/electrodes/",  // default value for
+                                                     // electrodes table
+        io,
+        description)
 {
 }
 

@@ -9,8 +9,6 @@ ElectricalSeries::ElectricalSeries(const std::string& path,
                                    std::shared_ptr<BaseIO> io,
                                    const BaseDataType& dataType,
                                    const Types::ChannelVector& channelVector,
-                                   const std::string& electrodesTablePath,
-                                   const std::string& unit,
                                    const std::string& description,
                                    const SizeArray& dsetSize,
                                    const SizeArray& chunkSize,
@@ -20,7 +18,7 @@ ElectricalSeries::ElectricalSeries(const std::string& path,
     : TimeSeries(path,
                  io,
                  dataType,
-                 unit,
+                 "volts",  // default unit for Electrical Series
                  description,
                  channelVector[0].comments,
                  dsetSize,
@@ -29,7 +27,6 @@ ElectricalSeries::ElectricalSeries(const std::string& path,
                  resolution,
                  offset)
     , channelVector(channelVector)
-    , electrodesTablePath(electrodesTablePath)
 {
 }
 

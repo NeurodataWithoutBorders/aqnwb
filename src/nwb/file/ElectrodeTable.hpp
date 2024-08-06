@@ -17,13 +17,11 @@ class ElectrodeTable : public DynamicTable
 public:
   /**
    * @brief Constructor.
-   * @param path The path of the table.
    * @param io The shared pointer to the BaseIO object.
    * @param description The description of the table (default: "metadata about
    * extracellular electrodes").
    */
-  ElectrodeTable(const std::string& path,
-                 std::shared_ptr<BaseIO> io,
+  ElectrodeTable(std::shared_ptr<BaseIO> io,
                  const std::string& description =
                      "metadata about extracellular electrodes");
 
