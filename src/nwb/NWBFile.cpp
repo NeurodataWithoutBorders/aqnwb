@@ -15,7 +15,6 @@
 #include "nwb/ecephys/ElectricalSeries.hpp"
 #include "nwb/ecephys/SpikeEventSeries.hpp"
 #include "nwb/file/ElectrodeGroup.hpp"
-#include "nwb/file/ElectrodeTable.hpp"
 #include "nwb/misc/AnnotationSeries.hpp"
 #include "spec/core.hpp"
 #include "spec/hdmf_common.hpp"
@@ -110,20 +109,19 @@ Status NWBFile::createElectricalSeries(
     return Status::Failure;
   }
 
-  // store all recorded data in the acquisition group
-  std::string rootPath = "/acquisition/";
-
-  // Setup electrode table
-  ElectrodeTable elecTable = ElectrodeTable(io);
-  elecTable.initialize();
-
+  // Setup electrode table if it was not yet created
+  if (!io->objectExists(ElectrodeTable::electrodeTablePath)) {
+    elecTable = std::make_unique<ElectrodeTable>(io);
+    elecTable->initialize();
+  }
+  
   // Create continuous datasets
   for (const auto& channelVector : recordingArrays) {
     // Setup electrodes and devices
     std::string groupName = channelVector[0].groupName;
     std::string devicePath = "/general/devices/" + groupName;
     std::string electrodePath = "/general/extracellular_ephys/" + groupName;
-    std::string electricalSeriesPath = rootPath + groupName;
+    std::string electricalSeriesPath = acquisitionPath + groupName;
 
     Device device = Device(devicePath, io, "description", "unknown");
     device.initialize();
@@ -146,25 +144,72 @@ Status NWBFile::createElectricalSeries(
     recordingContainers->addContainer(std::move(electricalSeries));
     containerIndexes.push_back(recordingContainers->containers.size() - 1);
 
-    // Add electrode information to electrode table (does not write to datasets
-    // yet)
-    elecTable.addElectrodes(channelVector);
+    // Add electrode information to table (does not write to datasets yet)
+    elecTable->addElectrodes(channelVector);
+  }
+  
+  // write electrode information to datasets
+  elecTable->finalize();
+
+  return Status::Success;
+}
+
+Status NWBFile::createSpikeEventSeries(std::vector<Types::ChannelVector> recordingArrays,
+    const BaseDataType& dataType)
+{
+  // Setup electrode table if it was not yet created
+  if (!io->objectExists(ElectrodeTable::electrodeTablePath)) {
+    elecTable = std::make_unique<ElectrodeTable>(io);
+    elecTable->initialize();
   }
 
+  // Create continuous datasets
+  for (const auto& channelVector : recordingArrays) {
+    // Setup electrodes and devices
+    std::string groupName = channelVector[0].groupName;
+    std::string spikeEventSeriesPath = acquisitionPath + groupName;
+
+    // if device does not exist, create it and corresponding group
+    std::string devicePath = "/general/devices/" + groupName;
+    if (!io->objectExists(devicePath)) {
+      Device device = Device(devicePath, io, "description", "unknown");
+      device.initialize();
+    }
+
+    std::string electrodePath = "/general/extracellular_ephys/" + groupName;
+    if (!io->objectExists(electrodePath)) {
+      ElectrodeGroup elecGroup =
+              ElectrodeGroup(electrodePath, io, "description", "unknown", device);
+          elecGroup.initialize();
+    }
+
+    // Setup Spike Event Series datasets
+    auto spikeEventSeries = std::make_unique<SpikeEventSeries>(
+        spikeEventSeriesPath,
+        io,
+        dataType,
+        channelVector,
+        "Stores continuously sampled voltage data from an "
+        "extracellular ephys recording",
+        SizeArray {0, channelVector.size()},
+        SizeArray {CHUNK_XSIZE, 0});
+    spikeEventSeries->initialize();
+    recordingContainers->addData(std::move(spikeEventSeries));
+
+    // Add electrode information to table (does not write to datasets yet)
+    elecTable->addElectrodes(channelVector);
+    }
   // write electrode information to datasets
-  elecTable.finalize();
+  elecTable->finalize();
 
   return Status::Success;
 }
 
 Status NWBFile::createAnnotationSeries(std::string name)
 {
-  // store all recorded data in the acquisition group
-  std::string rootPath = "/acquisition/";
-
   // Setup electrical series datasets
   auto annotationSeries = std::make_unique<AnnotationSeries>(
-      rootPath + name,
+      acquisitionPath + name,
       io);
   annotationSeries->initialize();
   recordingContainers->addData(std::move(annotationSeries));

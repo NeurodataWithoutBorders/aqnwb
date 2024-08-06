@@ -11,6 +11,7 @@
 #include "Types.hpp"
 #include "nwb/RecordingContainers.hpp"
 #include "nwb/base/TimeSeries.hpp"
+#include "nwb/file/ElectrodeTable.hpp"
 
 /*!
  * \namespace AQNWB::NWB
@@ -158,9 +159,11 @@ private:
       const std::array<std::pair<std::string_view, std::string_view>, N>&
           specVariables);
 
+  std::unique_ptr<ElectrodeTable> elecTable;
   const std::string identifierText;
   std::shared_ptr<BaseIO> io;
   static std::vector<SizeType> emptyContainerIndexes;
+  inline const static std::string acquisitionPath = "/acquisition/";
 };
 
 }  // namespace AQNWB::NWB
