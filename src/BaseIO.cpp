@@ -49,6 +49,11 @@ bool BaseIO::isReadyToOpen() const
   return readyToOpen;
 }
 
+bool BaseIO::canModifyObjects()
+{
+  return true;
+}
+
 Status BaseIO::createCommonNWBAttributes(const std::string& path,
                                          const std::string& objectNamespace,
                                          const std::string& neurodataType,
