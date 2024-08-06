@@ -1,0 +1,47 @@
+name: Doxygen GitHub Pages Deploy Action
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: "true"
+      - name: Install dependencies - ubuntu
+        run: |
+          sudo apt-get update
+          sudo apt-get install doxygen graphviz -y
+          sudo apt-get install -y libhdf5-dev libboost-all-dev
+          git clone https://github.com/catchorg/Catch2.git
+          cd Catch2
+          git checkout "v3.5.3"
+          cmake -Bbuild -H. -DBUILD_TESTING=OFF
+          sudo cmake --build build/ --target install
+        shell: bash
+
+      - name: Configure and build the API
+        run: |
+          cmake --preset=ci-ubuntu
+          cmake --build build
+        shell: bash
+
+      - name: Build the docs
+        run : cmake "-DPROJECT_SOURCE_DIR=$PWD" "-DPROJECT_BINARY_DIR=$PWD/build" -P cmake/docs-ci.cmake
+        shell: bash
+
+      - name: Create .nojekyll to ensure pages with underscores work on gh pages
+        run: touch build/docs/html/.nojekyll
+        shell: bash
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh_pages
+          folder: build/docs/html

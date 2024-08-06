@@ -49,3 +49,6 @@ INTERACTIVE_SVG = YES  # Enable highlighting by hovering on elements
 # Add header customization
 HTML_HEADER            = "@PROJECT_SOURCE_DIR@/docs/layout/header.html"
 PROJECT_LOGO           = "@PROJECT_SOURCE_DIR@/resources/logo/aqnwb-logo.png"
+
+# Fail on warnings
+WARN_AS_ERROR = FAIL_ON_WARNINGS_PRINT
