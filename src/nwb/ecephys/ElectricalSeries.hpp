@@ -20,8 +20,6 @@ public:
    * @param io A shared pointer to the IO object.
    * @param dataType The data type to use for storing the recorded voltage
    * @param channelVector The electrodes to use for recording
-   * @param electrodesTablePath Path to the electrodes table
-   * @param unit Unit for the electrical signal. Must be "volts".
    * @param description The description of the TimeSeries.
    * @param dsetSize Initial size of the main dataset. This must be a vector
    *                 with two elements. The first element specifies the length
@@ -41,11 +39,9 @@ public:
                    std::shared_ptr<BaseIO> io,
                    const BaseDataType& dataType,
                    const Types::ChannelVector& channelVector,
-                   const std::string& electrodesTablePath,
-                   const std::string& unit = "volts",
-                   const std::string& description = "no description",
-                   const SizeArray& dsetSize = SizeArray {0},
-                   const SizeArray& chunkSize = SizeArray {1},
+                   const std::string& description,
+                   const SizeArray& dsetSize,
+                   const SizeArray& chunkSize,
                    const float& conversion = 1.0f,
                    const float& resolution = -1.0f,
                    const float& offset = 0.0f);
@@ -77,11 +73,6 @@ public:
    * @brief Channel group that this time series is associated with.
    */
   Types::ChannelVector channelVector;
-
-  /**
-   * @brief Path to the electrodes table this time series references
-   */
-  std::string electrodesTablePath;
 
   /**
    * @brief Pointer to channel-specific conversion factor dataset.

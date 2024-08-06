@@ -58,8 +58,8 @@ Status NWBFile::createFileStructure()
   io->createGroup("/stimulus/presentation");
   io->createGroup("/stimulus/templates");
   io->createGroup("/general");
-  io->createGroup("general/devices");
-  io->createGroup("general/extracellular_ephys");
+  io->createGroup("/general/devices");
+  io->createGroup("/general/extracellular_ephys");
 
   io->createGroup("/specifications");
   io->createReferenceAttribute("/specifications", "/", ".specloc");
@@ -86,16 +86,15 @@ Status NWBFile::createElectricalSeries(
   std::string rootPath = "/acquisition/";
 
   // Setup electrode table
-  std::string electrodeTablePath = "general/extracellular_ephys/electrodes/";
-  ElectrodeTable elecTable = ElectrodeTable(electrodeTablePath, io);
+  ElectrodeTable elecTable = ElectrodeTable(io);
   elecTable.initialize();
 
   // Create continuous datasets
   for (const auto& channelVector : recordingArrays) {
     // Setup electrodes and devices
     std::string groupName = channelVector[0].groupName;
-    std::string devicePath = "general/devices/" + groupName;
-    std::string electrodePath = "general/extracellular_ephys/" + groupName;
+    std::string devicePath = "/general/devices/" + groupName;
+    std::string electrodePath = "/general/extracellular_ephys/" + groupName;
     std::string electricalSeriesPath = rootPath + groupName;
 
     Device device = Device(devicePath, io, "description", "unknown");
@@ -111,8 +110,6 @@ Status NWBFile::createElectricalSeries(
         io,
         dataType,
         channelVector,
-        elecTable.getPath(),
-        "volts",
         "Stores continuously sampled voltage data from an "
         "extracellular ephys recording",
         SizeArray {0, channelVector.size()},

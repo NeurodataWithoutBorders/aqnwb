@@ -1,5 +1,7 @@
 #include "nwb/ecephys/ElectricalSeries.hpp"
 
+#include "nwb/file/ElectrodeTable.hpp"
+
 using namespace AQNWB::NWB;
 
 // ElectricalSeries
@@ -9,8 +11,6 @@ ElectricalSeries::ElectricalSeries(const std::string& path,
                                    std::shared_ptr<BaseIO> io,
                                    const BaseDataType& dataType,
                                    const Types::ChannelVector& channelVector,
-                                   const std::string& electrodesTablePath,
-                                   const std::string& unit,
                                    const std::string& description,
                                    const SizeArray& dsetSize,
                                    const SizeArray& chunkSize,
@@ -20,7 +20,7 @@ ElectricalSeries::ElectricalSeries(const std::string& path,
     : TimeSeries(path,
                  io,
                  dataType,
-                 unit,
+                 "volts",  // default unit for Electrical Series
                  description,
                  channelVector[0].comments,
                  dsetSize,
@@ -29,7 +29,6 @@ ElectricalSeries::ElectricalSeries(const std::string& path,
                  resolution,
                  offset)
     , channelVector(channelVector)
-    , electrodesTablePath(electrodesTablePath)
 {
 }
 
@@ -69,7 +68,7 @@ void ElectricalSeries::initialize()
   io->createCommonNWBAttributes(
       getPath() + "/electrodes", "hdmf-common", "DynamicTableRegion", "");
   io->createReferenceAttribute(
-      electrodesTablePath, getPath() + "/electrodes", "table");
+      ElectrodeTable::electrodeTablePath, getPath() + "/electrodes", "table");
 }
 
 Status ElectricalSeries::writeChannel(SizeType channelInd,
