@@ -389,6 +389,7 @@ Status HDF5IO::startRecording()
 
 Status HDF5IO::pauseRecording()
 {
+  file->flush(H5F_SCOPE_GLOBAL);
   file->close();
   file.reset();
   opened = false;
