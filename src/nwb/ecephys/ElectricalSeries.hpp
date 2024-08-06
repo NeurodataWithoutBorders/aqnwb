@@ -75,11 +75,6 @@ public:
   Types::ChannelVector channelVector;
 
   /**
-   * @brief Path to the electrodes table this time series references
-   */
-  std::string electrodesTablePath = "/general/extracellular_ephys/electrodes/";
-
-  /**
    * @brief Pointer to channel-specific conversion factor dataset.
    */
   std::unique_ptr<BaseRecordingData> channelConversion;

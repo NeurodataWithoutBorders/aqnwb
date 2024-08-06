@@ -83,6 +83,12 @@ public:
   std::unique_ptr<VectorData> locationsDataset =
       std::make_unique<VectorData>(); /**< The locations dataset. */
 
+  /**
+   * @brief The path to the ElectrodeTable.
+   */
+  inline const static std::string electrodeTablePath =
+      "/general/extracellular_ephys/electrodes/";
+
 private:
   /**
    * @brief The channel information from the acquisition system.

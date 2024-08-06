@@ -1,5 +1,7 @@
 #include "nwb/ecephys/ElectricalSeries.hpp"
 
+#include "nwb/file/ElectrodeTable.hpp"
+
 using namespace AQNWB::NWB;
 
 // ElectricalSeries
@@ -66,7 +68,7 @@ void ElectricalSeries::initialize()
   io->createCommonNWBAttributes(
       getPath() + "/electrodes", "hdmf-common", "DynamicTableRegion", "");
   io->createReferenceAttribute(
-      electrodesTablePath, getPath() + "/electrodes", "table");
+      ElectrodeTable::electrodeTablePath, getPath() + "/electrodes", "table");
 }
 
 Status ElectricalSeries::writeChannel(SizeType channelInd,

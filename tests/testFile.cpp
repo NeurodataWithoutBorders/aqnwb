@@ -11,7 +11,6 @@ using namespace AQNWB;
 
 TEST_CASE("ElectrodeTable", "[ecephys]")
 {
-  std::string path = "/general/extracellular_ephys/electrodes/";
   SECTION("test initialization")
   {
     std::string filename = getTestFilePath("electrodeTable.h5");
@@ -35,7 +34,8 @@ TEST_CASE("ElectrodeTable", "[ecephys]")
 
     // Check if id datasets are created correctly
     SizeType numChannels = 3;
-    std::unique_ptr<BaseRecordingData> id_data = io->getDataSet(path + "id");
+    std::unique_ptr<BaseRecordingData> id_data =
+        io->getDataSet(NWB::ElectrodeTable::electrodeTablePath + "id");
     std::unique_ptr<HDF5::HDF5RecordingData> idDataset(
         dynamic_cast<HDF5::HDF5RecordingData*>(id_data.release()));
     int* buffer = new int[numChannels];
