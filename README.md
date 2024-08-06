@@ -9,9 +9,6 @@
 [![Code Stats](https://img.shields.io/badge/AqNWB-Code%20Statistics-8A2BE2?style=flat)](https://nwb-overview.readthedocs.io/en/latest/nwb-project-analytics/docs/source/code_stat_pages/AqNWB_stats.html)
 
 
-
-
-
 AqNWB is a C++ API for acquiring neurophysiological data directly into the NWB (Neurodata Without Borders) format.
 Our goal is to provide a lightweight API to integrate with existing acquisition systems.
 
