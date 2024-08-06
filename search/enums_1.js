@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['type_402',['Type',['../classAQNWB_1_1BaseDataType.html#a778c88736420601eff3168db7164c485',1,'AQNWB::BaseDataType']]]
+  ['type_0',['Type',['../class_a_q_n_w_b_1_1_base_data_type.html#a778c88736420601eff3168db7164c485',1,'AQNWB::BaseDataType']]]
 ];

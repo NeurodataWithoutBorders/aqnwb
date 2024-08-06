@@ -1,5 +1,5 @@
 var namespaces_dup =
 [
-    [ "AQNWB", "namespaceAQNWB.html", "namespaceAQNWB" ],
-    [ "H5", "namespaceH5.html", null ]
+    [ "AQNWB", "namespace_a_q_n_w_b.html", "namespace_a_q_n_w_b" ],
+    [ "H5", "namespace_h5.html", null ]
 ];

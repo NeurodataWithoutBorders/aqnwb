@@ -25,23 +25,7 @@
 var NAVTREE =
 [
   [ "aq-nwb", "index.html", [
-    [ "AqNWB", "index.html", [
-      [ "Requirements", "index.html#autotoc_md1", null ],
-      [ "Building and installing", "index.html#autotoc_md2", [
-        [ "Build", "index.html#autotoc_md3", null ],
-        [ "Install", "index.html#autotoc_md4", null ],
-        [ "Developing", "index.html#autotoc_md5", [
-          [ "Presets", "index.html#autotoc_md6", null ],
-          [ "Configure, build and test", "index.html#autotoc_md7", null ],
-          [ "Developer mode targets", "index.html#autotoc_md8", [
-            [ "Target options", "index.html#autotoc_md9", null ]
-          ] ]
-        ] ]
-      ] ],
-      [ "Code of Conduct", "index.html#autotoc_md10", null ],
-      [ "LICENSE", "index.html#autotoc_md11", null ],
-      [ "COPYRIGHT", "index.html#autotoc_md12", null ]
-    ] ],
+    [ "AqNWB", "index.html", "index" ],
     [ "About", "about.html", [
       [ "Doxygen documentation", "about.html#about-doxygen", null ]
     ] ],
@@ -80,8 +64,9 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"BaseIO_8cpp.html",
-"classAQNWB_1_1NWB_1_1TimeSeries.html#a14d9d49c997dd0f3b6232b397192d338"
+"_base_i_o_8cpp.html",
+"class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a422ceb2efa97e3d72b34f695351b87dc",
+"functions_b.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

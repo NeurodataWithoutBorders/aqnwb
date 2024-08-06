@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['readme_2emd_135',['README.md',['../README_8md.html',1,'']]],
-  ['readytoopen_136',['readyToOpen',['../classAQNWB_1_1BaseIO.html#ad31fbf7547f2fa545b0fbac8a2f3b003',1,'AQNWB::BaseIO']]],
-  ['recordingcontainers_137',['RecordingContainers',['../classAQNWB_1_1NWB_1_1RecordingContainers.html',1,'AQNWB::NWB::RecordingContainers'],['../classAQNWB_1_1NWB_1_1RecordingContainers.html#aee9583a1c99f2bb1270c94ec1ba4e260',1,'AQNWB::NWB::RecordingContainers::RecordingContainers(const std::string &amp;name)'],['../classAQNWB_1_1NWB_1_1RecordingContainers.html#a240f7f6cd7a386c81d8a68854dfceade',1,'AQNWB::NWB::RecordingContainers::RecordingContainers(const RecordingContainers &amp;)=delete']]],
-  ['resolution_138',['resolution',['../classAQNWB_1_1NWB_1_1TimeSeries.html#a584a17c772de02eb98b611a4cca96367',1,'AQNWB::NWB::TimeSeries']]]
+  ['path_0',['path',['../class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a58b88fe5ff7340e47b2df9a7608bc558',1,'AQNWB::NWB::Container']]],
+  ['position_1',['position',['../class_a_q_n_w_b_1_1_base_recording_data.html#ac89fd24083c83ac26e088aec14a8a3fb',1,'AQNWB::BaseRecordingData::position'],['../class_a_q_n_w_b_1_1_channel.html#a2119d5412589a87fd3d9bb1865737823',1,'AQNWB::Channel::position']]],
+  ['presets_2',['Presets',['../index.html#autotoc_md6',1,'']]]
 ];

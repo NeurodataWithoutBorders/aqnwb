@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['vectordata_221',['VectorData',['../classAQNWB_1_1NWB_1_1VectorData.html',1,'AQNWB::NWB']]]
+  ['vectordata_0',['VectorData',['../class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html',1,'AQNWB::NWB']]]
 ];

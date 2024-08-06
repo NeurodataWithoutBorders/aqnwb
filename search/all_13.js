@@ -1,19 +1,7 @@
 var searchData=
 [
-  ['_7ebaseio_186',['~BaseIO',['../classAQNWB_1_1BaseIO.html#a7696f24a4136179a56625121069240de',1,'AQNWB::BaseIO']]],
-  ['_7ebaserecordingdata_187',['~BaseRecordingData',['../classAQNWB_1_1BaseRecordingData.html#ade594bef21f756cebdf4d261f12dac6a',1,'AQNWB::BaseRecordingData']]],
-  ['_7echannel_188',['~Channel',['../classAQNWB_1_1Channel.html#a5f15ebd302464069f1a9e3f0ded14482',1,'AQNWB::Channel']]],
-  ['_7econtainer_189',['~Container',['../classAQNWB_1_1NWB_1_1Container.html#ae9f5d07bfc3defda274aa06091c19f56',1,'AQNWB::NWB::Container']]],
-  ['_7edata_190',['~Data',['../classAQNWB_1_1NWB_1_1Data.html#a21ba7f8fc0a1f21160721767451eb80c',1,'AQNWB::NWB::Data']]],
-  ['_7edevice_191',['~Device',['../classAQNWB_1_1NWB_1_1Device.html#a9dabc419c8d8df3a686c33ce042bc99a',1,'AQNWB::NWB::Device']]],
-  ['_7edynamictable_192',['~DynamicTable',['../classAQNWB_1_1NWB_1_1DynamicTable.html#a62348c9e5821d64fc3b8f270c71dea49',1,'AQNWB::NWB::DynamicTable']]],
-  ['_7eelectricalseries_193',['~ElectricalSeries',['../classAQNWB_1_1NWB_1_1ElectricalSeries.html#a4a5242435023d86c91bf6df9d8b915df',1,'AQNWB::NWB::ElectricalSeries']]],
-  ['_7eelectrodegroup_194',['~ElectrodeGroup',['../classAQNWB_1_1NWB_1_1ElectrodeGroup.html#a213bc76d7b4dbb4c2bdfaf7e9fbe16fe',1,'AQNWB::NWB::ElectrodeGroup']]],
-  ['_7eelectrodetable_195',['~ElectrodeTable',['../classAQNWB_1_1NWB_1_1ElectrodeTable.html#ab901f67e96a3bc54843f1d68533af629',1,'AQNWB::NWB::ElectrodeTable']]],
-  ['_7ehdf5io_196',['~HDF5IO',['../classAQNWB_1_1HDF5_1_1HDF5IO.html#a7a4c82820e1ad91a82c90c30dfb937fe',1,'AQNWB::HDF5::HDF5IO']]],
-  ['_7ehdf5recordingdata_197',['~HDF5RecordingData',['../classAQNWB_1_1HDF5_1_1HDF5RecordingData.html#a81d035b7d174a58236d0447ea7054724',1,'AQNWB::HDF5::HDF5RecordingData']]],
-  ['_7enwbfile_198',['~NWBFile',['../classAQNWB_1_1NWB_1_1NWBFile.html#aa92925025c0a04da1d6b03b82af99da3',1,'AQNWB::NWB::NWBFile']]],
-  ['_7enwbrecording_199',['~NWBRecording',['../classAQNWB_1_1NWB_1_1NWBRecording.html#ae38ead00aec7a2e53980e47d3b3c59f7',1,'AQNWB::NWB::NWBRecording']]],
-  ['_7erecordingcontainers_200',['~RecordingContainers',['../classAQNWB_1_1NWB_1_1RecordingContainers.html#ac49cffcf999fbcc918ac90f82a7c4040',1,'AQNWB::NWB::RecordingContainers']]],
-  ['_7etimeseries_201',['~TimeSeries',['../classAQNWB_1_1NWB_1_1TimeSeries.html#a1e596cea2d047ec61f89158f1dc85276',1,'AQNWB::NWB::TimeSeries']]]
+  ['writechannel_0',['writeChannel',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#af9ea0caeb4aa655351cc322186245803',1,'AQNWB::NWB::ElectricalSeries']]],
+  ['writedata_1',['writeData',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a14d9d49c997dd0f3b6232b397192d338',1,'AQNWB::NWB::TimeSeries']]],
+  ['writedatablock_2',['writeDataBlock',['../class_a_q_n_w_b_1_1_base_recording_data.html#a9ca4dc596b124ad57e0a55674c1d37d2',1,'AQNWB::BaseRecordingData::writeDataBlock(const std::vector&lt; SizeType &gt; &amp;dataShape, const BaseDataType &amp;type, const void *data)'],['../class_a_q_n_w_b_1_1_base_recording_data.html#a90733874624831a52817938c7bd70266',1,'AQNWB::BaseRecordingData::writeDataBlock(const std::vector&lt; SizeType &gt; &amp;dataShape, const std::vector&lt; SizeType &gt; &amp;positionOffset, const BaseDataType &amp;type, const void *data)=0'],['../class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a80aa1d05df8cbdb7c4208c29f690e739',1,'AQNWB::HDF5::HDF5RecordingData::writeDataBlock()']]],
+  ['writetimeseriesdata_3',['writeTimeseriesData',['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_recording.html#a09a0a24cea2d37fc6a1d088de86c917d',1,'AQNWB::NWB::NWBRecording']]]
 ];

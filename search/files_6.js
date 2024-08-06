@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['nwbfile_2ecpp_247',['NWBFile.cpp',['../NWBFile_8cpp.html',1,'']]],
-  ['nwbfile_2ehpp_248',['NWBFile.hpp',['../NWBFile_8hpp.html',1,'']]],
-  ['nwbrecording_2ecpp_249',['NWBRecording.cpp',['../NWBRecording_8cpp.html',1,'']]],
-  ['nwbrecording_2ehpp_250',['NWBRecording.hpp',['../NWBRecording_8hpp.html',1,'']]]
+  ['nwbfile_2ecpp_0',['NWBFile.cpp',['../_n_w_b_file_8cpp.html',1,'']]],
+  ['nwbfile_2ehpp_1',['NWBFile.hpp',['../_n_w_b_file_8hpp.html',1,'']]],
+  ['nwbrecording_2ecpp_2',['NWBRecording.cpp',['../_n_w_b_recording_8cpp.html',1,'']]],
+  ['nwbrecording_2ehpp_3',['NWBRecording.hpp',['../_n_w_b_recording_8hpp.html',1,'']]]
 ];

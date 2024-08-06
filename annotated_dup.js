@@ -1,29 +1,29 @@
 var annotated_dup =
 [
-    [ "AQNWB", "namespaceAQNWB.html", [
-      [ "HDF5", "namespaceAQNWB_1_1HDF5.html", [
-        [ "HDF5IO", "classAQNWB_1_1HDF5_1_1HDF5IO.html", "classAQNWB_1_1HDF5_1_1HDF5IO" ],
-        [ "HDF5RecordingData", "classAQNWB_1_1HDF5_1_1HDF5RecordingData.html", "classAQNWB_1_1HDF5_1_1HDF5RecordingData" ]
+    [ "AQNWB", "namespace_a_q_n_w_b.html", [
+      [ "HDF5", "namespace_a_q_n_w_b_1_1_h_d_f5.html", [
+        [ "HDF5IO", "class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html", "class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o" ],
+        [ "HDF5RecordingData", "class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_recording_data.html", "class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_recording_data" ]
       ] ],
-      [ "NWB", "namespaceAQNWB_1_1NWB.html", [
-        [ "TimeSeries", "classAQNWB_1_1NWB_1_1TimeSeries.html", "classAQNWB_1_1NWB_1_1TimeSeries" ],
-        [ "Device", "classAQNWB_1_1NWB_1_1Device.html", "classAQNWB_1_1NWB_1_1Device" ],
-        [ "ElectricalSeries", "classAQNWB_1_1NWB_1_1ElectricalSeries.html", "classAQNWB_1_1NWB_1_1ElectricalSeries" ],
-        [ "ElectrodeGroup", "classAQNWB_1_1NWB_1_1ElectrodeGroup.html", "classAQNWB_1_1NWB_1_1ElectrodeGroup" ],
-        [ "ElectrodeTable", "classAQNWB_1_1NWB_1_1ElectrodeTable.html", "classAQNWB_1_1NWB_1_1ElectrodeTable" ],
-        [ "Container", "classAQNWB_1_1NWB_1_1Container.html", "classAQNWB_1_1NWB_1_1Container" ],
-        [ "Data", "classAQNWB_1_1NWB_1_1Data.html", "classAQNWB_1_1NWB_1_1Data" ],
-        [ "DynamicTable", "classAQNWB_1_1NWB_1_1DynamicTable.html", "classAQNWB_1_1NWB_1_1DynamicTable" ],
-        [ "ElementIdentifiers", "classAQNWB_1_1NWB_1_1ElementIdentifiers.html", null ],
-        [ "VectorData", "classAQNWB_1_1NWB_1_1VectorData.html", "classAQNWB_1_1NWB_1_1VectorData" ],
-        [ "NWBFile", "classAQNWB_1_1NWB_1_1NWBFile.html", "classAQNWB_1_1NWB_1_1NWBFile" ],
-        [ "RecordingContainers", "classAQNWB_1_1NWB_1_1RecordingContainers.html", "classAQNWB_1_1NWB_1_1RecordingContainers" ],
-        [ "NWBRecording", "classAQNWB_1_1NWB_1_1NWBRecording.html", "classAQNWB_1_1NWB_1_1NWBRecording" ]
+      [ "NWB", "namespace_a_q_n_w_b_1_1_n_w_b.html", [
+        [ "Container", "class_a_q_n_w_b_1_1_n_w_b_1_1_container.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_container" ],
+        [ "Data", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_data" ],
+        [ "Device", "class_a_q_n_w_b_1_1_n_w_b_1_1_device.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_device" ],
+        [ "DynamicTable", "class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table" ],
+        [ "ElectricalSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series" ],
+        [ "ElectrodeGroup", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group" ],
+        [ "ElectrodeTable", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table" ],
+        [ "ElementIdentifiers", "class_a_q_n_w_b_1_1_n_w_b_1_1_element_identifiers.html", null ],
+        [ "NWBFile", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file" ],
+        [ "NWBRecording", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_recording.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_recording" ],
+        [ "RecordingContainers", "class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers" ],
+        [ "TimeSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series" ],
+        [ "VectorData", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data" ]
       ] ],
-      [ "BaseDataType", "classAQNWB_1_1BaseDataType.html", "classAQNWB_1_1BaseDataType" ],
-      [ "BaseIO", "classAQNWB_1_1BaseIO.html", "classAQNWB_1_1BaseIO" ],
-      [ "BaseRecordingData", "classAQNWB_1_1BaseRecordingData.html", "classAQNWB_1_1BaseRecordingData" ],
-      [ "Channel", "classAQNWB_1_1Channel.html", "classAQNWB_1_1Channel" ],
-      [ "Types", "classAQNWB_1_1Types.html", "classAQNWB_1_1Types" ]
+      [ "BaseDataType", "class_a_q_n_w_b_1_1_base_data_type.html", "class_a_q_n_w_b_1_1_base_data_type" ],
+      [ "BaseIO", "class_a_q_n_w_b_1_1_base_i_o.html", "class_a_q_n_w_b_1_1_base_i_o" ],
+      [ "BaseRecordingData", "class_a_q_n_w_b_1_1_base_recording_data.html", "class_a_q_n_w_b_1_1_base_recording_data" ],
+      [ "Channel", "class_a_q_n_w_b_1_1_channel.html", "class_a_q_n_w_b_1_1_channel" ],
+      [ "Types", "class_a_q_n_w_b_1_1_types.html", "class_a_q_n_w_b_1_1_types" ]
     ] ]
 ];

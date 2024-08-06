@@ -1,29 +1,29 @@
 var hierarchy =
 [
-    [ "AQNWB::BaseDataType", "classAQNWB_1_1BaseDataType.html", null ],
-    [ "AQNWB::BaseIO", "classAQNWB_1_1BaseIO.html", [
-      [ "AQNWB::HDF5::HDF5IO", "classAQNWB_1_1HDF5_1_1HDF5IO.html", null ]
+    [ "AQNWB::BaseDataType", "class_a_q_n_w_b_1_1_base_data_type.html", null ],
+    [ "AQNWB::BaseIO", "class_a_q_n_w_b_1_1_base_i_o.html", [
+      [ "AQNWB::HDF5::HDF5IO", "class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html", null ]
     ] ],
-    [ "AQNWB::BaseRecordingData", "classAQNWB_1_1BaseRecordingData.html", [
-      [ "AQNWB::HDF5::HDF5RecordingData", "classAQNWB_1_1HDF5_1_1HDF5RecordingData.html", null ]
+    [ "AQNWB::BaseRecordingData", "class_a_q_n_w_b_1_1_base_recording_data.html", [
+      [ "AQNWB::HDF5::HDF5RecordingData", "class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_recording_data.html", null ]
     ] ],
-    [ "AQNWB::Channel", "classAQNWB_1_1Channel.html", null ],
-    [ "AQNWB::NWB::Container", "classAQNWB_1_1NWB_1_1Container.html", [
-      [ "AQNWB::NWB::Device", "classAQNWB_1_1NWB_1_1Device.html", null ],
-      [ "AQNWB::NWB::DynamicTable", "classAQNWB_1_1NWB_1_1DynamicTable.html", [
-        [ "AQNWB::NWB::ElectrodeTable", "classAQNWB_1_1NWB_1_1ElectrodeTable.html", null ]
+    [ "AQNWB::Channel", "class_a_q_n_w_b_1_1_channel.html", null ],
+    [ "AQNWB::NWB::Container", "class_a_q_n_w_b_1_1_n_w_b_1_1_container.html", [
+      [ "AQNWB::NWB::Device", "class_a_q_n_w_b_1_1_n_w_b_1_1_device.html", null ],
+      [ "AQNWB::NWB::DynamicTable", "class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html", [
+        [ "AQNWB::NWB::ElectrodeTable", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html", null ]
       ] ],
-      [ "AQNWB::NWB::ElectrodeGroup", "classAQNWB_1_1NWB_1_1ElectrodeGroup.html", null ],
-      [ "AQNWB::NWB::TimeSeries", "classAQNWB_1_1NWB_1_1TimeSeries.html", [
-        [ "AQNWB::NWB::ElectricalSeries", "classAQNWB_1_1NWB_1_1ElectricalSeries.html", null ]
+      [ "AQNWB::NWB::ElectrodeGroup", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html", null ],
+      [ "AQNWB::NWB::TimeSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html", [
+        [ "AQNWB::NWB::ElectricalSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html", null ]
       ] ]
     ] ],
-    [ "AQNWB::NWB::Data", "classAQNWB_1_1NWB_1_1Data.html", [
-      [ "AQNWB::NWB::ElementIdentifiers", "classAQNWB_1_1NWB_1_1ElementIdentifiers.html", null ],
-      [ "AQNWB::NWB::VectorData", "classAQNWB_1_1NWB_1_1VectorData.html", null ]
+    [ "AQNWB::NWB::Data", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html", [
+      [ "AQNWB::NWB::ElementIdentifiers", "class_a_q_n_w_b_1_1_n_w_b_1_1_element_identifiers.html", null ],
+      [ "AQNWB::NWB::VectorData", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html", null ]
     ] ],
-    [ "AQNWB::NWB::NWBFile", "classAQNWB_1_1NWB_1_1NWBFile.html", null ],
-    [ "AQNWB::NWB::NWBRecording", "classAQNWB_1_1NWB_1_1NWBRecording.html", null ],
-    [ "AQNWB::NWB::RecordingContainers", "classAQNWB_1_1NWB_1_1RecordingContainers.html", null ],
-    [ "AQNWB::Types", "classAQNWB_1_1Types.html", null ]
+    [ "AQNWB::NWB::NWBFile", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html", null ],
+    [ "AQNWB::NWB::NWBRecording", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_recording.html", null ],
+    [ "AQNWB::NWB::RecordingContainers", "class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html", null ],
+    [ "AQNWB::Types", "class_a_q_n_w_b_1_1_types.html", null ]
 ];

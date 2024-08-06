@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['timeseries_219',['TimeSeries',['../classAQNWB_1_1NWB_1_1TimeSeries.html',1,'AQNWB::NWB']]],
-  ['types_220',['Types',['../classAQNWB_1_1Types.html',1,'AQNWB']]]
+  ['timeseries_0',['TimeSeries',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html',1,'AQNWB::NWB']]],
+  ['types_1',['Types',['../class_a_q_n_w_b_1_1_types.html',1,'AQNWB']]]
 ];
