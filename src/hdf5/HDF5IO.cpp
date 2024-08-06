@@ -394,6 +394,24 @@ Status HDF5IO::stopRecording()
   return Status::Success;
 }
 
+bool HDF5IO::canModifyObjects()
+{
+  // Get the file access intent
+  unsigned int intent;
+  herr_t status = H5Fget_intent(this->file->getId(), &intent);
+  if (status < 0) {
+      return false;  // We could not access the file so modifying objects is not going to work
+  }
+
+  // Check if SWMR mode is enabled
+  if (intent & (H5F_ACC_SWMR_READ | H5F_ACC_SWMR_WRITE)) {
+      return false;  // File is in SWMR mode
+  } else {
+      return true;  // File is not in SWMR mode
+  }
+  return true;
+}
+
 std::unique_ptr<AQNWB::BaseRecordingData> HDF5IO::getDataSet(
     const std::string& path)
 {

@@ -248,8 +248,14 @@ public:
    * @brief Stops the recording process.
    * @return The status of the operation.
    */
-  virtual Status stopRecording() = 0;
-
+  /**
+   * @brief Returns true if the file is in a mode where objects can
+   * be added or deleted. Note, this does not apply to the modification
+   * of raw data on already existing objects.
+   * @return True if the file is in a modification mode, false otherwise.
+   */
+  virtual bool canModifyObjects() = 0;
+  
   /**
    * @brief Creates an extendable dataset with a given base data type, size,
    * chunking, and path.
@@ -319,14 +325,6 @@ public:
   bool isReadyToOpen() const;
 
   /**
-   * @brief Returns true if the file is in a mode where objects can
-   * be added or deleted. Note, this does not apply to the modification
-   * of raw data on already existing objects.
-   * @return True if the file is in a modification mode, false otherwise.
-   */
-  bool canModifyObjects() const;
-
-  /**
    * @brief The name of the file.
    */
   const std::string filename;
@@ -348,13 +346,6 @@ protected:
    * @brief Whether the file is currently open.
    */
   bool opened;
-
-  /**
-   * @brief Whether the file is in a mode where objects can
-   * be added or deleted. Note, this does not apply to the modification
-   * of raw data on already existing objects.
-   */
-  bool modifyObjects = true;
 };
 
 /**

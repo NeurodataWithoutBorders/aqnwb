@@ -103,7 +103,8 @@ protected:
   /**
    * @brief Creates the default file structure.
    * Note, this function will fail if the file is in a mode where
-   * new objects cannot be added.
+   * new objects cannot be added, which can be checked via
+   * nwbfile.io->canModifyObjects()
    * @return Status The status of the file structure creation.
    */
   Status createFileStructure();

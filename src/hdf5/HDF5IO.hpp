@@ -186,7 +186,14 @@ public:
    * @brief Stops the recording process.
    * @return The status of the stop recording operation.
    */
-  Status stopRecording() override;
+
+  /**
+   * @brief Checks whether the file is in a mode where objects
+   * can be added or deleted. Note, this does not apply to the modification
+   * of raw data on already existing objects.
+   * @return Whether objects can be modified.
+   */
+  bool canModifyObjects() override;
 
   /**
    * @brief Creates an extendable dataset with a given base data type, size,

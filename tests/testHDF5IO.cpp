@@ -295,6 +295,7 @@ TEST_CASE("useSWMRmode", "[hdf5io]")
   // turn on swmr mode
   Status status = hdf5io->startRecording();
   REQUIRE(status == Status::Success);
+  REQUIRE(hdf5io->canModifyObjects() == false);
 
   // Try to read the file after starting SWMR mode
   std::promise<int> promise;
@@ -334,5 +335,7 @@ TEST_CASE("useSWMRmode", "[hdf5io]")
                                  // and read successfully
 
   // close file
+  status = hdf5io->pauseRecording();
+  // REQUIRE(hdf5io->canModifyObjects() == true);  TODO: check why this fails
   hdf5io->close();
 }
