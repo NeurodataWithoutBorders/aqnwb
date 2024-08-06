@@ -47,7 +47,7 @@ multi-configuration generator:
 cmake --install build --config Release
 ```
 
-# Developing
+## Developing
 
 Build system targets that are only useful for developers of this project are
 hidden if the `aq-nwb_DEVELOPER_MODE` option is disabled. Enabling this
@@ -128,7 +128,7 @@ cmake --build --preset=dev --target=<name of the target>
 
 # Code of Conduct
 
-This project and everyone participating in it is govered by our [code of conduct guidelines](./.github/CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code.
+This project and everyone participating in it is govered by our [code of conduct guidelines](https://github.com/NeurodataWithoutBorders/aqnwb/blob/main/.github/CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code.
 
 # LICENSE
 

@@ -64,7 +64,6 @@ public:
 
   /**
    * @brief Adds a column of element identifiers to the table.
-   * @param idDescription The description of the column.
    * @param elementIDs A unique pointer to the `ElementIdentifiers` dataset.
    * @param values The vector of id values.
    */

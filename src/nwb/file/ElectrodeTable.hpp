@@ -17,14 +17,11 @@ class ElectrodeTable : public DynamicTable
 public:
   /**
    * @brief Constructor.
-   * @param path The path of the table.
    * @param io The shared pointer to the BaseIO object.
-   * @param channels The vector of channel numbers.
    * @param description The description of the table (default: "metadata about
    * extracellular electrodes").
    */
-  ElectrodeTable(const std::string& path,
-                 std::shared_ptr<BaseIO> io,
+  ElectrodeTable(std::shared_ptr<BaseIO> io,
                  const std::string& description =
                      "metadata about extracellular electrodes");
 
@@ -85,6 +82,12 @@ public:
       std::make_unique<VectorData>(); /**< The group names dataset. */
   std::unique_ptr<VectorData> locationsDataset =
       std::make_unique<VectorData>(); /**< The locations dataset. */
+
+  /**
+   * @brief The path to the ElectrodeTable.
+   */
+  inline const static std::string electrodeTablePath =
+      "/general/extracellular_ephys/electrodes/";
 
 private:
   /**
