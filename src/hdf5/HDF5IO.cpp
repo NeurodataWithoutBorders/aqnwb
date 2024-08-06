@@ -440,10 +440,10 @@ bool HDF5IO::canModifyObjects()
 bool HDF5IO::objectExists(const std::string& path)
 {
   htri_t exists = H5Lexists(file->getId(), path.c_str(), H5P_DEFAULT);
-  if (exists < 0) {
-    return false;
-  } else {
+  if (exists > 0) {
     return true;
+  } else {
+    return false;
   }
 }
 
