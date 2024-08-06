@@ -6,7 +6,7 @@ on:
     - main
 
 jobs:
-  deploy:
+  test:
     defaults:
       run:
         shell: bash
