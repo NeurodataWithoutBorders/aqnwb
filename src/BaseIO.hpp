@@ -257,7 +257,7 @@ public:
    * @return True if the file is in a modification mode, false otherwise.
    */
   virtual bool canModifyObjects() = 0;
-  
+
   /**
    * @brief Creates an extendable dataset with a given base data type, size,
    * chunking, and path.

@@ -82,12 +82,11 @@ TEST_CASE("setCanModifyObjectsMode", "[nwb]")
   nwbfile.finalize();
 }
 
-
 TEST_CASE("pauseRecording", "[nwb]")
 {
   std::string filename = getTestFilePath("testPauseRecording.nwb");
 
-// initialize nwbfile object and create base structure
+  // initialize nwbfile object and create base structure
   NWB::NWBFile nwbfile(generateUuid(),
                        std::make_unique<HDF5::HDF5IO>(filename));
   nwbfile.initialize();
