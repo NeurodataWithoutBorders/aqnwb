@@ -250,7 +250,7 @@ public:
    * restart of the recording by calling startRecording again.
    * @return The status of the operation.
    */
-  virtual Status pauseRecording() = 0;
+  virtual Status stopRecording() = 0;
 
   /**
    * @brief Returns true if the file is in a mode where objects can

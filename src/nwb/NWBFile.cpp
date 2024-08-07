@@ -144,9 +144,9 @@ Status NWBFile::startRecording()
   return io->startRecording();
 }
 
-void NWBFile::pauseRecording()
+void NWBFile::stopRecording()
 {
-  io->pauseRecording();
+  io->stopRecording();
 }
 
 void NWBFile::cacheSpecifications(const std::string& specPath,

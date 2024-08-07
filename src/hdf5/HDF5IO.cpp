@@ -18,8 +18,9 @@ using namespace AQNWB::HDF5;
 
 HDF5IO::HDF5IO() {}
 
-HDF5IO::HDF5IO(const std::string& fileName)
+HDF5IO::HDF5IO(const std::string& fileName, const bool disableSWMRMode)
     : filename(fileName)
+    , disableSWMRMode(disableSWMRMode)
 {
 }
 
@@ -300,6 +301,9 @@ Status HDF5IO::createGroupIfDoesNotExist(const std::string& path)
 /** Creates a link to another location in the file */
 Status HDF5IO::createLink(const std::string& path, const std::string& reference)
 {
+  if (!opened)
+    return Status::Failure;
+
   herr_t error = H5Lcreate_soft(reference.c_str(),
                                 file->getLocId(),
                                 path.c_str(),
@@ -312,6 +316,9 @@ Status HDF5IO::createLink(const std::string& path, const std::string& reference)
 Status HDF5IO::createReferenceDataSet(
     const std::string& path, const std::vector<std::string>& references)
 {
+  if (!opened)
+    return Status::Failure;
+
   const hsize_t size = references.size();
 
   hobj_ref_t* rdata = new hobj_ref_t[size * sizeof(hobj_ref_t)];
@@ -381,24 +388,30 @@ Status HDF5IO::createStringDataSet(const std::string& path,
 
 Status HDF5IO::startRecording()
 {
-  if (H5Fstart_swmr_write(this->file->getId()) < 0) {
+  if (!opened)
     return Status::Failure;
+
+  if (!disableSWMRMode) {
+    herr_t status = H5Fstart_swmr_write(this->file->getId());
+    return checkStatus(status);
   }
   return Status::Success;
 }
 
-Status HDF5IO::pauseRecording()
+Status HDF5IO::stopRecording()
 {
-  file->flush(H5F_SCOPE_GLOBAL);
-  file->close();
-  file.reset();
-  opened = false;
-  open(false);
+  // if SWMR mode is disabled, stopping the recording will leave the file open
+  if (!disableSWMRMode) {
+    close();
+  }
   return Status::Success;
 }
 
 bool HDF5IO::canModifyObjects()
 {
+  if (!opened)
+    return false;
+
   // Get the file access intent
   unsigned int intent;
   herr_t status = H5Fget_intent(this->file->getId(), &intent);

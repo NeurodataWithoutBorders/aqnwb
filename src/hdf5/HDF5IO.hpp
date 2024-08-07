@@ -37,7 +37,7 @@ public:
    * @brief Constructor for the HDF5IO class that takes a file name as input.
    * @param fileName The name of the HDF5 file.
    */
-  HDF5IO(const std::string& fileName);
+  HDF5IO(const std::string& fileName, const bool disableSWMRMode = false);
 
   /**
    * @brief Destructor for the HDF5IO class.
@@ -183,10 +183,10 @@ public:
   Status startRecording() override;
 
   /**
-   * @brief Pause the recording process.
-   * @return The status of the pause recording operation.
+   * @brief Stops the recording process.
+   * @return The status of the stop recording operation.
    */
-  Status pauseRecording() override;
+  Status stopRecording() override;
 
   /**
    * @brief Checks whether the file is in a mode where objects
@@ -252,6 +252,7 @@ protected:
 
 private:
   std::unique_ptr<H5::H5File> file;
+  bool disableSWMRMode;
 };
 
 /**

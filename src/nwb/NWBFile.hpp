@@ -75,9 +75,9 @@ public:
   Status startRecording();
 
   /**
-   * @brief Pauses the recording but allows the file to remain open.
+   * @brief Stops the recording.
    */
-  void pauseRecording();
+  void stopRecording();
 
   /**
    * @brief Indicates the NWB schema version.

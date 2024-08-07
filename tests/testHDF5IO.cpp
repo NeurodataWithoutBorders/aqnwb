@@ -271,71 +271,118 @@ TEST_CASE("writeAttributes", "[hdf5io]")
   hdf5io.close();
 }
 
-TEST_CASE("useSWMRmode", "[hdf5io]")
+TEST_CASE("SWMRmode", "[hdf5io]")
 {
-  // create and open file
-  std::string path = getTestFilePath("testSWMRmode.h5");
-  std::unique_ptr<HDF5::HDF5IO> hdf5io = std::make_unique<HDF5::HDF5IO>(path);
-  hdf5io->open();
+  SECTION("useSWMRMODE")
+  {
+    // create and open file
+    std::string path = getTestFilePath("testSWMRmode.h5");
+    std::unique_ptr<HDF5::HDF5IO> hdf5io = std::make_unique<HDF5::HDF5IO>(path);
+    hdf5io->open();
 
-  // add a dataset
-  std::vector<int> testData = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-  std::string dataPath = "/data";
-  SizeType numBlocks = 3;
-  SizeType numSamples = testData.size();
-  std::unique_ptr<BaseRecordingData> dataset = hdf5io->createArrayDataSet(
-      BaseDataType::I32, SizeArray {0}, SizeArray {1}, dataPath);
+    // add a dataset
+    std::vector<int> testData = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    std::string dataPath = "/data";
+    SizeType numBlocks = 3;
+    SizeType numSamples = testData.size();
+    std::unique_ptr<BaseRecordingData> dataset = hdf5io->createArrayDataSet(
+        BaseDataType::I32, SizeArray {0}, SizeArray {1}, dataPath);
 
-  // try to read the file before starting SWMR mode
-  std::string command = "./reader_executable " + path + " " + dataPath;
-  int retPreSWMREnabled = std::system(command.c_str());
-  REQUIRE(retPreSWMREnabled
-          != 0);  // process should fail if SWMR mode is not enabled
+    // try to read the file before starting SWMR mode
+    std::string command = "./reader_executable " + path + " " + dataPath;
+    int retPreSWMREnabled = std::system(command.c_str());
+    REQUIRE(retPreSWMREnabled
+            != 0);  // process should fail if SWMR mode is not enabled
 
-  // turn on swmr mode
-  Status status = hdf5io->startRecording();
-  REQUIRE(status == Status::Success);
-  REQUIRE(hdf5io->canModifyObjects() == false);
+    // start recording, check that objects cannot be modified
+    Status status = hdf5io->startRecording();
+    REQUIRE(status == Status::Success);
+    REQUIRE(hdf5io->canModifyObjects() == false);
 
-  // Try to read the file after starting SWMR mode
-  std::promise<int> promise;
-  std::future<int> future = promise.get_future();
-  std::thread readerThread(
-      [](const std::string& cmd, std::promise<int> promise)
-      {
-        int ret = std::system(cmd.c_str());
-        promise.set_value(ret);
-      },
-      command,
-      std::move(promise));
+    // Try to read the file after starting SWMR mode
+    std::promise<int> promise;
+    std::future<int> future = promise.get_future();
+    std::thread readerThread(
+        [](const std::string& cmd, std::promise<int> promise)
+        {
+          int ret = std::system(cmd.c_str());
+          promise.set_value(ret);
+        },
+        command,
+        std::move(promise));
 
-  // write to file
-  for (int b = 0; b <= numBlocks; b++) {
-    // write data block and flush to file
-    std::vector<SizeType> dataShape = {numSamples};
-    dataset->writeDataBlock(dataShape, BaseDataType::I32, &testData[0]);
-    H5Dflush(static_cast<HDF5::HDF5RecordingData*>(dataset.get())
-                 ->getDataSet()
-                 ->getId());
+    // write to file
+    for (int b = 0; b <= numBlocks; b++) {
+      // write data block and flush to file
+      std::vector<SizeType> dataShape = {numSamples};
+      dataset->writeDataBlock(dataShape, BaseDataType::I32, &testData[0]);
+      H5Dflush(static_cast<HDF5::HDF5RecordingData*>(dataset.get())
+                   ->getDataSet()
+                   ->getId());
 
-    // update test data values
-    for (size_t i = 0; i < testData.size(); ++i) {
-      testData[i] += (testData.size());
+      // update test data values
+      for (size_t i = 0; i < testData.size(); ++i) {
+        testData[i] += (testData.size());
+      }
+
+      // pause to simulate streaming
+      std::this_thread::sleep_for(
+          std::chrono::seconds(1));  // Simulate real-time data streaming
     }
 
-    // pause to simulate streaming
-    std::this_thread::sleep_for(
-        std::chrono::seconds(1));  // Simulate real-time data streaming
+    // wait for reader to finish and close file
+    readerThread.join();
+    int retSWMREnabled = future.get();
+    REQUIRE(retSWMREnabled == 0);  // process should succeed if data was written
+                                   // and read successfully
+
+    // stop recording, check that file is closed and recording cannot be
+    // restarted
+    status = hdf5io->stopRecording();
+    REQUIRE(hdf5io->isOpen() == false);
+    REQUIRE(hdf5io->startRecording() == Status::Failure);
   }
 
-  // wait for reader to finish and close file
-  readerThread.join();
-  int retSWMREnabled = future.get();
-  REQUIRE(retSWMREnabled == 0);  // process should succeed if data was written
-                                 // and read successfully
+  SECTION("disableSWMRMode")
+  {
+    // create and open file with SWMR mode disabled
+    std::string path = getTestFilePath("testSWMRmode.h5");
+    std::unique_ptr<HDF5::HDF5IO> hdf5io =
+        std::make_unique<HDF5::HDF5IO>(path, true);
+    hdf5io->open();
 
-  // close file
-  status = hdf5io->pauseRecording();
-  // REQUIRE(hdf5io->canModifyObjects() == true);  TODO: check why this fails
-  hdf5io->close();
+    // add a dataset
+    std::vector<int> testData = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    std::string dataPath = "/data";
+    SizeType numBlocks = 3;
+    SizeType numSamples = testData.size();
+    std::unique_ptr<BaseRecordingData> dataset = hdf5io->createArrayDataSet(
+        BaseDataType::I32, SizeArray {0}, SizeArray {1}, dataPath);
+
+    // start recording, check that can still modify objects
+    Status status = hdf5io->startRecording();
+    REQUIRE(status == Status::Success);
+    REQUIRE(hdf5io->canModifyObjects() == true);
+
+    // write to file
+    for (int b = 0; b <= numBlocks; b++) {
+      // write data block and flush to file
+      std::vector<SizeType> dataShape = {numSamples};
+      dataset->writeDataBlock(dataShape, BaseDataType::I32, &testData[0]);
+      H5Dflush(static_cast<HDF5::HDF5RecordingData*>(dataset.get())
+                   ->getDataSet()
+                   ->getId());
+
+      // update test data values
+      for (size_t i = 0; i < testData.size(); ++i) {
+        testData[i] += (testData.size());
+      }
+    }
+
+    // stop recording, check that file is still open and recording can be
+    // restarted
+    status = hdf5io->stopRecording();
+    REQUIRE(hdf5io->isOpen() == true);
+    REQUIRE(hdf5io->startRecording() == Status::Success);
+  }
 }
