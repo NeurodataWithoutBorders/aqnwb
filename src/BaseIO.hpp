@@ -245,9 +245,7 @@ public:
   virtual Status startRecording() = 0;
 
   /**
-   * @brief Pauses the recording process.
-   * The file should remain open to support modifications and 
-   * restart of the recording by calling startRecording again.
+   * @brief Stops the recording process.
    * @return The status of the operation.
    */
   virtual Status stopRecording() = 0;
