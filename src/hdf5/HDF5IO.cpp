@@ -67,8 +67,11 @@ Status HDF5IO::open(bool newfile)
 
 Status HDF5IO::close()
 {
-  file = nullptr;
-  opened = false;
+  if (this->file != nullptr && opened) {
+    this->file->close();
+    this->file = nullptr;
+    this->opened = false;
+  }
 
   return Status::Success;
 }
@@ -403,10 +406,8 @@ Status HDF5IO::stopRecording()
   // if SWMR mode is disabled, stopping the recording will leave the file open
   if (!disableSWMRMode) {
     close();  // SWMR mode cannot be disabled so close the file
-  }
-  else
-  {
-    H5Fflush(this->file->getId(), H5F_SCOPE_GLOBAL); // flush all data to disk
+  } else {
+    H5Fflush(this->file->getId(), H5F_SCOPE_GLOBAL);  // flush all data to disk
   }
   return Status::Success;
 }
@@ -416,21 +417,18 @@ bool HDF5IO::canModifyObjects()
   if (!opened)
     return false;
 
-  // Get the file access intent
+  // Check if we are in SWMR mode
+  bool inSWMRMode = false;
   unsigned int intent;
   herr_t status = H5Fget_intent(this->file->getId(), &intent);
-  if (status < 0) {
-    return false;  // We could not access the file so modifying objects is not
-                   // going to work
+  bool statusOK = (status >= 0);
+  if (statusOK) {
+    inSWMRMode = (intent & (H5F_ACC_SWMR_READ | H5F_ACC_SWMR_WRITE));
   }
 
-  // Check if SWMR mode is enabled
-  if (intent & (H5F_ACC_SWMR_READ | H5F_ACC_SWMR_WRITE)) {
-    return false;  // File is in SWMR mode
-  } else {
-    return true;  // File is not in SWMR mode
-  }
-  return true;
+  // if the file is opened and we are not in swmr mode then we can modify
+  // objects
+  return statusOK && !inSWMRMode;
 }
 
 std::unique_ptr<AQNWB::BaseRecordingData> HDF5IO::getDataSet(

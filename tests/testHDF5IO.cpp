@@ -383,6 +383,29 @@ TEST_CASE("SWMRmode", "[hdf5io]")
     // restarted
     status = hdf5io->stopRecording();
     REQUIRE(hdf5io->isOpen() == true);
-    REQUIRE(hdf5io->startRecording() == Status::Success);
+
+    // restart recording and write to a dataset
+    Status statusRestart = hdf5io->startRecording();
+    REQUIRE(statusRestart == Status::Success);
+
+    std::string dataPathPostRestart = "/dataPostRestart/data";
+    hdf5io->createGroup("/dataPostRestart");
+    std::unique_ptr<BaseRecordingData> datasetPostRestart =
+        hdf5io->createArrayDataSet(BaseDataType::I32,
+                                   SizeArray {0},
+                                   SizeArray {1},
+                                   dataPathPostRestart);
+
+    for (int b = 0; b <= numBlocks; b++) {
+      // write data block and flush to file
+      std::vector<SizeType> dataShape = {numSamples};
+      datasetPostRestart->writeDataBlock(
+          dataShape, BaseDataType::I32, &testData[0]);
+      H5Dflush(static_cast<HDF5::HDF5RecordingData*>(datasetPostRestart.get())
+                   ->getDataSet()
+                   ->getId());
+    }
+
+    hdf5io->close();
   }
 }

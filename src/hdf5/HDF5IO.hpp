@@ -252,7 +252,8 @@ protected:
 
 private:
   std::unique_ptr<H5::H5File> file;
-  bool disableSWMRMode;   // when set do not use SWMR mode when opening the HDF5 file
+  bool disableSWMRMode;  // when set do not use SWMR mode when opening the HDF5
+                         // file
 };
 
 /**
