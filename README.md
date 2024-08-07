@@ -1,5 +1,14 @@
 # AqNWB
 
+[![Unit tests](https://github.com/NeurodataWithoutBorders/aqnwb/actions/workflows/tests.yml/badge.svg)](https://github.com/NeurodataWithoutBorders/aqnwb/actions/workflows/tests.yml)
+[![Codespell](https://github.com/NeurodataWithoutBorders/aqnwb/actions/workflows/codespell.yml/badge.svg)](https://github.com/NeurodataWithoutBorders/aqnwb/actions/workflows/codespell.yml)
+[![Lint](https://github.com/NeurodataWithoutBorders/aqnwb/actions/workflows/lint.yml/badge.svg)](https://github.com/NeurodataWithoutBorders/aqnwb/actions/workflows/lint.yml)
+[![Docs build](https://github.com/NeurodataWithoutBorders/aqnwb/actions/workflows/doxygen-gh-pages.yml/badge.svg)](https://github.com/NeurodataWithoutBorders/aqnwb/actions/workflows/doxygen-gh-pages.yml)
+
+[![Docs](https://img.shields.io/badge/AqNWB-Docs-8A2BE2?style=flat)](https://neurodatawithoutborders.github.io/aqnwb/)
+[![Code Stats](https://img.shields.io/badge/AqNWB-Code%20Statistics-8A2BE2?style=flat)](https://nwb-overview.readthedocs.io/en/latest/nwb-project-analytics/docs/source/code_stat_pages/AqNWB_stats.html)
+
+
 AqNWB is a C++ API for acquiring neurophysiological data directly into the NWB (Neurodata Without Borders) format.
 Our goal is to provide a lightweight API to integrate with existing acquisition systems.
 
@@ -33,7 +42,7 @@ cmake -S . -B build
 cmake --build build --config Release
 ```
 
-Note, if you are using custom installs of HDF5 or BOOST that are not being detected 
+Note, if you are using custom installations of HDF5 or BOOST that are not being detected 
 automatically by cmake, you can specify `HDF5_ROOT` and `BOOST_ROOT` environment variables to 
 point to install directories of HDF5 and BOOST respectively. 
 
@@ -57,6 +66,50 @@ the option when configuring the build by adding ``-Daq-nwb_DEVELOPER_MODE=ON``, 
 ```sh
 cmake -S . -B build -Daq-nwb_DEVELOPER_MODE=ON
 ```
+### Presets
+
+As a developer, you can create your own dev preset by making a `CMakeUserPresets.json` file at the root of
+the project:
+
+```json
+{
+  "version": 2,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 15,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "dev",
+      "binaryDir": "${sourceDir}/build/dev",
+      "inherits": ["dev-mode", "ci-<os>"],
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "dev",
+      "configurePreset": "dev",
+      "configuration": "Debug"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "dev",
+      "configurePreset": "dev",
+      "configuration": "Debug",
+      "output": {
+        "outputOnFailure": true
+      }
+    }
+  ]
+}
+```
+Replace `<os>` in the `CmakeUserPresets.json` file with the name of
+the operating system you have (`win64`, `linux` or `darwin`).
 
 ### Configure, build and test
 

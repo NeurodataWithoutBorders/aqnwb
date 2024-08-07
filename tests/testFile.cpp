@@ -11,7 +11,6 @@ using namespace AQNWB;
 
 TEST_CASE("ElectrodeTable", "[ecephys]")
 {
-  std::string path = "/electrodes/";
   SECTION("test initialization")
   {
     std::string filename = getTestFilePath("electrodeTable.h5");
@@ -28,14 +27,15 @@ TEST_CASE("ElectrodeTable", "[ecephys]")
         Channel("ch2", "array0", channelIDs[2], 2),
     };
 
-    NWB::ElectrodeTable electrodeTable(path, io);
+    NWB::ElectrodeTable electrodeTable(io);
     electrodeTable.initialize();
     electrodeTable.addElectrodes(channels);
     electrodeTable.finalize();
 
     // Check if id datasets are created correctly
     SizeType numChannels = 3;
-    std::unique_ptr<BaseRecordingData> id_data = io->getDataSet(path + "id");
+    std::unique_ptr<BaseRecordingData> id_data =
+        io->getDataSet(NWB::ElectrodeTable::electrodeTablePath + "id");
     std::unique_ptr<HDF5::HDF5RecordingData> idDataset(
         dynamic_cast<HDF5::HDF5RecordingData*>(id_data.release()));
     int* buffer = new int[numChannels];
@@ -52,7 +52,9 @@ TEST_CASE("ElectrodeTable", "[ecephys]")
     std::string filename = getTestFilePath("electrodeTableNoData.h5");
     std::shared_ptr<BaseIO> io = std::make_unique<HDF5::HDF5IO>(filename);
     io->open();
-    NWB::ElectrodeTable electrodeTable(path, io);
+    io->createGroup("/general");
+    io->createGroup("/general/extracellular_ephys");
+    NWB::ElectrodeTable electrodeTable(io);
     electrodeTable.initialize();
   }
 

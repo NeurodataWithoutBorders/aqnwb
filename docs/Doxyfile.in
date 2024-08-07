@@ -28,10 +28,6 @@ GENERATE_LATEX = NO
 XML_PROGRAMLISTING = NO
 CREATE_SUBDIRS = NO
 
-# Include all directories, files and namespaces in the documentation
-# Disable to include only explicitly documented objects
-M_SHOW_UNDOCUMENTED = YES
-
 # Doxygen Awesome Style settings for sidebar-only layout
 GENERATE_TREEVIEW      = YES # required!
 DISABLE_INDEX          = NO
@@ -49,3 +45,6 @@ INTERACTIVE_SVG = YES  # Enable highlighting by hovering on elements
 # Add header customization
 HTML_HEADER            = "@PROJECT_SOURCE_DIR@/docs/layout/header.html"
 PROJECT_LOGO           = "@PROJECT_SOURCE_DIR@/resources/logo/aqnwb-logo.png"
+
+# Fail on warnings
+WARN_AS_ERROR = FAIL_ON_WARNINGS_PRINT
