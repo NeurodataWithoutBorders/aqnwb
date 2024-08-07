@@ -1,8 +1,9 @@
 var class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o =
 [
     [ "HDF5IO", "class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a5b7e7f43edffa80553e2bf2d0d4bffa6", null ],
-    [ "HDF5IO", "class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a97f6a87e029f8fc6dad03ffecde8f2ce", null ],
+    [ "HDF5IO", "class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#aaf848d1a42512f90e9c9a0e134508bb8", null ],
     [ "~HDF5IO", "class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a7a4c82820e1ad91a82c90c30dfb937fe", null ],
+    [ "canModifyObjects", "class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a96d8d872b2b974ac79a20b82fd72c5c2", null ],
     [ "close", "class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a969eb3d7ab2d93c5a83b58f27773e16f", null ],
     [ "createArrayDataSet", "class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a2ed549816b5605817aa7ccc2e6c7c4cc", null ],
     [ "createAttribute", "class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a41b29c0a44b9cf1778f8b0883834be36", null ],
@@ -21,5 +22,7 @@ var class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o =
     [ "getObjectType", "class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#ac8558bac2f0bdb98dc5cd87e8d45f095", null ],
     [ "open", "class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#af13e43a73e40b98dcacd9cc587536143", null ],
     [ "open", "class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#af1f8dc9dc57a5d1460707bd162fffe3f", null ],
+    [ "startRecording", "class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a8606979d328123bb7bd8efa9df85c6df", null ],
+    [ "stopRecording", "class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a0cfc2191ccfc122fa5098d4c4b4117b5", null ],
     [ "filename", "class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#af901d3aedd572ff718df7b81e665cc70", null ]
 ];

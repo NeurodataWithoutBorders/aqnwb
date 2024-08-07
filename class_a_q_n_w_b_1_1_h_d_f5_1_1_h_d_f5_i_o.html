@@ -130,9 +130,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5b7e7f43edffa80553e2bf2d0d4bffa6" id="r_a5b7e7f43edffa80553e2bf2d0d4bffa6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5b7e7f43edffa80553e2bf2d0d4bffa6">HDF5IO</a> ()</td></tr>
 <tr class="memdesc:a5b7e7f43edffa80553e2bf2d0d4bffa6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor for the <a class="el" href="class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html" title="The HDF5IO class provides an interface for reading and writing data to HDF5 files.">HDF5IO</a> class.  <br /></td></tr>
 <tr class="separator:a5b7e7f43edffa80553e2bf2d0d4bffa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a97f6a87e029f8fc6dad03ffecde8f2ce" id="r_a97f6a87e029f8fc6dad03ffecde8f2ce"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a97f6a87e029f8fc6dad03ffecde8f2ce">HDF5IO</a> (const std::string &amp;fileName)</td></tr>
-<tr class="memdesc:a97f6a87e029f8fc6dad03ffecde8f2ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for the <a class="el" href="class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html" title="The HDF5IO class provides an interface for reading and writing data to HDF5 files.">HDF5IO</a> class that takes a file name as input.  <br /></td></tr>
-<tr class="separator:a97f6a87e029f8fc6dad03ffecde8f2ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf848d1a42512f90e9c9a0e134508bb8" id="r_aaf848d1a42512f90e9c9a0e134508bb8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaf848d1a42512f90e9c9a0e134508bb8">HDF5IO</a> (const std::string &amp;fileName, const bool disableSWMRMode=false)</td></tr>
+<tr class="memdesc:aaf848d1a42512f90e9c9a0e134508bb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for the <a class="el" href="class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html" title="The HDF5IO class provides an interface for reading and writing data to HDF5 files.">HDF5IO</a> class that takes a file name as input.  <br /></td></tr>
+<tr class="separator:aaf848d1a42512f90e9c9a0e134508bb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a4c82820e1ad91a82c90c30dfb937fe" id="r_a7a4c82820e1ad91a82c90c30dfb937fe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7a4c82820e1ad91a82c90c30dfb937fe">~HDF5IO</a> ()</td></tr>
 <tr class="memdesc:a7a4c82820e1ad91a82c90c30dfb937fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor for the <a class="el" href="class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html" title="The HDF5IO class provides an interface for reading and writing data to HDF5 files.">HDF5IO</a> class.  <br /></td></tr>
 <tr class="separator:a7a4c82820e1ad91a82c90c30dfb937fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -178,6 +178,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a43cc98ba74643c5f93fcce3f30505e1f" id="r_a43cc98ba74643c5f93fcce3f30505e1f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a43cc98ba74643c5f93fcce3f30505e1f">createReferenceDataSet</a> (const std::string &amp;path, const std::vector&lt; std::string &gt; &amp;references) override</td></tr>
 <tr class="memdesc:a43cc98ba74643c5f93fcce3f30505e1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a dataset that holds an array of references to groups within the file.  <br /></td></tr>
 <tr class="separator:a43cc98ba74643c5f93fcce3f30505e1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8606979d328123bb7bd8efa9df85c6df" id="r_a8606979d328123bb7bd8efa9df85c6df"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8606979d328123bb7bd8efa9df85c6df">startRecording</a> () override</td></tr>
+<tr class="memdesc:a8606979d328123bb7bd8efa9df85c6df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start SWMR write to start recording process.  <br /></td></tr>
+<tr class="separator:a8606979d328123bb7bd8efa9df85c6df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cfc2191ccfc122fa5098d4c4b4117b5" id="r_a0cfc2191ccfc122fa5098d4c4b4117b5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0cfc2191ccfc122fa5098d4c4b4117b5">stopRecording</a> () override</td></tr>
+<tr class="memdesc:a0cfc2191ccfc122fa5098d4c4b4117b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops the recording process.  <br /></td></tr>
+<tr class="separator:a0cfc2191ccfc122fa5098d4c4b4117b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96d8d872b2b974ac79a20b82fd72c5c2" id="r_a96d8d872b2b974ac79a20b82fd72c5c2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a96d8d872b2b974ac79a20b82fd72c5c2">canModifyObjects</a> () override</td></tr>
+<tr class="memdesc:a96d8d872b2b974ac79a20b82fd72c5c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether the file is in a mode where objects can be added or deleted. Note, this does not apply to the modification of raw data on already existing objects.  <br /></td></tr>
+<tr class="separator:a96d8d872b2b974ac79a20b82fd72c5c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ed549816b5605817aa7ccc2e6c7c4cc" id="r_a2ed549816b5605817aa7ccc2e6c7c4cc"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_base_recording_data.html">BaseRecordingData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2ed549816b5605817aa7ccc2e6c7c4cc">createArrayDataSet</a> (const <a class="el" href="class_a_q_n_w_b_1_1_base_data_type.html">BaseDataType</a> &amp;type, const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;size, const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;chunking, const std::string &amp;path) override</td></tr>
 <tr class="memdesc:a2ed549816b5605817aa7ccc2e6c7c4cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an extendable dataset with a given base data type, size, chunking, and path.  <br /></td></tr>
 <tr class="separator:a2ed549816b5605817aa7ccc2e6c7c4cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -272,8 +281,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="a97f6a87e029f8fc6dad03ffecde8f2ce" name="a97f6a87e029f8fc6dad03ffecde8f2ce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a97f6a87e029f8fc6dad03ffecde8f2ce">&#9670;&#160;</a></span>HDF5IO() <span class="overload">[2/2]</span></h2>
+<a id="aaf848d1a42512f90e9c9a0e134508bb8" name="aaf848d1a42512f90e9c9a0e134508bb8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf848d1a42512f90e9c9a0e134508bb8">&#9670;&#160;</a></span>HDF5IO() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -281,8 +290,12 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="memname">HDF5IO::HDF5IO </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>fileName</em></span></td><td>)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>fileName</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const bool</td>          <td class="paramname"><span class="paramname"><em>disableSWMRMode</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -317,6 +330,36 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a96d8d872b2b974ac79a20b82fd72c5c2" name="a96d8d872b2b974ac79a20b82fd72c5c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96d8d872b2b974ac79a20b82fd72c5c2">&#9670;&#160;</a></span>canModifyObjects()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool HDF5IO::canModifyObjects </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Checks whether the file is in a mode where objects can be added or deleted. Note, this does not apply to the modification of raw data on already existing objects. </p>
+<dl class="section return"><dt>Returns</dt><dd>Whether objects can be modified. </dd></dl>
+
+<p>Reimplemented from <a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html#aaefc2224d74e9b93d57fff7d2db97987">AQNWB::BaseIO</a>.</p>
+
+</div>
+</div>
 <a id="a969eb3d7ab2d93c5a83b58f27773e16f" name="a969eb3d7ab2d93c5a83b58f27773e16f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a969eb3d7ab2d93c5a83b58f27773e16f">&#9670;&#160;</a></span>close()</h2>
 
@@ -1113,6 +1156,66 @@ Additional Inherited Members</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>The status of the file opening operation. </dd></dl>
 
 <p>Implements <a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html#afbb3379a03bb27f489ad6529c363ecd1">AQNWB::BaseIO</a>.</p>
+
+</div>
+</div>
+<a id="a8606979d328123bb7bd8efa9df85c6df" name="a8606979d328123bb7bd8efa9df85c6df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8606979d328123bb7bd8efa9df85c6df">&#9670;&#160;</a></span>startRecording()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> HDF5IO::startRecording </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Start SWMR write to start recording process. </p>
+<dl class="section return"><dt>Returns</dt><dd>The status of the start recording operation. </dd></dl>
+
+<p>Implements <a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html#a5ccc2f05f0a3ba63925890f78684d39f">AQNWB::BaseIO</a>.</p>
+
+</div>
+</div>
+<a id="a0cfc2191ccfc122fa5098d4c4b4117b5" name="a0cfc2191ccfc122fa5098d4c4b4117b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0cfc2191ccfc122fa5098d4c4b4117b5">&#9670;&#160;</a></span>stopRecording()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> HDF5IO::stopRecording </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Stops the recording process. </p>
+<dl class="section return"><dt>Returns</dt><dd>The status of the stop recording operation. </dd></dl>
+
+<p>Implements <a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html#a182079752b5a215ccfeeedafdee56d50">AQNWB::BaseIO</a>.</p>
 
 </div>
 </div>
