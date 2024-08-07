@@ -46,19 +46,22 @@ public:
    * @brief Initializes the NWB file by opening and setting up the file
    * structure.
    */
-  void initialize();
+  Status initialize();
 
   /**
    * @brief Finalizes the NWB file by closing it.
    */
-  void finalize();
+  Status finalize();
 
   /**
    * @brief Create ElectricalSeries objects to record data into.
    * Created objects are stored in recordingContainers.
+   * Note, this function will fail if the file is in a mode where
+   * new objects cannot be added, which can be checked via
+   * nwbfile.io->canModifyObjects()
    * @param recordingArrays vector of ChannelVector indicating the electrodes to
    *                        record from. A separate ElectricalSeries will be
-   *                        created for each ChannelVector
+   *                        created for each ChannelVector.
    * @param dataType The data type of the elements in the data block.
    * @return Status The status of the object creation operation.
    */
@@ -67,7 +70,12 @@ public:
       const BaseDataType& dataType = BaseDataType::I16);
 
   /**
-   * @brief Closes the relevant datasets.
+   * @brief Starts the recording.
+   */
+  Status startRecording();
+
+  /**
+   * @brief Stops the recording.
    */
   void stopRecording();
 
@@ -95,6 +103,9 @@ public:
 protected:
   /**
    * @brief Creates the default file structure.
+   * Note, this function will fail if the file is in a mode where
+   * new objects cannot be added, which can be checked via
+   * nwbfile.io->canModifyObjects()
    * @return Status The status of the file structure creation.
    */
   Status createFileStructure();

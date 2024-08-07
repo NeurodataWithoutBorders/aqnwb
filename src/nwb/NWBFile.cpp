@@ -30,24 +30,28 @@ NWBFile::NWBFile(const std::string& idText, std::shared_ptr<BaseIO> io)
 
 NWBFile::~NWBFile() {}
 
-void NWBFile::initialize()
+Status NWBFile::initialize()
 {
   if (std::filesystem::exists(io->getFileName())) {
-    io->open(false);
+    return io->open(false);
   } else {
     io->open(true);
-    createFileStructure();
+    return createFileStructure();
   }
 }
 
-void NWBFile::finalize()
+Status NWBFile::finalize()
 {
   recordingContainers.reset();
-  io->close();
+  return io->close();
 }
 
 Status NWBFile::createFileStructure()
 {
+  if (!io->canModifyObjects()) {
+    return Status::Failure;
+  }
+
   io->createCommonNWBAttributes("/", "core", "NWBFile", "");
   io->createAttribute(NWBVersion, "/", "nwb_version");
 
@@ -82,6 +86,10 @@ Status NWBFile::createElectricalSeries(
     std::vector<Types::ChannelVector> recordingArrays,
     const BaseDataType& dataType)
 {
+  if (!io->canModifyObjects()) {
+    return Status::Failure;
+  }
+
   // store all recorded data in the acquisition group
   std::string rootPath = "/acquisition/";
 
@@ -128,7 +136,15 @@ Status NWBFile::createElectricalSeries(
   return Status::Success;
 }
 
-void NWBFile::stopRecording() {}
+Status NWBFile::startRecording()
+{
+  return io->startRecording();
+}
+
+void NWBFile::stopRecording()
+{
+  io->stopRecording();
+}
 
 void NWBFile::cacheSpecifications(const std::string& specPath,
                                   const std::string& versionNumber)

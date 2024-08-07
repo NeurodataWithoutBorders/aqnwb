@@ -27,6 +27,16 @@ target_compile_features(aq-nwb_test PRIVATE cxx_std_17)
 
 catch_discover_tests(aq-nwb_test)
 
+# ---- Custom Executable ----
+
+add_executable(reader_executable
+    reader.cpp)
+target_link_libraries(
+    reader_executable PRIVATE
+    aq-nwb_lib
+)
+target_compile_features(reader_executable PRIVATE cxx_std_17)
+
 # ---- End-of-file commands ----
 
 add_folders(aq-nwbTests)
