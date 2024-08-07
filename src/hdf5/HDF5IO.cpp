@@ -402,7 +402,11 @@ Status HDF5IO::stopRecording()
 {
   // if SWMR mode is disabled, stopping the recording will leave the file open
   if (!disableSWMRMode) {
-    close();
+    close();  // SWMR mode cannot be disabled so close the file
+  }
+  else
+  {
+    H5Fflush(this->file->getId(), H5F_SCOPE_GLOBAL); // flush all data to disk
   }
   return Status::Success;
 }
