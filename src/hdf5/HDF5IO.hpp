@@ -36,6 +36,11 @@ public:
   /**
    * @brief Constructor for the HDF5IO class that takes a file name as input.
    * @param fileName The name of the HDF5 file.
+   * @param disableSWMRMode Disable recording of data in Single Writer
+   *                 Multiple Reader (SWMR) mode. Using SWMR ensures that the
+   *                 HDF5 file remains valid and readable at all times during
+   *                 the recording process (but does not allow for new objects
+   *                 (Groups or Datasets) to be created.
    */
   HDF5IO(const std::string& fileName, const bool disableSWMRMode = false);
 
