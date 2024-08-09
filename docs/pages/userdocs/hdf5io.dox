@@ -2,4 +2,11 @@
  * @page hdf5io HDF5 I/O
  *
  * Coming soon
+ *
+ *  \snippet tests/testHDF5IO_docs_examples.cpp example_HDF5_with_SWMR_mode
+ *
+ *  - Initial size (data is expandable so doesn't matter too much), but if know it then we can set it
+ *  - What chunking to use?
+ *  - When to flush data to disk?
+ *  - using std::make_unique<HDF5::HDF5IO>(path) to manage memory
  */
