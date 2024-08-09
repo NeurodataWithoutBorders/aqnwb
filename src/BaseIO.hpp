@@ -133,6 +133,12 @@ public:
   virtual Status close() = 0;
 
   /**
+   * @brief Flush data to disk
+   * @return The status of the flush operation.
+   */
+  virtual Status flush() = 0;
+
+  /**
    * @brief Creates an attribute at a given location in the file.
    * @param type The base data type of the attribute.
    * @param data Pointer to the attribute data.

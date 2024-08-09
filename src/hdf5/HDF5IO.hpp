@@ -75,6 +75,12 @@ public:
   Status close() override;
 
   /**
+   * @brief Flush data to disk
+   * @return The status of the flush operation.
+   */
+   Status flush() override;
+
+  /**
    * @brief Creates an attribute at a given location in the file.
    * @param type The base data type of the attribute.
    * @param data Pointer to the attribute data.
