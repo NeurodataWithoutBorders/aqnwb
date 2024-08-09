@@ -78,7 +78,7 @@ public:
    * @brief Flush data to disk
    * @return The status of the flush operation.
    */
-   Status flush() override;
+  Status flush() override;
 
   /**
    * @brief Creates an attribute at a given location in the file.

@@ -86,7 +86,7 @@ Status checkStatus(int status)
 
 Status HDF5IO::flush()
 {
-  int status =  H5Fflush(this->file->getId(), H5F_SCOPE_GLOBAL);
+  int status = H5Fflush(this->file->getId(), H5F_SCOPE_GLOBAL);
   return checkStatus(status);
 }
 
