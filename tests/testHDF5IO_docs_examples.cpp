@@ -27,10 +27,10 @@ TEST_CASE("SWMRmodeExamples", "[hdf5io]")
     hdf5io->open();
 
     // add a dataset
-    std::vector<int> testData(10000);
+    std::vector<int> testData(10000);  // Initialize the testData to 0, 1, 2, ... 10000 with std::iota
     std::iota(testData.begin(),
               testData.end(),
-              1);  // Initalize the testData to 0, 1, 2, ... 10000
+              1);
     std::string dataPath = "/data";
     SizeType numBlocks = 10;  // write 10 chunks of
     SizeType numSamples = testData.size();
