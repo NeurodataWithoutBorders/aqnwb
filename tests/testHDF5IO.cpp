@@ -90,6 +90,7 @@ TEST_CASE("writeDataset", "[hdf5io]")
                                    dataPath);
     Status status = dataset->writeDataBlock(
         dataShape, positionOffset, BaseDataType::I32, testData.data());
+    REQUIRE(status == Status::Success);
 
     // Read back the 1D data block from 3D dataset
     std::unique_ptr<BaseRecordingData> dataRead1D =
@@ -129,6 +130,7 @@ TEST_CASE("writeDataset", "[hdf5io]")
     // Write 2D data block
     Status status = dataset->writeDataBlock(
         dataShape, positionOffset, BaseDataType::I32, testData.data());
+    REQUIRE(status == Status::Success);
 
     // Read back the 2D data block
     std::unique_ptr<BaseRecordingData> dsetRead2D =
@@ -165,6 +167,7 @@ TEST_CASE("writeDataset", "[hdf5io]")
                                    dataPath);
     Status status = dataset->writeDataBlock(
         dataShape, positionOffset, BaseDataType::I32, testData.data());
+    REQUIRE(status == Status::Success);
 
     // Read back the 1D data block from 3D dataset
     std::unique_ptr<BaseRecordingData> dataRead1D =
@@ -201,6 +204,7 @@ TEST_CASE("writeDataset", "[hdf5io]")
                                    dataPath);
     Status status = dataset->writeDataBlock(
         dataShape, positionOffset, BaseDataType::I32, testData.data());
+    REQUIRE(status == Status::Success);
 
     // Read back the 2D data block from 3D dataset
     std::unique_ptr<BaseRecordingData> dataRead2D =
@@ -312,7 +316,7 @@ TEST_CASE("SWMRmode", "[hdf5io]")
         std::move(promise));
 
     // write to file
-    for (int b = 0; b <= numBlocks; b++) {
+    for (SizeType b = 0; b <= numBlocks; b++) {
       // write data block and flush to file
       std::vector<SizeType> dataShape = {numSamples};
       dataset->writeDataBlock(dataShape, BaseDataType::I32, &testData[0]);
@@ -335,6 +339,9 @@ TEST_CASE("SWMRmode", "[hdf5io]")
     int retSWMREnabled = future.get();
     REQUIRE(retSWMREnabled == 0);  // process should succeed if data was written
                                    // and read successfully
+
+    // test flush data to disk
+    REQUIRE(hdf5io->flush() == Status::Success);
 
     // stop recording, check that file is closed and recording cannot be
     // restarted
@@ -365,7 +372,7 @@ TEST_CASE("SWMRmode", "[hdf5io]")
     REQUIRE(hdf5io->canModifyObjects() == true);
 
     // write to file
-    for (int b = 0; b <= numBlocks; b++) {
+    for (SizeType b = 0; b <= numBlocks; b++) {
       // write data block and flush to file
       std::vector<SizeType> dataShape = {numSamples};
       dataset->writeDataBlock(dataShape, BaseDataType::I32, &testData[0]);
@@ -396,7 +403,7 @@ TEST_CASE("SWMRmode", "[hdf5io]")
                                    SizeArray {1},
                                    dataPathPostRestart);
 
-    for (int b = 0; b <= numBlocks; b++) {
+    for (SizeType b = 0; b <= numBlocks; b++) {
       // write data block and flush to file
       std::vector<SizeType> dataShape = {numSamples};
       datasetPostRestart->writeDataBlock(

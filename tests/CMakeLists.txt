@@ -17,7 +17,9 @@ add_executable(aq-nwb_test
     testFile.cpp
     testHDF5IO.cpp
     testNWBFile.cpp
-    testNWBRecording.cpp)
+    testNWBRecording.cpp
+    testHDF5IO_docs_examples.cpp
+    )
 target_link_libraries(
     aq-nwb_test PRIVATE
     aq-nwb_lib
