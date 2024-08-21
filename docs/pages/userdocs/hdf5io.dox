@@ -1,12 +1,84 @@
 /**
  * @page hdf5io HDF5 I/O
  *
- * Coming soon
+ * \section hdf5io_swmr Single-Writer Multiple-Reader (SWMR) Mode
  *
- *  \snippet tests/examples/test_HDF5IO_examples.cpp example_HDF5_with_SWMR_mode
+ * The \ref AQNWB::HDF5::HDF5IO I/O backend uses by default SWMR mode while recording data.
+ * The SWMR  mode in HDF5 allows one process to write to an HDF5 file while allowing multiple
+ * other processes to read from the file concurrently.
  *
- *  - Initial size (data is expandable so doesn't matter too much), but if know it then we can set it
- *  - What chunking to use?
- *  - When to flush data to disk?
- *  - using std::make_unique<HDF5::HDF5IO>(path) to manage memory
+ * \subsection hdf5io_swmr_features Why does AqNWB use SMWR mode?
+ *
+ * Using SWMR has several key advantages for data acquisition applications:
+ *
+ * - \b Concurrent \b Access: Enables one writer process to update the file while
+ *   multiple reader processes read from it without blocking each other.
+ * - \b Data \b Consistency \b and \b Integrity: Ensures that readers see a consistent view of
+ *   the data, even as it is being written. Readers will only see data that has been completely
+ *   written and flushed to disk. Hence, SWMR mode, maintains the integrity and consistency of
+ *   the data, ensuring that the HDF5 file remains readable even if errors should occur during
+ *   the data acquisition process.
+ * - \b Real-Time \b Data \b Access: Useful for applications that need to monitor
+ *   and analyze data in real-time as it is being generated.
+ * - \b Simplified \b Workflow \b for \b Real \b Time \b Analyses: Simplifies the
+ *   architecture of applications that require real-time data consumption during acquisition,
+ *   avoiding the need for intermediate storage solutions and complex inter-process communication
+ *   or file locking mechanisms.
+ *
+ * \note
+ * While SWMR mode ensures data integrity, some data loss may still occur if the application crashes.
+ * Only data that has been completely written and flushed to disk will be readable. To manually
+ * flush data to disk use \ref AQNWB::HDF5::HDF5IO::flush .
+ *
+ * \subsection  hdf5io_swmr_workflow SWMR Workflow
+ *
+ * SWMR mode is enabled when calling \ref AQNWB::HDF5::HDF5IO::startRecording . Once SWMR mode is
+ * enabled, no new data objects (Datasets, Groups, Attributes etc.) can be created, but we can
+ * only add and set values to existing data objects. Since other processes may read from the
+ * HDF5 file, it is not possible to intermittently disable SWMR mode to add new objects, i.e.,
+ * once SWMR mode is enabled, the only way to add new objects to the file is to close the
+ * file and reopen in read/write mode.  As such, the typical workflow when using
+ * SWMR mode during data acquisition is to:
+ *
+ * 1. Open the HDF5 file
+ * 2. Create all elements of the NWB file
+ * 3. Start the recording process
+ * 4. Stop recording and close the file
+ *
+ * This workflow is applicable to a wide range of data acquisition use-cases. However,
+ * for use cases that require creation of new Groups and Datasets during acquisition,
+ * you can disable the use of SWMR mode by setting `disableSWMRMode=true` when
+ * constructing the \ref AQNWB::HDF5::HDF5IO object.
+ *
+ * \warning
+ * While disabling SWMR mode allows Groups and Datasets to be created during and after
+ * recording, this comes at the  cost of losing the concurrent access and data integrity
+ * features that SWMR mode provides.
+ *
+ * \subsection  hdf5io_swmr_example Code Example: SWMR Workflow
+ *
+ * \snippet tests/examples/test_HDF5IO_examples.cpp example_HDF5_with_SWMR_mode
+ *
+ * \section hdf5io_chunking Chunking
+ *
+ * For datasets intended for recording, `AqNWB` using chunking by default.
+ * Using chunking in HDF5, a dataset is divided into fixed-size blocks (called chunks),
+ * which are stored separately in the file. This technique is particularly
+ * beneficial for large datasets and offers several advantages:
+ *
+ * - **Extend datasets**: Chunked datasets can be easily extended in any dimension.
+ *    This flexibility is crucial for recording datasets where the size of the dataset
+ *    is not known in advance.
+ * - **Performance Optimization**: By carefully choosing the chunk size, you can optimize
+ *    performance based on your particular read/write access patterns. When only a portion
+ *    of a chunked dataset is accessed, only the relevant chunks are read or written,
+ *    reducing the amount of I/O operations.
+ * - **Compression**: Data within each chunk can be compressed independently, which can help
+ *   to significant reduce data size, especially for datasets with redundancy.
+ *
+ * \warning
+ * Choosing a chunking configuration that does not align well with the desired read/write pattern
+ * may lead to reduced performance due to repeated read, decompression, and update to the same
+ * chunk or read of extra data as chunks are always read fully.
+ *
  */
