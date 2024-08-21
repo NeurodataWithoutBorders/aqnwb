@@ -15,6 +15,10 @@ using Status = AQNWB::Types::Status;
 using SizeArray = AQNWB::Types::SizeArray;
 using SizeType = AQNWB::Types::SizeType;
 
+/*!
+ * \namespace AQNWB
+ * \brief The main namespace for AqNWB
+ */
 namespace AQNWB
 {
 
