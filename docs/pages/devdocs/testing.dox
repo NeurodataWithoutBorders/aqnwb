@@ -1,5 +1,46 @@
 /**
  * @page testing Testing
  *
- * Coming soon
+ * \section testing_unit Unit Tests
+ *
+ * `AqNWB` uses `ctest` and `CATCH2` for unit testing.
+ *  Relevant files for the unit tests are located at:
+ *  * ``/tests`` : Sources of the unit tests
+ *  * ``/tests/examples`` : Sources of example code used in the docs. The examples are implemented like
+ *    regular unit tests but their purpose is to provide examples for the docs (rather than testing
+ *    specific cases) and as such commonly include Doxygen section markers to allow include of sections
+ *    of code in the Doxygen docs.
+ *
+ *
+ * \subsection testing_unit_run Running Unit Tests
+ *
+ * If you built AqNWB with the `dev` mode preset, then simply call:
+ *
+ *  \code{.sh}
+ *  ctest --preset=dev
+ *  \endcode
+ *
+ * Alternatively go to your build directory and run ``ctest`` directly, e.g.:
+ *
+ *  \code{.sh}
+ *  cd <my_build_dir>
+ *  ctest
+ *  \endcode
+ *
+ * \section testing_spellcheck Spellcheck
+ *
+ * AqNWB uses ``codepsell`` to check the code for spelling errors. You can run the spellchecker via:
+ *
+ * \code{.sh}
+ *  cmake --build --preset=dev --target=spell-check
+ * \endcode
+ *
+ * \section testing_lint Linting
+ *
+ * AqNWB uses ``clang-format`` for linting the code. You can run the linter via:
+ *
+ * \code{.sh}
+ *  cmake --build --preset=dev --target=format-check
+ * \endcode
+ *
  */
