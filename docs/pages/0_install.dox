@@ -12,6 +12,7 @@
  * - Additional requirements for developers (mode `dev`)
  *   - cppcheck
  *   - clang-format
+ *   - codespell  (optional, required for ``target=spell-check``)
  *
  * \section userbuild_sec User Build
  *
