@@ -3,7 +3,7 @@
  *
  * \section hdf5io_swmr Single-Writer Multiple-Reader (SWMR) Mode
  *
- * The \ref AQNWB::HDF5::HDF5IO I/O backend uses by default SWMR mode while recording data.
+ * The \ref AQNWB::HDF5::HDF5IO "HDF5IO" I/O backend uses by default SWMR mode while recording data.
  * The SWMR  mode in HDF5 allows one process to write to an HDF5 file while allowing multiple
  * other processes to read from the file concurrently.
  *
@@ -28,17 +28,17 @@
  * \note
  * While SWMR mode ensures data integrity, some data loss may still occur if the application crashes.
  * Only data that has been completely written and flushed to disk will be readable. To manually
- * flush data to disk use \ref AQNWB::HDF5::HDF5IO::flush .
+ * flush data to disk use \ref AQNWB::HDF5::HDF5IO::flush  "HDF5IO::flush".
  *
  * \subsection  hdf5io_swmr_workflow SWMR Workflow
  *
- * SWMR mode is enabled when calling \ref AQNWB::HDF5::HDF5IO::startRecording . Once SWMR mode is
- * enabled, no new data objects (Datasets, Groups, Attributes etc.) can be created, but we can
- * only add and set values to existing data objects. Since other processes may read from the
- * HDF5 file, it is not possible to intermittently disable SWMR mode to add new objects, i.e.,
- * once SWMR mode is enabled, the only way to add new objects to the file is to close the
- * file and reopen in read/write mode.  As such, the typical workflow when using
- * SWMR mode during data acquisition is to:
+ * SWMR mode is enabled when calling \ref AQNWB::HDF5::HDF5IO::startRecording "HDF5IO::startRecording".
+ * Once SWMR mode is enabled, no new data objects (Datasets, Groups, Attributes etc.)
+ * can be created, but we can only add and set values to existing data objects. Since other
+ * processes may read from the HDF5 file, it is not possible to intermittently disable
+ * SWMR mode to add new objects, i.e., once SWMR mode is enabled, the only way to add
+ * new objects to the file is to close the file and reopen in read/write mode.  As such,
+ * the typical workflow when using SWMR mode during data acquisition is to:
  *
  * 1. Open the HDF5 file
  * 2. Create all elements of the NWB file
