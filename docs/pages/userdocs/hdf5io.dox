@@ -173,18 +173,18 @@
  * recording, this comes at the  cost of losing the concurrent access and data integrity
  * features that SWMR mode provides.
  *
- * \subsection hdf5io_swmr_examples Code Examples
+ * \subsubsection hdf5io_swmr_examples Code Examples
  *
  * This code snippet shows all the includes that are being used by the code examples
  * shown in this section:
  *
  * \snippet tests/examples/test_HDF5IO_examples.cpp example_HDF5_includes
  *
- * \subsubsection  hdf5io_swmr_examples_with_swmr Workflow with SWMR
+ * \paragraph  hdf5io_swmr_examples_with_swmr Workflow with SWMR
  *
  * \snippet tests/examples/test_HDF5IO_examples.cpp example_HDF5_with_SWMR_mode
  *
- * \subsubsection  hdf5io_noswmr_examples_without_swmr Workflow with SWMR disabled
+ * \paragraph  hdf5io_noswmr_examples_without_swmr Workflow with SWMR disabled
  *
  * \snippet tests/examples/test_HDF5IO_examples.cpp example_HDF5_without_SWMR_mode
  *
