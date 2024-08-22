@@ -114,7 +114,7 @@ Status NWBFile::createElectricalSeries(
     elecTable = std::make_unique<ElectrodeTable>(io);
     elecTable->initialize();
   }
-  
+
   // Create continuous datasets
   for (const auto& channelVector : recordingArrays) {
     // Setup electrodes and devices
@@ -154,7 +154,8 @@ Status NWBFile::createElectricalSeries(
   return Status::Success;
 }
 
-Status NWBFile::createSpikeEventSeries(std::vector<Types::ChannelVector> recordingArrays,
+Status NWBFile::createSpikeEventSeries(
+    std::vector<Types::ChannelVector> recordingArrays,
     const BaseDataType& dataType)
 {
   // Setup electrode table if it was not yet created
@@ -193,7 +194,7 @@ Status NWBFile::createSpikeEventSeries(std::vector<Types::ChannelVector> recordi
 
     // Add electrode information to table (does not write to datasets yet)
     elecTable->addElectrodes(channelVector);
-    }
+  }
   // write electrode information to datasets
   elecTable->finalize();
 
@@ -203,9 +204,8 @@ Status NWBFile::createSpikeEventSeries(std::vector<Types::ChannelVector> recordi
 Status NWBFile::createAnnotationSeries(std::string name)
 {
   // Setup electrical series datasets
-  auto annotationSeries = std::make_unique<AnnotationSeries>(
-      acquisitionPath + name,
-      io);
+  auto annotationSeries =
+      std::make_unique<AnnotationSeries>(acquisitionPath + name, io);
   annotationSeries->initialize();
   recordingContainers->addData(std::move(annotationSeries));
 

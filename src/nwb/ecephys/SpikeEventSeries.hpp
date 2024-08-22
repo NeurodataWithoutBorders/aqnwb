@@ -9,7 +9,8 @@
 namespace AQNWB::NWB
 {
 /**
- * @brief Stores snapshots/snippets of recorded spike events (i.e., threshold crossings). 
+ * @brief Stores snapshots/snippets of recorded spike events (i.e., threshold
+ * crossings).
  */
 class SpikeEventSeries : public ElectricalSeries
 {
@@ -18,7 +19,8 @@ public:
    * @brief Constructor.
    * @param path The location of the SpikeEventSeries in the file.
    * @param io A shared pointer to the IO object.
-   * @param description The description of the SpikeEventSeries, should describe how events were detected.
+   * @param description The description of the SpikeEventSeries, should describe
+   * how events were detected.
    */
   SpikeEventSeries(const std::string& path,
                    std::shared_ptr<BaseIO> io,

@@ -156,7 +156,6 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
   }
 }
 
-
 TEST_CASE("SpikeEventSeries", "[ecephys]")
 {
   // setup recording info

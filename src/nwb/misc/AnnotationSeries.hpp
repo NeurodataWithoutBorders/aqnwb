@@ -21,12 +21,12 @@ public:
    * @param comments Human-readable comments about the AnnotationSeries
    */
   AnnotationSeries(const std::string& path,
-             std::shared_ptr<BaseIO> io,
-             const BaseDataType& dataType = BaseDataType::V_STR,
-             const std::string& description = "no description",
-             const std::string& comments = "no comments",
-             const SizeArray& dsetSize = SizeArray {0},
-             const SizeArray& chunkSize = SizeArray {1});
+                   std::shared_ptr<BaseIO> io,
+                   const BaseDataType& dataType = BaseDataType::V_STR,
+                   const std::string& description = "no description",
+                   const std::string& comments = "no comments",
+                   const SizeArray& dsetSize = SizeArray {0},
+                   const SizeArray& chunkSize = SizeArray {1});
 
   /**
    * @brief Destructor

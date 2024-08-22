@@ -16,15 +16,15 @@ SpikeEventSeries::SpikeEventSeries(const std::string& path,
                                    const float& resolution,
                                    const float& offset)
     : ElectricalSeries(path,
-                 io,
-                 dataType,
-                 channelVector,
-                 description,
-                 dsetSize,
-                 chunkSize,
-                 conversion,
-                 resolution,
-                 offset)
+                       io,
+                       dataType,
+                       channelVector,
+                       description,
+                       dsetSize,
+                       chunkSize,
+                       conversion,
+                       resolution,
+                       offset)
 {
 }
 

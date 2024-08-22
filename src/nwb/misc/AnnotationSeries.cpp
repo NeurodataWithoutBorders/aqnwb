@@ -6,12 +6,12 @@ using namespace AQNWB::NWB;
 
 /** Constructor */
 AnnotationSeries::AnnotationSeries(const std::string& path,
-                       std::shared_ptr<BaseIO> io,
-                       const BaseDataType& dataType,
-                       const std::string& description,
-                       const std::string& comments,
-                       const SizeArray& dsetSize,
-                       const SizeArray& chunkSize)
+                                   std::shared_ptr<BaseIO> io,
+                                   const BaseDataType& dataType,
+                                   const std::string& description,
+                                   const std::string& comments,
+                                   const SizeArray& dsetSize,
+                                   const SizeArray& chunkSize)
     : TimeSeries(path,
                  io,
                  dataType,
