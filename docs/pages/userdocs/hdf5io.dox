@@ -3,7 +3,8 @@
  *
  * \section hdf5io_chunking Chunking
  *
- * For datasets intended for recording, `AqNWB` using chunking by default.
+ * For datasets intended for recording, `AqNWB` uses chunking to ensure the dataset
+ * can be extended as new data arrives during the recording process.
  * Using chunking in HDF5, a dataset is divided into fixed-size blocks (called chunks),
  * which are stored separately in the file. This technique is particularly
  * beneficial for large datasets and offers several advantages:
@@ -24,11 +25,105 @@
  * chunk or read of extra data as chunks are always read fully.
  *
  *
+ *
+ * \dot
+ * digraph Chunking {
+ *     node [shape=plaintext];
+ *
+ *     // Define the HDF5 file node with a distinct shape
+ *     subgraph cluster_0 {
+ *         label="HDF5 File";
+ *         style=filled;
+ *         shape=folder;
+ *         color=white;
+ *         penwidth=1;
+ *         pencolor=black;
+ *
+ *         // Define the dataset node
+ *         dataset [label=<
+ *             <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+ *                 <TR>
+ *                     <TD COLSPAN="2" BGCOLOR="lightblue">HDF5 Dataset</TD>
+ *                 </TR>
+ *                 <TR>
+ *                     <TD PORT="chunk1" BGCOLOR="lightgreen">
+ *                         <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+ *                             <TR><TD></TD><TD></TD></TR>
+ *                             <TR><TD></TD><TD></TD></TR>
+ *                         </TABLE>
+ *                     </TD>
+ *                     <TD PORT="chunk3" BGCOLOR="lightgreen">
+ *                         <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+ *                             <TR><TD></TD><TD></TD></TR>
+ *                             <TR><TD></TD><TD></TD></TR>
+ *                         </TABLE>
+ *                     </TD>
+ *                 </TR>
+ *                 <TR>
+ *                     <TD PORT="chunk2" BGCOLOR="lightgreen">
+ *                         <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+ *                             <TR><TD></TD><TD></TD></TR>
+ *                             <TR><TD></TD><TD></TD></TR>
+ *                         </TABLE>
+ *                     </TD>
+ *                     <TD PORT="chunk4" BGCOLOR="lightgreen">
+ *                         <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+ *                             <TR><TD></TD><TD></TD></TR>
+ *                             <TR><TD></TD><TD></TD></TR>
+ *                         </TABLE>
+ *                     </TD>
+ *                 </TR>
+ *             </TABLE>
+ *         >];
+ *
+ *         // Define the chunks
+ *         chunk1 [label="Chunk 1", shape=box, fillcolor=lightgreen, style=filled];
+ *         chunk2 [label="Chunk 2", shape=box, fillcolor=lightgreen, style=filled];
+ *         chunk4 [label="Chunk 4", shape=box, fillcolor=lightgreen, style=filled];
+ *         chunk3 [label="Chunk 3", shape=box, fillcolor=lightgreen, style=filled];
+ *
+ *         // Define the edges
+ *         dataset:chunk1 -> chunk1 [label=""];
+ *         dataset:chunk2 -> chunk2 [label=""];
+ *         dataset:chunk3 -> chunk3 [label=""];
+ *         dataset:chunk4 -> chunk4 [label=""];
+ *     }
+ * }
+ * \enddot
+ *
+ *
  * \section hdf5io_swmr Single-Writer Multiple-Reader (SWMR) Mode
  *
  * The \ref AQNWB::HDF5::HDF5IO "HDF5IO" I/O backend uses by default SWMR mode while recording data.
- * The SWMR  mode in HDF5 allows one process to write to an HDF5 file while allowing multiple
- * other processes to read from the file concurrently.
+ * Using SWMR, one process can write to the HDF5 file and multiple other processes can read
+ * from the file concurrently while ensuring that the readers see a consistent view of the data.
+ *
+ * \dot
+ * digraph SWMR {
+ *     size="4,3"; // Set the size of the diagram to 4 inches wide by 3 inches tall
+ *     node [shape=box, style=filled];
+ *
+ *     // Define the writer node with light blue fill color
+ *     writer [label="AqNWB HDF5IO\n(SWMR Write)", fillcolor=lightblue, URL="\ref AQNWB::HDF5::HDF5IO"];
+ *     // Define the HDF5 file node with a distinct shape
+ *     hdf5_file [label="\n.nwb\n(HDF5 File)\n ", shape=folder, fillcolor=lightgray, URL="\ref AQNWB::NWB::NWBFile"];
+ *     // Define reader nodes with light green fill color
+ *     reader1 [label="Reader 1\n(SWMR Read)", fillcolor=lightgreen, URL="\ref hdf5io_swmr_read"];
+ *     reader2 [label="Reader 2\n(SWMR Read)", fillcolor=lightgreen, URL="\ref hdf5io_swmr_read"];
+ *     reader3 [label="Reader 3\n(SWMR Read)", fillcolor=lightgreen, URL="\ref hdf5io_swmr_read"];
+ *
+ *     // Set the rank for the nodes
+ *     { rank=source; writer; }
+ *     { rank=same; hdf5_file; }
+ *     { rank=sink; reader1; reader2; reader3; }
+ *
+ *     // Define the edges
+ *     writer -> hdf5_file [label="Write"];
+ *     reader1 -> hdf5_file [label="Read"];
+ *     reader2 -> hdf5_file [label="Read"];
+ *     reader3 -> hdf5_file [label="Read"];
+ * }
+ * \enddot
  *
  * \subsection hdf5io_swmr_features Why does AqNWB use SMWR mode?
  *
@@ -53,7 +148,7 @@
  * Only data that has been completely written and flushed to disk will be readable. To manually
  * flush data to disk use \ref AQNWB::HDF5::HDF5IO::flush  "HDF5IO::flush".
  *
- * \subsection  hdf5io_swmr_workflow SWMR Workflow
+ * \subsection  hdf5io_swmr_workflow Writing an NWB file with SWMR mode
  *
  * SWMR mode is enabled when calling \ref AQNWB::HDF5::HDF5IO::startRecording "HDF5IO::startRecording".
  * Once SWMR mode is enabled, no new data objects (Datasets, Groups, Attributes etc.)
@@ -93,4 +188,15 @@
  *
  * \snippet tests/examples/test_HDF5IO_examples.cpp example_HDF5_without_SWMR_mode
  *
+ *
+ * \subsection  hdf5io_swmr_read Reading with SWMR mode
+ *
+ * While the file is being written to in SWMR mode, readers must open the file with
+ * the ``H5F_ACC_RDONLY`` flag and then enable SWMR read mode using the ``H5Fstart_swmr_read``
+ * function, e.g.:
+ *
+ * \code{.c}
+ *  hid_t file_id = H5Fopen("example.h5", H5F_ACC_RDONLY, H5P_DEFAULT);
+ *  H5Fstart_swmr_read(file_id);
+ * \endcode
  */
