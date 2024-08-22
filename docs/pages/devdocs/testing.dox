@@ -35,12 +35,28 @@
  *  cmake --build --preset=dev --target=spell-check
  * \endcode
  *
+ * To automatically fix spelling errors you can run codespell via the `spell-fix` target instead:
+ *
+ * \code{.sh}
+ *  cmake --build --preset=dev --target=spell-fix
+ * \endcode
+ *
+ * \note
+ * ``codespell`` uses a relatively small dictionary of common misspellings and their corrections. For
+ * more comprehensive spellchecking (in particular of the documentation) additional spellchecking via more
+ * detailed spellcheckers (e.g., ``aspell``) is recommended.
+ *
  * \section testing_lint Linting
  *
  * AqNWB uses ``clang-format`` for linting the code. You can run the linter via:
  *
  * \code{.sh}
  *  cmake --build --preset=dev --target=format-check
+ * \endcode
+ *
+ * To automatically fix formatting errors you can run the linter via the `format-fix` target instead:
+ * \code{.sh}
+ *  cmake --build --preset=dev --target=format-fix
  * \endcode
  *
  */

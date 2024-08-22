@@ -117,8 +117,10 @@
  * \endcode
  *
  * \subsubsection  devbuild_target_options_subsubsec Target options
- * - `format-check` and `format-fix`: run the clang-format tool on the codebase to check errors and to fix them respectively.
- * - `spell-check` and `spell-fix`: run the codespell tool on the codebase to check errors and to fix them respectively.
+ * - `format-check`: run the `clang-format` tool on the codebase to check for formatting errors
+ * - `format-fix` :  run the `clang-format` tool on the codebase with `FIX=YES` to both check and automatically fix for formatting errors
+ * - `spell-check`: run the `codespell` tool on the codebase to check for common spelling errors
+ * - `spell-fix` :  run the `codespell` tool on the codebase with `FIX=YES` to both check and automatically fix  common spelling errors
  * - `docs` : builds the documentation using Doxygen. (Note: run `cmake --preset=dev -DBUILD_DOCS=ON` before building to add docs target)
  */
 
