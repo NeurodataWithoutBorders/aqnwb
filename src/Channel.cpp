@@ -1,6 +1,6 @@
 #include <string>
 
-#include "Channel.hpp"
+#include "aqnwb/Channel.hpp"
 
 using namespace AQNWB;
 

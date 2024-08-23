@@ -4,9 +4,9 @@
 #include <memory>
 #include <vector>
 
-#include "BaseIO.hpp"
-#include "Types.hpp"
-#include "nwb/base/TimeSeries.hpp"
+#include "aqnwb/BaseIO.hpp"
+#include "aqnwb/Types.hpp"
+#include "aqnwb/nwb/base/TimeSeries.hpp"
 
 namespace AQNWB::NWB
 {

@@ -6,15 +6,15 @@
 #include <sstream>
 #include <string>
 
-#include "NWBFile.hpp"
 
-#include "BaseIO.hpp"
-#include "Channel.hpp"
-#include "Utils.hpp"
-#include "nwb/device/Device.hpp"
-#include "nwb/ecephys/ElectricalSeries.hpp"
-#include "nwb/file/ElectrodeGroup.hpp"
-#include "nwb/file/ElectrodeTable.hpp"
+#include "aqnwb/BaseIO.hpp"
+#include "aqnwb/Channel.hpp"
+#include "aqnwb/Utils.hpp"
+#include "aqnwb/nwb/device/Device.hpp"
+#include "aqnwb/nwb/ecephys/ElectricalSeries.hpp"
+#include "aqnwb/nwb/file/ElectrodeGroup.hpp"
+#include "aqnwb/nwb/file/ElectrodeTable.hpp"
+#include "aqnwb/nwb/NWBFile.hpp"
 
 using namespace AQNWB::NWB;
 

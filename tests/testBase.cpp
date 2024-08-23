@@ -1,10 +1,10 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_all.hpp>
 
-#include "BaseIO.hpp"
-#include "Types.hpp"
-#include "Utils.hpp"
-#include "nwb/base/TimeSeries.hpp"
+#include "aqnwb/BaseIO.hpp"
+#include "aqnwb/Types.hpp"
+#include "aqnwb/Utils.hpp"
+#include "aqnwb/nwb/base/TimeSeries.hpp"
 #include "testUtils.hpp"
 
 using namespace AQNWB;

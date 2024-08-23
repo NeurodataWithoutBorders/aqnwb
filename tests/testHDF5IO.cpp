@@ -3,12 +3,12 @@
 
 #include <catch2/catch_test_macros.hpp>
 
-#include "BaseIO.hpp"
-#include "Channel.hpp"
-#include "Types.hpp"
-#include "hdf5/HDF5IO.hpp"
-#include "nwb/NWBFile.hpp"
-#include "nwb/file/ElectrodeTable.hpp"
+#include "aqnwb/BaseIO.hpp"
+#include "aqnwb/Channel.hpp"
+#include "aqnwb/Types.hpp"
+#include "aqnwb/hdf5/HDF5IO.hpp"
+#include "aqnwb/nwb/NWBFile.hpp"
+#include "aqnwb/nwb/file/ElectrodeTable.hpp"
 #include "testUtils.hpp"
 
 using namespace AQNWB;

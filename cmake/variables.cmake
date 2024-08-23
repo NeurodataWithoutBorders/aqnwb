@@ -1,11 +1,12 @@
 # ---- Developer mode ----
 
 # Developer mode enables targets and code paths in the CMake scripts that are
-# only relevant for the developer(s) of aq-nwb
+# only relevant for the developer(s) of aqnwb
 # Targets necessary to build the project must be provided unconditionally, so
 # consumers can trivially build and package the project
 if(PROJECT_IS_TOP_LEVEL)
-  option(aq-nwb_DEVELOPER_MODE "Enable developer mode" OFF)
+  option(aqnwb_DEVELOPER_MODE "Enable developer mode" OFF)
+  option(BUILD_SHARED_LIBS "Build shared libs." OFF)
 endif()
 
 # ---- Warning guard ----
@@ -17,12 +18,12 @@ endif()
 set(warning_guard "")
 if(NOT PROJECT_IS_TOP_LEVEL)
   option(
-      aq-nwb_INCLUDES_WITH_SYSTEM
-      "Use SYSTEM modifier for aq-nwb's includes, disabling warnings"
+      aqnwb_INCLUDES_WITH_SYSTEM
+      "Use SYSTEM modifier for aqnwb's includes, disabling warnings"
       ON
   )
-  mark_as_advanced(aq-nwb_INCLUDES_WITH_SYSTEM)
-  if(aq-nwb_INCLUDES_WITH_SYSTEM)
+  mark_as_advanced(aqnwb_INCLUDES_WITH_SYSTEM)
+  if(aqnwb_INCLUDES_WITH_SYSTEM)
     set(warning_guard SYSTEM)
   endif()
 endif()

@@ -1,6 +1,6 @@
-#include "nwb/ecephys/ElectricalSeries.hpp"
+#include "aqnwb/nwb/ecephys/ElectricalSeries.hpp"
 
-#include "nwb/file/ElectrodeTable.hpp"
+#include "aqnwb/nwb/file/ElectrodeTable.hpp"
 
 using namespace AQNWB::NWB;
 

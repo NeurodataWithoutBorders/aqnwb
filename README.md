@@ -46,6 +46,8 @@ Note, if you are using custom installations of HDF5 or BOOST that are not being 
 automatically by cmake, you can specify `HDF5_ROOT` and `BOOST_ROOT` environment variables to 
 point to install directories of HDF5 and BOOST respectively. 
 
+Use the flag `-DBUILD_SHARED_LIBS=ON` to generate the shared library file.
+
 
 ## Install
 
@@ -59,12 +61,12 @@ cmake --install build --config Release
 ## Developing
 
 Build system targets that are only useful for developers of this project are
-hidden if the `aq-nwb_DEVELOPER_MODE` option is disabled. Enabling this
+hidden if the `aqnwb_DEVELOPER_MODE` option is disabled. Enabling this
 option makes tests and other developer targets and options available. You can enable
-the option when configuring the build by adding ``-Daq-nwb_DEVELOPER_MODE=ON``, e.g.,:
+the option when configuring the build by adding ``-Daqnwb_DEVELOPER_MODE=ON``, e.g.,:
 
 ```sh
-cmake -S . -B build -Daq-nwb_DEVELOPER_MODE=ON
+cmake -S . -B build -Daqnwb_DEVELOPER_MODE=ON
 ```
 ### Presets
 

@@ -2,7 +2,7 @@
 # depends on being added from it, i.e. the testing is done only from the build
 # tree and is not feasible from an install location
 
-project(aq-nwbTests LANGUAGES CXX)
+project(aqnwbTests LANGUAGES CXX)
 
 # ---- Dependencies ----
 
@@ -11,7 +11,7 @@ include(Catch)
 
 # ---- Tests ----
 
-add_executable(aq-nwb_test
+add_executable(aqnwb_test
     testBase.cpp
     testEcephys.cpp
     testFile.cpp
@@ -19,14 +19,14 @@ add_executable(aq-nwb_test
     testNWBFile.cpp
     testNWBRecording.cpp)
 target_link_libraries(
-    aq-nwb_test PRIVATE
-    aq-nwb_lib
+    aqnwb_test PRIVATE
+    aqnwb::aqnwb
     Catch2::Catch2WithMain
 )
-target_compile_features(aq-nwb_test PRIVATE cxx_std_17)
+target_compile_features(aqnwb_test PRIVATE cxx_std_17)
 
-catch_discover_tests(aq-nwb_test)
+catch_discover_tests(aqnwb_test)
 
 # ---- End-of-file commands ----
 
-add_folders(aq-nwbTests)
+add_folders(aqnwbTests)

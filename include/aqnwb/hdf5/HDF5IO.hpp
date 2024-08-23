@@ -6,8 +6,8 @@
 
 #include <H5Opublic.h>
 
-#include "BaseIO.hpp"
-#include "Types.hpp"
+#include "aqnwb/BaseIO.hpp"
+#include "aqnwb/Types.hpp"
 
 namespace H5
 {

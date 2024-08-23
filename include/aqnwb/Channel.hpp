@@ -3,7 +3,7 @@
 #include <array>
 #include <string>
 
-#include "Types.hpp"
+#include "aqnwb/Types.hpp"
 
 using SizeType = AQNWB::Types::SizeType;
 

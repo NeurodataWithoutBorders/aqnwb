@@ -1,6 +1,6 @@
-#include "nwb/file/ElectrodeTable.hpp"
+#include "aqnwb/nwb/file/ElectrodeTable.hpp"
 
-#include "Channel.hpp"
+#include "aqnwb/Channel.hpp"
 
 using namespace AQNWB::NWB;
 

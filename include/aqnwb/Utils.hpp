@@ -8,9 +8,10 @@
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 
-#include "BaseIO.hpp"
 #include "boost/date_time/c_local_time_adjustor.hpp"
-#include "hdf5/HDF5IO.hpp"
+
+#include "aqnwb/BaseIO.hpp"
+#include "aqnwb/hdf5/HDF5IO.hpp"
 
 namespace AQNWB
 {
