@@ -8,7 +8,7 @@
  *  * ``/tests`` : Sources of the unit tests
  *  * ``/tests/examples`` : Sources of example code used in the docs. The examples are implemented like
  *    regular unit tests but their purpose is to provide examples for the docs (rather than testing
- *    specific cases) and as such commonly include Doxygen section markers to allow include of sections
+ *    specific cases) and as such commonly include Doxygen section markers to allow inclusion of sections
  *    of code in the Doxygen docs.
  *
  *
@@ -29,7 +29,7 @@
  *
  * \section testing_spellcheck Spellcheck
  *
- * AqNWB uses ``codepsell`` to check the code for spelling errors. You can run the spellchecker via:
+ * AqNWB uses ``codespell`` to check the code for spelling errors. You can run the spellchecker via:
  *
  * \code{.sh}
  *  cmake --build --preset=dev --target=spell-check
