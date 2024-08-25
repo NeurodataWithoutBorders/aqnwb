@@ -36,3 +36,9 @@ Below is a high-level overview of the project structure and capabilities we are 
   - cppcheck
   - clang-format (optional, required for ``target=format-check``, ``target=format-fix``)
   - codespell  (optional, required for ``target=spell-check``, ``target=spell-fix``)
+
+## Installation
+
+See the [AqNWB Documentation](https://neurodatawithoutborders.github.io/aqnwb/) for installation and integration instructions. 
+* [User Installation](https://neurodatawithoutborders.github.io/aqnwb/install_page.html)
+* [Developer Installation](https://neurodatawithoutborders.github.io/aqnwb/dev_install_page.html)
