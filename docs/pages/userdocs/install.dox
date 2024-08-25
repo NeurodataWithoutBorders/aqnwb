@@ -1,22 +1,12 @@
 /**
  * @page install_page Installing AqNWB
  *
- * \section requirements Requirements
- * - A C++17-compliant compiler
- * - CMake >= 3.15
- * - HDF5 >= 1.10
- * - Boost
- * - Additional requirements for building the documentation (optional)
- *   - Doxygen
- *   - Graphviz
- * - Additional requirements for developers (mode `dev`)
- *   - cppcheck
- *   - clang-format
- *   - codespell  (optional, required for ``target=spell-check``)
+ * \section user_requirements_sec Requirements
  *
- * \section userbuild_sec User Build
+ * Please ensure that the required libraries described in the
+ * \ref requirements "Requirements" section are installed.
  *
- * \subsection userbuild_build_subsec Build
+ * \section userbuild_build_sec Build
  *
  * Here are the steps for building in release mode with a multi-configuration generator:
  *
@@ -30,7 +20,7 @@
  * automatically by cmake, you can specify `HDF5_ROOT` and `BOOST_ROOT` environment variables to
  * point to install directories of HDF5 and BOOST respectively.
  *
- * \subsection userbuild_install_subsec Install
+ * \section userbuild_install_sec Install
  *
  * Here is the command for installing the release mode artifacts with a
  * multi-configuration generator:
@@ -39,89 +29,6 @@
  * cmake --install build --config Release
  * \endcode
  *
- *
- *
- * \section devbuild_sec Developer Build
- *
- * Build system targets that are only useful for developers of AqNWB are
- * hidden if the `aq-nwb_DEVELOPER_MODE` option is disabled. Enabling this
- * option makes tests and other developer targets and options available. You can enable
- * the option when configuring the build by adding `-Daq-nwb_DEVELOPER_MODE=ON`, e.g.,
- *
- * \code{.sh}
- * cmake -S . -B build -Daq-nwb_DEVELOPER_MODE=ON
- * \endcode
- *
- * \subsection  devbuild_presets_subsec Presets
- *
- * As a developer, you can create your own dev preset by making a `CMakeUserPresets.json` file at the root of
- * the project:
- *
- * \code{.json}
- * {
- *   "version": 2,
- *   "cmakeMinimumRequired": {
- *     "major": 3,
- *     "minor": 15,
- *     "patch": 0
- *   },
- *   "configurePresets": [
- *     {
- *       "name": "dev",
- *       "binaryDir": "${sourceDir}/build/dev",
- *       "inherits": ["dev-mode", "ci-<os>"],
- *       "cacheVariables": {
- *         "CMAKE_BUILD_TYPE": "Debug"
- *       }
- *     }
- *   ],
- *   "buildPresets": [
- *     {
- *       "name": "dev",
- *       "configurePreset": "dev",
- *       "configuration": "Debug"
- *     }
- *   ],
- *   "testPresets": [
- *     {
- *       "name": "dev",
- *       "configurePreset": "dev",
- *       "configuration": "Debug",
- *       "output": {
- *         "outputOnFailure": true
- *       }
- *     }
- *   ]
- * }
- * \endcode
- * Replace `<os>` in the `CMakeUserPresets.json` file with the name of
- * the operating system you have (`win64`, `linux` or `darwin`).
- *
- * \subsection configure_build_test Configure, build and test
- *
- * You can configure, build and test the project respectively with the following commands from the project root on
- * any operating system with any build system:
- *
- * \code{.sh}
- * cmake --preset=dev
- * cmake --build --preset=dev
- * ctest --preset=dev
- * \endcode
- *
- * \subsection devbuild_dev_mode_targets_subsec Developer mode targets
- *
- * Additional targets can be invoked when in development mode using the commands below
- *
- * \code{.sh}
- * cmake --build --preset=dev --target=<name of the target>
- * \endcode
- *
- * \subsubsection  devbuild_target_options_subsubsec Target options
- * - `format-check`: run the `clang-format` tool on the codebase to check for formatting errors
- * - `format-fix` :  run the `clang-format` tool on the codebase with `FIX=YES` to both check and automatically fix for formatting errors
- * - `spell-check`: run the `codespell` tool on the codebase to check for common spelling errors
- * - `spell-fix` :  run the `codespell` tool on the codebase with `FIX=YES` to both check and automatically fix  common spelling errors
- * - `docs` : builds the documentation using Doxygen. (Note: run `cmake --preset=dev -DBUILD_DOCS=ON` before building to add docs target)
  */
 
 
