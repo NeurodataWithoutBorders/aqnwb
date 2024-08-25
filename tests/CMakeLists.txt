@@ -18,7 +18,8 @@ add_executable(aq-nwb_test
     testHDF5IO.cpp
     testNWBFile.cpp
     testNWBRecording.cpp
-    examples/test_HDF5IO_examples.cpp  # Include examples source file
+    examples/test_HDF5IO_examples.cpp
+    examples/test_example.cpp
 )
 
 # Ensure the aq-nwb_test target can include headers from the current directory and Catch2
