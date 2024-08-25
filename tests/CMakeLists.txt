@@ -24,7 +24,6 @@ add_executable(aq-nwb_test
 # Ensure the aq-nwb_test target can include headers from the current directory and Catch2
 target_include_directories(aq-nwb_test PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}  # Include current directory
-    # ${CATCH2_INCLUDE_DIR}  # Include Catch2 headers, if found by find_package
 )
 
 target_link_libraries(

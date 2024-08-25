@@ -13,7 +13,7 @@
 AqNWB is a C++ API for acquiring neurophysiological data directly into the NWB (Neurodata Without Borders) format.
 Our goal is to provide a lightweight API to integrate with existing acquisition systems.
 
-Please see the [Documentation](https://neurodatawithoutborders.github.io/aqnwb/) for 
+Please see the [AqNWB Documentation](https://neurodatawithoutborders.github.io/aqnwb/) for 
 installation instructions and to learn more about AqNWB.
 
 Below is a high-level overview of the project structure and capabilities we are targeting: 
