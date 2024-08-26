@@ -1,0 +1,37 @@
+/**
+ * @page install_page Installing AqNWB
+ *
+ * \section user_requirements_sec Requirements
+ *
+ * Please ensure that the required libraries described in the
+ * \ref requirements "Requirements" section are installed.
+ *
+ * \section userbuild_build_sec Build
+ *
+ * Here are the steps for building in release mode with a multi-configuration generator:
+ *
+ * \code{.sh}
+ * cmake -S . -B build
+ * cmake --build build --config Release
+ * \endcode
+ *
+ * \note
+ * If you are using custom installations of **HDF5** or **BOOST** that are not being detected
+ * automatically by cmake, you can specify `HDF5_ROOT` and `BOOST_ROOT` environment variables to
+ * point to install directories of HDF5 and BOOST respectively.
+ *
+ * \section userbuild_install_sec Install
+ *
+ * Here is the command for installing the release mode artifacts with a
+ * multi-configuration generator:
+ *
+ * \code{.sh}
+ * cmake --install build --config Release
+ * \endcode
+ *
+ */
+
+
+
+
+ */

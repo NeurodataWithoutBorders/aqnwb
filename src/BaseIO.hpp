@@ -15,6 +15,10 @@ using Status = AQNWB::Types::Status;
 using SizeArray = AQNWB::Types::SizeArray;
 using SizeType = AQNWB::Types::SizeType;
 
+/*!
+ * \namespace AQNWB
+ * \brief The main namespace for AqNWB
+ */
 namespace AQNWB
 {
 
@@ -131,6 +135,12 @@ public:
    * @return The status of the file closing operation.
    */
   virtual Status close() = 0;
+
+  /**
+   * @brief Flush data to disk
+   * @return The status of the flush operation.
+   */
+  virtual Status flush() = 0;
 
   /**
    * @brief Creates an attribute at a given location in the file.

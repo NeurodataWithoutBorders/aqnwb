@@ -17,6 +17,10 @@ class DataType;
 class Exception;
 }  // namespace H5
 
+/*!
+ * \namespace AQNWB::HDF5
+ * \brief Namespace for all components of the HDF5 I/O backend
+ */
 namespace AQNWB::HDF5
 {
 class HDF5RecordingData;  // declare here because gets used in HDF5IO class
@@ -73,6 +77,12 @@ public:
    * @return The status of the file closing operation.
    */
   Status close() override;
+
+  /**
+   * @brief Flush data to disk
+   * @return The status of the flush operation.
+   */
+  Status flush() override;
 
   /**
    * @brief Creates an attribute at a given location in the file.
