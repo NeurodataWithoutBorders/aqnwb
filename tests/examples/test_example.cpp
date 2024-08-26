@@ -1,7 +1,7 @@
 // [example_all]
 #include <catch2/catch_test_macros.hpp>
 
-#include "hdf5/HDF5IO.hpp"
+#include "aqnwb/hdf5/HDF5IO.hpp"
 #include "testUtils.hpp"
 
 TEST_CASE("SimpleExamples", "[hdf5io]")

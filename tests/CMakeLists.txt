@@ -49,7 +49,7 @@ target_include_directories(reader_executable PRIVATE
 
 target_link_libraries(
     reader_executable PRIVATE
-    aqnwb_lib
+    aqnwb_aqnwb
 )
 
 target_compile_features(reader_executable PRIVATE cxx_std_17)
