@@ -17,7 +17,16 @@ add_executable(aqnwb_test
     testFile.cpp
     testHDF5IO.cpp
     testNWBFile.cpp
-    testNWBRecording.cpp)
+    testNWBRecording.cpp
+    examples/test_HDF5IO_examples.cpp
+    examples/test_example.cpp
+)
+
+# Ensure the aq-nwb_test target can include headers from the current directory
+target_include_directories(aqnwb_test PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}  # Include current directory
+)
+
 target_link_libraries(
     aqnwb_test PRIVATE
     aqnwb::aqnwb
@@ -30,11 +39,19 @@ catch_discover_tests(aqnwb_test)
 # ---- Custom Executable ----
 
 add_executable(reader_executable
-    reader.cpp)
+    reader.cpp
+)
+
+# Ensure the reader_executable target can include headers from the current directory
+target_include_directories(reader_executable PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}  # Include current directory
+)
+
 target_link_libraries(
     reader_executable PRIVATE
-    aq-nwb_lib
+    aqnwb_lib
 )
+
 target_compile_features(reader_executable PRIVATE cxx_std_17)
 
 # ---- End-of-file commands ----

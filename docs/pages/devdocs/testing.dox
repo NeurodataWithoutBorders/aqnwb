@@ -1,0 +1,62 @@
+/**
+ * @page testing Testing
+ *
+ * \section testing_unit Unit Tests
+ *
+ * `AqNWB` uses `ctest` and `CATCH2` for unit testing.
+ *  Relevant files for the unit tests are located at:
+ *  * ``/tests`` : Sources of the unit tests
+ *  * ``/tests/examples`` : Sources of example code used in the docs. The examples are implemented like
+ *    regular unit tests but their purpose is to provide examples for the docs (rather than testing
+ *    specific cases) and as such commonly include Doxygen section markers to allow inclusion of sections
+ *    of code in the Doxygen docs.
+ *
+ *
+ * \subsection testing_unit_run Running Unit Tests
+ *
+ * If you built AqNWB with the `dev` mode preset, then simply call:
+ *
+ *  \code{.sh}
+ *  ctest --preset=dev
+ *  \endcode
+ *
+ * Alternatively go to your build directory and run ``ctest`` directly, e.g.:
+ *
+ *  \code{.sh}
+ *  cd <my_build_dir>
+ *  ctest
+ *  \endcode
+ *
+ * \section testing_spellcheck Spellcheck
+ *
+ * AqNWB uses ``codespell`` to check the code for spelling errors. You can run the spellchecker via:
+ *
+ * \code{.sh}
+ *  cmake --build --preset=dev --target=spell-check
+ * \endcode
+ *
+ * To automatically fix spelling errors you can run codespell via the `spell-fix` target instead:
+ *
+ * \code{.sh}
+ *  cmake --build --preset=dev --target=spell-fix
+ * \endcode
+ *
+ * \note
+ * ``codespell`` uses a relatively small dictionary of common misspellings and their corrections. For
+ * more comprehensive spellchecking (in particular of the documentation) additional spellchecking via more
+ * detailed spellcheckers (e.g., ``aspell``) is recommended.
+ *
+ * \section testing_lint Linting
+ *
+ * AqNWB uses ``clang-format`` for linting the code. You can run the linter via:
+ *
+ * \code{.sh}
+ *  cmake --build --preset=dev --target=format-check
+ * \endcode
+ *
+ * To automatically fix formatting errors you can run the linter via the `format-fix` target instead:
+ * \code{.sh}
+ *  cmake --build --preset=dev --target=format-fix
+ * \endcode
+ *
+ */

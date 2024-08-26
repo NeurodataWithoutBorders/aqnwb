@@ -8,6 +8,10 @@
 #include "aqnwb/Types.hpp"
 #include "aqnwb/nwb/base/TimeSeries.hpp"
 
+/*!
+ * \namespace AQNWB::NWB
+ * \brief Namespace for all classes related to the NWB data standard
+ */
 namespace AQNWB::NWB
 {
 

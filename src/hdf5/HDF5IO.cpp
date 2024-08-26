@@ -83,6 +83,12 @@ Status checkStatus(int status)
     return Status::Success;
 }
 
+Status HDF5IO::flush()
+{
+  int status = H5Fflush(this->file->getId(), H5F_SCOPE_GLOBAL);
+  return checkStatus(status);
+}
+
 Status HDF5IO::createAttribute(const BaseDataType& type,
                                const void* data,
                                const std::string& path,
@@ -406,7 +412,7 @@ Status HDF5IO::stopRecording()
   if (!disableSWMRMode) {
     close();  // SWMR mode cannot be disabled so close the file
   } else {
-    H5Fflush(this->file->getId(), H5F_SCOPE_GLOBAL);  // flush all data to disk
+    this->flush();
   }
   return Status::Success;
 }
