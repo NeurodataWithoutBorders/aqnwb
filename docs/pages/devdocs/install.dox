@@ -10,13 +10,15 @@
  * \section devbuild_sec Developer Build
  *
  * Build system targets that are only useful for developers of AqNWB are
- * hidden if the `aq-nwb_DEVELOPER_MODE` option is disabled. Enabling this
+ * hidden if the `aqnwb_DEVELOPER_MODE` option is disabled. Enabling this
  * option makes \ref testing "tests" and other developer targets and options available. You can enable
- * the option when configuring the build by adding `-Daq-nwb_DEVELOPER_MODE=ON`, e.g.,
+ * the option when configuring the build by adding `-Daqnwb_DEVELOPER_MODE=ON`, e.g.,
  *
  * \code{.sh}
  * cmake -S . -B build -Daq-nwb_DEVELOPER_MODE=ON
  * \endcode
+ *
+ * Use the flag ``-DBUILD_SHARED_LIBS=ON`` to generate the shared library file.
  *
  * \note
  * If you are using custom installations of **HDF5** or **BOOST** that are not being detected
