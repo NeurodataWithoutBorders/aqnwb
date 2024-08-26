@@ -29,13 +29,15 @@ Status NWBRecording::openFile(const std::string& rootFolder,
                                            createIO(IOType, filename));
   nwbfile->initialize();
 
+  // create the datasets
+  nwbfile->createElectricalSeries(recordingArrays);
+
   // start the new recording
-  return nwbfile->createElectricalSeries(recordingArrays);
+  return nwbfile->startRecording();
 }
 
 void NWBRecording::closeFile()
 {
-  nwbfile->stopRecording();
   nwbfile->finalize();
 }
 

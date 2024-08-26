@@ -239,6 +239,27 @@ public:
       const std::string& path, const std::vector<std::string>& references) = 0;
 
   /**
+   * @brief Starts the recording process.
+   * @return The status of the operation.
+   */
+  virtual Status startRecording() = 0;
+
+  /**
+   * @brief Stops the recording process.
+   * @return The status of the operation.
+   */
+  virtual Status stopRecording() = 0;
+
+  /**
+   * @brief Returns true if the file is in a mode where objects can
+   * be added or deleted. Note, this does not apply to the modification
+   * of raw data on already existing objects. Derived classes should
+   * override this function to check if objects can be modified.
+   * @return True if the file is in a modification mode, false otherwise.
+   */
+  virtual bool canModifyObjects();
+
+  /**
    * @brief Creates an extendable dataset with a given base data type, size,
    * chunking, and path.
    * @param type The base data type of the dataset.

@@ -36,8 +36,13 @@ public:
   /**
    * @brief Constructor for the HDF5IO class that takes a file name as input.
    * @param fileName The name of the HDF5 file.
+   * @param disableSWMRMode Disable recording of data in Single Writer
+   *                 Multiple Reader (SWMR) mode. Using SWMR ensures that the
+   *                 HDF5 file remains valid and readable at all times during
+   *                 the recording process (but does not allow for new objects
+   *                 (Groups or Datasets) to be created.
    */
-  HDF5IO(const std::string& fileName);
+  HDF5IO(const std::string& fileName, const bool disableSWMRMode = false);
 
   /**
    * @brief Destructor for the HDF5IO class.
@@ -177,6 +182,26 @@ public:
       const std::vector<std::string>& references) override;
 
   /**
+   * @brief Start SWMR write to start recording process
+   * @return The status of the start recording operation.
+   */
+  Status startRecording() override;
+
+  /**
+   * @brief Stops the recording process.
+   * @return The status of the stop recording operation.
+   */
+  Status stopRecording() override;
+
+  /**
+   * @brief Checks whether the file is in a mode where objects
+   * can be added or deleted. Note, this does not apply to the modification
+   * of raw data on already existing objects.
+   * @return Whether objects can be modified.
+   */
+  bool canModifyObjects() override;
+
+  /**
    * @brief Creates an extendable dataset with a given base data type, size,
    * chunking, and path.
    * @param type The base data type of the dataset.
@@ -232,6 +257,8 @@ protected:
 
 private:
   std::unique_ptr<H5::H5File> file;
+  bool disableSWMRMode;  // when set do not use SWMR mode when opening the HDF5
+                         // file
 };
 
 /**
