@@ -1,10 +1,12 @@
 var searchData=
 [
-  ['h5_0',['H5',['../namespace_h5.html',1,'']]],
-  ['hdf5io_1',['HDF5IO',['../class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html',1,'AQNWB::HDF5::HDF5IO'],['../class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a5b7e7f43edffa80553e2bf2d0d4bffa6',1,'AQNWB::HDF5::HDF5IO::HDF5IO()'],['../class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#aaf848d1a42512f90e9c9a0e134508bb8',1,'AQNWB::HDF5::HDF5IO::HDF5IO(const std::string &amp;fileName, const bool disableSWMRMode=false)']]],
-  ['hdf5io_2ecpp_2',['HDF5IO.cpp',['../_h_d_f5_i_o_8cpp.html',1,'']]],
-  ['hdf5io_2ehpp_3',['HDF5IO.hpp',['../_h_d_f5_i_o_8hpp.html',1,'']]],
-  ['hdf5recordingdata_4',['HDF5RecordingData',['../class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_recording_data.html',1,'AQNWB::HDF5::HDF5RecordingData'],['../class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#ad822c9112b15211f743fc540139a4dd4',1,'AQNWB::HDF5::HDF5RecordingData::HDF5RecordingData(std::unique_ptr&lt; H5::DataSet &gt; data)'],['../class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a422ceb2efa97e3d72b34f695351b87dc',1,'AQNWB::HDF5::HDF5RecordingData::HDF5RecordingData(const HDF5RecordingData &amp;)=delete']]],
-  ['hdmfexperimentalversion_5',['HDMFExperimentalVersion',['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a7e787fd25b2117c1a922813bbcc5da2e',1,'AQNWB::NWB::NWBFile']]],
-  ['hdmfversion_6',['HDMFVersion',['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a63c5b473dd46c9aa469431057e2e9559',1,'AQNWB::NWB::NWBFile']]]
+  ['f32_0',['F32',['../class_a_q_n_w_b_1_1_base_data_type.html#a0164e3b8cd53950054845d9bd8285fa2',1,'AQNWB::BaseDataType']]],
+  ['f64_1',['F64',['../class_a_q_n_w_b_1_1_base_data_type.html#a596aed9bda4397bbb84a0b9e6074fe58',1,'AQNWB::BaseDataType']]],
+  ['failure_2',['Failure',['../class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9a5e4ad53b09bd2f26e1b2f42bd1ad8fdf',1,'AQNWB::Types']]],
+  ['file_20with_20swmr_20mode_3',['Writing an NWB file with SWMR mode',['../hdf5io.html#hdf5io_swmr_workflow',1,'']]],
+  ['filename_4',['filename',['../class_a_q_n_w_b_1_1_base_i_o.html#a9216c5b8bf33ad420f19a704357659a4',1,'AQNWB::BaseIO::filename'],['../class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#af901d3aedd572ff718df7b81e665cc70',1,'AQNWB::HDF5::HDF5IO::filename']]],
+  ['finalize_5',['finalize',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#ab91b67e0f0a5dbe34d8f86efecf35de8',1,'AQNWB::NWB::ElectrodeTable::finalize()'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#af7b3285fd7e02b444372fb1ab4341674',1,'AQNWB::NWB::NWBFile::finalize()']]],
+  ['flush_6',['flush',['../class_a_q_n_w_b_1_1_base_i_o.html#a20f38f4e089cceb4347145d737c489a3',1,'AQNWB::BaseIO::flush()'],['../class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#af169224331c1c4f67ccf8521f5d778db',1,'AQNWB::HDF5::HDF5IO::flush()']]],
+  ['for_20developers_7',['For Developers',['../devdocs.html',1,'']]],
+  ['for_20users_8',['For Users',['../userdocs.html',1,'']]]
 ];

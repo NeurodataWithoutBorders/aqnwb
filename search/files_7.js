@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['readme_2emd_0',['README.md',['../_r_e_a_d_m_e_8md.html',1,'']]]
+  ['install_2edox_0',['install.dox',['../devdocs_2install_8dox.html',1,'(Global Namespace)'],['../userdocs_2install_8dox.html',1,'(Global Namespace)']]]
 ];

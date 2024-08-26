@@ -20,6 +20,7 @@ var class_a_q_n_w_b_1_1_base_i_o =
     [ "createStringDataSet", "class_a_q_n_w_b_1_1_base_i_o.html#a59a365c645caf1e7c4d1080afc44c032", null ],
     [ "createStringDataSet", "class_a_q_n_w_b_1_1_base_i_o.html#a304c4862f594da9ec9bb5541055f33fc", null ],
     [ "createTimestampsAttributes", "class_a_q_n_w_b_1_1_base_i_o.html#a91c1b10c0d1b1c1c56635dfe1ada777c", null ],
+    [ "flush", "class_a_q_n_w_b_1_1_base_i_o.html#a20f38f4e089cceb4347145d737c489a3", null ],
     [ "getDataSet", "class_a_q_n_w_b_1_1_base_i_o.html#ac99c1ff08dbbc002e251e8b63a6c375d", null ],
     [ "getFileName", "class_a_q_n_w_b_1_1_base_i_o.html#a203635d25b0daf5d60e0cef0772617fd", null ],
     [ "isOpen", "class_a_q_n_w_b_1_1_base_i_o.html#ac3231bb843be24142cd2c484a9489c2e", null ],

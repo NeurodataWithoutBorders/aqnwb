@@ -1,8 +1,11 @@
 var searchData=
 [
-  ['readme_2emd_0',['README.md',['../_r_e_a_d_m_e_8md.html',1,'']]],
-  ['readytoopen_1',['readyToOpen',['../class_a_q_n_w_b_1_1_base_i_o.html#ad31fbf7547f2fa545b0fbac8a2f3b003',1,'AQNWB::BaseIO']]],
-  ['recordingcontainers_2',['RecordingContainers',['../class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html',1,'AQNWB::NWB::RecordingContainers'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#aee9583a1c99f2bb1270c94ec1ba4e260',1,'AQNWB::NWB::RecordingContainers::RecordingContainers(const std::string &amp;name)'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#a240f7f6cd7a386c81d8a68854dfceade',1,'AQNWB::NWB::RecordingContainers::RecordingContainers(const RecordingContainers &amp;)=delete']]],
-  ['requirements_3',['Requirements',['../index.html#autotoc_md1',1,'']]],
-  ['resolution_4',['resolution',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a584a17c772de02eb98b611a4cca96367',1,'AQNWB::NWB::TimeSeries']]]
+  ['o_0',['HDF5 I/O',['../hdf5io.html',1,'userdocs']]],
+  ['of_20conduct_1',['Code of Conduct',['../code_of_conduct_page.html',1,'devdocs']]],
+  ['offset_2',['offset',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a93d59b2733646b58acd2e8b5045b6ae1',1,'AQNWB::NWB::TimeSeries']]],
+  ['open_3',['open',['../class_a_q_n_w_b_1_1_base_i_o.html#a26db4d160e12cd2558bd500bf71c6a8e',1,'AQNWB::BaseIO::open()=0'],['../class_a_q_n_w_b_1_1_base_i_o.html#afbb3379a03bb27f489ad6529c363ecd1',1,'AQNWB::BaseIO::open(bool newfile)=0'],['../class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#af13e43a73e40b98dcacd9cc587536143',1,'AQNWB::HDF5::HDF5IO::open() override'],['../class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#af1f8dc9dc57a5d1460707bd162fffe3f',1,'AQNWB::HDF5::HDF5IO::open(bool newfile) override']]],
+  ['opened_4',['opened',['../class_a_q_n_w_b_1_1_base_i_o.html#a0f5c5684c8427842a10c15d159a30abd',1,'AQNWB::BaseIO']]],
+  ['openfile_5',['openFile',['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_recording.html#a63dd884b01d9ae02c662712e8b11eb7c',1,'AQNWB::NWB::NWBRecording']]],
+  ['operator_3d_6',['operator=',['../class_a_q_n_w_b_1_1_base_i_o.html#a2822242cb44f428da6ef6ec036b1b31d',1,'AQNWB::BaseIO::operator=()'],['../class_a_q_n_w_b_1_1_base_recording_data.html#a2b9481b928ec41e389576c70a4e34ad8',1,'AQNWB::BaseRecordingData::operator=()'],['../class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#ac398452785d0141b7ebc5193fa437a28',1,'AQNWB::HDF5::HDF5RecordingData::operator=()'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a941d5b775441fac6c787cd55a8276461',1,'AQNWB::NWB::NWBFile::operator=()'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#ac413210d6785be7b472aaf5d020cee59',1,'AQNWB::NWB::RecordingContainers::operator=()'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_recording.html#ad36bb8c04f16284f0fffcd01aaec5c68',1,'AQNWB::NWB::NWBRecording::operator=()']]],
+  ['options_7',['Target options',['../dev_install_page.html#devbuild_target_options_subsubsec',1,'']]]
 ];

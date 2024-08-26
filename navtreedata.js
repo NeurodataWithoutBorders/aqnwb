@@ -26,9 +26,8 @@ var NAVTREE =
 [
   [ "aq-nwb", "index.html", [
     [ "AqNWB", "index.html", "index" ],
-    [ "About", "about.html", [
-      [ "Doxygen documentation", "about.html#about-doxygen", null ]
-    ] ],
+    [ "For Users", "userdocs.html", "userdocs" ],
+    [ "For Developers", "devdocs.html", "devdocs" ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
@@ -66,7 +65,7 @@ var NAVTREEINDEX =
 [
 "_base_i_o_8cpp.html",
 "class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#af13e43a73e40b98dcacd9cc587536143",
-"dir_2c5b7fd6b972088aa6b0c8b33452cfb2.html"
+"code_of_conduct_page.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['about_0',['About',['../about.html',1,'']]],
-  ['aqnwb_1',['AqNWB',['../index.html',1,'']]]
+  ['aqnwb_0',['AqNWB',['../index.html',1,'AqNWB'],['../install_page.html',1,'Installing AqNWB']]]
 ];
