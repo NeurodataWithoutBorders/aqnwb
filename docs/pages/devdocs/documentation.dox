@@ -1,5 +1,7 @@
 /**
- * @page dev_docs_page Documentation
+ * \page dev_docs_page Documentation
+ *
+ * \tableofcontents
  *
  * AqNWB uses [Doxygen](https://www.doxygen.nl/) with  [Graphviz](https://graphviz.org/) for
  * documentation. The ``cmake`` related instructions on this page follow the
@@ -27,12 +29,12 @@
  * \par **docs/pages/userdocs/mypage.dox**
  * \code{.sh}
  * /**
- * * @page mypage My New Page
+ * * \page mypage My New Page
  * *
  * */
  * \endcode
  *
- * and add a corresponding ``- @subpage mypage`` entry  to the page listing of the ``docs/pages/1_userdocs.dox``
+ * and add a corresponding ``- \subpage mypage`` entry  to the page listing of the ``docs/pages/1_userdocs.dox``
  * file. Note, the ``subpage`` command uses the label of the page (here ``mypage``) and not the name of the file.
  *
  * Similarly, we can add pages to the  \ref devdocs docs by adding a new ``.dox`` file to the ``docs/pages/devdocs``
