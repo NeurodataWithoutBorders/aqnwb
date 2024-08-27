@@ -1,0 +1,35 @@
+/**
+ * @page getting_started_page Getting Started
+ *
+ * Once you have completed \ref install_page you are ready to start with your project.
+ *
+ * \section getting_started_linking Linking AqNWB to your Project
+ *
+ * Coming soon
+ *
+ * \section getting_started_acquisition_workflow Acquiring Data with AqNWB
+ *
+ * \subsection Main Steps
+ *
+ * 1. **Create the I/O object:** : The I/O object, e.g., \ref AQNWB::HDF5::HDF5IO "HDF5IO", is responsible
+ *    for writing/reading data to/from disk.
+ * 2. **Create the RecordingContainer (optional):** The \ref AQNWB::NWB::RecordingContainers "RecordingContainers"
+ *    class is used to help manage data \ref AQNWB::NWB::Container "Container" objects used for recording. This is not
+ *    required but is particularly useful when recording multiple signals to the same file.
+ * 3. **Create and initialize the NWBFile:**  \ref AQNWB::NWB::NWBFile "NWBFile" is main \ref AQNWB::NWB::Container "Container"
+ *    for creating and managing contents of an NWB file. After creating the object we need to call
+ *    \ref AQNWB::NWB::NWBFile::initialize "NWBFile.initialize(...)" to setup the main outline of the file.
+ * 4. **Create the Containers for recording:**
+ * 5. **Start the recording:**
+ * 6. **Record data:**
+ * 7. **Stop the recording:**
+ * 8. **Clean up:** Delete the references to the object you created, e.g., the I/O object, NWBFile, and RecordingContainer
+ *
+ * \subsection Code Example
+ *
+ * Coming soon
+ *
+ *
+ *
+ *
+ */
