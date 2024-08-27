@@ -28,6 +28,6 @@ See the [AqNWB Documentation](https://neurodatawithoutborders.github.io/aqnwb/) 
 
 ## Contributing and Legal
 
-For more information about licence, contributing guidelines, code of conduct
+For more information about license, contributing guidelines, code of conduct
 and other  relevant documentation for developers please see the
 [Developer Documentation](https://neurodatawithoutborders.github.io/aqnwb/devdocs.html).
