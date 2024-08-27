@@ -3,8 +3,12 @@
  *
  * \section user_requirements_sec Requirements
  *
- * Please ensure that the required libraries described in the
- * \ref requirements "Requirements" section are installed.
+ * Please ensure that the required libraries are installed.
+ *
+ *  - A C++17-compliant compiler
+ *  - [CMake >= 3.15](https://cmake.org)
+ *  - [HDF5 >= 1.10](https://github.com/HDFGroup/hdf5)
+ *  - [Boost](https://www.boost.org/)
  *
  * \section userbuild_build_sec Build
  *
