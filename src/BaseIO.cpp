@@ -1,6 +1,6 @@
-#include "aqnwb/BaseIO.hpp"
+#include "BaseIO.hpp"
 
-#include "aqnwb/Utils.hpp"
+#include "Utils.hpp"
 
 using namespace AQNWB;
 

@@ -7,9 +7,9 @@
 #include <H5Cpp.h>
 #include <catch2/catch_test_macros.hpp>
 
-#include "aqnwb/Channel.hpp"
-#include "aqnwb/hdf5/HDF5IO.hpp"
-#include "aqnwb/Types.hpp"
+#include "Channel.hpp"
+#include "Types.hpp"
+#include "hdf5/HDF5IO.hpp"
 
 using namespace AQNWB;
 namespace fs = std::filesystem;

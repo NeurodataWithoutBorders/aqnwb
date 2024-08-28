@@ -2,10 +2,10 @@
 
 #include <string>
 
-#include "aqnwb/BaseIO.hpp"
-#include "aqnwb/nwb/hdmf/table/DynamicTable.hpp"
-#include "aqnwb/nwb/hdmf/table/ElementIdentifiers.hpp"
-#include "aqnwb/nwb/hdmf/table/VectorData.hpp"
+#include "../../BaseIO.hpp"
+#include "../hdmf/table/DynamicTable.hpp"
+#include "../hdmf/table/ElementIdentifiers.hpp"
+#include "../hdmf/table/VectorData.hpp"
 
 namespace AQNWB::NWB
 {

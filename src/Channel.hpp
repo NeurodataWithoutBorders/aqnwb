@@ -3,7 +3,7 @@
 #include <array>
 #include <string>
 
-#include "aqnwb/Types.hpp"
+#include "Types.hpp"
 
 using SizeType = AQNWB::Types::SizeType;
 
@@ -68,7 +68,7 @@ public:
    * @brief Index of array group the channel belongs to.
    */
   SizeType groupIndex;
-  
+
   /**
    * @brief Index of channel within the recording array.
    */

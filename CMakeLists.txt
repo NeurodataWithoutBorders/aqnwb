@@ -14,6 +14,9 @@ project(
 
 include(cmake/project-is-top-level.cmake)
 include(cmake/variables.cmake)
+include_directories(
+  ${CMAKE_SOURCE_DIR}/src
+)
 
 # ---- Declare library ----
 

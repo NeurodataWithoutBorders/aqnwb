@@ -9,9 +9,9 @@
 
 #include <catch2/catch_test_macros.hpp>
 
-#include "aqnwb/hdf5/HDF5IO.hpp"
-#include "aqnwb/nwb/NWBFile.hpp"
-#include "aqnwb/nwb/file/ElectrodeTable.hpp"
+#include "hdf5/HDF5IO.hpp"
+#include "nwb/NWBFile.hpp"
+#include "nwb/file/ElectrodeTable.hpp"
 #include "testUtils.hpp"
 
 using namespace AQNWB;

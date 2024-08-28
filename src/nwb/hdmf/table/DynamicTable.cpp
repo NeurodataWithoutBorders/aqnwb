@@ -1,4 +1,4 @@
-#include "aqnwb/nwb/hdmf/table/DynamicTable.hpp"
+#include "DynamicTable.hpp"
 
 using namespace AQNWB::NWB;
 
@@ -37,9 +37,10 @@ void DynamicTable::addColumn(const std::string& name,
   } else {
     // write in loop because variable length string
     for (SizeType i = 0; i < values.size(); i++)
-      vectorData->dataset->writeDataBlock(std::vector<SizeType>(1, 1),
-                                          BaseDataType::STR(values[i].size() + 1),
-                                          values[i].c_str());  // TODO - add tests for this
+      vectorData->dataset->writeDataBlock(
+          std::vector<SizeType>(1, 1),
+          BaseDataType::STR(values[i].size() + 1),
+          values[i].c_str());  // TODO - add tests for this
     io->createCommonNWBAttributes(
         path + name, "hdmf-common", "VectorData", colDescription);
   }

@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-#include "aqnwb/Types.hpp"
+#include "Types.hpp"
 
 #define DEFAULT_STR_SIZE 256
 #define DEFAULT_ARRAY_SIZE 1

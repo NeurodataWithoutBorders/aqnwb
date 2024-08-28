@@ -1,7 +1,8 @@
-#include "aqnwb/Channel.hpp"
-#include "aqnwb/nwb/NWBRecording.hpp"
-#include "aqnwb/Utils.hpp"
-#include "aqnwb/hdf5/HDF5IO.hpp"
+#include "NWBRecording.hpp"
+
+#include "../Channel.hpp"
+#include "../Utils.hpp"
+#include "../hdf5/HDF5IO.hpp"
 
 using namespace AQNWB::NWB;
 
@@ -20,8 +21,8 @@ Status NWBRecording::openFile(const std::string& filename,
                               const std::string& IOType)
 {
   // close any existing files
-  if (nwbfile != nullptr){
-      nwbfile->finalize();
+  if (nwbfile != nullptr) {
+    nwbfile->finalize();
   }
 
   // initialize nwbfile object and create base structure

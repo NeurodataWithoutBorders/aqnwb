@@ -2,15 +2,15 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_all.hpp>
 
-#include "aqnwb/BaseIO.hpp"
-#include "aqnwb/Channel.hpp"
-#include "aqnwb/Types.hpp"
-#include "aqnwb/Utils.hpp"
-#include "aqnwb/hdf5/HDF5IO.hpp"
-#include "aqnwb/nwb/device/Device.hpp"
-#include "aqnwb/nwb/ecephys/ElectricalSeries.hpp"
-#include "aqnwb/nwb/file/ElectrodeGroup.hpp"
-#include "aqnwb/nwb/file/ElectrodeTable.hpp"
+#include "BaseIO.hpp"
+#include "Channel.hpp"
+#include "Types.hpp"
+#include "Utils.hpp"
+#include "hdf5/HDF5IO.hpp"
+#include "nwb/device/Device.hpp"
+#include "nwb/ecephys/ElectricalSeries.hpp"
+#include "nwb/file/ElectrodeGroup.hpp"
+#include "nwb/file/ElectrodeTable.hpp"
 #include "testUtils.hpp"
 
 using namespace AQNWB;

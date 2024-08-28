@@ -2,8 +2,8 @@
 
 #include <string>
 
-#include "aqnwb/BaseIO.hpp"
-#include "aqnwb/nwb/hdmf/base/Container.hpp"
+#include "../../BaseIO.hpp"
+#include "../hdmf/base/Container.hpp"
 
 namespace AQNWB::NWB
 {

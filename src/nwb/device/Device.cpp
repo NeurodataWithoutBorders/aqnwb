@@ -1,4 +1,4 @@
-#include "aqnwb/nwb/device/Device.hpp"
+#include "Device.hpp"
 
 using namespace AQNWB::NWB;
 

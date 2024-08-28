@@ -1,4 +1,4 @@
-#include "aqnwb/nwb/hdmf/table/VectorData.hpp"
+#include "VectorData.hpp"
 
 using namespace AQNWB::NWB;
 
