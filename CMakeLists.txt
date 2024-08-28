@@ -19,7 +19,6 @@ include(cmake/variables.cmake)
 
 add_library(
     aqnwb_aqnwb
-    src/aqnwb.cpp
     src/BaseIO.cpp
     src/Channel.cpp
     src/hdf5/HDF5IO.cpp

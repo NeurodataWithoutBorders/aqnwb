@@ -22,7 +22,7 @@ add_executable(aqnwb_test
     examples/test_example.cpp
 )
 
-# Ensure the aq-nwb_test target can include headers from the current directory
+# Ensure the aqnwb_test target can include headers from the current directory
 target_include_directories(aqnwb_test PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}  # Include current directory
 )

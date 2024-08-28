@@ -15,7 +15,7 @@
  * the option when configuring the build by adding `-Daqnwb_DEVELOPER_MODE=ON`, e.g.,
  *
  * \code{.sh}
- * cmake -S . -B build -Daq-nwb_DEVELOPER_MODE=ON
+ * cmake -S . -B build -Daqnwb_DEVELOPER_MODE=ON
  * \endcode
  *
  * Use the flag ``-DBUILD_SHARED_LIBS=ON`` to generate the shared library file.
