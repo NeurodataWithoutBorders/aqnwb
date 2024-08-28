@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.12.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>aq-nwb: AqNWB</title>
+<title>aq-nwb: Overview</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -100,48 +100,80 @@ $(function(){initNavTree('index.html',''); initResizable(true); });
 </div>
 
 <div><div class="header">
-  <div class="headertitle"><div class="title">AqNWB </div></div>
+  <div class="headertitle"><div class="title">Overview </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md__r_e_a_d_m_e"></a></p>
-<p><a href="https://github.com/NeurodataWithoutBorders/aqnwb/actions/workflows/tests.yml"><img src="https://github.com/NeurodataWithoutBorders/aqnwb/actions/workflows/tests.yml/badge.svg" alt="Unit tests" style="pointer-events: none;" class="inline"/></a> <a href="https://github.com/NeurodataWithoutBorders/aqnwb/actions/workflows/codespell.yml"><img src="https://github.com/NeurodataWithoutBorders/aqnwb/actions/workflows/codespell.yml/badge.svg" alt="Codespell" style="pointer-events: none;" class="inline"/></a> <a href="https://github.com/NeurodataWithoutBorders/aqnwb/actions/workflows/lint.yml"><img src="https://github.com/NeurodataWithoutBorders/aqnwb/actions/workflows/lint.yml/badge.svg" alt="Lint" style="pointer-events: none;" class="inline"/></a> <a href="https://github.com/NeurodataWithoutBorders/aqnwb/actions/workflows/doxygen-gh-pages.yml"><img src="https://github.com/NeurodataWithoutBorders/aqnwb/actions/workflows/doxygen-gh-pages.yml/badge.svg" alt="Docs build" style="pointer-events: none;" class="inline"/></a></p>
-<p><a href="https://neurodatawithoutborders.github.io/aqnwb/"><img src="https://img.shields.io/badge/AqNWB-Docs-8A2BE2?style=flat" alt="Docs" class="inline"/></a> <a href="https://nwb-overview.readthedocs.io/en/latest/nwb-project-analytics/docs/source/code_stat_pages/AqNWB_stats.html"><img src="https://img.shields.io/badge/AqNWB-Code%20Statistics-8A2BE2?style=flat" alt="Code Stats" class="inline"/></a></p>
-<p><b>AqNWB is currently under active development and should not yet be used in practice.</b></p>
-<p>AqNWB is a C++ API for acquiring neurophysiological data directly into the NWB (Neurodata Without Borders) format. Our goal is to provide a lightweight API to integrate with existing acquisition systems.</p>
-<p>Please see the <a href="https://neurodatawithoutborders.github.io/aqnwb/">AqNWB Documentation</a> for installation instructions and to learn more about AqNWB.</p>
-<p>Below is a high-level overview of the project structure and capabilities we are targeting:</p>
+<div class="toc"><h3>Table of Contents</h3>
+<ul>
+  <li class="level1">
+    <a href="#Status">Status</a>
+  </li>
+  <li class="level1">
+    <a href="#mainpage_installation">Installation</a>
+  </li>
+  <li class="level1">
+    <a href="#mainpage_navigation">Navigating the Documentation</a>
+  </li>
+  <li class="level1">
+    <a href="#mainpage_contributing">Legal</a>
+  </li>
+</ul>
+</div>
+<div class="textblock"><p>AqNWB is a C++ API for acquiring neurophysiological data directly into the NWB (Neurodata Without Borders) format. Our goal is to provide a lightweight API to integrate with existing acquisition systems. Below is a high-level overview of the project structure and capabilities we are targeting:</p>
 <div class="image">
-<img src="aqnwb_objective_500px.png" alt=""/>
+<img src="aqnwb_objective.png" alt="" width="500px"/>
 <div class="caption">
 Project Overview</div></div>
-    <p><a class="anchor" id="requirements"></a> </p>
-<h1><a class="anchor" id="autotoc_md1"></a>
-Requirements</h1>
-<ul>
-<li><b>Minimum Requirements:</b><ul>
-<li>A C++17-compliant compiler</li>
-<li><a href="https://cmake.org">CMake &gt;= 3.15</a></li>
-<li><a href="https://github.com/HDFGroup/hdf5">HDF5 &gt;= 1.10</a></li>
-<li><a href="https://www.boost.org/">Boost</a></li>
-</ul>
-</li>
-<li><b>Documentation:</b> Additional requirements for building the documentation (optional)<ul>
-<li><a href="https://www.doxygen.nl/">Doxygen</a></li>
-<li><a href="https://graphviz.org/">Graphviz</a></li>
-</ul>
-</li>
-<li><b>For Developers:</b> Additional requirements for developers (mode <code>dev</code>)<ul>
-<li>cppcheck</li>
-<li>clang-format (optional, required for <code>target=format-check</code>, <code>target=format-fix</code>)</li>
-<li>codespell (optional, required for <code>target=spell-check</code>, <code>target=spell-fix</code>)</li>
-</ul>
-</li>
-</ul>
-<h1><a class="anchor" id="autotoc_md2"></a>
+<h1><a class="anchor" id="Status"></a>
+Status</h1>
+<p><b>AqNWB is currently under active development and should not yet be used in practice.</b></p>
+<p> 
+<p>
+<a href="https://github.com/NeurodataWithoutBorders/aqnwb/actions/workflows/tests.yml">
+    <img src="https://github.com/NeurodataWithoutBorders/aqnwb/actions/workflows/tests.yml/badge.svg" alt="Unit tests">
+</a>
+<a href="https://github.com/NeurodataWithoutBorders/aqnwb/actions/workflows/codespell.yml">
+    <img src="https://github.com/NeurodataWithoutBorders/aqnwb/actions/workflows/codespell.yml/badge.svg" alt="Codespell">
+</a>
+<a href="https://github.com/NeurodataWithoutBorders/aqnwb/actions/workflows/lint.yml">
+    <img src="https://github.com/NeurodataWithoutBorders/aqnwb/actions/workflows/lint.yml/badge.svg" alt="Lint">
+</a>
+<a href="https://github.com/NeurodataWithoutBorders/aqnwb/actions/workflows/doxygen-gh-pages.yml">
+    <img src="https://github.com/NeurodataWithoutBorders/aqnwb/actions/workflows/doxygen-gh-pages.yml/badge.svg" alt="Docs build">
+</a>
+</p>
+<p>
+ <a href="https://github.com/NeurodataWithoutBorders/aqnwb">
+    <img src="https://img.shields.io/badge/AqNWB-Source-8A2BE2?style=flat" alt="Source">
+</a>
+<a href="https://nwb-overview.readthedocs.io/en/latest/nwb-project-analytics/docs/source/code_stat_pages/AqNWB_stats.html">
+    <img src="https://img.shields.io/badge/AqNWB-Code%20Statistics-8A2BE2?style=flat" alt="Code Stats">
+</a>
+ <a href="https://neurodatawithoutborders.github.io/aqnwb/">
+    <img src="https://img.shields.io/badge/AqNWB-Online Docs-8A2BE2?style=flat" alt="Online Docs">
+</a>
+</p>
+</p>
+<h1><a class="anchor" id="mainpage_installation"></a>
 Installation</h1>
-<p>See the <a href="https://neurodatawithoutborders.github.io/aqnwb/">AqNWB Documentation</a> for installation and integration instructions.</p><ul>
-<li><a href="https://neurodatawithoutborders.github.io/aqnwb/install_page.html">User Installation</a></li>
-<li><a href="https://neurodatawithoutborders.github.io/aqnwb/dev_install_page.html">Developer Installation</a> </li>
+<ul>
+<li><a class="el" href="user_install_page.html">User Installation</a></li>
+<li><a class="el" href="dev_install_page.html">Developer Installation</a></li>
+</ul>
+<h1><a class="anchor" id="mainpage_navigation"></a>
+Navigating the Documentation</h1>
+<p>The documentation is divided into the following main sections:</p>
+<ul>
+<li><a class="el" href="userdocs.html">For Users</a> : This section is for users who want to use AqNWB in their software project, e.g., to integrate NWB with an acquisition system.</li>
+<li><a class="el" href="devdocs.html">For Developers</a> : This section is for developers and community members who would like to contributed to the development of AqNWB.</li>
+<li><b>API Reference:</b> The <a href="namespaces.html">Namespaces</a>, <a href="annotated.html">Classes</a>, and <a href="files.html">Files</a> sections are autogenerated from the AqNWB source code using Doxygen, providing a detailed reference of all classes, namespaces, files, functions, etc. defined by AqNWB.</li>
+</ul>
+<h1><a class="anchor" id="mainpage_contributing"></a>
+Legal</h1>
+<ul>
+<li><a class="el" href="code_of_conduct_page.html">Code of Conduct</a></li>
+<li><a class="el" href="license_page.html">License</a></li>
+<li><a class="el" href="copyright_page.html">Copyright</a> </li>
 </ul>
 </div></div><!-- PageDoc -->
 <a href="doxygen_crawl.html"></a>

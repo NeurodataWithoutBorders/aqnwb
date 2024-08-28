@@ -1,7 +1,9 @@
 var searchData=
 [
-  ['mode_0',['Single-Writer Multiple-Reader (SWMR) Mode',['../hdf5io.html#hdf5io_swmr',1,'']]],
-  ['mode_1',['mode',['../hdf5io.html#hdf5io_swmr_read',1,'Reading with SWMR mode'],['../hdf5io.html#hdf5io_swmr_features',1,'Why does AqNWB use SMWR mode?'],['../hdf5io.html#hdf5io_swmr_workflow',1,'Writing an NWB file with SWMR mode']]],
-  ['mode_20targets_2',['Developer Mode Targets',['../dev_install_page.html#devbuild_dev_mode_targets_subsec',1,'']]],
-  ['multiple_20reader_20swmr_20mode_3',['Single-Writer Multiple-Reader (SWMR) Mode',['../hdf5io.html#hdf5io_swmr',1,'']]]
+  ['legal_0',['Legal',['../index.html#mainpage_contributing',1,'']]],
+  ['license_1',['License',['../license_page.html',1,'devdocs']]],
+  ['license_2edox_2',['license.dox',['../license_8dox.html',1,'']]],
+  ['linting_3',['Linting',['../testing.html#testing_lint',1,'']]],
+  ['localindex_4',['localIndex',['../class_a_q_n_w_b_1_1_channel.html#a6b1356c910984211a548878117121572',1,'AQNWB::Channel']]],
+  ['locationsdataset_5',['locationsDataset',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#a6caf562153eb2f2385b4404f0b080d05',1,'AQNWB::NWB::ElectrodeTable']]]
 ];

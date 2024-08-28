@@ -1,11 +1,13 @@
 var searchData=
 [
-  ['basedatatype_0',['BaseDataType',['../class_a_q_n_w_b_1_1_base_data_type.html',1,'AQNWB::BaseDataType'],['../class_a_q_n_w_b_1_1_base_data_type.html#abb1e4b6b662308e48b6b4a7ad989d157',1,'AQNWB::BaseDataType::BaseDataType()']]],
-  ['baseio_1',['BaseIO',['../class_a_q_n_w_b_1_1_base_i_o.html',1,'AQNWB::BaseIO'],['../class_a_q_n_w_b_1_1_base_i_o.html#a8114613f475912702b60fff42487ccec',1,'AQNWB::BaseIO::BaseIO()'],['../class_a_q_n_w_b_1_1_base_i_o.html#a2d0721791d637615d2aa1077ab14b3dc',1,'AQNWB::BaseIO::BaseIO(const BaseIO &amp;)=delete']]],
-  ['baseio_2ecpp_2',['BaseIO.cpp',['../_base_i_o_8cpp.html',1,'']]],
-  ['baseio_2ehpp_3',['BaseIO.hpp',['../_base_i_o_8hpp.html',1,'']]],
-  ['baserecordingdata_4',['BaseRecordingData',['../class_a_q_n_w_b_1_1_base_recording_data.html',1,'AQNWB::BaseRecordingData'],['../class_a_q_n_w_b_1_1_base_recording_data.html#a4eca327defbc16495f4dc31ea0f0bd71',1,'AQNWB::BaseRecordingData::BaseRecordingData()'],['../class_a_q_n_w_b_1_1_base_recording_data.html#a4b1ccdf43e4ce683faa96023cf646367',1,'AQNWB::BaseRecordingData::BaseRecordingData(const BaseRecordingData &amp;)=delete']]],
-  ['build_5',['Build',['../install_page.html#userbuild_build_sec',1,'Build'],['../dev_install_page.html#devbuild_sec',1,'Developer Build']]],
-  ['build_20and_20test_6',['Configure, Build and Test',['../dev_install_page.html#configure_build_test',1,'']]],
-  ['building_20the_20docs_7',['Building the Docs',['../dev_docs_page.html#dev_docs_requirements_sec',1,'']]]
+  ['addcolumn_0',['addColumn',['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a76fea09d6ebe8047d7fe9878f49888d9',1,'AQNWB::NWB::DynamicTable::addColumn(const std::string &amp;name, const std::string &amp;colDescription, std::unique_ptr&lt; VectorData &gt; &amp;vectorData, const std::vector&lt; std::string &gt; &amp;values)'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a3fa191b47a61369c35927104964e81c6',1,'AQNWB::NWB::DynamicTable::addColumn(const std::string &amp;name, const std::string &amp;colDescription, const std::vector&lt; std::string &gt; &amp;dataset)']]],
+  ['adddata_1',['addData',['../class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#a1ba557cbb7007dd738c36046aa69dd5f',1,'AQNWB::NWB::RecordingContainers']]],
+  ['addelectrodes_2',['addElectrodes',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#a2b37a46c8a1a073b439ce03c8f40bd69',1,'AQNWB::NWB::ElectrodeTable']]],
+  ['an_20nwb_20file_20with_20swmr_20mode_3',['Writing an NWB file with SWMR mode',['../hdf5io.html#hdf5io_swmr_workflow',1,'']]],
+  ['and_20test_4',['Configure, Build and Test',['../dev_install_page.html#configure_build_test',1,'']]],
+  ['aqnwb_5',['AQNWB',['../namespace_a_q_n_w_b.html',1,'']]],
+  ['aqnwb_6',['Installing AqNWB',['../user_install_page.html',1,'userdocs']]],
+  ['aqnwb_20use_20smwr_20mode_7',['Why does AqNWB use SMWR mode?',['../hdf5io.html#hdf5io_swmr_features',1,'']]],
+  ['aqnwb_3a_3ahdf5_8',['HDF5',['../namespace_a_q_n_w_b_1_1_h_d_f5.html',1,'AQNWB']]],
+  ['aqnwb_3a_3anwb_9',['NWB',['../namespace_a_q_n_w_b_1_1_n_w_b.html',1,'AQNWB']]]
 ];

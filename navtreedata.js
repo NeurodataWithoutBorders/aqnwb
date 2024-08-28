@@ -25,7 +25,7 @@
 var NAVTREE =
 [
   [ "aq-nwb", "index.html", [
-    [ "AqNWB", "index.html", "index" ],
+    [ "Overview", "index.html", "index" ],
     [ "For Users", "userdocs.html", "userdocs" ],
     [ "For Developers", "devdocs.html", "devdocs" ],
     [ "Namespaces", "namespaces.html", [

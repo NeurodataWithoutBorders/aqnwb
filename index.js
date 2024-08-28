@@ -1,5 +1,7 @@
 var index =
 [
-    [ "Requirements", "index.html#autotoc_md1", null ],
-    [ "Installation", "index.html#autotoc_md2", null ]
+    [ "Status", "index.html#Status", null ],
+    [ "Installation", "index.html#mainpage_installation", null ],
+    [ "Navigating the Documentation", "index.html#mainpage_navigation", null ],
+    [ "Legal", "index.html#mainpage_contributing", null ]
 ];

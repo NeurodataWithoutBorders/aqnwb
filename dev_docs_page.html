@@ -103,6 +103,33 @@ $(function(){initNavTree('dev_docs_page.html',''); initResizable(true); });
   <div class="headertitle"><div class="title">Documentation</div></div>
 </div><!--header-->
 <div class="contents">
+<div class="toc"><h3>Table of Contents</h3>
+<ul>
+  <li class="level1">
+    <a href="#dev_docs_requirements_sec">Building the Docs</a>
+  </li>
+  <li class="level1">
+    <a href="#dev_docs_creating">Creating New Documentation Pages</a>
+  </li>
+  <li class="level1">
+    <a href="#dev_docs_codeexamples_sec">Creating Code Examples</a>
+    <ul>
+      <li class="level2">
+        <a href="#dev_docs_codeexamples_def_sec">Creating the Example Code</a>
+      </li>
+      <li class="level2">
+        <a href="#dev_docs_codeexamples_run_sec">Testing the Example Code</a>
+      </li>
+      <li class="level2">
+        <a href="#dev_docs_codeexamples_incl_sec">Including Code Examples in Doxygen</a>
+      </li>
+    </ul>
+  </li>
+  <li class="level1">
+    <a href="#dev_docs_graphviz_sec">Creating Custom Dot Graphs</a>
+  </li>
+</ul>
+</div>
 <div class="textblock"><p>AqNWB uses <a href="https://www.doxygen.nl/">Doxygen</a> with <a href="https://graphviz.org/">Graphviz</a> for documentation. The <code>cmake</code> related instructions on this page follow the <a class="el" href="dev_install_page.html#devbuild_presets_subsec">Developer Presets</a> installation instructions using the <code>dev</code> preset.</p>
 <h1><a class="anchor" id="dev_docs_requirements_sec"></a>
 Building the Docs</h1>
@@ -116,11 +143,11 @@ Building the Docs</h1>
 Creating New Documentation Pages</h1>
 <p>To create a new page as part of the <a class="el" href="userdocs.html">For Users</a> docs, simply create a new <code>.dox</code> file in the <code>docs/pages/userdocs</code> folder, e.g.:</p>
 <dl class="section user"><dt><b>docs/pages/userdocs/mypage.dox</b></dt><dd><div class="fragment"><div class="line">/**</div>
-<div class="line">* @page mypage My New Page</div>
+<div class="line">* \page mypage My New Page</div>
 <div class="line">*</div>
 <div class="line">*/</div>
 </div><!-- fragment --></dd></dl>
-<p>and add a corresponding <code>- @subpage mypage</code> entry to the page listing of the <code><a class="el" href="1__userdocs_8dox.html">docs/pages/1_userdocs.dox</a></code> file. Note, the <code>subpage</code> command uses the label of the page (here <code>mypage</code>) and not the name of the file.</p>
+<p>and add a corresponding <code>- \subpage mypage</code> entry to the page listing of the <code><a class="el" href="1__userdocs_8dox.html">docs/pages/1_userdocs.dox</a></code> file. Note, the <code>subpage</code> command uses the label of the page (here <code>mypage</code>) and not the name of the file.</p>
 <p>Similarly, we can add pages to the <a class="el" href="devdocs.html">For Developers</a> docs by adding a new <code>.dox</code> file to the <code>docs/pages/devdocs</code> and including it as as subpage in <code><a class="el" href="2__devdocs_8dox.html">docs/pages/2_devdocs.dox</a></code>.</p>
 <h1><a class="anchor" id="dev_docs_codeexamples_sec"></a>
 Creating Code Examples</h1>

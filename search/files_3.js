@@ -1,9 +1,5 @@
 var searchData=
 [
-  ['channel_2ecpp_0',['Channel.cpp',['../_channel_8cpp.html',1,'']]],
-  ['channel_2ehpp_1',['Channel.hpp',['../_channel_8hpp.html',1,'']]],
-  ['code_5fof_5fconduct_2edox_2',['code_of_conduct.dox',['../code__of__conduct_8dox.html',1,'']]],
-  ['container_2ecpp_3',['Container.cpp',['../_container_8cpp.html',1,'']]],
-  ['container_2ehpp_4',['Container.hpp',['../_container_8hpp.html',1,'']]],
-  ['copyright_2edox_5',['copyright.dox',['../copyright_8dox.html',1,'']]]
+  ['baseio_2ecpp_0',['BaseIO.cpp',['../_base_i_o_8cpp.html',1,'']]],
+  ['baseio_2ehpp_1',['BaseIO.hpp',['../_base_i_o_8hpp.html',1,'']]]
 ];

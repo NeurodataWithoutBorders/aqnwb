@@ -1,9 +1,9 @@
 var userdocs =
 [
-    [ "Installing AqNWB", "install_page.html", [
-      [ "Requirements", "install_page.html#user_requirements_sec", null ],
-      [ "Build", "install_page.html#userbuild_build_sec", null ],
-      [ "Install", "install_page.html#userbuild_install_sec", null ]
+    [ "Installing AqNWB", "user_install_page.html", [
+      [ "Requirements", "user_install_page.html#user_requirements_sec", null ],
+      [ "Build", "user_install_page.html#userbuild_build_sec", null ],
+      [ "Install", "user_install_page.html#userbuild_install_sec", null ]
     ] ],
     [ "HDF5 I/O", "hdf5io.html", [
       [ "Chunking", "hdf5io.html#hdf5io_chunking", null ],

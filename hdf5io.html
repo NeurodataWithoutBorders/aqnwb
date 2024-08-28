@@ -103,6 +103,40 @@ $(function(){initNavTree('hdf5io.html',''); initResizable(true); });
   <div class="headertitle"><div class="title">HDF5 I/O</div></div>
 </div><!--header-->
 <div class="contents">
+<div class="toc"><h3>Table of Contents</h3>
+<ul>
+  <li class="level1">
+    <a href="#hdf5io_chunking">Chunking</a>
+  </li>
+  <li class="level1">
+    <a href="#hdf5io_swmr">Single-Writer Multiple-Reader (SWMR) Mode</a>
+    <ul>
+      <li class="level2">
+        <a href="#hdf5io_swmr_features">Why does AqNWB use SMWR mode?</a>
+      </li>
+      <li class="level2">
+        <a href="#hdf5io_swmr_workflow">Writing an NWB file with SWMR mode</a>
+        <ul>
+          <li class="level3">
+            <a href="#hdf5io_swmr_examples">Code Examples</a>
+            <ul>
+              <li class="level4">
+                <a href="#hdf5io_swmr_examples_with_swmr">Workflow with SWMR</a>
+              </li>
+              <li class="level4">
+                <a href="#hdf5io_noswmr_examples_without_swmr">Workflow with SWMR disabled</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li class="level2">
+        <a href="#hdf5io_swmr_read">Reading with SWMR mode</a>
+      </li>
+    </ul>
+  </li>
+</ul>
+</div>
 <div class="textblock"><h1><a class="anchor" id="hdf5io_chunking"></a>
 Chunking</h1>
 <p>For datasets intended for recording, <code>AqNWB</code> uses chunking to ensure the dataset can be extended as new data arrives during the recording process. Using chunking in HDF5, a dataset is divided into fixed-size blocks (called chunks), which are stored separately in the file. This technique is particularly beneficial for large datasets and offers several advantages:</p>

@@ -103,9 +103,53 @@ $(function(){initNavTree('dev_install_page.html',''); initResizable(true); });
   <div class="headertitle"><div class="title">Installation &amp; Setup</div></div>
 </div><!--header-->
 <div class="contents">
+<div class="toc"><h3>Table of Contents</h3>
+<ul>
+  <li class="level1">
+    <a href="#dev_requirements_sec">Requirements</a>
+  </li>
+  <li class="level1">
+    <a href="#devbuild_sec">Developer Build</a>
+  </li>
+  <li class="level1">
+    <a href="#devbuild_presets_subsec">Developer Presets</a>
+    <ul>
+      <li class="level2">
+        <a href="#configure_build_test">Configure, Build and Test</a>
+      </li>
+    </ul>
+  </li>
+  <li class="level1">
+    <a href="#devbuild_dev_mode_targets_subsec">Developer Mode Targets</a>
+    <ul>
+      <li class="level2 empty">
+        <ul>
+          <li class="level3">
+            <a href="#devbuild_target_options_subsubsec">Target options</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+</div>
 <div class="textblock"><h1><a class="anchor" id="dev_requirements_sec"></a>
 Requirements</h1>
-<p>Please ensure that the required libraries described in the Requirements section are installed. For developers we recommend to also install optional dependencies to ease development.</p>
+<p>Please ensure that the required libraries described in the <a class="el" href="user_install_page.html#user_requirements_sec">User Requirements</a> section are installed.</p>
+<p>For developers we also recommend to install the following optional command line tools used for generating the documentation, for code quality checks, and for debugging.</p>
+<ul>
+<li><b>Documentation:</b> Additional requirements for building the documentation (optional)<ul>
+<li><a href="https://www.doxygen.nl/">Doxygen</a></li>
+<li><a href="https://graphviz.org/">Graphviz</a></li>
+</ul>
+</li>
+<li><b>Code checks:</b> Additional command line tools used in developer mode <code>dev</code><ul>
+<li>cppcheck</li>
+<li>clang-format (optional, required for <code>target=format-check</code>, <code>target=format-fix</code>)</li>
+<li>codespell (optional, required for <code>target=spell-check</code>, <code>target=spell-fix</code>)</li>
+</ul>
+</li>
+</ul>
 <h1><a class="anchor" id="devbuild_sec"></a>
 Developer Build</h1>
 <p>Build system targets that are only useful for developers of AqNWB are hidden if the <code>aq-nwb_DEVELOPER_MODE</code> option is disabled. Enabling this option makes <a class="el" href="testing.html">tests</a> and other developer targets and options available. You can enable the option when configuring the build by adding <code>-Daq-nwb_DEVELOPER_MODE=ON</code>, e.g.,</p>

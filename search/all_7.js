@@ -1,12 +1,20 @@
 var searchData=
 [
-  ['f32_0',['F32',['../class_a_q_n_w_b_1_1_base_data_type.html#a0164e3b8cd53950054845d9bd8285fa2',1,'AQNWB::BaseDataType']]],
-  ['f64_1',['F64',['../class_a_q_n_w_b_1_1_base_data_type.html#a596aed9bda4397bbb84a0b9e6074fe58',1,'AQNWB::BaseDataType']]],
-  ['failure_2',['Failure',['../class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9a5e4ad53b09bd2f26e1b2f42bd1ad8fdf',1,'AQNWB::Types']]],
-  ['file_20with_20swmr_20mode_3',['Writing an NWB file with SWMR mode',['../hdf5io.html#hdf5io_swmr_workflow',1,'']]],
-  ['filename_4',['filename',['../class_a_q_n_w_b_1_1_base_i_o.html#a9216c5b8bf33ad420f19a704357659a4',1,'AQNWB::BaseIO::filename'],['../class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#af901d3aedd572ff718df7b81e665cc70',1,'AQNWB::HDF5::HDF5IO::filename']]],
-  ['finalize_5',['finalize',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#ab91b67e0f0a5dbe34d8f86efecf35de8',1,'AQNWB::NWB::ElectrodeTable::finalize()'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#af7b3285fd7e02b444372fb1ab4341674',1,'AQNWB::NWB::NWBFile::finalize()']]],
-  ['flush_6',['flush',['../class_a_q_n_w_b_1_1_base_i_o.html#a20f38f4e089cceb4347145d737c489a3',1,'AQNWB::BaseIO::flush()'],['../class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#af169224331c1c4f67ccf8521f5d778db',1,'AQNWB::HDF5::HDF5IO::flush()']]],
-  ['for_20developers_7',['For Developers',['../devdocs.html',1,'']]],
-  ['for_20users_8',['For Users',['../userdocs.html',1,'']]]
+  ['electricalseries_0',['ElectricalSeries',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html',1,'AQNWB::NWB::ElectricalSeries'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a0d2bbeb9c7a1ae48dc90eee9caa1ae4c',1,'AQNWB::NWB::ElectricalSeries::ElectricalSeries()']]],
+  ['electricalseries_2ecpp_1',['ElectricalSeries.cpp',['../_electrical_series_8cpp.html',1,'']]],
+  ['electricalseries_2ehpp_2',['ElectricalSeries.hpp',['../_electrical_series_8hpp.html',1,'']]],
+  ['electrodedataset_3',['electrodeDataset',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#a901115775c3e8822949cccf6f3d18fd3',1,'AQNWB::NWB::ElectrodeTable']]],
+  ['electrodegroup_4',['ElectrodeGroup',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html',1,'AQNWB::NWB::ElectrodeGroup'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html#acc0441917d9f792d3fb0c6dbd12ebe11',1,'AQNWB::NWB::ElectrodeGroup::ElectrodeGroup()']]],
+  ['electrodegroup_2ecpp_5',['ElectrodeGroup.cpp',['../_electrode_group_8cpp.html',1,'']]],
+  ['electrodegroup_2ehpp_6',['ElectrodeGroup.hpp',['../_electrode_group_8hpp.html',1,'']]],
+  ['electrodesdataset_7',['electrodesDataset',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a7b952161ffa17dbb4958c4be2cd31c13',1,'AQNWB::NWB::ElectricalSeries']]],
+  ['electrodetable_8',['ElectrodeTable',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html',1,'AQNWB::NWB::ElectrodeTable'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#a15f5ee63bdd590ff09413700b492c3f8',1,'AQNWB::NWB::ElectrodeTable::ElectrodeTable()']]],
+  ['electrodetable_2ecpp_9',['ElectrodeTable.cpp',['../_electrode_table_8cpp.html',1,'']]],
+  ['electrodetable_2ehpp_10',['ElectrodeTable.hpp',['../_electrode_table_8hpp.html',1,'']]],
+  ['electrodetablepath_11',['electrodeTablePath',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#a2375dcafcd8ab00dd313d3fec121fa42',1,'AQNWB::NWB::ElectrodeTable']]],
+  ['elementidentifiers_12',['ElementIdentifiers',['../class_a_q_n_w_b_1_1_n_w_b_1_1_element_identifiers.html',1,'AQNWB::NWB']]],
+  ['elementidentifiers_2ehpp_13',['ElementIdentifiers.hpp',['../_element_identifiers_8hpp.html',1,'']]],
+  ['example_20code_14',['Example Code',['../dev_docs_page.html#dev_docs_codeexamples_def_sec',1,'Creating the Example Code'],['../dev_docs_page.html#dev_docs_codeexamples_run_sec',1,'Testing the Example Code']]],
+  ['examples_15',['Examples',['../hdf5io.html#hdf5io_swmr_examples',1,'Code Examples'],['../dev_docs_page.html#dev_docs_codeexamples_sec',1,'Creating Code Examples']]],
+  ['examples_20in_20doxygen_16',['Including Code Examples in Doxygen',['../dev_docs_page.html#dev_docs_codeexamples_incl_sec',1,'']]]
 ];

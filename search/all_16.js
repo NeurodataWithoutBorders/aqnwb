@@ -1,19 +1,15 @@
 var searchData=
 [
-  ['_7ebaseio_0',['~BaseIO',['../class_a_q_n_w_b_1_1_base_i_o.html#a7696f24a4136179a56625121069240de',1,'AQNWB::BaseIO']]],
-  ['_7ebaserecordingdata_1',['~BaseRecordingData',['../class_a_q_n_w_b_1_1_base_recording_data.html#ade594bef21f756cebdf4d261f12dac6a',1,'AQNWB::BaseRecordingData']]],
-  ['_7echannel_2',['~Channel',['../class_a_q_n_w_b_1_1_channel.html#a5f15ebd302464069f1a9e3f0ded14482',1,'AQNWB::Channel']]],
-  ['_7econtainer_3',['~Container',['../class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#ae9f5d07bfc3defda274aa06091c19f56',1,'AQNWB::NWB::Container']]],
-  ['_7edata_4',['~Data',['../class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a21ba7f8fc0a1f21160721767451eb80c',1,'AQNWB::NWB::Data']]],
-  ['_7edevice_5',['~Device',['../class_a_q_n_w_b_1_1_n_w_b_1_1_device.html#a9dabc419c8d8df3a686c33ce042bc99a',1,'AQNWB::NWB::Device']]],
-  ['_7edynamictable_6',['~DynamicTable',['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a62348c9e5821d64fc3b8f270c71dea49',1,'AQNWB::NWB::DynamicTable']]],
-  ['_7eelectricalseries_7',['~ElectricalSeries',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a4a5242435023d86c91bf6df9d8b915df',1,'AQNWB::NWB::ElectricalSeries']]],
-  ['_7eelectrodegroup_8',['~ElectrodeGroup',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html#a213bc76d7b4dbb4c2bdfaf7e9fbe16fe',1,'AQNWB::NWB::ElectrodeGroup']]],
-  ['_7eelectrodetable_9',['~ElectrodeTable',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#ab901f67e96a3bc54843f1d68533af629',1,'AQNWB::NWB::ElectrodeTable']]],
-  ['_7ehdf5io_10',['~HDF5IO',['../class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a7a4c82820e1ad91a82c90c30dfb937fe',1,'AQNWB::HDF5::HDF5IO']]],
-  ['_7ehdf5recordingdata_11',['~HDF5RecordingData',['../class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a81d035b7d174a58236d0447ea7054724',1,'AQNWB::HDF5::HDF5RecordingData']]],
-  ['_7enwbfile_12',['~NWBFile',['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aa92925025c0a04da1d6b03b82af99da3',1,'AQNWB::NWB::NWBFile']]],
-  ['_7enwbrecording_13',['~NWBRecording',['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_recording.html#ae38ead00aec7a2e53980e47d3b3c59f7',1,'AQNWB::NWB::NWBRecording']]],
-  ['_7erecordingcontainers_14',['~RecordingContainers',['../class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#ac49cffcf999fbcc918ac90f82a7c4040',1,'AQNWB::NWB::RecordingContainers']]],
-  ['_7etimeseries_15',['~TimeSeries',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a1e596cea2d047ec61f89158f1dc85276',1,'AQNWB::NWB::TimeSeries']]]
+  ['why_20does_20aqnwb_20use_20smwr_20mode_0',['Why does AqNWB use SMWR mode?',['../hdf5io.html#hdf5io_swmr_features',1,'']]],
+  ['with_20swmr_1',['Workflow with SWMR',['../hdf5io.html#hdf5io_swmr_examples_with_swmr',1,'']]],
+  ['with_20swmr_20disabled_2',['Workflow with SWMR disabled',['../hdf5io.html#hdf5io_noswmr_examples_without_swmr',1,'']]],
+  ['with_20swmr_20mode_3',['with SWMR mode',['../hdf5io.html#hdf5io_swmr_read',1,'Reading with SWMR mode'],['../hdf5io.html#hdf5io_swmr_workflow',1,'Writing an NWB file with SWMR mode']]],
+  ['workflow_20with_20swmr_4',['Workflow with SWMR',['../hdf5io.html#hdf5io_swmr_examples_with_swmr',1,'']]],
+  ['workflow_20with_20swmr_20disabled_5',['Workflow with SWMR disabled',['../hdf5io.html#hdf5io_noswmr_examples_without_swmr',1,'']]],
+  ['writechannel_6',['writeChannel',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#af9ea0caeb4aa655351cc322186245803',1,'AQNWB::NWB::ElectricalSeries']]],
+  ['writedata_7',['writeData',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a14d9d49c997dd0f3b6232b397192d338',1,'AQNWB::NWB::TimeSeries']]],
+  ['writedatablock_8',['writeDataBlock',['../class_a_q_n_w_b_1_1_base_recording_data.html#a9ca4dc596b124ad57e0a55674c1d37d2',1,'AQNWB::BaseRecordingData::writeDataBlock(const std::vector&lt; SizeType &gt; &amp;dataShape, const BaseDataType &amp;type, const void *data)'],['../class_a_q_n_w_b_1_1_base_recording_data.html#a90733874624831a52817938c7bd70266',1,'AQNWB::BaseRecordingData::writeDataBlock(const std::vector&lt; SizeType &gt; &amp;dataShape, const std::vector&lt; SizeType &gt; &amp;positionOffset, const BaseDataType &amp;type, const void *data)=0'],['../class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a80aa1d05df8cbdb7c4208c29f690e739',1,'AQNWB::HDF5::HDF5RecordingData::writeDataBlock()']]],
+  ['writer_20multiple_20reader_20swmr_20mode_9',['Single-Writer Multiple-Reader (SWMR) Mode',['../hdf5io.html#hdf5io_swmr',1,'']]],
+  ['writetimeseriesdata_10',['writeTimeseriesData',['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_recording.html#a09a0a24cea2d37fc6a1d088de86c917d',1,'AQNWB::NWB::NWBRecording']]],
+  ['writing_20an_20nwb_20file_20with_20swmr_20mode_11',['Writing an NWB file with SWMR mode',['../hdf5io.html#hdf5io_swmr_workflow',1,'']]]
 ];
