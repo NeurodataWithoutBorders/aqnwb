@@ -20,25 +20,14 @@ Below is a high-level overview of the project structure and capabilities we are 
 
 ![Project Overview](resources/images/aqnwb_objective_500px.png)
 
-
-<a id="requirements"></a>
-## Requirements
-
-- **Minimum Requirements:**
-  - A C++17-compliant compiler
-  - [CMake >= 3.15](https://cmake.org)
-  - [HDF5 >= 1.10](https://github.com/HDFGroup/hdf5)
-  - [Boost](https://www.boost.org/)
-- **Documentation:** Additional requirements for building the documentation (optional)
-  - [Doxygen](https://www.doxygen.nl/)
-  - [Graphviz](https://graphviz.org/)
-- **For Developers:** Additional requirements for developers (mode `dev`)
-  - cppcheck
-  - clang-format (optional, required for ``target=format-check``, ``target=format-fix``)
-  - codespell  (optional, required for ``target=spell-check``, ``target=spell-fix``)
-
 ## Installation
 
 See the [AqNWB Documentation](https://neurodatawithoutborders.github.io/aqnwb/) for installation and integration instructions. 
 * [User Installation](https://neurodatawithoutborders.github.io/aqnwb/install_page.html)
 * [Developer Installation](https://neurodatawithoutborders.github.io/aqnwb/dev_install_page.html)
+
+## Contributing and Legal
+
+For more information about the license, contributing guidelines, code of conduct
+and other  relevant documentation for developers please see the
+[Developer Documentation](https://neurodatawithoutborders.github.io/aqnwb/devdocs.html).
