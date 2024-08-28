@@ -119,13 +119,12 @@ private:
   /**
    * @brief Saves the specification files for the schema.
    * @param specPath The location in the file to store the spec information.
-   * @param version The version number of the specification files.
-   * @param registry The registry of specification files.
    * @param versionNumber The version number of the specification files.
+   * @param registry The registry of specification files.
    */
   void cacheSpecifications(
       const std::string& specPath,
-      const std::string& version,
+      const std::string& versionNumber,
       void (*registerFunc)(std::map<std::string, const std::string*>&));
 
   /**

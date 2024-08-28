@@ -156,18 +156,19 @@ void NWBFile::stopRecording()
 
 void NWBFile::cacheSpecifications(
     const std::string& specPath,
-    const std::string& version,
+    const std::string& versionNumber,
     void (*registerFunc)(std::map<std::string, const std::string*>&))
 {
   std::map<std::string, const std::string*> registry;
   registerFunc(registry);
 
   io->createGroup("/specifications/" + specPath + "/");
-  io->createGroup("/specifications/" + specPath + "/" + version);
+  io->createGroup("/specifications/" + specPath + "/" + versionNumber);
 
   for (const auto& [name, content] : registry) {
     io->createStringDataSet(
-        "/specifications/" + specPath + "/" + version + "/" + name, *content);
+        "/specifications/" + specPath + "/" + versionNumber + "/" + name,
+        *content);
   }
 }
 
