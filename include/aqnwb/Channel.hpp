@@ -20,6 +20,7 @@ public:
    */
   Channel(const std::string name,
           const std::string groupName,
+          const SizeType groupIndex,
           const SizeType localIndex,
           const SizeType globalIndex,
           const float conversion = 1e6f,  // uV to V
@@ -63,6 +64,11 @@ public:
    */
   std::string groupName;
 
+  /**
+   * @brief Index of array group the channel belongs to.
+   */
+  SizeType groupIndex;
+  
   /**
    * @brief Index of channel within the recording array.
    */

@@ -41,6 +41,7 @@ inline std::vector<Types::ChannelVector> getMockChannelArrays(
     for (SizeType j = 0; j < numChannels; j++) {
       Channel ch("ch" + std::to_string(j),
                  "array" + std::to_string(i),
+                 i,
                  j,
                  i * numArrays + j);
       chGroup.push_back(ch);
