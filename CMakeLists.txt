@@ -14,9 +14,6 @@ project(
 
 include(cmake/project-is-top-level.cmake)
 include(cmake/variables.cmake)
-include_directories(
-  ${CMAKE_SOURCE_DIR}/src
-)
 
 # ---- Declare library ----
 
@@ -64,6 +61,12 @@ target_include_directories(
     aqnwb_aqnwb ${warning_guard}
     PUBLIC
     "\$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
+)
+
+target_include_directories(
+    aqnwb_aqnwb ${warning_guard}
+    PUBLIC
+    "\$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>"
 )
 
 target_include_directories(

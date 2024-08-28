@@ -1,1 +1,1 @@
-include("${CMAKE_CURRENT_LIST_DIR}/aqnwbTsargets.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/aqnwbTargets.cmake")
