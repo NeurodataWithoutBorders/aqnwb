@@ -13,7 +13,7 @@ set(package aqnwb)
 
 install(
     DIRECTORY
-    include/
+    src/
     "${PROJECT_BINARY_DIR}/export/"
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
     COMPONENT aqnwb_Development
