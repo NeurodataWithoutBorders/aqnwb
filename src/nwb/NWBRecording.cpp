@@ -15,14 +15,14 @@ NWBRecording::~NWBRecording()
   }
 }
 
-Status NWBRecording::openFile(const std::string& rootFolder,
-                              const std::string& baseName,
-                              int experimentNumber,
+Status NWBRecording::openFile(const std::string& filename,
                               std::vector<Types::ChannelVector> recordingArrays,
                               const std::string& IOType)
 {
-  std::string filename =
-      rootFolder + baseName + std::to_string(experimentNumber) + ".nwb";
+  // close any existing files
+  if (nwbfile != nullptr){
+      nwbfile->finalize();
+  }
 
   // initialize nwbfile object and create base structure
   nwbfile = std::make_unique<NWB::NWBFile>(generateUuid(),
@@ -38,6 +38,7 @@ Status NWBRecording::openFile(const std::string& rootFolder,
 
 void NWBRecording::closeFile()
 {
+  nwbfile->stopRecording();
   nwbfile->finalize();
 }
 
