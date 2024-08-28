@@ -66,6 +66,6 @@ for file in schema_dir.rglob(r"*namespace.yaml"):
         with open(header_file, 'a') as fo:
             fo.write(f'const std::string namespaces = R"delimiter(\n{json.dumps(ns_output, separators=(',', ':'))})delimiter";\n\n')
             fo.write('void registerVariables(std::map<std::string, const std::string*>& registry) {\n')
-            fo.write(''.join([f'    registry["{name.replace('_', '.')}"] = &{name};\n' for name in var_names]))
-            fo.write(f'    registry["namespace"] = &namespaces;\n')
+            fo.write(''.join([f'  registry["{name.replace('_', '.')}"] = &{name};\n' for name in var_names]))
+            fo.write(f'  registry["namespace"] = &namespaces;\n')
             fo.write(f'}};\n}}  // namespace AQNWB::spec::{ns['name'].replace('-', '_')}\n')

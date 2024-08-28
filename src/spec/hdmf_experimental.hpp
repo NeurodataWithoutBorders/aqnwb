@@ -16,9 +16,10 @@ const std::string resources = R"delimiter(
 const std::string namespaces = R"delimiter(
 {"namespaces":[{"name":"hdmf-experimental","doc":"Experimental data structures provided by HDMF. These are not guaranteed to be available in the future.","author":["Andrew Tritt","Oliver Ruebel","Ryan Ly","Ben Dichter","Matthew Avaylon"],"contact":["ajtritt@lbl.gov","oruebel@lbl.gov","rly@lbl.gov","bdichter@lbl.gov","mavaylon@lbl.gov"],"full_name":"HDMF Experimental","schema":[{"namespace":"hdmf-common"},{"source":"experimental"},{"source":"resources"}],"version":"0.5.0"}]})delimiter";
 
-void registerVariables(std::map<std::string, const std::string*>& registry) {
-    registry["experimental"] = &experimental;
-    registry["resources"] = &resources;
-    registry["namespace"] = &namespaces;
+void registerVariables(std::map<std::string, const std::string*>& registry)
+{
+  registry["experimental"] = &experimental;
+  registry["resources"] = &resources;
+  registry["namespace"] = &namespaces;
 };
 }  // namespace AQNWB::spec::hdmf_experimental

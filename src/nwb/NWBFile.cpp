@@ -70,9 +70,14 @@ Status NWBFile::createFileStructure()
 
   io->createGroup("/specifications");
   io->createReferenceAttribute("/specifications", "/", ".specloc");
-  cacheSpecifications("core", spec::core::version, spec::core::registerVariables);
-  cacheSpecifications("hdmf-common", spec::hdmf_common::version, spec::hdmf_common::registerVariables);
-  cacheSpecifications("hdmf-experimental", spec::hdmf_experimental::version, spec::hdmf_experimental::registerVariables);
+  cacheSpecifications(
+      "core", spec::core::version, spec::core::registerVariables);
+  cacheSpecifications("hdmf-common",
+                      spec::hdmf_common::version,
+                      spec::hdmf_common::registerVariables);
+  cacheSpecifications("hdmf-experimental",
+                      spec::hdmf_experimental::version,
+                      spec::hdmf_experimental::registerVariables);
 
   std::string time = getCurrentTime();
   std::vector<std::string> timeVec = {time};
@@ -149,9 +154,10 @@ void NWBFile::stopRecording()
   io->stopRecording();
 }
 
-void NWBFile::cacheSpecifications(const std::string& specPath, 
-                                  const std::string& version,
-                                  void (*registerFunc)(std::map<std::string, const std::string*>&))
+void NWBFile::cacheSpecifications(
+    const std::string& specPath,
+    const std::string& version,
+    void (*registerFunc)(std::map<std::string, const std::string*>&))
 {
   std::map<std::string, const std::string*> registry;
   registerFunc(registry);
@@ -160,7 +166,8 @@ void NWBFile::cacheSpecifications(const std::string& specPath,
   io->createGroup("/specifications/" + specPath + "/" + version);
 
   for (const auto& [name, content] : registry) {
-      io->createStringDataSet("/specifications/" + specPath + "/" + version + "/" + name, *content);
+    io->createStringDataSet(
+        "/specifications/" + specPath + "/" + version + "/" + name, *content);
   }
 }
 

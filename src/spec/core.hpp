@@ -46,19 +46,20 @@ const std::string nwb_retinotopy = R"delimiter(
 const std::string namespaces = R"delimiter(
 {"namespaces":[{"name":"core","doc":"NWB namespace","author":["Andrew Tritt","Oliver Ruebel","Ryan Ly","Ben Dichter","Keith Godfrey","Jeff Teeters"],"contact":["ajtritt@lbl.gov","oruebel@lbl.gov","rly@lbl.gov","bdichter@lbl.gov","keithg@alleninstitute.org","jteeters@berkeley.edu"],"full_name":"NWB core","schema":[{"namespace":"hdmf-common"},{"source":"nwb.base"},{"source":"nwb.device"},{"source":"nwb.epoch"},{"source":"nwb.image"},{"source":"nwb.file"},{"source":"nwb.misc"},{"source":"nwb.behavior"},{"source":"nwb.ecephys"},{"source":"nwb.icephys"},{"source":"nwb.ogen"},{"source":"nwb.ophys"},{"source":"nwb.retinotopy"}],"version":"2.7.0"}]})delimiter";
 
-void registerVariables(std::map<std::string, const std::string*>& registry) {
-    registry["nwb.base"] = &nwb_base;
-    registry["nwb.device"] = &nwb_device;
-    registry["nwb.epoch"] = &nwb_epoch;
-    registry["nwb.image"] = &nwb_image;
-    registry["nwb.file"] = &nwb_file;
-    registry["nwb.misc"] = &nwb_misc;
-    registry["nwb.behavior"] = &nwb_behavior;
-    registry["nwb.ecephys"] = &nwb_ecephys;
-    registry["nwb.icephys"] = &nwb_icephys;
-    registry["nwb.ogen"] = &nwb_ogen;
-    registry["nwb.ophys"] = &nwb_ophys;
-    registry["nwb.retinotopy"] = &nwb_retinotopy;
-    registry["namespace"] = &namespaces;
+void registerVariables(std::map<std::string, const std::string*>& registry)
+{
+  registry["nwb.base"] = &nwb_base;
+  registry["nwb.device"] = &nwb_device;
+  registry["nwb.epoch"] = &nwb_epoch;
+  registry["nwb.image"] = &nwb_image;
+  registry["nwb.file"] = &nwb_file;
+  registry["nwb.misc"] = &nwb_misc;
+  registry["nwb.behavior"] = &nwb_behavior;
+  registry["nwb.ecephys"] = &nwb_ecephys;
+  registry["nwb.icephys"] = &nwb_icephys;
+  registry["nwb.ogen"] = &nwb_ogen;
+  registry["nwb.ophys"] = &nwb_ophys;
+  registry["nwb.retinotopy"] = &nwb_retinotopy;
+  registry["namespace"] = &namespaces;
 };
 }  // namespace AQNWB::spec::core

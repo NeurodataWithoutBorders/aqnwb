@@ -19,10 +19,11 @@ const std::string sparse = R"delimiter(
 const std::string namespaces = R"delimiter(
 {"namespaces":[{"name":"hdmf-common","doc":"Common data structures provided by HDMF","author":["Andrew Tritt","Oliver Ruebel","Ryan Ly","Ben Dichter"],"contact":["ajtritt@lbl.gov","oruebel@lbl.gov","rly@lbl.gov","bdichter@lbl.gov"],"full_name":"HDMF Common","schema":[{"source":"base"},{"source":"table"},{"source":"sparse"}],"version":"1.8.0"}]})delimiter";
 
-void registerVariables(std::map<std::string, const std::string*>& registry) {
-    registry["base"] = &base;
-    registry["table"] = &table;
-    registry["sparse"] = &sparse;
-    registry["namespace"] = &namespaces;
+void registerVariables(std::map<std::string, const std::string*>& registry)
+{
+  registry["base"] = &base;
+  registry["table"] = &table;
+  registry["sparse"] = &sparse;
+  registry["namespace"] = &namespaces;
 };
 }  // namespace AQNWB::spec::hdmf_common

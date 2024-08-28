@@ -123,9 +123,10 @@ private:
    * @param registry The registry of specification files.
    * @param versionNumber The version number of the specification files.
    */
-  void cacheSpecifications(const std::string& specPath,
-                           const std::string& version, 
-                           void (*registerFunc)(std::map<std::string, const std::string*>&));
+  void cacheSpecifications(
+      const std::string& specPath,
+      const std::string& version,
+      void (*registerFunc)(std::map<std::string, const std::string*>&));
 
   /**
    * @brief Holds the Container (usually TimeSeries) objects that have been
