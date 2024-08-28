@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <map>
 #include <memory>
 #include <vector>
 
@@ -84,21 +85,6 @@ public:
   void stopRecording();
 
   /**
-   * @brief Indicates the NWB schema version.
-   */
-  const std::string NWBVersion = "2.7.0";
-
-  /**
-   * @brief Indicates the HDMF schema version.
-   */
-  const std::string HDMFVersion = "1.8.0";
-
-  /**
-   * @brief Indicates the HDMF experimental version.
-   */
-  const std::string HDMFExperimentalVersion = "0.5.0";
-
-  /**
    * @brief Gets the TimeSeries object from the recordingContainers
    * @param timeseriesInd The index of the timeseries dataset within the group.
    */
@@ -133,10 +119,13 @@ private:
   /**
    * @brief Saves the specification files for the schema.
    * @param specPath The location in the file to store the spec information.
+   * @param version The version number of the specification files.
+   * @param registry The registry of specification files.
    * @param versionNumber The version number of the specification files.
    */
   void cacheSpecifications(const std::string& specPath,
-                           const std::string& versionNumber);
+                           const std::string& version, 
+                           void (*registerFunc)(std::map<std::string, const std::string*>&));
 
   /**
    * @brief Holds the Container (usually TimeSeries) objects that have been
