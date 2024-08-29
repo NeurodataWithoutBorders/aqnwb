@@ -57,4 +57,4 @@ for file in schema_dir.rglob(r"*namespace.yaml"):
             fo.write(f'constexpr std::array<std::pair<std::string_view, std::string_view>, {len(var_names) + 1}> specVariables {{{{\n')
             fo.write(''.join([f'  {{"{name.replace('_', '.')}", {name}}},\n' for name in var_names]))
             fo.write('  {"namespace", namespaces}\n')
-            fo.write(f'}}}};\n}}  // namespace AQNWB::spec::{ns['name'].replace('-', '_')}\n')
+            fo.write(f'}}}};\n}}  // namespace AQNWB::SPEC::{ns['name'].upper().replace('-', '_')}\n')
