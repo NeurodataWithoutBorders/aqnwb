@@ -6,7 +6,7 @@ endif()
 include(cmake/prelude.cmake)
 
 project(
-    aq-nwb
+    aqnwb
     VERSION 0.1.0
     DESCRIPTION "An API to acquire neurophysiology data in the NWB format"
     LANGUAGES CXX
@@ -18,7 +18,7 @@ include(cmake/variables.cmake)
 # ---- Declare library ----
 
 add_library(
-    aq-nwb_lib OBJECT
+    aqnwb_aqnwb
     src/BaseIO.cpp
     src/Channel.cpp
     src/hdf5/HDF5IO.cpp
@@ -29,20 +29,53 @@ add_library(
     src/nwb/ecephys/ElectricalSeries.cpp
     src/nwb/file/ElectrodeGroup.cpp
     src/nwb/file/ElectrodeTable.cpp
-    src/nwb/hdmf/base/Data.hpp
     src/nwb/hdmf/base/Container.cpp
     src/nwb/hdmf/table/DynamicTable.cpp
-    src/nwb/hdmf/table/ElementIdentifiers.hpp
-    src/nwb/hdmf/table/VectorData.hpp
+)
+
+add_library(aqnwb::aqnwb ALIAS aqnwb_aqnwb)
+
+include(GenerateExportHeader)
+generate_export_header(
+    aqnwb_aqnwb
+    BASE_NAME aqnwb
+    EXPORT_FILE_NAME export/aqnwb/aqnwb_export.hpp
+    CUSTOM_CONTENT_FROM_VARIABLE pragma_suppress_c4251
+)
+
+if(NOT BUILD_SHARED_LIBS)
+  target_compile_definitions(aqnwb_aqnwb PUBLIC SHARED_STATIC_DEFINE)
+endif()
+
+set_target_properties(
+    aqnwb_aqnwb PROPERTIES
+    CXX_VISIBILITY_PRESET hidden
+    VISIBILITY_INLINES_HIDDEN YES
+    VERSION "${PROJECT_VERSION}"
+    SOVERSION "${PROJECT_VERSION_MAJOR}"
+    EXPORT_NAME aqnwb
+    OUTPUT_NAME aqnwb
 )
 
 target_include_directories(
-    aq-nwb_lib ${warning_guard}
+    aqnwb_aqnwb ${warning_guard}
     PUBLIC
-    "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>"
+    "\$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
 )
 
-target_compile_features(aq-nwb_lib PUBLIC cxx_std_17)
+target_include_directories(
+    aqnwb_aqnwb ${warning_guard}
+    PUBLIC
+    "\$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>"
+)
+
+target_include_directories(
+    aqnwb_aqnwb SYSTEM
+    PUBLIC
+    "\$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/export>"
+)
+
+target_compile_features(aqnwb_aqnwb PUBLIC cxx_std_17)
 
 # ---- Additional libraries needed ----
 find_package(HDF5 REQUIRED COMPONENTS CXX)
@@ -51,7 +84,7 @@ include_directories(${HDF5_INCLUDE_DIRS})
 find_package(Boost REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
-target_link_libraries(aq-nwb_lib ${HDF5_CXX_LIBRARIES} ${Boost_LIBRARIES})
+target_link_libraries(aqnwb_aqnwb ${HDF5_CXX_LIBRARIES} ${Boost_LIBRARIES})
 
 # ---- Install rules ----
 
@@ -61,12 +94,12 @@ endif()
 
 # ---- Developer mode ----
 
-if(NOT aq-nwb_DEVELOPER_MODE)
+if(NOT aqnwb_DEVELOPER_MODE)
   return()
 elseif(NOT PROJECT_IS_TOP_LEVEL)
   message(
       AUTHOR_WARNING
-      "Developer mode is intended for developers of aq-nwb"
+      "Developer mode is intended for developers of aqnwb"
   )
 endif()
 

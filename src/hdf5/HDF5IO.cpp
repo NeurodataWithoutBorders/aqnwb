@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include "HDF5IO.hpp"
+#include "hdf5/HDF5IO.hpp"
 
 #include <H5Cpp.h>
 #include <H5Fpublic.h>

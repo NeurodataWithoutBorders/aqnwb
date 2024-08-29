@@ -1,0 +1,25 @@
+/**
+ * @page nwb_schema_page NWB Schema
+ * 
+ * The NWB file format is formally described by the [NWB Format Specification Schema](https://nwb-schema.readthedocs.io/en/latest/). 
+ * The data organization of NWB files and the core NWB format is described by these nwb-schema format specification documents. 
+ *
+ * \section dev_docs_generating_nwb_schema_headers_section Generating the schema header files
+ *
+ * AqNWB is linked to a specific version of the nwb-schema, and the schema version is written to the `nwb_version` field of the NWB File during acquisition.
+ * The full specification documentation for that schema version is also cached in the `specifications` group of the NWB File to facilitate compatibility with 
+ * other NWB-related software.
+ * 
+ * The contents of the `specifications` group are defined using the header files in the `spec` subfolder, which are in turn generated from the nwb-schema documentation files.
+ * To regenerate these header files, developers can run `resources/generate_spec_files.py`. 
+ *
+ * \section dev_docs_updating_nwb_schema_section Updating the schema
+ *
+ * Currently, the version of the schema being used for development is fixed and stored in the `/resources/schema` folder. 
+ * Updating to a newer version of the schema requires:
+ * - Regeneration of the `spec` header files via `resources/generate_spec_files.py`
+ * - Update of existing `Container` classes and unit tests in AqNWB to match changes in the  new schema compared to the previous schema
+ * - Successful completion of all unit-test and round-trip testing with PyNWB and MatNWB
+ *
+ */
+

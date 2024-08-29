@@ -6,10 +6,10 @@
 
 #include <H5Cpp.h>
 #include <catch2/catch_test_macros.hpp>
-#include <hdf5/HDF5IO.hpp>
 
 #include "Channel.hpp"
 #include "Types.hpp"
+#include "hdf5/HDF5IO.hpp"
 
 using namespace AQNWB;
 namespace fs = std::filesystem;
@@ -41,6 +41,7 @@ inline std::vector<Types::ChannelVector> getMockChannelArrays(
     for (SizeType j = 0; j < numChannels; j++) {
       Channel ch("ch" + std::to_string(j),
                  "array" + std::to_string(i),
+                 i,
                  j,
                  i * numArrays + j);
       chGroup.push_back(ch);

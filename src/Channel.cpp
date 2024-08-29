@@ -6,6 +6,7 @@ using namespace AQNWB;
 
 Channel::Channel(const std::string name,
                  const std::string groupName,
+                 const SizeType groupIndex,
                  const SizeType localIndex,
                  const SizeType globalIndex,
                  const float conversion,
@@ -15,6 +16,7 @@ Channel::Channel(const std::string name,
                  const std::string comments)
     : name(name)
     , groupName(groupName)
+    , groupIndex(groupIndex)
     , localIndex(localIndex)
     , globalIndex(globalIndex)
     , position(position)

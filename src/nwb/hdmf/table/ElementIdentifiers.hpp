@@ -1,6 +1,6 @@
 #pragma once
 
-#include "nwb/hdmf/base/Data.hpp"
+#include "../base/Data.hpp"
 
 namespace AQNWB::NWB
 {

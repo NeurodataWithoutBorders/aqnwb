@@ -19,10 +19,7 @@ TEST_CASE("writeContinuousData", "[recording]")
   SECTION("test data and timestamps stream")
   {
     // get file path and remove if exists
-    std::string path = getTestFilePath("testContinuous");
-    if (fs::exists(path + "Recording1.nwb")) {
-      fs::remove(path + "Recording1.nwb");
-    }
+    std::string path = getTestFilePath("testContinuousRecording1.nwb");
 
     // setup mock data
     SizeType numChannels = 4;
@@ -40,7 +37,7 @@ TEST_CASE("writeContinuousData", "[recording]")
 
     // open files
     NWB::NWBRecording nwbRecording;
-    nwbRecording.openFile(path, "Recording", 1, mockRecordingArrays);
+    nwbRecording.openFile(path, mockRecordingArrays);
 
     // run recording
     bool isRecording = true;
@@ -85,7 +82,7 @@ TEST_CASE("writeContinuousData", "[recording]")
     // check contents of data
     std::string dataPath = "/acquisition/array0/data";
     std::unique_ptr<H5::H5File> file =
-        std::make_unique<H5::H5File>(path + "Recording1.nwb", H5F_ACC_RDONLY);
+        std::make_unique<H5::H5File>(path, H5F_ACC_RDONLY);
     std::unique_ptr<H5::DataSet> dataset =
         std::make_unique<H5::DataSet>(file->openDataSet(dataPath));
     SizeType numChannelsToRead = numChannels / 2;

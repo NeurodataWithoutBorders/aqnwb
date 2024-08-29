@@ -2,7 +2,7 @@
 # depends on being added from it, i.e. the testing is done only from the build
 # tree and is not feasible from an install location
 
-project(aq-nwbTests LANGUAGES CXX)
+project(aqnwbTests LANGUAGES CXX)
 
 # ---- Dependencies ----
 
@@ -11,7 +11,7 @@ include(Catch)
 
 # ---- Tests ----
 
-add_executable(aq-nwb_test
+add_executable(aqnwb_test
     testBase.cpp
     testEcephys.cpp
     testFile.cpp
@@ -22,20 +22,19 @@ add_executable(aq-nwb_test
     examples/test_example.cpp
 )
 
-# Ensure the aq-nwb_test target can include headers from the current directory
-target_include_directories(aq-nwb_test PRIVATE
+# Ensure the aqnwb_test target can include headers from the current directory
+target_include_directories(aqnwb_test PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}  # Include current directory
 )
 
 target_link_libraries(
-    aq-nwb_test PRIVATE
-    aq-nwb_lib
+    aqnwb_test PRIVATE
+    aqnwb::aqnwb
     Catch2::Catch2WithMain
 )
+target_compile_features(aqnwb_test PRIVATE cxx_std_17)
 
-target_compile_features(aq-nwb_test PRIVATE cxx_std_17)
-
-catch_discover_tests(aq-nwb_test)
+catch_discover_tests(aqnwb_test)
 
 # ---- Custom Executable ----
 
@@ -50,11 +49,11 @@ target_include_directories(reader_executable PRIVATE
 
 target_link_libraries(
     reader_executable PRIVATE
-    aq-nwb_lib
+    aqnwb_aqnwb
 )
 
 target_compile_features(reader_executable PRIVATE cxx_std_17)
 
 # ---- End-of-file commands ----
 
-add_folders(aq-nwbTests)
+add_folders(aqnwbTests)

@@ -6,7 +6,7 @@
 #include <sstream>
 #include <string>
 
-#include "NWBFile.hpp"
+#include "nwb/NWBFile.hpp"
 
 #include "BaseIO.hpp"
 #include "Channel.hpp"
@@ -15,6 +15,9 @@
 #include "nwb/ecephys/ElectricalSeries.hpp"
 #include "nwb/file/ElectrodeGroup.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
+#include "spec/core.hpp"
+#include "spec/hdmf_common.hpp"
+#include "spec/hdmf_experimental.hpp"
 
 using namespace AQNWB::NWB;
 
@@ -53,7 +56,7 @@ Status NWBFile::createFileStructure()
   }
 
   io->createCommonNWBAttributes("/", "core", "NWBFile", "");
-  io->createAttribute(NWBVersion, "/", "nwb_version");
+  io->createAttribute(AQNWB::SPEC::CORE::version, "/", "nwb_version");
 
   io->createGroup("/acquisition");
   io->createGroup("/analysis");
@@ -67,9 +70,15 @@ Status NWBFile::createFileStructure()
 
   io->createGroup("/specifications");
   io->createReferenceAttribute("/specifications", "/", ".specloc");
-  cacheSpecifications("core/", NWBVersion);
-  cacheSpecifications("hdmf-common/", HDMFVersion);
-  cacheSpecifications("hdmf-experimental/", HDMFExperimentalVersion);
+
+  cacheSpecifications(
+      "core", AQNWB::SPEC::CORE::version, AQNWB::SPEC::CORE::specVariables);
+  cacheSpecifications("hdmf-common",
+                      AQNWB::SPEC::HDMF_COMMON::version,
+                      AQNWB::SPEC::HDMF_COMMON::specVariables);
+  cacheSpecifications("hdmf-experimental",
+                      AQNWB::SPEC::HDMF_EXPERIMENTAL::version,
+                      AQNWB::SPEC::HDMF_EXPERIMENTAL::specVariables);
 
   std::string time = getCurrentTime();
   std::vector<std::string> timeVec = {time};
@@ -146,34 +155,21 @@ void NWBFile::stopRecording()
   io->stopRecording();
 }
 
-void NWBFile::cacheSpecifications(const std::string& specPath,
-                                  const std::string& versionNumber)
+template<SizeType N>
+void NWBFile::cacheSpecifications(
+    const std::string& specPath,
+    const std::string& versionNumber,
+    const std::array<std::pair<std::string_view, std::string_view>, N>&
+        specVariables)
 {
-  io->createGroup("/specifications/" + specPath);
-  io->createGroup("/specifications/" + specPath + versionNumber);
+  io->createGroup("/specifications/" + specPath + "/");
+  io->createGroup("/specifications/" + specPath + "/" + versionNumber);
 
-  std::filesystem::path currentFile = __FILE__;
-  std::filesystem::path schemaDir =
-      currentFile.parent_path().parent_path().parent_path() / "resources/spec"
-      / specPath / versionNumber;
-
-  for (auto const& entry : std::filesystem::directory_iterator {schemaDir})
-    if (std::filesystem::is_regular_file(entry)
-        && entry.path().extension() == ".json")
-    {
-      std::string specName =
-          entry.path().filename().replace_extension("").string();
-      if (specName.find("namespace") != std::string::npos)
-        specName = "namespace";
-
-      std::ifstream schemaFile(entry.path());
-      std::stringstream buffer;
-      buffer << schemaFile.rdbuf();
-
-      io->createStringDataSet(
-          "/specifications/" + specPath + versionNumber + "/" + specName,
-          buffer.str());
-    }
+  for (const auto& [name, content] : specVariables) {
+    io->createStringDataSet("/specifications/" + specPath + "/" + versionNumber
+                                + "/" + std::string(name),
+                            std::string(content));
+  }
 }
 
 // recording data factory method /
