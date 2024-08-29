@@ -1,10 +1,10 @@
 /**
- * @page userdocs For Users
+ * \page userdocs For Users
  *
  * This documentation is intended for users of AqNWB, e.g., developers seeking to integrate NWB
  * with a particular data acquisition software via AqNWB.
  *
- * - @subpage install_page
+ * - @subpage user_install_page
  * - \subpage getting_started_page
  * - @subpage hdf5io
  */
