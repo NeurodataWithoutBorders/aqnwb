@@ -17,7 +17,7 @@ add_executable(aqnwb_test
     testFile.cpp
     testHDF5IO.cpp
     testNWBFile.cpp
-    testNWBRecording.cpp
+    testRecordingWorkflow.cpp
     examples/test_HDF5IO_examples.cpp
     examples/test_example.cpp
 )

@@ -9,8 +9,8 @@
 
 #include "BaseIO.hpp"
 #include "Types.hpp"
-#include "nwb/base/TimeSeries.hpp"
 #include "nwb/RecordingContainers.hpp"
+#include "nwb/base/TimeSeries.hpp"
 
 /*!
  * \namespace AQNWB::NWB
@@ -76,17 +76,6 @@ public:
       std::vector<Types::ChannelVector> recordingArrays,
       const BaseDataType& dataType = BaseDataType::I16,
       RecordingContainers* recordingContainers = nullptr);
-
-  /**
-   * @brief Starts the recording.
-   */
-  Status startRecording();
-
-  /**
-   * @brief Stops the recording.
-   */
-  void stopRecording();
-
 
 protected:
   /**

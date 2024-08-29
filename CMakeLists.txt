@@ -23,7 +23,6 @@ add_library(
     src/Channel.cpp
     src/hdf5/HDF5IO.cpp
     src/nwb/NWBFile.cpp
-    src/nwb/NWBRecording.cpp
     src/nwb/RecordingContainers.cpp
     src/nwb/base/TimeSeries.cpp
     src/nwb/device/Device.cpp

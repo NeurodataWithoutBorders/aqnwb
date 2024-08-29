@@ -145,16 +145,6 @@ Status NWBFile::createElectricalSeries(
   return Status::Success;
 }
 
-Status NWBFile::startRecording()
-{
-  return io->startRecording();
-}
-
-void NWBFile::stopRecording()
-{
-  io->stopRecording();
-}
-
 template<SizeType N>
 void NWBFile::cacheSpecifications(
     const std::string& specPath,

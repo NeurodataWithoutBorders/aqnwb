@@ -1,13 +1,12 @@
 
 #include "nwb/RecordingContainers.hpp"
+
 #include "nwb/base/TimeSeries.hpp"
 
 using namespace AQNWB::NWB;
 // Recording Container
 
-RecordingContainers::RecordingContainers()
-{
-}
+RecordingContainers::RecordingContainers() {}
 
 RecordingContainers::~RecordingContainers() {}
 
@@ -47,4 +46,3 @@ Status RecordingContainers::writeTimeseriesData(
     return ts->writeData(dataShape, positionOffset, data);
   }
 }
-
