@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.12.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>aq-nwb: AQNWB::NWB::NWBFile Class Reference</title>
+<title>aqnwb: AQNWB::NWB::NWBFile Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -31,7 +31,7 @@
  <tr id="projectrow" >
   <td id="projectlogo"><img alt="Logo" src="aqnwb-logo.png"/></td>
   <td id="projectalign">
-   <div id="projectname">aq-nwb<span id="projectnumber">&#160;0.1.0</span>
+   <div id="projectname">aqnwb<span id="projectnumber">&#160;0.1.0</span>
    </div>
   </td>
  </tr>
@@ -102,7 +102,6 @@ $(function(){initNavTree('class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html',''); in
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">AQNWB::NWB::NWBFile Class Reference</div></div>
@@ -146,18 +145,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2f99f38468fdb727adb9500a475b9d12" id="r_a2f99f38468fdb727adb9500a475b9d12"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html">TimeSeries</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2f99f38468fdb727adb9500a475b9d12">getTimeSeries</a> (const <a class="el" href="_base_i_o_8hpp.html#a95d5d5db2cb7811e65d20c0f68deb025">SizeType</a> &amp;timeseriesInd)</td></tr>
 <tr class="memdesc:a2f99f38468fdb727adb9500a475b9d12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html" title="General purpose time series.">TimeSeries</a> object from the recordingContainers.  <br /></td></tr>
 <tr class="separator:a2f99f38468fdb727adb9500a475b9d12"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:af9fb6a56518ac357e659ccad9a8899d4" id="r_af9fb6a56518ac357e659ccad9a8899d4"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af9fb6a56518ac357e659ccad9a8899d4">NWBVersion</a> = &quot;2.7.0&quot;</td></tr>
-<tr class="memdesc:af9fb6a56518ac357e659ccad9a8899d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates the <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> schema version.  <br /></td></tr>
-<tr class="separator:af9fb6a56518ac357e659ccad9a8899d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a63c5b473dd46c9aa469431057e2e9559" id="r_a63c5b473dd46c9aa469431057e2e9559"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a63c5b473dd46c9aa469431057e2e9559">HDMFVersion</a> = &quot;1.8.0&quot;</td></tr>
-<tr class="memdesc:a63c5b473dd46c9aa469431057e2e9559"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates the HDMF schema version.  <br /></td></tr>
-<tr class="separator:a63c5b473dd46c9aa469431057e2e9559"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e787fd25b2117c1a922813bbcc5da2e" id="r_a7e787fd25b2117c1a922813bbcc5da2e"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7e787fd25b2117c1a922813bbcc5da2e">HDMFExperimentalVersion</a> = &quot;0.5.0&quot;</td></tr>
-<tr class="memdesc:a7e787fd25b2117c1a922813bbcc5da2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates the HDMF experimental version.  <br /></td></tr>
-<tr class="separator:a7e787fd25b2117c1a922813bbcc5da2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -429,55 +416,6 @@ Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Stops the recording. </p>
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a7e787fd25b2117c1a922813bbcc5da2e" name="a7e787fd25b2117c1a922813bbcc5da2e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7e787fd25b2117c1a922813bbcc5da2e">&#9670;&#160;</a></span>HDMFExperimentalVersion</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::string AQNWB::NWB::NWBFile::HDMFExperimentalVersion = &quot;0.5.0&quot;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Indicates the HDMF experimental version. </p>
-
-</div>
-</div>
-<a id="a63c5b473dd46c9aa469431057e2e9559" name="a63c5b473dd46c9aa469431057e2e9559"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a63c5b473dd46c9aa469431057e2e9559">&#9670;&#160;</a></span>HDMFVersion</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::string AQNWB::NWB::NWBFile::HDMFVersion = &quot;1.8.0&quot;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Indicates the HDMF schema version. </p>
-
-</div>
-</div>
-<a id="af9fb6a56518ac357e659ccad9a8899d4" name="af9fb6a56518ac357e659ccad9a8899d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af9fb6a56518ac357e659ccad9a8899d4">&#9670;&#160;</a></span>NWBVersion</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::string AQNWB::NWB::NWBFile::NWBVersion = &quot;2.7.0&quot;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Indicates the <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> schema version. </p>
 
 </div>
 </div>

@@ -2,6 +2,7 @@ var namespace_a_q_n_w_b =
 [
     [ "HDF5", "namespace_a_q_n_w_b_1_1_h_d_f5.html", "namespace_a_q_n_w_b_1_1_h_d_f5" ],
     [ "NWB", "namespace_a_q_n_w_b_1_1_n_w_b.html", "namespace_a_q_n_w_b_1_1_n_w_b" ],
+    [ "SPEC", "namespace_a_q_n_w_b_1_1_s_p_e_c.html", "namespace_a_q_n_w_b_1_1_s_p_e_c" ],
     [ "BaseDataType", "class_a_q_n_w_b_1_1_base_data_type.html", "class_a_q_n_w_b_1_1_base_data_type" ],
     [ "BaseIO", "class_a_q_n_w_b_1_1_base_i_o.html", "class_a_q_n_w_b_1_1_base_i_o" ],
     [ "BaseRecordingData", "class_a_q_n_w_b_1_1_base_recording_data.html", "class_a_q_n_w_b_1_1_base_recording_data" ],

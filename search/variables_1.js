@@ -1,9 +1,10 @@
 var searchData=
 [
-  ['data_0',['data',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#aaf15a531d6542d5488a522011bff7e1a',1,'AQNWB::NWB::TimeSeries']]],
-  ['dataset_1',['dataset',['../class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a609eab6df6ab4f25b380867910773d77',1,'AQNWB::NWB::Data']]],
-  ['datatype_2',['dataType',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a6f73a1258f974712ed6ab011f0943389',1,'AQNWB::NWB::TimeSeries']]],
-  ['description_3',['description',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#afef3fad3b4689987760902f8d1481e31',1,'AQNWB::NWB::TimeSeries']]],
-  ['dsetsize_4',['dsetSize',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a3734703f0d8c041ef7682b3f03723dcc',1,'AQNWB::NWB::TimeSeries']]],
-  ['dstr_5',['DSTR',['../class_a_q_n_w_b_1_1_base_data_type.html#a37e661b183da280b0733e6db9fc703b1',1,'AQNWB::BaseDataType']]]
+  ['channelconversion_0',['channelConversion',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#ae7f37186d8dafec08225911b7eec9f9f',1,'AQNWB::NWB::ElectricalSeries']]],
+  ['channelvector_1',['channelVector',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#abeb85fcd7954d786583ab938191211c0',1,'AQNWB::NWB::ElectricalSeries']]],
+  ['chunk_5fxsize_2',['CHUNK_XSIZE',['../_n_w_b_file_8cpp.html#adbda02c91b5119380633296d30bc945e',1,'NWBFile.cpp']]],
+  ['chunksize_3',['chunkSize',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a11f61324fa024592d03e591b4e1cfcec',1,'AQNWB::NWB::TimeSeries']]],
+  ['comments_4',['comments',['../class_a_q_n_w_b_1_1_channel.html#a4f6abdc7a9b35ece35b7c5aeda8e7956',1,'AQNWB::Channel::comments'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a147426e37ccf0be176e5da71e0702b8c',1,'AQNWB::NWB::TimeSeries::comments']]],
+  ['containers_5',['containers',['../class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#aa3894888f566cd95d1f05f9035e8a14f',1,'AQNWB::NWB::RecordingContainers']]],
+  ['conversion_6',['conversion',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a2a749137816ec1aff4b46246e875c88a',1,'AQNWB::NWB::TimeSeries']]]
 ];

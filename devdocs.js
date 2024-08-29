@@ -25,6 +25,10 @@ var devdocs =
       ] ],
       [ "Creating Custom Dot Graphs", "dev_docs_page.html#dev_docs_graphviz_sec", null ]
     ] ],
+    [ "NWB Schema", "nwb_schema_page.html", [
+      [ "Generating the schema header files", "nwb_schema_page.html#dev_docs_generating_nwb_schema_headers_section", null ],
+      [ "Updating the schema", "nwb_schema_page.html#dev_docs_updating_nwb_schema_section", null ]
+    ] ],
     [ "Code of Conduct", "code_of_conduct_page.html", null ],
     [ "License", "license_page.html", null ],
     [ "Copyright", "copyright_page.html", null ]

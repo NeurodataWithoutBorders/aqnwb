@@ -1,7 +1,7 @@
 var searchData=
 [
   ['canmodifyobjects_0',['canModifyObjects',['../class_a_q_n_w_b_1_1_base_i_o.html#aaefc2224d74e9b93d57fff7d2db97987',1,'AQNWB::BaseIO::canModifyObjects()'],['../class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a96d8d872b2b974ac79a20b82fd72c5c2',1,'AQNWB::HDF5::HDF5IO::canModifyObjects()']]],
-  ['channel_1',['Channel',['../class_a_q_n_w_b_1_1_channel.html#aa8490b4f721d98920c5fa0cdc83e101c',1,'AQNWB::Channel']]],
+  ['channel_1',['Channel',['../class_a_q_n_w_b_1_1_channel.html#a1d2b7a0417a6f6ff0cf3e38ff4fd8574',1,'AQNWB::Channel']]],
   ['checkstatus_2',['checkStatus',['../_h_d_f5_i_o_8cpp.html#a1a84046757915fcc51031a92bee9588e',1,'HDF5IO.cpp']]],
   ['close_3',['close',['../class_a_q_n_w_b_1_1_base_i_o.html#a91626ce239076906438ac57c487381b5',1,'AQNWB::BaseIO::close()'],['../class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a969eb3d7ab2d93c5a83b58f27773e16f',1,'AQNWB::HDF5::HDF5IO::close()']]],
   ['closefile_4',['closeFile',['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_recording.html#aea4993204316615457b140e6056f5c94',1,'AQNWB::NWB::NWBRecording']]],

@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['f32_0',['F32',['../class_a_q_n_w_b_1_1_base_data_type.html#a0164e3b8cd53950054845d9bd8285fa2',1,'AQNWB::BaseDataType']]],
-  ['f64_1',['F64',['../class_a_q_n_w_b_1_1_base_data_type.html#a596aed9bda4397bbb84a0b9e6074fe58',1,'AQNWB::BaseDataType']]],
-  ['filename_2',['filename',['../class_a_q_n_w_b_1_1_base_i_o.html#a9216c5b8bf33ad420f19a704357659a4',1,'AQNWB::BaseIO::filename'],['../class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#af901d3aedd572ff718df7b81e665cc70',1,'AQNWB::HDF5::HDF5IO::filename']]]
+  ['electrodedataset_0',['electrodeDataset',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#a901115775c3e8822949cccf6f3d18fd3',1,'AQNWB::NWB::ElectrodeTable']]],
+  ['electrodesdataset_1',['electrodesDataset',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a7b952161ffa17dbb4958c4be2cd31c13',1,'AQNWB::NWB::ElectricalSeries']]],
+  ['electrodetablepath_2',['electrodeTablePath',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#a2375dcafcd8ab00dd313d3fec121fa42',1,'AQNWB::NWB::ElectrodeTable']]],
+  ['experimental_3',['experimental',['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_h_d_m_f___e_x_p_e_r_i_m_e_n_t_a_l.html#ac353ef164be0c431a75ad8f7a36129ca',1,'AQNWB::SPEC::HDMF_EXPERIMENTAL']]]
 ];

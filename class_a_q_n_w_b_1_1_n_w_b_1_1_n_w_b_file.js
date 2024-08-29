@@ -10,8 +10,5 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file =
     [ "initialize", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a49d305931788b0f57a04a557b46d6596", null ],
     [ "operator=", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a941d5b775441fac6c787cd55a8276461", null ],
     [ "startRecording", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a902d040b7b4b811eb7d7ebeb65f90dbe", null ],
-    [ "stopRecording", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a725e81c69195c8a9616aa4d2e7c21cb0", null ],
-    [ "HDMFExperimentalVersion", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a7e787fd25b2117c1a922813bbcc5da2e", null ],
-    [ "HDMFVersion", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a63c5b473dd46c9aa469431057e2e9559", null ],
-    [ "NWBVersion", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#af9fb6a56518ac357e659ccad9a8899d4", null ]
+    [ "stopRecording", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a725e81c69195c8a9616aa4d2e7c21cb0", null ]
 ];

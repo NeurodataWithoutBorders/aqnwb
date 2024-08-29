@@ -7,6 +7,7 @@ var searchData=
   ['hdf5io_2edox_4',['hdf5io.dox',['../hdf5io_8dox.html',1,'']]],
   ['hdf5io_2ehpp_5',['HDF5IO.hpp',['../_h_d_f5_i_o_8hpp.html',1,'']]],
   ['hdf5recordingdata_6',['HDF5RecordingData',['../class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_recording_data.html',1,'AQNWB::HDF5::HDF5RecordingData'],['../class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#ad822c9112b15211f743fc540139a4dd4',1,'AQNWB::HDF5::HDF5RecordingData::HDF5RecordingData(std::unique_ptr&lt; H5::DataSet &gt; data)'],['../class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a422ceb2efa97e3d72b34f695351b87dc',1,'AQNWB::HDF5::HDF5RecordingData::HDF5RecordingData(const HDF5RecordingData &amp;)=delete']]],
-  ['hdmfexperimentalversion_7',['HDMFExperimentalVersion',['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a7e787fd25b2117c1a922813bbcc5da2e',1,'AQNWB::NWB::NWBFile']]],
-  ['hdmfversion_8',['HDMFVersion',['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a63c5b473dd46c9aa469431057e2e9559',1,'AQNWB::NWB::NWBFile']]]
+  ['hdmf_5fcommon_2ehpp_7',['hdmf_common.hpp',['../hdmf__common_8hpp.html',1,'']]],
+  ['hdmf_5fexperimental_2ehpp_8',['hdmf_experimental.hpp',['../hdmf__experimental_8hpp.html',1,'']]],
+  ['header_20files_9',['Generating the schema header files',['../nwb_schema_page.html#dev_docs_generating_nwb_schema_headers_section',1,'']]]
 ];
