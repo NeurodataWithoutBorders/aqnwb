@@ -1,11 +1,24 @@
 /**
- * @page dev_install_page Installation & Setup
+ * \page dev_install_page Installation & Setup
+ *
+ * \tableofcontents
  *
  * \section dev_requirements_sec Requirements
  *
  * Please ensure that the required libraries described in the
- * \ref requirements "Requirements" section are installed. For developers we recommend
- * to also install optional dependencies to ease development.
+ * \ref user_requirements_sec "User Requirements" section are installed.
+ *
+ * For developers we also recommend to install the following optional command line tools used for
+ * generating the documentation, for code quality checks, and for debugging.
+ *
+ *  - **Documentation:** Additional requirements for building the documentation (optional)
+ *    - [Doxygen](https://www.doxygen.nl/)
+ *    - [Graphviz](https://graphviz.org/)
+ *  - **Code checks:** Additional command line tools used in developer mode `dev`
+ *    - cppcheck
+ *    - clang-format (optional, required for ``target=format-check``, ``target=format-fix``)
+ *    - codespell  (optional, required for ``target=spell-check``, ``target=spell-fix``)
+ *
  *
  * \section devbuild_sec Developer Build
  *
