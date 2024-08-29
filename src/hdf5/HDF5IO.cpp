@@ -4,12 +4,11 @@
 #include <memory>
 #include <vector>
 
-#include "HDF5IO.hpp"
-
 #include <H5Cpp.h>
 #include <H5Fpublic.h>
 
-#include "../Utils.hpp"
+#include "hdf5/HDF5IO.hpp"
+#include "Utils.hpp"
 
 using namespace H5;
 using namespace AQNWB::HDF5;

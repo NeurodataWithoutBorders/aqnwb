@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Types.hpp"
-#include "NWBFile.hpp"
+#include "Types.hpp"
+#include "nwb/NWBFile.hpp"
 
 namespace AQNWB::NWB
 {

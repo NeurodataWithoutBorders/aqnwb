@@ -1,4 +1,4 @@
-#include "ElectrodeGroup.hpp"
+#include "nwb/file/ElectrodeGroup.hpp"
 
 using namespace AQNWB::NWB;
 

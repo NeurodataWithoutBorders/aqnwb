@@ -1,8 +1,8 @@
-#include "NWBRecording.hpp"
 
-#include "../Channel.hpp"
-#include "../Utils.hpp"
-#include "../hdf5/HDF5IO.hpp"
+#include "Channel.hpp"
+#include "Utils.hpp"
+#include "hdf5/HDF5IO.hpp"
+#include "nwb/NWBRecording.hpp"
 
 using namespace AQNWB::NWB;
 

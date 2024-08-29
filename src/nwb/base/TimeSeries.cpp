@@ -1,4 +1,4 @@
-#include "TimeSeries.hpp"
+#include "nwb/base/TimeSeries.hpp"
 
 using namespace AQNWB::NWB;
 

@@ -2,9 +2,9 @@
 
 #include <string>
 
-#include "../../BaseIO.hpp"
-#include "../device/Device.hpp"
-#include "../hdmf/base/Container.hpp"
+#include "BaseIO.hpp"
+#include "nwb/device/Device.hpp"
+#include "nwb/hdmf/base/Container.hpp"
 
 namespace AQNWB::NWB
 {

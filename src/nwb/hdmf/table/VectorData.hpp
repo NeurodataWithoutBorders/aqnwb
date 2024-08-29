@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "../base/Data.hpp"
+#include "nwb/hdmf/base/Data.hpp"
 
 namespace AQNWB::NWB
 {

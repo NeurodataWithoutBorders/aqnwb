@@ -2,9 +2,9 @@
 
 #include <string>
 
-#include "../../BaseIO.hpp"
-#include "../../Channel.hpp"
-#include "../base/TimeSeries.hpp"
+#include "BaseIO.hpp"
+#include "Channel.hpp"
+#include "nwb/base/TimeSeries.hpp"
 
 namespace AQNWB::NWB
 {
