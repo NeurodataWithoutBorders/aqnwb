@@ -5,9 +5,9 @@
 #include <memory>
 #include <vector>
 
-#include "../BaseIO.hpp"
-#include "../Types.hpp"
-#include "base/TimeSeries.hpp"
+#include "BaseIO.hpp"
+#include "Types.hpp"
+#include "nwb/base/TimeSeries.hpp"
 
 /*!
  * \namespace AQNWB::NWB
@@ -120,12 +120,13 @@ private:
    * @brief Saves the specification files for the schema.
    * @param specPath The location in the file to store the spec information.
    * @param versionNumber The version number of the specification files.
-   * @param registry The registry of specification files.
+   * @param specVariables The variables from the specification files.
    */
+  template <SizeType N>
   void cacheSpecifications(
       const std::string& specPath,
       const std::string& versionNumber,
-      void (*registerFunc)(std::map<std::string, const std::string*>&));
+      const std::array<std::pair<std::string_view, std::string_view>, N>& specVariables);
 
   /**
    * @brief Holds the Container (usually TimeSeries) objects that have been

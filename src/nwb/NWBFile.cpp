@@ -6,18 +6,17 @@
 #include <sstream>
 #include <string>
 
-#include "NWBFile.hpp"
-
-#include "../BaseIO.hpp"
-#include "../Channel.hpp"
-#include "../Utils.hpp"
-#include "../spec/core.hpp"
-#include "../spec/hdmf_common.hpp"
-#include "../spec/hdmf_experimental.hpp"
-#include "device/Device.hpp"
-#include "ecephys/ElectricalSeries.hpp"
-#include "file/ElectrodeGroup.hpp"
-#include "file/ElectrodeTable.hpp"
+#include "BaseIO.hpp"
+#include "Channel.hpp"
+#include "Utils.hpp"
+#include "spec/core.hpp"
+#include "spec/hdmf_common.hpp"
+#include "spec/hdmf_experimental.hpp"
+#include "nwb/device/Device.hpp"
+#include "nwb/ecephys/ElectricalSeries.hpp"
+#include "nwb/file/ElectrodeGroup.hpp"
+#include "nwb/file/ElectrodeTable.hpp"
+#include "nwb/NWBFile.hpp"
 
 using namespace AQNWB::NWB;
 
@@ -70,14 +69,14 @@ Status NWBFile::createFileStructure()
 
   io->createGroup("/specifications");
   io->createReferenceAttribute("/specifications", "/", ".specloc");
-  cacheSpecifications(
-      "core", spec::core::version, spec::core::registerVariables);
+  
+  cacheSpecifications("core", spec::core::version, spec::core::specVariables);
   cacheSpecifications("hdmf-common",
                       spec::hdmf_common::version,
-                      spec::hdmf_common::registerVariables);
+                      spec::hdmf_common::specVariables);
   cacheSpecifications("hdmf-experimental",
                       spec::hdmf_experimental::version,
-                      spec::hdmf_experimental::registerVariables);
+                      spec::hdmf_experimental::specVariables);
 
   std::string time = getCurrentTime();
   std::vector<std::string> timeVec = {time};
@@ -154,23 +153,22 @@ void NWBFile::stopRecording()
   io->stopRecording();
 }
 
+template <SizeType N>
 void NWBFile::cacheSpecifications(
     const std::string& specPath,
     const std::string& versionNumber,
-    void (*registerFunc)(std::map<std::string, const std::string*>&))
+    const std::array<std::pair<std::string_view, std::string_view>, N>& specVariables)
 {
-  std::map<std::string, const std::string*> registry;
-  registerFunc(registry);
+    io->createGroup("/specifications/" + specPath + "/");
+    io->createGroup("/specifications/" + specPath + "/" + versionNumber);
 
-  io->createGroup("/specifications/" + specPath + "/");
-  io->createGroup("/specifications/" + specPath + "/" + versionNumber);
-
-  for (const auto& [name, content] : registry) {
-    io->createStringDataSet(
-        "/specifications/" + specPath + "/" + versionNumber + "/" + name,
-        *content);
-  }
+    for (const auto& [name, content] : specVariables) {
+        io->createStringDataSet(
+            "/specifications/" + specPath + "/" + versionNumber + "/" + std::string(name),
+            std::string(content));
+    }
 }
+
 
 // recording data factory method /
 std::unique_ptr<AQNWB::BaseRecordingData> NWBFile::createRecordingData(
