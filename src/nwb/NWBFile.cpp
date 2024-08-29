@@ -6,17 +6,18 @@
 #include <sstream>
 #include <string>
 
+#include "nwb/NWBFile.hpp"
+
 #include "BaseIO.hpp"
 #include "Channel.hpp"
 #include "Utils.hpp"
-#include "spec/core.hpp"
-#include "spec/hdmf_common.hpp"
-#include "spec/hdmf_experimental.hpp"
 #include "nwb/device/Device.hpp"
 #include "nwb/ecephys/ElectricalSeries.hpp"
 #include "nwb/file/ElectrodeGroup.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
-#include "nwb/NWBFile.hpp"
+#include "spec/core.hpp"
+#include "spec/hdmf_common.hpp"
+#include "spec/hdmf_experimental.hpp"
 
 using namespace AQNWB::NWB;
 
@@ -69,7 +70,7 @@ Status NWBFile::createFileStructure()
 
   io->createGroup("/specifications");
   io->createReferenceAttribute("/specifications", "/", ".specloc");
-  
+
   cacheSpecifications("core", spec::core::version, spec::core::specVariables);
   cacheSpecifications("hdmf-common",
                       spec::hdmf_common::version,
@@ -153,22 +154,22 @@ void NWBFile::stopRecording()
   io->stopRecording();
 }
 
-template <SizeType N>
+template<SizeType N>
 void NWBFile::cacheSpecifications(
     const std::string& specPath,
     const std::string& versionNumber,
-    const std::array<std::pair<std::string_view, std::string_view>, N>& specVariables)
+    const std::array<std::pair<std::string_view, std::string_view>, N>&
+        specVariables)
 {
-    io->createGroup("/specifications/" + specPath + "/");
-    io->createGroup("/specifications/" + specPath + "/" + versionNumber);
+  io->createGroup("/specifications/" + specPath + "/");
+  io->createGroup("/specifications/" + specPath + "/" + versionNumber);
 
-    for (const auto& [name, content] : specVariables) {
-        io->createStringDataSet(
-            "/specifications/" + specPath + "/" + versionNumber + "/" + std::string(name),
-            std::string(content));
-    }
+  for (const auto& [name, content] : specVariables) {
+    io->createStringDataSet("/specifications/" + specPath + "/" + versionNumber
+                                + "/" + std::string(name),
+                            std::string(content));
+  }
 }
-
 
 // recording data factory method /
 std::unique_ptr<AQNWB::BaseRecordingData> NWBFile::createRecordingData(

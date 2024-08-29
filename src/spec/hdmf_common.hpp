@@ -1,8 +1,8 @@
 #pragma once
 
+#include <array>
 #include <string>
 #include <string_view>
-#include <array>
 
 namespace AQNWB::spec::hdmf_common
 {
@@ -21,10 +21,9 @@ constexpr std::string_view sparse = R"delimiter(
 constexpr std::string_view namespaces = R"delimiter(
 {"namespaces":[{"name":"hdmf-common","doc":"Common data structures provided by HDMF","author":["Andrew Tritt","Oliver Ruebel","Ryan Ly","Ben Dichter"],"contact":["ajtritt@lbl.gov","oruebel@lbl.gov","rly@lbl.gov","bdichter@lbl.gov"],"full_name":"HDMF Common","schema":[{"source":"base"},{"source":"table"},{"source":"sparse"}],"version":"1.8.0"}]})delimiter";
 
-constexpr std::array<std::pair<std::string_view, std::string_view>, 4> specVariables {{
-  {"base", base},
-  {"table", table},
-  {"sparse", sparse},
-  {"namespace", namespaces}
-}};
+constexpr std::array<std::pair<std::string_view, std::string_view>, 4>
+    specVariables {{{"base", base},
+                    {"table", table},
+                    {"sparse", sparse},
+                    {"namespace", namespaces}}};
 }  // namespace AQNWB::spec::hdmf_common
