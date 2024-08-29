@@ -22,4 +22,4 @@ constexpr std::array<std::pair<std::string_view, std::string_view>, 3>
     specVariables {{{"experimental", experimental},
                     {"resources", resources},
                     {"namespace", namespaces}}};
-}  // namespace AQNWB::spec::hdmf_experimental
+}  // namespace AQNWB::SPEC::HDMF_EXPERIMENTAL

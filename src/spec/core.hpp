@@ -62,4 +62,4 @@ constexpr std::array<std::pair<std::string_view, std::string_view>, 13>
                     {"nwb.ophys", nwb_ophys},
                     {"nwb.retinotopy", nwb_retinotopy},
                     {"namespace", namespaces}}};
-}  // namespace AQNWB::spec::core
+}  // namespace AQNWB::SPEC::CORE

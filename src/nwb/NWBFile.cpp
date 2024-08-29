@@ -71,7 +71,8 @@ Status NWBFile::createFileStructure()
   io->createGroup("/specifications");
   io->createReferenceAttribute("/specifications", "/", ".specloc");
 
-  cacheSpecifications("core", AQNWB::SPEC::CORE::version, AQNWB::SPEC::CORE::specVariables);
+  cacheSpecifications(
+      "core", AQNWB::SPEC::CORE::version, AQNWB::SPEC::CORE::specVariables);
   cacheSpecifications("hdmf-common",
                       AQNWB::SPEC::HDMF_COMMON::version,
                       AQNWB::SPEC::HDMF_COMMON::specVariables);

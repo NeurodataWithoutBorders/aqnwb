@@ -26,4 +26,4 @@ constexpr std::array<std::pair<std::string_view, std::string_view>, 4>
                     {"table", table},
                     {"sparse", sparse},
                     {"namespace", namespaces}}};
-}  // namespace AQNWB::spec::hdmf_common
+}  // namespace AQNWB::SPEC::HDMF_COMMON
