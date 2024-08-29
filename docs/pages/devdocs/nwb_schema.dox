@@ -1,7 +1,7 @@
 /**
  * @page nwb_schema_page NWB Schema
  * 
- * The NWB file format is formally described by the [NWB Format Specifiation Schema](https://nwb-schema.readthedocs.io/en/latest/). 
+ * The NWB file format is formally described by the [NWB Format Specification Schema](https://nwb-schema.readthedocs.io/en/latest/). 
  * The data organization of NWB files and the core NWB format is described by these nwb-schema format specification documents. 
  *
  * \section dev_docs_generating_nwb_schema_headers_section Generating the schema header files
