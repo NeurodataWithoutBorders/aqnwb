@@ -4,7 +4,7 @@
 #include <string>
 #include <string_view>
 
-namespace AQNWB::spec::core
+namespace AQNWB::SPEC::CORE
 {
 
 const std::string version = "2.7.0";

@@ -56,7 +56,7 @@ Status NWBFile::createFileStructure()
   }
 
   io->createCommonNWBAttributes("/", "core", "NWBFile", "");
-  io->createAttribute(AQNWB::spec::core::version, "/", "nwb_version");
+  io->createAttribute(AQNWB::SPEC::CORE::version, "/", "nwb_version");
 
   io->createGroup("/acquisition");
   io->createGroup("/analysis");
@@ -71,13 +71,13 @@ Status NWBFile::createFileStructure()
   io->createGroup("/specifications");
   io->createReferenceAttribute("/specifications", "/", ".specloc");
 
-  cacheSpecifications("core", spec::core::version, spec::core::specVariables);
+  cacheSpecifications("core", AQNWB::SPEC::CORE::version, AQNWB::SPEC::CORE::specVariables);
   cacheSpecifications("hdmf-common",
-                      spec::hdmf_common::version,
-                      spec::hdmf_common::specVariables);
+                      AQNWB::SPEC::HDMF_COMMON::version,
+                      AQNWB::SPEC::HDMF_COMMON::specVariables);
   cacheSpecifications("hdmf-experimental",
-                      spec::hdmf_experimental::version,
-                      spec::hdmf_experimental::specVariables);
+                      AQNWB::SPEC::HDMF_EXPERIMENTAL::version,
+                      AQNWB::SPEC::HDMF_EXPERIMENTAL::specVariables);
 
   std::string time = getCurrentTime();
   std::vector<std::string> timeVec = {time};

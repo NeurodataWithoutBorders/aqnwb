@@ -4,7 +4,7 @@
 #include <string>
 #include <string_view>
 
-namespace AQNWB::spec::hdmf_common
+namespace AQNWB::SPEC::HDMF_COMMON
 {
 
 const std::string version = "1.8.0";

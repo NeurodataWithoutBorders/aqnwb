@@ -4,7 +4,7 @@
 #include <string>
 #include <string_view>
 
-namespace AQNWB::spec::hdmf_experimental
+namespace AQNWB::SPEC::HDMF_EXPERIMENTAL
 {
 
 const std::string version = "0.5.0";

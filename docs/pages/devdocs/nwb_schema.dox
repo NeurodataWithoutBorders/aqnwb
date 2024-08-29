@@ -16,7 +16,10 @@
  * \section dev_docs_updating_nwb_schema_section Updating the schema
  *
  * Currently, the version of the schema being used for development is fixed and stored in the `/resources/schema` folder. 
- * At a later date, these folders will be updated to git submodules, and we will add further instructions on coordinating schema updates with AqNWB API updates.
+ * Updating to a newer version of the schema requires:
+ * - Regeneration of the `spec` header files via `resources/generate_spec_files.py`
+ * - Update of existing `Container` classes and unit tests in AqNWB to match changes in the  new schema compared to the previous schema
+ * - Successful completion of all unit-test and round-trip testing with PyNWB and MatNWB
  *
  */
 

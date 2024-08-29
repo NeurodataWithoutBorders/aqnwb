@@ -23,7 +23,7 @@ for file in schema_dir.rglob(r"*namespace.yaml"):
         with open(header_file, 'w') as fo:
             fo.write('#pragma once\n\n')
             fo.write('#include <string>\n#include <string_view>\n#include <array>\n\n')
-            fo.write(f'namespace AQNWB::spec::{ns['name'].replace('-', '_')}\n{{\n\n')
+            fo.write(f'namespace AQNWB::SPEC::{ns['name'].upper().replace('-', '_')}\n{{\n\n')
             fo.write(f'const std::string version = "{ns["version"]}";\n\n')
 
         # load and convert schema files
