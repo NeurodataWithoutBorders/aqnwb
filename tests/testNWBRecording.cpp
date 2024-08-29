@@ -9,6 +9,7 @@
 #include "Utils.hpp"
 #include "hdf5/HDF5IO.hpp"
 #include "nwb/NWBRecording.hpp"
+#include "nwb/RecordingContainers.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
 #include "testUtils.hpp"
 
@@ -34,10 +35,12 @@ TEST_CASE("writeContinuousData", "[recording]")
     std::vector<std::vector<float>> mockData =
         getMockData2D(numSamples, numChannels);
     std::vector<double> mockTimestamps = getMockTimestamps(numSamples);
+    std::unique_ptr<NWB::RecordingContainers> recordingContainers =
+        std::make_unique<NWB::RecordingContainers>();
 
     // open files
     NWB::NWBRecording nwbRecording;
-    nwbRecording.openFile(path, mockRecordingArrays);
+    nwbRecording.openFile(path, mockRecordingArrays, "HDF5", recordingContainers.get());
 
     // run recording
     bool isRecording = true;
@@ -62,8 +65,7 @@ TEST_CASE("writeContinuousData", "[recording]")
           std::unique_ptr<int16_t[]> intBuffer = transformToInt16(
               dataBuffer.size(), channel.getBitVolts(), dataBuffer.data());
 
-          nwbRecording.writeTimeseriesData("ElectricalSeries",
-                                           i,
+          recordingContainers->writeTimeseriesData(i,
                                            channel,
                                            dataShape,
                                            positionOffset,

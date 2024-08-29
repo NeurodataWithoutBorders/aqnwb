@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Types.hpp"
+#include "nwb/RecordingContainers.hpp"
 #include "nwb/NWBFile.hpp"
 
 namespace AQNWB::NWB
@@ -41,35 +42,14 @@ public:
    */
   Status openFile(const std::string& filename,
                   std::vector<Types::ChannelVector> recordingArrays,
-                  const std::string& IOType = "HDF5");
+                  const std::string& IOType = "HDF5",
+                  RecordingContainers* recordingContainers = nullptr);
 
   /**
    * @brief Closes the file and performs necessary cleanup when recording
    * stops.
    */
   void closeFile();
-
-  /**
-   * @brief Write timeseries to an NWB file.
-   * @param containerName The name of the timeseries group to write to.
-   * @param timeseriesInd The index of the timeseries dataset within the
-   * timeseries group.
-   * @param channel The channel index to use for writing timestamps.
-   * @param dataShape The size of the data block.
-   * @param positionOffset The position of the data block to write to.
-   * @param data A pointer to the data block.
-   * @param timestamps A pointer to the timestamps block. May be null if
-   * multidimensional TimeSeries and only need to write the timestamps once but
-   * write data multiple times.
-   * @return The status of the write operation.
-   */
-  Status writeTimeseriesData(const std::string& containerName,
-                             const SizeType& timeseriesInd,
-                             const Channel& channel,
-                             const std::vector<SizeType>& dataShape,
-                             const std::vector<SizeType>& positionOffset,
-                             const void* data,
-                             const void* timestamps);
 
 private:
   /**

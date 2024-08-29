@@ -45,7 +45,6 @@ Status NWBFile::initialize()
 
 Status NWBFile::finalize()
 {
-  recordingContainers.reset();
   return io->close();
 }
 
@@ -93,7 +92,8 @@ Status NWBFile::createFileStructure()
 
 Status NWBFile::createElectricalSeries(
     std::vector<Types::ChannelVector> recordingArrays,
-    const BaseDataType& dataType)
+    const BaseDataType& dataType,
+    RecordingContainers* recordingContainers)
 {
   if (!io->canModifyObjects()) {
     return Status::Failure;
@@ -181,27 +181,4 @@ std::unique_ptr<AQNWB::BaseRecordingData> NWBFile::createRecordingData(
 {
   return std::unique_ptr<BaseRecordingData>(
       io->createArrayDataSet(type, size, chunking, path));
-}
-
-TimeSeries* NWBFile::getTimeSeries(const SizeType& timeseriesInd)
-{
-  if (timeseriesInd >= this->recordingContainers->containers.size()) {
-    return nullptr;
-  } else {
-    return this->recordingContainers->containers[timeseriesInd].get();
-  }
-}
-
-// Recording Container
-
-RecordingContainers::RecordingContainers(const std::string& name)
-    : name(name)
-{
-}
-
-RecordingContainers::~RecordingContainers() {}
-
-void RecordingContainers::addData(std::unique_ptr<TimeSeries> data)
-{
-  this->containers.push_back(std::move(data));
 }

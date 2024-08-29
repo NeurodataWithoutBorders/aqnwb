@@ -10,6 +10,7 @@
 #include "BaseIO.hpp"
 #include "Types.hpp"
 #include "nwb/base/TimeSeries.hpp"
+#include "nwb/RecordingContainers.hpp"
 
 /*!
  * \namespace AQNWB::NWB
@@ -17,8 +18,6 @@
  */
 namespace AQNWB::NWB
 {
-
-class RecordingContainers;  // declare here because gets used in NWBFile class
 
 /**
  * @brief The NWBFile class provides an interface for setting up and managing
@@ -69,12 +68,14 @@ public:
    * @param recordingArrays vector of ChannelVector indicating the electrodes to
    *                        record from. A separate ElectricalSeries will be
    *                        created for each ChannelVector.
+   * @param recordingContainers The container to store the created TimeSeries.
    * @param dataType The data type of the elements in the data block.
    * @return Status The status of the object creation operation.
    */
   Status createElectricalSeries(
       std::vector<Types::ChannelVector> recordingArrays,
-      const BaseDataType& dataType = BaseDataType::I16);
+      const BaseDataType& dataType = BaseDataType::I16,
+      RecordingContainers* recordingContainers = nullptr);
 
   /**
    * @brief Starts the recording.
@@ -86,11 +87,6 @@ public:
    */
   void stopRecording();
 
-  /**
-   * @brief Gets the TimeSeries object from the recordingContainers
-   * @param timeseriesInd The index of the timeseries dataset within the group.
-   */
-  TimeSeries* getTimeSeries(const SizeType& timeseriesInd);
 
 protected:
   /**
@@ -133,53 +129,8 @@ private:
       const std::array<std::pair<std::string_view, std::string_view>, N>&
           specVariables);
 
-  /**
-   * @brief Holds the Container (usually TimeSeries) objects that have been
-   * created in the nwb file for recording.
-   */
-  std::unique_ptr<RecordingContainers> recordingContainers =
-      std::make_unique<RecordingContainers>("RecordingContainers");
-
   const std::string identifierText;
   std::shared_ptr<BaseIO> io;
-};
-
-/**
- * @brief The RecordingContainers class provides an interface for managing
- * groups of TimeSeries acquired during a recording.
- */
-class RecordingContainers
-{
-public:
-  /**
-   * @brief Constructor for RecordingContainer class.
-   * @param name The name of the group of time series
-   */
-  RecordingContainers(const std::string& name);
-
-  /**
-   * @brief Deleted copy constructor to prevent construction-copying.
-   */
-  RecordingContainers(const RecordingContainers&) = delete;
-
-  /**
-   * @brief Deleted copy assignment operator to prevent copying.
-   */
-  RecordingContainers& operator=(const RecordingContainers&) = delete;
-
-  /**
-   * @brief Destructor for RecordingContainer class.
-   */
-  ~RecordingContainers();
-
-  /**
-   * @brief Adds a TimeSeries object to the container.
-   * @param data The TimeSeries object to add.
-   */
-  void addData(std::unique_ptr<TimeSeries> data);
-
-  std::vector<std::unique_ptr<TimeSeries>> containers;
-  std::string name;
 };
 
 }  // namespace AQNWB::NWB

@@ -4,6 +4,7 @@
 #include "Utils.hpp"
 #include "hdf5/HDF5IO.hpp"
 #include "nwb/NWBFile.hpp"
+#include "nwb/RecordingContainers.hpp"
 #include "nwb/base/TimeSeries.hpp"
 #include "testUtils.hpp"
 
@@ -31,8 +32,10 @@ TEST_CASE("createElectricalSeries", "[nwb]")
 
   // create Electrical Series
   std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(1, 2);
+  std::unique_ptr<NWB::RecordingContainers> recordingContainers =
+      std::make_unique<NWB::RecordingContainers>();
   Status resultCreate =
-      nwbfile.createElectricalSeries(mockArrays, BaseDataType::F32);
+      nwbfile.createElectricalSeries(mockArrays, BaseDataType::F32, recordingContainers.get());
   REQUIRE(resultCreate == Status::Success);
 
   // start recording
@@ -45,10 +48,10 @@ TEST_CASE("createElectricalSeries", "[nwb]")
   std::vector<SizeType> positionOffset = {0, 0};
   std::vector<SizeType> dataShape = {mockData.size(), 0};
 
-  NWB::TimeSeries* ts0 = nwbfile.getTimeSeries(0);
+  NWB::TimeSeries* ts0 = recordingContainers->getTimeSeries(0);
   ts0->writeData(
       dataShape, positionOffset, mockData.data(), mockTimestamps.data());
-  NWB::TimeSeries* ts1 = nwbfile.getTimeSeries(1);
+  NWB::TimeSeries* ts1 = recordingContainers->getTimeSeries(1);
   ts1->writeData(
       dataShape, positionOffset, mockData.data(), mockTimestamps.data());
 
