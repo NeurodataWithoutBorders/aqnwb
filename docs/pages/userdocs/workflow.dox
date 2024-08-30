@@ -74,7 +74,8 @@
  *
  * During the recording process, use the \ref AQNWB::NWB::RecordingContainers "RecordingContainers"  as an interface
  * to access the various  \ref AQNWB::NWB::Container "Container" object and corresponding 
- * datasets and write blocks of data to the file. 
+ * datasets and write blocks of data to the file. Calling `flush()` on the I/O object at anytime will ensure the 
+ * data is moved to disk.
  * 
  * \snippet tests/examples/testWorkflowExamples.cpp example_workflow_write_snippet
  *

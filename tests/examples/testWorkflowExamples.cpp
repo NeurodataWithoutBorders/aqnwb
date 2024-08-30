@@ -86,6 +86,7 @@ TEST_CASE("workflowExamples")
                                                    positionOffset,
                                                    intBuffer.get(),
                                                    timestampsBuffer.data());
+          io->flush();
           // [example_workflow_write_snippet]
         }
       }
