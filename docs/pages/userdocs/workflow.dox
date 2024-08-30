@@ -1,0 +1,83 @@
+/**
+ * \page workflow AqNWB Workflow
+ *
+ * \tableofcontents
+ *
+ * \section recording_workflow Overview of a recording workflow
+ *
+ * For users wanting to integrate NWB with a particular data acquisition software, here
+ * we outline the steps for a single recording from file creation to saving.
+ *
+ * 1. Create the I/O object.
+ * 2. Create the `RecordingContainers` object. 
+ * 3. Create the `NWBFile` object.
+ * 4. Create datasets and add to RecordingContainers.
+ * 5. Start the recording.
+ * 6. Write data.
+ * 7. Stop the recording and close the NWBFile.
+ * 
+ * Below, we walk through these steps in more detail.
+ * 
+ * 
+ * \subsection create_io 1. Create the I/O object.
+ * 
+ * First, create an I/O object. We provide a convenience method, `createIO`
+ * to create this object using one of our supported backends. For more fine-grained
+ * control of different backend parameters, you can create your own `std::shared_ptr` 
+ * using any of the derived BaseIO classes.
+ * 
+ * \snippet tests/examples/testWorkflowExamples.cpp example_workflow_io_snippet
+ *
+ *
+ * \subsection create_recording_container 2. Create the RecordingContainer object.
+ * 
+ * Next, create a RecordingContainer object to manage the different datasets 
+ * that you would like to write data to.
+ * 
+ * \snippet tests/examples/testWorkflowExamples.cpp example_workflow_recording_containers_snippet
+ * 
+ *
+ * \subsection create_nwbfile 3. Create the NWBFile
+ * 
+ * Next, constructs the `NWBFile` object, using the I/O object as an input. 
+ * Then, initialize the object to create the basic file structure of the NWBFile.
+ *
+ * \snippet tests/examples/testWorkflowExamples.cpp example_workflow_nwbfile_snippet
+ *
+ * 
+ * \subsection create_datasets 4. Create datasets and add to RecordingContainers.
+ *
+ * Next, create the different data types (e.g. `ElectricalSeries`, other `TimeSeries`)
+ * that you would like to write data into. After creation, these objects are moved
+ * to the RecordingContainers object so that it can manage access and data writing
+ * during the recording process. 
+ * 
+ * \snippet tests/examples/testWorkflowExamples.cpp example_workflow_datasets_snippet
+ *
+ *
+ * \subsection start_recording 5. Start the recording.
+ *
+ * Then, start the recording process with a call to the I/O object. By default for
+ * HDF5 files, this will enable SWMR mode and no additional datasets or groups can be added
+ * to the file unless it is closed and reopened.
+ *
+ * \snippet tests/examples/testWorkflowExamples.cpp example_workflow_start_snippet
+ *
+ * 
+ * \subsection write_data 6. Write data.
+ *
+ * During the recording process, use the RecordingContainers as an interface
+ * to access the various datasets and write blocks of data to the file. 
+ * 
+ * \snippet tests/examples/testWorkflowExamples.cpp example_workflow_write_snippet
+ *
+ * 
+ * \subsection stop_recording 7. Stop the recording and finalize the file.
+ *
+ * When the recording process is finished, call `stopRecording` from the I/O object
+ * to flush any data and close the file.
+ * 
+ * \snippet tests/examples/testWorkflowExamples.cpp example_workflow_stop_snippet
+ *
+ *
+ */

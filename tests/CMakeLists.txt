@@ -20,6 +20,7 @@ add_executable(aqnwb_test
     testRecordingWorkflow.cpp
     examples/test_HDF5IO_examples.cpp
     examples/test_example.cpp
+    examples/testWorkflowExamples.cpp
 )
 
 # Ensure the aqnwb_test target can include headers from the current directory
