@@ -9,7 +9,7 @@ namespace AQNWB::NWB
 
 /**
  * @brief The RecordingContainers class provides an interface for managing
- * and holding groups of TimeSeries acquired during a recording.
+ * and holding groups of Containers acquired during a recording.
  */
 
 class RecordingContainers
@@ -36,20 +36,20 @@ public:
   ~RecordingContainers();
 
   /**
-   * @brief Adds a TimeSeries object to the container.
-   * @param data The TimeSeries object to add.
+   * @brief Adds a Container object to the container.
+   * @param data The Container object to add.
    */
-  void addData(std::unique_ptr<TimeSeries> data);
+  void addData(std::unique_ptr<Container> data);
 
   /**
-   * @brief Gets the TimeSeries object from the recordingContainers
-   * @param timeseriesInd The index of the timeseries dataset within the group.
+   * @brief Gets the Container object from the recordingContainers
+   * @param containerInd The index of the container dataset within the group.
    */
-  TimeSeries* getTimeSeries(const SizeType& timeseriesInd);
+  Container* getContainer(const SizeType& containerInd);
 
   /**
    * @brief Write timeseries data to a recordingContainer dataset.
-   * @param timeseriesInd The index of the timeseries dataset within the
+   * @param containerInd The index of the timeseries dataset within the
    * timeseries group.
    * @param channel The channel index to use for writing timestamps.
    * @param dataShape The size of the data block.
@@ -60,14 +60,32 @@ public:
    * write data multiple times.
    * @return The status of the write operation.
    */
-  Status writeTimeseriesData(const SizeType& timeseriesInd,
+  Status writeTimeseriesData(const SizeType& containerInd,
                              const Channel& channel,
                              const std::vector<SizeType>& dataShape,
                              const std::vector<SizeType>& positionOffset,
                              const void* data,
                              const void* timestamps);
 
-  std::vector<std::unique_ptr<TimeSeries>> containers;
+  /**
+   * @brief Write ElectricalSereis data to a recordingContainer dataset.
+   * @param containerInd The index of the electrical series dataset within the
+   * electrical series group.
+   * @param channel The channel index to use for writing timestamps.
+   * @param dataShape The size of the data block.
+   * @param data A pointer to the data block.
+   * @param timestamps A pointer to the timestamps block. May be null if
+   * multidimensional TimeSeries and only need to write the timestamps once but
+   * write data multiple times.
+   * @return The status of the write operation.
+   */
+  Status writeElectricalSeriesData(const SizeType& containerInd,
+                                   const Channel& channel,
+                                   const SizeType& numSamples,
+                                   const void* data,
+                                   const void* timestamps);
+
+  std::vector<std::unique_ptr<Container>> containers;
   std::string name;
 };
 
