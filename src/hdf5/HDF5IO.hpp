@@ -15,6 +15,9 @@ class DataSet;
 class H5File;
 class DataType;
 class Exception;
+class CommonFG;
+class PredType;
+class DataSpace;
 }  // namespace H5
 
 /*!
@@ -83,6 +86,24 @@ public:
    * @return The status of the flush operation.
    */
   Status flush() override;
+
+  /**
+   * @brief Reads a dataset or attribute and determines the data type.
+   *
+   * @param dataPath The path to the dataset or attribute within the file.
+   * @param start The starting indices for the slice (optional).
+   * @param count The number of elements to read for each dimension (optional).
+   * @param stride The stride for each dimension (optional).
+   * @param block The block size for each dimension (optional).
+   *
+   * @return A DataGeneric structure containing the data and shape.
+   */
+  AQNWB::DataBlockGeneric readData(
+      const std::string& dataPath,
+      const std::vector<SizeType>& start = {},
+      const std::vector<SizeType>& count = {},
+      const std::vector<SizeType>& stride = {},
+      const std::vector<SizeType>& block = {}) override;
 
   /**
    * @brief Creates an attribute at a given location in the file.
@@ -266,9 +287,92 @@ protected:
   Status createGroupIfDoesNotExist(const std::string& path) override;
 
 private:
+  /**
+   * @brief Reads data from an HDF5 dataset or attribute into a vector of the
+   * appropriate type.
+   *
+   * This is an internal helper function used to simplify the implementation
+   * of the readData method.
+   *
+   * @tparam T The data type of the dataset or attribute.
+   * @param dataSource The HDF5 data source (dataset or attribute).
+   * @param predType The HDF5 data type.
+   * @param numElements The number of elements to read.
+   * @param memspace The memory dataspace (optional).
+   * @param dataspace The file dataspace (optional).
+   *
+   * @return A vector containing the data.
+   */
+  template<typename T, typename HDF5TYPE>
+  std::vector<T> readDataHelper(const HDF5TYPE& dataSource,
+                                size_t numElements,
+                                const H5::DataSpace& memspace,
+                                const H5::DataSpace& dataspace);
+
+  /**
+   * @brief Reads data from an HDF5 dataset or attribute into a vector of the
+   * appropriate type.
+   *
+   * This is the same as readDataHelper but with default parameters defined for
+   * the memspace and dataspace parameters. We overload the method here, rather
+   * than defining default parameters directly, to avoid having to include
+   * <H5Cpp.h> in the HDF5IO.hpp header file.
+   *
+   * @tparam T The data type of the dataset or attribute.
+   * @param dataSource The HDF5 data source (dataset or attribute).
+   * @param predType The HDF5 data type.
+   * @param numElements The number of elements to read.
+   * @param memspace The memory dataspace (optional).
+   * @param dataspace The file dataspace (optional).
+   *
+   * @return A vector containing the data.
+   */
+  template<typename T, typename HDF5TYPE>
+  std::vector<T> readDataHelper(const HDF5TYPE& dataSource, size_t numElements);
+
+  /**
+   * @brief Reads a variable-length string from an HDF5 dataset or attribute.
+   *
+   * @param dataSource The HDF5 data source (dataset or attribute).
+   * @param numElements The number of elements to read.
+   * @param memspace The memory dataspace (optional).
+   * @param dataspace The file dataspace (optional).
+   *
+   * @return A vector containing the data.
+   */
+  template<typename HDF5TYPE>
+  std::vector<std::string> readStringDataHelper(const HDF5TYPE& dataSource,
+                                                size_t numElements,
+                                                const H5::DataSpace& memspace,
+                                                const H5::DataSpace& dataspace);
+
+  /**
+   * @brief Reads a variable-length string from an HDF5 dataset or attribute.
+   *
+   * This is the same as readStringDataHelper but with default parameters
+   * defined for the memspace and dataspace parameters. We overload the method
+   * here, rather than defining default parameters directly, to avoid having to
+   * include <H5Cpp.h> in the HDF5IO.hpp header file.
+   *
+   * @param dataSource The HDF5 data source (dataset or attribute).
+   * @param numElements The number of elements to read.
+   *
+   * @return A vector containing the data.
+   */
+  template<typename HDF5TYPE>
+  std::vector<std::string> readStringDataHelper(const HDF5TYPE& dataSource,
+                                                size_t numElements);
+
+  /**
+   * @brief Unique pointer to the HDF5 file for reading
+   */
   std::unique_ptr<H5::H5File> file;
-  bool disableSWMRMode;  // when set do not use SWMR mode when opening the HDF5
-                         // file
+
+  /**
+   * \brief When set true, then do not switch to SWMR mode when starting the
+   * recording
+   */
+  bool disableSWMRMode;
 };
 
 /**

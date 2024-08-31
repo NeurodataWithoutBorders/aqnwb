@@ -1,11 +1,11 @@
 #pragma once
 
+#include <any>
 #include <cstdint>
 #include <iostream>
 #include <memory>
 #include <string>
 #include <vector>
-#include <any>
 
 #include "Types.hpp"
 
@@ -81,6 +81,47 @@ public:
 };
 
 /**
+ * @brief Generic structure to hold type-erased data and shape
+ */
+class DataBlockGeneric
+{
+public:
+  std::any data;
+  std::vector<SizeType> shape;
+};
+
+/**
+ * @brief Structure to hold data and shape
+ */
+template<typename T>
+class DataBlock
+{
+public:
+  std::vector<T> data;
+  std::vector<SizeType> shape;
+
+  /**
+   * @brief Factory method to create an DataBlock from a DataBlockGeneric.
+   *
+   * The function using std::any_cast to avoid copying the data
+   *
+   * @param genericData The DataBlockGeneric structure containing the data and
+   * shape.
+   *
+   * @return A DataBlock structure containing the data and shape.
+   */
+  static DataBlock<T> fromGeneric(const DataBlockGeneric& genericData)
+  {
+    DataBlock<T> result;
+    // Extract the data from the std::any object
+    result.data = std::any_cast<std::vector<T>>(genericData.data);
+    // Copy the shape information
+    result.shape = genericData.shape;
+    return result;
+  }
+};
+
+/**
  * @brief The BaseIO class is an abstract base class that defines the interface
  * for input/output (IO) operations on a file.
  *
@@ -142,6 +183,28 @@ public:
    * @return The status of the flush operation.
    */
   virtual Status flush() = 0;
+
+  /**
+   * @brief Reads a dataset or attribute and determines the data type
+   *
+   * This is is only read function for datasets and attributes that is
+   * required to be implemented by derived classes. The DataBlockGeneric
+   * can be converted to a specific type via DataBlock::fromGeneric.
+   *
+   * @param dataPath The path to the dataset or attribute within the file.
+   * @param start The starting indices for the slice (optional).
+   * @param count The number of elements to read for each dimension (optional).
+   * @param stride The stride for each dimension (optional).
+   * @param block The block size for each dimension (optional).
+   *
+   * @return A DataGeneric structure containing the data and shape.
+   */
+  virtual DataBlockGeneric readData(
+      const std::string& dataPath,
+      const std::vector<SizeType>& start = {},
+      const std::vector<SizeType>& count = {},
+      const std::vector<SizeType>& stride = {},
+      const std::vector<SizeType>& block = {}) = 0;
 
   /**
    * @brief Creates an attribute at a given location in the file.
@@ -362,74 +425,31 @@ protected:
   bool opened;
 };
 
-
-/**
- * @brief Generic structure to hold type-erased data and shape
- */
-class DataBlockGeneric
-{
-public:
-    std::any data;
-    std::vector<SizeType> shape;
-};
-
-
-/**
- * @brief Structure to hold data and shape
- */
-template <typename T>
-class DataBlock
-{
-public:
-    std::vector<T> data;
-    std::vector<SizeType> shape;
-
-    /**
-     * @brief Factory method to create an DataBlock from a DataBlockGeneric.
-     *
-     * The function using std::any_cast to avoid copying the data
-     *
-     * @param genericData The DataBlockGeneric structure containing the data and shape.
-     *
-     * @return A DataBlock structure containing the data and shape.
-     */
-    static DataBlock<T> fromGeneric(const DataBlockGeneric& genericData)
-    {
-        DataBlock<T> result;
-        // Extract the data from the std::any object
-        result.data = std::any_cast<std::vector<T>>(genericData.data);
-        // Copy the shape information
-        result.shape = genericData.shape;
-        return result;
-    }
-};
-
-
 /**
  * @brief The base class for reading data from a file
  */
-class BaseReadData
+class ReadData
 {
 public:
   /**
    * @brief Default constructor.
    */
-  BaseReadData();
+  ReadData();
 
   /**
    * @brief Deleted copy constructor to prevent construction-copying.
    */
-  BaseReadData(const BaseReadData&) = delete;
+  ReadData(const ReadData&) = delete;
 
   /**
    * @brief Deleted copy assignment operator to prevent copying.
    */
-  BaseReadData& operator=(const BaseReadData&) = delete;
+  ReadData& operator=(const ReadData&) = delete;
 
   /**
    * @brief Destructor.
    */
-  virtual ~BaseReadData();
+  virtual ~ReadData();
 
   /**
    * @brief Reads an dataset or attribute and determines the data type.
@@ -441,13 +461,19 @@ public:
    *
    * @return An DataBlockGeneric structure containing the data and shape.
    */
-  virtual DataBlockGeneric valuesGeneric(const std::vector<SizeType>& start = {},
-                                         const std::vector<SizeType>& count = {},
-                                         const std::vector<SizeType>& stride = {},
-                                         const std::vector<SizeType>& block = {});
+  DataBlockGeneric valuesGeneric(const std::vector<SizeType>& start = {},
+                                 const std::vector<SizeType>& count = {},
+                                 const std::vector<SizeType>& stride = {},
+                                 const std::vector<SizeType>& block = {})
+  {
+    return this->io->readData(this->dataPath, start, count, stride, block);
+  }
 
   /**
    * @brief Reads an dataset or attribute with a specified data type.
+   *
+   * This convenience function uses valuesGeneric to read the data and then
+   * convert the DataBlockGeneric to a specific DataBlock
    *
    * @param start The starting indices for the slice (optional).
    * @param count The number of elements to read for each dimension (optional).
@@ -456,17 +482,27 @@ public:
    *
    * @return A DataBlock structure containing the data and shape.
    */
-   template<typename T>
-   DataBlock<T> values(const std::vector<SizeType>& start = {},
-                       const std::vector<SizeType>& count = {},
-                       const std::vector<SizeType>& stride = {},
-                       const std::vector<SizeType>& block = {})
-   {
-      return DataBlock<T>::fromGeneric(this->valuesGeneric(start, count, stride, block));
-   }
-}; // BaseReadData
+  template<typename T>
+  DataBlock<T> values(const std::vector<SizeType>& start = {},
+                      const std::vector<SizeType>& count = {},
+                      const std::vector<SizeType>& stride = {},
+                      const std::vector<SizeType>& block = {})
+  {
+    return DataBlock<T>::fromGeneric(
+        this->valuesGeneric(start, count, stride, block));
+  }
 
+private:
+  /**
+   * @brief Pointer to the I/O object to use for reading.
+   */
+  std::shared_ptr<BaseIO> io;
+  /**
+   * @brief Path to the dataset or attribute to read
+   */
+  std::string dataPath;
 
+};  // ReadData
 
 /**
  * @brief The base class to represent recording data that can be extended.
@@ -538,7 +574,5 @@ protected:
    */
   SizeType nDimensions;
 };
-
-
 
 }  // namespace AQNWB

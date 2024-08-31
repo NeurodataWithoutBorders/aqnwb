@@ -90,6 +90,207 @@ Status HDF5IO::flush()
   return checkStatus(status);
 }
 
+template<typename T, typename HDF5TYPE>
+std::vector<T> HDF5IO::readDataHelper(const HDF5TYPE& dataSource,
+                                      size_t numElements,
+                                      const H5::DataSpace& memspace,
+                                      const H5::DataSpace& dataspace)
+{
+  std::vector<T> data(numElements);
+  if (const H5::DataSet* dataset =
+          dynamic_cast<const H5::DataSet*>(&dataSource))
+  {
+    // dataset->read(data.data(), memspace, dataspace);
+  } else if (const H5::Attribute* attribute =
+                 dynamic_cast<const H5::Attribute*>(&dataSource))
+  {
+    H5::DataType type = attribute->getDataType();
+    attribute->read(type, data.data());
+  } else {
+    throw std::runtime_error("Unsupported data source type");
+  }
+  return data;
+}
+
+template<typename T, typename HDF5TYPE>
+std::vector<T> HDF5IO::readDataHelper(const HDF5TYPE& dataSource,
+                                      size_t numElements)
+{
+  return this->readDataHelper<T>(
+      dataSource, numElements, H5::DataSpace(), H5::DataSpace());
+}
+
+template<typename HDF5TYPE>
+std::vector<std::string> HDF5IO::readStringDataHelper(
+    const HDF5TYPE& dataSource,
+    size_t numElements,
+    const H5::DataSpace& memspace,
+    const H5::DataSpace& dataspace)
+{
+  std::vector<std::string> data(numElements);
+  if (const H5::DataSet* dataset =
+          dynamic_cast<const H5::DataSet*>(&dataSource))
+  {
+    H5::StrType strType(H5::PredType::C_S1);
+    dataset->read(data.data(), strType, memspace, dataspace);
+  } else if (const H5::Attribute* attribute =
+                 dynamic_cast<const H5::Attribute*>(&dataSource))
+  {
+    H5::StrType strType(H5::PredType::C_S1);
+    attribute->read(strType, data.data());
+  } else {
+    throw std::runtime_error("Unsupported data source type");
+  }
+  return data;
+}
+
+template<typename HDF5TYPE>
+std::vector<std::string> HDF5IO::readStringDataHelper(
+    const HDF5TYPE& dataSource, size_t numElements)
+{
+  return this->readStringDataHelper(
+      dataSource, numElements, H5::DataSpace(), H5::DataSpace());
+}
+
+AQNWB::DataBlockGeneric HDF5IO::readData(const std::string& dataPath,
+                                         const std::vector<SizeType>& start,
+                                         const std::vector<SizeType>& count,
+                                         const std::vector<SizeType>& stride,
+                                         const std::vector<SizeType>& block)
+{
+  DataBlockGeneric result;
+  try {
+    // Check if the path refers to a dataset or an attribute
+    if (this->file->attrExists(dataPath)) {
+      // Read the attribute
+      H5::Attribute attribute = file->openAttribute(dataPath);
+      H5::DataType dataType = attribute.getDataType();
+
+      // Determine the size of the attribute
+      size_t numElements = attribute.getStorageSize();
+
+      // Read the attribute into a vector of the appropriate type
+      if (dataType == H5::PredType::C_S1) {
+        result.data = readStringDataHelper(attribute, numElements);
+      } else if (dataType == H5::PredType::NATIVE_DOUBLE) {
+        result.data = readDataHelper<double>(attribute, numElements);
+      } else if (dataType == H5::PredType::NATIVE_FLOAT) {
+        result.data = readDataHelper<float>(attribute, numElements);
+      } else if (dataType == H5::PredType::NATIVE_INT) {
+        result.data = readDataHelper<int>(attribute, numElements);
+      } else if (dataType == H5::PredType::NATIVE_UINT) {
+        result.data = readDataHelper<unsigned int>(attribute, numElements);
+      } else if (dataType == H5::PredType::NATIVE_LONG) {
+        result.data = readDataHelper<long>(attribute, numElements);
+      } else if (dataType == H5::PredType::NATIVE_ULONG) {
+        result.data = readDataHelper<unsigned long>(attribute, numElements);
+      } else if (dataType == H5::PredType::NATIVE_LLONG) {
+        result.data = readDataHelper<long long>(attribute, numElements);
+      } else if (dataType == H5::PredType::NATIVE_ULLONG) {
+        result.data =
+            readDataHelper<unsigned long long>(attribute, numElements);
+      } else {
+        throw std::runtime_error("Unsupported data type");
+      }
+      // Attributes do not have a shape, so set shape to empty
+      result.shape.clear();
+
+    } else {
+      // Create new vectors of type hsize_t for stride and block because
+      // HDF5 needs hsize_t and we use SizeType in AqNWB instead
+      std::vector<hsize_t> stride_hsize(stride.size());
+      std::vector<hsize_t> block_hsize(block.size());
+      // Copy elements from the original vectors to the new vectors
+      std::copy(stride.begin(), stride.end(), stride_hsize.begin());
+      std::copy(block.begin(), block.end(), block_hsize.begin());
+
+      // Read the dataset
+      H5::DataSet dataset = file->openDataSet(dataPath);
+
+      // Get the dataspace of the dataset
+      H5::DataSpace dataspace = dataset.getSpace();
+
+      // Get the number of dimensions and their sizes
+      int rank = dataspace.getSimpleExtentNdims();
+      hsize_t dims[rank];
+      dataspace.getSimpleExtentDims(dims, nullptr);
+
+      // Store the shape information
+      result.shape.assign(dims, dims + rank);
+
+      // Calculate the total number of elements
+      size_t numElements = 1;
+      for (int i = 0; i < rank; ++i) {
+        numElements *= dims[i];
+      }
+
+      // Create a memory dataspace for the slice
+      H5::DataSpace memspace;
+      if (!start.empty() && !count.empty()) {
+        hsize_t offset[rank];
+        hsize_t block_count[rank];
+        for (int i = 0; i < rank; ++i) {
+          offset[i] = start[i];
+          block_count[i] = count[i];
+        }
+        dataspace.selectHyperslab(
+            H5S_SELECT_SET,
+            block_count,
+            offset,
+            stride_hsize.empty() ? nullptr : stride_hsize.data(),
+            block_hsize.empty() ? nullptr : block_hsize.data());
+        memspace = H5::DataSpace(rank, block_count);
+      } else {
+        memspace = H5::DataSpace(dataspace);
+      }
+
+      // Read the dataset into a vector of the appropriate type
+      H5::DataType dataType = dataset.getDataType();
+      if (dataType == H5::PredType::C_S1) {
+        result.data =
+            readStringDataHelper(dataset, numElements, memspace, dataspace);
+      } else if (dataType == H5::PredType::NATIVE_DOUBLE) {
+        result.data =
+            readDataHelper<double>(dataset, numElements, memspace, dataspace);
+      } else if (dataType == H5::PredType::NATIVE_FLOAT) {
+        result.data =
+            readDataHelper<float>(dataset, numElements, memspace, dataspace);
+      } else if (dataType == H5::PredType::NATIVE_INT) {
+        result.data =
+            readDataHelper<int>(dataset, numElements, memspace, dataspace);
+      } else if (dataType == H5::PredType::NATIVE_UINT) {
+        result.data = readDataHelper<unsigned int>(
+            dataset, numElements, memspace, dataspace);
+      } else if (dataType == H5::PredType::NATIVE_LONG) {
+        result.data =
+            readDataHelper<long>(dataset, numElements, memspace, dataspace);
+      } else if (dataType == H5::PredType::NATIVE_ULONG) {
+        result.data = readDataHelper<unsigned long>(
+            dataset, numElements, memspace, dataspace);
+      } else if (dataType == H5::PredType::NATIVE_LLONG) {
+        result.data = readDataHelper<long long>(
+            dataset, numElements, memspace, dataspace);
+      } else if (dataType == H5::PredType::NATIVE_ULLONG) {
+        result.data = readDataHelper<unsigned long long>(
+            dataset, numElements, memspace, dataspace);
+      } else {
+        throw std::runtime_error("Unsupported data type");
+      }
+    }
+
+  } catch (const H5::FileIException& e) {
+    std::cerr << "FileIException: " << e.getDetailMsg() << std::endl;
+  } catch (const H5::DataSetIException& e) {
+    std::cerr << "DataSetIException: " << e.getDetailMsg() << std::endl;
+  } catch (const H5::DataSpaceIException& e) {
+    std::cerr << "DataSpaceIException: " << e.getDetailMsg() << std::endl;
+  } catch (const H5::Exception& e) {
+    std::cerr << "Exception: " << e.getDetailMsg() << std::endl;
+  }
+
+  return result;
+}
+
 Status HDF5IO::createAttribute(const BaseDataType& type,
                                const void* data,
                                const std::string& path,
