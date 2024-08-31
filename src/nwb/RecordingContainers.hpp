@@ -72,7 +72,8 @@ public:
    * @param containerInd The index of the electrical series dataset within the
    * electrical series group.
    * @param channel The channel index to use for writing timestamps.
-   * @param dataShape The size of the data block.
+   * @param numSamples Number of samples in the time, i.e., the size of the
+   *                   first dimension of the data parameter
    * @param data A pointer to the data block.
    * @param timestamps A pointer to the timestamps block. May be null if
    * multidimensional TimeSeries and only need to write the timestamps once but
