@@ -13,7 +13,7 @@
  * 2. Create the \ref AQNWB::NWB::RecordingContainers "RecordingContainers" object 
  *    used for managing \ref AQNWB::NWB::Container "Container" objects for storing recordings.
  * 3. Create the \ref AQNWB::NWB::NWBFile "NWBFile" object used for managing and creating NWB 
- *     file contents.
+ *    file contents.
  * 4. Create the \ref AQNWB::NWB::Container "Container" objects (e.g., 
  *    \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries") used for recording and add them 
  *    to the \ref AQNWB::NWB::RecordingContainers "RecordingContainers".
@@ -26,9 +26,9 @@
  * 
  * \subsection create_io 1. Create the I/O object.
  * 
- * First, create an I/O object (e.g., \ref AQNWB::HDF5::HDF5IO "HDF5IO") used for writing data to the file.
- * We provide a convenience method, \ref AQNWB::createIO "createIO"
- * to create this object using one of our supported backends. For more fine-grained
+ * First, create an I/O object (e.g., \ref AQNWB::HDF5::HDF5IO "HDF5IO") used for writing 
+ * data to the file. AqNWB provides the convenience method, \ref AQNWB::createIO "createIO"
+ * to create this object using one of the supported backends. For more fine-grained
  * control of different backend parameters, you can create your own `std::shared_ptr` 
  * using any of the derived \ref AQNWB::BaseIO "BaseIO" classes.
  * 
