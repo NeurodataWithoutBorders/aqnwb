@@ -58,13 +58,12 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     // setup electrical series
     NWB::ElectricalSeries es =
         NWB::ElectricalSeries(dataPath,
-                              io,
-                              dataType,
-                              mockArrays[0],
-                              "no description",
-                              SizeArray {0, mockArrays[0].size()},
-                              SizeArray {1, 1});
-    es.initialize();
+                              io);
+    es.initialize(dataType,
+                  mockArrays[0],
+                  "no description",
+                  SizeArray {0, mockArrays[0].size()},
+                  SizeArray {1, 1});
 
     // write channel data
     for (SizeType ch = 0; ch < numChannels; ++ch) {
@@ -113,13 +112,12 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     // setup electrical series
     NWB::ElectricalSeries es =
         NWB::ElectricalSeries(dataPath,
-                              io,
-                              dataType,
-                              mockArrays[0],
-                              "no description",
-                              SizeArray {0, mockArrays[0].size()},
-                              SizeArray {1, 1});
-    es.initialize();
+                              io);
+    es.initialize(dataType,
+                  mockArrays[0],
+                  "no description",
+                  SizeArray {0, mockArrays[0].size()},
+                  SizeArray {1, 1});
 
     // write channel data in segments
     for (SizeType ch = 0; ch < numChannels; ++ch) {

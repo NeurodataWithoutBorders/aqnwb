@@ -17,7 +17,7 @@ TEST_CASE("TimeSeries", "[base]")
   std::vector<SizeType> dataShape = {numSamples};
   std::vector<SizeType> positionOffset = {0};
   BaseDataType dataType = BaseDataType::F32;
-  std::vector<float> data = getMockData1D(numSamples);
+  std::vector<float> data = {0,1,2,3,4,5,6,7,8,9}; //  getMockData1D(numSamples);
   BaseDataType timestampsType = BaseDataType::F64;
   std::vector<double> timestamps = getMockTimestamps(numSamples, 1);
 
@@ -27,15 +27,16 @@ TEST_CASE("TimeSeries", "[base]")
     std::string path = getTestFilePath("testTimeseries.h5");
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
-    NWB::TimeSeries ts = NWB::TimeSeries(dataPath, io, dataType, "unit");
-    ts.initialize();
+    NWB::TimeSeries ts = NWB::TimeSeries(dataPath, io);
+    ts.initialize(dataType, "unit");
 
     // Write data to file
     Status writeStatus =
         ts.writeData(dataShape, positionOffset, data.data(), timestamps.data());
     REQUIRE(writeStatus == Status::Success);
+    io->flush();
 
-    // Read data back from file
+    // Read timestamps back from file
     double* tsBuffer = new double[numSamples];
     std::unique_ptr<BaseRecordingData> tsDset =
         io->getDataSet(dataPath + "/timestamps");

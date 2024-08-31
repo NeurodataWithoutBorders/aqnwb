@@ -6,8 +6,7 @@ using namespace AQNWB::NWB;
 
 /** Constructor */
 DynamicTable::DynamicTable(const std::string& path,
-                           std::shared_ptr<BaseIO> io,
-                           const std::string& description)
+                           std::shared_ptr<BaseIO> io)
     : Container(path, io)
     , description(description)
 {
@@ -17,12 +16,13 @@ DynamicTable::DynamicTable(const std::string& path,
 DynamicTable::~DynamicTable() {}
 
 /** Initialization function*/
-void DynamicTable::initialize()
+void DynamicTable::initialize(const std::string& description)
 {
   Container::initialize();
+  this->description = description;
 
   io->createCommonNWBAttributes(
-      path, "hdmf-common", "DynamicTable", getDescription());
+      path, "hdmf-common", "DynamicTable", this->description);
   io->createAttribute(getColNames(), path, "colnames");
 }
 

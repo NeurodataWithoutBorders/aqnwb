@@ -6,35 +6,27 @@ using namespace AQNWB::NWB;
 
 /** Constructor */
 TimeSeries::TimeSeries(const std::string& path,
-                       std::shared_ptr<BaseIO> io,
-                       const BaseDataType& dataType,
-                       const std::string& unit,
-                       const std::string& description,
-                       const std::string& comments,
-                       const SizeArray& dsetSize,
-                       const SizeArray& chunkSize,
-                       const float& conversion,
-                       const float& resolution,
-                       const float& offset)
+                       std::shared_ptr<BaseIO> io)
     : Container(path, io)
-    , dataType(dataType)
-    , unit(unit)
-    , description(description)
-    , comments(comments)
-    , dsetSize(dsetSize)
-    , chunkSize(chunkSize)
-    , conversion(conversion)
-    , resolution(resolution)
-    , offset(offset)
 {
 }
 
 /** Destructor */
 TimeSeries::~TimeSeries() {}
 
-void TimeSeries::initialize()
+void TimeSeries::initialize(const BaseDataType& dataType,
+                            const std::string& unit,
+                            const std::string& description,
+                            const std::string& comments,
+                            const SizeArray& dsetSize,
+                            const SizeArray& chunkSize,
+                            const float& conversion,
+                            const float& resolution,
+                            const float& offset)
 {
   Container::initialize();
+
+  this->dataType = dataType;
 
   // setup attributes
   io->createCommonNWBAttributes(path, "core", neurodataType, description);

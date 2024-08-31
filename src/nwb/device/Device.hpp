@@ -18,13 +18,9 @@ public:
    * @brief Constructor.
    * @param path The location of the device in the file.
    * @param io A shared pointer to the IO object.
-   * @param description The description of the device.
-   * @param manufacturer The manufacturer of the device.
    */
   Device(const std::string& path,
-         std::shared_ptr<BaseIO> io,
-         const std::string& description,
-         const std::string& manufacturer);
+         std::shared_ptr<BaseIO> io);
 
   /**
    * @brief Destructor
@@ -34,8 +30,12 @@ public:
   /**
    * @brief Initializes the device by creating NWB related attributes and
    * writing the manufactor and description metadata.
+   *
+   * @param description The description of the device.
+   * @param manufacturer The manufacturer of the device.
    */
-  void initialize();
+  void initialize(const std::string& description,
+                  const std::string& manufacturer);
 
   /**
    * @brief Gets the manufacturer of the device.
@@ -49,15 +49,5 @@ public:
    */
   std::string getDescription() const;
 
-private:
-  /**
-   * @brief The description of the device.
-   */
-  std::string description;
-
-  /**
-   * @brief The manufacturer of the device.
-   */
-  std::string manufacturer;
 };
 }  // namespace AQNWB::NWB

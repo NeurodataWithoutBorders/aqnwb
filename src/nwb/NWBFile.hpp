@@ -24,7 +24,7 @@ class RecordingContainers;  // declare here because gets used in NWBFile class
  * @brief The NWBFile class provides an interface for setting up and managing
  * the NWB file.
  */
-class NWBFile
+class NWBFile : public Container
 {
 public:
   /**
@@ -32,7 +32,7 @@ public:
    * @param idText The identifier text for the NWBFile.
    * @param io The shared pointer to the IO object.
    */
-  NWBFile(const std::string& idText, std::shared_ptr<BaseIO> io);
+  NWBFile(std::shared_ptr<BaseIO> io);
 
   /**
    * @brief Deleted copy constructor to prevent construction-copying.
@@ -53,7 +53,7 @@ public:
    * @brief Initializes the NWB file by opening and setting up the file
    * structure.
    */
-  Status initialize();
+  Status initialize(const std::string& idText);
 
   /**
    * @brief Finalizes the NWB file by closing it.
@@ -140,8 +140,7 @@ private:
   std::unique_ptr<RecordingContainers> recordingContainers =
       std::make_unique<RecordingContainers>("RecordingContainers");
 
-  const std::string identifierText;
-  std::shared_ptr<BaseIO> io;
+  std::string identifierText;  // TODO Remove this for read
 };
 
 /**

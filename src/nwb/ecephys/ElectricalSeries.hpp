@@ -18,6 +18,18 @@ public:
    * @brief Constructor.
    * @param path The location of the ElectricalSeries in the file.
    * @param io A shared pointer to the IO object.
+   */
+  ElectricalSeries(const std::string& path,
+                   std::shared_ptr<BaseIO> io);
+
+  /**
+   * @brief Destructor
+   */
+  ~ElectricalSeries();
+
+  /**
+   * @brief Initializes the Electrical Series
+   *
    * @param dataType The data type to use for storing the recorded voltage
    * @param channelVector The electrodes to use for recording
    * @param description The description of the TimeSeries.
@@ -35,26 +47,14 @@ public:
    * @param offset Scalar to add to the data after scaling by ‘conversion’ to
    *               finalize its coercion to the specified ‘unit'
    */
-  ElectricalSeries(const std::string& path,
-                   std::shared_ptr<BaseIO> io,
-                   const BaseDataType& dataType,
-                   const Types::ChannelVector& channelVector,
-                   const std::string& description,
-                   const SizeArray& dsetSize,
-                   const SizeArray& chunkSize,
-                   const float& conversion = 1.0f,
-                   const float& resolution = -1.0f,
-                   const float& offset = 0.0f);
-
-  /**
-   * @brief Destructor
-   */
-  ~ElectricalSeries();
-
-  /**
-   * @brief Initializes the Electrical Series
-   */
-  void initialize();
+  void initialize(const BaseDataType& dataType,
+                  const Types::ChannelVector& channelVector,
+                  const std::string& description,
+                  const SizeArray& dsetSize,
+                  const SizeArray& chunkSize,
+                  const float& conversion = 1.0f,
+                  const float& resolution = -1.0f,
+                  const float& offset = 0.0f);
 
   /**
    * @brief Writes a channel to an ElectricalSeries dataset.

@@ -7,22 +7,28 @@ using namespace AQNWB::NWB;
 // ElectrodeTable
 
 /** Constructor */
-ElectrodeTable::ElectrodeTable(std::shared_ptr<BaseIO> io,
-                               const std::string& description)
+ElectrodeTable::ElectrodeTable(std::shared_ptr<BaseIO> io)
     : DynamicTable(electrodeTablePath,  // use the electrodeTablePath
-                   io,
-                   description)
+                   io)
 {
+}
+
+ElectrodeTable::ElectrodeTable(const std::string& path,
+                               std::shared_ptr<BaseIO> io)
+ : DynamicTable(electrodeTablePath,  // use the electrodeTablePath
+                   io)
+{
+   assert(path == electrodeTablePath);
 }
 
 /** Destructor */
 ElectrodeTable::~ElectrodeTable() {}
 
 /** Initialization function*/
-void ElectrodeTable::initialize()
+void ElectrodeTable::initialize(const std::string& description)
 {
   // create group
-  DynamicTable::initialize();
+  DynamicTable::initialize(description);
 
   electrodeDataset->dataset =
       std::unique_ptr<BaseRecordingData>(io->createArrayDataSet(

@@ -9,27 +9,9 @@ using namespace AQNWB::NWB;
 
 /** Constructor */
 ElectricalSeries::ElectricalSeries(const std::string& path,
-                                   std::shared_ptr<BaseIO> io,
-                                   const BaseDataType& dataType,
-                                   const Types::ChannelVector& channelVector,
-                                   const std::string& description,
-                                   const SizeArray& dsetSize,
-                                   const SizeArray& chunkSize,
-                                   const float& conversion,
-                                   const float& resolution,
-                                   const float& offset)
+                                   std::shared_ptr<BaseIO> io)
     : TimeSeries(path,
-                 io,
-                 dataType,
-                 "volts",  // default unit for Electrical Series
-                 description,
-                 channelVector[0].comments,
-                 dsetSize,
-                 chunkSize,
-                 channelVector[0].getConversion(),
-                 resolution,
-                 offset)
-    , channelVector(channelVector)
+                 io)
 {
 }
 
@@ -37,9 +19,24 @@ ElectricalSeries::ElectricalSeries(const std::string& path,
 ElectricalSeries::~ElectricalSeries() {}
 
 /** Initialization function*/
-void ElectricalSeries::initialize()
+void ElectricalSeries::initialize(const BaseDataType& dataType,
+                  const Types::ChannelVector& channelVector,
+                  const std::string& description,
+                  const SizeArray& dsetSize,
+                  const SizeArray& chunkSize,
+                  const float& conversion,
+                  const float& resolution,
+                  const float& offset)
 {
-  TimeSeries::initialize();
+  TimeSeries::initialize(dataType,
+                        "volts",
+                        description,
+                        channelVector[0].comments,
+                        dsetSize,
+                        chunkSize,
+                        channelVector[0].getConversion(),
+                        resolution,
+                        offset);
 
   // setup variables based on number of channels
   std::vector<SizeType> electrodeInds(channelVector.size());

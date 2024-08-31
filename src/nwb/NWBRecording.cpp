@@ -27,9 +27,8 @@ Status NWBRecording::openFile(const std::string& filename,
   }
 
   // initialize nwbfile object and create base structure
-  nwbfile = std::make_unique<NWB::NWBFile>(generateUuid(),
-                                           createIO(IOType, filename));
-  nwbfile->initialize();
+  nwbfile = std::make_unique<NWB::NWBFile>(createIO(IOType, filename));
+  nwbfile->initialize(generateUuid());
 
   // create the datasets
   nwbfile->createElectricalSeries(recordingArrays);

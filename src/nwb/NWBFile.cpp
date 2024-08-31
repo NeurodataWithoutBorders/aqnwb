@@ -25,16 +25,16 @@ constexpr SizeType CHUNK_XSIZE = 2048;
 
 // NWBFile
 
-NWBFile::NWBFile(const std::string& idText, std::shared_ptr<BaseIO> io)
-    : identifierText(idText)
-    , io(io)
+NWBFile::NWBFile(std::shared_ptr<BaseIO> io)
+    : Container("/", io)
 {
 }
 
 NWBFile::~NWBFile() {}
 
-Status NWBFile::initialize()
+Status NWBFile::initialize(const std::string& idText)
 {
+  this->identifierText = idText;
   if (std::filesystem::exists(io->getFileName())) {
     return io->open(false);
   } else {
@@ -114,8 +114,8 @@ Status NWBFile::createElectricalSeries(
     std::string electrodePath = "/general/extracellular_ephys/" + groupName;
     std::string electricalSeriesPath = rootPath + groupName;
 
-    Device device = Device(devicePath, io, "description", "unknown");
-    device.initialize();
+    Device device = Device(devicePath, io);
+    device.initialize("description", "unknown");
 
     ElectrodeGroup elecGroup =
         ElectrodeGroup(electrodePath, io, "description", "unknown", device);
@@ -124,14 +124,14 @@ Status NWBFile::createElectricalSeries(
     // Setup electrical series datasets
     auto electricalSeries = std::make_unique<ElectricalSeries>(
         electricalSeriesPath,
-        io,
+        io);
+    electricalSeries->initialize(
         dataType,
         channelVector,
         "Stores continuously sampled voltage data from an "
         "extracellular ephys recording",
         SizeArray {0, channelVector.size()},
         SizeArray {CHUNK_XSIZE, 0});
-    electricalSeries->initialize();
     recordingContainers->addData(std::move(electricalSeries));
 
     // Add electrode information to electrode table (does not write to datasets
