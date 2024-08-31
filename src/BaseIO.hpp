@@ -469,7 +469,7 @@ public:
   /**
    * @brief Default constructor.
    */
-  ReadDatasetWrapper(std::shared_ptr<BaseIO> io, std::string dataPath)
+  ReadDatasetWrapper(BaseIO* io, std::string dataPath)
       : io(io)
       , dataPath(dataPath)
   {
@@ -535,7 +535,7 @@ private:
   /**
    * @brief Pointer to the I/O object to use for reading.
    */
-  std::shared_ptr<BaseIO> io;
+  BaseIO* io;
   /**
    * @brief Path to the dataset or attribute to read
    */
@@ -552,7 +552,7 @@ public:
   /**
    * @brief Default constructor.
    */
-  ReadAttributeWrapper(std::shared_ptr<BaseIO> io, std::string dataPath)
+  ReadAttributeWrapper(const std::shared_ptr<BaseIO> io, std::string dataPath)
       : io(io)
       , dataPath(dataPath)
   {
@@ -601,7 +601,7 @@ private:
   /**
    * @brief Pointer to the I/O object to use for reading.
    */
-  std::shared_ptr<BaseIO> io;
+  const std::shared_ptr<BaseIO> io;
   /**
    * @brief Path to the dataset or attribute to read
    */

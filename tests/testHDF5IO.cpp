@@ -448,6 +448,15 @@ TEST_CASE("readDataset", "[hdf5io]")
     auto readDataTyped = DataBlock<int32_t>::fromGeneric(readData);
     REQUIRE(readDataTyped.shape[0] == 10);
     REQUIRE(readDataTyped.data == testData);
+
+    // Confirm using lazy read as well
+    auto readDataWrapper = hdf5io->lazyReadDataset(dataPath);
+    auto readDataGeneric = readDataWrapper->valuesGeneric();
+    REQUIRE(readDataGeneric.shape[0] == 10);
+    auto readDataTypedV2 = readDataWrapper->values<int32_t>();
+    REQUIRE(readDataTypedV2.shape[0] == 10);
+    REQUIRE(readDataTypedV2.data == testData);
+
     hdf5io->close();
   }
 }

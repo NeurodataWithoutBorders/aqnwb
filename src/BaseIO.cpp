@@ -95,8 +95,7 @@ Status BaseIO::createTimestampsAttributes(const std::string& path)
 std::unique_ptr<ReadDatasetWrapper> BaseIO::lazyReadDataset(
     const std::string& dataPath)
 {
-  return std::make_unique<ReadDatasetWrapper>(std::shared_ptr<BaseIO>(this),
-                                              dataPath);
+  return std::make_unique<ReadDatasetWrapper>(this, dataPath);
 }
 
 std::unique_ptr<ReadAttributeWrapper> BaseIO::lazyReadAttribute(
