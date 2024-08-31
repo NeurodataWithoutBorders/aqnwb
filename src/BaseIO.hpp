@@ -185,13 +185,13 @@ public:
   virtual Status flush() = 0;
 
   /**
-   * @brief Reads a dataset or attribute and determines the data type
+   * @brief Reads a dataset and determines the data type
    *
-   * This is is only read function for datasets and attributes that is
-   * required to be implemented by derived classes. The DataBlockGeneric
-   * can be converted to a specific type via DataBlock::fromGeneric.
+   * We use DataBlockGeneric here, i.e., the subclass must determine the
+   * data type. The user can then convert DataBlockGeneric to the
+   * specific type via DataBlock::fromGeneric.
    *
-   * @param dataPath The path to the dataset or attribute within the file.
+   * @param dataPath The path to the dataset within the file.
    * @param start The starting indices for the slice (optional).
    * @param count The number of elements to read for each dimension (optional).
    * @param stride The stride for each dimension (optional).
@@ -199,12 +199,25 @@ public:
    *
    * @return A DataGeneric structure containing the data and shape.
    */
-  virtual DataBlockGeneric readData(
+  virtual DataBlockGeneric readDataset(
       const std::string& dataPath,
       const std::vector<SizeType>& start = {},
       const std::vector<SizeType>& count = {},
       const std::vector<SizeType>& stride = {},
       const std::vector<SizeType>& block = {}) = 0;
+
+  /**
+   * @brief Reads a attribute  and determines the data type
+   *
+   * We use DataBlockGeneric here, i.e., the subclass must determine the
+   * data type. The user can then convert DataBlockGeneric to the
+   * specific type via DataBlock::fromGeneric.
+   *
+   * @param dataPath The path to the attribute within the file.
+   *
+   * @return A DataGeneric structure containing the data and shape.
+   */
+  virtual DataBlockGeneric readAttribute(const std::string& dataPath) = 0;
 
   /**
    * @brief Creates an attribute at a given location in the file.
@@ -426,30 +439,30 @@ protected:
 };
 
 /**
- * @brief The base class for reading data from a file
+ * @brief The base class for reading data from a dataset in a file
  */
-class ReadData
+class ReadDatasetWrapper
 {
 public:
   /**
    * @brief Default constructor.
    */
-  ReadData();
+  ReadDatasetWrapper();
 
   /**
    * @brief Deleted copy constructor to prevent construction-copying.
    */
-  ReadData(const ReadData&) = delete;
+  ReadDatasetWrapper(const ReadDatasetWrapper&) = delete;
 
   /**
    * @brief Deleted copy assignment operator to prevent copying.
    */
-  ReadData& operator=(const ReadData&) = delete;
+  ReadDatasetWrapper& operator=(const ReadDatasetWrapper&) = delete;
 
   /**
    * @brief Destructor.
    */
-  virtual ~ReadData();
+  virtual ~ReadDatasetWrapper();
 
   /**
    * @brief Reads an dataset or attribute and determines the data type.
@@ -466,7 +479,7 @@ public:
                                  const std::vector<SizeType>& stride = {},
                                  const std::vector<SizeType>& block = {})
   {
-    return this->io->readData(this->dataPath, start, count, stride, block);
+    return this->io->readDataset(this->dataPath, start, count, stride, block);
   }
 
   /**
@@ -502,7 +515,69 @@ private:
    */
   std::string dataPath;
 
-};  // ReadData
+};  // ReadDatasetWrapper
+
+/**
+ * @brief The base class for reading data from a dataset in a file
+ */
+class ReadAttributeWrapper
+{
+public:
+  /**
+   * @brief Default constructor.
+   */
+  ReadAttributeWrapper();
+
+  /**
+   * @brief Deleted copy constructor to prevent construction-copying.
+   */
+  ReadAttributeWrapper(const ReadAttributeWrapper&) = delete;
+
+  /**
+   * @brief Deleted copy assignment operator to prevent copying.
+   */
+  ReadAttributeWrapper& operator=(const ReadAttributeWrapper&) = delete;
+
+  /**
+   * @brief Destructor.
+   */
+  virtual ~ReadAttributeWrapper();
+
+  /**
+   * @brief Reads an attribute and determines the data type.
+   *
+   * @return An DataBlockGeneric structure containing the data and shape.
+   */
+  DataBlockGeneric valuesGeneric()
+  {
+    return this->io->readAttribute(this->dataPath);
+  }
+
+  /**
+   * @brief Reads an attribute with a specified data type.
+   *
+   * This convenience function uses valuesGeneric to read the data and then
+   * convert the DataBlockGeneric to a specific DataBlock
+   *
+   * @return A DataBlock structure containing the data and shape.
+   */
+  template<typename T>
+  DataBlock<T> values()
+  {
+    return DataBlock<T>::fromGeneric(this->valuesGeneric());
+  }
+
+private:
+  /**
+   * @brief Pointer to the I/O object to use for reading.
+   */
+  std::shared_ptr<BaseIO> io;
+  /**
+   * @brief Path to the dataset or attribute to read
+   */
+  std::string dataPath;
+
+};  // ReadAttributeWrapper
 
 /**
  * @brief The base class to represent recording data that can be extended.

@@ -96,14 +96,31 @@ public:
    * @param stride The stride for each dimension (optional).
    * @param block The block size for each dimension (optional).
    *
+   * @exception May raise various H5 exceptions if read fails
+   *
    * @return A DataGeneric structure containing the data and shape.
    */
-  AQNWB::DataBlockGeneric readData(
+  AQNWB::DataBlockGeneric readDataset(
       const std::string& dataPath,
       const std::vector<SizeType>& start = {},
       const std::vector<SizeType>& count = {},
       const std::vector<SizeType>& stride = {},
       const std::vector<SizeType>& block = {}) override;
+
+  /**
+   * @brief Reads a attribute  and determines the data type
+   *
+   * We use DataBlockGeneric here, i.e., the subclass must determine the
+   * data type. The user can then convert DataBlockGeneric to the
+   * specific type via DataBlock::fromGeneric.
+   *
+   * @param dataPath The path to the attribute within the file.
+   *
+   * @exception May raise various H5 exceptions if read fails
+   *
+   * @return A DataGeneric structure containing the data and shape.
+   */
+  AQNWB::DataBlockGeneric readAttribute(const std::string& dataPath) override;
 
   /**
    * @brief Creates an attribute at a given location in the file.

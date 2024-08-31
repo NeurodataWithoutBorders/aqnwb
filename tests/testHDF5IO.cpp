@@ -416,3 +416,38 @@ TEST_CASE("SWMRmode", "[hdf5io]")
     hdf5io->close();
   }
 }
+
+TEST_CASE("readDataset", "[hdf5io]")
+{
+  std::vector<int32_t> testData = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+  SECTION("read 1D data block of a 1D dataset")
+  {
+    // open file
+    std::string path = getTestFilePath("Read1DData1DDataset.h5");
+    std::unique_ptr<HDF5::HDF5IO> hdf5io = std::make_unique<HDF5::HDF5IO>(path);
+    hdf5io->open();
+
+    // Set up test data
+    std::string dataPath = "/1DData1DDataset";
+    SizeType numSamples = 10;
+
+    // Create HDF5RecordingData object and dataset
+    std::unique_ptr<BaseRecordingData> dataset = hdf5io->createArrayDataSet(
+        BaseDataType::I32, SizeArray {0}, SizeArray {1}, dataPath);
+
+    // Write data block
+    std::vector<SizeType> dataShape = {numSamples};
+    std::vector<SizeType> positionOffset = {0};
+    dataset->writeDataBlock(
+        dataShape, positionOffset, BaseDataType::I32, &testData[0]);
+
+    // Confirm using HDF5IO readDataset that the data is correct
+    auto readData = hdf5io->readDataset(dataPath);
+    REQUIRE(readData.shape[0] == 10);
+    auto readDataTyped = DataBlock<int32_t>::fromGeneric(readData);
+    REQUIRE(readDataTyped.shape[0] == 10);
+    REQUIRE(readDataTyped.data == testData);
+    hdf5io->close();
+  }
+}
