@@ -5,8 +5,7 @@ using namespace AQNWB::NWB;
 // DynamicTable
 
 /** Constructor */
-DynamicTable::DynamicTable(const std::string& path,
-                           std::shared_ptr<BaseIO> io)
+DynamicTable::DynamicTable(const std::string& path, std::shared_ptr<BaseIO> io)
     : Container(path, io)
     , description(description)
 {

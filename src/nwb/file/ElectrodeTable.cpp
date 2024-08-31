@@ -15,10 +15,10 @@ ElectrodeTable::ElectrodeTable(std::shared_ptr<BaseIO> io)
 
 ElectrodeTable::ElectrodeTable(const std::string& path,
                                std::shared_ptr<BaseIO> io)
- : DynamicTable(electrodeTablePath,  // use the electrodeTablePath
+    : DynamicTable(electrodeTablePath,  // use the electrodeTablePath
                    io)
 {
-   assert(path == electrodeTablePath);
+  assert(path == electrodeTablePath);
 }
 
 /** Destructor */

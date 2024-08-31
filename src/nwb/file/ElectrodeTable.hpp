@@ -37,7 +37,8 @@ public:
    * Initializes the ElectrodeTable by creating NWB related attributes and
    * adding required columns.
    */
-  void initialize(const std::string& description = "metadata about extracellular electrodes");
+  void initialize(const std::string& description =
+                      "metadata about extracellular electrodes");
 
   /**
    * @brief Finalizes the ElectrodeTable.

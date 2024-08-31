@@ -18,8 +18,7 @@ public:
    * @param path The location of the TimeSeries in the file.
    * @param io A shared pointer to the IO object.
    */
-  TimeSeries(const std::string& path,
-             std::shared_ptr<BaseIO> io);
+  TimeSeries(const std::string& path, std::shared_ptr<BaseIO> io);
 
   /**
    * @brief Destructor

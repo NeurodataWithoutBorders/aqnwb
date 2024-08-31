@@ -19,8 +19,7 @@ public:
    * @param path The location of the ElectricalSeries in the file.
    * @param io A shared pointer to the IO object.
    */
-  ElectricalSeries(const std::string& path,
-                   std::shared_ptr<BaseIO> io);
+  ElectricalSeries(const std::string& path, std::shared_ptr<BaseIO> io);
 
   /**
    * @brief Destructor

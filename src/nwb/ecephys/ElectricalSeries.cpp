@@ -10,8 +10,7 @@ using namespace AQNWB::NWB;
 /** Constructor */
 ElectricalSeries::ElectricalSeries(const std::string& path,
                                    std::shared_ptr<BaseIO> io)
-    : TimeSeries(path,
-                 io)
+    : TimeSeries(path, io)
 {
 }
 
@@ -20,23 +19,23 @@ ElectricalSeries::~ElectricalSeries() {}
 
 /** Initialization function*/
 void ElectricalSeries::initialize(const BaseDataType& dataType,
-                  const Types::ChannelVector& channelVector,
-                  const std::string& description,
-                  const SizeArray& dsetSize,
-                  const SizeArray& chunkSize,
-                  const float& conversion,
-                  const float& resolution,
-                  const float& offset)
+                                  const Types::ChannelVector& channelVector,
+                                  const std::string& description,
+                                  const SizeArray& dsetSize,
+                                  const SizeArray& chunkSize,
+                                  const float& conversion,
+                                  const float& resolution,
+                                  const float& offset)
 {
   TimeSeries::initialize(dataType,
-                        "volts",
-                        description,
-                        channelVector[0].comments,
-                        dsetSize,
-                        chunkSize,
-                        channelVector[0].getConversion(),
-                        resolution,
-                        offset);
+                         "volts",
+                         description,
+                         channelVector[0].comments,
+                         dsetSize,
+                         chunkSize,
+                         channelVector[0].getConversion(),
+                         resolution,
+                         offset);
 
   // setup variables based on number of channels
   std::vector<SizeType> electrodeInds(channelVector.size());

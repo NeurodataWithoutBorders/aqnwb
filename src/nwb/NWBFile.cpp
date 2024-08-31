@@ -122,9 +122,8 @@ Status NWBFile::createElectricalSeries(
     elecGroup.initialize();
 
     // Setup electrical series datasets
-    auto electricalSeries = std::make_unique<ElectricalSeries>(
-        electricalSeriesPath,
-        io);
+    auto electricalSeries =
+        std::make_unique<ElectricalSeries>(electricalSeriesPath, io);
     electricalSeries->initialize(
         dataType,
         channelVector,

@@ -17,7 +17,8 @@ TEST_CASE("TimeSeries", "[base]")
   std::vector<SizeType> dataShape = {numSamples};
   std::vector<SizeType> positionOffset = {0};
   BaseDataType dataType = BaseDataType::F32;
-  std::vector<float> data = {0,1,2,3,4,5,6,7,8,9}; //  getMockData1D(numSamples);
+  std::vector<float> data = {
+      0, 1, 2, 3, 4, 5, 6, 7, 8, 9};  //  getMockData1D(numSamples);
   BaseDataType timestampsType = BaseDataType::F64;
   std::vector<double> timestamps = getMockTimestamps(numSamples, 1);
 

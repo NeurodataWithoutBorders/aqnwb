@@ -56,9 +56,7 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     elecTable.initialize();
 
     // setup electrical series
-    NWB::ElectricalSeries es =
-        NWB::ElectricalSeries(dataPath,
-                              io);
+    NWB::ElectricalSeries es = NWB::ElectricalSeries(dataPath, io);
     es.initialize(dataType,
                   mockArrays[0],
                   "no description",
@@ -110,9 +108,7 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     elecTable.initialize();
 
     // setup electrical series
-    NWB::ElectricalSeries es =
-        NWB::ElectricalSeries(dataPath,
-                              io);
+    NWB::ElectricalSeries es = NWB::ElectricalSeries(dataPath, io);
     es.initialize(dataType,
                   mockArrays[0],
                   "no description",
