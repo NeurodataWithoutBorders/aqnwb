@@ -1,7 +1,6 @@
 #include <codecvt>
 #include <filesystem>
 #include <iostream>
-#include <iostream>  // TODO remove
 #include <memory>
 #include <vector>
 
@@ -111,13 +110,6 @@ std::vector<T> HDF5IO::readDataHelper(const HDF5TYPE& dataSource,
   } else {
     throw std::runtime_error("Unsupported data source type");
   }
-
-  // Using a range-based for loop to print the elements
-  std::cout << "HDF5IO::readDataHelper: ";
-  for (const auto& elem : data) {
-    std::cout << elem << " ";
-  }
-  std::cout << std::endl;
 
   return data;
 }
