@@ -215,7 +215,8 @@ public:
    *
    * @return A ReadDatasetWrapper object for lazy reading from the dataset
    */
-  virtual std::unique_ptr<ReadDatasetWrapper> lazyReadDataset(const std::string& dataPath);
+  virtual std::unique_ptr<ReadDatasetWrapper> lazyReadDataset(
+      const std::string& dataPath);
 
   /**
    * @brief Reads a attribute  and determines the data type
@@ -230,14 +231,15 @@ public:
    */
   virtual DataBlockGeneric readAttribute(const std::string& dataPath) = 0;
 
-   /**
+  /**
    * @brief Create a ReadAttributeWrapper for an attribute for lazy reading
    *
    * @param dataPath The path to the dataset within the file.
    *
    * @return A ReadAttributeWrapper object for lazy reading from the dataset
    */
-  virtual std::unique_ptr<ReadAttributeWrapper> lazyReadAttribute(const std::string& dataPath);
+  virtual std::unique_ptr<ReadAttributeWrapper> lazyReadAttribute(
+      const std::string& dataPath);
 
   /**
    * @brief Creates an attribute at a given location in the file.
@@ -467,7 +469,11 @@ public:
   /**
    * @brief Default constructor.
    */
-  ReadDatasetWrapper(std::shared_ptr<BaseIO> io, std::string dataPath) : io(io), dataPath(dataPath) {}
+  ReadDatasetWrapper(std::shared_ptr<BaseIO> io, std::string dataPath)
+      : io(io)
+      , dataPath(dataPath)
+  {
+  }
 
   /**
    * @brief Deleted copy constructor to prevent construction-copying.
@@ -482,7 +488,7 @@ public:
   /**
    * @brief Destructor.
    */
-  virtual ~ReadDatasetWrapper(){}
+  virtual ~ReadDatasetWrapper() {}
 
   /**
    * @brief Reads an dataset or attribute and determines the data type.
@@ -515,7 +521,7 @@ public:
    *
    * @return A DataBlock structure containing the data and shape.
    */
-  template <typename T>
+  template<typename T>
   DataBlock<T> values(const std::vector<SizeType>& start = {},
                       const std::vector<SizeType>& count = {},
                       const std::vector<SizeType>& stride = {},
@@ -546,7 +552,11 @@ public:
   /**
    * @brief Default constructor.
    */
-  ReadAttributeWrapper(std::shared_ptr<BaseIO> io, std::string dataPath) : io(io), dataPath(dataPath) {}
+  ReadAttributeWrapper(std::shared_ptr<BaseIO> io, std::string dataPath)
+      : io(io)
+      , dataPath(dataPath)
+  {
+  }
 
   /**
    * @brief Deleted copy constructor to prevent construction-copying.
@@ -561,7 +571,7 @@ public:
   /**
    * @brief Destructor.
    */
-  virtual ~ReadAttributeWrapper(){}
+  virtual ~ReadAttributeWrapper() {}
 
   /**
    * @brief Reads an attribute and determines the data type.
