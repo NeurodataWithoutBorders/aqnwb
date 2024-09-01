@@ -7,6 +7,8 @@
 #include <string>
 #include <vector>
 
+#include <boost/multi_array.hpp>  // TODO move this and function def to the cpp file
+
 #include "Types.hpp"
 
 #define DEFAULT_STR_SIZE 256
@@ -88,19 +90,74 @@ public:
 class DataBlockGeneric
 {
 public:
+  /**
+   * @ brief The untyped data values
+   */
   std::any data;
+  /**
+   * \brief The 1D vector with the n-dimensional shape of the data
+   */
   std::vector<SizeType> shape;
 };
 
 /**
- * @brief Structure to hold data and shape
+ * @brief Structure to hold data and shape for a typed data vector
+ *
+ * @tparam DTYPE The data type of the vector
  */
-template<typename T>
+template<typename DTYPE>
 class DataBlock
 {
 public:
-  std::vector<T> data;
+  /**
+   * @ brief The 1D vector with the data values of type DTYPE
+   */
+  std::vector<DTYPE> data;
+  /**
+   * \brief The 1D vector with the n-dimensional shape of the data
+   */
   std::vector<SizeType> shape;
+
+  /// Constructor
+  DataBlock(const std::vector<DTYPE>& data, const std::vector<SizeType>& shape)
+      : data(data)
+      , shape(shape)
+  {
+  }
+
+  /**
+   * \brief Transform the data to a boost multi-dimensional array for convenient
+   * access
+   *
+   * The function uses boost::const_multi_array_ref to avoid copying of the data
+   *
+   * @tparam NDIMS The number of dimensions of the array. Same as shape.size()
+   */
+  template<std::size_t NDIMS>
+  boost::const_multi_array_ref<DTYPE, NDIMS> as_multi_array() const
+  {
+    if (shape.size() != NDIMS) {
+      throw std::invalid_argument(
+          "Shape size does not match the number of dimensions.");
+    }
+
+    // Calculate the total number of elements expected
+    SizeType expected_size = 1;
+    for (SizeType dim : shape) {
+      expected_size *= dim;
+    }
+
+    if (data.size() != expected_size) {
+      throw std::invalid_argument("Data size does not match the shape.");
+    }
+
+    // Convert the shape vector to a boost::array
+    boost::array<std::size_t, NDIMS> boost_shape;
+    std::copy(shape.begin(), shape.end(), boost_shape.begin());
+
+    // Construct and return the boost::const_multi_array_ref
+    return boost::const_multi_array_ref<DTYPE, NDIMS>(data.data(), boost_shape);
+  }
 
   /**
    * @brief Factory method to create an DataBlock from a DataBlockGeneric.
@@ -112,13 +169,10 @@ public:
    *
    * @return A DataBlock structure containing the data and shape.
    */
-  static DataBlock<T> fromGeneric(const DataBlockGeneric& genericData)
+  static DataBlock<DTYPE> fromGeneric(const DataBlockGeneric& genericData)
   {
-    DataBlock<T> result;
-    // Extract the data from the std::any object
-    result.data = std::any_cast<std::vector<T>>(genericData.data);
-    // Copy the shape information
-    result.shape = genericData.shape;
+    auto result = DataBlock<DTYPE>(
+        std::any_cast<std::vector<DTYPE>>(genericData.data), genericData.shape);
     return result;
   }
 };
@@ -209,16 +263,6 @@ public:
       const std::vector<SizeType>& block = {}) = 0;
 
   /**
-   * @brief Create a ReadDatasetWrapper for a dataset for lazy reading
-   *
-   * @param dataPath The path to the dataset within the file.
-   *
-   * @return A ReadDatasetWrapper object for lazy reading from the dataset
-   */
-  virtual std::unique_ptr<ReadDatasetWrapper> lazyReadDataset(
-      const std::string& dataPath);
-
-  /**
    * @brief Reads a attribute  and determines the data type
    *
    * We use DataBlockGeneric here, i.e., the subclass must determine the
@@ -230,16 +274,6 @@ public:
    * @return A DataGeneric structure containing the data and shape.
    */
   virtual DataBlockGeneric readAttribute(const std::string& dataPath) = 0;
-
-  /**
-   * @brief Create a ReadAttributeWrapper for an attribute for lazy reading
-   *
-   * @param dataPath The path to the dataset within the file.
-   *
-   * @return A ReadAttributeWrapper object for lazy reading from the dataset
-   */
-  virtual std::unique_ptr<ReadAttributeWrapper> lazyReadAttribute(
-      const std::string& dataPath);
 
   /**
    * @brief Creates an attribute at a given location in the file.
@@ -469,7 +503,8 @@ public:
   /**
    * @brief Default constructor.
    */
-  ReadDatasetWrapper(BaseIO* io, std::string dataPath)
+  ReadDatasetWrapper(const std::shared_ptr<BaseIO> io,  // BaseIO* io,
+                     std::string dataPath)
       : io(io)
       , dataPath(dataPath)
   {
@@ -535,7 +570,7 @@ private:
   /**
    * @brief Pointer to the I/O object to use for reading.
    */
-  BaseIO* io;
+  const std::shared_ptr<BaseIO> io;  // BaseIO* io;
   /**
    * @brief Path to the dataset or attribute to read
    */

@@ -87,6 +87,15 @@ public:
    */
   BaseDataType timestampsType = BaseDataType::F64;
 
+  inline std::string dataPath() { return (this->path + std::string("/data")); }
+
+  std::unique_ptr<ReadDatasetWrapper> dataLazy()
+  {
+    std::string dataPath = this->dataPath();
+    std::cout << "Path: " << dataPath << std::endl;
+    return std::make_unique<ReadDatasetWrapper>(this->io, dataPath);
+  }
+
 private:
   /**
    * @brief The neurodataType of the TimeSeries.

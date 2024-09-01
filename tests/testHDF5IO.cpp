@@ -425,7 +425,7 @@ TEST_CASE("readDataset", "[hdf5io]")
   {
     // open file
     std::string path = getTestFilePath("Read1DData1DDataset.h5");
-    std::unique_ptr<HDF5::HDF5IO> hdf5io = std::make_unique<HDF5::HDF5IO>(path);
+    std::shared_ptr<HDF5::HDF5IO> hdf5io = std::make_shared<HDF5::HDF5IO>(path);
     hdf5io->open();
 
     // Set up test data
@@ -450,7 +450,8 @@ TEST_CASE("readDataset", "[hdf5io]")
     REQUIRE(readDataTyped.data == testData);
 
     // Confirm using lazy read as well
-    auto readDataWrapper = hdf5io->lazyReadDataset(dataPath);
+    auto readDataWrapper =
+        std::make_unique<ReadDatasetWrapper>(hdf5io, dataPath);
     auto readDataGeneric = readDataWrapper->valuesGeneric();
     REQUIRE(readDataGeneric.shape[0] == 10);
     auto readDataTypedV2 = readDataWrapper->values<int32_t>();

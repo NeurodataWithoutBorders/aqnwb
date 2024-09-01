@@ -18,7 +18,6 @@ public:
   /**
    * @brief Constructor.
    * @param io The shared pointer to the BaseIO object.
-   * @param description The description of the table (default: "metadata about
    * extracellular electrodes").
    */
   ElectrodeTable(std::shared_ptr<BaseIO> io);
@@ -36,6 +35,8 @@ public:
    *
    * Initializes the ElectrodeTable by creating NWB related attributes and
    * adding required columns.
+   *
+   *  @param description The description of the table (default: "metadata about
    */
   void initialize(const std::string& description =
                       "metadata about extracellular electrodes");

@@ -163,10 +163,8 @@ AQNWB::DataBlockGeneric HDF5IO::readAttribute(const std::string& dataPath)
   // Read the attribute
   H5::Attribute attribute = file->openAttribute(dataPath);
   H5::DataType dataType = attribute.getDataType();
-
   // Determine the size of the attribute
   size_t numElements = attribute.getStorageSize();
-
   // Read the attribute into a vector of the appropriate type
   if (dataType == H5::PredType::C_S1) {
     result.data = readStringDataHelper(attribute, numElements);
@@ -190,8 +188,7 @@ AQNWB::DataBlockGeneric HDF5IO::readAttribute(const std::string& dataPath)
     throw std::runtime_error("Unsupported data type");
   }
   // Attributes do not have a shape, so set shape to empty
-  result.shape.clear();
-
+  result.shape.clear();  // TODO is not correct for
   return result;
 }
 

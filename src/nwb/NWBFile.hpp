@@ -29,7 +29,6 @@ class NWBFile : public Container
 public:
   /**
    * @brief Constructor for NWBFile class.
-   * @param idText The identifier text for the NWBFile.
    * @param io The shared pointer to the IO object.
    */
   NWBFile(std::shared_ptr<BaseIO> io);
@@ -52,6 +51,8 @@ public:
   /**
    * @brief Initializes the NWB file by opening and setting up the file
    * structure.
+   *
+   *  @param idText The identifier text for the NWBFile.
    */
   Status initialize(const std::string& idText);
 
