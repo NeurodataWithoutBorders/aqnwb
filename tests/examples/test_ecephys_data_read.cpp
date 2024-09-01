@@ -21,6 +21,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
 {
   SECTION("ecephys data read example")
   {
+    // [example_read_mockdata_snippet]
     // setup mock data for writing
     SizeType numSamples = 100;
     SizeType numChannels = 2;
@@ -40,7 +41,9 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
         mockDataTransposed[s][c] = mockData[c][s];
       }
     }
+    // [example_read_mockdata_snippet]
 
+    // [example_read_create_file_snippet]
     // setup io object
     std::string path = getTestFilePath("ElectricalSeriesReadExample.h5");
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
@@ -70,18 +73,19 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
           ch, numSamples, mockData[ch].data(), mockTimestamps.data());
     }
     io->flush();
+    // [example_read_create_file_snippet]
 
-    // Illustrate reading the ElecticalSeries.data back
-    std::string electricalSeriesDataPath = electricalSeries->dataPath();
-    std::string electricalSeriesPath = electricalSeries->getPath();
-    REQUIRE(electricalSeriesDataPath == (electricalSeriesPath + "/data"));
-
+    // [example_read_get_data_wrapper_snippet]
     // Get a ReadDataseWrapper for lazy reading of ElectricalSeries.data
     auto readDataWrapper = electricalSeries->dataLazy();
+    // [example_read_get_data_wrapper_snippet]
 
+    // [example_read_get_datablock_snippet]
     // Read the full  ElectricalSeries.data back
     DataBlock<float> dataValues = readDataWrapper->values<float>();
+    // [example_read_get_datablock_snippet]
 
+    // [example_read_validate_datablock_snippet]
     // Check that the data we read has the expected size and shape
     REQUIRE(dataValues.data.size() == (numSamples * numChannels));
     REQUIRE(dataValues.shape[0] == numSamples);
@@ -97,9 +101,14 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
       REQUIRE_THAT(selectedRange,
                    Catch::Matchers::Approx(mockDataTransposed[t]).margin(1));
     }
+    // [example_read_validate_datablock_snippet]
+
+    // [example_read_get_boostarray_snippet]
     // Use the boost multi-array feature to simply interaction with data
-    // Create a 2D boost::const_multi_array_ref<float, 2> multidimensional array
     auto boostMulitArray = dataValues.as_multi_array<2>();
+    // [example_read_get_boostarray_snippet]
+
+    // [example_read_validate_boostarray_snippet]
     // Iterate through all the time steps again, but now using the boost array
     for (SizeType t = 0; t < numSamples; t++) {
       // Access [t, :], i.e., get a 1D array with the data
@@ -112,11 +121,22 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
       REQUIRE_THAT(row_t_vector,
                    Catch::Matchers::Approx(mockDataTransposed[t]).margin(1));
     }
+    // [example_read_validate_boostarray_snippet]
 
+    // [example_read_getpath_snippet]
+    // Reading the ElecticalSeries.data back (during the recording)
+    std::string electricalSeriesDataPath = electricalSeries->dataPath();
+    std::string electricalSeriesPath = electricalSeries->getPath();
+    REQUIRE(electricalSeriesDataPath == (electricalSeriesPath + "/data"));
+    // [example_read_getpath_snippet]
+
+    // [example_read_finish_recording_snippet]
     // Stop the recording
     io->stopRecording();
     io->close();
+    // [example_read_finish_recording_snippet]
 
+    // [example_read_only_snippet]
     // Open an I/O for reading
     std::shared_ptr<BaseIO> readio = createIO("HDF5", path);
 
@@ -129,6 +149,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
 
     // Now we can read the data in the same way we did during write
     auto readElectricalSeriesData = electricalSeries->dataLazy();
+    // [example_read_only_snippet]
 
     // TODO Actually loading the data causes a segfault
     // DataBlock<float> readDataValues = readDataWrapper->values<float>();

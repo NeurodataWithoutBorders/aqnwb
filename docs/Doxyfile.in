@@ -14,6 +14,10 @@ EXTRACT_ALL = YES
 RECURSIVE = YES
 OUTPUT_DIRECTORY = "@DOXYGEN_OUTPUT_DIRECTORY@"
 
+# Also show private members in the docs,
+EXTRACT_PRIVATE = YES
+# HIDE_UNDOC_MEMBERS = YES
+
 # Enable Markdown support
 MARKDOWN_SUPPORT = YES
 

@@ -312,8 +312,9 @@ private:
    * of the readData method.
    *
    * @tparam T The data type of the dataset or attribute.
+   * @tparam HDF5TYPE HDF5 Dataset or Attribute type, usually determined from
+   * dataSource
    * @param dataSource The HDF5 data source (dataset or attribute).
-   * @param predType The HDF5 data type.
    * @param numElements The number of elements to read.
    * @param memspace The memory dataspace (optional).
    * @param dataspace The file dataspace (optional).
@@ -336,11 +337,10 @@ private:
    * <H5Cpp.h> in the HDF5IO.hpp header file.
    *
    * @tparam T The data type of the dataset or attribute.
+   * @tparam HDF5TYPE HDF5 Dataset or Attribute type, usually determined from
+   * dataSource
    * @param dataSource The HDF5 data source (dataset or attribute).
-   * @param predType The HDF5 data type.
    * @param numElements The number of elements to read.
-   * @param memspace The memory dataspace (optional).
-   * @param dataspace The file dataspace (optional).
    *
    * @return A vector containing the data.
    */
@@ -350,6 +350,8 @@ private:
   /**
    * @brief Reads a variable-length string from an HDF5 dataset or attribute.
    *
+   * @tparam HDF5TYPE HDF5 Dataset or Attribute type, usually determined from
+   * dataSource
    * @param dataSource The HDF5 data source (dataset or attribute).
    * @param numElements The number of elements to read.
    * @param memspace The memory dataspace (optional).
@@ -371,6 +373,8 @@ private:
    * here, rather than defining default parameters directly, to avoid having to
    * include <H5Cpp.h> in the HDF5IO.hpp header file.
    *
+   * @tparam HDF5TYPE HDF5 Dataset or Attribute type, usually determined from
+   * dataSource
    * @param dataSource The HDF5 data source (dataset or attribute).
    * @param numElements The number of elements to read.
    *
