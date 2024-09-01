@@ -29,7 +29,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     std::vector<std::vector<float>> mockData =
         getMockData2D(numSamples, numChannels);
     std::vector<double> mockTimestamps = getMockTimestamps(numSamples, 1);
-    // To veryify that the data was written correctly, we here transpose the
+    // To verify that the data was written correctly, we here transpose the
     // mockData (which is per channel) to the (time x channel) layout used
     // in the ElectricalSeries in the NWB file so we can compare
     std::vector<std::vector<float>> mockDataTransposed;
