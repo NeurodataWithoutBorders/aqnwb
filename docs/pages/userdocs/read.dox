@@ -103,22 +103,22 @@
  * \subsection read_design_data_block DataBlockGeneric and DataBlock
  *
  * \ref AQNWB::ReadDatasetWrapper::valuesGeneric "ReadDatasetWrapper.valuesGeneric"
- * return the  data as a \ref AQNWB::DataBlockGeneric "DataBlockGeneric"
+ * returns the  data as a \ref AQNWB::DataBlockGeneric "DataBlockGeneric"
  * object, which stores the \ref AQNWB::DataBlockGeneric::data "data" as ``std::any``
  * along with the  \ref AQNWB::DataBlockGeneric::shape "shape" of the data.
  *
  * To cast the data to the appropriate specific type (e.g., ``float``) we can then create a
  * \ref AQNWB::DataBlock "DataBlock" with the appropriate data type via the
- * \ref AQNWB::DataBlock::fromGeneric "DataBlock.fromGeneric". \ref AQNWB::DataBlock "DataBlock"
- * is templated on the specific, i.e., we call ``DataBlock<float>.fromGeneric(myGenericDataBlock)``.
+ * \ref AQNWB::DataBlock::fromGeneric "DataBlock.fromGeneric" factory method. \ref AQNWB::DataBlock "DataBlock"
+ * is templated on the specific data type, i.e., we call ``DataBlock<float>.fromGeneric(myGenericDataBlock)``.
  * \ref AQNWB::DataBlock "DataBlock" then stores the \ref AQNWB::DataBlock::data "data" as an
- * appropriately typed 1-dimensions ``std::vector`` along wit the \ref AQNWB::DataBlock::shape "shape"
+ * appropriately typed 1-dimensions ``std::vector`` along with the \ref AQNWB::DataBlock::shape "shape"
  * of the data.
  *
  * To simplify access to multi-dimensional data, we can then represent the data
- * as ``BOOST::multi_array``. The AQNWB::DataBlock::as_multi_array "DataBlock.as_multi_array"
+ * as ``BOOST::multi_array``. The \ref AQNWB::DataBlock::as_multi_array "DataBlock.as_multi_array"
  * convenience method generates a ``boost::const_multi_array_ref<DTYPE, NDIMS>`` for us.
- * Here the ```DTYPE`` template parameter is the same as for the \ref AQNWB::DataBlock "DataBlock"
+ * Here the  ``DTYPE`` template parameter is the same as for the \ref AQNWB::DataBlock "DataBlock"
  * (so that we don't have to specify it again), and the ``NDIMS`` template parameter
  * is the number of dimensions (which is the same as \ref AQNWB::DataBlock::shape "shape.size()").
  * I.e., since we are in a strongly typed language, we here need to know the ``DTYPE`` and the
