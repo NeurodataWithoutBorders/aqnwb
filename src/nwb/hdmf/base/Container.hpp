@@ -38,7 +38,8 @@ public:
   std::string getPath() const;
 
   template<typename T>
-  static std::unique_ptr<T> create(const BaseIO& io, const std::string& path)
+  static std::unique_ptr<T> create(const std::string& path,
+                                   std::shared_ptr<BaseIO> io)
   {
     static_assert(std::is_base_of<Container, T>::value,
                   "T must be a derived class of Container");
