@@ -6,6 +6,9 @@
  *
  * \section read_design_sec Software Design
  *
+ * The following figure shows the main classes involved with reading data from a dataset.
+ * Reading data from an attribute works much in the same way, but  \ref AQNWB::ReadDatasetWrapper "ReadDatasetWrapper"
+ * is replaced with  \ref AQNWB::ReadAttributeWrapper "ReadAttributeWrapper".
  *
  * @dot
  * digraph G {
