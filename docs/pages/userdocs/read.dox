@@ -3,6 +3,203 @@
  *
  * \tableofcontents
  *
+ *
+ * \section read_design_sec Software Design
+ *
+ *
+ * @dot
+ * digraph G {
+ *     node [shape=none];
+ *
+ *     HDF5IO [
+ *         label=<
+ *             <table border="0" cellborder="1" cellspacing="0">
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>HDF5IO</b></td></tr>
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Functions</b></td></tr>
+ *                 <tr><td align="left">+ readDataset(): DataBlockGeneric</td></tr>
+ *                 <tr><td align="left">+ readAttribute(): DataBlockGeneric</td></tr>
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Attributes</b></td></tr>
+ *             </table>
+ *         >
+ *     ];
+ *
+ *     NWBFile [
+ *         shape=note,
+ *         label="NWB file (HDF5)"
+ *     ];
+ *
+ *     DataBlockGeneric [
+ *         label=<
+ *             <table border="0" cellborder="1" cellspacing="0">
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>DataBlockGeneric</b></td></tr>
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Functions</b></td></tr>
+ *                 <tr><td align="left">+ getData(): void</td></tr>
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Attributes</b></td></tr>
+ *                 <tr><td align="left">+ data: std::any</td></tr>
+ *                 <tr><td align="left">+ shape: std::vector&lt;SizeType&gt;</td></tr>
+ *             </table>
+ *         >
+ *     ];
+ *
+ *     ReadDatasetWrapper [
+ *         label=<
+ *             <table border="0" cellborder="1" cellspacing="0">
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>ReadDatasetWrapper</b></td></tr>
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Functions</b></td></tr>
+ *                 <tr><td align="left">+ valuesGeneric(): DataBlockGeneric</td></tr>
+ *                 <tr><td align="left">+ values(): DataBlock</td></tr>
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Attributes</b></td></tr>
+ *                 <tr><td align="left">+ io: const std::shared_ptr&lt;BaseIO&gt;</td></tr>
+ *                 <tr><td align="left">+ dataPath: std::string</td></tr>
+ *             </table>
+ *         >
+ *     ];
+ *
+ *     DataBlock [
+ *         label=<
+ *             <table border="0" cellborder="1" cellspacing="0">
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>DataBlock</b></td></tr>
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Functions</b></td></tr>
+ *                 <tr><td align="left">+ fromGeneric(): DataBlock</td></tr>
+ *                 <tr><td align="left">+ as_multi_array(): MultiArray</td></tr>
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Attributes</b></td></tr>
+ *                 <tr><td align="left">+ data: std::vector&lt;DTYPE&gt;</td></tr>
+ *                 <tr><td align="left">+ shape: std::vector&lt;SizeType&gt;</td></tr>
+ *             </table>
+ *         >
+ *     ];
+ *
+ *     Container [
+ *         label=<
+ *             <table border="0" cellborder="1" cellspacing="0">
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Container</b></td></tr>
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Attributes</b></td></tr>
+ *                 <tr><td align="left">+ io: std::shared_ptr&lt;BaseIO&gt;</td></tr>
+ *                 <tr><td align="left">+ path: std::string</td></tr>
+ *             </table>
+ *         >
+ *     ];
+ *
+ *     { rank=same; Container; }
+ *     { rank=same; DataBlock; ReadDatasetWrapper; DataBlockGeneric; }
+ *     { rank=same; HDF5IO; }
+ *     { rank=same; NWBFile; }
+ *
+ *     Container -> ReadDatasetWrapper [label="create"];
+ *     ReadDatasetWrapper -> DataBlockGeneric [label="return data"];
+ *     ReadDatasetWrapper -> DataBlock [label="return data"];
+ *     ReadDatasetWrapper -> HDF5IO [label="get data as DataBlockGeneric"];
+ *     HDF5IO -> NWBFile [label="read data"];
+ * }
+ * @enddot
+ *
+ *
+ * The main components involved in reading data from an NWB file via AqNWB are:
+ *
+ * - \ref AQNWB::BaseIO "BaseIO", \ref AQNWB::HDF5::HDF5IO "HDF5IO" responsible for
+ *   reading data from disk and allocating memory for data on read
+ * - \ref AQNWB::DataBlockGeneric "DataBlockGeneric" represents a generic, n-dimensional block of data
+ *   loaded from a file, storing the data as a generic ``std::any`` along with the ``shape`` of the data.
+ *   - \ref AQNWB::DataBlock "DataBlock" represents a typed, n-dimensional block of data, derived
+ *     from a \ref AQNWB::DataBlockGeneric "DataBlockGeneric"
+ * - \ref AQNWB::ReadDatasetWrapper "ReadDatasetWrapper", \ref AQNWB::ReadAttributeWrapper "ReadAttributeWrapper"
+ *   are simple wrapper classes to represent a dataset/attribute for read, enabling lazy data read
+ *   and allowing for transparent use of different I/O backends.
+ * - \ref AQNWB::NWB::Container "Container" type classes represent Groups with an assigned ``neurodata_type``
+ *   in the NWB format, and are responsible for providing access to the datasets/attributes that they own.
+ *   To provide access, these classes create \ref AQNWB::ReadDatasetWrapper "ReadDatasetWrapper" /
+ *   \ref AQNWB::ReadAttributeWrapper "ReadAttributeWrapper" objects for the user for lazy read access to the data.
+ *
+ * We will discuss these different components in a bit more detail next.
+ *
+ * \subsection read_design_wrapper_container Container
+ *
+ * The \ref AQNWB::NWB::Container "Container" class (e.g., \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries"
+ * or  \ref AQNWB::NWB::NWBFile "NWBFile") is responsible for exposing read access to it's
+ * specific datasets and attributes by providing appropriate access functions, which return
+ * \ref AQNWB::ReadDatasetWrapper "ReadDatasetWrapper" or \ref AQNWB::ReadAttributeWrapper "ReadAttributeWrapper"
+ * objects for lazily reading from the dataset/attribute.
+ *
+ * \subsection read_design_wrapper_propos ReadDatasetWrapper and ReadAttributeWrapper
+ *
+ * The  \ref AQNWB::ReadDatasetWrapper "ReadDatasetWrapper" stores a shared pointer
+ * \ref AQNWB::ReadDatasetWrapper::io "io" to the  I/O object and the
+ * \ref AQNWB::ReadDatasetWrapper::dataPath "dataPath" to the dataset.
+ *
+ * The \ref AQNWB::ReadDatasetWrapper::valuesGeneric "valuesGeneric" method then allows us
+ * to read all or parts of the dataset into memory as ``std::any``. This function uses
+ * the \ref AQNWB::BaseIO::readDataset "readDataset" method of the I/O backend
+ * (e.g.,  \ref AQNWB::HDF5::HDF5IO::readDataset "HDF5IO.readDataset") to load the data.
+ * The I/O backend in turn takes care of allocating the memory for the
+ * appropriate data type and loading the data from disk.
+ *
+ * We can retrieve data directly with the appropriate type  by using the templated
+ * \ref AQNWB::ReadDatasetWrapper::values "values" function instead, which
+ * uses  \ref AQNWB::ReadDatasetWrapper::valuesGeneric "valuesGeneric" and then
+ * automatically casts the data to a typed  \ref AQNWB::DataBlock "DataBlock<DTYPE>"
+ * instead of returning an untyped  \ref AQNWB::DataBlock "DataBlockGeneric".
+ *
+ * \note
+ * \ref AQNWB::ReadAttributeWrapper "ReadAttributeWrapper" works much in the same
+ * way as \ref AQNWB::ReadDatasetWrapper "ReadDatasetWrapper" but does not support
+ * slicing, i.e., attributes are always loaded fully into memory since attributes
+ * are intended for small data only.
+ *
+ * \subsection read_design_data_block DataBlockGeneric and DataBlock
+ *
+ * At first, data values are always represented as a \ref AQNWB::DataBlockGeneric "DataBlockGeneric"
+ * object, which stores the \ref AQNWB::DataBlockGeneric::data "data" as ``std::any``
+ * along with the  \ref AQNWB::DataBlockGeneric::shape "shape" of the data. For example,
+ * \ref AQNWB::ReadDatasetWrapper::valuesGeneric "ReadDatasetWrapper.valuesGeneric"
+ * and \ref AQNWB::HDF5::HDF5IO::readDataset "HDF5IO.readDataset" return
+ * a  \ref AQNWB::DataBlockGeneric "DataBlockGeneric". This has the advantage that
+ * we can let the backend handle memory allocation and typing for us and load data
+ * even if we don't know the type yet.
+ *
+ * \subsubsection read_design_data_block_typed DataBlock with typed data
+ *
+ * To cast the data to the appropriate specific type (e.g., ``float``) we can then create a
+ * \ref AQNWB::DataBlock "DataBlock" with the appropriate data type via the
+ * \ref AQNWB::DataBlock::fromGeneric "DataBlock.fromGeneric" factory method. \ref AQNWB::DataBlock "DataBlock"
+ * is templated on the specific data type, i.e., we call ``DataBlock<float>.fromGeneric(myGenericDataBlock)``.
+ * \ref AQNWB::DataBlock "DataBlock" then stores the \ref AQNWB::DataBlock::data "data" as an
+ * appropriately typed 1-dimensional ``std::vector`` along with the \ref AQNWB::DataBlock::shape "shape"
+ * of the data.
+ *
+ * \note
+ * The \ref AQNWB::DataBlock::fromGeneric "DataBlock.fromGeneric" (and
+ * \ref AQNWB::DataBlock::as_multi_array "DataBlock.as_multi_array") use casting
+ * and referencing to transform the data without making additional copies
+ * of the data.
+ *
+ * \subsubsection read_design_data_block_multiarray Using BOOST Multi Array for N-Dimensions Data
+ *
+ * To simplify access to multi-dimensional data, we can then represent the data
+ * as a ``BOOST::multi_array``. The \ref AQNWB::DataBlock::as_multi_array "DataBlock.as_multi_array"
+ * convenience method generates a ``boost::const_multi_array_ref<DTYPE, NDIMS>`` for us.
+ * Here the  ``DTYPE`` template parameter is the same as for the \ref AQNWB::DataBlock "DataBlock"
+ * (so that we don't have to specify it again), and the ``NDIMS`` template parameter
+ * is the number of dimensions (which is the same as \ref AQNWB::DataBlock::shape "shape.size()").
+ *
+ * \note
+ * Since we are in a strongly typed language, we here need to know the ``DTYPE`` at compile time
+ * when using \ref AQNWB::DataBlock "DataBlock". And if we want to use the
+ * \ref AQNWB::DataBlock::as_multi_array "DataBlock.as_multi_array", then we also need to know
+ * the number of dimensions ``NDIMS`` at compile time.
+ *
+ *
+ * \subsection read_design_wrapper_io I/O
+ *
+ * The I/O backend is responsible for implementing the actual
+ * \ref AQNWB::BaseIO::readDataset "readDataset" and \ref AQNWB::BaseIO::readAttribute "readAttribute"
+ * methods used for reading data from disk. The methods are also responsible for
+ * allocating appropriate memory with the respective data type. The functions
+ * return the data as \ref AQNWB::DataBlockGeneric "DataBlockGeneric", which
+ * stores the data as untyped ``std::any``. The user can then cast the
+ * data to the appropriate type as discussed in \ref read_design_data_block_typed.
+ *
+ *
+ *
  * \section read_design_example Example
  *
  * \subsection read_design_example_create Create a NWB file as usual
@@ -30,7 +227,7 @@
  *
  * \paragraph read_design_example_load_data Read data into memory
  *
- * To access the data values of a data, we can then use \ref AQNWB::ReadDatasetWrapper::valuesGeneric "valuesGeneric"
+ * To access the data values of a data, we can then use the \ref AQNWB::ReadDatasetWrapper::valuesGeneric "valuesGeneric"
  * and \ref AQNWB::ReadDatasetWrapper::values "values" methods, which load the data as generic (untyped) or typed
  * data, respectively.
  *
@@ -45,7 +242,7 @@
  *
  * To ease interaction with mutli-dimensional data, e.g., the ``(time x channel)`` data of our
  * \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries", we can use the
- * AQNWB::DataBlock::as_multi_array "DataBlock.as_multi_array" method to construct a
+ * \ref AQNWB::DataBlock::as_multi_array "DataBlock.as_multi_array" method to construct a
  * ``boost::const_multi_array_ref``.
  *
  *  \snippet tests/examples/test_ecephys_data_read.cpp example_read_get_boostarray_snippet
@@ -66,81 +263,6 @@
  * Container object we want to read.
  *
  *  \snippet tests/examples/test_ecephys_data_read.cpp  example_read_only_snippet
- *
- * \section read_design_sec Software Design
- *
- * \subsection read_design_wrapper_container Container
- *
- * The \ref AQNWB::NWB::Container "Container" class (e.g., \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries"
- * or  \ref AQNWB::NWB::NWBFile "NWBFile") is responsible for exposing read access to it's
- * specific datasets and attributes by providing appropriate access functions, which return
- * \ref AQNWB::ReadDatasetWrapper "ReadDatasetWrapper" or \ref AQNWB::ReadAttributeWrapper "ReadAttributeWrapper"
- * objects for lazily reading from the dataset/attribute.
- *
- * \subsection read_design_wrapper_propos ReadDatasetWrapper and ReadAttributeWrapper
- *
- * The  \ref AQNWB::ReadDatasetWrapper "ReadDatasetWrapper" stores a shared pointer
- * \ref AQNWB::ReadDatasetWrapper::io "ReadDatasetWrapper.io" to the  I/O object and the
- * \ref AQNWB::ReadDatasetWrapper::dataPath "ReadDatasetWrapper.dataPath" to the dataset.
- *
- * The \ref AQNWB::ReadDatasetWrapper::valuesGeneric "valuesGeneric" method then allows us
- * to read all or parts of the dataset into memory as ``std::any``. This function uses
- * the \ref AQNWB::BaseIO::readDataset "readDataset" method of the I/O backend
- * (e.g.,  \ref AQNWB::HDF5::HDF5IO::readDataset "HDF5IO.readDataset" to load the data,
- * such that the I/O backend takes care of allocating the memory for the
- * appropriate data type.
- *
- * We can retrieve data directly with the appropriate type  by using the templated
- * \ref AQNWB::ReadDatasetWrapper::values "values" function instead, which
- * uses  \ref AQNWB::ReadDatasetWrapper::valuesGeneric "valuesGeneric" and then
- * automatically casts the data to a typed  \ref AQNWB::DataBlock "DataBlock"
- * instead of returning an untyped  \ref AQNWB::DataBlock "DataBlockGeneric".
- *
- * \note
- * \ref AQNWB::ReadAttributeWrapper "ReadAttributeWrapper" works much in the same
- * way as \ref AQNWB::ReadDatasetWrapper "ReadDatasetWrapper" but does not support
- * slicing, i.e., attributes are always loaded fully into memory since attributes
- * are intended for small data only.
- *
- * \subsection read_design_data_block DataBlockGeneric and DataBlock
- *
- * \ref AQNWB::ReadDatasetWrapper::valuesGeneric "ReadDatasetWrapper.valuesGeneric"
- * returns the  data as a \ref AQNWB::DataBlockGeneric "DataBlockGeneric"
- * object, which stores the \ref AQNWB::DataBlockGeneric::data "data" as ``std::any``
- * along with the  \ref AQNWB::DataBlockGeneric::shape "shape" of the data.
- *
- * To cast the data to the appropriate specific type (e.g., ``float``) we can then create a
- * \ref AQNWB::DataBlock "DataBlock" with the appropriate data type via the
- * \ref AQNWB::DataBlock::fromGeneric "DataBlock.fromGeneric" factory method. \ref AQNWB::DataBlock "DataBlock"
- * is templated on the specific data type, i.e., we call ``DataBlock<float>.fromGeneric(myGenericDataBlock)``.
- * \ref AQNWB::DataBlock "DataBlock" then stores the \ref AQNWB::DataBlock::data "data" as an
- * appropriately typed 1-dimensions ``std::vector`` along with the \ref AQNWB::DataBlock::shape "shape"
- * of the data.
- *
- * To simplify access to multi-dimensional data, we can then represent the data
- * as ``BOOST::multi_array``. The \ref AQNWB::DataBlock::as_multi_array "DataBlock.as_multi_array"
- * convenience method generates a ``boost::const_multi_array_ref<DTYPE, NDIMS>`` for us.
- * Here the  ``DTYPE`` template parameter is the same as for the \ref AQNWB::DataBlock "DataBlock"
- * (so that we don't have to specify it again), and the ``NDIMS`` template parameter
- * is the number of dimensions (which is the same as \ref AQNWB::DataBlock::shape "shape.size()").
- * I.e., since we are in a strongly typed language, we here need to know the ``DTYPE`` and the
- * ``NDIMS`` at compile time.
- *
- * \note
- * The \ref AQNWB::DataBlock::fromGeneric "DataBlock.fromGeneric" and
- * \ref AQNWB::DataBlock::as_multi_array "DataBlock.as_multi_array" use casting
- * and referencing to transform the data without making additional copies
- * of the data.
- *
- * \subsection read_design_wrapper_io I/O
- *
- * The I/O backend is responsible for implementing the actual
- * \ref AQNWB::BaseIO::readDataset "readDataset" and \ref AQNWB::BaseIO::readAttribute "readAttribute"
- * methods used for reading data from disk. The methods are also responsible for
- * allocating appropriate memory with the respective data type. The functions
- * return the data as \ref AQNWB::DataBlockGeneric "DataBlockGeneric", which
- * stores the data as untyped std::any. The user can then cast the
- * data to the appropriate type via the templated \ref AQNWB::DataBlock "DataBlock" class.
  *
  */
 
