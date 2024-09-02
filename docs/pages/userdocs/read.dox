@@ -86,9 +86,10 @@
  *     { rank=same; NWBFile; }
  *
  *     Container -> ReadDatasetWrapper [label="create"];
- *     ReadDatasetWrapper -> DataBlockGeneric [label="return data"];
- *     ReadDatasetWrapper -> DataBlock [label="return data"];
- *     ReadDatasetWrapper -> HDF5IO [label="get data as DataBlockGeneric"];
+ *     ReadDatasetWrapper -> DataBlockGeneric [label="return\ndata"];
+ *     ReadDatasetWrapper -> DataBlock [label="return\ndata"];
+ *     DataBlock -> DataBlockGeneric [label="created\nfrom"];
+ *     ReadDatasetWrapper -> HDF5IO [label="call readDataset"];
  *     HDF5IO -> NWBFile [label="read data"];
  * }
  * @enddot
