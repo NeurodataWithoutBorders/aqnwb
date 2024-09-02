@@ -3,6 +3,24 @@
  *
  * \tableofcontents
  *
+ * \section read_design_intro Introduction
+ *
+ * Reading data from an open NWB file via AqNWB consists of two main steps. In the
+ * first step we retrieve a wrapper object that provides lazy read access to the
+ * particular dataset or attribute:
+ *
+ * \snippet tests/examples/test_ecephys_data_read.cpp example_read_get_data_wrapper_snippet
+ *
+ * In the second step we then request the parts of the data we are interested in,
+ * at which point the data is being loaded from disk.
+ *
+ * \snippet tests/examples/test_ecephys_data_read.cpp example_read_get_datablock_snippet
+ *
+ * In the following sections we dive deeper into the \ref read_design_sec, describing
+ * the different classes involved in reading data and their responsibilities. We then
+ * show a more detailed \ref read_design_example to illustrate how read works in the
+ * overall context of data acquisition.
+ *
  *
  * \section read_design_sec Software Design
  *
