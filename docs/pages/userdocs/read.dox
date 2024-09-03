@@ -125,8 +125,8 @@
  *   - \ref AQNWB::DataBlock "DataBlock" represents a typed, n-dimensional block of data, derived
  *     from a \ref AQNWB::DataBlockGeneric "DataBlockGeneric"
  * - \ref AQNWB::ReadDatasetWrapper "ReadDatasetWrapper", \ref AQNWB::ReadAttributeWrapper "ReadAttributeWrapper"
- *   are simple wrapper classes to represent a dataset/attribute for read, enabling lazy data read
- *   and allowing for transparent use of different I/O backends.
+ *   are simple wrapper classes (based on \ref AQNWB::ReadDataWrapperBase "ReadDataWrapperBase") that  represent
+ *   a dataset/attribute for read, enabling lazy data read and allowing for transparent use of different I/O backends.
  * - \ref AQNWB::NWB::Container "Container" type classes represent Groups with an assigned ``neurodata_type``
  *   in the NWB format, and are responsible for providing access to the datasets/attributes that they own.
  *   To provide access, these classes create \ref AQNWB::ReadDatasetWrapper "ReadDatasetWrapper" /
@@ -166,6 +166,11 @@
  * way as \ref AQNWB::ReadDatasetWrapper "ReadDatasetWrapper" but does not support
  * slicing, i.e., attributes are always loaded fully into memory since attributes
  * are intended for small data only.
+ *
+ * \note
+ * \ref AQNWB::ReadDatasetWrapper "ReadDatasetWrapper" and \ref AQNWB::ReadAttributeWrapper "ReadAttributeWrapper"
+ * both inherit from \ref AQNWB::ReadDataWrapperBase "ReadDataWrapperBase".
+ *
  *
  * \subsection read_design_data_block DataBlockGeneric and DataBlock
  *
