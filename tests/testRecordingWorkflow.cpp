@@ -42,9 +42,8 @@ TEST_CASE("writeContinuousData", "[recording]")
         std::make_unique<NWB::RecordingContainers>();
 
     // 3. create NWBFile object
-    std::unique_ptr<NWB::NWBFile> nwbfile =
-        std::make_unique<NWB::NWBFile>(generateUuid(), io);
-    nwbfile->initialize();
+    std::unique_ptr<NWB::NWBFile> nwbfile = std::make_unique<NWB::NWBFile>(io);
+    nwbfile->initialize(generateUuid());
 
     // 4. create datasets and add to recording containers
     nwbfile->createElectricalSeries(

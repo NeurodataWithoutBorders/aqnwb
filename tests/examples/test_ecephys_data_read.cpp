@@ -8,6 +8,7 @@
 #include "Utils.hpp"
 #include "hdf5/HDF5IO.hpp"
 #include "nwb/NWBFile.hpp"
+#include "nwb/RecordingContainers.hpp"
 #include "nwb/device/Device.hpp"
 #include "nwb/ecephys/ElectricalSeries.hpp"
 #include "nwb/file/ElectrodeGroup.hpp"
@@ -52,19 +53,23 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     NWB::NWBFile nwbfile(io);
     nwbfile.initialize(generateUuid());
 
-    // TODO Use RecordingContainers in this example once #84 is merged
+    // create the RecordingContainer for managing recordings
+    std::unique_ptr<NWB::RecordingContainers> recordingContainers =
+        std::make_unique<NWB::RecordingContainers>();
 
     // create a new ElectricalSeries
-    Status resultCreate = nwbfile.createElectricalSeries(mockArrays, dataType);
+    Status resultCreate = nwbfile.createElectricalSeries(
+        mockArrays, dataType, recordingContainers.get());
     REQUIRE(resultCreate == Status::Success);
 
     // get the new ElectricalSeries
     NWB::ElectricalSeries* electricalSeries =
-        dynamic_cast<NWB::ElectricalSeries*>(nwbfile.getTimeSeries(0));
+        static_cast<NWB::ElectricalSeries*>(
+            recordingContainers->getContainer(0));
     REQUIRE(electricalSeries != nullptr);
 
     // start recording
-    Status resultStart = nwbfile.startRecording();
+    Status resultStart = io->startRecording();
     REQUIRE(resultStart == Status::Success);
 
     // write channel data

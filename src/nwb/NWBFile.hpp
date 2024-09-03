@@ -122,10 +122,8 @@ private:
       const std::array<std::pair<std::string_view, std::string_view>, N>&
           specVariables);
 
-
-  const std::string identifierText; // TODO Remove this for read
+  std::string identifierText;  // TODO Remove this for read
   static std::vector<SizeType> emptyContainerIndexes;
-
 };
 
 }  // namespace AQNWB::NWB
