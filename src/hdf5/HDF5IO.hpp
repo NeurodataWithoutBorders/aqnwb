@@ -12,6 +12,7 @@
 namespace H5
 {
 class DataSet;
+class Attribute;
 class H5File;
 class DataType;
 class Exception;
@@ -86,6 +87,16 @@ public:
    * @return The status of the flush operation.
    */
   Status flush() override;
+
+  /**
+   * @brief  Get the storage type (Group, Dataset, Attribute) of the object at
+   * path
+   *
+   * @param path The path of the object in the file
+   * @return The StorageObjectType. May be Undefined if the object does not
+   * exist.
+   */
+  StorageObjectType getObjectType(std::string path) override;
 
   /**
    * @brief Reads a dataset or attribute and determines the data type.
@@ -277,7 +288,7 @@ public:
    * @param path The location in the file of the object.
    * @return The type of object at the given path.
    */
-  H5O_type_t getObjectType(const std::string& path);
+  H5O_type_t getH5ObjectType(const std::string& path);
 
   /**
    * @brief Returns the HDF5 native data type for a given base data type.
@@ -383,6 +394,8 @@ private:
   template<typename HDF5TYPE>
   std::vector<std::string> readStringDataHelper(const HDF5TYPE& dataSource,
                                                 size_t numElements);
+
+  std::unique_ptr<H5::Attribute> getAttribute(const std::string& path);
 
   /**
    * @brief Unique pointer to the HDF5 file for reading

@@ -90,6 +90,61 @@ Status HDF5IO::flush()
   return checkStatus(status);
 }
 
+std::unique_ptr<H5::Attribute> HDF5IO::getAttribute(const std::string& path)
+{
+  // Split the path to get the parent object and the attribute name
+  size_t pos = path.find_last_of('/');
+  if (pos == std::string::npos) {
+    return nullptr;
+  }
+
+  std::string parentPath = path.substr(0, pos);
+  std::string attrName = path.substr(pos + 1);
+
+  try {
+    // Try to open the parent object as a group
+    H5::Group parentGroup = this->file->openGroup(parentPath);
+    return std::make_unique<H5::Attribute>(parentGroup.openAttribute(attrName));
+  } catch (const H5::Exception& e) {
+    // If it's not a group, try to open it as a dataset
+    try {
+      H5::DataSet parentDataset = this->file->openDataSet(parentPath);
+      return std::make_unique<H5::Attribute>(
+          parentDataset.openAttribute(attrName));
+    } catch (const H5::Exception& e) {
+      // Handle HDF5 exceptions
+      return nullptr;
+    }
+  }
+}
+
+StorageObjectType HDF5IO::getObjectType(std::string path)
+{
+  try {
+    H5O_type_t objectType = getH5ObjectType(path);
+
+    switch (objectType) {
+      case H5O_TYPE_GROUP:
+        return StorageObjectType::Group;
+      case H5O_TYPE_DATASET:
+        return StorageObjectType::Dataset;
+      case H5O_TYPE_NAMED_DATATYPE:
+        // Handle named datatype if needed
+        return StorageObjectType::Undefined;
+      default:
+        // Check if the object is an attribute
+        if (auto attr = getAttribute(path)) {
+          return StorageObjectType::Attribute;
+        }
+        return StorageObjectType::Undefined;
+    }
+  } catch (const H5::Exception& e) {
+    // Handle HDF5 exceptions
+    std::cerr << "HDF5 error: " << e.getDetailMsg() << std::endl;
+    return StorageObjectType::Undefined;
+  }
+}
+
 template<typename T, typename HDF5TYPE>
 std::vector<T> HDF5IO::readDataHelper(const HDF5TYPE& dataSource,
                                       size_t numElements,
@@ -156,12 +211,13 @@ std::vector<std::string> HDF5IO::readStringDataHelper(
 
 AQNWB::DataBlockGeneric HDF5IO::readAttribute(const std::string& dataPath)
 {
-  // Make sure dataPath points to an attribute
-  assert(this->file->attrExists(dataPath));
   // create the return value to fill
   DataBlockGeneric result;
   // Read the attribute
-  H5::Attribute attribute = file->openAttribute(dataPath);
+  auto attributePtr = this->getAttribute(dataPath);
+  // Make sure dataPath points to an attribute
+  assert(attributePtr != nullptr);
+  H5::Attribute& attribute = *attributePtr;
   H5::DataType dataType = attribute.getDataType();
   // Determine the size of the attribute
   size_t numElements = attribute.getStorageSize();
@@ -304,7 +360,7 @@ Status HDF5IO::createAttribute(const BaseDataType& type,
     return Status::Failure;
 
   // open the group or dataset
-  H5O_type_t objectType = getObjectType(path);
+  H5O_type_t objectType = getH5ObjectType(path);
   switch (objectType) {
     case H5O_TYPE_GROUP:
       gloc = file->openGroup(path);
@@ -382,7 +438,7 @@ Status HDF5IO::createAttribute(const std::vector<const char*>& data,
   H5type.setSize(H5T_VARIABLE);
 
   // open the group or dataset
-  H5O_type_t objectType = getObjectType(path);
+  H5O_type_t objectType = getH5ObjectType(path);
   switch (objectType) {
     case H5O_TYPE_GROUP:
       gloc = file->openGroup(path);
@@ -436,7 +492,7 @@ Status HDF5IO::createReferenceAttribute(const std::string& referencePath,
     return Status::Failure;
 
   // open the group or dataset
-  H5O_type_t objectType = getObjectType(path);
+  H5O_type_t objectType = getH5ObjectType(path);
   switch (objectType) {
     case H5O_TYPE_GROUP:
       gloc = file->openGroup(path);
@@ -701,7 +757,7 @@ std::unique_ptr<AQNWB::BaseRecordingData> HDF5IO::createArrayDataSet(
   return std::make_unique<HDF5RecordingData>(std::move(data));
 }
 
-H5O_type_t HDF5IO::getObjectType(const std::string& path)
+H5O_type_t HDF5IO::getH5ObjectType(const std::string& path)
 {
 #if H5_VERSION_GE(1, 12, 0)
   // get whether path is a dataset or group

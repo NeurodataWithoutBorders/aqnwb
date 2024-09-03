@@ -14,6 +14,7 @@
 #define DEFAULT_STR_SIZE 256
 #define DEFAULT_ARRAY_SIZE 1
 
+using StorageObjectType = AQNWB::Types::StorageObjectType;
 using Status = AQNWB::Types::Status;
 using SizeArray = AQNWB::Types::SizeArray;
 using SizeType = AQNWB::Types::SizeType;
@@ -169,7 +170,8 @@ public:
    *
    * @return A DataBlock structure containing the data and shape.
    */
-  inline static DataBlock<DTYPE> fromGeneric(const DataBlockGeneric& genericData)
+  inline static DataBlock<DTYPE> fromGeneric(
+      const DataBlockGeneric& genericData)
   {
     auto result = DataBlock<DTYPE>(
         std::any_cast<std::vector<DTYPE>>(genericData.data), genericData.shape);
@@ -214,6 +216,16 @@ public:
    * @return The full path to the file.
    */
   virtual std::string getFileName() = 0;
+
+  /**
+   * @brief  Get the storage type (Group, Dataset, Attribute) of the object at
+   * path
+   *
+   * @param path The path of the object in the file
+   * @return The StorageObjectType. May be Undefined if the object does not
+   * exist.
+   */
+  virtual StorageObjectType getObjectType(std::string path) = 0;
 
   /**
    * @brief Opens the file for writing.
