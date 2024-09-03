@@ -38,7 +38,7 @@ public:
   std::string getPath() const;
 
   template<typename T>
-  static std::unique_ptr<T> create(const std::string& path,
+  inline static std::unique_ptr<T> create(const std::string& path,
                                    std::shared_ptr<BaseIO> io)
   {
     static_assert(std::is_base_of<Container, T>::value,
