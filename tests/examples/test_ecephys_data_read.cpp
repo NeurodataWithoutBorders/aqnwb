@@ -76,7 +76,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // [example_read_create_file_snippet]
 
     // [example_read_get_data_wrapper_snippet]
-    // Get a ReadDataseWrapper for lazy reading of ElectricalSeries.data
+    // Get a ReadDatasetWrapper for lazy reading of ElectricalSeries.data
     auto readDataWrapper = electricalSeries->dataLazy();
     // [example_read_get_data_wrapper_snippet]
 
@@ -122,6 +122,22 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
                    Catch::Matchers::Approx(mockDataTransposed[t]).margin(1));
     }
     // [example_read_validate_boostarray_snippet]
+
+    // [example_read_attribute_snippet]
+    // Get a ReadAttributeWrapper to read data lazily
+    auto readResolutionWrapper = electricalSeries->resolutionLazy();
+    // Instead of values<float> we can read data as generic data first
+    DataBlockGeneric resolutionValueGeneric =
+        readResolutionWrapper->valuesGeneric();
+    // And then convert it to a typed DataBlock afterwards via
+    // DataBlock<DTYPE>fromGeneric
+    DataBlock<float> resolutionValueFloat =
+        DataBlock<float>::fromGeneric(resolutionValueGeneric);
+    // Check that the data is correct
+    REQUIRE(resolutionValueFloat.shape.empty());  // Scalar
+    REQUIRE(resolutionValueFloat.data.size() == 1);
+    REQUIRE(int(resolutionValueFloat.data[0]) == -1);
+    // [example_read_attribute_snippet]
 
     // [example_read_getpath_snippet]
     // Reading the ElecticalSeries.data back (during the recording)

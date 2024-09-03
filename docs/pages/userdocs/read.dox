@@ -267,17 +267,39 @@
  * \ref AQNWB::DataBlock::as_multi_array "DataBlock.as_multi_array" method to construct a
  * ``boost::const_multi_array_ref``.
  *
- *  \snippet tests/examples/test_ecephys_data_read.cpp example_read_get_boostarray_snippet
+ * \snippet tests/examples/test_ecephys_data_read.cpp example_read_get_boostarray_snippet
  *
  * Using boost multi-array simplifies access and interaction with the data as a multi-dimensional array.
  * Here we use this again to validate the data we loaded against the original mock, like we did above.
  *
- *  \snippet tests/examples/test_ecephys_data_read.cpp example_read_validate_boostarray_snippet
+ * \snippet tests/examples/test_ecephys_data_read.cpp example_read_validate_boostarray_snippet
+ *
+ * \paragraph read_design_example_attribute Reading an attribute
+ *
+ * Reading an ``Attribute`` from a file works much in the same way as reading a ``Dataset``.
+ * The main differences are when we read an attribute:
+ * 1. We interact with \ref AQNWB::ReadAttributeWrapper "ReadAttributeWrapper" instead of a
+ *    \ref AQNWB::ReadDatasetWrapper "ReadDatasetWrapper"
+ * 2. \ref AQNWB::ReadAttributeWrapper "ReadAttributeWrapper"  does not support slicing,
+ *    but because attributes are small, we always load all values when requesting the
+ *    data values via the \ref AQNWB::ReadAttributeWrapper::valuesGeneric "valuesGeneric"
+ *    or \ref AQNWB::ReadAttributeWrapper::values "values<DTYPE>" methods.
+ *
+ * \snippet tests/examples/test_ecephys_data_read.cpp example_read_attribute_snippet
+ *
+ * \note
+ * In this example we used \ref AQNWB::ReadAttributeWrapper::valuesGeneric "valuesGeneric"
+ * to load the data first in untyped form and then convert it to the typed form with
+ * \ref AQNWB::DataBlock::fromGeneric "DataBlock.fromGeneric()". However, we could have
+ * used \ref AQNWB::ReadAttributeWrapper::values "values<float>" directly here as well
+ * in the same way as we did when we loaded the ``ElectricalSeries.data`` dataset above.
+ *
+ * \subsection read_design_example_stop_recording Finalize the recording
  *
  * Next we stop the recording and close the file so we can show how we can read from the file
  * we just created.
  *
- *  \snippet tests/examples/test_ecephys_data_read.cpp example_read_finish_recording_snippet
+ * \snippet tests/examples/test_ecephys_data_read.cpp example_read_finish_recording_snippet
  *
  * \subsection read_design_example_read_posthoc Read data from an existing file
  *
