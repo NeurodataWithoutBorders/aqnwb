@@ -507,18 +507,65 @@ protected:
 };
 
 /**
- * @brief The base class for reading data from a dataset in a file
+ * @brief The base class for wrapping data objects for reading data from a file
  */
-class ReadDatasetWrapper
+class ReadDataWrapperBase
 {
 public:
   /**
    * @brief Default constructor.
    */
-  ReadDatasetWrapper(const std::shared_ptr<BaseIO> io,  // BaseIO* io,
-                     std::string dataPath)
+  ReadDataWrapperBase(const std::shared_ptr<BaseIO> io, std::string dataPath)
       : io(io)
       , dataPath(dataPath)
+  {
+  }
+
+  /**
+   * @brief Deleted copy constructor to prevent construction-copying.
+   */
+  ReadDataWrapperBase(const ReadDataWrapperBase&) = delete;
+
+  /**
+   * @brief Deleted copy assignment operator to prevent copying.
+   */
+  ReadDataWrapperBase& operator=(const ReadDataWrapperBase&) = delete;
+
+  /**
+   * @brief Destructor.
+   */
+  virtual ~ReadDataWrapperBase() {}
+
+  /**
+   * @brief Reads an attribute or dataset and determines the data type to
+   * allocate the memory
+   *
+   * @return An DataBlockGeneric structure containing the data and shape.
+   */
+  virtual DataBlockGeneric valuesGeneric() = 0;
+
+protected:
+  /**
+   * @brief Pointer to the I/O object to use for reading.
+   */
+  const std::shared_ptr<BaseIO> io;  // BaseIO* io;
+  /**
+   * @brief Path to the dataset or attribute to read
+   */
+  std::string dataPath;
+};
+
+/**
+ * @brief Wrapper class for lazily reading data from a dataset in a file
+ */
+class ReadDatasetWrapper : public ReadDataWrapperBase
+{
+public:
+  /**
+   * @brief Default constructor.
+   */
+  ReadDatasetWrapper(const std::shared_ptr<BaseIO> io, std::string dataPath)
+      : ReadDataWrapperBase(io, dataPath)
   {
   }
 
@@ -538,16 +585,28 @@ public:
   virtual ~ReadDatasetWrapper() {}
 
   /**
-   * @brief Reads an dataset or attribute and determines the data type.
+   * @brief Reads a dataset and determines the data type.
    *
-   * @param start The starting indices for the slice (optional).
+   * This functions calls the overloaded valuesGeneric({}, {}, {}, {}) variant
+   *
+   * @return An DataBlockGeneric structure containing the data and shape.
+   */
+  DataBlockGeneric valuesGeneric() override
+  {
+    return this->valuesGeneric({}, {}, {}, {});
+  }
+
+  /**
+   * @brief Reads a dataset and determines the data type.
+   *
+   * @param start The starting indices for the slice (required).
    * @param count The number of elements to read for each dimension (optional).
    * @param stride The stride for each dimension (optional).
    * @param block The block size for each dimension (optional).
    *
    * @return An DataBlockGeneric structure containing the data and shape.
    */
-  DataBlockGeneric valuesGeneric(const std::vector<SizeType>& start = {},
+  DataBlockGeneric valuesGeneric(const std::vector<SizeType>& start,
                                  const std::vector<SizeType>& count = {},
                                  const std::vector<SizeType>& stride = {},
                                  const std::vector<SizeType>& block = {})
@@ -556,7 +615,7 @@ public:
   }
 
   /**
-   * @brief Reads an dataset or attribute with a specified data type.
+   * @brief Reads an dataset with a specified data type.
    *
    * This convenience function uses valuesGeneric to read the data and then
    * convert the DataBlockGeneric to a specific DataBlock
@@ -578,30 +637,19 @@ public:
         this->valuesGeneric(start, count, stride, block));
   }
 
-private:
-  /**
-   * @brief Pointer to the I/O object to use for reading.
-   */
-  const std::shared_ptr<BaseIO> io;  // BaseIO* io;
-  /**
-   * @brief Path to the dataset or attribute to read
-   */
-  std::string dataPath;
-
 };  // ReadDatasetWrapper
 
 /**
- * @brief The base class for reading data from a dataset in a file
+ * @brief Wrapper class for lazily reading data from an attribute in a file
  */
-class ReadAttributeWrapper
+class ReadAttributeWrapper : public ReadDataWrapperBase
 {
 public:
   /**
    * @brief Default constructor.
    */
   ReadAttributeWrapper(const std::shared_ptr<BaseIO> io, std::string dataPath)
-      : io(io)
-      , dataPath(dataPath)
+      : ReadDataWrapperBase(io, dataPath)
   {
   }
 
@@ -625,7 +673,7 @@ public:
    *
    * @return An DataBlockGeneric structure containing the data and shape.
    */
-  DataBlockGeneric valuesGeneric()
+  DataBlockGeneric valuesGeneric() override
   {
     return this->io->readAttribute(this->dataPath);
   }
@@ -643,16 +691,6 @@ public:
   {
     return DataBlock<T>::fromGeneric(this->valuesGeneric());
   }
-
-private:
-  /**
-   * @brief Pointer to the I/O object to use for reading.
-   */
-  const std::shared_ptr<BaseIO> io;
-  /**
-   * @brief Path to the dataset or attribute to read
-   */
-  std::string dataPath;
 
 };  // ReadAttributeWrapper
 
