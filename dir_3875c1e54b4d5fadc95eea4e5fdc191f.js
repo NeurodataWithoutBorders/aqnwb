@@ -7,6 +7,6 @@ var dir_3875c1e54b4d5fadc95eea4e5fdc191f =
     [ "hdmf", "dir_42a4622eeadeb301e554ade53994b57b.html", "dir_42a4622eeadeb301e554ade53994b57b" ],
     [ "NWBFile.cpp", "_n_w_b_file_8cpp.html", "_n_w_b_file_8cpp" ],
     [ "NWBFile.hpp", "_n_w_b_file_8hpp.html", "_n_w_b_file_8hpp" ],
-    [ "NWBRecording.cpp", "_n_w_b_recording_8cpp.html", null ],
-    [ "NWBRecording.hpp", "_n_w_b_recording_8hpp.html", "_n_w_b_recording_8hpp" ]
+    [ "RecordingContainers.cpp", "_recording_containers_8cpp.html", null ],
+    [ "RecordingContainers.hpp", "_recording_containers_8hpp.html", "_recording_containers_8hpp" ]
 ];

@@ -5,6 +5,17 @@ var userdocs =
       [ "Build", "user_install_page.html#userbuild_build_sec", null ],
       [ "Install", "user_install_page.html#userbuild_install_sec", null ]
     ] ],
+    [ "AqNWB Workflow", "workflow.html", [
+      [ "Overview of a recording workflow", "workflow.html#recording_workflow", [
+        [ "Create the I/O object.", "workflow.html#create_io", null ],
+        [ "Create the RecordingContainer object.", "workflow.html#create_recording_container", null ],
+        [ "Create the NWBFile", "workflow.html#create_nwbfile", null ],
+        [ "Create datasets and add to RecordingContainers.", "workflow.html#create_datasets", null ],
+        [ "Start the recording.", "workflow.html#start_recording", null ],
+        [ "Write data.", "workflow.html#write_data", null ],
+        [ "Stop the recording and finalize the file.", "workflow.html#stop_recording", null ]
+      ] ]
+    ] ],
     [ "HDF5 I/O", "hdf5io.html", [
       [ "Chunking", "hdf5io.html#hdf5io_chunking", null ],
       [ "Single-Writer Multiple-Reader (SWMR) Mode", "hdf5io.html#hdf5io_swmr", [

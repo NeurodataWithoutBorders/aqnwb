@@ -23,7 +23,6 @@ var hierarchy =
       [ "AQNWB::NWB::VectorData", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html", null ]
     ] ],
     [ "AQNWB::NWB::NWBFile", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html", null ],
-    [ "AQNWB::NWB::NWBRecording", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_recording.html", null ],
     [ "AQNWB::NWB::RecordingContainers", "class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html", null ],
     [ "AQNWB::Types", "class_a_q_n_w_b_1_1_types.html", null ]
 ];

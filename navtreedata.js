@@ -66,7 +66,7 @@ var NAVTREEINDEX =
 [
 "_base_i_o_8cpp.html",
 "class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#ac8558bac2f0bdb98dc5cd87e8d45f095",
-"core_8hpp.html#a2b54ef029670f26bc8a74a7eae6d870b"
+"dev_docs_page.html#dev_docs_codeexamples_def_sec"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

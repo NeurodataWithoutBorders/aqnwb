@@ -148,17 +148,17 @@ Functions</h2></td></tr>
 <tr class="memitem:af35129219599779d360a65570ff7d168" id="r_af35129219599779d360a65570ff7d168"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af35129219599779d360a65570ff7d168">getCurrentTime</a> ()</td></tr>
 <tr class="memdesc:af35129219599779d360a65570ff7d168"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current time in ISO 8601 format with the UTC offset.  <br /></td></tr>
 <tr class="separator:af35129219599779d360a65570ff7d168"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7bcff791f46375ae57a1c5b2f44becee" id="r_a7bcff791f46375ae57a1c5b2f44becee"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html">BaseIO</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7bcff791f46375ae57a1c5b2f44becee">createIO</a> (const std::string &amp;type, const std::string &amp;filename)</td></tr>
-<tr class="memdesc:a7bcff791f46375ae57a1c5b2f44becee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method to create an IO object.  <br /></td></tr>
-<tr class="separator:a7bcff791f46375ae57a1c5b2f44becee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a7d11f8409fc86dd48cca4e7f7d844a" id="r_a9a7d11f8409fc86dd48cca4e7f7d844a"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html">BaseIO</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9a7d11f8409fc86dd48cca4e7f7d844a">createIO</a> (const std::string &amp;type, const std::string &amp;filename)</td></tr>
+<tr class="memdesc:a9a7d11f8409fc86dd48cca4e7f7d844a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method to create an IO object.  <br /></td></tr>
+<tr class="separator:a9a7d11f8409fc86dd48cca4e7f7d844a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4bbe60327d572ca561cce5a7eb565949" id="r_a4bbe60327d572ca561cce5a7eb565949"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; int16_t[]&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4bbe60327d572ca561cce5a7eb565949">transformToInt16</a> (<a class="el" href="_base_i_o_8hpp.html#a95d5d5db2cb7811e65d20c0f68deb025">SizeType</a> numSamples, float conversion_factor, const float *data)</td></tr>
 <tr class="separator:a4bbe60327d572ca561cce5a7eb565949"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The main namespace for AqNWB. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="a7bcff791f46375ae57a1c5b2f44becee" name="a7bcff791f46375ae57a1c5b2f44becee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7bcff791f46375ae57a1c5b2f44becee">&#9670;&#160;</a></span>createIO()</h2>
+<a id="a9a7d11f8409fc86dd48cca4e7f7d844a" name="a9a7d11f8409fc86dd48cca4e7f7d844a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a7d11f8409fc86dd48cca4e7f7d844a">&#9670;&#160;</a></span>createIO()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -167,7 +167,7 @@ Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html">BaseIO</a> &gt; AQNWB::createIO </td>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html">BaseIO</a> &gt; AQNWB::createIO </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>type</em></span>, </td>
         </tr>

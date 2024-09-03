@@ -9,7 +9,6 @@ var namespace_a_q_n_w_b_1_1_n_w_b =
     [ "ElectrodeTable", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table" ],
     [ "ElementIdentifiers", "class_a_q_n_w_b_1_1_n_w_b_1_1_element_identifiers.html", null ],
     [ "NWBFile", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file" ],
-    [ "NWBRecording", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_recording.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_recording" ],
     [ "RecordingContainers", "class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers" ],
     [ "TimeSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series" ],
     [ "VectorData", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data" ]

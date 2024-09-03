@@ -1,13 +1,15 @@
 var searchData=
 [
-  ['u16_0',['U16',['../class_a_q_n_w_b_1_1_base_data_type.html#a4f81a3a672c34a8a02f3b56341673331',1,'AQNWB::BaseDataType']]],
-  ['u32_1',['U32',['../class_a_q_n_w_b_1_1_base_data_type.html#a2714edcd482a021be1455cb07ce8abf2',1,'AQNWB::BaseDataType']]],
-  ['u64_2',['U64',['../class_a_q_n_w_b_1_1_base_data_type.html#a3b677aa53324f06022819010d41ed6b5',1,'AQNWB::BaseDataType']]],
-  ['u8_3',['U8',['../class_a_q_n_w_b_1_1_base_data_type.html#a69146c183a01f52dc3e034b1a91ff577',1,'AQNWB::BaseDataType']]],
-  ['unit_4',['unit',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#aa1511803149ceaa84289c59d8a4e4b88',1,'AQNWB::NWB::TimeSeries']]],
-  ['unit_20tests_5',['Unit Tests',['../testing.html#testing_unit_run',1,'Running Unit Tests'],['../testing.html#testing_unit',1,'Unit Tests']]],
-  ['updating_20the_20schema_6',['Updating the schema',['../nwb_schema_page.html#dev_docs_updating_nwb_schema_section',1,'']]],
-  ['use_20smwr_20mode_7',['Why does AqNWB use SMWR mode?',['../hdf5io.html#hdf5io_swmr_features',1,'']]],
-  ['users_8',['For Users',['../userdocs.html',1,'']]],
-  ['utils_2ehpp_9',['Utils.hpp',['../_utils_8hpp.html',1,'']]]
+  ['o_0',['HDF5 I/O',['../hdf5io.html',1,'userdocs']]],
+  ['o_20object_1',['1. Create the I/O object.',['../workflow.html#create_io',1,'']]],
+  ['object_2',['object',['../workflow.html#create_io',1,'1. Create the I/O object.'],['../workflow.html#create_recording_container',1,'2. Create the RecordingContainer object.']]],
+  ['of_20a_20recording_20workflow_3',['Overview of a recording workflow',['../workflow.html#recording_workflow',1,'']]],
+  ['of_20conduct_4',['Code of Conduct',['../code_of_conduct_page.html',1,'devdocs']]],
+  ['offset_5',['offset',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a93d59b2733646b58acd2e8b5045b6ae1',1,'AQNWB::NWB::TimeSeries']]],
+  ['open_6',['open',['../class_a_q_n_w_b_1_1_base_i_o.html#a26db4d160e12cd2558bd500bf71c6a8e',1,'AQNWB::BaseIO::open()=0'],['../class_a_q_n_w_b_1_1_base_i_o.html#afbb3379a03bb27f489ad6529c363ecd1',1,'AQNWB::BaseIO::open(bool newfile)=0'],['../class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#af13e43a73e40b98dcacd9cc587536143',1,'AQNWB::HDF5::HDF5IO::open() override'],['../class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#af1f8dc9dc57a5d1460707bd162fffe3f',1,'AQNWB::HDF5::HDF5IO::open(bool newfile) override']]],
+  ['opened_7',['opened',['../class_a_q_n_w_b_1_1_base_i_o.html#a0f5c5684c8427842a10c15d159a30abd',1,'AQNWB::BaseIO']]],
+  ['operator_3d_8',['operator=',['../class_a_q_n_w_b_1_1_base_i_o.html#a2822242cb44f428da6ef6ec036b1b31d',1,'AQNWB::BaseIO::operator=()'],['../class_a_q_n_w_b_1_1_base_recording_data.html#a2b9481b928ec41e389576c70a4e34ad8',1,'AQNWB::BaseRecordingData::operator=()'],['../class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#ac398452785d0141b7ebc5193fa437a28',1,'AQNWB::HDF5::HDF5RecordingData::operator=()'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a941d5b775441fac6c787cd55a8276461',1,'AQNWB::NWB::NWBFile::operator=()'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#ac413210d6785be7b472aaf5d020cee59',1,'AQNWB::NWB::RecordingContainers::operator=()']]],
+  ['options_9',['Target options',['../dev_install_page.html#devbuild_target_options_subsubsec',1,'']]],
+  ['overview_10',['Overview',['../index.html',1,'']]],
+  ['overview_20of_20a_20recording_20workflow_11',['Overview of a recording workflow',['../workflow.html#recording_workflow',1,'']]]
 ];

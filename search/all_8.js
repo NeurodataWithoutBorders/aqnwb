@@ -1,13 +1,22 @@
 var searchData=
 [
-  ['f32_0',['F32',['../class_a_q_n_w_b_1_1_base_data_type.html#a0164e3b8cd53950054845d9bd8285fa2',1,'AQNWB::BaseDataType']]],
-  ['f64_1',['F64',['../class_a_q_n_w_b_1_1_base_data_type.html#a596aed9bda4397bbb84a0b9e6074fe58',1,'AQNWB::BaseDataType']]],
-  ['failure_2',['Failure',['../class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9a5e4ad53b09bd2f26e1b2f42bd1ad8fdf',1,'AQNWB::Types']]],
-  ['file_20with_20swmr_20mode_3',['Writing an NWB file with SWMR mode',['../hdf5io.html#hdf5io_swmr_workflow',1,'']]],
-  ['filename_4',['filename',['../class_a_q_n_w_b_1_1_base_i_o.html#a9216c5b8bf33ad420f19a704357659a4',1,'AQNWB::BaseIO::filename'],['../class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#af901d3aedd572ff718df7b81e665cc70',1,'AQNWB::HDF5::HDF5IO::filename']]],
-  ['files_5',['Generating the schema header files',['../nwb_schema_page.html#dev_docs_generating_nwb_schema_headers_section',1,'']]],
-  ['finalize_6',['finalize',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#ab91b67e0f0a5dbe34d8f86efecf35de8',1,'AQNWB::NWB::ElectrodeTable::finalize()'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#af7b3285fd7e02b444372fb1ab4341674',1,'AQNWB::NWB::NWBFile::finalize()']]],
-  ['flush_7',['flush',['../class_a_q_n_w_b_1_1_base_i_o.html#a20f38f4e089cceb4347145d737c489a3',1,'AQNWB::BaseIO::flush()'],['../class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#af169224331c1c4f67ccf8521f5d778db',1,'AQNWB::HDF5::HDF5IO::flush()']]],
-  ['for_20developers_8',['For Developers',['../devdocs.html',1,'']]],
-  ['for_20users_9',['For Users',['../userdocs.html',1,'']]]
+  ['a_20recording_20workflow_0',['Overview of a recording workflow',['../workflow.html#recording_workflow',1,'']]],
+  ['add_20to_20recordingcontainers_1',['4. Create datasets and add to RecordingContainers.',['../workflow.html#create_datasets',1,'']]],
+  ['addcolumn_2',['addColumn',['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a76fea09d6ebe8047d7fe9878f49888d9',1,'AQNWB::NWB::DynamicTable::addColumn(const std::string &amp;name, const std::string &amp;colDescription, std::unique_ptr&lt; VectorData &gt; &amp;vectorData, const std::vector&lt; std::string &gt; &amp;values)'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a3fa191b47a61369c35927104964e81c6',1,'AQNWB::NWB::DynamicTable::addColumn(const std::string &amp;name, const std::string &amp;colDescription, const std::vector&lt; std::string &gt; &amp;dataset)']]],
+  ['addcontainer_3',['addContainer',['../class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#a446ec0d5f5e7802d9e44725399c71e8c',1,'AQNWB::NWB::RecordingContainers']]],
+  ['addelectrodes_4',['addElectrodes',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#a2b37a46c8a1a073b439ce03c8f40bd69',1,'AQNWB::NWB::ElectrodeTable']]],
+  ['an_20nwb_20file_20with_20swmr_20mode_5',['Writing an NWB file with SWMR mode',['../hdf5io.html#hdf5io_swmr_workflow',1,'']]],
+  ['and_20add_20to_20recordingcontainers_6',['4. Create datasets and add to RecordingContainers.',['../workflow.html#create_datasets',1,'']]],
+  ['and_20finalize_20the_20file_7',['7. Stop the recording and finalize the file.',['../workflow.html#stop_recording',1,'']]],
+  ['and_20test_8',['Configure, Build and Test',['../dev_install_page.html#configure_build_test',1,'']]],
+  ['aqnwb_9',['AQNWB',['../namespace_a_q_n_w_b.html',1,'']]],
+  ['aqnwb_10',['Installing AqNWB',['../user_install_page.html',1,'userdocs']]],
+  ['aqnwb_20use_20smwr_20mode_11',['Why does AqNWB use SMWR mode?',['../hdf5io.html#hdf5io_swmr_features',1,'']]],
+  ['aqnwb_20workflow_12',['AqNWB Workflow',['../workflow.html',1,'userdocs']]],
+  ['aqnwb_3a_3ahdf5_13',['HDF5',['../namespace_a_q_n_w_b_1_1_h_d_f5.html',1,'AQNWB']]],
+  ['aqnwb_3a_3anwb_14',['NWB',['../namespace_a_q_n_w_b_1_1_n_w_b.html',1,'AQNWB']]],
+  ['aqnwb_3a_3aspec_15',['SPEC',['../namespace_a_q_n_w_b_1_1_s_p_e_c.html',1,'AQNWB']]],
+  ['aqnwb_3a_3aspec_3a_3acore_16',['CORE',['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html',1,'AQNWB::SPEC']]],
+  ['aqnwb_3a_3aspec_3a_3ahdmf_5fcommon_17',['HDMF_COMMON',['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_h_d_m_f___c_o_m_m_o_n.html',1,'AQNWB::SPEC']]],
+  ['aqnwb_3a_3aspec_3a_3ahdmf_5fexperimental_18',['HDMF_EXPERIMENTAL',['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_h_d_m_f___e_x_p_e_r_i_m_e_n_t_a_l.html',1,'AQNWB::SPEC']]]
 ];
