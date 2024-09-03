@@ -96,7 +96,8 @@ public:
    */
   std::any data;
   /**
-   * \brief The 1D vector with the n-dimensional shape of the data
+   * \brief The 1D vector with the n-dimensional shape of the data.
+   *        Set to empty in case of scalar data.
    */
   std::vector<SizeType> shape;
 };
@@ -115,7 +116,8 @@ public:
    */
   std::vector<DTYPE> data;
   /**
-   * \brief The 1D vector with the n-dimensional shape of the data
+   * \brief The 1D vector with the n-dimensional shape of the data.
+   *        Set to empty in case of scalar data
    */
   std::vector<SizeType> shape;
 

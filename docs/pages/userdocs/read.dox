@@ -194,7 +194,7 @@
  * and referencing to transform the data without making additional copies
  * of the data.
  *
- * \subsubsection read_design_data_block_multiarray Using BOOST Multi Array for N-Dimensions Data
+ * \subsubsection read_design_data_block_multiarray Using Boost Multi Array for N-Dimensional Data
  *
  * To simplify access to multi-dimensional data, we can then represent the data
  * as a ``BOOST::multi_array``. The \ref AQNWB::DataBlock::as_multi_array "DataBlock.as_multi_array"
