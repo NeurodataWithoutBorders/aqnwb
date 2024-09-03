@@ -169,7 +169,7 @@ public:
    *
    * @return A DataBlock structure containing the data and shape.
    */
-  static DataBlock<DTYPE> fromGeneric(const DataBlockGeneric& genericData)
+  inline static DataBlock<DTYPE> fromGeneric(const DataBlockGeneric& genericData)
   {
     auto result = DataBlock<DTYPE>(
         std::any_cast<std::vector<DTYPE>>(genericData.data), genericData.shape);
