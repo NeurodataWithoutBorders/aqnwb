@@ -34,23 +34,17 @@ NWBFile::NWBFile(std::shared_ptr<BaseIO> io)
 
 NWBFile::~NWBFile() {}
 
-Status NWBFile::initialize(const std::string& idText)
+Status NWBFile::initialize(const std::string& identifierText)
 {
-  this->identifierText = idText;
   if (std::filesystem::exists(io->getFileName())) {
     return io->open(false);
   } else {
     io->open(true);
-    return createFileStructure();
+    return createFileStructure(identifierText);
   }
 }
 
-Status NWBFile::finalize()
-{
-  return io->close();
-}
-
-Status NWBFile::createFileStructure()
+Status NWBFile::createFileStructure(const std::string& identifierText)
 {
   if (!io->canModifyObjects()) {
     return Status::Failure;
@@ -90,6 +84,11 @@ Status NWBFile::createFileStructure()
   io->createStringDataSet("/identifier", identifierText);
 
   return Status::Success;
+}
+
+Status NWBFile::finalize()
+{
+  return io->close();
 }
 
 Status NWBFile::createElectricalSeries(

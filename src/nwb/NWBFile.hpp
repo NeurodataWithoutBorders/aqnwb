@@ -51,9 +51,9 @@ public:
    * @brief Initializes the NWB file by opening and setting up the file
    * structure.
    *
-   *  @param idText The identifier text for the NWBFile.
+   *  @param identifierText The identifier text for the NWBFile.
    */
-  Status initialize(const std::string& idText);
+  Status initialize(const std::string& identifierText);
 
   /**
    * @brief Finalizes the NWB file by closing it.
@@ -87,9 +87,12 @@ protected:
    * Note, this function will fail if the file is in a mode where
    * new objects cannot be added, which can be checked via
    * nwbfile.io->canModifyObjects()
+   *
+   *  @param identifierText The identifier text for the NWBFile.
+   *
    * @return Status The status of the file structure creation.
    */
-  Status createFileStructure();
+  Status createFileStructure(const std::string& identifierText);
 
 private:
   /**
@@ -122,7 +125,6 @@ private:
       const std::array<std::pair<std::string_view, std::string_view>, N>&
           specVariables);
 
-  std::string identifierText;  // TODO Remove this for read
   static std::vector<SizeType> emptyContainerIndexes;
 };
 
