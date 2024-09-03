@@ -4,6 +4,7 @@
 #include "Utils.hpp"
 #include "hdf5/HDF5IO.hpp"
 #include "nwb/NWBFile.hpp"
+#include "nwb/RecordingContainers.hpp"
 #include "nwb/base/TimeSeries.hpp"
 #include "testUtils.hpp"
 
@@ -25,18 +26,20 @@ TEST_CASE("createElectricalSeries", "[nwb]")
   std::string filename = getTestFilePath("createElectricalSeries.nwb");
 
   // initialize nwbfile object and create base structure
-  NWB::NWBFile nwbfile(generateUuid(),
-                       std::make_unique<HDF5::HDF5IO>(filename));
+  std::shared_ptr<HDF5::HDF5IO> io = std::make_shared<HDF5::HDF5IO>(filename);
+  NWB::NWBFile nwbfile(generateUuid(), io);
   nwbfile.initialize();
 
   // create Electrical Series
   std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(1, 2);
-  Status resultCreate =
-      nwbfile.createElectricalSeries(mockArrays, BaseDataType::F32);
+  std::unique_ptr<NWB::RecordingContainers> recordingContainers =
+      std::make_unique<NWB::RecordingContainers>();
+  Status resultCreate = nwbfile.createElectricalSeries(
+      mockArrays, BaseDataType::F32, recordingContainers.get());
   REQUIRE(resultCreate == Status::Success);
 
   // start recording
-  Status resultStart = nwbfile.startRecording();
+  Status resultStart = io->startRecording();
   REQUIRE(resultStart == Status::Success);
 
   // write timeseries data
@@ -45,10 +48,12 @@ TEST_CASE("createElectricalSeries", "[nwb]")
   std::vector<SizeType> positionOffset = {0, 0};
   std::vector<SizeType> dataShape = {mockData.size(), 0};
 
-  NWB::TimeSeries* ts0 = nwbfile.getTimeSeries(0);
+  NWB::TimeSeries* ts0 =
+      static_cast<NWB::TimeSeries*>(recordingContainers->getContainer(0));
   ts0->writeData(
       dataShape, positionOffset, mockData.data(), mockTimestamps.data());
-  NWB::TimeSeries* ts1 = nwbfile.getTimeSeries(1);
+  NWB::TimeSeries* ts1 =
+      static_cast<NWB::TimeSeries*>(recordingContainers->getContainer(1));
   ts1->writeData(
       dataShape, positionOffset, mockData.data(), mockTimestamps.data());
 
@@ -60,12 +65,12 @@ TEST_CASE("setCanModifyObjectsMode", "[nwb]")
   std::string filename = getTestFilePath("testCanModifyObjectsMode.nwb");
 
   // initialize nwbfile object and create base structure with HDF5IO object
-  NWB::NWBFile nwbfile(generateUuid(),
-                       std::make_unique<HDF5::HDF5IO>(filename));
+  std::shared_ptr<HDF5::HDF5IO> io = std::make_shared<HDF5::HDF5IO>(filename);
+  NWB::NWBFile nwbfile(generateUuid(), io);
   nwbfile.initialize();
 
   // start recording
-  Status resultStart = nwbfile.startRecording();
+  Status resultStart = io->startRecording();
   REQUIRE(resultStart == Status::Success);
 
   // test that modifying the file structure after starting the recording fails
