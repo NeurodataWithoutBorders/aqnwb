@@ -87,13 +87,26 @@ public:
    */
   BaseDataType timestampsType = BaseDataType::F64;
 
-  inline std::string dataPath() { return (this->path + std::string("/data")); }
+  inline std::string dataPath() const
+  {
+    return (this->path + std::string("/data"));
+  }
 
-  std::unique_ptr<ReadDatasetWrapper> dataLazy()
+  inline std::unique_ptr<ReadDatasetWrapper> dataLazy() const
   {
     std::string dataPath = this->dataPath();
-    std::cout << "Path: " << dataPath << std::endl;
     return std::make_unique<ReadDatasetWrapper>(this->io, dataPath);
+  }
+
+  inline std::string resolutionPath() const
+  {
+    return (this->dataPath() + std::string("/resolution"));
+  }
+
+  inline std::unique_ptr<ReadAttributeWrapper> resolutionLazy() const
+  {
+    std::string resolutionPath = this->resolutionPath();
+    return std::make_unique<ReadAttributeWrapper>(this->io, resolutionPath);
   }
 
 private:

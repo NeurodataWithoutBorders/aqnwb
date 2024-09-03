@@ -219,8 +219,35 @@ AQNWB::DataBlockGeneric HDF5IO::readAttribute(const std::string& dataPath)
   assert(attributePtr != nullptr);
   H5::Attribute& attribute = *attributePtr;
   H5::DataType dataType = attribute.getDataType();
-  // Determine the size of the attribute
-  size_t numElements = attribute.getStorageSize();
+
+  // Determine the shape of the attribute
+  H5::DataSpace dataspace = attribute.getSpace();
+  SizeType rank = dataspace.getSimpleExtentNdims();
+  if (rank == 0) {
+    // Scalar attribute
+    result.shape.clear();
+  } else {
+    std::vector<hsize_t> tempShape(rank);
+    dataspace.getSimpleExtentDims(tempShape.data(), nullptr);
+    result.shape.clear();
+    result.shape.reserve(rank);
+    for (const auto& v : tempShape) {
+      result.shape.push_back(v);
+    }
+  }
+
+  // Determine the size of the attribute from the shape
+  // For some reason using "size_t numElements = attribute.getStorageSize();"
+  // seems to not always give the expected size (but may be larger), so
+  // we calculate the number of elements from the shape instead
+  size_t numElements = 1;  // Scalar (default)
+  if (result.shape.size() > 0)  // N-dimensional array
+  {
+    for (const auto v : result.shape) {
+      numElements *= v;
+    }
+  }
+
   // Read the attribute into a vector of the appropriate type
   if (dataType == H5::PredType::C_S1) {
     result.data = readStringDataHelper(attribute, numElements);
@@ -243,8 +270,7 @@ AQNWB::DataBlockGeneric HDF5IO::readAttribute(const std::string& dataPath)
   } else {
     throw std::runtime_error("Unsupported data type");
   }
-  // Attributes do not have a shape, so set shape to empty
-  result.shape.clear();  // TODO is not correct for
+
   return result;
 }
 
