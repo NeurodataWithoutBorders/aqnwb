@@ -58,11 +58,11 @@ inline std::string getCurrentTime()
  * @brief Factory method to create an IO object.
  * @return A pointer to a BaseIO object
  */
-inline std::unique_ptr<BaseIO> createIO(const std::string& type,
+inline std::shared_ptr<BaseIO> createIO(const std::string& type,
                                         const std::string& filename)
 {
   if (type == "HDF5") {
-    return std::make_unique<HDF5::HDF5IO>(filename);
+    return std::make_shared<HDF5::HDF5IO>(filename);
   } else {
     throw std::invalid_argument("Invalid IO type");
   }

@@ -8,7 +8,8 @@
 #include "Types.hpp"
 #include "Utils.hpp"
 #include "hdf5/HDF5IO.hpp"
-#include "nwb/NWBRecording.hpp"
+#include "nwb/NWBFile.hpp"
+#include "nwb/RecordingContainers.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
 #include "testUtils.hpp"
 
@@ -18,10 +19,7 @@ TEST_CASE("writeContinuousData", "[recording]")
 {
   SECTION("test data and timestamps stream")
   {
-    // get file path and remove if exists
-    std::string path = getTestFilePath("testContinuousRecording1.nwb");
-
-    // setup mock data
+    // 0. setup mock data
     SizeType numChannels = 4;
     SizeType numSamples = 300;
     SizeType samplesRecorded = 0;
@@ -35,11 +33,27 @@ TEST_CASE("writeContinuousData", "[recording]")
         getMockData2D(numSamples, numChannels);
     std::vector<double> mockTimestamps = getMockTimestamps(numSamples);
 
-    // open files
-    NWB::NWBRecording nwbRecording;
-    nwbRecording.openFile(path, mockRecordingArrays);
+    // 1. create IO object
+    std::string path = getTestFilePath("testContinuousRecording1.nwb");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
 
-    // run recording
+    // 2. create RecordingContainers object
+    std::unique_ptr<NWB::RecordingContainers> recordingContainers =
+        std::make_unique<NWB::RecordingContainers>();
+
+    // 3. create NWBFile object
+    std::unique_ptr<NWB::NWBFile> nwbfile =
+        std::make_unique<NWB::NWBFile>(generateUuid(), io);
+    nwbfile->initialize();
+
+    // 4. create datasets and add to recording containers
+    nwbfile->createElectricalSeries(
+        mockRecordingArrays, BaseDataType::I16, recordingContainers.get());
+
+    // 5. start the recording
+    io->startRecording();
+
+    // 6. write data during the recording
     bool isRecording = true;
     while (isRecording) {
       // write data to the file for each channel
@@ -55,20 +69,19 @@ TEST_CASE("writeContinuousData", "[recording]")
                     mockTimestamps.begin() + samplesRecorded + bufferSize,
                     timestampsBuffer.begin());
 
-          // write timseries data
+          // write timeseries data
           std::vector<SizeType> positionOffset = {samplesRecorded,
                                                   channel.localIndex};
           std::vector<SizeType> dataShape = {dataBuffer.size(), 1};
           std::unique_ptr<int16_t[]> intBuffer = transformToInt16(
               dataBuffer.size(), channel.getBitVolts(), dataBuffer.data());
 
-          nwbRecording.writeTimeseriesData("ElectricalSeries",
-                                           i,
-                                           channel,
-                                           dataShape,
-                                           positionOffset,
-                                           intBuffer.get(),
-                                           timestampsBuffer.data());
+          recordingContainers->writeTimeseriesData(i,
+                                                   channel,
+                                                   dataShape,
+                                                   positionOffset,
+                                                   intBuffer.get(),
+                                                   timestampsBuffer.data());
         }
       }
       // check if recording is done
@@ -77,7 +90,10 @@ TEST_CASE("writeContinuousData", "[recording]")
         isRecording = false;
       }
     }
-    nwbRecording.closeFile();
+
+    // 7. stop the recording and finalize the file
+    io->stopRecording();
+    nwbfile->finalize();
 
     // check contents of data
     std::string dataPath = "/acquisition/array0/data";
@@ -120,10 +136,5 @@ TEST_CASE("writeContinuousData", "[recording]")
     double tolerance = 1e-9;
     REQUIRE_THAT(timestampsOut,
                  Catch::Matchers::Approx(mockTimestamps).margin(tolerance));
-  }
-
-  SECTION("add a new recording number to the same file", "[recording]")
-  {
-    // TODO
   }
 }

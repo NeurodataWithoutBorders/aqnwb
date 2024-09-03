@@ -23,6 +23,8 @@ using namespace AQNWB::NWB;
 
 constexpr SizeType CHUNK_XSIZE = 2048;
 
+std::vector<SizeType> NWBFile::emptyContainerIndexes = {};
+
 // NWBFile
 
 NWBFile::NWBFile(std::shared_ptr<BaseIO> io)
@@ -45,7 +47,6 @@ Status NWBFile::initialize(const std::string& idText)
 
 Status NWBFile::finalize()
 {
-  recordingContainers.reset();
   return io->close();
 }
 
@@ -93,7 +94,9 @@ Status NWBFile::createFileStructure()
 
 Status NWBFile::createElectricalSeries(
     std::vector<Types::ChannelVector> recordingArrays,
-    const BaseDataType& dataType)
+    const BaseDataType& dataType,
+    RecordingContainers* recordingContainers,
+    std::vector<SizeType>& containerIndexes)
 {
   if (!io->canModifyObjects()) {
     return Status::Failure;
@@ -131,7 +134,8 @@ Status NWBFile::createElectricalSeries(
         "extracellular ephys recording",
         SizeArray {0, channelVector.size()},
         SizeArray {CHUNK_XSIZE, 0});
-    recordingContainers->addData(std::move(electricalSeries));
+    recordingContainers->addContainer(std::move(electricalSeries));
+    containerIndexes.push_back(recordingContainers->containers.size() - 1);
 
     // Add electrode information to electrode table (does not write to datasets
     // yet)
@@ -142,16 +146,6 @@ Status NWBFile::createElectricalSeries(
   elecTable.finalize();
 
   return Status::Success;
-}
-
-Status NWBFile::startRecording()
-{
-  return io->startRecording();
-}
-
-void NWBFile::stopRecording()
-{
-  io->stopRecording();
 }
 
 template<SizeType N>
@@ -180,27 +174,4 @@ std::unique_ptr<AQNWB::BaseRecordingData> NWBFile::createRecordingData(
 {
   return std::unique_ptr<BaseRecordingData>(
       io->createArrayDataSet(type, size, chunking, path));
-}
-
-TimeSeries* NWBFile::getTimeSeries(const SizeType& timeseriesInd)
-{
-  if (timeseriesInd >= this->recordingContainers->containers.size()) {
-    return nullptr;
-  } else {
-    return this->recordingContainers->containers[timeseriesInd].get();
-  }
-}
-
-// Recording Container
-
-RecordingContainers::RecordingContainers(const std::string& name)
-    : name(name)
-{
-}
-
-RecordingContainers::~RecordingContainers() {}
-
-void RecordingContainers::addData(std::unique_ptr<TimeSeries> data)
-{
-  this->containers.push_back(std::move(data));
 }
