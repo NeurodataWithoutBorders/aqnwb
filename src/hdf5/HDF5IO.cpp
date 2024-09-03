@@ -118,7 +118,7 @@ std::unique_ptr<H5::Attribute> HDF5IO::getAttribute(const std::string& path)
   }
 }
 
-StorageObjectType HDF5IO::getObjectType(std::string path)
+StorageObjectType HDF5IO::getStorageObjectType(std::string path)
 {
   try {
     H5O_type_t objectType = getH5ObjectType(path);

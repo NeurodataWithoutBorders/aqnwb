@@ -225,7 +225,7 @@ public:
    * @return The StorageObjectType. May be Undefined if the object does not
    * exist.
    */
-  virtual StorageObjectType getObjectType(std::string path) = 0;
+  virtual StorageObjectType getStorageObjectType(std::string path) = 0;
 
   /**
    * @brief Opens the file for writing.

@@ -96,7 +96,7 @@ public:
    * @return The StorageObjectType. May be Undefined if the object does not
    * exist.
    */
-  StorageObjectType getObjectType(std::string path) override;
+  StorageObjectType getStorageObjectType(std::string path) override;
 
   /**
    * @brief Reads a dataset or attribute and determines the data type.
