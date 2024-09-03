@@ -36,10 +36,13 @@ public:
   ~RecordingContainers();
 
   /**
-   * @brief Adds a Container object to the container.
-   * @param data The Container object to add.
+   * @brief Adds a Container object to the container. Note that this function
+   * transfers ownership of the Container object to the RecordingContainers
+   * object, and should be called with the pattern
+   * recordingContainers.addContainer(std::move(container)).
+   * @param container The Container object to add.
    */
-  void addData(std::unique_ptr<Container> data);
+  void addContainer(std::unique_ptr<Container> container);
 
   /**
    * @brief Gets the Container object from the recordingContainers

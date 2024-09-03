@@ -11,9 +11,9 @@ RecordingContainers::RecordingContainers() {}
 
 RecordingContainers::~RecordingContainers() {}
 
-void RecordingContainers::addData(std::unique_ptr<Container> data)
+void RecordingContainers::addContainer(std::unique_ptr<Container> container)
 {
-  this->containers.push_back(std::move(data));
+  this->containers.push_back(std::move(container));
 }
 
 Container* RecordingContainers::getContainer(const SizeType& containerInd)
