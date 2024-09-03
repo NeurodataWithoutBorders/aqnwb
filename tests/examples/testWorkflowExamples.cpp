@@ -48,8 +48,11 @@ TEST_CASE("workflowExamples")
     // [example_workflow_nwbfile_snippet]
 
     // [example_workflow_datasets_snippet]
-    nwbfile->createElectricalSeries(
-        mockRecordingArrays, BaseDataType::I16, recordingContainers.get());
+    std::vector<SizeType> containerIndexes;
+    nwbfile->createElectricalSeries(mockRecordingArrays,
+                                    BaseDataType::I16,
+                                    recordingContainers.get(),
+                                    containerIndexes);
     // [example_workflow_datasets_snippet]
 
     // [example_workflow_start_snippet]
@@ -60,7 +63,7 @@ TEST_CASE("workflowExamples")
     bool isRecording = true;
     while (isRecording) {
       // write data to the file for each channel
-      for (SizeType i = 0; i < mockRecordingArrays.size(); ++i) {
+      for (SizeType i = 0; i < containerIndexes.size(); ++i) {
         const auto& channelVector = mockRecordingArrays[i];
         for (const auto& channel : channelVector) {
           // copy data into buffer
@@ -80,7 +83,7 @@ TEST_CASE("workflowExamples")
               dataBuffer.size(), channel.getBitVolts(), dataBuffer.data());
 
           // [example_workflow_write_snippet]
-          recordingContainers->writeTimeseriesData(i,
+          recordingContainers->writeTimeseriesData(containerIndexes[i],
                                                    channel,
                                                    dataShape,
                                                    positionOffset,

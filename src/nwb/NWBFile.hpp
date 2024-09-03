@@ -69,13 +69,16 @@ public:
    *                        record from. A separate ElectricalSeries will be
    *                        created for each ChannelVector.
    * @param recordingContainers The container to store the created TimeSeries.
+   * @param containerIndexes The indexes of the containers added to
+   * recordingContainers
    * @param dataType The data type of the elements in the data block.
    * @return Status The status of the object creation operation.
    */
   Status createElectricalSeries(
       std::vector<Types::ChannelVector> recordingArrays,
       const BaseDataType& dataType = BaseDataType::I16,
-      RecordingContainers* recordingContainers = nullptr);
+      RecordingContainers* recordingContainers = nullptr,
+      std::vector<SizeType>& containerIndexes = emptyContainerIndexes);
 
 protected:
   /**
@@ -120,6 +123,7 @@ private:
 
   const std::string identifierText;
   std::shared_ptr<BaseIO> io;
+  static std::vector<SizeType> emptyContainerIndexes;
 };
 
 }  // namespace AQNWB::NWB

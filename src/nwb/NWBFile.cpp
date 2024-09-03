@@ -23,6 +23,8 @@ using namespace AQNWB::NWB;
 
 constexpr SizeType CHUNK_XSIZE = 2048;
 
+std::vector<SizeType> NWBFile::emptyContainerIndexes = {};
+
 // NWBFile
 
 NWBFile::NWBFile(const std::string& idText, std::shared_ptr<BaseIO> io)
@@ -93,7 +95,8 @@ Status NWBFile::createFileStructure()
 Status NWBFile::createElectricalSeries(
     std::vector<Types::ChannelVector> recordingArrays,
     const BaseDataType& dataType,
-    RecordingContainers* recordingContainers)
+    RecordingContainers* recordingContainers,
+    std::vector<SizeType>& containerIndexes)
 {
   if (!io->canModifyObjects()) {
     return Status::Failure;
@@ -132,7 +135,8 @@ Status NWBFile::createElectricalSeries(
         SizeArray {0, channelVector.size()},
         SizeArray {CHUNK_XSIZE, 0});
     electricalSeries->initialize();
-    recordingContainers->addData(std::move(electricalSeries));
+    recordingContainers->addContainer(std::move(electricalSeries));
+    containerIndexes.push_back(recordingContainers->containers.size() - 1);
 
     // Add electrode information to electrode table (does not write to datasets
     // yet)
