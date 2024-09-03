@@ -538,9 +538,9 @@ public:
 
   /**
    * @brief Reads an attribute or dataset and determines the data type to
-   * allocate the memory
+   * allocate the memory for all data values
    *
-   * @return An DataBlockGeneric structure containing the data and shape.
+   * @return An DataBlockGeneric structure containing the full data and shape.
    */
   virtual DataBlockGeneric valuesGeneric() = 0;
 
