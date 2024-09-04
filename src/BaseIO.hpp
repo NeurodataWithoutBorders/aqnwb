@@ -5,6 +5,7 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <typeindex>
 #include <vector>
 
 #include <boost/multi_array.hpp>  // TODO move this and function def to the cpp file
@@ -99,7 +100,11 @@ class DataBlockGeneric
 {
 public:
   /**
-   * @ brief The untyped data values
+   * @ brief The untyped data values.
+   *
+   * We know this will be a 1-dimensional std::vector of some kind,
+   * so we can cast it via
+   * ``std::any_cast<std::vector<DTYPE>>(genericDataBlock.data)``
    */
   std::any data;
   /**
@@ -107,6 +112,17 @@ public:
    *        Set to empty in case of scalar data.
    */
   std::vector<SizeType> shape;
+  /**
+   * \brief Type index of the values stored in the data vector.
+   *
+   * I.e. if data is actually a ``std::vector<float>`` then this should be
+   * set to ``typeid(float)`` and not ``typeid(std::vector<float>)``.
+   * The default value is ``typeid(void)`` to indicate that the data type is
+   * unknown. However, the data type should usually be determined by the
+   * I/O backend when loading data so this should usually be set to the
+   * correct type.
+   */
+  std::type_index typeIndex = typeid(void);
 };
 
 /**
@@ -127,6 +143,11 @@ public:
    *        Set to empty in case of scalar data
    */
   std::vector<SizeType> shape;
+  /**
+   * \brief Type index of the values stored in the data vector.
+   *        Here this is fixed to ``typeid(DTYPE)``
+   */
+  const std::type_index typeIndex = typeid(DTYPE);
 
   /// Constructor
   DataBlock(const std::vector<DTYPE>& data, const std::vector<SizeType>& shape)

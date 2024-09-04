@@ -97,6 +97,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     REQUIRE(dataValues.data.size() == (numSamples * numChannels));
     REQUIRE(dataValues.shape[0] == numSamples);
     REQUIRE(dataValues.shape[1] == numChannels);
+    REQUIRE(dataValues.typeIndex == typeid(float));
 
     // Iterate through all the time steps
     for (SizeType t = 0; t < numSamples; t++) {
@@ -137,6 +138,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     REQUIRE(resolutionValueFloat.shape.empty());  // Scalar
     REQUIRE(resolutionValueFloat.data.size() == 1);
     REQUIRE(int(resolutionValueFloat.data[0]) == -1);
+    REQUIRE(resolutionValueFloat.typeIndex == typeid(float));
     // [example_read_attribute_snippet]
 
     // [example_read_get_data_wrapper_as_generic_snippet]
@@ -144,9 +146,13 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // ElectricalSeries.data
     auto readDataWrapperGeneric = electricalSeries->dataLazy();
     // Instead of using values() to read typed data, we can read data as generic
-    // data first
+    // data first via valuesGeneric
     DataBlockGeneric dataValuesGeneric =
         readDataWrapperGeneric->valuesGeneric();
+    // Note that the I/O backend determines the data type and allocates
+    // the memory for us. The std::type_index is stored in our data block as
+    // well
+    REQUIRE(dataValuesGeneric.typeIndex == typeid(float));
     // We can then later convert the data block to a typed data block
     DataBlock<float> dataValueFloat =
         DataBlock<float>::fromGeneric(dataValuesGeneric);

@@ -307,11 +307,38 @@
  * which is the default for data with variable type, e.g.
  * \ref AQNWB::NWB::ElectricalSeries::dataLazy "ElectricalSeries::dataLazy". In this case, we can
  * still read the data via the \ref AQNWB::ReadDatasetWrapper::valuesGeneric "valuesGeneric"
- * to load the data first in untyped form and then convert it to the typed form with
+ * to load the data first in untyped form. When loading the data, the I/O backend determines
+ * the data type and allocates memory appropriately. The actual data type is then stored
+ * in \ref AQNWB::DataBlockGeneric::typeIndex "typeIndex" variable of our data block.
+ * We can then convert our \ref AQNWB::DataBlockGeneric "DataBlockGeneric" to a
+ * \ref AQNWB::DataBlock "DataBlock<DTYPE>" with a specific data type via
  * \ref AQNWB::DataBlock::fromGeneric "DataBlock.fromGeneric()".
  *
- *
  * \snippet tests/examples/test_ecephys_data_read.cpp example_read_get_data_wrapper_as_generic_snippet
+ *
+ * \note
+ * In most cases, we should not need runtime checking of types in the context of
+ * specific data acquisition systems. This is likely mostly relevant if one wants to consume
+ * arbitrary NWB files that may use different data types. One approach to implement
+ * behavior for types determined at runtime is to define a mapping of the type
+ * information to the corresponding statically type functionality, e.g., via
+ * ``switch/case`` logic or by using a map for lookup, such as:
+ * \code{.cpp}
+ * DataBlockGeneric dataValuesGeneric = readDataWrapperGeneric->valuesGeneric();
+ * // Map to associate std::type_index with corresponding type-specific functions
+ * std::unordered_map<std::type_index, std::function<void(const DataBlockGeneric&)>> typeMap = {
+ *       {typeid(float), processData<float>},
+ *       {typeid(int), processData<<int>},
+ *       // Add more types as needed
+ * };
+ * // Use the map to process the data with the approbriate type
+ * auto it = typeMap.find(dataValuesGeneric.typeIndex);
+ * if (it != typeMap.end()) {
+ *       it->second(dataValuesGeneric); // call the correct proceesData function
+ * } else {
+ *       std::cout << "Unsupported type" << std::endl;
+ * }
+ * \endcode
  *
  * \subsection read_design_example_stop_recording Finalize the recording
  *
