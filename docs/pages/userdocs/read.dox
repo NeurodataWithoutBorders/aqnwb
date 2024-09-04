@@ -293,11 +293,25 @@
  * \snippet tests/examples/test_ecephys_data_read.cpp example_read_attribute_snippet
  *
  * \note
- * In this example we used \ref AQNWB::ReadAttributeWrapper::valuesGeneric "valuesGeneric"
+ * In this case, the NWB specifies ``float32`` as the dtype for the ``resolution`` attribute.
+ * As such, the template parameter for the ``VTYPE`` (value type) template parameter
+ * for \ref AQNWB::ReadAttributeWrapper "ReadAttributeWrapper<VTYPE>" is set to ``float``
+ * by default, so we do not need to specify it. If for some reason a file should use
+ * ``float64`` instead, then we can still set the ``VTYPE`` accordingly via
+ * ``electricalSeries->resolutionLazy<float64>()``.
+ *
+ * \paragraph read_design_example_readgeneric Reading data with unknown type
+ *
+ * So far we read data by specifying the ``VTYPE`` template parameter of the read wrapper.
+ * However, if we do not know (or want to) specify the ``VTYPE`` then we can set it to ``std::any``,
+ * which is the default for data with variable type, e.g.
+ * \ref AQNWB::NWB::ElectricalSeries::dataLazy "ElectricalSeries::dataLazy". In this case, we can
+ * still read the data via the \ref AQNWB::ReadDatasetWrapper::valuesGeneric "valuesGeneric"
  * to load the data first in untyped form and then convert it to the typed form with
- * \ref AQNWB::DataBlock::fromGeneric "DataBlock.fromGeneric()". However, we could have
- * used \ref AQNWB::ReadAttributeWrapper::values "values<float>" directly here as well
- * in the same way as we did when we loaded the ``ElectricalSeries.data`` dataset above.
+ * \ref AQNWB::DataBlock::fromGeneric "DataBlock.fromGeneric()".
+ *
+ *
+ * \snippet tests/examples/test_ecephys_data_read.cpp example_read_get_data_wrapper_as_generic_snippet
  *
  * \subsection read_design_example_stop_recording Finalize the recording
  *

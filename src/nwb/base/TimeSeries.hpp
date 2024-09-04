@@ -92,10 +92,11 @@ public:
     return (this->path + std::string("/data"));
   }
 
-  inline std::unique_ptr<ReadDatasetWrapper> dataLazy() const
+  template<typename VTYPE = std::any>
+  inline std::unique_ptr<ReadDatasetWrapper<VTYPE>> dataLazy() const
   {
-    std::string dataPath = this->dataPath();
-    return std::make_unique<ReadDatasetWrapper>(this->io, dataPath);
+    return std::make_unique<ReadDatasetWrapper<VTYPE>>(this->io,
+                                                       this->dataPath());
   }
 
   inline std::string resolutionPath() const
@@ -103,10 +104,11 @@ public:
     return (this->dataPath() + std::string("/resolution"));
   }
 
-  inline std::unique_ptr<ReadAttributeWrapper> resolutionLazy() const
+  template<typename VTYPE = float>
+  inline std::unique_ptr<ReadAttributeWrapper<VTYPE>> resolutionLazy() const
   {
-    std::string resolutionPath = this->resolutionPath();
-    return std::make_unique<ReadAttributeWrapper>(this->io, resolutionPath);
+    return std::make_unique<ReadAttributeWrapper<VTYPE>>(
+        this->io, this->resolutionPath());
   }
 
 private:

@@ -27,7 +27,14 @@ namespace AQNWB
 {
 
 class BaseRecordingData;
+
+template<typename VTYPE = std::any>
+class ReadDataWrapperBase;
+
+template<typename VTYPE = std::any>
 class ReadDatasetWrapper;
+
+template<typename VTYPE = std::any>
 class ReadAttributeWrapper;
 
 /**
@@ -511,6 +518,7 @@ protected:
 /**
  * @brief The base class for wrapping data objects for reading data from a file
  */
+template<typename VTYPE>
 class ReadDataWrapperBase
 {
 public:
@@ -560,14 +568,15 @@ protected:
 /**
  * @brief Wrapper class for lazily reading data from a dataset in a file
  */
-class ReadDatasetWrapper : public ReadDataWrapperBase
+template<typename VTYPE>
+class ReadDatasetWrapper : public ReadDataWrapperBase<VTYPE>
 {
 public:
   /**
    * @brief Default constructor.
    */
   ReadDatasetWrapper(const std::shared_ptr<BaseIO> io, std::string dataPath)
-      : ReadDataWrapperBase(io, dataPath)
+      : ReadDataWrapperBase<VTYPE>(io, dataPath)
   {
   }
 
@@ -629,13 +638,12 @@ public:
    *
    * @return A DataBlock structure containing the data and shape.
    */
-  template<typename T>
-  DataBlock<T> values(const std::vector<SizeType>& start = {},
-                      const std::vector<SizeType>& count = {},
-                      const std::vector<SizeType>& stride = {},
-                      const std::vector<SizeType>& block = {})
+  DataBlock<VTYPE> values(const std::vector<SizeType>& start = {},
+                          const std::vector<SizeType>& count = {},
+                          const std::vector<SizeType>& stride = {},
+                          const std::vector<SizeType>& block = {})
   {
-    return DataBlock<T>::fromGeneric(
+    return DataBlock<VTYPE>::fromGeneric(
         this->valuesGeneric(start, count, stride, block));
   }
 
@@ -644,14 +652,15 @@ public:
 /**
  * @brief Wrapper class for lazily reading data from an attribute in a file
  */
-class ReadAttributeWrapper : public ReadDataWrapperBase
+template<typename VTYPE>
+class ReadAttributeWrapper : public ReadDataWrapperBase<VTYPE>
 {
 public:
   /**
    * @brief Default constructor.
    */
   ReadAttributeWrapper(const std::shared_ptr<BaseIO> io, std::string dataPath)
-      : ReadDataWrapperBase(io, dataPath)
+      : ReadDataWrapperBase<VTYPE>(io, dataPath)
   {
   }
 
@@ -688,10 +697,9 @@ public:
    *
    * @return A DataBlock structure containing the data and shape.
    */
-  template<typename T>
-  DataBlock<T> values()
+  DataBlock<VTYPE> values()
   {
-    return DataBlock<T>::fromGeneric(this->valuesGeneric());
+    return DataBlock<VTYPE>::fromGeneric(this->valuesGeneric());
   }
 
 };  // ReadAttributeWrapper

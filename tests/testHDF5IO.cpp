@@ -451,10 +451,10 @@ TEST_CASE("readDataset", "[hdf5io]")
 
     // Confirm using lazy read as well
     auto readDataWrapper =
-        std::make_unique<ReadDatasetWrapper>(hdf5io, dataPath);
+        std::make_unique<ReadDatasetWrapper<int32_t>>(hdf5io, dataPath);
     auto readDataGeneric = readDataWrapper->valuesGeneric();
     REQUIRE(readDataGeneric.shape[0] == 10);
-    auto readDataTypedV2 = readDataWrapper->values<int32_t>();
+    auto readDataTypedV2 = readDataWrapper->values();
     REQUIRE(readDataTypedV2.shape[0] == 10);
     REQUIRE(readDataTypedV2.data == testData);
 

@@ -81,13 +81,15 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // [example_read_create_file_snippet]
 
     // [example_read_get_data_wrapper_snippet]
-    // Get a ReadDatasetWrapper for lazy reading of ElectricalSeries.data
-    auto readDataWrapper = electricalSeries->dataLazy();
+    // Get a ReadDatasetWrapper<float> for lazy reading of ElectricalSeries.data
+    // By specifying the value type as a template parameter allows us to read
+    // typed data
+    auto readDataWrapper = electricalSeries->dataLazy<float>();
     // [example_read_get_data_wrapper_snippet]
 
     // [example_read_get_datablock_snippet]
     // Read the full  ElectricalSeries.data back
-    DataBlock<float> dataValues = readDataWrapper->values<float>();
+    DataBlock<float> dataValues = readDataWrapper->values();
     // [example_read_get_datablock_snippet]
 
     // [example_read_validate_datablock_snippet]
@@ -131,21 +133,27 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // [example_read_attribute_snippet]
     // Get a ReadAttributeWrapper to read data lazily
     auto readResolutionWrapper = electricalSeries->resolutionLazy();
-    // Instead of values<float> we can read data as generic data first
-    DataBlockGeneric resolutionValueGeneric =
-        readResolutionWrapper->valuesGeneric();
-    // And then convert it to a typed DataBlock afterwards via
-    // DataBlock<DTYPE>fromGeneric
-    DataBlock<float> resolutionValueFloat =
-        DataBlock<float>::fromGeneric(resolutionValueGeneric);
-    // Check that the data is correct
+    DataBlock<float> resolutionValueFloat = readResolutionWrapper->values();
     REQUIRE(resolutionValueFloat.shape.empty());  // Scalar
     REQUIRE(resolutionValueFloat.data.size() == 1);
     REQUIRE(int(resolutionValueFloat.data[0]) == -1);
     // [example_read_attribute_snippet]
 
+    // [example_read_get_data_wrapper_as_generic_snippet]
+    // Get a generic ReadDatasetWrapper<std::any> for lazy reading of
+    // ElectricalSeries.data
+    auto readDataWrapperGeneric = electricalSeries->dataLazy();
+    // Instead of using values() to read typed data, we can read data as generic
+    // data first
+    DataBlockGeneric dataValuesGeneric =
+        readDataWrapperGeneric->valuesGeneric();
+    // We can then later convert the data block to a typed data block
+    DataBlock<float> dataValueFloat =
+        DataBlock<float>::fromGeneric(dataValuesGeneric);
+    // [example_read_get_data_wrapper_as_generic_snippet]
+
     // [example_read_getpath_snippet]
-    // Reading the ElecticalSeries.data back (during the recording)
+    // Reading the ElectricalSeries.data back (during the recording)
     std::string electricalSeriesDataPath = electricalSeries->dataPath();
     std::string electricalSeriesPath = electricalSeries->getPath();
     REQUIRE(electricalSeriesDataPath == (electricalSeriesPath + "/data"));
