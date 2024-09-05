@@ -22,6 +22,7 @@ add_library(
     src/io/BaseIO.cpp
     src/Channel.cpp
     src/io/hdf5/HDF5IO.cpp
+    src/io/hdf5/HDF5RecordingData.cpp
     src/nwb/NWBFile.cpp
     src/nwb/RecordingContainers.cpp
     src/nwb/base/TimeSeries.cpp

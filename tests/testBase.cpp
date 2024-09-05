@@ -6,6 +6,7 @@
 #include "Utils.hpp"
 #include "nwb/base/TimeSeries.hpp"
 #include "testUtils.hpp"
+#include "io/hdf5/HDF5RecordingData.hpp"
 
 using namespace AQNWB;
 
