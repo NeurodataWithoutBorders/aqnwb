@@ -25,7 +25,7 @@ public:
    * @param device The device associated with the electrode group.
    */
   ElectrodeGroup(const std::string& path,
-                 std::shared_ptr<BaseIO> io,
+                 std::shared_ptr<IO::BaseIO> io,
                  const std::string& description,
                  const std::string& location,
                  const Device& device);

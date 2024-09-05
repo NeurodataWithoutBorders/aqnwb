@@ -5,7 +5,7 @@ using namespace AQNWB::NWB;
 // TimeSeries
 
 /** Constructor */
-TimeSeries::TimeSeries(const std::string& path, std::shared_ptr<BaseIO> io)
+TimeSeries::TimeSeries(const std::string& path, std::shared_ptr<IO::BaseIO> io)
     : Container(path, io)
 {
 }
@@ -13,7 +13,7 @@ TimeSeries::TimeSeries(const std::string& path, std::shared_ptr<BaseIO> io)
 /** Destructor */
 TimeSeries::~TimeSeries() {}
 
-void TimeSeries::initialize(const BaseDataType& dataType,
+void TimeSeries::initialize(const IO::BaseDataType& dataType,
                             const std::string& unit,
                             const std::string& description,
                             const std::string& comments,
@@ -32,13 +32,13 @@ void TimeSeries::initialize(const BaseDataType& dataType,
   io->createAttribute(comments, path, "comments");
 
   // setup datasets
-  this->data = std::unique_ptr<BaseRecordingData>(io->createArrayDataSet(
+  this->data = std::unique_ptr<IO::BaseRecordingData>(io->createArrayDataSet(
       dataType, dsetSize, chunkSize, getPath() + "/data"));
   io->createDataAttributes(getPath(), conversion, resolution, unit);
 
   SizeArray tsDsetSize = {
       dsetSize[0]};  // timestamps match data along first dimension
-  this->timestamps = std::unique_ptr<BaseRecordingData>(io->createArrayDataSet(
+  this->timestamps = std::unique_ptr<IO::BaseRecordingData>(io->createArrayDataSet(
       this->timestampsType, tsDsetSize, chunkSize, getPath() + "/timestamps"));
   io->createTimestampsAttributes(getPath());
 }

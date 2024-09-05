@@ -23,7 +23,7 @@ TEST_CASE("writeGroup", "[hdf5io]")
 {
   // create and open file
   std::string filename = getTestFilePath("test_group.h5");
-  HDF5::HDF5IO hdf5io(filename);
+  IO::HDF5::HDF5IO hdf5io(filename);
   hdf5io.open();
 
   SECTION("initialize group")
@@ -41,7 +41,7 @@ TEST_CASE("writeDataset", "[hdf5io]")
   {
     // open file
     std::string path = getTestFilePath("1DData1DDataset.h5");
-    std::unique_ptr<HDF5::HDF5IO> hdf5io = std::make_unique<HDF5::HDF5IO>(path);
+    std::unique_ptr<IO::HDF5::HDF5IO> hdf5io = std::make_unique<IO::HDF5::HDF5IO>(path);
     hdf5io->open();
 
     // Set up test data
@@ -59,8 +59,8 @@ TEST_CASE("writeDataset", "[hdf5io]")
         dataShape, positionOffset, BaseDataType::I32, &testData[0]);
 
     std::unique_ptr<BaseRecordingData> dataRead = hdf5io->getDataSet(dataPath);
-    std::unique_ptr<HDF5::HDF5RecordingData> datasetRead1D(
-        dynamic_cast<HDF5::HDF5RecordingData*>(dataRead.release()));
+    std::unique_ptr<IO::HDF5::HDF5RecordingData> datasetRead1D(
+        dynamic_cast<IO::HDF5::HDF5RecordingData*>(dataRead.release()));
     int* buffer = new int[numSamples];
     readH5DataBlock(datasetRead1D->getDataSet(), BaseDataType::I32, buffer);
     std::vector<int> dataOut(buffer, buffer + numSamples);
@@ -74,7 +74,7 @@ TEST_CASE("writeDataset", "[hdf5io]")
   {
     // open file
     std::string path = getTestFilePath("1DData2DDataset.h5");
-    std::unique_ptr<HDF5::HDF5IO> hdf5io = std::make_unique<HDF5::HDF5IO>(path);
+    std::unique_ptr<IO::HDF5::HDF5IO> hdf5io = std::make_unique<IO::HDF5::HDF5IO>(path);
     hdf5io->open();
 
     // Set up test data for 3D
@@ -95,8 +95,8 @@ TEST_CASE("writeDataset", "[hdf5io]")
     // Read back the 1D data block from 3D dataset
     std::unique_ptr<BaseRecordingData> dataRead1D =
         hdf5io->getDataSet(dataPath);
-    std::unique_ptr<HDF5::HDF5RecordingData> dataset1DRead(
-        dynamic_cast<HDF5::HDF5RecordingData*>(dataRead1D.release()));
+    std::unique_ptr<IO::HDF5::HDF5RecordingData> dataset1DRead(
+        dynamic_cast<IO::HDF5::HDF5RecordingData*>(dataRead1D.release()));
     int* buffer1D = new int[numCols];
     readH5DataBlock(dataset1DRead->getDataSet(), BaseDataType::I32, buffer1D);
     std::vector<int> dataOut1D(buffer1D, buffer1D + numCols);
@@ -111,7 +111,7 @@ TEST_CASE("writeDataset", "[hdf5io]")
   {
     // open file
     std::string path = getTestFilePath("2DData2DDataset.h5");
-    std::unique_ptr<HDF5::HDF5IO> hdf5io = std::make_unique<HDF5::HDF5IO>(path);
+    std::unique_ptr<IO::HDF5::HDF5IO> hdf5io = std::make_unique<IO::HDF5::HDF5IO>(path);
     hdf5io->open();
 
     // Set up test data for 2D
@@ -135,8 +135,8 @@ TEST_CASE("writeDataset", "[hdf5io]")
     // Read back the 2D data block
     std::unique_ptr<BaseRecordingData> dsetRead2D =
         hdf5io->getDataSet(dataPath);
-    std::unique_ptr<HDF5::HDF5RecordingData> data2DRead(
-        dynamic_cast<HDF5::HDF5RecordingData*>(dsetRead2D.release()));
+    std::unique_ptr<IO::HDF5::HDF5RecordingData> data2DRead(
+        dynamic_cast<IO::HDF5::HDF5RecordingData*>(dsetRead2D.release()));
     int* buffer = new int[numRows * numCols];
     readH5DataBlock(data2DRead->getDataSet(), BaseDataType::I32, buffer);
     std::vector<int> dataOut(buffer, buffer + numRows * numCols);
@@ -151,7 +151,7 @@ TEST_CASE("writeDataset", "[hdf5io]")
   {
     // open file
     std::string path = getTestFilePath("1DData3DDataset.h5");
-    std::unique_ptr<HDF5::HDF5IO> hdf5io = std::make_unique<HDF5::HDF5IO>(path);
+    std::unique_ptr<IO::HDF5::HDF5IO> hdf5io = std::make_unique<IO::HDF5::HDF5IO>(path);
     hdf5io->open();
 
     // Set up test data for 3D
@@ -172,8 +172,8 @@ TEST_CASE("writeDataset", "[hdf5io]")
     // Read back the 1D data block from 3D dataset
     std::unique_ptr<BaseRecordingData> dataRead1D =
         hdf5io->getDataSet(dataPath);
-    std::unique_ptr<HDF5::HDF5RecordingData> dSet1D(
-        dynamic_cast<HDF5::HDF5RecordingData*>(dataRead1D.release()));
+    std::unique_ptr<IO::HDF5::HDF5RecordingData> dSet1D(
+        dynamic_cast<IO::HDF5::HDF5RecordingData*>(dataRead1D.release()));
     int* buffer1D =
         new int[width];  // Assuming 'width' is the size of the 1D data block
     readH5DataBlock(dSet1D->getDataSet(), BaseDataType::I32, buffer1D);
@@ -189,7 +189,7 @@ TEST_CASE("writeDataset", "[hdf5io]")
   {
     // open file
     std::string path = getTestFilePath("2DData3DDataset.h5");
-    std::unique_ptr<HDF5::HDF5IO> hdf5io = std::make_unique<HDF5::HDF5IO>(path);
+    std::unique_ptr<IO::HDF5::HDF5IO> hdf5io = std::make_unique<IO::HDF5::HDF5IO>(path);
     hdf5io->open();
 
     SizeType depth = 1, height = 2, width = 5;
@@ -209,8 +209,8 @@ TEST_CASE("writeDataset", "[hdf5io]")
     // Read back the 2D data block from 3D dataset
     std::unique_ptr<BaseRecordingData> dataRead2D =
         hdf5io->getDataSet(dataPath);
-    std::unique_ptr<HDF5::HDF5RecordingData> dSetRead2D(
-        dynamic_cast<HDF5::HDF5RecordingData*>(dataset.release()));
+    std::unique_ptr<IO::HDF5::HDF5RecordingData> dSetRead2D(
+        dynamic_cast<IO::HDF5::HDF5RecordingData*>(dataset.release()));
     int* buffer2D =
         new int[height * width];  // Assuming 'numRows' and 'numCols' define the
                                   // 2D data block size
@@ -228,7 +228,7 @@ TEST_CASE("writeAttributes", "[hdf5io]")
 {
   // create and open file
   std::string filename = getTestFilePath("test_attributes.h5");
-  HDF5::HDF5IO hdf5io(filename);
+  IO::HDF5::HDF5IO hdf5io(filename);
   hdf5io.open();
 
   hdf5io.createGroup("/data");
@@ -281,7 +281,7 @@ TEST_CASE("SWMRmode", "[hdf5io]")
   {
     // create and open file
     std::string path = getTestFilePath("testSWMRmode.h5");
-    std::unique_ptr<HDF5::HDF5IO> hdf5io = std::make_unique<HDF5::HDF5IO>(path);
+    std::unique_ptr<IO::HDF5::HDF5IO> hdf5io = std::make_unique<IO::HDF5::HDF5IO>(path);
     hdf5io->open();
 
     // add a dataset
@@ -320,7 +320,7 @@ TEST_CASE("SWMRmode", "[hdf5io]")
       // write data block and flush to file
       std::vector<SizeType> dataShape = {numSamples};
       dataset->writeDataBlock(dataShape, BaseDataType::I32, &testData[0]);
-      H5Dflush(static_cast<HDF5::HDF5RecordingData*>(dataset.get())
+      H5Dflush(static_cast<IO::HDF5::HDF5RecordingData*>(dataset.get())
                    ->getDataSet()
                    ->getId());
 
@@ -354,8 +354,8 @@ TEST_CASE("SWMRmode", "[hdf5io]")
   {
     // create and open file with SWMR mode disabled
     std::string path = getTestFilePath("testSWMRmode.h5");
-    std::unique_ptr<HDF5::HDF5IO> hdf5io =
-        std::make_unique<HDF5::HDF5IO>(path, true);
+    std::unique_ptr<IO::HDF5::HDF5IO> hdf5io =
+        std::make_unique<IO::HDF5::HDF5IO>(path, true);
     hdf5io->open();
 
     // add a dataset
@@ -376,7 +376,7 @@ TEST_CASE("SWMRmode", "[hdf5io]")
       // write data block and flush to file
       std::vector<SizeType> dataShape = {numSamples};
       dataset->writeDataBlock(dataShape, BaseDataType::I32, &testData[0]);
-      H5Dflush(static_cast<HDF5::HDF5RecordingData*>(dataset.get())
+      H5Dflush(static_cast<IO::HDF5::HDF5RecordingData*>(dataset.get())
                    ->getDataSet()
                    ->getId());
 
@@ -408,7 +408,7 @@ TEST_CASE("SWMRmode", "[hdf5io]")
       std::vector<SizeType> dataShape = {numSamples};
       datasetPostRestart->writeDataBlock(
           dataShape, BaseDataType::I32, &testData[0]);
-      H5Dflush(static_cast<HDF5::HDF5RecordingData*>(datasetPostRestart.get())
+      H5Dflush(static_cast<IO::HDF5::HDF5RecordingData*>(datasetPostRestart.get())
                    ->getDataSet()
                    ->getId());
     }
@@ -425,7 +425,7 @@ TEST_CASE("readDataset", "[hdf5io]")
   {
     // open file
     std::string path = getTestFilePath("Read1DData1DDataset.h5");
-    std::shared_ptr<HDF5::HDF5IO> hdf5io = std::make_shared<HDF5::HDF5IO>(path);
+    std::shared_ptr<IO::HDF5::HDF5IO> hdf5io = std::make_shared<IO::HDF5::HDF5IO>(path);
     hdf5io->open();
 
     // Set up test data

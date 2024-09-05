@@ -40,8 +40,8 @@ TEST_CASE("TimeSeries", "[base]")
     double* tsBuffer = new double[numSamples];
     std::unique_ptr<BaseRecordingData> tsDset =
         io->getDataSet(dataPath + "/timestamps");
-    std::unique_ptr<HDF5::HDF5RecordingData> tsH5Dataset(
-        dynamic_cast<HDF5::HDF5RecordingData*>(tsDset.release()));
+    std::unique_ptr<IO::HDF5::HDF5RecordingData> tsH5Dataset(
+        dynamic_cast<IO::HDF5::HDF5RecordingData*>(tsDset.release()));
     readH5DataBlock(tsH5Dataset->getDataSet(), timestampsType, tsBuffer);
     std::vector<double> tsRead(tsBuffer, tsBuffer + numSamples);
     delete[] tsBuffer;
@@ -51,8 +51,8 @@ TEST_CASE("TimeSeries", "[base]")
     float* dataBuffer = new float[numSamples];
     std::unique_ptr<BaseRecordingData> dataDset =
         io->getDataSet(dataPath + "/data");
-    std::unique_ptr<HDF5::HDF5RecordingData> dataH5Dataset(
-        dynamic_cast<HDF5::HDF5RecordingData*>(dataDset.release()));
+    std::unique_ptr<IO::HDF5::HDF5RecordingData> dataH5Dataset(
+        dynamic_cast<IO::HDF5::HDF5RecordingData*>(dataDset.release()));
     readH5DataBlock(dataH5Dataset->getDataSet(), dataType, dataBuffer);
     std::vector<float> dataRead(dataBuffer, dataBuffer + numSamples);
     delete[] dataBuffer;

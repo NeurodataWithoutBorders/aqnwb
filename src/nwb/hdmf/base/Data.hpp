@@ -25,7 +25,7 @@ public:
   /**
    * @brief Pointer to dataset.
    */
-  std::unique_ptr<BaseRecordingData>
+  std::unique_ptr<IO::BaseRecordingData>
       dataset;  // TODO We may not want this here if we need Data for read
 };
 }  // namespace AQNWB::NWB

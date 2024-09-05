@@ -25,7 +25,7 @@ class DataSpace;
  * \namespace AQNWB::HDF5
  * \brief Namespace for all components of the HDF5 I/O backend
  */
-namespace AQNWB::HDF5
+namespace AQNWB::IO::HDF5
 {
 class HDF5RecordingData;  // declare here because gets used in HDF5IO class
 
@@ -111,7 +111,7 @@ public:
    *
    * @return A DataGeneric structure containing the data and shape.
    */
-  AQNWB::DataBlockGeneric readDataset(
+  AQNWB::IO::DataBlockGeneric readDataset(
       const std::string& dataPath,
       const std::vector<SizeType>& start = {},
       const std::vector<SizeType>& count = {},
@@ -121,8 +121,8 @@ public:
   /**
    * @brief Reads a attribute  and determines the data type
    *
-   * We use DataBlockGeneric here, i.e., the subclass must determine the
-   * data type. The user can then convert DataBlockGeneric to the
+   * We use IO::DataBlockGeneric here, i.e., the subclass must determine the
+   * data type. The user can then convert IO::DataBlockGeneric to the
    * specific type via DataBlock::fromGeneric.
    *
    * @param dataPath The path to the attribute within the file.
@@ -131,7 +131,7 @@ public:
    *
    * @return A DataGeneric structure containing the data and shape.
    */
-  AQNWB::DataBlockGeneric readAttribute(const std::string& dataPath) override;
+  AQNWB::IO::DataBlockGeneric readAttribute(const std::string& dataPath) override;
 
   /**
    * @brief Creates an attribute at a given location in the file.
@@ -142,7 +142,7 @@ public:
    * @param size The size of the attribute (default is 1).
    * @return The status of the attribute creation operation.
    */
-  Status createAttribute(const BaseDataType& type,
+  Status createAttribute(const IO::BaseDataType& type,
                          const void* data,
                          const std::string& path,
                          const std::string& name,
@@ -269,8 +269,8 @@ public:
    * @param path The location in the file of the new dataset.
    * @return A pointer to the created dataset.
    */
-  std::unique_ptr<BaseRecordingData> createArrayDataSet(
-      const BaseDataType& type,
+  std::unique_ptr<IO::BaseRecordingData> createArrayDataSet(
+      const IO::BaseDataType& type,
       const SizeArray& size,
       const SizeArray& chunking,
       const std::string& path) override;
@@ -280,7 +280,7 @@ public:
    * @param path The location in the file of the dataset.
    * @return A pointer to the dataset.
    */
-  std::unique_ptr<BaseRecordingData> getDataSet(
+  std::unique_ptr<IO::BaseRecordingData> getDataSet(
       const std::string& path) override;
 
   /**
@@ -295,14 +295,14 @@ public:
    * @param type The base data type.
    * @return The HDF5 native data type.
    */
-  static H5::DataType getNativeType(BaseDataType type);
+  static H5::DataType getNativeType(IO::BaseDataType type);
 
   /**
    * @brief Returns the HDF5 data type for a given base data type.
    * @param type The base data type.
    * @return The HDF5 data type.
    */
-  static H5::DataType getH5Type(BaseDataType type);
+  static H5::DataType getH5Type(IO::BaseDataType type);
 
 protected:
   std::string filename;
@@ -416,7 +416,7 @@ private:
 * This class provides functionality for reading and writing blocks of data
 * to an HDF5 dataset.
 */
-class HDF5RecordingData : public BaseRecordingData
+class HDF5RecordingData : public IO::BaseRecordingData
 {
 public:
   /**
@@ -450,7 +450,7 @@ public:
    */
   Status writeDataBlock(const std::vector<SizeType>& dataShape,
                         const std::vector<SizeType>& positionOffset,
-                        const BaseDataType& type,
+                        const IO::BaseDataType& type,
                         const void* data);
 
   /**
@@ -470,4 +470,4 @@ private:
    */
   Status checkStatus(int status);
 };
-}  // namespace AQNWB::HDF5
+}  // namespace AQNWB::IO::HDF5

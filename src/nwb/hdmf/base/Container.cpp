@@ -5,7 +5,7 @@ using namespace AQNWB::NWB;
 // Container
 
 /** Constructor */
-Container::Container(const std::string& path, std::shared_ptr<BaseIO> io)
+Container::Container(const std::string& path, std::shared_ptr<IO::BaseIO> io)
     : path(path)
     , io(io)
 {

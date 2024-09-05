@@ -15,7 +15,7 @@ TEST_CASE("saveNWBFile", "[nwb]")
   std::string filename = getTestFilePath("testSaveNWBFile.nwb");
 
   // initialize nwbfile object and create base structure
-  NWB::NWBFile nwbfile(std::make_unique<HDF5::HDF5IO>(filename));
+  NWB::NWBFile nwbfile(std::make_unique<IO::HDF5::HDF5IO>(filename));
   nwbfile.initialize(generateUuid());
   nwbfile.finalize();
 }
@@ -25,7 +25,7 @@ TEST_CASE("createElectricalSeries", "[nwb]")
   std::string filename = getTestFilePath("createElectricalSeries.nwb");
 
   // initialize nwbfile object and create base structure
-  std::shared_ptr<HDF5::HDF5IO> io = std::make_shared<HDF5::HDF5IO>(filename);
+  std::shared_ptr<IO::HDF5::HDF5IO> io = std::make_shared<IO::HDF5::HDF5IO>(filename);
   NWB::NWBFile nwbfile(io);
   nwbfile.initialize(generateUuid());
 
@@ -64,7 +64,7 @@ TEST_CASE("setCanModifyObjectsMode", "[nwb]")
   std::string filename = getTestFilePath("testCanModifyObjectsMode.nwb");
 
   // initialize nwbfile object and create base structure with HDF5IO object
-  std::shared_ptr<HDF5::HDF5IO> io = std::make_shared<HDF5::HDF5IO>(filename);
+  std::shared_ptr<IO::HDF5::HDF5IO> io = std::make_shared<IO::HDF5::HDF5IO>(filename);
   NWB::NWBFile nwbfile(io);
   nwbfile.initialize(generateUuid());
 

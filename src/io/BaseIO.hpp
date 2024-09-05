@@ -24,7 +24,7 @@ using SizeType = AQNWB::Types::SizeType;
  * \namespace AQNWB
  * \brief The main namespace for AqNWB
  */
-namespace AQNWB
+namespace AQNWB::IO
 {
 
 class BaseRecordingData;
@@ -546,7 +546,7 @@ public:
   /**
    * @brief Default constructor.
    */
-  ReadDataWrapperBase(const std::shared_ptr<BaseIO> io, std::string dataPath)
+  ReadDataWrapperBase(const std::shared_ptr<IO::BaseIO> io, std::string dataPath)
       : io(io)
       , dataPath(dataPath)
   {
@@ -579,7 +579,7 @@ protected:
   /**
    * @brief Pointer to the I/O object to use for reading.
    */
-  const std::shared_ptr<BaseIO> io;  // BaseIO* io;
+  const std::shared_ptr<IO::BaseIO> io;  // BaseIO* io;
   /**
    * @brief Path to the dataset or attribute to read
    */
@@ -596,7 +596,7 @@ public:
   /**
    * @brief Default constructor.
    */
-  ReadDatasetWrapper(const std::shared_ptr<BaseIO> io, std::string dataPath)
+  ReadDatasetWrapper(const std::shared_ptr<IO::BaseIO> io, std::string dataPath)
       : ReadDataWrapperBase<VTYPE>(io, dataPath)
   {
   }
@@ -680,7 +680,7 @@ public:
   /**
    * @brief Default constructor.
    */
-  ReadAttributeWrapper(const std::shared_ptr<BaseIO> io, std::string dataPath)
+  ReadAttributeWrapper(const std::shared_ptr<IO::BaseIO> io, std::string dataPath)
       : ReadDataWrapperBase<VTYPE>(io, dataPath)
   {
   }
@@ -796,4 +796,4 @@ protected:
   SizeType nDimensions;
 };
 
-}  // namespace AQNWB
+}  // namespace AQNWB::IO

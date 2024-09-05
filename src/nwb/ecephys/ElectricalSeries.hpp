@@ -19,7 +19,7 @@ public:
    * @param path The location of the ElectricalSeries in the file.
    * @param io A shared pointer to the IO object.
    */
-  ElectricalSeries(const std::string& path, std::shared_ptr<BaseIO> io);
+  ElectricalSeries(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
   /**
    * @brief Destructor
@@ -46,7 +46,7 @@ public:
    * @param offset Scalar to add to the data after scaling by ‘conversion’ to
    *               finalize its coercion to the specified ‘unit'
    */
-  void initialize(const BaseDataType& dataType,
+  void initialize(const IO::BaseDataType& dataType,
                   const Types::ChannelVector& channelVector,
                   const std::string& description,
                   const SizeArray& dsetSize,
@@ -76,12 +76,12 @@ public:
   /**
    * @brief Pointer to channel-specific conversion factor dataset.
    */
-  std::unique_ptr<BaseRecordingData> channelConversion;
+  std::unique_ptr<IO::BaseRecordingData> channelConversion;
 
   /**
    * @brief Pointer to electrodes dataset.
    */
-  std::unique_ptr<BaseRecordingData> electrodesDataset;
+  std::unique_ptr<IO::BaseRecordingData> electrodesDataset;
 
 private:
   /**

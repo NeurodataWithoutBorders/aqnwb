@@ -19,7 +19,7 @@ public:
    * @param path The location of the device in the file.
    * @param io A shared pointer to the IO object.
    */
-  Device(const std::string& path, std::shared_ptr<BaseIO> io);
+  Device(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
   /**
    * @brief Destructor

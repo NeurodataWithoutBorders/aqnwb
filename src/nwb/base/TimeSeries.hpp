@@ -18,7 +18,7 @@ public:
    * @param path The location of the TimeSeries in the file.
    * @param io A shared pointer to the IO object.
    */
-  TimeSeries(const std::string& path, std::shared_ptr<BaseIO> io);
+  TimeSeries(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
   /**
    * @brief Destructor
@@ -57,7 +57,7 @@ public:
    * @param offset Scalar to add to the data after scaling by ‘conversion’ to
    *               finalize its coercion to the specified ‘unit'
    */
-  void initialize(const BaseDataType& dataType,
+  void initialize(const IO::BaseDataType& dataType,
                   const std::string& unit,
                   const std::string& description = "no description",
                   const std::string& comments = "no comments",
@@ -70,22 +70,22 @@ public:
   /**
    * @brief Pointer to data values.
    */
-  std::unique_ptr<BaseRecordingData> data;
+  std::unique_ptr<IO::BaseRecordingData> data;
 
   /**
    * @brief Pointer to timestamp values.
    */
-  std::unique_ptr<BaseRecordingData> timestamps;
+  std::unique_ptr<IO::BaseRecordingData> timestamps;
 
   /**
    * @brief Data type of the data.
    */
-  BaseDataType dataType;
+  IO::BaseDataType dataType;
 
   /**
    * @brief Data type of the timestamps (float64).
    */
-  BaseDataType timestampsType = BaseDataType::F64;
+  IO::BaseDataType timestampsType = IO::BaseDataType::F64;
 
   inline std::string dataPath() const
   {
@@ -93,9 +93,9 @@ public:
   }
 
   template<typename VTYPE = std::any>
-  inline std::unique_ptr<ReadDatasetWrapper<VTYPE>> dataLazy() const
+  inline std::unique_ptr<IO::ReadDatasetWrapper<VTYPE>> dataLazy() const
   {
-    return std::make_unique<ReadDatasetWrapper<VTYPE>>(this->io,
+    return std::make_unique<IO::ReadDatasetWrapper<VTYPE>>(this->io,
                                                        this->dataPath());
   }
 
@@ -105,9 +105,9 @@ public:
   }
 
   template<typename VTYPE = float>
-  inline std::unique_ptr<ReadAttributeWrapper<VTYPE>> resolutionLazy() const
+  inline std::unique_ptr<IO::ReadAttributeWrapper<VTYPE>> resolutionLazy() const
   {
-    return std::make_unique<ReadAttributeWrapper<VTYPE>>(
+    return std::make_unique<IO::ReadAttributeWrapper<VTYPE>>(
         this->io, this->resolutionPath());
   }
 

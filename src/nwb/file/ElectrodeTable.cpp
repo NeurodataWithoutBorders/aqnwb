@@ -7,14 +7,14 @@ using namespace AQNWB::NWB;
 // ElectrodeTable
 
 /** Constructor */
-ElectrodeTable::ElectrodeTable(std::shared_ptr<BaseIO> io)
+ElectrodeTable::ElectrodeTable(std::shared_ptr<IO::BaseIO> io)
     : DynamicTable(electrodeTablePath,  // use the electrodeTablePath
                    io)
 {
 }
 
 ElectrodeTable::ElectrodeTable(const std::string& path,
-                               std::shared_ptr<BaseIO> io)
+                               std::shared_ptr<IO::BaseIO> io)
     : DynamicTable(electrodeTablePath,  // use the electrodeTablePath
                    io)
 {
@@ -31,16 +31,16 @@ void ElectrodeTable::initialize(const std::string& description)
   DynamicTable::initialize(description);
 
   electrodeDataset->dataset =
-      std::unique_ptr<BaseRecordingData>(io->createArrayDataSet(
-          BaseDataType::I32, SizeArray {1}, SizeArray {1}, path + "id"));
-  groupNamesDataset->dataset = std::unique_ptr<BaseRecordingData>(
-      io->createArrayDataSet(BaseDataType::STR(250),
+      std::unique_ptr<IO::BaseRecordingData>(io->createArrayDataSet(
+          IO::BaseDataType::I32, SizeArray {1}, SizeArray {1}, path + "id"));
+  groupNamesDataset->dataset = std::unique_ptr<IO::BaseRecordingData>(
+      io->createArrayDataSet(IO::BaseDataType::STR(250),
                              SizeArray {0},
                              SizeArray {1},
                              path + "group_name"));
   locationsDataset
-      ->dataset = std::unique_ptr<BaseRecordingData>(io->createArrayDataSet(
-      BaseDataType::STR(250), SizeArray {0}, SizeArray {1}, path + "location"));
+      ->dataset = std::unique_ptr<IO::BaseRecordingData>(io->createArrayDataSet(
+      IO::BaseDataType::STR(250), SizeArray {0}, SizeArray {1}, path + "location"));
 }
 
 void ElectrodeTable::addElectrodes(std::vector<Channel> channels)

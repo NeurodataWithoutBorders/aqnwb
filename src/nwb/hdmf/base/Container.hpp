@@ -19,7 +19,7 @@ public:
    * @param path The path of the container.
    * @param io A shared pointer to the IO object.
    */
-  Container(const std::string& path, std::shared_ptr<BaseIO> io);
+  Container(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
   /**
    * @brief Destructor.
@@ -39,7 +39,7 @@ public:
 
   template<typename T>
   inline static std::unique_ptr<T> create(const std::string& path,
-                                          std::shared_ptr<BaseIO> io)
+                                          std::shared_ptr<IO::BaseIO> io)
   {
     static_assert(std::is_base_of<Container, T>::value,
                   "T must be a derived class of Container");
@@ -55,6 +55,6 @@ protected:
   /**
    * @brief A shared pointer to the IO object.
    */
-  std::shared_ptr<BaseIO> io;
+  std::shared_ptr<IO::BaseIO> io;
 };
 }  // namespace AQNWB::NWB

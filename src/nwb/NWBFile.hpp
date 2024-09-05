@@ -30,7 +30,7 @@ public:
    * @brief Constructor for NWBFile class.
    * @param io The shared pointer to the IO object.
    */
-  NWBFile(std::shared_ptr<BaseIO> io);
+  NWBFile(std::shared_ptr<IO::BaseIO> io);
 
   /**
    * @brief Deleted copy constructor to prevent construction-copying.
@@ -77,7 +77,7 @@ public:
    */
   Status createElectricalSeries(
       std::vector<Types::ChannelVector> recordingArrays,
-      const BaseDataType& dataType = BaseDataType::I16,
+      const IO::BaseDataType& dataType = IO::BaseDataType::I16,
       RecordingContainers* recordingContainers = nullptr,
       std::vector<SizeType>& containerIndexes = emptyContainerIndexes);
 
@@ -101,11 +101,11 @@ private:
    * @param size The size of the dataset.
    * @param chunking The chunking size of the dataset.
    * @param path The location in the file of the new dataset.
-   * @return std::unique_ptr<BaseRecordingData> The unique pointer to the
+   * @return std::unique_ptr<IO::BaseRecordingData> The unique pointer to the
    * created recording data.
    */
-  std::unique_ptr<BaseRecordingData> createRecordingData(
-      BaseDataType type,
+  std::unique_ptr<IO::BaseRecordingData> createRecordingData(
+      IO::BaseDataType type,
       const SizeArray& size,
       const SizeArray& chunking,
       const std::string& path);

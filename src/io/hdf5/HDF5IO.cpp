@@ -12,7 +12,7 @@
 #include "Utils.hpp"
 
 using namespace H5;
-using namespace AQNWB::HDF5;
+using namespace AQNWB::IO::HDF5;
 
 // HDF5IO
 
@@ -209,10 +209,10 @@ std::vector<std::string> HDF5IO::readStringDataHelper(
       dataSource, numElements, H5::DataSpace(), H5::DataSpace());
 }
 
-AQNWB::DataBlockGeneric HDF5IO::readAttribute(const std::string& dataPath)
+AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(const std::string& dataPath)
 {
   // create the return value to fill
-  DataBlockGeneric result;
+  IO::DataBlockGeneric result;
   // Read the attribute
   auto attributePtr = this->getAttribute(dataPath);
   // Make sure dataPath points to an attribute
@@ -283,7 +283,7 @@ AQNWB::DataBlockGeneric HDF5IO::readAttribute(const std::string& dataPath)
   return result;
 }
 
-AQNWB::DataBlockGeneric HDF5IO::readDataset(const std::string& dataPath,
+AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(const std::string& dataPath,
                                             const std::vector<SizeType>& start,
                                             const std::vector<SizeType>& count,
                                             const std::vector<SizeType>& stride,
@@ -292,7 +292,7 @@ AQNWB::DataBlockGeneric HDF5IO::readDataset(const std::string& dataPath,
   // Check that the dataset exists
   assert(H5Lexists(this->file->getId(), dataPath.c_str(), H5P_DEFAULT) > 0);
   // create the return value to fill
-  DataBlockGeneric result;
+  IO::DataBlockGeneric result;
 
   // Create new vectors of type hsize_t for stride and block because
   // HDF5 needs hsize_t and we use SizeType in AqNWB instead
@@ -387,7 +387,7 @@ AQNWB::DataBlockGeneric HDF5IO::readDataset(const std::string& dataPath,
   return result;
 }
 
-Status HDF5IO::createAttribute(const BaseDataType& type,
+Status HDF5IO::createAttribute(const IO::BaseDataType& type,
                                const void* data,
                                const std::string& path,
                                const std::string& name,
@@ -661,7 +661,7 @@ Status HDF5IO::createStringDataSet(const std::string& path,
     return Status::Failure;
 
   std::unique_ptr<H5::DataSet> dataset;
-  DataType H5type = getH5Type(BaseDataType::STR(value.length()));
+  DataType H5type = getH5Type(IO::BaseDataType::STR(value.length()));
   DataSpace dSpace(H5S_SCALAR);
 
   dataset =
@@ -683,11 +683,11 @@ Status HDF5IO::createStringDataSet(const std::string& path,
     cStrs.push_back(str.c_str());
   }
 
-  std::unique_ptr<BaseRecordingData> dataset;
-  dataset = std::unique_ptr<BaseRecordingData>(createArrayDataSet(
-      BaseDataType::V_STR, SizeArray {values.size()}, SizeArray {1}, path));
+  std::unique_ptr<IO::BaseRecordingData> dataset;
+  dataset = std::unique_ptr<IO::BaseRecordingData>(createArrayDataSet(
+      IO::BaseDataType::V_STR, SizeArray {values.size()}, SizeArray {1}, path));
   dataset->writeDataBlock(
-      std::vector<SizeType>(1, 1), BaseDataType::V_STR, cStrs.data());
+      std::vector<SizeType>(1, 1), IO::BaseDataType::V_STR, cStrs.data());
 
   return Status::Success;
 }
@@ -734,7 +734,7 @@ bool HDF5IO::canModifyObjects()
   return statusOK && !inSWMRMode;
 }
 
-std::unique_ptr<AQNWB::BaseRecordingData> HDF5IO::getDataSet(
+std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::getDataSet(
     const std::string& path)
 {
   std::unique_ptr<DataSet> data;
@@ -757,8 +757,8 @@ std::unique_ptr<AQNWB::BaseRecordingData> HDF5IO::getDataSet(
   }
 }
 
-std::unique_ptr<AQNWB::BaseRecordingData> HDF5IO::createArrayDataSet(
-    const BaseDataType& type,
+std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::createArrayDataSet(
+    const IO::BaseDataType& type,
     const SizeArray& size,
     const SizeArray& chunking,
     const std::string& path)
@@ -818,45 +818,45 @@ H5O_type_t HDF5IO::getH5ObjectType(const std::string& path)
   return objectType;
 }
 
-H5::DataType HDF5IO::getNativeType(BaseDataType type)
+H5::DataType HDF5IO::getNativeType(IO::BaseDataType type)
 {
   H5::DataType baseType;
 
   switch (type.type) {
-    case BaseDataType::Type::T_I8:
+    case IO::BaseDataType::Type::T_I8:
       baseType = PredType::NATIVE_INT8;
       break;
-    case BaseDataType::Type::T_I16:
+    case IO::BaseDataType::Type::T_I16:
       baseType = PredType::NATIVE_INT16;
       break;
-    case BaseDataType::Type::T_I32:
+    case IO::BaseDataType::Type::T_I32:
       baseType = PredType::NATIVE_INT32;
       break;
-    case BaseDataType::Type::T_I64:
+    case IO::BaseDataType::Type::T_I64:
       baseType = PredType::NATIVE_INT64;
       break;
-    case BaseDataType::Type::T_U8:
+    case IO::BaseDataType::Type::T_U8:
       baseType = PredType::NATIVE_UINT8;
       break;
-    case BaseDataType::Type::T_U16:
+    case IO::BaseDataType::Type::T_U16:
       baseType = PredType::NATIVE_UINT16;
       break;
-    case BaseDataType::Type::T_U32:
+    case IO::BaseDataType::Type::T_U32:
       baseType = PredType::NATIVE_UINT32;
       break;
-    case BaseDataType::Type::T_U64:
+    case IO::BaseDataType::Type::T_U64:
       baseType = PredType::NATIVE_UINT64;
       break;
-    case BaseDataType::Type::T_F32:
+    case IO::BaseDataType::Type::T_F32:
       baseType = PredType::NATIVE_FLOAT;
       break;
-    case BaseDataType::Type::T_F64:
+    case IO::BaseDataType::Type::T_F64:
       baseType = PredType::NATIVE_DOUBLE;
       break;
-    case BaseDataType::Type::T_STR:
+    case IO::BaseDataType::Type::T_STR:
       return StrType(PredType::C_S1, type.typeSize);
       break;
-    case BaseDataType::Type::V_STR:
+    case IO::BaseDataType::Type::V_STR:
       return StrType(PredType::C_S1, H5T_VARIABLE);
       break;
     default:
@@ -869,7 +869,7 @@ H5::DataType HDF5IO::getNativeType(BaseDataType type)
     return baseType;
 }
 
-H5::DataType HDF5IO::getH5Type(BaseDataType type)
+H5::DataType HDF5IO::getH5Type(IO::BaseDataType type)
 {
   H5::DataType baseType;
 

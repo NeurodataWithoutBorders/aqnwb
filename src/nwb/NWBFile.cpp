@@ -27,7 +27,7 @@ std::vector<SizeType> NWBFile::emptyContainerIndexes = {};
 
 // NWBFile
 
-NWBFile::NWBFile(std::shared_ptr<BaseIO> io)
+NWBFile::NWBFile(std::shared_ptr<IO::BaseIO> io)
     : Container("/", io)
 {
 }
@@ -93,7 +93,7 @@ Status NWBFile::finalize()
 
 Status NWBFile::createElectricalSeries(
     std::vector<Types::ChannelVector> recordingArrays,
-    const BaseDataType& dataType,
+    const IO::BaseDataType& dataType,
     RecordingContainers* recordingContainers,
     std::vector<SizeType>& containerIndexes)
 {
@@ -165,12 +165,12 @@ void NWBFile::cacheSpecifications(
 }
 
 // recording data factory method /
-std::unique_ptr<AQNWB::BaseRecordingData> NWBFile::createRecordingData(
-    BaseDataType type,
+std::unique_ptr<AQNWB::IO::BaseRecordingData> NWBFile::createRecordingData(
+    IO::BaseDataType type,
     const SizeArray& size,
     const SizeArray& chunking,
     const std::string& path)
 {
-  return std::unique_ptr<BaseRecordingData>(
+  return std::unique_ptr<IO::BaseRecordingData>(
       io->createArrayDataSet(type, size, chunking, path));
 }

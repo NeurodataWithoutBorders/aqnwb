@@ -9,7 +9,7 @@ using namespace AQNWB::NWB;
 
 /** Constructor */
 ElectricalSeries::ElectricalSeries(const std::string& path,
-                                   std::shared_ptr<BaseIO> io)
+                                   std::shared_ptr<IO::BaseIO> io)
     : TimeSeries(path, io)
 {
 }
@@ -18,7 +18,7 @@ ElectricalSeries::ElectricalSeries(const std::string& path,
 ElectricalSeries::~ElectricalSeries() {}
 
 /** Initialization function*/
-void ElectricalSeries::initialize(const BaseDataType& dataType,
+void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
                                   const Types::ChannelVector& channelVector,
                                   const std::string& description,
                                   const SizeArray& dsetSize,
@@ -45,8 +45,8 @@ void ElectricalSeries::initialize(const BaseDataType& dataType,
   samplesRecorded = SizeArray(channelVector.size(), 0);
 
   // make channel conversion dataset
-  channelConversion = std::unique_ptr<BaseRecordingData>(
-      io->createArrayDataSet(BaseDataType::F32,
+  channelConversion = std::unique_ptr<IO::BaseRecordingData>(
+      io->createArrayDataSet(IO::BaseDataType::F32,
                              SizeArray {1},
                              chunkSize,
                              getPath() + "/channel_conversion"));
@@ -56,11 +56,11 @@ void ElectricalSeries::initialize(const BaseDataType& dataType,
                                 "Bit volts values for all channels");
 
   // make electrodes dataset
-  electrodesDataset = std::unique_ptr<BaseRecordingData>(io->createArrayDataSet(
-      BaseDataType::I32, SizeArray {1}, chunkSize, getPath() + "/electrodes"));
+  electrodesDataset = std::unique_ptr<IO::BaseRecordingData>(io->createArrayDataSet(
+      IO::BaseDataType::I32, SizeArray {1}, chunkSize, getPath() + "/electrodes"));
   electrodesDataset->writeDataBlock(
       std::vector<SizeType>(1, channelVector.size()),
-      BaseDataType::I32,
+      IO::BaseDataType::I32,
       &electrodeInds[0]);
   io->createCommonNWBAttributes(
       getPath() + "/electrodes", "hdmf-common", "DynamicTableRegion", "");

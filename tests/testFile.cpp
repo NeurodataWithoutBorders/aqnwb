@@ -14,7 +14,7 @@ TEST_CASE("ElectrodeTable", "[ecephys]")
   SECTION("test initialization")
   {
     std::string filename = getTestFilePath("electrodeTable.h5");
-    std::shared_ptr<BaseIO> io = std::make_unique<HDF5::HDF5IO>(filename);
+    std::shared_ptr<BaseIO> io = std::make_unique<IO::HDF5::HDF5IO>(filename);
     io->open();
     io->createGroup("/general");
     io->createGroup("/general/extracellular_ephys");
@@ -36,8 +36,8 @@ TEST_CASE("ElectrodeTable", "[ecephys]")
     SizeType numChannels = 3;
     std::unique_ptr<BaseRecordingData> id_data =
         io->getDataSet(NWB::ElectrodeTable::electrodeTablePath + "id");
-    std::unique_ptr<HDF5::HDF5RecordingData> idDataset(
-        dynamic_cast<HDF5::HDF5RecordingData*>(id_data.release()));
+    std::unique_ptr<IO::HDF5::HDF5RecordingData> idDataset(
+        dynamic_cast<IO::HDF5::HDF5RecordingData*>(id_data.release()));
     int* buffer = new int[numChannels];
     readH5DataBlock(idDataset->getDataSet(), BaseDataType::I32, buffer);
     std::vector<SizeType> read_channels(buffer, buffer + numChannels);
@@ -50,7 +50,7 @@ TEST_CASE("ElectrodeTable", "[ecephys]")
     std::vector<Channel> channels = {};
 
     std::string filename = getTestFilePath("electrodeTableNoData.h5");
-    std::shared_ptr<BaseIO> io = std::make_unique<HDF5::HDF5IO>(filename);
+    std::shared_ptr<BaseIO> io = std::make_unique<IO::HDF5::HDF5IO>(filename);
     io->open();
     io->createGroup("/general");
     io->createGroup("/general/extracellular_ephys");

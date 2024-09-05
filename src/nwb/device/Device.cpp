@@ -4,7 +4,7 @@ using namespace AQNWB::NWB;
 
 // Device
 /** Constructor */
-Device::Device(const std::string& path, std::shared_ptr<BaseIO> io)
+Device::Device(const std::string& path, std::shared_ptr<IO::BaseIO> io)
     : Container(path, io)
 {
 }

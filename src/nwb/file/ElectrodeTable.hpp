@@ -20,10 +20,10 @@ public:
    * @param io The shared pointer to the BaseIO object.
    * extracellular electrodes").
    */
-  ElectrodeTable(std::shared_ptr<BaseIO> io);
+  ElectrodeTable(std::shared_ptr<IO::BaseIO> io);
 
   // required so we can call create
-  ElectrodeTable(const std::string& path, std::shared_ptr<BaseIO> io);
+  ElectrodeTable(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
   /**
    * @brief Destructor.
