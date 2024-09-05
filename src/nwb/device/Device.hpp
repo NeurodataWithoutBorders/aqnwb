@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "BaseIO.hpp"
+#include "io/BaseIO.hpp"
 #include "nwb/hdmf/base/Container.hpp"
 
 namespace AQNWB::NWB

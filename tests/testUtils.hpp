@@ -9,7 +9,7 @@
 
 #include "Channel.hpp"
 #include "Types.hpp"
-#include "hdf5/HDF5IO.hpp"
+#include "io/hdf5/HDF5IO.hpp"
 
 using namespace AQNWB;
 namespace fs = std::filesystem;

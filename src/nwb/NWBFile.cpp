@@ -8,7 +8,7 @@
 
 #include "nwb/NWBFile.hpp"
 
-#include "BaseIO.hpp"
+#include "io/BaseIO.hpp"
 #include "Channel.hpp"
 #include "Utils.hpp"
 #include "nwb/device/Device.hpp"

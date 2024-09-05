@@ -1,9 +1,9 @@
 #include <catch2/catch_test_macros.hpp>
 
-#include "BaseIO.hpp"
+#include "io/BaseIO.hpp"
 #include "Channel.hpp"
 #include "Types.hpp"
-#include "hdf5/HDF5IO.hpp"
+#include "io/hdf5/HDF5IO.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
 #include "testUtils.hpp"
 

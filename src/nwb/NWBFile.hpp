@@ -7,7 +7,7 @@
 #include <string_view>
 #include <vector>
 
-#include "BaseIO.hpp"
+#include "io/BaseIO.hpp"
 #include "Types.hpp"
 #include "nwb/RecordingContainers.hpp"
 #include "nwb/base/TimeSeries.hpp"

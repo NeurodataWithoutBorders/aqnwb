@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "BaseIO.hpp"
+#include "io/BaseIO.hpp"
 
 namespace AQNWB::NWB
 {

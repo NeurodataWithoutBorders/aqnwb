@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "BaseIO.hpp"
+#include "io/BaseIO.hpp"
 #include "Channel.hpp"
 #include "nwb/base/TimeSeries.hpp"
 

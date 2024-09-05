@@ -1,7 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_all.hpp>
 
-#include "BaseIO.hpp"
+#include "io/BaseIO.hpp"
 #include "Types.hpp"
 #include "Utils.hpp"
 #include "nwb/base/TimeSeries.hpp"

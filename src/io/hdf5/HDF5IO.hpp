@@ -6,7 +6,7 @@
 
 #include <H5Opublic.h>
 
-#include "BaseIO.hpp"
+#include "io/BaseIO.hpp"
 #include "Types.hpp"
 
 namespace H5

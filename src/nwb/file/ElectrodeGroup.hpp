@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "BaseIO.hpp"
+#include "io/BaseIO.hpp"
 #include "nwb/device/Device.hpp"
 #include "nwb/hdmf/base/Container.hpp"
 

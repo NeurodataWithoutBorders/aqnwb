@@ -3,7 +3,7 @@
 #include <memory>
 #include <string>
 
-#include "BaseIO.hpp"
+#include "io/BaseIO.hpp"
 
 namespace AQNWB::NWB
 {
