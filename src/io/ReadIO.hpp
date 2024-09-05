@@ -145,45 +145,166 @@ public:
 };
 
 
+/**
+ * Enum defining the types of object for reading
+ */
+enum class ReadObjectType {
+    /// Read from an Attribute
+    Attribute = 0,
+    /// Read from a Dataset
+    Dataset = 1
+};
+
 
 /**
- * @brief The base class for wrapping data objects for reading data from a file
+ * @brief Clas for wrapping data objects (datasets or attributes) for reading data from a file
+ *
+ * @tparam OTYPE The type of object being wrapped defined via \ref AQNWB::IO::ReadObjectType
+ * @tparam VTYPE The data type of the values stored in the data object
  */
-template<typename VTYPE>
-class ReadDataWrapperBase
+template<ReadObjectType OTYPE, typename VTYPE>
+class ReadDataWrapper
 {
+private:
+    /**
+    * Embedded Trait to Check the OTYPE Enum Value at compile time to
+    * SFINAE (Substitution Failure Is Not An Error) approach to disable
+    * select functions for attributes, to not support slicing.
+    */
+    template <ReadObjectType U>
+    struct is_attribute : std::integral_constant<bool, (U == ReadObjectType::Attribute)> {};
+
 public:
   /**
    * @brief Default constructor.
    */
-  ReadDataWrapperBase(const std::shared_ptr<IO::BaseIO> io, std::string dataPath)
+  ReadDataWrapper(const std::shared_ptr<IO::BaseIO> io, std::string dataPath)
       : io(io)
       , dataPath(dataPath)
   {
   }
 
+  // Function to return the Type of the instance
+  ReadObjectType getReadType() const
+  {
+    return OTYPE;
+  }
+
   /**
    * @brief Deleted copy constructor to prevent construction-copying.
    */
-  ReadDataWrapperBase(const ReadDataWrapperBase&) = delete;
+  ReadDataWrapper(const ReadDataWrapper&) = delete;
 
   /**
    * @brief Deleted copy assignment operator to prevent copying.
    */
-  ReadDataWrapperBase& operator=(const ReadDataWrapperBase&) = delete;
+  ReadDataWrapper& operator=(const ReadDataWrapper&) = delete;
 
   /**
    * @brief Destructor.
    */
-  virtual ~ReadDataWrapperBase() {}
+  virtual ~ReadDataWrapper() {}
 
   /**
-   * @brief Reads an attribute or dataset and determines the data type to
-   * allocate the memory for all data values
+   * @brief Reads a dataset and determines the data type.
    *
-   * @return An DataBlockGeneric structure containing the full data and shape.
+   * This functions calls the overloaded valuesGeneric({}, {}, {}, {}) variant
+   *
+   * @return An DataBlockGeneric structure containing the data and shape.
    */
-  virtual DataBlockGeneric valuesGeneric() = 0;
+  DataBlockGeneric valuesGeneric()
+  {
+    switch (OTYPE) {
+            case ReadObjectType::Dataset: {
+                return this->io->readDataset(this->dataPath);
+            }
+            case ReadObjectType::Attribute: {
+                return this->io->readAttribute(this->dataPath);
+            }
+            default: {
+                throw std::runtime_error("Unsupported ReadObjectType");
+            }
+        }
+  }
+
+  /**
+   * @brief Reads a dataset and determines the data type.
+   *
+   * We do not support slicing for attributes, so this function is disabled for attributes.
+   * For attributes we should only use the valuesGeneric() method without arguments.
+   *
+   * @param start The starting indices for the slice (required).
+   * @param count The number of elements to read for each dimension (optional).
+   * @param stride The stride for each dimension (optional).
+   * @param block The block size for each dimension (optional).
+   *
+   * @return An DataBlockGeneric structure containing the data and shape.
+   */
+  template <ReadObjectType U = OTYPE, typename std::enable_if<!is_attribute<U>::value, int>::type = 0>
+  DataBlockGeneric valuesGeneric(const std::vector<SizeType>& start,
+                                 const std::vector<SizeType>& count = {},
+                                 const std::vector<SizeType>& stride = {},
+                                 const std::vector<SizeType>& block = {})
+  {
+    // The function is only enabled for datasets so we don't need to check
+    // for attributes here.
+    return this->io->readDataset(this->dataPath, start, count, stride, block);
+  }
+
+  /**
+   * @brief Reads an attribute with a specified data type.
+   *
+   * This convenience function uses valuesGeneric to read the data and then
+   * convert the DataBlockGeneric to a specific DataBlock
+   *
+   * @tparam T the value type to use. By default this is set to the VTYPE
+   *           of the object but is added here to allow the user to
+   *           request a different type if approbriate, e.g., if the
+   *           object uses VTYPE=std::any and the user knows the type
+   *           VTYPE=float
+   *
+   * @return A DataBlock structure containing the data and shape.
+   */
+  template <typename T = VTYPE>
+  DataBlock<VTYPE> values()
+  {
+    return DataBlock<T>::fromGeneric(this->valuesGeneric());
+  }
+
+  /**
+   * @brief Reads an dataset with a specified data type.
+   *
+   * This convenience function uses valuesGeneric to read the data and then
+   * convert the DataBlockGeneric to a specific DataBlock/
+   *
+   * We do not support slicing for attributes, so this function is disabled for attributes.
+   * For attributes we should only use the valuesGeneric() method without arguments.
+   *
+   * @tparam T the value type to use. By default this is set to the VTYPE
+   *           of the object but is added here to allow the user to
+   *           request a different type if approbriate, e.g., if the
+   *           object uses VTYPE=std::any and the user knows the type
+   *           VTYPE=float
+   *
+   * @param start The starting indices for the slice (optional).
+   * @param count The number of elements to read for each dimension (optional).
+   * @param stride The stride for each dimension (optional).
+   * @param block The block size for each dimension (optional).
+   *
+   * @return A DataBlock structure containing the data and shape.
+   */
+  template <typename T = VTYPE, ReadObjectType U = OTYPE, typename std::enable_if<!is_attribute<U>::value, int>::type = 0>
+  DataBlock<VTYPE> values(const std::vector<SizeType>& start,
+                          const std::vector<SizeType>& count = {},
+                          const std::vector<SizeType>& stride = {},
+                          const std::vector<SizeType>& block = {})
+  {
+    // The function is only enabled for datasets so we don't need to check
+    // for attributes here.
+    return DataBlock<VTYPE>::fromGeneric(
+        this->valuesGeneric(start, count, stride, block));
+  }
+
 
 protected:
   /**
@@ -195,144 +316,5 @@ protected:
    */
   std::string dataPath;
 };
-
-/**
- * @brief Wrapper class for lazily reading data from a dataset in a file
- */
-template<typename VTYPE>
-class ReadDatasetWrapper : public ReadDataWrapperBase<VTYPE>
-{
-public:
-  /**
-   * @brief Default constructor.
-   */
-  ReadDatasetWrapper(const std::shared_ptr<IO::BaseIO> io, std::string dataPath)
-      : ReadDataWrapperBase<VTYPE>(io, dataPath)
-  {
-  }
-
-  /**
-   * @brief Deleted copy constructor to prevent construction-copying.
-   */
-  ReadDatasetWrapper(const ReadDatasetWrapper&) = delete;
-
-  /**
-   * @brief Deleted copy assignment operator to prevent copying.
-   */
-  ReadDatasetWrapper& operator=(const ReadDatasetWrapper&) = delete;
-
-  /**
-   * @brief Destructor.
-   */
-  virtual ~ReadDatasetWrapper() {}
-
-  /**
-   * @brief Reads a dataset and determines the data type.
-   *
-   * This functions calls the overloaded valuesGeneric({}, {}, {}, {}) variant
-   *
-   * @return An DataBlockGeneric structure containing the data and shape.
-   */
-  DataBlockGeneric valuesGeneric() override
-  {
-    return this->valuesGeneric({}, {}, {}, {});
-  }
-
-  /**
-   * @brief Reads a dataset and determines the data type.
-   *
-   * @param start The starting indices for the slice (required).
-   * @param count The number of elements to read for each dimension (optional).
-   * @param stride The stride for each dimension (optional).
-   * @param block The block size for each dimension (optional).
-   *
-   * @return An DataBlockGeneric structure containing the data and shape.
-   */
-  DataBlockGeneric valuesGeneric(const std::vector<SizeType>& start,
-                                 const std::vector<SizeType>& count = {},
-                                 const std::vector<SizeType>& stride = {},
-                                 const std::vector<SizeType>& block = {})
-  {
-    return this->io->readDataset(this->dataPath, start, count, stride, block);
-  }
-
-  /**
-   * @brief Reads an dataset with a specified data type.
-   *
-   * This convenience function uses valuesGeneric to read the data and then
-   * convert the DataBlockGeneric to a specific DataBlock
-   *
-   * @param start The starting indices for the slice (optional).
-   * @param count The number of elements to read for each dimension (optional).
-   * @param stride The stride for each dimension (optional).
-   * @param block The block size for each dimension (optional).
-   *
-   * @return A DataBlock structure containing the data and shape.
-   */
-  DataBlock<VTYPE> values(const std::vector<SizeType>& start = {},
-                          const std::vector<SizeType>& count = {},
-                          const std::vector<SizeType>& stride = {},
-                          const std::vector<SizeType>& block = {})
-  {
-    return DataBlock<VTYPE>::fromGeneric(
-        this->valuesGeneric(start, count, stride, block));
-  }
-
-};  // ReadDatasetWrapper
-
-/**
- * @brief Wrapper class for lazily reading data from an attribute in a file
- */
-template<typename VTYPE>
-class ReadAttributeWrapper : public ReadDataWrapperBase<VTYPE>
-{
-public:
-  /**
-   * @brief Default constructor.
-   */
-  ReadAttributeWrapper(const std::shared_ptr<IO::BaseIO> io, std::string dataPath)
-      : ReadDataWrapperBase<VTYPE>(io, dataPath)
-  {
-  }
-
-  /**
-   * @brief Deleted copy constructor to prevent construction-copying.
-   */
-  ReadAttributeWrapper(const ReadAttributeWrapper&) = delete;
-
-  /**
-   * @brief Deleted copy assignment operator to prevent copying.
-   */
-  ReadAttributeWrapper& operator=(const ReadAttributeWrapper&) = delete;
-
-  /**
-   * @brief Destructor.
-   */
-  virtual ~ReadAttributeWrapper() {}
-
-  /**
-   * @brief Reads an attribute and determines the data type.
-   *
-   * @return An DataBlockGeneric structure containing the data and shape.
-   */
-  DataBlockGeneric valuesGeneric() override
-  {
-    return this->io->readAttribute(this->dataPath);
-  }
-
-  /**
-   * @brief Reads an attribute with a specified data type.
-   *
-   * This convenience function uses valuesGeneric to read the data and then
-   * convert the DataBlockGeneric to a specific DataBlock
-   *
-   * @return A DataBlock structure containing the data and shape.
-   */
-  DataBlock<VTYPE> values()
-  {
-    return DataBlock<VTYPE>::fromGeneric(this->valuesGeneric());
-  }
-
-};  // ReadAttributeWrapper
 
 }  // namespace AQNWB::IO

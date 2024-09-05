@@ -132,8 +132,9 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // [example_read_validate_boostarray_snippet]
 
     // [example_read_attribute_snippet]
-    // Get a ReadAttributeWrapper to read data lazily
+    // Get a ReadDataWrapper<ReadObjectType::Attribute, float> to read data lazily
     auto readResolutionWrapper = electricalSeries->resolutionLazy();
+    // Read the data values
     DataBlock<float> resolutionValueFloat = readResolutionWrapper->values();
     REQUIRE(resolutionValueFloat.shape.empty());  // Scalar
     REQUIRE(resolutionValueFloat.data.size() == 1);

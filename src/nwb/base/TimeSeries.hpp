@@ -94,9 +94,9 @@ public:
   }
 
   template<typename VTYPE = std::any>
-  inline std::unique_ptr<IO::ReadDatasetWrapper<VTYPE>> dataLazy() const
+  inline std::unique_ptr<IO::ReadDataWrapper<IO::ReadObjectType::Dataset,  VTYPE>> dataLazy() const
   {
-    return std::make_unique<IO::ReadDatasetWrapper<VTYPE>>(this->io,
+    return std::make_unique<IO::ReadDataWrapper<IO::ReadObjectType::Dataset, VTYPE>>(this->io,
                                                        this->dataPath());
   }
 
@@ -106,9 +106,9 @@ public:
   }
 
   template<typename VTYPE = float>
-  inline std::unique_ptr<IO::ReadAttributeWrapper<VTYPE>> resolutionLazy() const
+  inline std::unique_ptr<IO::ReadDataWrapper<IO::ReadObjectType::Attribute, VTYPE>> resolutionLazy() const
   {
-    return std::make_unique<IO::ReadAttributeWrapper<VTYPE>>(
+    return std::make_unique<IO::ReadDataWrapper<IO::ReadObjectType::Attribute, VTYPE>>(
         this->io, this->resolutionPath());
   }
 
