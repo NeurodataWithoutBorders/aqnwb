@@ -3,6 +3,7 @@
 #include <string>
 
 #include "io/BaseIO.hpp"
+#include "io/ReadIO.hpp"
 #include "nwb/hdmf/base/Container.hpp"
 
 namespace AQNWB::NWB
