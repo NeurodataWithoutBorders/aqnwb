@@ -1,7 +1,10 @@
+#pragma once
+
 #include <chrono>
 #include <ctime>
 #include <iomanip>
 #include <sstream>
+#include <string>
 
 #include <boost/date_time.hpp>
 #include <boost/uuid/uuid.hpp>
@@ -11,6 +14,7 @@
 #include "boost/date_time/c_local_time_adjustor.hpp"
 #include "io/BaseIO.hpp"
 #include "io/hdf5/HDF5IO.hpp"
+
 
 namespace AQNWB
 {
@@ -62,7 +66,7 @@ inline std::shared_ptr<IO::BaseIO> createIO(const std::string& type,
                                             const std::string& filename)
 {
   if (type == "HDF5") {
-    return std::make_shared<IO::HDF5::HDF5IO>(filename);
+    return std::make_shared<AQNWB::IO::HDF5::HDF5IO>(filename);
   } else {
     throw std::invalid_argument("Invalid IO type");
   }
@@ -92,4 +96,5 @@ inline std::unique_ptr<int16_t[]> transformToInt16(SizeType numSamples,
 
   return intData;
 }
+
 }  // namespace AQNWB

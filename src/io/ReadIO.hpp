@@ -12,6 +12,7 @@
 
 #include "Types.hpp"
 
+
 using StorageObjectType = AQNWB::Types::StorageObjectType;
 using SizeType = AQNWB::Types::SizeType;
 
@@ -52,6 +53,19 @@ public:
    * correct type.
    */
   std::type_index typeIndex = typeid(void);
+
+  /**
+   * \brief Default constructor
+   */
+  DataBlockGeneric() = default;
+
+  /**
+   * \brief Parameterized constructor
+   */
+  DataBlockGeneric(const std::any& data, const std::vector<SizeType>& shape, const std::type_index& typeIndex)
+      : data(data), shape(shape), typeIndex(typeIndex)
+  {
+  }
 };
 
 /**
@@ -78,7 +92,9 @@ public:
    */
   const std::type_index typeIndex = typeid(DTYPE);
 
-  /// Constructor
+  /**
+   * Constructor
+   */
   DataBlock(const std::vector<DTYPE>& data, const std::vector<SizeType>& shape)
       : data(data)
       , shape(shape)
@@ -146,7 +162,7 @@ public:
  * AQNWB::Types::StorageObjectType
  * @tparam VTYPE The data type of the values stored in the data object
  */
-template<StorageObjectType OTYPE, typename VTYPE>
+template<StorageObjectType OTYPE, typename VTYPE = std::any>
 class ReadDataWrapper
 {
   // Embedded traits for compile time checking of allowed OTYPE for the class
@@ -199,8 +215,12 @@ private:
 public:
   /**
    * @brief Default constructor.
+   *
+   * @param io The IO object to use for reading
+   * @param dataPath The path to the attribute or dataset to read
    */
-  ReadDataWrapper(const std::shared_ptr<IO::BaseIO> io, std::string dataPath)
+  ReadDataWrapper(const std::shared_ptr<IO::BaseIO> io,
+                  const std::string& dataPath)
       : io(io)
       , dataPath(dataPath)
   {
