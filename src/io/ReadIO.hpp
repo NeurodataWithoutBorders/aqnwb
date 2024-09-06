@@ -12,12 +12,9 @@
 
 #include "Types.hpp"
 
-#define DEFAULT_STR_SIZE 256
-#define DEFAULT_ARRAY_SIZE 1
+
 
 using StorageObjectType = AQNWB::Types::StorageObjectType;
-using Status = AQNWB::Types::Status;
-using SizeArray = AQNWB::Types::SizeArray;
 using SizeType = AQNWB::Types::SizeType;
 
 /*!
@@ -146,23 +143,12 @@ public:
 
 
 /**
- * Enum defining the types of object for reading
- */
-enum class ReadObjectType {
-    /// Read from an Attribute
-    Attribute = 0,
-    /// Read from a Dataset
-    Dataset = 1
-};
-
-
-/**
  * @brief Clas for wrapping data objects (datasets or attributes) for reading data from a file
  *
- * @tparam OTYPE The type of object being wrapped defined via \ref AQNWB::IO::ReadObjectType
+ * @tparam OTYPE The type of object being wrapped defined via \ref AQNWB::Types::StorageObjectType
  * @tparam VTYPE The data type of the values stored in the data object
  */
-template<ReadObjectType OTYPE, typename VTYPE>
+template<StorageObjectType OTYPE, typename VTYPE>
 class ReadDataWrapper
 {
 private:
@@ -171,8 +157,8 @@ private:
     * SFINAE (Substitution Failure Is Not An Error) approach to disable
     * select functions for attributes, to not support slicing.
     */
-    template <ReadObjectType U>
-    struct is_attribute : std::integral_constant<bool, (U == ReadObjectType::Attribute)> {};
+    template <StorageObjectType U>
+    struct is_dataset : std::integral_constant<bool, (U == StorageObjectType::Dataset)> {};
 
 public:
   /**
@@ -184,8 +170,10 @@ public:
   {
   }
 
-  // Function to return the Type of the instance
-  ReadObjectType getReadType() const
+  /**
+   * @brief Function to return the \ref AQNWB::Types::StorageObjectType OTYPE  of the instance
+   */
+  StorageObjectType getStorageObjectType() const
   {
     return OTYPE;
   }
@@ -215,14 +203,14 @@ public:
   DataBlockGeneric valuesGeneric()
   {
     switch (OTYPE) {
-            case ReadObjectType::Dataset: {
+            case StorageObjectType::Dataset: {
                 return this->io->readDataset(this->dataPath);
             }
-            case ReadObjectType::Attribute: {
+            case StorageObjectType::Attribute: {
                 return this->io->readAttribute(this->dataPath);
             }
             default: {
-                throw std::runtime_error("Unsupported ReadObjectType");
+                throw std::runtime_error("Unsupported StorageObjectType");
             }
         }
   }
@@ -240,7 +228,7 @@ public:
    *
    * @return An DataBlockGeneric structure containing the data and shape.
    */
-  template <ReadObjectType U = OTYPE, typename std::enable_if<!is_attribute<U>::value, int>::type = 0>
+  template <StorageObjectType U = OTYPE, typename std::enable_if<is_dataset<U>::value, int>::type = 0>
   DataBlockGeneric valuesGeneric(const std::vector<SizeType>& start,
                                  const std::vector<SizeType>& count = {},
                                  const std::vector<SizeType>& stride = {},
@@ -293,7 +281,7 @@ public:
    *
    * @return A DataBlock structure containing the data and shape.
    */
-  template <typename T = VTYPE, ReadObjectType U = OTYPE, typename std::enable_if<!is_attribute<U>::value, int>::type = 0>
+  template <typename T = VTYPE, StorageObjectType U = OTYPE, typename std::enable_if<is_dataset<U>::value, int>::type = 0>
   DataBlock<VTYPE> values(const std::vector<SizeType>& start,
                           const std::vector<SizeType>& count = {},
                           const std::vector<SizeType>& stride = {},
