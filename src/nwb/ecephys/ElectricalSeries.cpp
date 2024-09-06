@@ -42,9 +42,11 @@ void ElectricalSeries::initialize()
   TimeSeries::initialize();
 
   // setup variables based on number of channels
-  std::vector<SizeType> electrodeInds(channelVector.size());
+  std::vector<int> electrodeInds(channelVector.size());
+  std::vector<float> channelConversions(channelVector.size());
   for (size_t i = 0; i < channelVector.size(); ++i) {
     electrodeInds[i] = channelVector[i].globalIndex;
+    channelConversions[i] = channelVector[i].getConversion();
   }
   samplesRecorded = SizeArray(channelVector.size(), 0);
 
@@ -54,6 +56,10 @@ void ElectricalSeries::initialize()
                              SizeArray {1},
                              chunkSize,
                              getPath() + "/channel_conversion"));
+  channelConversion->writeDataBlock(
+      std::vector<SizeType>(1, channelVector.size()),
+      BaseDataType::F32,
+      &channelConversions[0]);
   io->createCommonNWBAttributes(getPath() + "/channel_conversion",
                                 "hdmf-common",
                                 "",
