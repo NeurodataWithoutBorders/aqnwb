@@ -80,7 +80,7 @@ inline std::vector<std::vector<float>> getMockData2D(SizeType numSamples = 1000,
   for (auto& channelData : mockData) {
     for (auto& data : channelData) {
       data = static_cast<float>(dis(rng))
-          * 1000.f;  // approximate microvolt unit range
+          * 100.f;  // approximate microvolt unit range
     }
   }
 

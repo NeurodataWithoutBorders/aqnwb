@@ -25,9 +25,9 @@ public:
           const SizeType globalIndex,
           const float conversion = 1e6f,  // uV to V
           const float samplingRate = 30000.f,  // placeholder
-          const float bitVolts = 0.000002f,  // least significant bit needed to
-                                             // convert 16-bit int to volts
-                                             // currently a placeholder
+          const float bitVolts = 0.05f,  // least significant bit needed to
+                                         // convert 16-bit int to volts
+                                         // currently a placeholder
           const std::array<float, 3> position = {0.f, 0.f, 0.f},
           const std::string comments = "no comments");
 
