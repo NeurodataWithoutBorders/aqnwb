@@ -1,0 +1,16 @@
+<map id="AQNWB::BaseDataType::BaseDataType" name="AQNWB::BaseDataType::BaseDataType">
+<area shape="rect" id="Node000001" title="Constructs a BaseDataType object with the specified type and size." alt="" coords="982,71,1148,111"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_base_data_type.html#a18d42dba7074fb4cdac771deef6c051b" title="Accessor for string with specified size." alt="" coords="732,78,934,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="966,94,934,94,934,88,966,88"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a76fea09d6ebe8047d7fe9878f49888d9" title="Adds a column of vector string data to the table." alt="" coords="481,5,684,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="766,76,663,49,664,44,767,71"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#abb3541720c4613adc1c273cbe54f66a9" title="Creates a non&#45;modifiable dataset with a string value." alt="" coords="496,71,669,111"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="717,94,669,94,669,88,717,88"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#af125b9b5d7a79d414b75998c6b52156b" title="Initializes the ElectrodeTable." alt="" coords="227,100,433,141"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="768,111,685,126,554,132,433,130,434,125,554,127,684,120,767,105"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#ab91b67e0f0a5dbe34d8f86efecf35de8" title="Finalizes the ElectrodeTable." alt="" coords="227,20,433,61"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="466,35,433,37,433,32,465,30"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ae0f515c91174c210a7aaad32a14c4f10" title="Create ElectricalSeries objects to record data into. Created objects are stored in recordingContainer..." alt="" coords="5,68,179,109"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="212,67,180,73,179,68,211,62"/>
+<area shape="poly" id="edge7_Node000007_Node000005" title=" " alt="" coords="211,107,179,103,180,97,211,102"/>
+</map>
