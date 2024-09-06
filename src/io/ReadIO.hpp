@@ -139,7 +139,7 @@ public:
 };
 
 /**
- * @brief Clas for wrapping data objects (datasets or attributes) for reading
+ * @brief Class for wrapping data objects (datasets or attributes) for reading
  * data from a file
  *
  * @tparam OTYPE The type of object being wrapped defined via \ref
