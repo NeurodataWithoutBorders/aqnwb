@@ -38,14 +38,11 @@ NWBFile::~NWBFile() {}
 Status NWBFile::initialize(const std::string description,
                            const std::string dataCollection)
 {
-  this->description = description;
-  this->dataCollection = dataCollection;
-
   if (std::filesystem::exists(io->getFileName())) {
     return io->open(false);
   } else {
     io->open(true);
-    return createFileStructure();
+    return createFileStructure(description, dataCollection);
   }
 }
 
@@ -54,7 +51,8 @@ Status NWBFile::finalize()
   return io->close();
 }
 
-Status NWBFile::createFileStructure()
+Status NWBFile::createFileStructure(std::string description,
+                                    std::string dataCollection)
 {
   if (!io->canModifyObjects()) {
     return Status::Failure;

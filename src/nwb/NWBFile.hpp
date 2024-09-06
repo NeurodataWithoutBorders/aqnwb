@@ -89,9 +89,12 @@ protected:
    * Note, this function will fail if the file is in a mode where
    * new objects cannot be added, which can be checked via
    * nwbfile.io->canModifyObjects()
+   * @param description A description of the NWBFile session.
+   * @param dataCollection Information about the data collection methods.
    * @return Status The status of the file structure creation.
    */
-  Status createFileStructure();
+  Status createFileStructure(std::string description,
+                             std::string dataCollection);
 
 private:
   /**
@@ -127,9 +130,6 @@ private:
   const std::string identifierText;
   std::shared_ptr<BaseIO> io;
   static std::vector<SizeType> emptyContainerIndexes;
-
-  std::string description;
-  std::string dataCollection;
 };
 
 }  // namespace AQNWB::NWB
