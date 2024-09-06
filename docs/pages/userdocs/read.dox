@@ -136,8 +136,8 @@
  * The \ref AQNWB::NWB::Container "Container" class (e.g., \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries"
  * or  \ref AQNWB::NWB::NWBFile "NWBFile") is responsible for exposing read access to its
  * specific datasets and attributes by providing appropriate access functions, which return
- * \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper<ReadObjectType::Dataset>" or
- * \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper<ReadObjectType::Attribute>" objects
+ * \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset>" or
+ * \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper<AQNWB::Types::StorageObjectType::Attribute>" objects
  * for lazily reading from the dataset/attribute.
  *
  * \subsection read_design_wrapper_propos ReadDataWrapper
@@ -161,7 +161,7 @@
  *
  * \note
  *  \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper" takes two template parameters:
- *  1) the ``OTYPE`` specifying the type of object being wrapped \ref AQNWB::IO::ReadObjectType "ReadObjectType"
+ *  1) the ``OTYPE`` specifying the type of object being wrapped \ref AQNWB::Types::StorageObjectType
  * and 2) the ``VTYPE`` defining the value type of the data.
  * For attributes, slicing is disabled at compile time, i.e., attributes are always
  * loaded fully into memory since attributes are intended for small data only.
@@ -279,8 +279,8 @@
  * Reading an ``Attribute`` from a file works much in the same way as reading a ``Dataset``.
  * The main differences are when we read an attribute:
  * 1. The  \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper" is created with
- *    the \ref AQNWB::IO::ReadObjectType "ReadObjectType::Attribute" template type
- *    instead of  \ref AQNWB::IO::ReadObjectType "ReadObjectType::Dataset"
+ *    the \ref AQNWB::Types::StorageObjectType "AQNWB::Types::StorageObjectType::Attribute" template type
+ *    instead of  \ref AQNWB::Types::StorageObjectType "AQNWB::Types::StorageObjectType::Dataset"
  * 2. The variants of \ref AQNWB::IO::ReadDataWrapper::valuesGeneric "valuesGeneric"
  *    or \ref AQNWB::IO::ReadDataWrapper::values "values" that accept arguments for
  *    slicing are disabled at compile time.

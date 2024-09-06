@@ -151,6 +151,7 @@ public:
 template<StorageObjectType OTYPE, typename VTYPE>
 class ReadDataWrapper
 {
+// Embedded traits for compile time checking of allowed OTYPE for the class and methods
 private:
     /**
     * Embedded Trait to Check the OTYPE Enum Value at compile time to
@@ -160,6 +161,26 @@ private:
     template <StorageObjectType U>
     struct is_dataset : std::integral_constant<bool, (U == StorageObjectType::Dataset)> {};
 
+    /// Helper struct to check if a StorageObjectType is allowed. Used in static assert.
+    template<StorageObjectType T>
+    struct is_allowed_storage_object_type : std::false_type {};
+
+    /// Helper struct to check if a StorageObjectType is allowed. Used in static assert.
+    template<>
+    struct is_allowed_storage_object_type<StorageObjectType::Dataset> : std::true_type {};
+
+    /// Helper struct to check if a StorageObjectType is allowed. Used in static assert.
+    template<>
+    struct is_allowed_storage_object_type<StorageObjectType::Attribute> : std::true_type {};
+
+    /**
+     *  Static assert to enforce the restriction that ReadDataWrapper can only be
+     *  instantiated for OTYPE of StorageObjectType::Dataset and
+     *  StorageObjectType::Attribute but not for other types, e.g., Group or Undefined.
+     */
+    static_assert(is_allowed_storage_object_type<OTYPE>::value, "StorageObjectType not allowed for ReadDataWrapper");
+
+// Actual definition of the class
 public:
   /**
    * @brief Default constructor.
