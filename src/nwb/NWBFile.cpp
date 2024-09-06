@@ -35,8 +35,12 @@ NWBFile::NWBFile(const std::string& idText, std::shared_ptr<BaseIO> io)
 
 NWBFile::~NWBFile() {}
 
-Status NWBFile::initialize()
+Status NWBFile::initialize(const std::string description,
+                           const std::string dataCollection)
 {
+  this->description = description;
+  this->dataCollection = dataCollection;
+
   if (std::filesystem::exists(io->getFileName())) {
     return io->open(false);
   } else {
@@ -68,6 +72,9 @@ Status NWBFile::createFileStructure()
   io->createGroup("/general");
   io->createGroup("/general/devices");
   io->createGroup("/general/extracellular_ephys");
+  if (dataCollection != "") {
+    io->createStringDataSet("/general/data_collection", dataCollection);
+  }
 
   io->createGroup("/specifications");
   io->createReferenceAttribute("/specifications", "/", ".specloc");
@@ -84,7 +91,7 @@ Status NWBFile::createFileStructure()
   std::string time = getCurrentTime();
   std::vector<std::string> timeVec = {time};
   io->createStringDataSet("/file_create_date", timeVec);
-  io->createStringDataSet("/session_description", "a recording session");
+  io->createStringDataSet("/session_description", description);
   io->createStringDataSet("/session_start_time", time);
   io->createStringDataSet("/timestamps_reference_time", time);
   io->createStringDataSet("/identifier", identifierText);
