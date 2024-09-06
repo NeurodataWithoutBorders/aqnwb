@@ -94,7 +94,7 @@ public:
    * @tparam NDIMS The number of dimensions of the array. Same as shape.size()
    */
   template<std::size_t NDIMS>
-  boost::const_multi_array_ref<DTYPE, NDIMS> as_multi_array() const
+  inline boost::const_multi_array_ref<DTYPE, NDIMS> as_multi_array() const
   {
     if (shape.size() != NDIMS) {
       throw std::invalid_argument(
@@ -210,7 +210,7 @@ public:
    * @brief Function to return the \ref AQNWB::Types::StorageObjectType OTYPE of
    * the instance
    */
-  StorageObjectType getStorageObjectType() const { return OTYPE; }
+  inline StorageObjectType getStorageObjectType() const { return OTYPE; }
 
   /**
    * @brief Deleted copy constructor to prevent construction-copying.
@@ -234,7 +234,7 @@ public:
    *
    * @return An DataBlockGeneric structure containing the data and shape.
    */
-  DataBlockGeneric valuesGeneric()
+  inline DataBlockGeneric valuesGeneric() const
   {
     switch (OTYPE) {
       case StorageObjectType::Dataset: {
@@ -265,10 +265,11 @@ public:
    */
   template<StorageObjectType U = OTYPE,
            typename std::enable_if<is_dataset<U>::value, int>::type = 0>
-  DataBlockGeneric valuesGeneric(const std::vector<SizeType>& start,
-                                 const std::vector<SizeType>& count = {},
-                                 const std::vector<SizeType>& stride = {},
-                                 const std::vector<SizeType>& block = {})
+  inline DataBlockGeneric valuesGeneric(
+      const std::vector<SizeType>& start,
+      const std::vector<SizeType>& count = {},
+      const std::vector<SizeType>& stride = {},
+      const std::vector<SizeType>& block = {}) const
   {
     // The function is only enabled for datasets so we don't need to check
     // for attributes here.
@@ -290,7 +291,7 @@ public:
    * @return A DataBlock structure containing the data and shape.
    */
   template<typename T = VTYPE>
-  DataBlock<VTYPE> values()
+  inline DataBlock<VTYPE> values() const
   {
     return DataBlock<T>::fromGeneric(this->valuesGeneric());
   }
@@ -321,10 +322,10 @@ public:
   template<typename T = VTYPE,
            StorageObjectType U = OTYPE,
            typename std::enable_if<is_dataset<U>::value, int>::type = 0>
-  DataBlock<VTYPE> values(const std::vector<SizeType>& start,
-                          const std::vector<SizeType>& count = {},
-                          const std::vector<SizeType>& stride = {},
-                          const std::vector<SizeType>& block = {})
+  inline DataBlock<VTYPE> values(const std::vector<SizeType>& start,
+                                 const std::vector<SizeType>& count = {},
+                                 const std::vector<SizeType>& stride = {},
+                                 const std::vector<SizeType>& block = {}) const
   {
     // The function is only enabled for datasets so we don't need to check
     // for attributes here.
