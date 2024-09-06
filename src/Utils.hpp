@@ -72,10 +72,21 @@ inline std::shared_ptr<BaseIO> createIO(const std::string& type,
   }
 }
 
+/**
+ * @brief Method to convert float values to uint16 values. This method
+ * was adapted from JUCE AudioDataConverters using a default value of
+ * destBytesPerSample = 2.
+ * @param source The source float data to convert
+ * @param dest The destination for the converted uint16 data
+ * @param numSamples The number of samples to convert
+ */
 inline void convertFloatToInt16LE(const float* source,
                                   void* dest,
                                   int numSamples)
 {
+  // TODO - several steps in this function may be unnecessary for our use
+  // case. Consider simplifying the intermediate cast to char and the
+  // final cast to uint16_t.
   auto maxVal = static_cast<double>(0x7fff);
   auto intData = static_cast<char*>(dest);
 
@@ -89,6 +100,12 @@ inline void convertFloatToInt16LE(const float* source,
   }
 }
 
+/**
+ * @brief Method to scale float values and convert to int16 values
+ * @param numSamples The number of samples to convert
+ * @param conversion_factor The conversion factor to scale the data
+ * @param data The data to convert
+ */
 inline std::unique_ptr<int16_t[]> transformToInt16(SizeType numSamples,
                                                    float conversion_factor,
                                                    const float* data)
