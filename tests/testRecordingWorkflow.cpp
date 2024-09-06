@@ -3,10 +3,10 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_all.hpp>
 
-#include "io/BaseIO.hpp"
 #include "Channel.hpp"
 #include "Types.hpp"
 #include "Utils.hpp"
+#include "io/BaseIO.hpp"
 #include "io/hdf5/HDF5IO.hpp"
 #include "nwb/NWBFile.hpp"
 #include "nwb/RecordingContainers.hpp"

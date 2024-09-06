@@ -2,10 +2,10 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_all.hpp>
 
-#include "io/BaseIO.hpp"
 #include "Channel.hpp"
 #include "Types.hpp"
 #include "Utils.hpp"
+#include "io/BaseIO.hpp"
 #include "io/hdf5/HDF5IO.hpp"
 #include "nwb/NWBFile.hpp"
 #include "nwb/RecordingContainers.hpp"
@@ -132,7 +132,8 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // [example_read_validate_boostarray_snippet]
 
     // [example_read_attribute_snippet]
-    // Get a ReadDataWrapper<ReadObjectType::Attribute, float> to read data lazily
+    // Get a ReadDataWrapper<ReadObjectType::Attribute, float> to read data
+    // lazily
     auto readResolutionWrapper = electricalSeries->resolutionLazy();
     // Read the data values
     DataBlock<float> resolutionValueFloat = readResolutionWrapper->values();

@@ -94,10 +94,13 @@ public:
   }
 
   template<typename VTYPE = std::any>
-  inline std::unique_ptr<IO::ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset,  VTYPE>> dataLazy() const
+  inline std::unique_ptr<
+      IO::ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset, VTYPE>>
+  dataLazy() const
   {
-    return std::make_unique<IO::ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset, VTYPE>>(this->io,
-                                                       this->dataPath());
+    return std::make_unique<
+        IO::ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset, VTYPE>>(
+        this->io, this->dataPath());
   }
 
   inline std::string resolutionPath() const
@@ -106,9 +109,12 @@ public:
   }
 
   template<typename VTYPE = float>
-  inline std::unique_ptr<IO::ReadDataWrapper<AQNWB::Types::StorageObjectType::Attribute, VTYPE>> resolutionLazy() const
+  inline std::unique_ptr<
+      IO::ReadDataWrapper<AQNWB::Types::StorageObjectType::Attribute, VTYPE>>
+  resolutionLazy() const
   {
-    return std::make_unique<IO::ReadDataWrapper<AQNWB::Types::StorageObjectType::Attribute, VTYPE>>(
+    return std::make_unique<
+        IO::ReadDataWrapper<AQNWB::Types::StorageObjectType::Attribute, VTYPE>>(
         this->io, this->resolutionPath());
   }
 

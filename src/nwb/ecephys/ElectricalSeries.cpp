@@ -56,8 +56,11 @@ void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
                                 "Bit volts values for all channels");
 
   // make electrodes dataset
-  electrodesDataset = std::unique_ptr<IO::BaseRecordingData>(io->createArrayDataSet(
-      IO::BaseDataType::I32, SizeArray {1}, chunkSize, getPath() + "/electrodes"));
+  electrodesDataset = std::unique_ptr<IO::BaseRecordingData>(
+      io->createArrayDataSet(IO::BaseDataType::I32,
+                             SizeArray {1},
+                             chunkSize,
+                             getPath() + "/electrodes"));
   electrodesDataset->writeDataBlock(
       std::vector<SizeType>(1, channelVector.size()),
       IO::BaseDataType::I32,

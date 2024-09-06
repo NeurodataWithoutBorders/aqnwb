@@ -5,7 +5,8 @@ using namespace AQNWB::NWB;
 // DynamicTable
 
 /** Constructor */
-DynamicTable::DynamicTable(const std::string& path, std::shared_ptr<IO::BaseIO> io)
+DynamicTable::DynamicTable(const std::string& path,
+                           std::shared_ptr<IO::BaseIO> io)
     : Container(path, io)
     , description(description)
 {
@@ -51,8 +52,9 @@ void DynamicTable::setRowIDs(std::unique_ptr<ElementIdentifiers>& elementIDs,
   if (elementIDs->dataset == nullptr) {
     std::cerr << "ElementIdentifiers dataset is not initialized" << std::endl;
   } else {
-    elementIDs->dataset->writeDataBlock(
-        std::vector<SizeType>(1, values.size()), IO::BaseDataType::I32, &values[0]);
+    elementIDs->dataset->writeDataBlock(std::vector<SizeType>(1, values.size()),
+                                        IO::BaseDataType::I32,
+                                        &values[0]);
     io->createCommonNWBAttributes(
         path + "id", "hdmf-common", "ElementIdentifiers");
   }

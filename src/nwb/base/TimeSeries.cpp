@@ -38,8 +38,11 @@ void TimeSeries::initialize(const IO::BaseDataType& dataType,
 
   SizeArray tsDsetSize = {
       dsetSize[0]};  // timestamps match data along first dimension
-  this->timestamps = std::unique_ptr<IO::BaseRecordingData>(io->createArrayDataSet(
-      this->timestampsType, tsDsetSize, chunkSize, getPath() + "/timestamps"));
+  this->timestamps = std::unique_ptr<IO::BaseRecordingData>(
+      io->createArrayDataSet(this->timestampsType,
+                             tsDsetSize,
+                             chunkSize,
+                             getPath() + "/timestamps"));
   io->createTimestampsAttributes(getPath());
 }
 

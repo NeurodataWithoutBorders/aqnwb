@@ -8,9 +8,9 @@
 
 #include "nwb/NWBFile.hpp"
 
-#include "io/BaseIO.hpp"
 #include "Channel.hpp"
 #include "Utils.hpp"
+#include "io/BaseIO.hpp"
 #include "nwb/device/Device.hpp"
 #include "nwb/ecephys/ElectricalSeries.hpp"
 #include "nwb/file/ElectrodeGroup.hpp"

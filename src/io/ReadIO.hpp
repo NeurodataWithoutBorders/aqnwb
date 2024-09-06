@@ -12,8 +12,6 @@
 
 #include "Types.hpp"
 
-
-
 using StorageObjectType = AQNWB::Types::StorageObjectType;
 using SizeType = AQNWB::Types::SizeType;
 
@@ -23,7 +21,6 @@ using SizeType = AQNWB::Types::SizeType;
  */
 namespace AQNWB::IO
 {
-
 
 /**
  * @brief Generic structure to hold type-erased data and shape
@@ -141,46 +138,64 @@ public:
   }
 };
 
-
 /**
- * @brief Clas for wrapping data objects (datasets or attributes) for reading data from a file
+ * @brief Clas for wrapping data objects (datasets or attributes) for reading
+ * data from a file
  *
- * @tparam OTYPE The type of object being wrapped defined via \ref AQNWB::Types::StorageObjectType
+ * @tparam OTYPE The type of object being wrapped defined via \ref
+ * AQNWB::Types::StorageObjectType
  * @tparam VTYPE The data type of the values stored in the data object
  */
 template<StorageObjectType OTYPE, typename VTYPE>
 class ReadDataWrapper
 {
-// Embedded traits for compile time checking of allowed OTYPE for the class and methods
+  // Embedded traits for compile time checking of allowed OTYPE for the class
+  // and methods
 private:
-    /**
-    * Embedded Trait to Check the OTYPE Enum Value at compile time to
-    * SFINAE (Substitution Failure Is Not An Error) approach to disable
-    * select functions for attributes, to not support slicing.
-    */
-    template <StorageObjectType U>
-    struct is_dataset : std::integral_constant<bool, (U == StorageObjectType::Dataset)> {};
+  /**
+   * Embedded Trait to Check the OTYPE Enum Value at compile time to
+   * SFINAE (Substitution Failure Is Not An Error) approach to disable
+   * select functions for attributes, to not support slicing.
+   */
+  template<StorageObjectType U>
+  struct is_dataset
+      : std::integral_constant<bool, (U == StorageObjectType::Dataset)>
+  {
+  };
 
-    /// Helper struct to check if a StorageObjectType is allowed. Used in static assert.
-    template<StorageObjectType T>
-    struct is_allowed_storage_object_type : std::false_type {};
+  /// Helper struct to check if a StorageObjectType is allowed. Used in static
+  /// assert.
+  template<StorageObjectType T>
+  struct is_allowed_storage_object_type : std::false_type
+  {
+  };
 
-    /// Helper struct to check if a StorageObjectType is allowed. Used in static assert.
-    template<>
-    struct is_allowed_storage_object_type<StorageObjectType::Dataset> : std::true_type {};
+  /// Helper struct to check if a StorageObjectType is allowed. Used in static
+  /// assert.
+  template<>
+  struct is_allowed_storage_object_type<StorageObjectType::Dataset>
+      : std::true_type
+  {
+  };
 
-    /// Helper struct to check if a StorageObjectType is allowed. Used in static assert.
-    template<>
-    struct is_allowed_storage_object_type<StorageObjectType::Attribute> : std::true_type {};
+  /// Helper struct to check if a StorageObjectType is allowed. Used in static
+  /// assert.
+  template<>
+  struct is_allowed_storage_object_type<StorageObjectType::Attribute>
+      : std::true_type
+  {
+  };
 
-    /**
-     *  Static assert to enforce the restriction that ReadDataWrapper can only be
-     *  instantiated for OTYPE of StorageObjectType::Dataset and
-     *  StorageObjectType::Attribute but not for other types, e.g., Group or Undefined.
-     */
-    static_assert(is_allowed_storage_object_type<OTYPE>::value, "StorageObjectType not allowed for ReadDataWrapper");
+  /**
+   *  Static assert to enforce the restriction that ReadDataWrapper can only be
+   *  instantiated for OTYPE of StorageObjectType::Dataset and
+   *  StorageObjectType::Attribute but not for other types, e.g., Group or
+   * Undefined.
+   */
+  static_assert(is_allowed_storage_object_type<OTYPE>::value,
+                "StorageObjectType not allowed for ReadDataWrapper");
 
-// Actual definition of the class
+  // Actual definition of the class
 public:
   /**
    * @brief Default constructor.
@@ -192,12 +207,10 @@ public:
   }
 
   /**
-   * @brief Function to return the \ref AQNWB::Types::StorageObjectType OTYPE  of the instance
+   * @brief Function to return the \ref AQNWB::Types::StorageObjectType OTYPE of
+   * the instance
    */
-  StorageObjectType getStorageObjectType() const
-  {
-    return OTYPE;
-  }
+  StorageObjectType getStorageObjectType() const { return OTYPE; }
 
   /**
    * @brief Deleted copy constructor to prevent construction-copying.
@@ -224,23 +237,24 @@ public:
   DataBlockGeneric valuesGeneric()
   {
     switch (OTYPE) {
-            case StorageObjectType::Dataset: {
-                return this->io->readDataset(this->dataPath);
-            }
-            case StorageObjectType::Attribute: {
-                return this->io->readAttribute(this->dataPath);
-            }
-            default: {
-                throw std::runtime_error("Unsupported StorageObjectType");
-            }
-        }
+      case StorageObjectType::Dataset: {
+        return this->io->readDataset(this->dataPath);
+      }
+      case StorageObjectType::Attribute: {
+        return this->io->readAttribute(this->dataPath);
+      }
+      default: {
+        throw std::runtime_error("Unsupported StorageObjectType");
+      }
+    }
   }
 
   /**
    * @brief Reads a dataset and determines the data type.
    *
-   * We do not support slicing for attributes, so this function is disabled for attributes.
-   * For attributes we should only use the valuesGeneric() method without arguments.
+   * We do not support slicing for attributes, so this function is disabled for
+   * attributes. For attributes we should only use the valuesGeneric() method
+   * without arguments.
    *
    * @param start The starting indices for the slice (required).
    * @param count The number of elements to read for each dimension (optional).
@@ -249,7 +263,8 @@ public:
    *
    * @return An DataBlockGeneric structure containing the data and shape.
    */
-  template <StorageObjectType U = OTYPE, typename std::enable_if<is_dataset<U>::value, int>::type = 0>
+  template<StorageObjectType U = OTYPE,
+           typename std::enable_if<is_dataset<U>::value, int>::type = 0>
   DataBlockGeneric valuesGeneric(const std::vector<SizeType>& start,
                                  const std::vector<SizeType>& count = {},
                                  const std::vector<SizeType>& stride = {},
@@ -274,7 +289,7 @@ public:
    *
    * @return A DataBlock structure containing the data and shape.
    */
-  template <typename T = VTYPE>
+  template<typename T = VTYPE>
   DataBlock<VTYPE> values()
   {
     return DataBlock<T>::fromGeneric(this->valuesGeneric());
@@ -286,8 +301,9 @@ public:
    * This convenience function uses valuesGeneric to read the data and then
    * convert the DataBlockGeneric to a specific DataBlock/
    *
-   * We do not support slicing for attributes, so this function is disabled for attributes.
-   * For attributes we should only use the valuesGeneric() method without arguments.
+   * We do not support slicing for attributes, so this function is disabled for
+   * attributes. For attributes we should only use the valuesGeneric() method
+   * without arguments.
    *
    * @tparam T the value type to use. By default this is set to the VTYPE
    *           of the object but is added here to allow the user to
@@ -302,7 +318,9 @@ public:
    *
    * @return A DataBlock structure containing the data and shape.
    */
-  template <typename T = VTYPE, StorageObjectType U = OTYPE, typename std::enable_if<is_dataset<U>::value, int>::type = 0>
+  template<typename T = VTYPE,
+           StorageObjectType U = OTYPE,
+           typename std::enable_if<is_dataset<U>::value, int>::type = 0>
   DataBlock<VTYPE> values(const std::vector<SizeType>& start,
                           const std::vector<SizeType>& count = {},
                           const std::vector<SizeType>& stride = {},
@@ -313,7 +331,6 @@ public:
     return DataBlock<VTYPE>::fromGeneric(
         this->valuesGeneric(start, count, stride, block));
   }
-
 
 protected:
   /**

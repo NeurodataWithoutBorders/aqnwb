@@ -1,12 +1,12 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_all.hpp>
 
-#include "io/BaseIO.hpp"
 #include "Types.hpp"
 #include "Utils.hpp"
+#include "io/BaseIO.hpp"
+#include "io/hdf5/HDF5RecordingData.hpp"
 #include "nwb/base/TimeSeries.hpp"
 #include "testUtils.hpp"
-#include "io/hdf5/HDF5RecordingData.hpp"
 
 using namespace AQNWB;
 

@@ -5,12 +5,12 @@
 #include <vector>
 
 #include "io/hdf5/HDF5IO.hpp"
-#include "io/hdf5/HDF5RecordingData.hpp"
 
 #include <H5Cpp.h>
 #include <H5Fpublic.h>
 
 #include "Utils.hpp"
+#include "io/hdf5/HDF5RecordingData.hpp"
 
 using namespace H5;
 using namespace AQNWB::IO::HDF5;
@@ -284,11 +284,12 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(const std::string& dataPath)
   return result;
 }
 
-AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(const std::string& dataPath,
-                                            const std::vector<SizeType>& start,
-                                            const std::vector<SizeType>& count,
-                                            const std::vector<SizeType>& stride,
-                                            const std::vector<SizeType>& block)
+AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(
+    const std::string& dataPath,
+    const std::vector<SizeType>& start,
+    const std::vector<SizeType>& count,
+    const std::vector<SizeType>& stride,
+    const std::vector<SizeType>& block)
 {
   // Check that the dataset exists
   assert(H5Lexists(this->file->getId(), dataPath.c_str(), H5P_DEFAULT) > 0);
@@ -920,5 +921,3 @@ H5::DataType HDF5IO::getH5Type(IO::BaseDataType type)
   } else
     return baseType;
 }
-
-

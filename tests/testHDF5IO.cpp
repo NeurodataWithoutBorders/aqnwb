@@ -8,9 +8,9 @@
 
 #include <catch2/catch_test_macros.hpp>
 
-#include "io/BaseIO.hpp"
 #include "Channel.hpp"
 #include "Types.hpp"
+#include "io/BaseIO.hpp"
 #include "io/hdf5/HDF5IO.hpp"
 #include "io/hdf5/HDF5RecordingData.hpp"
 #include "nwb/NWBFile.hpp"
@@ -42,7 +42,8 @@ TEST_CASE("writeDataset", "[hdf5io]")
   {
     // open file
     std::string path = getTestFilePath("1DData1DDataset.h5");
-    std::unique_ptr<IO::HDF5::HDF5IO> hdf5io = std::make_unique<IO::HDF5::HDF5IO>(path);
+    std::unique_ptr<IO::HDF5::HDF5IO> hdf5io =
+        std::make_unique<IO::HDF5::HDF5IO>(path);
     hdf5io->open();
 
     // Set up test data
@@ -75,7 +76,8 @@ TEST_CASE("writeDataset", "[hdf5io]")
   {
     // open file
     std::string path = getTestFilePath("1DData2DDataset.h5");
-    std::unique_ptr<IO::HDF5::HDF5IO> hdf5io = std::make_unique<IO::HDF5::HDF5IO>(path);
+    std::unique_ptr<IO::HDF5::HDF5IO> hdf5io =
+        std::make_unique<IO::HDF5::HDF5IO>(path);
     hdf5io->open();
 
     // Set up test data for 3D
@@ -112,7 +114,8 @@ TEST_CASE("writeDataset", "[hdf5io]")
   {
     // open file
     std::string path = getTestFilePath("2DData2DDataset.h5");
-    std::unique_ptr<IO::HDF5::HDF5IO> hdf5io = std::make_unique<IO::HDF5::HDF5IO>(path);
+    std::unique_ptr<IO::HDF5::HDF5IO> hdf5io =
+        std::make_unique<IO::HDF5::HDF5IO>(path);
     hdf5io->open();
 
     // Set up test data for 2D
@@ -152,7 +155,8 @@ TEST_CASE("writeDataset", "[hdf5io]")
   {
     // open file
     std::string path = getTestFilePath("1DData3DDataset.h5");
-    std::unique_ptr<IO::HDF5::HDF5IO> hdf5io = std::make_unique<IO::HDF5::HDF5IO>(path);
+    std::unique_ptr<IO::HDF5::HDF5IO> hdf5io =
+        std::make_unique<IO::HDF5::HDF5IO>(path);
     hdf5io->open();
 
     // Set up test data for 3D
@@ -190,7 +194,8 @@ TEST_CASE("writeDataset", "[hdf5io]")
   {
     // open file
     std::string path = getTestFilePath("2DData3DDataset.h5");
-    std::unique_ptr<IO::HDF5::HDF5IO> hdf5io = std::make_unique<IO::HDF5::HDF5IO>(path);
+    std::unique_ptr<IO::HDF5::HDF5IO> hdf5io =
+        std::make_unique<IO::HDF5::HDF5IO>(path);
     hdf5io->open();
 
     SizeType depth = 1, height = 2, width = 5;
@@ -282,7 +287,8 @@ TEST_CASE("SWMRmode", "[hdf5io]")
   {
     // create and open file
     std::string path = getTestFilePath("testSWMRmode.h5");
-    std::unique_ptr<IO::HDF5::HDF5IO> hdf5io = std::make_unique<IO::HDF5::HDF5IO>(path);
+    std::unique_ptr<IO::HDF5::HDF5IO> hdf5io =
+        std::make_unique<IO::HDF5::HDF5IO>(path);
     hdf5io->open();
 
     // add a dataset
@@ -409,9 +415,10 @@ TEST_CASE("SWMRmode", "[hdf5io]")
       std::vector<SizeType> dataShape = {numSamples};
       datasetPostRestart->writeDataBlock(
           dataShape, BaseDataType::I32, &testData[0]);
-      H5Dflush(static_cast<IO::HDF5::HDF5RecordingData*>(datasetPostRestart.get())
-                   ->getDataSet()
-                   ->getId());
+      H5Dflush(
+          static_cast<IO::HDF5::HDF5RecordingData*>(datasetPostRestart.get())
+              ->getDataSet()
+              ->getId());
     }
 
     hdf5io->close();
@@ -426,7 +433,8 @@ TEST_CASE("readDataset", "[hdf5io]")
   {
     // open file
     std::string path = getTestFilePath("Read1DData1DDataset.h5");
-    std::shared_ptr<IO::HDF5::HDF5IO> hdf5io = std::make_shared<IO::HDF5::HDF5IO>(path);
+    std::shared_ptr<IO::HDF5::HDF5IO> hdf5io =
+        std::make_shared<IO::HDF5::HDF5IO>(path);
     hdf5io->open();
 
     // Set up test data
@@ -451,8 +459,9 @@ TEST_CASE("readDataset", "[hdf5io]")
     REQUIRE(readDataTyped.data == testData);
 
     // Confirm using lazy read as well
-    auto readDataWrapper =
-        std::make_unique<ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset, int32_t>>(hdf5io, dataPath);
+    auto readDataWrapper = std::make_unique<
+        ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset, int32_t>>(
+        hdf5io, dataPath);
     auto readDataGeneric = readDataWrapper->valuesGeneric();
     REQUIRE(readDataGeneric.shape[0] == 10);
     auto readDataTypedV2 = readDataWrapper->values();

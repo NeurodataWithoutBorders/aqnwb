@@ -38,9 +38,11 @@ void ElectrodeTable::initialize(const std::string& description)
                              SizeArray {0},
                              SizeArray {1},
                              path + "group_name"));
-  locationsDataset
-      ->dataset = std::unique_ptr<IO::BaseRecordingData>(io->createArrayDataSet(
-      IO::BaseDataType::STR(250), SizeArray {0}, SizeArray {1}, path + "location"));
+  locationsDataset->dataset = std::unique_ptr<IO::BaseRecordingData>(
+      io->createArrayDataSet(IO::BaseDataType::STR(250),
+                             SizeArray {0},
+                             SizeArray {1},
+                             path + "location"));
 }
 
 void ElectrodeTable::addElectrodes(std::vector<Channel> channels)

@@ -6,9 +6,9 @@
 
 #include <H5Opublic.h>
 
+#include "Types.hpp"
 #include "io/BaseIO.hpp"
 #include "io/ReadIO.hpp"
-#include "Types.hpp"
 
 namespace H5
 {
@@ -133,7 +133,8 @@ public:
    *
    * @return A DataGeneric structure containing the data and shape.
    */
-  AQNWB::IO::DataBlockGeneric readAttribute(const std::string& dataPath) override;
+  AQNWB::IO::DataBlockGeneric readAttribute(
+      const std::string& dataPath) override;
 
   /**
    * @brief Creates an attribute at a given location in the file.

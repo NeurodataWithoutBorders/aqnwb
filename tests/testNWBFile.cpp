@@ -1,7 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 
-#include "io/BaseIO.hpp"
 #include "Utils.hpp"
+#include "io/BaseIO.hpp"
 #include "io/hdf5/HDF5IO.hpp"
 #include "nwb/NWBFile.hpp"
 #include "nwb/RecordingContainers.hpp"
@@ -25,7 +25,8 @@ TEST_CASE("createElectricalSeries", "[nwb]")
   std::string filename = getTestFilePath("createElectricalSeries.nwb");
 
   // initialize nwbfile object and create base structure
-  std::shared_ptr<IO::HDF5::HDF5IO> io = std::make_shared<IO::HDF5::HDF5IO>(filename);
+  std::shared_ptr<IO::HDF5::HDF5IO> io =
+      std::make_shared<IO::HDF5::HDF5IO>(filename);
   NWB::NWBFile nwbfile(io);
   nwbfile.initialize(generateUuid());
 
@@ -64,7 +65,8 @@ TEST_CASE("setCanModifyObjectsMode", "[nwb]")
   std::string filename = getTestFilePath("testCanModifyObjectsMode.nwb");
 
   // initialize nwbfile object and create base structure with HDF5IO object
-  std::shared_ptr<IO::HDF5::HDF5IO> io = std::make_shared<IO::HDF5::HDF5IO>(filename);
+  std::shared_ptr<IO::HDF5::HDF5IO> io =
+      std::make_shared<IO::HDF5::HDF5IO>(filename);
   NWB::NWBFile nwbfile(io);
   nwbfile.initialize(generateUuid());
 

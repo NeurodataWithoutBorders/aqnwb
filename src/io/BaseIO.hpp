@@ -28,7 +28,6 @@ namespace AQNWB::IO
 
 class BaseRecordingData;
 
-
 /**
  * @brief Represents a base data type.
  *
@@ -412,7 +411,6 @@ protected:
    */
   bool opened;
 };
-
 
 /**
  * @brief The base class to represent recording data that can be extended.
