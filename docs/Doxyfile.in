@@ -17,6 +17,10 @@ OUTPUT_DIRECTORY = "@DOXYGEN_OUTPUT_DIRECTORY@"
 # Enable Markdown support
 MARKDOWN_SUPPORT = YES
 
+# Enable the call and caller graphs (this increases built time but seems reasonable for AqNWB)
+CALL_GRAPH           = YES
+CALLER_GRAPH         = YES
+
 # set relative include paths
 FULL_PATH_NAMES = YES
 STRIP_FROM_PATH = "@PROJECT_SOURCE_DIR@/include" "@PROJECT_SOURCE_DIR@"
