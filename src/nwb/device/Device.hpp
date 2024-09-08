@@ -14,6 +14,9 @@ namespace AQNWB::NWB
 class Device : public Container
 {
 public:
+  // Register the Device as a subclass of Container
+  REGISTER_SUBCLASS(Device)
+
   /**
    * @brief Constructor.
    * @param path The location of the device in the file.

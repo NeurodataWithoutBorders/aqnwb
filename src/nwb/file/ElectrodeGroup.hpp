@@ -15,6 +15,7 @@ namespace AQNWB::NWB
 class ElectrodeGroup : public Container
 {
 public:
+
   /**
    * @brief Constructor.
    * @param path The location in the file of the electrode group.

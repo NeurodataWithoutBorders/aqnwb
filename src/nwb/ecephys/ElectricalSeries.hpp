@@ -14,6 +14,9 @@ namespace AQNWB::NWB
 class ElectricalSeries : public TimeSeries
 {
 public:
+  // Register the TimeSeries as a subclass of Container
+  REGISTER_SUBCLASS(ElectricalSeries)
+
   /**
    * @brief Constructor.
    * @param path The location of the ElectricalSeries in the file.
