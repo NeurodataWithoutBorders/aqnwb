@@ -21,6 +21,5 @@ public:
    * @param io A shared pointer to the IO object.
    */
   ElementIdentifiers(const std::string& path, std::shared_ptr<IO::BaseIO> io);
-
 };
 }  // namespace AQNWB::NWB

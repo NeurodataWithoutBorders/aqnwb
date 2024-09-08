@@ -5,7 +5,8 @@ using namespace AQNWB::NWB;
 // Container
 
 /** Constructor */
-Container::Container(const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io)
+Container::Container(const std::string& path,
+                     std::shared_ptr<AQNWB::IO::BaseIO> io)
     : RegisteredType(path, io)
 {
 }

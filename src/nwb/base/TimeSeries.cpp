@@ -4,7 +4,6 @@ using namespace AQNWB::NWB;
 
 // TimeSeries
 
-
 /** Constructor */
 TimeSeries::TimeSeries(const std::string& path, std::shared_ptr<IO::BaseIO> io)
     : Container(path, io)

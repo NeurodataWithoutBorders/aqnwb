@@ -15,7 +15,7 @@ public:
   // Register Data class as a registered type
   REGISTER_SUBCLASS(VectorData)
 
-   /**
+  /**
    * @brief Constructor.
    *
    * @param path The path of the container.

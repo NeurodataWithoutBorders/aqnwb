@@ -3,7 +3,6 @@
 #include <memory>
 #include <string>
 
-
 #include "nwb/RegisteredType.hpp"
 
 namespace AQNWB::NWB

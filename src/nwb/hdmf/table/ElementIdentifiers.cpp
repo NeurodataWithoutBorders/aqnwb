@@ -3,8 +3,8 @@
 using namespace AQNWB::NWB;
 
 /** Constructor */
-ElementIdentifiers::ElementIdentifiers(const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io)
+ElementIdentifiers::ElementIdentifiers(const std::string& path,
+                                       std::shared_ptr<AQNWB::IO::BaseIO> io)
     : Data(path, io)
 {
 }
-
