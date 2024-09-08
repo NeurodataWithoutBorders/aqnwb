@@ -15,6 +15,9 @@ namespace AQNWB::NWB
 class ElectrodeTable : public DynamicTable
 {
 public:
+  // Register the ElectrodeTable as a subclass of Container
+  REGISTER_SUBCLASS(ElectrodeTable)
+
   /**
    * @brief Constructor.
    * @param io The shared pointer to the BaseIO object.

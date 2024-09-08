@@ -9,7 +9,7 @@ namespace AQNWB::NWB
 /**
  * @brief An abstract data type for a dataset.
  */
-class Data
+class Data  // TODO We may want to add a base class below Container to be able to register Data as well and io + path constructors
 {
 public:
   /**

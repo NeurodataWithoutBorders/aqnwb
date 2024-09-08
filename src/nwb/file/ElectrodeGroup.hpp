@@ -15,6 +15,8 @@ namespace AQNWB::NWB
 class ElectrodeGroup : public Container
 {
 public:
+  // Register ElectrodeGroup as a subclass of Container
+  REGISTER_SUBCLASS(ElectrodeGroup)
 
   /**
    * @brief Constructor.
