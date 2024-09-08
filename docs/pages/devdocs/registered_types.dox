@@ -1,0 +1,190 @@
+/**
+ *
+ * \page registered_type_page Implementing a new Neurodata Type
+ *
+ * \tableofcontents
+ *
+ *
+ *
+ * New ``neurodata_type`` typically inherit from at least either \ref AQNWB::NWB::Container "Container"
+ * or \ref AQNWB::NWB::Container "Data", or a more specialized type of the two. In any case,
+ * all classes that represent a ``neurodata_types`` defined in the schema should be implemented
+ * as a subtype of \ref AQNWB::NWB::RegisteredType "RegisteredType".
+ *
+ * @section implement_registered_type How to Implement a RegisteredType
+ *
+ * To implement a subclass of \ref AQNWB::NWB::RegisteredType "RegisteredType", follow these steps:
+ *
+ * 1. Include the `RegisteredType.h` header file in your subclass header file.
+ *    @code
+ *    #include "nwb/RegisteredType.hpp"
+ *    @endcode
+ *
+ * 2. Define your subclass by inheriting from \ref AQNWB::NWB::RegisteredType "RegisteredType".
+ *    Ensure that your subclass implements a constructor with the arguments `(const std::string& path, std::shared_ptr<IO::BaseIO> io)`,
+ *    as the "create"  method expects this constructor signature.
+ *    @code
+ *    class MySubClass : public AQNWB::NWB::RegisteredType {
+ *    public:
+ *        MySubClass(const std::string& path, std::shared_ptr<IO::BaseIO> io)
+ *            : RegisteredType(path, io) {}
+ *
+ *        // Implement any additional methods or overrides here
+ *    };
+ *    @endcode
+ *
+ * 3. Use the `REGISTER_SUBCLASS` macro to register your subclass. This should usually appear in the header (`hpp`) file as part of the class definition.
+ *    @code
+ *    REGISTER_SUBCLASS(MySubClass)
+ *    @endcode
+ *
+ * 4. In the corresponding source (`cpp`) file, initialize the static member to trigger the registration.
+ *    @code
+ *    #include "MySubClass.h"
+ *
+ *    // Initialize the static member to trigger registration
+ *    REGISTER_SUBCLASS_IMPL(MySubClass)
+ *    @endcode
+ *
+ *
+ *
+ * @section type_registry How the Type Registry in RegisteredType Works
+ *
+ * The type registry in \ref AQNWB::NWB::RegisteredType "RegisteredType" allows for dynamic creation of registered subclasses by name. Here is how it works:
+ *
+ * 1. **Registry Storage**:
+ *    - The registry is implemented using 1) an `std::unordered_set` to store subclass names (which can be
+ *      accessed via \ref AQNWB::NWB::RegisteredType::getRegistry "getRegistry()") and
+ *      2) an `std::unordered_map` to store factory functions for creating instances of the subclasses
+ *      (which can be accessed via  \ref AQNWB::NWB::RegisteredType::getFactoryMap() "getFactoryMap()").
+ *      The factory methods are the required constructor that uses the io and path as input.
+ *    - These are defined as static members within the \ref AQNWB::NWB::RegisteredType "RegisteredType" class.
+ *
+ * 2. **Registration**:
+ *    - The \ref AQNWB::NWB::RegisteredType::registerSubclass "registerSubclass" method is used to add a
+ *      subclass name and its corresponding factory function to the registry.
+ *    - This method is called via the `REGISTER_SUBCLASS` macro, which defines a static method (`registerSubclass()`)
+ *      and static member (`registered_`) to trigger the registration when the subclass is loaded.
+ *
+ * 3. **Dynamic Creation**:
+ *    - The  \ref AQNWB::NWB::RegisteredType::create "create" method is used to create an instance of a registered subclass by name.
+ *    - This method looks up the subclass name in the registry and calls the corresponding factory function to create an instance.
+ *
+ * 4. **Automatic Registration**:
+ *    - The `REGISTER_SUBCLASS_IMPL` macro initializes the static member (`registered_`), which triggers the
+ *      \ref AQNWB::NWB::RegisteredType::registerSubclass "registerSubclass" method
+ *      and ensures that the subclass is registered when the program starts.
+ *
+ * 5. **Class Name Retrieval**:
+ *    - The \ref AQNWB::NWB::RegisteredType::getTypeName "getTypeName" method is a virtual function in
+ *      \ref AQNWB::NWB::RegisteredType "RegisteredType" that returns the name of the class type as a string.
+ *    - While each subclass can override this method to return a custom name if needed, it is highly recommended to match
+ *      the name of the class with the name of the ``neurodata_type`` that it implements. The `REGISTER_SUBCLASS` macro
+ *      includes a default implementation that returns the class name, such that we should not need to override this method.
+ *
+ * Example:
+ * @code
+ * // MySubClass.h
+ * #pragma once
+ * #include "RegisteredType.h"
+ *
+ * class MySubClass : public AQNWB::NWB::RegisteredType {
+ * public:
+ *     MySubClass(const std::string& path, std::shared_ptr<IO::BaseIO> io)
+ *         : RegisteredType(path, io) {}
+ *
+ *     void doSomething() const override {
+ *         std::cout << "MySubClass doing something!" << std::endl;
+ *     }
+ *
+ *     // Optionally override the getTypeName method
+ *     std::string getTypeName() const override {
+ *         return "CustomMySubClassName";
+ *     }
+ *
+ *     REGISTER_SUBCLASS(MySubClass)
+ * };
+ *
+ * // MySubClass.cpp
+ * #include "MySubClass.h"
+ *
+ * // Initialize the static member to trigger registration
+ * REGISTER_SUBCLASS_IMPL(MySubClass)
+ * @endcode
+ *
+ *
+ *
+ * @section use_registered_type_registry How to Use the RegisteredType Registry
+ *
+ * The \ref AQNWB::NWB::RegisteredType "RegisteredType" registry allows for dynamic creation and management of registered subclasses. Here is how you can use it:
+ *
+ * 1. **Creating Instances Dynamically**:
+ *    - Use the \ref AQNWB::NWB::RegisteredType::create "create" method to create an instance of a registered subclass by name.
+ *    - This method takes the subclass name, path, and a shared pointer to the IO object as arguments.
+ *    @code
+ *    std::shared_ptr<IO::BaseIO> io = std::make_shared<IO::BaseIO>();
+ *    auto instance = AQNWB::NWB::RegisteredType::create("MySubClass", "path/to/resource", io);
+ *    if (instance) {
+ *        std::cout << "Created instance of type: " << instance->getTypeName() << std::endl;
+ *    } else {
+ *        std::cout << "Failed to create instance of MySubClass" << std::endl;
+ *    }
+ *    @endcode
+ *
+ * 2. **Retrieving Registered Subclass Names**:
+ *    - Use the\ref AQNWB::NWB::RegisteredType::getRegistry "getRegistry" method to retrieve the
+ *      set of registered subclass names.
+ *    @code
+ *    const auto& registry = AQNWB::NWB::RegisteredType::getRegistry();
+ *    std::cout << "Registered subclasses:" << std::endl;
+ *    for (const auto& subclassName : registry) {
+ *        std::cout << " - " << subclassName << std::endl;
+ *    }
+ *    @endcode
+ *
+ * 3. **Retrieving the Factory Map**:
+ *    - Use the \ref AQNWB::NWB::RegisteredType::getFactoryMap "getFactoryMap" method to retrieve
+ *      the map of factory functions for creating instances of registered subclasses.
+ *    @code
+ *    const auto& factoryMap = AQNWB::NWB::RegisteredType::getFactoryMap();
+ *    std::cout << "Factory functions for registered subclasses:" << std::endl;
+ *    for (const auto& pair : factoryMap) {
+ *        std::cout << " - " << pair.first << std::endl;
+ *    }
+ *    @endcode
+ *
+ * Example:
+ * @code
+ * #include <iostream>
+ * #include "RegisteredType.h"
+ * #include "MySubClass.h"
+ *
+ * int main() {
+ *     std::shared_ptr<IO::BaseIO> io = std::make_shared<IO::BaseIO>();
+ *
+ *     // Create an instance of MySubClass
+ *     auto instance = AQNWB::NWB::RegisteredType::create("MySubClass", "path/to/resource", io);
+ *     if (instance) {
+ *         std::cout << "Created instance of type: " << instance->getTypeName() << std::endl;
+ *     } else {
+ *         std::cout << "Failed to create instance of MySubClass" << std::endl;
+ *     }
+ *
+ *     // Retrieve and print registered subclass names
+ *     const auto& registry = AQNWB::NWB::RegisteredType::getRegistry();
+ *     std::cout << "Registered subclasses:" << std::endl;
+ *     for (const auto& subclassName : registry) {
+ *         std::cout << " - " << subclassName << std::endl;
+ *     }
+ *
+ *     // Retrieve and print factory map
+ *     const auto& factoryMap = AQNWB::NWB::RegisteredType::getFactoryMap();
+ *     std::cout << "Factory functions for registered subclasses:" << std::endl;
+ *     for (const auto& pair : factoryMap) {
+ *         std::cout << " - " << pair.first << std::endl;
+ *     }
+ *
+ *     return 0;
+ * }
+ * @endcode
+ */
