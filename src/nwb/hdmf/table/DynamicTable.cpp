@@ -3,6 +3,8 @@
 using namespace AQNWB::NWB;
 
 // DynamicTable
+// Initialize the static registered_ member to trigger registration
+REGISTER_SUBCLASS_IMPL(DynamicTable)
 
 /** Constructor */
 DynamicTable::DynamicTable(const std::string& path,

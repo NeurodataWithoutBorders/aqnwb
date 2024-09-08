@@ -3,6 +3,9 @@
 using namespace AQNWB::NWB;
 
 // Device
+// Initialize the static registered_ member to trigger registration
+REGISTER_SUBCLASS_IMPL(Device)
+
 /** Constructor */
 Device::Device(const std::string& path, std::shared_ptr<IO::BaseIO> io)
     : Container(path, io)

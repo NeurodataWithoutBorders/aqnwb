@@ -5,6 +5,8 @@
 using namespace AQNWB::NWB;
 
 // ElectrodeTable
+// Initialize the static registered_ member to trigger registration
+REGISTER_SUBCLASS_IMPL(ElectrodeTable)
 
 /** Constructor */
 ElectrodeTable::ElectrodeTable(std::shared_ptr<IO::BaseIO> io)
@@ -30,7 +32,9 @@ ElectrodeTable::ElectrodeTable(const std::string& path,
     , locationsDataset(
           std::make_unique<VectorData>(electrodeTablePath + "/location", io))
 {
-  assert(path == electrodeTablePath);
+  std::cerr << "ElectrodeTable object is required to appear at "
+            << this->electrodeTablePath << std::endl;
+  assert(path == this->electrodeTablePath);
 }
 
 /** Destructor */

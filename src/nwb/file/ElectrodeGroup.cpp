@@ -3,6 +3,8 @@
 using namespace AQNWB::NWB;
 
 // ElectrodeGroup
+// Initialize the static registered_ member to trigger registration
+REGISTER_SUBCLASS_IMPL(ElectrodeGroup)
 
 /** Constructor */
 ElectrodeGroup::ElectrodeGroup(const std::string& path,

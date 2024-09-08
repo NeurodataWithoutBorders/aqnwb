@@ -84,9 +84,17 @@ public:
    * @return A unique_ptr to the created instance of the subclass, or nullptr if
    * the subclass is not found.
    */
-  static std::unique_ptr<RegisteredType> create(const std::string& subclassName,
-                                                const std::string& path,
-                                                std::shared_ptr<IO::BaseIO> io);
+  static inline std::unique_ptr<RegisteredType> create(
+      const std::string& subclassName,
+      const std::string& path,
+      std::shared_ptr<IO::BaseIO> io)
+  {
+    auto it = getFactoryMap().find(subclassName);
+    if (it != getFactoryMap().end()) {
+      return it->second(path, io);
+    }
+    return nullptr;
+  }
 
   /**
    * @brief Create an instance of a subclass of Container by type.
@@ -97,13 +105,20 @@ public:
    * @return A unique_ptr to the created instance of the subclass.
    */
   template<typename T>
-  static std::unique_ptr<T> create(const std::string& path,
-                                   std::shared_ptr<IO::BaseIO> io)
+  static inline std::unique_ptr<T> create(const std::string& path,
+                                          std::shared_ptr<IO::BaseIO> io)
   {
     static_assert(std::is_base_of<RegisteredType, T>::value,
                   "T must be a derived class of RegisteredType");
     return std::unique_ptr<T>(new T(path, io));
   }
+
+  /**
+   * @brief Get the name of the class type.
+   * @return The name of the type as a string (which is usually the same as the
+   * class name).
+   */
+  virtual std::string getTypeName() const;
 
 protected:
   /**
@@ -132,8 +147,11 @@ protected:
 /**
  * @brief Macro to register a subclass with the RegisteredType class registry.
  *
- * This macro defines a static method that triggers registration
- * of the subclass type when the subclass type is loaded.
+ * This macro defines:
+ * - A static method `registerSubclass` that triggers registration of the
+ * subclass type when the subclass type is loaded.
+ * - A static member `registered_` that ensures the registration occurs.
+ * - A method `getTypeName` that returns the name of the subclass.
  *
  * @param T The subclass type to register.
  */
@@ -147,7 +165,22 @@ protected:
         { return std::make_unique<T>(path, io); }); \
     return true; \
   } \
-  static bool registered_;
+  static bool registered_; \
+  std::string getTypeName() const override \
+  { \
+    return #T; \
+  }
+
+/**
+ * @brief Macro to initialize the static member `registered_` to trigger
+ * registration.
+ *
+ * This macro ensures that the registration of the subclass occurs when the
+ * program starts.
+ *
+ * @param T The subclass type to register.
+ */
+#define REGISTER_SUBCLASS_IMPL(T) bool T::registered_ = T::registerSubclass();
 
 }  // namespace NWB
 }  // namespace AQNWB

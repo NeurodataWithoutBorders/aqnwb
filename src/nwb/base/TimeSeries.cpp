@@ -3,6 +3,8 @@
 using namespace AQNWB::NWB;
 
 // TimeSeries
+// Initialize the static registered_ member to trigger registration
+REGISTER_SUBCLASS_IMPL(TimeSeries)
 
 /** Constructor */
 TimeSeries::TimeSeries(const std::string& path, std::shared_ptr<IO::BaseIO> io)

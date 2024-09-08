@@ -6,6 +6,8 @@
 using namespace AQNWB::NWB;
 
 // ElectricalSeries
+// Initialize the static registered_ member to trigger registration
+REGISTER_SUBCLASS_IMPL(ElectricalSeries)
 
 /** Constructor */
 ElectricalSeries::ElectricalSeries(const std::string& path,

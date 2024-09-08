@@ -11,6 +11,11 @@ RegisteredType::RegisteredType(const std::string& path,
 
 RegisteredType::~RegisteredType() {}
 
+std::string RegisteredType::getTypeName() const
+{
+  return "RegisteredType";
+}
+
 std::string RegisteredType::getPath() const
 {
   return path;
@@ -44,16 +49,4 @@ void RegisteredType::registerSubclass(
 {
   getRegistry().insert(subclassName);
   getFactoryMap()[subclassName] = factoryFunction;
-}
-
-std::unique_ptr<RegisteredType> RegisteredType::create(
-    const std::string& subclassName,
-    const std::string& path,
-    std::shared_ptr<AQNWB::IO::BaseIO> io)
-{
-  auto it = getFactoryMap().find(subclassName);
-  if (it != getFactoryMap().end()) {
-    return it->second(path, io);
-  }
-  return nullptr;
 }

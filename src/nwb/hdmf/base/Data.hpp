@@ -22,10 +22,7 @@ public:
    * @param path The path of the container.
    * @param io A shared pointer to the IO object.
    */
-  Data(const std::string& path, std::shared_ptr<IO::BaseIO> io)
-      : RegisteredType(path, io)
-  {
-  }
+  Data(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
   /**
    * @brief Destructor.

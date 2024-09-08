@@ -26,10 +26,19 @@ constexpr SizeType CHUNK_XSIZE = 2048;
 std::vector<SizeType> NWBFile::emptyContainerIndexes = {};
 
 // NWBFile
+// Initialize the static registered_ member to trigger registration
+REGISTER_SUBCLASS_IMPL(NWBFile)
 
 NWBFile::NWBFile(std::shared_ptr<IO::BaseIO> io)
     : Container("/", io)
 {
+}
+
+NWBFile::NWBFile(const std::string& path, std::shared_ptr<IO::BaseIO> io)
+    : Container("/", io)  // Always use "/" for the path
+{
+  std::cerr << "NWBFile object is always the root. Path must be /" << std::endl;
+  assert(path == "/");
 }
 
 NWBFile::~NWBFile() {}
