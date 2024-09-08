@@ -9,6 +9,7 @@
 #include "io/hdf5/HDF5IO.hpp"
 #include "nwb/NWBFile.hpp"
 #include "nwb/RecordingContainers.hpp"
+#include "nwb/RegisteredType.hpp"
 #include "nwb/device/Device.hpp"
 #include "nwb/ecephys/ElectricalSeries.hpp"
 #include "nwb/file/ElectrodeGroup.hpp"
@@ -178,11 +179,17 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     std::shared_ptr<BaseIO> readio = createIO("HDF5", path);
 
     // To read from a specific TimeSeries we can just create it directly from
-    // the read IO Using NWB::Container::create we can create any NWB Container
-    // class. Alternatively, we can also construct the ElectricalSeries object
-    // ourselves
+    // the read IO Using NWB::RegisteredType::create we can create any NWB type
+    // class. Alternatively, we could also construct the ElectricalSeries object
+    // ourselves or use the templated version of the NWB::RegisteredType::create
+    // method such that we can supply the class instead of specifying the name.
+    // For example:
+    // OPTION 1:
+    // auto readElectricalSeries = AQNWB::NWB::ElectricalSeries(path, io);
+    // OPTION 2:
+    // NWB::RegisteredType::create<AQNWB::NWB::ElectricalSeries>(path, io);
     auto readElectricalSeries =
-        NWB::Container::create<NWB::ElectricalSeries>(path, io);
+        NWB::RegisteredType::create("core::ElectricalSeries", path, io);
 
     // Now we can read the data in the same way we did during write
     auto readElectricalSeriesData = electricalSeries->dataLazy();
