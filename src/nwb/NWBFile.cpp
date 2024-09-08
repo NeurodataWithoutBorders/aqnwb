@@ -119,9 +119,8 @@ Status NWBFile::createElectricalSeries(
     Device device = Device(devicePath, io);
     device.initialize("description", "unknown");
 
-    ElectrodeGroup elecGroup =
-        ElectrodeGroup(electrodePath, io, "description", "unknown", device);
-    elecGroup.initialize();
+    ElectrodeGroup elecGroup = ElectrodeGroup(electrodePath, io);
+    elecGroup.initialize("description", "unknown", device);
 
     // Setup electrical series datasets
     auto electricalSeries =
