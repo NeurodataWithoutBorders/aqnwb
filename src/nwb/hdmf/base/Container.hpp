@@ -16,7 +16,7 @@ class Container : public RegisteredType
 {
 public:
   // Register the Container class as a registered type
-  REGISTER_SUBCLASS(Container)
+  REGISTER_SUBCLASS(Container, "hdmf-common")
 
   /**
    * @brief Constructor.

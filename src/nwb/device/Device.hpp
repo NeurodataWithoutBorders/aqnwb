@@ -15,7 +15,7 @@ class Device : public Container
 {
 public:
   // Register the Device as a subclass of Container
-  REGISTER_SUBCLASS(Device)
+  REGISTER_SUBCLASS(Device, "core")
 
   /**
    * @brief Constructor.

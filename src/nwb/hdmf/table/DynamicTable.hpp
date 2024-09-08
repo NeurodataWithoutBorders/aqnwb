@@ -20,7 +20,7 @@ class DynamicTable : public Container
 {
 public:
   // Register the TimeSeries as a subclass of Container
-  REGISTER_SUBCLASS(DynamicTable)
+  REGISTER_SUBCLASS(DynamicTable, "hdmf-common")
 
   /**
    * @brief Constructor.

@@ -16,7 +16,7 @@ class ElectrodeTable : public DynamicTable
 {
 public:
   // Register the ElectrodeTable as a subclass of Container
-  REGISTER_SUBCLASS(ElectrodeTable)
+  REGISTER_SUBCLASS(ElectrodeTable, "core")
 
   /**
    * @brief Constructor.

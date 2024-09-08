@@ -16,7 +16,7 @@ class ElectrodeGroup : public Container
 {
 public:
   // Register ElectrodeGroup as a subclass of Container
-  REGISTER_SUBCLASS(ElectrodeGroup)
+  REGISTER_SUBCLASS(ElectrodeGroup, "core")
 
   /**
    * @brief Constructor.

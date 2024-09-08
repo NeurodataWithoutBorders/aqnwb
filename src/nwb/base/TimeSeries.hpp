@@ -15,7 +15,7 @@ class TimeSeries : public Container
 {
 public:
   // Register the TimeSeries as a subclass of Container
-  REGISTER_SUBCLASS(TimeSeries)
+  REGISTER_SUBCLASS(TimeSeries, "core")
 
   /**
    * @brief Constructor.

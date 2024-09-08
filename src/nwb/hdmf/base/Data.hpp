@@ -14,7 +14,7 @@ class Data : public RegisteredType
 {
 public:
   // Register Data class as a registered type
-  REGISTER_SUBCLASS(Data)
+  REGISTER_SUBCLASS(Data, "hdmf-common")
 
   /**
    * @brief Constructor.

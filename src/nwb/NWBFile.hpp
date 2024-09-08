@@ -27,7 +27,7 @@ class NWBFile : public Container
 {
 public:
   // Register the ElectrodeTable as a subclass of Container
-  REGISTER_SUBCLASS(NWBFile)
+  REGISTER_SUBCLASS(NWBFile, "core")
 
   /**
    * @brief Constructor for NWBFile class.

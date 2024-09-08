@@ -13,7 +13,7 @@ class VectorData : public Data
 {
 public:
   // Register Data class as a registered type
-  REGISTER_SUBCLASS(VectorData)
+  REGISTER_SUBCLASS(VectorData, "hdmf-common")
 
   /**
    * @brief Constructor.

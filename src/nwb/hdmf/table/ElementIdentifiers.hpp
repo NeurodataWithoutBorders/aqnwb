@@ -12,7 +12,7 @@ class ElementIdentifiers : public Data
 {
 public:
   // Register Data class as a registered type
-  REGISTER_SUBCLASS(ElementIdentifiers)
+  REGISTER_SUBCLASS(ElementIdentifiers, "hdmf-common")
 
   /**
    * @brief Constructor.
