@@ -46,36 +46,36 @@ TEST_CASE("RegisterType", "[base]")
     std::cout << "Registered Types:" << std::endl;
     std::cout << "Registered Types:" << std::endl;
     for (const auto& entry : factoryMap) {
-        const std::string& subclassFullName = entry.first;
-        const std::string& typeName = entry.second.second.first;
-        const std::string& typeNamespace = entry.second.second.second;
+      const std::string& subclassFullName = entry.first;
+      const std::string& typeName = entry.second.second.first;
+      const std::string& typeNamespace = entry.second.second.second;
 
-        std::cout << subclassFullName << std::endl;
+      std::cout << subclassFullName << std::endl;
 
-        // NWBFile and ElectrodeTable enforce a specific path so we need
-        // to make sure our path matches their expectations
-        if (subclassFullName == "core::NWBFile") {
-            examplePath = "/";
-        } else if (subclassFullName == "core::ElectrodeTable") {
-            examplePath = ElectrodeTable::electrodeTablePath;
-        } else {
-            examplePath = "/example/path";
-        }
+      // NWBFile and ElectrodeTable enforce a specific path so we need
+      // to make sure our path matches their expectations
+      if (subclassFullName == "core::NWBFile") {
+        examplePath = "/";
+      } else if (subclassFullName == "core::ElectrodeTable") {
+        examplePath = ElectrodeTable::electrodeTablePath;
+      } else {
+        examplePath = "/example/path";
+      }
 
-        // Create the type
-        auto instance = RegisteredType::create(subclassFullName, examplePath, io);
-        REQUIRE(instance != nullptr);  // Check that the object was created
-        /*
-        // Check that the name of the type matches the classname.
-        // NOTE: Currently the expected typename is always the classname but
-        //       a type could possibly overwrite the getTypeName method
-        REQUIRE(instance->getTypeName() == typeName);
+      // Create the type
+      auto instance = RegisteredType::create(subclassFullName, examplePath, io);
+      REQUIRE(instance != nullptr);  // Check that the object was created
+      /*
+      // Check that the name of the type matches the classname.
+      // NOTE: Currently the expected typename is always the classname but
+      //       a type could possibly overwrite the getTypeName method
+      REQUIRE(instance->getTypeName() == typeName);
 
-        // Check that the examplePath is set as expected
-        REQUIRE(instance->getPath() == examplePath);
+      // Check that the examplePath is set as expected
+      REQUIRE(instance->getPath() == examplePath);
 
-        // Optionally, you can also check the namespace
-        REQUIRE(instance->getNamespace() == typeNamespace);*/
+      // Optionally, you can also check the namespace
+      REQUIRE(instance->getNamespace() == typeNamespace);*/
     }
   }
 }

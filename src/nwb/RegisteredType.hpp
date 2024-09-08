@@ -117,13 +117,18 @@ public:
 
   /**
    * @brief Get the name of the class type.
-   * @return The name of the type as a string (which is usually the same as the
-   * class name).
+   *
+   * The name of the class should always be the same as the
+   * name of neurodata_type the class represents.
+   * @return The name of the type as a string
    */
   virtual std::string getTypeName() const final;
 
   /**
-   * @brief Get the namespace of the class type.
+   * @brief Get the schema namespace of the class type.
+   *
+   * This is the namespace of the neurodata_type in the format
+   * schema and NOT the namespace of the class in C++.
    * @return The namespace of the type as a string.
    */
   virtual std::string getNamespace() const final;
@@ -174,8 +179,9 @@ protected:
  * subclass type when the subclass type is loaded.
  * - A static member `registered_` that ensures the registration occurs.
  *
- * @param T The subclass type to register.
- * @param NAMESPACE The namespace of the subclass type.
+ * @param T The subclass type to register. The name must match the type in the
+ * schema.
+ * @param NAMESPACE The namespace of the subclass type in the format schema
  */
 #define REGISTER_SUBCLASS(T, NAMESPACE) \
   static bool registerSubclass() \
