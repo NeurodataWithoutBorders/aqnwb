@@ -32,6 +32,7 @@ add_library(
     src/nwb/file/ElectrodeGroup.cpp
     src/nwb/file/ElectrodeTable.cpp
     src/nwb/hdmf/base/Container.cpp
+    src/nwb/hdmf/base/Data.cpp
     src/nwb/hdmf/table/DynamicTable.cpp
     src/nwb/hdmf/table/VectorData.cpp
     src/nwb/hdmf/table/ElementIdentifiers.cpp
