@@ -6,9 +6,9 @@
  *
  *
  *
- * New ``neurodata_type`` typically inherit from at least either \ref AQNWB::NWB::Container "Container"
+ * New neurodata_types typically inherit from at least either \ref AQNWB::NWB::Container "Container"
  * or \ref AQNWB::NWB::Data "Data", or a more specialized type of the two. In any case,
- * all classes that represent a ``neurodata_types`` defined in the schema should be implemented
+ * all classes that represent a ``neurodata_type`` defined in the schema should be implemented
  * as a subtype of \ref AQNWB::NWB::RegisteredType "RegisteredType".
  *
  * @section implement_registered_type How to Implement a RegisteredType
@@ -38,13 +38,6 @@
  *    REGISTER_SUBCLASS(MySubClass, "my-namespace")
  *    @endcode
  *
- * \note
- * To ensure proper function on read, the name of the class should match the name of the
- * ``neurodata_type`` as defined in the schema. Similarly, "my-namespace" should match
- * the name of the namespace in the schema (e.g., "core", "hdmf-common"). In this way
- * we can look up the corresponding class for an object in a file based on the
- * ``neurodata_type`` and ``namespace`` attributes stored in the file.
- *
  * 4. In the corresponding source (`cpp`) file, initialize the static member to trigger the registration.
  *    @code
  *    #include "MySubClass.h"
@@ -53,7 +46,41 @@
  *    REGISTER_SUBCLASS_IMPL(MySubClass)
  *    @endcode
  *
+ * \warning
+ * To ensure proper function on read, the name of the class should match the name of the
+ * ``neurodata_type`` as defined in the schema. Similarly, "my-namespace" should match
+ * the name of the namespace in the schema (e.g., "core", "hdmf-common"). In this way
+ * we can look up the corresponding class for an object in a file based on the
+ * ``neurodata_type`` and ``namespace`` attributes stored in the file.
  *
+ *
+ * **Example:**
+ *
+ * *MySubClass.h*
+ * @code
+ * #pragma once
+ * #include "RegisteredType.h"
+ *
+ * class MySubClass : public AQNWB::NWB::RegisteredType {
+ * public:
+ *     MySubClass(const std::string& path, std::shared_ptr<IO::BaseIO> io)
+ *         : RegisteredType(path, io) {}
+ *
+ *     void doSomething() const override {
+ *         std::cout << "MySubClass doing something!" << std::endl;
+ *     }
+ *
+ *     REGISTER_SUBCLASS(MySubClass, "my-namespace")
+ * };
+ * @endcode
+ *
+ * *MySubClass.cpp*
+ * @code
+ * #include "MySubClass.h"
+ *
+ * // Initialize the static member to trigger registration
+ * REGISTER_SUBCLASS_IMPL(MySubClass)
+ * @endcode
  *
  * @section type_registry How the Type Registry in RegisteredType Works
  *
@@ -86,31 +113,6 @@
  *    - The \ref AQNWB::NWB::RegisteredType::getTypeName "getTypeName" and \ref AQNWB::NWB::RegisteredType::getNamespace "getNamespace" methods are `final` functions
  *      in \ref AQNWB::NWB::RegisteredType "RegisteredType" that return the name and namespace of the class type as strings.
  *      These methods cannot be overridden by subclasses, ensuring consistency in type identification.
- *
- * Example:
- * @code
- * // MySubClass.h
- * #pragma once
- * #include "RegisteredType.h"
- *
- * class MySubClass : public AQNWB::NWB::RegisteredType {
- * public:
- *     MySubClass(const std::string& path, std::shared_ptr<IO::BaseIO> io)
- *         : RegisteredType(path, io) {}
- *
- *     void doSomething() const override {
- *         std::cout << "MySubClass doing something!" << std::endl;
- *     }
- *
- *     REGISTER_SUBCLASS(MySubClass, "my-namespace")
- * };
- *
- * // MySubClass.cpp
- * #include "MySubClass.h"
- *
- * // Initialize the static member to trigger registration
- * REGISTER_SUBCLASS_IMPL(MySubClass)
- * @endcode
  *
  *
  *
