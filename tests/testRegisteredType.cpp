@@ -43,7 +43,6 @@ TEST_CASE("RegisterType", "[base]")
     //    auto instance = pair.second(examplePath, io);
     //    REQUIRE(instance != nullptr);
     // }
-    /*
     std::cout<<"Registered Types:"<<std::endl;
     for (const auto& subclassName : registry) {
       std::cout<<subclassName<<std::endl;
@@ -64,10 +63,10 @@ TEST_CASE("RegisterType", "[base]")
       REQUIRE(instance != nullptr);  // Check that the object was created
       // Check that the name of the type matches the classname.
       // NOTE: Currently the expected typename is always the classname but
-      //       if a type overwrites the getTypeName method than it could be
-    different REQUIRE(instance->getTypeName() == expectedTypeName);
+      //       a type could possibly overwrite the getTypeName method
+      REQUIRE(instance->getTypeName() == expectedTypeName);
       // Check that the examplePath is set as expected
       REQUIRE(instance->getPath() == examplePath);
-    }*/
+    }
   }
 }
