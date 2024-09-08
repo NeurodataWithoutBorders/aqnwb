@@ -20,8 +20,7 @@ public:
    * @param path The location in the file of the electrode group.
    * @param io A shared pointer to the IO object.
    */
-  ElectrodeGroup(const std::string& path,
-                 std::shared_ptr<IO::BaseIO> io);
+  ElectrodeGroup(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
   /**
    * @brief Destructor.
@@ -42,6 +41,5 @@ public:
   void initialize(const std::string& description,
                   const std::string& location,
                   const Device& device);
-
 };
 }  // namespace AQNWB::NWB

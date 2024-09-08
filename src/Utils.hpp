@@ -15,7 +15,6 @@
 #include "io/BaseIO.hpp"
 #include "io/hdf5/HDF5IO.hpp"
 
-
 namespace AQNWB
 {
 /**

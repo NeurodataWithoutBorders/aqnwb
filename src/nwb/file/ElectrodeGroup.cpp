@@ -15,8 +15,8 @@ ElectrodeGroup::ElectrodeGroup(const std::string& path,
 ElectrodeGroup::~ElectrodeGroup() {}
 
 void ElectrodeGroup::initialize(const std::string& description,
-                               const std::string& location,
-                               const Device& device)
+                                const std::string& location,
+                                const Device& device)
 {
   Container::initialize();
 
@@ -24,4 +24,3 @@ void ElectrodeGroup::initialize(const std::string& description,
   io->createAttribute(location, path, "location");
   io->createLink("/" + path + "/device", "/" + device.getPath());
 }
-

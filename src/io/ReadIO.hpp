@@ -12,7 +12,6 @@
 
 #include "Types.hpp"
 
-
 using StorageObjectType = AQNWB::Types::StorageObjectType;
 using SizeType = AQNWB::Types::SizeType;
 
@@ -62,8 +61,12 @@ public:
   /**
    * \brief Parameterized constructor
    */
-  DataBlockGeneric(const std::any& data, const std::vector<SizeType>& shape, const std::type_index& typeIndex)
-      : data(data), shape(shape), typeIndex(typeIndex)
+  DataBlockGeneric(const std::any& data,
+                   const std::vector<SizeType>& shape,
+                   const std::type_index& typeIndex)
+      : data(data)
+      , shape(shape)
+      , typeIndex(typeIndex)
   {
   }
 };
