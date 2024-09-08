@@ -82,12 +82,9 @@ public:
    */
   void setGroupPath(const std::string& groupPath);
 
-  std::unique_ptr<ElementIdentifiers> electrodeDataset =
-      std::make_unique<ElementIdentifiers>(); /**< The electrode dataset. */
-  std::unique_ptr<VectorData> groupNamesDataset =
-      std::make_unique<VectorData>(); /**< The group names dataset. */
-  std::unique_ptr<VectorData> locationsDataset =
-      std::make_unique<VectorData>(); /**< The locations dataset. */
+  std::unique_ptr<ElementIdentifiers> electrodeDataset;
+  std::unique_ptr<VectorData> groupNamesDataset;
+  std::unique_ptr<VectorData> locationsDataset;
 
   /**
    * @brief The path to the ElectrodeTable.

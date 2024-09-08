@@ -10,6 +10,9 @@ using namespace AQNWB::NWB;
 ElectrodeTable::ElectrodeTable(std::shared_ptr<IO::BaseIO> io)
     : DynamicTable(electrodeTablePath,  // use the electrodeTablePath
                    io)
+    , electrodeDataset(std::make_unique<ElementIdentifiers>(electrodeTablePath +"/id", io))
+    , groupNamesDataset(std::make_unique<VectorData>(electrodeTablePath +"/group_name", io))
+    , locationsDataset(std::make_unique<VectorData>(electrodeTablePath + "/location", io))
 {
 }
 
@@ -17,6 +20,9 @@ ElectrodeTable::ElectrodeTable(const std::string& path,
                                std::shared_ptr<IO::BaseIO> io)
     : DynamicTable(electrodeTablePath,  // use the electrodeTablePath
                    io)
+    , electrodeDataset(std::make_unique<ElementIdentifiers>(electrodeTablePath +"/id", io))
+    , groupNamesDataset(std::make_unique<VectorData>(electrodeTablePath +"/group_name", io))
+    , locationsDataset(std::make_unique<VectorData>(electrodeTablePath + "/location", io))
 {
   assert(path == electrodeTablePath);
 }
