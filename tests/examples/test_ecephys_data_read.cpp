@@ -188,8 +188,8 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // auto readElectricalSeries = AQNWB::NWB::ElectricalSeries(path, io);
     // OPTION 2:
     // NWB::RegisteredType::create<AQNWB::NWB::ElectricalSeries>(path, io);
-    auto readElectricalSeries =
-        NWB::RegisteredType::create("core::ElectricalSeries", path, io);
+    auto readElectricalSeries = NWB::RegisteredType::create(
+        "core::ElectricalSeries", electricalSeriesPath, io);
 
     // Now we can read the data in the same way we did during write
     auto readElectricalSeriesData = electricalSeries->dataLazy();
