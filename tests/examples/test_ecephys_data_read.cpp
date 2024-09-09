@@ -171,6 +171,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // Open an I/O for reading
     // TODO: creating a new I/O makes the read fail.
     // std::shared_ptr<BaseIO> readio = createIO("HDF5", path);
+    // readio->open();
 
     // [example_read_only_snippet]
     // Read the ElectricalSeries from the file. This returns a generic
