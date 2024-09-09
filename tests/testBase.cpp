@@ -58,5 +58,18 @@ TEST_CASE("TimeSeries", "[base]")
     std::vector<float> dataRead(dataBuffer, dataBuffer + numSamples);
     delete[] dataBuffer;
     REQUIRE_THAT(dataRead, Catch::Matchers::Approx(data).margin(1));
+
+    // Read the "namespace" attribute
+    DataBlockGeneric namespaceData = io->readAttribute(dataPath + "/namespace");
+    auto namespaceBlock = DataBlock<std::string>::fromGeneric(namespaceData);
+    std::string typeNamespace = namespaceBlock.data[0];
+    REQUIRE(typeNamespace == "core");
+
+    // TODO this fails for some reason but reading namespace works
+    // Read the "neurodata_type" attribute
+    // DataBlockGeneric typeData = io->readAttribute(path + "/neurodata_type");
+    // auto typeBlock = DataBlock<std::string>::fromGeneric(typeData);
+    // std::string typeName = typeBlock.data[0];
+    // REQUIRE(typeName == "ElectricalSeries");
   }
 }

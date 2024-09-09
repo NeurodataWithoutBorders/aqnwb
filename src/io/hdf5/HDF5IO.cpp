@@ -212,8 +212,8 @@ std::vector<std::string> HDF5IO::readStringDataHelper(
 
 AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(const std::string& dataPath)
 {
-  // create the return value to fill
-  IO::DataBlockGeneric result;
+  // Create the return value to fill
+  AQNWB::IO::DataBlockGeneric result;
   // Read the attribute
   auto attributePtr = this->getAttribute(dataPath);
   // Make sure dataPath points to an attribute
@@ -223,7 +223,7 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(const std::string& dataPath)
 
   // Determine the shape of the attribute
   H5::DataSpace dataspace = attribute.getSpace();
-  SizeType rank = dataspace.getSimpleExtentNdims();
+  int rank = dataspace.getSimpleExtentNdims();
   if (rank == 0) {
     // Scalar attribute
     result.shape.clear();
@@ -238,21 +238,40 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(const std::string& dataPath)
   }
 
   // Determine the size of the attribute from the shape
-  // For some reason using "size_t numElements = attribute.getStorageSize();"
-  // seems to not always give the expected size (but may be larger), so
-  // we calculate the number of elements from the shape instead
   size_t numElements = 1;  // Scalar (default)
-  if (result.shape.size() > 0)  // N-dimensional array
-  {
+  if (result.shape.size() > 0) {  // N-dimensional array
     for (const auto v : result.shape) {
       numElements *= v;
     }
   }
 
   // Read the attribute into a vector of the appropriate type
-  if (dataType == H5::PredType::C_S1) {
-    result.data = readStringDataHelper(attribute, numElements);
-    result.typeIndex = typeid(std::string);
+  if (dataType.getClass() == H5T_STRING) {
+    if (dataType.isVariableStr()) {
+      // Handle variable-length strings
+      std::vector<std::string> stringData;
+      try {
+        // Allocate a buffer to hold the variable-length string data
+        char* buffer;
+        attribute.read(dataType, &buffer);
+
+        // Convert the buffer to std::string
+        stringData.emplace_back(buffer);
+
+        // Free the memory allocated by HDF5
+        H5Dvlen_reclaim(
+            dataType.getId(), dataspace.getId(), H5P_DEFAULT, &buffer);
+      } catch (const H5::Exception& e) {
+        throw std::runtime_error(
+            "Failed to read variable-length string attribute: "
+            + std::string(e.getDetailMsg()));
+      }
+      result.data = stringData;
+      result.typeIndex = typeid(std::string);
+    } else {
+      result.data = readStringDataHelper(attribute, numElements);
+      result.typeIndex = typeid(std::string);
+    }
   } else if (dataType == H5::PredType::NATIVE_DOUBLE) {
     result.data = readDataHelper<double>(attribute, numElements);
     result.typeIndex = typeid(double);
