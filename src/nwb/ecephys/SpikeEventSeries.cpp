@@ -31,12 +31,15 @@ SpikeEventSeries::SpikeEventSeries(const std::string& path,
 /** Destructor */
 SpikeEventSeries::~SpikeEventSeries() {}
 
+void SpikeEventSeries::initialize()
+{
+  ElectricalSeries::initialize();
+}
 
-Status SpikeEventSeries::writeSpike(SizeType channelInd,
-                                         const SizeType& numSamples,
-                                         const SizeType& numChannels,
-                                         const void* data,
-                                         const void* timestamps)
+Status SpikeEventSeries::writeSpike(const SizeType& numSamples,
+                                    const SizeType& numChannels,
+                                    const void* data,
+                                    const void* timestamps)
 {
   // get offsets and datashape
   std::vector<SizeType> dataShape;
@@ -44,11 +47,11 @@ Status SpikeEventSeries::writeSpike(SizeType channelInd,
     dataShape = {1, numSamples}; 
   }
   else {
-    dataShape = {1, numSamples, numChannels};
+    dataShape = {1, numChannels, numSamples};
   }
   
-  std::vector<SizeType> positionOffset = {this->eventsRecorded[channelInd]};
-  this->eventsRecorded[channelInd] += 1;
+  std::vector<SizeType> positionOffset = {this->eventsRecorded, 0, 0};
+  this->eventsRecorded += 1;
 
   // write channel data
   return writeData(dataShape, positionOffset, data, timestamps);
