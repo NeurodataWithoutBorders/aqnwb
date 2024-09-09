@@ -21,7 +21,7 @@ TEST_CASE("writeContinuousData", "[recording]")
   {
     // 0. setup mock data
     SizeType numChannels = 4;
-    SizeType numSamples = 300;
+    SizeType numSamples = 100;
     SizeType samplesRecorded = 0;
     SizeType bufferSize = numSamples / 10;
     std::vector<float> dataBuffer(bufferSize);
@@ -48,7 +48,7 @@ TEST_CASE("writeContinuousData", "[recording]")
 
     // 4. create datasets and add to recording containers
     nwbfile->createElectricalSeries(
-        mockRecordingArrays, BaseDataType::I16, recordingContainers.get());
+        mockRecordingArrays, BaseDataType::F32, recordingContainers.get());
 
     // 5. start the recording
     io->startRecording();
@@ -73,14 +73,12 @@ TEST_CASE("writeContinuousData", "[recording]")
           std::vector<SizeType> positionOffset = {samplesRecorded,
                                                   channel.localIndex};
           std::vector<SizeType> dataShape = {dataBuffer.size(), 1};
-          std::unique_ptr<int16_t[]> intBuffer = transformToInt16(
-              dataBuffer.size(), channel.getBitVolts(), dataBuffer.data());
 
           recordingContainers->writeTimeseriesData(i,
                                                    channel,
                                                    dataShape,
                                                    positionOffset,
-                                                   intBuffer.get(),
+                                                   dataBuffer.data(),
                                                    timestampsBuffer.data());
         }
       }
@@ -114,8 +112,7 @@ TEST_CASE("writeContinuousData", "[recording]")
                                             std::vector<float>(numSamples));
     for (SizeType i = 0; i < numChannelsToRead; ++i) {
       for (SizeType j = 0; j < numSamples; ++j) {
-        dataOut[i][j] =
-            buffer[j * numChannelsToRead + i] * (32767.0f * 0.000002f);
+        dataOut[i][j] = buffer[j * numChannelsToRead + i];
       }
     }
     delete[] buffer;

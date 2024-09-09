@@ -1,9 +1,13 @@
+#include <algorithm>
 #include <chrono>
+#include <cmath>
+#include <cstdint>
 #include <ctime>
 #include <iomanip>
 #include <sstream>
 
 #include <boost/date_time.hpp>
+#include <boost/endian/conversion.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
@@ -68,6 +72,40 @@ inline std::shared_ptr<BaseIO> createIO(const std::string& type,
   }
 }
 
+/**
+ * @brief Method to convert float values to uint16 values. This method
+ * was adapted from JUCE AudioDataConverters using a default value of
+ * destBytesPerSample = 2.
+ * @param source The source float data to convert
+ * @param dest The destination for the converted uint16 data
+ * @param numSamples The number of samples to convert
+ */
+inline void convertFloatToInt16LE(const float* source,
+                                  void* dest,
+                                  int numSamples)
+{
+  // TODO - several steps in this function may be unnecessary for our use
+  // case. Consider simplifying the intermediate cast to char and the
+  // final cast to uint16_t.
+  auto maxVal = static_cast<double>(0x7fff);
+  auto intData = static_cast<char*>(dest);
+
+  for (int i = 0; i < numSamples; ++i) {
+    auto clampedValue = std::clamp(maxVal * source[i], -maxVal, maxVal);
+    auto intValue =
+        static_cast<uint16_t>(static_cast<int16_t>(std::round(clampedValue)));
+    intValue = boost::endian::native_to_little(intValue);
+    *reinterpret_cast<uint16_t*>(intData) = intValue;
+    intData += 2;  // destBytesPerSample is always 2
+  }
+}
+
+/**
+ * @brief Method to scale float values and convert to int16 values
+ * @param numSamples The number of samples to convert
+ * @param conversion_factor The conversion factor to scale the data
+ * @param data The data to convert
+ */
 inline std::unique_ptr<int16_t[]> transformToInt16(SizeType numSamples,
                                                    float conversion_factor,
                                                    const float* data)
@@ -83,12 +121,7 @@ inline std::unique_ptr<int16_t[]> transformToInt16(SizeType numSamples,
                  [multFactor](float value) { return value * multFactor; });
 
   // convert float to int16
-  std::transform(
-      scaledData.get(),
-      scaledData.get() + numSamples,
-      intData.get(),
-      [](float value)
-      { return static_cast<int16_t>(std::clamp(value, -32768.0f, 32767.0f)); });
+  convertFloatToInt16LE(scaledData.get(), intData.get(), numSamples);
 
   return intData;
 }
