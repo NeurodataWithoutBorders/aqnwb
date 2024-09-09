@@ -15,7 +15,6 @@
 #include "nwb/ecephys/ElectricalSeries.hpp"
 #include "nwb/ecephys/SpikeEventSeries.hpp"
 #include "nwb/file/ElectrodeGroup.hpp"
-#include "nwb/misc/AnnotationSeries.hpp"
 #include "spec/core.hpp"
 #include "spec/hdmf_common.hpp"
 #include "spec/hdmf_experimental.hpp"
@@ -23,7 +22,8 @@
 
 using namespace AQNWB::NWB;
 
-constexpr SizeType CHUNK_XSIZE = 2048;
+constexpr SizeType CHUNK_XSIZE = 2048;  // TODO - replace these with io settings input
+constexpr SizeType SPIKE_CHUNK_XSIZE = 8;  // TODO - replace with io settings input
 
 std::vector<SizeType> NWBFile::emptyContainerIndexes = {};
 
@@ -110,7 +110,8 @@ Status NWBFile::createElectricalSeries(
   }
 
   // Setup electrode table if it was not yet created
-  if (!io->objectExists(ElectrodeTable::electrodeTablePath)) {
+  bool electrodeTableCreated = io->objectExists(ElectrodeTable::electrodeTablePath);
+  if (!electrodeTableCreated) {
     elecTable = std::make_unique<ElectrodeTable>(io);
     elecTable->initialize();
   }
@@ -143,23 +144,34 @@ Status NWBFile::createElectricalSeries(
     electricalSeries->initialize();
     recordingContainers->addContainer(std::move(electricalSeries));
     containerIndexes.push_back(recordingContainers->containers.size() - 1);
-
-    // Add electrode information to table (does not write to datasets yet)
-    elecTable->addElectrodes(channelVector);
   }
 
-  // write electrode information to datasets
-  elecTable->finalize();
+  if (!electrodeTableCreated) {
+    // Add electrode information to table (does not write to datasets yet)
+    for (const auto& channelVector : recordingArrays) {
+      elecTable->addElectrodes(channelVector);
+    }
+
+    // write electrode information to datasets
+    elecTable->finalize();
+  }
 
   return Status::Success;
 }
 
 Status NWBFile::createSpikeEventSeries(
     std::vector<Types::ChannelVector> recordingArrays,
-    const BaseDataType& dataType)
+    const BaseDataType& dataType,
+    RecordingContainers* recordingContainers,
+    std::vector<SizeType>& containerIndexes)
 {
+  if (!io->canModifyObjects()) {
+    return Status::Failure;
+  }
+
   // Setup electrode table if it was not yet created
-  if (!io->objectExists(ElectrodeTable::electrodeTablePath)) {
+  bool electrodeTableCreated = io->objectExists(ElectrodeTable::electrodeTablePath);
+  if (!electrodeTableCreated) {
     elecTable = std::make_unique<ElectrodeTable>(io);
     elecTable->initialize();
   }
@@ -185,29 +197,23 @@ Status NWBFile::createSpikeEventSeries(
         io,
         dataType,
         channelVector,
-        "Stores continuously sampled voltage data from an "
-        "extracellular ephys recording",
+        "Stores spike waveforms from an extracellular ephys recording",
         SizeArray {0, channelVector.size()},
-        SizeArray {CHUNK_XSIZE, 0});
+        SizeArray {SPIKE_CHUNK_XSIZE, 0});
     spikeEventSeries->initialize();
-    recordingContainers->addData(std::move(spikeEventSeries));
-
-    // Add electrode information to table (does not write to datasets yet)
-    elecTable->addElectrodes(channelVector);
+    recordingContainers->addContainer(std::move(spikeEventSeries));
+    containerIndexes.push_back(recordingContainers->containers.size() - 1);
   }
-  // write electrode information to datasets
-  elecTable->finalize();
 
-  return Status::Success;
-}
+  if (electrodeTableCreated) {
+    // Add electrode information to table (does not write to datasets yet)
+    for (const auto& channelVector : recordingArrays) {
+      elecTable->addElectrodes(channelVector);
+    }
 
-Status NWBFile::createAnnotationSeries(std::string name)
-{
-  // Setup electrical series datasets
-  auto annotationSeries =
-      std::make_unique<AnnotationSeries>(acquisitionPath + name, io);
-  annotationSeries->initialize();
-  recordingContainers->addData(std::move(annotationSeries));
+    // write electrode information to datasets
+    elecTable->finalize();
+  }
 
   return Status::Success;
 }
