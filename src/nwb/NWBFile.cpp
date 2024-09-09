@@ -161,6 +161,7 @@ Status NWBFile::createElectricalSeries(
 
 Status NWBFile::createSpikeEventSeries(
     std::vector<Types::ChannelVector> recordingArrays,
+    const SizeType numSamples,
     const BaseDataType& dataType,
     RecordingContainers* recordingContainers,
     std::vector<SizeType>& containerIndexes)
@@ -192,14 +193,24 @@ Status NWBFile::createSpikeEventSeries(
     elecGroup.initialize();
 
     // Setup Spike Event Series datasets
+    SizeArray dsetSize;
+    SizeArray chunkSize;
+    if (channelVector.size() == 1) {
+      dsetSize = SizeArray {0, 0};
+      chunkSize = SizeArray {SPIKE_CHUNK_XSIZE, 1};
+    } else {
+      dsetSize = SizeArray {0, channelVector.size(), numSamples};
+      chunkSize = SizeArray {SPIKE_CHUNK_XSIZE, 1, 1};
+    }
+
     auto spikeEventSeries = std::make_unique<SpikeEventSeries>(
         spikeEventSeriesPath,
         io,
         dataType,
         channelVector,
         "Stores spike waveforms from an extracellular ephys recording",
-        SizeArray {0, channelVector.size()},
-        SizeArray {SPIKE_CHUNK_XSIZE, 0});
+        dsetSize,
+        chunkSize);
     spikeEventSeries->initialize();
     recordingContainers->addContainer(std::move(spikeEventSeries));
     containerIndexes.push_back(recordingContainers->containers.size() - 1);

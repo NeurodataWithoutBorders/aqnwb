@@ -90,6 +90,7 @@ public:
    * @param recordingArrays vector of ChannelVector indicating the electrodes to
    *                        record from. A separate ElectricalSeries will be
    *                        created for each ChannelVector.
+   * @param numSamples The number of samples to store for a single event.
    * @param dataType The data type of the elements in the data block.
    * @param recordingContainers The container to store the created TimeSeries.
    * @param containerIndexes The indexes of the containers added to
@@ -98,6 +99,7 @@ public:
    */
   Status createSpikeEventSeries(
       std::vector<Types::ChannelVector> recordingArrays,
+      const SizeType numSamples,
       const BaseDataType& dataType = BaseDataType::I16,
       RecordingContainers* recordingContainers = nullptr,
       std::vector<SizeType>& containerIndexes = emptyContainerIndexes);
