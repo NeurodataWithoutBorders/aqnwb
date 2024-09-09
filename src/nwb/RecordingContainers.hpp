@@ -93,7 +93,6 @@ public:
    * @brief Write SpikeEventSeries data to a recordingContainer dataset.
    * @param containerInd The index of the SpikeEventSeries dataset within the
    * SpikeEventSeries containers.
-   * @param channel The channel index to use for writing timestamps.
    * @param numSamples Number of samples in the time for the single event.
    * @param numChannels Number of channels in the time for the single event.
    * @param data A pointer to the data block.
@@ -101,7 +100,6 @@ public:
    * @return The status of the write operation.
    */
   Status writeSpikeEventData(const SizeType& containerInd,
-                                   const Channel& channel,
                                    const SizeType& numSamples,
                                    const SizeType& numChannels,
                                    const void* data,
