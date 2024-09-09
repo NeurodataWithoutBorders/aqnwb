@@ -5,10 +5,9 @@
 #include "Utils.hpp"
 #include "io/BaseIO.hpp"
 #include "io/hdf5/HDF5RecordingData.hpp"
+#include "nwb/RegisteredType.hpp"
 #include "nwb/base/TimeSeries.hpp"
 #include "testUtils.hpp"
-
-#include "nwb/RegisteredType.hpp"
 
 using namespace AQNWB;
 
@@ -73,11 +72,19 @@ TEST_CASE("TimeSeries", "[base]")
     std::string typeName = typeBlock.data[0];
     REQUIRE(typeName == "TimeSeries");
 
-     // Combine the namespace and type name to get the full class name
+    // Combine the namespace and type name to get the full class name
     std::string fullClassName = typeNamespace + "::" + typeName;
     // Create an instance of the corresponding RegisteredType subclass
-    auto readContainer = AQNWB::NWB::RegisteredType::create(fullClassName, path, io);
+    auto readContainer =
+        AQNWB::NWB::RegisteredType::create(fullClassName, dataPath, io);
     std::string containerType = readContainer->getTypeName();
     REQUIRE(containerType == "TimeSeries");
+
+    // Open the TimeSeries container directly from file using the utility method
+    // This method does the same steps as above, i.e., read the attributes and
+    // then create the type from the given name
+    auto readTS = AQNWB::NWB::RegisteredType::create(dataPath, io);
+    std::string readTSType = readContainer->getTypeName();
+    REQUIRE(readTSType == "TimeSeries");
   }
 }

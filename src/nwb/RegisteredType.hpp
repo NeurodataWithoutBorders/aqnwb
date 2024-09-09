@@ -99,9 +99,10 @@ public:
   }
 
   /**
-   * @brief Create an instance of a subclass of Container by type.
+   * @brief Factory method to create an instance of a subclass of RegisteredType
+   * by type.
    *
-   * @tparam T The subclass of Container to instantiate.
+   * @tparam T The subclass of RegisteredType to instantiate.
    * @param path The path of the container.
    * @param io A shared pointer to the IO object.
    * @return A unique_ptr to the created instance of the subclass.
@@ -114,6 +115,21 @@ public:
                   "T must be a derived class of RegisteredType");
     return std::unique_ptr<T>(new T(path, io));
   }
+
+  /**
+   * @brief Factory method to create an instance of a subclass of RegisteredType
+   * from file
+   *
+   * The function: 1) reads the  "namespace" and "neurodata_type" attributes at
+   * the given path, 2) looks up the corresponding subclass of  RegisteredType
+   * for that type in the type registry 3) instantiates the subclass to
+   * represent the object at the path.
+   *
+   * @return A unique pointer to the created RegisteredType instance, or nullptr
+   * if creation fails.
+   */
+  static std::unique_ptr<AQNWB::NWB::RegisteredType> create(
+      const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
   /**
    * @brief Get the name of the class type.

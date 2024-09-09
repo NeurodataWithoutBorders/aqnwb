@@ -195,7 +195,8 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     auto readElectricalSeriesData = electricalSeries->dataLazy();
     // [example_read_only_snippet]
 
-    // TODO Actually loading the data causes a segfault
+    // TODO Actually loading the data causes a segfault. I think creating the
+    // again I/O may kill the file
     // DataBlock<float> readDataValues = readDataWrapper->values<float>();
     // auto readBoostMulitArray = readDataValues.as_multi_array<2>();
 
