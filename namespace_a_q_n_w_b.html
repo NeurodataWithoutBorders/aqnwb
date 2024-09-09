@@ -151,12 +151,65 @@ Functions</h2></td></tr>
 <tr class="memitem:a9a7d11f8409fc86dd48cca4e7f7d844a" id="r_a9a7d11f8409fc86dd48cca4e7f7d844a"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html">BaseIO</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9a7d11f8409fc86dd48cca4e7f7d844a">createIO</a> (const std::string &amp;type, const std::string &amp;filename)</td></tr>
 <tr class="memdesc:a9a7d11f8409fc86dd48cca4e7f7d844a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method to create an IO object.  <br /></td></tr>
 <tr class="separator:a9a7d11f8409fc86dd48cca4e7f7d844a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab9f9fbdde492c567500d5b03a1caea2" id="r_aab9f9fbdde492c567500d5b03a1caea2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aab9f9fbdde492c567500d5b03a1caea2">convertFloatToInt16LE</a> (const float *source, void *dest, int numSamples)</td></tr>
+<tr class="memdesc:aab9f9fbdde492c567500d5b03a1caea2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to convert float values to uint16 values. This method was adapted from JUCE AudioDataConverters using a default value of destBytesPerSample = 2.  <br /></td></tr>
+<tr class="separator:aab9f9fbdde492c567500d5b03a1caea2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4bbe60327d572ca561cce5a7eb565949" id="r_a4bbe60327d572ca561cce5a7eb565949"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; int16_t[]&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4bbe60327d572ca561cce5a7eb565949">transformToInt16</a> (<a class="el" href="_base_i_o_8hpp.html#a95d5d5db2cb7811e65d20c0f68deb025">SizeType</a> numSamples, float conversion_factor, const float *data)</td></tr>
+<tr class="memdesc:a4bbe60327d572ca561cce5a7eb565949"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to scale float values and convert to int16 values.  <br /></td></tr>
 <tr class="separator:a4bbe60327d572ca561cce5a7eb565949"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The main namespace for AqNWB. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="aab9f9fbdde492c567500d5b03a1caea2" name="aab9f9fbdde492c567500d5b03a1caea2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab9f9fbdde492c567500d5b03a1caea2">&#9670;&#160;</a></span>convertFloatToInt16LE()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AQNWB::convertFloatToInt16LE </td>
+          <td>(</td>
+          <td class="paramtype">const float *</td>          <td class="paramname"><span class="paramname"><em>source</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>dest</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>numSamples</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Method to convert float values to uint16 values. This method was adapted from JUCE AudioDataConverters using a default value of destBytesPerSample = 2. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">source</td><td>The source float data to convert </td></tr>
+    <tr><td class="paramname">dest</td><td>The destination for the converted uint16 data </td></tr>
+    <tr><td class="paramname">numSamples</td><td>The number of samples to convert </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="namespace_a_q_n_w_b_aab9f9fbdde492c567500d5b03a1caea2_icgraph.svg" width="448" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
 <a id="a9a7d11f8409fc86dd48cca4e7f7d844a" name="a9a7d11f8409fc86dd48cca4e7f7d844a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9a7d11f8409fc86dd48cca4e7f7d844a">&#9670;&#160;</a></span>createIO()</h2>
 
@@ -286,6 +339,21 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Method to scale float values and convert to int16 values. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">numSamples</td><td>The number of samples to convert </td></tr>
+    <tr><td class="paramname">conversion_factor</td><td>The conversion factor to scale the data </td></tr>
+    <tr><td class="paramname">data</td><td>The data to convert </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="namespace_a_q_n_w_b_a4bbe60327d572ca561cce5a7eb565949_cgraph.svg" width="448" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 
 </div>
 </div>

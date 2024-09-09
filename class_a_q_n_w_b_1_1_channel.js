@@ -1,6 +1,6 @@
 var class_a_q_n_w_b_1_1_channel =
 [
-    [ "Channel", "class_a_q_n_w_b_1_1_channel.html#a1d2b7a0417a6f6ff0cf3e38ff4fd8574", null ],
+    [ "Channel", "class_a_q_n_w_b_1_1_channel.html#a48cdc29ada872f23bfff80685273f150", null ],
     [ "~Channel", "class_a_q_n_w_b_1_1_channel.html#a5f15ebd302464069f1a9e3f0ded14482", null ],
     [ "getBitVolts", "class_a_q_n_w_b_1_1_channel.html#a31f3c683ccc71fd077f941ec828b976c", null ],
     [ "getConversion", "class_a_q_n_w_b_1_1_channel.html#abe58434413a8df186bd12ad419bb1894", null ],

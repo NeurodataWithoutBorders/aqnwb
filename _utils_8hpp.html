@@ -106,11 +106,15 @@ $(function(){initNavTree('_utils_8hpp.html',''); initResizable(true); });
   <div class="headertitle"><div class="title">Utils.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;chrono&gt;</code><br />
+<div class="textblock"><code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;chrono&gt;</code><br />
+<code>#include &lt;cmath&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
 <code>#include &lt;ctime&gt;</code><br />
 <code>#include &lt;iomanip&gt;</code><br />
 <code>#include &lt;sstream&gt;</code><br />
 <code>#include &lt;boost/date_time.hpp&gt;</code><br />
+<code>#include &lt;boost/endian/conversion.hpp&gt;</code><br />
 <code>#include &lt;boost/uuid/uuid.hpp&gt;</code><br />
 <code>#include &lt;boost/uuid/uuid_generators.hpp&gt;</code><br />
 <code>#include &lt;boost/uuid/uuid_io.hpp&gt;</code><br />
@@ -147,7 +151,11 @@ Functions</h2></td></tr>
 <tr class="memitem:a9a7d11f8409fc86dd48cca4e7f7d844a" id="r_a9a7d11f8409fc86dd48cca4e7f7d844a"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html">BaseIO</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_a_q_n_w_b.html#a9a7d11f8409fc86dd48cca4e7f7d844a">AQNWB::createIO</a> (const std::string &amp;type, const std::string &amp;filename)</td></tr>
 <tr class="memdesc:a9a7d11f8409fc86dd48cca4e7f7d844a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method to create an IO object.  <br /></td></tr>
 <tr class="separator:a9a7d11f8409fc86dd48cca4e7f7d844a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab9f9fbdde492c567500d5b03a1caea2" id="r_aab9f9fbdde492c567500d5b03a1caea2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_a_q_n_w_b.html#aab9f9fbdde492c567500d5b03a1caea2">AQNWB::convertFloatToInt16LE</a> (const float *source, void *dest, int numSamples)</td></tr>
+<tr class="memdesc:aab9f9fbdde492c567500d5b03a1caea2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to convert float values to uint16 values. This method was adapted from JUCE AudioDataConverters using a default value of destBytesPerSample = 2.  <br /></td></tr>
+<tr class="separator:aab9f9fbdde492c567500d5b03a1caea2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4bbe60327d572ca561cce5a7eb565949" id="r_a4bbe60327d572ca561cce5a7eb565949"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; int16_t[]&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_a_q_n_w_b.html#a4bbe60327d572ca561cce5a7eb565949">AQNWB::transformToInt16</a> (<a class="el" href="_base_i_o_8hpp.html#a95d5d5db2cb7811e65d20c0f68deb025">SizeType</a> numSamples, float conversion_factor, const float *data)</td></tr>
+<tr class="memdesc:a4bbe60327d572ca561cce5a7eb565949"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to scale float values and convert to int16 values.  <br /></td></tr>
 <tr class="separator:a4bbe60327d572ca561cce5a7eb565949"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
