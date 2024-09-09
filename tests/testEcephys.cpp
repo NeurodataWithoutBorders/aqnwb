@@ -166,7 +166,7 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
   std::string dataPath = "/sesdata";
   BaseDataType dataType = BaseDataType::F32;
   std::vector<std::vector<float>> mockData =
-      getMockData2D(numEvents, numSamples*numChannels);
+      getMockData2D(numSamples*numChannels, numEvents);
   std::vector<double> mockTimestamps = getMockTimestamps(numEvents, 1);
   std::string devicePath = "/device";
   std::string electrodePath = "/elecgroup/";
@@ -201,29 +201,30 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
       ses.writeSpike(
           numSamples, numChannels, mockData[e].data(), &timestamp);
     }
-    // io->close();
+    io->close();
 
-    // // Read data back from file
-    // std::unique_ptr<H5::H5File> file =
-    //     std::make_unique<H5::H5File>(path, H5F_ACC_RDONLY);
-    // std::unique_ptr<H5::DataSet> dataset =
-    //     std::make_unique<H5::DataSet>(file->openDataSet(dataPath + "/data"));
-    // std::vector<std::vector<float>> dataOut(numEvents,
-    //                                         std::vector<float>(numSamples * numChannels));
-    // float* buffer = new float[numEvents* numSamples * numChannels];
+    // Read data back from file
+    std::unique_ptr<H5::H5File> file =
+        std::make_unique<H5::H5File>(path, H5F_ACC_RDONLY);
+    std::unique_ptr<H5::DataSet> dataset =
+        std::make_unique<H5::DataSet>(file->openDataSet(dataPath + "/data"));
+    std::vector<std::vector<float>> dataOut(numEvents,
+                                            std::vector<float>(numSamples * numChannels));
+    float* buffer = new float[numEvents* numSamples * numChannels];
 
-    // H5::DataSpace fSpace = dataset->getSpace();
-    // hsize_t dims[1] = {numEvents * numSamples * numChannels};
-    // H5::DataSpace mSpace(1, dims);
-    // dataset->read(buffer, H5::PredType::NATIVE_FLOAT, mSpace, fSpace);
+    H5::DataSpace fSpace = dataset->getSpace();
+    hsize_t dims[3];
+    fSpace.getSimpleExtentDims(dims, NULL);
+    hsize_t memdims = dims[0] * dims[1] * dims[2];
+    dataset->read(buffer, H5::PredType::NATIVE_FLOAT, fSpace, fSpace);
 
-    // for (SizeType i = 0; i < numEvents; ++i) {
-    //   for (SizeType j = 0; j < (numSamples * numChannels); ++j) {
-    //     dataOut[i][j] = buffer[j * (numSamples * numChannels) + i];
-    //   }
-    // }
-    // delete[] buffer;
-    // REQUIRE_THAT(dataOut[0], Catch::Matchers::Approx(mockData[0]).margin(1));
-    // REQUIRE_THAT(dataOut[1], Catch::Matchers::Approx(mockData[1]).margin(1));
+    for (SizeType i = 0; i < numEvents; ++i) {
+      for (SizeType j = 0; j < (numSamples * numChannels); ++j) {
+        dataOut[i][j] = buffer[i * (numSamples * numChannels) + j];
+      }
+    }
+    delete[] buffer;
+    REQUIRE_THAT(dataOut[0], Catch::Matchers::Approx(mockData[0]).margin(1));
+    REQUIRE_THAT(dataOut[1], Catch::Matchers::Approx(mockData[1]).margin(1));
   }
 }

@@ -34,6 +34,8 @@ SpikeEventSeries::~SpikeEventSeries() {}
 void SpikeEventSeries::initialize()
 {
   ElectricalSeries::initialize();
+
+  this->eventsRecorded = 0;
 }
 
 Status SpikeEventSeries::writeSpike(const SizeType& numSamples,
