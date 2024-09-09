@@ -8,6 +8,8 @@
 #include "nwb/base/TimeSeries.hpp"
 #include "testUtils.hpp"
 
+#include "nwb/RegisteredType.hpp"
+
 using namespace AQNWB;
 
 TEST_CASE("TimeSeries", "[base]")
@@ -21,11 +23,11 @@ TEST_CASE("TimeSeries", "[base]")
   std::vector<float> data = getMockData1D(numSamples);
   BaseDataType timestampsType = BaseDataType::F64;
   std::vector<double> timestamps = getMockTimestamps(numSamples, 1);
+  std::string path = getTestFilePath("testTimeseries.h5");
 
   SECTION("test writing timeseries data block")
   {
     // setup timeseries object
-    std::string path = getTestFilePath("testTimeseries.h5");
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
     NWB::TimeSeries ts = NWB::TimeSeries(dataPath, io);
@@ -70,5 +72,12 @@ TEST_CASE("TimeSeries", "[base]")
     auto typeBlock = DataBlock<std::string>::fromGeneric(typeData);
     std::string typeName = typeBlock.data[0];
     REQUIRE(typeName == "TimeSeries");
+
+     // Combine the namespace and type name to get the full class name
+    std::string fullClassName = typeNamespace + "::" + typeName;
+    // Create an instance of the corresponding RegisteredType subclass
+    auto readContainer = AQNWB::NWB::RegisteredType::create(fullClassName, path, io);
+    std::string containerType = readContainer->getTypeName();
+    REQUIRE(containerType == "TimeSeries");
   }
 }
