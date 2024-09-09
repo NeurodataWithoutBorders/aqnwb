@@ -169,43 +169,43 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // [example_read_getpath_snippet]
 
     // [example_read_finish_recording_snippet]
+
     // Stop the recording
-    io->stopRecording();
-    io->close();
+    // io->stopRecording();
+    // io->close();
     // [example_read_finish_recording_snippet]
 
     // [example_read_only_snippet]
-    // Open an I/O for reading
-    std::shared_ptr<BaseIO> readio = createIO("HDF5", path);
 
-    // To read from a specific TimeSeries we can just create it directly from
-    // the read IO Using NWB::RegisteredType::create we can create any NWB type
-    // class. Alternatively, we could also construct the ElectricalSeries object
-    // ourselves or use the templated version of the NWB::RegisteredType::create
-    // method such that we can supply the class instead of specifying the name.
-    // For example:
-    // OPTION 1:
-    // auto readElectricalSeries = AQNWB::NWB::ElectricalSeries(path, io);
-    // OPTION 2:
-    // NWB::RegisteredType::create<AQNWB::NWB::ElectricalSeries>(path, io);
-    auto readElectricalSeries = NWB::RegisteredType::create(
-        "core::ElectricalSeries", electricalSeriesPath, io);
+    // Open an I/O for reading
+    // TODO: creating a new I/O makes the read fail.
+    // std::shared_ptr<BaseIO> readio = createIO("HDF5", path);
+    auto readio = io;
+
+    // Read the ElectricalSeries from the file. This returns a generic
+    // std::unique_ptr<AQNWB::NWB::RegisteredType>
+    auto readRegisteredType =
+        NWB::RegisteredType::create(electricalSeriesPath, io);
+    // If we need operations that are specific for the ElectricalSeries,
+    // then we can cast the returned pointer via
+    auto readElectricalSeries =
+        std::dynamic_pointer_cast<AQNWB::NWB::ElectricalSeries>(
+            readRegisteredType);
 
     // Now we can read the data in the same way we did during write
-    auto readElectricalSeriesData = electricalSeries->dataLazy();
+    auto readElectricalSeriesData = readElectricalSeries->dataLazy();
+    DataBlock<float> readDataValues = readDataWrapper->values<float>();
+    auto readBoostMulitArray = readDataValues.as_multi_array<2>();
     // [example_read_only_snippet]
 
-    // TODO Actually loading the data causes a segfault. I think creating the
-    // again I/O may kill the file
-    // DataBlock<float> readDataValues = readDataWrapper->values<float>();
-    // auto readBoostMulitArray = readDataValues.as_multi_array<2>();
-
-    // Let's read the first 10 timesteps for the first two channels
+    // TODO Slicing doesn't seem to work quite yet. The full data is loaded
+    // instead. Let's read the first 10 timesteps for the first two channels
     /*DataBlock<float> dataSlice = readDataWrapper->values<float>(
         {0, 0},  // start
-        {100, 1}  // count
+        {10, 1}  // count
     );
-    REQUIRE(dataSlice.shape[0] == 100);
+    REQUIRE(dataSlice.data.size() == 10);
+    REQUIRE(dataSlice.shape[0] == 10);
     REQUIRE(dataSlice.shape[1] == 1);*/
 
     // TODO Add an attribute getter (e.g., for ElectricalSeries.unit) and test
