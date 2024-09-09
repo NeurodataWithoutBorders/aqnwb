@@ -168,20 +168,11 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     REQUIRE(electricalSeriesDataPath == (electricalSeriesPath + "/data"));
     // [example_read_getpath_snippet]
 
-    // [example_read_finish_recording_snippet]
-
-    // Stop the recording
-    // io->stopRecording();
-    // io->close();
-    // [example_read_finish_recording_snippet]
-
-    // [example_read_only_snippet]
-
     // Open an I/O for reading
     // TODO: creating a new I/O makes the read fail.
     // std::shared_ptr<BaseIO> readio = createIO("HDF5", path);
-    auto readio = io;
 
+    // [example_read_only_snippet]
     // Read the ElectricalSeries from the file. This returns a generic
     // std::unique_ptr<AQNWB::NWB::RegisteredType>
     auto readRegisteredType =
@@ -217,5 +208,11 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // fail: (this->file->attrExists(dataPath)), function readAttribute, file
     // HDF5IO.cpp, line 161. i.e., the attribute does not seem to exists so
     // either the path is wrong or something is bad with the write?
+
+    // [example_read_finish_recording_snippet]
+    // Stop the recording
+    io->stopRecording();
+    io->close();
+    // [example_read_finish_recording_snippet]
   }
 }
