@@ -162,11 +162,12 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
   SizeType numSamples = 32;
   SizeType numChannels = 4;
   SizeType numEvents = 10;
-  std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(numChannels);
+  std::vector<Types::ChannelVector> mockArrays =
+      getMockChannelArrays(numChannels);
   std::string dataPath = "/sesdata";
   BaseDataType dataType = BaseDataType::F32;
   std::vector<std::vector<float>> mockData =
-      getMockData2D(numSamples*numChannels, numEvents);
+      getMockData2D(numSamples * numChannels, numEvents);
   std::vector<double> mockTimestamps = getMockTimestamps(numEvents, 1);
   std::string devicePath = "/device";
   std::string electrodePath = "/elecgroup/";
@@ -185,21 +186,20 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
     elecTable.initialize();
 
     // setup electrical series
-    NWB::SpikeEventSeries ses =
-        NWB::SpikeEventSeries(dataPath,
-                              io,
-                              dataType,
-                              mockArrays[0],
-                              "no description",
-                              SizeArray {0, numChannels, numSamples},  // TODO - fix the size inputs
-                              SizeArray {8, 1, 1});
+    NWB::SpikeEventSeries ses = NWB::SpikeEventSeries(
+        dataPath,
+        io,
+        dataType,
+        mockArrays[0],
+        "no description",
+        SizeArray {0, numChannels, numSamples},  // TODO - fix the size inputs
+        SizeArray {8, 1, 1});
     ses.initialize();
 
     // write channel data
     for (SizeType e = 0; e < numEvents; ++e) {
       double timestamp = mockTimestamps[e];
-      ses.writeSpike(
-          numSamples, numChannels, mockData[e].data(), &timestamp);
+      ses.writeSpike(numSamples, numChannels, mockData[e].data(), &timestamp);
     }
     io->close();
 
@@ -208,9 +208,9 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
         std::make_unique<H5::H5File>(path, H5F_ACC_RDONLY);
     std::unique_ptr<H5::DataSet> dataset =
         std::make_unique<H5::DataSet>(file->openDataSet(dataPath + "/data"));
-    std::vector<std::vector<float>> dataOut(numEvents,
-                                            std::vector<float>(numSamples * numChannels));
-    float* buffer = new float[numEvents* numSamples * numChannels];
+    std::vector<std::vector<float>> dataOut(
+        numEvents, std::vector<float>(numSamples * numChannels));
+    float* buffer = new float[numEvents * numSamples * numChannels];
 
     H5::DataSpace fSpace = dataset->getSpace();
     hsize_t dims[3];

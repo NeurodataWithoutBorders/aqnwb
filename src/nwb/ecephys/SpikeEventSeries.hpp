@@ -51,10 +51,10 @@ public:
    * @param timestamps The timestamps of the event
    * @param
    */
-   Status writeSpike(const SizeType& numSamples,
-                   const SizeType& numChannels,
-                   const void* data,
-                   const void* timestamps);
+  Status writeSpike(const SizeType& numSamples,
+                    const SizeType& numChannels,
+                    const void* data,
+                    const void* timestamps);
 
 private:
   /**

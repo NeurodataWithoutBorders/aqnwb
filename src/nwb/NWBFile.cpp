@@ -19,11 +19,12 @@
 #include "spec/hdmf_common.hpp"
 #include "spec/hdmf_experimental.hpp"
 
-
 using namespace AQNWB::NWB;
 
-constexpr SizeType CHUNK_XSIZE = 2048;  // TODO - replace these with io settings input
-constexpr SizeType SPIKE_CHUNK_XSIZE = 8;  // TODO - replace with io settings input
+constexpr SizeType CHUNK_XSIZE =
+    2048;  // TODO - replace these with io settings input
+constexpr SizeType SPIKE_CHUNK_XSIZE =
+    8;  // TODO - replace with io settings input
 
 std::vector<SizeType> NWBFile::emptyContainerIndexes = {};
 
@@ -110,7 +111,8 @@ Status NWBFile::createElectricalSeries(
   }
 
   // Setup electrode table if it was not yet created
-  bool electrodeTableCreated = io->objectExists(ElectrodeTable::electrodeTablePath);
+  bool electrodeTableCreated =
+      io->objectExists(ElectrodeTable::electrodeTablePath);
   if (!electrodeTableCreated) {
     elecTable = std::make_unique<ElectrodeTable>(io);
     elecTable->initialize();
@@ -171,7 +173,8 @@ Status NWBFile::createSpikeEventSeries(
   }
 
   // Setup electrode table if it was not yet created
-  bool electrodeTableCreated = io->objectExists(ElectrodeTable::electrodeTablePath);
+  bool electrodeTableCreated =
+      io->objectExists(ElectrodeTable::electrodeTablePath);
   if (!electrodeTableCreated) {
     elecTable = std::make_unique<ElectrodeTable>(io);
     elecTable->initialize();

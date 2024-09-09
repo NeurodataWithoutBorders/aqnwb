@@ -100,10 +100,10 @@ public:
    * @return The status of the write operation.
    */
   Status writeSpikeEventData(const SizeType& containerInd,
-                                   const SizeType& numSamples,
-                                   const SizeType& numChannels,
-                                   const void* data,
-                                   const void* timestamps);
+                             const SizeType& numSamples,
+                             const SizeType& numChannels,
+                             const void* data,
+                             const void* timestamps);
 
   std::vector<std::unique_ptr<Container>> containers;
   std::string name;

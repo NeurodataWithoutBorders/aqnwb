@@ -47,10 +47,9 @@ Status SpikeEventSeries::writeSpike(const SizeType& numSamples,
   std::vector<SizeType> dataShape;
   std::vector<SizeType> positionOffset;
   if (numChannels == 1) {
-    dataShape = {1, numSamples}; 
+    dataShape = {1, numSamples};
     positionOffset = {this->eventsRecorded, 0};
-  }
-  else {
+  } else {
     dataShape = {1, numChannels, numSamples};
     positionOffset = {this->eventsRecorded, 0, 0};
   }
@@ -58,5 +57,4 @@ Status SpikeEventSeries::writeSpike(const SizeType& numSamples,
 
   // write channel data
   return writeData(dataShape, positionOffset, data, timestamps);
-
 }
