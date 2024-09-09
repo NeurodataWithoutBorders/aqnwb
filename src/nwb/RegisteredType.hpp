@@ -86,7 +86,7 @@ public:
    * @return A unique_ptr to the created instance of the subclass, or nullptr if
    * the subclass is not found.
    */
-  static inline std::unique_ptr<RegisteredType> create(
+  static inline std::shared_ptr<RegisteredType> create(
       const std::string& fullClassName,
       const std::string& path,
       std::shared_ptr<IO::BaseIO> io)
@@ -108,12 +108,12 @@ public:
    * @return A unique_ptr to the created instance of the subclass.
    */
   template<typename T>
-  static inline std::unique_ptr<T> create(const std::string& path,
+  static inline std::shared_ptr<T> create(const std::string& path,
                                           std::shared_ptr<IO::BaseIO> io)
   {
     static_assert(std::is_base_of<RegisteredType, T>::value,
                   "T must be a derived class of RegisteredType");
-    return std::unique_ptr<T>(new T(path, io));
+    return std::shared_ptr<T>(new T(path, io));
   }
 
   /**
@@ -128,7 +128,7 @@ public:
    * @return A unique pointer to the created RegisteredType instance, or nullptr
    * if creation fails.
    */
-  static std::unique_ptr<AQNWB::NWB::RegisteredType> create(
+  static std::shared_ptr<AQNWB::NWB::RegisteredType> create(
       const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
   /**

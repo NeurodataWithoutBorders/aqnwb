@@ -76,7 +76,7 @@ std::string RegisteredType::getNamespace() const
  * @return A unique pointer to the created RegisteredType instance, or nullptr
  * if creation fails.
  */
-std::unique_ptr<AQNWB::NWB::RegisteredType> RegisteredType::create(
+std::shared_ptr<AQNWB::NWB::RegisteredType> RegisteredType::create(
     const std::string& path, std::shared_ptr<IO::BaseIO> io)
 {
   try {
