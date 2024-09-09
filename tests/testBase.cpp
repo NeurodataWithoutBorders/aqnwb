@@ -65,11 +65,10 @@ TEST_CASE("TimeSeries", "[base]")
     std::string typeNamespace = namespaceBlock.data[0];
     REQUIRE(typeNamespace == "core");
 
-    // TODO this fails for some reason but reading namespace works
     // Read the "neurodata_type" attribute
-    // DataBlockGeneric typeData = io->readAttribute(path + "/neurodata_type");
-    // auto typeBlock = DataBlock<std::string>::fromGeneric(typeData);
-    // std::string typeName = typeBlock.data[0];
-    // REQUIRE(typeName == "ElectricalSeries");
+    DataBlockGeneric typeData = io->readAttribute(dataPath + "/neurodata_type");
+    auto typeBlock = DataBlock<std::string>::fromGeneric(typeData);
+    std::string typeName = typeBlock.data[0];
+    REQUIRE(typeName == "TimeSeries");
   }
 }
