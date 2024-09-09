@@ -110,10 +110,12 @@
  *      and ensures that the subclass is registered when the program starts.
  *
  * 5. **Class Name and Namespace Retrieval**:
- *    - The \ref AQNWB::NWB::RegisteredType::getTypeName "getTypeName" and \ref AQNWB::NWB::RegisteredType::getNamespace "getNamespace" methods are `final` functions
- *      in \ref AQNWB::NWB::RegisteredType "RegisteredType" that return the name and namespace of the class type as strings.
- *      These methods cannot be overridden by subclasses, ensuring consistency in type identification.
- *
+ *    - The \ref AQNWB::NWB::RegisteredType::getTypeName "getTypeName" and
+ *      \ref AQNWB::NWB::RegisteredType::getNamespace "getNamespace" return the string name the
+ *      class and namespace, respectively. The `REGISTER_SUBCLASS` macro implements and automatic
+ *      override of the methods to ensure the appropriate type and namespace string are returned.
+ *      These methods should, hence, not be manually overridden by subclasses, to ensure consistency
+ *      in type identification.
  *
  *
  * @section use_registered_type_registry How to Use the RegisteredType Registry
