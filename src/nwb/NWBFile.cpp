@@ -34,17 +34,26 @@ NWBFile::NWBFile(std::shared_ptr<IO::BaseIO> io)
 
 NWBFile::~NWBFile() {}
 
-Status NWBFile::initialize(const std::string& identifierText)
+Status NWBFile::initialize(const std::string& identifierText,
+                           const std::string& description,
+                           const std::string& dataCollection)
 {
   if (std::filesystem::exists(io->getFileName())) {
     return io->open(false);
   } else {
     io->open(true);
-    return createFileStructure(identifierText);
+    return createFileStructure(identifierText, description, dataCollection);
   }
 }
 
-Status NWBFile::createFileStructure(const std::string& identifierText)
+Status NWBFile::finalize()
+{
+  return io->close();
+}
+
+Status NWBFile::createFileStructure(const std::string& identifierText,
+                                    const std::string& description,
+                                    const std::string& dataCollection)
 {
   if (!io->canModifyObjects()) {
     return Status::Failure;
@@ -62,6 +71,9 @@ Status NWBFile::createFileStructure(const std::string& identifierText)
   io->createGroup("/general");
   io->createGroup("/general/devices");
   io->createGroup("/general/extracellular_ephys");
+  if (dataCollection != "") {
+    io->createStringDataSet("/general/data_collection", dataCollection);
+  }
 
   io->createGroup("/specifications");
   io->createReferenceAttribute("/specifications", "/", ".specloc");
@@ -78,17 +90,12 @@ Status NWBFile::createFileStructure(const std::string& identifierText)
   std::string time = getCurrentTime();
   std::vector<std::string> timeVec = {time};
   io->createStringDataSet("/file_create_date", timeVec);
-  io->createStringDataSet("/session_description", "a recording session");
+  io->createStringDataSet("/session_description", description);
   io->createStringDataSet("/session_start_time", time);
   io->createStringDataSet("/timestamps_reference_time", time);
   io->createStringDataSet("/identifier", identifierText);
 
   return Status::Success;
-}
-
-Status NWBFile::finalize()
-{
-  return io->close();
 }
 
 Status NWBFile::createElectricalSeries(

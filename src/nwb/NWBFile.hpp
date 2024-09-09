@@ -51,9 +51,13 @@ public:
    * @brief Initializes the NWB file by opening and setting up the file
    * structure.
    *
-   *  @param identifierText The identifier text for the NWBFile.
+   * @param identifierText The identifier text for the NWBFile.
+   * @param description A description of the NWBFile session.
+   * @param dataCollection Information about the data collection methods.
    */
-  Status initialize(const std::string& identifierText);
+  Status initialize(const std::string& identifierText,
+                    const std::string& description = "a recording session",
+                    const std::string& dataCollection = "");
 
   /**
    * @brief Finalizes the NWB file by closing it.
@@ -88,11 +92,14 @@ protected:
    * new objects cannot be added, which can be checked via
    * nwbfile.io->canModifyObjects()
    *
-   *  @param identifierText The identifier text for the NWBFile.
-   *
+   * @param identifierText The identifier text for the NWBFile.
+   * @param description A description of the NWBFile session.
+   * @param dataCollection Information about the data collection methods.
    * @return Status The status of the file structure creation.
    */
-  Status createFileStructure(const std::string& identifierText);
+  Status createFileStructure(const std::string& identifierText,
+                             const std::string& description,
+                             const std::string& dataCollection);
 
 private:
   /**
