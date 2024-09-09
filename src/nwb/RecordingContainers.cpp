@@ -2,7 +2,9 @@
 #include "nwb/RecordingContainers.hpp"
 
 #include "nwb/ecephys/ElectricalSeries.hpp"
+#include "nwb/ecephys/SpikeEventSeries.hpp"
 #include "nwb/hdmf/base/Container.hpp"
+
 
 using namespace AQNWB::NWB;
 // Recording Container
@@ -62,4 +64,22 @@ Status RecordingContainers::writeElectricalSeriesData(
     return Status::Failure;
 
   es->writeChannel(channel.localIndex, numSamples, data, timestamps);
+}
+
+
+Status RecordingContainers::writeSpikeEventData(
+    const SizeType& containerInd,
+    const Channel& channel,
+    const SizeType& numSamples,
+    const SizeType& numChannels,
+    const void* data,
+    const void* timestamps)
+{
+  SpikeEventSeries* ses =
+      dynamic_cast<SpikeEventSeries*>(getContainer(containerInd));
+
+  if (ses == nullptr)
+    return Status::Failure;
+
+  ses->writeSpike(channel.localIndex, numSamples, numChannels, data, timestamps);
 }

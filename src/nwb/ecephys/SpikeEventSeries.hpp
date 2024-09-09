@@ -38,10 +38,30 @@ public:
    */
   ~SpikeEventSeries();
 
+  /**
+   * @brief Write a single spike series event
+   * @param channelInd The channel index within the SpikeEventSeries
+   * @param numSamples The number of samples in the event
+   * @param numChannels The number of channels in the event
+   * @param data The data of the event
+   * @param timestamps The timestamps of the event
+   * @param
+   */
+   Status writeSpike(SizeType channelInd,
+                   const SizeType& numSamples,
+                   const SizeType& numChannels,
+                   const void* data,
+                   const void* timestamps);
+
 private:
   /**
    * @brief The neurodataType of the SpikeEventSeries.
    */
   std::string neurodataType = "SpikeEventSeries";
+
+  /**
+   * @brief The number of events already written.
+   */
+  SizeArray eventsRecorded;
 };
 }  // namespace AQNWB::NWB

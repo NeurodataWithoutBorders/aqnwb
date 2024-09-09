@@ -71,7 +71,7 @@ public:
                              const void* timestamps);
 
   /**
-   * @brief Write ElectricalSereis data to a recordingContainer dataset.
+   * @brief Write ElectricalSeries data to a recordingContainer dataset.
    * @param containerInd The index of the electrical series dataset within the
    * electrical series group.
    * @param channel The channel index to use for writing timestamps.
@@ -86,6 +86,24 @@ public:
   Status writeElectricalSeriesData(const SizeType& containerInd,
                                    const Channel& channel,
                                    const SizeType& numSamples,
+                                   const void* data,
+                                   const void* timestamps);
+
+  /**
+   * @brief Write SpikeEventSeries data to a recordingContainer dataset.
+   * @param containerInd The index of the SpikeEventSeries dataset within the
+   * SpikeEventSeries containers.
+   * @param channel The channel index to use for writing timestamps.
+   * @param numSamples Number of samples in the time for the single event.
+   * @param numChannels Number of channels in the time for the single event.
+   * @param data A pointer to the data block.
+   * @param timestamps A pointer to the timestamps block
+   * @return The status of the write operation.
+   */
+  Status writeSpikeEventData(const SizeType& containerInd,
+                                   const Channel& channel,
+                                   const SizeType& numSamples,
+                                   const SizeType& numChannels,
                                    const void* data,
                                    const void* timestamps);
 
