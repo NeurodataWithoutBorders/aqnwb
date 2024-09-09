@@ -30,7 +30,11 @@ void TimeSeries::initialize(const IO::BaseDataType& dataType,
   this->dataType = dataType;
 
   // setup attributes
-  io->createCommonNWBAttributes(path, "core", neurodataType, description);
+  io->createCommonNWBAttributes(
+      path,
+      this->getNamespace(),
+      this->getTypeName(),
+      description);  //  "core", "TimeSeries", description); //
   io->createAttribute(comments, path, "comments");
 
   // setup datasets

@@ -118,20 +118,27 @@ public:
   /**
    * @brief Get the name of the class type.
    *
-   * The name of the class should always be the same as the
-   * name of neurodata_type the class represents.
+   * The REGISTER_SUBCLASS macro defines an  automatic override
+   * for this function to return the unmangled name of the class.
+   * The name  of the class must be the same as the neurodata_type
+   * that it implements.
+   *
    * @return The name of the type as a string
    */
-  virtual std::string getTypeName() const final;
+  virtual std::string getTypeName() const;
 
   /**
    * @brief Get the schema namespace of the class type.
    *
    * This is the namespace of the neurodata_type in the format
    * schema and NOT the namespace of the class in C++.
+   * The REGISTER_SUBCLASS macro defines an  automatic override
+   * for this function to return the namespace as defined when
+   * the class was registered.
+   *
    * @return The namespace of the type as a string.
    */
-  virtual std::string getNamespace() const final;
+  virtual std::string getNamespace() const;
 
 protected:
   /**
@@ -159,16 +166,6 @@ protected:
    * @brief A shared pointer to the IO object.
    */
   std::shared_ptr<IO::BaseIO> io;
-
-  /**
-   * @brief The name of the type (same as the class name)
-   */
-  std::string typeName;
-
-  /**
-   * @brief The namespace of the type as specified in the REGISTER_SUBCLASS call
-   */
-  std::string typeNamespace;
 };
 
 /**
@@ -178,6 +175,8 @@ protected:
  * - A static method `registerSubclass` that triggers registration of the
  * subclass type when the subclass type is loaded.
  * - A static member `registered_` that ensures the registration occurs.
+ * - override getTypeName for the class to return the correct type name
+ * - override getNamespace for the class to return the correct namespace used
  *
  * @param T The subclass type to register. The name must match the type in the
  * schema.
@@ -195,7 +194,15 @@ protected:
         NAMESPACE); \
     return true; \
   } \
-  static bool registered_;
+  static bool registered_; \
+  virtual std::string getTypeName() const override \
+  { \
+    return #T; \
+  } \
+  virtual std::string getNamespace() const override \
+  { \
+    return NAMESPACE; \
+  }
 
 /**
  * @brief Macro to initialize the static member `registered_` to trigger

@@ -52,20 +52,10 @@ void RegisteredType::registerSubclass(
 
 std::string RegisteredType::getTypeName() const
 {
-  for (const auto& entry : getFactoryMap()) {
-    if (entry.second.first(path, io)->getTypeName() == typeName) {
-      return entry.second.second.first;
-    }
-  }
   return "";
 }
 
 std::string RegisteredType::getNamespace() const
 {
-  for (const auto& entry : getFactoryMap()) {
-    if (entry.second.first(path, io)->getNamespace() == typeNamespace) {
-      return entry.second.second.second;
-    }
-  }
   return "";
 }

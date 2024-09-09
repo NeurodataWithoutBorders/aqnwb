@@ -73,23 +73,12 @@ public:
                  const std::vector<int>& values);
 
   /**
-   * @brief Gets the description of the table.
-   * @return The description of the table.
-   */
-  std::string getDescription() const;
-
-  /**
    * @brief Gets the column names of the table.
    * @return A vector of column names.
    */
   virtual const std::vector<std::string>& getColNames();
 
 private:
-  /**
-   * @brief Description of the DynamicTable.
-   */
-  std::string description;
-
   /**
    * @brief Names of the columns in the table.
    */

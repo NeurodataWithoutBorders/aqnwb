@@ -22,7 +22,8 @@ void ElectrodeGroup::initialize(const std::string& description,
 {
   Container::initialize();
 
-  io->createCommonNWBAttributes(path, "core", "ElectrodeGroup", description);
+  io->createCommonNWBAttributes(
+      this->path, this->getNamespace(), this->getTypeName(), description);
   io->createAttribute(location, path, "location");
   io->createLink("/" + path + "/device", "/" + device.getPath());
 }

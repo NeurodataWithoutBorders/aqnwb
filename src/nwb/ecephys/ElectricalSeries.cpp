@@ -52,8 +52,8 @@ void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
                              SizeArray {1},
                              chunkSize,
                              getPath() + "/channel_conversion"));
-  io->createCommonNWBAttributes(getPath() + "/channel_conversion",
-                                "hdmf-common",
+  io->createCommonNWBAttributes(this->getPath() + "/channel_conversion",
+                                "hdmf-common",  // TODO shouldn't this be core?
                                 "",
                                 "Bit volts values for all channels");
 
@@ -68,7 +68,7 @@ void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
       IO::BaseDataType::I32,
       &electrodeInds[0]);
   io->createCommonNWBAttributes(
-      getPath() + "/electrodes", "hdmf-common", "DynamicTableRegion", "");
+      this->getPath() + "/electrodes", "hdmf-common", "DynamicTableRegion", "");
   io->createReferenceAttribute(
       ElectrodeTable::electrodeTablePath, getPath() + "/electrodes", "table");
 }

@@ -59,7 +59,8 @@ Status NWBFile::createFileStructure(const std::string& identifierText)
     return Status::Failure;
   }
 
-  io->createCommonNWBAttributes("/", "core", "NWBFile", "");
+  io->createCommonNWBAttributes(
+      this->path, this->getNamespace(), this->getTypeName(), "");
   io->createAttribute(AQNWB::SPEC::CORE::version, "/", "nwb_version");
 
   io->createGroup("/acquisition");

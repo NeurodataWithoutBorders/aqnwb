@@ -120,11 +120,5 @@ public:
         IO::ReadDataWrapper<AQNWB::Types::StorageObjectType::Attribute, VTYPE>>(
         this->io, this->resolutionPath());
   }
-
-private:
-  /**
-   * @brief The neurodataType of the TimeSeries.
-   */
-  std::string neurodataType = "TimeSeries";
 };
 }  // namespace AQNWB::NWB

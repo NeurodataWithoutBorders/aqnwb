@@ -10,7 +10,6 @@ REGISTER_SUBCLASS_IMPL(DynamicTable)
 DynamicTable::DynamicTable(const std::string& path,
                            std::shared_ptr<IO::BaseIO> io)
     : Container(path, io)
-    , description(description)
 {
 }
 
@@ -21,10 +20,9 @@ DynamicTable::~DynamicTable() {}
 void DynamicTable::initialize(const std::string& description)
 {
   Container::initialize();
-  this->description = description;
 
   io->createCommonNWBAttributes(
-      path, "hdmf-common", "DynamicTable", this->description);
+      this->path, this->getNamespace(), this->getTypeName(), description);
   io->createAttribute(getColNames(), path, "colnames");
 }
 
@@ -44,7 +42,10 @@ void DynamicTable::addColumn(const std::string& name,
           IO::BaseDataType::STR(values[i].size() + 1),
           values[i].c_str());  // TODO - add tests for this
     io->createCommonNWBAttributes(
-        path + name, "hdmf-common", "VectorData", colDescription);
+        this->path + name,
+        vectorData->getNamespace(),
+        vectorData->getTypeName(),
+        colDescription);  // TODO should this be path + "/" + name
   }
 }
 
@@ -58,7 +59,9 @@ void DynamicTable::setRowIDs(std::unique_ptr<ElementIdentifiers>& elementIDs,
                                         IO::BaseDataType::I32,
                                         &values[0]);
     io->createCommonNWBAttributes(
-        path + "id", "hdmf-common", "ElementIdentifiers");
+        this->path + "id",
+        elementIDs->getNamespace(),
+        elementIDs->getTypeName());  // TODO should this be path + "/id"
   }
 }
 
@@ -71,14 +74,11 @@ void DynamicTable::addColumn(const std::string& name,
   } else {
     io->createReferenceDataSet(path + name, values);
     io->createCommonNWBAttributes(
-        path + name, "hdmf-common", "VectorData", colDescription);
+        path + name,
+        "hdmf-common",
+        "VectorData",
+        colDescription);  // TODO this should use VectorData properly
   }
-}
-
-// Getter for description
-std::string DynamicTable::getDescription() const
-{
-  return description;
 }
 
 // Getter for colNames

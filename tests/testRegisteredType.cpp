@@ -65,17 +65,14 @@ TEST_CASE("RegisterType", "[base]")
       // Create the type
       auto instance = RegisteredType::create(subclassFullName, examplePath, io);
       REQUIRE(instance != nullptr);  // Check that the object was created
-      /*
       // Check that the name of the type matches the classname.
-      // NOTE: Currently the expected typename is always the classname but
-      //       a type could possibly overwrite the getTypeName method
       REQUIRE(instance->getTypeName() == typeName);
+
+      // Check that the getNamespace returns the expected namespace
+      REQUIRE(instance->getNamespace() == typeNamespace);
 
       // Check that the examplePath is set as expected
       REQUIRE(instance->getPath() == examplePath);
-
-      // Optionally, you can also check the namespace
-      REQUIRE(instance->getNamespace() == typeNamespace);*/
     }
   }
 }

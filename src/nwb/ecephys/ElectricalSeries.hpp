@@ -88,11 +88,6 @@ public:
 
 private:
   /**
-   * @brief The neurodataType of the TimeSeries.
-   */
-  std::string neurodataType = "ElectricalSeries";
-
-  /**
    * @brief The number of samples already written per channel.
    */
   SizeArray samplesRecorded;
