@@ -235,7 +235,7 @@ public:
       const std::string& path) override;
 
   /**
-   * @brief Checks whether an object already exists at the location in the file.
+   * @brief Checks whether a Dataset, Group, or Link already exists at the location in the file.
    * @param path The location of the object in the file.
    * @return Whether the object exists.
    */

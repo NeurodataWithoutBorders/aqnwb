@@ -152,7 +152,7 @@ private:
   const std::string identifierText;
   std::shared_ptr<BaseIO> io;
   static std::vector<SizeType> emptyContainerIndexes;
-  inline const static std::string acquisitionPath = "/acquisition/";
+  inline const static std::string acquisitionPath = "/acquisition";
 };
 
 }  // namespace AQNWB::NWB
