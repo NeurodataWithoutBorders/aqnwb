@@ -82,7 +82,7 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
   SizeType numSamples = 5;
   std::vector<Types::ChannelVector> mockSpikeArrays = getMockChannelArrays(1, 2, "spikedata");
   Status resultCreateSES = nwbfile.createSpikeEventSeries(
-      mockSpikeArrays, numSamples, BaseDataType::F32, recordingContainers.get());
+      mockSpikeArrays, BaseDataType::F32, recordingContainers.get());
 
   // start recording
   Status resultStart = io->startRecording();

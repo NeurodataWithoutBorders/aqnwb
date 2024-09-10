@@ -167,7 +167,6 @@ Status NWBFile::createElectricalSeries(
 
 Status NWBFile::createSpikeEventSeries(
     std::vector<Types::ChannelVector> recordingArrays,
-    const SizeType numSamples,
     const BaseDataType& dataType,
     RecordingContainers* recordingContainers,
     std::vector<SizeType>& containerIndexes)
@@ -210,7 +209,7 @@ Status NWBFile::createSpikeEventSeries(
       dsetSize = SizeArray {0, 0};
       chunkSize = SizeArray {SPIKE_CHUNK_XSIZE, 1};
     } else {
-      dsetSize = SizeArray {0, channelVector.size(), numSamples};
+      dsetSize = SizeArray {0, channelVector.size(), 0};
       chunkSize = SizeArray {SPIKE_CHUNK_XSIZE, 1, 1};
     }
 
