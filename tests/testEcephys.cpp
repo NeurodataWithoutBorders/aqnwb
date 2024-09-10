@@ -172,9 +172,9 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
     // setup mock data
     SizeType numChannels = 4;
     std::vector<Types::ChannelVector> mockArrays =
-      getMockChannelArrays(numChannels);
+        getMockChannelArrays(numChannels);
     std::vector<std::vector<float>> mockData =
-      getMockData2D(numSamples * numChannels, numEvents); 
+        getMockData2D(numSamples * numChannels, numEvents);
 
     // setup io object
     std::string path = getTestFilePath("SpikeEventSeries3D.h5");
@@ -188,14 +188,14 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
     elecTable.initialize();
 
     // setup electrical series
-    NWB::SpikeEventSeries ses = NWB::SpikeEventSeries(
-        dataPath,
-        io,
-        dataType,
-        mockArrays[0],
-        "no description",
-        SizeArray {0, numChannels, numSamples},
-        SizeArray {8, 1, 1});
+    NWB::SpikeEventSeries ses =
+        NWB::SpikeEventSeries(dataPath,
+                              io,
+                              dataType,
+                              mockArrays[0],
+                              "no description",
+                              SizeArray {0, numChannels, numSamples},
+                              SizeArray {8, 1, 1});
     ses.initialize();
 
     // write channel data
@@ -230,13 +230,12 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
     REQUIRE_THAT(dataOut[1], Catch::Matchers::Approx(mockData[1]).margin(1));
   }
 
-SECTION("test writing events - events x samples")
+  SECTION("test writing events - events x samples")
   {
     // setup mock data
-    std::vector<Types::ChannelVector> mockArrays =
-      getMockChannelArrays(1);
+    std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(1);
     std::vector<std::vector<float>> mockData =
-      getMockData2D(numSamples, numEvents); 
+        getMockData2D(numSamples, numEvents);
 
     // setup io object
     std::string path = getTestFilePath("SpikeEventSeries2D.h5");
@@ -250,14 +249,13 @@ SECTION("test writing events - events x samples")
     elecTable.initialize();
 
     // setup electrical series
-    NWB::SpikeEventSeries ses = NWB::SpikeEventSeries(
-        dataPath,
-        io,
-        dataType,
-        mockArrays[0],
-        "no description",
-        SizeArray {0, numSamples},
-        SizeArray {8, 1});
+    NWB::SpikeEventSeries ses = NWB::SpikeEventSeries(dataPath,
+                                                      io,
+                                                      dataType,
+                                                      mockArrays[0],
+                                                      "no description",
+                                                      SizeArray {0, numSamples},
+                                                      SizeArray {8, 1});
     ses.initialize();
 
     // write channel data
@@ -272,8 +270,8 @@ SECTION("test writing events - events x samples")
         std::make_unique<H5::H5File>(path, H5F_ACC_RDONLY);
     std::unique_ptr<H5::DataSet> dataset =
         std::make_unique<H5::DataSet>(file->openDataSet(dataPath + "/data"));
-    std::vector<std::vector<float>> dataOut(
-        numEvents, std::vector<float>(numSamples));
+    std::vector<std::vector<float>> dataOut(numEvents,
+                                            std::vector<float>(numSamples));
     float* buffer = new float[numEvents * numSamples];
 
     H5::DataSpace fSpace = dataset->getSpace();

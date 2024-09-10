@@ -75,12 +75,13 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
   std::unique_ptr<NWB::RecordingContainers> recordingContainers =
       std::make_unique<NWB::RecordingContainers>();
   Status resultCreateES = nwbfile.createElectricalSeries(
-      mockArrays, BaseDataType::F32, recordingContainers.get());   
+      mockArrays, BaseDataType::F32, recordingContainers.get());
   REQUIRE(resultCreateES == Status::Success);
 
   // create SpikeEventSeries
   SizeType numSamples = 5;
-  std::vector<Types::ChannelVector> mockSpikeArrays = getMockChannelArrays(1, 2, "spikedata");
+  std::vector<Types::ChannelVector> mockSpikeArrays =
+      getMockChannelArrays(1, 2, "spikedata");
   Status resultCreateSES = nwbfile.createSpikeEventSeries(
       mockSpikeArrays, BaseDataType::F32, recordingContainers.get());
 

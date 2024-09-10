@@ -127,13 +127,14 @@ Status NWBFile::createElectricalSeries(
     std::string electrodePath = "/general/extracellular_ephys/" + sourceName;
     std::string electricalSeriesPath = acquisitionPath + "/" + groupName;
 
-    // Check if device exists for groupName, create device and electrode group if not
-    if (!io->objectExists(devicePath)){
+    // Check if device exists for groupName, create device and electrode group
+    // if not
+    if (!io->objectExists(devicePath)) {
       Device device = Device(devicePath, io, "description", "unknown");
       device.initialize();
 
       ElectrodeGroup elecGroup =
-        ElectrodeGroup(electrodePath, io, "description", "unknown", device);
+          ElectrodeGroup(electrodePath, io, "description", "unknown", device);
       elecGroup.initialize();
     }
 
@@ -192,13 +193,14 @@ Status NWBFile::createSpikeEventSeries(
     std::string electrodePath = "/general/extracellular_ephys/" + sourceName;
     std::string spikeEventSeriesPath = acquisitionPath + "/" + groupName;
 
-    // Check if device exists for groupName, create device and electrode group if not
-    if (!io->objectExists(devicePath)){
+    // Check if device exists for groupName, create device and electrode group
+    // if not
+    if (!io->objectExists(devicePath)) {
       Device device = Device(devicePath, io, "description", "unknown");
       device.initialize();
 
       ElectrodeGroup elecGroup =
-        ElectrodeGroup(electrodePath, io, "description", "unknown", device);
+          ElectrodeGroup(electrodePath, io, "description", "unknown", device);
       elecGroup.initialize();
     }
 
