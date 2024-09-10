@@ -124,14 +124,17 @@ Status NWBFile::createElectricalSeries(
     std::string groupName = channelVector[0].groupName;
     std::string devicePath = "/general/devices/" + groupName;
     std::string electrodePath = "/general/extracellular_ephys/" + groupName;
-    std::string electricalSeriesPath = acquisitionPath + groupName;
+    std::string electricalSeriesPath = acquisitionPath + "/" + groupName;
 
-    Device device = Device(devicePath, io, "description", "unknown");
-    device.initialize();
+    // Check if device exists for groupName, create device and electrode group if not
+    if (!io->objectExists(devicePath)){
+      Device device = Device(devicePath, io, "description", "unknown");
+      device.initialize();
 
-    ElectrodeGroup elecGroup =
+      ElectrodeGroup elecGroup =
         ElectrodeGroup(electrodePath, io, "description", "unknown", device);
-    elecGroup.initialize();
+      elecGroup.initialize();
+    }
 
     // Setup electrical series datasets
     auto electricalSeries = std::make_unique<ElectricalSeries>(
@@ -186,14 +189,17 @@ Status NWBFile::createSpikeEventSeries(
     std::string groupName = channelVector[0].groupName;
     std::string devicePath = "/general/devices/" + groupName;
     std::string electrodePath = "/general/extracellular_ephys/" + groupName;
-    std::string spikeEventSeriesPath = acquisitionPath + groupName;
+    std::string spikeEventSeriesPath = acquisitionPath + "/" + groupName;
 
-    Device device = Device(devicePath, io, "description", "unknown");
-    device.initialize();
+    // Check if device exists for groupName, create device and electrode group if not
+    if (!io->objectExists(devicePath)){
+      Device device = Device(devicePath, io, "description", "unknown");
+      device.initialize();
 
-    ElectrodeGroup elecGroup =
+      ElectrodeGroup elecGroup =
         ElectrodeGroup(electrodePath, io, "description", "unknown", device);
-    elecGroup.initialize();
+      elecGroup.initialize();
+    }
 
     // Setup Spike Event Series datasets
     SizeArray dsetSize;
@@ -219,7 +225,7 @@ Status NWBFile::createSpikeEventSeries(
     containerIndexes.push_back(recordingContainers->containers.size() - 1);
   }
 
-  if (electrodeTableCreated) {
+  if (!electrodeTableCreated) {
     // Add electrode information to table (does not write to datasets yet)
     for (const auto& channelVector : recordingArrays) {
       elecTable->addElectrodes(channelVector);
@@ -239,7 +245,7 @@ void NWBFile::cacheSpecifications(
     const std::array<std::pair<std::string_view, std::string_view>, N>&
         specVariables)
 {
-  io->createGroup("/specifications/" + specPath + "/");
+  io->createGroup("/specifications/" + specPath);
   io->createGroup("/specifications/" + specPath + "/" + versionNumber);
 
   for (const auto& [name, content] : specVariables) {
