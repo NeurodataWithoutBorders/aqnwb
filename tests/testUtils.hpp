@@ -33,13 +33,14 @@ inline std::string getTestFilePath(std::string filename)
 }
 
 inline std::vector<Types::ChannelVector> getMockChannelArrays(
-    SizeType numChannels = 2, SizeType numArrays = 2)
+    SizeType numChannels = 2, SizeType numArrays = 2, std::string groupName = "esdata")
 {
   std::vector<Types::ChannelVector> arrays(numArrays);
   for (SizeType i = 0; i < numArrays; i++) {
     std::vector<Channel> chGroup;
     for (SizeType j = 0; j < numChannels; j++) {
       Channel ch("ch" + std::to_string(j),
+                 groupName + std::to_string(i),
                  "array" + std::to_string(i),
                  i,
                  j,

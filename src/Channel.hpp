@@ -20,6 +20,7 @@ public:
    */
   Channel(const std::string name,
           const std::string groupName,
+          const std::string sourceName,
           const SizeType groupIndex,
           const SizeType localIndex,
           const SizeType globalIndex,
@@ -63,6 +64,11 @@ public:
    * @brief Name of the array group the channel belongs to.
    */
   std::string groupName;
+
+  /**
+   * @brief Name of the data source the channel belongs to.
+   */
+  std::string sourceName;
 
   /**
    * @brief Index of array group the channel belongs to.
