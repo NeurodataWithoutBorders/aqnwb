@@ -6,6 +6,7 @@
 #include "nwb/NWBFile.hpp"
 #include "nwb/RecordingContainers.hpp"
 #include "nwb/base/TimeSeries.hpp"
+#include "nwb/ecephys/SpikeEventSeries.hpp"
 #include "testUtils.hpp"
 
 using namespace AQNWB;
@@ -56,6 +57,59 @@ TEST_CASE("createElectricalSeries", "[nwb]")
       static_cast<NWB::TimeSeries*>(recordingContainers->getContainer(1));
   ts1->writeData(
       dataShape, positionOffset, mockData.data(), mockTimestamps.data());
+
+  nwbfile.finalize();
+}
+
+TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
+{
+  std::string filename = getTestFilePath("createESandSES.nwb");
+
+  // initialize nwbfile object and create base structure
+  std::shared_ptr<HDF5::HDF5IO> io = std::make_shared<HDF5::HDF5IO>(filename);
+  NWB::NWBFile nwbfile(generateUuid(), io);
+  nwbfile.initialize();
+
+  // create Electrical Series
+  std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(1, 2);
+  std::unique_ptr<NWB::RecordingContainers> recordingContainers =
+      std::make_unique<NWB::RecordingContainers>();
+  Status resultCreateES = nwbfile.createElectricalSeries(
+      mockArrays, BaseDataType::F32, recordingContainers.get());   
+  REQUIRE(resultCreateES == Status::Success);
+
+  // create SpikeEventSeries
+  SizeType numSamples = 5;
+  std::vector<Types::ChannelVector> mockSpikeArrays = getMockChannelArrays(1, 2, "spikedata");
+  Status resultCreateSES = nwbfile.createSpikeEventSeries(
+      mockSpikeArrays, numSamples, BaseDataType::F32, recordingContainers.get());
+
+  // start recording
+  Status resultStart = io->startRecording();
+  REQUIRE(resultStart == Status::Success);
+
+  // write electrical series data
+  std::vector<float> mockData = {1.0f, 2.0f, 3.0f, 4.0f, 5.0f};
+  std::vector<double> mockTimestamps = {0.1, 0.2, 0.3, 0.4, 0.5};
+  std::vector<SizeType> positionOffset = {0, 0};
+  std::vector<SizeType> dataShape = {mockData.size(), 0};
+
+  NWB::TimeSeries* ts0 =
+      static_cast<NWB::TimeSeries*>(recordingContainers->getContainer(0));
+  ts0->writeData(
+      dataShape, positionOffset, mockData.data(), mockTimestamps.data());
+  NWB::TimeSeries* ts1 =
+      static_cast<NWB::TimeSeries*>(recordingContainers->getContainer(1));
+  ts1->writeData(
+      dataShape, positionOffset, mockData.data(), mockTimestamps.data());
+
+  // write spike event series data
+  NWB::SpikeEventSeries* ses0 =
+      static_cast<NWB::SpikeEventSeries*>(recordingContainers->getContainer(2));
+  ses0->writeSpike(numSamples, 1, mockData.data(), &mockTimestamps[0]);
+  NWB::SpikeEventSeries* ses1 =
+      static_cast<NWB::SpikeEventSeries*>(recordingContainers->getContainer(2));
+  ses1->writeSpike(numSamples, 1, mockData.data(), &mockTimestamps[0]);
 
   nwbfile.finalize();
 }
