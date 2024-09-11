@@ -1,7 +1,9 @@
 <map id="AQNWB::NWB::RecordingContainers::getContainer" name="AQNWB::NWB::RecordingContainers::getContainer">
-<area shape="rect" id="Node000001" title="Gets the Container object from the recordingContainers." alt="" coords="296,39,538,79"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#a042fd80c71e0ba9c70a4aaadd4bc21b4" title="Write ElectricalSereis data to a recordingContainer dataset." alt="" coords="5,5,248,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="280,46,248,42,248,37,280,41"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#ad3392123a4748701f18c6b2d2f2733f5" title="Write timeseries data to a recordingContainer dataset." alt="" coords="5,71,248,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="280,77,248,80,248,75,280,71"/>
+<area shape="rect" id="Node000001" title="Gets the Container object from the recordingContainers." alt="" coords="296,71,538,111"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#a042fd80c71e0ba9c70a4aaadd4bc21b4" title="Write ElectricalSeries data to a recordingContainer dataset." alt="" coords="5,5,248,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="308,69,219,49,221,44,309,64"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#a12ffd532fb323c79c63f3a1d110dc5e0" title="Write SpikeEventSeries data to a recordingContainer dataset." alt="" coords="5,71,248,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="280,94,248,94,248,88,280,88"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#ad3392123a4748701f18c6b2d2f2733f5" title="Write timeseries data to a recordingContainer dataset." alt="" coords="5,136,248,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="309,118,221,138,219,133,308,113"/>
 </map>

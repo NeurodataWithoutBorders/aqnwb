@@ -1,0 +1,12 @@
+<map id="AQNWB::NWB::SpikeEventSeries::initialize" name="AQNWB::NWB::SpikeEventSeries::initialize">
+<area shape="rect" id="Node000001" title="Initializes the Electrical Series." alt="" coords="5,35,230,75"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a59ecd5ceca61b33a77a11579369e596e" title="Initializes the Electrical Series." alt="" coords="278,35,489,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="230,52,262,52,262,58,230,58"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#add210f78ff8f70944293cc69be2cc998" title="Gets the path of the container." alt="" coords="771,5,948,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="489,46,756,29,756,35,489,51"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a927fb3e7da8259f175bdb19820e52471" title="Initializes the TimeSeries by creating NWB related attributes and writing the description and comment..." alt="" coords="537,63,723,103"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="490,64,522,68,521,73,489,70"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="713,60,760,48,761,53,715,65"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a33ba8c1d37cae843106d3d3668d6523c" title="Initialize the container." alt="" coords="771,71,948,111"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="724,84,756,85,756,90,724,89"/>
+</map>

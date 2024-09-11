@@ -1,5 +1,7 @@
 <map id="AQNWB::NWB::ElectrodeGroup::initialize" name="AQNWB::NWB::ElectrodeGroup::initialize">
-<area shape="rect" id="Node000001" title="Initializes the ElectrodeGroup object." alt="" coords="227,5,437,46"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ae0f515c91174c210a7aaad32a14c4f10" title="Create ElectricalSeries objects to record data into. Created objects are stored in recordingContainer..." alt="" coords="5,5,179,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="211,28,179,28,179,23,211,23"/>
+<area shape="rect" id="Node000001" title="Initializes the ElectrodeGroup object." alt="" coords="227,39,437,79"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a5cb71b4353e1d5d764a6f5cf02a53981" title="Create ElectricalSeries objects to record data into. Created objects are stored in recordingContainer..." alt="" coords="5,5,179,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="211,45,179,40,180,35,211,40"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a109f4656270a194464ac9287bc4f0b6c" title="Create SpikeEventSeries objects to record data into. Created objects are stored in recordingContainer..." alt="" coords="5,71,179,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="211,78,180,82,179,77,211,72"/>
 </map>

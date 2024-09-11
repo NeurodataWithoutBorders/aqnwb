@@ -21,6 +21,7 @@ var class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o =
     [ "getDataSet", "class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#aa92216a392517da40a592a0736644511", null ],
     [ "getFileName", "class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a957942ab2e27c180750da9c1f40189f2", null ],
     [ "getObjectType", "class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#ac8558bac2f0bdb98dc5cd87e8d45f095", null ],
+    [ "objectExists", "class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#af78df52ee1b394a36f48f16e7ab483fd", null ],
     [ "open", "class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#af13e43a73e40b98dcacd9cc587536143", null ],
     [ "open", "class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#af1f8dc9dc57a5d1460707bd162fffe3f", null ],
     [ "startRecording", "class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a8606979d328123bb7bd8efa9df85c6df", null ],

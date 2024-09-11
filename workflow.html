@@ -167,6 +167,7 @@ Overview of a recording workflow</h1>
  object so that it can mana ge access and data writing during the recording process. When adding containers, ownership of the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html">Container</a> is transferred to the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html">RecordingContainers</a> object, so that we can access it again via its index. New containers will always be appended to the end of the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#a27262dea4899e29dae1cba30e5c5322d">containers</a> object and their index can be tracked using the size of the input <code>recordingArrays</code>.</p>
 <div class="fragment"><div class="line">    std::vector&lt;SizeType&gt; containerIndexes;</div>
 <div class="line">    nwbfile-&gt;createElectricalSeries(mockRecordingArrays,</div>
+<div class="line">                                    mockChannelNames,</div>
 <div class="line">                                    BaseDataType::I16,</div>
 <div class="line">                                    recordingContainers.get(),</div>
 <div class="line">                                    containerIndexes);</div>

@@ -196,6 +196,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa92216a392517da40a592a0736644511" id="r_aa92216a392517da40a592a0736644511"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_base_recording_data.html">BaseRecordingData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa92216a392517da40a592a0736644511">getDataSet</a> (const std::string &amp;path) override</td></tr>
 <tr class="memdesc:aa92216a392517da40a592a0736644511"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a pointer to a dataset at a given path.  <br /></td></tr>
 <tr class="separator:aa92216a392517da40a592a0736644511"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af78df52ee1b394a36f48f16e7ab483fd" id="r_af78df52ee1b394a36f48f16e7ab483fd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af78df52ee1b394a36f48f16e7ab483fd">objectExists</a> (const std::string &amp;path) override</td></tr>
+<tr class="memdesc:af78df52ee1b394a36f48f16e7ab483fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether a Dataset, Group, or Link already exists at the location in the file.  <br /></td></tr>
+<tr class="separator:af78df52ee1b394a36f48f16e7ab483fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac8558bac2f0bdb98dc5cd87e8d45f095" id="r_ac8558bac2f0bdb98dc5cd87e8d45f095"><td class="memItemLeft" align="right" valign="top">H5O_type_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac8558bac2f0bdb98dc5cd87e8d45f095">getObjectType</a> (const std::string &amp;path)</td></tr>
 <tr class="memdesc:ac8558bac2f0bdb98dc5cd87e8d45f095"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="namespace_a_q_n_w_b_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> type of object at a given path.  <br /></td></tr>
 <tr class="separator:ac8558bac2f0bdb98dc5cd87e8d45f095"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1235,6 +1238,42 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o_ac8558bac2f0bdb98dc5cd87e8d45f095_icgraph.svg" width="626" height="215"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
+
+</div>
+</div>
+<a id="af78df52ee1b394a36f48f16e7ab483fd" name="af78df52ee1b394a36f48f16e7ab483fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af78df52ee1b394a36f48f16e7ab483fd">&#9670;&#160;</a></span>objectExists()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool HDF5IO::objectExists </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Checks whether a Dataset, Group, or Link already exists at the location in the file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The location of the object in the file. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Whether the object exists. </dd></dl>
+
+<p>Implements <a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html#a32889e5d3ed2fee3fd4939d98de742ec">AQNWB::BaseIO</a>.</p>
 
 </div>
 </div>

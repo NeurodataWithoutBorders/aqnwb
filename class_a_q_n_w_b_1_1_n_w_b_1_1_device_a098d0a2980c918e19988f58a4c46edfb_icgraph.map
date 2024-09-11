@@ -1,5 +1,7 @@
 <map id="AQNWB::NWB::Device::initialize" name="AQNWB::NWB::Device::initialize">
-<area shape="rect" id="Node000001" title="Initializes the device by creating NWB related attributes and writing the manufactor and description ..." alt="" coords="227,5,388,46"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ae0f515c91174c210a7aaad32a14c4f10" title="Create ElectricalSeries objects to record data into. Created objects are stored in recordingContainer..." alt="" coords="5,5,179,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="211,28,179,28,179,23,211,23"/>
+<area shape="rect" id="Node000001" title="Initializes the device by creating NWB related attributes and writing the manufactor and description ..." alt="" coords="227,39,388,79"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a5cb71b4353e1d5d764a6f5cf02a53981" title="Create ElectricalSeries objects to record data into. Created objects are stored in recordingContainer..." alt="" coords="5,5,179,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="211,47,179,42,180,37,212,42"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a109f4656270a194464ac9287bc4f0b6c" title="Create SpikeEventSeries objects to record data into. Created objects are stored in recordingContainer..." alt="" coords="5,71,179,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="212,76,180,81,179,75,211,71"/>
 </map>

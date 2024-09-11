@@ -25,6 +25,7 @@ var class_a_q_n_w_b_1_1_base_i_o =
     [ "getFileName", "class_a_q_n_w_b_1_1_base_i_o.html#a203635d25b0daf5d60e0cef0772617fd", null ],
     [ "isOpen", "class_a_q_n_w_b_1_1_base_i_o.html#ac3231bb843be24142cd2c484a9489c2e", null ],
     [ "isReadyToOpen", "class_a_q_n_w_b_1_1_base_i_o.html#a874bc9c330e4402a39598bf38c0c90cf", null ],
+    [ "objectExists", "class_a_q_n_w_b_1_1_base_i_o.html#a32889e5d3ed2fee3fd4939d98de742ec", null ],
     [ "open", "class_a_q_n_w_b_1_1_base_i_o.html#a26db4d160e12cd2558bd500bf71c6a8e", null ],
     [ "open", "class_a_q_n_w_b_1_1_base_i_o.html#afbb3379a03bb27f489ad6529c363ecd1", null ],
     [ "operator=", "class_a_q_n_w_b_1_1_base_i_o.html#a2822242cb44f428da6ef6ec036b1b31d", null ],

@@ -47,7 +47,7 @@
   </g>
 </defs>
 <script type="application/ecmascript">
-var viewWidth = 706;
+var viewWidth = 540;
 var viewHeight = 39;
 var sectionId = 'dynsection-5';
 </script>
@@ -59,9 +59,9 @@ var sectionId = 'dynsection-5';
 <g id="Node000001" class="node">
 <title>Node1</title>
 <g id="a_Node000001"><a xlink:title="Gets the description of the table.">
-<polygon fill="#999999" stroke="#666666" points="697.75,-30.5 545.25,-30.5 545.25,0 697.75,0 697.75,-30.5"/>
-<text text-anchor="start" x="553.25" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::DynamicTable</text>
-<text text-anchor="middle" x="621.5" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::getDescription</text>
+<polygon fill="#999999" stroke="#666666" points="531.75,-30.5 379.25,-30.5 379.25,0 531.75,0 531.75,-30.5"/>
+<text text-anchor="start" x="387.25" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::DynamicTable</text>
+<text text-anchor="middle" x="455.5" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::getDescription</text>
 </a>
 </g>
 </g>
@@ -69,9 +69,9 @@ var sectionId = 'dynsection-5';
 <g id="Node000002" class="node">
 <title>Node2</title>
 <g id="a_Node000002"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a1a860166b728cc0c841631aaf92052f2" target="_top" xlink:title="Initializes the DynamicTable object by creating NWB attributes and column names.">
-<polygon fill="white" stroke="#666666" points="509.25,-30.5 356.75,-30.5 356.75,0 509.25,0 509.25,-30.5"/>
-<text text-anchor="start" x="364.75" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::DynamicTable</text>
-<text text-anchor="middle" x="433" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::initialize</text>
+<polygon fill="white" stroke="#666666" points="343.25,-30.5 190.75,-30.5 190.75,0 343.25,0 343.25,-30.5"/>
+<text text-anchor="start" x="198.75" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::DynamicTable</text>
+<text text-anchor="middle" x="267" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::initialize</text>
 </a>
 </g>
 </g>
@@ -79,8 +79,8 @@ var sectionId = 'dynsection-5';
 <g id="edge1_Node000001_Node000002" class="edge">
 <title>Node1&#45;&gt;Node2</title>
 <g id="a_edge1_Node000001_Node000002"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M533.66,-15.25C525.66,-15.25 517.59,-15.25 509.7,-15.25"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="533.4,-18.75 543.4,-15.25 533.4,-11.75 533.4,-18.75"/>
+<path fill="none" stroke="#63b8ff" d="M367.66,-15.25C359.66,-15.25 351.59,-15.25 343.7,-15.25"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="367.4,-18.75 377.4,-15.25 367.4,-11.75 367.4,-18.75"/>
 </a>
 </g>
 </g>
@@ -88,9 +88,9 @@ var sectionId = 'dynsection-5';
 <g id="Node000003" class="node">
 <title>Node3</title>
 <g id="a_Node000003"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#af125b9b5d7a79d414b75998c6b52156b" target="_top" xlink:title="Initializes the ElectrodeTable.">
-<polygon fill="white" stroke="#666666" points="320.75,-30.5 166,-30.5 166,0 320.75,0 320.75,-30.5"/>
-<text text-anchor="start" x="174" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::ElectrodeTable</text>
-<text text-anchor="middle" x="243.38" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::initialize</text>
+<polygon fill="white" stroke="#666666" points="154.75,-30.5 0,-30.5 0,0 154.75,0 154.75,-30.5"/>
+<text text-anchor="start" x="8" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::ElectrodeTable</text>
+<text text-anchor="middle" x="77.38" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::initialize</text>
 </a>
 </g>
 </g>
@@ -98,27 +98,8 @@ var sectionId = 'dynsection-5';
 <g id="edge2_Node000002_Node000003" class="edge">
 <title>Node2&#45;&gt;Node3</title>
 <g id="a_edge2_Node000002_Node000003"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M345.15,-15.25C337.07,-15.25 328.92,-15.25 320.95,-15.25"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="344.98,-18.75 354.98,-15.25 344.98,-11.75 344.98,-18.75"/>
-</a>
-</g>
-</g>
-<!-- Node4 -->
-<g id="Node000004" class="node">
-<title>Node4</title>
-<g id="a_Node000004"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ae0f515c91174c210a7aaad32a14c4f10" target="_top" xlink:title="Create ElectricalSeries objects to record data into. Created objects are stored in recordingContainer...">
-<polygon fill="white" stroke="#666666" points="130,-30.5 0,-30.5 0,0 130,0 130,-30.5"/>
-<text text-anchor="start" x="8" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::NWBFile</text>
-<text text-anchor="middle" x="65" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::createElectricalSeries</text>
-</a>
-</g>
-</g>
-<!-- Node3&#45;&gt;Node4 -->
-<g id="edge3_Node000003_Node000004" class="edge">
-<title>Node3&#45;&gt;Node4</title>
-<g id="a_edge3_Node000003_Node000004"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M154.23,-15.25C146.22,-15.25 138.21,-15.25 130.47,-15.25"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="154.01,-18.75 164.01,-15.25 154.01,-11.75 154.01,-18.75"/>
+<path fill="none" stroke="#63b8ff" d="M179.15,-15.25C171.07,-15.25 162.92,-15.25 154.95,-15.25"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="178.98,-18.75 188.98,-15.25 178.98,-11.75 178.98,-18.75"/>
 </a>
 </g>
 </g>

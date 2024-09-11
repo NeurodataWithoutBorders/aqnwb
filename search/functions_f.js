@@ -14,5 +14,6 @@ var searchData=
   ['_7ehdf5recordingdata_11',['~HDF5RecordingData',['../class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a81d035b7d174a58236d0447ea7054724',1,'AQNWB::HDF5::HDF5RecordingData']]],
   ['_7enwbfile_12',['~NWBFile',['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aa92925025c0a04da1d6b03b82af99da3',1,'AQNWB::NWB::NWBFile']]],
   ['_7erecordingcontainers_13',['~RecordingContainers',['../class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#ac49cffcf999fbcc918ac90f82a7c4040',1,'AQNWB::NWB::RecordingContainers']]],
-  ['_7etimeseries_14',['~TimeSeries',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a1e596cea2d047ec61f89158f1dc85276',1,'AQNWB::NWB::TimeSeries']]]
+  ['_7espikeeventseries_14',['~SpikeEventSeries',['../class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#a2b8b71027d2b756b87dc59de695c7309',1,'AQNWB::NWB::SpikeEventSeries']]],
+  ['_7etimeseries_15',['~TimeSeries',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a1e596cea2d047ec61f89158f1dc85276',1,'AQNWB::NWB::TimeSeries']]]
 ];

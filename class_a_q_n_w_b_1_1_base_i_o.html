@@ -194,6 +194,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac99c1ff08dbbc002e251e8b63a6c375d" id="r_ac99c1ff08dbbc002e251e8b63a6c375d"><td class="memItemLeft" align="right" valign="top">virtual std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_base_recording_data.html">BaseRecordingData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac99c1ff08dbbc002e251e8b63a6c375d">getDataSet</a> (const std::string &amp;path)=0</td></tr>
 <tr class="memdesc:ac99c1ff08dbbc002e251e8b63a6c375d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a pointer to a dataset at a given path.  <br /></td></tr>
 <tr class="separator:ac99c1ff08dbbc002e251e8b63a6c375d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32889e5d3ed2fee3fd4939d98de742ec" id="r_a32889e5d3ed2fee3fd4939d98de742ec"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a32889e5d3ed2fee3fd4939d98de742ec">objectExists</a> (const std::string &amp;path)=0</td></tr>
+<tr class="memdesc:a32889e5d3ed2fee3fd4939d98de742ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether a Dataset, Group, or Link already exists at the location in the file.  <br /></td></tr>
+<tr class="separator:a32889e5d3ed2fee3fd4939d98de742ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa89f1270eb5a47fb5f2bd64e6bde6cbf" id="r_aa89f1270eb5a47fb5f2bd64e6bde6cbf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa89f1270eb5a47fb5f2bd64e6bde6cbf">createCommonNWBAttributes</a> (const std::string &amp;path, const std::string &amp;objectNamespace, const std::string &amp;neurodataType=&quot;&quot;, const std::string &amp;description=&quot;&quot;)</td></tr>
 <tr class="memdesc:aa89f1270eb5a47fb5f2bd64e6bde6cbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience function for creating <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> related attributes.  <br /></td></tr>
 <tr class="separator:aa89f1270eb5a47fb5f2bd64e6bde6cbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1177,6 +1180,42 @@ Here is the call graph for this function:</div>
 
 <p>Returns true if the file is able to be opened. </p>
 <dl class="section return"><dt>Returns</dt><dd>True if the file is able to be opened, false otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a32889e5d3ed2fee3fd4939d98de742ec" name="a32889e5d3ed2fee3fd4939d98de742ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32889e5d3ed2fee3fd4939d98de742ec">&#9670;&#160;</a></span>objectExists()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool AQNWB::BaseIO::objectExists </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Checks whether a Dataset, Group, or Link already exists at the location in the file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The location of the object in the file. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Whether the object exists. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#af78df52ee1b394a36f48f16e7ab483fd">AQNWB::HDF5::HDF5IO</a>.</p>
 
 </div>
 </div>
