@@ -195,7 +195,7 @@ Status NWBFile::createSpikeEventSeries(
   if (!electrodeTableCreated) {
     elecTable = std::make_unique<ElectrodeTable>(io);
     elecTable->initialize();
-    
+
     // Add electrode information to table (does not write to datasets yet)
     for (const auto& channelVector : recordingArrays) {
       elecTable->addElectrodes(channelVector);
@@ -208,7 +208,7 @@ Status NWBFile::createSpikeEventSeries(
     const std::string& recordingName = recordingNames[i];
 
     // Setup electrodes and devices
-    std::string groupName = channelVector[0].groupName;  
+    std::string groupName = channelVector[0].groupName;
     std::string devicePath = "/general/devices/" + groupName;
     std::string electrodePath = "/general/extracellular_ephys/" + groupName;
     std::string spikeEventSeriesPath = acquisitionPath + "/" + recordingName;

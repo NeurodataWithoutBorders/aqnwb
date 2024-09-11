@@ -54,8 +54,7 @@ inline std::vector<Types::ChannelVector> getMockChannelArrays(
 }
 
 inline std::vector<std::string> getMockChannelArrayNames(
-  std::string baseName = "esdata",
-  SizeType numArrays = 2)
+    std::string baseName = "esdata", SizeType numArrays = 2)
 {
   std::vector<std::string> arrayNames(numArrays);
   for (SizeType i = 0; i < numArrays; i++) {

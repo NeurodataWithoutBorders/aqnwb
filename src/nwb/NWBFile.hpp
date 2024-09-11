@@ -72,7 +72,8 @@ public:
    * @param recordingArrays vector of ChannelVector indicating the electrodes to
    *                        record from. A separate ElectricalSeries will be
    *                        created for each ChannelVector.
-   * @param recordingNames vector indicating the names of the ElectricalSeries within the acquisition group
+   * @param recordingNames vector indicating the names of the ElectricalSeries
+   * within the acquisition group
    * @param dataType The data type of the elements in the data block.
    * @param recordingContainers The container to store the created TimeSeries.
    * @param containerIndexes The indexes of the containers added to
@@ -92,7 +93,8 @@ public:
    * @param recordingArrays vector of ChannelVector indicating the electrodes to
    *                        record from. A separate ElectricalSeries will be
    *                        created for each ChannelVector.
-   * @param recordingNames vector indicating the names of the SpikeEventSeries within the acquisition group
+   * @param recordingNames vector indicating the names of the SpikeEventSeries
+   * within the acquisition group
    * @param dataType The data type of the elements in the data block.
    * @param recordingContainers The container to store the created TimeSeries.
    * @param containerIndexes The indexes of the containers added to

@@ -27,7 +27,8 @@ TEST_CASE("workflowExamples")
 
     std::vector<Types::ChannelVector> mockRecordingArrays =
         getMockChannelArrays();
-    std::vector<std::string> mockChannelNames = getMockChannelArrayNames("esdata");
+    std::vector<std::string> mockChannelNames =
+        getMockChannelArrayNames("esdata");
     std::vector<std::vector<float>> mockData =
         getMockData2D(numSamples, numChannels);
     std::vector<double> mockTimestamps = getMockTimestamps(numSamples);
