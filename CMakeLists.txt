@@ -81,7 +81,7 @@ target_compile_features(aqnwb_aqnwb PUBLIC cxx_std_17)
 find_package(HDF5 REQUIRED COMPONENTS CXX)
 include_directories(${HDF5_INCLUDE_DIRS})
 
-find_package(Boost REQUIRED)
+find_package(Boost 1.80 REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
 target_link_libraries(aqnwb_aqnwb ${HDF5_CXX_LIBRARIES} ${Boost_LIBRARIES})
