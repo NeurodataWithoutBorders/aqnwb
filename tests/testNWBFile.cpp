@@ -33,10 +33,11 @@ TEST_CASE("createElectricalSeries", "[nwb]")
 
   // create Electrical Series
   std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(1, 2);
+  std::vector<std::string> mockChannelNames = getMockChannelArrayNames("esdata");
   std::unique_ptr<NWB::RecordingContainers> recordingContainers =
       std::make_unique<NWB::RecordingContainers>();
   Status resultCreate = nwbfile.createElectricalSeries(
-      mockArrays, BaseDataType::F32, recordingContainers.get());
+      mockArrays, mockChannelNames, BaseDataType::F32, recordingContainers.get());
   REQUIRE(resultCreate == Status::Success);
 
   // start recording
@@ -72,18 +73,18 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
 
   // create Electrical Series
   std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(1, 2);
+  std::vector<std::string> mockChannelNames = getMockChannelArrayNames("esdata");
   std::unique_ptr<NWB::RecordingContainers> recordingContainers =
       std::make_unique<NWB::RecordingContainers>();
   Status resultCreateES = nwbfile.createElectricalSeries(
-      mockArrays, BaseDataType::F32, recordingContainers.get());
+      mockArrays, mockChannelNames, BaseDataType::F32, recordingContainers.get());
   REQUIRE(resultCreateES == Status::Success);
 
   // create SpikeEventSeries
   SizeType numSamples = 5;
-  std::vector<Types::ChannelVector> mockSpikeArrays =
-      getMockChannelArrays(1, 2, "spikedata");
+  std::vector<std::string> mockSpikeChannelNames = getMockChannelArrayNames("spikedata"); 
   Status resultCreateSES = nwbfile.createSpikeEventSeries(
-      mockSpikeArrays, BaseDataType::F32, recordingContainers.get());
+      mockArrays, mockSpikeChannelNames, BaseDataType::F32, recordingContainers.get());
 
   // start recording
   Status resultStart = io->startRecording();
@@ -134,8 +135,9 @@ TEST_CASE("setCanModifyObjectsMode", "[nwb]")
 
   // test that dataset creation fails after starting the recording
   std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(1, 2);
+  std::vector<std::string> mockChannelNames = getMockChannelArrayNames("esdata");
   Status resultCreatePostStart =
-      nwbfile.createElectricalSeries(mockArrays, BaseDataType::F32);
+      nwbfile.createElectricalSeries(mockArrays, mockChannelNames, BaseDataType::F32);
   REQUIRE(resultCreatePostStart == Status::Failure);
 
   // stop recording

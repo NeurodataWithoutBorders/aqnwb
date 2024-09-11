@@ -35,7 +35,7 @@ inline std::string getTestFilePath(std::string filename)
 inline std::vector<Types::ChannelVector> getMockChannelArrays(
     SizeType numChannels = 2,
     SizeType numArrays = 2,
-    std::string groupName = "esdata")
+    std::string groupName = "array")
 {
   std::vector<Types::ChannelVector> arrays(numArrays);
   for (SizeType i = 0; i < numArrays; i++) {
@@ -43,7 +43,6 @@ inline std::vector<Types::ChannelVector> getMockChannelArrays(
     for (SizeType j = 0; j < numChannels; j++) {
       Channel ch("ch" + std::to_string(j),
                  groupName + std::to_string(i),
-                 "array" + std::to_string(i),
                  i,
                  j,
                  i * numArrays + j);
@@ -52,6 +51,17 @@ inline std::vector<Types::ChannelVector> getMockChannelArrays(
     arrays[i] = chGroup;
   }
   return arrays;
+}
+
+inline std::vector<std::string> getMockChannelArrayNames(
+  std::string baseName = "esdata",
+  SizeType numArrays = 2)
+{
+  std::vector<std::string> arrayNames(numArrays);
+  for (SizeType i = 0; i < numArrays; i++) {
+    arrayNames[i] = baseName + std::to_string(i);
+  }
+  return arrayNames;
 }
 
 inline std::vector<float> getMockData1D(SizeType numSamples = 1000)

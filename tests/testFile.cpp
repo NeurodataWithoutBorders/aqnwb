@@ -22,9 +22,9 @@ TEST_CASE("ElectrodeTable", "[ecephys]")
 
     std::vector<SizeType> channelIDs = {0, 1, 2};
     std::vector<Channel> channels = {
-        Channel("ch0", "esdata0", "array0", 0, channelIDs[0], 0),
-        Channel("ch1", "esdata0", "array0", 0, channelIDs[1], 1),
-        Channel("ch2", "esdata0", "array0", 0, channelIDs[2], 2),
+        Channel("ch0", "array0", 0, channelIDs[0], 0),
+        Channel("ch1", "array0", 0, channelIDs[1], 1),
+        Channel("ch2", "array0", 0, channelIDs[2], 2),
     };
 
     NWB::ElectrodeTable electrodeTable(io);

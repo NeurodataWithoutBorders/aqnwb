@@ -29,6 +29,7 @@ TEST_CASE("writeContinuousData", "[recording]")
 
     std::vector<Types::ChannelVector> mockRecordingArrays =
         getMockChannelArrays();
+    std::vector<std::string> mockChannelNames = getMockChannelArrayNames("esdata");
     std::vector<std::vector<float>> mockData =
         getMockData2D(numSamples, numChannels);
     std::vector<double> mockTimestamps = getMockTimestamps(numSamples);
@@ -48,7 +49,7 @@ TEST_CASE("writeContinuousData", "[recording]")
 
     // 4. create datasets and add to recording containers
     nwbfile->createElectricalSeries(
-        mockRecordingArrays, BaseDataType::F32, recordingContainers.get());
+        mockRecordingArrays, mockChannelNames, BaseDataType::F32, recordingContainers.get());
 
     // 5. start the recording
     io->startRecording();
