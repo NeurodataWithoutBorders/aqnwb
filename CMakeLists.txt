@@ -76,12 +76,13 @@ target_include_directories(
 )
 
 target_compile_features(aqnwb_aqnwb PUBLIC cxx_std_17)
+target_compile_definitions(aqnwb_aqnwb PUBLIC BOOST_NO_CXX98_FUNCTION_BASE)
 
 # ---- Additional libraries needed ----
 find_package(HDF5 REQUIRED COMPONENTS CXX)
 include_directories(${HDF5_INCLUDE_DIRS})
 
-find_package(Boost 1.80 REQUIRED)
+find_package(Boost REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
 target_link_libraries(aqnwb_aqnwb ${HDF5_CXX_LIBRARIES} ${Boost_LIBRARIES})
