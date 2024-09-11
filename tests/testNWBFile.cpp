@@ -118,12 +118,15 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
       dataShape, positionOffset, mockData.data(), mockTimestamps.data());
 
   // write spike event series data
+  SizeType numEvents = 10;
   NWB::SpikeEventSeries* ses0 =
       static_cast<NWB::SpikeEventSeries*>(recordingContainers->getContainer(2));
-  ses0->writeSpike(numSamples, 1, mockData.data(), &mockTimestamps[0]);
   NWB::SpikeEventSeries* ses1 =
-      static_cast<NWB::SpikeEventSeries*>(recordingContainers->getContainer(2));
-  ses1->writeSpike(numSamples, 1, mockData.data(), &mockTimestamps[0]);
+      static_cast<NWB::SpikeEventSeries*>(recordingContainers->getContainer(3));
+  for (SizeType i = 0; i < numEvents; ++i) {
+    ses0->writeSpike(numSamples, 1, mockData.data(), &mockTimestamps[0]);
+    ses1->writeSpike(numSamples, 1, mockData.data(), &mockTimestamps[0]);
+  }
 
   nwbfile.finalize();
 }
