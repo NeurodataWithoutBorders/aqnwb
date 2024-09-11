@@ -13,15 +13,18 @@
 #include "Utils.hpp"
 #include "nwb/device/Device.hpp"
 #include "nwb/ecephys/ElectricalSeries.hpp"
+#include "nwb/ecephys/SpikeEventSeries.hpp"
 #include "nwb/file/ElectrodeGroup.hpp"
-#include "nwb/file/ElectrodeTable.hpp"
 #include "spec/core.hpp"
 #include "spec/hdmf_common.hpp"
 #include "spec/hdmf_experimental.hpp"
 
 using namespace AQNWB::NWB;
 
-constexpr SizeType CHUNK_XSIZE = 2048;
+constexpr SizeType CHUNK_XSIZE =
+    2048;  // TODO - replace these with io settings input
+constexpr SizeType SPIKE_CHUNK_XSIZE =
+    8;  // TODO - replace with io settings input
 
 std::vector<SizeType> NWBFile::emptyContainerIndexes = {};
 
@@ -99,6 +102,7 @@ Status NWBFile::createFileStructure(std::string description,
 
 Status NWBFile::createElectricalSeries(
     std::vector<Types::ChannelVector> recordingArrays,
+    std::vector<std::string> recordingNames,
     const BaseDataType& dataType,
     RecordingContainers* recordingContainers,
     std::vector<SizeType>& containerIndexes)
@@ -107,27 +111,44 @@ Status NWBFile::createElectricalSeries(
     return Status::Failure;
   }
 
-  // store all recorded data in the acquisition group
-  std::string rootPath = "/acquisition/";
+  if (recordingNames.size() != recordingArrays.size()) {
+    return Status::Failure;
+  }
 
-  // Setup electrode table
-  ElectrodeTable elecTable = ElectrodeTable(io);
-  elecTable.initialize();
+  // Setup electrode table if it was not yet created
+  bool electrodeTableCreated =
+      io->objectExists(ElectrodeTable::electrodeTablePath);
+  if (!electrodeTableCreated) {
+    elecTable = std::make_unique<ElectrodeTable>(io);
+    elecTable->initialize();
 
-  // Create continuous datasets
-  for (const auto& channelVector : recordingArrays) {
+    // Add electrode information to table (does not write to datasets yet)
+    for (const auto& channelVector : recordingArrays) {
+      elecTable->addElectrodes(channelVector);
+    }
+  }
+
+  // Create datasets
+  for (size_t i = 0; i < recordingArrays.size(); ++i) {
+    const auto& channelVector = recordingArrays[i];
+    const std::string& recordingName = recordingNames[i];
+
     // Setup electrodes and devices
     std::string groupName = channelVector[0].groupName;
     std::string devicePath = "/general/devices/" + groupName;
     std::string electrodePath = "/general/extracellular_ephys/" + groupName;
-    std::string electricalSeriesPath = rootPath + groupName;
+    std::string electricalSeriesPath = acquisitionPath + "/" + recordingName;
 
-    Device device = Device(devicePath, io, "description", "unknown");
-    device.initialize();
+    // Check if device exists for groupName, create device and electrode group
+    // if not
+    if (!io->objectExists(devicePath)) {
+      Device device = Device(devicePath, io, "description", "unknown");
+      device.initialize();
 
-    ElectrodeGroup elecGroup =
-        ElectrodeGroup(electrodePath, io, "description", "unknown", device);
-    elecGroup.initialize();
+      ElectrodeGroup elecGroup =
+          ElectrodeGroup(electrodePath, io, "description", "unknown", device);
+      elecGroup.initialize();
+    }
 
     // Setup electrical series datasets
     auto electricalSeries = std::make_unique<ElectricalSeries>(
@@ -142,14 +163,96 @@ Status NWBFile::createElectricalSeries(
     electricalSeries->initialize();
     recordingContainers->addContainer(std::move(electricalSeries));
     containerIndexes.push_back(recordingContainers->containers.size() - 1);
-
-    // Add electrode information to electrode table (does not write to datasets
-    // yet)
-    elecTable.addElectrodes(channelVector);
   }
 
   // write electrode information to datasets
-  elecTable.finalize();
+  // (requires that the ElectrodeGroup has been written)
+  if (!electrodeTableCreated) {
+    elecTable->finalize();
+  }
+
+  return Status::Success;
+}
+
+Status NWBFile::createSpikeEventSeries(
+    std::vector<Types::ChannelVector> recordingArrays,
+    std::vector<std::string> recordingNames,
+    const BaseDataType& dataType,
+    RecordingContainers* recordingContainers,
+    std::vector<SizeType>& containerIndexes)
+{
+  if (!io->canModifyObjects()) {
+    return Status::Failure;
+  }
+
+  if (recordingNames.size() != recordingArrays.size()) {
+    return Status::Failure;
+  }
+
+  // Setup electrode table if it was not yet created
+  bool electrodeTableCreated =
+      io->objectExists(ElectrodeTable::electrodeTablePath);
+  if (!electrodeTableCreated) {
+    elecTable = std::make_unique<ElectrodeTable>(io);
+    elecTable->initialize();
+
+    // Add electrode information to table (does not write to datasets yet)
+    for (const auto& channelVector : recordingArrays) {
+      elecTable->addElectrodes(channelVector);
+    }
+  }
+
+  // Create datasets
+  for (size_t i = 0; i < recordingArrays.size(); ++i) {
+    const auto& channelVector = recordingArrays[i];
+    const std::string& recordingName = recordingNames[i];
+
+    // Setup electrodes and devices
+    std::string groupName = channelVector[0].groupName;
+    std::string devicePath = "/general/devices/" + groupName;
+    std::string electrodePath = "/general/extracellular_ephys/" + groupName;
+    std::string spikeEventSeriesPath = acquisitionPath + "/" + recordingName;
+
+    // Check if device exists for groupName, create device and electrode group
+    // if not
+    if (!io->objectExists(devicePath)) {
+      Device device = Device(devicePath, io, "description", "unknown");
+      device.initialize();
+
+      ElectrodeGroup elecGroup =
+          ElectrodeGroup(electrodePath, io, "description", "unknown", device);
+      elecGroup.initialize();
+    }
+
+    // Setup Spike Event Series datasets
+    SizeArray dsetSize;
+    SizeArray chunkSize;
+    if (channelVector.size() == 1) {
+      dsetSize = SizeArray {0, 0};
+      chunkSize = SizeArray {SPIKE_CHUNK_XSIZE, 1};
+    } else {
+      dsetSize = SizeArray {0, channelVector.size(), 0};
+      chunkSize = SizeArray {SPIKE_CHUNK_XSIZE, 1, 1};
+    }
+
+    auto spikeEventSeries = std::make_unique<SpikeEventSeries>(
+        spikeEventSeriesPath,
+        io,
+        dataType,
+        channelVector,
+        "Stores spike waveforms from an extracellular ephys recording",
+        dsetSize,
+        chunkSize);
+    spikeEventSeries->initialize();
+    recordingContainers->addContainer(std::move(spikeEventSeries));
+    containerIndexes.push_back(recordingContainers->containers.size() - 1);
+  }
+
+  // write electrode information to datasets
+  // (requires that the ElectrodeGroup has been written)
+  if (!electrodeTableCreated) {
+    elecTable->finalize();
+  }
 
   return Status::Success;
 }
@@ -161,7 +264,7 @@ void NWBFile::cacheSpecifications(
     const std::array<std::pair<std::string_view, std::string_view>, N>&
         specVariables)
 {
-  io->createGroup("/specifications/" + specPath + "/");
+  io->createGroup("/specifications/" + specPath);
   io->createGroup("/specifications/" + specPath + "/" + versionNumber);
 
   for (const auto& [name, content] : specVariables) {

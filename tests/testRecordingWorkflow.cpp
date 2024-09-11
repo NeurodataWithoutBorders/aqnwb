@@ -29,6 +29,8 @@ TEST_CASE("writeContinuousData", "[recording]")
 
     std::vector<Types::ChannelVector> mockRecordingArrays =
         getMockChannelArrays();
+    std::vector<std::string> mockChannelNames =
+        getMockChannelArrayNames("esdata");
     std::vector<std::vector<float>> mockData =
         getMockData2D(numSamples, numChannels);
     std::vector<double> mockTimestamps = getMockTimestamps(numSamples);
@@ -47,8 +49,10 @@ TEST_CASE("writeContinuousData", "[recording]")
     nwbfile->initialize();
 
     // 4. create datasets and add to recording containers
-    nwbfile->createElectricalSeries(
-        mockRecordingArrays, BaseDataType::F32, recordingContainers.get());
+    nwbfile->createElectricalSeries(mockRecordingArrays,
+                                    mockChannelNames,
+                                    BaseDataType::F32,
+                                    recordingContainers.get());
 
     // 5. start the recording
     io->startRecording();
@@ -94,7 +98,7 @@ TEST_CASE("writeContinuousData", "[recording]")
     nwbfile->finalize();
 
     // check contents of data
-    std::string dataPath = "/acquisition/array0/data";
+    std::string dataPath = "/acquisition/esdata0/data";
     std::unique_ptr<H5::H5File> file =
         std::make_unique<H5::H5File>(path, H5F_ACC_RDONLY);
     std::unique_ptr<H5::DataSet> dataset =
@@ -120,7 +124,7 @@ TEST_CASE("writeContinuousData", "[recording]")
     REQUIRE_THAT(dataOut[1], Catch::Matchers::Approx(mockData[1]).margin(1));
 
     // check contents of timestamps
-    std::string timestampsPath = "/acquisition/array0/timestamps";
+    std::string timestampsPath = "/acquisition/esdata0/timestamps";
     std::unique_ptr<H5::DataSet> tsDataset =
         std::make_unique<H5::DataSet>(file->openDataSet(timestampsPath));
     double* tsBuffer = new double[numSamples];

@@ -293,6 +293,14 @@ public:
       const std::string& path) = 0;
 
   /**
+   * @brief Checks whether a Dataset, Group, or Link already exists at the
+   * location in the file.
+   * @param path The location of the object in the file.
+   * @return Whether the object exists.
+   */
+  virtual bool objectExists(const std::string& path) = 0;
+
+  /**
    * @brief Convenience function for creating NWB related attributes.
    * @param path The location of the object in the file.
    * @param objectNamespace The namespace of the object.
@@ -325,6 +333,7 @@ public:
    * @return The status of the operation.
    */
   Status createTimestampsAttributes(const std::string& path);
+
   /**
    * @brief Returns true if the file is open.
    * @return True if the file is open, false otherwise.
