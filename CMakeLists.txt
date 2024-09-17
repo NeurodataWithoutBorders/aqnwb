@@ -88,7 +88,7 @@ include_directories(${Boost_INCLUDE_DIRS})
 
 target_link_libraries(aqnwb_aqnwb ${HDF5_CXX_LIBRARIES} ${Boost_LIBRARIES})
 if (WIN32)
-    target_link_libraries(aqnwb_aqnwb PRIVATE bcrypt)
+    target_link_libraries(aqnwb_aqnwb bcrypt)
 endif()
 
 # ---- Install rules ----
