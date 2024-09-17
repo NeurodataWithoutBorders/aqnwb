@@ -72,7 +72,7 @@ Status TimeSeries::writeData(const std::vector<SizeType>& dataShape,
   Status dataStatus = this->data->writeDataBlock(
       dataShape, positionOffset, this->dataType, data);
 
-  if ((dataStatus != Status::Success) or (tsStatus != Status::Success)) {
+  if ((dataStatus != Status::Success) || (tsStatus != Status::Success)) {
     return Status::Failure;
   } else {
     return Status::Success;
