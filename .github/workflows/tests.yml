@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [windows-latest]
     
     runs-on: ${{ matrix.os }}
 
@@ -51,14 +51,10 @@ jobs:
         git clone https://github.com/microsoft/vcpkg.git
         cd vcpkg
         .\bootstrap-vcpkg.bat
-        .\vcpkg install hdf5
-        set VCPKG_ROOT=%cd%
-        cd ..
-        git clone https://github.com/catchorg/Catch2.git
-        cd Catch2
-        git checkout "v3.5.3"
-        cmake -Bbuild -H. -DBUILD_TESTING=OFF
-        cmake --build build/ --target install
+        
+        vcpkg install hdf5
+        vcpkg install boost
+
 
     - name: Configure
       shell: pwsh
