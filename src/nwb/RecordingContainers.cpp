@@ -62,7 +62,7 @@ Status RecordingContainers::writeElectricalSeriesData(
   if (es == nullptr)
     return Status::Failure;
 
-  es->writeChannel(channel.localIndex, numSamples, data, timestamps);
+  return es->writeChannel(channel.localIndex, numSamples, data, timestamps);
 }
 
 Status RecordingContainers::writeSpikeEventData(const SizeType& containerInd,
@@ -77,5 +77,5 @@ Status RecordingContainers::writeSpikeEventData(const SizeType& containerInd,
   if (ses == nullptr)
     return Status::Failure;
 
-  ses->writeSpike(numSamples, numChannels, data, timestamps);
+  return ses->writeSpike(numSamples, numChannels, data, timestamps);
 }
