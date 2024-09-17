@@ -51,8 +51,11 @@ jobs:
         git clone https://github.com/microsoft/vcpkg.git
         cd vcpkg
         .\bootstrap-vcpkg.bat
+        if %ERRORLEVEL% NEQ 0 exit /b %ERRORLEVEL%
         
         .\vcpkg.exe install hdf5
+        if %ERRORLEVEL% NEQ 0 exit /b %ERRORLEVEL%
+        
         .\vcpkg.exe install boost
         .\vcpkg.exe integrate install
 
