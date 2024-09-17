@@ -352,7 +352,14 @@ Status HDF5IO::createReferenceDataSet(
   delete[] rdata;
 
   herr_t dsetStatus = H5Dclose(dset);
+  if (checkStatus(dsetStatus) == Status::Failure) {
+      return Status::Failure;
+  }
+
   herr_t spaceStatus = H5Sclose(space);
+  if (checkStatus(spaceStatus) == Status::Failure) {
+      return Status::Failure;
+  }
 
   return checkStatus(writeStatus);
 }
@@ -639,20 +646,19 @@ HDF5RecordingData::HDF5RecordingData(std::unique_ptr<H5::DataSet> data)
   DataSpace dSpace = data->getSpace();
   DSetCreatPropList prop = data->getCreatePlist();
 
-  int nDimensions = dSpace.getSimpleExtentNdims();
-  std::vector<hsize_t> dims(nDimensions), chunk(nDimensions);
+  this->nDimensions = dSpace.getSimpleExtentNdims();
+  std::vector<hsize_t> dims(this->nDimensions), chunk(this->nDimensions);
 
   nDimensions = dSpace.getSimpleExtentDims(
       dims.data());  // TODO -redefine here or use original?
-  prop.getChunk(static_cast<int>(nDimensions), chunk.data());
+  prop.getChunk(static_cast<int>(this->nDimensions), chunk.data());
 
-  this->size = std::vector<SizeType>(nDimensions);
-  for (int i = 0; i < nDimensions; ++i) {
+  this->size = std::vector<SizeType>(this->nDimensions);
+  for (int i = 0; i < this->nDimensions; ++i) {
     this->size[i] = dims[i];
   }
-  this->nDimensions = nDimensions;
   this->position = std::vector<SizeType>(
-      nDimensions, 0);  // Initialize position with 0 for each dimension
+      this->nDimensions, 0);  // Initialize position with 0 for each dimension
   this->dSet = std::make_unique<H5::DataSet>(*data);
 }
 
