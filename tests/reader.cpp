@@ -43,7 +43,7 @@ int readerFunction(const std::string& path, const std::string& dataPath)
     if (dsetSizes[0] >= dsetSizes[2]) {
       return -1;
     }
-  } catch (const FileIException& error) {
+  } catch (const FileIException&) {
     return -1;
   }
 

@@ -22,8 +22,8 @@ Channel::Channel(const std::string name,
     , position(position)
     , conversion(conversion)
     , samplingRate(samplingRate)
-    , bitVolts(bitVolts)
     , comments(comments)
+    , bitVolts(bitVolts)
 {
 }
 
