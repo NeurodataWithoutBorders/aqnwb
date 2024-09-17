@@ -38,7 +38,7 @@ for file in schema_dir.rglob(r"*namespace.yaml"):
                 # convert to cpp string
                 print(f'Generating file {header_file} - {s["source"]}')
                 json_str = json.dumps(spec, separators=(',', ':'))
-                chunk_size = 16640  # Adjust the chunk size as needed
+                chunk_size = 16000  # Adjust the chunk size as needed
                 if len(json_str) > chunk_size:
                     # Split string into chunks if needed
                     chunks = [json_str[i:i + chunk_size] for i in range(0, len(json_str), chunk_size)]
