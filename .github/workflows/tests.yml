@@ -47,7 +47,13 @@ jobs:
     - name: Install dependencies - windows
       if: matrix.os == 'windows-latest'
       run: |
-        choco install -y hdf5 boost catch2 cmake
+        choco install -y cmake
+        choco install -y boost-msvc-14.2
+        git clone https://github.com/catchorg/Catch2.git
+        cd Catch2
+        git checkout "v3.5.3"
+        cmake -Bbuild -H. -DBUILD_TESTING=OFF
+        cmake --build build/ --target install
 
     - name: Configure
       shell: pwsh
