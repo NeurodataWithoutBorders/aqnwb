@@ -46,18 +46,10 @@ jobs:
     
     - name: Install dependencies - windows
       if: matrix.os == 'windows-latest'
-      shell: cmd
       run: |
-        git clone https://github.com/microsoft/vcpkg.git
-        cd vcpkg
-        .\bootstrap-vcpkg.bat
-        if %ERRORLEVEL% NEQ 0 exit /b %ERRORLEVEL%
-        
-        .\vcpkg.exe install hdf5
-        if %ERRORLEVEL% NEQ 0 exit /b %ERRORLEVEL%
-        
-        .\vcpkg.exe install boost
-        .\vcpkg.exe integrate install
+
+        cd $env:VCPKG_INSTALLATION_ROOT
+        .\vcpkg install hdf5:x64-windows
 
     - name: Configure
       shell: pwsh
