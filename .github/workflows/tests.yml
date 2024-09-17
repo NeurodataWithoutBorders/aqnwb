@@ -48,8 +48,6 @@ jobs:
       if: matrix.os == 'windows-latest'
       shell: cmd
       run: |
-        # choco install -y cmake
-        # choco install -y boost-msvc-14.2
         git clone https://github.com/microsoft/vcpkg.git
         cd vcpkg
         .\bootstrap-vcpkg.bat
