@@ -217,7 +217,6 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
     H5::DataSpace fSpace = dataset->getSpace();
     hsize_t dims[3];
     fSpace.getSimpleExtentDims(dims, NULL);
-    hsize_t memdims = dims[0] * dims[1] * dims[2];
     dataset->read(buffer, H5::PredType::NATIVE_FLOAT, fSpace, fSpace);
 
     for (SizeType i = 0; i < numEvents; ++i) {
@@ -277,7 +276,6 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
     H5::DataSpace fSpace = dataset->getSpace();
     hsize_t dims[3];
     fSpace.getSimpleExtentDims(dims, NULL);
-    hsize_t memdims = dims[0] * dims[1] * dims[2];
     dataset->read(buffer, H5::PredType::NATIVE_FLOAT, fSpace, fSpace);
 
     for (SizeType i = 0; i < numEvents; ++i) {
