@@ -50,6 +50,8 @@ jobs:
 
         cd "${VCPKG_INSTALLATION_ROOT}"
         vcpkg install hdf5:x64-windows
+        vcpkg integrate install
+
 
     - name: Configure
       shell: pwsh
