@@ -49,6 +49,12 @@ jobs:
       run: |
         choco install -y cmake
         choco install -y boost-msvc-14.2
+        git clone https://github.com/microsoft/vcpkg.git
+        cd vcpkg
+        .\bootstrap-vcpkg.bat
+        .\vcpkg install hdf5
+        set VCPKG_ROOT=%cd%
+        cd ..
         git clone https://github.com/catchorg/Catch2.git
         cd Catch2
         git checkout "v3.5.3"
