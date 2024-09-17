@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest, ubuntu-latest]
+        os: [macos-latest, ubuntu-latest, windows-latest]
     
     runs-on: ${{ matrix.os }}
 
@@ -43,6 +43,11 @@ jobs:
     - name: Install dependencies - macos
       if: matrix.os == 'macos-latest'
       run: brew install hdf5 boost catch2
+    
+    - name: Install dependencies - windows
+      if: matrix.os == 'windows-latest'
+      run: |
+        choco install -y hdf5 boost catch2 cmake
 
     - name: Configure
       shell: pwsh
