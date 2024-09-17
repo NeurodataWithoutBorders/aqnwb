@@ -16,6 +16,12 @@
 #include "nwb/file/ElectrodeTable.hpp"
 #include "testUtils.hpp"
 
+#ifdef _WIN32
+#  define EXECUTABLE_NAME "reader_executable.exe"
+#else
+#  define EXECUTABLE_NAME "./reader_executable"
+#endif
+
 using namespace AQNWB;
 namespace fs = std::filesystem;
 
@@ -293,7 +299,8 @@ TEST_CASE("SWMRmode", "[hdf5io]")
         BaseDataType::I32, SizeArray {0}, SizeArray {1}, dataPath);
 
     // try to read the file before starting SWMR mode
-    std::string command = "./reader_executable " + path + " " + dataPath;
+    std::string command =
+        std::string(EXECUTABLE_NAME) + " " + path + " " + dataPath;
     int retPreSWMREnabled = std::system(command.c_str());
     REQUIRE(retPreSWMREnabled
             != 0);  // process should fail if SWMR mode is not enabled
