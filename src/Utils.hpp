@@ -91,7 +91,8 @@ inline void convertFloatToInt16LE(const float* source,
   auto intData = static_cast<char*>(dest);
 
   for (SizeType i = 0; i < numSamples; ++i) {
-    auto clampedValue = std::clamp(maxVal * static_cast<double>(source[i]), -maxVal, maxVal);
+    auto clampedValue =
+        std::clamp(maxVal * static_cast<double>(source[i]), -maxVal, maxVal);
     auto intValue =
         static_cast<uint16_t>(static_cast<int16_t>(std::round(clampedValue)));
     intValue = boost::endian::native_to_little(intValue);
