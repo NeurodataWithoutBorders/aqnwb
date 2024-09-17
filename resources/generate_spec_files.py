@@ -22,7 +22,7 @@ for file in schema_dir.rglob(r"*namespace.yaml"):
         header_file = Path(f"./src/spec/{ns['name'].replace('-', '_')}.hpp").resolve()
         with open(header_file, 'w') as fo:
             fo.write('#pragma once\n\n')
-            fo.write('#include <string>\n#include <string_view>\n#include <array>\n\n')
+            fo.write('#include <array>\n#include <string>\n#include <string_view>\n\n')
             fo.write(f'namespace AQNWB::SPEC::{ns["name"].upper().replace("-", "_")}\n{{\n\n')
             fo.write(f'const std::string version = "{ns["version"]}";\n\n')
 
@@ -95,7 +95,7 @@ for file in schema_dir.rglob(r"*namespace.yaml"):
         ns_output = {'namespaces': [ns]}
         with open(header_file, 'a') as fo:
             fo.write(f'constexpr std::string_view namespaces = R"delimiter(\n{json.dumps(ns_output, separators=(',', ':'))})delimiter";\n\n')
-            fo.write(f'constexpr std::array<std::pair<std::string_view, std::string_view>, {len(var_names) + 1}> specVariables {{{{\n')
+            fo.write(f'constexpr std::array<std::pair<std::string_view, std::string_view>, {len(var_names) + 1}>\n    specVariables {{{{\n')
             fo.write(''.join([f'  {{"{name.replace("_", ".")}", {name}}},\n' for name in var_names]))
             fo.write('  {"namespace", namespaces}\n')
             fo.write(f'}}}};\n}}  // namespace AQNWB::SPEC::{ns["name"].upper().replace("-", "_")}\n')
