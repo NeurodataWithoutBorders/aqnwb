@@ -48,7 +48,7 @@ jobs:
       if: matrix.os == 'windows-latest'
       run: |
         cd "${VCPKG_INSTALLATION_ROOT}"
-        vcpkg install hdf5[cpp]:x64-windows
+        vcpkg install hdf5[cpp]:x64-windows boost:x64-windows catch2:x64-windows
         vcpkg integrate install
 
     - name: Configure
