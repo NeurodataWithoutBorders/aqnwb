@@ -82,7 +82,7 @@ inline std::shared_ptr<BaseIO> createIO(const std::string& type,
  */
 inline void convertFloatToInt16LE(const float* source,
                                   void* dest,
-                                  int numSamples)
+                                  SizeType numSamples)
 {
   // TODO - several steps in this function may be unnecessary for our use
   // case. Consider simplifying the intermediate cast to char and the
@@ -90,8 +90,8 @@ inline void convertFloatToInt16LE(const float* source,
   auto maxVal = static_cast<double>(0x7fff);
   auto intData = static_cast<char*>(dest);
 
-  for (int i = 0; i < numSamples; ++i) {
-    auto clampedValue = std::clamp(maxVal * source[i], -maxVal, maxVal);
+  for (SizeType i = 0; i < numSamples; ++i) {
+    auto clampedValue = std::clamp(maxVal * static_cast<double>(source[i]), -maxVal, maxVal);
     auto intValue =
         static_cast<uint16_t>(static_cast<int16_t>(std::round(clampedValue)));
     intValue = boost::endian::native_to_little(intValue);
@@ -114,7 +114,7 @@ inline std::unique_ptr<int16_t[]> transformToInt16(SizeType numSamples,
   std::unique_ptr<int16_t[]> intData = std::make_unique<int16_t[]>(numSamples);
 
   // copy data and multiply by scaling factor
-  double multFactor = 1 / (32767.0f * conversion_factor);
+  float multFactor = 1.0f / (32767.0f * conversion_factor);
   std::transform(data,
                  data + numSamples,
                  scaledData.get(),

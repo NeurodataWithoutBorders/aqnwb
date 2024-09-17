@@ -70,12 +70,11 @@ TEST_CASE("workflowExamples")
         const auto& channelVector = mockRecordingArrays[i];
         for (const auto& channel : channelVector) {
           // copy data into buffer
-          std::copy(mockData[channel.globalIndex].begin() + samplesRecorded,
-                    mockData[channel.globalIndex].begin() + samplesRecorded
-                        + bufferSize,
+          std::copy(mockData[channel.globalIndex].begin() + static_cast<std::ptrdiff_t>(samplesRecorded),
+                    mockData[channel.globalIndex].begin() + static_cast<std::ptrdiff_t>(samplesRecorded + bufferSize),
                     dataBuffer.begin());
-          std::copy(mockTimestamps.begin() + samplesRecorded,
-                    mockTimestamps.begin() + samplesRecorded + bufferSize,
+          std::copy(mockTimestamps.begin() + static_cast<std::ptrdiff_t>(samplesRecorded),
+                    mockTimestamps.begin() + static_cast<std::ptrdiff_t>(samplesRecorded + bufferSize),
                     timestampsBuffer.begin());
 
           // write timeseries data
