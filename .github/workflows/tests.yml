@@ -49,7 +49,7 @@ jobs:
       run: |
 
         cd "${VCPKG_INSTALLATION_ROOT}"
-        .\vcpkg install hdf5:x64-windows
+        vcpkg install hdf5:x64-windows
 
     - name: Configure
       shell: pwsh
