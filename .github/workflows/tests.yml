@@ -52,9 +52,9 @@ jobs:
         cd vcpkg
         .\bootstrap-vcpkg.bat
         
-        vcpkg install hdf5
-        vcpkg install boost
-
+        .\vcpkg.exe install hdf5
+        .\vcpkg.exe install boost
+        .\vcpkg.exe integrate install
 
     - name: Configure
       shell: pwsh
