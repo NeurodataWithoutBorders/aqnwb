@@ -20,9 +20,9 @@ Channel::Channel(const std::string name,
     , localIndex(localIndex)
     , globalIndex(globalIndex)
     , position(position)
+    , comments(comments)
     , conversion(conversion)
     , samplingRate(samplingRate)
-    , comments(comments)
     , bitVolts(bitVolts)
 {
 }

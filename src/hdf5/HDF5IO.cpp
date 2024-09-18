@@ -646,7 +646,7 @@ HDF5RecordingData::HDF5RecordingData(std::unique_ptr<H5::DataSet> data)
   DataSpace dSpace = data->getSpace();
   DSetCreatPropList prop = data->getCreatePlist();
 
-  this->nDimensions = dSpace.getSimpleExtentNdims();
+  this->nDimensions = static_cast<SizeType>(dSpace.getSimpleExtentNdims());
   std::vector<hsize_t> dims(this->nDimensions), chunk(this->nDimensions);
 
   nDimensions = dSpace.getSimpleExtentDims(
@@ -654,8 +654,8 @@ HDF5RecordingData::HDF5RecordingData(std::unique_ptr<H5::DataSet> data)
   prop.getChunk(static_cast<int>(this->nDimensions), chunk.data());
 
   this->size = std::vector<SizeType>(this->nDimensions);
-  for (int i = 0; i < this->nDimensions; ++i) {
-    this->size[i] = dims[i];
+  for (SizeType i = 0; i < this->nDimensions; ++i) {
+    this->size[i] = static_cast<SizeType>(dims[i]);
   }
   this->position = std::vector<SizeType>(
       this->nDimensions, 0);  // Initialize position with 0 for each dimension
@@ -686,7 +686,7 @@ Status HDF5RecordingData::writeDataBlock(
 
     // Ensure that we have enough space to accommodate new data
     std::vector<hsize_t> dSetDims(nDimensions), offset(nDimensions);
-    for (int i = 0; i < nDimensions; ++i) {
+    for (SizeType i = 0; i < nDimensions; ++i) {
       offset[i] = static_cast<hsize_t>(positionOffset[i]);
 
       if (dataShape[i] + offset[i] > size[i])  // TODO - do I need offset here
@@ -701,14 +701,14 @@ Status HDF5RecordingData::writeDataBlock(
     // Set size to new size based on updated dimensionality
     DataSpace fSpace = dSet->getSpace();
     fSpace.getSimpleExtentDims(dSetDims.data());
-    for (int i = 0; i < nDimensions; ++i) {
+    for (SizeType i = 0; i < nDimensions; ++i) {
       size[i] = dSetDims[i];
     }
 
     // Create memory space with the shape of the data
     // DataSpace mSpace(dimension, dSetDim.data());
     std::vector<hsize_t> dataDims(nDimensions);
-    for (int i = 0; i < nDimensions; ++i) {
+    for (SizeType i = 0; i < nDimensions; ++i) {
       if (dataShape[i] == 0) {
         dataDims[i] = 1;
       } else {
@@ -725,7 +725,7 @@ Status HDF5RecordingData::writeDataBlock(
     dSet->write(data, nativeType, mSpace, fSpace);
 
     // Update position for simple extension
-    for (int i = 0; i < dataShape.size(); ++i) {
+    for (SizeType i = 0; i < dataShape.size(); ++i) {
       position[i] += dataShape[i];
     }
   } catch (DataSetIException error) {
