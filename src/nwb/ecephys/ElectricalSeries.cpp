@@ -42,7 +42,7 @@ void ElectricalSeries::initialize()
   TimeSeries::initialize();
 
   // setup variables based on number of channels
-  std::vector<int> electrodeInds(channelVector.size());
+  std::vector<SizeType> electrodeInds(channelVector.size());
   std::vector<float> channelConversions(channelVector.size());
   for (size_t i = 0; i < channelVector.size(); ++i) {
     electrodeInds[i] = channelVector[i].globalIndex;
