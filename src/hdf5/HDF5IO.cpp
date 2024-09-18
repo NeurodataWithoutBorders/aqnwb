@@ -649,8 +649,8 @@ HDF5RecordingData::HDF5RecordingData(std::unique_ptr<H5::DataSet> data)
   this->nDimensions = static_cast<SizeType>(dSpace.getSimpleExtentNdims());
   std::vector<hsize_t> dims(this->nDimensions), chunk(this->nDimensions);
 
-  this->nDimensions = static_cast<SizeType>(dSpace.getSimpleExtentDims(
-      dims.data()));
+  this->nDimensions =
+      static_cast<SizeType>(dSpace.getSimpleExtentDims(dims.data()));
   prop.getChunk(static_cast<int>(this->nDimensions), chunk.data());
 
   this->size = std::vector<SizeType>(this->nDimensions);

@@ -19,9 +19,10 @@
 // Get the current working directory
 std::filesystem::path currentPath = std::filesystem::current_path();
 #ifdef _WIN32
-    std::string executablePath = (currentPath / "tests" / BUILD_CONFIG / "reader_executable.exe").string();
+std::string executablePath =
+    (currentPath / BUILD_CONFIG / "reader_executable.exe").string();
 #else
-    std::string executablePath = "./reader_executable";
+std::string executablePath = "./reader_executable";
 #endif
 
 using namespace AQNWB;
@@ -301,8 +302,7 @@ TEST_CASE("SWMRmode", "[hdf5io]")
         BaseDataType::I32, SizeArray {0}, SizeArray {1}, dataPath);
 
     // try to read the file before starting SWMR mode
-    std::string command =
-        executablePath + " " + path + " " + dataPath;
+    std::string command = executablePath + " " + path + " " + dataPath;
     std::cout << "Executing command: " << command << std::endl;
     int retPreSWMREnabled = std::system(command.c_str());
     REQUIRE(retPreSWMREnabled
