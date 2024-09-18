@@ -741,4 +741,4 @@ Status HDF5RecordingData::writeDataBlock(
 const H5::DataSet* HDF5RecordingData::getDataSet()
 {
   return dSet.get();
-};
+}

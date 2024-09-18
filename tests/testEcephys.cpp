@@ -117,12 +117,17 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
       SizeType samplesRecorded = 0;
       for (SizeType b = 0; b * bufferSize < numSamples; b += 1) {
         // copy chunk of data
-        std::copy(mockData[ch].begin() + static_cast<std::ptrdiff_t>(samplesRecorded),
-                  mockData[ch].begin() + static_cast<std::ptrdiff_t>(samplesRecorded + bufferSize),
-                  dataBuffer.begin());
-        std::copy(mockTimestamps.begin() + static_cast<std::ptrdiff_t>(samplesRecorded),
-                  mockTimestamps.begin() + static_cast<std::ptrdiff_t>(samplesRecorded + bufferSize),
-                  timestampsBuffer.begin());
+        std::copy(
+            mockData[ch].begin() + static_cast<std::ptrdiff_t>(samplesRecorded),
+            mockData[ch].begin()
+                + static_cast<std::ptrdiff_t>(samplesRecorded + bufferSize),
+            dataBuffer.begin());
+        std::copy(
+            mockTimestamps.begin()
+                + static_cast<std::ptrdiff_t>(samplesRecorded),
+            mockTimestamps.begin()
+                + static_cast<std::ptrdiff_t>(samplesRecorded + bufferSize),
+            timestampsBuffer.begin());
 
         es.writeChannel(
             ch, dataBuffer.size(), dataBuffer.data(), timestampsBuffer.data());
