@@ -301,6 +301,7 @@ TEST_CASE("SWMRmode", "[hdf5io]")
     // try to read the file before starting SWMR mode
     std::string command =
         std::string(EXECUTABLE_NAME) + " " + path + " " + dataPath;
+    std::cout << "Executing command: " << command << std::endl;
     int retPreSWMREnabled = std::system(command.c_str());
     REQUIRE(retPreSWMREnabled
             != 0);  // process should fail if SWMR mode is not enabled

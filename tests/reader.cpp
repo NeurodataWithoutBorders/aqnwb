@@ -11,6 +11,7 @@ using namespace H5;
 int readerFunction(const std::string& path, const std::string& dataPath)
 {
   try {
+    std::cout << "Opening file from path: " << path << std::endl;
     std::unique_ptr<H5File> file =
         std::make_unique<H5File>(path, H5F_ACC_RDONLY | H5F_ACC_SWMR_READ);
     std::unique_ptr<H5::DataSet> dSet =
@@ -33,7 +34,7 @@ int readerFunction(const std::string& path, const std::string& dataPath)
 
     // print out dataset sizes
     std::cout << "Dataset sizes: ";
-    for (int val : dsetSizes) {
+    for (hsize_t val : dsetSizes) {
       std::cout << val << " ";
     }
     std::cout << std::endl;
