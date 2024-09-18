@@ -16,10 +16,12 @@
 #include "nwb/file/ElectrodeTable.hpp"
 #include "testUtils.hpp"
 
+// Get the current working directory
+std::filesystem::path currentPath = std::filesystem::current_path();
 #ifdef _WIN32
-#  define EXECUTABLE_NAME "D:\\a\\aqnwb\\aqnwb\\build\\tests\\Release\\reader_executable.exe"
+    std::string executablePath = (currentPath / "tests" / BUILD_CONFIG / "reader_executable.exe").string();
 #else
-#  define EXECUTABLE_NAME "./reader_executable"
+    std::string executablePath = "./reader_executable";
 #endif
 
 using namespace AQNWB;
@@ -300,7 +302,7 @@ TEST_CASE("SWMRmode", "[hdf5io]")
 
     // try to read the file before starting SWMR mode
     std::string command =
-        std::string(EXECUTABLE_NAME) + " " + path + " " + dataPath;
+        executablePath + " " + path + " " + dataPath;
     std::cout << "Executing command: " << command << std::endl;
     int retPreSWMREnabled = std::system(command.c_str());
     REQUIRE(retPreSWMREnabled

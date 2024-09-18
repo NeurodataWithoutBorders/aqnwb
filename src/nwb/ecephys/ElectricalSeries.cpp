@@ -80,8 +80,8 @@ void ElectricalSeries::initialize()
 
 Status ElectricalSeries::writeChannel(SizeType channelInd,
                                       const SizeType& numSamples,
-                                      const void* data,
-                                      const void* timestamps)
+                                      const void* dataInput,
+                                      const void* timestampsInput)
 {
   // get offsets and datashape
   std::vector<SizeType> dataShape = {
@@ -94,8 +94,8 @@ Status ElectricalSeries::writeChannel(SizeType channelInd,
 
   // write channel data
   if (channelInd == 0) {
-    return writeData(dataShape, positionOffset, data, timestamps);
+    return writeData(dataShape, positionOffset, dataInput, timestampsInput);
   } else {
-    return writeData(dataShape, positionOffset, data);
+    return writeData(dataShape, positionOffset, dataInput);
   }
 }
