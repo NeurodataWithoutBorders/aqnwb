@@ -17,7 +17,7 @@
 #include "testUtils.hpp"
 
 #ifdef _WIN32
-#  define EXECUTABLE_NAME ".\\reader_executable.exe"
+#  define EXECUTABLE_NAME ".\\tests\\Release\\reader_executable.exe"
 #else
 #  define EXECUTABLE_NAME "./reader_executable"
 #endif

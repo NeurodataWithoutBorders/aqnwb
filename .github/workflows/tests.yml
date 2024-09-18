@@ -63,9 +63,7 @@ jobs:
 
     - name: Test
       working-directory: build
-      run: |
-        dir
-        ctest --output-on-failure --no-tests=error -C Release -j 2
+      run: ctest --output-on-failure --no-tests=error -C Release -j 2
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
