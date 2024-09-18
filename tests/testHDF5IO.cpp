@@ -284,6 +284,25 @@ TEST_CASE("writeAttributes", "[hdf5io]")
   hdf5io.close();
 }
 
+void executePowerShellCommand(const std::string& command, const std::string& logMessage) {
+    std::string fullCommand = "powershell.exe -Command \"" + command + "\"";
+    std::cout << logMessage << std::endl;
+    int ret = std::system(fullCommand.c_str());
+    if (ret != 0) {
+        std::cerr << "PowerShell command failed with status: " << ret << std::endl;
+    }
+}
+
+void checkFilePermissions(const std::string& filePath) {
+    std::string command = "Get-Acl " + filePath + " | Format-List";
+    executePowerShellCommand(command, "Checking file permissions for: " + filePath);
+}
+
+void checkFileLocks(const std::string& filePath) {
+    std::string command = "$file = '" + filePath + "'; Get-Process | Where-Object { $_.Modules.FileName -contains $file } | Format-Table -Property Id, ProcessName, MainWindowTitle";
+    executePowerShellCommand(command, "Checking for file locks on: " + filePath);
+}
+
 TEST_CASE("SWMRmode", "[hdf5io]")
 {
   SECTION("useSWMRMODE")
@@ -304,6 +323,11 @@ TEST_CASE("SWMRmode", "[hdf5io]")
     // try to read the file before starting SWMR mode
     std::string command = executablePath + " " + path + " " + dataPath;
     std::cout << "Executing command: " << command << std::endl;
+    
+    // Check file permissions and locks before starting
+    checkFilePermissions(path);
+    checkFileLocks(path);
+
     int retPreSWMREnabled = std::system(command.c_str());
     REQUIRE(retPreSWMREnabled
             != 0);  // process should fail if SWMR mode is not enabled
@@ -312,6 +336,10 @@ TEST_CASE("SWMRmode", "[hdf5io]")
     Status status = hdf5io->startRecording();
     REQUIRE(status == Status::Success);
     REQUIRE(hdf5io->canModifyObjects() == false);
+
+    // Check file permissions and locks after starting
+    checkFilePermissions(path);
+    checkFileLocks(path);
 
     // Try to read the file after starting SWMR mode
     std::promise<int> promise;
@@ -327,6 +355,11 @@ TEST_CASE("SWMRmode", "[hdf5io]")
 
     // write to file
     for (SizeType b = 0; b <= numBlocks; b++) {
+
+      // Check file permissions and locks after starting
+      checkFilePermissions(path);
+      checkFileLocks(path);
+
       // write data block and flush to file
       std::vector<SizeType> dataShape = {numSamples};
       dataset->writeDataBlock(dataShape, BaseDataType::I32, &testData[0]);
