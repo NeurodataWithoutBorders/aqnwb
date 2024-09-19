@@ -19,8 +19,6 @@ public:
    * @brief Constructor.
    * @param path The location of the SpikeEventSeries in the file.
    * @param io A shared pointer to the IO object.
-   * @param description The description of the SpikeEventSeries, should describe
-   * how events were detected.
    */
   SpikeEventSeries(const std::string& path,
                    std::shared_ptr<IO::BaseIO> io);
@@ -32,6 +30,24 @@ public:
 
   /**
    * @brief Initializes the Electrical Series
+   *
+   * @param dataType The data type to use for storing the recorded voltage
+   * @param channelVector The electrodes to use for recording
+   * @param description The description of the SpikeEventSeries, should describe
+   * how events were detected.
+   * @param dsetSize Initial size of the main dataset. This must be a vector
+   *                 with two elements. The first element specifies the length
+   *                 in time and the second element must be equal to the
+   *                 length of channelVector
+   * @param chunkSize Chunk size to use. The number of elements must be two to
+   *                  specify the size of a chunk in the time and electrode
+   *                  dimension
+   * @param conversion Scalar to multiply each element in data to convert it to
+   *                   the specified ‘unit’
+   * @param resolution Smallest meaningful difference between values in data,
+   *                   stored in the specified by unit
+   * @param offset Scalar to add to the data after scaling by ‘conversion’ to
+   *               finalize its coercion to the specified ‘unit'
    */
   void initialize(const IO::BaseDataType& dataType,
                    const Types::ChannelVector& channelVector,
@@ -44,11 +60,11 @@ public:
 
   /**
    * @brief Write a single spike series event
+   *
    * @param numSamples The number of samples in the event
    * @param numChannels The number of channels in the event
    * @param data The data of the event
    * @param timestamps The timestamps of the event
-   * @param
    */
   Status writeSpike(const SizeType& numSamples,
                     const SizeType& numChannels,
