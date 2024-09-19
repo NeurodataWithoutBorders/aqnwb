@@ -22,6 +22,6 @@ private:
   /**
    * @brief Description of VectorData.
    */
-  std::string description;
+  std::string m_description;
 };
 }  // namespace AQNWB::NWB

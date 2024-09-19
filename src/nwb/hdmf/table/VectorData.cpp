@@ -5,5 +5,5 @@ using namespace AQNWB::NWB;
 // VectorData
 std::string VectorData::getDescription() const
 {
-  return description;
+  return m_description;
 }
