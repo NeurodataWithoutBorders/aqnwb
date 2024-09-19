@@ -28,6 +28,7 @@ add_library(
     src/nwb/base/TimeSeries.cpp
     src/nwb/device/Device.cpp
     src/nwb/ecephys/ElectricalSeries.cpp
+    src/nwb/ecephys/SpikeEventSeries.cpp
     src/nwb/file/ElectrodeGroup.cpp
     src/nwb/file/ElectrodeTable.cpp
     src/nwb/hdmf/base/Container.cpp
@@ -77,6 +78,7 @@ target_include_directories(
 )
 
 target_compile_features(aqnwb_aqnwb PUBLIC cxx_std_17)
+target_compile_definitions(aqnwb_aqnwb PUBLIC BOOST_NO_CXX98_FUNCTION_BASE)
 
 # ---- Additional libraries needed ----
 find_package(HDF5 REQUIRED COMPONENTS CXX)

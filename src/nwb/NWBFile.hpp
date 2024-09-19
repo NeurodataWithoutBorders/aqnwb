@@ -11,6 +11,7 @@
 #include "io/BaseIO.hpp"
 #include "nwb/RecordingContainers.hpp"
 #include "nwb/base/TimeSeries.hpp"
+#include "nwb/file/ElectrodeTable.hpp"
 
 /*!
  * \namespace AQNWB::NWB
@@ -73,14 +74,38 @@ public:
    * @param recordingArrays vector of ChannelVector indicating the electrodes to
    *                        record from. A separate ElectricalSeries will be
    *                        created for each ChannelVector.
+   * @param recordingNames vector indicating the names of the ElectricalSeries
+   * within the acquisition group
+   * @param dataType The data type of the elements in the data block.
    * @param recordingContainers The container to store the created TimeSeries.
    * @param containerIndexes The indexes of the containers added to
    * recordingContainers
-   * @param dataType The data type of the elements in the data block.
    * @return Status The status of the object creation operation.
    */
   Status createElectricalSeries(
       std::vector<Types::ChannelVector> recordingArrays,
+      std::vector<std::string> recordingNames,
+      const IO::BaseDataType& dataType = IO::BaseDataType::I16,
+      RecordingContainers* recordingContainers = nullptr,
+      std::vector<SizeType>& containerIndexes = emptyContainerIndexes);
+
+  /**
+   * @brief Create SpikeEventSeries objects to record data into.
+   * Created objects are stored in recordingContainers.
+   * @param recordingArrays vector of ChannelVector indicating the electrodes to
+   *                        record from. A separate ElectricalSeries will be
+   *                        created for each ChannelVector.
+   * @param recordingNames vector indicating the names of the SpikeEventSeries
+   * within the acquisition group
+   * @param dataType The data type of the elements in the data block.
+   * @param recordingContainers The container to store the created TimeSeries.
+   * @param containerIndexes The indexes of the containers added to
+   * recordingContainers
+   * @return Status The status of the object creation operation.
+   */
+  Status createSpikeEventSeries(
+      std::vector<Types::ChannelVector> recordingArrays,
+      std::vector<std::string> recordingNames,
       const IO::BaseDataType& dataType = IO::BaseDataType::I16,
       RecordingContainers* recordingContainers = nullptr,
       std::vector<SizeType>& containerIndexes = emptyContainerIndexes);
@@ -132,7 +157,10 @@ private:
       const std::array<std::pair<std::string_view, std::string_view>, N>&
           specVariables);
 
+  std::unique_ptr<ElectrodeTable> elecTable;
+  const std::string identifierText;
   static std::vector<SizeType> emptyContainerIndexes;
+  inline const static std::string acquisitionPath = "/acquisition";
 };
 
 }  // namespace AQNWB::NWB
