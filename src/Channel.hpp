@@ -37,72 +37,194 @@ public:
   ~Channel();
 
   /**
+   * @brief Copy constructor
+   */
+   Channel(const Channel& other) = default;
+
+   /**
+    * @brief Move constructor
+    */
+   Channel(Channel&& other) = default;
+
+   /**
+    * @brief Assignment operator
+    */
+   Channel& operator=(const Channel& other) = default;
+
+   /**
+    * @brief Move assignment operator
+    */
+   Channel& operator=(Channel&& other) = default;
+
+   /**
    * @brief Getter for conversion factor
    * @return The conversion value.
    */
-  float getConversion() const;
+  inline float getConversion() const { return m_bitVolts / m_conversion; }
 
-  /**
-   * @brief Getter for samplingRate
-   * @return The samplingRate value.
+   /**
+   * @brief Getter for sampling rate of the channel.
+   * @return The sampling rate value.
    */
-  float getSamplingRate() const;
+   inline float getSamplingRate() const { return m_samplingRate; }
 
-  /**
-   * @brief Getter for bitVolts
+   /**
+   * @brief Getter for bitVolts floating point value of microvolts per bit
    * @return The bitVolts value.
    */
-  float getBitVolts() const;
+   inline float getBitVolts() const { return m_bitVolts; }
 
-  /**
-   * @brief Name of the channel.
+   /**
+   * @brief Get the name of the array group the channel belongs to.
+   * @return The groupName value.
    */
-  std::string name;
+   inline std::string getGroupName() const {  return m_groupName; }
 
-  /**
-   * @brief Name of the array group the channel belongs to.
+   /**
+   * @brief Get the name of the channel
+   * @return The name value.
    */
-  std::string groupName;
+   inline std::string getName() const { return m_name; }
 
-  /**
-   * @brief Index of array group the channel belongs to.
+   /**
+   * @brief Get the array group index the channel belongs to
+   * @return The groupIndex value.
    */
-  SizeType groupIndex;
+   inline SizeType getGroupIndex() const { return m_groupIndex; }
+
+   /**
+   * @brief Get the index of the channel within the recording array.
+   * @return The localIndex value.
+   */
+   inline SizeType getLocalIndex() const { return m_localIndex; }
+
+   /**
+   * @brief Get the index of the channel across the recording system.
+   * @return The globalIndex value.
+   */
+   inline SizeType getGlobalIndex() const { return m_globalIndex; }
+
+   /**
+   * @brief Get the coordinates of channel (x, y, z) within the recording array.
+   * @return The position value.
+   */
+   inline const std::array<float, 3>& getPosition() const { return m_position; }
+
+   /**
+   * @brief Get comments about the channel
+   * @return The comments value.
+   */
+   inline std::string getComments() const { return m_comments; }
+
+   /**
+   * @brief Set comments about the channel.
+   * @param comments The comments to set.
+   */
+   inline void setComments(const std::string& comments) { m_comments = comments; }
+
+   /**
+   * @brief Set coordinates of channel (x, y, z) within the recording array.
+   * @param position The position to set.
+   */
+   inline void setPosition(const std::array<float, 3>& position) { m_position = position; }
+
+   /**
+   * @brief Set index of channel across the recording system.
+   * @param globalIndex The globalIndex to set.
+   */
+   inline void setGlobalIndex(const SizeType globalIndex) { m_globalIndex = globalIndex; }
+
+   /**
+   * @brief Set index of channel within the recording array.
+   * @param localIndex The localIndex to set.
+   */
+   inline void setLocalIndex(const SizeType localIndex) { m_localIndex = localIndex; }
+
+   /**
+   * @brief Set index of array group the channel belongs to.
+   * @param groupIndex The groupIndex to set.
+   */
+   inline void setGroupIndex(const SizeType groupIndex) { m_groupIndex = groupIndex; }
+
+   /**
+   * @brief Set name of the channel.
+   * @param name The name to set.
+   */
+   inline void setName(const std::string& name) { m_name = name; }
+
+   /**
+   * @brief Set name of the array group the channel belongs to.
+   * @param groupName The groupName to set.
+   */
+   inline void setGroupName(const std::string& groupName) { m_groupName = groupName; }
+
+   /**
+   * @brief Set conversion factor.
+   * @param conversion The conversion to set.
+   */
+   inline void setConversion(const float conversion) { m_conversion = conversion; }
+
+   /**
+   * @brief Set sampling rate of the channel.
+   * @param samplingRate The samplingRate to set.
+   */
+   inline void setSamplingRate(const float samplingRate) { m_samplingRate = samplingRate; }
+
+   /**
+   * @brief Set floating point value of microvolts per bit
+   * @param bitVolts The bitVolts to set.
+   */
+   inline void setBitVolts(const float bitVolts) { m_bitVolts = bitVolts; }
+
+private:
+  /**
+   * @brief Comments about the channel.
+   */
+  std::string m_comments;
+
+   /**
+   * @brief Coordinates of channel (x, y, z) within the recording array.
+   */
+  std::array<float, 3> m_position;
+
+   /**
+   * @brief Index of channel across the recording system.
+   */
+  SizeType m_globalIndex;
 
   /**
    * @brief Index of channel within the recording array.
    */
-  SizeType localIndex;
+  SizeType m_localIndex;
 
   /**
-   * @brief Index of channel across the recording system.
+   * @brief Index of array group the channel belongs to.
    */
-  SizeType globalIndex;
+  SizeType m_groupIndex;
 
   /**
-   * @brief Coordinates of channel (x, y, z) within the recording array.
+   * @brief Name of the channel.
    */
-  std::array<float, 3> position;
+  std::string m_name;
 
   /**
-   * @brief Comments about the channel.
+   * @brief Name of the array group the channel belongs to.
    */
-  std::string comments;
+  std::string m_groupName;
 
-private:
   /**
    * @brief Conversion factor.
    */
-  float conversion;
+  float m_conversion;
 
   /**
    * @brief Sampling rate of the channel.
    */
-  float samplingRate;
+  float m_samplingRate;
 
   /**
    * @brief floating point value of microvolts per bit
    */
-  float bitVolts;
+  float m_bitVolts;
 };
 }  // namespace AQNWB

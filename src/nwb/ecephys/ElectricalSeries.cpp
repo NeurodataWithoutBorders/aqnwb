@@ -23,7 +23,7 @@ ElectricalSeries::ElectricalSeries(const std::string& path,
                  dataType,
                  "volts",  // default unit for Electrical Series
                  description,
-                 channelVector[0].comments,
+                 channelVector[0].getComments(),
                  dsetSize,
                  chunkSize,
                  channelVector[0].getConversion(),
@@ -45,7 +45,7 @@ void ElectricalSeries::initialize()
   std::vector<int> electrodeInds(channelVector.size());
   std::vector<float> channelConversions(channelVector.size());
   for (size_t i = 0; i < channelVector.size(); ++i) {
-    electrodeInds[i] = channelVector[i].globalIndex;
+    electrodeInds[i] = channelVector[i].getGlobalIndex();
     channelConversions[i] = channelVector[i].getConversion();
   }
   samplesRecorded = SizeArray(channelVector.size(), 0);

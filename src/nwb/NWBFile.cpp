@@ -134,7 +134,7 @@ Status NWBFile::createElectricalSeries(
     const std::string& recordingName = recordingNames[i];
 
     // Setup electrodes and devices
-    std::string groupName = channelVector[0].groupName;
+    std::string groupName = channelVector[0].getGroupName();
     std::string devicePath = "/general/devices/" + groupName;
     std::string electrodePath = "/general/extracellular_ephys/" + groupName;
     std::string electricalSeriesPath = acquisitionPath + "/" + recordingName;
@@ -208,7 +208,7 @@ Status NWBFile::createSpikeEventSeries(
     const std::string& recordingName = recordingNames[i];
 
     // Setup electrodes and devices
-    std::string groupName = channelVector[0].groupName;
+    std::string groupName = channelVector[0].getGroupName();
     std::string devicePath = "/general/devices/" + groupName;
     std::string electrodePath = "/general/extracellular_ephys/" + groupName;
     std::string spikeEventSeriesPath = acquisitionPath + "/" + recordingName;

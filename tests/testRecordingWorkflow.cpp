@@ -65,8 +65,8 @@ TEST_CASE("writeContinuousData", "[recording]")
         const auto& channelVector = mockRecordingArrays[i];
         for (const auto& channel : channelVector) {
           // copy data into buffer
-          std::copy(mockData[channel.globalIndex].begin() + samplesRecorded,
-                    mockData[channel.globalIndex].begin() + samplesRecorded
+          std::copy(mockData[channel.getGlobalIndex()].begin() + samplesRecorded,
+                    mockData[channel.getGlobalIndex()].begin() + samplesRecorded
                         + bufferSize,
                     dataBuffer.begin());
           std::copy(mockTimestamps.begin() + samplesRecorded,
@@ -75,7 +75,7 @@ TEST_CASE("writeContinuousData", "[recording]")
 
           // write timeseries data
           std::vector<SizeType> positionOffset = {samplesRecorded,
-                                                  channel.localIndex};
+                                                  channel.getLocalIndex()};
           std::vector<SizeType> dataShape = {dataBuffer.size(), 1};
 
           recordingContainers->writeTimeseriesData(i,
