@@ -94,7 +94,7 @@ public:
   /**
    * @brief Constructor for the BaseIO class.
    */
-  BaseIO();
+  BaseIO(const std::string& filename);
 
   /**
    * @brief Copy constructor is deleted to prevent construction-copying.
@@ -115,7 +115,7 @@ public:
    * @brief Returns the full path to the file.
    * @return The full path to the file.
    */
-  virtual std::string getFileName() = 0;
+  virtual std::string getFileName();
 
   /**
    * @brief Opens the file for writing.
@@ -346,12 +346,12 @@ public:
    */
   bool isReadyToOpen() const;
 
+protected:
   /**
    * @brief The name of the file.
    */
-  const std::string filename;
+  const std::string m_filename;
 
-protected:
   /**
    * @brief Creates a new group if it does not already exist.
    * @param path The location of the group in the file.
@@ -362,12 +362,12 @@ protected:
   /**
    * @brief Whether the file is ready to be opened.
    */
-  bool readyToOpen;
+  bool m_readyToOpen;
 
   /**
    * @brief Whether the file is currently open.
    */
-  bool opened;
+  bool m_opened;
 };
 
 /**

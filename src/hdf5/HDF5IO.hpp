@@ -33,11 +33,6 @@ class HDF5IO : public BaseIO
 {
 public:
   /**
-   * @brief Default constructor for the HDF5IO class.
-   */
-  HDF5IO();
-
-  /**
    * @brief Constructor for the HDF5IO class that takes a file name as input.
    * @param fileName The name of the HDF5 file.
    * @param disableSWMRMode Disable recording of data in Single Writer
@@ -264,8 +259,6 @@ public:
   static H5::DataType getH5Type(BaseDataType type);
 
 protected:
-  std::string filename;
-
   /**
    * @brief Creates a new group if it does not exist.
    * @param path The location in the file of the group.
@@ -274,9 +267,14 @@ protected:
   Status createGroupIfDoesNotExist(const std::string& path) override;
 
 private:
-  std::unique_ptr<H5::H5File> file;
-  bool disableSWMRMode;  // when set do not use SWMR mode when opening the HDF5
-                         // file
+  /**
+  * @brief the HDF5 file
+  */
+  std::unique_ptr<H5::H5File> m_file;
+  /**
+  * @brief When set do not use SWMR mode when opening the HDF5 file
+  */
+  bool m_disableSWMRMode;
 };
 
 /**

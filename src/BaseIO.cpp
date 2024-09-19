@@ -31,9 +31,10 @@ const BaseDataType BaseDataType::DSTR = BaseDataType(T_STR, DEFAULT_STR_SIZE);
 
 // BaseIO
 
-BaseIO::BaseIO()
-    : readyToOpen(true)
-    , opened(false)
+BaseIO::BaseIO(const std::string& filename)
+    : m_filename(filename)
+    , m_readyToOpen(true)
+    , m_opened(false)
 {
 }
 
@@ -41,12 +42,17 @@ BaseIO::~BaseIO() {}
 
 bool BaseIO::isOpen() const
 {
-  return opened;
+  return m_opened;
+}
+
+std::string BaseIO::getFileName()
+{
+  return this->m_filename;
 }
 
 bool BaseIO::isReadyToOpen() const
 {
-  return readyToOpen;
+  return m_readyToOpen;
 }
 
 bool BaseIO::canModifyObjects()
