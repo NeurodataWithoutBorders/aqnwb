@@ -28,7 +28,7 @@ public:
    *  This functions takes ownership of the passed rvalue unique_ptr and moves
    *  ownership to its internal m_dataset variable
    *
-   * @param The rvalue unique pointer to the BaseRecordingData object
+   * @param dataset The rvalue unique pointer to the BaseRecordingData object
    */
   inline void setDataset(std::unique_ptr<BaseRecordingData>&& dataset)
   {
