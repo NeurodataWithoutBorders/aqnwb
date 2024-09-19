@@ -268,12 +268,12 @@ protected:
 
 private:
   /**
-  * @brief the HDF5 file
-  */
+   * @brief the HDF5 file
+   */
   std::unique_ptr<H5::H5File> m_file;
   /**
-  * @brief When set do not use SWMR mode when opening the HDF5 file
-  */
+   * @brief When set do not use SWMR mode when opening the HDF5 file
+   */
   bool m_disableSWMRMode;
 };
 

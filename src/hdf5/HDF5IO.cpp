@@ -364,8 +364,8 @@ Status HDF5IO::createStringDataSet(const std::string& path,
   DataType H5type = getH5Type(BaseDataType::STR(value.length()));
   DataSpace dSpace(H5S_SCALAR);
 
-  dataset =
-      std::make_unique<H5::DataSet>(this->m_file->createDataSet(path, H5type, dSpace));
+  dataset = std::make_unique<H5::DataSet>(
+      this->m_file->createDataSet(path, H5type, dSpace));
   dataset->write(value.c_str(), H5type);
 
   return Status::Success;
@@ -516,12 +516,16 @@ H5O_type_t HDF5IO::getObjectType(const std::string& path)
 #if H5_VERSION_GE(1, 12, 0)
   // get whether path is a dataset or group
   H5O_info_t objInfo;  // Structure to hold information about the object
-  H5Oget_info_by_name(
-      this->m_file->getId(), path.c_str(), &objInfo, H5O_INFO_BASIC, H5P_DEFAULT);
+  H5Oget_info_by_name(this->m_file->getId(),
+                      path.c_str(),
+                      &objInfo,
+                      H5O_INFO_BASIC,
+                      H5P_DEFAULT);
 #else
   // get whether path is a dataset or group
   H5O_info_t objInfo;  // Structure to hold information about the object
-  H5Oget_info_by_name(this-m_>file->getId(), path.c_str(), &objInfo, H5P_DEFAULT);
+  H5Oget_info_by_name(
+      this - m_ > file->getId(), path.c_str(), &objInfo, H5P_DEFAULT);
 #endif
   H5O_type_t objectType = objInfo.type;
 
