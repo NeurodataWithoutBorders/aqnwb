@@ -14,15 +14,15 @@ RecordingContainers::~RecordingContainers() {}
 
 void RecordingContainers::addContainer(std::unique_ptr<Container> container)
 {
-  this->containers.push_back(std::move(container));
+  this->m_containers.push_back(std::move(container));
 }
 
 Container* RecordingContainers::getContainer(const SizeType& containerInd)
 {
-  if (containerInd >= this->containers.size()) {
+  if (containerInd >= this->m_containers.size()) {
     return nullptr;
   } else {
-    return this->containers[containerInd].get();
+    return this->m_containers[containerInd].get();
   }
 }
 
@@ -78,4 +78,9 @@ Status RecordingContainers::writeSpikeEventData(const SizeType& containerInd,
     return Status::Failure;
 
   ses->writeSpike(numSamples, numChannels, data, timestamps);
+}
+
+SizeType  RecordingContainers::size()
+{
+   return this->m_containers.size();
 }

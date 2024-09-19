@@ -162,7 +162,7 @@ Status NWBFile::createElectricalSeries(
         SizeArray {CHUNK_XSIZE, 0});
     electricalSeries->initialize();
     recordingContainers->addContainer(std::move(electricalSeries));
-    containerIndexes.push_back(recordingContainers->containers.size() - 1);
+    containerIndexes.push_back(recordingContainers->size() - 1);
   }
 
   // write electrode information to datasets
@@ -245,7 +245,7 @@ Status NWBFile::createSpikeEventSeries(
         chunkSize);
     spikeEventSeries->initialize();
     recordingContainers->addContainer(std::move(spikeEventSeries));
-    containerIndexes.push_back(recordingContainers->containers.size() - 1);
+    containerIndexes.push_back(recordingContainers->size() - 1);
   }
 
   // write electrode information to datasets

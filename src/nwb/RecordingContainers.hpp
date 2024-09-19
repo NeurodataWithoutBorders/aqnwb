@@ -105,8 +105,21 @@ public:
                              const void* data,
                              const void* timestamps);
 
-  std::vector<std::unique_ptr<Container>> containers;
-  std::string name;
+  /**
+  * @brief Get the number of recording containers
+  */
+  SizeType size();
+
+private:
+  /**
+  * @brief The Containers used for recording
+  */
+  std::vector<std::unique_ptr<Container>> m_containers;
+
+  /**
+  * @brief The name of the collection of recording containers
+  */
+  std::string m_name;
 };
 
 }  // namespace AQNWB::NWB
