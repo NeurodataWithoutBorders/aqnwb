@@ -159,7 +159,6 @@ private:
 
   std::unique_ptr<ElectrodeTable> elecTable;
   const std::string identifierText;
-  std::shared_ptr<IO::BaseIO> io;
   static std::vector<SizeType> emptyContainerIndexes;
   inline const static std::string acquisitionPath = "/acquisition";
 };

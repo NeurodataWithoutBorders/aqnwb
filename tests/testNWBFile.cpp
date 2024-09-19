@@ -16,7 +16,8 @@ TEST_CASE("saveNWBFile", "[nwb]")
   std::string filename = getTestFilePath("testSaveNWBFile.nwb");
 
   // initialize nwbfile object and create base structure
-  NWB::NWBFile nwbfile(std::make_unique<IO::HDF5::HDF5IO>(filename));
+  auto io = std::make_shared<IO::HDF5::HDF5IO>(filename);
+  NWB::NWBFile nwbfile(io);
   nwbfile.initialize(generateUuid());
   nwbfile.finalize();
 }
