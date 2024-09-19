@@ -42,44 +42,44 @@ NWBFile::~NWBFile() {}
 Status NWBFile::initialize(const std::string description,
                            const std::string dataCollection)
 {
-  if (std::filesystem::exists(io->getFileName())) {
-    return io->open(false);
+  if (std::filesystem::exists(this->m_io->getFileName())) {
+    return this->m_io->open(false);
   } else {
-    io->open(true);
+    this->m_io->open(true);
     return createFileStructure(description, dataCollection);
   }
 }
 
 Status NWBFile::finalize()
 {
-  return io->close();
+  return this->m_io->close();
 }
 
 Status NWBFile::createFileStructure(std::string description,
                                     std::string dataCollection)
 {
-  if (!io->canModifyObjects()) {
+  if (!this->m_io->canModifyObjects()) {
     return Status::Failure;
   }
 
-  io->createCommonNWBAttributes("/", "core", "NWBFile", "");
-  io->createAttribute(AQNWB::SPEC::CORE::version, "/", "nwb_version");
+  this->m_io->createCommonNWBAttributes("/", "core", "NWBFile", "");
+  this->m_io->createAttribute(AQNWB::SPEC::CORE::version, "/", "nwb_version");
 
-  io->createGroup("/acquisition");
-  io->createGroup("/analysis");
-  io->createGroup("/processing");
-  io->createGroup("/stimulus");
-  io->createGroup("/stimulus/presentation");
-  io->createGroup("/stimulus/templates");
-  io->createGroup("/general");
-  io->createGroup("/general/devices");
-  io->createGroup("/general/extracellular_ephys");
+  this->m_io->createGroup("/acquisition");
+  this->m_io->createGroup("/analysis");
+  this->m_io->createGroup("/processing");
+  this->m_io->createGroup("/stimulus");
+  this->m_io->createGroup("/stimulus/presentation");
+  this->m_io->createGroup("/stimulus/templates");
+  this->m_io->createGroup("/general");
+  this->m_io->createGroup("/general/devices");
+  this->m_io->createGroup("/general/extracellular_ephys");
   if (dataCollection != "") {
-    io->createStringDataSet("/general/data_collection", dataCollection);
+    this->m_io->createStringDataSet("/general/data_collection", dataCollection);
   }
 
-  io->createGroup("/specifications");
-  io->createReferenceAttribute("/specifications", "/", ".specloc");
+  this->m_io->createGroup("/specifications");
+  this->m_io->createReferenceAttribute("/specifications", "/", ".specloc");
 
   cacheSpecifications(
       "core", AQNWB::SPEC::CORE::version, AQNWB::SPEC::CORE::specVariables);
@@ -92,11 +92,11 @@ Status NWBFile::createFileStructure(std::string description,
 
   std::string time = getCurrentTime();
   std::vector<std::string> timeVec = {time};
-  io->createStringDataSet("/file_create_date", timeVec);
-  io->createStringDataSet("/session_description", description);
-  io->createStringDataSet("/session_start_time", time);
-  io->createStringDataSet("/timestamps_reference_time", time);
-  io->createStringDataSet("/identifier", this->m_identifierText);
+  this->m_io->createStringDataSet("/file_create_date", timeVec);
+  this->m_io->createStringDataSet("/session_description", description);
+  this->m_io->createStringDataSet("/session_start_time", time);
+  this->m_io->createStringDataSet("/timestamps_reference_time", time);
+  this->m_io->createStringDataSet("/identifier", this->m_identifierText);
 
   return Status::Success;
 }
@@ -108,7 +108,7 @@ Status NWBFile::createElectricalSeries(
     RecordingContainers* recordingContainers,
     std::vector<SizeType>& containerIndexes)
 {
-  if (!io->canModifyObjects()) {
+  if (!this->m_io->canModifyObjects()) {
     return Status::Failure;
   }
 
@@ -118,9 +118,9 @@ Status NWBFile::createElectricalSeries(
 
   // Setup electrode table if it was not yet created
   bool electrodeTableCreated =
-      io->objectExists(ElectrodeTable::electrodeTablePath);
+      this->m_io->objectExists(ElectrodeTable::electrodeTablePath);
   if (!electrodeTableCreated) {
-    this->m_electrodeTable = std::make_unique<ElectrodeTable>(io);
+    this->m_electrodeTable = std::make_unique<ElectrodeTable>(this->m_io);
     this->m_electrodeTable->initialize();
 
     // Add electrode information to table (does not write to datasets yet)
@@ -142,19 +142,19 @@ Status NWBFile::createElectricalSeries(
 
     // Check if device exists for groupName, create device and electrode group
     // if not
-    if (!io->objectExists(devicePath)) {
-      Device device = Device(devicePath, io, "description", "unknown");
+    if (!this->m_io->objectExists(devicePath)) {
+      Device device = Device(devicePath, this->m_io, "description", "unknown");
       device.initialize();
 
       ElectrodeGroup elecGroup =
-          ElectrodeGroup(electrodePath, io, "description", "unknown", device);
+          ElectrodeGroup(electrodePath, this->m_io, "description", "unknown", device);
       elecGroup.initialize();
     }
 
     // Setup electrical series datasets
     auto electricalSeries = std::make_unique<ElectricalSeries>(
         electricalSeriesPath,
-        io,
+        this->m_io,
         dataType,
         channelVector,
         "Stores continuously sampled voltage data from an "
@@ -182,7 +182,7 @@ Status NWBFile::createSpikeEventSeries(
     RecordingContainers* recordingContainers,
     std::vector<SizeType>& containerIndexes)
 {
-  if (!io->canModifyObjects()) {
+  if (!this->m_io->canModifyObjects()) {
     return Status::Failure;
   }
 
@@ -192,9 +192,9 @@ Status NWBFile::createSpikeEventSeries(
 
   // Setup electrode table if it was not yet created
   bool electrodeTableCreated =
-      io->objectExists(ElectrodeTable::electrodeTablePath);
+      this->m_io->objectExists(ElectrodeTable::electrodeTablePath);
   if (!electrodeTableCreated) {
-    this->m_electrodeTable = std::make_unique<ElectrodeTable>(io);
+    this->m_electrodeTable = std::make_unique<ElectrodeTable>(this->m_io);
     this->m_electrodeTable->initialize();
 
     // Add electrode information to table (does not write to datasets yet)
@@ -216,12 +216,12 @@ Status NWBFile::createSpikeEventSeries(
 
     // Check if device exists for groupName, create device and electrode group
     // if not
-    if (!io->objectExists(devicePath)) {
-      Device device = Device(devicePath, io, "description", "unknown");
+    if (!this->m_io->objectExists(devicePath)) {
+      Device device = Device(devicePath, this->m_io, "description", "unknown");
       device.initialize();
 
       ElectrodeGroup elecGroup =
-          ElectrodeGroup(electrodePath, io, "description", "unknown", device);
+          ElectrodeGroup(electrodePath, this->m_io, "description", "unknown", device);
       elecGroup.initialize();
     }
 
@@ -238,7 +238,7 @@ Status NWBFile::createSpikeEventSeries(
 
     auto spikeEventSeries = std::make_unique<SpikeEventSeries>(
         spikeEventSeriesPath,
-        io,
+        this->m_io,
         dataType,
         channelVector,
         "Stores spike waveforms from an extracellular ephys recording",
@@ -265,11 +265,11 @@ void NWBFile::cacheSpecifications(
     const std::array<std::pair<std::string_view, std::string_view>, N>&
         specVariables)
 {
-  io->createGroup("/specifications/" + specPath);
-  io->createGroup("/specifications/" + specPath + "/" + versionNumber);
+  this->m_io->createGroup("/specifications/" + specPath);
+  this->m_io->createGroup("/specifications/" + specPath + "/" + versionNumber);
 
   for (const auto& [name, content] : specVariables) {
-    io->createStringDataSet("/specifications/" + specPath + "/" + versionNumber
+    this->m_io->createStringDataSet("/specifications/" + specPath + "/" + versionNumber
                                 + "/" + std::string(name),
                             std::string(content));
   }
@@ -283,5 +283,5 @@ std::unique_ptr<AQNWB::BaseRecordingData> NWBFile::createRecordingData(
     const std::string& path)
 {
   return std::unique_ptr<BaseRecordingData>(
-      io->createArrayDataSet(type, size, chunking, path));
+      this->m_io->createArrayDataSet(type, size, chunking, path));
 }

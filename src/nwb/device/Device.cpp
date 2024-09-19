@@ -21,8 +21,8 @@ void Device::initialize()
 {
   Container::initialize();
 
-  io->createCommonNWBAttributes(path, "core", "Device", description);
-  io->createAttribute(manufacturer, path, "manufacturer");
+  this->m_io->createCommonNWBAttributes(this->m_path, "core", "Device", description);
+  this->m_io->createAttribute(manufacturer, this->m_path, "manufacturer");
 }
 
 // Getter for manufacturer

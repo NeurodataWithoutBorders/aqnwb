@@ -52,7 +52,7 @@ void ElectricalSeries::initialize()
 
   // make channel conversion dataset
   channelConversion = std::unique_ptr<BaseRecordingData>(
-      io->createArrayDataSet(BaseDataType::F32,
+      this->m_io->createArrayDataSet(BaseDataType::F32,
                              SizeArray {1},
                              chunkSize,
                              getPath() + "/channel_conversion"));
@@ -60,21 +60,21 @@ void ElectricalSeries::initialize()
       std::vector<SizeType>(1, channelVector.size()),
       BaseDataType::F32,
       &channelConversions[0]);
-  io->createCommonNWBAttributes(getPath() + "/channel_conversion",
+  this->m_io->createCommonNWBAttributes(getPath() + "/channel_conversion",
                                 "hdmf-common",
                                 "",
                                 "Bit volts values for all channels");
 
   // make electrodes dataset
-  electrodesDataset = std::unique_ptr<BaseRecordingData>(io->createArrayDataSet(
+  electrodesDataset = std::unique_ptr<BaseRecordingData>(this->m_io->createArrayDataSet(
       BaseDataType::I32, SizeArray {1}, chunkSize, getPath() + "/electrodes"));
   electrodesDataset->writeDataBlock(
       std::vector<SizeType>(1, channelVector.size()),
       BaseDataType::I32,
       &electrodeInds[0]);
-  io->createCommonNWBAttributes(
+  this->m_io->createCommonNWBAttributes(
       getPath() + "/electrodes", "hdmf-common", "DynamicTableRegion", "");
-  io->createReferenceAttribute(
+  this->m_io->createReferenceAttribute(
       ElectrodeTable::electrodeTablePath, getPath() + "/electrodes", "table");
 }
 
