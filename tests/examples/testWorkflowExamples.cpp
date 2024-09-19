@@ -11,6 +11,7 @@
 #include "nwb/file/ElectrodeTable.hpp"
 #include "testUtils.hpp"
 
+
 using namespace AQNWB;
 
 TEST_CASE("workflowExamples")
@@ -27,6 +28,8 @@ TEST_CASE("workflowExamples")
 
     std::vector<Types::ChannelVector> mockRecordingArrays =
         getMockChannelArrays();
+    std::vector<std::string> mockChannelNames =
+        getMockChannelArrayNames("esdata");
     std::vector<std::vector<float>> mockData =
         getMockData2D(numSamples, numChannels);
     std::vector<double> mockTimestamps = getMockTimestamps(numSamples);
@@ -49,6 +52,7 @@ TEST_CASE("workflowExamples")
     // [example_workflow_datasets_snippet]
     std::vector<SizeType> containerIndexes;
     nwbfile->createElectricalSeries(mockRecordingArrays,
+                                    mockChannelNames,
                                     BaseDataType::I16,
                                     recordingContainers.get(),
                                     containerIndexes);
