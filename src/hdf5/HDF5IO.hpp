@@ -331,13 +331,13 @@ public:
 
 private:
   /**
-   * @brief Pointer to an extendable HDF5 dataset
-   */
-  std::unique_ptr<H5::DataSet> dSet;
-
-  /**
    * @brief Return status of HDF5 operations.
    */
   Status checkStatus(int status);
+
+  /**
+   * @brief Pointer to an extendable HDF5 dataset
+   */
+  std::unique_ptr<H5::DataSet> m_dataset;
 };
 }  // namespace AQNWB::HDF5
