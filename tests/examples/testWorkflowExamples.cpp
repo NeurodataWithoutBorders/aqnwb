@@ -70,10 +70,11 @@ TEST_CASE("workflowExamples")
         const auto& channelVector = mockRecordingArrays[i];
         for (const auto& channel : channelVector) {
           // copy data into buffer
-          std::copy(mockData[channel.getGlobalIndex()].begin() + samplesRecorded,
-                    mockData[channel.getGlobalIndex()].begin() + samplesRecorded
-                        + bufferSize,
-                    dataBuffer.begin());
+          std::copy(
+              mockData[channel.getGlobalIndex()].begin() + samplesRecorded,
+              mockData[channel.getGlobalIndex()].begin() + samplesRecorded
+                  + bufferSize,
+              dataBuffer.begin());
           std::copy(mockTimestamps.begin() + samplesRecorded,
                     mockTimestamps.begin() + samplesRecorded + bufferSize,
                     timestampsBuffer.begin());
