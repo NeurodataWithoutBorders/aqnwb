@@ -80,7 +80,7 @@ Status RecordingContainers::writeSpikeEventData(const SizeType& containerInd,
   ses->writeSpike(numSamples, numChannels, data, timestamps);
 }
 
-SizeType  RecordingContainers::size()
+SizeType RecordingContainers::size()
 {
-   return this->m_containers.size();
+  return this->m_containers.size();
 }

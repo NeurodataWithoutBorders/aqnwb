@@ -7,12 +7,12 @@
 #include <string_view>
 #include <vector>
 
-#include "nwb/hdmf/base/Container.hpp"
 #include "BaseIO.hpp"
 #include "Types.hpp"
 #include "nwb/RecordingContainers.hpp"
 #include "nwb/base/TimeSeries.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
+#include "nwb/hdmf/base/Container.hpp"
 
 /*!
  * \namespace AQNWB::NWB
@@ -162,7 +162,6 @@ private:
    */
   std::unique_ptr<ElectrodeTable> m_electrodeTable;
   const std::string m_identifierText;
-
 };
 
 }  // namespace AQNWB::NWB

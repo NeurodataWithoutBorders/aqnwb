@@ -31,8 +31,8 @@ std::vector<SizeType> NWBFile::emptyContainerIndexes = {};
 // NWBFile
 
 NWBFile::NWBFile(const std::string& idText, std::shared_ptr<BaseIO> io)
-    : Container("/", io),
-      m_identifierText(idText)
+    : Container("/", io)
+    , m_identifierText(idText)
 
 {
 }
@@ -146,8 +146,8 @@ Status NWBFile::createElectricalSeries(
       Device device = Device(devicePath, this->m_io, "description", "unknown");
       device.initialize();
 
-      ElectrodeGroup elecGroup =
-          ElectrodeGroup(electrodePath, this->m_io, "description", "unknown", device);
+      ElectrodeGroup elecGroup = ElectrodeGroup(
+          electrodePath, this->m_io, "description", "unknown", device);
       elecGroup.initialize();
     }
 
@@ -220,8 +220,8 @@ Status NWBFile::createSpikeEventSeries(
       Device device = Device(devicePath, this->m_io, "description", "unknown");
       device.initialize();
 
-      ElectrodeGroup elecGroup =
-          ElectrodeGroup(electrodePath, this->m_io, "description", "unknown", device);
+      ElectrodeGroup elecGroup = ElectrodeGroup(
+          electrodePath, this->m_io, "description", "unknown", device);
       elecGroup.initialize();
     }
 
@@ -269,9 +269,10 @@ void NWBFile::cacheSpecifications(
   this->m_io->createGroup("/specifications/" + specPath + "/" + versionNumber);
 
   for (const auto& [name, content] : specVariables) {
-    this->m_io->createStringDataSet("/specifications/" + specPath + "/" + versionNumber
-                                + "/" + std::string(name),
-                            std::string(content));
+    this->m_io->createStringDataSet("/specifications/" + specPath + "/"
+                                        + versionNumber + "/"
+                                        + std::string(name),
+                                    std::string(content));
   }
 }
 

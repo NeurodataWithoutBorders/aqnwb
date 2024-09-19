@@ -53,21 +53,24 @@ void ElectricalSeries::initialize()
   // make channel conversion dataset
   channelConversion = std::unique_ptr<BaseRecordingData>(
       this->m_io->createArrayDataSet(BaseDataType::F32,
-                             SizeArray {1},
-                             chunkSize,
-                             getPath() + "/channel_conversion"));
+                                     SizeArray {1},
+                                     chunkSize,
+                                     getPath() + "/channel_conversion"));
   channelConversion->writeDataBlock(
       std::vector<SizeType>(1, channelVector.size()),
       BaseDataType::F32,
       &channelConversions[0]);
   this->m_io->createCommonNWBAttributes(getPath() + "/channel_conversion",
-                                "hdmf-common",
-                                "",
-                                "Bit volts values for all channels");
+                                        "hdmf-common",
+                                        "",
+                                        "Bit volts values for all channels");
 
   // make electrodes dataset
-  electrodesDataset = std::unique_ptr<BaseRecordingData>(this->m_io->createArrayDataSet(
-      BaseDataType::I32, SizeArray {1}, chunkSize, getPath() + "/electrodes"));
+  electrodesDataset = std::unique_ptr<BaseRecordingData>(
+      this->m_io->createArrayDataSet(BaseDataType::I32,
+                                     SizeArray {1},
+                                     chunkSize,
+                                     getPath() + "/electrodes"));
   electrodesDataset->writeDataBlock(
       std::vector<SizeType>(1, channelVector.size()),
       BaseDataType::I32,
