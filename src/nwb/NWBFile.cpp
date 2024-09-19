@@ -31,8 +31,9 @@ std::vector<SizeType> NWBFile::emptyContainerIndexes = {};
 // NWBFile
 
 NWBFile::NWBFile(const std::string& idText, std::shared_ptr<BaseIO> io)
-    : identifierText(idText)
-    , io(io)
+    : Container("/", io),
+      m_identifierText(idText)
+
 {
 }
 
@@ -95,7 +96,7 @@ Status NWBFile::createFileStructure(std::string description,
   io->createStringDataSet("/session_description", description);
   io->createStringDataSet("/session_start_time", time);
   io->createStringDataSet("/timestamps_reference_time", time);
-  io->createStringDataSet("/identifier", identifierText);
+  io->createStringDataSet("/identifier", this->m_identifierText);
 
   return Status::Success;
 }
@@ -119,12 +120,12 @@ Status NWBFile::createElectricalSeries(
   bool electrodeTableCreated =
       io->objectExists(ElectrodeTable::electrodeTablePath);
   if (!electrodeTableCreated) {
-    elecTable = std::make_unique<ElectrodeTable>(io);
-    elecTable->initialize();
+    this->m_electrodeTable = std::make_unique<ElectrodeTable>(io);
+    this->m_electrodeTable->initialize();
 
     // Add electrode information to table (does not write to datasets yet)
     for (const auto& channelVector : recordingArrays) {
-      elecTable->addElectrodes(channelVector);
+      this->m_electrodeTable->addElectrodes(channelVector);
     }
   }
 
@@ -168,7 +169,7 @@ Status NWBFile::createElectricalSeries(
   // write electrode information to datasets
   // (requires that the ElectrodeGroup has been written)
   if (!electrodeTableCreated) {
-    elecTable->finalize();
+    this->m_electrodeTable->finalize();
   }
 
   return Status::Success;
@@ -193,12 +194,12 @@ Status NWBFile::createSpikeEventSeries(
   bool electrodeTableCreated =
       io->objectExists(ElectrodeTable::electrodeTablePath);
   if (!electrodeTableCreated) {
-    elecTable = std::make_unique<ElectrodeTable>(io);
-    elecTable->initialize();
+    this->m_electrodeTable = std::make_unique<ElectrodeTable>(io);
+    this->m_electrodeTable->initialize();
 
     // Add electrode information to table (does not write to datasets yet)
     for (const auto& channelVector : recordingArrays) {
-      elecTable->addElectrodes(channelVector);
+      this->m_electrodeTable->addElectrodes(channelVector);
     }
   }
 
@@ -251,7 +252,7 @@ Status NWBFile::createSpikeEventSeries(
   // write electrode information to datasets
   // (requires that the ElectrodeGroup has been written)
   if (!electrodeTableCreated) {
-    elecTable->finalize();
+    this->m_electrodeTable->finalize();
   }
 
   return Status::Success;

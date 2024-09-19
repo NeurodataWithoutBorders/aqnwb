@@ -7,6 +7,7 @@
 #include <string_view>
 #include <vector>
 
+#include "nwb/hdmf/base/Container.hpp"
 #include "BaseIO.hpp"
 #include "Types.hpp"
 #include "nwb/RecordingContainers.hpp"
@@ -24,7 +25,7 @@ namespace AQNWB::NWB
  * @brief The NWBFile class provides an interface for setting up and managing
  * the NWB file.
  */
-class NWBFile
+class NWBFile : public Container
 {
 public:
   /**
@@ -152,11 +153,16 @@ private:
       const std::array<std::pair<std::string_view, std::string_view>, N>&
           specVariables);
 
-  std::unique_ptr<ElectrodeTable> elecTable;
-  const std::string identifierText;
-  std::shared_ptr<BaseIO> io;
-  static std::vector<SizeType> emptyContainerIndexes;
   inline const static std::string acquisitionPath = "/acquisition";
+  static std::vector<SizeType> emptyContainerIndexes;
+
+private:
+  /**
+   * @brief The ElectrodeTable for the file
+   */
+  std::unique_ptr<ElectrodeTable> m_electrodeTable;
+  const std::string m_identifierText;
+
 };
 
 }  // namespace AQNWB::NWB
