@@ -525,7 +525,7 @@ H5O_type_t HDF5IO::getObjectType(const std::string& path)
   // get whether path is a dataset or group
   H5O_info_t objInfo;  // Structure to hold information about the object
   H5Oget_info_by_name(
-      this - m_ > file->getId(), path.c_str(), &objInfo, H5P_DEFAULT);
+      this->m_file->getId(), path.c_str(), &objInfo, H5P_DEFAULT);
 #endif
   H5O_type_t objectType = objInfo.type;
 
