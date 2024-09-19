@@ -157,6 +157,29 @@ public:
   }
 };
 
+/// Helper struct to check if a StorageObjectType is allowed. Used in static
+/// assert.
+template<StorageObjectType T>
+struct is_allowed_storage_object_type : std::false_type
+{
+};
+
+/// Helper struct to check if a StorageObjectType is allowed. Used in static
+/// assert.
+template<>
+struct is_allowed_storage_object_type<StorageObjectType::Dataset>
+    : std::true_type
+{
+};
+
+/// Helper struct to check if a StorageObjectType is allowed. Used in static
+/// assert.
+template<>
+struct is_allowed_storage_object_type<StorageObjectType::Attribute>
+    : std::true_type
+{
+};
+
 /**
  * @brief Class for wrapping data objects (datasets or attributes) for reading
  * data from a file
@@ -179,29 +202,6 @@ private:
   template<StorageObjectType U>
   struct is_dataset
       : std::integral_constant<bool, (U == StorageObjectType::Dataset)>
-  {
-  };
-
-  /// Helper struct to check if a StorageObjectType is allowed. Used in static
-  /// assert.
-  template<StorageObjectType T>
-  struct is_allowed_storage_object_type : std::false_type
-  {
-  };
-
-  /// Helper struct to check if a StorageObjectType is allowed. Used in static
-  /// assert.
-  template<>
-  struct is_allowed_storage_object_type<StorageObjectType::Dataset>
-      : std::true_type
-  {
-  };
-
-  /// Helper struct to check if a StorageObjectType is allowed. Used in static
-  /// assert.
-  template<>
-  struct is_allowed_storage_object_type<StorageObjectType::Attribute>
-      : std::true_type
   {
   };
 
