@@ -746,6 +746,7 @@ bool HDF5IO::objectExists(const std::string& path)
   }
 }
 
+
 std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::getDataSet(
     const std::string& path)
 {
