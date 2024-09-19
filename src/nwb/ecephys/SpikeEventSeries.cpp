@@ -7,31 +7,30 @@ using namespace AQNWB::NWB;
 /** Constructor */
 SpikeEventSeries::SpikeEventSeries(const std::string& path,
                                    std::shared_ptr<IO::BaseIO> io)
-    : ElectricalSeries(path,
-                       io)
+    : ElectricalSeries(path, io)
 {
 }
 
 /** Destructor */
 SpikeEventSeries::~SpikeEventSeries() {}
 
-void SpikeEventSeries::initialize( const IO::BaseDataType& dataType,
-                                   const Types::ChannelVector& channelVector,
-                                   const std::string& description,
-                                   const SizeArray& dsetSize,
-                                   const SizeArray& chunkSize,
-                                   const float& conversion,
-                                   const float& resolution,
-                                   const float& offset)
+void SpikeEventSeries::initialize(const IO::BaseDataType& dataType,
+                                  const Types::ChannelVector& channelVector,
+                                  const std::string& description,
+                                  const SizeArray& dsetSize,
+                                  const SizeArray& chunkSize,
+                                  const float& conversion,
+                                  const float& resolution,
+                                  const float& offset)
 {
   ElectricalSeries::initialize(dataType,
-                       channelVector,
-                       description,
-                       dsetSize,
-                       chunkSize,
-                       conversion,
-                       resolution,
-                       offset);
+                               channelVector,
+                               description,
+                               dsetSize,
+                               chunkSize,
+                               conversion,
+                               resolution,
+                               offset);
 
   this->eventsRecorded = 0;
 }

@@ -29,7 +29,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays();
     BaseDataType dataType = BaseDataType::F32;
     std::vector<std::string> mockChannelNames =
-      getMockChannelArrayNames("esdata");
+        getMockChannelArrayNames("esdata");
     std::vector<std::vector<float>> mockData =
         getMockData2D(numSamples, numChannels);
     std::vector<double> mockTimestamps = getMockTimestamps(numSamples, 1);
@@ -61,7 +61,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
 
     // create a new ElectricalSeries
     Status resultCreate = nwbfile.createElectricalSeries(
-        mockArrays,  mockChannelNames, dataType, recordingContainers.get());
+        mockArrays, mockChannelNames, dataType, recordingContainers.get());
     REQUIRE(resultCreate == Status::Success);
 
     // get the new ElectricalSeries

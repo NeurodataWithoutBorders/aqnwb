@@ -11,7 +11,6 @@
 #include "nwb/file/ElectrodeTable.hpp"
 #include "testUtils.hpp"
 
-
 using namespace AQNWB;
 
 TEST_CASE("workflowExamples")

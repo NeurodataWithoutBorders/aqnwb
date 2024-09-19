@@ -2,8 +2,8 @@
 
 #include <string>
 
-#include "io/BaseIO.hpp"
 #include "Channel.hpp"
+#include "io/BaseIO.hpp"
 #include "nwb/ecephys/ElectricalSeries.hpp"
 
 namespace AQNWB::NWB
@@ -20,8 +20,7 @@ public:
    * @param path The location of the SpikeEventSeries in the file.
    * @param io A shared pointer to the IO object.
    */
-  SpikeEventSeries(const std::string& path,
-                   std::shared_ptr<IO::BaseIO> io);
+  SpikeEventSeries(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
   /**
    * @brief Destructor
@@ -50,13 +49,13 @@ public:
    *               finalize its coercion to the specified ‘unit'
    */
   void initialize(const IO::BaseDataType& dataType,
-                   const Types::ChannelVector& channelVector,
-                   const std::string& description,
-                   const SizeArray& dsetSize,
-                   const SizeArray& chunkSize,
-                   const float& conversion = 1.0f,
-                   const float& resolution = -1.0f,
-                   const float& offset = 0.0f);
+                  const Types::ChannelVector& channelVector,
+                  const std::string& description,
+                  const SizeArray& dsetSize,
+                  const SizeArray& chunkSize,
+                  const float& conversion = 1.0f,
+                  const float& resolution = -1.0f,
+                  const float& offset = 0.0f);
 
   /**
    * @brief Write a single spike series event

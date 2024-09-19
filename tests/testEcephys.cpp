@@ -183,14 +183,12 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
     elecTable.initialize();
 
     // setup electrical series
-    NWB::SpikeEventSeries ses =
-        NWB::SpikeEventSeries(dataPath,
-                              io);
-    ses.initialize( dataType,
-                              mockArrays[0],
-                              "no description",
-                              SizeArray {0, numChannels, numSamples},
-                              SizeArray {8, 1, 1});
+    NWB::SpikeEventSeries ses = NWB::SpikeEventSeries(dataPath, io);
+    ses.initialize(dataType,
+                   mockArrays[0],
+                   "no description",
+                   SizeArray {0, numChannels, numSamples},
+                   SizeArray {8, 1, 1});
 
     // write channel data
     for (SizeType e = 0; e < numEvents; ++e) {
@@ -243,13 +241,12 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
     elecTable.initialize();
 
     // setup electrical series
-    NWB::SpikeEventSeries ses = NWB::SpikeEventSeries(dataPath,
-                                                      io);
+    NWB::SpikeEventSeries ses = NWB::SpikeEventSeries(dataPath, io);
     ses.initialize(dataType,
-                                                      mockArrays[0],
-                                                      "no description",
-                                                      SizeArray {0, numSamples},
-                                                      SizeArray {8, 1});
+                   mockArrays[0],
+                   "no description",
+                   SizeArray {0, numSamples},
+                   SizeArray {8, 1});
 
     // write channel data
     for (SizeType e = 0; e < numEvents; ++e) {

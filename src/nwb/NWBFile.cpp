@@ -143,8 +143,7 @@ Status NWBFile::createElectricalSeries(
       Device device = Device(devicePath, io);
       device.initialize("description", "unknown");
 
-      ElectrodeGroup elecGroup =
-          ElectrodeGroup(electrodePath, io);
+      ElectrodeGroup elecGroup = ElectrodeGroup(electrodePath, io);
       elecGroup.initialize("description", "unknown", device);
     }
 
@@ -216,8 +215,7 @@ Status NWBFile::createSpikeEventSeries(
       Device device = Device(devicePath, io);
       device.initialize("description", "unknown");
 
-      ElectrodeGroup elecGroup =
-          ElectrodeGroup(electrodePath, io);
+      ElectrodeGroup elecGroup = ElectrodeGroup(electrodePath, io);
       elecGroup.initialize("description", "unknown", device);
     }
 
@@ -232,10 +230,10 @@ Status NWBFile::createSpikeEventSeries(
       chunkSize = SizeArray {SPIKE_CHUNK_XSIZE, 1, 1};
     }
 
-    auto spikeEventSeries = std::make_unique<SpikeEventSeries>(
-        spikeEventSeriesPath,
-        io);
-    spikeEventSeries->initialize(dataType,
+    auto spikeEventSeries =
+        std::make_unique<SpikeEventSeries>(spikeEventSeriesPath, io);
+    spikeEventSeries->initialize(
+        dataType,
         channelVector,
         "Stores spike waveforms from an extracellular ephys recording",
         dsetSize,
