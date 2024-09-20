@@ -30,7 +30,7 @@ void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
   TimeSeries::initialize(dataType,
                          "volts",
                          description,
-                         channelVector[0].comments,
+                         channelVector[0].getComments(),
                          dsetSize,
                          chunkSize,
                          channelVector[0].getConversion(),
@@ -47,8 +47,8 @@ void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
   samplesRecorded = SizeArray(channelVector.size(), 0);
 
   // make channel conversion dataset
-  channelConversion = std::unique_ptr<BaseRecordingData>(
-      m_io->createArrayDataSet(BaseDataType::F32,
+  channelConversion = std::unique_ptr<IO::BaseRecordingData>(
+      m_io->createArrayDataSet(IO::BaseDataType::F32,
                                SizeArray {1},
                                chunkSize,
                                getPath() + "/channel_conversion"));
@@ -62,8 +62,8 @@ void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
                                   "Bit volts values for all channels");
 
   // make electrodes dataset
-  electrodesDataset = std::unique_ptr<BaseRecordingData>(
-      m_io->createArrayDataSet(BaseDataType::I32,
+  electrodesDataset = std::unique_ptr<IO::BaseRecordingData>(
+      m_io->createArrayDataSet(IO::BaseDataType::I32,
                                SizeArray {1},
                                chunkSize,
                                getPath() + "/electrodes"));

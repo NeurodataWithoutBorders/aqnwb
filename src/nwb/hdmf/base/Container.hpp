@@ -56,6 +56,5 @@ protected:
    * @brief A shared pointer to the IO object.
    */
   std::shared_ptr<IO::BaseIO> m_io;
-
 };
 }  // namespace AQNWB::NWB

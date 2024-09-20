@@ -158,8 +158,6 @@ private:
       const std::array<std::pair<std::string_view, std::string_view>, N>&
           specVariables);
 
-  std::unique_ptr<ElectrodeTable> elecTable;
-  const std::string identifierText;
   inline const static std::string acquisitionPath = "/acquisition";
   static std::vector<SizeType> emptyContainerIndexes;
 
@@ -168,7 +166,6 @@ private:
    * @brief The ElectrodeTable for the file
    */
   std::unique_ptr<ElectrodeTable> m_electrodeTable;
-  const std::string m_identifierText;
 };
 
 }  // namespace AQNWB::NWB

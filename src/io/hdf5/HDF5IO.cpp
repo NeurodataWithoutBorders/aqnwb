@@ -96,12 +96,12 @@ std::unique_ptr<H5::Attribute> HDF5IO::getAttribute(const std::string& path)
 
   try {
     // Try to open the parent object as a group
-    H5::Group parentGroup = this->file->openGroup(parentPath);
+    H5::Group parentGroup = m_file->openGroup(parentPath);
     return std::make_unique<H5::Attribute>(parentGroup.openAttribute(attrName));
   } catch (const H5::Exception& e) {
     // If it's not a group, try to open it as a dataset
     try {
-      H5::DataSet parentDataset = this->file->openDataSet(parentPath);
+      H5::DataSet parentDataset = m_file->openDataSet(parentPath);
       return std::make_unique<H5::Attribute>(
           parentDataset.openAttribute(attrName));
     } catch (const H5::Exception& e) {
@@ -284,7 +284,7 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(
     const std::vector<SizeType>& block)
 {
   // Check that the dataset exists
-  assert(H5Lexists(this->file->getId(), dataPath.c_str(), H5P_DEFAULT) > 0);
+  assert(H5Lexists(m_file->getId(), dataPath.c_str(), H5P_DEFAULT) > 0);
   // create the return value to fill
   IO::DataBlockGeneric result;
 
@@ -297,7 +297,7 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(
   std::copy(block.begin(), block.end(), block_hsize.begin());
 
   // Read the dataset
-  H5::DataSet dataset = file->openDataSet(dataPath);
+  H5::DataSet dataset = m_file->openDataSet(dataPath);
 
   // Get the dataspace of the dataset
   H5::DataSpace dataspace = dataset.getSpace();
@@ -737,7 +737,6 @@ bool HDF5IO::objectExists(const std::string& path)
     return false;
   }
 }
-
 
 std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::getDataSet(
     const std::string& path)

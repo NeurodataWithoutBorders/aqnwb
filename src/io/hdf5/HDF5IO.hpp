@@ -409,4 +409,3 @@ private:
 };
 
 }  // namespace AQNWB::IO::HDF5
-

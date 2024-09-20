@@ -20,7 +20,7 @@ DynamicTable::~DynamicTable() {}
 void DynamicTable::initialize(const std::string& description)
 {
   Container::initialize();
-  this->description = description;
+  this->m_description = description;
 
   m_io->createCommonNWBAttributes(
       m_path, "hdmf-common", "DynamicTable", getDescription());
@@ -53,9 +53,10 @@ void DynamicTable::setRowIDs(std::unique_ptr<ElementIdentifiers>& elementIDs,
   if (!elementIDs->isInitialized()) {
     std::cerr << "ElementIdentifiers dataset is not initialized" << std::endl;
   } else {
-    elementIDs->m_dataset->writeDataBlock(std::vector<SizeType>(1, values.size()),
-                                          BaseDataType::I32,
-                                          &values[0]);
+    elementIDs->m_dataset->writeDataBlock(
+        std::vector<SizeType>(1, values.size()),
+        IO::BaseDataType::I32,
+        &values[0]);
     m_io->createCommonNWBAttributes(
         m_path + "id", "hdmf-common", "ElementIdentifiers");
   }

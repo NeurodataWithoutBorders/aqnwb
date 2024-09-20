@@ -14,7 +14,6 @@
 using namespace H5;
 using namespace AQNWB::IO::HDF5;
 
-// HDF5RecordingData
 HDF5RecordingData::HDF5RecordingData(std::unique_ptr<H5::DataSet> data)
 {
   DataSpace dSpace = data->getSpace();
@@ -34,15 +33,13 @@ HDF5RecordingData::HDF5RecordingData(std::unique_ptr<H5::DataSet> data)
   this->nDimensions = nDimensions;
   this->position = std::vector<SizeType>(
       nDimensions, 0);  // Initialize position with 0 for each dimension
-  this->dSet = std::make_unique<H5::DataSet>(*data);
+  m_dataset = std::make_unique<H5::DataSet>(*data);
 }
-
-// HDF5RecordingData
 
 HDF5RecordingData::~HDF5RecordingData()
 {
   // Safety
-  dSet->flush(H5F_SCOPE_GLOBAL);
+  m_dataset->flush(H5F_SCOPE_GLOBAL);
 }
 
 Status HDF5RecordingData::writeDataBlock(
@@ -71,10 +68,10 @@ Status HDF5RecordingData::writeDataBlock(
     }
 
     // Adjust dataset dimensions if necessary
-    dSet->extend(dSetDims.data());
+    m_dataset->extend(dSetDims.data());
 
     // Set size to new size based on updated dimensionality
-    DataSpace fSpace = dSet->getSpace();
+    DataSpace fSpace = m_dataset->getSpace();
     fSpace.getSimpleExtentDims(dSetDims.data());
     for (int i = 0; i < nDimensions; ++i) {
       size[i] = dSetDims[i];
@@ -97,7 +94,7 @@ Status HDF5RecordingData::writeDataBlock(
 
     // Write the data
     DataType nativeType = HDF5IO::getNativeType(type);
-    dSet->write(data, nativeType, mSpace, fSpace);
+    m_dataset->write(data, nativeType, mSpace, fSpace);
 
     // Update position for simple extension
     for (int i = 0; i < dataShape.size(); ++i) {
@@ -112,8 +109,3 @@ Status HDF5RecordingData::writeDataBlock(
   }
   return Status::Success;
 }
-
-const H5::DataSet* HDF5RecordingData::getDataSet()
-{
-  return dSet.get();
-};

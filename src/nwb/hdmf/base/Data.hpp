@@ -30,7 +30,7 @@ public:
    *
    * @param dataset The rvalue unique pointer to the BaseRecordingData object
    */
-  inline void setDataset(std::unique_ptr<BaseRecordingData>&& dataset)
+  inline void setDataset(std::unique_ptr<IO::BaseRecordingData>&& dataset)
   {
     m_dataset = std::move(dataset);
   }
@@ -40,6 +40,7 @@ public:
    */
   inline bool isInitialized() { return m_dataset != nullptr; }
 
-  std::unique_ptr<BaseRecordingData> m_dataset;   // TODO We may not want this here if we need Data for read
+  std::unique_ptr<IO::BaseRecordingData>
+      m_dataset;  // TODO We may not want this here if we need Data for read
 };
 }  // namespace AQNWB::NWB

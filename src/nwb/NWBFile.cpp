@@ -71,14 +71,11 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
   m_io->createGroup("/general");
   m_io->createGroup("/general/devices");
   m_io->createGroup("/general/extracellular_ephys");
-
   if (dataCollection != "") {
     m_io->createStringDataSet("/general/data_collection", dataCollection);
   }
-
   m_io->createGroup("/specifications");
   m_io->createReferenceAttribute("/specifications", "/", ".specloc");
-
   cacheSpecifications(
       "core", AQNWB::SPEC::CORE::version, AQNWB::SPEC::CORE::specVariables);
   cacheSpecifications("hdmf-common",
@@ -87,16 +84,13 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
   cacheSpecifications("hdmf-experimental",
                       AQNWB::SPEC::HDMF_EXPERIMENTAL::version,
                       AQNWB::SPEC::HDMF_EXPERIMENTAL::specVariables);
-
   std::string time = getCurrentTime();
   std::vector<std::string> timeVec = {time};
-
   m_io->createStringDataSet("/file_create_date", timeVec);
   m_io->createStringDataSet("/session_description", description);
   m_io->createStringDataSet("/session_start_time", time);
   m_io->createStringDataSet("/timestamps_reference_time", time);
-  m_io->createStringDataSet("/identifier", m_identifierText);
-
+  m_io->createStringDataSet("/identifier", identifierText);
   return Status::Success;
 }
 
@@ -141,11 +135,11 @@ Status NWBFile::createElectricalSeries(
 
     // Check if device exists for groupName, create device and electrode group
     // if not
-    if (!io->objectExists(devicePath)) {
-      Device device = Device(devicePath, io);
+    if (!m_io->objectExists(devicePath)) {
+      Device device = Device(devicePath, m_io);
       device.initialize("description", "unknown");
 
-      ElectrodeGroup elecGroup = ElectrodeGroup(electrodePath, io);
+      ElectrodeGroup elecGroup = ElectrodeGroup(electrodePath, m_io);
       elecGroup.initialize("description", "unknown", device);
     }
 
@@ -154,14 +148,13 @@ Status NWBFile::createElectricalSeries(
       Device device = Device(devicePath, m_io);
       device.initialize("description", "unknown");
 
-      ElectrodeGroup elecGroup =
-          ElectrodeGroup(electrodePath, m_io);
+      ElectrodeGroup elecGroup = ElectrodeGroup(electrodePath, m_io);
       elecGroup.initialize("description", "unknown", device);
     }
 
     // Setup electrical series datasets
-     auto electricalSeries =
-        std::make_unique<ElectricalSeries>(electricalSeriesPath, io);
+    auto electricalSeries =
+        std::make_unique<ElectricalSeries>(electricalSeriesPath, m_io);
     electricalSeries->initialize(
         dataType,
         channelVector,
@@ -227,8 +220,7 @@ Status NWBFile::createSpikeEventSeries(
       Device device = Device(devicePath, m_io);
       device.initialize("description", "unknown");
 
-      ElectrodeGroup elecGroup =
-          ElectrodeGroup(electrodePath, m_io);
+      ElectrodeGroup elecGroup = ElectrodeGroup(electrodePath, m_io);
       elecGroup.initialize("description", "unknown", device);
     }
 
@@ -288,6 +280,6 @@ std::unique_ptr<AQNWB::IO::BaseRecordingData> NWBFile::createRecordingData(
     const SizeArray& chunking,
     const std::string& path)
 {
-  return std::unique_ptr<BaseRecordingData>(
+  return std::unique_ptr<IO::BaseRecordingData>(
       m_io->createArrayDataSet(type, size, chunking, path));
 }

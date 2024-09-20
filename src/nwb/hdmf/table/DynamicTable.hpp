@@ -25,10 +25,11 @@ public:
    * @param io A shared pointer to the IO object.
    * @param colNames Set the names of the columns for the table
    */
-  DynamicTable(const std::string& path,
-               std::shared_ptr<BaseIO> io,
-               const std::vector<std::string>& colNames = {});   // TODO Need to remove colNames here and move it to initialize
-
+  DynamicTable(
+      const std::string& path,
+      std::shared_ptr<IO::BaseIO> io,
+      const std::vector<std::string>& colNames =
+          {});  // TODO Need to remove colNames here and move it to initialize
 
   /**
    * @brief Destructor
