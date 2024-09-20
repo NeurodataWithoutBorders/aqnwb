@@ -59,10 +59,11 @@ void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
       IO::BaseDataType::F32,
       &channelConversions[0]);
 
-  m_io->createCommonNWBAttributes(this->getPath() + "/channel_conversion",
-                                "hdmf-common",  // TODO shouldn't this be core?
-                                "",
-                                "Bit volts values for all channels");
+  m_io->createCommonNWBAttributes(
+      this->getPath() + "/channel_conversion",
+      "hdmf-common",  // TODO shouldn't this be core?
+      "",
+      "Bit volts values for all channels");
 
   // make electrodes dataset
   electrodesDataset = std::unique_ptr<IO::BaseRecordingData>(

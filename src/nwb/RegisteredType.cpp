@@ -6,8 +6,8 @@ using namespace AQNWB::NWB;
 
 RegisteredType::RegisteredType(const std::string& path,
                                std::shared_ptr<AQNWB::IO::BaseIO> io)
-    : path(path)
-    , io(io)
+    : m_path(path)
+    , m_io(io)
 {
 }
 
@@ -15,7 +15,7 @@ RegisteredType::~RegisteredType() {}
 
 std::string RegisteredType::getPath() const
 {
-  return path;
+  return m_path;
 }
 
 std::unordered_set<std::string>& RegisteredType::getRegistry()

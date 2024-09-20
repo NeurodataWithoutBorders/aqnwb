@@ -23,7 +23,7 @@ void DynamicTable::initialize(const std::string& description)
 {
   Container::initialize();
   m_io->createCommonNWBAttributes(
-      this->path, this->getNamespace(), this->getTypeName(), description);
+      m_path, this->getNamespace(), this->getTypeName(), description);
   m_io->createAttribute(getColNames(), m_path, "colnames");
 }
 
@@ -42,11 +42,10 @@ void DynamicTable::addColumn(const std::string& name,
           std::vector<SizeType>(1, 1),
           IO::BaseDataType::STR(values[i].size() + 1),
           values[i].c_str());  // TODO - add tests for this
-    m_io->createCommonNWBAttributes(
-        m_path + name,
-        vectorData->getNamespace(),
-        vectorData->getTypeName(),
-        colDescription);  // TODO should this be path + "/" + name
+    m_io->createCommonNWBAttributes(m_path + name,
+                                    vectorData->getNamespace(),
+                                    vectorData->getTypeName(),
+                                    colDescription);
   }
 }
 
@@ -56,14 +55,12 @@ void DynamicTable::setRowIDs(std::unique_ptr<ElementIdentifiers>& elementIDs,
   if (!elementIDs->isInitialized()) {
     std::cerr << "ElementIdentifiers dataset is not initialized" << std::endl;
   } else {
-     elementIDs->m_dataset->writeDataBlock(
+    elementIDs->m_dataset->writeDataBlock(
         std::vector<SizeType>(1, values.size()),
         IO::BaseDataType::I32,
         &values[0]);
-    io->createCommonNWBAttributes(
-        m_path + "id",
-        elementIDs->getNamespace(),
-        elementIDs->getTypeName());
+    m_io->createCommonNWBAttributes(
+        m_path + "id", elementIDs->getNamespace(), elementIDs->getTypeName());
   }
 }
 

@@ -31,7 +31,6 @@ std::vector<SizeType> NWBFile::emptyContainerIndexes = {};
 // Initialize the static registered_ member to trigger registration
 REGISTER_SUBCLASS_IMPL(NWBFile)
 
-
 NWBFile::NWBFile(std::shared_ptr<IO::BaseIO> io)
     : Container("/", io)
 {
@@ -71,7 +70,7 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
     return Status::Failure;
   }
   m_io->createCommonNWBAttributes(
-      this->path, this->getNamespace(), this->getTypeName(), "");
+      m_path, this->getNamespace(), this->getTypeName(), "");
   m_io->createAttribute(AQNWB::SPEC::CORE::version, "/", "nwb_version");
   m_io->createGroup("/acquisition");
   m_io->createGroup("/analysis");

@@ -176,12 +176,12 @@ protected:
   /**
    * @brief The path of the registered type.
    */
-  std::string path;
+  std::string m_path;
 
   /**
    * @brief A shared pointer to the IO object.
    */
-  std::shared_ptr<IO::BaseIO> io;
+  std::shared_ptr<IO::BaseIO> m_io;
 };
 
 /**

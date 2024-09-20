@@ -30,11 +30,10 @@ void TimeSeries::initialize(const IO::BaseDataType& dataType,
   this->dataType = dataType;
 
   // setup attributes
-  m_io->createCommonNWBAttributes(
-      path,
-      this->getNamespace(), // "core"
-      this->getTypeName(),  //  "TimeSeries"
-      description);
+  m_io->createCommonNWBAttributes(m_path,
+                                  this->getNamespace(),  // "core"
+                                  this->getTypeName(),  //  "TimeSeries"
+                                  description);
   m_io->createAttribute(comments, m_path, "comments");
 
   // setup datasets
