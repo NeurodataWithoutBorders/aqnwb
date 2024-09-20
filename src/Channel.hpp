@@ -134,7 +134,6 @@ public:
     m_position = position;
   }
 
-
   /**
    * @brief Set name of the channel.
    * @param name The name to set.
