@@ -1,17 +1,19 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html" title="Abstract data type for a group storing collections of data and metadata." alt="" coords="5,80,182,106"/>
+<area shape="rect" id="Node000000" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html" title="Abstract data type for a group storing collections of data and metadata." alt="" coords="5,104,182,130"/>
 <area shape="rect" id="Node000001" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_device.html" title="Metadata about a data acquisition device, e.g., recording system, electrode, microscope." alt="" coords="254,5,416,31"/>
-<area shape="poly" id="edge3_Node000000_Node000001" title=" " alt="" coords="140,71,229,40,269,29,270,34,230,45,141,76"/>
+<area shape="poly" id="edge3_Node000000_Node000001" title=" " alt="" coords="126,93,173,66,229,40,263,29,264,34,231,45,176,70,129,98"/>
 <area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html" title="Represents a group containing multiple datasets that are aligned on the first dimension." alt="" coords="233,55,436,80"/>
-<area shape="poly" id="edge4_Node000000_Node000002" title=" " alt="" coords="197,79,233,76,233,81,197,85"/>
+<area shape="poly" id="edge4_Node000000_Node000002" title=" " alt="" coords="175,98,268,78,269,84,176,103"/>
 <area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html" title="The ElectrodeGroup class represents a physical grouping of electrodes, e.g. a shank of an array." alt="" coords="230,104,440,130"/>
-<area shape="poly" id="edge6_Node000000_Node000004" title=" " alt="" coords="197,100,229,104,229,109,197,106"/>
-<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html" title="General purpose time series." alt="" coords="242,153,428,179"/>
-<area shape="poly" id="edge7_Node000000_Node000005" title=" " alt="" coords="143,109,230,140,270,150,269,155,229,145,141,114"/>
+<area shape="poly" id="edge6_Node000000_Node000004" title=" " alt="" coords="197,114,229,114,229,120,197,120"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html" title="The NWBFile class provides an interface for setting up and managing the NWB file." alt="" coords="248,153,422,179"/>
+<area shape="poly" id="edge7_Node000000_Node000005" title=" " alt="" coords="176,131,269,150,268,155,175,136"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html" title="General purpose time series." alt="" coords="242,203,428,228"/>
+<area shape="poly" id="edge8_Node000000_Node000006" title=" " alt="" coords="129,136,176,163,231,189,264,200,263,205,229,194,173,168,126,140"/>
 <area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html" title="Represents a table containing electrode metadata." alt="" coords="490,55,697,80"/>
 <area shape="poly" id="edge5_Node000002_Node000003" title=" " alt="" coords="452,65,490,65,490,70,452,70"/>
-<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html" title="General purpose time series." alt="" coords="488,153,699,179"/>
-<area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="444,164,487,164,487,169,444,169"/>
-<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html" title="Stores snapshots/snippets of recorded spike events (i.e., threshold crossings)." alt="" coords="747,153,972,179"/>
-<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="715,164,747,164,747,169,715,169"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html" title="General purpose time series." alt="" coords="488,203,699,228"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="444,213,487,213,487,218,444,218"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html" title="Stores snapshots/snippets of recorded spike events (i.e., threshold crossings)." alt="" coords="747,203,972,228"/>
+<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="715,213,747,213,747,218,715,218"/>
 </map>

@@ -14,7 +14,7 @@ var searchData=
   ['installation_11',['Installation',['../index.html#mainpage_installation',1,'']]],
   ['installation_20setup_12',['Installation &amp; Setup',['../dev_install_page.html',1,'devdocs']]],
   ['installing_20aqnwb_13',['Installing AqNWB',['../user_install_page.html',1,'userdocs']]],
-  ['io_14',['io',['../class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a1e5c6a11f63a5947699fefc0e4fd1004',1,'AQNWB::NWB::Container']]],
-  ['isopen_15',['isOpen',['../class_a_q_n_w_b_1_1_base_i_o.html#ac3231bb843be24142cd2c484a9489c2e',1,'AQNWB::BaseIO']]],
-  ['isreadytoopen_16',['isReadyToOpen',['../class_a_q_n_w_b_1_1_base_i_o.html#a874bc9c330e4402a39598bf38c0c90cf',1,'AQNWB::BaseIO']]]
+  ['isinitialized_14',['isInitialized',['../class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a28976115b55b66fb89efb43a412a587e',1,'AQNWB::NWB::Data']]],
+  ['isopen_15',['isOpen',['../class_a_q_n_w_b_1_1_base_i_o.html#a8eebc319d1db2c2af0e89a8bff0fb4eb',1,'AQNWB::BaseIO']]],
+  ['isreadytoopen_16',['isReadyToOpen',['../class_a_q_n_w_b_1_1_base_i_o.html#a22bccb08d91e29244ad8dd0e5e2ee02d',1,'AQNWB::BaseIO']]]
 ];

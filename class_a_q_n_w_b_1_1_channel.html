@@ -102,7 +102,6 @@ $(function(){initNavTree('class_a_q_n_w_b_1_1_channel.html',''); initResizable(t
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="class_a_q_n_w_b_1_1_channel-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">AQNWB::Channel Class Reference</div></div>
 </div><!--header-->
@@ -115,51 +114,69 @@ $(function(){initNavTree('class_a_q_n_w_b_1_1_channel.html',''); initResizable(t
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a48cdc29ada872f23bfff80685273f150" id="r_a48cdc29ada872f23bfff80685273f150"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a48cdc29ada872f23bfff80685273f150">Channel</a> (const std::string <a class="el" href="#a3a6cc7afd24106bf746a8b289bcf3e0b">name</a>, const std::string <a class="el" href="#aefe203a6fcd6ea3ccc11f9ade98a7768">groupName</a>, const <a class="el" href="_base_i_o_8hpp.html#a95d5d5db2cb7811e65d20c0f68deb025">SizeType</a> <a class="el" href="#a3c65b6a2e4ef46aed5673a33ecd1f912">groupIndex</a>, const <a class="el" href="_base_i_o_8hpp.html#a95d5d5db2cb7811e65d20c0f68deb025">SizeType</a> <a class="el" href="#a6b1356c910984211a548878117121572">localIndex</a>, const <a class="el" href="_base_i_o_8hpp.html#a95d5d5db2cb7811e65d20c0f68deb025">SizeType</a> <a class="el" href="#af43ec4d3e56ef732b35817b766517cb8">globalIndex</a>, const float conversion=1e6f, const float samplingRate=30000.f, const float bitVolts=0.05f, const std::array&lt; float, 3 &gt; <a class="el" href="#a2119d5412589a87fd3d9bb1865737823">position</a>={0.f, 0.f, 0.f}, const std::string <a class="el" href="#a4f6abdc7a9b35ece35b7c5aeda8e7956">comments</a>=&quot;no comments&quot;)</td></tr>
+<tr class="memitem:a48cdc29ada872f23bfff80685273f150" id="r_a48cdc29ada872f23bfff80685273f150"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a48cdc29ada872f23bfff80685273f150">Channel</a> (const std::string name, const std::string groupName, const <a class="el" href="_base_i_o_8hpp.html#a95d5d5db2cb7811e65d20c0f68deb025">SizeType</a> groupIndex, const <a class="el" href="_base_i_o_8hpp.html#a95d5d5db2cb7811e65d20c0f68deb025">SizeType</a> localIndex, const <a class="el" href="_base_i_o_8hpp.html#a95d5d5db2cb7811e65d20c0f68deb025">SizeType</a> globalIndex, const float conversion=1e6f, const float samplingRate=30000.f, const float bitVolts=0.05f, const std::array&lt; float, 3 &gt; position={0.f, 0.f, 0.f}, const std::string comments=&quot;no comments&quot;)</td></tr>
 <tr class="memdesc:a48cdc29ada872f23bfff80685273f150"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <br /></td></tr>
 <tr class="separator:a48cdc29ada872f23bfff80685273f150"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f15ebd302464069f1a9e3f0ded14482" id="r_a5f15ebd302464069f1a9e3f0ded14482"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5f15ebd302464069f1a9e3f0ded14482">~Channel</a> ()</td></tr>
 <tr class="memdesc:a5f15ebd302464069f1a9e3f0ded14482"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <br /></td></tr>
 <tr class="separator:a5f15ebd302464069f1a9e3f0ded14482"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe58434413a8df186bd12ad419bb1894" id="r_abe58434413a8df186bd12ad419bb1894"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abe58434413a8df186bd12ad419bb1894">getConversion</a> () const</td></tr>
-<tr class="memdesc:abe58434413a8df186bd12ad419bb1894"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter for conversion factor.  <br /></td></tr>
-<tr class="separator:abe58434413a8df186bd12ad419bb1894"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a144aebce79f8931ef3481557104e9a85" id="r_a144aebce79f8931ef3481557104e9a85"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a144aebce79f8931ef3481557104e9a85">getSamplingRate</a> () const</td></tr>
-<tr class="memdesc:a144aebce79f8931ef3481557104e9a85"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter for samplingRate.  <br /></td></tr>
-<tr class="separator:a144aebce79f8931ef3481557104e9a85"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31f3c683ccc71fd077f941ec828b976c" id="r_a31f3c683ccc71fd077f941ec828b976c"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a31f3c683ccc71fd077f941ec828b976c">getBitVolts</a> () const</td></tr>
-<tr class="memdesc:a31f3c683ccc71fd077f941ec828b976c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter for bitVolts.  <br /></td></tr>
-<tr class="separator:a31f3c683ccc71fd077f941ec828b976c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a3a6cc7afd24106bf746a8b289bcf3e0b" id="r_a3a6cc7afd24106bf746a8b289bcf3e0b"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3a6cc7afd24106bf746a8b289bcf3e0b">name</a></td></tr>
-<tr class="memdesc:a3a6cc7afd24106bf746a8b289bcf3e0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of the channel.  <br /></td></tr>
-<tr class="separator:a3a6cc7afd24106bf746a8b289bcf3e0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aefe203a6fcd6ea3ccc11f9ade98a7768" id="r_aefe203a6fcd6ea3ccc11f9ade98a7768"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aefe203a6fcd6ea3ccc11f9ade98a7768">groupName</a></td></tr>
-<tr class="memdesc:aefe203a6fcd6ea3ccc11f9ade98a7768"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of the array group the channel belongs to.  <br /></td></tr>
-<tr class="separator:aefe203a6fcd6ea3ccc11f9ade98a7768"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c65b6a2e4ef46aed5673a33ecd1f912" id="r_a3c65b6a2e4ef46aed5673a33ecd1f912"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_base_i_o_8hpp.html#a95d5d5db2cb7811e65d20c0f68deb025">SizeType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3c65b6a2e4ef46aed5673a33ecd1f912">groupIndex</a></td></tr>
-<tr class="memdesc:a3c65b6a2e4ef46aed5673a33ecd1f912"><td class="mdescLeft">&#160;</td><td class="mdescRight">Index of array group the channel belongs to.  <br /></td></tr>
-<tr class="separator:a3c65b6a2e4ef46aed5673a33ecd1f912"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6b1356c910984211a548878117121572" id="r_a6b1356c910984211a548878117121572"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_base_i_o_8hpp.html#a95d5d5db2cb7811e65d20c0f68deb025">SizeType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6b1356c910984211a548878117121572">localIndex</a></td></tr>
-<tr class="memdesc:a6b1356c910984211a548878117121572"><td class="mdescLeft">&#160;</td><td class="mdescRight">Index of channel within the recording array.  <br /></td></tr>
-<tr class="separator:a6b1356c910984211a548878117121572"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af43ec4d3e56ef732b35817b766517cb8" id="r_af43ec4d3e56ef732b35817b766517cb8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_base_i_o_8hpp.html#a95d5d5db2cb7811e65d20c0f68deb025">SizeType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af43ec4d3e56ef732b35817b766517cb8">globalIndex</a></td></tr>
-<tr class="memdesc:af43ec4d3e56ef732b35817b766517cb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Index of channel across the recording system.  <br /></td></tr>
-<tr class="separator:af43ec4d3e56ef732b35817b766517cb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2119d5412589a87fd3d9bb1865737823" id="r_a2119d5412589a87fd3d9bb1865737823"><td class="memItemLeft" align="right" valign="top">std::array&lt; float, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2119d5412589a87fd3d9bb1865737823">position</a></td></tr>
-<tr class="memdesc:a2119d5412589a87fd3d9bb1865737823"><td class="mdescLeft">&#160;</td><td class="mdescRight">Coordinates of channel (x, y, z) within the recording array.  <br /></td></tr>
-<tr class="separator:a2119d5412589a87fd3d9bb1865737823"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f6abdc7a9b35ece35b7c5aeda8e7956" id="r_a4f6abdc7a9b35ece35b7c5aeda8e7956"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4f6abdc7a9b35ece35b7c5aeda8e7956">comments</a></td></tr>
-<tr class="memdesc:a4f6abdc7a9b35ece35b7c5aeda8e7956"><td class="mdescLeft">&#160;</td><td class="mdescRight">Comments about the channel.  <br /></td></tr>
-<tr class="separator:a4f6abdc7a9b35ece35b7c5aeda8e7956"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed8e9c22d5899187a7ea6ab7416be9e7" id="r_aed8e9c22d5899187a7ea6ab7416be9e7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aed8e9c22d5899187a7ea6ab7416be9e7">Channel</a> (const <a class="el" href="class_a_q_n_w_b_1_1_channel.html">Channel</a> &amp;other)=default</td></tr>
+<tr class="memdesc:aed8e9c22d5899187a7ea6ab7416be9e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor.  <br /></td></tr>
+<tr class="separator:aed8e9c22d5899187a7ea6ab7416be9e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c792ad66b071d73eb811a3c0118090e" id="r_a8c792ad66b071d73eb811a3c0118090e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8c792ad66b071d73eb811a3c0118090e">Channel</a> (<a class="el" href="class_a_q_n_w_b_1_1_channel.html">Channel</a> &amp;&amp;other)=default</td></tr>
+<tr class="memdesc:a8c792ad66b071d73eb811a3c0118090e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move constructor.  <br /></td></tr>
+<tr class="separator:a8c792ad66b071d73eb811a3c0118090e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2737d3d813c170ec4f3af49fa6bf2288" id="r_a2737d3d813c170ec4f3af49fa6bf2288"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_channel.html">Channel</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2737d3d813c170ec4f3af49fa6bf2288">operator=</a> (const <a class="el" href="class_a_q_n_w_b_1_1_channel.html">Channel</a> &amp;other)=default</td></tr>
+<tr class="memdesc:a2737d3d813c170ec4f3af49fa6bf2288"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assignment operator.  <br /></td></tr>
+<tr class="separator:a2737d3d813c170ec4f3af49fa6bf2288"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9ce75a8da0a9638d25708936f89c6ca" id="r_ac9ce75a8da0a9638d25708936f89c6ca"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_channel.html">Channel</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac9ce75a8da0a9638d25708936f89c6ca">operator=</a> (<a class="el" href="class_a_q_n_w_b_1_1_channel.html">Channel</a> &amp;&amp;other)=default</td></tr>
+<tr class="memdesc:ac9ce75a8da0a9638d25708936f89c6ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move assignment operator.  <br /></td></tr>
+<tr class="separator:ac9ce75a8da0a9638d25708936f89c6ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b8cbf2f2757c1744a3ac02b9cea993e" id="r_a5b8cbf2f2757c1744a3ac02b9cea993e"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5b8cbf2f2757c1744a3ac02b9cea993e">getConversion</a> () const</td></tr>
+<tr class="memdesc:a5b8cbf2f2757c1744a3ac02b9cea993e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter for conversion factor.  <br /></td></tr>
+<tr class="separator:a5b8cbf2f2757c1744a3ac02b9cea993e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3cb232d17dac42ee09c959c247307394" id="r_a3cb232d17dac42ee09c959c247307394"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3cb232d17dac42ee09c959c247307394">getSamplingRate</a> () const</td></tr>
+<tr class="memdesc:a3cb232d17dac42ee09c959c247307394"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter for sampling rate of the channel.  <br /></td></tr>
+<tr class="separator:a3cb232d17dac42ee09c959c247307394"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a1297853c6f0b358ad6fbc7d40e3332" id="r_a9a1297853c6f0b358ad6fbc7d40e3332"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9a1297853c6f0b358ad6fbc7d40e3332">getBitVolts</a> () const</td></tr>
+<tr class="memdesc:a9a1297853c6f0b358ad6fbc7d40e3332"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter for bitVolts floating point value of microvolts per bit.  <br /></td></tr>
+<tr class="separator:a9a1297853c6f0b358ad6fbc7d40e3332"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af494c905e3c64bce247427510e3dcf83" id="r_af494c905e3c64bce247427510e3dcf83"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af494c905e3c64bce247427510e3dcf83">getGroupName</a> () const</td></tr>
+<tr class="memdesc:af494c905e3c64bce247427510e3dcf83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the array group the channel belongs to.  <br /></td></tr>
+<tr class="separator:af494c905e3c64bce247427510e3dcf83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56a25ab4138ccb40af61b025a5fa9ec1" id="r_a56a25ab4138ccb40af61b025a5fa9ec1"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a56a25ab4138ccb40af61b025a5fa9ec1">getName</a> () const</td></tr>
+<tr class="memdesc:a56a25ab4138ccb40af61b025a5fa9ec1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the channel.  <br /></td></tr>
+<tr class="separator:a56a25ab4138ccb40af61b025a5fa9ec1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44e4a1175f2921f85644c993371a9955" id="r_a44e4a1175f2921f85644c993371a9955"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_base_i_o_8hpp.html#a95d5d5db2cb7811e65d20c0f68deb025">SizeType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a44e4a1175f2921f85644c993371a9955">getGroupIndex</a> () const</td></tr>
+<tr class="memdesc:a44e4a1175f2921f85644c993371a9955"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the array group index the channel belongs to.  <br /></td></tr>
+<tr class="separator:a44e4a1175f2921f85644c993371a9955"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac33ad4e1c2926b7be7b8ae15350ef401" id="r_ac33ad4e1c2926b7be7b8ae15350ef401"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_base_i_o_8hpp.html#a95d5d5db2cb7811e65d20c0f68deb025">SizeType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac33ad4e1c2926b7be7b8ae15350ef401">getLocalIndex</a> () const</td></tr>
+<tr class="memdesc:ac33ad4e1c2926b7be7b8ae15350ef401"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the index of the channel within the recording array.  <br /></td></tr>
+<tr class="separator:ac33ad4e1c2926b7be7b8ae15350ef401"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9a4526b6c74d4b355b392f17e616c47" id="r_ab9a4526b6c74d4b355b392f17e616c47"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_base_i_o_8hpp.html#a95d5d5db2cb7811e65d20c0f68deb025">SizeType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab9a4526b6c74d4b355b392f17e616c47">getGlobalIndex</a> () const</td></tr>
+<tr class="memdesc:ab9a4526b6c74d4b355b392f17e616c47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the index of the channel across the recording system.  <br /></td></tr>
+<tr class="separator:ab9a4526b6c74d4b355b392f17e616c47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43658a92e1772172ad603d2b2922c46a" id="r_a43658a92e1772172ad603d2b2922c46a"><td class="memItemLeft" align="right" valign="top">const std::array&lt; float, 3 &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a43658a92e1772172ad603d2b2922c46a">getPosition</a> () const</td></tr>
+<tr class="memdesc:a43658a92e1772172ad603d2b2922c46a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the coordinates of channel (x, y, z) within the recording array.  <br /></td></tr>
+<tr class="separator:a43658a92e1772172ad603d2b2922c46a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a988cff7a5a8bb02e9d86f3a4b38b8cc3" id="r_a988cff7a5a8bb02e9d86f3a4b38b8cc3"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a988cff7a5a8bb02e9d86f3a4b38b8cc3">getComments</a> () const</td></tr>
+<tr class="memdesc:a988cff7a5a8bb02e9d86f3a4b38b8cc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get comments about the channel.  <br /></td></tr>
+<tr class="separator:a988cff7a5a8bb02e9d86f3a4b38b8cc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bbfb5ea72e32488026fea0866e4befb" id="r_a7bbfb5ea72e32488026fea0866e4befb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7bbfb5ea72e32488026fea0866e4befb">setComments</a> (const std::string &amp;comments)</td></tr>
+<tr class="memdesc:a7bbfb5ea72e32488026fea0866e4befb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set comments about the channel.  <br /></td></tr>
+<tr class="separator:a7bbfb5ea72e32488026fea0866e4befb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06f8d0458adc7d2edd778e1ad9ffb628" id="r_a06f8d0458adc7d2edd778e1ad9ffb628"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a06f8d0458adc7d2edd778e1ad9ffb628">setPosition</a> (const std::array&lt; float, 3 &gt; &amp;position)</td></tr>
+<tr class="memdesc:a06f8d0458adc7d2edd778e1ad9ffb628"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set coordinates of channel (x, y, z) within the recording array.  <br /></td></tr>
+<tr class="separator:a06f8d0458adc7d2edd778e1ad9ffb628"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a318b7e5071abff381940a8fab579d4e4" id="r_a318b7e5071abff381940a8fab579d4e4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a318b7e5071abff381940a8fab579d4e4">setName</a> (const std::string &amp;name)</td></tr>
+<tr class="memdesc:a318b7e5071abff381940a8fab579d4e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set name of the channel.  <br /></td></tr>
+<tr class="separator:a318b7e5071abff381940a8fab579d4e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class for storing acquisition system channel information. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a48cdc29ada872f23bfff80685273f150" name="a48cdc29ada872f23bfff80685273f150"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a48cdc29ada872f23bfff80685273f150">&#9670;&#160;</a></span>Channel()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a48cdc29ada872f23bfff80685273f150">&#9670;&#160;</a></span>Channel() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -240,40 +257,138 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="a31f3c683ccc71fd077f941ec828b976c" name="a31f3c683ccc71fd077f941ec828b976c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a31f3c683ccc71fd077f941ec828b976c">&#9670;&#160;</a></span>getBitVolts()</h2>
+<a id="aed8e9c22d5899187a7ea6ab7416be9e7" name="aed8e9c22d5899187a7ea6ab7416be9e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed8e9c22d5899187a7ea6ab7416be9e7">&#9670;&#160;</a></span>Channel() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">float Channel::getBitVolts </td>
+          <td class="memname">AQNWB::Channel::Channel </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_a_q_n_w_b_1_1_channel.html">Channel</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Copy constructor. </p>
+
+</div>
+</div>
+<a id="a8c792ad66b071d73eb811a3c0118090e" name="a8c792ad66b071d73eb811a3c0118090e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c792ad66b071d73eb811a3c0118090e">&#9670;&#160;</a></span>Channel() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">AQNWB::Channel::Channel </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_a_q_n_w_b_1_1_channel.html">Channel</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Move constructor. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a9a1297853c6f0b358ad6fbc7d40e3332" name="a9a1297853c6f0b358ad6fbc7d40e3332"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a1297853c6f0b358ad6fbc7d40e3332">&#9670;&#160;</a></span>getBitVolts()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float AQNWB::Channel::getBitVolts </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Getter for bitVolts. </p>
+<p>Getter for bitVolts floating point value of microvolts per bit. </p>
 <dl class="section return"><dt>Returns</dt><dd>The bitVolts value. </dd></dl>
 
 </div>
 </div>
-<a id="abe58434413a8df186bd12ad419bb1894" name="abe58434413a8df186bd12ad419bb1894"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abe58434413a8df186bd12ad419bb1894">&#9670;&#160;</a></span>getConversion()</h2>
+<a id="a988cff7a5a8bb02e9d86f3a4b38b8cc3" name="a988cff7a5a8bb02e9d86f3a4b38b8cc3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a988cff7a5a8bb02e9d86f3a4b38b8cc3">&#9670;&#160;</a></span>getComments()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">float Channel::getConversion </td>
+          <td class="memname">std::string AQNWB::Channel::getComments </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get comments about the channel. </p>
+<dl class="section return"><dt>Returns</dt><dd>The comments value. </dd></dl>
+
+</div>
+</div>
+<a id="a5b8cbf2f2757c1744a3ac02b9cea993e" name="a5b8cbf2f2757c1744a3ac02b9cea993e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b8cbf2f2757c1744a3ac02b9cea993e">&#9670;&#160;</a></span>getConversion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float AQNWB::Channel::getConversion </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Getter for conversion factor. </p>
@@ -281,136 +396,357 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a144aebce79f8931ef3481557104e9a85" name="a144aebce79f8931ef3481557104e9a85"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a144aebce79f8931ef3481557104e9a85">&#9670;&#160;</a></span>getSamplingRate()</h2>
+<a id="ab9a4526b6c74d4b355b392f17e616c47" name="ab9a4526b6c74d4b355b392f17e616c47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab9a4526b6c74d4b355b392f17e616c47">&#9670;&#160;</a></span>getGlobalIndex()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">float Channel::getSamplingRate </td>
+          <td class="memname"><a class="el" href="_base_i_o_8hpp.html#a95d5d5db2cb7811e65d20c0f68deb025">SizeType</a> AQNWB::Channel::getGlobalIndex </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Getter for samplingRate. </p>
-<dl class="section return"><dt>Returns</dt><dd>The samplingRate value. </dd></dl>
+<p>Get the index of the channel across the recording system. </p>
+<dl class="section return"><dt>Returns</dt><dd>The globalIndex value. </dd></dl>
 
 </div>
 </div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a4f6abdc7a9b35ece35b7c5aeda8e7956" name="a4f6abdc7a9b35ece35b7c5aeda8e7956"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4f6abdc7a9b35ece35b7c5aeda8e7956">&#9670;&#160;</a></span>comments</h2>
+<a id="a44e4a1175f2921f85644c993371a9955" name="a44e4a1175f2921f85644c993371a9955"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44e4a1175f2921f85644c993371a9955">&#9670;&#160;</a></span>getGroupIndex()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::string AQNWB::Channel::comments</td>
+          <td class="memname"><a class="el" href="_base_i_o_8hpp.html#a95d5d5db2cb7811e65d20c0f68deb025">SizeType</a> AQNWB::Channel::getGroupIndex </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Comments about the channel. </p>
+<p>Get the array group index the channel belongs to. </p>
+<dl class="section return"><dt>Returns</dt><dd>The groupIndex value. </dd></dl>
 
 </div>
 </div>
-<a id="af43ec4d3e56ef732b35817b766517cb8" name="af43ec4d3e56ef732b35817b766517cb8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af43ec4d3e56ef732b35817b766517cb8">&#9670;&#160;</a></span>globalIndex</h2>
+<a id="af494c905e3c64bce247427510e3dcf83" name="af494c905e3c64bce247427510e3dcf83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af494c905e3c64bce247427510e3dcf83">&#9670;&#160;</a></span>getGroupName()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="_base_i_o_8hpp.html#a95d5d5db2cb7811e65d20c0f68deb025">SizeType</a> AQNWB::Channel::globalIndex</td>
+          <td class="memname">std::string AQNWB::Channel::getGroupName </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Index of channel across the recording system. </p>
+<p>Get the name of the array group the channel belongs to. </p>
+<dl class="section return"><dt>Returns</dt><dd>The groupName value. </dd></dl>
 
 </div>
 </div>
-<a id="a3c65b6a2e4ef46aed5673a33ecd1f912" name="a3c65b6a2e4ef46aed5673a33ecd1f912"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3c65b6a2e4ef46aed5673a33ecd1f912">&#9670;&#160;</a></span>groupIndex</h2>
+<a id="ac33ad4e1c2926b7be7b8ae15350ef401" name="ac33ad4e1c2926b7be7b8ae15350ef401"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac33ad4e1c2926b7be7b8ae15350ef401">&#9670;&#160;</a></span>getLocalIndex()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="_base_i_o_8hpp.html#a95d5d5db2cb7811e65d20c0f68deb025">SizeType</a> AQNWB::Channel::groupIndex</td>
+          <td class="memname"><a class="el" href="_base_i_o_8hpp.html#a95d5d5db2cb7811e65d20c0f68deb025">SizeType</a> AQNWB::Channel::getLocalIndex </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Index of array group the channel belongs to. </p>
+<p>Get the index of the channel within the recording array. </p>
+<dl class="section return"><dt>Returns</dt><dd>The localIndex value. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_channel_ac33ad4e1c2926b7be7b8ae15350ef401_icgraph.svg" width="487" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 
 </div>
 </div>
-<a id="aefe203a6fcd6ea3ccc11f9ade98a7768" name="aefe203a6fcd6ea3ccc11f9ade98a7768"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aefe203a6fcd6ea3ccc11f9ade98a7768">&#9670;&#160;</a></span>groupName</h2>
+<a id="a56a25ab4138ccb40af61b025a5fa9ec1" name="a56a25ab4138ccb40af61b025a5fa9ec1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56a25ab4138ccb40af61b025a5fa9ec1">&#9670;&#160;</a></span>getName()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::string AQNWB::Channel::groupName</td>
+          <td class="memname">std::string AQNWB::Channel::getName </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Name of the array group the channel belongs to. </p>
+<p>Get the name of the channel. </p>
+<dl class="section return"><dt>Returns</dt><dd>The name value. </dd></dl>
 
 </div>
 </div>
-<a id="a6b1356c910984211a548878117121572" name="a6b1356c910984211a548878117121572"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6b1356c910984211a548878117121572">&#9670;&#160;</a></span>localIndex</h2>
+<a id="a43658a92e1772172ad603d2b2922c46a" name="a43658a92e1772172ad603d2b2922c46a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43658a92e1772172ad603d2b2922c46a">&#9670;&#160;</a></span>getPosition()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="_base_i_o_8hpp.html#a95d5d5db2cb7811e65d20c0f68deb025">SizeType</a> AQNWB::Channel::localIndex</td>
+          <td class="memname">const std::array&lt; float, 3 &gt; &amp; AQNWB::Channel::getPosition </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Index of channel within the recording array. </p>
+<p>Get the coordinates of channel (x, y, z) within the recording array. </p>
+<dl class="section return"><dt>Returns</dt><dd>The position value. </dd></dl>
 
 </div>
 </div>
-<a id="a3a6cc7afd24106bf746a8b289bcf3e0b" name="a3a6cc7afd24106bf746a8b289bcf3e0b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3a6cc7afd24106bf746a8b289bcf3e0b">&#9670;&#160;</a></span>name</h2>
+<a id="a3cb232d17dac42ee09c959c247307394" name="a3cb232d17dac42ee09c959c247307394"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3cb232d17dac42ee09c959c247307394">&#9670;&#160;</a></span>getSamplingRate()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::string AQNWB::Channel::name</td>
+          <td class="memname">float AQNWB::Channel::getSamplingRate </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Name of the channel. </p>
+<p>Getter for sampling rate of the channel. </p>
+<dl class="section return"><dt>Returns</dt><dd>The sampling rate value. </dd></dl>
 
 </div>
 </div>
-<a id="a2119d5412589a87fd3d9bb1865737823" name="a2119d5412589a87fd3d9bb1865737823"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2119d5412589a87fd3d9bb1865737823">&#9670;&#160;</a></span>position</h2>
+<a id="ac9ce75a8da0a9638d25708936f89c6ca" name="ac9ce75a8da0a9638d25708936f89c6ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac9ce75a8da0a9638d25708936f89c6ca">&#9670;&#160;</a></span>operator=() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::array&lt;float, 3&gt; AQNWB::Channel::position</td>
+          <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_channel.html">Channel</a> &amp; AQNWB::Channel::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_a_q_n_w_b_1_1_channel.html">Channel</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Coordinates of channel (x, y, z) within the recording array. </p>
+<p>Move assignment operator. </p>
+
+</div>
+</div>
+<a id="a2737d3d813c170ec4f3af49fa6bf2288" name="a2737d3d813c170ec4f3af49fa6bf2288"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2737d3d813c170ec4f3af49fa6bf2288">&#9670;&#160;</a></span>operator=() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_channel.html">Channel</a> &amp; AQNWB::Channel::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_a_q_n_w_b_1_1_channel.html">Channel</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Assignment operator. </p>
+
+</div>
+</div>
+<a id="a7bbfb5ea72e32488026fea0866e4befb" name="a7bbfb5ea72e32488026fea0866e4befb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7bbfb5ea72e32488026fea0866e4befb">&#9670;&#160;</a></span>setComments()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AQNWB::Channel::setComments </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>comments</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set comments about the channel. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">comments</td><td>The comments to set. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a318b7e5071abff381940a8fab579d4e4" name="a318b7e5071abff381940a8fab579d4e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a318b7e5071abff381940a8fab579d4e4">&#9670;&#160;</a></span>setName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AQNWB::Channel::setName </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set name of the channel. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>The name to set. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a06f8d0458adc7d2edd778e1ad9ffb628" name="a06f8d0458adc7d2edd778e1ad9ffb628"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06f8d0458adc7d2edd778e1ad9ffb628">&#9670;&#160;</a></span>setPosition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AQNWB::Channel::setPosition </td>
+          <td>(</td>
+          <td class="paramtype">const std::array&lt; float, 3 &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>position</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set coordinates of channel (x, y, z) within the recording array. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">position</td><td>The position to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

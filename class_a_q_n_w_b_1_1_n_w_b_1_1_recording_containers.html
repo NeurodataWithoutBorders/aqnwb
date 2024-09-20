@@ -102,7 +102,6 @@ $(function(){initNavTree('class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.htm
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">AQNWB::NWB::RecordingContainers Class Reference</div></div>
 </div><!--header-->
@@ -142,13 +141,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a12ffd532fb323c79c63f3a1d110dc5e0" id="r_a12ffd532fb323c79c63f3a1d110dc5e0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a12ffd532fb323c79c63f3a1d110dc5e0">writeSpikeEventData</a> (const <a class="el" href="_base_i_o_8hpp.html#a95d5d5db2cb7811e65d20c0f68deb025">SizeType</a> &amp;containerInd, const <a class="el" href="_base_i_o_8hpp.html#a95d5d5db2cb7811e65d20c0f68deb025">SizeType</a> &amp;numSamples, const <a class="el" href="_base_i_o_8hpp.html#a95d5d5db2cb7811e65d20c0f68deb025">SizeType</a> &amp;numChannels, const void *data, const void *timestamps)</td></tr>
 <tr class="memdesc:a12ffd532fb323c79c63f3a1d110dc5e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html" title="Stores snapshots/snippets of recorded spike events (i.e., threshold crossings).">SpikeEventSeries</a> data to a recordingContainer dataset.  <br /></td></tr>
 <tr class="separator:a12ffd532fb323c79c63f3a1d110dc5e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a27262dea4899e29dae1cba30e5c5322d" id="r_a27262dea4899e29dae1cba30e5c5322d"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html">Container</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a27262dea4899e29dae1cba30e5c5322d">containers</a></td></tr>
-<tr class="separator:a27262dea4899e29dae1cba30e5c5322d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a46348c4bc685528d3368d6d0e0c47d94" id="r_a46348c4bc685528d3368d6d0e0c47d94"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a46348c4bc685528d3368d6d0e0c47d94">name</a></td></tr>
-<tr class="separator:a46348c4bc685528d3368d6d0e0c47d94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a795a7db853dbd164ec36f0cd5955934c" id="r_a795a7db853dbd164ec36f0cd5955934c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_base_i_o_8hpp.html#a95d5d5db2cb7811e65d20c0f68deb025">SizeType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a795a7db853dbd164ec36f0cd5955934c">size</a> () const</td></tr>
+<tr class="memdesc:a795a7db853dbd164ec36f0cd5955934c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of recording containers.  <br /></td></tr>
+<tr class="separator:a795a7db853dbd164ec36f0cd5955934c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html" title="The RecordingContainers class provides an interface for managing and holding groups of Containers acq...">RecordingContainers</a> class provides an interface for managing and holding groups of Containers acquired during a recording. </p>
@@ -306,6 +301,38 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="a795a7db853dbd164ec36f0cd5955934c" name="a795a7db853dbd164ec36f0cd5955934c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a795a7db853dbd164ec36f0cd5955934c">&#9670;&#160;</a></span>size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_base_i_o_8hpp.html#a95d5d5db2cb7811e65d20c0f68deb025">SizeType</a> AQNWB::NWB::RecordingContainers::size </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the number of recording containers. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers_a795a7db853dbd164ec36f0cd5955934c_icgraph.svg" width="475" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
 <a id="a042fd80c71e0ba9c70a4aaadd4bc21b4" name="a042fd80c71e0ba9c70a4aaadd4bc21b4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a042fd80c71e0ba9c70a4aaadd4bc21b4">&#9670;&#160;</a></span>writeElectricalSeriesData()</h2>
 
@@ -355,7 +382,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers_a042fd80c71e0ba9c70a4aaadd4bc21b4_cgraph.svg" width="100%" height="388"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers_a042fd80c71e0ba9c70a4aaadd4bc21b4_cgraph.svg" width="100%" height="437"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -469,37 +496,8 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers_ad3392123a4748701f18c6b2d2f2733f5_cgraph.svg" width="544" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers_ad3392123a4748701f18c6b2d2f2733f5_cgraph.svg" width="544" height="183"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a27262dea4899e29dae1cba30e5c5322d" name="a27262dea4899e29dae1cba30e5c5322d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a27262dea4899e29dae1cba30e5c5322d">&#9670;&#160;</a></span>containers</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt;std::unique_ptr&lt;<a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html">Container</a>&gt; &gt; AQNWB::NWB::RecordingContainers::containers</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a46348c4bc685528d3368d6d0e0c47d94" name="a46348c4bc685528d3368d6d0e0c47d94"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a46348c4bc685528d3368d6d0e0c47d94">&#9670;&#160;</a></span>name</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string AQNWB::NWB::RecordingContainers::name</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
 
 </div>
 </div>

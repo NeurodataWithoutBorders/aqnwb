@@ -4,7 +4,6 @@ var searchData=
   ['channelvector_1',['channelVector',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#abeb85fcd7954d786583ab938191211c0',1,'AQNWB::NWB::ElectricalSeries']]],
   ['chunk_5fxsize_2',['CHUNK_XSIZE',['../_n_w_b_file_8cpp.html#adbda02c91b5119380633296d30bc945e',1,'NWBFile.cpp']]],
   ['chunksize_3',['chunkSize',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a11f61324fa024592d03e591b4e1cfcec',1,'AQNWB::NWB::TimeSeries']]],
-  ['comments_4',['comments',['../class_a_q_n_w_b_1_1_channel.html#a4f6abdc7a9b35ece35b7c5aeda8e7956',1,'AQNWB::Channel::comments'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a147426e37ccf0be176e5da71e0702b8c',1,'AQNWB::NWB::TimeSeries::comments']]],
-  ['containers_5',['containers',['../class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#a27262dea4899e29dae1cba30e5c5322d',1,'AQNWB::NWB::RecordingContainers']]],
-  ['conversion_6',['conversion',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a2a749137816ec1aff4b46246e875c88a',1,'AQNWB::NWB::TimeSeries']]]
+  ['comments_4',['comments',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a147426e37ccf0be176e5da71e0702b8c',1,'AQNWB::NWB::TimeSeries']]],
+  ['conversion_5',['conversion',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a2a749137816ec1aff4b46246e875c88a',1,'AQNWB::NWB::TimeSeries']]]
 ];

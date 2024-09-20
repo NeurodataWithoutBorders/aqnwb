@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['canmodifyobjects_0',['canModifyObjects',['../class_a_q_n_w_b_1_1_base_i_o.html#aaefc2224d74e9b93d57fff7d2db97987',1,'AQNWB::BaseIO::canModifyObjects()'],['../class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a96d8d872b2b974ac79a20b82fd72c5c2',1,'AQNWB::HDF5::HDF5IO::canModifyObjects()']]],
-  ['channel_1',['Channel',['../class_a_q_n_w_b_1_1_channel.html#a48cdc29ada872f23bfff80685273f150',1,'AQNWB::Channel']]],
+  ['canmodifyobjects_0',['canModifyObjects',['../class_a_q_n_w_b_1_1_base_i_o.html#a6dbfac54f986b071d85f2a533973c869',1,'AQNWB::BaseIO::canModifyObjects()'],['../class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a96d8d872b2b974ac79a20b82fd72c5c2',1,'AQNWB::HDF5::HDF5IO::canModifyObjects()']]],
+  ['channel_1',['Channel',['../class_a_q_n_w_b_1_1_channel.html#a48cdc29ada872f23bfff80685273f150',1,'AQNWB::Channel::Channel(const std::string name, const std::string groupName, const SizeType groupIndex, const SizeType localIndex, const SizeType globalIndex, const float conversion=1e6f, const float samplingRate=30000.f, const float bitVolts=0.05f, const std::array&lt; float, 3 &gt; position={0.f, 0.f, 0.f}, const std::string comments=&quot;no comments&quot;)'],['../class_a_q_n_w_b_1_1_channel.html#aed8e9c22d5899187a7ea6ab7416be9e7',1,'AQNWB::Channel::Channel(const Channel &amp;other)=default'],['../class_a_q_n_w_b_1_1_channel.html#a8c792ad66b071d73eb811a3c0118090e',1,'AQNWB::Channel::Channel(Channel &amp;&amp;other)=default']]],
   ['checkstatus_2',['checkStatus',['../_h_d_f5_i_o_8cpp.html#a1a84046757915fcc51031a92bee9588e',1,'HDF5IO.cpp']]],
   ['close_3',['close',['../class_a_q_n_w_b_1_1_base_i_o.html#a91626ce239076906438ac57c487381b5',1,'AQNWB::BaseIO::close()'],['../class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a969eb3d7ab2d93c5a83b58f27773e16f',1,'AQNWB::HDF5::HDF5IO::close()']]],
   ['container_4',['Container',['../class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#ace7cb09248d70c2d311ccaac4bf30f68',1,'AQNWB::NWB::Container']]],

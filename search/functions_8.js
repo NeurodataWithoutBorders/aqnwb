@@ -1,6 +1,7 @@
 var searchData=
 [
   ['initialize_0',['initialize',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a927fb3e7da8259f175bdb19820e52471',1,'AQNWB::NWB::TimeSeries::initialize()'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_device.html#a098d0a2980c918e19988f58a4c46edfb',1,'AQNWB::NWB::Device::initialize()'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a59ecd5ceca61b33a77a11579369e596e',1,'AQNWB::NWB::ElectricalSeries::initialize()'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#a7d3c4e9c731f330c2c2eda928f9c453f',1,'AQNWB::NWB::SpikeEventSeries::initialize()'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html#a55c55ad12966365b31ba6b292db9cf92',1,'AQNWB::NWB::ElectrodeGroup::initialize()'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#af125b9b5d7a79d414b75998c6b52156b',1,'AQNWB::NWB::ElectrodeTable::initialize()'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a33ba8c1d37cae843106d3d3668d6523c',1,'AQNWB::NWB::Container::initialize()'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a1a860166b728cc0c841631aaf92052f2',1,'AQNWB::NWB::DynamicTable::initialize()'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a41976bfd411311bd7d687ed0016595c9',1,'AQNWB::NWB::NWBFile::initialize()']]],
-  ['isopen_1',['isOpen',['../class_a_q_n_w_b_1_1_base_i_o.html#ac3231bb843be24142cd2c484a9489c2e',1,'AQNWB::BaseIO']]],
-  ['isreadytoopen_2',['isReadyToOpen',['../class_a_q_n_w_b_1_1_base_i_o.html#a874bc9c330e4402a39598bf38c0c90cf',1,'AQNWB::BaseIO']]]
+  ['isinitialized_1',['isInitialized',['../class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a28976115b55b66fb89efb43a412a587e',1,'AQNWB::NWB::Data']]],
+  ['isopen_2',['isOpen',['../class_a_q_n_w_b_1_1_base_i_o.html#a8eebc319d1db2c2af0e89a8bff0fb4eb',1,'AQNWB::BaseIO']]],
+  ['isreadytoopen_3',['isReadyToOpen',['../class_a_q_n_w_b_1_1_base_i_o.html#a22bccb08d91e29244ad8dd0e5e2ee02d',1,'AQNWB::BaseIO']]]
 ];

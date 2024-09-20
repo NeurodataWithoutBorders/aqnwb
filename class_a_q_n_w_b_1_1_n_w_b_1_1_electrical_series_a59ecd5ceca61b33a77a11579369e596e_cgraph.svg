@@ -59,19 +59,19 @@ var sectionId = 'dynsection-2';
 <g id="Node000001" class="node">
 <title>Node1</title>
 <g id="a_Node000001"><a xlink:title="Initializes the Electrical Series.">
-<polygon fill="#999999" stroke="#666666" points="158.5,-57.5 0,-57.5 0,-27 158.5,-27 158.5,-57.5"/>
-<text text-anchor="start" x="8" y="-44" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::ElectricalSeries</text>
-<text text-anchor="middle" x="79.25" y="-32.75" font-family="Helvetica,sans-Serif" font-size="10.00">::initialize</text>
+<polygon fill="#999999" stroke="#666666" points="158.5,-54.5 0,-54.5 0,-24 158.5,-24 158.5,-54.5"/>
+<text text-anchor="start" x="8" y="-41" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::ElectricalSeries</text>
+<text text-anchor="middle" x="79.25" y="-29.75" font-family="Helvetica,sans-Serif" font-size="10.00">::initialize</text>
 </a>
 </g>
 </g>
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#add210f78ff8f70944293cc69be2cc998" target="_top" xlink:title="Gets the path of the container.">
-<polygon fill="white" stroke="#666666" points="502.5,-79.5 370.25,-79.5 370.25,-49 502.5,-49 502.5,-79.5"/>
-<text text-anchor="start" x="378.25" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::Container</text>
-<text text-anchor="middle" x="436.38" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">::getPath</text>
+<g id="a_Node000002"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#ad2f86adb81cafb2a3ad1a31c878185fd" target="_top" xlink:title="Gets the path of the container.">
+<polygon fill="white" stroke="#666666" points="330.5,-79.5 198.25,-79.5 198.25,-49 330.5,-49 330.5,-79.5"/>
+<text text-anchor="start" x="206.25" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::Container</text>
+<text text-anchor="middle" x="264.38" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">::getPath</text>
 </a>
 </g>
 </g>
@@ -79,8 +79,8 @@ var sectionId = 'dynsection-2';
 <g id="edge1_Node000001_Node000002" class="edge">
 <title>Node1&#45;&gt;Node2</title>
 <g id="a_edge1_Node000001_Node000002"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M158.62,-47.11C218.21,-50.8 299.73,-55.85 358.85,-59.51"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="358.28,-62.98 368.48,-60.11 358.71,-55.99 358.28,-62.98"/>
+<path fill="none" stroke="#63b8ff" d="M158.97,-50C168.11,-51.24 177.42,-52.51 186.52,-53.76"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="186.04,-57.23 196.43,-55.11 186.99,-50.29 186.04,-57.23"/>
 </a>
 </g>
 </g>
@@ -88,9 +88,9 @@ var sectionId = 'dynsection-2';
 <g id="Node000003" class="node">
 <title>Node3</title>
 <g id="a_Node000003"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a927fb3e7da8259f175bdb19820e52471" target="_top" xlink:title="Initializes the TimeSeries by creating NWB related attributes and writing the description and comment...">
-<polygon fill="white" stroke="#666666" points="334.25,-36.5 194.5,-36.5 194.5,-6 334.25,-6 334.25,-36.5"/>
-<text text-anchor="start" x="202.5" y="-23" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::TimeSeries</text>
-<text text-anchor="middle" x="264.38" y="-11.75" font-family="Helvetica,sans-Serif" font-size="10.00">::initialize</text>
+<polygon fill="white" stroke="#666666" points="334.25,-30.5 194.5,-30.5 194.5,0 334.25,0 334.25,-30.5"/>
+<text text-anchor="start" x="202.5" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::TimeSeries</text>
+<text text-anchor="middle" x="264.38" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::initialize</text>
 </a>
 </g>
 </g>
@@ -98,17 +98,8 @@ var sectionId = 'dynsection-2';
 <g id="edge2_Node000001_Node000003" class="edge">
 <title>Node1&#45;&gt;Node3</title>
 <g id="a_edge2_Node000001_Node000003"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M158.97,-33.22C166.95,-32.31 175.05,-31.38 183.04,-30.46"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="183.19,-33.97 192.73,-29.35 182.4,-27.01 183.19,-33.97"/>
-</a>
-</g>
-</g>
-<!-- Node3&#45;&gt;Node2 -->
-<g id="edge3_Node000003_Node000002" class="edge">
-<title>Node3&#45;&gt;Node2</title>
-<g id="a_edge3_Node000003_Node000002"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M327.23,-36.9C338.6,-39.77 350.56,-42.8 362.22,-45.75"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="361.26,-49.11 371.81,-48.17 362.98,-42.33 361.26,-49.11"/>
+<path fill="none" stroke="#63b8ff" d="M158.97,-28.93C166.95,-27.89 175.05,-26.83 183.04,-25.78"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="183.27,-29.28 192.73,-24.51 182.36,-22.34 183.27,-29.28"/>
 </a>
 </g>
 </g>
@@ -123,11 +114,11 @@ var sectionId = 'dynsection-2';
 </g>
 </g>
 <!-- Node3&#45;&gt;Node4 -->
-<g id="edge4_Node000003_Node000004" class="edge">
+<g id="edge3_Node000003_Node000004" class="edge">
 <title>Node3&#45;&gt;Node4</title>
-<g id="a_edge4_Node000003_Node000004"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M334.52,-18.81C342.46,-18.53 350.58,-18.24 358.61,-17.96"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="358.48,-21.47 368.35,-17.62 358.23,-14.47 358.48,-21.47"/>
+<g id="a_edge3_Node000003_Node000004"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M334.52,-15.25C342.46,-15.25 350.58,-15.25 358.61,-15.25"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="358.35,-18.75 368.35,-15.25 358.35,-11.75 358.35,-18.75"/>
 </a>
 </g>
 </g>

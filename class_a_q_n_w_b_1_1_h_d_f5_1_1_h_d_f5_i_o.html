@@ -104,7 +104,6 @@ $(function(){initNavTree('class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html',''); i
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
-<a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">AQNWB::HDF5::HDF5IO Class Reference</div></div>
 </div><!--header-->
@@ -127,18 +126,12 @@ Collaboration diagram for AQNWB::HDF5::HDF5IO:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a5b7e7f43edffa80553e2bf2d0d4bffa6" id="r_a5b7e7f43edffa80553e2bf2d0d4bffa6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5b7e7f43edffa80553e2bf2d0d4bffa6">HDF5IO</a> ()</td></tr>
-<tr class="memdesc:a5b7e7f43edffa80553e2bf2d0d4bffa6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor for the <a class="el" href="class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html" title="The HDF5IO class provides an interface for reading and writing data to HDF5 files.">HDF5IO</a> class.  <br /></td></tr>
-<tr class="separator:a5b7e7f43edffa80553e2bf2d0d4bffa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf848d1a42512f90e9c9a0e134508bb8" id="r_aaf848d1a42512f90e9c9a0e134508bb8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaf848d1a42512f90e9c9a0e134508bb8">HDF5IO</a> (const std::string &amp;fileName, const bool disableSWMRMode=false)</td></tr>
 <tr class="memdesc:aaf848d1a42512f90e9c9a0e134508bb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for the <a class="el" href="class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html" title="The HDF5IO class provides an interface for reading and writing data to HDF5 files.">HDF5IO</a> class that takes a file name as input.  <br /></td></tr>
 <tr class="separator:aaf848d1a42512f90e9c9a0e134508bb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a4c82820e1ad91a82c90c30dfb937fe" id="r_a7a4c82820e1ad91a82c90c30dfb937fe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7a4c82820e1ad91a82c90c30dfb937fe">~HDF5IO</a> ()</td></tr>
 <tr class="memdesc:a7a4c82820e1ad91a82c90c30dfb937fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor for the <a class="el" href="class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html" title="The HDF5IO class provides an interface for reading and writing data to HDF5 files.">HDF5IO</a> class.  <br /></td></tr>
 <tr class="separator:a7a4c82820e1ad91a82c90c30dfb937fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a957942ab2e27c180750da9c1f40189f2" id="r_a957942ab2e27c180750da9c1f40189f2"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a957942ab2e27c180750da9c1f40189f2">getFileName</a> () override</td></tr>
-<tr class="memdesc:a957942ab2e27c180750da9c1f40189f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the full path to the <a class="el" href="namespace_a_q_n_w_b_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> file.  <br /></td></tr>
-<tr class="separator:a957942ab2e27c180750da9c1f40189f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af13e43a73e40b98dcacd9cc587536143" id="r_af13e43a73e40b98dcacd9cc587536143"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af13e43a73e40b98dcacd9cc587536143">open</a> () override</td></tr>
 <tr class="memdesc:af13e43a73e40b98dcacd9cc587536143"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens an existing file or creates a new file for writing.  <br /></td></tr>
 <tr class="separator:af13e43a73e40b98dcacd9cc587536143"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -203,9 +196,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ac8558bac2f0bdb98dc5cd87e8d45f095"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="namespace_a_q_n_w_b_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> type of object at a given path.  <br /></td></tr>
 <tr class="separator:ac8558bac2f0bdb98dc5cd87e8d45f095"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_a_q_n_w_b_1_1_base_i_o"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_class_a_q_n_w_b_1_1_base_i_o')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html">AQNWB::BaseIO</a></td></tr>
-<tr class="memitem:a8114613f475912702b60fff42487ccec inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o" id="r_a8114613f475912702b60fff42487ccec"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html#a8114613f475912702b60fff42487ccec">BaseIO</a> ()</td></tr>
-<tr class="memdesc:a8114613f475912702b60fff42487ccec inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for the <a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html" title="The BaseIO class is an abstract base class that defines the interface for input/output (IO) operation...">BaseIO</a> class.  <br /></td></tr>
-<tr class="separator:a8114613f475912702b60fff42487ccec inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c2e1e69fea2291d988fc6a5ec0a0cb9 inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o" id="r_a4c2e1e69fea2291d988fc6a5ec0a0cb9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html#a4c2e1e69fea2291d988fc6a5ec0a0cb9">BaseIO</a> (const std::string &amp;filename)</td></tr>
+<tr class="memdesc:a4c2e1e69fea2291d988fc6a5ec0a0cb9 inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for the <a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html" title="The BaseIO class is an abstract base class that defines the interface for input/output (IO) operation...">BaseIO</a> class.  <br /></td></tr>
+<tr class="separator:a4c2e1e69fea2291d988fc6a5ec0a0cb9 inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2d0721791d637615d2aa1077ab14b3dc inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o" id="r_a2d0721791d637615d2aa1077ab14b3dc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html#a2d0721791d637615d2aa1077ab14b3dc">BaseIO</a> (const <a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html">BaseIO</a> &amp;)=delete</td></tr>
 <tr class="memdesc:a2d0721791d637615d2aa1077ab14b3dc inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor is deleted to prevent construction-copying.  <br /></td></tr>
 <tr class="separator:a2d0721791d637615d2aa1077ab14b3dc inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -215,6 +208,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7696f24a4136179a56625121069240de inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o" id="r_a7696f24a4136179a56625121069240de"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html#a7696f24a4136179a56625121069240de">~BaseIO</a> ()</td></tr>
 <tr class="memdesc:a7696f24a4136179a56625121069240de inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor the <a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html" title="The BaseIO class is an abstract base class that defines the interface for input/output (IO) operation...">BaseIO</a> class.  <br /></td></tr>
 <tr class="separator:a7696f24a4136179a56625121069240de inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdbc0f25e859a9f2b9051a26ecbf18e8 inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o" id="r_afdbc0f25e859a9f2b9051a26ecbf18e8"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html#afdbc0f25e859a9f2b9051a26ecbf18e8">getFileName</a> () const</td></tr>
+<tr class="memdesc:afdbc0f25e859a9f2b9051a26ecbf18e8 inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the full path to the file.  <br /></td></tr>
+<tr class="separator:afdbc0f25e859a9f2b9051a26ecbf18e8 inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa89f1270eb5a47fb5f2bd64e6bde6cbf inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o" id="r_aa89f1270eb5a47fb5f2bd64e6bde6cbf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html#aa89f1270eb5a47fb5f2bd64e6bde6cbf">createCommonNWBAttributes</a> (const std::string &amp;path, const std::string &amp;objectNamespace, const std::string &amp;neurodataType=&quot;&quot;, const std::string &amp;description=&quot;&quot;)</td></tr>
 <tr class="memdesc:aa89f1270eb5a47fb5f2bd64e6bde6cbf inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience function for creating <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> related attributes.  <br /></td></tr>
 <tr class="separator:aa89f1270eb5a47fb5f2bd64e6bde6cbf inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -224,12 +220,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a91c1b10c0d1b1c1c56635dfe1ada777c inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o" id="r_a91c1b10c0d1b1c1c56635dfe1ada777c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html#a91c1b10c0d1b1c1c56635dfe1ada777c">createTimestampsAttributes</a> (const std::string &amp;path)</td></tr>
 <tr class="memdesc:a91c1b10c0d1b1c1c56635dfe1ada777c inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience function for creating timestamp related attributes.  <br /></td></tr>
 <tr class="separator:a91c1b10c0d1b1c1c56635dfe1ada777c inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac3231bb843be24142cd2c484a9489c2e inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o" id="r_ac3231bb843be24142cd2c484a9489c2e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html#ac3231bb843be24142cd2c484a9489c2e">isOpen</a> () const</td></tr>
-<tr class="memdesc:ac3231bb843be24142cd2c484a9489c2e inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the file is open.  <br /></td></tr>
-<tr class="separator:ac3231bb843be24142cd2c484a9489c2e inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a874bc9c330e4402a39598bf38c0c90cf inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o" id="r_a874bc9c330e4402a39598bf38c0c90cf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html#a874bc9c330e4402a39598bf38c0c90cf">isReadyToOpen</a> () const</td></tr>
-<tr class="memdesc:a874bc9c330e4402a39598bf38c0c90cf inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the file is able to be opened.  <br /></td></tr>
-<tr class="separator:a874bc9c330e4402a39598bf38c0c90cf inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8eebc319d1db2c2af0e89a8bff0fb4eb inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o" id="r_a8eebc319d1db2c2af0e89a8bff0fb4eb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html#a8eebc319d1db2c2af0e89a8bff0fb4eb">isOpen</a> () const</td></tr>
+<tr class="memdesc:a8eebc319d1db2c2af0e89a8bff0fb4eb inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the file is open.  <br /></td></tr>
+<tr class="separator:a8eebc319d1db2c2af0e89a8bff0fb4eb inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22bccb08d91e29244ad8dd0e5e2ee02d inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o" id="r_a22bccb08d91e29244ad8dd0e5e2ee02d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html#a22bccb08d91e29244ad8dd0e5e2ee02d">isReadyToOpen</a> () const</td></tr>
+<tr class="memdesc:a22bccb08d91e29244ad8dd0e5e2ee02d inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the file is able to be opened.  <br /></td></tr>
+<tr class="separator:a22bccb08d91e29244ad8dd0e5e2ee02d inherit pub_methods_class_a_q_n_w_b_1_1_base_i_o"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -247,49 +243,24 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:af3bc883205c98d08820bf234f42f4467"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_class_a_q_n_w_b_1_1_base_i_o"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_methods_class_a_q_n_w_b_1_1_base_i_o')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html">AQNWB::BaseIO</a></td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
-Protected Attributes</h2></td></tr>
-<tr class="memitem:af901d3aedd572ff718df7b81e665cc70" id="r_af901d3aedd572ff718df7b81e665cc70"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af901d3aedd572ff718df7b81e665cc70">filename</a></td></tr>
-<tr class="separator:af901d3aedd572ff718df7b81e665cc70"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_attribs_class_a_q_n_w_b_1_1_base_i_o"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_attribs_class_a_q_n_w_b_1_1_base_i_o')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html">AQNWB::BaseIO</a></td></tr>
-<tr class="memitem:ad31fbf7547f2fa545b0fbac8a2f3b003 inherit pro_attribs_class_a_q_n_w_b_1_1_base_i_o" id="r_ad31fbf7547f2fa545b0fbac8a2f3b003"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html#ad31fbf7547f2fa545b0fbac8a2f3b003">readyToOpen</a></td></tr>
-<tr class="memdesc:ad31fbf7547f2fa545b0fbac8a2f3b003 inherit pro_attribs_class_a_q_n_w_b_1_1_base_i_o"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether the file is ready to be opened.  <br /></td></tr>
-<tr class="separator:ad31fbf7547f2fa545b0fbac8a2f3b003 inherit pro_attribs_class_a_q_n_w_b_1_1_base_i_o"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0f5c5684c8427842a10c15d159a30abd inherit pro_attribs_class_a_q_n_w_b_1_1_base_i_o" id="r_a0f5c5684c8427842a10c15d159a30abd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html#a0f5c5684c8427842a10c15d159a30abd">opened</a></td></tr>
-<tr class="memdesc:a0f5c5684c8427842a10c15d159a30abd inherit pro_attribs_class_a_q_n_w_b_1_1_base_i_o"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether the file is currently open.  <br /></td></tr>
-<tr class="separator:a0f5c5684c8427842a10c15d159a30abd inherit pro_attribs_class_a_q_n_w_b_1_1_base_i_o"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pub_attribs_class_a_q_n_w_b_1_1_base_i_o"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_attribs_class_a_q_n_w_b_1_1_base_i_o')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html">AQNWB::BaseIO</a></td></tr>
-<tr class="memitem:a9216c5b8bf33ad420f19a704357659a4 inherit pub_attribs_class_a_q_n_w_b_1_1_base_i_o" id="r_a9216c5b8bf33ad420f19a704357659a4"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html#a9216c5b8bf33ad420f19a704357659a4">filename</a></td></tr>
-<tr class="memdesc:a9216c5b8bf33ad420f19a704357659a4 inherit pub_attribs_class_a_q_n_w_b_1_1_base_i_o"><td class="mdescLeft">&#160;</td><td class="mdescRight">The name of the file.  <br /></td></tr>
-<tr class="separator:a9216c5b8bf33ad420f19a704357659a4 inherit pub_attribs_class_a_q_n_w_b_1_1_base_i_o"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_class_a_q_n_w_b_1_1_base_i_o"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_attribs_class_a_q_n_w_b_1_1_base_i_o')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html">AQNWB::BaseIO</a></td></tr>
+<tr class="memitem:a36819d7b4d0059661fffd7e8c74cb958 inherit pro_attribs_class_a_q_n_w_b_1_1_base_i_o" id="r_a36819d7b4d0059661fffd7e8c74cb958"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html#a36819d7b4d0059661fffd7e8c74cb958">m_filename</a></td></tr>
+<tr class="memdesc:a36819d7b4d0059661fffd7e8c74cb958 inherit pro_attribs_class_a_q_n_w_b_1_1_base_i_o"><td class="mdescLeft">&#160;</td><td class="mdescRight">The name of the file.  <br /></td></tr>
+<tr class="separator:a36819d7b4d0059661fffd7e8c74cb958 inherit pro_attribs_class_a_q_n_w_b_1_1_base_i_o"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae0d882cad2e869f8ad60b8fd09c774a inherit pro_attribs_class_a_q_n_w_b_1_1_base_i_o" id="r_aae0d882cad2e869f8ad60b8fd09c774a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html#aae0d882cad2e869f8ad60b8fd09c774a">m_readyToOpen</a></td></tr>
+<tr class="memdesc:aae0d882cad2e869f8ad60b8fd09c774a inherit pro_attribs_class_a_q_n_w_b_1_1_base_i_o"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether the file is ready to be opened.  <br /></td></tr>
+<tr class="separator:aae0d882cad2e869f8ad60b8fd09c774a inherit pro_attribs_class_a_q_n_w_b_1_1_base_i_o"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7cb6f1d109d0221892f9f77682fde674 inherit pro_attribs_class_a_q_n_w_b_1_1_base_i_o" id="r_a7cb6f1d109d0221892f9f77682fde674"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html#a7cb6f1d109d0221892f9f77682fde674">m_opened</a></td></tr>
+<tr class="memdesc:a7cb6f1d109d0221892f9f77682fde674 inherit pro_attribs_class_a_q_n_w_b_1_1_base_i_o"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether the file is currently open.  <br /></td></tr>
+<tr class="separator:a7cb6f1d109d0221892f9f77682fde674 inherit pro_attribs_class_a_q_n_w_b_1_1_base_i_o"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html" title="The HDF5IO class provides an interface for reading and writing data to HDF5 files.">HDF5IO</a> class provides an interface for reading and writing data to <a class="el" href="namespace_a_q_n_w_b_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> files. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a5b7e7f43edffa80553e2bf2d0d4bffa6" name="a5b7e7f43edffa80553e2bf2d0d4bffa6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5b7e7f43edffa80553e2bf2d0d4bffa6">&#9670;&#160;</a></span>HDF5IO() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">HDF5IO::HDF5IO </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Default constructor for the <a class="el" href="class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html" title="The HDF5IO class provides an interface for reading and writing data to HDF5 files.">HDF5IO</a> class. </p>
-
-</div>
-</div>
 <a id="aaf848d1a42512f90e9c9a0e134508bb8" name="aaf848d1a42512f90e9c9a0e134508bb8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaf848d1a42512f90e9c9a0e134508bb8">&#9670;&#160;</a></span>HDF5IO() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf848d1a42512f90e9c9a0e134508bb8">&#9670;&#160;</a></span>HDF5IO()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -369,7 +340,7 @@ Here is the call graph for this function:</div>
 <p>Checks whether the file is in a mode where objects can be added or deleted. Note, this does not apply to the modification of raw data on already existing objects. </p>
 <dl class="section return"><dt>Returns</dt><dd>Whether objects can be modified. </dd></dl>
 
-<p>Reimplemented from <a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html#aaefc2224d74e9b93d57fff7d2db97987">AQNWB::BaseIO</a>.</p>
+<p>Reimplemented from <a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html#a6dbfac54f986b071d85f2a533973c869">AQNWB::BaseIO</a>.</p>
 
 </div>
 </div>
@@ -1097,41 +1068,6 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a957942ab2e27c180750da9c1f40189f2" name="a957942ab2e27c180750da9c1f40189f2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a957942ab2e27c180750da9c1f40189f2">&#9670;&#160;</a></span>getFileName()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string HDF5IO::getFileName </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns the full path to the <a class="el" href="namespace_a_q_n_w_b_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> file. </p>
-<dl class="section return"><dt>Returns</dt><dd>The full path to the <a class="el" href="namespace_a_q_n_w_b_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> file. </dd></dl>
-
-<p>Implements <a class="el" href="class_a_q_n_w_b_1_1_base_i_o.html#a203635d25b0daf5d60e0cef0772617fd">AQNWB::BaseIO</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o_a957942ab2e27c180750da9c1f40189f2_icgraph.svg" width="404" height="142"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-
-</div>
-</div>
 <a id="a8fdcc8d75fc9898ee77ff5d1dd55e888" name="a8fdcc8d75fc9898ee77ff5d1dd55e888"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8fdcc8d75fc9898ee77ff5d1dd55e888">&#9670;&#160;</a></span>getH5Type()</h2>
 
@@ -1307,7 +1243,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o_af13e43a73e40b98dcacd9cc587536143_cgraph.svg" width="404" height="76"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o_af13e43a73e40b98dcacd9cc587536143_cgraph.svg" width="438" height="76"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -1353,7 +1289,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o_af1f8dc9dc57a5d1460707bd162fffe3f_cgraph.svg" width="404" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o_af1f8dc9dc57a5d1460707bd162fffe3f_cgraph.svg" width="438" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -1425,29 +1361,6 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o_a0cfc2191ccfc122fa5098d4c4b4117b5_cgraph.svg" width="546" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="af901d3aedd572ff718df7b81e665cc70" name="af901d3aedd572ff718df7b81e665cc70"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af901d3aedd572ff718df7b81e665cc70">&#9670;&#160;</a></span>filename</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string AQNWB::HDF5::HDF5IO::filename</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
 
 </div>
 </div>
