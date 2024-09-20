@@ -17,6 +17,6 @@ void Device::initialize(const std::string& description,
 {
   Container::initialize();
 
-  io->createCommonNWBAttributes(path, "core", "Device", description);
-  io->createAttribute(manufacturer, path, "manufacturer");
+  m_io->createCommonNWBAttributes(m_path, "core", "Device", description);
+  m_io->createAttribute(manufacturer, m_path, "manufacturer");
 }

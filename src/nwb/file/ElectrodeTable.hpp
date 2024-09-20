@@ -56,22 +56,14 @@ public:
   void addElectrodes(std::vector<Channel> channels);
 
   /**
-   * @brief Gets the column names of the ElectrodeTable.
-   * @return The vector of column names.
-   */
-  const std::vector<std::string>& getColNames() override;
-
-  /**
-   * @brief Sets the column names of the ElectrodeTable.
-   * @param newColNames The vector of new column names.
-   */
-  void setColNames(const std::vector<std::string>& newColNames);
-
-  /**
    * @brief Gets the group path of the ElectrodeTable.
    * @return The group path.
    */
-  std::string getGroupPath() const;
+  inline std::string getGroupPath() const
+  {
+    // all channels in ChannelVector should have the same groupName
+    return groupReferences[0];
+  }
 
   /**
    * @brief Sets the group path of the ElectrodeTable.
@@ -117,11 +109,6 @@ private:
    * @brief The references to the ElectrodeGroup object for each electrode.
    */
   std::vector<std::string> groupReferences;
-
-  /**
-   * @brief The vector of column names for the table.
-   */
-  std::vector<std::string> colNames = {"group", "group_name", "location"};
 
   /**
    * @brief The references path to the ElectrodeGroup

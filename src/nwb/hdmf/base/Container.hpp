@@ -35,7 +35,7 @@ public:
    * @brief Gets the path of the container.
    * @return The path of the container.
    */
-  std::string getPath() const;
+  inline std::string getPath() const { return m_path; }
 
   template<typename T>
   inline static std::unique_ptr<T> create(const std::string& path,
@@ -50,11 +50,12 @@ protected:
   /**
    * @brief The path of the container.
    */
-  std::string path;
+  std::string m_path;
 
   /**
    * @brief A shared pointer to the IO object.
    */
-  std::shared_ptr<IO::BaseIO> io;
+  std::shared_ptr<IO::BaseIO> m_io;
+
 };
 }  // namespace AQNWB::NWB
