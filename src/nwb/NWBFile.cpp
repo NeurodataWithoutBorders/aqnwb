@@ -146,8 +146,8 @@ Status NWBFile::createElectricalSeries(
       Device device = Device(devicePath, m_io, "description", "unknown");
       device.initialize();
 
-      ElectrodeGroup elecGroup = ElectrodeGroup(
-          electrodePath, m_io, "description", "unknown", device);
+      ElectrodeGroup elecGroup =
+          ElectrodeGroup(electrodePath, m_io, "description", "unknown", device);
       elecGroup.initialize();
     }
 
@@ -220,8 +220,8 @@ Status NWBFile::createSpikeEventSeries(
       Device device = Device(devicePath, m_io, "description", "unknown");
       device.initialize();
 
-      ElectrodeGroup elecGroup = ElectrodeGroup(
-          electrodePath, m_io, "description", "unknown", device);
+      ElectrodeGroup elecGroup =
+          ElectrodeGroup(electrodePath, m_io, "description", "unknown", device);
       elecGroup.initialize();
     }
 
@@ -270,9 +270,8 @@ void NWBFile::cacheSpecifications(
 
   for (const auto& [name, content] : specVariables) {
     m_io->createStringDataSet("/specifications/" + specPath + "/"
-                                        + versionNumber + "/"
-                                        + std::string(name),
-                                    std::string(content));
+                                  + versionNumber + "/" + std::string(name),
+                              std::string(content));
   }
 }
 
