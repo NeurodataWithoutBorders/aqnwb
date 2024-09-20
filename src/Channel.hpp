@@ -134,71 +134,12 @@ public:
     m_position = position;
   }
 
-  /**
-   * @brief Set index of channel across the recording system.
-   * @param globalIndex The globalIndex to set.
-   */
-  inline void setGlobalIndex(const SizeType globalIndex)
-  {
-    m_globalIndex = globalIndex;
-  }
-
-  /**
-   * @brief Set index of channel within the recording array.
-   * @param localIndex The localIndex to set.
-   */
-  inline void setLocalIndex(const SizeType localIndex)
-  {
-    m_localIndex = localIndex;
-  }
-
-  /**
-   * @brief Set index of array group the channel belongs to.
-   * @param groupIndex The groupIndex to set.
-   */
-  inline void setGroupIndex(const SizeType groupIndex)
-  {
-    m_groupIndex = groupIndex;
-  }
 
   /**
    * @brief Set name of the channel.
    * @param name The name to set.
    */
   inline void setName(const std::string& name) { m_name = name; }
-
-  /**
-   * @brief Set name of the array group the channel belongs to.
-   * @param groupName The groupName to set.
-   */
-  inline void setGroupName(const std::string& groupName)
-  {
-    m_groupName = groupName;
-  }
-
-  /**
-   * @brief Set conversion factor.
-   * @param conversion The conversion to set.
-   */
-  inline void setConversion(const float conversion)
-  {
-    m_conversion = conversion;
-  }
-
-  /**
-   * @brief Set sampling rate of the channel.
-   * @param samplingRate The samplingRate to set.
-   */
-  inline void setSamplingRate(const float samplingRate)
-  {
-    m_samplingRate = samplingRate;
-  }
-
-  /**
-   * @brief Set floating point value of microvolts per bit
-   * @param bitVolts The bitVolts to set.
-   */
-  inline void setBitVolts(const float bitVolts) { m_bitVolts = bitVolts; }
 
 private:
   /**
