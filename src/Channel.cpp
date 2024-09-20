@@ -14,32 +14,17 @@ Channel::Channel(const std::string name,
                  const float bitVolts,
                  const std::array<float, 3> position,
                  const std::string comments)
-    : name(name)
-    , groupName(groupName)
-    , groupIndex(groupIndex)
-    , localIndex(localIndex)
-    , globalIndex(globalIndex)
-    , position(position)
-    , comments(comments)
-    , conversion(conversion)
-    , samplingRate(samplingRate)
-    , bitVolts(bitVolts)
+    : m_name(name)
+    , m_groupName(groupName)
+    , m_groupIndex(groupIndex)
+    , m_localIndex(localIndex)
+    , m_globalIndex(globalIndex)
+    , m_position(position)
+    , m_conversion(conversion)
+    , m_samplingRate(samplingRate)
+    , m_bitVolts(bitVolts)
+    , m_comments(comments)
 {
 }
 
 Channel::~Channel() {}
-
-float Channel::getConversion() const
-{
-  return bitVolts / conversion;
-}
-
-float Channel::getSamplingRate() const
-{
-  return samplingRate;
-}
-
-float Channel::getBitVolts() const
-{
-  return bitVolts;
-}

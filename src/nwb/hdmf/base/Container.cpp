@@ -6,8 +6,8 @@ using namespace AQNWB::NWB;
 
 /** Constructor */
 Container::Container(const std::string& path, std::shared_ptr<BaseIO> io)
-    : path(path)
-    , io(io)
+    : m_path(path)
+    , m_io(io)
 {
 }
 
@@ -17,11 +17,5 @@ Container::~Container() {}
 /** Initialize */
 void Container::initialize()
 {
-  io->createGroup(path);
-}
-
-/** Getter for path */
-std::string Container::getPath() const
-{
-  return path;
+  m_io->createGroup(m_path);
 }

@@ -80,7 +80,7 @@ TEST_CASE("writeContinuousData", "[recording]")
 
           // write timeseries data
           std::vector<SizeType> positionOffset = {samplesRecorded,
-                                                  channel.localIndex};
+                                                  channel.getLocalIndex()};
           std::vector<SizeType> dataShape = {dataBuffer.size(), 1};
 
           recordingContainers->writeTimeseriesData(i,

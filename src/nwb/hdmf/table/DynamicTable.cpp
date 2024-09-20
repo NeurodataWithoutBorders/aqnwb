@@ -7,9 +7,11 @@ using namespace AQNWB::NWB;
 /** Constructor */
 DynamicTable::DynamicTable(const std::string& path,
                            std::shared_ptr<BaseIO> io,
-                           const std::string& description)
+                           const std::string& description,
+                           const std::vector<std::string>& colNames)
     : Container(path, io)
-    , description(description)
+    , m_description(description)
+    , m_colNames(colNames)
 {
 }
 
@@ -21,9 +23,9 @@ void DynamicTable::initialize()
 {
   Container::initialize();
 
-  io->createCommonNWBAttributes(
-      path, "hdmf-common", "DynamicTable", getDescription());
-  io->createAttribute(getColNames(), path, "colnames");
+  m_io->createCommonNWBAttributes(
+      m_path, "hdmf-common", "DynamicTable", getDescription());
+  m_io->createAttribute(getColNames(), m_path, "colnames");
 }
 
 /** Add column to table */
@@ -32,30 +34,30 @@ void DynamicTable::addColumn(const std::string& name,
                              std::unique_ptr<VectorData>& vectorData,
                              const std::vector<std::string>& values)
 {
-  if (vectorData->dataset == nullptr) {
+  if (!vectorData->isInitialized()) {
     std::cerr << "VectorData dataset is not initialized" << std::endl;
   } else {
     // write in loop because variable length string
     for (SizeType i = 0; i < values.size(); i++)
-      vectorData->dataset->writeDataBlock(
+      vectorData->m_dataset->writeDataBlock(
           std::vector<SizeType>(1, 1),
           BaseDataType::STR(values[i].size() + 1),
           values[i].c_str());  // TODO - add tests for this
-    io->createCommonNWBAttributes(
-        path + name, "hdmf-common", "VectorData", colDescription);
+    m_io->createCommonNWBAttributes(
+        m_path + name, "hdmf-common", "VectorData", colDescription);
   }
 }
 
 void DynamicTable::setRowIDs(std::unique_ptr<ElementIdentifiers>& elementIDs,
                              const std::vector<int>& values)
 {
-  if (elementIDs->dataset == nullptr) {
+  if (!elementIDs->isInitialized()) {
     std::cerr << "ElementIdentifiers dataset is not initialized" << std::endl;
   } else {
-    elementIDs->dataset->writeDataBlock(
+    elementIDs->m_dataset->writeDataBlock(
         std::vector<SizeType>(1, values.size()), BaseDataType::I32, &values[0]);
-    io->createCommonNWBAttributes(
-        path + "id", "hdmf-common", "ElementIdentifiers");
+    m_io->createCommonNWBAttributes(
+        m_path + "id", "hdmf-common", "ElementIdentifiers");
   }
 }
 
@@ -66,20 +68,8 @@ void DynamicTable::addColumn(const std::string& name,
   if (values.empty()) {
     std::cerr << "Data to add to column is empty" << std::endl;
   } else {
-    io->createReferenceDataSet(path + name, values);
-    io->createCommonNWBAttributes(
-        path + name, "hdmf-common", "VectorData", colDescription);
+    m_io->createReferenceDataSet(m_path + name, values);
+    m_io->createCommonNWBAttributes(
+        m_path + name, "hdmf-common", "VectorData", colDescription);
   }
-}
-
-// Getter for description
-std::string DynamicTable::getDescription() const
-{
-  return description;
-}
-
-// Getter for colNames
-const std::vector<std::string>& DynamicTable::getColNames()
-{
-  return colNames;
 }
