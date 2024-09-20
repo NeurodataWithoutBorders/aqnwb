@@ -28,7 +28,7 @@ public:
   ~SpikeEventSeries();
 
   /**
-   * @brief Initializes the Electrical Series
+   * @brief Initializes the SpikeEventSeries
    *
    * @param dataType The data type to use for storing the recorded voltage
    * @param channelVector The electrodes to use for recording

@@ -26,8 +26,13 @@ public:
    * @brief Constructor.
    * @param path The location of the table in the file.
    * @param io A shared pointer to the IO object.
+   * @param colNames Set the names of the columns for the table
    */
-  DynamicTable(const std::string& path, std::shared_ptr<IO::BaseIO> io);
+  DynamicTable(
+      const std::string& path,
+      std::shared_ptr<IO::BaseIO> io,
+      const std::vector<std::string>& colNames =
+          {});  // TODO Need to remove colNames here and move it to initialize
 
   /**
    * @brief Destructor
@@ -76,12 +81,24 @@ public:
    * @brief Gets the column names of the table.
    * @return A vector of column names.
    */
-  virtual const std::vector<std::string>& getColNames();
+  virtual const std::vector<std::string>& getColNames() const
+  {
+    return m_colNames;
+  }
 
-private:
+  /**
+   * @brief Sets the column names of the ElectrodeTable.
+   * @param newColNames The vector of new column names.
+   */
+  virtual void setColNames(const std::vector<std::string>& newColNames)
+  {
+    m_colNames = newColNames;
+  }
+
+protected:
   /**
    * @brief Names of the columns in the table.
    */
-  std::vector<std::string> colNames;
+  std::vector<std::string> m_colNames;
 };
 }  // namespace AQNWB::NWB

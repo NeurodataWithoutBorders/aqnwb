@@ -14,15 +14,15 @@ RecordingContainers::~RecordingContainers() {}
 
 void RecordingContainers::addContainer(std::unique_ptr<Container> container)
 {
-  this->containers.push_back(std::move(container));
+  m_containers.push_back(std::move(container));
 }
 
 Container* RecordingContainers::getContainer(const SizeType& containerInd)
 {
-  if (containerInd >= this->containers.size()) {
+  if (containerInd >= m_containers.size()) {
     return nullptr;
   } else {
-    return this->containers[containerInd].get();
+    return m_containers[containerInd].get();
   }
 }
 
@@ -40,7 +40,7 @@ Status RecordingContainers::writeTimeseriesData(
     return Status::Failure;
 
   // write data and timestamps to datasets
-  if (channel.localIndex == 0) {
+  if (channel.getLocalIndex() == 0) {
     // write with timestamps if it's the first channel
     return ts->writeData(dataShape, positionOffset, data, timestamps);
   } else {
@@ -62,7 +62,7 @@ Status RecordingContainers::writeElectricalSeriesData(
   if (es == nullptr)
     return Status::Failure;
 
-  es->writeChannel(channel.localIndex, numSamples, data, timestamps);
+  es->writeChannel(channel.getLocalIndex(), numSamples, data, timestamps);
 }
 
 Status RecordingContainers::writeSpikeEventData(const SizeType& containerInd,

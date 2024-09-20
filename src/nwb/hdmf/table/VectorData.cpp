@@ -11,9 +11,3 @@ VectorData::VectorData(const std::string& path,
     : Data(path, io)
 {
 }
-
-// VectorData
-std::string VectorData::getDescription() const
-{
-  return description;
-}

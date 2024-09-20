@@ -57,17 +57,17 @@ public:
    * @brief Gets a const pointer to the HDF5 dataset.
    * @return A const pointer to the HDF5 dataset.
    */
-  const H5::DataSet* getDataSet();
+  inline const H5::DataSet* getDataSet() const { return m_dataset.get(); }
 
 private:
-  /**
-   * @brief Pointer to an extendable HDF5 dataset
-   */
-  std::unique_ptr<H5::DataSet> dSet;
-
   /**
    * @brief Return status of HDF5 operations.
    */
   Status checkStatus(int status);
+
+  /**
+   * @brief Pointer to an extendable HDF5 dataset
+   */
+  std::unique_ptr<H5::DataSet> m_dataset;
 };
 }  // namespace AQNWB::IO::HDF5

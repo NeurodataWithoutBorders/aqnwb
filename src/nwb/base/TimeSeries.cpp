@@ -30,26 +30,24 @@ void TimeSeries::initialize(const IO::BaseDataType& dataType,
   this->dataType = dataType;
 
   // setup attributes
-  io->createCommonNWBAttributes(
+  m_io->createCommonNWBAttributes(
       path,
-      this->getNamespace(),
-      this->getTypeName(),
-      description);  //  "core", "TimeSeries", description); //
-  io->createAttribute(comments, path, "comments");
+      this->getNamespace(), // "core"
+      this->getTypeName(),  //  "TimeSeries"
+      description);
+  m_io->createAttribute(comments, m_path, "comments");
 
   // setup datasets
-  this->data = std::unique_ptr<IO::BaseRecordingData>(io->createArrayDataSet(
-      dataType, dsetSize, chunkSize, getPath() + "/data"));
-  io->createDataAttributes(getPath(), conversion, resolution, unit);
+  this->data = std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet(
+      dataType, dsetSize, chunkSize, m_path + "/data"));
+  m_io->createDataAttributes(m_path, conversion, resolution, unit);
 
   SizeArray tsDsetSize = {
       dsetSize[0]};  // timestamps match data along first dimension
-  this->timestamps = std::unique_ptr<IO::BaseRecordingData>(
-      io->createArrayDataSet(this->timestampsType,
-                             tsDsetSize,
-                             chunkSize,
-                             getPath() + "/timestamps"));
-  io->createTimestampsAttributes(getPath());
+  this->timestamps =
+      std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet(
+          this->timestampsType, tsDsetSize, chunkSize, m_path + "/timestamps"));
+  m_io->createTimestampsAttributes(m_path);
 }
 
 Status TimeSeries::writeData(const std::vector<SizeType>& dataShape,

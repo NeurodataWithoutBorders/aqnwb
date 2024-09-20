@@ -19,5 +19,5 @@ Container::~Container() {}
 /** Initialize */
 void Container::initialize()
 {
-  io->createGroup(path);
+  m_io->createGroup(m_path);
 }

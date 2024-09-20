@@ -60,9 +60,9 @@
  * object so that it can mana ge access and data writing during the recording process.
  * When adding containers, ownership of the \ref AQNWB::NWB::Container "Container"  is transferred to the
  * \ref AQNWB::NWB::RecordingContainers "RecordingContainers" object, so that we can access it again via
- * its index. New containers will always be appended to the end of the
- * \ref AQNWB::NWB::RecordingContainers::containers "containers" object and their index can be tracked
- * using the size of the input `recordingArrays`.
+ * its index. New containers will always be appended to the end of the private member
+ * ``RecordingContainers::m_containers`` object and their index can be tracked
+ * using the \ref AQNWB::NWB::RecordingContainers::size "RecordingContainers.size" of the input `recordingArrays`.
  *
  * \snippet tests/examples/testWorkflowExamples.cpp example_workflow_datasets_snippet
  *

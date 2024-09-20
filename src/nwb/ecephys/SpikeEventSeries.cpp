@@ -31,7 +31,6 @@ void SpikeEventSeries::initialize(const IO::BaseDataType& dataType,
                                conversion,
                                resolution,
                                offset);
-
   this->eventsRecorded = 0;
 }
 

@@ -93,7 +93,7 @@ public:
 
   inline std::string dataPath() const
   {
-    return (this->path + std::string("/data"));
+    return (m_path + std::string("/data"));
   }
 
   template<typename VTYPE = std::any>
@@ -103,7 +103,7 @@ public:
   {
     return std::make_unique<
         IO::ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset, VTYPE>>(
-        this->io, this->dataPath());
+        m_io, this->dataPath());
   }
 
   inline std::string resolutionPath() const
@@ -118,7 +118,7 @@ public:
   {
     return std::make_unique<
         IO::ReadDataWrapper<AQNWB::Types::StorageObjectType::Attribute, VTYPE>>(
-        this->io, this->resolutionPath());
+        m_io, this->resolutionPath());
   }
 };
 }  // namespace AQNWB::NWB
