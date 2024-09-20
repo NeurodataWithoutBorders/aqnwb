@@ -16,7 +16,7 @@ public:
    * @brief Gets the description of the table.
    * @return The description of the table.
    */
-  std::string getDescription() const;
+  inline std::string getDescription() const { return m_description; }
 
 private:
   /**
