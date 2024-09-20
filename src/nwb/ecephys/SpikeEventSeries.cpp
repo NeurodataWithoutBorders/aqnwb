@@ -3,6 +3,8 @@
 using namespace AQNWB::NWB;
 
 // SpikeEventSeries
+// Initialize the static registered_ member to trigger registration
+REGISTER_SUBCLASS_IMPL(SpikeEventSeries)
 
 /** Constructor */
 SpikeEventSeries::SpikeEventSeries(const std::string& path,

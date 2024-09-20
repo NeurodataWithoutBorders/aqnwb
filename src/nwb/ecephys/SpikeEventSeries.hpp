@@ -15,6 +15,9 @@ namespace AQNWB::NWB
 class SpikeEventSeries : public ElectricalSeries
 {
 public:
+  // Register the TimeSeries as a subclass of Container
+  REGISTER_SUBCLASS(SpikeEventSeries, "core")
+
   /**
    * @brief Constructor.
    * @param path The location of the SpikeEventSeries in the file.
