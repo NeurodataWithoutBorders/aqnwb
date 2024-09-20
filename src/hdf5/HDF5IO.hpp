@@ -319,7 +319,7 @@ public:
    * @brief Gets a const pointer to the HDF5 dataset.
    * @return A const pointer to the HDF5 dataset.
    */
-  inline const H5::DataSet* getDataSet() const { return this->m_dataset.get(); }
+  inline const H5::DataSet* getDataSet() const { return m_dataset.get(); }
 
 private:
   /**

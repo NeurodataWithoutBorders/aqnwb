@@ -120,12 +120,12 @@ Status NWBFile::createElectricalSeries(
   bool electrodeTableCreated =
       m_io->objectExists(ElectrodeTable::electrodeTablePath);
   if (!electrodeTableCreated) {
-    m_electrodeTable = std::make_unique<ElectrodeTable>(this->m_io);
-    this->m_electrodeTable->initialize();
+    m_electrodeTable = std::make_unique<ElectrodeTable>(m_io);
+    m_electrodeTable->initialize();
 
     // Add electrode information to table (does not write to datasets yet)
     for (const auto& channelVector : recordingArrays) {
-      this->m_electrodeTable->addElectrodes(channelVector);
+      m_electrodeTable->addElectrodes(channelVector);
     }
   }
 
@@ -142,19 +142,19 @@ Status NWBFile::createElectricalSeries(
 
     // Check if device exists for groupName, create device and electrode group
     // if not
-    if (!this->m_io->objectExists(devicePath)) {
-      Device device = Device(devicePath, this->m_io, "description", "unknown");
+    if (!m_io->objectExists(devicePath)) {
+      Device device = Device(devicePath, m_io, "description", "unknown");
       device.initialize();
 
       ElectrodeGroup elecGroup = ElectrodeGroup(
-          electrodePath, this->m_io, "description", "unknown", device);
+          electrodePath, m_io, "description", "unknown", device);
       elecGroup.initialize();
     }
 
     // Setup electrical series datasets
     auto electricalSeries = std::make_unique<ElectricalSeries>(
         electricalSeriesPath,
-        this->m_io,
+        m_io,
         dataType,
         channelVector,
         "Stores continuously sampled voltage data from an "
@@ -169,7 +169,7 @@ Status NWBFile::createElectricalSeries(
   // write electrode information to datasets
   // (requires that the ElectrodeGroup has been written)
   if (!electrodeTableCreated) {
-    this->m_electrodeTable->finalize();
+    m_electrodeTable->finalize();
   }
 
   return Status::Success;
@@ -182,7 +182,7 @@ Status NWBFile::createSpikeEventSeries(
     RecordingContainers* recordingContainers,
     std::vector<SizeType>& containerIndexes)
 {
-  if (!this->m_io->canModifyObjects()) {
+  if (!m_io->canModifyObjects()) {
     return Status::Failure;
   }
 
@@ -192,14 +192,14 @@ Status NWBFile::createSpikeEventSeries(
 
   // Setup electrode table if it was not yet created
   bool electrodeTableCreated =
-      this->m_io->objectExists(ElectrodeTable::electrodeTablePath);
+      m_io->objectExists(ElectrodeTable::electrodeTablePath);
   if (!electrodeTableCreated) {
-    this->m_electrodeTable = std::make_unique<ElectrodeTable>(this->m_io);
-    this->m_electrodeTable->initialize();
+    m_electrodeTable = std::make_unique<ElectrodeTable>(m_io);
+    m_electrodeTable->initialize();
 
     // Add electrode information to table (does not write to datasets yet)
     for (const auto& channelVector : recordingArrays) {
-      this->m_electrodeTable->addElectrodes(channelVector);
+      m_electrodeTable->addElectrodes(channelVector);
     }
   }
 
@@ -216,12 +216,12 @@ Status NWBFile::createSpikeEventSeries(
 
     // Check if device exists for groupName, create device and electrode group
     // if not
-    if (!this->m_io->objectExists(devicePath)) {
-      Device device = Device(devicePath, this->m_io, "description", "unknown");
+    if (!m_io->objectExists(devicePath)) {
+      Device device = Device(devicePath, m_io, "description", "unknown");
       device.initialize();
 
       ElectrodeGroup elecGroup = ElectrodeGroup(
-          electrodePath, this->m_io, "description", "unknown", device);
+          electrodePath, m_io, "description", "unknown", device);
       elecGroup.initialize();
     }
 
@@ -238,7 +238,7 @@ Status NWBFile::createSpikeEventSeries(
 
     auto spikeEventSeries = std::make_unique<SpikeEventSeries>(
         spikeEventSeriesPath,
-        this->m_io,
+        m_io,
         dataType,
         channelVector,
         "Stores spike waveforms from an extracellular ephys recording",
@@ -252,7 +252,7 @@ Status NWBFile::createSpikeEventSeries(
   // write electrode information to datasets
   // (requires that the ElectrodeGroup has been written)
   if (!electrodeTableCreated) {
-    this->m_electrodeTable->finalize();
+    m_electrodeTable->finalize();
   }
 
   return Status::Success;
@@ -265,11 +265,11 @@ void NWBFile::cacheSpecifications(
     const std::array<std::pair<std::string_view, std::string_view>, N>&
         specVariables)
 {
-  this->m_io->createGroup("/specifications/" + specPath);
-  this->m_io->createGroup("/specifications/" + specPath + "/" + versionNumber);
+  m_io->createGroup("/specifications/" + specPath);
+  m_io->createGroup("/specifications/" + specPath + "/" + versionNumber);
 
   for (const auto& [name, content] : specVariables) {
-    this->m_io->createStringDataSet("/specifications/" + specPath + "/"
+    m_io->createStringDataSet("/specifications/" + specPath + "/"
                                         + versionNumber + "/"
                                         + std::string(name),
                                     std::string(content));
@@ -284,5 +284,5 @@ std::unique_ptr<AQNWB::BaseRecordingData> NWBFile::createRecordingData(
     const std::string& path)
 {
   return std::unique_ptr<BaseRecordingData>(
-      this->m_io->createArrayDataSet(type, size, chunking, path));
+      m_io->createArrayDataSet(type, size, chunking, path));
 }
