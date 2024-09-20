@@ -108,11 +108,6 @@ private:
   std::vector<std::string> groupReferences;
 
   /**
-   * @brief The vector of column names for the table.
-   */
-  std::vector<std::string> colNames = {"group", "group_name", "location"};
-
-  /**
    * @brief The references path to the ElectrodeGroup
    */
   std::string groupPathBase = "/general/extracellular_ephys/";

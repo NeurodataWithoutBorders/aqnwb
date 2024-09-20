@@ -11,7 +11,8 @@ ElectrodeTable::ElectrodeTable(std::shared_ptr<BaseIO> io,
                                const std::string& description)
     : DynamicTable(electrodeTablePath,  // use the electrodeTablePath
                    io,
-                   description)
+                   description,
+                   {"group", "group_name", "location"})
 {
 }
 

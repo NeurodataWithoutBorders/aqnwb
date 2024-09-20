@@ -7,9 +7,11 @@ using namespace AQNWB::NWB;
 /** Constructor */
 DynamicTable::DynamicTable(const std::string& path,
                            std::shared_ptr<BaseIO> io,
-                           const std::string& description)
+                           const std::string& description,
+                           const std::vector<std::string>& colNames)
     : Container(path, io)
     , m_description(description)
+    , m_colNames(colNames)
 {
 }
 

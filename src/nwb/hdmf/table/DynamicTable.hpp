@@ -27,7 +27,8 @@ public:
    */
   DynamicTable(const std::string& path,
                std::shared_ptr<BaseIO> io,
-               const std::string& description);
+               const std::string& description,
+               const std::vector<std::string>& colNames);
 
   /**
    * @brief Destructor
@@ -94,7 +95,7 @@ public:
     m_colNames = newColNames;
   }
 
-private:
+protected:
   /**
    * @brief Description of the DynamicTable.
    */
