@@ -17,7 +17,7 @@ class SpikeEventSeries : public ElectricalSeries
 public:
   /**
    * @brief Constructor.
-   * @param path The location of the ElectricalSeries in the file.
+   * @param path The location of the SpikeEventSeries in the file.
    * @param io A shared pointer to the IO object.
    * @param dataType The data type to use for storing the recorded voltage
    * @param channelVector The electrodes to use for recording
