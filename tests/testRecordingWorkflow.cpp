@@ -66,9 +66,9 @@ TEST_CASE("writeContinuousData", "[recording]")
         for (const auto& channel : channelVector) {
           // copy data into buffer
           std::copy(
-              mockData[channel.globalIndex].begin()
+              mockData[channel.getGlobalIndex()].begin()
                   + static_cast<std::ptrdiff_t>(samplesRecorded),
-              mockData[channel.globalIndex].begin()
+              mockData[channel.getGlobalIndex()].begin()
                   + static_cast<std::ptrdiff_t>(samplesRecorded + bufferSize),
               dataBuffer.begin());
           std::copy(
