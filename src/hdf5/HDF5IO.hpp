@@ -49,12 +49,6 @@ public:
   ~HDF5IO();
 
   /**
-   * @brief Returns the full path to the HDF5 file.
-   * @return The full path to the HDF5 file.
-   */
-  std::string getFileName() override;
-
-  /**
    * @brief Opens an existing file or creates a new file for writing.
    * @return The status of the file opening operation.
    */

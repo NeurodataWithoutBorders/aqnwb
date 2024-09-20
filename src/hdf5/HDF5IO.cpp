@@ -26,11 +26,6 @@ HDF5IO::~HDF5IO()
   close();
 }
 
-std::string HDF5IO::getFileName()
-{
-  return m_filename;
-}
-
 Status HDF5IO::open()
 {
   if (std::filesystem::exists(getFileName())) {

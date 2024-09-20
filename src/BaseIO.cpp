@@ -40,26 +40,6 @@ BaseIO::BaseIO(const std::string& filename)
 
 BaseIO::~BaseIO() {}
 
-bool BaseIO::isOpen() const
-{
-  return m_opened;
-}
-
-std::string BaseIO::getFileName()
-{
-  return m_filename;
-}
-
-bool BaseIO::isReadyToOpen() const
-{
-  return m_readyToOpen;
-}
-
-bool BaseIO::canModifyObjects()
-{
-  return true;
-}
-
 Status BaseIO::createCommonNWBAttributes(const std::string& path,
                                          const std::string& objectNamespace,
                                          const std::string& neurodataType,

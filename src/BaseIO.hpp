@@ -115,7 +115,7 @@ public:
    * @brief Returns the full path to the file.
    * @return The full path to the file.
    */
-  virtual std::string getFileName();
+  virtual std::string getFileName() const { return m_filename; }
 
   /**
    * @brief Opens the file for writing.
@@ -267,7 +267,7 @@ public:
    * override this function to check if objects can be modified.
    * @return True if the file is in a modification mode, false otherwise.
    */
-  virtual bool canModifyObjects();
+  virtual bool canModifyObjects() { return true; }
 
   /**
    * @brief Creates an extendable dataset with a given base data type, size,
@@ -338,13 +338,13 @@ public:
    * @brief Returns true if the file is open.
    * @return True if the file is open, false otherwise.
    */
-  bool isOpen() const;
+  inline bool isOpen() const { return m_opened; }
 
   /**
    * @brief Returns true if the file is able to be opened.
    * @return True if the file is able to be opened, false otherwise.
    */
-  bool isReadyToOpen() const;
+  inline bool isReadyToOpen() const { return m_readyToOpen; }
 
 protected:
   /**
