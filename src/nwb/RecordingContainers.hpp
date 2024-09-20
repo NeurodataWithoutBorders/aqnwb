@@ -108,7 +108,7 @@ public:
   /**
    * @brief Get the number of recording containers
    */
-  SizeType size();
+  inline SizeType size() const { return m_containers.size(); }
 
 private:
   /**
