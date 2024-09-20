@@ -28,7 +28,7 @@ HDF5IO::~HDF5IO()
 
 std::string HDF5IO::getFileName()
 {
-  return this->m_filename;
+  return m_filename;
 }
 
 Status HDF5IO::open()
@@ -44,7 +44,7 @@ Status HDF5IO::open(bool newfile)
 {
   int accFlags = 0;
 
-  if (this->m_opened)
+  if (m_opened)
     return Status::Failure;
 
   FileAccPropList fapl = FileAccPropList::DEFAULT;
@@ -55,19 +55,19 @@ Status HDF5IO::open(bool newfile)
   else
     accFlags = H5F_ACC_RDWR;
 
-  this->m_file = std::make_unique<H5::H5File>(
+  m_file = std::make_unique<H5::H5File>(
       getFileName(), accFlags, FileCreatPropList::DEFAULT, fapl);
-  this->m_opened = true;
+  m_opened = true;
 
   return Status::Success;
 }
 
 Status HDF5IO::close()
 {
-  if (this->m_file != nullptr && this->m_opened) {
-    this->m_file->close();
-    this->m_file = nullptr;
-    this->m_opened = false;
+  if (m_file != nullptr && m_opened) {
+    m_file->close();
+    m_file = nullptr;
+    m_opened = false;
   }
 
   return Status::Success;
@@ -83,7 +83,7 @@ Status checkStatus(int status)
 
 Status HDF5IO::flush()
 {
-  int status = H5Fflush(this->m_file->getId(), H5F_SCOPE_GLOBAL);
+  int status = H5Fflush(m_file->getId(), H5F_SCOPE_GLOBAL);
   return checkStatus(status);
 }
 
@@ -100,18 +100,18 @@ Status HDF5IO::createAttribute(const BaseDataType& type,
   DataType H5type;
   DataType origType;
 
-  if (!this->m_opened)
+  if (!m_opened)
     return Status::Failure;
 
   // open the group or dataset
   H5O_type_t objectType = getObjectType(path);
   switch (objectType) {
     case H5O_TYPE_GROUP:
-      gloc = this->m_file->openGroup(path);
+      gloc = m_file->openGroup(path);
       loc = &gloc;
       break;
     case H5O_TYPE_DATASET:
-      dloc = this->m_file->openDataSet(path);
+      dloc = m_file->openDataSet(path);
       loc = &dloc;
       break;
     default:
@@ -175,7 +175,7 @@ Status HDF5IO::createAttribute(const std::vector<const char*>& data,
   Attribute attr;
   hsize_t dims[1];
 
-  if (!this->m_opened)
+  if (!m_opened)
     return Status::Failure;
 
   StrType H5type(PredType::C_S1, maxSize);
@@ -185,11 +185,11 @@ Status HDF5IO::createAttribute(const std::vector<const char*>& data,
   H5O_type_t objectType = getObjectType(path);
   switch (objectType) {
     case H5O_TYPE_GROUP:
-      gloc = this->m_file->openGroup(path);
+      gloc = m_file->openGroup(path);
       loc = &gloc;
       break;
     case H5O_TYPE_DATASET:
-      dloc = this->m_file->openDataSet(path);
+      dloc = m_file->openDataSet(path);
       loc = &dloc;
       break;
     default:
@@ -232,18 +232,18 @@ Status HDF5IO::createReferenceAttribute(const std::string& referencePath,
   DataSet dloc;
   Attribute attr;
 
-  if (!this->m_opened)
+  if (!m_opened)
     return Status::Failure;
 
   // open the group or dataset
   H5O_type_t objectType = getObjectType(path);
   switch (objectType) {
     case H5O_TYPE_GROUP:
-      gloc = this->m_file->openGroup(path);
+      gloc = m_file->openGroup(path);
       loc = &gloc;
       break;
     case H5O_TYPE_DATASET:
-      dloc = this->m_file->openDataSet(path);
+      dloc = m_file->openDataSet(path);
       loc = &dloc;
       break;
     default:
@@ -260,7 +260,7 @@ Status HDF5IO::createReferenceAttribute(const std::string& referencePath,
 
     hobj_ref_t* rdata = new hobj_ref_t[sizeof(hobj_ref_t)];
 
-    this->m_file->reference(rdata, referencePath.c_str());
+    m_file->reference(rdata, referencePath.c_str());
 
     attr.write(H5::PredType::STD_REF_OBJ, rdata);
     delete[] rdata;
@@ -280,7 +280,7 @@ Status HDF5IO::createReferenceAttribute(const std::string& referencePath,
 
 Status HDF5IO::createGroup(const std::string& path)
 {
-  if (!this->m_opened)
+  if (!m_opened)
     return Status::Failure;
   try {
     this->m_file->createGroup(path);

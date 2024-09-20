@@ -42,44 +42,44 @@ NWBFile::~NWBFile() {}
 Status NWBFile::initialize(const std::string description,
                            const std::string dataCollection)
 {
-  if (std::filesystem::exists(this->m_io->getFileName())) {
-    return this->m_io->open(false);
+  if (std::filesystem::exists(m_io->getFileName())) {
+    return m_io->open(false);
   } else {
-    this->m_io->open(true);
+    m_io->open(true);
     return createFileStructure(description, dataCollection);
   }
 }
 
 Status NWBFile::finalize()
 {
-  return this->m_io->close();
+  return m_io->close();
 }
 
 Status NWBFile::createFileStructure(std::string description,
                                     std::string dataCollection)
 {
-  if (!this->m_io->canModifyObjects()) {
+  if (!m_io->canModifyObjects()) {
     return Status::Failure;
   }
 
-  this->m_io->createCommonNWBAttributes("/", "core", "NWBFile", "");
-  this->m_io->createAttribute(AQNWB::SPEC::CORE::version, "/", "nwb_version");
+  m_io->createCommonNWBAttributes("/", "core", "NWBFile", "");
+  m_io->createAttribute(AQNWB::SPEC::CORE::version, "/", "nwb_version");
 
-  this->m_io->createGroup("/acquisition");
-  this->m_io->createGroup("/analysis");
-  this->m_io->createGroup("/processing");
-  this->m_io->createGroup("/stimulus");
-  this->m_io->createGroup("/stimulus/presentation");
-  this->m_io->createGroup("/stimulus/templates");
-  this->m_io->createGroup("/general");
-  this->m_io->createGroup("/general/devices");
-  this->m_io->createGroup("/general/extracellular_ephys");
+  m_io->createGroup("/acquisition");
+  m_io->createGroup("/analysis");
+  m_io->createGroup("/processing");
+  m_io->createGroup("/stimulus");
+  m_io->createGroup("/stimulus/presentation");
+  m_io->createGroup("/stimulus/templates");
+  m_io->createGroup("/general");
+  m_io->createGroup("/general/devices");
+  m_io->createGroup("/general/extracellular_ephys");
   if (dataCollection != "") {
-    this->m_io->createStringDataSet("/general/data_collection", dataCollection);
+    m_io->createStringDataSet("/general/data_collection", dataCollection);
   }
 
-  this->m_io->createGroup("/specifications");
-  this->m_io->createReferenceAttribute("/specifications", "/", ".specloc");
+  m_io->createGroup("/specifications");
+  m_io->createReferenceAttribute("/specifications", "/", ".specloc");
 
   cacheSpecifications(
       "core", AQNWB::SPEC::CORE::version, AQNWB::SPEC::CORE::specVariables);
@@ -92,11 +92,11 @@ Status NWBFile::createFileStructure(std::string description,
 
   std::string time = getCurrentTime();
   std::vector<std::string> timeVec = {time};
-  this->m_io->createStringDataSet("/file_create_date", timeVec);
-  this->m_io->createStringDataSet("/session_description", description);
-  this->m_io->createStringDataSet("/session_start_time", time);
-  this->m_io->createStringDataSet("/timestamps_reference_time", time);
-  this->m_io->createStringDataSet("/identifier", this->m_identifierText);
+  m_io->createStringDataSet("/file_create_date", timeVec);
+  m_io->createStringDataSet("/session_description", description);
+  m_io->createStringDataSet("/session_start_time", time);
+  m_io->createStringDataSet("/timestamps_reference_time", time);
+  m_io->createStringDataSet("/identifier", m_identifierText);
 
   return Status::Success;
 }
@@ -108,7 +108,7 @@ Status NWBFile::createElectricalSeries(
     RecordingContainers* recordingContainers,
     std::vector<SizeType>& containerIndexes)
 {
-  if (!this->m_io->canModifyObjects()) {
+  if (!m_io->canModifyObjects()) {
     return Status::Failure;
   }
 
@@ -118,9 +118,9 @@ Status NWBFile::createElectricalSeries(
 
   // Setup electrode table if it was not yet created
   bool electrodeTableCreated =
-      this->m_io->objectExists(ElectrodeTable::electrodeTablePath);
+      m_io->objectExists(ElectrodeTable::electrodeTablePath);
   if (!electrodeTableCreated) {
-    this->m_electrodeTable = std::make_unique<ElectrodeTable>(this->m_io);
+    m_electrodeTable = std::make_unique<ElectrodeTable>(this->m_io);
     this->m_electrodeTable->initialize();
 
     // Add electrode information to table (does not write to datasets yet)

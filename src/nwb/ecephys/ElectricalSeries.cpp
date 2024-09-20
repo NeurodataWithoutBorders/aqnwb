@@ -52,32 +52,32 @@ void ElectricalSeries::initialize()
 
   // make channel conversion dataset
   channelConversion = std::unique_ptr<BaseRecordingData>(
-      this->m_io->createArrayDataSet(BaseDataType::F32,
-                                     SizeArray {1},
-                                     chunkSize,
-                                     getPath() + "/channel_conversion"));
+      m_io->createArrayDataSet(BaseDataType::F32,
+                               SizeArray {1},
+                               chunkSize,
+                               getPath() + "/channel_conversion"));
   channelConversion->writeDataBlock(
       std::vector<SizeType>(1, channelVector.size()),
       BaseDataType::F32,
       &channelConversions[0]);
-  this->m_io->createCommonNWBAttributes(getPath() + "/channel_conversion",
-                                        "hdmf-common",
-                                        "",
-                                        "Bit volts values for all channels");
+  m_io->createCommonNWBAttributes(getPath() + "/channel_conversion",
+                                  "hdmf-common",
+                                  "",
+                                  "Bit volts values for all channels");
 
   // make electrodes dataset
   electrodesDataset = std::unique_ptr<BaseRecordingData>(
-      this->m_io->createArrayDataSet(BaseDataType::I32,
-                                     SizeArray {1},
-                                     chunkSize,
-                                     getPath() + "/electrodes"));
+      m_io->createArrayDataSet(BaseDataType::I32,
+                               SizeArray {1},
+                               chunkSize,
+                               getPath() + "/electrodes"));
   electrodesDataset->writeDataBlock(
       std::vector<SizeType>(1, channelVector.size()),
       BaseDataType::I32,
       &electrodeInds[0]);
-  this->m_io->createCommonNWBAttributes(
+  m_io->createCommonNWBAttributes(
       getPath() + "/electrodes", "hdmf-common", "DynamicTableRegion", "");
-  this->m_io->createReferenceAttribute(
+  m_io->createReferenceAttribute(
       ElectrodeTable::electrodeTablePath, getPath() + "/electrodes", "table");
 }
 

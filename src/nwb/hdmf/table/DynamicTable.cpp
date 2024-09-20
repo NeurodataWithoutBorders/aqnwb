@@ -21,9 +21,9 @@ void DynamicTable::initialize()
 {
   Container::initialize();
 
-  this->m_io->createCommonNWBAttributes(
-      this->m_path, "hdmf-common", "DynamicTable", getDescription());
-  this->m_io->createAttribute(getColNames(), this->m_path, "colnames");
+  m_io->createCommonNWBAttributes(
+      m_path, "hdmf-common", "DynamicTable", getDescription());
+  m_io->createAttribute(getColNames(), m_path, "colnames");
 }
 
 /** Add column to table */
@@ -41,8 +41,8 @@ void DynamicTable::addColumn(const std::string& name,
           std::vector<SizeType>(1, 1),
           BaseDataType::STR(values[i].size() + 1),
           values[i].c_str());  // TODO - add tests for this
-    this->m_io->createCommonNWBAttributes(
-        this->m_path + name, "hdmf-common", "VectorData", colDescription);
+    m_io->createCommonNWBAttributes(
+        m_path + name, "hdmf-common", "VectorData", colDescription);
   }
 }
 
@@ -54,8 +54,8 @@ void DynamicTable::setRowIDs(std::unique_ptr<ElementIdentifiers>& elementIDs,
   } else {
     elementIDs->m_dataset->writeDataBlock(
         std::vector<SizeType>(1, values.size()), BaseDataType::I32, &values[0]);
-    this->m_io->createCommonNWBAttributes(
-        this->m_path + "id", "hdmf-common", "ElementIdentifiers");
+    m_io->createCommonNWBAttributes(
+        m_path + "id", "hdmf-common", "ElementIdentifiers");
   }
 }
 
@@ -66,9 +66,9 @@ void DynamicTable::addColumn(const std::string& name,
   if (values.empty()) {
     std::cerr << "Data to add to column is empty" << std::endl;
   } else {
-    this->m_io->createReferenceDataSet(this->m_path + name, values);
-    this->m_io->createCommonNWBAttributes(
-        this->m_path + name, "hdmf-common", "VectorData", colDescription);
+    m_io->createReferenceDataSet(m_path + name, values);
+    m_io->createCommonNWBAttributes(
+        m_path + name, "hdmf-common", "VectorData", colDescription);
   }
 }
 

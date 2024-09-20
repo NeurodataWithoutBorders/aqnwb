@@ -37,24 +37,20 @@ void TimeSeries::initialize()
   Container::initialize();
 
   // setup attributes
-  this->m_io->createCommonNWBAttributes(
-      this->m_path, "core", neurodataType, description);
-  this->m_io->createAttribute(comments, this->m_path, "comments");
+  m_io->createCommonNWBAttributes(m_path, "core", neurodataType, description);
+  m_io->createAttribute(comments, m_path, "comments");
 
   // setup datasets
-  this->data =
-      std::unique_ptr<BaseRecordingData>(this->m_io->createArrayDataSet(
-          dataType, dsetSize, chunkSize, this->m_path + "/data"));
-  this->m_io->createDataAttributes(this->m_path, conversion, resolution, unit);
+  this->data = std::unique_ptr<BaseRecordingData>(m_io->createArrayDataSet(
+      dataType, dsetSize, chunkSize, m_path + "/data"));
+  m_io->createDataAttributes(m_path, conversion, resolution, unit);
 
   SizeArray tsDsetSize = {
       dsetSize[0]};  // timestamps match data along first dimension
-  this->timestamps = std::unique_ptr<BaseRecordingData>(
-      this->m_io->createArrayDataSet(this->timestampsType,
-                                     tsDsetSize,
-                                     chunkSize,
-                                     this->m_path + "/timestamps"));
-  this->m_io->createTimestampsAttributes(this->m_path);
+  this->timestamps =
+      std::unique_ptr<BaseRecordingData>(m_io->createArrayDataSet(
+          this->timestampsType, tsDsetSize, chunkSize, m_path + "/timestamps"));
+  m_io->createTimestampsAttributes(m_path);
 }
 
 Status TimeSeries::writeData(const std::vector<SizeType>& dataShape,

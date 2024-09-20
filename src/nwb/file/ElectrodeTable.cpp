@@ -24,21 +24,19 @@ void ElectrodeTable::initialize()
   // create group
   DynamicTable::initialize();
 
-  electrodeDataset->setDataset(std::unique_ptr<BaseRecordingData>(
-      this->m_io->createArrayDataSet(BaseDataType::I32,
-                                     SizeArray {1},
-                                     SizeArray {1},
-                                     this->m_path + "id")));
+  electrodeDataset->setDataset(
+      std::unique_ptr<BaseRecordingData>(m_io->createArrayDataSet(
+          BaseDataType::I32, SizeArray {1}, SizeArray {1}, m_path + "id")));
   groupNamesDataset->setDataset(std::unique_ptr<BaseRecordingData>(
-      this->m_io->createArrayDataSet(BaseDataType::STR(250),
-                                     SizeArray {0},
-                                     SizeArray {1},
-                                     this->m_path + "group_name")));
+      m_io->createArrayDataSet(BaseDataType::STR(250),
+                               SizeArray {0},
+                               SizeArray {1},
+                               m_path + "group_name")));
   locationsDataset->setDataset(std::unique_ptr<BaseRecordingData>(
-      this->m_io->createArrayDataSet(BaseDataType::STR(250),
-                                     SizeArray {0},
-                                     SizeArray {1},
-                                     this->m_path + "location")));
+      m_io->createArrayDataSet(BaseDataType::STR(250),
+                               SizeArray {0},
+                               SizeArray {1},
+                               m_path + "location")));
 }
 
 void ElectrodeTable::addElectrodes(std::vector<Channel> channels)

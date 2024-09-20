@@ -38,7 +38,7 @@ public:
   /**
    * @brief Check whether the m_dataset has been initialized
    */
-  inline bool isInitialized() { return this->m_dataset != nullptr; }
+  inline bool isInitialized() { return m_dataset != nullptr; }
 
   std::unique_ptr<BaseRecordingData> m_dataset;
 };

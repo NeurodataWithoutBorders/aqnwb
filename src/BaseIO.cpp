@@ -47,7 +47,7 @@ bool BaseIO::isOpen() const
 
 std::string BaseIO::getFileName()
 {
-  return this->m_filename;
+  return m_filename;
 }
 
 bool BaseIO::isReadyToOpen() const
