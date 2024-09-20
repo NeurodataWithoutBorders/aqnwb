@@ -74,23 +74,35 @@ public:
    * @brief Gets the description of the table.
    * @return The description of the table.
    */
-  std::string getDescription() const;
+  inline std::string getDescription() const { return m_description; }
 
   /**
    * @brief Gets the column names of the table.
    * @return A vector of column names.
    */
-  virtual const std::vector<std::string>& getColNames() = 0;
+  virtual const std::vector<std::string>& getColNames() const
+  {
+    return m_colNames;
+  }
+
+  /**
+   * @brief Sets the column names of the ElectrodeTable.
+   * @param newColNames The vector of new column names.
+   */
+  virtual void setColNames(const std::vector<std::string>& newColNames)
+  {
+    m_colNames = newColNames;
+  }
 
 private:
   /**
    * @brief Description of the DynamicTable.
    */
-  std::string description;
+  std::string m_description;
 
   /**
    * @brief Names of the columns in the table.
    */
-  std::vector<std::string> colNames;
+  std::vector<std::string> m_colNames;
 };
 }  // namespace AQNWB::NWB

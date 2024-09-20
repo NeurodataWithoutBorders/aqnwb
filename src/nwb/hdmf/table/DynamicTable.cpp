@@ -9,7 +9,7 @@ DynamicTable::DynamicTable(const std::string& path,
                            std::shared_ptr<BaseIO> io,
                            const std::string& description)
     : Container(path, io)
-    , description(description)
+    , m_description(description)
 {
 }
 
@@ -70,16 +70,4 @@ void DynamicTable::addColumn(const std::string& name,
     m_io->createCommonNWBAttributes(
         m_path + name, "hdmf-common", "VectorData", colDescription);
   }
-}
-
-// Getter for description
-std::string DynamicTable::getDescription() const
-{
-  return description;
-}
-
-// Getter for colNames
-const std::vector<std::string>& DynamicTable::getColNames()
-{
-  return colNames;
 }

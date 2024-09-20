@@ -65,22 +65,3 @@ void ElectrodeTable::finalize()
             "a reference to the ElectrodeGroup this electrode is a part of",
             groupReferences);
 }
-
-// Getter for colNames
-const std::vector<std::string>& ElectrodeTable::getColNames()
-{
-  return colNames;
-}
-
-// Setter for colNames
-void ElectrodeTable::setColNames(const std::vector<std::string>& newColNames)
-{
-  colNames = newColNames;
-}
-
-// Getter for groupPath
-std::string ElectrodeTable::getGroupPath() const
-{
-  return groupReferences[0];  // all channels in ChannelVector should have the
-                              // same groupName
-}
