@@ -24,9 +24,10 @@ void ElectrodeGroup::initialize()
 {
   Container::initialize();
 
-  io->createCommonNWBAttributes(path, "core", "ElectrodeGroup", description);
-  io->createAttribute(location, path, "location");
-  io->createLink("/" + path + "/device", "/" + device.getPath());
+  m_io->createCommonNWBAttributes(
+      m_path, "core", "ElectrodeGroup", description);
+  m_io->createAttribute(location, m_path, "location");
+  m_io->createLink("/" + m_path + "/device", "/" + device.getPath());
 }
 
 // Getter for description

@@ -33,11 +33,6 @@ class HDF5IO : public BaseIO
 {
 public:
   /**
-   * @brief Default constructor for the HDF5IO class.
-   */
-  HDF5IO();
-
-  /**
    * @brief Constructor for the HDF5IO class that takes a file name as input.
    * @param fileName The name of the HDF5 file.
    * @param disableSWMRMode Disable recording of data in Single Writer
@@ -52,12 +47,6 @@ public:
    * @brief Destructor for the HDF5IO class.
    */
   ~HDF5IO();
-
-  /**
-   * @brief Returns the full path to the HDF5 file.
-   * @return The full path to the HDF5 file.
-   */
-  std::string getFileName() override;
 
   /**
    * @brief Opens an existing file or creates a new file for writing.
@@ -264,8 +253,6 @@ public:
   static H5::DataType getH5Type(BaseDataType type);
 
 protected:
-  std::string filename;
-
   /**
    * @brief Creates a new group if it does not exist.
    * @param path The location in the file of the group.
@@ -274,9 +261,14 @@ protected:
   Status createGroupIfDoesNotExist(const std::string& path) override;
 
 private:
-  std::unique_ptr<H5::H5File> file;
-  bool disableSWMRMode;  // when set do not use SWMR mode when opening the HDF5
-                         // file
+  /**
+   * @brief the HDF5 file
+   */
+  std::unique_ptr<H5::H5File> m_file;
+  /**
+   * @brief When set do not use SWMR mode when opening the HDF5 file
+   */
+  bool m_disableSWMRMode;
 };
 
 /**
@@ -327,17 +319,17 @@ public:
    * @brief Gets a const pointer to the HDF5 dataset.
    * @return A const pointer to the HDF5 dataset.
    */
-  const H5::DataSet* getDataSet();
+  inline const H5::DataSet* getDataSet() const { return m_dataset.get(); }
 
 private:
-  /**
-   * @brief Pointer to an extendable HDF5 dataset
-   */
-  std::unique_ptr<H5::DataSet> dSet;
-
   /**
    * @brief Return status of HDF5 operations.
    */
   Status checkStatus(int status);
+
+  /**
+   * @brief Pointer to an extendable HDF5 dataset
+   */
+  std::unique_ptr<H5::DataSet> m_dataset;
 };
 }  // namespace AQNWB::HDF5

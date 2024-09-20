@@ -15,23 +15,15 @@ using namespace H5;
 using namespace AQNWB::HDF5;
 
 // HDF5IO
-
-HDF5IO::HDF5IO() {}
-
-HDF5IO::HDF5IO(const std::string& fileName, const bool disableSWMRMode)
-    : filename(fileName)
-    , disableSWMRMode(disableSWMRMode)
+HDF5IO::HDF5IO(const std::string& filename, const bool disableSWMRMode)
+    : BaseIO(filename)
+    , m_disableSWMRMode(disableSWMRMode)
 {
 }
 
 HDF5IO::~HDF5IO()
 {
   close();
-}
-
-std::string HDF5IO::getFileName()
-{
-  return filename;
 }
 
 Status HDF5IO::open()
@@ -47,7 +39,7 @@ Status HDF5IO::open(bool newfile)
 {
   int accFlags = 0;
 
-  if (opened)
+  if (m_opened)
     return Status::Failure;
 
   FileAccPropList fapl = FileAccPropList::DEFAULT;
@@ -58,19 +50,19 @@ Status HDF5IO::open(bool newfile)
   else
     accFlags = H5F_ACC_RDWR;
 
-  file = std::make_unique<H5::H5File>(
+  m_file = std::make_unique<H5::H5File>(
       getFileName(), accFlags, FileCreatPropList::DEFAULT, fapl);
-  opened = true;
+  m_opened = true;
 
   return Status::Success;
 }
 
 Status HDF5IO::close()
 {
-  if (this->file != nullptr && opened) {
-    this->file->close();
-    this->file = nullptr;
-    this->opened = false;
+  if (m_file != nullptr && m_opened) {
+    m_file->close();
+    m_file = nullptr;
+    m_opened = false;
   }
 
   return Status::Success;
@@ -86,7 +78,7 @@ Status checkStatus(int status)
 
 Status HDF5IO::flush()
 {
-  int status = H5Fflush(this->file->getId(), H5F_SCOPE_GLOBAL);
+  int status = H5Fflush(m_file->getId(), H5F_SCOPE_GLOBAL);
   return checkStatus(status);
 }
 
@@ -103,18 +95,18 @@ Status HDF5IO::createAttribute(const BaseDataType& type,
   DataType H5type;
   DataType origType;
 
-  if (!opened)
+  if (!m_opened)
     return Status::Failure;
 
   // open the group or dataset
   H5O_type_t objectType = getObjectType(path);
   switch (objectType) {
     case H5O_TYPE_GROUP:
-      gloc = file->openGroup(path);
+      gloc = m_file->openGroup(path);
       loc = &gloc;
       break;
     case H5O_TYPE_DATASET:
-      dloc = file->openDataSet(path);
+      dloc = m_file->openDataSet(path);
       loc = &dloc;
       break;
     default:
@@ -178,7 +170,7 @@ Status HDF5IO::createAttribute(const std::vector<const char*>& data,
   Attribute attr;
   hsize_t dims[1];
 
-  if (!opened)
+  if (!m_opened)
     return Status::Failure;
 
   StrType H5type(PredType::C_S1, maxSize);
@@ -188,11 +180,11 @@ Status HDF5IO::createAttribute(const std::vector<const char*>& data,
   H5O_type_t objectType = getObjectType(path);
   switch (objectType) {
     case H5O_TYPE_GROUP:
-      gloc = file->openGroup(path);
+      gloc = m_file->openGroup(path);
       loc = &gloc;
       break;
     case H5O_TYPE_DATASET:
-      dloc = file->openDataSet(path);
+      dloc = m_file->openDataSet(path);
       loc = &dloc;
       break;
     default:
@@ -235,18 +227,18 @@ Status HDF5IO::createReferenceAttribute(const std::string& referencePath,
   DataSet dloc;
   Attribute attr;
 
-  if (!opened)
+  if (!m_opened)
     return Status::Failure;
 
   // open the group or dataset
   H5O_type_t objectType = getObjectType(path);
   switch (objectType) {
     case H5O_TYPE_GROUP:
-      gloc = file->openGroup(path);
+      gloc = m_file->openGroup(path);
       loc = &gloc;
       break;
     case H5O_TYPE_DATASET:
-      dloc = file->openDataSet(path);
+      dloc = m_file->openDataSet(path);
       loc = &dloc;
       break;
     default:
@@ -263,7 +255,7 @@ Status HDF5IO::createReferenceAttribute(const std::string& referencePath,
 
     hobj_ref_t* rdata = new hobj_ref_t[sizeof(hobj_ref_t)];
 
-    file->reference(rdata, referencePath.c_str());
+    m_file->reference(rdata, referencePath.c_str());
 
     attr.write(H5::PredType::STD_REF_OBJ, rdata);
     delete[] rdata;
@@ -283,10 +275,10 @@ Status HDF5IO::createReferenceAttribute(const std::string& referencePath,
 
 Status HDF5IO::createGroup(const std::string& path)
 {
-  if (!opened)
+  if (!m_opened)
     return Status::Failure;
   try {
-    file->createGroup(path);
+    m_file->createGroup(path);
   } catch (FileIException error) {
     error.printErrorStack();
   } catch (GroupIException error) {
@@ -297,10 +289,10 @@ Status HDF5IO::createGroup(const std::string& path)
 
 Status HDF5IO::createGroupIfDoesNotExist(const std::string& path)
 {
-  if (!opened)
+  if (!m_opened)
     return Status::Failure;
   try {
-    file->childObjType(path);
+    m_file->childObjType(path);
   } catch (FileIException) {
     return createGroup(path);
   }
@@ -310,11 +302,11 @@ Status HDF5IO::createGroupIfDoesNotExist(const std::string& path)
 /** Creates a link to another location in the file */
 Status HDF5IO::createLink(const std::string& path, const std::string& reference)
 {
-  if (!opened)
+  if (!m_opened)
     return Status::Failure;
 
   herr_t error = H5Lcreate_soft(reference.c_str(),
-                                file->getLocId(),
+                                m_file->getLocId(),
                                 path.c_str(),
                                 H5P_DEFAULT,
                                 H5P_DEFAULT);
@@ -325,7 +317,7 @@ Status HDF5IO::createLink(const std::string& path, const std::string& reference)
 Status HDF5IO::createReferenceDataSet(
     const std::string& path, const std::vector<std::string>& references)
 {
-  if (!opened)
+  if (!m_opened)
     return Status::Failure;
 
   const hsize_t size = references.size();
@@ -333,12 +325,12 @@ Status HDF5IO::createReferenceDataSet(
   hobj_ref_t* rdata = new hobj_ref_t[size * sizeof(hobj_ref_t)];
 
   for (SizeType i = 0; i < size; i++) {
-    file->reference(&rdata[i], references[i].c_str());
+    m_file->reference(&rdata[i], references[i].c_str());
   }
 
   hid_t space = H5Screate_simple(1, &size, NULL);
 
-  hid_t dset = H5Dcreate(file->getLocId(),
+  hid_t dset = H5Dcreate(m_file->getLocId(),
                          path.c_str(),
                          H5T_STD_REF_OBJ,
                          space,
@@ -360,15 +352,15 @@ Status HDF5IO::createReferenceDataSet(
 Status HDF5IO::createStringDataSet(const std::string& path,
                                    const std::string& value)
 {
-  if (!opened)
+  if (!m_opened)
     return Status::Failure;
 
   std::unique_ptr<H5::DataSet> dataset;
   DataType H5type = getH5Type(BaseDataType::STR(value.length()));
   DataSpace dSpace(H5S_SCALAR);
 
-  dataset =
-      std::make_unique<H5::DataSet>(file->createDataSet(path, H5type, dSpace));
+  dataset = std::make_unique<H5::DataSet>(
+      m_file->createDataSet(path, H5type, dSpace));
   dataset->write(value.c_str(), H5type);
 
   return Status::Success;
@@ -377,7 +369,7 @@ Status HDF5IO::createStringDataSet(const std::string& path,
 Status HDF5IO::createStringDataSet(const std::string& path,
                                    const std::vector<std::string>& values)
 {
-  if (!opened)
+  if (!m_opened)
     return Status::Failure;
 
   std::vector<const char*> cStrs;
@@ -397,11 +389,11 @@ Status HDF5IO::createStringDataSet(const std::string& path,
 
 Status HDF5IO::startRecording()
 {
-  if (!opened)
+  if (!m_opened)
     return Status::Failure;
 
-  if (!disableSWMRMode) {
-    herr_t status = H5Fstart_swmr_write(this->file->getId());
+  if (!m_disableSWMRMode) {
+    herr_t status = H5Fstart_swmr_write(m_file->getId());
     return checkStatus(status);
   }
   return Status::Success;
@@ -410,7 +402,7 @@ Status HDF5IO::startRecording()
 Status HDF5IO::stopRecording()
 {
   // if SWMR mode is disabled, stopping the recording will leave the file open
-  if (!disableSWMRMode) {
+  if (!m_disableSWMRMode) {
     close();  // SWMR mode cannot be disabled so close the file
   } else {
     this->flush();
@@ -420,13 +412,13 @@ Status HDF5IO::stopRecording()
 
 bool HDF5IO::canModifyObjects()
 {
-  if (!opened)
+  if (!m_opened)
     return false;
 
   // Check if we are in SWMR mode
   bool inSWMRMode = false;
   unsigned int intent;
-  herr_t status = H5Fget_intent(this->file->getId(), &intent);
+  herr_t status = H5Fget_intent(m_file->getId(), &intent);
   bool statusOK = (status >= 0);
   if (statusOK) {
     inSWMRMode = (intent & (H5F_ACC_SWMR_READ | H5F_ACC_SWMR_WRITE));
@@ -439,7 +431,7 @@ bool HDF5IO::canModifyObjects()
 
 bool HDF5IO::objectExists(const std::string& path)
 {
-  htri_t exists = H5Lexists(file->getId(), path.c_str(), H5P_DEFAULT);
+  htri_t exists = H5Lexists(m_file->getId(), path.c_str(), H5P_DEFAULT);
   if (exists > 0) {
     return true;
   } else {
@@ -452,11 +444,11 @@ std::unique_ptr<AQNWB::BaseRecordingData> HDF5IO::getDataSet(
 {
   std::unique_ptr<DataSet> data;
 
-  if (!opened)
+  if (!m_opened)
     return nullptr;
 
   try {
-    data = std::make_unique<H5::DataSet>(file->openDataSet(path));
+    data = std::make_unique<H5::DataSet>(m_file->openDataSet(path));
     return std::make_unique<HDF5RecordingData>(std::move(data));
   } catch (DataSetIException error) {
     error.printErrorStack();
@@ -480,7 +472,7 @@ std::unique_ptr<AQNWB::BaseRecordingData> HDF5IO::createArrayDataSet(
   DSetCreatPropList prop;
   DataType H5type = getH5Type(type);
 
-  if (!opened)
+  if (!m_opened)
     return nullptr;
 
   SizeType dimension = size.size();
@@ -509,7 +501,7 @@ std::unique_ptr<AQNWB::BaseRecordingData> HDF5IO::createArrayDataSet(
   prop.setChunk(static_cast<int>(dimension), chunk_dims.data());
 
   data = std::make_unique<H5::DataSet>(
-      file->createDataSet(path, H5type, dSpace, prop));
+      m_file->createDataSet(path, H5type, dSpace, prop));
 
   return std::make_unique<HDF5RecordingData>(std::move(data));
 }
@@ -520,11 +512,11 @@ H5O_type_t HDF5IO::getObjectType(const std::string& path)
   // get whether path is a dataset or group
   H5O_info_t objInfo;  // Structure to hold information about the object
   H5Oget_info_by_name(
-      this->file->getId(), path.c_str(), &objInfo, H5O_INFO_BASIC, H5P_DEFAULT);
+      m_file->getId(), path.c_str(), &objInfo, H5O_INFO_BASIC, H5P_DEFAULT);
 #else
   // get whether path is a dataset or group
   H5O_info_t objInfo;  // Structure to hold information about the object
-  H5Oget_info_by_name(this->file->getId(), path.c_str(), &objInfo, H5P_DEFAULT);
+  H5Oget_info_by_name(m_file->getId(), path.c_str(), &objInfo, H5P_DEFAULT);
 #endif
   H5O_type_t objectType = objInfo.type;
 
@@ -653,7 +645,7 @@ HDF5RecordingData::HDF5RecordingData(std::unique_ptr<H5::DataSet> data)
   this->nDimensions = nDimensions;
   this->position = std::vector<SizeType>(
       nDimensions, 0);  // Initialize position with 0 for each dimension
-  this->dSet = std::make_unique<H5::DataSet>(*data);
+  m_dataset = std::make_unique<H5::DataSet>(*data);
 }
 
 // HDF5RecordingData
@@ -661,7 +653,7 @@ HDF5RecordingData::HDF5RecordingData(std::unique_ptr<H5::DataSet> data)
 HDF5RecordingData::~HDF5RecordingData()
 {
   // Safety
-  dSet->flush(H5F_SCOPE_GLOBAL);
+  m_dataset->flush(H5F_SCOPE_GLOBAL);
 }
 
 Status HDF5RecordingData::writeDataBlock(
@@ -690,10 +682,10 @@ Status HDF5RecordingData::writeDataBlock(
     }
 
     // Adjust dataset dimensions if necessary
-    dSet->extend(dSetDims.data());
+    m_dataset->extend(dSetDims.data());
 
     // Set size to new size based on updated dimensionality
-    DataSpace fSpace = dSet->getSpace();
+    DataSpace fSpace = m_dataset->getSpace();
     fSpace.getSimpleExtentDims(dSetDims.data());
     for (int i = 0; i < nDimensions; ++i) {
       size[i] = dSetDims[i];
@@ -716,7 +708,7 @@ Status HDF5RecordingData::writeDataBlock(
 
     // Write the data
     DataType nativeType = HDF5IO::getNativeType(type);
-    dSet->write(data, nativeType, mSpace, fSpace);
+    m_dataset->write(data, nativeType, mSpace, fSpace);
 
     // Update position for simple extension
     for (int i = 0; i < dataShape.size(); ++i) {
@@ -731,8 +723,3 @@ Status HDF5RecordingData::writeDataBlock(
   }
   return Status::Success;
 }
-
-const H5::DataSet* HDF5RecordingData::getDataSet()
-{
-  return dSet.get();
-};
