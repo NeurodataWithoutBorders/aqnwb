@@ -72,11 +72,6 @@ public:
 
 private:
   /**
-   * @brief The neurodataType of the SpikeEventSeries.
-   */
-  std::string neurodataType = "SpikeEventSeries";
-
-  /**
    * @brief The number of events already written.
    */
   SizeType eventsRecorded;
