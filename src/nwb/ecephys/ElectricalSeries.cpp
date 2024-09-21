@@ -1,6 +1,7 @@
 
 #include "nwb/ecephys/ElectricalSeries.hpp"
 
+#include "Utils.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
 
 using namespace AQNWB::NWB;
@@ -49,11 +50,12 @@ void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
   m_samplesRecorded = SizeArray(channelVector.size(), 0);
 
   // make channel conversion dataset
-  channelConversion = std::unique_ptr<IO::BaseRecordingData>(
-      m_io->createArrayDataSet(IO::BaseDataType::F32,
-                               SizeArray {1},
-                               chunkSize,
-                               getPath() + "/channel_conversion"));
+  channelConversion =
+      std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet(
+          IO::BaseDataType::F32,
+          SizeArray {1},
+          chunkSize,
+          AQNWB::mergePaths(getPath(), "/channel_conversion")));
   channelConversion->writeDataBlock(
       std::vector<SizeType>(1, channelVector.size()),
       IO::BaseDataType::F32,
@@ -62,7 +64,7 @@ void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
   const signed int axis_value = 1;
   m_io->createAttribute(IO::BaseDataType::I32,
                         &axis_value,
-                        this->getPath() + "/channel_conversion",
+                        AQNWB::mergePaths(getPath(), "channel_conversion"),
                         "axis",
                         1);
 
@@ -71,19 +73,20 @@ void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
       m_io->createArrayDataSet(IO::BaseDataType::I32,
                                SizeArray {1},
                                chunkSize,
-                               getPath() + "/electrodes"));
+                               AQNWB::mergePaths(getPath(), "electrodes")));
 
   electrodesDataset->writeDataBlock(
       std::vector<SizeType>(1, channelVector.size()),
       IO::BaseDataType::I32,
       &electrodeInds[0]);
   m_io->createCommonNWBAttributes(
-      this->getPath() + "/electrodes",
+      AQNWB::mergePaths(getPath(), "electrodes"),
       "hdmf-common",
       "DynamicTableRegion",
       "the electrodes that generated this electrical series");
-  m_io->createReferenceAttribute(
-      ElectrodeTable::electrodeTablePath, getPath() + "/electrodes", "table");
+  m_io->createReferenceAttribute(ElectrodeTable::electrodeTablePath,
+                                 AQNWB::mergePaths(getPath(), "electrodes"),
+                                 "table");
 }
 
 Status ElectricalSeries::writeChannel(SizeType channelInd,
