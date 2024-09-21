@@ -53,6 +53,22 @@
  * we can look up the corresponding class for an object in a file based on the
  * ``neurodata_type`` and ``namespace`` attributes stored in the file.
  *
+ * \note
+ * A special version of the ``REGISTER_SUBCLASS`` macro, called ``REGISTER_SUBCLASS_WITH_TYPENAME``,
+ * allows setting the typename explicitly as a third argument. This is for the **special case**
+ * where we want to implement a class for a modified type that does not have its
+ * own `neurodata_type` in the NWB schema. An example is `ElectrodesTable` in NWB <v2.7, which
+ * did not have an assigned `neurodata_type`, but was implemented as a regular
+ * `DynamicTable`. To allow us to define a class `ElectrodeTable` to help with writing the table
+ * we can then use ``REGISTER_SUBCLASS_WITH_TYPENAME(ElectrodeTable, "core", "DynamicTable")``
+ * in the `ElectrodesTable` class. This ensures that the `neurodata_type` attribute is set
+ * correctly to `DynamicTable` on write instead of `ElectrodesTable`. However, on read this
+ * will by default not use the `ElectrodesTable` class but the regular `DynamicTable` class
+ * since that is what the schema is indicating to use. In the registry, the class will still
+ * be registered under the ``core::ElectrodesTable`` key, but with "DynamicTable" as the
+ * typename value and the `ElectrodesTable.getTypeName` automatic override returning
+ * the indicated typename instead of the classname.
+ *
  *
  * **Example:**
  *

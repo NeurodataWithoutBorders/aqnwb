@@ -184,6 +184,7 @@ protected:
   std::shared_ptr<IO::BaseIO> m_io;
 };
 
+
 /**
  * @brief Macro to register a subclass with the RegisteredType class registry.
  *
@@ -197,8 +198,9 @@ protected:
  * @param T The subclass type to register. The name must match the type in the
  * schema.
  * @param NAMESPACE The namespace of the subclass type in the format schema
+ * @param TYPENAME The name of the type (usually the class name).
  */
-#define REGISTER_SUBCLASS(T, NAMESPACE) \
+#define REGISTER_SUBCLASS_WITH_TYPENAME(T, NAMESPACE, TYPENAME) \
   static bool registerSubclass() \
   { \
     AQNWB::NWB::RegisteredType::registerSubclass( \
@@ -206,19 +208,33 @@ protected:
         [](const std::string& path, std::shared_ptr<IO::BaseIO> io) \
             -> std::unique_ptr<AQNWB::NWB::RegisteredType> \
         { return std::make_unique<T>(path, io); }, \
-        #T, \
+        TYPENAME, \
         NAMESPACE); \
     return true; \
   } \
   static bool registered_; \
   virtual std::string getTypeName() const override \
   { \
-    return #T; \
+    return TYPENAME; \
   } \
   virtual std::string getNamespace() const override \
   { \
     return NAMESPACE; \
   }
+
+/**
+ * @brief Macro to register a subclass with the RegisteredType class registry.
+ *
+ * This macro is a convenience wrapper around the main REGISTER_SUBCLASS macro,
+ * providing a default value for TYPENAME.
+ *
+ * @param T The subclass type to register. The name must match the type in the
+ * schema.
+ * @param NAMESPACE The namespace of the subclass type in the format schema
+ */
+#define REGISTER_SUBCLASS(T, NAMESPACE) REGISTER_SUBCLASS_WITH_TYPENAME(T, NAMESPACE, #T)
+
+
 
 /**
  * @brief Macro to initialize the static member `registered_` to trigger
