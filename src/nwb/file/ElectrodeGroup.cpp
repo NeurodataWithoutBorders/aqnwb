@@ -1,5 +1,7 @@
 #include "nwb/file/ElectrodeGroup.hpp"
 
+#include "Utils.hpp"
+
 using namespace AQNWB::NWB;
 
 // ElectrodeGroup
@@ -25,5 +27,6 @@ void ElectrodeGroup::initialize(const std::string& description,
   m_io->createCommonNWBAttributes(
       m_path, this->getNamespace(), this->getTypeName(), description);
   m_io->createAttribute(location, m_path, "location");
-  m_io->createLink("/" + m_path + "/device", "/" + device.getPath());
+  m_io->createLink(AQNWB::mergePaths("/" + m_path, "device"),
+                   AQNWB::mergePaths("/", device.getPath()));
 }

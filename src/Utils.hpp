@@ -93,7 +93,7 @@ static inline std::string mergePaths(const std::string& path1,
 {
   std::string result = path1;
   // Remove trailing "/" from path1
-  while (!result.empty() && result.back() == '/') {
+  while (!result.empty() && result.back() == '/' && result != "/") {
     result.pop_back();
   }
   // Remove leading "/" from path2
