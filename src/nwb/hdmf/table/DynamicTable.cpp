@@ -1,5 +1,7 @@
 #include "nwb/hdmf/table/DynamicTable.hpp"
 
+#include "Utils.hpp"
+
 using namespace AQNWB::NWB;
 
 // DynamicTable
@@ -42,7 +44,7 @@ void DynamicTable::addColumn(const std::string& name,
           std::vector<SizeType>(1, 1),
           IO::BaseDataType::STR(values[i].size() + 1),
           values[i].c_str());  // TODO - add tests for this
-    m_io->createCommonNWBAttributes(m_path + name,
+    m_io->createCommonNWBAttributes(AQNWB::mergePaths(m_path,  name),
                                     vectorData->getNamespace(),
                                     vectorData->getTypeName(),
                                     colDescription);
@@ -60,7 +62,9 @@ void DynamicTable::setRowIDs(std::unique_ptr<ElementIdentifiers>& elementIDs,
         IO::BaseDataType::I32,
         &values[0]);
     m_io->createCommonNWBAttributes(
-        m_path + "id", elementIDs->getNamespace(), elementIDs->getTypeName());
+        AQNWB::mergePaths(m_path, "id"),
+        elementIDs->getNamespace(),
+        elementIDs->getTypeName());
   }
 }
 
@@ -71,8 +75,14 @@ void DynamicTable::addColumn(const std::string& name,
   if (values.empty()) {
     std::cerr << "Data to add to column is empty" << std::endl;
   } else {
-    m_io->createReferenceDataSet(m_path + name, values);
+    std::string columnPath = AQNWB::mergePaths(m_path, name);
+    m_io->createReferenceDataSet(
+        columnPath,
+        values);
     m_io->createCommonNWBAttributes(
-        m_path + name, "hdmf-common", "VectorData", colDescription);
+        columnPath,
+        "hdmf-common",
+        "VectorData",
+        colDescription);
   }
 }
