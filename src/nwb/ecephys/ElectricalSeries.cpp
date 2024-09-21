@@ -60,10 +60,13 @@ void ElectricalSeries::initialize()
       std::vector<SizeType>(1, channelVector.size()),
       BaseDataType::F32,
       &channelConversions[0]);
-  m_io->createCommonNWBAttributes(getPath() + "/channel_conversion",
-                                  "hdmf-common",
-                                  "",
-                                  "Bit volts values for all channels");
+  // add axis attribute for channel conversion
+  const signed int axis_value = 1;
+  m_io->createAttribute(BaseDataType::I32,
+                        &axis_value,
+                        this->getPath() + "/channel_conversion",
+                        "axis",
+                        1);
 
   // make electrodes dataset
   electrodesDataset = std::unique_ptr<BaseRecordingData>(
