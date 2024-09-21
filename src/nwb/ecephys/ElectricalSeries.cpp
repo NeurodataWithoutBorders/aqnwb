@@ -77,7 +77,10 @@ void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
       IO::BaseDataType::I32,
       &electrodeInds[0]);
   m_io->createCommonNWBAttributes(
-      this->getPath() + "/electrodes", "hdmf-common", "DynamicTableRegion", "");
+      this->getPath() + "/electrodes",
+      "hdmf-common",
+      "DynamicTableRegion",
+      "the electrodes that generated this electrical series");
   m_io->createReferenceAttribute(
       ElectrodeTable::electrodeTablePath, getPath() + "/electrodes", "table");
 }
