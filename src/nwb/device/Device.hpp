@@ -38,17 +38,5 @@ public:
    */
   void initialize(const std::string& description,
                   const std::string& manufacturer);
-
-  /**
-   * @brief Gets the manufacturer of the device.
-   * @return The manufacturer of the device.
-   */
-  std::string getManufacturer() const;
-
-  /**
-   * @brief Gets the description of the device.
-   * @return The description of the device.
-   */
-  std::string getDescription() const;
 };
 }  // namespace AQNWB::NWB
