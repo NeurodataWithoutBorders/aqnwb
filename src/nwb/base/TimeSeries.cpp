@@ -1,5 +1,7 @@
 #include "nwb/base/TimeSeries.hpp"
 
+#include "Utils.hpp"
+
 using namespace AQNWB::NWB;
 
 // TimeSeries
@@ -38,14 +40,16 @@ void TimeSeries::initialize(const IO::BaseDataType& dataType,
 
   // setup datasets
   this->data = std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet(
-      dataType, dsetSize, chunkSize, m_path + "/data"));
+      dataType, dsetSize, chunkSize, AQNWB::mergePaths(m_path, "data")));
   m_io->createDataAttributes(m_path, conversion, resolution, unit);
 
   SizeArray tsDsetSize = {
       dsetSize[0]};  // timestamps match data along first dimension
-  this->timestamps =
-      std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet(
-          this->timestampsType, tsDsetSize, chunkSize, m_path + "/timestamps"));
+  this->timestamps = std::unique_ptr<IO::BaseRecordingData>(
+      m_io->createArrayDataSet(this->timestampsType,
+                               tsDsetSize,
+                               chunkSize,
+                               AQNWB::mergePaths(m_path, "timestamps")));
   m_io->createTimestampsAttributes(m_path);
 }
 
