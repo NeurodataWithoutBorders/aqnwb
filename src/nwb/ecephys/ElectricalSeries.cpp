@@ -46,7 +46,7 @@ void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
     electrodeInds[i] = channelVector[i].getGlobalIndex();
     channelConversions[i] = channelVector[i].getConversion();
   }
-  samplesRecorded = SizeArray(channelVector.size(), 0);
+  m_samplesRecorded = SizeArray(channelVector.size(), 0);
 
   // make channel conversion dataset
   channelConversion = std::unique_ptr<IO::BaseRecordingData>(
@@ -94,11 +94,11 @@ Status ElectricalSeries::writeChannel(SizeType channelInd,
   // get offsets and datashape
   std::vector<SizeType> dataShape = {
       numSamples, 1};  // Note: schema has 1D and 3D but planning to deprecate
-  std::vector<SizeType> positionOffset = {samplesRecorded[channelInd],
+  std::vector<SizeType> positionOffset = {m_samplesRecorded[channelInd],
                                           channelInd};
 
   // track samples recorded per channel
-  samplesRecorded[channelInd] += numSamples;
+  m_samplesRecorded[channelInd] += numSamples;
 
   // write channel data
   if (channelInd == 0) {

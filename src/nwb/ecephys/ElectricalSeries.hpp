@@ -90,6 +90,6 @@ private:
   /**
    * @brief The number of samples already written per channel.
    */
-  SizeArray samplesRecorded;
+  SizeArray m_samplesRecorded;
 };
 }  // namespace AQNWB::NWB
