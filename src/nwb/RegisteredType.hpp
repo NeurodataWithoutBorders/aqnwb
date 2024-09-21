@@ -184,7 +184,6 @@ protected:
   std::shared_ptr<IO::BaseIO> m_io;
 };
 
-
 /**
  * @brief Macro to register a subclass with the RegisteredType class registry.
  *
@@ -232,9 +231,8 @@ protected:
  * schema.
  * @param NAMESPACE The namespace of the subclass type in the format schema
  */
-#define REGISTER_SUBCLASS(T, NAMESPACE) REGISTER_SUBCLASS_WITH_TYPENAME(T, NAMESPACE, #T)
-
-
+#define REGISTER_SUBCLASS(T, NAMESPACE) \
+  REGISTER_SUBCLASS_WITH_TYPENAME(T, NAMESPACE, #T)
 
 /**
  * @brief Macro to initialize the static member `registered_` to trigger
