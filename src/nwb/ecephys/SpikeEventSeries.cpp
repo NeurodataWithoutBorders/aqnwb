@@ -33,7 +33,7 @@ void SpikeEventSeries::initialize(const IO::BaseDataType& dataType,
                                conversion,
                                resolution,
                                offset);
-  this->eventsRecorded = 0;
+  this->m_eventsRecorded = 0;
 }
 
 Status SpikeEventSeries::writeSpike(const SizeType& numSamples,
@@ -46,12 +46,12 @@ Status SpikeEventSeries::writeSpike(const SizeType& numSamples,
   std::vector<SizeType> positionOffset;
   if (numChannels == 1) {
     dataShape = {1, numSamples};
-    positionOffset = {this->eventsRecorded, 0};
+    positionOffset = {this->m_eventsRecorded, 0};
   } else {
     dataShape = {1, numChannels, numSamples};
-    positionOffset = {this->eventsRecorded, 0, 0};
+    positionOffset = {this->m_eventsRecorded, 0, 0};
   }
-  this->eventsRecorded += 1;
+  this->m_eventsRecorded += 1;
 
   // write channel data
   return writeData(dataShape, positionOffset, data, timestamps);
