@@ -16,6 +16,8 @@ OUTPUT_DIRECTORY = "@DOXYGEN_OUTPUT_DIRECTORY@"
 
 # Also show private members in the docs,
 EXTRACT_PRIVATE = YES
+# Also show static members in the docs
+EXTRACT_STATIC      = YES
 # HIDE_UNDOC_MEMBERS = YES
 
 # Enable Markdown support
