@@ -102,7 +102,7 @@
  * cmake --build --preset=dev --target=<name of the target>
  * \endcode
  *
- * \subsubsection  devbuild_target_options_subsubsec Target options
+ * \subsection  devbuild_target_options_subsubsec Target options
  * - `format-check`: run the `clang-format` tool on the codebase to check for formatting errors
  * - `format-fix` :  run the `clang-format` tool on the codebase with `FIX=YES` to both check and automatically fix for formatting errors
  * - `spell-check`: run the `codespell` tool on the codebase to check for common spelling errors
