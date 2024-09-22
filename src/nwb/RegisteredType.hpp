@@ -53,7 +53,13 @@ public:
    * @brief Gets the path of the registered type.
    * @return The path of the registered type.
    */
-  std::string getPath() const;
+  inline std::string getPath() const { return m_path; }
+
+  /**
+   * @brief Get a shared pointer to the IO object.
+   * @return Shared pointer to the IO object.
+   */
+  inline std::shared_ptr<IO::BaseIO> getIO() const { return m_io; }
 
   /**
    * @brief Get the registry of subclass names.
@@ -244,6 +250,33 @@ protected:
  * @param T The subclass type to register.
  */
 #define REGISTER_SUBCLASS_IMPL(T) bool T::registered_ = T::registerSubclass();
+
+/**
+ * @def DEFINE_FIELD
+ * @brief Defines a lazy-loaded field accessor function.
+ *
+ * This macro generates a function that returns a lazy-loaded wrapper for a
+ * field.
+ *
+ * @param name The name of the function to generate.
+ * @param storageObjectType The type of storage object (Attribute or Dataset).
+ * @param default_type The default type of the field.
+ * @param fieldPath The path to the field.
+ */
+#define DEFINE_FIELD(name, storageObjectType, default_type, fieldPath) \
+  /** \
+   * @brief Returns a lazy-loaded wrapper for the ##name field. \
+   * \
+   * @tparam VTYPE The type of the field (default: ##default_type) \
+   * @return A unique pointer to a ReadDataWrapper for the field \
+   */ \
+  template<typename VTYPE = default_type> \
+  inline std::unique_ptr<IO::ReadDataWrapper<storageObjectType, VTYPE>> name() \
+      const \
+  { \
+    return std::make_unique<IO::ReadDataWrapper<storageObjectType, VTYPE>>( \
+        m_io, AQNWB::mergePaths(m_path, fieldPath)); \
+  }
 
 }  // namespace NWB
 }  // namespace AQNWB

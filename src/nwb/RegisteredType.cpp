@@ -13,11 +13,6 @@ RegisteredType::RegisteredType(const std::string& path,
 
 RegisteredType::~RegisteredType() {}
 
-std::string RegisteredType::getPath() const
-{
-  return m_path;
-}
-
 std::unordered_set<std::string>& RegisteredType::getRegistry()
 {
   static std::unordered_set<std::string> registry;
