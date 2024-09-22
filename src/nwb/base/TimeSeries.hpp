@@ -100,5 +100,11 @@ public:
                float,
                "data/resolution",
                Smallest meaningful difference between values in data.)
+
+  DEFINE_FIELD(descriptionLazy,
+               AttributeField,
+               std::string,
+               "description",
+               Description of the series)
 };
 }  // namespace AQNWB::NWB

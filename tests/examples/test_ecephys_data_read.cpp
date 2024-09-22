@@ -196,6 +196,15 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     auto readBoostMulitArray = readDataValues.as_multi_array<2>();
     // [example_read_only_snippet]
 
+    // Test that reading a string attribute works
+    auto esDescr = electricalSeries->descriptionLazy();
+    auto esDescrData = esDescr->values();
+    REQUIRE(esDescrData.data.size() == 1);
+    REQUIRE(esDescrData.shape.size() == 0);
+    REQUIRE(esDescrData.data[0]
+            == std::string("Stores continuously sampled voltage data from an "
+                           "extracellular ephys recording"));
+
     // TODO Slicing doesn't seem to work quite yet. The full data is loaded
     // instead. Let's read the first 10 timesteps for the first two channels
     /*DataBlock<float> dataSlice = readDataWrapper->values<float>(
