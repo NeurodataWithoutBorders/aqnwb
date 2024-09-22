@@ -145,8 +145,8 @@
  * \subsection read_design_wrapper_propos ReadDataWrapper
  *
  * The  \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper" stores a shared pointer
- * \ref AQNWB::IO::ReadDataWrapper::io "io" to the  I/O object and the
- * \ref AQNWB::IO::ReadDataWrapper::dataPath "dataPath" to the dataset.
+ * \ref AQNWB::IO::ReadDataWrapper::m_io "m_io" to the  I/O object and the
+ * \ref AQNWB::IO::ReadDataWrapper::m_path "path" to the dataset.
  *
  * The \ref AQNWB::IO::ReadDataWrapper::valuesGeneric "valuesGeneric" method then allows us
  * to read all or parts of the dataset into memory as ``std::any``. This function uses
@@ -345,7 +345,7 @@
  *
  * \subsection read_design_example_read_posthoc Reading a Registered Type (e.g., a TimeSeries)
  *
- * To read from a ``neurodata_type`` object from and existing file we can use the
+ * To read from a ``neurodata_type`` object from an existing file, we can use the
  * \ref AQNWB::NWB::RegisteredType::create "RegisteredType::create"  factory methods
  * to conveniently construct an instance of the corresponding class in AqNWB.
  *
