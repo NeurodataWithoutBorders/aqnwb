@@ -2,6 +2,7 @@
 
 #include <string>
 
+#include "Utils.hpp"
 #include "io/BaseIO.hpp"
 #include "io/ReadIO.hpp"
 #include "nwb/hdmf/base/Container.hpp"
@@ -91,34 +92,38 @@ public:
    */
   IO::BaseDataType timestampsType = IO::BaseDataType::F64;
 
-  inline std::string dataPath() const
+  /*inline std::string dataPath() const
   {
     return (m_path + std::string("/data"));
-  }
+  }*/
 
-  template<typename VTYPE = std::any>
+  /*template<typename VTYPE = std::any>
   inline std::unique_ptr<
       IO::ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset, VTYPE>>
   dataLazy() const
   {
     return std::make_unique<
         IO::ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset, VTYPE>>(
-        m_io, this->dataPath());
-  }
+        m_io, AQNWB::mergePaths(m_path, "data"));
+  }*/
 
-  inline std::string resolutionPath() const
-  {
-    return (this->dataPath() + std::string("/resolution"));
-  }
-
-  template<typename VTYPE = float>
+  /*template<typename VTYPE = float>
   inline std::unique_ptr<
       IO::ReadDataWrapper<AQNWB::Types::StorageObjectType::Attribute, VTYPE>>
   resolutionLazy() const
   {
     return std::make_unique<
         IO::ReadDataWrapper<AQNWB::Types::StorageObjectType::Attribute, VTYPE>>(
-        m_io, this->resolutionPath());
-  }
+        m_io, AQNWB::mergePaths(m_path, "data/resolution"));
+  }*/
+
+  DEFINE_FIELD(dataLazy,
+               AQNWB::Types::StorageObjectType::Dataset,
+               std::any,
+               "data")
+  DEFINE_FIELD(resolutionLazy,
+               AQNWB::Types::StorageObjectType::Attribute,
+               float,
+               "data/resolution")
 };
 }  // namespace AQNWB::NWB

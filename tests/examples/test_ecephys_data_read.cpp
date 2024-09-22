@@ -165,7 +165,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
 
     // [example_read_getpath_snippet]
     // Reading the ElectricalSeries.data back (during the recording)
-    std::string electricalSeriesDataPath = electricalSeries->dataPath();
+    std::string electricalSeriesDataPath = readDataWrapperGeneric->getPath();
     std::string electricalSeriesPath = electricalSeries->getPath();
     REQUIRE(electricalSeriesDataPath == (electricalSeriesPath + "/data"));
     // [example_read_getpath_snippet]
