@@ -61,12 +61,12 @@ public:
   /**
    * \brief Parameterized constructor
    */
-  DataBlockGeneric(const std::any& data,
-                   const std::vector<SizeType>& shape,
-                   const std::type_index& typeIndex)
-      : data(data)
-      , shape(shape)
-      , typeIndex(typeIndex)
+  DataBlockGeneric(const std::any& inData,
+                   const std::vector<SizeType>& inShape,
+                   const std::type_index& inTypeIndex)
+      : data(inData)
+      , shape(inShape)
+      , typeIndex(inTypeIndex)
   {
   }
 };
@@ -98,9 +98,10 @@ public:
   /**
    * Constructor
    */
-  DataBlock(const std::vector<DTYPE>& data, const std::vector<SizeType>& shape)
-      : data(data)
-      , shape(shape)
+  DataBlock(const std::vector<DTYPE>& inData,
+            const std::vector<SizeType>& inShape)
+      : data(inData)
+      , shape(inShape)
   {
   }
 
