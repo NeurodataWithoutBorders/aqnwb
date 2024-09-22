@@ -254,6 +254,7 @@ TEST_CASE("writeAttributes", "[hdf5io]")
 
     hdf5io.createAttribute(
         BaseDataType::I32, &data, "/data", "array", dataSize);
+    REQUIRE(hdf5io.attributeExists("/data/array"));
   }
 
   // string array
@@ -262,6 +263,7 @@ TEST_CASE("writeAttributes", "[hdf5io]")
     const std::vector<std::string> data = {"col1", "col2", "col3"};
 
     hdf5io.createAttribute(data, "/data", "string_array");
+    REQUIRE(hdf5io.attributeExists("/data/string_array"));
   }
 
   // soft link
@@ -269,6 +271,7 @@ TEST_CASE("writeAttributes", "[hdf5io]")
   {
     std::vector<std::string> data;
     hdf5io.createLink("/data/link", "linked_data");
+    REQUIRE(hdf5io.objectExists("/data/link"));
   }
 
   // reference

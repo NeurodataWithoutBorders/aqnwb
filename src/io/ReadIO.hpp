@@ -285,6 +285,25 @@ public:
   inline std::shared_ptr<IO::BaseIO> getIO() const { return m_io; }
 
   /**
+   * @brief Check that the object exists
+   * @return Bool indicating whether the object exists in the file
+   */
+  inline bool exists() const
+  {
+    switch (OTYPE) {
+      case StorageObjectType::Dataset: {
+        return m_io->objectExists(m_path);
+      }
+      case StorageObjectType::Attribute: {
+        return m_io->attributeExists(m_path);
+      }
+      default: {
+        throw std::runtime_error("Unsupported StorageObjectType");
+      }
+    }
+  }
+
+  /**
    * @brief Reads a dataset and determines the data type.
    *
    * This functions calls the overloaded valuesGeneric({}, {}, {}, {}) variant

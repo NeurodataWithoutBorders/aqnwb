@@ -757,6 +757,12 @@ bool HDF5IO::objectExists(const std::string& path)
   }
 }
 
+bool HDF5IO::attributeExists(const std::string& path)
+{
+  auto attributePtr = this->getAttribute(path);
+  return (attributePtr != nullptr);
+}
+
 std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::getDataSet(
     const std::string& path)
 {

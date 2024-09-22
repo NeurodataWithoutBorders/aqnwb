@@ -284,6 +284,16 @@ public:
   bool objectExists(const std::string& path) override;
 
   /**
+   * @brief Checks whether an Attribute exists at the
+   * location in the file.
+   * @param path The location of the attribute in the file. I.e.,
+   *             this is a combination of that parent object's
+   *             path and the name of the attribute.
+   * @return Whether the attribute exists.
+   */
+  bool attributeExists(const std::string& path) override;
+
+  /**
    * @brief Returns the HDF5 type of object at a given path.
    * @param path The location in the file of the object.
    * @return The type of object at the given path.

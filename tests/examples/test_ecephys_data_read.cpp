@@ -90,6 +90,10 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     auto readDataWrapper = electricalSeries->dataLazy<float>();
     // [example_read_get_data_wrapper_snippet]
 
+    // [example_read_check_data_exists_snippet]
+    REQUIRE(readDataWrapper->exists());
+    // [example_read_check_data_exists_snippet]
+
     // [example_read_get_datablock_snippet]
     // Read the full  ElectricalSeries.data back
     DataBlock<float> dataValues = readDataWrapper->values();

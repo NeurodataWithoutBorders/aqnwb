@@ -352,6 +352,16 @@ public:
   virtual bool objectExists(const std::string& path) = 0;
 
   /**
+   * @brief Checks whether an Attribute exists at the
+   * location in the file.
+   * @param path The location of the attribute in the file. I.e.,
+   *             this is a combination of that parent object's
+   *             path and the name of the attribute.
+   * @return Whether the attribute exists.
+   */
+  virtual bool attributeExists(const std::string& path) = 0;
+
+  /**
    * @brief Convenience function for creating NWB related attributes.
    * @param path The location of the object in the file.
    * @param objectNamespace The namespace of the object.

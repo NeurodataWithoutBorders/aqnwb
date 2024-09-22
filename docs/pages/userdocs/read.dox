@@ -237,7 +237,7 @@
  *
  * \subsection read_design_example_read_during Reading Datasets and Attributes
  *
- * \subsubsection read_design_example_laxy_read Lazy data access
+ * \subsubsection read_design_example_lazy_read Lazy data access
  *
  * All data read is implemented lazily, i.e., AqNWB does not load data into memory
  * until we make a request to do so. To access data lazily, datasets and attributes are
@@ -248,6 +248,14 @@
  * access the ``data`` dataset of the \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries".
  *
  * \snippet tests/examples/test_ecephys_data_read.cpp example_read_get_data_wrapper_snippet
+ *
+ * \subsubsection read_design_example_check_exists Check that the object exists
+ *
+ * In particular for fields that are optional, it is useful to first check that the field
+ * actually exists using the \ref AQNWB::IO::ReadDataWrapper::exists "exists" method of
+ * our \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper".
+ *
+ * \snippet tests/examples/test_ecephys_data_read.cpp example_read_check_data_exists_snippet
  *
  * \subsubsection read_design_example_load_data Read data into memory
  *
