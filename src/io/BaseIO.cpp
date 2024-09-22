@@ -79,6 +79,85 @@ Status BaseIO::createTimestampsAttributes(const std::string& path)
   return Status::Success;
 }
 
+std::unordered_map<std::string, std::string> BaseIO::findTypes(
+    const std::string& starting_path,
+    const std::unordered_set<std::string>& types,
+    SearchMode search_mode) const
+{
+  std::unordered_map<std::string, std::string> found_types;
+
+  //
+  // Helper function to recursively search for types.
+  //
+  // This function checks each object's attributes to determine its type and
+  // matches it against the given types. If a match is found, it adds the
+  // object's path and type to the found_types map.
+  //
+  // Declared as an internal function to encapsulate the recursive search logic,
+  // avoid recursive function call overhead, and reduce the risk of stack
+  // overflow.
+  //
+  // current_path The current path being searched.
+  //
+  std::function<void(const std::string&)> searchTypes =
+      [&](const std::string& current_path)
+  {
+    // Check if the current object exists as a dataset or group
+    if (objectExists(current_path)) {
+      std::cout << "Current Path: " << current_path << std::endl;
+      // Check if we have a typed object
+      if (attributeExists(current_path + "/neurodata_type")
+          && attributeExists(current_path + "/namespace"))
+      {
+        // Read the namespace and neurodata_type attributes
+        try {
+          auto namespace_attr = DataBlock<std::string>::fromGeneric(
+              readAttribute(current_path + "/namespace"));
+          auto neurodata_type_attr = DataBlock<std::string>::fromGeneric(
+              readAttribute(current_path + "/neurodata_type"));
+          // Combine the namespace and neurodata_type attributes
+          std::string full_type =
+              namespace_attr.data[0] + "::" + neurodata_type_attr.data[0];
+
+          std::cout << "Full name: " << full_type << std::endl;
+
+          // Check if the full type matches any of the given types
+          if (types.find(full_type) != types.end()) {
+            found_types[current_path] = full_type;
+          }
+
+          // If search_mode is CONTINUE_ON_TYPE, continue searching inside this
+          // object
+          if (search_mode == SearchMode::CONTINUE_ON_TYPE) {
+            // Get the list of objects inside the current group
+            std::vector<std::string> objects = getGroupObjects(current_path);
+            for (const auto& obj : objects) {
+              searchTypes(AQNWB::mergePaths(current_path, obj));
+            }
+          }
+        } catch (...) {
+          // Handle any exceptions that occur while reading the attributes
+          return;
+        }
+      }
+      // If the object is not a neurodata type then try to continue the search
+      else
+      {
+        // Get the list of objects inside the current group
+        std::vector<std::string> objects = getGroupObjects(current_path);
+        for (const auto& obj : objects) {
+          searchTypes(AQNWB::mergePaths(current_path, obj));
+        }
+      }
+    }
+  };
+
+  // Start the recursive search from the starting path
+  searchTypes(starting_path);
+
+  return found_types;
+}
+
 // BaseRecordingData
 
 BaseRecordingData::BaseRecordingData() {}

@@ -87,7 +87,7 @@ public:
    * @return The StorageObjectType. May be Undefined if the object does not
    * exist.
    */
-  StorageObjectType getStorageObjectType(std::string path) override;
+  StorageObjectType getStorageObjectType(std::string path) const override;
 
   /**
    * @brief Reads a dataset or attribute and determines the data type.
@@ -123,7 +123,7 @@ public:
    * @return A DataGeneric structure containing the data and shape.
    */
   AQNWB::IO::DataBlockGeneric readAttribute(
-      const std::string& dataPath) override;
+      const std::string& dataPath) const override;
 
   /**
    * @brief Creates an attribute at a given location in the file.
@@ -281,7 +281,7 @@ public:
    * @param path The location of the object in the file.
    * @return Whether the object exists.
    */
-  bool objectExists(const std::string& path) override;
+  bool objectExists(const std::string& path) const override;
 
   /**
    * @brief Checks whether an Attribute exists at the
@@ -291,7 +291,7 @@ public:
    *             path and the name of the attribute.
    * @return Whether the attribute exists.
    */
-  bool attributeExists(const std::string& path) override;
+  bool attributeExists(const std::string& path) const override;
 
   /**
    * @brief Gets the list of objects inside a group.
@@ -360,7 +360,7 @@ private:
   std::vector<T> readDataHelper(const HDF5TYPE& dataSource,
                                 size_t numElements,
                                 const H5::DataSpace& memspace,
-                                const H5::DataSpace& dataspace);
+                                const H5::DataSpace& dataspace) const;
 
   /**
    * @brief Reads data from an HDF5 dataset or attribute into a vector of the
@@ -380,7 +380,8 @@ private:
    * @return A vector containing the data.
    */
   template<typename T, typename HDF5TYPE>
-  std::vector<T> readDataHelper(const HDF5TYPE& dataSource, size_t numElements);
+  std::vector<T> readDataHelper(const HDF5TYPE& dataSource,
+                                size_t numElements) const;
 
   /**
    * @brief Reads a variable-length string from an HDF5 dataset or attribute.
@@ -395,10 +396,11 @@ private:
    * @return A vector containing the data.
    */
   template<typename HDF5TYPE>
-  std::vector<std::string> readStringDataHelper(const HDF5TYPE& dataSource,
-                                                size_t numElements,
-                                                const H5::DataSpace& memspace,
-                                                const H5::DataSpace& dataspace);
+  std::vector<std::string> readStringDataHelper(
+      const HDF5TYPE& dataSource,
+      size_t numElements,
+      const H5::DataSpace& memspace,
+      const H5::DataSpace& dataspace) const;
 
   /**
    * @brief Reads a variable-length string from an HDF5 dataset or attribute.
@@ -417,9 +419,9 @@ private:
    */
   template<typename HDF5TYPE>
   std::vector<std::string> readStringDataHelper(const HDF5TYPE& dataSource,
-                                                size_t numElements);
+                                                size_t numElements) const;
 
-  std::unique_ptr<H5::Attribute> getAttribute(const std::string& path);
+  std::unique_ptr<H5::Attribute> getAttribute(const std::string& path) const;
 
   /**
    * @brief Unique pointer to the HDF5 file for reading

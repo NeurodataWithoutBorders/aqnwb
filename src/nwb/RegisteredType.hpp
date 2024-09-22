@@ -173,6 +173,19 @@ public:
    */
   virtual std::string getNamespace() const;
 
+  /**
+   * @brief Get the full name of type, i.e., `namespace::typename`
+   *
+   * This is just a simple convenience function that uses the getNamespace
+   * and getTypeName methods.
+   *
+   * @return The full name of the type consisting of `namespace::typename`
+   */
+  inline std::string getFullName() const
+  {
+    return (getNamespace() + "::" + getTypeName());
+  }
+
 protected:
   /**
    * @brief Register a subclass name and its factory function in the registry.

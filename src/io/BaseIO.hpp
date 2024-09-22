@@ -5,6 +5,8 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 #include <boost/multi_array.hpp>  // TODO move this and function def to the cpp file
@@ -86,6 +88,23 @@ public:
 class DataBlockGeneric;
 
 /**
+ * @enum SearchMode
+ * @brief Enum class for specifying the search mode for findTypes
+ */
+enum class SearchMode
+{
+  /**
+   * @brief Stop searching inside an object once a matching type is found.
+   */
+  STOP_ON_TYPE,
+  /**
+   * @brief Continue searching inside an object even after a matching type is
+   * found.
+   */
+  CONTINUE_ON_TYPE
+};
+
+/**
  * @brief The BaseIO class is an abstract base class that defines the interface
  * for input/output (IO) operations on a file.
  *
@@ -131,7 +150,7 @@ public:
    * @return The StorageObjectType. May be Undefined if the object does not
    * exist.
    */
-  virtual StorageObjectType getStorageObjectType(std::string path) = 0;
+  virtual StorageObjectType getStorageObjectType(std::string path) const = 0;
 
   /**
    * @brief Opens the file for writing.
@@ -157,6 +176,58 @@ public:
    * @return The status of the flush operation.
    */
   virtual Status flush() = 0;
+
+  /**
+   * @brief Checks whether a Dataset, Group, or Link already exists at the
+   * location in the file.
+   * @param path The location of the object in the file.
+   * @return Whether the object exists.
+   */
+  virtual bool objectExists(const std::string& path) const = 0;
+
+  /**
+   * @brief Checks whether an Attribute exists at the
+   * location in the file.
+   * @param path The location of the attribute in the file. I.e.,
+   *             this is a combination of that parent object's
+   *             path and the name of the attribute.
+   * @return Whether the attribute exists.
+   */
+  virtual bool attributeExists(const std::string& path) const = 0;
+
+  /**
+   * @brief Gets the list of objects inside a group.
+   *
+   * This function returns a vector of relative paths of all objects inside
+   * the specified group. If the input path is not a group (e.g., as dataset
+   * or attribute or invalid object), then an empty list should be
+   * returned.
+   *
+   * @param path The path to the group.
+   *
+   * @return A vector of relative paths of all objects inside the group.
+   */
+  virtual std::vector<std::string> getGroupObjects(
+      const std::string& path) const = 0;
+
+  /**
+   * @brief Finds all datasets and groups of the given types in the HDF5 file.
+   *
+   * This function recursively searches for the given types in the HDF5 file,
+   * starting from the specified path. It checks each object's attributes to
+   * determine its type and matches it against the given types.
+   *
+   * @param starting_path The path in the HDF5 file to start the search from.
+   * @param types The set of types to search for.
+   * @param search_mode The search mode to use.
+   *
+   * @return An unordered map where each key is the path to an object and its
+   * corresponding value is the type of the object.
+   */
+  virtual std::unordered_map<std::string, std::string> findTypes(
+      const std::string& starting_path,
+      const std::unordered_set<std::string>& types,
+      SearchMode search_mode) const;
 
   /**
    * @brief Reads a dataset and determines the data type
@@ -191,7 +262,7 @@ public:
    *
    * @return A DataGeneric structure containing the data and shape.
    */
-  virtual DataBlockGeneric readAttribute(const std::string& dataPath) = 0;
+  virtual DataBlockGeneric readAttribute(const std::string& dataPath) const = 0;
 
   /**
    * @brief Creates an attribute at a given location in the file.
@@ -342,39 +413,6 @@ public:
    */
   virtual std::unique_ptr<BaseRecordingData> getDataSet(
       const std::string& path) = 0;
-
-  /**
-   * @brief Checks whether a Dataset, Group, or Link already exists at the
-   * location in the file.
-   * @param path The location of the object in the file.
-   * @return Whether the object exists.
-   */
-  virtual bool objectExists(const std::string& path) = 0;
-
-  /**
-   * @brief Checks whether an Attribute exists at the
-   * location in the file.
-   * @param path The location of the attribute in the file. I.e.,
-   *             this is a combination of that parent object's
-   *             path and the name of the attribute.
-   * @return Whether the attribute exists.
-   */
-  virtual bool attributeExists(const std::string& path) = 0;
-
-  /**
-   * @brief Gets the list of objects inside a group.
-   *
-   * This function returns a vector of relative paths of all objects inside
-   * the specified group. If the input path is not a group (e.g., as dataset
-   * or attribute or invalid object), then an empty list should be
-   * returned.
-   *
-   * @param path The path to the group.
-   *
-   * @return A vector of relative paths of all objects inside the group.
-   */
-  virtual std::vector<std::string> getGroupObjects(
-      const std::string& path) const = 0;
 
   /**
    * @brief Convenience function for creating NWB related attributes.

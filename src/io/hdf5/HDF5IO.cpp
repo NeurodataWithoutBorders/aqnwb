@@ -83,7 +83,8 @@ Status HDF5IO::flush()
   return checkStatus(status);
 }
 
-std::unique_ptr<H5::Attribute> HDF5IO::getAttribute(const std::string& path)
+std::unique_ptr<H5::Attribute> HDF5IO::getAttribute(
+    const std::string& path) const
 {
   // Split the path to get the parent object and the attribute name
   size_t pos = path.find_last_of('/');
@@ -111,7 +112,7 @@ std::unique_ptr<H5::Attribute> HDF5IO::getAttribute(const std::string& path)
   }
 }
 
-StorageObjectType HDF5IO::getStorageObjectType(std::string path)
+StorageObjectType HDF5IO::getStorageObjectType(std::string path) const
 {
   try {
     H5O_type_t objectType = getH5ObjectType(path);
@@ -142,7 +143,7 @@ template<typename T, typename HDF5TYPE>
 std::vector<T> HDF5IO::readDataHelper(const HDF5TYPE& dataSource,
                                       size_t numElements,
                                       const H5::DataSpace& memspace,
-                                      const H5::DataSpace& dataspace)
+                                      const H5::DataSpace& dataspace) const
 {
   std::vector<T> data(numElements);
   if (const H5::DataSet* dataset =
@@ -164,7 +165,7 @@ std::vector<T> HDF5IO::readDataHelper(const HDF5TYPE& dataSource,
 
 template<typename T, typename HDF5TYPE>
 std::vector<T> HDF5IO::readDataHelper(const HDF5TYPE& dataSource,
-                                      size_t numElements)
+                                      size_t numElements) const
 {
   return this->readDataHelper<T>(
       dataSource, numElements, H5::DataSpace(), H5::DataSpace());
@@ -175,7 +176,7 @@ std::vector<std::string> HDF5IO::readStringDataHelper(
     const HDF5TYPE& dataSource,
     size_t numElements,
     const H5::DataSpace& memspace,
-    const H5::DataSpace& dataspace)
+    const H5::DataSpace& dataspace) const
 {
   std::vector<std::string> data(numElements);
   if (const H5::DataSet* dataset =
@@ -196,20 +197,23 @@ std::vector<std::string> HDF5IO::readStringDataHelper(
 
 template<typename HDF5TYPE>
 std::vector<std::string> HDF5IO::readStringDataHelper(
-    const HDF5TYPE& dataSource, size_t numElements)
+    const HDF5TYPE& dataSource, size_t numElements) const
 {
   return this->readStringDataHelper(
       dataSource, numElements, H5::DataSpace(), H5::DataSpace());
 }
 
-AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(const std::string& dataPath)
+AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(
+    const std::string& dataPath) const
 {
   // Create the return value to fill
   AQNWB::IO::DataBlockGeneric result;
   // Read the attribute
   auto attributePtr = this->getAttribute(dataPath);
   // Make sure dataPath points to an attribute
-  assert(attributePtr != nullptr);
+  if (attributePtr == nullptr) {
+    throw std::invalid_argument("attributePtr is null");
+  }
   H5::Attribute& attribute = *attributePtr;
   H5::DataType dataType = attribute.getDataType();
 
@@ -747,7 +751,7 @@ bool HDF5IO::canModifyObjects()
   return statusOK && !inSWMRMode;
 }
 
-bool HDF5IO::objectExists(const std::string& path)
+bool HDF5IO::objectExists(const std::string& path) const
 {
   htri_t exists = H5Lexists(m_file->getId(), path.c_str(), H5P_DEFAULT);
   if (exists > 0) {
@@ -757,7 +761,7 @@ bool HDF5IO::objectExists(const std::string& path)
   }
 }
 
-bool HDF5IO::attributeExists(const std::string& path)
+bool HDF5IO::attributeExists(const std::string& path) const
 {
   auto attributePtr = this->getAttribute(path);
   return (attributePtr != nullptr);

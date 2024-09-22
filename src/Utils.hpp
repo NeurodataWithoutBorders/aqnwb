@@ -106,6 +106,14 @@ static inline std::string mergePaths(const std::string& path1,
     result += '/';
   }
   result += path2.substr(start);
+
+  // Remove any potential occurrences of "//" and replace with "/"
+  size_t pos = result.find("//");
+  while (pos != std::string::npos) {
+    result.replace(pos, 2, "/");
+    pos = result.find("//", pos);
+  }
+
   return result;
 }
 
