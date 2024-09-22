@@ -6,8 +6,22 @@
 PROJECT_NAME = "@PROJECT_NAME@"
 PROJECT_NUMBER = "@PROJECT_VERSION@"
 
+
+# Expand the DEFINE_FIELD macro to create documentation also for functions created by
+# this macro as part of the RegisterType.hpp logic, which simplifies the creation
+# of functions for lazy read access. Unfortunately, expanding the macro directly
+# from the source code directly for some reason did not work with Doxygen and
+# using "EXPAND_AS_DEFINED = DEFINE_FIELD" also failed. As a workaround we here define
+# a simplified version of the macro as part of the PREDEFINED key to create a
+# simplified expansion of the macro for documentation purpuses
+MACRO_EXPANSION = YES
+PREDEFINED           += "DEFINE_FIELD(name, storageObjectType, default_type, fieldPath, description)=/** description */ template<typename VTYPE = default_type> inline std::unique_ptr<IO::ReadDataWrapper<storageObjectType, VTYPE>> name() const;"
+EXPAND_ONLY_PREDEF   = YES
+
+
 # Add sources
 INPUT = "@PROJECT_SOURCE_DIR@/src" "@PROJECT_SOURCE_DIR@/docs/pages"
+RECURSIVE = YES
 EXAMPLE_PATH = "@PROJECT_SOURCE_DIR@/tests"  "@PROJECT_SOURCE_DIR@/.github/CODE_OF_CONDUCT.md"  "@PROJECT_SOURCE_DIR@/Legal.txt" "@PROJECT_SOURCE_DIR@/LICENSE"
 IMAGE_PATH = "@PROJECT_SOURCE_DIR@/resources/images"
 EXTRACT_ALL = YES
