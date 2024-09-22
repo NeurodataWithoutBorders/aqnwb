@@ -21,7 +21,8 @@
  *    @endcode
  *
  * 2. Define your subclass by inheriting from \ref AQNWB::NWB::RegisteredType "RegisteredType".
- *    Ensure that your subclass implements a constructor with the arguments `(const std::string& path, std::shared_ptr<IO::BaseIO> io)`,
+ *    Ensure that your subclass implements a constructor with the arguments
+ *    `(const std::string& path, std::shared_ptr<IO::BaseIO> io)`,
  *    as the "create" method expects this constructor signature.
  *    @code
  *    class MySubClass : public AQNWB::NWB::RegisteredType {
@@ -33,17 +34,26 @@
  *    };
  *    @endcode
  *
- * 3. Use the `REGISTER_SUBCLASS` macro to register your subclass. This should usually appear in the header (`hpp`) file as part of the class definition.
+ * 3. Use the \ref REGISTER_SUBCLASS macro to register your subclass. This should usually appear in
+ *    the header (`hpp`) file as part of the class definition:
  *    @code
  *    REGISTER_SUBCLASS(MySubClass, "my-namespace")
  *    @endcode
  *
- * 4. In the corresponding source (`cpp`) file, initialize the static member to trigger the registration.
+ * 4. In the corresponding source (`cpp`) file, initialize the static member to trigger the registration
+ *    using the \ref REGISTER_SUBCLASS_IMPL macro:
  *    @code
  *    #include "MySubClass.h"
  *
  *    // Initialize the static member to trigger registration
  *    REGISTER_SUBCLASS_IMPL(MySubClass)
+ *    @endcode
+ *
+ * 5. To define getter methods for lazy read access to datasets and attributes that belong to our type,
+ *    we can use the \ref DEFINE_FIELD  macro. This macro creates a standard method for retrieving a
+ *    \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper" for lazy reading for the field:
+ *    @code
+ *    DEFINE_FIELD(getData, DatasetField, float, "data", The main data)
  *    @endcode
  *
  * \warning
@@ -70,21 +80,20 @@
  * the indicated typename instead of the classname.
  *
  *
- * **Example:**
+ * @subsection implement_registered_type_example Example: Implementing a new type
  *
  * *MySubClass.h*
  * @code
  * #pragma once
  * #include "RegisteredType.h"
  *
- * class MySubClass : public AQNWB::NWB::RegisteredType {
+ * class MySubClass : public AQNWB::NWB::RegisteredType
+ * {
  * public:
  *     MySubClass(const std::string& path, std::shared_ptr<IO::BaseIO> io)
  *         : RegisteredType(path, io) {}
  *
- *     void doSomething() const override {
- *         std::cout << "MySubClass doing something!" << std::endl;
- *     }
+ *     DEFINE_FIELD(getData, DatasetField, float, "data", The main data)
  *
  *     REGISTER_SUBCLASS(MySubClass, "my-namespace")
  * };
@@ -154,7 +163,46 @@
  *      the map of factory functions for creating instances of registered subclasses.
  *      \snippet tests/examples/test_RegisteredType_example.cpp example_RegisterType_get_registered_factories
  *
- * **Full Example**
+ * @subsection use_registered_type_registry_example Example: Using the type registry
  *
  *  \snippet tests/examples/test_RegisteredType_example.cpp example_RegisterType_full
+ *
+ * @section use_the_define_field_macro How to Use the DEFINE_FIELD macro
+ *
+ * The \ref DEFINE_FIELD macro takes the following main inputs:
+ *
+ *  * ``name``: The name of the function to generate.
+ *  * ``storageObjectType`` : One of either \ref AQNWB::NWB::DatasetField "DatasetField" or
+ *    \ref AQNWB::NWB::AttributeField "AttributeField" to define the type of storage object used
+ *    to store the field.
+ *  * ``default_type`` : The default data type to use. If not known, we can use ``std::any``.
+ *	* ``fieldPath`` : Literal string with the relative path to the field within the schema of the
+ *     respective neurodata_type. This is automatically being expanded at runtime to the full path.
+ *  * ``description`` : Description of the field to include in the docstring for the docs
+ *
+ * All of these inputs are required. A typical example will look as follows:
+ *
+ * @code
+ * DEFINE_FIELD(getData, DatasetField, float, "data", The main data)
+ * @endcode
+ *
+ * The compiler will then expand this definition to create a new method
+ * called ``getData`` that will return a  \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper"
+ * for lazy reading for the field. The corresponding expanded function will look something like:
+ *
+ * @code
+ * template<typename VTYPE = float>
+ * inline std::unique_ptr<IO::ReadDataWrapper<DatasetField, VTYPE>> getData() const
+ * {
+ *     return std::make_unique<IO::ReadDataWrapper<DatasetField, VTYPE>>(
+ *          m_io,
+ *          AQNWB::mergePaths(m_path, fieldPath));
+ * }
+ * @endcode
+ *
+ * See \ref read_page for an example of how to use such methods (e.g.,
+ * \ref AQNWB::NWB::TimeSeries::dataLazy "TimeSeries::dataLazy" )
+ * for reading data fields from a file.
+ *
+ *
  */
