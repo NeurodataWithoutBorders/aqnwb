@@ -227,17 +227,17 @@
  *
  * \subsection read_design_example_create Create a NWB file as usual
  *
- * \paragraph read_design_example_step_1 Setup mock data for write
+ * \subsubsection read_design_example_step_1 Setup mock data for write
  *
  * \snippet tests/examples/test_ecephys_data_read.cpp example_read_mockdata_snippet
  *
- * \paragraph read_design_example_step_1_2 Create the NWBFile and record data
+ * \subsubsection read_design_example_step_1_2 Create the NWBFile and record data
  *
  * \snippet tests/examples/test_ecephys_data_read.cpp example_read_create_file_snippet
  *
  * \subsection read_design_example_read_during Reading Datasets and Attributes
  *
- * \paragraph read_design_example_laxy_read Lazy data access
+ * \subsubsection read_design_example_laxy_read Lazy data access
  *
  * All data read is implemented lazily, i.e., AqNWB does not load data into memory
  * until we make a request to do so. To access data lazily, datasets and attributes are
@@ -249,7 +249,7 @@
  *
  * \snippet tests/examples/test_ecephys_data_read.cpp example_read_get_data_wrapper_snippet
  *
- * \paragraph read_design_example_load_data Read data into memory
+ * \subsubsection read_design_example_load_data Read data into memory
  *
  * To load the data values, we can then use the \ref AQNWB::IO::ReadDataWrapper::valuesGeneric "valuesGeneric"
  * and \ref AQNWB::IO::ReadDataWrapper::values "values" methods, which load the data as generic (untyped) or typed
@@ -262,7 +262,7 @@
  *
  * \snippet tests/examples/test_ecephys_data_read.cpp example_read_validate_datablock_snippet
  *
- * \paragraph read_design_example_boostarray Accessing multi-dimensional data as Boost multi-array
+ * \subsubsection read_design_example_boostarray Accessing multi-dimensional data as Boost multi-array
  *
  * To ease interaction with mutli-dimensional data, e.g., the ``(time x channel)`` data of our
  * \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries", we can use the
@@ -276,7 +276,7 @@
  *
  * \snippet tests/examples/test_ecephys_data_read.cpp example_read_validate_boostarray_snippet
  *
- * \paragraph read_design_example_attribute Reading an attribute
+ * \subsubsection read_design_example_attribute Reading an attribute
  *
  * Reading an ``Attribute`` from a file works much in the same way as reading a ``Dataset``.
  * The main differences are when we read an attribute:
@@ -302,7 +302,7 @@
  * infer the return type of the ``values()`` function at compile time via
  * ``decltype(readResolutionWrapper->values()) resolutionValueFloat = readResolutionWrapper->values();``
  *
- * \paragraph read_design_example_readgeneric Reading data with unknown type
+ * \subsubsection read_design_example_readgeneric Reading data with unknown type
  *
  * So far we read data by specifying the ``VTYPE`` template parameter of the read wrapper.
  * However, if we do not know (or want to) specify the ``VTYPE`` then we can set it to ``std::any``,
