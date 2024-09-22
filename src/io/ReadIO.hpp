@@ -220,12 +220,11 @@ public:
    * @brief Default constructor.
    *
    * @param io The IO object to use for reading
-   * @param dataPath The path to the attribute or dataset to read
+   * @param path The path to the attribute or dataset to read
    */
-  ReadDataWrapper(const std::shared_ptr<IO::BaseIO> io,
-                  const std::string& dataPath)
-      : io(io)
-      , dataPath(dataPath)
+  ReadDataWrapper(const std::shared_ptr<IO::BaseIO> io, const std::string& path)
+      : m_io(io)
+      , m_path(path)
   {
   }
 
@@ -261,10 +260,10 @@ public:
   {
     switch (OTYPE) {
       case StorageObjectType::Dataset: {
-        return this->io->readDataset(this->dataPath);
+        return m_io->readDataset(m_path);
       }
       case StorageObjectType::Attribute: {
-        return this->io->readAttribute(this->dataPath);
+        return m_io->readAttribute(m_path);
       }
       default: {
         throw std::runtime_error("Unsupported StorageObjectType");
@@ -296,7 +295,7 @@ public:
   {
     // The function is only enabled for datasets so we don't need to check
     // for attributes here.
-    return this->io->readDataset(this->dataPath, start, count, stride, block);
+    return m_io->readDataset(m_path, start, count, stride, block);
   }
 
   /**
@@ -360,11 +359,11 @@ protected:
   /**
    * @brief Pointer to the I/O object to use for reading.
    */
-  const std::shared_ptr<IO::BaseIO> io;  // BaseIO* io;
+  const std::shared_ptr<IO::BaseIO> m_io;
   /**
    * @brief Path to the dataset or attribute to read
    */
-  std::string dataPath;
-};
+  std::string m_path;
+};  // ReadDataWrapper
 
 }  // namespace AQNWB::IO
