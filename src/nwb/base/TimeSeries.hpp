@@ -92,38 +92,13 @@ public:
    */
   IO::BaseDataType timestampsType = IO::BaseDataType::F64;
 
-  /*inline std::string dataPath() const
-  {
-    return (m_path + std::string("/data"));
-  }*/
+  // Define the data fields to expose for lazy read access
+  DEFINE_FIELD(dataLazy, DatasetField, std::any, "data", The main data)
 
-  /*template<typename VTYPE = std::any>
-  inline std::unique_ptr<
-      IO::ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset, VTYPE>>
-  dataLazy() const
-  {
-    return std::make_unique<
-        IO::ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset, VTYPE>>(
-        m_io, AQNWB::mergePaths(m_path, "data"));
-  }*/
-
-  /*template<typename VTYPE = float>
-  inline std::unique_ptr<
-      IO::ReadDataWrapper<AQNWB::Types::StorageObjectType::Attribute, VTYPE>>
-  resolutionLazy() const
-  {
-    return std::make_unique<
-        IO::ReadDataWrapper<AQNWB::Types::StorageObjectType::Attribute, VTYPE>>(
-        m_io, AQNWB::mergePaths(m_path, "data/resolution"));
-  }*/
-
-  DEFINE_FIELD(dataLazy,
-               AQNWB::Types::StorageObjectType::Dataset,
-               std::any,
-               "data")
   DEFINE_FIELD(resolutionLazy,
-               AQNWB::Types::StorageObjectType::Attribute,
+               AttributeField,
                float,
-               "data/resolution")
+               "data/resolution",
+               Smallest meaningful difference between values in data.)
 };
 }  // namespace AQNWB::NWB
