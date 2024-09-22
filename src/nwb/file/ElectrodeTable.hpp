@@ -83,7 +83,7 @@ public:
    * @brief The path to the ElectrodeTable.
    */
   inline const static std::string electrodeTablePath =
-      "/general/extracellular_ephys/electrodes/";
+      "/general/extracellular_ephys/electrodes";
 
 private:
   /**
@@ -114,6 +114,6 @@ private:
   /**
    * @brief The references path to the ElectrodeGroup
    */
-  std::string groupPathBase = "/general/extracellular_ephys/";
+  std::string groupPathBase = "/general/extracellular_ephys";
 };
 }  // namespace AQNWB::NWB
