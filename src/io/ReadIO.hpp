@@ -41,6 +41,7 @@ public:
    *        Set to empty in case of scalar data.
    */
   std::vector<SizeType> shape;
+
   /**
    * \brief Type index of the values stored in the data vector.
    *
@@ -50,6 +51,14 @@ public:
    * unknown. However, the data type should usually be determined by the
    * I/O backend when loading data so this should usually be set to the
    * correct type.
+   *
+   * \note
+   * Using  ``std::type_index`` allows inspection of types at runtime, e.g.,
+   * ``if(typeIndex == typeid(float))``, however, the std::type_index returned
+   * by typeid is not guaranteed to be unique across different compilations
+   * or executions of the program, so the typeIndex should not be used outside
+   * of the scope of a specific execution, i.e., it should not be used for
+   * serialization, hashing, or comparison across compilations or executions.
    */
   std::type_index typeIndex = typeid(void);
 
@@ -196,9 +205,12 @@ class ReadDataWrapper
   // and methods
 private:
   /**
-   * Embedded Trait to Check the OTYPE Enum Value at compile time to
-   * SFINAE (Substitution Failure Is Not An Error) approach to disable
-   * select functions for attributes, to not support slicing.
+   * \brief Internal embedded Trait to Check the OTYPE Enum Value at compile
+   * time
+   *
+   * This is used to implement a SFINAE (Substitution Failure Is Not An Error)
+   * approach to disable select functions for attributes, to not support
+   * slicing.
    */
   template<StorageObjectType U>
   struct is_dataset
@@ -236,6 +248,16 @@ public:
   inline StorageObjectType getStorageObjectType() const { return OTYPE; }
 
   /**
+   * @brief Function to check at compile-time whether the object is of a
+   * particular VTYPE, e.g., ``if constexpr (wrapper.isType<float>())``
+   */
+  template<typename T>
+  static constexpr bool isType()
+  {
+    return std::is_same_v<VTYPE, T>;
+  }
+
+  /**
    * @brief Deleted copy constructor to prevent construction-copying.
    */
   ReadDataWrapper(const ReadDataWrapper&) = delete;
@@ -249,6 +271,18 @@ public:
    * @brief Destructor.
    */
   virtual ~ReadDataWrapper() {}
+
+  /**
+   * @brief Gets the path of the registered type.
+   * @return The path of the registered type.
+   */
+  inline std::string getPath() const { return m_path; }
+
+  /**
+   * @brief Get a shared pointer to the IO object.
+   * @return Shared pointer to the IO object.
+   */
+  inline std::shared_ptr<IO::BaseIO> getIO() const { return m_io; }
 
   /**
    * @brief Reads a dataset and determines the data type.
@@ -307,7 +341,7 @@ public:
    *
    * @tparam T the value type to use. By default this is set to the VTYPE
    *           of the object but is added here to allow the user to
-   *           request a different type if approbriate, e.g., if the
+   *           request a different type if appropriate, e.g., if the
    *           object uses VTYPE=std::any and the user knows the type
    *           VTYPE=float
    *
