@@ -763,6 +763,19 @@ bool HDF5IO::attributeExists(const std::string& path)
   return (attributePtr != nullptr);
 }
 
+std::vector<std::string> HDF5IO::getGroupObjects(const std::string& path) const
+{
+  std::vector<std::string> objects;
+  if (getH5ObjectType(path) == H5O_TYPE_GROUP) {
+    H5::Group group = m_file->openGroup(path);
+    hsize_t num_objs = group.getNumObjs();
+    for (hsize_t i = 0; i < num_objs; ++i) {
+      objects.push_back(group.getObjnameByIdx(i));
+    }
+  }
+  return objects;
+}
+
 std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::getDataSet(
     const std::string& path)
 {
@@ -830,7 +843,7 @@ std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::createArrayDataSet(
   return std::make_unique<HDF5RecordingData>(std::move(data));
 }
 
-H5O_type_t HDF5IO::getH5ObjectType(const std::string& path)
+H5O_type_t HDF5IO::getH5ObjectType(const std::string& path) const
 {
 #if H5_VERSION_GE(1, 12, 0)
   // get whether path is a dataset or group

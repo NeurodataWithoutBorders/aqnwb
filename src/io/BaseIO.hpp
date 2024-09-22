@@ -362,6 +362,21 @@ public:
   virtual bool attributeExists(const std::string& path) = 0;
 
   /**
+   * @brief Gets the list of objects inside a group.
+   *
+   * This function returns a vector of relative paths of all objects inside
+   * the specified group. If the input path is not a group (e.g., as dataset
+   * or attribute or invalid object), then an empty list should be
+   * returned.
+   *
+   * @param path The path to the group.
+   *
+   * @return A vector of relative paths of all objects inside the group.
+   */
+  virtual std::vector<std::string> getGroupObjects(
+      const std::string& path) const = 0;
+
+  /**
    * @brief Convenience function for creating NWB related attributes.
    * @param path The location of the object in the file.
    * @param objectNamespace The namespace of the object.

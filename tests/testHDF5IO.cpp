@@ -34,6 +34,25 @@ TEST_CASE("writeGroup", "[hdf5io]")
   }
 }
 
+TEST_CASE("searchGroup", "[hdf5io]")
+{
+  // create and open file
+  std::string filename = getTestFilePath("test_group.h5");
+  IO::HDF5::HDF5IO hdf5io(filename);
+  hdf5io.open();
+
+  hdf5io.createGroup("/data");
+  hdf5io.createGroup("/data/test");
+  hdf5io.createArrayDataSet(
+      BaseDataType::I32, SizeArray {0}, SizeArray {1}, "/data/mydata");
+  auto group_content = hdf5io.getGroupObjects("/data");
+  REQUIRE(group_content.size() == 2);
+  auto group_content2 = hdf5io.getGroupObjects("/");
+  REQUIRE(group_content2.size() == 1);
+  REQUIRE(group_content2[0] == "data");
+  hdf5io.close();
+}
+
 TEST_CASE("writeDataset", "[hdf5io]")
 {
   std::vector<int> testData = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};

@@ -294,11 +294,26 @@ public:
   bool attributeExists(const std::string& path) override;
 
   /**
+   * @brief Gets the list of objects inside a group.
+   *
+   * This function returns a vector of relative paths of all objects inside
+   * the specified group. If the input path is not a group (e.g., as dataset
+   * or attribute or invalid object), then an empty list should be
+   * returned.
+   *
+   * @param path The path to the group.
+   *
+   * @return A vector of relative paths of all objects inside the group.
+   */
+  std::vector<std::string> getGroupObjects(
+      const std::string& path) const override;
+
+  /**
    * @brief Returns the HDF5 type of object at a given path.
    * @param path The location in the file of the object.
    * @return The type of object at the given path.
    */
-  H5O_type_t getH5ObjectType(const std::string& path);
+  H5O_type_t getH5ObjectType(const std::string& path) const;
 
   /**
    * @brief Returns the HDF5 native data type for a given base data type.
