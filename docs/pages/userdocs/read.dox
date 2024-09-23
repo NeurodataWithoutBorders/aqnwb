@@ -303,19 +303,19 @@
  * for \ref AQNWB::IO::ReadDataWrapper "ReadAttributeWrapper<OTYPE, VTYPE>" is set to ``float``
  * by default, so we do not need to specify it. If for some reason a file should use
  * ``float64`` instead, then we can still set the ``VTYPE`` accordingly via
- * ``electricalSeries->resolutionLazy<float64>()``.
+ * ``electricalSeries->readDataResolution<float64>()``.
  *
  * \note
  * If we don't want to specify the ``DataBlock<float>``, then we can also
  * infer the return type of the ``values()`` function at compile time via
- * ``decltype(readResolutionWrapper->values()) resolutionValueFloat = readResolutionWrapper->values();``
+ * ``decltype(readDataResolutionWrapper->values()) resolutionValueFloat = readDataResolutionWrapper->values();``
  *
  * \subsubsection read_design_example_readgeneric Reading data with unknown type
  *
  * So far we read data by specifying the ``VTYPE`` template parameter of the read wrapper.
  * However, if we do not know (or want to) specify the ``VTYPE`` then we can set it to ``std::any``,
  * which is the default for data with variable type, e.g.
- * \ref AQNWB::NWB::ElectricalSeries::dataLazy "ElectricalSeries::dataLazy". In this case, we can
+ * \ref AQNWB::NWB::ElectricalSeries::readData "ElectricalSeries::readData". In this case, we can
  * still read the data via the \ref AQNWB::IO::ReadDataWrapper::valuesGeneric "valuesGeneric"
  * to load the data first in untyped form. When loading the data, the I/O backend determines
  * the data type and allocates memory appropriately. The actual data type is then stored

@@ -201,7 +201,7 @@
  * @endcode
  *
  * See \ref read_page for an example of how to use such methods (e.g.,
- * \ref AQNWB::NWB::TimeSeries::dataLazy "TimeSeries::dataLazy" )
+ * \ref AQNWB::NWB::TimeSeries::readData "TimeSeries::readData" )
  * for reading data fields from a file.
  *
  *

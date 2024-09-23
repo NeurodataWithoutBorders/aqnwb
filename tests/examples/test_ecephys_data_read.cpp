@@ -87,7 +87,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // Get a ReadDatasetWrapper<float> for lazy reading of ElectricalSeries.data
     // By specifying the value type as a template parameter allows us to read
     // typed data
-    auto readDataWrapper = electricalSeries->dataLazy<float>();
+    auto readDataWrapper = electricalSeries->readData<float>();
     // [example_read_get_data_wrapper_snippet]
 
     // [example_read_check_data_exists_snippet]
@@ -141,9 +141,9 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // [example_read_attribute_snippet]
     // Get a ReadDataWrapper<ReadObjectType::Attribute, float> to read data
     // lazily
-    auto readResolutionWrapper = electricalSeries->resolutionLazy();
+    auto readDataResolutionWrapper = electricalSeries->readDataResolution();
     // Read the data values
-    DataBlock<float> resolutionValueFloat = readResolutionWrapper->values();
+    DataBlock<float> resolutionValueFloat = readDataResolutionWrapper->values();
     REQUIRE(resolutionValueFloat.shape.empty());  // Scalar
     REQUIRE(resolutionValueFloat.data.size() == 1);
     REQUIRE(int(resolutionValueFloat.data[0]) == -1);
@@ -153,7 +153,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // [example_read_get_data_wrapper_as_generic_snippet]
     // Get a generic ReadDatasetWrapper<std::any> for lazy reading of
     // ElectricalSeries.data
-    auto readDataWrapperGeneric = electricalSeries->dataLazy();
+    auto readDataWrapperGeneric = electricalSeries->readData();
     // Instead of using values() to read typed data, we can read data as generic
     // data first via valuesGeneric
     DataBlockGeneric dataValuesGeneric =
@@ -211,13 +211,13 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
             readRegisteredType);
 
     // Now we can read the data in the same way we did during write
-    auto readElectricalSeriesData = readElectricalSeries->dataLazy();
+    auto readElectricalSeriesData = readElectricalSeries->readData();
     DataBlock<float> readDataValues = readDataWrapper->values<float>();
     auto readBoostMulitArray = readDataValues.as_multi_array<2>();
     // [example_read_only_snippet]
 
     // Test that reading a string attribute works
-    auto esDescr = electricalSeries->descriptionLazy();
+    auto esDescr = electricalSeries->readDescription();
     auto esDescrData = esDescr->values();
     REQUIRE(esDescrData.data.size() == 1);
     REQUIRE(esDescrData.shape.size() == 0);
