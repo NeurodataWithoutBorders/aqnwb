@@ -179,11 +179,31 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // std::shared_ptr<BaseIO> readio = createIO("HDF5", path);
     // readio->open();
 
+    // [example_search_types_snippet]
+    std::unordered_set<std::string> typesToSearch = {"core::ElectricalSeries"};
+    std::unordered_map<std::string, std::string> found_electrical_series =
+        io->findTypes(
+            "/",  // start search at the root of the file
+            typesToSearch,  // search for all ElectricalSeries
+            IO::SearchMode::CONTINUE_ON_TYPE  // search also within types
+        );
+    // [example_search_types_snippet]
+    // [example_search_types_check_snippet]
+    // We should have esdata1 and esdata2
+    REQUIRE(found_electrical_series.size() == 2);
+    std::string esdata_path;
+    // Print the path and type of the found objects
+    for (const auto& pair : found_electrical_series) {
+      std::cout << "Path=" << pair.first << " Full type=" << pair.second
+                << std::endl;
+      esdata_path = pair.first;
+    }
+    // [example_search_types_check_snippet]
+
     // [example_read_only_snippet]
     // Read the ElectricalSeries from the file. This returns a generic
     // std::unique_ptr<AQNWB::NWB::RegisteredType>
-    auto readRegisteredType =
-        NWB::RegisteredType::create(electricalSeriesPath, io);
+    auto readRegisteredType = NWB::RegisteredType::create(esdata_path, io);
     // If we need operations that are specific for the ElectricalSeries,
     // then we can cast the returned pointer via
     auto readElectricalSeries =
