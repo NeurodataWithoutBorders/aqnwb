@@ -26,6 +26,8 @@
  *
  * \section read_design_sec Software Design
  *
+ * \subsection read_design_sec_read_date Reading datasets and attributes
+ *
  * The following figure shows the main classes involved with reading data from a dataset or attribute.
  *
  * @dot
@@ -133,7 +135,7 @@
  *
  * We will discuss these different components in a bit more detail next.
  *
- * \subsection read_design_wrapper_container Container
+ * \subsubsection read_design_wrapper_container Container
  *
  * The \ref AQNWB::NWB::Container "Container" class (e.g., \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries"
  * or  \ref AQNWB::NWB::NWBFile "NWBFile") is responsible for exposing read access to its
@@ -142,7 +144,7 @@
  * \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper<AQNWB::Types::StorageObjectType::Attribute>" objects
  * for lazily reading from the dataset/attribute.
  *
- * \subsection read_design_wrapper_propos ReadDataWrapper
+ * \subsubsection read_design_wrapper_propos ReadDataWrapper
  *
  * The  \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper" stores a shared pointer
  * \ref AQNWB::IO::ReadDataWrapper::m_io "m_io" to the  I/O object and the
@@ -168,7 +170,7 @@
  * For attributes, slicing is disabled at compile time, i.e., attributes are always
  * loaded fully into memory since attributes are intended for small data only.
  *
- * \subsection read_design_data_block DataBlockGeneric and DataBlock
+ * \subsubsection read_design_data_block DataBlockGeneric and DataBlock
  *
  * At first, data values are always represented as a \ref AQNWB::IO::DataBlockGeneric "DataBlockGeneric"
  * object, which stores the \ref AQNWB::IO::DataBlockGeneric::data "data" as ``std::any``
@@ -179,7 +181,7 @@
  * we can let the backend handle memory allocation and typing for us and load data
  * even if we don't know the type yet.
  *
- * \subsubsection read_design_data_block_typed DataBlock with typed data
+ * \paragraph read_design_data_block_typed DataBlock with typed data
  *
  * To cast the data to the appropriate specific type (e.g., ``float``) we can then create a
  * \ref AQNWB::IO::DataBlock "DataBlock" with the appropriate data type via the
@@ -195,7 +197,7 @@
  * and referencing to transform the data without making additional copies
  * of the data.
  *
- * \subsubsection read_design_data_block_multiarray Using Boost Multi Array for N-Dimensional Data
+ * \paragraph read_design_data_block_multiarray Using Boost Multi Array for N-Dimensional Data
  *
  * To simplify access to multi-dimensional data, we can then represent the data
  * as a ``BOOST::multi_array``. The \ref AQNWB::IO::DataBlock::as_multi_array "DataBlock.as_multi_array"
@@ -211,7 +213,7 @@
  * the number of dimensions ``NDIMS`` at compile time.
  *
  *
- * \subsection read_design_wrapper_io I/O
+ * \subsubsection read_design_wrapper_io I/O
  *
  * The I/O backend is responsible for implementing the actual
  * \ref AQNWB::IO::BaseIO::readDataset "readDataset" and \ref AQNWB::IO::BaseIO::readAttribute "readAttribute"
@@ -221,7 +223,116 @@
  * stores the data as untyped ``std::any``. The user can then cast the
  * data to the appropriate type as discussed in \ref read_design_data_block_typed.
  *
+ * \subsection read_design_sec_read_types Reading typed objects
  *
+ * Objects with an assigned ```neurodata_type`` are represented by corresponding classes in AqNWB.
+ * To read objects with an assigned type, we therefore need to be able to instantiate the corresponding
+ * classes in AqNWB based on the data from a file. The following figure illustrates the main
+ * components of this process.
+ *
+ *
+ * @dot
+ * digraph G {
+ *     node [shape=none];
+ *
+ *     HDF5IO [
+ *         label=<
+ *             <table border="0" cellborder="1" cellspacing="0">
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>HDF5IO</b></td></tr>
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Functions</b></td></tr>
+ *                 <tr><td align="left">+ findTypes(): std::unordered_map&lt;std::string, std::string&gt;</td></tr>
+ *                 <tr><td align="left">+ getGroupObjects(): std::vector&lt;std::string&gt;</td></tr>
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Attributes</b></td></tr>
+ *             </table>
+ *         >,
+ *         pos="0,0!"
+ *     ];
+ *
+ *     NWBFile [
+ *         shape=note,
+ *         label="NWB file (HDF5)",
+ *         pos="1,0!"
+ *     ];
+ *
+ *     Container [
+ *         label=<
+ *             <table border="0" cellborder="1" cellspacing="0">
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Container</b></td></tr>
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Attributes</b></td></tr>
+ *                 <tr><td align="left">+ io: std::shared_ptr&lt;BaseIO&gt;</td></tr>
+ *                 <tr><td align="left">+ path: std::string</td></tr>
+ *             </table>
+ *         >,
+ *         pos="0,2!"
+ *     ];
+ *
+ *     Data [
+ *         label=<
+ *             <table border="0" cellborder="1" cellspacing="0">
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Data</b></td></tr>
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Attributes</b></td></tr>
+ *                 <tr><td align="left">+ io: std::shared_ptr&lt;BaseIO&gt;</td></tr>
+ *                 <tr><td align="left">+ path: std::string</td></tr>
+ *             </table>
+ *         >,
+ *         pos="1,2!"
+ *     ];
+ *
+ *     RegisteredType [
+ *         label=<
+ *             <table border="0" cellborder="1" cellspacing="0">
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>RegisteredType</b></td></tr>
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Functions</b></td></tr>
+ *                 <tr><td align="left">+ getPath(): </td></tr>
+ *                 <tr><td align="left">+ getIO(): </td></tr>
+ *                 <tr><td align="left">+ create(path: std::string, io: std::shared_ptr&lt;BaseIO&gt;)</td></tr>
+ *             </table>
+ *         >,
+ *         pos="0.5,1!"
+ *     ];
+ *
+ *     Container -> RegisteredType [arrowhead=empty, style=dashed];
+ *     Data -> RegisteredType [arrowhead=empty, style=dashed];
+ *     RegisteredType -> Container [label="create"];
+ *     RegisteredType -> Data [label="create"];
+ *     RegisteredType -> HDF5IO [label="read type info"];
+ *     HDF5IO -> NWBFile [label="read data"];
+ * }
+ * @enddot
+ *
+ * The main components involved in reading typed objects from an NWB file via AqNWB are:
+ *
+ * - \ref AQNWB::NWB::RegisteredType "RegisteredType" as the main base class for all classes
+ *   implementing a type, e.g., \ref AQNWB::NWB::Container "Container" \ref AQNWB::NWB::Data "Data"
+ *   and all their subtypes. \ref AQNWB::NWB::RegisteredType "RegisteredType" is responsible for
+ *   managing all type classes and provides the \ref AQNWB::NWB::RegisteredType::create "create"
+ *   factory methods for creating instances of subclasses from a file.
+ * - \ref AQNWB::IO::BaseIO "BaseIO", \ref AQNWB::IO::HDF5::HDF5IO "HDF5IO" responsible for
+ *   reading type attribute and group information and for searching the file for typed objects via
+ *   \ref AQNWB::IO::BaseIO::findTypes "findTypes()", and exposing
+ *
+ * \subsubsection read_design_wrapper_registeredType RegisteredType
+ *
+ * \ref AQNWB::NWB::RegisteredType "RegisteredType" maintains a registry of all classes that
+ * inherit from it and the types they represent. We can retrieve the registry via the static method
+ * \ref AQNWB::NWB::RegisteredType::getFactoryMap "getFactoryMap". Importantly,
+ * \ref AQNWB::NWB::RegisteredType "RegisteredType" provides static \ref AQNWB::NWB::RegisteredType::create "create"
+ * methods that we can use to instantiate any registered subclass just using the ``io`` object
+ * and ``path`` for the object in the file. \ref AQNWB::NWB::RegisteredType "RegisteredType" can read
+ * the type information from the corresponding `namespace` and `neurodata_type` attributes to
+ * determine the full type and in run look up the corresponding class in its registry and create the type.
+ *
+ * \subsubsection read_design_wrapper_subtypes Child classes of RegisteredType (e.g., Container)
+ *
+ * Child classes of \ref AQNWB::NWB::RegisteredType "RegisteredType" (e.g., \ref AQNWB::NWB::Container "Container"
+ * or \ref AQNWB::NWB::Data "Data"), then implement specific ``neurodata_types`` defined in the NWB schema.
+ * The subclasses register with  \ref AQNWB::NWB::RegisteredType "RegisteredType", such that we can
+ * look them up and determine which class represents which ``neurodata_type``.
+ *
+ * \note
+ * For more details about the design of the  \ref AQNWB::NWB::RegisteredType "RegisteredType" class
+ * and the various components involved with creating and managing the type registry, please see
+ * developer docs on \ref registered_type_page .
  *
  * \section read_design_example Example
  *
