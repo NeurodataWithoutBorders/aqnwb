@@ -6,35 +6,31 @@ using namespace AQNWB::NWB;
 
 /** Constructor */
 SpikeEventSeries::SpikeEventSeries(const std::string& path,
-                                   std::shared_ptr<BaseIO> io,
-                                   const BaseDataType& dataType,
-                                   const Types::ChannelVector& channelVector,
-                                   const std::string& description,
-                                   const SizeArray& dsetSize,
-                                   const SizeArray& chunkSize,
-                                   const float& conversion,
-                                   const float& resolution,
-                                   const float& offset)
-    : ElectricalSeries(path,
-                       io,
-                       dataType,
-                       channelVector,
-                       description,
-                       dsetSize,
-                       chunkSize,
-                       conversion,
-                       resolution,
-                       offset)
+                                   std::shared_ptr<IO::BaseIO> io)
+    : ElectricalSeries(path, io)
 {
 }
 
 /** Destructor */
 SpikeEventSeries::~SpikeEventSeries() {}
 
-void SpikeEventSeries::initialize()
+void SpikeEventSeries::initialize(const IO::BaseDataType& dataType,
+                                  const Types::ChannelVector& channelVector,
+                                  const std::string& description,
+                                  const SizeArray& dsetSize,
+                                  const SizeArray& chunkSize,
+                                  const float& conversion,
+                                  const float& resolution,
+                                  const float& offset)
 {
-  ElectricalSeries::initialize();
-
+  ElectricalSeries::initialize(dataType,
+                               channelVector,
+                               description,
+                               dsetSize,
+                               chunkSize,
+                               conversion,
+                               resolution,
+                               offset);
   this->eventsRecorded = 0;
 }
 

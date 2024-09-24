@@ -9,7 +9,7 @@
 
 #include <catch2/catch_test_macros.hpp>
 
-#include "hdf5/HDF5IO.hpp"
+#include "io/hdf5/HDF5IO.hpp"
 #include "nwb/NWBFile.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
 #include "testUtils.hpp"
@@ -25,7 +25,8 @@ TEST_CASE("SWMRmodeExamples", "[hdf5io]")
     // [example_HDF5_with_SWMR_mode]
     // create and open the HDF5 file. SWMR mode is used by default
     std::string path = getTestFilePath("testWithSWMRMode.h5");
-    std::unique_ptr<HDF5::HDF5IO> hdf5io = std::make_unique<HDF5::HDF5IO>(path);
+    std::unique_ptr<IO::HDF5::HDF5IO> hdf5io =
+        std::make_unique<IO::HDF5::HDF5IO>(path);
     hdf5io->open();
 
     // add a dataset
@@ -71,9 +72,9 @@ TEST_CASE("SWMRmodeExamples", "[hdf5io]")
     // [example_HDF5_without_SWMR_mode]
     // create and open the HDF5 file. With SWMR mode explicitly disabled
     std::string path = getTestFilePath("testWithoutSWMRMode.h5");
-    std::unique_ptr<HDF5::HDF5IO> hdf5io =
-        std::make_unique<HDF5::HDF5IO>(path,
-                                       true  // Disable SWMR mode
+    std::unique_ptr<IO::HDF5::HDF5IO> hdf5io =
+        std::make_unique<IO::HDF5::HDF5IO>(path,
+                                           true  // Disable SWMR mode
         );
     hdf5io->open();
 

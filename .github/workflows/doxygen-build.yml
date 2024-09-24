@@ -2,8 +2,8 @@ name: Doxygen build test
 
 on:
   pull_request:
-    branches:
-    - main
+    #branches:
+    #- main
 
 jobs:
   test:
@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: "true"
-      
+
       - name: Install dependencies - macos
         run: brew install hdf5 boost catch2 doxygen graphviz
 

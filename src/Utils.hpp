@@ -1,3 +1,5 @@
+#pragma once
+
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -5,6 +7,7 @@
 #include <ctime>
 #include <iomanip>
 #include <sstream>
+#include <string>
 
 #include <boost/date_time.hpp>
 #include <boost/endian/conversion.hpp>
@@ -12,9 +15,9 @@
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 
-#include "BaseIO.hpp"
 #include "boost/date_time/c_local_time_adjustor.hpp"
-#include "hdf5/HDF5IO.hpp"
+#include "io/BaseIO.hpp"
+#include "io/hdf5/HDF5IO.hpp"
 
 namespace AQNWB
 {
@@ -62,11 +65,11 @@ inline std::string getCurrentTime()
  * @brief Factory method to create an IO object.
  * @return A pointer to a BaseIO object
  */
-inline std::shared_ptr<BaseIO> createIO(const std::string& type,
-                                        const std::string& filename)
+inline std::shared_ptr<IO::BaseIO> createIO(const std::string& type,
+                                            const std::string& filename)
 {
   if (type == "HDF5") {
-    return std::make_shared<HDF5::HDF5IO>(filename);
+    return std::make_shared<AQNWB::IO::HDF5::HDF5IO>(filename);
   } else {
     throw std::invalid_argument("Invalid IO type");
   }
@@ -125,4 +128,5 @@ inline std::unique_ptr<int16_t[]> transformToInt16(SizeType numSamples,
 
   return intData;
 }
+
 }  // namespace AQNWB

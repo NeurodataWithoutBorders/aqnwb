@@ -25,6 +25,17 @@ public:
   };
 
   /**
+   * @brief Types of object used in the NWB schema
+   */
+  enum StorageObjectType
+  {
+    Group = 0,
+    Dataset = 1,
+    Attribute = 2,
+    Undefined = -1
+  };
+
+  /**
    * @brief Alias for the size type used in the project.
    */
   using SizeType = size_t;

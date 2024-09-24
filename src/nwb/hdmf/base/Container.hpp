@@ -3,7 +3,7 @@
 #include <memory>
 #include <string>
 
-#include "BaseIO.hpp"
+#include "io/BaseIO.hpp"
 
 namespace AQNWB::NWB
 {
@@ -19,7 +19,7 @@ public:
    * @param path The path of the container.
    * @param io A shared pointer to the IO object.
    */
-  Container(const std::string& path, std::shared_ptr<BaseIO> io);
+  Container(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
   /**
    * @brief Destructor.
@@ -37,6 +37,15 @@ public:
    */
   inline std::string getPath() const { return m_path; }
 
+  template<typename T>
+  inline static std::unique_ptr<T> create(const std::string& path,
+                                          std::shared_ptr<IO::BaseIO> io)
+  {
+    static_assert(std::is_base_of<Container, T>::value,
+                  "T must be a derived class of Container");
+    return std::unique_ptr<T>(new T(path, io));
+  }
+
 protected:
   /**
    * @brief The path of the container.
@@ -46,6 +55,6 @@ protected:
   /**
    * @brief A shared pointer to the IO object.
    */
-  std::shared_ptr<BaseIO> m_io;
+  std::shared_ptr<IO::BaseIO> m_io;
 };
 }  // namespace AQNWB::NWB

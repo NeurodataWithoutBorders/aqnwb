@@ -19,9 +19,10 @@ include(cmake/variables.cmake)
 
 add_library(
     aqnwb_aqnwb
-    src/BaseIO.cpp
+    src/io/BaseIO.cpp
     src/Channel.cpp
-    src/hdf5/HDF5IO.cpp
+    src/io/hdf5/HDF5IO.cpp
+    src/io/hdf5/HDF5RecordingData.cpp
     src/nwb/NWBFile.cpp
     src/nwb/RecordingContainers.cpp
     src/nwb/base/TimeSeries.cpp

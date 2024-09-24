@@ -1,16 +1,20 @@
 #pragma once
 
+#include <any>
 #include <cstdint>
 #include <iostream>
 #include <memory>
 #include <string>
 #include <vector>
 
+#include <boost/multi_array.hpp>  // TODO move this and function def to the cpp file
+
 #include "Types.hpp"
 
 #define DEFAULT_STR_SIZE 256
 #define DEFAULT_ARRAY_SIZE 1
 
+using StorageObjectType = AQNWB::Types::StorageObjectType;
 using Status = AQNWB::Types::Status;
 using SizeArray = AQNWB::Types::SizeArray;
 using SizeType = AQNWB::Types::SizeType;
@@ -19,7 +23,7 @@ using SizeType = AQNWB::Types::SizeType;
  * \namespace AQNWB
  * \brief The main namespace for AqNWB
  */
-namespace AQNWB
+namespace AQNWB::IO
 {
 
 class BaseRecordingData;
@@ -79,6 +83,8 @@ public:
       SizeType size);  ///< Accessor for string with specified size.
 };
 
+class DataBlockGeneric;
+
 /**
  * @brief The BaseIO class is an abstract base class that defines the interface
  * for input/output (IO) operations on a file.
@@ -118,6 +124,16 @@ public:
   virtual std::string getFileName() const { return m_filename; }
 
   /**
+   * @brief  Get the storage type (Group, Dataset, Attribute) of the object at
+   * path
+   *
+   * @param path The path of the object in the file
+   * @return The StorageObjectType. May be Undefined if the object does not
+   * exist.
+   */
+  virtual StorageObjectType getStorageObjectType(std::string path) = 0;
+
+  /**
    * @brief Opens the file for writing.
    * @return The status of the file opening operation.
    */
@@ -141,6 +157,41 @@ public:
    * @return The status of the flush operation.
    */
   virtual Status flush() = 0;
+
+  /**
+   * @brief Reads a dataset and determines the data type
+   *
+   * We use DataBlockGeneric here, i.e., the subclass must determine the
+   * data type. The user can then convert DataBlockGeneric to the
+   * specific type via DataBlock::fromGeneric.
+   *
+   * @param dataPath The path to the dataset within the file.
+   * @param start The starting indices for the slice (optional).
+   * @param count The number of elements to read for each dimension (optional).
+   * @param stride The stride for each dimension (optional).
+   * @param block The block size for each dimension (optional).
+   *
+   * @return A DataGeneric structure containing the data and shape.
+   */
+  virtual DataBlockGeneric readDataset(
+      const std::string& dataPath,
+      const std::vector<SizeType>& start = {},
+      const std::vector<SizeType>& count = {},
+      const std::vector<SizeType>& stride = {},
+      const std::vector<SizeType>& block = {}) = 0;
+
+  /**
+   * @brief Reads a attribute  and determines the data type
+   *
+   * We use DataBlockGeneric here, i.e., the subclass must determine the
+   * data type. The user can then convert DataBlockGeneric to the
+   * specific type via DataBlock::fromGeneric.
+   *
+   * @param dataPath The path to the attribute within the file.
+   *
+   * @return A DataGeneric structure containing the data and shape.
+   */
+  virtual DataBlockGeneric readAttribute(const std::string& dataPath) = 0;
 
   /**
    * @brief Creates an attribute at a given location in the file.
@@ -441,4 +492,4 @@ protected:
   SizeType nDimensions;
 };
 
-}  // namespace AQNWB
+}  // namespace AQNWB::IO

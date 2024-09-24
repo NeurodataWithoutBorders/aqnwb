@@ -5,50 +5,41 @@ using namespace AQNWB::NWB;
 // TimeSeries
 
 /** Constructor */
-TimeSeries::TimeSeries(const std::string& path,
-                       std::shared_ptr<BaseIO> io,
-                       const BaseDataType& dataType,
-                       const std::string& unit,
-                       const std::string& description,
-                       const std::string& comments,
-                       const SizeArray& dsetSize,
-                       const SizeArray& chunkSize,
-                       const float& conversion,
-                       const float& resolution,
-                       const float& offset)
+TimeSeries::TimeSeries(const std::string& path, std::shared_ptr<IO::BaseIO> io)
     : Container(path, io)
-    , dataType(dataType)
-    , unit(unit)
-    , description(description)
-    , comments(comments)
-    , dsetSize(dsetSize)
-    , chunkSize(chunkSize)
-    , conversion(conversion)
-    , resolution(resolution)
-    , offset(offset)
 {
 }
 
 /** Destructor */
 TimeSeries::~TimeSeries() {}
 
-void TimeSeries::initialize()
+void TimeSeries::initialize(const IO::BaseDataType& dataType,
+                            const std::string& unit,
+                            const std::string& description,
+                            const std::string& comments,
+                            const SizeArray& dsetSize,
+                            const SizeArray& chunkSize,
+                            const float& conversion,
+                            const float& resolution,
+                            const float& offset)
 {
   Container::initialize();
+
+  this->dataType = dataType;
 
   // setup attributes
   m_io->createCommonNWBAttributes(m_path, "core", neurodataType, description);
   m_io->createAttribute(comments, m_path, "comments");
 
   // setup datasets
-  this->data = std::unique_ptr<BaseRecordingData>(m_io->createArrayDataSet(
+  this->data = std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet(
       dataType, dsetSize, chunkSize, m_path + "/data"));
   m_io->createDataAttributes(m_path, conversion, resolution, unit);
 
   SizeArray tsDsetSize = {
       dsetSize[0]};  // timestamps match data along first dimension
   this->timestamps =
-      std::unique_ptr<BaseRecordingData>(m_io->createArrayDataSet(
+      std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet(
           this->timestampsType, tsDsetSize, chunkSize, m_path + "/timestamps"));
   m_io->createTimestampsAttributes(m_path);
 }

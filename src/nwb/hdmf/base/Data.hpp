@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "BaseIO.hpp"
+#include "io/BaseIO.hpp"
 
 namespace AQNWB::NWB
 {
@@ -30,7 +30,7 @@ public:
    *
    * @param dataset The rvalue unique pointer to the BaseRecordingData object
    */
-  inline void setDataset(std::unique_ptr<BaseRecordingData>&& dataset)
+  inline void setDataset(std::unique_ptr<IO::BaseRecordingData>&& dataset)
   {
     m_dataset = std::move(dataset);
   }
@@ -40,6 +40,6 @@ public:
    */
   inline bool isInitialized() { return m_dataset != nullptr; }
 
-  std::unique_ptr<BaseRecordingData> m_dataset;
+  std::unique_ptr<IO::BaseRecordingData> m_dataset;
 };
 }  // namespace AQNWB::NWB

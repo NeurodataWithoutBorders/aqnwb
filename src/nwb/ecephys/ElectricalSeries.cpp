@@ -9,27 +9,8 @@ using namespace AQNWB::NWB;
 
 /** Constructor */
 ElectricalSeries::ElectricalSeries(const std::string& path,
-                                   std::shared_ptr<BaseIO> io,
-                                   const BaseDataType& dataType,
-                                   const Types::ChannelVector& channelVector,
-                                   const std::string& description,
-                                   const SizeArray& dsetSize,
-                                   const SizeArray& chunkSize,
-                                   const float& conversion,
-                                   const float& resolution,
-                                   const float& offset)
-    : TimeSeries(path,
-                 io,
-                 dataType,
-                 "volts",  // default unit for Electrical Series
-                 description,
-                 channelVector[0].getComments(),
-                 dsetSize,
-                 chunkSize,
-                 channelVector[0].getConversion(),
-                 resolution,
-                 offset)
-    , channelVector(channelVector)
+                                   std::shared_ptr<IO::BaseIO> io)
+    : TimeSeries(path, io)
 {
 }
 
@@ -37,9 +18,24 @@ ElectricalSeries::ElectricalSeries(const std::string& path,
 ElectricalSeries::~ElectricalSeries() {}
 
 /** Initialization function*/
-void ElectricalSeries::initialize()
+void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
+                                  const Types::ChannelVector& channelVector,
+                                  const std::string& description,
+                                  const SizeArray& dsetSize,
+                                  const SizeArray& chunkSize,
+                                  const float& conversion,
+                                  const float& resolution,
+                                  const float& offset)
 {
-  TimeSeries::initialize();
+  TimeSeries::initialize(dataType,
+                         "volts",
+                         description,
+                         channelVector[0].getComments(),
+                         dsetSize,
+                         chunkSize,
+                         channelVector[0].getConversion(),
+                         resolution,
+                         offset);
 
   // setup variables based on number of channels
   std::vector<int> electrodeInds(channelVector.size());
@@ -51,14 +47,14 @@ void ElectricalSeries::initialize()
   samplesRecorded = SizeArray(channelVector.size(), 0);
 
   // make channel conversion dataset
-  channelConversion = std::unique_ptr<BaseRecordingData>(
-      m_io->createArrayDataSet(BaseDataType::F32,
+  channelConversion = std::unique_ptr<IO::BaseRecordingData>(
+      m_io->createArrayDataSet(IO::BaseDataType::F32,
                                SizeArray {1},
                                chunkSize,
                                getPath() + "/channel_conversion"));
   channelConversion->writeDataBlock(
       std::vector<SizeType>(1, channelVector.size()),
-      BaseDataType::F32,
+      IO::BaseDataType::F32,
       &channelConversions[0]);
   // add axis attribute for channel conversion
   const signed int axis_value = 1;
@@ -69,14 +65,15 @@ void ElectricalSeries::initialize()
                         1);
 
   // make electrodes dataset
-  electrodesDataset = std::unique_ptr<BaseRecordingData>(
-      m_io->createArrayDataSet(BaseDataType::I32,
+  electrodesDataset = std::unique_ptr<IO::BaseRecordingData>(
+      m_io->createArrayDataSet(IO::BaseDataType::I32,
                                SizeArray {1},
                                chunkSize,
                                getPath() + "/electrodes"));
+
   electrodesDataset->writeDataBlock(
       std::vector<SizeType>(1, channelVector.size()),
-      BaseDataType::I32,
+      IO::BaseDataType::I32,
       &electrodeInds[0]);
   m_io->createCommonNWBAttributes(
       getPath() + "/electrodes", "hdmf-common", "DynamicTableRegion", "");
