@@ -255,7 +255,7 @@
  *
  * \snippet tests/examples/test_ecephys_data_read.cpp example_read_get_datablock_snippet
  *
- * The data is here represented as a \ref AQNWB::IO::DataBlock "DataBlock", which stores the data as 1-dimensionsal
+ * The data is here represented as a \ref AQNWB::IO::DataBlock "DataBlock", which stores the data as 1-dimensional
  * vector along with the shape of the data. E.g, here we validate the data against the original mock data:
  *
  * \snippet tests/examples/test_ecephys_data_read.cpp example_read_validate_datablock_snippet
