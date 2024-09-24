@@ -200,7 +200,7 @@ private:
    * select functions for attributes, to not support slicing.
    */
   template<StorageObjectType U>
-  struct is_dataset
+  struct isDataset
       : std::integral_constant<bool, (U == StorageObjectType::Dataset)>
   {
   };
@@ -287,7 +287,7 @@ public:
    * @return An DataBlockGeneric structure containing the data and shape.
    */
   template<StorageObjectType U = OTYPE,
-           typename std::enable_if<is_dataset<U>::value, int>::type = 0>
+           typename std::enable_if<isDataset<U>::value, int>::type = 0>
   inline DataBlockGeneric valuesGeneric(
       const std::vector<SizeType>& start,
       const std::vector<SizeType>& count = {},
@@ -344,7 +344,7 @@ public:
    */
   template<typename T = VTYPE,
            StorageObjectType U = OTYPE,
-           typename std::enable_if<is_dataset<U>::value, int>::type = 0>
+           typename std::enable_if<isDataset<U>::value, int>::type = 0>
   inline DataBlock<VTYPE> values(const std::vector<SizeType>& start,
                                  const std::vector<SizeType>& count = {},
                                  const std::vector<SizeType>& stride = {},
