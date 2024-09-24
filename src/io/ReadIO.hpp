@@ -167,16 +167,14 @@ struct isAllowedStorageObjectType : std::false_type
 /// Helper struct to check if a StorageObjectType is allowed. Used in static
 /// assert.
 template<>
-struct isAllowedStorageObjectType<StorageObjectType::Dataset>
-    : std::true_type
+struct isAllowedStorageObjectType<StorageObjectType::Dataset> : std::true_type
 {
 };
 
 /// Helper struct to check if a StorageObjectType is allowed. Used in static
 /// assert.
 template<>
-struct isAllowedStorageObjectType<StorageObjectType::Attribute>
-    : std::true_type
+struct isAllowedStorageObjectType<StorageObjectType::Attribute> : std::true_type
 {
 };
 

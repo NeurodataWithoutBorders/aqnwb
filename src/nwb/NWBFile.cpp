@@ -134,16 +134,7 @@ Status NWBFile::createElectricalSeries(
     std::string electricalSeriesPath = acquisitionPath + "/" + recordingName;
 
     // Check if device exists for groupName, create device and electrode group
-    // if not
-    if (!m_io->objectExists(devicePath)) {
-      Device device = Device(devicePath, m_io);
-      device.initialize("description", "unknown");
-
-      ElectrodeGroup elecGroup = ElectrodeGroup(electrodePath, m_io);
-      elecGroup.initialize("description", "unknown", device);
-    }
-
-    // Setup electrical series datasets
+    // if it does not
     if (!m_io->objectExists(devicePath)) {
       Device device = Device(devicePath, m_io);
       device.initialize("description", "unknown");
