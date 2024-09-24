@@ -211,7 +211,7 @@ private:
    *  StorageObjectType::Attribute but not for other types, e.g., Group or
    * Undefined.
    */
-  static_assert(is_allowed_storage_object_type<OTYPE>::value,
+  static_assert(isAllowedStorageObjectType<OTYPE>::value,
                 "StorageObjectType not allowed for ReadDataWrapper");
 
   // Actual definition of the class
