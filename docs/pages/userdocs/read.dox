@@ -234,6 +234,7 @@
  * @dot
  * digraph G {
  *     node [shape=none];
+ *     rankdir=TB;
  *
  *     HDF5IO [
  *         label=<
@@ -244,38 +245,44 @@
  *                 <tr><td align="left">+ getGroupObjects(): std::vector&lt;std::string&gt;</td></tr>
  *                 <tr><td colspan="2" bgcolor="lightgray"><b>Attributes</b></td></tr>
  *             </table>
- *         >,
- *         pos="0,0!"
+ *         >
  *     ];
  *
  *     NWBFile [
  *         shape=note,
- *         label="NWB file (HDF5)",
- *         pos="1,0!"
+ *         label="NWB file (HDF5)"
+ *     ];
+ *
+ *     TimeSeries [
+ *         label=<
+ *             <table border="0" cellborder="1" cellspacing="0">
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>TimeSeries</b></td></tr>
+ *             </table>
+ *         >
+ *     ];
+ *
+ *     VectorData [
+ *         label=<
+ *             <table border="0" cellborder="1" cellspacing="0">
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>VectorData</b></td></tr>
+ *             </table>
+ *         >
  *     ];
  *
  *     Container [
  *         label=<
  *             <table border="0" cellborder="1" cellspacing="0">
  *                 <tr><td colspan="2" bgcolor="lightgray"><b>Container</b></td></tr>
- *                 <tr><td colspan="2" bgcolor="lightgray"><b>Attributes</b></td></tr>
- *                 <tr><td align="left">+ io: std::shared_ptr&lt;BaseIO&gt;</td></tr>
- *                 <tr><td align="left">+ path: std::string</td></tr>
  *             </table>
- *         >,
- *         pos="0,2!"
+ *         >
  *     ];
  *
  *     Data [
  *         label=<
  *             <table border="0" cellborder="1" cellspacing="0">
  *                 <tr><td colspan="2" bgcolor="lightgray"><b>Data</b></td></tr>
- *                 <tr><td colspan="2" bgcolor="lightgray"><b>Attributes</b></td></tr>
- *                 <tr><td align="left">+ io: std::shared_ptr&lt;BaseIO&gt;</td></tr>
- *                 <tr><td align="left">+ path: std::string</td></tr>
  *             </table>
- *         >,
- *         pos="1,2!"
+ *         >
  *     ];
  *
  *     RegisteredType [
@@ -286,11 +293,21 @@
  *                 <tr><td align="left">+ getPath(): </td></tr>
  *                 <tr><td align="left">+ getIO(): </td></tr>
  *                 <tr><td align="left">+ create(path: std::string, io: std::shared_ptr&lt;BaseIO&gt;)</td></tr>
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Attributes</b></td></tr>
+ *                 <tr><td align="left">+ io: std::shared_ptr&lt;BaseIO&gt;</td></tr>
+ *                 <tr><td align="left">+ path: std::string</td></tr>
  *             </table>
- *         >,
- *         pos="0.5,1!"
+ *         >
  *     ];
  *
+ *     { rank=same; VectorData; TimeSeries; }
+ *     { rank=same; Data; Container; }
+ *     { rank=same; RegisteredType; }
+ *     { rank=same; HDF5IO; }
+ *     { rank=same; NWBFile; }
+ *
+ *     TimeSeries -> Container [arrowhead=empty, style=dashed];
+ *     VectorData -> Data [arrowhead=empty, style=dashed];
  *     Container -> RegisteredType [arrowhead=empty, style=dashed];
  *     Data -> RegisteredType [arrowhead=empty, style=dashed];
  *     RegisteredType -> Container [label="create"];
@@ -299,6 +316,7 @@
  *     HDF5IO -> NWBFile [label="read data"];
  * }
  * @enddot
+ *
  *
  * The main components involved in reading typed objects from an NWB file via AqNWB are:
  *
