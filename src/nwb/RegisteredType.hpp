@@ -75,6 +75,11 @@ public:
   /**
    * @brief Get the registry of subclass names.
    *
+   * The registry is a function-local static variable, which means it
+   * is lazily initialized on the first call to this function and
+   * persists for the duration of the program. This implementation
+   * provides thread-safety and avoids the static initialization order fiasco.
+   *
    * @return A reference to an unordered_set containing the names of all
    * registered subclasses.
    */
@@ -82,6 +87,11 @@ public:
 
   /**
    * @brief Get the factory map for creating instances of subclasses.
+   *
+   * The factory map is a function-local static variable, which means it
+   * is lazily initialized on the first call to this function and
+   * persists for the duration of the program. This implementation
+   * provides thread-safety and avoids the static initialization order fiasco.
    *
    * @return A reference to an unordered_map containing factory functions for
    * registered subclasses.

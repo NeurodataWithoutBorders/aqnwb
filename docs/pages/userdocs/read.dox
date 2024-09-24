@@ -332,8 +332,9 @@
  * \subsubsection read_design_wrapper_registeredType RegisteredType
  *
  * \ref AQNWB::NWB::RegisteredType "RegisteredType" maintains a registry of all classes that
- * inherit from it and the types they represent. We can retrieve the registry via the static method
- * \ref AQNWB::NWB::RegisteredType::getFactoryMap "getFactoryMap". Importantly,
+ * inherit from it and the types they represent. We can retrieve the full registry via the static method
+ * \ref AQNWB::NWB::RegisteredType::getFactoryMap "getFactoryMap" and a list of just the
+ * full type names that are in the registry via  \ref AQNWB::NWB::RegisteredType::getRegistry "getRegistry". Importantly,
  * \ref AQNWB::NWB::RegisteredType "RegisteredType" provides static \ref AQNWB::NWB::RegisteredType::create "create"
  * methods that we can use to instantiate any registered subclass just using the ``io`` object
  * and ``path`` for the object in the file. \ref AQNWB::NWB::RegisteredType "RegisteredType" can read
