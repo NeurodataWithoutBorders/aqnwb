@@ -15,6 +15,9 @@ namespace AQNWB::NWB
 class SpikeEventSeries : public ElectricalSeries
 {
 public:
+  // Register the TimeSeries as a subclass of Container
+  REGISTER_SUBCLASS(SpikeEventSeries, "core")
+
   /**
    * @brief Constructor.
    * @param path The location of the SpikeEventSeries in the file.
@@ -72,13 +75,8 @@ public:
 
 private:
   /**
-   * @brief The neurodataType of the SpikeEventSeries.
-   */
-  std::string neurodataType = "SpikeEventSeries";
-
-  /**
    * @brief The number of events already written.
    */
-  SizeType eventsRecorded;
+  SizeType m_eventsRecorded;
 };
 }  // namespace AQNWB::NWB

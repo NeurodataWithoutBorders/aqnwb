@@ -14,6 +14,9 @@ namespace AQNWB::NWB
 class Device : public Container
 {
 public:
+  // Register the Device as a subclass of Container
+  REGISTER_SUBCLASS(Device, "core")
+
   /**
    * @brief Constructor.
    * @param path The location of the device in the file.
@@ -35,17 +38,5 @@ public:
    */
   void initialize(const std::string& description,
                   const std::string& manufacturer);
-
-  /**
-   * @brief Gets the manufacturer of the device.
-   * @return The manufacturer of the device.
-   */
-  std::string getManufacturer() const;
-
-  /**
-   * @brief Gets the description of the device.
-   * @return The description of the device.
-   */
-  std::string getDescription() const;
 };
 }  // namespace AQNWB::NWB

@@ -1,8 +1,12 @@
 #include "nwb/base/TimeSeries.hpp"
 
+#include "Utils.hpp"
+
 using namespace AQNWB::NWB;
 
 // TimeSeries
+// Initialize the static registered_ member to trigger registration
+REGISTER_SUBCLASS_IMPL(TimeSeries)
 
 /** Constructor */
 TimeSeries::TimeSeries(const std::string& path, std::shared_ptr<IO::BaseIO> io)
@@ -28,19 +32,24 @@ void TimeSeries::initialize(const IO::BaseDataType& dataType,
   this->dataType = dataType;
 
   // setup attributes
-  m_io->createCommonNWBAttributes(m_path, "core", neurodataType, description);
+  m_io->createCommonNWBAttributes(m_path,
+                                  this->getNamespace(),  // "core"
+                                  this->getTypeName(),  //  "TimeSeries"
+                                  description);
   m_io->createAttribute(comments, m_path, "comments");
 
   // setup datasets
   this->data = std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet(
-      dataType, dsetSize, chunkSize, m_path + "/data"));
+      dataType, dsetSize, chunkSize, AQNWB::mergePaths(m_path, "data")));
   m_io->createDataAttributes(m_path, conversion, resolution, unit);
 
   SizeArray tsDsetSize = {
       dsetSize[0]};  // timestamps match data along first dimension
-  this->timestamps =
-      std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet(
-          this->timestampsType, tsDsetSize, chunkSize, m_path + "/timestamps"));
+  this->timestamps = std::unique_ptr<IO::BaseRecordingData>(
+      m_io->createArrayDataSet(this->timestampsType,
+                               tsDsetSize,
+                               chunkSize,
+                               AQNWB::mergePaths(m_path, "timestamps")));
   m_io->createTimestampsAttributes(m_path);
 }
 

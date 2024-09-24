@@ -14,6 +14,9 @@ namespace AQNWB::NWB
 class ElectricalSeries : public TimeSeries
 {
 public:
+  // Register the TimeSeries as a subclass of Container
+  REGISTER_SUBCLASS(ElectricalSeries, "core")
+
   /**
    * @brief Constructor.
    * @param path The location of the ElectricalSeries in the file.
@@ -85,13 +88,8 @@ public:
 
 private:
   /**
-   * @brief The neurodataType of the TimeSeries.
-   */
-  std::string neurodataType = "ElectricalSeries";
-
-  /**
    * @brief The number of samples already written per channel.
    */
-  SizeArray samplesRecorded;
+  SizeArray m_samplesRecorded;
 };
 }  // namespace AQNWB::NWB
