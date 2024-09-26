@@ -1,9 +1,10 @@
+#include <chrono>
 #include <iostream>
 #include <memory>
+#include <thread>
 #include <vector>
 
 #include <H5Cpp.h>  // Include HDF5 headers
-#include <unistd.h>  // for sleep
 
 using namespace H5;
 
@@ -26,12 +27,13 @@ int readerFunction(const std::string& path, const std::string& dataPath)
 
       // Update the size
       dsetSizes.push_back(currentSize);
-      sleep(1);  // Simulate real-time data streaming
+      std::this_thread::sleep_for(std::chrono::seconds(1));
+      // Simulate real-time data streaming
     }
 
     // print out dataset sizes
     std::cout << "Dataset sizes: ";
-    for (int val : dsetSizes) {
+    for (hsize_t val : dsetSizes) {
       std::cout << val << " ";
     }
     std::cout << std::endl;
@@ -41,14 +43,14 @@ int readerFunction(const std::string& path, const std::string& dataPath)
     if (dsetSizes[0] >= dsetSizes[2]) {
       return -1;
     }
-  } catch (const FileIException& error) {
+  } catch (const FileIException&) {
     return -1;
   }
 
   return 0;
 }
 
-int main(int argc, char* argv[])
+int main(int /*argc*/, char* argv[])
 {
   std::string path = argv[1];
   std::string dataPath = argv[2];

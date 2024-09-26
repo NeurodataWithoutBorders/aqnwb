@@ -344,7 +344,14 @@ Status HDF5IO::createReferenceDataSet(
   delete[] rdata;
 
   herr_t dsetStatus = H5Dclose(dset);
+  if (checkStatus(dsetStatus) == Status::Failure) {
+    return Status::Failure;
+  }
+
   herr_t spaceStatus = H5Sclose(space);
+  if (checkStatus(spaceStatus) == Status::Failure) {
+    return Status::Failure;
+  }
 
   return checkStatus(writeStatus);
 }
@@ -631,20 +638,19 @@ HDF5RecordingData::HDF5RecordingData(std::unique_ptr<H5::DataSet> data)
   DataSpace dSpace = data->getSpace();
   DSetCreatPropList prop = data->getCreatePlist();
 
-  int nDimensions = dSpace.getSimpleExtentNdims();
-  std::vector<hsize_t> dims(nDimensions), chunk(nDimensions);
+  this->nDimensions = static_cast<SizeType>(dSpace.getSimpleExtentNdims());
+  std::vector<hsize_t> dims(this->nDimensions), chunk(this->nDimensions);
 
-  nDimensions = dSpace.getSimpleExtentDims(
-      dims.data());  // TODO -redefine here or use original?
-  prop.getChunk(static_cast<int>(nDimensions), chunk.data());
+  this->nDimensions =
+      static_cast<SizeType>(dSpace.getSimpleExtentDims(dims.data()));
+  prop.getChunk(static_cast<int>(this->nDimensions), chunk.data());
 
-  this->size = std::vector<SizeType>(nDimensions);
-  for (int i = 0; i < nDimensions; ++i) {
-    this->size[i] = dims[i];
+  this->size = std::vector<SizeType>(this->nDimensions);
+  for (SizeType i = 0; i < this->nDimensions; ++i) {
+    this->size[i] = static_cast<SizeType>(dims[i]);
   }
-  this->nDimensions = nDimensions;
   this->position = std::vector<SizeType>(
-      nDimensions, 0);  // Initialize position with 0 for each dimension
+      this->nDimensions, 0);  // Initialize position with 0 for each dimension
   m_dataset = std::make_unique<H5::DataSet>(*data);
 }
 
@@ -672,7 +678,7 @@ Status HDF5RecordingData::writeDataBlock(
 
     // Ensure that we have enough space to accommodate new data
     std::vector<hsize_t> dSetDims(nDimensions), offset(nDimensions);
-    for (int i = 0; i < nDimensions; ++i) {
+    for (SizeType i = 0; i < nDimensions; ++i) {
       offset[i] = static_cast<hsize_t>(positionOffset[i]);
 
       if (dataShape[i] + offset[i] > size[i])  // TODO - do I need offset here
@@ -687,14 +693,14 @@ Status HDF5RecordingData::writeDataBlock(
     // Set size to new size based on updated dimensionality
     DataSpace fSpace = m_dataset->getSpace();
     fSpace.getSimpleExtentDims(dSetDims.data());
-    for (int i = 0; i < nDimensions; ++i) {
+    for (SizeType i = 0; i < nDimensions; ++i) {
       size[i] = dSetDims[i];
     }
 
     // Create memory space with the shape of the data
     // DataSpace mSpace(dimension, dSetDim.data());
     std::vector<hsize_t> dataDims(nDimensions);
-    for (int i = 0; i < nDimensions; ++i) {
+    for (SizeType i = 0; i < nDimensions; ++i) {
       if (dataShape[i] == 0) {
         dataDims[i] = 1;
       } else {
@@ -711,7 +717,7 @@ Status HDF5RecordingData::writeDataBlock(
     m_dataset->write(data, nativeType, mSpace, fSpace);
 
     // Update position for simple extension
-    for (int i = 0; i < dataShape.size(); ++i) {
+    for (SizeType i = 0; i < dataShape.size(); ++i) {
       position[i] += dataShape[i];
     }
   } catch (DataSetIException error) {

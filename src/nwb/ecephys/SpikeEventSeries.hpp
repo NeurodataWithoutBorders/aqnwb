@@ -61,13 +61,13 @@ public:
    * @brief Write a single spike series event
    * @param numSamples The number of samples in the event
    * @param numChannels The number of channels in the event
-   * @param data The data of the event
-   * @param timestamps The timestamps of the event
+   * @param dataInput The data of the event
+   * @param timestampsInput The timestamps of the event
    */
   Status writeSpike(const SizeType& numSamples,
                     const SizeType& numChannels,
-                    const void* data,
-                    const void* timestamps);
+                    const void* dataInput,
+                    const void* timestampsInput);
 
 private:
   /**
