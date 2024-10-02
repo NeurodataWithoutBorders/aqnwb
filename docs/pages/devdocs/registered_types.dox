@@ -15,7 +15,7 @@
  *
  * To implement a subclass of \ref AQNWB::NWB::RegisteredType "RegisteredType", follow these steps:
  *
- * 1. Include the `RegisteredType.h` header file in your subclass header file.
+ * 1. Include the `RegisteredType.hpp` header file in your subclass header file.
  *    @code
  *    #include "nwb/RegisteredType.hpp"
  *    @endcode
@@ -82,10 +82,10 @@
  *
  * @subsection implement_registered_type_example Example: Implementing a new type
  *
- * *MySubClass.h*
+ * *MySubClass.hpp*
  * @code
  * #pragma once
- * #include "RegisteredType.h"
+ * #include "RegisteredType.hpp"
  *
  * class MySubClass : public AQNWB::NWB::RegisteredType
  * {
@@ -136,8 +136,8 @@
  *
  * 5. **Class Name and Namespace Retrieval**:
  *    - The \ref AQNWB::NWB::RegisteredType::getTypeName "getTypeName" and
- *      \ref AQNWB::NWB::RegisteredType::getNamespace "getNamespace" return the string name the
- *      class and namespace, respectively. The `REGISTER_SUBCLASS` macro implements and automatic
+ *      \ref AQNWB::NWB::RegisteredType::getNamespace "getNamespace" return the string name of the
+ *      class and namespace, respectively. The `REGISTER_SUBCLASS` macro implements an automatic
  *      override of the methods to ensure the appropriate type and namespace string are returned.
  *      These methods should, hence, not be manually overridden by subclasses, to ensure consistency
  *      in type identification.
