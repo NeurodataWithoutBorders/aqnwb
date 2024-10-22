@@ -1,9 +1,10 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_all.hpp>
 
-#include "BaseIO.hpp"
 #include "Types.hpp"
 #include "Utils.hpp"
+#include "io/BaseIO.hpp"
+#include "io/hdf5/HDF5RecordingData.hpp"
 #include "nwb/base/TimeSeries.hpp"
 #include "testUtils.hpp"
 
@@ -27,20 +28,21 @@ TEST_CASE("TimeSeries", "[base]")
     std::string path = getTestFilePath("testTimeseries.h5");
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
-    NWB::TimeSeries ts = NWB::TimeSeries(dataPath, io, dataType, "unit");
-    ts.initialize();
+    NWB::TimeSeries ts = NWB::TimeSeries(dataPath, io);
+    ts.initialize(dataType, "unit");
 
     // Write data to file
     Status writeStatus =
         ts.writeData(dataShape, positionOffset, data.data(), timestamps.data());
     REQUIRE(writeStatus == Status::Success);
+    io->flush();
 
-    // Read data back from file
+    // Read timestamps back from file
     double* tsBuffer = new double[numSamples];
     std::unique_ptr<BaseRecordingData> tsDset =
         io->getDataSet(dataPath + "/timestamps");
-    std::unique_ptr<HDF5::HDF5RecordingData> tsH5Dataset(
-        dynamic_cast<HDF5::HDF5RecordingData*>(tsDset.release()));
+    std::unique_ptr<IO::HDF5::HDF5RecordingData> tsH5Dataset(
+        dynamic_cast<IO::HDF5::HDF5RecordingData*>(tsDset.release()));
     readH5DataBlock(tsH5Dataset->getDataSet(), timestampsType, tsBuffer);
     std::vector<double> tsRead(tsBuffer, tsBuffer + numSamples);
     delete[] tsBuffer;
@@ -50,8 +52,8 @@ TEST_CASE("TimeSeries", "[base]")
     float* dataBuffer = new float[numSamples];
     std::unique_ptr<BaseRecordingData> dataDset =
         io->getDataSet(dataPath + "/data");
-    std::unique_ptr<HDF5::HDF5RecordingData> dataH5Dataset(
-        dynamic_cast<HDF5::HDF5RecordingData*>(dataDset.release()));
+    std::unique_ptr<IO::HDF5::HDF5RecordingData> dataH5Dataset(
+        dynamic_cast<IO::HDF5::HDF5RecordingData*>(dataDset.release()));
     readH5DataBlock(dataH5Dataset->getDataSet(), dataType, dataBuffer);
     std::vector<float> dataRead(dataBuffer, dataBuffer + numSamples);
     delete[] dataBuffer;

@@ -9,9 +9,10 @@
 
 #include "Channel.hpp"
 #include "Types.hpp"
-#include "hdf5/HDF5IO.hpp"
+#include "io/hdf5/HDF5IO.hpp"
 
 using namespace AQNWB;
+using namespace AQNWB::IO;
 namespace fs = std::filesystem;
 
 inline std::string getTestFilePath(std::string filename)
@@ -118,6 +119,6 @@ inline void readH5DataBlock(const H5::DataSet* dSet,
                             void* buffer)
 {
   H5::DataSpace fSpace = dSet->getSpace();
-  H5::DataType nativeType = HDF5::HDF5IO::getNativeType(type);
+  H5::DataType nativeType = IO::HDF5::HDF5IO::getNativeType(type);
   dSet->read(buffer, nativeType, fSpace, fSpace);
 }

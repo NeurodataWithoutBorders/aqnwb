@@ -1,7 +1,8 @@
-#include "BaseIO.hpp"
+#include "io/BaseIO.hpp"
 
 #include "Utils.hpp"
 
+using namespace AQNWB::IO;
 using namespace AQNWB;
 
 // BaseDataType

@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "BaseIO.hpp"
+#include "io/BaseIO.hpp"
 #include "nwb/hdmf/table/DynamicTable.hpp"
 #include "nwb/hdmf/table/ElementIdentifiers.hpp"
 #include "nwb/hdmf/table/VectorData.hpp"
@@ -18,12 +18,12 @@ public:
   /**
    * @brief Constructor.
    * @param io The shared pointer to the BaseIO object.
-   * @param description The description of the table (default: "metadata about
    * extracellular electrodes").
    */
-  ElectrodeTable(std::shared_ptr<BaseIO> io,
-                 const std::string& description =
-                     "metadata about extracellular electrodes");
+  ElectrodeTable(std::shared_ptr<IO::BaseIO> io);
+
+  // required so we can call create
+  ElectrodeTable(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
   /**
    * @brief Destructor.
@@ -35,8 +35,11 @@ public:
    *
    * Initializes the ElectrodeTable by creating NWB related attributes and
    * adding required columns.
+   *
+   *  @param description The description of the table (default: "metadata about
    */
-  void initialize();
+  void initialize(const std::string& description =
+                      "metadata about extracellular electrodes");
 
   /**
    * @brief Finalizes the ElectrodeTable.

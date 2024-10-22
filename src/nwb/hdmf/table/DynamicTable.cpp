@@ -6,11 +6,9 @@ using namespace AQNWB::NWB;
 
 /** Constructor */
 DynamicTable::DynamicTable(const std::string& path,
-                           std::shared_ptr<BaseIO> io,
-                           const std::string& description,
+                           std::shared_ptr<IO::BaseIO> io,
                            const std::vector<std::string>& colNames)
     : Container(path, io)
-    , m_description(description)
     , m_colNames(colNames)
 {
 }
@@ -19,9 +17,10 @@ DynamicTable::DynamicTable(const std::string& path,
 DynamicTable::~DynamicTable() {}
 
 /** Initialization function*/
-void DynamicTable::initialize()
+void DynamicTable::initialize(const std::string& description)
 {
   Container::initialize();
+  this->m_description = description;
 
   m_io->createCommonNWBAttributes(
       m_path, "hdmf-common", "DynamicTable", getDescription());
@@ -41,7 +40,7 @@ void DynamicTable::addColumn(const std::string& name,
     for (SizeType i = 0; i < values.size(); i++)
       vectorData->m_dataset->writeDataBlock(
           std::vector<SizeType>(1, 1),
-          BaseDataType::STR(values[i].size() + 1),
+          IO::BaseDataType::STR(values[i].size() + 1),
           values[i].c_str());  // TODO - add tests for this
     m_io->createCommonNWBAttributes(
         m_path + name, "hdmf-common", "VectorData", colDescription);
@@ -55,7 +54,9 @@ void DynamicTable::setRowIDs(std::unique_ptr<ElementIdentifiers>& elementIDs,
     std::cerr << "ElementIdentifiers dataset is not initialized" << std::endl;
   } else {
     elementIDs->m_dataset->writeDataBlock(
-        std::vector<SizeType>(1, values.size()), BaseDataType::I32, &values[0]);
+        std::vector<SizeType>(1, values.size()),
+        IO::BaseDataType::I32,
+        &values[0]);
     m_io->createCommonNWBAttributes(
         m_path + "id", "hdmf-common", "ElementIdentifiers");
   }

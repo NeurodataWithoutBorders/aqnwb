@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "BaseIO.hpp"
+#include "io/BaseIO.hpp"
 #include "nwb/hdmf/base/Container.hpp"
 #include "nwb/hdmf/table/ElementIdentifiers.hpp"
 #include "nwb/hdmf/table/VectorData.hpp"
@@ -23,12 +23,13 @@ public:
    * @brief Constructor.
    * @param path The location of the table in the file.
    * @param io A shared pointer to the IO object.
-   * @param description The description of the table (optional).
+   * @param colNames Set the names of the columns for the table
    */
-  DynamicTable(const std::string& path,
-               std::shared_ptr<BaseIO> io,
-               const std::string& description,
-               const std::vector<std::string>& colNames);
+  DynamicTable(
+      const std::string& path,
+      std::shared_ptr<IO::BaseIO> io,
+      const std::vector<std::string>& colNames =
+          {});  // TODO Need to remove colNames here and move it to initialize
 
   /**
    * @brief Destructor
@@ -38,8 +39,10 @@ public:
   /**
    * @brief Initializes the `DynamicTable` object by creating NWB attributes and
    * column names.
+   *
+   * @param description The description of the table (optional).
    */
-  void initialize();
+  void initialize(const std::string& description);
 
   /**
    * @brief Adds a column of vector string data to the table.

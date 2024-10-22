@@ -1,8 +1,8 @@
 #include <catch2/catch_test_macros.hpp>
 
-#include "BaseIO.hpp"
 #include "Utils.hpp"
-#include "hdf5/HDF5IO.hpp"
+#include "io/BaseIO.hpp"
+#include "io/hdf5/HDF5IO.hpp"
 #include "nwb/NWBFile.hpp"
 #include "nwb/RecordingContainers.hpp"
 #include "nwb/base/TimeSeries.hpp"
@@ -16,9 +16,9 @@ TEST_CASE("saveNWBFile", "[nwb]")
   std::string filename = getTestFilePath("testSaveNWBFile.nwb");
 
   // initialize nwbfile object and create base structure
-  NWB::NWBFile nwbfile(generateUuid(),
-                       std::make_unique<HDF5::HDF5IO>(filename));
-  nwbfile.initialize();
+  auto io = std::make_shared<IO::HDF5::HDF5IO>(filename);
+  NWB::NWBFile nwbfile(io);
+  nwbfile.initialize(generateUuid());
   nwbfile.finalize();
 }
 
@@ -27,9 +27,10 @@ TEST_CASE("createElectricalSeries", "[nwb]")
   std::string filename = getTestFilePath("createElectricalSeries.nwb");
 
   // initialize nwbfile object and create base structure
-  std::shared_ptr<HDF5::HDF5IO> io = std::make_shared<HDF5::HDF5IO>(filename);
-  NWB::NWBFile nwbfile(generateUuid(), io);
-  nwbfile.initialize();
+  std::shared_ptr<IO::HDF5::HDF5IO> io =
+      std::make_shared<IO::HDF5::HDF5IO>(filename);
+  NWB::NWBFile nwbfile(io);
+  nwbfile.initialize(generateUuid());
 
   // create Electrical Series
   std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(1, 2);
@@ -72,8 +73,8 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
 
   // initialize nwbfile object and create base structure
   std::shared_ptr<HDF5::HDF5IO> io = std::make_shared<HDF5::HDF5IO>(filename);
-  NWB::NWBFile nwbfile(generateUuid(), io);
-  nwbfile.initialize();
+  NWB::NWBFile nwbfile(io);
+  nwbfile.initialize(generateUuid());
 
   // create Electrical Series
   std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(1, 2);
@@ -136,16 +137,17 @@ TEST_CASE("setCanModifyObjectsMode", "[nwb]")
   std::string filename = getTestFilePath("testCanModifyObjectsMode.nwb");
 
   // initialize nwbfile object and create base structure with HDF5IO object
-  std::shared_ptr<HDF5::HDF5IO> io = std::make_shared<HDF5::HDF5IO>(filename);
-  NWB::NWBFile nwbfile(generateUuid(), io);
-  nwbfile.initialize();
+  std::shared_ptr<IO::HDF5::HDF5IO> io =
+      std::make_shared<IO::HDF5::HDF5IO>(filename);
+  NWB::NWBFile nwbfile(io);
+  nwbfile.initialize(generateUuid());
 
   // start recording
   Status resultStart = io->startRecording();
   REQUIRE(resultStart == Status::Success);
 
   // test that modifying the file structure after starting the recording fails
-  Status resultInitializePostStart = nwbfile.initialize();
+  Status resultInitializePostStart = nwbfile.initialize(generateUuid());
   REQUIRE(resultInitializePostStart == Status::Failure);
 
   // test that dataset creation fails after starting the recording

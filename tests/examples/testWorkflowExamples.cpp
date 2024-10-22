@@ -1,11 +1,11 @@
 
 #include <catch2/catch_test_macros.hpp>
 
-#include "BaseIO.hpp"
 #include "Channel.hpp"
 #include "Types.hpp"
 #include "Utils.hpp"
-#include "hdf5/HDF5IO.hpp"
+#include "io/BaseIO.hpp"
+#include "io/hdf5/HDF5IO.hpp"
 #include "nwb/NWBFile.hpp"
 #include "nwb/RecordingContainers.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
@@ -44,9 +44,8 @@ TEST_CASE("workflowExamples")
     // [example_workflow_recording_containers_snippet]
 
     // [example_workflow_nwbfile_snippet]
-    std::unique_ptr<NWB::NWBFile> nwbfile =
-        std::make_unique<NWB::NWBFile>(generateUuid(), io);
-    nwbfile->initialize();
+    std::unique_ptr<NWB::NWBFile> nwbfile = std::make_unique<NWB::NWBFile>(io);
+    nwbfile->initialize(generateUuid());
     // [example_workflow_nwbfile_snippet]
 
     // [example_workflow_datasets_snippet]
