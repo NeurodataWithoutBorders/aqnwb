@@ -339,7 +339,6 @@ protected:
 
 private:
   /**
-<<<<<<< HEAD:src/io/hdf5/HDF5IO.hpp
    * @brief Reads data from an HDF5 dataset or attribute into a vector of the
    * appropriate type.
    *

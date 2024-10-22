@@ -170,23 +170,21 @@ public:
 /// Helper struct to check if a StorageObjectType is allowed. Used in static
 /// assert.
 template<StorageObjectType T>
-struct is_allowed_storage_object_type : std::false_type
+struct isAllowedStorageObjectType : std::false_type
 {
 };
 
 /// Helper struct to check if a StorageObjectType is allowed. Used in static
 /// assert.
 template<>
-struct is_allowed_storage_object_type<StorageObjectType::Dataset>
-    : std::true_type
+struct isAllowedStorageObjectType<StorageObjectType::Dataset> : std::true_type
 {
 };
 
 /// Helper struct to check if a StorageObjectType is allowed. Used in static
 /// assert.
 template<>
-struct is_allowed_storage_object_type<StorageObjectType::Attribute>
-    : std::true_type
+struct isAllowedStorageObjectType<StorageObjectType::Attribute> : std::true_type
 {
 };
 
@@ -213,7 +211,7 @@ private:
    * slicing.
    */
   template<StorageObjectType U>
-  struct is_dataset
+  struct isDataset
       : std::integral_constant<bool, (U == StorageObjectType::Dataset)>
   {
   };
@@ -224,7 +222,7 @@ private:
    *  StorageObjectType::Attribute but not for other types, e.g., Group or
    * Undefined.
    */
-  static_assert(is_allowed_storage_object_type<OTYPE>::value,
+  static_assert(isAllowedStorageObjectType<OTYPE>::value,
                 "StorageObjectType not allowed for ReadDataWrapper");
 
   // Actual definition of the class
@@ -340,7 +338,7 @@ public:
    * @return An DataBlockGeneric structure containing the data and shape.
    */
   template<StorageObjectType U = OTYPE,
-           typename std::enable_if<is_dataset<U>::value, int>::type = 0>
+           typename std::enable_if<isDataset<U>::value, int>::type = 0>
   inline DataBlockGeneric valuesGeneric(
       const std::vector<SizeType>& start,
       const std::vector<SizeType>& count = {},
@@ -397,7 +395,7 @@ public:
    */
   template<typename T = VTYPE,
            StorageObjectType U = OTYPE,
-           typename std::enable_if<is_dataset<U>::value, int>::type = 0>
+           typename std::enable_if<isDataset<U>::value, int>::type = 0>
   inline DataBlock<VTYPE> values(const std::vector<SizeType>& start,
                                  const std::vector<SizeType>& count = {},
                                  const std::vector<SizeType>& stride = {},

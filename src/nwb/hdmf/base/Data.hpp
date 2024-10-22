@@ -47,7 +47,6 @@ public:
    */
   inline bool isInitialized() { return m_dataset != nullptr; }
 
-  std::unique_ptr<IO::BaseRecordingData>
-      m_dataset;  // TODO We may not want this here if we need Data for read
+  std::unique_ptr<IO::BaseRecordingData> m_dataset;
 };
 }  // namespace AQNWB::NWB
