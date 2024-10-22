@@ -58,7 +58,7 @@ void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
       &channelConversions[0]);
   // add axis attribute for channel conversion
   const signed int axis_value = 1;
-  m_io->createAttribute(BaseDataType::I32,
+  m_io->createAttribute(IO::BaseDataType::I32,
                         &axis_value,
                         this->getPath() + "/channel_conversion",
                         "axis",
