@@ -60,8 +60,14 @@ Status BaseIO::createDataAttributes(const std::string& path,
                                     const float& resolution,
                                     const std::string& unit)
 {
-  createAttribute(BaseDataType::F32, &conversion, path + "/data", "conversion");
-  createAttribute(BaseDataType::F32, &resolution, path + "/data", "resolution");
+  createAttribute(BaseDataType::F32,
+                  &conversion,
+                  AQNWB::mergePaths(path, "data"),
+                  "conversion");
+  createAttribute(BaseDataType::F32,
+                  &resolution,
+                  AQNWB::mergePaths(path, "data"),
+                  "resolution");
   createAttribute(unit, path + "/data", "unit");
 
   return Status::Success;

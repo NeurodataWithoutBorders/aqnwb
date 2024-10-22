@@ -65,7 +65,6 @@ void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
   m_io->createAttribute(IO::BaseDataType::I32,
                         &axis_value,
                         AQNWB::mergePaths(getPath(), "channel_conversion"),
-                        this->getPath() + "/channel_conversion",
                         "axis",
                         1);
 
