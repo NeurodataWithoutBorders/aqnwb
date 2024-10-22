@@ -11,7 +11,7 @@
  * 1. Create the I/O object to read the file
  * 2. Construct the container object for the ``neurodata_type`` (e.g., a ``TimeSeries``) for read
  *    via the  \ref AQNWB::NWB::RegisteredType::create "RegisteredType::create" factory method, e.g.,
- *    ``auto electricalSeries = RegisteredType::create<ElectricakSeries>(electricalSeriesPath, io);``
+ *    ``auto electricalSeries = RegisteredType::create<ElectricalSeries>(electricalSeriesPath, io);``
  * 3. Access a dataset or attribute for read by retrieving a wrapper object that provides lazy read
  *    access to the particular dataset or attribute:
  *    \snippet tests/examples/test_ecephys_data_read.cpp example_read_get_data_wrapper_snippet
@@ -225,7 +225,7 @@
  *
  * \subsection read_design_sec_read_types Reading typed objects
  *
- * Objects with an assigned ```neurodata_type`` are represented by corresponding classes in AqNWB.
+ * Objects with an assigned ``neurodata_type`` are represented by corresponding classes in AqNWB.
  * To read objects with an assigned type, we therefore need to be able to instantiate the corresponding
  * classes in AqNWB based on the data from a file. The following figure illustrates the main
  * components of this process.
@@ -321,7 +321,7 @@
  * The main components involved in reading typed objects from an NWB file via AqNWB are:
  *
  * - \ref AQNWB::NWB::RegisteredType "RegisteredType" as the main base class for all classes
- *   implementing a type, e.g., \ref AQNWB::NWB::Container "Container" \ref AQNWB::NWB::Data "Data"
+ *   implementing a type, e.g., \ref AQNWB::NWB::Container "Container",  \ref AQNWB::NWB::Data "Data"
  *   and all their subtypes. \ref AQNWB::NWB::RegisteredType "RegisteredType" is responsible for
  *   managing all type classes and provides the \ref AQNWB::NWB::RegisteredType::create "create"
  *   factory methods for creating instances of subclasses from a file.
