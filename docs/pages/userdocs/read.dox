@@ -253,22 +253,6 @@
  *         label="NWB file (HDF5)"
  *     ];
  *
- *     TimeSeries [
- *         label=<
- *             <table border="0" cellborder="1" cellspacing="0">
- *                 <tr><td colspan="2" bgcolor="lightgray"><b>TimeSeries</b></td></tr>
- *             </table>
- *         >
- *     ];
- *
- *     VectorData [
- *         label=<
- *             <table border="0" cellborder="1" cellspacing="0">
- *                 <tr><td colspan="2" bgcolor="lightgray"><b>VectorData</b></td></tr>
- *             </table>
- *         >
- *     ];
- *
  *     Container [
  *         label=<
  *             <table border="0" cellborder="1" cellspacing="0">
@@ -300,19 +284,15 @@
  *         >
  *     ];
  *
- *     { rank=same; VectorData; TimeSeries; }
- *     { rank=same; Data; Container; }
  *     { rank=same; RegisteredType; }
- *     { rank=same; HDF5IO; }
+ *     { rank=same; HDF5IO; Data; Container; }
  *     { rank=same; NWBFile; }
  *
- *     TimeSeries -> Container [arrowhead=empty, style=dashed];
- *     VectorData -> Data [arrowhead=empty, style=dashed];
  *     Container -> RegisteredType [arrowhead=empty, style=dashed];
  *     Data -> RegisteredType [arrowhead=empty, style=dashed];
  *     RegisteredType -> Container [label="create"];
  *     RegisteredType -> Data [label="create"];
- *     RegisteredType -> HDF5IO [label="read type info"];
+ *     RegisteredType -> HDF5IO [label="read type\ninfo"];
  *     HDF5IO -> NWBFile [label="read data"];
  * }
  * @enddot
