@@ -305,9 +305,10 @@
  *   and all their subtypes. \ref AQNWB::NWB::RegisteredType "RegisteredType" is responsible for
  *   managing all type classes and provides the \ref AQNWB::NWB::RegisteredType::create "create"
  *   factory methods for creating instances of subclasses from a file.
- * - \ref AQNWB::IO::BaseIO "BaseIO", \ref AQNWB::IO::HDF5::HDF5IO "HDF5IO" responsible for
- *   reading type attribute and group information and for searching the file for typed objects via
- *   \ref AQNWB::IO::BaseIO::findTypes "findTypes()", and exposing
+ * - \ref AQNWB::IO::BaseIO "BaseIO", \ref AQNWB::IO::HDF5::HDF5IO "HDF5IO" are responsible for
+ *   i) reading type attribute and group information, ii) searching the file for typed objects via
+ *   \ref AQNWB::IO::BaseIO::findTypes "findTypes()" methods, and iii) retrieving the paths of all
+ *   object within a group via  \ref AQNWB::IO::BaseIO::getGroupObjects "getGroupObjects()"
  *
  * \subsubsection read_design_wrapper_registeredType RegisteredType
  *

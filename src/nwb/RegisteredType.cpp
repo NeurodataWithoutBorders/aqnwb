@@ -1,6 +1,7 @@
 #include "RegisteredType.hpp"
 
 #include "io/ReadIO.hpp"
+#include "Utils.hpp"
 
 using namespace AQNWB::NWB;
 
@@ -77,14 +78,14 @@ std::shared_ptr<AQNWB::NWB::RegisteredType> RegisteredType::create(
   try {
     // Read the "namespace" attribute
     AQNWB::IO::DataBlockGeneric namespaceData =
-        io->readAttribute(path + "/namespace");
+        io->readAttribute(AQNWB::mergePaths(path, "namespace"));
     auto namespaceBlock =
         AQNWB::IO::DataBlock<std::string>::fromGeneric(namespaceData);
     std::string typeNamespace = namespaceBlock.data[0];
 
     // Read the "neurodata_type" attribute
     AQNWB::IO::DataBlockGeneric typeData =
-        io->readAttribute(path + "/neurodata_type");
+        io->readAttribute(AQNWB::mergePaths(path, "neurodata_type"));
     auto typeBlock = AQNWB::IO::DataBlock<std::string>::fromGeneric(typeData);
     std::string typeName = typeBlock.data[0];
 
