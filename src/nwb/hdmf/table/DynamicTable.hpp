@@ -19,6 +19,9 @@ namespace AQNWB::NWB
 class DynamicTable : public Container
 {
 public:
+  // Register the TimeSeries as a subclass of Container
+  REGISTER_SUBCLASS(DynamicTable, "hdmf-common")
+
   /**
    * @brief Constructor.
    * @param path The location of the table in the file.
@@ -75,12 +78,6 @@ public:
                  const std::vector<int>& values);
 
   /**
-   * @brief Gets the description of the table.
-   * @return The description of the table.
-   */
-  inline std::string getDescription() const { return m_description; }
-
-  /**
    * @brief Gets the column names of the table.
    * @return A vector of column names.
    */
@@ -99,11 +96,6 @@ public:
   }
 
 protected:
-  /**
-   * @brief Description of the DynamicTable.
-   */
-  std::string m_description;
-
   /**
    * @brief Names of the columns in the table.
    */

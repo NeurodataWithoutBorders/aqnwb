@@ -3,19 +3,26 @@
 #include <memory>
 
 #include "io/BaseIO.hpp"
+#include "nwb/RegisteredType.hpp"
 
 namespace AQNWB::NWB
 {
 /**
  * @brief An abstract data type for a dataset.
  */
-class Data
+class Data : public RegisteredType
 {
 public:
+  // Register Data class as a registered type
+  REGISTER_SUBCLASS(Data, "hdmf-common")
+
   /**
    * @brief Constructor.
+   *
+   * @param path The path of the container.
+   * @param io A shared pointer to the IO object.
    */
-  Data() {}
+  Data(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
   /**
    * @brief Destructor.

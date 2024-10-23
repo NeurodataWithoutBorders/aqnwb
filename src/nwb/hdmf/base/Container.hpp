@@ -3,19 +3,24 @@
 #include <memory>
 #include <string>
 
-#include "io/BaseIO.hpp"
+#include "nwb/RegisteredType.hpp"
 
 namespace AQNWB::NWB
 {
 /**
  * @brief Abstract data type for a group storing collections of data and
  * metadata
+ *
  */
-class Container
+class Container : public RegisteredType
 {
 public:
+  // Register the Container class as a registered type
+  REGISTER_SUBCLASS(Container, "hdmf-common")
+
   /**
    * @brief Constructor.
+   *
    * @param path The path of the container.
    * @param io A shared pointer to the IO object.
    */
@@ -30,31 +35,6 @@ public:
    * @brief Initialize the container.
    */
   void initialize();
-
-  /**
-   * @brief Gets the path of the container.
-   * @return The path of the container.
-   */
-  inline std::string getPath() const { return m_path; }
-
-  template<typename T>
-  inline static std::unique_ptr<T> create(const std::string& path,
-                                          std::shared_ptr<IO::BaseIO> io)
-  {
-    static_assert(std::is_base_of<Container, T>::value,
-                  "T must be a derived class of Container");
-    return std::unique_ptr<T>(new T(path, io));
-  }
-
-protected:
-  /**
-   * @brief The path of the container.
-   */
-  std::string m_path;
-
-  /**
-   * @brief A shared pointer to the IO object.
-   */
-  std::shared_ptr<IO::BaseIO> m_io;
 };
+
 }  // namespace AQNWB::NWB

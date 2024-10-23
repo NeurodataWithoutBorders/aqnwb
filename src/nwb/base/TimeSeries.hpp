@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
 #include <string>
 
+#include "Utils.hpp"
 #include "io/BaseIO.hpp"
 #include "io/ReadIO.hpp"
 #include "nwb/hdmf/base/Container.hpp"
@@ -14,6 +16,9 @@ namespace AQNWB::NWB
 class TimeSeries : public Container
 {
 public:
+  // Register the TimeSeries as a subclass of Container
+  REGISTER_SUBCLASS(TimeSeries, "core")
+
   /**
    * @brief Constructor.
    * @param path The location of the TimeSeries in the file.
@@ -88,40 +93,99 @@ public:
    */
   IO::BaseDataType timestampsType = IO::BaseDataType::F64;
 
-  inline std::string dataPath() const
-  {
-    return (m_path + std::string("/data"));
-  }
+  // Define the data fields to expose for lazy read access
+  DEFINE_FIELD(readDescription,
+               AttributeField,
+               std::string,
+               "description",
+               Description of the series)
 
-  template<typename VTYPE = std::any>
-  inline std::unique_ptr<
-      IO::ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset, VTYPE>>
-  dataLazy() const
-  {
-    return std::make_unique<
-        IO::ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset, VTYPE>>(
-        m_io, this->dataPath());
-  }
+  DEFINE_FIELD(readComments,
+               AttributeField,
+               std::string,
+               "comments",
+               Human - readable comments about the TimeSeries)
 
-  inline std::string resolutionPath() const
-  {
-    return (this->dataPath() + std::string("/resolution"));
-  }
+  DEFINE_FIELD(readData, DatasetField, std::any, "data", The main data)
 
-  template<typename VTYPE = float>
-  inline std::unique_ptr<
-      IO::ReadDataWrapper<AQNWB::Types::StorageObjectType::Attribute, VTYPE>>
-  resolutionLazy() const
-  {
-    return std::make_unique<
-        IO::ReadDataWrapper<AQNWB::Types::StorageObjectType::Attribute, VTYPE>>(
-        m_io, this->resolutionPath());
-  }
+  DEFINE_FIELD(readDataConversion,
+               AttributeField,
+               float,
+               "data/conversion",
+               Scalar to multiply each element in data to convert it to the
+                   specified unit)
 
-private:
-  /**
-   * @brief The neurodataType of the TimeSeries.
-   */
-  std::string neurodataType = "TimeSeries";
+  DEFINE_FIELD(readDataOffset,
+               AttributeField,
+               float,
+               "data/offset",
+               Scalar to add to the data after scaling by conversion to finalize
+                   its coercion to the specified unit)
+
+  DEFINE_FIELD(readDataResolution,
+               AttributeField,
+               float,
+               "data/resolution",
+               Smallest meaningful difference between values in data)
+
+  DEFINE_FIELD(readDataUnit,
+               AttributeField,
+               std::string,
+               "data/unit",
+               Base unit of measurement for working with the data)
+
+  DEFINE_FIELD(readDataContinuity,
+               AttributeField,
+               std::string,
+               "data/continuity",
+               Continuity of the data)
+
+  DEFINE_FIELD(readStartingTime,
+               DatasetField,
+               double,
+               "starting_time",
+               Timestamp of the first sample in seconds)
+
+  DEFINE_FIELD(readStartingTimeRate,
+               AttributeField,
+               float,
+               "starting_time/rate",
+               Sampling rate in Hz)
+
+  DEFINE_FIELD(readStartingTimeUnit,
+               AttributeField,
+               std::string,
+               "starting_time/unit",
+               Unit of measurement for time fixed to seconds)
+
+  DEFINE_FIELD(readTimestamps,
+               DatasetField,
+               double,
+               "timestamps",
+               Timestamps offset in seconds relative to the master time for samples stored in data)
+
+  DEFINE_FIELD(readTimestampsInterval,
+               AttributeField,
+               int,
+               "timestamps/interval",
+               Interval value is 1)
+
+  DEFINE_FIELD(readTimestampsUnit,
+               AttributeField,
+               std::string,
+               "timestamps/unit",
+               Unit of measurement for timestamps fixed to seconds)
+
+  DEFINE_FIELD(readControl,
+               DatasetField,
+               uint8_t,
+               "control",
+               Numerical labels that apply to each time point in data)
+
+  DEFINE_FIELD(readControlDescription,
+               DatasetField,
+               std::string,
+               "control_description",
+               Description of each control value)
 };
 }  // namespace AQNWB::NWB
