@@ -2,6 +2,7 @@ var userdocs =
 [
     [ "Installing AqNWB", "user_install_page.html", [
       [ "Requirements", "user_install_page.html#user_requirements_sec", null ],
+      [ "Source", "user_install_page.html#userbuild_source_sec", null ],
       [ "Build", "user_install_page.html#userbuild_build_sec", null ],
       [ "Install", "user_install_page.html#userbuild_install_sec", null ]
     ] ],

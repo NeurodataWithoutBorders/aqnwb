@@ -122,12 +122,8 @@ $(function(){initNavTree('dev_install_page.html',''); initResizable(true); });
   <li class="level1">
     <a href="#devbuild_dev_mode_targets_subsec">Developer Mode Targets</a>
     <ul>
-      <li class="level2 empty">
-        <ul>
-          <li class="level3">
-            <a href="#devbuild_target_options_subsubsec">Target options</a>
-          </li>
-        </ul>
+      <li class="level2">
+        <a href="#devbuild_target_options_subsubsec">Target options</a>
       </li>
     </ul>
   </li>
@@ -135,8 +131,9 @@ $(function(){initNavTree('dev_install_page.html',''); initResizable(true); });
 </div>
 <div class="textblock"><h1><a class="anchor" id="dev_requirements_sec"></a>
 Requirements</h1>
-<p>Please ensure that the required libraries described in the <a class="el" href="user_install_page.html#user_requirements_sec">User Requirements</a> section are installed.</p>
-<p>For developers we also recommend to install the following optional command line tools used for generating the documentation, for code quality checks, and for debugging.</p>
+<p>Please ensure that the required libraries described in the <a class="el" href="user_install_page.html#user_requirements_sec">User Requirements</a> section are installed and clone the latest AqNWB source via:</p>
+<div class="fragment"><div class="line">git clone https://github.com/NeurodataWithoutBorders/aqnwb.git</div>
+</div><!-- fragment --><p>For developers we also recommend to install the following optional command line tools used for generating the documentation, for code quality checks, and for debugging.</p>
 <ul>
 <li><b>Documentation:</b> Additional requirements for building the documentation (optional)<ul>
 <li><a href="https://www.doxygen.nl/">Doxygen</a></li>
@@ -205,8 +202,8 @@ Configure, Build and Test</h2>
 Developer Mode Targets</h1>
 <p>Additional targets can be invoked when in development mode using the commands below</p>
 <div class="fragment"><div class="line">cmake --build --preset=dev --target=&lt;name of the target&gt;</div>
-</div><!-- fragment --><h3><a class="anchor" id="devbuild_target_options_subsubsec"></a>
-Target options</h3>
+</div><!-- fragment --><h2><a class="anchor" id="devbuild_target_options_subsubsec"></a>
+Target options</h2>
 <ul>
 <li><code>format-check</code>: run the <code>clang-format</code> tool on the codebase to check for formatting errors</li>
 <li><code>format-fix</code> : run the <code>clang-format</code> tool on the codebase with <code>FIX=YES</code> to both check and automatically fix for formatting errors</li>

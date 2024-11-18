@@ -6,7 +6,9 @@ var devdocs =
       [ "Developer Presets", "dev_install_page.html#devbuild_presets_subsec", [
         [ "Configure, Build and Test", "dev_install_page.html#configure_build_test", null ]
       ] ],
-      [ "Developer Mode Targets", "dev_install_page.html#devbuild_dev_mode_targets_subsec", null ]
+      [ "Developer Mode Targets", "dev_install_page.html#devbuild_dev_mode_targets_subsec", [
+        [ "Target options", "dev_install_page.html#devbuild_target_options_subsubsec", null ]
+      ] ]
     ] ],
     [ "Testing", "testing.html", [
       [ "Unit Tests", "testing.html#testing_unit", [
