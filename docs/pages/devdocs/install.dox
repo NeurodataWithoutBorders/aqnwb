@@ -6,7 +6,12 @@
  * \section dev_requirements_sec Requirements
  *
  * Please ensure that the required libraries described in the
- * \ref user_requirements_sec "User Requirements" section are installed.
+ * \ref user_requirements_sec "User Requirements" section are installed and
+ * clone the latest AqNWB source via:
+ *
+ * \code{.sh}
+ * git clone https://github.com/NeurodataWithoutBorders/aqnwb.git
+ * \endcode
  *
  * For developers we also recommend to install the following optional command line tools used for
  * generating the documentation, for code quality checks, and for debugging.
@@ -102,7 +107,7 @@
  * cmake --build --preset=dev --target=<name of the target>
  * \endcode
  *
- * \subsubsection  devbuild_target_options_subsubsec Target options
+ * \subsection  devbuild_target_options_subsubsec Target options
  * - `format-check`: run the `clang-format` tool on the codebase to check for formatting errors
  * - `format-fix` :  run the `clang-format` tool on the codebase with `FIX=YES` to both check and automatically fix for formatting errors
  * - `spell-check`: run the `codespell` tool on the codebase to check for common spelling errors
