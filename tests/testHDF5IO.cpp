@@ -25,11 +25,12 @@ std::string executablePath =
 std::string executablePath = "./reader_executable";
 #endif
 
-void setEnvironmentVariable(const std::string& name, const std::string& value) {
+void setEnvironmentVariable(const std::string& name, const std::string& value)
+{
 #ifdef _WIN32
-    _putenv_s(name.c_str(), value.c_str());
+  _putenv_s(name.c_str(), value.c_str());
 #else
-    setenv(name.c_str(), value.c_str(), 1);
+  setenv(name.c_str(), value.c_str(), 1);
 #endif
 }
 
