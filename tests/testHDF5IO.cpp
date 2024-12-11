@@ -25,15 +25,6 @@ std::string executablePath =
 std::string executablePath = "./reader_executable";
 #endif
 
-void setEnvironmentVariable(const std::string& name, const std::string& value)
-{
-#ifdef _WIN32
-  _putenv_s(name.c_str(), value.c_str());
-#else
-  setenv(name.c_str(), value.c_str(), 1);
-#endif
-}
-
 using namespace AQNWB;
 namespace fs = std::filesystem;
 
@@ -329,7 +320,9 @@ TEST_CASE("SWMRmode", "[hdf5io]")
     std::thread readerThread(
         [](const std::string& cmd, std::promise<int> promise)
         {
-          setEnvironmentVariable("HDF5_USE_FILE_LOCKING", "FALSE");
+#ifdef _WIN32
+          _putenv_s("HDF5_USE_FILE_LOCKING", "FALSE");  // required on Windows to allow writer process to access file
+#endif
           int ret = std::system(cmd.c_str());
           promise.set_value(ret);
         },
