@@ -321,7 +321,8 @@ TEST_CASE("SWMRmode", "[hdf5io]")
         [](const std::string& cmd, std::promise<int> promise)
         {
 #ifdef _WIN32
-          _putenv_s("HDF5_USE_FILE_LOCKING", "FALSE");  // required on Windows to allow writer process to access file
+          // required on Windows to allow writer process to access file
+          _putenv_s("HDF5_USE_FILE_LOCKING", "FALSE");
 #endif
           int ret = std::system(cmd.c_str());
           promise.set_value(ret);
