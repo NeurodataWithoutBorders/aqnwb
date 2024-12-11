@@ -24,6 +24,7 @@ public:
    * @param path The location of the table in the file.
    * @param io A shared pointer to the IO object.
    * @param description The description of the table (optional).
+   * @param colNames Names of the columns in the table
    */
   DynamicTable(const std::string& path,
                std::shared_ptr<BaseIO> io,

@@ -10,6 +10,16 @@
  *  - [HDF5 >= 1.10](https://github.com/HDFGroup/hdf5)
  *  - [Boost](https://www.boost.org/)
  *
+ * \section userbuild_source_sec Source
+ *
+ * The source code for AqNWB is available online via the
+ * [AqNWB GitHub](https://github.com/NeurodataWithoutBorders/aqnwb) repository.
+ * To checkout the latest developer version, clone the repository via:
+ *
+ * \code{.sh}
+ * git clone https://github.com/NeurodataWithoutBorders/aqnwb.git
+ * \endcode
+ *
  * \section userbuild_build_sec Build
  *
  * Here are the steps for building in release mode with a multi-configuration generator:
