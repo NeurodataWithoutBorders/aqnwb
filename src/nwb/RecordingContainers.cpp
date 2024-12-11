@@ -62,7 +62,8 @@ Status RecordingContainers::writeElectricalSeriesData(
   if (es == nullptr)
     return Status::Failure;
 
-  return es->writeChannel(channel.getLocalIndex(), numSamples, data, timestamps);
+  return es->writeChannel(
+      channel.getLocalIndex(), numSamples, data, timestamps);
 }
 
 Status RecordingContainers::writeSpikeEventData(const SizeType& containerInd,

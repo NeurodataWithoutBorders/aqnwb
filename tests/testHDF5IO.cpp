@@ -328,7 +328,6 @@ TEST_CASE("SWMRmode", "[hdf5io]")
 
     // write to file
     for (SizeType b = 0; b <= numBlocks; b++) {
-
       // write data block and flush to file
       std::vector<SizeType> dataShape = {numSamples};
       dataset->writeDataBlock(dataShape, BaseDataType::I32, &testData[0]);
