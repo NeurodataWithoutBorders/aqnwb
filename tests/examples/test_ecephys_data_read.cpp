@@ -182,7 +182,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
 
     // Open a new I/O for reading
     std::shared_ptr<BaseIO> readio = createIO("HDF5", path);
-    readio->open();
+    readio->open(FileMode::ReadOnly);
 
     // [example_search_types_snippet]
     std::unordered_set<std::string> typesToSearch = {"core::ElectricalSeries"};
