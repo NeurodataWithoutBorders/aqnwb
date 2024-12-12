@@ -95,20 +95,27 @@ std::unique_ptr<H5::Attribute> HDF5IO::getAttribute(
   std::string parentPath = path.substr(0, pos);
   std::string attrName = path.substr(pos + 1);
 
-  try {
-    // Try to open the parent object as a group
-    H5::Group parentGroup = m_file->openGroup(parentPath);
-    return std::make_unique<H5::Attribute>(parentGroup.openAttribute(attrName));
-  } catch (const H5::Exception& e) {
-    // If it's not a group, try to open it as a dataset
-    try {
-      H5::DataSet parentDataset = m_file->openDataSet(parentPath);
-      return std::make_unique<H5::Attribute>(
-          parentDataset.openAttribute(attrName));
-    } catch (const H5::Exception& e) {
-      // Handle HDF5 exceptions
-      return nullptr;
-    }
+  // open the group or dataset
+  H5Object* loc;
+  Group gloc;
+  DataSet dloc;
+  H5O_type_t objectType = getH5ObjectType(parentPath);
+  switch (objectType) {
+    case H5O_TYPE_GROUP:
+      gloc = m_file->openGroup(parentPath);
+      loc = &gloc;
+      break;
+    case H5O_TYPE_DATASET:
+      dloc = m_file->openDataSet(parentPath);
+      loc = &dloc;
+      break;
+    default:
+      return nullptr;  // not a valid dataset or group type
+  }
+  if (loc->attrExists(attrName)) {
+    return std::make_unique<H5::Attribute>(loc->openAttribute(attrName));
+  } else {
+    return nullptr;
   }
 }
 
