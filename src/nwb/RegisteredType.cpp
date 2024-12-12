@@ -1,7 +1,7 @@
 #include "RegisteredType.hpp"
 
-#include "io/ReadIO.hpp"
 #include "Utils.hpp"
+#include "io/ReadIO.hpp"
 
 using namespace AQNWB::NWB;
 

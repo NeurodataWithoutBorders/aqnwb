@@ -174,19 +174,25 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     REQUIRE(electricalSeriesDataPath == (electricalSeriesPath + "/data"));
     // [example_read_getpath_snippet]
 
-    // Open an I/O for reading
-    // TODO: creating a new I/O makes the read fail.
-    // std::shared_ptr<BaseIO> readio = createIO("HDF5", path);
-    // readio->open();
+    // [example_read_finish_recording_snippet]
+    // Stop the recording
+    io->stopRecording();
+    io->close();
+    // [example_read_finish_recording_snippet]
+
+    // Open a new I/O for reading
+    std::shared_ptr<BaseIO> readio = createIO("HDF5", path);
+    readio->open();
 
     // [example_search_types_snippet]
     std::unordered_set<std::string> typesToSearch = {"core::ElectricalSeries"};
     std::unordered_map<std::string, std::string> found_electrical_series =
-        io->findTypes(
+        readio->findTypes(
             "/",  // start search at the root of the file
             typesToSearch,  // search for all ElectricalSeries
             IO::SearchMode::CONTINUE_ON_TYPE  // search also within types
         );
+    
     // [example_search_types_snippet]
     // [example_search_types_check_snippet]
     // We should have esdata1 and esdata2
@@ -203,7 +209,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // [example_read_only_snippet]
     // Read the ElectricalSeries from the file. This returns a generic
     // std::unique_ptr<AQNWB::NWB::RegisteredType>
-    auto readRegisteredType = NWB::RegisteredType::create(esdata_path, io);
+    auto readRegisteredType = NWB::RegisteredType::create(esdata_path, readio);
     // If we need operations that are specific for the ElectricalSeries,
     // then we can cast the returned pointer via
     auto readElectricalSeries =
@@ -211,13 +217,13 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
             readRegisteredType);
 
     // Now we can read the data in the same way we did during write
-    auto readElectricalSeriesData = readElectricalSeries->readData();
-    DataBlock<float> readDataValues = readDataWrapper->values<float>();
-    auto readBoostMulitArray = readDataValues.as_multi_array<2>();
+    auto readElectricalSeriesData = readElectricalSeries->readData<float>();
+    DataBlock<float> readDataValues = readElectricalSeriesData->values();
+    auto readBoostMultiArray = readDataValues.as_multi_array<2>();
     // [example_read_only_snippet]
 
     // Test that reading a string attribute works
-    auto esDescr = electricalSeries->readDescription();
+    auto esDescr = readElectricalSeries->readDescription();
     auto esDescrData = esDescr->values();
     REQUIRE(esDescrData.data.size() == 1);
     REQUIRE(esDescrData.shape.size() == 0);
@@ -244,11 +250,5 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // fail: (this->file->attrExists(dataPath)), function readAttribute, file
     // HDF5IO.cpp, line 161. i.e., the attribute does not seem to exists so
     // either the path is wrong or something is bad with the write?
-
-    // [example_read_finish_recording_snippet]
-    // Stop the recording
-    io->stopRecording();
-    io->close();
-    // [example_read_finish_recording_snippet]
   }
 }
