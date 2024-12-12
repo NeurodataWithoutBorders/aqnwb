@@ -30,13 +30,13 @@ HDF5IO::~HDF5IO()
 Status HDF5IO::open()
 {
   if (std::filesystem::exists(getFileName())) {
-    return open(false);
+    return open(FileMode::ReadWrite);
   } else {
-    return open(true);
+    return open(FileMode::Overwrite);
   }
 }
 
-Status HDF5IO::open(bool newfile)
+Status HDF5IO::open(FileMode mode)
 {
   int accFlags = 0;
 
@@ -46,10 +46,19 @@ Status HDF5IO::open(bool newfile)
   FileAccPropList fapl = FileAccPropList::DEFAULT;
   H5Pset_libver_bounds(fapl.getId(), H5F_LIBVER_LATEST, H5F_LIBVER_LATEST);
 
-  if (newfile)
-    accFlags = H5F_ACC_TRUNC;
-  else
-    accFlags = H5F_ACC_RDWR;
+  switch (mode) {
+      case FileMode::Overwrite:
+          accFlags = H5F_ACC_TRUNC;
+          break;
+      case FileMode::ReadWrite:
+          accFlags = H5F_ACC_RDWR;
+          break;
+      case FileMode::ReadOnly:
+          accFlags = H5F_ACC_RDONLY | H5F_ACC_SWMR_READ;
+          break;
+      default:
+          throw std::invalid_argument("Invalid file mode");
+  }
 
   m_file = std::make_unique<H5::H5File>(
       getFileName(), accFlags, FileCreatPropList::DEFAULT, fapl);

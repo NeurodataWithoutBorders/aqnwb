@@ -50,9 +50,9 @@ Status NWBFile::initialize(const std::string& identifierText,
                            const std::string& dataCollection)
 {
   if (std::filesystem::exists(m_io->getFileName())) {
-    return m_io->open(false);
+    return m_io->open(IO::FileMode::ReadWrite);
   } else {
-    m_io->open(true);
+    m_io->open(IO::FileMode::Overwrite);
     return createFileStructure(identifierText, description, dataCollection);
   }
 }

@@ -62,10 +62,10 @@ public:
 
   /**
    * @brief Opens an existing file or creates a new file for writing.
-   * @param newfile Flag indicating whether to create a new file.
+   * @param mode Access mode to use when opening the file.
    * @return The status of the file opening operation.
    */
-  Status open(bool newfile) override;
+  Status open(FileMode mode) override;
 
   /**
    * @brief Closes the file.

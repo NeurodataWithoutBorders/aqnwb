@@ -105,6 +105,26 @@ enum class SearchMode
 };
 
 /**
+ * @brief The access mode for the file.
+ */
+enum class FileMode {
+  /**
+   * @brief Opens the file and overwrites any existing file.
+   */
+  Overwrite,
+  
+  /**
+   * @brief Opens the file with both read and write access.
+   */
+  ReadWrite,
+
+  /**
+   * @brief Opens the file in read only mode.
+   */
+  ReadOnly
+};
+
+/**
  * @brief The BaseIO class is an abstract base class that defines the interface
  * for input/output (IO) operations on a file.
  *
@@ -160,10 +180,10 @@ public:
 
   /**
    * @brief Opens an existing file or creates a new file for writing.
-   * @param newfile Flag indicating whether to create a new file.
+   * @param mode Access mode to use when opening the file.
    * @return The status of the file opening operation.
    */
-  virtual Status open(bool newfile) = 0;
+  virtual Status open(FileMode mode) = 0;
 
   /**
    * @brief Closes the file.
