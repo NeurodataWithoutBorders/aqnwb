@@ -138,9 +138,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab91b67e0f0a5dbe34d8f86efecf35de8" id="r_ab91b67e0f0a5dbe34d8f86efecf35de8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab91b67e0f0a5dbe34d8f86efecf35de8">finalize</a> ()</td></tr>
 <tr class="memdesc:ab91b67e0f0a5dbe34d8f86efecf35de8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finalizes the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html" title="Represents a table containing electrode metadata.">ElectrodeTable</a>.  <br /></td></tr>
 <tr class="separator:ab91b67e0f0a5dbe34d8f86efecf35de8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b37a46c8a1a073b439ce03c8f40bd69" id="r_a2b37a46c8a1a073b439ce03c8f40bd69"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2b37a46c8a1a073b439ce03c8f40bd69">addElectrodes</a> (std::vector&lt; <a class="el" href="class_a_q_n_w_b_1_1_channel.html">Channel</a> &gt; channels)</td></tr>
-<tr class="memdesc:a2b37a46c8a1a073b439ce03c8f40bd69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets up the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html" title="Represents a table containing electrode metadata.">ElectrodeTable</a> by adding electrodes and their metadata.  <br /></td></tr>
-<tr class="separator:a2b37a46c8a1a073b439ce03c8f40bd69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41f29ce1a76fd932eac4a03e67d8268f" id="r_a41f29ce1a76fd932eac4a03e67d8268f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a41f29ce1a76fd932eac4a03e67d8268f">addElectrodes</a> (std::vector&lt; <a class="el" href="class_a_q_n_w_b_1_1_channel.html">Channel</a> &gt; channelsInput)</td></tr>
+<tr class="memdesc:a41f29ce1a76fd932eac4a03e67d8268f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets up the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html" title="Represents a table containing electrode metadata.">ElectrodeTable</a> by adding electrodes and their metadata.  <br /></td></tr>
+<tr class="separator:a41f29ce1a76fd932eac4a03e67d8268f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a86dd33ce4954558f238444446d79ca16" id="r_a86dd33ce4954558f238444446d79ca16"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a86dd33ce4954558f238444446d79ca16">getGroupPath</a> () const</td></tr>
 <tr class="memdesc:a86dd33ce4954558f238444446d79ca16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the group path of the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html" title="Represents a table containing electrode metadata.">ElectrodeTable</a>.  <br /></td></tr>
 <tr class="separator:a86dd33ce4954558f238444446d79ca16"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -277,8 +277,8 @@ extracellular electrodes").</td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a2b37a46c8a1a073b439ce03c8f40bd69" name="a2b37a46c8a1a073b439ce03c8f40bd69"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b37a46c8a1a073b439ce03c8f40bd69">&#9670;&#160;</a></span>addElectrodes()</h2>
+<a id="a41f29ce1a76fd932eac4a03e67d8268f" name="a41f29ce1a76fd932eac4a03e67d8268f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41f29ce1a76fd932eac4a03e67d8268f">&#9670;&#160;</a></span>addElectrodes()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -286,13 +286,19 @@ extracellular electrodes").</td></tr>
         <tr>
           <td class="memname">void ElectrodeTable::addElectrodes </td>
           <td>(</td>
-          <td class="paramtype">std::vector&lt; <a class="el" href="class_a_q_n_w_b_1_1_channel.html">Channel</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>channels</em></span></td><td>)</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="class_a_q_n_w_b_1_1_channel.html">Channel</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>channelsInput</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Sets up the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html" title="Represents a table containing electrode metadata.">ElectrodeTable</a> by adding electrodes and their metadata. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">channelsInput</td><td>The vector of <a class="el" href="class_a_q_n_w_b_1_1_channel.html" title="Class for storing acquisition system channel information.">Channel</a> objects to add to the table. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

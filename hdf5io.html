@@ -153,6 +153,8 @@ Single-Writer Multiple-Reader (SWMR) Mode</h1>
 <p>The <a class="el" href="class_a_q_n_w_b_1_1_h_d_f5_1_1_h_d_f5_i_o.html">HDF5IO</a> I/O backend uses by default SWMR mode while recording data. Using SWMR, one process can write to the HDF5 file and multiple other processes can read from the file concurrently while ensuring that the readers see a consistent view of the data.</p>
 <div class="dotgraph">
 <iframe scrolling="no" frameborder="0" src="dot_inline_dotgraph_3.svg" width="367" height="288"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<dl class="section warning"><dt>Warning</dt><dd>There are known issues using SWMR mode on Windows due to file locking by the reader processes. One workaround is to set the environment variable <code>HDF5_USE_FILE_LOCKING=FALSE</code> to prevent file access errors when using a writer process with other reader processes. <br  />
+</dd></dl>
 <h2><a class="anchor" id="hdf5io_swmr_features"></a>
 Why does AqNWB use SMWR mode?</h2>
 <p>Using SWMR has several key advantages for data acquisition applications:</p>

@@ -7,11 +7,15 @@ var searchData=
   ['nwb_5fdevice_4',['nwb_device',['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#a35cf953e6c8441312e069d901d687a5d',1,'AQNWB::SPEC::CORE']]],
   ['nwb_5fecephys_5',['nwb_ecephys',['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#a611c8883c4014f2be8fd0897086a4e33',1,'AQNWB::SPEC::CORE']]],
   ['nwb_5fepoch_6',['nwb_epoch',['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#ad0967605c3219827e368475e5b156662',1,'AQNWB::SPEC::CORE']]],
-  ['nwb_5ffile_7',['nwb_file',['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#adaf8e100aa5b41e0f6d00f1bd06cadd8',1,'AQNWB::SPEC::CORE']]],
-  ['nwb_5ficephys_8',['nwb_icephys',['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#a806ffc7a5dc1a928bcab85a010ccecea',1,'AQNWB::SPEC::CORE']]],
-  ['nwb_5fimage_9',['nwb_image',['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#af698831d504b552e80ed9563bd173140',1,'AQNWB::SPEC::CORE']]],
-  ['nwb_5fmisc_10',['nwb_misc',['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#ae67799177ba7530f5d9daaecfaa91593',1,'AQNWB::SPEC::CORE']]],
-  ['nwb_5fogen_11',['nwb_ogen',['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#a1c3844344a5557956e138e0dae691738',1,'AQNWB::SPEC::CORE']]],
-  ['nwb_5fophys_12',['nwb_ophys',['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#a3dbadd78bfd057a1dcba6f77b957986b',1,'AQNWB::SPEC::CORE']]],
-  ['nwb_5fretinotopy_13',['nwb_retinotopy',['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#a3bc997e240ea3af6c88c9b8bdf29a075',1,'AQNWB::SPEC::CORE']]]
+  ['nwb_5ffile_5fconcatenate_7',['nwb_file_concatenate',['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#a1fca16ae178518d5b9defc5d71afc4be',1,'AQNWB::SPEC::CORE']]],
+  ['nwb_5ffile_5fpart0_8',['nwb_file_part0',['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#a96e1c0a5570173ca260719393ecc2f66',1,'AQNWB::SPEC::CORE']]],
+  ['nwb_5ffile_5fpart1_9',['nwb_file_part1',['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#a54864e45ffb11c1de9532d08ab598b36',1,'AQNWB::SPEC::CORE']]],
+  ['nwb_5ffile_5fparts_10',['nwb_file_parts',['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#a72ef5d57fb91d59602fea2358d71127b',1,'AQNWB::SPEC::CORE']]],
+  ['nwb_5ffile_5ftotal_5flength_11',['nwb_file_total_length',['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#a4085159fc1ecc349fcf9d4b144853e98',1,'AQNWB::SPEC::CORE']]],
+  ['nwb_5ficephys_12',['nwb_icephys',['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#a806ffc7a5dc1a928bcab85a010ccecea',1,'AQNWB::SPEC::CORE']]],
+  ['nwb_5fimage_13',['nwb_image',['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#af698831d504b552e80ed9563bd173140',1,'AQNWB::SPEC::CORE']]],
+  ['nwb_5fmisc_14',['nwb_misc',['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#ae67799177ba7530f5d9daaecfaa91593',1,'AQNWB::SPEC::CORE']]],
+  ['nwb_5fogen_15',['nwb_ogen',['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#a1c3844344a5557956e138e0dae691738',1,'AQNWB::SPEC::CORE']]],
+  ['nwb_5fophys_16',['nwb_ophys',['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#a3dbadd78bfd057a1dcba6f77b957986b',1,'AQNWB::SPEC::CORE']]],
+  ['nwb_5fretinotopy_17',['nwb_retinotopy',['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#a3bc997e240ea3af6c88c9b8bdf29a075',1,'AQNWB::SPEC::CORE']]]
 ];
