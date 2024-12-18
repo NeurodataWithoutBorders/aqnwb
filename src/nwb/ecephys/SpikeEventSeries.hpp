@@ -3,7 +3,9 @@
 #include <string>
 
 #include "Channel.hpp"
+#include "Utils.hpp"
 #include "io/BaseIO.hpp"
+#include "io/ReadIO.hpp"
 #include "nwb/ecephys/ElectricalSeries.hpp"
 
 namespace AQNWB::NWB
@@ -72,6 +74,15 @@ public:
                     const SizeType& numChannels,
                     const void* data,
                     const void* timestamps);
+
+  DEFINE_FIELD(readData, DatasetField, std::any, "data", Spike waveforms)
+
+  DEFINE_FIELD(readDataUnit,
+               AttributeField,
+               std::string,
+               "data/unit",
+               Unit of measurement for waveforms.
+               This is fixed to volts)
 
 private:
   /**

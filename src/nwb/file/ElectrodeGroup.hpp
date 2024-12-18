@@ -44,5 +44,11 @@ public:
   void initialize(const std::string& description,
                   const std::string& location,
                   const Device& device);
+
+  DEFINE_FIELD(readData,
+               DatasetField,
+               std::any,
+               "position",
+               Stereotaxis or common framework coordinates)
 };
 }  // namespace AQNWB::NWB

@@ -2,7 +2,9 @@
 
 #include <string>
 
+#include "Utils.hpp"
 #include "io/BaseIO.hpp"
+#include "io/ReadIO.hpp"
 #include "nwb/hdmf/base/Container.hpp"
 #include "nwb/hdmf/table/ElementIdentifiers.hpp"
 #include "nwb/hdmf/table/VectorData.hpp"
@@ -78,15 +80,6 @@ public:
                  const std::vector<int>& values);
 
   /**
-   * @brief Gets the column names of the table.
-   * @return A vector of column names.
-   */
-  virtual const std::vector<std::string>& getColNames() const
-  {
-    return m_colNames;
-  }
-
-  /**
    * @brief Sets the column names of the ElectrodeTable.
    * @param newColNames The vector of new column names.
    */
@@ -94,6 +87,24 @@ public:
   {
     m_colNames = newColNames;
   }
+
+  DEFINE_FIELD(readColNames,
+               AttributeField,
+               std::string,
+               "colnames",
+               The names of the columns in the table);
+
+  DEFINE_FIELD(readDescription,
+               AttributeField,
+               std::string,
+               "description",
+               Description of what is in this dynamic table);
+
+  DEFINE_FIELD(readId,
+               DatasetField, 
+               std::any, 
+               "id", 
+               Array of unique identifiers for the rows of this dynamic table);
 
 protected:
   /**

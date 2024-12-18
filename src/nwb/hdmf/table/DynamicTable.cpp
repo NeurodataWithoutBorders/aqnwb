@@ -26,7 +26,7 @@ void DynamicTable::initialize(const std::string& description)
   Container::initialize();
   m_io->createCommonNWBAttributes(
       m_path, this->getNamespace(), this->getTypeName(), description);
-  m_io->createAttribute(getColNames(), m_path, "colnames");
+  m_io->createAttribute(m_colNames, m_path, "colnames");
 }
 
 /** Add column to table */

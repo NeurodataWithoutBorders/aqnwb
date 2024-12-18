@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include "Utils.hpp"
+#include "io/ReadIO.hpp"
 #include "nwb/hdmf/base/Data.hpp"
 
 namespace AQNWB::NWB
@@ -23,11 +25,11 @@ public:
    */
   VectorData(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
-  /**
-   * @brief Gets the description of the table.
-   * @return The description of the table.
-   */
-  inline std::string getDescription() const { return m_description; }
+  DEFINE_FIELD(readDescription,
+               AttributeField,
+               std::string,
+               "description",
+               Description of what these vectors represent);
 
 private:
   /**

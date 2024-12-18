@@ -2,7 +2,9 @@
 
 #include <string>
 
+#include "Utils.hpp"
 #include "io/BaseIO.hpp"
+#include "io/ReadIO.hpp"
 #include "nwb/hdmf/base/Container.hpp"
 
 namespace AQNWB::NWB
@@ -38,5 +40,18 @@ public:
    */
   void initialize(const std::string& description,
                   const std::string& manufacturer);
+
+  // Define the data fields to expose for lazy read access
+  DEFINE_FIELD(readDescription,
+               AttributeField,
+               std::string,
+               "description",
+               Description of the series)
+
+  DEFINE_FIELD(readManufacturer,
+               AttributeField,
+               std::string,
+               "manufacturer",
+               Manufacturer of the device)
 };
 }  // namespace AQNWB::NWB

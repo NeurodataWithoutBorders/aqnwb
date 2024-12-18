@@ -3,7 +3,9 @@
 #include <string>
 
 #include "Channel.hpp"
+#include "Utils.hpp"
 #include "io/BaseIO.hpp"
+#include "io/ReadIO.hpp"
 #include "nwb/base/TimeSeries.hpp"
 
 namespace AQNWB::NWB
@@ -85,6 +87,21 @@ public:
    * @brief Pointer to electrodes dataset.
    */
   std::unique_ptr<IO::BaseRecordingData> electrodesDataset;
+
+  DEFINE_FIELD(readChannelConversion,
+               AttributeField,
+               float,
+               "data/channel_conversion",
+               Channel - specific conversion factor)
+
+  DEFINE_FIELD(readData, DatasetField, std::any, "data", Recorded voltage data)
+
+  DEFINE_FIELD(readDataUnit,
+               AttributeField,
+               std::string,
+               "data/unit",
+               Base unit of measurement for working with the data. 
+               This value is fixed to volts)
 
 private:
   /**
