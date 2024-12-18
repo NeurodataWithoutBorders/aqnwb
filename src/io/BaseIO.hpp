@@ -107,12 +107,13 @@ enum class SearchMode
 /**
  * @brief The access mode for the file.
  */
-enum class FileMode {
+enum class FileMode
+{
   /**
    * @brief Opens the file and overwrites any existing file.
    */
   Overwrite,
-  
+
   /**
    * @brief Opens the file with both read and write access.
    */

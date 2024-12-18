@@ -47,17 +47,17 @@ Status HDF5IO::open(FileMode mode)
   H5Pset_libver_bounds(fapl.getId(), H5F_LIBVER_LATEST, H5F_LIBVER_LATEST);
 
   switch (mode) {
-      case FileMode::Overwrite:
-          accFlags = H5F_ACC_TRUNC;
-          break;
-      case FileMode::ReadWrite:
-          accFlags = H5F_ACC_RDWR;
-          break;
-      case FileMode::ReadOnly:
-          accFlags = H5F_ACC_RDONLY | H5F_ACC_SWMR_READ;
-          break;
-      default:
-          throw std::invalid_argument("Invalid file mode");
+    case FileMode::Overwrite:
+      accFlags = H5F_ACC_TRUNC;
+      break;
+    case FileMode::ReadWrite:
+      accFlags = H5F_ACC_RDWR;
+      break;
+    case FileMode::ReadOnly:
+      accFlags = H5F_ACC_RDONLY | H5F_ACC_SWMR_READ;
+      break;
+    default:
+      throw std::invalid_argument("Invalid file mode");
   }
 
   m_file = std::make_unique<H5::H5File>(

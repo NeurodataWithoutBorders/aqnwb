@@ -192,7 +192,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
             typesToSearch,  // search for all ElectricalSeries
             IO::SearchMode::CONTINUE_ON_TYPE  // search also within types
         );
-    
+
     // [example_search_types_snippet]
     // [example_search_types_check_snippet]
     // We should have esdata1 and esdata2
