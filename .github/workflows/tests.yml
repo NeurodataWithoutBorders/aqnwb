@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest, ubuntu-latest]
+        os: [macos-latest, ubuntu-latest, windows-latest]
     
     runs-on: ${{ matrix.os }}
 
@@ -43,6 +43,13 @@ jobs:
     - name: Install dependencies - macos
       if: matrix.os == 'macos-latest'
       run: brew install hdf5 boost catch2
+    
+    - name: Install dependencies - windows
+      if: matrix.os == 'windows-latest'
+      run: |
+        cd "${VCPKG_INSTALLATION_ROOT}"
+        vcpkg install hdf5[cpp]:x64-windows boost-date-time:x64-windows boost-endian:x64-windows boost-uuid:x64-windows catch2:x64-windows
+        vcpkg integrate install
 
     - name: Configure
       shell: pwsh

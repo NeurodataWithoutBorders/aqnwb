@@ -127,6 +127,11 @@
  * }
  * \enddot
  *
+ * \warning
+ * There are known issues using SWMR mode on Windows due to file locking by the reader processes. One workaround
+ * is to set the environment variable `HDF5_USE_FILE_LOCKING=FALSE` to prevent file access errors when using 
+ * a writer process with other reader processes.  
+ *
  * \subsection hdf5io_swmr_features Why does AqNWB use SMWR mode?
  *
  * Using SWMR has several key advantages for data acquisition applications:

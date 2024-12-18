@@ -66,13 +66,17 @@ TEST_CASE("writeContinuousData", "[recording]")
         for (const auto& channel : channelVector) {
           // copy data into buffer
           std::copy(
-              mockData[channel.getGlobalIndex()].begin() + samplesRecorded,
-              mockData[channel.getGlobalIndex()].begin() + samplesRecorded
-                  + bufferSize,
+              mockData[channel.getGlobalIndex()].begin()
+                  + static_cast<std::ptrdiff_t>(samplesRecorded),
+              mockData[channel.getGlobalIndex()].begin()
+                  + static_cast<std::ptrdiff_t>(samplesRecorded + bufferSize),
               dataBuffer.begin());
-          std::copy(mockTimestamps.begin() + samplesRecorded,
-                    mockTimestamps.begin() + samplesRecorded + bufferSize,
-                    timestampsBuffer.begin());
+          std::copy(
+              mockTimestamps.begin()
+                  + static_cast<std::ptrdiff_t>(samplesRecorded),
+              mockTimestamps.begin()
+                  + static_cast<std::ptrdiff_t>(samplesRecorded + bufferSize),
+              timestampsBuffer.begin());
 
           // write timeseries data
           std::vector<SizeType> positionOffset = {samplesRecorded,

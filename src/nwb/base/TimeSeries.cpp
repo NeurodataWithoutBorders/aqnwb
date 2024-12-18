@@ -55,11 +55,11 @@ void TimeSeries::initialize()
 
 Status TimeSeries::writeData(const std::vector<SizeType>& dataShape,
                              const std::vector<SizeType>& positionOffset,
-                             const void* data,
-                             const void* timestamps)
+                             const void* dataInput,
+                             const void* timestampsInput)
 {
   Status tsStatus = Status::Success;
-  if (timestamps != nullptr) {
+  if (timestampsInput != nullptr) {
     const std::vector<SizeType> timestampsShape = {
         dataShape[0]};  // timestamps should match shape of the first data
                         // dimension
@@ -67,13 +67,13 @@ Status TimeSeries::writeData(const std::vector<SizeType>& dataShape,
     tsStatus = this->timestamps->writeDataBlock(timestampsShape,
                                                 timestampsPositionOffset,
                                                 this->timestampsType,
-                                                timestamps);
+                                                timestampsInput);
   }
 
   Status dataStatus = this->data->writeDataBlock(
-      dataShape, positionOffset, this->dataType, data);
+      dataShape, positionOffset, this->dataType, dataInput);
 
-  if ((dataStatus != Status::Success) or (tsStatus != Status::Success)) {
+  if ((dataStatus != Status::Success) || (tsStatus != Status::Success)) {
     return Status::Failure;
   } else {
     return Status::Success;

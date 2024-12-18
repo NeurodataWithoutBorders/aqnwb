@@ -117,12 +117,17 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
       SizeType samplesRecorded = 0;
       for (SizeType b = 0; b * bufferSize < numSamples; b += 1) {
         // copy chunk of data
-        std::copy(mockData[ch].begin() + samplesRecorded,
-                  mockData[ch].begin() + samplesRecorded + bufferSize,
-                  dataBuffer.begin());
-        std::copy(mockTimestamps.begin() + samplesRecorded,
-                  mockTimestamps.begin() + samplesRecorded + bufferSize,
-                  timestampsBuffer.begin());
+        std::copy(
+            mockData[ch].begin() + static_cast<std::ptrdiff_t>(samplesRecorded),
+            mockData[ch].begin()
+                + static_cast<std::ptrdiff_t>(samplesRecorded + bufferSize),
+            dataBuffer.begin());
+        std::copy(
+            mockTimestamps.begin()
+                + static_cast<std::ptrdiff_t>(samplesRecorded),
+            mockTimestamps.begin()
+                + static_cast<std::ptrdiff_t>(samplesRecorded + bufferSize),
+            timestampsBuffer.begin());
 
         es.writeChannel(
             ch, dataBuffer.size(), dataBuffer.data(), timestampsBuffer.data());
@@ -217,7 +222,6 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
     H5::DataSpace fSpace = dataset->getSpace();
     hsize_t dims[3];
     fSpace.getSimpleExtentDims(dims, NULL);
-    hsize_t memdims = dims[0] * dims[1] * dims[2];
     dataset->read(buffer, H5::PredType::NATIVE_FLOAT, fSpace, fSpace);
 
     for (SizeType i = 0; i < numEvents; ++i) {
@@ -277,7 +281,6 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
     H5::DataSpace fSpace = dataset->getSpace();
     hsize_t dims[3];
     fSpace.getSimpleExtentDims(dims, NULL);
-    hsize_t memdims = dims[0] * dims[1] * dims[2];
     dataset->read(buffer, H5::PredType::NATIVE_FLOAT, fSpace, fSpace);
 
     for (SizeType i = 0; i < numEvents; ++i) {

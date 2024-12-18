@@ -16,6 +16,15 @@
 #include "nwb/file/ElectrodeTable.hpp"
 #include "testUtils.hpp"
 
+// Get the current working directory
+std::filesystem::path currentPath = std::filesystem::current_path();
+#ifdef _WIN32
+std::string executablePath =
+    (currentPath / BUILD_CONFIG / "reader_executable.exe").string();
+#else
+std::string executablePath = "./reader_executable";
+#endif
+
 using namespace AQNWB;
 namespace fs = std::filesystem;
 
@@ -280,7 +289,7 @@ TEST_CASE("SWMRmode", "[hdf5io]")
   SECTION("useSWMRMODE")
   {
     // create and open file
-    std::string path = getTestFilePath("testSWMRmode.h5");
+    std::string path = getTestFilePath("testSWMRmodeEnable.h5");
     std::unique_ptr<HDF5::HDF5IO> hdf5io = std::make_unique<HDF5::HDF5IO>(path);
     hdf5io->open();
 
@@ -293,7 +302,9 @@ TEST_CASE("SWMRmode", "[hdf5io]")
         BaseDataType::I32, SizeArray {0}, SizeArray {1}, dataPath);
 
     // try to read the file before starting SWMR mode
-    std::string command = "./reader_executable " + path + " " + dataPath;
+    std::string command = executablePath + " " + path + " " + dataPath;
+    std::cout << "Executing command: " << command << std::endl;
+
     int retPreSWMREnabled = std::system(command.c_str());
     REQUIRE(retPreSWMREnabled
             != 0);  // process should fail if SWMR mode is not enabled
@@ -309,6 +320,10 @@ TEST_CASE("SWMRmode", "[hdf5io]")
     std::thread readerThread(
         [](const std::string& cmd, std::promise<int> promise)
         {
+#ifdef _WIN32
+          // required on Windows to allow writer process to access file
+          _putenv_s("HDF5_USE_FILE_LOCKING", "FALSE");
+#endif
           int ret = std::system(cmd.c_str());
           promise.set_value(ret);
         },
@@ -353,7 +368,7 @@ TEST_CASE("SWMRmode", "[hdf5io]")
   SECTION("disableSWMRMode")
   {
     // create and open file with SWMR mode disabled
-    std::string path = getTestFilePath("testSWMRmode.h5");
+    std::string path = getTestFilePath("testSWMRmodeDisable.h5");
     std::unique_ptr<HDF5::HDF5IO> hdf5io =
         std::make_unique<HDF5::HDF5IO>(path, true);
     hdf5io->open();

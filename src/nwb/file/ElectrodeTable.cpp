@@ -40,13 +40,13 @@ void ElectrodeTable::initialize()
                                m_path + "location")));
 }
 
-void ElectrodeTable::addElectrodes(std::vector<Channel> channels)
+void ElectrodeTable::addElectrodes(std::vector<Channel> channelsInput)
 {
   // create datasets
-  for (const auto& ch : channels) {
+  for (const auto& ch : channelsInput) {
     groupReferences.push_back(groupPathBase + ch.getGroupName());
     groupNames.push_back(ch.getGroupName());
-    electrodeNumbers.push_back(ch.getGlobalIndex());
+    electrodeNumbers.push_back(static_cast<int>(ch.getGlobalIndex()));
     locationNames.push_back("unknown");
   }
 }
