@@ -8,7 +8,9 @@
 #include <vector>
 
 #include "Types.hpp"
+#include "Utils.hpp"
 #include "io/BaseIO.hpp"
+#include "io/ReadIO.hpp"
 #include "nwb/RecordingContainers.hpp"
 #include "nwb/base/TimeSeries.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
@@ -168,6 +170,43 @@ private:
 
   inline const static std::string acquisitionPath = "/acquisition";
   static std::vector<SizeType> emptyContainerIndexes;
+
+  DEFINE_FIELD(readNWBVersion,
+               AttributeField,
+               std::string,
+               "nwb_version",
+               File version string);
+
+  DEFINE_FIELD(readFileCreateDate,
+               DatasetField,
+               std::any,
+               "file_create_date",
+               A record of the date the file was created and of subsequent
+                   modifications);
+
+  DEFINE_FIELD(readIdentifier,
+               DatasetField,
+               std::string,
+               "identifier",
+               A unique text identifier for the file);
+
+  DEFINE_FIELD(readSessionDescription,
+               DatasetField,
+               std::string,
+               "session_description",
+               A description of the experimental session and data in the file);
+
+  DEFINE_FIELD(readSessionStartTime,
+               DatasetField,
+               std::any,
+               "session_start_time",
+               Date and time of the experiment or session start);
+
+  DEFINE_FIELD(readTimestampsReferenceTime,
+               DatasetField,
+               std::any,
+               "timestamps_reference_time",
+               Date and time corresponding to time zero of all timestamps);
 
 private:
   /**
