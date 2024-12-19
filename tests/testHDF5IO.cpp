@@ -23,7 +23,7 @@ namespace fs = std::filesystem;
 TEST_CASE("writeGroup", "[hdf5io]")
 {
   // create and open file
-  std::string filename = getTestFilePath("test_group.h5");
+  std::string filename = getTestFilePath("testGroup.h5");
   IO::HDF5::HDF5IO hdf5io(filename);
   hdf5io.open();
 
@@ -37,7 +37,7 @@ TEST_CASE("writeGroup", "[hdf5io]")
 TEST_CASE("searchGroup", "[hdf5io]")
 {
   // create and open file
-  std::string filename = getTestFilePath("test_group.h5");
+  std::string filename = getTestFilePath("searchGroup.h5");
   IO::HDF5::HDF5IO hdf5io(filename);
   hdf5io.open();
 
