@@ -15,6 +15,10 @@ namespace AQNWB::NWB
 class ElectrodeTable : public DynamicTable
 {
 public:
+  // Register the ElectrodeTable as a subclass of Container
+  // REGISTER_SUBCLASS(ElectrodeTable, "core")
+  REGISTER_SUBCLASS_WITH_TYPENAME(ElectrodeTable, "core", "DynamicTable")
+
   /**
    * @brief Constructor.
    * @param io The shared pointer to the BaseIO object.
@@ -62,7 +66,7 @@ public:
   inline std::string getGroupPath() const
   {
     // all channels in ChannelVector should have the same groupName
-    return groupReferences[0];
+    return m_groupReferences[0];
   }
 
   /**
@@ -71,48 +75,52 @@ public:
    */
   void setGroupPath(const std::string& groupPath);
 
-  std::unique_ptr<ElementIdentifiers> electrodeDataset =
-      std::make_unique<ElementIdentifiers>(); /**< The electrode dataset. */
-  std::unique_ptr<VectorData> groupNamesDataset =
-      std::make_unique<VectorData>(); /**< The group names dataset. */
-  std::unique_ptr<VectorData> locationsDataset =
-      std::make_unique<VectorData>(); /**< The locations dataset. */
-
   /**
    * @brief The path to the ElectrodeTable.
    */
   inline const static std::string electrodeTablePath =
-      "/general/extracellular_ephys/electrodes/";
+      "/general/extracellular_ephys/electrodes";
 
 private:
   /**
-   * @brief The channel information from the acquisition system.
-   */
-  std::vector<Channel> channels;
-
-  /**
    * @brief The global indices for each electrode.
    */
-  std::vector<int> electrodeNumbers;
+  std::vector<int> m_electrodeNumbers;
 
   /**
    * @brief The names of the ElectrodeGroup object for each electrode.
    */
-  std::vector<std::string> groupNames;
+  std::vector<std::string> m_groupNames;
 
   /**
    * @brief The location names for each electrode.
    */
-  std::vector<std::string> locationNames;
+  std::vector<std::string> m_locationNames;
 
   /**
    * @brief The references to the ElectrodeGroup object for each electrode.
    */
-  std::vector<std::string> groupReferences;
+  std::vector<std::string> m_groupReferences;
 
   /**
    * @brief The references path to the ElectrodeGroup
    */
-  std::string groupPathBase = "/general/extracellular_ephys/";
+  inline const static std::string m_groupPathBase =
+      "/general/extracellular_ephys";
+
+  /**
+   * @brief The row ids data object for write
+   */
+  std::unique_ptr<ElementIdentifiers> m_electrodeDataset;
+
+  /**
+   * @brief The group names column for write
+   */
+  std::unique_ptr<VectorData> m_groupNamesDataset;
+
+  /**
+   * @brief The locations column for write
+   */
+  std::unique_ptr<VectorData> m_locationsDataset;
 };
 }  // namespace AQNWB::NWB

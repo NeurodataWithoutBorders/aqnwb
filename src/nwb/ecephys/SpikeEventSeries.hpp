@@ -3,7 +3,9 @@
 #include <string>
 
 #include "Channel.hpp"
+#include "Utils.hpp"
 #include "io/BaseIO.hpp"
+#include "io/ReadIO.hpp"
 #include "nwb/ecephys/ElectricalSeries.hpp"
 
 namespace AQNWB::NWB
@@ -15,6 +17,9 @@ namespace AQNWB::NWB
 class SpikeEventSeries : public ElectricalSeries
 {
 public:
+  // Register the TimeSeries as a subclass of Container
+  REGISTER_SUBCLASS(SpikeEventSeries, "core")
+
   /**
    * @brief Constructor.
    * @param path The location of the SpikeEventSeries in the file.
@@ -70,15 +75,19 @@ public:
                     const void* data,
                     const void* timestamps);
 
-private:
-  /**
-   * @brief The neurodataType of the SpikeEventSeries.
-   */
-  std::string neurodataType = "SpikeEventSeries";
+  DEFINE_FIELD(readData, DatasetField, std::any, "data", Spike waveforms)
 
+  DEFINE_FIELD(readDataUnit,
+               AttributeField,
+               std::string,
+               "data/unit",
+               Unit of measurement for waveforms.
+               This is fixed to volts)
+
+private:
   /**
    * @brief The number of events already written.
    */
-  SizeType eventsRecorded;
+  SizeType m_eventsRecorded;
 };
 }  // namespace AQNWB::NWB

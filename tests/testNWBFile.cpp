@@ -1,3 +1,6 @@
+#include <unordered_map>
+#include <unordered_set>
+
 #include <catch2/catch_test_macros.hpp>
 
 #include "Utils.hpp"
@@ -64,6 +67,28 @@ TEST_CASE("createElectricalSeries", "[nwb]")
   ts1->writeData(
       dataShape, positionOffset, mockData.data(), mockTimestamps.data());
 
+  io->flush();
+
+  // test searching for all NWBFile objects
+  std::unordered_set<std::string> typesToSearch = {"core::NWBFile"};
+  std::unordered_map<std::string, std::string> found_types =
+      io->findTypes("/", typesToSearch, IO::SearchMode::CONTINUE_ON_TYPE);
+  REQUIRE(found_types.size() == 1);  // We should have a single NWBFile
+
+  // test searching for all ElectricalSeries objects
+  std::unordered_set<std::string> typesToSearch2 = {"core::ElectricalSeries"};
+  std::unordered_map<std::string, std::string> found_types2 =
+      io->findTypes("/", typesToSearch2, IO::SearchMode::CONTINUE_ON_TYPE);
+  REQUIRE(found_types2.size() == 2);  // We should have esdata1 and esdata2
+  for (const auto& pair : found_types2) {
+    // only ElectricalSeries should be found
+    REQUIRE(pair.second == "core::ElectricalSeries");
+    // only esdata1 or esdata2 should be in the list
+    REQUIRE(((pair.first == "/acquisition/esdata1")
+             || (pair.first == "/acquisition/esdata0")));
+  }
+
+  // finalize the nwb file
   nwbfile.finalize();
 }
 

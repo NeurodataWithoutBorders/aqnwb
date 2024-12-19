@@ -3,6 +3,9 @@
 using namespace AQNWB::NWB;
 
 // Device
+// Initialize the static registered_ member to trigger registration
+REGISTER_SUBCLASS_IMPL(Device)
+
 /** Constructor */
 Device::Device(const std::string& path, std::shared_ptr<IO::BaseIO> io)
     : Container(path, io)
@@ -17,6 +20,7 @@ void Device::initialize(const std::string& description,
 {
   Container::initialize();
 
-  m_io->createCommonNWBAttributes(m_path, "core", "Device", description);
+  m_io->createCommonNWBAttributes(
+      m_path, this->getNamespace(), this->getTypeName(), description);
   m_io->createAttribute(manufacturer, m_path, "manufacturer");
 }

@@ -9,6 +9,7 @@
 #include "io/hdf5/HDF5IO.hpp"
 #include "nwb/NWBFile.hpp"
 #include "nwb/RecordingContainers.hpp"
+#include "nwb/RegisteredType.hpp"
 #include "nwb/device/Device.hpp"
 #include "nwb/ecephys/ElectricalSeries.hpp"
 #include "nwb/file/ElectrodeGroup.hpp"
@@ -86,8 +87,12 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // Get a ReadDatasetWrapper<float> for lazy reading of ElectricalSeries.data
     // By specifying the value type as a template parameter allows us to read
     // typed data
-    auto readDataWrapper = electricalSeries->dataLazy<float>();
+    auto readDataWrapper = electricalSeries->readData<float>();
     // [example_read_get_data_wrapper_snippet]
+
+    // [example_read_check_data_exists_snippet]
+    REQUIRE(readDataWrapper->exists());
+    // [example_read_check_data_exists_snippet]
 
     // [example_read_get_datablock_snippet]
     // Read the full  ElectricalSeries.data back
@@ -136,9 +141,9 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // [example_read_attribute_snippet]
     // Get a ReadDataWrapper<ReadObjectType::Attribute, float> to read data
     // lazily
-    auto readResolutionWrapper = electricalSeries->resolutionLazy();
+    auto readDataResolutionWrapper = electricalSeries->readDataResolution();
     // Read the data values
-    DataBlock<float> resolutionValueFloat = readResolutionWrapper->values();
+    DataBlock<float> resolutionValueFloat = readDataResolutionWrapper->values();
     REQUIRE(resolutionValueFloat.shape.empty());  // Scalar
     REQUIRE(resolutionValueFloat.data.size() == 1);
     REQUIRE(int(resolutionValueFloat.data[0]) == -1);
@@ -148,7 +153,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // [example_read_get_data_wrapper_as_generic_snippet]
     // Get a generic ReadDatasetWrapper<std::any> for lazy reading of
     // ElectricalSeries.data
-    auto readDataWrapperGeneric = electricalSeries->dataLazy();
+    auto readDataWrapperGeneric = electricalSeries->readData();
     // Instead of using values() to read typed data, we can read data as generic
     // data first via valuesGeneric
     DataBlockGeneric dataValuesGeneric =
@@ -164,7 +169,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
 
     // [example_read_getpath_snippet]
     // Reading the ElectricalSeries.data back (during the recording)
-    std::string electricalSeriesDataPath = electricalSeries->dataPath();
+    std::string electricalSeriesDataPath = readDataWrapperGeneric->getPath();
     std::string electricalSeriesPath = electricalSeries->getPath();
     REQUIRE(electricalSeriesDataPath == (electricalSeriesPath + "/data"));
     // [example_read_getpath_snippet]
@@ -175,31 +180,65 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     io->close();
     // [example_read_finish_recording_snippet]
 
-    // [example_read_only_snippet]
-    // Open an I/O for reading
+    // Open a new I/O for reading
     std::shared_ptr<BaseIO> readio = createIO("HDF5", path);
+    readio->open(FileMode::ReadOnly);
 
-    // To read from a specific TimeSeries we can just create it directly from
-    // the read IO Using NWB::Container::create we can create any NWB Container
-    // class. Alternatively, we can also construct the ElectricalSeries object
-    // ourselves
+    // [example_search_types_snippet]
+    std::unordered_set<std::string> typesToSearch = {"core::ElectricalSeries"};
+    std::unordered_map<std::string, std::string> found_electrical_series =
+        readio->findTypes(
+            "/",  // start search at the root of the file
+            typesToSearch,  // search for all ElectricalSeries
+            IO::SearchMode::CONTINUE_ON_TYPE  // search also within types
+        );
+
+    // [example_search_types_snippet]
+    // [example_search_types_check_snippet]
+    // We should have esdata1 and esdata2
+    REQUIRE(found_electrical_series.size() == 2);
+    std::string esdata_path;
+    // Print the path and type of the found objects
+    for (const auto& pair : found_electrical_series) {
+      std::cout << "Path=" << pair.first << " Full type=" << pair.second
+                << std::endl;
+      esdata_path = pair.first;
+    }
+    // [example_search_types_check_snippet]
+
+    // [example_read_only_snippet]
+    // Read the ElectricalSeries from the file. This returns a generic
+    // std::unique_ptr<AQNWB::NWB::RegisteredType>
+    auto readRegisteredType = NWB::RegisteredType::create(esdata_path, readio);
+    // If we need operations that are specific for the ElectricalSeries,
+    // then we can cast the returned pointer via
     auto readElectricalSeries =
-        NWB::Container::create<NWB::ElectricalSeries>(path, io);
+        std::dynamic_pointer_cast<AQNWB::NWB::ElectricalSeries>(
+            readRegisteredType);
 
     // Now we can read the data in the same way we did during write
-    auto readElectricalSeriesData = electricalSeries->dataLazy();
+    auto readElectricalSeriesData = readElectricalSeries->readData<float>();
+    DataBlock<float> readDataValues = readElectricalSeriesData->values();
+    auto readBoostMultiArray = readDataValues.as_multi_array<2>();
     // [example_read_only_snippet]
 
-    // TODO Actually loading the data causes a segfault
-    // DataBlock<float> readDataValues = readDataWrapper->values<float>();
-    // auto readBoostMulitArray = readDataValues.as_multi_array<2>();
+    // Test that reading a string attribute works
+    auto esDescr = readElectricalSeries->readDescription();
+    auto esDescrData = esDescr->values();
+    REQUIRE(esDescrData.data.size() == 1);
+    REQUIRE(esDescrData.shape.size() == 0);
+    REQUIRE(esDescrData.data[0]
+            == std::string("Stores continuously sampled voltage data from an "
+                           "extracellular ephys recording"));
 
-    // Let's read the first 10 timesteps for the first two channels
+    // TODO Slicing doesn't seem to work quite yet. The full data is loaded
+    // instead. Let's read the first 10 timesteps for the first two channels
     /*DataBlock<float> dataSlice = readDataWrapper->values<float>(
         {0, 0},  // start
-        {100, 1}  // count
+        {10, 1}  // count
     );
-    REQUIRE(dataSlice.shape[0] == 100);
+    REQUIRE(dataSlice.data.size() == 10);
+    REQUIRE(dataSlice.shape[0] == 10);
     REQUIRE(dataSlice.shape[1] == 1);*/
 
     // TODO Add an attribute getter (e.g., for ElectricalSeries.unit) and test

@@ -28,10 +28,19 @@ constexpr SizeType SPIKE_CHUNK_XSIZE =
 
 std::vector<SizeType> NWBFile::emptyContainerIndexes = {};
 
-// NWBFile
+// Initialize the static registered_ member to trigger registration
+REGISTER_SUBCLASS_IMPL(NWBFile)
+
 NWBFile::NWBFile(std::shared_ptr<IO::BaseIO> io)
     : Container("/", io)
 {
+}
+
+NWBFile::NWBFile(const std::string& path, std::shared_ptr<IO::BaseIO> io)
+    : Container("/", io)  // Always use "/" for the path
+{
+  std::cerr << "NWBFile object is always the root. Path must be /" << std::endl;
+  assert(path == "/");
 }
 
 NWBFile::~NWBFile() {}
@@ -41,9 +50,9 @@ Status NWBFile::initialize(const std::string& identifierText,
                            const std::string& dataCollection)
 {
   if (std::filesystem::exists(m_io->getFileName())) {
-    return m_io->open(false);
+    return m_io->open();
   } else {
-    m_io->open(true);
+    m_io->open();
     return createFileStructure(identifierText, description, dataCollection);
   }
 }
@@ -60,7 +69,8 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
   if (!m_io->canModifyObjects()) {
     return Status::Failure;
   }
-  m_io->createCommonNWBAttributes("/", "core", "NWBFile", "");
+  m_io->createCommonNWBAttributes(
+      m_path, this->getNamespace(), this->getTypeName(), "");
   m_io->createAttribute(AQNWB::SPEC::CORE::version, "/", "nwb_version");
   m_io->createGroup("/acquisition");
   m_io->createGroup("/analysis");
@@ -71,6 +81,7 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
   m_io->createGroup("/general");
   m_io->createGroup("/general/devices");
   m_io->createGroup("/general/extracellular_ephys");
+
   if (dataCollection != "") {
     m_io->createStringDataSet("/general/data_collection", dataCollection);
   }
@@ -129,9 +140,11 @@ Status NWBFile::createElectricalSeries(
 
     // Setup electrodes and devices
     std::string groupName = channelVector[0].getGroupName();
-    std::string devicePath = "/general/devices/" + groupName;
-    std::string electrodePath = "/general/extracellular_ephys/" + groupName;
-    std::string electricalSeriesPath = acquisitionPath + "/" + recordingName;
+    std::string devicePath = AQNWB::mergePaths("/general/devices", groupName);
+    std::string electrodePath =
+        AQNWB::mergePaths("/general/extracellular_ephys", groupName);
+    std::string electricalSeriesPath =
+        AQNWB::mergePaths(acquisitionPath, recordingName);
 
     // Check if device exists for groupName, create device and electrode group
     // if it does not
@@ -201,9 +214,11 @@ Status NWBFile::createSpikeEventSeries(
 
     // Setup electrodes and devices
     std::string groupName = channelVector[0].getGroupName();
-    std::string devicePath = "/general/devices/" + groupName;
-    std::string electrodePath = "/general/extracellular_ephys/" + groupName;
-    std::string spikeEventSeriesPath = acquisitionPath + "/" + recordingName;
+    std::string devicePath = AQNWB::mergePaths("/general/devices", groupName);
+    std::string electrodePath =
+        AQNWB::mergePaths("/general/extracellular_ephys", groupName);
+    std::string spikeEventSeriesPath =
+        AQNWB::mergePaths(acquisitionPath, recordingName);
 
     // Check if device exists for groupName, create device and electrode group
     // if not
@@ -254,13 +269,16 @@ void NWBFile::cacheSpecifications(
     const std::array<std::pair<std::string_view, std::string_view>, N>&
         specVariables)
 {
-  m_io->createGroup("/specifications/" + specPath);
-  m_io->createGroup("/specifications/" + specPath + "/" + versionNumber);
+  std::string specFullPath = AQNWB::mergePaths("/specifications", specPath);
+  std::string specFullVersionPath =
+      AQNWB::mergePaths(specFullPath, versionNumber);
+  m_io->createGroup(specFullPath);
+  m_io->createGroup(specFullVersionPath);
 
   for (const auto& [name, content] : specVariables) {
-    m_io->createStringDataSet("/specifications/" + specPath + "/"
-                                  + versionNumber + "/" + std::string(name),
-                              std::string(content));
+    m_io->createStringDataSet(
+        AQNWB::mergePaths(specFullVersionPath, std::string(name)),
+        std::string(content));
   }
 }
 

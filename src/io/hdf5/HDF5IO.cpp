@@ -30,13 +30,13 @@ HDF5IO::~HDF5IO()
 Status HDF5IO::open()
 {
   if (std::filesystem::exists(getFileName())) {
-    return open(false);
+    return open(FileMode::ReadWrite);
   } else {
-    return open(true);
+    return open(FileMode::Overwrite);
   }
 }
 
-Status HDF5IO::open(bool newfile)
+Status HDF5IO::open(FileMode mode)
 {
   int accFlags = 0;
 
@@ -46,10 +46,19 @@ Status HDF5IO::open(bool newfile)
   FileAccPropList fapl = FileAccPropList::DEFAULT;
   H5Pset_libver_bounds(fapl.getId(), H5F_LIBVER_LATEST, H5F_LIBVER_LATEST);
 
-  if (newfile)
-    accFlags = H5F_ACC_TRUNC;
-  else
-    accFlags = H5F_ACC_RDWR;
+  switch (mode) {
+    case FileMode::Overwrite:
+      accFlags = H5F_ACC_TRUNC;
+      break;
+    case FileMode::ReadWrite:
+      accFlags = H5F_ACC_RDWR;
+      break;
+    case FileMode::ReadOnly:
+      accFlags = H5F_ACC_RDONLY | H5F_ACC_SWMR_READ;
+      break;
+    default:
+      throw std::invalid_argument("Invalid file mode");
+  }
 
   m_file = std::make_unique<H5::H5File>(
       getFileName(), accFlags, FileCreatPropList::DEFAULT, fapl);
@@ -83,7 +92,8 @@ Status HDF5IO::flush()
   return checkStatus(status);
 }
 
-std::unique_ptr<H5::Attribute> HDF5IO::getAttribute(const std::string& path)
+std::unique_ptr<H5::Attribute> HDF5IO::getAttribute(
+    const std::string& path) const
 {
   // Split the path to get the parent object and the attribute name
   size_t pos = path.find_last_of('/');
@@ -94,24 +104,31 @@ std::unique_ptr<H5::Attribute> HDF5IO::getAttribute(const std::string& path)
   std::string parentPath = path.substr(0, pos);
   std::string attrName = path.substr(pos + 1);
 
-  try {
-    // Try to open the parent object as a group
-    H5::Group parentGroup = m_file->openGroup(parentPath);
-    return std::make_unique<H5::Attribute>(parentGroup.openAttribute(attrName));
-  } catch (const H5::Exception& e) {
-    // If it's not a group, try to open it as a dataset
-    try {
-      H5::DataSet parentDataset = m_file->openDataSet(parentPath);
-      return std::make_unique<H5::Attribute>(
-          parentDataset.openAttribute(attrName));
-    } catch (const H5::Exception& e) {
-      // Handle HDF5 exceptions
-      return nullptr;
-    }
+  // open the group or dataset
+  H5Object* loc;
+  Group gloc;
+  DataSet dloc;
+  H5O_type_t objectType = getH5ObjectType(parentPath);
+  switch (objectType) {
+    case H5O_TYPE_GROUP:
+      gloc = m_file->openGroup(parentPath);
+      loc = &gloc;
+      break;
+    case H5O_TYPE_DATASET:
+      dloc = m_file->openDataSet(parentPath);
+      loc = &dloc;
+      break;
+    default:
+      return nullptr;  // not a valid dataset or group type
+  }
+  if (loc->attrExists(attrName)) {
+    return std::make_unique<H5::Attribute>(loc->openAttribute(attrName));
+  } else {
+    return nullptr;
   }
 }
 
-StorageObjectType HDF5IO::getStorageObjectType(std::string path)
+StorageObjectType HDF5IO::getStorageObjectType(std::string path) const
 {
   try {
     H5O_type_t objectType = getH5ObjectType(path);
@@ -142,7 +159,7 @@ template<typename T, typename HDF5TYPE>
 std::vector<T> HDF5IO::readDataHelper(const HDF5TYPE& dataSource,
                                       size_t numElements,
                                       const H5::DataSpace& memspace,
-                                      const H5::DataSpace& dataspace)
+                                      const H5::DataSpace& dataspace) const
 {
   std::vector<T> data(numElements);
   if (const H5::DataSet* dataset =
@@ -164,7 +181,7 @@ std::vector<T> HDF5IO::readDataHelper(const HDF5TYPE& dataSource,
 
 template<typename T, typename HDF5TYPE>
 std::vector<T> HDF5IO::readDataHelper(const HDF5TYPE& dataSource,
-                                      size_t numElements)
+                                      size_t numElements) const
 {
   return this->readDataHelper<T>(
       dataSource, numElements, H5::DataSpace(), H5::DataSpace());
@@ -175,7 +192,7 @@ std::vector<std::string> HDF5IO::readStringDataHelper(
     const HDF5TYPE& dataSource,
     size_t numElements,
     const H5::DataSpace& memspace,
-    const H5::DataSpace& dataspace)
+    const H5::DataSpace& dataspace) const
 {
   std::vector<std::string> data(numElements);
   if (const H5::DataSet* dataset =
@@ -196,26 +213,29 @@ std::vector<std::string> HDF5IO::readStringDataHelper(
 
 template<typename HDF5TYPE>
 std::vector<std::string> HDF5IO::readStringDataHelper(
-    const HDF5TYPE& dataSource, size_t numElements)
+    const HDF5TYPE& dataSource, size_t numElements) const
 {
   return this->readStringDataHelper(
       dataSource, numElements, H5::DataSpace(), H5::DataSpace());
 }
 
-AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(const std::string& dataPath)
+AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(
+    const std::string& dataPath) const
 {
-  // create the return value to fill
-  IO::DataBlockGeneric result;
+  // Create the return value to fill
+  AQNWB::IO::DataBlockGeneric result;
   // Read the attribute
   auto attributePtr = this->getAttribute(dataPath);
   // Make sure dataPath points to an attribute
-  assert(attributePtr != nullptr);
+  if (attributePtr == nullptr) {
+    throw std::invalid_argument("attributePtr is null");
+  }
   H5::Attribute& attribute = *attributePtr;
   H5::DataType dataType = attribute.getDataType();
 
   // Determine the shape of the attribute
   H5::DataSpace dataspace = attribute.getSpace();
-  SizeType rank = dataspace.getSimpleExtentNdims();
+  int rank = dataspace.getSimpleExtentNdims();
   if (rank == 0) {
     // Scalar attribute
     result.shape.clear();
@@ -230,21 +250,40 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(const std::string& dataPath)
   }
 
   // Determine the size of the attribute from the shape
-  // For some reason using "size_t numElements = attribute.getStorageSize();"
-  // seems to not always give the expected size (but may be larger), so
-  // we calculate the number of elements from the shape instead
   size_t numElements = 1;  // Scalar (default)
-  if (result.shape.size() > 0)  // N-dimensional array
-  {
+  if (result.shape.size() > 0) {  // N-dimensional array
     for (const auto v : result.shape) {
       numElements *= v;
     }
   }
 
   // Read the attribute into a vector of the appropriate type
-  if (dataType == H5::PredType::C_S1) {
-    result.data = readStringDataHelper(attribute, numElements);
-    result.typeIndex = typeid(std::string);
+  if (dataType.getClass() == H5T_STRING) {
+    if (dataType.isVariableStr()) {
+      // Handle variable-length strings
+      std::vector<std::string> stringData;
+      try {
+        // Allocate a buffer to hold the variable-length string data
+        char* buffer;
+        attribute.read(dataType, &buffer);
+
+        // Convert the buffer to std::string
+        stringData.emplace_back(buffer);
+
+        // Free the memory allocated by HDF5
+        H5Dvlen_reclaim(
+            dataType.getId(), dataspace.getId(), H5P_DEFAULT, &buffer);
+      } catch (const H5::Exception& e) {
+        throw std::runtime_error(
+            "Failed to read variable-length string attribute: "
+            + std::string(e.getDetailMsg()));
+      }
+      result.data = stringData;
+      result.typeIndex = typeid(std::string);
+    } else {
+      result.data = readStringDataHelper(attribute, numElements);
+      result.typeIndex = typeid(std::string);
+    }
   } else if (dataType == H5::PredType::NATIVE_DOUBLE) {
     result.data = readDataHelper<double>(attribute, numElements);
     result.typeIndex = typeid(double);
@@ -728,7 +767,7 @@ bool HDF5IO::canModifyObjects()
   return statusOK && !inSWMRMode;
 }
 
-bool HDF5IO::objectExists(const std::string& path)
+bool HDF5IO::objectExists(const std::string& path) const
 {
   htri_t exists = H5Lexists(m_file->getId(), path.c_str(), H5P_DEFAULT);
   if (exists > 0) {
@@ -736,6 +775,25 @@ bool HDF5IO::objectExists(const std::string& path)
   } else {
     return false;
   }
+}
+
+bool HDF5IO::attributeExists(const std::string& path) const
+{
+  auto attributePtr = this->getAttribute(path);
+  return (attributePtr != nullptr);
+}
+
+std::vector<std::string> HDF5IO::getGroupObjects(const std::string& path) const
+{
+  std::vector<std::string> objects;
+  if (getH5ObjectType(path) == H5O_TYPE_GROUP) {
+    H5::Group group = m_file->openGroup(path);
+    hsize_t num_objs = group.getNumObjs();
+    for (hsize_t i = 0; i < num_objs; ++i) {
+      objects.push_back(group.getObjnameByIdx(i));
+    }
+  }
+  return objects;
 }
 
 std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::getDataSet(
@@ -805,7 +863,7 @@ std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::createArrayDataSet(
   return std::make_unique<HDF5RecordingData>(std::move(data));
 }
 
-H5O_type_t HDF5IO::getH5ObjectType(const std::string& path)
+H5O_type_t HDF5IO::getH5ObjectType(const std::string& path) const
 {
 #if H5_VERSION_GE(1, 12, 0)
   // get whether path is a dataset or group

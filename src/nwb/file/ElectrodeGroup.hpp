@@ -15,6 +15,9 @@ namespace AQNWB::NWB
 class ElectrodeGroup : public Container
 {
 public:
+  // Register ElectrodeGroup as a subclass of Container
+  REGISTER_SUBCLASS(ElectrodeGroup, "core")
+
   /**
    * @brief Constructor.
    * @param path The location in the file of the electrode group.
@@ -41,5 +44,11 @@ public:
   void initialize(const std::string& description,
                   const std::string& location,
                   const Device& device);
+
+  DEFINE_FIELD(readData,
+               DatasetField,
+               std::any,
+               "position",
+               Stereotaxis or common framework coordinates)
 };
 }  // namespace AQNWB::NWB

@@ -5,16 +5,18 @@
  *
  * \section read_design_intro Introduction
  *
- * Reading data from an open NWB file via AqNWB consists of two main steps. In the
- * first step we retrieve a wrapper object that provides lazy read access to the
- * particular dataset or attribute:
  *
- * \snippet tests/examples/test_ecephys_data_read.cpp example_read_get_data_wrapper_snippet
+ * Reading data from an open NWB file via AqNWB consists of the following main steps.
  *
- * In the second step we then request the parts of the data we are interested in,
- * at which point the data is being loaded from disk.
- *
- * \snippet tests/examples/test_ecephys_data_read.cpp example_read_get_datablock_snippet
+ * 1. Create the I/O object to read the file
+ * 2. Construct the container object for the ``neurodata_type`` (e.g., a ``TimeSeries``) for read
+ *    via the  \ref AQNWB::NWB::RegisteredType::create "RegisteredType::create" factory method, e.g.,
+ *    ``auto electricalSeries = RegisteredType::create<ElectricalSeries>(electricalSeriesPath, io);``
+ * 3. Access a dataset or attribute for read by retrieving a wrapper object that provides lazy read
+ *    access to the particular dataset or attribute:
+ *    \snippet tests/examples/test_ecephys_data_read.cpp example_read_get_data_wrapper_snippet
+ * 4. Request the parts of the data of interest,at which point the data is being loaded from disk.
+ *   \snippet tests/examples/test_ecephys_data_read.cpp example_read_get_datablock_snippet
  *
  * In the following sections we dive deeper into the \ref read_design_sec, describing
  * the different classes involved in reading data and their responsibilities. We then
@@ -23,6 +25,8 @@
  *
  *
  * \section read_design_sec Software Design
+ *
+ * \subsection read_design_sec_read_date Reading datasets and attributes
  *
  * The following figure shows the main classes involved with reading data from a dataset or attribute.
  *
@@ -131,7 +135,7 @@
  *
  * We will discuss these different components in a bit more detail next.
  *
- * \subsection read_design_wrapper_container Container
+ * \subsubsection read_design_wrapper_container Container
  *
  * The \ref AQNWB::NWB::Container "Container" class (e.g., \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries"
  * or  \ref AQNWB::NWB::NWBFile "NWBFile") is responsible for exposing read access to its
@@ -140,11 +144,11 @@
  * \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper<AQNWB::Types::StorageObjectType::Attribute>" objects
  * for lazily reading from the dataset/attribute.
  *
- * \subsection read_design_wrapper_propos ReadDataWrapper
+ * \subsubsection read_design_wrapper_propos ReadDataWrapper
  *
  * The  \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper" stores a shared pointer
- * \ref AQNWB::IO::ReadDataWrapper::io "io" to the  I/O object and the
- * \ref AQNWB::IO::ReadDataWrapper::dataPath "dataPath" to the dataset.
+ * \ref AQNWB::IO::ReadDataWrapper::m_io "m_io" to the  I/O object and the
+ * \ref AQNWB::IO::ReadDataWrapper::m_path "path" to the dataset.
  *
  * The \ref AQNWB::IO::ReadDataWrapper::valuesGeneric "valuesGeneric" method then allows us
  * to read all or parts of the dataset into memory as ``std::any``. This function uses
@@ -166,7 +170,7 @@
  * For attributes, slicing is disabled at compile time, i.e., attributes are always
  * loaded fully into memory since attributes are intended for small data only.
  *
- * \subsection read_design_data_block DataBlockGeneric and DataBlock
+ * \subsubsection read_design_data_block DataBlockGeneric and DataBlock
  *
  * At first, data values are always represented as a \ref AQNWB::IO::DataBlockGeneric "DataBlockGeneric"
  * object, which stores the \ref AQNWB::IO::DataBlockGeneric::data "data" as ``std::any``
@@ -177,7 +181,7 @@
  * we can let the backend handle memory allocation and typing for us and load data
  * even if we don't know the type yet.
  *
- * \subsubsection read_design_data_block_typed DataBlock with typed data
+ * \paragraph read_design_data_block_typed DataBlock with typed data
  *
  * To cast the data to the appropriate specific type (e.g., ``float``) we can then create a
  * \ref AQNWB::IO::DataBlock "DataBlock" with the appropriate data type via the
@@ -193,7 +197,7 @@
  * and referencing to transform the data without making additional copies
  * of the data.
  *
- * \subsubsection read_design_data_block_multiarray Using Boost Multi Array for N-Dimensional Data
+ * \paragraph read_design_data_block_multiarray Using Boost Multi Array for N-Dimensional Data
  *
  * To simplify access to multi-dimensional data, we can then represent the data
  * as a ``BOOST::multi_array``. The \ref AQNWB::IO::DataBlock::as_multi_array "DataBlock.as_multi_array"
@@ -209,7 +213,7 @@
  * the number of dimensions ``NDIMS`` at compile time.
  *
  *
- * \subsection read_design_wrapper_io I/O
+ * \subsubsection read_design_wrapper_io I/O
  *
  * The I/O backend is responsible for implementing the actual
  * \ref AQNWB::IO::BaseIO::readDataset "readDataset" and \ref AQNWB::IO::BaseIO::readAttribute "readAttribute"
@@ -219,23 +223,132 @@
  * stores the data as untyped ``std::any``. The user can then cast the
  * data to the appropriate type as discussed in \ref read_design_data_block_typed.
  *
+ * \subsection read_design_sec_read_types Reading typed objects
  *
+ * Objects with an assigned ``neurodata_type`` are represented by corresponding classes in AqNWB.
+ * To read objects with an assigned type, we therefore need to be able to instantiate the corresponding
+ * classes in AqNWB based on the data from a file. The following figure illustrates the main
+ * components of this process.
+ *
+ *
+ * @dot
+ * digraph G {
+ *     node [shape=none];
+ *     rankdir=TB;
+ *
+ *     HDF5IO [
+ *         label=<
+ *             <table border="0" cellborder="1" cellspacing="0">
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>HDF5IO</b></td></tr>
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Functions</b></td></tr>
+ *                 <tr><td align="left">+ findTypes(): std::unordered_map&lt;std::string, std::string&gt;</td></tr>
+ *                 <tr><td align="left">+ getGroupObjects(): std::vector&lt;std::string&gt;</td></tr>
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Attributes</b></td></tr>
+ *             </table>
+ *         >
+ *     ];
+ *
+ *     NWBFile [
+ *         shape=note,
+ *         label="NWB file (HDF5)"
+ *     ];
+ *
+ *     Container [
+ *         label=<
+ *             <table border="0" cellborder="1" cellspacing="0">
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Container</b></td></tr>
+ *             </table>
+ *         >
+ *     ];
+ *
+ *     Data [
+ *         label=<
+ *             <table border="0" cellborder="1" cellspacing="0">
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Data</b></td></tr>
+ *             </table>
+ *         >
+ *     ];
+ *
+ *     RegisteredType [
+ *         label=<
+ *             <table border="0" cellborder="1" cellspacing="0">
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>RegisteredType</b></td></tr>
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Functions</b></td></tr>
+ *                 <tr><td align="left">+ getPath(): </td></tr>
+ *                 <tr><td align="left">+ getIO(): </td></tr>
+ *                 <tr><td align="left">+ create(path: std::string, io: std::shared_ptr&lt;BaseIO&gt;)</td></tr>
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Attributes</b></td></tr>
+ *                 <tr><td align="left">+ io: std::shared_ptr&lt;BaseIO&gt;</td></tr>
+ *                 <tr><td align="left">+ path: std::string</td></tr>
+ *             </table>
+ *         >
+ *     ];
+ *
+ *     { rank=same; RegisteredType; }
+ *     { rank=same; HDF5IO; Data; Container; }
+ *     { rank=same; NWBFile; }
+ *
+ *     Container -> RegisteredType [arrowhead=empty, style=dashed];
+ *     Data -> RegisteredType [arrowhead=empty, style=dashed];
+ *     RegisteredType -> Container [label="create"];
+ *     RegisteredType -> Data [label="create"];
+ *     RegisteredType -> HDF5IO [label="read type\ninfo"];
+ *     HDF5IO -> NWBFile [label="read data"];
+ * }
+ * @enddot
+ *
+ *
+ * The main components involved in reading typed objects from an NWB file via AqNWB are:
+ *
+ * - \ref AQNWB::NWB::RegisteredType "RegisteredType" as the main base class for all classes
+ *   implementing a type, e.g., \ref AQNWB::NWB::Container "Container",  \ref AQNWB::NWB::Data "Data"
+ *   and all their subtypes. \ref AQNWB::NWB::RegisteredType "RegisteredType" is responsible for
+ *   managing all type classes and provides the \ref AQNWB::NWB::RegisteredType::create "create"
+ *   factory methods for creating instances of subclasses from a file.
+ * - \ref AQNWB::IO::BaseIO "BaseIO", \ref AQNWB::IO::HDF5::HDF5IO "HDF5IO" are responsible for
+ *   i) reading type attribute and group information, ii) searching the file for typed objects via
+ *   \ref AQNWB::IO::BaseIO::findTypes "findTypes()" methods, and iii) retrieving the paths of all
+ *   object within a group via  \ref AQNWB::IO::BaseIO::getGroupObjects "getGroupObjects()"
+ *
+ * \subsubsection read_design_wrapper_registeredType RegisteredType
+ *
+ * \ref AQNWB::NWB::RegisteredType "RegisteredType" maintains a registry of all classes that
+ * inherit from it and the types they represent. We can retrieve the full registry via the static method
+ * \ref AQNWB::NWB::RegisteredType::getFactoryMap "getFactoryMap" and a list of just the
+ * full type names that are in the registry via  \ref AQNWB::NWB::RegisteredType::getRegistry "getRegistry". Importantly,
+ * \ref AQNWB::NWB::RegisteredType "RegisteredType" provides static \ref AQNWB::NWB::RegisteredType::create "create"
+ * methods that we can use to instantiate any registered subclass just using the ``io`` object
+ * and ``path`` for the object in the file. \ref AQNWB::NWB::RegisteredType "RegisteredType" can read
+ * the type information from the corresponding `namespace` and `neurodata_type` attributes to
+ * determine the full type and in run look up the corresponding class in its registry and create the type.
+ *
+ * \subsubsection read_design_wrapper_subtypes Child classes of RegisteredType (e.g., Container)
+ *
+ * Child classes of \ref AQNWB::NWB::RegisteredType "RegisteredType" (e.g., \ref AQNWB::NWB::Container "Container"
+ * or \ref AQNWB::NWB::Data "Data"), then implement specific ``neurodata_types`` defined in the NWB schema.
+ * The subclasses register with  \ref AQNWB::NWB::RegisteredType "RegisteredType", such that we can
+ * look them up and determine which class represents which ``neurodata_type``.
+ *
+ * \note
+ * For more details about the design of the  \ref AQNWB::NWB::RegisteredType "RegisteredType" class
+ * and the various components involved with creating and managing the type registry, please see
+ * developer docs on \ref registered_type_page .
  *
  * \section read_design_example Example
  *
  * \subsection read_design_example_create Create a NWB file as usual
  *
- * \paragraph read_design_example_step_1 Setup mock data for write
+ * \subsubsection read_design_example_step_1 Setup mock data for write
  *
  * \snippet tests/examples/test_ecephys_data_read.cpp example_read_mockdata_snippet
  *
- * \paragraph read_design_example_step_1_2 Create the NWBFile and record data
+ * \subsubsection read_design_example_step_1_2 Create the NWBFile and record data
  *
  * \snippet tests/examples/test_ecephys_data_read.cpp example_read_create_file_snippet
  *
- * \subsection read_design_example_read_during Read data during recording
+ * \subsection read_design_example_read_during Reading Datasets and Attributes
  *
- * \paragraph read_design_example_laxy_read Lazy data access
+ * \subsubsection read_design_example_lazy_read Lazy data access
  *
  * All data read is implemented lazily, i.e., AqNWB does not load data into memory
  * until we make a request to do so. To access data lazily, datasets and attributes are
@@ -247,20 +360,28 @@
  *
  * \snippet tests/examples/test_ecephys_data_read.cpp example_read_get_data_wrapper_snippet
  *
- * \paragraph read_design_example_load_data Read data into memory
+ * \subsubsection read_design_example_check_exists Check that the object exists
  *
- * To access the data values of a data, we can then use the \ref AQNWB::IO::ReadDataWrapper::valuesGeneric "valuesGeneric"
+ * In particular for fields that are optional, it is useful to first check that the field
+ * actually exists using the \ref AQNWB::IO::ReadDataWrapper::exists "exists" method of
+ * our \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper".
+ *
+ * \snippet tests/examples/test_ecephys_data_read.cpp example_read_check_data_exists_snippet
+ *
+ * \subsubsection read_design_example_load_data Read data into memory
+ *
+ * To load the data values, we can then use the \ref AQNWB::IO::ReadDataWrapper::valuesGeneric "valuesGeneric"
  * and \ref AQNWB::IO::ReadDataWrapper::values "values" methods, which load the data as generic (untyped) or typed
  * data, respectively.
  *
  * \snippet tests/examples/test_ecephys_data_read.cpp example_read_get_datablock_snippet
  *
- * The data is here represented as a \ref AQNWB::IO::DataBlock "DataBlock", which stores the data as 1-dimensional
+ * The data is here represented as a \ref AQNWB::IO::DataBlock "DataBlock", which stores the data as a 1-dimensionsal
  * vector along with the shape of the data. E.g, here we validate the data against the original mock data:
  *
  * \snippet tests/examples/test_ecephys_data_read.cpp example_read_validate_datablock_snippet
  *
- * \paragraph read_design_example_boostarray Accessing multi-dimensional data as Boost multi-array
+ * \subsubsection read_design_example_boostarray Accessing multi-dimensional data as Boost multi-array
  *
  * To ease interaction with mutli-dimensional data, e.g., the ``(time x channel)`` data of our
  * \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries", we can use the
@@ -274,7 +395,7 @@
  *
  * \snippet tests/examples/test_ecephys_data_read.cpp example_read_validate_boostarray_snippet
  *
- * \paragraph read_design_example_attribute Reading an attribute
+ * \subsubsection read_design_example_attribute Reading an attribute
  *
  * Reading an ``Attribute`` from a file works much in the same way as reading a ``Dataset``.
  * The main differences are when we read an attribute:
@@ -293,37 +414,36 @@
  * for \ref AQNWB::IO::ReadDataWrapper "ReadAttributeWrapper<OTYPE, VTYPE>" is set to ``float``
  * by default, so we do not need to specify it. If for some reason a file should use
  * ``float64`` instead, then we can still set the ``VTYPE`` accordingly via
- * ``electricalSeries->resolutionLazy<float64>()``.
+ * ``electricalSeries->readDataResolution<float64>()``.
  *
  * \note
  * If we don't want to specify the ``DataBlock<float>``, then we can also
  * infer the return type of the ``values()`` function at compile time via
- * ``decltype(readResolutionWrapper->values()) resolutionValueFloat = readResolutionWrapper->values();``
+ * ``decltype(readDataResolutionWrapper->values()) resolutionValueFloat = readDataResolutionWrapper->values();``
  *
- * \paragraph read_design_example_readgeneric Reading data with unknown type
+ * \subsubsection read_design_example_readgeneric Reading data with unknown type
  *
  * So far we read data by specifying the ``VTYPE`` template parameter of the read wrapper.
  * However, if we do not know (or want to) specify the ``VTYPE`` then we can set it to ``std::any``,
  * which is the default for data with variable type, e.g.
- * \ref AQNWB::NWB::ElectricalSeries::dataLazy "ElectricalSeries::dataLazy". In this case, we can
+ * \ref AQNWB::NWB::ElectricalSeries::readData "ElectricalSeries::readData". In this case, we can
  * still read the data via the \ref AQNWB::IO::ReadDataWrapper::valuesGeneric "valuesGeneric"
  * to load the data first in untyped form. When loading the data, the I/O backend determines
  * the data type and allocates memory appropriately. The actual data type is then stored
- * in \ref AQNWB::IO::DataBlockGeneric::typeIndex "typeIndex" variable of our data block.
+ * in the \ref AQNWB::IO::DataBlockGeneric::typeIndex "typeIndex" variable of our data block.
  * We can then convert our \ref AQNWB::IO::DataBlockGeneric "DataBlockGeneric" to a
  * \ref AQNWB::IO::DataBlock "DataBlock<DTYPE>" with a specific data type via
- * \ref AQNWB::IO::DataBlock::fromGeneric "DataBlock.fromGeneric()".
+ * \ref AQNWB::IO::DataBlock::fromGeneric "DataBlock<dtype>::fromGeneric()".
  *
  * \snippet tests/examples/test_ecephys_data_read.cpp example_read_get_data_wrapper_as_generic_snippet
  *
  * \note
  * In most cases, we should not need runtime checking of types in the context of
- * specific data acquisition systems. This is likely mostly relevant if one wants to consume
+ * specific data acquisition systems. This is mostly likely relevant if one wants to consume
  * arbitrary NWB files that may use different data types. One approach to implement
  * behavior for types determined at runtime is to define a mapping of the type
  * information to the corresponding statically type functionality, e.g., via
  * ``switch/case`` logic or by using a map for lookup, such as:
- *
  * \code{.cpp}
  * DataBlockGeneric dataValuesGeneric = readDataWrapperGeneric->valuesGeneric();
  * // Map to associate std::type_index with corresponding type-specific functions
@@ -335,11 +455,68 @@
  * // Use the map to process the data with the approbriate type
  * auto it = typeMap.find(dataValuesGeneric.typeIndex);
  * if (it != typeMap.end()) {
- *       it->second(dataValuesGeneric); // call the correct proceesData function
+ *       it->second(dataValuesGeneric); // call the correct processData function
  * } else {
  *       std::cout << "Unsupported type" << std::endl;
  * }
  * \endcode
+ *
+ *
+ * \subsection read_design_example_read_posthoc Reading a Registered Type (e.g., a ElectricalSeries)
+ *
+ * \subsubsection read_design_example_read_posthoc_search Searching for Registered Type Objects
+ *
+ * Using the \ref AQNWB::IO::BaseIO::findTypes "findType()" function of our I/O object we can
+ * conveniently search for objects with a given type.
+ *
+ * \snippet tests/examples/test_ecephys_data_read.cpp example_search_types_snippet
+ *
+ * \note
+ * \ref AQNWB::IO::BaseIO::findTypes "findType()" supports two main search modes.
+ * Using \ref AQNWB::IO::SearchMode::CONTINUE_ON_TYPE "CONTINUE_ON_TYPE" mode we
+ * can search recursively through all types (here the whole file since we started at the root ``"/"``).
+ * Using  \ref AQNWB::IO::SearchMode::STOP_ON_TYPE "STOP_ON_TYPE" does not
+ * recurse further into defined types, hence, this mode is useful if we only
+ * want to search for objects that the object at the starting path manages
+ * directly.
+ *
+ * \warning
+ * The current implementation of  \ref AQNWB::IO::BaseIO::findTypes "findType()" is
+ * not aware of inheritance but searches for exact matches of types only.
+ * However, we can search for objects of multiple different times at the same by
+ * specifying multiple types to search for in our ``typesToSearch``.
+ *
+ * The returned ``std::unordered_map`` uses the full to object as key and the full
+ * type (i.e., ``namepspace::neurodata_type``) as value, which is all we need to
+ * read the objects.
+ *
+ * \snippet tests/examples/test_ecephys_data_read.cpp example_search_types_check_snippet
+ *
+ * \subsubsection read_design_example_read_posthoc_read Reading the Registered Type Objects
+ *
+ * To read from a ``neurodata_type`` object from an existing file, we can use the
+ * \ref AQNWB::NWB::RegisteredType::create "RegisteredType::create"  factory methods
+ * to conveniently construct an instance of the corresponding class in AqNWB.
+ *
+ *  \snippet tests/examples/test_ecephys_data_read.cpp  example_read_only_snippet
+ *
+ * \note
+ * \ref AQNWB::NWB::RegisteredType::create "RegisteredType::create" comes in a few
+ * different flavors:
+ * 1. When passing only 1) ``path`` and 2) ``io`` (as in the example above), AqNWB
+ *    reads the ``neurodata_type`` and ``namespace`` attributes from the NWB file to
+ *    automatically determine the class to use to represent the type.
+ * 2. When passing the 1) ``fullname`` (e.g., ``core::ElectricalSeries``),  1) ``path`` and 2) ``io``
+ *    AqNWB looks up the class to use in \ref AQNWB::NWB::RegisteredType "RegisteredType's" type
+ *    registry (see also \ref use_registered_type_registry )
+ * 3. When passing the class to use as template parameter, e.g.,
+ *    ``create<AQNWB::NWB::ElectricalSeries>(path, io);`` the
+ *    instance is being constructed using the common constructor, i.e., this
+ *    is equivalent to creating the object via ``ElectricalSeries(path, io)``
+ * Option 1 and 2 instantiates the specific type (e.g., ``ElectricalSeries``) but return
+ * a generic \ref AQNWB::NWB::RegisteredType "RegisteredType" pointer that we can
+ * cast to the specific type if necessary. Option 3 creates and returns a pointer to
+ * the specific type directly.
  *
  * \subsection read_design_example_stop_recording Finalize the recording
  *
@@ -348,13 +525,5 @@
  *
  * \snippet tests/examples/test_ecephys_data_read.cpp example_read_finish_recording_snippet
  *
- * \subsection read_design_example_read_posthoc Read data from an existing file
- *
- * To read from an existing file we simply need to create the I/O object and the construct the
- * Container object we want to read.
- *
- *  \snippet tests/examples/test_ecephys_data_read.cpp  example_read_only_snippet
- *
  */
-
 

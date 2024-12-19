@@ -2,7 +2,9 @@
 
 #include <string>
 
+#include "Utils.hpp"
 #include "io/BaseIO.hpp"
+#include "io/ReadIO.hpp"
 #include "nwb/hdmf/base/Container.hpp"
 #include "nwb/hdmf/table/ElementIdentifiers.hpp"
 #include "nwb/hdmf/table/VectorData.hpp"
@@ -19,6 +21,9 @@ namespace AQNWB::NWB
 class DynamicTable : public Container
 {
 public:
+  // Register the TimeSeries as a subclass of Container
+  REGISTER_SUBCLASS(DynamicTable, "hdmf-common")
+
   /**
    * @brief Constructor.
    * @param path The location of the table in the file.
@@ -75,21 +80,6 @@ public:
                  const std::vector<int>& values);
 
   /**
-   * @brief Gets the description of the table.
-   * @return The description of the table.
-   */
-  inline std::string getDescription() const { return m_description; }
-
-  /**
-   * @brief Gets the column names of the table.
-   * @return A vector of column names.
-   */
-  virtual const std::vector<std::string>& getColNames() const
-  {
-    return m_colNames;
-  }
-
-  /**
    * @brief Sets the column names of the ElectrodeTable.
    * @param newColNames The vector of new column names.
    */
@@ -98,12 +88,25 @@ public:
     m_colNames = newColNames;
   }
 
-protected:
-  /**
-   * @brief Description of the DynamicTable.
-   */
-  std::string m_description;
+  DEFINE_FIELD(readColNames,
+               AttributeField,
+               std::string,
+               "colnames",
+               The names of the columns in the table);
 
+  DEFINE_FIELD(readDescription,
+               AttributeField,
+               std::string,
+               "description",
+               Description of what is in this dynamic table);
+
+  DEFINE_FIELD(readId,
+               DatasetField, 
+               std::any, 
+               "id", 
+               Array of unique identifiers for the rows of this dynamic table);
+
+protected:
   /**
    * @brief Names of the columns in the table.
    */

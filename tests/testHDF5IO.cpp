@@ -23,7 +23,7 @@ namespace fs = std::filesystem;
 TEST_CASE("writeGroup", "[hdf5io]")
 {
   // create and open file
-  std::string filename = getTestFilePath("test_group.h5");
+  std::string filename = getTestFilePath("testGroup.h5");
   IO::HDF5::HDF5IO hdf5io(filename);
   hdf5io.open();
 
@@ -32,6 +32,26 @@ TEST_CASE("writeGroup", "[hdf5io]")
     hdf5io.createGroup("/data");
     hdf5io.close();
   }
+}
+
+TEST_CASE("searchGroup", "[hdf5io]")
+{
+  // create and open file
+  std::string filename = getTestFilePath("searchGroup.h5");
+  IO::HDF5::HDF5IO hdf5io(filename);
+  hdf5io.open();
+
+  hdf5io.createGroup("/data");
+  hdf5io.createGroup("/data/test");
+  hdf5io.createArrayDataSet(
+      BaseDataType::I32, SizeArray {0}, SizeArray {1}, "/data/mydata");
+  hdf5io.flush();
+  auto group_content = hdf5io.getGroupObjects("/data");
+  REQUIRE(group_content.size() == 2);
+  auto group_content2 = hdf5io.getGroupObjects("/");
+  REQUIRE(group_content2.size() == 1);
+  REQUIRE(group_content2[0] == "data");
+  hdf5io.close();
 }
 
 TEST_CASE("writeDataset", "[hdf5io]")
@@ -254,6 +274,7 @@ TEST_CASE("writeAttributes", "[hdf5io]")
 
     hdf5io.createAttribute(
         BaseDataType::I32, &data, "/data", "array", dataSize);
+    REQUIRE(hdf5io.attributeExists("/data/array"));
   }
 
   // string array
@@ -262,6 +283,7 @@ TEST_CASE("writeAttributes", "[hdf5io]")
     const std::vector<std::string> data = {"col1", "col2", "col3"};
 
     hdf5io.createAttribute(data, "/data", "string_array");
+    REQUIRE(hdf5io.attributeExists("/data/string_array"));
   }
 
   // soft link
@@ -269,6 +291,7 @@ TEST_CASE("writeAttributes", "[hdf5io]")
   {
     std::vector<std::string> data;
     hdf5io.createLink("/data/link", "linked_data");
+    REQUIRE(hdf5io.objectExists("/data/link"));
   }
 
   // reference

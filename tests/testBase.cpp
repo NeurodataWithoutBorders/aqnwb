@@ -5,6 +5,7 @@
 #include "Utils.hpp"
 #include "io/BaseIO.hpp"
 #include "io/hdf5/HDF5RecordingData.hpp"
+#include "nwb/RegisteredType.hpp"
 #include "nwb/base/TimeSeries.hpp"
 #include "testUtils.hpp"
 
@@ -21,11 +22,11 @@ TEST_CASE("TimeSeries", "[base]")
   std::vector<float> data = getMockData1D(numSamples);
   BaseDataType timestampsType = BaseDataType::F64;
   std::vector<double> timestamps = getMockTimestamps(numSamples, 1);
+  std::string path = getTestFilePath("testTimeseries.h5");
 
   SECTION("test writing timeseries data block")
   {
     // setup timeseries object
-    std::string path = getTestFilePath("testTimeseries.h5");
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
     NWB::TimeSeries ts = NWB::TimeSeries(dataPath, io);
@@ -58,5 +59,32 @@ TEST_CASE("TimeSeries", "[base]")
     std::vector<float> dataRead(dataBuffer, dataBuffer + numSamples);
     delete[] dataBuffer;
     REQUIRE_THAT(dataRead, Catch::Matchers::Approx(data).margin(1));
+
+    // Read the "namespace" attribute
+    DataBlockGeneric namespaceData = io->readAttribute(dataPath + "/namespace");
+    auto namespaceBlock = DataBlock<std::string>::fromGeneric(namespaceData);
+    std::string typeNamespace = namespaceBlock.data[0];
+    REQUIRE(typeNamespace == "core");
+
+    // Read the "neurodata_type" attribute
+    DataBlockGeneric typeData = io->readAttribute(dataPath + "/neurodata_type");
+    auto typeBlock = DataBlock<std::string>::fromGeneric(typeData);
+    std::string typeName = typeBlock.data[0];
+    REQUIRE(typeName == "TimeSeries");
+
+    // Combine the namespace and type name to get the full class name
+    std::string fullClassName = typeNamespace + "::" + typeName;
+    // Create an instance of the corresponding RegisteredType subclass
+    auto readContainer =
+        AQNWB::NWB::RegisteredType::create(fullClassName, dataPath, io);
+    std::string containerType = readContainer->getTypeName();
+    REQUIRE(containerType == "TimeSeries");
+
+    // Open the TimeSeries container directly from file using the utility method
+    // This method does the same steps as above, i.e., read the attributes and
+    // then create the type from the given name
+    auto readTS = AQNWB::NWB::RegisteredType::create(dataPath, io);
+    std::string readTSType = readContainer->getTypeName();
+    REQUIRE(readTSType == "TimeSeries");
   }
 }

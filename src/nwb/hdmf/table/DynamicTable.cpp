@@ -1,8 +1,12 @@
 #include "nwb/hdmf/table/DynamicTable.hpp"
 
+#include "Utils.hpp"
+
 using namespace AQNWB::NWB;
 
 // DynamicTable
+// Initialize the static registered_ member to trigger registration
+REGISTER_SUBCLASS_IMPL(DynamicTable)
 
 /** Constructor */
 DynamicTable::DynamicTable(const std::string& path,
@@ -20,11 +24,9 @@ DynamicTable::~DynamicTable() {}
 void DynamicTable::initialize(const std::string& description)
 {
   Container::initialize();
-  this->m_description = description;
-
   m_io->createCommonNWBAttributes(
-      m_path, "hdmf-common", "DynamicTable", getDescription());
-  m_io->createAttribute(getColNames(), m_path, "colnames");
+      m_path, this->getNamespace(), this->getTypeName(), description);
+  m_io->createAttribute(m_colNames, m_path, "colnames");
 }
 
 /** Add column to table */
@@ -42,8 +44,10 @@ void DynamicTable::addColumn(const std::string& name,
           std::vector<SizeType>(1, 1),
           IO::BaseDataType::STR(values[i].size() + 1),
           values[i].c_str());  // TODO - add tests for this
-    m_io->createCommonNWBAttributes(
-        m_path + name, "hdmf-common", "VectorData", colDescription);
+    m_io->createCommonNWBAttributes(AQNWB::mergePaths(m_path, name),
+                                    vectorData->getNamespace(),
+                                    vectorData->getTypeName(),
+                                    colDescription);
   }
 }
 
@@ -57,8 +61,9 @@ void DynamicTable::setRowIDs(std::unique_ptr<ElementIdentifiers>& elementIDs,
         std::vector<SizeType>(1, values.size()),
         IO::BaseDataType::I32,
         &values[0]);
-    m_io->createCommonNWBAttributes(
-        m_path + "id", "hdmf-common", "ElementIdentifiers");
+    m_io->createCommonNWBAttributes(AQNWB::mergePaths(m_path, "id"),
+                                    elementIDs->getNamespace(),
+                                    elementIDs->getTypeName());
   }
 }
 
@@ -69,8 +74,9 @@ void DynamicTable::addColumn(const std::string& name,
   if (values.empty()) {
     std::cerr << "Data to add to column is empty" << std::endl;
   } else {
-    m_io->createReferenceDataSet(m_path + name, values);
+    std::string columnPath = AQNWB::mergePaths(m_path, name);
+    m_io->createReferenceDataSet(columnPath, values);
     m_io->createCommonNWBAttributes(
-        m_path + name, "hdmf-common", "VectorData", colDescription);
+        columnPath, "hdmf-common", "VectorData", colDescription);
   }
 }

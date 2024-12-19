@@ -2,7 +2,9 @@
 
 #include <string>
 
+#include "Utils.hpp"
 #include "io/BaseIO.hpp"
+#include "io/ReadIO.hpp"
 #include "nwb/hdmf/base/Container.hpp"
 
 namespace AQNWB::NWB
@@ -14,6 +16,9 @@ namespace AQNWB::NWB
 class Device : public Container
 {
 public:
+  // Register the Device as a subclass of Container
+  REGISTER_SUBCLASS(Device, "core")
+
   /**
    * @brief Constructor.
    * @param path The location of the device in the file.
@@ -36,16 +41,17 @@ public:
   void initialize(const std::string& description,
                   const std::string& manufacturer);
 
-  /**
-   * @brief Gets the manufacturer of the device.
-   * @return The manufacturer of the device.
-   */
-  std::string getManufacturer() const;
+  // Define the data fields to expose for lazy read access
+  DEFINE_FIELD(readDescription,
+               AttributeField,
+               std::string,
+               "description",
+               Description of the series)
 
-  /**
-   * @brief Gets the description of the device.
-   * @return The description of the device.
-   */
-  std::string getDescription() const;
+  DEFINE_FIELD(readManufacturer,
+               AttributeField,
+               std::string,
+               "manufacturer",
+               Manufacturer of the device)
 };
 }  // namespace AQNWB::NWB

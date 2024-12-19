@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include "Utils.hpp"
+#include "io/ReadIO.hpp"
 #include "nwb/hdmf/base/Data.hpp"
 
 namespace AQNWB::NWB
@@ -12,11 +14,22 @@ namespace AQNWB::NWB
 class VectorData : public Data
 {
 public:
+  // Register Data class as a registered type
+  REGISTER_SUBCLASS(VectorData, "hdmf-common")
+
   /**
-   * @brief Gets the description of the table.
-   * @return The description of the table.
+   * @brief Constructor.
+   *
+   * @param path The path of the container.
+   * @param io A shared pointer to the IO object.
    */
-  inline std::string getDescription() const { return m_description; }
+  VectorData(const std::string& path, std::shared_ptr<IO::BaseIO> io);
+
+  DEFINE_FIELD(readDescription,
+               AttributeField,
+               std::string,
+               "description",
+               Description of what these vectors represent);
 
 private:
   /**
