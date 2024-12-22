@@ -343,11 +343,12 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(
 
   // Get the number of dimensions and their sizes
   int rank = dataspace.getSimpleExtentNdims();
-  hsize_t dims[rank];
-  dataspace.getSimpleExtentDims(dims, nullptr);
+  // Use a dynamic array as Windows doesn't support variable length arrays
+  std::vector<hsize_t> dims(rank);
+  dataspace.getSimpleExtentDims(dims.data(), nullptr);
 
   // Store the shape information
-  result.shape.assign(dims, dims + rank);
+  result.shape.assign(dims.begin(), dims.end());
 
   // Calculate the total number of elements
   size_t numElements = 1;
@@ -358,19 +359,22 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(
   // Create a memory dataspace for the slice
   H5::DataSpace memspace;
   if (!start.empty() && !count.empty()) {
-    hsize_t offset[rank];
-    hsize_t block_count[rank];
+    // Use std::vector to create dynamic arrays to ensure Windows built works
+    std::vector<hsize_t> offset(rank);
+    std::vector<hsize_t> block_count(rank);
     for (int i = 0; i < rank; ++i) {
       offset[i] = start[i];
       block_count[i] = count[i];
     }
+
     dataspace.selectHyperslab(
         H5S_SELECT_SET,
-        block_count,
-        offset,
+        block_count.data(),
+        offset.data(),
         stride_hsize.empty() ? nullptr : stride_hsize.data(),
         block_hsize.empty() ? nullptr : block_hsize.data());
-    memspace = H5::DataSpace(rank, block_count);
+
+    memspace = H5::DataSpace(rank, block_count.data());
   } else {
     memspace = H5::DataSpace(dataspace);
   }
