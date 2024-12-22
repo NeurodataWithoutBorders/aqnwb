@@ -28,12 +28,7 @@ public:
    * @brief Constructor.
    * @param path The location of the table in the file.
    * @param io A shared pointer to the IO object.
-<<<<<<< HEAD
-   * @param colNames Set the names of the columns for the table
-=======
-   * @param description The description of the table (optional).
-   * @param colNames Names of the columns in the table
->>>>>>> main
+   * @param colNames Names of the columns for the table
    */
   DynamicTable(
       const std::string& path,
