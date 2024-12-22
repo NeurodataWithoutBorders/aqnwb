@@ -318,14 +318,9 @@ TEST_CASE("SWMRmode", "[hdf5io]")
   SECTION("useSWMRMODE")
   {
     // create and open file
-<<<<<<< HEAD
-    std::string path = getTestFilePath("testSWMRmode.h5");
+    std::string path = getTestFilePath("testSWMRmodeEnable.h5");
     std::unique_ptr<IO::HDF5::HDF5IO> hdf5io =
         std::make_unique<IO::HDF5::HDF5IO>(path);
-=======
-    std::string path = getTestFilePath("testSWMRmodeEnable.h5");
-    std::unique_ptr<HDF5::HDF5IO> hdf5io = std::make_unique<HDF5::HDF5IO>(path);
->>>>>>> main
     hdf5io->open();
 
     // add a dataset
@@ -403,15 +398,9 @@ TEST_CASE("SWMRmode", "[hdf5io]")
   SECTION("disableSWMRMode")
   {
     // create and open file with SWMR mode disabled
-<<<<<<< HEAD
-    std::string path = getTestFilePath("testSWMRmode.h5");
+    std::string path = getTestFilePath("testSWMRmodeDisable.h5");
     std::unique_ptr<IO::HDF5::HDF5IO> hdf5io =
         std::make_unique<IO::HDF5::HDF5IO>(path, true);
-=======
-    std::string path = getTestFilePath("testSWMRmodeDisable.h5");
-    std::unique_ptr<HDF5::HDF5IO> hdf5io =
-        std::make_unique<HDF5::HDF5IO>(path, true);
->>>>>>> main
     hdf5io->open();
 
     // add a dataset
