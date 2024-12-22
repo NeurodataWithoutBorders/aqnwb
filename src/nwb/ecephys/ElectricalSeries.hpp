@@ -64,14 +64,14 @@ public:
    * @brief Writes a channel to an ElectricalSeries dataset.
    * @param channelInd The channel index within the ElectricalSeries
    * @param numSamples The number of samples to write (length in time).
-   * @param data A pointer to the data block.
-   * @param timestamps A pointer to the timestamps block.
+   * @param dataInput A pointer to the data block.
+   * @param timestampsInput A pointer to the timestamps block.
    * @return The status of the write operation.
    */
   Status writeChannel(SizeType channelInd,
                       const SizeType& numSamples,
-                      const void* data,
-                      const void* timestamps);
+                      const void* dataInput,
+                      const void* timestampsInput);
 
   /**
    * @brief Channel group that this time series is associated with.

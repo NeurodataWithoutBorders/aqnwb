@@ -6,7 +6,12 @@
  * \section dev_requirements_sec Requirements
  *
  * Please ensure that the required libraries described in the
- * \ref user_requirements_sec "User Requirements" section are installed.
+ * \ref user_requirements_sec "User Requirements" section are installed and
+ * clone the latest AqNWB source via:
+ *
+ * \code{.sh}
+ * git clone https://github.com/NeurodataWithoutBorders/aqnwb.git
+ * \endcode
  *
  * For developers we also recommend to install the following optional command line tools used for
  * generating the documentation, for code quality checks, and for debugging.

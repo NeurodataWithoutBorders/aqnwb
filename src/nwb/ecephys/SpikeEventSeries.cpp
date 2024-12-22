@@ -38,8 +38,8 @@ void SpikeEventSeries::initialize(const IO::BaseDataType& dataType,
 
 Status SpikeEventSeries::writeSpike(const SizeType& numSamples,
                                     const SizeType& numChannels,
-                                    const void* data,
-                                    const void* timestamps)
+                                    const void* dataInput,
+                                    const void* timestampsInput)
 {
   // get offsets and datashape
   std::vector<SizeType> dataShape;
@@ -54,5 +54,5 @@ Status SpikeEventSeries::writeSpike(const SizeType& numSamples,
   this->m_eventsRecorded += 1;
 
   // write channel data
-  return writeData(dataShape, positionOffset, data, timestamps);
+  return writeData(dataShape, positionOffset, dataInput, timestampsInput);
 }

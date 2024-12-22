@@ -41,7 +41,7 @@ void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
                          offset);
 
   // setup variables based on number of channels
-  std::vector<int> electrodeInds(channelVector.size());
+  std::vector<SizeType> electrodeInds(channelVector.size());
   std::vector<float> channelConversions(channelVector.size());
   for (size_t i = 0; i < channelVector.size(); ++i) {
     electrodeInds[i] = channelVector[i].getGlobalIndex();
@@ -91,8 +91,8 @@ void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
 
 Status ElectricalSeries::writeChannel(SizeType channelInd,
                                       const SizeType& numSamples,
-                                      const void* data,
-                                      const void* timestamps)
+                                      const void* dataInput,
+                                      const void* timestampsInput)
 {
   // get offsets and datashape
   std::vector<SizeType> dataShape = {
@@ -105,8 +105,8 @@ Status ElectricalSeries::writeChannel(SizeType channelInd,
 
   // write channel data
   if (channelInd == 0) {
-    return writeData(dataShape, positionOffset, data, timestamps);
+    return writeData(dataShape, positionOffset, dataInput, timestampsInput);
   } else {
-    return writeData(dataShape, positionOffset, data);
+    return writeData(dataShape, positionOffset, dataInput);
   }
 }

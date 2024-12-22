@@ -66,15 +66,23 @@ void ElectrodeTable::initialize(const std::string& description)
                                AQNWB::mergePaths(m_path, "location"))));
 }
 
-void ElectrodeTable::addElectrodes(std::vector<Channel> channels)
+void ElectrodeTable::addElectrodes(std::vector<Channel> channelsInput)
 {
   // create datasets
+<<<<<<< HEAD
   for (const auto& ch : channels) {
     m_groupReferences.push_back(
         AQNWB::mergePaths(m_groupPathBase, ch.getGroupName()));
     m_groupNames.push_back(ch.getGroupName());
     m_electrodeNumbers.push_back(ch.getGlobalIndex());
     m_locationNames.push_back("unknown");
+=======
+  for (const auto& ch : channelsInput) {
+    groupReferences.push_back(groupPathBase + ch.getGroupName());
+    groupNames.push_back(ch.getGroupName());
+    electrodeNumbers.push_back(static_cast<int>(ch.getGlobalIndex()));
+    locationNames.push_back("unknown");
+>>>>>>> main
   }
 }
 

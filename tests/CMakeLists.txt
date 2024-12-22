@@ -37,7 +37,7 @@ target_link_libraries(
     Catch2::Catch2WithMain
 )
 target_compile_features(aqnwb_test PRIVATE cxx_std_17)
-
+target_compile_definitions(aqnwb_test PRIVATE BUILD_CONFIG=\"$<CONFIG>\")
 catch_discover_tests(aqnwb_test)
 
 # ---- Custom Executable ----

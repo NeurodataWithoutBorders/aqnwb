@@ -682,7 +682,14 @@ Status HDF5IO::createReferenceDataSet(
   delete[] rdata;
 
   herr_t dsetStatus = H5Dclose(dset);
+  if (checkStatus(dsetStatus) == Status::Failure) {
+    return Status::Failure;
+  }
+
   herr_t spaceStatus = H5Sclose(space);
+  if (checkStatus(spaceStatus) == Status::Failure) {
+    return Status::Failure;
+  }
 
   return checkStatus(writeStatus);
 }

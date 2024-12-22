@@ -55,9 +55,9 @@ public:
 
   /**
    * @brief Sets up the ElectrodeTable by adding electrodes and their metadata.
-   *
+   * @param channelsInput The vector of Channel objects to add to the table.
    */
-  void addElectrodes(std::vector<Channel> channels);
+  void addElectrodes(std::vector<Channel> channelsInput);
 
   /**
    * @brief Gets the group path of the ElectrodeTable.

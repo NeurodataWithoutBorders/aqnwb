@@ -123,6 +123,7 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
                                      mockSpikeChannelNames,
                                      BaseDataType::F32,
                                      recordingContainers.get());
+  REQUIRE(resultCreateSES == Status::Success);
 
   // start recording
   Status resultStart = io->startRecording();
