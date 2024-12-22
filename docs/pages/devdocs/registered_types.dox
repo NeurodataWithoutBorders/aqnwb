@@ -79,6 +79,13 @@
  * typename value and the `ElectrodesTable.getTypeName` automatic override returning
  * the indicated typename instead of the classname.
  *
+ * \note
+ * ``DEFINE_FIELD`` creates templated, non-virtual read functions. This means if we 
+ * want to "redefine" a field in a child class by calling ``DEFINE_FIELD`` again, then
+ * the function will be "hidden" instead of "override". This is important to remember
+ * when casting a pointer to a base type, as in this case the implementation from the
+ * base type will be used since the function created by ``DEFINE_FIELD`` is not virtual.
+ *
  *
  * @subsection implement_registered_type_example Example: Implementing a new type
  *
