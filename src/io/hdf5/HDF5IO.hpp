@@ -318,6 +318,11 @@ public:
 
   /**
    * @brief Returns the HDF5 native data type for a given base data type.
+   *
+   * Native types are platform-dependent and represent the data types as they
+   * are stored in the memory of the machine where the HDF5 file is created or
+   * read.
+   *
    * @param type The base data type.
    * @return The HDF5 native data type.
    */
@@ -325,6 +330,10 @@ public:
 
   /**
    * @brief Returns the HDF5 data type for a given base data type.
+   *
+   * Standard types are platform-independent and represent the data types
+   * in a consistent format, regardless of the machine architecture.
+   *
    * @param type The base data type.
    * @return The HDF5 data type.
    */

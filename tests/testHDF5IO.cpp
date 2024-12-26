@@ -624,3 +624,87 @@ TEST_CASE("HDF5IO::getNativeType", "[hdf5io]")
     REQUIRE(nativeTypeArray.getSize() == expectedArrayType.getSize());
   }
 }
+
+TEST_CASE("HDF5IO::getH5Type", "[hdf5io]")
+{
+  SECTION("Integer Types")
+  {
+    // Test for T_I8
+    IO::BaseDataType typeI8(IO::BaseDataType::T_I8, 1);
+    H5::DataType h5TypeI8 = IO::HDF5::HDF5IO::getH5Type(typeI8);
+    REQUIRE(h5TypeI8.getSize() == H5::PredType::STD_I8LE.getSize());
+
+    // Test for T_I16
+    IO::BaseDataType typeI16(IO::BaseDataType::T_I16, 1);
+    H5::DataType h5TypeI16 = IO::HDF5::HDF5IO::getH5Type(typeI16);
+    REQUIRE(h5TypeI16.getSize() == H5::PredType::STD_I16LE.getSize());
+
+    // Test for T_I32
+    IO::BaseDataType typeI32(IO::BaseDataType::T_I32, 1);
+    H5::DataType h5TypeI32 = IO::HDF5::HDF5IO::getH5Type(typeI32);
+    REQUIRE(h5TypeI32.getSize() == H5::PredType::STD_I32LE.getSize());
+
+    // Test for T_I64
+    IO::BaseDataType typeI64(IO::BaseDataType::T_I64, 1);
+    H5::DataType h5TypeI64 = IO::HDF5::HDF5IO::getH5Type(typeI64);
+    REQUIRE(h5TypeI64.getSize() == H5::PredType::STD_I64LE.getSize());
+
+    // Test for T_U8
+    IO::BaseDataType typeU8(IO::BaseDataType::T_U8, 1);
+    H5::DataType h5TypeU8 = IO::HDF5::HDF5IO::getH5Type(typeU8);
+    REQUIRE(h5TypeU8.getSize() == H5::PredType::STD_U8LE.getSize());
+
+    // Test for T_U16
+    IO::BaseDataType typeU16(IO::BaseDataType::T_U16, 1);
+    H5::DataType h5TypeU16 = IO::HDF5::HDF5IO::getH5Type(typeU16);
+    REQUIRE(h5TypeU16.getSize() == H5::PredType::STD_U16LE.getSize());
+
+    // Test for T_U32
+    IO::BaseDataType typeU32(IO::BaseDataType::T_U32, 1);
+    H5::DataType h5TypeU32 = IO::HDF5::HDF5IO::getH5Type(typeU32);
+    REQUIRE(h5TypeU32.getSize() == H5::PredType::STD_U32LE.getSize());
+
+    // Test for T_U64
+    IO::BaseDataType typeU64(IO::BaseDataType::T_U64, 1);
+    H5::DataType h5TypeU64 = IO::HDF5::HDF5IO::getH5Type(typeU64);
+    REQUIRE(h5TypeU64.getSize() == H5::PredType::STD_U64LE.getSize());
+  }
+
+  SECTION("Floating Point Types")
+  {
+    // Test for T_F32
+    IO::BaseDataType typeF32(IO::BaseDataType::T_F32, 1);
+    H5::DataType h5TypeF32 = IO::HDF5::HDF5IO::getH5Type(typeF32);
+    REQUIRE(h5TypeF32.getSize() == H5::PredType::IEEE_F32LE.getSize());
+
+    // Test for T_F64
+    IO::BaseDataType typeF64(IO::BaseDataType::T_F64, 1);
+    H5::DataType h5TypeF64 = IO::HDF5::HDF5IO::getH5Type(typeF64);
+    REQUIRE(h5TypeF64.getSize() == H5::PredType::IEEE_F64LE.getSize());
+  }
+
+  SECTION("String Types")
+  {
+    // Test for T_STR
+    IO::BaseDataType typeSTR(IO::BaseDataType::T_STR, 256);
+    H5::DataType h5TypeSTR = IO::HDF5::HDF5IO::getH5Type(typeSTR);
+    REQUIRE(h5TypeSTR.getSize()
+            == H5::StrType(H5::PredType::C_S1, 256).getSize());
+
+    // Test for V_STR
+    IO::BaseDataType typeVSTR(IO::BaseDataType::V_STR, 1);
+    H5::DataType h5TypeVSTR = IO::HDF5::HDF5IO::getH5Type(typeVSTR);
+    REQUIRE(h5TypeVSTR.getSize()
+            == H5::StrType(H5::PredType::C_S1, H5T_VARIABLE).getSize());
+  }
+
+  SECTION("Array Types")
+  {
+    // Test for array types
+    IO::BaseDataType typeArray(IO::BaseDataType::T_I32, 5);
+    H5::DataType h5TypeArray = IO::HDF5::HDF5IO::getH5Type(typeArray);
+    hsize_t size = 5;
+    H5::ArrayType expectedArrayType(H5::PredType::STD_I32LE, 1, &size);
+    REQUIRE(h5TypeArray.getSize() == expectedArrayType.getSize());
+  }
+}
