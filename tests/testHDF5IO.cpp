@@ -509,3 +509,33 @@ TEST_CASE("readDataset", "[hdf5io]")
     hdf5io->close();
   }
 }
+
+TEST_CASE("getH5ObjectType", "[hdf5io]")
+{
+  // create and open file
+  std::string filename = getTestFilePath("test_getH5ObjectType.h5");
+  IO::HDF5::HDF5IO hdf5io(filename);
+  hdf5io.open();
+
+  SECTION("group")
+  {
+    hdf5io.createGroup("/group");
+    REQUIRE(hdf5io.getH5ObjectType("/group") == H5O_TYPE_GROUP);
+  }
+
+  SECTION("dataset")
+  {
+    std::vector<int> testData = {1, 2, 3, 4, 5};
+    std::string dataPath = "/dataset";
+    hdf5io.createArrayDataSet(BaseDataType::I32, SizeArray {0}, SizeArray {1}, dataPath);
+    REQUIRE(hdf5io.getH5ObjectType(dataPath) == H5O_TYPE_DATASET);
+  }
+
+  SECTION("non_existent_object")
+  {
+    REQUIRE(hdf5io.getH5ObjectType("/non_existent") < 0); 
+  }
+
+  // close file
+  hdf5io.close();
+}
