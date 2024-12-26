@@ -311,7 +311,8 @@ public:
   /**
    * @brief Returns the HDF5 type of object at a given path.
    * @param path The location in the file of the object.
-   * @return The type of object at the given path. A negative value indicates that an error occurred.
+   * @return The type of object at the given path. H5O_TYPE_UNKNOWN indicates
+   * that the object does not exist (or is of an unknown type).
    */
   H5O_type_t getH5ObjectType(const std::string& path) const;
 

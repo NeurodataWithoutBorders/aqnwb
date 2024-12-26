@@ -527,15 +527,100 @@ TEST_CASE("getH5ObjectType", "[hdf5io]")
   {
     std::vector<int> testData = {1, 2, 3, 4, 5};
     std::string dataPath = "/dataset";
-    hdf5io.createArrayDataSet(BaseDataType::I32, SizeArray {0}, SizeArray {1}, dataPath);
+    hdf5io.createArrayDataSet(
+        BaseDataType::I32, SizeArray {0}, SizeArray {1}, dataPath);
     REQUIRE(hdf5io.getH5ObjectType(dataPath) == H5O_TYPE_DATASET);
   }
 
   SECTION("non_existent_object")
   {
-    REQUIRE(hdf5io.getH5ObjectType("/non_existent") < 0); 
+    REQUIRE(hdf5io.getH5ObjectType("/non_existent") == H5O_TYPE_UNKNOWN);
   }
 
   // close file
   hdf5io.close();
 }
+
+/* TEST_CASE("HDF5IO::getNativeType", "[hdf5io]")
+{
+  SECTION("Integer Types")
+  {
+    // Test for T_I8
+    BaseDataType typeI8(BaseDataType::T_I8, 1);
+    H5::DataType nativeTypeI8 = IO::HDF5::HDF5IO::getNativeType(typeI8);
+    REQUIRE(nativeTypeI8.getId() == H5::PredType::NATIVE_INT8.getId());
+
+    // Test for T_I16
+    BaseDataType typeI16(BaseDataType::T_I16, 1);
+    H5::DataType nativeTypeI16 = IO::HDF5::HDF5IO::getNativeType(typeI16);
+    REQUIRE(nativeTypeI16.getId() == H5::PredType::NATIVE_INT16.getId());
+
+    // Test for T_I32
+    BaseDataType typeI32(BaseDataType::T_I32, 1);
+    H5::DataType nativeTypeI32 = IO::HDF5::HDF5IO::getNativeType(typeI32);
+    REQUIRE(nativeTypeI32.getId() == H5::PredType::NATIVE_INT32.getId());
+
+    // Test for T_I64
+    BaseDataType typeI64(BaseDataType::T_I64, 1);
+    H5::DataType nativeTypeI64 = IO::HDF5::HDF5IO::getNativeType(typeI64);
+    REQUIRE(nativeTypeI64.getId() == H5::PredType::NATIVE_INT64.getId());
+
+    // Test for T_U8
+    BaseDataType typeU8(BaseDataType::T_U8, 1);
+    H5::DataType nativeTypeU8 = IO::HDF5::HDF5IO::getNativeType(typeU8);
+    REQUIRE(nativeTypeU8.getId() == H5::PredType::NATIVE_UINT8.getId());
+
+    // Test for T_U16
+    BaseDataType typeU16(BaseDataType::T_U16, 1);
+    H5::DataType nativeTypeU16 = IO::HDF5::HDF5IO::getNativeType(typeU16);
+    REQUIRE(nativeTypeU16.getId() == H5::PredType::NATIVE_UINT16.getId());
+
+    // Test for T_U32
+    BaseDataType typeU32(BaseDataType::T_U32, 1);
+    H5::DataType nativeTypeU32 = IO::HDF5::HDF5IO::getNativeType(typeU32);
+    REQUIRE(nativeTypeU32.getId() == H5::PredType::NATIVE_UINT32.getId());
+
+    // Test for T_U64
+    BaseDataType typeU64(BaseDataType::T_U64, 1);
+    H5::DataType nativeTypeU64 = IO::HDF5::HDF5IO::getNativeType(typeU64);
+    REQUIRE(nativeTypeU64.getId() == H5::PredType::NATIVE_UINT64.getId());
+  }
+
+  SECTION("Floating Point Types")
+  {
+    // Test for T_F32
+    BaseDataType typeF32(BaseDataType::T_F32, 1);
+    H5::DataType nativeTypeF32 = IO::HDF5::HDF5IO::getNativeType(typeF32);
+    REQUIRE(nativeTypeF32.getId() == H5::PredType::NATIVE_FLOAT.getId());
+
+    // Test for T_F64
+    BaseDataType typeF64(BaseDataType::T_F64, 1);
+    H5::DataType nativeTypeF64 = IO::HDF5::HDF5IO::getNativeType(typeF64);
+    REQUIRE(nativeTypeF64.getId() == H5::PredType::NATIVE_DOUBLE.getId());
+  }
+
+  SECTION("String Types")
+  {
+    // Test for T_STR
+    BaseDataType typeSTR(BaseDataType::T_STR, 256);
+    H5::DataType nativeTypeSTR = IO::HDF5::HDF5IO::getNativeType(typeSTR);
+    REQUIRE(nativeTypeSTR.getId() == H5::StrType(H5::PredType::C_S1,
+256).getId());
+
+    // Test for V_STR
+    BaseDataType typeVSTR(BaseDataType::V_STR, 1);
+    H5::DataType nativeTypeVSTR = IO::HDF5::HDF5IO::getNativeType(typeVSTR);
+    REQUIRE(nativeTypeVSTR.getId() == H5::StrType(H5::PredType::C_S1,
+H5T_VARIABLE).getId());
+  }
+
+  SECTION("Array Types")
+  {
+    // Test for array types
+    BaseDataType typeArray(BaseDataType::T_I32, 5);
+    H5::DataType nativeTypeArray = IO::HDF5::HDF5IO::getNativeType(typeArray);
+    hsize_t size = 5;
+    H5::ArrayType expectedArrayType(H5::PredType::NATIVE_INT32, 1, &size);
+    REQUIRE(nativeTypeArray.getId() == expectedArrayType.getId());
+  }
+} */
