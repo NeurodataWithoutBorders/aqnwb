@@ -905,49 +905,49 @@ H5::DataType HDF5IO::getNativeType(IO::BaseDataType type)
 
   switch (type.type) {
     case IO::BaseDataType::Type::T_I8:
-      baseType = PredType::NATIVE_INT8;
+      baseType = H5::PredType::NATIVE_INT8;
       break;
     case IO::BaseDataType::Type::T_I16:
-      baseType = PredType::NATIVE_INT16;
+      baseType = H5::PredType::NATIVE_INT16;
       break;
     case IO::BaseDataType::Type::T_I32:
-      baseType = PredType::NATIVE_INT32;
+      baseType = H5::PredType::NATIVE_INT32;
       break;
     case IO::BaseDataType::Type::T_I64:
-      baseType = PredType::NATIVE_INT64;
+      baseType = H5::PredType::NATIVE_INT64;
       break;
     case IO::BaseDataType::Type::T_U8:
-      baseType = PredType::NATIVE_UINT8;
+      baseType = H5::PredType::NATIVE_UINT8;
       break;
     case IO::BaseDataType::Type::T_U16:
-      baseType = PredType::NATIVE_UINT16;
+      baseType = H5::PredType::NATIVE_UINT16;
       break;
     case IO::BaseDataType::Type::T_U32:
-      baseType = PredType::NATIVE_UINT32;
+      baseType = H5::PredType::NATIVE_UINT32;
       break;
     case IO::BaseDataType::Type::T_U64:
-      baseType = PredType::NATIVE_UINT64;
+      baseType = H5::PredType::NATIVE_UINT64;
       break;
     case IO::BaseDataType::Type::T_F32:
-      baseType = PredType::NATIVE_FLOAT;
+      baseType = H5::PredType::NATIVE_FLOAT;
       break;
     case IO::BaseDataType::Type::T_F64:
-      baseType = PredType::NATIVE_DOUBLE;
+      baseType = H5::PredType::NATIVE_DOUBLE;
       break;
     case IO::BaseDataType::Type::T_STR:
-      return StrType(PredType::C_S1, type.typeSize);
-      break;
+      return H5::StrType(H5::PredType::C_S1, type.typeSize);
     case IO::BaseDataType::Type::V_STR:
-      return StrType(PredType::C_S1, H5T_VARIABLE);
-      break;
+      return H5::StrType(H5::PredType::C_S1, H5T_VARIABLE);
     default:
-      baseType = PredType::NATIVE_INT32;
+      baseType = H5::PredType::NATIVE_INT32;
   }
+
   if (type.typeSize > 1) {
     hsize_t size = type.typeSize;
-    return ArrayType(baseType, 1, &size);
-  } else
+    return H5::ArrayType(baseType, 1, &size);
+  } else {
     return baseType;
+  }
 }
 
 H5::DataType HDF5IO::getH5Type(IO::BaseDataType type)
