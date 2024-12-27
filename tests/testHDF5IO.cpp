@@ -6,6 +6,7 @@
 #include <thread>
 #include <vector>
 
+#include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>
 
 #include "Channel.hpp"
@@ -843,7 +844,7 @@ TEST_CASE("HDF5IOI::attributeExists", "[hdf5io]")
   hdf5io.close();
 }
 
-TEST_CASE("getStorageObjectType", "[hdf5io]")
+TEST_CASE("HDF5IO::getStorageObjectType", "[hdf5io]")
 {
   // create and open file
   std::string filename = getTestFilePath("test_getStorageObjectType.h5");
@@ -898,6 +899,111 @@ TEST_CASE("getStorageObjectType", "[hdf5io]")
             == StorageObjectType::Dataset);
   }
 
+  // close file
+  hdf5io.close();
+}
+
+TEST_CASE("readAttribute", "[hdf5io]")
+{
+  // create and open file
+  std::string filename = getTestFilePath("test_readAttribute.h5");
+  IO::HDF5::HDF5IO hdf5io(filename);
+  hdf5io.open();
+
+  hdf5io.createGroup("/data");
+
+  SECTION("read integer attribute")
+  {
+    const int32_t writeData = 42;
+    hdf5io.createAttribute(
+        BaseDataType::I32, &writeData, "/data", "intAttribute");
+    auto readDataGeneric = hdf5io.readAttribute("/data/intAttribute");
+    auto readData = IO::DataBlock<int32_t>::fromGeneric(readDataGeneric);
+
+    REQUIRE(readData.shape.empty());  // Scalar attribute
+    REQUIRE(readData.data.size() == 1);
+    REQUIRE(readData.data[0] == writeData);
+  }
+
+  SECTION("read float attribute")
+  {
+    const float writeData = 3.14f;
+    hdf5io.createAttribute(
+        BaseDataType::F32, &writeData, "/data", "floatAttribute");
+    auto readDataGeneric = hdf5io.readAttribute("/data/floatAttribute");
+    auto readData = IO::DataBlock<float>::fromGeneric(readDataGeneric);
+
+    REQUIRE(readData.shape.empty());  // Scalar attribute
+    REQUIRE(readData.data.size() == 1);
+    REQUIRE(readData.data[0] == Catch::Approx(writeData).epsilon(0.001));
+  }
+
+  SECTION("read string attribute")
+  {
+    const std::string writeData = "test_string";
+    hdf5io.createAttribute(writeData, "/data", "stringAttribute");
+    auto readDataGeneric = hdf5io.readAttribute("/data/stringAttribute");
+    auto readData = IO::DataBlock<std::string>::fromGeneric(readDataGeneric);
+
+    REQUIRE(readData.shape.empty());  // Scalar attribute
+    REQUIRE(readData.data.size() == 1);
+    REQUIRE(readData.data[0] == writeData);
+  }
+
+  SECTION("read integer array attribute")
+  {
+    const int32_t writeData[] = {1, 2, 3, 4, 5};
+    const int dataSize = sizeof(writeData) / sizeof(writeData[0]);
+    hdf5io.createAttribute(
+        BaseDataType::I32, writeData, "/data", "intArrayAttribute", dataSize);
+    auto readDataGeneric = hdf5io.readAttribute("/data/intArrayAttribute");
+    auto readData = IO::DataBlock<int32_t>::fromGeneric(readDataGeneric);
+
+    REQUIRE(readData.shape.size() == 1);  // 1D array attribute
+    REQUIRE(readData.shape[0] == dataSize);
+    REQUIRE(readData.data.size() == dataSize);
+    for (int i = 0; i < dataSize; ++i) {
+      REQUIRE(readData.data[i] == writeData[i]);
+    }
+  }
+
+  // TODO: read string array attribute currently fails with fatal error
+  /*
+      SECTION("read string array attribute")
+      {
+          const std::vector<std::string> writeData = {"str1", "str2", "str3"};
+          hdf5io.createAttribute(writeData, "/data", "stringArrayAttribute");
+          auto readDataGeneric =
+     hdf5io.readAttribute("/data/stringArrayAttribute"); auto readData =
+     IO::DataBlock<std::string>::fromGeneric(readDataGeneric);
+
+          REQUIRE(readData.shape.size() == 1); // 1D array attribute
+          REQUIRE(readData.shape[0] == writeData.size());
+          REQUIRE(readData.data.size() == writeData.size());
+          for (size_t i = 0; i < writeData.size(); ++i)
+          {
+              REQUIRE(readData.data[i] == writeData[i]);
+          }
+      }
+  */
+
+  // TODO: read reference attribute test case is incomplete and does not compile
+  // yet
+  /*
+      SECTION("read reference attribute")
+      {
+          hdf5io.createGroup("/referenceTarget");
+          hdf5io.createReferenceAttribute("/referenceTarget", "/data",
+     "referenceAttribute"); auto readDataGeneric =
+     hdf5io.readAttribute("/data/referenceAttribute"); auto readData =
+     IO::DataBlock<H5::Reference>::fromGeneric(readDataGeneric);
+
+          REQUIRE(readData.shape.empty()); // Scalar attribute
+          REQUIRE(readData.data.size() == 1);
+          // You may need to add additional checks here to verify the reference
+     is correct
+      }
+  */
   // close file
   hdf5io.close();
 }
