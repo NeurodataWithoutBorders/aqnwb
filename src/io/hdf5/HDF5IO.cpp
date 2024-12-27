@@ -290,6 +290,12 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(
   } else if (dataType == H5::PredType::NATIVE_FLOAT) {
     result.data = readDataHelper<float>(attribute, numElements);
     result.typeIndex = typeid(float);
+  } else if (dataType == H5::PredType::NATIVE_INT32) {
+    result.data = readDataHelper<int32_t>(attribute, numElements);
+    result.typeIndex = typeid(int32_t);
+  } else if (dataType == H5::PredType::NATIVE_UINT32) {
+    result.data = readDataHelper<uint32_t>(attribute, numElements);
+    result.typeIndex = typeid(uint32_t);
   } else if (dataType == H5::PredType::NATIVE_INT) {
     result.data = readDataHelper<int>(attribute, numElements);
     result.typeIndex = typeid(int);
@@ -308,6 +314,44 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(
   } else if (dataType == H5::PredType::NATIVE_ULLONG) {
     result.data = readDataHelper<unsigned long long>(attribute, numElements);
     result.typeIndex = typeid(unsigned long long);
+  } else if (dataType.getClass() == H5T_ARRAY) {
+    // Handle array attributes
+    H5::ArrayType arrayType(dataType.getId());
+    H5::DataType baseType = arrayType.getSuper();
+    int arrayRank = arrayType.getArrayNDims();
+    std::vector<hsize_t> arrayDims(arrayRank);
+    arrayType.getArrayDims(arrayDims.data());
+
+    // Convert arrayDims to std::vector<size_t>
+    std::vector<size_t> convertedArrayDims(arrayDims.begin(), arrayDims.end());
+
+    // Update the shape to reflect the array dimensions
+    result.shape = convertedArrayDims;
+
+    size_t arrayNumElements = 1;
+    for (const auto dim : arrayDims) {
+      arrayNumElements *= dim;
+    }
+
+    if (baseType == H5::PredType::NATIVE_INT32) {
+      result.data =
+          readDataHelper<int32_t>(attribute, numElements * arrayNumElements);
+      result.typeIndex = typeid(int32_t);
+    } else if (baseType == H5::PredType::NATIVE_UINT32) {
+      result.data =
+          readDataHelper<uint32_t>(attribute, numElements * arrayNumElements);
+      result.typeIndex = typeid(uint32_t);
+    } else if (baseType == H5::PredType::NATIVE_FLOAT) {
+      result.data =
+          readDataHelper<float>(attribute, numElements * arrayNumElements);
+      result.typeIndex = typeid(float);
+    } else if (baseType == H5::PredType::NATIVE_DOUBLE) {
+      result.data =
+          readDataHelper<double>(attribute, numElements * arrayNumElements);
+      result.typeIndex = typeid(double);
+    } else {
+      throw std::runtime_error("Unsupported array base data type");
+    }
   } else {
     throw std::runtime_error("Unsupported data type");
   }
