@@ -967,25 +967,20 @@ TEST_CASE("readAttribute", "[hdf5io]")
     }
   }
 
-  // TODO: read string array attribute currently fails with fatal error
-  /*
-      SECTION("read string array attribute")
-      {
-          const std::vector<std::string> writeData = {"str1", "str2", "str3"};
-          hdf5io.createAttribute(writeData, "/data", "stringArrayAttribute");
-          auto readDataGeneric =
-     hdf5io.readAttribute("/data/stringArrayAttribute"); auto readData =
-     IO::DataBlock<std::string>::fromGeneric(readDataGeneric);
+  SECTION("read string array attribute")
+  {
+    const std::vector<std::string> writeData = {"str1", "str2", "str3"};
+    hdf5io.createAttribute(writeData, "/data", "stringArrayAttribute");
+    auto readDataGeneric = hdf5io.readAttribute("/data/stringArrayAttribute");
+    auto readData = IO::DataBlock<std::string>::fromGeneric(readDataGeneric);
 
-          REQUIRE(readData.shape.size() == 1); // 1D array attribute
-          REQUIRE(readData.shape[0] == writeData.size());
-          REQUIRE(readData.data.size() == writeData.size());
-          for (size_t i = 0; i < writeData.size(); ++i)
-          {
-              REQUIRE(readData.data[i] == writeData[i]);
-          }
-      }
-  */
+    REQUIRE(readData.shape.size() == 1);  // 1D array attribute
+    REQUIRE(readData.shape[0] == writeData.size());
+    REQUIRE(readData.data.size() == writeData.size());
+    for (size_t i = 0; i < writeData.size(); ++i) {
+      REQUIRE(readData.data[i] == writeData[i]);
+    }
+  }
 
   // TODO: read reference attribute test case is incomplete and does not compile
   // yet

@@ -194,20 +194,63 @@ std::vector<std::string> HDF5IO::readStringDataHelper(
     const H5::DataSpace& memspace,
     const H5::DataSpace& dataspace) const
 {
+  // Vector to store the read string data
   std::vector<std::string> data(numElements);
-  if (const H5::DataSet* dataset =
-          dynamic_cast<const H5::DataSet*>(&dataSource))
-  {
-    H5::StrType strType(H5::PredType::C_S1);
-    dataset->read(data.data(), strType, memspace, dataspace);
-  } else if (const H5::Attribute* attribute =
+
+  try {
+    // Check if the data source is a DataSet
+    if (const H5::DataSet* dataset =
+            dynamic_cast<const H5::DataSet*>(&dataSource))
+    {
+      // Get the string type of the dataset
+      H5::StrType strType = dataset->getStrType();
+
+      if (strType.isVariableStr()) {
+        // Handle variable-length strings
+        std::vector<char*> buffer(numElements);
+        dataset->read(buffer.data(), strType, memspace, dataspace);
+
+        // Convert char* to std::string and free allocated memory
+        for (size_t i = 0; i < numElements; ++i) {
+          data[i] = std::string(buffer[i]);
+          free(buffer[i]);  // Free the memory allocated by HDF5
+        }
+      } else {
+        // Handle fixed-length strings
+        dataset->read(data.data(), strType, memspace, dataspace);
+      }
+    }
+    // Check if the data source is an Attribute
+    else if (const H5::Attribute* attribute =
                  dynamic_cast<const H5::Attribute*>(&dataSource))
-  {
-    H5::StrType strType(H5::PredType::C_S1);
-    attribute->read(strType, data.data());
-  } else {
-    throw std::runtime_error("Unsupported data source type");
+    {
+      // Get the string type of the attribute
+      H5::StrType strType = attribute->getStrType();
+
+      if (strType.isVariableStr()) {
+        // Handle variable-length strings
+        std::vector<char*> buffer(numElements);
+        attribute->read(strType, buffer.data());
+
+        // Convert char* to std::string and free allocated memory
+        for (size_t i = 0; i < numElements; ++i) {
+          data[i] = std::string(buffer[i]);
+          free(buffer[i]);  // Free the memory allocated by HDF5
+        }
+      } else {
+        // Handle fixed-length strings
+        attribute->read(strType, data.data());
+      }
+    } else {
+      // Throw an error if the data source type is unsupported
+      throw std::runtime_error("Unsupported data source type");
+    }
+  } catch (const H5::Exception& e) {
+    // Catch and rethrow HDF5 exceptions with a detailed message
+    throw std::runtime_error("Failed to read string data: "
+                             + std::string(e.getDetailMsg()));
   }
+
   return data;
 }
 
@@ -215,6 +258,7 @@ template<typename HDF5TYPE>
 std::vector<std::string> HDF5IO::readStringDataHelper(
     const HDF5TYPE& dataSource, size_t numElements) const
 {
+  // Call the main readStringDataHelper function with default DataSpaces
   return this->readStringDataHelper(
       dataSource, numElements, H5::DataSpace(), H5::DataSpace());
 }
@@ -226,7 +270,6 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(
   AQNWB::IO::DataBlockGeneric result;
   // Read the attribute
   auto attributePtr = this->getAttribute(dataPath);
-  // Make sure dataPath points to an attribute
   if (attributePtr == nullptr) {
     throw std::invalid_argument("attributePtr is null");
   }
@@ -236,25 +279,17 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(
   // Determine the shape of the attribute
   H5::DataSpace dataspace = attribute.getSpace();
   int rank = dataspace.getSimpleExtentNdims();
-  if (rank == 0) {
-    // Scalar attribute
-    result.shape.clear();
-  } else {
+  result.shape.clear();
+  if (rank > 0) {
     std::vector<hsize_t> tempShape(rank);
     dataspace.getSimpleExtentDims(tempShape.data(), nullptr);
-    result.shape.clear();
-    result.shape.reserve(rank);
-    for (const auto& v : tempShape) {
-      result.shape.push_back(v);
-    }
+    result.shape.assign(tempShape.begin(), tempShape.end());
   }
 
   // Determine the size of the attribute from the shape
-  size_t numElements = 1;  // Scalar (default)
-  if (result.shape.size() > 0) {  // N-dimensional array
-    for (const auto v : result.shape) {
-      numElements *= v;
-    }
+  size_t numElements = 1;
+  for (const auto v : result.shape) {
+    numElements *= v;
   }
 
   // Read the attribute into a vector of the appropriate type
@@ -262,26 +297,19 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(
     if (dataType.isVariableStr()) {
       // Handle variable-length strings
       std::vector<std::string> stringData;
-      try {
-        // Allocate a buffer to hold the variable-length string data
-        char* buffer;
-        attribute.read(dataType, &buffer);
+      std::vector<char*> buffer(numElements);
+      attribute.read(dataType, buffer.data());
 
-        // Convert the buffer to std::string
-        stringData.emplace_back(buffer);
-
-        // Free the memory allocated by HDF5
-        H5Dvlen_reclaim(
-            dataType.getId(), dataspace.getId(), H5P_DEFAULT, &buffer);
-      } catch (const H5::Exception& e) {
-        throw std::runtime_error(
-            "Failed to read variable-length string attribute: "
-            + std::string(e.getDetailMsg()));
+      for (size_t i = 0; i < numElements; ++i) {
+        stringData.emplace_back(buffer[i]);
+        free(buffer[i]);  // Free the memory allocated by HDF5
       }
       result.data = stringData;
       result.typeIndex = typeid(std::string);
     } else {
-      result.data = readStringDataHelper(attribute, numElements);
+      // Handle fixed-length strings
+      result.data = readStringDataHelper(
+          attribute, numElements, H5::DataSpace(), dataspace);
       result.typeIndex = typeid(std::string);
     }
   } else if (dataType == H5::PredType::NATIVE_DOUBLE) {
@@ -322,11 +350,8 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(
     std::vector<hsize_t> arrayDims(arrayRank);
     arrayType.getArrayDims(arrayDims.data());
 
-    // Convert arrayDims to std::vector<size_t>
-    std::vector<size_t> convertedArrayDims(arrayDims.begin(), arrayDims.end());
-
     // Update the shape to reflect the array dimensions
-    result.shape = convertedArrayDims;
+    result.shape.assign(arrayDims.begin(), arrayDims.end());
 
     size_t arrayNumElements = 1;
     for (const auto dim : arrayDims) {
