@@ -760,3 +760,52 @@ TEST_CASE("HDF5IO::objectExists", "[hdf5io]")
   // close file
   hdf5io.close();
 }
+
+TEST_CASE("HDF5IOI::attributeExists", "[hdf5io]")
+{
+  // create and open file
+  std::string filename = getTestFilePath("test_attributeExists.h5");
+  IO::HDF5::HDF5IO hdf5io(filename);
+  hdf5io.open();
+
+  hdf5io.createGroup("/data");
+
+  SECTION("existing attribute")
+  {
+    const int data = 1;
+    hdf5io.createAttribute(
+        BaseDataType::I32, &data, "/data", "existingAttribute");
+    REQUIRE(hdf5io.attributeExists("/data/existingAttribute") == true);
+  }
+
+  SECTION("non-existing attribute")
+  {
+    REQUIRE(hdf5io.attributeExists("/data/nonExistingAttribute") == false);
+  }
+
+  SECTION("existing string attribute")
+  {
+    const std::string data = "test_string";
+    hdf5io.createAttribute(data, "/data", "existingStringAttribute");
+    REQUIRE(hdf5io.attributeExists("/data/existingStringAttribute") == true);
+  }
+
+  SECTION("existing string array attribute")
+  {
+    const std::vector<std::string> data = {"str1", "str2", "str3"};
+    hdf5io.createAttribute(data, "/data", "existingStringArrayAttribute");
+    REQUIRE(hdf5io.attributeExists("/data/existingStringArrayAttribute")
+            == true);
+  }
+
+  SECTION("existing reference attribute")
+  {
+    hdf5io.createGroup("/referenceTarget");
+    hdf5io.createReferenceAttribute(
+        "/referenceTarget", "/data", "existingReferenceAttribute");
+    REQUIRE(hdf5io.attributeExists("/data/existingReferenceAttribute") == true);
+  }
+
+  // close file
+  hdf5io.close();
+}
