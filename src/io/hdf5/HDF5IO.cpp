@@ -377,6 +377,12 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(
     } else {
       throw std::runtime_error("Unsupported array base data type");
     }
+  } else if (dataType.getClass() == H5T_REFERENCE) {
+    // Handle object references
+    std::vector<hobj_ref_t> refData(numElements);
+    attribute.read(dataType, refData.data());
+    result.data = refData;
+    result.typeIndex = typeid(hobj_ref_t);
   } else {
     throw std::runtime_error("Unsupported data type");
   }
@@ -664,21 +670,13 @@ Status HDF5IO::createReferenceAttribute(const std::string& referencePath,
       attr = loc->createAttribute(name, H5::PredType::STD_REF_OBJ, attr_space);
     }
 
-    hobj_ref_t* rdata = new hobj_ref_t[sizeof(hobj_ref_t)];
+    hobj_ref_t rdata;
+    m_file->reference(&rdata, referencePath.c_str());
 
-    m_file->reference(rdata, referencePath.c_str());
-
-    attr.write(H5::PredType::STD_REF_OBJ, rdata);
-    delete[] rdata;
-
-  } catch (GroupIException error) {
+    attr.write(H5::PredType::STD_REF_OBJ, &rdata);
+  } catch (const H5::Exception& error) {
     error.printErrorStack();
-  } catch (AttributeIException error) {
-    error.printErrorStack();
-  } catch (FileIException error) {
-    error.printErrorStack();
-  } catch (DataSetIException error) {
-    error.printErrorStack();
+    return Status::Failure;
   }
 
   return Status::Success;

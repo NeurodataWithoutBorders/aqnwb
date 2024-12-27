@@ -6,6 +6,7 @@
 #include <thread>
 #include <vector>
 
+#include <H5Rpublic.h>
 #include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>
 
@@ -30,7 +31,7 @@ std::string executablePath = "./reader_executable";
 using namespace AQNWB;
 namespace fs = std::filesystem;
 
-TEST_CASE("HDF5IO::createGroup", "[hdf5io]")
+TEST_CASE("createGroup", "[hdf5io]")
 {
   // create and open file
   std::string filename = getTestFilePath("testGroup.h5");
@@ -44,7 +45,7 @@ TEST_CASE("HDF5IO::createGroup", "[hdf5io]")
   }
 }
 
-TEST_CASE("HDF5IO::getGroupObjects", "[hdf5io]")
+TEST_CASE("getGroupObjects", "[hdf5io]")
 {
   // create and open file
   std::string filename = getTestFilePath("test_getGroupObjects.h5");
@@ -544,7 +545,7 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
   }
 }
 
-TEST_CASE("HDF5IO::getH5ObjectType", "[hdf5io]")
+TEST_CASE("getH5ObjectType", "[hdf5io]")
 {
   // create and open file
   std::string filename = getTestFilePath("test_getH5ObjectType.h5");
@@ -575,7 +576,7 @@ TEST_CASE("HDF5IO::getH5ObjectType", "[hdf5io]")
   hdf5io.close();
 }
 
-TEST_CASE("HDF5IO::getNativeType", "[hdf5io]")
+TEST_CASE("getNativeType", "[hdf5io]")
 {
   SECTION("Integer Types")
   {
@@ -659,7 +660,7 @@ TEST_CASE("HDF5IO::getNativeType", "[hdf5io]")
   }
 }
 
-TEST_CASE("HDF5IO::getH5Type", "[hdf5io]")
+TEST_CASE("getH5Type", "[hdf5io]")
 {
   SECTION("Integer Types")
   {
@@ -743,7 +744,7 @@ TEST_CASE("HDF5IO::getH5Type", "[hdf5io]")
   }
 }
 
-TEST_CASE("HDF5IO::objectExists", "[hdf5io]")
+TEST_CASE("objectExists", "[hdf5io]")
 {
   // create and open file
   std::string filename = getTestFilePath("test_objectExists.h5");
@@ -844,7 +845,7 @@ TEST_CASE("HDF5IOI::attributeExists", "[hdf5io]")
   hdf5io.close();
 }
 
-TEST_CASE("HDF5IO::getStorageObjectType", "[hdf5io]")
+TEST_CASE("getStorageObjectType", "[hdf5io]")
 {
   // create and open file
   std::string filename = getTestFilePath("test_getStorageObjectType.h5");
@@ -982,23 +983,43 @@ TEST_CASE("readAttribute", "[hdf5io]")
     }
   }
 
-  // TODO: read reference attribute test case is incomplete and does not compile
-  // yet
-  /*
-      SECTION("read reference attribute")
-      {
-          hdf5io.createGroup("/referenceTarget");
-          hdf5io.createReferenceAttribute("/referenceTarget", "/data",
-     "referenceAttribute"); auto readDataGeneric =
-     hdf5io.readAttribute("/data/referenceAttribute"); auto readData =
-     IO::DataBlock<H5::Reference>::fromGeneric(readDataGeneric);
+  SECTION("read reference attribute")
+  {
+    // Create a target group to reference
+    hdf5io.createGroup("/referenceTarget");
 
-          REQUIRE(readData.shape.empty()); // Scalar attribute
-          REQUIRE(readData.data.size() == 1);
-          // You may need to add additional checks here to verify the reference
-     is correct
-      }
-  */
+    // Create a reference attribute pointing to the target group
+    hdf5io.createReferenceAttribute(
+        "/referenceTarget", "/data", "referenceAttribute");
+
+    // Read the reference attribute
+    auto readDataGeneric = hdf5io.readAttribute("/data/referenceAttribute");
+    auto readData = IO::DataBlock<hobj_ref_t>::fromGeneric(readDataGeneric);
+
+    REQUIRE(readData.shape.empty());  // Scalar attribute
+    REQUIRE(readData.data.size() == 1);
+
+    // Verify the reference points to the correct target group
+    H5::H5File file(hdf5io.getFileName(), H5F_ACC_RDONLY);
+    hid_t file_id = file.getId();
+    hid_t ref_group_id =
+        H5Rdereference2(file_id, H5P_DEFAULT, H5R_OBJECT, &readData.data[0]);
+
+    // Check if the dereferenced ID is valid
+    REQUIRE(ref_group_id >= 0);
+
+    H5::Group refGroup(ref_group_id);
+    H5::Group targetGroup(file.openGroup("/referenceTarget"));
+
+    // Compare the paths to ensure the reference points to the correct group
+    std::string refPath = refGroup.getObjName();
+    std::string targetPath = targetGroup.getObjName();
+    REQUIRE(refPath == targetPath);
+
+    // Close the dereferenced group ID
+    H5Gclose(ref_group_id);
+  }
+
   // close file
   hdf5io.close();
 }
