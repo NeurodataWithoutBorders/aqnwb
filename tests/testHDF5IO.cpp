@@ -29,7 +29,7 @@ std::string executablePath = "./reader_executable";
 using namespace AQNWB;
 namespace fs = std::filesystem;
 
-TEST_CASE("writeGroup", "[hdf5io]")
+TEST_CASE("HDF5IO::createGroup", "[hdf5io]")
 {
   // create and open file
   std::string filename = getTestFilePath("testGroup.h5");
@@ -43,7 +43,7 @@ TEST_CASE("writeGroup", "[hdf5io]")
   }
 }
 
-TEST_CASE("searchGroup", "[hdf5io]")
+TEST_CASE("HDF5IO::getGroupObjects", "[hdf5io]")
 {
   // create and open file
   std::string filename = getTestFilePath("searchGroup.h5");
@@ -63,7 +63,7 @@ TEST_CASE("searchGroup", "[hdf5io]")
   hdf5io.close();
 }
 
-TEST_CASE("writeDataset", "[hdf5io]")
+TEST_CASE("HDF5IO; write datasets", "[hdf5io]")
 {
   std::vector<int> testData = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
@@ -259,7 +259,7 @@ TEST_CASE("writeDataset", "[hdf5io]")
   }
 }
 
-TEST_CASE("writeAttributes", "[hdf5io]")
+TEST_CASE("HDF5IO; create attributes", "[hdf5io]")
 {
   // create and open file
   std::string filename = getTestFilePath("test_attributes.h5");
@@ -313,7 +313,7 @@ TEST_CASE("writeAttributes", "[hdf5io]")
   hdf5io.close();
 }
 
-TEST_CASE("SWMRmode", "[hdf5io]")
+TEST_CASE("HDF5IO; SWMR mode", "[hdf5io]")
 {
   SECTION("useSWMRMODE")
   {
@@ -463,7 +463,7 @@ TEST_CASE("SWMRmode", "[hdf5io]")
   }
 }
 
-TEST_CASE("readDataset", "[hdf5io]")
+TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
 {
   std::vector<int32_t> testData = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
@@ -510,7 +510,7 @@ TEST_CASE("readDataset", "[hdf5io]")
   }
 }
 
-TEST_CASE("getH5ObjectType", "[hdf5io]")
+TEST_CASE("HDF5IO::getH5ObjectType", "[hdf5io]")
 {
   // create and open file
   std::string filename = getTestFilePath("test_getH5ObjectType.h5");
@@ -707,4 +707,56 @@ TEST_CASE("HDF5IO::getH5Type", "[hdf5io]")
     H5::ArrayType expectedArrayType(H5::PredType::STD_I32LE, 1, &size);
     REQUIRE(h5TypeArray.getSize() == expectedArrayType.getSize());
   }
+}
+
+TEST_CASE("HDF5IO::objectExists", "[hdf5io]")
+{
+  // create and open file
+  std::string filename = getTestFilePath("test_objectExists.h5");
+  IO::HDF5::HDF5IO hdf5io(filename);
+  hdf5io.open();
+
+  SECTION("existing group")
+  {
+    hdf5io.createGroup("/existingGroup");
+    REQUIRE(hdf5io.objectExists("/existingGroup") == true);
+  }
+
+  SECTION("non-existing group")
+  {
+    REQUIRE(hdf5io.objectExists("/nonExistingGroup") == false);
+  }
+
+  SECTION("existing dataset")
+  {
+    std::vector<int> testData = {1, 2, 3, 4, 5};
+    std::string dataPath = "/existingDataset";
+    hdf5io.createArrayDataSet(
+        BaseDataType::I32, SizeArray {0}, SizeArray {1}, dataPath);
+    REQUIRE(hdf5io.objectExists(dataPath) == true);
+  }
+
+  SECTION("non-existing dataset")
+  {
+    REQUIRE(hdf5io.objectExists("/nonExistingDataset") == false);
+  }
+
+  SECTION("existing attribute")
+  {
+    hdf5io.createGroup("/groupWithAttribute");
+    const int data = 1;
+    hdf5io.createAttribute(
+        BaseDataType::I32, &data, "/groupWithAttribute", "existingAttribute");
+    REQUIRE(hdf5io.attributeExists("/groupWithAttribute/existingAttribute")
+            == true);
+  }
+
+  SECTION("non-existing attribute")
+  {
+    REQUIRE(hdf5io.attributeExists("/groupWithAttribute/nonExistingAttribute")
+            == false);
+  }
+
+  // close file
+  hdf5io.close();
 }
