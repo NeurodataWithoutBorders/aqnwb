@@ -46,20 +46,53 @@ TEST_CASE("HDF5IO::createGroup", "[hdf5io]")
 TEST_CASE("HDF5IO::getGroupObjects", "[hdf5io]")
 {
   // create and open file
-  std::string filename = getTestFilePath("searchGroup.h5");
+  std::string filename = getTestFilePath("test_getGroupObjects.h5");
   IO::HDF5::HDF5IO hdf5io(filename);
   hdf5io.open();
 
-  hdf5io.createGroup("/data");
-  hdf5io.createGroup("/data/test");
-  hdf5io.createArrayDataSet(
-      BaseDataType::I32, SizeArray {0}, SizeArray {1}, "/data/mydata");
-  hdf5io.flush();
-  auto group_content = hdf5io.getGroupObjects("/data");
-  REQUIRE(group_content.size() == 2);
-  auto group_content2 = hdf5io.getGroupObjects("/");
-  REQUIRE(group_content2.size() == 1);
-  REQUIRE(group_content2[0] == "data");
+  SECTION("empty group")
+  {
+    hdf5io.createGroup("/emptyGroup");
+    auto groupContent = hdf5io.getGroupObjects("/emptyGroup");
+    REQUIRE(groupContent.size() == 0);
+  }
+
+  SECTION("group with datasets and subgroups")
+  {
+    hdf5io.createGroup("/data");
+    hdf5io.createGroup("/data/subgroup1");
+    hdf5io.createGroup("/data/subgroup2");
+    hdf5io.createArrayDataSet(
+        BaseDataType::I32, SizeArray {0}, SizeArray {1}, "/data/dataset1");
+    hdf5io.createArrayDataSet(
+        BaseDataType::I32, SizeArray {0}, SizeArray {1}, "/data/dataset2");
+
+    auto groupContent = hdf5io.getGroupObjects("/data");
+    REQUIRE(groupContent.size() == 4);
+    REQUIRE(std::find(groupContent.begin(), groupContent.end(), "subgroup1")
+            != groupContent.end());
+    REQUIRE(std::find(groupContent.begin(), groupContent.end(), "subgroup2")
+            != groupContent.end());
+    REQUIRE(std::find(groupContent.begin(), groupContent.end(), "dataset1")
+            != groupContent.end());
+    REQUIRE(std::find(groupContent.begin(), groupContent.end(), "dataset2")
+            != groupContent.end());
+  }
+
+  SECTION("root group")
+  {
+    hdf5io.createGroup("/rootGroup1");
+    hdf5io.createGroup("/rootGroup2");
+
+    auto groupContent = hdf5io.getGroupObjects("/");
+    REQUIRE(groupContent.size() == 2);
+    REQUIRE(std::find(groupContent.begin(), groupContent.end(), "rootGroup1")
+            != groupContent.end());
+    REQUIRE(std::find(groupContent.begin(), groupContent.end(), "rootGroup2")
+            != groupContent.end());
+  }
+
+  // close file
   hdf5io.close();
 }
 
