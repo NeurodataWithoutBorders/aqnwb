@@ -842,3 +842,62 @@ TEST_CASE("HDF5IOI::attributeExists", "[hdf5io]")
   // close file
   hdf5io.close();
 }
+
+TEST_CASE("getStorageObjectType", "[hdf5io]")
+{
+  // create and open file
+  std::string filename = getTestFilePath("test_getStorageObjectType.h5");
+  IO::HDF5::HDF5IO hdf5io(filename);
+  hdf5io.open();
+
+  SECTION("group")
+  {
+    hdf5io.createGroup("/testGroup");
+    REQUIRE(hdf5io.getStorageObjectType("/testGroup")
+            == StorageObjectType::Group);
+  }
+
+  SECTION("dataset")
+  {
+    hdf5io.createArrayDataSet(
+        BaseDataType::I32, SizeArray {0}, SizeArray {1}, "/testDataset");
+    REQUIRE(hdf5io.getStorageObjectType("/testDataset")
+            == StorageObjectType::Dataset);
+  }
+
+  SECTION("attribute")
+  {
+    hdf5io.createGroup("/groupWithAttribute");
+    const int data = 1;
+    hdf5io.createAttribute(
+        BaseDataType::I32, &data, "/groupWithAttribute", "testAttribute");
+    REQUIRE(hdf5io.getStorageObjectType("/groupWithAttribute/testAttribute")
+            == StorageObjectType::Attribute);
+  }
+
+  SECTION("non-existing object")
+  {
+    REQUIRE(hdf5io.getStorageObjectType("/nonExistingObject")
+            == StorageObjectType::Undefined);
+  }
+
+  SECTION("link to group")
+  {
+    hdf5io.createGroup("/originalGroup");
+    hdf5io.createLink("/linkToGroup", "/originalGroup");
+    REQUIRE(hdf5io.getStorageObjectType("/linkToGroup")
+            == StorageObjectType::Group);
+  }
+
+  SECTION("link to dataset")
+  {
+    hdf5io.createArrayDataSet(
+        BaseDataType::I32, SizeArray {0}, SizeArray {1}, "/originalDataset");
+    hdf5io.createLink("/linkToDataset", "/originalDataset");
+    REQUIRE(hdf5io.getStorageObjectType("/linkToDataset")
+            == StorageObjectType::Dataset);
+  }
+
+  // close file
+  hdf5io.close();
+}
