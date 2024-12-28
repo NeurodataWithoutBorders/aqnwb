@@ -451,10 +451,19 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(
         stride_hsize.empty() ? nullptr : stride_hsize.data(),
         block_hsize.empty() ? nullptr : block_hsize.data());
 
-    memspace = H5::DataSpace(rank, block_count.data());
+    // Calculate the memory space dimensions
+    std::vector<hsize_t> mem_dims(rank);
+    for (int i = 0; i < rank; ++i) {
+      mem_dims[i] = block_count[i];
+      if (!block_hsize.empty()) {
+        mem_dims[i] *= block_hsize[i];
+      }
+    }
+
+    memspace = H5::DataSpace(rank, mem_dims.data());
 
     // Update the shape information based on the hyperslab selection
-    result.shape.assign(block_count.begin(), block_count.end());
+    result.shape.assign(mem_dims.begin(), mem_dims.end());
   } else {
     memspace = H5::DataSpace(dataspace);
   }
