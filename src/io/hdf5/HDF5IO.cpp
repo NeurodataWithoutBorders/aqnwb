@@ -408,7 +408,8 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(
 {
   // Check that the dataset exists
   assert(H5Lexists(m_file->getId(), dataPath.c_str(), H5P_DEFAULT) > 0);
-  // create the return value to fill
+
+  // Create the return value to fill
   IO::DataBlockGeneric result;
 
   // Create new vectors of type hsize_t for stride and block because
@@ -427,23 +428,15 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(
 
   // Get the number of dimensions and their sizes
   int rank = dataspace.getSimpleExtentNdims();
-  // Use a dynamic array as Windows doesn't support variable length arrays
   std::vector<hsize_t> dims(rank);
   dataspace.getSimpleExtentDims(dims.data(), nullptr);
 
   // Store the shape information
   result.shape.assign(dims.begin(), dims.end());
 
-  // Calculate the total number of elements
-  size_t numElements = 1;
-  for (int i = 0; i < rank; ++i) {
-    numElements *= dims[i];
-  }
-
   // Create a memory dataspace for the slice
   H5::DataSpace memspace;
   if (!start.empty() && !count.empty()) {
-    // Use std::vector to create dynamic arrays to ensure Windows built works
     std::vector<hsize_t> offset(rank);
     std::vector<hsize_t> block_count(rank);
     for (int i = 0; i < rank; ++i) {
@@ -459,8 +452,17 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(
         block_hsize.empty() ? nullptr : block_hsize.data());
 
     memspace = H5::DataSpace(rank, block_count.data());
+
+    // Update the shape information based on the hyperslab selection
+    result.shape.assign(block_count.begin(), block_count.end());
   } else {
     memspace = H5::DataSpace(dataspace);
+  }
+
+  // Calculate the total number of elements based on the hyperslab selection
+  size_t numElements = 1;
+  for (const auto& c : result.shape) {
+    numElements *= c;
   }
 
   // Read the dataset into a vector of the appropriate type
@@ -504,7 +506,8 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(
   } else {
     throw std::runtime_error("Unsupported data type");
   }
-  // return the result
+
+  // Return the result
   return result;
 }
 
