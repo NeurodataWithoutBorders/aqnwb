@@ -271,8 +271,10 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(
   // Read the attribute
   auto attributePtr = this->getAttribute(dataPath);
   if (attributePtr == nullptr) {
-    throw std::invalid_argument("attributePtr is null");
+    throw std::invalid_argument(
+        "HDF5IO::readAttribute, attribute does not exist.");
   }
+
   H5::Attribute& attribute = *attributePtr;
   H5::DataType dataType = attribute.getDataType();
 

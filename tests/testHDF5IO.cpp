@@ -968,6 +968,19 @@ TEST_CASE("readAttribute", "[hdf5io]")
     }
   }
 
+  SECTION("read double attribute")
+  {
+    const double writeData = 2.718;
+    hdf5io.createAttribute(
+        BaseDataType::F64, &writeData, "/data", "doubleAttribute");
+    auto readDataGeneric = hdf5io.readAttribute("/data/doubleAttribute");
+    auto readData = IO::DataBlock<double>::fromGeneric(readDataGeneric);
+
+    REQUIRE(readData.shape.empty());  // Scalar attribute
+    REQUIRE(readData.data.size() == 1);
+    REQUIRE(readData.data[0] == Catch::Approx(writeData).epsilon(0.001));
+  }
+
   SECTION("read string array attribute")
   {
     const std::vector<std::string> writeData = {"str1", "str2", "str3"};
@@ -1018,6 +1031,18 @@ TEST_CASE("readAttribute", "[hdf5io]")
 
     // Close the dereferenced group ID
     H5Gclose(ref_group_id);
+  }
+
+  SECTION("read non-existent attribute")
+  {
+    REQUIRE_THROWS_AS(hdf5io.readAttribute("/data/nonExistentAttribute"),
+                      std::invalid_argument);
+  }
+
+  SECTION("read attribute from invalid path")
+  {
+    REQUIRE_THROWS_AS(hdf5io.readAttribute("/invalidPath/attribute"),
+                      std::invalid_argument);
   }
 
   // close file
