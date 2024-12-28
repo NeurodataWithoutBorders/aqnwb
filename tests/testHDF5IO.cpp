@@ -31,6 +31,92 @@ std::string executablePath = "./reader_executable";
 using namespace AQNWB;
 namespace fs = std::filesystem;
 
+TEST_CASE("open - hdf5 file modes", "[hdf5io]")
+{
+  const std::string fileName = getTestFilePath("test_open_modes.h5");
+
+  // Ensure the file does not exist before starting the tests
+  std::filesystem::remove(fileName);
+
+  SECTION("Open file in Overwrite mode")
+  {
+    IO::HDF5::HDF5IO hdf5io(fileName);
+    REQUIRE(hdf5io.open(IO::FileMode::Overwrite) == Status::Success);
+    REQUIRE(hdf5io.isOpen());
+
+    // Verify file is created and opened in Overwrite mode
+    H5::H5File file(fileName, H5F_ACC_RDONLY);
+    REQUIRE(file.getId() >= 0);
+
+    // Clean up
+    file.close();
+    hdf5io.close();
+    std::filesystem::remove(fileName);
+  }
+
+  SECTION("Open file in ReadWrite mode")
+  {
+    // Create a file first
+    {
+      IO::HDF5::HDF5IO hdf5io(fileName);
+      REQUIRE(hdf5io.open(IO::FileMode::Overwrite) == Status::Success);
+      hdf5io.close();
+    }
+
+    // Open the existing file in ReadWrite mode
+    IO::HDF5::HDF5IO hdf5io(fileName);
+    REQUIRE(hdf5io.open(IO::FileMode::ReadWrite) == Status::Success);
+    REQUIRE(hdf5io.isOpen());
+
+    // Verify file is opened in ReadWrite mode
+    H5::H5File file(fileName, H5F_ACC_RDWR);
+    REQUIRE(file.getId() >= 0);
+
+    // Clean up
+    file.close();
+    hdf5io.close();
+    std::filesystem::remove(fileName);
+  }
+
+  SECTION("Open file in ReadOnly mode")
+  {
+    // Create a file first
+    {
+      IO::HDF5::HDF5IO hdf5io(fileName);
+      REQUIRE(hdf5io.open(IO::FileMode::Overwrite) == Status::Success);
+      hdf5io.close();
+    }
+
+    // Open the existing file in ReadOnly mode
+    IO::HDF5::HDF5IO hdf5io(fileName);
+    REQUIRE(hdf5io.open(IO::FileMode::ReadOnly) == Status::Success);
+    REQUIRE(hdf5io.isOpen());
+
+    // Verify file is opened in ReadOnly mode
+    H5::H5File file(fileName, H5F_ACC_RDONLY | H5F_ACC_SWMR_READ);
+    REQUIRE(file.getId() >= 0);
+
+    // Clean up
+    file.close();
+    hdf5io.close();
+    std::filesystem::remove(fileName);
+  }
+
+  SECTION("Open non-existent file in ReadWrite mode")
+  {
+    IO::HDF5::HDF5IO hdf5io(fileName);
+    REQUIRE(hdf5io.open(IO::FileMode::ReadWrite) == Status::Failure);
+    REQUIRE_FALSE(hdf5io.isOpen());
+  }
+
+  SECTION("Open non-existent file in ReadOnly mode")
+  {
+    IO::HDF5::HDF5IO hdf5io(fileName);
+    REQUIRE(hdf5io.open(IO::FileMode::ReadOnly) == Status::Failure);
+    REQUIRE_FALSE(hdf5io.isOpen());
+  }
+}
+
 TEST_CASE("createGroup", "[hdf5io]")
 {
   // create and open file
