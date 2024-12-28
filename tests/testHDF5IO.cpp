@@ -191,7 +191,7 @@ TEST_CASE("HDF5IO; write datasets", "[hdf5io]")
   SECTION("write 1D data block to 1D dataset")
   {
     // open file
-    std::string path = getTestFilePath("1DData1DDataset.h5");
+    std::string path = getTestFilePath("test_read1DData1DDataset.h5");
     std::unique_ptr<IO::HDF5::HDF5IO> hdf5io =
         std::make_unique<IO::HDF5::HDF5IO>(path);
     hdf5io->open();
@@ -579,53 +579,6 @@ TEST_CASE("HDF5IO; SWMR mode", "[hdf5io]")
               ->getDataSet()
               ->getId());
     }
-
-    hdf5io->close();
-  }
-}
-
-TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
-{
-  std::vector<int32_t> testData = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-
-  SECTION("read 1D data block of a 1D dataset")
-  {
-    // open file
-    std::string path = getTestFilePath("Read1DData1DDataset.h5");
-    std::shared_ptr<IO::HDF5::HDF5IO> hdf5io =
-        std::make_shared<IO::HDF5::HDF5IO>(path);
-    hdf5io->open();
-
-    // Set up test data
-    std::string dataPath = "/1DData1DDataset";
-    SizeType numSamples = 10;
-
-    // Create HDF5RecordingData object and dataset
-    std::unique_ptr<BaseRecordingData> dataset = hdf5io->createArrayDataSet(
-        BaseDataType::I32, SizeArray {0}, SizeArray {1}, dataPath);
-
-    // Write data block
-    std::vector<SizeType> dataShape = {numSamples};
-    std::vector<SizeType> positionOffset = {0};
-    dataset->writeDataBlock(
-        dataShape, positionOffset, BaseDataType::I32, &testData[0]);
-
-    // Confirm using HDF5IO readDataset that the data is correct
-    auto readData = hdf5io->readDataset(dataPath);
-    REQUIRE(readData.shape[0] == 10);
-    auto readDataTyped = DataBlock<int32_t>::fromGeneric(readData);
-    REQUIRE(readDataTyped.shape[0] == 10);
-    REQUIRE(readDataTyped.data == testData);
-
-    // Confirm using lazy read as well
-    auto readDataWrapper = std::make_unique<
-        ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset, int32_t>>(
-        hdf5io, dataPath);
-    auto readDataGeneric = readDataWrapper->valuesGeneric();
-    REQUIRE(readDataGeneric.shape[0] == 10);
-    auto readDataTypedV2 = readDataWrapper->values();
-    REQUIRE(readDataTypedV2.shape[0] == 10);
-    REQUIRE(readDataTypedV2.data == testData);
 
     hdf5io->close();
   }
@@ -1161,3 +1114,214 @@ TEST_CASE("readAttribute", "[hdf5io]")
   // close file
   hdf5io.close();
 }
+
+TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
+{
+  std::vector<int32_t> testData = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+  SECTION("read 1D data block of a 1D dataset")
+  {
+    // open file
+    std::string path = getTestFilePath("test_Read1DData1DDataset.h5");
+    std::shared_ptr<IO::HDF5::HDF5IO> hdf5io =
+        std::make_shared<IO::HDF5::HDF5IO>(path);
+    hdf5io->open();
+
+    // Set up test data
+    std::string dataPath = "/1DData1DDataset";
+    SizeType numSamples = 10;
+
+    // Create HDF5RecordingData object and dataset
+    std::unique_ptr<BaseRecordingData> dataset = hdf5io->createArrayDataSet(
+        BaseDataType::I32, SizeArray {0}, SizeArray {1}, dataPath);
+
+    // Write data block
+    std::vector<SizeType> dataShape = {numSamples};
+    std::vector<SizeType> positionOffset = {0};
+    dataset->writeDataBlock(
+        dataShape, positionOffset, BaseDataType::I32, &testData[0]);
+
+    // Confirm using HDF5IO readDataset that the data is correct
+    auto readData = hdf5io->readDataset(dataPath);
+    REQUIRE(readData.shape[0] == 10);
+    auto readDataTyped = DataBlock<int32_t>::fromGeneric(readData);
+    REQUIRE(readDataTyped.shape[0] == 10);
+    REQUIRE(readDataTyped.data == testData);
+
+    // Confirm using lazy read as well
+    auto readDataWrapper = std::make_unique<
+        ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset, int32_t>>(
+        hdf5io, dataPath);
+    auto readDataGeneric = readDataWrapper->valuesGeneric();
+    REQUIRE(readDataGeneric.shape[0] == 10);
+    auto readDataTypedV2 = readDataWrapper->values();
+    REQUIRE(readDataTypedV2.shape[0] == 10);
+    REQUIRE(readDataTypedV2.data == testData);
+
+    hdf5io->close();
+  }
+
+  SECTION("read 2D dataset")
+  {
+    // open file
+    std::string path = getTestFilePath("test_Read2DData2DDataset.h5");
+    std::shared_ptr<IO::HDF5::HDF5IO> hdf5io =
+        std::make_shared<IO::HDF5::HDF5IO>(path);
+    hdf5io->open();
+
+    // Set up test data
+    std::string dataPath = "/2DData2DDataset";
+    SizeType numRows = 2, numCols = 5;
+    std::vector<int32_t> testData2D = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+    // Create HDF5RecordingData object and dataset
+    std::unique_ptr<BaseRecordingData> dataset =
+        hdf5io->createArrayDataSet(BaseDataType::I32,
+                                   SizeArray {numRows, numCols},
+                                   SizeArray {0, 0},
+                                   dataPath);
+
+    // Write data block
+    std::vector<SizeType> dataShape = {numRows, numCols};
+    std::vector<SizeType> positionOffset = {0, 0};
+    dataset->writeDataBlock(
+        dataShape, positionOffset, BaseDataType::I32, testData2D.data());
+
+    // Confirm using HDF5IO readDataset that the data is correct
+    auto readData = hdf5io->readDataset(dataPath);
+    REQUIRE(readData.shape[0] == numRows);
+    REQUIRE(readData.shape[1] == numCols);
+    auto readDataTyped = DataBlock<int32_t>::fromGeneric(readData);
+    REQUIRE(readDataTyped.shape[0] == numRows);
+    REQUIRE(readDataTyped.shape[1] == numCols);
+    REQUIRE(readDataTyped.data == testData2D);
+
+    hdf5io->close();
+  }
+
+  SECTION("read dataset with different data types")
+  {
+    // open file
+    std::string path = getTestFilePath("test_ReadDifferentDataTypes.h5");
+    std::shared_ptr<IO::HDF5::HDF5IO> hdf5io =
+        std::make_shared<IO::HDF5::HDF5IO>(path);
+    hdf5io->open();
+
+    // Set up test data for float
+    std::string floatDataPath = "/FloatDataset";
+    std::vector<float> testDataFloat = {1.1f, 2.2f, 3.3f, 4.4f, 5.5f};
+
+    // Create HDF5RecordingData object and dataset for float
+    std::unique_ptr<BaseRecordingData> floatDataset =
+        hdf5io->createArrayDataSet(
+            BaseDataType::F32, SizeArray {5}, SizeArray {0}, floatDataPath);
+
+    // Write float data block
+    std::vector<SizeType> floatDataShape = {5};
+    std::vector<SizeType> floatPositionOffset = {0};
+    floatDataset->writeDataBlock(floatDataShape,
+                                 floatPositionOffset,
+                                 BaseDataType::F32,
+                                 testDataFloat.data());
+
+    // Confirm using HDF5IO readDataset that the float data is correct
+    auto readFloatData = hdf5io->readDataset(floatDataPath);
+    REQUIRE(readFloatData.shape[0] == 5);
+    auto readFloatDataTyped = DataBlock<float>::fromGeneric(readFloatData);
+    REQUIRE(readFloatDataTyped.shape[0] == 5);
+    REQUIRE(readFloatDataTyped.data == testDataFloat);
+
+    // Set up test data for double
+    std::string doubleDataPath = "/DoubleDataset";
+    std::vector<double> testDataDouble = {1.1, 2.2, 3.3, 4.4, 5.5};
+
+    // Create HDF5RecordingData object and dataset for double
+    std::unique_ptr<BaseRecordingData> doubleDataset =
+        hdf5io->createArrayDataSet(
+            BaseDataType::F64, SizeArray {5}, SizeArray {0}, doubleDataPath);
+
+    // Write double data block
+    std::vector<SizeType> doubleDataShape = {5};
+    std::vector<SizeType> doublePositionOffset = {0};
+    doubleDataset->writeDataBlock(doubleDataShape,
+                                  doublePositionOffset,
+                                  BaseDataType::F64,
+                                  testDataDouble.data());
+
+    // Confirm using HDF5IO readDataset that the double data is correct
+    auto readDoubleData = hdf5io->readDataset(doubleDataPath);
+    REQUIRE(readDoubleData.shape[0] == 5);
+    auto readDoubleDataTyped = DataBlock<double>::fromGeneric(readDoubleData);
+    REQUIRE(readDoubleDataTyped.shape[0] == 5);
+    REQUIRE(readDoubleDataTyped.data == testDataDouble);
+
+    hdf5io->close();
+  }
+
+  SECTION("read dataset with an unsupported type")
+  {
+    // open file
+    std::string path = getTestFilePath("test_ReadUnsupportedType.h5");
+    std::shared_ptr<IO::HDF5::HDF5IO> hdf5io =
+        std::make_shared<IO::HDF5::HDF5IO>(path);
+    hdf5io->open();
+
+    // Set up test data for an unsupported type (e.g., string)
+    std::string dataPath = "/UnsupportedDataset";
+    std::vector<std::string> testDataString = {"a", "b", "c"};
+
+    // Create HDF5RecordingData object and dataset for string
+    std::unique_ptr<BaseRecordingData> dataset = hdf5io->createArrayDataSet(
+        BaseDataType::V_STR, SizeArray {3}, SizeArray {0}, dataPath);
+
+    // Attempt to read the dataset and verify that it throws an exception
+    REQUIRE_THROWS_AS(hdf5io->readDataset(dataPath), std::runtime_error);
+
+    hdf5io->close();
+  }
+}
+
+/*
+TEST_CASE("HDF5IO; read dataset subset", "[hdf5io]")
+{
+  SECTION("read dataset with hyperslab selection")
+  {
+    // open file
+    std::string path = getTestFilePath("ReadHyperslabSelection.h5");
+    std::shared_ptr<IO::HDF5::HDF5IO> hdf5io =
+        std::make_shared<IO::HDF5::HDF5IO>(path);
+    hdf5io->open();
+
+    // Set up test data
+    std::string dataPath = "/2DDataHyperslab";
+    SizeType numRows = 3, numCols = 3;
+    std::vector<int32_t> testData2D = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+    // Create HDF5RecordingData object and dataset
+    std::unique_ptr<BaseRecordingData> dataset =
+        hdf5io->createArrayDataSet(BaseDataType::I32,
+                                   SizeArray {numRows, numCols},
+                                   SizeArray {0, 0},
+                                   dataPath);
+
+    // Write data block
+    std::vector<SizeType> dataShape = {numRows, numCols};
+    std::vector<SizeType> positionOffset = {0, 0};
+    dataset->writeDataBlock(
+        dataShape, positionOffset, BaseDataType::I32, testData2D.data());
+
+    // Read a hyperslab selection from the dataset
+    std::vector<SizeType> start = {1, 1};
+    std::vector<SizeType> count = {2, 2};
+    auto readData = hdf5io->readDataset(dataPath, start, count);
+    REQUIRE(readData.shape[0] == 2);
+    REQUIRE(readData.shape[1] == 2);
+    auto readDataTyped = DataBlock<int32_t>::fromGeneric(readData);
+    REQUIRE(readDataTyped.shape[0] == 2);
+    REQUIRE(readDataTyped.shape[1] == 2);
+    std::vector<int32_t> expectedData = {5, 6, 8, 9};
+    REQUIRE(readDataTyped.data == expectedData);
+
+    hdf5io->close();
+  }
+}*/
