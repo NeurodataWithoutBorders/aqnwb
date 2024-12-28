@@ -1281,12 +1281,11 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
   }
 }
 
-/*
 TEST_CASE("HDF5IO; read dataset subset", "[hdf5io]")
 {
   SECTION("read dataset with hyperslab selection")
   {
-    // open file
+    // Open file
     std::string path = getTestFilePath("ReadHyperslabSelection.h5");
     std::shared_ptr<IO::HDF5::HDF5IO> hdf5io =
         std::make_shared<IO::HDF5::HDF5IO>(path);
@@ -1301,27 +1300,39 @@ TEST_CASE("HDF5IO; read dataset subset", "[hdf5io]")
     std::unique_ptr<BaseRecordingData> dataset =
         hdf5io->createArrayDataSet(BaseDataType::I32,
                                    SizeArray {numRows, numCols},
-                                   SizeArray {0, 0},
+                                   SizeArray {numRows, numCols},
                                    dataPath);
+    REQUIRE(dataset != nullptr);
 
     // Write data block
     std::vector<SizeType> dataShape = {numRows, numCols};
     std::vector<SizeType> positionOffset = {0, 0};
-    dataset->writeDataBlock(
+    Status status = dataset->writeDataBlock(
         dataShape, positionOffset, BaseDataType::I32, testData2D.data());
+    REQUIRE(status == Status::Success);
 
     // Read a hyperslab selection from the dataset
     std::vector<SizeType> start = {1, 1};
     std::vector<SizeType> count = {2, 2};
+
     auto readData = hdf5io->readDataset(dataPath, start, count);
+
+    auto readDataTyped = DataBlock<int32_t>::fromGeneric(readData);
+    std::vector<int32_t> expectedData = {5, 6, 8, 9};
+
+    // Check the shape of the read data
+    REQUIRE(readData.shape.size() == 2);
     REQUIRE(readData.shape[0] == 2);
     REQUIRE(readData.shape[1] == 2);
-    auto readDataTyped = DataBlock<int32_t>::fromGeneric(readData);
+
+    // Check the shape of the typed read data
+    REQUIRE(readDataTyped.shape.size() == 2);
     REQUIRE(readDataTyped.shape[0] == 2);
     REQUIRE(readDataTyped.shape[1] == 2);
-    std::vector<int32_t> expectedData = {5, 6, 8, 9};
+
+    // Check the data itself
     REQUIRE(readDataTyped.data == expectedData);
 
     hdf5io->close();
   }
-}*/
+}
