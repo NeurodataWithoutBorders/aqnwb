@@ -1033,6 +1033,33 @@ TEST_CASE("readAttribute", "[hdf5io]")
     H5Gclose(ref_group_id);
   }
 
+  // TODO: Does not compile
+  SECTION("read attribute from dataset")
+  {
+    // Define the dimensions and chunking for the dataset
+    SizeArray dims = {10};
+    SizeArray chunking = {10};
+
+    // Create the dataset using createArrayDataSet
+    auto dataset = hdf5io.createArrayDataSet(
+        BaseDataType::I32, dims, chunking, "/data/dataset");
+
+    // Define and create the attribute
+    const int32_t writeData = 123;
+    hdf5io.createAttribute(
+        BaseDataType::I32, &writeData, "/data/dataset", "datasetAttribute");
+
+    // Read the attribute
+    auto readDataGeneric =
+        hdf5io.readAttribute("/data/dataset/datasetAttribute");
+    auto readData = IO::DataBlock<int32_t>::fromGeneric(readDataGeneric);
+
+    // Verify the attribute data
+    REQUIRE(readData.shape.empty());  // Scalar attribute
+    REQUIRE(readData.data.size() == 1);
+    REQUIRE(readData.data[0] == writeData);
+  }
+
   SECTION("read non-existent attribute")
   {
     REQUIRE_THROWS_AS(hdf5io.readAttribute("/data/nonExistentAttribute"),
