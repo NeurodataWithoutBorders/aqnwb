@@ -116,11 +116,17 @@ enum class FileMode
 
   /**
    * @brief Opens the file with both read and write access.
+   *
+   * Note: This is similar to r+ mode, so the file will not be created if it
+   * does not exist.
    */
   ReadWrite,
 
   /**
    * @brief Opens the file in read only mode.
+   *
+   * Note: This is similar to r+ mode, so the file will not be created if it
+   * does not exist.
    */
   ReadOnly
 };

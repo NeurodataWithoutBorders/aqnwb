@@ -40,8 +40,15 @@ Status HDF5IO::open(FileMode mode)
 {
   int accFlags = 0;
 
-  if (m_opened)
+  if (m_opened) {
     return Status::Failure;
+  }
+
+  if (!std::filesystem::exists(getFileName())) {
+    if (mode == FileMode::ReadWrite || mode == FileMode::ReadOnly) {
+      return Status::Failure;
+    }
+  }
 
   FileAccPropList fapl = FileAccPropList::DEFAULT;
   H5Pset_libver_bounds(fapl.getId(), H5F_LIBVER_LATEST, H5F_LIBVER_LATEST);
