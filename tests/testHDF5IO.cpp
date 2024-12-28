@@ -1285,53 +1285,104 @@ TEST_CASE("HDF5IO; read dataset subset", "[hdf5io]")
 {
   SECTION("read dataset with hyperslab selection")
   {
-    // Open file
-    std::string path = getTestFilePath("ReadHyperslabSelection.h5");
-    std::shared_ptr<IO::HDF5::HDF5IO> hdf5io =
-        std::make_shared<IO::HDF5::HDF5IO>(path);
-    hdf5io->open();
-
     // Set up test data
+    std::string filePath = getTestFilePath("ReadHyperslabSelection.h5");
     std::string dataPath = "/2DDataHyperslab";
-    SizeType numRows = 3, numCols = 3;
-    std::vector<int32_t> testData2D = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+    std::vector<int32_t> testData2D;
+    std::shared_ptr<IO::HDF5::HDF5IO> hdf5io =
+        getHDF5IOWithInt32TestData2D(filePath, dataPath, testData2D);
 
-    // Create HDF5RecordingData object and dataset
-    std::unique_ptr<BaseRecordingData> dataset =
-        hdf5io->createArrayDataSet(BaseDataType::I32,
-                                   SizeArray {numRows, numCols},
-                                   SizeArray {numRows, numCols},
-                                   dataPath);
-    REQUIRE(dataset != nullptr);
+    // Test case 1: Read a 2x2 hyperslab from the dataset
+    {
+      std::vector<SizeType> start = {1, 1};
+      std::vector<SizeType> count = {2, 2};
 
-    // Write data block
-    std::vector<SizeType> dataShape = {numRows, numCols};
-    std::vector<SizeType> positionOffset = {0, 0};
-    Status status = dataset->writeDataBlock(
-        dataShape, positionOffset, BaseDataType::I32, testData2D.data());
-    REQUIRE(status == Status::Success);
+      auto readData = hdf5io->readDataset(dataPath, start, count);
+      auto readDataTyped = DataBlock<int32_t>::fromGeneric(readData);
+      std::vector<int32_t> expectedData = {5, 6, 8, 9};
 
-    // Read a hyperslab selection from the dataset
-    std::vector<SizeType> start = {1, 1};
-    std::vector<SizeType> count = {2, 2};
+      // Check the shape of the read data
+      REQUIRE(readData.shape.size() == 2);
+      REQUIRE(readData.shape[0] == 2);
+      REQUIRE(readData.shape[1] == 2);
 
-    auto readData = hdf5io->readDataset(dataPath, start, count);
+      // Check the data itself
+      REQUIRE(readDataTyped.data == expectedData);
+    }
 
-    auto readDataTyped = DataBlock<int32_t>::fromGeneric(readData);
-    std::vector<int32_t> expectedData = {5, 6, 8, 9};
+    // Test case 2: Read the entire dataset
+    {
+      std::vector<SizeType> start = {};
+      std::vector<SizeType> count = {};
 
-    // Check the shape of the read data
-    REQUIRE(readData.shape.size() == 2);
-    REQUIRE(readData.shape[0] == 2);
-    REQUIRE(readData.shape[1] == 2);
+      auto readData = hdf5io->readDataset(dataPath, start, count);
+      auto readDataTyped = DataBlock<int32_t>::fromGeneric(readData);
+      std::vector<int32_t> expectedData = testData2D;
 
-    // Check the shape of the typed read data
-    REQUIRE(readDataTyped.shape.size() == 2);
-    REQUIRE(readDataTyped.shape[0] == 2);
-    REQUIRE(readDataTyped.shape[1] == 2);
+      // Check the shape of the read data
+      REQUIRE(readData.shape.size() == 2);
+      REQUIRE(readData.shape[0] == 3);
+      REQUIRE(readData.shape[1] == 3);
 
-    // Check the data itself
-    REQUIRE(readDataTyped.data == expectedData);
+      // Check the data itself
+      REQUIRE(readDataTyped.data == expectedData);
+    }
+
+    // Test case 3: Read a single element from the dataset
+    {
+      std::vector<SizeType> start = {2, 2};
+      std::vector<SizeType> count = {1, 1};
+
+      auto readData = hdf5io->readDataset(dataPath, start, count);
+      auto readDataTyped = DataBlock<int32_t>::fromGeneric(readData);
+      std::vector<int32_t> expectedData = {9};
+
+      // Check the shape of the read data
+      REQUIRE(readData.shape.size() == 2);
+      REQUIRE(readData.shape[0] == 1);
+      REQUIRE(readData.shape[1] == 1);
+
+      // Check the data itself
+      REQUIRE(readDataTyped.data == expectedData);
+    }
+
+    // Test case 4: Read with stride
+    {
+      std::vector<SizeType> start = {0, 0};
+      std::vector<SizeType> count = {2, 2};
+      std::vector<SizeType> stride = {2, 2};
+
+      auto readData = hdf5io->readDataset(dataPath, start, count, stride);
+      auto readDataTyped = DataBlock<int32_t>::fromGeneric(readData);
+      std::vector<int32_t> expectedData = {1, 3, 7, 9};
+
+      // Check the shape of the read data
+      REQUIRE(readData.shape.size() == 2);
+      REQUIRE(readData.shape[0] == 2);
+      REQUIRE(readData.shape[1] == 2);
+
+      // Check the data itself
+      REQUIRE(readDataTyped.data == expectedData);
+    }
+
+    // Test case 5: Read with block
+    {
+      std::vector<SizeType> start = {0, 0};
+      std::vector<SizeType> count = {1, 1};
+      std::vector<SizeType> block = {2, 2};
+
+      auto readData = hdf5io->readDataset(dataPath, start, count, {}, block);
+      auto readDataTyped = DataBlock<int32_t>::fromGeneric(readData);
+      std::vector<int32_t> expectedData = {1, 2, 4, 5};
+
+      // Check the shape of the read data
+      REQUIRE(readData.shape.size() == 2);
+      REQUIRE(readData.shape[0] == 2);
+      REQUIRE(readData.shape[1] == 2);
+
+      // Check the data itself
+      REQUIRE(readDataTyped.data == expectedData);
+    }
 
     hdf5io->close();
   }
