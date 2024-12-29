@@ -1279,6 +1279,10 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
 
     hdf5io->close();
   }
+
+  // TODO: Update HDF5IO::readDataset to make sure it supports all supported
+  //       types of BaseDataType, in partiuclar also strings and update the
+  //       ``TEST_CASE("HDF5IO; read dataset", "[hdf5io]")``
 }
 
 TEST_CASE("HDF5IO; read dataset subset", "[hdf5io]")
