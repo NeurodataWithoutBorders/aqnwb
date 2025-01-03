@@ -1365,8 +1365,8 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
                                BaseDataType::T_STR,
                                testDataStr.data());
 
-    // Confirm using HDF5IO readDataset that the fixed-length string data is
-    correct auto readStrData = hdf5io->readDataset(strDataPath);
+    // Confirm reading the fixed-length string data is correct 
+    auto readStrData = hdf5io->readDataset(strDataPath);
     REQUIRE(readStrData.shape[0] == 3);
     auto readStrDataTyped = DataBlock<std::string>::fromGeneric(readStrData);
     REQUIRE(readStrDataTyped.shape[0] == 3);
@@ -1389,8 +1389,8 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
                                 BaseDataType::V_STR,
                                 testDataVStr.data());
 
-    // Confirm using HDF5IO readDataset that the variable-length string data is
-    correct auto readVStrData = hdf5io->readDataset(vstrDataPath);
+    // Confirm reading the variable-length string data is correct 
+    auto readVStrData = hdf5io->readDataset(vstrDataPath);
     REQUIRE(readVStrData.shape[0] == 3);
     auto readVStrDataTyped = DataBlock<std::string>::fromGeneric(readVStrData);
     REQUIRE(readVStrDataTyped.shape[0] == 3);
