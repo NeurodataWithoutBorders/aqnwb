@@ -1372,6 +1372,7 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     // TODO: Writing and reading the variable length strings currently fails
     std::string vstrDataPath = "/VStrDataset";
     std::vector<std::string> testDataVStr = {"jkl", "mnop", "qrstu"};
+
     // Initialize BaseDataType for variable-length strings
     BaseDataType vstrType(BaseDataType::Type::V_STR,
                           0);  // 0 indicates variable length
@@ -1388,6 +1389,7 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
                                 vstrType,  // Pass the vstrType object
                                 &testDataVStr);
 
+    // TODO: Fix reading of variable length string datasets
     // Confirm reading the variable-length string data is correct
     /*auto readVStrData = hdf5io->readDataset(vstrDataPath);
     REQUIRE(readVStrData.shape[0] == 3);
