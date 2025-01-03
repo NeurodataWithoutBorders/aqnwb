@@ -1362,15 +1362,12 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     strDataset->writeDataBlock(
         strDataShape, strPositionOffset, strType, &testDataStr);
 
-    // TODO: String reading currently fails
-    /*
     // Confirm reading the fixed-length string data is correct
     auto readStrData = hdf5io->readDataset(strDataPath);
     REQUIRE(readStrData.shape[0] == 3);
     auto readStrDataTyped = DataBlock<std::string>::fromGeneric(readStrData);
     REQUIRE(readStrDataTyped.shape[0] == 3);
     REQUIRE(readStrDataTyped.data == testDataStr);
-    */
 
     // TODO: Writing and reading the variable length strings currently fails
     // Set up test data for variable-length string

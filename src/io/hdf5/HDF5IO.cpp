@@ -218,6 +218,10 @@ std::vector<std::string> HDF5IO::readStringDataHelper(
 
         // Convert char* to std::string and free allocated memory
         for (size_t i = 0; i < numElements; ++i) {
+          if (buffer[i] == nullptr) {
+            std::cerr << "Buffer[" << i << "] is nullptr" << std::endl;
+            throw std::runtime_error("Buffer is nullptr");
+          }
           data[i] = std::string(buffer[i]);
           free(buffer[i]);  // Free the memory allocated by HDF5
         }
@@ -246,6 +250,10 @@ std::vector<std::string> HDF5IO::readStringDataHelper(
 
         // Convert char* to std::string and free allocated memory
         for (size_t i = 0; i < numElements; ++i) {
+          if (buffer[i] == nullptr) {
+            std::cerr << "Buffer[" << i << "] is nullptr" << std::endl;
+            throw std::runtime_error("Buffer is nullptr");
+          }
           data[i] = std::string(buffer[i]);
           free(buffer[i]);  // Free the memory allocated by HDF5
         }
@@ -432,7 +440,17 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(
   std::copy(block.begin(), block.end(), block_hsize.begin());
 
   // Read the dataset
-  H5::DataSet dataset = m_file->openDataSet(dataPath);
+  H5::DataSet dataset;
+  try {
+    dataset = m_file->openDataSet(dataPath);
+  } catch (const H5::Exception& e) {
+    std::cerr << "Failed to open dataset: " << e.getDetailMsg() << std::endl;
+    throw std::runtime_error("Failed to open dataset");
+  }
+
+  if (dataset.getId() < 0) {
+    throw std::runtime_error("Dataset is not valid");
+  }
 
   // Get the dataspace of the dataset
   H5::DataSpace dataspace = dataset.getSpace();
@@ -487,7 +505,8 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(
 
   // Read the dataset into a vector of the appropriate type
   H5::DataType dataType = dataset.getDataType();
-  if (dataType == H5::PredType::C_S1) {
+  if (dataType.getClass() == H5T_STRING) {
+    // Use readStringDataHelper to read string data
     result.data =
         readStringDataHelper(dataset, numElements, memspace, dataspace);
     result.typeIndex = typeid(std::string);
