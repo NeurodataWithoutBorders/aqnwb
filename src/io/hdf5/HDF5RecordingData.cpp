@@ -48,7 +48,7 @@ Status HDF5RecordingData::writeDataBlock(
     const void* data)
 {
   try {
-    // check dataShape and positionOffset inputs match the dimensions of the
+    // Check dataShape and positionOffset inputs match the dimensions of the
     // dataset
     if (dataShape.size() != nDimensions || positionOffset.size() != nDimensions)
     {
@@ -60,10 +60,11 @@ Status HDF5RecordingData::writeDataBlock(
     for (SizeType i = 0; i < nDimensions; ++i) {
       offset[i] = static_cast<hsize_t>(positionOffset[i]);
 
-      if (dataShape[i] + offset[i] > size[i])  // TODO - do I need offset here
+      if (dataShape[i] + offset[i] > size[i]) {
         dSetDims[i] = dataShape[i] + offset[i];
-      else
+      } else {
         dSetDims[i] = size[i];
+      }
     }
 
     // Adjust dataset dimensions if necessary
@@ -77,7 +78,6 @@ Status HDF5RecordingData::writeDataBlock(
     }
 
     // Create memory space with the shape of the data
-    // DataSpace mSpace(dimension, dSetDim.data());
     std::vector<hsize_t> dataDims(nDimensions);
     for (SizeType i = 0; i < nDimensions; ++i) {
       if (dataShape[i] == 0) {
@@ -93,7 +93,25 @@ Status HDF5RecordingData::writeDataBlock(
 
     // Write the data
     DataType nativeType = HDF5IO::getNativeType(type);
-    m_dataset->write(data, nativeType, mSpace, fSpace);
+
+    // Handle fixed-length strings
+    if (type.type == BaseDataType::Type::T_STR) {
+      // Convert std::vector<std::string> to a contiguous block of memory
+      const std::vector<std::string>& strData =
+          *static_cast<const std::vector<std::string>*>(data);
+      std::vector<char> buffer(strData.size() * type.typeSize, '\0');
+      size_t bufferIndex = 0;
+      for (const auto& str : strData) {
+        if (str.size() > type.typeSize) {
+          return Status::Failure;  // String length exceeds the fixed length
+        }
+        std::memcpy(&buffer[bufferIndex], str.c_str(), str.size());
+        bufferIndex += type.typeSize;
+      }
+      m_dataset->write(buffer.data(), nativeType, mSpace, fSpace);
+    } else {
+      m_dataset->write(data, nativeType, mSpace, fSpace);
+    }
 
     // Update position for simple extension
     for (SizeType i = 0; i < dataShape.size(); ++i) {
@@ -101,10 +119,16 @@ Status HDF5RecordingData::writeDataBlock(
     }
   } catch (DataSetIException error) {
     error.printErrorStack();
+    return Status::Failure;
   } catch (DataSpaceIException error) {
     error.printErrorStack();
+    return Status::Failure;
   } catch (FileIException error) {
     error.printErrorStack();
+    return Status::Failure;
+  } catch (std::exception& e) {
+    std::cerr << "Exception: " << e.what() << std::endl;
+    return Status::Failure;
   }
   return Status::Success;
 }
