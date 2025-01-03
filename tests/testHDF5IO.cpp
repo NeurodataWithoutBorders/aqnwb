@@ -1370,26 +1370,26 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     REQUIRE(readStrDataTyped.data == testDataStr);
 
     // TODO: Writing and reading the variable length strings currently fails
-    // Set up test data for variable-length string
-    /*
     std::string vstrDataPath = "/VStrDataset";
-    std::vector<std::string> testDataVStr = {"jkl", "mno", "pqr"};
+    std::vector<std::string> testDataVStr = {"jkl", "mnop", "qrstu"};
+    // Initialize BaseDataType for variable-length strings
+    BaseDataType vstrType(BaseDataType::Type::V_STR,
+                          0);  // 0 indicates variable length
 
     // Create HDF5RecordingData object and dataset for variable-length string
-    std::unique_ptr<BaseRecordingData> vstrDataset =
-        hdf5io->createArrayDataSet(
-            BaseDataType::V_STR, SizeArray {3}, SizeArray {0}, vstrDataPath);
+    std::unique_ptr<BaseRecordingData> vstrDataset = hdf5io->createArrayDataSet(
+        vstrType, SizeArray {3}, SizeArray {0}, vstrDataPath);
 
     // Write variable-length string data block
     std::vector<SizeType> vstrDataShape = {3};
     std::vector<SizeType> vstrPositionOffset = {0};
     vstrDataset->writeDataBlock(vstrDataShape,
                                 vstrPositionOffset,
-                                BaseDataType::V_STR,
-                                testDataVStr.data());
+                                vstrType,  // Pass the vstrType object
+                                &testDataVStr);
 
     // Confirm reading the variable-length string data is correct
-    auto readVStrData = hdf5io->readDataset(vstrDataPath);
+    /*auto readVStrData = hdf5io->readDataset(vstrDataPath);
     REQUIRE(readVStrData.shape[0] == 3);
     auto readVStrDataTyped = DataBlock<std::string>::fromGeneric(readVStrData);
     REQUIRE(readVStrDataTyped.shape[0] == 3);

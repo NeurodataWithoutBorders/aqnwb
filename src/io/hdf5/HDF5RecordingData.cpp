@@ -92,11 +92,35 @@ Status HDF5RecordingData::writeDataBlock(
     fSpace.selectHyperslab(H5S_SELECT_SET, dataDims.data(), offset.data());
 
     // Write the data
-    DataType nativeType = HDF5IO::getNativeType(type);
+    DataType nativeType;
+    if (type.type == BaseDataType::Type::V_STR) {
+      // Create a variable-length string type
+      nativeType = StrType(0, H5T_VARIABLE);
+    } else {
+      nativeType = HDF5IO::getNativeType(type);
+    }
 
-    // Handle fixed-length strings
-    if (type.type == BaseDataType::Type::T_STR) {
-      // Convert std::vector<std::string> to a contiguous block of memory
+    if (type.type == BaseDataType::Type::V_STR) {
+      // Handle variable-length strings
+      const std::vector<std::string>* strDataPtr =
+          static_cast<const std::vector<std::string>*>(data);
+
+      // Check if the pointer is valid
+      if (!strDataPtr) {
+        return Status::Failure;
+      }
+
+      const std::vector<std::string>& strData = *strDataPtr;
+
+      std::vector<const char*> cstrBuffer(strData.size());
+      for (size_t i = 0; i < strData.size(); ++i) {
+        cstrBuffer[i] = strData[i].c_str();
+      }
+
+      // Write the data
+      m_dataset->write(cstrBuffer.data(), nativeType, mSpace, fSpace);
+    } else if (type.type == BaseDataType::Type::T_STR) {
+      // Handle fixed-length strings
       const std::vector<std::string>& strData =
           *static_cast<const std::vector<std::string>*>(data);
       std::vector<char> buffer(strData.size() * type.typeSize, '\0');
@@ -110,6 +134,7 @@ Status HDF5RecordingData::writeDataBlock(
       }
       m_dataset->write(buffer.data(), nativeType, mSpace, fSpace);
     } else {
+      // Handle other data types
       m_dataset->write(data, nativeType, mSpace, fSpace);
     }
 
