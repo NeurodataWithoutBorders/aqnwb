@@ -990,7 +990,7 @@ std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::createArrayDataSet(
     return nullptr;
 
   SizeType dimension = size.size();
-  if (dimension < 1)  // Check for at least one dimension
+  if (dimension < 1)
     return nullptr;
 
   // Ensure chunking is properly allocated and has at least 'dimension' elements
@@ -1014,9 +1014,12 @@ std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::createArrayDataSet(
   DataSpace dSpace(static_cast<int>(dimension), dims.data(), max_dims.data());
   prop.setChunk(static_cast<int>(dimension), chunk_dims.data());
 
+  if (type.type == IO::BaseDataType::Type::T_STR) {
+    H5type = StrType(PredType::C_S1, type.typeSize);
+  }
+
   data = std::make_unique<H5::DataSet>(
       m_file->createDataSet(path, H5type, dSpace, prop));
-
   return std::make_unique<HDF5RecordingData>(std::move(data));
 }
 
