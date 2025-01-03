@@ -1388,14 +1388,16 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
                                 vstrPositionOffset,
                                 vstrType,  // Pass the vstrType object
                                 &testDataVStr);
+    // TODO: We pass testData.data() for all other types but here we use
+    //       &testDataVStr when calling writeDataBlock. We should check
+    //       if we can make that uniform or at least document the usage
 
-    // TODO: Fix reading of variable length string datasets
     // Confirm reading the variable-length string data is correct
-    /*auto readVStrData = hdf5io->readDataset(vstrDataPath);
+    auto readVStrData = hdf5io->readDataset(vstrDataPath);
     REQUIRE(readVStrData.shape[0] == 3);
     auto readVStrDataTyped = DataBlock<std::string>::fromGeneric(readVStrData);
     REQUIRE(readVStrDataTyped.shape[0] == 3);
-    REQUIRE(readVStrDataTyped.data == testDataVStr);*/
+    REQUIRE(readVStrDataTyped.data == testDataVStr);
 
     hdf5io->close();
   }
