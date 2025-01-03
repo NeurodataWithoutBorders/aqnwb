@@ -201,7 +201,6 @@ std::vector<std::string> HDF5IO::readStringDataHelper(
     const H5::DataSpace& memspace,
     const H5::DataSpace& dataspace) const
 {
-  // Vector to store the read string data
   std::vector<std::string> data(numElements);
 
   try {
@@ -224,7 +223,13 @@ std::vector<std::string> HDF5IO::readStringDataHelper(
         }
       } else {
         // Handle fixed-length strings
-        dataset->read(data.data(), strType, memspace, dataspace);
+        size_t strSize =
+            strType.getSize();  // Get the size of the fixed-length string
+        std::vector<char> buffer(numElements * strSize);
+        dataset->read(buffer.data(), strType, memspace, dataspace);
+        for (size_t i = 0; i < numElements; ++i) {
+          data[i] = std::string(buffer.data() + i * strSize, strSize);
+        }
       }
     }
     // Check if the data source is an Attribute
@@ -246,7 +251,13 @@ std::vector<std::string> HDF5IO::readStringDataHelper(
         }
       } else {
         // Handle fixed-length strings
-        attribute->read(strType, data.data());
+        size_t strSize =
+            strType.getSize();  // Get the size of the fixed-length string
+        std::vector<char> buffer(numElements * strSize);
+        attribute->read(strType, buffer.data());
+        for (size_t i = 0; i < numElements; ++i) {
+          data[i] = std::string(buffer.data() + i * strSize, strSize);
+        }
       }
     } else {
       // Throw an error if the data source type is unsupported
