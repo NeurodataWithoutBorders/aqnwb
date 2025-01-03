@@ -488,6 +488,38 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(
     result.data =
         readDataHelper<float>(dataset, numElements, memspace, dataspace);
     result.typeIndex = typeid(float);
+  } else if (dataType == H5::PredType::NATIVE_INT8) {
+    result.data =
+        readDataHelper<int8_t>(dataset, numElements, memspace, dataspace);
+    result.typeIndex = typeid(int8_t);
+  } else if (dataType == H5::PredType::NATIVE_UINT8) {
+    result.data =
+        readDataHelper<uint8_t>(dataset, numElements, memspace, dataspace);
+    result.typeIndex = typeid(uint8_t);
+  } else if (dataType == H5::PredType::NATIVE_INT16) {
+    result.data =
+        readDataHelper<int16_t>(dataset, numElements, memspace, dataspace);
+    result.typeIndex = typeid(int16_t);
+  } else if (dataType == H5::PredType::NATIVE_UINT16) {
+    result.data =
+        readDataHelper<uint16_t>(dataset, numElements, memspace, dataspace);
+    result.typeIndex = typeid(uint16_t);
+  } else if (dataType == H5::PredType::NATIVE_INT32) {
+    result.data =
+        readDataHelper<int32_t>(dataset, numElements, memspace, dataspace);
+    result.typeIndex = typeid(int32_t);
+  } else if (dataType == H5::PredType::NATIVE_UINT32) {
+    result.data =
+        readDataHelper<uint32_t>(dataset, numElements, memspace, dataspace);
+    result.typeIndex = typeid(uint32_t);
+  } else if (dataType == H5::PredType::NATIVE_INT64) {
+    result.data =
+        readDataHelper<int64_t>(dataset, numElements, memspace, dataspace);
+    result.typeIndex = typeid(int64_t);
+  } else if (dataType == H5::PredType::NATIVE_UINT64) {
+    result.data =
+        readDataHelper<uint64_t>(dataset, numElements, memspace, dataspace);
+    result.typeIndex = typeid(uint64_t);
   } else if (dataType == H5::PredType::NATIVE_INT) {
     result.data =
         readDataHelper<int>(dataset, numElements, memspace, dataspace);
@@ -512,10 +544,25 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(
     result.data = readDataHelper<unsigned long long>(
         dataset, numElements, memspace, dataspace);
     result.typeIndex = typeid(unsigned long long);
+  } else if (dataType == H5::PredType::NATIVE_UCHAR) {
+    result.data = readDataHelper<unsigned char>(
+        dataset, numElements, memspace, dataspace);
+    result.typeIndex = typeid(unsigned char);
+  } else if (dataType == H5::PredType::NATIVE_USHORT) {
+    result.data = readDataHelper<unsigned short>(
+        dataset, numElements, memspace, dataspace);
+    result.typeIndex = typeid(unsigned short);
+  } else if (dataType == H5::PredType::NATIVE_CHAR) {
+    result.data =
+        readDataHelper<char>(dataset, numElements, memspace, dataspace);
+    result.typeIndex = typeid(char);
+  } else if (dataType == H5::PredType::NATIVE_SHORT) {
+    result.data =
+        readDataHelper<short>(dataset, numElements, memspace, dataspace);
+    result.typeIndex = typeid(short);
   } else {
     throw std::runtime_error("Unsupported data type");
   }
-
   // Return the result
   return result;
 }

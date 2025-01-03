@@ -1072,7 +1072,6 @@ TEST_CASE("readAttribute", "[hdf5io]")
     H5Gclose(ref_group_id);
   }
 
-  // TODO: Does not compile
   SECTION("read attribute from dataset")
   {
     // Define the dimensions and chunking for the dataset
@@ -1255,9 +1254,152 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     REQUIRE(readDoubleDataTyped.shape[0] == 5);
     REQUIRE(readDoubleDataTyped.data == testDataDouble);
 
+    // Set up test data for unsigned 8-bit integer
+    std::string u8DataPath = "/U8Dataset";
+    std::vector<uint8_t> testDataU8 = {1, 2, 3, 4, 5};
+
+    // Create HDF5RecordingData object and dataset for unsigned 8-bit integer
+    std::unique_ptr<BaseRecordingData> u8Dataset = hdf5io->createArrayDataSet(
+        BaseDataType::T_U8, SizeArray {5}, SizeArray {0}, u8DataPath);
+
+    // Write unsigned 8-bit integer data block
+    std::vector<SizeType> u8DataShape = {5};
+    std::vector<SizeType> u8PositionOffset = {0};
+    u8Dataset->writeDataBlock(
+        u8DataShape, u8PositionOffset, BaseDataType::T_U8, testDataU8.data());
+
+    // Confirm using HDF5IO readDataset that the unsigned 8-bit integer data is
+    // correct
+    auto readU8Data = hdf5io->readDataset(u8DataPath);
+    REQUIRE(readU8Data.shape[0] == 5);
+    auto readU8DataTyped = DataBlock<uint8_t>::fromGeneric(readU8Data);
+    REQUIRE(readU8DataTyped.shape[0] == 5);
+    REQUIRE(readU8DataTyped.data == testDataU8);
+
+    // Set up test data for unsigned 16-bit integer
+    std::string u16DataPath = "/U16Dataset";
+    std::vector<uint16_t> testDataU16 = {1, 2, 3, 4, 5};
+
+    // Create HDF5RecordingData object and dataset for unsigned 16-bit integer
+    std::unique_ptr<BaseRecordingData> u16Dataset = hdf5io->createArrayDataSet(
+        BaseDataType::T_U16, SizeArray {5}, SizeArray {0}, u16DataPath);
+
+    // Write unsigned 16-bit integer data block
+    std::vector<SizeType> u16DataShape = {5};
+    std::vector<SizeType> u16PositionOffset = {0};
+    u16Dataset->writeDataBlock(u16DataShape,
+                               u16PositionOffset,
+                               BaseDataType::T_U16,
+                               testDataU16.data());
+
+    // Confirm using HDF5IO readDataset that the unsigned 16-bit integer data is
+    // correct
+    auto readU16Data = hdf5io->readDataset(u16DataPath);
+    REQUIRE(readU16Data.shape[0] == 5);
+    auto readU16DataTyped = DataBlock<uint16_t>::fromGeneric(readU16Data);
+    REQUIRE(readU16DataTyped.shape[0] == 5);
+    REQUIRE(readU16DataTyped.data == testDataU16);
+
+    // Set up test data for signed 8-bit integer
+    std::string i8DataPath = "/I8Dataset";
+    std::vector<int8_t> testDataI8 = {1, 2, 3, 4, 5};
+
+    // Create HDF5RecordingData object and dataset for signed 8-bit integer
+    std::unique_ptr<BaseRecordingData> i8Dataset = hdf5io->createArrayDataSet(
+        BaseDataType::T_I8, SizeArray {5}, SizeArray {0}, i8DataPath);
+
+    // Write signed 8-bit integer data block
+    std::vector<SizeType> i8DataShape = {5};
+    std::vector<SizeType> i8PositionOffset = {0};
+    i8Dataset->writeDataBlock(
+        i8DataShape, i8PositionOffset, BaseDataType::T_I8, testDataI8.data());
+
+    // Confirm using HDF5IO readDataset that the signed 8-bit integer data is
+    // correct
+    auto readI8Data = hdf5io->readDataset(i8DataPath);
+    REQUIRE(readI8Data.shape[0] == 5);
+    auto readI8DataTyped = DataBlock<int8_t>::fromGeneric(readI8Data);
+    REQUIRE(readI8DataTyped.shape[0] == 5);
+    REQUIRE(readI8DataTyped.data == testDataI8);
+
+    // Set up test data for signed 16-bit integer
+    std::string i16DataPath = "/I16Dataset";
+    std::vector<int16_t> testDataI16 = {1, 2, 3, 4, 5};
+
+    // Create HDF5RecordingData object and dataset for signed 16-bit integer
+    std::unique_ptr<BaseRecordingData> i16Dataset = hdf5io->createArrayDataSet(
+        BaseDataType::T_I16, SizeArray {5}, SizeArray {0}, i16DataPath);
+
+    // Write signed 16-bit integer data block
+    std::vector<SizeType> i16DataShape = {5};
+    std::vector<SizeType> i16PositionOffset = {0};
+    i16Dataset->writeDataBlock(i16DataShape,
+                               i16PositionOffset,
+                               BaseDataType::T_I16,
+                               testDataI16.data());
+
+    // Confirm using HDF5IO readDataset that the signed 16-bit integer data is
+    // correct
+    auto readI16Data = hdf5io->readDataset(i16DataPath);
+    REQUIRE(readI16Data.shape[0] == 5);
+    auto readI16DataTyped = DataBlock<int16_t>::fromGeneric(readI16Data);
+    REQUIRE(readI16DataTyped.shape[0] == 5);
+    REQUIRE(readI16DataTyped.data == testDataI16);
+
+    // TODO: String reading currently fails
+    /*
+    // Set up test data for fixed-length string
+    std::string strDataPath = "/StrDataset";
+    std::vector<std::string> testDataStr = {"abc", "def", "ghi"};
+
+    // Create HDF5RecordingData object and dataset for fixed-length string
+    std::unique_ptr<BaseRecordingData> strDataset =
+        hdf5io->createArrayDataSet(
+            BaseDataType::T_STR, SizeArray {3}, SizeArray {0}, strDataPath);
+
+    // Write fixed-length string data block
+    std::vector<SizeType> strDataShape = {3};
+    std::vector<SizeType> strPositionOffset = {0};
+    strDataset->writeDataBlock(strDataShape,
+                               strPositionOffset,
+                               BaseDataType::T_STR,
+                               testDataStr.data());
+
+    // Confirm using HDF5IO readDataset that the fixed-length string data is
+    correct auto readStrData = hdf5io->readDataset(strDataPath);
+    REQUIRE(readStrData.shape[0] == 3);
+    auto readStrDataTyped = DataBlock<std::string>::fromGeneric(readStrData);
+    REQUIRE(readStrDataTyped.shape[0] == 3);
+    REQUIRE(readStrDataTyped.data == testDataStr);
+
+    // Set up test data for variable-length string
+    std::string vstrDataPath = "/VStrDataset";
+    std::vector<std::string> testDataVStr = {"jkl", "mno", "pqr"};
+
+    // Create HDF5RecordingData object and dataset for variable-length string
+    std::unique_ptr<BaseRecordingData> vstrDataset =
+        hdf5io->createArrayDataSet(
+            BaseDataType::V_STR, SizeArray {3}, SizeArray {0}, vstrDataPath);
+
+    // Write variable-length string data block
+    std::vector<SizeType> vstrDataShape = {3};
+    std::vector<SizeType> vstrPositionOffset = {0};
+    vstrDataset->writeDataBlock(vstrDataShape,
+                                vstrPositionOffset,
+                                BaseDataType::V_STR,
+                                testDataVStr.data());
+
+    // Confirm using HDF5IO readDataset that the variable-length string data is
+    correct auto readVStrData = hdf5io->readDataset(vstrDataPath);
+    REQUIRE(readVStrData.shape[0] == 3);
+    auto readVStrDataTyped = DataBlock<std::string>::fromGeneric(readVStrData);
+    REQUIRE(readVStrDataTyped.shape[0] == 3);
+    REQUIRE(readVStrDataTyped.data == testDataVStr);*/
+
     hdf5io->close();
   }
 
+  // TODO: Update this test case once reading of strings is fixed
   SECTION("read dataset with an unsupported type")
   {
     // open file
@@ -1279,10 +1421,6 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
 
     hdf5io->close();
   }
-
-  // TODO: Update HDF5IO::readDataset to make sure it supports all supported
-  //       types of BaseDataType, in partiuclar also strings and update the
-  //       ``TEST_CASE("HDF5IO; read dataset", "[hdf5io]")``
 }
 
 TEST_CASE("HDF5IO; read dataset subset", "[hdf5io]")
