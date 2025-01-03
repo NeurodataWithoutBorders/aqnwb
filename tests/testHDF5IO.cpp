@@ -1402,27 +1402,38 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     hdf5io->close();
   }
 
-  // TODO: Update this test case once reading of strings is fixed
-  SECTION("read dataset with an unsupported type")
+  SECTION("read empty string dataset")
   {
     // open file
-    std::string path = getTestFilePath("test_ReadUnsupportedType.h5");
+    std::string path = getTestFilePath("test_ReadEmptyStringDataset.h5");
     std::shared_ptr<IO::HDF5::HDF5IO> hdf5io =
         std::make_shared<IO::HDF5::HDF5IO>(path);
     hdf5io->open();
 
     // Set up test data for an unsupported type (e.g., string)
-    std::string dataPath = "/UnsupportedDataset";
-    std::vector<std::string> testDataString = {"a", "b", "c"};
+    std::string dataPath = "/EmptyStringdDataset";
 
     // Create HDF5RecordingData object and dataset for string
+    BaseDataType vstrType(BaseDataType::Type::V_STR, 0);
     std::unique_ptr<BaseRecordingData> dataset = hdf5io->createArrayDataSet(
-        BaseDataType::V_STR, SizeArray {3}, SizeArray {0}, dataPath);
+        vstrType, SizeArray {3}, SizeArray {0}, dataPath);
 
-    // Attempt to read the dataset and verify that it throws an exception
-    REQUIRE_THROWS_AS(hdf5io->readDataset(dataPath), std::runtime_error);
+    // Attempt to read the dataset and verify that it returns empty data
+    auto readVStrData = hdf5io->readDataset(dataPath);
+    REQUIRE(readVStrData.shape[0] == 3);
+    auto readVStrDataTyped = DataBlock<std::string>::fromGeneric(readVStrData);
+    REQUIRE(readVStrDataTyped.data.size() == 3);
+    REQUIRE(readVStrDataTyped.data[0].empty());
+    REQUIRE(readVStrDataTyped.data[1].empty());
+    REQUIRE(readVStrDataTyped.data[2].empty());
 
     hdf5io->close();
+  }
+
+  SECTION("read unsupported data type")
+  {
+    // TODO Add a test that tries to read some unsupported data type
+    //      such as a strange compound data type
   }
 }
 

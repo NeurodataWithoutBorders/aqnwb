@@ -211,19 +211,25 @@ std::vector<std::string> HDF5IO::readStringDataHelper(
       // Get the string type of the dataset
       H5::StrType strType = dataset->getStrType();
 
+      // Check if the dataset is empty
+      if (numElements == 0) {
+        return data;
+      }
+
       if (strType.isVariableStr()) {
         // Handle variable-length strings
-        std::vector<char*> buffer(numElements);
+        std::vector<char*> buffer(numElements, nullptr);
         dataset->read(buffer.data(), strType, memspace, dataspace);
 
         // Convert char* to std::string and free allocated memory
         for (size_t i = 0; i < numElements; ++i) {
           if (buffer[i] == nullptr) {
-            std::cerr << "Buffer[" << i << "] is nullptr" << std::endl;
-            throw std::runtime_error("Buffer is nullptr");
+            // Handle empty strings gracefully
+            data[i] = "";
+          } else {
+            data[i] = std::string(buffer[i]);
+            free(buffer[i]);  // Free the memory allocated by HDF5
           }
-          data[i] = std::string(buffer[i]);
-          free(buffer[i]);  // Free the memory allocated by HDF5
         }
       } else {
         // Handle fixed-length strings
@@ -243,19 +249,25 @@ std::vector<std::string> HDF5IO::readStringDataHelper(
       // Get the string type of the attribute
       H5::StrType strType = attribute->getStrType();
 
+      // Check if the attribute is empty
+      if (numElements == 0) {
+        return data;
+      }
+
       if (strType.isVariableStr()) {
         // Handle variable-length strings
-        std::vector<char*> buffer(numElements);
+        std::vector<char*> buffer(numElements, nullptr);
         attribute->read(strType, buffer.data());
 
         // Convert char* to std::string and free allocated memory
         for (size_t i = 0; i < numElements; ++i) {
           if (buffer[i] == nullptr) {
-            std::cerr << "Buffer[" << i << "] is nullptr" << std::endl;
-            throw std::runtime_error("Buffer is nullptr");
+            // Handle empty strings gracefully
+            data[i] = "";
+          } else {
+            data[i] = std::string(buffer[i]);
+            free(buffer[i]);  // Free the memory allocated by HDF5
           }
-          data[i] = std::string(buffer[i]);
-          free(buffer[i]);  // Free the memory allocated by HDF5
         }
       } else {
         // Handle fixed-length strings
