@@ -48,8 +48,8 @@ Status HDF5RecordingData::writeDataBlock(
     const void* data)
 {
   try {
-    // Check dataShape and positionOffset inputs match the dimensions of the
-    // dataset
+    // Check that the dataShape and positionOffset inputs match the dimensions
+    // of the dataset
     if (dataShape.size() != nDimensions || positionOffset.size() != nDimensions)
     {
       return Status::Failure;
@@ -70,7 +70,7 @@ Status HDF5RecordingData::writeDataBlock(
     // Adjust dataset dimensions if necessary
     m_dataset->extend(dSetDims.data());
 
-    // Set size to new size based on updated dimensionality
+    // Set the size to the new size based on the updated dimensionality
     DataSpace fSpace = m_dataset->getSpace();
     fSpace.getSimpleExtentDims(dSetDims.data());
     for (SizeType i = 0; i < nDimensions; ++i) {
@@ -80,11 +80,7 @@ Status HDF5RecordingData::writeDataBlock(
     // Create memory space with the shape of the data
     std::vector<hsize_t> dataDims(nDimensions);
     for (SizeType i = 0; i < nDimensions; ++i) {
-      if (dataShape[i] == 0) {
-        dataDims[i] = 1;
-      } else {
-        dataDims[i] = static_cast<hsize_t>(dataShape[i]);
-      }
+      dataDims[i] = dataShape[i] == 0 ? 1 : static_cast<hsize_t>(dataShape[i]);
     }
     DataSpace mSpace(static_cast<int>(nDimensions), dataDims.data());
 
@@ -102,7 +98,7 @@ Status HDF5RecordingData::writeDataBlock(
 
     if (type.type == BaseDataType::Type::V_STR) {
       // Handle variable-length strings
-      const std::vector<std::string>* strDataPtr =
+      const auto* strDataPtr =
           static_cast<const std::vector<std::string>*>(data);
 
       // Check if the pointer is valid
@@ -121,8 +117,13 @@ Status HDF5RecordingData::writeDataBlock(
       m_dataset->write(cstrBuffer.data(), nativeType, mSpace, fSpace);
     } else if (type.type == BaseDataType::Type::T_STR) {
       // Handle fixed-length strings
-      const std::vector<std::string>& strData =
-          *static_cast<const std::vector<std::string>*>(data);
+      const auto* strDataPtr =
+          static_cast<const std::vector<std::string>*>(data);
+      if (!strDataPtr) {
+        return Status::Failure;
+      }
+
+      const std::vector<std::string>& strData = *strDataPtr;
       std::vector<char> buffer(strData.size() * type.typeSize, '\0');
       size_t bufferIndex = 0;
       for (const auto& str : strData) {
@@ -142,13 +143,13 @@ Status HDF5RecordingData::writeDataBlock(
     for (SizeType i = 0; i < dataShape.size(); ++i) {
       position[i] += dataShape[i];
     }
-  } catch (DataSetIException error) {
+  } catch (DataSetIException& error) {
     error.printErrorStack();
     return Status::Failure;
-  } catch (DataSpaceIException error) {
+  } catch (DataSpaceIException& error) {
     error.printErrorStack();
     return Status::Failure;
-  } catch (FileIException error) {
+  } catch (FileIException& error) {
     error.printErrorStack();
     return Status::Failure;
   } catch (std::exception& e) {
