@@ -35,8 +35,6 @@ TEST_CASE("open - hdf5 file modes", "[hdf5io]")
 {
   const std::string fileName = getTestFilePath("test_open_modes.h5");
 
-  // Ensure the file does not exist before starting the tests
-  std::filesystem::remove(fileName);
 
   SECTION("Open file in Overwrite mode")
   {
