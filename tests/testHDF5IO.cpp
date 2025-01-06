@@ -189,7 +189,7 @@ TEST_CASE("HDF5IO; write datasets", "[hdf5io]")
   SECTION("write 1D data block to 1D dataset")
   {
     // open file
-    std::string path = getTestFilePath("test_read1DData1DDataset.h5");
+    std::string path = getTestFilePath("test_write1DData1DDataset.h5");
     std::unique_ptr<IO::HDF5::HDF5IO> hdf5io =
         std::make_unique<IO::HDF5::HDF5IO>(path);
     hdf5io->open();
