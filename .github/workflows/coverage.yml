@@ -1,0 +1,42 @@
+name: Coverage
+
+on:
+    push:
+      branches:
+      - main
+
+    pull_request:
+      branches:
+      - main
+    workflow_dispatch:
+
+jobs:
+    coverage:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Install LCov
+              run: sudo apt-get update -q
+                && sudo apt-get install lcov -q -y
+
+            - name: Configure
+              run: cmake --preset=ci-coverage
+
+            - name: Build
+              run: cmake --build build/coverage -j 2
+
+            - name: Test
+              working-directory: build/coverage
+              run: ctest --output-on-failure --no-tests=error -j 2
+
+            - name: Process coverage info
+              run: cmake --build build/coverage -t coverage
+
+            - name: Upload coverage to Codecov
+              uses: codecov/codecov-action@v4
+              with:
+                file: build/coverage/coverage.info
+                fail_ci_if_error: true
+                token: ${{ secrets.CODECOV_TOKEN }}
