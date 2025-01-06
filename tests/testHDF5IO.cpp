@@ -35,7 +35,6 @@ TEST_CASE("open - hdf5 file modes", "[hdf5io]")
 {
   const std::string fileName = getTestFilePath("test_open_modes.h5");
 
-
   SECTION("Open file in Overwrite mode")
   {
     IO::HDF5::HDF5IO hdf5io(fileName);
