@@ -5,6 +5,7 @@
 namespace H5
 {
 class DataSet;
+class DataSpace;
 }  // namespace H5
 
 namespace AQNWB::IO::HDF5
@@ -54,12 +55,42 @@ public:
                         const void* data);
 
   /**
+   * @brief Writes a block of string data (any number of dimensions).
+   * @param dataShape The size of the data block.
+   * @param positionOffset The position of the data block to write to.
+   * @param type The data type of the elements in the data block. Either
+   *             BaseDataType::Type::V_STR or BaseDataType::Type::T_STR
+   *             for variable and fixed-length strings repsetively.
+   * @param data Vector with the string data
+   * @return The status of the write operation.
+   */
+  Status writeStringDataBlock(const std::vector<SizeType>& dataShape,
+                              const std::vector<SizeType>& positionOffset,
+                              const AQNWB::IO::BaseDataType& type,
+                              const std::vector<std::string>& data);
+
+  /**
    * @brief Gets a const pointer to the HDF5 dataset.
    * @return A const pointer to the HDF5 dataset.
    */
   inline const H5::DataSet* getDataSet() const { return m_dataset.get(); }
 
 private:
+  /**
+   * @brief Allocate space and validate parameters
+   * @param dataShape The size of the data block.
+   * @param positionOffset The position of the data block to write to.
+   * @param type The data type of the elements in the data block.
+   * @param mSpace The HDF5 memory space (return value)
+   * @param fSpace The HDF5 file space (return value)
+   * @return The status of the write operation.
+   */
+  Status writeDataBlockHelper(const std::vector<SizeType>& dataShape,
+                              const std::vector<SizeType>& positionOffset,
+                              const AQNWB::IO::BaseDataType& type,
+                              H5::DataSpace& mSpace,
+                              H5::DataSpace& fSpace);
+
   /**
    * @brief Return status of HDF5 operations.
    */

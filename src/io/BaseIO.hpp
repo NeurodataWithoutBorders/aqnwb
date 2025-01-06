@@ -565,6 +565,22 @@ public:
                                 const BaseDataType& type,
                                 const void* data) = 0;
 
+  /**
+   * @brief Writes a block of string data (any number of dimensions).
+   * @param dataShape The size of the data block.
+   * @param positionOffset The position of the data block to write to.
+   * @param type The data type of the elements in the data block. Either
+   *             BaseDataType::Type::V_STR or BaseDataType::Type::T_STR
+   *             for variable and fixed-length strings repsetively.
+   * @param data Vector with the string data
+   * @return The status of the write operation.
+   */
+  virtual Status writeStringDataBlock(
+      const std::vector<SizeType>& dataShape,
+      const std::vector<SizeType>& positionOffset,
+      const BaseDataType& type,
+      const std::vector<std::string>& data) = 0;
+
 protected:
   /**
    * @brief The size of the dataset in each dimension.

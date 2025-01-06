@@ -207,8 +207,9 @@ TEST_CASE("HDF5IO; write datasets", "[hdf5io]")
     // Write data block
     std::vector<SizeType> dataShape = {numSamples};
     std::vector<SizeType> positionOffset = {0};
-    dataset->writeDataBlock(
+    Status writeStatus = dataset->writeDataBlock(
         dataShape, positionOffset, BaseDataType::I32, &testData[0]);
+    REQUIRE(writeStatus == Status::Success);
 
     std::unique_ptr<BaseRecordingData> dataRead = hdf5io->getDataSet(dataPath);
     std::unique_ptr<IO::HDF5::HDF5RecordingData> datasetRead1D(
@@ -241,9 +242,9 @@ TEST_CASE("HDF5IO; write datasets", "[hdf5io]")
                                    SizeArray {numRows, numCols},
                                    SizeArray {0, 0},
                                    dataPath);
-    Status status = dataset->writeDataBlock(
+    Status writeStatus = dataset->writeDataBlock(
         dataShape, positionOffset, BaseDataType::I32, testData.data());
-    REQUIRE(status == Status::Success);
+    REQUIRE(writeStatus == Status::Success);
 
     // Read back the 1D data block from 3D dataset
     std::unique_ptr<BaseRecordingData> dataRead1D =
@@ -1205,6 +1206,7 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     std::shared_ptr<IO::HDF5::HDF5IO> hdf5io =
         std::make_shared<IO::HDF5::HDF5IO>(path);
     hdf5io->open();
+    Status writeStatus;
 
     // Set up test data for float
     std::string floatDataPath = "/FloatDataset";
@@ -1218,10 +1220,11 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     // Write float data block
     std::vector<SizeType> floatDataShape = {5};
     std::vector<SizeType> floatPositionOffset = {0};
-    floatDataset->writeDataBlock(floatDataShape,
-                                 floatPositionOffset,
-                                 BaseDataType::F32,
-                                 testDataFloat.data());
+    writeStatus = floatDataset->writeDataBlock(floatDataShape,
+                                               floatPositionOffset,
+                                               BaseDataType::F32,
+                                               testDataFloat.data());
+    REQUIRE(writeStatus == Status::Success);
 
     // Confirm using HDF5IO readDataset that the float data is correct
     auto readFloatData = hdf5io->readDataset(floatDataPath);
@@ -1242,10 +1245,11 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     // Write double data block
     std::vector<SizeType> doubleDataShape = {5};
     std::vector<SizeType> doublePositionOffset = {0};
-    doubleDataset->writeDataBlock(doubleDataShape,
-                                  doublePositionOffset,
-                                  BaseDataType::F64,
-                                  testDataDouble.data());
+    writeStatus = doubleDataset->writeDataBlock(doubleDataShape,
+                                                doublePositionOffset,
+                                                BaseDataType::F64,
+                                                testDataDouble.data());
+    REQUIRE(writeStatus == Status::Success);
 
     // Confirm using HDF5IO readDataset that the double data is correct
     auto readDoubleData = hdf5io->readDataset(doubleDataPath);
@@ -1265,8 +1269,9 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     // Write unsigned 8-bit integer data block
     std::vector<SizeType> u8DataShape = {5};
     std::vector<SizeType> u8PositionOffset = {0};
-    u8Dataset->writeDataBlock(
+    writeStatus = u8Dataset->writeDataBlock(
         u8DataShape, u8PositionOffset, BaseDataType::T_U8, testDataU8.data());
+    REQUIRE(writeStatus == Status::Success);
 
     // Confirm using HDF5IO readDataset that the unsigned 8-bit integer data is
     // correct
@@ -1287,10 +1292,11 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     // Write unsigned 16-bit integer data block
     std::vector<SizeType> u16DataShape = {5};
     std::vector<SizeType> u16PositionOffset = {0};
-    u16Dataset->writeDataBlock(u16DataShape,
-                               u16PositionOffset,
-                               BaseDataType::T_U16,
-                               testDataU16.data());
+    writeStatus = u16Dataset->writeDataBlock(u16DataShape,
+                                             u16PositionOffset,
+                                             BaseDataType::T_U16,
+                                             testDataU16.data());
+    REQUIRE(writeStatus == Status::Success);
 
     // Confirm using HDF5IO readDataset that the unsigned 16-bit integer data is
     // correct
@@ -1311,8 +1317,9 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     // Write signed 8-bit integer data block
     std::vector<SizeType> i8DataShape = {5};
     std::vector<SizeType> i8PositionOffset = {0};
-    i8Dataset->writeDataBlock(
+    writeStatus = i8Dataset->writeDataBlock(
         i8DataShape, i8PositionOffset, BaseDataType::T_I8, testDataI8.data());
+    REQUIRE(writeStatus == Status::Success);
 
     // Confirm using HDF5IO readDataset that the signed 8-bit integer data is
     // correct
@@ -1333,10 +1340,11 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     // Write signed 16-bit integer data block
     std::vector<SizeType> i16DataShape = {5};
     std::vector<SizeType> i16PositionOffset = {0};
-    i16Dataset->writeDataBlock(i16DataShape,
-                               i16PositionOffset,
-                               BaseDataType::T_I16,
-                               testDataI16.data());
+    writeStatus = i16Dataset->writeDataBlock(i16DataShape,
+                                             i16PositionOffset,
+                                             BaseDataType::T_I16,
+                                             testDataI16.data());
+    REQUIRE(writeStatus == Status::Success);
 
     // Confirm using HDF5IO readDataset that the signed 16-bit integer data is
     // correct
@@ -1359,8 +1367,9 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     // Write fixed-length string data block
     std::vector<SizeType> strDataShape = {3};
     std::vector<SizeType> strPositionOffset = {0};
-    strDataset->writeDataBlock(
-        strDataShape, strPositionOffset, strType, &testDataStr);
+    writeStatus = strDataset->writeStringDataBlock(
+        strDataShape, strPositionOffset, strType, testDataStr);
+    REQUIRE(writeStatus == Status::Success);
 
     // Confirm reading the fixed-length string data is correct
     auto readStrData = hdf5io->readDataset(strDataPath);
@@ -1369,7 +1378,7 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     REQUIRE(readStrDataTyped.shape[0] == 3);
     REQUIRE(readStrDataTyped.data == testDataStr);
 
-    // TODO: Writing and reading the variable length strings currently fails
+    // Test writing and reading of variable length strings as datasets
     std::string vstrDataPath = "/VStrDataset";
     std::vector<std::string> testDataVStr = {"jkl", "mnop", "qrstu"};
 
@@ -1384,13 +1393,12 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     // Write variable-length string data block
     std::vector<SizeType> vstrDataShape = {3};
     std::vector<SizeType> vstrPositionOffset = {0};
-    vstrDataset->writeDataBlock(vstrDataShape,
-                                vstrPositionOffset,
-                                vstrType,  // Pass the vstrType object
-                                &testDataVStr);
-    // TODO: We pass testData.data() for all other types but here we use
-    //       &testDataVStr when calling writeDataBlock. We should check
-    //       if we can make that uniform or at least document the usage
+    writeStatus =
+        vstrDataset->writeStringDataBlock(vstrDataShape,
+                                          vstrPositionOffset,
+                                          vstrType,  // Pass the vstrType object
+                                          testDataVStr);
+    REQUIRE(writeStatus == Status::Success);
 
     // Confirm reading the variable-length string data is correct
     auto readVStrData = hdf5io->readDataset(vstrDataPath);
