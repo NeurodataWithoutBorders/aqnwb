@@ -108,12 +108,14 @@ inline std::vector<double> getMockTimestamps(SizeType numSamples = 1000,
 
   std::random_device rd;
   std::mt19937 rng(rd());  // random number generator
-  std::uniform_real_distribution<> dis(-maxOffset, maxOffset);  // range of floats
+  std::uniform_real_distribution<> dis(-maxOffset,
+                                       maxOffset);  // range of floats
 
   for (SizeType i = 0; i < numSamples; ++i) {
-    // Each timestamp is the sample number times the sampling period with an offset
+    // Each timestamp is the sample number times the sampling period with an
+    // offset
     double offset = dis(rng);
-    mockTimestamps[i] = i * samplingPeriod + offset;  
+    mockTimestamps[i] = i * samplingPeriod + offset;
   }
 
   return mockTimestamps;
