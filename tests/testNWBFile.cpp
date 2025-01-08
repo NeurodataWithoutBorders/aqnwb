@@ -54,7 +54,7 @@ TEST_CASE("createElectricalSeries", "[nwb]")
 
   // write timeseries data
   std::vector<float> mockData = {1.0f, 2.0f, 3.0f, 4.0f, 5.0f};
-  std::vector<double> mockTimestamps = {0.1, 0.2, 0.3, 0.4, 0.5};
+  std::vector<double> mockTimestamps = {0.1, 0.3, 0.4, 0.5, 0.8};
   std::vector<SizeType> positionOffset = {0, 0};
   std::vector<SizeType> dataShape = {mockData.size(), 0};
 
@@ -131,7 +131,7 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
 
   // write electrical series data
   std::vector<float> mockData = {1.0f, 2.0f, 3.0f, 4.0f, 5.0f};
-  std::vector<double> mockTimestamps = {0.1, 0.2, 0.3, 0.4, 0.5};
+  std::vector<double> mockTimestamps = {0.1, 0.3, 0.4, 0.5, 0.8};
   std::vector<SizeType> positionOffset = {0, 0};
   std::vector<SizeType> dataShape = {mockData.size(), 0};
 

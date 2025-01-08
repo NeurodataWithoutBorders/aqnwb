@@ -121,6 +121,19 @@
       }
     },
     {
+      "name": "coverage-darwin",
+      "binaryDir": "${sourceDir}/build/coverage",
+      "inherits": "ci-darwin",
+      "hidden": true,
+      "cacheVariables": {
+        "ENABLE_COVERAGE": "ON",
+        "CMAKE_BUILD_TYPE": "Coverage",
+        "CMAKE_CXX_FLAGS_COVERAGE": "-Og -g --coverage",
+        "CMAKE_EXE_LINKER_FLAGS_COVERAGE": "--coverage",
+        "CMAKE_SHARED_LINKER_FLAGS_COVERAGE": "--coverage"
+      }
+    },
+    {
       "name": "ci-coverage",
       "inherits": ["coverage-linux", "dev-mode"],
       "cacheVariables": {
