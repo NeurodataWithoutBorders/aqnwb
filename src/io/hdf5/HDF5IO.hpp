@@ -311,12 +311,18 @@ public:
   /**
    * @brief Returns the HDF5 type of object at a given path.
    * @param path The location in the file of the object.
-   * @return The type of object at the given path.
+   * @return The type of object at the given path. H5O_TYPE_UNKNOWN indicates
+   * that the object does not exist (or is of an unknown type).
    */
   H5O_type_t getH5ObjectType(const std::string& path) const;
 
   /**
    * @brief Returns the HDF5 native data type for a given base data type.
+   *
+   * Native types are platform-dependent and represent the data types as they
+   * are stored in the memory of the machine where the HDF5 file is created or
+   * read.
+   *
    * @param type The base data type.
    * @return The HDF5 native data type.
    */
@@ -324,6 +330,10 @@ public:
 
   /**
    * @brief Returns the HDF5 data type for a given base data type.
+   *
+   * Standard types are platform-independent and represent the data types
+   * in a consistent format, regardless of the machine architecture.
+   *
    * @param type The base data type.
    * @return The HDF5 data type.
    */

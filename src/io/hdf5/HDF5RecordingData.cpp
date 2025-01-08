@@ -48,48 +48,28 @@ Status HDF5RecordingData::writeDataBlock(
     const void* data)
 {
   try {
-    // check dataShape and positionOffset inputs match the dimensions of the
-    // dataset
-    if (dataShape.size() != nDimensions || positionOffset.size() != nDimensions)
+    // check type. Strings should use the other variant of this function
+    if (type.type == BaseDataType::Type::V_STR
+        || type.type == BaseDataType::Type::T_STR)
     {
+      std::cerr << "HDF5RecordingData::writeDataBlock called for string data, "
+                   "use HDF5RecordingData::writeStringDataBlock instead."
+                << std::endl;
       return Status::Failure;
     }
 
-    // Ensure that we have enough space to accommodate new data
-    std::vector<hsize_t> dSetDims(nDimensions), offset(nDimensions);
-    for (SizeType i = 0; i < nDimensions; ++i) {
-      offset[i] = static_cast<hsize_t>(positionOffset[i]);
-
-      if (dataShape[i] + offset[i] > size[i])  // TODO - do I need offset here
-        dSetDims[i] = dataShape[i] + offset[i];
-      else
-        dSetDims[i] = size[i];
+    // validate and allocate space
+    DataSpace mSpace;
+    DataSpace fSpace;
+    Status setupStatus = writeDataBlockHelper(dataShape,
+                                              positionOffset,
+                                              type,
+                                              mSpace,  // output
+                                              fSpace  // output
+    );
+    if (setupStatus == Status::Failure) {
+      return Status::Failure;
     }
-
-    // Adjust dataset dimensions if necessary
-    m_dataset->extend(dSetDims.data());
-
-    // Set size to new size based on updated dimensionality
-    DataSpace fSpace = m_dataset->getSpace();
-    fSpace.getSimpleExtentDims(dSetDims.data());
-    for (SizeType i = 0; i < nDimensions; ++i) {
-      size[i] = dSetDims[i];
-    }
-
-    // Create memory space with the shape of the data
-    // DataSpace mSpace(dimension, dSetDim.data());
-    std::vector<hsize_t> dataDims(nDimensions);
-    for (SizeType i = 0; i < nDimensions; ++i) {
-      if (dataShape[i] == 0) {
-        dataDims[i] = 1;
-      } else {
-        dataDims[i] = static_cast<hsize_t>(dataShape[i]);
-      }
-    }
-    DataSpace mSpace(static_cast<int>(nDimensions), dataDims.data());
-
-    // Select hyperslab in the file space
-    fSpace.selectHyperslab(H5S_SELECT_SET, dataDims.data(), offset.data());
 
     // Write the data
     DataType nativeType = HDF5IO::getNativeType(type);
@@ -99,12 +79,136 @@ Status HDF5RecordingData::writeDataBlock(
     for (SizeType i = 0; i < dataShape.size(); ++i) {
       position[i] += dataShape[i];
     }
-  } catch (DataSetIException error) {
+  } catch (DataSetIException& error) {
     error.printErrorStack();
-  } catch (DataSpaceIException error) {
+    return Status::Failure;
+  } catch (DataSpaceIException& error) {
     error.printErrorStack();
-  } catch (FileIException error) {
+    return Status::Failure;
+  } catch (FileIException& error) {
     error.printErrorStack();
+    return Status::Failure;
+  } catch (std::exception& e) {
+    std::cerr << "Exception: " << e.what() << std::endl;
+    return Status::Failure;
   }
+  return Status::Success;
+}
+
+Status HDF5RecordingData::writeStringDataBlock(
+    const std::vector<SizeType>& dataShape,
+    const std::vector<SizeType>& positionOffset,
+    const AQNWB::IO::BaseDataType& type,
+    const std::vector<std::string>& data)
+{
+  try {
+    // validate and allocate space
+    DataSpace mSpace;
+    DataSpace fSpace;
+    Status setupStatus = writeDataBlockHelper(dataShape,
+                                              positionOffset,
+                                              type,
+                                              mSpace,  // output
+                                              fSpace  // output
+    );
+    if (setupStatus == Status::Failure) {
+      return Status::Failure;
+    }
+
+    // Write the data
+    if (type.type == BaseDataType::Type::V_STR) {
+      // Handle variable length strings
+      DataType nativeType = StrType(0, H5T_VARIABLE);
+      std::vector<const char*> cstrBuffer(data.size());
+      for (size_t i = 0; i < data.size(); ++i) {
+        cstrBuffer[i] = data[i].c_str();
+      }
+      // Write the data
+      m_dataset->write(cstrBuffer.data(), nativeType, mSpace, fSpace);
+    } else if (type.type == BaseDataType::Type::T_STR) {
+      // Handle fixed-length strings
+      DataType nativeType = HDF5IO::getNativeType(type);
+      std::vector<char> buffer(data.size() * type.typeSize, '\0');
+      size_t bufferIndex = 0;
+      for (const auto& str : data) {
+        if (str.size() > type.typeSize) {
+          return Status::Failure;  // String length exceeds the fixed length
+        }
+        std::memcpy(&buffer[bufferIndex], str.c_str(), str.size());
+        bufferIndex += type.typeSize;
+      }
+      m_dataset->write(buffer.data(), nativeType, mSpace, fSpace);
+    } else {
+      std::cerr
+          << "HDF5RecordingData::writeDataBlock non-string type for string data"
+          << std::endl;
+      return Status::Failure;
+    }
+
+    // Update position for simple extension
+    for (SizeType i = 0; i < dataShape.size(); ++i) {
+      position[i] += dataShape[i];
+    }
+  } catch (DataSetIException& error) {
+    error.printErrorStack();
+    return Status::Failure;
+  } catch (DataSpaceIException& error) {
+    error.printErrorStack();
+    return Status::Failure;
+  } catch (FileIException& error) {
+    error.printErrorStack();
+    return Status::Failure;
+  } catch (std::exception& e) {
+    std::cerr << "Exception: " << e.what() << std::endl;
+    return Status::Failure;
+  }
+  return Status::Success;
+}
+
+Status HDF5RecordingData::writeDataBlockHelper(
+    const std::vector<SizeType>& dataShape,
+    const std::vector<SizeType>& positionOffset,
+    const AQNWB::IO::BaseDataType& type,
+    DataSpace& mSpace,
+    DataSpace& fSpace)
+{
+  // Check that the dataShape and positionOffset inputs match the dimensions
+  // of the dataset
+  if (dataShape.size() != nDimensions || positionOffset.size() != nDimensions) {
+    return Status::Failure;
+  }
+
+  // Ensure that we have enough space to accommodate new data
+  std::vector<hsize_t> dSetDims(nDimensions), offset(nDimensions);
+  for (SizeType i = 0; i < nDimensions; ++i) {
+    offset[i] = static_cast<hsize_t>(positionOffset[i]);
+
+    if (dataShape[i] + offset[i] > size[i]) {
+      dSetDims[i] = dataShape[i] + offset[i];
+    } else {
+      dSetDims[i] = size[i];
+    }
+  }
+
+  // Adjust dataset dimensions if necessary
+  m_dataset->extend(dSetDims.data());
+
+  // Set the size to the new size based on the updated dimensionality
+  fSpace = m_dataset->getSpace();
+  fSpace.getSimpleExtentDims(dSetDims.data());
+  for (SizeType i = 0; i < nDimensions; ++i) {
+    size[i] = dSetDims[i];
+  }
+
+  // Create memory space with the shape of the data
+  std::vector<hsize_t> dataDims(nDimensions);
+  for (SizeType i = 0; i < nDimensions; ++i) {
+    dataDims[i] = dataShape[i] == 0 ? 1 : static_cast<hsize_t>(dataShape[i]);
+  }
+  mSpace = DataSpace(static_cast<int>(nDimensions), dataDims.data());
+
+  // Select hyperslab in the file space
+  fSpace.selectHyperslab(H5S_SELECT_SET, dataDims.data(), offset.data());
+
   return Status::Success;
 }
