@@ -7,14 +7,14 @@ set(
     lcov -c -q
     -o "${PROJECT_BINARY_DIR}/coverage.info"
     -d "${PROJECT_BINARY_DIR}"
-    --include "${PROJECT_SOURCE_DIR}/*"
+    --include "${PROJECT_SOURCE_DIR}/src/*"
     CACHE STRING
     "; separated command to generate a trace for the 'coverage' target"
 )
 
 set(
     COVERAGE_HTML_COMMAND
-    genhtml --legend -f -q
+    genhtml --legend -q
     "${PROJECT_BINARY_DIR}/coverage.info"
     -p "${PROJECT_SOURCE_DIR}"
     -o "${PROJECT_BINARY_DIR}/coverage_html"
