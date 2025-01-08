@@ -461,10 +461,21 @@
  * }
  * \endcode
  *
+ * \subsection read_design_example_stop_recording Finalize the recording
  *
- * \subsection read_design_example_read_posthoc Reading a Registered Type (e.g., a ElectricalSeries)
+ * Next we stop the recording and close the file so we can show how we can read from the file
+ * we just created.
  *
- * \subsubsection read_design_example_read_posthoc_search Searching for Registered Type Objects
+ * \snippet tests/examples/test_ecephys_data_read.cpp example_read_finish_recording_snippet
+ *
+ *
+ * \subsection read_design_example_read_from_existing_file Reading from an existing file
+ *
+ * \subsubsection read_design_example_read_create_io Opening an existing file for reading
+ *
+ * \snippet tests/examples/test_ecephys_data_read.cpp example_read_new_io_snippet
+ *
+ * \subsubsection read_design_example_read_posthoc_search Searching for Registered Type Objects (e.g.,ElectricalSeries)
  *
  * Using the \ref AQNWB::IO::BaseIO::findTypes "findType()" function of our I/O object we can
  * conveniently search for objects with a given type.
@@ -506,7 +517,7 @@
  * 1. When passing only 1) ``path`` and 2) ``io`` (as in the example above), AqNWB
  *    reads the ``neurodata_type`` and ``namespace`` attributes from the NWB file to
  *    automatically determine the class to use to represent the type.
- * 2. When passing the 1) ``fullname`` (e.g., ``core::ElectricalSeries``),  1) ``path`` and 2) ``io``
+ * 2. When passing the 1) ``fullname`` (e.g., ``core::ElectricalSeries``),  2) ``path`` and 3) ``io``
  *    AqNWB looks up the class to use in \ref AQNWB::NWB::RegisteredType "RegisteredType's" type
  *    registry (see also \ref use_registered_type_registry )
  * 3. When passing the class to use as template parameter, e.g.,
@@ -518,12 +529,11 @@
  * cast to the specific type if necessary. Option 3 creates and returns a pointer to
  * the specific type directly.
  *
- * \subsection read_design_example_stop_recording Finalize the recording
+ * \subsubsection read_design_example_read_posthoc_read_field Reading data fields
+ * 
+ *  Now we can read fields and subsets of data from the fields as before.
  *
- * Next we stop the recording and close the file so we can show how we can read from the file
- * we just created.
- *
- * \snippet tests/examples/test_ecephys_data_read.cpp example_read_finish_recording_snippet
+ *  \snippet tests/examples/test_ecephys_data_read.cpp  example_read_only_fields_snippet
  *
  */
 

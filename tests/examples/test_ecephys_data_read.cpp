@@ -180,9 +180,11 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     io->close();
     // [example_read_finish_recording_snippet]
 
+    // [example_read_new_io_snippet]
     // Open a new I/O for reading
     std::shared_ptr<BaseIO> readio = createIO("HDF5", path);
     readio->open(FileMode::ReadOnly);
+    // [example_read_new_io_snippet]
 
     // [example_search_types_snippet]
     std::unordered_set<std::string> typesToSearch = {"core::ElectricalSeries"};
@@ -215,40 +217,41 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     auto readElectricalSeries =
         std::dynamic_pointer_cast<AQNWB::NWB::ElectricalSeries>(
             readRegisteredType);
+    // [example_read_only_snippet]
 
+    // [example_read_only_fields_snippet]
     // Now we can read the data in the same way we did during write
     auto readElectricalSeriesData = readElectricalSeries->readData<float>();
     DataBlock<float> readDataValues = readElectricalSeriesData->values();
     auto readBoostMultiArray = readDataValues.as_multi_array<2>();
-    // [example_read_only_snippet]
+
+    // We can also read just subsets of the data, e.g., the first 10 time steps
+    // for the first channel
+    std::vector<SizeType> start = {0, 0};
+    std::vector<SizeType> count = {10, 1};
+    DataBlock<float> dataSlice = readElectricalSeriesData->values(start, count);
+
+    // Or read an attribute, e.g., the unit
+    std::string esUnitValue =
+        readElectricalSeries->readDataUnit()->values().data[0];
+    REQUIRE(esUnitValue == std::string("volts"));
+    // [example_read_only_fields_snippet]
+
+    // [example_read_extra_checks_snippet]
+    // Validate that the slice was read correctly
+    REQUIRE(dataSlice.data.size() == 10);
+    REQUIRE(dataSlice.shape[0] == 10);
+    REQUIRE(dataSlice.shape[1] == 1);
 
     // Test that reading a string attribute works
     auto esDescr = readElectricalSeries->readDescription();
+    REQUIRE(esDescr->getStorageObjectType() == StorageObjectType::Attribute);
     auto esDescrData = esDescr->values();
     REQUIRE(esDescrData.data.size() == 1);
     REQUIRE(esDescrData.shape.size() == 0);
     REQUIRE(esDescrData.data[0]
             == std::string("Stores continuously sampled voltage data from an "
                            "extracellular ephys recording"));
-
-    // TODO Slicing doesn't seem to work quite yet. The full data is loaded
-    // instead. Let's read the first 10 timesteps for the first two channels
-    /*DataBlock<float> dataSlice = readDataWrapper->values<float>(
-        {0, 0},  // start
-        {10, 1}  // count
-    );
-    REQUIRE(dataSlice.data.size() == 10);
-    REQUIRE(dataSlice.shape[0] == 10);
-    REQUIRE(dataSlice.shape[1] == 1);*/
-
-    // TODO Add an attribute getter (e.g., for ElectricalSeries.unit) and test
-    // that it works as well std::string esUnit = electricalSeries->unit();
-    // REQUIRE(esUnit == std::string("volts"));
-    // REQUIRE(unitValueGeneric.shape.size() == 0);
-
-    // TODO Check why reading the unit causes the below Assertion in HDF5IO to
-    // fail: (this->file->attrExists(dataPath)), function readAttribute, file
-    // HDF5IO.cpp, line 161. i.e., the attribute does not seem to exists so
-    // either the path is wrong or something is bad with the write?
+    // [example_read_extra_checks_snippet]
   }
 }
