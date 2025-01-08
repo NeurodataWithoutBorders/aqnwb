@@ -100,14 +100,22 @@ inline std::vector<std::vector<float>> getMockData2D(SizeType numSamples = 1000,
 }
 
 inline std::vector<double> getMockTimestamps(SizeType numSamples = 1000,
-                                             SizeType samplingRate = 30000)
+                                             SizeType samplingRate = 30000,
+                                             double maxOffset = 0.00001)
 {
   std::vector<double> mockTimestamps(numSamples);
   double samplingPeriod = 1.0 / samplingRate;
 
+  std::random_device rd;
+  std::mt19937 rng(rd());  // random number generator
+  std::uniform_real_distribution<> dis(-maxOffset,
+                                       maxOffset);  // range of floats
+
   for (SizeType i = 0; i < numSamples; ++i) {
-    mockTimestamps[i] = i * samplingPeriod;  // Each timestamp is the sample
-                                             // number times the sampling period
+    // Each timestamp is the sample number times the sampling period with an
+    // offset
+    double offset = dis(rng);
+    mockTimestamps[i] = i * samplingPeriod + offset;
   }
 
   return mockTimestamps;
