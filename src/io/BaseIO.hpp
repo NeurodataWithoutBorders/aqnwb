@@ -455,30 +455,6 @@ public:
                                    const std::string& description = "");
 
   /**
-   * @brief Convenience function for creating data related attributes.
-   * @param path The location of the object in the file.
-   * @param conversion Scalar to multiply each element in data to convert it to
-   * the specified ‘unit’.
-   * @param resolution Smallest meaningful difference between values in data.
-   * @param offset Scalar to add to the data after scaling by ‘conversion’ to
-   *               finalize its coercion to the specified ‘unit’.
-   * @param unit Base unit of measurement for working with the data.
-   * @return The status of the operation.
-   */
-  Status createDataAttributes(const std::string& path,
-                              const float& conversion,
-                              const float& resolution,
-                              const float& offset,
-                              const std::string& unit);
-
-  /**
-   * @brief Convenience function for creating timestamp related attributes.
-   * @param path The location of the object in the file.
-   * @return The status of the operation.
-   */
-  Status createTimestampsAttributes(const std::string& path);
-
-  /**
    * @brief Returns true if the file is open.
    * @return True if the file is open, false otherwise.
    */

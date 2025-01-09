@@ -1,12 +1,20 @@
 #include "nwb/base/TimeSeries.hpp"
 
 #include "Utils.hpp"
+#include "io/BaseIO.hpp"
 
 using namespace AQNWB::NWB;
 
 // TimeSeries
 // Initialize the static registered_ member to trigger registration
 REGISTER_SUBCLASS_IMPL(TimeSeries)
+
+// Initialize the static member
+std::map<TimeSeries::ContinuityType, std::string>
+    TimeSeries::ContinuityTypeNames = {
+        {TimeSeries::Continuous, "continuous"},
+        {TimeSeries::Instantaneous, "instantaneous"},
+        {TimeSeries::Step, "step"}};
 
 /** Constructor */
 TimeSeries::TimeSeries(const std::string& path, std::shared_ptr<IO::BaseIO> io)
@@ -17,6 +25,45 @@ TimeSeries::TimeSeries(const std::string& path, std::shared_ptr<IO::BaseIO> io)
 /** Destructor */
 TimeSeries::~TimeSeries() {}
 
+Status TimeSeries::createDataAttributes(const std::string& path,
+                                        const float& conversion,
+                                        const float& resolution,
+                                        const float& offset,
+                                        const std::string& unit,
+                                        const ContinuityType& continuity)
+{
+  m_io->createAttribute(AQNWB::IO::BaseDataType::F32,
+                        &conversion,
+                        AQNWB::mergePaths(path, "data"),
+                        "conversion");
+  m_io->createAttribute(AQNWB::IO::BaseDataType::F32,
+                        &resolution,
+                        AQNWB::mergePaths(path, "data"),
+                        "resolution");
+  m_io->createAttribute(AQNWB::IO::BaseDataType::F32,
+                        &offset,
+                        AQNWB::mergePaths(path, "data"),
+                        "offset");
+  m_io->createAttribute(unit, path + "/data", "unit");
+  if (continuity != ContinuityType::Undefined) {
+    m_io->createAttribute(
+        ContinuityTypeNames[continuity], path + "/data", "continuity");
+  }
+  return Status::Success;
+}
+
+Status TimeSeries::createTimestampsAttributes(const std::string& path)
+{
+  int interval = 1;
+  m_io->createAttribute(AQNWB::IO::BaseDataType::I32,
+                        static_cast<const void*>(&interval),
+                        path + "/timestamps",
+                        "interval");
+  m_io->createAttribute("seconds", path + "/timestamps", "unit");
+
+  return Status::Success;
+}
+
 void TimeSeries::initialize(const IO::BaseDataType& dataType,
                             const std::string& unit,
                             const std::string& description,
@@ -25,7 +72,8 @@ void TimeSeries::initialize(const IO::BaseDataType& dataType,
                             const SizeArray& chunkSize,
                             const float& conversion,
                             const float& resolution,
-                            const float& offset)
+                            const float& offset,
+                            const ContinuityType& continuity)
 {
   Container::initialize();
 
@@ -41,7 +89,8 @@ void TimeSeries::initialize(const IO::BaseDataType& dataType,
   // setup datasets
   this->data = std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet(
       dataType, dsetSize, chunkSize, AQNWB::mergePaths(m_path, "data")));
-  m_io->createDataAttributes(m_path, conversion, resolution, offset, unit);
+  this->createDataAttributes(
+      m_path, conversion, resolution, offset, unit, continuity);
 
   SizeArray tsDsetSize = {
       dsetSize[0]};  // timestamps match data along first dimension
@@ -50,7 +99,7 @@ void TimeSeries::initialize(const IO::BaseDataType& dataType,
                                tsDsetSize,
                                chunkSize,
                                AQNWB::mergePaths(m_path, "timestamps")));
-  m_io->createTimestampsAttributes(m_path);
+  this->createTimestampsAttributes(m_path);
 }
 
 Status TimeSeries::writeData(const std::vector<SizeType>& dataShape,

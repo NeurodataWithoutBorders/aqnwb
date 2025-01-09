@@ -88,7 +88,7 @@ TEST_CASE("TimeSeries", "[base]")
     REQUIRE(readTSType == "TimeSeries");
   }
 
-  SECTION("test reading timeseries data")
+  SECTION("test writing and reading timeseries data")
   {
     // setup timeseries object
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
@@ -100,6 +100,8 @@ TEST_CASE("TimeSeries", "[base]")
     float conversion = 10.0;
     float resolution = 9.0;
     float offset = 8.0;
+    AQNWB::NWB::TimeSeries::ContinuityType continuity =
+        AQNWB::NWB::TimeSeries::Continuous;
     ts.initialize(dataType,
                   unit,
                   descripton,
@@ -108,7 +110,8 @@ TEST_CASE("TimeSeries", "[base]")
                   SizeArray {1},
                   conversion,
                   resolution,
-                  offset);
+                  offset,
+                  continuity);
 
     // Write data to file
     Status writeStatus =
@@ -170,7 +173,13 @@ TEST_CASE("TimeSeries", "[base]")
     REQUIRE(readDataOffsetValues.size() == 1);
     REQUIRE(readDataOffsetValues[0] == Catch::Approx(offset));
 
-    // TODO Read missing readDataContinuity, readControlDescription,
+    // Read the data continuity
+    auto readDataContinuityWrapper = readTimeSeries->readDataContinuity();
+    auto readDataContinuityValues = readDataContinuityWrapper->values().data[0];
+    REQUIRE(readDataContinuityValues
+            == AQNWB::NWB::TimeSeries::ContinuityTypeNames[continuity]);
+
+    // TODO Read missing readControlDescription,
     // readControl, readTimestampsUnit, readTimestampsInterval,
     // readStartingTimeUnit, readStartingTimeRate, readStartingTime. Some of
     // these may not be written yet.

@@ -55,39 +55,6 @@ Status BaseIO::createCommonNWBAttributes(const std::string& path,
   return Status::Success;
 }
 
-Status BaseIO::createDataAttributes(const std::string& path,
-                                    const float& conversion,
-                                    const float& resolution,
-                                    const float& offset,
-                                    const std::string& unit)
-{
-  createAttribute(BaseDataType::F32,
-                  &conversion,
-                  AQNWB::mergePaths(path, "data"),
-                  "conversion");
-  createAttribute(BaseDataType::F32,
-                  &resolution,
-                  AQNWB::mergePaths(path, "data"),
-                  "resolution");
-  createAttribute(
-      BaseDataType::F32, &offset, AQNWB::mergePaths(path, "data"), "offset");
-  createAttribute(unit, path + "/data", "unit");
-
-  return Status::Success;
-}
-
-Status BaseIO::createTimestampsAttributes(const std::string& path)
-{
-  int interval = 1;
-  createAttribute(BaseDataType::I32,
-                  static_cast<const void*>(&interval),
-                  path + "/timestamps",
-                  "interval");
-  createAttribute("seconds", path + "/timestamps", "unit");
-
-  return Status::Success;
-}
-
 std::unordered_map<std::string, std::string> BaseIO::findTypes(
     const std::string& starting_path,
     const std::unordered_set<std::string>& types,

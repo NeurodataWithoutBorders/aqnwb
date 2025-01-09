@@ -20,6 +20,37 @@ public:
   REGISTER_SUBCLASS(TimeSeries, "core")
 
   /**
+   * Used to describe the continuity of the data in a time series.
+   */
+  enum ContinuityType
+  {
+    /** Data is recorded from a continuous process */
+    Continuous = 0,
+    /** Data describes instantious evnets in time, e.g., moments of licking. */
+    Instantaneous = 1,
+    /** Data describes a step-function, e.g., image presentated to a subject
+     * that remain until the next timpoint. */
+    Step = 2,
+    /** The continuity of the data is not defined. */
+    Undefined = -1
+  };
+
+  /**
+   * @brief String names corresponding to the ContinuityType enum.
+   *
+   * These are the values to optionally describe the continuity of the data. Can
+   * be “continuous”, “instantaneous”, or “step”. For example, a voltage trace
+   * would be “continuous”, because samples are recorded from a continuous
+   * process. An array of lick times would be “instantaneous”, because the data
+   * represents distinct moments in time. Times of image presentations would be
+   * “step” because the picture remains the same until the next timepoint. This
+   * field is optional, but is useful in providing information about the
+   * underlying data. It may inform the way this data is interpreted, the way it
+   * is visualized, and what analysis methods are applicable.
+   */
+  static std::map<ContinuityType, std::string> ContinuityTypeNames;
+
+  /**
    * @brief Constructor.
    * @param path The location of the TimeSeries in the file.
    * @param io A shared pointer to the IO object.
@@ -62,6 +93,7 @@ public:
    *                   stored in the specified by unit
    * @param offset Scalar to add to the data after scaling by ‘conversion’ to
    *               finalize its coercion to the specified ‘unit'
+   * @param continuity Continuity of the data
    */
   void initialize(const IO::BaseDataType& dataType,
                   const std::string& unit,
@@ -71,7 +103,8 @@ public:
                   const SizeArray& chunkSize = SizeArray {1},
                   const float& conversion = 1.0f,
                   const float& resolution = -1.0f,
-                  const float& offset = 0.0f);
+                  const float& offset = 0.0f,
+                  const ContinuityType& continuity = ContinuityType::Undefined);
 
   /**
    * @brief Pointer to data values.
@@ -187,5 +220,31 @@ public:
                std::string,
                "control_description",
                Description of each control value)
+
+private:
+  /**
+   * @brief Convenience function for creating timestamp related attributes.
+   * @param path The location of the object in the file.
+   * @return The status of the operation.
+   */
+  Status createTimestampsAttributes(const std::string& path);
+
+  /**
+   * @brief Convenience function for creating data related attributes.
+   * @param path The location of the object in the file.
+   * @param conversion Scalar to multiply each element in data to convert it to
+   * the specified ‘unit’.
+   * @param resolution Smallest meaningful difference between values in data.
+   * @param offset Scalar to add to the data after scaling by ‘conversion’ to
+   *               finalize its coercion to the specified ‘unit’.
+   * @param unit Base unit of measurement for working with the data.
+   * @return The status of the operation.
+   */
+  Status createDataAttributes(const std::string& path,
+                              const float& conversion,
+                              const float& resolution,
+                              const float& offset,
+                              const std::string& unit,
+                              const ContinuityType& continuity);
 };
 }  // namespace AQNWB::NWB
