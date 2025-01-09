@@ -154,18 +154,21 @@ TEST_CASE("TimeSeries", "[base]")
 
     // Read the data conversion
     auto readDataConversionWrapper = readTimeSeries->readDataConversion();
-    auto readDataConversionValue = readDataConversionWrapper->values().data[0];
-    REQUIRE(readDataConversionValue == Catch::Approx(conversion));
+    auto readDataConversionValues = readDataConversionWrapper->values().data;
+    REQUIRE(readDataConversionValues.size() == 1);
+    REQUIRE(readDataConversionValues[0] == Catch::Approx(conversion));
 
     // Read the data resolution
     auto readDataResolutionWrapper = readTimeSeries->readDataResolution();
-    auto readDataResolutionValues = readDataResolutionWrapper->values().data[0];
-    REQUIRE(readDataResolutionValues == Catch::Approx(resolution));
+    auto readDataResolutionValues = readDataResolutionWrapper->values().data;
+    REQUIRE(readDataResolutionValues.size() == 1);
+    REQUIRE(readDataResolutionValues[0] == Catch::Approx(resolution));
 
     // Read the data offset
     auto readDataOffsetWrapper = readTimeSeries->readDataOffset();
-    auto readDataOffsetValue = readDataOffsetWrapper->values().data[0];
-    REQUIRE(readDataOffsetValue == Catch::Approx(offset));
+    auto readDataOffsetValues = readDataOffsetWrapper->values().data;
+    REQUIRE(readDataOffsetValues.size() == 1);
+    REQUIRE(readDataOffsetValues[0] == Catch::Approx(offset));
 
     // TODO Read missing readDataContinuity, readControlDescription,
     // readControl, readTimestampsUnit, readTimestampsInterval,
