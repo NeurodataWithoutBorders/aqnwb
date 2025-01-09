@@ -58,6 +58,7 @@ Status BaseIO::createCommonNWBAttributes(const std::string& path,
 Status BaseIO::createDataAttributes(const std::string& path,
                                     const float& conversion,
                                     const float& resolution,
+                                    const float& offset,
                                     const std::string& unit)
 {
   createAttribute(BaseDataType::F32,
@@ -68,6 +69,8 @@ Status BaseIO::createDataAttributes(const std::string& path,
                   &resolution,
                   AQNWB::mergePaths(path, "data"),
                   "resolution");
+  createAttribute(
+      BaseDataType::F32, &offset, AQNWB::mergePaths(path, "data"), "offset");
   createAttribute(unit, path + "/data", "unit");
 
   return Status::Success;

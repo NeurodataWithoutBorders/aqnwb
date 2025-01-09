@@ -41,7 +41,7 @@ void TimeSeries::initialize(const IO::BaseDataType& dataType,
   // setup datasets
   this->data = std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet(
       dataType, dsetSize, chunkSize, AQNWB::mergePaths(m_path, "data")));
-  m_io->createDataAttributes(m_path, conversion, resolution, unit);
+  m_io->createDataAttributes(m_path, conversion, resolution, offset, unit);
 
   SizeArray tsDsetSize = {
       dsetSize[0]};  // timestamps match data along first dimension

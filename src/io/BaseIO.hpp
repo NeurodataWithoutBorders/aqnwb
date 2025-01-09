@@ -460,12 +460,15 @@ public:
    * @param conversion Scalar to multiply each element in data to convert it to
    * the specified ‘unit’.
    * @param resolution Smallest meaningful difference between values in data.
+   * @param offset Scalar to add to the data after scaling by ‘conversion’ to
+   *               finalize its coercion to the specified ‘unit’.
    * @param unit Base unit of measurement for working with the data.
    * @return The status of the operation.
    */
   Status createDataAttributes(const std::string& path,
                               const float& conversion,
                               const float& resolution,
+                              const float& offset,
                               const std::string& unit);
 
   /**
