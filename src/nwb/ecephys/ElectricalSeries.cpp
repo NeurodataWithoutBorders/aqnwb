@@ -79,11 +79,12 @@ void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
       std::vector<SizeType>(1, channelVector.size()),
       IO::BaseDataType::I32,
       &electrodeInds[0]);
+  auto electrodesPath = AQNWB::mergePaths(getPath(), "electrodes");
   m_io->createCommonNWBAttributes(
-      AQNWB::mergePaths(getPath(), "electrodes"),
-      "hdmf-common",
-      "DynamicTableRegion",
-      "the electrodes that generated this electrical series");
+      electrodesPath, "hdmf-common", "DynamicTableRegion");
+  m_io->createAttribute("the electrodes that generated this electrical series",
+                        electrodesPath,
+                        "description");
   m_io->createReferenceAttribute(ElectrodeTable::electrodeTablePath,
                                  AQNWB::mergePaths(getPath(), "electrodes"),
                                  "table");

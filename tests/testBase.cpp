@@ -211,6 +211,16 @@ TEST_CASE("TimeSeries", "[base]")
     REQUIRE(!readStartingTimeRateWrapper->exists());
     auto readStartingTimeUnitWrapper = readTimeSeries->readStartingTimeUnit();
     REQUIRE(!readStartingTimeUnitWrapper->exists());
+
+    // Read the neurodata_type
+    auto readNeurodataTypeWrapper = readTimeSeries->readNeurodataType();
+    auto readNeurodataTypeValues = readNeurodataTypeWrapper->values().data[0];
+    REQUIRE(readNeurodataTypeValues == "TimeSeries");
+
+    // Read the namespace
+    auto readNamespaceWrapper = readTimeSeries->readNamespace();
+    auto readNamespaceValues = readNamespaceWrapper->values().data[0];
+    REQUIRE(readNamespaceValues == "core");
   }
 
   SECTION("test writing and reading timeseries with starting time")

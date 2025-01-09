@@ -43,15 +43,12 @@ BaseIO::~BaseIO() {}
 
 Status BaseIO::createCommonNWBAttributes(const std::string& path,
                                          const std::string& objectNamespace,
-                                         const std::string& neurodataType,
-                                         const std::string& description)
+                                         const std::string& neurodataType)
 {
   createAttribute(objectNamespace, path, "namespace");
   createAttribute(generateUuid(), path, "object_id");
   if (neurodataType != "")
     createAttribute(neurodataType, path, "neurodata_type");
-  if (description != "")
-    createAttribute(description, path, "description");
   return Status::Success;
 }
 

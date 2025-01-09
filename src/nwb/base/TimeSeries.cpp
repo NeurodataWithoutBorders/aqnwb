@@ -84,11 +84,9 @@ void TimeSeries::initialize(const IO::BaseDataType& dataType,
 
   this->dataType = dataType;
 
-  // setup common attributes
-  m_io->createCommonNWBAttributes(m_path,
-                                  this->getNamespace(),  // "core"
-                                  this->getTypeName(),  //  "TimeSeries"
-                                  description);
+  // create comments attribute
+  if (description != "")
+    m_io->createAttribute(description, m_path, "description");
   m_io->createAttribute(comments, m_path, "comments");
 
   // setup data datasets

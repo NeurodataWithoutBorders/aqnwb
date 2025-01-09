@@ -446,13 +446,11 @@ public:
    * @param path The location of the object in the file.
    * @param objectNamespace The namespace of the object.
    * @param neurodataType The neurodata type of the object.
-   * @param description The description of the object (default is empty).
    * @return The status of the operation.
    */
   Status createCommonNWBAttributes(const std::string& path,
                                    const std::string& objectNamespace,
-                                   const std::string& neurodataType = "",
-                                   const std::string& description = "");
+                                   const std::string& neurodataType = "");
 
   /**
    * @brief Returns true if the file is open.

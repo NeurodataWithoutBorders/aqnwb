@@ -24,8 +24,8 @@ DynamicTable::~DynamicTable() {}
 void DynamicTable::initialize(const std::string& description)
 {
   Container::initialize();
-  m_io->createCommonNWBAttributes(
-      m_path, this->getNamespace(), this->getTypeName(), description);
+  if (description != "")
+    m_io->createAttribute(description, m_path, "description");
   m_io->createAttribute(m_colNames, m_path, "colnames");
 }
 
@@ -44,10 +44,11 @@ void DynamicTable::addColumn(const std::string& name,
           std::vector<SizeType>(1, 1),
           IO::BaseDataType::STR(values[i].size() + 1),
           values[i].c_str());  // TODO - add tests for this
-    m_io->createCommonNWBAttributes(AQNWB::mergePaths(m_path, name),
-                                    vectorData->getNamespace(),
-                                    vectorData->getTypeName(),
-                                    colDescription);
+    auto colPath = AQNWB::mergePaths(m_path, name);
+    m_io->createCommonNWBAttributes(
+        colPath, vectorData->getNamespace(), vectorData->getTypeName());
+    if (colDescription != "")
+      m_io->createAttribute(colDescription, colPath, "description");
   }
 }
 
@@ -76,7 +77,8 @@ void DynamicTable::addColumn(const std::string& name,
   } else {
     std::string columnPath = AQNWB::mergePaths(m_path, name);
     m_io->createReferenceDataSet(columnPath, values);
-    m_io->createCommonNWBAttributes(
-        columnPath, "hdmf-common", "VectorData", colDescription);
+    m_io->createCommonNWBAttributes(columnPath, "hdmf-common", "VectorData");
+    if (colDescription != "")
+      m_io->createAttribute(colDescription, columnPath, "description");
   }
 }
