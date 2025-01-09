@@ -26,8 +26,8 @@ ElectrodeTable::ElectrodeTable(std::shared_ptr<IO::BaseIO> io)
 ElectrodeTable::ElectrodeTable(const std::string& path,
                                std::shared_ptr<IO::BaseIO> io)
     : DynamicTable(
-          electrodeTablePath,  // use the electrodeTablePath
-          io)  // TODO May need to initialize the colNames in DynamicTable
+        electrodeTablePath,  // use the electrodeTablePath
+        io)  // TODO May need to initialize the colNames in DynamicTable
     , m_electrodeDataset(std::make_unique<ElementIdentifiers>(
           AQNWB::mergePaths(electrodeTablePath, "id"), io))
     , m_groupNamesDataset(std::make_unique<VectorData>(

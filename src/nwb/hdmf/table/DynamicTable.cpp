@@ -40,10 +40,11 @@ void DynamicTable::addColumn(const std::string& name,
   } else {
     // write in loop because variable length string
     for (SizeType i = 0; i < values.size(); i++)
-      vectorData->m_dataset->writeDataBlock(
-          std::vector<SizeType>(1, 1),
+      vectorData->m_dataset->writeStringDataBlock(
+          std::vector<SizeType> {1},
+          std::vector<SizeType> {i},
           IO::BaseDataType::STR(values[i].size() + 1),
-          values[i].c_str());  // TODO - add tests for this
+          values);  // TODO - add tests for this
     m_io->createCommonNWBAttributes(AQNWB::mergePaths(m_path, name),
                                     vectorData->getNamespace(),
                                     vectorData->getTypeName(),
