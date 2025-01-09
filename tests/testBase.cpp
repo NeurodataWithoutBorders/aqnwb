@@ -179,8 +179,19 @@ TEST_CASE("TimeSeries", "[base]")
     REQUIRE(readDataContinuityValues
             == AQNWB::NWB::TimeSeries::ContinuityTypeNames[continuity]);
 
-    // TODO Read missing readControlDescription,
-    // readControl, readTimestampsUnit, readTimestampsInterval,
+    // Read the timestamps unit
+    auto readTimestampsUnitWrapper = readTimeSeries->readTimestampsUnit();
+    auto readTimestampsUnitValues = readTimestampsUnitWrapper->values().data[0];
+    REQUIRE(readTimestampsUnitValues == "seconds");
+
+    // Read the timestamps interval
+    auto readTimestampsIntervalWrapper =
+        readTimeSeries->readTimestampsInterval();
+    auto readTimestampsIntervalValues =
+        readTimestampsIntervalWrapper->values().data[0];
+    REQUIRE(readTimestampsIntervalValues == 1);
+
+    // TODO Read missing readControlDescription, readControl,
     // readStartingTimeUnit, readStartingTimeRate, readStartingTime. Some of
     // these may not be written yet.
   }
