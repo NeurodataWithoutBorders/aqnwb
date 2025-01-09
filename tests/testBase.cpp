@@ -88,7 +88,7 @@ TEST_CASE("TimeSeries", "[base]")
     REQUIRE(readTSType == "TimeSeries");
   }
 
-  SECTION("test writing and reading timeseries data")
+  SECTION("test writing and reading timeseries with timestamps")
   {
     // setup timeseries object
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
@@ -111,7 +111,12 @@ TEST_CASE("TimeSeries", "[base]")
                   conversion,
                   resolution,
                   offset,
-                  continuity);
+                  continuity,
+                  -1.0,  // don't use starting time
+                  1.0  // starting time rate. Not used since starting time is -1
+    );
+    REQUIRE(ts.timestamps != nullptr);
+    REQUIRE(ts.starting_time == nullptr);
 
     // Write data to file
     Status writeStatus =
@@ -191,8 +196,98 @@ TEST_CASE("TimeSeries", "[base]")
         readTimestampsIntervalWrapper->values().data[0];
     REQUIRE(readTimestampsIntervalValues == 1);
 
-    // TODO Read missing readControlDescription, readControl,
-    // readStartingTimeUnit, readStartingTimeRate, readStartingTime. Some of
-    // these may not be written yet.
+    // Test reading the missing starting_time, starting_time_rate, and
+    // starting_time_unit
+    auto readStartingTimeWrapper = readTimeSeries->readStartingTime();
+    REQUIRE(!readStartingTimeWrapper->exists());
+    auto readStartingTimeRateWrapper = readTimeSeries->readStartingTimeRate();
+    REQUIRE(!readStartingTimeRateWrapper->exists());
+    auto readStartingTimeUnitWrapper = readTimeSeries->readStartingTimeUnit();
+    REQUIRE(!readStartingTimeUnitWrapper->exists());
+
+    // TODO Read missing readControlDescription, readControl. Currently not
+    // supported by AqNWB.
+  }
+
+  SECTION("test writing and reading timeseries with starting time")
+  {
+    // setup timeseries object
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+    NWB::TimeSeries ts = NWB::TimeSeries(dataPath, io);
+    std::string description = "Test TimeSeries";
+    std::string comments = "Test comment";
+    std::string unit = "volts";
+    float conversion = 10.0;
+    float resolution = 9.0;
+    float offset = 8.0;
+    double startingTime = 0.0;
+    double startingTimeRate = 1.0;
+    AQNWB::NWB::TimeSeries::ContinuityType continuity =
+        AQNWB::NWB::TimeSeries::Continuous;
+    ts.initialize(dataType,
+                  unit,
+                  description,
+                  comments,
+                  SizeArray {0},
+                  SizeArray {1},
+                  conversion,
+                  resolution,
+                  offset,
+                  continuity,
+                  startingTime,
+                  startingTimeRate);
+    REQUIRE(ts.timestamps == nullptr);
+    REQUIRE(ts.starting_time != nullptr);
+
+    // Write data to file
+    Status writeStatus = ts.writeData(dataShape, positionOffset, data.data());
+    REQUIRE(writeStatus == Status::Success);
+    io->flush();
+    io->close();
+
+    // Read data back from file
+    std::shared_ptr<BaseIO> readio = createIO("HDF5", path);
+    readio->open(FileMode::ReadOnly);
+
+    // Read all fields using the standard read methods
+    auto readRegisteredType = NWB::RegisteredType::create(dataPath, readio);
+    auto readTimeSeries =
+        std::dynamic_pointer_cast<NWB::TimeSeries>(readRegisteredType);
+
+    // Read the data
+    auto readDataWrapper = readTimeSeries->readData<float>();
+    REQUIRE(readDataWrapper->exists());
+    REQUIRE(readDataWrapper->getStorageObjectType()
+            == StorageObjectType::Dataset);
+    REQUIRE(readDataWrapper->getPath() == "/tsdata/data");
+    auto readDataValues = readDataWrapper->values();
+    REQUIRE_THAT(readDataValues.data, Catch::Matchers::Approx(data).margin(1));
+
+    // Read the starting time
+    auto readStartingTimeWrapper = readTimeSeries->readStartingTime();
+    auto readStartingTimeValues = readStartingTimeWrapper->values().data[0];
+    REQUIRE(readStartingTimeValues == Catch::Approx(startingTime));
+
+    // Read the starting time rate
+    auto readStartingTimeRateWrapper = readTimeSeries->readStartingTimeRate();
+    auto readStartingTimeRateValues =
+        readStartingTimeRateWrapper->values().data[0];
+    REQUIRE(readStartingTimeRateValues == Catch::Approx(startingTimeRate));
+
+    // Read the starting time unit
+    auto readStartingTimeUnitWrapper = readTimeSeries->readStartingTimeUnit();
+    auto readStartingTimeUnitValues =
+        readStartingTimeUnitWrapper->values().data[0];
+    REQUIRE(readStartingTimeUnitValues == "seconds");
+
+    // Read missing timestamps, timestamps unit, and timestamps interval
+    auto readTimestampsWrapper = readTimeSeries->readTimestamps();
+    REQUIRE(!readTimestampsWrapper->exists());
+    auto readTimestampsUnitWrapper = readTimeSeries->readTimestampsUnit();
+    REQUIRE(!readTimestampsUnitWrapper->exists());
+    auto readTimestampsIntervalWrapper =
+        readTimeSeries->readTimestampsInterval();
+    REQUIRE(!readTimestampsIntervalWrapper->exists());
   }
 }

@@ -19,6 +19,8 @@ std::map<TimeSeries::ContinuityType, std::string>
 /** Constructor */
 TimeSeries::TimeSeries(const std::string& path, std::shared_ptr<IO::BaseIO> io)
     : Container(path, io)
+    , timestamps(nullptr)
+    , starting_time(nullptr)
 {
 }
 
@@ -73,33 +75,52 @@ void TimeSeries::initialize(const IO::BaseDataType& dataType,
                             const float& conversion,
                             const float& resolution,
                             const float& offset,
-                            const ContinuityType& continuity)
+                            const ContinuityType& continuity,
+                            const double& startingTime,
+                            const float& startingTimeRate)
 {
   Container::initialize();
 
   this->dataType = dataType;
 
-  // setup attributes
+  // setup common attributes
   m_io->createCommonNWBAttributes(m_path,
                                   this->getNamespace(),  // "core"
                                   this->getTypeName(),  //  "TimeSeries"
                                   description);
   m_io->createAttribute(comments, m_path, "comments");
 
-  // setup datasets
+  // setup data datasets
   this->data = std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet(
       dataType, dsetSize, chunkSize, AQNWB::mergePaths(m_path, "data")));
   this->createDataAttributes(
       m_path, conversion, resolution, offset, unit, continuity);
 
-  SizeArray tsDsetSize = {
-      dsetSize[0]};  // timestamps match data along first dimension
-  this->timestamps = std::unique_ptr<IO::BaseRecordingData>(
-      m_io->createArrayDataSet(this->timestampsType,
-                               tsDsetSize,
-                               chunkSize,
-                               AQNWB::mergePaths(m_path, "timestamps")));
-  this->createTimestampsAttributes(m_path);
+  // setup timestamps datasets
+  if (startingTime < 0) {
+    this->starting_time = nullptr;
+    SizeArray tsDsetSize = {
+        dsetSize[0]};  // timestamps match data along first dimension
+    this->timestamps = std::unique_ptr<IO::BaseRecordingData>(
+        m_io->createArrayDataSet(this->timestampsType,
+                                 tsDsetSize,
+                                 chunkSize,
+                                 AQNWB::mergePaths(m_path, "timestamps")));
+    this->createTimestampsAttributes(m_path);
+  } else  // steup starting_time datasets
+  {
+    this->timestamps = nullptr;
+    std::string startingTimePath = AQNWB::mergePaths(m_path, "starting_time");
+    this->starting_time = m_io->createArrayDataSet(
+        AQNWB::IO::BaseDataType::F64, {1}, {1}, startingTimePath);
+    this->starting_time->writeDataBlock(
+        {1}, AQNWB::IO::BaseDataType::F64, &startingTime);
+    m_io->createAttribute(AQNWB::IO::BaseDataType::F32,
+                          &startingTimeRate,
+                          startingTimePath,
+                          "rate");
+    m_io->createAttribute("seconds", startingTimePath, "unit");
+  }
 }
 
 Status TimeSeries::writeData(const std::vector<SizeType>& dataShape,

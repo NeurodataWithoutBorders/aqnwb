@@ -94,6 +94,14 @@ public:
    * @param offset Scalar to add to the data after scaling by ‘conversion’ to
    *               finalize its coercion to the specified ‘unit'
    * @param continuity Continuity of the data
+   * @param startingTime Timestamp of the first sample in seconds. Used when
+   * timestamps are uniformly spaced, such that the timestamp of the first
+   * sample can be specified and all subsequent ones calculated from the
+   * sampling rate attribute. Set to -1.0 to indicate that recorded timestamps
+   * should be used such that no starting_time dataset will be created. If set
+   * to a value >= 0 then no timestamps dataset will be created.
+   * @param startingTimeRate Sampling rate in Hz. Used only when timestamps are
+   * uniformly spaced via startingTime.
    */
   void initialize(const IO::BaseDataType& dataType,
                   const std::string& unit,
@@ -104,7 +112,9 @@ public:
                   const float& conversion = 1.0f,
                   const float& resolution = -1.0f,
                   const float& offset = 0.0f,
-                  const ContinuityType& continuity = ContinuityType::Undefined);
+                  const ContinuityType& continuity = ContinuityType::Undefined,
+                  const double& startingTime = -1.0,
+                  const float& startingTimeRate = 1.0f);
 
   /**
    * @brief Pointer to data values.
@@ -112,9 +122,16 @@ public:
   std::unique_ptr<IO::BaseRecordingData> data;
 
   /**
-   * @brief Pointer to timestamp values.
+   * @brief Pointer to timestamp values. This may be a nullptr if starting_time
+   * is used.
    */
   std::unique_ptr<IO::BaseRecordingData> timestamps;
+
+  /**
+   * @brief Pointer to starting_time values. This may be a nullptr if timestamps
+   * are used.
+   */
+  std::unique_ptr<IO::BaseRecordingData> starting_time;
 
   /**
    * @brief Data type of the data.
