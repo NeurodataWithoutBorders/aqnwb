@@ -72,10 +72,13 @@ public:
    * write data in separate blocks.
    * @return The status of the write operation.
    */
-  Status writeData(const std::vector<SizeType>& dataShape,
-                   const std::vector<SizeType>& positionOffset,
-                   const void* dataInput,
-                   const void* timestampsInput = nullptr);
+  Status writeData(
+      const std::vector<SizeType>& dataShape,
+      const std::vector<SizeType>& positionOffset,
+      const void* dataInput,
+      const void* timestampsInput = nullptr,
+      const void* controlInput = nullptr,
+      const std::vector<std::string>& controlDescriptionInput = {});
 
   /**
    * @brief Initializes the TimeSeries by creating NWB related attributes and
@@ -102,6 +105,8 @@ public:
    * to a value >= 0 then no timestamps dataset will be created.
    * @param startingTimeRate Sampling rate in Hz. Used only when timestamps are
    * uniformly spaced via startingTime.
+   * @param useControl If true, a control and control_description dataset will
+   * be created to store
    */
   void initialize(const IO::BaseDataType& dataType,
                   const std::string& unit,
@@ -114,7 +119,8 @@ public:
                   const float& offset = 0.0f,
                   const ContinuityType& continuity = ContinuityType::Undefined,
                   const double& startingTime = -1.0,
-                  const float& startingTimeRate = 1.0f);
+                  const float& startingTimeRate = 1.0f,
+                  bool useControl = false);
 
   /**
    * @brief Pointer to data values.
@@ -130,8 +136,24 @@ public:
   /**
    * @brief Pointer to starting_time values. This may be a nullptr if timestamps
    * are used.
+   *
+   * The starting_time is usually set when calling initialize(), but is exposed
+   * here to allow overwriting of the initial starting_time value in case that
+   * the correct starting_time is not known until later.
    */
   std::unique_ptr<IO::BaseRecordingData> starting_time;
+
+  /**
+   * @brief Pointer to control values. This may be a nullptr if useControl is
+   * false.
+   */
+  std::unique_ptr<IO::BaseRecordingData> control;
+
+  /**
+   * @brief Pointer to control_description values. This may be a nullptr if
+   * useControl is false.
+   */
+  std::unique_ptr<IO::BaseRecordingData> control_description;
 
   /**
    * @brief Data type of the data.
@@ -142,6 +164,11 @@ public:
    * @brief Data type of the timestamps (float64).
    */
   IO::BaseDataType timestampsType = IO::BaseDataType::F64;
+
+  /**
+   * @brief Data type of the control (uint8).
+   */
+  IO::BaseDataType controlType = IO::BaseDataType::U8;
 
   // Define the data fields to expose for lazy read access
   DEFINE_FIELD(readDescription,

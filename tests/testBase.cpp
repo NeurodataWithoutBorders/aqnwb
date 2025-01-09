@@ -22,6 +22,9 @@ TEST_CASE("TimeSeries", "[base]")
   std::vector<float> data = getMockData1D(numSamples);
   BaseDataType timestampsType = BaseDataType::F64;
   std::vector<double> timestamps = getMockTimestamps(numSamples, 1);
+  std::vector<unsigned char> controlData = {0, 1, 0, 1, 0, 1, 0, 1, 0, 1};
+  std::vector<std::string> controlDescription = {
+      "c0", "c1", "c0", "c1", "c0", "c1", "c0", "c1", "c0", "c1"};
   std::string path = getTestFilePath("testTimeseries.h5");
 
   SECTION("test writing timeseries data block")
@@ -102,21 +105,25 @@ TEST_CASE("TimeSeries", "[base]")
     float offset = 8.0;
     AQNWB::NWB::TimeSeries::ContinuityType continuity =
         AQNWB::NWB::TimeSeries::Continuous;
-    ts.initialize(dataType,
-                  unit,
-                  description,
-                  comments,
-                  SizeArray {0},
-                  SizeArray {1},
-                  conversion,
-                  resolution,
-                  offset,
-                  continuity,
-                  -1.0,  // don't use starting time
-                  1.0  // starting time rate. Not used since starting time is -1
+    ts.initialize(
+        dataType,
+        unit,
+        description,
+        comments,
+        SizeArray {0},
+        SizeArray {1},
+        conversion,
+        resolution,
+        offset,
+        continuity,
+        -1.0,  // don't use starting time
+        1.0,  // starting time rate. Not used since starting time is -1
+        false  // don't use a control and control_description dataset
     );
     REQUIRE(ts.timestamps != nullptr);
     REQUIRE(ts.starting_time == nullptr);
+    REQUIRE(ts.control == nullptr);
+    REQUIRE(ts.control_description == nullptr);
 
     // Write data to file
     Status writeStatus =
@@ -204,9 +211,6 @@ TEST_CASE("TimeSeries", "[base]")
     REQUIRE(!readStartingTimeRateWrapper->exists());
     auto readStartingTimeUnitWrapper = readTimeSeries->readStartingTimeUnit();
     REQUIRE(!readStartingTimeUnitWrapper->exists());
-
-    // TODO Read missing readControlDescription, readControl. Currently not
-    // supported by AqNWB.
   }
 
   SECTION("test writing and reading timeseries with starting time")
@@ -221,10 +225,11 @@ TEST_CASE("TimeSeries", "[base]")
     float conversion = 10.0;
     float resolution = 9.0;
     float offset = 8.0;
-    double startingTime = 0.0;
-    double startingTimeRate = 1.0;
     AQNWB::NWB::TimeSeries::ContinuityType continuity =
         AQNWB::NWB::TimeSeries::Continuous;
+    double startingTime = 0.0;
+    float startingTimeRate = 1.0;
+    bool useControl = true;
     ts.initialize(dataType,
                   unit,
                   description,
@@ -236,12 +241,21 @@ TEST_CASE("TimeSeries", "[base]")
                   offset,
                   continuity,
                   startingTime,
-                  startingTimeRate);
+                  startingTimeRate,
+                  useControl);
     REQUIRE(ts.timestamps == nullptr);
     REQUIRE(ts.starting_time != nullptr);
+    REQUIRE(ts.control != nullptr);
+    REQUIRE(ts.control_description != nullptr);
 
     // Write data to file
-    Status writeStatus = ts.writeData(dataShape, positionOffset, data.data());
+    Status writeStatus = ts.writeData(dataShape,
+                                      positionOffset,
+                                      data.data(),
+                                      nullptr,  // no timestamps
+                                      controlData.data(),
+                                      controlDescription);
+
     REQUIRE(writeStatus == Status::Success);
     io->flush();
     io->close();
@@ -289,5 +303,16 @@ TEST_CASE("TimeSeries", "[base]")
     auto readTimestampsIntervalWrapper =
         readTimeSeries->readTimestampsInterval();
     REQUIRE(!readTimestampsIntervalWrapper->exists());
+
+    // Read the control data
+    auto readControlWrapper = readTimeSeries->readControl();
+    auto readControlValues = readControlWrapper->values();
+    REQUIRE_THAT(readControlValues.data, Catch::Matchers::Equals(controlData));
+
+    // Read the control description
+    auto readControlDescriptionWrapper =
+        readTimeSeries->readControlDescription();
+    auto readControlDescriptionValues = readControlDescriptionWrapper->values();
+    REQUIRE(readControlDescriptionValues.data == controlDescription);
   }
 }
