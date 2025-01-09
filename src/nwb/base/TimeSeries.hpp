@@ -28,7 +28,7 @@ public:
     Continuous = 0,
     /** Data describes instantious evnets in time, e.g., moments of licking. */
     Instantaneous = 1,
-    /** Data describes a step-function, e.g., image presentated to a subject
+    /** Data describes a step-function, e.g., image presented to a subject
      * that remain until the next timpoint. */
     Step = 2,
     /** The continuity of the data is not defined. */

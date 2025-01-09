@@ -94,7 +94,7 @@ TEST_CASE("TimeSeries", "[base]")
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
     NWB::TimeSeries ts = NWB::TimeSeries(dataPath, io);
-    std::string descripton = "Test TimeSeries";
+    std::string description = "Test TimeSeries";
     std::string comments = "Test comment";
     std::string unit = "volts";
     float conversion = 10.0;
@@ -104,7 +104,7 @@ TEST_CASE("TimeSeries", "[base]")
         AQNWB::NWB::TimeSeries::Continuous;
     ts.initialize(dataType,
                   unit,
-                  descripton,
+                  description,
                   comments,
                   SizeArray {0},
                   SizeArray {1},
@@ -148,7 +148,7 @@ TEST_CASE("TimeSeries", "[base]")
     // Read the description
     auto readDescriptionWrapper = readTimeSeries->readDescription();
     auto readDescriptionValues = readDescriptionWrapper->values().data[0];
-    REQUIRE(readDescriptionValues == descripton);
+    REQUIRE(readDescriptionValues == description);
 
     // Read the comments
     auto readCommentsWrapper = readTimeSeries->readComments();
