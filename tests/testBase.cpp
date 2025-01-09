@@ -87,4 +87,89 @@ TEST_CASE("TimeSeries", "[base]")
     std::string readTSType = readContainer->getTypeName();
     REQUIRE(readTSType == "TimeSeries");
   }
+
+  SECTION("test reading timeseries data")
+  {
+    // setup timeseries object
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+    NWB::TimeSeries ts = NWB::TimeSeries(dataPath, io);
+    std::string descripton = "Test TimeSeries";
+    std::string comments = "Test comment";
+    std::string unit = "volts";
+    float conversion = 10.0;
+    float resolution = 9.0;
+    float offset = 8.0;
+    ts.initialize(dataType,
+                  unit,
+                  descripton,
+                  comments,
+                  SizeArray {0},
+                  SizeArray {1},
+                  conversion,
+                  resolution,
+                  offset);
+
+    // Write data to file
+    Status writeStatus =
+        ts.writeData(dataShape, positionOffset, data.data(), timestamps.data());
+    REQUIRE(writeStatus == Status::Success);
+    io->flush();
+    io->close();
+
+    // Read data back from file
+    std::shared_ptr<BaseIO> readio = createIO("HDF5", path);
+    readio->open(FileMode::ReadOnly);
+
+    // Read all fields using the standard read methods
+    auto readRegisteredType = NWB::RegisteredType::create(dataPath, readio);
+    auto readTimeSeries =
+        std::dynamic_pointer_cast<NWB::TimeSeries>(readRegisteredType);
+
+    // Read the data
+    auto readDataWrapper = readTimeSeries->readData<float>();
+    REQUIRE(readDataWrapper->exists());
+    REQUIRE(readDataWrapper->getStorageObjectType()
+            == StorageObjectType::Dataset);
+    REQUIRE(readDataWrapper->getPath() == "/tsdata/data");
+    auto readDataValues = readDataWrapper->values();
+    REQUIRE_THAT(readDataValues.data, Catch::Matchers::Approx(data).margin(1));
+
+    // Read the timestamps
+    auto readTimestampsWrapper = readTimeSeries->readTimestamps();
+    auto readTimestampsValues = readTimestampsWrapper->values();
+    REQUIRE(readDataWrapper->getStorageObjectType()
+            == StorageObjectType::Dataset);
+    REQUIRE(readTimestampsValues.data == timestamps);
+
+    // Read the description
+    auto readDescriptionWrapper = readTimeSeries->readDescription();
+    auto readDescriptionValues = readDescriptionWrapper->values().data[0];
+    REQUIRE(readDescriptionValues == descripton);
+
+    // Read the comments
+    auto readCommentsWrapper = readTimeSeries->readComments();
+    auto readCommentsValues = readCommentsWrapper->values().data[0];
+    REQUIRE(readCommentsValues == comments);
+
+    // Read the data conversion
+    auto readDataConversionWrapper = readTimeSeries->readDataConversion();
+    auto readDataConversionValue = readDataConversionWrapper->values().data[0];
+    REQUIRE(readDataConversionValue == Catch::Approx(conversion));
+
+    // Read the data resolution
+    auto readDataResolutionWrapper = readTimeSeries->readDataResolution();
+    auto readDataResolutionValues = readDataResolutionWrapper->values().data[0];
+    REQUIRE(readDataResolutionValues == Catch::Approx(resolution));
+
+    // Read the data offset
+    auto readDataOffsetWrapper = readTimeSeries->readDataOffset();
+    auto readDataOffsetValue = readDataOffsetWrapper->values().data[0];
+    REQUIRE(readDataOffsetValue == Catch::Approx(offset));
+
+    // TODO Read missing readDataContinuity, readControlDescription,
+    // readControl, readTimestampsUnit, readTimestampsInterval,
+    // readStartingTimeUnit, readStartingTimeRate, readStartingTime. Some of
+    // these may not be written yet.
+  }
 }
