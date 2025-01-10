@@ -54,7 +54,8 @@ TEST_CASE("TimeSeries", "[base]")
         continuity,
         -1.0,  // don't use starting time
         1.0,  // starting time rate. Not used since starting time is -1
-        emptyControlDescription  // empty to NOT use a control and control_description dataset
+        emptyControlDescription  // empty to NOT use a control and
+                                 // control_description dataset
     );
     REQUIRE(ts.timestamps != nullptr);
     REQUIRE(ts.starting_time == nullptr);

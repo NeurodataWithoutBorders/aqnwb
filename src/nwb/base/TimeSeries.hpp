@@ -72,12 +72,11 @@ public:
    * write data in separate blocks.
    * @return The status of the write operation.
    */
-  Status writeData(
-      const std::vector<SizeType>& dataShape,
-      const std::vector<SizeType>& positionOffset,
-      const void* dataInput,
-      const void* timestampsInput = nullptr,
-      const void* controlInput = nullptr);
+  Status writeData(const std::vector<SizeType>& dataShape,
+                   const std::vector<SizeType>& positionOffset,
+                   const void* dataInput,
+                   const void* timestampsInput = nullptr,
+                   const void* controlInput = nullptr);
 
   /**
    * @brief Initializes the TimeSeries by creating NWB related attributes and
@@ -104,8 +103,8 @@ public:
    * to a value >= 0 then no timestamps dataset will be created.
    * @param startingTimeRate Sampling rate in Hz. Used only when timestamps are
    * uniformly spaced via startingTime.
-   * @param controlDescription Description of each control value to be used during
-   * the recording. If a non-empty vector is provided then control and
+   * @param controlDescription Description of each control value to be used
+   * during the recording. If a non-empty vector is provided then control and
    * control_description data will be created (otherwise they will be nullptr).
    * We can update the control_description values later if needed via the
    * TimeSeries.control_description->writeStringDataBlock() method.

@@ -132,7 +132,7 @@ void TimeSeries::initialize(const IO::BaseDataType& dataType,
                                  controlDsetSize,
                                  controlChunkSize,
                                  AQNWB::mergePaths(m_path, "control")));
-                                 
+
     // control_description is its own data and contains for each control value
     // a string description
     const SizeArray controlDescriptionShape = {controlDescription.size()};
@@ -157,12 +157,11 @@ void TimeSeries::initialize(const IO::BaseDataType& dataType,
   }
 }
 
-Status TimeSeries::writeData(
-    const std::vector<SizeType>& dataShape,
-    const std::vector<SizeType>& positionOffset,
-    const void* dataInput,
-    const void* timestampsInput,
-    const void* controlInput)
+Status TimeSeries::writeData(const std::vector<SizeType>& dataShape,
+                             const std::vector<SizeType>& positionOffset,
+                             const void* dataInput,
+                             const void* timestampsInput,
+                             const void* controlInput)
 {
   // Write timestamps if they exist
   Status tsStatus = Status::Success;
