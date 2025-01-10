@@ -77,8 +77,7 @@ public:
       const std::vector<SizeType>& positionOffset,
       const void* dataInput,
       const void* timestampsInput = nullptr,
-      const void* controlInput = nullptr,
-      const std::vector<std::string>& controlDescriptionInput = {});
+      const void* controlInput = nullptr);
 
   /**
    * @brief Initializes the TimeSeries by creating NWB related attributes and
@@ -105,8 +104,11 @@ public:
    * to a value >= 0 then no timestamps dataset will be created.
    * @param startingTimeRate Sampling rate in Hz. Used only when timestamps are
    * uniformly spaced via startingTime.
-   * @param useControl If true, a control and control_description dataset will
-   * be created to store
+   * @param controlDescription Description of each control value to be used during
+   * the recording. If a non-empty vector is provided then control and
+   * control_description data will be created (otherwise they will be nullptr).
+   * We can update the control_description values later if needed via the
+   * TimeSeries.control_description->writeStringDataBlock() method.
    */
   void initialize(const IO::BaseDataType& dataType,
                   const std::string& unit,
@@ -120,7 +122,7 @@ public:
                   const ContinuityType& continuity = ContinuityType::Undefined,
                   const double& startingTime = -1.0,
                   const float& startingTimeRate = 1.0f,
-                  bool useControl = false);
+                  const std::vector<std::string>& controlDescription = {});
 
   /**
    * @brief Pointer to data values.

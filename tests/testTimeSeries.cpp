@@ -23,8 +23,7 @@ TEST_CASE("TimeSeries", "[base]")
   BaseDataType timestampsType = BaseDataType::F64;
   std::vector<double> timestamps = getMockTimestamps(numSamples, 1);
   std::vector<unsigned char> controlData = {0, 1, 0, 1, 0, 1, 0, 1, 0, 1};
-  std::vector<std::string> controlDescription = {
-      "c0", "c1", "c0", "c1", "c0", "c1", "c0", "c1", "c0", "c1"};
+  std::vector<std::string> controlDescription = {"c0", "c1"};
   std::string path = getTestFilePath("testTimeseries.h5");
 
   SECTION("test writing and reading timeseries with timestamps")
@@ -39,6 +38,7 @@ TEST_CASE("TimeSeries", "[base]")
     float conversion = 10.0;
     float resolution = 9.0;
     float offset = 8.0;
+    std::vector<std::string> emptyControlDescription = {};
     AQNWB::NWB::TimeSeries::ContinuityType continuity =
         AQNWB::NWB::TimeSeries::Continuous;
     ts.initialize(
@@ -54,7 +54,7 @@ TEST_CASE("TimeSeries", "[base]")
         continuity,
         -1.0,  // don't use starting time
         1.0,  // starting time rate. Not used since starting time is -1
-        false  // don't use a control and control_description dataset
+        emptyControlDescription  // empty to NOT use a control and control_description dataset
     );
     REQUIRE(ts.timestamps != nullptr);
     REQUIRE(ts.starting_time == nullptr);
@@ -190,7 +190,7 @@ TEST_CASE("TimeSeries", "[base]")
                   continuity,
                   startingTime,
                   startingTimeRate,
-                  useControl);
+                  controlDescription);
     REQUIRE(ts.timestamps == nullptr);
     REQUIRE(ts.starting_time != nullptr);
     REQUIRE(ts.control != nullptr);
@@ -201,8 +201,7 @@ TEST_CASE("TimeSeries", "[base]")
                                       positionOffset,
                                       data.data(),
                                       nullptr,  // no timestamps
-                                      controlData.data(),
-                                      controlDescription);
+                                      controlData.data());
 
     REQUIRE(writeStatus == Status::Success);
     io->flush();

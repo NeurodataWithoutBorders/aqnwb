@@ -78,7 +78,7 @@ void TimeSeries::initialize(const IO::BaseDataType& dataType,
                             const ContinuityType& continuity,
                             const double& startingTime,
                             const float& startingTimeRate,
-                            bool useControl)
+                            const std::vector<std::string>& controlDescription)
 {
   Container::initialize();
 
@@ -123,7 +123,7 @@ void TimeSeries::initialize(const IO::BaseDataType& dataType,
   }
 
   // create control datasets if necessary
-  if (useControl) {
+  if (controlDescription.size() > 0) {
     // control matches data along first dimension
     SizeArray controlDsetSize = {dsetSize[0]};
     SizeArray controlChunkSize = {chunkSize[0]};
@@ -132,14 +132,25 @@ void TimeSeries::initialize(const IO::BaseDataType& dataType,
                                  controlDsetSize,
                                  controlChunkSize,
                                  AQNWB::mergePaths(m_path, "control")));
+                                 
+    // control_description is its own data and contains for each control value
+    // a string description
+    const SizeArray controlDescriptionShape = {controlDescription.size()};
+    const SizeArray controlDescriptionChunkSize = {controlDescription.size()};
+    const SizeArray controlDescriptionPositionOffset = {0};
     IO::BaseDataType controlDesriptionType(IO::BaseDataType::Type::V_STR,
                                            0);  // 0 indicates variable length
     this->control_description =
         std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet(
             controlDesriptionType,
-            controlDsetSize,
-            controlChunkSize,
+            controlDescriptionShape,
+            controlDescriptionChunkSize,
             AQNWB::mergePaths(m_path, "control_description")));
+    this->control_description->writeStringDataBlock(
+        controlDescriptionShape,
+        controlDescriptionPositionOffset,
+        controlDesriptionType,
+        controlDescription);
   } else {
     this->control = nullptr;
     this->control_description = nullptr;
@@ -151,8 +162,7 @@ Status TimeSeries::writeData(
     const std::vector<SizeType>& positionOffset,
     const void* dataInput,
     const void* timestampsInput,
-    const void* controlInput,
-    const std::vector<std::string>& controlDescriptionInput)
+    const void* controlInput)
 {
   // Write timestamps if they exist
   Status tsStatus = Status::Success;
@@ -177,19 +187,6 @@ Status TimeSeries::writeData(
     const std::vector<SizeType> controlPositionOffset = {positionOffset[0]};
     tsStatus = this->control->writeDataBlock(
         controlShape, controlPositionOffset, this->controlType, controlInput);
-  }
-  if (controlDescriptionInput.size() > 0) {
-    // control_description should match shape of the first data dimension
-    const std::vector<SizeType> controlDescriptionShape = {dataShape[0]};
-    const std::vector<SizeType> controlDescriptionPositionOffset = {
-        positionOffset[0]};
-    IO::BaseDataType controlDesriptionType(IO::BaseDataType::Type::V_STR,
-                                           0);  // 0 indicates variable length
-    tsStatus = this->control_description->writeStringDataBlock(
-        controlDescriptionShape,
-        controlDescriptionPositionOffset,
-        controlDesriptionType,
-        controlDescriptionInput);
   }
 
   if ((dataStatus != Status::Success) || (tsStatus != Status::Success)) {
