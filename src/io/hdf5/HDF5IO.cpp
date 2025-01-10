@@ -898,17 +898,14 @@ Status HDF5IO::createStringDataSet(const std::string& path,
   if (!m_opened)
     return Status::Failure;
 
-  std::vector<const char*> cStrs;
-  cStrs.reserve(values.size());
-  for (const auto& str : values) {
-    cStrs.push_back(str.c_str());
-  }
-
   std::unique_ptr<IO::BaseRecordingData> dataset;
   dataset = std::unique_ptr<IO::BaseRecordingData>(createArrayDataSet(
       IO::BaseDataType::V_STR, SizeArray {values.size()}, SizeArray {1}, path));
-  dataset->writeDataBlock(
-      std::vector<SizeType>(1, 1), IO::BaseDataType::V_STR, cStrs.data());
+
+  dataset->writeStringDataBlock(std::vector<SizeType> {1},
+                                std::vector<SizeType> {0},
+                                IO::BaseDataType::V_STR,
+                                values);
 
   return Status::Success;
 }
