@@ -13,6 +13,7 @@ TEST_CASE("Device", "[device]")
 {
   SECTION("test Device constructor")
   {
+    // create the device without writing data
     std::string path = "test_path";
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     Device device(path, io);
@@ -23,6 +24,7 @@ TEST_CASE("Device", "[device]")
 
   SECTION("test Device write/read")
   {
+    // Create the device file
     std::string path = "test_path";
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
