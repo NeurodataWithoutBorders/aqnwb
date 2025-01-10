@@ -73,6 +73,8 @@ TEST_CASE("VectorData", "[base]")
     auto dataData = readVectorData->readData<int>();
     auto dataBlockInt = dataData->values();
     REQUIRE(dataBlockInt.data == data);
+
+    readio->close();
   }
 
   SECTION("test VectorData<double> write/read")
@@ -136,6 +138,8 @@ TEST_CASE("VectorData", "[base]")
     auto dataData = readVectorData->readData<double>();
     auto dataBlockDouble = dataData->values();
     REQUIRE(dataBlockDouble.data == data);
+
+    readio->close();
   }
 
   SECTION("test VectorData<string> write/read")
@@ -207,5 +211,7 @@ TEST_CASE("VectorData", "[base]")
     auto dataData = readVectorData->readData<std::string>();
     auto dataBlockString = dataData->values();
     REQUIRE(dataBlockString.data == data);
+
+    readio->close();
   }
 }

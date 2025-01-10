@@ -221,6 +221,8 @@ TEST_CASE("TimeSeries", "[base]")
     auto readNamespaceWrapper = readTimeSeries->readNamespace();
     auto readNamespaceValues = readNamespaceWrapper->values().data[0];
     REQUIRE(readNamespaceValues == "core");
+
+    readio->close();
   }
 
   SECTION("test writing and reading timeseries with starting time")
@@ -324,5 +326,7 @@ TEST_CASE("TimeSeries", "[base]")
         readTimeSeries->readControlDescription();
     auto readControlDescriptionValues = readControlDescriptionWrapper->values();
     REQUIRE(readControlDescriptionValues.data == controlDescription);
+
+    readio->close();
   }
 }
