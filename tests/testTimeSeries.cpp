@@ -27,7 +27,7 @@ TEST_CASE("TimeSeries", "[base]")
       "c0", "c1", "c0", "c1", "c0", "c1", "c0", "c1", "c0", "c1"};
   std::string path = getTestFilePath("testTimeseries.h5");
 
-  SECTION("test writing timeseries data block")
+  SECTION("test reading timeseries data block and attributes")
   {
     // setup timeseries object
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
