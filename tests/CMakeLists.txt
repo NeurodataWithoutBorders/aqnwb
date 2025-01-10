@@ -14,6 +14,7 @@ include(Catch)
 add_executable(aqnwb_test
     testData.cpp
     testEcephys.cpp
+    testElementIdentifiers.cpp
     testFile.cpp
     testHDF5IO.cpp
     testNWBFile.cpp

@@ -21,5 +21,8 @@ public:
    * @param io A shared pointer to the IO object.
    */
   ElementIdentifiers(const std::string& path, std::shared_ptr<IO::BaseIO> io);
+
+  // Define the data fields to expose for lazy read access
+  DEFINE_FIELD(readData, DatasetField, int, "", The data identifiers)
 };
 }  // namespace AQNWB::NWB
