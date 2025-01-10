@@ -1,5 +1,3 @@
-// FILE: src/nwb/device/test_Device.hpp
-
 #include <memory>
 
 #include <catch2/catch_test_macros.hpp>
