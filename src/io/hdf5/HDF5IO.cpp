@@ -332,6 +332,9 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(
     numElements *= v;
   }
 
+  // Set the base data type for the attribute
+  result.baseDataType = getBaseDataType(dataType);
+
   // Read the attribute into a vector of the appropriate type
   if (dataType.getClass() == H5T_STRING) {
     if (dataType.isVariableStr()) {
@@ -517,6 +520,7 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(
 
   // Read the dataset into a vector of the appropriate type
   H5::DataType dataType = dataset.getDataType();
+  result.baseDataType = getBaseDataType(dataType);
   if (dataType.getClass() == H5T_STRING) {
     // Use readStringDataHelper to read string data
     result.data =
@@ -1127,6 +1131,49 @@ H5::DataType HDF5IO::getNativeType(IO::BaseDataType type)
   }
 }
 
+AQNWB::IO::BaseDataType HDF5IO::getBaseDataType(const H5::DataType& nativeType)
+{
+  if (nativeType == H5::PredType::NATIVE_INT8) {
+    return IO::BaseDataType(IO::BaseDataType::Type::T_I8);
+  } else if (nativeType == H5::PredType::NATIVE_INT16) {
+    return IO::BaseDataType(IO::BaseDataType::Type::T_I16);
+  } else if (nativeType == H5::PredType::NATIVE_INT32) {
+    return IO::BaseDataType(IO::BaseDataType::Type::T_I32);
+  } else if (nativeType == H5::PredType::NATIVE_INT64) {
+    return IO::BaseDataType(IO::BaseDataType::Type::T_I64);
+  } else if (nativeType == H5::PredType::NATIVE_UINT8) {
+    return IO::BaseDataType(IO::BaseDataType::Type::T_U8);
+  } else if (nativeType == H5::PredType::NATIVE_UINT16) {
+    return IO::BaseDataType(IO::BaseDataType::Type::T_U16);
+  } else if (nativeType == H5::PredType::NATIVE_UINT32) {
+    return IO::BaseDataType(IO::BaseDataType::Type::T_U32);
+  } else if (nativeType == H5::PredType::NATIVE_UINT64) {
+    return IO::BaseDataType(IO::BaseDataType::Type::T_U64);
+  } else if (nativeType == H5::PredType::NATIVE_FLOAT) {
+    return IO::BaseDataType(IO::BaseDataType::Type::T_F32);
+  } else if (nativeType == H5::PredType::NATIVE_DOUBLE) {
+    return IO::BaseDataType(IO::BaseDataType::Type::T_F64);
+  } else if (nativeType.getClass() == H5T_STRING) {
+    if (nativeType.isVariableStr()) {
+      return IO::BaseDataType(IO::BaseDataType::Type::V_STR);
+    } else {
+      // Fixed length string: get the size
+      size_t size = nativeType.getSize();
+      return IO::BaseDataType(IO::BaseDataType::Type::T_STR, size);
+    }
+  } else if (nativeType.getClass() == H5T_ARRAY) {
+    // Array type: get the base type and size
+    hid_t nativeTypeId = nativeType.getId();
+    H5::ArrayType arrayType(nativeTypeId);
+    H5::DataType baseType = arrayType.getSuper();
+    hsize_t size = arrayType.getArrayNDims();
+    return IO::BaseDataType(getBaseDataType(baseType).type, size);
+  } else {
+    // Default case: return a 32-bit integer type
+    return IO::BaseDataType(IO::BaseDataType::Type::T_I32);
+  }
+}
+
 H5::DataType HDF5IO::getH5Type(IO::BaseDataType type)
 {
   H5::DataType baseType;
@@ -1177,3 +1224,46 @@ H5::DataType HDF5IO::getH5Type(IO::BaseDataType type)
   } else
     return baseType;
 }
+
+/*
+IO::BaseDataType HDF5IO::getBaseType(const H5::DataType &nativeType)
+{
+    if (nativeType == H5::PredType::NATIVE_INT8) {
+        return IO::BaseDataType(IO::BaseDataType::Type::T_I8);
+    } else if (nativeType == H5::PredType::NATIVE_INT16) {
+        return IO::BaseDataType(IO::BaseDataType::Type::T_I16);
+    } else if (nativeType == H5::PredType::NATIVE_INT32) {
+        return IO::BaseDataType(IO::BaseDataType::Type::T_I32);
+    } else if (nativeType == H5::PredType::NATIVE_INT64) {
+        return IO::BaseDataType(IO::BaseDataType::Type::T_I64);
+    } else if (nativeType == H5::PredType::NATIVE_UINT8) {
+        return IO::BaseDataType(IO::BaseDataType::Type::T_U8);
+    } else if (nativeType == H5::PredType::NATIVE_UINT16) {
+        return IO::BaseDataType(IO::BaseDataType::Type::T_U16);
+    } else if (nativeType == H5::PredType::NATIVE_UINT32) {
+        return IO::BaseDataType(IO::BaseDataType::Type::T_U32);
+    } else if (nativeType == H5::PredType::NATIVE_UINT64) {
+        return IO::BaseDataType(IO::BaseDataType::Type::T_U64);
+    } else if (nativeType == H5::PredType::NATIVE_FLOAT) {
+        return IO::BaseDataType(IO::BaseDataType::Type::T_F32);
+    } else if (nativeType == H5::PredType::NATIVE_DOUBLE) {
+        return IO::BaseDataType(IO::BaseDataType::Type::T_F64);
+    } else if (nativeType.getClass() == H5T_STRING) {
+        if (nativeType.isVariableStr()) {
+            return IO::BaseDataType(IO::BaseDataType::Type::V_STR);
+        } else {
+            // Fixed length string: get the size
+            size_t size = nativeType.getSize();
+            return IO::BaseDataType(IO::BaseDataType::Type::T_STR, size);
+        }
+    } else if (nativeType.getClass() == H5T_ARRAY) {
+        // Array type: get the base type and size
+        H5::ArrayType arrayType(nativeType);
+        H5::DataType baseType = arrayType.getSuper();
+        hsize_t size = arrayType.getArrayNDims();
+        return IO::BaseDataType(getBaseType(baseType).type, size);
+    } else {
+        // Default case: return a 32-bit integer type
+        return IO::BaseDataType(IO::BaseDataType::Type::T_I32);
+    }
+}*/

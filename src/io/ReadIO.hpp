@@ -62,6 +62,9 @@ public:
    */
   std::type_index typeIndex = typeid(void);
 
+  /** \brief The base data type for the data block */
+  IO::BaseDataType baseDataType;
+
   /**
    * \brief Default constructor
    */
