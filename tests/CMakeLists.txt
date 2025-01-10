@@ -12,7 +12,7 @@ include(Catch)
 # ---- Tests ----
 
 add_executable(aqnwb_test
-    testBase.cpp
+    testTimeSeries.cpp
     testEcephys.cpp
     testFile.cpp
     testHDF5IO.cpp
