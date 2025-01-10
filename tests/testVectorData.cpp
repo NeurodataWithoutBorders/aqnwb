@@ -14,64 +14,198 @@ using namespace AQNWB;
 TEST_CASE("VectorData", "[base]")
 {
   SECTION("test VectorData<int> write/read")
-    {
-        // Prepare test data
-        SizeType numSamples = 10;
-        std::string dataPath = "/vdata";
-        SizeArray dataShape = {numSamples};
-        SizeArray chunking = {numSamples};
-        SizeArray positionOffset = {0};
-        BaseDataType dataType = BaseDataType::I32;
-        std::vector<int> data = {1, 2, 3, 4, 5, 6, 7, 8 ,9, 10};
-        std::string description = "Test VectorData";
-        std::string path = getTestFilePath("testVectorData.h5");
-       
-        // Create the HDF5 file to write to
-        std::shared_ptr<BaseIO> io = createIO("HDF5", path);
-        io->open();
+  {
+    // Prepare test data
+    SizeType numSamples = 10;
+    std::string dataPath = "/vdata";
+    SizeArray dataShape = {numSamples};
+    SizeArray chunking = {numSamples};
+    SizeArray positionOffset = {0};
+    BaseDataType dataType = BaseDataType::I32;
+    std::vector<int> data = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    std::string description = "Test VectorData<int>";
+    std::string path = getTestFilePath("testVectorData.h5");
 
-        // create BaseRecordingData to pass to VectorData.initialize
-        std::unique_ptr<BaseRecordingData> columnDataset =
-            io->createArrayDataSet(dataType, 
-                                   dataShape, chunking, dataPath);
+    // Create the HDF5 file to write to
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
 
-        // setup VectorData object
-        NWB::VectorData columnVectorData = NWB::VectorData(dataPath, io);
-        columnVectorData.initialize(std::move(columnDataset), description);
-    
-        // Write data to file
-        Status writeStatus =
-            columnVectorData.m_dataset->writeDataBlock(dataShape, positionOffset, dataType, data.data());
-        REQUIRE(writeStatus == Status::Success);
-        io->flush();
-        io->close();
+    // create BaseRecordingData to pass to VectorData.initialize
+    std::unique_ptr<BaseRecordingData> columnDataset =
+        io->createArrayDataSet(dataType, dataShape, chunking, dataPath);
 
-        // Read data back from file
-        std::shared_ptr<BaseIO> readio = createIO("HDF5", path);
-        readio->open(FileMode::ReadOnly);
+    // setup VectorData object
+    NWB::VectorData columnVectorData = NWB::VectorData(dataPath, io);
+    columnVectorData.initialize(std::move(columnDataset), description);
 
-        // Read all fields using the standard read methods
-        auto readRegisteredType = NWB::RegisteredType::create(dataPath, readio);
-        auto readVectorData = std::dynamic_pointer_cast<NWB::VectorData>(readRegisteredType);
-    
-        // Read the "namespace" attribute via the readNamespace field
-        auto namespaceData = readVectorData->readNamespace();
-        std::string namespaceStr = namespaceData->values().data[0];
-        REQUIRE(namespaceStr == "hdmf-common");
+    // Write data to file
+    Status writeStatus = columnVectorData.m_dataset->writeDataBlock(
+        dataShape, positionOffset, dataType, data.data());
+    REQUIRE(writeStatus == Status::Success);
+    io->flush();
+    io->close();
 
-        // Read the "neurodata_type" attribute via the readNeurodataType field
-        auto neurodataTypeData = readVectorData->readNeurodataType();
-        std::string neurodataTypeStr = neurodataTypeData->values().data[0];
-        REQUIRE(neurodataTypeStr == "VectorData");
+    // Read data back from file
+    std::shared_ptr<BaseIO> readio = createIO("HDF5", path);
+    readio->open(FileMode::ReadOnly);
 
-        // Read the "description" attribute via the readDescription field 
-        auto descriptionData = readVectorData->readDescription();
-        std::string descriptionStr = descriptionData->values().data[0];
-        REQUIRE(descriptionStr == description);
+    // Read all fields using the standard read methods
+    auto readRegisteredType = NWB::RegisteredType::create(dataPath, readio);
+    auto readVectorData =
+        std::dynamic_pointer_cast<NWB::VectorData>(readRegisteredType);
 
-        // Read the data via the readData field
-        auto dataData = readVectorData->readData<int>();
-        auto dataBlockInt = dataData->values();
-        REQUIRE(dataBlockInt.data == data);
-    }
+    // Read the "namespace" attribute via the readNamespace field
+    auto namespaceData = readVectorData->readNamespace();
+    std::string namespaceStr = namespaceData->values().data[0];
+    REQUIRE(namespaceStr == "hdmf-common");
+
+    // Read the "neurodata_type" attribute via the readNeurodataType field
+    auto neurodataTypeData = readVectorData->readNeurodataType();
+    std::string neurodataTypeStr = neurodataTypeData->values().data[0];
+    REQUIRE(neurodataTypeStr == "VectorData");
+
+    // Read the "description" attribute via the readDescription field
+    auto descriptionData = readVectorData->readDescription();
+    std::string descriptionStr = descriptionData->values().data[0];
+    REQUIRE(descriptionStr == description);
+
+    // Read the data via the readData field
+    auto dataData = readVectorData->readData<int>();
+    auto dataBlockInt = dataData->values();
+    REQUIRE(dataBlockInt.data == data);
+  }
+
+  SECTION("test VectorData<double> write/read")
+  {
+    // Prepare test data
+    SizeType numSamples = 10;
+    std::string dataPath = "/vdata";
+    SizeArray dataShape = {numSamples};
+    SizeArray chunking = {numSamples};
+    SizeArray positionOffset = {0};
+    BaseDataType dataType = BaseDataType::F64;
+    std::vector<double> data = {
+        1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8, 9.9, 10.1};
+    std::string description = "Test VectorData<double>";
+    std::string path = getTestFilePath("testVectorData.h5");
+
+    // Create the HDF5 file to write to
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    // create BaseRecordingData to pass to VectorData.initialize
+    std::unique_ptr<BaseRecordingData> columnDataset =
+        io->createArrayDataSet(dataType, dataShape, chunking, dataPath);
+
+    // setup VectorData object
+    NWB::VectorData columnVectorData = NWB::VectorData(dataPath, io);
+    columnVectorData.initialize(std::move(columnDataset), description);
+
+    // Write data to file
+    Status writeStatus = columnVectorData.m_dataset->writeDataBlock(
+        dataShape, positionOffset, dataType, data.data());
+    REQUIRE(writeStatus == Status::Success);
+    io->flush();
+    io->close();
+
+    // Read data back from file
+    std::shared_ptr<BaseIO> readio = createIO("HDF5", path);
+    readio->open(FileMode::ReadOnly);
+
+    // Read all fields using the standard read methods
+    auto readRegisteredType = NWB::RegisteredType::create(dataPath, readio);
+    auto readVectorData =
+        std::dynamic_pointer_cast<NWB::VectorData>(readRegisteredType);
+
+    // Read the "namespace" attribute via the readNamespace field
+    auto namespaceData = readVectorData->readNamespace();
+    std::string namespaceStr = namespaceData->values().data[0];
+    REQUIRE(namespaceStr == "hdmf-common");
+
+    // Read the "neurodata_type" attribute via the readNeurodataType field
+    auto neurodataTypeData = readVectorData->readNeurodataType();
+    std::string neurodataTypeStr = neurodataTypeData->values().data[0];
+    REQUIRE(neurodataTypeStr == "VectorData");
+
+    // Read the "description" attribute via the readDescription field
+    auto descriptionData = readVectorData->readDescription();
+    std::string descriptionStr = descriptionData->values().data[0];
+    REQUIRE(descriptionStr == description);
+
+    // Read the data via the readData field
+    auto dataData = readVectorData->readData<double>();
+    auto dataBlockDouble = dataData->values();
+    REQUIRE(dataBlockDouble.data == data);
+  }
+
+  SECTION("test VectorData<string> write/read")
+  {
+    // Prepare test data
+    SizeType numSamples = 10;
+    std::string dataPath = "/vdata";
+    SizeArray dataShape = {numSamples};
+    SizeArray chunking = {numSamples};
+    SizeArray positionOffset = {0};
+    BaseDataType dataType = BaseDataType::V_STR;
+    std::vector<std::string> data = {"one",
+                                     "two",
+                                     "three",
+                                     "four",
+                                     "five",
+                                     "six",
+                                     "seven",
+                                     "eight",
+                                     "nine",
+                                     "ten"};
+    std::string description = "Test VectorData<string>";
+    std::string path = getTestFilePath("testVectorData.h5");
+
+    // Create the HDF5 file to write to
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    // create BaseRecordingData to pass to VectorData.initialize
+    std::unique_ptr<BaseRecordingData> columnDataset =
+        io->createArrayDataSet(dataType, dataShape, chunking, dataPath);
+
+    // setup VectorData object
+    NWB::VectorData columnVectorData = NWB::VectorData(dataPath, io);
+    columnVectorData.initialize(std::move(columnDataset), description);
+
+    // Write data to file
+    Status writeStatus = columnVectorData.m_dataset->writeStringDataBlock(
+        dataShape, positionOffset, dataType, data);
+    REQUIRE(writeStatus == Status::Success);
+    io->flush();
+    io->close();
+
+    // Read data back from file
+    std::shared_ptr<BaseIO> readio = createIO("HDF5", path);
+    readio->open(FileMode::ReadOnly);
+
+    // Read all fields using the standard read methods
+    auto readRegisteredType = NWB::RegisteredType::create(dataPath, readio);
+    auto readVectorData =
+        std::dynamic_pointer_cast<NWB::VectorData>(readRegisteredType);
+
+    // Read the "namespace" attribute via the readNamespace field
+    auto namespaceData = readVectorData->readNamespace();
+    std::string namespaceStr = namespaceData->values().data[0];
+    REQUIRE(namespaceStr == "hdmf-common");
+
+    // Read the "neurodata_type" attribute via the readNeurodataType field
+    auto neurodataTypeData = readVectorData->readNeurodataType();
+    std::string neurodataTypeStr = neurodataTypeData->values().data[0];
+    REQUIRE(neurodataTypeStr == "VectorData");
+
+    // Read the "description" attribute via the readDescription field
+    auto descriptionData = readVectorData->readDescription();
+    std::string descriptionStr = descriptionData->values().data[0];
+    REQUIRE(descriptionStr == description);
+
+    // Read the data via the readData field
+    auto dataData = readVectorData->readData<std::string>();
+    auto dataBlockString = dataData->values();
+    REQUIRE(dataBlockString.data == data);
+  }
 }
