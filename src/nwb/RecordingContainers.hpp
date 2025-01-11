@@ -61,6 +61,7 @@ public:
    * @param timestamps A pointer to the timestamps block. May be null if
    * multidimensional TimeSeries and only need to write the timestamps once but
    * write data multiple times.
+   * @param controlInput A pointer to the control block data (optional)
    * @return The status of the write operation.
    */
   Status writeTimeseriesData(const SizeType& containerInd,
@@ -68,7 +69,8 @@ public:
                              const std::vector<SizeType>& dataShape,
                              const std::vector<SizeType>& positionOffset,
                              const void* data,
-                             const void* timestamps);
+                             const void* timestamps,
+                             const void* controlInput = nullptr);
 
   /**
    * @brief Write ElectricalSeries data to a recordingContainer dataset.
@@ -81,13 +83,15 @@ public:
    * @param timestamps A pointer to the timestamps block. May be null if
    * multidimensional TimeSeries and only need to write the timestamps once but
    * write data multiple times.
+   * @param controlInput A pointer to the control block data (optional)
    * @return The status of the write operation.
    */
   Status writeElectricalSeriesData(const SizeType& containerInd,
                                    const Channel& channel,
                                    const SizeType& numSamples,
                                    const void* data,
-                                   const void* timestamps);
+                                   const void* timestamps,
+                                   const void* controlInput = nullptr);
 
   /**
    * @brief Write SpikeEventSeries data to a recordingContainer dataset.
@@ -97,13 +101,15 @@ public:
    * @param numChannels Number of channels in the time for the single event.
    * @param data A pointer to the data block.
    * @param timestamps A pointer to the timestamps block
+   * @param controlInput A pointer to the control block data (optional)
    * @return The status of the write operation.
    */
   Status writeSpikeEventData(const SizeType& containerInd,
                              const SizeType& numSamples,
                              const SizeType& numChannels,
                              const void* data,
-                             const void* timestamps);
+                             const void* timestamps,
+                             const void* controlInput = nullptr);
 
   /**
    * @brief Get the number of recording containers

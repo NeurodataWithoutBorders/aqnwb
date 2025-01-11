@@ -62,16 +62,22 @@ public:
 
   /**
    * @brief Writes a channel to an ElectricalSeries dataset.
+   *
+   * Timestamp and controlInput values are only written if the channel index is
+   * 0.
+   *
    * @param channelInd The channel index within the ElectricalSeries
    * @param numSamples The number of samples to write (length in time).
    * @param dataInput A pointer to the data block.
    * @param timestampsInput A pointer to the timestamps block.
+   * @param controlInput A pointer to the control block data (optional)
    * @return The status of the write operation.
    */
   Status writeChannel(SizeType channelInd,
                       const SizeType& numSamples,
                       const void* dataInput,
-                      const void* timestampsInput);
+                      const void* timestampsInput,
+                      const void* controlInput = nullptr);
 
   /**
    * @brief Channel group that this time series is associated with.

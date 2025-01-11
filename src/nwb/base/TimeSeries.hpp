@@ -70,6 +70,7 @@ public:
    * @param timestampsInput A pointer to the timestamps block. May be null if
    * multidimensional TimeSeries and only need to write the timestamps once but
    * write data in separate blocks.
+   * @param controlInput A pointer to the control block data (optional)
    * @return The status of the write operation.
    */
   Status writeData(const std::vector<SizeType>& dataShape,
