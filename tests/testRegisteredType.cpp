@@ -4,6 +4,7 @@
 #include "io/BaseIO.hpp"
 #include "io/hdf5/HDF5IO.hpp"
 #include "nwb/RegisteredType.hpp"
+#include "nwb/base/TimeSeries.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
 #include "testUtils.hpp"
 
@@ -44,7 +45,6 @@ TEST_CASE("RegisterType", "[base]")
     //    REQUIRE(instance != nullptr);
     // }
     std::cout << "Registered Types:" << std::endl;
-    std::cout << "Registered Types:" << std::endl;
     for (const auto& entry : factoryMap) {
       const std::string& subclassFullName = entry.first;
       const std::string& typeName = entry.second.second.first;
@@ -74,5 +74,67 @@ TEST_CASE("RegisterType", "[base]")
       // Check that the examplePath is set as expected
       REQUIRE(instance->getPath() == examplePath);
     }
+  }
+
+  SECTION("test create for select container")
+  {
+    // Prepare test data
+    SizeType numSamples = 10;
+    std::string dataPath = "/tsdata";
+    std::vector<SizeType> dataShape = {numSamples};
+    std::vector<SizeType> positionOffset = {0};
+    BaseDataType dataType = BaseDataType::F32;
+    std::vector<float> data = getMockData1D(numSamples);
+    BaseDataType timestampsType = BaseDataType::F64;
+    std::vector<double> timestamps = getMockTimestamps(numSamples, 1);
+    std::vector<unsigned char> controlData = {0, 1, 0, 1, 0, 1, 0, 1, 0, 1};
+    std::vector<std::string> controlDescription = {
+        "c0", "c1", "c0", "c1", "c0", "c1", "c0", "c1", "c0", "c1"};
+    std::string filename = getTestFilePath("testRegisteredTypeTimeseries.h5");
+    std::string examplePath = "/tsdata";
+
+    // setup timeseries object
+    std::shared_ptr<BaseIO> io = createIO("HDF5", filename);
+    io->open();
+    // Test that create with template argument works
+    std::shared_ptr<NWB::TimeSeries> ts =
+        RegisteredType::create<NWB::TimeSeries>(examplePath, io);
+    REQUIRE(ts != nullptr);
+    ts->initialize(dataType, "unit");
+
+    // Write data to file
+    Status writeStatus = ts->writeData(
+        dataShape, positionOffset, data.data(), timestamps.data());
+    REQUIRE(writeStatus == Status::Success);
+    io->flush();
+
+    // Read the "namespace" attribute
+    DataBlockGeneric namespaceData =
+        io->readAttribute(examplePath + "/namespace");
+    auto namespaceBlock = DataBlock<std::string>::fromGeneric(namespaceData);
+    std::string typeNamespace = namespaceBlock.data[0];
+    REQUIRE(typeNamespace == "core");
+
+    // Read the "neurodata_type" attribute
+    DataBlockGeneric typeData =
+        io->readAttribute(examplePath + "/neurodata_type");
+    auto typeBlock = DataBlock<std::string>::fromGeneric(typeData);
+    std::string typeName = typeBlock.data[0];
+    REQUIRE(typeName == "TimeSeries");
+
+    // Combine the namespace and type name to get the full class name
+    std::string fullClassName = typeNamespace + "::" + typeName;
+    // Create an instance of the corresponding RegisteredType subclass
+    auto readContainer =
+        AQNWB::NWB::RegisteredType::create(fullClassName, examplePath, io);
+    std::string containerType = readContainer->getTypeName();
+    REQUIRE(containerType == "TimeSeries");
+
+    // Open the TimeSeries container directly from file using the utility method
+    // This method does the same steps as above, i.e., read the attributes and
+    // then create the type from the given name
+    auto readTS = AQNWB::NWB::RegisteredType::create(examplePath, io);
+    std::string readTSType = readContainer->getTypeName();
+    REQUIRE(readTSType == "TimeSeries");
   }
 }

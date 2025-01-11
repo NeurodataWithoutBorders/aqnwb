@@ -24,15 +24,13 @@ DynamicTable::~DynamicTable() {}
 void DynamicTable::initialize(const std::string& description)
 {
   Container::initialize();
-  m_io->createCommonNWBAttributes(
-      m_path, this->getNamespace(), this->getTypeName(), description);
+  if (description != "")
+    m_io->createAttribute(description, m_path, "description");
   m_io->createAttribute(m_colNames, m_path, "colnames");
 }
 
 /** Add column to table */
-void DynamicTable::addColumn(const std::string& name,
-                             const std::string& colDescription,
-                             std::unique_ptr<VectorData>& vectorData,
+void DynamicTable::addColumn(std::unique_ptr<VectorData>& vectorData,
                              const std::vector<std::string>& values)
 {
   if (!vectorData->isInitialized()) {
@@ -45,10 +43,6 @@ void DynamicTable::addColumn(const std::string& name,
           std::vector<SizeType> {i},
           IO::BaseDataType::STR(values[i].size() + 1),
           values);  // TODO - add tests for this
-    m_io->createCommonNWBAttributes(AQNWB::mergePaths(m_path, name),
-                                    vectorData->getNamespace(),
-                                    vectorData->getTypeName(),
-                                    colDescription);
   }
 }
 
@@ -68,16 +62,18 @@ void DynamicTable::setRowIDs(std::unique_ptr<ElementIdentifiers>& elementIDs,
   }
 }
 
-void DynamicTable::addColumn(const std::string& name,
-                             const std::string& colDescription,
-                             const std::vector<std::string>& values)
+void DynamicTable::addReferenceColumn(const std::string& name,
+                                      const std::string& colDescription,
+                                      const std::vector<std::string>& values)
 {
   if (values.empty()) {
     std::cerr << "Data to add to column is empty" << std::endl;
   } else {
     std::string columnPath = AQNWB::mergePaths(m_path, name);
     m_io->createReferenceDataSet(columnPath, values);
-    m_io->createCommonNWBAttributes(
-        columnPath, "hdmf-common", "VectorData", colDescription);
+    auto refColumn = AQNWB::NWB::VectorData(columnPath, m_io);
+    refColumn.initialize(nullptr,  // Use nullptr because we only want to create
+                                   // the attributes but not modify the data
+                         colDescription);
   }
 }

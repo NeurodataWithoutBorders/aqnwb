@@ -43,45 +43,12 @@ BaseIO::~BaseIO() {}
 
 Status BaseIO::createCommonNWBAttributes(const std::string& path,
                                          const std::string& objectNamespace,
-                                         const std::string& neurodataType,
-                                         const std::string& description)
+                                         const std::string& neurodataType)
 {
   createAttribute(objectNamespace, path, "namespace");
   createAttribute(generateUuid(), path, "object_id");
   if (neurodataType != "")
     createAttribute(neurodataType, path, "neurodata_type");
-  if (description != "")
-    createAttribute(description, path, "description");
-  return Status::Success;
-}
-
-Status BaseIO::createDataAttributes(const std::string& path,
-                                    const float& conversion,
-                                    const float& resolution,
-                                    const std::string& unit)
-{
-  createAttribute(BaseDataType::F32,
-                  &conversion,
-                  AQNWB::mergePaths(path, "data"),
-                  "conversion");
-  createAttribute(BaseDataType::F32,
-                  &resolution,
-                  AQNWB::mergePaths(path, "data"),
-                  "resolution");
-  createAttribute(unit, path + "/data", "unit");
-
-  return Status::Success;
-}
-
-Status BaseIO::createTimestampsAttributes(const std::string& path)
-{
-  int interval = 1;
-  createAttribute(BaseDataType::I32,
-                  static_cast<const void*>(&interval),
-                  path + "/timestamps",
-                  "interval");
-  createAttribute("seconds", path + "/timestamps", "unit");
-
   return Status::Success;
 }
 

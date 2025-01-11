@@ -35,6 +35,19 @@ public:
    * @brief Initialize the container.
    */
   void initialize();
+
+  // Define the data fields to expose for lazy read access
+  DEFINE_FIELD(readNeurodataType,
+               AttributeField,
+               std::string,
+               "neurodata_type",
+               The name of the type)
+
+  DEFINE_FIELD(readNamespace,
+               AttributeField,
+               std::string,
+               "namespace",
+               The name of the namespace)
 };
 
 }  // namespace AQNWB::NWB

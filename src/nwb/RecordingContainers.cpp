@@ -32,7 +32,8 @@ Status RecordingContainers::writeTimeseriesData(
     const std::vector<SizeType>& dataShape,
     const std::vector<SizeType>& positionOffset,
     const void* data,
-    const void* timestamps)
+    const void* timestamps,
+    const void* controlInput)
 {
   TimeSeries* ts = dynamic_cast<TimeSeries*>(getContainer(containerInd));
 
@@ -42,9 +43,11 @@ Status RecordingContainers::writeTimeseriesData(
   // write data and timestamps to datasets
   if (channel.getLocalIndex() == 0) {
     // write with timestamps if it's the first channel
-    return ts->writeData(dataShape, positionOffset, data, timestamps);
+    return ts->writeData(
+        dataShape, positionOffset, data, timestamps, controlInput);
   } else {
-    // write without timestamps if its another channel in the same timeseries
+    // write without timestamps and controlInput if its another channel in the
+    // same timeseries
     return ts->writeData(dataShape, positionOffset, data);
   }
 }
@@ -54,7 +57,8 @@ Status RecordingContainers::writeElectricalSeriesData(
     const Channel& channel,
     const SizeType& numSamples,
     const void* data,
-    const void* timestamps)
+    const void* timestamps,
+    const void* controlInput)
 {
   ElectricalSeries* es =
       dynamic_cast<ElectricalSeries*>(getContainer(containerInd));
@@ -63,14 +67,15 @@ Status RecordingContainers::writeElectricalSeriesData(
     return Status::Failure;
 
   return es->writeChannel(
-      channel.getLocalIndex(), numSamples, data, timestamps);
+      channel.getLocalIndex(), numSamples, data, timestamps, controlInput);
 }
 
 Status RecordingContainers::writeSpikeEventData(const SizeType& containerInd,
                                                 const SizeType& numSamples,
                                                 const SizeType& numChannels,
                                                 const void* data,
-                                                const void* timestamps)
+                                                const void* timestamps,
+                                                const void* controlInput)
 {
   SpikeEventSeries* ses =
       dynamic_cast<SpikeEventSeries*>(getContainer(containerInd));
@@ -78,5 +83,6 @@ Status RecordingContainers::writeSpikeEventData(const SizeType& containerInd,
   if (ses == nullptr)
     return Status::Failure;
 
-  return ses->writeSpike(numSamples, numChannels, data, timestamps);
+  return ses->writeSpike(
+      numSamples, numChannels, data, timestamps, controlInput);
 }

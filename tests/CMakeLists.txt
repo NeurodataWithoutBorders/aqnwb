@@ -12,13 +12,17 @@ include(Catch)
 # ---- Tests ----
 
 add_executable(aqnwb_test
-    testBase.cpp
+    testData.cpp
+    testDevice.cpp
     testEcephys.cpp
+    testElementIdentifiers.cpp
     testFile.cpp
     testHDF5IO.cpp
     testNWBFile.cpp
     testRecordingWorkflow.cpp
     testRegisteredType.cpp
+    testTimeSeries.cpp
+    testVectorData.cpp
     examples/test_HDF5IO_examples.cpp
     examples/test_example.cpp
     examples/testWorkflowExamples.cpp
