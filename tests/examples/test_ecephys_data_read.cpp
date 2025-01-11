@@ -176,6 +176,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
 
     // [example_read_finish_recording_snippet]
     // Stop the recording
+    io->flush();
     io->stopRecording();
     io->close();
     // [example_read_finish_recording_snippet]
