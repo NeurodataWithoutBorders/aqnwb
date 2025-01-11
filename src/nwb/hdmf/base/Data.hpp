@@ -37,10 +37,7 @@ public:
    *
    * @param dataset The rvalue unique pointer to the BaseRecordingData object
    */
-  inline void setDataset(std::unique_ptr<IO::BaseRecordingData>&& dataset)
-  {
-    m_dataset = std::move(dataset);
-  }
+  void initialize(std::unique_ptr<IO::BaseRecordingData>&& dataset);
 
   /**
    * @brief Check whether the m_dataset has been initialized
@@ -48,5 +45,20 @@ public:
   inline bool isInitialized() { return m_dataset != nullptr; }
 
   std::unique_ptr<IO::BaseRecordingData> m_dataset;
+
+  // Define the data fields to expose for lazy read access
+  DEFINE_FIELD(readData, DatasetField, std::any, "", The main data)
+
+  DEFINE_FIELD(readNeurodataType,
+               AttributeField,
+               std::string,
+               "neurodata_type",
+               The name of the type)
+
+  DEFINE_FIELD(readNamespace,
+               AttributeField,
+               std::string,
+               "namespace",
+               The name of the namespace)
 };
 }  // namespace AQNWB::NWB

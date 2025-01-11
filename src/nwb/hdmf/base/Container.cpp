@@ -20,4 +20,7 @@ Container::~Container() {}
 void Container::initialize()
 {
   m_io->createGroup(m_path);
+  // setup common attributes
+  m_io->createCommonNWBAttributes(
+      m_path, this->getNamespace(), this->getTypeName());
 }

@@ -7,7 +7,9 @@
 #include <unordered_set>
 
 #include "Types.hpp"
+#include "Utils.hpp"
 #include "io/BaseIO.hpp"
+#include "io/ReadIO.hpp"
 
 namespace AQNWB
 {

@@ -329,6 +329,16 @@ public:
   static H5::DataType getNativeType(IO::BaseDataType type);
 
   /**
+   * @brief Returns the BaseDataType for a given HDF5 native data type
+   *
+   * This function implements the opposite mapping of getNativeType.
+   *
+   * @param nativeType The native data type.
+   * @return The corresponding BaseDataType
+   */
+  static IO::BaseDataType getBaseDataType(const H5::DataType& nativeType);
+
+  /**
    * @brief Returns the HDF5 data type for a given base data type.
    *
    * Standard types are platform-independent and represent the data types
