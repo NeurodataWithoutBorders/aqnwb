@@ -8,7 +8,7 @@ TEST_CASE("SimpleExamples", "[hdf5io]")
 {
   SECTION("docsExample")
   {
-    std::string path = getTestFilePath("testWithSWMRMode.h5");
+    std::string path = getTestFilePath("testSimpleExample.h5");
     // [example_hdf5io_code_snippet]
     std::unique_ptr<AQNWB::IO::HDF5::HDF5IO> hdf5io =
         std::make_unique<AQNWB::IO::HDF5::HDF5IO>(path);

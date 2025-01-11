@@ -23,9 +23,8 @@ void ElectrodeGroup::initialize(const std::string& description,
                                 const Device& device)
 {
   Container::initialize();
-
-  m_io->createCommonNWBAttributes(
-      m_path, this->getNamespace(), this->getTypeName(), description);
+  if (description != "")
+    m_io->createAttribute(description, m_path, "description");
   m_io->createAttribute(location, m_path, "location");
   m_io->createLink(AQNWB::mergePaths("/" + m_path, "device"),
                    AQNWB::mergePaths("/", device.getPath()));

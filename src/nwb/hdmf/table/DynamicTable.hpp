@@ -51,14 +51,10 @@ public:
 
   /**
    * @brief Adds a column of vector string data to the table.
-   * @param name The name of the column.
-   * @param colDescription The description of the column.
    * @param vectorData A unique pointer to the `VectorData` dataset.
    * @param values The vector of string values.
    */
-  void addColumn(const std::string& name,
-                 const std::string& colDescription,
-                 std::unique_ptr<VectorData>& vectorData,
+  void addColumn(std::unique_ptr<VectorData>& vectorData,
                  const std::vector<std::string>& values);
 
   /**
@@ -67,9 +63,9 @@ public:
    * @param colDescription The description of the column.
    * @param dataset The vector of string values representing the references.
    */
-  void addColumn(const std::string& name,
-                 const std::string& colDescription,
-                 const std::vector<std::string>& dataset);
+  void addReferenceColumn(const std::string& name,
+                          const std::string& colDescription,
+                          const std::vector<std::string>& dataset);
 
   /**
    * @brief Adds a column of element identifiers to the table.

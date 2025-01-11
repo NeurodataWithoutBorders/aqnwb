@@ -65,15 +65,20 @@ public:
   /**
    * @brief Write a single spike series event
    *
+   * Timestamp and controlInput values are only written if the channel index is
+   * 0.
+   *
    * @param numSamples The number of samples in the event
    * @param numChannels The number of channels in the event
    * @param dataInput The data of the event
    * @param timestampsInput The timestamps of the event
+   * @param controlInput A pointer to the control block data (optional)
    */
   Status writeSpike(const SizeType& numSamples,
                     const SizeType& numChannels,
                     const void* dataInput,
-                    const void* timestampsInput);
+                    const void* timestampsInput,
+                    const void* controlInput = nullptr);
 
   DEFINE_FIELD(readData, DatasetField, std::any, "data", Spike waveforms)
 

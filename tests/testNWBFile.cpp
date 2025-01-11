@@ -102,7 +102,7 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
   nwbfile.initialize(generateUuid());
 
   // create Electrical Series
-  std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(1, 2);
+  std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(2, 2);
   std::vector<std::string> mockChannelNames =
       getMockChannelArrayNames("esdata");
   std::unique_ptr<NWB::RecordingContainers> recordingContainers =
@@ -130,8 +130,10 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
   REQUIRE(resultStart == Status::Success);
 
   // write electrical series data
-  std::vector<float> mockData = {1.0f, 2.0f, 3.0f, 4.0f, 5.0f};
-  std::vector<double> mockTimestamps = {0.1, 0.3, 0.4, 0.5, 0.8};
+  std::vector<float> mockData = {
+      1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 1.0f, 2.0f, 3.0f, 4.0f, 5.0f};
+  std::vector<double> mockTimestamps = {
+      0.1, 0.3, 0.4, 0.5, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3};
   std::vector<SizeType> positionOffset = {0, 0};
   std::vector<SizeType> dataShape = {mockData.size(), 0};
 
@@ -151,8 +153,10 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
   NWB::SpikeEventSeries* ses1 =
       static_cast<NWB::SpikeEventSeries*>(recordingContainers->getContainer(3));
   for (SizeType i = 0; i < numEvents; ++i) {
-    ses0->writeSpike(numSamples, 1, mockData.data(), &mockTimestamps[0]);
-    ses1->writeSpike(numSamples, 1, mockData.data(), &mockTimestamps[0]);
+    ses0->writeSpike(
+        numSamples, mockArrays.size(), mockData.data(), &mockTimestamps[i]);
+    ses1->writeSpike(
+        numSamples, mockArrays.size(), mockData.data(), &mockTimestamps[i]);
   }
 
   nwbfile.finalize();

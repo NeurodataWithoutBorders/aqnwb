@@ -25,9 +25,7 @@ ElectrodeTable::ElectrodeTable(std::shared_ptr<IO::BaseIO> io)
 
 ElectrodeTable::ElectrodeTable(const std::string& path,
                                std::shared_ptr<IO::BaseIO> io)
-    : DynamicTable(
-          electrodeTablePath,  // use the electrodeTablePath
-          io)  // TODO May need to initialize the colNames in DynamicTable
+    : DynamicTable(electrodeTablePath, io)
     , m_electrodeDataset(std::make_unique<ElementIdentifiers>(
           AQNWB::mergePaths(electrodeTablePath, "id"), io))
     , m_groupNamesDataset(std::make_unique<VectorData>(
@@ -49,21 +47,25 @@ void ElectrodeTable::initialize(const std::string& description)
   // create group
   DynamicTable::initialize(description);
 
-  m_electrodeDataset->setDataset(std::unique_ptr<IO::BaseRecordingData>(
+  m_electrodeDataset->initialize(std::unique_ptr<IO::BaseRecordingData>(
       m_io->createArrayDataSet(IO::BaseDataType::I32,
                                SizeArray {1},
                                SizeArray {1},
                                AQNWB::mergePaths(m_path, "id"))));
-  m_groupNamesDataset->setDataset(std::unique_ptr<IO::BaseRecordingData>(
-      m_io->createArrayDataSet(IO::BaseDataType::STR(250),
-                               SizeArray {0},
-                               SizeArray {1},
-                               AQNWB::mergePaths(m_path, "group_name"))));
-  m_locationsDataset->setDataset(std::unique_ptr<IO::BaseRecordingData>(
-      m_io->createArrayDataSet(IO::BaseDataType::STR(250),
-                               SizeArray {0},
-                               SizeArray {1},
-                               AQNWB::mergePaths(m_path, "location"))));
+  m_groupNamesDataset->initialize(
+      std::unique_ptr<IO::BaseRecordingData>(
+          m_io->createArrayDataSet(IO::BaseDataType::STR(250),
+                                   SizeArray {0},
+                                   SizeArray {1},
+                                   AQNWB::mergePaths(m_path, "group_name"))),
+      "the name of the ElectrodeGroup this electrode is a part of");
+  m_locationsDataset->initialize(
+      std::unique_ptr<IO::BaseRecordingData>(
+          m_io->createArrayDataSet(IO::BaseDataType::STR(250),
+                                   SizeArray {0},
+                                   SizeArray {1},
+                                   AQNWB::mergePaths(m_path, "location"))),
+      "the location of channel within the subject e.g. brain region");
 }
 
 void ElectrodeTable::addElectrodes(std::vector<Channel> channelsInput)
@@ -81,15 +83,10 @@ void ElectrodeTable::addElectrodes(std::vector<Channel> channelsInput)
 void ElectrodeTable::finalize()
 {
   setRowIDs(m_electrodeDataset, m_electrodeNumbers);
-  addColumn("group_name",
-            "the name of the ElectrodeGroup this electrode is a part of",
-            m_groupNamesDataset,
-            m_groupNames);
-  addColumn("location",
-            "the location of channel within the subject e.g. brain region",
-            m_locationsDataset,
-            m_locationNames);
-  addColumn("group",
-            "a reference to the ElectrodeGroup this electrode is a part of",
-            m_groupReferences);
+  addColumn(m_groupNamesDataset, m_groupNames);
+  addColumn(m_locationsDataset, m_locationNames);
+  addReferenceColumn(
+      "group",
+      "a reference to the ElectrodeGroup this electrode is a part of",
+      m_groupReferences);
 }

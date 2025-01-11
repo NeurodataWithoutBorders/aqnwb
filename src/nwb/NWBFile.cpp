@@ -70,7 +70,7 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
     return Status::Failure;
   }
   m_io->createCommonNWBAttributes(
-      m_path, this->getNamespace(), this->getTypeName(), "");
+      m_path, this->getNamespace(), this->getTypeName());
   m_io->createAttribute(AQNWB::SPEC::CORE::version, "/", "nwb_version");
   m_io->createGroup("/acquisition");
   m_io->createGroup("/analysis");
