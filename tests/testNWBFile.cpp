@@ -32,6 +32,7 @@ TEST_CASE("createElectricalSeries", "[nwb]")
   // initialize nwbfile object and create base structure
   std::shared_ptr<IO::HDF5::HDF5IO> io =
       std::make_shared<IO::HDF5::HDF5IO>(filename);
+  io->open();
   NWB::NWBFile nwbfile(io);
   nwbfile.initialize(generateUuid());
 
@@ -98,6 +99,7 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
 
   // initialize nwbfile object and create base structure
   std::shared_ptr<HDF5::HDF5IO> io = std::make_shared<HDF5::HDF5IO>(filename);
+  io->open();
   NWB::NWBFile nwbfile(io);
   nwbfile.initialize(generateUuid());
 
@@ -169,15 +171,19 @@ TEST_CASE("setCanModifyObjectsMode", "[nwb]")
   // initialize nwbfile object and create base structure with HDF5IO object
   std::shared_ptr<IO::HDF5::HDF5IO> io =
       std::make_shared<IO::HDF5::HDF5IO>(filename);
+  io->open();
   NWB::NWBFile nwbfile(io);
-  nwbfile.initialize(generateUuid());
+  Status initStatus = nwbfile.initialize(generateUuid());
+  REQUIRE(initStatus == Status::Success);
 
   // start recording
   Status resultStart = io->startRecording();
   REQUIRE(resultStart == Status::Success);
 
   // test that modifying the file structure after starting the recording fails
-  Status resultInitializePostStart = nwbfile.initialize(generateUuid());
+  // Status resultInitializePostStart = nwbfile.initialize(generateUuid());
+  Status resultInitializePostStart = io->createGroup("/new_group");
+  REQUIRE(io->canModifyObjects() == false);
   REQUIRE(resultInitializePostStart == Status::Failure);
 
   // test that dataset creation fails after starting the recording

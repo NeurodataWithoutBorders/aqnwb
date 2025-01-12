@@ -72,6 +72,15 @@ public:
                     const std::string& dataCollection = "");
 
   /**
+   * @brief Check if the NWB file is initialized.
+   *
+   * The function simply checks if the top-level group structure exists.
+   *
+   * @return bool True if the file is initialized, false otherwise.
+   */
+  bool isInitialized() const;
+
+  /**
    * @brief Finalizes the NWB file by closing it.
    */
   Status finalize();
