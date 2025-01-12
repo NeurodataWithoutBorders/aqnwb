@@ -23,7 +23,7 @@ TEST_CASE("ElementIdentifiers", "[base]")
     SizeArray positionOffset = {0};
     BaseDataType dataType = BaseDataType::I32;
     std::vector<int> data = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-    std::string path = getTestFilePath("testData.h5");
+    std::string path = getTestFilePath("testElementIdentifiers.h5");
 
     // Create the HDF5 file to write to
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
