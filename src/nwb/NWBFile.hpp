@@ -60,8 +60,9 @@ public:
   ~NWBFile();
 
   /**
-   * @brief Initializes the NWB file by opening and setting up the file
-   * structure.
+   * @brief Initializes the NWB file by setting up the file structure.
+   * 
+   * If the file is already initialized then no action will be performed.
    *
    * @param identifierText The identifier text for the NWBFile.
    * @param description A description of the NWBFile session.
