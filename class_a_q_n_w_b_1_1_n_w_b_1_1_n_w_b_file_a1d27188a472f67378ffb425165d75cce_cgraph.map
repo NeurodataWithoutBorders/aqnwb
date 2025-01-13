@@ -1,0 +1,17 @@
+<map id="AQNWB::NWB::NWBFile::initialize" name="AQNWB::NWB::NWBFile::initialize">
+<area shape="rect" id="Node000001" title="Initializes the NWB file by setting up the file structure." alt="" coords="5,125,179,166"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a5432fe66e877eb6417d1df5fd75016af" title="Creates the default file structure. Note, this function will fail if the file is in a mode where new ..." alt="" coords="227,92,400,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,130,211,125,212,130,180,135"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aba967059704c8c81446775bd7beda42b" title="Check if the NWB file is initialized." alt="" coords="227,157,400,198"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="180,156,211,160,211,166,179,161"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a2f061ec60bb617dc749b399cfb6e30ee" title="Saves the specification files for the schema." alt="" coords="467,5,640,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="361,89,447,55,465,49,467,54,449,60,363,94"/>
+<area shape="rect" id="Node000005" href="$namespace_a_q_n_w_b.html#ac436d136125307ef8158115a2296b3e9" title="Get the current time in ISO 8601 format with the UTC offset." alt="" coords="468,70,639,96"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="400,99,452,93,453,98,401,104"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a651f3d7e5cc28dc93888e8a821c5aa1c" title="Get the schema namespace of the class type." alt="" coords="448,120,659,161"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="401,120,433,124,432,129,400,125"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a150f881ad61cb8352eea7ddba47bc6ad" title="Get the name of the class type." alt="" coords="448,185,659,226"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="373,131,401,143,449,170,467,177,465,182,447,175,399,148,371,136"/>
+<area shape="rect" id="Node000004" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="707,13,858,38"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="641,23,692,23,692,28,641,28"/>
+</map>

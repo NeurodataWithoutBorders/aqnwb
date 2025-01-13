@@ -8,5 +8,7 @@ var dir_3875c1e54b4d5fadc95eea4e5fdc191f =
     [ "NWBFile.cpp", "_n_w_b_file_8cpp.html", "_n_w_b_file_8cpp" ],
     [ "NWBFile.hpp", "_n_w_b_file_8hpp.html", "_n_w_b_file_8hpp" ],
     [ "RecordingContainers.cpp", "_recording_containers_8cpp.html", null ],
-    [ "RecordingContainers.hpp", "_recording_containers_8hpp.html", "_recording_containers_8hpp" ]
+    [ "RecordingContainers.hpp", "_recording_containers_8hpp.html", "_recording_containers_8hpp" ],
+    [ "RegisteredType.cpp", "_registered_type_8cpp.html", null ],
+    [ "RegisteredType.hpp", "_registered_type_8hpp.html", "_registered_type_8hpp" ]
 ];

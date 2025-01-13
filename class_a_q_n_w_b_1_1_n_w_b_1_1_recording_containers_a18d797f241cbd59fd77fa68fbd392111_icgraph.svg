@@ -32,7 +32,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#a042fd80c71e0ba9c70a4aaadd4bc21b4" target="_top" xlink:title="Write ElectricalSeries data to a recordingContainer dataset.">
+<g id="a_Node000002"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#a1abdbd933a4de4690b63b37ee9705cd3" target="_top" xlink:title="Write ElectricalSeries data to a recordingContainer dataset.">
 <polygon fill="white" stroke="#666666" points="181.75,-128.5 0,-128.5 0,-98 181.75,-98 181.75,-128.5"/>
 <text text-anchor="start" x="8" y="-115" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::RecordingContainers</text>
 <text text-anchor="middle" x="90.88" y="-103.75" font-family="Helvetica,sans-Serif" font-size="10.00">::writeElectricalSeriesData</text>
@@ -51,7 +51,7 @@
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#a12ffd532fb323c79c63f3a1d110dc5e0" target="_top" xlink:title="Write SpikeEventSeries data to a recordingContainer dataset.">
+<g id="a_Node000003"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#a60bb8e7bff2ec1184d713f7f93e889a6" target="_top" xlink:title="Write SpikeEventSeries data to a recordingContainer dataset.">
 <polygon fill="white" stroke="#666666" points="181.75,-79.5 0,-79.5 0,-49 181.75,-49 181.75,-79.5"/>
 <text text-anchor="start" x="8" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::RecordingContainers</text>
 <text text-anchor="middle" x="90.88" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">::writeSpikeEventData</text>
@@ -70,7 +70,7 @@
 <!-- Node4 -->
 <g id="Node000004" class="node">
 <title>Node4</title>
-<g id="a_Node000004"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#ad3392123a4748701f18c6b2d2f2733f5" target="_top" xlink:title="Write timeseries data to a recordingContainer dataset.">
+<g id="a_Node000004"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#a915c805e44acd8cd376c6915b860d770" target="_top" xlink:title="Write timeseries data to a recordingContainer dataset.">
 <polygon fill="white" stroke="#666666" points="181.75,-30.5 0,-30.5 0,0 181.75,0 181.75,-30.5"/>
 <text text-anchor="start" x="8" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::RecordingContainers</text>
 <text text-anchor="middle" x="90.88" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::writeTimeseriesData</text>

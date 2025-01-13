@@ -1,8 +1,9 @@
 var _utils_8hpp =
 [
-    [ "convertFloatToInt16LE", "_utils_8hpp.html#a9811cde7d79666d95aafdd4f0979ab4b", null ],
-    [ "createIO", "_utils_8hpp.html#a9a7d11f8409fc86dd48cca4e7f7d844a", null ],
-    [ "generateUuid", "_utils_8hpp.html#aa7dade5603444b158cbc717fe802af6c", null ],
-    [ "getCurrentTime", "_utils_8hpp.html#af35129219599779d360a65570ff7d168", null ],
-    [ "transformToInt16", "_utils_8hpp.html#a4bbe60327d572ca561cce5a7eb565949", null ]
+    [ "AQNWB::convertFloatToInt16LE", "namespace_a_q_n_w_b.html#a222344ec88fdbd8803d14dabea0f97bc", null ],
+    [ "AQNWB::createIO", "namespace_a_q_n_w_b.html#aae4545d930db6f70b4438e0167c500d0", null ],
+    [ "AQNWB::generateUuid", "namespace_a_q_n_w_b.html#a7a202ee50288eeca65b9b98370226a82", null ],
+    [ "AQNWB::getCurrentTime", "namespace_a_q_n_w_b.html#ac436d136125307ef8158115a2296b3e9", null ],
+    [ "AQNWB::mergePaths", "namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881", null ],
+    [ "AQNWB::transformToInt16", "namespace_a_q_n_w_b.html#a0e8a5fc18589d0ff3157b86c081ca252", null ]
 ];

@@ -1,0 +1,24 @@
+<map id="AQNWB::IO::HDF5::HDF5IO::getH5ObjectType" name="AQNWB::IO::HDF5::HDF5IO::getH5ObjectType">
+<area shape="rect" id="Node000001" title="Returns the HDF5 type of object at a given path." alt="" coords="490,201,684,242"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a7ce63eb864cc8678f4bacb5fbc695cbe" title="Creates an attribute at a given location in the file." alt="" coords="248,37,442,78"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="556,191,505,141,474,116,441,93,416,81,418,76,443,89,477,111,508,137,559,188"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a01251dd7756ef0e57f25b8beb17ae2e6" title="Creates a string array attribute at a given location in the file." alt="" coords="248,103,442,143"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="528,197,441,159,408,146,410,141,443,154,530,192"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a9181a28c31a25698ca748b1dcb955daa" title="Sets an object reference attribute for a given location in the file." alt="" coords="248,168,442,209"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="474,209,442,204,443,199,475,204"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a87d9b4075fd30c5ec692738985ae294c" title=" " alt="" coords="248,233,442,274"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="475,239,443,243,442,238,474,234"/>
+<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a5fb171a91ef8134baf224115f0dcf8bc" title="Get the storage type (Group, Dataset, Attribute) of the object at path." alt="" coords="5,299,200,339"/>
+<area shape="poly" id="edge11_Node000001_Node000009" title=" " alt="" coords="536,252,491,272,443,288,381,302,317,311,200,320,200,315,316,306,380,297,441,283,489,267,534,247"/>
+<area shape="rect" id="Node000011" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a555e37a7144ed76b3c77ec373aa11afa" title="Gets the list of objects inside a group." alt="" coords="248,348,442,389"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="552,254,502,293,443,332,406,350,404,345,441,327,499,289,549,250"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a30318320f3bea68d7efec05cb5562ccd" title="Creates a string attribute at a given location in the file." alt="" coords="5,5,200,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="232,45,200,41,200,36,232,40"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a6dc62d49a1e15e8080d66fb7c10849ad" title="Creates a string array attribute at a given location in the file." alt="" coords="5,71,200,111"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="232,76,200,80,200,75,232,71"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a53bfbbdbf24afdd97ea45294b65c1e37" title="Checks whether an Attribute exists at the location in the file." alt="" coords="5,168,200,209"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="251,231,180,212,182,207,253,226"/>
+<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="253,281,182,301,180,295,251,276"/>
+<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a7535b7fcc607fe1f47703f21b25ae5de" title="Reads a attribute and determines the data type." alt="" coords="5,233,200,274"/>
+<area shape="poly" id="edge9_Node000007_Node000010" title=" " alt="" coords="232,256,200,256,200,251,232,251"/>
+</map>

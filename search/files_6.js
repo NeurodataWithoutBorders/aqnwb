@@ -6,5 +6,6 @@ var searchData=
   ['electrodegroup_2ehpp_3',['ElectrodeGroup.hpp',['../_electrode_group_8hpp.html',1,'']]],
   ['electrodetable_2ecpp_4',['ElectrodeTable.cpp',['../_electrode_table_8cpp.html',1,'']]],
   ['electrodetable_2ehpp_5',['ElectrodeTable.hpp',['../_electrode_table_8hpp.html',1,'']]],
-  ['elementidentifiers_2ehpp_6',['ElementIdentifiers.hpp',['../_element_identifiers_8hpp.html',1,'']]]
+  ['elementidentifiers_2ecpp_6',['ElementIdentifiers.cpp',['../_element_identifiers_8cpp.html',1,'']]],
+  ['elementidentifiers_2ehpp_7',['ElementIdentifiers.hpp',['../_element_identifiers_8hpp.html',1,'']]]
 ];

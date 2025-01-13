@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['workflow_0',['AqNWB Workflow',['../workflow.html',1,'userdocs']]]
+  ['users_0',['For Users',['../userdocs.html',1,'']]]
 ];

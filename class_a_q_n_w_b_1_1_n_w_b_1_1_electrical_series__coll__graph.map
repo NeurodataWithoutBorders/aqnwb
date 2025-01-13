@@ -1,10 +1,12 @@
 <map id="AQNWB::NWB::ElectricalSeries" name="AQNWB::NWB::ElectricalSeries">
-<area shape="rect" id="Node000001" title="General purpose time series." alt="" coords="9,323,220,349"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html" title="General purpose time series." alt="" coords="22,248,208,274"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="118,289,118,323,112,323,112,289"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html" title="Abstract data type for a group storing collections of data and metadata." alt="" coords="5,75,182,101"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="99,116,116,248,111,248,94,116"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_base_data_type.html" title="Represents a base data type." alt="" coords="206,75,373,101"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="269,113,129,250,125,246,265,110"/>
-<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="325,67,351,63,375,64,392,73,399,88,397,97,390,105,368,113,340,112,311,104,312,99,341,107,368,107,387,100,392,95,394,88,389,76,373,69,351,68,326,72"/>
+<area shape="rect" id="Node000001" title="General purpose time series." alt="" coords="108,413,319,439"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html" title="General purpose time series." alt="" coords="120,338,307,364"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="216,379,216,413,211,413,211,379"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html" title="Abstract data type for a group storing collections of data and metadata." alt="" coords="23,150,199,176"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="127,187,209,336,205,339,122,190"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema." alt="" coords="5,5,217,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="114,47,114,149,108,149,108,47"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html" title="Represents a base data type." alt="" coords="224,150,412,176"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="306,190,223,339,218,336,302,187"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="361,143,388,140,413,142,431,149,438,163,436,171,429,178,407,185,377,185,346,179,347,174,378,180,406,179,426,173,431,169,433,163,428,153,412,147,389,145,362,148"/>
 </map>

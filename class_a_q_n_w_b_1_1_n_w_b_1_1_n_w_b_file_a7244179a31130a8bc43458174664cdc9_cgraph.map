@@ -1,0 +1,25 @@
+<map id="AQNWB::NWB::NWBFile::createSpikeEventSeries" name="AQNWB::NWB::NWBFile::createSpikeEventSeries">
+<area shape="rect" id="Node000001" title="Create SpikeEventSeries objects to record data into. Created objects are stored in recordingContainer..." alt="" coords="5,168,179,209"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#a446ec0d5f5e7802d9e44725399c71e8c" title="Adds a Container object to the container. Note that this function transfers ownership of the Containe..." alt="" coords="227,37,469,78"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,166,164,127,225,89,242,81,244,86,228,93,167,131,118,170"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_device.html#ab9651ab77d0c1e46126178ea55cb0295" title="Initializes the device by creating NWB related attributes and writing the manufactor and description ..." alt="" coords="267,103,428,143"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="174,165,251,145,253,150,175,170"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html#ae1040ee51efcdfb2b4ba7ba046dd0a51" title="Initializes the ElectrodeGroup object." alt="" coords="243,168,453,209"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="179,186,227,186,227,191,179,191"/>
+<area shape="rect" id="Node000009" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="548,233,698,258"/>
+<area shape="poly" id="edge12_Node000001_Node000009" title=" " alt="" coords="171,207,227,218,389,235,532,242,532,247,388,240,226,223,170,212"/>
+<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#a795a7db853dbd164ec36f0cd5955934c" title="Get the number of recording containers." alt="" coords="227,283,469,323"/>
+<area shape="poly" id="edge13_Node000001_Node000010" title=" " alt="" coords="127,207,174,235,228,262,260,275,258,280,226,267,171,239,124,211"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a651f3d7e5cc28dc93888e8a821c5aa1c" title="Get the schema namespace of the class type." alt="" coords="776,81,988,122"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="429,102,517,88,623,84,728,88,761,90,761,95,728,94,623,89,517,94,429,107"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a150f881ad61cb8352eea7ddba47bc6ad" title="Get the name of the class type." alt="" coords="776,5,988,46"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="428,100,468,87,492,77,516,67,642,42,761,29,761,35,642,48,518,72,494,82,470,92,430,105"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a33ba8c1d37cae843106d3d3668d6523c" title="Initialize the container." alt="" coords="534,103,711,143"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="429,120,519,120,519,126,429,126"/>
+<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="711,113,760,109,761,114,711,118"/>
+<area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="678,100,811,49,812,54,680,105"/>
+<area shape="poly" id="edge10_Node000007_Node000006" title=" " alt="" coords="436,165,519,145,520,150,437,170"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab3eec5d2a591356df25053a4159ab671" title="Gets the path of the registered type." alt="" coords="517,168,728,209"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="454,186,502,186,502,191,454,191"/>
+<area shape="poly" id="edge11_Node000007_Node000009" title=" " alt="" coords="449,207,543,226,542,232,448,212"/>
+</map>

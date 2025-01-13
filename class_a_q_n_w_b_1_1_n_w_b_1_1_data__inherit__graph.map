@@ -1,7 +1,9 @@
 <map id="AQNWB::NWB::Data" name="AQNWB::NWB::Data">
-<area shape="rect" id="Node000001" title="An abstract data type for a dataset." alt="" coords="158,5,307,31"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_element_identifiers.html" title="A list of unique identifiers for values within a dataset, e.g. rows of a DynamicTable." alt="" coords="5,79,231,105"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="202,42,139,81,136,76,199,37"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html" title="An n&#45;dimensional dataset representing a column of a DynamicTable." alt="" coords="254,79,440,105"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="267,37,329,76,326,81,264,42"/>
+<area shape="rect" id="Node000001" title="An abstract data type for a dataset." alt="" coords="158,79,307,105"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_element_identifiers.html" title="A list of unique identifiers for values within a dataset, e.g. rows of a DynamicTable." alt="" coords="5,153,231,178"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="202,116,139,154,136,150,199,111"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html" title="An n&#45;dimensional dataset representing a column of a DynamicTable." alt="" coords="254,153,440,178"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="267,111,329,150,326,154,264,116"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema." alt="" coords="127,5,338,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="235,46,235,79,230,79,230,46"/>
 </map>

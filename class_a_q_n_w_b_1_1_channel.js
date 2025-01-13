@@ -18,5 +18,15 @@ var class_a_q_n_w_b_1_1_channel =
     [ "operator=", "class_a_q_n_w_b_1_1_channel.html#a2737d3d813c170ec4f3af49fa6bf2288", null ],
     [ "setComments", "class_a_q_n_w_b_1_1_channel.html#a7bbfb5ea72e32488026fea0866e4befb", null ],
     [ "setName", "class_a_q_n_w_b_1_1_channel.html#a318b7e5071abff381940a8fab579d4e4", null ],
-    [ "setPosition", "class_a_q_n_w_b_1_1_channel.html#a06f8d0458adc7d2edd778e1ad9ffb628", null ]
+    [ "setPosition", "class_a_q_n_w_b_1_1_channel.html#a06f8d0458adc7d2edd778e1ad9ffb628", null ],
+    [ "m_bitVolts", "class_a_q_n_w_b_1_1_channel.html#a050f702384dacf61b0aa8e6883c7b3fc", null ],
+    [ "m_comments", "class_a_q_n_w_b_1_1_channel.html#afafd70b3e19f8608a6dbc22bae076a45", null ],
+    [ "m_conversion", "class_a_q_n_w_b_1_1_channel.html#aedf43a2d74a95a953c5b1ce78f7bc452", null ],
+    [ "m_globalIndex", "class_a_q_n_w_b_1_1_channel.html#a379b5204aef2b8049fb7f92184f4b753", null ],
+    [ "m_groupIndex", "class_a_q_n_w_b_1_1_channel.html#a2e18e06c67138c686a37346d22b95ee9", null ],
+    [ "m_groupName", "class_a_q_n_w_b_1_1_channel.html#adbc406042b0ddaae2eee390eb21c71f9", null ],
+    [ "m_localIndex", "class_a_q_n_w_b_1_1_channel.html#ad9784c661cc6d9a8562a7b6f783fc6f6", null ],
+    [ "m_name", "class_a_q_n_w_b_1_1_channel.html#a9b9874f4031a46fb1d042cd51e8ad2f4", null ],
+    [ "m_position", "class_a_q_n_w_b_1_1_channel.html#af569bc6ab63a386c6f3424df157622c8", null ],
+    [ "m_samplingRate", "class_a_q_n_w_b_1_1_channel.html#abcd31d93b7b1e401d310757fd32f5ce5", null ]
 ];

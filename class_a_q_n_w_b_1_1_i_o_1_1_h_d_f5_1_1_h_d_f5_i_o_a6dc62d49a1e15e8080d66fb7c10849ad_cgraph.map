@@ -1,0 +1,13 @@
+<map id="AQNWB::IO::HDF5::HDF5IO::createAttribute" name="AQNWB::IO::HDF5::HDF5IO::createAttribute">
+<area shape="rect" id="Node000001" title="Creates a string array attribute at a given location in the file." alt="" coords="5,104,200,145"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a7ce63eb864cc8678f4bacb5fbc695cbe" title="Creates an attribute at a given location in the file." alt="" coords="248,104,442,145"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,122,232,122,232,127,200,127"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a96d8d872b2b974ac79a20b82fd72c5c2" title="Checks whether the file is in a mode where objects can be added or deleted. Note, this does not apply..." alt="" coords="490,5,684,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="388,101,489,57,508,49,510,54,491,61,390,106"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#ab665700f5c67a74022c82353ec3d73ef" title="Returns the HDF5 type of object at a given path." alt="" coords="490,71,684,111"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="442,108,474,104,475,109,443,114"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#acdb9d079f684ceb29d16ebc5e7e57127" title="Returns the HDF5 data type for a given base data type." alt="" coords="490,136,684,177"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="443,135,475,139,474,144,442,140"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#adad97dc270883ff2e21a01fc68d58bef" title="Returns the HDF5 native data type for a given base data type." alt="" coords="490,201,684,242"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="392,143,491,186,510,193,508,198,489,191,389,148"/>
+</map>

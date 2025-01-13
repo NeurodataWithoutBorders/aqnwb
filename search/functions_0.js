@@ -1,6 +1,9 @@
 var searchData=
 [
-  ['addcolumn_0',['addColumn',['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a76fea09d6ebe8047d7fe9878f49888d9',1,'AQNWB::NWB::DynamicTable::addColumn(const std::string &amp;name, const std::string &amp;colDescription, std::unique_ptr&lt; VectorData &gt; &amp;vectorData, const std::vector&lt; std::string &gt; &amp;values)'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a3fa191b47a61369c35927104964e81c6',1,'AQNWB::NWB::DynamicTable::addColumn(const std::string &amp;name, const std::string &amp;colDescription, const std::vector&lt; std::string &gt; &amp;dataset)']]],
+  ['addcolumn_0',['addColumn',['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a1ceca036a944163395217a28c8278da8',1,'AQNWB::NWB::DynamicTable']]],
   ['addcontainer_1',['addContainer',['../class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#a446ec0d5f5e7802d9e44725399c71e8c',1,'AQNWB::NWB::RecordingContainers']]],
-  ['addelectrodes_2',['addElectrodes',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#a41f29ce1a76fd932eac4a03e67d8268f',1,'AQNWB::NWB::ElectrodeTable']]]
+  ['addelectrodes_2',['addElectrodes',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#a41f29ce1a76fd932eac4a03e67d8268f',1,'AQNWB::NWB::ElectrodeTable']]],
+  ['addreferencecolumn_3',['addReferenceColumn',['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#af693d1a0af16ec266645ecd696afef24',1,'AQNWB::NWB::DynamicTable']]],
+  ['as_5fmulti_5farray_4',['as_multi_array',['../class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a39c4d437721b818aac335f3c9a57dc97',1,'AQNWB::IO::DataBlock']]],
+  ['attributeexists_5',['attributeExists',['../class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a06b5edf2bbd4c85adcafda13e7903873',1,'AQNWB::IO::BaseIO::attributeExists()'],['../class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a53bfbbdbf24afdd97ea45294b65c1e37',1,'AQNWB::IO::HDF5::HDF5IO::attributeExists()']]]
 ];

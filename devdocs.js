@@ -31,6 +31,16 @@ var devdocs =
       [ "Generating the schema header files", "nwb_schema_page.html#dev_docs_generating_nwb_schema_headers_section", null ],
       [ "Updating the schema", "nwb_schema_page.html#dev_docs_updating_nwb_schema_section", null ]
     ] ],
+    [ "Implementing a new Neurodata Type", "registered_type_page.html", [
+      [ "How to Implement a RegisteredType", "registered_type_page.html#implement_registered_type", [
+        [ "Example: Implementing a new type", "registered_type_page.html#implement_registered_type_example", null ]
+      ] ],
+      [ "How the Type Registry in RegisteredType Works", "registered_type_page.html#type_registry", null ],
+      [ "How to Use the RegisteredType Registry", "registered_type_page.html#use_registered_type_registry", [
+        [ "Example: Using the type registry", "registered_type_page.html#use_registered_type_registry_example", null ]
+      ] ],
+      [ "How to Use the DEFINE_FIELD macro", "registered_type_page.html#use_the_define_field_macro", null ]
+    ] ],
     [ "Code of Conduct", "code_of_conduct_page.html", null ],
     [ "License", "license_page.html", null ],
     [ "Copyright", "copyright_page.html", null ]
