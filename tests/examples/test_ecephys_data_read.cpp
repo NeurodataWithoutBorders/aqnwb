@@ -51,10 +51,12 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // setup io object
     std::string path = getTestFilePath("ElectricalSeriesReadExample.h5");
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
 
     // setup the NWBFile
     NWB::NWBFile nwbfile(io);
-    nwbfile.initialize(generateUuid());
+    Status initStatus = nwbfile.initialize(generateUuid());
+    REQUIRE(initStatus == Status::Success);
 
     // create the RecordingContainer for managing recordings
     std::unique_ptr<NWB::RecordingContainers> recordingContainers =

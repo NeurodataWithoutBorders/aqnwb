@@ -38,6 +38,7 @@ TEST_CASE("writeContinuousData", "[recording]")
     // 1. create IO object
     std::string path = getTestFilePath("testContinuousRecording1.nwb");
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
 
     // 2. create RecordingContainers object
     std::unique_ptr<NWB::RecordingContainers> recordingContainers =

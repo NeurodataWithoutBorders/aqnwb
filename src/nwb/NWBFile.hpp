@@ -60,8 +60,9 @@ public:
   ~NWBFile();
 
   /**
-   * @brief Initializes the NWB file by opening and setting up the file
-   * structure.
+   * @brief Initializes the NWB file by setting up the file structure.
+   *
+   * If the file is already initialized then no action will be performed.
    *
    * @param identifierText The identifier text for the NWBFile.
    * @param description A description of the NWBFile session.
@@ -70,6 +71,15 @@ public:
   Status initialize(const std::string& identifierText,
                     const std::string& description = "a recording session",
                     const std::string& dataCollection = "");
+
+  /**
+   * @brief Check if the NWB file is initialized.
+   *
+   * The function simply checks if the top-level group structure exists.
+   *
+   * @return bool True if the file is initialized, false otherwise.
+   */
+  bool isInitialized() const;
 
   /**
    * @brief Finalizes the NWB file by closing it.

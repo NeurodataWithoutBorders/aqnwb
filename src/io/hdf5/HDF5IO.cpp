@@ -626,8 +626,9 @@ Status HDF5IO::createAttribute(const IO::BaseDataType& type,
   DataType H5type;
   DataType origType;
 
-  if (!m_opened)
+  if (!canModifyObjects()) {
     return Status::Failure;
+  }
 
   // open the group or dataset
   H5O_type_t objectType = getH5ObjectType(path);
@@ -701,8 +702,9 @@ Status HDF5IO::createAttribute(const std::vector<const char*>& data,
   Attribute attr;
   hsize_t dims[1];
 
-  if (!m_opened)
+  if (!canModifyObjects()) {
     return Status::Failure;
+  }
 
   StrType H5type(PredType::C_S1, maxSize);
   H5type.setSize(H5T_VARIABLE);
@@ -758,8 +760,9 @@ Status HDF5IO::createReferenceAttribute(const std::string& referencePath,
   DataSet dloc;
   Attribute attr;
 
-  if (!m_opened)
+  if (!canModifyObjects()) {
     return Status::Failure;
+  }
 
   // open the group or dataset
   H5O_type_t objectType = getH5ObjectType(path);
@@ -798,22 +801,27 @@ Status HDF5IO::createReferenceAttribute(const std::string& referencePath,
 
 Status HDF5IO::createGroup(const std::string& path)
 {
-  if (!m_opened)
+  if (!canModifyObjects()) {
     return Status::Failure;
+  }
+
   try {
     m_file->createGroup(path);
   } catch (FileIException error) {
     error.printErrorStack();
+    return Status::Failure;
   } catch (GroupIException error) {
     error.printErrorStack();
+    return Status::Failure;
   }
   return Status::Success;
 }
 
 Status HDF5IO::createGroupIfDoesNotExist(const std::string& path)
 {
-  if (!m_opened)
+  if (!canModifyObjects()) {
     return Status::Failure;
+  }
   try {
     m_file->childObjType(path);
   } catch (FileIException) {
@@ -825,8 +833,9 @@ Status HDF5IO::createGroupIfDoesNotExist(const std::string& path)
 /** Creates a link to another location in the file */
 Status HDF5IO::createLink(const std::string& path, const std::string& reference)
 {
-  if (!m_opened)
+  if (!canModifyObjects()) {
     return Status::Failure;
+  }
 
   herr_t error = H5Lcreate_soft(reference.c_str(),
                                 m_file->getLocId(),
@@ -840,8 +849,9 @@ Status HDF5IO::createLink(const std::string& path, const std::string& reference)
 Status HDF5IO::createReferenceDataSet(
     const std::string& path, const std::vector<std::string>& references)
 {
-  if (!m_opened)
+  if (!canModifyObjects()) {
     return Status::Failure;
+  }
 
   const hsize_t size = references.size();
 
@@ -882,8 +892,9 @@ Status HDF5IO::createReferenceDataSet(
 Status HDF5IO::createStringDataSet(const std::string& path,
                                    const std::string& value)
 {
-  if (!m_opened)
+  if (!canModifyObjects()) {
     return Status::Failure;
+  }
 
   std::unique_ptr<H5::DataSet> dataset;
   DataType H5type = getH5Type(IO::BaseDataType::STR(value.length()));
@@ -899,8 +910,9 @@ Status HDF5IO::createStringDataSet(const std::string& path,
 Status HDF5IO::createStringDataSet(const std::string& path,
                                    const std::vector<std::string>& values)
 {
-  if (!m_opened)
+  if (!canModifyObjects()) {
     return Status::Failure;
+  }
 
   std::unique_ptr<IO::BaseRecordingData> dataset;
   dataset = std::unique_ptr<IO::BaseRecordingData>(createArrayDataSet(
@@ -1018,12 +1030,14 @@ std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::createArrayDataSet(
   DSetCreatPropList prop;
   DataType H5type = getH5Type(type);
 
-  if (!m_opened)
+  if (!canModifyObjects()) {
     return nullptr;
+  }
 
   SizeType dimension = size.size();
-  if (dimension < 1)
+  if (dimension < 1) {
     return nullptr;
+  }
 
   // Ensure chunking is properly allocated and has at least 'dimension' elements
   assert(chunking.size() >= dimension);
