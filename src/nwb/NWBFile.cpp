@@ -5,6 +5,7 @@
 #include <map>
 #include <sstream>
 #include <string>
+#include <unordered_set>
 
 #include "nwb/NWBFile.hpp"
 
@@ -49,12 +50,47 @@ Status NWBFile::initialize(const std::string& identifierText,
                            const std::string& description,
                            const std::string& dataCollection)
 {
-  if (std::filesystem::exists(m_io->getFileName())) {
-    return m_io->open();
-  } else {
-    m_io->open();
-    return createFileStructure(identifierText, description, dataCollection);
+  if (!m_io->isOpen()) {
+    return Status::Failure;
   }
+  // Check that the file is empty and initialize if it is
+  bool fileInitialized = isInitialized();
+  if (!fileInitialized) {
+    return createFileStructure(identifierText, description, dataCollection);
+  } else {
+    return Status::Success;  // File is already initialized
+  }
+  return Status::Failure;
+}
+
+bool NWBFile::isInitialized() const
+{
+  auto existingGroupObjects = m_io->getGroupObjects("/");
+  if (existingGroupObjects.size() == 0) {
+    return false;
+  }
+  // Define the set of required objects
+  static const std::unordered_set<std::string> requiredObjects = {
+      "acquisition",
+      "analysis",
+      "processing",
+      "stimulus",
+      "general",
+      "specifications"};
+
+  // Set to keep track of found objects
+  std::unordered_set<std::string> foundObjects;
+
+  // Iterate over the existing objects and add to foundObjects if it's a
+  // required object
+  for (const auto& obj : existingGroupObjects) {
+    if (requiredObjects.find(obj) != requiredObjects.end()) {
+      foundObjects.insert(obj);
+    }
+  }
+
+  // Check if all required objects are found
+  return (foundObjects.size() == requiredObjects.size());
 }
 
 Status NWBFile::finalize()
