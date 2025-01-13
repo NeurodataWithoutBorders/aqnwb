@@ -61,7 +61,7 @@ public:
 
   /**
    * @brief Initializes the NWB file by setting up the file structure.
-   * 
+   *
    * If the file is already initialized then no action will be performed.
    *
    * @param identifierText The identifier text for the NWBFile.
