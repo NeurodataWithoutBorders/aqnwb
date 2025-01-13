@@ -3,23 +3,28 @@
 #include <memory>
 #include <string>
 
-#include "BaseIO.hpp"
+#include "nwb/RegisteredType.hpp"
 
 namespace AQNWB::NWB
 {
 /**
  * @brief Abstract data type for a group storing collections of data and
  * metadata
+ *
  */
-class Container
+class Container : public RegisteredType
 {
 public:
+  // Register the Container class as a registered type
+  REGISTER_SUBCLASS(Container, "hdmf-common")
+
   /**
    * @brief Constructor.
+   *
    * @param path The path of the container.
    * @param io A shared pointer to the IO object.
    */
-  Container(const std::string& path, std::shared_ptr<BaseIO> io);
+  Container(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
   /**
    * @brief Destructor.
@@ -31,21 +36,18 @@ public:
    */
   void initialize();
 
-  /**
-   * @brief Gets the path of the container.
-   * @return The path of the container.
-   */
-  inline std::string getPath() const { return m_path; }
+  // Define the data fields to expose for lazy read access
+  DEFINE_FIELD(readNeurodataType,
+               AttributeField,
+               std::string,
+               "neurodata_type",
+               The name of the type)
 
-protected:
-  /**
-   * @brief The path of the container.
-   */
-  std::string m_path;
-
-  /**
-   * @brief A shared pointer to the IO object.
-   */
-  std::shared_ptr<BaseIO> m_io;
+  DEFINE_FIELD(readNamespace,
+               AttributeField,
+               std::string,
+               "namespace",
+               The name of the namespace)
 };
+
 }  // namespace AQNWB::NWB

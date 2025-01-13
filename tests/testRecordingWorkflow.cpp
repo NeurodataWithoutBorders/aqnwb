@@ -3,11 +3,11 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_all.hpp>
 
-#include "BaseIO.hpp"
 #include "Channel.hpp"
 #include "Types.hpp"
 #include "Utils.hpp"
-#include "hdf5/HDF5IO.hpp"
+#include "io/BaseIO.hpp"
+#include "io/hdf5/HDF5IO.hpp"
 #include "nwb/NWBFile.hpp"
 #include "nwb/RecordingContainers.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
@@ -38,15 +38,15 @@ TEST_CASE("writeContinuousData", "[recording]")
     // 1. create IO object
     std::string path = getTestFilePath("testContinuousRecording1.nwb");
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
 
     // 2. create RecordingContainers object
     std::unique_ptr<NWB::RecordingContainers> recordingContainers =
         std::make_unique<NWB::RecordingContainers>();
 
     // 3. create NWBFile object
-    std::unique_ptr<NWB::NWBFile> nwbfile =
-        std::make_unique<NWB::NWBFile>(generateUuid(), io);
-    nwbfile->initialize();
+    std::unique_ptr<NWB::NWBFile> nwbfile = std::make_unique<NWB::NWBFile>(io);
+    nwbfile->initialize(generateUuid());
 
     // 4. create datasets and add to recording containers
     nwbfile->createElectricalSeries(mockRecordingArrays,

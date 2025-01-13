@@ -6,24 +6,30 @@
 
 #include <H5Opublic.h>
 
-#include "BaseIO.hpp"
 #include "Types.hpp"
+#include "io/BaseIO.hpp"
+#include "io/ReadIO.hpp"
 
 namespace H5
 {
 class DataSet;
+class Attribute;
 class H5File;
 class DataType;
 class Exception;
+class CommonFG;
+class PredType;
+class DataSpace;
 }  // namespace H5
 
 /*!
  * \namespace AQNWB::HDF5
  * \brief Namespace for all components of the HDF5 I/O backend
  */
-namespace AQNWB::HDF5
+namespace AQNWB::IO::HDF5
 {
-class HDF5RecordingData;  // declare here because gets used in HDF5IO class
+
+class HDF5RecordingData;  // forward declaration
 
 /**
  * @brief The HDF5IO class provides an interface for reading and writing data to
@@ -56,10 +62,10 @@ public:
 
   /**
    * @brief Opens an existing file or creates a new file for writing.
-   * @param newfile Flag indicating whether to create a new file.
+   * @param mode Access mode to use when opening the file.
    * @return The status of the file opening operation.
    */
-  Status open(bool newfile) override;
+  Status open(FileMode mode) override;
 
   /**
    * @brief Closes the file.
@@ -74,6 +80,52 @@ public:
   Status flush() override;
 
   /**
+   * @brief  Get the storage type (Group, Dataset, Attribute) of the object at
+   * path
+   *
+   * @param path The path of the object in the file
+   * @return The StorageObjectType. May be Undefined if the object does not
+   * exist.
+   */
+  StorageObjectType getStorageObjectType(std::string path) const override;
+
+  /**
+   * @brief Reads a dataset or attribute and determines the data type.
+   *
+   * @param dataPath The path to the dataset or attribute within the file.
+   * @param start The starting indices for the slice (optional).
+   * @param count The number of elements to read for each dimension (optional).
+   * @param stride The stride for each dimension (optional).
+   * @param block The block size for each dimension (optional).
+   *
+   * @exception May raise various H5 exceptions if read fails
+   *
+   * @return A DataGeneric structure containing the data and shape.
+   */
+  AQNWB::IO::DataBlockGeneric readDataset(
+      const std::string& dataPath,
+      const std::vector<SizeType>& start = {},
+      const std::vector<SizeType>& count = {},
+      const std::vector<SizeType>& stride = {},
+      const std::vector<SizeType>& block = {}) override;
+
+  /**
+   * @brief Reads a attribute  and determines the data type
+   *
+   * We use IO::DataBlockGeneric here, i.e., the subclass must determine the
+   * data type. The user can then convert IO::DataBlockGeneric to the
+   * specific type via DataBlock::fromGeneric.
+   *
+   * @param dataPath The path to the attribute within the file.
+   *
+   * @exception May raise various H5 exceptions if read fails
+   *
+   * @return A DataGeneric structure containing the data and shape.
+   */
+  AQNWB::IO::DataBlockGeneric readAttribute(
+      const std::string& dataPath) const override;
+
+  /**
    * @brief Creates an attribute at a given location in the file.
    * @param type The base data type of the attribute.
    * @param data Pointer to the attribute data.
@@ -82,7 +134,7 @@ public:
    * @param size The size of the attribute (default is 1).
    * @return The status of the attribute creation operation.
    */
-  Status createAttribute(const BaseDataType& type,
+  Status createAttribute(const IO::BaseDataType& type,
                          const void* data,
                          const std::string& path,
                          const std::string& name,
@@ -209,8 +261,8 @@ public:
    * @param path The location in the file of the new dataset.
    * @return A pointer to the created dataset.
    */
-  std::unique_ptr<BaseRecordingData> createArrayDataSet(
-      const BaseDataType& type,
+  std::unique_ptr<IO::BaseRecordingData> createArrayDataSet(
+      const IO::BaseDataType& type,
       const SizeArray& size,
       const SizeArray& chunking,
       const std::string& path) override;
@@ -220,7 +272,7 @@ public:
    * @param path The location in the file of the dataset.
    * @return A pointer to the dataset.
    */
-  std::unique_ptr<BaseRecordingData> getDataSet(
+  std::unique_ptr<IO::BaseRecordingData> getDataSet(
       const std::string& path) override;
 
   /**
@@ -229,28 +281,73 @@ public:
    * @param path The location of the object in the file.
    * @return Whether the object exists.
    */
-  bool objectExists(const std::string& path) override;
+  bool objectExists(const std::string& path) const override;
+
+  /**
+   * @brief Checks whether an Attribute exists at the
+   * location in the file.
+   * @param path The location of the attribute in the file. I.e.,
+   *             this is a combination of that parent object's
+   *             path and the name of the attribute.
+   * @return Whether the attribute exists.
+   */
+  bool attributeExists(const std::string& path) const override;
+
+  /**
+   * @brief Gets the list of objects inside a group.
+   *
+   * This function returns a vector of relative paths of all objects inside
+   * the specified group. If the input path is not a group (e.g., as dataset
+   * or attribute or invalid object), then an empty list should be
+   * returned.
+   *
+   * @param path The path to the group.
+   *
+   * @return A vector of relative paths of all objects inside the group.
+   */
+  std::vector<std::string> getGroupObjects(
+      const std::string& path) const override;
 
   /**
    * @brief Returns the HDF5 type of object at a given path.
    * @param path The location in the file of the object.
-   * @return The type of object at the given path.
+   * @return The type of object at the given path. H5O_TYPE_UNKNOWN indicates
+   * that the object does not exist (or is of an unknown type).
    */
-  H5O_type_t getObjectType(const std::string& path);
+  H5O_type_t getH5ObjectType(const std::string& path) const;
 
   /**
    * @brief Returns the HDF5 native data type for a given base data type.
+   *
+   * Native types are platform-dependent and represent the data types as they
+   * are stored in the memory of the machine where the HDF5 file is created or
+   * read.
+   *
    * @param type The base data type.
    * @return The HDF5 native data type.
    */
-  static H5::DataType getNativeType(BaseDataType type);
+  static H5::DataType getNativeType(IO::BaseDataType type);
+
+  /**
+   * @brief Returns the BaseDataType for a given HDF5 native data type
+   *
+   * This function implements the opposite mapping of getNativeType.
+   *
+   * @param nativeType The native data type.
+   * @return The corresponding BaseDataType
+   */
+  static IO::BaseDataType getBaseDataType(const H5::DataType& nativeType);
 
   /**
    * @brief Returns the HDF5 data type for a given base data type.
+   *
+   * Standard types are platform-independent and represent the data types
+   * in a consistent format, regardless of the machine architecture.
+   *
    * @param type The base data type.
    * @return The HDF5 data type.
    */
-  static H5::DataType getH5Type(BaseDataType type);
+  static H5::DataType getH5Type(IO::BaseDataType type);
 
 protected:
   /**
@@ -262,74 +359,99 @@ protected:
 
 private:
   /**
-   * @brief the HDF5 file
+   * @brief Reads data from an HDF5 dataset or attribute into a vector of the
+   * appropriate type.
+   *
+   * This is an internal helper function used to simplify the implementation
+   * of the readData method.
+   *
+   * @tparam T The data type of the dataset or attribute.
+   * @tparam HDF5TYPE HDF5 Dataset or Attribute type, usually determined from
+   * dataSource
+   * @param dataSource The HDF5 data source (dataset or attribute).
+   * @param numElements The number of elements to read.
+   * @param memspace The memory dataspace (optional).
+   * @param dataspace The file dataspace (optional).
+   *
+   * @return A vector containing the data.
+   */
+  template<typename T, typename HDF5TYPE>
+  std::vector<T> readDataHelper(const HDF5TYPE& dataSource,
+                                size_t numElements,
+                                const H5::DataSpace& memspace,
+                                const H5::DataSpace& dataspace) const;
+
+  /**
+   * @brief Reads data from an HDF5 dataset or attribute into a vector of the
+   * appropriate type.
+   *
+   * This is the same as readDataHelper but with default parameters defined for
+   * the memspace and dataspace parameters. We overload the method here, rather
+   * than defining default parameters directly, to avoid having to include
+   * <H5Cpp.h> in the HDF5IO.hpp header file.
+   *
+   * @tparam T The data type of the dataset or attribute.
+   * @tparam HDF5TYPE HDF5 Dataset or Attribute type, usually determined from
+   * dataSource
+   * @param dataSource The HDF5 data source (dataset or attribute).
+   * @param numElements The number of elements to read.
+   *
+   * @return A vector containing the data.
+   */
+  template<typename T, typename HDF5TYPE>
+  std::vector<T> readDataHelper(const HDF5TYPE& dataSource,
+                                size_t numElements) const;
+
+  /**
+   * @brief Reads a variable-length string from an HDF5 dataset or attribute.
+   *
+   * @tparam HDF5TYPE HDF5 Dataset or Attribute type, usually determined from
+   * dataSource
+   * @param dataSource The HDF5 data source (dataset or attribute).
+   * @param numElements The number of elements to read.
+   * @param memspace The memory dataspace (optional).
+   * @param dataspace The file dataspace (optional).
+   *
+   * @return A vector containing the data.
+   */
+  template<typename HDF5TYPE>
+  std::vector<std::string> readStringDataHelper(
+      const HDF5TYPE& dataSource,
+      size_t numElements,
+      const H5::DataSpace& memspace,
+      const H5::DataSpace& dataspace) const;
+
+  /**
+   * @brief Reads a variable-length string from an HDF5 dataset or attribute.
+   *
+   * This is the same as readStringDataHelper but with default parameters
+   * defined for the memspace and dataspace parameters. We overload the method
+   * here, rather than defining default parameters directly, to avoid having to
+   * include <H5Cpp.h> in the HDF5IO.hpp header file.
+   *
+   * @tparam HDF5TYPE HDF5 Dataset or Attribute type, usually determined from
+   * dataSource
+   * @param dataSource The HDF5 data source (dataset or attribute).
+   * @param numElements The number of elements to read.
+   *
+   * @return A vector containing the data.
+   */
+  template<typename HDF5TYPE>
+  std::vector<std::string> readStringDataHelper(const HDF5TYPE& dataSource,
+                                                size_t numElements) const;
+
+  std::unique_ptr<H5::Attribute> getAttribute(const std::string& path) const;
+
+  /**
+   * @brief Unique pointer to the HDF5 file for reading
    */
   std::unique_ptr<H5::H5File> m_file;
+
   /**
-   * @brief When set do not use SWMR mode when opening the HDF5 file
+   * \brief When set true, then do not switch to SWMR mode when starting the
+   * recording
    */
   bool m_disableSWMRMode;
 };
 
-/**
- * @brief Represents an HDF5 Dataset that can be extended indefinitely
-        in blocks.
-*
-* This class provides functionality for reading and writing blocks of data
-* to an HDF5 dataset.
-*/
-class HDF5RecordingData : public BaseRecordingData
-{
-public:
-  /**
-   * @brief Constructs an HDF5RecordingData object.
-   * @param data A pointer to the HDF5 dataset.
-   */
-  HDF5RecordingData(std::unique_ptr<H5::DataSet> data);
-
-  /**
-   * @brief Deleted copy constructor to prevent construction-copying.
-   */
-  HDF5RecordingData(const HDF5RecordingData&) = delete;
-
-  /**
-   * @brief Deleted copy assignment operator to prevent copying.
-   */
-  HDF5RecordingData& operator=(const HDF5RecordingData&) = delete;
-
-  /**
-   * @brief Destroys the HDF5RecordingData object.
-   */
-  ~HDF5RecordingData();
-
-  /**
-   * @brief Writes a block of data to the HDF5 dataset.
-   * @param dataShape The size of the data block.
-   * @param positionOffset The position of the data block to write to.
-   * @param type The data type of the elements in the data block.
-   * @param data A pointer to the data block.
-   * @return The status of the write operation.
-   */
-  Status writeDataBlock(const std::vector<SizeType>& dataShape,
-                        const std::vector<SizeType>& positionOffset,
-                        const BaseDataType& type,
-                        const void* data);
-
-  /**
-   * @brief Gets a const pointer to the HDF5 dataset.
-   * @return A const pointer to the HDF5 dataset.
-   */
-  inline const H5::DataSet* getDataSet() const { return m_dataset.get(); }
-
-private:
-  /**
-   * @brief Return status of HDF5 operations.
-   */
-  Status checkStatus(int status);
-
-  /**
-   * @brief Pointer to an extendable HDF5 dataset
-   */
-  std::unique_ptr<H5::DataSet> m_dataset;
-};
-}  // namespace AQNWB::HDF5
+}  // namespace AQNWB::IO::HDF5

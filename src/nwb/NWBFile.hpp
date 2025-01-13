@@ -7,8 +7,10 @@
 #include <string_view>
 #include <vector>
 
-#include "BaseIO.hpp"
 #include "Types.hpp"
+#include "Utils.hpp"
+#include "io/BaseIO.hpp"
+#include "io/ReadIO.hpp"
 #include "nwb/RecordingContainers.hpp"
 #include "nwb/base/TimeSeries.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
@@ -28,12 +30,19 @@ namespace AQNWB::NWB
 class NWBFile : public Container
 {
 public:
+  // Register the ElectrodeTable as a subclass of Container
+  REGISTER_SUBCLASS(NWBFile, "core")
+
   /**
    * @brief Constructor for NWBFile class.
-   * @param idText The identifier text for the NWBFile.
    * @param io The shared pointer to the IO object.
    */
-  NWBFile(const std::string& idText, std::shared_ptr<BaseIO> io);
+  NWBFile(std::shared_ptr<IO::BaseIO> io);
+
+  /** @brief Required constructor so we can call RegisteredType::create but the
+   * path cannot be set
+   */
+  NWBFile(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
   /**
    * @brief Deleted copy constructor to prevent construction-copying.
@@ -51,13 +60,26 @@ public:
   ~NWBFile();
 
   /**
-   * @brief Initializes the NWB file by opening and setting up the file
-   * structure.
+   * @brief Initializes the NWB file by setting up the file structure.
+   *
+   * If the file is already initialized then no action will be performed.
+   *
+   * @param identifierText The identifier text for the NWBFile.
    * @param description A description of the NWBFile session.
    * @param dataCollection Information about the data collection methods.
    */
-  Status initialize(const std::string description = "a recording session",
-                    const std::string dataCollection = "");
+  Status initialize(const std::string& identifierText,
+                    const std::string& description = "a recording session",
+                    const std::string& dataCollection = "");
+
+  /**
+   * @brief Check if the NWB file is initialized.
+   *
+   * The function simply checks if the top-level group structure exists.
+   *
+   * @return bool True if the file is initialized, false otherwise.
+   */
+  bool isInitialized() const;
 
   /**
    * @brief Finalizes the NWB file by closing it.
@@ -84,7 +106,7 @@ public:
   Status createElectricalSeries(
       std::vector<Types::ChannelVector> recordingArrays,
       std::vector<std::string> recordingNames,
-      const BaseDataType& dataType = BaseDataType::I16,
+      const IO::BaseDataType& dataType = IO::BaseDataType::I16,
       RecordingContainers* recordingContainers = nullptr,
       std::vector<SizeType>& containerIndexes = emptyContainerIndexes);
 
@@ -105,7 +127,7 @@ public:
   Status createSpikeEventSeries(
       std::vector<Types::ChannelVector> recordingArrays,
       std::vector<std::string> recordingNames,
-      const BaseDataType& dataType = BaseDataType::I16,
+      const IO::BaseDataType& dataType = IO::BaseDataType::I16,
       RecordingContainers* recordingContainers = nullptr,
       std::vector<SizeType>& containerIndexes = emptyContainerIndexes);
 
@@ -115,12 +137,15 @@ protected:
    * Note, this function will fail if the file is in a mode where
    * new objects cannot be added, which can be checked via
    * nwbfile.io->canModifyObjects()
+   *
+   * @param identifierText The identifier text for the NWBFile.
    * @param description A description of the NWBFile session.
    * @param dataCollection Information about the data collection methods.
    * @return Status The status of the file structure creation.
    */
-  Status createFileStructure(std::string description,
-                             std::string dataCollection);
+  Status createFileStructure(const std::string& identifierText,
+                             const std::string& description,
+                             const std::string& dataCollection);
 
 private:
   /**
@@ -129,11 +154,11 @@ private:
    * @param size The size of the dataset.
    * @param chunking The chunking size of the dataset.
    * @param path The location in the file of the new dataset.
-   * @return std::unique_ptr<BaseRecordingData> The unique pointer to the
+   * @return std::unique_ptr<IO::BaseRecordingData> The unique pointer to the
    * created recording data.
    */
-  std::unique_ptr<BaseRecordingData> createRecordingData(
-      BaseDataType type,
+  std::unique_ptr<IO::BaseRecordingData> createRecordingData(
+      IO::BaseDataType type,
       const SizeArray& size,
       const SizeArray& chunking,
       const std::string& path);
@@ -156,12 +181,48 @@ private:
   inline const static std::string acquisitionPath = "/acquisition";
   static std::vector<SizeType> emptyContainerIndexes;
 
+  DEFINE_FIELD(readNWBVersion,
+               AttributeField,
+               std::string,
+               "nwb_version",
+               File version string);
+
+  DEFINE_FIELD(readFileCreateDate,
+               DatasetField,
+               std::any,
+               "file_create_date",
+               A record of the date the file was created and of subsequent
+                   modifications);
+
+  DEFINE_FIELD(readIdentifier,
+               DatasetField,
+               std::string,
+               "identifier",
+               A unique text identifier for the file);
+
+  DEFINE_FIELD(readSessionDescription,
+               DatasetField,
+               std::string,
+               "session_description",
+               A description of the experimental session and data in the file);
+
+  DEFINE_FIELD(readSessionStartTime,
+               DatasetField,
+               std::any,
+               "session_start_time",
+               Date and time of the experiment or session start);
+
+  DEFINE_FIELD(readTimestampsReferenceTime,
+               DatasetField,
+               std::any,
+               "timestamps_reference_time",
+               Date and time corresponding to time zero of all timestamps);
+
 private:
   /**
    * @brief The ElectrodeTable for the file
    */
   std::unique_ptr<ElectrodeTable> m_electrodeTable;
-  const std::string m_identifierText;
 };
 
 }  // namespace AQNWB::NWB

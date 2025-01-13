@@ -1,11 +1,11 @@
 
 #include <catch2/catch_test_macros.hpp>
 
-#include "BaseIO.hpp"
 #include "Channel.hpp"
 #include "Types.hpp"
 #include "Utils.hpp"
-#include "hdf5/HDF5IO.hpp"
+#include "io/BaseIO.hpp"
+#include "io/hdf5/HDF5IO.hpp"
 #include "nwb/NWBFile.hpp"
 #include "nwb/RecordingContainers.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
@@ -36,6 +36,8 @@ TEST_CASE("workflowExamples")
     std::string path = getTestFilePath("exampleRecording.nwb");
     // [example_workflow_io_snippet]
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+    REQUIRE(io->isOpen());
     // [example_workflow_io_snippet]
 
     // [example_workflow_recording_containers_snippet]
@@ -44,22 +46,25 @@ TEST_CASE("workflowExamples")
     // [example_workflow_recording_containers_snippet]
 
     // [example_workflow_nwbfile_snippet]
-    std::unique_ptr<NWB::NWBFile> nwbfile =
-        std::make_unique<NWB::NWBFile>(generateUuid(), io);
-    nwbfile->initialize();
+    std::unique_ptr<NWB::NWBFile> nwbfile = std::make_unique<NWB::NWBFile>(io);
+    Status initStatus = nwbfile->initialize(generateUuid());
+    REQUIRE(initStatus == Status::Success);
     // [example_workflow_nwbfile_snippet]
 
     // [example_workflow_datasets_snippet]
     std::vector<SizeType> containerIndexes;
-    nwbfile->createElectricalSeries(mockRecordingArrays,
-                                    mockChannelNames,
-                                    BaseDataType::I16,
-                                    recordingContainers.get(),
-                                    containerIndexes);
+    Status elecSeriesStatus =
+        nwbfile->createElectricalSeries(mockRecordingArrays,
+                                        mockChannelNames,
+                                        BaseDataType::I16,
+                                        recordingContainers.get(),
+                                        containerIndexes);
+    REQUIRE(elecSeriesStatus == Status::Success);
     // [example_workflow_datasets_snippet]
 
     // [example_workflow_start_snippet]
-    io->startRecording();
+    Status startRecordingStatus = io->startRecording();
+    REQUIRE(startRecordingStatus == Status::Success);
     // [example_workflow_start_snippet]
 
     // write data during the recording
@@ -111,6 +116,7 @@ TEST_CASE("workflowExamples")
     // [example_workflow_stop_snippet]
     io->stopRecording();
     nwbfile->finalize();
+    io->close();
     // [example_workflow_stop_snippet]
   }
 }

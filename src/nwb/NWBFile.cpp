@@ -5,12 +5,13 @@
 #include <map>
 #include <sstream>
 #include <string>
+#include <unordered_set>
 
 #include "nwb/NWBFile.hpp"
 
-#include "BaseIO.hpp"
 #include "Channel.hpp"
 #include "Utils.hpp"
+#include "io/BaseIO.hpp"
 #include "nwb/device/Device.hpp"
 #include "nwb/ecephys/ElectricalSeries.hpp"
 #include "nwb/ecephys/SpikeEventSeries.hpp"
@@ -28,26 +29,68 @@ constexpr SizeType SPIKE_CHUNK_XSIZE =
 
 std::vector<SizeType> NWBFile::emptyContainerIndexes = {};
 
-// NWBFile
+// Initialize the static registered_ member to trigger registration
+REGISTER_SUBCLASS_IMPL(NWBFile)
 
-NWBFile::NWBFile(const std::string& idText, std::shared_ptr<BaseIO> io)
+NWBFile::NWBFile(std::shared_ptr<IO::BaseIO> io)
     : Container("/", io)
-    , m_identifierText(idText)
-
 {
+}
+
+NWBFile::NWBFile(const std::string& path, std::shared_ptr<IO::BaseIO> io)
+    : Container("/", io)  // Always use "/" for the path
+{
+  std::cerr << "NWBFile object is always the root. Path must be /" << std::endl;
+  assert(path == "/");
 }
 
 NWBFile::~NWBFile() {}
 
-Status NWBFile::initialize(const std::string description,
-                           const std::string dataCollection)
+Status NWBFile::initialize(const std::string& identifierText,
+                           const std::string& description,
+                           const std::string& dataCollection)
 {
-  if (std::filesystem::exists(m_io->getFileName())) {
-    return m_io->open(false);
-  } else {
-    m_io->open(true);
-    return createFileStructure(description, dataCollection);
+  if (!m_io->isOpen()) {
+    return Status::Failure;
   }
+  // Check that the file is empty and initialize if it is
+  bool fileInitialized = isInitialized();
+  if (!fileInitialized) {
+    return createFileStructure(identifierText, description, dataCollection);
+  } else {
+    return Status::Success;  // File is already initialized
+  }
+  return Status::Failure;
+}
+
+bool NWBFile::isInitialized() const
+{
+  auto existingGroupObjects = m_io->getGroupObjects("/");
+  if (existingGroupObjects.size() == 0) {
+    return false;
+  }
+  // Define the set of required objects
+  static const std::unordered_set<std::string> requiredObjects = {
+      "acquisition",
+      "analysis",
+      "processing",
+      "stimulus",
+      "general",
+      "specifications"};
+
+  // Set to keep track of found objects
+  std::unordered_set<std::string> foundObjects;
+
+  // Iterate over the existing objects and add to foundObjects if it's a
+  // required object
+  for (const auto& obj : existingGroupObjects) {
+    if (requiredObjects.find(obj) != requiredObjects.end()) {
+      foundObjects.insert(obj);
+    }
+  }
+
+  // Check if all required objects are found
+  return (foundObjects.size() == requiredObjects.size());
 }
 
 Status NWBFile::finalize()
@@ -55,16 +98,16 @@ Status NWBFile::finalize()
   return m_io->close();
 }
 
-Status NWBFile::createFileStructure(std::string description,
-                                    std::string dataCollection)
+Status NWBFile::createFileStructure(const std::string& identifierText,
+                                    const std::string& description,
+                                    const std::string& dataCollection)
 {
   if (!m_io->canModifyObjects()) {
     return Status::Failure;
   }
-
-  m_io->createCommonNWBAttributes("/", "core", "NWBFile", "");
+  m_io->createCommonNWBAttributes(
+      m_path, this->getNamespace(), this->getTypeName());
   m_io->createAttribute(AQNWB::SPEC::CORE::version, "/", "nwb_version");
-
   m_io->createGroup("/acquisition");
   m_io->createGroup("/analysis");
   m_io->createGroup("/processing");
@@ -74,13 +117,12 @@ Status NWBFile::createFileStructure(std::string description,
   m_io->createGroup("/general");
   m_io->createGroup("/general/devices");
   m_io->createGroup("/general/extracellular_ephys");
+
   if (dataCollection != "") {
     m_io->createStringDataSet("/general/data_collection", dataCollection);
   }
-
   m_io->createGroup("/specifications");
   m_io->createReferenceAttribute("/specifications", "/", ".specloc");
-
   cacheSpecifications(
       "core", AQNWB::SPEC::CORE::version, AQNWB::SPEC::CORE::specVariables);
   cacheSpecifications("hdmf-common",
@@ -89,22 +131,20 @@ Status NWBFile::createFileStructure(std::string description,
   cacheSpecifications("hdmf-experimental",
                       AQNWB::SPEC::HDMF_EXPERIMENTAL::version,
                       AQNWB::SPEC::HDMF_EXPERIMENTAL::specVariables);
-
   std::string time = getCurrentTime();
   std::vector<std::string> timeVec = {time};
   m_io->createStringDataSet("/file_create_date", timeVec);
   m_io->createStringDataSet("/session_description", description);
   m_io->createStringDataSet("/session_start_time", time);
   m_io->createStringDataSet("/timestamps_reference_time", time);
-  m_io->createStringDataSet("/identifier", m_identifierText);
-
+  m_io->createStringDataSet("/identifier", identifierText);
   return Status::Success;
 }
 
 Status NWBFile::createElectricalSeries(
     std::vector<Types::ChannelVector> recordingArrays,
     std::vector<std::string> recordingNames,
-    const BaseDataType& dataType,
+    const IO::BaseDataType& dataType,
     RecordingContainers* recordingContainers,
     std::vector<SizeType>& containerIndexes)
 {
@@ -136,32 +176,32 @@ Status NWBFile::createElectricalSeries(
 
     // Setup electrodes and devices
     std::string groupName = channelVector[0].getGroupName();
-    std::string devicePath = "/general/devices/" + groupName;
-    std::string electrodePath = "/general/extracellular_ephys/" + groupName;
-    std::string electricalSeriesPath = acquisitionPath + "/" + recordingName;
+    std::string devicePath = AQNWB::mergePaths("/general/devices", groupName);
+    std::string electrodePath =
+        AQNWB::mergePaths("/general/extracellular_ephys", groupName);
+    std::string electricalSeriesPath =
+        AQNWB::mergePaths(acquisitionPath, recordingName);
 
     // Check if device exists for groupName, create device and electrode group
-    // if not
+    // if it does not
     if (!m_io->objectExists(devicePath)) {
-      Device device = Device(devicePath, m_io, "description", "unknown");
-      device.initialize();
+      Device device = Device(devicePath, m_io);
+      device.initialize("description", "unknown");
 
-      ElectrodeGroup elecGroup =
-          ElectrodeGroup(electrodePath, m_io, "description", "unknown", device);
-      elecGroup.initialize();
+      ElectrodeGroup elecGroup = ElectrodeGroup(electrodePath, m_io);
+      elecGroup.initialize("description", "unknown", device);
     }
 
     // Setup electrical series datasets
-    auto electricalSeries = std::make_unique<ElectricalSeries>(
-        electricalSeriesPath,
-        m_io,
+    auto electricalSeries =
+        std::make_unique<ElectricalSeries>(electricalSeriesPath, m_io);
+    electricalSeries->initialize(
         dataType,
         channelVector,
         "Stores continuously sampled voltage data from an "
         "extracellular ephys recording",
         SizeArray {0, channelVector.size()},
         SizeArray {CHUNK_XSIZE, 0});
-    electricalSeries->initialize();
     recordingContainers->addContainer(std::move(electricalSeries));
     containerIndexes.push_back(recordingContainers->size() - 1);
   }
@@ -178,7 +218,7 @@ Status NWBFile::createElectricalSeries(
 Status NWBFile::createSpikeEventSeries(
     std::vector<Types::ChannelVector> recordingArrays,
     std::vector<std::string> recordingNames,
-    const BaseDataType& dataType,
+    const IO::BaseDataType& dataType,
     RecordingContainers* recordingContainers,
     std::vector<SizeType>& containerIndexes)
 {
@@ -210,19 +250,20 @@ Status NWBFile::createSpikeEventSeries(
 
     // Setup electrodes and devices
     std::string groupName = channelVector[0].getGroupName();
-    std::string devicePath = "/general/devices/" + groupName;
-    std::string electrodePath = "/general/extracellular_ephys/" + groupName;
-    std::string spikeEventSeriesPath = acquisitionPath + "/" + recordingName;
+    std::string devicePath = AQNWB::mergePaths("/general/devices", groupName);
+    std::string electrodePath =
+        AQNWB::mergePaths("/general/extracellular_ephys", groupName);
+    std::string spikeEventSeriesPath =
+        AQNWB::mergePaths(acquisitionPath, recordingName);
 
     // Check if device exists for groupName, create device and electrode group
     // if not
     if (!m_io->objectExists(devicePath)) {
-      Device device = Device(devicePath, m_io, "description", "unknown");
-      device.initialize();
+      Device device = Device(devicePath, m_io);
+      device.initialize("description", "unknown");
 
-      ElectrodeGroup elecGroup =
-          ElectrodeGroup(electrodePath, m_io, "description", "unknown", device);
-      elecGroup.initialize();
+      ElectrodeGroup elecGroup = ElectrodeGroup(electrodePath, m_io);
+      elecGroup.initialize("description", "unknown", device);
     }
 
     // Setup Spike Event Series datasets
@@ -236,15 +277,14 @@ Status NWBFile::createSpikeEventSeries(
       chunkSize = SizeArray {SPIKE_CHUNK_XSIZE, 1, 1};
     }
 
-    auto spikeEventSeries = std::make_unique<SpikeEventSeries>(
-        spikeEventSeriesPath,
-        m_io,
+    auto spikeEventSeries =
+        std::make_unique<SpikeEventSeries>(spikeEventSeriesPath, m_io);
+    spikeEventSeries->initialize(
         dataType,
         channelVector,
         "Stores spike waveforms from an extracellular ephys recording",
         dsetSize,
         chunkSize);
-    spikeEventSeries->initialize();
     recordingContainers->addContainer(std::move(spikeEventSeries));
     containerIndexes.push_back(recordingContainers->size() - 1);
   }
@@ -265,23 +305,26 @@ void NWBFile::cacheSpecifications(
     const std::array<std::pair<std::string_view, std::string_view>, N>&
         specVariables)
 {
-  m_io->createGroup("/specifications/" + specPath);
-  m_io->createGroup("/specifications/" + specPath + "/" + versionNumber);
+  std::string specFullPath = AQNWB::mergePaths("/specifications", specPath);
+  std::string specFullVersionPath =
+      AQNWB::mergePaths(specFullPath, versionNumber);
+  m_io->createGroup(specFullPath);
+  m_io->createGroup(specFullVersionPath);
 
   for (const auto& [name, content] : specVariables) {
-    m_io->createStringDataSet("/specifications/" + specPath + "/"
-                                  + versionNumber + "/" + std::string(name),
-                              std::string(content));
+    m_io->createStringDataSet(
+        AQNWB::mergePaths(specFullVersionPath, std::string(name)),
+        std::string(content));
   }
 }
 
 // recording data factory method /
-std::unique_ptr<AQNWB::BaseRecordingData> NWBFile::createRecordingData(
-    BaseDataType type,
+std::unique_ptr<AQNWB::IO::BaseRecordingData> NWBFile::createRecordingData(
+    IO::BaseDataType type,
     const SizeArray& size,
     const SizeArray& chunking,
     const std::string& path)
 {
-  return std::unique_ptr<BaseRecordingData>(
+  return std::unique_ptr<IO::BaseRecordingData>(
       m_io->createArrayDataSet(type, size, chunking, path));
 }

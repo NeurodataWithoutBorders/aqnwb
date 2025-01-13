@@ -1,16 +1,22 @@
 #pragma once
 
+#include <any>
 #include <cstdint>
 #include <iostream>
 #include <memory>
 #include <string>
+#include <unordered_map>
+#include <unordered_set>
 #include <vector>
+
+#include <boost/multi_array.hpp>  // TODO move this and function def to the cpp file
 
 #include "Types.hpp"
 
 #define DEFAULT_STR_SIZE 256
 #define DEFAULT_ARRAY_SIZE 1
 
+using StorageObjectType = AQNWB::Types::StorageObjectType;
 using Status = AQNWB::Types::Status;
 using SizeArray = AQNWB::Types::SizeArray;
 using SizeType = AQNWB::Types::SizeType;
@@ -19,7 +25,7 @@ using SizeType = AQNWB::Types::SizeType;
  * \namespace AQNWB
  * \brief The main namespace for AqNWB
  */
-namespace AQNWB
+namespace AQNWB::IO
 {
 
 class BaseRecordingData;
@@ -79,6 +85,52 @@ public:
       SizeType size);  ///< Accessor for string with specified size.
 };
 
+class DataBlockGeneric;
+
+/**
+ * @enum SearchMode
+ * @brief Enum class for specifying the search mode for findTypes
+ */
+enum class SearchMode
+{
+  /**
+   * @brief Stop searching inside an object once a matching type is found.
+   */
+  STOP_ON_TYPE,
+  /**
+   * @brief Continue searching inside an object even after a matching type is
+   * found.
+   */
+  CONTINUE_ON_TYPE
+};
+
+/**
+ * @brief The access mode for the file.
+ */
+enum class FileMode
+{
+  /**
+   * @brief Opens the file and overwrites any existing file.
+   */
+  Overwrite,
+
+  /**
+   * @brief Opens the file with both read and write access.
+   *
+   * Note: This is similar to r+ mode, so the file will not be created if it
+   * does not exist.
+   */
+  ReadWrite,
+
+  /**
+   * @brief Opens the file in read only mode.
+   *
+   * Note: This is similar to r+ mode, so the file will not be created if it
+   * does not exist.
+   */
+  ReadOnly
+};
+
 /**
  * @brief The BaseIO class is an abstract base class that defines the interface
  * for input/output (IO) operations on a file.
@@ -118,6 +170,16 @@ public:
   virtual std::string getFileName() const { return m_filename; }
 
   /**
+   * @brief  Get the storage type (Group, Dataset, Attribute) of the object at
+   * path
+   *
+   * @param path The path of the object in the file
+   * @return The StorageObjectType. May be Undefined if the object does not
+   * exist.
+   */
+  virtual StorageObjectType getStorageObjectType(std::string path) const = 0;
+
+  /**
    * @brief Opens the file for writing.
    * @return The status of the file opening operation.
    */
@@ -125,10 +187,10 @@ public:
 
   /**
    * @brief Opens an existing file or creates a new file for writing.
-   * @param newfile Flag indicating whether to create a new file.
+   * @param mode Access mode to use when opening the file.
    * @return The status of the file opening operation.
    */
-  virtual Status open(bool newfile) = 0;
+  virtual Status open(FileMode mode) = 0;
 
   /**
    * @brief Closes the file.
@@ -141,6 +203,93 @@ public:
    * @return The status of the flush operation.
    */
   virtual Status flush() = 0;
+
+  /**
+   * @brief Checks whether a Dataset, Group, or Link already exists at the
+   * location in the file.
+   * @param path The location of the object in the file.
+   * @return Whether the object exists.
+   */
+  virtual bool objectExists(const std::string& path) const = 0;
+
+  /**
+   * @brief Checks whether an Attribute exists at the
+   * location in the file.
+   * @param path The location of the attribute in the file. I.e.,
+   *             this is a combination of that parent object's
+   *             path and the name of the attribute.
+   * @return Whether the attribute exists.
+   */
+  virtual bool attributeExists(const std::string& path) const = 0;
+
+  /**
+   * @brief Gets the list of objects inside a group.
+   *
+   * This function returns a vector of relative paths of all objects inside
+   * the specified group. If the input path is not a group (e.g., as dataset
+   * or attribute or invalid object), then an empty list should be
+   * returned.
+   *
+   * @param path The path to the group.
+   *
+   * @return A vector of relative paths of all objects inside the group.
+   */
+  virtual std::vector<std::string> getGroupObjects(
+      const std::string& path) const = 0;
+
+  /**
+   * @brief Finds all datasets and groups of the given types in the HDF5 file.
+   *
+   * This function recursively searches for the given types in the HDF5 file,
+   * starting from the specified path. It checks each object's attributes to
+   * determine its type and matches it against the given types.
+   *
+   * @param starting_path The path in the HDF5 file to start the search from.
+   * @param types The set of types to search for.
+   * @param search_mode The search mode to use.
+   *
+   * @return An unordered map where each key is the path to an object and its
+   * corresponding value is the type of the object.
+   */
+  virtual std::unordered_map<std::string, std::string> findTypes(
+      const std::string& starting_path,
+      const std::unordered_set<std::string>& types,
+      SearchMode search_mode) const;
+
+  /**
+   * @brief Reads a dataset and determines the data type
+   *
+   * We use DataBlockGeneric here, i.e., the subclass must determine the
+   * data type. The user can then convert DataBlockGeneric to the
+   * specific type via DataBlock::fromGeneric.
+   *
+   * @param dataPath The path to the dataset within the file.
+   * @param start The starting indices for the slice (optional).
+   * @param count The number of elements to read for each dimension (optional).
+   * @param stride The stride for each dimension (optional).
+   * @param block The block size for each dimension (optional).
+   *
+   * @return A DataGeneric structure containing the data and shape.
+   */
+  virtual DataBlockGeneric readDataset(
+      const std::string& dataPath,
+      const std::vector<SizeType>& start = {},
+      const std::vector<SizeType>& count = {},
+      const std::vector<SizeType>& stride = {},
+      const std::vector<SizeType>& block = {}) = 0;
+
+  /**
+   * @brief Reads a attribute  and determines the data type
+   *
+   * We use DataBlockGeneric here, i.e., the subclass must determine the
+   * data type. The user can then convert DataBlockGeneric to the
+   * specific type via DataBlock::fromGeneric.
+   *
+   * @param dataPath The path to the attribute within the file.
+   *
+   * @return A DataGeneric structure containing the data and shape.
+   */
+  virtual DataBlockGeneric readAttribute(const std::string& dataPath) const = 0;
 
   /**
    * @brief Creates an attribute at a given location in the file.
@@ -293,46 +442,15 @@ public:
       const std::string& path) = 0;
 
   /**
-   * @brief Checks whether a Dataset, Group, or Link already exists at the
-   * location in the file.
-   * @param path The location of the object in the file.
-   * @return Whether the object exists.
-   */
-  virtual bool objectExists(const std::string& path) = 0;
-
-  /**
    * @brief Convenience function for creating NWB related attributes.
    * @param path The location of the object in the file.
    * @param objectNamespace The namespace of the object.
    * @param neurodataType The neurodata type of the object.
-   * @param description The description of the object (default is empty).
    * @return The status of the operation.
    */
   Status createCommonNWBAttributes(const std::string& path,
                                    const std::string& objectNamespace,
-                                   const std::string& neurodataType = "",
-                                   const std::string& description = "");
-
-  /**
-   * @brief Convenience function for creating data related attributes.
-   * @param path The location of the object in the file.
-   * @param conversion Scalar to multiply each element in data to convert it to
-   * the specified ‘unit’.
-   * @param resolution Smallest meaningful difference between values in data.
-   * @param unit Base unit of measurement for working with the data.
-   * @return The status of the operation.
-   */
-  Status createDataAttributes(const std::string& path,
-                              const float& conversion,
-                              const float& resolution,
-                              const std::string& unit);
-
-  /**
-   * @brief Convenience function for creating timestamp related attributes.
-   * @param path The location of the object in the file.
-   * @return The status of the operation.
-   */
-  Status createTimestampsAttributes(const std::string& path);
+                                   const std::string& neurodataType = "");
 
   /**
    * @brief Returns true if the file is open.
@@ -424,6 +542,22 @@ public:
                                 const BaseDataType& type,
                                 const void* data) = 0;
 
+  /**
+   * @brief Writes a block of string data (any number of dimensions).
+   * @param dataShape The size of the data block.
+   * @param positionOffset The position of the data block to write to.
+   * @param type The data type of the elements in the data block. Either
+   *             BaseDataType::Type::V_STR or BaseDataType::Type::T_STR
+   *             for variable and fixed-length strings repsetively.
+   * @param data Vector with the string data
+   * @return The status of the write operation.
+   */
+  virtual Status writeStringDataBlock(
+      const std::vector<SizeType>& dataShape,
+      const std::vector<SizeType>& positionOffset,
+      const BaseDataType& type,
+      const std::vector<std::string>& data) = 0;
+
 protected:
   /**
    * @brief The size of the dataset in each dimension.
@@ -441,4 +575,4 @@ protected:
   SizeType nDimensions;
 };
 
-}  // namespace AQNWB
+}  // namespace AQNWB::IO

@@ -2,8 +2,10 @@
 
 #include <string>
 
-#include "BaseIO.hpp"
 #include "Channel.hpp"
+#include "Utils.hpp"
+#include "io/BaseIO.hpp"
+#include "io/ReadIO.hpp"
 #include "nwb/ecephys/ElectricalSeries.hpp"
 
 namespace AQNWB::NWB
@@ -15,13 +17,28 @@ namespace AQNWB::NWB
 class SpikeEventSeries : public ElectricalSeries
 {
 public:
+  // Register the TimeSeries as a subclass of Container
+  REGISTER_SUBCLASS(SpikeEventSeries, "core")
+
   /**
    * @brief Constructor.
    * @param path The location of the SpikeEventSeries in the file.
    * @param io A shared pointer to the IO object.
+   */
+  SpikeEventSeries(const std::string& path, std::shared_ptr<IO::BaseIO> io);
+
+  /**
+   * @brief Destructor
+   */
+  ~SpikeEventSeries();
+
+  /**
+   * @brief Initializes the SpikeEventSeries
+   *
    * @param dataType The data type to use for storing the recorded voltage
    * @param channelVector The electrodes to use for recording
-   * @param description The description of the TimeSeries.
+   * @param description The description of the SpikeEventSeries, should describe
+   * how events were detected.
    * @param dsetSize Initial size of the main dataset. This must be a vector
    *                 with two elements. The first element specifies the length
    *                 in time and the second element must be equal to the
@@ -36,48 +53,46 @@ public:
    * @param offset Scalar to add to the data after scaling by ‘conversion’ to
    *               finalize its coercion to the specified ‘unit'
    */
-  SpikeEventSeries(const std::string& path,
-                   std::shared_ptr<BaseIO> io,
-                   const BaseDataType& dataType,
-                   const Types::ChannelVector& channelVector,
-                   const std::string& description,
-                   const SizeArray& dsetSize,
-                   const SizeArray& chunkSize,
-                   const float& conversion = 1.0f,
-                   const float& resolution = -1.0f,
-                   const float& offset = 0.0f);
-
-  /**
-   * @brief Destructor
-   */
-  ~SpikeEventSeries();
-
-  /**
-   * @brief Initializes the Electrical Series
-   */
-  void initialize();
+  void initialize(const IO::BaseDataType& dataType,
+                  const Types::ChannelVector& channelVector,
+                  const std::string& description,
+                  const SizeArray& dsetSize,
+                  const SizeArray& chunkSize,
+                  const float& conversion = 1.0f,
+                  const float& resolution = -1.0f,
+                  const float& offset = 0.0f);
 
   /**
    * @brief Write a single spike series event
+   *
+   * Timestamp and controlInput values are only written if the channel index is
+   * 0.
+   *
    * @param numSamples The number of samples in the event
    * @param numChannels The number of channels in the event
    * @param dataInput The data of the event
    * @param timestampsInput The timestamps of the event
+   * @param controlInput A pointer to the control block data (optional)
    */
   Status writeSpike(const SizeType& numSamples,
                     const SizeType& numChannels,
                     const void* dataInput,
-                    const void* timestampsInput);
+                    const void* timestampsInput,
+                    const void* controlInput = nullptr);
+
+  DEFINE_FIELD(readData, DatasetField, std::any, "data", Spike waveforms)
+
+  DEFINE_FIELD(readDataUnit,
+               AttributeField,
+               std::string,
+               "data/unit",
+               Unit of measurement for waveforms.
+               This is fixed to volts)
 
 private:
   /**
-   * @brief The neurodataType of the SpikeEventSeries.
-   */
-  std::string neurodataType = "SpikeEventSeries";
-
-  /**
    * @brief The number of events already written.
    */
-  SizeType eventsRecorded;
+  SizeType m_eventsRecorded;
 };
 }  // namespace AQNWB::NWB

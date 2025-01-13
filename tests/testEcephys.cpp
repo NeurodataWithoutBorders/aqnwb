@@ -2,11 +2,11 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_all.hpp>
 
-#include "BaseIO.hpp"
 #include "Channel.hpp"
 #include "Types.hpp"
 #include "Utils.hpp"
-#include "hdf5/HDF5IO.hpp"
+#include "io/BaseIO.hpp"
+#include "io/hdf5/HDF5IO.hpp"
 #include "nwb/device/Device.hpp"
 #include "nwb/ecephys/ElectricalSeries.hpp"
 #include "nwb/ecephys/SpikeEventSeries.hpp"
@@ -47,21 +47,19 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     elecTable.initialize();
 
     // setup electrical series
-    NWB::ElectricalSeries es =
-        NWB::ElectricalSeries(dataPath,
-                              io,
-                              dataType,
-                              mockArrays[0],
-                              "no description",
-                              SizeArray {0, mockArrays[0].size()},
-                              SizeArray {1, 1});
-    es.initialize();
+    NWB::ElectricalSeries es = NWB::ElectricalSeries(dataPath, io);
+    es.initialize(dataType,
+                  mockArrays[0],
+                  "no description",
+                  SizeArray {0, mockArrays[0].size()},
+                  SizeArray {1, 1});
 
     // write channel data
     for (SizeType ch = 0; ch < numChannels; ++ch) {
       es.writeChannel(
           ch, numSamples, mockData[ch].data(), mockTimestamps.data());
     }
+    io->flush();
     io->close();
 
     // Read data back from file
@@ -102,15 +100,12 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     elecTable.initialize();
 
     // setup electrical series
-    NWB::ElectricalSeries es =
-        NWB::ElectricalSeries(dataPath,
-                              io,
-                              dataType,
-                              mockArrays[0],
-                              "no description",
-                              SizeArray {0, mockArrays[0].size()},
-                              SizeArray {1, 1});
-    es.initialize();
+    NWB::ElectricalSeries es = NWB::ElectricalSeries(dataPath, io);
+    es.initialize(dataType,
+                  mockArrays[0],
+                  "no description",
+                  SizeArray {0, mockArrays[0].size()},
+                  SizeArray {1, 1});
 
     // write channel data in segments
     for (SizeType ch = 0; ch < numChannels; ++ch) {
@@ -193,15 +188,12 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
     elecTable.initialize();
 
     // setup electrical series
-    NWB::SpikeEventSeries ses =
-        NWB::SpikeEventSeries(dataPath,
-                              io,
-                              dataType,
-                              mockArrays[0],
-                              "no description",
-                              SizeArray {0, numChannels, numSamples},
-                              SizeArray {8, 1, 1});
-    ses.initialize();
+    NWB::SpikeEventSeries ses = NWB::SpikeEventSeries(dataPath, io);
+    ses.initialize(dataType,
+                   mockArrays[0],
+                   "no description",
+                   SizeArray {0, numChannels, numSamples},
+                   SizeArray {8, 1, 1});
 
     // write channel data
     for (SizeType e = 0; e < numEvents; ++e) {
@@ -253,14 +245,12 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
     elecTable.initialize();
 
     // setup electrical series
-    NWB::SpikeEventSeries ses = NWB::SpikeEventSeries(dataPath,
-                                                      io,
-                                                      dataType,
-                                                      mockArrays[0],
-                                                      "no description",
-                                                      SizeArray {0, numSamples},
-                                                      SizeArray {8, 1});
-    ses.initialize();
+    NWB::SpikeEventSeries ses = NWB::SpikeEventSeries(dataPath, io);
+    ses.initialize(dataType,
+                   mockArrays[0],
+                   "no description",
+                   SizeArray {0, numSamples},
+                   SizeArray {8, 1});
 
     // write channel data
     for (SizeType e = 0; e < numEvents; ++e) {

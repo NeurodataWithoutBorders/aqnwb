@@ -1,3 +1,5 @@
+#pragma once
+
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -5,6 +7,7 @@
 #include <ctime>
 #include <iomanip>
 #include <sstream>
+#include <string>
 
 #include <boost/date_time.hpp>
 #include <boost/endian/conversion.hpp>
@@ -12,9 +15,9 @@
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 
-#include "BaseIO.hpp"
 #include "boost/date_time/c_local_time_adjustor.hpp"
-#include "hdf5/HDF5IO.hpp"
+#include "io/BaseIO.hpp"
+#include "io/hdf5/HDF5IO.hpp"
 
 namespace AQNWB
 {
@@ -22,7 +25,7 @@ namespace AQNWB
  * @brief Generates a UUID (Universally Unique Identifier) as a string.
  * @return The generated UUID as a string.
  */
-inline std::string generateUuid()
+static inline std::string generateUuid()
 {
   boost::uuids::uuid uuid = boost::uuids::random_generator()();
   std::string uuidStr = boost::uuids::to_string(uuid);
@@ -34,7 +37,7 @@ inline std::string generateUuid()
  * @brief Get the current time in ISO 8601 format with the UTC offset.
  * @return The current time as a string in ISO 8601 format.
  */
-inline std::string getCurrentTime()
+static inline std::string getCurrentTime()
 {
   // Set up boost time zone adjustment and time facet
   using local_adj =
@@ -62,14 +65,56 @@ inline std::string getCurrentTime()
  * @brief Factory method to create an IO object.
  * @return A pointer to a BaseIO object
  */
-inline std::shared_ptr<BaseIO> createIO(const std::string& type,
-                                        const std::string& filename)
+static inline std::shared_ptr<IO::BaseIO> createIO(const std::string& type,
+                                                   const std::string& filename)
 {
   if (type == "HDF5") {
-    return std::make_shared<HDF5::HDF5IO>(filename);
+    return std::make_shared<AQNWB::IO::HDF5::HDF5IO>(filename);
   } else {
     throw std::invalid_argument("Invalid IO type");
   }
+}
+
+/**
+ * @brief Merge two paths into a single path, handling extra trailing and
+ * starting "/".
+ *
+ * This function is useful for constructing paths in HDF5 files, where paths
+ * always use "/".
+ *
+ * @param path1 The first path to merge.
+ * @param path2 The second path to merge.
+ *
+ * @return The merged path with no extra "/" at the start or end, and exactly
+ * one "/" between the two input paths.
+ */
+static inline std::string mergePaths(const std::string& path1,
+                                     const std::string& path2)
+{
+  std::string result = path1;
+  // Remove trailing "/" from path1
+  while (!result.empty() && result.back() == '/' && result != "/") {
+    result.pop_back();
+  }
+  // Remove leading "/" from path2
+  size_t start = 0;
+  while (start < path2.size() && path2[start] == '/') {
+    start++;
+  }
+  // Append path2 to path1 with a "/" in between
+  if (!result.empty()) {
+    result += '/';
+  }
+  result += path2.substr(start);
+
+  // Remove any potential occurrences of "//" and replace with "/"
+  size_t pos = result.find("//");
+  while (pos != std::string::npos) {
+    result.replace(pos, 2, "/");
+    pos = result.find("//", pos);
+  }
+
+  return result;
 }
 
 /**
@@ -80,9 +125,9 @@ inline std::shared_ptr<BaseIO> createIO(const std::string& type,
  * @param dest The destination for the converted uint16 data
  * @param numSamples The number of samples to convert
  */
-inline void convertFloatToInt16LE(const float* source,
-                                  void* dest,
-                                  SizeType numSamples)
+static inline void convertFloatToInt16LE(const float* source,
+                                         void* dest,
+                                         SizeType numSamples)
 {
   // TODO - several steps in this function may be unnecessary for our use
   // case. Consider simplifying the intermediate cast to char and the
@@ -107,9 +152,8 @@ inline void convertFloatToInt16LE(const float* source,
  * @param conversion_factor The conversion factor to scale the data
  * @param data The data to convert
  */
-inline std::unique_ptr<int16_t[]> transformToInt16(SizeType numSamples,
-                                                   float conversion_factor,
-                                                   const float* data)
+static inline std::unique_ptr<int16_t[]> transformToInt16(
+    SizeType numSamples, float conversion_factor, const float* data)
 {
   std::unique_ptr<float[]> scaledData = std::make_unique<float[]>(numSamples);
   std::unique_ptr<int16_t[]> intData = std::make_unique<int16_t[]>(numSamples);
@@ -126,4 +170,5 @@ inline std::unique_ptr<int16_t[]> transformToInt16(SizeType numSamples,
 
   return intData;
 }
+
 }  // namespace AQNWB

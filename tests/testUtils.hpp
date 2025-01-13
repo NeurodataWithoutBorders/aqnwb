@@ -9,9 +9,10 @@
 
 #include "Channel.hpp"
 #include "Types.hpp"
-#include "hdf5/HDF5IO.hpp"
+#include "io/hdf5/HDF5IO.hpp"
 
 using namespace AQNWB;
+using namespace AQNWB::IO;
 namespace fs = std::filesystem;
 
 inline std::string getTestFilePath(std::string filename)
@@ -126,6 +127,50 @@ inline void readH5DataBlock(const H5::DataSet* dSet,
                             void* buffer)
 {
   H5::DataSpace fSpace = dSet->getSpace();
-  H5::DataType nativeType = HDF5::HDF5IO::getNativeType(type);
+  H5::DataType nativeType = IO::HDF5::HDF5IO::getNativeType(type);
   dSet->read(buffer, nativeType, fSpace, fSpace);
+}
+
+/**
+ * @brief Sets up a 2D dataset of int32_t values in an HDF5 file.
+ *
+ * This function opens the specified HDF5 file, creates a 2D dataset at the
+ * given path, and writes a predefined set of int32_t values to the dataset.
+ *
+ * @param filePath The path to the HDF5 file.
+ * @param dataPath The path within the HDF5 file where the dataset will be
+ * created.
+ * @param testData A reference to a vector that will be filled with the test
+ * data values.
+ * @return A shared pointer to the HDF5IO object used to interact with the file.
+ */
+inline std::shared_ptr<IO::HDF5::HDF5IO> getHDF5IOWithInt32TestData2D(
+    const std::string& filePath,
+    const std::string& dataPath,
+    std::vector<int32_t>& testData)
+{
+  SizeType numRows = 3, numCols = 3;
+  testData = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+  // Open file
+  std::shared_ptr<IO::HDF5::HDF5IO> hdf5io =
+      std::make_shared<IO::HDF5::HDF5IO>(filePath);
+  hdf5io->open();
+
+  // Create HDF5RecordingData object and dataset
+  std::unique_ptr<BaseRecordingData> dataset =
+      hdf5io->createArrayDataSet(BaseDataType::I32,
+                                 SizeArray {numRows, numCols},
+                                 SizeArray {numRows, numCols},
+                                 dataPath);
+  REQUIRE(dataset != nullptr);
+
+  // Write data block
+  std::vector<SizeType> dataShape = {numRows, numCols};
+  std::vector<SizeType> positionOffset = {0, 0};
+  Status status = dataset->writeDataBlock(
+      dataShape, positionOffset, BaseDataType::I32, testData.data());
+  REQUIRE(status == Status::Success);
+
+  return hdf5io;
 }

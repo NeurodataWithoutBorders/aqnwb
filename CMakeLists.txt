@@ -19,11 +19,13 @@ include(cmake/variables.cmake)
 
 add_library(
     aqnwb_aqnwb
-    src/BaseIO.cpp
+    src/io/BaseIO.cpp
     src/Channel.cpp
-    src/hdf5/HDF5IO.cpp
+    src/io/hdf5/HDF5IO.cpp
+    src/io/hdf5/HDF5RecordingData.cpp
     src/nwb/NWBFile.cpp
     src/nwb/RecordingContainers.cpp
+    src/nwb/RegisteredType.cpp
     src/nwb/base/TimeSeries.cpp
     src/nwb/device/Device.cpp
     src/nwb/ecephys/ElectricalSeries.cpp
@@ -31,7 +33,10 @@ add_library(
     src/nwb/file/ElectrodeGroup.cpp
     src/nwb/file/ElectrodeTable.cpp
     src/nwb/hdmf/base/Container.cpp
+    src/nwb/hdmf/base/Data.cpp
     src/nwb/hdmf/table/DynamicTable.cpp
+    src/nwb/hdmf/table/VectorData.cpp
+    src/nwb/hdmf/table/ElementIdentifiers.cpp
 )
 
 add_library(aqnwb::aqnwb ALIAS aqnwb_aqnwb)

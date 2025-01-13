@@ -96,7 +96,7 @@
  *
  * \section hdf5io_swmr Single-Writer Multiple-Reader (SWMR) Mode
  *
- * The \ref AQNWB::HDF5::HDF5IO "HDF5IO" I/O backend uses by default SWMR mode while recording data.
+ * The \ref AQNWB::IO::HDF5::HDF5IO "HDF5IO" I/O backend uses by default SWMR mode while recording data.
  * Using SWMR, one process can write to the HDF5 file and multiple other processes can read
  * from the file concurrently while ensuring that the readers see a consistent view of the data.
  *
@@ -106,7 +106,7 @@
  *     node [shape=box, style=filled];
  *
  *     // Define the writer node with light blue fill color
- *     writer [label="AqNWB HDF5IO\n(SWMR Write)", fillcolor=lightblue, URL="\ref AQNWB::HDF5::HDF5IO"];
+ *     writer [label="AqNWB HDF5IO\n(SWMR Write)", fillcolor=lightblue, URL="\ref AQNWB::IO::HDF5::HDF5IO"];
  *     // Define the HDF5 file node with a distinct shape
  *     hdf5_file [label="\n.nwb\n(HDF5 File)\n ", shape=folder, fillcolor=lightgray, URL="\ref AQNWB::NWB::NWBFile"];
  *     // Define reader nodes with light green fill color
@@ -153,11 +153,11 @@
  * \note
  * While SWMR mode ensures data integrity, some data loss may still occur if the application crashes.
  * Only data that has been completely written and flushed to disk will be readable. To manually
- * flush data to disk use \ref AQNWB::HDF5::HDF5IO::flush  "HDF5IO::flush".
+ * flush data to disk use \ref AQNWB::IO::HDF5::HDF5IO::flush  "HDF5IO::flush".
  *
  * \subsection  hdf5io_swmr_workflow Writing an NWB file with SWMR mode
  *
- * SWMR mode is enabled when calling \ref AQNWB::HDF5::HDF5IO::startRecording "HDF5IO::startRecording".
+ * SWMR mode is enabled when calling \ref AQNWB::IO::HDF5::HDF5IO::startRecording "HDF5IO::startRecording".
  * Once SWMR mode is enabled, no new data objects (Datasets, Groups, Attributes etc.)
  * can be created, but we can only add and set values to existing data objects. Since other
  * processes may read from the HDF5 file, it is not possible to intermittently disable
@@ -173,7 +173,7 @@
  * This workflow is applicable to a wide range of data acquisition use-cases. However,
  * for use cases that require creation of new Groups and Datasets during acquisition,
  * you can disable the use of SWMR mode by setting `disableSWMRMode=true` when
- * constructing the \ref AQNWB::HDF5::HDF5IO object.
+ * constructing the \ref AQNWB::IO::HDF5::HDF5IO object.
  *
  * \warning
  * While disabling SWMR mode allows Groups and Datasets to be created during and after

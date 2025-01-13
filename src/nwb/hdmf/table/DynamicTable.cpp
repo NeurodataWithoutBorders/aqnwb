@@ -1,16 +1,18 @@
 #include "nwb/hdmf/table/DynamicTable.hpp"
 
+#include "Utils.hpp"
+
 using namespace AQNWB::NWB;
 
 // DynamicTable
+// Initialize the static registered_ member to trigger registration
+REGISTER_SUBCLASS_IMPL(DynamicTable)
 
 /** Constructor */
 DynamicTable::DynamicTable(const std::string& path,
-                           std::shared_ptr<BaseIO> io,
-                           const std::string& description,
+                           std::shared_ptr<IO::BaseIO> io,
                            const std::vector<std::string>& colNames)
     : Container(path, io)
-    , m_description(description)
     , m_colNames(colNames)
 {
 }
@@ -19,19 +21,16 @@ DynamicTable::DynamicTable(const std::string& path,
 DynamicTable::~DynamicTable() {}
 
 /** Initialization function*/
-void DynamicTable::initialize()
+void DynamicTable::initialize(const std::string& description)
 {
   Container::initialize();
-
-  m_io->createCommonNWBAttributes(
-      m_path, "hdmf-common", "DynamicTable", getDescription());
-  m_io->createAttribute(getColNames(), m_path, "colnames");
+  if (description != "")
+    m_io->createAttribute(description, m_path, "description");
+  m_io->createAttribute(m_colNames, m_path, "colnames");
 }
 
 /** Add column to table */
-void DynamicTable::addColumn(const std::string& name,
-                             const std::string& colDescription,
-                             std::unique_ptr<VectorData>& vectorData,
+void DynamicTable::addColumn(std::unique_ptr<VectorData>& vectorData,
                              const std::vector<std::string>& values)
 {
   if (!vectorData->isInitialized()) {
@@ -39,12 +38,11 @@ void DynamicTable::addColumn(const std::string& name,
   } else {
     // write in loop because variable length string
     for (SizeType i = 0; i < values.size(); i++)
-      vectorData->m_dataset->writeDataBlock(
-          std::vector<SizeType>(1, 1),
-          BaseDataType::STR(values[i].size() + 1),
-          values[i].c_str());  // TODO - add tests for this
-    m_io->createCommonNWBAttributes(
-        m_path + name, "hdmf-common", "VectorData", colDescription);
+      vectorData->m_dataset->writeStringDataBlock(
+          std::vector<SizeType> {1},
+          std::vector<SizeType> {i},
+          IO::BaseDataType::STR(values[i].size() + 1),
+          values);  // TODO - add tests for this
   }
 }
 
@@ -55,21 +53,27 @@ void DynamicTable::setRowIDs(std::unique_ptr<ElementIdentifiers>& elementIDs,
     std::cerr << "ElementIdentifiers dataset is not initialized" << std::endl;
   } else {
     elementIDs->m_dataset->writeDataBlock(
-        std::vector<SizeType>(1, values.size()), BaseDataType::I32, &values[0]);
-    m_io->createCommonNWBAttributes(
-        m_path + "id", "hdmf-common", "ElementIdentifiers");
+        std::vector<SizeType>(1, values.size()),
+        IO::BaseDataType::I32,
+        &values[0]);
+    m_io->createCommonNWBAttributes(AQNWB::mergePaths(m_path, "id"),
+                                    elementIDs->getNamespace(),
+                                    elementIDs->getTypeName());
   }
 }
 
-void DynamicTable::addColumn(const std::string& name,
-                             const std::string& colDescription,
-                             const std::vector<std::string>& values)
+void DynamicTable::addReferenceColumn(const std::string& name,
+                                      const std::string& colDescription,
+                                      const std::vector<std::string>& values)
 {
   if (values.empty()) {
     std::cerr << "Data to add to column is empty" << std::endl;
   } else {
-    m_io->createReferenceDataSet(m_path + name, values);
-    m_io->createCommonNWBAttributes(
-        m_path + name, "hdmf-common", "VectorData", colDescription);
+    std::string columnPath = AQNWB::mergePaths(m_path, name);
+    m_io->createReferenceDataSet(columnPath, values);
+    auto refColumn = AQNWB::NWB::VectorData(columnPath, m_io);
+    refColumn.initialize(nullptr,  // Use nullptr because we only want to create
+                                   // the attributes but not modify the data
+                         colDescription);
   }
 }

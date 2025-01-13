@@ -2,7 +2,9 @@
 
 #include <string>
 
-#include "BaseIO.hpp"
+#include "Utils.hpp"
+#include "io/BaseIO.hpp"
+#include "io/ReadIO.hpp"
 #include "nwb/hdmf/base/Container.hpp"
 
 namespace AQNWB::NWB
@@ -14,17 +16,15 @@ namespace AQNWB::NWB
 class Device : public Container
 {
 public:
+  // Register the Device as a subclass of Container
+  REGISTER_SUBCLASS(Device, "core")
+
   /**
    * @brief Constructor.
    * @param path The location of the device in the file.
    * @param io A shared pointer to the IO object.
-   * @param description The description of the device.
-   * @param manufacturer The manufacturer of the device.
    */
-  Device(const std::string& path,
-         std::shared_ptr<BaseIO> io,
-         const std::string& description,
-         const std::string& manufacturer);
+  Device(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
   /**
    * @brief Destructor
@@ -34,30 +34,24 @@ public:
   /**
    * @brief Initializes the device by creating NWB related attributes and
    * writing the manufactor and description metadata.
+   *
+   * @param description The description of the device.
+   * @param manufacturer The manufacturer of the device.
    */
-  void initialize();
+  void initialize(const std::string& description,
+                  const std::string& manufacturer);
 
-  /**
-   * @brief Gets the manufacturer of the device.
-   * @return The manufacturer of the device.
-   */
-  std::string getManufacturer() const;
+  // Define the data fields to expose for lazy read access
+  DEFINE_FIELD(readDescription,
+               AttributeField,
+               std::string,
+               "description",
+               Description of the series)
 
-  /**
-   * @brief Gets the description of the device.
-   * @return The description of the device.
-   */
-  std::string getDescription() const;
-
-private:
-  /**
-   * @brief The description of the device.
-   */
-  std::string description;
-
-  /**
-   * @brief The manufacturer of the device.
-   */
-  std::string manufacturer;
+  DEFINE_FIELD(readManufacturer,
+               AttributeField,
+               std::string,
+               "manufacturer",
+               Manufacturer of the device)
 };
 }  // namespace AQNWB::NWB

@@ -6,8 +6,8 @@ on:
     - main
 
   pull_request:
-    branches:
-    - main
+    #branches:
+    #- main
   workflow_dispatch:
 
 jobs:
@@ -39,7 +39,7 @@ jobs:
         git checkout "v3.5.3"
         cmake -Bbuild -H. -DBUILD_TESTING=OFF
         sudo cmake --build build/ --target install
-    
+
     - name: Install dependencies - macos
       if: matrix.os == 'macos-latest'
       run: brew install hdf5 boost catch2
@@ -48,7 +48,7 @@ jobs:
       if: matrix.os == 'windows-latest'
       run: |
         cd "${VCPKG_INSTALLATION_ROOT}"
-        vcpkg install hdf5[cpp]:x64-windows boost-date-time:x64-windows boost-endian:x64-windows boost-uuid:x64-windows catch2:x64-windows
+        vcpkg install hdf5[cpp]:x64-windows boost-date-time:x64-windows boost-endian:x64-windows boost-uuid:x64-windows boost-multi-array:x64-windows catch2:x64-windows
         vcpkg integrate install
 
     - name: Configure
@@ -74,7 +74,7 @@ jobs:
 
   sanitize:
     needs: test
-    
+
     runs-on: ubuntu-latest
 
     steps:

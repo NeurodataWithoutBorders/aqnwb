@@ -1,5 +1,5 @@
 /**
- * \page workflow AqNWB Workflow
+ * \page workflow Acquiring Data
  *
  * \tableofcontents
  *
@@ -8,7 +8,7 @@
  * For users wanting to integrate NWB with a particular data acquisition software, here
  * we outline the steps for a single recording from file creation to saving.
  *
- * 1. Create the I/O object (e.g,.  \ref AQNWB::HDF5::HDF5IO "HDF5IO") used for
+ * 1. Create the I/O object (e.g,.  \ref AQNWB::IO::HDF5::HDF5IO "HDF5IO") used for
  *    writing data to the file on disk.
  * 2. Create the \ref AQNWB::NWB::RecordingContainers "RecordingContainers" object
  *    used for managing \ref AQNWB::NWB::Container "Container" objects for storing recordings.
@@ -26,11 +26,11 @@
  *
  * \subsection create_io 1. Create the I/O object.
  *
- * First, create an I/O object (e.g., \ref AQNWB::HDF5::HDF5IO "HDF5IO") used for writing
+ * First, create an I/O object (e.g., \ref AQNWB::IO::HDF5::HDF5IO "HDF5IO") used for writing
  * data to the file. AqNWB provides the convenience method, \ref AQNWB::createIO "createIO"
  * to create this object using one of the supported backends. For more fine-grained
  * control of different backend parameters, you can create your own `std::shared_ptr`
- * using any of the derived \ref AQNWB::BaseIO "BaseIO" classes.
+ * using any of the derived \ref AQNWB::IO::BaseIO "BaseIO" classes.
  *
  * \snippet tests/examples/testWorkflowExamples.cpp example_workflow_io_snippet
  *
@@ -61,7 +61,7 @@
  * When adding containers, ownership of the \ref AQNWB::NWB::Container "Container"  is transferred to the
  * \ref AQNWB::NWB::RecordingContainers "RecordingContainers" object, so that we can access it again via
  * its index. New containers will always be appended to the end of the private member
- * ``RecordingContainers.m_containers` object and their index can be tracked
+ * ``RecordingContainers::m_containers`` object and their index can be tracked
  * using the \ref AQNWB::NWB::RecordingContainers::size "RecordingContainers.size" of the input `recordingArrays`.
  *
  * \snippet tests/examples/testWorkflowExamples.cpp example_workflow_datasets_snippet
@@ -72,8 +72,8 @@
  * Then, start the recording process with a call to the ``startRecording`` function of the I/O object.
  *
  *  \note
- * When using \ref AQNWB::HDF5::HDF5IO "HDF5IO" for writing to HDF5, calling
- * \ref AQNWB::HDF5::HDF5IO::startRecording "startRecording" will by default enable
+ * When using \ref AQNWB::IO::HDF5::HDF5IO "HDF5IO" for writing to HDF5, calling
+ * \ref AQNWB::IO::HDF5::HDF5IO::startRecording "startRecording" will by default enable
  * \ref hdf5io_swmr "SWMR mode" to ensure file integrity and support concurrent read.
  * As a result, no additional datasets or groups can be added to the file once a recording
  * has been started unless the file is is closed and reopened.

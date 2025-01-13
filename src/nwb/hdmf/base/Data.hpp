@@ -2,20 +2,27 @@
 
 #include <memory>
 
-#include "BaseIO.hpp"
+#include "io/BaseIO.hpp"
+#include "nwb/RegisteredType.hpp"
 
 namespace AQNWB::NWB
 {
 /**
  * @brief An abstract data type for a dataset.
  */
-class Data
+class Data : public RegisteredType
 {
 public:
+  // Register Data class as a registered type
+  REGISTER_SUBCLASS(Data, "hdmf-common")
+
   /**
    * @brief Constructor.
+   *
+   * @param path The path of the container.
+   * @param io A shared pointer to the IO object.
    */
-  Data() {}
+  Data(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
   /**
    * @brief Destructor.
@@ -30,16 +37,28 @@ public:
    *
    * @param dataset The rvalue unique pointer to the BaseRecordingData object
    */
-  inline void setDataset(std::unique_ptr<BaseRecordingData>&& dataset)
-  {
-    m_dataset = std::move(dataset);
-  }
+  void initialize(std::unique_ptr<IO::BaseRecordingData>&& dataset);
 
   /**
    * @brief Check whether the m_dataset has been initialized
    */
   inline bool isInitialized() { return m_dataset != nullptr; }
 
-  std::unique_ptr<BaseRecordingData> m_dataset;
+  std::unique_ptr<IO::BaseRecordingData> m_dataset;
+
+  // Define the data fields to expose for lazy read access
+  DEFINE_FIELD(readData, DatasetField, std::any, "", The main data)
+
+  DEFINE_FIELD(readNeurodataType,
+               AttributeField,
+               std::string,
+               "neurodata_type",
+               The name of the type)
+
+  DEFINE_FIELD(readNamespace,
+               AttributeField,
+               std::string,
+               "namespace",
+               The name of the namespace)
 };
 }  // namespace AQNWB::NWB
