@@ -486,6 +486,11 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(
     for (int i = 0; i < rank; ++i) {
       offset[i] = start[i];
       block_count[i] = count[i];
+      // Check that the offset and block count are within the dimensions
+      if (offset[i] + block_count[i] > dims[i]) {
+        throw std::runtime_error(
+            "Selection + offset for dimension not within extent.");
+      }
     }
 
     dataspace.selectHyperslab(

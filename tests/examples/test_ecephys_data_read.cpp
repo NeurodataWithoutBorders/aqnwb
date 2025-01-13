@@ -23,6 +23,8 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
 {
   SECTION("ecephys data read example")
   {
+    std::cout << "Creating the mock data for the ElectricalSeriesReadExample"
+              << std::endl;
     // [example_read_mockdata_snippet]
     // setup mock data for writing
     SizeType numSamples = 100;
@@ -47,6 +49,8 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     }
     // [example_read_mockdata_snippet]
 
+    std::cout << "Creating the ElectricalSeriesReadExample.h5 file"
+              << std::endl;
     // [example_read_create_file_snippet]
     // setup io object
     std::string path = getTestFilePath("ElectricalSeriesReadExample.h5");
@@ -85,6 +89,9 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     io->flush();
     // [example_read_create_file_snippet]
 
+    std::cout
+        << "Reading the ElectricalSeriesReadExample.h5 file via the write I/O"
+        << std::endl;
     // [example_read_get_data_wrapper_snippet]
     // Get a ReadDatasetWrapper<float> for lazy reading of ElectricalSeries.data
     // By specifying the value type as a template parameter allows us to read
@@ -176,16 +183,24 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     REQUIRE(electricalSeriesDataPath == (electricalSeriesPath + "/data"));
     // [example_read_getpath_snippet]
 
+    std::cout << "Closing the write I/O" << std::endl;
     // [example_read_finish_recording_snippet]
     // Stop the recording
+    io->flush();
     io->stopRecording();
     io->close();
     // [example_read_finish_recording_snippet]
 
+    std::cout << "Reading the ElectricalSeriesReadExample.h5 file via a new I/O"
+              << std::endl;
+    // [example_read_new_io_snippet]
     // Open a new I/O for reading
     std::shared_ptr<BaseIO> readio = createIO("HDF5", path);
     readio->open(FileMode::ReadOnly);
+    // [example_read_new_io_snippet]
 
+    std::cout << "Searching and reading the ElectricalSeries container"
+              << std::endl;
     // [example_search_types_snippet]
     std::unordered_set<std::string> typesToSearch = {"core::ElectricalSeries"};
     std::unordered_map<std::string, std::string> found_electrical_series =
@@ -199,58 +214,55 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // [example_search_types_check_snippet]
     // We should have esdata1 and esdata2
     REQUIRE(found_electrical_series.size() == 2);
-    std::string esdata_path;
     // Print the path and type of the found objects
     for (const auto& pair : found_electrical_series) {
       std::cout << "Path=" << pair.first << " Full type=" << pair.second
                 << std::endl;
-      esdata_path = pair.first;
     }
     // [example_search_types_check_snippet]
 
+    std::cout << "Reading the ElectricalSeries container " << std::endl;
     // [example_read_only_snippet]
-    // Read the ElectricalSeries from the file. This returns a generic
-    // std::unique_ptr<AQNWB::NWB::RegisteredType>
-    auto readRegisteredType = NWB::RegisteredType::create(esdata_path, readio);
-    // If we need operations that are specific for the ElectricalSeries,
-    // then we can cast the returned pointer via
+    // Read the ElectricalSeries from the file.
+    std::string esdata_path = "/acquisition/esdata0";
     auto readElectricalSeries =
-        std::dynamic_pointer_cast<AQNWB::NWB::ElectricalSeries>(
-            readRegisteredType);
+        NWB::RegisteredType::create<AQNWB::NWB::ElectricalSeries>(esdata_path,
+                                                                  readio);
+    // [example_read_only_snippet]
 
+    std::cout << "Reading the ElectricalSeries data" << std::endl;
+    // [example_read_only_fields_snippet]
     // Now we can read the data in the same way we did during write
     auto readElectricalSeriesData = readElectricalSeries->readData<float>();
     DataBlock<float> readDataValues = readElectricalSeriesData->values();
     auto readBoostMultiArray = readDataValues.as_multi_array<2>();
-    // [example_read_only_snippet]
+    REQUIRE(readDataValues.data.size() == (numSamples * numChannels));
+    REQUIRE(readDataValues.shape[0] == numSamples);
+    REQUIRE(readDataValues.shape[1] == numChannels);
+    // [example_read_only_fields_snippet]
 
-    // Test that reading a string attribute works
-    auto esDescr = readElectricalSeries->readDescription();
-    auto esDescrData = esDescr->values();
-    REQUIRE(esDescrData.data.size() == 1);
-    REQUIRE(esDescrData.shape.size() == 0);
-    REQUIRE(esDescrData.data[0]
-            == std::string("Stores continuously sampled voltage data from an "
-                           "extracellular ephys recording"));
+    std::cout << "Reading a subset of the ElectricalSeries data" << std::endl;
+    // [example_read_only_datasubset_snippet]
+    // We can also read just subsets of the data, e.g., the first 10 time steps
+    // for the first channel
+    // TODO getting the object again is just for debugging Windows issues
+    auto readElectricalSeriesData2 = readElectricalSeries->readData<float>();
+    std::vector<SizeType> start = {0, 0};
+    std::vector<SizeType> count = {9, 1};
+    DataBlock<float> dataSlice =
+        readElectricalSeriesData2->values(start, count);
+    // Validate that the slice was read correctly
+    REQUIRE(dataSlice.data.size() == 9);
+    REQUIRE(dataSlice.shape[0] == 9);
+    REQUIRE(dataSlice.shape[1] == 1);
+    // [example_read_only_datasubset_snippet]
 
-    // TODO Slicing doesn't seem to work quite yet. The full data is loaded
-    // instead. Let's read the first 10 timesteps for the first two channels
-    /*DataBlock<float> dataSlice = readDataWrapper->values<float>(
-        {0, 0},  // start
-        {10, 1}  // count
-    );
-    REQUIRE(dataSlice.data.size() == 10);
-    REQUIRE(dataSlice.shape[0] == 10);
-    REQUIRE(dataSlice.shape[1] == 1);*/
-
-    // TODO Add an attribute getter (e.g., for ElectricalSeries.unit) and test
-    // that it works as well std::string esUnit = electricalSeries->unit();
-    // REQUIRE(esUnit == std::string("volts"));
-    // REQUIRE(unitValueGeneric.shape.size() == 0);
-
-    // TODO Check why reading the unit causes the below Assertion in HDF5IO to
-    // fail: (this->file->attrExists(dataPath)), function readAttribute, file
-    // HDF5IO.cpp, line 161. i.e., the attribute does not seem to exists so
-    // either the path is wrong or something is bad with the write?
+    std::cout << "Reading the ElectricalSeries unit attribute" << std::endl;
+    // [example_read_only_stringattr_snippet]
+    // Or read a string attribute, e.g., the unit
+    std::string esUnitValue =
+        readElectricalSeries->readDataUnit()->values().data[0];
+    REQUIRE(esUnitValue == std::string("volts"));
+    // [example_read_only_stringattr_snippet]
   }
 }
