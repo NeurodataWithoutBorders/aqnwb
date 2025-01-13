@@ -284,6 +284,7 @@ private:
    * @param offset Scalar to add to the data after scaling by ‘conversion’ to
    *               finalize its coercion to the specified ‘unit’.
    * @param unit Base unit of measurement for working with the data.
+   * @param continuity Continuity of the data
    * @return The status of the operation.
    */
   Status createDataAttributes(const std::string& path,

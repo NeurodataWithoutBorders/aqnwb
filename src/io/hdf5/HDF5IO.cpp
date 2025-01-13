@@ -483,25 +483,13 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(
   if (!start.empty() && !count.empty()) {
     std::vector<hsize_t> offset(rank);
     std::vector<hsize_t> block_count(rank);
-    bool selectionErrorFound = false;
     for (int i = 0; i < rank; ++i) {
       offset[i] = start[i];
       block_count[i] = count[i];
-
-      // Debug output for offset and block_count
-      std::cerr << "Offset[" << i << "]: " << offset[i] << std::endl;
-      std::cerr << "Block count[" << i << "]: " << block_count[i] << std::endl;
-      std::cerr << "Dims[" << i << "]: " << dims[i] << std::endl;
-
       // Check that the offset and block count are within the dimensions
       if (offset[i] + block_count[i] > dims[i]) {
-        std::cerr
-            << "Error: Selection + offset not within extent for dimension " << i
-            << std::endl;
-        selectionErrorFound = true;
-      }
-      if (selectionErrorFound) {
-        throw std::runtime_error("Selection + offset not within extent");
+        throw std::runtime_error(
+            "Selection + offset for dimension not within extent.");
       }
     }
 
@@ -519,10 +507,6 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(
       if (!block_hsize.empty()) {
         mem_dims[i] *= block_hsize[i];
       }
-
-      // Debug output for mem_dims
-      std::cerr << "Memory dimension[" << i << "]: " << mem_dims[i]
-                << std::endl;
     }
 
     memspace = H5::DataSpace(rank, mem_dims.data());
