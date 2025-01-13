@@ -491,7 +491,7 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(
       // Debug output for offset and block_count
       std::cerr << "Offset[" << i << "]: " << offset[i] << std::endl;
       std::cerr << "Block count[" << i << "]: " << block_count[i] << std::endl;
-      std::cerr << "Dims[" << i << "]" << dims[i] << std::endl;
+      std::cerr << "Dims[" << i << "]: " << dims[i] << std::endl;
 
       // Check that the offset and block count are within the dimensions
       if (offset[i] + block_count[i] > dims[i]) {

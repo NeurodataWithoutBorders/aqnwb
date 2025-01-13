@@ -214,33 +214,31 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // [example_search_types_check_snippet]
     // We should have esdata1 and esdata2
     REQUIRE(found_electrical_series.size() == 2);
-    std::string esdata_path;
     // Print the path and type of the found objects
     for (const auto& pair : found_electrical_series) {
       std::cout << "Path=" << pair.first << " Full type=" << pair.second
                 << std::endl;
-      esdata_path = pair.first;
     }
     // [example_search_types_check_snippet]
 
-    std::cout << "Reading the ElectricalSeries data" << std::endl;
+    std::cout << "Reading the ElectricalSeries container " << std::endl;
     // [example_read_only_snippet]
-    // Read the ElectricalSeries from the file. This returns a generic
-    // std::unique_ptr<AQNWB::NWB::RegisteredType>
-    auto readRegisteredType = NWB::RegisteredType::create(esdata_path, readio);
-    // If we need operations that are specific for the ElectricalSeries,
-    // then we can cast the returned pointer via
+    // Read the ElectricalSeries from the file.
+    std::string esdata_path = "/acquisition/esdata0";
     auto readElectricalSeries =
-        std::dynamic_pointer_cast<AQNWB::NWB::ElectricalSeries>(
-            readRegisteredType);
+        NWB::RegisteredType::create<AQNWB::NWB::ElectricalSeries>(esdata_path,
+                                                                  readio);
     // [example_read_only_snippet]
 
-    // TODO: Add this part back once debugging is finished
+    std::cout << "Reading the ElectricalSeries data" << std::endl;
     // [example_read_only_fields_snippet]
     // Now we can read the data in the same way we did during write
-    // auto readElectricalSeriesData = readElectricalSeries->readData<float>();
-    // DataBlock<float> readDataValues = readElectricalSeriesData->values();
-    // auto readBoostMultiArray = readDataValues.as_multi_array<2>();
+    auto readElectricalSeriesData = readElectricalSeries->readData<float>();
+    DataBlock<float> readDataValues = readElectricalSeriesData->values();
+    auto readBoostMultiArray = readDataValues.as_multi_array<2>();
+    REQUIRE(readDataValues.data.size() == (numSamples * numChannels));
+    REQUIRE(readDataValues.shape[0] == numSamples);
+    REQUIRE(readDataValues.shape[1] == numChannels);
     // [example_read_only_fields_snippet]
 
     std::cout << "Reading a subset of the ElectricalSeries data" << std::endl;
