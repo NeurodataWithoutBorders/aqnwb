@@ -486,6 +486,18 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(
     for (int i = 0; i < rank; ++i) {
       offset[i] = start[i];
       block_count[i] = count[i];
+
+      // Debug output for offset and block_count
+      std::cerr << "Offset[" << i << "]: " << offset[i] << std::endl;
+      std::cerr << "Block count[" << i << "]: " << block_count[i] << std::endl;
+
+      // Check that the offset and block count are within the dimensions
+      if (offset[i] + block_count[i] > dims[i]) {
+        std::cerr
+            << "Error: Selection + offset not within extent for dimension " << i
+            << std::endl;
+        throw std::runtime_error("Selection + offset not within extent");
+      }
     }
 
     dataspace.selectHyperslab(
@@ -502,6 +514,10 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(
       if (!block_hsize.empty()) {
         mem_dims[i] *= block_hsize[i];
       }
+
+      // Debug output for mem_dims
+      std::cerr << "Memory dimension[" << i << "]: " << mem_dims[i]
+                << std::endl;
     }
 
     memspace = H5::DataSpace(rank, mem_dims.data());
