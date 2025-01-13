@@ -231,7 +231,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // We can also read just subsets of the data, e.g., the first 10 time steps
     // for the first channel
     std::vector<SizeType> start = {0, 0};
-    std::vector<SizeType> count = {10, 1};
+    std::vector<SizeType> count = {9, 1};
     DataBlock<float> dataSlice = readElectricalSeriesData->values(start, count);
 
     // Or read an attribute, e.g., the unit
@@ -242,8 +242,8 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
 
     // [example_read_extra_checks_snippet]
     // Validate that the slice was read correctly
-    REQUIRE(dataSlice.data.size() == 10);
-    REQUIRE(dataSlice.shape[0] == 10);
+    REQUIRE(dataSlice.data.size() == 9);
+    REQUIRE(dataSlice.shape[0] == 9);
     REQUIRE(dataSlice.shape[1] == 1);
 
     // Test that reading a string attribute works
