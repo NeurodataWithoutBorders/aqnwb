@@ -536,5 +536,9 @@
  *
  *  \snippet tests/examples/test_ecephys_data_read.cpp  example_read_only_fields_snippet
  *
+ *  \snippet tests/examples/test_ecephys_data_read.cpp  example_read_only_datasubset_snippet
+ *
+ *  \snippet tests/examples/test_ecephys_data_read.cpp  example_read_only_stringattr_snippet
+ *
  */
 
