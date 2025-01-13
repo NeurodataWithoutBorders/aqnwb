@@ -235,11 +235,12 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
             readRegisteredType);
     // [example_read_only_snippet]
 
+    // TODO: Add this part back once debugging is finished
     // [example_read_only_fields_snippet]
     // Now we can read the data in the same way we did during write
-    auto readElectricalSeriesData = readElectricalSeries->readData<float>();
-    DataBlock<float> readDataValues = readElectricalSeriesData->values();
-    auto readBoostMultiArray = readDataValues.as_multi_array<2>();
+    // auto readElectricalSeriesData = readElectricalSeries->readData<float>();
+    // DataBlock<float> readDataValues = readElectricalSeriesData->values();
+    // auto readBoostMultiArray = readDataValues.as_multi_array<2>();
     // [example_read_only_fields_snippet]
 
     std::cout << "Reading a subset of the ElectricalSeries data" << std::endl;
