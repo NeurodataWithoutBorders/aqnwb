@@ -88,19 +88,19 @@ public:
                AttributeField,
                std::string,
                "colnames",
-               The names of the columns in the table);
+               The names of the columns in the table)
 
   DEFINE_FIELD(readDescription,
                AttributeField,
                std::string,
                "description",
-               Description of what is in this dynamic table);
+               Description of what is in this dynamic table)
 
   DEFINE_FIELD(readId,
                DatasetField, 
                std::any, 
                "id", 
-               Array of unique identifiers for the rows of this dynamic table);
+               Array of unique identifiers for the rows of this dynamic table)
 
 protected:
   /**
