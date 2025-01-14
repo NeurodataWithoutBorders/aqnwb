@@ -61,4 +61,17 @@
  *  cmake --build --preset=dev --target=format-fix
  * \endcode
  *
+ * \subsection testing_github Automated tests on GitHub
+ *
+ * AqNWB uses GitHub Actions defined in the [.github/workflows](https://github.com/NeurodataWithoutBorders/aqnwb/tree/main/.github/workflows) folder. 
+ * 
+ * \note
+ * For pull requests, **note that GitHub Actions often checks out a temporary merge commit**. 
+ * This commit represents the state of the code as if the pull request were to be merged 
+ * into the target branch (usually ``main``). This allows the CI to test the combined code
+ * without actually merging it. These temporary merge commits are not part of the repository's
+ * history and exist only in the context of the CI job. That is, if you are experiencing errors
+ * in the CI but the indicated lines of code do not match the code in the PR, then this is 
+ * likely due the PR being out of sync with the target branch of the PR. 
+ *
  */
