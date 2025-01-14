@@ -185,7 +185,7 @@ private:
                AttributeField,
                std::string,
                "nwb_version",
-               File version string);
+               File version string)
 
   DEFINE_FIELD(readFileCreateDate,
                DatasetField,
