@@ -119,8 +119,8 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     for (SizeType t = 0; t < numSamples; t++) {
       // Get the data for the single time step t from the DataBlock
       std::vector<float> selectedRange(
-          dataValues.data.begin() + (t * numChannels),
-          dataValues.data.begin() + ((t + 1) * numChannels));
+          dataValues.data.begin() + static_cast<std::vector<float>::difference_type>(t * numChannels),
+          dataValues.data.begin() + static_cast<std::vector<float>::difference_type>((t + 1) * numChannels));
       // Check that the values are correct
       REQUIRE_THAT(selectedRange,
                    Catch::Matchers::Approx(mockDataTransposed[t]).margin(1));
@@ -129,7 +129,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
 
     // [example_read_get_boostarray_snippet]
     // Use the boost multi-array feature to simply interaction with data
-    auto boostMulitArray = dataValues.as_multi_array<2>();
+    auto boostMultiArray = dataValues.as_multi_array<2>();
     // [example_read_get_boostarray_snippet]
 
     // [example_read_validate_boostarray_snippet]
@@ -137,7 +137,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     for (SizeType t = 0; t < numSamples; t++) {
       // Access [t, :], i.e., get a 1D array with the data
       // from all channels for time step t.
-      auto row_t = boostMulitArray[t];
+      auto row_t = boostMultiArray[static_cast<long>(t)];
 
       // Compare to check that the data is correct.
       std::vector<float> row_t_vector(

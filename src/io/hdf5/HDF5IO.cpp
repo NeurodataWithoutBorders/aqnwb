@@ -318,7 +318,7 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(
 
   // Determine the shape of the attribute
   H5::DataSpace dataspace = attribute.getSpace();
-  int rank = dataspace.getSimpleExtentNdims();
+  SizeType rank = static_cast<SizeType>(dataspace.getSimpleExtentNdims());
   result.shape.clear();
   if (rank > 0) {
     std::vector<hsize_t> tempShape(rank);
@@ -389,7 +389,7 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(
     // Handle array attributes
     H5::ArrayType arrayType(dataType.getId());
     H5::DataType baseType = arrayType.getSuper();
-    int arrayRank = arrayType.getArrayNDims();
+    SizeType arrayRank = static_cast<SizeType>(arrayType.getArrayNDims());
     std::vector<hsize_t> arrayDims(arrayRank);
     arrayType.getArrayDims(arrayDims.data());
 
@@ -471,7 +471,7 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(
   H5::DataSpace dataspace = dataset.getSpace();
 
   // Get the number of dimensions and their sizes
-  int rank = dataspace.getSimpleExtentNdims();
+  SizeType rank = static_cast<SizeType>(dataspace.getSimpleExtentNdims());
   std::vector<hsize_t> dims(rank);
   dataspace.getSimpleExtentDims(dims.data(), nullptr);
 
@@ -483,7 +483,7 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(
   if (!start.empty() && !count.empty()) {
     std::vector<hsize_t> offset(rank);
     std::vector<hsize_t> block_count(rank);
-    for (int i = 0; i < rank; ++i) {
+    for (SizeType i = 0; i < rank; ++i) {
       offset[i] = start[i];
       block_count[i] = count[i];
       // Check that the offset and block count are within the dimensions
@@ -502,14 +502,14 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(
 
     // Calculate the memory space dimensions
     std::vector<hsize_t> mem_dims(rank);
-    for (int i = 0; i < rank; ++i) {
+    for (SizeType i = 0; i < rank; ++i) {
       mem_dims[i] = block_count[i];
       if (!block_hsize.empty()) {
         mem_dims[i] *= block_hsize[i];
       }
     }
 
-    memspace = H5::DataSpace(rank, mem_dims.data());
+    memspace = H5::DataSpace(static_cast<int>(rank), mem_dims.data());
 
     // Update the shape information based on the hyperslab selection
     result.shape.assign(mem_dims.begin(), mem_dims.end());
@@ -1185,7 +1185,7 @@ AQNWB::IO::BaseDataType HDF5IO::getBaseDataType(const H5::DataType& nativeType)
     hid_t nativeTypeId = nativeType.getId();
     H5::ArrayType arrayType(nativeTypeId);
     H5::DataType baseType = arrayType.getSuper();
-    hsize_t size = arrayType.getArrayNDims();
+    hsize_t size = static_cast<hsize_t>(arrayType.getArrayNDims());
     return IO::BaseDataType(getBaseDataType(baseType).type, size);
   } else {
     // Default case: return a 32-bit integer type
