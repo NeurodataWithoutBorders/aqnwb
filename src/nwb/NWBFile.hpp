@@ -163,6 +163,22 @@ private:
       const SizeArray& chunking,
       const std::string& path);
 
+  /** @brief Create AnnotationSeries objects to record data into.
+   * Created objects are stored in recordingContainers.
+   * @param recordingNames vector indicating the names of the AnnotationSeries
+   * within the acquisition group
+   * @param dataType The data type of the elements in the data block.
+   * @param recordingContainers The container to store the created TimeSeries.
+   * @param containerIndexes The indexes of the containers added to
+   * recordingContainers
+   * @return Status The status of the object creation operation.
+   */
+  Status createAnnotationSeries(
+      std::vector<std::string> recordingNames,
+      const IO::BaseDataType& dataType,
+      RecordingContainers* recordingContainers = nullptr,
+      std::vector<SizeType>& containerIndexes = emptyContainerIndexes);
+
   /**
    * @brief Saves the specification files for the schema.
    * @param specPath The location in the file to store the spec information.
