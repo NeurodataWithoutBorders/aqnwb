@@ -119,8 +119,12 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     for (SizeType t = 0; t < numSamples; t++) {
       // Get the data for the single time step t from the DataBlock
       std::vector<float> selectedRange(
-          dataValues.data.begin() + static_cast<std::vector<float>::difference_type>(t * numChannels),
-          dataValues.data.begin() + static_cast<std::vector<float>::difference_type>((t + 1) * numChannels));
+          dataValues.data.begin()
+              + static_cast<std::vector<float>::difference_type>(t
+                                                                 * numChannels),
+          dataValues.data.begin()
+              + static_cast<std::vector<float>::difference_type>(
+                  (t + 1) * numChannels));
       // Check that the values are correct
       REQUIRE_THAT(selectedRange,
                    Catch::Matchers::Approx(mockDataTransposed[t]).margin(1));
