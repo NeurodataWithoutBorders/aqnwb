@@ -26,7 +26,6 @@ void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
                                   const std::string& description,
                                   const SizeArray& dsetSize,
                                   const SizeArray& chunkSize,
-                                  const float& conversion,
                                   const float& resolution,
                                   const float& offset)
 {
@@ -40,6 +39,8 @@ void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
                          resolution,
                          offset);
 
+  this->m_channelVector = channelVector;
+
   // setup variables based on number of channels
   std::vector<SizeType> electrodeInds(channelVector.size());
   std::vector<float> channelConversions(channelVector.size());
@@ -50,13 +51,13 @@ void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
   m_samplesRecorded = SizeArray(channelVector.size(), 0);
 
   // make channel conversion dataset
-  channelConversion =
+  m_channelConversion =
       std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet(
           IO::BaseDataType::F32,
           SizeArray {1},
           chunkSize,
           AQNWB::mergePaths(getPath(), "/channel_conversion")));
-  channelConversion->writeDataBlock(
+  m_channelConversion->writeDataBlock(
       std::vector<SizeType>(1, channelVector.size()),
       IO::BaseDataType::F32,
       &channelConversions[0]);
@@ -69,13 +70,13 @@ void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
                         1);
 
   // make electrodes dataset
-  electrodesDataset = std::unique_ptr<IO::BaseRecordingData>(
+  m_electrodesDataset = std::unique_ptr<IO::BaseRecordingData>(
       m_io->createArrayDataSet(IO::BaseDataType::I32,
                                SizeArray {1},
                                chunkSize,
                                AQNWB::mergePaths(getPath(), "electrodes")));
 
-  electrodesDataset->writeDataBlock(
+  m_electrodesDataset->writeDataBlock(
       std::vector<SizeType>(1, channelVector.size()),
       IO::BaseDataType::I32,
       &electrodeInds[0]);

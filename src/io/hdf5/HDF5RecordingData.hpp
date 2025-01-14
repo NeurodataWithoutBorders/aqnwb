@@ -87,7 +87,6 @@ private:
    */
   Status writeDataBlockHelper(const std::vector<SizeType>& dataShape,
                               const std::vector<SizeType>& positionOffset,
-                              const AQNWB::IO::BaseDataType& type,
                               H5::DataSpace& mSpace,
                               H5::DataSpace& fSpace);
 

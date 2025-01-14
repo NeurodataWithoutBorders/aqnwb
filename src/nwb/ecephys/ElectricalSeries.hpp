@@ -44,8 +44,6 @@ public:
    * @param chunkSize Chunk size to use. The number of elements must be two to
    *                  specify the size of a chunk in the time and electrode
    *                  dimension
-   * @param conversion Scalar to multiply each element in data to convert it to
-   *                   the specified ‘unit’
    * @param resolution Smallest meaningful difference between values in data,
    *                   stored in the specified by unit
    * @param offset Scalar to add to the data after scaling by ‘conversion’ to
@@ -56,7 +54,6 @@ public:
                   const std::string& description,
                   const SizeArray& dsetSize,
                   const SizeArray& chunkSize,
-                  const float& conversion = 1.0f,
                   const float& resolution = -1.0f,
                   const float& offset = 0.0f);
 
