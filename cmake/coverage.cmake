@@ -4,10 +4,10 @@
 # customization issues
 set(
     COVERAGE_TRACE_COMMAND
-    lcov -c -q
+    lcov -c -q --verbose
     -o "${PROJECT_BINARY_DIR}/coverage.info"
     -d "${PROJECT_BINARY_DIR}"
-    --include "${PROJECT_SOURCE_DIR}/*"
+    --include "${PROJECT_SOURCE_DIR}/src/*"
     --exclude "*/tests/*"
     CACHE STRING
     "; separated command to generate a trace for the 'coverage' target"
