@@ -46,5 +46,6 @@ var searchData=
   ['attributeexists_43',['attributeExists',['../class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a06b5edf2bbd4c85adcafda13e7903873',1,'AQNWB::IO::BaseIO::attributeExists()'],['../class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a53bfbbdbf24afdd97ea45294b65c1e37',1,'AQNWB::IO::HDF5::HDF5IO::attributeExists()']]],
   ['attributefield_44',['AttributeField',['../namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f',1,'AQNWB::NWB']]],
   ['attributes_45',['Reading Datasets and Attributes',['../read_page.html#read_design_example_read_during',1,'']]],
-  ['attributes_46',['Reading datasets and attributes',['../read_page.html#read_design_sec_read_date',1,'']]]
+  ['attributes_46',['Reading datasets and attributes',['../read_page.html#read_design_sec_read_date',1,'']]],
+  ['automated_20tests_20on_20github_47',['Automated tests on GitHub',['../testing.html#testing_github',1,'']]]
 ];

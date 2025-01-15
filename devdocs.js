@@ -12,7 +12,8 @@ var devdocs =
     ] ],
     [ "Testing", "testing.html", [
       [ "Unit Tests", "testing.html#testing_unit", [
-        [ "Running Unit Tests", "testing.html#testing_unit_run", null ]
+        [ "Running Unit Tests", "testing.html#testing_unit_run", null ],
+        [ "Automated tests on GitHub", "testing.html#testing_github", null ]
       ] ],
       [ "Spellcheck", "testing.html#testing_spellcheck", null ],
       [ "Linting", "testing.html#testing_lint", null ]

@@ -33,6 +33,7 @@ var searchData=
   ['getsamplingrate_30',['getSamplingRate',['../class_a_q_n_w_b_1_1_channel.html#a3cb232d17dac42ee09c959c247307394',1,'AQNWB::Channel']]],
   ['getstorageobjecttype_31',['getStorageObjectType',['../class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a032fc25850e9d5efe216fd22d44daa56',1,'AQNWB::IO::BaseIO::getStorageObjectType()'],['../class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a5fb171a91ef8134baf224115f0dcf8bc',1,'AQNWB::IO::HDF5::HDF5IO::getStorageObjectType()'],['../class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html#ae4455d653e39ed6d1e041d90441e0c89',1,'AQNWB::IO::ReadDataWrapper::getStorageObjectType()']]],
   ['gettypename_32',['getTypeName',['../class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a150f881ad61cb8352eea7ddba47bc6ad',1,'AQNWB::NWB::RegisteredType']]],
-  ['graphs_33',['Creating Custom Dot Graphs',['../dev_docs_page.html#dev_docs_graphviz_sec',1,'']]],
-  ['group_34',['Group',['../class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915a5d8b12216d606def4af0aec215130e33',1,'AQNWB::Types']]]
+  ['github_33',['Automated tests on GitHub',['../testing.html#testing_github',1,'']]],
+  ['graphs_34',['Creating Custom Dot Graphs',['../dev_docs_page.html#dev_docs_graphviz_sec',1,'']]],
+  ['group_35',['Group',['../class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915a5d8b12216d606def4af0aec215130e33',1,'AQNWB::Types']]]
 ];

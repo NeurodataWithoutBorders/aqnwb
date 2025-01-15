@@ -42,6 +42,7 @@ var NAVTREEINDEX4 =
 "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type.html":[4,0,0,0,7],
 "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type.html":[4,0,0,0,8],
 "testing.html":[2,1],
+"testing.html#testing_github":[2,1,0,1],
 "testing.html#testing_lint":[2,1,2],
 "testing.html#testing_spellcheck":[2,1,1],
 "testing.html#testing_unit":[2,1,0],

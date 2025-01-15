@@ -111,6 +111,9 @@ $(function(){initNavTree('testing.html',''); initResizable(true); });
       <li class="level2">
         <a href="#testing_unit_run">Running Unit Tests</a>
       </li>
+      <li class="level2">
+        <a href="#testing_github">Automated tests on GitHub</a>
+      </li>
     </ul>
   </li>
   <li class="level1">
@@ -134,7 +137,12 @@ Running Unit Tests</h2>
 </div><!-- fragment --><p>Alternatively go to your build directory and run <code>ctest</code> directly, e.g.:</p>
 <div class="fragment"><div class="line">cd &lt;my_build_dir&gt;</div>
 <div class="line">ctest</div>
-</div><!-- fragment --><h1><a class="anchor" id="testing_spellcheck"></a>
+</div><!-- fragment --><h2><a class="anchor" id="testing_github"></a>
+Automated tests on GitHub</h2>
+<p>AqNWB uses GitHub Actions defined in the <a href="https://github.com/NeurodataWithoutBorders/aqnwb/tree/main/.github/workflows">.github/workflows</a> folder to automatically run all unit tests, spellchecks, linter, etc. on all pull requests. <br  />
+</p>
+<dl class="section note"><dt>Note</dt><dd>For pull requests, <b>GitHub Actions often checks out a temporary merge commit</b>. This commit represents the state of the code as if the pull request were to be merged into the target branch (usually <code>main</code>). This allows the CI to test the combined code without actually merging it. These temporary merge commits are not part of the repository's history and exist only in the context of the CI job. That is, if you are experiencing errors in the CI but the indicated lines of code do not match the code in the PR, then this is likely due the PR being out-of-sync with the target branch of the PR.</dd></dl>
+<h1><a class="anchor" id="testing_spellcheck"></a>
 Spellcheck</h1>
 <p>AqNWB uses <code>codespell</code> to check the code for spelling errors. You can run the spellchecker via:</p>
 <div class="fragment"><div class="line">cmake --build --preset=dev --target=spell-check</div>
