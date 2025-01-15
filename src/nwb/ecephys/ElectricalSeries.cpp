@@ -26,6 +26,7 @@ void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
                                   const std::string& description,
                                   const SizeArray& dsetSize,
                                   const SizeArray& chunkSize,
+                                  const float& conversion,
                                   const float& resolution,
                                   const float& offset)
 {
@@ -35,7 +36,7 @@ void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
                          channelVector[0].getComments(),
                          dsetSize,
                          chunkSize,
-                         channelVector[0].getConversion(),
+                         conversion,
                          resolution,
                          offset);
 

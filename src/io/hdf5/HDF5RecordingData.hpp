@@ -80,7 +80,6 @@ private:
    * @brief Allocate space and validate parameters
    * @param dataShape The size of the data block.
    * @param positionOffset The position of the data block to write to.
-   * @param type The data type of the elements in the data block.
    * @param mSpace The HDF5 memory space (return value)
    * @param fSpace The HDF5 file space (return value)
    * @return The status of the write operation.

@@ -21,6 +21,7 @@ void SpikeEventSeries::initialize(const IO::BaseDataType& dataType,
                                   const std::string& description,
                                   const SizeArray& dsetSize,
                                   const SizeArray& chunkSize,
+                                  const float& conversion,
                                   const float& resolution,
                                   const float& offset)
 {
@@ -29,6 +30,7 @@ void SpikeEventSeries::initialize(const IO::BaseDataType& dataType,
                                description,
                                dsetSize,
                                chunkSize,
+                               conversion,
                                resolution,
                                offset);
   this->m_eventsRecorded = 0;
