@@ -64,10 +64,10 @@ public:
    * @param data Vector with the string data
    * @return The status of the write operation.
    */
-  Status writeStringDataBlock(const std::vector<SizeType>& dataShape,
-                              const std::vector<SizeType>& positionOffset,
-                              const AQNWB::IO::BaseDataType& type,
-                              const std::vector<std::string>& data);
+  Status writeDataBlock(const std::vector<SizeType>& dataShape,
+                        const std::vector<SizeType>& positionOffset,
+                        const AQNWB::IO::BaseDataType& type,
+                        const std::vector<std::string>& data);
 
   /**
    * @brief Gets a const pointer to the HDF5 dataset.

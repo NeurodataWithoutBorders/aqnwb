@@ -95,7 +95,7 @@ Status HDF5RecordingData::writeDataBlock(
   return Status::Success;
 }
 
-Status HDF5RecordingData::writeStringDataBlock(
+Status HDF5RecordingData::writeDataBlock(
     const std::vector<SizeType>& dataShape,
     const std::vector<SizeType>& positionOffset,
     const AQNWB::IO::BaseDataType& type,
