@@ -1364,7 +1364,7 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     // Write fixed-length string data block
     std::vector<SizeType> strDataShape = {3};
     std::vector<SizeType> strPositionOffset = {0};
-    writeStatus = strDataset->writeStringDataBlock(
+    writeStatus = strDataset->writeDataBlock(
         strDataShape, strPositionOffset, strType, testDataStr);
     REQUIRE(writeStatus == Status::Success);
 
@@ -1391,10 +1391,10 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     std::vector<SizeType> vstrDataShape = {3};
     std::vector<SizeType> vstrPositionOffset = {0};
     writeStatus =
-        vstrDataset->writeStringDataBlock(vstrDataShape,
-                                          vstrPositionOffset,
-                                          vstrType,  // Pass the vstrType object
-                                          testDataVStr);
+        vstrDataset->writeDataBlock(vstrDataShape,
+                                    vstrPositionOffset,
+                                    vstrType,  // Pass the vstrType object
+                                    testDataVStr);
     REQUIRE(writeStatus == Status::Success);
 
     // Confirm reading the variable-length string data is correct

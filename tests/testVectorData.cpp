@@ -177,7 +177,7 @@ TEST_CASE("VectorData", "[base]")
     columnVectorData.initialize(std::move(columnDataset), description);
 
     // Write data to file
-    Status writeStatus = columnVectorData.m_dataset->writeStringDataBlock(
+    Status writeStatus = columnVectorData.m_dataset->writeDataBlock(
         dataShape, positionOffset, dataType, data);
     REQUIRE(writeStatus == Status::Success);
     io->flush();
