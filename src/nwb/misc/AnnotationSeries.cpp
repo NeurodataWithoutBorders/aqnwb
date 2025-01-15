@@ -26,7 +26,7 @@ void AnnotationSeries::initialize(const std::string& description,
                                   const SizeArray& chunkSize)
 {
   TimeSeries::initialize(
-      IO::BaseDataType::V_STR, // fixed to string according to schema
+      IO::BaseDataType::V_STR,  // fixed to string according to schema
       "n/a",  // unit fixed to "n/a"
       description,
       comments,
@@ -47,10 +47,8 @@ Status AnnotationSeries::writeAnnotation(const SizeType& numSamples,
 
   // Write timestamps
   Status tsStatus = Status::Success;
-  tsStatus = this->timestamps->writeDataBlock(dataShape,
-                                              positionOffset,
-                                              this->timestampsType,
-                                              timestampsInput);
+  tsStatus = this->timestamps->writeDataBlock(
+      dataShape, positionOffset, this->timestampsType, timestampsInput);
 
   // Write the data
   Status dataStatus = this->data->writeDataBlock(
@@ -61,7 +59,7 @@ Status AnnotationSeries::writeAnnotation(const SizeType& numSamples,
     tsStatus = this->control->writeDataBlock(
         dataShape, positionOffset, this->controlType, controlInput);
   }
-  
+
   // track samples recorded
   m_samplesRecorded += numSamples;
 

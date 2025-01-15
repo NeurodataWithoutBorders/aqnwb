@@ -35,38 +35,41 @@ TEST_CASE("AnnotationSeries", "[misc]")
 
     // setup annotation series
     NWB::AnnotationSeries as = NWB::AnnotationSeries(dataPath, io);
-    as.initialize("Test annotations",
-                 "Test comments",
-                 SizeArray {0},
-                 SizeArray {1});
+    as.initialize(
+        "Test annotations", "Test comments", SizeArray {0}, SizeArray {1});
 
     // write annotations multiple times to test adding to same dataset
-    Status writeStatus = as.writeAnnotation(numSamples, 
-                                            mockAnnotations, 
-                                            mockTimestamps.data());
+    Status writeStatus =
+        as.writeAnnotation(numSamples, mockAnnotations, mockTimestamps.data());
     REQUIRE(writeStatus == Status::Success);
-    Status writeStatus2 = as.writeAnnotation(numSamples, 
-                                            mockAnnotations, 
-                                            mockTimestamps2.data());
+    Status writeStatus2 =
+        as.writeAnnotation(numSamples, mockAnnotations, mockTimestamps2.data());
     REQUIRE(writeStatus2 == Status::Success);
     io->flush();
 
     // Read annotations back from file
     std::vector<std::string> expectedAnnotations = mockAnnotations;
-    expectedAnnotations.insert(expectedAnnotations.end(), mockAnnotations.begin(), mockAnnotations.end());
+    expectedAnnotations.insert(expectedAnnotations.end(),
+                               mockAnnotations.begin(),
+                               mockAnnotations.end());
     std::vector<std::string> dataOut(expectedAnnotations.size());
 
     auto readAnnotationsData = io->readDataset(dataPath + "/data");
-    auto readAnnotationsDataTyped = DataBlock<std::string>::fromGeneric(readAnnotationsData);
+    auto readAnnotationsDataTyped =
+        DataBlock<std::string>::fromGeneric(readAnnotationsData);
     REQUIRE(readAnnotationsDataTyped.data == expectedAnnotations);
 
     // Read timestamps
     std::vector<double> expectedTimestamps = mockTimestamps;
-    expectedTimestamps.insert(expectedTimestamps.end(), mockTimestamps2.begin(), mockTimestamps2.end());
+    expectedTimestamps.insert(expectedTimestamps.end(),
+                              mockTimestamps2.begin(),
+                              mockTimestamps2.end());
     std::vector<double> timestampsOut(expectedTimestamps.size());
 
     auto readTimestampsData = io->readDataset(dataPath + "/timestamps");
-    auto readTimestampsDataTyped = DataBlock<double>::fromGeneric(readTimestampsData);
-    REQUIRE_THAT(readTimestampsDataTyped.data, Catch::Matchers::Approx(expectedTimestamps));
+    auto readTimestampsDataTyped =
+        DataBlock<double>::fromGeneric(readTimestampsData);
+    REQUIRE_THAT(readTimestampsDataTyped.data,
+                 Catch::Matchers::Approx(expectedTimestamps));
   }
 }

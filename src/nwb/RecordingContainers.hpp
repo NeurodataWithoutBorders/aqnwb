@@ -122,10 +122,10 @@ public:
    * @return The status of the write operation.
    */
   Status writeAnnotationSeriesData(const SizeType& containerInd,
-                             const SizeType& numSamples,
-                             const std::vector<std::string> data,
-                             const void* timestamps,
-                             const void* controlInput = nullptr);
+                                   const SizeType& numSamples,
+                                   const std::vector<std::string> data,
+                                   const void* timestamps,
+                                   const void* controlInput = nullptr);
 
   /**
    * @brief Get the number of recording containers
