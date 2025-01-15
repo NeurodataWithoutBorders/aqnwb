@@ -7,8 +7,8 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series =
     [ "readData", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a0e3139dbc00e4b143e1695e870532c15", null ],
     [ "readDataUnit", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#aafd3b79dfa49cea7296d16d8edff45b6", null ],
     [ "writeChannel", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#abd499ff69952a61324f86034ea91111b", null ],
-    [ "channelConversion", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a6e3404325bf42e3a02e4189b18f0e398", null ],
-    [ "channelVector", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#abeb85fcd7954d786583ab938191211c0", null ],
-    [ "electrodesDataset", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a7f6c1b4ce82d866fa1e1830cd80c5015", null ],
+    [ "m_channelConversion", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a4c289e7d7371c5d6faec32d0e9596b37", null ],
+    [ "m_channelVector", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a7240606f6b1eee71f31552d2c4df3403", null ],
+    [ "m_electrodesDataset", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#acb6d202d3eb99b8d95ec8a0692a5f2aa", null ],
     [ "m_samplesRecorded", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a30298c5b6060c152101f6badd0e4824b", null ]
 ];

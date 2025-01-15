@@ -377,8 +377,12 @@ Read data into memory</h3>
 <div class="line">    <span class="keywordflow">for</span> (<a class="code hl_typedef" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> t = 0; t &lt; numSamples; t++) {</div>
 <div class="line">      <span class="comment">// Get the data for the single time step t from the DataBlock</span></div>
 <div class="line">      std::vector&lt;float&gt; selectedRange(</div>
-<div class="line">          dataValues.data.begin() + (t * numChannels),</div>
-<div class="line">          dataValues.data.begin() + ((t + 1) * numChannels));</div>
+<div class="line">          dataValues.data.begin()</div>
+<div class="line">              + <span class="keyword">static_cast&lt;</span>std::vector&lt;float&gt;::difference_type<span class="keyword">&gt;</span>(t</div>
+<div class="line">                                                                 * numChannels),</div>
+<div class="line">          dataValues.data.begin()</div>
+<div class="line">              + <span class="keyword">static_cast&lt;</span>std::vector&lt;float&gt;::difference_type<span class="keyword">&gt;</span>(</div>
+<div class="line">                  (t + 1) * numChannels));</div>
 <div class="line">      <span class="comment">// Check that the values are correct</span></div>
 <div class="line">      REQUIRE_THAT(selectedRange,</div>
 <div class="line">                   Catch::Matchers::Approx(mockDataTransposed[t]).margin(1));</div>
@@ -387,13 +391,13 @@ Read data into memory</h3>
 Accessing multi-dimensional data as Boost multi-array</h3>
 <p>To ease interaction with mutli-dimensional data, e.g., the <code>(time x channel)</code> data of our <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html">ElectricalSeries</a>, we can use the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a39c4d437721b818aac335f3c9a57dc97">DataBlock.as_multi_array</a> method to construct a <code>boost::const_multi_array_ref</code>.</p>
 <div class="fragment"><div class="line">    <span class="comment">// Use the boost multi-array feature to simply interaction with data</span></div>
-<div class="line">    <span class="keyword">auto</span> boostMulitArray = dataValues.as_multi_array&lt;2&gt;();</div>
+<div class="line">    <span class="keyword">auto</span> boostMultiArray = dataValues.as_multi_array&lt;2&gt;();</div>
 </div><!-- fragment --><p>Using boost multi-array simplifies access and interaction with the data as a multi-dimensional array. Here we use this again to validate the data we loaded against the original mock, like we did above.</p>
 <div class="fragment"><div class="line">    <span class="comment">// Iterate through all the time steps again, but now using the boost array</span></div>
 <div class="line">    <span class="keywordflow">for</span> (<a class="code hl_typedef" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> t = 0; t &lt; numSamples; t++) {</div>
 <div class="line">      <span class="comment">// Access [t, :], i.e., get a 1D array with the data</span></div>
 <div class="line">      <span class="comment">// from all channels for time step t.</span></div>
-<div class="line">      <span class="keyword">auto</span> row_t = boostMulitArray[t];</div>
+<div class="line">      <span class="keyword">auto</span> row_t = boostMultiArray[<span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span><span class="keyword">&gt;</span>(t)];</div>
 <div class="line"> </div>
 <div class="line">      <span class="comment">// Compare to check that the data is correct.</span></div>
 <div class="line">      std::vector&lt;float&gt; row_t_vector(</div>

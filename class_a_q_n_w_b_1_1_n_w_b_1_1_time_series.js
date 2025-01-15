@@ -33,7 +33,7 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_time_series =
     [ "control_description", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ade6868b88e1d85134b60849300e7ee53", null ],
     [ "controlType", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a1c688cde84718c2968c2642717f6c237", null ],
     [ "data", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a5ad16f8a582e49ca4f57bbc3a98217a0", null ],
-    [ "dataType", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a9f04e6a60f85bbe8638c091a83150c79", null ],
+    [ "m_dataType", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#acc6599d1e408b171f833d0373251c7e8", null ],
     [ "starting_time", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#abed2a81ba552a93c683a93ab72ed2cdf", null ],
     [ "timestamps", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a6b0d0dfbb34c8317bdfdc128d73d4177", null ],
     [ "timestampsType", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a65eb096a4e4bb527853ebeaa56c64886", null ]
