@@ -101,17 +101,27 @@ static inline std::string mergePaths(const std::string& path1,
   while (start < path2.size() && path2[start] == '/') {
     start++;
   }
+  // Get path2 without trailing slashes
+  std::string path2Clean = path2.substr(start);
+  while (!path2Clean.empty() && path2Clean.back() == '/' && path2Clean != "/") {
+    path2Clean.pop_back();
+  }
   // Append path2 to path1 with a "/" in between
-  if (!result.empty()) {
+  if (!result.empty() && !path2Clean.empty()) {
     result += '/';
   }
-  result += path2.substr(start);
+  result += path2Clean;
 
   // Remove any potential occurrences of "//" and replace with "/"
   size_t pos = result.find("//");
   while (pos != std::string::npos) {
     result.replace(pos, 2, "/");
     pos = result.find("//", pos);
+  }
+
+  // Remove trailing "/" from final result if not root path
+  while (!result.empty() && result.back() == '/' && result != "/") {
+    result.pop_back();
   }
 
   return result;

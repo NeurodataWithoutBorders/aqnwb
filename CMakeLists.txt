@@ -90,7 +90,7 @@ find_package(HDF5 REQUIRED COMPONENTS CXX)
 include_directories(${HDF5_INCLUDE_DIRS})
 
 find_package(Boost REQUIRED)
-include_directories(${Boost_INCLUDE_DIRS})
+include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 
 target_link_libraries(aqnwb_aqnwb ${HDF5_CXX_LIBRARIES} ${Boost_LIBRARIES})
 if (WIN32)
