@@ -39,9 +39,9 @@ jobs:
 
             - name: Process coverage info
               run: |
-                echo "project binary dir: ${PROJECT_BINARY_DIR}"
-                echo "project source dir: ${PROJECT_SOURCE_DIR}""
                 cmake --build build/coverage -t coverage
+                echo "project binary dir: ${PROJECT_BINARY_DIR}"
+                echo "project source dir: ${PROJECT_SOURCE_DIR}"
 
             - name: Upload coverage to Codecov
               uses: codecov/codecov-action@v4
