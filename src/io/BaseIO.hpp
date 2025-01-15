@@ -552,11 +552,10 @@ public:
    * @param data Vector with the string data
    * @return The status of the write operation.
    */
-  virtual Status writeStringDataBlock(
-      const std::vector<SizeType>& dataShape,
-      const std::vector<SizeType>& positionOffset,
-      const BaseDataType& type,
-      const std::vector<std::string>& data) = 0;
+  virtual Status writeDataBlock(const std::vector<SizeType>& dataShape,
+                                const std::vector<SizeType>& positionOffset,
+                                const BaseDataType& type,
+                                const std::vector<std::string>& data) = 0;
 
 protected:
   /**

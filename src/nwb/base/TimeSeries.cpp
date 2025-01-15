@@ -146,11 +146,10 @@ void TimeSeries::initialize(const IO::BaseDataType& dataType,
             controlDescriptionShape,
             controlDescriptionChunkSize,
             AQNWB::mergePaths(m_path, "control_description")));
-    this->control_description->writeStringDataBlock(
-        controlDescriptionShape,
-        controlDescriptionPositionOffset,
-        controlDesriptionType,
-        controlDescription);
+    this->control_description->writeDataBlock(controlDescriptionShape,
+                                              controlDescriptionPositionOffset,
+                                              controlDesriptionType,
+                                              controlDescription);
   } else {
     this->control = nullptr;
     this->control_description = nullptr;
