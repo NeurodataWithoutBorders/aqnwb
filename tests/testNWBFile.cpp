@@ -202,11 +202,11 @@ TEST_CASE("createAnnotationSeries", "[nwb]")
   // write to both annotation series
   recordingContainers->writeAnnotationSeriesData(0,
                                           dataShape,
-                                          mockAnnotations.data(),
+                                          mockAnnotations,
                                           mockTimestamps.data());
   recordingContainers->writeAnnotationSeriesData(1,
                                           dataShape,
-                                          mockAnnotations.data(),
+                                          mockAnnotations,
                                           mockTimestamps.data());  
 
 

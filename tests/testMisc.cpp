@@ -13,7 +13,7 @@ using namespace AQNWB;
 TEST_CASE("AnnotationSeries", "[misc]")
 {
   // setup recording info
-  SizeType numSamples = 10;
+  SizeType numSamples = 3;
   std::string dataPath = "/annotations";
   std::vector<std::string> mockAnnotations = {
       "Subject moved",
@@ -21,6 +21,10 @@ TEST_CASE("AnnotationSeries", "[misc]")
       "Break ended",
   };
   std::vector<double> mockTimestamps = getMockTimestamps(numSamples, 1);
+  std::vector<double> mockTimestamps2 = mockTimestamps;
+  for (double& value : mockTimestamps2) {
+    value += 5;
+  }
 
   SECTION("test writing annotations")
   {
@@ -36,33 +40,33 @@ TEST_CASE("AnnotationSeries", "[misc]")
                  SizeArray {0},
                  SizeArray {1});
 
-    // write annotations
-    Status writeStatus = as.writeAnnotation(
-        numSamples, mockAnnotations.data(), mockTimestamps.data());
+    // write annotations multiple times to test adding to same dataset
+    Status writeStatus = as.writeAnnotation(numSamples, 
+                                            mockAnnotations, 
+                                            mockTimestamps.data());
     REQUIRE(writeStatus == Status::Success);
+    Status writeStatus2 = as.writeAnnotation(numSamples, 
+                                            mockAnnotations, 
+                                            mockTimestamps2.data());
+    REQUIRE(writeStatus2 == Status::Success);
     io->flush();
-    io->close();
 
-    // Read data back from file
-    std::unique_ptr<H5::H5File> file =
-        std::make_unique<H5::H5File>(path, H5F_ACC_RDONLY);
-    std::unique_ptr<H5::DataSet> dataset =
-        std::make_unique<H5::DataSet>(file->openDataSet(dataPath + "/data"));
+    // Read annotations back from file
+    std::vector<std::string> expectedAnnotations = mockAnnotations;
+    expectedAnnotations.insert(expectedAnnotations.end(), mockAnnotations.begin(), mockAnnotations.end());
+    std::vector<std::string> dataOut(expectedAnnotations.size());
 
-    // Read annotations
-    std::vector<std::string> dataOut(numSamples);
-    H5::StrType str_type(H5::PredType::C_S1, H5T_VARIABLE);
-    H5::DataSpace fSpace = dataset->getSpace();
-    dataset->read(dataOut.data(), str_type);
-
-    REQUIRE_THAT(dataOut, Catch::Matchers::Equals(mockAnnotations));
+    auto readAnnotationsData = io->readDataset(dataPath + "/data");
+    auto readAnnotationsDataTyped = DataBlock<std::string>::fromGeneric(readAnnotationsData);
+    REQUIRE(readAnnotationsDataTyped.data == expectedAnnotations);
 
     // Read timestamps
-    std::unique_ptr<H5::DataSet> timestampsDataset =
-        std::make_unique<H5::DataSet>(file->openDataSet(dataPath + "/timestamps"));
-    std::vector<double> timestampsOut(numSamples);
-    timestampsDataset->read(timestampsOut.data(), H5::PredType::NATIVE_DOUBLE);
+    std::vector<double> expectedTimestamps = mockTimestamps;
+    expectedTimestamps.insert(expectedTimestamps.end(), mockTimestamps2.begin(), mockTimestamps2.end());
+    std::vector<double> timestampsOut(expectedTimestamps.size());
 
-    REQUIRE_THAT(timestampsOut, Catch::Matchers::Approx(mockTimestamps));
+    auto readTimestampsData = io->readDataset(dataPath + "/timestamps");
+    auto readTimestampsDataTyped = DataBlock<double>::fromGeneric(readTimestampsData);
+    REQUIRE_THAT(readTimestampsDataTyped.data, Catch::Matchers::Approx(expectedTimestamps));
   }
 }
