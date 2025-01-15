@@ -10,6 +10,7 @@
 #include "nwb/RecordingContainers.hpp"
 #include "nwb/base/TimeSeries.hpp"
 #include "nwb/ecephys/SpikeEventSeries.hpp"
+#include "nwb/misc/AnnotationSeries.hpp"
 #include "testUtils.hpp"
 
 using namespace AQNWB;
@@ -159,6 +160,60 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
         numSamples, mockArrays.size(), mockData.data(), &mockTimestamps[i]);
     ses1->writeSpike(
         numSamples, mockArrays.size(), mockData.data(), &mockTimestamps[i]);
+  }
+
+  nwbfile.finalize();
+}
+
+TEST_CASE("createAnnotationSeries", "[nwb]")
+{
+  std::string filename = getTestFilePath("createAnnotationSeries.nwb");
+
+  // initialize nwbfile object and create base structure
+  std::shared_ptr<IO::HDF5::HDF5IO> io =
+      std::make_shared<IO::HDF5::HDF5IO>(filename);
+  io->open();
+  NWB::NWBFile nwbfile(io);
+  nwbfile.initialize(generateUuid());
+
+  // create Annotation Series
+  std::vector<std::string> mockAnnotationNames = {"annotations1",
+                                                  "annotations2"};
+  std::unique_ptr<NWB::RecordingContainers> recordingContainers =
+      std::make_unique<NWB::RecordingContainers>();
+  Status resultCreate = nwbfile.createAnnotationSeries(
+      mockAnnotationNames, recordingContainers.get());
+  REQUIRE(resultCreate == Status::Success);
+
+  // start recording
+  Status resultStart = io->startRecording();
+  REQUIRE(resultStart == Status::Success);
+
+  // write annotation data
+  std::vector<std::string> mockAnnotations = {
+      "Start recording", "Subject moved", "End recording"};
+  std::vector<double> mockTimestamps = {0.1, 0.5, 1.0};
+  std::vector<SizeType> positionOffset = {0};
+  SizeType dataShape = mockAnnotations.size();
+
+  // write to both annotation series
+  recordingContainers->writeAnnotationSeriesData(
+      0, dataShape, mockAnnotations, mockTimestamps.data());
+  recordingContainers->writeAnnotationSeriesData(
+      1, dataShape, mockAnnotations, mockTimestamps.data());
+
+  // test searching for all AnnotationSeries objects
+  std::unordered_set<std::string> typesToSearch = {"core::AnnotationSeries"};
+  std::unordered_map<std::string, std::string> found_types =
+      io->findTypes("/", typesToSearch, IO::SearchMode::CONTINUE_ON_TYPE);
+  REQUIRE(found_types.size()
+          == 2);  // We should have annotations1 and annotations2
+  for (const auto& pair : found_types) {
+    // only AnnotationSeries should be found
+    REQUIRE(pair.second == "core::AnnotationSeries");
+    // only annotations1 or annotations2 should be in the list
+    REQUIRE(((pair.first == "/acquisition/annotations1")
+             || (pair.first == "/acquisition/annotations2")));
   }
 
   nwbfile.finalize();

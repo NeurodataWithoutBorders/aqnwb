@@ -131,6 +131,20 @@ public:
       RecordingContainers* recordingContainers = nullptr,
       std::vector<SizeType>& containerIndexes = emptyContainerIndexes);
 
+  /** @brief Create AnnotationSeries objects to record data into.
+   * Created objects are stored in recordingContainers.
+   * @param recordingNames vector indicating the names of the AnnotationSeries
+   * within the acquisition group
+   * @param recordingContainers The container to store the created TimeSeries.
+   * @param containerIndexes The indexes of the containers added to
+   * recordingContainers
+   * @return Status The status of the object creation operation.
+   */
+  Status createAnnotationSeries(
+      std::vector<std::string> recordingNames,
+      RecordingContainers* recordingContainers = nullptr,
+      std::vector<SizeType>& containerIndexes = emptyContainerIndexes);
+
 protected:
   /**
    * @brief Creates the default file structure.

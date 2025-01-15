@@ -53,7 +53,8 @@ Status HDF5RecordingData::writeDataBlock(
         || type.type == BaseDataType::Type::T_STR)
     {
       std::cerr << "HDF5RecordingData::writeDataBlock called for string data, "
-                   "use HDF5RecordingData::writeStringDataBlock instead."
+                   "use HDF5RecordingData::writeDataBlock with a string array "
+                   "data input instead of void* data."
                 << std::endl;
       return Status::Failure;
     }
