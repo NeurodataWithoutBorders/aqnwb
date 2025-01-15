@@ -46,13 +46,13 @@ public:
   /**
    * @brief Writes a channel to an AnnotationSeries dataset.
    * @param numSamples The number of samples to write (length in time).
-   * @param dataInput A pointer to the data block.
+   * @param dataInput A vector of strings.
    * @param timestampsInput A pointer to the timestamps block.
    * @param controlInput A pointer to the control block data (optional)
    * @return The status of the write operation.
    */
   Status writeAnnotation(const SizeType& numSamples,
-                         const void* dataInput,
+                         const std::vector<std::string> dataInput,
                          const void* timestampsInput,
                          const void* controlInput = nullptr);
 
@@ -66,6 +66,6 @@ private:
   /**
    * @brief The number of samples already written per channel.
    */
-  SizeType m_samplesRecorded;
+  SizeType m_samplesRecorded = 0;
 };
 }  // namespace AQNWB::NWB

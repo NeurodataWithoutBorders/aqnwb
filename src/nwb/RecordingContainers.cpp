@@ -90,7 +90,7 @@ Status RecordingContainers::writeSpikeEventData(const SizeType& containerInd,
 
 Status RecordingContainers::writeAnnotationSeriesData(const SizeType& containerInd,
                                                 const SizeType& numSamples,
-                                                const void* data,
+                                                const std::vector<std::string> data,
                                                 const void* timestamps,
                                                 const void* controlInput)
 {

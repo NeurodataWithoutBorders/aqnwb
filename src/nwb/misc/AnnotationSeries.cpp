@@ -38,17 +38,36 @@ void AnnotationSeries::initialize(const std::string& description,
 }
 
 Status AnnotationSeries::writeAnnotation(const SizeType& numSamples,
-                                         const void* dataInput,
+                                         std::vector<std::string> dataInput,
                                          const void* timestampsInput,
                                          const void* controlInput)
 {
-  // get offsets and datashape
   std::vector<SizeType> dataShape = {numSamples};
-  std::vector<SizeType> positionOffset = {m_samplesRecorded};
+  std::vector<SizeType> positionOffset = {this->m_samplesRecorded};
 
-  // track samples recorded per channel
+  // Write timestamps
+  Status tsStatus = Status::Success;
+  tsStatus = this->timestamps->writeDataBlock(dataShape,
+                                              positionOffset,
+                                              this->timestampsType,
+                                              timestampsInput);
+
+  // Write the data
+  Status dataStatus = this->data->writeDataBlock(
+      dataShape, positionOffset, this->m_dataType, dataInput);
+
+  // Write the control data if it exists
+  if (controlInput != nullptr) {
+    tsStatus = this->control->writeDataBlock(
+        dataShape, positionOffset, this->controlType, controlInput);
+  }
+  
+  // track samples recorded
   m_samplesRecorded += numSamples;
 
-  // write channel data
-  return writeData(dataShape, positionOffset, dataInput, timestampsInput, controlInput);
+  if ((dataStatus != Status::Success) || (tsStatus != Status::Success)) {
+    return Status::Failure;
+  } else {
+    return Status::Success;
+  }
 }
