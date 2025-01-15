@@ -7,8 +7,8 @@ var namespace_a_q_n_w_b_1_1_i_o =
     [ "DataBlock", "class_a_q_n_w_b_1_1_i_o_1_1_data_block.html", "class_a_q_n_w_b_1_1_i_o_1_1_data_block" ],
     [ "DataBlockGeneric", "class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html", "class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic" ],
     [ "isAllowedStorageObjectType", "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type.html", null ],
-    [ "isAllowedStorageObjectType< StorageObjectType::Attribute >", "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type.html", null ],
-    [ "isAllowedStorageObjectType< StorageObjectType::Dataset >", "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type.html", null ],
+    [ "isAllowedStorageObjectType< StorageObjectType::Attribute >", "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type_3_01_storage_object_type_1_1_attribute_01_4.html", null ],
+    [ "isAllowedStorageObjectType< StorageObjectType::Dataset >", "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type_3_01_storage_object_type_1_1_dataset_01_4.html", null ],
     [ "ReadDataWrapper", "class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html", "class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper" ],
     [ "FileMode", "namespace_a_q_n_w_b_1_1_i_o.html#a969d0800c8e9e2141f272541b85e8bed", [
       [ "Overwrite", "namespace_a_q_n_w_b_1_1_i_o.html#a969d0800c8e9e2141f272541b85e8bedada364eb37e143f6b2b5559aa03f5913a", null ],

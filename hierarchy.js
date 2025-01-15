@@ -11,8 +11,8 @@ var hierarchy =
     [ "AQNWB::IO::DataBlock< DTYPE >", "class_a_q_n_w_b_1_1_i_o_1_1_data_block.html", null ],
     [ "AQNWB::IO::DataBlockGeneric", "class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html", null ],
     [ "std::false_type", null, [
-      [ "AQNWB::IO::isAllowedStorageObjectType< StorageObjectType::Attribute >", "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type.html", null ],
-      [ "AQNWB::IO::isAllowedStorageObjectType< StorageObjectType::Dataset >", "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type.html", null ],
+      [ "AQNWB::IO::isAllowedStorageObjectType< StorageObjectType::Attribute >", "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type_3_01_storage_object_type_1_1_attribute_01_4.html", null ],
+      [ "AQNWB::IO::isAllowedStorageObjectType< StorageObjectType::Dataset >", "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type_3_01_storage_object_type_1_1_dataset_01_4.html", null ],
       [ "AQNWB::IO::isAllowedStorageObjectType< T >", "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type.html", null ]
     ] ],
     [ "std::integral_constant", null, [
@@ -40,8 +40,8 @@ var hierarchy =
       ] ]
     ] ],
     [ "std::true_type", null, [
-      [ "AQNWB::IO::isAllowedStorageObjectType< StorageObjectType::Attribute >", "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type.html", null ],
-      [ "AQNWB::IO::isAllowedStorageObjectType< StorageObjectType::Dataset >", "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type.html", null ]
+      [ "AQNWB::IO::isAllowedStorageObjectType< StorageObjectType::Attribute >", "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type_3_01_storage_object_type_1_1_attribute_01_4.html", null ],
+      [ "AQNWB::IO::isAllowedStorageObjectType< StorageObjectType::Dataset >", "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type_3_01_storage_object_type_1_1_dataset_01_4.html", null ]
     ] ],
     [ "AQNWB::Types", "class_a_q_n_w_b_1_1_types.html", null ]
 ];

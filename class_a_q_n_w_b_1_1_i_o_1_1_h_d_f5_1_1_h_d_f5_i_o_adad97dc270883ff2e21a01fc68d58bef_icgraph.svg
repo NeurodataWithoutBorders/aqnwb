@@ -87,7 +87,7 @@ var sectionId = 'dynsection-31';
 <!-- Node5 -->
 <g id="Node000005" class="node">
 <title>Node5</title>
-<g id="a_Node000005"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a78a67b8d9aaa53fa9e05da41f5c65559" target="_top" xlink:title="Writes a block of data to the HDF5 dataset.">
+<g id="a_Node000005"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a0a8b539f400e46e0093f4763983c81a8" target="_top" xlink:title="Writes a block of string data (any number of dimensions).">
 <polygon fill="white" stroke="#666666" points="361.25,-79.5 181.75,-79.5 181.75,-49 361.25,-49 361.25,-79.5"/>
 <text text-anchor="start" x="189.75" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::IO::HDF5::HDF5Recording</text>
 <text text-anchor="middle" x="271.5" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">Data::writeDataBlock</text>
@@ -106,10 +106,10 @@ var sectionId = 'dynsection-31';
 <!-- Node6 -->
 <g id="Node000006" class="node">
 <title>Node6</title>
-<g id="a_Node000006"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#af4946dd5f2056036026682e4ca61a00c" target="_top" xlink:title="Writes a block of string data (any number of dimensions).">
+<g id="a_Node000006"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a78a67b8d9aaa53fa9e05da41f5c65559" target="_top" xlink:title="Writes a block of data to the HDF5 dataset.">
 <polygon fill="white" stroke="#666666" points="361.25,-30.5 181.75,-30.5 181.75,0 361.25,0 361.25,-30.5"/>
 <text text-anchor="start" x="189.75" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::IO::HDF5::HDF5Recording</text>
-<text text-anchor="middle" x="271.5" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">Data::writeStringDataBlock</text>
+<text text-anchor="middle" x="271.5" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">Data::writeDataBlock</text>
 </a>
 </g>
 </g>
