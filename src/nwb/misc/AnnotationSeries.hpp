@@ -33,14 +33,12 @@ public:
 
   /**
    * @brief Initializes the AnnotationSeries
-   * @param dataType The data type to use for storing the user annotations
    * @param description The description of the AnnotationSeries.
    * @param dsetSize Initial size of the main dataset. This must be a vector
    *                 with one element specifying the length in time.
    * @param chunkSize Chunk size to use.
    */
-  void initialize(const IO::BaseDataType& dataType,
-                  const std::string& description,
+  void initialize(const std::string& description,
                   const std::string& comments,
                   const SizeArray& dsetSize,
                   const SizeArray& chunkSize);
@@ -50,11 +48,13 @@ public:
    * @param numSamples The number of samples to write (length in time).
    * @param dataInput A pointer to the data block.
    * @param timestampsInput A pointer to the timestamps block.
+   * @param controlInput A pointer to the control block data (optional)
    * @return The status of the write operation.
    */
   Status writeAnnotation(const SizeType& numSamples,
                          const void* dataInput,
-                         const void* timestampsInput);
+                         const void* timestampsInput,
+                         const void* controlInput = nullptr);
 
   DEFINE_FIELD(readData,
                DatasetField,

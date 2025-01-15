@@ -20,16 +20,13 @@ AnnotationSeries::AnnotationSeries(const std::string& path,
 AnnotationSeries::~AnnotationSeries() {}
 
 /** Initialization function*/
-void AnnotationSeries::initialize(const IO::BaseDataType& dataType,
-                                  const std::string& description,
+void AnnotationSeries::initialize(const std::string& description,
                                   const std::string& comments,
                                   const SizeArray& dsetSize,
                                   const SizeArray& chunkSize)
 {
   TimeSeries::initialize(
-      dataType,  // NOTE - since the datatype must be a text according to the
-                 // schema should we fix this to a variable length or fixed
-                 // string? or leave option for both
+      IO::BaseDataType::V_STR, // fixed to string according to schema
       "n/a",  // unit fixed to "n/a"
       description,
       comments,
@@ -42,7 +39,8 @@ void AnnotationSeries::initialize(const IO::BaseDataType& dataType,
 
 Status AnnotationSeries::writeAnnotation(const SizeType& numSamples,
                                          const void* dataInput,
-                                         const void* timestampsInput)
+                                         const void* timestampsInput,
+                                         const void* controlInput)
 {
   // get offsets and datashape
   std::vector<SizeType> dataShape = {numSamples};
@@ -52,5 +50,5 @@ Status AnnotationSeries::writeAnnotation(const SizeType& numSamples,
   m_samplesRecorded += numSamples;
 
   // write channel data
-  return writeData(dataShape, positionOffset, dataInput, timestampsInput);
+  return writeData(dataShape, positionOffset, dataInput, timestampsInput, controlInput);
 }

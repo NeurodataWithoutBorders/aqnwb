@@ -300,7 +300,6 @@ Status NWBFile::createSpikeEventSeries(
 }
 
 Status NWBFile::createAnnotationSeries(std::vector<std::string> recordingNames,
-                                       const IO::BaseDataType& dataType,
                                        RecordingContainers* recordingContainers,
                                        std::vector<SizeType>& containerIndexes)
 {
@@ -318,7 +317,6 @@ Status NWBFile::createAnnotationSeries(std::vector<std::string> recordingNames,
     auto annotationSeries =
         std::make_unique<AnnotationSeries>(annotationSeriesPath, m_io);
     annotationSeries->initialize(
-        dataType,
         "Stores user annotations made during an experiment",
         "no comments",
         SizeArray {0},

@@ -112,6 +112,22 @@ public:
                              const void* controlInput = nullptr);
 
   /**
+   * @brief Write AnnotationSeries data to a recordingContainer dataset.
+   * @param containerInd The index of the AnnotationSeries dataset within the
+   * AnnotationSeries containers.
+   * @param numSamples Number of samples in the time for the single event.
+   * @param data A pointer to the data block.
+   * @param timestamps A pointer to the timestamps block
+   * @param controlInput A pointer to the control block data (optional)
+   * @return The status of the write operation.
+   */
+  Status writeAnnotationSeriesData(const SizeType& containerInd,
+                             const SizeType& numSamples,
+                             const void* data,
+                             const void* timestamps,
+                             const void* controlInput = nullptr);
+
+  /**
    * @brief Get the number of recording containers
    */
   inline SizeType size() const { return m_containers.size(); }
