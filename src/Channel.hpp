@@ -142,31 +142,6 @@ public:
 
 private:
   /**
-   * @brief Comments about the channel.
-   */
-  std::string m_comments;
-
-  /**
-   * @brief Coordinates of channel (x, y, z) within the recording array.
-   */
-  std::array<float, 3> m_position;
-
-  /**
-   * @brief Index of channel across the recording system.
-   */
-  SizeType m_globalIndex;
-
-  /**
-   * @brief Index of channel within the recording array.
-   */
-  SizeType m_localIndex;
-
-  /**
-   * @brief Index of array group the channel belongs to.
-   */
-  SizeType m_groupIndex;
-
-  /**
    * @brief Name of the channel.
    */
   std::string m_name;
@@ -175,6 +150,21 @@ private:
    * @brief Name of the array group the channel belongs to.
    */
   std::string m_groupName;
+
+  /**
+   * @brief Index of array group the channel belongs to.
+   */
+  SizeType m_groupIndex;
+
+  /**
+   * @brief Index of channel within the recording array.
+   */
+  SizeType m_localIndex;
+
+  /**
+   * @brief Index of channel across the recording system.
+   */
+  SizeType m_globalIndex;
 
   /**
    * @brief Conversion factor.
@@ -190,5 +180,15 @@ private:
    * @brief floating point value of microvolts per bit
    */
   float m_bitVolts;
+
+  /**
+   * @brief Coordinates of channel (x, y, z) within the recording array.
+   */
+  std::array<float, 3> m_position;
+
+  /**
+   * @brief Comments about the channel.
+   */
+  std::string m_comments;
 };
 }  // namespace AQNWB

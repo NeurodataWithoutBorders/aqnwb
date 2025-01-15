@@ -82,7 +82,7 @@ void TimeSeries::initialize(const IO::BaseDataType& dataType,
 {
   Container::initialize();
 
-  this->dataType = dataType;
+  this->m_dataType = dataType;
 
   // create comments attribute
   if (description != "")
@@ -176,7 +176,7 @@ Status TimeSeries::writeData(const std::vector<SizeType>& dataShape,
 
   // Write the data
   Status dataStatus = this->data->writeDataBlock(
-      dataShape, positionOffset, this->dataType, dataInput);
+      dataShape, positionOffset, this->m_dataType, dataInput);
 
   // Write the control data if it exists
   if (controlInput != nullptr) {

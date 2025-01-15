@@ -1000,7 +1000,7 @@ TEST_CASE("readAttribute", "[hdf5io]")
     REQUIRE(readData.shape.size() == 1);  // 1D array attribute
     REQUIRE(readData.shape[0] == dataSize);
     REQUIRE(readData.data.size() == dataSize);
-    for (int i = 0; i < dataSize; ++i) {
+    for (SizeType i = 0; i < dataSize; ++i) {
       REQUIRE(readData.data[i] == writeData[i]);
     }
   }

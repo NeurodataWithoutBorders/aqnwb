@@ -160,7 +160,7 @@ public:
   /**
    * @brief Data type of the data.
    */
-  IO::BaseDataType dataType;
+  IO::BaseDataType m_dataType;
 
   /**
    * @brief Data type of the timestamps (float64).

@@ -85,7 +85,6 @@ TEST_CASE("RegisterType", "[base]")
     std::vector<SizeType> positionOffset = {0};
     BaseDataType dataType = BaseDataType::F32;
     std::vector<float> data = getMockData1D(numSamples);
-    BaseDataType timestampsType = BaseDataType::F64;
     std::vector<double> timestamps = getMockTimestamps(numSamples, 1);
     std::vector<unsigned char> controlData = {0, 1, 0, 1, 0, 1, 0, 1, 0, 1};
     std::vector<std::string> controlDescription = {
