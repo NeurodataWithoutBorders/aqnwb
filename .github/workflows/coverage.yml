@@ -38,10 +38,7 @@ jobs:
               run: ctest --output-on-failure --no-tests=error -j 2
 
             - name: Process coverage info
-              run: |
-                cmake --build build/coverage -t coverage
-                echo "project binary dir: ${PROJECT_BINARY_DIR}"
-                echo "project source dir: ${PROJECT_SOURCE_DIR}"
+              run: cmake --build build/coverage -t coverage
 
             - name: Upload coverage to Codecov
               uses: codecov/codecov-action@v4

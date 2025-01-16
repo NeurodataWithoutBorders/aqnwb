@@ -7,7 +7,6 @@ set(
     lcov -c --verbose
     -o "${PROJECT_BINARY_DIR}/coverage.info"
     -d "${PROJECT_BINARY_DIR}"
-    -d "${PROJECT_SOURCE_DIR}/src/*"
     --no-external
     CACHE STRING
     "; separated command to generate a trace for the 'coverage' target"
