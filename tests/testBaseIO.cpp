@@ -31,6 +31,21 @@ TEST_CASE("Test findTypes functionality", "[BaseIO]")
     REQUIRE(result["/"] == "core::NWBFile");
   }
 
+  SECTION("Search for dataset type")
+  {
+    // Create root group with type attributes
+    io.createGroup("/");
+    io.createArrayDataSet(
+        BaseDataType::I32, SizeArray {0}, SizeArray {1}, "/dataset1");
+    io.createAttribute("hdmf-common", "/dataset1", "namespace");
+    io.createAttribute("VectorData", "/dataset1", "neurodata_type");
+
+    auto result = io.findTypes(
+        "/", {"hdmf-common::VectorData"}, SearchMode::STOP_ON_TYPE);
+    REQUIRE(result.size() == 1);
+    REQUIRE(result["/dataset1"] == "hdmf-common::VectorData");
+  }
+
   SECTION("Multiple nested types with STOP_ON_TYPE")
   {
     // Setup hierarchy
