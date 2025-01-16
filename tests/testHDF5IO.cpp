@@ -128,21 +128,21 @@ TEST_CASE("createGroup", "[hdf5io]")
   }
 }
 
-TEST_CASE("getGroupObjects", "[hdf5io]")
+TEST_CASE("getStorageObjects", "[hdf5io]")
 {
   // create and open file
-  std::string filename = getTestFilePath("test_getGroupObjects.h5");
-  IO::HDF5::HDF5IO hdf5io(filename);
+  std::string filename = getTestFilePath("test_getStorageObjects.h5");
+  AQNWB::IO::HDF5::HDF5IO hdf5io(filename);
   hdf5io.open();
 
   SECTION("empty group")
   {
     hdf5io.createGroup("/emptyGroup");
-    auto groupContent = hdf5io.getGroupObjects("/emptyGroup");
+    auto groupContent = hdf5io.getStorageObjects("/emptyGroup");
     REQUIRE(groupContent.size() == 0);
   }
 
-  SECTION("group with datasets and subgroups")
+  SECTION("group with datasets, subgroups, and attributes")
   {
     hdf5io.createGroup("/data");
     hdf5io.createGroup("/data/subgroup1");
@@ -152,15 +152,43 @@ TEST_CASE("getGroupObjects", "[hdf5io]")
     hdf5io.createArrayDataSet(
         BaseDataType::I32, SizeArray {0}, SizeArray {1}, "/data/dataset2");
 
-    auto groupContent = hdf5io.getGroupObjects("/data");
-    REQUIRE(groupContent.size() == 4);
-    REQUIRE(std::find(groupContent.begin(), groupContent.end(), "subgroup1")
+    // Add attributes to the group
+    int attrData1 = 42;
+    hdf5io.createAttribute(BaseDataType::I32, &attrData1, "/data", "attr1");
+    int attrData2 = 43;
+    hdf5io.createAttribute(BaseDataType::I32, &attrData2, "/data", "attr2");
+
+    auto groupContent = hdf5io.getStorageObjects("/data");
+    REQUIRE(groupContent.size() == 6);
+    REQUIRE(std::find(groupContent.begin(),
+                      groupContent.end(),
+                      std::make_pair(std::string("subgroup1"),
+                                     StorageObjectType::Group))
             != groupContent.end());
-    REQUIRE(std::find(groupContent.begin(), groupContent.end(), "subgroup2")
+    REQUIRE(std::find(groupContent.begin(),
+                      groupContent.end(),
+                      std::make_pair(std::string("subgroup2"),
+                                     StorageObjectType::Group))
             != groupContent.end());
-    REQUIRE(std::find(groupContent.begin(), groupContent.end(), "dataset1")
+    REQUIRE(std::find(groupContent.begin(),
+                      groupContent.end(),
+                      std::make_pair(std::string("dataset1"),
+                                     StorageObjectType::Dataset))
             != groupContent.end());
-    REQUIRE(std::find(groupContent.begin(), groupContent.end(), "dataset2")
+    REQUIRE(std::find(groupContent.begin(),
+                      groupContent.end(),
+                      std::make_pair(std::string("dataset2"),
+                                     StorageObjectType::Dataset))
+            != groupContent.end());
+    REQUIRE(std::find(groupContent.begin(),
+                      groupContent.end(),
+                      std::make_pair(std::string("attr1"),
+                                     StorageObjectType::Attribute))
+            != groupContent.end());
+    REQUIRE(std::find(groupContent.begin(),
+                      groupContent.end(),
+                      std::make_pair(std::string("attr2"),
+                                     StorageObjectType::Attribute))
             != groupContent.end());
   }
 
@@ -169,17 +197,66 @@ TEST_CASE("getGroupObjects", "[hdf5io]")
     hdf5io.createGroup("/rootGroup1");
     hdf5io.createGroup("/rootGroup2");
 
-    auto groupContent = hdf5io.getGroupObjects("/");
+    auto groupContent = hdf5io.getStorageObjects("/");
     REQUIRE(groupContent.size() == 2);
-    REQUIRE(std::find(groupContent.begin(), groupContent.end(), "rootGroup1")
+    REQUIRE(std::find(groupContent.begin(),
+                      groupContent.end(),
+                      std::make_pair(std::string("rootGroup1"),
+                                     StorageObjectType::Group))
             != groupContent.end());
-    REQUIRE(std::find(groupContent.begin(), groupContent.end(), "rootGroup2")
+    REQUIRE(std::find(groupContent.begin(),
+                      groupContent.end(),
+                      std::make_pair(std::string("rootGroup2"),
+                                     StorageObjectType::Group))
+            != groupContent.end());
+  }
+
+  SECTION("filter by object type")
+  {
+    hdf5io.createGroup("/filterGroup");
+    hdf5io.createGroup("/filterGroup/subgroup1");
+    hdf5io.createArrayDataSet(BaseDataType::I32,
+                              SizeArray {0},
+                              SizeArray {1},
+                              "/filterGroup/dataset1");
+
+    // Add attributes to the group
+    int attrData = 44;
+    hdf5io.createAttribute(
+        BaseDataType::I32, &attrData, "/filterGroup", "attr1");
+
+    auto groupContent =
+        hdf5io.getStorageObjects("/filterGroup", StorageObjectType::Group);
+    REQUIRE(groupContent.size() == 1);
+    REQUIRE(std::find(groupContent.begin(),
+                      groupContent.end(),
+                      std::make_pair(std::string("subgroup1"),
+                                     StorageObjectType::Group))
+            != groupContent.end());
+
+    groupContent =
+        hdf5io.getStorageObjects("/filterGroup", StorageObjectType::Dataset);
+    REQUIRE(groupContent.size() == 1);
+    REQUIRE(std::find(groupContent.begin(),
+                      groupContent.end(),
+                      std::make_pair(std::string("dataset1"),
+                                     StorageObjectType::Dataset))
+            != groupContent.end());
+
+    groupContent =
+        hdf5io.getStorageObjects("/filterGroup", StorageObjectType::Attribute);
+    REQUIRE(groupContent.size() == 1);
+    REQUIRE(std::find(groupContent.begin(),
+                      groupContent.end(),
+                      std::make_pair(std::string("attr1"),
+                                     StorageObjectType::Attribute))
             != groupContent.end());
   }
 
   // close file
   hdf5io.close();
 }
+// END TEST_CASE("getStorageObjects", "[hdf5io]")
 
 TEST_CASE("HDF5IO; write datasets", "[hdf5io]")
 {
