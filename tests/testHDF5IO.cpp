@@ -1514,8 +1514,29 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
 
   SECTION("read unsupported data type")
   {
-    // TODO Add a test that tries to read some unsupported data type
-    //      such as a strange compound data type
+    // open file
+    std::string path = getTestFilePath("test_ReadUnsupportedDataType.h5");
+    std::shared_ptr<IO::HDF5::HDF5IO> hdf5io =
+        std::make_shared<IO::HDF5::HDF5IO>(path);
+    hdf5io->open();
+
+    // Create a compound datatype
+    H5::CompType compoundType(sizeof(double) * 2);
+    compoundType.insertMember("real", 0, H5::PredType::NATIVE_DOUBLE);
+    compoundType.insertMember(
+        "imag", sizeof(double), H5::PredType::NATIVE_DOUBLE);
+
+    // Create dataset with compound type directly using HDF5 C++ API
+    H5::H5File file(path, H5F_ACC_RDWR);
+    hsize_t dims[1] = {5};
+    H5::DataSpace dataspace(1, dims);
+    H5::DataSet dataset =
+        file.createDataSet("ComplexData", compoundType, dataspace);
+
+    // Attempt to read the dataset - should throw an exception
+    REQUIRE_THROWS_AS(hdf5io->readDataset("/ComplexData"), std::runtime_error);
+
+    hdf5io->close();
   }
 }
 
