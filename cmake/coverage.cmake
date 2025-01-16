@@ -7,7 +7,8 @@ set(
     lcov -c --verbose
     -o "${PROJECT_BINARY_DIR}/coverage.info"
     -d "${PROJECT_BINARY_DIR}"
-    --no-external
+    --include "${PROJECT_SOURCE_DIR}/src/*"
+    --exclude "${PROJECT_BINARY_DIR}/tests/*"
     CACHE STRING
     "; separated command to generate a trace for the 'coverage' target"
 )
