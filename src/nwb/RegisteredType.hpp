@@ -206,7 +206,7 @@ public:
    * DEFINE_FIELD specified for the field. If a DEFINE_FIELD exists then
    * the corresponding read method should be used as it avoids the need
    * for specifying most (if not all) of the function an template
-   * parameteres needed by this function.
+   * parameters needed by this function.
    *
    * @param fieldPath The relative path of the field within the current type,
    * i.e., relative to `m_path`
