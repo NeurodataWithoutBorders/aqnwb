@@ -56,6 +56,15 @@
  *    DEFINE_FIELD(getData, DatasetField, float, "data", The main data)
  *    @endcode
  *
+ * 6. Similarly, we use the \ref DEFINE_REGISTERED_FIELD macro to define getter methods for other 
+ *    \ref AQNWB::NWB::RegisteredType "RegisteredType" objects that we own, such as a
+ *     \ref AQNWB::NWB::ElectrodeTable "ElectrodeTable" that owns 
+ *    predefined \ref AQNWB::NWB::VectorData "VectorData" columns:
+ *    @code
+ *    DEFINE_REGISTERED_FIELD(readGroupNameColumn, VectorData<std::string>, "group_name", "the name of the ElectrodeGroup")
+ *    @endcode
+ *
+ *
  * \warning
  * To ensure proper function on read, the name of the class should match the name of the
  * ``neurodata_type`` as defined in the schema. Similarly, "my-namespace" should match
@@ -80,11 +89,12 @@
  * the indicated typename instead of the classname.
  *
  * \note
- * ``DEFINE_FIELD`` creates templated, non-virtual read functions. This means if we 
- * want to "redefine" a field in a child class by calling ``DEFINE_FIELD`` again, then
- * the function will be "hidden" instead of "override". This is important to remember
- * when casting a pointer to a base type, as in this case the implementation from the
- * base type will be used since the function created by ``DEFINE_FIELD`` is not virtual.
+ * ``DEFINE_FIELD`` and ``DEFINE_REGISTERED_FIELD`` create templated, non-virtual read 
+ * functions. This means if we want to "redefine" a field in a child class by calling 
+ * ``DEFINE_FIELD`` again, then the function will be "hidden" instead of "override". 
+ * This is important to remember when casting a pointer to a base type, as in this case 
+ * the implementation from the base type will be used since the function created 
+ * by ``DEFINE_FIELD`` is not virtual.
  *
  *
  * @subsection implement_registered_type_example Example: Implementing a new type
@@ -174,7 +184,7 @@
  *
  *  \snippet tests/examples/test_RegisteredType_example.cpp example_RegisterType_full
  *
- * @section use_the_define_field_macro How to Use the DEFINE_FIELD macro
+ * @section use_the_define_field_macro How to use the DEFINE_FIELD macro
  *
  * The \ref DEFINE_FIELD macro takes the following main inputs:
  *
@@ -210,6 +220,25 @@
  * See \ref read_page for an example of how to use such methods (e.g.,
  * \ref AQNWB::NWB::TimeSeries::readData "TimeSeries::readData" )
  * for reading data fields from a file.
+ *
+ * @section use_the_define_registered_field_macro How to use the DEFINE_REGISTERED_FIELD macro
+ *
+ * The \ref DEFINE_REGISTERED_FIELD works much like the \ref DEFINE_FIELD macro macro but 
+ * returns instances of specific subtypes of \ref AQNWB::NWB::RegisteredType "RegisteredType", 
+ * rather than \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper". As such the main inputs for 
+ * \ref DEFINE_REGISTERED_FIELD are as follows:
+ *
+ *  * ``name``: The name of the function to generate.
+ *  * ``registeredType`` : The specific subclass of \ref AQNWB::NWB::RegisteredType "RegisteredType" to use 
+ *	* ``fieldPath`` : Literal string with the relative path to the field within the schema of the
+ *     respective neurodata_type. This is automatically being expanded at runtime to the full path.
+ *  * ``description`` : Description of the field to include in the docstring for the docs
+ *
+ * All of these inputs are required. A typical example will look as follows:
+ *
+ * @code
+ * DEFINE_REGISTERED_FIELD(getData, DynamicTable, "my_table", My data table)
+ * @endcode
  *
  *
  */

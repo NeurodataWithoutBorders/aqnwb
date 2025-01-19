@@ -35,7 +35,7 @@ TEST_CASE("VectorData", "[base]")
         io->createArrayDataSet(dataType, dataShape, chunking, dataPath);
 
     // setup VectorData object
-    NWB::VectorData columnVectorData = NWB::VectorData(dataPath, io);
+    NWB::VectorData<int> columnVectorData = NWB::VectorData<int>(dataPath, io);
     columnVectorData.initialize(std::move(columnDataset), description);
 
     // Write data to file
@@ -52,7 +52,7 @@ TEST_CASE("VectorData", "[base]")
     // Read all fields using the standard read methods
     auto readRegisteredType = NWB::RegisteredType::create(dataPath, readio);
     auto readVectorData =
-        std::dynamic_pointer_cast<NWB::VectorData>(readRegisteredType);
+        std::make_shared<NWB::VectorData<int>>(dataPath, readio);
 
     // Read the "namespace" attribute via the readNamespace field
     auto namespaceData = readVectorData->readNamespace();
@@ -100,7 +100,8 @@ TEST_CASE("VectorData", "[base]")
         io->createArrayDataSet(dataType, dataShape, chunking, dataPath);
 
     // setup VectorData object
-    NWB::VectorData columnVectorData = NWB::VectorData(dataPath, io);
+    NWB::VectorData<double> columnVectorData =
+        NWB::VectorData<double>(dataPath, io);
     columnVectorData.initialize(std::move(columnDataset), description);
 
     // Write data to file
@@ -117,7 +118,7 @@ TEST_CASE("VectorData", "[base]")
     // Read all fields using the standard read methods
     auto readRegisteredType = NWB::RegisteredType::create(dataPath, readio);
     auto readVectorData =
-        std::dynamic_pointer_cast<NWB::VectorData>(readRegisteredType);
+        std::make_shared<NWB::VectorData<double>>(dataPath, readio);
 
     // Read the "namespace" attribute via the readNamespace field
     auto namespaceData = readVectorData->readNamespace();
@@ -173,7 +174,8 @@ TEST_CASE("VectorData", "[base]")
         io->createArrayDataSet(dataType, dataShape, chunking, dataPath);
 
     // setup VectorData object
-    NWB::VectorData columnVectorData = NWB::VectorData(dataPath, io);
+    NWB::VectorData<std::string> columnVectorData =
+        NWB::VectorData<std::string>(dataPath, io);
     columnVectorData.initialize(std::move(columnDataset), description);
 
     // Write data to file
@@ -190,7 +192,7 @@ TEST_CASE("VectorData", "[base]")
     // Read all fields using the standard read methods
     auto readRegisteredType = NWB::RegisteredType::create(dataPath, readio);
     auto readVectorData =
-        std::dynamic_pointer_cast<NWB::VectorData>(readRegisteredType);
+        std::make_shared<NWB::VectorData<std::string>>(dataPath, readio);
 
     // Read the "namespace" attribute via the readNamespace field
     auto namespaceData = readVectorData->readNamespace();
