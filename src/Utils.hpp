@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <ctime>
 #include <iomanip>
+#include <regex>
 #include <sstream>
 #include <string>
 
@@ -59,6 +60,26 @@ static inline std::string getCurrentTime()
   currentTime += oss_offset.str();
 
   return currentTime;
+}
+
+/**
+ * @brief Check that a string is formatted in ISO8601 format
+ *
+ * This function only validates the regex pattern but does not check that
+ * the time values specified are indeed valid.
+ *
+ * @return bool indicating whether the string is in ISO8601 form
+ */
+static inline bool isISO8601Date(const std::string& dateStr)
+{
+  // Define the regex pattern for ISO 8601 extended format with timezone offset
+  // Allow one or more fractional seconds digits
+  const std::string iso8601Pattern =
+      R"(^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+[+-]\d{2}:\d{2}$)";
+  std::regex pattern(iso8601Pattern);
+
+  // Check if the date string matches the regex pattern
+  return std::regex_match(dateStr, pattern);
 }
 
 /**

@@ -67,10 +67,30 @@ public:
    * @param identifierText The identifier text for the NWBFile.
    * @param description A description of the NWBFile session.
    * @param dataCollection Information about the data collection methods.
+   * @param
    */
   Status initialize(const std::string& identifierText,
                     const std::string& description = "a recording session",
                     const std::string& dataCollection = "");
+
+  /**
+   * @brief Initializes the NWB file by setting up the file structure.
+   *
+   * If the file is already initialized then no action will be performed.
+   *
+   * @param identifierText The identifier text for the NWBFile.
+   * @param description A description of the NWBFile session.
+   * @param dataCollection Information about the data collection methods.
+   * @param sessionStartTime ISO formatted time string with the session start
+   * time
+   * @param timestampReferenceTime ISO formatted time string with the timestamp
+   * reference time
+   */
+  Status initialize(const std::string& identifierText,
+                    const std::string& description,
+                    const std::string& dataCollection,
+                    const std::string& sessionStartTime,
+                    const std::string& timestampReferenceTime);
 
   /**
    * @brief Check if the NWB file is initialized.
@@ -141,11 +161,17 @@ protected:
    * @param identifierText The identifier text for the NWBFile.
    * @param description A description of the NWBFile session.
    * @param dataCollection Information about the data collection methods.
+   * @param sessionStartTime ISO formatted time string with the session start
+   * time
+   * @param timestampReferenceTime ISO formatted time string with the timestamp
+   * reference time
    * @return Status The status of the file structure creation.
    */
   Status createFileStructure(const std::string& identifierText,
                              const std::string& description,
-                             const std::string& dataCollection);
+                             const std::string& dataCollection,
+                             const std::string& sessionStartTime,
+                             const std::string& timestampReferenceTime);
 
 private:
   /**

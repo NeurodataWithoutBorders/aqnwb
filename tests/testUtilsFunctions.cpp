@@ -4,6 +4,37 @@
 
 #include "Utils.hpp"
 
+TEST_CASE("isISO8601Date function tests", "[utils]")
+{
+  SECTION("Valid ISO 8601 date strings")
+  {
+    REQUIRE(AQNWB::isISO8601Date("2018-09-28T14:43:54.123+02:00"));
+    REQUIRE(AQNWB::isISO8601Date("2025-01-19T00:40:03.214144-08:00"));
+    REQUIRE(AQNWB::isISO8601Date("2021-12-31T23:59:59.999999+00:00"));
+    REQUIRE(AQNWB::isISO8601Date("2000-01-01T00:00:00.0+01:00"));
+    REQUIRE(AQNWB::isISO8601Date(
+        "2018-09-28T14:43:54.12345+02:00"));  // Allow for too many fractional
+                                              // seconds
+  }
+
+  SECTION("Invalid ISO 8601 date strings")
+  {
+    REQUIRE_FALSE(AQNWB::isISO8601Date(
+        "2018-09-28 14:43:54.123+02:00"));  // Space instead of 'T'
+    REQUIRE_FALSE(AQNWB::isISO8601Date(
+        "2018-09-28T14:43:54+02:00"));  // Missing fractional seconds
+    REQUIRE_FALSE(AQNWB::isISO8601Date(
+        "2018-09-28T14:43:54.123+0200"));  // Missing colon in timezone
+    REQUIRE_FALSE(AQNWB::isISO8601Date(
+        "2018-09-28T14:43:54.123Z"));  // Missing timezone offset
+    REQUIRE_FALSE(AQNWB::isISO8601Date(
+        "2018-09-28T14:43:54.123-0800"));  // Incorrect timezone format
+    REQUIRE_FALSE(
+        AQNWB::isISO8601Date("2018-09-28T14:43:54.123"));  // Missing timezone
+    REQUIRE_FALSE(AQNWB::isISO8601Date("Random text 1213"));
+  }
+}
+
 TEST_CASE("Test UUID generation", "[utils]")
 {
   // Test that generated UUIDs are valid
