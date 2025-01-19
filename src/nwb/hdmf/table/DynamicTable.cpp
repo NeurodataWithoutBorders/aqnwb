@@ -80,16 +80,3 @@ void DynamicTable::addReferenceColumn(const std::string& name,
                          colDescription);
   }
 }
-
-/*template<typename DTYPE>
-std::shared_ptr<VectorData<DTYPE>> DynamicTable::readColumn(
-    const std::string& colName)
-{
-  std::string columnPath = AQNWB::mergePaths(m_path, colName);
-  if (m_io->objectExists(columnPath)) {
-    if (m_io->getStorageObjectType(columnPath) == StorageObjectType::Dataset) {
-      return std::make_shared<VectorData<DTYPE>>(columnPath, m_io);
-    }
-  }
-  return nullptr;
-}*/
