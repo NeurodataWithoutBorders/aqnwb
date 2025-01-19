@@ -87,7 +87,7 @@ public:
   /**
    * @brief Read an arbitrary column of the DyanmicTable
    *
-   * For columns defined in the schema the correspoding DEFINE_REGISTERED_FIELD
+   * For columns defined in the schema the corresponding DEFINE_REGISTERED_FIELD
    * read functions are preferred because they help avoid the need for
    * specifying the specific name of the column and data type to use.
    *
