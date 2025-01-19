@@ -400,15 +400,18 @@ protected:
    * types, e.g,. VectorData<std::any> a user may want to change this to a \
    * more specific subtype to use, e.g., VectorData<int> \
    * @return A shared pointer to an instance of ##registeredType representing \
-   * the object \
+   * the object. May return nullptr if the path does not exist \
    * \
    * description \
    */ \
   template<typename RTYPE = registeredType> \
   inline std::shared_ptr<RTYPE> name() const \
   { \
-    return RegisteredType::create<RTYPE>(AQNWB::mergePaths(m_path, fieldPath), \
-                                         m_io); \
+    std::string objectPath = AQNWB::mergePaths(m_path, fieldPath); \
+    if (m_io->objectExists(objectPath)) { \
+      return RegisteredType::create<RTYPE>(objectPath, m_io); \
+    } \
+    return nullptr; \
   }
 
 }  // namespace NWB
