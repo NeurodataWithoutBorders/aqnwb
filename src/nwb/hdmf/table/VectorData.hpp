@@ -10,20 +10,32 @@ namespace AQNWB::NWB
 {
 /**
  * @brief An n-dimensional dataset representing a column of a DynamicTable.
+ * @tparam DTYPE The data type of the data managed by VectorData
  */
-class VectorData : public Data
+template<typename DTYPE = std::any>
+class VectorData : public Data<DTYPE>
 {
 public:
-  // Register Data class as a registered type
-  REGISTER_SUBCLASS(VectorData, "hdmf-common")
-
   /**
    * @brief Constructor.
    *
    * @param path The path of the container.
    * @param io A shared pointer to the IO object.
    */
-  VectorData(const std::string& path, std::shared_ptr<IO::BaseIO> io);
+  VectorData(const std::string& path, std::shared_ptr<IO::BaseIO> io)
+      : Data<DTYPE>(path, io)
+  {
+  }
+
+  // Register VectorData class as a registered type
+  REGISTER_SUBCLASS_WITH_TYPENAME(VectorData<DTYPE>,
+                                  "hdmf-common",
+                                  "VectorData")
+
+  /**
+   * @brief Virtual destructor.
+   */
+  virtual ~VectorData() override {}
 
   /**
    *  @brief Initialize the dataset for the Data object
@@ -35,7 +47,15 @@ public:
    * @param description The description of the VectorData
    */
   void initialize(std::unique_ptr<AQNWB::IO::BaseRecordingData>&& dataset,
-                  const std::string& description);
+                  const std::string& description)
+  {
+    Data<DTYPE>::initialize(std::move(dataset));
+    this->m_io->createAttribute(description, this->m_path, "description");
+  }
+
+  // Define the data fields to expose for lazy read access
+  using RegisteredType::m_io;
+  using RegisteredType::m_path;
 
   DEFINE_FIELD(readDescription,
                AttributeField,
