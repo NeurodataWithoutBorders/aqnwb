@@ -96,12 +96,12 @@ enum class SearchMode
   /**
    * @brief Stop searching inside an object once a matching type is found.
    */
-  STOP_ON_TYPE,
+  STOP_ON_TYPE = 1,
   /**
    * @brief Continue searching inside an object even after a matching type is
    * found.
    */
-  CONTINUE_ON_TYPE
+  CONTINUE_ON_TYPE = 2,
 };
 
 /**

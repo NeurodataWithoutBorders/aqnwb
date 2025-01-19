@@ -163,6 +163,15 @@ TEST_CASE("RegisterType", "[base]")
     auto readTS = AQNWB::NWB::RegisteredType::create(examplePath, io);
     std::string readTSType = readContainer->getTypeName();
     REQUIRE(readTSType == "TimeSeries");
+
+    // Attempt to read the TimeSeries using the generic readField method
+    // By providing an empty path we tell readField to read itself
+    std::shared_ptr<AQNWB::NWB::RegisteredType> readRegisteredType =
+        readContainer->readField(std::string(""));
+    REQUIRE(readRegisteredType != nullptr);
+    std::shared_ptr<AQNWB::NWB::TimeSeries> readRegisteredTypeAsTimeSeries =
+        std::dynamic_pointer_cast<AQNWB::NWB::TimeSeries>(readRegisteredType);
+    REQUIRE(readRegisteredTypeAsTimeSeries != nullptr);
   }
 
   SECTION("test error handling for invalid type creation")
@@ -221,10 +230,13 @@ TEST_CASE("RegisterType", "[base]")
     // Write test data
     io->createAttribute(
         BaseDataType::I32, &attrValue, examplePath, "test_attr");
-    io->createArrayDataSet(BaseDataType::F32,
-                           SizeArray {3},
-                           SizeArray {3},
-                           examplePath + "/test_dataset");
+    auto datasetRecordingData =
+        io->createArrayDataSet(BaseDataType::F32,
+                               SizeArray {3},
+                               SizeArray {3},
+                               examplePath + "/test_dataset");
+    datasetRecordingData->writeDataBlock(
+        SizeArray {3}, SizeArray {0}, BaseDataType::F32, datasetValues.data());
 
     // Test attribute field
     auto attrWrapper = testInstance->testAttribute();
@@ -235,6 +247,23 @@ TEST_CASE("RegisterType", "[base]")
     // Test dataset field
     auto datasetWrapper = testInstance->testDataset();
     REQUIRE(datasetWrapper != nullptr);
+    auto datasetData = datasetWrapper->values();
+    REQUIRE(datasetData.data == datasetValues);
+
+    // Test reading using the general readField method
+    // Read test_attr via readField
+    auto attrWrapper2 = testInstance->readField<AttributeField, int32_t>(
+        std::string("test_attr"));
+    REQUIRE(attrWrapper2 != nullptr);
+    auto attrData2 = attrWrapper2->values();
+    REQUIRE(attrData2.data[0] == attrValue);
+
+    // Read test_dataset via readField
+    auto datasetWrapper2 = testInstance->readField<DatasetField, float>(
+        std::string("test_dataset"));
+    REQUIRE(datasetWrapper2 != nullptr);
+    auto datasetData2 = datasetWrapper2->values();
+    REQUIRE(datasetData2.data == datasetValues);
 
     io->close();
   }

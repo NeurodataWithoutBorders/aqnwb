@@ -198,6 +198,51 @@ public:
     return (getNamespace() + "::" + getTypeName());
   }
 
+  /**
+   * @brief Support reading of arbitrary fields by their relative path
+   *
+   * This function provided as a general "backup" to support reading of
+   * arbitrary fields even if the sub-class may not have an explicit
+   * DEFINE_FIELD specified for the field. If a DEFINE_FIELD exists then
+   * the corresponding read method should be used as it avoids the need
+   * for specifying most (if not all) of the function an template
+   * parameteres needed by this function.
+   *
+   * @param fieldPath The relative path of the field within the current type,
+   * i.e., relative to `m_path`
+   * @tparam SOT The storage object type. This must be a either
+   * StorageObjectType::Dataset or StorageObjectType::Attribute
+   * @tparam VTYPE The value type of the field to be read.
+   * @tparam Enable SFINAE (Substitution Failure Is Not An Error) mechanism
+   * to enable this function only if SOT is a Dataset or Attribute.
+   *
+   * @return ReadDataWrapper object for lazy reading of the field
+   */
+  template<StorageObjectType SOT,
+           typename VTYPE,
+           typename std::enable_if<Types::IsDataStorageObjectType<SOT>::value,
+                                   int>::type = 0>
+  inline std::unique_ptr<IO::ReadDataWrapper<SOT, VTYPE>> readField(
+      const std::string& fieldPath) const
+  {
+    return std::make_unique<IO::ReadDataWrapper<SOT, VTYPE>>(
+        m_io, AQNWB::mergePaths(m_path, fieldPath));
+  }
+
+  /**
+   * @brief Read a field that is itself a RegisteredType
+   *
+   * @param fieldPath The relative path of the field within the current type,
+   * i.e., relative to `m_path. The field must itself be RegisteredType
+   *
+   * @return A unique_ptr to the created instance of the subclass.
+   */
+  inline std::shared_ptr<AQNWB::NWB::RegisteredType> readField(
+      const std::string& fieldPath)
+  {
+    return this->create(AQNWB::mergePaths(m_path, fieldPath), m_io);
+  }
+
 protected:
   /**
    * @brief Register a subclass name and its factory function in the registry.
