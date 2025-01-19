@@ -395,15 +395,20 @@ protected:
   /** \
    * @brief Returns the instance of the class representing the ##name field. \
    * \
+   * @tparam RTYPE The RegisteredType of the field (default: ##registeredType) \
+   * In most cases this should not be changed. But in the case of templated \
+   * types, e.g,. VectorData<std::any> a user may want to change this to a \
+   * more specific subtype to use, e.g., VectorData<int> \
    * @return A shared pointer to an instance of ##registeredType representing \
    * the object \
    * \
    * description \
    */ \
-  inline std::shared_ptr<registeredType> name() const \
+  template<typename RTYPE = registeredType> \
+  inline std::shared_ptr<RTYPE> name() const \
   { \
-    return RegisteredType::create<registeredType>( \
-        AQNWB::mergePaths(m_path, fieldPath), m_io); \
+    return RegisteredType::create<RTYPE>(AQNWB::mergePaths(m_path, fieldPath), \
+                                         m_io); \
   }
 
 }  // namespace NWB
