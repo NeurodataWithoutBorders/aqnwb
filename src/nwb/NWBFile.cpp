@@ -50,13 +50,40 @@ Status NWBFile::initialize(const std::string& identifierText,
                            const std::string& description,
                            const std::string& dataCollection)
 {
+  std::string time = getCurrentTime();
+  return this->initialize(
+      identifierText, description, dataCollection, time, time);
+}
+
+Status NWBFile::initialize(const std::string& identifierText,
+                           const std::string& description,
+                           const std::string& dataCollection,
+                           const std::string& sessionStartTime,
+                           const std::string& timestampReferenceTime)
+{
   if (!m_io->isOpen()) {
     return Status::Failure;
   }
+  if (!isISO8601Date(sessionStartTime)) {
+    std::cerr << "NWBFile::initialize sessionStartTime not in ISO8601 format: "
+              << sessionStartTime << std::endl;
+    return Status::Failure;
+  }
+  if (!isISO8601Date(timestampReferenceTime)) {
+    std::cerr
+        << "NWBFile::initialize timestampReferenceTime not in ISO8601 format: "
+        << timestampReferenceTime << std::endl;
+    return Status::Failure;
+  }
+
   // Check that the file is empty and initialize if it is
   bool fileInitialized = isInitialized();
   if (!fileInitialized) {
-    return createFileStructure(identifierText, description, dataCollection);
+    return createFileStructure(identifierText,
+                               description,
+                               dataCollection,
+                               sessionStartTime,
+                               timestampReferenceTime);
   } else {
     return Status::Success;  // File is already initialized
   }
@@ -100,7 +127,9 @@ Status NWBFile::finalize()
 
 Status NWBFile::createFileStructure(const std::string& identifierText,
                                     const std::string& description,
-                                    const std::string& dataCollection)
+                                    const std::string& dataCollection,
+                                    const std::string& sessionStartTime,
+                                    const std::string& timestampReferenceTime)
 {
   if (!m_io->canModifyObjects()) {
     return Status::Failure;
@@ -131,12 +160,12 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
   cacheSpecifications("hdmf-experimental",
                       AQNWB::SPEC::HDMF_EXPERIMENTAL::version,
                       AQNWB::SPEC::HDMF_EXPERIMENTAL::specVariables);
-  std::string time = getCurrentTime();
-  std::vector<std::string> timeVec = {time};
+  std::vector<std::string> timeVec = {sessionStartTime};
   m_io->createStringDataSet("/file_create_date", timeVec);
   m_io->createStringDataSet("/session_description", description);
-  m_io->createStringDataSet("/session_start_time", time);
-  m_io->createStringDataSet("/timestamps_reference_time", time);
+  m_io->createStringDataSet("/session_start_time", sessionStartTime);
+  m_io->createStringDataSet("/timestamps_reference_time",
+                            timestampReferenceTime);
   m_io->createStringDataSet("/identifier", identifierText);
   return Status::Success;
 }
