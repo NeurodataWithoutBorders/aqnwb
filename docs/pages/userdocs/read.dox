@@ -308,7 +308,7 @@
  * - \ref AQNWB::IO::BaseIO "BaseIO", \ref AQNWB::IO::HDF5::HDF5IO "HDF5IO" are responsible for
  *   i) reading type attribute and group information, ii) searching the file for typed objects via
  *   \ref AQNWB::IO::BaseIO::findTypes "findTypes()" methods, and iii) retrieving the paths of all
- *   object within a group via  \ref AQNWB::IO::BaseIO::getGroupObjects "getGroupObjects()"
+ *   object associated with a storage objects (e.g., a Group) via  \ref AQNWB::IO::BaseIO::getStorageObjects "getStoragebjects()"
  *
  * \subsubsection read_design_wrapper_registeredType RegisteredType
  *
@@ -320,7 +320,9 @@
  * methods that we can use to instantiate any registered subclass just using the ``io`` object
  * and ``path`` for the object in the file. \ref AQNWB::NWB::RegisteredType "RegisteredType" can read
  * the type information from the corresponding `namespace` and `neurodata_type` attributes to
- * determine the full type and in run look up the corresponding class in its registry and create the type.
+ * determine the full type,  then look up the corresponding class in its registry, and then create the type.
+ * Using \ref AQNWB::NWB::RegisteredType::readField "RegisteredType::readField" also provides a 
+ * general mechanism for reading arbitrary fields.
  *
  * \subsubsection read_design_wrapper_subtypes Child classes of RegisteredType (e.g., Container)
  *
@@ -540,5 +542,26 @@
  *
  *  \snippet tests/examples/test_ecephys_data_read.cpp  example_read_only_stringattr_snippet
  *
+ *
+ * \subsubsection read_design_example_read_arbitrary_field Reading arbitrary fields
+ *
+ * Even if there is no dedicated `DEFINE_FIELD` definition available, we can still read 
+ * any arbitrary sub-field associated with a particular \ref AQNWB::NWB::RegisteredType "RegisteredType"
+ * via the generic \ref AQNWB::NWB::RegisteredType::readField "RegisteredType::readField" method. The main 
+ * difference is that for datasets and attributes we need to specify all the additional information 
+ * (e.g., the relative path, object type, and data type) ourselves, whereas using `DEFINE_FIELD` 
+ * this information has already been specified for us. For example, to read the data from 
+ * the \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries" we can call:
+ *
+ * \snippet tests/examples/test_ecephys_data_read.cpp example_read_generic_dataset_field_snippet
+ *
+ * Similarly, we can also read any sub-fields that are itself \ref AQNWB::NWB::RegisteredType "RegisteredType"
+ * objects via \ref AQNWB::NWB::RegisteredType::readField "RegisteredType::readField" (e.g., to read custom
+ * \ref AQNWB::NWB::VectorData "VectorData" columns of a \ref AQNWB::NWB::DynamicTable "DynamicTable"). In 
+ * contrast to dataset and attribute fields, we here only need to specify the relative path of the field.
+ *  \ref AQNWB::NWB::RegisteredType "RegisteredType" in turn can read the type information from the 
+ * `neurodata_type` and `namespace` attributes in the file directly. 
+ *
+ * \snippet tests/examples/test_ecephys_data_read.cpp example_read_generic_registeredtype_field_snippet
  */
 

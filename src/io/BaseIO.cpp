@@ -77,7 +77,6 @@ std::unordered_map<std::string, std::string> BaseIO::findTypes(
   {
     // Check if the current object exists as a dataset or group
     if (objectExists(current_path)) {
-      std::cout << "Current Path: " << current_path << std::endl;
       // Check if we have a typed object
       if (attributeExists(current_path + "/neurodata_type")
           && attributeExists(current_path + "/namespace"))
@@ -92,8 +91,6 @@ std::unordered_map<std::string, std::string> BaseIO::findTypes(
           std::string full_type =
               namespace_attr.data[0] + "::" + neurodata_type_attr.data[0];
 
-          std::cout << "Full name: " << full_type << std::endl;
-
           // Check if the full type matches any of the given types
           if (types.find(full_type) != types.end()) {
             found_types[current_path] = full_type;
@@ -103,9 +100,14 @@ std::unordered_map<std::string, std::string> BaseIO::findTypes(
           // object
           if (search_mode == SearchMode::CONTINUE_ON_TYPE) {
             // Get the list of objects inside the current group
-            std::vector<std::string> objects = getGroupObjects(current_path);
+            std::vector<std::pair<std::string, StorageObjectType>> objects =
+                getStorageObjects(current_path, StorageObjectType::Undefined);
             for (const auto& obj : objects) {
-              searchTypes(AQNWB::mergePaths(current_path, obj));
+              if (obj.second == StorageObjectType::Group
+                  || obj.second == StorageObjectType::Dataset)
+              {
+                searchTypes(AQNWB::mergePaths(current_path, obj.first));
+              }
             }
           }
         } catch (...) {
@@ -117,9 +119,14 @@ std::unordered_map<std::string, std::string> BaseIO::findTypes(
       else
       {
         // Get the list of objects inside the current group
-        std::vector<std::string> objects = getGroupObjects(current_path);
+        std::vector<std::pair<std::string, StorageObjectType>> objects =
+            getStorageObjects(current_path, StorageObjectType::Undefined);
         for (const auto& obj : objects) {
-          searchTypes(AQNWB::mergePaths(current_path, obj));
+          if (obj.second == StorageObjectType::Group
+              || obj.second == StorageObjectType::Dataset)
+          {
+            searchTypes(AQNWB::mergePaths(current_path, obj.first));
+          }
         }
       }
     }

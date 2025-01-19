@@ -268,5 +268,29 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
         readElectricalSeries->readDataUnit()->values().data[0];
     REQUIRE(esUnitValue == std::string("volts"));
     // [example_read_only_stringattr_snippet]
+
+    // [example_read_generic_dataset_field_snippet]
+    // Read the data field via the generic readField method
+    auto readElectricalSeriesData3 =
+        readElectricalSeries->readField<StorageObjectType::Dataset, float>(
+            std::string("data"));
+    // Read the data values as usual
+    DataBlock<float> readDataValues3 = readElectricalSeriesData3->values();
+    REQUIRE(readDataValues3.data.size() == (numSamples * numChannels));
+    // [example_read_generic_dataset_field_snippet]
+
+    // [example_read_generic_registeredtype_field_snippet]
+    // read the NWBFile
+    auto readNWBFile =
+        NWB::RegisteredType::create<AQNWB::NWB::NWBFile>("/", readio);
+    // read the ElectricalSeries from the NWBFile object via the readField
+    // method returning a generic std::shared_ptr<RegisteredType>
+    auto readRegisteredType = readNWBFile->readField(esdata_path);
+    // cast the generic pointer to the more specific ElectricalSeries
+    std::shared_ptr<AQNWB::NWB::ElectricalSeries> readElectricalSeries2 =
+        std::dynamic_pointer_cast<AQNWB::NWB::ElectricalSeries>(
+            readRegisteredType);
+    REQUIRE(readElectricalSeries2 != nullptr);
+    // [example_read_generic_registeredtype_field_snippet]
   }
 }

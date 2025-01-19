@@ -36,6 +36,19 @@ public:
   };
 
   /**
+   *  \brief Helper struct to check if a value is a data field, i.e.,
+   * Dataset or Attribute
+   *
+   * This function is used to enforce constrains on templated functions that
+   * should only be callable for valid StorageObjectType values
+   */
+  template<StorageObjectType T>
+  struct IsDataStorageObjectType
+      : std::integral_constant<bool, (T == Dataset || T == Attribute)>
+  {
+  };
+
+  /**
    * @brief Alias for the size type used in the project.
    */
   using SizeType = size_t;
