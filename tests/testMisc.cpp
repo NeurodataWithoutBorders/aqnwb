@@ -54,9 +54,8 @@ TEST_CASE("AnnotationSeries", "[misc]")
                                mockAnnotations.end());
     std::vector<std::string> dataOut(expectedAnnotations.size());
 
-    auto readAnnotationsData = io->readDataset(dataPath + "/data");
-    auto readAnnotationsDataTyped =
-        DataBlock<std::string>::fromGeneric(readAnnotationsData);
+    auto readDataWrapper = as.readData();
+    auto readAnnotationsDataTyped = readDataWrapper->values();
     REQUIRE(readAnnotationsDataTyped.data == expectedAnnotations);
 
     // Read timestamps
@@ -66,9 +65,8 @@ TEST_CASE("AnnotationSeries", "[misc]")
                               mockTimestamps2.end());
     std::vector<double> timestampsOut(expectedTimestamps.size());
 
-    auto readTimestampsData = io->readDataset(dataPath + "/timestamps");
-    auto readTimestampsDataTyped =
-        DataBlock<double>::fromGeneric(readTimestampsData);
+    auto readTimestampsWrapper = as.readTimestamps();
+    auto readTimestampsDataTyped = readTimestampsWrapper->values();
     REQUIRE_THAT(readTimestampsDataTyped.data,
                  Catch::Matchers::Approx(expectedTimestamps));
   }
