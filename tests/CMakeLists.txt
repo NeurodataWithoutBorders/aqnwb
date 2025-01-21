@@ -18,6 +18,7 @@ add_executable(aqnwb_test
     testElementIdentifiers.cpp
     testFile.cpp
     testHDF5IO.cpp
+    testMisc.cpp
     testNWBFile.cpp
     testRecordingWorkflow.cpp
     testRegisteredType.cpp
