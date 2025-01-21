@@ -58,7 +58,7 @@ public:
 
   DEFINE_FIELD(readData,
                DatasetField,
-               std::any,
+               std::string,
                "data",
                Annotations made during an experiment.)
 
