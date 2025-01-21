@@ -38,7 +38,7 @@ void DynamicTable::addColumn(std::unique_ptr<VectorData>& vectorData,
   } else {
     // write in loop because variable length string
     for (SizeType i = 0; i < values.size(); i++)
-      vectorData->m_dataset->writeStringDataBlock(
+      vectorData->m_dataset->writeDataBlock(
           std::vector<SizeType> {1},
           std::vector<SizeType> {i},
           IO::BaseDataType::STR(values[i].size() + 1),

@@ -82,17 +82,17 @@ public:
   /**
    * @brief Channel group that this time series is associated with.
    */
-  Types::ChannelVector channelVector;
+  Types::ChannelVector m_channelVector;
 
   /**
    * @brief Pointer to channel-specific conversion factor dataset.
    */
-  std::unique_ptr<IO::BaseRecordingData> channelConversion;
+  std::unique_ptr<IO::BaseRecordingData> m_channelConversion;
 
   /**
    * @brief Pointer to electrodes dataset.
    */
-  std::unique_ptr<IO::BaseRecordingData> electrodesDataset;
+  std::unique_ptr<IO::BaseRecordingData> m_electrodesDataset;
 
   DEFINE_FIELD(readChannelConversion,
                AttributeField,

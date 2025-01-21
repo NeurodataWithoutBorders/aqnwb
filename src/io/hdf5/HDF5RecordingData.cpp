@@ -63,7 +63,6 @@ Status HDF5RecordingData::writeDataBlock(
     DataSpace fSpace;
     Status setupStatus = writeDataBlockHelper(dataShape,
                                               positionOffset,
-                                              type,
                                               mSpace,  // output
                                               fSpace  // output
     );
@@ -95,7 +94,7 @@ Status HDF5RecordingData::writeDataBlock(
   return Status::Success;
 }
 
-Status HDF5RecordingData::writeStringDataBlock(
+Status HDF5RecordingData::writeDataBlock(
     const std::vector<SizeType>& dataShape,
     const std::vector<SizeType>& positionOffset,
     const AQNWB::IO::BaseDataType& type,
@@ -107,7 +106,6 @@ Status HDF5RecordingData::writeStringDataBlock(
     DataSpace fSpace;
     Status setupStatus = writeDataBlockHelper(dataShape,
                                               positionOffset,
-                                              type,
                                               mSpace,  // output
                                               fSpace  // output
     );
@@ -168,7 +166,6 @@ Status HDF5RecordingData::writeStringDataBlock(
 Status HDF5RecordingData::writeDataBlockHelper(
     const std::vector<SizeType>& dataShape,
     const std::vector<SizeType>& positionOffset,
-    const AQNWB::IO::BaseDataType& type,
     DataSpace& mSpace,
     DataSpace& fSpace)
 {
