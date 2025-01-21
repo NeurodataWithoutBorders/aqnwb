@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['electricalseries_0',['ElectricalSeries',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html',1,'AQNWB::NWB']]],
-  ['electrodegroup_1',['ElectrodeGroup',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html',1,'AQNWB::NWB']]],
-  ['electrodetable_2',['ElectrodeTable',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html',1,'AQNWB::NWB']]],
-  ['elementidentifiers_3',['ElementIdentifiers',['../class_a_q_n_w_b_1_1_n_w_b_1_1_element_identifiers.html',1,'AQNWB::NWB']]]
+  ['data_0',['Data',['../class_a_q_n_w_b_1_1_n_w_b_1_1_data.html',1,'AQNWB::NWB']]],
+  ['datablock_1',['DataBlock',['../class_a_q_n_w_b_1_1_i_o_1_1_data_block.html',1,'AQNWB::IO']]],
+  ['datablockgeneric_2',['DataBlockGeneric',['../class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html',1,'AQNWB::IO']]],
+  ['device_3',['Device',['../class_a_q_n_w_b_1_1_n_w_b_1_1_device.html',1,'AQNWB::NWB']]],
+  ['dynamictable_4',['DynamicTable',['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html',1,'AQNWB::NWB']]]
 ];

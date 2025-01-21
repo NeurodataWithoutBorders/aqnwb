@@ -1,11 +1,13 @@
 <map id="AQNWB::NWB::TimeSeries" name="AQNWB::NWB::TimeSeries">
-<area shape="rect" id="Node000001" title="General purpose time series." alt="" coords="24,153,211,178"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html" title="General purpose time series." alt="" coords="12,226,223,252"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="120,194,120,226,115,226,115,194"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html" title="Abstract data type for a group storing collections of data and metadata." alt="" coords="29,79,206,105"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="120,120,120,152,115,152,115,120"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema." alt="" coords="12,5,223,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="120,46,120,79,115,79,115,46"/>
-<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html" title="Stores snapshots/snippets of recorded spike events (i.e., threshold crossings)." alt="" coords="5,300,230,326"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="120,267,120,300,115,300,115,267"/>
+<area shape="rect" id="Node000001" title="General purpose time series." alt="" coords="142,153,328,178"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html" title="TimeSeries storing text&#45;based records about the experiment." alt="" coords="5,226,225,252"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="203,189,137,228,134,223,200,184"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html" title="General purpose time series." alt="" coords="249,226,461,252"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="270,184,336,223,333,228,267,189"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html" title="Abstract data type for a group storing collections of data and metadata." alt="" coords="147,79,323,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="238,120,238,152,232,152,232,120"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema." alt="" coords="129,5,341,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="238,46,238,79,232,79,232,46"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html" title="Stores snapshots/snippets of recorded spike events (i.e., threshold crossings)." alt="" coords="243,300,467,326"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="358,267,358,300,352,300,352,267"/>
 </map>

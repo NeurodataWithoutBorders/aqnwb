@@ -17,6 +17,7 @@ var annotated_dup =
         [ "ReadDataWrapper", "class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html", "class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper" ]
       ] ],
       [ "NWB", "namespace_a_q_n_w_b_1_1_n_w_b.html", [
+        [ "AnnotationSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series" ],
         [ "Container", "class_a_q_n_w_b_1_1_n_w_b_1_1_container.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_container" ],
         [ "Data", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_data" ],
         [ "Device", "class_a_q_n_w_b_1_1_n_w_b_1_1_device.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_device" ],

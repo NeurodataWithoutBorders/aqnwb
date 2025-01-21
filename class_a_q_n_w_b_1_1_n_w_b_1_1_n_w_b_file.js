@@ -5,6 +5,7 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file =
     [ "NWBFile", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a4639155769006a79b189cdb7634bbaa5", null ],
     [ "~NWBFile", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aa92925025c0a04da1d6b03b82af99da3", null ],
     [ "cacheSpecifications", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a2f061ec60bb617dc749b399cfb6e30ee", null ],
+    [ "createAnnotationSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a60cc704130b022d48b41290ec16a1417", null ],
     [ "createElectricalSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a01af959032be834975b9f45737a32fa7", null ],
     [ "createFileStructure", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a5432fe66e877eb6417d1df5fd75016af", null ],
     [ "createRecordingData", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a853b7c416338be8ac24c893e2f809015", null ],

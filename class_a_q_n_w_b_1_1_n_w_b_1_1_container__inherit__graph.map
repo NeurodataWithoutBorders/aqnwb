@@ -12,10 +12,12 @@
 <area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="388,136,435,163,490,189,524,200,522,205,488,194,433,168,385,140"/>
 <area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema." alt="" coords="5,104,217,130"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="232,114,264,114,264,120,232,120"/>
-<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html" title="Represents a table containing electrode metadata." alt="" coords="750,55,956,80"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="712,65,749,65,749,70,712,70"/>
-<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html" title="General purpose time series." alt="" coords="747,203,959,228"/>
-<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="703,213,747,213,747,218,703,218"/>
-<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html" title="Stores snapshots/snippets of recorded spike events (i.e., threshold crossings)." alt="" coords="1007,203,1231,228"/>
-<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="974,213,1006,213,1006,218,974,218"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html" title="Represents a table containing electrode metadata." alt="" coords="754,55,960,80"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="712,65,753,65,753,70,712,70"/>
+<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html" title="TimeSeries storing text&#45;based records about the experiment." alt="" coords="747,177,967,203"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="703,202,747,198,747,203,703,208"/>
+<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html" title="General purpose time series." alt="" coords="751,227,963,252"/>
+<area shape="poly" id="edge9_Node000008_Node000010" title=" " alt="" coords="703,223,751,227,751,233,703,228"/>
+<area shape="rect" id="Node000011" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html" title="Stores snapshots/snippets of recorded spike events (i.e., threshold crossings)." alt="" coords="1015,227,1239,252"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="978,237,1014,237,1014,242,978,242"/>
 </map>

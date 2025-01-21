@@ -5,6 +5,7 @@ var dir_3875c1e54b4d5fadc95eea4e5fdc191f =
     [ "ecephys", "dir_233c518972f8f5648ed7849c4d3f4524.html", "dir_233c518972f8f5648ed7849c4d3f4524" ],
     [ "file", "dir_f14b33441b8f3c4a1a213ba2de2e3c66.html", "dir_f14b33441b8f3c4a1a213ba2de2e3c66" ],
     [ "hdmf", "dir_42a4622eeadeb301e554ade53994b57b.html", "dir_42a4622eeadeb301e554ade53994b57b" ],
+    [ "misc", "dir_f7e250f2dab84b749f9aab45f742d0c7.html", "dir_f7e250f2dab84b749f9aab45f742d0c7" ],
     [ "NWBFile.cpp", "_n_w_b_file_8cpp.html", "_n_w_b_file_8cpp" ],
     [ "NWBFile.hpp", "_n_w_b_file_8hpp.html", "_n_w_b_file_8hpp" ],
     [ "RecordingContainers.cpp", "_recording_containers_8cpp.html", null ],

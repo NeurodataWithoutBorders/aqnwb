@@ -1,36 +1,38 @@
 <map id="AQNWB::NWB::RegisteredType::getTypeName" name="AQNWB::NWB::RegisteredType::getTypeName">
-<area shape="rect" id="Node000001" title="Get the name of the class type." alt="" coords="758,300,970,341"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a5432fe66e877eb6417d1df5fd75016af" title="Creates the default file structure. Note, this function will fail if the file is in a mode where new ..." alt="" coords="518,72,691,113"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="826,292,628,115,631,111,830,288"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aa99a96577796251680919f2118674e5e" title="Get the full name of type, i.e., namespace::typename" alt="" coords="499,235,710,275"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="765,298,688,279,689,273,766,293"/>
-<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a33ba8c1d37cae843106d3d3668d6523c" title="Initialize the container." alt="" coords="516,300,693,341"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="743,323,693,323,693,318,743,318"/>
-<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_device.html#ab9651ab77d0c1e46126178ea55cb0295" title="Initializes the device by creating NWB related attributes and writing the manufactor and description ..." alt="" coords="258,463,420,503"/>
-<area shape="poly" id="edge18_Node000001_Node000006" title=" " alt="" coords="783,348,452,452,411,465,409,460,450,447,782,343"/>
-<area shape="rect" id="Node000015" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a41af6f50bfd8c555eeebb21acf5b00c7" title="Initialize the dataset for the Data object." alt="" coords="503,481,706,506"/>
-<area shape="poly" id="edge16_Node000001_Node000015" title=" " alt="" coords="821,352,627,483,624,478,818,347"/>
+<area shape="rect" id="Node000001" title="Get the name of the class type." alt="" coords="758,169,970,210"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a5432fe66e877eb6417d1df5fd75016af" title="Creates the default file structure. Note, this function will fail if the file is in a mode where new ..." alt="" coords="518,27,691,67"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="814,163,709,103,647,70,650,66,712,98,817,159"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aa99a96577796251680919f2118674e5e" title="Get the full name of type, i.e., namespace::typename" alt="" coords="499,112,710,153"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="753,168,699,156,701,151,755,163"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a33ba8c1d37cae843106d3d3668d6523c" title="Initialize the container." alt="" coords="516,267,693,307"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="794,218,662,269,660,264,792,213"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_device.html#ab9651ab77d0c1e46126178ea55cb0295" title="Initializes the device by creating NWB related attributes and writing the manufactor and description ..." alt="" coords="258,71,420,111"/>
+<area shape="poly" id="edge19_Node000001_Node000007" title=" " alt="" coords="743,202,684,202,622,197,559,186,498,167,482,158,473,147,463,137,450,127,419,113,421,108,452,122,467,133,476,144,486,153,500,162,560,181,623,192,685,196,743,197"/>
+<area shape="rect" id="Node000016" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a41af6f50bfd8c555eeebb21acf5b00c7" title="Initialize the dataset for the Data object." alt="" coords="503,466,706,492"/>
+<area shape="poly" id="edge17_Node000001_Node000016" title=" " alt="" coords="836,223,619,468,615,464,832,220"/>
 <area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a1d27188a472f67378ffb425165d75cce" title="Initializes the NWB file by setting up the file structure." alt="" coords="252,5,426,46"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="506,70,422,49,424,44,507,65"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="545,351,501,382,486,400,478,417,470,435,453,452,421,469,418,464,449,448,465,432,474,415,482,397,497,378,542,346"/>
-<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a7492a87ab629c4d888ff9a22c1356699" title="Initializes the DynamicTable object by creating NWB attributes and column names." alt="" coords="237,332,440,373"/>
-<area shape="poly" id="edge8_Node000005_Node000009" title=" " alt="" coords="501,335,441,343,441,337,501,330"/>
-<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#aa6db97f7067421a8a5d7f3fcfa8c64fb" title="Initializes the Electrical Series." alt="" coords="233,397,444,438"/>
-<area shape="poly" id="edge9_Node000005_Node000010" title=" " alt="" coords="544,350,452,387,415,399,413,394,450,382,542,345"/>
-<area shape="rect" id="Node000011" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html#ae1040ee51efcdfb2b4ba7ba046dd0a51" title="Initializes the ElectrodeGroup object." alt="" coords="234,71,444,111"/>
-<area shape="poly" id="edge10_Node000005_Node000011" title=" " alt="" coords="502,294,497,289,482,268,474,247,473,206,471,165,464,146,449,126,433,114,436,110,453,122,469,143,476,164,478,205,479,246,486,265,501,285,506,290"/>
-<area shape="rect" id="Node000012" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#aff1a75876da42fd1e0a467b57409b012" title="Initializes the ElectrodeTable." alt="" coords="236,136,442,177"/>
-<area shape="poly" id="edge13_Node000005_Node000012" title=" " alt="" coords="503,294,497,289,486,277,479,264,473,239,466,215,460,203,449,192,431,179,434,175,453,188,464,200,471,213,478,238,484,262,490,273,501,285,507,290"/>
-<area shape="rect" id="Node000013" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#a8d9fdfd3be48a2829381969302d3063f" title="Initializes the SpikeEventSeries." alt="" coords="227,201,451,242"/>
-<area shape="poly" id="edge14_Node000005_Node000013" title=" " alt="" coords="513,296,498,289,474,273,450,257,419,245,421,240,452,253,477,269,500,285,516,291"/>
-<area shape="rect" id="Node000014" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a9be940f3782a051785f27636a004b79f" title="Initializes the TimeSeries by creating NWB related attributes and writing the description and comment..." alt="" coords="246,267,432,307"/>
-<area shape="poly" id="edge15_Node000005_Node000014" title=" " alt="" coords="501,310,432,301,433,296,502,305"/>
-<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a01af959032be834975b9f45737a32fa7" title="Create ElectricalSeries objects to record data into. Created objects are stored in recordingContainer..." alt="" coords="5,153,179,194"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="242,465,225,452,209,432,199,412,193,375,190,335,186,313,176,290,144,238,110,196,115,193,148,235,181,287,191,312,196,334,198,374,204,411,213,429,229,448,246,461"/>
-<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a7244179a31130a8bc43458174664cdc9" title="Create SpikeEventSeries objects to record data into. Created objects are stored in recordingContainer..." alt="" coords="5,300,179,341"/>
-<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="243,461,225,452,189,427,156,397,107,343,111,339,160,393,192,422,228,447,245,456"/>
-<area shape="poly" id="edge11_Node000011_Node000007" title=" " alt="" coords="252,119,228,127,148,155,147,150,226,122,251,114"/>
-<area shape="poly" id="edge12_Node000011_Node000008" title=" " alt="" coords="235,121,228,126,211,145,201,163,194,183,181,207,112,301,108,298,176,204,189,181,197,161,206,141,225,122,232,117"/>
-<area shape="rect" id="Node000016" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a0c3e139f8bea9d66199f046c5a0554b2" title="Initialize the dataset for the Data object." alt="" coords="246,528,432,569"/>
-<area shape="poly" id="edge17_Node000015_Node000016" title=" " alt="" coords="524,513,433,532,432,527,523,508"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="502,41,426,35,426,30,503,36"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html#ae36801ce5709f9e59bf1fbb9622ad630" title="Initializes the AnnotationSeries." alt="" coords="229,267,448,307"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="501,290,449,290,449,284,501,284"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="555,260,525,237,497,210,482,187,474,165,466,146,449,126,419,109,421,105,453,122,471,143,479,163,487,184,501,207,529,233,558,256"/>
+<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a7492a87ab629c4d888ff9a22c1356699" title="Initializes the DynamicTable object by creating NWB attributes and column names." alt="" coords="237,397,440,438"/>
+<area shape="poly" id="edge9_Node000005_Node000010" title=" " alt="" coords="565,319,513,354,452,387,420,399,418,394,450,382,510,349,562,314"/>
+<area shape="rect" id="Node000011" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#aa6db97f7067421a8a5d7f3fcfa8c64fb" title="Initializes the Electrical Series." alt="" coords="233,463,444,503"/>
+<area shape="poly" id="edge10_Node000005_Node000011" title=" " alt="" coords="583,322,528,388,492,422,452,452,427,464,425,460,450,447,489,418,524,384,579,319"/>
+<area shape="rect" id="Node000012" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html#ae1040ee51efcdfb2b4ba7ba046dd0a51" title="Initializes the ElectrodeGroup object." alt="" coords="234,332,444,373"/>
+<area shape="poly" id="edge11_Node000005_Node000012" title=" " alt="" coords="505,314,425,334,424,329,504,309"/>
+<area shape="rect" id="Node000013" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#aff1a75876da42fd1e0a467b57409b012" title="Initializes the ElectrodeTable." alt="" coords="236,528,442,569"/>
+<area shape="poly" id="edge14_Node000005_Node000013" title=" " alt="" coords="585,322,512,437,476,489,453,517,431,530,429,525,449,513,472,486,508,434,580,319"/>
+<area shape="rect" id="Node000014" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#a8d9fdfd3be48a2829381969302d3063f" title="Initializes the SpikeEventSeries." alt="" coords="227,136,451,177"/>
+<area shape="poly" id="edge15_Node000005_Node000014" title=" " alt="" coords="562,260,510,225,450,192,418,180,420,175,452,187,513,220,565,255"/>
+<area shape="rect" id="Node000015" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a9be940f3782a051785f27636a004b79f" title="Initializes the TimeSeries by creating NWB related attributes and writing the description and comment..." alt="" coords="246,201,432,242"/>
+<area shape="poly" id="edge16_Node000005_Node000015" title=" " alt="" coords="504,265,424,245,425,240,505,260"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a01af959032be834975b9f45737a32fa7" title="Create ElectricalSeries objects to record data into. Created objects are stored in recordingContainer..." alt="" coords="5,120,179,161"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="243,113,179,126,178,120,242,108"/>
+<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a7244179a31130a8bc43458174664cdc9" title="Create SpikeEventSeries objects to record data into. Created objects are stored in recordingContainer..." alt="" coords="5,235,179,275"/>
+<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="245,118,228,127,203,148,181,174,117,236,113,232,177,171,199,144,225,122,243,113"/>
+<area shape="poly" id="edge12_Node000012_Node000008" title=" " alt="" coords="231,326,225,321,205,298,197,275,190,251,176,225,147,191,117,163,121,159,151,187,181,221,195,249,202,273,210,295,229,317,234,322"/>
+<area shape="poly" id="edge13_Node000012_Node000009" title=" " alt="" coords="247,329,226,321,132,278,134,274,228,317,249,324"/>
+<area shape="rect" id="Node000017" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a0c3e139f8bea9d66199f046c5a0554b2" title="Initialize the dataset for the Data object." alt="" coords="246,593,432,634"/>
+<area shape="poly" id="edge18_Node000016_Node000017" title=" " alt="" coords="577,504,521,543,452,583,421,595,419,590,450,578,518,539,574,499"/>
 </map>

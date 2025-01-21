@@ -142,6 +142,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a60bb8e7bff2ec1184d713f7f93e889a6" id="r_a60bb8e7bff2ec1184d713f7f93e889a6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a60bb8e7bff2ec1184d713f7f93e889a6">writeSpikeEventData</a> (const <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &amp;containerInd, const <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &amp;numSamples, const <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &amp;numChannels, const void *data, const void *timestamps, const void *controlInput=nullptr)</td></tr>
 <tr class="memdesc:a60bb8e7bff2ec1184d713f7f93e889a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html" title="Stores snapshots/snippets of recorded spike events (i.e., threshold crossings).">SpikeEventSeries</a> data to a recordingContainer dataset.  <br /></td></tr>
 <tr class="separator:a60bb8e7bff2ec1184d713f7f93e889a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa25337d3318281ac24caffcf80d6fdf0" id="r_aa25337d3318281ac24caffcf80d6fdf0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa25337d3318281ac24caffcf80d6fdf0">writeAnnotationSeriesData</a> (const <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &amp;containerInd, const <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &amp;numSamples, const std::vector&lt; std::string &gt; data, const void *timestamps, const void *controlInput=nullptr)</td></tr>
+<tr class="memdesc:aa25337d3318281ac24caffcf80d6fdf0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html" title="TimeSeries storing text-based records about the experiment.">AnnotationSeries</a> data to a recordingContainer dataset.  <br /></td></tr>
+<tr class="separator:aa25337d3318281ac24caffcf80d6fdf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a795a7db853dbd164ec36f0cd5955934c" id="r_a795a7db853dbd164ec36f0cd5955934c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a795a7db853dbd164ec36f0cd5955934c">size</a> () const</td></tr>
 <tr class="memdesc:a795a7db853dbd164ec36f0cd5955934c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of recording containers.  <br /></td></tr>
 <tr class="separator:a795a7db853dbd164ec36f0cd5955934c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -259,7 +262,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers_a446ec0d5f5e7802d9e44725399c71e8c_icgraph.svg" width="475" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers_a446ec0d5f5e7802d9e44725399c71e8c_icgraph.svg" width="475" height="183"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -289,7 +292,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers_a18d797f241cbd59fd77fa68fbd392111_icgraph.svg" width="544" height="183"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers_a18d797f241cbd59fd77fa68fbd392111_icgraph.svg" width="544" height="248"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -353,7 +356,61 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers_a795a7db853dbd164ec36f0cd5955934c_icgraph.svg" width="475" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers_a795a7db853dbd164ec36f0cd5955934c_icgraph.svg" width="475" height="183"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="aa25337d3318281ac24caffcf80d6fdf0" name="aa25337d3318281ac24caffcf80d6fdf0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa25337d3318281ac24caffcf80d6fdf0">&#9670;&#160;</a></span>writeAnnotationSeriesData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> RecordingContainers::writeAnnotationSeriesData </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>containerInd</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>numSamples</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt;</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *</td>          <td class="paramname"><span class="paramname"><em>timestamps</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *</td>          <td class="paramname"><span class="paramname"><em>controlInput</em></span><span class="paramdefsep"> = </span><span class="paramdefval">nullptr</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Write <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html" title="TimeSeries storing text-based records about the experiment.">AnnotationSeries</a> data to a recordingContainer dataset. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">containerInd</td><td>The index of the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html" title="TimeSeries storing text-based records about the experiment.">AnnotationSeries</a> dataset within the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html" title="TimeSeries storing text-based records about the experiment.">AnnotationSeries</a> containers. </td></tr>
+    <tr><td class="paramname">numSamples</td><td>Number of samples in the time for the single event. </td></tr>
+    <tr><td class="paramname">data</td><td>A vector of strings of data to write. </td></tr>
+    <tr><td class="paramname">timestamps</td><td>A pointer to the timestamps block </td></tr>
+    <tr><td class="paramname">controlInput</td><td>A pointer to the control block data (optional) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the write operation. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers_aa25337d3318281ac24caffcf80d6fdf0_cgraph.svg" width="544" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

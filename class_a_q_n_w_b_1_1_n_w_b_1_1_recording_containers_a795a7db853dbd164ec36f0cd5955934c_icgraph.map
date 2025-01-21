@@ -1,7 +1,9 @@
 <map id="AQNWB::NWB::RecordingContainers::size" name="AQNWB::NWB::RecordingContainers::size">
-<area shape="rect" id="Node000001" title="Get the number of recording containers." alt="" coords="227,39,469,79"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a01af959032be834975b9f45737a32fa7" title="Create ElectricalSeries objects to record data into. Created objects are stored in recordingContainer..." alt="" coords="5,5,179,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="211,44,179,40,179,34,212,39"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a7244179a31130a8bc43458174664cdc9" title="Create SpikeEventSeries objects to record data into. Created objects are stored in recordingContainer..." alt="" coords="5,71,179,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="212,79,179,83,179,78,211,73"/>
+<area shape="rect" id="Node000001" title="Get the number of recording containers." alt="" coords="227,71,469,111"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a60cc704130b022d48b41290ec16a1417" title="Create AnnotationSeries objects to record data into. Created objects are stored in recordingContainer..." alt="" coords="5,5,179,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="250,69,174,49,175,44,251,64"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a01af959032be834975b9f45737a32fa7" title="Create ElectricalSeries objects to record data into. Created objects are stored in recordingContainer..." alt="" coords="5,71,179,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="211,94,179,94,179,88,211,88"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a7244179a31130a8bc43458174664cdc9" title="Create SpikeEventSeries objects to record data into. Created objects are stored in recordingContainer..." alt="" coords="5,136,179,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="251,118,175,138,174,133,250,113"/>
 </map>

@@ -34,7 +34,7 @@ var searchData=
   ['m_5fpath_31',['m_path',['../class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html#a5293c9c5c438c43d9f31ac91f206dad8',1,'AQNWB::IO::ReadDataWrapper::m_path'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a2c2954495607eb4afe4e9ab8eff3a08b',1,'AQNWB::NWB::RegisteredType::m_path']]],
   ['m_5fposition_32',['m_position',['../class_a_q_n_w_b_1_1_channel.html#af569bc6ab63a386c6f3424df157622c8',1,'AQNWB::Channel']]],
   ['m_5freadytoopen_33',['m_readyToOpen',['../class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a8b71a8fca370cb3b3a1ab46881eb7be7',1,'AQNWB::IO::BaseIO']]],
-  ['m_5fsamplesrecorded_34',['m_samplesRecorded',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a30298c5b6060c152101f6badd0e4824b',1,'AQNWB::NWB::ElectricalSeries']]],
+  ['m_5fsamplesrecorded_34',['m_samplesRecorded',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a30298c5b6060c152101f6badd0e4824b',1,'AQNWB::NWB::ElectricalSeries::m_samplesRecorded'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html#a8801b9095e4f9131b4ede7e8e812f6e3',1,'AQNWB::NWB::AnnotationSeries::m_samplesRecorded']]],
   ['m_5fsamplingrate_35',['m_samplingRate',['../class_a_q_n_w_b_1_1_channel.html#abcd31d93b7b1e401d310757fd32f5ce5',1,'AQNWB::Channel']]],
   ['macro_36',['How to Use the DEFINE_FIELD macro',['../registered_type_page.html#use_the_define_field_macro',1,'']]],
   ['memory_37',['Read data into memory',['../read_page.html#read_design_example_load_data',1,'']]],

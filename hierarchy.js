@@ -29,6 +29,7 @@ var hierarchy =
         [ "AQNWB::NWB::ElectrodeGroup", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html", null ],
         [ "AQNWB::NWB::NWBFile", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html", null ],
         [ "AQNWB::NWB::TimeSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html", [
+          [ "AQNWB::NWB::AnnotationSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html", null ],
           [ "AQNWB::NWB::ElectricalSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html", [
             [ "AQNWB::NWB::SpikeEventSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html", null ]
           ] ]
