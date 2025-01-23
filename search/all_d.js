@@ -3,7 +3,7 @@ var searchData=
   ['f32_0',['F32',['../class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#a0164e3b8cd53950054845d9bd8285fa2',1,'AQNWB::IO::BaseDataType']]],
   ['f64_1',['F64',['../class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#a596aed9bda4397bbb84a0b9e6074fe58',1,'AQNWB::IO::BaseDataType']]],
   ['failure_2',['Failure',['../class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9a5e4ad53b09bd2f26e1b2f42bd1ad8fdf',1,'AQNWB::Types']]],
-  ['fields_3',['Reading data fields',['../read_page.html#read_design_example_read_posthoc_read_field',1,'']]],
+  ['fields_3',['fields',['../read_page.html#read_design_example_read_arbitrary_field',1,'Reading arbitrary fields'],['../read_page.html#read_design_example_read_posthoc_read_field',1,'Reading data fields']]],
   ['file_4',['file',['../workflow.html#stop_recording',1,'7. Stop the recording and finalize the file.'],['../read_page.html#read_design_example_read_from_existing_file',1,'Reading from an existing file']]],
   ['file_20as_20usual_5',['Create a NWB file as usual',['../read_page.html#read_design_example_create',1,'']]],
   ['file_20for_20reading_6',['Opening an existing file for reading',['../read_page.html#read_design_example_read_create_io',1,'']]],

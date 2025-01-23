@@ -1,5 +1,7 @@
 <map id="AQNWB::NWB::RegisteredType::create" name="AQNWB::NWB::RegisteredType::create">
-<area shape="rect" id="Node000001" title="Create an instance of a registered subclass by name." alt="" coords="265,5,476,46"/>
+<area shape="rect" id="Node000001" title="Create an instance of a registered subclass by name." alt="" coords="265,39,476,79"/>
 <area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a99e5fd3c63ce7a887c2f3ae7b5f20320" title="Factory method to create an instance of a subclass of RegisteredType from file." alt="" coords="5,5,217,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="249,28,217,28,217,23,249,23"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="249,46,217,42,218,37,250,41"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a200d0060c57cd61dc09bbf100aa091b5" title="Read a field that is itself a RegisteredType." alt="" coords="5,71,217,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="250,77,218,81,217,75,249,71"/>
 </map>

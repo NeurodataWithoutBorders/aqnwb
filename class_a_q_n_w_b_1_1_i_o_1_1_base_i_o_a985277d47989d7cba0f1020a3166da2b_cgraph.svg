@@ -70,10 +70,10 @@
 <!-- Node5 -->
 <g id="Node000005" class="node">
 <title>Node5</title>
-<g id="a_Node000005"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a23b84c5068ecb6a59fff33b9fc0a398c" target="_top" xlink:title="Gets the list of objects inside a group.">
+<g id="a_Node000005"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a981d7a455b4c057f8ade5c511afbb2ba" target="_top" xlink:title="Gets the list of storage objects (groups, datasets, attributes) inside a group.">
 <polygon fill="white" stroke="#666666" points="270.88,-165.5 155.12,-165.5 155.12,-135 270.88,-135 270.88,-165.5"/>
 <text text-anchor="start" x="163.12" y="-152" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::IO::BaseIO::</text>
-<text text-anchor="middle" x="213" y="-140.75" font-family="Helvetica,sans-Serif" font-size="10.00">getGroupObjects</text>
+<text text-anchor="middle" x="213" y="-140.75" font-family="Helvetica,sans-Serif" font-size="10.00">getStorageObjects</text>
 </a>
 </g>
 </g>

@@ -204,6 +204,9 @@ $(function(){initNavTree('read_page.html',''); initResizable(true); });
           <li class="level3">
             <a href="#read_design_example_read_posthoc_read_field">Reading data fields</a>
           </li>
+          <li class="level3">
+            <a href="#read_design_example_read_arbitrary_field">Reading arbitrary fields</a>
+          </li>
         </ul>
       </li>
     </ul>
@@ -275,11 +278,11 @@ Reading typed objects</h2>
 <p>The main components involved in reading typed objects from an NWB file via AqNWB are:</p>
 <ul>
 <li><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> as the main base class for all classes implementing a type, e.g., <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html">Container</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html">Data</a> and all their subtypes. <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> is responsible for managing all type classes and provides the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a01354d1b4230f7495203cc526eae418f">create</a> factory methods for creating instances of subclasses from a file.</li>
-<li><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">BaseIO</a>, <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html">HDF5IO</a> are responsible for i) reading type attribute and group information, ii) searching the file for typed objects via <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a985277d47989d7cba0f1020a3166da2b">findTypes()</a> methods, and iii) retrieving the paths of all object within a group via <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a23b84c5068ecb6a59fff33b9fc0a398c">getGroupObjects()</a></li>
+<li><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">BaseIO</a>, <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html">HDF5IO</a> are responsible for i) reading type attribute and group information, ii) searching the file for typed objects via <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a985277d47989d7cba0f1020a3166da2b">findTypes()</a> methods, and iii) retrieving the paths of all object associated with a storage object (e.g., a Group) via <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a981d7a455b4c057f8ade5c511afbb2ba">getStorageObjects()</a></li>
 </ul>
 <h3><a class="anchor" id="read_design_wrapper_registeredType"></a>
 RegisteredType</h3>
-<p><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> maintains a registry of all classes that inherit from it and the types they represent. We can retrieve the full registry via the static method <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a8792fccbd49f9d441b1f6d5a1b06b4cf">getFactoryMap</a> and a list of just the full type names that are in the registry via <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab7e3361637885fe601cc20cb342bf01c">getRegistry</a>. Importantly, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> provides static <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a01354d1b4230f7495203cc526eae418f">create</a> methods that we can use to instantiate any registered subclass just using the <code>io</code> object and <code>path</code> for the object in the file. <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> can read the type information from the corresponding <code>namespace</code> and <code>neurodata_type</code> attributes to determine the full type and in run look up the corresponding class in its registry and create the type.</p>
+<p><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> maintains a registry of all classes that inherit from it and the types they represent. We can retrieve the full registry via the static method <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a8792fccbd49f9d441b1f6d5a1b06b4cf">getFactoryMap</a> and a list of just the full type names that are in the registry via <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab7e3361637885fe601cc20cb342bf01c">getRegistry</a>. Importantly, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> provides static <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a01354d1b4230f7495203cc526eae418f">create</a> methods that we can use to instantiate any registered subclass just using the <code>io</code> object and <code>path</code> for the object in the file. <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> can read the type information from the corresponding <code>namespace</code> and <code>neurodata_type</code> attributes to determine the full type, then look up the corresponding class in its registry, and then create the type. Using <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ae0fb6e951eb0000e4a4fba81db8d466f">RegisteredType::readField</a> also provides a general mechanism for reading arbitrary fields.</p>
 <h3><a class="anchor" id="read_design_wrapper_subtypes"></a>
 Child classes of RegisteredType (e.g., Container)</h3>
 <p>Child classes of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> (e.g., <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html">Container</a> or <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html">Data</a>), then implement specific <code>neurodata_types</code> defined in the NWB schema. The subclasses register with <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a>, such that we can look them up and determine which class represents which <code>neurodata_type</code>.</p>
@@ -530,6 +533,28 @@ Reading data fields</h3>
 <div class="line">    std::string esUnitValue =</div>
 <div class="line">        readElectricalSeries-&gt;readDataUnit()-&gt;values().data[0];</div>
 <div class="line">    REQUIRE(esUnitValue == std::string(<span class="stringliteral">&quot;volts&quot;</span>));</div>
+</div><!-- fragment --><h3><a class="anchor" id="read_design_example_read_arbitrary_field"></a>
+Reading arbitrary fields</h3>
+<p>Even if there is no dedicated <code>DEFINE_FIELD</code> definition available, we can still read any arbitrary sub-field associated with a particular <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> via the generic <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ae0fb6e951eb0000e4a4fba81db8d466f">RegisteredType::readField</a> method. The main difference is that for datasets and attributes we need to specify all the additional information (e.g., the relative path, object type, and data type) ourselves, whereas using <code>DEFINE_FIELD</code> this information has already been specified for us. For example, to read the data from the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html">ElectricalSeries</a> we can call:</p>
+<div class="fragment"><div class="line">    <span class="comment">// Read the data field via the generic readField method</span></div>
+<div class="line">    <span class="keyword">auto</span> readElectricalSeriesData3 =</div>
+<div class="line">        readElectricalSeries-&gt;readField&lt;StorageObjectType::Dataset, <span class="keywordtype">float</span>&gt;(</div>
+<div class="line">            std::string(<span class="stringliteral">&quot;data&quot;</span>));</div>
+<div class="line">    <span class="comment">// Read the data values as usual</span></div>
+<div class="line">    DataBlock&lt;float&gt; readDataValues3 = readElectricalSeriesData3-&gt;values();</div>
+<div class="line">    REQUIRE(readDataValues3.data.size() == (numSamples * numChannels));</div>
+</div><!-- fragment --><p>Similarly, we can also read any sub-fields that are itself <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> objects via <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ae0fb6e951eb0000e4a4fba81db8d466f">RegisteredType::readField</a> (e.g., to read custom <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html">VectorData</a> columns of a <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html">DynamicTable</a>). In contrast to dataset and attribute fields, we here only need to specify the relative path of the field. <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> in turn can read the type information from the <code>neurodata_type</code> and <code>namespace</code> attributes in the file directly.</p>
+<div class="fragment"><div class="line">    <span class="comment">// read the NWBFile</span></div>
+<div class="line">    <span class="keyword">auto</span> readNWBFile =</div>
+<div class="line">        <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a01354d1b4230f7495203cc526eae418f">NWB::RegisteredType::create&lt;AQNWB::NWB::NWBFile&gt;</a>(<span class="stringliteral">&quot;/&quot;</span>, readio);</div>
+<div class="line">    <span class="comment">// read the ElectricalSeries from the NWBFile object via the readField</span></div>
+<div class="line">    <span class="comment">// method returning a generic std::shared_ptr&lt;RegisteredType&gt;</span></div>
+<div class="line">    <span class="keyword">auto</span> readRegisteredType = readNWBFile-&gt;readField(esdata_path);</div>
+<div class="line">    <span class="comment">// cast the generic pointer to the more specific ElectricalSeries</span></div>
+<div class="line">    std::shared_ptr&lt;AQNWB::NWB::ElectricalSeries&gt; readElectricalSeries2 =</div>
+<div class="line">        std::dynamic_pointer_cast&lt;AQNWB::NWB::ElectricalSeries&gt;(</div>
+<div class="line">            readRegisteredType);</div>
+<div class="line">    REQUIRE(readElectricalSeries2 != <span class="keyword">nullptr</span>);</div>
 </div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

@@ -157,9 +157,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a06b5edf2bbd4c85adcafda13e7903873" id="r_a06b5edf2bbd4c85adcafda13e7903873"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a06b5edf2bbd4c85adcafda13e7903873">attributeExists</a> (const std::string &amp;path) const =0</td></tr>
 <tr class="memdesc:a06b5edf2bbd4c85adcafda13e7903873"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether an Attribute exists at the location in the file.  <br /></td></tr>
 <tr class="separator:a06b5edf2bbd4c85adcafda13e7903873"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a23b84c5068ecb6a59fff33b9fc0a398c" id="r_a23b84c5068ecb6a59fff33b9fc0a398c"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a23b84c5068ecb6a59fff33b9fc0a398c">getGroupObjects</a> (const std::string &amp;path) const =0</td></tr>
-<tr class="memdesc:a23b84c5068ecb6a59fff33b9fc0a398c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the list of objects inside a group.  <br /></td></tr>
-<tr class="separator:a23b84c5068ecb6a59fff33b9fc0a398c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a981d7a455b4c057f8ade5c511afbb2ba" id="r_a981d7a455b4c057f8ade5c511afbb2ba"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; std::pair&lt; std::string, <a class="el" href="class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915">StorageObjectType</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a981d7a455b4c057f8ade5c511afbb2ba">getStorageObjects</a> (const std::string &amp;path, const <a class="el" href="class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915">StorageObjectType</a> &amp;objectType=StorageObjectType::Undefined) const =0</td></tr>
+<tr class="memdesc:a981d7a455b4c057f8ade5c511afbb2ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the list of storage objects (groups, datasets, attributes) inside a group.  <br /></td></tr>
+<tr class="separator:a981d7a455b4c057f8ade5c511afbb2ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a985277d47989d7cba0f1020a3166da2b" id="r_a985277d47989d7cba0f1020a3166da2b"><td class="memItemLeft" align="right" valign="top">virtual std::unordered_map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a985277d47989d7cba0f1020a3166da2b">findTypes</a> (const std::string &amp;starting_path, const std::unordered_set&lt; std::string &gt; &amp;types, <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035">SearchMode</a> search_mode) const</td></tr>
 <tr class="memdesc:a985277d47989d7cba0f1020a3166da2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds all datasets and groups of the given types in the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html">HDF5</a> file.  <br /></td></tr>
 <tr class="separator:a985277d47989d7cba0f1020a3166da2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1171,8 +1171,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a23b84c5068ecb6a59fff33b9fc0a398c" name="a23b84c5068ecb6a59fff33b9fc0a398c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a23b84c5068ecb6a59fff33b9fc0a398c">&#9670;&#160;</a></span>getGroupObjects()</h2>
+<a id="a981d7a455b4c057f8ade5c511afbb2ba" name="a981d7a455b4c057f8ade5c511afbb2ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a981d7a455b4c057f8ade5c511afbb2ba">&#9670;&#160;</a></span>getStorageObjects()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1181,10 +1181,14 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual std::vector&lt; std::string &gt; AQNWB::IO::BaseIO::getGroupObjects </td>
+          <td class="memname">virtual std::vector&lt; std::pair&lt; std::string, <a class="el" href="class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915">StorageObjectType</a> &gt; &gt; AQNWB::IO::BaseIO::getStorageObjects </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
-          <td> const</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915">StorageObjectType</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>objectType</em></span><span class="paramdefsep"> = </span><span class="paramdefval">StorageObjectType::Undefined</span>&#160;) const</td>
         </tr>
       </table>
   </td>
@@ -1194,21 +1198,22 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Gets the list of objects inside a group. </p>
-<p>This function returns a vector of relative paths of all objects inside the specified group. If the input path is not a group (e.g., as dataset or attribute or invalid object), then an empty list should be returned.</p>
+<p>Gets the list of storage objects (groups, datasets, attributes) inside a group. </p>
+<p>This function returns the relative paths and storage type of all objects inside the specified group. If the input path is an attribute then an empty list should be returned. If the input path is a dataset, then only the attributes will be returned. Note, this function is not recursive, i.e., it only looks for storage objects associated directly with the given path.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">path</td><td>The path to the group.</td></tr>
+    <tr><td class="paramname">path</td><td>The path to the group. </td></tr>
+    <tr><td class="paramname">objectType</td><td>Define which types of storage object to look for, i.e., only objects of this specified type will be returned.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A vector of relative paths of all objects inside the group. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A vector of pairs of relative paths and their corresponding storage object types. </dd></dl>
 
-<p>Implemented in <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a555e37a7144ed76b3c77ec373aa11afa">AQNWB::IO::HDF5::HDF5IO</a>.</p>
+<p>Implemented in <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a54b2e3341ef695c712a9670c4a781c81">AQNWB::IO::HDF5::HDF5IO</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o_a23b84c5068ecb6a59fff33b9fc0a398c_icgraph.svg" width="368" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o_a981d7a455b4c057f8ade5c511afbb2ba_icgraph.svg" width="368" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

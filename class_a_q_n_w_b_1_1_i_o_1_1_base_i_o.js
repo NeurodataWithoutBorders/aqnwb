@@ -23,7 +23,7 @@ var class_a_q_n_w_b_1_1_i_o_1_1_base_i_o =
     [ "flush", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a8f6ad4501f15fdfa8927aa63faae690a", null ],
     [ "getDataSet", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a88b3a8c8ba53a1ef53f637c51aec296e", null ],
     [ "getFileName", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#aaca68b05085b5e9f81a16d7612757163", null ],
-    [ "getGroupObjects", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a23b84c5068ecb6a59fff33b9fc0a398c", null ],
+    [ "getStorageObjects", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a981d7a455b4c057f8ade5c511afbb2ba", null ],
     [ "getStorageObjectType", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a032fc25850e9d5efe216fd22d44daa56", null ],
     [ "isOpen", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a51780c3ba1e76902180b55c050eedaa7", null ],
     [ "isReadyToOpen", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a977c8a41fb82844359fb010303a71dfa", null ],

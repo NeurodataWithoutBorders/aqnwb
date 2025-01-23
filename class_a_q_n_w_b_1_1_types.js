@@ -1,5 +1,6 @@
 var class_a_q_n_w_b_1_1_types =
 [
+    [ "IsDataStorageObjectType", "struct_a_q_n_w_b_1_1_types_1_1_is_data_storage_object_type.html", null ],
     [ "ChannelVector", "class_a_q_n_w_b_1_1_types.html#a17cc1d186ce80971c28e440471e910ff", null ],
     [ "SizeArray", "class_a_q_n_w_b_1_1_types.html#ad444fd27f3e592154c4fee87afd568aa", null ],
     [ "SizeType", "class_a_q_n_w_b_1_1_types.html#ae7b68dd97f314f45e450b2f636ad7c6e", null ],

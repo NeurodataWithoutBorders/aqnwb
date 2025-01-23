@@ -1,5 +1,5 @@
-<map id="AQNWB::IO::BaseIO::getGroupObjects" name="AQNWB::IO::BaseIO::getGroupObjects">
-<area shape="rect" id="Node000001" title="Gets the list of objects inside a group." alt="" coords="208,5,362,46"/>
+<map id="AQNWB::IO::BaseIO::getStorageObjects" name="AQNWB::IO::BaseIO::getStorageObjects">
+<area shape="rect" id="Node000001" title="Gets the list of storage objects (groups, datasets, attributes) inside a group." alt="" coords="208,5,362,46"/>
 <area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a985277d47989d7cba0f1020a3166da2b" title="Finds all datasets and groups of the given types in the HDF5 file." alt="" coords="5,5,160,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,28,160,28,160,23,192,23"/>
 </map>

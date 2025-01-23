@@ -25,8 +25,9 @@ var searchData=
   ['isallowedstorageobjecttype_3c_20storageobjecttype_3a_3aattribute_20_3e_22',['isAllowedStorageObjectType&lt; StorageObjectType::Attribute &gt;',['../struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type_3_01_storage_object_type_1_1_attribute_01_4.html',1,'AQNWB::IO']]],
   ['isallowedstorageobjecttype_3c_20storageobjecttype_3a_3adataset_20_3e_23',['isAllowedStorageObjectType&lt; StorageObjectType::Dataset &gt;',['../struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type_3_01_storage_object_type_1_1_dataset_01_4.html',1,'AQNWB::IO']]],
   ['isdataset_24',['isDataset',['../struct_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper_1_1is_dataset.html',1,'AQNWB::IO::ReadDataWrapper']]],
-  ['isinitialized_25',['isInitialized',['../class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a28976115b55b66fb89efb43a412a587e',1,'AQNWB::NWB::Data::isInitialized()'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aba967059704c8c81446775bd7beda42b',1,'AQNWB::NWB::NWBFile::isInitialized()']]],
-  ['isopen_26',['isOpen',['../class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a51780c3ba1e76902180b55c050eedaa7',1,'AQNWB::IO::BaseIO']]],
-  ['isreadytoopen_27',['isReadyToOpen',['../class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a977c8a41fb82844359fb010303a71dfa',1,'AQNWB::IO::BaseIO']]],
-  ['istype_28',['isType',['../class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html#a1a48ed3eb5b234e384b09834896402e0',1,'AQNWB::IO::ReadDataWrapper']]]
+  ['isdatastorageobjecttype_25',['IsDataStorageObjectType',['../struct_a_q_n_w_b_1_1_types_1_1_is_data_storage_object_type.html',1,'AQNWB::Types']]],
+  ['isinitialized_26',['isInitialized',['../class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a28976115b55b66fb89efb43a412a587e',1,'AQNWB::NWB::Data::isInitialized()'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aba967059704c8c81446775bd7beda42b',1,'AQNWB::NWB::NWBFile::isInitialized()']]],
+  ['isopen_27',['isOpen',['../class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a51780c3ba1e76902180b55c050eedaa7',1,'AQNWB::IO::BaseIO']]],
+  ['isreadytoopen_28',['isReadyToOpen',['../class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a977c8a41fb82844359fb010303a71dfa',1,'AQNWB::IO::BaseIO']]],
+  ['istype_29',['isType',['../class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html#a1a48ed3eb5b234e384b09834896402e0',1,'AQNWB::IO::ReadDataWrapper']]]
 ];

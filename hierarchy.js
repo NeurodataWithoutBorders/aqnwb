@@ -16,7 +16,8 @@ var hierarchy =
       [ "AQNWB::IO::isAllowedStorageObjectType< T >", "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type.html", null ]
     ] ],
     [ "std::integral_constant", null, [
-      [ "AQNWB::IO::ReadDataWrapper< OTYPE, VTYPE >::isDataset< U >", "struct_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper_1_1is_dataset.html", null ]
+      [ "AQNWB::IO::ReadDataWrapper< OTYPE, VTYPE >::isDataset< U >", "struct_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper_1_1is_dataset.html", null ],
+      [ "AQNWB::Types::IsDataStorageObjectType< T >", "struct_a_q_n_w_b_1_1_types_1_1_is_data_storage_object_type.html", null ]
     ] ],
     [ "AQNWB::IO::ReadDataWrapper< OTYPE, VTYPE >", "class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html", null ],
     [ "AQNWB::NWB::RecordingContainers", "class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html", null ],

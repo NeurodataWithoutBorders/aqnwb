@@ -12,6 +12,8 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type =
     [ "getPath", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab3eec5d2a591356df25053a4159ab671", null ],
     [ "getRegistry", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab7e3361637885fe601cc20cb342bf01c", null ],
     [ "getTypeName", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a150f881ad61cb8352eea7ddba47bc6ad", null ],
+    [ "readField", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a200d0060c57cd61dc09bbf100aa091b5", null ],
+    [ "readField", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ae0fb6e951eb0000e4a4fba81db8d466f", null ],
     [ "registerSubclass", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#acb4c10e5b18c0c637de8bccd8d13e1dc", null ],
     [ "m_io", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a5f4d142b8156b6b33ed01c11c5720fec", null ],
     [ "m_path", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a2c2954495607eb4afe4e9ab8eff3a08b", null ]

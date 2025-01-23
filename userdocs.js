@@ -52,7 +52,8 @@ var userdocs =
           [ "Opening an existing file for reading", "read_page.html#read_design_example_read_create_io", null ],
           [ "Searching for Registered Type Objects (e.g.,ElectricalSeries)", "read_page.html#read_design_example_read_posthoc_search", null ],
           [ "Reading the Registered Type Objects", "read_page.html#read_design_example_read_posthoc_read", null ],
-          [ "Reading data fields", "read_page.html#read_design_example_read_posthoc_read_field", null ]
+          [ "Reading data fields", "read_page.html#read_design_example_read_posthoc_read_field", null ],
+          [ "Reading arbitrary fields", "read_page.html#read_design_example_read_arbitrary_field", null ]
         ] ]
       ] ]
     ] ],
