@@ -308,7 +308,7 @@
  * - \ref AQNWB::IO::BaseIO "BaseIO", \ref AQNWB::IO::HDF5::HDF5IO "HDF5IO" are responsible for
  *   i) reading type attribute and group information, ii) searching the file for typed objects via
  *   \ref AQNWB::IO::BaseIO::findTypes "findTypes()" methods, and iii) retrieving the paths of all
- *   object associated with a storage objects (e.g., a Group) via  \ref AQNWB::IO::BaseIO::getStorageObjects "getStoragebjects()"
+ *   object associated with a storage object (e.g., a Group) via  \ref AQNWB::IO::BaseIO::getStorageObjects "getStorageObjects()"
  *
  * \subsubsection read_design_wrapper_registeredType RegisteredType
  *
