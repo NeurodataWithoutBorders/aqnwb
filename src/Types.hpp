@@ -39,7 +39,7 @@ public:
    *  \brief Helper struct to check if a value is a data field, i.e.,
    * Dataset or Attribute
    *
-   * This function is used to enforce constrains on templated functions that
+   * This function is used to enforce constraints on templated functions that
    * should only be callable for valid StorageObjectType values
    */
   template<StorageObjectType T>
