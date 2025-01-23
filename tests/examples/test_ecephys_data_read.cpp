@@ -296,6 +296,9 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // [example_read_generic_dataset_field_snippet]
 
     // [example_read_generic_registeredtype_field_snippet]
+    // read the NWBFile
+    auto readNWBFile =
+        NWB::RegisteredType::create<AQNWB::NWB::NWBFile>("/", readio);
     // read the ElectricalSeries from the NWBFile object via the readField
     // method returning a generic std::shared_ptr<RegisteredType>
     auto readRegisteredType = readNWBFile->readField(esdata_path);
