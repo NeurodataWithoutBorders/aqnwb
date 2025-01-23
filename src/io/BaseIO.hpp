@@ -96,12 +96,12 @@ enum class SearchMode
   /**
    * @brief Stop searching inside an object once a matching type is found.
    */
-  STOP_ON_TYPE,
+  STOP_ON_TYPE = 1,
   /**
    * @brief Continue searching inside an object even after a matching type is
    * found.
    */
-  CONTINUE_ON_TYPE
+  CONTINUE_ON_TYPE = 2,
 };
 
 /**
@@ -223,19 +223,26 @@ public:
   virtual bool attributeExists(const std::string& path) const = 0;
 
   /**
-   * @brief Gets the list of objects inside a group.
+   * @brief Gets the list of storage objects (groups, datasets, attributes)
+   * inside a group.
    *
-   * This function returns a vector of relative paths of all objects inside
-   * the specified group. If the input path is not a group (e.g., as dataset
-   * or attribute or invalid object), then an empty list should be
-   * returned.
+   * This function returns the relative paths and storage type of all objects
+   * inside the specified group. If the input path is an attribute then an empty
+   * list should be returned. If the input path is a dataset, then only the
+   * attributes will be returned. Note, this function is not recursive, i.e.,
+   * it only looks for storage objects associated directly with the given path.
    *
    * @param path The path to the group.
+   * @param objectType Define which types of storage object to look for, i.e.,
+   * only objects of this specified type will be returned.
    *
-   * @return A vector of relative paths of all objects inside the group.
+   * @return A vector of pairs of relative paths and their corresponding storage
+   * object types.
    */
-  virtual std::vector<std::string> getGroupObjects(
-      const std::string& path) const = 0;
+  virtual std::vector<std::pair<std::string, StorageObjectType>>
+  getStorageObjects(const std::string& path,
+                    const StorageObjectType& objectType =
+                        StorageObjectType::Undefined) const = 0;
 
   /**
    * @brief Finds all datasets and groups of the given types in the HDF5 file.

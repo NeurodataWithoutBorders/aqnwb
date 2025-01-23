@@ -989,16 +989,61 @@ bool HDF5IO::attributeExists(const std::string& path) const
   return (attributePtr != nullptr);
 }
 
-std::vector<std::string> HDF5IO::getGroupObjects(const std::string& path) const
+std::vector<std::pair<std::string, StorageObjectType>>
+HDF5IO::getStorageObjects(const std::string& path,
+                          const StorageObjectType& objectType) const
+
 {
-  std::vector<std::string> objects;
-  if (getH5ObjectType(path) == H5O_TYPE_GROUP) {
+  std::vector<std::pair<std::string, StorageObjectType>> objects;
+
+  H5O_type_t h5Type = getH5ObjectType(path);
+  if (h5Type == H5O_TYPE_GROUP) {
     H5::Group group = m_file->openGroup(path);
     hsize_t num_objs = group.getNumObjs();
     for (hsize_t i = 0; i < num_objs; ++i) {
-      objects.push_back(group.getObjnameByIdx(i));
+      std::string objName = group.getObjnameByIdx(i);
+      H5G_obj_t objType = group.getObjTypeByIdx(i);
+      StorageObjectType storageObjectType;
+      switch (objType) {
+        case H5G_GROUP:
+          storageObjectType = StorageObjectType::Group;
+          break;
+        case H5G_DATASET:
+          storageObjectType = StorageObjectType::Dataset;
+          break;
+        default:
+          storageObjectType = StorageObjectType::Undefined;
+      }
+      if (storageObjectType == objectType
+          || objectType == StorageObjectType::Undefined)
+      {
+        objects.emplace_back(objName, storageObjectType);
+      }
+    }
+
+    // Include attributes for groups
+    if (objectType == StorageObjectType::Attribute
+        || objectType == StorageObjectType::Undefined)
+    {
+      SizeType numAttrs = group.getNumAttrs();
+      for (SizeType i = 0; i < numAttrs; ++i) {
+        H5::Attribute attr = group.openAttribute(i);
+        objects.emplace_back(attr.getName(), StorageObjectType::Attribute);
+      }
+    }
+  } else if (h5Type == H5O_TYPE_DATASET) {
+    if (objectType == StorageObjectType::Attribute
+        || objectType == StorageObjectType::Undefined)
+    {
+      H5::DataSet dataset = m_file->openDataSet(path);
+      SizeType numAttrs = dataset.getNumAttrs();
+      for (SizeType i = 0; i < numAttrs; ++i) {
+        H5::Attribute attr = dataset.openAttribute(i);
+        objects.emplace_back(attr.getName(), StorageObjectType::Attribute);
+      }
     }
   }
+
   return objects;
 }
 

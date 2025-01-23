@@ -66,7 +66,8 @@ Status NWBFile::initialize(const std::string& identifierText,
 
 bool NWBFile::isInitialized() const
 {
-  auto existingGroupObjects = m_io->getGroupObjects("/");
+  std::vector<std::pair<std::string, StorageObjectType>> existingGroupObjects =
+      m_io->getStorageObjects("/", StorageObjectType::Group);
   if (existingGroupObjects.size() == 0) {
     return false;
   }
@@ -85,8 +86,8 @@ bool NWBFile::isInitialized() const
   // Iterate over the existing objects and add to foundObjects if it's a
   // required object
   for (const auto& obj : existingGroupObjects) {
-    if (requiredObjects.find(obj) != requiredObjects.end()) {
-      foundObjects.insert(obj);
+    if (requiredObjects.find(obj.first) != requiredObjects.end()) {
+      foundObjects.insert(obj.first);
     }
   }
 
