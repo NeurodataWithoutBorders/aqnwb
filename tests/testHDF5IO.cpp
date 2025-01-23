@@ -142,6 +142,38 @@ TEST_CASE("getStorageObjects", "[hdf5io]")
     REQUIRE(groupContent.size() == 0);
   }
 
+  SECTION("attribute")
+  {
+    int attrData1 = 42;
+    hdf5io.createAttribute(BaseDataType::I32, &attrData1, "/", "attr1");
+    auto attributeContent = hdf5io.getStorageObjects("/attr1");
+    REQUIRE(attributeContent.size() == 0);
+  }
+
+  SECTION("dataset w/o attribute")
+  {
+    // Dataset without attributes
+    hdf5io.createArrayDataSet(
+        BaseDataType::I32, SizeArray {0}, SizeArray {1}, "/data");
+    auto datasetContent = hdf5io.getStorageObjects("/data");
+    REQUIRE(datasetContent.size() == 0);
+
+    // Dataset with attribute
+    int attrData1 = 42;
+    hdf5io.createAttribute(BaseDataType::I32, &attrData1, "/data", "attr1");
+    auto dataContent2 = hdf5io.getStorageObjects("/data");
+    REQUIRE(dataContent2.size() == 1);
+    REQUIRE(
+        dataContent2[0]
+        == std::make_pair(std::string("attr1"), StorageObjectType::Attribute));
+  }
+
+  SECTION("invalid path")
+  {
+    auto invalidPathContent = hdf5io.getStorageObjects("/invalid/path");
+    REQUIRE(invalidPathContent.size() == 0);
+  }
+
   SECTION("group with datasets, subgroups, and attributes")
   {
     hdf5io.createGroup("/data");
