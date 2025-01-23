@@ -4,7 +4,7 @@
 # customization issues
 set(
     COVERAGE_TRACE_COMMAND
-    lcov -c -q
+    lcov -c --verbose
     -o "${PROJECT_BINARY_DIR}/coverage.info"
     -d "${PROJECT_BINARY_DIR}"
     --include "${PROJECT_SOURCE_DIR}/src/*"
