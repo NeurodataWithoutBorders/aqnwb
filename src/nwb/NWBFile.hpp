@@ -130,7 +130,7 @@ public:
       const IO::BaseDataType& dataType = IO::BaseDataType::I16,
       RecordingContainers* recordingContainers = nullptr,
       std::vector<SizeType>& containerIndexes = emptyContainerIndexes);
-      
+
   /** @brief Create AnnotationSeries objects to record data into.
    * Created objects are stored in recordingContainers.
    * @param recordingNames vector indicating the names of the AnnotationSeries
