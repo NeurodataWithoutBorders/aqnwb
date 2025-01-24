@@ -16,6 +16,7 @@ add_executable(aqnwb_test
     testChannel.cpp
     testData.cpp
     testDevice.cpp
+    testHDF5RecordingData.cpp
     testEcephys.cpp
     testElementIdentifiers.cpp
     testFile.cpp
