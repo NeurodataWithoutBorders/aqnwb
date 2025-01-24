@@ -148,13 +148,17 @@ TEST_CASE("HDF5RecordingData write operations", "[hdf5recordingdata]")
       std::vector<int32_t> data = {1, 2, 3, 4, 5};
       auto dataset = hdf5io->createArrayDataSet(
           BaseDataType::I32, SizeArray {5}, SizeArray {5}, "/errorDataset4");
-      // Try to write at invalid offset
+      // Write at larger offset - should succeed by extending dataset
       Status status = dataset->writeDataBlock(
           std::vector<SizeType> {5},
-          std::vector<SizeType> {10},  // Offset too large
+          std::vector<SizeType> {10},  // Dataset will extend to accommodate
           BaseDataType::I32,
           data.data());
-      REQUIRE(status == Status::Failure);
+      REQUIRE(status == Status::Success);
+
+      // Verify the dataset was extended
+      REQUIRE(dataset->getSize()[0]
+              == 15);  // Original offset (10) + data size (5)
     }
   }
 
