@@ -26,6 +26,39 @@ TEST_CASE("saveNWBFile", "[nwb]")
   nwbfile.finalize();
 }
 
+TEST_CASE("initialize", "[nwb]")
+{
+  std::string filename = getTestFilePath("testInitializeNWBFile.nwb");
+
+  // initialize nwbfile object and create base structure
+  auto io = std::make_shared<IO::HDF5::HDF5IO>(filename);
+  io->open();
+  NWB::NWBFile nwbfile(io);
+
+  // bad session start time
+  Status initStatus = nwbfile.initialize(generateUuid(),
+                                         "test file",
+                                         "no collection",
+                                         "bad time",
+                                         AQNWB::getCurrentTime());
+  REQUIRE(initStatus == Status::Failure);
+
+  // bad timestamp reference time
+  initStatus = nwbfile.initialize(generateUuid(),
+                                  "test file",
+                                  "no collection",
+                                  AQNWB::getCurrentTime(),
+                                  "bad time");
+  REQUIRE(initStatus == Status::Failure);
+
+  // check that regular init with current times works
+  initStatus = nwbfile.initialize(generateUuid());
+  REQUIRE(initStatus == Status::Success);
+  REQUIRE(nwbfile.isInitialized());
+  nwbfile.finalize();
+  io->close();
+}
+
 TEST_CASE("createElectricalSeries", "[nwb]")
 {
   std::string filename = getTestFilePath("createElectricalSeries.nwb");
