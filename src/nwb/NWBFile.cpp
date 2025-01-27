@@ -59,7 +59,7 @@ Status NWBFile::initialize(const std::string& identifierText,
                            const std::string& description,
                            const std::string& dataCollection,
                            const std::string& sessionStartTime,
-                           const std::string& timestampReferenceTime)
+                           const std::string& timestampsReferenceTime)
 {
   if (!m_io->isOpen()) {
     return Status::Failure;
@@ -69,10 +69,10 @@ Status NWBFile::initialize(const std::string& identifierText,
               << sessionStartTime << std::endl;
     return Status::Failure;
   }
-  if (!isISO8601Date(timestampReferenceTime)) {
+  if (!isISO8601Date(timestampsReferenceTime)) {
     std::cerr
-        << "NWBFile::initialize timestampReferenceTime not in ISO8601 format: "
-        << timestampReferenceTime << std::endl;
+        << "NWBFile::initialize timestampsReferenceTime not in ISO8601 format: "
+        << timestampsReferenceTime << std::endl;
     return Status::Failure;
   }
 
@@ -83,7 +83,7 @@ Status NWBFile::initialize(const std::string& identifierText,
                                description,
                                dataCollection,
                                sessionStartTime,
-                               timestampReferenceTime);
+                               timestampsReferenceTime);
   } else {
     return Status::Success;  // File is already initialized
   }
@@ -129,7 +129,7 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
                                     const std::string& description,
                                     const std::string& dataCollection,
                                     const std::string& sessionStartTime,
-                                    const std::string& timestampReferenceTime)
+                                    const std::string& timestampsReferenceTime)
 {
   if (!m_io->canModifyObjects()) {
     return Status::Failure;
@@ -165,7 +165,7 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
   m_io->createStringDataSet("/session_description", description);
   m_io->createStringDataSet("/session_start_time", sessionStartTime);
   m_io->createStringDataSet("/timestamps_reference_time",
-                            timestampReferenceTime);
+                            timestampsReferenceTime);
   m_io->createStringDataSet("/identifier", identifierText);
   return Status::Success;
 }

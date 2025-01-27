@@ -83,14 +83,14 @@ public:
    * @param dataCollection Information about the data collection methods.
    * @param sessionStartTime ISO formatted time string with the session start
    * time
-   * @param timestampReferenceTime ISO formatted time string with the timestamp
+   * @param timestampsReferenceTime ISO formatted time string with the timestamp
    * reference time
    */
   Status initialize(const std::string& identifierText,
                     const std::string& description,
                     const std::string& dataCollection,
                     const std::string& sessionStartTime,
-                    const std::string& timestampReferenceTime);
+                    const std::string& timestampsReferenceTime);
 
   /**
    * @brief Check if the NWB file is initialized.
@@ -163,7 +163,7 @@ protected:
    * @param dataCollection Information about the data collection methods.
    * @param sessionStartTime ISO formatted time string with the session start
    * time
-   * @param timestampReferenceTime ISO formatted time string with the timestamp
+   * @param timestampsReferenceTime ISO formatted time string with the timestamp
    * reference time
    * @return Status The status of the file structure creation.
    */
@@ -171,7 +171,7 @@ protected:
                              const std::string& description,
                              const std::string& dataCollection,
                              const std::string& sessionStartTime,
-                             const std::string& timestampReferenceTime);
+                             const std::string& timestampsReferenceTime);
 
 private:
   /**
