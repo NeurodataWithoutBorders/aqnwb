@@ -16,6 +16,7 @@
 #include "nwb/ecephys/ElectricalSeries.hpp"
 #include "nwb/ecephys/SpikeEventSeries.hpp"
 #include "nwb/file/ElectrodeGroup.hpp"
+#include "nwb/misc/AnnotationSeries.hpp"
 #include "spec/core.hpp"
 #include "spec/hdmf_common.hpp"
 #include "spec/hdmf_experimental.hpp"
@@ -92,7 +93,8 @@ Status NWBFile::initialize(const std::string& identifierText,
 
 bool NWBFile::isInitialized() const
 {
-  auto existingGroupObjects = m_io->getGroupObjects("/");
+  std::vector<std::pair<std::string, StorageObjectType>> existingGroupObjects =
+      m_io->getStorageObjects("/", StorageObjectType::Group);
   if (existingGroupObjects.size() == 0) {
     return false;
   }
@@ -111,8 +113,8 @@ bool NWBFile::isInitialized() const
   // Iterate over the existing objects and add to foundObjects if it's a
   // required object
   for (const auto& obj : existingGroupObjects) {
-    if (requiredObjects.find(obj) != requiredObjects.end()) {
-      foundObjects.insert(obj);
+    if (requiredObjects.find(obj.first) != requiredObjects.end()) {
+      foundObjects.insert(obj.first);
     }
   }
 
@@ -322,6 +324,35 @@ Status NWBFile::createSpikeEventSeries(
   // (requires that the ElectrodeGroup has been written)
   if (!electrodeTableCreated) {
     m_electrodeTable->finalize();
+  }
+
+  return Status::Success;
+}
+
+Status NWBFile::createAnnotationSeries(std::vector<std::string> recordingNames,
+                                       RecordingContainers* recordingContainers,
+                                       std::vector<SizeType>& containerIndexes)
+{
+  if (!m_io->canModifyObjects()) {
+    return Status::Failure;
+  }
+
+  for (size_t i = 0; i < recordingNames.size(); ++i) {
+    const std::string& recordingName = recordingNames[i];
+
+    std::string annotationSeriesPath =
+        AQNWB::mergePaths(acquisitionPath, recordingName);
+
+    // Setup annotation series datasets
+    auto annotationSeries =
+        std::make_unique<AnnotationSeries>(annotationSeriesPath, m_io);
+    annotationSeries->initialize(
+        "Stores user annotations made during an experiment",
+        "no comments",
+        SizeArray {0},
+        SizeArray {CHUNK_XSIZE});
+    recordingContainers->addContainer(std::move(annotationSeries));
+    containerIndexes.push_back(recordingContainers->size() - 1);
   }
 
   return Status::Success;

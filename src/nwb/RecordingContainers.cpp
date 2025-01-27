@@ -4,6 +4,7 @@
 #include "nwb/ecephys/ElectricalSeries.hpp"
 #include "nwb/ecephys/SpikeEventSeries.hpp"
 #include "nwb/hdmf/base/Container.hpp"
+#include "nwb/misc/AnnotationSeries.hpp"
 
 using namespace AQNWB::NWB;
 // Recording Container
@@ -85,4 +86,20 @@ Status RecordingContainers::writeSpikeEventData(const SizeType& containerInd,
 
   return ses->writeSpike(
       numSamples, numChannels, data, timestamps, controlInput);
+}
+
+Status RecordingContainers::writeAnnotationSeriesData(
+    const SizeType& containerInd,
+    const SizeType& numSamples,
+    const std::vector<std::string> data,
+    const void* timestamps,
+    const void* controlInput)
+{
+  AnnotationSeries* as =
+      dynamic_cast<AnnotationSeries*>(getContainer(containerInd));
+
+  if (as == nullptr)
+    return Status::Failure;
+
+  return as->writeAnnotation(numSamples, data, timestamps, controlInput);
 }
