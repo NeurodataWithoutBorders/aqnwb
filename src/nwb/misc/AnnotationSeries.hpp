@@ -34,6 +34,7 @@ public:
   /**
    * @brief Initializes the AnnotationSeries
    * @param description The description of the AnnotationSeries.
+   * @param comments Comments about the AnnotationSeries.
    * @param dsetSize Initial size of the main dataset. This must be a vector
    *                 with one element specifying the length in time.
    * @param chunkSize Chunk size to use.

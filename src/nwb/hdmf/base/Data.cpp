@@ -1,21 +1,23 @@
 #include "nwb/hdmf/base/Data.hpp"
 
-using namespace AQNWB::NWB;
-
-// Container
-// Initialize the static registered_ member to trigger registration
-REGISTER_SUBCLASS_IMPL(Data)
-
-/** Constructor */
-Data::Data(const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io)
-    : RegisteredType(path, io)
+namespace AQNWB::NWB
 {
-}
+// Register the base Data type (with default std::any) for use with
+// RegisteredType::create
+template<>
+REGISTER_SUBCLASS_IMPL(Data<std::any>)
 
-void Data::initialize(std::unique_ptr<IO::BaseRecordingData>&& dataset)
-{
-  m_dataset = std::move(dataset);
-  // setup common attributes
-  m_io->createCommonNWBAttributes(
-      m_path, this->getNamespace(), this->getTypeName());
-}
+// Explicitly instantiate for all common data types
+template class Data<std::any>;
+template class Data<uint8_t>;
+template class Data<uint16_t>;
+template class Data<uint32_t>;
+template class Data<uint64_t>;
+template class Data<int8_t>;
+template class Data<int16_t>;
+template class Data<int32_t>;
+template class Data<int64_t>;
+template class Data<float>;
+template class Data<double>;
+template class Data<std::string>;
+}  // namespace AQNWB::NWB

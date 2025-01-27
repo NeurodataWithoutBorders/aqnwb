@@ -8,10 +8,10 @@ namespace AQNWB::NWB
  * @brief A list of unique identifiers for values within a dataset, e.g. rows of
  * a DynamicTable.
  */
-class ElementIdentifiers : public Data
+class ElementIdentifiers : public Data<int>
 {
 public:
-  // Register Data class as a registered type
+  // Register ElementIdentifiers class as a registered type
   REGISTER_SUBCLASS(ElementIdentifiers, "hdmf-common")
 
   /**
@@ -22,7 +22,9 @@ public:
    */
   ElementIdentifiers(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
-  // Define the data fields to expose for lazy read access
-  DEFINE_FIELD(readData, DatasetField, int, "", The data identifiers)
+  /**
+   * @brief Virtual destructor.
+   */
+  virtual ~ElementIdentifiers() override {}
 };
 }  // namespace AQNWB::NWB

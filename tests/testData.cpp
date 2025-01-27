@@ -34,7 +34,7 @@ TEST_CASE("Data", "[base]")
         io->createArrayDataSet(dataType, dataShape, chunking, dataPath);
 
     // setup Data object
-    NWB::Data columnData = NWB::Data(dataPath, io);
+    NWB::Data<int> columnData = NWB::Data<int>(dataPath, io);
     columnData.initialize(std::move(columnDataset));
 
     // Write data to file
@@ -49,8 +49,8 @@ TEST_CASE("Data", "[base]")
     readio->open(FileMode::ReadOnly);
 
     // Read all fields using the standard read methods
-    auto readRegisteredType = NWB::RegisteredType::create(dataPath, readio);
-    auto readData = std::dynamic_pointer_cast<NWB::Data>(readRegisteredType);
+    auto readData =
+        NWB::RegisteredType::create<NWB::Data<int>>(dataPath, readio);
 
     // Read the "namespace" attribute via the readNamespace field
     auto namespaceData = readData->readNamespace();

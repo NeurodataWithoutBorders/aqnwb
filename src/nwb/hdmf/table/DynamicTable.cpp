@@ -30,19 +30,22 @@ void DynamicTable::initialize(const std::string& description)
 }
 
 /** Add column to table */
-void DynamicTable::addColumn(std::unique_ptr<VectorData>& vectorData,
-                             const std::vector<std::string>& values)
+void DynamicTable::addColumn(
+    std::unique_ptr<VectorData<std::string>>& vectorData,
+    const std::vector<std::string>& values)
 {
   if (!vectorData->isInitialized()) {
     std::cerr << "VectorData dataset is not initialized" << std::endl;
   } else {
     // write in loop because variable length string
-    for (SizeType i = 0; i < values.size(); i++)
-      vectorData->m_dataset->writeDataBlock(
-          std::vector<SizeType> {1},
-          std::vector<SizeType> {i},
-          IO::BaseDataType::STR(values[i].size() + 1),
-          values);  // TODO - add tests for this
+    IO::BaseDataType vstrType(IO::BaseDataType::Type::V_STR,
+                              0);  // 0 indicates variable length
+    // for (SizeType i = 0; i < values.size(); i++)
+    vectorData->m_dataset->writeDataBlock(
+        std::vector<SizeType> {values.size()},
+        std::vector<SizeType> {0},
+        vstrType,  // IO::BaseDataType::STR(values[i].size() + 1),
+        values);  // TODO - add tests for this
   }
 }
 
@@ -71,7 +74,7 @@ void DynamicTable::addReferenceColumn(const std::string& name,
   } else {
     std::string columnPath = AQNWB::mergePaths(m_path, name);
     m_io->createReferenceDataSet(columnPath, values);
-    auto refColumn = AQNWB::NWB::VectorData(columnPath, m_io);
+    auto refColumn = AQNWB::NWB::VectorData<std::string>(columnPath, m_io);
     refColumn.initialize(nullptr,  // Use nullptr because we only want to create
                                    // the attributes but not modify the data
                          colDescription);
