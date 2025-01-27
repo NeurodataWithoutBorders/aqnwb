@@ -49,15 +49,6 @@ NWBFile::~NWBFile() {}
 
 Status NWBFile::initialize(const std::string& identifierText,
                            const std::string& description,
-                           const std::string& dataCollection)
-{
-  std::string time = getCurrentTime();
-  return this->initialize(
-      identifierText, description, dataCollection, time, time);
-}
-
-Status NWBFile::initialize(const std::string& identifierText,
-                           const std::string& description,
                            const std::string& dataCollection,
                            const std::string& sessionStartTime,
                            const std::string& timestampsReferenceTime)
@@ -65,15 +56,24 @@ Status NWBFile::initialize(const std::string& identifierText,
   if (!m_io->isOpen()) {
     return Status::Failure;
   }
-  if (!isISO8601Date(sessionStartTime)) {
+  std::string currentTime = getCurrentTime();
+  // use the current time if sessionStartTime is empty
+  std::string useSessionStartTime =
+      (!sessionStartTime.empty()) ? sessionStartTime : currentTime;
+  // use the current time if timestampsReferenceTime is empty
+  std::string useTimestampsReferenceTime = (!timestampsReferenceTime.empty())
+      ? timestampsReferenceTime
+      : currentTime;
+  // check that sessionStartTime and timestampsReferenceTime are ISO8601
+  if (!isISO8601Date(useSessionStartTime)) {
     std::cerr << "NWBFile::initialize sessionStartTime not in ISO8601 format: "
-              << sessionStartTime << std::endl;
+              << useSessionStartTime << std::endl;
     return Status::Failure;
   }
-  if (!isISO8601Date(timestampsReferenceTime)) {
+  if (!isISO8601Date(useTimestampsReferenceTime)) {
     std::cerr
         << "NWBFile::initialize timestampsReferenceTime not in ISO8601 format: "
-        << timestampsReferenceTime << std::endl;
+        << useTimestampsReferenceTime << std::endl;
     return Status::Failure;
   }
 
@@ -83,8 +83,8 @@ Status NWBFile::initialize(const std::string& identifierText,
     return createFileStructure(identifierText,
                                description,
                                dataCollection,
-                               sessionStartTime,
-                               timestampsReferenceTime);
+                               useSessionStartTime,
+                               useTimestampsReferenceTime);
   } else {
     return Status::Success;  // File is already initialized
   }
