@@ -67,7 +67,6 @@ public:
    * @param identifierText The identifier text for the NWBFile.
    * @param description A description of the NWBFile session.
    * @param dataCollection Information about the data collection methods.
-   * @param
    */
   Status initialize(const std::string& identifierText,
                     const std::string& description = "a recording session",
