@@ -14,7 +14,7 @@ var searchData=
   ['createcommonnwbattributes_11',['createCommonNWBAttributes',['../class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a813c55d88d9504e82d6871b9732d9bad',1,'AQNWB::IO::BaseIO']]],
   ['createdataattributes_12',['createDataAttributes',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ad02a2c3803891f352dd2496b9ff1887b',1,'AQNWB::NWB::TimeSeries']]],
   ['createelectricalseries_13',['createElectricalSeries',['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a01af959032be834975b9f45737a32fa7',1,'AQNWB::NWB::NWBFile']]],
-  ['createfilestructure_14',['createFileStructure',['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a5432fe66e877eb6417d1df5fd75016af',1,'AQNWB::NWB::NWBFile']]],
+  ['createfilestructure_14',['createFileStructure',['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a71bd7b910a7ec89bdaf36304d67bfef1',1,'AQNWB::NWB::NWBFile']]],
   ['creategroup_15',['createGroup',['../class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a80b9d4ae07bd0de7bd3c7cdc01d9beef',1,'AQNWB::IO::BaseIO::createGroup()'],['../class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a22f7fbb78b3b211669010cc05f61e0e4',1,'AQNWB::IO::HDF5::HDF5IO::createGroup()']]],
   ['creategroupifdoesnotexist_16',['createGroupIfDoesNotExist',['../class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#aa9a12fe457ec2b264aeb0d8e13dc9fb1',1,'AQNWB::IO::BaseIO::createGroupIfDoesNotExist()'],['../class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#af3bc883205c98d08820bf234f42f4467',1,'AQNWB::IO::HDF5::HDF5IO::createGroupIfDoesNotExist()']]],
   ['createio_17',['createIO',['../namespace_a_q_n_w_b.html#aae4545d930db6f70b4438e0167c500d0',1,'AQNWB']]],

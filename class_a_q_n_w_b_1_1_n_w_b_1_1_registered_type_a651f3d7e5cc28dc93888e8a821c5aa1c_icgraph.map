@@ -1,6 +1,6 @@
 <map id="AQNWB::NWB::RegisteredType::getNamespace" name="AQNWB::NWB::RegisteredType::getNamespace">
 <area shape="rect" id="Node000001" title="Get the schema namespace of the class type." alt="" coords="758,169,970,210"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a5432fe66e877eb6417d1df5fd75016af" title="Creates the default file structure. Note, this function will fail if the file is in a mode where new ..." alt="" coords="518,27,691,67"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a71bd7b910a7ec89bdaf36304d67bfef1" title="Creates the default file structure. Note, this function will fail if the file is in a mode where new ..." alt="" coords="518,27,691,67"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="814,163,709,103,647,70,650,66,712,98,817,159"/>
 <area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aa99a96577796251680919f2118674e5e" title="Get the full name of type, i.e., namespace::typename" alt="" coords="499,112,710,153"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="753,168,699,156,701,151,755,163"/>
@@ -10,7 +10,7 @@
 <area shape="poly" id="edge19_Node000001_Node000007" title=" " alt="" coords="743,202,684,202,622,197,559,186,498,167,482,158,473,147,463,137,450,127,419,113,421,108,452,122,467,133,476,144,486,153,500,162,560,181,623,192,685,196,743,197"/>
 <area shape="rect" id="Node000016" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a41af6f50bfd8c555eeebb21acf5b00c7" title="Initialize the dataset for the Data object." alt="" coords="503,466,706,492"/>
 <area shape="poly" id="edge17_Node000001_Node000016" title=" " alt="" coords="836,223,619,468,615,464,832,220"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a1d27188a472f67378ffb425165d75cce" title="Initializes the NWB file by setting up the file structure." alt="" coords="252,5,426,46"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a5fe5d0aba7a050db86d5caa5b8cf4a04" title="Initializes the NWB file by setting up the file structure." alt="" coords="252,5,426,46"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="502,41,426,35,426,30,503,36"/>
 <area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html#ae36801ce5709f9e59bf1fbb9622ad630" title="Initializes the AnnotationSeries." alt="" coords="229,267,448,307"/>
 <area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="501,290,449,290,449,284,501,284"/>

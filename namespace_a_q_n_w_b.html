@@ -141,6 +141,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ac436d136125307ef8158115a2296b3e9" id="r_ac436d136125307ef8158115a2296b3e9"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac436d136125307ef8158115a2296b3e9">getCurrentTime</a> ()</td></tr>
 <tr class="memdesc:ac436d136125307ef8158115a2296b3e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current time in ISO 8601 format with the UTC offset.  <br /></td></tr>
 <tr class="separator:ac436d136125307ef8158115a2296b3e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4aacc6b82eca3064a8afe0070c44cde4" id="r_a4aacc6b82eca3064a8afe0070c44cde4"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4aacc6b82eca3064a8afe0070c44cde4">isISO8601Date</a> (const std::string &amp;dateStr)</td></tr>
+<tr class="memdesc:a4aacc6b82eca3064a8afe0070c44cde4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check that a string is formatted in ISO8601 format.  <br /></td></tr>
+<tr class="separator:a4aacc6b82eca3064a8afe0070c44cde4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aae4545d930db6f70b4438e0167c500d0" id="r_aae4545d930db6f70b4438e0167c500d0"><td class="memItemLeft" align="right" valign="top">static std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aae4545d930db6f70b4438e0167c500d0">createIO</a> (const std::string &amp;type, const std::string &amp;filename)</td></tr>
 <tr class="memdesc:aae4545d930db6f70b4438e0167c500d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method to create an <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html">IO</a> object.  <br /></td></tr>
 <tr class="separator:aae4545d930db6f70b4438e0167c500d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -299,7 +302,41 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="namespace_a_q_n_w_b_ac436d136125307ef8158115a2296b3e9_icgraph.svg" width="624" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="namespace_a_q_n_w_b_ac436d136125307ef8158115a2296b3e9_icgraph.svg" width="403" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a4aacc6b82eca3064a8afe0070c44cde4" name="a4aacc6b82eca3064a8afe0070c44cde4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4aacc6b82eca3064a8afe0070c44cde4">&#9670;&#160;</a></span>isISO8601Date()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool AQNWB::isISO8601Date </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>dateStr</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Check that a string is formatted in ISO8601 format. </p>
+<p>This function only validates the regex pattern but does not check that the time values specified are indeed valid.</p>
+<dl class="section return"><dt>Returns</dt><dd>bool indicating whether the string is in ISO8601 form </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="namespace_a_q_n_w_b_a4aacc6b82eca3064a8afe0070c44cde4_icgraph.svg" width="402" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

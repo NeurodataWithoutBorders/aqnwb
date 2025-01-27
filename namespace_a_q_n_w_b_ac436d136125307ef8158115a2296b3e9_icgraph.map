@@ -1,7 +1,5 @@
 <map id="AQNWB::getCurrentTime" name="AQNWB::getCurrentTime">
-<area shape="rect" id="Node000001" title="Get the current time in ISO 8601 format with the UTC offset." alt="" coords="448,13,618,38"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a5432fe66e877eb6417d1df5fd75016af" title="Creates the default file structure. Note, this function will fail if the file is in a mode where new ..." alt="" coords="227,5,400,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="433,28,401,28,401,23,433,23"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a1d27188a472f67378ffb425165d75cce" title="Initializes the NWB file by setting up the file structure." alt="" coords="5,5,179,46"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="211,28,179,28,179,23,211,23"/>
+<area shape="rect" id="Node000001" title="Get the current time in ISO 8601 format with the UTC offset." alt="" coords="227,13,397,38"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a5fe5d0aba7a050db86d5caa5b8cf4a04" title="Initializes the NWB file by setting up the file structure." alt="" coords="5,5,179,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="211,28,179,28,179,23,211,23"/>
 </map>

@@ -49,7 +49,7 @@
 <script type="application/ecmascript">
 var viewWidth = 2791;
 var viewHeight = 785;
-var sectionId = 'dynsection-3';
+var sectionId = 'dynsection-4';
 </script>
 <script type="application/ecmascript" xlink:href="svg.min.js"/>
 <svg id="graph" class="graph">
@@ -409,7 +409,7 @@ var sectionId = 'dynsection-3';
 <!-- Node6 -->
 <g id="Node000006" class="node">
 <title>Node6</title>
-<g id="a_Node000006"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a5432fe66e877eb6417d1df5fd75016af" target="_top" xlink:title="Creates the default file structure. Note, this function will fail if the file is in a mode where new ...">
+<g id="a_Node000006"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a71bd7b910a7ec89bdaf36304d67bfef1" target="_top" xlink:title="Creates the default file structure. Note, this function will fail if the file is in a mode where new ...">
 <polygon fill="white" stroke="#666666" points="2427.12,-728.03 2297.12,-728.03 2297.12,-697.53 2427.12,-697.53 2427.12,-728.03"/>
 <text text-anchor="start" x="2305.12" y="-714.53" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::NWBFile</text>
 <text text-anchor="middle" x="2362.12" y="-703.28" font-family="Helvetica,sans-Serif" font-size="10.00">::createFileStructure</text>
@@ -428,7 +428,7 @@ var sectionId = 'dynsection-3';
 <!-- Node7 -->
 <g id="Node000007" class="node">
 <title>Node7</title>
-<g id="a_Node000007"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a1d27188a472f67378ffb425165d75cce" target="_top" xlink:title="Initializes the NWB file by setting up the file structure.">
+<g id="a_Node000007"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a5fe5d0aba7a050db86d5caa5b8cf4a04" target="_top" xlink:title="Initializes the NWB file by setting up the file structure.">
 <polygon fill="white" stroke="#666666" points="2243.88,-728.03 2113.88,-728.03 2113.88,-697.53 2243.88,-697.53 2243.88,-728.03"/>
 <text text-anchor="start" x="2121.88" y="-714.53" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::NWBFile</text>
 <text text-anchor="middle" x="2178.88" y="-703.28" font-family="Helvetica,sans-Serif" font-size="10.00">::initialize</text>

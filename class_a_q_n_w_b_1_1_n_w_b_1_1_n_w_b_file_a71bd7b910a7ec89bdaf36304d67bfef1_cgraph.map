@@ -1,0 +1,11 @@
+<map id="AQNWB::NWB::NWBFile::createFileStructure" name="AQNWB::NWB::NWBFile::createFileStructure">
+<area shape="rect" id="Node000001" title="Creates the default file structure. Note, this function will fail if the file is in a mode where new ..." alt="" coords="5,71,179,111"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a2f061ec60bb617dc749b399cfb6e30ee" title="Saves the specification files for the schema." alt="" coords="246,5,419,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,68,240,48,241,53,170,73"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a651f3d7e5cc28dc93888e8a821c5aa1c" title="Get the schema namespace of the class type." alt="" coords="227,71,438,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="179,88,211,88,211,94,179,94"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a150f881ad61cb8352eea7ddba47bc6ad" title="Get the name of the class type." alt="" coords="227,136,438,177"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="170,109,241,129,240,134,168,114"/>
+<area shape="rect" id="Node000003" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="486,13,636,38"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="419,23,470,23,470,28,419,28"/>
+</map>
