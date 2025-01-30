@@ -692,7 +692,9 @@ Status HDF5IO::createAttribute(const std::vector<std::string>& data,
     maxLength = std::max(maxLength, length);
     dataPtrs.push_back(str.c_str());
   }
-
+  // TODO: Write as variable length string instead of as fixed-length string
+  // TODO: Allow setting of chunking for string datasets attributes to make them
+  // expandable
   return createAttribute(dataPtrs, path, name, maxLength + 1);
 }
 

@@ -34,6 +34,7 @@ void DynamicTable::initialize(const std::string& description,
 void DynamicTable::addColumn(std::unique_ptr<VectorData>& vectorData,
                              const std::vector<std::string>& values)
 {
+  // TODO: Add the column to the colnames atribute if it is missing
   if (!vectorData->isInitialized()) {
     std::cerr << "VectorData dataset is not initialized" << std::endl;
   } else {
@@ -67,6 +68,7 @@ void DynamicTable::addReferenceColumn(const std::string& name,
                                       const std::string& colDescription,
                                       const std::vector<std::string>& values)
 {
+  // TODO: Add the column to the colnames atribute if it is missing
   if (values.empty()) {
     std::cerr << "Data to add to column is empty" << std::endl;
   } else {

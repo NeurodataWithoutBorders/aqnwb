@@ -60,22 +60,6 @@ public:
   void addElectrodes(std::vector<Channel> channelsInput);
 
   /**
-   * @brief Gets the group path of the ElectrodeTable.
-   * @return The group path.
-   */
-  inline std::string getGroupPath() const
-  {
-    // all channels in ChannelVector should have the same groupName
-    return m_groupReferences[0];
-  }
-
-  /**
-   * @brief Sets the group path of the ElectrodeTable.
-   * @param groupPath The new group path.
-   */
-  void setGroupPath(const std::string& groupPath);
-
-  /**
    * @brief The path to the ElectrodeTable.
    */
   inline const static std::string electrodeTablePath =
