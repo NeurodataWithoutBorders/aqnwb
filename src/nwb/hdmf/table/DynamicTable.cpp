@@ -10,10 +10,9 @@ REGISTER_SUBCLASS_IMPL(DynamicTable)
 
 /** Constructor */
 DynamicTable::DynamicTable(const std::string& path,
-                           std::shared_ptr<IO::BaseIO> io,
-                           const std::vector<std::string>& colNames)
+                           std::shared_ptr<IO::BaseIO> io)
     : Container(path, io)
-    , m_colNames(colNames)
+    , m_colNames({})
 {
 }
 
@@ -21,9 +20,11 @@ DynamicTable::DynamicTable(const std::string& path,
 DynamicTable::~DynamicTable() {}
 
 /** Initialization function*/
-void DynamicTable::initialize(const std::string& description)
+void DynamicTable::initialize(const std::string& description,
+                              const std::vector<std::string>& colNames)
 {
   Container::initialize();
+  m_colNames = colNames;
   if (description != "")
     m_io->createAttribute(description, m_path, "description");
   m_io->createAttribute(m_colNames, m_path, "colnames");

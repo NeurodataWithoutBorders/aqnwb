@@ -82,6 +82,9 @@ public:
       "/general/extracellular_ephys/electrodes";
 
 private:
+  const std::vector<std::string> m_defaultColNames = {
+      "group", "group_name", "location"};
+
   /**
    * @brief The global indices for each electrode.
    */

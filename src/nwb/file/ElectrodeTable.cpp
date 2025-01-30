@@ -12,8 +12,7 @@ REGISTER_SUBCLASS_IMPL(ElectrodeTable)
 /** Constructor */
 ElectrodeTable::ElectrodeTable(std::shared_ptr<IO::BaseIO> io)
     : DynamicTable(electrodeTablePath,  // use the electrodeTablePath
-                   io,
-                   {"group", "group_name", "location"})
+                   io)
     , m_electrodeDataset(std::make_unique<ElementIdentifiers>(
           AQNWB::mergePaths(electrodeTablePath, "id"), io))
     , m_groupNamesDataset(std::make_unique<VectorData>(
@@ -45,7 +44,7 @@ ElectrodeTable::~ElectrodeTable() {}
 void ElectrodeTable::initialize(const std::string& description)
 {
   // create group
-  DynamicTable::initialize(description);
+  DynamicTable::initialize(description, m_defaultColNames);
 
   m_electrodeDataset->initialize(std::unique_ptr<IO::BaseRecordingData>(
       m_io->createArrayDataSet(IO::BaseDataType::I32,

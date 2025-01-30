@@ -28,13 +28,8 @@ public:
    * @brief Constructor.
    * @param path The location of the table in the file.
    * @param io A shared pointer to the IO object.
-   * @param colNames Names of the columns for the table
    */
-  DynamicTable(
-      const std::string& path,
-      std::shared_ptr<IO::BaseIO> io,
-      const std::vector<std::string>& colNames =
-          {});  // TODO Need to remove colNames here and move it to initialize
+  DynamicTable(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
   /**
    * @brief Destructor
@@ -46,8 +41,10 @@ public:
    * column names.
    *
    * @param description The description of the table (optional).
+   * @param colNames Names of the columns for the table
    */
-  void initialize(const std::string& description);
+  void initialize(const std::string& description,
+                  const std::vector<std::string>& colNames);
 
   /**
    * @brief Adds a column of vector string data to the table.
