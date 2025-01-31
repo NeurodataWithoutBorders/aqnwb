@@ -78,7 +78,7 @@ public:
    */
   inline std::string getName() const
   {
-    return std::filesystem::path(m_path).filename();
+    return std::filesystem::path(m_path).filename().string();
   }
 
   /**

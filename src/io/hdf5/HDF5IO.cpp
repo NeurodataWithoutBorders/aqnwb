@@ -38,7 +38,7 @@ Status HDF5IO::open()
 
 Status HDF5IO::open(FileMode mode)
 {
-  int accFlags = 0;
+  unsigned int accFlags = 0;
 
   if (m_opened) {
     return Status::Failure;
