@@ -17,10 +17,11 @@ Container::Container(const std::string& path,
 Container::~Container() {}
 
 /** Initialize */
-void Container::initialize()
+Status Container::initialize()
 {
   m_io->createGroup(m_path);
   // setup common attributes
   m_io->createCommonNWBAttributes(
       m_path, this->getNamespace(), this->getTypeName());
+  return Status::Success;
 }

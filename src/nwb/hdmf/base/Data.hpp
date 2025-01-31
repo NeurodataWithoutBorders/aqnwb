@@ -36,8 +36,9 @@ public:
    *  ownership to its internal m_dataset variable
    *
    * @param dataset The rvalue unique pointer to the BaseRecordingData object
+   * @return Status::Success if successful, otherwise Status::Failure.
    */
-  void initialize(std::unique_ptr<IO::BaseRecordingData>&& dataset);
+  Status initialize(std::unique_ptr<IO::BaseRecordingData>&& dataset);
 
   /**
    * @brief Check whether the m_dataset has been initialized

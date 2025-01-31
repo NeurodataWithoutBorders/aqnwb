@@ -12,10 +12,11 @@ VectorData::VectorData(const std::string& path,
 {
 }
 
-void VectorData::initialize(
+Status VectorData::initialize(
     std::unique_ptr<AQNWB::IO::BaseRecordingData>&& dataset,
     const std::string& description)
 {
-  Data::initialize(std::move(dataset));
+  Status dataStatus = Data::initialize(std::move(dataset));
   m_io->createAttribute(description, m_path, "description");
+  return dataStatus;
 }

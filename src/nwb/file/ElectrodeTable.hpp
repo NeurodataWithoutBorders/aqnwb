@@ -40,18 +40,20 @@ public:
    * Initializes the ElectrodeTable by creating NWB related attributes and
    * adding required columns.
    *
-   *  @param description The description of the table (default: "metadata about
+   * @param description The description of the table (default: "metadata about
+   * @return Status::Success if successful, otherwise Status::Failure.
    */
-  void initialize(const std::string& description =
-                      "metadata about extracellular electrodes");
+  Status initialize(const std::string& description =
+                        "metadata about extracellular electrodes");
 
   /**
    * @brief Finalizes the ElectrodeTable.
    *
    * Finalizes the ElectrodeTable by adding the required columns and writing
    * the data to the file.
+   * @return Status::Success if successful, otherwise Status::Failure.
    */
-  void finalize();
+  Status finalize();
 
   /**
    * @brief Sets up the ElectrodeTable by adding electrodes and their metadata.

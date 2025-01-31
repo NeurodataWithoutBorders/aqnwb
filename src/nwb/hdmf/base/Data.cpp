@@ -12,10 +12,11 @@ Data::Data(const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io)
 {
 }
 
-void Data::initialize(std::unique_ptr<IO::BaseRecordingData>&& dataset)
+Status Data::initialize(std::unique_ptr<IO::BaseRecordingData>&& dataset)
 {
   m_dataset = std::move(dataset);
   // setup common attributes
-  m_io->createCommonNWBAttributes(
+  Status commonAttrsStatus = m_io->createCommonNWBAttributes(
       m_path, this->getNamespace(), this->getTypeName());
+  return commonAttrsStatus;
 }

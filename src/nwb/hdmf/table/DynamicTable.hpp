@@ -42,34 +42,48 @@ public:
    *
    * @param description The description of the table (optional).
    * @param colNames Names of the columns for the table
+   * @return Status::Success if successful, otherwise Status::Failure.
    */
-  void initialize(const std::string& description);
+  Status initialize(const std::string& description);
+
+  /**
+   * @brief Finalizes writing the DynamicTable.
+   *
+   * Finalizes the DynamicTable by writing the column names
+   * as a single write once the table has been set up
+   *
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
+  Status finalize();
 
   /**
    * @brief Adds a column of vector string data to the table.
    * @param vectorData A unique pointer to the `VectorData` dataset.
    * @param values The vector of string values.
+   * @return Status::Success if successful, otherwise Status::Failure.
    */
-  void addColumn(std::unique_ptr<VectorData>& vectorData,
-                 const std::vector<std::string>& values);
+  Status addColumn(std::unique_ptr<VectorData>& vectorData,
+                   const std::vector<std::string>& values);
 
   /**
    * @brief Adds a column of references to the table.
    * @param name The name of the column.
    * @param colDescription The description of the column.
    * @param dataset The vector of string values representing the references.
+   * @return Status::Success if successful, otherwise Status::Failure.
    */
-  void addReferenceColumn(const std::string& name,
-                          const std::string& colDescription,
-                          const std::vector<std::string>& dataset);
+  Status addReferenceColumn(const std::string& name,
+                            const std::string& colDescription,
+                            const std::vector<std::string>& dataset);
 
   /**
    * @brief Adds a column of element identifiers to the table.
    * @param elementIDs A unique pointer to the `ElementIdentifiers` dataset.
    * @param values The vector of id values.
+   * @return Status::Success if successful, otherwise Status::Failure.
    */
-  void setRowIDs(std::unique_ptr<ElementIdentifiers>& elementIDs,
-                 const std::vector<int>& values);
+  Status setRowIDs(std::unique_ptr<ElementIdentifiers>& elementIDs,
+                   const std::vector<int>& values);
 
   /**
    * @brief Sets the column names of the ElectrodeTable.
@@ -79,14 +93,6 @@ public:
   {
     m_colNames = newColNames;
   }
-
-  /**
-   * @brief Finalizes writing the DynamicTable.
-   *
-   * Finalizes the DynamicTable by writing the column names
-   * as a single write once the table has been set up
-   */
-  void finalize();
 
   DEFINE_FIELD(readColNames,
                AttributeField,

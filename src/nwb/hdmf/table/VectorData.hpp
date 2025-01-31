@@ -33,9 +33,10 @@ public:
    *
    * @param dataset The rvalue unique pointer to the BaseRecordingData object
    * @param description The description of the VectorData
+   * @return Status::Success if successful, otherwise Status::Failure.
    */
-  void initialize(std::unique_ptr<AQNWB::IO::BaseRecordingData>&& dataset,
-                  const std::string& description);
+  Status initialize(std::unique_ptr<AQNWB::IO::BaseRecordingData>&& dataset,
+                    const std::string& description);
 
   DEFINE_FIELD(readDescription,
                AttributeField,

@@ -41,30 +41,38 @@ ElectrodeTable::ElectrodeTable(const std::string& path,
 ElectrodeTable::~ElectrodeTable() {}
 
 /** Initialization function*/
-void ElectrodeTable::initialize(const std::string& description)
+Status ElectrodeTable::initialize(const std::string& description)
 {
   // create group
   DynamicTable::initialize(description);
 
-  m_electrodeDataset->initialize(std::unique_ptr<IO::BaseRecordingData>(
-      m_io->createArrayDataSet(IO::BaseDataType::I32,
-                               SizeArray {1},
-                               SizeArray {1},
-                               AQNWB::mergePaths(m_path, "id"))));
-  m_groupNamesDataset->initialize(
+  Status electrodeStatus =
+      m_electrodeDataset->initialize(std::unique_ptr<IO::BaseRecordingData>(
+          m_io->createArrayDataSet(IO::BaseDataType::I32,
+                                   SizeArray {1},
+                                   SizeArray {1},
+                                   AQNWB::mergePaths(m_path, "id"))));
+  Status groupNameStatus = m_groupNamesDataset->initialize(
       std::unique_ptr<IO::BaseRecordingData>(
           m_io->createArrayDataSet(IO::BaseDataType::STR(250),
                                    SizeArray {0},
                                    SizeArray {1},
                                    AQNWB::mergePaths(m_path, "group_name"))),
       "the name of the ElectrodeGroup this electrode is a part of");
-  m_locationsDataset->initialize(
+  Status locationStatus = m_locationsDataset->initialize(
       std::unique_ptr<IO::BaseRecordingData>(
           m_io->createArrayDataSet(IO::BaseDataType::STR(250),
                                    SizeArray {0},
                                    SizeArray {1},
                                    AQNWB::mergePaths(m_path, "location"))),
       "the location of channel within the subject e.g. brain region");
+  if (electrodeStatus != Status::Success || groupNameStatus != Status::Success
+      || locationStatus != Status::Success)
+  {
+    return Status::Failure;
+  } else {
+    return Status::Success;
+  }
 }
 
 void ElectrodeTable::addElectrodes(std::vector<Channel> channelsInput)
@@ -79,14 +87,23 @@ void ElectrodeTable::addElectrodes(std::vector<Channel> channelsInput)
   }
 }
 
-void ElectrodeTable::finalize()
+Status ElectrodeTable::finalize()
 {
-  setRowIDs(m_electrodeDataset, m_electrodeNumbers);
-  addColumn(m_locationsDataset, m_locationNames);
-  addReferenceColumn(
+  Status rowIdStatus = setRowIDs(m_electrodeDataset, m_electrodeNumbers);
+  Status locationColStatus = addColumn(m_locationsDataset, m_locationNames);
+  Status grouColStatus = addReferenceColumn(
       "group",
       "a reference to the ElectrodeGroup this electrode is a part of",
       m_groupReferences);
-  addColumn(m_groupNamesDataset, m_groupNames);
-  DynamicTable::finalize();
+  Status groupNameColStatus = addColumn(m_groupNamesDataset, m_groupNames);
+  Status finalizeStatus = DynamicTable::finalize();
+  if (rowIdStatus != Status::Success || locationColStatus != Status::Success
+      || grouColStatus != Status::Success
+      || groupNameColStatus != Status::Success
+      || finalizeStatus != Status::Success)
+  {
+    return Status::Failure;
+  } else {
+    return Status::Success;
+  }
 }

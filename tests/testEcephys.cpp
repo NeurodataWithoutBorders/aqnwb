@@ -51,9 +51,11 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
 
     // setup electrode table, device, and electrode group
     NWB::ElectrodeTable elecTable = NWB::ElectrodeTable(io);
-    elecTable.initialize();
+    Status elecTableStatus = elecTable.initialize();
+    REQUIRE(elecTableStatus == Status::Success);
     elecTable.addElectrodes(mockArrays[0]);
-    elecTable.finalize();
+    elecTableStatus = elecTable.finalize();
+    REQUIRE(elecTableStatus == Status::Success);
 
     // Confirm that the electrode table is created correctly
     auto readColNames = elecTable.readColNames()->values().data;
@@ -118,9 +120,11 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
 
     // setup electrode table
     NWB::ElectrodeTable elecTable = NWB::ElectrodeTable(io);
-    elecTable.initialize();
+    Status elecTableStatus = elecTable.initialize();
+    REQUIRE(elecTableStatus == Status::Success);
     elecTable.addElectrodes(mockArrays[0]);
-    elecTable.finalize();
+    elecTableStatus = elecTable.finalize();
+    REQUIRE(elecTableStatus == Status::Success);
 
     // Confirm that the electrode table is created correctly
     auto readColNames = elecTable.readColNames()->values().data;
@@ -221,9 +225,11 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
 
     // setup electrode table, device, and electrode group
     NWB::ElectrodeTable elecTable = NWB::ElectrodeTable(io);
-    elecTable.initialize();
+    Status elecTableStatus = elecTable.initialize();
+    REQUIRE(elecTableStatus == Status::Success);
     elecTable.addElectrodes(mockArrays[0]);
-    elecTable.finalize();
+    elecTableStatus = elecTable.finalize();
+    REQUIRE(elecTableStatus == Status::Success);
 
     // setup electrical series
     NWB::SpikeEventSeries ses = NWB::SpikeEventSeries(dataPath, io);
@@ -288,9 +294,11 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
 
     // setup electrode table, device, and electrode group
     NWB::ElectrodeTable elecTable = NWB::ElectrodeTable(io);
-    elecTable.initialize();
+    Status elecTableStatus = elecTable.initialize();
+    REQUIRE(elecTableStatus == Status::Success);
     elecTable.addElectrodes(mockArrays[0]);
-    elecTable.finalize();
+    elecTableStatus = elecTable.finalize();
+    REQUIRE(elecTableStatus == Status::Success);
 
     // setup electrical series
     NWB::SpikeEventSeries ses = NWB::SpikeEventSeries(dataPath, io);
