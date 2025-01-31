@@ -685,17 +685,74 @@ Status HDF5IO::createAttribute(const std::vector<std::string>& data,
                                const std::string& path,
                                const std::string& name)
 {
-  std::vector<const char*> dataPtrs;
-  SizeType maxLength = 0;
-  for (const std::string& str : data) {
-    SizeType length = str.length();
-    maxLength = std::max(maxLength, length);
-    dataPtrs.push_back(str.c_str());
+  H5Object* loc;
+  Group gloc;
+  DataSet dloc;
+  Attribute attr;
+  hsize_t dims[1];
+
+  if (!canModifyObjects()) {
+    return Status::Failure;
   }
-  // TODO: Write as variable length string instead of as fixed-length string
-  // TODO: Allow setting of chunking for string datasets attributes to make them
-  // expandable
-  return createAttribute(dataPtrs, path, name, maxLength + 1);
+
+  // Create variable length string type
+  StrType H5type(PredType::C_S1, H5T_VARIABLE);
+
+  // open the group or dataset
+  H5O_type_t objectType = getH5ObjectType(path);
+  switch (objectType) {
+    case H5O_TYPE_GROUP:
+      gloc = m_file->openGroup(path);
+      loc = &gloc;
+      break;
+    case H5O_TYPE_DATASET:
+      dloc = m_file->openDataSet(path);
+      loc = &dloc;
+      break;
+    default:
+      return Status::Failure;  // not a valid dataset or group type
+  }
+
+  try {
+    if (loc->attrExists(name)) {
+      return Status::Failure;  // don't allow overwriting
+    }
+
+    // Create dataspace based on number of strings
+    DataSpace attr_dataspace;
+    if (data.size() > 1) {
+      dims[0] = data.size();
+      attr_dataspace = DataSpace(1, dims);
+    } else {
+      attr_dataspace = DataSpace(H5S_SCALAR);
+    }
+
+    // Create the attribute
+    attr = loc->createAttribute(name, H5type, attr_dataspace);
+
+    // Write the data directly from the vector of strings
+    std::vector<const char*> dataPtrs;
+    dataPtrs.reserve(data.size());
+    for (const auto& str : data) {
+      dataPtrs.push_back(str.c_str());
+    }
+    attr.write(H5type, dataPtrs.data());
+
+  } catch (GroupIException error) {
+    error.printErrorStack();
+    return Status::Failure;
+  } catch (AttributeIException error) {
+    error.printErrorStack();
+    return Status::Failure;
+  } catch (FileIException error) {
+    error.printErrorStack();
+    return Status::Failure;
+  } catch (DataSetIException error) {
+    error.printErrorStack();
+    return Status::Failure;
+  }
+
+  return Status::Success;
 }
 
 Status HDF5IO::createAttribute(const std::vector<const char*>& data,

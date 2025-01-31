@@ -152,7 +152,8 @@ public:
                          const std::string& name) override;
 
   /**
-   * @brief Creates a string array attribute at a given location in the file.
+   * @brief Creates a variable-length string array attribute at a given location
+   * in the file.
    * @param data The string array attribute data.
    * @param path The location in the file to set the attribute.
    * @param name The name of the attribute.
