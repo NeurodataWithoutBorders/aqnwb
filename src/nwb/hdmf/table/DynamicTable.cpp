@@ -20,11 +20,9 @@ DynamicTable::DynamicTable(const std::string& path,
 DynamicTable::~DynamicTable() {}
 
 /** Initialization function*/
-void DynamicTable::initialize(const std::string& description,
-                              const std::vector<std::string>& colNames)
+void DynamicTable::initialize(const std::string& description)
 {
   Container::initialize();
-  m_colNames = colNames;
   if (description != "")
     m_io->createAttribute(description, m_path, "description");
 }

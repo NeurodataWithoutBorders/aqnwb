@@ -44,8 +44,7 @@ ElectrodeTable::~ElectrodeTable() {}
 void ElectrodeTable::initialize(const std::string& description)
 {
   // create group
-  DynamicTable::initialize(description,
-                           {});  // create column_names in finalize()
+  DynamicTable::initialize(description);
 
   m_electrodeDataset->initialize(std::unique_ptr<IO::BaseRecordingData>(
       m_io->createArrayDataSet(IO::BaseDataType::I32,

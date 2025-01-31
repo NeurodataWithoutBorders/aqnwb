@@ -43,8 +43,7 @@ public:
    * @param description The description of the table (optional).
    * @param colNames Names of the columns for the table
    */
-  void initialize(const std::string& description,
-                  const std::vector<std::string>& colNames);
+  void initialize(const std::string& description);
 
   /**
    * @brief Adds a column of vector string data to the table.
