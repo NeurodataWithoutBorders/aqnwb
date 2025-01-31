@@ -1,5 +1,6 @@
 #pragma once
 
+#include <filesystem>
 #include <functional>
 #include <memory>
 #include <string>
@@ -67,6 +68,18 @@ public:
    * @return The path of the registered type.
    */
   inline std::string getPath() const { return m_path; }
+
+  /**
+   * @brief Get the name of the object
+   *
+   * This is the last part of getPath(), much like the filename portion
+   * of a file system path.
+   * @return String with the name of the object
+   */
+  inline std::string getName() const
+  {
+    return std::filesystem::path(m_path).filename();
+  }
 
   /**
    * @brief Get a shared pointer to the IO object.
@@ -186,14 +199,14 @@ public:
   virtual std::string getNamespace() const;
 
   /**
-   * @brief Get the full name of type, i.e., `namespace::typename`
+   * @brief Get the full name of the type, i.e., `namespace::typename`
    *
    * This is just a simple convenience function that uses the getNamespace
    * and getTypeName methods.
    *
    * @return The full name of the type consisting of `namespace::typename`
    */
-  inline std::string getFullName() const
+  inline std::string getFullTypeName() const
   {
     return (getNamespace() + "::" + getTypeName());
   }

@@ -27,14 +27,12 @@ void DynamicTable::initialize(const std::string& description,
   m_colNames = colNames;
   if (description != "")
     m_io->createAttribute(description, m_path, "description");
-  m_io->createAttribute(m_colNames, m_path, "colnames");
 }
 
 /** Add column to table */
 void DynamicTable::addColumn(std::unique_ptr<VectorData>& vectorData,
                              const std::vector<std::string>& values)
 {
-  // TODO: Add the column to the colnames atribute if it is missing
   if (!vectorData->isInitialized()) {
     std::cerr << "VectorData dataset is not initialized" << std::endl;
   } else {
@@ -45,6 +43,7 @@ void DynamicTable::addColumn(std::unique_ptr<VectorData>& vectorData,
           std::vector<SizeType> {i},
           IO::BaseDataType::STR(values[i].size() + 1),
           values);  // TODO - add tests for this
+    m_colNames.push_back(vectorData->getName());
   }
 }
 
@@ -68,7 +67,6 @@ void DynamicTable::addReferenceColumn(const std::string& name,
                                       const std::string& colDescription,
                                       const std::vector<std::string>& values)
 {
-  // TODO: Add the column to the colnames atribute if it is missing
   if (values.empty()) {
     std::cerr << "Data to add to column is empty" << std::endl;
   } else {
@@ -78,5 +76,11 @@ void DynamicTable::addReferenceColumn(const std::string& name,
     refColumn.initialize(nullptr,  // Use nullptr because we only want to create
                                    // the attributes but not modify the data
                          colDescription);
+    m_colNames.push_back(name);
   }
+}
+
+void DynamicTable::finalize()
+{
+  m_io->createAttribute(m_colNames, m_path, "colnames");
 }

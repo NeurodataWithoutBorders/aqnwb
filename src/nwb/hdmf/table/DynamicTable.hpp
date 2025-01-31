@@ -81,6 +81,14 @@ public:
     m_colNames = newColNames;
   }
 
+  /**
+   * @brief Finalizes writing the DynamicTable.
+   *
+   * Finalizes the DynamicTable by writing the column names
+   * as a single write once the table has been set up
+   */
+  void finalize();
+
   DEFINE_FIELD(readColNames,
                AttributeField,
                std::string,

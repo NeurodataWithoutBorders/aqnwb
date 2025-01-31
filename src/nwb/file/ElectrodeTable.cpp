@@ -44,7 +44,8 @@ ElectrodeTable::~ElectrodeTable() {}
 void ElectrodeTable::initialize(const std::string& description)
 {
   // create group
-  DynamicTable::initialize(description, m_defaultColNames);
+  DynamicTable::initialize(description,
+                           {});  // create column_names in finalize()
 
   m_electrodeDataset->initialize(std::unique_ptr<IO::BaseRecordingData>(
       m_io->createArrayDataSet(IO::BaseDataType::I32,
@@ -82,10 +83,11 @@ void ElectrodeTable::addElectrodes(std::vector<Channel> channelsInput)
 void ElectrodeTable::finalize()
 {
   setRowIDs(m_electrodeDataset, m_electrodeNumbers);
-  addColumn(m_groupNamesDataset, m_groupNames);
   addColumn(m_locationsDataset, m_locationNames);
   addReferenceColumn(
       "group",
       "a reference to the ElectrodeGroup this electrode is a part of",
       m_groupReferences);
+  addColumn(m_groupNamesDataset, m_groupNames);
+  DynamicTable::finalize();
 }

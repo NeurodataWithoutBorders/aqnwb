@@ -31,7 +31,8 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
       getMockData2D(numSamples, numChannels);
   std::vector<double> mockTimestamps = getMockTimestamps(numSamples, 1);
   std::string devicePath = "/device";
-  std::string electrodePath = "/elecgroup/";
+  std::string electrodePath =
+      "/general/extracellular_ephys/" + mockArrays[0][0].getGroupName();
 
   SECTION("test writing channels")
   {
@@ -42,9 +43,23 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     io->createGroup("/general");
     io->createGroup("/general/extracellular_ephys");
 
+    // setup device and electrode group
+    auto device = NWB::Device(devicePath, io);
+    device.initialize("description", "unknown");
+    auto elecGroup = NWB::ElectrodeGroup(electrodePath, io);
+    elecGroup.initialize("description", "unknown", device);
+
     // setup electrode table, device, and electrode group
     NWB::ElectrodeTable elecTable = NWB::ElectrodeTable(io);
     elecTable.initialize();
+    elecTable.addElectrodes(mockArrays[0]);
+    elecTable.finalize();
+
+    // Confirm that the electrode table is created correctly
+    auto readColNames = elecTable.readColNames()->values().data;
+    std::vector<std::string> expectedColNames = {
+        "location", "group", "group_name"};
+    REQUIRE(readColNames == expectedColNames);
 
     // setup electrical series
     NWB::ElectricalSeries es = NWB::ElectricalSeries(dataPath, io);
@@ -95,9 +110,23 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     io->createGroup("/general");
     io->createGroup("/general/extracellular_ephys");
 
+    // setup device and electrode group
+    auto device = NWB::Device(devicePath, io);
+    device.initialize("description", "unknown");
+    auto elecGroup = NWB::ElectrodeGroup(electrodePath, io);
+    elecGroup.initialize("description", "unknown", device);
+
     // setup electrode table
     NWB::ElectrodeTable elecTable = NWB::ElectrodeTable(io);
     elecTable.initialize();
+    elecTable.addElectrodes(mockArrays[0]);
+    elecTable.finalize();
+
+    // Confirm that the electrode table is created correctly
+    auto readColNames = elecTable.readColNames()->values().data;
+    std::vector<std::string> expectedColNames = {
+        "location", "group", "group_name"};
+    REQUIRE(readColNames == expectedColNames);
 
     // setup electrical series
     NWB::ElectricalSeries es = NWB::ElectricalSeries(dataPath, io);
@@ -165,7 +194,6 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
   BaseDataType dataType = BaseDataType::F32;
   std::vector<double> mockTimestamps = getMockTimestamps(numEvents, 1);
   std::string devicePath = "/device";
-  std::string electrodePath = "/elecgroup/";
 
   SECTION("test writing events - events x channels x samples")
   {
@@ -175,6 +203,8 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
         getMockChannelArrays(numChannels);
     std::vector<std::vector<float>> mockData =
         getMockData2D(numSamples * numChannels, numEvents);
+    std::string electrodePath =
+        "/general/extracellular_ephys/" + mockArrays[0][0].getGroupName();
 
     // setup io object
     std::string path = getTestFilePath("SpikeEventSeries3D.h5");
@@ -183,9 +213,17 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
     io->createGroup("/general");
     io->createGroup("/general/extracellular_ephys");
 
+    // setup device and electrode group
+    auto device = NWB::Device(devicePath, io);
+    device.initialize("description", "unknown");
+    auto elecGroup = NWB::ElectrodeGroup(electrodePath, io);
+    elecGroup.initialize("description", "unknown", device);
+
     // setup electrode table, device, and electrode group
     NWB::ElectrodeTable elecTable = NWB::ElectrodeTable(io);
     elecTable.initialize();
+    elecTable.addElectrodes(mockArrays[0]);
+    elecTable.finalize();
 
     // setup electrical series
     NWB::SpikeEventSeries ses = NWB::SpikeEventSeries(dataPath, io);
@@ -232,6 +270,8 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
     std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(1);
     std::vector<std::vector<float>> mockData =
         getMockData2D(numSamples, numEvents);
+    std::string electrodePath =
+        "/general/extracellular_ephys/" + mockArrays[0][0].getGroupName();
 
     // setup io object
     std::string path = getTestFilePath("SpikeEventSeries2D.h5");
@@ -240,9 +280,17 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
     io->createGroup("/general");
     io->createGroup("/general/extracellular_ephys");
 
+    // setup device and electrode group
+    auto device = NWB::Device(devicePath, io);
+    device.initialize("description", "unknown");
+    auto elecGroup = NWB::ElectrodeGroup(electrodePath, io);
+    elecGroup.initialize("description", "unknown", device);
+
     // setup electrode table, device, and electrode group
     NWB::ElectrodeTable elecTable = NWB::ElectrodeTable(io);
     elecTable.initialize();
+    elecTable.addElectrodes(mockArrays[0]);
+    elecTable.finalize();
 
     // setup electrical series
     NWB::SpikeEventSeries ses = NWB::SpikeEventSeries(dataPath, io);

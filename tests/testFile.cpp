@@ -33,6 +33,12 @@ TEST_CASE("ElectrodeTable", "[ecephys]")
     electrodeTable.addElectrodes(channels);
     electrodeTable.finalize();
 
+    // Confirm that the column names are created correctly
+    auto readColNames = electrodeTable.readColNames()->values().data;
+    std::vector<std::string> expectedColNames = {
+        "location", "group", "group_name"};
+    REQUIRE(readColNames == expectedColNames);
+
     // Check if id datasets are created correctly
     SizeType numChannels = 3;
     std::unique_ptr<BaseRecordingData> id_data =
