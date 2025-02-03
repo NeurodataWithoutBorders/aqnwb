@@ -329,11 +329,13 @@ public:
    * @param data The string array attribute data.
    * @param path The location in the file to set the attribute.
    * @param name The name of the attribute.
+   * @param bool Overwrite the attribute if it already exists.
    * @return The status of the attribute creation operation.
    */
   virtual Status createAttribute(const std::vector<std::string>& data,
                                  const std::string& path,
-                                 const std::string& name) = 0;
+                                 const std::string& name,
+                                 const bool overwrite = false) = 0;
 
   /**
    * @brief Creates a string array attribute at a given location in the file.

@@ -683,7 +683,8 @@ Status HDF5IO::createAttribute(const std::string& data,
 
 Status HDF5IO::createAttribute(const std::vector<std::string>& data,
                                const std::string& path,
-                               const std::string& name)
+                               const std::string& name,
+                               const bool overwrite)
 {
   H5Object* loc;
   Group gloc;
@@ -715,7 +716,12 @@ Status HDF5IO::createAttribute(const std::vector<std::string>& data,
 
   try {
     if (loc->attrExists(name)) {
-      return Status::Failure;  // don't allow overwriting
+      if (overwrite) {
+        // Delete the existing attribute
+        loc->removeAttr(name);
+      } else {
+        return Status::Failure;  // don't allow overwriting
+      }
     }
 
     // Create dataspace based on number of strings

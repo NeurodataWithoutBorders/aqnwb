@@ -100,6 +100,11 @@ Status DynamicTable::addReferenceColumn(const std::string& name,
 
 Status DynamicTable::finalize()
 {
-  Status colNamesStatus = m_io->createAttribute(m_colNames, m_path, "colnames");
+  Status colNamesStatus = m_io->createAttribute(
+      m_colNames,
+      m_path,
+      "colnames",
+      true  // overwrite the attribute if it already exists
+  );
   return colNamesStatus;
 }
