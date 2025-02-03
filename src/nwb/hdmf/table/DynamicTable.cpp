@@ -14,6 +14,16 @@ DynamicTable::DynamicTable(const std::string& path,
     : Container(path, io)
     , m_colNames({})
 {
+  // Read the colNames attribute if it exists such that any columns
+  // we may add append to the existing list of columns rathern than
+  // replacing it. This is important for the finalize function
+  // to ensure that all columns are correctly listed.
+  if (m_io->isOpen()) {
+    auto colNamesFromFile = readColNames();
+    if (colNamesFromFile->exists()) {
+      m_colNames = colNamesFromFile->values().data;
+    }
+  }
 }
 
 /** Destructor */
@@ -25,17 +35,6 @@ Status DynamicTable::initialize(const std::string& description)
   Status containerStatus = Container::initialize();
   if (description != "") {
     m_io->createAttribute(description, m_path, "description");
-  }
-  // Read the colNames attribute if it exists such that any columns
-  // we may add append to the existing list of columns rathern than
-  // replacing it. This is important for the finalize function
-  // to ensure that all columns are correctly listed.
-  const std::string colNamesPath = mergePaths(m_path, "colnames");
-  if (m_io->attributeExists(colNamesPath)) {
-    auto colNamesGeneric = m_io->readAttribute(colNamesPath);
-    auto colNamesData =
-        IO::DataBlock<std::string>::fromGeneric(colNamesGeneric);
-    m_colNames = colNamesData.data;
   }
   return containerStatus;
 }
