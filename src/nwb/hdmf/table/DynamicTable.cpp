@@ -14,6 +14,16 @@ DynamicTable::DynamicTable(const std::string& path,
     : Container(path, io)
     , m_colNames({})
 {
+  // Read the colNames attribute if it exists such that any columns
+  // we may add append to the existing list of columns rather than
+  // replacing it. This is important for the finalize function
+  // to ensure that all columns are correctly listed.
+  if (m_io->isOpen()) {
+    auto colNamesFromFile = readColNames();
+    if (colNamesFromFile->exists()) {
+      m_colNames = colNamesFromFile->values().data;
+    }
+  }
 }
 
 /** Destructor */
@@ -23,8 +33,9 @@ DynamicTable::~DynamicTable() {}
 Status DynamicTable::initialize(const std::string& description)
 {
   Status containerStatus = Container::initialize();
-  if (description != "")
+  if (description != "") {
     m_io->createAttribute(description, m_path, "description");
+  }
   return containerStatus;
 }
 
@@ -37,18 +48,12 @@ Status DynamicTable::addColumn(std::unique_ptr<VectorData>& vectorData,
     return Status::Failure;
   } else {
     // write in loop because variable length string
-    Status writeStatus = Status::Success;
-    Status blockStatus = Status::Success;
-    for (SizeType i = 0; i < values.size(); i++) {
-      blockStatus = vectorData->m_dataset->writeDataBlock(
-          std::vector<SizeType> {1},
-          std::vector<SizeType> {i},
-          IO::BaseDataType::STR(values[i].size() + 1),
-          values);  // TODO - add tests for this
-      if (blockStatus != Status::Success) {
-        writeStatus = Status::Failure;
-      }
-    }
+    // Write all strings in a single block
+    Status writeStatus = vectorData->m_dataset->writeDataBlock(
+        std::vector<SizeType> {values.size()},
+        std::vector<SizeType> {0},
+        IO::BaseDataType::V_STR,
+        values);
     m_colNames.push_back(vectorData->getName());
     return writeStatus;
   }
@@ -101,6 +106,11 @@ Status DynamicTable::addReferenceColumn(const std::string& name,
 
 Status DynamicTable::finalize()
 {
-  Status colNamesStatus = m_io->createAttribute(m_colNames, m_path, "colnames");
+  Status colNamesStatus = m_io->createAttribute(
+      m_colNames,
+      m_path,
+      "colnames",
+      true  // overwrite the attribute if it already exists
+  );
   return colNamesStatus;
 }

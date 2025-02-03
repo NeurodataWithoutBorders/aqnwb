@@ -41,7 +41,6 @@ public:
    * column names.
    *
    * @param description The description of the table (optional).
-   * @param colNames Names of the columns for the table
    * @return Status::Success if successful, otherwise Status::Failure.
    */
   Status initialize(const std::string& description);
@@ -86,7 +85,17 @@ public:
                    const std::vector<int>& values);
 
   /**
-   * @brief Sets the column names of the ElectrodeTable.
+   * @brief Sets the column names of the DynamicTable
+   *
+   * ..note::
+   * For this change to take affect in the file we need to call
+   * finalize() after setting the column names to write the data to the file.
+   *
+   * .. warning::
+   * This will overwrite any existing column names. It is up to
+   * the caller to ensure that all existing columns are included in the new
+   * list.
+   *
    * @param newColNames The vector of new column names.
    */
   virtual void setColNames(const std::vector<std::string>& newColNames)

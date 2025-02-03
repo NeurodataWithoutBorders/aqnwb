@@ -494,33 +494,101 @@ TEST_CASE("HDF5IO; create attributes", "[hdf5io]")
   IO::HDF5::HDF5IO hdf5io(filename);
   hdf5io.open();
 
-  hdf5io.createGroup("/data");
+  const std::string groupPath = "/data";
+  hdf5io.createGroup(groupPath);
 
   // single attribute
   SECTION("single_value")
   {
     const signed int data = 1;
-    hdf5io.createAttribute(BaseDataType::I32, &data, "/data", "single_value");
+    const std::string attrName = "single_value";
+    const std::string attrPath = mergePaths(groupPath, attrName);
+    hdf5io.createAttribute(BaseDataType::I32, &data, groupPath, attrName);
+    REQUIRE(hdf5io.attributeExists(attrPath));
+
+    // Read the attribute and verify the attribute data
+    auto readAttrGeneric = hdf5io.readAttribute(attrPath);
+    auto readAttrData = IO::DataBlock<int>::fromGeneric(readAttrGeneric);
+    REQUIRE(readAttrData.shape.size() == 0);  // Scalar attribute
+    REQUIRE(readAttrData.data.size() == 1);
+    REQUIRE(readAttrData.data[0] == data);
   }
 
   // integer array
   SECTION("int_array")
   {
-    const int data[] = {1, 2, 3, 4, 5};
-    const int dataSize = sizeof(data) / sizeof(data[0]);
+    const std::vector<int> data = {1, 2, 3, 4, 5};
+    const std::string attrName = "int_array";
+    const std::string attrPath = mergePaths(groupPath, attrName);
 
     hdf5io.createAttribute(
-        BaseDataType::I32, &data, "/data", "array", dataSize);
-    REQUIRE(hdf5io.attributeExists("/data/array"));
+        BaseDataType::I32, data.data(), groupPath, attrName, data.size());
+    REQUIRE(hdf5io.attributeExists(attrPath));
+
+    // Read the attribute and verify the attribute data
+    auto readAttrGeneric = hdf5io.readAttribute(attrPath);
+    auto readAttrData = IO::DataBlock<int>::fromGeneric(readAttrGeneric);
+    REQUIRE(readAttrData.shape.size() == 1);  // Scalar attribute
+    REQUIRE(readAttrData.data.size() == 5);
+    REQUIRE(readAttrData.data == data);
   }
 
   // string array
   SECTION("str_array")
   {
     const std::vector<std::string> data = {"col1", "col2", "col3"};
+    const std::string attrName = "string_array";
+    const std::string attrPath = mergePaths(groupPath, attrName);
 
-    hdf5io.createAttribute(data, "/data", "string_array");
-    REQUIRE(hdf5io.attributeExists("/data/string_array"));
+    hdf5io.createAttribute(data, groupPath, attrName);
+    REQUIRE(hdf5io.attributeExists(attrPath));
+
+    // Read the attribute and verify the attribute data
+    auto readAttrGeneric = hdf5io.readAttribute(attrPath);
+    auto readAttrData =
+        IO::DataBlock<std::string>::fromGeneric(readAttrGeneric);
+    REQUIRE(readAttrData.shape.size() == 1);
+    REQUIRE(readAttrData.data.size() == 3);
+    REQUIRE(readAttrData.data == data);
+  }
+
+  // string array with overwrite
+  SECTION("str_array_overwrite")
+  {
+    const std::vector<std::string> initial_data = {"initial1", "initial2"};
+    const std::vector<std::string> new_data = {"new1", "new2", "new3"};
+    const std::string attrName = "overwrite_string_array";
+    const std::string attrPath = mergePaths(groupPath, attrName);
+
+    // Create initial attribute
+    REQUIRE(hdf5io.createAttribute(initial_data, groupPath, attrName)
+            == Status::Success);
+    REQUIRE(hdf5io.attributeExists(attrPath));
+
+    // Read the attribute and verify the attribute data
+    auto readAttrGeneric = hdf5io.readAttribute(attrPath);
+    auto readAttrData =
+        IO::DataBlock<std::string>::fromGeneric(readAttrGeneric);
+    REQUIRE(readAttrData.shape.size() == 1);
+    REQUIRE(readAttrData.data.size() == 2);
+    REQUIRE(readAttrData.data == initial_data);
+
+    // Attempt to create the same attribute without overwrite (should fail)
+    REQUIRE(hdf5io.createAttribute(new_data, groupPath, attrName, false)
+            == Status::Failure);
+
+    // Overwrite the attribute
+    REQUIRE(hdf5io.createAttribute(new_data, groupPath, attrName, true)
+            == Status::Success);
+    REQUIRE(hdf5io.attributeExists(attrPath));
+
+    // Read the attribute and verify the attribute data
+    auto readAttrGenericNew = hdf5io.readAttribute(attrPath);
+    auto readAttrDataNew =
+        IO::DataBlock<std::string>::fromGeneric(readAttrGenericNew);
+    REQUIRE(readAttrDataNew.shape.size() == 1);
+    REQUIRE(readAttrDataNew.data.size() == 3);
+    REQUIRE(readAttrDataNew.data == new_data);
   }
 
   // soft link

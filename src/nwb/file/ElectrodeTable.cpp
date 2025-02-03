@@ -54,14 +54,14 @@ Status ElectrodeTable::initialize(const std::string& description)
                                    AQNWB::mergePaths(m_path, "id"))));
   Status groupNameStatus = m_groupNamesDataset->initialize(
       std::unique_ptr<IO::BaseRecordingData>(
-          m_io->createArrayDataSet(IO::BaseDataType::STR(250),
+          m_io->createArrayDataSet(IO::BaseDataType::V_STR,
                                    SizeArray {0},
                                    SizeArray {1},
                                    AQNWB::mergePaths(m_path, "group_name"))),
       "the name of the ElectrodeGroup this electrode is a part of");
   Status locationStatus = m_locationsDataset->initialize(
       std::unique_ptr<IO::BaseRecordingData>(
-          m_io->createArrayDataSet(IO::BaseDataType::STR(250),
+          m_io->createArrayDataSet(IO::BaseDataType::V_STR,
                                    SizeArray {0},
                                    SizeArray {1},
                                    AQNWB::mergePaths(m_path, "location"))),
@@ -91,14 +91,14 @@ Status ElectrodeTable::finalize()
 {
   Status rowIdStatus = setRowIDs(m_electrodeDataset, m_electrodeNumbers);
   Status locationColStatus = addColumn(m_locationsDataset, m_locationNames);
-  Status grouColStatus = addReferenceColumn(
+  Status groupColStatus = addReferenceColumn(
       "group",
       "a reference to the ElectrodeGroup this electrode is a part of",
       m_groupReferences);
   Status groupNameColStatus = addColumn(m_groupNamesDataset, m_groupNames);
   Status finalizeStatus = DynamicTable::finalize();
   if (rowIdStatus != Status::Success || locationColStatus != Status::Success
-      || grouColStatus != Status::Success
+      || groupColStatus != Status::Success
       || groupNameColStatus != Status::Success
       || finalizeStatus != Status::Success)
   {
