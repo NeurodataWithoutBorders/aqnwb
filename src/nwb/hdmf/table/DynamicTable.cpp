@@ -15,7 +15,7 @@ DynamicTable::DynamicTable(const std::string& path,
     , m_colNames({})
 {
   // Read the colNames attribute if it exists such that any columns
-  // we may add append to the existing list of columns rathern than
+  // we may add append to the existing list of columns rather than
   // replacing it. This is important for the finalize function
   // to ensure that all columns are correctly listed.
   if (m_io->isOpen()) {

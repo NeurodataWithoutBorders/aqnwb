@@ -135,23 +135,32 @@ TEST_CASE("DynamicTable", "[table]")
       std::vector<std::string> newValues = {"new1", "new2", "new3"};
       SizeArray newDataShape = {newValues.size()};
       SizeArray newChunking = {newValues.size()};
+      std::string columnPath2 = mergePaths(tablePath, "col2");
       auto newColumnDataset = io->createArrayDataSet(
-          BaseDataType::V_STR, newDataShape, newChunking, tablePath + "/col2");
-      auto newVectorData =
-          std::make_unique<NWB::VectorData>(tablePath + "/col2", io);
+          BaseDataType::V_STR, newDataShape, newChunking, columnPath2);
+      auto newVectorData = std::make_unique<NWB::VectorData>(columnPath2, io);
       newVectorData->initialize(std::move(newColumnDataset), "Column 2");
       Status status = table.addColumn(newVectorData, newValues);
       REQUIRE(status == Status::Success);
 
-      // Update column names
+      // Finalize the table
+      status = table.finalize();
+      REQUIRE(status == Status::Success);
+
+      // Verify updated column names
       std::vector<std::string> colNames = {"col1", "col2"};
+      auto readColNames = table.readColNames()->values().data;
+      REQUIRE(readColNames == colNames);
+
+      // Swap the columns
+      colNames = {"col2", "col1"};
       table.setColNames(colNames);
       status = table.finalize();
       REQUIRE(status == Status::Success);
 
       // Verify updated column names
-      auto readColNames = table.readColNames()->values().data;
-      REQUIRE(readColNames == colNames);
+      auto readColNames2 = table.readColNames()->values().data;
+      REQUIRE(readColNames2 == colNames);
 
       io->close();
     }
