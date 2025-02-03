@@ -48,18 +48,12 @@ Status DynamicTable::addColumn(std::unique_ptr<VectorData>& vectorData,
     return Status::Failure;
   } else {
     // write in loop because variable length string
-    Status writeStatus = Status::Success;
-    Status blockStatus = Status::Success;
-    for (SizeType i = 0; i < values.size(); i++) {
-      blockStatus = vectorData->m_dataset->writeDataBlock(
-          std::vector<SizeType> {1},
-          std::vector<SizeType> {i},
-          IO::BaseDataType::STR(values[i].size() + 1),
-          values);  // TODO - add tests for this
-      if (blockStatus != Status::Success) {
-        writeStatus = Status::Failure;
-      }
-    }
+    // Write all strings in a single block
+    Status writeStatus = vectorData->m_dataset->writeDataBlock(
+        std::vector<SizeType> {values.size()},
+        std::vector<SizeType> {0},
+        IO::BaseDataType::V_STR,
+        values);
     m_colNames.push_back(vectorData->getName());
     return writeStatus;
   }

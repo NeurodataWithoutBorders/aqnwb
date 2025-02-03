@@ -15,6 +15,7 @@ add_executable(aqnwb_test
     testBaseIO.cpp
     testData.cpp
     testDevice.cpp
+    testDynamicTable.cpp
     testEcephys.cpp
     testElementIdentifiers.cpp
     testFile.cpp
