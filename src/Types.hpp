@@ -25,6 +25,28 @@ public:
   };
 
   /**
+   * @brief Overloaded && operator for Status enum
+   * @param lhs Left-hand side Status
+   * @param rhs Right-hand side Status
+   * @return Success if both statuses are Success, Failure otherwise
+   */
+  friend Status operator&&(Status lhs, Status rhs)
+  {
+    return (lhs == Success && rhs == Success) ? Success : Failure;
+  }
+
+  /**
+   * @brief Overloaded || operator for Status enum
+   * @param lhs Left-hand side Status
+   * @param rhs Right-hand side Status
+   * @return Success if either status is Success, Failure otherwise
+   */
+  friend Status operator||(Status lhs, Status rhs)
+  {
+    return (lhs == Success || rhs == Success) ? Success : Failure;
+  }
+
+  /**
    * @brief Types of object used in the NWB schema
    */
   enum StorageObjectType

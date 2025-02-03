@@ -74,10 +74,7 @@ Status DynamicTable::setRowIDs(std::unique_ptr<ElementIdentifiers>& elementIDs,
         m_io->createCommonNWBAttributes(AQNWB::mergePaths(m_path, "id"),
                                         elementIDs->getNamespace(),
                                         elementIDs->getTypeName());
-    return (writeDataStatus == Status::Success
-            && createAttrsStatus == Status::Success)
-        ? Status::Success
-        : Status::Failure;
+    return writeDataStatus && createAttrsStatus;
   }
 }
 
@@ -97,10 +94,7 @@ Status DynamicTable::addReferenceColumn(const std::string& name,
                   // the attributes but not modify the data
         colDescription);
     m_colNames.push_back(name);
-    return (dataStatus == Status::Success
-            && vectorDataStatus == Status::Success)
-        ? Status::Success
-        : Status::Failure;
+    return dataStatus && vectorDataStatus;
   }
 }
 

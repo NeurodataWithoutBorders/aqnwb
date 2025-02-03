@@ -187,9 +187,5 @@ Status TimeSeries::writeData(const std::vector<SizeType>& dataShape,
         controlShape, controlPositionOffset, this->controlType, controlInput);
   }
 
-  if ((dataStatus != Status::Success) || (tsStatus != Status::Success)) {
-    return Status::Failure;
-  } else {
-    return Status::Success;
-  }
+  return dataStatus && tsStatus;
 }

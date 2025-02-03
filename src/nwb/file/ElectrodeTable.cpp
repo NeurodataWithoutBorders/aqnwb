@@ -66,13 +66,7 @@ Status ElectrodeTable::initialize(const std::string& description)
                                    SizeArray {1},
                                    AQNWB::mergePaths(m_path, "location"))),
       "the location of channel within the subject e.g. brain region");
-  if (electrodeStatus != Status::Success || groupNameStatus != Status::Success
-      || locationStatus != Status::Success)
-  {
-    return Status::Failure;
-  } else {
-    return Status::Success;
-  }
+  return electrodeStatus && groupNameStatus && locationStatus;
 }
 
 void ElectrodeTable::addElectrodes(std::vector<Channel> channelsInput)
@@ -97,13 +91,6 @@ Status ElectrodeTable::finalize()
       m_groupReferences);
   Status groupNameColStatus = addColumn(m_groupNamesDataset, m_groupNames);
   Status finalizeStatus = DynamicTable::finalize();
-  if (rowIdStatus != Status::Success || locationColStatus != Status::Success
-      || groupColStatus != Status::Success
-      || groupNameColStatus != Status::Success
-      || finalizeStatus != Status::Success)
-  {
-    return Status::Failure;
-  } else {
-    return Status::Success;
-  }
+  return rowIdStatus && locationColStatus && groupColStatus 
+         && groupNameColStatus && finalizeStatus;
 }

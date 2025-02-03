@@ -23,8 +23,5 @@ Status Container::initialize()
   // setup common attributes
   auto createAttrsStatus = m_io->createCommonNWBAttributes(
       m_path, this->getNamespace(), this->getTypeName());
-  return (createGroupStatus == Status::Success
-          && createAttrsStatus == Status::Success)
-      ? Status::Success
-      : Status::Failure;
+  return createGroupStatus && createAttrsStatus;
 }
