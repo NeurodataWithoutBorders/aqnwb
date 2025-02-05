@@ -91,6 +91,6 @@ Status ElectrodeTable::finalize()
       m_groupReferences);
   Status groupNameColStatus = addColumn(m_groupNamesDataset, m_groupNames);
   Status finalizeStatus = DynamicTable::finalize();
-  return rowIdStatus && locationColStatus && groupColStatus 
-         && groupNameColStatus && finalizeStatus;
+  return rowIdStatus && locationColStatus && groupColStatus
+      && groupNameColStatus && finalizeStatus;
 }
