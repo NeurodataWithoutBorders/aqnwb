@@ -141,7 +141,8 @@ TEST_CASE("Test Channel Copy and Move Operations", "[channel]")
 
   SECTION("Move constructor")
   {
-    Channel moved(std::move(Channel(original)));
+    Channel temp(original);
+    Channel moved(std::move(temp));
     REQUIRE(moved.getName() == original.getName());
     REQUIRE(moved.getGroupName() == original.getGroupName());
     REQUIRE(moved.getGroupIndex() == original.getGroupIndex());
@@ -163,7 +164,8 @@ TEST_CASE("Test Channel Copy and Move Operations", "[channel]")
   SECTION("Move assignment")
   {
     Channel moved("other", "other_group", 0, 0, 0);
-    moved = std::move(Channel(original));
+    Channel temp(original);
+    moved = std::move(temp);
     REQUIRE(moved.getName() == original.getName());
     REQUIRE(moved.getGroupName() == original.getGroupName());
     REQUIRE(moved.getGroupIndex() == original.getGroupIndex());
