@@ -13,8 +13,10 @@ include(Catch)
 
 add_executable(aqnwb_test
     testBaseIO.cpp
+    testChannel.cpp
     testData.cpp
     testDevice.cpp
+    testHDF5RecordingData.cpp
     testEcephys.cpp
     testElementIdentifiers.cpp
     testFile.cpp

@@ -564,6 +564,24 @@ public:
                                 const BaseDataType& type,
                                 const std::vector<std::string>& data) = 0;
 
+  /**
+   * @brief Get the number of dimensions in the dataset.
+   * @return The number of dimensions.
+   */
+  inline SizeType getNumDimensions() const { return nDimensions; }
+
+  /**
+   * @brief Get the size of the dataset.
+   * @return Vector containing the size in each dimension.
+   */
+  inline const std::vector<SizeType>& getSize() const { return size; }
+
+  /**
+   * @brief Get the current position in the dataset.
+   * @return Vector containing the position in each dimension.
+   */
+  inline const std::vector<SizeType>& getPosition() const { return position; }
+
 protected:
   /**
    * @brief The size of the dataset in each dimension.
@@ -576,7 +594,7 @@ protected:
   std::vector<SizeType> position;
 
   /**
-   * @brief The number of dimensions in the data block.
+   * @brief Number of dimensions in the dataset.
    */
   SizeType nDimensions;
 };
