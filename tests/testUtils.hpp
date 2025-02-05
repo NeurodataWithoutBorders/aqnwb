@@ -5,6 +5,7 @@
 #include <random>
 
 #include <H5Cpp.h>
+#include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>
 
 #include "Channel.hpp"
@@ -15,6 +16,20 @@ using namespace AQNWB;
 using namespace AQNWB::IO;
 namespace fs = std::filesystem;
 
+/*
+ * @brief Approximate comparator for floats used in Catch2 tests.
+ */
+inline bool approxComparator(float a, float b)
+{
+  return a == Catch::Approx(b).epsilon(0.001);
+}
+
+/*
+ * @brief Get the path to a test file in the data directory.
+ *
+ * This function creates the data directory if it doesn't exist, removes the
+ * file if it already exists, and returns the path to the file.
+ */
 inline std::string getTestFilePath(std::string filename)
 {
   // create data directory if it doesn't exist

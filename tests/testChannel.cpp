@@ -1,4 +1,5 @@
 #include <catch2/catch_approx.hpp>
+#include <catch2/matchers/catch_matchers_range_equals.hpp>
 
 #include "Channel.hpp"
 #include "testUtils.hpp"
@@ -18,10 +19,10 @@ TEST_CASE("Test Channel Construction and Basic Operations", "[channel]")
                 0.001));  // bitVolts/conversion = 0.05/1e6
     REQUIRE(ch.getSamplingRate() == Catch::Approx(30000.f).epsilon(0.001));
     REQUIRE(ch.getBitVolts() == Catch::Approx(0.05f).epsilon(0.001));
-    const auto& pos = ch.getPosition();
-    REQUIRE(pos[0] == Catch::Approx(0.f).epsilon(0.001));
-    REQUIRE(pos[1] == Catch::Approx(0.f).epsilon(0.001));
-    REQUIRE(pos[2] == Catch::Approx(0.f).epsilon(0.001));
+    std::array<float, 3> pos = {0.f, 0.f, 0.f};
+    const auto& actualPos = ch.getPosition();
+    REQUIRE_THAT(actualPos,
+                 Catch::Matchers::RangeEquals(pos, approxComparator));
     REQUIRE(ch.getComments() == "no comments");
   }
 
@@ -49,9 +50,8 @@ TEST_CASE("Test Channel Construction and Basic Operations", "[channel]")
     REQUIRE(ch.getSamplingRate() == Catch::Approx(44100.f).epsilon(0.001));
     REQUIRE(ch.getBitVolts() == Catch::Approx(0.1f).epsilon(0.001));
     const auto& actualPos = ch.getPosition();
-    REQUIRE(actualPos[0] == Catch::Approx(pos[0]).epsilon(0.001));
-    REQUIRE(actualPos[1] == Catch::Approx(pos[1]).epsilon(0.001));
-    REQUIRE(actualPos[2] == Catch::Approx(pos[2]).epsilon(0.001));
+    REQUIRE_THAT(actualPos,
+                 Catch::Matchers::RangeEquals(pos, approxComparator));
     REQUIRE(ch.getComments() == "test comment");
   }
 }
@@ -71,9 +71,8 @@ TEST_CASE("Test Channel Setters", "[channel]")
     std::array<float, 3> newPos = {4.f, 5.f, 6.f};
     ch.setPosition(newPos);
     const auto& actualPos = ch.getPosition();
-    REQUIRE(actualPos[0] == Catch::Approx(newPos[0]).epsilon(0.001));
-    REQUIRE(actualPos[1] == Catch::Approx(newPos[1]).epsilon(0.001));
-    REQUIRE(actualPos[2] == Catch::Approx(newPos[2]).epsilon(0.001));
+    REQUIRE_THAT(actualPos,
+                 Catch::Matchers::RangeEquals(newPos, approxComparator));
   }
 
   SECTION("Set name")
@@ -113,9 +112,8 @@ TEST_CASE("Test Channel Copy and Move Operations", "[channel]")
             == Catch::Approx(original.getBitVolts()).epsilon(0.001));
     const auto& origPos = original.getPosition();
     const auto& copyPos = copy.getPosition();
-    REQUIRE(copyPos[0] == Catch::Approx(origPos[0]).epsilon(0.001));
-    REQUIRE(copyPos[1] == Catch::Approx(origPos[1]).epsilon(0.001));
-    REQUIRE(copyPos[2] == Catch::Approx(origPos[2]).epsilon(0.001));
+    REQUIRE_THAT(copyPos,
+                 Catch::Matchers::RangeEquals(origPos, approxComparator));
     REQUIRE(copy.getComments() == original.getComments());
   }
 
@@ -136,9 +134,8 @@ TEST_CASE("Test Channel Copy and Move Operations", "[channel]")
             == Catch::Approx(original.getBitVolts()).epsilon(0.001));
     const auto& origPos = original.getPosition();
     const auto& copyPos = copy.getPosition();
-    REQUIRE(copyPos[0] == Catch::Approx(origPos[0]).epsilon(0.001));
-    REQUIRE(copyPos[1] == Catch::Approx(origPos[1]).epsilon(0.001));
-    REQUIRE(copyPos[2] == Catch::Approx(origPos[2]).epsilon(0.001));
+    REQUIRE_THAT(copyPos,
+                 Catch::Matchers::RangeEquals(origPos, approxComparator));
     REQUIRE(copy.getComments() == original.getComments());
   }
 
@@ -158,9 +155,8 @@ TEST_CASE("Test Channel Copy and Move Operations", "[channel]")
             == Catch::Approx(original.getBitVolts()).epsilon(0.001));
     const auto& origPos = original.getPosition();
     const auto& movedPos = moved.getPosition();
-    REQUIRE(movedPos[0] == Catch::Approx(origPos[0]).epsilon(0.001));
-    REQUIRE(movedPos[1] == Catch::Approx(origPos[1]).epsilon(0.001));
-    REQUIRE(movedPos[2] == Catch::Approx(origPos[2]).epsilon(0.001));
+    REQUIRE_THAT(movedPos,
+                 Catch::Matchers::RangeEquals(origPos, approxComparator));
     REQUIRE(moved.getComments() == original.getComments());
   }
 
@@ -181,9 +177,8 @@ TEST_CASE("Test Channel Copy and Move Operations", "[channel]")
             == Catch::Approx(original.getBitVolts()).epsilon(0.001));
     const auto& origPos = original.getPosition();
     const auto& movedPos = moved.getPosition();
-    REQUIRE(movedPos[0] == Catch::Approx(origPos[0]).epsilon(0.001));
-    REQUIRE(movedPos[1] == Catch::Approx(origPos[1]).epsilon(0.001));
-    REQUIRE(movedPos[2] == Catch::Approx(origPos[2]).epsilon(0.001));
+    REQUIRE_THAT(movedPos,
+                 Catch::Matchers::RangeEquals(origPos, approxComparator));
     REQUIRE(moved.getComments() == original.getComments());
   }
 }
