@@ -152,8 +152,9 @@ public:
                          const std::string& name) override;
 
   /**
-   * @brief Creates a variable-length string array attribute at a given location
-   * in the file.
+   * @brief Creates an array of variable length strings attribute at a given
+   * location in the file.
+   *
    * @param data The string array attribute data.
    * @param path The location in the file to set the attribute.
    * @param name The name of the attribute.
@@ -164,20 +165,6 @@ public:
                          const std::string& path,
                          const std::string& name,
                          const bool overwrite = false) override;
-
-  /**
-   * @brief Creates a fixed-length string array attribute at a given location in
-   * the file.
-   * @param data The string array attribute data.
-   * @param path The location in the file to set the attribute.
-   * @param name The name of the attribute.
-   * @param maxSize The maximum size of the string.
-   * @return The status of the attribute creation operation.
-   */
-  Status createAttribute(const std::vector<const char*>& data,
-                         const std::string& path,
-                         const std::string& name,
-                         const SizeType& maxSize) override;
 
   /**
    * @brief Sets an object reference attribute for a given location in the file.

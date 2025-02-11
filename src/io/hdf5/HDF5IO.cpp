@@ -675,10 +675,8 @@ Status HDF5IO::createAttribute(const std::string& data,
                                const std::string& path,
                                const std::string& name)
 {
-  std::vector<const char*> dataPtrs;
-  dataPtrs.push_back(data.c_str());
-
-  return createAttribute(dataPtrs, path, name, data.length());
+  std::vector<std::string> dataArr = {data};
+  return createAttribute(dataArr, path, name, false);
 }
 
 Status HDF5IO::createAttribute(const std::vector<std::string>& data,
@@ -758,66 +756,6 @@ Status HDF5IO::createAttribute(const std::vector<std::string>& data,
     return Status::Failure;
   }
 
-  return Status::Success;
-}
-
-Status HDF5IO::createAttribute(const std::vector<const char*>& data,
-                               const std::string& path,
-                               const std::string& name,
-                               const SizeType& maxSize)
-{
-  H5Object* loc;
-  Group gloc;
-  DataSet dloc;
-  Attribute attr;
-  hsize_t dims[1];
-
-  if (!canModifyObjects()) {
-    return Status::Failure;
-  }
-
-  StrType H5type(PredType::C_S1, maxSize);
-  H5type.setSize(H5T_VARIABLE);
-
-  // open the group or dataset
-  H5O_type_t objectType = getH5ObjectType(path);
-  switch (objectType) {
-    case H5O_TYPE_GROUP:
-      gloc = m_file->openGroup(path);
-      loc = &gloc;
-      break;
-    case H5O_TYPE_DATASET:
-      dloc = m_file->openDataSet(path);
-      loc = &dloc;
-      break;
-    default:
-      return Status::Failure;  // not a valid dataset or group type
-  }
-
-  try {
-    if (loc->attrExists(name)) {
-      return Status::Failure;  // don't allow overwriting because string
-                               // attributes cannot change size easily
-    } else {
-      DataSpace attr_dataspace;
-      SizeType nStrings = data.size();
-      if (nStrings > 1) {
-        dims[0] = nStrings;
-        attr_dataspace = DataSpace(1, dims);
-      } else
-        attr_dataspace = DataSpace(H5S_SCALAR);
-      attr = loc->createAttribute(name, H5type, attr_dataspace);
-    }
-    attr.write(H5type, data.data());
-  } catch (GroupIException error) {
-    error.printErrorStack();
-  } catch (AttributeIException error) {
-    error.printErrorStack();
-  } catch (FileIException error) {
-    error.printErrorStack();
-  } catch (DataSetIException error) {
-    error.printErrorStack();
-  }
   return Status::Success;
 }
 
