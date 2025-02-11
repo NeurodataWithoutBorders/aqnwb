@@ -13,6 +13,7 @@ include(Catch)
 
 add_executable(aqnwb_test
     testBaseIO.cpp
+    testChannel.cpp
     testData.cpp
     testDevice.cpp
     testDynamicTable.cpp
@@ -20,6 +21,7 @@ add_executable(aqnwb_test
     testElementIdentifiers.cpp
     testFile.cpp
     testHDF5IO.cpp
+    testHDF5RecordingData.cpp
     testMisc.cpp
     testNWBFile.cpp
     testRecordingWorkflow.cpp
