@@ -673,10 +673,70 @@ Status HDF5IO::createAttribute(const IO::BaseDataType& type,
 
 Status HDF5IO::createAttribute(const std::string& data,
                                const std::string& path,
-                               const std::string& name)
+                               const std::string& name,
+                               const bool overwrite)
 {
-  std::vector<std::string> dataArr = {data};
-  return createAttribute(dataArr, path, name, false);
+  H5Object* loc;
+  Group gloc;
+  DataSet dloc;
+  Attribute attr;
+
+  if (!canModifyObjects()) {
+    return Status::Failure;
+  }
+
+  // Create variable length string type
+  StrType H5type(PredType::C_S1, H5T_VARIABLE);
+
+  // Open the group or dataset
+  H5O_type_t objectType = getH5ObjectType(path);
+  switch (objectType) {
+    case H5O_TYPE_GROUP:
+      gloc = m_file->openGroup(path);
+      loc = &gloc;
+      break;
+    case H5O_TYPE_DATASET:
+      dloc = m_file->openDataSet(path);
+      loc = &dloc;
+      break;
+    default:
+      return Status::Failure;  // Not a valid dataset or group type
+  }
+
+  try {
+    if (loc->attrExists(name)) {
+      if (overwrite) {
+        loc->removeAttr(name);
+      } else {
+        return Status::Failure;  // Don't allow overwriting
+      }
+    }
+
+    // Create dataspace for scalar
+    DataSpace attr_dataspace(H5S_SCALAR);
+
+    // Create the attribute
+    attr = loc->createAttribute(name, H5type, attr_dataspace);
+
+    // Write the scalar string data
+    const char* dataPtr = data.c_str();
+    attr.write(H5type, &dataPtr);
+
+  } catch (GroupIException& error) {
+    error.printErrorStack();
+    return Status::Failure;
+  } catch (AttributeIException& error) {
+    error.printErrorStack();
+    return Status::Failure;
+  } catch (FileIException& error) {
+    error.printErrorStack();
+    return Status::Failure;
+  } catch (DataSetIException& error) {
+    error.printErrorStack();
+    return Status::Failure;
+  }
+
+  return Status::Success;
 }
 
 Status HDF5IO::createAttribute(const std::vector<std::string>& data,

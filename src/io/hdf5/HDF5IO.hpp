@@ -145,11 +145,13 @@ public:
    * @param data The string attribute data.
    * @param path The location in the file to set the attribute.
    * @param name The name of the attribute.
+   * @param overwrite Overwrite the attribute if it already exists.
    * @return The status of the attribute creation operation.
    */
   Status createAttribute(const std::string& data,
                          const std::string& path,
-                         const std::string& name) override;
+                         const std::string& name,
+                         const bool overwrite = false) override;
 
   /**
    * @brief Creates an array of variable length strings attribute at a given
