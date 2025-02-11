@@ -15,7 +15,10 @@ template<typename DTYPE = std::any>
 class Data : public RegisteredType
 {
 public:
-  // Register Data class as a registered type
+  // Register the Data template class with the type registry for dynamic
+  // creation. This registration is generic and applies to any specialization of
+  // the Data template. It allows the system to dynamically create instances of
+  // Data with different data types.
   REGISTER_SUBCLASS_WITH_TYPENAME(Data<DTYPE>, "hdmf-common", "Data")
 
   /**
