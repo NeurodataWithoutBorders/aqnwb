@@ -65,11 +65,5 @@ public:
                std::string,
                "description",
                Description of what these vectors represent)
-
-private:
-  /**
-   * @brief Description of VectorData.
-   */
-  std::string m_description;
 };
 }  // namespace AQNWB::NWB
