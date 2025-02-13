@@ -79,12 +79,15 @@ TEST_CASE("RegisterType", "[base]")
 
       // NWBFile and ElectrodeTable enforce a specific path so we need
       // to make sure our path matches their expectations
+      std::string exampleName = "";
       if (subclassFullName == "core::NWBFile") {
         examplePath = "/";
       } else if (subclassFullName == "core::ElectrodeTable") {
         examplePath = ElectrodeTable::electrodeTablePath;
+        exampleName = "electrodes";
       } else {
         examplePath = "/example/path";
+        exampleName = "path";
       }
 
       // Create the type
@@ -99,8 +102,12 @@ TEST_CASE("RegisterType", "[base]")
       // Check that the examplePath is set as expected
       REQUIRE(instance->getPath() == examplePath);
 
-      // Test getFullName
-      REQUIRE(instance->getFullName() == (typeNamespace + "::" + typeName));
+      // Check that the name is being computed correctly
+      std::cout << instance->getName() << std::endl;
+      REQUIRE(instance->getName() == exampleName);
+
+      // Test getFullTypeName
+      REQUIRE(instance->getFullTypeName() == (typeNamespace + "::" + typeName));
     }
   }
 
@@ -206,7 +213,7 @@ TEST_CASE("RegisterType", "[base]")
     REQUIRE(customInstance != nullptr);
     REQUIRE(customInstance->getTypeName() == "CustomType");
     REQUIRE(customInstance->getNamespace() == "test");
-    REQUIRE(customInstance->getFullName() == "test::CustomType");
+    REQUIRE(customInstance->getFullTypeName() == "test::CustomType");
   }
 
   SECTION("test field definitions")

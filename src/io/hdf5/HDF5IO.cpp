@@ -38,7 +38,7 @@ Status HDF5IO::open()
 
 Status HDF5IO::open(FileMode mode)
 {
-  int accFlags = 0;
+  unsigned int accFlags = 0;
 
   if (m_opened) {
     return Status::Failure;
@@ -673,33 +673,76 @@ Status HDF5IO::createAttribute(const IO::BaseDataType& type,
 
 Status HDF5IO::createAttribute(const std::string& data,
                                const std::string& path,
-                               const std::string& name)
+                               const std::string& name,
+                               const bool overwrite)
 {
-  std::vector<const char*> dataPtrs;
-  dataPtrs.push_back(data.c_str());
+  H5Object* loc;
+  Group gloc;
+  DataSet dloc;
+  Attribute attr;
 
-  return createAttribute(dataPtrs, path, name, data.length());
+  if (!canModifyObjects()) {
+    return Status::Failure;
+  }
+
+  // Create variable length string type
+  StrType H5type(PredType::C_S1, H5T_VARIABLE);
+
+  // Open the group or dataset
+  H5O_type_t objectType = getH5ObjectType(path);
+  switch (objectType) {
+    case H5O_TYPE_GROUP:
+      gloc = m_file->openGroup(path);
+      loc = &gloc;
+      break;
+    case H5O_TYPE_DATASET:
+      dloc = m_file->openDataSet(path);
+      loc = &dloc;
+      break;
+    default:
+      return Status::Failure;  // Not a valid dataset or group type
+  }
+
+  try {
+    if (loc->attrExists(name)) {
+      if (overwrite) {
+        loc->removeAttr(name);
+      } else {
+        return Status::Failure;  // Don't allow overwriting
+      }
+    }
+
+    // Create dataspace for scalar
+    DataSpace attr_dataspace(H5S_SCALAR);
+
+    // Create the attribute
+    attr = loc->createAttribute(name, H5type, attr_dataspace);
+
+    // Write the scalar string data
+    const char* dataPtr = data.c_str();
+    attr.write(H5type, &dataPtr);
+
+  } catch (GroupIException& error) {
+    error.printErrorStack();
+    return Status::Failure;
+  } catch (AttributeIException& error) {
+    error.printErrorStack();
+    return Status::Failure;
+  } catch (FileIException& error) {
+    error.printErrorStack();
+    return Status::Failure;
+  } catch (DataSetIException& error) {
+    error.printErrorStack();
+    return Status::Failure;
+  }
+
+  return Status::Success;
 }
 
 Status HDF5IO::createAttribute(const std::vector<std::string>& data,
                                const std::string& path,
-                               const std::string& name)
-{
-  std::vector<const char*> dataPtrs;
-  SizeType maxLength = 0;
-  for (const std::string& str : data) {
-    SizeType length = str.length();
-    maxLength = std::max(maxLength, length);
-    dataPtrs.push_back(str.c_str());
-  }
-
-  return createAttribute(dataPtrs, path, name, maxLength + 1);
-}
-
-Status HDF5IO::createAttribute(const std::vector<const char*>& data,
-                               const std::string& path,
                                const std::string& name,
-                               const SizeType& maxSize)
+                               const bool overwrite)
 {
   H5Object* loc;
   Group gloc;
@@ -711,8 +754,8 @@ Status HDF5IO::createAttribute(const std::vector<const char*>& data,
     return Status::Failure;
   }
 
-  StrType H5type(PredType::C_S1, maxSize);
-  H5type.setSize(H5T_VARIABLE);
+  // Create variable length string type
+  StrType H5type(PredType::C_S1, H5T_VARIABLE);
 
   // open the group or dataset
   H5O_type_t objectType = getH5ObjectType(path);
@@ -731,28 +774,44 @@ Status HDF5IO::createAttribute(const std::vector<const char*>& data,
 
   try {
     if (loc->attrExists(name)) {
-      return Status::Failure;  // don't allow overwriting because string
-                               // attributes cannot change size easily
-    } else {
-      DataSpace attr_dataspace;
-      SizeType nStrings = data.size();
-      if (nStrings > 1) {
-        dims[0] = nStrings;
-        attr_dataspace = DataSpace(1, dims);
-      } else
-        attr_dataspace = DataSpace(H5S_SCALAR);
-      attr = loc->createAttribute(name, H5type, attr_dataspace);
+      if (overwrite) {
+        // Delete the existing attribute
+        loc->removeAttr(name);
+      } else {
+        return Status::Failure;  // don't allow overwriting
+      }
     }
-    attr.write(H5type, data.data());
+
+    // Create dataspace based on number of strings
+    DataSpace attr_dataspace;
+    dims[0] = data.size();
+    attr_dataspace = DataSpace(1, dims);
+
+    // Create the attribute
+    attr = loc->createAttribute(name, H5type, attr_dataspace);
+
+    // Write the data directly from the vector of strings
+    std::vector<const char*> dataPtrs;
+    dataPtrs.reserve(data.size());
+    for (const auto& str : data) {
+      dataPtrs.push_back(str.c_str());
+    }
+    attr.write(H5type, dataPtrs.data());
+
   } catch (GroupIException error) {
     error.printErrorStack();
+    return Status::Failure;
   } catch (AttributeIException error) {
     error.printErrorStack();
+    return Status::Failure;
   } catch (FileIException error) {
     error.printErrorStack();
+    return Status::Failure;
   } catch (DataSetIException error) {
     error.printErrorStack();
+    return Status::Failure;
   }
+
   return Status::Success;
 }
 

@@ -16,11 +16,12 @@ add_executable(aqnwb_test
     testChannel.cpp
     testData.cpp
     testDevice.cpp
-    testHDF5RecordingData.cpp
+    testDynamicTable.cpp
     testEcephys.cpp
     testElementIdentifiers.cpp
     testFile.cpp
     testHDF5IO.cpp
+    testHDF5RecordingData.cpp
     testMisc.cpp
     testNWBFile.cpp
     testRecordingWorkflow.cpp

@@ -318,35 +318,28 @@ public:
    * @param data The string attribute data.
    * @param path The location in the file to set the attribute.
    * @param name The name of the attribute.
+   * @param overwrite Overwrite the attribute if it already exists.
    * @return The status of the attribute creation operation.
    */
   virtual Status createAttribute(const std::string& data,
                                  const std::string& path,
-                                 const std::string& name) = 0;
+                                 const std::string& name,
+                                 const bool overwrite = false) = 0;
 
   /**
-   * @brief Creates a string array attribute at a given location in the file.
+   * @brief Creates an array of variable length strings attribute at a given
+   * location in the file.
+   *
    * @param data The string array attribute data.
    * @param path The location in the file to set the attribute.
    * @param name The name of the attribute.
+   * @param overwrite Overwrite the attribute if it already exists.
    * @return The status of the attribute creation operation.
    */
   virtual Status createAttribute(const std::vector<std::string>& data,
                                  const std::string& path,
-                                 const std::string& name) = 0;
-
-  /**
-   * @brief Creates a string array attribute at a given location in the file.
-   * @param data The string array attribute data.
-   * @param path The location in the file to set the attribute.
-   * @param name The name of the attribute.
-   * @param maxSize The maximum size of the string.
-   * @return The status of the attribute creation operation.
-   */
-  virtual Status createAttribute(const std::vector<const char*>& data,
-                                 const std::string& path,
                                  const std::string& name,
-                                 const SizeType& maxSize) = 0;
+                                 const bool overwrite = false) = 0;
 
   /**
    * @brief Sets an object reference attribute for a given location in the file.

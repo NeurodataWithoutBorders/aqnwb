@@ -40,40 +40,27 @@ public:
    * Initializes the ElectrodeTable by creating NWB related attributes and
    * adding required columns.
    *
-   *  @param description The description of the table (default: "metadata about
+   * @param description The description of the table (default: "metadata about
+   * extracellular electrodes")
+   * @return Status::Success if successful, otherwise Status::Failure.
    */
-  void initialize(const std::string& description =
-                      "metadata about extracellular electrodes");
+  Status initialize(const std::string& description =
+                        "metadata about extracellular electrodes");
 
   /**
    * @brief Finalizes the ElectrodeTable.
    *
    * Finalizes the ElectrodeTable by adding the required columns and writing
    * the data to the file.
+   * @return Status::Success if successful, otherwise Status::Failure.
    */
-  void finalize();
+  Status finalize();
 
   /**
    * @brief Sets up the ElectrodeTable by adding electrodes and their metadata.
    * @param channelsInput The vector of Channel objects to add to the table.
    */
   void addElectrodes(std::vector<Channel> channelsInput);
-
-  /**
-   * @brief Gets the group path of the ElectrodeTable.
-   * @return The group path.
-   */
-  inline std::string getGroupPath() const
-  {
-    // all channels in ChannelVector should have the same groupName
-    return m_groupReferences[0];
-  }
-
-  /**
-   * @brief Sets the group path of the ElectrodeTable.
-   * @param groupPath The new group path.
-   */
-  void setGroupPath(const std::string& groupPath);
 
   /**
    * @brief The path to the ElectrodeTable.

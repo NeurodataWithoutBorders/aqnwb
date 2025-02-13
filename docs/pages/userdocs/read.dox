@@ -123,9 +123,12 @@
  * - \ref AQNWB::IO::BaseIO "BaseIO", \ref AQNWB::IO::HDF5::HDF5IO "HDF5IO" responsible for
  *   reading data from disk and allocating memory for data on read
  * - \ref AQNWB::IO::DataBlockGeneric "DataBlockGeneric" represents a generic, n-dimensional block of data
- *   loaded from a file, storing the data as a generic ``std::any`` along with the ``shape`` of the data.
- *   - \ref AQNWB::IO::DataBlock "DataBlock" represents a typed, n-dimensional block of data, derived
- *     from a \ref AQNWB::IO::DataBlockGeneric "DataBlockGeneric"
+ *   loaded from a file, storing the data as a generic ``std::any`` along with the ``shape`` of the data
+ *   (i.e., the ``std::any`` represents a ``std::vector<DTYPE>`` so that we can cast it to the 
+ *   ``std::any_cast<std::vector<DTYPE>>(genericDataBlock.data)`` without having to copy data)
+ * - \ref AQNWB::IO::DataBlock "DataBlock" represents a typed, n-dimensional block of data, derived
+ *   from a \ref AQNWB::IO::DataBlockGeneric "DataBlockGeneric". I.e., here the data has been 
+ *   cast to the correct ``std::vector<DTYPE>``.
  * - \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper", is a simple wrapper class that represents
  *   a dataset/attribute for read, enabling lazy data read and allowing for transparent use of different I/O backends.
  * - \ref AQNWB::NWB::Container "Container" type classes represent Groups with an assigned ``neurodata_type``

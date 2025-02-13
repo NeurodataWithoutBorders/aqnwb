@@ -63,9 +63,5 @@ Status AnnotationSeries::writeAnnotation(const SizeType& numSamples,
   // track samples recorded
   m_samplesRecorded += numSamples;
 
-  if ((dataStatus != Status::Success) || (tsStatus != Status::Success)) {
-    return Status::Failure;
-  } else {
-    return Status::Success;
-  }
+  return dataStatus && tsStatus;
 }

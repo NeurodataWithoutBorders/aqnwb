@@ -48,12 +48,15 @@ public:
    *
    * @param dataset The rvalue unique pointer to the BaseRecordingData object
    * @param description The description of the VectorData
+   * @return Status::Success if successful, otherwise Status::Failure.
    */
-  void initialize(std::unique_ptr<AQNWB::IO::BaseRecordingData>&& dataset,
-                  const std::string& description)
+  Status initialize(std::unique_ptr<AQNWB::IO::BaseRecordingData>&& dataset,
+                    const std::string& description)
   {
-    Data<DTYPE>::initialize(std::move(dataset));
-    this->m_io->createAttribute(description, this->m_path, "description");
+    Status dataStatus = Data<DTYPE>::initialize(std::move(dataset));
+    Status attrStatus =
+        m_io->createAttribute(description, m_path, "description");
+    return dataStatus && attrStatus;
   }
 
   // Define the data fields to expose for lazy read access

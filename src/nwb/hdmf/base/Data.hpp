@@ -44,13 +44,15 @@ public:
    *  ownership to its internal m_dataset variable
    *
    * @param dataset The rvalue unique pointer to the BaseRecordingData object
+   * @return Status::Success if successful, otherwise Status::Failure.
    */
-  void initialize(std::unique_ptr<IO::BaseRecordingData>&& dataset)
+  Status initialize(std::unique_ptr<IO::BaseRecordingData>&& dataset)
   {
     m_dataset = std::move(dataset);
     // setup common attributes
-    m_io->createCommonNWBAttributes(
+    Status commonAttrsStatus = m_io->createCommonNWBAttributes(
         m_path, this->getNamespace(), this->getTypeName());
+    return commonAttrsStatus;
   }
 
   /**

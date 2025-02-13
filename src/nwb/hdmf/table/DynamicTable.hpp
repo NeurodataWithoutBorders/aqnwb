@@ -28,13 +28,8 @@ public:
    * @brief Constructor.
    * @param path The location of the table in the file.
    * @param io A shared pointer to the IO object.
-   * @param colNames Names of the columns for the table
    */
-  DynamicTable(
-      const std::string& path,
-      std::shared_ptr<IO::BaseIO> io,
-      const std::vector<std::string>& colNames =
-          {});  // TODO Need to remove colNames here and move it to initialize
+  DynamicTable(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
   /**
    * @brief Destructor
@@ -46,37 +41,61 @@ public:
    * column names.
    *
    * @param description The description of the table (optional).
+   * @return Status::Success if successful, otherwise Status::Failure.
    */
-  void initialize(const std::string& description);
+  Status initialize(const std::string& description);
+
+  /**
+   * @brief Finalizes writing the DynamicTable.
+   *
+   * Finalizes the DynamicTable by writing the column names
+   * as a single write once the table has been set up
+   *
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
+  Status finalize();
 
   /**
    * @brief Adds a column of vector string data to the table.
    * @param vectorData A unique pointer to the `VectorData` dataset.
    * @param values The vector of string values.
+   * @return Status::Success if successful, otherwise Status::Failure.
    */
-  void addColumn(std::unique_ptr<VectorData<std::string>>& vectorData,
-                 const std::vector<std::string>& values);
+  Status addColumn(std::unique_ptr<VectorData<std::string>>& vectorData,
+                   const std::vector<std::string>& values);
 
   /**
    * @brief Adds a column of references to the table.
    * @param name The name of the column.
    * @param colDescription The description of the column.
    * @param dataset The vector of string values representing the references.
+   * @return Status::Success if successful, otherwise Status::Failure.
    */
-  void addReferenceColumn(const std::string& name,
-                          const std::string& colDescription,
-                          const std::vector<std::string>& dataset);
+  Status addReferenceColumn(const std::string& name,
+                            const std::string& colDescription,
+                            const std::vector<std::string>& dataset);
 
   /**
    * @brief Adds a column of element identifiers to the table.
    * @param elementIDs A unique pointer to the `ElementIdentifiers` dataset.
    * @param values The vector of id values.
+   * @return Status::Success if successful, otherwise Status::Failure.
    */
-  void setRowIDs(std::unique_ptr<ElementIdentifiers>& elementIDs,
-                 const std::vector<int>& values);
+  Status setRowIDs(std::unique_ptr<ElementIdentifiers>& elementIDs,
+                   const std::vector<int>& values);
 
   /**
-   * @brief Sets the column names of the ElectrodeTable.
+   * @brief Sets the column names of the DynamicTable
+   *
+   * ..note::
+   * For this change to take affect in the file we need to call
+   * finalize() after setting the column names to write the data to the file.
+   *
+   * .. warning::
+   * This will overwrite any existing column names. It is up to
+   * the caller to ensure that all existing columns are included in the new
+   * list.
+   *
    * @param newColNames The vector of new column names.
    */
   virtual void setColNames(const std::vector<std::string>& newColNames)
