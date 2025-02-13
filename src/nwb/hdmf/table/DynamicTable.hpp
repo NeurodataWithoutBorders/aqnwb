@@ -61,8 +61,8 @@ public:
    * @param values The vector of string values.
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status addColumn(std::unique_ptr<VectorData>& vectorData,
-                   const std::vector<std::string>& values);
+  Status addColumn(std::unique_ptr<VectorData<std::string>>& vectorData,
+                 const std::vector<std::string>& values);
 
   /**
    * @brief Adds a column of references to the table.
@@ -103,6 +103,29 @@ public:
     m_colNames = newColNames;
   }
 
+  /**
+   * @brief Read an arbitrary column of the DyanmicTable
+   *
+   * For columns defined in the schema the corresponding DEFINE_REGISTERED_FIELD
+   * read functions are preferred because they help avoid the need for
+   * specifying the specific name of the column and data type to use.
+   *
+   * @return The VectorData object representing the column or a nullptr if the
+   * column doesn't exists
+   */
+  template<typename DTYPE = std::any>
+  std::shared_ptr<VectorData<DTYPE>> readColumn(const std::string& colName)
+  {
+    std::string columnPath = AQNWB::mergePaths(m_path, colName);
+    if (m_io->objectExists(columnPath)) {
+      if (m_io->getStorageObjectType(columnPath) == StorageObjectType::Dataset)
+      {
+        return std::make_shared<VectorData<DTYPE>>(columnPath, m_io);
+      }
+    }
+    return nullptr;
+  }
+
   DEFINE_FIELD(readColNames,
                AttributeField,
                std::string,
@@ -115,11 +138,11 @@ public:
                "description",
                Description of what is in this dynamic table)
 
-  DEFINE_FIELD(readId,
-               DatasetField, 
-               std::any, 
-               "id", 
-               Array of unique identifiers for the rows of this dynamic table)
+  DEFINE_REGISTERED_FIELD(
+      readIdColumn,
+      ElementIdentifiers,
+      "id",
+      "unique identifiers for the rows of this dynamic table")
 
 protected:
   /**

@@ -40,14 +40,14 @@ Status DynamicTable::initialize(const std::string& description)
 }
 
 /** Add column to table */
-Status DynamicTable::addColumn(std::unique_ptr<VectorData>& vectorData,
-                               const std::vector<std::string>& values)
+Status DynamicTable::addColumn(
+    std::unique_ptr<VectorData<std::string>>& vectorData,
+    const std::vector<std::string>& values)
 {
   if (!vectorData->isInitialized()) {
     std::cerr << "VectorData dataset is not initialized" << std::endl;
     return Status::Failure;
   } else {
-    // write in loop because variable length string
     // Write all strings in a single block
     Status writeStatus = vectorData->m_dataset->writeDataBlock(
         std::vector<SizeType> {values.size()},
@@ -88,7 +88,7 @@ Status DynamicTable::addReferenceColumn(const std::string& name,
   } else {
     std::string columnPath = AQNWB::mergePaths(m_path, name);
     Status dataStatus = m_io->createReferenceDataSet(columnPath, values);
-    auto refColumn = AQNWB::NWB::VectorData(columnPath, m_io);
+    auto refColumn = AQNWB::NWB::VectorData<std::string>(columnPath, m_io);
     Status vectorDataStatus = refColumn.initialize(
         nullptr,  // Use nullptr because we only want to create
                   // the attributes but not modify the data

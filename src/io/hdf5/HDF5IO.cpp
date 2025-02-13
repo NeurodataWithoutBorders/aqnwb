@@ -1088,8 +1088,8 @@ HDF5IO::getStorageObjects(const std::string& path,
     if (objectType == StorageObjectType::Attribute
         || objectType == StorageObjectType::Undefined)
     {
-      SizeType numAttrs = group.getNumAttrs();
-      for (SizeType i = 0; i < numAttrs; ++i) {
+      unsigned int numAttrs = static_cast<unsigned int>(group.getNumAttrs());
+      for (unsigned int i = 0; i < numAttrs; ++i) {
         H5::Attribute attr = group.openAttribute(i);
         objects.emplace_back(attr.getName(), StorageObjectType::Attribute);
       }
@@ -1099,8 +1099,8 @@ HDF5IO::getStorageObjects(const std::string& path,
         || objectType == StorageObjectType::Undefined)
     {
       H5::DataSet dataset = m_file->openDataSet(path);
-      SizeType numAttrs = dataset.getNumAttrs();
-      for (SizeType i = 0; i < numAttrs; ++i) {
+      unsigned int numAttrs = static_cast<unsigned int>(dataset.getNumAttrs());
+      for (unsigned int i = 0; i < numAttrs; ++i) {
         H5::Attribute attr = dataset.openAttribute(i);
         objects.emplace_back(attr.getName(), StorageObjectType::Attribute);
       }
