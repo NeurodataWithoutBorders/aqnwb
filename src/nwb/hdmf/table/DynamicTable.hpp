@@ -62,7 +62,7 @@ public:
    * @return Status::Success if successful, otherwise Status::Failure.
    */
   Status addColumn(std::unique_ptr<VectorData<std::string>>& vectorData,
-                 const std::vector<std::string>& values);
+                   const std::vector<std::string>& values);
 
   /**
    * @brief Adds a column of references to the table.

@@ -54,7 +54,7 @@ TEST_CASE("DynamicTable", "[table]")
     auto columnDataset = io->createArrayDataSet(
         BaseDataType::V_STR, dataShape, chunking, tablePath + "/col1");
     auto vectorData =
-        std::make_unique<NWB::VectorData>(tablePath + "/col1", io);
+        std::make_unique<NWB::VectorData<std::string>>(tablePath + "/col1", io);
     vectorData->initialize(std::move(columnDataset), "Column 1");
     status = table.addColumn(vectorData, values);
     REQUIRE(status == Status::Success);
@@ -87,7 +87,7 @@ TEST_CASE("DynamicTable", "[table]")
     REQUIRE(readColNames == expectedColNames);
 
     // Read row IDs
-    auto readIdsData = readTable.readId<int>()->values().data;
+    auto readIdsData = readTable.readIdColumn()->readData()->values().data;
     REQUIRE(readIdsData == ids);
 
     io->close();
@@ -112,7 +112,8 @@ TEST_CASE("DynamicTable", "[table]")
       std::string columnPath = mergePaths(tablePath, "col1");
       auto columnDataset = io->createArrayDataSet(
           BaseDataType::V_STR, dataShape, chunking, columnPath);
-      auto vectorData = std::make_unique<NWB::VectorData>(columnPath, io);
+      auto vectorData =
+          std::make_unique<NWB::VectorData<std::string>>(columnPath, io);
       vectorData->initialize(std::move(columnDataset), "Column 1");
       status = table.addColumn(vectorData, values);
       REQUIRE(status == Status::Success);
@@ -138,7 +139,8 @@ TEST_CASE("DynamicTable", "[table]")
       std::string columnPath2 = mergePaths(tablePath, "col2");
       auto newColumnDataset = io->createArrayDataSet(
           BaseDataType::V_STR, newDataShape, newChunking, columnPath2);
-      auto newVectorData = std::make_unique<NWB::VectorData>(columnPath2, io);
+      auto newVectorData =
+          std::make_unique<NWB::VectorData<std::string>>(columnPath2, io);
       newVectorData->initialize(std::move(newColumnDataset), "Column 2");
       Status status = table.addColumn(newVectorData, newValues);
       REQUIRE(status == Status::Success);

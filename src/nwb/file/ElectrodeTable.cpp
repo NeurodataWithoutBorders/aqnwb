@@ -26,7 +26,7 @@ ElectrodeTable::ElectrodeTable(const std::string& path,
                                std::shared_ptr<IO::BaseIO> io)
     : DynamicTable(electrodeTablePath, io)
     , m_electrodeDataset(std::make_unique<ElementIdentifiers>(
-          AQNWB::mergePaths(electrodeTablePath, "id"), io))ƒ
+          AQNWB::mergePaths(electrodeTablePath, "id"), io))
     , m_groupNamesDataset(std::make_unique<VectorData<std::string>>(
           AQNWB::mergePaths(electrodeTablePath, "group_name"), io))
     , m_locationsDataset(std::make_unique<VectorData<std::string>>(
@@ -45,8 +45,8 @@ Status ElectrodeTable::initialize(const std::string& description)
 {
   // create group
   DynamicTable::initialize(description);
-  IO::BaseDataType vstrType(IO::BaseDataType::Type::V_STR,
-                            0);  // 0 indicates variable length
+  // IO::BaseDataType vstrType(IO::BaseDataType::Type::V_STR,
+  //                           0);  // 0 indicates variable length
 
   Status electrodeStatus =
       m_electrodeDataset->initialize(std::unique_ptr<IO::BaseRecordingData>(
@@ -56,14 +56,14 @@ Status ElectrodeTable::initialize(const std::string& description)
                                    AQNWB::mergePaths(m_path, "id"))));
   Status groupNameStatus = m_groupNamesDataset->initialize(
       std::unique_ptr<IO::BaseRecordingData>(
-          m_io->createArrayDataSet(vstrType,
+          m_io->createArrayDataSet(IO::BaseDataType::V_STR,
                                    SizeArray {0},
                                    SizeArray {1},
                                    AQNWB::mergePaths(m_path, "group_name"))),
       "the name of the ElectrodeGroup this electrode is a part of");
   Status locationStatus = m_locationsDataset->initialize(
       std::unique_ptr<IO::BaseRecordingData>(
-          m_io->createArrayDataSet(vstrType,
+          m_io->createArrayDataSet(IO::BaseDataType::V_STR,
                                    SizeArray {0},
                                    SizeArray {1},
                                    AQNWB::mergePaths(m_path, "location"))),

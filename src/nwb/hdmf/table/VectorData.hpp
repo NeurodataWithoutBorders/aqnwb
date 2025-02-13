@@ -53,8 +53,9 @@ public:
   Status initialize(std::unique_ptr<AQNWB::IO::BaseRecordingData>&& dataset,
                     const std::string& description)
   {
-    Status dataStatus = Data::initialize(std::move(dataset));
-    Status attrStatus = m_io->createAttribute(description, m_path, "description");
+    Status dataStatus = Data<DTYPE>::initialize(std::move(dataset));
+    Status attrStatus =
+        m_io->createAttribute(description, m_path, "description");
     return dataStatus && attrStatus;
   }
 
