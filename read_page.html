@@ -196,7 +196,10 @@ $(function(){initNavTree('read_page.html',''); initResizable(true); });
             <a href="#read_design_example_read_create_io">Opening an existing file for reading</a>
           </li>
           <li class="level3">
-            <a href="#read_design_example_read_posthoc_search">Searching for Registered Type Objects (e.g.,ElectricalSeries)</a>
+            <a href="#read_predefined_registered_field">Reading known RegisteredType object</a>
+          </li>
+          <li class="level3">
+            <a href="#read_design_example_read_posthoc_search">Searching for Registered Type objects (e.g.,ElectricalSeries)</a>
           </li>
           <li class="level3">
             <a href="#read_design_example_read_posthoc_read">Reading the Registered Type Objects</a>
@@ -472,9 +475,25 @@ Opening an existing file for reading</h3>
 <div class="fragment"><div class="line">    <span class="comment">// Open a new I/O for reading</span></div>
 <div class="line">    std::shared_ptr&lt;BaseIO&gt; readio = <a class="code hl_function" href="namespace_a_q_n_w_b.html#aae4545d930db6f70b4438e0167c500d0">createIO</a>(<span class="stringliteral">&quot;HDF5&quot;</span>, path);</div>
 <div class="line">    readio-&gt;open(FileMode::ReadOnly);</div>
+</div><!-- fragment --><h3><a class="anchor" id="read_predefined_registered_field"></a>
+Reading known RegisteredType object</h3>
+<p>When the path and type of objects is fixed in the schema (or we know them based on other conventions), then we can read the types directly from the file. E.g., here we first read the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html">NWBFile</a> directly, which we know exists at the root "/" of the file. We then read the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html">ElectrodeTable</a> via the predefined <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a9df4c1ed0ddceac775116b0377784a1b">NWBFile::readElectrodeTable</a> method. The advantage of this approach is that we do not need to manually specify paths or object types. Similarlry, when we read the <code>locations</code> columns, we do not need to specify the name or the data type to use.</p>
+<div class="fragment"><div class="line">    <span class="comment">// Read the NWBFile</span></div>
+<div class="line">    <span class="keyword">auto</span> readNWBFile =</div>
+<div class="line">        <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a01354d1b4230f7495203cc526eae418f">NWB::RegisteredType::create&lt;AQNWB::NWB::NWBFile&gt;</a>(<span class="stringliteral">&quot;/&quot;</span>, readio);</div>
+<div class="line">    <span class="comment">// Read the ElectrodesTable</span></div>
+<div class="line">    <span class="keyword">auto</span> readElectrodeTable = readNWBFile-&gt;readElectrodeTable();</div>
+<div class="line">    <span class="comment">// read the location data. Note that both the type of the class and</span></div>
+<div class="line">    <span class="comment">// the data values is being set for us, here, VectorData&lt;std::string&gt;</span></div>
+<div class="line">    <span class="keyword">auto</span> locationColumn = readElectrodeTable-&gt;readLocationColumn();</div>
+<div class="line">    <span class="keyword">auto</span> locationColumnValues = locationColumn-&gt;readData()-&gt;values();</div>
+<div class="line">    <span class="comment">// confirm that the values are correct</span></div>
+<div class="line">    std::vector&lt;std::string&gt; expectedLocationValues = {</div>
+<div class="line">        <span class="stringliteral">&quot;unknown&quot;</span>, <span class="stringliteral">&quot;unknown&quot;</span>, <span class="stringliteral">&quot;unknown&quot;</span>, <span class="stringliteral">&quot;unknown&quot;</span>};</div>
+<div class="line">    REQUIRE(locationColumnValues.data == expectedLocationValues);</div>
 </div><!-- fragment --><h3><a class="anchor" id="read_design_example_read_posthoc_search"></a>
-Searching for Registered Type Objects (e.g.,ElectricalSeries)</h3>
-<p>Using the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a985277d47989d7cba0f1020a3166da2b">findType()</a> function of our I/O object we can conveniently search for objects with a given type.</p>
+Searching for Registered Type objects (e.g.,ElectricalSeries)</h3>
+<p>When paths are not fixed, we can use the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a985277d47989d7cba0f1020a3166da2b">findType()</a> function of our I/O object to conveniently search for objects with a given type.</p>
 <div class="fragment"><div class="line">    std::unordered_set&lt;std::string&gt; typesToSearch = {<span class="stringliteral">&quot;core::ElectricalSeries&quot;</span>};</div>
 <div class="line">    std::unordered_map&lt;std::string, std::string&gt; found_electrical_series =</div>
 <div class="line">        readio-&gt;findTypes(</div>
@@ -484,7 +503,7 @@ Searching for Registered Type Objects (e.g.,ElectricalSeries)</h3>
 <div class="line">        );</div>
 <div class="line"> </div>
 </div><!-- fragment --><dl class="section note"><dt>Note</dt><dd><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a985277d47989d7cba0f1020a3166da2b">findType()</a> supports two main search modes. Using <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035aec2c6b5e5e8c3b3810251e9974647ef8">CONTINUE_ON_TYPE</a> mode we can search recursively through all types (here the whole file since we started at the root <code>"/"</code>). Using <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035a0bce90db02919671dbe161b9bd8cef05">STOP_ON_TYPE</a> does not recurse further into defined types, hence, this mode is useful if we only want to search for objects that the object at the starting path manages directly.</dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>The current implementation of <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a985277d47989d7cba0f1020a3166da2b">findType()</a> is not aware of inheritance but searches for exact matches of types only. However, we can search for objects of multiple different times at the same by specifying multiple types to search for in our <code>typesToSearch</code>.</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>The current implementation of <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a985277d47989d7cba0f1020a3166da2b">findType()</a> is not aware of inheritance but searches for exact matches of types only. However, we can search for objects of multiple different times at the same time by specifying multiple types to search for in our <code>typesToSearch</code>.</dd></dl>
 <p>The returned <code>std::unordered_map</code> uses the full to object as key and the full type (i.e., <code>namepspace::neurodata_type</code>) as value, which is all we need to read the objects.</p>
 <div class="fragment"><div class="line">    <span class="comment">// We should have esdata1 and esdata2</span></div>
 <div class="line">    REQUIRE(found_electrical_series.size() == 2);</div>
@@ -544,10 +563,7 @@ Reading arbitrary fields</h3>
 <div class="line">    DataBlock&lt;float&gt; readDataValues3 = readElectricalSeriesData3-&gt;values();</div>
 <div class="line">    REQUIRE(readDataValues3.data.size() == (numSamples * numChannels));</div>
 </div><!-- fragment --><p>Similarly, we can also read any sub-fields that are itself <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> objects via <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ae0fb6e951eb0000e4a4fba81db8d466f">RegisteredType::readField</a> (e.g., to read custom <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html">VectorData</a> columns of a <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html">DynamicTable</a>). In contrast to dataset and attribute fields, we here only need to specify the relative path of the field. <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> in turn can read the type information from the <code>neurodata_type</code> and <code>namespace</code> attributes in the file directly.</p>
-<div class="fragment"><div class="line">    <span class="comment">// read the NWBFile</span></div>
-<div class="line">    <span class="keyword">auto</span> readNWBFile =</div>
-<div class="line">        <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a01354d1b4230f7495203cc526eae418f">NWB::RegisteredType::create&lt;AQNWB::NWB::NWBFile&gt;</a>(<span class="stringliteral">&quot;/&quot;</span>, readio);</div>
-<div class="line">    <span class="comment">// read the ElectricalSeries from the NWBFile object via the readField</span></div>
+<div class="fragment"><div class="line">    <span class="comment">// read the ElectricalSeries from the NWBFile object via the readField</span></div>
 <div class="line">    <span class="comment">// method returning a generic std::shared_ptr&lt;RegisteredType&gt;</span></div>
 <div class="line">    <span class="keyword">auto</span> readRegisteredType = readNWBFile-&gt;readField(esdata_path);</div>
 <div class="line">    <span class="comment">// cast the generic pointer to the more specific ElectricalSeries</span></div>

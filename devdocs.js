@@ -40,7 +40,11 @@ var devdocs =
       [ "How to Use the RegisteredType Registry", "registered_type_page.html#use_registered_type_registry", [
         [ "Example: Using the type registry", "registered_type_page.html#use_registered_type_registry_example", null ]
       ] ],
-      [ "How to Use the DEFINE_FIELD macro", "registered_type_page.html#use_the_define_field_macro", null ]
+      [ "How to use the DEFINE_FIELD macro", "registered_type_page.html#use_the_define_field_macro", null ],
+      [ "How to use the DEFINE_REGISTERED_FIELD macro", "registered_type_page.html#use_the_define_registered_field_macro", null ],
+      [ "Using REGISTER_SUBCLASS_WITH_TYPENAME", "registered_type_page.html#using_registered_subclass_with_typename", [
+        [ "Limitations of REGISTER_SUBCLASS_WITH_TYPENAME", "registered_type_page.html#limitations_registered_subclass_with_typename", null ]
+      ] ]
     ] ],
     [ "Code of Conduct", "code_of_conduct_page.html", null ],
     [ "License", "license_page.html", null ],

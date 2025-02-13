@@ -1,7 +1,20 @@
 <map id="AQNWB::NWB::NWBFile::readSessionDescription" name="AQNWB::NWB::NWBFile::readSessionDescription">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,179,46"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ac12eceea7bcebc1243eac9a64d4190b0" title=" " alt="" coords="227,5,400,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,23,211,23,211,28,179,28"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aa611b4def3f53c508ddd8ec71944ffe7" title=" " alt="" coords="448,5,663,46"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="401,23,432,23,432,28,401,28"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,69,179,110"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ac12eceea7bcebc1243eac9a64d4190b0" title=" " alt="" coords="227,69,400,110"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,87,211,87,211,92,179,92"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aa611b4def3f53c508ddd8ec71944ffe7" title=" " alt="" coords="448,69,663,110"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="401,87,432,87,432,92,401,92"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a2f061ec60bb617dc749b399cfb6e30ee" title="Saves the specification files for the schema." alt="" coords="952,5,1125,46"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="650,66,711,55,827,40,936,30,936,35,828,46,712,60,651,71"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a71bd7b910a7ec89bdaf36304d67bfef1" title="Creates the default file structure. Note, this function will fail if the file is in a mode where new ..." alt="" coords="711,69,885,110"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="664,87,696,87,696,92,664,92"/>
+<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a853b7c416338be8ac24c893e2f809015" title="Factory method for creating recording data." alt="" coords="711,135,885,175"/>
+<area shape="poly" id="edge9_Node000003_Node000009" title=" " alt="" coords="634,108,706,127,704,133,633,113"/>
+<area shape="rect" id="Node000005" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="1192,13,1342,38"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="1125,23,1176,23,1176,28,1125,28"/>
+<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="876,66,944,48,946,53,878,71"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a651f3d7e5cc28dc93888e8a821c5aa1c" title="Get the schema namespace of the class type." alt="" coords="933,71,1144,111"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="885,87,917,88,917,93,885,93"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a150f881ad61cb8352eea7ddba47bc6ad" title="Get the name of the class type." alt="" coords="933,136,1144,177"/>
+<area shape="poly" id="edge8_Node000006_Node000008" title=" " alt="" coords="875,108,949,129,947,134,873,113"/>
 </map>

@@ -125,7 +125,18 @@ $(function(){initNavTree('registered_type_page.html',''); initResizable(true); }
     </ul>
   </li>
   <li class="level1">
-    <a href="#use_the_define_field_macro">How to Use the DEFINE_FIELD macro</a>
+    <a href="#use_the_define_field_macro">How to use the DEFINE_FIELD macro</a>
+  </li>
+  <li class="level1">
+    <a href="#use_the_define_registered_field_macro">How to use the DEFINE_REGISTERED_FIELD macro</a>
+  </li>
+  <li class="level1">
+    <a href="#using_registered_subclass_with_typename">Using REGISTER_SUBCLASS_WITH_TYPENAME</a>
+    <ul>
+      <li class="level2">
+        <a href="#limitations_registered_subclass_with_typename">Limitations of REGISTER_SUBCLASS_WITH_TYPENAME</a>
+      </li>
+    </ul>
   </li>
 </ul>
 </div>
@@ -158,11 +169,12 @@ How to Implement a RegisteredType</h1>
 <li>To define getter methods for lazy read access to datasets and attributes that belong to our type, we can use the <a class="el" href="_registered_type_8hpp.html#acd3c876a1c357333cd4a8ff27300ee08">DEFINE_FIELD</a> macro. This macro creates a standard method for retrieving a <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">ReadDataWrapper</a> for lazy reading for the field: <div class="fragment"><div class="line"><a class="code hl_define" href="_registered_type_8hpp.html#acd3c876a1c357333cd4a8ff27300ee08">DEFINE_FIELD</a>(getData, DatasetField, <span class="keywordtype">float</span>, <span class="stringliteral">&quot;data&quot;</span>, The main data)</div>
 <div class="ttc" id="a_registered_type_8hpp_html_acd3c876a1c357333cd4a8ff27300ee08"><div class="ttname"><a href="_registered_type_8hpp.html#acd3c876a1c357333cd4a8ff27300ee08">DEFINE_FIELD</a></div><div class="ttdeci">#define DEFINE_FIELD(name, storageObjectType, default_type, fieldPath, description)</div><div class="ttdoc">Defines a lazy-loaded field accessor function.</div><div class="ttdef"><b>Definition</b> RegisteredType.hpp:355</div></div>
 </div><!-- fragment --></li>
+<li>Similarly, we use the <a class="el" href="_registered_type_8hpp.html#af374245a4f6d5a00540e9fdba52a652a">DEFINE_REGISTERED_FIELD</a> macro to define getter methods for other <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> objects that we own, such as a <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html">ElectrodeTable</a> that owns predefined <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html">VectorData</a> columns: <div class="fragment"><div class="line"><a class="code hl_define" href="_registered_type_8hpp.html#af374245a4f6d5a00540e9fdba52a652a">DEFINE_REGISTERED_FIELD</a>(readGroupNameColumn, VectorData&lt;std::string&gt;, <span class="stringliteral">&quot;group_name&quot;</span>, <span class="stringliteral">&quot;the name of the ElectrodeGroup&quot;</span>)</div>
+<div class="ttc" id="a_registered_type_8hpp_html_af374245a4f6d5a00540e9fdba52a652a"><div class="ttname"><a href="_registered_type_8hpp.html#af374245a4f6d5a00540e9fdba52a652a">DEFINE_REGISTERED_FIELD</a></div><div class="ttdeci">#define DEFINE_REGISTERED_FIELD(name, registeredType, fieldPath, description)</div><div class="ttdoc">Defines a lazy-loaded accessor function for reading fields that are RegisteredTypes.</div><div class="ttdef"><b>Definition</b> RegisteredType.hpp:387</div></div>
+</div><!-- fragment --></li>
 </ol>
-<dl class="section warning"><dt>Warning</dt><dd>To ensure proper function on read, the name of the class should match the name of the <code>neurodata_type</code> as defined in the schema. Similarly, "my-namespace" should match the name of the namespace in the schema (e.g., "core", "hdmf-common"). In this way we can look up the corresponding class for an object in a file based on the <code>neurodata_type</code> and <code>namespace</code> attributes stored in the file.</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>A special version of the <code>REGISTER_SUBCLASS</code> macro, called <code>REGISTER_SUBCLASS_WITH_TYPENAME</code>, allows setting the typename explicitly as a third argument. This is for the <b>special case</b> where we want to implement a class for a modified type that does not have its own <code>neurodata_type</code> in the NWB schema. An example is <code>ElectrodesTable</code> in NWB &lt;v2.7, which did not have an assigned <code>neurodata_type</code>, but was implemented as a regular <code>DynamicTable</code>. To allow us to define a class <code>ElectrodeTable</code> to help with writing the table we can then use <code>REGISTER_SUBCLASS_WITH_TYPENAME(ElectrodeTable, "core", "DynamicTable")</code> in the <code>ElectrodesTable</code> class. This ensures that the <code>neurodata_type</code> attribute is set correctly to <code>DynamicTable</code> on write instead of <code>ElectrodesTable</code>. However, on read this will by default not use the <code>ElectrodesTable</code> class but the regular <code>DynamicTable</code> class since that is what the schema is indicating to use. In the registry, the class will still be registered under the <code>core::ElectrodesTable</code> key, but with "DynamicTable" as the typename value and the <code>ElectrodesTable.getTypeName</code> automatic override returning the indicated typename instead of the classname.</dd>
-<dd>
-<code>DEFINE_FIELD</code> creates templated, non-virtual read functions. This means if we want to "redefine" a field in a child class by calling <code>DEFINE_FIELD</code> again, then the function will be "hidden" instead of "override". This is important to remember when casting a pointer to a base type, as in this case the implementation from the base type will be used since the function created by <code>DEFINE_FIELD</code> is not virtual.</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>To ensure proper function on read, the name of the class should match the name of the <code>neurodata_type</code> as defined in the schema. Similarly, "my-namespace" should match the name of the namespace in the schema (e.g., "core", "hdmf-common"). In this way we can look up the corresponding class for an object in a file based on the <code>neurodata_type</code> and <code>namespace</code> attributes stored in the file. A special version of the <code>REGISTER_SUBCLASS</code> macro, called <code>REGISTER_SUBCLASS_WITH_TYPENAME</code>, allows setting the typename explicitly as a third argument. This is for the <b>special case</b> where the name of the class cannot be the same as the name of the type (e.g,. when implementing a class for schema that doesn't have an assigned type in the schema or a class that requires template parameters that are not part of the type name). See <a class="el" href="#using_registered_subclass_with_typename">Using REGISTER_SUBCLASS_WITH_TYPENAME</a> for details.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd><code>DEFINE_FIELD</code> and <code>DEFINE_REGISTERED_FIELD</code> create templated, non-virtual read functions. This means if we want to "redefine" a field in a child class by calling <code>DEFINE_FIELD</code> again, then the function will be "hidden" instead of "override". This is important to remember when casting a pointer to a base type, as in this case the implementation from the base type will be used since the function created by <code>DEFINE_FIELD</code> is not virtual.</dd></dl>
 <h2><a class="anchor" id="implement_registered_type_example"></a>
 Example: Implementing a new type</h2>
 <p><em>MySubClass.hpp</em> </p><div class="fragment"><div class="line"><span class="preprocessor">#pragma once</span></div>
@@ -310,7 +322,7 @@ Example: Using the type registry</h2>
 <div class="line">}</div>
 <div class="line"> </div>
 </div><!-- fragment --><h1><a class="anchor" id="use_the_define_field_macro"></a>
-How to Use the DEFINE_FIELD macro</h1>
+How to use the DEFINE_FIELD macro</h1>
 <p>The <a class="el" href="_registered_type_8hpp.html#acd3c876a1c357333cd4a8ff27300ee08">DEFINE_FIELD</a> macro takes the following main inputs:</p>
 <ul>
 <li><code>name</code>: The name of the function to generate.</li>
@@ -330,7 +342,39 @@ How to Use the DEFINE_FIELD macro</h1>
 <div class="line">         <a class="code hl_function" href="namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881">AQNWB::mergePaths</a>(m_path, fieldPath));</div>
 <div class="line">}</div>
 <div class="ttc" id="anamespace_a_q_n_w_b_html_a31983dbaaa85c2e355b9687fc0ef1881"><div class="ttname"><a href="namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881">AQNWB::mergePaths</a></div><div class="ttdeci">static std::string mergePaths(const std::string &amp;path1, const std::string &amp;path2)</div><div class="ttdoc">Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;.</div><div class="ttdef"><b>Definition</b> Utils.hpp:112</div></div>
-</div><!-- fragment --><p>See <a class="el" href="read_page.html">Reading data</a> for an example of how to use such methods (e.g., <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a8a43d4c249f6865ee4f77c58a91b6546">TimeSeries::readData</a> ) for reading data fields from a file. </p>
+</div><!-- fragment --><p>See <a class="el" href="read_page.html">Reading data</a> for an example of how to use such methods (e.g., <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a8a43d4c249f6865ee4f77c58a91b6546">TimeSeries::readData</a> ) for reading data fields from a file.</p>
+<h1><a class="anchor" id="use_the_define_registered_field_macro"></a>
+How to use the DEFINE_REGISTERED_FIELD macro</h1>
+<p>The <a class="el" href="_registered_type_8hpp.html#af374245a4f6d5a00540e9fdba52a652a">DEFINE_REGISTERED_FIELD</a> works much like the <a class="el" href="_registered_type_8hpp.html#acd3c876a1c357333cd4a8ff27300ee08">DEFINE_FIELD</a> macro macro but returns instances of specific subtypes of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a>, rather than <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">ReadDataWrapper</a>. As such the main inputs for <a class="el" href="_registered_type_8hpp.html#af374245a4f6d5a00540e9fdba52a652a">DEFINE_REGISTERED_FIELD</a> are as follows:</p>
+<ul>
+<li><code>name</code>: The name of the function to generate.</li>
+<li><code>registeredType</code> : The specific subclass of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> to use</li>
+<li><code>fieldPath</code> : Literal string with the relative path to the field within the schema of the respective neurodata_type. This is automatically being expanded at runtime to the full path.</li>
+<li><code>description</code> : Description of the field to include in the docstring for the docs</li>
+</ul>
+<p>All of these inputs are required. A typical example will look as follows:</p>
+<div class="fragment"><div class="line"><a class="code hl_define" href="_registered_type_8hpp.html#af374245a4f6d5a00540e9fdba52a652a">DEFINE_REGISTERED_FIELD</a>(getData, DynamicTable, <span class="stringliteral">&quot;my_table&quot;</span>, My data table)</div>
+</div><!-- fragment --><h1><a class="anchor" id="using_registered_subclass_with_typename"></a>
+Using REGISTER_SUBCLASS_WITH_TYPENAME</h1>
+<p>The main use case for <a class="el" href="_registered_type_8hpp.html#a34a1efef99cdbc58adaec1c8fcf5d250">REGISTER_SUBCLASS_WITH_TYPENAME</a> is when we need to implement a class for type where the name of the class does not match the type name. E.g. using <code>REGISTER_SUBCLASS_WITH_TYPENAME(ElectrodeTable, "core", "DynamicTable")</code>, the class will be registered tn the registry, under the <code>core::ElectrodesTable</code> key, but with "DynamicTable" as the typename value and the <code>ElectrodesTable.getTypeName</code> automatic override returning the indicated typename instead of the classname. The main use cases for this are to:</p>
+<ul>
+<li>Implement a class for a modified type that does not have its own <code>neurodata_type</code> in the NWB schema. An example is <code>ElectrodesTable</code> in NWB &lt;v2.7, which did not have an assigned <code>neurodata_type</code>, but was implemented as a regular <code>DynamicTable</code>. To allow us to define a class <code>ElectrodeTable</code> to help with writing the table we can then use <code>REGISTER_SUBCLASS_WITH_TYPENAME(ElectrodeTable, "core", "DynamicTable")</code> in the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html">ElectrodeTable</a> class. This ensures that the <code>neurodata_type</code> attribute is set correctly to <code>DynamicTable</code> on write instead of <code>ElectrodeTable</code>.</li>
+<li>Another example is where the class may require template parameters in C++. The template parameters are required in C++ but are not part of the <code>neurodata_type</code>. An example is <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html">VectorData</a> which uses a template parameter to define the data type of data that is manages.</li>
+</ul>
+<h2><a class="anchor" id="limitations_registered_subclass_with_typename"></a>
+Limitations of REGISTER_SUBCLASS_WITH_TYPENAME</h2>
+<p>The main limitaton of the <a class="el" href="_registered_type_8hpp.html#a34a1efef99cdbc58adaec1c8fcf5d250">REGISTER_SUBCLASS_WITH_TYPENAME</a> approach is that on read, AqNWB will use the default class associated with the <code>neurodata_type</code>. E.g., in the case of the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html">ElectrodeTable</a> class, by default the regular <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html">DynamicTable</a> class will be used since that is what the schema is indicating to use. Similarly, for <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html">VectorData</a> the default <code>VectorData&lt;std::any&gt;</code> will be used on read. To support reading using the more specific types, we can use the <a class="el" href="_registered_type_8hpp.html#af374245a4f6d5a00540e9fdba52a652a">DEFINE_REGISTERED_FIELD</a> macro to define read methods that will return the approbriate type, e.g.:</p>
+<div class="fragment"><div class="line"><a class="code hl_define" href="_registered_type_8hpp.html#af374245a4f6d5a00540e9fdba52a652a">DEFINE_REGISTERED_FIELD</a>(readElectrodeTable,</div>
+<div class="line">                        ElectrodeTable,</div>
+<div class="line">                        ElectrodeTable::electrodeTablePath,</div>
+<div class="line">                        <span class="stringliteral">&quot;table with the extracellular electrodes&quot;</span>)</div>
+</div><!-- fragment --><p>in <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html">NWBFile</a> to read the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html">ElectrodeTable</a>, or</p>
+<div class="fragment"><div class="line"><a class="code hl_define" href="_registered_type_8hpp.html#af374245a4f6d5a00540e9fdba52a652a">DEFINE_REGISTERED_FIELD</a>(</div>
+<div class="line">    readGroupNameColumn,</div>
+<div class="line">    VectorData&lt;std::string&gt;,</div>
+<div class="line">    <span class="stringliteral">&quot;group_name&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;the name of the ElectrodeGroup this electrode is a part of&quot;</span>)</div>
+</div><!-- fragment --><p>in the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html">ElectrodeTable</a> to read the <code>group_name</code> column as <code>VectorData&lt;std::string&gt;</code> with the data type already specified as <code>std::string</code> at compile time. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

@@ -18,7 +18,7 @@ var searchData=
   ['for_20developers_15',['For Developers',['../devdocs.html',1,'']]],
   ['for_20n_20dimensional_20data_16',['Using Boost Multi Array for N-Dimensional Data',['../read_page.html#read_design_data_block_multiarray',1,'']]],
   ['for_20reading_17',['Opening an existing file for reading',['../read_page.html#read_design_example_read_create_io',1,'']]],
-  ['for_20registered_20type_20objects_20e_20g_20electricalseries_18',['Searching for Registered Type Objects (e.g.,ElectricalSeries)',['../read_page.html#read_design_example_read_posthoc_search',1,'']]],
+  ['for_20registered_20type_20objects_20e_20g_20electricalseries_18',['Searching for Registered Type objects (e.g.,ElectricalSeries)',['../read_page.html#read_design_example_read_posthoc_search',1,'']]],
   ['for_20users_19',['For Users',['../userdocs.html',1,'']]],
   ['for_20write_20',['Setup mock data for write',['../read_page.html#read_design_example_step_1',1,'']]],
   ['from_20an_20existing_20file_21',['Reading from an existing file',['../read_page.html#read_design_example_read_from_existing_file',1,'']]],

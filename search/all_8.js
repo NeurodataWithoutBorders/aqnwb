@@ -10,7 +10,7 @@ var searchData=
   ['acquiring_20data_7',['Acquiring Data',['../workflow.html',1,'userdocs']]],
   ['acquisitionpath_8',['acquisitionPath',['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a83b0703a52e9d9ffc3c6832497c2e921',1,'AQNWB::NWB::NWBFile']]],
   ['add_20to_20recordingcontainers_9',['4. Create datasets and add to RecordingContainers.',['../workflow.html#create_datasets',1,'']]],
-  ['addcolumn_10',['addColumn',['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a1ceca036a944163395217a28c8278da8',1,'AQNWB::NWB::DynamicTable']]],
+  ['addcolumn_10',['addColumn',['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#ae58cb846073aff560d76fdc6b832da9d',1,'AQNWB::NWB::DynamicTable']]],
   ['addcontainer_11',['addContainer',['../class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#a446ec0d5f5e7802d9e44725399c71e8c',1,'AQNWB::NWB::RecordingContainers']]],
   ['addelectrodes_12',['addElectrodes',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#a41f29ce1a76fd932eac4a03e67d8268f',1,'AQNWB::NWB::ElectrodeTable']]],
   ['addreferencecolumn_13',['addReferenceColumn',['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#af693d1a0af16ec266645ecd696afef24',1,'AQNWB::NWB::DynamicTable']]],

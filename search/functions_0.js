@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['addcolumn_0',['addColumn',['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a1ceca036a944163395217a28c8278da8',1,'AQNWB::NWB::DynamicTable']]],
+  ['addcolumn_0',['addColumn',['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#ae58cb846073aff560d76fdc6b832da9d',1,'AQNWB::NWB::DynamicTable']]],
   ['addcontainer_1',['addContainer',['../class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#a446ec0d5f5e7802d9e44725399c71e8c',1,'AQNWB::NWB::RecordingContainers']]],
   ['addelectrodes_2',['addElectrodes',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#a41f29ce1a76fd932eac4a03e67d8268f',1,'AQNWB::NWB::ElectrodeTable']]],
   ['addreferencecolumn_3',['addReferenceColumn',['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#af693d1a0af16ec266645ecd696afef24',1,'AQNWB::NWB::DynamicTable']]],

@@ -14,6 +14,7 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file =
     [ "initialize", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a5fe5d0aba7a050db86d5caa5b8cf4a04", null ],
     [ "isInitialized", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aba967059704c8c81446775bd7beda42b", null ],
     [ "operator=", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a941d5b775441fac6c787cd55a8276461", null ],
+    [ "readElectrodeTable", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a9df4c1ed0ddceac775116b0377784a1b", null ],
     [ "readFileCreateDate", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aab50ade1916ed284389c29d44e8a3a28", null ],
     [ "readIdentifier", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#abae17504e9ba927509296efaf5fc99e2", null ],
     [ "readNWBVersion", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aabb1a926056f5d26944328e928e42651", null ],

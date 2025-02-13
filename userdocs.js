@@ -50,7 +50,8 @@ var userdocs =
         [ "Finalize the recording", "read_page.html#read_design_example_stop_recording", null ],
         [ "Reading from an existing file", "read_page.html#read_design_example_read_from_existing_file", [
           [ "Opening an existing file for reading", "read_page.html#read_design_example_read_create_io", null ],
-          [ "Searching for Registered Type Objects (e.g.,ElectricalSeries)", "read_page.html#read_design_example_read_posthoc_search", null ],
+          [ "Reading known RegisteredType object", "read_page.html#read_predefined_registered_field", null ],
+          [ "Searching for Registered Type objects (e.g.,ElectricalSeries)", "read_page.html#read_design_example_read_posthoc_search", null ],
           [ "Reading the Registered Type Objects", "read_page.html#read_design_example_read_posthoc_read", null ],
           [ "Reading data fields", "read_page.html#read_design_example_read_posthoc_read_field", null ],
           [ "Reading arbitrary fields", "read_page.html#read_design_example_read_arbitrary_field", null ]

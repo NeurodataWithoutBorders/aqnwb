@@ -1,11 +1,11 @@
 var class_a_q_n_w_b_1_1_n_w_b_1_1_data =
 [
-    [ "Data", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#ac0a68f39a709b9096ce797bce18c668f", null ],
-    [ "~Data", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a21ba7f8fc0a1f21160721767451eb80c", null ],
-    [ "initialize", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a41af6f50bfd8c555eeebb21acf5b00c7", null ],
-    [ "isInitialized", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a28976115b55b66fb89efb43a412a587e", null ],
-    [ "readData", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#afe2d2e01b7ade2a1089e8cc051d7f49e", null ],
-    [ "readNamespace", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a82e6a2830bb21264cf18aef80615df16", null ],
-    [ "readNeurodataType", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a82dc918d72bf83640458f08e7ba52be1", null ],
-    [ "m_dataset", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#aabc50384de7dc0ecb05ca253564d146c", null ]
+    [ "Data", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#ad1917750d0ee4cdd9801ccfc15084b84", null ],
+    [ "~Data", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a2201aa507b3643706c389d1076eb01ae", null ],
+    [ "initialize", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a70e4b56c7cd62732d89fe517f710655e", null ],
+    [ "isInitialized", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a2858803a1b8db979539478154a6cc94c", null ],
+    [ "readData", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a5102bbaa91454babe72772fec4b51a49", null ],
+    [ "readNamespace", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#add99025d96f836b84febc07fc7db23e5", null ],
+    [ "readNeurodataType", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a6440e8429ed76e12462471e186c58f03", null ],
+    [ "m_dataset", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#ac67dcd59d8e205cf3b33b4a634c8084e", null ]
 ];

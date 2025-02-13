@@ -1,7 +1,10 @@
 var class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data =
 [
-    [ "VectorData", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#aaf127dfd1e590307b872ea785d578316", null ],
-    [ "initialize", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a0c3e139f8bea9d66199f046c5a0554b2", null ],
-    [ "readDescription", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a60a0e9ee1afad61bae478b9a4a212e01", null ],
-    [ "m_description", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a8283e24e0041b76891d9fba43fda2ff7", null ]
+    [ "VectorData", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#aef4d37bb77366f53423c27980fac601e", null ],
+    [ "initialize", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#ad1e0fb14ef3f02653822e3a1defd1c01", null ],
+    [ "readDescription", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#af8748ff2c8a9b683b08d1789929d0a8f", null ],
+    [ "REGISTER_SUBCLASS_WITH_TYPENAME", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a21f750b933b3d5ffdf395b32a46fb65a", null ],
+    [ "m_description", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a6df81fbec259f9428dc099e5ddbf8308", null ],
+    [ "m_io", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a5f4d142b8156b6b33ed01c11c5720fec", null ],
+    [ "m_path", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a2c2954495607eb4afe4e9ab8eff3a08b", null ]
 ];

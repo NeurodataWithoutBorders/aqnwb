@@ -1,7 +1,7 @@
 var searchData=
 [
   ['g_20container_0',['Child classes of RegisteredType (e.g., Container)',['../read_page.html#read_design_wrapper_subtypes',1,'']]],
-  ['g_20electricalseries_1',['Searching for Registered Type Objects (e.g.,ElectricalSeries)',['../read_page.html#read_design_example_read_posthoc_search',1,'']]],
+  ['g_20electricalseries_1',['Searching for Registered Type objects (e.g.,ElectricalSeries)',['../read_page.html#read_design_example_read_posthoc_search',1,'']]],
   ['generateuuid_2',['generateUuid',['../namespace_a_q_n_w_b.html#a7a202ee50288eeca65b9b98370226a82',1,'AQNWB']]],
   ['generating_20the_20schema_20header_20files_3',['Generating the schema header files',['../nwb_schema_page.html#dev_docs_generating_nwb_schema_headers_section',1,'']]],
   ['getattribute_4',['getAttribute',['../class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a87d9b4075fd30c5ec692738985ae294c',1,'AQNWB::IO::HDF5::HDF5IO']]],

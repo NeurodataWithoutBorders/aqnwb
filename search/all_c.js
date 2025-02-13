@@ -1,8 +1,8 @@
 var searchData=
 [
   ['e_20g_20container_0',['Child classes of RegisteredType (e.g., Container)',['../read_page.html#read_design_wrapper_subtypes',1,'']]],
-  ['e_20g_20electricalseries_1',['Searching for Registered Type Objects (e.g.,ElectricalSeries)',['../read_page.html#read_design_example_read_posthoc_search',1,'']]],
-  ['electricalseries_2',['ElectricalSeries',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html',1,'AQNWB::NWB::ElectricalSeries'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a684a7b01cb955d7335f07d5eaab2250b',1,'AQNWB::NWB::ElectricalSeries::ElectricalSeries()'],['../read_page.html#read_design_example_read_posthoc_search',1,'Searching for Registered Type Objects (e.g.,ElectricalSeries)']]],
+  ['e_20g_20electricalseries_1',['Searching for Registered Type objects (e.g.,ElectricalSeries)',['../read_page.html#read_design_example_read_posthoc_search',1,'']]],
+  ['electricalseries_2',['ElectricalSeries',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html',1,'AQNWB::NWB::ElectricalSeries'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a684a7b01cb955d7335f07d5eaab2250b',1,'AQNWB::NWB::ElectricalSeries::ElectricalSeries()'],['../read_page.html#read_design_example_read_posthoc_search',1,'Searching for Registered Type objects (e.g.,ElectricalSeries)']]],
   ['electricalseries_2ecpp_3',['ElectricalSeries.cpp',['../_electrical_series_8cpp.html',1,'']]],
   ['electricalseries_2ehpp_4',['ElectricalSeries.hpp',['../_electrical_series_8hpp.html',1,'']]],
   ['electrodegroup_5',['ElectrodeGroup',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html',1,'AQNWB::NWB::ElectrodeGroup'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html#a7cfae9f37d17f90486921d0b6445a9cd',1,'AQNWB::NWB::ElectrodeGroup::ElectrodeGroup()']]],
