@@ -242,10 +242,8 @@ Reading datasets and attributes</h2>
 <p>The main components involved in reading data from an NWB file via AqNWB are:</p>
 <ul>
 <li><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">BaseIO</a>, <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html">HDF5IO</a> responsible for reading data from disk and allocating memory for data on read</li>
-<li><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html">DataBlockGeneric</a> represents a generic, n-dimensional block of data loaded from a file, storing the data as a generic <code>std::any</code> along with the <code>shape</code> of the data.<ul>
-<li><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block.html">DataBlock</a> represents a typed, n-dimensional block of data, derived from a <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html">DataBlockGeneric</a></li>
-</ul>
-</li>
+<li><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html">DataBlockGeneric</a> represents a generic, n-dimensional block of data loaded from a file, storing the data as a generic <code>std::any</code> along with the <code>shape</code> of the data (i.e., the <code>std::any</code> represents a <code>std::vector&lt;DTYPE&gt;</code> so that we can cast it to the <code>std::any_cast&lt;std::vector&lt;DTYPE&gt;&gt;(genericDataBlock.data)</code> without having to copy data)</li>
+<li><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block.html">DataBlock</a> represents a typed, n-dimensional block of data, derived from a <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html">DataBlockGeneric</a>. I.e., here the data has been cast to the correct <code>std::vector&lt;DTYPE&gt;</code>.</li>
 <li><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">ReadDataWrapper</a>, is a simple wrapper class that represents a dataset/attribute for read, enabling lazy data read and allowing for transparent use of different I/O backends.</li>
 <li><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html">Container</a> type classes represent Groups with an assigned <code>neurodata_type</code> in the NWB format, and are responsible for providing access to the datasets/attributes that they own. To provide access, these classes create <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">ReadDataWrapper</a> objects for the user for lazy read access to the data.</li>
 </ul>

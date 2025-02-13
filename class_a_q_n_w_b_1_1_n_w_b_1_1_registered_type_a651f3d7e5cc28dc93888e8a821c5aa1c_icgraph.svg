@@ -87,10 +87,10 @@ var sectionId = 'dynsection-7';
 <!-- Node12 -->
 <g id="Node000012" class="node">
 <title>Node12</title>
-<g id="a_Node000012"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aa99a96577796251680919f2118674e5e" target="_top" xlink:title="Get the full name of type, i.e., namespace::typename">
+<g id="a_Node000012"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a0e670647b466cb65a88b81f9fe4a6e37" target="_top" xlink:title="Get the full name of the type, i.e., namespace::typename">
 <polygon fill="white" stroke="#666666" points="1524.75,-392.5 1366.25,-392.5 1366.25,-362 1524.75,-362 1524.75,-392.5"/>
 <text text-anchor="start" x="1374.25" y="-379" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::RegisteredType</text>
-<text text-anchor="middle" x="1445.5" y="-367.75" font-family="Helvetica,sans-Serif" font-size="10.00">::getFullName</text>
+<text text-anchor="middle" x="1445.5" y="-367.75" font-family="Helvetica,sans-Serif" font-size="10.00">::getFullTypeName</text>
 </a>
 </g>
 </g>
@@ -106,7 +106,7 @@ var sectionId = 'dynsection-7';
 <!-- Node13 -->
 <g id="Node000013" class="node">
 <title>Node13</title>
-<g id="a_Node000013"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a33ba8c1d37cae843106d3d3668d6523c" target="_top" xlink:title="Initialize the container.">
+<g id="a_Node000013"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a420424e52795b5212d7dcb728396af6a" target="_top" xlink:title="Initialize the container.">
 <polygon fill="white" stroke="#666666" points="1511.62,-275.5 1379.38,-275.5 1379.38,-245 1511.62,-245 1511.62,-275.5"/>
 <text text-anchor="start" x="1387.38" y="-262" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::Container</text>
 <text text-anchor="middle" x="1445.5" y="-250.75" font-family="Helvetica,sans-Serif" font-size="10.00">::initialize</text>
@@ -144,7 +144,7 @@ var sectionId = 'dynsection-7';
 <!-- Node24 -->
 <g id="Node000024" class="node">
 <title>Node24</title>
-<g id="a_Node000024"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a70e4b56c7cd62732d89fe517f710655e" target="_top" xlink:title="Initialize the dataset for the Data object.">
+<g id="a_Node000024"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a5b354d5a20095d2279adcdc0d84c944f" target="_top" xlink:title="Initialize the dataset for the Data object.">
 <polygon fill="white" stroke="#666666" points="1521.75,-125.88 1369.25,-125.88 1369.25,-106.62 1521.75,-106.62 1521.75,-125.88"/>
 <text text-anchor="middle" x="1445.5" y="-112.38" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::Data::initialize</text>
 </a>
@@ -361,7 +361,7 @@ var sectionId = 'dynsection-7';
 <!-- Node18 -->
 <g id="Node000018" class="node">
 <title>Node18</title>
-<g id="a_Node000018"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a7492a87ab629c4d888ff9a22c1356699" target="_top" xlink:title="Initializes the DynamicTable object by creating NWB attributes and column names.">
+<g id="a_Node000018"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a0dbbd098c716b08c986c58ee118c85e9" target="_top" xlink:title="Initializes the DynamicTable object by creating NWB attributes and column names.">
 <polygon fill="white" stroke="#666666" points="1322.38,-373.5 1169.88,-373.5 1169.88,-343 1322.38,-343 1322.38,-373.5"/>
 <text text-anchor="start" x="1177.88" y="-360" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::DynamicTable</text>
 <text text-anchor="middle" x="1246.12" y="-348.75" font-family="Helvetica,sans-Serif" font-size="10.00">::initialize</text>
@@ -418,7 +418,7 @@ var sectionId = 'dynsection-7';
 <!-- Node21 -->
 <g id="Node000021" class="node">
 <title>Node21</title>
-<g id="a_Node000021"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#aff1a75876da42fd1e0a467b57409b012" target="_top" xlink:title="Initializes the ElectrodeTable.">
+<g id="a_Node000021"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#ac46ab239eea41a7f432fcbb559fa1b98" target="_top" xlink:title="Initializes the ElectrodeTable.">
 <polygon fill="white" stroke="#666666" points="1323.5,-275.5 1168.75,-275.5 1168.75,-245 1323.5,-245 1323.5,-275.5"/>
 <text text-anchor="start" x="1176.75" y="-262" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::ElectrodeTable</text>
 <text text-anchor="middle" x="1246.12" y="-250.75" font-family="Helvetica,sans-Serif" font-size="10.00">::initialize</text>
@@ -531,7 +531,7 @@ var sectionId = 'dynsection-7';
 <!-- Node25 -->
 <g id="Node000025" class="node">
 <title>Node25</title>
-<g id="a_Node000025"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#ad1e0fb14ef3f02653822e3a1defd1c01" target="_top" xlink:title="Initialize the dataset for the Data object.">
+<g id="a_Node000025"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a189041602a933f1e000251dd72bbf185" target="_top" xlink:title="Initialize the dataset for the Data object.">
 <polygon fill="white" stroke="#666666" points="1316,-30.5 1176.25,-30.5 1176.25,0 1316,0 1316,-30.5"/>
 <text text-anchor="start" x="1184.25" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::VectorData</text>
 <text text-anchor="middle" x="1246.12" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::initialize</text>

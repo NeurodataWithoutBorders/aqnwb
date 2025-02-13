@@ -131,6 +131,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab3eec5d2a591356df25053a4159ab671" id="r_ab3eec5d2a591356df25053a4159ab671"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab3eec5d2a591356df25053a4159ab671">getPath</a> () const</td></tr>
 <tr class="memdesc:ab3eec5d2a591356df25053a4159ab671"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the path of the registered type.  <br /></td></tr>
 <tr class="separator:ab3eec5d2a591356df25053a4159ab671"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9fa62ba79d610ba55aacec4dce012ccf" id="r_a9fa62ba79d610ba55aacec4dce012ccf"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9fa62ba79d610ba55aacec4dce012ccf">getName</a> () const</td></tr>
+<tr class="memdesc:a9fa62ba79d610ba55aacec4dce012ccf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the object.  <br /></td></tr>
+<tr class="separator:a9fa62ba79d610ba55aacec4dce012ccf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af9ac7b1ff7615930fff6d8e44c353a7e" id="r_af9ac7b1ff7615930fff6d8e44c353a7e"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af9ac7b1ff7615930fff6d8e44c353a7e">getIO</a> () const</td></tr>
 <tr class="memdesc:af9ac7b1ff7615930fff6d8e44c353a7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a shared pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html">IO</a> object.  <br /></td></tr>
 <tr class="separator:af9ac7b1ff7615930fff6d8e44c353a7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -140,9 +143,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a651f3d7e5cc28dc93888e8a821c5aa1c" id="r_a651f3d7e5cc28dc93888e8a821c5aa1c"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a651f3d7e5cc28dc93888e8a821c5aa1c">getNamespace</a> () const</td></tr>
 <tr class="memdesc:a651f3d7e5cc28dc93888e8a821c5aa1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the schema namespace of the class type.  <br /></td></tr>
 <tr class="separator:a651f3d7e5cc28dc93888e8a821c5aa1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa99a96577796251680919f2118674e5e" id="r_aa99a96577796251680919f2118674e5e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa99a96577796251680919f2118674e5e">getFullName</a> () const</td></tr>
-<tr class="memdesc:aa99a96577796251680919f2118674e5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the full name of type, i.e., <code>namespace::typename</code>  <br /></td></tr>
-<tr class="separator:aa99a96577796251680919f2118674e5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e670647b466cb65a88b81f9fe4a6e37" id="r_a0e670647b466cb65a88b81f9fe4a6e37"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0e670647b466cb65a88b81f9fe4a6e37">getFullTypeName</a> () const</td></tr>
+<tr class="memdesc:a0e670647b466cb65a88b81f9fe4a6e37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the full name of the type, i.e., <code>namespace::typename</code>  <br /></td></tr>
+<tr class="separator:a0e670647b466cb65a88b81f9fe4a6e37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae0fb6e951eb0000e4a4fba81db8d466f" id="r_ae0fb6e951eb0000e4a4fba81db8d466f"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915">StorageObjectType</a> SOT, typename VTYPE, typename std::enable_if&lt; <a class="el" href="struct_a_q_n_w_b_1_1_types_1_1_is_data_storage_object_type.html">Types::IsDataStorageObjectType</a>&lt; SOT &gt;::value, int &gt;::type = 0&gt; </td></tr>
 <tr class="memitem:ae0fb6e951eb0000e4a4fba81db8d466f"><td class="memTemplItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; SOT, VTYPE &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ae0fb6e951eb0000e4a4fba81db8d466f">readField</a> (const std::string &amp;fieldPath) const</td></tr>
 <tr class="memdesc:ae0fb6e951eb0000e4a4fba81db8d466f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Support reading of arbitrary fields by their relative path.  <br /></td></tr>
@@ -436,8 +439,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="aa99a96577796251680919f2118674e5e" name="aa99a96577796251680919f2118674e5e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa99a96577796251680919f2118674e5e">&#9670;&#160;</a></span>getFullName()</h2>
+<a id="a0e670647b466cb65a88b81f9fe4a6e37" name="a0e670647b466cb65a88b81f9fe4a6e37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e670647b466cb65a88b81f9fe4a6e37">&#9670;&#160;</a></span>getFullTypeName()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -446,7 +449,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::string AQNWB::NWB::RegisteredType::getFullName </td>
+          <td class="memname">std::string AQNWB::NWB::RegisteredType::getFullTypeName </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -459,13 +462,13 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Get the full name of type, i.e., <code>namespace::typename</code> </p>
+<p>Get the full name of the type, i.e., <code>namespace::typename</code> </p>
 <p>This is just a simple convenience function that uses the getNamespace and getTypeName methods.</p>
 <dl class="section return"><dt>Returns</dt><dd>The full name of the type consisting of <code>namespace::typename</code> </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_aa99a96577796251680919f2118674e5e_cgraph.svg" width="482" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_a0e670647b466cb65a88b81f9fe4a6e37_cgraph.svg" width="482" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -495,6 +498,34 @@ Here is the call graph for this function:</div>
 
 <p>Get a shared pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html">IO</a> object. </p>
 <dl class="section return"><dt>Returns</dt><dd>Shared pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html">IO</a> object. </dd></dl>
+
+</div>
+</div>
+<a id="a9fa62ba79d610ba55aacec4dce012ccf" name="a9fa62ba79d610ba55aacec4dce012ccf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9fa62ba79d610ba55aacec4dce012ccf">&#9670;&#160;</a></span>getName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string AQNWB::NWB::RegisteredType::getName </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the name of the object. </p>
+<p>This is the last part of <a class="el" href="#ab3eec5d2a591356df25053a4159ab671" title="Gets the path of the registered type.">getPath()</a>, much like the filename portion of a file system path. </p><dl class="section return"><dt>Returns</dt><dd>String with the name of the object </dd></dl>
 
 </div>
 </div>

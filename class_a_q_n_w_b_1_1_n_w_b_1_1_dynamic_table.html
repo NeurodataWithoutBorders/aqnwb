@@ -125,26 +125,29 @@ Collaboration diagram for AQNWB::NWB::DynamicTable:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ae46dd68e349804a320408fc289048a10" id="r_ae46dd68e349804a320408fc289048a10"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae46dd68e349804a320408fc289048a10">DynamicTable</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt; io, const std::vector&lt; std::string &gt; &amp;colNames={})</td></tr>
-<tr class="memdesc:ae46dd68e349804a320408fc289048a10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <br /></td></tr>
-<tr class="separator:ae46dd68e349804a320408fc289048a10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b2079337b08a6e265eeb6e39889e55b" id="r_a6b2079337b08a6e265eeb6e39889e55b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6b2079337b08a6e265eeb6e39889e55b">DynamicTable</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt; io)</td></tr>
+<tr class="memdesc:a6b2079337b08a6e265eeb6e39889e55b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <br /></td></tr>
+<tr class="separator:a6b2079337b08a6e265eeb6e39889e55b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a62348c9e5821d64fc3b8f270c71dea49" id="r_a62348c9e5821d64fc3b8f270c71dea49"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a62348c9e5821d64fc3b8f270c71dea49">~DynamicTable</a> ()</td></tr>
 <tr class="memdesc:a62348c9e5821d64fc3b8f270c71dea49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <br /></td></tr>
 <tr class="separator:a62348c9e5821d64fc3b8f270c71dea49"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7492a87ab629c4d888ff9a22c1356699" id="r_a7492a87ab629c4d888ff9a22c1356699"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7492a87ab629c4d888ff9a22c1356699">initialize</a> (const std::string &amp;description)</td></tr>
-<tr class="memdesc:a7492a87ab629c4d888ff9a22c1356699"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the <code><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html" title="Represents a group containing multiple datasets that are aligned on the first dimension.">DynamicTable</a></code> object by creating <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> attributes and column names.  <br /></td></tr>
-<tr class="separator:a7492a87ab629c4d888ff9a22c1356699"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae58cb846073aff560d76fdc6b832da9d" id="r_ae58cb846073aff560d76fdc6b832da9d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae58cb846073aff560d76fdc6b832da9d">addColumn</a> (std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html">VectorData</a>&lt; std::string &gt; &gt; &amp;vectorData, const std::vector&lt; std::string &gt; &amp;values)</td></tr>
-<tr class="memdesc:ae58cb846073aff560d76fdc6b832da9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a column of vector string data to the table.  <br /></td></tr>
-<tr class="separator:ae58cb846073aff560d76fdc6b832da9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af693d1a0af16ec266645ecd696afef24" id="r_af693d1a0af16ec266645ecd696afef24"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af693d1a0af16ec266645ecd696afef24">addReferenceColumn</a> (const std::string &amp;name, const std::string &amp;colDescription, const std::vector&lt; std::string &gt; &amp;dataset)</td></tr>
-<tr class="memdesc:af693d1a0af16ec266645ecd696afef24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a column of references to the table.  <br /></td></tr>
-<tr class="separator:af693d1a0af16ec266645ecd696afef24"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8156a75027331f019d0ffa22389e6d8d" id="r_a8156a75027331f019d0ffa22389e6d8d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8156a75027331f019d0ffa22389e6d8d">setRowIDs</a> (std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_element_identifiers.html">ElementIdentifiers</a> &gt; &amp;elementIDs, const std::vector&lt; int &gt; &amp;values)</td></tr>
-<tr class="memdesc:a8156a75027331f019d0ffa22389e6d8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a column of element identifiers to the table.  <br /></td></tr>
-<tr class="separator:a8156a75027331f019d0ffa22389e6d8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0dbbd098c716b08c986c58ee118c85e9" id="r_a0dbbd098c716b08c986c58ee118c85e9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0dbbd098c716b08c986c58ee118c85e9">initialize</a> (const std::string &amp;description)</td></tr>
+<tr class="memdesc:a0dbbd098c716b08c986c58ee118c85e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the <code><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html" title="Represents a group containing multiple datasets that are aligned on the first dimension.">DynamicTable</a></code> object by creating <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> attributes and column names.  <br /></td></tr>
+<tr class="separator:a0dbbd098c716b08c986c58ee118c85e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73d77bda3d8c609a93a9a26296d36af9" id="r_a73d77bda3d8c609a93a9a26296d36af9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a73d77bda3d8c609a93a9a26296d36af9">finalize</a> ()</td></tr>
+<tr class="memdesc:a73d77bda3d8c609a93a9a26296d36af9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finalizes writing the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html" title="Represents a group containing multiple datasets that are aligned on the first dimension.">DynamicTable</a>.  <br /></td></tr>
+<tr class="separator:a73d77bda3d8c609a93a9a26296d36af9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af66cd6ab358788b75dc0b778d08bdca3" id="r_af66cd6ab358788b75dc0b778d08bdca3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af66cd6ab358788b75dc0b778d08bdca3">addColumn</a> (std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html">VectorData</a>&lt; std::string &gt; &gt; &amp;vectorData, const std::vector&lt; std::string &gt; &amp;values)</td></tr>
+<tr class="memdesc:af66cd6ab358788b75dc0b778d08bdca3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a column of vector string data to the table.  <br /></td></tr>
+<tr class="separator:af66cd6ab358788b75dc0b778d08bdca3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5d214fb6eb95bcaf0f4988b12e2b2db" id="r_ab5d214fb6eb95bcaf0f4988b12e2b2db"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab5d214fb6eb95bcaf0f4988b12e2b2db">addReferenceColumn</a> (const std::string &amp;name, const std::string &amp;colDescription, const std::vector&lt; std::string &gt; &amp;dataset)</td></tr>
+<tr class="memdesc:ab5d214fb6eb95bcaf0f4988b12e2b2db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a column of references to the table.  <br /></td></tr>
+<tr class="separator:ab5d214fb6eb95bcaf0f4988b12e2b2db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a041703ef385d58d2ccc7dc613b4a7de7" id="r_a041703ef385d58d2ccc7dc613b4a7de7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a041703ef385d58d2ccc7dc613b4a7de7">setRowIDs</a> (std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_element_identifiers.html">ElementIdentifiers</a> &gt; &amp;elementIDs, const std::vector&lt; int &gt; &amp;values)</td></tr>
+<tr class="memdesc:a041703ef385d58d2ccc7dc613b4a7de7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a column of element identifiers to the table.  <br /></td></tr>
+<tr class="separator:a041703ef385d58d2ccc7dc613b4a7de7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac8542f3c29551d3ec7e94b0459fda002" id="r_ac8542f3c29551d3ec7e94b0459fda002"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac8542f3c29551d3ec7e94b0459fda002">setColNames</a> (const std::vector&lt; std::string &gt; &amp;newColNames)</td></tr>
-<tr class="memdesc:ac8542f3c29551d3ec7e94b0459fda002"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the column names of the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html" title="Represents a table containing electrode metadata.">ElectrodeTable</a>.  <br /></td></tr>
+<tr class="memdesc:ac8542f3c29551d3ec7e94b0459fda002"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the column names of the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html" title="Represents a group containing multiple datasets that are aligned on the first dimension.">DynamicTable</a>.  <br /></td></tr>
 <tr class="separator:ac8542f3c29551d3ec7e94b0459fda002"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af19b9a4dd73a7891cdc992b1bc5cdd3c" id="r_af19b9a4dd73a7891cdc992b1bc5cdd3c"><td class="memTemplParams" colspan="2">template&lt;typename DTYPE = std::any&gt; </td></tr>
 <tr class="memitem:af19b9a4dd73a7891cdc992b1bc5cdd3c"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html">VectorData</a>&lt; DTYPE &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#af19b9a4dd73a7891cdc992b1bc5cdd3c">readColumn</a> (const std::string &amp;colName)</td></tr>
@@ -166,9 +169,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae9f5d07bfc3defda274aa06091c19f56 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container" id="r_ae9f5d07bfc3defda274aa06091c19f56"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#ae9f5d07bfc3defda274aa06091c19f56">~Container</a> ()</td></tr>
 <tr class="memdesc:ae9f5d07bfc3defda274aa06091c19f56 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <br /></td></tr>
 <tr class="separator:ae9f5d07bfc3defda274aa06091c19f56 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a33ba8c1d37cae843106d3d3668d6523c inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container" id="r_a33ba8c1d37cae843106d3d3668d6523c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a33ba8c1d37cae843106d3d3668d6523c">initialize</a> ()</td></tr>
-<tr class="memdesc:a33ba8c1d37cae843106d3d3668d6523c inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the container.  <br /></td></tr>
-<tr class="separator:a33ba8c1d37cae843106d3d3668d6523c inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a420424e52795b5212d7dcb728396af6a inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container" id="r_a420424e52795b5212d7dcb728396af6a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a420424e52795b5212d7dcb728396af6a">initialize</a> ()</td></tr>
+<tr class="memdesc:a420424e52795b5212d7dcb728396af6a inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the container.  <br /></td></tr>
+<tr class="separator:a420424e52795b5212d7dcb728396af6a inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a88576f27f59a1b56de2adc00b4b43a4c inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container" id="r_a88576f27f59a1b56de2adc00b4b43a4c"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::string&gt; </td></tr>
 <tr class="memitem:a88576f27f59a1b56de2adc00b4b43a4c inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container"><td class="memTemplItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AttributeField</a>, VTYPE &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a88576f27f59a1b56de2adc00b4b43a4c">readNeurodataType</a> () const</td></tr>
 <tr class="separator:a88576f27f59a1b56de2adc00b4b43a4c inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -185,6 +188,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab3eec5d2a591356df25053a4159ab671 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_ab3eec5d2a591356df25053a4159ab671"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab3eec5d2a591356df25053a4159ab671">getPath</a> () const</td></tr>
 <tr class="memdesc:ab3eec5d2a591356df25053a4159ab671 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the path of the registered type.  <br /></td></tr>
 <tr class="separator:ab3eec5d2a591356df25053a4159ab671 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9fa62ba79d610ba55aacec4dce012ccf inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a9fa62ba79d610ba55aacec4dce012ccf"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a9fa62ba79d610ba55aacec4dce012ccf">getName</a> () const</td></tr>
+<tr class="memdesc:a9fa62ba79d610ba55aacec4dce012ccf inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the object.  <br /></td></tr>
+<tr class="separator:a9fa62ba79d610ba55aacec4dce012ccf inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af9ac7b1ff7615930fff6d8e44c353a7e inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_af9ac7b1ff7615930fff6d8e44c353a7e"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#af9ac7b1ff7615930fff6d8e44c353a7e">getIO</a> () const</td></tr>
 <tr class="memdesc:af9ac7b1ff7615930fff6d8e44c353a7e inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a shared pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html">IO</a> object.  <br /></td></tr>
 <tr class="separator:af9ac7b1ff7615930fff6d8e44c353a7e inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -194,9 +200,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a651f3d7e5cc28dc93888e8a821c5aa1c inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a651f3d7e5cc28dc93888e8a821c5aa1c"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a651f3d7e5cc28dc93888e8a821c5aa1c">getNamespace</a> () const</td></tr>
 <tr class="memdesc:a651f3d7e5cc28dc93888e8a821c5aa1c inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the schema namespace of the class type.  <br /></td></tr>
 <tr class="separator:a651f3d7e5cc28dc93888e8a821c5aa1c inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa99a96577796251680919f2118674e5e inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_aa99a96577796251680919f2118674e5e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aa99a96577796251680919f2118674e5e">getFullName</a> () const</td></tr>
-<tr class="memdesc:aa99a96577796251680919f2118674e5e inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the full name of type, i.e., <code>namespace::typename</code>  <br /></td></tr>
-<tr class="separator:aa99a96577796251680919f2118674e5e inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e670647b466cb65a88b81f9fe4a6e37 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a0e670647b466cb65a88b81f9fe4a6e37"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a0e670647b466cb65a88b81f9fe4a6e37">getFullTypeName</a> () const</td></tr>
+<tr class="memdesc:a0e670647b466cb65a88b81f9fe4a6e37 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the full name of the type, i.e., <code>namespace::typename</code>  <br /></td></tr>
+<tr class="separator:a0e670647b466cb65a88b81f9fe4a6e37 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae0fb6e951eb0000e4a4fba81db8d466f inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_ae0fb6e951eb0000e4a4fba81db8d466f"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915">StorageObjectType</a> SOT, typename VTYPE, typename std::enable_if&lt; <a class="el" href="struct_a_q_n_w_b_1_1_types_1_1_is_data_storage_object_type.html">Types::IsDataStorageObjectType</a>&lt; SOT &gt;::value, int &gt;::type = 0&gt; </td></tr>
 <tr class="memitem:ae0fb6e951eb0000e4a4fba81db8d466f inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="memTemplItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; SOT, VTYPE &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ae0fb6e951eb0000e4a4fba81db8d466f">readField</a> (const std::string &amp;fieldPath) const</td></tr>
 <tr class="memdesc:ae0fb6e951eb0000e4a4fba81db8d466f inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Support reading of arbitrary fields by their relative path.  <br /></td></tr>
@@ -246,8 +252,8 @@ Additional Inherited Members</h2></td></tr>
 <div class="textblock"><p>Represents a group containing multiple datasets that are aligned on the first dimension. </p>
 <p>This class inherits from the <code><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html" title="Abstract data type for a group storing collections of data and metadata.">Container</a></code> class and provides methods to add columns of different types of data to the table. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ae46dd68e349804a320408fc289048a10" name="ae46dd68e349804a320408fc289048a10"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae46dd68e349804a320408fc289048a10">&#9670;&#160;</a></span>DynamicTable()</h2>
+<a id="a6b2079337b08a6e265eeb6e39889e55b" name="a6b2079337b08a6e265eeb6e39889e55b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b2079337b08a6e265eeb6e39889e55b">&#9670;&#160;</a></span>DynamicTable()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -260,12 +266,7 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>io</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>colNames</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>io</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -274,8 +275,7 @@ Additional Inherited Members</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>The location of the table in the file. </td></tr>
-    <tr><td class="paramname">io</td><td>A shared pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html">IO</a> object. </td></tr>
-    <tr><td class="paramname">colNames</td><td>Names of the columns for the table</td></tr>
+    <tr><td class="paramname">io</td><td>A shared pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html">IO</a> object.</td></tr>
   </table>
   </dd>
 </dl>
@@ -283,12 +283,12 @@ Additional Inherited Members</h2></td></tr>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_ae46dd68e349804a320408fc289048a10_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_a6b2079337b08a6e265eeb6e39889e55b_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_ae46dd68e349804a320408fc289048a10_icgraph.svg" width="468" height="142"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_a6b2079337b08a6e265eeb6e39889e55b_icgraph.svg" width="468" height="142"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -322,14 +322,14 @@ Here is the caller graph for this function:</div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ae58cb846073aff560d76fdc6b832da9d" name="ae58cb846073aff560d76fdc6b832da9d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae58cb846073aff560d76fdc6b832da9d">&#9670;&#160;</a></span>addColumn()</h2>
+<a id="af66cd6ab358788b75dc0b778d08bdca3" name="af66cd6ab358788b75dc0b778d08bdca3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af66cd6ab358788b75dc0b778d08bdca3">&#9670;&#160;</a></span>addColumn()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void DynamicTable::addColumn </td>
+          <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> DynamicTable::addColumn </td>
           <td>(</td>
           <td class="paramtype">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html">VectorData</a>&lt; std::string &gt; &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>vectorData</em></span>, </td>
         </tr>
@@ -345,27 +345,28 @@ Here is the caller graph for this function:</div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">vectorData</td><td>A unique pointer to the <code><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html" title="An n-dimensional dataset representing a column of a DynamicTable.">VectorData</a></code> dataset. </td></tr>
-    <tr><td class="paramname">values</td><td>The vector of string values.</td></tr>
+    <tr><td class="paramname">values</td><td>The vector of string values. </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>Status::Success if successful, otherwise Status::Failure.</dd></dl>
 <p>Add column to table </p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_ae58cb846073aff560d76fdc6b832da9d_icgraph.svg" width="468" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_af66cd6ab358788b75dc0b778d08bdca3_icgraph.svg" width="468" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="af693d1a0af16ec266645ecd696afef24" name="af693d1a0af16ec266645ecd696afef24"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af693d1a0af16ec266645ecd696afef24">&#9670;&#160;</a></span>addReferenceColumn()</h2>
+<a id="ab5d214fb6eb95bcaf0f4988b12e2b2db" name="ab5d214fb6eb95bcaf0f4988b12e2b2db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5d214fb6eb95bcaf0f4988b12e2b2db">&#9670;&#160;</a></span>addReferenceColumn()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void DynamicTable::addReferenceColumn </td>
+          <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> DynamicTable::addReferenceColumn </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span>, </td>
         </tr>
@@ -391,27 +392,54 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>Status::Success if successful, otherwise Status::Failure. </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_af693d1a0af16ec266645ecd696afef24_cgraph.svg" width="412" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_ab5d214fb6eb95bcaf0f4988b12e2b2db_cgraph.svg" width="412" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_af693d1a0af16ec266645ecd696afef24_icgraph.svg" width="468" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_ab5d214fb6eb95bcaf0f4988b12e2b2db_icgraph.svg" width="468" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="a7492a87ab629c4d888ff9a22c1356699" name="a7492a87ab629c4d888ff9a22c1356699"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7492a87ab629c4d888ff9a22c1356699">&#9670;&#160;</a></span>initialize()</h2>
+<a id="a73d77bda3d8c609a93a9a26296d36af9" name="a73d77bda3d8c609a93a9a26296d36af9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73d77bda3d8c609a93a9a26296d36af9">&#9670;&#160;</a></span>finalize()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void DynamicTable::initialize </td>
+          <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> DynamicTable::finalize </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Finalizes writing the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html" title="Represents a group containing multiple datasets that are aligned on the first dimension.">DynamicTable</a>. </p>
+<p>Finalizes the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html" title="Represents a group containing multiple datasets that are aligned on the first dimension.">DynamicTable</a> by writing the column names as a single write once the table has been set up</p>
+<dl class="section return"><dt>Returns</dt><dd>Status::Success if successful, otherwise Status::Failure. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_a73d77bda3d8c609a93a9a26296d36af9_icgraph.svg" width="468" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a0dbbd098c716b08c986c58ee118c85e9" name="a0dbbd098c716b08c986c58ee118c85e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0dbbd098c716b08c986c58ee118c85e9">&#9670;&#160;</a></span>initialize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> DynamicTable::initialize </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>description</em></span></td><td>)</td>
           <td></td>
@@ -422,15 +450,16 @@ Here is the caller graph for this function:</div>
 <p>Initializes the <code><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html" title="Represents a group containing multiple datasets that are aligned on the first dimension.">DynamicTable</a></code> object by creating <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> attributes and column names. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">description</td><td>The description of the table (optional).</td></tr>
+    <tr><td class="paramname">description</td><td>The description of the table (optional). </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>Status::Success if successful, otherwise Status::Failure.</dd></dl>
 <p>Initialization function </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_a7492a87ab629c4d888ff9a22c1356699_cgraph.svg" width="100%" height="388"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_a0dbbd098c716b08c986c58ee118c85e9_cgraph.svg" width="100%" height="388"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -598,7 +627,9 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Sets the column names of the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html" title="Represents a table containing electrode metadata.">ElectrodeTable</a>. </p>
+<p>Sets the column names of the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html" title="Represents a group containing multiple datasets that are aligned on the first dimension.">DynamicTable</a>. </p>
+<p>..note:: For this change to take affect in the file we need to call <a class="el" href="#a73d77bda3d8c609a93a9a26296d36af9" title="Finalizes writing the DynamicTable.">finalize()</a> after setting the column names to write the data to the file.</p>
+<p>.. warning:: This will overwrite any existing column names. It is up to the caller to ensure that all existing columns are included in the new list.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">newColNames</td><td>The vector of new column names. </td></tr>
@@ -608,14 +639,14 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a8156a75027331f019d0ffa22389e6d8d" name="a8156a75027331f019d0ffa22389e6d8d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8156a75027331f019d0ffa22389e6d8d">&#9670;&#160;</a></span>setRowIDs()</h2>
+<a id="a041703ef385d58d2ccc7dc613b4a7de7" name="a041703ef385d58d2ccc7dc613b4a7de7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a041703ef385d58d2ccc7dc613b4a7de7">&#9670;&#160;</a></span>setRowIDs()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void DynamicTable::setRowIDs </td>
+          <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> DynamicTable::setRowIDs </td>
           <td>(</td>
           <td class="paramtype">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_element_identifiers.html">ElementIdentifiers</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>elementIDs</em></span>, </td>
         </tr>
@@ -635,15 +666,16 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>Status::Success if successful, otherwise Status::Failure. </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_a8156a75027331f019d0ffa22389e6d8d_cgraph.svg" width="412" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_a041703ef385d58d2ccc7dc613b4a7de7_cgraph.svg" width="412" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_a8156a75027331f019d0ffa22389e6d8d_icgraph.svg" width="468" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_a041703ef385d58d2ccc7dc613b4a7de7_icgraph.svg" width="468" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

@@ -10,7 +10,7 @@ var searchData=
   ['file_20with_20swmr_20mode_7',['Writing an NWB file with SWMR mode',['../hdf5io.html#hdf5io_swmr_workflow',1,'']]],
   ['filemode_8',['FileMode',['../namespace_a_q_n_w_b_1_1_i_o.html#a969d0800c8e9e2141f272541b85e8bed',1,'AQNWB::IO']]],
   ['files_9',['Generating the schema header files',['../nwb_schema_page.html#dev_docs_generating_nwb_schema_headers_section',1,'']]],
-  ['finalize_10',['finalize',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#ab91b67e0f0a5dbe34d8f86efecf35de8',1,'AQNWB::NWB::ElectrodeTable::finalize()'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#af7b3285fd7e02b444372fb1ab4341674',1,'AQNWB::NWB::NWBFile::finalize()']]],
+  ['finalize_10',['finalize',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#a9247849ca572bc6cbad24526e44d932c',1,'AQNWB::NWB::ElectrodeTable::finalize()'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a73d77bda3d8c609a93a9a26296d36af9',1,'AQNWB::NWB::DynamicTable::finalize()'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#af7b3285fd7e02b444372fb1ab4341674',1,'AQNWB::NWB::NWBFile::finalize()']]],
   ['finalize_20the_20file_11',['7. Stop the recording and finalize the file.',['../workflow.html#stop_recording',1,'']]],
   ['finalize_20the_20recording_12',['Finalize the recording',['../read_page.html#read_design_example_stop_recording',1,'']]],
   ['findtypes_13',['findTypes',['../class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a985277d47989d7cba0f1020a3166da2b',1,'AQNWB::IO::BaseIO']]],
