@@ -9,12 +9,17 @@ namespace AQNWB::NWB
 {
 /**
  * @brief An abstract data type for a dataset.
+ * @tparam DTYPE The data type of the data managed by Data
  */
+template<typename DTYPE = std::any>
 class Data : public RegisteredType
 {
 public:
-  // Register Data class as a registered type
-  REGISTER_SUBCLASS(Data, "hdmf-common")
+  // Register the Data template class with the type registry for dynamic
+  // creation. This registration is generic and applies to any specialization of
+  // the Data template. It allows the system to dynamically create instances of
+  // Data with different data types.
+  REGISTER_SUBCLASS_WITH_TYPENAME(Data<DTYPE>, "hdmf-common", "Data")
 
   /**
    * @brief Constructor.
@@ -22,12 +27,15 @@ public:
    * @param path The path of the container.
    * @param io A shared pointer to the IO object.
    */
-  Data(const std::string& path, std::shared_ptr<IO::BaseIO> io);
+  Data(const std::string& path, std::shared_ptr<IO::BaseIO> io)
+      : RegisteredType(path, io)
+  {
+  }
 
   /**
-   * @brief Destructor.
+   * @brief Virtual destructor.
    */
-  ~Data() {}
+  virtual ~Data() override {}
 
   /**
    *  @brief Initialize the dataset for the Data object
@@ -37,7 +45,13 @@ public:
    *
    * @param dataset The rvalue unique pointer to the BaseRecordingData object
    */
-  void initialize(std::unique_ptr<IO::BaseRecordingData>&& dataset);
+  void initialize(std::unique_ptr<IO::BaseRecordingData>&& dataset)
+  {
+    m_dataset = std::move(dataset);
+    // setup common attributes
+    m_io->createCommonNWBAttributes(
+        m_path, this->getNamespace(), this->getTypeName());
+  }
 
   /**
    * @brief Check whether the m_dataset has been initialized
@@ -47,7 +61,7 @@ public:
   std::unique_ptr<IO::BaseRecordingData> m_dataset;
 
   // Define the data fields to expose for lazy read access
-  DEFINE_FIELD(readData, DatasetField, std::any, "", The main data)
+  DEFINE_FIELD(readData, DatasetField, DTYPE, "", The main data)
 
   DEFINE_FIELD(readNeurodataType,
                AttributeField,

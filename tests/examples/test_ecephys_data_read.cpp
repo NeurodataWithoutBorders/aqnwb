@@ -203,6 +203,22 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     readio->open(FileMode::ReadOnly);
     // [example_read_new_io_snippet]
 
+    // [example_read_predefined_types]
+    // Read the NWBFile
+    auto readNWBFile =
+        NWB::RegisteredType::create<AQNWB::NWB::NWBFile>("/", readio);
+    // Read the ElectrodesTable
+    auto readElectrodeTable = readNWBFile->readElectrodeTable();
+    // read the location data. Note that both the type of the class and
+    // the data values is being set for us, here, VectorData<std::string>
+    auto locationColumn = readElectrodeTable->readLocationColumn();
+    auto locationColumnValues = locationColumn->readData()->values();
+    // confirm that the values are correct
+    std::vector<std::string> expectedLocationValues = {
+        "unknown", "unknown", "unknown", "unknown"};
+    REQUIRE(locationColumnValues.data == expectedLocationValues);
+    // [example_read_predefined_types]
+
     std::cout << "Searching and reading the ElectricalSeries container"
               << std::endl;
     // [example_search_types_snippet]
@@ -280,9 +296,6 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // [example_read_generic_dataset_field_snippet]
 
     // [example_read_generic_registeredtype_field_snippet]
-    // read the NWBFile
-    auto readNWBFile =
-        NWB::RegisteredType::create<AQNWB::NWB::NWBFile>("/", readio);
     // read the ElectricalSeries from the NWBFile object via the readField
     // method returning a generic std::shared_ptr<RegisteredType>
     auto readRegisteredType = readNWBFile->readField(esdata_path);
