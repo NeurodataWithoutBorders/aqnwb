@@ -497,7 +497,7 @@ TEST_CASE("HDF5IO; create attributes", "[hdf5io]")
   const std::string groupPath = "/data";
   hdf5io.createGroup(groupPath);
 
-  // single attribute
+  // scalar signed int attribute
   SECTION("single_value")
   {
     const signed int data = 1;
@@ -509,6 +509,24 @@ TEST_CASE("HDF5IO; create attributes", "[hdf5io]")
     // Read the attribute and verify the attribute data
     auto readAttrGeneric = hdf5io.readAttribute(attrPath);
     auto readAttrData = IO::DataBlock<int>::fromGeneric(readAttrGeneric);
+    REQUIRE(readAttrData.shape.size() == 0);  // Scalar attribute
+    REQUIRE(readAttrData.data.size() == 1);
+    REQUIRE(readAttrData.data[0] == data);
+  }
+
+  // scalar string attribute
+  SECTION("single_str_value")
+  {
+    const std::string data = "scalar string";
+    const std::string attrName = "scalar_string_value";
+    const std::string attrPath = mergePaths(groupPath, attrName);
+    hdf5io.createAttribute(data, groupPath, attrName);
+    REQUIRE(hdf5io.attributeExists(attrPath));
+
+    // Read the attribute and verify the attribute data
+    auto readAttrGeneric = hdf5io.readAttribute(attrPath);
+    auto readAttrData =
+        IO::DataBlock<std::string>::fromGeneric(readAttrGeneric);
     REQUIRE(readAttrData.shape.size() == 0);  // Scalar attribute
     REQUIRE(readAttrData.data.size() == 1);
     REQUIRE(readAttrData.data[0] == data);
@@ -530,6 +548,25 @@ TEST_CASE("HDF5IO; create attributes", "[hdf5io]")
     auto readAttrData = IO::DataBlock<int>::fromGeneric(readAttrGeneric);
     REQUIRE(readAttrData.shape.size() == 1);  // Scalar attribute
     REQUIRE(readAttrData.data.size() == 5);
+    REQUIRE(readAttrData.data == data);
+  }
+
+  // string array with a single value
+  SECTION("str_array")
+  {
+    const std::vector<std::string> data = {"col1"};
+    const std::string attrName = "string_array_with_one_value";
+    const std::string attrPath = mergePaths(groupPath, attrName);
+
+    hdf5io.createAttribute(data, groupPath, attrName);
+    REQUIRE(hdf5io.attributeExists(attrPath));
+
+    // Read the attribute and verify the attribute data
+    auto readAttrGeneric = hdf5io.readAttribute(attrPath);
+    auto readAttrData =
+        IO::DataBlock<std::string>::fromGeneric(readAttrGeneric);
+    REQUIRE(readAttrData.shape.size() == 1);
+    REQUIRE(readAttrData.data.size() == 1);
     REQUIRE(readAttrData.data == data);
   }
 

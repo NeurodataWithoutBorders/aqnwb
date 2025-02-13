@@ -784,12 +784,8 @@ Status HDF5IO::createAttribute(const std::vector<std::string>& data,
 
     // Create dataspace based on number of strings
     DataSpace attr_dataspace;
-    if (data.size() > 1) {
-      dims[0] = data.size();
-      attr_dataspace = DataSpace(1, dims);
-    } else {
-      attr_dataspace = DataSpace(H5S_SCALAR);
-    }
+    dims[0] = data.size();
+    attr_dataspace = DataSpace(1, dims);
 
     // Create the attribute
     attr = loc->createAttribute(name, H5type, attr_dataspace);
