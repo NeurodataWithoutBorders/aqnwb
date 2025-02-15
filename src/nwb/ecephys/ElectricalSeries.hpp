@@ -109,6 +109,17 @@ public:
                Base unit of measurement for working with the data. 
                This value is fixed to volts)
 
+  DEFINE_FIELD(readElectrodes,
+               DatasetField,
+               int,
+               "electrodes",
+               The electrodes that generated this electrical series.)
+
+  DEFINE_FIELD(readElectrodesDescription,
+               AttributeField,
+               std::string,
+               "electrodes/description",
+               The electrodes that generated this electrical series.)
 private:
   /**
    * @brief The number of samples already written per channel.
