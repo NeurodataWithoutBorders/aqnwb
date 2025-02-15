@@ -82,12 +82,10 @@ var NAVTREEINDEX3 =
 "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a189041602a933f1e000251dd72bbf185":[4,0,0,1,14,1],
 "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a21f750b933b3d5ffdf395b32a46fb65a":[3,0,0,2,14,3],
 "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a21f750b933b3d5ffdf395b32a46fb65a":[4,0,0,1,14,3],
-"class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a2c2954495607eb4afe4e9ab8eff3a08b":[3,0,0,2,14,6],
-"class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a2c2954495607eb4afe4e9ab8eff3a08b":[4,0,0,1,14,6],
-"class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a5f4d142b8156b6b33ed01c11c5720fec":[3,0,0,2,14,5],
-"class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a5f4d142b8156b6b33ed01c11c5720fec":[4,0,0,1,14,5],
-"class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a6df81fbec259f9428dc099e5ddbf8308":[3,0,0,2,14,4],
-"class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a6df81fbec259f9428dc099e5ddbf8308":[4,0,0,1,14,4],
+"class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a2c2954495607eb4afe4e9ab8eff3a08b":[3,0,0,2,14,5],
+"class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a2c2954495607eb4afe4e9ab8eff3a08b":[4,0,0,1,14,5],
+"class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a5f4d142b8156b6b33ed01c11c5720fec":[3,0,0,2,14,4],
+"class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a5f4d142b8156b6b33ed01c11c5720fec":[4,0,0,1,14,4],
 "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#aef4d37bb77366f53423c27980fac601e":[3,0,0,2,14,0],
 "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#aef4d37bb77366f53423c27980fac601e":[4,0,0,1,14,0],
 "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#af8748ff2c8a9b683b08d1789929d0a8f":[3,0,0,2,14,2],
@@ -249,5 +247,7 @@ var NAVTREEINDEX3 =
 "namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html":[3,0,0,1,0],
 "namespace_a_q_n_w_b_1_1_n_w_b.html":[3,0,0,2],
 "namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f":[3,0,0,2,15],
-"namespace_a_q_n_w_b_1_1_n_w_b.html#acfd896b65a7f56c25b3730a6e8dc80ca":[3,0,0,2,16]
+"namespace_a_q_n_w_b_1_1_n_w_b.html#acfd896b65a7f56c25b3730a6e8dc80ca":[3,0,0,2,16],
+"namespace_a_q_n_w_b_1_1_s_p_e_c.html":[3,0,0,3],
+"namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html":[3,0,0,3,0]
 };
