@@ -70,9 +70,16 @@ set(config "${bin}/docs/conf.py")
 
 file(REMOVE_RECURSE "${out}/html" "${out}/xml")
 
+# Add option to fail on warnings
+option(FAIL_ON_WARNINGS "Fail the build if there are warnings" OFF)
+
 execute_process(
     COMMAND doxygen "${bin}/docs/Doxyfile"
     COMMENT "Building documentation using Doxygen"
     VERBATIM
     RESULT_VARIABLE result
 )
+
+if(FAIL_ON_WARNINGS AND NOT result EQUAL 0)
+  message(FATAL_ERROR "Doxygen build failed with result ${result}")
+endif()
