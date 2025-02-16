@@ -7,6 +7,7 @@
 #include "io/BaseIO.hpp"
 #include "io/ReadIO.hpp"
 #include "nwb/base/TimeSeries.hpp"
+#include "nwb/file/ElectrodeTable.hpp"
 
 namespace AQNWB::NWB
 {
@@ -109,17 +110,27 @@ public:
                Base unit of measurement for working with the data. 
                This value is fixed to volts)
 
-  DEFINE_FIELD(readElectrodes,
-               DatasetField,
-               int,
-               "electrodes",
-               The electrodes that generated this electrical series.)
+  DEFINE_FIELD(
+      readElectrodes,
+      DatasetField,
+      int,
+      "electrodes",
+      The indices of the electrodes that generated this electrical series.)
 
   DEFINE_FIELD(readElectrodesDescription,
                AttributeField,
                std::string,
                "electrodes/description",
                The electrodes that generated this electrical series.)
+
+  DEFINE_REFERENCED_REGISTERED_FIELD(
+      readElectrodesTable,
+      ElectrodeTable,
+      "electrodes/table",
+      Table with all extracellular electrodes retrieved from the reference to
+              the electrode table stored in the `electrodes
+          / table` attribute)
+
 private:
   /**
    * @brief The number of samples already written per channel.

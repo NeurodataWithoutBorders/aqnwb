@@ -126,6 +126,15 @@ public:
       const std::string& dataPath) const override;
 
   /**
+   * @brief Reads a reference attribute and returns the path to the referenced
+   * object.
+   * @param dataPath The path to the reference attribute within the file.
+   * @return The path to the referenced object.
+   */
+  std::string readReferenceAttribute(
+      const std::string& dataPath) const override;
+
+  /**
    * @brief Creates an attribute at a given location in the file.
    * @param type The base data type of the attribute.
    * @param data Pointer to the attribute data.
