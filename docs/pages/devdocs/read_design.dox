@@ -3,23 +3,20 @@
  *
  * \tableofcontents
  *
- * The read system in AqNWB is built around several key concepts:
- * 
- * 1. Lazy loading through wrapper objects
- * 2. Dynamic type creation through a registration system
- * 3. Field access through generated accessor methods
- *
  * This page focuses on the software architecture of AqNWB for implementing data read and
- * is mainly aimed at software developers. If you want to learn more about how read is 
- * used in practice please see \ref read_page.
+ * is mainly aimed at software developers. See \ref read_page if you want to learn more 
+ * about how read is used in practice. The read system in AqNWB is built around 
+ * several key concepts:
+ * 
+ * 1. **Lazy loading of datasets and attributes through wrapper objects**, discussed in \ref read_design_sec_read_date
+ * 2. **Dynamic type creation through a registration system**, discussed in \ref reading_neurodata_type_objects 
+ * 3. **Field access through generated accessor methods**. See the \ref registered_type_page page to learn more about 
+ *    the macros used to generate accessor methods.
  *
  * \section read_design_sec_read_date Reading datasets and attributes
  *
- * AqNWB reads datasets and attributes lazyly via wrappers. To create \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper" 
- * objects for reading datasets and attributes, a user will typically 
- * use either pre-definied read methods created via the \ref DEFINE_FIELD
- * macro (see also \ref use_the_define_field_macro) or the \ref AQNWB::NWB::RegisteredType::readField "RegisteredType::readField" 
- * method. The main components involved in reading data from an NWB file via AqNWB are:
+ * AqNWB reads datasets and attributes lazyly via wrappers. The main components involved in
+ * reading data from an NWB file via AqNWB are:
  *
  * 1. \ref AQNWB::NWB::Container "Container"
  *   - \ref AQNWB::NWB::Container "Container" type classes represent Groups with an assigned ``neurodata_type``
@@ -33,6 +30,10 @@
  *     a dataset/attribute for read, enabling lazy data read and allowing for transparent use of different I/O backends.
  *     The \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper" then calls the I/O backend to retrieve data lazily 
  *     when the user requests access. 
+ *   - To create \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper"  object a user will typically 
+ *     use either pre-definied read methods created via the \ref DEFINE_FIELD macro
+ *     (see also \ref use_the_define_field_macro) or the \ref AQNWB::NWB::RegisteredType::readField "RegisteredType::readField" 
+ *     method.
  * 3. \ref AQNWB::IO::BaseIO "BaseIO"
  *   - \ref AQNWB::IO::BaseIO "BaseIO", \ref AQNWB::IO::HDF5::HDF5IO "HDF5IO" is then responsible for
  *     reading data from disk and allocating memory for data on read. Read methods, 
@@ -59,8 +60,8 @@
  *      convenience method generates a ``boost::const_multi_array_ref<DTYPE, NDIMS>`` for us.
  *
  * \note
- * The \ref AQNWB::IO::DataBlock::fromGeneric "DataBlock.fromGeneric" (and
- * \ref AQNWB::IO::DataBlock::as_multi_array "DataBlock.as_multi_array") use casting
+ * The \ref AQNWB::IO::DataBlock::fromGeneric "DataBlock.fromGeneric" and
+ * \ref AQNWB::IO::DataBlock::as_multi_array "DataBlock.as_multi_array" methods use casting
  * and referencing to transform the data without making additional copies
  * of the data.
  *
