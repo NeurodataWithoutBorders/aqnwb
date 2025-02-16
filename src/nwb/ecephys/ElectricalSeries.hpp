@@ -111,7 +111,7 @@ public:
                This value is fixed to volts)
 
   DEFINE_FIELD(
-      readElectrodeIndices,
+      readElectrodes,
       DatasetField,
       int,
       "electrodes",
