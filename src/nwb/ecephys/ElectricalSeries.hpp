@@ -103,17 +103,19 @@ public:
 
   DEFINE_FIELD(readData, DatasetField, std::any, "data", Recorded voltage data)
 
-  DEFINE_FIELD(readDataUnit,
-               AttributeField,
-               std::string,
-               "data/unit",
-               Base unit of measurement for working with the data. This value is fixed to volts)
+  DEFINE_FIELD(
+    readDataUnit,
+    AttributeField,
+    std::string,
+    "data/unit",
+    Base unit of measurement for working with the data. This value is fixed to volts)
 
-  DEFINE_FIELD(readElectrodeIndices,
-               DatasetField,
-               int,
-               "electrodes",
-               The indices electrodes that generated this electrical series.)
+  DEFINE_FIELD(
+      readElectrodeIndices,
+      DatasetField,
+      int,
+      "electrodes",
+      The indices of the electrodes that generated this electrical series.)
 
   DEFINE_FIELD(readElectrodesDescription,
                AttributeField,
