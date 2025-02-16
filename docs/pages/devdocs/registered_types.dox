@@ -8,21 +8,26 @@
  * New neurodata_types typically inherit from at least either \ref AQNWB::NWB::Container "Container"
  * or \ref AQNWB::NWB::Data "Data", or a more specialized type of the two. In any case,
  * all classes that represent a ``neurodata_type`` defined in the schema should be implemented
- * as a subtype of \ref AQNWB::NWB::RegisteredType "RegisteredType".
+ * as a subtype of \ref AQNWB::NWB::RegisteredType "RegisteredType". Here we focus on how 
+ * to implement new subclasses of \ref AQNWB::NWB::RegisteredType "RegisteredType". 
+ * If you want to learn more about the how \ref AQNWB::NWB::RegisteredType "RegisteredType" 
+ * manages types and implements data read then please see \ref read_design_page.
  *
  * @section implement_registered_type How to Implement a RegisteredType
  *
  * To implement a subclass of \ref AQNWB::NWB::RegisteredType "RegisteredType", follow these steps:
  *
- * 1. Include the `RegisteredType.hpp` header file in your subclass header file.
+ * 1. Include the `RegisteredType.hpp` header file in your subclass header file (or the header of your
+ *    more specific parent class that inherits from  \ref AQNWB::NWB::RegisteredType "RegisteredType").
  *    @code
  *    #include "nwb/RegisteredType.hpp"
  *    @endcode
  *
- * 2. Define your subclass by inheriting from \ref AQNWB::NWB::RegisteredType "RegisteredType".
- *    Ensure that your subclass implements a constructor with the arguments
+ * 2. Define your subclass by inheriting from \ref AQNWB::NWB::RegisteredType "RegisteredType" (or
+ *    one of its child classes). Ensure that your subclass implements a constructor with the arguments
  *    `(const std::string& path, std::shared_ptr<IO::BaseIO> io)`,
- *    as the "create" method expects this constructor signature.
+ *    as the  \ref AQNWB::NWB::RegisteredType::create "RegisteredType::create" method 
+ *    expects this constructor signature.
  *    @code
  *    class MySubClass : public AQNWB::NWB::RegisteredType {
  *    public:
@@ -33,7 +38,8 @@
  *    };
  *    @endcode
  *
- * 3. Use the \ref REGISTER_SUBCLASS macro to register your subclass. This should usually appear in
+ * 3. Use the \ref REGISTER_SUBCLASS macro to prepare your subclass for registration with
+ *    the class registry defined by \ref AQNWB::NWB::RegisteredType "RegisteredType". This should usually appear in
  *    the header (`hpp`) file as part of the class definition:
  *    @code
  *    REGISTER_SUBCLASS(MySubClass, "my-namespace")
@@ -63,19 +69,12 @@
  *    DEFINE_REGISTERED_FIELD(readGroupNameColumn, VectorData<std::string>, "group_name", "the name of the ElectrodeGroup")
  *    @endcode
  *
+ * 7. When inheriting from the more specific  \ref AQNWB::NWB::Container "Container"
+ *    or \ref AQNWB::NWB::Data "Data" types, then we will typially also need to implement an ``initialize`` 
+ *    method, which is responsiple for creating the relevant Groups, Datasets, and Attributes
+ *    in the file for data write. Remember to also call the  ``initialize``  method of the
+ *    parent class.
  *
- * \warning
- * To ensure proper function on read, the name of the class should match the name of the
- * ``neurodata_type`` as defined in the schema. Similarly, "my-namespace" should match
- * the name of the namespace in the schema (e.g., "core", "hdmf-common"). In this way
- * we can look up the corresponding class for an object in a file based on the
- * ``neurodata_type`` and ``namespace`` attributes stored in the file.
- * A special version of the ``REGISTER_SUBCLASS`` macro, called ``REGISTER_SUBCLASS_WITH_TYPENAME``,
- * allows setting the typename explicitly as a third argument. This is for the **special case**
- * where the name of the class cannot be the same as the name of the type (e.g,. when implementing
- * a class for schema that doesn't have an assigned type in the schema or a class that requires
- * template parameters that are not part of the type name). See \ref using_registered_subclass_with_typename
- * for details. 
  *
  * \note
  * ``DEFINE_FIELD`` and ``DEFINE_REGISTERED_FIELD`` create templated, non-virtual read 
@@ -113,6 +112,19 @@
  * REGISTER_SUBCLASS_IMPL(MySubClass)
  * @endcode
  *
+ *
+  * \warning
+ * To ensure proper function on read, the name of the class should match the name of the
+ * ``neurodata_type`` as defined in the schema. Similarly, "my-namespace" should match
+ * the name of the namespace in the schema (e.g., "core", "hdmf-common"). In this way
+ * we can look up the corresponding class for an object in a file based on the
+ * ``neurodata_type`` and ``namespace`` attributes stored in the file.
+ * A special version of the ``REGISTER_SUBCLASS`` macro, called ``REGISTER_SUBCLASS_WITH_TYPENAME``,
+ * allows setting the typename explicitly as a third argument. This is for the **special case**
+ * where the name of the class cannot be the same as the name of the type (e.g,. when implementing
+ * a class for schema that doesn't have an assigned type in the schema or a class that requires
+ * template parameters that are not part of the type name). See \ref using_registered_subclass_with_typename
+ * for details. 
  *
  * \subsection use_the_define_field_macro DEFINE_FIELD: Creating read methods for datasets and attributes
  *

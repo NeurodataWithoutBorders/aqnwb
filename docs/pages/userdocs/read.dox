@@ -32,6 +32,10 @@
  *    and provides convenience methods for interacting with the data, e.g., \ref AQNWB::IO::DataBlock::as_multi_array
  *    \snippet tests/examples/test_ecephys_data_read.cpp example_read_get_datablock_snippet
  *
+ * \note 
+ * If you want to learn more about the underlying software design of AqNWB for data read please see \ref read_design_page
+ * and if you want to learn how to implement your own classes for reading see \ref registered_type_page.
+ *
  * \section read_example Example
  *
  * \subsection read_example_open Opening an existing file for reading
