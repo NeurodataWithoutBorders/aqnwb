@@ -339,16 +339,14 @@ std::string HDF5IO::readReferenceAttribute(const std::string& dataPath) const
         "HDF5IO::readReferenceAttribute, failed to get object name size.");
   }
 
-  char* obj_name = new char[static_cast<size_t>(buf_size)];
-  if (H5Iget_name(obj_id, obj_name, static_cast<size_t>(buf_size)) < 0) {
-    delete[] obj_name;
+  std::vector<char> obj_name(static_cast<size_t>(buf_size));
+  if (H5Iget_name(obj_id, obj_name.data(), static_cast<size_t>(buf_size)) < 0) {
     H5Oclose(obj_id);
     throw std::runtime_error(
         "HDF5IO::readReferenceAttribute, failed to get object name.");
   }
 
-  std::string referencedPath(obj_name);
-  delete[] obj_name;
+  std::string referencedPath(obj_name.data());
 
   // Close the dereferenced object
   H5Oclose(obj_id);
