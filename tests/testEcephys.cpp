@@ -7,6 +7,7 @@
 #include "Utils.hpp"
 #include "io/BaseIO.hpp"
 #include "io/hdf5/HDF5IO.hpp"
+#include "nwb/RegisteredType.hpp"
 #include "nwb/device/Device.hpp"
 #include "nwb/ecephys/ElectricalSeries.hpp"
 #include "nwb/ecephys/SpikeEventSeries.hpp"
@@ -186,6 +187,67 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     delete[] buffer;
     REQUIRE_THAT(dataOut[0], Catch::Matchers::Approx(mockData[0]).margin(1));
     REQUIRE_THAT(dataOut[1], Catch::Matchers::Approx(mockData[1]).margin(1));
+  }
+
+  SECTION("test writing electrodes")
+  {
+    std::vector<Types::ChannelVector> mockArraysElectrodes =
+        getMockChannelArrays(4);
+
+    // setup io object
+    std::string path = getTestFilePath("ElectricalSeriesElectrodes.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+    io->createGroup("/general");
+    io->createGroup("/general/extracellular_ephys");
+
+    // setup device and electrode group
+    auto device = NWB::Device(devicePath, io);
+    device.initialize("description", "unknown");
+    auto elecGroup = NWB::ElectrodeGroup(electrodePath, io);
+    elecGroup.initialize("description", "unknown", device);
+
+    // setup electrode table
+    NWB::ElectrodeTable elecTable = NWB::ElectrodeTable(io);
+    elecTable.initialize();
+    elecTable.addElectrodes(mockArraysElectrodes[0]);
+    elecTable.finalize();
+
+    // setup electrical series
+    NWB::ElectricalSeries es = NWB::ElectricalSeries(dataPath, io);
+    es.initialize(BaseDataType::F32,
+                  mockArraysElectrodes[0],
+                  "no description",
+                  SizeArray {0, mockArrays[0].size()},
+                  SizeArray {1, 1});
+    io->close();
+
+    // // read the data back in
+    io = createIO("HDF5", path);
+    io->open();
+
+    // Verify electrodes dataset exists and contains correct data
+    auto readElectricalSeries =
+        NWB::RegisteredType::create<NWB::ElectricalSeries>(dataPath, io);
+    auto readElectrodesWrapper = readElectricalSeries->readElectrodes();
+    auto readElectrodesValues = readElectrodesWrapper->values();
+    for (size_t i = 0; i < mockArraysElectrodes[0].size(); ++i) {
+      REQUIRE(static_cast<SizeType>(readElectrodesValues.data[i])
+              == mockArraysElectrodes[0][i].getGlobalIndex());
+    }
+
+    // Verify dataset attributes
+    auto readElectrodesDescriptionWrapper =
+        readElectricalSeries->readElectrodesDescription();
+    auto readElectrodesDescriptionValues =
+        readElectrodesDescriptionWrapper->values().data[0];
+    REQUIRE(readElectrodesDescriptionValues
+            == "the electrodes that generated this electrical series");
+
+    // TODO - add test for reading when references are supported in read
+    // auto readElectrodesTableWrapper =
+    // readElectricalSeries->readElectrodesTable(); auto
+    // readElectrodesTableValues = readElectrodesTableWrapper->values().data[0];
   }
 }
 

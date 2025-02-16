@@ -43,10 +43,10 @@ void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
   this->m_channelVector = channelVector;
 
   // setup variables based on number of channels
-  std::vector<SizeType> electrodeInds(channelVector.size());
+  std::vector<int> electrodeInds(channelVector.size());
   std::vector<float> channelConversions(channelVector.size());
   for (size_t i = 0; i < channelVector.size(); ++i) {
-    electrodeInds[i] = channelVector[i].getGlobalIndex();
+    electrodeInds[i] = static_cast<int>(channelVector[i].getGlobalIndex());
     channelConversions[i] = channelVector[i].getConversion();
   }
   m_samplesRecorded = SizeArray(channelVector.size(), 0);
@@ -73,14 +73,13 @@ void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
   // make electrodes dataset
   m_electrodesDataset = std::unique_ptr<IO::BaseRecordingData>(
       m_io->createArrayDataSet(IO::BaseDataType::I32,
-                               SizeArray {1},
+                               SizeArray {channelVector.size()},
                                chunkSize,
                                AQNWB::mergePaths(getPath(), "electrodes")));
 
-  m_electrodesDataset->writeDataBlock(
-      std::vector<SizeType>(1, channelVector.size()),
-      IO::BaseDataType::I32,
-      &electrodeInds[0]);
+  m_electrodesDataset->writeDataBlock(SizeArray {channelVector.size()},
+                                      IO::BaseDataType::I32,
+                                      &electrodeInds[0]);
   auto electrodesPath = AQNWB::mergePaths(getPath(), "electrodes");
   m_io->createCommonNWBAttributes(
       electrodesPath, "hdmf-common", "DynamicTableRegion");
