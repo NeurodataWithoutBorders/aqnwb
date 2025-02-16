@@ -74,10 +74,10 @@ file(REMOVE_RECURSE "${out}/html" "${out}/xml")
 option(FAIL_ON_WARNINGS "Fail the build if there are warnings" OFF)
 
 execute_process(
-    COMMAND doxygen "${bin}/docs/Doxyfile"
-    COMMENT "Building documentation using Doxygen"
-    VERBATIM
-    RESULT_VARIABLE result
+  COMMAND doxygen "${bin}/docs/Doxyfile"
+  COMMENT "Building documentation using Doxygen"
+  VERBATIM
+  RESULT_VARIABLE result
 )
 
 message(STATUS "Doxygen exit status: ${result}")
