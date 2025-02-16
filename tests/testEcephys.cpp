@@ -229,10 +229,10 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     // Verify electrodes dataset exists and contains correct data
     auto readElectricalSeries =
         NWB::RegisteredType::create<NWB::ElectricalSeries>(dataPath, io);
-    auto readElectrodeWrapper = readElectricalSeries->readElectrodes();
-    auto readElectrodeValues = readElectrodeWrapper->values();
+    auto readElectrodesWrapper = readElectricalSeries->readElectrodes();
+    auto readElectrodesValues = readElectrodesWrapper->values();
     for (size_t i = 0; i < mockArraysElectrodes[0].size(); ++i) {
-      REQUIRE(static_cast<SizeType>(readElectrodeValues.data[i])
+      REQUIRE(static_cast<SizeType>(readElectrodesValues.data[i])
               == mockArraysElectrodes[0][i].getGlobalIndex());
     }
 
