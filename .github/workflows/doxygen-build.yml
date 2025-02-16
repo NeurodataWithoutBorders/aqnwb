@@ -35,3 +35,7 @@ jobs:
         run: |
           set -e
           cmake "-DPROJECT_SOURCE_DIR=$PWD" "-DPROJECT_BINARY_DIR=$PWD/build" -P cmake/docs-ci.cmake
+          if [ $? -ne 0 ]; then
+            echo "Doxygen build failed"
+            exit 1
+          fi
