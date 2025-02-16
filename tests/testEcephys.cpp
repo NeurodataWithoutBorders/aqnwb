@@ -229,10 +229,11 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     // Verify electrodes dataset exists and contains correct data
     auto readElectricalSeries =
         NWB::RegisteredType::create<NWB::ElectricalSeries>(dataPath, io);
-    auto readElectrodesWrapper = readElectricalSeries->readElectrodes();
-    auto readElectrodesValues = readElectrodesWrapper->values();
+    auto readElectrodeIndicesWrapper =
+        readElectricalSeries->readElectrodeIndices();
+    auto readElectrodeIndicesValues = readElectrodeIndicesWrapper->values();
     for (size_t i = 0; i < mockArraysElectrodes[0].size(); ++i) {
-      REQUIRE(static_cast<SizeType>(readElectrodesValues.data[i])
+      REQUIRE(static_cast<SizeType>(readElectrodeIndicesValues.data[i])
               == mockArraysElectrodes[0][i].getGlobalIndex());
     }
 
@@ -245,9 +246,10 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
             == "the electrodes that generated this electrical series");
 
     // TODO - add test for reading when references are supported in read
-    // auto readElectrodesTableWrapper =
-    // readElectricalSeries->readElectrodesTable(); auto
-    // readElectrodesTableValues = readElectrodesTableWrapper->values().data[0];
+    auto readElectrodesTable = readElectricalSeries->readElectrodesTable();
+    REQUIRE(readElectrodesTable != nullptr);
+    REQUIRE(readElectrodesTable->getPath()
+            == AQNWB::NWB::ElectrodeTable::electrodeTablePath);
   }
 }
 
