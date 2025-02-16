@@ -131,6 +131,10 @@
  *    - ``OTYPE``: specifies the type of object being wrapped (\ref AQNWB::Types::StorageObjectType)
  *    - ``VTYPE``: defines the value type of the data
  *
+ * \warning 
+ * In particular for fields that are optional, it is useful to first check that the field
+ * actually exists via \ref AQNWB::IO::ReadDataWrapper::exists "ReadDataWrapper::exists".
+ *
  * Similarly, we can also read any sub-fields that are themselves \ref AQNWB::NWB::RegisteredType "RegisteredType"
  * objects:
  *
