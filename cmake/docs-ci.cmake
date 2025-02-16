@@ -80,6 +80,8 @@ execute_process(
     RESULT_VARIABLE result
 )
 
+message(STATUS "Doxygen exit status: ${result}")
+
 if(FAIL_ON_WARNINGS AND NOT result EQUAL 0)
   message(FATAL_ERROR "Doxygen build failed with result ${result}")
 endif()

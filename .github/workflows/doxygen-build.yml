@@ -21,6 +21,9 @@ jobs:
       - name: Install dependencies - macos
         run: brew install hdf5 boost catch2 doxygen graphviz
 
+      - name: Check Doxygen version
+        run: doxygen --version
+
       - name: Configure
         shell: pwsh
         run: cmake "--preset=ci-macos" "-DFAIL_ON_WARNINGS=ON"
@@ -29,4 +32,9 @@ jobs:
         run: cmake --build build
 
       - name: Build the docs
-        run : cmake "-DPROJECT_SOURCE_DIR=$PWD" "-DPROJECT_BINARY_DIR=$PWD/build" -P cmake/docs-ci.cmake
+        run: |
+          cmake "-DPROJECT_SOURCE_DIR=$PWD" "-DPROJECT_BINARY_DIR=$PWD/build" -P cmake/docs-ci.cmake
+          if [ $? -ne 0 ]; then
+            echo "Doxygen build failed"
+            exit 1
+          fi
