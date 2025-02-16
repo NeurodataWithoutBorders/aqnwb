@@ -641,7 +641,6 @@ TEST_CASE("HDF5IO; create attributes", "[hdf5io]")
   {
     // Create target objects that we'll reference
     hdf5io.createGroup("/referenceTargetGroup");
-    std::vector<int> testData = {1, 2, 3};
     hdf5io.createArrayDataSet(BaseDataType::I32,
                               SizeArray {3},
                               SizeArray {3},
