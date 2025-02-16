@@ -5,7 +5,6 @@
  * \tableofcontents
  *
  *
- *
  * New neurodata_types typically inherit from at least either \ref AQNWB::NWB::Container "Container"
  * or \ref AQNWB::NWB::Data "Data", or a more specialized type of the two. In any case,
  * all classes that represent a ``neurodata_type`` defined in the schema should be implemented
@@ -114,67 +113,8 @@
  * REGISTER_SUBCLASS_IMPL(MySubClass)
  * @endcode
  *
- * @section type_registry How the Type Registry in RegisteredType Works
  *
- * The type registry in \ref AQNWB::NWB::RegisteredType "RegisteredType" allows for dynamic creation of registered subclasses by name. Here is how it works:
- *
- * 1. **Registry Storage**:
- *    - The registry is implemented using 1) an `std::unordered_set` to store subclass names (which can be
- *      accessed via \ref AQNWB::NWB::RegisteredType::getRegistry "getRegistry()") and
- *      2) an `std::unordered_map` to store factory functions for creating instances of the subclasses
- *      (which can be accessed via \ref AQNWB::NWB::RegisteredType::getFactoryMap() "getFactoryMap()").
- *      The factory methods are the required constructor that uses the io and path as input.
- *    - These are defined as static members within the \ref AQNWB::NWB::RegisteredType "RegisteredType" class.
- *
- * 2. **Registration**:
- *    - The \ref AQNWB::NWB::RegisteredType::registerSubclass "registerSubclass" method is used to add a
- *      subclass name and its corresponding factory function to the registry.
- *    - This method is called via the `REGISTER_SUBCLASS` macro, which defines a static method (`registerSubclass()`)
- *      and static member (`registered_`) to trigger the registration when the subclass is loaded.
- *
- * 3. **Dynamic Creation**:
- *    - The \ref AQNWB::NWB::RegisteredType::create "create" method is used to create an instance of a registered subclass by name.
- *    - This method looks up the subclass name in the registry and calls the corresponding factory function to create an instance.
- *
- * 4. **Automatic Registration**:
- *    - The `REGISTER_SUBCLASS_IMPL` macro initializes the static member (`registered_`), which triggers the
- *      \ref AQNWB::NWB::RegisteredType::registerSubclass "registerSubclass" method
- *      and ensures that the subclass is registered when the program starts.
- *
- * 5. **Class Name and Namespace Retrieval**:
- *    - The \ref AQNWB::NWB::RegisteredType::getTypeName "getTypeName" and
- *      \ref AQNWB::NWB::RegisteredType::getNamespace "getNamespace" return the string name of the
- *      class and namespace, respectively. The `REGISTER_SUBCLASS` macro implements an automatic
- *      override of the methods to ensure the appropriate type and namespace string are returned.
- *      These methods should, hence, not be manually overridden by subclasses, to ensure consistency
- *      in type identification.
- *
- *
- * @section use_registered_type_registry How to Use the RegisteredType Registry
- *
- * The \ref AQNWB::NWB::RegisteredType "RegisteredType" registry allows for dynamic creation and management of registered subclasses. Here is how you can use it:
- *
- * 1. **Creating Instances Dynamically**:
- *    - Use the \ref AQNWB::NWB::RegisteredType::create "create" method to create an instance of a registered subclass by name.
- *    - This method takes the subclass name, path, and a shared pointer to the IO object as arguments. This
- *      illustrates how we can read a specific typed object in an NWB file.
- *    \snippet tests/examples/test_RegisteredType_example.cpp example_RegisterType_get_type_instance
- *
- * 2. **Retrieving Registered Subclass Names**:
- *    - Use the \ref AQNWB::NWB::RegisteredType::getRegistry "getRegistry" method to retrieve the
- *      set of registered subclass names.
- *      \snippet tests/examples/test_RegisteredType_example.cpp example_RegisterType_get_registered_names
- *
- * 3. **Retrieving the Factory Map**:
- *    - Use the \ref AQNWB::NWB::RegisteredType::getFactoryMap "getFactoryMap" method to retrieve
- *      the map of factory functions for creating instances of registered subclasses.
- *      \snippet tests/examples/test_RegisteredType_example.cpp example_RegisterType_get_registered_factories
- *
- * @subsection use_registered_type_registry_example Example: Using the type registry
- *
- *  \snippet tests/examples/test_RegisteredType_example.cpp example_RegisterType_full
- *
- * @section use_the_define_field_macro How to use the DEFINE_FIELD macro
+ * \subsection use_the_define_field_macro DEFINE_FIELD: Creating read methods for datasets and attributes
  *
  * The \ref DEFINE_FIELD macro takes the following main inputs:
  *
@@ -194,7 +134,7 @@
  * @endcode
  *
  * The compiler will then expand this definition to create a new method
- * called ``getData`` that will return a  \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper"
+ * (here called ``getData``) that will return a  \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper"
  * for lazy reading for the field. The corresponding expanded function will look something like:
  *
  * @code
@@ -211,7 +151,7 @@
  * \ref AQNWB::NWB::TimeSeries::readData "TimeSeries::readData" )
  * for reading data fields from a file.
  *
- * @section use_the_define_registered_field_macro How to use the DEFINE_REGISTERED_FIELD macro
+ * \subsection use_the_define_registered_field_macro DEFINE_REGISTERED_FIELD: Defining read methods for neurodata_type objects
  *
  * The \ref DEFINE_REGISTERED_FIELD works much like the \ref DEFINE_FIELD macro macro but 
  * returns instances of specific subtypes of \ref AQNWB::NWB::RegisteredType "RegisteredType", 
@@ -227,32 +167,90 @@
  * All of these inputs are required. A typical example will look as follows:
  *
  * @code
- * DEFINE_REGISTERED_FIELD(getData, DynamicTable, "my_table", My data table)
+ * DEFINE_REGISTERED_FIELD(getMyTable, DynamicTable, "my_table", My data table)
  * @endcode
  *
- * @section using_registered_subclass_with_typename Using REGISTER_SUBCLASS_WITH_TYPENAME
+ * The compiler will then expand this definition to create a new read method, in this 
+ * called ``getMyData`` that will returns \ref AQNWB::NWB::DynamicTable "DynamicTable"
+ * for reading "my_table". The corresponding expanded function will look something like:
  *
- * The main use case for \ref REGISTER_SUBCLASS_WITH_TYPENAME is when we need to implement
- * a class for type where the name of the class does not match the type name. E.g. using
+ * @code
+ * template<typename RTYPE = DynamicTable> 
+ * inline std::shared_ptr<RTYPE> getMyTable() const 
+ * { 
+ *   std::string objectPath = AQNWB::mergePaths(m_path, fieldPath); 
+ *   if (m_io->objectExists(objectPath)) { 
+ *     return RegisteredType::create<RTYPE>(objectPath, m_io); 
+ *   } 
+ *   return nullptr; 
+ * }
+ * @endcode
+ *
+ *
+ * \section using_registered_subclass_with_typename How to implement a RegisteredType with a custom type name 
+ *
+ * In most cases, the name of our \ref AQNWB::NWB::RegisteredType "RegisteredType" class should be
+ * the same as the `neurodata_type`. However, in some cases this may not be possible. 
+ * In this case, we need to use \ref REGISTER_SUBCLASS_WITH_TYPENAME macro instead of 
+ * \ref REGISTER_SUBCLASS. E.g. using
  * ``REGISTER_SUBCLASS_WITH_TYPENAME(ElectrodeTable, "core", "DynamicTable")``, 
- * the class will be registered tn the registry,  under the ``core::ElectrodesTable`` key, 
+ * the class will be registered in the registry,  under the ``core::ElectrodesTable`` key, 
  * but with "DynamicTable" as the typename value and the `ElectrodesTable.getTypeName` 
  * automatic override returning the indicated typename instead of the classname.
- * The main use cases for this are to:
+ * The main use cases for this are to implement:
  *
- * * Implement a class for a modified type that does not have its  own `neurodata_type` 
- *   in the NWB schema. An example is `ElectrodesTable` in NWB <v2.7, which
- *   did not have an assigned `neurodata_type`, but was implemented as a regular
- *   `DynamicTable`. To allow us to define a class `ElectrodeTable` to help with writing the table
- *   we can then use ``REGISTER_SUBCLASS_WITH_TYPENAME(ElectrodeTable, "core", "DynamicTable")``
- *   in the \ref AQNWB::NWB::ElectrodeTable "ElectrodeTable" class. This ensures that the `neurodata_type` attribute is set
- *   correctly to `DynamicTable` on write instead of `ElectrodeTable`. 
- * * Another example is where the class may require template parameters in C++. The 
- *   template parameters are required in C++ but are not part of the `neurodata_type`. 
- *   An example is \ref AQNWB::NWB::VectorData "VectorData" which uses a template parameter to define the 
- *   data type of data that is manages. 
+ * 1. Templated child classes of \ref AQNWB::NWB::RegisteredType "RegisteredType"
+ *    where the template parameters required in C++ are not part  of the `neurodata_type` name in NWB. 
+ *    An example is \ref AQNWB::NWB::VectorData "VectorData" which uses a template parameter to define the 
+ *    data type of data that is manages. 
+ * 2. A class for a modified type that does not have its  own `neurodata_type` 
+ *    in the NWB schema. An example is `ElectrodesTable` in NWB <v2.7, which
+ *    did not have an assigned `neurodata_type`, but was implemented as a regular
+ *    `DynamicTable`. To allow us to define a class `ElectrodeTable` to help with writing the table
+ *    we can then use ``REGISTER_SUBCLASS_WITH_TYPENAME(ElectrodeTable, "core", "DynamicTable")``
+ *    in the \ref AQNWB::NWB::ElectrodeTable "ElectrodeTable" class. This ensures that the `neurodata_type` attribute is set
+ *   c orrectly to `DynamicTable` on write instead of `ElectrodeTable`. 
  *
- * @subsection limitations_registered_subclass_with_typename Limitations of REGISTER_SUBCLASS_WITH_TYPENAME
+ * \subsection implement_templated_registered_type Templated RegisteredType Classes
+ *
+ * In some cases, we may want to use templated classes to handle data types in a type-safe 
+ * way. AqNWB uses  templated neurodata_type classes for \ref AQNWB::NWB::VectorData "VectorData<DTYPE>" 
+ * and \ref AQNWB::NWB::Data "Data<DTYPE>" as these classes manage a particular dataset. Using
+ * this approach, we specify the data types to use with the class directly as part of 
+ * `DEFINE_REGISTERED_FIELD` so that the user doesn't need to manually specify the data type 
+ * for read. The registration of templated classes follows the same main steps as above, but with a few 
+ * additional considerations:
+ *
+ * 1. **Preparing for Registration**
+ *    ```cpp
+ *    REGISTER_SUBCLASS_WITH_TYPENAME(VectorData<DTYPE>, "hdmf-common", "VectorData")
+ *    ```
+ *    - We use `VectorData<DTYPE>` with the template parameter because we want to prepare all possible
+ *      instantiations (e.g., `VectorData<int>`, `VectorData<double>`, etc.) for registration
+ *
+ * 2. **Actual Registration**
+ *    ```cpp
+ *    template<> REGISTER_SUBCLASS_IMPL(VectorData<std::any>)
+ *    ```
+ *    This performs the actual registration in the type system. We only register the most generic type
+ *    (`std::any`) because in the NWB file, we only store `namespace=hdmf-common` and `neurodata_type=VectorData`
+ *    (i.e., the NWB file doesn't have the notion of templates) and the generic type serves as the
+ *    default registration.
+ *
+ * 3. **Template Instantiation**
+ *    In `VectorData.cpp`:
+ *    ```cpp
+ *    template class VectorData<std::any>;
+ *    template class VectorData<uint8_t>;
+ *    template class VectorData<int16_t>;
+ *    // ... other types ...
+ *    ```
+ *    This is an optimization that pre-instantiates all the types we expect to use and 
+ *    makes these instantiations part of the AqNWB library. This allows users to use these 
+ *    types directly and prevents the compiler from having to generate these as part of 
+ *    the user's code build.
+ *
+ * \subsection limitations_registered_subclass_with_typename Limitations of REGISTER_SUBCLASS_WITH_TYPENAME
  *
  * The main limitaton of the  \ref REGISTER_SUBCLASS_WITH_TYPENAME approach is that on read, AqNWB 
  * will use the default class associated with the `neurodata_type`. E.g., in the case of 
@@ -283,6 +281,4 @@
  *
  * in the \ref AQNWB::NWB::ElectrodeTable "ElectrodeTable" to read the `group_name` column
  * as `VectorData<std::string>` with the data type already specified as `std::string` at compile time.
- *
- *
  */
