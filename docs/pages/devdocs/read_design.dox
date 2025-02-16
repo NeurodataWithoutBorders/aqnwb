@@ -17,18 +17,49 @@
  * macro (see also \ref use_the_define_field_macro) or the \ref AQNWB::NWB::RegisteredType::readField "RegisteredType::readField" 
  * method. The main components involved in reading data from an NWB file via AqNWB are:
  *
- * - \ref AQNWB::IO::BaseIO "BaseIO", \ref AQNWB::IO::HDF5::HDF5IO "HDF5IO" responsible for
- *   reading data from disk and allocating memory for data on read
- * - \ref AQNWB::IO::DataBlockGeneric "DataBlockGeneric" represents a generic, n-dimensional block of data
- *   loaded from a file, storing the data as a generic ``std::any`` along with the ``shape`` of the data
- * - \ref AQNWB::IO::DataBlock "DataBlock" represents a typed, n-dimensional block of data, derived
- *   from a \ref AQNWB::IO::DataBlockGeneric "DataBlockGeneric"
- * - \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper", is a simple wrapper class that represents
- *   a dataset/attribute for read, enabling lazy data read and allowing for transparent use of different I/O backends
- * - \ref AQNWB::NWB::Container "Container" type classes represent Groups with an assigned ``neurodata_type``
- *   in the NWB format. 
+ * 1. \ref AQNWB::NWB::Container "Container"
+ *   - \ref AQNWB::NWB::Container "Container" type classes represent Groups with an assigned ``neurodata_type``
+ *     (e.g., \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries" or \ref AQNWB::NWB::NWBFile "NWBFile")
+ *     and exposes read access to its specific datasets and attributes via corresponding functions, which return
+ *     \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper<DatasetField>" or
+ *     \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper<AttributeField>" objects
+ *     for lazily reading from the dataset/attribute.
+ * 2. \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper"
+ *   - \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper", is a simple wrapper class that represents
+ *     a dataset/attribute for read, enabling lazy data read and allowing for transparent use of different I/O backends.
+ *     The \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper" then calls the I/O backend to retrieve data lazily 
+ *     when the user requests access. 
+ * 3. \ref AQNWB::IO::BaseIO "BaseIO"
+ *   - \ref AQNWB::IO::BaseIO "BaseIO", \ref AQNWB::IO::HDF5::HDF5IO "HDF5IO" is then responsible for
+ *     reading data from disk and allocating memory for data on read. Read methods, 
+ *     e.g., \ref AQNWB::IO::BaseIO::readDataset "readDataset" and \ref AQNWB::IO::BaseIO::readAttribute "readAttribute",
+ *     then return  data as \ref AQNWB::IO::DataBlockGeneric "DataBlockGeneric". This has the advantage that
+ *     we can let the backend handle memory allocation and typing for us and load data
+ *     even if we don't know the type yet.
+ * 4. \ref AQNWB::IO::DataBlockGeneric "DataBlockGeneric" 
+ *   - \ref AQNWB::IO::DataBlockGeneric "DataBlockGeneric" represents a generic, n-dimensional block of data
+ *     loaded from a file, storing the data as a generic ``std::any`` along with the ``shape`` of the data.
+ *     Users will create \ref AQNWB::IO::DataBlockGeneric "DataBlockGeneric" objects usually via 
+ *     \ref AQNWB::IO::ReadDataWrapper::valuesGeneric "ReadDatasetWrapper.valuesGeneric"
+ *     and \ref AQNWB::IO::HDF5::HDF5IO::readDataset "HDF5IO.readDataset". 
+ * 5. \ref AQNWB::IO::DataBlock "DataBlock"
+ *   - \ref AQNWB::IO::DataBlock "DataBlock" represents a typed, n-dimensional block of data, derived
+ *     from a \ref AQNWB::IO::DataBlockGeneric "DataBlockGeneric" usually via the 
+ *     \ref AQNWB::IO::DataBlock::fromGeneric "DataBlock.fromGeneric" factory method. 
+ *     \ref AQNWB::IO::DataBlock "DataBlock" is templated on the specific data type, and
+ *     stores the \ref AQNWB::IO::DataBlock::data "data" as an appropriately typed 1-dimensional 
+ *     ``std::vector`` along with the \ref AQNWB::IO::DataBlock::shape "shape" of the data.
+ * 6. ``BOOST::multi_array``
+ *   -  ``BOOST::multi_array`` can also be used simplify access to multi-dimensional data.
+ *      The \ref AQNWB::IO::DataBlock::as_multi_array "DataBlock.as_multi_array"
+ *      convenience method generates a ``boost::const_multi_array_ref<DTYPE, NDIMS>`` for us.
  *
- * The following figure provides an overview of these main classes involved with reading data from a dataset or attribute.
+ * \note
+ * The \ref AQNWB::IO::DataBlock::fromGeneric "DataBlock.fromGeneric" (and
+ * \ref AQNWB::IO::DataBlock::as_multi_array "DataBlock.as_multi_array") use casting
+ * and referencing to transform the data without making additional copies
+ * of the data.
+ *
  *
  * @dot
  * digraph G {
@@ -117,6 +148,7 @@
  * }
  * @enddot
  *
+ *
  * \section reading_neurodata_type_objects Reading neurodata_type objects 
  *
  * NWB `neurodata_types` are represented in AqNWB as classes that inherit from 
@@ -131,6 +163,86 @@
  * - \ref AQNWB::NWB::RegisteredType::create "RegisteredType::create" to manually create
  *    a \ref AQNWB::NWB::RegisteredType "RegisteredType" from a file.
  * - Construct the specific class directly using a known `path` and `io` object.
+ *
+ * The main components involved in reading typed objects from an NWB file via AqNWB are:
+ *
+ * - \ref AQNWB::NWB::RegisteredType "RegisteredType" as the main base class for all classes
+ *   implementing a type, e.g., \ref AQNWB::NWB::Container "Container",  \ref AQNWB::NWB::Data "Data"
+ *   and all their subtypes. \ref AQNWB::NWB::RegisteredType "RegisteredType" is responsible for
+ *   managing all type classes and provides the \ref AQNWB::NWB::RegisteredType::create "create"
+ *   factory methods for creating instances of subclasses from a file.
+ * - \ref AQNWB::IO::BaseIO "BaseIO", \ref AQNWB::IO::HDF5::HDF5IO "HDF5IO" are responsible for
+ *   i) reading type attribute and group information, ii) searching the file for typed objects via
+ *   \ref AQNWB::IO::BaseIO::findTypes "findTypes()" methods, and iii) retrieving the paths of all
+ *   object associated with a storage object (e.g., a Group) via  \ref AQNWB::IO::BaseIO::getStorageObjects "getStorageObjects()"
+ *
+ * @dot
+ * digraph G {
+ *     node [shape=none];
+ *     rankdir=TB;
+ *
+ *     HDF5IO [
+ *         label=<
+ *             <table border="0" cellborder="1" cellspacing="0">
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>HDF5IO</b></td></tr>
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Functions</b></td></tr>
+ *                 <tr><td align="left">+ findTypes(): std::unordered_map&lt;std::string, std::string&gt;</td></tr>
+ *                 <tr><td align="left">+ getGroupObjects(): std::vector&lt;std::string&gt;</td></tr>
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Attributes</b></td></tr>
+ *             </table>
+ *         >
+ *     ];
+ *
+ *     NWBFile [
+ *         shape=note,
+ *         label="NWB file (HDF5)"
+ *     ];
+ *
+ *     Container [
+ *         label=<
+ *             <table border="0" cellborder="1" cellspacing="0">
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Container</b></td></tr>
+ *             </table>
+ *         >
+ *     ];
+ *
+ *     Data [
+ *         label=<
+ *             <table border="0" cellborder="1" cellspacing="0">
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Data</b></td></tr>
+ *             </table>
+ *         >
+ *     ];
+ *
+ *     RegisteredType [
+ *         label=<
+ *             <table border="0" cellborder="1" cellspacing="0">
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>RegisteredType</b></td></tr>
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Functions</b></td></tr>
+ *                 <tr><td align="left">+ getPath(): </td></tr>
+ *                 <tr><td align="left">+ getIO(): </td></tr>
+ *                 <tr><td align="left">+ create(path: std::string, io: std::shared_ptr&lt;BaseIO&gt;)</td></tr>
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Attributes</b></td></tr>
+ *                 <tr><td align="left">+ io: std::shared_ptr&lt;BaseIO&gt;</td></tr>
+ *                 <tr><td align="left">+ path: std::string</td></tr>
+ *             </table>
+ *         >
+ *     ];
+ *
+ *     { rank=same; RegisteredType; }
+ *     { rank=same; HDF5IO; Data; Container; }
+ *     { rank=same; NWBFile; }
+ *
+ *     Container -> RegisteredType [arrowhead=empty, style=dashed];
+ *     Data -> RegisteredType [arrowhead=empty, style=dashed];
+ *     RegisteredType -> Container [label="create"];
+ *     RegisteredType -> Data [label="create"];
+ *     RegisteredType -> HDF5IO [label="read type\ninfo"];
+ *     HDF5IO -> NWBFile [label="read data"];
+ * }
+ * @enddot
+ *
+
  *
  *
  * \subsection type_registry How the Type Registry in RegisteredType Works
@@ -248,4 +360,29 @@
  * \snippet tests/examples/test_ecephys_data_read.cpp example_read_attribute_snippet
  *
  * \snippet tests/examples/test_ecephys_data_read.cpp example_read_get_data_wrapper_as_generic_snippet
+ *
+ * \note
+ * In most cases, we should not need runtime checking of types in the context of
+ * specific data acquisition systems. This is mostly likely relevant if one wants to consume
+ * arbitrary NWB files that may use different data types. One approach to implement
+ * behavior for types determined at runtime is to define a mapping of the type
+ * information to the corresponding statically type functionality, e.g., via
+ * ``switch/case`` logic or by using a map for lookup, such as:
+ * \code{.cpp}
+ * DataBlockGeneric dataValuesGeneric = readDataWrapperGeneric->valuesGeneric();
+ * // Map to associate std::type_index with corresponding type-specific functions
+ * std::unordered_map<std::type_index, std::function<void(const DataBlockGeneric&)>> typeMap = {
+ *       {typeid(float), processData<float>},
+ *       {typeid(int), processData<<int>},
+ *       // Add more types as needed
+ * };
+ * // Use the map to process the data with the approbriate type
+ * auto it = typeMap.find(dataValuesGeneric.typeIndex);
+ * if (it != typeMap.end()) {
+ *       it->second(dataValuesGeneric); // call the correct processData function
+ * } else {
+ *       std::cout << "Unsupported type" << std::endl;
+ * }
+ * \endcode
+ *
  */

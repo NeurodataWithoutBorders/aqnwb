@@ -81,6 +81,27 @@
  *
  * \snippet tests/examples/test_ecephys_data_read.cpp example_read_only_snippet
  *
+ * \note
+ * \ref AQNWB::NWB::RegisteredType::create "RegisteredType::create" comes in a few
+ * different flavors:
+ * 1. When passing only 1) ``path`` and 2) ``io`` (as in the example above), AqNWB
+ *    reads the ``neurodata_type`` and ``namespace`` attributes from the NWB file to
+ *    automatically determine the class to use to represent the type.
+ * 2. When passing the 1) ``fullname`` (e.g., ``core::ElectricalSeries``),  2) ``path`` and 3) ``io``
+ *    AqNWB looks up the class to use in \ref AQNWB::NWB::RegisteredType "RegisteredType's" type
+ *    registry (see also \ref use_registered_type_registry )
+ * 3. When passing the class to use as template parameter, e.g.,
+ *    ``create<AQNWB::NWB::ElectricalSeries>(path, io);`` the
+ *    instance is being constructed using the common constructor, i.e., this
+ *    is equivalent to creating the object via ``ElectricalSeries(path, io)``
+ * Option 1 and 2 instantiates the specific type (e.g., ``ElectricalSeries``) but return
+ * a generic \ref AQNWB::NWB::RegisteredType "RegisteredType" pointer that we can
+ * cast to the specific type if necessary, e.g., via 
+ * ``auto readElectricalSeries = std::dynamic_pointer_cast<AQNWB::NWB::ElectricalSeries>(readRegisteredType);``. 
+ * Option 3 creates and returns a pointer to the specific type directly.
+ *
+ * \subsubsection read_design_example_read_posthoc_read_field Reading data fields
+ *
  * Now we can read fields and subsets of data from the fields:
  *
  * \snippet tests/examples/test_ecephys_data_read.cpp example_read_only_fields_snippet
