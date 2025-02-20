@@ -67,6 +67,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
         std::make_unique<NWB::RecordingContainers>();
 
     // create a new ElectricalSeries
+    nwbfile.createElectrodesTable(mockArrays);
     Status resultCreate = nwbfile.createElectricalSeries(
         mockArrays, mockChannelNames, dataType, recordingContainers.get());
     REQUIRE(resultCreate == Status::Success);
