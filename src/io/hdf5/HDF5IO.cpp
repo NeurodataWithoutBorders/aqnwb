@@ -1106,6 +1106,17 @@ HDF5IO::getStorageObjects(const std::string& path,
   return objects;
 }
 
+std::vector<SizeType> HDF5IO::getDatasetSize(const std::string path, 
+                                             const size_t ndims)
+{
+  H5::DataSet dataset = m_file->openDataSet(path);
+  H5::DataSpace dataspace = dataset.getSpace();
+  std::vector<hsize_t> dims(ndims);
+  dataspace.getSimpleExtentDims(dims.data());
+
+  return std::vector<SizeType>(dims.begin(), dims.end());
+}
+
 std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::getDataSet(
     const std::string& path)
 {
