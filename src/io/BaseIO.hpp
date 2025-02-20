@@ -447,7 +447,7 @@ public:
    * @param ndims The number of dimensions in the dataset, defaults to 1.
    * @return The dataset size.
    */
-  virtual std::vector<SizeType> getDatasetSize(const std::string path, 
+  virtual std::vector<SizeType> getDatasetSize(const std::string path,
                                                const size_t ndims = 1) = 0;
 
   /**

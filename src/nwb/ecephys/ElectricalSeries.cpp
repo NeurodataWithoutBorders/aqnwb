@@ -22,13 +22,13 @@ ElectricalSeries::~ElectricalSeries() {}
 
 /** Initialization function*/
 Status ElectricalSeries::initialize(const IO::BaseDataType& dataType,
-                                  const Types::ChannelVector& channelVector,
-                                  const std::string& description,
-                                  const SizeArray& dsetSize,
-                                  const SizeArray& chunkSize,
-                                  const float& conversion,
-                                  const float& resolution,
-                                  const float& offset)
+                                    const Types::ChannelVector& channelVector,
+                                    const std::string& description,
+                                    const SizeArray& dsetSize,
+                                    const SizeArray& chunkSize,
+                                    const float& conversion,
+                                    const float& resolution,
+                                    const float& offset)
 {
   TimeSeries::initialize(dataType,
                          "volts",
@@ -43,7 +43,8 @@ Status ElectricalSeries::initialize(const IO::BaseDataType& dataType,
   this->m_channelVector = channelVector;
 
   // get the number of electrodes from the electrode table
-  std::string idPath = AQNWB::mergePaths(ElectrodeTable::electrodeTablePath, "id");
+  std::string idPath =
+      AQNWB::mergePaths(ElectrodeTable::electrodeTablePath, "id");
   std::vector<SizeType> elecTableDsetSize = m_io->getDatasetSize(idPath);
   SizeType numElectrodes = elecTableDsetSize[0];
 
@@ -53,8 +54,9 @@ Status ElectricalSeries::initialize(const IO::BaseDataType& dataType,
   for (size_t i = 0; i < channelVector.size(); ++i) {
     SizeType globalIndex = channelVector[i].getGlobalIndex();
     if (globalIndex >= numElectrodes) {
-      std::cerr << "ElectricalSeries::initialize electrode index " << globalIndex 
-                << " is out of range. Max index is " << (numElectrodes - 1) << std::endl;
+      std::cerr << "ElectricalSeries::initialize electrode index "
+                << globalIndex << " is out of range. Max index is "
+                << (numElectrodes - 1) << std::endl;
       return Status::Failure;
     }
     electrodeInds[i] = static_cast<int>(channelVector[i].getGlobalIndex());

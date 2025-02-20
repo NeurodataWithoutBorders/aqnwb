@@ -54,13 +54,13 @@ public:
 
    */
   Status initialize(const IO::BaseDataType& dataType,
-                  const Types::ChannelVector& channelVector,
-                  const std::string& description,
-                  const SizeArray& dsetSize,
-                  const SizeArray& chunkSize,
-                  const float& conversion = 1.0f,
-                  const float& resolution = -1.0f,
-                  const float& offset = 0.0f);
+                    const Types::ChannelVector& channelVector,
+                    const std::string& description,
+                    const SizeArray& dsetSize,
+                    const SizeArray& chunkSize,
+                    const float& conversion = 1.0f,
+                    const float& resolution = -1.0f,
+                    const float& offset = 0.0f);
 
   /**
    * @brief Writes a channel to an ElectricalSeries dataset.

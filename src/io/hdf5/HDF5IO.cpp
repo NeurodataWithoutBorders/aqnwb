@@ -1106,7 +1106,7 @@ HDF5IO::getStorageObjects(const std::string& path,
   return objects;
 }
 
-std::vector<SizeType> HDF5IO::getDatasetSize(const std::string path, 
+std::vector<SizeType> HDF5IO::getDatasetSize(const std::string path,
                                              const size_t ndims)
 {
   H5::DataSet dataset = m_file->openDataSet(path);

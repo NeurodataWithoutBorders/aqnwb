@@ -98,9 +98,9 @@ public:
    * new objects cannot be added, which can be checked via
    * nwbfile.io->canModifyObjects()
    * @param recordingArrays vector of ChannelVector indicating the electrodes to
-   *                        add to the table. This vector should contain all the 
-   *                        electrodes that are detected by the acquisition system,
-   *                        not only those being actively recorded from.        
+   *                        add to the table. This vector should contain all the
+   *                        electrodes that are detected by the acquisition
+   * system, not only those being actively recorded from.
    * @return Status The status of the object creation operation.
    */
   Status createElectrodesTable(

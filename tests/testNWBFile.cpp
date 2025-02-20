@@ -76,9 +76,10 @@ TEST_CASE("createElectrodesTable", "[nwb]")
   REQUIRE(resultCreate == Status::Success);
 }
 
-TEST_CASE("createElectricalSeriesWithSubsetOfElectrodes", "[nwb]") 
+TEST_CASE("createElectricalSeriesWithSubsetOfElectrodes", "[nwb]")
 {
-  std::string filename = getTestFilePath("createElectricalSeriesWithSubset.nwb");
+  std::string filename =
+      getTestFilePath("createElectricalSeriesWithSubset.nwb");
 
   // initialize nwbfile object and create base structure
   std::shared_ptr<IO::HDF5::HDF5IO> io =
@@ -94,8 +95,10 @@ TEST_CASE("createElectricalSeriesWithSubsetOfElectrodes", "[nwb]")
 
   // Create electrical series with subset of electrodes (2 channels)
   SizeType numChannels = 2;
-  std::vector<Types::ChannelVector> recordingElectrodes = getMockChannelArrays(numChannels, 1);
-  std::vector<std::string> recordingNames = getMockChannelArrayNames("esdata", 1);
+  std::vector<Types::ChannelVector> recordingElectrodes =
+      getMockChannelArrays(numChannels, 1);
+  std::vector<std::string> recordingNames =
+      getMockChannelArrayNames("esdata", 1);
   std::unique_ptr<NWB::RecordingContainers> recordingContainers =
       std::make_unique<NWB::RecordingContainers>();
   Status resultCreateES =
@@ -116,11 +119,14 @@ TEST_CASE("createElectricalSeriesWithSubsetOfElectrodes", "[nwb]")
 
   for (size_t i = 0; i < recordingElectrodes.size(); ++i) {
     for (size_t j = 0; j < recordingElectrodes[i].size(); ++j) {
-        recordingContainers->writeElectricalSeriesData(
-            0, recordingElectrodes[i][j], mockData.size(), mockData.data(), mockTimestamps.data());
+      recordingContainers->writeElectricalSeriesData(0,
+                                                     recordingElectrodes[i][j],
+                                                     mockData.size(),
+                                                     mockData.data(),
+                                                     mockTimestamps.data());
     }
   }
-  
+
   nwbfile.finalize();
 }
 
@@ -136,8 +142,10 @@ TEST_CASE("createElectricalSeriesFailsWithoutElectrodesTable", "[nwb]")
   nwbfile.initialize(generateUuid());
 
   // Attempt to create electrical series without creating electrodes table first
-  std::vector<Types::ChannelVector> recordingElectrodes = getMockChannelArrays(1, 2);
-  std::vector<std::string> recordingNames = getMockChannelArrayNames("esdata", 1);
+  std::vector<Types::ChannelVector> recordingElectrodes =
+      getMockChannelArrays(1, 2);
+  std::vector<std::string> recordingNames =
+      getMockChannelArrayNames("esdata", 1);
   Status resultCreateES = nwbfile.createElectricalSeries(
       recordingElectrodes, recordingNames, BaseDataType::F32);
   REQUIRE(resultCreateES == Status::Failure);
@@ -147,7 +155,8 @@ TEST_CASE("createElectricalSeriesFailsWithoutElectrodesTable", "[nwb]")
 
 TEST_CASE("createElectricalSeriesFailsWithOutOfRangeIndices", "[nwb]")
 {
-  std::string filename = getTestFilePath("createElectricalSeriesOutOfRange.nwb");
+  std::string filename =
+      getTestFilePath("createElectricalSeriesOutOfRange.nwb");
 
   // initialize nwbfile object and create base structure
   std::shared_ptr<IO::HDF5::HDF5IO> io =
@@ -157,20 +166,22 @@ TEST_CASE("createElectricalSeriesFailsWithOutOfRangeIndices", "[nwb]")
   nwbfile.initialize(generateUuid());
 
   // Create electrode table with 2 channels
-  std::vector<Types::ChannelVector> tableElectrodes = getMockChannelArrays(2, 1);
+  std::vector<Types::ChannelVector> tableElectrodes =
+      getMockChannelArrays(2, 1);
   Status resultCreateTable = nwbfile.createElectrodesTable(tableElectrodes);
   REQUIRE(resultCreateTable == Status::Success);
 
   // Attempt to create electrical series with channels having higher indices
   // Create mock channels with global indices > 1 (out of range of table)
-  std::vector<Types::ChannelVector> recordingElectrodes = getMockChannelArrays(4, 1);
+  std::vector<Types::ChannelVector> recordingElectrodes =
+      getMockChannelArrays(4, 1);
 
-  std::vector<std::string> recordingNames = getMockChannelArrayNames("esdata", 1);
+  std::vector<std::string> recordingNames =
+      getMockChannelArrayNames("esdata", 1);
   Status resultCreateES = nwbfile.createElectricalSeries(
       recordingElectrodes, recordingNames, BaseDataType::F32);
   REQUIRE(resultCreateES == Status::Failure);
 }
-
 
 TEST_CASE("createElectricalSeries", "[nwb]")
 {

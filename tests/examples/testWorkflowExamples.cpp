@@ -52,9 +52,10 @@ TEST_CASE("workflowExamples")
     // [example_workflow_nwbfile_snippet]
 
     // [example_workflow_electrodes_table_snippet]
-    Status elecTableStatus =nwbfile->createElectrodesTable(mockRecordingArrays);
+    Status elecTableStatus =
+        nwbfile->createElectrodesTable(mockRecordingArrays);
     REQUIRE(elecTableStatus == Status::Success);
-    // [example_workflow_electrodes_table_snippet]  
+    // [example_workflow_electrodes_table_snippet]
 
     // [example_workflow_datasets_snippet]
     std::vector<SizeType> containerIndexes;
