@@ -93,6 +93,20 @@ public:
   Status finalize();
 
   /**
+   * @brief Create ElectrodesTable.
+   * Note, this function will fail if the file is in a mode where
+   * new objects cannot be added, which can be checked via
+   * nwbfile.io->canModifyObjects()
+   * @param recordingArrays vector of ChannelVector indicating the electrodes to
+   *                        add to the table. This vector should contain all the 
+   *                        electrodes that are detected by the acquisition system,
+   *                        not only those being actively recorded from.        
+   * @return Status The status of the object creation operation.
+   */
+  Status createElectrodesTable(
+      std::vector<Types::ChannelVector> recordingArrays);
+
+  /**
    * @brief Create ElectricalSeries objects to record data into.
    * Created objects are stored in recordingContainers.
    * Note, this function will fail if the file is in a mode where
@@ -114,7 +128,7 @@ public:
       std::vector<std::string> recordingNames,
       const IO::BaseDataType& dataType = IO::BaseDataType::I16,
       RecordingContainers* recordingContainers = nullptr,
-      std::vector<SizeType>& containerIndexes = emptyContainerIndexes);
+      std::vector<SizeType>& containerIndexes = m_emptyContainerIndexes);
 
   /**
    * @brief Create SpikeEventSeries objects to record data into.
@@ -135,7 +149,7 @@ public:
       std::vector<std::string> recordingNames,
       const IO::BaseDataType& dataType = IO::BaseDataType::I16,
       RecordingContainers* recordingContainers = nullptr,
-      std::vector<SizeType>& containerIndexes = emptyContainerIndexes);
+      std::vector<SizeType>& containerIndexes = m_emptyContainerIndexes);
 
   /** @brief Create AnnotationSeries objects to record data into.
    * Created objects are stored in recordingContainers.
@@ -149,7 +163,7 @@ public:
   Status createAnnotationSeries(
       std::vector<std::string> recordingNames,
       RecordingContainers* recordingContainers = nullptr,
-      std::vector<SizeType>& containerIndexes = emptyContainerIndexes);
+      std::vector<SizeType>& containerIndexes = m_emptyContainerIndexes);
 
   DEFINE_REGISTERED_FIELD(readElectrodeTable,
                           ElectrodeTable,
@@ -246,10 +260,9 @@ private:
       const std::array<std::pair<std::string_view, std::string_view>, N>&
           specVariables);
 
-  inline const static std::string acquisitionPath = "/acquisition";
-  static std::vector<SizeType> emptyContainerIndexes;
+  inline const static std::string m_acquisitionPath = "/acquisition";
+  static std::vector<SizeType> m_emptyContainerIndexes;
 
-private:
   /**
    * @brief The ElectrodeTable for the file
    */
