@@ -1106,12 +1106,12 @@ HDF5IO::getStorageObjects(const std::string& path,
   return objects;
 }
 
-std::vector<SizeType> HDF5IO::getDatasetSize(const std::string path,
-                                             const size_t ndims)
+std::vector<SizeType> HDF5IO::getDatasetSize(const std::string path)
 {
   H5::DataSet dataset = m_file->openDataSet(path);
   H5::DataSpace dataspace = dataset.getSpace();
-  std::vector<hsize_t> dims(ndims);
+  const int rank = dataspace.getSimpleExtentNdims();
+  std::vector<hsize_t> dims(static_cast<size_t>(rank));
   dataspace.getSimpleExtentDims(dims.data());
 
   return std::vector<SizeType>(dims.begin(), dims.end());

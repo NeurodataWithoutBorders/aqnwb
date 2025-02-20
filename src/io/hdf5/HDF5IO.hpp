@@ -271,11 +271,9 @@ public:
   /**
    * @brief Returns the size of the dataset for each dimension.
    * @param path The location in the file of the dataset.
-   * @param ndims The number of dimensions in the dataset, defaults to 1.
    * @return The dataset size.
    */
-  std::vector<SizeType> getDatasetSize(const std::string path,
-                                       const size_t ndims = 1) override;
+  std::vector<SizeType> getDatasetSize(const std::string path) override;
 
   /**
    * @brief Checks whether a Dataset, Group, or Link already exists at the
