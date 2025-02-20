@@ -59,6 +59,119 @@ TEST_CASE("initialize", "[nwb]")
   io->close();
 }
 
+TEST_CASE("createElectrodesTable", "[nwb]")
+{
+  std::string filename = getTestFilePath("createElectrodesTable.nwb");
+
+  // initialize nwbfile object and create base structure
+  std::shared_ptr<IO::HDF5::HDF5IO> io =
+      std::make_shared<IO::HDF5::HDF5IO>(filename);
+  io->open();
+  NWB::NWBFile nwbfile(io);
+  nwbfile.initialize(generateUuid());
+
+  // create the Electrodes Table
+  std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(1, 2);
+  Status resultCreate = nwbfile.createElectrodesTable(mockArrays);
+  REQUIRE(resultCreate == Status::Success);
+}
+
+TEST_CASE("createElectricalSeriesWithSubsetOfElectrodes", "[nwb]") 
+{
+  std::string filename = getTestFilePath("createElectricalSeriesWithSubset.nwb");
+
+  // initialize nwbfile object and create base structure
+  std::shared_ptr<IO::HDF5::HDF5IO> io =
+      std::make_shared<IO::HDF5::HDF5IO>(filename);
+  io->open();
+  NWB::NWBFile nwbfile(io);
+  nwbfile.initialize(generateUuid());
+
+  // Create electrode table with full set of electrodes (4 channels)
+  std::vector<Types::ChannelVector> allElectrodes = getMockChannelArrays(4, 1);
+  Status resultCreateTable = nwbfile.createElectrodesTable(allElectrodes);
+  REQUIRE(resultCreateTable == Status::Success);
+
+  // Create electrical series with subset of electrodes (2 channels)
+  SizeType numChannels = 2;
+  std::vector<Types::ChannelVector> recordingElectrodes = getMockChannelArrays(numChannels, 1);
+  std::vector<std::string> recordingNames = getMockChannelArrayNames("esdata", 1);
+  std::unique_ptr<NWB::RecordingContainers> recordingContainers =
+      std::make_unique<NWB::RecordingContainers>();
+  Status resultCreateES =
+      nwbfile.createElectricalSeries(recordingElectrodes,
+                                     recordingNames,
+                                     BaseDataType::F32,
+                                     recordingContainers.get());
+  REQUIRE(resultCreateES == Status::Success);
+
+  // Write some test data to verify recording works
+  Status resultStart = io->startRecording();
+  REQUIRE(resultStart == Status::Success);
+
+  std::vector<float> mockData = {1.0f, 2.0f, 3.0f};
+  std::vector<double> mockTimestamps = {0.1, 0.2, 0.3};
+  std::vector<SizeType> positionOffset = {0, 0};
+  std::vector<SizeType> dataShape = {mockData.size(), 0};
+
+  for (size_t i = 0; i < recordingElectrodes.size(); ++i) {
+    for (size_t j = 0; j < recordingElectrodes[i].size(); ++j) {
+        recordingContainers->writeElectricalSeriesData(
+            0, recordingElectrodes[i][j], mockData.size(), mockData.data(), mockTimestamps.data());
+    }
+  }
+  
+  nwbfile.finalize();
+}
+
+TEST_CASE("createElectricalSeriesFailsWithoutElectrodesTable", "[nwb]")
+{
+  std::string filename = getTestFilePath("createElectricalSeriesNoTable.nwb");
+
+  // initialize nwbfile object and create base structure
+  std::shared_ptr<IO::HDF5::HDF5IO> io =
+      std::make_shared<IO::HDF5::HDF5IO>(filename);
+  io->open();
+  NWB::NWBFile nwbfile(io);
+  nwbfile.initialize(generateUuid());
+
+  // Attempt to create electrical series without creating electrodes table first
+  std::vector<Types::ChannelVector> recordingElectrodes = getMockChannelArrays(1, 2);
+  std::vector<std::string> recordingNames = getMockChannelArrayNames("esdata", 1);
+  Status resultCreateES = nwbfile.createElectricalSeries(
+      recordingElectrodes, recordingNames, BaseDataType::F32);
+  REQUIRE(resultCreateES == Status::Failure);
+
+  nwbfile.finalize();
+}
+
+TEST_CASE("createElectricalSeriesFailsWithOutOfRangeIndices", "[nwb]")
+{
+  std::string filename = getTestFilePath("createElectricalSeriesOutOfRange.nwb");
+
+  // initialize nwbfile object and create base structure
+  std::shared_ptr<IO::HDF5::HDF5IO> io =
+      std::make_shared<IO::HDF5::HDF5IO>(filename);
+  io->open();
+  NWB::NWBFile nwbfile(io);
+  nwbfile.initialize(generateUuid());
+
+  // Create electrode table with 2 channels
+  std::vector<Types::ChannelVector> tableElectrodes = getMockChannelArrays(2, 1);
+  Status resultCreateTable = nwbfile.createElectrodesTable(tableElectrodes);
+  REQUIRE(resultCreateTable == Status::Success);
+
+  // Attempt to create electrical series with channels having higher indices
+  // Create mock channels with global indices > 1 (out of range of table)
+  std::vector<Types::ChannelVector> recordingElectrodes = getMockChannelArrays(4, 1);
+
+  std::vector<std::string> recordingNames = getMockChannelArrayNames("esdata", 1);
+  Status resultCreateES = nwbfile.createElectricalSeries(
+      recordingElectrodes, recordingNames, BaseDataType::F32);
+  REQUIRE(resultCreateES == Status::Failure);
+}
+
+
 TEST_CASE("createElectricalSeries", "[nwb]")
 {
   std::string filename = getTestFilePath("createElectricalSeries.nwb");
@@ -70,8 +183,11 @@ TEST_CASE("createElectricalSeries", "[nwb]")
   NWB::NWBFile nwbfile(io);
   nwbfile.initialize(generateUuid());
 
+  // create the Electrodes Table
+  std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays();
+  nwbfile.createElectrodesTable(mockArrays);
+
   // create Electrical Series
-  std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(1, 2);
   std::vector<std::string> mockChannelNames =
       getMockChannelArrayNames("esdata");
   std::unique_ptr<NWB::RecordingContainers> recordingContainers =
@@ -137,8 +253,11 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
   NWB::NWBFile nwbfile(io);
   nwbfile.initialize(generateUuid());
 
-  // create Electrical Series
+  // create ElectrodesTable
   std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(2, 2);
+  nwbfile.createElectrodesTable(mockArrays);
+
+  // create Electrical Series
   std::vector<std::string> mockChannelNames =
       getMockChannelArrayNames("esdata");
   std::unique_ptr<NWB::RecordingContainers> recordingContainers =
@@ -278,6 +397,7 @@ TEST_CASE("setCanModifyObjectsMode", "[nwb]")
   std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(1, 2);
   std::vector<std::string> mockChannelNames =
       getMockChannelArrayNames("esdata");
+  nwbfile.createElectrodesTable(mockArrays);  // create the Electrodes Table
   Status resultCreatePostStart = nwbfile.createElectricalSeries(
       mockArrays, mockChannelNames, BaseDataType::F32);
   REQUIRE(resultCreatePostStart == Status::Failure);
