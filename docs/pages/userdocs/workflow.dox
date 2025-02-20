@@ -14,12 +14,14 @@
  *    used for managing \ref AQNWB::NWB::Container "Container" objects for storing recordings.
  * 3. Create the \ref AQNWB::NWB::NWBFile "NWBFile" object used for managing and creating NWB
  *    file contents.
- * 4. Create the \ref AQNWB::NWB::Container "Container" objects (e.g.,
+ * 4. Create the \ref AQNWB::NWB::ElectrodesTable "ElectrodesTable" object used for saving 
+ *    electrodes information. 
+ * 5. Create the \ref AQNWB::NWB::Container "Container" objects (e.g.,
  *    \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries") used for recording and add them
  *    to the \ref AQNWB::NWB::RecordingContainers "RecordingContainers".
- * 5. Start the recording.
- * 6. Write data.
- * 7. Stop the recording and close the \ref AQNWB::NWB::NWBFile "NWBFile".
+ * 6. Start the recording.
+ * 7. Write data.
+ * 8. Stop the recording and close the \ref AQNWB::NWB::NWBFile "NWBFile".
  *
  * Below, we walk through these steps in more detail.
  *
@@ -52,7 +54,22 @@
  * \snippet tests/examples/testWorkflowExamples.cpp example_workflow_nwbfile_snippet
  *
  *
- * \subsection create_datasets 4. Create datasets and add to RecordingContainers.
+ * \subsection create_nwbfile 4. Create the ElectrodesTable object.
+ *
+ * Next, constructs the \ref AQNWB::NWB::ElectrodesTable "ElectrodesTable" object, 
+ * using the `recordingArrays` as an input. Note that in many cases, you will be recording from 
+ * all electrodes detected by the device and this `recordingArrays` structure will be the same as
+ * is used to create the \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries". However in some cases
+ * (e.g. Neuropixels), you may be recording from a subset of all available electrodes. In this case,
+ * you should create the ref AQNWB::NWB::ElectrodesTable "ElectrodesTable" with all electrodes
+ * detected by the acquisition system, not just those being actively recorded from. This approach is
+ * critical for mapping information about which \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries"
+ * were recorded from which electrodes.
+ *
+ * \snippet tests/examples/testWorkflowExamples.cpp example_workflow_electrodes_table_snippet
+ * 
+ *
+ * \subsection create_datasets 5. Create datasets and add to RecordingContainers.
  *
  * Next, create the different data types (e.g. \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries"
  * or other AQNWB::NWB::TimeSeries "TimeSeries") that you would like to write data into. After
@@ -67,7 +84,7 @@
  * \snippet tests/examples/testWorkflowExamples.cpp example_workflow_datasets_snippet
  *
  *
- * \subsection start_recording 5. Start the recording.
+ * \subsection start_recording 6. Start the recording.
  *
  * Then, start the recording process with a call to the ``startRecording`` function of the I/O object.
  *
@@ -81,7 +98,7 @@
  * \snippet tests/examples/testWorkflowExamples.cpp example_workflow_start_snippet
  *
  *
- * \subsection write_data 6. Write data.
+ * \subsection write_data 7. Write data.
  *
  * During the recording process, use the \ref AQNWB::NWB::RecordingContainers "RecordingContainers"
  * as an interface to access the various  \ref AQNWB::NWB::Container "Container" object and corresponding
@@ -91,7 +108,7 @@
  * \snippet tests/examples/testWorkflowExamples.cpp example_workflow_write_snippet
  *
  *
- * \subsection stop_recording 7. Stop the recording and finalize the file.
+ * \subsection stop_recording 8. Stop the recording and finalize the file.
  *
  * When the recording process is finished, call `stopRecording` from the I/O object
  * to flush any data and close the file.
