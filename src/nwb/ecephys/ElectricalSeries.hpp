@@ -127,9 +127,8 @@ public:
       readElectrodesTable,
       ElectrodeTable,
       "electrodes/table",
-      Table with all extracellular electrodes retrieved from the reference to
-              the electrode table stored in the `electrodes
-          / table` attribute)
+     The electrodes table retrieved from the object referenced in the 
+      `electrodes/table` attribute.)
 
 private:
   /**
