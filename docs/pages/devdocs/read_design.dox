@@ -15,13 +15,13 @@
  *
  * \section read_design_sec_read_date Reading datasets and attributes
  *
- * AqNWB reads datasets and attributes lazyly via wrappers. The main components involved in
+ * AqNWB reads datasets and attributes lazily via wrappers. The main components involved in
  * reading data from an NWB file via AqNWB are:
  *
  * 1. \ref AQNWB::NWB::Container "Container"
  *   - \ref AQNWB::NWB::Container "Container" type classes represent Groups with an assigned ``neurodata_type``
  *     (e.g., \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries" or \ref AQNWB::NWB::NWBFile "NWBFile")
- *     and exposes read access to its specific datasets and attributes via corresponding functions, which return
+ *     and expose read access to their specific datasets and attributes via corresponding functions, which return
  *     \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper" objects for lazily reading from the dataset/attribute.
  * 2. \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper"
  *   - \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper", is a simple wrapper class that represents
