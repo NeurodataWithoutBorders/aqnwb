@@ -221,7 +221,7 @@
  *    `DynamicTable`. To allow us to define a class `ElectrodeTable` to help with writing the table
  *    we can then use ``REGISTER_SUBCLASS_WITH_TYPENAME(ElectrodeTable, "core", "DynamicTable")``
  *    in the \ref AQNWB::NWB::ElectrodeTable "ElectrodeTable" class. This ensures that the `neurodata_type` attribute is set
- *   c orrectly to `DynamicTable` on write instead of `ElectrodeTable`. 
+ *   correctly to `DynamicTable` on write instead of `ElectrodeTable`. 
  *
  * \subsection implement_templated_registered_type Templated RegisteredType Classes
  *
