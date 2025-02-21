@@ -113,7 +113,7 @@ TEST_CASE("createElectricalSeriesWithSubsetOfElectrodes", "[nwb]")
   REQUIRE(resultStart == Status::Success);
 
   std::vector<float> mockData = {1.0f, 2.0f, 3.0f};
-  std::vector<double> mockTimestamps = {0.1, 0.2, 0.3};
+  std::vector<double> mockTimestamps = {0.1, 0.2, 0.4};
   std::vector<SizeType> positionOffset = {0, 0};
   std::vector<SizeType> dataShape = {mockData.size(), 0};
 
@@ -132,7 +132,7 @@ TEST_CASE("createElectricalSeriesWithSubsetOfElectrodes", "[nwb]")
 
 TEST_CASE("createElectricalSeriesFailsWithoutElectrodesTable", "[nwb]")
 {
-  std::string filename = getTestFilePath("createElectricalSeriesNoTable.nwb");
+  std::string filename = getTestFilePath("createElectricalSeriesNoTable.h5");
 
   // initialize nwbfile object and create base structure
   std::shared_ptr<IO::HDF5::HDF5IO> io =
@@ -156,7 +156,7 @@ TEST_CASE("createElectricalSeriesFailsWithoutElectrodesTable", "[nwb]")
 TEST_CASE("createElectricalSeriesFailsWithOutOfRangeIndices", "[nwb]")
 {
   std::string filename =
-      getTestFilePath("createElectricalSeriesOutOfRange.nwb");
+      getTestFilePath("createElectricalSeriesOutOfRange.h5");
 
   // initialize nwbfile object and create base structure
   std::shared_ptr<IO::HDF5::HDF5IO> io =
