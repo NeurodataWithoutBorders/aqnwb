@@ -333,18 +333,26 @@ std::string HDF5IO::readReferenceAttribute(const std::string& dataPath) const
 
   // Get the name (path) of the dereferenced object
   ssize_t buf_size = H5Iget_name(obj_id, nullptr, 0) + 1;
+  // LCOV_EXCL_START
+  // This is a safety check to safeguard against possible runtime issues,
+  // but this should never happen.
   if (buf_size <= 0) {
     H5Oclose(obj_id);
     throw std::runtime_error(
         "HDF5IO::readReferenceAttribute, failed to get object name size.");
   }
+  // LCOV_EXCL_STOP
 
   std::vector<char> obj_name(static_cast<size_t>(buf_size));
+  // LCOV_EXCL_START
+  // This is a safety check to safeguard against possible runtime issues,
+  // but this should never happen.
   if (H5Iget_name(obj_id, obj_name.data(), static_cast<size_t>(buf_size)) < 0) {
     H5Oclose(obj_id);
     throw std::runtime_error(
         "HDF5IO::readReferenceAttribute, failed to get object name.");
   }
+  // LCOV_EXCL_STOP
 
   std::string referencedPath(obj_name.data());
 
