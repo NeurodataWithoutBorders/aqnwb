@@ -183,7 +183,7 @@
  * @endcode
  *
  * The compiler will then expand this definition to create a new read method, in this 
- * called ``getMyData`` that will returns \ref AQNWB::NWB::DynamicTable "DynamicTable"
+ * called ``getMyTable`` that returns a \ref AQNWB::NWB::DynamicTable "DynamicTable"
  * for reading "my_table". The corresponding expanded function will look something like:
  *
  * @code
