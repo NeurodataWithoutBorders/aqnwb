@@ -14,8 +14,9 @@
  *    used for managing \ref AQNWB::NWB::Container "Container" objects for storing recordings.
  * 3. Create the \ref AQNWB::NWB::NWBFile "NWBFile" object used for managing and creating NWB
  *    file contents.
- * 4. Create the \ref AQNWB::NWB::ElectrodesTable "ElectrodesTable" object used for saving 
- *    electrodes information. 
+ * 4. Create the recording metadata stored in ``\general`` in NWB, e.g., the  
+ *    \ref AQNWB::NWB::ElectrodesTable "ElectrodesTable" object used for 
+ *    saving electrodes information. 
  * 5. Create the \ref AQNWB::NWB::Container "Container" objects (e.g.,
  *    \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries") used for recording and add them
  *    to the \ref AQNWB::NWB::RecordingContainers "RecordingContainers".
