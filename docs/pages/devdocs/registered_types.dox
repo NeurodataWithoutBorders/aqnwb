@@ -70,8 +70,8 @@
  *    @endcode
  *
  * 7. When inheriting from the more specific  \ref AQNWB::NWB::Container "Container"
- *    or \ref AQNWB::NWB::Data "Data" types, then we will typially also need to implement an ``initialize`` 
- *    method, which is responsiple for creating the relevant Groups, Datasets, and Attributes
+ *    or \ref AQNWB::NWB::Data "Data" types, then we will typically also need to implement an ``initialize`` 
+ *    method, which is responsible for creating the relevant Groups, Datasets, and Attributes
  *    in the file for data write. Remember to also call the  ``initialize``  method of the
  *    parent class.
  *
