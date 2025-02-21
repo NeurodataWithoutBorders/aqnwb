@@ -3,46 +3,31 @@
  *
  * \tableofcontents
  *
- * \section read_intro Introduction
+ * Reading data from an existing NWB file via AqNWB consists of the following main steps:
  *
- * Reading data from an open NWB file via AqNWB consists of the following main steps:
+ * 1. \ref read_example_open  by creating and opening a read I/O object for the file.
+ * 2. \ref read_example_registered_type  by constructing the corresponding 
+ *    \ref AQNWB::NWB::RegisteredType "RegisteredType" class to represent the 
+ *    ``neurodata_type`` ,  e.g., \ref AQNWB::NWB::NWBFile "NWBFile" or
+ *    \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries".      
+ * 3. \ref read_example_read by creating a \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper" 
+ *    wrapper object for lazy read access to the particular dataset or attribute field.
+ * 4. Using  \ref AQNWB::IO::ReadDataWrapper::values "ReadDataWrapper::values"  we can then request the parts of 
+ *    the data of interest, at which point the data is being loaded from disk 
+ *    and returned as a \ref AQNWB::IO::DataBlock "DataBlock", which contains a 1D vector with the 
+ *    \ref AQNWB::IO::DataBlock::data "data" and the \ref AQNWB::IO::DataBlock::shape "shape" of the data.
  *
- * 1. Create the I/O object to read the file and open the file for read 
- *    \code
- *       auto io = createIO("HDF5", path);
- *       io->open(FileMode::ReadOnly);
- *    \endcode 
- * 2. Construct the container object for the ``neurodata_type`` (e.g., a ``ElectricalSeries``) for read
- *    via the \ref AQNWB::NWB::RegisteredType::create "RegisteredType::create" factory method, e.g.,
- *    \code
- *        auto electricalSeries = RegisteredType::create<ElectricalSeries>(electricalSeriesPath, io);
- *    \endcode 
- *    \note Many classes in AqNWB provide convenient read methods to access to specific objects, e.g., 
- *          \ref AQNWB::NWB::NWBFile::readElectrodeTable "NWBFile::readElectrodeTable" so that we 
- *          do not need to specify the ``path``, ``type``, and ``io``. Alternatively, we can also 
- *          construct the container for read directly, e.g., via  ``auto es = ElectricalSeries>(electricalSeriesPath, io)``.
- *          
- * 3. Access a dataset or attribute for read by retrieving a  \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper" 
- *    wrapper object that provides lazy read access to the particular dataset or attribute.
- *    \snippet tests/examples/test_ecephys_data_read.cpp example_read_get_data_wrapper_snippet
- *    \note For attributes, slicing is disabled at compile time since attributes are intended for small data only.
- * 4. Request the parts of the data of interest, at which point the data is being loaded from disk 
- *    and returned as a \ref AQNWB::IO::DataBlock "DataBlock", which stores a 1D vector with the 
- *    \ref AQNWB::IO::DataBlock::data "data", the \ref AQNWB::IO::DataBlock::shape "shape" of the data,
- *    and provides convenience methods for interacting with the data, e.g., \ref AQNWB::IO::DataBlock::as_multi_array
- *    \snippet tests/examples/test_ecephys_data_read.cpp example_read_get_datablock_snippet
- *
- * \note 
- * If you want to learn more about the underlying software design of AqNWB for data read please see \ref read_design_page
- * and if you want to learn how to implement your own classes for reading see \ref registered_type_page.
- *
- * \section read_example Example
- *
- * \subsection read_example_open Opening an existing file for reading
+ * \section read_example_open Opening an existing file for reading
  *
  * \snippet tests/examples/test_ecephys_data_read.cpp example_read_new_io_snippet
  *
- * \subsection read_example_predefined Reading known RegisteredType objects
+ * \par References:
+ * See \ref AQNWB::createIO "createIO" and \ref AQNWB::IO::HDF5::HDF5IO "HDF5IO"
+ *
+ *
+ * \section read_example_registered_type Reading NWB neurodata_types
+ *
+ * \subsection read_example_predefined_registered_type Reading known RegisteredType objects
  *
  * When the path and type of objects is fixed in the schema (or we know them based on other conventions),
  * then we can read the types directly from the file. E.g., here we first read the 
@@ -72,41 +57,57 @@
  * directly.
  *
  * \warning
- * The current implementation of \ref AQNWB::IO::BaseIO::findTypes "findType()" is
+ * The current implementation of \ref AQNWB::IO::BaseIO::findTypes "findTypes()" is
  * not aware of inheritance but searches for exact matches of types only.
  * However, we can search for objects of multiple different times at the same time by
  * specifying multiple types to search for in our ``typesToSearch``.
  *
- * \subsection read_example_read Reading data from RegisteredType objects
- *
- * To read from a ``neurodata_type`` object from an existing file, we can use the
+ * The ``found_electrical_series`` provides us with a map where each key is the 
+ * path to an object and its corresponding value is the type of the object. 
+ * Using this information we can read the ``neurodata_type`` objects from the file via the
  * \ref AQNWB::NWB::RegisteredType::create "RegisteredType::create" factory methods
  * to conveniently construct an instance of the corresponding class in AqNWB.
  *
  * \snippet tests/examples/test_ecephys_data_read.cpp example_read_only_snippet
  *
+ * \note 
+ * \ref AQNWB::IO::BaseIO::findTypes "findTypes" does not guarantee that objects are
+ * returned in any particular order. Instead of retrieving the first object via 
+ * ``found_electrical_series.begin()->first;``  we here fix the ``esdata_path`` path
+ * variable to ensure consistent behavior of the tutorial across platforms. 
+ *
+ * \par
  * \note
  * \ref AQNWB::NWB::RegisteredType::create "RegisteredType::create" comes in a few
  * different flavors:
- * 1. When passing only 1) ``path`` and 2) ``io`` (as in the example above), AqNWB
+ * 1. When passing the 1) ``path`` and 2) ``io``, and 3) specifying the type as a 
+ *   template parameter (as in the example above), the instance is being constructed using 
+ *   the common constructor and we get a pointer to the specific type directly. 
+ *   I.e., the above example is equivalent to creating the object via 
+ *   ``auto readElectricalSeries = ElectricalSeries(path, io)``.
+ * 2. When passing only 1) ``path`` and 2) ``io``, AqNWB
  *    reads the ``neurodata_type`` and ``namespace`` attributes from the NWB file to
- *    automatically determine the class to use to represent the type.
- * 2. When passing the 1) ``fullname`` (e.g., ``core::ElectricalSeries``),  2) ``path`` and 3) ``io``
- *    AqNWB looks up the class to use in \ref AQNWB::NWB::RegisteredType "RegisteredType's" type
- *    registry (see also \ref use_registered_type_registry )
- * 3. When passing the class to use as template parameter, e.g.,
- *    ``create<AQNWB::NWB::ElectricalSeries>(path, io);`` the
- *    instance is being constructed using the common constructor, i.e., this
- *    is equivalent to creating the object via ``ElectricalSeries(path, io)``
- * Option 1 and 2 instantiates the specific type (e.g., ``ElectricalSeries``) but return
- * a generic \ref AQNWB::NWB::RegisteredType "RegisteredType" pointer that we can
- * cast to the specific type if necessary, e.g., via 
- * ``auto readElectricalSeries = std::dynamic_pointer_cast<AQNWB::NWB::ElectricalSeries>(readRegisteredType);``. 
- * Option 3 creates and returns a pointer to the specific type directly.
+ *    determine the type to use (e.g., \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries") 
+ *    and then returns  generated instance is then returned as 
+ *    a generic \ref AQNWB::NWB::RegisteredType "RegisteredType" pointer
+ *    that we can then cast to the specific type if necessary, e.g., via 
+ *    ``auto readElectricalSeries = std::dynamic_pointer_cast<AQNWB::NWB::ElectricalSeries>(readRegisteredType);``. 
+ * 3. When passing the 1) ``fullname`` (e.g., ``core::ElectricalSeries``), 
+ *    2) ``path`` and 3) ``io``, the behavior is the same as in option 2, but 
+ *    we avoid reading the type ``neurodata_type`` and ``namespace`` attributes from 
+ *    the file to determine the type. This option is useful when we used
+ *    \ref AQNWB::IO::BaseIO::findTypes "findTypes", since we have
+ *    already determined the type information during the search, so that we can use 
+ *    ``found_electrical_series.begin()->second`` to set the ``fullname``.
  *
- * \subsubsection read_design_example_read_posthoc_read_field Reading data fields
+ * \section read_example_read Reading data from RegisteredType objects
  *
- * Now we can read fields and subsets of data from the fields:
+ * Now we can read fields and subsets of data from the fields
+ *
+ * \subsection read_design_example_read_posthoc_read_field Reading predefined data fields
+ *
+ * For fields with a predefined, fixed name in the schema, AQNWB provides read 
+ * methods for convenient access to such common data fields.
  *
  * \snippet tests/examples/test_ecephys_data_read.cpp example_read_only_fields_snippet
  *
@@ -119,6 +120,10 @@
  * since C++ is a strongly typed language. For example, when using \ref AQNWB::IO::DataBlock "DataBlock",
  * you need to specify the data type. And if you want to use \ref AQNWB::IO::DataBlock::as_multi_array "DataBlock.as_multi_array",
  * you also need to know the number of dimensions at compile time.
+ *
+ * \par
+ * \note 
+ * For attributes, slicing is disabled at compile time since attributes are intended for small data only.
  *
  * \subsection read_example_arbitrary Reading arbitrary fields
  *
@@ -144,10 +149,15 @@
  *
  * \snippet tests/examples/test_ecephys_data_read.cpp example_read_generic_registeredtype_field_snippet
  *
- * @note 
+ * \note 
  * Even though we here do not specify the template parameter for \ref AQNWB::NWB::RegisteredType::create "RegisteredType::create",
  * the function still creates the correct type by reading the type information from the NWB file, 
  * however, because we do not specify the type, the function returns the object as a pointer 
  * of \ref AQNWB::NWB::RegisteredType "RegisteredType", that we can then subsequently cast to the 
  * approbriate type if necessary. 
+ *
+ * \section read_further_reading Further reading
+ * - \ref read_design_page discusses the underlying software design of AqNWB for data read 
+ * - \ref registered_type_page discusses how to implement your own \ref AQNWB::NWB::RegisteredType "RegisteredType"
+ *    classes for reading and writing data 
  */

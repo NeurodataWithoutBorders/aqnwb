@@ -100,7 +100,7 @@ public:
                "data/channel_conversion",
                Channel - specific conversion factor)
 
-  DEFINE_FIELD(readData, DatasetField, std::any, "data", Recorded voltage data)
+  DEFINE_FIELD(readData, DatasetField, float, "data", Recorded voltage data)
 
   DEFINE_FIELD(readDataUnit,
                AttributeField,
