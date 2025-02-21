@@ -15,7 +15,7 @@
  *
  * \section read_design_sec_read_date Reading datasets and attributes
  *
- * AqNWB reads datasets and attributes lazyly via wrappers. The main components involved in
+ * AqNWB reads datasets and attributes lazily via wrappers. The main components involved in
  * reading data from an NWB file via AqNWB are:
  *
  * 1. \ref AQNWB::NWB::Container "Container"
