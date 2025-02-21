@@ -677,6 +677,15 @@ TEST_CASE("HDF5IO; create attributes", "[hdf5io]")
           hdf5io.readReferenceAttribute("/data/nonExistentRefAttr"),
           std::invalid_argument);
     }
+
+    // Test reading an attribute that is not a reference attribute
+    SECTION("non-reference attribute")
+    {
+      const int data = 1;
+      hdf5io.createAttribute(BaseDataType::I32, &data, "/data", "intAttr");
+      REQUIRE_THROWS_AS(hdf5io.readReferenceAttribute("/data/intAttr"),
+                        std::invalid_argument);
+    }
   }
 
   // close file
