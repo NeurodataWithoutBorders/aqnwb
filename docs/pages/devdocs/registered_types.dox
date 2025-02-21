@@ -122,7 +122,7 @@
  * A special version of the ``REGISTER_SUBCLASS`` macro, called ``REGISTER_SUBCLASS_WITH_TYPENAME``,
  * allows setting the typename explicitly as a third argument. This is for the **special case**
  * where the name of the class cannot be the same as the name of the type (e.g,. when implementing
- * a class for schema that doesn't have an assigned type in the schema or a class that requires
+ * a class that doesn't have an assigned type in the schema or a class that requires
  * template parameters that are not part of the type name). See \ref using_registered_subclass_with_typename
  * for details. 
  *
