@@ -324,6 +324,8 @@ std::string HDF5IO::readReferenceAttribute(const std::string& dataPath) const
   attribute.read(dataType, &ref);
 
   // Dereference the reference to get the HDF5 object ID
+  // TODO: Note as of HDF5-1.12, H5Rdereference2() has been deprecated in
+  //       favor of H5Ropen_attr(), H5Ropen_object() and H5Ropen_region().
   hid_t obj_id =
       H5Rdereference2(attribute.getId(), H5P_DEFAULT, H5R_OBJECT, &ref);
   if (obj_id < 0) {
