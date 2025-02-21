@@ -127,8 +127,8 @@ public:
       readElectrodesTable,
       ElectrodeTable,
       "electrodes/table",
-     The electrodes table retrieved from the object referenced in the 
-      `electrodes/table` attribute.)
+      The electrodes table retrieved from the object referenced in the 
+      `electrodes / table` attribute.)
 
 private:
   /**
