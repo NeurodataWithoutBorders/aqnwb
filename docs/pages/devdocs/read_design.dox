@@ -22,9 +22,7 @@
  *   - \ref AQNWB::NWB::Container "Container" type classes represent Groups with an assigned ``neurodata_type``
  *     (e.g., \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries" or \ref AQNWB::NWB::NWBFile "NWBFile")
  *     and exposes read access to its specific datasets and attributes via corresponding functions, which return
- *     \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper<DatasetField>" or
- *     \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper<AttributeField>" objects
- *     for lazily reading from the dataset/attribute.
+ *     \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper" objects for lazily reading from the dataset/attribute.
  * 2. \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper"
  *   - \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper", is a simple wrapper class that represents
  *     a dataset/attribute for read, enabling lazy data read and allowing for transparent use of different I/O backends.
