@@ -24,11 +24,11 @@
  *     and expose read access to their specific datasets and attributes via corresponding functions, which return
  *     \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper" objects for lazily reading from the dataset/attribute.
  * 2. \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper"
- *   - \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper", is a simple wrapper class that represents
+ *   - \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper" is a simple wrapper class that represents
  *     a dataset/attribute for read, enabling lazy data read and allowing for transparent use of different I/O backends.
  *     The \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper" then calls the I/O backend to retrieve data lazily 
  *     when the user requests access. 
- *   - To create \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper"  object a user will typically 
+ *   - To create a \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper"  object a user will typically 
  *     use either pre-definied read methods created via the \ref DEFINE_FIELD macro
  *     (see also \ref use_the_define_field_macro) or the \ref AQNWB::NWB::RegisteredType::readField "RegisteredType::readField" 
  *     method.
