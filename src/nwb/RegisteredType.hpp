@@ -431,9 +431,9 @@ protected:
  * @brief Defines a lazy-loaded accessor function for reading fields that are
  * RegisteredTypes that are linked to by a reference attribute
  *
- * This macro generates a function that returns the approbriate subtype of
+ * This macro generates a function that returns the appropriate subtype of
  * RegisteredType, e.g., to read VectorData from a DynamicTable or a
- * TimeSeries from and NWBFile.
+ * TimeSeries from an NWBFile.
  *
  * \note
  * The Doxyfile.in defines a simplified expansion of this function
