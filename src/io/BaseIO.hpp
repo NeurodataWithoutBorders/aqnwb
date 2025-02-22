@@ -444,9 +444,10 @@ public:
   /**
    * @brief Returns the size of the dataset for each dimension.
    * @param path The location in the file of the dataset.
-   * @return The dataset size.
+   * @return The dataset shape.
    */
-  virtual std::vector<SizeType> getDatasetSize(const std::string path) = 0;
+  virtual std::vector<SizeType> getStorageObjectShape(
+      const std::string path) = 0;
 
   /**
    * @brief Convenience function for creating NWB related attributes.

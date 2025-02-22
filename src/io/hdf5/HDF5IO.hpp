@@ -271,9 +271,9 @@ public:
   /**
    * @brief Returns the size of the dataset for each dimension.
    * @param path The location in the file of the dataset.
-   * @return The dataset size.
+   * @return The dataset shape.
    */
-  std::vector<SizeType> getDatasetSize(const std::string path) override;
+  std::vector<SizeType> getStorageObjectShape(const std::string path) override;
 
   /**
    * @brief Checks whether a Dataset, Group, or Link already exists at the

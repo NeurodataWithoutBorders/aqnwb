@@ -45,7 +45,7 @@ Status ElectricalSeries::initialize(const IO::BaseDataType& dataType,
   // get the number of electrodes from the electrode table
   std::string idPath =
       AQNWB::mergePaths(ElectrodeTable::electrodeTablePath, "id");
-  std::vector<SizeType> elecTableDsetSize = m_io->getDatasetSize(idPath);
+  std::vector<SizeType> elecTableDsetSize = m_io->getStorageObjectShape(idPath);
   SizeType numElectrodes = elecTableDsetSize[0];
 
   // setup variables based on number of channels
