@@ -155,6 +155,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7535b7fcc607fe1f47703f21b25ae5de" id="r_a7535b7fcc607fe1f47703f21b25ae5de"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html">AQNWB::IO::DataBlockGeneric</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7535b7fcc607fe1f47703f21b25ae5de">readAttribute</a> (const std::string &amp;dataPath) const override</td></tr>
 <tr class="memdesc:a7535b7fcc607fe1f47703f21b25ae5de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a attribute and determines the data type.  <br /></td></tr>
 <tr class="separator:a7535b7fcc607fe1f47703f21b25ae5de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4074db2a2a9f186d1016c94329573421" id="r_a4074db2a2a9f186d1016c94329573421"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4074db2a2a9f186d1016c94329573421">readReferenceAttribute</a> (const std::string &amp;dataPath) const override</td></tr>
+<tr class="memdesc:a4074db2a2a9f186d1016c94329573421"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a reference attribute and returns the path to the referenced object.  <br /></td></tr>
+<tr class="separator:a4074db2a2a9f186d1016c94329573421"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7ce63eb864cc8678f4bacb5fbc695cbe" id="r_a7ce63eb864cc8678f4bacb5fbc695cbe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7ce63eb864cc8678f4bacb5fbc695cbe">createAttribute</a> (const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">IO::BaseDataType</a> &amp;type, const void *data, const std::string &amp;path, const std::string &amp;name, const <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &amp;size=1) override</td></tr>
 <tr class="memdesc:a7ce63eb864cc8678f4bacb5fbc695cbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an attribute at a given location in the file.  <br /></td></tr>
 <tr class="separator:a7ce63eb864cc8678f4bacb5fbc695cbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1110,7 +1113,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o_a87d9b4075fd30c5ec692738985ae294c_icgraph.svg" width="448" height="183"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o_a87d9b4075fd30c5ec692738985ae294c_icgraph.svg" width="448" height="248"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -1746,6 +1749,47 @@ Here is the caller graph for this function:</div>
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o_a805558f3372cd322dd8bb109151670d8_cgraph.svg" width="448" height="207"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a4074db2a2a9f186d1016c94329573421" name="a4074db2a2a9f186d1016c94329573421"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4074db2a2a9f186d1016c94329573421">&#9670;&#160;</a></span>readReferenceAttribute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string HDF5IO::readReferenceAttribute </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>dataPath</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reads a reference attribute and returns the path to the referenced object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dataPath</td><td>The path to the reference attribute within the file. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The path to the referenced object. </dd></dl>
+
+<p>Implements <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#ad39c696cc54302f3e3dda87607222560">AQNWB::IO::BaseIO</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o_a4074db2a2a9f186d1016c94329573421_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>

@@ -10,12 +10,13 @@ var searchData=
   ['updating_20the_20schema_7',['Updating the schema',['../nwb_schema_page.html#dev_docs_updating_nwb_schema_section',1,'']]],
   ['use_20smwr_20mode_8',['Why does AqNWB use SMWR mode?',['../hdf5io.html#hdf5io_swmr_features',1,'']]],
   ['use_20the_20define_5ffield_20macro_9',['How to use the DEFINE_FIELD macro',['../registered_type_page.html#use_the_define_field_macro',1,'']]],
-  ['use_20the_20define_5fregistered_5ffield_20macro_10',['How to use the DEFINE_REGISTERED_FIELD macro',['../registered_type_page.html#use_the_define_registered_field_macro',1,'']]],
-  ['use_20the_20registeredtype_20registry_11',['How to Use the RegisteredType Registry',['../registered_type_page.html#use_registered_type_registry',1,'']]],
-  ['users_12',['For Users',['../userdocs.html',1,'']]],
-  ['using_20boost_20multi_20array_20for_20n_20dimensional_20data_13',['Using Boost Multi Array for N-Dimensional Data',['../read_page.html#read_design_data_block_multiarray',1,'']]],
-  ['using_20register_5fsubclass_5fwith_5ftypename_14',['Using REGISTER_SUBCLASS_WITH_TYPENAME',['../registered_type_page.html#using_registered_subclass_with_typename',1,'']]],
-  ['using_20the_20type_20registry_15',['Example: Using the type registry',['../registered_type_page.html#use_registered_type_registry_example',1,'']]],
-  ['usual_16',['Create a NWB file as usual',['../read_page.html#read_design_example_create',1,'']]],
-  ['utils_2ehpp_17',['Utils.hpp',['../_utils_8hpp.html',1,'']]]
+  ['use_20the_20define_5freferenced_5fregistered_5ffield_20macro_10',['How to use the DEFINE_REFERENCED_REGISTERED_FIELD macro',['../registered_type_page.html#use_the_define_referenced_registered_field_macro',1,'']]],
+  ['use_20the_20define_5fregistered_5ffield_20macro_11',['How to use the DEFINE_REGISTERED_FIELD macro',['../registered_type_page.html#use_the_define_registered_field_macro',1,'']]],
+  ['use_20the_20registeredtype_20registry_12',['How to Use the RegisteredType Registry',['../registered_type_page.html#use_registered_type_registry',1,'']]],
+  ['users_13',['For Users',['../userdocs.html',1,'']]],
+  ['using_20boost_20multi_20array_20for_20n_20dimensional_20data_14',['Using Boost Multi Array for N-Dimensional Data',['../read_page.html#read_design_data_block_multiarray',1,'']]],
+  ['using_20register_5fsubclass_5fwith_5ftypename_15',['Using REGISTER_SUBCLASS_WITH_TYPENAME',['../registered_type_page.html#using_registered_subclass_with_typename',1,'']]],
+  ['using_20the_20type_20registry_16',['Example: Using the type registry',['../registered_type_page.html#use_registered_type_registry_example',1,'']]],
+  ['usual_17',['Create a NWB file as usual',['../read_page.html#read_design_example_create',1,'']]],
+  ['utils_2ehpp_18',['Utils.hpp',['../_utils_8hpp.html',1,'']]]
 ];

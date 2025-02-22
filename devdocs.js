@@ -42,6 +42,7 @@ var devdocs =
       ] ],
       [ "How to use the DEFINE_FIELD macro", "registered_type_page.html#use_the_define_field_macro", null ],
       [ "How to use the DEFINE_REGISTERED_FIELD macro", "registered_type_page.html#use_the_define_registered_field_macro", null ],
+      [ "How to use the DEFINE_REFERENCED_REGISTERED_FIELD macro", "registered_type_page.html#use_the_define_referenced_registered_field_macro", null ],
       [ "Using REGISTER_SUBCLASS_WITH_TYPENAME", "registered_type_page.html#using_registered_subclass_with_typename", [
         [ "Limitations of REGISTER_SUBCLASS_WITH_TYPENAME", "registered_type_page.html#limitations_registered_subclass_with_typename", null ]
       ] ]

@@ -1,5 +1,12 @@
 var NAVTREEINDEX3 =
 {
+"class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#a2b8b71027d2b756b87dc59de695c7309":[4,0,0,1,12,1],
+"class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#a5cfdd0f6bfdf9cec7e43219fb606a7e1":[3,0,0,2,12,5],
+"class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#a5cfdd0f6bfdf9cec7e43219fb606a7e1":[4,0,0,1,12,5],
+"class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#a8d9fdfd3be48a2829381969302d3063f":[3,0,0,2,12,2],
+"class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#a8d9fdfd3be48a2829381969302d3063f":[4,0,0,1,12,2],
+"class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#a901f905f39e126af2705167ac37430cc":[3,0,0,2,12,3],
+"class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#a901f905f39e126af2705167ac37430cc":[4,0,0,1,12,3],
 "class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#aa50ddcae23645df21b0753fe6bbdd6a8":[3,0,0,2,12,4],
 "class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#aa50ddcae23645df21b0753fe6bbdd6a8":[4,0,0,1,12,4],
 "class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#ab0d22d8f2ea5b272fcd1c451f97ab2a6":[3,0,0,2,12,6],
@@ -242,12 +249,5 @@ var NAVTREEINDEX3 =
 "namespace_a_q_n_w_b_1_1_h_d_f5.html":[3,0,0,0],
 "namespace_a_q_n_w_b_1_1_i_o.html":[3,0,0,1],
 "namespace_a_q_n_w_b_1_1_i_o.html#a969d0800c8e9e2141f272541b85e8bed":[3,0,0,1,10],
-"namespace_a_q_n_w_b_1_1_i_o.html#a969d0800c8e9e2141f272541b85e8beda131fb182a881796e7606ed6da27f1197":[3,0,0,1,10,2],
-"namespace_a_q_n_w_b_1_1_i_o.html#a969d0800c8e9e2141f272541b85e8beda70a2a84088d405a2e3f1e3accaa16723":[3,0,0,1,10,1],
-"namespace_a_q_n_w_b_1_1_i_o.html#a969d0800c8e9e2141f272541b85e8bedada364eb37e143f6b2b5559aa03f5913a":[3,0,0,1,10,0],
-"namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035":[3,0,0,1,11],
-"namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035a0bce90db02919671dbe161b9bd8cef05":[3,0,0,1,11,0],
-"namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035aec2c6b5e5e8c3b3810251e9974647ef8":[3,0,0,1,11,1],
-"namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html":[3,0,0,1,0],
-"namespace_a_q_n_w_b_1_1_n_w_b.html":[3,0,0,2]
+"namespace_a_q_n_w_b_1_1_i_o.html#a969d0800c8e9e2141f272541b85e8beda131fb182a881796e7606ed6da27f1197":[3,0,0,1,10,2]
 };

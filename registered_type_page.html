@@ -131,6 +131,9 @@ $(function(){initNavTree('registered_type_page.html',''); initResizable(true); }
     <a href="#use_the_define_registered_field_macro">How to use the DEFINE_REGISTERED_FIELD macro</a>
   </li>
   <li class="level1">
+    <a href="#use_the_define_referenced_registered_field_macro">How to use the DEFINE_REFERENCED_REGISTERED_FIELD macro</a>
+  </li>
+  <li class="level1">
     <a href="#using_registered_subclass_with_typename">Using REGISTER_SUBCLASS_WITH_TYPENAME</a>
     <ul>
       <li class="level2">
@@ -345,7 +348,7 @@ How to use the DEFINE_FIELD macro</h1>
 </div><!-- fragment --><p>See <a class="el" href="read_page.html">Reading data</a> for an example of how to use such methods (e.g., <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a8a43d4c249f6865ee4f77c58a91b6546">TimeSeries::readData</a> ) for reading data fields from a file.</p>
 <h1><a class="anchor" id="use_the_define_registered_field_macro"></a>
 How to use the DEFINE_REGISTERED_FIELD macro</h1>
-<p>The <a class="el" href="_registered_type_8hpp.html#af374245a4f6d5a00540e9fdba52a652a">DEFINE_REGISTERED_FIELD</a> works much like the <a class="el" href="_registered_type_8hpp.html#acd3c876a1c357333cd4a8ff27300ee08">DEFINE_FIELD</a> macro macro but returns instances of specific subtypes of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a>, rather than <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">ReadDataWrapper</a>. As such the main inputs for <a class="el" href="_registered_type_8hpp.html#af374245a4f6d5a00540e9fdba52a652a">DEFINE_REGISTERED_FIELD</a> are as follows:</p>
+<p>The <a class="el" href="_registered_type_8hpp.html#af374245a4f6d5a00540e9fdba52a652a">DEFINE_REGISTERED_FIELD</a> macro works much like the <a class="el" href="_registered_type_8hpp.html#acd3c876a1c357333cd4a8ff27300ee08">DEFINE_FIELD</a> macro macro but returns instances of specific subtypes of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a>, rather than <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">ReadDataWrapper</a>. As such the main inputs for <a class="el" href="_registered_type_8hpp.html#af374245a4f6d5a00540e9fdba52a652a">DEFINE_REGISTERED_FIELD</a> are as follows:</p>
 <ul>
 <li><code>name</code>: The name of the function to generate.</li>
 <li><code>registeredType</code> : The specific subclass of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> to use</li>
@@ -354,7 +357,10 @@ How to use the DEFINE_REGISTERED_FIELD macro</h1>
 </ul>
 <p>All of these inputs are required. A typical example will look as follows:</p>
 <div class="fragment"><div class="line"><a class="code hl_define" href="_registered_type_8hpp.html#af374245a4f6d5a00540e9fdba52a652a">DEFINE_REGISTERED_FIELD</a>(getData, DynamicTable, <span class="stringliteral">&quot;my_table&quot;</span>, My data table)</div>
-</div><!-- fragment --><h1><a class="anchor" id="using_registered_subclass_with_typename"></a>
+</div><!-- fragment --><h1><a class="anchor" id="use_the_define_referenced_registered_field_macro"></a>
+How to use the DEFINE_REFERENCED_REGISTERED_FIELD macro</h1>
+<p>The <a class="el" href="_registered_type_8hpp.html#a3b2c847e459e9e30e65e38897303a9a5">DEFINE_REFERENCED_REGISTERED_FIELD</a> macro works exactly like the <a class="el" href="_registered_type_8hpp.html#af374245a4f6d5a00540e9fdba52a652a">DEFINE_REGISTERED_FIELD</a> macro, but the underlying data is an attribute that stores a reference to an instances of a specific subtype of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> rather than the instance of the object directly. I.e., <code>fieldPath</code> here is the relative path to the attribute that stores the reference, rather than the relative path of the object itself. The generated read method then resolves the reference first and then returns the instance of the object that is being referenced.</p>
+<h1><a class="anchor" id="using_registered_subclass_with_typename"></a>
 Using REGISTER_SUBCLASS_WITH_TYPENAME</h1>
 <p>The main use case for <a class="el" href="_registered_type_8hpp.html#a34a1efef99cdbc58adaec1c8fcf5d250">REGISTER_SUBCLASS_WITH_TYPENAME</a> is when we need to implement a class for type where the name of the class does not match the type name. E.g. using <code>REGISTER_SUBCLASS_WITH_TYPENAME(ElectrodeTable, "core", "DynamicTable")</code>, the class will be registered tn the registry, under the <code>core::ElectrodesTable</code> key, but with "DynamicTable" as the typename value and the <code>ElectrodesTable.getTypeName</code> automatic override returning the indicated typename instead of the classname. The main use cases for this are to:</p>
 <ul>

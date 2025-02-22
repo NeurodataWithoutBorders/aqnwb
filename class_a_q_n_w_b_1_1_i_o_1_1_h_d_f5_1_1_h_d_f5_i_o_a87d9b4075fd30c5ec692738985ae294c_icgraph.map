@@ -1,9 +1,11 @@
 <map id="AQNWB::IO::HDF5::HDF5IO::getAttribute" name="AQNWB::IO::HDF5::HDF5IO::getAttribute">
-<area shape="rect" id="Node000001" title=" " alt="" coords="248,71,442,111"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="248,104,442,145"/>
 <area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a53bfbbdbf24afdd97ea45294b65c1e37" title="Checks whether an Attribute exists at the location in the file." alt="" coords="5,5,200,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="251,69,180,49,182,44,253,64"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="286,100,199,61,166,49,167,44,201,57,288,95"/>
 <area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a5fb171a91ef8134baf224115f0dcf8bc" title="Get the storage type (Group, Dataset, Attribute) of the object at path." alt="" coords="5,71,200,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="232,94,200,94,200,88,232,88"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="232,111,200,107,200,102,232,106"/>
 <area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a7535b7fcc607fe1f47703f21b25ae5de" title="Reads a attribute and determines the data type." alt="" coords="5,136,200,177"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="253,118,182,138,180,133,251,113"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="232,142,200,146,200,141,232,137"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a4074db2a2a9f186d1016c94329573421" title="Reads a reference attribute and returns the path to the referenced object." alt="" coords="5,201,200,242"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="286,154,201,191,167,203,166,198,199,186,284,149"/>
 </map>

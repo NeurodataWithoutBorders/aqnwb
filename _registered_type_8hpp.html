@@ -163,6 +163,9 @@ Macros</h2></td></tr>
 <tr class="memitem:af374245a4f6d5a00540e9fdba52a652a" id="r_af374245a4f6d5a00540e9fdba52a652a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af374245a4f6d5a00540e9fdba52a652a">DEFINE_REGISTERED_FIELD</a>(name,  registeredType,  fieldPath,  description)</td></tr>
 <tr class="memdesc:af374245a4f6d5a00540e9fdba52a652a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines a lazy-loaded accessor function for reading fields that are RegisteredTypes.  <br /></td></tr>
 <tr class="separator:af374245a4f6d5a00540e9fdba52a652a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b2c847e459e9e30e65e38897303a9a5" id="r_a3b2c847e459e9e30e65e38897303a9a5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3b2c847e459e9e30e65e38897303a9a5">DEFINE_REFERENCED_REGISTERED_FIELD</a>(name,  registeredType,  fieldPath,  description)</td></tr>
+<tr class="memdesc:a3b2c847e459e9e30e65e38897303a9a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines a lazy-loaded accessor function for reading fields that are RegisteredTypes that are linked to by a reference attribute.  <br /></td></tr>
+<tr class="separator:a3b2c847e459e9e30e65e38897303a9a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -226,6 +229,65 @@ Variables</h2></td></tr>
     <tr><td class="paramname">storageObjectType</td><td>The type of storage object (Attribute or Dataset). </td></tr>
     <tr><td class="paramname">default_type</td><td>The default type of the field. </td></tr>
     <tr><td class="paramname">fieldPath</td><td>The path to the field. </td></tr>
+    <tr><td class="paramname">description</td><td>A detailed description of the field. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a3b2c847e459e9e30e65e38897303a9a5" name="a3b2c847e459e9e30e65e38897303a9a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b2c847e459e9e30e65e38897303a9a5">&#9670;&#160;</a></span>DEFINE_REFERENCED_REGISTERED_FIELD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEFINE_REFERENCED_REGISTERED_FIELD</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>name</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>registeredType</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>fieldPath</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>description</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line"> \</div>
+<div class="line">  <span class="keyword">template</span>&lt;<span class="keyword">typename</span> RTYPE = registeredType&gt; \</div>
+<div class="line">  <span class="keyword">inline</span> std::shared_ptr&lt;RTYPE&gt; name() const \</div>
+<div class="line">  { \</div>
+<div class="line">    <span class="keywordflow">try</span> { \</div>
+<div class="line">      std::string attrPath = <a class="code hl_function" href="namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881">AQNWB::mergePaths</a>(m_path, fieldPath); \</div>
+<div class="line">      std::string objectPath = m_io-&gt;readReferenceAttribute(attrPath); \</div>
+<div class="line">      if (m_io-&gt;objectExists(objectPath)) { \</div>
+<div class="line">        <span class="keywordflow">return</span> RegisteredType::create&lt;RTYPE&gt;(objectPath, m_io); \</div>
+<div class="line">      } \</div>
+<div class="line">    } <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) { \</div>
+<div class="line">      <span class="keywordflow">return</span> <span class="keyword">nullptr</span>; \</div>
+<div class="line">    } \</div>
+<div class="line">    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>; \</div>
+<div class="line">  }</div>
+</div><!-- fragment -->
+<p>Defines a lazy-loaded accessor function for reading fields that are RegisteredTypes that are linked to by a reference attribute. </p>
+<p>This macro generates a function that returns the appropriate subtype of RegisteredType, e.g., to read VectorData from a DynamicTable or a TimeSeries from an NWBFile.</p>
+<dl class="section note"><dt>Note</dt><dd>The Doxyfile.in defines a simplified expansion of this function for generating the documentation for the autogenerated function. This means: 1) When updating the macro here, we also need to ensure that the expansion in the Doxyfile.in is still accurate and 2) the docstring that is defined by the macro here is not being used by Doxygen but the version generated by its on PREDEFINED expansion.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>The name of the function to generate. </td></tr>
+    <tr><td class="paramname">registeredType</td><td>The specific subclass of registered type to use </td></tr>
+    <tr><td class="paramname">fieldPath</td><td>The path to the attribute that stores reference to the field </td></tr>
     <tr><td class="paramname">description</td><td>A detailed description of the field. </td></tr>
   </table>
   </dd>

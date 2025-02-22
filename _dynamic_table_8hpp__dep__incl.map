@@ -1,15 +1,27 @@
 <map id="src/nwb/hdmf/table/DynamicTable.hpp" name="src/nwb/hdmf/table/DynamicTable.hpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="297,5,431,46"/>
-<area shape="rect" id="Node000002" href="$_electrode_table_8hpp.html" title=" " alt="" coords="166,102,370,127"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="333,59,283,103,279,99,329,55"/>
-<area shape="rect" id="Node000007" href="$_dynamic_table_8cpp.html" title=" " alt="" coords="393,94,527,135"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="399,55,440,92,437,96,395,59"/>
-<area shape="rect" id="Node000003" href="$_n_w_b_file_8hpp.html" title=" " alt="" coords="5,190,155,216"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="229,136,108,192,105,187,227,132"/>
-<area shape="rect" id="Node000005" href="$_electrical_series_8cpp.html" title=" " alt="" coords="179,183,357,223"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="271,143,271,183,265,183,265,143"/>
-<area shape="rect" id="Node000006" href="$_electrode_table_8cpp.html" title=" " alt="" coords="381,190,584,216"/>
-<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="313,131,454,187,452,192,311,136"/>
-<area shape="rect" id="Node000004" href="$_n_w_b_file_8cpp.html" title=" " alt="" coords="5,271,155,297"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="83,232,83,271,77,271,77,232"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="360,5,493,46"/>
+<area shape="rect" id="Node000002" href="$_electrode_table_8hpp.html" title=" " alt="" coords="229,102,432,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="395,59,346,103,342,99,392,55"/>
+<area shape="rect" id="Node000011" href="$_dynamic_table_8cpp.html" title=" " alt="" coords="456,94,589,135"/>
+<area shape="poly" id="edge14_Node000001_Node000011" title=" " alt="" coords="462,55,503,92,499,96,458,59"/>
+<area shape="rect" id="Node000003" href="$_n_w_b_file_8hpp.html" title=" " alt="" coords="5,279,155,304"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="303,139,99,280,96,276,299,134"/>
+<area shape="rect" id="Node000005" href="$_electrical_series_8cpp.html" title=" " alt="" coords="179,271,357,312"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="317,142,296,184,282,230,274,271,268,270,277,229,291,182,312,139"/>
+<area shape="rect" id="Node000006" href="$_electrical_series_8hpp.html" title=" " alt="" coords="306,183,484,223"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="351,138,383,181,378,184,347,141"/>
+<area shape="rect" id="Node000010" href="$_electrode_table_8cpp.html" title=" " alt="" coords="508,190,711,216"/>
+<area shape="poly" id="edge13_Node000002_Node000010" title=" " alt="" coords="385,130,571,187,569,192,384,135"/>
+<area shape="rect" id="Node000004" href="$_n_w_b_file_8cpp.html" title=" " alt="" coords="235,368,384,393"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="128,308,278,364,276,369,126,313"/>
+<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="394,239,386,275,372,313,349,345,325,369,322,365,345,342,367,311,381,274,388,238"/>
+<area shape="poly" id="edge8_Node000006_Node000005" title=" " alt="" coords="355,234,298,273,295,269,352,230"/>
+<area shape="rect" id="Node000007" href="$_recording_containers_8cpp.html" title=" " alt="" coords="624,368,842,393"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="500,225,580,246,637,269,667,292,693,319,728,365,724,369,689,322,664,296,635,274,578,251,498,230"/>
+<area shape="rect" id="Node000008" href="$_spike_event_series_8hpp.html" title=" " alt="" coords="432,271,624,312"/>
+<area shape="poly" id="edge9_Node000006_Node000008" title=" " alt="" coords="439,230,499,269,496,273,436,234"/>
+<area shape="poly" id="edge10_Node000008_Node000004" title=" " alt="" coords="465,321,341,369,339,365,463,316"/>
+<area shape="poly" id="edge11_Node000008_Node000007" title=" " alt="" coords="589,316,706,365,704,369,587,321"/>
+<area shape="rect" id="Node000009" href="$_spike_event_series_8cpp.html" title=" " alt="" coords="408,360,600,401"/>
+<area shape="poly" id="edge12_Node000008_Node000009" title=" " alt="" coords="521,328,512,360,507,359,516,326"/>
 </map>

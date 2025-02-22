@@ -32,6 +32,7 @@ var class_a_q_n_w_b_1_1_i_o_1_1_base_i_o =
     [ "operator=", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a25e8586e97c3e0e6f3d4e0d6501f5a68", null ],
     [ "readAttribute", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#aa9b3fc349e4149f6b1c75bb854deae07", null ],
     [ "readDataset", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a59ab1d7c744d05623aa8626643e37a74", null ],
+    [ "readReferenceAttribute", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#ad39c696cc54302f3e3dda87607222560", null ],
     [ "startRecording", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a006c8398539656103fcc1eba2b3741bb", null ],
     [ "stopRecording", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#abb70664e12700c9bc69505a71e365bf5", null ],
     [ "m_filename", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a86e58b8c986d2d8f22dcd1deb028b4d8", null ],

@@ -47,7 +47,7 @@
   </g>
 </defs>
 <script type="application/ecmascript">
-var viewWidth = 750;
+var viewWidth = 945;
 var viewHeight = 57;
 var sectionId = 'dynsection-5';
 </script>
@@ -128,6 +128,25 @@ var sectionId = 'dynsection-5';
 <g id="a_edge4_Node000003_Node000004"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M547.82,-15.25C555.74,-15.25 563.82,-15.25 571.84,-15.25"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="571.6,-18.75 581.6,-15.25 571.6,-11.75 571.6,-18.75"/>
+</a>
+</g>
+</g>
+<!-- Node5 -->
+<g id="Node000005" class="node">
+<title>Node5</title>
+<g id="a_Node000005"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a4e01c37f2bc3c228ccf2f1bbf8c1d387" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="936.5,-30.5 778,-30.5 778,0 936.5,0 936.5,-30.5"/>
+<text text-anchor="start" x="786" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::ElectricalSeries</text>
+<text text-anchor="middle" x="857.25" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::readElectrodesTable</text>
+</a>
+</g>
+</g>
+<!-- Node4&#45;&gt;Node5 -->
+<g id="edge5_Node000004_Node000005" class="edge">
+<title>Node4&#45;&gt;Node5</title>
+<g id="a_edge5_Node000004_Node000005"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M742.32,-15.25C750.24,-15.25 758.32,-15.25 766.34,-15.25"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="766.1,-18.75 776.1,-15.25 766.1,-11.75 766.1,-18.75"/>
 </a>
 </g>
 </g>

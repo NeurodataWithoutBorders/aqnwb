@@ -15,6 +15,7 @@ var searchData=
   ['how_20the_20type_20registry_20in_20registeredtype_20works_12',['How the Type Registry in RegisteredType Works',['../registered_type_page.html#type_registry',1,'']]],
   ['how_20to_20implement_20a_20registeredtype_13',['How to Implement a RegisteredType',['../registered_type_page.html#implement_registered_type',1,'']]],
   ['how_20to_20use_20the_20define_5ffield_20macro_14',['How to use the DEFINE_FIELD macro',['../registered_type_page.html#use_the_define_field_macro',1,'']]],
-  ['how_20to_20use_20the_20define_5fregistered_5ffield_20macro_15',['How to use the DEFINE_REGISTERED_FIELD macro',['../registered_type_page.html#use_the_define_registered_field_macro',1,'']]],
-  ['how_20to_20use_20the_20registeredtype_20registry_16',['How to Use the RegisteredType Registry',['../registered_type_page.html#use_registered_type_registry',1,'']]]
+  ['how_20to_20use_20the_20define_5freferenced_5fregistered_5ffield_20macro_15',['How to use the DEFINE_REFERENCED_REGISTERED_FIELD macro',['../registered_type_page.html#use_the_define_referenced_registered_field_macro',1,'']]],
+  ['how_20to_20use_20the_20define_5fregistered_5ffield_20macro_16',['How to use the DEFINE_REGISTERED_FIELD macro',['../registered_type_page.html#use_the_define_registered_field_macro',1,'']]],
+  ['how_20to_20use_20the_20registeredtype_20registry_17',['How to Use the RegisteredType Registry',['../registered_type_page.html#use_registered_type_registry',1,'']]]
 ];
