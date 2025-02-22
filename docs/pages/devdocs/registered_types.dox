@@ -198,7 +198,7 @@
  * }
  * @endcode
  *
- * \subsection use_the_define_referenced_registered_field_macro How to use the DEFINE_REFERENCED_REGISTERED_FIELD macro
+ * \subsection use_the_define_referenced_registered_field_macro DEFINE_REFERENCED_REGISTERED_FIELD: Defining read methods for references to neurodata_type objects
  *
  * The \ref DEFINE_REFERENCED_REGISTERED_FIELD macro works exactly like the 
  * \ref DEFINE_REGISTERED_FIELD macro, but the underlying data is an attribute that 
