@@ -84,7 +84,5 @@ public:
    * @brief Alias for a vector of channels.
    */
   using ChannelVector = std::vector<Channel>;
-
-  std::vector<SizeType> EmptyContainerIndexes = std::vector<SizeType>();
 };
 }  // namespace AQNWB
