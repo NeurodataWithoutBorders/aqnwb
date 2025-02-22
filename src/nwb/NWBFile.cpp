@@ -224,15 +224,16 @@ Status NWBFile::createElectricalSeries(
     }
 
     // Setup electrical series datasets
+    IO::ArrayDataSetConfig config(dataType,
+                                  SizeArray {0, channelVector.size()},
+                                  SizeArray {CHUNK_XSIZE, 0});
     auto electricalSeries =
         std::make_unique<ElectricalSeries>(electricalSeriesPath, m_io);
     electricalSeries->initialize(
-        dataType,
+        config,
         channelVector,
         "Stores continuously sampled voltage data from an "
-        "extracellular ephys recording",
-        SizeArray {0, channelVector.size()},
-        SizeArray {CHUNK_XSIZE, 0});
+        "extracellular ephys recording");
     recordingContainers->addContainer(std::move(electricalSeries));
     containerIndexes.push_back(recordingContainers->size() - 1);
   }
@@ -298,24 +299,19 @@ Status NWBFile::createSpikeEventSeries(
     }
 
     // Setup Spike Event Series datasets
-    SizeArray dsetSize;
-    SizeArray chunkSize;
-    if (channelVector.size() == 1) {
-      dsetSize = SizeArray {0, 0};
-      chunkSize = SizeArray {SPIKE_CHUNK_XSIZE, 1};
-    } else {
-      dsetSize = SizeArray {0, channelVector.size(), 0};
-      chunkSize = SizeArray {SPIKE_CHUNK_XSIZE, 1, 1};
-    }
+    IO::ArrayDataSetConfig config(
+        dataType,
+        channelVector.size() == 1 ? SizeArray {0, 0}
+                                  : SizeArray {0, channelVector.size(), 0},
+        channelVector.size() == 1 ? SizeArray {SPIKE_CHUNK_XSIZE, 1}
+                                  : SizeArray {SPIKE_CHUNK_XSIZE, 1, 1});
 
     auto spikeEventSeries =
         std::make_unique<SpikeEventSeries>(spikeEventSeriesPath, m_io);
     spikeEventSeries->initialize(
-        dataType,
+        config,
         channelVector,
-        "Stores spike waveforms from an extracellular ephys recording",
-        dsetSize,
-        chunkSize);
+        "Stores spike waveforms from an extracellular ephys recording");
     recordingContainers->addContainer(std::move(spikeEventSeries));
     containerIndexes.push_back(recordingContainers->size() - 1);
   }
@@ -344,13 +340,14 @@ Status NWBFile::createAnnotationSeries(std::vector<std::string> recordingNames,
         AQNWB::mergePaths(acquisitionPath, recordingName);
 
     // Setup annotation series datasets
+    IO::ArrayDataSetConfig config(
+        IO::BaseDataType::V_STR, SizeArray {0}, SizeArray {CHUNK_XSIZE});
     auto annotationSeries =
         std::make_unique<AnnotationSeries>(annotationSeriesPath, m_io);
     annotationSeries->initialize(
         "Stores user annotations made during an experiment",
         "no comments",
-        SizeArray {0},
-        SizeArray {CHUNK_XSIZE});
+        config);
     recordingContainers->addContainer(std::move(annotationSeries));
     containerIndexes.push_back(recordingContainers->size() - 1);
   }
@@ -378,14 +375,10 @@ void NWBFile::cacheSpecifications(
   }
 }
 
-// recording data factory method /
+// recording data factory method
 std::unique_ptr<AQNWB::IO::BaseRecordingData> NWBFile::createRecordingData(
-    IO::BaseDataType type,
-    const SizeArray& size,
-    const SizeArray& chunking,
-    const std::string& path)
+    const IO::ArrayDataSetConfig& config, const std::string& path)
 {
-  IO::ArrayDataSetConfig config(type, size, chunking);
   return std::unique_ptr<IO::BaseRecordingData>(
       m_io->createArrayDataSet(config, path));
 }

@@ -1,4 +1,3 @@
-
 #include "nwb/ecephys/ElectricalSeries.hpp"
 
 #include "Utils.hpp"
@@ -21,21 +20,17 @@ ElectricalSeries::ElectricalSeries(const std::string& path,
 ElectricalSeries::~ElectricalSeries() {}
 
 /** Initialization function*/
-void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
+void ElectricalSeries::initialize(const IO::ArrayDataSetConfig& dataConfig,
                                   const Types::ChannelVector& channelVector,
                                   const std::string& description,
-                                  const SizeArray& dsetSize,
-                                  const SizeArray& chunkSize,
                                   const float& conversion,
                                   const float& resolution,
                                   const float& offset)
 {
-  TimeSeries::initialize(dataType,
+  TimeSeries::initialize(dataConfig,
                          "volts",
                          description,
                          channelVector[0].getComments(),
-                         dsetSize,
-                         chunkSize,
                          conversion,
                          resolution,
                          offset);
@@ -53,7 +48,7 @@ void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
 
   // make channel conversion dataset
   IO::ArrayDataSetConfig channelConversionConfig(
-      IO::BaseDataType::F32, SizeArray {1}, chunkSize);
+      IO::BaseDataType::F32, SizeArray {1}, dataConfig.getChunking());
   m_channelConversion =
       std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet(
           channelConversionConfig,
@@ -71,8 +66,9 @@ void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
                         1);
 
   // make electrodes dataset
-  IO::ArrayDataSetConfig electrodesConfig(
-      IO::BaseDataType::I32, SizeArray {channelVector.size()}, chunkSize);
+  IO::ArrayDataSetConfig electrodesConfig(IO::BaseDataType::I32,
+                                          SizeArray {channelVector.size()},
+                                          dataConfig.getChunking());
   m_electrodesDataset =
       std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet(
           electrodesConfig, AQNWB::mergePaths(getPath(), "electrodes")));

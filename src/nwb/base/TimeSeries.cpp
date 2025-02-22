@@ -66,12 +66,10 @@ Status TimeSeries::createTimestampsAttributes(const std::string& path)
   return Status::Success;
 }
 
-void TimeSeries::initialize(const IO::BaseDataType& dataType,
+void TimeSeries::initialize(const IO::ArrayDataSetConfig& dataConfig,
                             const std::string& unit,
                             const std::string& description,
                             const std::string& comments,
-                            const SizeArray& dsetSize,
-                            const SizeArray& chunkSize,
                             const float& conversion,
                             const float& resolution,
                             const float& offset,
@@ -82,7 +80,7 @@ void TimeSeries::initialize(const IO::BaseDataType& dataType,
 {
   Container::initialize();
 
-  this->m_dataType = dataType;
+  this->m_dataType = dataConfig.getType();
 
   // create comments attribute
   if (description != "")
@@ -90,7 +88,6 @@ void TimeSeries::initialize(const IO::BaseDataType& dataType,
   m_io->createAttribute(comments, m_path, "comments");
 
   // setup data datasets
-  IO::ArrayDataSetConfig dataConfig(dataType, dsetSize, chunkSize);
   this->data = std::unique_ptr<IO::BaseRecordingData>(
       m_io->createArrayDataSet(dataConfig, AQNWB::mergePaths(m_path, "data")));
   this->createDataAttributes(
@@ -100,8 +97,8 @@ void TimeSeries::initialize(const IO::BaseDataType& dataType,
   if (startingTime < 0) {
     this->starting_time = nullptr;
     // timestamps match data along first dimension
-    SizeArray tsDsetSize = {dsetSize[0]};
-    SizeArray tsChunkSize = {chunkSize[0]};
+    SizeArray tsDsetSize = {dataConfig.getShape()[0]};
+    SizeArray tsChunkSize = {dataConfig.getChunking()[0]};
     IO::ArrayDataSetConfig timestampsConfig(
         this->timestampsType, tsDsetSize, tsChunkSize);
     this->timestamps =
@@ -128,8 +125,8 @@ void TimeSeries::initialize(const IO::BaseDataType& dataType,
   // create control datasets if necessary
   if (controlDescription.size() > 0) {
     // control matches data along first dimension
-    SizeArray controlDsetSize = {dsetSize[0]};
-    SizeArray controlChunkSize = {chunkSize[0]};
+    SizeArray controlDsetSize = {dataConfig.getShape()[0]};
+    SizeArray controlChunkSize = {dataConfig.getChunking()[0]};
     IO::ArrayDataSetConfig controlConfig(
         AQNWB::IO::BaseDataType::U8, controlDsetSize, controlChunkSize);
     this->control =
