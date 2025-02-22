@@ -150,5 +150,5 @@ Status BaseRecordingData::writeDataBlock(const std::vector<SizeType>& dataShape,
                                          const BaseDataType& type,
                                          const void* data)
 {
-  return writeDataBlock(dataShape, position, type, data);
+  return writeDataBlock(dataShape, m_position, type, data);
 }

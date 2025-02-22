@@ -561,35 +561,30 @@ public:
    * @brief Get the number of dimensions in the dataset.
    * @return The number of dimensions.
    */
-  inline SizeType getNumDimensions() const { return nDimensions; }
+  inline SizeType getNumDimensions() const { return m_shape.size(); }
 
   /**
    * @brief Get the size of the dataset.
    * @return Vector containing the size in each dimension.
    */
-  inline const std::vector<SizeType>& getSize() const { return size; }
+  inline const std::vector<SizeType>& getShape() const { return m_shape; }
 
   /**
    * @brief Get the current position in the dataset.
    * @return Vector containing the position in each dimension.
    */
-  inline const std::vector<SizeType>& getPosition() const { return position; }
+  inline const std::vector<SizeType>& getPosition() const { return m_position; }
 
 protected:
   /**
    * @brief The size of the dataset in each dimension.
    */
-  std::vector<SizeType> size;
+  std::vector<SizeType> m_shape;
 
   /**
    * @brief The current position in the dataset.
    */
-  std::vector<SizeType> position;
-
-  /**
-   * @brief Number of dimensions in the dataset.
-   */
-  SizeType nDimensions;
+  std::vector<SizeType> m_position;
 };
 
 }  // namespace AQNWB::IO

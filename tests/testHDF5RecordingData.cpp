@@ -19,7 +19,7 @@ TEST_CASE("HDF5RecordingData basic operations", "[hdf5recordingdata]")
 
     // Verify the dataset was created with correct dimensions
     REQUIRE(dataset->getNumDimensions() == 1);
-    REQUIRE(dataset->getSize()[0] == 10);
+    REQUIRE(dataset->getShape()[0] == 10);
     REQUIRE(dataset->getPosition()[0] == 0);
 
     hdf5io->close();
@@ -157,7 +157,7 @@ TEST_CASE("HDF5RecordingData write operations", "[hdf5recordingdata]")
       REQUIRE(status == Status::Success);
 
       // Verify the dataset was extended
-      REQUIRE(dataset->getSize()[0]
+      REQUIRE(dataset->getShape()[0]
               == 15);  // Original offset (10) + data size (5)
     }
   }
