@@ -30,6 +30,16 @@ const BaseDataType BaseDataType::F32 = BaseDataType(T_F32, 1);
 const BaseDataType BaseDataType::F64 = BaseDataType(T_F64, 1);
 const BaseDataType BaseDataType::DSTR = BaseDataType(T_STR, DEFAULT_STR_SIZE);
 
+// ArrayDataSetConfig
+ArrayDataSetConfig::ArrayDataSetConfig(const BaseDataType& type,
+                                       const SizeArray& shape,
+                                       const SizeArray& chunking)
+    : m_type(type)
+    , m_shape(shape)
+    , m_chunking(chunking)
+{
+}
+
 // BaseIO
 
 BaseIO::BaseIO(const std::string& filename)

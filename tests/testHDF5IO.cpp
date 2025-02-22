@@ -153,8 +153,9 @@ TEST_CASE("getStorageObjects", "[hdf5io]")
   SECTION("dataset w/o attribute")
   {
     // Dataset without attributes
-    hdf5io.createArrayDataSet(
-        BaseDataType::I32, SizeArray {0}, SizeArray {1}, "/data");
+    IO::ArrayDataSetConfig config {
+        BaseDataType::I32, SizeArray {0}, SizeArray {1}};
+    hdf5io.createArrayDataSet(config, "/data");
     auto datasetContent = hdf5io.getStorageObjects("/data");
     REQUIRE(datasetContent.size() == 0);
 
@@ -179,10 +180,12 @@ TEST_CASE("getStorageObjects", "[hdf5io]")
     hdf5io.createGroup("/data");
     hdf5io.createGroup("/data/subgroup1");
     hdf5io.createGroup("/data/subgroup2");
-    hdf5io.createArrayDataSet(
-        BaseDataType::I32, SizeArray {0}, SizeArray {1}, "/data/dataset1");
-    hdf5io.createArrayDataSet(
-        BaseDataType::I32, SizeArray {0}, SizeArray {1}, "/data/dataset2");
+    IO::ArrayDataSetConfig config1 {
+        BaseDataType::I32, SizeArray {0}, SizeArray {1}};
+    hdf5io.createArrayDataSet(config1, "/data/dataset1");
+    IO::ArrayDataSetConfig config2 {
+        BaseDataType::I32, SizeArray {0}, SizeArray {1}};
+    hdf5io.createArrayDataSet(config2, "/data/dataset2");
 
     // Add attributes to the group
     int attrData1 = 42;
@@ -247,10 +250,9 @@ TEST_CASE("getStorageObjects", "[hdf5io]")
   {
     hdf5io.createGroup("/filterGroup");
     hdf5io.createGroup("/filterGroup/subgroup1");
-    hdf5io.createArrayDataSet(BaseDataType::I32,
-                              SizeArray {0},
-                              SizeArray {1},
-                              "/filterGroup/dataset1");
+    IO::ArrayDataSetConfig config3 {
+        BaseDataType::I32, SizeArray {0}, SizeArray {1}};
+    hdf5io.createArrayDataSet(config3, "/filterGroup/dataset1");
 
     // Add attributes to the group
     int attrData = 44;
@@ -307,8 +309,10 @@ TEST_CASE("HDF5IO; write datasets", "[hdf5io]")
     SizeType numSamples = 10;
 
     // Create HDF5RecordingData object and dataset
-    std::unique_ptr<BaseRecordingData> dataset = hdf5io->createArrayDataSet(
-        BaseDataType::I32, SizeArray {0}, SizeArray {1}, dataPath);
+    IO::ArrayDataSetConfig config {
+        BaseDataType::I32, SizeArray {0}, SizeArray {1}};
+    std::unique_ptr<BaseRecordingData> dataset =
+        hdf5io->createArrayDataSet(config, dataPath);
 
     // Write data block
     std::vector<SizeType> dataShape = {numSamples};
@@ -343,11 +347,10 @@ TEST_CASE("HDF5IO; write datasets", "[hdf5io]")
     std::vector<SizeType> dataShape = {numRows, numCols};
     std::vector<SizeType> positionOffset = {0, 0};
 
+    IO::ArrayDataSetConfig config {
+        BaseDataType::I32, SizeArray {numRows, numCols}, SizeArray {0, 0}};
     std::unique_ptr<BaseRecordingData> dataset =
-        hdf5io->createArrayDataSet(BaseDataType::I32,
-                                   SizeArray {numRows, numCols},
-                                   SizeArray {0, 0},
-                                   dataPath);
+        hdf5io->createArrayDataSet(config, dataPath);
     Status writeStatus = dataset->writeDataBlock(
         dataShape, positionOffset, BaseDataType::I32, testData.data());
     REQUIRE(writeStatus == Status::Success);
@@ -382,11 +385,10 @@ TEST_CASE("HDF5IO; write datasets", "[hdf5io]")
     std::vector<SizeType> positionOffset = {0, 0};
 
     // Create HDF5RecordingData object and dataset for 2D data
-    std::unique_ptr<BaseRecordingData> dataset = hdf5io->createArrayDataSet(
-        BaseDataType::I32,
-        SizeArray {numRows, numCols},  // Initial size
-        SizeArray {0, 0},  // chunking
-        dataPath);
+    IO::ArrayDataSetConfig config {
+        BaseDataType::I32, SizeArray {numRows, numCols}, SizeArray {0, 0}};
+    std::unique_ptr<BaseRecordingData> dataset =
+        hdf5io->createArrayDataSet(config, dataPath);
 
     // Write 2D data block
     Status status = dataset->writeDataBlock(
@@ -422,11 +424,11 @@ TEST_CASE("HDF5IO; write datasets", "[hdf5io]")
     std::vector<SizeType> dataShape = {depth, height, width};
     std::vector<SizeType> positionOffset = {0, 0, 0};
 
-    std::unique_ptr<BaseRecordingData> dataset =
-        hdf5io->createArrayDataSet(BaseDataType::I32,
+    IO::ArrayDataSetConfig config {BaseDataType::I32,
                                    SizeArray {depth, height, width},
-                                   SizeArray {0, 0, 0},
-                                   dataPath);
+                                   SizeArray {0, 0, 0}};
+    std::unique_ptr<BaseRecordingData> dataset =
+        hdf5io->createArrayDataSet(config, dataPath);
     Status status = dataset->writeDataBlock(
         dataShape, positionOffset, BaseDataType::I32, testData.data());
     REQUIRE(status == Status::Success);
@@ -460,11 +462,11 @@ TEST_CASE("HDF5IO; write datasets", "[hdf5io]")
     std::vector<SizeType> dataShape = {depth, height, width};
     std::vector<SizeType> positionOffset = {0, 0, 0};
 
-    std::unique_ptr<BaseRecordingData> dataset =
-        hdf5io->createArrayDataSet(BaseDataType::I32,
+    IO::ArrayDataSetConfig config {BaseDataType::I32,
                                    SizeArray {depth, height, width},
-                                   SizeArray {0, 0, 0},
-                                   dataPath);
+                                   SizeArray {0, 0, 0}};
+    std::unique_ptr<BaseRecordingData> dataset =
+        hdf5io->createArrayDataSet(config, dataPath);
     Status status = dataset->writeDataBlock(
         dataShape, positionOffset, BaseDataType::I32, testData.data());
     REQUIRE(status == Status::Success);
@@ -661,8 +663,10 @@ TEST_CASE("HDF5IO; SWMR mode", "[hdf5io]")
     std::string dataPath = "/data";
     SizeType numBlocks = 3;
     SizeType numSamples = testData.size();
-    std::unique_ptr<BaseRecordingData> dataset = hdf5io->createArrayDataSet(
-        BaseDataType::I32, SizeArray {0}, SizeArray {1}, dataPath);
+    IO::ArrayDataSetConfig config {
+        BaseDataType::I32, SizeArray {0}, SizeArray {1}};
+    std::unique_ptr<BaseRecordingData> dataset =
+        hdf5io->createArrayDataSet(config, dataPath);
 
     // try to read the file before starting SWMR mode
     std::string command = executablePath + " " + path + " " + dataPath;
@@ -741,8 +745,10 @@ TEST_CASE("HDF5IO; SWMR mode", "[hdf5io]")
     std::string dataPath = "/data";
     SizeType numBlocks = 3;
     SizeType numSamples = testData.size();
-    std::unique_ptr<BaseRecordingData> dataset = hdf5io->createArrayDataSet(
-        BaseDataType::I32, SizeArray {0}, SizeArray {1}, dataPath);
+    IO::ArrayDataSetConfig datasetConfig {
+        BaseDataType::I32, SizeArray {0}, SizeArray {1}};
+    std::unique_ptr<BaseRecordingData> dataset =
+        hdf5io->createArrayDataSet(datasetConfig, dataPath);
 
     // start recording, check that can still modify objects
     Status status = hdf5io->startRecording();
@@ -775,11 +781,10 @@ TEST_CASE("HDF5IO; SWMR mode", "[hdf5io]")
 
     std::string dataPathPostRestart = "/dataPostRestart/data";
     hdf5io->createGroup("/dataPostRestart");
+    IO::ArrayDataSetConfig configPostRestart {
+        BaseDataType::I32, SizeArray {0}, SizeArray {1}};
     std::unique_ptr<BaseRecordingData> datasetPostRestart =
-        hdf5io->createArrayDataSet(BaseDataType::I32,
-                                   SizeArray {0},
-                                   SizeArray {1},
-                                   dataPathPostRestart);
+        hdf5io->createArrayDataSet(configPostRestart, dataPathPostRestart);
 
     for (SizeType b = 0; b <= numBlocks; b++) {
       // write data block and flush to file
@@ -813,8 +818,9 @@ TEST_CASE("getH5ObjectType", "[hdf5io]")
   {
     std::vector<int> testData = {1, 2, 3, 4, 5};
     std::string dataPath = "/dataset";
-    hdf5io.createArrayDataSet(
-        BaseDataType::I32, SizeArray {0}, SizeArray {1}, dataPath);
+    IO::ArrayDataSetConfig config {
+        BaseDataType::I32, SizeArray {0}, SizeArray {1}};
+    hdf5io.createArrayDataSet(config, dataPath);
     REQUIRE(hdf5io.getH5ObjectType(dataPath) == H5O_TYPE_DATASET);
   }
 
@@ -1017,8 +1023,9 @@ TEST_CASE("objectExists", "[hdf5io]")
   {
     std::vector<int> testData = {1, 2, 3, 4, 5};
     std::string dataPath = "/existingDataset";
-    hdf5io.createArrayDataSet(
-        BaseDataType::I32, SizeArray {0}, SizeArray {1}, dataPath);
+    IO::ArrayDataSetConfig config {
+        BaseDataType::I32, SizeArray {0}, SizeArray {1}};
+    hdf5io.createArrayDataSet(config, dataPath);
     REQUIRE(hdf5io.objectExists(dataPath) == true);
   }
 
@@ -1112,8 +1119,9 @@ TEST_CASE("getStorageObjectType", "[hdf5io]")
 
   SECTION("dataset")
   {
-    hdf5io.createArrayDataSet(
-        BaseDataType::I32, SizeArray {0}, SizeArray {1}, "/testDataset");
+    IO::ArrayDataSetConfig config {
+        BaseDataType::I32, SizeArray {0}, SizeArray {1}};
+    hdf5io.createArrayDataSet(config, "/testDataset");
     REQUIRE(hdf5io.getStorageObjectType("/testDataset")
             == StorageObjectType::Dataset);
   }
@@ -1144,8 +1152,9 @@ TEST_CASE("getStorageObjectType", "[hdf5io]")
 
   SECTION("link to dataset")
   {
-    hdf5io.createArrayDataSet(
-        BaseDataType::I32, SizeArray {0}, SizeArray {1}, "/originalDataset");
+    IO::ArrayDataSetConfig config {
+        BaseDataType::I32, SizeArray {0}, SizeArray {1}};
+    hdf5io.createArrayDataSet(config, "/originalDataset");
     hdf5io.createLink("/linkToDataset", "/originalDataset");
     REQUIRE(hdf5io.getStorageObjectType("/linkToDataset")
             == StorageObjectType::Dataset);
@@ -1291,8 +1300,8 @@ TEST_CASE("readAttribute", "[hdf5io]")
     SizeArray chunking = {10};
 
     // Create the dataset using createArrayDataSet
-    auto dataset = hdf5io.createArrayDataSet(
-        BaseDataType::I32, dims, chunking, "/data/dataset");
+    IO::ArrayDataSetConfig config {BaseDataType::I32, dims, chunking};
+    auto dataset = hdf5io.createArrayDataSet(config, "/data/dataset");
 
     // Define and create the attribute
     const int32_t writeData = 123;
@@ -1343,8 +1352,10 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     SizeType numSamples = 10;
 
     // Create HDF5RecordingData object and dataset
-    std::unique_ptr<BaseRecordingData> dataset = hdf5io->createArrayDataSet(
-        BaseDataType::I32, SizeArray {0}, SizeArray {1}, dataPath);
+    IO::ArrayDataSetConfig config {
+        BaseDataType::I32, SizeArray {0}, SizeArray {1}};
+    std::unique_ptr<BaseRecordingData> dataset =
+        hdf5io->createArrayDataSet(config, dataPath);
 
     // Write data block
     std::vector<SizeType> dataShape = {numSamples};
@@ -1386,11 +1397,10 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     std::vector<int32_t> testData2D = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
     // Create HDF5RecordingData object and dataset
+    IO::ArrayDataSetConfig config {
+        BaseDataType::I32, SizeArray {numRows, numCols}, SizeArray {0, 0}};
     std::unique_ptr<BaseRecordingData> dataset =
-        hdf5io->createArrayDataSet(BaseDataType::I32,
-                                   SizeArray {numRows, numCols},
-                                   SizeArray {0, 0},
-                                   dataPath);
+        hdf5io->createArrayDataSet(config, dataPath);
 
     // Write data block
     std::vector<SizeType> dataShape = {numRows, numCols};
@@ -1424,9 +1434,10 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     std::vector<float> testDataFloat = {1.1f, 2.2f, 3.3f, 4.4f, 5.5f};
 
     // Create HDF5RecordingData object and dataset for float
+    IO::ArrayDataSetConfig floatConfig {
+        BaseDataType::F32, SizeArray {5}, SizeArray {0}};
     std::unique_ptr<BaseRecordingData> floatDataset =
-        hdf5io->createArrayDataSet(
-            BaseDataType::F32, SizeArray {5}, SizeArray {0}, floatDataPath);
+        hdf5io->createArrayDataSet(floatConfig, floatDataPath);
 
     // Write float data block
     std::vector<SizeType> floatDataShape = {5};
@@ -1449,9 +1460,10 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     std::vector<double> testDataDouble = {1.1, 2.2, 3.3, 4.4, 5.5};
 
     // Create HDF5RecordingData object and dataset for double
+    IO::ArrayDataSetConfig doubleConfig {
+        BaseDataType::F64, SizeArray {5}, SizeArray {0}};
     std::unique_ptr<BaseRecordingData> doubleDataset =
-        hdf5io->createArrayDataSet(
-            BaseDataType::F64, SizeArray {5}, SizeArray {0}, doubleDataPath);
+        hdf5io->createArrayDataSet(doubleConfig, doubleDataPath);
 
     // Write double data block
     std::vector<SizeType> doubleDataShape = {5};
@@ -1474,8 +1486,10 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     std::vector<uint8_t> testDataU8 = {1, 2, 3, 4, 5};
 
     // Create HDF5RecordingData object and dataset for unsigned 8-bit integer
-    std::unique_ptr<BaseRecordingData> u8Dataset = hdf5io->createArrayDataSet(
-        BaseDataType::T_U8, SizeArray {5}, SizeArray {0}, u8DataPath);
+    IO::ArrayDataSetConfig u8Config {
+        BaseDataType::T_U8, SizeArray {5}, SizeArray {0}};
+    std::unique_ptr<BaseRecordingData> u8Dataset =
+        hdf5io->createArrayDataSet(u8Config, u8DataPath);
 
     // Write unsigned 8-bit integer data block
     std::vector<SizeType> u8DataShape = {5};
@@ -1497,8 +1511,10 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     std::vector<uint16_t> testDataU16 = {1, 2, 3, 4, 5};
 
     // Create HDF5RecordingData object and dataset for unsigned 16-bit integer
-    std::unique_ptr<BaseRecordingData> u16Dataset = hdf5io->createArrayDataSet(
-        BaseDataType::T_U16, SizeArray {5}, SizeArray {0}, u16DataPath);
+    IO::ArrayDataSetConfig u16Config {
+        BaseDataType::T_U16, SizeArray {5}, SizeArray {0}};
+    std::unique_ptr<BaseRecordingData> u16Dataset =
+        hdf5io->createArrayDataSet(u16Config, u16DataPath);
 
     // Write unsigned 16-bit integer data block
     std::vector<SizeType> u16DataShape = {5};
@@ -1522,8 +1538,10 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     std::vector<int8_t> testDataI8 = {1, 2, 3, 4, 5};
 
     // Create HDF5RecordingData object and dataset for signed 8-bit integer
-    std::unique_ptr<BaseRecordingData> i8Dataset = hdf5io->createArrayDataSet(
-        BaseDataType::T_I8, SizeArray {5}, SizeArray {0}, i8DataPath);
+    IO::ArrayDataSetConfig i8Config {
+        BaseDataType::T_I8, SizeArray {5}, SizeArray {0}};
+    std::unique_ptr<BaseRecordingData> i8Dataset =
+        hdf5io->createArrayDataSet(i8Config, i8DataPath);
 
     // Write signed 8-bit integer data block
     std::vector<SizeType> i8DataShape = {5};
@@ -1545,8 +1563,10 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     std::vector<int16_t> testDataI16 = {1, 2, 3, 4, 5};
 
     // Create HDF5RecordingData object and dataset for signed 16-bit integer
-    std::unique_ptr<BaseRecordingData> i16Dataset = hdf5io->createArrayDataSet(
-        BaseDataType::T_I16, SizeArray {5}, SizeArray {0}, i16DataPath);
+    IO::ArrayDataSetConfig i16Config {
+        BaseDataType::T_I16, SizeArray {5}, SizeArray {0}};
+    std::unique_ptr<BaseRecordingData> i16Dataset =
+        hdf5io->createArrayDataSet(i16Config, i16DataPath);
 
     // Write signed 16-bit integer data block
     std::vector<SizeType> i16DataShape = {5};
@@ -1572,8 +1592,9 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     // Create HDF5RecordingData object and dataset for fixed-length string
     BaseDataType strType(BaseDataType::Type::T_STR,
                          3);  // Specify string length
-    std::unique_ptr<BaseRecordingData> strDataset = hdf5io->createArrayDataSet(
-        strType, SizeArray {3}, SizeArray {0}, strDataPath);
+    IO::ArrayDataSetConfig strConfig {strType, SizeArray {3}, SizeArray {0}};
+    std::unique_ptr<BaseRecordingData> strDataset =
+        hdf5io->createArrayDataSet(strConfig, strDataPath);
 
     // Write fixed-length string data block
     std::vector<SizeType> strDataShape = {3};
@@ -1598,8 +1619,9 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
                           0);  // 0 indicates variable length
 
     // Create HDF5RecordingData object and dataset for variable-length string
-    std::unique_ptr<BaseRecordingData> vstrDataset = hdf5io->createArrayDataSet(
-        vstrType, SizeArray {3}, SizeArray {0}, vstrDataPath);
+    IO::ArrayDataSetConfig vstrConfig {vstrType, SizeArray {3}, SizeArray {0}};
+    std::unique_ptr<BaseRecordingData> vstrDataset =
+        hdf5io->createArrayDataSet(vstrConfig, vstrDataPath);
 
     // Write variable-length string data block
     std::vector<SizeType> vstrDataShape = {3};
@@ -1634,8 +1656,9 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
 
     // Create HDF5RecordingData object and dataset for string
     BaseDataType vstrType(BaseDataType::Type::V_STR, 0);
-    std::unique_ptr<BaseRecordingData> dataset = hdf5io->createArrayDataSet(
-        vstrType, SizeArray {3}, SizeArray {0}, dataPath);
+    IO::ArrayDataSetConfig config {vstrType, SizeArray {3}, SizeArray {0}};
+    std::unique_ptr<BaseRecordingData> dataset =
+        hdf5io->createArrayDataSet(config, dataPath);
 
     // Attempt to read the dataset and verify that it returns empty data
     auto readVStrData = hdf5io->readDataset(dataPath);

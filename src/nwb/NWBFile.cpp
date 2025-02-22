@@ -385,6 +385,7 @@ std::unique_ptr<AQNWB::IO::BaseRecordingData> NWBFile::createRecordingData(
     const SizeArray& chunking,
     const std::string& path)
 {
+  IO::ArrayDataSetConfig config(type, size, chunking);
   return std::unique_ptr<IO::BaseRecordingData>(
-      m_io->createArrayDataSet(type, size, chunking, path));
+      m_io->createArrayDataSet(config, path));
 }

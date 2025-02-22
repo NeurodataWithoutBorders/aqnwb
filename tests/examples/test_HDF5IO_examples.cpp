@@ -35,10 +35,13 @@ TEST_CASE("SWMRmodeExamples", "[hdf5io]")
     std::string dataPath = "/data";
     SizeType numBlocks = 10;  // write 10 chunks of
     SizeType numSamples = testData.size();
-    std::unique_ptr<BaseRecordingData> dataset = hdf5io->createArrayDataSet(
+    IO::ArrayDataSetConfig datasetConfig(
         BaseDataType::I32,  // type
         SizeArray {0},  // size. Initial size of the dataset
-        SizeArray {1000},  // chunking. Size of a data chunk
+        SizeArray {1000}  // chunking. Size of a data chunk
+    );
+    std::unique_ptr<BaseRecordingData> dataset = hdf5io->createArrayDataSet(
+        datasetConfig,
         dataPath);  // path. Path to the dataset in the HDF5 file
 
     // Start recording. Starting the recording places the HDF5 file in SWMR mode
@@ -84,10 +87,13 @@ TEST_CASE("SWMRmodeExamples", "[hdf5io]")
     std::string dataPath = "/data";
     SizeType numBlocks = 10;  // write 10 chunks of
     SizeType numSamples = testData.size();
-    std::unique_ptr<BaseRecordingData> dataset = hdf5io->createArrayDataSet(
+    IO::ArrayDataSetConfig datasetConfig(
         BaseDataType::I32,  // type
         SizeArray {0},  // size. Initial size of the dataset
-        SizeArray {1000},  // chunking. Size of a data chunk
+        SizeArray {1000}  // chunking. Size of a data chunk
+    );
+    std::unique_ptr<BaseRecordingData> dataset = hdf5io->createArrayDataSet(
+        datasetConfig,
         dataPath);  // path. Path to the dataset in the HDF5 file
 
     // Start recording. Starting the recording places the HDF5 file in SWMR mode

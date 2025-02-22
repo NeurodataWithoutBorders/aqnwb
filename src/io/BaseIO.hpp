@@ -132,6 +132,55 @@ enum class FileMode
 };
 
 /**
+ * @brief The configuration for an array dataset
+ *
+ * This class defines basic properties of an n-Dimensional array dataset, e.g.,
+ * to configure how the dataset should be created in the file. IO backends may
+ * create their own subclass to add additional configuration options, e.g.,
+ * compression, chunking, etc.
+ */
+class ArrayDataSetConfig
+{
+public:
+  /**
+   * @brief Constructs an ArrayDataSetConfig object with the specified type,
+   * shape, and chunking.
+   * @param type The data type of the dataset.
+   * @param shape The shape of the dataset.
+   * @param chunking The chunking of the dataset.
+   */
+  ArrayDataSetConfig(const BaseDataType& type,
+                     const SizeArray& shape,
+                     const SizeArray& chunking);
+
+  /**
+   * @brief Returns the data type of the dataset.
+   * @return The data type of the dataset.
+   */
+  inline BaseDataType getType() const { return m_type; }
+
+  /**
+   * @brief Returns the shape of the dataset.
+   * @return The shape of the dataset.
+   */
+  inline SizeArray getShape() const { return m_shape; }
+
+  /**
+   * @brief Returns the chunking of the dataset.
+   * @return The chunking of the dataset.
+   */
+  inline SizeArray getChunking() const { return m_chunking; }
+
+protected:
+  // The data type of the dataset
+  BaseDataType m_type;
+  // The shape of the dataset
+  SizeArray m_shape;
+  // The chunking of the dataset
+  SizeArray m_chunking;
+};
+
+/**
  * @brief The BaseIO class is an abstract base class that defines the interface
  * for input/output (IO) operations on a file.
  *
@@ -419,19 +468,14 @@ public:
   virtual bool canModifyObjects() { return true; }
 
   /**
-   * @brief Creates an extendable dataset with a given base data type, size,
-   * chunking, and path.
-   * @param type The base data type of the dataset.
-   * @param size The size of the dataset.
-   * @param chunking The chunking size of the dataset.
+   * @brief Creates an extendable dataset with the given configuration and path.
+   * @param config The configuration for the dataset, including type, shape, and
+   * chunking.
    * @param path The location in the file of the new dataset.
    * @return A pointer to the created dataset.
    */
   virtual std::unique_ptr<BaseRecordingData> createArrayDataSet(
-      const BaseDataType& type,
-      const SizeArray& size,
-      const SizeArray& chunking,
-      const std::string& path) = 0;
+      const ArrayDataSetConfig& config, const std::string& path) = 0;
 
   /**
    * @brief Returns a pointer to a dataset at a given path.

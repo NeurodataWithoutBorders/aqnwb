@@ -979,8 +979,10 @@ Status HDF5IO::createStringDataSet(const std::string& path,
   }
 
   std::unique_ptr<IO::BaseRecordingData> dataset;
-  dataset = std::unique_ptr<IO::BaseRecordingData>(createArrayDataSet(
-      IO::BaseDataType::V_STR, SizeArray {values.size()}, SizeArray {1}, path));
+  IO::ArrayDataSetConfig config(
+      IO::BaseDataType::V_STR, SizeArray {values.size()}, SizeArray {1});
+  dataset =
+      std::unique_ptr<IO::BaseRecordingData>(createArrayDataSet(config, path));
 
   dataset->writeDataBlock(std::vector<SizeType> {1},
                           std::vector<SizeType> {0},
@@ -1130,18 +1132,18 @@ std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::getDataSet(
 }
 
 std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::createArrayDataSet(
-    const IO::BaseDataType& type,
-    const SizeArray& size,
-    const SizeArray& chunking,
-    const std::string& path)
+    const IO::ArrayDataSetConfig& config, const std::string& path)
 {
   std::unique_ptr<DataSet> data;
   DSetCreatPropList prop;
-  DataType H5type = getH5Type(type);
+  DataType H5type = getH5Type(config.getType());
 
   if (!canModifyObjects()) {
     return nullptr;
   }
+
+  const SizeArray& size = config.getShape();
+  const SizeArray& chunking = config.getChunking();
 
   SizeType dimension = size.size();
   if (dimension < 1) {
@@ -1169,8 +1171,8 @@ std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::createArrayDataSet(
   DataSpace dSpace(static_cast<int>(dimension), dims.data(), max_dims.data());
   prop.setChunk(static_cast<int>(dimension), chunk_dims.data());
 
-  if (type.type == IO::BaseDataType::Type::T_STR) {
-    H5type = StrType(PredType::C_S1, type.typeSize);
+  if (config.getType().type == IO::BaseDataType::Type::T_STR) {
+    H5type = StrType(PredType::C_S1, config.getType().typeSize);
   }
 
   data = std::make_unique<H5::DataSet>(

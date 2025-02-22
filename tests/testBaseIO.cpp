@@ -35,8 +35,9 @@ TEST_CASE("Test findTypes functionality", "[BaseIO]")
   {
     // Create root group with type attributes
     io.createGroup("/");
-    io.createArrayDataSet(
-        BaseDataType::I32, SizeArray {0}, SizeArray {1}, "/dataset1");
+    IO::ArrayDataSetConfig config(
+        BaseDataType::I32, SizeArray {0}, SizeArray {1});
+    io.createArrayDataSet(config, "/dataset1");
     io.createAttribute("hdmf-common", "/dataset1", "namespace");
     io.createAttribute("VectorData", "/dataset1", "neurodata_type");
 

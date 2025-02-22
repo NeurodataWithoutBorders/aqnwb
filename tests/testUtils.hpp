@@ -173,11 +173,11 @@ inline std::shared_ptr<IO::HDF5::HDF5IO> getHDF5IOWithInt32TestData2D(
   hdf5io->open();
 
   // Create HDF5RecordingData object and dataset
+  IO::ArrayDataSetConfig config(BaseDataType::I32,
+                                SizeArray {numRows, numCols},
+                                SizeArray {numRows, numCols});
   std::unique_ptr<BaseRecordingData> dataset =
-      hdf5io->createArrayDataSet(BaseDataType::I32,
-                                 SizeArray {numRows, numCols},
-                                 SizeArray {numRows, numCols},
-                                 dataPath);
+      hdf5io->createArrayDataSet(config, dataPath);
   REQUIRE(dataset != nullptr);
 
   // Write data block

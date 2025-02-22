@@ -246,19 +246,14 @@ public:
   bool canModifyObjects() override;
 
   /**
-   * @brief Creates an extendable dataset with a given base data type, size,
-   * chunking, and path.
-   * @param type The base data type of the dataset.
-   * @param size The size of the dataset.
-   * @param chunking The chunking size of the dataset.
+   * @brief Creates an extendable dataset with the given configuration and path.
+   * @param config The configuration for the dataset, including type, shape, and
+   * chunking.
    * @param path The location in the file of the new dataset.
    * @return A pointer to the created dataset.
    */
   std::unique_ptr<IO::BaseRecordingData> createArrayDataSet(
-      const IO::BaseDataType& type,
-      const SizeArray& size,
-      const SizeArray& chunking,
-      const std::string& path) override;
+      const IO::ArrayDataSetConfig& config, const std::string& path) override;
 
   /**
    * @brief Returns a pointer to a dataset at a given path.
