@@ -57,11 +57,11 @@
  *
  * \subsection create_recmeta 4. Create the recording metadata 
  * \subsubsection create_recmeta_ecephys Create the extracellular recording metadata
- * Next, constructs the \ref AQNWB::NWB::ElectrodesTable "ElectrodesTable" object, 
+ * Next, construct the \ref AQNWB::NWB::ElectrodesTable "ElectrodesTable" object, 
  * using the `recordingArrays` as an input. Note that in many cases, you will be recording from 
  * all electrodes detected by the device and this `recordingArrays` structure will be the same as
  * is used to create the \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries". However in some cases
- * (e.g. Neuropixels or when using multiple probees), you may be recording from a subset of 
+ * (e.g. when using Neuropixels or multiple probes), you may be recording from a subset of 
  * all available electrodes as part of a single \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries". In this case,
  * you should create the ref AQNWB::NWB::ElectrodesTable "ElectrodesTable" with all electrodes
  * detected by the acquisition system, not just those being actively recorded from. This approach is
