@@ -28,8 +28,6 @@ constexpr SizeType CHUNK_XSIZE =
 constexpr SizeType SPIKE_CHUNK_XSIZE =
     8;  // TODO - replace with io settings input
 
-std::vector<SizeType> NWBFile::m_emptyContainerIndexes = {};
-
 // Initialize the static registered_ member to trigger registration
 REGISTER_SUBCLASS_IMPL(NWBFile)
 

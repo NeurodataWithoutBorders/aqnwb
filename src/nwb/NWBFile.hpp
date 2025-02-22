@@ -126,9 +126,9 @@ public:
   Status createElectricalSeries(
       std::vector<Types::ChannelVector> recordingArrays,
       std::vector<std::string> recordingNames,
-      const IO::BaseDataType& dataType = IO::BaseDataType::I16,
-      RecordingContainers* recordingContainers = nullptr,
-      std::vector<SizeType>& containerIndexes = m_emptyContainerIndexes);
+      const IO::BaseDataType& dataType,
+      RecordingContainers* recordingContainers,
+      std::vector<SizeType>& containerIndexes);
 
   /**
    * @brief Create SpikeEventSeries objects to record data into.
@@ -147,9 +147,9 @@ public:
   Status createSpikeEventSeries(
       std::vector<Types::ChannelVector> recordingArrays,
       std::vector<std::string> recordingNames,
-      const IO::BaseDataType& dataType = IO::BaseDataType::I16,
-      RecordingContainers* recordingContainers = nullptr,
-      std::vector<SizeType>& containerIndexes = m_emptyContainerIndexes);
+      const IO::BaseDataType& dataType,
+      RecordingContainers* recordingContainers,
+      std::vector<SizeType>& containerIndexes);
 
   /** @brief Create AnnotationSeries objects to record data into.
    * Created objects are stored in recordingContainers.
@@ -160,10 +160,9 @@ public:
    * recordingContainers
    * @return Status The status of the object creation operation.
    */
-  Status createAnnotationSeries(
-      std::vector<std::string> recordingNames,
-      RecordingContainers* recordingContainers = nullptr,
-      std::vector<SizeType>& containerIndexes = m_emptyContainerIndexes);
+  Status createAnnotationSeries(std::vector<std::string> recordingNames,
+                                RecordingContainers* recordingContainers,
+                                std::vector<SizeType>& containerIndexes);
 
   DEFINE_REGISTERED_FIELD(readElectrodeTable,
                           ElectrodeTable,
@@ -261,7 +260,6 @@ private:
           specVariables);
 
   inline const static std::string m_acquisitionPath = "/acquisition";
-  static std::vector<SizeType> m_emptyContainerIndexes;
 
   /**
    * @brief The ElectrodeTable for the file
