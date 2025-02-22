@@ -101,11 +101,13 @@ TEST_CASE("createElectricalSeriesWithSubsetOfElectrodes", "[nwb]")
       getMockChannelArrayNames("esdata", 1);
   std::unique_ptr<NWB::RecordingContainers> recordingContainers =
       std::make_unique<NWB::RecordingContainers>();
+  std::vector<SizeType> containerIndices = {};
   Status resultCreateES =
       nwbfile.createElectricalSeries(recordingElectrodes,
                                      recordingNames,
                                      BaseDataType::F32,
-                                     recordingContainers.get());
+                                     recordingContainers.get(),
+                                     containerIndices);
   REQUIRE(resultCreateES == Status::Success);
 
   // Write some test data to verify recording works
@@ -146,8 +148,15 @@ TEST_CASE("createElectricalSeriesFailsWithoutElectrodesTable", "[nwb]")
       getMockChannelArrays(1, 2);
   std::vector<std::string> recordingNames =
       getMockChannelArrayNames("esdata", 1);
-  Status resultCreateES = nwbfile.createElectricalSeries(
-      recordingElectrodes, recordingNames, BaseDataType::F32);
+  std::unique_ptr<NWB::RecordingContainers> recordingContainers =
+      std::make_unique<NWB::RecordingContainers>();
+  std::vector<SizeType> containerIndices = {};
+  Status resultCreateES =
+      nwbfile.createElectricalSeries(recordingElectrodes,
+                                     recordingNames,
+                                     BaseDataType::F32,
+                                     recordingContainers.get(),
+                                     containerIndices);
   REQUIRE(resultCreateES == Status::Failure);
 
   nwbfile.finalize();
@@ -155,8 +164,7 @@ TEST_CASE("createElectricalSeriesFailsWithoutElectrodesTable", "[nwb]")
 
 TEST_CASE("createElectricalSeriesFailsWithOutOfRangeIndices", "[nwb]")
 {
-  std::string filename =
-      getTestFilePath("createElectricalSeriesOutOfRange.h5");
+  std::string filename = getTestFilePath("createElectricalSeriesOutOfRange.h5");
 
   // initialize nwbfile object and create base structure
   std::shared_ptr<IO::HDF5::HDF5IO> io =
@@ -178,8 +186,15 @@ TEST_CASE("createElectricalSeriesFailsWithOutOfRangeIndices", "[nwb]")
 
   std::vector<std::string> recordingNames =
       getMockChannelArrayNames("esdata", 1);
-  Status resultCreateES = nwbfile.createElectricalSeries(
-      recordingElectrodes, recordingNames, BaseDataType::F32);
+  std::unique_ptr<NWB::RecordingContainers> recordingContainers =
+      std::make_unique<NWB::RecordingContainers>();
+  std::vector<SizeType> containerIndices = {};
+  Status resultCreateES =
+      nwbfile.createElectricalSeries(recordingElectrodes,
+                                     recordingNames,
+                                     BaseDataType::F32,
+                                     recordingContainers.get(),
+                                     containerIndices);
   REQUIRE(resultCreateES == Status::Failure);
 }
 
@@ -203,11 +218,13 @@ TEST_CASE("createElectricalSeries", "[nwb]")
       getMockChannelArrayNames("esdata");
   std::unique_ptr<NWB::RecordingContainers> recordingContainers =
       std::make_unique<NWB::RecordingContainers>();
+  std::vector<SizeType> containerIndices = {};
   Status resultCreate =
       nwbfile.createElectricalSeries(mockArrays,
                                      mockChannelNames,
                                      BaseDataType::F32,
-                                     recordingContainers.get());
+                                     recordingContainers.get(),
+                                     containerIndices);
   REQUIRE(resultCreate == Status::Success);
 
   // start recording
@@ -273,11 +290,13 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
       getMockChannelArrayNames("esdata");
   std::unique_ptr<NWB::RecordingContainers> recordingContainers =
       std::make_unique<NWB::RecordingContainers>();
+  std::vector<SizeType> containerIndices = {};
   Status resultCreateES =
       nwbfile.createElectricalSeries(mockArrays,
                                      mockChannelNames,
                                      BaseDataType::F32,
-                                     recordingContainers.get());
+                                     recordingContainers.get(),
+                                     containerIndices);
   REQUIRE(resultCreateES == Status::Success);
 
   // create SpikeEventSeries
@@ -288,7 +307,8 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
       nwbfile.createSpikeEventSeries(mockArrays,
                                      mockSpikeChannelNames,
                                      BaseDataType::F32,
-                                     recordingContainers.get());
+                                     recordingContainers.get(),
+                                     containerIndices);
   REQUIRE(resultCreateSES == Status::Success);
 
   // start recording
@@ -344,8 +364,9 @@ TEST_CASE("createAnnotationSeries", "[nwb]")
                                                   "annotations2"};
   std::unique_ptr<NWB::RecordingContainers> recordingContainers =
       std::make_unique<NWB::RecordingContainers>();
+  std::vector<SizeType> containerIndices = {};
   Status resultCreate = nwbfile.createAnnotationSeries(
-      mockAnnotationNames, recordingContainers.get());
+      mockAnnotationNames, recordingContainers.get(), containerIndices);
   REQUIRE(resultCreate == Status::Success);
 
   // start recording
@@ -409,8 +430,13 @@ TEST_CASE("setCanModifyObjectsMode", "[nwb]")
   std::vector<std::string> mockChannelNames =
       getMockChannelArrayNames("esdata");
   nwbfile.createElectrodesTable(mockArrays);  // create the Electrodes Table
-  Status resultCreatePostStart = nwbfile.createElectricalSeries(
-      mockArrays, mockChannelNames, BaseDataType::F32);
+  std::vector<SizeType> containerIndices = {};
+  Status resultCreatePostStart =
+      nwbfile.createElectricalSeries(mockArrays,
+                                     mockChannelNames,
+                                     BaseDataType::F32,
+                                     nullptr,
+                                     containerIndices);
   REQUIRE(resultCreatePostStart == Status::Failure);
 
   // stop recording

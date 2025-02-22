@@ -43,6 +43,7 @@ TEST_CASE("writeContinuousData", "[recording]")
     // 2. create RecordingContainers object
     std::unique_ptr<NWB::RecordingContainers> recordingContainers =
         std::make_unique<NWB::RecordingContainers>();
+    std::vector<SizeType> containerIndices = {};
 
     // 3. create NWBFile object
     std::unique_ptr<NWB::NWBFile> nwbfile = std::make_unique<NWB::NWBFile>(io);
@@ -55,7 +56,8 @@ TEST_CASE("writeContinuousData", "[recording]")
     nwbfile->createElectricalSeries(mockRecordingArrays,
                                     mockChannelNames,
                                     BaseDataType::F32,
-                                    recordingContainers.get());
+                                    recordingContainers.get(),
+                                    containerIndices);
 
     // 6. start the recording
     io->startRecording();
