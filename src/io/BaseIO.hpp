@@ -83,6 +83,12 @@ public:
   static const BaseDataType DSTR;  ///< Accessor for dynamic string.
   static BaseDataType STR(
       SizeType size);  ///< Accessor for string with specified size.
+
+  // Define the equality operator
+  bool operator==(const BaseDataType& other) const
+  {
+    return type == other.type && typeSize == other.typeSize;
+  }
 };
 
 class DataBlockGeneric;
