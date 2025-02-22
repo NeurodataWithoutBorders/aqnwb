@@ -653,16 +653,17 @@ Status HDF5IO::createAttribute(const IO::BaseDataType& type,
   H5type = getH5Type(type);
   origType = getNativeType(type);
 
+  DataSpace attr_dataspace;
   if (size > 1) {
     hsize_t dims = static_cast<hsize_t>(size);
-    H5type = ArrayType(H5type, 1, &dims);
-    origType = ArrayType(origType, 1, &dims);
+    attr_dataspace = DataSpace(1, &dims);  // Create 1D dataspace of size 'dims'
+  } else {
+    attr_dataspace = H5S_SCALAR;
   }
 
   if (loc->attrExists(name)) {
     attr = loc->openAttribute(name);
   } else {
-    DataSpace attr_dataspace(H5S_SCALAR);
     attr = loc->createAttribute(name, H5type, attr_dataspace);
   }
 
