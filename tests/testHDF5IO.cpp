@@ -13,6 +13,7 @@
 #include "Channel.hpp"
 #include "Types.hpp"
 #include "io/BaseIO.hpp"
+#include "io/hdf5/HDF5ArrayDataSetConfig.hpp"
 #include "io/hdf5/HDF5IO.hpp"
 #include "io/hdf5/HDF5RecordingData.hpp"
 #include "nwb/NWBFile.hpp"
@@ -489,6 +490,154 @@ TEST_CASE("HDF5IO; write datasets", "[hdf5io]")
   }
 }
 
+TEST_CASE("HDF5IO createArrayDataSet with filters", "[HDF5IO]")
+{
+  const std::string fileName = getTestFilePath("test.h5");
+
+  // Define the data type, shape, and chunking
+  IO::BaseDataType type(IO::BaseDataType::Type::T_I32, 1);
+  SizeArray shape = {10, 10};  // Reduced size to avoid excessive data
+  SizeArray chunking = {5, 5};
+
+  // Create the HDF5IO object and open the file
+  std::unique_ptr<IO::HDF5::HDF5IO> hdf5io =
+      std::make_unique<IO::HDF5::HDF5IO>(fileName);
+  hdf5io->open();
+
+  SECTION("Create dataset with GZIP filter")
+  {
+    // Create HDF5ArrayDataSetConfig and add GZIP filter
+    IO::HDF5::HDF5ArrayDataSetConfig config(type, shape, chunking);
+    unsigned int gzip_level = 4;
+    config.addFilter(H5Z_FILTER_DEFLATE, 1, &gzip_level);
+
+    // Create the dataset
+    auto baseDataset = hdf5io->createArrayDataSet(config, "/gzip_dataset");
+
+    REQUIRE(baseDataset != nullptr);
+
+    // Cast to HDF5RecordingData to access getDataSet()
+    auto dataset =
+        dynamic_cast<IO::HDF5::HDF5RecordingData*>(baseDataset.get());
+    REQUIRE(dataset != nullptr);
+
+    // Verify the dataset properties
+    const H5::DataSet* h5Dataset = dataset->getDataSet();
+    H5::DSetCreatPropList dcpl = h5Dataset->getCreatePlist();
+    REQUIRE(dcpl.getNfilters() == 1);
+
+    unsigned int flags;
+    size_t cd_nelmts = 1;
+    unsigned int cd_values[1];
+    char name[256];
+    size_t namelen = 256;
+    unsigned int filter_config;
+    H5Z_filter_t filter_type = dcpl.getFilter(
+        0, flags, cd_nelmts, cd_values, namelen, name, filter_config);
+    REQUIRE(filter_type == H5Z_FILTER_DEFLATE);
+    REQUIRE(cd_nelmts == 1);
+    REQUIRE(cd_values[0] == gzip_level);
+  }
+
+  SECTION("Create dataset with shuffle filter")
+  {
+    // Create HDF5ArrayDataSetConfig and add shuffle filter
+    IO::HDF5::HDF5ArrayDataSetConfig config(type, shape, chunking);
+    config.addFilter(H5Z_FILTER_SHUFFLE, 0, nullptr);
+
+    // Create the dataset
+    auto baseDataset = hdf5io->createArrayDataSet(config, "/shuffle_dataset");
+
+    REQUIRE(baseDataset != nullptr);
+
+    // Cast to HDF5RecordingData to access getDataSet()
+    auto dataset =
+        dynamic_cast<IO::HDF5::HDF5RecordingData*>(baseDataset.get());
+    REQUIRE(dataset != nullptr);
+
+    // Verify the dataset properties
+    const H5::DataSet* h5Dataset = dataset->getDataSet();
+    H5::DSetCreatPropList dcpl = h5Dataset->getCreatePlist();
+    REQUIRE(dcpl.getNfilters() == 1);
+
+    unsigned int flags;
+    size_t cd_nelmts = 1;
+    unsigned int cd_values[1];
+    char name[256];
+    size_t namelen = 256;
+    unsigned int filter_config;
+    H5Z_filter_t filter_type = dcpl.getFilter(
+        0, flags, cd_nelmts, cd_values, namelen, name, filter_config);
+    REQUIRE(filter_type == H5Z_FILTER_SHUFFLE);
+    REQUIRE(cd_nelmts == 1);
+  }
+
+  SECTION("Create dataset with multiple filters")
+  {
+    // Create HDF5ArrayDataSetConfig and add multiple filters
+    IO::HDF5::HDF5ArrayDataSetConfig config(type, shape, chunking);
+    unsigned int gzip_level = 4;
+    config.addFilter(H5Z_FILTER_DEFLATE, 1, &gzip_level);
+    config.addFilter(H5Z_FILTER_SHUFFLE, 0, nullptr);
+
+    // Create the dataset
+    auto baseDataset =
+        hdf5io->createArrayDataSet(config, "/multiple_filters_dataset");
+
+    REQUIRE(baseDataset != nullptr);
+
+    // Cast to HDF5RecordingData to access getDataSet()
+    auto dataset =
+        dynamic_cast<IO::HDF5::HDF5RecordingData*>(baseDataset.get());
+    REQUIRE(dataset != nullptr);
+
+    // Verify the dataset properties
+    const H5::DataSet* h5Dataset = dataset->getDataSet();
+    H5::DSetCreatPropList dcpl = h5Dataset->getCreatePlist();
+    REQUIRE(dcpl.getNfilters() == 2);
+
+    unsigned int flags;
+    size_t cd_nelmts = 1;
+    unsigned int cd_values[1];
+    char name[256];
+    size_t namelen = 256;
+    unsigned int filter_config;
+    H5Z_filter_t filter_type = dcpl.getFilter(
+        0, flags, cd_nelmts, cd_values, namelen, name, filter_config);
+    REQUIRE(filter_type == H5Z_FILTER_DEFLATE);
+    REQUIRE(cd_nelmts == 1);
+    REQUIRE(cd_values[0] == gzip_level);
+
+    cd_nelmts = 1;
+    filter_type = dcpl.getFilter(
+        1, flags, cd_nelmts, cd_values, namelen, name, filter_config);
+    REQUIRE(filter_type == H5Z_FILTER_SHUFFLE);
+    REQUIRE(cd_nelmts == 1);
+  }
+
+  SECTION("Create dataset without filters")
+  {
+    // Create HDF5ArrayDataSetConfig without filters
+    IO::HDF5::HDF5ArrayDataSetConfig config(type, shape, chunking);
+
+    // Create the dataset
+    auto baseDataset =
+        hdf5io->createArrayDataSet(config, "/no_filters_dataset");
+
+    REQUIRE(baseDataset != nullptr);
+
+    // Cast to HDF5RecordingData to access getDataSet()
+    auto dataset =
+        dynamic_cast<IO::HDF5::HDF5RecordingData*>(baseDataset.get());
+    REQUIRE(dataset != nullptr);
+
+    // Verify the dataset properties
+    const H5::DataSet* h5Dataset = dataset->getDataSet();
+    H5::DSetCreatPropList dcpl = h5Dataset->getCreatePlist();
+    REQUIRE(dcpl.getNfilters() == 0);
+  }
+}
+
 TEST_CASE("HDF5IO; create attributes", "[hdf5io]")
 {
   // create and open file
@@ -643,8 +792,8 @@ TEST_CASE("HDF5IO; create attributes", "[hdf5io]")
   {
     // Create target objects that we'll reference
     hdf5io.createGroup("/referenceTargetGroup");
-    auto referenceConfig = IO::ArrayDataSetConfig(
-        BaseDataType::I32, SizeArray {3}, SizeArray {3});
+    auto referenceConfig =
+        IO::ArrayDataSetConfig(BaseDataType::I32, SizeArray {3}, SizeArray {3});
     hdf5io.createArrayDataSet(referenceConfig, "/referenceTargetDataset");
 
     // Test reference to a group
