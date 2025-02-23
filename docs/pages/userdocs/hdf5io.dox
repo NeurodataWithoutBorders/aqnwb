@@ -138,9 +138,16 @@
  * Shuffle filters to a dataset. The \ref AQNWB::IO::HDF5::HDF5ArrayDataSetConfig "HDF5ArrayDataSetConfig" 
  * class allows you to specify the data type, shape, chunking, and filters
  * for the dataset. The \ref AQNWB::IO::HDF5::HDF5IO::createArrayDataSet "HDF5IO::createArrayDataSet" 
- * method them creates the dataset with the specified configuration.
+ * method then creates the dataset with the specified configuration.
  *
  * \snippet tests/examples/test_HDF5IO_examples.cpp example_HDF5_with_filters
+ * 
+ * \note 
+ * \ref \ref AQNWB::IO::HDF5::HDF5FilterConfig "HDF5FilterConfig" provides convenient
+ * factory methods to setup common filters, e.g., \ref AQNWB::IO::HDF5::HDF5FilterConfig::createGzipFilter "createGzipFilter".
+ * Alternatively, we can also use any of the HDF5 filters directly via 
+ * \ref AQNWB::IO::HDF5::HDF5ArrayDataSetConfig::addFilter "HDF5ArrayDataSetConfig::addFilter",  
+ * e.g., in the case of GZIP via ``config.addFilter(H5Z_FILTER_DEFLATE, {4});`` 
  * 
  *
  * \section hdf5io_swmr Single-Writer Multiple-Reader (SWMR) Mode

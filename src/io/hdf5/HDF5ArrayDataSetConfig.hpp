@@ -24,22 +24,43 @@ class HDF5FilterConfig
 {
 public:
   /**
-   * @brief Constructs an HDF5FilterConfig object with the specified filter ID,
-   * number of elements in the client data array, and the client data array.
+   * @brief Constructs an HDF5FilterConfig object with the specified filter ID
+   * and client data array.
    * @param filter_id The ID of the filter.
-   * @param cd_nelmts The number of elements in the client data array.
    * @param cd_values The client data array.
    */
   HDF5FilterConfig(H5Z_filter_t filter_id,
-                   unsigned int cd_nelmts,
-                   const unsigned int* cd_values);
+                   const std::vector<unsigned int>& cd_values);
 
   // The ID of the filter
   H5Z_filter_t filter_id;
-  // The number of elements in the client data array
-  unsigned int cd_nelmts;
   // The client data array
   std::vector<unsigned int> cd_values;
+
+  /**
+   * @brief Creates a GZIP (DEFLATE) filter configuration.
+   * @param level The compression level (0-9). Default is 4.
+   * @return A HDF5FilterConfig object for the GZIP filter.
+   */
+  static HDF5FilterConfig createGzipFilter(unsigned int level = 4);
+
+  /**
+   * @brief Creates a Shuffle filter configuration.
+   * @return A HDF5FilterConfig object for the Shuffle filter.
+   */
+  static HDF5FilterConfig createShuffleFilter();
+
+  /**
+   * @brief Creates a Fletcher32 checksum filter configuration.
+   * @return A HDF5FilterConfig object for the Fletcher32 filter.
+   */
+  static HDF5FilterConfig createFletcher32Filter();
+
+  /**
+   * @brief Creates an N-Bit filter configuration.
+   * @return A HDF5FilterConfig object for the N-Bit filter.
+   */
+  static HDF5FilterConfig createNbitFilter();
 };
 
 /**
@@ -65,12 +86,10 @@ public:
   /**
    * @brief Adds a filter to the dataset configuration.
    * @param filter_id The ID of the filter.
-   * @param cd_nelmts The number of elements in the client data array.
    * @param cd_values The client data array.
    */
   void addFilter(H5Z_filter_t filter_id,
-                 unsigned int cd_nelmts,
-                 const unsigned int* cd_values);
+                 const std::vector<unsigned int>& cd_values);
 
   /**
    * @brief Adds a filter to the dataset configuration using an HDF5FilterConfig
@@ -78,6 +97,13 @@ public:
    * @param filter The HDF5FilterConfig object.
    */
   void addFilter(const HDF5FilterConfig& filter);
+
+  /**
+   * @brief Adds multiple filters to the dataset configuration using a vector of
+   * HDF5FilterConfig objects.
+   * @param filters The vector of HDF5FilterConfig objects.
+   */
+  void addFilters(const std::vector<HDF5FilterConfig>& filters);
 
   /**
    * @brief Returns the filters of the dataset.

@@ -508,8 +508,8 @@ TEST_CASE("HDF5IO createArrayDataSet with filters", "[HDF5IO]")
   {
     // Create HDF5ArrayDataSetConfig and add GZIP filter
     IO::HDF5::HDF5ArrayDataSetConfig config(type, shape, chunking);
-    unsigned int gzip_level = 4;
-    config.addFilter(H5Z_FILTER_DEFLATE, 1, &gzip_level);
+    std::vector<unsigned int> gzip_level = {4};
+    config.addFilter(H5Z_FILTER_DEFLATE, gzip_level);
 
     // Create the dataset
     auto baseDataset = hdf5io->createArrayDataSet(config, "/gzip_dataset");
@@ -536,14 +536,14 @@ TEST_CASE("HDF5IO createArrayDataSet with filters", "[HDF5IO]")
         0, flags, cd_nelmts, cd_values, namelen, name, filter_config);
     REQUIRE(filter_type == H5Z_FILTER_DEFLATE);
     REQUIRE(cd_nelmts == 1);
-    REQUIRE(cd_values[0] == gzip_level);
+    REQUIRE(cd_values[0] == gzip_level[0]);
   }
 
   SECTION("Create dataset with shuffle filter")
   {
     // Create HDF5ArrayDataSetConfig and add shuffle filter
     IO::HDF5::HDF5ArrayDataSetConfig config(type, shape, chunking);
-    config.addFilter(H5Z_FILTER_SHUFFLE, 0, nullptr);
+    config.addFilter(H5Z_FILTER_SHUFFLE, {});
 
     // Create the dataset
     auto baseDataset = hdf5io->createArrayDataSet(config, "/shuffle_dataset");
@@ -576,9 +576,9 @@ TEST_CASE("HDF5IO createArrayDataSet with filters", "[HDF5IO]")
   {
     // Create HDF5ArrayDataSetConfig and add multiple filters
     IO::HDF5::HDF5ArrayDataSetConfig config(type, shape, chunking);
-    unsigned int gzip_level = 4;
-    config.addFilter(H5Z_FILTER_DEFLATE, 1, &gzip_level);
-    config.addFilter(H5Z_FILTER_SHUFFLE, 0, nullptr);
+    std::vector<unsigned int> gzip_level = {4};
+    config.addFilter(H5Z_FILTER_DEFLATE, gzip_level);
+    config.addFilter(H5Z_FILTER_SHUFFLE, {});
 
     // Create the dataset
     auto baseDataset =
@@ -606,7 +606,7 @@ TEST_CASE("HDF5IO createArrayDataSet with filters", "[HDF5IO]")
         0, flags, cd_nelmts, cd_values, namelen, name, filter_config);
     REQUIRE(filter_type == H5Z_FILTER_DEFLATE);
     REQUIRE(cd_nelmts == 1);
-    REQUIRE(cd_values[0] == gzip_level);
+    REQUIRE(cd_values[0] == gzip_level[0]);
 
     cd_nelmts = 1;
     filter_type = dcpl.getFilter(

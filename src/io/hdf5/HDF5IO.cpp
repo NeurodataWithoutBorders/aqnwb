@@ -1245,7 +1245,7 @@ std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::createArrayDataSet(
       for (const auto& filter : hdf5Config->getFilters()) {
         prop.setFilter(filter.filter_id,
                        0,
-                       static_cast<size_t>(filter.cd_nelmts),
+                       static_cast<size_t>(filter.cd_values.size()),
                        filter.cd_values.data());
       }
     }

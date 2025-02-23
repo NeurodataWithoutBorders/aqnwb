@@ -16,7 +16,6 @@
 #include "nwb/file/ElectrodeTable.hpp"
 #include "testUtils.hpp"
 
-using namespace AQNWB;
 namespace fs = std::filesystem;
 // [example_HDF5_includes]
 
@@ -149,8 +148,9 @@ TEST_CASE("HDF5FiltersExamples", "[hdf5io]")
     // Create HDF5ArrayDataSetConfig and add filters
     AQNWB::IO::HDF5::HDF5ArrayDataSetConfig config(type, shape, chunking);
     unsigned int gzip_level = 4;
-    config.addFilter(H5Z_FILTER_DEFLATE, 1, &gzip_level);
-    config.addFilter(H5Z_FILTER_SHUFFLE, 0, nullptr);
+    config.addFilter(
+        AQNWB::IO::HDF5::HDF5FilterConfig::createGzipFilter(gzip_level));
+    config.addFilter(AQNWB::IO::HDF5::HDF5FilterConfig::createShuffleFilter());
 
     // Create the HDF5IO object and open the file
     std::string path = getTestFilePath("testWithFilters.h5");
