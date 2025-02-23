@@ -15,6 +15,9 @@
  *    - \ref AQNWB::IO::HDF5::HDF5ArrayDataSetConfig "HDF5ArrayDataSetConfig" then extends the basic
  *      \ref AQNWB::IO::ArrayDataSetConfig "ArrayDataSetConfig" to add HDF5-specific configurations, 
  *      such as, support for configuring I/O filters (e.g., for compression)
+ *    - \ref AQNWB::IO::HDF5::HDF5FilterConfig "HDF5FilterConfig" is used with 
+ *           \ref AQNWB::IO::HDF5::HDF5ArrayDataSetConfig "HDF5ArrayDataSetConfig" to configure
+ *           a single I/O filter.
  * - \ref AQNWB::IO::HDF5::HDF5IO::createArrayDataSet "HDF5IO::createArrayDataSet" is the main 
  *   method used for creating n-dimensional array datasets
  *
