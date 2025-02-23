@@ -301,6 +301,69 @@ std::vector<std::string> HDF5IO::readStringDataHelper(
       dataSource, numElements, H5::DataSpace(), H5::DataSpace());
 }
 
+std::string HDF5IO::readReferenceAttribute(const std::string& dataPath) const
+{
+  // Read the attribute
+  auto attributePtr = this->getAttribute(dataPath);
+  if (attributePtr == nullptr) {
+    throw std::invalid_argument(
+        "HDF5IO::readReferenceAttribute, attribute does not exist.");
+  }
+
+  H5::Attribute& attribute = *attributePtr;
+  H5::DataType dataType = attribute.getDataType();
+
+  // Check if the attribute is a reference
+  if (dataType != H5::PredType::STD_REF_OBJ) {
+    throw std::invalid_argument(
+        "HDF5IO::readReferenceAttribute, attribute is not a reference.");
+  }
+
+  // Read the reference
+  hobj_ref_t ref;
+  attribute.read(dataType, &ref);
+
+  // Dereference the reference to get the HDF5 object ID
+  // TODO: Note as of HDF5-1.12, H5Rdereference2() has been deprecated in
+  //       favor of H5Ropen_attr(), H5Ropen_object() and H5Ropen_region().
+  hid_t obj_id =
+      H5Rdereference2(attribute.getId(), H5P_DEFAULT, H5R_OBJECT, &ref);
+  if (obj_id < 0) {
+    throw std::runtime_error(
+        "HDF5IO::readReferenceAttribute, failed to dereference object.");
+  }
+
+  // Get the name (path) of the dereferenced object
+  ssize_t buf_size = H5Iget_name(obj_id, nullptr, 0) + 1;
+  // LCOV_EXCL_START
+  // This is a safety check to safeguard against possible runtime issues,
+  // but this should never happen.
+  if (buf_size <= 0) {
+    H5Oclose(obj_id);
+    throw std::runtime_error(
+        "HDF5IO::readReferenceAttribute, failed to get object name size.");
+  }
+  // LCOV_EXCL_STOP
+
+  std::vector<char> obj_name(static_cast<size_t>(buf_size));
+  // LCOV_EXCL_START
+  // This is a safety check to safeguard against possible runtime issues,
+  // but this should never happen.
+  if (H5Iget_name(obj_id, obj_name.data(), static_cast<size_t>(buf_size)) < 0) {
+    H5Oclose(obj_id);
+    throw std::runtime_error(
+        "HDF5IO::readReferenceAttribute, failed to get object name.");
+  }
+  // LCOV_EXCL_STOP
+
+  std::string referencedPath(obj_name.data());
+
+  // Close the dereferenced object
+  H5Oclose(obj_id);
+
+  return referencedPath;
+}
+
 AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(
     const std::string& dataPath) const
 {
