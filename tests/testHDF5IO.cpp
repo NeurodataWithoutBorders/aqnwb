@@ -643,10 +643,9 @@ TEST_CASE("HDF5IO; create attributes", "[hdf5io]")
   {
     // Create target objects that we'll reference
     hdf5io.createGroup("/referenceTargetGroup");
-    hdf5io.createArrayDataSet(BaseDataType::I32,
-                              SizeArray {3},
-                              SizeArray {3},
-                              "/referenceTargetDataset");
+    auto referenceConfig = IO::ArrayDataSetConfig(
+        BaseDataType::I32, SizeArray {3}, SizeArray {3});
+    hdf5io.createArrayDataSet(referenceConfig, "/referenceTargetDataset");
 
     // Test reference to a group
     SECTION("reference to group")
