@@ -160,6 +160,11 @@ public:
                      const SizeArray& chunking);
 
   /**
+   * @brief Virtual destructor to ensure proper cleanup in derived classes.
+   */
+  virtual ~ArrayDataSetConfig() = default;
+
+  /**
    * @brief Returns the data type of the dataset.
    * @return The data type of the dataset.
    */
