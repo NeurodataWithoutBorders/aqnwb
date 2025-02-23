@@ -140,6 +140,12 @@ TEST_CASE("HDF5FiltersExamples", "[hdf5io]")
   SECTION("usingFilters")
   {
     // [example_HDF5_with_filters]
+    // Create the HDF5IO object and open the file as usual
+    std::string path = getTestFilePath("testWithFilters.h5");
+    std::unique_ptr<AQNWB::IO::HDF5::HDF5IO> hdf5io =
+        std::make_unique<AQNWB::IO::HDF5::HDF5IO>(path);
+    hdf5io->open();
+
     // Define the data type, shape, and chunking
     AQNWB::IO::BaseDataType type(AQNWB::IO::BaseDataType::Type::T_I32, 1);
     SizeArray shape = {100, 100};
@@ -151,12 +157,6 @@ TEST_CASE("HDF5FiltersExamples", "[hdf5io]")
     config.addFilter(
         AQNWB::IO::HDF5::HDF5FilterConfig::createGzipFilter(gzip_level));
     config.addFilter(AQNWB::IO::HDF5::HDF5FilterConfig::createShuffleFilter());
-
-    // Create the HDF5IO object and open the file
-    std::string path = getTestFilePath("testWithFilters.h5");
-    std::unique_ptr<AQNWB::IO::HDF5::HDF5IO> hdf5io =
-        std::make_unique<AQNWB::IO::HDF5::HDF5IO>(path);
-    hdf5io->open();
 
     // Create the dataset
     auto baseDataset = hdf5io->createArrayDataSet(config, "/filtered_dataset");

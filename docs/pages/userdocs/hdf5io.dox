@@ -143,7 +143,7 @@
  * \snippet tests/examples/test_HDF5IO_examples.cpp example_HDF5_with_filters
  * 
  * \note 
- * \ref \ref AQNWB::IO::HDF5::HDF5FilterConfig "HDF5FilterConfig" provides convenient
+ * \ref AQNWB::IO::HDF5::HDF5FilterConfig "HDF5FilterConfig" provides convenient
  * factory methods to setup common filters, e.g., \ref AQNWB::IO::HDF5::HDF5FilterConfig::createGzipFilter "createGzipFilter".
  * Alternatively, we can also use any of the HDF5 filters directly via 
  * \ref AQNWB::IO::HDF5::HDF5ArrayDataSetConfig::addFilter "HDF5ArrayDataSetConfig::addFilter",  
