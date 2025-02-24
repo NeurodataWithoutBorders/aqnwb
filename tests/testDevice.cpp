@@ -11,7 +11,7 @@ using namespace AQNWB::NWB;
 
 TEST_CASE("Device", "[device]")
 {
-  SECTION("test Device is registerd as a subclass of RegisteredType")
+  SECTION("test Device is registered as a subclass of RegisteredType")
   {
     auto registry = AQNWB::NWB::RegisteredType::getRegistry();
     REQUIRE(registry.find("core::Device") != registry.end());

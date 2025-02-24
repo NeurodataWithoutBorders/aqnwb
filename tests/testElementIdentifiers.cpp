@@ -14,7 +14,7 @@ using namespace AQNWB;
 TEST_CASE("ElementIdentifiers", "[base]")
 {
   SECTION(
-      "test ElementIdentifiers is registerd as a subclass of RegisteredType")
+      "test ElementIdentifiers is registered as a subclass of RegisteredType")
   {
     auto registry = AQNWB::NWB::RegisteredType::getRegistry();
     REQUIRE(registry.find("hdmf-common::ElementIdentifiers") != registry.end());

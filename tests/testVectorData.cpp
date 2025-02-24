@@ -13,7 +13,7 @@ using namespace AQNWB;
 
 TEST_CASE("VectorData", "[base]")
 {
-  SECTION("test VectorData is registerd as a subclass of RegisteredType")
+  SECTION("test VectorData is registered as a subclass of RegisteredType")
   {
     auto registry = AQNWB::NWB::RegisteredType::getRegistry();
     // check that hdfm-common::Data is in the registry

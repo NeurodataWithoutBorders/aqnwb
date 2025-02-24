@@ -13,7 +13,7 @@ using namespace AQNWB;
 
 TEST_CASE("ElectrodeTable", "[ecephys]")
 {
-  SECTION("test ElectrodeTable is registerd as a subclass of RegisteredType")
+  SECTION("test ElectrodeTable is registered as a subclass of RegisteredType")
   {
     auto registry = AQNWB::NWB::RegisteredType::getRegistry();
     REQUIRE(registry.find("core::ElectrodeTable") != registry.end());
