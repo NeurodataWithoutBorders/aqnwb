@@ -125,20 +125,44 @@ public:
    * i.e., namespace::class
    * @param path The path of the registered type.
    * @param io A shared pointer to the IO object.
+   * @param fallbackToBase If true, return a base class instance if the
+   *        full class is not found. The base class to use is defined by
+   *        m_defaultUnregisteredGroupTypeClass and
+   * m_defaultUnregisteredDatasetTypeClass depending on whether the type is a
+   * group or dataset.
    * @return A unique_ptr to the created instance of the subclass, or nullptr if
    * the subclass is not found.
    */
-  static inline std::shared_ptr<RegisteredType> create(
+  static std::shared_ptr<RegisteredType> create(
       const std::string& fullClassName,
       const std::string& path,
-      std::shared_ptr<IO::BaseIO> io)
-  {
-    auto it = getFactoryMap().find(fullClassName);
-    if (it != getFactoryMap().end()) {
-      return it->second.first(path, io);
-    }
-    return nullptr;
-  }
+      std::shared_ptr<IO::BaseIO> io,
+      bool fallbackToBase = false);
+
+  /**
+   * @brief Factory method to create an instance of a subclass of RegisteredType
+   * from file
+   *
+   * The function: 1) reads the  "namespace" and "neurodata_type" attributes at
+   * the given path, 2) looks up the corresponding subclass of  RegisteredType
+   * for that type in the type registry 3) instantiates the subclass to
+   * represent the object at the path.
+   *
+   * @param path The path of the registered type.
+   * @param io A shared pointer to the IO object.
+   * @param fallbackToBase If true, return a base class instance if the
+   *        full class is not found. The base class to use is defined by
+   *        m_defaultUnregisteredGroupTypeClass and
+   * m_defaultUnregisteredDatasetTypeClass depending on whether the type is a
+   * group or dataset.
+   *
+   * @return A unique pointer to the created RegisteredType instance, or nullptr
+   * if creation fails.
+   */
+  static std::shared_ptr<AQNWB::NWB::RegisteredType> create(
+      const std::string& path,
+      std::shared_ptr<IO::BaseIO> io,
+      bool fallbackToBase = false);
 
   /**
    * @brief Factory method to create an instance of a subclass of RegisteredType
@@ -157,21 +181,6 @@ public:
                   "T must be a derived class of RegisteredType");
     return std::shared_ptr<T>(new T(path, io));
   }
-
-  /**
-   * @brief Factory method to create an instance of a subclass of RegisteredType
-   * from file
-   *
-   * The function: 1) reads the  "namespace" and "neurodata_type" attributes at
-   * the given path, 2) looks up the corresponding subclass of  RegisteredType
-   * for that type in the type registry 3) instantiates the subclass to
-   * represent the object at the path.
-   *
-   * @return A unique pointer to the created RegisteredType instance, or nullptr
-   * if creation fails.
-   */
-  static std::shared_ptr<AQNWB::NWB::RegisteredType> create(
-      const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
   /**
    * @brief Get the name of the class type.
@@ -257,6 +266,14 @@ public:
   }
 
 protected:
+  /// @brief Save the default RegisteredType to use for reading Group types that
+  /// are not registered
+  static const std::string m_defaultUnregisteredGroupTypeClass;
+
+  /// @brief Save the default RegisteredType to use for reading Dataset types
+  /// that are not registered
+  static const std::string m_defaultUnregisteredDatasetTypeClass;
+
   /**
    * @brief Register a subclass name and its factory function in the registry.
    *
