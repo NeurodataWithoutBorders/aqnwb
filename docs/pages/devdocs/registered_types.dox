@@ -213,7 +213,7 @@
  *
  * @section use_the_define_registered_field_macro How to use the DEFINE_REGISTERED_FIELD macro
  *
- * The \ref DEFINE_REGISTERED_FIELD works much like the \ref DEFINE_FIELD macro macro but 
+ * The \ref DEFINE_REGISTERED_FIELD macro works much like the \ref DEFINE_FIELD macro macro but 
  * returns instances of specific subtypes of \ref AQNWB::NWB::RegisteredType "RegisteredType", 
  * rather than \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper". As such the main inputs for 
  * \ref DEFINE_REGISTERED_FIELD are as follows:
@@ -229,6 +229,16 @@
  * @code
  * DEFINE_REGISTERED_FIELD(getData, DynamicTable, "my_table", My data table)
  * @endcode
+ *
+ * @section use_the_define_referenced_registered_field_macro How to use the DEFINE_REFERENCED_REGISTERED_FIELD macro
+ *
+ * The \ref DEFINE_REFERENCED_REGISTERED_FIELD macro works exactly like the 
+ * \ref DEFINE_REGISTERED_FIELD macro, but the underlying data is an attribute that 
+ * stores a reference to an instances of a specific subtype of \ref AQNWB::NWB::RegisteredType "RegisteredType"
+ * rather than the instance of the object directly. I.e., ``fieldPath`` here is the
+ * relative path to the attribute that stores the reference, rather than the relative path
+ * of the object itself. The generated read method then resolves the reference first and
+ * then returns the instance of the object that is being referenced.
  *
  * @section using_registered_subclass_with_typename Using REGISTER_SUBCLASS_WITH_TYPENAME
  *
