@@ -35,15 +35,12 @@ var searchData=
   ['m_5freadytoopen_32',['m_readyToOpen',['../class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a8b71a8fca370cb3b3a1ab46881eb7be7',1,'AQNWB::IO::BaseIO']]],
   ['m_5fsamplesrecorded_33',['m_samplesRecorded',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a30298c5b6060c152101f6badd0e4824b',1,'AQNWB::NWB::ElectricalSeries::m_samplesRecorded'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html#a8801b9095e4f9131b4ede7e8e812f6e3',1,'AQNWB::NWB::AnnotationSeries::m_samplesRecorded']]],
   ['m_5fsamplingrate_34',['m_samplingRate',['../class_a_q_n_w_b_1_1_channel.html#abcd31d93b7b1e401d310757fd32f5ce5',1,'AQNWB::Channel']]],
-  ['macro_35',['macro',['../registered_type_page.html#use_the_define_field_macro',1,'How to use the DEFINE_FIELD macro'],['../registered_type_page.html#use_the_define_referenced_registered_field_macro',1,'How to use the DEFINE_REFERENCED_REGISTERED_FIELD macro'],['../registered_type_page.html#use_the_define_registered_field_macro',1,'How to use the DEFINE_REGISTERED_FIELD macro']]],
-  ['memory_36',['Read data into memory',['../read_page.html#read_design_example_load_data',1,'']]],
-  ['mergepaths_37',['mergePaths',['../namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881',1,'AQNWB']]],
-  ['mock_20data_20for_20write_38',['Setup mock data for write',['../read_page.html#read_design_example_step_1',1,'']]],
+  ['mergepaths_35',['mergePaths',['../namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881',1,'AQNWB']]],
+  ['methods_20for_20datasets_20and_20attributes_36',['DEFINE_FIELD: Creating read methods for datasets and attributes',['../registered_type_page.html#use_the_define_field_macro',1,'']]],
+  ['methods_20for_20neurodata_5ftype_20objects_37',['DEFINE_REGISTERED_FIELD: Defining read methods for neurodata_type objects',['../registered_type_page.html#use_the_define_registered_field_macro',1,'']]],
+  ['methods_20for_20references_20to_20neurodata_5ftype_20objects_38',['DEFINE_REFERENCED_REGISTERED_FIELD: Defining read methods for references to neurodata_type objects',['../registered_type_page.html#use_the_define_referenced_registered_field_macro',1,'']]],
   ['mode_39',['Single-Writer Multiple-Reader (SWMR) Mode',['../hdf5io.html#hdf5io_swmr',1,'']]],
   ['mode_40',['mode',['../hdf5io.html#hdf5io_swmr_read',1,'Reading with SWMR mode'],['../hdf5io.html#hdf5io_swmr_features',1,'Why does AqNWB use SMWR mode?'],['../hdf5io.html#hdf5io_swmr_workflow',1,'Writing an NWB file with SWMR mode']]],
   ['mode_20targets_41',['Developer Mode Targets',['../dev_install_page.html#devbuild_dev_mode_targets_subsec',1,'']]],
-  ['multi_20array_42',['Accessing multi-dimensional data as Boost multi-array',['../read_page.html#read_design_example_boostarray',1,'']]],
-  ['multi_20array_20for_20n_20dimensional_20data_43',['Using Boost Multi Array for N-Dimensional Data',['../read_page.html#read_design_data_block_multiarray',1,'']]],
-  ['multi_20dimensional_20data_20as_20boost_20multi_20array_44',['Accessing multi-dimensional data as Boost multi-array',['../read_page.html#read_design_example_boostarray',1,'']]],
-  ['multiple_20reader_20swmr_20mode_45',['Single-Writer Multiple-Reader (SWMR) Mode',['../hdf5io.html#hdf5io_swmr',1,'']]]
+  ['multiple_20reader_20swmr_20mode_42',['Single-Writer Multiple-Reader (SWMR) Mode',['../hdf5io.html#hdf5io_swmr',1,'']]]
 ];

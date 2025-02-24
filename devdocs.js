@@ -34,17 +34,27 @@ var devdocs =
     ] ],
     [ "Implementing a new Neurodata Type", "registered_type_page.html", [
       [ "How to Implement a RegisteredType", "registered_type_page.html#implement_registered_type", [
-        [ "Example: Implementing a new type", "registered_type_page.html#implement_registered_type_example", null ]
+        [ "Example: Implementing a new type", "registered_type_page.html#implement_registered_type_example", null ],
+        [ "DEFINE_FIELD: Creating read methods for datasets and attributes", "registered_type_page.html#use_the_define_field_macro", null ],
+        [ "DEFINE_REGISTERED_FIELD: Defining read methods for neurodata_type objects", "registered_type_page.html#use_the_define_registered_field_macro", null ],
+        [ "DEFINE_REFERENCED_REGISTERED_FIELD: Defining read methods for references to neurodata_type objects", "registered_type_page.html#use_the_define_referenced_registered_field_macro", null ]
       ] ],
-      [ "How the Type Registry in RegisteredType Works", "registered_type_page.html#type_registry", null ],
-      [ "How to Use the RegisteredType Registry", "registered_type_page.html#use_registered_type_registry", [
-        [ "Example: Using the type registry", "registered_type_page.html#use_registered_type_registry_example", null ]
-      ] ],
-      [ "How to use the DEFINE_FIELD macro", "registered_type_page.html#use_the_define_field_macro", null ],
-      [ "How to use the DEFINE_REGISTERED_FIELD macro", "registered_type_page.html#use_the_define_registered_field_macro", null ],
-      [ "How to use the DEFINE_REFERENCED_REGISTERED_FIELD macro", "registered_type_page.html#use_the_define_referenced_registered_field_macro", null ],
-      [ "Using REGISTER_SUBCLASS_WITH_TYPENAME", "registered_type_page.html#using_registered_subclass_with_typename", [
+      [ "How to implement a RegisteredType with a custom type name", "registered_type_page.html#using_registered_subclass_with_typename", [
+        [ "Templated RegisteredType Classes", "registered_type_page.html#implement_templated_registered_type", null ],
         [ "Limitations of REGISTER_SUBCLASS_WITH_TYPENAME", "registered_type_page.html#limitations_registered_subclass_with_typename", null ]
+      ] ]
+    ] ],
+    [ "Implementation of data read", "read_design_page.html", [
+      [ "Reading datasets and attributes", "read_design_page.html#read_design_sec_read_date", null ],
+      [ "Reading neurodata_type objects", "read_design_page.html#reading_neurodata_type_objects", [
+        [ "How the Type Registry in RegisteredType Works", "read_design_page.html#type_registry", null ],
+        [ "How to Use the RegisteredType Registry", "read_design_page.html#use_registered_type_registry", null ],
+        [ "Reading templated RegisteredType classes", "read_design_page.html#read_design_templates", null ],
+        [ "Example: Using the type registry", "read_design_page.html#use_registered_type_registry_example", null ]
+      ] ],
+      [ "Example Implementation Details", "read_design_page.html#read_design_example", [
+        [ "Creating and Writing Data", "read_design_page.html#read_design_example_create", null ],
+        [ "Reading and Processing Data", "read_design_page.html#read_design_example_read", null ]
       ] ]
     ] ],
     [ "Code of Conduct", "code_of_conduct_page.html", null ],

@@ -12,10 +12,8 @@ var searchData=
   ['hdmf_5fcommon_2ehpp_9',['hdmf_common.hpp',['../hdmf__common_8hpp.html',1,'']]],
   ['hdmf_5fexperimental_2ehpp_10',['hdmf_experimental.hpp',['../hdmf__experimental_8hpp.html',1,'']]],
   ['header_20files_11',['Generating the schema header files',['../nwb_schema_page.html#dev_docs_generating_nwb_schema_headers_section',1,'']]],
-  ['how_20the_20type_20registry_20in_20registeredtype_20works_12',['How the Type Registry in RegisteredType Works',['../registered_type_page.html#type_registry',1,'']]],
+  ['how_20the_20type_20registry_20in_20registeredtype_20works_12',['How the Type Registry in RegisteredType Works',['../read_design_page.html#type_registry',1,'']]],
   ['how_20to_20implement_20a_20registeredtype_13',['How to Implement a RegisteredType',['../registered_type_page.html#implement_registered_type',1,'']]],
-  ['how_20to_20use_20the_20define_5ffield_20macro_14',['How to use the DEFINE_FIELD macro',['../registered_type_page.html#use_the_define_field_macro',1,'']]],
-  ['how_20to_20use_20the_20define_5freferenced_5fregistered_5ffield_20macro_15',['How to use the DEFINE_REFERENCED_REGISTERED_FIELD macro',['../registered_type_page.html#use_the_define_referenced_registered_field_macro',1,'']]],
-  ['how_20to_20use_20the_20define_5fregistered_5ffield_20macro_16',['How to use the DEFINE_REGISTERED_FIELD macro',['../registered_type_page.html#use_the_define_registered_field_macro',1,'']]],
-  ['how_20to_20use_20the_20registeredtype_20registry_17',['How to Use the RegisteredType Registry',['../registered_type_page.html#use_registered_type_registry',1,'']]]
+  ['how_20to_20implement_20a_20registeredtype_20with_20a_20custom_20type_20name_14',['How to implement a RegisteredType with a custom type name',['../registered_type_page.html#using_registered_subclass_with_typename',1,'']]],
+  ['how_20to_20use_20the_20registeredtype_20registry_15',['How to Use the RegisteredType Registry',['../read_design_page.html#use_registered_type_registry',1,'']]]
 ];
