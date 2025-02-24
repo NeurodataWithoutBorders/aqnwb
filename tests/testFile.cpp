@@ -13,6 +13,12 @@ using namespace AQNWB;
 
 TEST_CASE("ElectrodeTable", "[ecephys]")
 {
+  SECTION("test ElectrodeTable is registered as a subclass of RegisteredType")
+  {
+    auto registry = AQNWB::NWB::RegisteredType::getRegistry();
+    REQUIRE(registry.find("core::ElectrodeTable") != registry.end());
+  }
+
   SECTION("test initialization and read")
   {
     std::string filename = getTestFilePath("electrodeTable.h5");
@@ -91,7 +97,7 @@ TEST_CASE("ElectrodeTable", "[ecephys]")
     REQUIRE(readGroupNameValues == expectedGroupNames);
 
     // Test reading id column via the generic readColumn method as VectorData
-    std::shared_ptr<NWB::VectorData<int>> readId2 =
+    std::shared_ptr<NWB::VectorDataTyped<int>> readId2 =
         electrodeTable.readColumn<int>("id");
     REQUIRE(readId2 != nullptr);
     auto readIdData2 = readId2->readData();

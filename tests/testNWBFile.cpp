@@ -15,6 +15,12 @@
 
 using namespace AQNWB;
 
+TEST_CASE("NWBFile registered", "[nwb]")
+{
+  auto registry = AQNWB::NWB::RegisteredType::getRegistry();
+  REQUIRE(registry.find("core::NWBFile") != registry.end());
+}
+
 TEST_CASE("saveNWBFile", "[nwb]")
 {
   std::string filename = getTestFilePath("testSaveNWBFile.nwb");

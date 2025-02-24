@@ -11,6 +11,12 @@
 
 using namespace AQNWB;
 
+TEST_CASE("TimeSeries is registered as a subclass of RegisteredType", "[base]")
+{
+  auto registry = AQNWB::NWB::RegisteredType::getRegistry();
+  REQUIRE(registry.find("core::TimeSeries") != registry.end());
+}
+
 TEST_CASE("TimeSeries", "[base]")
 {
   // Prepare test data

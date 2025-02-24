@@ -64,5 +64,4 @@ TEST_CASE("RegisterType Example", "[base]")
     // [example_RegisterType_get_registered_factories]
   }
 }
-
 // [example_RegisterType_full]

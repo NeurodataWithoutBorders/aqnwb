@@ -13,6 +13,13 @@ using namespace AQNWB;
 
 TEST_CASE("ElementIdentifiers", "[base]")
 {
+  SECTION(
+      "test ElementIdentifiers is registered as a subclass of RegisteredType")
+  {
+    auto registry = AQNWB::NWB::RegisteredType::getRegistry();
+    REQUIRE(registry.find("hdmf-common::ElementIdentifiers") != registry.end());
+  }
+
   SECTION("test ElementIdentifiers write/read")
   {
     // Prepare test data
