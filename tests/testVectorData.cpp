@@ -117,6 +117,7 @@ TEST_CASE("VectorData", "[base]")
 
     // Read all fields using the standard read methods
     auto readRegisteredType = NWB::RegisteredType::create(dataPath, readio);
+    REQUIRE(readRegisteredType != nullptr);
     auto readVectorData =
         std::make_shared<NWB::VectorData<double>>(dataPath, readio);
 
