@@ -57,6 +57,16 @@ public:
 
 /**
  * @brief A typed n-dimensional dataset representing a column of a DynamicTable.
+ *
+ * This typed variant of VectorData allows for the specification of the data
+ * type at compile time, enabling type-safe access to the data. This is useful
+ * for data read to simplify access when the type is known. While we can use the
+ * typed version also for data write, in most case the base version of
+ * VectorData is sufficient. NOTE: Only VectorData is registered with the
+ * RegisteredType class registry. The VectorDataTyped class is not registered
+ * since the DTYPE information is not available as part of the neurodata_type
+ * attribute in the NWB file.
+ *
  * @tparam DTYPE The data type of the data managed by VectorDataTyped
  */
 template<typename DTYPE = std::any>
