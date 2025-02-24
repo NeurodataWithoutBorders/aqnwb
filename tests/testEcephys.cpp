@@ -254,10 +254,11 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     REQUIRE(readElectrodesDescriptionValues
             == "the electrodes that generated this electrical series");
 
-    // TODO - add test for reading when references are supported in read
-    // auto readElectrodesTableWrapper =
-    // readElectricalSeries->readElectrodesTable(); auto
-    // readElectrodesTableValues = readElectrodesTableWrapper->values().data[0];
+    // Read the references to the ElectrodeTable
+    auto readElectrodesTable = readElectricalSeries->readElectrodesTable();
+    REQUIRE(readElectrodesTable != nullptr);
+    REQUIRE(readElectrodesTable->getPath()
+            == AQNWB::NWB::ElectrodeTable::electrodeTablePath);
   }
 }
 
