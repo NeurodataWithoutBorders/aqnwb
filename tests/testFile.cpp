@@ -91,7 +91,7 @@ TEST_CASE("ElectrodeTable", "[ecephys]")
     REQUIRE(readGroupNameValues == expectedGroupNames);
 
     // Test reading id column via the generic readColumn method as VectorData
-    std::shared_ptr<NWB::VectorData<int>> readId2 =
+    std::shared_ptr<NWB::VectorDataTyped<int>> readId2 =
         electrodeTable.readColumn<int>("id");
     REQUIRE(readId2 != nullptr);
     auto readIdData2 = readId2->readData();

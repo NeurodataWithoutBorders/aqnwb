@@ -48,6 +48,18 @@ TEST_CASE("RegisterType", "[base]")
 {
   SECTION("test that the registry is working")
   {
+    // TODO: Test print the registry
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << "Registry:" << std::endl;
+    std::cout << std::endl;
+    // Data<std::any>::registerSubclass();
+    for (const auto& entry : RegisteredType::getRegistry()) {
+      std::cout << entry << std::endl;
+    }
+    std::cout << std::endl;
+    std::cout << std::endl;
+
     std::string filename = getTestFilePath("testRegisteredTypeRegistry.h5");
     std::shared_ptr<BaseIO> io = std::make_unique<IO::HDF5::HDF5IO>(filename);
     std::string examplePath("/example/path");
@@ -239,23 +251,23 @@ TEST_CASE("RegisterType", "[base]")
     REQUIRE(emptyWithFallback->getTypeName() == fallBackClassName);
     REQUIRE(emptyWithFallback->getNamespace() == fallBackNamespace);
 
-    // Test with unknown type and fallbackToBase=true while reading the type information from file
-    // Should return base Container type
+    // Test with unknown type and fallbackToBase=true while reading the type
+    // information from file Should return base Container type
     auto fallbackInstance2 = RegisteredType::create(examplePath, io, true);
     REQUIRE(fallbackInstance2 != nullptr);
     REQUIRE(fallbackInstance2->getTypeName() == fallBackClassName);
     REQUIRE(fallbackInstance2->getNamespace() == fallBackNamespace);
 
-    // Test with unknown type and fallbackToBase=true while reading the type information from file
-    // Should return nullptr as before
-    auto noFallbackInstance2 =
-        RegisteredType::create(examplePath, io, false);
+    // Test with unknown type and fallbackToBase=true while reading the type
+    // information from file Should return nullptr as before
+    auto noFallbackInstance2 = RegisteredType::create(examplePath, io, false);
     REQUIRE(noFallbackInstance2 == nullptr);
 
     // Close the file
     io->close();
   }
 
+  // TODO: This should work
   SECTION("create : test fallback to base type for dataset")
   {
     std::string filename = getTestFilePath("testFallbackDatasetType.h5");
@@ -270,7 +282,7 @@ TEST_CASE("RegisterType", "[base]")
 
     // Create the group and set required attributes
     io->createArrayDataSet(
-      BaseDataType::I32, SizeArray {0}, SizeArray {1}, examplePath);
+        BaseDataType::I32, SizeArray {0}, SizeArray {1}, examplePath);
     io->createAttribute(namespaceName, examplePath, "namespace");
     io->createAttribute(typeName, examplePath, "neurodata_type");
 
@@ -294,17 +306,16 @@ TEST_CASE("RegisterType", "[base]")
     REQUIRE(emptyWithFallback->getTypeName() == fallBackClassName);
     REQUIRE(emptyWithFallback->getNamespace() == fallBackNamespace);
 
-    // Test with unknown type and fallbackToBase=true while reading the type information from file
-    // Should return base Container type
+    // Test with unknown type and fallbackToBase=true while reading the type
+    // information from file Should return base Container type
     auto fallbackInstance2 = RegisteredType::create(examplePath, io, true);
     REQUIRE(fallbackInstance2 != nullptr);
     REQUIRE(fallbackInstance2->getTypeName() == fallBackClassName);
     REQUIRE(fallbackInstance2->getNamespace() == fallBackNamespace);
 
-    // Test with unknown type and fallbackToBase=true while reading the type information from file
-    // Should return nullptr as before
-    auto noFallbackInstance2 =
-        RegisteredType::create(examplePath, io, false);
+    // Test with unknown type and fallbackToBase=true while reading the type
+    // information from file Should return nullptr as before
+    auto noFallbackInstance2 = RegisteredType::create(examplePath, io, false);
     REQUIRE(noFallbackInstance2 == nullptr);
 
     // Close the file

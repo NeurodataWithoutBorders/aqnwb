@@ -210,7 +210,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // Read the ElectrodesTable
     auto readElectrodeTable = readNWBFile->readElectrodeTable();
     // read the location data. Note that both the type of the class and
-    // the data values is being set for us, here, VectorData<std::string>
+    // the data values is being set for us, here, VectorDataTyped<std::string>
     auto locationColumn = readElectrodeTable->readLocationColumn();
     auto locationColumnValues = locationColumn->readData()->values();
     // confirm that the values are correct

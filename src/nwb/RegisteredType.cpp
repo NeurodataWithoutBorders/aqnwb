@@ -75,11 +75,9 @@ std::shared_ptr<AQNWB::NWB::RegisteredType> RegisteredType::create(
     std::shared_ptr<IO::BaseIO> io,
     bool fallbackToBase)
 {
-  std::cout<<"Called with "<<fullClassName<<std::endl;
-  // Look up the factory RegisteredType for the fullClassName the registry
+  //  Look up the factory RegisteredType for the fullClassName the registry
   auto it = getFactoryMap().find(fullClassName);
   if (it != getFactoryMap().end()) {
-    std::cout<<"Found "<<fullClassName<<std::endl;
     return it->second.first(path, io);
   }
   // If the class is not found, return a base class instance by calling this
@@ -88,22 +86,12 @@ std::shared_ptr<AQNWB::NWB::RegisteredType> RegisteredType::create(
   if (fallbackToBase) {
     StorageObjectType sot = io->getStorageObjectType(path);
     if (sot == StorageObjectType::Group) {
-      std::cout<<"Fallback to "<<m_defaultUnregisteredGroupTypeClass<<std::endl;
+      // "<<m_defaultUnregisteredGroupTypeClass<<std::endl;
       return create(m_defaultUnregisteredGroupTypeClass, path, io);
     } else if (sot == StorageObjectType::Dataset) {
-      std::cout<<"Fallback to "<<m_defaultUnregisteredDatasetTypeClass<<std::endl;
       return create(m_defaultUnregisteredDatasetTypeClass, path, io);
     }
   }
-  // Test print the registry
-  if( fullClassName == m_defaultUnregisteredDatasetTypeClass)
-  {
-    std::cout<<"Registry:"<<std::endl;
-    for (const auto& entry : getRegistry()) {
-      std::cout<<entry<<std::endl;
-    }
-  }
-
 
   // If the class is not found and we are not falling back to a base class,
   // return nullptr

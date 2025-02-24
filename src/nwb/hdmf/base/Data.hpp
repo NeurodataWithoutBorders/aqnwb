@@ -11,15 +11,10 @@ namespace AQNWB::NWB
  * @brief An abstract data type for a dataset.
  * @tparam DTYPE The data type of the data managed by Data
  */
-template<typename DTYPE = std::any>
 class Data : public RegisteredType
 {
 public:
-  // Register the Data template class with the type registry for dynamic
-  // creation. This registration is generic and applies to any specialization of
-  // the Data template. It allows the system to dynamically create instances of
-  // Data with different data types.
-  REGISTER_SUBCLASS_WITH_TYPENAME(Data<DTYPE>, "hdmf-common", "Data")
+  REGISTER_SUBCLASS(Data, "hdmf-common")
 
   /**
    * @brief Constructor.
@@ -27,10 +22,7 @@ public:
    * @param path The path of the container.
    * @param io A shared pointer to the IO object.
    */
-  Data(const std::string& path, std::shared_ptr<IO::BaseIO> io)
-      : RegisteredType(path, io)
-  {
-  }
+  Data(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
   /**
    * @brief Virtual destructor.
@@ -60,10 +52,8 @@ public:
    */
   inline bool isInitialized() { return m_dataset != nullptr; }
 
-  std::unique_ptr<IO::BaseRecordingData> m_dataset;
-
   // Define the data fields to expose for lazy read access
-  DEFINE_FIELD(readData, DatasetField, DTYPE, "", The main data)
+  DEFINE_FIELD(readData, DatasetField, std::any, "", The main data)
 
   DEFINE_FIELD(readNeurodataType,
                AttributeField,
@@ -76,5 +66,38 @@ public:
                std::string,
                "namespace",
                The name of the namespace)
+
+  std::unique_ptr<IO::BaseRecordingData> m_dataset;
+};
+
+/**
+ * @brief A typed data container for a dataset.
+ * @tparam DTYPE The data type of the data managed by DataTyped
+ */
+template<typename DTYPE = std::any>
+class DataTyped : public Data
+{
+public:
+  /**
+   * @brief Constructor.
+   *
+   * @param path The path of the container.
+   * @param io A shared pointer to the IO object.
+   */
+  DataTyped(const std::string& path, std::shared_ptr<IO::BaseIO> io)
+      : Data(path, io)
+  {
+  }
+
+  /**
+   * @brief Virtual destructor.
+   */
+  virtual ~DataTyped() override {}
+
+  // Define the data fields to expose for lazy read access
+  DEFINE_FIELD(readData, DatasetField, DTYPE, "", The main data)
+
+  using RegisteredType::m_io;
+  using RegisteredType::m_path;
 };
 }  // namespace AQNWB::NWB
