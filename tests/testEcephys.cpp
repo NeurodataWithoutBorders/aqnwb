@@ -17,6 +17,16 @@
 
 using namespace AQNWB;
 
+TEST_CASE("registered ecephys types", "[ecephys]")
+{
+  auto registry = AQNWB::NWB::RegisteredType::getRegistry();
+  REQUIRE(registry.find("core::Device") != registry.end());
+  REQUIRE(registry.find("core::ElectrodeGroup") != registry.end());
+  REQUIRE(registry.find("core::ElectrodeTable") != registry.end());
+  REQUIRE(registry.find("core::ElectricalSeries") != registry.end());
+  REQUIRE(registry.find("core::SpikeEventSeries") != registry.end());
+}
+
 TEST_CASE("ElectricalSeries", "[ecephys]")
 {
   // setup recording info

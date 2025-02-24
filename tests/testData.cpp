@@ -13,6 +13,13 @@ using namespace AQNWB;
 
 TEST_CASE("Data", "[base]")
 {
+  SECTION("test Data is registerd as a subclass of RegisteredType")
+  {
+    auto registry = AQNWB::NWB::RegisteredType::getRegistry();
+    // check that hdfm-common::Data is in the registry
+    REQUIRE(registry.find("hdmf-common::Data") != registry.end());
+  }
+
   SECTION("test Data<int> write/read")
   {
     // Prepare test data
@@ -49,8 +56,15 @@ TEST_CASE("Data", "[base]")
     readio->open(FileMode::ReadOnly);
 
     // Read all fields using the standard read methods
+    auto readDataUntyped = NWB::RegisteredType::create(dataPath, readio);
+    REQUIRE(readDataUntyped != nullptr);
+    REQUIRE(readDataUntyped->getTypeName() == "Data");
+    REQUIRE(readDataUntyped->getNamespace() == "hdmf-common");
     auto readData =
         NWB::RegisteredType::create<NWB::DataTyped<int>>(dataPath, readio);
+    REQUIRE(readData != nullptr);
+    REQUIRE(readData->getTypeName() == "Data");
+    REQUIRE(readData->getNamespace() == "hdmf-common");
 
     // Read the "namespace" attribute via the readNamespace field
     auto namespaceData = readData->readNamespace();

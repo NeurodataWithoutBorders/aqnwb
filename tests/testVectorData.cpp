@@ -13,6 +13,13 @@ using namespace AQNWB;
 
 TEST_CASE("VectorData", "[base]")
 {
+  SECTION("test VectorData is registerd as a subclass of RegisteredType")
+  {
+    auto registry = AQNWB::NWB::RegisteredType::getRegistry();
+    // check that hdfm-common::Data is in the registry
+    REQUIRE(registry.find("hdmf-common::VectorData") != registry.end());
+  }
+
   SECTION("test VectorData<int> write/read")
   {
     // Prepare test data
@@ -116,7 +123,7 @@ TEST_CASE("VectorData", "[base]")
 
     // Read all fields using the standard read methods
     auto readRegisteredType = NWB::RegisteredType::create(dataPath, readio);
-    // REQUIRE(readRegisteredType != nullptr);  // TODO this should work
+    REQUIRE(readRegisteredType != nullptr);
     auto readVectorData =
         std::make_shared<NWB::VectorDataTyped<double>>(dataPath, readio);
 

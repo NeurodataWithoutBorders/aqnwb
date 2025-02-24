@@ -13,6 +13,12 @@ using namespace AQNWB;
 
 TEST_CASE("ElectrodeTable", "[ecephys]")
 {
+  SECTION("test ElectrodeTable is registerd as a subclass of RegisteredType")
+  {
+    auto registry = AQNWB::NWB::RegisteredType::getRegistry();
+    REQUIRE(registry.find("core::ElectrodeTable") != registry.end());
+  }
+
   SECTION("test initialization and read")
   {
     std::string filename = getTestFilePath("electrodeTable.h5");

@@ -48,18 +48,6 @@ TEST_CASE("RegisterType", "[base]")
 {
   SECTION("test that the registry is working")
   {
-    // TODO: Test print the registry
-    std::cout << std::endl;
-    std::cout << std::endl;
-    std::cout << "Registry:" << std::endl;
-    std::cout << std::endl;
-    // Data<std::any>::registerSubclass();
-    for (const auto& entry : RegisteredType::getRegistry()) {
-      std::cout << entry << std::endl;
-    }
-    std::cout << std::endl;
-    std::cout << std::endl;
-
     std::string filename = getTestFilePath("testRegisteredTypeRegistry.h5");
     std::shared_ptr<BaseIO> io = std::make_unique<IO::HDF5::HDF5IO>(filename);
     std::string examplePath("/example/path");
@@ -267,7 +255,6 @@ TEST_CASE("RegisterType", "[base]")
     io->close();
   }
 
-  // TODO: This should work
   SECTION("create : test fallback to base type for dataset")
   {
     std::string filename = getTestFilePath("testFallbackDatasetType.h5");

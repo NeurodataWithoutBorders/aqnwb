@@ -11,6 +11,12 @@ TEST_CASE("DynamicTable", "[table]")
 {
   std::string tablePath = "/test_table";
 
+  SECTION("test DynamicTable is registerd as a subclass of RegisteredType")
+  {
+    auto registry = AQNWB::NWB::RegisteredType::getRegistry();
+    REQUIRE(registry.find("hdmf-common::DynamicTable") != registry.end());
+  }
+
   SECTION("test initialization and column names")
   {
     std::string path = getTestFilePath("testDynamicTable.h5");
