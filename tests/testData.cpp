@@ -20,21 +20,21 @@ TEST_CASE("Data", "[base]")
     REQUIRE(registry.find("hdmf-common::Data") != registry.end());
   }
 
+  // Create a single file for all Data test sections
+  std::string path = getTestFilePath("testData.h5");
+  std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+  io->open();
+
   SECTION("test Data write/read")
   {
     // Prepare test data
     SizeType numSamples = 10;
-    std::string dataPath = "/vdata";
+    std::string dataPath = "/data_basic";
     SizeArray dataShape = {numSamples};
     SizeArray chunking = {numSamples};
     SizeArray positionOffset = {0};
     BaseDataType dataType = BaseDataType::I32;
     std::vector<int> data = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-    std::string path = getTestFilePath("testData.h5");
-
-    // Create the HDF5 file to write to
-    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
-    io->open();
 
     // create BaseRecordingData to pass to Data.initialize
     std::unique_ptr<BaseRecordingData> columnDataset =
@@ -49,14 +49,9 @@ TEST_CASE("Data", "[base]")
         dataShape, positionOffset, dataType, data.data());
     REQUIRE(writeStatus == Status::Success);
     io->flush();
-    io->close();
-
-    // Read data back from file
-    std::shared_ptr<BaseIO> readio = createIO("HDF5", path);
-    readio->open(FileMode::ReadOnly);
 
     // Read all fields using the standard read methods
-    auto readDataUntyped = NWB::RegisteredType::create(dataPath, readio);
+    auto readDataUntyped = NWB::RegisteredType::create(dataPath, io);
     auto readData = std::dynamic_pointer_cast<NWB::Data>(readDataUntyped);
     REQUIRE(readData != nullptr);
     REQUIRE(readData->getTypeName() == "Data");
@@ -72,25 +67,27 @@ TEST_CASE("Data", "[base]")
     std::string neurodataTypeStr = neurodataTypeData->values().data[0];
     REQUIRE(neurodataTypeStr == "Data");
   }
+
+  io->close();
 }
 
 TEST_CASE("DataTyped", "[base]")
 {
+  // Create a single file for all DataTyped test sections
+  std::string path = getTestFilePath("testDataTyped.h5");
+  std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+  io->open();
+
   SECTION("test DataTyped<int> write/read")
   {
     // Prepare test data
     SizeType numSamples = 10;
-    std::string dataPath = "/vdata";
+    std::string dataPath = "/data_int";
     SizeArray dataShape = {numSamples};
     SizeArray chunking = {numSamples};
     SizeArray positionOffset = {0};
     BaseDataType dataType = BaseDataType::I32;
     std::vector<int> data = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-    std::string path = getTestFilePath("testData.h5");
-
-    // Create the HDF5 file to write to
-    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
-    io->open();
 
     // create BaseRecordingData to pass to Data.initialize
     std::unique_ptr<BaseRecordingData> columnDataset =
@@ -105,14 +102,9 @@ TEST_CASE("DataTyped", "[base]")
         dataShape, positionOffset, dataType, data.data());
     REQUIRE(writeStatus == Status::Success);
     io->flush();
-    io->close();
-
-    // Read data back from file
-    std::shared_ptr<BaseIO> readio = createIO("HDF5", path);
-    readio->open(FileMode::ReadOnly);
 
     // Test DataTyped<int> direct construction
-    auto readDataTyped = NWB::DataTyped<int>(dataPath, readio);
+    auto readDataTyped = NWB::DataTyped<int>(dataPath, io);
     REQUIRE(readDataTyped.getTypeName() == "Data");
     REQUIRE(readDataTyped.getNamespace() == "hdmf-common");
 
@@ -122,7 +114,7 @@ TEST_CASE("DataTyped", "[base]")
     REQUIRE(dataBlockInt.data == data);
 
     // Test fromData conversion
-    auto baseData = NWB::Data(dataPath, readio);
+    auto baseData = NWB::Data(dataPath, io);
     auto convertedDataTyped = NWB::DataTyped<int>::fromData(baseData);
     REQUIRE(convertedDataTyped->getTypeName() == "Data");
     REQUIRE(convertedDataTyped->getNamespace() == "hdmf-common");
@@ -135,18 +127,13 @@ TEST_CASE("DataTyped", "[base]")
   {
     // Prepare test data
     SizeType numSamples = 10;
-    std::string dataPath = "/vdata";
+    std::string dataPath = "/data_double";
     SizeArray dataShape = {numSamples};
     SizeArray chunking = {numSamples};
     SizeArray positionOffset = {0};
     BaseDataType dataType = BaseDataType::F64;
     std::vector<double> data = {
         1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8, 9.9, 10.1};
-    std::string path = getTestFilePath("testData.h5");
-
-    // Create the HDF5 file to write to
-    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
-    io->open();
 
     // create BaseRecordingData to pass to Data.initialize
     std::unique_ptr<BaseRecordingData> columnDataset =
@@ -161,14 +148,9 @@ TEST_CASE("DataTyped", "[base]")
         dataShape, positionOffset, dataType, data.data());
     REQUIRE(writeStatus == Status::Success);
     io->flush();
-    io->close();
-
-    // Read data back from file
-    std::shared_ptr<BaseIO> readio = createIO("HDF5", path);
-    readio->open(FileMode::ReadOnly);
 
     // Test DataTyped<double> direct construction
-    auto readDataTyped = NWB::DataTyped<double>(dataPath, readio);
+    auto readDataTyped = NWB::DataTyped<double>(dataPath, io);
     REQUIRE(readDataTyped.getTypeName() == "Data");
     REQUIRE(readDataTyped.getNamespace() == "hdmf-common");
 
@@ -178,7 +160,7 @@ TEST_CASE("DataTyped", "[base]")
     REQUIRE(dataBlockDouble.data == data);
 
     // Test fromData conversion
-    auto baseData = NWB::Data(dataPath, readio);
+    auto baseData = NWB::Data(dataPath, io);
     auto convertedDataTyped = NWB::DataTyped<double>::fromData(baseData);
     REQUIRE(convertedDataTyped->getTypeName() == "Data");
     REQUIRE(convertedDataTyped->getNamespace() == "hdmf-common");
@@ -191,7 +173,7 @@ TEST_CASE("DataTyped", "[base]")
   {
     // Prepare test data
     SizeType numSamples = 10;
-    std::string dataPath = "/vdata";
+    std::string dataPath = "/data_string";
     SizeArray dataShape = {numSamples};
     SizeArray chunking = {numSamples};
     SizeArray positionOffset = {0};
@@ -206,11 +188,6 @@ TEST_CASE("DataTyped", "[base]")
                                      "eight",
                                      "nine",
                                      "ten"};
-    std::string path = getTestFilePath("testData.h5");
-
-    // Create the HDF5 file to write to
-    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
-    io->open();
 
     // create BaseRecordingData to pass to Data.initialize
     std::unique_ptr<BaseRecordingData> columnDataset =
@@ -225,14 +202,9 @@ TEST_CASE("DataTyped", "[base]")
         dataShape, positionOffset, dataType, data);
     REQUIRE(writeStatus == Status::Success);
     io->flush();
-    io->close();
-
-    // Read data back from file
-    std::shared_ptr<BaseIO> readio = createIO("HDF5", path);
-    readio->open(FileMode::ReadOnly);
 
     // Test DataTyped<string> direct construction
-    auto readDataTyped = NWB::DataTyped<std::string>(dataPath, readio);
+    auto readDataTyped = NWB::DataTyped<std::string>(dataPath, io);
     REQUIRE(readDataTyped.getTypeName() == "Data");
     REQUIRE(readDataTyped.getNamespace() == "hdmf-common");
 
@@ -242,7 +214,7 @@ TEST_CASE("DataTyped", "[base]")
     REQUIRE(dataBlockString.data == data);
 
     // Test fromData conversion
-    auto baseData = NWB::Data(dataPath, readio);
+    auto baseData = NWB::Data(dataPath, io);
     auto convertedDataTyped = NWB::DataTyped<std::string>::fromData(baseData);
     REQUIRE(convertedDataTyped->getTypeName() == "Data");
     REQUIRE(convertedDataTyped->getNamespace() == "hdmf-common");
@@ -250,4 +222,6 @@ TEST_CASE("DataTyped", "[base]")
     auto convertedBlockString = convertedData->values();
     REQUIRE(convertedBlockString.data == data);
   }
+
+  io->close();
 }
