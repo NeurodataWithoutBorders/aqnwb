@@ -89,6 +89,26 @@ public:
    */
   virtual ~VectorDataTyped() override {}
 
+  /**
+   *  \brief Create a VectorDataTyped object from a Data object
+   *
+   *  This function is useful when the type of the data is known and we want
+   *  read data in a typed manner where the type is stored in the DTYPE template
+   *  parameter. NOTE: The original Data object retains ownership of the
+   *  Data.m_dataset recording dataset object if it was initialized, i.e.,
+   *  the returned VectorDataTyped object will have a nullptr m_dataset.
+   *
+   *  @param data The Data object to convert
+   *  @return A shared pointer for VectorDataTyped object with the same path and
+   * IO object as the input
+   */
+  static std::shared_ptr<VectorDataTyped<DTYPE>> fromVectorData(
+      const VectorData& data)
+  {
+    return std::make_shared<VectorDataTyped<DTYPE>>(data.getPath(),
+                                                    data.getIO());
+  }
+
   using RegisteredType::m_io;
   using RegisteredType::m_path;
 

@@ -104,6 +104,23 @@ public:
    */
   virtual ~DataTyped() override {}
 
+  /**
+   *  \brief Create a DataTyped object from a Data object
+   *
+   *  This function is useful when the type of the data is known and we want
+   *  read data in a typed manner where the type is stored in the DTYPE template
+   *  parameter. NOTE: The original Data object retains ownership of the
+   *  Data.m_dataset recording dataset object if it was initialized, i.e.,
+   *  the returned DataTyped object will have a nullptr m_dataset.
+   *
+   *  @param data The Data object to convert
+   *  @return A DataTyped object with the same path and IO object as the input
+   */
+  static std::shared_ptr<DataTyped<DTYPE>> fromData(const Data& data)
+  {
+    return std::make_shared<DataTyped<DTYPE>>(data.getPath(), data.getIO());
+  }
+
   // Define the data fields to expose for lazy read access
   DEFINE_FIELD(readData, DatasetField, DTYPE, "", The main data)
 
