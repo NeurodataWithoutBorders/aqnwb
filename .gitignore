@@ -20,7 +20,7 @@ CMakeCache.txt
 CMakeFiles/
 
 # demo build
-demo/build/
+/build/
 demo/CMakeFiles/
 demo/cmake-build-*/
-demo/DANDISET_000232/*.nwb
+demo/inspect_electrical_series/*.nwb
