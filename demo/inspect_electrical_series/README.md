@@ -10,10 +10,10 @@ This is a simple C++ demo project that shows how to read and analyze NWB (Neurod
 - Boost library
 - aqnwb library (built from the parent project)
 
-## Downloading example data
+## Download an example NWB dataset that contains ElectricalSeries data
 
-* DANDIset: https://dandiarchive.org/dandiset/000232/0.240510.2038
-* Download file: https://api.dandiarchive.org/api/assets/4c440a73-9250-45bb-a342-a7da4d01b2fd/download?content_disposition=inline
+E.g. https://api.dandiarchive.org/api/assets/4c440a73-9250-45bb-a342-a7da4d01b2fd/download?content_disposition=inline to
+download a single file from DANDIset 000232 at https://dandiarchive.org/dandiset/000232/0.240510.2038
 
 ## Building the Demo
 
@@ -58,22 +58,21 @@ After building, you can run the demo:
 ```bash
 # From the demo/DANDISET_000232/build directory
 cd bin
-./nwb_analysis_demo
+./nwb_analysis_demo ../../sub-EF0147_ses-20190204T144339_behavior+ecephys.nwb
 ```
 
 The program will:
 
 1. Open the NWB file in read-only mode
 2. Search for ElectricalSeries objects in the file
-3. Read the data from the first ElectricalSeries found
-4. Calculate and display statistics for each channel:
+3. Read the data from the first ElectricalSeries found and print basic metadata
+4. Calculate and display statistics for each channel of the data:
    - Mean
    - Standard deviation
    - Minimum value
    - Maximum value
    - Range
-   - Sample values
-5. Display the unit of the data
+
 
 ## Code Structure
 
@@ -83,29 +82,31 @@ The program will:
 ## Example Output
 
 ```
-Opening NWB file: sub-EF0147_ses-20190204T144339_behavior+ecephys.nwb
+Opening NWB file: ../../sub-EF0147_ses-20190204T144339_behavior+ecephys.nwb
 Searching for ElectricalSeries objects...
-Found 3 ElectricalSeries objects.
-    /acquisition/ElectricalSeries1
-    /acquisition/ElectricalSeries2
-    /acquisition/ElectricalSeries3
+Number of ElectricalSeries: 244
+    /processing/ecephys/LFP/ElectricalSeries_97
+    /processing/ecephys/LFP/ElectricalSeries_96
+    /processing/ecephys/LFP/ElectricalSeries_94
+     ...
+    /processing/ecephys/LFP/ElectricalSeries_1
 
-Analyzing ElectricalSeries at path: /acquisition/ElectricalSeries1
-Data shape: [1000, 16]
-Number of time points: 1000
-Number of channels: 16
+Analyzing ElectricalSeries at path: /processing/ecephys/LFP/ElectricalSeries_97
+Data shape: [7409, 64]
+Number of time points: 7409
+Number of channels: 64
+Data unit: volts
+Data description: no description
 
 Channel Analysis:
-----------------
-   Channel          Mean         StdDev            Min            Max          Range
+Channel   Mean StdDev    Min    Max  Range
 -------------------------------------------------------------------------------------
-         0        0.0023        0.9876       -2.5432        2.6789        5.2221
-         1        1.0628       44.3178     -175.2070      195.0000      370.2070
-         2       -0.1245        1.2367       -3.4567        3.2109        6.6676
-         3        0.5678        2.3456       -5.6789        6.7890       12.4679
+         0         1.0628        44.3178      -175.2075       195.0000       370.2075
+         1         0.9844        57.7333      -257.3025       235.4625       492.7650
+         2         1.2631        45.6507      -177.7425       210.6975       388.4400
+         3         1.2300        57.5107      -244.2375       239.4600       483.6975
 ...
 
-Data unit: volts
 Analysis complete.
 ```
 

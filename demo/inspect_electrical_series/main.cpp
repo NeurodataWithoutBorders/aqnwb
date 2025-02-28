@@ -46,17 +46,38 @@ double calculateStdDev(const std::vector<T>& data, double mean) {
     return std::sqrt(variance);
 }
 
-int main() {
-    // Path to the NWB file
-    std::string filePath = "../../sub-EF0147_ses-20190204T144339_behavior+ecephys.nwb";
+inline std::string bold(const std::string& str) {
+    return "\033[1m" + str + "\033[0m";
+}
+
+void printUsage(const char* programName) {
+    std::cout << "Usage: " << programName << " <path_to_nwb_file>" << std::endl;
+    std::cout << "Example: " << programName << " ../../sub-EF0147_ses-20190204T144339_behavior+ecephys.nwb" << std::endl;
+    std::cout << std::endl;
+    std::cout << "This program reads an NWB file and performs basic statistical analysis on the electrophysiology data." << std::endl;
+    std::cout << "It displays channel statistics and electrode information from the ElectrodesTable." << std::endl;
+}
+
+int main(int argc, char* argv[]) {
+    // Check if a file path was provided
+    if (argc < 2) {
+        printUsage(argv[0]);
+        return 1;
+    }
+    
+    // Path to the NWB file from command line argument
+    std::string filePath = argv[1];
     
     // Check if the file exists
     if (!std::filesystem::exists(filePath)) {
         std::cerr << "Error: File not found: " << filePath << std::endl;
+        std::cerr << "Please provide a valid path to an NWB file." << std::endl;
+        printUsage(argv[0]);
         return 1;
     }
 
-    std::cout << "Opening NWB file: " << filePath << std::endl;
+    std::cout << std::endl;   
+    std::cout << bold("Opening NWB file: ") << filePath << std::endl;
     try {
         // Create an IO object for reading the NWB file
         std::shared_ptr<BaseIO> io = createIO("HDF5", filePath);
@@ -66,7 +87,7 @@ int main() {
         auto nwbFile = AQNWB::NWB::NWBFile("/", io);
         
         // Search for ElectricalSeries objects in the file
-        std::cout << "Searching for ElectricalSeries objects..." << std::endl;
+        std::cout << bold("Searching for ElectricalSeries objects...") << std::endl;
         std::unordered_set<std::string> typesToSearch = {"core::ElectricalSeries"};
         std::unordered_map<std::string, std::string> foundElectricalSeries = 
             io->findTypes("/", typesToSearch, IO::SearchMode::CONTINUE_ON_TYPE);
@@ -78,7 +99,7 @@ int main() {
         }
         
         // Print appreviated list of the paths of found ElectricalSeries by printing the first 3 paths and the last path
-        std::cout << "Found " << foundElectricalSeries.size() << " ElectricalSeries objects." << std::endl;
+        std::cout << bold("Number of ElectricalSeries: ") << foundElectricalSeries.size() << std::endl;
         size_t count = 0;
         size_t max_count = 3;
         for (const auto& pair : foundElectricalSeries) {
@@ -95,18 +116,18 @@ int main() {
         
         // Read the first ElectricalSeries found
         std::string esPath = foundElectricalSeries.begin()->first;
-        std::cout << "Analyzing ElectricalSeries at path: " << esPath << std::endl;
+        std::cout << bold("Analyzing ElectricalSeries at path: ") << esPath << std::endl;
         
         auto electricalSeries = NWB::RegisteredType::create<AQNWB::NWB::ElectricalSeries>(esPath, io);
         
         // Read the data
-        auto dataWrapper = electricalSeries->readData<float>();
+        auto dataWrapper = electricalSeries->readData();  // This assumes float data
         
         // Get the data values
-        DataBlock<float> dataValues = dataWrapper->values();
+        auto dataValues = dataWrapper->values();
         
         // Print data shape information
-        std::cout << "Data shape: [";
+        std::cout << bold("Data shape: ") << "[";
         for (size_t i = 0; i < dataValues.shape.size(); ++i) {
             std::cout << dataValues.shape[i];
             if (i < dataValues.shape.size() - 1) {
@@ -119,15 +140,23 @@ int main() {
         SizeType numTimePoints = dataValues.shape[0];
         SizeType numChannels = dataValues.shape.size() > 1 ? dataValues.shape[1] : 1;
         
-        std::cout << "Number of time points: " << numTimePoints << std::endl;
-        std::cout << "Number of channels: " << numChannels << std::endl;
-        
+        std::cout << bold("Number of time points: ") << numTimePoints << std::endl;
+        std::cout << bold("Number of channels: ") << numChannels << std::endl;
+
+        // Read the unit of the data
+        std::string unit = electricalSeries->readDataUnit()->values().data[0];
+        std::cout << bold("Data unit: ") << unit << std::endl;
+
+        // Read the description of the data
+        std::string description = electricalSeries->readDescription()->values().data[0];
+        std::cout << bold("Data description: ") << description << std::endl;
+
         // Convert to boost multi_array for easier access
         auto dataArray = dataValues.as_multi_array<2>();
         
         // Prepare for analysis on each channel
-        std::cout << "\nChannel Analysis:" << std::endl;
-        std::cout << "----------------" << std::endl;
+        std::cout<<std::endl;
+        std::cout << bold("Channel Analysis:") << std::endl;
         
         // Store statistics for all channels
         std::vector<double> means(numChannels);
@@ -156,12 +185,12 @@ int main() {
         }
         
         // Print table header
-        std::cout << std::setw(10) << "Channel" 
-                  << std::setw(15) << "Mean" 
-                  << std::setw(15) << "StdDev" 
-                  << std::setw(15) << "Min" 
-                  << std::setw(15) << "Max" 
-                  << std::setw(15) << "Range" << std::endl;
+        std::cout << std::setw(10) << bold("Channel") 
+                  << std::setw(15) << bold("Mean") 
+                  << std::setw(15) << bold("StdDev") 
+                  << std::setw(15) << bold("Min") 
+                  << std::setw(15) << bold("Max")
+                  << std::setw(15) << bold("Range") << std::endl;
         
         std::cout << std::string(85, '-') << std::endl;
         
@@ -175,13 +204,10 @@ int main() {
                       << std::setw(15) << std::fixed << std::setprecision(4) << ranges[ch] << std::endl;
         }
         
-        // Read the unit of the data
-        std::string unit = electricalSeries->readDataUnit()->values().data[0];
-        std::cout << "Data unit: " << unit << std::endl;
-        
         // Close the file
         io->close();
-        std::cout << "Analysis complete." << std::endl;
+        std::cout<<std::endl;
+        std::cout << bold("Analysis complete.") << std::endl;
         
     } catch (const std::exception& e) {
         std::cerr << "Error: " << e.what() << std::endl;
