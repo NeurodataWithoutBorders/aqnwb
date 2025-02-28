@@ -18,3 +18,9 @@ CMakeUserPresets.json
 compile_commands.json
 CMakeCache.txt
 CMakeFiles/
+
+# demo build
+demo/build/
+demo/CMakeFiles/
+demo/cmake-build-*/
+demo/DANDISET_000232/*.nwb
