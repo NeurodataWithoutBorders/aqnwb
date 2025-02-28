@@ -1,0 +1,45 @@
+name: Build Inspect Electrical Series Demo
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build-demo:
+    defaults:
+      run:
+        shell: bash
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}-${{ matrix.os }}
+      cancel-in-progress: true
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest]
+    
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install dependencies - macos
+      if: matrix.os == 'macos-latest'
+      run: brew install hdf5 boost
+
+    - name: Build main project
+      shell: pwsh
+      run: |
+        cmake -B build -S .
+        cmake --build build --config Release -j 2
+
+    - name: Build demo - macos
+      if: matrix.os == 'macos-latest'
+      run: |
+        cd demo/inspect_electrical_series
+        cmake -B build -S . -DAQNWB_DIR="${{ github.workspace }}/build"
+        cmake --build build --config Release -j 2
+        
