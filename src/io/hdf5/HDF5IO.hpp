@@ -277,11 +277,9 @@ public:
   std::unique_ptr<IO::BaseRecordingData> getDataSet(
       const std::string& path) override;
 
-  /**
-   * @brief Returns the size of the dataset for each dimension.
-   * @param path The location in the file of the dataset.
-   * @return The dataset shape.
-   */
+   * @brief Returns the size of the dataset or attribute for each dimension.
+   * @param path The location of the dataset or attribute in the file
+   * @return The shape of the dataset or attribute.
   std::vector<SizeType> getStorageObjectShape(const std::string path) override;
 
   /**
