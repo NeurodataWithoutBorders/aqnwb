@@ -685,10 +685,56 @@ TEST_CASE("HDF5IO; create attributes", "[hdf5io]")
     REQUIRE(hdf5io.objectExists("/data/link"));
   }
 
-  // reference
+  // reference attribute tests
   SECTION("reference")
   {
-    // TODO
+    // Create target objects that we'll reference
+    hdf5io.createGroup("/referenceTargetGroup");
+    hdf5io.createArrayDataSet(BaseDataType::I32,
+                              SizeArray {3},
+                              SizeArray {3},
+                              "/referenceTargetDataset");
+
+    // Test reference to a group
+    SECTION("reference to group")
+    {
+      hdf5io.createReferenceAttribute(
+          "/referenceTargetGroup", "/data", "groupRefAttr");
+      REQUIRE(hdf5io.attributeExists("/data/groupRefAttr"));
+
+      std::string resolvedPath =
+          hdf5io.readReferenceAttribute("/data/groupRefAttr");
+      REQUIRE(resolvedPath == "/referenceTargetGroup");
+    }
+
+    // Test reference to a dataset
+    SECTION("reference to dataset")
+    {
+      hdf5io.createReferenceAttribute(
+          "/referenceTargetDataset", "/data", "datasetRefAttr");
+      REQUIRE(hdf5io.attributeExists("/data/datasetRefAttr"));
+
+      std::string resolvedPath =
+          hdf5io.readReferenceAttribute("/data/datasetRefAttr");
+      REQUIRE(resolvedPath == "/referenceTargetDataset");
+    }
+
+    // Test reading non-existent reference attribute
+    SECTION("non-existent reference attribute")
+    {
+      REQUIRE_THROWS_AS(
+          hdf5io.readReferenceAttribute("/data/nonExistentRefAttr"),
+          std::invalid_argument);
+    }
+
+    // Test reading an attribute that is not a reference attribute
+    SECTION("non-reference attribute")
+    {
+      const int data = 1;
+      hdf5io.createAttribute(BaseDataType::I32, &data, "/data", "intAttr");
+      REQUIRE_THROWS_AS(hdf5io.readReferenceAttribute("/data/intAttr"),
+                        std::invalid_argument);
+    }
   }
 
   // close file

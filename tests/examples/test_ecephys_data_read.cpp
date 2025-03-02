@@ -101,7 +101,9 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // [example_read_get_data_wrapper_snippet]
     // Get a ReadDatasetWrapper<float> for lazy reading of ElectricalSeries.data
     // By specifying the value type as a template parameter allows us to read
-    // typed data
+    // typed data. However, in the particular case of ElectricalSeries.data, we
+    // could also have used readData() with <float> as the template parameter
+    // is already set to float by default for ElectricalSeries.readData()
     auto readDataWrapper = electricalSeries->readData<float>();
     // [example_read_get_data_wrapper_snippet]
 
@@ -161,8 +163,8 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // Get a ReadDataWrapper<ReadObjectType::Attribute, float> to read data
     // lazily
     auto readDataResolutionWrapper = electricalSeries->readDataResolution();
-    // Read the data values
-    DataBlock<float> resolutionValueFloat = readDataResolutionWrapper->values();
+    // Read the data values as a DataBlock<float>
+    auto resolutionValueFloat = readDataResolutionWrapper->values();
     REQUIRE(resolutionValueFloat.shape.empty());  // Scalar
     REQUIRE(resolutionValueFloat.data.size() == 1);
     REQUIRE(int(resolutionValueFloat.data[0]) == -1);
@@ -259,8 +261,8 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     std::cout << "Reading the ElectricalSeries data" << std::endl;
     // [example_read_only_fields_snippet]
     // Now we can read the data in the same way we did during write
-    auto readElectricalSeriesData = readElectricalSeries->readData<float>();
-    DataBlock<float> readDataValues = readElectricalSeriesData->values();
+    auto readElectricalSeriesData = readElectricalSeries->readData();
+    auto readDataValues = readElectricalSeriesData->values();
     auto readBoostMultiArray = readDataValues.as_multi_array<2>();
     REQUIRE(readDataValues.data.size() == (numSamples * numChannels));
     REQUIRE(readDataValues.shape[0] == numSamples);
@@ -270,13 +272,10 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     std::cout << "Reading a subset of the ElectricalSeries data" << std::endl;
     // [example_read_only_datasubset_snippet]
     // We can also read just subsets of the data, e.g., the first 10 time steps
-    // for the first channel
-    // TODO getting the object again is just for debugging Windows issues
-    auto readElectricalSeriesData2 = readElectricalSeries->readData<float>();
+    // for the first channel. "auto dataSlice" is again of type DataBlock<float>
     std::vector<SizeType> start = {0, 0};
     std::vector<SizeType> count = {9, 1};
-    DataBlock<float> dataSlice =
-        readElectricalSeriesData2->values(start, count);
+    auto dataSlice = readElectricalSeriesData->values(start, count);
     // Validate that the slice was read correctly
     REQUIRE(dataSlice.data.size() == 9);
     REQUIRE(dataSlice.shape[0] == 9);
@@ -297,7 +296,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
         readElectricalSeries->readField<StorageObjectType::Dataset, float>(
             std::string("data"));
     // Read the data values as usual
-    DataBlock<float> readDataValues3 = readElectricalSeriesData3->values();
+    auto readDataValues3 = readElectricalSeriesData3->values();
     REQUIRE(readDataValues3.data.size() == (numSamples * numChannels));
     // [example_read_generic_dataset_field_snippet]
 
