@@ -451,9 +451,9 @@ public:
       const std::string& path) = 0;
 
   /**
-   * @brief Returns the size of the dataset for each dimension.
-   * @param path The location in the file of the dataset.
-   * @return The dataset shape.
+   * @brief Returns the size of the dataset or attribute for each dimension.
+   * @param path The location of the dataset or attribute in the file
+   * @return The shape of the dataset or attribute.
    */
   virtual std::vector<SizeType> getStorageObjectShape(
       const std::string path) = 0;
