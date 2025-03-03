@@ -88,7 +88,7 @@ public:
   bool isInitialized() const;
 
   /**
-   * @brief Finalizes the NWB file by closing it.
+   * @brief Finalizes the NWB file by closing the io object.
    */
   Status finalize();
 
