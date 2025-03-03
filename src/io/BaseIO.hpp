@@ -252,7 +252,7 @@ public:
    * determine its type and matches it against the given types.
    *
    * @param starting_path The path in the HDF5 file to start the search from.
-   * @param types The set of types to search for. If and empty set is provided,
+   * @param types The set of types to search for. If an empty set is provided,
    *              then all objects with an assigned type (i.e., object that have
    *              a neurodata_type and namespace attributed) will be returned.
    * @param search_mode The search mode to use.

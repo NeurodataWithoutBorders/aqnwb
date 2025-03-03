@@ -167,4 +167,52 @@ TEST_CASE("DynamicTable", "[table]")
       io->close();
     }
   }
+
+  SECTION("test DynamicTable.findOwnedRegisteredTypes")
+  {
+    std::string path = getTestFilePath("testDynamicTableFindOwned.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    NWB::DynamicTable table(tablePath, io);
+    Status status = table.initialize("Table with columns");
+    REQUIRE(status == Status::Success);
+
+    // Add string vector data column
+    std::vector<std::string> values = {"value1", "value2", "value3"};
+    SizeArray dataShape = {values.size()};
+    SizeArray chunking = {values.size()};
+    auto columnDataset = io->createArrayDataSet(
+        BaseDataType::V_STR, dataShape, chunking, tablePath + "/col1");
+    auto vectorData =
+        std::make_unique<NWB::VectorData<std::string>>(tablePath + "/col1", io);
+    vectorData->initialize(std::move(columnDataset), "Column 1");
+    status = table.addColumn(vectorData, values);
+    REQUIRE(status == Status::Success);
+
+    // Set row IDs
+    std::vector<int> ids = {1, 2, 3};
+    SizeArray idShape = {ids.size()};
+    SizeArray idChunking = {ids.size()};
+    auto idDataset = io->createArrayDataSet(
+        BaseDataType::I32, idShape, idChunking, tablePath + "/id");
+    auto elementIDs =
+        std::make_unique<NWB::ElementIdentifiers>(tablePath + "/id", io);
+    elementIDs->initialize(std::move(idDataset));
+    status = table.setRowIDs(elementIDs, ids);
+    REQUIRE(status == Status::Success);
+
+    // Final
+    status = table.finalize();
+    REQUIRE(status == Status::Success);
+    io->flush();
+
+    // Find all typed objects that are owned by this object
+    auto types = table.findOwnedRegisteredTypes();
+    REQUIRE(types.size() == 2);
+    REQUIRE(types["/test_table/id"] == "hdmf-common::ElementIdentifiers");
+    REQUIRE(types["/test_table/col1"] == "hdmf-common::VectorData");
+
+    io->close();
+  }
 }

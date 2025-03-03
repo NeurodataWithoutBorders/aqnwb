@@ -216,4 +216,43 @@ TEST_CASE("VectorData", "[base]")
 
     readio->close();
   }
+
+  SECTION("test VectorData.findOwnedRegisteredTypes")
+  {
+    // Prepare test data
+    SizeType numSamples = 10;
+    std::string dataPath = "/vdata";
+    SizeArray dataShape = {numSamples};
+    SizeArray chunking = {numSamples};
+    SizeArray positionOffset = {0};
+    BaseDataType dataType = BaseDataType::I32;
+    std::vector<int> data = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    std::string description = "Test VectorData<int>";
+    std::string path =
+        getTestFilePath("testVectorDataFindOwnedRegisteredTypes.h5");
+
+    // Create the HDF5 file to write to
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    // create BaseRecordingData to pass to VectorData.initialize
+    std::unique_ptr<BaseRecordingData> columnDataset =
+        io->createArrayDataSet(dataType, dataShape, chunking, dataPath);
+
+    // setup VectorData object
+    NWB::VectorData<int> columnVectorData = NWB::VectorData<int>(dataPath, io);
+    columnVectorData.initialize(std::move(columnDataset), description);
+
+    // Write data to file
+    Status writeStatus = columnVectorData.m_dataset->writeDataBlock(
+        dataShape, positionOffset, dataType, data.data());
+    REQUIRE(writeStatus == Status::Success);
+    io->flush();
+
+    // Find all typed objects that are owned by this object
+    auto types = columnVectorData.findOwnedRegisteredTypes();
+    REQUIRE(types.size() == 0);
+
+    io->close();
+  }
 }
