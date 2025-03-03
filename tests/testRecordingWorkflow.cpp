@@ -43,21 +43,26 @@ TEST_CASE("writeContinuousData", "[recording]")
     // 2. create RecordingContainers object
     std::unique_ptr<NWB::RecordingContainers> recordingContainers =
         std::make_unique<NWB::RecordingContainers>();
+    std::vector<SizeType> containerIndices = {};
 
     // 3. create NWBFile object
     std::unique_ptr<NWB::NWBFile> nwbfile = std::make_unique<NWB::NWBFile>(io);
     nwbfile->initialize(generateUuid());
 
-    // 4. create datasets and add to recording containers
+    // 4. create an electrodes table.
+    nwbfile->createElectrodesTable(mockRecordingArrays);
+
+    // 5. create datasets and add to recording containers
     nwbfile->createElectricalSeries(mockRecordingArrays,
                                     mockChannelNames,
                                     BaseDataType::F32,
-                                    recordingContainers.get());
+                                    recordingContainers.get(),
+                                    containerIndices);
 
-    // 5. start the recording
+    // 6. start the recording
     io->startRecording();
 
-    // 6. write data during the recording
+    // 7. write data during the recording
     bool isRecording = true;
     while (isRecording) {
       // write data to the file for each channel
@@ -98,7 +103,7 @@ TEST_CASE("writeContinuousData", "[recording]")
       }
     }
 
-    // 7. stop the recording and finalize the file
+    // 8. stop the recording and finalize the file
     io->stopRecording();
     nwbfile->finalize();
 
