@@ -23,6 +23,7 @@ add_library(
     src/Channel.cpp
     src/io/hdf5/HDF5IO.cpp
     src/io/hdf5/HDF5RecordingData.cpp
+    src/io/hdf5/HDF5ArrayDataSetConfig.cpp
     src/nwb/NWBFile.cpp
     src/nwb/RecordingContainers.cpp
     src/nwb/RegisteredType.cpp

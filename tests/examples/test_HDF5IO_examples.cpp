@@ -9,12 +9,13 @@
 
 #include <catch2/catch_test_macros.hpp>
 
+#include "io/hdf5/HDF5ArrayDataSetConfig.hpp"
 #include "io/hdf5/HDF5IO.hpp"
+#include "io/hdf5/HDF5RecordingData.hpp"
 #include "nwb/NWBFile.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
 #include "testUtils.hpp"
 
-using namespace AQNWB;
 namespace fs = std::filesystem;
 // [example_HDF5_includes]
 
@@ -25,8 +26,8 @@ TEST_CASE("SWMRmodeExamples", "[hdf5io]")
     // [example_HDF5_with_SWMR_mode]
     // create and open the HDF5 file. SWMR mode is used by default
     std::string path = getTestFilePath("testWithSWMRMode.h5");
-    std::unique_ptr<IO::HDF5::HDF5IO> hdf5io =
-        std::make_unique<IO::HDF5::HDF5IO>(path);
+    std::unique_ptr<AQNWB::IO::HDF5::HDF5IO> hdf5io =
+        std::make_unique<AQNWB::IO::HDF5::HDF5IO>(path);
     hdf5io->open();
 
     // add a dataset
@@ -35,10 +36,13 @@ TEST_CASE("SWMRmodeExamples", "[hdf5io]")
     std::string dataPath = "/data";
     SizeType numBlocks = 10;  // write 10 chunks of
     SizeType numSamples = testData.size();
-    std::unique_ptr<BaseRecordingData> dataset = hdf5io->createArrayDataSet(
+    AQNWB::IO::ArrayDataSetConfig datasetConfig(
         BaseDataType::I32,  // type
         SizeArray {0},  // size. Initial size of the dataset
-        SizeArray {1000},  // chunking. Size of a data chunk
+        SizeArray {1000}  // chunking. Size of a data chunk
+    );
+    std::unique_ptr<BaseRecordingData> dataset = hdf5io->createArrayDataSet(
+        datasetConfig,
         dataPath);  // path. Path to the dataset in the HDF5 file
 
     // Start recording. Starting the recording places the HDF5 file in SWMR mode
@@ -72,9 +76,9 @@ TEST_CASE("SWMRmodeExamples", "[hdf5io]")
     // [example_HDF5_without_SWMR_mode]
     // create and open the HDF5 file. With SWMR mode explicitly disabled
     std::string path = getTestFilePath("testWithoutSWMRMode.h5");
-    std::unique_ptr<IO::HDF5::HDF5IO> hdf5io =
-        std::make_unique<IO::HDF5::HDF5IO>(path,
-                                           true  // Disable SWMR mode
+    std::unique_ptr<AQNWB::IO::HDF5::HDF5IO> hdf5io =
+        std::make_unique<AQNWB::IO::HDF5::HDF5IO>(path,
+                                                  true  // Disable SWMR mode
         );
     hdf5io->open();
 
@@ -84,10 +88,13 @@ TEST_CASE("SWMRmodeExamples", "[hdf5io]")
     std::string dataPath = "/data";
     SizeType numBlocks = 10;  // write 10 chunks of
     SizeType numSamples = testData.size();
-    std::unique_ptr<BaseRecordingData> dataset = hdf5io->createArrayDataSet(
+    AQNWB::IO::ArrayDataSetConfig datasetConfig(
         BaseDataType::I32,  // type
         SizeArray {0},  // size. Initial size of the dataset
-        SizeArray {1000},  // chunking. Size of a data chunk
+        SizeArray {1000}  // chunking. Size of a data chunk
+    );
+    std::unique_ptr<BaseRecordingData> dataset = hdf5io->createArrayDataSet(
+        datasetConfig,
         dataPath);  // path. Path to the dataset in the HDF5 file
 
     // Start recording. Starting the recording places the HDF5 file in SWMR mode
@@ -125,5 +132,41 @@ TEST_CASE("SWMRmodeExamples", "[hdf5io]")
     hdf5io->close();
     REQUIRE(hdf5io->isOpen() == false);
     // [example_HDF5_without_SWMR_mode]
+  }
+}
+
+TEST_CASE("HDF5FiltersExamples", "[hdf5io]")
+{
+  SECTION("usingFilters")
+  {
+    // [example_HDF5_with_filters]
+    // Create the HDF5IO object and open the file as usual
+    std::string path = getTestFilePath("testWithFilters.h5");
+    std::unique_ptr<AQNWB::IO::HDF5::HDF5IO> hdf5io =
+        std::make_unique<AQNWB::IO::HDF5::HDF5IO>(path);
+    hdf5io->open();
+
+    // Define the data type, shape, and chunking
+    AQNWB::IO::BaseDataType type(AQNWB::IO::BaseDataType::Type::T_I32, 1);
+    SizeArray shape = {100, 100};
+    SizeArray chunking = {10, 10};
+
+    // Create HDF5ArrayDataSetConfig and add filters
+    AQNWB::IO::HDF5::HDF5ArrayDataSetConfig config(type, shape, chunking);
+    unsigned int gzip_level = 4;
+    config.addFilter(
+        AQNWB::IO::HDF5::HDF5FilterConfig::createGzipFilter(gzip_level));
+    config.addFilter(AQNWB::IO::HDF5::HDF5FilterConfig::createShuffleFilter());
+
+    // Create the dataset
+    auto baseDataset = hdf5io->createArrayDataSet(config, "/filtered_dataset");
+
+    // [Optional/Testing] Verify the dataset properties
+    auto dataset =
+        dynamic_cast<AQNWB::IO::HDF5::HDF5RecordingData*>(baseDataset.get());
+    const H5::DataSet* h5Dataset = dataset->getDataSet();
+    H5::DSetCreatPropList dcpl = h5Dataset->getCreatePlist();
+    REQUIRE(dcpl.getNfilters() == 2);
+    // [example_HDF5_with_filters]
   }
 }

@@ -29,7 +29,9 @@ TEST_CASE("RegisterType Example", "[base]")
     std::shared_ptr<BaseIO> io = std::make_unique<IO::HDF5::HDF5IO>(filename);
     io->open();
     NWB::TimeSeries ts = NWB::TimeSeries(dataPath, io);
-    ts.initialize(dataType, "unit");
+    IO::ArrayDataSetConfig config(
+        dataType, SizeArray {numSamples}, SizeArray {numSamples});
+    ts.initialize(config, "unit");
 
     // Write data to file
     Status writeStatus =

@@ -66,11 +66,9 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
 
     // setup electrical series
     NWB::ElectricalSeries es = NWB::ElectricalSeries(dataPath, io);
-    es.initialize(dataType,
-                  mockArrays[0],
-                  "no description",
-                  SizeArray {0, mockArrays[0].size()},
-                  SizeArray {1, 1});
+    IO::ArrayDataSetConfig config(
+        dataType, SizeArray {0, mockArrays[0].size()}, SizeArray {1, 1});
+    es.initialize(config, mockArrays[0], "no description");
 
     // write channel data
     for (SizeType ch = 0; ch < numChannels; ++ch) {
@@ -135,11 +133,9 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
 
     // setup electrical series
     NWB::ElectricalSeries es = NWB::ElectricalSeries(dataPath, io);
-    es.initialize(dataType,
-                  mockArrays[0],
-                  "no description",
-                  SizeArray {0, mockArrays[0].size()},
-                  SizeArray {1, 1});
+    IO::ArrayDataSetConfig config(
+        dataType, SizeArray {0, mockArrays[0].size()}, SizeArray {1, 1});
+    es.initialize(config, mockArrays[0], "no description");
 
     // write channel data in segments
     for (SizeType ch = 0; ch < numChannels; ++ch) {
@@ -215,11 +211,10 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
 
     // setup electrical series
     NWB::ElectricalSeries es = NWB::ElectricalSeries(dataPath, io);
-    es.initialize(BaseDataType::F32,
-                  mockArraysElectrodes[0],
-                  "no description",
-                  SizeArray {0, mockArrays[0].size()},
-                  SizeArray {1, 1});
+    IO::ArrayDataSetConfig config(BaseDataType::F32,
+                                  SizeArray {0, mockArrays[0].size()},
+                                  SizeArray {1, 1});
+    es.initialize(config, mockArraysElectrodes[0], "no description");
     io->close();
 
     // // read the data back in
@@ -296,11 +291,9 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
 
     // setup electrical series
     NWB::SpikeEventSeries ses = NWB::SpikeEventSeries(dataPath, io);
-    ses.initialize(dataType,
-                   mockArrays[0],
-                   "no description",
-                   SizeArray {0, numChannels, numSamples},
-                   SizeArray {8, 1, 1});
+    IO::ArrayDataSetConfig config(
+        dataType, SizeArray {0, numChannels, numSamples}, SizeArray {8, 1, 1});
+    ses.initialize(config, mockArrays[0], "no description");
 
     // write channel data
     for (SizeType e = 0; e < numEvents; ++e) {
@@ -365,11 +358,9 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
 
     // setup electrical series
     NWB::SpikeEventSeries ses = NWB::SpikeEventSeries(dataPath, io);
-    ses.initialize(dataType,
-                   mockArrays[0],
-                   "no description",
-                   SizeArray {0, numSamples},
-                   SizeArray {8, 1});
+    IO::ArrayDataSetConfig config(
+        dataType, SizeArray {0, numSamples}, SizeArray {8, 1});
+    ses.initialize(config, mockArrays[0], "no description");
 
     // write channel data
     for (SizeType e = 0; e < numEvents; ++e) {

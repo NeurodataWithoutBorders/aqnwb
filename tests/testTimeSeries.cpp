@@ -40,13 +40,13 @@ TEST_CASE("TimeSeries", "[base]")
     std::vector<std::string> emptyControlDescription = {};
     AQNWB::NWB::TimeSeries::ContinuityType continuity =
         AQNWB::NWB::TimeSeries::Continuous;
+
+    IO::ArrayDataSetConfig config(dataType, SizeArray {0}, SizeArray {1});
     ts.initialize(
-        dataType,
+        config,
         unit,
         description,
         comments,
-        SizeArray {0},
-        SizeArray {1},
         conversion,
         resolution,
         offset,
@@ -177,12 +177,12 @@ TEST_CASE("TimeSeries", "[base]")
         AQNWB::NWB::TimeSeries::Continuous;
     double startingTime = 0.0;
     float startingTimeRate = 1.0;
-    ts.initialize(dataType,
+
+    IO::ArrayDataSetConfig config(dataType, SizeArray {0}, SizeArray {1});
+    ts.initialize(config,
                   unit,
                   description,
                   comments,
-                  SizeArray {0},
-                  SizeArray {1},
                   conversion,
                   resolution,
                   offset,

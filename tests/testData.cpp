@@ -30,8 +30,9 @@ TEST_CASE("Data", "[base]")
     io->open();
 
     // create BaseRecordingData to pass to Data.initialize
+    IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
     std::unique_ptr<BaseRecordingData> columnDataset =
-        io->createArrayDataSet(dataType, dataShape, chunking, dataPath);
+        io->createArrayDataSet(config, dataPath);
 
     // setup Data object
     NWB::Data<int> columnData = NWB::Data<int>(dataPath, io);

@@ -3,7 +3,25 @@
  *
  * \tableofcontents
  *
- * \section hdf5io_chunking Chunking
+ * \section hdf5io_data_layout Optimizing Data Layout 
+ *
+ * HDF5 supports advanced I/O features for optimizing the layout of large data arrays
+ * via \ref hdf5io_chunking "Chunking" and \ref hdf5io_filters "I/O Filters". Below
+ * we discuss these features in more detail. The main classes involved in configuring
+ * chunking and I/O filters in HDF5 via AQNWB are: 
+ *
+ * - \ref AQNWB::IO::ArrayDataSetConfig "ArrayDataSetConfig" for configuring datasets
+ *   for write, including chunking settings. 
+ *    - \ref AQNWB::IO::HDF5::HDF5ArrayDataSetConfig "HDF5ArrayDataSetConfig" then extends the basic
+ *      \ref AQNWB::IO::ArrayDataSetConfig "ArrayDataSetConfig" to add HDF5-specific configurations, 
+ *      such as, support for configuring I/O filters (e.g., for compression)
+ *    - \ref AQNWB::IO::HDF5::HDF5FilterConfig "HDF5FilterConfig" is used with 
+ *           \ref AQNWB::IO::HDF5::HDF5ArrayDataSetConfig "HDF5ArrayDataSetConfig" to configure
+ *           a single I/O filter.
+ * - \ref AQNWB::IO::HDF5::HDF5IO::createArrayDataSet "HDF5IO::createArrayDataSet" is the main 
+ *   method used for creating n-dimensional array datasets
+ *
+ * \subsection hdf5io_chunking Chunking
  *
  * For datasets intended for recording, `AqNWB` uses chunking to ensure the dataset
  * can be extended as new data arrives during the recording process.
@@ -19,7 +37,8 @@
  *    of a chunked dataset is accessed, only the relevant chunks are read or written,
  *    reducing the amount of I/O operations.
  * - **Compression**: Data within each chunk can be compressed independently, which can help
- *   to significant reduce data size, especially for datasets with redundancy.
+ *   to significant reduce data size, especially for datasets with redundancy (see \ref hdf5io_filters).
+ *
  *
  * \warning
  * Choosing a chunking configuration that does not align well with the desired read/write pattern
@@ -93,6 +112,43 @@
  * }
  * \enddot
  *
+ *
+ *
+ * \subsection hdf5io_filters I/O Filters and Compression 
+ *
+ * HDF5 filters are used to transform data as it is written to and read from the file.
+ * Filters are applied on a per-chunk basis (i.e., chunking is required to use filters), and 
+ * are typically used for compression or error detection.
+ * 
+ * Compression filters reduce the amount of storage space required for datasets by eliminating
+ * redundancy in the data. One commonly used compression filter is ``GZIP (DEFLATE)``  which 
+ * provides a good balance between compression ratio and speed. Multiple filters may be applied 
+ * simultaneously. E.g., the ``Shuffle`` filter can be used to rearrange the bytes in the data to
+ * improve the effectiveness of compression filters. By shuffling the data, redundancy within 
+ * the byte stream is increased, which can help improve compression ratios. For
+ * more information on the available filters in HDF5, please refer to the
+ * [HDF5 Data Pipeline Filters Documentation](https://support.hdfgroup.org/documentation/hdf5/latest/_h5_d__u_g.html#subsubsec_dataset_transfer_filter)
+ * by the HDF5 project. 
+ * 
+ * \subsection hdf5io_filters_usage Using Chunking and I/O Filters in AqNWB
+ * 
+ * When creating datasets, you can specify the filters to be applied using the 
+ * \ref AQNWB::IO::HDF5::HDF5ArrayDataSetConfig "HDF5ArrayDataSetConfig" class.
+ * The following example demonstrates how to configure and apply the GZIP and 
+ * Shuffle filters to a dataset. The \ref AQNWB::IO::HDF5::HDF5ArrayDataSetConfig "HDF5ArrayDataSetConfig" 
+ * class allows you to specify the data type, shape, chunking, and filters
+ * for the dataset. The \ref AQNWB::IO::HDF5::HDF5IO::createArrayDataSet "HDF5IO::createArrayDataSet" 
+ * method then creates the dataset with the specified configuration.
+ *
+ * \snippet tests/examples/test_HDF5IO_examples.cpp example_HDF5_with_filters
+ * 
+ * \note 
+ * \ref AQNWB::IO::HDF5::HDF5FilterConfig "HDF5FilterConfig" provides convenient
+ * factory methods to setup common filters, e.g., \ref AQNWB::IO::HDF5::HDF5FilterConfig::createGzipFilter "createGzipFilter".
+ * Alternatively, we can also use any of the HDF5 filters directly via 
+ * \ref AQNWB::IO::HDF5::HDF5ArrayDataSetConfig::addFilter "HDF5ArrayDataSetConfig::addFilter",  
+ * e.g., in the case of GZIP via ``config.addFilter(H5Z_FILTER_DEFLATE, {4});`` 
+ * 
  *
  * \section hdf5io_swmr Single-Writer Multiple-Reader (SWMR) Mode
  *

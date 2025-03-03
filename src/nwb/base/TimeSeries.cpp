@@ -66,12 +66,10 @@ Status TimeSeries::createTimestampsAttributes(const std::string& path)
   return Status::Success;
 }
 
-void TimeSeries::initialize(const IO::BaseDataType& dataType,
+void TimeSeries::initialize(const IO::ArrayDataSetConfig& dataConfig,
                             const std::string& unit,
                             const std::string& description,
                             const std::string& comments,
-                            const SizeArray& dsetSize,
-                            const SizeArray& chunkSize,
                             const float& conversion,
                             const float& resolution,
                             const float& offset,
@@ -82,7 +80,7 @@ void TimeSeries::initialize(const IO::BaseDataType& dataType,
 {
   Container::initialize();
 
-  this->m_dataType = dataType;
+  this->m_dataType = dataConfig.getType();
 
   // create comments attribute
   if (description != "")
@@ -90,8 +88,8 @@ void TimeSeries::initialize(const IO::BaseDataType& dataType,
   m_io->createAttribute(comments, m_path, "comments");
 
   // setup data datasets
-  this->data = std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet(
-      dataType, dsetSize, chunkSize, AQNWB::mergePaths(m_path, "data")));
+  this->data = std::unique_ptr<IO::BaseRecordingData>(
+      m_io->createArrayDataSet(dataConfig, AQNWB::mergePaths(m_path, "data")));
   this->createDataAttributes(
       m_path, conversion, resolution, offset, unit, continuity);
 
@@ -99,20 +97,22 @@ void TimeSeries::initialize(const IO::BaseDataType& dataType,
   if (startingTime < 0) {
     this->starting_time = nullptr;
     // timestamps match data along first dimension
-    SizeArray tsDsetSize = {dsetSize[0]};
-    SizeArray tsChunkSize = {chunkSize[0]};
-    this->timestamps = std::unique_ptr<IO::BaseRecordingData>(
-        m_io->createArrayDataSet(this->timestampsType,
-                                 tsDsetSize,
-                                 tsChunkSize,
-                                 AQNWB::mergePaths(m_path, "timestamps")));
+    SizeArray tsDsetSize = {dataConfig.getShape()[0]};
+    SizeArray tsChunkSize = {dataConfig.getChunking()[0]};
+    IO::ArrayDataSetConfig timestampsConfig(
+        this->timestampsType, tsDsetSize, tsChunkSize);
+    this->timestamps =
+        std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet(
+            timestampsConfig, AQNWB::mergePaths(m_path, "timestamps")));
     this->createTimestampsAttributes(m_path);
   } else  // setup starting_time datasets
   {
     this->timestamps = nullptr;
     std::string startingTimePath = AQNWB::mergePaths(m_path, "starting_time");
-    this->starting_time = m_io->createArrayDataSet(
-        AQNWB::IO::BaseDataType::F64, {1}, {1}, startingTimePath);
+    IO::ArrayDataSetConfig startingTimeConfig(
+        AQNWB::IO::BaseDataType::F64, {1}, {1});
+    this->starting_time =
+        m_io->createArrayDataSet(startingTimeConfig, startingTimePath);
     this->starting_time->writeDataBlock(
         {1}, AQNWB::IO::BaseDataType::F64, &startingTime);
     m_io->createAttribute(AQNWB::IO::BaseDataType::F32,
@@ -125,13 +125,13 @@ void TimeSeries::initialize(const IO::BaseDataType& dataType,
   // create control datasets if necessary
   if (controlDescription.size() > 0) {
     // control matches data along first dimension
-    SizeArray controlDsetSize = {dsetSize[0]};
-    SizeArray controlChunkSize = {chunkSize[0]};
-    this->control = std::unique_ptr<IO::BaseRecordingData>(
-        m_io->createArrayDataSet(AQNWB::IO::BaseDataType::U8,
-                                 controlDsetSize,
-                                 controlChunkSize,
-                                 AQNWB::mergePaths(m_path, "control")));
+    SizeArray controlDsetSize = {dataConfig.getShape()[0]};
+    SizeArray controlChunkSize = {dataConfig.getChunking()[0]};
+    IO::ArrayDataSetConfig controlConfig(
+        AQNWB::IO::BaseDataType::U8, controlDsetSize, controlChunkSize);
+    this->control =
+        std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet(
+            controlConfig, AQNWB::mergePaths(m_path, "control")));
 
     // control_description is its own data and contains for each control value
     // a string description
@@ -140,11 +140,13 @@ void TimeSeries::initialize(const IO::BaseDataType& dataType,
     const SizeArray controlDescriptionPositionOffset = {0};
     IO::BaseDataType controlDesriptionType(IO::BaseDataType::Type::V_STR,
                                            0);  // 0 indicates variable length
+    IO::ArrayDataSetConfig controlDescriptionConfig(
+        controlDesriptionType,
+        controlDescriptionShape,
+        controlDescriptionChunkSize);
     this->control_description =
         std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet(
-            controlDesriptionType,
-            controlDescriptionShape,
-            controlDescriptionChunkSize,
+            controlDescriptionConfig,
             AQNWB::mergePaths(m_path, "control_description")));
     this->control_description->writeDataBlock(controlDescriptionShape,
                                               controlDescriptionPositionOffset,
