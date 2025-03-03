@@ -264,7 +264,7 @@ public:
    * starting_path but will continue until the next matching typed object is
    * found. This is useful when we want to find all objects with a neurodata
    * type object, but we are not interested in the object itself (e.g., when we
-   * have an unknonwn Container type and we want to find all registred fields
+   * have an unknown Container type and we want to find all registered fields
    * that is owns)
    * @return An unordered map where each key is the path to an object and its
    * corresponding value is the type of the object.
