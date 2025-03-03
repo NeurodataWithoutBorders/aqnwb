@@ -217,7 +217,7 @@ TEST_CASE("VectorData", "[base]")
     readio->close();
   }
 
-  SECTION("test VectorData.findOwnedRegisteredTypes")
+  SECTION("test VectorData.findOwnedTypes")
   {
     // Prepare test data
     SizeType numSamples = 10;
@@ -250,7 +250,7 @@ TEST_CASE("VectorData", "[base]")
     io->flush();
 
     // Find all typed objects that are owned by this object
-    auto types = columnVectorData.findOwnedRegisteredTypes();
+    auto types = columnVectorData.findOwnedTypes();
     REQUIRE(types.size() == 0);
 
     io->close();

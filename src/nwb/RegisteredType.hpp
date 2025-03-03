@@ -270,7 +270,7 @@ public:
    * @return An unordered map where each key is the path to an object and its
    * corresponding value is the type of the object.
    */
-  virtual std::unordered_map<std::string, std::string> findOwnedRegisteredTypes(
+  virtual std::unordered_map<std::string, std::string> findOwnedTypes(
       const std::unordered_set<std::string>& types = {}) const;
 
 protected:

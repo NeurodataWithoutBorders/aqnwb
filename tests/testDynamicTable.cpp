@@ -168,7 +168,7 @@ TEST_CASE("DynamicTable", "[table]")
     }
   }
 
-  SECTION("test DynamicTable.findOwnedRegisteredTypes")
+  SECTION("test DynamicTable.findOwnedTypes")
   {
     std::string path = getTestFilePath("testDynamicTableFindOwned.h5");
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
@@ -208,7 +208,7 @@ TEST_CASE("DynamicTable", "[table]")
     io->flush();
 
     // Find all typed objects that are owned by this object
-    auto types = table.findOwnedRegisteredTypes();
+    auto types = table.findOwnedTypes();
     REQUIRE(types.size() == 2);
     REQUIRE(types["/test_table/id"] == "hdmf-common::ElementIdentifiers");
     REQUIRE(types["/test_table/col1"] == "hdmf-common::VectorData");

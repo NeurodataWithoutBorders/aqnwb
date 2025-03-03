@@ -58,7 +58,7 @@ TEST_CASE("initialize", "[nwb]")
 
   // Since we didn't create any typed objects within the NWBFile, we should
   // have no owned types
-  auto result = nwbfile.findOwnedRegisteredTypes();
+  auto result = nwbfile.findOwnedTypes();
   REQUIRE(result.size() == 0);
 
   nwbfile.finalize();
@@ -136,7 +136,7 @@ TEST_CASE("createElectricalSeries", "[nwb]")
   // - /general/devices/array0 : core::Device
   // - /general/extracellular_ephys/array1 : core::ElectrodeGroup
   // - /acquisition/esdata0 : core::ElectricalSeries
-  auto result = nwbfile.findOwnedRegisteredTypes();
+  auto result = nwbfile.findOwnedTypes();
   REQUIRE(result.size() == 7);
 
   // finalize the nwb file
