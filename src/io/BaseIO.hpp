@@ -252,16 +252,28 @@ public:
    * determine its type and matches it against the given types.
    *
    * @param starting_path The path in the HDF5 file to start the search from.
-   * @param types The set of types to search for.
+   * @param types The set of types to search for. If and empty set is provided,
+   *              then all objects with an assigned type (i.e., object that have
+   *              a neurodata_type and namespace attributed) will be returned.
    * @param search_mode The search mode to use.
-   *
+   * @param exclude_starting_path If true, the starting path will not be
+   * included in the search and the resutlting output, but only its children
+   * will be searched. This also means, if the starting path is a typed object,
+   * then STOP_ON_TYPE will stop if exclude_starting_path=false but if
+   * exclude_starting_path=true then it will not stop the search at the
+   * starting_path but will continue until the next matching typed object is
+   * found. This is useful when we want to find all objects with a neurodata
+   * type object, but we are not interested in the object itself (e.g., when we
+   * have an unknonwn Container type and we want to find all registred fields
+   * that is owns)
    * @return An unordered map where each key is the path to an object and its
    * corresponding value is the type of the object.
    */
   virtual std::unordered_map<std::string, std::string> findTypes(
       const std::string& starting_path,
       const std::unordered_set<std::string>& types,
-      SearchMode search_mode) const;
+      SearchMode search_mode,
+      bool exlude_starting_path = false) const;
 
   /**
    * @brief Reads a dataset and determines the data type

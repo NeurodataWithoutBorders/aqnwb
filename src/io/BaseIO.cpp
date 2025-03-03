@@ -55,7 +55,8 @@ Status BaseIO::createCommonNWBAttributes(const std::string& path,
 std::unordered_map<std::string, std::string> BaseIO::findTypes(
     const std::string& starting_path,
     const std::unordered_set<std::string>& types,
-    SearchMode search_mode) const
+    SearchMode search_mode,
+    bool exlude_starting_path) const
 {
   std::unordered_map<std::string, std::string> found_types;
 
@@ -92,13 +93,19 @@ std::unordered_map<std::string, std::string> BaseIO::findTypes(
               namespace_attr.data[0] + "::" + neurodata_type_attr.data[0];
 
           // Check if the full type matches any of the given types
-          if (types.find(full_type) != types.end()) {
-            found_types[current_path] = full_type;
+          bool exclude_start_conditon =
+              (exlude_starting_path && (current_path == starting_path));
+          if (types.find(full_type) != types.end() || types.empty()) {
+            if (!exclude_start_conditon) {
+              found_types[current_path] = full_type;
+            }
           }
 
           // If search_mode is CONTINUE_ON_TYPE, continue searching inside this
           // object
-          if (search_mode == SearchMode::CONTINUE_ON_TYPE) {
+          if (search_mode == SearchMode::CONTINUE_ON_TYPE
+              || exclude_start_conditon)
+          {
             // Get the list of objects inside the current group
             std::vector<std::pair<std::string, StorageObjectType>> objects =
                 getStorageObjects(current_path, StorageObjectType::Undefined);
