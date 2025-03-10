@@ -1,4 +1,3 @@
-
 #include "nwb/misc/AnnotationSeries.hpp"
 
 #include "Utils.hpp"
@@ -22,19 +21,15 @@ AnnotationSeries::~AnnotationSeries() {}
 /** Initialization function*/
 void AnnotationSeries::initialize(const std::string& description,
                                   const std::string& comments,
-                                  const SizeArray& dsetSize,
-                                  const SizeArray& chunkSize)
+                                  const IO::ArrayDataSetConfig& dataConfig)
 {
-  TimeSeries::initialize(
-      IO::BaseDataType::V_STR,  // fixed to string according to schema
-      "n/a",  // unit fixed to "n/a"
-      description,
-      comments,
-      dsetSize,
-      chunkSize,
-      1.0f,  // conversion fixed to 1.0, since unit is n/a
-      -1.0f,  // resolution fixed to -1.0
-      0.0f);  // offset fixed to 0.0, since unit is n/a
+  TimeSeries::initialize(dataConfig,
+                         "n/a",  // unit fixed to "n/a"
+                         description,
+                         comments,
+                         1.0f,  // conversion fixed to 1.0, since unit is n/a
+                         -1.0f,  // resolution fixed to -1.0
+                         0.0f);  // offset fixed to 0.0, since unit is n/a
 }
 
 Status AnnotationSeries::writeAnnotation(const SizeType& numSamples,

@@ -38,8 +38,9 @@ TEST_CASE("VectorData", "[base]")
     std::string description = "Test VectorData";
 
     // create BaseRecordingData to pass to VectorData.initialize
+    IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
     std::unique_ptr<BaseRecordingData> columnDataset =
-        io->createArrayDataSet(dataType, dataShape, chunking, dataPath);
+        io->createArrayDataSet(config, dataPath);
 
     // setup VectorData object
     auto columnVectorData = NWB::VectorData(dataPath, io);
@@ -179,8 +180,9 @@ TEST_CASE("VectorDataTyped", "[base]")
     std::string description = "Test VectorDataTyped with double";
 
     // create BaseRecordingData to pass to VectorData.initialize
+    IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
     std::unique_ptr<BaseRecordingData> columnDataset =
-        io->createArrayDataSet(dataType, dataShape, chunking, dataPath);
+        io->createArrayDataSet(config, dataPath);
 
     // setup VectorData object
     auto columnVectorData = NWB::VectorData(dataPath, io);
@@ -270,8 +272,9 @@ TEST_CASE("VectorDataTyped", "[base]")
     std::string description = "Test VectorDataTyped with string";
 
     // create BaseRecordingData to pass to VectorData.initialize
+    IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
     std::unique_ptr<BaseRecordingData> columnDataset =
-        io->createArrayDataSet(dataType, dataShape, chunking, dataPath);
+        io->createArrayDataSet(config, dataPath);
 
     // setup VectorData object
     auto columnVectorData = NWB::VectorData(dataPath, io);

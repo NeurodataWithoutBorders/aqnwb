@@ -83,12 +83,11 @@ public:
    * @brief Initializes the TimeSeries by creating NWB related attributes and
    * writing the description and comment metadata.
    *
-   * @param dataType The data type to use for storing the recorded signal
+   * @param dataConfig Configuration for the dataset including data type, shape
+   * and chunking
    * @param unit Unit for the electrical signal. Must be "volts"
    * @param description The description of the TimeSeries.
    * @param comments Human-readable comments about the TimeSeries
-   * @param dsetSize Initial size of the main dataset
-   * @param chunkSize Chunk size to use
    * @param conversion Scalar to multiply each element in data to convert it to
    *                   the specified ‘unit’
    * @param resolution Smallest meaningful difference between values in data,
@@ -110,12 +109,10 @@ public:
    * We can update the control_description values later if needed via the
    * TimeSeries.control_description->writeStringDataBlock() method.
    */
-  void initialize(const IO::BaseDataType& dataType,
+  void initialize(const IO::ArrayDataSetConfig& dataConfig,
                   const std::string& unit,
                   const std::string& description = "no description",
                   const std::string& comments = "no comments",
-                  const SizeArray& dsetSize = SizeArray {0},
-                  const SizeArray& chunkSize = SizeArray {1},
                   const float& conversion = 1.0f,
                   const float& resolution = -1.0f,
                   const float& offset = 0.0f,

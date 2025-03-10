@@ -37,8 +37,9 @@ TEST_CASE("Data", "[base]")
     std::vector<int> data = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
     // create BaseRecordingData to pass to Data.initialize
+    IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
     std::unique_ptr<BaseRecordingData> columnDataset =
-        io->createArrayDataSet(dataType, dataShape, chunking, dataPath);
+        io->createArrayDataSet(config, dataPath);
 
     // setup Data object
     auto columnData = NWB::Data(dataPath, io);

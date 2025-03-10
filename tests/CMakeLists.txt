@@ -21,6 +21,7 @@ add_executable(aqnwb_test
     testElementIdentifiers.cpp
     testFile.cpp
     testHDF5IO.cpp
+    testHDF5ArrayDataSetConfig.cpp
     testHDF5RecordingData.cpp
     testMisc.cpp
     testNWBFile.cpp

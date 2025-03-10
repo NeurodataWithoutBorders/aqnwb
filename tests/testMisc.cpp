@@ -35,8 +35,9 @@ TEST_CASE("AnnotationSeries", "[misc]")
 
     // setup annotation series
     NWB::AnnotationSeries as = NWB::AnnotationSeries(dataPath, io);
-    as.initialize(
-        "Test annotations", "Test comments", SizeArray {0}, SizeArray {1});
+    IO::ArrayDataSetConfig config(
+        IO::BaseDataType::V_STR, SizeArray {0}, SizeArray {1});
+    as.initialize("Test annotations", "Test comments", config);
 
     // write annotations multiple times to test adding to same dataset
     Status writeStatus =

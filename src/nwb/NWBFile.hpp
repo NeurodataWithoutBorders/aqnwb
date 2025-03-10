@@ -93,6 +93,20 @@ public:
   Status finalize();
 
   /**
+   * @brief Create ElectrodesTable.
+   * Note, this function will fail if the file is in a mode where
+   * new objects cannot be added, which can be checked via
+   * nwbfile.io->canModifyObjects()
+   * @param recordingArrays vector of ChannelVector indicating the electrodes to
+   *                        add to the table. This vector should contain all the
+   *                        electrodes that are detected by the acquisition
+   * system, not only those being actively recorded from.
+   * @return Status The status of the object creation operation.
+   */
+  Status createElectrodesTable(
+      std::vector<Types::ChannelVector> recordingArrays);
+
+  /**
    * @brief Create ElectricalSeries objects to record data into.
    * Created objects are stored in recordingContainers.
    * Note, this function will fail if the file is in a mode where
@@ -112,9 +126,9 @@ public:
   Status createElectricalSeries(
       std::vector<Types::ChannelVector> recordingArrays,
       std::vector<std::string> recordingNames,
-      const IO::BaseDataType& dataType = IO::BaseDataType::I16,
-      RecordingContainers* recordingContainers = nullptr,
-      std::vector<SizeType>& containerIndexes = emptyContainerIndexes);
+      const IO::BaseDataType& dataType,
+      RecordingContainers* recordingContainers,
+      std::vector<SizeType>& containerIndexes);
 
   /**
    * @brief Create SpikeEventSeries objects to record data into.
@@ -133,9 +147,9 @@ public:
   Status createSpikeEventSeries(
       std::vector<Types::ChannelVector> recordingArrays,
       std::vector<std::string> recordingNames,
-      const IO::BaseDataType& dataType = IO::BaseDataType::I16,
-      RecordingContainers* recordingContainers = nullptr,
-      std::vector<SizeType>& containerIndexes = emptyContainerIndexes);
+      const IO::BaseDataType& dataType,
+      RecordingContainers* recordingContainers,
+      std::vector<SizeType>& containerIndexes);
 
   /** @brief Create AnnotationSeries objects to record data into.
    * Created objects are stored in recordingContainers.
@@ -146,10 +160,9 @@ public:
    * recordingContainers
    * @return Status The status of the object creation operation.
    */
-  Status createAnnotationSeries(
-      std::vector<std::string> recordingNames,
-      RecordingContainers* recordingContainers = nullptr,
-      std::vector<SizeType>& containerIndexes = emptyContainerIndexes);
+  Status createAnnotationSeries(std::vector<std::string> recordingNames,
+                                RecordingContainers* recordingContainers,
+                                std::vector<SizeType>& containerIndexes);
 
   DEFINE_REGISTERED_FIELD(readElectrodeTable,
                           ElectrodeTable,
@@ -218,18 +231,14 @@ protected:
 private:
   /**
    * @brief Factory method for creating recording data.
-   * @param type The base data type.
-   * @param size The size of the dataset.
-   * @param chunking The chunking size of the dataset.
+   * @param config The configuration for the dataset including data type, shape,
+   * and chunking.
    * @param path The location in the file of the new dataset.
    * @return std::unique_ptr<IO::BaseRecordingData> The unique pointer to the
    * created recording data.
    */
   std::unique_ptr<IO::BaseRecordingData> createRecordingData(
-      IO::BaseDataType type,
-      const SizeArray& size,
-      const SizeArray& chunking,
-      const std::string& path);
+      const IO::ArrayDataSetConfig& config, const std::string& path);
 
   /**
    * @brief Saves the specification files for the schema.
@@ -246,10 +255,8 @@ private:
       const std::array<std::pair<std::string_view, std::string_view>, N>&
           specVariables);
 
-  inline const static std::string acquisitionPath = "/acquisition";
-  static std::vector<SizeType> emptyContainerIndexes;
+  inline const static std::string m_acquisitionPath = "/acquisition";
 
-private:
   /**
    * @brief The ElectrodeTable for the file
    */
