@@ -243,7 +243,7 @@
  * for read. To implement the use of templated classes for read, we can take two main approaches
  * by either \ref implement_templated_registered_type_two_class or \ref implement_templated_registered_type_single_class .
  * 
- * \subsubsection implement_templated_registered_type_two_classs Using a base class and templated child class
+ * \subsubsection implement_templated_registered_type_two_class Using a base class and templated child class
  *
  * For the ``VectorData`` type (and ``Data`` type),  AqNWB implements the  \ref AQNWB::NWB::VectorData "VectorData" class, which 
  * exposes the data as ``std::any``  via the \ref AQNWB::NWB::VectorData::readData "VectorData::readData" 
