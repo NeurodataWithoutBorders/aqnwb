@@ -231,18 +231,14 @@ protected:
 private:
   /**
    * @brief Factory method for creating recording data.
-   * @param type The base data type.
-   * @param size The size of the dataset.
-   * @param chunking The chunking size of the dataset.
+   * @param config The configuration for the dataset including data type, shape,
+   * and chunking.
    * @param path The location in the file of the new dataset.
    * @return std::unique_ptr<IO::BaseRecordingData> The unique pointer to the
    * created recording data.
    */
   std::unique_ptr<IO::BaseRecordingData> createRecordingData(
-      IO::BaseDataType type,
-      const SizeArray& size,
-      const SizeArray& chunking,
-      const std::string& path);
+      const IO::ArrayDataSetConfig& config, const std::string& path);
 
   /**
    * @brief Saves the specification files for the schema.

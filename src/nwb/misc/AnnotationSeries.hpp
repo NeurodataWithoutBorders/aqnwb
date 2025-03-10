@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <string>
@@ -35,14 +34,14 @@ public:
    * @brief Initializes the AnnotationSeries
    * @param description The description of the AnnotationSeries.
    * @param comments Comments about the AnnotationSeries.
-   * @param dsetSize Initial size of the main dataset. This must be a vector
-   *                 with one element specifying the length in time.
-   * @param chunkSize Chunk size to use.
+   * @param dataConfig Configuration for the dataset including shape and
+   * chunking. The shape must be a vector with one element specifying the length
+   * in time. The data type is fixed to variable-length string according to
+   * schema.
    */
   void initialize(const std::string& description,
                   const std::string& comments,
-                  const SizeArray& dsetSize,
-                  const SizeArray& chunkSize);
+                  const IO::ArrayDataSetConfig& dataConfig);
 
   /**
    * @brief Writes a channel to an AnnotationSeries dataset.
