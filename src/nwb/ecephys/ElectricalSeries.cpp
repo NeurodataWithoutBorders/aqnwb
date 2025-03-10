@@ -20,12 +20,12 @@ ElectricalSeries::ElectricalSeries(const std::string& path,
 ElectricalSeries::~ElectricalSeries() {}
 
 /** Initialization function*/
-Status  ElectricalSeries::initialize(const IO::ArrayDataSetConfig& dataConfig,
-                                  const Types::ChannelVector& channelVector,
-                                  const std::string& description,
-                                  const float& conversion,
-                                  const float& resolution,
-                                  const float& offset)
+Status ElectricalSeries::initialize(const IO::ArrayDataSetConfig& dataConfig,
+                                    const Types::ChannelVector& channelVector,
+                                    const std::string& description,
+                                    const float& conversion,
+                                    const float& resolution,
+                                    const float& offset)
 {
   TimeSeries::initialize(dataConfig,
                          "volts",

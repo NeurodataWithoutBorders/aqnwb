@@ -305,8 +305,8 @@ TEST_CASE("getStorageObjectShape", "[hdf5io]")
     // Create a 2D dataset
     SizeArray dims = {3, 4};
     std::string dataPath = "/dataset2D";
-    hdf5io.createArrayDataSet(
-        BaseDataType::I32, dims, SizeArray {0, 0}, dataPath);
+    IO::ArrayDataSetConfig config {BaseDataType::I32, dims, SizeArray {0, 0}};
+    hdf5io.createArrayDataSet(config, dataPath);
 
     // Get and verify shape
     auto shape = hdf5io.getStorageObjectShape(dataPath);
@@ -321,13 +321,7 @@ TEST_CASE("getStorageObjectShape", "[hdf5io]")
     hdf5io.createGroup(groupPath);
 
     // Test 1D array attribute
-    const std::vector<int> data = {
-        1,
-        2,
-        3,
-        4,
-        5,
-    };
+    const std::vector<int> data = {1, 2, 3, 4, 5};
     const std::string attrName = "int_array";
     const std::string attrPath = mergePaths(groupPath, attrName);
 
