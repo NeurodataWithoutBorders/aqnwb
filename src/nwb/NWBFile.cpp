@@ -201,7 +201,7 @@ Status NWBFile::createElectrodesTable(
   }
 
   // write electrodes information to datasets
-  // (requires that ElectrodeGroup data is written)
+  // (requires that ElectrodeGroup data is initialized)
   electrodeTable->finalize();
 
   return Status::Success;
