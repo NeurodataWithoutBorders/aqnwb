@@ -5,6 +5,13 @@
 
 using namespace AQNWB::NWB;
 
+/// Set the default RegisteredType to use for unregistered Group and Dataset
+/// types
+const std::string RegisteredType::m_defaultUnregisteredGroupTypeClass =
+    "hdmf-common::Container";
+const std::string RegisteredType::m_defaultUnregisteredDatasetTypeClass =
+    "hdmf-common::Data";
+
 RegisteredType::RegisteredType(const std::string& path,
                                std::shared_ptr<AQNWB::IO::BaseIO> io)
     : m_path(path)
@@ -62,18 +69,51 @@ std::string RegisteredType::getNamespace() const
   return "";
 }
 
-/**
- * @brief Utility function to create an instance of a RegisteredType subclass
- *        based on the "namespace" and "neurodata_type" attributes at a given
- * path.
- *
- * @param path The path in the file from which to read the attributes.
- * @param io A shared pointer to the IO object.
- * @return A unique pointer to the created RegisteredType instance, or nullptr
- * if creation fails.
- */
 std::shared_ptr<AQNWB::NWB::RegisteredType> RegisteredType::create(
-    const std::string& path, std::shared_ptr<IO::BaseIO> io)
+    const std::string& fullClassName,
+    const std::string& path,
+    std::shared_ptr<IO::BaseIO> io,
+    bool fallbackToBase)
+{
+  std::cout<<"Called with "<<fullClassName<<std::endl;
+  // Look up the factory RegisteredType for the fullClassName the registry
+  auto it = getFactoryMap().find(fullClassName);
+  if (it != getFactoryMap().end()) {
+    std::cout<<"Found "<<fullClassName<<std::endl;
+    return it->second.first(path, io);
+  }
+  // If the class is not found, return a base class instance by calling this
+  // function again with the fallback base class to use for Group and Dataset
+  // types respectively
+  if (fallbackToBase) {
+    StorageObjectType sot = io->getStorageObjectType(path);
+    if (sot == StorageObjectType::Group) {
+      std::cout<<"Fallback to "<<m_defaultUnregisteredGroupTypeClass<<std::endl;
+      return create(m_defaultUnregisteredGroupTypeClass, path, io);
+    } else if (sot == StorageObjectType::Dataset) {
+      std::cout<<"Fallback to "<<m_defaultUnregisteredDatasetTypeClass<<std::endl;
+      return create(m_defaultUnregisteredDatasetTypeClass, path, io);
+    }
+  }
+  // Test print the registry
+  if( fullClassName == m_defaultUnregisteredDatasetTypeClass)
+  {
+    std::cout<<"Registry:"<<std::endl;
+    for (const auto& entry : getRegistry()) {
+      std::cout<<entry<<std::endl;
+    }
+  }
+
+
+  // If the class is not found and we are not falling back to a base class,
+  // return nullptr
+  return nullptr;
+}
+
+std::shared_ptr<AQNWB::NWB::RegisteredType> RegisteredType::create(
+    const std::string& path,
+    std::shared_ptr<IO::BaseIO> io,
+    bool fallbackToBase)
 {
   try {
     // Read the "namespace" attribute
@@ -93,7 +133,8 @@ std::shared_ptr<AQNWB::NWB::RegisteredType> RegisteredType::create(
     std::string fullClassName = typeNamespace + "::" + typeName;
 
     // Create an instance of the corresponding RegisteredType subclass
-    return AQNWB::NWB::RegisteredType::create(fullClassName, path, io);
+    return AQNWB::NWB::RegisteredType::create(
+        fullClassName, path, io, fallbackToBase);
   } catch (const std::exception& e) {
     std::cerr << "Error creating RegisteredType instance: " << e.what()
               << std::endl;
