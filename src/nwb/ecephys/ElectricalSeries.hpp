@@ -49,8 +49,9 @@ public:
    *                   stored in the specified by unit
    * @param offset Scalar to add to the data after scaling by 'conversion' to
    *               finalize its coercion to the specified 'unit'
+   * @return The status of the initialization operation.
    */
-  void initialize(const IO::ArrayDataSetConfig& dataConfig,
+  Status initialize(const IO::ArrayDataSetConfig& dataConfig,
                   const Types::ChannelVector& channelVector,
                   const std::string& description,
                   const float& conversion = 1.0f,
@@ -97,7 +98,7 @@ public:
                "data/channel_conversion",
                Channel - specific conversion factor)
 
-  DEFINE_FIELD(readData, DatasetField, std::any, "data", Recorded voltage data)
+  DEFINE_FIELD(readData, DatasetField, float, "data", Recorded voltage data)
 
   DEFINE_FIELD(readDataUnit,
                AttributeField,
