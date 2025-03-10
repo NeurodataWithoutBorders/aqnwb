@@ -214,6 +214,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a88b3a8c8ba53a1ef53f637c51aec296e" id="r_a88b3a8c8ba53a1ef53f637c51aec296e"><td class="memItemLeft" align="right" valign="top">virtual std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">BaseRecordingData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a88b3a8c8ba53a1ef53f637c51aec296e">getDataSet</a> (const std::string &amp;path)=0</td></tr>
 <tr class="memdesc:a88b3a8c8ba53a1ef53f637c51aec296e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a pointer to a dataset at a given path.  <br /></td></tr>
 <tr class="separator:a88b3a8c8ba53a1ef53f637c51aec296e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53d0acc4f29c421c6036cd09437f072e" id="r_a53d0acc4f29c421c6036cd09437f072e"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a53d0acc4f29c421c6036cd09437f072e">getStorageObjectShape</a> (const std::string path)=0</td></tr>
+<tr class="memdesc:a53d0acc4f29c421c6036cd09437f072e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the size of the dataset or attribute for each dimension.  <br /></td></tr>
+<tr class="separator:a53d0acc4f29c421c6036cd09437f072e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a813c55d88d9504e82d6871b9732d9bad" id="r_a813c55d88d9504e82d6871b9732d9bad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a813c55d88d9504e82d6871b9732d9bad">createCommonNWBAttributes</a> (const std::string &amp;path, const std::string &amp;objectNamespace, const std::string &amp;neurodataType=&quot;&quot;)</td></tr>
 <tr class="memdesc:a813c55d88d9504e82d6871b9732d9bad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience function for creating <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> related attributes.  <br /></td></tr>
 <tr class="separator:a813c55d88d9504e82d6871b9732d9bad"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1174,6 +1177,42 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o_a981d7a455b4c057f8ade5c511afbb2ba_icgraph.svg" width="368" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
+
+</div>
+</div>
+<a id="a53d0acc4f29c421c6036cd09437f072e" name="a53d0acc4f29c421c6036cd09437f072e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53d0acc4f29c421c6036cd09437f072e">&#9670;&#160;</a></span>getStorageObjectShape()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; AQNWB::IO::BaseIO::getStorageObjectShape </td>
+          <td>(</td>
+          <td class="paramtype">const std::string</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the size of the dataset or attribute for each dimension. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The location of the dataset or attribute in the file </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The shape of the dataset or attribute. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a45a864dee0e28dc625ef2bcfeae0e4b4">AQNWB::IO::HDF5::HDF5IO</a>.</p>
 
 </div>
 </div>

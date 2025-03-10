@@ -152,15 +152,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af7b3285fd7e02b444372fb1ab4341674" id="r_af7b3285fd7e02b444372fb1ab4341674"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af7b3285fd7e02b444372fb1ab4341674">finalize</a> ()</td></tr>
 <tr class="memdesc:af7b3285fd7e02b444372fb1ab4341674"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finalizes the <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> file by closing it.  <br /></td></tr>
 <tr class="separator:af7b3285fd7e02b444372fb1ab4341674"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a01af959032be834975b9f45737a32fa7" id="r_a01af959032be834975b9f45737a32fa7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a01af959032be834975b9f45737a32fa7">createElectricalSeries</a> (std::vector&lt; <a class="el" href="class_a_q_n_w_b_1_1_types.html#a17cc1d186ce80971c28e440471e910ff">Types::ChannelVector</a> &gt; recordingArrays, std::vector&lt; std::string &gt; recordingNames, const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">IO::BaseDataType</a> &amp;dataType=<a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#aba885104a1539ae101ac7253c8f7e119">IO::BaseDataType::I16</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html">RecordingContainers</a> *recordingContainers=nullptr, std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;containerIndexes=<a class="el" href="#ab90425a28d3d4108def9aa5b4386a262">emptyContainerIndexes</a>)</td></tr>
-<tr class="memdesc:a01af959032be834975b9f45737a32fa7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html" title="General purpose time series.">ElectricalSeries</a> objects to record data into. Created objects are stored in recordingContainers. Note, this function will fail if the file is in a mode where new objects cannot be added, which can be checked via nwbfile.io-&gt;canModifyObjects()  <br /></td></tr>
-<tr class="separator:a01af959032be834975b9f45737a32fa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7244179a31130a8bc43458174664cdc9" id="r_a7244179a31130a8bc43458174664cdc9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7244179a31130a8bc43458174664cdc9">createSpikeEventSeries</a> (std::vector&lt; <a class="el" href="class_a_q_n_w_b_1_1_types.html#a17cc1d186ce80971c28e440471e910ff">Types::ChannelVector</a> &gt; recordingArrays, std::vector&lt; std::string &gt; recordingNames, const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">IO::BaseDataType</a> &amp;dataType=<a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#aba885104a1539ae101ac7253c8f7e119">IO::BaseDataType::I16</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html">RecordingContainers</a> *recordingContainers=nullptr, std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;containerIndexes=<a class="el" href="#ab90425a28d3d4108def9aa5b4386a262">emptyContainerIndexes</a>)</td></tr>
-<tr class="memdesc:a7244179a31130a8bc43458174664cdc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html" title="Stores snapshots/snippets of recorded spike events (i.e., threshold crossings).">SpikeEventSeries</a> objects to record data into. Created objects are stored in recordingContainers.  <br /></td></tr>
-<tr class="separator:a7244179a31130a8bc43458174664cdc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60cc704130b022d48b41290ec16a1417" id="r_a60cc704130b022d48b41290ec16a1417"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a60cc704130b022d48b41290ec16a1417">createAnnotationSeries</a> (std::vector&lt; std::string &gt; recordingNames, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html">RecordingContainers</a> *recordingContainers=nullptr, std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;containerIndexes=<a class="el" href="#ab90425a28d3d4108def9aa5b4386a262">emptyContainerIndexes</a>)</td></tr>
-<tr class="memdesc:a60cc704130b022d48b41290ec16a1417"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html" title="TimeSeries storing text-based records about the experiment.">AnnotationSeries</a> objects to record data into. Created objects are stored in recordingContainers.  <br /></td></tr>
-<tr class="separator:a60cc704130b022d48b41290ec16a1417"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a749bc45b2c60adf71b4d16ad247dc04d" id="r_a749bc45b2c60adf71b4d16ad247dc04d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a749bc45b2c60adf71b4d16ad247dc04d">createElectrodesTable</a> (std::vector&lt; <a class="el" href="class_a_q_n_w_b_1_1_types.html#a17cc1d186ce80971c28e440471e910ff">Types::ChannelVector</a> &gt; recordingArrays)</td></tr>
+<tr class="memdesc:a749bc45b2c60adf71b4d16ad247dc04d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create ElectrodesTable. Note, this function will fail if the file is in a mode where new objects cannot be added, which can be checked via nwbfile.io-&gt;canModifyObjects()  <br /></td></tr>
+<tr class="separator:a749bc45b2c60adf71b4d16ad247dc04d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a332407516f0fd39e0743f4e569734153" id="r_a332407516f0fd39e0743f4e569734153"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a332407516f0fd39e0743f4e569734153">createElectricalSeries</a> (std::vector&lt; <a class="el" href="class_a_q_n_w_b_1_1_types.html#a17cc1d186ce80971c28e440471e910ff">Types::ChannelVector</a> &gt; recordingArrays, std::vector&lt; std::string &gt; recordingNames, const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">IO::BaseDataType</a> &amp;dataType, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html">RecordingContainers</a> *recordingContainers, std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;containerIndexes)</td></tr>
+<tr class="memdesc:a332407516f0fd39e0743f4e569734153"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html" title="General purpose time series.">ElectricalSeries</a> objects to record data into. Created objects are stored in recordingContainers. Note, this function will fail if the file is in a mode where new objects cannot be added, which can be checked via nwbfile.io-&gt;canModifyObjects()  <br /></td></tr>
+<tr class="separator:a332407516f0fd39e0743f4e569734153"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1081999095a4a94f6a3c70cb17807799" id="r_a1081999095a4a94f6a3c70cb17807799"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1081999095a4a94f6a3c70cb17807799">createSpikeEventSeries</a> (std::vector&lt; <a class="el" href="class_a_q_n_w_b_1_1_types.html#a17cc1d186ce80971c28e440471e910ff">Types::ChannelVector</a> &gt; recordingArrays, std::vector&lt; std::string &gt; recordingNames, const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">IO::BaseDataType</a> &amp;dataType, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html">RecordingContainers</a> *recordingContainers, std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;containerIndexes)</td></tr>
+<tr class="memdesc:a1081999095a4a94f6a3c70cb17807799"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html" title="Stores snapshots/snippets of recorded spike events (i.e., threshold crossings).">SpikeEventSeries</a> objects to record data into. Created objects are stored in recordingContainers.  <br /></td></tr>
+<tr class="separator:a1081999095a4a94f6a3c70cb17807799"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83dd681b168acf8d9948ee651cb4ae8b" id="r_a83dd681b168acf8d9948ee651cb4ae8b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a83dd681b168acf8d9948ee651cb4ae8b">createAnnotationSeries</a> (std::vector&lt; std::string &gt; recordingNames, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html">RecordingContainers</a> *recordingContainers, std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;containerIndexes)</td></tr>
+<tr class="memdesc:a83dd681b168acf8d9948ee651cb4ae8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html" title="TimeSeries storing text-based records about the experiment.">AnnotationSeries</a> objects to record data into. Created objects are stored in recordingContainers.  <br /></td></tr>
+<tr class="separator:a83dd681b168acf8d9948ee651cb4ae8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9df4c1ed0ddceac775116b0377784a1b" id="r_a9df4c1ed0ddceac775116b0377784a1b"><td class="memTemplParams" colspan="2">template&lt;typename RTYPE = ElectrodeTable&gt; </td></tr>
 <tr class="memitem:a9df4c1ed0ddceac775116b0377784a1b"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; RTYPE &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a9df4c1ed0ddceac775116b0377784a1b">readElectrodeTable</a> () const</td></tr>
 <tr class="separator:a9df4c1ed0ddceac775116b0377784a1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -255,10 +258,8 @@ Private Attributes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-attribs" name="pri-static-attribs"></a>
 Static Private Attributes</h2></td></tr>
-<tr class="memitem:a83b0703a52e9d9ffc3c6832497c2e921" id="r_a83b0703a52e9d9ffc3c6832497c2e921"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a83b0703a52e9d9ffc3c6832497c2e921">acquisitionPath</a> = &quot;/acquisition&quot;</td></tr>
-<tr class="separator:a83b0703a52e9d9ffc3c6832497c2e921"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab90425a28d3d4108def9aa5b4386a262" id="r_ab90425a28d3d4108def9aa5b4386a262"><td class="memItemLeft" align="right" valign="top">static std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab90425a28d3d4108def9aa5b4386a262">emptyContainerIndexes</a> = {}</td></tr>
-<tr class="separator:ab90425a28d3d4108def9aa5b4386a262"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4b8657f62c3a982d80085048ddfceea" id="r_af4b8657f62c3a982d80085048ddfceea"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af4b8657f62c3a982d80085048ddfceea">m_acquisitionPath</a> = &quot;/acquisition&quot;</td></tr>
+<tr class="separator:af4b8657f62c3a982d80085048ddfceea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -465,8 +466,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a60cc704130b022d48b41290ec16a1417" name="a60cc704130b022d48b41290ec16a1417"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a60cc704130b022d48b41290ec16a1417">&#9670;&#160;</a></span>createAnnotationSeries()</h2>
+<a id="a83dd681b168acf8d9948ee651cb4ae8b" name="a83dd681b168acf8d9948ee651cb4ae8b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83dd681b168acf8d9948ee651cb4ae8b">&#9670;&#160;</a></span>createAnnotationSeries()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -479,12 +480,12 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html">RecordingContainers</a> *</td>          <td class="paramname"><span class="paramname"><em>recordingContainers</em></span><span class="paramdefsep"> = </span><span class="paramdefval">nullptr</span>, </td>
+          <td class="paramtype"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html">RecordingContainers</a> *</td>          <td class="paramname"><span class="paramname"><em>recordingContainers</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>containerIndexes</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="#ab90425a28d3d4108def9aa5b4386a262">emptyContainerIndexes</a></span>&#160;)</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>containerIndexes</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -502,13 +503,13 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a60cc704130b022d48b41290ec16a1417_cgraph.svg" width="475" height="167"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a83dd681b168acf8d9948ee651cb4ae8b_cgraph.svg" width="475" height="167"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="a01af959032be834975b9f45737a32fa7" name="a01af959032be834975b9f45737a32fa7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a01af959032be834975b9f45737a32fa7">&#9670;&#160;</a></span>createElectricalSeries()</h2>
+<a id="a332407516f0fd39e0743f4e569734153" name="a332407516f0fd39e0743f4e569734153"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a332407516f0fd39e0743f4e569734153">&#9670;&#160;</a></span>createElectricalSeries()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -526,17 +527,17 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">IO::BaseDataType</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>dataType</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#aba885104a1539ae101ac7253c8f7e119">IO::BaseDataType::I16</a></span>, </td>
+          <td class="paramtype">const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">IO::BaseDataType</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>dataType</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html">RecordingContainers</a> *</td>          <td class="paramname"><span class="paramname"><em>recordingContainers</em></span><span class="paramdefsep"> = </span><span class="paramdefval">nullptr</span>, </td>
+          <td class="paramtype"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html">RecordingContainers</a> *</td>          <td class="paramname"><span class="paramname"><em>recordingContainers</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>containerIndexes</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="#ab90425a28d3d4108def9aa5b4386a262">emptyContainerIndexes</a></span>&#160;)</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>containerIndexes</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -556,7 +557,38 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a01af959032be834975b9f45737a32fa7_cgraph.svg" width="100%" height="547"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a332407516f0fd39e0743f4e569734153_cgraph.svg" width="475" height="167"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a749bc45b2c60adf71b4d16ad247dc04d" name="a749bc45b2c60adf71b4d16ad247dc04d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a749bc45b2c60adf71b4d16ad247dc04d">&#9670;&#160;</a></span>createElectrodesTable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> NWBFile::createElectrodesTable </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="class_a_q_n_w_b_1_1_types.html#a17cc1d186ce80971c28e440471e910ff">Types::ChannelVector</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>recordingArrays</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create ElectrodesTable. Note, this function will fail if the file is in a mode where new objects cannot be added, which can be checked via nwbfile.io-&gt;canModifyObjects() </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">recordingArrays</td><td>vector of ChannelVector indicating the electrodes to add to the table. This vector should contain all the electrodes that are detected by the acquisition system, not only those being actively recorded from. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a> The status of the object creation operation. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a749bc45b2c60adf71b4d16ad247dc04d_cgraph.svg" width="100%" height="498"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -684,8 +716,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a7244179a31130a8bc43458174664cdc9" name="a7244179a31130a8bc43458174664cdc9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7244179a31130a8bc43458174664cdc9">&#9670;&#160;</a></span>createSpikeEventSeries()</h2>
+<a id="a1081999095a4a94f6a3c70cb17807799" name="a1081999095a4a94f6a3c70cb17807799"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1081999095a4a94f6a3c70cb17807799">&#9670;&#160;</a></span>createSpikeEventSeries()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -703,17 +735,17 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">IO::BaseDataType</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>dataType</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#aba885104a1539ae101ac7253c8f7e119">IO::BaseDataType::I16</a></span>, </td>
+          <td class="paramtype">const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">IO::BaseDataType</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>dataType</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html">RecordingContainers</a> *</td>          <td class="paramname"><span class="paramname"><em>recordingContainers</em></span><span class="paramdefsep"> = </span><span class="paramdefval">nullptr</span>, </td>
+          <td class="paramtype"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html">RecordingContainers</a> *</td>          <td class="paramname"><span class="paramname"><em>recordingContainers</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>containerIndexes</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="#ab90425a28d3d4108def9aa5b4386a262">emptyContainerIndexes</a></span>&#160;)</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>containerIndexes</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -733,7 +765,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a7244179a31130a8bc43458174664cdc9_cgraph.svg" width="100%" height="547"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a1081999095a4a94f6a3c70cb17807799_cgraph.svg" width="100%" height="547"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -1136,8 +1168,8 @@ Here is the caller graph for this function:</div>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="a83b0703a52e9d9ffc3c6832497c2e921" name="a83b0703a52e9d9ffc3c6832497c2e921"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a83b0703a52e9d9ffc3c6832497c2e921">&#9670;&#160;</a></span>acquisitionPath</h2>
+<a id="af4b8657f62c3a982d80085048ddfceea" name="af4b8657f62c3a982d80085048ddfceea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4b8657f62c3a982d80085048ddfceea">&#9670;&#160;</a></span>m_acquisitionPath</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1146,34 +1178,12 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::string AQNWB::NWB::NWBFile::acquisitionPath = &quot;/acquisition&quot;</td>
+          <td class="memname">const std::string AQNWB::NWB::NWBFile::m_acquisitionPath = &quot;/acquisition&quot;</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
 <span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ab90425a28d3d4108def9aa5b4386a262" name="ab90425a28d3d4108def9aa5b4386a262"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab90425a28d3d4108def9aa5b4386a262">&#9670;&#160;</a></span>emptyContainerIndexes</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; NWBFile::emptyContainerIndexes = {}</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel private">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">

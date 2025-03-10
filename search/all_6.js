@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['6_20write_20data_0',['6. Write data.',['../workflow.html#write_data',1,'']]]
+  ['6_20start_20the_20recording_0',['6. Start the recording.',['../workflow.html#start_recording',1,'']]]
 ];

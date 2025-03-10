@@ -369,10 +369,16 @@ Creating and Writing Data</h2>
 <div class="line">    <span class="comment">// create the RecordingContainer for managing recordings</span></div>
 <div class="line">    std::unique_ptr&lt;NWB::RecordingContainers&gt; recordingContainers =</div>
 <div class="line">        std::make_unique&lt;NWB::RecordingContainers&gt;();</div>
+<div class="line">    std::vector&lt;SizeType&gt; containerIndices = {};</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// create a new ElectricalSeries</span></div>
-<div class="line">    <a class="code hl_typedef" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a> resultCreate = nwbfile.createElectricalSeries(</div>
-<div class="line">        mockArrays, mockChannelNames, dataType, recordingContainers.get());</div>
+<div class="line">    nwbfile.createElectrodesTable(mockArrays);</div>
+<div class="line">    <a class="code hl_typedef" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a> resultCreate =</div>
+<div class="line">        nwbfile.createElectricalSeries(mockArrays,</div>
+<div class="line">                                       mockChannelNames,</div>
+<div class="line">                                       dataType,</div>
+<div class="line">                                       recordingContainers.get(),</div>
+<div class="line">                                       containerIndices);</div>
 <div class="line">    REQUIRE(resultCreate == Status::Success);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// get the new ElectricalSeries</span></div>

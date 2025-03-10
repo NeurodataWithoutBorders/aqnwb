@@ -24,6 +24,7 @@ var class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o =
     [ "getH5Type", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#acdb9d079f684ceb29d16ebc5e7e57127", null ],
     [ "getNativeType", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#adad97dc270883ff2e21a01fc68d58bef", null ],
     [ "getStorageObjects", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a54b2e3341ef695c712a9670c4a781c81", null ],
+    [ "getStorageObjectShape", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a45a864dee0e28dc625ef2bcfeae0e4b4", null ],
     [ "getStorageObjectType", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a5fb171a91ef8134baf224115f0dcf8bc", null ],
     [ "objectExists", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#ad384fb7900056f833e217252d3bfc41b", null ],
     [ "open", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#af13e43a73e40b98dcacd9cc587536143", null ],

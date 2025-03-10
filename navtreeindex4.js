@@ -1,5 +1,9 @@
 var NAVTREEINDEX4 =
 {
+"namespace_a_q_n_w_b_1_1_h_d_f5.html":[3,0,0,0],
+"namespace_a_q_n_w_b_1_1_i_o.html":[3,0,0,1],
+"namespace_a_q_n_w_b_1_1_i_o.html#a969d0800c8e9e2141f272541b85e8bed":[3,0,0,1,10],
+"namespace_a_q_n_w_b_1_1_i_o.html#a969d0800c8e9e2141f272541b85e8beda131fb182a881796e7606ed6da27f1197":[3,0,0,1,10,2],
 "namespace_a_q_n_w_b_1_1_i_o.html#a969d0800c8e9e2141f272541b85e8beda70a2a84088d405a2e3f1e3accaa16723":[3,0,0,1,10,1],
 "namespace_a_q_n_w_b_1_1_i_o.html#a969d0800c8e9e2141f272541b85e8bedada364eb37e143f6b2b5559aa03f5913a":[3,0,0,1,10,0],
 "namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035":[3,0,0,1,11],
@@ -105,12 +109,14 @@ var NAVTREEINDEX4 =
 "user_install_page.html#userbuild_source_sec":[1,0,1],
 "userdocs.html":[1],
 "workflow.html":[1,1],
-"workflow.html#create_datasets":[1,1,0,3],
+"workflow.html#create_datasets":[1,1,0,4],
 "workflow.html#create_io":[1,1,0,0],
 "workflow.html#create_nwbfile":[1,1,0,2],
+"workflow.html#create_recmeta":[1,1,0,3],
+"workflow.html#create_recmeta_ecephys":[1,1,0,3,0],
 "workflow.html#create_recording_container":[1,1,0,1],
 "workflow.html#recording_workflow":[1,1,0],
-"workflow.html#start_recording":[1,1,0,4],
-"workflow.html#stop_recording":[1,1,0,6],
-"workflow.html#write_data":[1,1,0,5]
+"workflow.html#start_recording":[1,1,0,5],
+"workflow.html#stop_recording":[1,1,0,7],
+"workflow.html#write_data":[1,1,0,6]
 };

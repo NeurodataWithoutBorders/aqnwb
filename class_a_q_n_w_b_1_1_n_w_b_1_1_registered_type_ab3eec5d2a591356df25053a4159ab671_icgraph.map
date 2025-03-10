@@ -1,11 +1,11 @@
 <map id="AQNWB::NWB::RegisteredType::getPath" name="AQNWB::NWB::RegisteredType::getPath">
 <area shape="rect" id="Node000001" title="Gets the path of the registered type." alt="" coords="486,39,697,79"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#aa6db97f7067421a8a5d7f3fcfa8c64fb" title="Initializes the Electrical Series." alt="" coords="227,5,438,46"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#afd9ec215f016f5dda4aa13d4864f38e1" title="Initializes the Electrical Series." alt="" coords="227,5,438,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="470,46,438,42,439,37,471,41"/>
 <area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html#ae1040ee51efcdfb2b4ba7ba046dd0a51" title="Initializes the ElectrodeGroup object." alt="" coords="227,71,438,111"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="471,77,438,81,438,75,470,71"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a01af959032be834975b9f45737a32fa7" title="Create ElectricalSeries objects to record data into. Created objects are stored in recordingContainer..." alt="" coords="5,37,179,78"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a749bc45b2c60adf71b4d16ad247dc04d" title="Create ElectrodesTable. Note, this function will fail if the file is in a mode where new objects cann..." alt="" coords="5,37,179,78"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="211,77,179,72,180,67,212,72"/>
-<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a7244179a31130a8bc43458174664cdc9" title="Create SpikeEventSeries objects to record data into. Created objects are stored in recordingContainer..." alt="" coords="5,103,179,143"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a1081999095a4a94f6a3c70cb17807799" title="Create SpikeEventSeries objects to record data into. Created objects are stored in recordingContainer..." alt="" coords="5,103,179,143"/>
 <area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="212,110,180,114,179,109,211,104"/>
 </map>

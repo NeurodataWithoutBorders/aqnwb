@@ -11,6 +11,9 @@ var userdocs =
         [ "Create the I/O object.", "workflow.html#create_io", null ],
         [ "Create the RecordingContainer object.", "workflow.html#create_recording_container", null ],
         [ "Create the NWBFile", "workflow.html#create_nwbfile", null ],
+        [ "Create the recording metadata", "workflow.html#create_recmeta", [
+          [ "Create the extracellular recording metadata", "workflow.html#create_recmeta_ecephys", null ]
+        ] ],
         [ "Create datasets and add to RecordingContainers.", "workflow.html#create_datasets", null ],
         [ "Start the recording.", "workflow.html#start_recording", null ],
         [ "Write data.", "workflow.html#write_data", null ],

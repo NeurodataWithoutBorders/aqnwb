@@ -380,7 +380,7 @@ var sectionId = 'dynsection-10';
 <!-- Node19 -->
 <g id="Node000019" class="node">
 <title>Node19</title>
-<g id="a_Node000019"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#aa6db97f7067421a8a5d7f3fcfa8c64fb" target="_top" xlink:title="Initializes the Electrical Series.">
+<g id="a_Node000019"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#afd9ec215f016f5dda4aa13d4864f38e1" target="_top" xlink:title="Initializes the Electrical Series.">
 <polygon fill="white" stroke="#666666" points="1325.38,-324.5 1166.88,-324.5 1166.88,-294 1325.38,-294 1325.38,-324.5"/>
 <text text-anchor="start" x="1174.88" y="-311" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::ElectricalSeries</text>
 <text text-anchor="middle" x="1246.12" y="-299.75" font-family="Helvetica,sans-Serif" font-size="10.00">::initialize</text>
@@ -475,10 +475,10 @@ var sectionId = 'dynsection-10';
 <!-- Node16 -->
 <g id="Node000016" class="node">
 <title>Node16</title>
-<g id="a_Node000016"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a01af959032be834975b9f45737a32fa7" target="_top" xlink:title="Create ElectricalSeries objects to record data into. Created objects are stored in recordingContainer...">
+<g id="a_Node000016"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a749bc45b2c60adf71b4d16ad247dc04d" target="_top" xlink:title="Create ElectrodesTable. Note, this function will fail if the file is in a mode where new objects cann...">
 <polygon fill="white" stroke="#666666" points="1126,-153.5 996,-153.5 996,-123 1126,-123 1126,-153.5"/>
 <text text-anchor="start" x="1004" y="-140" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::NWBFile</text>
-<text text-anchor="middle" x="1061" y="-128.75" font-family="Helvetica,sans-Serif" font-size="10.00">::createElectricalSeries</text>
+<text text-anchor="middle" x="1061" y="-128.75" font-family="Helvetica,sans-Serif" font-size="10.00">::createElectrodesTable</text>
 </a>
 </g>
 </g>
@@ -494,7 +494,7 @@ var sectionId = 'dynsection-10';
 <!-- Node17 -->
 <g id="Node000017" class="node">
 <title>Node17</title>
-<g id="a_Node000017"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a7244179a31130a8bc43458174664cdc9" target="_top" xlink:title="Create SpikeEventSeries objects to record data into. Created objects are stored in recordingContainer...">
+<g id="a_Node000017"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a1081999095a4a94f6a3c70cb17807799" target="_top" xlink:title="Create SpikeEventSeries objects to record data into. Created objects are stored in recordingContainer...">
 <polygon fill="white" stroke="#666666" points="1126,-275.5 996,-275.5 996,-245 1126,-245 1126,-275.5"/>
 <text text-anchor="start" x="1004" y="-262" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::NWBFile</text>
 <text text-anchor="middle" x="1061" y="-250.75" font-family="Helvetica,sans-Serif" font-size="10.00">::createSpikeEventSeries</text>

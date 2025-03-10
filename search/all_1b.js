@@ -1,10 +1,15 @@
 var searchData=
 [
-  ['v_5fstr_0',['V_STR',['../class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#a3ad0684f43e20f91bb130f18b35ed07ca0e4a49dbdc9157d7d92313868a19f06e',1,'AQNWB::IO::BaseDataType']]],
-  ['values_1',['values',['../class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html#a6f847556dc94dc001eb66dda402f72c0',1,'AQNWB::IO::ReadDataWrapper::values() const'],['../class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html#adc4133d3cbb85951dac42f2b5885345b',1,'AQNWB::IO::ReadDataWrapper::values(const std::vector&lt; SizeType &gt; &amp;start, const std::vector&lt; SizeType &gt; &amp;count={}, const std::vector&lt; SizeType &gt; &amp;stride={}, const std::vector&lt; SizeType &gt; &amp;block={}) const']]],
-  ['valuesgeneric_2',['valuesGeneric',['../class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html#a87906c320c5ca820768eacc98e8b09ca',1,'AQNWB::IO::ReadDataWrapper::valuesGeneric() const'],['../class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html#a5bded524757098c17eae87d626ffb8de',1,'AQNWB::IO::ReadDataWrapper::valuesGeneric(const std::vector&lt; SizeType &gt; &amp;start, const std::vector&lt; SizeType &gt; &amp;count={}, const std::vector&lt; SizeType &gt; &amp;stride={}, const std::vector&lt; SizeType &gt; &amp;block={}) const']]],
-  ['vectordata_3',['VectorData',['../class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html',1,'AQNWB::NWB::VectorData&lt; DTYPE &gt;'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#aef4d37bb77366f53423c27980fac601e',1,'AQNWB::NWB::VectorData::VectorData()']]],
-  ['vectordata_2ecpp_4',['VectorData.cpp',['../_vector_data_8cpp.html',1,'']]],
-  ['vectordata_2ehpp_5',['VectorData.hpp',['../_vector_data_8hpp.html',1,'']]],
-  ['version_6',['version',['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#a85a6c487bd8051993391e095c4b22208',1,'AQNWB::SPEC::CORE::version'],['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_h_d_m_f___c_o_m_m_o_n.html#ab393e83226fc1aac525ae4e23f68a375',1,'AQNWB::SPEC::HDMF_COMMON::version'],['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_h_d_m_f___e_x_p_e_r_i_m_e_n_t_a_l.html#ac44c43d3fd8556ae81e395492b001ed0',1,'AQNWB::SPEC::HDMF_EXPERIMENTAL::version']]]
+  ['u16_0',['U16',['../class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#a4f81a3a672c34a8a02f3b56341673331',1,'AQNWB::IO::BaseDataType']]],
+  ['u32_1',['U32',['../class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#a2714edcd482a021be1455cb07ce8abf2',1,'AQNWB::IO::BaseDataType']]],
+  ['u64_2',['U64',['../class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#a3b677aa53324f06022819010d41ed6b5',1,'AQNWB::IO::BaseDataType']]],
+  ['u8_3',['U8',['../class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#a69146c183a01f52dc3e034b1a91ff577',1,'AQNWB::IO::BaseDataType']]],
+  ['undefined_4',['Undefined',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ab8143e245b1f62cb147cd9ed97c84e9ca63430566913dbf62230d5f365b3aa1a4',1,'AQNWB::NWB::TimeSeries::Undefined'],['../class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915adfd902706dc9678b3c629bed785567a0',1,'AQNWB::Types::Undefined']]],
+  ['unit_20tests_5',['Unit Tests',['../testing.html#testing_unit_run',1,'Running Unit Tests'],['../testing.html#testing_unit',1,'Unit Tests']]],
+  ['updating_20the_20schema_6',['Updating the schema',['../nwb_schema_page.html#dev_docs_updating_nwb_schema_section',1,'']]],
+  ['use_20smwr_20mode_7',['Why does AqNWB use SMWR mode?',['../hdf5io.html#hdf5io_swmr_features',1,'']]],
+  ['use_20the_20registeredtype_20registry_8',['How to Use the RegisteredType Registry',['../read_design_page.html#use_registered_type_registry',1,'']]],
+  ['users_9',['For Users',['../userdocs.html',1,'']]],
+  ['using_20the_20type_20registry_10',['Example: Using the type registry',['../read_design_page.html#use_registered_type_registry_example',1,'']]],
+  ['utils_2ehpp_11',['Utils.hpp',['../_utils_8hpp.html',1,'']]]
 ];
