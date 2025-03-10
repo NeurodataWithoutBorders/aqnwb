@@ -241,7 +241,7 @@
  * this approach, we specify the data types to use with the class directly as part of 
  * \ref DEFINE_REGISTERED_FIELD macro so that the user doesn't need to manually specify the data type 
  * for read. To implement the use of templated classes for read, we can take two main approaches
- * by either \ref implement_templated_registered_type_two_classs or \ref implement_templated_registered_type_single_class .
+ * by either \ref implement_templated_registered_type_two_class or \ref implement_templated_registered_type_single_class .
  * 
  * \subsubsection implement_templated_registered_type_two_classs Using a base class and templated child class
  *
