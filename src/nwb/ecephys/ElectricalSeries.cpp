@@ -21,14 +21,14 @@ ElectricalSeries::ElectricalSeries(const std::string& path,
 ElectricalSeries::~ElectricalSeries() {}
 
 /** Initialization function*/
-void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
-                                  const Types::ChannelVector& channelVector,
-                                  const std::string& description,
-                                  const SizeArray& dsetSize,
-                                  const SizeArray& chunkSize,
-                                  const float& conversion,
-                                  const float& resolution,
-                                  const float& offset)
+Status ElectricalSeries::initialize(const IO::BaseDataType& dataType,
+                                    const Types::ChannelVector& channelVector,
+                                    const std::string& description,
+                                    const SizeArray& dsetSize,
+                                    const SizeArray& chunkSize,
+                                    const float& conversion,
+                                    const float& resolution,
+                                    const float& offset)
 {
   TimeSeries::initialize(dataType,
                          "volts",
@@ -42,10 +42,23 @@ void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
 
   this->m_channelVector = channelVector;
 
+  // get the number of electrodes from the electrode table
+  std::string idPath =
+      AQNWB::mergePaths(ElectrodeTable::electrodeTablePath, "id");
+  std::vector<SizeType> elecTableDsetSize = m_io->getStorageObjectShape(idPath);
+  SizeType numElectrodes = elecTableDsetSize[0];
+
   // setup variables based on number of channels
   std::vector<int> electrodeInds(channelVector.size());
   std::vector<float> channelConversions(channelVector.size());
   for (size_t i = 0; i < channelVector.size(); ++i) {
+    SizeType globalIndex = channelVector[i].getGlobalIndex();
+    if (globalIndex >= numElectrodes) {
+      std::cerr << "ElectricalSeries::initialize electrode index "
+                << globalIndex << " is out of range. Max index is "
+                << (numElectrodes - 1) << std::endl;
+      return Status::Failure;
+    }
     electrodeInds[i] = static_cast<int>(channelVector[i].getGlobalIndex());
     channelConversions[i] = channelVector[i].getConversion();
   }
@@ -89,6 +102,8 @@ void ElectricalSeries::initialize(const IO::BaseDataType& dataType,
   m_io->createReferenceAttribute(ElectrodeTable::electrodeTablePath,
                                  AQNWB::mergePaths(getPath(), "electrodes"),
                                  "table");
+
+  return Status::Success;
 }
 
 Status ElectricalSeries::writeChannel(SizeType channelInd,

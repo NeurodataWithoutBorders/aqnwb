@@ -50,16 +50,18 @@ public:
    * @param resolution Smallest meaningful difference between values in data,
    *                   stored in the specified by unit
    * @param offset Scalar to add to the data after scaling by ‘conversion’ to
-   *               finalize its coercion to the specified ‘unit'
+   *               finalize its coercion to the specified ‘unit'\
+   * @return The status of the initialization operation.
+
    */
-  void initialize(const IO::BaseDataType& dataType,
-                  const Types::ChannelVector& channelVector,
-                  const std::string& description,
-                  const SizeArray& dsetSize,
-                  const SizeArray& chunkSize,
-                  const float& conversion = 1.0f,
-                  const float& resolution = -1.0f,
-                  const float& offset = 0.0f);
+  Status initialize(const IO::BaseDataType& dataType,
+                    const Types::ChannelVector& channelVector,
+                    const std::string& description,
+                    const SizeArray& dsetSize,
+                    const SizeArray& chunkSize,
+                    const float& conversion = 1.0f,
+                    const float& resolution = -1.0f,
+                    const float& offset = 0.0f);
 
   /**
    * @brief Writes a channel to an ElectricalSeries dataset.

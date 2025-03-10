@@ -28,8 +28,6 @@ constexpr SizeType CHUNK_XSIZE =
 constexpr SizeType SPIKE_CHUNK_XSIZE =
     8;  // TODO - replace with io settings input
 
-std::vector<SizeType> NWBFile::emptyContainerIndexes = {};
-
 // Initialize the static registered_ member to trigger registration
 REGISTER_SUBCLASS_IMPL(NWBFile)
 
@@ -172,6 +170,43 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
   return Status::Success;
 }
 
+Status NWBFile::createElectrodesTable(
+    std::vector<Types::ChannelVector> recordingArrays)
+{
+  std::unique_ptr<NWB::ElectrodeTable> electrodeTable =
+      std::make_unique<NWB::ElectrodeTable>(m_io);
+  electrodeTable->initialize();
+  for (const auto& channelVector : recordingArrays) {
+    electrodeTable->addElectrodes(channelVector);
+  }
+
+  for (size_t i = 0; i < recordingArrays.size(); ++i) {
+    const auto& channelVector = recordingArrays[i];
+
+    // Setup electrodes and devices
+    std::string groupName = channelVector[0].getGroupName();
+    std::string devicePath = AQNWB::mergePaths("/general/devices", groupName);
+    std::string electrodePath =
+        AQNWB::mergePaths("/general/extracellular_ephys", groupName);
+
+    // Check if device exists for groupName, create device and electrode group
+    // if it does not
+    if (!m_io->objectExists(devicePath)) {
+      NWB::Device device = NWB::Device(devicePath, m_io);
+      device.initialize("description", "unknown");
+
+      NWB::ElectrodeGroup elecGroup = NWB::ElectrodeGroup(electrodePath, m_io);
+      elecGroup.initialize("description", "unknown", device);
+    }
+  }
+
+  // write electrodes information to datasets
+  // (requires that ElectrodeGroup data is initialized)
+  electrodeTable->finalize();
+
+  return Status::Success;
+}
+
 Status NWBFile::createElectricalSeries(
     std::vector<Types::ChannelVector> recordingArrays,
     std::vector<std::string> recordingNames,
@@ -191,56 +226,34 @@ Status NWBFile::createElectricalSeries(
   bool electrodeTableCreated =
       m_io->objectExists(ElectrodeTable::electrodeTablePath);
   if (!electrodeTableCreated) {
-    m_electrodeTable = std::make_unique<ElectrodeTable>(m_io);
-    m_electrodeTable->initialize();
-
-    // Add electrode information to table (does not write to datasets yet)
-    for (const auto& channelVector : recordingArrays) {
-      m_electrodeTable->addElectrodes(channelVector);
-    }
+    std::cerr << "NWBFile::createElectricalSeries requires an electrodes table "
+                 "to be present"
+              << std::endl;
+    return Status::Failure;
   }
 
   // Create datasets
   for (size_t i = 0; i < recordingArrays.size(); ++i) {
     const auto& channelVector = recordingArrays[i];
     const std::string& recordingName = recordingNames[i];
-
-    // Setup electrodes and devices
-    std::string groupName = channelVector[0].getGroupName();
-    std::string devicePath = AQNWB::mergePaths("/general/devices", groupName);
-    std::string electrodePath =
-        AQNWB::mergePaths("/general/extracellular_ephys", groupName);
     std::string electricalSeriesPath =
-        AQNWB::mergePaths(acquisitionPath, recordingName);
-
-    // Check if device exists for groupName, create device and electrode group
-    // if it does not
-    if (!m_io->objectExists(devicePath)) {
-      Device device = Device(devicePath, m_io);
-      device.initialize("description", "unknown");
-
-      ElectrodeGroup elecGroup = ElectrodeGroup(electrodePath, m_io);
-      elecGroup.initialize("description", "unknown", device);
-    }
+        AQNWB::mergePaths(m_acquisitionPath, recordingName);
 
     // Setup electrical series datasets
     auto electricalSeries =
         std::make_unique<ElectricalSeries>(electricalSeriesPath, m_io);
-    electricalSeries->initialize(
+    Status esStatus = electricalSeries->initialize(
         dataType,
         channelVector,
         "Stores continuously sampled voltage data from an "
         "extracellular ephys recording",
         SizeArray {0, channelVector.size()},
         SizeArray {CHUNK_XSIZE, 0});
+    if (esStatus != Status::Success) {
+      return esStatus;
+    }
     recordingContainers->addContainer(std::move(electricalSeries));
     containerIndexes.push_back(recordingContainers->size() - 1);
-  }
-
-  // write electrode information to datasets
-  // (requires that the ElectrodeGroup has been written)
-  if (!electrodeTableCreated) {
-    m_electrodeTable->finalize();
   }
 
   return Status::Success;
@@ -265,13 +278,10 @@ Status NWBFile::createSpikeEventSeries(
   bool electrodeTableCreated =
       m_io->objectExists(ElectrodeTable::electrodeTablePath);
   if (!electrodeTableCreated) {
-    m_electrodeTable = std::make_unique<ElectrodeTable>(m_io);
-    m_electrodeTable->initialize();
-
-    // Add electrode information to table (does not write to datasets yet)
-    for (const auto& channelVector : recordingArrays) {
-      m_electrodeTable->addElectrodes(channelVector);
-    }
+    std::cerr << "NWBFile::createElectricalSeries requires an electrodes table "
+                 "to be present"
+              << std::endl;
+    return Status::Failure;
   }
 
   // Create datasets
@@ -285,7 +295,7 @@ Status NWBFile::createSpikeEventSeries(
     std::string electrodePath =
         AQNWB::mergePaths("/general/extracellular_ephys", groupName);
     std::string spikeEventSeriesPath =
-        AQNWB::mergePaths(acquisitionPath, recordingName);
+        AQNWB::mergePaths(m_acquisitionPath, recordingName);
 
     // Check if device exists for groupName, create device and electrode group
     // if not
@@ -320,12 +330,6 @@ Status NWBFile::createSpikeEventSeries(
     containerIndexes.push_back(recordingContainers->size() - 1);
   }
 
-  // write electrode information to datasets
-  // (requires that the ElectrodeGroup has been written)
-  if (!electrodeTableCreated) {
-    m_electrodeTable->finalize();
-  }
-
   return Status::Success;
 }
 
@@ -341,7 +345,7 @@ Status NWBFile::createAnnotationSeries(std::vector<std::string> recordingNames,
     const std::string& recordingName = recordingNames[i];
 
     std::string annotationSeriesPath =
-        AQNWB::mergePaths(acquisitionPath, recordingName);
+        AQNWB::mergePaths(m_acquisitionPath, recordingName);
 
     // Setup annotation series datasets
     auto annotationSeries =

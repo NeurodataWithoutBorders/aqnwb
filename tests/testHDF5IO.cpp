@@ -290,6 +290,55 @@ TEST_CASE("getStorageObjects", "[hdf5io]")
 }
 // END TEST_CASE("getStorageObjects", "[hdf5io]")
 
+TEST_CASE("getStorageObjectShape", "[hdf5io]")
+{
+  // create and open file
+  std::string filename = getTestFilePath("testGetStorageObjectShape.h5");
+  IO::HDF5::HDF5IO hdf5io(filename);
+  hdf5io.open();
+
+  SECTION("get shape of a dataset")
+  {
+    // Create a 2D dataset
+    SizeArray dims = {3, 4};
+    std::string dataPath = "/dataset2D";
+    hdf5io.createArrayDataSet(
+        BaseDataType::I32, dims, SizeArray {0, 0}, dataPath);
+
+    // Get and verify shape
+    auto shape = hdf5io.getStorageObjectShape(dataPath);
+    REQUIRE(shape.size() == 2);
+    REQUIRE(shape[0] == 3);
+    REQUIRE(shape[1] == 4);
+  }
+
+  SECTION("get shape of an attribute")
+  {
+    const std::string groupPath = "/data";
+    hdf5io.createGroup(groupPath);
+
+    // Test 1D array attribute
+    const std::vector<int> data = {
+        1,
+        2,
+        3,
+        4,
+        5,
+    };
+    const std::string attrName = "int_array";
+    const std::string attrPath = mergePaths(groupPath, attrName);
+
+    hdf5io.createAttribute(
+        BaseDataType::I32, data.data(), groupPath, attrName, data.size());
+    auto shape = hdf5io.getStorageObjectShape(attrPath);
+    REQUIRE(shape.size() == 1);
+    REQUIRE(shape[0] == 5);
+  }
+
+  // close file
+  hdf5io.close();
+}
+
 TEST_CASE("HDF5IO; write datasets", "[hdf5io]")
 {
   std::vector<int> testData = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
