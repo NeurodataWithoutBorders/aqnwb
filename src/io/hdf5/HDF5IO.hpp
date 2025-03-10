@@ -255,19 +255,14 @@ public:
   bool canModifyObjects() override;
 
   /**
-   * @brief Creates an extendable dataset with a given base data type, size,
-   * chunking, and path.
-   * @param type The base data type of the dataset.
-   * @param size The size of the dataset.
-   * @param chunking The chunking size of the dataset.
+   * @brief Creates an extendable dataset with the given configuration and path.
+   * @param config The configuration for the dataset, including type, shape, and
+   * chunking.
    * @param path The location in the file of the new dataset.
    * @return A pointer to the created dataset.
    */
   std::unique_ptr<IO::BaseRecordingData> createArrayDataSet(
-      const IO::BaseDataType& type,
-      const SizeArray& size,
-      const SizeArray& chunking,
-      const std::string& path) override;
+      const IO::ArrayDataSetConfig& config, const std::string& path) override;
 
   /**
    * @brief Returns a pointer to a dataset at a given path.
@@ -276,6 +271,13 @@ public:
    */
   std::unique_ptr<IO::BaseRecordingData> getDataSet(
       const std::string& path) override;
+
+  /**
+   * @brief Returns the size of the dataset or attribute for each dimension.
+   * @param path The location of the dataset or attribute in the file
+   * @return The shape of the dataset or attribute.
+   */
+  std::vector<SizeType> getStorageObjectShape(const std::string path) override;
 
   /**
    * @brief Checks whether a Dataset, Group, or Link already exists at the
@@ -300,17 +302,18 @@ public:
    * inside a group.
    *
    * This function returns the relative paths and storage type of all objects
-   * inside the specified group. If the input path is an attribute then an empty
-   * list should be returned. If the input path is a dataset, then only the
-   * attributes will be returned. Note, this function is not recursive, i.e.,
-   * it only looks for storage objects associated directly with the given path.
+   * inside the specified group. If the input path is an attribute then an
+   * empty list should be returned. If the input path is a dataset, then only
+   * the attributes will be returned. Note, this function is not recursive,
+   * i.e., it only looks for storage objects associated directly with the given
+   * path.
    *
    * @param path The path to the group.
    * @param objectType Define which types of storage object to look for, i.e.,
    * only objects of this specified type will be returned.
    *
-   * @return A vector of pairs of relative paths and their corresponding storage
-   * object types.
+   * @return A vector of pairs of relative paths and their corresponding
+   * storage object types.
    */
   virtual std::vector<std::pair<std::string, StorageObjectType>>
   getStorageObjects(const std::string& path,

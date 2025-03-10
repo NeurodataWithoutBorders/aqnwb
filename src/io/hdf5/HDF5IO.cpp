@@ -10,6 +10,7 @@
 #include <H5Fpublic.h>
 
 #include "Utils.hpp"
+#include "io/hdf5/HDF5ArrayDataSetConfig.hpp"
 #include "io/hdf5/HDF5RecordingData.hpp"
 
 using namespace H5;
@@ -716,16 +717,17 @@ Status HDF5IO::createAttribute(const IO::BaseDataType& type,
   H5type = getH5Type(type);
   origType = getNativeType(type);
 
+  DataSpace attr_dataspace;
   if (size > 1) {
     hsize_t dims = static_cast<hsize_t>(size);
-    H5type = ArrayType(H5type, 1, &dims);
-    origType = ArrayType(origType, 1, &dims);
+    attr_dataspace = DataSpace(1, &dims);  // Create 1D dataspace of size 'dims'
+  } else {
+    attr_dataspace = H5S_SCALAR;
   }
 
   if (loc->attrExists(name)) {
     attr = loc->openAttribute(name);
   } else {
-    DataSpace attr_dataspace(H5S_SCALAR);
     attr = loc->createAttribute(name, H5type, attr_dataspace);
   }
 
@@ -1042,8 +1044,10 @@ Status HDF5IO::createStringDataSet(const std::string& path,
   }
 
   std::unique_ptr<IO::BaseRecordingData> dataset;
-  dataset = std::unique_ptr<IO::BaseRecordingData>(createArrayDataSet(
-      IO::BaseDataType::V_STR, SizeArray {values.size()}, SizeArray {1}, path));
+  IO::ArrayDataSetConfig config(
+      IO::BaseDataType::V_STR, SizeArray {values.size()}, SizeArray {1});
+  dataset =
+      std::unique_ptr<IO::BaseRecordingData>(createArrayDataSet(config, path));
 
   dataset->writeDataBlock(std::vector<SizeType> {1},
                           std::vector<SizeType> {0},
@@ -1169,6 +1173,24 @@ HDF5IO::getStorageObjects(const std::string& path,
   return objects;
 }
 
+std::vector<SizeType> HDF5IO::getStorageObjectShape(const std::string path)
+{
+  H5::DataSpace dataspace;
+  try {
+    H5::DataSet dataset = m_file->openDataSet(path);
+    dataspace = dataset.getSpace();
+  } catch (H5::Exception& e) {
+    // Read the attribute
+    std::unique_ptr<H5::Attribute> attributePtr = this->getAttribute(path);
+    dataspace = attributePtr->getSpace();
+  }
+  const int rank = dataspace.getSimpleExtentNdims();
+  std::vector<hsize_t> dims(static_cast<size_t>(rank));
+  dataspace.getSimpleExtentDims(dims.data());
+
+  return std::vector<SizeType>(dims.begin(), dims.end());
+}
+
 std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::getDataSet(
     const std::string& path)
 {
@@ -1193,21 +1215,23 @@ std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::getDataSet(
 }
 
 std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::createArrayDataSet(
-    const IO::BaseDataType& type,
-    const SizeArray& size,
-    const SizeArray& chunking,
-    const std::string& path)
+    const IO::ArrayDataSetConfig& config, const std::string& path)
 {
   std::unique_ptr<DataSet> data;
   DSetCreatPropList prop;
-  DataType H5type = getH5Type(type);
+  DataType H5type = getH5Type(config.getType());
 
   if (!canModifyObjects()) {
+    std::cerr << "Cannot modify objects" << std::endl;
     return nullptr;
   }
 
+  const SizeArray& size = config.getShape();
+  const SizeArray& chunking = config.getChunking();
+
   SizeType dimension = size.size();
   if (dimension < 1) {
+    std::cerr << "Invalid dimension size" << std::endl;
     return nullptr;
   }
 
@@ -1229,15 +1253,33 @@ std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::createArrayDataSet(
     }
   }
 
-  DataSpace dSpace(static_cast<int>(dimension), dims.data(), max_dims.data());
-  prop.setChunk(static_cast<int>(dimension), chunk_dims.data());
+  try {
+    DataSpace dSpace(static_cast<int>(dimension), dims.data(), max_dims.data());
+    prop.setChunk(static_cast<int>(dimension), chunk_dims.data());
 
-  if (type.type == IO::BaseDataType::Type::T_STR) {
-    H5type = StrType(PredType::C_S1, type.typeSize);
+    // Apply filters if HDF5ArrayDataSetConfig is used
+    const HDF5ArrayDataSetConfig* hdf5Config =
+        dynamic_cast<const HDF5ArrayDataSetConfig*>(&config);
+    if (hdf5Config) {
+      for (const auto& filter : hdf5Config->getFilters()) {
+        prop.setFilter(filter.filter_id,
+                       0,
+                       static_cast<size_t>(filter.cd_values.size()),
+                       filter.cd_values.data());
+      }
+    }
+
+    if (config.getType().type == IO::BaseDataType::Type::T_STR) {
+      H5type = StrType(PredType::C_S1, config.getType().typeSize);
+    }
+
+    data = std::make_unique<DataSet>(
+        m_file->createDataSet(path, H5type, dSpace, prop));
+  } catch (const H5::Exception& e) {
+    std::cerr << "HDF5 error: " << e.getDetailMsg() << std::endl;
+    return nullptr;
   }
 
-  data = std::make_unique<H5::DataSet>(
-      m_file->createDataSet(path, H5type, dSpace, prop));
   return std::make_unique<HDF5RecordingData>(std::move(data));
 }
 

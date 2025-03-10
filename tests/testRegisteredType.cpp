@@ -134,7 +134,9 @@ TEST_CASE("RegisterType", "[base]")
     std::shared_ptr<NWB::TimeSeries> ts =
         RegisteredType::create<NWB::TimeSeries>(examplePath, io);
     REQUIRE(ts != nullptr);
-    ts->initialize(dataType, "unit");
+    IO::ArrayDataSetConfig config(
+        dataType, SizeArray {numSamples}, SizeArray {numSamples});
+    ts->initialize(config, "unit");
 
     // Write data to file
     Status writeStatus = ts->writeData(
@@ -346,11 +348,10 @@ TEST_CASE("RegisterType", "[base]")
     // Write test data
     io->createAttribute(
         BaseDataType::I32, &attrValue, examplePath, "test_attr");
+    IO::ArrayDataSetConfig datasetConfig(
+        BaseDataType::F32, SizeArray {3}, SizeArray {3});
     auto datasetRecordingData =
-        io->createArrayDataSet(BaseDataType::F32,
-                               SizeArray {3},
-                               SizeArray {3},
-                               examplePath + "/test_dataset");
+        io->createArrayDataSet(datasetConfig, examplePath + "/test_dataset");
     datasetRecordingData->writeDataBlock(
         SizeArray {3}, SizeArray {0}, BaseDataType::F32, datasetValues.data());
 
