@@ -208,9 +208,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad973fe50bc5ef9e210319902a7a5ef81" id="r_ad973fe50bc5ef9e210319902a7a5ef81"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad973fe50bc5ef9e210319902a7a5ef81">canModifyObjects</a> ()</td></tr>
 <tr class="memdesc:ad973fe50bc5ef9e210319902a7a5ef81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the file is in a mode where objects can be added or deleted. Note, this does not apply to the modification of raw data on already existing objects. Derived classes should override this function to check if objects can be modified.  <br /></td></tr>
 <tr class="separator:ad973fe50bc5ef9e210319902a7a5ef81"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4a76253b31950a78cdfb7f8d329a90ca" id="r_a4a76253b31950a78cdfb7f8d329a90ca"><td class="memItemLeft" align="right" valign="top">virtual std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">BaseRecordingData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4a76253b31950a78cdfb7f8d329a90ca">createArrayDataSet</a> (const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">BaseDataType</a> &amp;type, const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;size, const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;chunking, const std::string &amp;path)=0</td></tr>
-<tr class="memdesc:a4a76253b31950a78cdfb7f8d329a90ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an extendable dataset with a given base data type, size, chunking, and path.  <br /></td></tr>
-<tr class="separator:a4a76253b31950a78cdfb7f8d329a90ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacc45c55b5d653a8d8c64f26b7d7081e" id="r_aacc45c55b5d653a8d8c64f26b7d7081e"><td class="memItemLeft" align="right" valign="top">virtual std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">BaseRecordingData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aacc45c55b5d653a8d8c64f26b7d7081e">createArrayDataSet</a> (const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html">ArrayDataSetConfig</a> &amp;config, const std::string &amp;path)=0</td></tr>
+<tr class="memdesc:aacc45c55b5d653a8d8c64f26b7d7081e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an extendable dataset with the given configuration and path.  <br /></td></tr>
+<tr class="separator:aacc45c55b5d653a8d8c64f26b7d7081e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a88b3a8c8ba53a1ef53f637c51aec296e" id="r_a88b3a8c8ba53a1ef53f637c51aec296e"><td class="memItemLeft" align="right" valign="top">virtual std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">BaseRecordingData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a88b3a8c8ba53a1ef53f637c51aec296e">getDataSet</a> (const std::string &amp;path)=0</td></tr>
 <tr class="memdesc:a88b3a8c8ba53a1ef53f637c51aec296e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a pointer to a dataset at a given path.  <br /></td></tr>
 <tr class="separator:a88b3a8c8ba53a1ef53f637c51aec296e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -435,8 +435,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a4a76253b31950a78cdfb7f8d329a90ca" name="a4a76253b31950a78cdfb7f8d329a90ca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4a76253b31950a78cdfb7f8d329a90ca">&#9670;&#160;</a></span>createArrayDataSet()</h2>
+<a id="aacc45c55b5d653a8d8c64f26b7d7081e" name="aacc45c55b5d653a8d8c64f26b7d7081e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aacc45c55b5d653a8d8c64f26b7d7081e">&#9670;&#160;</a></span>createArrayDataSet()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -447,17 +447,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">virtual std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">BaseRecordingData</a> &gt; AQNWB::IO::BaseIO::createArrayDataSet </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">BaseDataType</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>type</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>size</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>chunking</em></span>, </td>
+          <td class="paramtype">const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html">ArrayDataSetConfig</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -472,19 +462,17 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Creates an extendable dataset with a given base data type, size, chunking, and path. </p>
+<p>Creates an extendable dataset with the given configuration and path. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">type</td><td>The base data type of the dataset. </td></tr>
-    <tr><td class="paramname">size</td><td>The size of the dataset. </td></tr>
-    <tr><td class="paramname">chunking</td><td>The chunking size of the dataset. </td></tr>
+    <tr><td class="paramname">config</td><td>The configuration for the dataset, including type, shape, and chunking. </td></tr>
     <tr><td class="paramname">path</td><td>The location in the file of the new dataset. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to the created dataset. </dd></dl>
 
-<p>Implemented in <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a798de808c02efa9513af52717348c179">AQNWB::IO::HDF5::HDF5IO</a>.</p>
+<p>Implemented in <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a0b301f91a26412d2f1a36f233f7099db">AQNWB::IO::HDF5::HDF5IO</a>.</p>
 
 </div>
 </div>

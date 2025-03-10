@@ -33,7 +33,11 @@ var userdocs =
       [ "Further reading", "read_page.html#read_further_reading", null ]
     ] ],
     [ "HDF5 I/O", "hdf5io.html", [
-      [ "Chunking", "hdf5io.html#hdf5io_chunking", null ],
+      [ "Optimizing Data Layout", "hdf5io.html#hdf5io_data_layout", [
+        [ "Chunking", "hdf5io.html#hdf5io_chunking", null ],
+        [ "I/O Filters and Compression", "hdf5io.html#hdf5io_filters", null ],
+        [ "Using Chunking and I/O Filters in AqNWB", "hdf5io.html#hdf5io_filters_usage", null ]
+      ] ],
       [ "Single-Writer Multiple-Reader (SWMR) Mode", "hdf5io.html#hdf5io_swmr", [
         [ "Why does AqNWB use SMWR mode?", "hdf5io.html#hdf5io_swmr_features", null ],
         [ "Writing an NWB file with SWMR mode", "hdf5io.html#hdf5io_swmr_workflow", [

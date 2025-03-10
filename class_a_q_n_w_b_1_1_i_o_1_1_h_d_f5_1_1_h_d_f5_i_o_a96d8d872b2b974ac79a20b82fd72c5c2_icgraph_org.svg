@@ -21,7 +21,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a798de808c02efa9513af52717348c179" target="_top" xlink:title="Creates an extendable dataset with a given base data type, size, chunking, and path.">
+<g id="a_Node000002"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a0b301f91a26412d2f1a36f233f7099db" target="_top" xlink:title="Creates an extendable dataset with the given configuration and path.">
 <polygon fill="white" stroke="#666666" points="327.5,-496.5 181.75,-496.5 181.75,-466 327.5,-466 327.5,-496.5"/>
 <text text-anchor="start" x="189.75" y="-483" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::IO::HDF5::HDF5IO</text>
 <text text-anchor="middle" x="254.62" y="-471.75" font-family="Helvetica,sans-Serif" font-size="10.00">::createArrayDataSet</text>

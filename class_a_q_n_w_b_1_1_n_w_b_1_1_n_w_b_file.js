@@ -9,7 +9,7 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file =
     [ "createElectricalSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a332407516f0fd39e0743f4e569734153", null ],
     [ "createElectrodesTable", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a749bc45b2c60adf71b4d16ad247dc04d", null ],
     [ "createFileStructure", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a71bd7b910a7ec89bdaf36304d67bfef1", null ],
-    [ "createRecordingData", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a853b7c416338be8ac24c893e2f809015", null ],
+    [ "createRecordingData", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a50a14c73fc985e368168f8d406b6d2a5", null ],
     [ "createSpikeEventSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a1081999095a4a94f6a3c70cb17807799", null ],
     [ "finalize", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#af7b3285fd7e02b444372fb1ab4341674", null ],
     [ "initialize", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a5fe5d0aba7a050db86d5caa5b8cf4a04", null ],

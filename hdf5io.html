@@ -106,7 +106,18 @@ $(function(){initNavTree('hdf5io.html',''); initResizable(true); });
 <div class="toc"><h3>Table of Contents</h3>
 <ul>
   <li class="level1">
-    <a href="#hdf5io_chunking">Chunking</a>
+    <a href="#hdf5io_data_layout">Optimizing Data Layout</a>
+    <ul>
+      <li class="level2">
+        <a href="#hdf5io_chunking">Chunking</a>
+      </li>
+      <li class="level2">
+        <a href="#hdf5io_filters">I/O Filters and Compression</a>
+      </li>
+      <li class="level2">
+        <a href="#hdf5io_filters_usage">Using Chunking and I/O Filters in AqNWB</a>
+      </li>
+    </ul>
   </li>
   <li class="level1">
     <a href="#hdf5io_swmr">Single-Writer Multiple-Reader (SWMR) Mode</a>
@@ -137,17 +148,64 @@ $(function(){initNavTree('hdf5io.html',''); initResizable(true); });
   </li>
 </ul>
 </div>
-<div class="textblock"><h1><a class="anchor" id="hdf5io_chunking"></a>
-Chunking</h1>
+<div class="textblock"><h1><a class="anchor" id="hdf5io_data_layout"></a>
+Optimizing Data Layout</h1>
+<p>HDF5 supports advanced I/O features for optimizing the layout of large data arrays via <a class="el" href="#hdf5io_chunking">Chunking</a> and <a class="el" href="#hdf5io_filters">I/O Filters</a>. Below we discuss these features in more detail. The main classes involved in configuring chunking and I/O filters in HDF5 via <a class="el" href="namespace_a_q_n_w_b.html" title="The main namespace for AqNWB.">AQNWB</a> are:</p>
+<ul>
+<li><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html">ArrayDataSetConfig</a> for configuring datasets for write, including chunking settings.<ul>
+<li><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_array_data_set_config.html">HDF5ArrayDataSetConfig</a> then extends the basic <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html">ArrayDataSetConfig</a> to add HDF5-specific configurations, such as, support for configuring I/O filters (e.g., for compression)</li>
+<li><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_filter_config.html">HDF5FilterConfig</a> is used with <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_array_data_set_config.html">HDF5ArrayDataSetConfig</a> to configure a single I/O filter.</li>
+</ul>
+</li>
+<li><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a0b301f91a26412d2f1a36f233f7099db">HDF5IO::createArrayDataSet</a> is the main method used for creating n-dimensional array datasets</li>
+</ul>
+<h2><a class="anchor" id="hdf5io_chunking"></a>
+Chunking</h2>
 <p>For datasets intended for recording, <code>AqNWB</code> uses chunking to ensure the dataset can be extended as new data arrives during the recording process. Using chunking in HDF5, a dataset is divided into fixed-size blocks (called chunks), which are stored separately in the file. This technique is particularly beneficial for large datasets and offers several advantages:</p>
 <ul>
 <li><b>Extend datasets</b>: Chunked datasets can be easily extended in any dimension. This flexibility is crucial for recording datasets where the size of the dataset is not known in advance.</li>
 <li><b>Performance Optimization</b>: By carefully choosing the chunk size, you can optimize performance based on your particular read/write access patterns. When only a portion of a chunked dataset is accessed, only the relevant chunks are read or written, reducing the amount of I/O operations.</li>
-<li><b>Compression</b>: Data within each chunk can be compressed independently, which can help to significant reduce data size, especially for datasets with redundancy.</li>
+<li><b>Compression</b>: Data within each chunk can be compressed independently, which can help to significant reduce data size, especially for datasets with redundancy (see <a class="el" href="#hdf5io_filters">I/O Filters and Compression</a>).</li>
 </ul>
 <dl class="section warning"><dt>Warning</dt><dd>Choosing a chunking configuration that does not align well with the desired read/write pattern may lead to reduced performance due to repeated read, decompression, and update to the same chunk or read of extra data as chunks are always read fully.</dd></dl>
 <div class="dotgraph">
 <iframe scrolling="no" frameborder="0" src="dot_inline_dotgraph_4.svg" width="460" height="271"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<h2><a class="anchor" id="hdf5io_filters"></a>
+I/O Filters and Compression</h2>
+<p>HDF5 filters are used to transform data as it is written to and read from the file. Filters are applied on a per-chunk basis (i.e., chunking is required to use filters), and are typically used for compression or error detection.</p>
+<p>Compression filters reduce the amount of storage space required for datasets by eliminating redundancy in the data. One commonly used compression filter is <code>GZIP (DEFLATE)</code> which provides a good balance between compression ratio and speed. Multiple filters may be applied simultaneously. E.g., the <code>Shuffle</code> filter can be used to rearrange the bytes in the data to improve the effectiveness of compression filters. By shuffling the data, redundancy within the byte stream is increased, which can help improve compression ratios. For more information on the available filters in HDF5, please refer to the <a href="https://support.hdfgroup.org/documentation/hdf5/latest/_h5_d__u_g.html#subsubsec_dataset_transfer_filter">HDF5 Data Pipeline Filters Documentation</a> by the HDF5 project.</p>
+<h2><a class="anchor" id="hdf5io_filters_usage"></a>
+Using Chunking and I/O Filters in AqNWB</h2>
+<p>When creating datasets, you can specify the filters to be applied using the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_array_data_set_config.html">HDF5ArrayDataSetConfig</a> class. The following example demonstrates how to configure and apply the GZIP and Shuffle filters to a dataset. The <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_array_data_set_config.html">HDF5ArrayDataSetConfig</a> class allows you to specify the data type, shape, chunking, and filters for the dataset. The <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a0b301f91a26412d2f1a36f233f7099db">HDF5IO::createArrayDataSet</a> method then creates the dataset with the specified configuration.</p>
+<div class="fragment"><div class="line">    <span class="comment">// Create the HDF5IO object and open the file as usual</span></div>
+<div class="line">    std::string path = getTestFilePath(<span class="stringliteral">&quot;testWithFilters.h5&quot;</span>);</div>
+<div class="line">    std::unique_ptr&lt;AQNWB::IO::HDF5::HDF5IO&gt; hdf5io =</div>
+<div class="line">        std::make_unique&lt;AQNWB::IO::HDF5::HDF5IO&gt;(path);</div>
+<div class="line">    hdf5io-&gt;open();</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// Define the data type, shape, and chunking</span></div>
+<div class="line">    <a class="code hl_class" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">AQNWB::IO::BaseDataType</a> type(<a class="code hl_enumvalue" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#a3ad0684f43e20f91bb130f18b35ed07ca173028aa2272afaa22cea5057be4faf8">AQNWB::IO::BaseDataType::Type::T_I32</a>, 1);</div>
+<div class="line">    <a class="code hl_typedef" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> shape = {100, 100};</div>
+<div class="line">    <a class="code hl_typedef" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> chunking = {10, 10};</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// Create HDF5ArrayDataSetConfig and add filters</span></div>
+<div class="line">    <a class="code hl_class" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_array_data_set_config.html">AQNWB::IO::HDF5::HDF5ArrayDataSetConfig</a> config(type, shape, chunking);</div>
+<div class="line">    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> gzip_level = 4;</div>
+<div class="line">    config.addFilter(</div>
+<div class="line">        <a class="code hl_function" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_filter_config.html#abe6285c00a7407308c7e5dc5494b1938">AQNWB::IO::HDF5::HDF5FilterConfig::createGzipFilter</a>(gzip_level));</div>
+<div class="line">    config.addFilter(<a class="code hl_function" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_filter_config.html#a495cbe6122dc9cb7a9903ef76d291b2c">AQNWB::IO::HDF5::HDF5FilterConfig::createShuffleFilter</a>());</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// Create the dataset</span></div>
+<div class="line">    <span class="keyword">auto</span> baseDataset = hdf5io-&gt;createArrayDataSet(config, <span class="stringliteral">&quot;/filtered_dataset&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// [Optional/Testing] Verify the dataset properties</span></div>
+<div class="line">    <span class="keyword">auto</span> dataset =</div>
+<div class="line">        <span class="keyword">dynamic_cast&lt;</span><a class="code hl_class" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html">AQNWB::IO::HDF5::HDF5RecordingData</a>*<span class="keyword">&gt;</span>(baseDataset.get());</div>
+<div class="line">    <span class="keyword">const</span> H5::DataSet* h5Dataset = dataset-&gt;<a class="code hl_function" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a7892398dd563ac3149c27dbbe8986e90">getDataSet</a>();</div>
+<div class="line">    H5::DSetCreatPropList dcpl = h5Dataset-&gt;getCreatePlist();</div>
+<div class="line">    REQUIRE(dcpl.getNfilters() == 2);</div>
+</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_filter_config.html">HDF5FilterConfig</a> provides convenient factory methods to setup common filters, e.g., <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_filter_config.html#abe6285c00a7407308c7e5dc5494b1938">createGzipFilter</a>. Alternatively, we can also use any of the HDF5 filters directly via <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_array_data_set_config.html#a9aefd3b9c5e9fd7efcdb2950e63e557b">HDF5ArrayDataSetConfig::addFilter</a>, <br  />
+ e.g., in the case of GZIP via <code>config.addFilter(H5Z_FILTER_DEFLATE, {4});</code></dd></dl>
 <h1><a class="anchor" id="hdf5io_swmr"></a>
 Single-Writer Multiple-Reader (SWMR) Mode</h1>
 <p>The <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html">HDF5IO</a> I/O backend uses by default SWMR mode while recording data. Using SWMR, one process can write to the HDF5 file and multiple other processes can read from the file concurrently while ensuring that the readers see a consistent view of the data.</p>
@@ -188,19 +246,20 @@ Code Examples</h3>
 <div class="line"> </div>
 <div class="line"><span class="preprocessor">#include &lt;catch2/catch_test_macros.hpp&gt;</span></div>
 <div class="line"> </div>
+<div class="line"><span class="preprocessor">#include &quot;<a class="code" href="_h_d_f5_array_data_set_config_8hpp.html">io/hdf5/HDF5ArrayDataSetConfig.hpp</a>&quot;</span></div>
 <div class="line"><span class="preprocessor">#include &quot;<a class="code" href="_h_d_f5_i_o_8hpp.html">io/hdf5/HDF5IO.hpp</a>&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &quot;<a class="code" href="_h_d_f5_recording_data_8hpp.html">io/hdf5/HDF5RecordingData.hpp</a>&quot;</span></div>
 <div class="line"><span class="preprocessor">#include &quot;<a class="code" href="_n_w_b_file_8hpp.html">nwb/NWBFile.hpp</a>&quot;</span></div>
 <div class="line"><span class="preprocessor">#include &quot;<a class="code" href="_electrode_table_8hpp.html">nwb/file/ElectrodeTable.hpp</a>&quot;</span></div>
 <div class="line"><span class="preprocessor">#include &quot;testUtils.hpp&quot;</span></div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">using namespace </span><a class="code hl_namespace" href="namespace_a_q_n_w_b.html">AQNWB</a>;</div>
 <div class="line"><span class="keyword">namespace </span>fs = std::filesystem;</div>
 </div><!-- fragment --><h4><a class="anchor" id="hdf5io_swmr_examples_with_swmr"></a>
 Workflow with SWMR</h4>
 <div class="fragment"><div class="line">    <span class="comment">// create and open the HDF5 file. SWMR mode is used by default</span></div>
 <div class="line">    std::string path = getTestFilePath(<span class="stringliteral">&quot;testWithSWMRMode.h5&quot;</span>);</div>
-<div class="line">    std::unique_ptr&lt;IO::HDF5::HDF5IO&gt; hdf5io =</div>
-<div class="line">        std::make_unique&lt;IO::HDF5::HDF5IO&gt;(path);</div>
+<div class="line">    std::unique_ptr&lt;AQNWB::IO::HDF5::HDF5IO&gt; hdf5io =</div>
+<div class="line">        std::make_unique&lt;AQNWB::IO::HDF5::HDF5IO&gt;(path);</div>
 <div class="line">    hdf5io-&gt;open();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// add a dataset</span></div>
@@ -209,10 +268,13 @@ Workflow with SWMR</h4>
 <div class="line">    std::string dataPath = <span class="stringliteral">&quot;/data&quot;</span>;</div>
 <div class="line">    <a class="code hl_typedef" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> numBlocks = 10;  <span class="comment">// write 10 chunks of</span></div>
 <div class="line">    <a class="code hl_typedef" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> numSamples = testData.size();</div>
-<div class="line">    std::unique_ptr&lt;BaseRecordingData&gt; dataset = hdf5io-&gt;createArrayDataSet(</div>
+<div class="line">    <a class="code hl_class" href="class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html">AQNWB::IO::ArrayDataSetConfig</a> datasetConfig(</div>
 <div class="line">        BaseDataType::I32,  <span class="comment">// type</span></div>
 <div class="line">        <a class="code hl_typedef" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> {0},  <span class="comment">// size. Initial size of the dataset</span></div>
-<div class="line">        <a class="code hl_typedef" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> {1000},  <span class="comment">// chunking. Size of a data chunk</span></div>
+<div class="line">        <a class="code hl_typedef" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> {1000}  <span class="comment">// chunking. Size of a data chunk</span></div>
+<div class="line">    );</div>
+<div class="line">    std::unique_ptr&lt;BaseRecordingData&gt; dataset = hdf5io-&gt;createArrayDataSet(</div>
+<div class="line">        datasetConfig,</div>
 <div class="line">        dataPath);  <span class="comment">// path. Path to the dataset in the HDF5 file</span></div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Start recording. Starting the recording places the HDF5 file in SWMR mode</span></div>
@@ -242,9 +304,9 @@ Workflow with SWMR</h4>
 Workflow with SWMR disabled</h4>
 <div class="fragment"><div class="line">    <span class="comment">// create and open the HDF5 file. With SWMR mode explicitly disabled</span></div>
 <div class="line">    std::string path = getTestFilePath(<span class="stringliteral">&quot;testWithoutSWMRMode.h5&quot;</span>);</div>
-<div class="line">    std::unique_ptr&lt;IO::HDF5::HDF5IO&gt; hdf5io =</div>
-<div class="line">        std::make_unique&lt;IO::HDF5::HDF5IO&gt;(path,</div>
-<div class="line">                                           <span class="keyword">true</span>  <span class="comment">// Disable SWMR mode</span></div>
+<div class="line">    std::unique_ptr&lt;AQNWB::IO::HDF5::HDF5IO&gt; hdf5io =</div>
+<div class="line">        std::make_unique&lt;AQNWB::IO::HDF5::HDF5IO&gt;(path,</div>
+<div class="line">                                                  <span class="keyword">true</span>  <span class="comment">// Disable SWMR mode</span></div>
 <div class="line">        );</div>
 <div class="line">    hdf5io-&gt;open();</div>
 <div class="line"> </div>
@@ -254,10 +316,13 @@ Workflow with SWMR disabled</h4>
 <div class="line">    std::string dataPath = <span class="stringliteral">&quot;/data&quot;</span>;</div>
 <div class="line">    <a class="code hl_typedef" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> numBlocks = 10;  <span class="comment">// write 10 chunks of</span></div>
 <div class="line">    <a class="code hl_typedef" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> numSamples = testData.size();</div>
-<div class="line">    std::unique_ptr&lt;BaseRecordingData&gt; dataset = hdf5io-&gt;createArrayDataSet(</div>
+<div class="line">    <a class="code hl_class" href="class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html">AQNWB::IO::ArrayDataSetConfig</a> datasetConfig(</div>
 <div class="line">        BaseDataType::I32,  <span class="comment">// type</span></div>
 <div class="line">        <a class="code hl_typedef" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> {0},  <span class="comment">// size. Initial size of the dataset</span></div>
-<div class="line">        <a class="code hl_typedef" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> {1000},  <span class="comment">// chunking. Size of a data chunk</span></div>
+<div class="line">        <a class="code hl_typedef" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> {1000}  <span class="comment">// chunking. Size of a data chunk</span></div>
+<div class="line">    );</div>
+<div class="line">    std::unique_ptr&lt;BaseRecordingData&gt; dataset = hdf5io-&gt;createArrayDataSet(</div>
+<div class="line">        datasetConfig,</div>
 <div class="line">        dataPath);  <span class="comment">// path. Path to the dataset in the HDF5 file</span></div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Start recording. Starting the recording places the HDF5 file in SWMR mode</span></div>

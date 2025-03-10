@@ -1,9 +1,9 @@
 var searchData=
 [
-  ['shape_0',['shape',['../class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html#a1f6ba182a7b2987f7e27dd3cedb652b6',1,'AQNWB::IO::DataBlockGeneric::shape'],['../class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#adcd06e1ef4d9ab65081f8e5ab49eec36',1,'AQNWB::IO::DataBlock::shape']]],
-  ['size_1',['size',['../class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html#abee6c26f558ec60d1ce6dfc4ee6ae9ae',1,'AQNWB::IO::BaseRecordingData']]],
-  ['sparse_2',['sparse',['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_h_d_m_f___c_o_m_m_o_n.html#aaf298a798626cba1e492c31b7f6cb9ec',1,'AQNWB::SPEC::HDMF_COMMON']]],
-  ['specvariables_3',['specVariables',['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#ae114b0de6c8ce77df3d11ddf1793a7ed',1,'AQNWB::SPEC::CORE::specVariables'],['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_h_d_m_f___c_o_m_m_o_n.html#a6d1e11bb057e327e1b7a3da13dd0420d',1,'AQNWB::SPEC::HDMF_COMMON::specVariables'],['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_h_d_m_f___e_x_p_e_r_i_m_e_n_t_a_l.html#a5f5e1f27c106afe20b99142cbfc75d19',1,'AQNWB::SPEC::HDMF_EXPERIMENTAL::specVariables']]],
-  ['spike_5fchunk_5fxsize_4',['SPIKE_CHUNK_XSIZE',['../_n_w_b_file_8cpp.html#abe042d54087f436a95f277b71b09e260',1,'NWBFile.cpp']]],
-  ['starting_5ftime_5',['starting_time',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#abed2a81ba552a93c683a93ab72ed2cdf',1,'AQNWB::NWB::TimeSeries']]]
+  ['table_0',['table',['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_h_d_m_f___c_o_m_m_o_n.html#a53b3c7eb7c54b3472735bd8784747d81',1,'AQNWB::SPEC::HDMF_COMMON']]],
+  ['timestamps_1',['timestamps',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a6b0d0dfbb34c8317bdfdc128d73d4177',1,'AQNWB::NWB::TimeSeries']]],
+  ['timestampstype_2',['timestampsType',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a65eb096a4e4bb527853ebeaa56c64886',1,'AQNWB::NWB::TimeSeries']]],
+  ['type_3',['type',['../class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#abc52c244d8709f5e16374b7a730061f5',1,'AQNWB::IO::BaseDataType']]],
+  ['typeindex_4',['typeIndex',['../class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html#aa3c7c6515f19ee6be64b972ac54421c5',1,'AQNWB::IO::DataBlockGeneric::typeIndex'],['../class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a5c2a6f2e7c2c5e4062f397c400588819',1,'AQNWB::IO::DataBlock::typeIndex']]],
+  ['typesize_5',['typeSize',['../class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#adca06b5971ed9af28437ec85662bd515',1,'AQNWB::IO::BaseDataType']]]
 ];

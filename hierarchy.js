@@ -1,5 +1,8 @@
 var hierarchy =
 [
+    [ "AQNWB::IO::ArrayDataSetConfig", "class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html", [
+      [ "AQNWB::IO::HDF5::HDF5ArrayDataSetConfig", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_array_data_set_config.html", null ]
+    ] ],
     [ "AQNWB::IO::BaseDataType", "class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html", null ],
     [ "AQNWB::IO::BaseIO", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html", [
       [ "AQNWB::IO::HDF5::HDF5IO", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html", null ]
@@ -15,6 +18,7 @@ var hierarchy =
       [ "AQNWB::IO::isAllowedStorageObjectType< StorageObjectType::Dataset >", "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type_3_01_storage_object_type_1_1_dataset_01_4.html", null ],
       [ "AQNWB::IO::isAllowedStorageObjectType< T >", "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type.html", null ]
     ] ],
+    [ "AQNWB::IO::HDF5::HDF5FilterConfig", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_filter_config.html", null ],
     [ "std::integral_constant", null, [
       [ "AQNWB::IO::ReadDataWrapper< OTYPE, VTYPE >::isDataset< U >", "struct_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper_1_1is_dataset.html", null ],
       [ "AQNWB::Types::IsDataStorageObjectType< T >", "struct_a_q_n_w_b_1_1_types_1_1_is_data_storage_object_type.html", null ]

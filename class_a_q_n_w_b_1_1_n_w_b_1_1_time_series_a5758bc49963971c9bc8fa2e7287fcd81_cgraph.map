@@ -1,0 +1,22 @@
+<map id="AQNWB::NWB::TimeSeries::initialize" name="AQNWB::NWB::TimeSeries::initialize">
+<area shape="rect" id="Node000001" title="Initializes the TimeSeries by creating NWB related attributes and writing the description and comment..." alt="" coords="5,185,192,226"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ad02a2c3803891f352dd2496b9ff1887b" title="Convenience function for creating data related attributes." alt="" coords="256,5,442,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,183,165,124,200,91,238,62,260,50,263,55,241,67,203,95,168,128,117,187"/>
+<area shape="rect" id="Node000003" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="538,42,688,68"/>
+<area shape="poly" id="edge10_Node000001_Node000003" title=" " alt="" coords="121,183,172,143,204,122,239,106,311,83,386,68,458,58,522,54,522,59,459,64,387,73,312,88,241,111,207,127,175,147,124,187"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a682200d497af6051d0ef9189509084dd" title="Convenience function for creating timestamp related attributes." alt="" coords="253,120,446,161"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="179,182,253,163,255,168,180,187"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html#aead95752724335677d8e3cee6afe97bb" title="Returns the chunking of the dataset." alt="" coords="240,185,459,226"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="192,203,224,203,224,208,192,208"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html#a565a46d8e1e48dffeb948964d5f51168" title="Returns the shape of the dataset." alt="" coords="240,251,459,291"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="180,224,255,244,253,249,179,229"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html#ad7fc70070109360904cb624d4a2d7f92" title="Returns the data type of the dataset." alt="" coords="240,316,459,357"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="126,224,177,263,241,301,257,308,255,313,238,305,174,267,123,229"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a420424e52795b5212d7dcb728396af6a" title="Initialize the container." alt="" coords="261,381,438,422"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="114,225,164,294,200,333,241,366,251,372,248,376,238,371,196,337,160,298,110,228"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="443,33,522,42,522,48,443,39"/>
+<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a651f3d7e5cc28dc93888e8a821c5aa1c" title="Get the schema namespace of the class type." alt="" coords="507,348,718,389"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="437,388,491,381,492,386,438,393"/>
+<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a150f881ad61cb8352eea7ddba47bc6ad" title="Get the name of the class type." alt="" coords="507,413,718,454"/>
+<area shape="poly" id="edge9_Node000008_Node000010" title=" " alt="" coords="438,410,492,416,491,422,438,415"/>
+</map>

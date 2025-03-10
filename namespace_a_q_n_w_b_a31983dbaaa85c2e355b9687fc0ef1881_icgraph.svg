@@ -181,7 +181,7 @@ var sectionId = 'dynsection-4';
 <!-- Node19 -->
 <g id="Node000019" class="node">
 <title>Node19</title>
-<g id="a_Node000019"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a9be940f3782a051785f27636a004b79f" target="_top" xlink:title="Initializes the TimeSeries by creating NWB related attributes and writing the description and comment...">
+<g id="a_Node000019"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a5758bc49963971c9bc8fa2e7287fcd81" target="_top" xlink:title="Initializes the TimeSeries by creating NWB related attributes and writing the description and comment...">
 <polygon fill="white" stroke="#666666" points="2453.75,-730.45 2314,-730.45 2314,-699.95 2453.75,-699.95 2453.75,-730.45"/>
 <text text-anchor="start" x="2322" y="-716.95" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::TimeSeries</text>
 <text text-anchor="middle" x="2383.88" y="-705.7" font-family="Helvetica,sans-Serif" font-size="10.00">::initialize</text>
@@ -314,7 +314,7 @@ var sectionId = 'dynsection-4';
 <!-- Node40 -->
 <g id="Node000040" class="node">
 <title>Node40</title>
-<g id="a_Node000040"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#afd9ec215f016f5dda4aa13d4864f38e1" target="_top" xlink:title="Initializes the Electrical Series.">
+<g id="a_Node000040"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a68535ea0fcb4a74c63eb04217ef91f66" target="_top" xlink:title="Initializes the Electrical Series.">
 <polygon fill="white" stroke="#666666" points="2655.75,-262.45 2497.25,-262.45 2497.25,-231.95 2655.75,-231.95 2655.75,-262.45"/>
 <text text-anchor="start" x="2505.25" y="-248.95" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::ElectricalSeries</text>
 <text text-anchor="middle" x="2576.5" y="-237.7" font-family="Helvetica,sans-Serif" font-size="10.00">::initialize</text>

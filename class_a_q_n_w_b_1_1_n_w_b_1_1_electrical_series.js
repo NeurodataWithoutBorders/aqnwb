@@ -2,7 +2,7 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series =
 [
     [ "ElectricalSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a684a7b01cb955d7335f07d5eaab2250b", null ],
     [ "~ElectricalSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a4a5242435023d86c91bf6df9d8b915df", null ],
-    [ "initialize", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#afd9ec215f016f5dda4aa13d4864f38e1", null ],
+    [ "initialize", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a68535ea0fcb4a74c63eb04217ef91f66", null ],
     [ "readChannelConversion", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a30272485ed5e3ea2cbcf7a3841016cad", null ],
     [ "readData", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a0e3139dbc00e4b143e1695e870532c15", null ],
     [ "readDataUnit", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#aafd3b79dfa49cea7296d16d8edff45b6", null ],

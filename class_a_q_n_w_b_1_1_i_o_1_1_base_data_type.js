@@ -15,6 +15,7 @@ var class_a_q_n_w_b_1_1_i_o_1_1_base_data_type =
       [ "V_STR", "class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#a3ad0684f43e20f91bb130f18b35ed07ca0e4a49dbdc9157d7d92313868a19f06e", null ]
     ] ],
     [ "BaseDataType", "class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#abb1e4b6b662308e48b6b4a7ad989d157", null ],
+    [ "operator==", "class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#afebc97cbbd321594d89a5146c348b377", null ],
     [ "STR", "class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#a18d42dba7074fb4cdac771deef6c051b", null ],
     [ "DSTR", "class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#a37e661b183da280b0733e6db9fc703b1", null ],
     [ "F32", "class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#a0164e3b8cd53950054845d9bd8285fa2", null ],

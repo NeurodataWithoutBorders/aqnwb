@@ -242,9 +242,9 @@ Protected Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:a853b7c416338be8ac24c893e2f809015" id="r_a853b7c416338be8ac24c893e2f809015"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">IO::BaseRecordingData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a853b7c416338be8ac24c893e2f809015">createRecordingData</a> (<a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">IO::BaseDataType</a> type, const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;size, const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;chunking, const std::string &amp;path)</td></tr>
-<tr class="memdesc:a853b7c416338be8ac24c893e2f809015"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method for creating recording data.  <br /></td></tr>
-<tr class="separator:a853b7c416338be8ac24c893e2f809015"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50a14c73fc985e368168f8d406b6d2a5" id="r_a50a14c73fc985e368168f8d406b6d2a5"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">IO::BaseRecordingData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a50a14c73fc985e368168f8d406b6d2a5">createRecordingData</a> (const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html">IO::ArrayDataSetConfig</a> &amp;config, const std::string &amp;path)</td></tr>
+<tr class="memdesc:a50a14c73fc985e368168f8d406b6d2a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method for creating recording data.  <br /></td></tr>
+<tr class="separator:a50a14c73fc985e368168f8d406b6d2a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f061ec60bb617dc749b399cfb6e30ee" id="r_a2f061ec60bb617dc749b399cfb6e30ee"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> N&gt; </td></tr>
 <tr class="memitem:a2f061ec60bb617dc749b399cfb6e30ee"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a2f061ec60bb617dc749b399cfb6e30ee">cacheSpecifications</a> (const std::string &amp;specPath, const std::string &amp;versionNumber, const std::array&lt; std::pair&lt; std::string_view, std::string_view &gt;, N &gt; &amp;specVariables)</td></tr>
 <tr class="memdesc:a2f061ec60bb617dc749b399cfb6e30ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saves the specification files for the schema.  <br /></td></tr>
@@ -660,8 +660,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a853b7c416338be8ac24c893e2f809015" name="a853b7c416338be8ac24c893e2f809015"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a853b7c416338be8ac24c893e2f809015">&#9670;&#160;</a></span>createRecordingData()</h2>
+<a id="a50a14c73fc985e368168f8d406b6d2a5" name="a50a14c73fc985e368168f8d406b6d2a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50a14c73fc985e368168f8d406b6d2a5">&#9670;&#160;</a></span>createRecordingData()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -672,17 +672,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">AQNWB::IO::BaseRecordingData</a> &gt; NWBFile::createRecordingData </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">IO::BaseDataType</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>size</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>chunking</em></span>, </td>
+          <td class="paramtype">const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html">IO::ArrayDataSetConfig</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -700,9 +690,7 @@ Here is the caller graph for this function:</div>
 <p>Factory method for creating recording data. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">type</td><td>The base data type. </td></tr>
-    <tr><td class="paramname">size</td><td>The size of the dataset. </td></tr>
-    <tr><td class="paramname">chunking</td><td>The chunking size of the dataset. </td></tr>
+    <tr><td class="paramname">config</td><td>The configuration for the dataset including data type, shape, and chunking. </td></tr>
     <tr><td class="paramname">path</td><td>The location in the file of the new dataset. </td></tr>
   </table>
   </dd>
@@ -711,7 +699,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a853b7c416338be8ac24c893e2f809015_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a50a14c73fc985e368168f8d406b6d2a5_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>

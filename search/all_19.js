@@ -13,7 +13,7 @@ var searchData=
   ['setup_10',['Installation &amp; Setup',['../dev_install_page.html',1,'devdocs']]],
   ['shape_11',['shape',['../class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html#a1f6ba182a7b2987f7e27dd3cedb652b6',1,'AQNWB::IO::DataBlockGeneric::shape'],['../class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#adcd06e1ef4d9ab65081f8e5ab49eec36',1,'AQNWB::IO::DataBlock::shape']]],
   ['single_20writer_20multiple_20reader_20swmr_20mode_12',['Single-Writer Multiple-Reader (SWMR) Mode',['../hdf5io.html#hdf5io_swmr',1,'']]],
-  ['size_13',['size',['../class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html#abee6c26f558ec60d1ce6dfc4ee6ae9ae',1,'AQNWB::IO::BaseRecordingData::size'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#a795a7db853dbd164ec36f0cd5955934c',1,'AQNWB::NWB::RecordingContainers::size()']]],
+  ['size_13',['size',['../class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#a795a7db853dbd164ec36f0cd5955934c',1,'AQNWB::NWB::RecordingContainers']]],
   ['sizearray_14',['SizeArray',['../class_a_q_n_w_b_1_1_types.html#ad444fd27f3e592154c4fee87afd568aa',1,'AQNWB::Types::SizeArray'],['../_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460',1,'SizeArray:&#160;BaseIO.hpp']]],
   ['sizetype_15',['SizeType',['../class_a_q_n_w_b_1_1_types.html#ae7b68dd97f314f45e450b2f636ad7c6e',1,'AQNWB::Types::SizeType'],['../_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9',1,'SizeType:&#160;Channel.hpp']]],
   ['smwr_20mode_16',['Why does AqNWB use SMWR mode?',['../hdf5io.html#hdf5io_swmr_features',1,'']]],

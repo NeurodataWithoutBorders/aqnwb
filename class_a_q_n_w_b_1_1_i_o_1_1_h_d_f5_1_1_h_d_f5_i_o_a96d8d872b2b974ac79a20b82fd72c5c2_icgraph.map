@@ -1,6 +1,6 @@
 <map id="AQNWB::IO::HDF5::HDF5IO::canModifyObjects" name="AQNWB::IO::HDF5::HDF5IO::canModifyObjects">
 <area shape="rect" id="Node000001" title="Checks whether the file is in a mode where objects can be added or deleted. Note, this does not apply..." alt="" coords="490,316,684,357"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a798de808c02efa9513af52717348c179" title="Creates an extendable dataset with a given base data type, size, chunking, and path." alt="" coords="248,5,442,46"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a0b301f91a26412d2f1a36f233f7099db" title="Creates an extendable dataset with the given configuration and path." alt="" coords="248,5,442,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="573,302,555,250,527,187,489,123,466,93,440,66,414,49,417,44,444,62,470,89,494,120,532,185,560,248,578,300"/>
 <area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a97653ad67ac314515362c7fe2b6fbaa1" title="Creates a dataset that holds an array of string values." alt="" coords="5,35,200,75"/>
 <area shape="poly" id="edge13_Node000001_Node000003" title=" " alt="" coords="572,303,553,257,526,205,488,153,466,130,441,111,399,94,338,81,200,64,201,59,339,75,401,89,443,106,469,126,492,149,530,202,558,255,577,301"/>
