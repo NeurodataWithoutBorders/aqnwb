@@ -99,7 +99,7 @@ Data unit: volts
 Data description: no description
 
 Channel Analysis:
-Channel   Mean StdDev    Min    Max  Range
+   Channel           Mean         StdDev            Min            Max          Range
 -------------------------------------------------------------------------------------
          0         1.0628        44.3178      -175.2075       195.0000       370.2075
          1         0.9844        57.7333      -257.3025       235.4625       492.7650

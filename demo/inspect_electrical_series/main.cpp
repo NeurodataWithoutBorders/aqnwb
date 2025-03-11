@@ -201,10 +201,10 @@ int main(int argc, char* argv[])
     }
 
     // Print table header
-    std::cout << std::setw(10) << bold("Channel") << std::setw(15)
-              << bold("Mean") << std::setw(15) << bold("StdDev")
-              << std::setw(15) << bold("Min") << std::setw(15) << bold("Max")
-              << std::setw(15) << bold("Range") << std::endl;
+    std::cout << std::setw(10) << "Channel" << std::setw(15)
+              << "Mean" << std::setw(15) << "StdDev"
+              << std::setw(15) << "Min" << std::setw(15) << "Max"
+              << std::setw(15) << "Range" << std::endl;
 
     std::cout << std::string(85, '-') << std::endl;
 
