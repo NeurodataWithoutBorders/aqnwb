@@ -51,8 +51,8 @@ TEST_CASE("DynamicTable", "[table]")
     std::vector<std::string> values = {"value1", "value2", "value3"};
     SizeArray dataShape = {values.size()};
     SizeArray chunking = {values.size()};
-    auto columnDataset = io->createArrayDataSet(
-        BaseDataType::V_STR, dataShape, chunking, tablePath + "/col1");
+    IO::ArrayDataSetConfig config(BaseDataType::V_STR, dataShape, chunking);
+    auto columnDataset = io->createArrayDataSet(config, tablePath + "/col1");
     auto vectorData =
         std::make_unique<NWB::VectorData<std::string>>(tablePath + "/col1", io);
     vectorData->initialize(std::move(columnDataset), "Column 1");
@@ -63,8 +63,8 @@ TEST_CASE("DynamicTable", "[table]")
     std::vector<int> ids = {1, 2, 3};
     SizeArray idShape = {ids.size()};
     SizeArray idChunking = {ids.size()};
-    auto idDataset = io->createArrayDataSet(
-        BaseDataType::I32, idShape, idChunking, tablePath + "/id");
+    IO::ArrayDataSetConfig idConfig(BaseDataType::I32, idShape, idChunking);
+    auto idDataset = io->createArrayDataSet(idConfig, tablePath + "/id");
     auto elementIDs =
         std::make_unique<NWB::ElementIdentifiers>(tablePath + "/id", io);
     elementIDs->initialize(std::move(idDataset));
@@ -110,8 +110,8 @@ TEST_CASE("DynamicTable", "[table]")
       SizeArray dataShape = {values.size()};
       SizeArray chunking = {values.size()};
       std::string columnPath = mergePaths(tablePath, "col1");
-      auto columnDataset = io->createArrayDataSet(
-          BaseDataType::V_STR, dataShape, chunking, columnPath);
+      IO::ArrayDataSetConfig config(BaseDataType::V_STR, dataShape, chunking);
+      auto columnDataset = io->createArrayDataSet(config, columnPath);
       auto vectorData =
           std::make_unique<NWB::VectorData<std::string>>(columnPath, io);
       vectorData->initialize(std::move(columnDataset), "Column 1");
@@ -137,8 +137,9 @@ TEST_CASE("DynamicTable", "[table]")
       SizeArray newDataShape = {newValues.size()};
       SizeArray newChunking = {newValues.size()};
       std::string columnPath2 = mergePaths(tablePath, "col2");
-      auto newColumnDataset = io->createArrayDataSet(
-          BaseDataType::V_STR, newDataShape, newChunking, columnPath2);
+      IO::ArrayDataSetConfig config(
+          BaseDataType::V_STR, newDataShape, newChunking);
+      auto newColumnDataset = io->createArrayDataSet(config, columnPath2);
       auto newVectorData =
           std::make_unique<NWB::VectorData<std::string>>(columnPath2, io);
       newVectorData->initialize(std::move(newColumnDataset), "Column 2");

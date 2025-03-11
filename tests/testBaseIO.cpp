@@ -5,6 +5,48 @@
 
 using namespace AQNWB::IO;
 
+TEST_CASE("Test ArrayDataSetConfig", "[BaseIO]")
+{
+  SECTION("Test constructor")
+  {
+    ArrayDataSetConfig config(BaseDataType::I32, SizeArray {10}, SizeArray {5});
+    REQUIRE(config.getType() == BaseDataType::I32);
+    REQUIRE(config.getShape() == SizeArray {10});
+    REQUIRE(config.getChunking() == SizeArray {5});
+  }
+}
+
+TEST_CASE("BaseDataType equality operator", "[BaseIO]")
+{
+  SECTION("Same type and size")
+  {
+    BaseDataType type1(BaseDataType::T_I32, 4);
+    BaseDataType type2(BaseDataType::T_I32, 4);
+    REQUIRE(type1 == type2);
+  }
+
+  SECTION("Different type")
+  {
+    BaseDataType type1(BaseDataType::T_I32, 4);
+    BaseDataType type2(BaseDataType::T_F32, 4);
+    REQUIRE(!(type1 == type2));
+  }
+
+  SECTION("Different size")
+  {
+    BaseDataType type1(BaseDataType::T_I32, 4);
+    BaseDataType type2(BaseDataType::T_I32, 8);
+    REQUIRE(!(type1 == type2));
+  }
+
+  SECTION("Different type and size")
+  {
+    BaseDataType type1(BaseDataType::T_I32, 4);
+    BaseDataType type2(BaseDataType::T_F32, 8);
+    REQUIRE(!(type1 == type2));
+  }
+}
+
 TEST_CASE("Test findTypes functionality", "[BaseIO]")
 {
   std::string filename = getTestFilePath("test_findTypes.h5");
@@ -35,8 +77,9 @@ TEST_CASE("Test findTypes functionality", "[BaseIO]")
   {
     // Create root group with type attributes
     io.createGroup("/");
-    io.createArrayDataSet(
-        BaseDataType::I32, SizeArray {0}, SizeArray {1}, "/dataset1");
+    IO::ArrayDataSetConfig config(
+        BaseDataType::I32, SizeArray {0}, SizeArray {1});
+    io.createArrayDataSet(config, "/dataset1");
     io.createAttribute("hdmf-common", "/dataset1", "namespace");
     io.createAttribute("VectorData", "/dataset1", "neurodata_type");
 

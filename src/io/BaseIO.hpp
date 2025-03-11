@@ -83,6 +83,12 @@ public:
   static const BaseDataType DSTR;  ///< Accessor for dynamic string.
   static BaseDataType STR(
       SizeType size);  ///< Accessor for string with specified size.
+
+  // Define the equality operator
+  bool operator==(const BaseDataType& other) const
+  {
+    return type == other.type && typeSize == other.typeSize;
+  }
 };
 
 class DataBlockGeneric;
@@ -129,6 +135,60 @@ enum class FileMode
    * does not exist.
    */
   ReadOnly
+};
+
+/**
+ * @brief The configuration for an array dataset
+ *
+ * This class defines basic properties of an n-Dimensional array dataset, e.g.,
+ * to configure how the dataset should be created in the file. IO backends may
+ * create their own subclass to add additional configuration options, e.g.,
+ * compression, chunking, etc.
+ */
+class ArrayDataSetConfig
+{
+public:
+  /**
+   * @brief Constructs an ArrayDataSetConfig object with the specified type,
+   * shape, and chunking.
+   * @param type The data type of the dataset.
+   * @param shape The shape of the dataset.
+   * @param chunking The chunking of the dataset.
+   */
+  ArrayDataSetConfig(const BaseDataType& type,
+                     const SizeArray& shape,
+                     const SizeArray& chunking);
+
+  /**
+   * @brief Virtual destructor to ensure proper cleanup in derived classes.
+   */
+  virtual ~ArrayDataSetConfig() = default;
+
+  /**
+   * @brief Returns the data type of the dataset.
+   * @return The data type of the dataset.
+   */
+  inline BaseDataType getType() const { return m_type; }
+
+  /**
+   * @brief Returns the shape of the dataset.
+   * @return The shape of the dataset.
+   */
+  inline SizeArray getShape() const { return m_shape; }
+
+  /**
+   * @brief Returns the chunking of the dataset.
+   * @return The chunking of the dataset.
+   */
+  inline SizeArray getChunking() const { return m_chunking; }
+
+protected:
+  // The data type of the dataset
+  BaseDataType m_type;
+  // The shape of the dataset
+  SizeArray m_shape;
+  // The chunking of the dataset
+  SizeArray m_chunking;
 };
 
 /**
@@ -440,19 +500,14 @@ public:
   virtual bool canModifyObjects() { return true; }
 
   /**
-   * @brief Creates an extendable dataset with a given base data type, size,
-   * chunking, and path.
-   * @param type The base data type of the dataset.
-   * @param size The size of the dataset.
-   * @param chunking The chunking size of the dataset.
+   * @brief Creates an extendable dataset with the given configuration and path.
+   * @param config The configuration for the dataset, including type, shape, and
+   * chunking.
    * @param path The location in the file of the new dataset.
    * @return A pointer to the created dataset.
    */
   virtual std::unique_ptr<BaseRecordingData> createArrayDataSet(
-      const BaseDataType& type,
-      const SizeArray& size,
-      const SizeArray& chunking,
-      const std::string& path) = 0;
+      const ArrayDataSetConfig& config, const std::string& path) = 0;
 
   /**
    * @brief Returns a pointer to a dataset at a given path.
@@ -461,6 +516,14 @@ public:
    */
   virtual std::unique_ptr<BaseRecordingData> getDataSet(
       const std::string& path) = 0;
+
+  /**
+   * @brief Returns the size of the dataset or attribute for each dimension.
+   * @param path The location of the dataset or attribute in the file
+   * @return The shape of the dataset or attribute.
+   */
+  virtual std::vector<SizeType> getStorageObjectShape(
+      const std::string path) = 0;
 
   /**
    * @brief Convenience function for creating NWB related attributes.
@@ -582,35 +645,30 @@ public:
    * @brief Get the number of dimensions in the dataset.
    * @return The number of dimensions.
    */
-  inline SizeType getNumDimensions() const { return nDimensions; }
+  inline SizeType getNumDimensions() const { return m_shape.size(); }
 
   /**
    * @brief Get the size of the dataset.
    * @return Vector containing the size in each dimension.
    */
-  inline const std::vector<SizeType>& getSize() const { return size; }
+  inline const std::vector<SizeType>& getShape() const { return m_shape; }
 
   /**
    * @brief Get the current position in the dataset.
    * @return Vector containing the position in each dimension.
    */
-  inline const std::vector<SizeType>& getPosition() const { return position; }
+  inline const std::vector<SizeType>& getPosition() const { return m_position; }
 
 protected:
   /**
    * @brief The size of the dataset in each dimension.
    */
-  std::vector<SizeType> size;
+  std::vector<SizeType> m_shape;
 
   /**
    * @brief The current position in the dataset.
    */
-  std::vector<SizeType> position;
-
-  /**
-   * @brief Number of dimensions in the dataset.
-   */
-  SizeType nDimensions;
+  std::vector<SizeType> m_position;
 };
 
 }  // namespace AQNWB::IO

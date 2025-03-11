@@ -30,8 +30,9 @@ TEST_CASE("ElementIdentifiers", "[base]")
     io->open();
 
     // create BaseRecordingData to pass to Data.initialize
+    IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
     std::unique_ptr<BaseRecordingData> columnDataset =
-        io->createArrayDataSet(dataType, dataShape, chunking, dataPath);
+        io->createArrayDataSet(config, dataPath);
 
     // setup Data object
     NWB::ElementIdentifiers columnData = NWB::ElementIdentifiers(dataPath, io);
