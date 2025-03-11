@@ -183,10 +183,11 @@ TEST_CASE("DynamicTable", "[table]")
     std::vector<std::string> values = {"value1", "value2", "value3"};
     SizeArray dataShape = {values.size()};
     SizeArray chunking = {values.size()};
-    auto columnDataset = io->createArrayDataSet(
-        BaseDataType::V_STR, dataShape, chunking, tablePath + "/col1");
+    IO::ArrayDataSetConfig strConfig(BaseDataType::V_STR, dataShape, chunking);
+    std::string columnPath = mergePaths(tablePath, "col1");
+    auto columnDataset = io->createArrayDataSet(strConfig, columnPath);
     auto vectorData =
-        std::make_unique<NWB::VectorData<std::string>>(tablePath + "/col1", io);
+        std::make_unique<NWB::VectorData<std::string>>(columnPath, io);
     vectorData->initialize(std::move(columnDataset), "Column 1");
     status = table.addColumn(vectorData, values);
     REQUIRE(status == Status::Success);
@@ -195,10 +196,11 @@ TEST_CASE("DynamicTable", "[table]")
     std::vector<int> ids = {1, 2, 3};
     SizeArray idShape = {ids.size()};
     SizeArray idChunking = {ids.size()};
-    auto idDataset = io->createArrayDataSet(
-        BaseDataType::I32, idShape, idChunking, tablePath + "/id");
-    auto elementIDs =
-        std::make_unique<NWB::ElementIdentifiers>(tablePath + "/id", io);
+
+    std::string idPath = mergePaths(tablePath, "id");
+    IO::ArrayDataSetConfig i32Config(BaseDataType::I32, idShape, idChunking);
+    auto idDataset = io->createArrayDataSet(i32Config, idPath);
+    auto elementIDs = std::make_unique<NWB::ElementIdentifiers>(idPath, io);
     elementIDs->initialize(std::move(idDataset));
     status = table.setRowIDs(elementIDs, ids);
     REQUIRE(status == Status::Success);

@@ -239,8 +239,9 @@ TEST_CASE("VectorData", "[base]")
     io->open();
 
     // create BaseRecordingData to pass to VectorData.initialize
+    IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
     std::unique_ptr<BaseRecordingData> columnDataset =
-        io->createArrayDataSet(dataType, dataShape, chunking, dataPath);
+        io->createArrayDataSet(config, dataPath);
 
     // setup VectorData object
     NWB::VectorData<int> columnVectorData = NWB::VectorData<int>(dataPath, io);
