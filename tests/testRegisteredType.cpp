@@ -270,8 +270,9 @@ TEST_CASE("RegisterType", "[base]")
     std::string fallBackNamespace = "hdmf-common";
 
     // Create the group and set required attributes
-    io->createArrayDataSet(
-        BaseDataType::I32, SizeArray {0}, SizeArray {1}, examplePath);
+    IO::ArrayDataSetConfig config {
+        BaseDataType::I32, SizeArray {0}, SizeArray {1}};
+    io->createArrayDataSet(config, examplePath);
     io->createAttribute(namespaceName, examplePath, "namespace");
     io->createAttribute(typeName, examplePath, "neurodata_type");
 

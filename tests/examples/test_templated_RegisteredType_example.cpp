@@ -32,8 +32,9 @@ TEST_CASE("RegisterType Templated Example", "[base]")
     io->open();
 
     // create BaseRecordingData to pass to VectorData.initialize
+    IO::ArrayDataSetConfig dataConfig(dataType, dataShape, chunking);
     std::unique_ptr<BaseRecordingData> columnDataset =
-        io->createArrayDataSet(dataType, dataShape, chunking, dataPath);
+        io->createArrayDataSet(dataConfig, dataPath);
 
     // setup VectorData object
     auto columnVectorData = NWB::VectorData(dataPath, io);

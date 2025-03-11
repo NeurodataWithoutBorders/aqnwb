@@ -91,8 +91,10 @@ TEST_CASE("DataTyped", "[base]")
     std::vector<int> data = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
     // create BaseRecordingData to pass to Data.initialize
+    IO::ArrayDataSetConfig config {dataType, dataShape, chunking};
+
     std::unique_ptr<BaseRecordingData> columnDataset =
-        io->createArrayDataSet(dataType, dataShape, chunking, dataPath);
+        io->createArrayDataSet(config, dataPath);
 
     // setup Data object
     auto columnData = NWB::Data(dataPath, io);
@@ -137,8 +139,9 @@ TEST_CASE("DataTyped", "[base]")
         1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8, 9.9, 10.1};
 
     // create BaseRecordingData to pass to Data.initialize
+    IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
     std::unique_ptr<BaseRecordingData> columnDataset =
-        io->createArrayDataSet(dataType, dataShape, chunking, dataPath);
+        io->createArrayDataSet(config, dataPath);
 
     // setup Data object
     auto columnData = NWB::Data(dataPath, io);
@@ -191,8 +194,9 @@ TEST_CASE("DataTyped", "[base]")
                                      "ten"};
 
     // create BaseRecordingData to pass to Data.initialize
+    IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
     std::unique_ptr<BaseRecordingData> columnDataset =
-        io->createArrayDataSet(dataType, dataShape, chunking, dataPath);
+        io->createArrayDataSet(config, dataPath);
 
     // setup Data object
     auto columnData = NWB::Data(dataPath, io);
