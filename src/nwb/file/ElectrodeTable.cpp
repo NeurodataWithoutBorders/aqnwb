@@ -50,25 +50,22 @@ Status ElectrodeTable::initialize(const std::string& description)
   // IO::BaseDataType vstrType(IO::BaseDataType::Type::V_STR,
   //                           0);  // 0 indicates variable length
 
-  Status electrodeStatus =
-      m_electrodeDataset->initialize(std::unique_ptr<IO::BaseRecordingData>(
-          m_io->createArrayDataSet(IO::BaseDataType::I32,
-                                   SizeArray {1},
-                                   SizeArray {1},
-                                   AQNWB::mergePaths(m_path, "id"))));
+  IO::ArrayDataSetConfig electrodeConfig(
+      IO::BaseDataType::I32, SizeArray {1}, SizeArray {1});
+  Status electrodeStatus = m_electrodeDataset->initialize(
+      std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet(
+          electrodeConfig, AQNWB::mergePaths(m_path, "id"))));
+  IO::ArrayDataSetConfig groupNameConfig(
+      IO::BaseDataType::V_STR, SizeArray {0}, SizeArray {1});
   Status groupNameStatus = m_groupNamesDataset->initialize(
-      std::unique_ptr<IO::BaseRecordingData>(
-          m_io->createArrayDataSet(IO::BaseDataType::V_STR,
-                                   SizeArray {0},
-                                   SizeArray {1},
-                                   AQNWB::mergePaths(m_path, "group_name"))),
+      std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet(
+          groupNameConfig, AQNWB::mergePaths(m_path, "group_name"))),
       "the name of the ElectrodeGroup this electrode is a part of");
+  IO::ArrayDataSetConfig locationConfig(
+      IO::BaseDataType::V_STR, SizeArray {0}, SizeArray {1});
   Status locationStatus = m_locationsDataset->initialize(
-      std::unique_ptr<IO::BaseRecordingData>(
-          m_io->createArrayDataSet(IO::BaseDataType::V_STR,
-                                   SizeArray {0},
-                                   SizeArray {1},
-                                   AQNWB::mergePaths(m_path, "location"))),
+      std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet(
+          locationConfig, AQNWB::mergePaths(m_path, "location"))),
       "the location of channel within the subject e.g. brain region");
   return electrodeStatus && groupNameStatus && locationStatus;
 }

@@ -28,8 +28,6 @@ constexpr SizeType CHUNK_XSIZE =
 constexpr SizeType SPIKE_CHUNK_XSIZE =
     8;  // TODO - replace with io settings input
 
-std::vector<SizeType> NWBFile::emptyContainerIndexes = {};
-
 // Initialize the static registered_ member to trigger registration
 REGISTER_SUBCLASS_IMPL(NWBFile)
 
@@ -175,6 +173,43 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
   return Status::Success;
 }
 
+Status NWBFile::createElectrodesTable(
+    std::vector<Types::ChannelVector> recordingArrays)
+{
+  std::unique_ptr<NWB::ElectrodeTable> electrodeTable =
+      std::make_unique<NWB::ElectrodeTable>(m_io);
+  electrodeTable->initialize();
+  for (const auto& channelVector : recordingArrays) {
+    electrodeTable->addElectrodes(channelVector);
+  }
+
+  for (size_t i = 0; i < recordingArrays.size(); ++i) {
+    const auto& channelVector = recordingArrays[i];
+
+    // Setup electrodes and devices
+    std::string groupName = channelVector[0].getGroupName();
+    std::string devicePath = AQNWB::mergePaths("/general/devices", groupName);
+    std::string electrodePath =
+        AQNWB::mergePaths("/general/extracellular_ephys", groupName);
+
+    // Check if device exists for groupName, create device and electrode group
+    // if it does not
+    if (!m_io->objectExists(devicePath)) {
+      NWB::Device device = NWB::Device(devicePath, m_io);
+      device.initialize("description", "unknown");
+
+      NWB::ElectrodeGroup elecGroup = NWB::ElectrodeGroup(electrodePath, m_io);
+      elecGroup.initialize("description", "unknown", device);
+    }
+  }
+
+  // write electrodes information to datasets
+  // (requires that ElectrodeGroup data is initialized)
+  electrodeTable->finalize();
+
+  return Status::Success;
+}
+
 Status NWBFile::createElectricalSeries(
     std::vector<Types::ChannelVector> recordingArrays,
     std::vector<std::string> recordingNames,
@@ -194,56 +229,35 @@ Status NWBFile::createElectricalSeries(
   bool electrodeTableCreated =
       m_io->objectExists(ElectrodeTable::electrodeTablePath);
   if (!electrodeTableCreated) {
-    m_electrodeTable = std::make_unique<ElectrodeTable>(m_io);
-    m_electrodeTable->initialize();
-
-    // Add electrode information to table (does not write to datasets yet)
-    for (const auto& channelVector : recordingArrays) {
-      m_electrodeTable->addElectrodes(channelVector);
-    }
+    std::cerr << "NWBFile::createElectricalSeries requires an electrodes table "
+                 "to be present"
+              << std::endl;
+    return Status::Failure;
   }
 
   // Create datasets
   for (size_t i = 0; i < recordingArrays.size(); ++i) {
     const auto& channelVector = recordingArrays[i];
     const std::string& recordingName = recordingNames[i];
-
-    // Setup electrodes and devices
-    std::string groupName = channelVector[0].getGroupName();
-    std::string devicePath = AQNWB::mergePaths("/general/devices", groupName);
-    std::string electrodePath =
-        AQNWB::mergePaths("/general/extracellular_ephys", groupName);
     std::string electricalSeriesPath =
-        AQNWB::mergePaths(acquisitionPath, recordingName);
-
-    // Check if device exists for groupName, create device and electrode group
-    // if it does not
-    if (!m_io->objectExists(devicePath)) {
-      Device device = Device(devicePath, m_io);
-      device.initialize("description", "unknown");
-
-      ElectrodeGroup elecGroup = ElectrodeGroup(electrodePath, m_io);
-      elecGroup.initialize("description", "unknown", device);
-    }
+        AQNWB::mergePaths(m_acquisitionPath, recordingName);
 
     // Setup electrical series datasets
+    IO::ArrayDataSetConfig config(dataType,
+                                  SizeArray {0, channelVector.size()},
+                                  SizeArray {CHUNK_XSIZE, 0});
     auto electricalSeries =
         std::make_unique<ElectricalSeries>(electricalSeriesPath, m_io);
-    electricalSeries->initialize(
-        dataType,
+    Status esStatus = electricalSeries->initialize(
+        config,
         channelVector,
         "Stores continuously sampled voltage data from an "
-        "extracellular ephys recording",
-        SizeArray {0, channelVector.size()},
-        SizeArray {CHUNK_XSIZE, 0});
+        "extracellular ephys recording");
+    if (esStatus != Status::Success) {
+      return esStatus;
+    }
     recordingContainers->addContainer(std::move(electricalSeries));
     containerIndexes.push_back(recordingContainers->size() - 1);
-  }
-
-  // write electrode information to datasets
-  // (requires that the ElectrodeGroup has been written)
-  if (!electrodeTableCreated) {
-    m_electrodeTable->finalize();
   }
 
   return Status::Success;
@@ -268,13 +282,10 @@ Status NWBFile::createSpikeEventSeries(
   bool electrodeTableCreated =
       m_io->objectExists(ElectrodeTable::electrodeTablePath);
   if (!electrodeTableCreated) {
-    m_electrodeTable = std::make_unique<ElectrodeTable>(m_io);
-    m_electrodeTable->initialize();
-
-    // Add electrode information to table (does not write to datasets yet)
-    for (const auto& channelVector : recordingArrays) {
-      m_electrodeTable->addElectrodes(channelVector);
-    }
+    std::cerr << "NWBFile::createElectricalSeries requires an electrodes table "
+                 "to be present"
+              << std::endl;
+    return Status::Failure;
   }
 
   // Create datasets
@@ -288,7 +299,7 @@ Status NWBFile::createSpikeEventSeries(
     std::string electrodePath =
         AQNWB::mergePaths("/general/extracellular_ephys", groupName);
     std::string spikeEventSeriesPath =
-        AQNWB::mergePaths(acquisitionPath, recordingName);
+        AQNWB::mergePaths(m_acquisitionPath, recordingName);
 
     // Check if device exists for groupName, create device and electrode group
     // if not
@@ -301,32 +312,21 @@ Status NWBFile::createSpikeEventSeries(
     }
 
     // Setup Spike Event Series datasets
-    SizeArray dsetSize;
-    SizeArray chunkSize;
-    if (channelVector.size() == 1) {
-      dsetSize = SizeArray {0, 0};
-      chunkSize = SizeArray {SPIKE_CHUNK_XSIZE, 1};
-    } else {
-      dsetSize = SizeArray {0, channelVector.size(), 0};
-      chunkSize = SizeArray {SPIKE_CHUNK_XSIZE, 1, 1};
-    }
+    IO::ArrayDataSetConfig config(
+        dataType,
+        channelVector.size() == 1 ? SizeArray {0, 0}
+                                  : SizeArray {0, channelVector.size(), 0},
+        channelVector.size() == 1 ? SizeArray {SPIKE_CHUNK_XSIZE, 1}
+                                  : SizeArray {SPIKE_CHUNK_XSIZE, 1, 1});
 
     auto spikeEventSeries =
         std::make_unique<SpikeEventSeries>(spikeEventSeriesPath, m_io);
     spikeEventSeries->initialize(
-        dataType,
+        config,
         channelVector,
-        "Stores spike waveforms from an extracellular ephys recording",
-        dsetSize,
-        chunkSize);
+        "Stores spike waveforms from an extracellular ephys recording");
     recordingContainers->addContainer(std::move(spikeEventSeries));
     containerIndexes.push_back(recordingContainers->size() - 1);
-  }
-
-  // write electrode information to datasets
-  // (requires that the ElectrodeGroup has been written)
-  if (!electrodeTableCreated) {
-    m_electrodeTable->finalize();
   }
 
   return Status::Success;
@@ -344,16 +344,17 @@ Status NWBFile::createAnnotationSeries(std::vector<std::string> recordingNames,
     const std::string& recordingName = recordingNames[i];
 
     std::string annotationSeriesPath =
-        AQNWB::mergePaths(acquisitionPath, recordingName);
+        AQNWB::mergePaths(m_acquisitionPath, recordingName);
 
     // Setup annotation series datasets
+    IO::ArrayDataSetConfig config(
+        IO::BaseDataType::V_STR, SizeArray {0}, SizeArray {CHUNK_XSIZE});
     auto annotationSeries =
         std::make_unique<AnnotationSeries>(annotationSeriesPath, m_io);
     annotationSeries->initialize(
         "Stores user annotations made during an experiment",
         "no comments",
-        SizeArray {0},
-        SizeArray {CHUNK_XSIZE});
+        config);
     recordingContainers->addContainer(std::move(annotationSeries));
     containerIndexes.push_back(recordingContainers->size() - 1);
   }
@@ -381,13 +382,10 @@ void NWBFile::cacheSpecifications(
   }
 }
 
-// recording data factory method /
+// recording data factory method
 std::unique_ptr<AQNWB::IO::BaseRecordingData> NWBFile::createRecordingData(
-    IO::BaseDataType type,
-    const SizeArray& size,
-    const SizeArray& chunking,
-    const std::string& path)
+    const IO::ArrayDataSetConfig& config, const std::string& path)
 {
   return std::unique_ptr<IO::BaseRecordingData>(
-      m_io->createArrayDataSet(type, size, chunking, path));
+      m_io->createArrayDataSet(config, path));
 }

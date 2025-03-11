@@ -19,19 +19,19 @@ HDF5RecordingData::HDF5RecordingData(std::unique_ptr<H5::DataSet> data)
   DataSpace dSpace = data->getSpace();
   DSetCreatPropList prop = data->getCreatePlist();
 
-  this->nDimensions = static_cast<SizeType>(dSpace.getSimpleExtentNdims());
-  std::vector<hsize_t> dims(this->nDimensions), chunk(this->nDimensions);
+  SizeType numDimensions = static_cast<SizeType>(dSpace.getSimpleExtentNdims());
+  std::vector<hsize_t> dims(numDimensions), chunk(numDimensions);
 
-  this->nDimensions =
+  numDimensions =
       static_cast<SizeType>(dSpace.getSimpleExtentDims(dims.data()));
-  prop.getChunk(static_cast<int>(this->nDimensions), chunk.data());
+  prop.getChunk(static_cast<int>(numDimensions), chunk.data());
 
-  this->size = std::vector<SizeType>(this->nDimensions);
-  for (SizeType i = 0; i < this->nDimensions; ++i) {
-    this->size[i] = static_cast<SizeType>(dims[i]);
+  m_shape = std::vector<SizeType>(numDimensions);
+  for (SizeType i = 0; i < numDimensions; ++i) {
+    m_shape[i] = static_cast<SizeType>(dims[i]);
   }
-  this->position = std::vector<SizeType>(
-      this->nDimensions, 0);  // Initialize position with 0 for each dimension
+  m_position = std::vector<SizeType>(
+      numDimensions, 0);  // Initialize position with 0 for each dimension
   m_dataset = std::make_unique<H5::DataSet>(*data);
 }
 
@@ -77,7 +77,7 @@ Status HDF5RecordingData::writeDataBlock(
 
     // Update position for simple extension
     for (SizeType i = 0; i < dataShape.size(); ++i) {
-      position[i] += dataShape[i];
+      m_position[i] += dataShape[i];
     }
   } catch (DataSetIException& error) {
     error.printErrorStack();
@@ -146,7 +146,7 @@ Status HDF5RecordingData::writeDataBlock(
 
     // Update position for simple extension
     for (SizeType i = 0; i < dataShape.size(); ++i) {
-      position[i] += dataShape[i];
+      m_position[i] += dataShape[i];
     }
   } catch (DataSetIException& error) {
     error.printErrorStack();
@@ -172,19 +172,22 @@ Status HDF5RecordingData::writeDataBlockHelper(
 {
   // Check that the dataShape and positionOffset inputs match the dimensions
   // of the dataset
-  if (dataShape.size() != nDimensions || positionOffset.size() != nDimensions) {
+  SizeType numDimensions = this->getNumDimensions();
+  if (dataShape.size() != numDimensions
+      || positionOffset.size() != numDimensions)
+  {
     return Status::Failure;
   }
 
   // Ensure that we have enough space to accommodate new data
-  std::vector<hsize_t> dSetDims(nDimensions), offset(nDimensions);
-  for (SizeType i = 0; i < nDimensions; ++i) {
+  std::vector<hsize_t> dSetDims(numDimensions), offset(numDimensions);
+  for (SizeType i = 0; i < numDimensions; ++i) {
     offset[i] = static_cast<hsize_t>(positionOffset[i]);
 
-    if (dataShape[i] + offset[i] > size[i]) {
+    if (dataShape[i] + offset[i] > m_shape[i]) {
       dSetDims[i] = dataShape[i] + offset[i];
     } else {
-      dSetDims[i] = size[i];
+      dSetDims[i] = m_shape[i];
     }
   }
 
@@ -194,16 +197,16 @@ Status HDF5RecordingData::writeDataBlockHelper(
   // Set the size to the new size based on the updated dimensionality
   fSpace = m_dataset->getSpace();
   fSpace.getSimpleExtentDims(dSetDims.data());
-  for (SizeType i = 0; i < nDimensions; ++i) {
-    size[i] = dSetDims[i];
+  for (SizeType i = 0; i < numDimensions; ++i) {
+    m_shape[i] = dSetDims[i];
   }
 
   // Create memory space with the shape of the data
-  std::vector<hsize_t> dataDims(nDimensions);
-  for (SizeType i = 0; i < nDimensions; ++i) {
+  std::vector<hsize_t> dataDims(numDimensions);
+  for (SizeType i = 0; i < numDimensions; ++i) {
     dataDims[i] = dataShape[i] == 0 ? 1 : static_cast<hsize_t>(dataShape[i]);
   }
-  mSpace = DataSpace(static_cast<int>(nDimensions), dataDims.data());
+  mSpace = DataSpace(static_cast<int>(numDimensions), dataDims.data());
 
   // Select hyperslab in the file space
   fSpace.selectHyperslab(H5S_SELECT_SET, dataDims.data(), offset.data());
