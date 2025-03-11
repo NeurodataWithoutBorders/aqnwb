@@ -13,12 +13,14 @@ using namespace AQNWB;
 
 TEST_CASE("VectorData", "[base]")
 {
+  // [example_test_vectordata_registration_snippet]
   SECTION("test VectorData is registered as a subclass of RegisteredType")
   {
     auto registry = AQNWB::NWB::RegisteredType::getRegistry();
     // check that hdfm-common::VectorData is in the registry
     REQUIRE(registry.find("hdmf-common::VectorData") != registry.end());
   }
+  // [example_test_vectordata_registration_snippet]
 
   // Create a single file for all VectorData test sections
   std::string path = getTestFilePath("testVectorData.h5");
@@ -53,11 +55,14 @@ TEST_CASE("VectorData", "[base]")
     io->flush();
 
     // Read all fields using the standard read methods
+    // [example_test_vectordata_create_snippet]
     auto readDataUntyped = NWB::RegisteredType::create(dataPath, io);
     auto readVectorData =
         std::dynamic_pointer_cast<NWB::VectorData>(readDataUntyped);
     REQUIRE(readVectorData != nullptr);
+    // [example_test_vectordata_create_snippet]
 
+    // [example_test_vectordata_read_snippet]
     // Read the "namespace" attribute via the readNamespace field
     auto namespaceData = readVectorData->readNamespace();
     std::string namespaceStr = namespaceData->values().data[0];
@@ -72,6 +77,7 @@ TEST_CASE("VectorData", "[base]")
     auto descriptionData = readVectorData->readDescription();
     std::string descriptionStr = descriptionData->values().data[0];
     REQUIRE(descriptionStr == description);
+    // [example_test_vectordata_read_snippet]
   }
 
   io->close();
