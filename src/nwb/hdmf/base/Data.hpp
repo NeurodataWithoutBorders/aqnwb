@@ -11,15 +11,10 @@ namespace AQNWB::NWB
  * @brief An abstract data type for a dataset.
  * @tparam DTYPE The data type of the data managed by Data
  */
-template<typename DTYPE = std::any>
 class Data : public RegisteredType
 {
 public:
-  // Register the Data template class with the type registry for dynamic
-  // creation. This registration is generic and applies to any specialization of
-  // the Data template. It allows the system to dynamically create instances of
-  // Data with different data types.
-  REGISTER_SUBCLASS_WITH_TYPENAME(Data<DTYPE>, "hdmf-common", "Data")
+  REGISTER_SUBCLASS(Data, "hdmf-common")
 
   /**
    * @brief Constructor.
@@ -27,10 +22,7 @@ public:
    * @param path The path of the container.
    * @param io A shared pointer to the IO object.
    */
-  Data(const std::string& path, std::shared_ptr<IO::BaseIO> io)
-      : RegisteredType(path, io)
-  {
-  }
+  Data(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
   /**
    * @brief Virtual destructor.
@@ -60,10 +52,8 @@ public:
    */
   inline bool isInitialized() { return m_dataset != nullptr; }
 
-  std::unique_ptr<IO::BaseRecordingData> m_dataset;
-
   // Define the data fields to expose for lazy read access
-  DEFINE_FIELD(readData, DatasetField, DTYPE, "", The main data)
+  DEFINE_FIELD(readData, DatasetField, std::any, "", The main data)
 
   DEFINE_FIELD(readNeurodataType,
                AttributeField,
@@ -76,5 +66,65 @@ public:
                std::string,
                "namespace",
                The name of the namespace)
+
+  std::unique_ptr<IO::BaseRecordingData> m_dataset;
+};
+
+/**
+ * @brief A typed data container for a dataset.
+ *
+ * This typed variant of Data allows for the specification of the data type
+ * at compile time, enabling type-safe access to the data. This is useful for
+ * data read to simplify access when the type is known. While we can use
+ * the typed version also for data write, in most case the base version
+ * of VectorData is sufficient. NOTE: Only VectorData is registered with the
+ * RegisteredType class registry. The VectorDataTyped class is not registered
+ * since the DTYPE information is not available as part of the neurodata_type
+ * attribute in the NWB file.
+ *
+ * @tparam DTYPE The data type of the data managed by DataTyped
+ */
+template<typename DTYPE = std::any>
+class DataTyped : public Data
+{
+public:
+  /**
+   * @brief Constructor.
+   *
+   * @param path The path of the container.
+   * @param io A shared pointer to the IO object.
+   */
+  DataTyped(const std::string& path, std::shared_ptr<IO::BaseIO> io)
+      : Data(path, io)
+  {
+  }
+
+  /**
+   * @brief Virtual destructor.
+   */
+  virtual ~DataTyped() override {}
+
+  /**
+   *  \brief Create a DataTyped object from a Data object
+   *
+   *  This function is useful when the type of the data is known and we want
+   *  read data in a typed manner where the type is stored in the DTYPE template
+   *  parameter. NOTE: The original Data object retains ownership of the
+   *  Data.m_dataset recording dataset object if it was initialized, i.e.,
+   *  the returned DataTyped object will have a nullptr m_dataset.
+   *
+   *  @param data The Data object to convert
+   *  @return A DataTyped object with the same path and IO object as the input
+   */
+  static std::shared_ptr<DataTyped<DTYPE>> fromData(const Data& data)
+  {
+    return std::make_shared<DataTyped<DTYPE>>(data.getPath(), data.getIO());
+  }
+
+  // Define the data fields to expose for lazy read access
+  DEFINE_FIELD(readData, DatasetField, DTYPE, "", The main data)
+
+  using RegisteredType::m_io;
+  using RegisteredType::m_path;
 };
 }  // namespace AQNWB::NWB
