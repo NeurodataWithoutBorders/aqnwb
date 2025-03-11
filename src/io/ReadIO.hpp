@@ -286,6 +286,21 @@ public:
   inline std::shared_ptr<IO::BaseIO> getIO() const { return m_io; }
 
   /**
+   * @brief Get the shape of the data object.
+   * @return The shape of the data object.
+   */
+  inline std::vector<SizeType> getShape() const
+  {
+    return m_io->getStorageObjectShape(m_path);
+  }
+
+  /**
+   * @brief Get the number of dimensions of the data object
+   * @return The number of dimensions of the data object
+   */
+  inline SizeType getNumDimensions() const { return this->getShape().size(); }
+
+  /**
    * @brief Check that the object exists
    * @return Bool indicating whether the object exists in the file
    */
