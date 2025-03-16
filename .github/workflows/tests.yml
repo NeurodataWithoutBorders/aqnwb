@@ -71,12 +71,6 @@ jobs:
         name: test-files-${{ matrix.os }}
         path: |
           build/tests/data/*.nwb
-    # Avoid having the rebuild the library for demo workflow      
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: build-artifacts-${{ matrix.os }}
-        path: build
 
   sanitize:
     needs: test
