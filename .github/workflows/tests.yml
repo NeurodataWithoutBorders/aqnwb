@@ -72,6 +72,23 @@ jobs:
         path: |
           build/tests/data/*.nwb
 
+  test_demos:
+    needs: test
+    runs-on: macos-latest
+
+    steps:
+    - name: Build example
+      working-directory: demo/inspect_electrical_series/
+      run: |
+        mkdir build
+        cd build
+        cmake .. -DAQNWB_DIR=../build/dev
+        make
+    # Use one of the files from the test to run the demo
+    - name: Run the example
+      working-directory: demo/inspect_electrical_series/build/bin
+      run: ./nwb_analysis_demo ../../../../build/tests/data/createElectricalSeries.nwb
+
   sanitize:
     needs: test
 
