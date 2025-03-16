@@ -93,14 +93,15 @@ int main(int argc, char* argv[])
     io->open(FileMode::ReadOnly);
 
     // Read the NWB file
-    auto nwbFile = AQNWB::NWB::NWBFile("/", io);
+    auto nwbfile = AQNWB::NWB::NWBFile("/", io);
 
     // Search for ElectricalSeries objects in the file
     std::cout << bold("Searching for ElectricalSeries objects...") << std::endl;
     std::unordered_set<std::string> typesToSearch = {"core::ElectricalSeries"};
+    // Set search mode to CONTINUE_ON_TYPE to also search inside processing modules
     std::unordered_map<std::string, std::string> foundElectricalSeries =
-        io->findTypes("/", typesToSearch, IO::SearchMode::CONTINUE_ON_TYPE);
-
+        nwbfile.findOwnedTypes(typesToSearch, IO::SearchMode::CONTINUE_ON_TYPE);   
+    
     if (foundElectricalSeries.empty()) {
       std::cout << "No ElectricalSeries found in the file." << std::endl;
       io->close();

@@ -271,7 +271,8 @@ public:
    * corresponding value is the type of the object.
    */
   virtual std::unordered_map<std::string, std::string> findOwnedTypes(
-      const std::unordered_set<std::string>& types = {}) const;
+      const std::unordered_set<std::string>& types = {},
+      const IO::SearchMode& search_mode = IO::SearchMode::STOP_ON_TYPE) const;
 
 protected:
   /**
