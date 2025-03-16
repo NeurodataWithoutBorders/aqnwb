@@ -30,9 +30,10 @@ jobs:
       if: matrix.os == 'macos-latest'
       run: brew install hdf5 boost
 
-    - name: Build main project
+    - name: Configure and build the main project
       shell: pwsh
       run: |
+        cmake "--preset=ci-$("${{ matrix.os }}".split("-")[0])"
         cmake -B build -S .
         cmake --build build --config Release -j 2
     
