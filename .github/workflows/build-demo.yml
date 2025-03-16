@@ -37,7 +37,14 @@ jobs:
         cmake -B build -S .
         cmake --build build --config Release -j 2
     
-    # Run the test suite to generate test files
+    # Run the test suite to generate test files. Alternatively we
+    # could have the workflow depend on the unit test workflow and
+    # download its artifacts, but its simple enough to just run the tests
+    # - name: Download test data artifact
+    #   uses: actions/download-artifact@v4
+    #   with:
+    #     name: test-files-macos-latest
+    #     path: build/tests/data  
     - name: Test
       working-directory: build
       run: ctest --output-on-failure --no-tests=error -C Release -j 2
