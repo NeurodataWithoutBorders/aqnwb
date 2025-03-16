@@ -138,18 +138,19 @@ int main(int argc, char* argv[])
     // Read the data
     auto dataWrapper = electricalSeries->readData();  // This assumes float data
 
-    // Get the data values
-    auto dataValues = dataWrapper->values();
-
-    // Print data shape information
+    // We can now inspect the data shape before loading the data
     std::cout << bold("Data shape: ") << "[";
-    for (size_t i = 0; i < dataValues.shape.size(); ++i) {
-      std::cout << dataValues.shape[i];
-      if (i < dataValues.shape.size() - 1) {
+    auto fullDataShape = dataWrapper->getShape();
+    for (size_t i = 0; i < fullDataShape.size(); ++i) {
+      std::cout << fullDataShape[i];
+      if (i < fullDataShape.size() - 1) {
         std::cout << ", ";
       }
     }
     std::cout << "]" << std::endl;
+
+    // Load the data values from file
+    auto dataValues = dataWrapper->values();
 
     // Get the number of time points and channels
     SizeType numTimePoints = dataValues.shape[0];
