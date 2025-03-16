@@ -1,4 +1,4 @@
-name: Build Inspect Electrical Series Demo
+name: Demo - Inspect Electrical Series
 
 on:
   push:
@@ -35,6 +35,11 @@ jobs:
       run: |
         cmake -B build -S .
         cmake --build build --config Release -j 2
+    
+    # Run the test suite to generate test files
+    - name: Test
+      working-directory: build
+      run: ctest --output-on-failure --no-tests=error -C Release -j 2
 
     - name: Build demo - macos
       if: matrix.os == 'macos-latest'
@@ -42,4 +47,10 @@ jobs:
         cd demo/inspect_electrical_series
         cmake -B build -S . -DAQNWB_DIR="${{ github.workspace }}/build"
         cmake --build build --config Release -j 2
-        
+
+    - name: Run the demo - macos
+      if: matrix.os == 'macos-latest'
+      run: |
+        cd demo/inspect_electrical_series/build/bin
+        ./nwb_analysis_demo ../../../../build/tests/data/createElectricalSeries.nwb
+      
