@@ -71,23 +71,58 @@ jobs:
         name: test-files-${{ matrix.os }}
         path: |
           build/tests/data/*.nwb
+    # Avoid having the rebuild the library for demo workflow      
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-artifacts-${{ matrix.os }}
+        path: build
 
   test_demos:
     needs: test
-    runs-on: macos-latest
+    defaults:
+      run:
+        shell: bash
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}-${{ matrix.os }}
+      cancel-in-progress: true
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
 
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Download build artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: build-artifacts-${{ matrix.os }}
+        path: build
+
+    - name: Download test files
+      uses: actions/download-artifact@v4
+      with:
+        name: test-files-${{ matrix.os }}
+        path: build/tests/data
+
     - name: Build example
-      working-directory: demo/inspect_electrical_series/
+      working-directory: build
       run: |
+        cd ../
+        ls -la
+        cd demo/inspect_electrical_series/
         mkdir build
         cd build
         cmake .. -DAQNWB_DIR=../build/dev
         make
-    # Use one of the files from the test to run the demo
+
     - name: Run the example
       working-directory: demo/inspect_electrical_series/build/bin
       run: ./nwb_analysis_demo ../../../../build/tests/data/createElectricalSeries.nwb
+
 
   sanitize:
     needs: test
