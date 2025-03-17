@@ -19,8 +19,12 @@ compile_commands.json
 CMakeCache.txt
 CMakeFiles/
 
+# locally install libraries 
+libs/
+
 # demo build
 /build/
 demo/CMakeFiles/
 demo/cmake-build-*/
 demo/inspect_electrical_series/*.nwb
+

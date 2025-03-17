@@ -52,14 +52,19 @@
  *     \ref AQNWB::IO::DataBlock "DataBlock" is templated on the specific data type, and
  *     stores the \ref AQNWB::IO::DataBlock::data "data" as an appropriately typed 1-dimensional 
  *     ``std::vector`` along with the \ref AQNWB::IO::DataBlock::shape "shape" of the data.
- * 6. ``BOOST::multi_array``
+ * 6. [BOOST::multi_array](https://www.boost.org/doc/libs/1_83_0/libs/multi_array/doc/user.html)
  *   -  ``BOOST::multi_array`` can also be used simplify access to multi-dimensional data.
  *      The \ref AQNWB::IO::DataBlock::as_multi_array "DataBlock.as_multi_array"
  *      convenience method generates a ``boost::const_multi_array_ref<DTYPE, NDIMS>`` for us.
+ * 7. [std::variant](https://en.cppreference.com/w/cpp/utility/variant)
+ *   - ``std::variant` can also be used when we want to compute on the data in a type-safe
+ *     manner but do not know the data type beforehand (e.g., when reading NWB data from a
+ *     third party).
  *
  * \note
- * The \ref AQNWB::IO::DataBlock::fromGeneric "DataBlock.fromGeneric" and
- * \ref AQNWB::IO::DataBlock::as_multi_array "DataBlock.as_multi_array" methods use casting
+ * The \ref AQNWB::IO::DataBlock::fromGeneric "DataBlock.fromGeneric",
+ * \ref AQNWB::IO::DataBlock::as_multi_array "DataBlock.as_multi_array",
+ * and \ref AQNWB::IO::DataBlockGeneric::as_variant "DataBlockGeneric.as_variant" methods use casting
  * and referencing to transform the data without making additional copies
  * of the data.
  *
@@ -369,10 +374,14 @@
  * \note
  * In most cases, we should not need runtime checking of types in the context of
  * specific data acquisition systems. This is mostly likely relevant if one wants to consume
- * arbitrary NWB files that may use different data types. One approach to implement
- * behavior for types determined at runtime is to define a mapping of the type
- * information to the corresponding statically type functionality, e.g., via
- * ``switch/case`` logic or by using a map for lookup, such as:
+ * arbitrary NWB files that may use different data types. One approach is to use `std::variant`
+ * as described in \ref read_example_variant_data. Using `std::variant` helps avoid
+ * complex code for checking data types at runtime. <br>
+ * If for some reason we cannot easily use the `std:variant`
+ * approach (e.g., in case we need to use data types not natively supported by AqNWB), 
+ * an alternative approach would be to define a mapping of the type information to the 
+ * corresponding statically typedVector functionality, e.g., via `switch/case`` logic or 
+ * by using a map for lookup, such as:
  * \code{.cpp}
  * DataBlockGeneric dataValuesGeneric = readDataWrapperGeneric->valuesGeneric();
  * // Map to associate std::type_index with corresponding type-specific functions

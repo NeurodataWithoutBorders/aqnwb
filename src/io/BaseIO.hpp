@@ -8,6 +8,7 @@
 #include <typeindex>
 #include <unordered_map>
 #include <unordered_set>
+#include <variant>
 #include <vector>
 
 #include <boost/multi_array.hpp>  // TODO move this and function def to the cpp file
@@ -90,6 +91,20 @@ public:
   {
     return type == other.type && typeSize == other.typeSize;
   }
+
+  // Variant data type for representing any 1D vector with BaseDataType values
+  using BaseDataVectorVariant = std::variant<std::monostate,
+                                             std::vector<uint8_t>,
+                                             std::vector<uint16_t>,
+                                             std::vector<uint32_t>,
+                                             std::vector<uint64_t>,
+                                             std::vector<int8_t>,
+                                             std::vector<int16_t>,
+                                             std::vector<int32_t>,
+                                             std::vector<int64_t>,
+                                             std::vector<float>,
+                                             std::vector<double>,
+                                             std::vector<std::string>>;
 
   /**
    * @brief Get the BaseDataType from a std::type_index

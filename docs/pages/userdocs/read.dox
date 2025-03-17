@@ -119,13 +119,6 @@
  *
  * \snippet tests/examples/test_ecephys_data_read.cpp example_read_only_stringattr_snippet
  *
- * \note
- * When working with data in AqNWB, you need to know the data type (e.g., `float`, `int`) at compile time
- * since C++ is a strongly typed language. For example, when using \ref AQNWB::IO::DataBlock "DataBlock",
- * you need to specify the data type. And if you want to use \ref AQNWB::IO::DataBlock::as_multi_array "DataBlock.as_multi_array",
- * you also need to know the number of dimensions at compile time.
- *
- * \par
  * \note 
  * For attributes, slicing is disabled at compile time since attributes are intended for small data only.
  *
@@ -159,6 +152,34 @@
  * however, because we do not specify the type, the function returns the object as a pointer 
  * of \ref AQNWB::NWB::RegisteredType "RegisteredType", that we can then subsequently cast to the 
  * approbriate type if necessary. 
+ *
+ * \subsection read_example_variant_data Working with fields with unknown data type 
+ *
+ * C++ is a statically typed language, i.e., we need to know the type of every variable at compile time. 
+ * This can be particularly challenging when reading data from disk where the data type may not be 
+ * known before-hand. AqNWB helps us here by allocating memory and determining data types for us 
+ * when reading data fields. However, when we want to compute on the data, we still need to know
+ * the data type, e.g., to use the typed \ref AQNWB::IO::DataBlock "DataBlock<DTYPE>" we need to know 
+ * the DTYPE.
+ *
+ * Using [std::variant](https://en.cppreference.com/w/cpp/utility/variant) with 
+ * [std::visit](https://en.cppreference.com/w/cpp/utility/variant/visit) (introduced in C++17) 
+ * provides an alternative approach, that can help us avoid having to write complex `switch/case` 
+ * statements to check for all possible types when we don't know the data type beforehand. 
+ * E.g., using `std::visit` we can define a set of functions to compute the mean for 
+ * any 1D `std::vector`:
+ *
+ * \snippet tests/examples/test_ecephys_data_read.cpp  example_compute_mean_from_variant
+ *
+ * Using \ref AQNWB::IO::DataBlockGeneric::as_variant "DataBlockGeneric::as_variant" we can then
+ * cast our data to a \ref AQNWB::IO::BaseDataType::BaseDataVectorVariant "BaseDataVectorVariant", 
+ * which is am `std::variant` representing a 1D `std::vector` containing values of any valid 
+ * \ref AQNWB::IO::BaseDataType "BaseDataType". We can then using our `compute_mean` methods to
+ * conveniently compute on the data without having to explicitly specify the type of the data 
+ * ourselves. 
+ *
+ * \snippet tests/examples/test_ecephys_data_read.cpp  example_use_std_variant_to_compute_on_data
+ * 
  *
  * \section read_further_reading Further reading
  * - \ref read_design_page discusses the underlying software design of AqNWB for data read 
