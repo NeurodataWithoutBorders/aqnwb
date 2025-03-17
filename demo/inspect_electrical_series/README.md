@@ -88,7 +88,6 @@ Number of ElectricalSeries: 244
     /processing/ecephys/LFP/ElectricalSeries_1
 
 Analyzing ElectricalSeries at path: /processing/ecephys/LFP/ElectricalSeries_97
-Data shape: [7409, 64]
 Number of time points: 7409
 Number of channels: 64
 Data unit: volts
