@@ -42,19 +42,23 @@
  *
  * \subsection read_example_search Searching for RegisteredType objects
  *
- * When paths are not fixed, we can use the \ref AQNWB::IO::BaseIO::findTypes "findType()" function of our I/O object to
+ * When paths are not fixed, we can use the \ref AQNWB::IO::BaseIO::findTypes "findTypes()" function of our I/O object to
  * conveniently search for objects with a given type.
  *
  * \snippet tests/examples/test_ecephys_data_read.cpp example_search_types_snippet
  *
  * \note
- * \ref AQNWB::IO::BaseIO::findTypes "findType()" supports two main search modes.
- * Using \ref AQNWB::IO::SearchMode::CONTINUE_ON_TYPE "CONTINUE_ON_TYPE" mode we
- * can search recursively through all types (here the whole file since we started at the root ``"/"``).
- * Using  \ref AQNWB::IO::SearchMode::STOP_ON_TYPE "STOP_ON_TYPE" does not
- * recurse further into defined types, hence, this mode is useful if we only
- * want to search for objects that the object at the starting path manages
- * directly.
+ * Any \ref AQNWB::NWB::RegisteredType "RegisteredType" (such as our 
+ * \ref AQNWB::NWB::NWBFile "NWBFile") object) provides the convenience method 
+ * \ref AQNWB::NWB::RegisteredType::findOwnedTypes "findOwnedTypes" which uses 
+ * \ref AQNWB::IO::BaseIO::findTypes "findTypes()" to search within the given object
+ * (so that we don't need to specify the path argument). 
+ * By default, \ref AQNWB::NWB::RegisteredType::findOwnedTypes "findOwnedTypes" uses the 
+ * \ref AQNWB::IO::SearchMode::STOP_ON_TYPE "STOP_ON_TYPE" mode, i.e., the search does not
+ * recurse further into defined types (hence, returning only data elements that
+ * the object owns directly). Alternatively, we can set the search mode to 
+ * \ref AQNWB::IO::SearchMode::CONTINUE_ON_TYPE "CONTINUE_ON_TYPE" to 
+ * search recursively through all types (here the whole file since we started at the root ``"/"``).
  *
  * \warning
  * The current implementation of \ref AQNWB::IO::BaseIO::findTypes "findTypes()" is
