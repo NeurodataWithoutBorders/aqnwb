@@ -93,6 +93,7 @@ Number of time points: 7409
 Number of channels: 64
 Data unit: volts
 Data description: no description
+Global mean: 0.790334 volts
 
 Channel Analysis:
    Channel           Mean         StdDev            Min            Max          Range

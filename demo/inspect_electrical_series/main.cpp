@@ -47,6 +47,29 @@ double calculateStdDev(const std::vector<T>& data, double mean)
   return std::sqrt(variance);
 }
 
+// Function to compute the mean using std::visit. This allows us to
+// compute the mean for a wide range of different data types without
+// having to specify the data type ourselves. The data is encapsulated
+// in a BaseDataType::BaseDataVectorVariant, which is a std::variant that
+// can represent any std::vector of BaseDataType values.
+inline double calculateMeanFromVariant(const BaseDataType::BaseDataVectorVariant& variant)
+{
+  return std::visit(
+      [](auto&& arg) -> double
+      {
+        using T = std::decay_t<decltype(arg)>;
+        // Check that the variant represents a BaseDataType we can compute on
+        if constexpr (std::is_same_v<T, std::monostate>) {
+          throw std::runtime_error("Invalid data type");
+        } else if constexpr (std::is_same_v<T, std::vector<std::string>>) {
+          throw std::runtime_error("Cannot compute mean of string data");
+        } else {
+          return calculateMean(arg);  // Compute the mean
+        }
+      },
+      variant);
+}
+
 inline std::string bold(const std::string& str)
 {
   return "\033[1m" + str + "\033[0m";
@@ -135,8 +158,9 @@ int main(int argc, char* argv[])
     auto electricalSeries =
         NWB::RegisteredType::create<AQNWB::NWB::ElectricalSeries>(esPath, io);
 
-    // Read the data
-    auto dataWrapper = electricalSeries->readData();  // This assumes float data
+    // Read the data lazily. Here we only create the wrapper for reading 
+    // but we do not yet load any actual data from disk here
+    auto dataWrapper = electricalSeries->readData();
 
     // We can now inspect the data shape before loading the data
     std::cout << bold("Data shape: ") << "[";
@@ -149,14 +173,9 @@ int main(int argc, char* argv[])
     }
     std::cout << "]" << std::endl;
 
-    // Load the data values from file
-    auto dataValues = dataWrapper->values();
-
     // Get the number of time points and channels
-    SizeType numTimePoints = dataValues.shape[0];
-    SizeType numChannels =
-        dataValues.shape.size() > 1 ? dataValues.shape[1] : 1;
-
+    SizeType numTimePoints = fullDataShape[0];
+    SizeType numChannels = fullDataShape.size() > 1 ? fullDataShape[1] : 1;
     std::cout << bold("Number of time points: ") << numTimePoints << std::endl;
     std::cout << bold("Number of channels: ") << numChannels << std::endl;
 
@@ -169,59 +188,87 @@ int main(int argc, char* argv[])
         electricalSeries->readDescription()->values().data[0];
     std::cout << bold("Data description: ") << description << std::endl;
 
-    // Convert to boost multi_array for easier access
-    auto dataArray = dataValues.as_multi_array<2>();
+    // Calculate the global mean. Here we DataBlockGeneric::as_variant() 
+    // to compute on the data as a std::variant so that we do not need to 
+    // determine the extact numeric type that our ElectricalSeries is using
+    auto genericData = dataWrapper->valuesGeneric();
+    auto variantData = genericData.as_variant();
+    double meanFromVariant = calculateMeanFromVariant(variantData);
+    std::cout << bold("Global mean: ") << meanFromVariant << " " << unit << std::endl;
 
-    // Prepare for analysis on each channel
-    std::cout << std::endl;
-    std::cout << bold("Channel Analysis:") << std::endl;
+    // In the following part we use the typed `Boost::MultiArray` and `DataBlock`
+    // to compute statistics on a per-channle basis. These classes require that
+    // the data type is specified. We here use the default behavior for
+    // `ElectricalSeries.readData`, which defaults to float data consistent with
+    // the NWB schema. To generalize this example to work with a wider range
+    // of data type, we could use the same std::variant approach as shown for the
+    // global mean, or use a switch/case approach to call the analysis with
+    // the approbriate type depending on the value of either genericData.typeIndex
+    // or genericData.baseDataType.
+    if (genericData.typeIndex == typeid(float))
+    {
+      // Load data as DataBlock<float>
+      auto dataValues = dataWrapper->values();
 
-    // Store statistics for all channels
-    std::vector<double> means(numChannels);
-    std::vector<double> stdDevs(numChannels);
-    std::vector<float> minVals(numChannels);
-    std::vector<float> maxVals(numChannels);
-    std::vector<float> ranges(numChannels);
+      // Convert to boost multi_array for easier access
+      auto dataArray = dataValues.as_multi_array<2>();
 
-    // Calculate statistics for all channels
-    for (SizeType ch = 0; ch < numChannels; ++ch) {
-      // Extract data for this channel
-      std::vector<float> channelData(numTimePoints);
-      for (SizeType t = 0; t < numTimePoints; ++t) {
-        channelData[t] = dataArray[t][ch];
+      // Prepare for analysis on each channel
+      std::cout << std::endl;
+      std::cout << bold("Channel Analysis:") << std::endl;
+
+      // Store statistics for all channels
+      std::vector<double> means(numChannels);
+      std::vector<double> stdDevs(numChannels);
+      std::vector<float> minVals(numChannels);
+      std::vector<float> maxVals(numChannels);
+      std::vector<float> ranges(numChannels);
+
+      // Calculate statistics for all channels
+      for (SizeType ch = 0; ch < numChannels; ++ch) {
+        // Extract data for this channel
+        std::vector<float> channelData(numTimePoints);
+        for (SizeType t = 0; t < numTimePoints; ++t) {
+          channelData[t] = dataArray[t][ch];
+        }
+
+        // Calculate statistics
+        means[ch] = calculateMean(channelData);
+        stdDevs[ch] = calculateStdDev(channelData, means[ch]);
+
+        // Find min and max values
+        auto minmax = std::minmax_element(channelData.begin(), channelData.end());
+        minVals[ch] = *minmax.first;
+        maxVals[ch] = *minmax.second;
+        ranges[ch] = maxVals[ch] - minVals[ch];
       }
 
-      // Calculate statistics
-      means[ch] = calculateMean(channelData);
-      stdDevs[ch] = calculateStdDev(channelData, means[ch]);
+      // Print table header
+      std::cout << std::setw(10) << "Channel" << std::setw(15)
+                << "Mean" << std::setw(15) << "StdDev"
+                << std::setw(15) << "Min" << std::setw(15) << "Max"
+                << std::setw(15) << "Range" << std::endl;
 
-      // Find min and max values
-      auto minmax = std::minmax_element(channelData.begin(), channelData.end());
-      minVals[ch] = *minmax.first;
-      maxVals[ch] = *minmax.second;
-      ranges[ch] = maxVals[ch] - minVals[ch];
+      std::cout << std::string(85, '-') << std::endl;
+
+      // Print table rows
+      for (SizeType ch = 0; ch < numChannels; ++ch) {
+        std::cout << std::setw(10) << ch << std::setw(15) << std::fixed
+                  << std::setprecision(4) << means[ch] << std::setw(15)
+                  << std::fixed << std::setprecision(4) << stdDevs[ch]
+                  << std::setw(15) << std::fixed << std::setprecision(4)
+                  << minVals[ch] << std::setw(15) << std::fixed
+                  << std::setprecision(4) << maxVals[ch] << std::setw(15)
+                  << std::fixed << std::setprecision(4) << ranges[ch]
+                  << std::endl;
+      }
     }
-
-    // Print table header
-    std::cout << std::setw(10) << "Channel" << std::setw(15)
-              << "Mean" << std::setw(15) << "StdDev"
-              << std::setw(15) << "Min" << std::setw(15) << "Max"
-              << std::setw(15) << "Range" << std::endl;
-
-    std::cout << std::string(85, '-') << std::endl;
-
-    // Print table rows
-    for (SizeType ch = 0; ch < numChannels; ++ch) {
-      std::cout << std::setw(10) << ch << std::setw(15) << std::fixed
-                << std::setprecision(4) << means[ch] << std::setw(15)
-                << std::fixed << std::setprecision(4) << stdDevs[ch]
-                << std::setw(15) << std::fixed << std::setprecision(4)
-                << minVals[ch] << std::setw(15) << std::fixed
-                << std::setprecision(4) << maxVals[ch] << std::setw(15)
-                << std::fixed << std::setprecision(4) << ranges[ch]
-                << std::endl;
+    else
+    {
+      std::cout << bold("Skipping Channel Analysis:")
+                << " The per channel analysis assumes float data found "
+                << genericData.typeIndex.name() << std::endl;
     }
-
     // Close the file
     io->close();
     std::cout << std::endl;
