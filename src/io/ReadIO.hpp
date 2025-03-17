@@ -81,7 +81,7 @@ public:
       , typeIndex(inTypeIndex)
   {
   }
-};
+};  // class DataBlockGeneric
 
 /**
  * @brief Structure to hold data and shape for a typed data vector
@@ -168,7 +168,22 @@ public:
         std::any_cast<std::vector<DTYPE>>(genericData.data), genericData.shape);
     return result;
   }
-};
+
+  /**
+   * @brief Get the BaseDataType for the data
+   * 
+   * We here do not store the BaseDataType since it is determined by the
+   * template parameter.
+   *
+   * @return The BaseDataType corresponding to the data type
+   * @throws std::runtime_error if the typeIndex does not correspond to a
+   * supported data type.
+   */
+  inline BaseDataType getBaseDataType() const
+  {
+    return BaseDataType::fromTypeId(typeIndex);
+  }
+};  // class DataBlock
 
 /// Helper struct to check if a StorageObjectType is allowed. Used in static
 /// assert.
