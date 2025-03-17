@@ -47,6 +47,39 @@ TEST_CASE("BaseDataType equality operator", "[BaseIO]")
   }
 }
 
+TEST_CASE("BaseDataType fromTypeId", "[BaseIO]")
+{
+  SECTION("Supported data types")
+  {
+    REQUIRE(BaseDataType::fromTypeId(typeid(uint8_t)).type
+            == BaseDataType::T_U8);
+    REQUIRE(BaseDataType::fromTypeId(typeid(uint16_t)).type
+            == BaseDataType::T_U16);
+    REQUIRE(BaseDataType::fromTypeId(typeid(uint32_t)).type
+            == BaseDataType::T_U32);
+    REQUIRE(BaseDataType::fromTypeId(typeid(uint64_t)).type
+            == BaseDataType::T_U64);
+    REQUIRE(BaseDataType::fromTypeId(typeid(int8_t)).type
+            == BaseDataType::T_I8);
+    REQUIRE(BaseDataType::fromTypeId(typeid(int16_t)).type
+            == BaseDataType::T_I16);
+    REQUIRE(BaseDataType::fromTypeId(typeid(int32_t)).type
+            == BaseDataType::T_I32);
+    REQUIRE(BaseDataType::fromTypeId(typeid(int64_t)).type
+            == BaseDataType::T_I64);
+    REQUIRE(BaseDataType::fromTypeId(typeid(float)).type
+            == BaseDataType::T_F32);
+    REQUIRE(BaseDataType::fromTypeId(typeid(double)).type
+            == BaseDataType::T_F64);
+  }
+
+  SECTION("Unsupported data type")
+  {
+    REQUIRE_THROWS_AS(BaseDataType::fromTypeId(typeid(std::string)),
+                      std::runtime_error);
+  }
+}
+
 TEST_CASE("Test findTypes functionality", "[BaseIO]")
 {
   std::string filename = getTestFilePath("test_findTypes.h5");

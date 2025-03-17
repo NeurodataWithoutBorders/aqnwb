@@ -1,0 +1,64 @@
+name: Demo - Inspect Electrical Series
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build-demo:
+    defaults:
+      run:
+        shell: bash
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}-${{ matrix.os }}
+      cancel-in-progress: true
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest]
+    
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install dependencies - macos
+      if: matrix.os == 'macos-latest'
+      run: brew install hdf5 boost catch2
+
+    - name: Configure and build the main project
+      shell: pwsh
+      run: |
+        cmake "--preset=ci-$("${{ matrix.os }}".split("-")[0])"
+        cmake -B build -S .
+        cmake --build build --config Release -j 2
+    
+    # Run the test suite to generate test files. Alternatively we
+    # could have the workflow depend on the unit test workflow and
+    # download its artifacts, but its simple enough to just run the tests
+    # - name: Download test data artifact
+    #   uses: actions/download-artifact@v4
+    #   with:
+    #     name: test-files-macos-latest
+    #     path: build/tests/data  
+    - name: Test
+      working-directory: build
+      run: ctest --output-on-failure --no-tests=error -C Release -j 2
+
+    - name: Build demo - macos
+      if: matrix.os == 'macos-latest'
+      run: |
+        cd demo/inspect_electrical_series
+        cmake -B build -S . -DAQNWB_DIR="${{ github.workspace }}/build"
+        cmake --build build --config Release -j 2
+
+    - name: Run the demo - macos
+      if: matrix.os == 'macos-latest'
+      run: |
+        cd demo/inspect_electrical_series/build/bin
+        ./nwb_analysis_demo ../../../../build/tests/data/createElectricalSeries.nwb
+      

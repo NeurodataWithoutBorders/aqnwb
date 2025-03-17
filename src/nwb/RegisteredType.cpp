@@ -102,7 +102,8 @@ std::shared_ptr<AQNWB::NWB::RegisteredType> RegisteredType::create(
 }
 
 std::unordered_map<std::string, std::string> RegisteredType::findOwnedTypes(
-    const std::unordered_set<std::string>& types) const
+    const std::unordered_set<std::string>& types,
+    const IO::SearchMode& search_mode) const
 {
-  return m_io->findTypes(m_path, types, IO::SearchMode::STOP_ON_TYPE, true);
+  return m_io->findTypes(m_path, types, search_mode, true);
 }

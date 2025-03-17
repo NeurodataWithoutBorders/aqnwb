@@ -32,9 +32,11 @@ ElectrodeTable::ElectrodeTable(const std::string& path,
     , m_locationsDataset(std::make_unique<VectorData<std::string>>(
           AQNWB::mergePaths(electrodeTablePath, "location"), io))
 {
-  std::cerr << "ElectrodeTable object is required to appear at "
-            << this->electrodeTablePath << std::endl;
-  assert(path == this->electrodeTablePath);
+  if (path != this->electrodeTablePath) {
+    std::cerr << "ElectrodeTable object is required to appear at "
+              << this->electrodeTablePath << std::endl;
+    assert(path == this->electrodeTablePath);
+  }
 }
 
 /** Destructor */
