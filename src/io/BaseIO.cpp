@@ -66,7 +66,7 @@ std::unordered_map<std::string, std::string> BaseIO::findTypes(
     const std::string& starting_path,
     const std::unordered_set<std::string>& types,
     SearchMode search_mode,
-    bool exlude_starting_path) const
+    bool exclude_starting_path) const
 {
   std::unordered_map<std::string, std::string> found_types;
 
@@ -104,7 +104,7 @@ std::unordered_map<std::string, std::string> BaseIO::findTypes(
 
           // Check if we should exclude the current path
           bool exclude_start_conditon =
-              (exlude_starting_path && (current_path == starting_path));
+              (exclude_starting_path && (current_path == starting_path));
 
           // Check if the full type matches any of the given types
           if (types.find(full_type) != types.end() || types.empty()) {
@@ -117,7 +117,7 @@ std::unordered_map<std::string, std::string> BaseIO::findTypes(
 
           // If search_mode is CONTINUE_ON_TYPE, continue searching inside this
           // object or when the current path is the starting path and
-          // exlude_starting_path is true
+          // exclude_starting_path is true
           if (search_mode == SearchMode::CONTINUE_ON_TYPE
               || exclude_start_conditon)
           {
