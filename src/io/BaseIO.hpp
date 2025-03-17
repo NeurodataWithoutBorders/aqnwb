@@ -5,6 +5,7 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <typeindex>
 #include <unordered_map>
 #include <unordered_set>
 #include <variant>
@@ -104,6 +105,41 @@ public:
                                              std::vector<float>,
                                              std::vector<double>,
                                              std::vector<std::string>>;
+
+  /**
+   * @brief Get the BaseDataType from a std::type_index
+   *
+   * @param typeIndex The type index for which to determine the BaseDataType
+   * @return The corresponding BaseDataType
+   * @throws std::runtime_error if the typeIndex does not correspond to a
+   * supported data type.
+   */
+  static BaseDataType fromTypeId(const std::type_index& typeIndex)
+  {
+    if (typeIndex == typeid(uint8_t)) {
+      return BaseDataType(U8);
+    } else if (typeIndex == typeid(uint16_t)) {
+      return BaseDataType(U16);
+    } else if (typeIndex == typeid(uint32_t)) {
+      return BaseDataType(U32);
+    } else if (typeIndex == typeid(uint64_t)) {
+      return BaseDataType(U64);
+    } else if (typeIndex == typeid(int8_t)) {
+      return BaseDataType(I8);
+    } else if (typeIndex == typeid(int16_t)) {
+      return BaseDataType(I16);
+    } else if (typeIndex == typeid(int32_t)) {
+      return BaseDataType(I32);
+    } else if (typeIndex == typeid(int64_t)) {
+      return BaseDataType(I64);
+    } else if (typeIndex == typeid(float)) {
+      return BaseDataType(F32);
+    } else if (typeIndex == typeid(double)) {
+      return BaseDataType(F64);
+    } else {
+      throw std::runtime_error("Unsupported data type");
+    }
+  }
 };
 
 class DataBlockGeneric;
@@ -327,16 +363,28 @@ public:
    * determine its type and matches it against the given types.
    *
    * @param starting_path The path in the HDF5 file to start the search from.
-   * @param types The set of types to search for.
+   * @param types The set of types to search for. If an empty set is provided,
+   *              then all objects with an assigned type (i.e., object that have
+   *              a neurodata_type and namespace attributed) will be returned.
    * @param search_mode The search mode to use.
-   *
+   * @param exclude_starting_path If true, the starting path will not be
+   * included in the search and the resutlting output, but only its children
+   * will be searched. This also means, if the starting path is a typed object,
+   * then STOP_ON_TYPE will stop if exclude_starting_path=false but if
+   * exclude_starting_path=true then it will not stop the search at the
+   * starting_path but will continue until the next matching typed object is
+   * found. This is useful when we want to find all objects with a neurodata
+   * type object, but we are not interested in the object itself (e.g., when we
+   * have an unknown Container type and we want to find all registered fields
+   * that is owns)
    * @return An unordered map where each key is the path to an object and its
    * corresponding value is the type of the object.
    */
   virtual std::unordered_map<std::string, std::string> findTypes(
       const std::string& starting_path,
       const std::unordered_set<std::string>& types,
-      SearchMode search_mode) const;
+      SearchMode search_mode,
+      bool exclude_starting_path = false) const;
 
   /**
    * @brief Reads a dataset and determines the data type
