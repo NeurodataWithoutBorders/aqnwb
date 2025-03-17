@@ -26,7 +26,7 @@ Alternatively, we can also run AqNWB test suite and use a suitable file from the
 2. Create a build directory for the demo:
 
 ```bash
-# From the demo/DANDISET_000232 directory
+# From the  demo/inspect_electrical_series directory
 mkdir -p build
 cd build
 ```
