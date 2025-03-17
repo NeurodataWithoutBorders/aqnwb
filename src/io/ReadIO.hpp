@@ -171,7 +171,7 @@ public:
 
   /**
    * @brief Get the BaseDataType for the data
-   * 
+   *
    * We here do not store the BaseDataType since it is determined by the
    * template parameter.
    *
