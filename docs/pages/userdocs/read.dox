@@ -185,4 +185,7 @@
  * - \ref read_design_page discusses the underlying software design of AqNWB for data read 
  * - \ref registered_type_page discusses how to implement your own \ref AQNWB::NWB::RegisteredType "RegisteredType"
  *    classes for reading and writing data 
+ * - ``demo/inspect_electrical_series`` in the [AqNWB repo](https://github.com/NeurodataWithoutBorders/aqnwb)
+ *     contains a demo program that illustrates the use of AqNWB for inspecticing `ElectricalSeries` 
+ *     data in an arbitrary NWB file.
  */
