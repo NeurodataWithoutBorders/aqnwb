@@ -267,6 +267,10 @@ public:
    * @param types The set of types to search for. If an empty set is provided,
    * then all objects with an assigned type (i.e., object that have a
    * neurodata_type and namespace attributed) will be returned.
+   * @param search_mode The search mode to use. By default
+   * IO::SearchMode::STOP_ON_TYPE is used to only retrieve objects that are
+   * owned by this object. To recursively search though all types nested within
+   * the object set to IO::SearchMode::CONTINUE_ON_TYPE
    * @return An unordered map where each key is the path to an object and its
    * corresponding value is the type of the object.
    */
