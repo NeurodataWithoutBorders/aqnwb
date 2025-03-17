@@ -86,12 +86,12 @@ public:
   }
 
   /**
-   * @brief Convert the data to an std::variant for convenient access.
+   * @brief Cast the data to an std::variant for convenient access.
    *
-   * This function casts the std::any data to an std::variant. This only
-   * works for data blocks that store data types defined by BaseDataType.
-   * For other types an std::monostate will be returned instead if the
-   * data cannot be cast to a BaseDataType::BaseDataVectorVariant
+   * This function casts the std::any data to an std::variant via an
+   * std::any_cast. This only works for data blocks that store data types
+   * defined by BaseDataType. For other types an std::monostate will be returned
+   * instead if the data cannot be cast to a BaseDataType::BaseDataVectorVariant
    *
    * @return An std::variant containing the data.
    */
