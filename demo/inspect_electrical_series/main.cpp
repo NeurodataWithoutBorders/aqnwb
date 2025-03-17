@@ -190,7 +190,7 @@ int main(int argc, char* argv[])
 
     // Calculate the global mean. Here we DataBlockGeneric::as_variant() 
     // to compute on the data as a std::variant so that we do not need to 
-    // determine the extact numeric type that our ElectricalSeries is using
+    // determine the exact numeric type that our ElectricalSeries is using
     auto genericData = dataWrapper->valuesGeneric();
     auto variantData = genericData.as_variant();
     double meanFromVariant = calculateMeanFromVariant(variantData);
