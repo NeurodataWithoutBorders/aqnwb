@@ -65,7 +65,8 @@ Status BaseIO::createCommonNWBAttributes(const std::string& path,
 std::unordered_map<std::string, std::string> BaseIO::findTypes(
     const std::string& starting_path,
     const std::unordered_set<std::string>& types,
-    SearchMode search_mode) const
+    SearchMode search_mode,
+    bool exclude_starting_path) const
 {
   std::unordered_map<std::string, std::string> found_types;
 
@@ -101,21 +102,34 @@ std::unordered_map<std::string, std::string> BaseIO::findTypes(
           std::string full_type =
               namespace_attr.data[0] + "::" + neurodata_type_attr.data[0];
 
+          // Check if we should exclude the current path
+          bool exclude_start_conditon =
+              (exclude_starting_path && (current_path == starting_path));
+
           // Check if the full type matches any of the given types
-          if (types.find(full_type) != types.end()) {
-            found_types[current_path] = full_type;
+          if (types.find(full_type) != types.end() || types.empty()) {
+            // Ignore the starting path if exclude_starting_path is true
+            if (!exclude_start_conditon) {
+              // Add the object's path and type to the found_types map
+              found_types[current_path] = full_type;
+            }
           }
 
           // If search_mode is CONTINUE_ON_TYPE, continue searching inside this
-          // object
-          if (search_mode == SearchMode::CONTINUE_ON_TYPE) {
-            // Get the list of objects inside the current group
+          // object or when the current path is the starting path and
+          // exclude_starting_path is true
+          if (search_mode == SearchMode::CONTINUE_ON_TYPE
+              || exclude_start_conditon)
+          {
+            // Get the list of objects inside the current group to
+            // continue the search
             std::vector<std::pair<std::string, StorageObjectType>> objects =
                 getStorageObjects(current_path, StorageObjectType::Undefined);
             for (const auto& obj : objects) {
               if (obj.second == StorageObjectType::Group
                   || obj.second == StorageObjectType::Dataset)
               {
+                // Recursively continue the search
                 searchTypes(AQNWB::mergePaths(current_path, obj.first));
               }
             }
