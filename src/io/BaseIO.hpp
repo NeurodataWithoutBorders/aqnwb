@@ -333,7 +333,7 @@ public:
       const std::string& starting_path,
       const std::unordered_set<std::string>& types,
       SearchMode search_mode,
-      bool exlude_starting_path = false) const;
+      bool exclude_starting_path = false) const;
 
   /**
    * @brief Reads a dataset and determines the data type
