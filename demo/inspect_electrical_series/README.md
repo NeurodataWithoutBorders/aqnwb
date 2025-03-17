@@ -1,6 +1,6 @@
 # NWB Analysis Demo
 
-This is a simple C++ demo project that shows how to read and analyze NWB (Neurodata Without Borders) files using the aqnwb library. The demo reads the file `sub-EF0147_ses-20190204T144339_behavior+ecephys.nwb` and performs basic statistical analysis on the electrophysiology data.
+This is a simple C++ demo project that shows how to read and analyze NWB (Neurodata Without Borders) files using the aqnwb library. The demo reads a NWB file and performs basic statistical analysis on the ElectricalSeries electrophysiology data.
 
 ## Prerequisites
 
