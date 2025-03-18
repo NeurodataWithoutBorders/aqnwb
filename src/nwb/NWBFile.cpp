@@ -361,12 +361,12 @@ Status NWBFile::createAnnotationSeries(std::vector<std::string> recordingNames,
 
 template<SizeType N>
 void NWBFile::cacheSpecifications(
-    const std::string& specPath,
+    const std::string& namespaceName,
     const std::string& versionNumber,
     const std::array<std::pair<std::string_view, std::string_view>, N>&
         specVariables)
 {
-  std::string specFullPath = AQNWB::mergePaths("/specifications", specPath);
+  std::string specFullPath = AQNWB::mergePaths(m_specificationsPath, namespaceName);
   std::string specFullVersionPath =
       AQNWB::mergePaths(specFullPath, versionNumber);
   m_io->createGroup(specFullPath);

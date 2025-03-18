@@ -93,6 +93,21 @@ public:
   Status finalize();
 
   /**
+   * @brief Saves the specification files for the schema.
+   * @param namespaceName The name of the namespace
+   * @param versionNumber The version number of the namespace specification files.
+   * @param specVariables The contents of the specification files.
+   * These values are generated from the nwb or extension schema by
+   * `resources/generate_spec_files.py`
+   */
+  template<SizeType N>
+  void cacheSpecifications(
+      const std::string& namespaceName,
+      const std::string& versionNumber,
+      const std::array<std::pair<std::string_view, std::string_view>, N>&
+          specVariables);
+
+  /**
    * @brief Create ElectrodesTable.
    * Note, this function will fail if the file is in a mode where
    * new objects cannot be added, which can be checked via
@@ -240,22 +255,9 @@ private:
   std::unique_ptr<IO::BaseRecordingData> createRecordingData(
       const IO::ArrayDataSetConfig& config, const std::string& path);
 
-  /**
-   * @brief Saves the specification files for the schema.
-   * @param specPath The location in the file to store the spec information.
-   * @param versionNumber The version number of the specification files.
-   * @param specVariables The contents of the specification files.
-   * These values are generated from the nwb schema by
-   * `resources/generate_spec_files.py`
-   */
-  template<SizeType N>
-  void cacheSpecifications(
-      const std::string& specPath,
-      const std::string& versionNumber,
-      const std::array<std::pair<std::string_view, std::string_view>, N>&
-          specVariables);
-
   inline const static std::string m_acquisitionPath = "/acquisition";
+
+  inline const static std::string m_specificationsPath = "/specifications";
 
   /**
    * @brief The ElectrodeTable for the file
