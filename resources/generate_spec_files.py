@@ -4,6 +4,7 @@ from pathlib import Path
 from ruamel.yaml import YAML
 import logging
 from typing import List, Dict, Union
+import os
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
@@ -144,7 +145,14 @@ def process_namespace_file(namespace_file: Path, output_dir: Path, chunk_size: i
         for s in ns['schema']:
             if 'source' in s:
                 schema_file = namespace_file.parent / s['source']
-                schema_file = schema_file.with_suffix('.json')  # Ensure the file has the correct extension
+                # If the schem file is missing, check if it was converted to JSON/YAML
+                if not os.path.exists(schema_file):
+                    for ext in ['.yaml', '.yml', '.json']:
+                        temppath =  schema_file.with_suffix(ext)
+                        if os.path.exists(temppath):
+                            schema_file = temppath
+                            break
+                # Process the schema file
                 process_schema_file(schema_file, header_file, var_names, var_contents, chunk_size)
         generate_header_file(ns, header_file, var_names, var_contents)
 
