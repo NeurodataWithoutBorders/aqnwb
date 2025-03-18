@@ -251,18 +251,11 @@ private:
 
   /**
    * @brief Saves the specification files for the schema.
-   * @param namespaceName The name of the namespace
-   * @param versionNumber The version number of the namespace specification
-   * files.
-   * @param specVariables The contents of the specification files.
-   * These values are generated from the nwb or extension schema by
-   * `resources/generate_spec_files.py`
+   *
+   * @param namespaceInfo The NamespaceInfo object with the namespace
+   * specification
    */
-  void cacheSpecifications(
-      const std::string& namespaceName,
-      const std::string& versionNumber,
-      const std::vector<std::pair<std::string_view, std::string_view>>&
-          specVariables);
+  void cacheSpecifications(const Types::NamespaceInfo& namespaceInfo);
 };
 
 }  // namespace AQNWB::NWB

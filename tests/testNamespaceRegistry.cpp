@@ -28,17 +28,17 @@ TEST_CASE("Test NamespaceRegistry", "[NamespaceRegistry]")
 
   SECTION("Test retrieving all expected namespaces")
   {
-    const NamespaceInfo* coreInfo =
+    const AQNWB::Types::NamespaceInfo* coreInfo =
         NamespaceRegistry::instance().getNamespaceInfo("core");
     REQUIRE(coreInfo != nullptr);
     REQUIRE(coreInfo->specVariables.size() > 1);
 
-    const NamespaceInfo* hdmfCommonInfo =
+    const AQNWB::Types::NamespaceInfo* hdmfCommonInfo =
         NamespaceRegistry::instance().getNamespaceInfo("hdmf-common");
     REQUIRE(hdmfCommonInfo != nullptr);
     REQUIRE(hdmfCommonInfo->specVariables.size() > 1);
 
-    const NamespaceInfo* hdmfExperimentalInfo =
+    const AQNWB::Types::NamespaceInfo* hdmfExperimentalInfo =
         NamespaceRegistry::instance().getNamespaceInfo("hdmf-experimental");
     REQUIRE(hdmfExperimentalInfo != nullptr);
     REQUIRE(hdmfExperimentalInfo->specVariables.size() > 1);
@@ -46,7 +46,7 @@ TEST_CASE("Test NamespaceRegistry", "[NamespaceRegistry]")
 
   SECTION("Test that non-existent namespace returns nullptr")
   {
-    const NamespaceInfo* info =
+    const AQNWB::Types::NamespaceInfo* info =
         NamespaceRegistry::instance().getNamespaceInfo("NonExistentNamespace");
     REQUIRE(info == nullptr);  // Check that the namespace was not found
   }

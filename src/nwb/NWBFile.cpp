@@ -162,7 +162,7 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
   const auto& allNamespaces =
       AQNWB::SPEC::NamespaceRegistry::instance().getAllNamespaces();
   for (const auto& [name, info] : allNamespaces) {
-    cacheSpecifications(info.name, info.version, info.specVariables);
+    cacheSpecifications(info);
   }
 
   // Create additional required datasets
@@ -365,20 +365,16 @@ Status NWBFile::createAnnotationSeries(std::vector<std::string> recordingNames,
   return Status::Success;
 }
 
-void NWBFile::cacheSpecifications(
-    const std::string& namespaceName,
-    const std::string& versionNumber,
-    const std::vector<std::pair<std::string_view, std::string_view>>&
-        specVariables)
+void NWBFile::cacheSpecifications(const Types::NamespaceInfo& namespaceInfo)
 {
   std::string specFullPath =
-      AQNWB::mergePaths(m_specificationsPath, namespaceName);
+      AQNWB::mergePaths(m_specificationsPath, namespaceInfo.name);
   std::string specFullVersionPath =
-      AQNWB::mergePaths(specFullPath, versionNumber);
+      AQNWB::mergePaths(specFullPath, namespaceInfo.version);
   m_io->createGroup(specFullPath);
   m_io->createGroup(specFullVersionPath);
 
-  for (const auto& [name, content] : specVariables) {
+  for (const auto& [name, content] : namespaceInfo.specVariables) {
     m_io->createStringDataSet(
         AQNWB::mergePaths(specFullVersionPath, std::string(name)),
         std::string(content));

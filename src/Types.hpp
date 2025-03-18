@@ -84,5 +84,16 @@ public:
    * @brief Alias for a vector of channels.
    */
   using ChannelVector = std::vector<Channel>;
+
+  /**
+   * @brief Struct to hold namespace information.
+   */
+  struct NamespaceInfo
+  {
+    std::string name;  ///< The name of the namespace.
+    std::string version;  ///< The version of the namespace.
+    std::vector<std::pair<std::string_view, std::string_view>>
+        specVariables;  ///< The specVariables of the namespace.
+  };
 };
 }  // namespace AQNWB
