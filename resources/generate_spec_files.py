@@ -53,6 +53,7 @@ def generate_header_file(ns: Dict, header_file: Path, var_names: List[str], var_
         fo.write('#pragma once\n\n')
         fo.write('#include <array>\n#include <string>\n#include <string_view>\n\n')
         fo.write(f'namespace AQNWB::SPEC::{ns["name"].upper().replace("-", "_")}\n{{\n\n')
+        fo.write(f'const std::string namespace_name = "{ns["name"]}";\n\n')
         fo.write(f'const std::string version = "{ns["version"]}";\n\n')
         for name in var_names:
             fo.write(f'constexpr std::string_view {name} = R"delimiter(\n{var_contents[name]})delimiter";\n\n')
