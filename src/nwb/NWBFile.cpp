@@ -159,8 +159,8 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
   }
 
   // Setupe the specifications cache in the file
-  m_io->createGroup("/specifications");
-  m_io->createReferenceAttribute("/specifications", "/", ".specloc");
+  m_io->createGroup(m_specificationsPath);
+  m_io->createReferenceAttribute(m_specificationsPath, "/", ".specloc");
   // Cache all namespaces registered with the namespace registry
   const auto& allNamespaces =
       AQNWB::SPEC::NamespaceRegistry::instance().getAllNamespaces();
