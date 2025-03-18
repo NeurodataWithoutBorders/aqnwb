@@ -1611,6 +1611,10 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     auto readDataWrapper = std::make_unique<
         ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset, int32_t>>(
         hdf5io, dataPath);
+    auto preReadShape = readDataWrapper->getShape();
+    REQUIRE(readDataWrapper->getNumDimensions() == 1);
+    REQUIRE(preReadShape.size() == 1);
+    REQUIRE(preReadShape[0] == 10);
     auto readDataGeneric = readDataWrapper->valuesGeneric();
     REQUIRE(readDataGeneric.shape[0] == 10);
     auto readDataTypedV2 = readDataWrapper->values();

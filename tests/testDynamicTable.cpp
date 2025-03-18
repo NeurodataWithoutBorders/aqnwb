@@ -168,4 +168,54 @@ TEST_CASE("DynamicTable", "[table]")
       io->close();
     }
   }
+
+  SECTION("test DynamicTable.findOwnedTypes")
+  {
+    std::string path = getTestFilePath("testDynamicTableFindOwned.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    NWB::DynamicTable table(tablePath, io);
+    Status status = table.initialize("Table with columns");
+    REQUIRE(status == Status::Success);
+
+    // Add string vector data column
+    std::vector<std::string> values = {"value1", "value2", "value3"};
+    SizeArray dataShape = {values.size()};
+    SizeArray chunking = {values.size()};
+    IO::ArrayDataSetConfig strConfig(BaseDataType::V_STR, dataShape, chunking);
+    std::string columnPath = mergePaths(tablePath, "col1");
+    auto columnDataset = io->createArrayDataSet(strConfig, columnPath);
+    auto vectorData =
+        std::make_unique<NWB::VectorData<std::string>>(columnPath, io);
+    vectorData->initialize(std::move(columnDataset), "Column 1");
+    status = table.addColumn(vectorData, values);
+    REQUIRE(status == Status::Success);
+
+    // Set row IDs
+    std::vector<int> ids = {1, 2, 3};
+    SizeArray idShape = {ids.size()};
+    SizeArray idChunking = {ids.size()};
+
+    std::string idPath = mergePaths(tablePath, "id");
+    IO::ArrayDataSetConfig i32Config(BaseDataType::I32, idShape, idChunking);
+    auto idDataset = io->createArrayDataSet(i32Config, idPath);
+    auto elementIDs = std::make_unique<NWB::ElementIdentifiers>(idPath, io);
+    elementIDs->initialize(std::move(idDataset));
+    status = table.setRowIDs(elementIDs, ids);
+    REQUIRE(status == Status::Success);
+
+    // Final
+    status = table.finalize();
+    REQUIRE(status == Status::Success);
+    io->flush();
+
+    // Find all typed objects that are owned by this object
+    auto types = table.findOwnedTypes();
+    REQUIRE(types.size() == 2);
+    REQUIRE(types["/test_table/id"] == "hdmf-common::ElementIdentifiers");
+    REQUIRE(types["/test_table/col1"] == "hdmf-common::VectorData");
+
+    io->close();
+  }
 }

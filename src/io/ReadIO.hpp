@@ -86,12 +86,12 @@ public:
   }
 
   /**
-   * @brief Convert the data to an std::variant for convenient access.
+   * @brief Cast the data to an std::variant for convenient access.
    *
-   * This function casts the std::any data to an std::variant. This only
-   * works for data blocks that store data types defined by BaseDataType.
-   * For other types an std::monostate will be returned instead if the
-   * data cannot be cast to a BaseDataType::BaseDataVectorVariant
+   * This function casts the std::any data to an std::variant via an
+   * std::any_cast. This only works for data blocks that store data types
+   * defined by BaseDataType. For other types an std::monostate will be returned
+   * instead if the data cannot be cast to a BaseDataType::BaseDataVectorVariant
    *
    * @return An std::variant containing the data.
    */
@@ -219,7 +219,22 @@ public:
         std::any_cast<std::vector<DTYPE>>(genericData.data), genericData.shape);
     return result;
   }
-};
+
+  /**
+   * @brief Get the BaseDataType for the data
+   *
+   * We here do not store the BaseDataType since it is determined by the
+   * template parameter.
+   *
+   * @return The BaseDataType corresponding to the data type
+   * @throws std::runtime_error if the typeIndex does not correspond to a
+   * supported data type.
+   */
+  inline BaseDataType getBaseDataType() const
+  {
+    return BaseDataType::fromTypeId(typeIndex);
+  }
+};  // class DataBlock
 
 /// Helper struct to check if a StorageObjectType is allowed. Used in static
 /// assert.
@@ -335,6 +350,21 @@ public:
    * @return Shared pointer to the IO object.
    */
   inline std::shared_ptr<IO::BaseIO> getIO() const { return m_io; }
+
+  /**
+   * @brief Get the shape of the data object.
+   * @return The shape of the data object.
+   */
+  inline std::vector<SizeType> getShape() const
+  {
+    return m_io->getStorageObjectShape(m_path);
+  }
+
+  /**
+   * @brief Get the number of dimensions of the data object
+   * @return The number of dimensions of the data object
+   */
+  inline SizeType getNumDimensions() const { return this->getShape().size(); }
 
   /**
    * @brief Check that the object exists
