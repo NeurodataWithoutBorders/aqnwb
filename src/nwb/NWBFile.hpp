@@ -88,7 +88,7 @@ public:
   bool isInitialized() const;
 
   /**
-   * @brief Finalizes the NWB file by closing the io object.
+   * @brief Finalizes the NWB file by closing it.
    */
   Status finalize();
 
@@ -240,6 +240,14 @@ private:
   std::unique_ptr<IO::BaseRecordingData> createRecordingData(
       const IO::ArrayDataSetConfig& config, const std::string& path);
 
+  /**
+   * @brief Saves the specification files for the schema.
+   *
+   * @param namespaceInfo The NamespaceInfo object with the namespace
+   * specification
+   */
+  void cacheSpecifications(const Types::NamespaceInfo& namespaceInfo);
+
   inline const static std::string m_acquisitionPath = "/acquisition";
 
   inline const static std::string m_specificationsPath = "/specifications";
@@ -248,14 +256,6 @@ private:
    * @brief The ElectrodeTable for the file
    */
   std::unique_ptr<ElectrodeTable> m_electrodeTable;
-
-  /**
-   * @brief Saves the specification files for the schema.
-   *
-   * @param namespaceInfo The NamespaceInfo object with the namespace
-   * specification
-   */
-  void cacheSpecifications(const Types::NamespaceInfo& namespaceInfo);
 };
 
 }  // namespace AQNWB::NWB
