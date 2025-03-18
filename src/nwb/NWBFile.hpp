@@ -93,21 +93,6 @@ public:
   Status finalize();
 
   /**
-   * @brief Saves the specification files for the schema.
-   * @param namespaceName The name of the namespace
-   * @param versionNumber The version number of the namespace specification files.
-   * @param specVariables The contents of the specification files.
-   * These values are generated from the nwb or extension schema by
-   * `resources/generate_spec_files.py`
-   */
-  template<SizeType N>
-  void cacheSpecifications(
-      const std::string& namespaceName,
-      const std::string& versionNumber,
-      const std::array<std::pair<std::string_view, std::string_view>, N>&
-          specVariables);
-
-  /**
    * @brief Create ElectrodesTable.
    * Note, this function will fail if the file is in a mode where
    * new objects cannot be added, which can be checked via
@@ -263,6 +248,21 @@ private:
    * @brief The ElectrodeTable for the file
    */
   std::unique_ptr<ElectrodeTable> m_electrodeTable;
+
+  /**
+   * @brief Saves the specification files for the schema.
+   * @param namespaceName The name of the namespace
+   * @param versionNumber The version number of the namespace specification
+   * files.
+   * @param specVariables The contents of the specification files.
+   * These values are generated from the nwb or extension schema by
+   * `resources/generate_spec_files.py`
+   */
+  void cacheSpecifications(
+      const std::string& namespaceName,
+      const std::string& versionNumber,
+      const std::vector<std::pair<std::string_view, std::string_view>>&
+          specVariables);
 };
 
 }  // namespace AQNWB::NWB

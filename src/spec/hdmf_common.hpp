@@ -1,11 +1,15 @@
 #pragma once
 
-#include <array>
 #include <string>
 #include <string_view>
+#include <vector>
+
+#include "spec/NamespaceRegistry.hpp"
 
 namespace AQNWB::SPEC::HDMF_COMMON
 {
+
+const std::string namespaceName = "hdmf-common";
 
 const std::string version = "1.8.0";
 
@@ -21,9 +25,13 @@ constexpr std::string_view sparse = R"delimiter(
 constexpr std::string_view namespaces = R"delimiter(
 {"namespaces":[{"name":"hdmf-common","doc":"Common data structures provided by HDMF","author":["Andrew Tritt","Oliver Ruebel","Ryan Ly","Ben Dichter"],"contact":["ajtritt@lbl.gov","oruebel@lbl.gov","rly@lbl.gov","bdichter@lbl.gov"],"full_name":"HDMF Common","schema":[{"source":"base"},{"source":"table"},{"source":"sparse"}],"version":"1.8.0"}]})delimiter";
 
-constexpr std::array<std::pair<std::string_view, std::string_view>, 4>
-    specVariables {{{"base", base},
-                    {"table", table},
-                    {"sparse", sparse},
-                    {"namespace", namespaces}}};
+const std::vector<std::pair<std::string_view, std::string_view>> specVariables {
+    {{"base", base},
+     {"table", table},
+     {"sparse", sparse},
+     {"namespace", namespaces}}};
+
+// Register this namespace with the global registry
+REGISTER_NAMESPACE(namespaceName, version, specVariables)
+
 }  // namespace AQNWB::SPEC::HDMF_COMMON
