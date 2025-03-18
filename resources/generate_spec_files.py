@@ -57,10 +57,10 @@ def generate_header_file(ns: Dict, header_file: Path, var_names: List[str], var_
         fo.write(f'const std::string namespaceName = "{ns["name"]}";\n\n')
         fo.write(f'const std::string version = "{ns["version"]}";\n\n')
         for name in var_names:
-            fo.write(f'constexpr std::string_view {name} = R"delimiter(\n{var_contents[name]})delimiter";\n\n')
+            fo.write(f'constexpr std::string_view {name.replace("-", "_")} = R"delimiter(\n{var_contents[name]})delimiter";\n\n')
         fo.write(f'constexpr std::string_view namespaces = R"delimiter(\n{json.dumps({"namespaces": [ns]}, separators=(",", ":"))})delimiter";\n\n')
         fo.write(f'const std::vector<std::pair<std::string_view, std::string_view>>\n    specVariables {{{{\n')
-        fo.write(''.join([f'  {{"{name.replace("_", ".")}", {name}}},\n' for name in var_names]))
+        fo.write(''.join([f'  {{"{name.replace("_", ".")}", {name.replace("-", "_")}}},\n' for name in var_names]))
         fo.write('  {"namespace", namespaces}\n\n')
         fo.write('// Register this namespace with the global registry\n')
         fo.write('REGISTER_NAMESPACE(namespaceName, version, specVariables)\n\n')
