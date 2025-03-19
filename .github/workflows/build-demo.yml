@@ -49,16 +49,29 @@ jobs:
       working-directory: build
       run: ctest --output-on-failure --no-tests=error -C Release -j 2
 
-    - name: Build demo - macos
+    - name: Build the inspect_electrical_series demo - macos
       if: matrix.os == 'macos-latest'
       run: |
         cd demo/inspect_electrical_series
         cmake -B build -S . -DAQNWB_DIR="${{ github.workspace }}/build"
         cmake --build build --config Release -j 2
 
-    - name: Run the demo - macos
+    - name: Run the inspect_electrical_series demo - macos
       if: matrix.os == 'macos-latest'
       run: |
         cd demo/inspect_electrical_series/build/bin
         ./nwb_analysis_demo ../../../../build/tests/data/createElectricalSeries.nwb
+
+    - name: Build the labmetadata_extension_demo demo - macos
+      if: matrix.os == 'macos-latest'
+      run: |
+        cd demo/labmetadata_extension_demo
+        cmake -B build -S . -DAQNWB_DIR="${{ github.workspace }}/build"
+        cmake --build build --config Release -j 2
+
+    - name: Run the labmetadata_extension_demo demo - macos
+      if: matrix.os == 'macos-latest'
+      run: |
+        cd demo/labmetadata_extension_demo/build/bin
+        ./labmetadata_extension_demo
       
