@@ -56,7 +56,7 @@ public:
    * @param path The path of the registered type.
    * @param io A shared pointer to the IO object.
    */
-  RegisteredType(const std::string& path, std::shared_ptr<IO::BaseIO> io);
+  RegisteredType(const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io);
 
   /**
    * @brief Destructor.
@@ -85,7 +85,7 @@ public:
    * @brief Get a shared pointer to the IO object.
    * @return Shared pointer to the IO object.
    */
-  inline std::shared_ptr<IO::BaseIO> getIO() const { return m_io; }
+  inline std::shared_ptr<AQNWB::IO::BaseIO> getIO() const { return m_io; }
 
   /**
    * @brief Get the registry of subclass names.
@@ -114,7 +114,7 @@ public:
   static std::unordered_map<
       std::string,
       std::pair<std::function<std::unique_ptr<RegisteredType>(
-                    const std::string&, std::shared_ptr<IO::BaseIO>)>,
+                    const std::string&, std::shared_ptr<AQNWB::IO::BaseIO>)>,
                 std::pair<std::string, std::string>>>&
   getFactoryMap();
 
@@ -131,7 +131,7 @@ public:
   static inline std::shared_ptr<RegisteredType> create(
       const std::string& fullClassName,
       const std::string& path,
-      std::shared_ptr<IO::BaseIO> io)
+      std::shared_ptr<AQNWB::IO::BaseIO> io)
   {
     auto it = getFactoryMap().find(fullClassName);
     if (it != getFactoryMap().end()) {
@@ -151,7 +151,7 @@ public:
    */
   template<typename T>
   static inline std::shared_ptr<T> create(const std::string& path,
-                                          std::shared_ptr<IO::BaseIO> io)
+                                          std::shared_ptr<AQNWB::IO::BaseIO> io)
   {
     static_assert(std::is_base_of<RegisteredType, T>::value,
                   "T must be a derived class of RegisteredType");
@@ -171,7 +171,7 @@ public:
    * if creation fails.
    */
   static std::shared_ptr<AQNWB::NWB::RegisteredType> create(
-      const std::string& path, std::shared_ptr<IO::BaseIO> io);
+      const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io);
 
   /**
    * @brief Get the name of the class type.
@@ -235,10 +235,10 @@ public:
            typename VTYPE,
            typename std::enable_if<Types::IsDataStorageObjectType<SOT>::value,
                                    int>::type = 0>
-  inline std::unique_ptr<IO::ReadDataWrapper<SOT, VTYPE>> readField(
+  inline std::unique_ptr<AQNWB::IO::ReadDataWrapper<SOT, VTYPE>> readField(
       const std::string& fieldPath) const
   {
-    return std::make_unique<IO::ReadDataWrapper<SOT, VTYPE>>(
+    return std::make_unique<AQNWB::IO::ReadDataWrapper<SOT, VTYPE>>(
         m_io, AQNWB::mergePaths(m_path, fieldPath));
   }
 
@@ -276,7 +276,7 @@ public:
    */
   virtual std::unordered_map<std::string, std::string> findOwnedTypes(
       const std::unordered_set<std::string>& types = {},
-      const IO::SearchMode& search_mode = IO::SearchMode::STOP_ON_TYPE) const;
+      const AQNWB::IO::SearchMode& search_mode = AQNWB::IO::SearchMode::STOP_ON_TYPE) const;
 
 protected:
   /**
@@ -291,7 +291,7 @@ protected:
   static void registerSubclass(
       const std::string& fullClassName,
       std::function<std::unique_ptr<RegisteredType>(
-          const std::string&, std::shared_ptr<IO::BaseIO>)> factoryFunction,
+          const std::string&, std::shared_ptr<AQNWB::IO::BaseIO>)> factoryFunction,
       const std::string& typeName,
       const std::string& typeNamespace);
 
@@ -303,7 +303,7 @@ protected:
   /**
    * @brief A shared pointer to the IO object.
    */
-  std::shared_ptr<IO::BaseIO> m_io;
+  std::shared_ptr<AQNWB::IO::BaseIO> m_io;
 };
 
 /**
@@ -326,7 +326,7 @@ protected:
   { \
     AQNWB::NWB::RegisteredType::registerSubclass( \
         NAMESPACE "::" #T, \
-        [](const std::string& path, std::shared_ptr<IO::BaseIO> io) \
+        [](const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io) \
             -> std::unique_ptr<AQNWB::NWB::RegisteredType> \
         { return std::make_unique<T>(path, io); }, \
         TYPENAME, \
@@ -398,10 +398,10 @@ protected:
    * description \
    */ \
   template<typename VTYPE = default_type> \
-  inline std::unique_ptr<IO::ReadDataWrapper<storageObjectType, VTYPE>> name() \
+  inline std::unique_ptr<AQNWB::IO::ReadDataWrapper<storageObjectType, VTYPE>> name() \
       const \
   { \
-    return std::make_unique<IO::ReadDataWrapper<storageObjectType, VTYPE>>( \
+    return std::make_unique<AQNWB::IO::ReadDataWrapper<storageObjectType, VTYPE>>( \
         m_io, AQNWB::mergePaths(m_path, fieldPath)); \
   }
 
