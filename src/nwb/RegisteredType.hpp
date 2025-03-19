@@ -321,7 +321,8 @@ protected:
  *
  * @param T The subclass type to register. The name must match the type in the
  * schema.
- * @param NAMESPACE The namespace of the subclass type in the format schema
+ * @param NAMESPACE_VAR The namespace of the subclass type in the format schema.
+ * May be specified via a const variable or as a literal string.
  * @param TYPENAME The name of the type (usually the class name).
  */
 #define REGISTER_SUBCLASS_WITH_TYPENAME(T, NAMESPACE_VAR, TYPENAME) \

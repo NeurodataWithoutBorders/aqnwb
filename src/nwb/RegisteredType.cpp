@@ -73,7 +73,7 @@ std::string RegisteredType::getNamespace() const
  * if creation fails.
  */
 std::shared_ptr<AQNWB::NWB::RegisteredType> RegisteredType::create(
-    const std::string& path, std::shared_ptr<IO::BaseIO> io)
+    const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io)
 {
   try {
     // Read the "namespace" attribute
