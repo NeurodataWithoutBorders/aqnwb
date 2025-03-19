@@ -6,12 +6,12 @@
 class LabMetaDataExtensionExample : public AQNWB::NWB::Container
 {
 public:
-    /// Constructure with path and io inputs required by RegisteredType
+    /// Constructor with path and io inputs required by RegisteredType
     LabMetaDataExtensionExample(
         const std::string& path, 
         std::shared_ptr<AQNWB::IO::BaseIO> io);
 
-    /// Metho for initalizing and writing the data in the NWB file 
+    /// Method for initializing and writing the data in the NWB file
     Status initialize(const std::string& tissuePreparation);
  
     /// Define methods for reading custom extensions files
