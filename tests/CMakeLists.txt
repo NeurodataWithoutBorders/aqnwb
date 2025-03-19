@@ -24,6 +24,7 @@ add_executable(aqnwb_test
     testHDF5ArrayDataSetConfig.cpp
     testHDF5RecordingData.cpp
     testMisc.cpp
+    testNamespaceRegistry.cpp
     testNWBFile.cpp
     testReadIO.cpp
     testRecordingWorkflow.cpp

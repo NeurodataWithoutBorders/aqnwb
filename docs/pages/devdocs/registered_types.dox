@@ -22,6 +22,11 @@
  *    @code
  *    #include "nwb/RegisteredType.hpp"
  *    @endcode
+ *    Also include the schema header file with the definition of the namespace schema. E.g., in the
+ *    case of a type from the NWB core schema:
+ *    @code
+ *    #include "spec/core.hpp"
+ *    @endcode 
  *
  * 2. Define your subclass by inheriting from \ref AQNWB::NWB::RegisteredType "RegisteredType" (or
  *    one of its child classes). Ensure that your subclass implements a constructor with the arguments
@@ -42,8 +47,16 @@
  *    the class registry defined by \ref AQNWB::NWB::RegisteredType "RegisteredType". This should usually appear in
  *    the header (`hpp`) file as part of the class definition:
  *    @code
- *    REGISTER_SUBCLASS(MySubClass, "my-namespace")
+ *    REGISTER_SUBCLASS(MySubClass,  AQNWB::SPEC::CORE::namespaceName)
+ *
  *    @endcode
+ *    @note 
+ *    Using the \ref AQNWB::SPEC::CORE::namespaceName "namespaceName" variable to define 
+ *    the name of our namespace has two main advantages: 1) it ensure that the namespace name 
+ *    is consistent, and 2) it ensures that we include the schema header file which ensures 
+ *    that that the schema is registered with the 
+ *    \ref AQNWB::SPEC::NamespaceRegistry "NamespaceRegistry" and cached in the file by 
+ *    \ref AQNWB::NWB::NWBFile::initialize "NWBFile::initialize" when creating a new NWB file. 
  *
  * 4. In the corresponding source (`cpp`) file, initialize the static member to trigger the registration
  *    using the \ref REGISTER_SUBCLASS_IMPL macro:
@@ -91,6 +104,7 @@
  * @code
  * #pragma once
  * #include "RegisteredType.hpp"
+ * #include "spec/my_namespace.hpp"
  *
  * class MySubClass : public AQNWB::NWB::RegisteredType
  * {
@@ -100,7 +114,7 @@
  *
  *     DEFINE_FIELD(getData, DatasetField, float, "data", The main data)
  *
- *     REGISTER_SUBCLASS(MySubClass, "my-namespace")
+ *     REGISTER_SUBCLASS(MySubClass, AQNWB::SPEC::MYNAMESPACE::namespaceName)
  * };
  * @endcode
  *
