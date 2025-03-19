@@ -5,6 +5,7 @@
 #include "Utils.hpp"
 #include "io/ReadIO.hpp"
 #include "nwb/hdmf/base/Data.hpp"
+#include "spec/hdmf_common.hpp"
 
 namespace AQNWB::NWB
 {
@@ -32,7 +33,7 @@ public:
   // the Data template. It allows the system to dynamically create instances of
   // Data with different data types.
   REGISTER_SUBCLASS_WITH_TYPENAME(VectorData<DTYPE>,
-                                  "hdmf-common",
+                                  AQNWB::SPEC::HDMF_COMMON::namespaceName,
                                   "VectorData")
 
   /**

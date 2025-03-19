@@ -8,6 +8,7 @@
 #include "io/ReadIO.hpp"
 #include "nwb/base/TimeSeries.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
+#include "spec/core.hpp"
 
 namespace AQNWB::NWB
 {
@@ -18,7 +19,7 @@ class ElectricalSeries : public TimeSeries
 {
 public:
   // Register the TimeSeries as a subclass of Container
-  REGISTER_SUBCLASS(ElectricalSeries, "core")
+  REGISTER_SUBCLASS(ElectricalSeries, AQNWB::SPEC::CORE::namespaceName)
 
   /**
    * @brief Constructor.

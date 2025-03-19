@@ -4,6 +4,7 @@
 
 #include "io/BaseIO.hpp"
 #include "nwb/RegisteredType.hpp"
+#include "spec/hdmf_common.hpp"
 
 namespace AQNWB::NWB
 {
@@ -19,7 +20,9 @@ public:
   // creation. This registration is generic and applies to any specialization of
   // the Data template. It allows the system to dynamically create instances of
   // Data with different data types.
-  REGISTER_SUBCLASS_WITH_TYPENAME(Data<DTYPE>, "hdmf-common", "Data")
+  REGISTER_SUBCLASS_WITH_TYPENAME(Data<DTYPE>,
+                                  AQNWB::SPEC::HDMF_COMMON::namespaceName,
+                                  "Data")
 
   /**
    * @brief Constructor.

@@ -18,13 +18,14 @@ MACRO_EXPANSION = YES
 PREDEFINED           += "DEFINE_FIELD(name, storageObjectType, default_type, fieldPath, description)=/** description */ template<typename VTYPE = default_type> inline std::unique_ptr<IO::ReadDataWrapper<storageObjectType, VTYPE>> name() const;"
 PREDEFINED           += "DEFINE_REGISTERED_FIELD(name, registeredType, fieldPath, description)=/** description */ template<typename RTYPE = registeredType> inline std::shared_ptr<RTYPE> name() const;" 
 PREDEFINED           += "DEFINE_REFERENCED_REGISTERED_FIELD(name, registeredType, fieldPath, description)=/** description */ template<typename RTYPE = registeredType> inline std::shared_ptr<RTYPE> name() const;" 
+PREDEFINED           += "REGISTER_SUBCLASS_WITH_TYPENAME(className, namespaceName, typeName)=REGISTER_SUBCLASS_WITH_TYPENAME(className, namespaceName, typeName);"
 EXPAND_ONLY_PREDEF   = YES
 
 
 # Add sources
 INPUT = "@PROJECT_SOURCE_DIR@/src" "@PROJECT_SOURCE_DIR@/docs/pages"
 RECURSIVE = YES
-EXAMPLE_PATH = "@PROJECT_SOURCE_DIR@/tests"  "@PROJECT_SOURCE_DIR@/.github/CODE_OF_CONDUCT.md"  "@PROJECT_SOURCE_DIR@/Legal.txt" "@PROJECT_SOURCE_DIR@/LICENSE"
+EXAMPLE_PATH = "@PROJECT_SOURCE_DIR@/tests"  "@PROJECT_SOURCE_DIR@/.github/CODE_OF_CONDUCT.md"  "@PROJECT_SOURCE_DIR@/Legal.txt" "@PROJECT_SOURCE_DIR@/LICENSE"  "@PROJECT_SOURCE_DIR@/demo/labmetadata_extension_demo/src"
 IMAGE_PATH = "@PROJECT_SOURCE_DIR@/resources/images"
 EXTRACT_ALL = YES
 RECURSIVE = YES

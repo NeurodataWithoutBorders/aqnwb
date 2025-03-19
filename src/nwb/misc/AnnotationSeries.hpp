@@ -6,6 +6,7 @@
 #include "io/BaseIO.hpp"
 #include "io/ReadIO.hpp"
 #include "nwb/base/TimeSeries.hpp"
+#include "spec/core.hpp"
 
 namespace AQNWB::NWB
 {
@@ -16,7 +17,7 @@ class AnnotationSeries : public TimeSeries
 {
 public:
   // Register the AnnotationSeries
-  REGISTER_SUBCLASS(AnnotationSeries, "core")
+  REGISTER_SUBCLASS(AnnotationSeries, AQNWB::SPEC::CORE::namespaceName)
 
   /**
    * @brief Constructor.

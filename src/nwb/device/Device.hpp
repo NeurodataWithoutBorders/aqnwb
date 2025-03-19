@@ -6,6 +6,7 @@
 #include "io/BaseIO.hpp"
 #include "io/ReadIO.hpp"
 #include "nwb/hdmf/base/Container.hpp"
+#include "spec/core.hpp"
 
 namespace AQNWB::NWB
 {
@@ -17,7 +18,7 @@ class Device : public Container
 {
 public:
   // Register the Device as a subclass of Container
-  REGISTER_SUBCLASS(Device, "core")
+  REGISTER_SUBCLASS(Device, AQNWB::SPEC::CORE::namespaceName)
 
   /**
    * @brief Constructor.
