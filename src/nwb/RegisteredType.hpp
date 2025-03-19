@@ -56,7 +56,8 @@ public:
    * @param path The path of the registered type.
    * @param io A shared pointer to the IO object.
    */
-  RegisteredType(const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io);
+  RegisteredType(const std::string& path,
+                 std::shared_ptr<AQNWB::IO::BaseIO> io);
 
   /**
    * @brief Destructor.
@@ -276,7 +277,8 @@ public:
    */
   virtual std::unordered_map<std::string, std::string> findOwnedTypes(
       const std::unordered_set<std::string>& types = {},
-      const AQNWB::IO::SearchMode& search_mode = AQNWB::IO::SearchMode::STOP_ON_TYPE) const;
+      const AQNWB::IO::SearchMode& search_mode =
+          AQNWB::IO::SearchMode::STOP_ON_TYPE) const;
 
 protected:
   /**
@@ -291,7 +293,8 @@ protected:
   static void registerSubclass(
       const std::string& fullClassName,
       std::function<std::unique_ptr<RegisteredType>(
-          const std::string&, std::shared_ptr<AQNWB::IO::BaseIO>)> factoryFunction,
+          const std::string&, std::shared_ptr<AQNWB::IO::BaseIO>)>
+          factoryFunction,
       const std::string& typeName,
       const std::string& typeNamespace);
 
@@ -398,10 +401,11 @@ protected:
    * description \
    */ \
   template<typename VTYPE = default_type> \
-  inline std::unique_ptr<AQNWB::IO::ReadDataWrapper<storageObjectType, VTYPE>> name() \
-      const \
+  inline std::unique_ptr<AQNWB::IO::ReadDataWrapper<storageObjectType, VTYPE>> \
+  name() const \
   { \
-    return std::make_unique<AQNWB::IO::ReadDataWrapper<storageObjectType, VTYPE>>( \
+    return std::make_unique< \
+        AQNWB::IO::ReadDataWrapper<storageObjectType, VTYPE>>( \
         m_io, AQNWB::mergePaths(m_path, fieldPath)); \
   }
 

@@ -17,8 +17,8 @@
    A few key steps to look  out for:
    * **Use the right base class:**
        * At the very least our class must inherit from `` AQNWB::NWB::RegisteredType``
-       * When the `neurodata_type` is a dataset then it is often useful to inherit from `Data` defined in `#include "nwb/hdmf/base/Data.hpp"` to inherit its base ``initalize`` and read methods.
-       * When the `neurodata_type` is a group  then it is often useful to inherit from  `Container` defined in `#include "nwb/hdmf/base/Container.hpp"` to inherit its base ``initalize`` and read methods.
+       * When the `neurodata_type` is a dataset then it is often useful to inherit from `Data` defined in `#include "nwb/hdmf/base/Data.hpp"` to inherit its base ``initialize`` and read methods.
+       * When the `neurodata_type` is a group  then it is often useful to inherit from  `Container` defined in `#include "nwb/hdmf/base/Container.hpp"` to inherit its base ``initialize`` and read methods.
     * **Ensure REGISTER_SUBCLASS is called in the header file**
     * **Ensure REGISTER_SUBCLASS_IMPL is called in the cpp file**
     * Implement the setup of your data type for write in a function called `initialize` (and make sure to call the `initialize` of your parent class).
