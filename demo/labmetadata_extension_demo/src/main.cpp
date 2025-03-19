@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
  
     // Create an IO object for writing the NWB file
     std::shared_ptr<AQNWB::IO::BaseIO> io = std::make_shared<AQNWB::IO::HDF5::HDF5IO>(filePath);
-    io->open();
+    io->open(AQNWB::IO::FileMode::Overwrite);
 
     // Create the NWBFile
     std::shared_ptr<AQNWB::NWB::NWBFile> nwbfile = std::make_shared<AQNWB::NWB::NWBFile>(io);
@@ -26,10 +26,12 @@ int main(int argc, char* argv[])
     // Create the LabMetaDataExtensionExample object
     std::string labMetaDataPath = AQNWB::mergePaths("/general", "custom_lab_metadata");
     std::shared_ptr<LabMetaDataExtensionExample> labMetaData = std::make_shared<LabMetaDataExtensionExample>(labMetaDataPath, io);
+    std::cout << "Writing "<< labMetaData->getPath() << " extension data" << std::endl;
     labMetaData->initialize("Tissue preparation details");
 
     // Close the file
     io->close();
+    std::cout << "Finished data write. Starting read." <<std::endl;
 
     // Create a new HDF5 I/O object for read
     std::shared_ptr<AQNWB::IO::BaseIO> readIO = std::make_shared<AQNWB::IO::HDF5::HDF5IO>(filePath);
