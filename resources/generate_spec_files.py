@@ -62,9 +62,10 @@ def generate_header_file(ns: Dict, header_file: Path, var_names: List[str], var_
         fo.write(f'const std::vector<std::pair<std::string_view, std::string_view>>\n    specVariables {{{{\n')
         fo.write(''.join([f'  {{"{name.replace("_", ".")}", {name.replace("-", "_")}}},\n' for name in var_names]))
         fo.write('  {"namespace", namespaces}\n\n')
+        fo.write(f'}}}};\n\n')
         fo.write('// Register this namespace with the global registry\n')
-        fo.write('REGISTER_NAMESPACE(namespaceName, version, specVariables)\n\n')
-        fo.write(f'}}}};\n}}  // namespace AQNWB::SPEC::{ns["name"].upper().replace("-", "_")}\n')
+        fo.write('REGISTER_NAMESPACE(namespaceName, version, specVariables)\n')
+        fo.write(f'\n}}  // namespace AQNWB::SPEC::{ns["name"].upper().replace("-", "_")}\n')
 
 def process_schema_file(schema_file: Path, header_file: Path, var_names: List[str], var_contents: Dict[str, str], chunk_size: int) -> None:
     """
