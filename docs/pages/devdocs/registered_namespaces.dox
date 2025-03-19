@@ -73,4 +73,73 @@
  *
  * The returned `info` object is, in both cases, a \ref AQNWB::Types::NamespaceInfo "NamespaceInfo" struct
  * with the name, version, and specVariables. 
+ *
+ * @section labmetadata_extension_demo LabMetaData Extension Demo
+ *
+ * The following example illustrated the key steps to implement and use an extension to NWB via AqNWB.
+ * The complete sources for this demo are available as part of the [AqNWB GitHub repo](https://github.com/NeurodataWithoutBorders/aqnwb)
+ * in the `demo/labmetadata_extension_demo` folder.
+ *
+ * @subsection labmetadata_extension_schema Step 1: Get the Schema of the Extension
+ *
+ * The demo uses the schema from [ndx-labmetadata-example](https://github.com/NeurodataWithoutBorders/ndx-labmetadata-example/)
+ * as an example. For convenience, we copied the relevant schema files already to the `demo/labmetadata_extension_demo/spec` folder.
+ *
+ * @subsection labmetadata_extension_cpp_generation Step 2: Convert the Schema to C++
+ *
+ * The schema files are converted to C++ using the `resources/generate_spec_files.py` script:
+ *
+ * @code
+ * mkdir demo/labmetadata_extension_demo/src
+ * python resources/generate_spec_files.py demo/labmetadata_extension_demo/spec demo/labmetadata_extension_demo/src
+ * @endcode
+ *
+ * This generates the following new header file in the `demo/labmetadata_extension_demo/src` folder:
+ *
+ * *ndx_labmetadata_example.hpp*
+ * \include demo/labmetadata_extension_demo/src/ndx_labmetadata_example.hpp
+ *
+ * @subsection labmetadata_extension_registered_type Step 3: Create RegisteredType Classes for all neurodata_types
+ *
+ * Next, a \ref AQNWB::NWB::RegisteredType "RegisteredType" class is implemented for the `LabMetaDataExtensionExample`
+ * neurodata_type defined in the schema. Please see the \ref registered_type_page tutorial for more details.
+ *
+ * *LabMetaDataExtensionExample.hpp*
+ * \include demo/labmetadata_extension_demo/src/LabMetaDataExtensionExample.hpp
+ * 
+ * *LabMetaDataExtensionExample.cpp*
+ * \include demo/labmetadata_extension_demo/src/LabMetaDataExtensionExample.cpp
+ *
+ * @note
+ * As also discussed in more detail in the \ref registered_type_page tutorial, a few 
+ * key points to note when implementing our derived  \ref AQNWB::NWB::RegisteredType "RegisteredType" class:
+ * 1. **Selecting the base class**: 
+ *    - At the very least our class must inherit from \ref AQNWB::NWB::RegisteredType "RegisteredType"
+ *    - When the `neurodata_type` is a dataset then it is often useful to inherit from \ref AQNWB::NWB::Data "Data" 
+ *      to inherit its base ``initialize`` and read methods.
+ *    - When a  `neurodata_type` is a group then it is often useful to inherit from  \ref AQNWB::NWB::Container "Container"
+ *      to inherit its base ``initialize`` and read methods (this is what we use here)
+ *    - Always inherit from the closest parent if possible. **Note:** Technically we also should have
+ *      here created a class for `LabMetaData` itself and then inherited from it. However since `LabMetaData` 
+ *      is only an empty group and does not add any fields or features, we can just use \ref AQNWB::NWB::Container "Container"
+ *      as our base class instead. The key purpose of the `LabMetaData` type is that it has a reserved 
+ *      space in the `/general` group in the NWB file.
+ * 2. **Ensure the registration macros are called**: These macros ensure that the class is registered 
+ *      with the \ref AQNWB::NWB::RegisteredType "RegisteredType"  type registry.
+ *    - \ref REGISTER_SUBCLASS must appear in the header file
+ *    - \ref REGISTER_SUBCLASS_IMPL must appear in the cpp file
+ * 3. **Field Definitions**: The \ref DEFINE_FIELD and \ref DEFINE_REGISTERED_FIELD macros simplify 
+ *    reading known fields from the file.
+ * 4. **Schema Registration**: The generated header file automatically registers the namespace with
+ *    the \ref AQNWB::SPEC::NamespaceRegistry "NamespaceRegistry" using the \ref REGISTER_NAMESPACE macro.
+ *    This ensures that as soon as we include the header in our app that the schema will be cached in the NWB file.
+ *
+ * @subsection labmetadata_extension_usage Step 4: Using the Extension
+ *
+ * Finally, we can use our extension with AqNWB like any other type. The following example app illustrates
+ * how we can use our extension for writing and reading data with the new `LabMetaDataExtensionExample` type:
+ *
+ * *main.cpp*
+ * \include demo/labmetadata_extension_demo/src/main.cpp
+ *
  */
