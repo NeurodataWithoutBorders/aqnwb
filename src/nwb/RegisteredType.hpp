@@ -321,16 +321,16 @@ protected:
  * @param NAMESPACE The namespace of the subclass type in the format schema
  * @param TYPENAME The name of the type (usually the class name).
  */
-#define REGISTER_SUBCLASS_WITH_TYPENAME(T, NAMESPACE, TYPENAME) \
+#define REGISTER_SUBCLASS_WITH_TYPENAME(T, NAMESPACE_VAR, TYPENAME) \
   static bool registerSubclass() \
   { \
     AQNWB::NWB::RegisteredType::registerSubclass( \
-        NAMESPACE "::" #T, \
+        std::string(NAMESPACE_VAR) + "::" + #T, \
         [](const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io) \
             -> std::unique_ptr<AQNWB::NWB::RegisteredType> \
         { return std::make_unique<T>(path, io); }, \
         TYPENAME, \
-        NAMESPACE); \
+        NAMESPACE_VAR); \
     return true; \
   } \
   static bool registered_; \
@@ -340,7 +340,7 @@ protected:
   } \
   virtual std::string getNamespace() const override \
   { \
-    return NAMESPACE; \
+    return NAMESPACE_VAR; \
   }
 
 /**
