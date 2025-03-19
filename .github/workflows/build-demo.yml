@@ -45,7 +45,7 @@ jobs:
     #   with:
     #     name: test-files-macos-latest
     #     path: build/tests/data  
-    - name: Test
+    - name: Run AqNWB unit tests 
       working-directory: build
       run: ctest --output-on-failure --no-tests=error -C Release -j 2
 

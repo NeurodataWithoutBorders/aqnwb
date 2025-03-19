@@ -15,6 +15,7 @@
 #include "nwb/base/TimeSeries.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
 #include "nwb/hdmf/base/Container.hpp"
+#include "spec/core.hpp"
 
 /*!
  * \namespace AQNWB::NWB
@@ -31,7 +32,7 @@ class NWBFile : public Container
 {
 public:
   // Register the ElectrodeTable as a subclass of Container
-  REGISTER_SUBCLASS(NWBFile, "core")
+  REGISTER_SUBCLASS(NWBFile, AQNWB::SPEC::CORE::namespaceName)
 
   /**
    * @brief Constructor for NWBFile class.
