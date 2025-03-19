@@ -13,6 +13,7 @@ LabMetaDataExtensionExample::LabMetaDataExtensionExample(
     std::shared_ptr<AQNWB::IO::BaseIO> io)
     : AQNWB::NWB::Container(path, io)
 {
+    // Check that our path points to expected location in the NWB file
     if (path.find(m_nwbBasePath) != 0) {
         std::cerr << "LabMetaData path expected to appear in "
                   << m_nwbBasePath <<  " in the NWB file" << std::endl;

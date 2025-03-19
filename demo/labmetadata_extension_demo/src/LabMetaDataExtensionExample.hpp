@@ -6,12 +6,15 @@
 class LabMetaDataExtensionExample : public AQNWB::NWB::Container
 {
 public:
+    /// Constructure with path and io inputs required by RegisteredType
     LabMetaDataExtensionExample(
         const std::string& path, 
         std::shared_ptr<AQNWB::IO::BaseIO> io);
 
+    /// Metho for initalizing and writing the data in the NWB file 
     Status initialize(const std::string& tissuePreparation);
  
+    /// Define methods for reading custom extensions files
     DEFINE_FIELD(
         readTissuePreparation, 
         AQNWB::NWB::DatasetField, 
@@ -19,10 +22,10 @@ public:
         "tissue_preparation", 
         Lab-specific description of the preparation of the tissue)
  
-    // Using the custom macro with the namespace variable
+    /// Register the class with the type registry
     REGISTER_SUBCLASS(LabMetaDataExtensionExample, AQNWB::SPEC::NDX_LABMETADATA_EXAMPLE::namespaceName)
 
 private:
-    /// LabMetaData is stored in the NWB file at this location
+    /// LabMetaData objects are stored in the NWB file at this location
     const std::string m_nwbBasePath = "/general";
 };
