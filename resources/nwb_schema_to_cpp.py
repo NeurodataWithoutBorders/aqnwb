@@ -19,11 +19,16 @@ from hdmf.spec.namespace import NamespaceCatalog
 from hdmf.spec.spec import Spec
 from pynwb import NWBHDF5IO, NWBFile
 from pynwb.spec import NWBNamespaceBuilder
+from pynwb import get_manager, get_type_map
+from pynwb.spec import NWBNamespaceBuilder
 
 
 def snake_to_camel(name: str) -> str:
     """Convert snake_case to CamelCase."""
-    return ''.join(word.title() for word in name.split('_'))
+    if name is not None:
+        return ''.join(word.title() for word in name.split('_'))
+    else:
+        return None
 
 
 def get_cpp_type(dtype: str) -> str:
@@ -100,10 +105,6 @@ def parse_schema_file(file_path: str) -> Tuple[SpecNamespace, Dict[str, Spec]]:
     
     namespace_name = namespace_data['namespaces'][0]['name']
     
-    # Use PyNWB to load the namespace
-    from pynwb import get_manager, get_type_map
-    from pynwb.spec import NWBNamespaceBuilder
-    
     type_map = get_type_map()
     type_map.load_namespaces(namespace_path)
     namespace = type_map.namespace_catalog.get_namespace(namespace_name)
@@ -111,7 +112,7 @@ def parse_schema_file(file_path: str) -> Tuple[SpecNamespace, Dict[str, Spec]]:
     # Get all the neurodata types in the namespace
     neurodata_types = {}
     # Get all specs from the catalog
-    for spec_name in namespace.catalog.get_spec_names():
+    for spec_name in namespace.catalog.get_registered_types():
         spec = namespace.catalog.get_spec(spec_name)
         if hasattr(spec, 'neurodata_type_def') and spec.neurodata_type_def is not None:
             neurodata_types[spec.neurodata_type_def] = spec
@@ -136,9 +137,10 @@ def get_attributes(spec: Spec) -> Dict[str, Dict[str, Any]]:
     attributes = {}
     
     # Get attributes directly from the spec
+    print(type(spec))
     if hasattr(spec, 'attributes'):
-        for attr_name, attr_spec in spec.attributes.items():
-            attributes[attr_name] = {
+        for attr_spec in spec.attributes:
+            attributes[attr_spec.name] = {
                 'dtype': attr_spec.dtype,
                 'doc': attr_spec.doc
             }
@@ -151,13 +153,13 @@ def get_datasets(spec: Spec) -> Dict[str, Dict[str, Any]]:
     
     # For GroupSpec, get datasets from the spec
     if isinstance(spec, GroupSpec) and hasattr(spec, 'datasets'):
-        for dataset_name, dataset_spec in spec.datasets.items():
-            datasets[dataset_name] = {
+        for dataset_spec in spec.datasets:
+            datasets[dataset_spec.name] = {
                 'dtype': dataset_spec.dtype,
                 'doc': dataset_spec.doc
             }
             if hasattr(dataset_spec, 'neurodata_type_inc'):
-                datasets[dataset_name]['neurodata_type_inc'] = dataset_spec.neurodata_type_inc
+                datasets[dataset_spec.name]['neurodata_type_inc'] = dataset_spec.neurodata_type_inc
     
     return datasets
 
@@ -167,12 +169,12 @@ def get_groups(spec: Spec) -> Dict[str, Dict[str, Any]]:
     
     # For GroupSpec, get groups from the spec
     if isinstance(spec, GroupSpec) and hasattr(spec, 'groups'):
-        for group_name, group_spec in spec.groups.items():
-            groups[group_name] = {
+        for group_spec in spec.groups:
+            groups[group_spec.name] = {
                 'doc': group_spec.doc
             }
             if hasattr(group_spec, 'neurodata_type_inc'):
-                groups[group_name]['neurodata_type_inc'] = group_spec.neurodata_type_inc
+                groups[group_spec.name]['neurodata_type_inc'] = group_spec.neurodata_type_inc
     
     return groups
 
