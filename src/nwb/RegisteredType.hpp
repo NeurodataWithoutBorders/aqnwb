@@ -325,7 +325,7 @@ protected:
   static bool registerSubclass() \
   { \
     AQNWB::NWB::RegisteredType::registerSubclass( \
-      std::string(NAMESPACE_VAR) + "::" + #T, \
+        std::string(NAMESPACE_VAR) + "::" + #T, \
         [](const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io) \
             -> std::unique_ptr<AQNWB::NWB::RegisteredType> \
         { return std::make_unique<T>(path, io); }, \
