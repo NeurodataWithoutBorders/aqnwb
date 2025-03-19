@@ -1,9 +1,6 @@
 #include "LabMetaDataExtensionExample.hpp"
-#include "Types.hpp"
-#include "Utils.hpp"
-#include "io/BaseIO.hpp"
-#include "io/hdf5/HDF5IO.hpp"
 #include "nwb/NWBFile.hpp"
+#include "io/hdf5/HDF5IO.hpp"
 #include <iostream>
 
 // The main routine implementing the main workflow of this demo application
