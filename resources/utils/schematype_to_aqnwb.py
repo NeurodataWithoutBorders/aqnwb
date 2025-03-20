@@ -6,6 +6,10 @@ This script takes a NWB schema file (JSON or YAML) as input and generates C++ co
 for interacting with the neurodata types defined in the schema using AqNWB.
 """
 
+import logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 import argparse
 import json
 import os
@@ -622,7 +626,7 @@ def main() -> None:
         with open(impl_path, "w") as f:
             f.write(impl_file)
 
-        print(f"Generated {header_path} and {impl_path}")
+        logger.info(f"Generated {header_path} and {impl_path}")
 
 
 if __name__ == "__main__":
