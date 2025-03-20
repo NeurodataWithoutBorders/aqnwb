@@ -10,17 +10,11 @@ import argparse
 import json
 import os
 import re
-import sys
 import yaml
-from typing import Dict, List, Any, Optional, Tuple, Set
-from hdmf.spec import GroupSpec, DatasetSpec, AttributeSpec, SpecNamespace, SpecCatalog
-from hdmf.spec.write import YAMLSpecWriter
-from hdmf.spec.namespace import NamespaceCatalog
+from typing import Dict, List, Tuple
+from hdmf.spec import DatasetSpec, SpecNamespace
 from hdmf.spec.spec import Spec
-from pynwb import NWBHDF5IO, NWBFile
-from pynwb.spec import NWBNamespaceBuilder
-from pynwb import get_manager, get_type_map
-from pynwb.spec import NWBNamespaceBuilder
+from pynwb import get_type_map
 
 
 def render_define_registered_field(field_name: str, neurodata_type: str, doc: str) -> str:
@@ -37,32 +31,33 @@ def render_define_registered_field(field_name: str, neurodata_type: str, doc: st
     """
     re = ""
     if field_name is not None:
-        re += f"    DEFINE_REGISTERED_FIELD(\n"
+        re += "    DEFINE_REGISTERED_FIELD(\n"
         re += f"        read{snake_to_camel(field_name)},\n"
         re += f"        {neurodata_type},\n"
         re += f"        \"{field_name}\",\n"
         re += f"        {doc})\n"
     else:
         re += f"""
-  /**
-   * @brief Read an arbitrary {neurodata_type} object owned by this object
-   *
-   * For {neurodata_type} objects defined in the schema with a fixed name
-   * the corresponding DEFINE_REGISTERED_FIELD read functions are preferred
-   * because they help avoid the need for specifying the specific name
-   * and data type to use.
-   *
-   * @return The {neurodata_type} object representing the object or a nullptr if the
-   * object doesn't exist
-   */
-  std::shared_ptr<{neurodata_type}> read{neurodata_type}(const std::string& objectName)
-  {{
-    std::string objectPath = AQNWB::mergePaths(m_path, objectName);
-    if (m_io->objectExists(objectPath)) {{
-      return std::make_shared<{neurodata_type}>(objectPath, m_io);
+    // TODO: Update or remove as appropriate (e.g., fix namespace of return type)
+    /**
+    * @brief Read an arbitrary {neurodata_type} object owned by this object
+    *
+    * For {neurodata_type} objects defined in the schema with a fixed name
+    * the corresponding DEFINE_REGISTERED_FIELD read functions are preferred
+    * because they help avoid the need for specifying the specific name
+    * and data type to use.
+    *
+    * @return The {neurodata_type} object representing the object or a nullptr if the
+    * object doesn't exist
+    */
+    std::shared_ptr<{neurodata_type}> read{neurodata_type}(const std::string& objectName)
+    {{
+        std::string objectPath = AQNWB::mergePaths(m_path, objectName);
+        if (m_io->objectExists(objectPath)) {{
+        return std::make_shared<{neurodata_type}>(objectPath, m_io);
+        }}
+        return nullptr;
     }}
-    return nullptr;
-  }}
 """
     return re
 
@@ -80,7 +75,7 @@ def render_define_field(field_name: str, field_type: str, dtype: str, doc: str) 
     Returns:
     str: A string representing the DEFINE_FIELD macro.
     """
-    re  = f"    DEFINE_FIELD(\n"
+    re  = "    DEFINE_FIELD(\n"
     re += f"        read{snake_to_camel(field_name)},\n"
     re += f"        {field_type},\n"
     re += f"        {dtype},\n"
@@ -355,7 +350,7 @@ def generate_header_file(namespace: SpecNamespace, neurodata_type: Spec,
             parent_class = "AQNWB::NWB::Container"
     
     # Start building the header file
-    header = f"""#pragma once
+    header = """#pragma once
 
 #include <memory>
 #include <string>
@@ -423,7 +418,7 @@ public:
     # Add DEFINE_FIELD and DEFINE_REGISTERED_FIELD macros
     header += "\n"
     header += "    // Define read methods\n"
-    header += "    // TODO: Check all macro definiton details\n"
+    header += "    // TODO: Check all macro definiton details. E.g. fix paths, types, and check for duplicates inherited from parent\n"
 
     # Add fields for attributes
     for attr in attributes:
