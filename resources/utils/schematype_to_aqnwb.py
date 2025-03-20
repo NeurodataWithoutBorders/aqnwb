@@ -240,7 +240,6 @@ def render_initalize_method(
     // TODO: Update the initialize method as appropriate.
     /**
      * @brief Initialize the object
-     *
      */
      void {funcSignature};
 """
@@ -251,7 +250,7 @@ def render_initalize_method(
 void {class_name}::{funcSignature}
 {{
     // Call parent initialize method. 
-    // TODO: Call the parents initialize method 
+    // TODO: Call the parents initialize method. This should typically also initialize inherited fields.
     // {parent_class_name}::initialize(...);
     
     // Initialize attributes
