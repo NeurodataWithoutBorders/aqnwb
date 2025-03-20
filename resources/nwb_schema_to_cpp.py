@@ -212,75 +212,6 @@ def collect_neurodata_types(namespace: SpecNamespace) -> Dict[str, Spec]:
     return neurodata_types
 
 
-def get_attributes(spec: Spec) -> Dict[str, Dict[str, Any]]:
-    """
-    Extract attributes from a spec object.
-
-    Parameters:
-    spec (Spec): The spec object.
-
-    Returns:
-    Dict[str, Dict[str, Any]]: A dictionary of attributes.
-    """
-    attributes = {}
-    
-    # Get attributes directly from the spec
-    if hasattr(spec, 'attributes'):
-        for attr_spec in spec.attributes:
-            attributes[attr_spec.name] = {
-                'dtype': attr_spec.dtype,
-                'doc': attr_spec.doc
-            }
-    
-    return attributes
-
-def get_datasets(spec: Spec) -> Dict[str, Dict[str, Any]]:
-    """
-    Extract datasets from a spec object.
-
-    Parameters:
-    spec (Spec): The spec object.
-
-    Returns:
-    Dict[str, Dict[str, Any]]: A dictionary of datasets.
-    """
-    datasets = {}
-    
-    # For GroupSpec, get datasets from the spec
-    if isinstance(spec, GroupSpec) and hasattr(spec, 'datasets'):
-        for dataset_spec in spec.datasets:
-            datasets[dataset_spec.name] = {
-                'dtype': dataset_spec.dtype,
-                'doc': dataset_spec.doc
-            }
-            if hasattr(dataset_spec, 'neurodata_type_inc'):
-                datasets[dataset_spec.name]['neurodata_type_inc'] = dataset_spec.neurodata_type_inc
-    
-    return datasets
-
-def get_groups(spec: Spec) -> Dict[str, Dict[str, Any]]:
-    """
-    Extract groups from a spec object.
-
-    Parameters:
-    spec (Spec): The spec object.
-
-    Returns:
-    Dict[str, Dict[str, Any]]: A dictionary of groups.
-    """
-    groups = {}
-    
-    # For GroupSpec, get groups from the spec
-    if isinstance(spec, GroupSpec) and hasattr(spec, 'groups'):
-        for group_spec in spec.groups:
-            groups[group_spec.name] = {
-                'doc': group_spec.doc
-            }
-            if hasattr(group_spec, 'neurodata_type_inc'):
-                groups[group_spec.name]['neurodata_type_inc'] = group_spec.neurodata_type_inc
-    
-    return groups
-
 def generate_header_file(namespace: SpecNamespace, neurodata_type: Spec, 
                          all_types: Dict[str, Spec]) -> str:
     """
@@ -372,17 +303,18 @@ public:
 """
 
     # Get attributes, datasets, and groups
-    attributes = get_attributes(neurodata_type)
-    datasets = get_datasets(neurodata_type)
-    groups = get_groups(neurodata_type)
-    
+    attributes = neurodata_type.get('attributes', {})
+    datasets = neurodata_type.get('datasets', {})
+    groups = neurodata_type.get('groups', {})
+
     # Add DEFINE_FIELD and DEFINE_REGISTERED_FIELD macros
     header += "\n"
     header += "    // Define read methods\n"
     header += "    // TODO: Check all macro definiton details\n"
 
     # Add fields for attributes
-    for attr_name, attr in attributes.items():
+    for attr in attributes:
+        attr_name = attr['name']
         doc = attr.get('doc', 'No documentation provided').replace('\n', ' ')
         header += render_define_field(field_name=attr_name, 
                                       field_type="AttributeField", 
@@ -390,7 +322,8 @@ public:
                                       doc=doc)
     
     # Add fields for datasets
-    for dataset_name, dataset in datasets.items():
+    for dataset in datasets:
+        dataset_name = dataset['name']
         doc = dataset.get('doc', 'No documentation provided').replace('\n', ' ')
         if  dataset.get('neurodata_type_inc', None) is not None:
             header += render_define_registered_field(dataset_name, dataset['neurodata_type_inc'], doc) 
@@ -402,7 +335,8 @@ public:
             # TODO: Need to also add DEFINE_FIELD for all attributes of the dataset
 
     # Add fields for groups
-    for group_name, group in groups.items():
+    for group in groups:
+        group_name = group['name']
         doc = group.get('doc', 'No documentation provided').replace('\n', ' ')
         if group.get('neurodata_type_inc', None) is not None:
             header += render_define_registered_field(group_name, group['neurodata_type_inc'], doc)
@@ -484,21 +418,21 @@ void {class_name}::initialize()
 """
     
     # Get attributes, datasets, and groups
-    attributes = get_attributes(neurodata_type)
-    datasets = get_datasets(neurodata_type)
-    groups = get_groups(neurodata_type)
+    attributes = neurodata_type.get('attributes', {})
+    datasets = neurodata_type.get('datasets', {})
+    groups = neurodata_type.get('groups', {})
     
     # Add initialization for attributes
-    for attr_name, attr in attributes.items():
-        impl += f"    // TODO: Initialize {attr_name} attribute\n"
+    for attr in attributes:
+        impl += f"    // TODO: Initialize {attr['name']} attribute\n"
     
     # Add initialization for datasets
-    for dataset_name, dataset in datasets.items():
-        impl += f"    // TODO: Initialize {dataset_name} dataset\n"
+    for dataset in datasets:
+        impl += f"    // TODO: Initialize {dataset['name']} dataset\n"
     
     # Add initialization for groups
-    for group_name, group in groups.items():
-        impl += f"    // TODO: Initialize {group_name} group\n"
+    for group in groups:
+        impl += f"    // TODO: Initialize {group['name']} group\n"
     
     impl += "}\n\n"
      
