@@ -23,8 +23,18 @@ from pynwb import get_manager, get_type_map
 from pynwb.spec import NWBNamespaceBuilder
 
 
-def render_define_registered_field(field_name, neurodata_type, doc):
-    """Return string for DEFINE_REGISTERED_FIELD macro"""
+def render_define_registered_field(field_name: str, neurodata_type: str, doc: str) -> str:
+    """
+    Return string for DEFINE_REGISTERED_FIELD macro.
+
+    Parameters:
+    field_name (str): Name of the field.
+    neurodata_type (str): The neurodata type of the field.
+    doc (str): Documentation string for the field.
+
+    Returns:
+    str: A string representing the DEFINE_REGISTERED_FIELD macro.
+    """
     re  = f"    DEFINE_REGISTERED_FIELD(\n" 
     re += f"        read{snake_to_camel(field_name)},\n"
     re += f"        {neurodata_type},\n"
@@ -32,13 +42,18 @@ def render_define_registered_field(field_name, neurodata_type, doc):
     re += f"        {doc})\n"
     return re 
 
-def render_define_field(field_name, field_type, dtype, doc):
+def render_define_field(field_name: str, field_type: str, dtype: str, doc: str) -> str:
     """
-    Return string for DEFINE_FIELD macro
-       field_name : Name of the field
-       field_type : one of DatasetField or AttributeField
-       dtype : C++ data type to use by default for read
-       doc : doc-string to use for field
+    Return string for DEFINE_FIELD macro.
+
+    Parameters:
+    field_name (str): Name of the field.
+    field_type (str): One of DatasetField or AttributeField.
+    dtype (str): C++ data type to use by default for read.
+    doc (str): Documentation string to use for the field.
+
+    Returns:
+    str: A string representing the DEFINE_FIELD macro.
     """
     re  = f"    DEFINE_FIELD(\n"
     re += f"        read{snake_to_camel(field_name)},\n"
@@ -49,7 +64,15 @@ def render_define_field(field_name, field_type, dtype, doc):
     return re
 
 def snake_to_camel(name: str) -> str:
-    """Convert snake_case to CamelCase."""
+    """
+    Convert snake_case to CamelCase.
+
+    Parameters:
+    name (str): The snake_case string to convert.
+
+    Returns:
+    str: The converted CamelCase string.
+    """
     if name is not None:
         return ''.join(word.title() for word in re.split('[_-]', name))
     else:
@@ -57,9 +80,21 @@ def snake_to_camel(name: str) -> str:
 
 
 def get_cpp_type(dtype: str) -> str:
-    """Convert NWB data type to C++ type."""
+    """
+    Convert NWB data type to C++ type.
+
+    Parameters:
+    dtype (str): The NWB data type.
+
+    Returns:
+    str: The corresponding C++ type.
+    """
     type_mapping = {
         'text': 'std::string',
+        'ascii': 'std::string',
+        'utf': 'std::string',
+        'utf8': 'std::string',
+        'utf-8': 'std::string',
         'float': 'float',
         'float32': 'float',
         'double': 'double',
@@ -75,7 +110,8 @@ def get_cpp_type(dtype: str) -> str:
         'uint32': 'uint32_t',
         'uint64': 'uint64_t',
         'bool': 'bool',
-        'isodatetime': 'std::string',  # Assuming isodatetime is stored as string
+        'isodatetime': 'std::string',
+        'datatime': 'std::string'
     }
     # Undefined dtype
     if dtype is None:
@@ -102,7 +138,15 @@ def get_cpp_type(dtype: str) -> str:
 
 
 def parse_schema_file(file_path: str) -> Tuple[SpecNamespace, Dict[str, Spec]]:
-    """Parse a schema file and return the namespace and data types using PyNWB."""
+    """
+    Parse a schema file and return the namespace and data types using PyNWB.
+
+    Parameters:
+    file_path (str): Path to the schema file.
+
+    Returns:
+    Tuple[SpecNamespace, Dict[str, Spec]]: The namespace and a dictionary of neurodata types.
+    """
     # Find the namespace file
     namespace_path = file_path
     if not (namespace_path.endswith('.namespace.yaml') or namespace_path.endswith('.namespace.json')):
@@ -149,23 +193,38 @@ def parse_schema_file(file_path: str) -> Tuple[SpecNamespace, Dict[str, Spec]]:
 
 
 def collect_neurodata_types(namespace: SpecNamespace) -> Dict[str, Spec]:
-    """Collect all neurodata types from the namespace."""
+    """
+    Collect all neurodata types from the namespace.
+
+    Parameters:
+    namespace (SpecNamespace): The namespace object.
+
+    Returns:
+    Dict[str, Spec]: A dictionary of neurodata types.
+    """
     neurodata_types = {}
     
     for spec_name in namespace.catalog.get_spec_names():
         spec = namespace.catalog.get_spec(spec_name)
-        if hasattr(spec, 'neurodata_type_def') and spec.neurodata_type_def is not None:
+        if spec.get('neurodata_type_def', None) is not None:
             neurodata_types[spec.neurodata_type_def] = spec
     
     return neurodata_types
 
 
 def get_attributes(spec: Spec) -> Dict[str, Dict[str, Any]]:
-    """Extract attributes from a spec object."""
+    """
+    Extract attributes from a spec object.
+
+    Parameters:
+    spec (Spec): The spec object.
+
+    Returns:
+    Dict[str, Dict[str, Any]]: A dictionary of attributes.
+    """
     attributes = {}
     
     # Get attributes directly from the spec
-    print(type(spec))
     if hasattr(spec, 'attributes'):
         for attr_spec in spec.attributes:
             attributes[attr_spec.name] = {
@@ -176,7 +235,15 @@ def get_attributes(spec: Spec) -> Dict[str, Dict[str, Any]]:
     return attributes
 
 def get_datasets(spec: Spec) -> Dict[str, Dict[str, Any]]:
-    """Extract datasets from a spec object."""
+    """
+    Extract datasets from a spec object.
+
+    Parameters:
+    spec (Spec): The spec object.
+
+    Returns:
+    Dict[str, Dict[str, Any]]: A dictionary of datasets.
+    """
     datasets = {}
     
     # For GroupSpec, get datasets from the spec
@@ -192,7 +259,15 @@ def get_datasets(spec: Spec) -> Dict[str, Dict[str, Any]]:
     return datasets
 
 def get_groups(spec: Spec) -> Dict[str, Dict[str, Any]]:
-    """Extract groups from a spec object."""
+    """
+    Extract groups from a spec object.
+
+    Parameters:
+    spec (Spec): The spec object.
+
+    Returns:
+    Dict[str, Dict[str, Any]]: A dictionary of groups.
+    """
     groups = {}
     
     # For GroupSpec, get groups from the spec
@@ -208,7 +283,17 @@ def get_groups(spec: Spec) -> Dict[str, Dict[str, Any]]:
 
 def generate_header_file(namespace: SpecNamespace, neurodata_type: Spec, 
                          all_types: Dict[str, Spec]) -> str:
-    """Generate C++ header file for a neurodata type."""
+    """
+    Generate C++ header file for a neurodata type.
+
+    Parameters:
+    namespace (SpecNamespace): The namespace object.
+    neurodata_type (Spec): The neurodata type spec.
+    all_types (Dict[str, Spec]): A dictionary of all neurodata types.
+
+    Returns:
+    str: The generated C++ header file content.
+    """
     namespace_name = namespace.name
     cpp_namespace_name = namespace_name.upper().replace("-", "_")
     type_name = neurodata_type.neurodata_type_def
@@ -338,7 +423,17 @@ public:
 
 def generate_implementation_file(namespace: SpecNamespace, neurodata_type: Spec, 
                                 all_types: Dict[str, Spec]) -> str:
-    """Generate C++ implementation file for a neurodata type."""
+    """
+    Generate C++ implementation file for a neurodata type.
+
+    Parameters:
+    namespace (SpecNamespace): The namespace object.
+    neurodata_type (Spec): The neurodata type spec.
+    all_types (Dict[str, Spec]): A dictionary of all neurodata types.
+
+    Returns:
+    str: The generated C++ implementation file content.
+    """
     namespace_name = namespace.name
     cpp_namespace_name = snake_to_camel(namespace_name)
     type_name = neurodata_type.neurodata_type_def
@@ -410,8 +505,19 @@ void {class_name}::initialize()
     return impl
 
 
-def main():
-    """Main function to parse arguments and generate code."""
+def main() -> None:
+    """
+    Main function to parse arguments and generate code.
+
+    This function sets up argument parsing, parses the schema file, optionally overrides the namespace,
+    creates the output directory, and generates code for each neurodata type.
+
+    Parameters:
+    None
+
+    Returns:
+    None
+    """
     parser = argparse.ArgumentParser(description='Generate C++ code from NWB schema files.')
     parser.add_argument('schema_file', help='Path to the schema file (JSON or YAML)')
     parser.add_argument('output_dir', help='Directory to output the generated code')
