@@ -29,13 +29,14 @@ def render_define_registered_field(field_name: str, neurodata_type: str, doc: st
     Returns:
     str: A string representing the DEFINE_REGISTERED_FIELD macro.
     """
+    doc_string = doc.replace('"','').replace("'", "")
     re = ""
     if field_name is not None:
         re += "    DEFINE_REGISTERED_FIELD(\n"
         re += f"        read{snake_to_camel(field_name)},\n"
         re += f"        {neurodata_type},\n"
         re += f"        \"{field_name}\",\n"
-        re += f"        {doc})\n"
+        re += f"        {doc_string})\n"
     else:
         re += f"""
     // TODO: Update or remove as appropriate (e.g., fix namespace of return type)
@@ -62,25 +63,28 @@ def render_define_registered_field(field_name: str, neurodata_type: str, doc: st
     return re
 
 
-def render_define_field(field_name: str, field_type: str, dtype: str, doc: str) -> str:
+def render_define_field(field_name: str, field_type: str, dtype: str, doc: str, field_parent: str = "") -> str:
     """
     Return string for DEFINE_FIELD macro.
 
     Parameters:
-    field_name (str): Name of the field.
+    field_name (str): Name of the field to use for generating the function name
     field_type (str): One of DatasetField or AttributeField.
     dtype (str): C++ data type to use by default for read.
     doc (str): Documentation string to use for the field.
+    field_parent: The name of the parent object
 
     Returns:
     str: A string representing the DEFINE_FIELD macro.
     """
+    field_path = field_name if field_parent == "" else (field_parent + "/" + field_name)
+    doc_string = doc.replace('"','').replace("'", "")
     re  = "    DEFINE_FIELD(\n"
-    re += f"        read{snake_to_camel(field_name)},\n"
+    re += f"        read{snake_to_camel(field_parent)}{snake_to_camel(field_name)},\n"
     re += f"        {field_type},\n"
     re += f"        {dtype},\n"
-    re += f"        \"{field_name}\",\n"
-    re += f"        {doc})\n"
+    re += f"        \"{field_path}\",\n"
+    re += f"        {doc_string})\n"
     return re
 
 
@@ -440,8 +444,14 @@ public:
                                           field_type="DatasetField", 
                                           dtype=get_cpp_type(dataset.dtype),
                                           doc=doc)
-            # TODO: Need to also add DEFINE_FIELD for all attributes of the dataset
-
+        for attr in dataset.get('attributes', []):
+            doc = attr.get('doc', 'No documentation provided').replace('\n', ' ')
+            header += render_define_field(field_name=attr.name, 
+                                          field_type="AttributeField", 
+                                          dtype=get_cpp_type(attr.dtype),
+                                          doc=doc,
+                                          field_parent=dataset_name)
+            
     # Add fields for groups
     for group in groups:
         group_name = group.name
@@ -449,9 +459,14 @@ public:
         if group.get('neurodata_type_inc', None) is not None:
             header += render_define_registered_field(group_name, group['neurodata_type_inc'], doc)
         else:
-            pass  # Groups without a type are just containers for named fields that should be exposed directly 
-            # TODO Need to recursively expose attributes and datasets in the untyped subgroup
-    
+            # TODO Groups without a type are just containers for fields that should be
+            #      exposed directly via the parent neurodata_type. To do this we would need
+            #      to recursibely go through all the contents of the current group
+            #      and essentially repeat the whole process of adding read methods for
+            #      datasets, attributes, and groups. For now we are just adding a note for
+            #      the user to indicate that the fields for this group are missing.
+            header += f"   // TODO Add missing read definitions for the contents of the untyped group \"{group_name}\"\n"
+            
     # Add REGISTER_SUBCLASS macro
     header += f"""
     REGISTER_SUBCLASS(
