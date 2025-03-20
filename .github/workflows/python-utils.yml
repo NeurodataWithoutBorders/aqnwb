@@ -24,14 +24,22 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r resources/utils/requirements.txt
 
-      - name: Run generate_spec_files.py
-        run: |
-          mkdir test_output
-          python resources/utils/generate_spec_files.py resources/spec/core/2.7.0 test_output
+          - name: Run generate_spec_files.py
+          run: |
+            mkdir test_output
+            output=$(python resources/utils/generate_spec_files.py resources/spec/core/2.7.0 test_output 2>&1)
+            echo "$output"
+            if echo "$output" | grep -q "ERROR"; then
+              exit 1
+            fi
 
       - name: Run schematype_to_aqnwb.py
         run: |
-          python resources/utils/schematype_to_aqnwb.py resources/spec/core/2.7.0/nwb.namespace.json test_output
+          output=$(python resources/utils/schematype_to_aqnwb.py resources/spec/core/2.7.0/nwb.namespace.json test_output 2>&1)
+          echo "$output"
+          if echo "$output" | grep -q "ERROR"; then
+            exit 1
+          fi
 
       - name: Check generated contents
         run: |
