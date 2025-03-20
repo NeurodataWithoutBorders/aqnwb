@@ -294,7 +294,9 @@ public:
      * @param path Path to the object in the file
      * @param io IO object for reading/writing
      */
-    {class_name}(const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io);
+    {class_name}(
+        const std::string& path,
+        std::shared_ptr<AQNWB::IO::BaseIO> io);
     
     /**
      * @brief Initialize the object
@@ -346,7 +348,9 @@ public:
     
     # Add REGISTER_SUBCLASS macro
     header += f"""
-    REGISTER_SUBCLASS({class_name}, AQNWB::SPEC::{cpp_namespace_name}::namespaceName)
+    REGISTER_SUBCLASS(
+        {class_name},
+        AQNWB::SPEC::{cpp_namespace_name}::namespaceName)
 }};
 
 }} // namespace {cpp_namespace_name}
