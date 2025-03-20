@@ -495,7 +495,7 @@ def generate_header_file(
 """
 
     # Add additional includes based on parent class
-    header += "// TODO: Confirm the parent class type used and include path"
+    header += "// TODO: Confirm the parent class type used and include path\n"
     if parent_type:
         if parent_type == "data":
             header += '#include "nwb/hdmf/base/Data.hpp"\n'
