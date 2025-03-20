@@ -26,7 +26,7 @@ from pynwb.spec import NWBNamespaceBuilder
 def snake_to_camel(name: str) -> str:
     """Convert snake_case to CamelCase."""
     if name is not None:
-        return ''.join(word.title() for word in name.split('_'))
+        return ''.join(word.title() for word in re.split('[_-]', name))
     else:
         return None
 
@@ -52,6 +52,9 @@ def get_cpp_type(dtype: str) -> str:
         'bool': 'bool',
         'isodatetime': 'std::string',  # Assuming isodatetime is stored as string
     }
+    # Undefined dtype
+    if dtype is None:
+        return "std::any"
     
     # Handle array types
     if isinstance(dtype, str) and dtype.startswith('array of '):
@@ -68,7 +71,7 @@ def get_cpp_type(dtype: str) -> str:
     if isinstance(dtype, dict) and 'reftype' in dtype:
         if dtype['reftype'] == 'object':
             target_type = dtype.get('target_type', 'RegisteredType')
-            return f"std::shared_ptr<{snake_to_camel(target_type)}>"
+            return f"std::shared_ptr<{target_type}>"
     
     return type_mapping.get(dtype, 'std::string')  # Default to string for unknown types
 
@@ -182,8 +185,9 @@ def generate_header_file(namespace: SpecNamespace, neurodata_type: Spec,
                          all_types: Dict[str, Spec]) -> str:
     """Generate C++ header file for a neurodata type."""
     namespace_name = namespace.name
+    cpp_namespace_name = snake_to_camel(namespace_name)
     type_name = neurodata_type.neurodata_type_def
-    class_name = snake_to_camel(type_name)
+    class_name = type_name
     
     # Get documentation
     doc = getattr(neurodata_type, 'doc', 'No documentation provided')
@@ -191,11 +195,11 @@ def generate_header_file(namespace: SpecNamespace, neurodata_type: Spec,
     # Determine parent class
     parent_type = getattr(neurodata_type, 'neurodata_type_inc', None)
     if parent_type:
-        parent_class = snake_to_camel(parent_type)
+        parent_class = parent_type
         # Check if parent is from a different namespace
         if '/' in parent_type:
             parent_namespace, parent_type = parent_type.split('/')
-            parent_class = f"{parent_namespace}::{snake_to_camel(parent_type)}"
+            parent_class = f"{parent_namespace}::{parent_type}"
     else:
         # Default parent class based on neurodata_type
         if isinstance(neurodata_type, DatasetSpec):
@@ -210,6 +214,7 @@ def generate_header_file(namespace: SpecNamespace, neurodata_type: Spec,
 #include <string>
 #include <vector>
 #include "nwb/RegisteredType.hpp"
+#include "io/ReasIO.hpp"
 #include "io/BaseIO.hpp"
 """
 
@@ -222,7 +227,7 @@ def generate_header_file(namespace: SpecNamespace, neurodata_type: Spec,
             pass
         else:
             # Same namespace, include the parent header
-            header += f"#include \"{snake_to_camel(parent_type)}.hpp\"\n"
+            header += f"#include \"{parent_type}.hpp\"\n"
     else:
         if "Data" in parent_class:
             header += "#include \"nwb/hdmf/base/Data.hpp\"\n"
@@ -230,10 +235,12 @@ def generate_header_file(namespace: SpecNamespace, neurodata_type: Spec,
             header += "#include \"nwb/hdmf/base/Container.hpp\"\n"
     
     # Include the namespace header
-    header += f"#include \"spec/{namespace_name}.hpp\"\n"
+    schema_header = namespace_name.replace("-", "_") + ".hpp"
+    header += f"#include \"spec/{schema_header}\"\n"
+    header += "using namespace AQNWB::IO;\n"
     
     header += f"""
-namespace {namespace_name} {{
+namespace {cpp_namespace_name} {{
 
 /**
  * @brief {neurodata_type.get('doc', 'No documentation provided')}
@@ -259,115 +266,40 @@ public:
     datasets = get_datasets(neurodata_type)
     groups = get_groups(neurodata_type)
     
-    # Add getters and setters for each attribute
-    for attr_name, attr in attributes.items():
-        cpp_type = get_cpp_type(attr.get('dtype', 'text'))
-        camel_attr = snake_to_camel(attr_name)
-        
-        # Getter
-        header += f"""
-    /**
-     * @brief Get {attr_name}
-     * @return {cpp_type} {attr.get('doc', 'No documentation provided')}
-     */
-    {cpp_type} get{camel_attr}() const;
-"""
-        
-        # Setter
-        header += f"""
-    /**
-     * @brief Set {attr_name}
-     * @param value {attr.get('doc', 'No documentation provided')}
-     */
-    void set{camel_attr}(const {cpp_type}& value);
-"""
+    # Add DEFINE_FIELD and DEFINE_REGISTERED_FIELD macros
+    header += "\n"
+    header += "    // Define read methods\n"
+    header += "    // TODO: Check all macro definitons for correctnes\n"
 
-    # Add getters and setters for each dataset
-    for dataset_name, dataset in datasets.items():
-        cpp_type = get_cpp_type(dataset.get('dtype', 'text'))
-        camel_dataset = snake_to_camel(dataset_name)
-        
-        # Getter
-        header += f"""
-    /**
-     * @brief Get {dataset_name}
-     * @return {cpp_type} {dataset.get('doc', 'No documentation provided')}
-     */
-    {cpp_type} get{camel_dataset}() const;
-"""
-        
-        # Setter
-        header += f"""
-    /**
-     * @brief Set {dataset_name}
-     * @param value {dataset.get('doc', 'No documentation provided')}
-     */
-    void set{camel_dataset}(const {cpp_type}& value);
-"""
-
-    # Add getters and setters for each group
-    for group_name, group in groups.items():
-        if 'neurodata_type_inc' in group:
-            group_type = group['neurodata_type_inc']
-            if '/' in group_type:
-                # External namespace
-                namespace_part, type_part = group_type.split('/')
-                cpp_group_type = f"{namespace_part}::{snake_to_camel(type_part)}"
-            else:
-                cpp_group_type = snake_to_camel(group_type)
-        else:
-            cpp_group_type = "AQNWB::NWB::Container"
-        
-        camel_group = snake_to_camel(group_name)
-        
-        # Getter
-        header += f"""
-    /**
-     * @brief Get {group_name}
-     * @return std::shared_ptr<{cpp_group_type}> {group.get('doc', 'No documentation provided')}
-     */
-    std::shared_ptr<{cpp_group_type}> get{camel_group}() const;
-"""
-        
-        # Setter
-        header += f"""
-    /**
-     * @brief Set {group_name}
-     * @param value {group.get('doc', 'No documentation provided')}
-     */
-    void set{camel_group}(std::shared_ptr<{cpp_group_type}> value);
-"""
-
-    # Add DEFINE_FIELD macros
-    header += "\nprivate:\n"
-    
     # Add fields for attributes
     for attr_name, attr in attributes.items():
         doc = attr.get('doc', 'No documentation provided').replace('\n', ' ')
-        header += f"    DEFINE_FIELD(read{snake_to_camel(attr_name)}, AttributeField, {get_cpp_type(attr.get('dtype', 'text'))}, \"{attr_name}\", {doc})\n"
+        header += f"    DEFINE_FIELD(read{snake_to_camel(attr_name)}, AttributeField, {get_cpp_type(attr.get('dtype', None))}, \"{attr_name}\", {doc})\n"
     
     # Add fields for datasets
     for dataset_name, dataset in datasets.items():
         doc = dataset.get('doc', 'No documentation provided').replace('\n', ' ')
         if 'neurodata_type_inc' in dataset:
-            header += f"    DEFINE_REGISTERED_FIELD(read{snake_to_camel(dataset_name)}, {snake_to_camel(dataset['neurodata_type_inc'])}, \"{dataset_name}\", {doc})\n"
+            header += f"    DEFINE_REGISTERED_FIELD(read{snake_to_camel(dataset_name)}, {dataset['neurodata_type_inc']}, \"{dataset_name}\", {doc})\n"
         else:
-            header += f"    DEFINE_FIELD(read{snake_to_camel(dataset_name)}, DatasetField, {get_cpp_type(dataset.get('dtype', 'text'))}, \"{dataset_name}\", {doc})\n"
-    
+            header += f"    DEFINE_FIELD(read{snake_to_camel(dataset_name)}, DatasetField, {get_cpp_type(dataset.get('dtype', None))}, \"{dataset_name}\", {doc})\n"
+            # TODO: Need to also add DEFINE_FIELD for all attributes of the dataset
+
     # Add fields for groups
     for group_name, group in groups.items():
         doc = group.get('doc', 'No documentation provided').replace('\n', ' ')
         if 'neurodata_type_inc' in group:
-            header += f"    DEFINE_REGISTERED_FIELD(read{snake_to_camel(group_name)}, {snake_to_camel(group['neurodata_type_inc'])}, \"{group_name}\", {doc})\n"
+            header += f"    DEFINE_REGISTERED_FIELD(read{snake_to_camel(group_name)}, {group['neurodata_type_inc']}, \"{group_name}\", {doc})\n"
         else:
-            header += f"    DEFINE_FIELD(read{snake_to_camel(group_name)}, GroupField, std::any, \"{group_name}\", {doc})\n"
+            pass  # Groups without a type are just containers for named fields that should be exposed directly 
+            # TODO Need to recursively expose attributes and datasets in the untyped subgroup
     
     # Add REGISTER_SUBCLASS macro
     header += f"""
     REGISTER_SUBCLASS({class_name}, AQNWB::SPEC::{namespace_name.upper()}::namespaceName)
 }};
 
-}} // namespace {namespace_name}
+}} // namespace {cpp_namespace_name}
 """
     
     return header
@@ -377,17 +309,18 @@ def generate_implementation_file(namespace: SpecNamespace, neurodata_type: Spec,
                                 all_types: Dict[str, Spec]) -> str:
     """Generate C++ implementation file for a neurodata type."""
     namespace_name = namespace.name
+    cpp_namespace_name = snake_to_camel(namespace_name)
     type_name = neurodata_type.neurodata_type_def
-    class_name = snake_to_camel(type_name)
+    class_name = type_name
     
     # Determine parent class
     parent_type = getattr(neurodata_type, 'neurodata_type_inc', None)
     if parent_type:
-        parent_class = snake_to_camel(parent_type)
+        parent_class = parent_type
         # Check if parent is from a different namespace
         if '/' in parent_type:
             parent_namespace, parent_type = parent_type.split('/')
-            parent_class = f"{parent_namespace}::{snake_to_camel(parent_type)}"
+            parent_class = f"{parent_namespace}::{parent_type}"
     else:
         # Default parent class based on neurodata_type
         if isinstance(neurodata_type, DatasetSpec):
@@ -399,7 +332,8 @@ def generate_implementation_file(namespace: SpecNamespace, neurodata_type: Spec,
     impl = f"""#include "{class_name}.hpp"
 #include "Utils.hpp"
 
-using namespace {namespace_name};
+using namespace {cpp_namespace_name};
+using namespace AQNWB::IO;
 
 // Initialize the static registered_ member to trigger registration
 REGISTER_SUBCLASS_IMPL({class_name})
@@ -441,93 +375,7 @@ void {class_name}::initialize()
         impl += f"    // TODO: Initialize {group_name} group\n"
     
     impl += "}\n\n"
-    
-    # Add getter and setter implementations for attributes
-    for attr_name, attr in attributes.items():
-        cpp_type = get_cpp_type(attr.get('dtype', 'text'))
-        camel_attr = snake_to_camel(attr_name)
-        
-        # Getter implementation
-        impl += f"""
-/**
- * @brief Get {attr_name}
- */
-{cpp_type} {class_name}::get{camel_attr}() const
-{{
-    auto wrapper = read{camel_attr}();
-    return wrapper->values().data[0];
-}}
-
-/**
- * @brief Set {attr_name}
- */
-void {class_name}::set{camel_attr}(const {cpp_type}& value)
-{{
-    auto attrPath = AQNWB::mergePaths(m_path, "{attr_name}");
-    m_io->createAttribute(attrPath, value);
-}}
-"""
-    
-    # Add getter and setter implementations for datasets
-    for dataset_name, dataset in datasets.items():
-        cpp_type = get_cpp_type(dataset.get('dtype', 'text'))
-        camel_dataset = snake_to_camel(dataset_name)
-        
-        # Getter implementation
-        impl += f"""
-/**
- * @brief Get {dataset_name}
- */
-{cpp_type} {class_name}::get{camel_dataset}() const
-{{
-    auto wrapper = read{camel_dataset}();
-    return wrapper->values().data[0];
-}}
-
-/**
- * @brief Set {dataset_name}
- */
-void {class_name}::set{camel_dataset}(const {cpp_type}& value)
-{{
-    auto datasetPath = AQNWB::mergePaths(m_path, "{dataset_name}");
-    m_io->createDataSet(datasetPath, value);
-}}
-"""
-    
-    # Add getter and setter implementations for groups
-    for group_name, group in groups.items():
-        if 'neurodata_type_inc' in group:
-            group_type = group['neurodata_type_inc']
-            if '/' in group_type:
-                # External namespace
-                namespace_part, type_part = group_type.split('/')
-                cpp_group_type = f"{namespace_part}::{snake_to_camel(type_part)}"
-            else:
-                cpp_group_type = snake_to_camel(group_type)
-        else:
-            cpp_group_type = "AQNWB::NWB::Container"
-        
-        camel_group = snake_to_camel(group_name)
-        
-        # Getter implementation
-        impl += f"""
-/**
- * @brief Get {group_name}
- */
-std::shared_ptr<{cpp_group_type}> {class_name}::get{camel_group}() const
-{{
-    return read{camel_group}();
-}}
-
-/**
- * @brief Set {group_name}
- */
-void {class_name}::set{camel_group}(std::shared_ptr<{cpp_group_type}> value)
-{{
-    // TODO: Implement setter for {group_name}
-}}
-"""
-    
+     
     return impl
 
 
@@ -553,7 +401,7 @@ def main():
     
     # Generate code for each neurodata type
     for type_name, neurodata_type in neurodata_types.items():
-        class_name = snake_to_camel(type_name)
+        class_name = type_name
         
         # Generate header file
         header_file = generate_header_file(namespace, neurodata_type, neurodata_types)
