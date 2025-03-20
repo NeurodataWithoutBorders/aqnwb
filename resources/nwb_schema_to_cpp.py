@@ -88,6 +88,87 @@ def render_define_field(field_name: str, field_type: str, dtype: str, doc: str) 
     re += f"        {doc})\n"
     return re
 
+
+def renderInitalizeMethod(class_name: str, parent_class_name: str, attributes: List[Dict], datasets: List[Dict], groups: List[Dict]) -> Tuple[str, str]:
+    """
+    Render the initalize method for a neurodata_type
+
+    Parameters:
+    class_name (str): Name of the class
+    parent_class_name (str): Name of the parent class
+    attributes : List of all the attribute specs
+    datasets: List of all the dataset specs
+    groups: List of all the group specs
+
+    Returns:
+    Tuple(str, str) : The first string is the signature for the header
+    and the second string is the implementation for the cpp file. 
+    """
+    funcSignature = "initialize("
+    # Add initialization for attributes
+    for obj in attributes + datasets:
+        obj_cpp_type = get_cpp_type(obj.dtype)
+        if obj.shape is None:
+            if obj_cpp_type  == "std::string":
+                funcSignature += f"\n       const {obj_cpp_type}& {obj.name},"
+            else:
+                funcSignature += f"\n       {obj_cpp_type} {obj.name},"
+        else:
+            funcSignature += f"\n       const std::vector<{obj_cpp_type}>& {obj.name},"  
+    funcSignature = funcSignature.rstrip(",") + ")"
+ 
+    headerSrc = f"""
+    // TODO: Update the initialize method as approbriate.
+    /**
+     * @brief Initialize the object
+     *
+     */
+     void {funcSignature};
+"""
+    cppSrc = f"""
+/**
+ * @brief Initialize the object
+ */
+void {class_name}::{funcSignature}
+{{
+    // Call parent initialize method. 
+    // TODO: Call the parents initialize method 
+    // {parent_class_name}::initialize(...);
+    
+    // Initialize attributes
+"""
+    # Add initialization for attributes, datasets and groups
+    for attr in attributes:
+        cppSrc  += f"    // TODO: Initialize {attr.name} attribute.\n"
+        # add example initializtion hints
+        attr_cpp_type = get_cpp_type(attr.dtype)
+        if attr_cpp_type == "std::string":
+            cppSrc += f"    // m_io->createAttribute({attr.name}, m_path, \"{attr.name}\");\n\n"
+        elif attr.shape is None:
+            cppSrc += f"   // m_io->createAttribute(AQNWB::IO::BaseDataType::F32, &{attr.name}, m_path, \"{attr.name}\");\n\n"
+    cppSrc += "    // Initialize datasets\n"
+    for dataset in datasets:
+        cppSrc += f"    // TODO: Initialize {dataset.name} dataset\n"
+        # add example initializtion hints
+        dataset_cpp_type = get_cpp_type(dataset.dtype)
+        if dataset_cpp_type == "std::string":
+            cppSrc += f"    // auto {dataset.name}Path = AQNWB::mergePaths(m_path, \"{dataset.name}\);\n"
+            cppSrc += f"    // m_io->createStringDataSet({dataset.name}Path, {dataset.name})\n"
+        else:
+            cppSrc += f"    // IO::ArrayDataSetConfig {dataset.name}Config(<IO::BaseDataType>, <SHAPE>, <CHUNK_SIZE>);\n"
+            cppSrc += f"    // std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet({dataset.name}Config, path));\n"
+        cppSrc += "\n"
+    cppSrc += "    // Initialize groups\n"
+    for group in groups:
+        cppSrc += f"    // TODO: Initialize {group.name} group\n"
+        cppSrc += f"    // auto {group.name}Path = AQNWB::mergePaths(m_path, \"{group.name}\");\n"
+        cppSrc += f"    // m_io->createGroup({group.name}Path);\n"
+        cppSrc += "\n"
+    cppSrc += "}\n\n"
+   
+    return headerSrc, cppSrc
+
+
 def snake_to_camel(name: str) -> str:
     """
     Convert snake_case to CamelCase.
@@ -280,11 +361,12 @@ def generate_header_file(namespace: SpecNamespace, neurodata_type: Spec,
 #include <string>
 #include <vector>
 #include "nwb/RegisteredType.hpp"
-#include "io/ReasIO.hpp"
+#include "io/ReadIO.hpp"
 #include "io/BaseIO.hpp"
 """
 
     # Add additional includes based on parent class
+    header += "// TODO: Confirm the parent class type used and include path"
     if parent_type:
         if parent_type == 'data':
             header += "#include \"nwb/hdmf/base/Data.hpp\"\n"
@@ -304,7 +386,14 @@ def generate_header_file(namespace: SpecNamespace, neurodata_type: Spec,
     schema_header = namespace_name.replace("-", "_") + ".hpp"
     header += f"#include \"spec/{schema_header}\"\n"
     header += "using namespace AQNWB::IO;\n"
-    
+
+    # Get attributes, datasets, and groups
+    header_initalize_src, _ = renderInitalizeMethod(
+        class_name=class_name,
+        parent_class_name=parent_class,
+        attributes=neurodata_type.get('attributes', []),
+        datasets=neurodata_type.get('datasets', []), 
+        groups=neurodata_type.get('groups', [])) 
     header += f"""
 namespace {cpp_namespace_name} {{
 
@@ -323,16 +412,13 @@ public:
         const std::string& path,
         std::shared_ptr<AQNWB::IO::BaseIO> io);
     
-    /**
-     * @brief Initialize the object
-     */
-    void initialize();
+    {header_initalize_src}
 """
 
     # Get attributes, datasets, and groups
-    attributes = neurodata_type.get('attributes', {})
-    datasets = neurodata_type.get('datasets', {})
-    groups = neurodata_type.get('groups', {})
+    attributes = neurodata_type.get('attributes', [])
+    datasets = neurodata_type.get('datasets', [])
+    groups = neurodata_type.get('groups', [])
 
     # Add DEFINE_FIELD and DEFINE_REGISTERED_FIELD macros
     header += "\n"
@@ -345,7 +431,7 @@ public:
         doc = attr.get('doc', 'No documentation provided').replace('\n', ' ')
         header += render_define_field(field_name=attr_name, 
                                       field_type="AttributeField", 
-                                      dtype=get_cpp_type(attr.get('dtype', None)),
+                                      dtype=get_cpp_type(attr.dtype),
                                       doc=doc)
     
     # Add fields for datasets
@@ -357,7 +443,7 @@ public:
         else:
             header += render_define_field(field_name=dataset_name, 
                                           field_type="DatasetField", 
-                                          dtype=get_cpp_type(dataset.get('dtype', None)),
+                                          dtype=get_cpp_type(dataset.dtype),
                                           doc=doc)
             # TODO: Need to also add DEFINE_FIELD for all attributes of the dataset
 
@@ -416,6 +502,14 @@ def generate_implementation_file(namespace: SpecNamespace, neurodata_type: Spec,
             parent_class = "AQNWB::NWB::Data"
         else:
             parent_class = "AQNWB::NWB::Container"
+
+    # Get attributes, datasets, and groups
+    _ , cpp_initalize_src = renderInitalizeMethod(
+        class_name=class_name,
+        parent_class_name=parent_class,
+        attributes=neurodata_type.get('attributes', []),
+        datasets=neurodata_type.get('datasets', []), 
+        groups=neurodata_type.get('groups', []))
     
     # Start building the implementation file
     impl = f"""#include "{class_name}.hpp"
@@ -435,35 +529,8 @@ REGISTER_SUBCLASS_IMPL({class_name})
 {{
 }}
 
-/**
- * @brief Initialize the object
- */
-void {class_name}::initialize()
-{{
-    // Call parent initialize method
-    {parent_class}::initialize();
-    
-    // Initialize attributes
+{cpp_initalize_src}
 """
-    
-    # Get attributes, datasets, and groups
-    attributes = neurodata_type.get('attributes', {})
-    datasets = neurodata_type.get('datasets', {})
-    groups = neurodata_type.get('groups', {})
-    
-    # Add initialization for attributes
-    for attr in attributes:
-        impl += f"    // TODO: Initialize {attr.name} attribute\n"
-    
-    # Add initialization for datasets
-    for dataset in datasets:
-        impl += f"    // TODO: Initialize {dataset.name} dataset\n"
-    
-    # Add initialization for groups
-    for group in groups:
-        impl += f"    // TODO: Initialize {group.name} group\n"
-    
-    impl += "}\n\n"
      
     return impl
 
