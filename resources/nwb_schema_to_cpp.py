@@ -23,6 +23,31 @@ from pynwb import get_manager, get_type_map
 from pynwb.spec import NWBNamespaceBuilder
 
 
+def render_define_registered_field(field_name, neurodata_type, doc):
+    """Return string for DEFINE_REGISTERED_FIELD macro"""
+    re  = f"    DEFINE_REGISTERED_FIELD(\n" 
+    re += f"        read{snake_to_camel(field_name)},\n"
+    re += f"        {neurodata_type},\n"
+    re += f"        \"{field_name}\",\n"
+    re += f"        {doc})\n"
+    return re 
+
+def render_define_field(field_name, field_type, dtype, doc):
+    """
+    Return string for DEFINE_FIELD macro
+       field_name : Name of the field
+       field_type : one of DatasetField or AttributeField
+       dtype : C++ data type to use by default for read
+       doc : doc-string to use for field
+    """
+    re  = f"    DEFINE_FIELD(\n"
+    re += f"        read{snake_to_camel(field_name)},\n"
+    re += f"        {field_type},\n"
+    re += f"        {dtype},\n"
+    re += f"        \"{field_name}\",\n"
+    re += f"        {doc})\n"
+    return re
+
 def snake_to_camel(name: str) -> str:
     """Convert snake_case to CamelCase."""
     if name is not None:
@@ -274,22 +299,28 @@ public:
     # Add fields for attributes
     for attr_name, attr in attributes.items():
         doc = attr.get('doc', 'No documentation provided').replace('\n', ' ')
-        header += f"    DEFINE_FIELD(read{snake_to_camel(attr_name)}, AttributeField, {get_cpp_type(attr.get('dtype', None))}, \"{attr_name}\", {doc})\n"
+        header += render_define_field(field_name=attr_name, 
+                                      field_type="AttributeField", 
+                                      dtype=get_cpp_type(attr.get('dtype', None)),
+                                      doc=doc)
     
     # Add fields for datasets
     for dataset_name, dataset in datasets.items():
         doc = dataset.get('doc', 'No documentation provided').replace('\n', ' ')
-        if 'neurodata_type_inc' in dataset:
-            header += f"    DEFINE_REGISTERED_FIELD(read{snake_to_camel(dataset_name)}, {dataset['neurodata_type_inc']}, \"{dataset_name}\", {doc})\n"
+        if  dataset.get('neurodata_type_inc', None) is not None:
+            header += render_define_registered_field(dataset_name, dataset['neurodata_type_inc'], doc) 
         else:
-            header += f"    DEFINE_FIELD(read{snake_to_camel(dataset_name)}, DatasetField, {get_cpp_type(dataset.get('dtype', None))}, \"{dataset_name}\", {doc})\n"
+            header += render_define_field(field_name=dataset_name, 
+                                          field_type="DatasetField", 
+                                          dtype=get_cpp_type(dataset.get('dtype', None)),
+                                          doc=doc)
             # TODO: Need to also add DEFINE_FIELD for all attributes of the dataset
 
     # Add fields for groups
     for group_name, group in groups.items():
         doc = group.get('doc', 'No documentation provided').replace('\n', ' ')
-        if 'neurodata_type_inc' in group:
-            header += f"    DEFINE_REGISTERED_FIELD(read{snake_to_camel(group_name)}, {group['neurodata_type_inc']}, \"{group_name}\", {doc})\n"
+        if group.get('neurodata_type_inc', None) is not None:
+            header += render_define_registered_field(group_name, group['neurodata_type_inc'], doc)
         else:
             pass  # Groups without a type are just containers for named fields that should be exposed directly 
             # TODO Need to recursively expose attributes and datasets in the untyped subgroup
