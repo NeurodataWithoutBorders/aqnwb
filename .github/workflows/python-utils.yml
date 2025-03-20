@@ -1,0 +1,40 @@
+name: Run resources/utils Python Scripts
+
+on: 
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  run-scripts:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r resources/utils/requirements.txt
+
+      - name: Run generate_spec_files.py
+        run: |
+          mkdir test_output
+          python resources/utils/generate_spec_files.py resources/spec/core/2.7.0 test_output
+
+      - name: Run schematype_to_aqnwb.py
+        run: |
+          python resources/utils/schematype_to_aqnwb.py resources/spec/core/2.7.0/nwb.namespace.json test_output
+
+      - name: Check generated contents
+        run: |
+          ls test_output
