@@ -35,12 +35,37 @@ def render_define_registered_field(field_name: str, neurodata_type: str, doc: st
     Returns:
     str: A string representing the DEFINE_REGISTERED_FIELD macro.
     """
-    re  = f"    DEFINE_REGISTERED_FIELD(\n" 
-    re += f"        read{snake_to_camel(field_name)},\n"
-    re += f"        {neurodata_type},\n"
-    re += f"        \"{field_name}\",\n"
-    re += f"        {doc})\n"
-    return re 
+    re = ""
+    if field_name is not None:
+        re += f"    DEFINE_REGISTERED_FIELD(\n"
+        re += f"        read{snake_to_camel(field_name)},\n"
+        re += f"        {neurodata_type},\n"
+        re += f"        \"{field_name}\",\n"
+        re += f"        {doc})\n"
+    else:
+        re += f"""
+  /**
+   * @brief Read an arbitrary {neurodata_type} object owned by this object
+   *
+   * For {neurodata_type} objects defined in the schema with a fixed name
+   * the corresponding DEFINE_REGISTERED_FIELD read functions are preferred
+   * because they help avoid the need for specifying the specific name
+   * and data type to use.
+   *
+   * @return The {neurodata_type} object representing the object or a nullptr if the
+   * object doesn't exist
+   */
+  std::shared_ptr<{neurodata_type}> read{neurodata_type}(const std::string& objectName)
+  {{
+    std::string objectPath = AQNWB::mergePaths(m_path, objectName);
+    if (m_io->objectExists(objectPath)) {{
+      return std::make_shared<{neurodata_type}>(objectPath, m_io);
+    }}
+    return nullptr;
+  }}
+"""
+    return re
+
 
 def render_define_field(field_name: str, field_type: str, dtype: str, doc: str) -> str:
     """
@@ -316,7 +341,7 @@ public:
 
     # Add fields for attributes
     for attr in attributes:
-        attr_name = attr['name']
+        attr_name = attr.name
         doc = attr.get('doc', 'No documentation provided').replace('\n', ' ')
         header += render_define_field(field_name=attr_name, 
                                       field_type="AttributeField", 
@@ -325,7 +350,7 @@ public:
     
     # Add fields for datasets
     for dataset in datasets:
-        dataset_name = dataset['name']
+        dataset_name = dataset.name
         doc = dataset.get('doc', 'No documentation provided').replace('\n', ' ')
         if  dataset.get('neurodata_type_inc', None) is not None:
             header += render_define_registered_field(dataset_name, dataset['neurodata_type_inc'], doc) 
@@ -338,7 +363,7 @@ public:
 
     # Add fields for groups
     for group in groups:
-        group_name = group['name']
+        group_name = group.name
         doc = group.get('doc', 'No documentation provided').replace('\n', ' ')
         if group.get('neurodata_type_inc', None) is not None:
             header += render_define_registered_field(group_name, group['neurodata_type_inc'], doc)
@@ -428,15 +453,15 @@ void {class_name}::initialize()
     
     # Add initialization for attributes
     for attr in attributes:
-        impl += f"    // TODO: Initialize {attr['name']} attribute\n"
+        impl += f"    // TODO: Initialize {attr.name} attribute\n"
     
     # Add initialization for datasets
     for dataset in datasets:
-        impl += f"    // TODO: Initialize {dataset['name']} dataset\n"
+        impl += f"    // TODO: Initialize {dataset.name} dataset\n"
     
     # Add initialization for groups
     for group in groups:
-        impl += f"    // TODO: Initialize {group['name']} group\n"
+        impl += f"    // TODO: Initialize {group.name} group\n"
     
     impl += "}\n\n"
      
