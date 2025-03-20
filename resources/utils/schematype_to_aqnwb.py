@@ -7,6 +7,7 @@ for interacting with the neurodata types defined in the schema using AqNWB.
 """
 
 import logging
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -299,7 +300,7 @@ def parse_schema_file(file_path: str) -> Tuple[SpecNamespace, Dict[str, Spec]]:
             namespace_data = json.load(f)
     else:  # Assume YAML
         with open(namespace_path, "r") as f:
-            yaml = YAML(typ='safe')
+            yaml = YAML(typ="safe")
             namespace_data = yaml.load(f)
 
     namespace_name = namespace_data["namespaces"][0]["name"]
@@ -597,7 +598,9 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="Generate C++ code from NWB schema files."
     )
-    parser.add_argument("schema_file", help="Path to the namespace schema file (JSON or YAML)")
+    parser.add_argument(
+        "schema_file", help="Path to the namespace schema file (JSON or YAML)"
+    )
     parser.add_argument("output_dir", help="Directory to output the generated code")
 
     args = parser.parse_args()
@@ -625,7 +628,9 @@ def main() -> None:
 
         try:
             logger.info(f"Generating header file for {class_name}")
-            header_file = generate_header_file(namespace, neurodata_type, neurodata_types)
+            header_file = generate_header_file(
+                namespace, neurodata_type, neurodata_types
+            )
             header_path = os.path.join(args.output_dir, f"{class_name}.hpp")
             with open(header_path, "w") as f:
                 f.write(header_file)
