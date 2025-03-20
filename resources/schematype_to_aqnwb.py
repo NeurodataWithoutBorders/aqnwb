@@ -592,21 +592,13 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="Generate C++ code from NWB schema files."
     )
-    parser.add_argument("schema_file", help="Path to the schema file (JSON or YAML)")
+    parser.add_argument("schema_file", help="Path to the namespace schema file (JSON or YAML)")
     parser.add_argument("output_dir", help="Directory to output the generated code")
-    parser.add_argument(
-        "--namespace", help="Namespace to use (overrides the one in the schema)"
-    )
 
     args = parser.parse_args()
 
     # Parse the schema file
     namespace, neurodata_types = parse_schema_file(args.schema_file)
-
-    # Override namespace if provided
-    if args.namespace:
-        # Create a new namespace with the provided name
-        namespace.name = args.namespace
 
     # Create output directory if it doesn't exist
     os.makedirs(args.output_dir, exist_ok=True)
