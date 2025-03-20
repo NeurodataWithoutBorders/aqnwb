@@ -320,7 +320,7 @@
  *
  * @section using_schematype_to_aqnwb Using the schematype_to_aqnwb.py Utility
  *
- * The `resources/schematype_to_aqnwb.py` script, included in the 
+ * The `resources/utils/schematype_to_aqnwb.py` script, included in the 
  * [AqNWB source repository](https://github.com/NeurodataWithoutBorders/aqnwb),
  * is a simple utility designed to create skeleton C++ source files for integrating new 
  * neurodata_types with AqNWB. While the generated source files are only an outline, 
@@ -329,12 +329,12 @@
  * for AqNWB classes for all neurodata_types in the NWB schema:
  * 
  * @code
- * python resources/schematype_to_aqnwb.py resources/spec/core/2.7.0/nwb.namespace.json test_output
+ * python resources/utils/schematype_to_aqnwb.py resources/spec/core/2.7.0/nwb.namespace.json test_output
  * @endcode
  *
  * To learn more about how to use the script and its parameters, you can view the help doc by running: 
  *
  * @code
- * python resources/schematype_to_aqnwb.py --help
+ * python resources/utils/schematype_to_aqnwb.py --help
  * @endcode
  */
