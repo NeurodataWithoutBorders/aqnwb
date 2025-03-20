@@ -23,7 +23,11 @@ from pynwb import get_type_map
 
 
 def render_define_registered_field(
-    field_name: str, neurodata_type: str, doc: str
+    field_name: str,
+    neurodata_type: str,
+    doc: str,
+    is_inherited: bool = False,
+    is_overridden: bool = False,
 ) -> str:
     """
     Return string for DEFINE_REGISTERED_FIELD macro.
@@ -32,12 +36,19 @@ def render_define_registered_field(
     field_name (str): Name of the field.
     neurodata_type (str): The neurodata type of the field.
     doc (str): Documentation string for the field.
+    is_inherited (bool): Indicates whether the field is inherited from the parent
+    is_overridden (bool): Indicates wheterh the field overrides a field from the parent
 
     Returns:
     str: A string representing the DEFINE_REGISTERED_FIELD macro.
     """
     doc_string = doc.replace('"', "").replace("'", "")
     re = ""
+    if is_inherited and not is_overridden:
+        re += "    /*\n"
+        re += f"    // {field_name} inherited from parent neurodata_type\n"
+    if is_overridden:
+        re += f"    // {field_name} overriddes inherited field from parent neurodata_type\n"
     if field_name is not None:
         re += "    DEFINE_REGISTERED_FIELD(\n"
         re += f"        read{snake_to_camel(field_name)},\n"
@@ -67,11 +78,19 @@ def render_define_registered_field(
         return nullptr;
     }}
 """
+    if is_inherited and not is_overridden:
+        re += "    */\n"
     return re
 
 
 def render_define_field(
-    field_name: str, field_type: str, dtype: str, doc: str, field_parent: str = ""
+    field_name: str,
+    field_type: str,
+    dtype: str,
+    doc: str,
+    field_parent: str = "",
+    is_inherited: bool = False,
+    is_overridden: bool = False,
 ) -> str:
     """
     Return string for DEFINE_FIELD macro.
@@ -82,27 +101,37 @@ def render_define_field(
     dtype (str): C++ data type to use by default for read.
     doc (str): Documentation string to use for the field.
     field_parent: The name of the parent object
+    is_inherited (bool): Indicates whether the field is inherited from the parent
+    is_overridden (bool): Indicates wheterh the field overrides a field from the parent
 
     Returns:
     str: A string representing the DEFINE_FIELD macro.
     """
     field_path = field_name if field_parent == "" else (field_parent + "/" + field_name)
+    field_full_name = f"{snake_to_camel(field_parent)}{snake_to_camel(field_name)}"
     doc_string = doc.replace('"', "").replace("'", "")
-    re = "    DEFINE_FIELD(\n"
-    re += f"        read{snake_to_camel(field_parent)}{snake_to_camel(field_name)},\n"
+    re = ""
+    if is_inherited and not is_overridden:
+        re += "    /*\n"
+        re += f"    // {field_name} inherited from parent neurodata_type\n"
+    if is_overridden:
+        re += f"    // {field_name} overriddes inherited field from parent neurodata_type\n"
+
+    re += "    DEFINE_FIELD(\n"
+    re += f"        read{field_full_name},\n"
     re += f"        {field_type},\n"
     re += f"        {dtype},\n"
     re += f'        "{field_path}",\n'
     re += f"        {doc_string})\n"
+    if is_inherited and not is_overridden:
+        re += "    */\n"
     return re
 
 
-def renderInitalizeMethod(
+def render_initalize_method(
     class_name: str,
     parent_class_name: str,
-    attributes: List[Dict],
-    datasets: List[Dict],
-    groups: List[Dict],
+    neurodata_type: Spec,
 ) -> Tuple[str, str]:
     """
     Render the initalize method for a neurodata_type
@@ -110,25 +139,101 @@ def renderInitalizeMethod(
     Parameters:
     class_name (str): Name of the class
     parent_class_name (str): Name of the parent class
-    attributes : List of all the attribute specs
-    datasets: List of all the dataset specs
-    groups: List of all the group specs
+    neurodata_type (Spec): Spec of the neurodata_type to render
 
     Returns:
     Tuple(str, str) : The first string is the signature for the header
     and the second string is the implementation for the cpp file.
     """
-    funcSignature = "initialize("
-    # Add initialization for attributes
-    for obj in attributes + datasets:
+
+    # Define helper functions for rendering the initialize method
+    # TODO: The following helper function only support at most one layer of nesting via the parent
+    def spec_to_func_param(obj: Spec, parent: Spec = None) -> str:
+        """
+        Internal helper function to create a paramter definition for the initialize method
+
+        Parameter:
+        obj (Spec) : The spec dataset or attribute spec to render
+        parent (Spec) : Optional parent spec
+        """
         obj_cpp_type = get_cpp_type(obj.dtype)
+        field_full_name = f"{obj.name}"
+        if parent is not None:
+            field_full_name += f"{snake_to_camel(parent.name)}"
         if obj.shape is None:
             if obj_cpp_type == "std::string":
-                funcSignature += f"\n       const {obj_cpp_type}& {obj.name},"
+                return f"\n       const {obj_cpp_type}& {field_full_name},"
             else:
-                funcSignature += f"\n       {obj_cpp_type} {obj.name},"
+                return f"\n       {obj_cpp_type} {field_full_name},"
         else:
-            funcSignature += f"\n       const std::vector<{obj_cpp_type}>& {obj.name},"
+            return f"\n       const std::vector<{obj_cpp_type}>& {field_full_name},"
+
+    def attr_init(
+        attr: Spec, is_inherited: bool, is_overridden: bool, parent: Spec = None
+    ) -> str:
+        """
+        Internal helper function to create suggested initializion code for an attribute
+
+        Parameters:
+        attr (Spec): The attribute to render
+        is_inherited (bool): Is this an inherited attribute
+        is_overriden (bool): Is this an overrriden attribute
+        parent: (Spec): Optional parent spec
+
+        """
+        re = f"    // TODO: Initialize {attr.name} attribute."
+        if is_inherited or is_overridden:
+            re += f" This attribute is_inheritted={is_inherited}, is_overridden={is_overridden}"
+        re += "\n"
+        # add example initializtion hints
+        attr_cpp_type = get_cpp_type(attr.dtype)
+        parent_path = (
+            "m_path" if parent is None else f"AQNWB::mergePaths(m_path, {parent.name})"
+        )
+        if attr_cpp_type == "std::string":
+            re += f'    // m_io->createAttribute({attr.name}, {parent_path}, "{attr.name}");\n\n'
+        elif attr.shape is None:
+            re += f'   // m_io->createAttribute(AQNWB::IO::BaseDataType::F32, &{attr.name}, {parent_path}, "{attr.name}");\n\n'
+        return re
+
+    def dataset_init(dataset: Spec, is_inherited: bool, is_overridden: bool) -> str:
+        """
+        Internal helper function to create suggested initializion code for a dataset
+
+        Parameters:
+        dataset (Spec): The dataset to render
+        is_inherited (bool): Is this an inherited attribute
+        is_overriden (bool): Is this an overrriden attribute
+        """
+        re = f"    // TODO: Initialize {dataset.name} dataset"
+        if is_inherited or is_overridden:
+            re += f" This dataset is_inheritted={is_inherited}, is_overridden={is_overridden}"
+        re += "\n"
+        # add example initializtion hints
+        dataset_cpp_type = get_cpp_type(dataset.dtype)
+        if dataset_cpp_type == "std::string":
+            re += f"    // auto {dataset.name}Path = AQNWB::mergePaths(m_path, {dataset.name});\n"
+            re += f"    // m_io->createStringDataSet({dataset.name}Path, {dataset.name})\n"
+        else:
+            re += f"    // IO::ArrayDataSetConfig {dataset.name}Config(<IO::BaseDataType>, <SHAPE>, <CHUNK_SIZE>);\n"
+            re += f"    // std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet({dataset.name}Config, path));\n"
+        re += "\n"
+        return re
+
+    # Retrieve all the fields
+    attributes = neurodata_type.get("attributes", [])
+    datasets = neurodata_type.get("datasets", [])
+    groups = neurodata_type.get("groups", [])
+
+    funcSignature = "initialize("
+    # Add initialization for attributes
+    # TODO: This is missing recursion through field required to initialize groups owned by the type
+    for obj in attributes + datasets:
+        funcSignature += spec_to_func_param(obj=obj)
+        if hasattr(obj, "attributes"):
+            for attr in obj.attributes:
+                funcSignature += spec_to_func_param(obj=attr, parent=obj)
+
     funcSignature = funcSignature.rstrip(",") + ")"
 
     headerSrc = f"""
@@ -151,35 +256,37 @@ void {class_name}::{funcSignature}
     
     // Initialize attributes
 """
+
     # Add initialization for attributes, datasets and groups
     for attr in attributes:
-        cppSrc += f"    // TODO: Initialize {attr.name} attribute.\n"
-        # add example initializtion hints
-        attr_cpp_type = get_cpp_type(attr.dtype)
-        if attr_cpp_type == "std::string":
-            cppSrc += (
-                f'    // m_io->createAttribute({attr.name}, m_path, "{attr.name}");\n\n'
-            )
-        elif attr.shape is None:
-            cppSrc += f'   // m_io->createAttribute(AQNWB::IO::BaseDataType::F32, &{attr.name}, m_path, "{attr.name}");\n\n'
+        cppSrc += attr_init(
+            attr=attr,
+            is_inherited=neurodata_type.is_inherited_spec(attr),
+            is_overridden=neurodata_type.is_overridden_spec(attr),
+        )
     cppSrc += "    // Initialize datasets\n"
     for dataset in datasets:
-        cppSrc += f"    // TODO: Initialize {dataset.name} dataset\n"
-        # add example initializtion hints
-        dataset_cpp_type = get_cpp_type(dataset.dtype)
-        if dataset_cpp_type == "std::string":
-            cppSrc += f'    // auto {dataset.name}Path = AQNWB::mergePaths(m_path, "{dataset.name}\);\n'
-            cppSrc += f"    // m_io->createStringDataSet({dataset.name}Path, {dataset.name})\n"
-        else:
-            cppSrc += f"    // IO::ArrayDataSetConfig {dataset.name}Config(<IO::BaseDataType>, <SHAPE>, <CHUNK_SIZE>);\n"
-            cppSrc += f"    // std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet({dataset.name}Config, path));\n"
-        cppSrc += "\n"
+        cppSrc += dataset_init(
+            dataset=dataset,
+            is_inherited=neurodata_type.is_inherited_spec(dataset),
+            is_overridden=neurodata_type.is_overridden_spec(dataset),
+        )
+        for attr in dataset.attributes:
+            cppSrc += attr_init(
+                attr=attr,
+                is_inherited=neurodata_type.is_inherited_spec(attr),
+                is_overridden=neurodata_type.is_overridden_spec(attr),
+                parent=dataset,
+            )
     cppSrc += "    // Initialize groups\n"
     for group in groups:
         cppSrc += f"    // TODO: Initialize {group.name} group\n"
         cppSrc += f'    // auto {group.name}Path = AQNWB::mergePaths(m_path, "{group.name}");\n'
         cppSrc += f"    // m_io->createGroup({group.name}Path);\n"
         cppSrc += "\n"
+        cppSrc += (
+            f"    // TODO: Initialize any fields that the {group.name} group owns\n"
+        )
     cppSrc += "}\n\n"
 
     return headerSrc, cppSrc
@@ -411,12 +518,10 @@ def generate_header_file(
     header += "using namespace AQNWB::IO;\n"
 
     # Get attributes, datasets, and groups
-    header_initalize_src, _ = renderInitalizeMethod(
+    header_initalize_src, _ = render_initalize_method(
         class_name=class_name,
         parent_class_name=parent_class,
-        attributes=neurodata_type.get("attributes", []),
-        datasets=neurodata_type.get("datasets", []),
-        groups=neurodata_type.get("groups", []),
+        neurodata_type=neurodata_type,
     )
     header += f"""
 namespace {cpp_namespace_name} {{
@@ -449,50 +554,96 @@ public:
     header += "    // Define read methods\n"
     header += "    // TODO: Check all macro definiton details. E.g. fix paths, types, and check for duplicates inherited from parent\n"
 
+    # Place DEFINE_FIELD , DEFINE_REGISTERED field definitions that are commented out because they are inherted at the end
+    commented_fields = []
+
+    def is_commented_field_def(input_field: str) -> bool:
+        """
+        Internal helper function ot check if a DEFINE_FIELD or DEFINE_REGISTERED_FIELD
+        definition created via the render_define_field and render_registered_field
+        methods has been commented out. This is used to be able to collect commented
+        fields such that they can be added at the end rather than intermixed with other fields.
+        """
+        lines = input_field.split("\n")
+        if len(lines) > 0:
+            return input_field.replace(" ", "").startswith("/*")
+        return False
+
     # Add fields for attributes
     for attr in attributes:
         attr_name = attr.name
         doc = attr.get("doc", "No documentation provided").replace("\n", " ")
-        header += render_define_field(
+        fieldDef = render_define_field(
             field_name=attr_name,
             field_type="AttributeField",
             dtype=get_cpp_type(attr.dtype),
             doc=doc,
+            is_inherited=neurodata_type.is_inherited_spec(attr),
+            is_overridden=neurodata_type.is_overridden_spec(attr),
         )
+        if is_commented_field_def(fieldDef):
+            commented_fields.append(fieldDef)
+        else:
+            header += fieldDef
 
     # Add fields for datasets
     for dataset in datasets:
         dataset_name = dataset.name
         doc = dataset.get("doc", "No documentation provided").replace("\n", " ")
         if dataset.get("neurodata_type_inc", None) is not None:
-            header += render_define_registered_field(
-                dataset_name, dataset["neurodata_type_inc"], doc
+            fieldDef = render_define_registered_field(
+                field_name=dataset_name,
+                neurodata_type=dataset["neurodata_type_inc"],
+                doc=doc,
+                is_inherited=neurodata_type.is_inherited_spec(dataset),
+                is_overridden=neurodata_type.is_overridden_spec(dataset),
             )
         else:
-            header += render_define_field(
+            fieldDef = render_define_field(
                 field_name=dataset_name,
                 field_type="DatasetField",
                 dtype=get_cpp_type(dataset.dtype),
                 doc=doc,
+                is_inherited=neurodata_type.is_inherited_spec(dataset),
+                is_overridden=neurodata_type.is_overridden_spec(dataset),
             )
+        if is_commented_field_def(fieldDef):
+            commented_fields.append(fieldDef)
+        else:
+            header += fieldDef
+
         for attr in dataset.get("attributes", []):
             doc = attr.get("doc", "No documentation provided").replace("\n", " ")
-            header += render_define_field(
+            fieldDef = render_define_field(
                 field_name=attr.name,
                 field_type="AttributeField",
                 dtype=get_cpp_type(attr.dtype),
                 doc=doc,
                 field_parent=dataset_name,
+                is_inherited=neurodata_type.is_inherited_spec(attr),
+                is_overridden=neurodata_type.is_overridden_spec(attr),
             )
+            if is_commented_field_def(fieldDef):
+                commented_fields.append(fieldDef)
+            else:
+                header += fieldDef
 
     # Add fields for groups
     for group in groups:
         group_name = group.name
         doc = group.get("doc", "No documentation provided").replace("\n", " ")
         if group.get("neurodata_type_inc", None) is not None:
-            header += render_define_registered_field(
-                group_name, group["neurodata_type_inc"], doc
+            fieldDef = render_define_registered_field(
+                field_name=group_name,
+                neurodata_type=group["neurodata_type_inc"],
+                doc=doc,
+                is_inherited=neurodata_type.is_inherited_spec(group),
+                is_overridden=neurodata_type.is_overridden_spec(group),
             )
+            if is_commented_field_def(fieldDef):
+                commented_fields.append(fieldDef)
+            else:
+                header += fieldDef
         else:
             # TODO Groups without a type are just containers for fields that should be
             #      exposed directly via the parent neurodata_type. To do this we would need
@@ -501,6 +652,11 @@ public:
             #      datasets, attributes, and groups. For now we are just adding a note for
             #      the user to indicate that the fields for this group are missing.
             header += f'    // TODO Add missing read definitions for the contents of the untyped group "{group_name}"\n'
+    if len(commented_fields) > 0:
+        header += "    // TODO: The following fields have been commented because they should have been inherited from the parent class.\n"
+        header += "    //       They are included here for your convenience so you can decide which fields may still need be defined here.\n"
+        for fieldDef in commented_fields:
+            header += fieldDef
 
     # Add REGISTER_SUBCLASS macro
     header += f"""
@@ -550,12 +706,10 @@ def generate_implementation_file(
             parent_class = "AQNWB::NWB::Container"
 
     # Get attributes, datasets, and groups
-    _, cpp_initalize_src = renderInitalizeMethod(
+    _, cpp_initalize_src = render_initalize_method(
         class_name=class_name,
         parent_class_name=parent_class,
-        attributes=neurodata_type.get("attributes", []),
-        datasets=neurodata_type.get("datasets", []),
-        groups=neurodata_type.get("groups", []),
+        neurodata_type=neurodata_type,
     )
 
     # Start building the implementation file
@@ -637,7 +791,6 @@ def main() -> None:
             logger.info(f"    Successfully generated header file: {header_path}")
         except Exception as e:
             logger.error(f"    Failed to generate header file {header_path}: {e}")
-            continue
 
         try:
             logger.info(f"Generating implementation file for {class_name}")
@@ -650,7 +803,6 @@ def main() -> None:
             logger.info(f"    Successfully generated implementation file: {impl_path}")
         except Exception as e:
             logger.error(f"   Failed to generate implementation file {impl_path}: {e}")
-            continue
 
     logger.info("Script execution completed.")
 
