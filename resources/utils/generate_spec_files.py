@@ -149,10 +149,13 @@ def process_namespace_file(namespace_file: Path, output_dir: Path, chunk_size: i
                 # If the schem file is missing, check if it was converted to JSON/YAML
                 if not os.path.exists(schema_file):
                     for ext in ['.yaml', '.yml', '.json']:
-                        temppath =  schema_file.with_suffix(ext)
-                        if os.path.exists(temppath):
-                            schema_file = temppath
+                        if os.path.exists(schema_file):  # Stop when we found a path
                             break
+                        # check both replacing the file extension and adding the extension
+                        temppaths =  [schema_file.with_suffix(ext), schema_file.with_name(schema_file.name + ext)]
+                        for tp in temppaths:
+                            if os.path.exists(tp):
+                                schema_file = tp
                 # Process the schema file
                 process_schema_file(schema_file, header_file, var_names, var_contents, chunk_size)
         generate_header_file(ns, header_file, var_names, var_contents)
