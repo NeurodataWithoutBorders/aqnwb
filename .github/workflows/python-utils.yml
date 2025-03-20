@@ -44,3 +44,9 @@ jobs:
       - name: Check generated contents
         run: |
           ls -la test_output
+          echo "TimeSeries.hpp"
+          cat test_output/TimeSeries.hpp
+          echo "\nTimeSeries.cpp"
+          cat test_output/TimeSeries.cpp
+          echo "\ncore.hpp"
+          cat test_output/core.hpp
