@@ -98,7 +98,7 @@
  * by ``DEFINE_FIELD`` is not virtual.
  *
  *
- * @subsection implement_registered_type_example Example: Implementing a new type
+ * @subsection implement_registered_type_example Example: Implementing a New Type
  *
  * *MySubClass.hpp*
  * @code
@@ -317,4 +317,24 @@
  *
  * in the \ref AQNWB::NWB::ElectrodeTable "ElectrodeTable" to read the `group_name` column
  * as `VectorData<std::string>` with the data type already specified as `std::string` at compile time.
+ *
+ * @section using_schematype_to_aqnwb Using the schematype_to_aqnwb.py Utility
+ *
+ * The `resources/schematype_to_aqnwb.py` script, included in the 
+ * [AqNWB source repository](https://github.com/NeurodataWithoutBorders/aqnwb),
+ * is a simple utility designed to create skeleton C++ source files for integrating new 
+ * neurodata_types with AqNWB. While the generated source files are only an outline, 
+ * they serve as a helpful starting point. Look for `TODO` comments in the generated files, indicating
+ * items that need to be addressed. For example, the following command will generate template code
+ * for AqNWB classes for all neurodata_types in the NWB schema:
+ * 
+ * @code
+ * python resources/schematype_to_aqnwb.py resources/spec/core/2.7.0/nwb.namespace.json test_output
+ * @endcode
+ *
+ * To learn more about how to use the script and its parameters, you can view the help doc by running: 
+ *
+ * @code
+ * python resources/schematype_to_aqnwb.py --help
+ * @endcode
  */

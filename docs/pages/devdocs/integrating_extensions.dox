@@ -34,6 +34,9 @@
  *
  * 4. **Implement appropriate RegisteredType classes**: Follow the tutorial on
  *    \ref registered_type_page to define appropriate interfaces for the `neurodata_type`s defined in your new namespace. 
+ *    \ref using_schematype_to_aqnwb can also provide additional help by providing a simple 
+ *    utility that can automatically generate skeleton AqNWB C++ classes for neurodata_types
+ *    directly from JSON/YAML schema files.
  *
  * @section namespace_registry How the NamespaceRegistry Works
  *
