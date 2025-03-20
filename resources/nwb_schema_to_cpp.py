@@ -185,7 +185,7 @@ def generate_header_file(namespace: SpecNamespace, neurodata_type: Spec,
                          all_types: Dict[str, Spec]) -> str:
     """Generate C++ header file for a neurodata type."""
     namespace_name = namespace.name
-    cpp_namespace_name = snake_to_camel(namespace_name)
+    cpp_namespace_name = namespace_name.upper().replace("-", "_")
     type_name = neurodata_type.neurodata_type_def
     class_name = type_name
     
@@ -296,7 +296,7 @@ public:
     
     # Add REGISTER_SUBCLASS macro
     header += f"""
-    REGISTER_SUBCLASS({class_name}, AQNWB::SPEC::{namespace_name.upper()}::namespaceName)
+    REGISTER_SUBCLASS({class_name}, AQNWB::SPEC::{cpp_namespace_name}::namespaceName)
 }};
 
 }} // namespace {cpp_namespace_name}
