@@ -602,31 +602,52 @@ def main() -> None:
 
     args = parser.parse_args()
 
-    # Parse the schema file
-    namespace, neurodata_types = parse_schema_file(args.schema_file)
+    try:
+        logger.info(f"Parsing schema file: {args.schema_file}")
+        namespace, neurodata_types = parse_schema_file(args.schema_file)
+        logger.info(f"Successfully parsed schema file: {args.schema_file}")
+    except Exception as e:
+        logger.error(f"Failed to parse schema file {args.schema_file}: {e}")
+        return
 
     # Create output directory if it doesn't exist
-    os.makedirs(args.output_dir, exist_ok=True)
+    try:
+        logger.info(f"Creating output directory: {args.output_dir}")
+        os.makedirs(args.output_dir, exist_ok=True)
+        logger.info(f"Successfully created output directory: {args.output_dir}")
+    except Exception as e:
+        logger.error(f"Failed to create output directory {args.output_dir}: {e}")
+        return
 
     # Generate code for each neurodata type
     for type_name, neurodata_type in neurodata_types.items():
         class_name = type_name
 
-        # Generate header file
-        header_file = generate_header_file(namespace, neurodata_type, neurodata_types)
-        header_path = os.path.join(args.output_dir, f"{class_name}.hpp")
-        with open(header_path, "w") as f:
-            f.write(header_file)
+        try:
+            logger.info(f"Generating header file for {class_name}")
+            header_file = generate_header_file(namespace, neurodata_type, neurodata_types)
+            header_path = os.path.join(args.output_dir, f"{class_name}.hpp")
+            with open(header_path, "w") as f:
+                f.write(header_file)
+            logger.info(f"    Successfully generated header file: {header_path}")
+        except Exception as e:
+            logger.error(f"    Failed to generate header file {header_path}: {e}")
+            continue
 
-        # Generate implementation file
-        impl_file = generate_implementation_file(
-            namespace, neurodata_type, neurodata_types
-        )
-        impl_path = os.path.join(args.output_dir, f"{class_name}.cpp")
-        with open(impl_path, "w") as f:
-            f.write(impl_file)
+        try:
+            logger.info(f"Generating implementation file for {class_name}")
+            impl_file = generate_implementation_file(
+                namespace, neurodata_type, neurodata_types
+            )
+            impl_path = os.path.join(args.output_dir, f"{class_name}.cpp")
+            with open(impl_path, "w") as f:
+                f.write(impl_file)
+            logger.info(f"    Successfully generated implementation file: {impl_path}")
+        except Exception as e:
+            logger.error(f"   Failed to generate implementation file {impl_path}: {e}")
+            continue
 
-        logger.info(f"Generated {header_path} and {impl_path}")
+    logger.info("Script execution completed.")
 
 
 if __name__ == "__main__":
