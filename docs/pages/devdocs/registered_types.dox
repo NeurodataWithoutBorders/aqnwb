@@ -15,7 +15,10 @@
  *
  * @section implement_registered_type How to Implement a RegisteredType
  *
- * To implement a subclass of \ref AQNWB::NWB::RegisteredType "RegisteredType", follow these steps:
+ * To implement a subclass of \ref AQNWB::NWB::RegisteredType "RegisteredType", follow the steps below.
+ * Understanding these steps is important. \ref using_schematype_to_aqnwb then provides additional help 
+ * by helping you generate skeleton C++ classes automatically from the JSON/YAML schema and based on the 
+ * steps outlined here. 
  *
  * 1. Include the `RegisteredType.hpp` header file in your subclass header file (or the header of your
  *    more specific parent class that inherits from  \ref AQNWB::NWB::RegisteredType "RegisteredType").
@@ -27,6 +30,11 @@
  *    @code
  *    #include "spec/core.hpp"
  *    @endcode 
+ *    @note  
+ *    If the neurodata_type you wish to integrate is not part of the NWB or HDMF namespaces that 
+ *    ship with AqNWB, and  you have not yet integrate your extension namespace, then see
+ *    \ref integrating_extensions_page for details on how to create your schema header file(s)
+ *    to integrate your extension namespace with AqNWB first.   
  *
  * 2. Define your subclass by inheriting from \ref AQNWB::NWB::RegisteredType "RegisteredType" (or
  *    one of its child classes). Ensure that your subclass implements a constructor with the arguments
