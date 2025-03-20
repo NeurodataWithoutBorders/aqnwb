@@ -269,7 +269,7 @@ public:
     # Add DEFINE_FIELD and DEFINE_REGISTERED_FIELD macros
     header += "\n"
     header += "    // Define read methods\n"
-    header += "    // TODO: Check all macro definitons for correctnes\n"
+    header += "    // TODO: Check all macro definiton details\n"
 
     # Add fields for attributes
     for attr_name, attr in attributes.items():
