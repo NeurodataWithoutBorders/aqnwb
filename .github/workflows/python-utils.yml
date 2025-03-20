@@ -43,4 +43,4 @@ jobs:
 
       - name: Check generated contents
         run: |
-          ls test_output
+          ls -la test_output
