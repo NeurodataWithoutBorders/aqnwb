@@ -10,7 +10,7 @@ import argparse
 import json
 import os
 import re
-import yaml
+from ruamel.yaml import YAML
 from typing import Dict, List, Tuple
 from hdmf.spec import DatasetSpec, SpecNamespace
 from hdmf.spec.spec import Spec
@@ -295,7 +295,8 @@ def parse_schema_file(file_path: str) -> Tuple[SpecNamespace, Dict[str, Spec]]:
             namespace_data = json.load(f)
     else:  # Assume YAML
         with open(namespace_path, "r") as f:
-            namespace_data = yaml.safe_load(f)
+            yaml = YAML(typ='safe')
+            namespace_data = yaml.load(f)
 
     namespace_name = namespace_data["namespaces"][0]["name"]
 
