@@ -181,19 +181,20 @@ def render_initalize_method(
         parent: (Spec): Optional parent spec
 
         """
-        re = f"    // TODO: Initialize {attr.name} attribute."
+        re = f"    // TODO: Initialize {attr.name} attribute"
         if is_inherited or is_overridden:
             re += f" This attribute is_inheritted={is_inherited}, is_overridden={is_overridden}"
         re += "\n"
         # add example initializtion hints
         attr_cpp_type = get_cpp_type(attr.dtype)
+        attr_base_type = get_basedata_type(attr.dtype)
         parent_path = (
             "m_path" if parent is None else f"AQNWB::mergePaths(m_path, {parent.name})"
         )
         if attr_cpp_type == "std::string":
             re += f'    // m_io->createAttribute({attr.name}, {parent_path}, "{attr.name}");\n\n'
         elif attr.shape is None:
-            re += f'   // m_io->createAttribute(AQNWB::IO::BaseDataType::F32, &{attr.name}, {parent_path}, "{attr.name}");\n\n'
+            re += f'    // m_io->createAttribute({attr_base_type}, &{attr.name}, {parent_path}, "{attr.name}");\n\n'
         return re
 
     def dataset_init(dataset: Spec, is_inherited: bool, is_overridden: bool) -> str:
@@ -211,11 +212,12 @@ def render_initalize_method(
         re += "\n"
         # add example initializtion hints
         dataset_cpp_type = get_cpp_type(dataset.dtype)
+        dataset_base_type = get_basedata_type(dataset.dtype)
         if dataset_cpp_type == "std::string":
             re += f"    // auto {dataset.name}Path = AQNWB::mergePaths(m_path, {dataset.name});\n"
             re += f"    // m_io->createStringDataSet({dataset.name}Path, {dataset.name})\n"
         else:
-            re += f"    // IO::ArrayDataSetConfig {dataset.name}Config(<IO::BaseDataType>, <SHAPE>, <CHUNK_SIZE>);\n"
+            re += f"    // IO::ArrayDataSetConfig {dataset.name}Config({dataset_base_type}, <SHAPE>, <CHUNK_SIZE>);\n"
             re += f"    // std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet({dataset.name}Config, path));\n"
         re += "\n"
         return re
@@ -307,6 +309,44 @@ def snake_to_camel(name: str) -> str:
         return None
 
 
+def get_basedata_type(dtype: str) -> str:
+    """
+    Convet NWB data type to AQNWB BaseDataType.
+
+    Parameters:
+    dtype (str): The NWB data type.
+
+    Returns:
+    str: The corresponding AqNWB BaseDataType.
+    """
+    type_mapping = {
+        "text": "DSTR",
+        "ascii": "DSTR",
+        "utf": "DSTR",
+        "utf8": "DSTR",
+        "utf-8": "DSTR",
+        "float": "F32",
+        "float32": "F32",
+        "double": "F64",
+        "float64": "F64",
+        "int": "I32",
+        "int8": "I8",
+        "int16": "I16",
+        "int32": "I32",
+        "int64": "I64",
+        "uint": "U32",
+        "uint8": "U8",
+        "uint16": "U16",
+        "uint32": "U32",
+        "uint64": "U64",
+        "bool": "I8",
+        "isodatetime": "DSTR",
+        "datatime": "DSTR",
+    }
+    # Default to string for unknown types
+    return "AQNWB::IO::BaseDataType::" + type_mapping.get(dtype, "F32")
+
+
 def get_cpp_type(dtype: str) -> str:
     """
     Convert NWB data type to C++ type.
@@ -344,12 +384,6 @@ def get_cpp_type(dtype: str) -> str:
     # Undefined dtype
     if dtype is None:
         return "std::any"
-
-    # Handle array types
-    if isinstance(dtype, str) and dtype.startswith("array of "):
-        base_type = dtype[len("array of ") :]
-        cpp_type = get_cpp_type(base_type)
-        return f"std::vector<{cpp_type}>"
 
     # Handle compound types (dictionaries with name and dtype)
     if isinstance(dtype, list):
@@ -685,7 +719,7 @@ def generate_implementation_file(
     str: The generated C++ implementation file content.
     """
     namespace_name = namespace.name
-    cpp_namespace_name = snake_to_camel(namespace_name)
+    cpp_namespace_name = "AQNWB::SPEC::" + namespace_name.upper().replace("-", "_")
     type_name = neurodata_type.neurodata_type_def
     class_name = type_name
 
