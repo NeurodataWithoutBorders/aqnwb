@@ -343,8 +343,16 @@ def get_basedata_type(dtype: str) -> str:
         "isodatetime": "DSTR",
         "datatime": "DSTR",
     }
-    # Default to string for unknown types
-    return "AQNWB::IO::BaseDataType::" + type_mapping.get(dtype, "F32")
+    # Reference type
+    if isinstance(dtype, dict) and "reftype" in dtype:
+        target_type = dtype.get("target_type", "Unknown")
+        return f"<REF::{target_type}>"
+    # Compound type
+    elif isinstance(dtype, list):
+        compound_type = ", ".join(dt["dtype"] for dt in dtype)
+        return f"<COMPOUND({compound_type})>"
+    else:
+        return "AQNWB::IO::BaseDataType::" + type_mapping.get(dtype, "F32")
 
 
 def get_cpp_type(dtype: str) -> str:
@@ -812,28 +820,28 @@ def main() -> None:
     # Generate code for each neurodata type
     for type_name, neurodata_type in neurodata_types.items():
         class_name = type_name
-
+        logger.info(f"Processing neurodata_type: {class_name}")
         try:
-            logger.info(f"Generating header file for {class_name}")
+            header_file_name = f"{class_name}.hpp"
+            logger.info(f"    Generating header file: {header_file_name}")
             header_file = generate_header_file(
                 namespace, neurodata_type, neurodata_types
             )
-            header_path = os.path.join(args.output_dir, f"{class_name}.hpp")
+            header_path = os.path.join(args.output_dir, header_file_name)
             with open(header_path, "w") as f:
                 f.write(header_file)
-            logger.info(f"    Successfully generated header file: {header_path}")
         except Exception as e:
             logger.error(f"    Failed to generate header file {header_path}: {e}")
 
         try:
-            logger.info(f"Generating implementation file for {class_name}")
+            cpp_file_name = f"{class_name}.cpp"
+            logger.info(f"    Generating implementation file: {cpp_file_name}")
             impl_file = generate_implementation_file(
                 namespace, neurodata_type, neurodata_types
             )
-            impl_path = os.path.join(args.output_dir, f"{class_name}.cpp")
+            impl_path = os.path.join(args.output_dir, cpp_file_name)
             with open(impl_path, "w") as f:
                 f.write(impl_file)
-            logger.info(f"    Successfully generated implementation file: {impl_path}")
         except Exception as e:
             logger.error(f"   Failed to generate implementation file {impl_path}: {e}")
 
