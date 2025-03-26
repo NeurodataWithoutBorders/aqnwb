@@ -191,7 +191,7 @@ TEST_CASE("DynamicTable", "[table]")
     std::string columnPath = mergePaths(tablePath, "col1");
     auto columnDataset = io->createArrayDataSet(strConfig, columnPath);
     auto vectorData =
-        std::make_unique<NWB::VectorData<std::string>>(columnPath, io);
+        std::make_unique<NWB::VectorData>(columnPath, io);
     vectorData->initialize(std::move(columnDataset), "Column 1");
     status = table.addColumn(vectorData, values);
     REQUIRE(status == Status::Success);
