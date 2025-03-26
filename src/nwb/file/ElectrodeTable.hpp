@@ -70,13 +70,13 @@ public:
 
   DEFINE_REGISTERED_FIELD(
       readLocationColumn,
-      VectorData<std::string>,
+      VectorDataTyped<std::string>,
       "location",
       "the location of channel within the subject e.g. brain region")
 
   DEFINE_REGISTERED_FIELD(
       readGroupNameColumn,
-      VectorData<std::string>,
+      VectorDataTyped<std::string>,
       "group_name",
       "the name of the ElectrodeGroup this electrode is a part of")
 
@@ -115,11 +115,11 @@ private:
   /**
    * @brief The group names column for write
    */
-  std::unique_ptr<VectorData<std::string>> m_groupNamesDataset;
+  std::unique_ptr<VectorData> m_groupNamesDataset;
 
   /**
    * @brief The locations column for write
    */
-  std::unique_ptr<VectorData<std::string>> m_locationsDataset;
+  std::unique_ptr<VectorData> m_locationsDataset;
 };
 }  // namespace AQNWB::NWB

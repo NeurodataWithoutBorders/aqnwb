@@ -241,17 +241,16 @@ TEST_CASE("RegisterType", "[base]")
     REQUIRE(emptyWithFallback->getTypeName() == fallBackClassName);
     REQUIRE(emptyWithFallback->getNamespace() == fallBackNamespace);
 
-    // Test with unknown type and fallbackToBase=true while reading the type information from file
-    // Should return base Container type
+    // Test with unknown type and fallbackToBase=true while reading the type
+    // information from file Should return base Container type
     auto fallbackInstance2 = RegisteredType::create(examplePath, io, true);
     REQUIRE(fallbackInstance2 != nullptr);
     REQUIRE(fallbackInstance2->getTypeName() == fallBackClassName);
     REQUIRE(fallbackInstance2->getNamespace() == fallBackNamespace);
 
-    // Test with unknown type and fallbackToBase=true while reading the type information from file
-    // Should return nullptr as before
-    auto noFallbackInstance2 =
-        RegisteredType::create(examplePath, io, false);
+    // Test with unknown type and fallbackToBase=true while reading the type
+    // information from file Should return nullptr as before
+    auto noFallbackInstance2 = RegisteredType::create(examplePath, io, false);
     REQUIRE(noFallbackInstance2 == nullptr);
 
     // Close the file
@@ -271,8 +270,9 @@ TEST_CASE("RegisterType", "[base]")
     std::string fallBackNamespace = "hdmf-common";
 
     // Create the group and set required attributes
-    io->createArrayDataSet(
-      BaseDataType::I32, SizeArray {0}, SizeArray {1}, examplePath);
+    IO::ArrayDataSetConfig config {
+        BaseDataType::I32, SizeArray {0}, SizeArray {1}};
+    io->createArrayDataSet(config, examplePath);
     io->createAttribute(namespaceName, examplePath, "namespace");
     io->createAttribute(typeName, examplePath, "neurodata_type");
 
@@ -296,17 +296,16 @@ TEST_CASE("RegisterType", "[base]")
     REQUIRE(emptyWithFallback->getTypeName() == fallBackClassName);
     REQUIRE(emptyWithFallback->getNamespace() == fallBackNamespace);
 
-    // Test with unknown type and fallbackToBase=true while reading the type information from file
-    // Should return base Container type
+    // Test with unknown type and fallbackToBase=true while reading the type
+    // information from file Should return base Container type
     auto fallbackInstance2 = RegisteredType::create(examplePath, io, true);
     REQUIRE(fallbackInstance2 != nullptr);
     REQUIRE(fallbackInstance2->getTypeName() == fallBackClassName);
     REQUIRE(fallbackInstance2->getNamespace() == fallBackNamespace);
 
-    // Test with unknown type and fallbackToBase=true while reading the type information from file
-    // Should return nullptr as before
-    auto noFallbackInstance2 =
-        RegisteredType::create(examplePath, io, false);
+    // Test with unknown type and fallbackToBase=true while reading the type
+    // information from file Should return nullptr as before
+    auto noFallbackInstance2 = RegisteredType::create(examplePath, io, false);
     REQUIRE(noFallbackInstance2 == nullptr);
 
     // Close the file
