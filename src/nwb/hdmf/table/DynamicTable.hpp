@@ -62,7 +62,7 @@ public:
    * @param values The vector of string values.
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status addColumn(std::unique_ptr<VectorData<std::string>>& vectorData,
+  Status addColumn(std::unique_ptr<VectorData>& vectorData,
                    const std::vector<std::string>& values);
 
   /**
@@ -115,13 +115,13 @@ public:
    * column doesn't exists
    */
   template<typename DTYPE = std::any>
-  std::shared_ptr<VectorData<DTYPE>> readColumn(const std::string& colName)
+  std::shared_ptr<VectorDataTyped<DTYPE>> readColumn(const std::string& colName)
   {
     std::string columnPath = AQNWB::mergePaths(m_path, colName);
     if (m_io->objectExists(columnPath)) {
       if (m_io->getStorageObjectType(columnPath) == StorageObjectType::Dataset)
       {
-        return std::make_shared<VectorData<DTYPE>>(columnPath, m_io);
+        return std::make_shared<VectorDataTyped<DTYPE>>(columnPath, m_io);
       }
     }
     return nullptr;

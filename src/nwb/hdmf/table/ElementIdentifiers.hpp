@@ -9,7 +9,7 @@ namespace AQNWB::NWB
  * @brief A list of unique identifiers for values within a dataset, e.g. rows of
  * a DynamicTable.
  */
-class ElementIdentifiers : public Data<int>
+class ElementIdentifiers : public Data
 {
 public:
   // Register ElementIdentifiers class as a registered type
@@ -27,5 +27,9 @@ public:
    * @brief Virtual destructor.
    */
   virtual ~ElementIdentifiers() override {}
+
+  using RegisteredType::m_io;
+  using RegisteredType::m_path;
+  DEFINE_FIELD(readData, DatasetField, int, "", The main data)
 };
 }  // namespace AQNWB::NWB

@@ -15,7 +15,7 @@
  * 3. Create the \ref AQNWB::NWB::NWBFile "NWBFile" object used for managing and creating NWB
  *    file contents.
  * 4. Create the recording metadata stored in ``/general`` in NWB, e.g., the  
- *    \ref AQNWB::NWB::ElectrodesTable "ElectrodesTable" object used for 
+ *    \ref AQNWB::NWB::ElectrodeTable "ElectrodeTable" object used for 
  *    saving electrodes information. 
  * 5. Create the \ref AQNWB::NWB::Container "Container" objects (e.g.,
  *    \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries") used for recording and add them
@@ -57,7 +57,7 @@
  *
  * \subsection create_recmeta 4. Create the recording metadata 
  * \subsubsection create_recmeta_ecephys Create the extracellular recording metadata
- * Next, construct the \ref AQNWB::NWB::ElectrodesTable "ElectrodesTable" object, 
+ * Next, construct the \ref AQNWB::NWB::ElectrodeTable "ElectrodeTable" object, 
  * using the `recordingArrays` as an input. Note that in many cases, you will be recording from 
  * all electrodes detected by the device and this `recordingArrays` structure will be the same as
  * is used to create the \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries". However in some cases
