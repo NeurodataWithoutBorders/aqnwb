@@ -265,6 +265,23 @@ public:
     return this->create(AQNWB::mergePaths(m_path, fieldPath), m_io);
   }
 
+  /**
+   * @brief Find all typed objects that are owned by this object, i.e.,
+   * objects that have a neurodata_type and namespace attribute and have
+   * this object as there closest parent with an assigned type.
+   *
+   * This is a shorthand for calling
+   * `getIO()->findTypes(m_path, types, IO::SearchMode::STOP_ON_TYPE, true);`
+   *
+   * @param types The set of types to search for. If an empty set is provided,
+   * then all objects with an assigned type (i.e., object that have a
+   * neurodata_type and namespace attributed) will be returned.
+   * @return An unordered map where each key is the path to an object and its
+   * corresponding value is the type of the object.
+   */
+  virtual std::unordered_map<std::string, std::string> findOwnedTypes(
+      const std::unordered_set<std::string>& types = {}) const;
+
 protected:
   /// @brief Save the default RegisteredType to use for reading Group types that
   /// are not registered
