@@ -1,6 +1,8 @@
 # NWB Analysis Demo
 
-This is a simple C++ demo project that shows how to read and analyze NWB (Neurodata Without Borders) files using the aqnwb library. The demo reads a NWB file and performs basic statistical analysis on the ElectricalSeries electrophysiology data.
+This is a simple C++ demo project that shows how to read and analyze NWB (Neurodata Without Borders) files 
+using the aqnwb library. The demo reads a NWB file and performs basic statistical analysis on 
+the `ElectricalSeries` electrophysiology data.
 
 ## Prerequisites
 
@@ -12,8 +14,9 @@ This is a simple C++ demo project that shows how to read and analyze NWB (Neurod
 
 ## Identify an example NWB dataset that contains ElectricalSeries data
 
-1. For this example we will download a single file from [dandiset 000232](https://dandiarchive.org/dandiset/000232/0.240510.2038) using this [download link](https://api.dandiarchive.org/api/assets/4c440a73-9250-45bb-a342-a7da4d01b2fd/download?content_disposition=inline). https://api.dandiarchive.org/api/assets/4c440a73-9250-45bb-a342-a7da4d01b2fd/download?content_disposition=inline to
-download a single file from DANDIset 000232 at https://dandiarchive.org/dandiset/000232/0.240510.2038
+1. For this example we will download a single file from [dandiset 000232](https://dandiarchive.org/dandiset/000232/0.240510.2038) 
+using this [download link](https://api.dandiarchive.org/api/assets/4c440a73-9250-45bb-a342-a7da4d01b2fd/download?content_disposition=inline)
+to download a single file from DANDIset 000232 at https://dandiarchive.org/dandiset/000232/0.240510.2038
 2. Place the file in the `aqnwb/demo/inspect_electrical_series` directory.
 
 ## Building the Demo
