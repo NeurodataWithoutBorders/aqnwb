@@ -11,6 +11,12 @@ TEST_CASE("DynamicTable", "[table]")
 {
   std::string tablePath = "/test_table";
 
+  SECTION("test DynamicTable is registered as a subclass of RegisteredType")
+  {
+    auto registry = AQNWB::NWB::RegisteredType::getRegistry();
+    REQUIRE(registry.find("hdmf-common::DynamicTable") != registry.end());
+  }
+
   SECTION("test initialization and column names")
   {
     std::string path = getTestFilePath("testDynamicTable.h5");
@@ -54,7 +60,7 @@ TEST_CASE("DynamicTable", "[table]")
     IO::ArrayDataSetConfig config(BaseDataType::V_STR, dataShape, chunking);
     auto columnDataset = io->createArrayDataSet(config, tablePath + "/col1");
     auto vectorData =
-        std::make_unique<NWB::VectorData<std::string>>(tablePath + "/col1", io);
+        std::make_unique<NWB::VectorData>(tablePath + "/col1", io);
     vectorData->initialize(std::move(columnDataset), "Column 1");
     status = table.addColumn(vectorData, values);
     REQUIRE(status == Status::Success);
@@ -112,8 +118,7 @@ TEST_CASE("DynamicTable", "[table]")
       std::string columnPath = mergePaths(tablePath, "col1");
       IO::ArrayDataSetConfig config(BaseDataType::V_STR, dataShape, chunking);
       auto columnDataset = io->createArrayDataSet(config, columnPath);
-      auto vectorData =
-          std::make_unique<NWB::VectorData<std::string>>(columnPath, io);
+      auto vectorData = std::make_unique<NWB::VectorData>(columnPath, io);
       vectorData->initialize(std::move(columnDataset), "Column 1");
       status = table.addColumn(vectorData, values);
       REQUIRE(status == Status::Success);
@@ -140,8 +145,7 @@ TEST_CASE("DynamicTable", "[table]")
       IO::ArrayDataSetConfig config(
           BaseDataType::V_STR, newDataShape, newChunking);
       auto newColumnDataset = io->createArrayDataSet(config, columnPath2);
-      auto newVectorData =
-          std::make_unique<NWB::VectorData<std::string>>(columnPath2, io);
+      auto newVectorData = std::make_unique<NWB::VectorData>(columnPath2, io);
       newVectorData->initialize(std::move(newColumnDataset), "Column 2");
       Status status = table.addColumn(newVectorData, newValues);
       REQUIRE(status == Status::Success);
@@ -186,8 +190,7 @@ TEST_CASE("DynamicTable", "[table]")
     IO::ArrayDataSetConfig strConfig(BaseDataType::V_STR, dataShape, chunking);
     std::string columnPath = mergePaths(tablePath, "col1");
     auto columnDataset = io->createArrayDataSet(strConfig, columnPath);
-    auto vectorData =
-        std::make_unique<NWB::VectorData<std::string>>(columnPath, io);
+    auto vectorData = std::make_unique<NWB::VectorData>(columnPath, io);
     vectorData->initialize(std::move(columnDataset), "Column 1");
     status = table.addColumn(vectorData, values);
     REQUIRE(status == Status::Success);
