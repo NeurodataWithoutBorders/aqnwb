@@ -10,13 +10,11 @@ This is a simple C++ demo project that shows how to read and analyze NWB (Neurod
 - Boost library
 - aqnwb library (built from the parent project)
 
-## Download an example NWB dataset that contains ElectricalSeries data
+## Identify an example NWB dataset that contains ElectricalSeries data
 
-E.g. https://api.dandiarchive.org/api/assets/4c440a73-9250-45bb-a342-a7da4d01b2fd/download?content_disposition=inline to
+1. For this example we will download a single file from [dandiset 000232](https://dandiarchive.org/dandiset/000232/0.240510.2038) using this [download link](https://api.dandiarchive.org/api/assets/4c440a73-9250-45bb-a342-a7da4d01b2fd/download?content_disposition=inline). https://api.dandiarchive.org/api/assets/4c440a73-9250-45bb-a342-a7da4d01b2fd/download?content_disposition=inline to
 download a single file from DANDIset 000232 at https://dandiarchive.org/dandiset/000232/0.240510.2038
-
-Alternatively, we can also run AqNWB test suite and use a suitable file from the tests, e.g,. 
-`build/dev/tests/data/createElectricalSeries.nwb`
+2. Place the file in the `aqnwb/demo/inspect_electrical_series` directory.
 
 ## Building the Demo
 
@@ -26,7 +24,7 @@ Alternatively, we can also run AqNWB test suite and use a suitable file from the
 2. Create a build directory for the demo:
 
 ```bash
-# From the  demo/inspect_electrical_series directory
+cd demo/inspect_electrical_series
 mkdir -p build
 cd build
 ```
