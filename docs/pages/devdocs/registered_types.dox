@@ -13,7 +13,7 @@
  * If you want to learn more about the how \ref AQNWB::NWB::RegisteredType "RegisteredType" 
  * manages types and implements data read then please see \ref read_design_page.
  *
- * @section implement_registered_type How to Implement a RegisteredType
+ * \section implement_registered_type How to Implement a RegisteredType
  *
  * To implement a subclass of \ref AQNWB::NWB::RegisteredType "RegisteredType", follow the steps below.
  * Understanding these steps is important. \ref using_schematype_to_aqnwb then provides additional help 
@@ -258,19 +258,62 @@
  * \subsection implement_templated_registered_type Templated RegisteredType Classes
  *
  * In some cases, we may want to use templated classes to handle data types in a type-safe 
- * way. AqNWB uses  templated neurodata_type classes for \ref AQNWB::NWB::VectorData "VectorData<DTYPE>" 
- * and \ref AQNWB::NWB::Data "Data<DTYPE>" as these classes manage a particular dataset. Using
+ * way. AqNWB uses  templated neurodata_type classes for \ref AQNWB::NWB::VectorDataTyped "VectorDataTyped<DTYPE>" 
+ * and \ref AQNWB::NWB::DataTyped "DataTyped<DTYPE>" as these classes manage a particular dataset. Using
  * this approach, we specify the data types to use with the class directly as part of 
- * `DEFINE_REGISTERED_FIELD` so that the user doesn't need to manually specify the data type 
- * for read. The registration of templated classes follows the same main steps as above, but with a few 
- * additional considerations:
+ * \ref DEFINE_REGISTERED_FIELD macro so that the user doesn't need to manually specify the data type 
+ * for read. To implement the use of templated classes for read, we can take two main approaches
+ * by either \ref implement_templated_registered_type_two_class or \ref implement_templated_registered_type_single_class .
+ * 
+ * \subsubsection implement_templated_registered_type_two_class Using a base class and templated child class
+ *
+ * For the ``VectorData`` type (and ``Data`` type),  AqNWB implements the  \ref AQNWB::NWB::VectorData "VectorData" class, which 
+ * exposes the data as ``std::any``  via the \ref AQNWB::NWB::VectorData::readData "VectorData::readData" 
+ * method for read. To simplify read, \ref AQNWB::NWB::VectorDataTyped "VectorDataTyped<DTYPE>"
+ * inherits from \ref AQNWB::NWB::VectorData "VectorData" but allows the data type to be fixed
+ * at compile time via the class template, such that \ref AQNWB::NWB::VectorDataTyped "VectorDataTyped<DTYPE>::readData"
+ * can expose the data with the type already set at compile time. 
+ * 
+ * Using this approach where we have a non-templated base class \ref AQNWB::NWB::VectorData "VectorData" 
+ * with a templated child class \ref AQNWB::NWB::VectorDataTyped "VectorDataTyped<DTYPE>", only 
+ * the base type \ref AQNWB::NWB::VectorData "VectorData" is being registered with the 
+ * \ref AQNWB::NWB::RegisteredType "RegisteredType" registry via the \ref REGISTER_SUBCLASS_IMPL macro. 
+ * This is because on read  \ref AQNWB::NWB::RegisteredType::create "RegisteredType::create" can only determine
+ * the base type based on the ``namespace`` and ``neurodata_type`` attribute stored in the file. 
+ *
+ * However, even though \ref AQNWB::NWB::VectorDataTyped "VectorDataTyped<DTYPE>" is not being
+ * added to the \ref AQNWB::NWB::RegisteredType "RegisteredType" registry, it does inherit from 
+ * \ref AQNWB::NWB::VectorData "VectorData" and as such, a user may chose to use  
+ * \ref AQNWB::NWB::VectorDataTyped "VectorDataTyped<DTYPE>" anywhere \ref AQNWB::NWB::VectorData "VectorData" 
+ * is being used. In particular, by using \ref AQNWB::NWB::VectorDataTyped "VectorDataTyped<DTYPE>" as part of 
+ * the \ref DEFINE_REGISTERED_FIELD macro, we can set the data type for read at compile time, simplifying read. 
+ *
+ *  \note
+ *     The `std::unique_ptr<..>` template type is not covariant, i.e.,  `std::unique_ptr<DerivedClass>` does 
+ *     not automatically convert to `std::unique_ptr<BaseClass>`.  I.e.,  while \ref AQNWB::NWB::VectorDataTyped "VectorDataTyped<DTYPE>" 
+ *     can be used anywhere \ref AQNWB::NWB::VectorData "VectorData" is being used, when using `std::unique_ptr<..>`
+ *     we cannot rely on the compiler to automatically upcast for us, but we will need to explicitly release
+ *     and upcast `std::unique_ptr<VectorDataTyped<DTYPE>` if `std::unique_ptr<VectorData>` is required. Since 
+ *     defining the `DTYPE` is primarily useful for read, we therefore typically use 
+ *     \ref AQNWB::NWB::VectorDataTyped "VectorDataTyped<DTYPE>" on read while
+ *     using \ref AQNWB::NWB::VectorData "VectorData" otherwise. 
+ *
+ *
+ * \subsubsection implement_templated_registered_type_single_class Using a single templated class
+ *
+ * Alternatively to the above approach, where we have two classes  \ref AQNWB::NWB::VectorData "VectorData" 
+ * and  \ref AQNWB::NWB::VectorDataTyped "VectorDataTyped<DTYPE>", we could also just use a single 
+ * templated class ``VectorData<DTYPE>`` and then register only the generic version ``VectorData<std::any>``
+ * with the type registry via the \ref REGISTER_SUBCLASS_IMPL macro. However, there are a few 
+ * additional considerations to keep in mind with this approach, which is why in AqNWB we generally
+ * recommend the above approach using two classes instead.
  *
  * 1. **Preparing for Registration**
  *    ```cpp
  *    REGISTER_SUBCLASS_WITH_TYPENAME(VectorData<DTYPE>, "hdmf-common", "VectorData")
  *    ```
- *    - We use `VectorData<DTYPE>` with the template parameter because we want to prepare all possible
- *      instantiations (e.g., `VectorData<int>`, `VectorData<double>`, etc.) for registration
+ *    We use `VectorData<DTYPE>` with the template parameter because we want to prepare all possible
+ *    instantiations (e.g., `VectorData<int>`, `VectorData<double>`, etc.) for registration
  *
  * 2. **Actual Registration**
  *    ```cpp
@@ -279,7 +322,17 @@
  *    This performs the actual registration in the type system. We only register the most generic type
  *    (`std::any`) because in the NWB file, we only store `namespace=hdmf-common` and `neurodata_type=VectorData`
  *    (i.e., the NWB file doesn't have the notion of templates) and the generic type serves as the
- *    default registration.
+ *    default registration. Note, that we need to use ``template<>`` as this is a template specialization. 
+ *    
+ *    \note 
+ *    In C++ the implementation of templated classes is not easily separate into ``.hpp`` and ``.cpp``
+ *    files. However, the ``template<> REGISTER_SUBCLASS_IMPL(VectorData<std::any>)`` cannot be part 
+ *    of the ``.hpp`` file where the class is being defined. Also, the compiler will only include the 
+ *    call if the ``VectorData<std::any>`` is actually being instantiated. A simple instantiation
+ *    of ``template class VectorData<std::any>;`` in the ``VectorData.cpp`` may not be sufficient 
+ *    for this. As a work-around, the ``template<> REGISTER_SUBCLASS_IMPL(VectorData<std::any>)`` may need to 
+ *    be placed in a different ``.cpp`` file that we know is going to be built (the need for this
+ *    workaround is one reason why we recommend the two-class approach in AqNWB).  
  *
  * 3. **Template Instantiation**
  *    In `VectorData.cpp`:
@@ -326,7 +379,7 @@
  * in the \ref AQNWB::NWB::ElectrodeTable "ElectrodeTable" to read the `group_name` column
  * as `VectorData<std::string>` with the data type already specified as `std::string` at compile time.
  *
- * @section using_schematype_to_aqnwb Using the schematype_to_aqnwb.py Utility
+ * \section using_schematype_to_aqnwb Using the schematype_to_aqnwb.py Utility
  *
  * The `resources/utils/schematype_to_aqnwb.py` script, included in the 
  * [AqNWB source repository](https://github.com/NeurodataWithoutBorders/aqnwb),
@@ -345,4 +398,22 @@
  * @code
  * python resources/utils/schematype_to_aqnwb.py --help
  * @endcode
+ *
+ * \section implement_registered_type_unit_tests Testing RegisteredTypes
+ *
+ * As with all code, it is good practice to create appropriate unit tests to validate
+ * that our new class is functioning correctly. In the case of subclasses of 
+ * \ref AQNWB::NWB::RegisteredType "RegisteredType" we should pay attention to:
+ *
+ * - Test that the registration is being executed correctly and the type has been registered 
+ *   with the \ref AQNWB::NWB::RegisteredType "RegisteredType" type registry, e.g. via:
+ *    \snippet tests/testVectorData.cpp example_test_vectordata_registration_snippet 
+ * -  Test that \ref AQNWB::NWB::RegisteredType::create "RegisteredType::create" works
+ *    as expected for reading our new type, e.g. via:
+ *    \snippet tests/testVectorData.cpp example_test_vectordata_create_snippet
+ * - Test that every read method created via the \ref DEFINE_FIELD and \ref DEFINE_REGISTERED_FIELD 
+ *   macros is working as expected, e.g. via: 
+ *    \snippet tests/testVectorData.cpp example_test_vectordata_read_snippet
+ * - Test that the `initialize` method is working as expected (if included).
+ *    
  */

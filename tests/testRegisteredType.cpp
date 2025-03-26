@@ -111,7 +111,7 @@ TEST_CASE("RegisterType", "[base]")
     }
   }
 
-  SECTION("test create for select container")
+  SECTION("create: test create for select container")
   {
     // Prepare test data
     SizeType numSamples = 10;
@@ -169,7 +169,7 @@ TEST_CASE("RegisterType", "[base]")
     // Open the TimeSeries container directly from file using the utility method
     // This method does the same steps as above, i.e., read the attributes and
     // then create the type from the given name
-    auto readTS = AQNWB::NWB::RegisteredType::create(examplePath, io);
+    auto readTS = AQNWB::NWB::RegisteredType::create(examplePath, io, false);
     std::string readTSType = readContainer->getTypeName();
     REQUIRE(readTSType == "TimeSeries");
 
@@ -202,6 +202,114 @@ TEST_CASE("RegisterType", "[base]")
     auto malformedInstance =
         RegisteredType::create("NoNamespace", examplePath, io);
     REQUIRE(malformedInstance == nullptr);
+  }
+
+  SECTION("create : test fallback to base type for group")
+  {
+    std::string filename = getTestFilePath("testFallbackGroupType.h5");
+    std::shared_ptr<BaseIO> io = std::make_unique<IO::HDF5::HDF5IO>(filename);
+    io->open();
+    std::string examplePath("unregisteredGroup");
+    std::string namespaceName = "unknown";
+    std::string typeName = "UnknownType";
+    std::string fullClassName = namespaceName + "::" + typeName;
+    std::string fallBackClassName = "Container";
+    std::string fallBackNamespace = "hdmf-common";
+
+    // Create the group and set required attributes
+    io->createGroup(examplePath);
+    io->createAttribute(namespaceName, examplePath, "namespace");
+    io->createAttribute(typeName, examplePath, "neurodata_type");
+
+    // Test with unknown type and fallbackToBase=true
+    // Should return base Container type
+    auto fallbackInstance =
+        RegisteredType::create(fullClassName, examplePath, io, true);
+    REQUIRE(fallbackInstance != nullptr);
+    REQUIRE(fallbackInstance->getTypeName() == fallBackClassName);
+    REQUIRE(fallbackInstance->getNamespace() == fallBackNamespace);
+
+    // Test with unknown type and fallbackToBase=false
+    // Should return nullptr as before
+    auto noFallbackInstance =
+        RegisteredType::create(fullClassName, examplePath, io, false);
+    REQUIRE(noFallbackInstance == nullptr);
+
+    // Test with empty type name and fallbackToBase=true
+    auto emptyWithFallback = RegisteredType::create("", examplePath, io, true);
+    REQUIRE(emptyWithFallback != nullptr);
+    REQUIRE(emptyWithFallback->getTypeName() == fallBackClassName);
+    REQUIRE(emptyWithFallback->getNamespace() == fallBackNamespace);
+
+    // Test with unknown type and fallbackToBase=true while reading the type
+    // information from file Should return base Container type
+    auto fallbackInstance2 = RegisteredType::create(examplePath, io, true);
+    REQUIRE(fallbackInstance2 != nullptr);
+    REQUIRE(fallbackInstance2->getTypeName() == fallBackClassName);
+    REQUIRE(fallbackInstance2->getNamespace() == fallBackNamespace);
+
+    // Test with unknown type and fallbackToBase=true while reading the type
+    // information from file Should return nullptr as before
+    auto noFallbackInstance2 = RegisteredType::create(examplePath, io, false);
+    REQUIRE(noFallbackInstance2 == nullptr);
+
+    // Close the file
+    io->close();
+  }
+
+  SECTION("create : test fallback to base type for dataset")
+  {
+    std::string filename = getTestFilePath("testFallbackDatasetType.h5");
+    std::shared_ptr<BaseIO> io = std::make_unique<IO::HDF5::HDF5IO>(filename);
+    io->open();
+    std::string examplePath("unregisteredDataset");
+    std::string namespaceName = "unknown";
+    std::string typeName = "UnknownType";
+    std::string fullClassName = namespaceName + "::" + typeName;
+    std::string fallBackClassName = "Data";
+    std::string fallBackNamespace = "hdmf-common";
+
+    // Create the group and set required attributes
+    IO::ArrayDataSetConfig config {
+        BaseDataType::I32, SizeArray {0}, SizeArray {1}};
+    io->createArrayDataSet(config, examplePath);
+    io->createAttribute(namespaceName, examplePath, "namespace");
+    io->createAttribute(typeName, examplePath, "neurodata_type");
+
+    // Test with unknown type and fallbackToBase=true
+    // Should return base Container type
+    auto fallbackInstance =
+        RegisteredType::create(fullClassName, examplePath, io, true);
+    REQUIRE(fallbackInstance != nullptr);
+    REQUIRE(fallbackInstance->getTypeName() == fallBackClassName);
+    REQUIRE(fallbackInstance->getNamespace() == fallBackNamespace);
+
+    // Test with unknown type and fallbackToBase=false
+    // Should return nullptr as before
+    auto noFallbackInstance =
+        RegisteredType::create(fullClassName, examplePath, io, false);
+    REQUIRE(noFallbackInstance == nullptr);
+
+    // Test with empty type name and fallbackToBase=true
+    auto emptyWithFallback = RegisteredType::create("", examplePath, io, true);
+    REQUIRE(emptyWithFallback != nullptr);
+    REQUIRE(emptyWithFallback->getTypeName() == fallBackClassName);
+    REQUIRE(emptyWithFallback->getNamespace() == fallBackNamespace);
+
+    // Test with unknown type and fallbackToBase=true while reading the type
+    // information from file Should return base Container type
+    auto fallbackInstance2 = RegisteredType::create(examplePath, io, true);
+    REQUIRE(fallbackInstance2 != nullptr);
+    REQUIRE(fallbackInstance2->getTypeName() == fallBackClassName);
+    REQUIRE(fallbackInstance2->getNamespace() == fallBackNamespace);
+
+    // Test with unknown type and fallbackToBase=true while reading the type
+    // information from file Should return nullptr as before
+    auto noFallbackInstance2 = RegisteredType::create(examplePath, io, false);
+    REQUIRE(noFallbackInstance2 == nullptr);
+
+    // Close the file
+    io->close();
   }
 
   SECTION("test custom type name")
