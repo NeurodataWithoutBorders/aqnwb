@@ -1,3 +1,5 @@
+#include <variant>
+
 #include <H5Cpp.h>
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_all.hpp>
@@ -18,6 +20,38 @@
 #include "testUtils.hpp"
 
 using namespace AQNWB;
+
+// [example_compute_mean_from_variant]
+// Helper function to compute the mean of a vector
+template<typename T>
+inline double compute_mean(const T& data)
+{
+  if (data.empty()) {
+    throw std::runtime_error("Data vector is empty");
+  }
+  double sum = std::accumulate(data.begin(), data.end(), 0.0);
+  return sum / data.size();
+}
+
+// Function to compute the mean using std::visit
+inline double compute_mean(const BaseDataType::BaseDataVectorVariant& variant)
+{
+  return std::visit(
+      [](auto&& arg) -> double
+      {
+        using T = std::decay_t<decltype(arg)>;
+        // Check that the variant represents a BaseDataType we can compute on
+        if constexpr (std::is_same_v<T, std::monostate>) {
+          throw std::runtime_error("Invalid data type");
+        } else if constexpr (std::is_same_v<T, std::vector<std::string>>) {
+          throw std::runtime_error("Cannot compute mean of string data");
+        } else {
+          return compute_mean(arg);  // Compute the mean
+        }
+      },
+      variant);
+}
+// [example_compute_mean_from_variant]
 
 TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
 {
@@ -310,5 +344,23 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
             readRegisteredType);
     REQUIRE(readElectricalSeries2 != nullptr);
     // [example_read_generic_registeredtype_field_snippet]
+
+    // [example_use_std_variant_to_compute_on_data]
+    // Compute the mean using the std::variant approach. We specify
+    // the types of variables for clarity, but could us "auto" instead
+    DataBlockGeneric genericDataBlock =
+        readElectricalSeriesData->valuesGeneric();
+    BaseDataType::BaseDataVectorVariant variantData =
+        genericDataBlock.as_variant();
+    double meanFromVariant = compute_mean(variantData);
+    // Compare with computing the mean from the typed DataBlock<float>. We
+    // specify the template type for clarity although the compiler can infer it.
+    double meanFromTypedVector =
+        compute_mean<std::vector<float>>(readDataValues.data);
+    REQUIRE(meanFromVariant == Catch::Approx(meanFromTypedVector));
+    // [example_use_std_variant_to_compute_on_data]
+
+    // Close the io
+    readio->close();
   }
 }
