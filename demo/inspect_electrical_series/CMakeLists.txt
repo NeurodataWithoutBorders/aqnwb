@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Allow configuring paths to dependencies
 set(AQNWB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../build/dev" CACHE PATH "Path to aqnwb build directory")
-set(HDF5_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../libs/hdf5_build/install/cmake" CACHE PATH "Path to HDF5 build directory")
+set(HDF5_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../../libs/hdf5_build/install/cmake" CACHE PATH "Path to HDF5 build directory")
 set(BOOST_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../../libs/boost_1_82_0" CACHE PATH "Path to Boost root directory")
 
 # Disable compiler flags that cause issues on macOS

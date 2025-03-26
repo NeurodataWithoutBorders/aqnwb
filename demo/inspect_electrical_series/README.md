@@ -40,7 +40,7 @@ cmake ..
 # Or with custom paths to dependencies
 cmake .. \
   -DAQNWB_DIR=../../build/dev \
-  -DHDF5_DIR=../../libs/hdf5_build \
+  -DHDF5_ROOT=../../libs/hdf5_build \
   -DBOOST_ROOT=../../libs/boost_1_82_0
 
 # Build the project
