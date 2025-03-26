@@ -105,6 +105,7 @@ $(function(){initNavTree('class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html',''
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pro-static-methods">Static Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
+<a href="#pro-static-attribs">Static Protected Attributes</a> &#124;
 <a href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">AQNWB::NWB::RegisteredType Class Reference</div></div>
 </div><!--header-->
@@ -117,7 +118,7 @@ $(function(){initNavTree('class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html',''
 <div class="dynheader">
 Inheritance diagram for AQNWB::NWB::RegisteredType:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type__inherit__graph.svg" width="100%" height="579"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type__inherit__graph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -165,16 +166,16 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a8792fccbd49f9d441b1f6d5a1b06b4cf" id="r_a8792fccbd49f9d441b1f6d5a1b06b4cf"><td class="memItemLeft" align="right" valign="top">static std::unordered_map&lt; std::string, std::pair&lt; std::function&lt; std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> &gt;(const std::string &amp;, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt;)&gt;, std::pair&lt; std::string, std::string &gt; &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8792fccbd49f9d441b1f6d5a1b06b4cf">getFactoryMap</a> ()</td></tr>
 <tr class="memdesc:a8792fccbd49f9d441b1f6d5a1b06b4cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the factory map for creating instances of subclasses.  <br /></td></tr>
 <tr class="separator:a8792fccbd49f9d441b1f6d5a1b06b4cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a01354d1b4230f7495203cc526eae418f" id="r_a01354d1b4230f7495203cc526eae418f"><td class="memItemLeft" align="right" valign="top">static std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a01354d1b4230f7495203cc526eae418f">create</a> (const std::string &amp;fullClassName, const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt; io)</td></tr>
-<tr class="memdesc:a01354d1b4230f7495203cc526eae418f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an instance of a registered subclass by name.  <br /></td></tr>
-<tr class="separator:a01354d1b4230f7495203cc526eae418f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f7d3d6d30763215c823452176ed876a" id="r_a6f7d3d6d30763215c823452176ed876a"><td class="memItemLeft" align="right" valign="top">static std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6f7d3d6d30763215c823452176ed876a">create</a> (const std::string &amp;fullClassName, const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt; io, bool fallbackToBase=false)</td></tr>
+<tr class="memdesc:a6f7d3d6d30763215c823452176ed876a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an instance of a registered subclass by name.  <br /></td></tr>
+<tr class="separator:a6f7d3d6d30763215c823452176ed876a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13dd3c9a0045cb3729ba9cf56e4a2fa7" id="r_a13dd3c9a0045cb3729ba9cf56e4a2fa7"><td class="memItemLeft" align="right" valign="top">static std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">AQNWB::NWB::RegisteredType</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a13dd3c9a0045cb3729ba9cf56e4a2fa7">create</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt; io, bool fallbackToBase=false)</td></tr>
+<tr class="memdesc:a13dd3c9a0045cb3729ba9cf56e4a2fa7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method to create an instance of a subclass of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> from file.  <br /></td></tr>
+<tr class="separator:a13dd3c9a0045cb3729ba9cf56e4a2fa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae92874bd2b0c6dcc821633b08f87c328" id="r_ae92874bd2b0c6dcc821633b08f87c328"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
 <tr class="memitem:ae92874bd2b0c6dcc821633b08f87c328"><td class="memTemplItemLeft" align="right" valign="top">static std::shared_ptr&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ae92874bd2b0c6dcc821633b08f87c328">create</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt; io)</td></tr>
 <tr class="memdesc:ae92874bd2b0c6dcc821633b08f87c328"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method to create an instance of a subclass of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> by type.  <br /></td></tr>
 <tr class="separator:ae92874bd2b0c6dcc821633b08f87c328"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99e5fd3c63ce7a887c2f3ae7b5f20320" id="r_a99e5fd3c63ce7a887c2f3ae7b5f20320"><td class="memItemLeft" align="right" valign="top">static std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">AQNWB::NWB::RegisteredType</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a99e5fd3c63ce7a887c2f3ae7b5f20320">create</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt; io)</td></tr>
-<tr class="memdesc:a99e5fd3c63ce7a887c2f3ae7b5f20320"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method to create an instance of a subclass of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> from file.  <br /></td></tr>
-<tr class="separator:a99e5fd3c63ce7a887c2f3ae7b5f20320"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-static-methods" name="pro-static-methods"></a>
 Static Protected Member Functions</h2></td></tr>
@@ -190,6 +191,15 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:a5f4d142b8156b6b33ed01c11c5720fec" id="r_a5f4d142b8156b6b33ed01c11c5720fec"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5f4d142b8156b6b33ed01c11c5720fec">m_io</a></td></tr>
 <tr class="memdesc:a5f4d142b8156b6b33ed01c11c5720fec"><td class="mdescLeft">&#160;</td><td class="mdescRight">A shared pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html">IO</a> object.  <br /></td></tr>
 <tr class="separator:a5f4d142b8156b6b33ed01c11c5720fec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-static-attribs" name="pro-static-attribs"></a>
+Static Protected Attributes</h2></td></tr>
+<tr class="memitem:ac3e284613a1e28db9875fb06b66b0c19" id="r_ac3e284613a1e28db9875fb06b66b0c19"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac3e284613a1e28db9875fb06b66b0c19">m_defaultUnregisteredGroupTypeClass</a></td></tr>
+<tr class="memdesc:ac3e284613a1e28db9875fb06b66b0c19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save the default <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> to use for reading Group types that are not registered.  <br /></td></tr>
+<tr class="separator:ac3e284613a1e28db9875fb06b66b0c19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30cc61d9d6b91dd6bd767ceccf35fb7f" id="r_a30cc61d9d6b91dd6bd767ceccf35fb7f"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a30cc61d9d6b91dd6bd767ceccf35fb7f">m_defaultUnregisteredDatasetTypeClass</a></td></tr>
+<tr class="memdesc:a30cc61d9d6b91dd6bd767ceccf35fb7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save the default <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> to use for reading Dataset types that are not registered.  <br /></td></tr>
+<tr class="separator:a30cc61d9d6b91dd6bd767ceccf35fb7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Base class for types defined in the <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> schema. </p>
@@ -259,8 +269,8 @@ Here is the caller graph for this function:</div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a01354d1b4230f7495203cc526eae418f" name="a01354d1b4230f7495203cc526eae418f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a01354d1b4230f7495203cc526eae418f">&#9670;&#160;</a></span>create() <span class="overload">[1/3]</span></h2>
+<a id="a6f7d3d6d30763215c823452176ed876a" name="a6f7d3d6d30763215c823452176ed876a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f7d3d6d30763215c823452176ed876a">&#9670;&#160;</a></span>create() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -269,7 +279,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> &gt; AQNWB::NWB::RegisteredType::create </td>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">AQNWB::NWB::RegisteredType</a> &gt; RegisteredType::create </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>fullClassName</em></span>, </td>
         </tr>
@@ -281,12 +291,17 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>io</em></span>&#160;)</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>io</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>fallbackToBase</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>&#160;)</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -297,6 +312,7 @@ Here is the caller graph for this function:</div>
     <tr><td class="paramname">fullClassName</td><td>The combined namespace and class name to instantiate, i.e., namespace::class </td></tr>
     <tr><td class="paramname">path</td><td>The path of the registered type. </td></tr>
     <tr><td class="paramname">io</td><td>A shared pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html">IO</a> object. </td></tr>
+    <tr><td class="paramname">fallbackToBase</td><td>If true, return a base class instance if the full class is not found. The base class to use is defined by m_defaultUnregisteredGroupTypeClass and m_defaultUnregisteredDatasetTypeClass depending on whether the type is a group or dataset. </td></tr>
   </table>
   </dd>
 </dl>
@@ -304,12 +320,12 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_a01354d1b4230f7495203cc526eae418f_cgraph.svg" width="482" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_a6f7d3d6d30763215c823452176ed876a_cgraph.svg" width="482" height="76"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_a01354d1b4230f7495203cc526eae418f_icgraph.svg" width="482" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_a6f7d3d6d30763215c823452176ed876a_icgraph.svg" width="482" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -361,8 +377,8 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a id="a99e5fd3c63ce7a887c2f3ae7b5f20320" name="a99e5fd3c63ce7a887c2f3ae7b5f20320"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a99e5fd3c63ce7a887c2f3ae7b5f20320">&#9670;&#160;</a></span>create() <span class="overload">[3/3]</span></h2>
+<a id="a13dd3c9a0045cb3729ba9cf56e4a2fa7" name="a13dd3c9a0045cb3729ba9cf56e4a2fa7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13dd3c9a0045cb3729ba9cf56e4a2fa7">&#9670;&#160;</a></span>create() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -378,7 +394,12 @@ template&lt;typename T&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>io</em></span>&#160;)</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>io</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>fallbackToBase</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -389,13 +410,12 @@ template&lt;typename T&gt; </div>
 </div><div class="memdoc">
 
 <p>Factory method to create an instance of a subclass of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> from file. </p>
-<p>Utility function to create an instance of a <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> subclass based on the "namespace" and "neurodata_type" attributes at a given path.</p>
 <p>The function: 1) reads the "namespace" and "neurodata_type" attributes at the given path, 2) looks up the corresponding subclass of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> for that type in the type registry 3) instantiates the subclass to represent the object at the path.</p>
-<dl class="section return"><dt>Returns</dt><dd>A unique pointer to the created <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> instance, or nullptr if creation fails.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">path</td><td>The path in the file from which to read the attributes. </td></tr>
+    <tr><td class="paramname">path</td><td>The path of the registered type. </td></tr>
     <tr><td class="paramname">io</td><td>A shared pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html">IO</a> object. </td></tr>
+    <tr><td class="paramname">fallbackToBase</td><td>If true, return a base class instance if the full class is not found. The base class to use is defined by m_defaultUnregisteredGroupTypeClass and m_defaultUnregisteredDatasetTypeClass depending on whether the type is a group or dataset.</td></tr>
   </table>
   </dd>
 </dl>
@@ -403,7 +423,7 @@ template&lt;typename T&gt; </div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_a99e5fd3c63ce7a887c2f3ae7b5f20320_cgraph.svg" width="100%" height="425"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_a13dd3c9a0045cb3729ba9cf56e4a2fa7_cgraph.svg" width="100%" height="443"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -536,6 +556,11 @@ Here is the call graph for this function:</div>
 
 <p>Get a shared pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html">IO</a> object. </p>
 <dl class="section return"><dt>Returns</dt><dd>Shared pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html">IO</a> object. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_af9ac7b1ff7615930fff6d8e44c353a7e_icgraph.svg" width="492" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 
 </div>
 </div>
@@ -629,7 +654,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_ab3eec5d2a591356df25053a4159ab671_icgraph.svg" width="100%" height="412"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_ab3eec5d2a591356df25053a4159ab671_icgraph.svg" width="100%" height="510"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -786,7 +811,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_a07451eb27d98493d2d362129a3934a4d_cgraph.svg" width="100%" height="376"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_a07451eb27d98493d2d362129a3934a4d_cgraph.svg" width="100%" height="394"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -847,6 +872,59 @@ Here is the call graph for this function:</div>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a id="a30cc61d9d6b91dd6bd767ceccf35fb7f" name="a30cc61d9d6b91dd6bd767ceccf35fb7f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a30cc61d9d6b91dd6bd767ceccf35fb7f">&#9670;&#160;</a></span>m_defaultUnregisteredDatasetTypeClass</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string RegisteredType::m_defaultUnregisteredDatasetTypeClass</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=</div>
+<div class="line">    <span class="stringliteral">&quot;hdmf-common::Data&quot;</span></div>
+</div><!-- fragment -->
+<p>Save the default <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> to use for reading Dataset types that are not registered. </p>
+
+</div>
+</div>
+<a id="ac3e284613a1e28db9875fb06b66b0c19" name="ac3e284613a1e28db9875fb06b66b0c19"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3e284613a1e28db9875fb06b66b0c19">&#9670;&#160;</a></span>m_defaultUnregisteredGroupTypeClass</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string RegisteredType::m_defaultUnregisteredGroupTypeClass</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=</div>
+<div class="line">    <span class="stringliteral">&quot;hdmf-common::Container&quot;</span></div>
+</div><!-- fragment -->
+<p>Save the default <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> to use for reading Group types that are not registered. </p>
+<p>Set the default <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> to use for unregistered Group and Dataset types </p>
+
+</div>
+</div>
 <a id="a5f4d142b8156b6b33ed01c11c5720fec" name="a5f4d142b8156b6b33ed01c11c5720fec"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5f4d142b8156b6b33ed01c11c5720fec">&#9670;&#160;</a></span>m_io</h2>
 

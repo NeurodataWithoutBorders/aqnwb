@@ -1,5 +1,13 @@
-<map id="AQNWB::NWB::Data&lt; DTYPE &gt;" name="AQNWB::NWB::Data&lt; DTYPE &gt;">
-<area shape="rect" id="Node000001" title="An abstract data type for a dataset." alt="" coords="5,79,223,105"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema." alt="" coords="8,5,220,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="117,46,117,79,111,79,111,46"/>
+<map id="AQNWB::NWB::Data" name="AQNWB::NWB::Data">
+<area shape="rect" id="Node000001" title="An abstract data type for a dataset." alt="" coords="265,70,413,96"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html" title="A typed data container for a dataset." alt="" coords="482,5,665,46"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="409,63,487,44,488,49,410,68"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_element_identifiers.html" title="A list of unique identifiers for values within a dataset, e.g. rows of a DynamicTable." alt="" coords="461,70,686,96"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="429,80,461,80,461,86,429,86"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html" title="An n&#45;dimensional dataset representing a column of a DynamicTable." alt="" coords="480,120,667,145"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="419,97,510,116,508,121,418,102"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema." alt="" coords="5,70,217,96"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="232,80,265,80,265,86,232,86"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html" title="A typed n&#45;dimensional dataset representing a column of a DynamicTable." alt="" coords="734,112,956,153"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="683,130,734,130,734,135,683,135"/>
 </map>

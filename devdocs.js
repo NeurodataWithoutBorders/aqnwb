@@ -40,9 +40,13 @@ var devdocs =
         [ "DEFINE_REFERENCED_REGISTERED_FIELD: Defining read methods for references to neurodata_type objects", "registered_type_page.html#use_the_define_referenced_registered_field_macro", null ]
       ] ],
       [ "How to implement a RegisteredType with a custom type name", "registered_type_page.html#using_registered_subclass_with_typename", [
-        [ "Templated RegisteredType Classes", "registered_type_page.html#implement_templated_registered_type", null ],
+        [ "Templated RegisteredType Classes", "registered_type_page.html#implement_templated_registered_type", [
+          [ "Using a base class and templated child class", "registered_type_page.html#implement_templated_registered_type_two_class", null ],
+          [ "Using a single templated class", "registered_type_page.html#implement_templated_registered_type_single_class", null ]
+        ] ],
         [ "Limitations of REGISTER_SUBCLASS_WITH_TYPENAME", "registered_type_page.html#limitations_registered_subclass_with_typename", null ]
-      ] ]
+      ] ],
+      [ "Testing RegisteredTypes", "registered_type_page.html#implement_registered_type_unit_tests", null ]
     ] ],
     [ "Implementation of data read", "read_design_page.html", [
       [ "Reading datasets and attributes", "read_design_page.html#read_design_sec_read_date", null ],

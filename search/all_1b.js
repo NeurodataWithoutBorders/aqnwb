@@ -10,7 +10,9 @@ var searchData=
   ['use_20smwr_20mode_7',['Why does AqNWB use SMWR mode?',['../hdf5io.html#hdf5io_swmr_features',1,'']]],
   ['use_20the_20registeredtype_20registry_8',['How to Use the RegisteredType Registry',['../read_design_page.html#use_registered_type_registry',1,'']]],
   ['users_9',['For Users',['../userdocs.html',1,'']]],
-  ['using_20chunking_20and_20i_20o_20filters_20in_20aqnwb_10',['Using Chunking and I/O Filters in AqNWB',['../hdf5io.html#hdf5io_filters_usage',1,'']]],
-  ['using_20the_20type_20registry_11',['Example: Using the type registry',['../read_design_page.html#use_registered_type_registry_example',1,'']]],
-  ['utils_2ehpp_12',['Utils.hpp',['../_utils_8hpp.html',1,'']]]
+  ['using_20a_20base_20class_20and_20templated_20child_20class_10',['Using a base class and templated child class',['../registered_type_page.html#implement_templated_registered_type_two_class',1,'']]],
+  ['using_20a_20single_20templated_20class_11',['Using a single templated class',['../registered_type_page.html#implement_templated_registered_type_single_class',1,'']]],
+  ['using_20chunking_20and_20i_20o_20filters_20in_20aqnwb_12',['Using Chunking and I/O Filters in AqNWB',['../hdf5io.html#hdf5io_filters_usage',1,'']]],
+  ['using_20the_20type_20registry_13',['Example: Using the type registry',['../read_design_page.html#use_registered_type_registry_example',1,'']]],
+  ['utils_2ehpp_14',['Utils.hpp',['../_utils_8hpp.html',1,'']]]
 ];

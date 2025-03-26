@@ -182,12 +182,12 @@ Reading neurodata_type objects</h1>
 <p>NWB <code>neurodata_types</code> are represented in AqNWB as classes that inherit from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> (see also <a class="el" href="registered_type_page.html">Implementing a new Neurodata Type</a>). <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> in turn maintains a registry of all available registered types that it uses to support convenient read of <code>neurodata_type</code> objects from an NWB file. For read, a user then typically uses either:</p><ul>
 <li>Pre-defined read methods created via the <a class="el" href="_registered_type_8hpp.html#af374245a4f6d5a00540e9fdba52a652a">DEFINE_REGISTERED_FIELD</a> macro (see also <a class="el" href="registered_type_page.html#use_the_define_registered_field_macro">DEFINE_REGISTERED_FIELD: Defining read methods for neurodata_type objects</a>).</li>
 <li><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ae0fb6e951eb0000e4a4fba81db8d466f">RegisteredType::readField</a> to read arbitrary registered fields.</li>
-<li><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a01354d1b4230f7495203cc526eae418f">RegisteredType::create</a> to manually create a <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> from a file.</li>
+<li><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a">RegisteredType::create</a> to manually create a <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> from a file.</li>
 <li>Construct the specific class directly using a known <code>path</code> and <code>io</code> object.</li>
 </ul>
 <p>The main components involved in reading typed objects from an NWB file via AqNWB are:</p>
 <ul>
-<li><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> as the main base class for all classes implementing a type, e.g., <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html">Container</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html">Data</a> and all their subtypes. <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> is responsible for managing all type classes and provides the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a01354d1b4230f7495203cc526eae418f">create</a> factory methods for creating instances of subclasses from a file.</li>
+<li><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> as the main base class for all classes implementing a type, e.g., <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html">Container</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html">Data</a> and all their subtypes. <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> is responsible for managing all type classes and provides the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a">create</a> factory methods for creating instances of subclasses from a file.</li>
 <li><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">BaseIO</a>, <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html">HDF5IO</a> are responsible for i) reading type attribute and group information, ii) searching the file for typed objects via <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a788603f4c9c2698aad610134ab89f8e1">findTypes()</a> methods, and iii) retrieving the paths of all object associated with a storage object (e.g., a Group) via <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a981d7a455b4c057f8ade5c511afbb2ba">getStorageObjects()</a></li>
 </ul>
 <p>Here we focus mainly on the design of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> itself. If you want to learn more about how to implement a new subclass of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> then please see <a class="el" href="registered_type_page.html">Implementing a new Neurodata Type</a>.</p>
@@ -216,7 +216,7 @@ How the Type Registry in RegisteredType Works</h2>
 </ul>
 </li>
 <li><b>Dynamic Creation</b>:<ul>
-<li>The <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a01354d1b4230f7495203cc526eae418f">RegisteredType::create</a> method is used to create an instance of a registered subclass by name. This method looks up the subclass name in the registry and calls the corresponding factory function to create an instance.</li>
+<li>The <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a">RegisteredType::create</a> method is used to create an instance of a registered subclass by name. This method looks up the subclass name in the registry and calls the corresponding factory function to create an instance.</li>
 </ul>
 </li>
 <li><b>Class Name and Namespace Retrieval</b>:<ul>
@@ -229,10 +229,10 @@ How to Use the RegisteredType Registry</h2>
 <p>The <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> registry allows for dynamic creation and management of registered subclasses. Here is how you can use it:</p>
 <ol type="1">
 <li><b>Creating Instances Dynamically</b>:<ul>
-<li>Use the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a01354d1b4230f7495203cc526eae418f">create</a> method to create an instance of a registered subclass by name.</li>
+<li>Use the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a">create</a> method to create an instance of a registered subclass by name.</li>
 <li>This method takes the subclass name, path, and a shared pointer to the IO object as arguments. This illustrates how we can read a specific typed object in an NWB file. <div class="fragment"><div class="line">    <span class="comment">// Create an instance of an TimeSeries in a file.</span></div>
 <div class="line">    <span class="keyword">auto</span> instance =</div>
-<div class="line">        <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a01354d1b4230f7495203cc526eae418f">AQNWB::NWB::RegisteredType::create</a>(<span class="stringliteral">&quot;core::TimeSeries&quot;</span>, dataPath, io);</div>
+<div class="line">        <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a">AQNWB::NWB::RegisteredType::create</a>(<span class="stringliteral">&quot;core::TimeSeries&quot;</span>, dataPath, io);</div>
 <div class="line">    REQUIRE(instance != <span class="keyword">nullptr</span>);</div>
 </div><!-- fragment --></li>
 </ul>
@@ -260,12 +260,25 @@ How to Use the RegisteredType Registry</h2>
 </ol>
 <h2><a class="anchor" id="read_design_templates"></a>
 Reading templated RegisteredType classes</h2>
-<p>AqNWB uses templated classes to handle data types in a type-safe way while maintaining flexibility. The two main templated neurodata_type classes are <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html">VectorData&lt;DTYPE&gt;</a> and <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html">Data&lt;DTYPE&gt;</a> (see also <a class="el" href="registered_type_page.html#implement_templated_registered_type">Templated RegisteredType Classes</a>). For example:</p>
-<div class="fragment"><div class="line"><span class="comment">// Reading a VectorData field</span></div>
-<div class="line"><span class="keyword">auto</span> genericVector = RegisteredType::create(<span class="stringliteral">&quot;hdmf-common::VectorData&quot;</span>, path, io);</div>
-<div class="line"><span class="keyword">auto</span> typedVector = std::dynamic_pointer_cast&lt;VectorData&lt;double&gt;&gt;(genericVector);</div>
-</div><!-- fragment --><p>Here the NWB file contains only the base <code>neurodata_type</code>information (e.g., "VectorData") without the template information. On read, the system then creates the generic instance using <code>std::any</code> that the users can then cast to specific types as needed using the templated interfaces. However, note that in the <a class="el" href="_registered_type_8hpp.html#acd3c876a1c357333cd4a8ff27300ee08">DEFINE_FIELD</a> macro, we can directly use the more specialized types, e.g., <code>VectorData&lt;int&gt;</code>, such that for autogenerated read methods, a user often does not need to cast to the more specific type or specify the data type.</p>
-<h2><a class="anchor" id="use_registered_type_registry_example"></a>
+<p>To facilitate the reading of data arrays and handle data types in a type-safe manner, AqNWB utilizes templated classes. For instance, the <code>VectorData</code> type in NWB may represent data arrays with varying data types (e.g., <code>int</code>, <code>string</code>, etc.). Accordingly, AqNWB implements the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html">VectorData</a> class, which exposes the data as <code>std::any</code> via the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#afe2d2e01b7ade2a1089e8cc051d7f49e">VectorData::readData</a> method for reading.</p>
+<p>In some cases, the data type for <code>VectorData</code> may be predetermined in the schema. For example, the <code>location</code> column of the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html">ElectrodeTable</a> requires string data. To simplify reading in such cases where the data type is fixed, AqNWB defines <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html">VectorDataTyped&lt;DTYPE&gt;</a>, which inherits from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html">VectorData</a>. This class allows the data type to be specified at compile time via the class template, enabling <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html">VectorDataTyped&lt;DTYPE&gt;::readData</a> to expose the data with the type already set at compile time. When used in combination with the <a class="el" href="_registered_type_8hpp.html#af374245a4f6d5a00540e9fdba52a652a">DEFINE_REGISTERED_FIELD</a> macro, this approach allows <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#a9dc7530c9ef347e961963f1c92ff7127">ElectrodeTable::readLocationColumn</a> to return the data to the user with the type already set. The same approach is also applied in the case of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html">Data</a> and its derived class <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html">DataTyped</a>.</p>
+<p>For further details and alternative approaches for implementing templated <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> classes, see <a class="el" href="registered_type_page.html#implement_templated_registered_type">Templated RegisteredType Classes</a>. <br  />
+</p>
+<div class="fragment"><div class="line">    <span class="comment">// Read as generic RegisteredType and case to VectorData</span></div>
+<div class="line">    <span class="keyword">auto</span> readDataUntyped = <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a">NWB::RegisteredType::create</a>(dataPath, io);</div>
+<div class="line">    <span class="keyword">auto</span> readVectorData =</div>
+<div class="line">        std::dynamic_pointer_cast&lt;NWB::VectorData&gt;(readDataUntyped);</div>
+<div class="line">    <span class="comment">// Read data as DataBlock&lt;std::any&gt;</span></div>
+<div class="line">    <span class="keyword">auto</span> dataAny = readVectorData-&gt;readData();</div>
+<div class="line">    <span class="keyword">auto</span> dataBlock = dataAny-&gt;valuesGeneric();</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// Create VectorDataTyped&lt;int&gt; from VectorData and read the</span></div>
+<div class="line">    <span class="comment">// data as typed DataBlock&lt;int&gt;</span></div>
+<div class="line">    <span class="keyword">auto</span> readVectorDataTyped =</div>
+<div class="line">        <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html#a261537d26d0c1b0667780738d010906c">NWB::VectorDataTyped&lt;int&gt;::fromVectorData</a>(*readVectorData);</div>
+<div class="line">    <span class="keyword">auto</span> dataInt = readVectorDataTyped-&gt;readData();</div>
+<div class="line">    <span class="keyword">auto</span> dataBlockInt = dataInt-&gt;values();</div>
+</div><!-- fragment --><h2><a class="anchor" id="use_registered_type_registry_example"></a>
 Example: Using the type registry</h2>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="_base_i_o_8hpp.html">io/BaseIO.hpp</a>&quot;</span></div>
 <div class="line"><span class="preprocessor">#include &quot;<a class="code" href="_h_d_f5_i_o_8hpp.html">io/hdf5/HDF5IO.hpp</a>&quot;</span></div>
@@ -308,7 +321,7 @@ Example: Using the type registry</h2>
 <div class="line">    <span class="comment">// [example_RegisterType_get_type_instance]</span></div>
 <div class="line">    <span class="comment">// Create an instance of an TimeSeries in a file.</span></div>
 <div class="line">    <span class="keyword">auto</span> instance =</div>
-<div class="line">        <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a01354d1b4230f7495203cc526eae418f">AQNWB::NWB::RegisteredType::create</a>(<span class="stringliteral">&quot;core::TimeSeries&quot;</span>, dataPath, io);</div>
+<div class="line">        <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a">AQNWB::NWB::RegisteredType::create</a>(<span class="stringliteral">&quot;core::TimeSeries&quot;</span>, dataPath, io);</div>
 <div class="line">    REQUIRE(instance != <span class="keyword">nullptr</span>);</div>
 <div class="line">    <span class="comment">// [example_RegisterType_get_type_instance]</span></div>
 <div class="line"> </div>
@@ -331,7 +344,6 @@ Example: Using the type registry</h2>
 <div class="line">    <span class="comment">// [example_RegisterType_get_registered_factories]</span></div>
 <div class="line">  }</div>
 <div class="line">}</div>
-<div class="line"> </div>
 </div><!-- fragment --><h1><a class="anchor" id="read_design_example"></a>
 Example Implementation Details</h1>
 <p>For implementation examples and detailed code snippets, see the following sections:</p>

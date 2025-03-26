@@ -2,9 +2,9 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type =
 [
     [ "RegisteredType", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a4e2e5496f7c318307bfc2addfc68c859", null ],
     [ "~RegisteredType", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab92081cf30cab76ac6e35125300f77a4", null ],
-    [ "create", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a01354d1b4230f7495203cc526eae418f", null ],
+    [ "create", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a", null ],
     [ "create", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ae92874bd2b0c6dcc821633b08f87c328", null ],
-    [ "create", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a99e5fd3c63ce7a887c2f3ae7b5f20320", null ],
+    [ "create", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a13dd3c9a0045cb3729ba9cf56e4a2fa7", null ],
     [ "findOwnedTypes", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab66ea6ba3a14ab197f840ef52fc52670", null ],
     [ "getFactoryMap", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a8792fccbd49f9d441b1f6d5a1b06b4cf", null ],
     [ "getFullTypeName", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a0e670647b466cb65a88b81f9fe4a6e37", null ],
@@ -17,6 +17,8 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type =
     [ "readField", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ae0fb6e951eb0000e4a4fba81db8d466f", null ],
     [ "readField", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a07451eb27d98493d2d362129a3934a4d", null ],
     [ "registerSubclass", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#acb4c10e5b18c0c637de8bccd8d13e1dc", null ],
+    [ "m_defaultUnregisteredDatasetTypeClass", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a30cc61d9d6b91dd6bd767ceccf35fb7f", null ],
+    [ "m_defaultUnregisteredGroupTypeClass", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ac3e284613a1e28db9875fb06b66b0c19", null ],
     [ "m_io", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a5f4d142b8156b6b33ed01c11c5720fec", null ],
     [ "m_path", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a2c2954495607eb4afe4e9ab8eff3a08b", null ]
 ];

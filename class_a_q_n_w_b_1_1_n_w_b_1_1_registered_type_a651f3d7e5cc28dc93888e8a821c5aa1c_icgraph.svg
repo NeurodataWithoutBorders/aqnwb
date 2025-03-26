@@ -49,7 +49,7 @@
 <script type="application/ecmascript">
 var viewWidth = 1727;
 var viewHeight = 529;
-var sectionId = 'dynsection-7';
+var sectionId = 'dynsection-8';
 </script>
 <script type="application/ecmascript" xlink:href="svg.min.js"/>
 <svg id="graph" class="graph">
@@ -144,7 +144,7 @@ var sectionId = 'dynsection-7';
 <!-- Node24 -->
 <g id="Node000024" class="node">
 <title>Node24</title>
-<g id="a_Node000024"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a5b354d5a20095d2279adcdc0d84c944f" target="_top" xlink:title="Initialize the dataset for the Data object.">
+<g id="a_Node000024"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a74b50c73b074e5f02bbcad3c011f2785" target="_top" xlink:title="Initialize the dataset for the Data object.">
 <polygon fill="white" stroke="#666666" points="1521.75,-125.88 1369.25,-125.88 1369.25,-106.62 1521.75,-106.62 1521.75,-125.88"/>
 <text text-anchor="middle" x="1445.5" y="-112.38" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::Data::initialize</text>
 </a>
@@ -531,7 +531,7 @@ var sectionId = 'dynsection-7';
 <!-- Node25 -->
 <g id="Node000025" class="node">
 <title>Node25</title>
-<g id="a_Node000025"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a189041602a933f1e000251dd72bbf185" target="_top" xlink:title="Initialize the dataset for the Data object.">
+<g id="a_Node000025"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a32addc05d871cc2657608b184652173c" target="_top" xlink:title="Initialize the dataset for the VectorData object.">
 <polygon fill="white" stroke="#666666" points="1316,-30.5 1176.25,-30.5 1176.25,0 1316,0 1316,-30.5"/>
 <text text-anchor="start" x="1184.25" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::VectorData</text>
 <text text-anchor="middle" x="1246.12" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::initialize</text>

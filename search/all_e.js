@@ -25,6 +25,8 @@ var searchData=
   ['for_20registeredtype_20objects_22',['Searching for RegisteredType objects',['../read_page.html#read_example_search',1,'']]],
   ['for_20users_23',['For Users',['../userdocs.html',1,'']]],
   ['from_20registeredtype_20objects_24',['Reading data from RegisteredType objects',['../read_page.html#read_example_read',1,'']]],
-  ['fromgeneric_25',['fromGeneric',['../class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a20df6af7d661de38f4b8cb3baba48339',1,'AQNWB::IO::DataBlock']]],
-  ['further_20reading_26',['Further reading',['../read_page.html#read_further_reading',1,'']]]
+  ['fromdata_25',['fromData',['../class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html#a247e987f2485aa3dc1d3d0c482cf4160',1,'AQNWB::NWB::DataTyped']]],
+  ['fromgeneric_26',['fromGeneric',['../class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a20df6af7d661de38f4b8cb3baba48339',1,'AQNWB::IO::DataBlock']]],
+  ['fromvectordata_27',['fromVectorData',['../class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html#a261537d26d0c1b0667780738d010906c',1,'AQNWB::NWB::VectorDataTyped']]],
+  ['further_20reading_28',['Further reading',['../read_page.html#read_further_reading',1,'']]]
 ];

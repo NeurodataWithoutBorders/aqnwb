@@ -26,12 +26,6 @@ var hierarchy =
     [ "AQNWB::IO::ReadDataWrapper< OTYPE, VTYPE >", "class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html", null ],
     [ "AQNWB::NWB::RecordingContainers", "class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html", null ],
     [ "AQNWB::NWB::RegisteredType", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html", [
-      [ "AQNWB::NWB::Data< int >", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html", [
-        [ "AQNWB::NWB::ElementIdentifiers", "class_a_q_n_w_b_1_1_n_w_b_1_1_element_identifiers.html", null ]
-      ] ],
-      [ "AQNWB::NWB::Data< std::any >", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html", [
-        [ "AQNWB::NWB::VectorData< DTYPE >", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html", null ]
-      ] ],
       [ "AQNWB::NWB::Container", "class_a_q_n_w_b_1_1_n_w_b_1_1_container.html", [
         [ "AQNWB::NWB::Device", "class_a_q_n_w_b_1_1_n_w_b_1_1_device.html", null ],
         [ "AQNWB::NWB::DynamicTable", "class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html", [
@@ -46,7 +40,13 @@ var hierarchy =
           ] ]
         ] ]
       ] ],
-      [ "AQNWB::NWB::Data< DTYPE >", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html", null ]
+      [ "AQNWB::NWB::Data", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html", [
+        [ "AQNWB::NWB::DataTyped< DTYPE >", "class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html", null ],
+        [ "AQNWB::NWB::ElementIdentifiers", "class_a_q_n_w_b_1_1_n_w_b_1_1_element_identifiers.html", null ],
+        [ "AQNWB::NWB::VectorData", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html", [
+          [ "AQNWB::NWB::VectorDataTyped< DTYPE >", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html", null ]
+        ] ]
+      ] ]
     ] ],
     [ "std::true_type", null, [
       [ "AQNWB::IO::isAllowedStorageObjectType< StorageObjectType::Attribute >", "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type_3_01_storage_object_type_1_1_attribute_01_4.html", null ],

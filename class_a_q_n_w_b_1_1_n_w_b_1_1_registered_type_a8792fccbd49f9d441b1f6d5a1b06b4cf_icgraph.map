@@ -1,11 +1,12 @@
 <map id="AQNWB::NWB::RegisteredType::getFactoryMap" name="AQNWB::NWB::RegisteredType::getFactoryMap">
 <area shape="rect" id="Node000001" title="Get the factory map for creating instances of subclasses." alt="" coords="524,71,735,111"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a01354d1b4230f7495203cc526eae418f" title="Create an instance of a registered subclass by name." alt="" coords="265,37,476,78"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a" title="Create an instance of a registered subclass by name." alt="" coords="265,37,476,78"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="508,78,476,74,477,69,509,73"/>
 <area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#acb4c10e5b18c0c637de8bccd8d13e1dc" title="Register a subclass name and its factory function in the registry." alt="" coords="265,103,476,143"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="509,109,477,113,476,107,508,103"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a99e5fd3c63ce7a887c2f3ae7b5f20320" title="Factory method to create an instance of a subclass of RegisteredType from file." alt="" coords="5,5,217,46"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="249,45,217,41,218,36,250,40"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="509,109,477,113,476,107,508,103"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="413,24,397,18,370,16,345,18,330,23,325,29,327,36,322,37,319,27,327,18,344,13,370,11,398,13,415,19"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a13dd3c9a0045cb3729ba9cf56e4a2fa7" title="Factory method to create an instance of a subclass of RegisteredType from file." alt="" coords="5,5,217,46"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="249,45,217,41,218,36,250,40"/>
 <area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a07451eb27d98493d2d362129a3934a4d" title="Read a field that is itself a RegisteredType." alt="" coords="5,71,217,111"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="250,76,218,80,217,75,249,71"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="250,76,218,80,217,75,249,71"/>
 </map>

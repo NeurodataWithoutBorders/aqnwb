@@ -1,9 +1,7 @@
 var class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data =
 [
-    [ "VectorData", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#aef4d37bb77366f53423c27980fac601e", null ],
-    [ "initialize", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a189041602a933f1e000251dd72bbf185", null ],
-    [ "readDescription", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#af8748ff2c8a9b683b08d1789929d0a8f", null ],
-    [ "REGISTER_SUBCLASS_WITH_TYPENAME", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a21f750b933b3d5ffdf395b32a46fb65a", null ],
-    [ "m_io", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a5f4d142b8156b6b33ed01c11c5720fec", null ],
-    [ "m_path", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a2c2954495607eb4afe4e9ab8eff3a08b", null ]
+    [ "VectorData", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#aaf127dfd1e590307b872ea785d578316", null ],
+    [ "~VectorData", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#acc415a8c8155b2ac865bee8647c9831f", null ],
+    [ "initialize", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a32addc05d871cc2657608b184652173c", null ],
+    [ "readDescription", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a60a0e9ee1afad61bae478b9a4a212e01", null ]
 ];

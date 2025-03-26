@@ -23,6 +23,7 @@ var annotated_dup =
         [ "AnnotationSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series" ],
         [ "Container", "class_a_q_n_w_b_1_1_n_w_b_1_1_container.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_container" ],
         [ "Data", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_data" ],
+        [ "DataTyped", "class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed" ],
         [ "Device", "class_a_q_n_w_b_1_1_n_w_b_1_1_device.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_device" ],
         [ "DynamicTable", "class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table" ],
         [ "ElectricalSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series" ],
@@ -34,7 +35,8 @@ var annotated_dup =
         [ "RegisteredType", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" ],
         [ "SpikeEventSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series" ],
         [ "TimeSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series" ],
-        [ "VectorData", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data" ]
+        [ "VectorData", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data" ],
+        [ "VectorDataTyped", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed" ]
       ] ],
       [ "Channel", "class_a_q_n_w_b_1_1_channel.html", "class_a_q_n_w_b_1_1_channel" ],
       [ "Types", "class_a_q_n_w_b_1_1_types.html", "class_a_q_n_w_b_1_1_types" ]
