@@ -54,7 +54,7 @@ After building, you can run the demo:
 
 ```bash
 # From the demo/DANDISET_000232/build directory
-cd bin
+cd demo/inspect_electrical_series/build/bin
 ./nwb_analysis_demo ../../sub-EF0147_ses-20190204T144339_behavior+ecephys.nwb
 ```
 
