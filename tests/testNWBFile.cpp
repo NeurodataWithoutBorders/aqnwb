@@ -362,7 +362,6 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
   }
 
   nwbfile.finalize();
-  io->close();
 }
 
 TEST_CASE("createAnnotationSeries", "[nwb]")
@@ -418,7 +417,6 @@ TEST_CASE("createAnnotationSeries", "[nwb]")
   }
 
   nwbfile.finalize();
-  io->close();
 }
 
 TEST_CASE("setCanModifyObjectsMode", "[nwb]")
@@ -459,5 +457,4 @@ TEST_CASE("setCanModifyObjectsMode", "[nwb]")
 
   // stop recording
   nwbfile.finalize();
-  io->close();
 }
