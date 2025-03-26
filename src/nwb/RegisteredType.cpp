@@ -86,8 +86,7 @@ std::shared_ptr<AQNWB::NWB::RegisteredType> RegisteredType::create(
   if (fallbackToBase) {
     StorageObjectType sot = io->getStorageObjectType(path);
     if (sot == StorageObjectType::Group) {
-      return 
-        (m_defaultUnregisteredGroupTypeClass, path, io);
+      return create(m_defaultUnregisteredGroupTypeClass, path, io);
     } else if (sot == StorageObjectType::Dataset) {
       return create(m_defaultUnregisteredDatasetTypeClass, path, io);
     }
