@@ -8,6 +8,7 @@
 #include "nwb/hdmf/base/Container.hpp"
 #include "nwb/hdmf/table/ElementIdentifiers.hpp"
 #include "nwb/hdmf/table/VectorData.hpp"
+#include "spec/hdmf_common.hpp"
 
 namespace AQNWB::NWB
 {
@@ -22,7 +23,7 @@ class DynamicTable : public Container
 {
 public:
   // Register the TimeSeries as a subclass of Container
-  REGISTER_SUBCLASS(DynamicTable, "hdmf-common")
+  REGISTER_SUBCLASS(DynamicTable, AQNWB::SPEC::HDMF_COMMON::namespaceName)
 
   /**
    * @brief Constructor.
