@@ -28,7 +28,7 @@ TEST_CASE("VectorData", "[base]")
     std::string path = getTestFilePath("testVectorData.h5");
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
-    
+
     // Prepare test data
     SizeType numSamples = 10;
     std::string dataPath = "/vdata_basic";
@@ -78,7 +78,7 @@ TEST_CASE("VectorData", "[base]")
     std::string descriptionStr = descriptionData->values().data[0];
     REQUIRE(descriptionStr == description);
     // [example_test_vectordata_read_snippet]
-    
+
     // close the I/O
     io->close();
   }
@@ -122,8 +122,7 @@ TEST_CASE("VectorData", "[base]")
 
     io->close();
   }
-} // TEST_CASE("VectorData", "[base]")
-
+}  // TEST_CASE("VectorData", "[base]")
 
 TEST_CASE("VectorDataTyped", "[base]")
 {
@@ -391,4 +390,4 @@ TEST_CASE("VectorDataTyped", "[base]")
     REQUIRE(convertedBlockString.data == data);
   }
   io->close();
-} // TEST_CASE("VectorDataTyped", "[base]")
+}  // TEST_CASE("VectorDataTyped", "[base]")
