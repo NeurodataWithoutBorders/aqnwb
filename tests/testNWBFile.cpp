@@ -55,8 +55,13 @@ TEST_CASE("initialize", "[nwb]")
   initStatus = nwbfile.initialize(generateUuid());
   REQUIRE(initStatus == Status::Success);
   REQUIRE(nwbfile.isInitialized());
+
+  // Since we didn't create any typed objects within the NWBFile, we should
+  // have no owned types
+  auto result = nwbfile.findOwnedTypes();
+  REQUIRE(result.size() == 0);
+
   nwbfile.finalize();
-  io->close();
 }
 
 TEST_CASE("createElectrodesTable", "[nwb]")
@@ -266,6 +271,17 @@ TEST_CASE("createElectricalSeries", "[nwb]")
     REQUIRE(((pair.first == "/acquisition/esdata1")
              || (pair.first == "/acquisition/esdata0")));
   }
+
+  // Check that we can find all the types that we created
+  // - /general/extracellular_ephys/array0 : core::ElectrodeGroup
+  // - /general/devices/array1 : core::Device
+  // - /general/extracellular_ephys/electrodes : core::DynamicTable
+  // - /acquisition/esdata1 : core::ElectricalSeries
+  // - /general/devices/array0 : core::Device
+  // - /general/extracellular_ephys/array1 : core::ElectrodeGroup
+  // - /acquisition/esdata0 : core::ElectricalSeries
+  auto result = nwbfile.findOwnedTypes();
+  REQUIRE(result.size() == 7);
 
   // finalize the nwb file
   nwbfile.finalize();
