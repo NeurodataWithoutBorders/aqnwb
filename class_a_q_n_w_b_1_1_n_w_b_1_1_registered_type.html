@@ -153,6 +153,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a07451eb27d98493d2d362129a3934a4d" id="r_a07451eb27d98493d2d362129a3934a4d"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">AQNWB::NWB::RegisteredType</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07451eb27d98493d2d362129a3934a4d">readField</a> (const std::string &amp;fieldPath) const</td></tr>
 <tr class="memdesc:a07451eb27d98493d2d362129a3934a4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a field that is itself a <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a>.  <br /></td></tr>
 <tr class="separator:a07451eb27d98493d2d362129a3934a4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab66ea6ba3a14ab197f840ef52fc52670" id="r_ab66ea6ba3a14ab197f840ef52fc52670"><td class="memItemLeft" align="right" valign="top">virtual std::unordered_map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab66ea6ba3a14ab197f840ef52fc52670">findOwnedTypes</a> (const std::unordered_set&lt; std::string &gt; &amp;types={}) const</td></tr>
+<tr class="memdesc:ab66ea6ba3a14ab197f840ef52fc52670"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find all typed objects that are owned by this object, i.e., objects that have a neurodata_type and namespace attribute and have this object as there closest parent with an assigned type.  <br /></td></tr>
+<tr class="separator:ab66ea6ba3a14ab197f840ef52fc52670"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -402,6 +405,41 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_a99e5fd3c63ce7a887c2f3ae7b5f20320_cgraph.svg" width="100%" height="425"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
+
+</div>
+</div>
+<a id="ab66ea6ba3a14ab197f840ef52fc52670" name="ab66ea6ba3a14ab197f840ef52fc52670"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab66ea6ba3a14ab197f840ef52fc52670">&#9670;&#160;</a></span>findOwnedTypes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; std::string, std::string &gt; RegisteredType::findOwnedTypes </td>
+          <td>(</td>
+          <td class="paramtype">const std::unordered_set&lt; std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>types</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Find all typed objects that are owned by this object, i.e., objects that have a neurodata_type and namespace attribute and have this object as there closest parent with an assigned type. </p>
+<p>This is a shorthand for calling <code><a class="el" href="#af9ac7b1ff7615930fff6d8e44c353a7e" title="Get a shared pointer to the IO object.">getIO()</a>-&gt;findTypes(m_path, types, IO::SearchMode::STOP_ON_TYPE, true);</code></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">types</td><td>The set of types to search for. If an empty set is provided, then all objects with an assigned type (i.e., object that have a neurodata_type and namespace attributed) will be returned. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An unordered map where each key is the path to an object and its corresponding value is the type of the object. </dd></dl>
 
 </div>
 </div>

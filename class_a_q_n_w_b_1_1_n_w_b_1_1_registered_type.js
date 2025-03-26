@@ -5,6 +5,7 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type =
     [ "create", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a01354d1b4230f7495203cc526eae418f", null ],
     [ "create", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ae92874bd2b0c6dcc821633b08f87c328", null ],
     [ "create", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a99e5fd3c63ce7a887c2f3ae7b5f20320", null ],
+    [ "findOwnedTypes", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab66ea6ba3a14ab197f840ef52fc52670", null ],
     [ "getFactoryMap", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a8792fccbd49f9d441b1f6d5a1b06b4cf", null ],
     [ "getFullTypeName", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a0e670647b466cb65a88b81f9fe4a6e37", null ],
     [ "getIO", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#af9ac7b1ff7615930fff6d8e44c353a7e", null ],

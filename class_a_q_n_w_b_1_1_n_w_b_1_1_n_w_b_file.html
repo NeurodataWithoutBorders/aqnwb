@@ -150,7 +150,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:aba967059704c8c81446775bd7beda42b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> file is initialized.  <br /></td></tr>
 <tr class="separator:aba967059704c8c81446775bd7beda42b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af7b3285fd7e02b444372fb1ab4341674" id="r_af7b3285fd7e02b444372fb1ab4341674"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af7b3285fd7e02b444372fb1ab4341674">finalize</a> ()</td></tr>
-<tr class="memdesc:af7b3285fd7e02b444372fb1ab4341674"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finalizes the <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> file by closing it.  <br /></td></tr>
+<tr class="memdesc:af7b3285fd7e02b444372fb1ab4341674"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finalizes the <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> file by closing the io object.  <br /></td></tr>
 <tr class="separator:af7b3285fd7e02b444372fb1ab4341674"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a749bc45b2c60adf71b4d16ad247dc04d" id="r_a749bc45b2c60adf71b4d16ad247dc04d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a749bc45b2c60adf71b4d16ad247dc04d">createElectrodesTable</a> (std::vector&lt; <a class="el" href="class_a_q_n_w_b_1_1_types.html#a17cc1d186ce80971c28e440471e910ff">Types::ChannelVector</a> &gt; recordingArrays)</td></tr>
 <tr class="memdesc:a749bc45b2c60adf71b4d16ad247dc04d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create ElectrodesTable. Note, this function will fail if the file is in a mode where new objects cannot be added, which can be checked via nwbfile.io-&gt;canModifyObjects()  <br /></td></tr>
@@ -233,6 +233,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a07451eb27d98493d2d362129a3934a4d inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a07451eb27d98493d2d362129a3934a4d"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">AQNWB::NWB::RegisteredType</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a07451eb27d98493d2d362129a3934a4d">readField</a> (const std::string &amp;fieldPath) const</td></tr>
 <tr class="memdesc:a07451eb27d98493d2d362129a3934a4d inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a field that is itself a <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a>.  <br /></td></tr>
 <tr class="separator:a07451eb27d98493d2d362129a3934a4d inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab66ea6ba3a14ab197f840ef52fc52670 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_ab66ea6ba3a14ab197f840ef52fc52670"><td class="memItemLeft" align="right" valign="top">virtual std::unordered_map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab66ea6ba3a14ab197f840ef52fc52670">findOwnedTypes</a> (const std::unordered_set&lt; std::string &gt; &amp;types={}) const</td></tr>
+<tr class="memdesc:ab66ea6ba3a14ab197f840ef52fc52670 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find all typed objects that are owned by this object, i.e., objects that have a neurodata_type and namespace attribute and have this object as there closest parent with an assigned type.  <br /></td></tr>
+<tr class="separator:ab66ea6ba3a14ab197f840ef52fc52670 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -773,7 +776,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Finalizes the <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> file by closing it. </p>
+<p>Finalizes the <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> file by closing the io object. </p>
 
 </div>
 </div>

@@ -160,9 +160,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a981d7a455b4c057f8ade5c511afbb2ba" id="r_a981d7a455b4c057f8ade5c511afbb2ba"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; std::pair&lt; std::string, <a class="el" href="class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915">StorageObjectType</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a981d7a455b4c057f8ade5c511afbb2ba">getStorageObjects</a> (const std::string &amp;path, const <a class="el" href="class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915">StorageObjectType</a> &amp;objectType=StorageObjectType::Undefined) const =0</td></tr>
 <tr class="memdesc:a981d7a455b4c057f8ade5c511afbb2ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the list of storage objects (groups, datasets, attributes) inside a group.  <br /></td></tr>
 <tr class="separator:a981d7a455b4c057f8ade5c511afbb2ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a985277d47989d7cba0f1020a3166da2b" id="r_a985277d47989d7cba0f1020a3166da2b"><td class="memItemLeft" align="right" valign="top">virtual std::unordered_map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a985277d47989d7cba0f1020a3166da2b">findTypes</a> (const std::string &amp;starting_path, const std::unordered_set&lt; std::string &gt; &amp;types, <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035">SearchMode</a> search_mode) const</td></tr>
-<tr class="memdesc:a985277d47989d7cba0f1020a3166da2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds all datasets and groups of the given types in the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html">HDF5</a> file.  <br /></td></tr>
-<tr class="separator:a985277d47989d7cba0f1020a3166da2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a788603f4c9c2698aad610134ab89f8e1" id="r_a788603f4c9c2698aad610134ab89f8e1"><td class="memItemLeft" align="right" valign="top">virtual std::unordered_map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a788603f4c9c2698aad610134ab89f8e1">findTypes</a> (const std::string &amp;starting_path, const std::unordered_set&lt; std::string &gt; &amp;types, <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035">SearchMode</a> search_mode, bool exclude_starting_path=false) const</td></tr>
+<tr class="memdesc:a788603f4c9c2698aad610134ab89f8e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds all datasets and groups of the given types in the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html">HDF5</a> file.  <br /></td></tr>
+<tr class="separator:a788603f4c9c2698aad610134ab89f8e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a59ab1d7c744d05623aa8626643e37a74" id="r_a59ab1d7c744d05623aa8626643e37a74"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html">DataBlockGeneric</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a59ab1d7c744d05623aa8626643e37a74">readDataset</a> (const std::string &amp;dataPath, const std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;start={}, const std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;count={}, const std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;stride={}, const std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;block={})=0</td></tr>
 <tr class="memdesc:a59ab1d7c744d05623aa8626643e37a74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a dataset and determines the data type.  <br /></td></tr>
 <tr class="separator:a59ab1d7c744d05623aa8626643e37a74"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -971,8 +971,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a985277d47989d7cba0f1020a3166da2b" name="a985277d47989d7cba0f1020a3166da2b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a985277d47989d7cba0f1020a3166da2b">&#9670;&#160;</a></span>findTypes()</h2>
+<a id="a788603f4c9c2698aad610134ab89f8e1" name="a788603f4c9c2698aad610134ab89f8e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a788603f4c9c2698aad610134ab89f8e1">&#9670;&#160;</a></span>findTypes()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -993,7 +993,12 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035">SearchMode</a></td>          <td class="paramname"><span class="paramname"><em>search_mode</em></span>&#160;) const</td>
+          <td class="paramtype"><a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035">SearchMode</a></td>          <td class="paramname"><span class="paramname"><em>search_mode</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>exclude_starting_path</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>&#160;) const</td>
         </tr>
       </table>
   </td>
@@ -1008,8 +1013,9 @@ Here is the call graph for this function:</div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">starting_path</td><td>The path in the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html">HDF5</a> file to start the search from. </td></tr>
-    <tr><td class="paramname">types</td><td>The set of types to search for. </td></tr>
-    <tr><td class="paramname">search_mode</td><td>The search mode to use.</td></tr>
+    <tr><td class="paramname">types</td><td>The set of types to search for. If an empty set is provided, then all objects with an assigned type (i.e., object that have a neurodata_type and namespace attributed) will be returned. </td></tr>
+    <tr><td class="paramname">search_mode</td><td>The search mode to use. </td></tr>
+    <tr><td class="paramname">exclude_starting_path</td><td>If true, the starting path will not be included in the search and the resutlting output, but only its children will be searched. This also means, if the starting path is a typed object, then STOP_ON_TYPE will stop if exclude_starting_path=false but if exclude_starting_path=true then it will not stop the search at the starting_path but will continue until the next matching typed object is found. This is useful when we want to find all objects with a neurodata type object, but we are not interested in the object itself (e.g., when we have an unknown Container type and we want to find all registered fields that is owns) </td></tr>
   </table>
   </dd>
 </dl>
@@ -1017,7 +1023,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o_a985277d47989d7cba0f1020a3166da2b_cgraph.svg" width="588" height="363"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o_a788603f4c9c2698aad610134ab89f8e1_cgraph.svg" width="588" height="363"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
