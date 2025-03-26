@@ -399,6 +399,16 @@
  * python resources/utils/schematype_to_aqnwb.py --help
  * @endcode
  *
+ * \note
+ * The `schematype_to_aqnwb.py` uses `PyNWB` for parsing schema. Currently the script does not unload
+ * namespaces loaded by default by `PyNWB`. I.e., if you see a warning of the form:
+ * \code 
+ * UserWarning: Ignoring cached namespace 'core' version 2.7.0 because version 2.8.0 is already loaded.
+ * \endcode
+ * it means that the script is actually using the namespace with the version already loaded by PyNWB rather
+ * than the requested version. In practice, this is mainly relevant if you are generating classes for the
+ * NWB `core` and `hdmf-common` namespaces.
+ *
  * \section implement_registered_type_unit_tests Testing RegisteredTypes
  *
  * As with all code, it is good practice to create appropriate unit tests to validate
