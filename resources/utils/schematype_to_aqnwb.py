@@ -48,7 +48,7 @@ def render_define_registered_field(
         re += "    /*\n"
         re += f"    // {field_name} inherited from parent neurodata_type\n"
     if is_overridden:
-        re += f"    // {field_name} overriddes inherited field from parent neurodata_type\n"
+        re += f"    // {field_name} overrides inherited field from parent neurodata_type\n"
     if field_name is not None:
         re += "    DEFINE_REGISTERED_FIELD(\n"
         re += f"        read{snake_to_camel(field_name)},\n"
@@ -115,7 +115,7 @@ def render_define_field(
         re += "    /*\n"
         re += f"    // {field_name} inherited from parent neurodata_type\n"
     if is_overridden:
-        re += f"    // {field_name} overriddes inherited field from parent neurodata_type\n"
+        re += f"    // {field_name} overrides inherited field from parent neurodata_type\n"
 
     re += "    DEFINE_FIELD(\n"
     re += f"        read{field_full_name},\n"
@@ -593,7 +593,7 @@ public:
     # Add DEFINE_FIELD and DEFINE_REGISTERED_FIELD macros
     header += "\n"
     header += "    // Define read methods\n"
-    header += "    // TODO: Check all macro definiton details. E.g. fix paths, types, and check for duplicates inherited from parent\n"
+    header += "    // TODO: Check all macro definition details. E.g. fix paths, types, and check for duplicates inherited from parent\n"
 
     # Place DEFINE_FIELD , DEFINE_REGISTERED field definitions that are commented out because they are inherted at the end
     commented_fields = []
