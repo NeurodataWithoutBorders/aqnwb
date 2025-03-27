@@ -43,21 +43,19 @@ def render_define_registered_field(
     str: A string representing the DEFINE_REGISTERED_FIELD macro.
     """
     doc_string = doc.replace('"', "").replace("'", "")
-    re = ""
-    if is_inherited and not is_overridden:
-        re += "    /*\n"
-        re += f"    // {field_name} inherited from parent neurodata_type\n"
-    if is_overridden:
-        re += f"    // {field_name} overrides inherited field from parent neurodata_type\n"
+    unmodified_from_parent = is_inherited and not is_overridden
+    re = "" if unmodified_from_parent else "    /*\n"  # Comment out if inherited and not overridden
+    if is_inherited:
+        re += f"    // name={field_name}, neurodata_type={neurodata_type}: This field is_inheritted={is_inherited}, is_overridden={is_overridden} from the parent neurodata_type\n"
     if field_name is not None:
         re += "    DEFINE_REGISTERED_FIELD(\n"
         re += f"        read{snake_to_camel(field_name)},\n"
         re += f"        {neurodata_type},\n"
         re += f'        "{field_name}",\n'
         re += f"        {doc_string})\n"
+        re += "" if unmodified_from_parent else "    */\n"
     else:
-        re += f"""
-    // TODO: Update or remove as appropriate (e.g., fix namespace of return type)
+        re += f"""    // TODO: Update or remove as appropriate (e.g., fix namespace of return type)
     /**
     * @brief Read an arbitrary {neurodata_type} object owned by this object
     *
@@ -68,8 +66,9 @@ def render_define_registered_field(
     *
     * @return The {neurodata_type} object representing the object or a nullptr if the
     * object doesn't exist
-    */
-    std::shared_ptr<{neurodata_type}> read{neurodata_type}(const std::string& objectName)
+    */\n"""
+    re += "    /*\n" if unmodified_from_parent else ""
+    re += f"""    std::shared_ptr<{neurodata_type}> read{neurodata_type}(const std::string& objectName)
     {{
         std::string objectPath = AQNWB::mergePaths(m_path, objectName);
         if (m_io->objectExists(objectPath)) {{
@@ -78,8 +77,8 @@ def render_define_registered_field(
         return nullptr;
     }}
 """
-    if is_inherited and not is_overridden:
-        re += "    */\n"
+    re += "    */\n" if unmodified_from_parent else ""
+    
     return re
 
 
