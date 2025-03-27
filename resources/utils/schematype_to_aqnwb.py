@@ -555,7 +555,6 @@ def generate_header_file(
     # Include the namespace header
     schema_header = namespace_name.replace("-", "_") + ".hpp"
     header += f'#include "spec/{schema_header}"\n'
-    header += "using namespace AQNWB::IO;\n"
 
     # Get attributes, datasets, and groups
     header_initalize_src, _ = render_initalize_method(
@@ -615,7 +614,7 @@ public:
         doc = attr.get("doc", "No documentation provided").replace("\n", " ")
         fieldDef = render_define_field(
             field_name=attr_name,
-            field_type="AttributeField",
+            field_type="AQNWB::NWB::AttributeField",
             dtype=get_cpp_type(attr.dtype),
             doc=doc,
             is_inherited=neurodata_type.is_inherited_spec(attr),
@@ -641,7 +640,7 @@ public:
         else:
             fieldDef = render_define_field(
                 field_name=dataset_name,
-                field_type="DatasetField",
+                field_type="AQNWB::NWB::DatasetField",
                 dtype=get_cpp_type(dataset.dtype),
                 doc=doc,
                 is_inherited=neurodata_type.is_inherited_spec(dataset),
@@ -656,7 +655,7 @@ public:
             doc = attr.get("doc", "No documentation provided").replace("\n", " ")
             fieldDef = render_define_field(
                 field_name=attr.name,
-                field_type="AttributeField",
+                field_type="AQNWB::NWB::AttributeField",
                 dtype=get_cpp_type(attr.dtype),
                 doc=doc,
                 field_parent=dataset_name,
