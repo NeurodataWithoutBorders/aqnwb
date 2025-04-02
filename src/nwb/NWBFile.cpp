@@ -17,6 +17,7 @@
 #include "nwb/ecephys/SpikeEventSeries.hpp"
 #include "nwb/file/ElectrodeGroup.hpp"
 #include "nwb/misc/AnnotationSeries.hpp"
+#include "spec/NamespaceRegistry.hpp"
 #include "spec/core.hpp"
 #include "spec/hdmf_common.hpp"
 #include "spec/hdmf_experimental.hpp"
@@ -133,9 +134,13 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
   if (!m_io->canModifyObjects()) {
     return Status::Failure;
   }
+
+  // Create the namespace, neurodata_type, and nwb_version attributes
   m_io->createCommonNWBAttributes(
       m_path, this->getNamespace(), this->getTypeName());
   m_io->createAttribute(AQNWB::SPEC::CORE::version, "/", "nwb_version");
+
+  // Create the top-level group structure of the NWB file
   m_io->createGroup("/acquisition");
   m_io->createGroup("/analysis");
   m_io->createGroup("/processing");
@@ -145,20 +150,21 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
   m_io->createGroup("/general");
   m_io->createGroup("/general/devices");
   m_io->createGroup("/general/extracellular_ephys");
-
   if (dataCollection != "") {
     m_io->createStringDataSet("/general/data_collection", dataCollection);
   }
-  m_io->createGroup("/specifications");
-  m_io->createReferenceAttribute("/specifications", "/", ".specloc");
-  cacheSpecifications(
-      "core", AQNWB::SPEC::CORE::version, AQNWB::SPEC::CORE::specVariables);
-  cacheSpecifications("hdmf-common",
-                      AQNWB::SPEC::HDMF_COMMON::version,
-                      AQNWB::SPEC::HDMF_COMMON::specVariables);
-  cacheSpecifications("hdmf-experimental",
-                      AQNWB::SPEC::HDMF_EXPERIMENTAL::version,
-                      AQNWB::SPEC::HDMF_EXPERIMENTAL::specVariables);
+
+  // Setupe the specifications cache in the file
+  m_io->createGroup(m_specificationsPath);
+  m_io->createReferenceAttribute(m_specificationsPath, "/", ".specloc");
+  // Cache all namespaces registered with the namespace registry
+  const auto& allNamespaces =
+      AQNWB::SPEC::NamespaceRegistry::instance().getAllNamespaces();
+  for (const auto& [name, info] : allNamespaces) {
+    cacheSpecifications(info);
+  }
+
+  // Create additional required datasets
   std::vector<std::string> timeVec = {sessionStartTime};
   m_io->createStringDataSet("/file_create_date", timeVec);
   m_io->createStringDataSet("/session_description", description);
@@ -358,20 +364,16 @@ Status NWBFile::createAnnotationSeries(std::vector<std::string> recordingNames,
   return Status::Success;
 }
 
-template<SizeType N>
-void NWBFile::cacheSpecifications(
-    const std::string& specPath,
-    const std::string& versionNumber,
-    const std::array<std::pair<std::string_view, std::string_view>, N>&
-        specVariables)
+void NWBFile::cacheSpecifications(const Types::NamespaceInfo& namespaceInfo)
 {
-  std::string specFullPath = AQNWB::mergePaths("/specifications", specPath);
+  std::string specFullPath =
+      AQNWB::mergePaths(m_specificationsPath, namespaceInfo.name);
   std::string specFullVersionPath =
-      AQNWB::mergePaths(specFullPath, versionNumber);
+      AQNWB::mergePaths(specFullPath, namespaceInfo.version);
   m_io->createGroup(specFullPath);
   m_io->createGroup(specFullVersionPath);
 
-  for (const auto& [name, content] : specVariables) {
+  for (const auto& [name, content] : namespaceInfo.specVariables) {
     m_io->createStringDataSet(
         AQNWB::mergePaths(specFullVersionPath, std::string(name)),
         std::string(content));
