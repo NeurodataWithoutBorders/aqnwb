@@ -10,6 +10,7 @@
 
 #include <boost/multi_array.hpp>  // TODO move this and function def to the cpp file
 
+#include "BaseIO.hpp"
 #include "Types.hpp"
 
 using StorageObjectType = AQNWB::Types::StorageObjectType;
@@ -75,11 +76,61 @@ public:
    */
   DataBlockGeneric(const std::any& inData,
                    const std::vector<SizeType>& inShape,
-                   const std::type_index& inTypeIndex)
+                   const std::type_index& inTypeIndex,
+                   const IO::BaseDataType baseDataType)
       : data(inData)
       , shape(inShape)
       , typeIndex(inTypeIndex)
+      , baseDataType(baseDataType)
   {
+  }
+
+  /**
+   * @brief Cast the data to an std::variant for convenient access.
+   *
+   * This function casts the std::any data to an std::variant via an
+   * std::any_cast. This only works for data blocks that store data types
+   * defined by BaseDataType. For other types an std::monostate will be returned
+   * instead if the data cannot be cast to a BaseDataType::BaseDataVectorVariant
+   *
+   * @return An std::variant containing the data.
+   */
+  BaseDataType::BaseDataVectorVariant as_variant() const
+  {
+    try {
+      switch (baseDataType.type) {
+        case BaseDataType::T_U8:
+          return std::any_cast<std::vector<uint8_t>>(data);
+        case BaseDataType::T_U16:
+          return std::any_cast<std::vector<uint16_t>>(data);
+        case BaseDataType::T_U32:
+          return std::any_cast<std::vector<uint32_t>>(data);
+        case BaseDataType::T_U64:
+          return std::any_cast<std::vector<uint64_t>>(data);
+        case BaseDataType::T_I8:
+          return std::any_cast<std::vector<int8_t>>(data);
+        case BaseDataType::T_I16:
+          return std::any_cast<std::vector<int16_t>>(data);
+        case BaseDataType::T_I32:
+          return std::any_cast<std::vector<int32_t>>(data);
+        case BaseDataType::T_I64:
+          return std::any_cast<std::vector<int64_t>>(data);
+        case BaseDataType::T_F32:
+          return std::any_cast<std::vector<float>>(data);
+        case BaseDataType::T_F64:
+          return std::any_cast<std::vector<double>>(data);
+        case BaseDataType::T_STR:
+          return std::any_cast<std::vector<std::string>>(data);
+        default:
+          return std::monostate {};
+      }
+    } catch (const std::bad_any_cast&) {
+      // If the actual type stored in `data` does not match the expected type
+      // based on `baseDataType`, a `std::bad_any_cast` exception will be
+      // thrown. In this case, we catch the exception and return
+      // `std::monostate` to indicate that the conversion failed.
+      return std::monostate {};
+    }
   }
 };
 
@@ -168,7 +219,22 @@ public:
         std::any_cast<std::vector<DTYPE>>(genericData.data), genericData.shape);
     return result;
   }
-};
+
+  /**
+   * @brief Get the BaseDataType for the data
+   *
+   * We here do not store the BaseDataType since it is determined by the
+   * template parameter.
+   *
+   * @return The BaseDataType corresponding to the data type
+   * @throws std::runtime_error if the typeIndex does not correspond to a
+   * supported data type.
+   */
+  inline BaseDataType getBaseDataType() const
+  {
+    return BaseDataType::fromTypeId(typeIndex);
+  }
+};  // class DataBlock
 
 /// Helper struct to check if a StorageObjectType is allowed. Used in static
 /// assert.
@@ -284,6 +350,21 @@ public:
    * @return Shared pointer to the IO object.
    */
   inline std::shared_ptr<IO::BaseIO> getIO() const { return m_io; }
+
+  /**
+   * @brief Get the shape of the data object.
+   * @return The shape of the data object.
+   */
+  inline std::vector<SizeType> getShape() const
+  {
+    return m_io->getStorageObjectShape(m_path);
+  }
+
+  /**
+   * @brief Get the number of dimensions of the data object
+   * @return The number of dimensions of the data object
+   */
+  inline SizeType getNumDimensions() const { return this->getShape().size(); }
 
   /**
    * @brief Check that the object exists
