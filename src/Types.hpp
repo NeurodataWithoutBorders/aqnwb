@@ -92,8 +92,15 @@ public:
   {
     std::string name;  ///< The name of the namespace.
     std::string version;  ///< The version of the namespace.
+
+    /** @brief The specVariables of the namespace.
+     *
+     * This is a vector of pairs, where each pair consists of 1) the
+     * name of the specification filed (e.g., "nwb.base") and 2) the
+     * string with the JSON specification of the format schema.
+     **/
     std::vector<std::pair<std::string_view, std::string_view>>
-        specVariables;  ///< The specVariables of the namespace.
+        specVariables;  ///<
   };
 };
 }  // namespace AQNWB

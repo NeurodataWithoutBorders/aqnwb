@@ -1,0 +1,26 @@
+/**
+ * \page user_demos Demos
+ *
+ * \section demos_inspect_electrical_series Inspect Electrical Series Data using AqNWB
+ *
+ * This is a simple C++ demo project that shows how to read and analyze NWB (Neurodata Without Borders) files 
+ * using the AqNWB library. The demo reads a NWB file and performs basic statistical analysis on 
+ * the \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries" electrophysiology data.
+ *
+ * **📁 Source:**
+ * This demo is part of the [AqNWB repo](https://github.com/NeurodataWithoutBorders/aqnwb). 
+ * For details see the ``demo/inspect_electrical_series/README.md`` docs. 
+ *     
+ * \section demos_labmetadata_extension Integrating LabMetaData Extension with AqNWB 
+ *
+ * This demo app shows how we can implement and use an extension to NWB via AqNWB. Specifically, this
+ *  example shows how we can:
+ * 1. Create C++ header files for extension schema
+ * 2. Integrate extension schema with AqNWB (incl. automatic caching of the schema on write)
+ * 3. Implement `RegisteredType` classes to represent the new `neurodata_type`s defined in the extension
+ * 4. Use the extension for writing and reading data
+ *
+ * **📁 Source:** 
+ * This demo is part of the [AqNWB repo](https://github.com/NeurodataWithoutBorders/aqnwb). 
+ * For details see the ``demo/labmetadata_extension_demo/README.md`` docs file.
+ */
