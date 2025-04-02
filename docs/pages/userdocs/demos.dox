@@ -1,5 +1,5 @@
 /**
- * \page user_demos Demos
+ * \page user_demos Demos 📝
  *
  * \section demos_inspect_electrical_series Inspect Electrical Series Data using AqNWB
  *
@@ -11,6 +11,10 @@
  * This demo is part of the [AqNWB repo](https://github.com/NeurodataWithoutBorders/aqnwb). 
  * For details see the ``demo/inspect_electrical_series/README.md`` docs. 
  *     
+ * **📖 Further Reading:**
+ * * \ref read_page 
+ * * \ref read_design_page 
+ *
  * \section demos_labmetadata_extension Integrating LabMetaData Extension with AqNWB 
  *
  * This demo app shows how we can implement and use an extension to NWB via AqNWB. Specifically, this
@@ -23,4 +27,9 @@
  * **📁 Source:** 
  * This demo is part of the [AqNWB repo](https://github.com/NeurodataWithoutBorders/aqnwb). 
  * For details see the ``demo/labmetadata_extension_demo/README.md`` docs file.
+ *
+ * **📖 Further Reading:**
+ * * \ref integrating_extensions_page
+ * * \ref registered_type_page
+ *
  */
