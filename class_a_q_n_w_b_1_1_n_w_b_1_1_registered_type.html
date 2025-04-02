@@ -154,9 +154,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a07451eb27d98493d2d362129a3934a4d" id="r_a07451eb27d98493d2d362129a3934a4d"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">AQNWB::NWB::RegisteredType</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07451eb27d98493d2d362129a3934a4d">readField</a> (const std::string &amp;fieldPath) const</td></tr>
 <tr class="memdesc:a07451eb27d98493d2d362129a3934a4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a field that is itself a <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a>.  <br /></td></tr>
 <tr class="separator:a07451eb27d98493d2d362129a3934a4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab66ea6ba3a14ab197f840ef52fc52670" id="r_ab66ea6ba3a14ab197f840ef52fc52670"><td class="memItemLeft" align="right" valign="top">virtual std::unordered_map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab66ea6ba3a14ab197f840ef52fc52670">findOwnedTypes</a> (const std::unordered_set&lt; std::string &gt; &amp;types={}) const</td></tr>
-<tr class="memdesc:ab66ea6ba3a14ab197f840ef52fc52670"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find all typed objects that are owned by this object, i.e., objects that have a neurodata_type and namespace attribute and have this object as there closest parent with an assigned type.  <br /></td></tr>
-<tr class="separator:ab66ea6ba3a14ab197f840ef52fc52670"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ea129c0e9a1bc15798efe2d45a5bb40" id="r_a4ea129c0e9a1bc15798efe2d45a5bb40"><td class="memItemLeft" align="right" valign="top">virtual std::unordered_map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4ea129c0e9a1bc15798efe2d45a5bb40">findOwnedTypes</a> (const std::unordered_set&lt; std::string &gt; &amp;types={}, const <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035">IO::SearchMode</a> &amp;search_mode=<a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035a0bce90db02919671dbe161b9bd8cef05">IO::SearchMode::STOP_ON_TYPE</a>) const</td></tr>
+<tr class="memdesc:a4ea129c0e9a1bc15798efe2d45a5bb40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find all typed objects that are owned by this object, i.e., objects that have a neurodata_type and namespace attribute and have this object as there closest parent with an assigned type.  <br /></td></tr>
+<tr class="separator:a4ea129c0e9a1bc15798efe2d45a5bb40"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -428,8 +428,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="ab66ea6ba3a14ab197f840ef52fc52670" name="ab66ea6ba3a14ab197f840ef52fc52670"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab66ea6ba3a14ab197f840ef52fc52670">&#9670;&#160;</a></span>findOwnedTypes()</h2>
+<a id="a4ea129c0e9a1bc15798efe2d45a5bb40" name="a4ea129c0e9a1bc15798efe2d45a5bb40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ea129c0e9a1bc15798efe2d45a5bb40">&#9670;&#160;</a></span>findOwnedTypes()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -440,8 +440,12 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname">std::unordered_map&lt; std::string, std::string &gt; RegisteredType::findOwnedTypes </td>
           <td>(</td>
-          <td class="paramtype">const std::unordered_set&lt; std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>types</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span></td><td>)</td>
-          <td> const</td>
+          <td class="paramtype">const std::unordered_set&lt; std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>types</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035">IO::SearchMode</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>search_mode</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035a0bce90db02919671dbe161b9bd8cef05">IO::SearchMode::STOP_ON_TYPE</a></span>&#160;) const</td>
         </tr>
       </table>
   </td>
@@ -456,6 +460,7 @@ Here is the call graph for this function:</div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">types</td><td>The set of types to search for. If an empty set is provided, then all objects with an assigned type (i.e., object that have a neurodata_type and namespace attributed) will be returned. </td></tr>
+    <tr><td class="paramname">search_mode</td><td>The search mode to use. By default <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035a0bce90db02919671dbe161b9bd8cef05" title="Stop searching inside an object once a matching type is found.">IO::SearchMode::STOP_ON_TYPE</a> is used to only retrieve objects that are owned by this object. To recursively search though all types nested within the object set to <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035aec2c6b5e5e8c3b3810251e9974647ef8" title="Continue searching inside an object even after a matching type is found.">IO::SearchMode::CONTINUE_ON_TYPE</a> </td></tr>
   </table>
   </dd>
 </dl>

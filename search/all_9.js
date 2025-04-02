@@ -44,9 +44,10 @@ var searchData=
   ['arbitrary_20fields_41',['Reading arbitrary fields',['../read_page.html#read_example_arbitrary',1,'']]],
   ['arraydatasetconfig_42',['ArrayDataSetConfig',['../class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html',1,'AQNWB::IO::ArrayDataSetConfig'],['../class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html#abe5aa8c2e9f5d7ad2a0ca4da2d7d5fd9',1,'AQNWB::IO::ArrayDataSetConfig::ArrayDataSetConfig()']]],
   ['as_5fmulti_5farray_43',['as_multi_array',['../class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a39c4d437721b818aac335f3c9a57dc97',1,'AQNWB::IO::DataBlock']]],
-  ['attribute_44',['Attribute',['../class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915a459ad320d6c923a4111734767c71b20c',1,'AQNWB::Types']]],
-  ['attributeexists_45',['attributeExists',['../class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a06b5edf2bbd4c85adcafda13e7903873',1,'AQNWB::IO::BaseIO::attributeExists()'],['../class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a53bfbbdbf24afdd97ea45294b65c1e37',1,'AQNWB::IO::HDF5::HDF5IO::attributeExists()']]],
-  ['attributefield_46',['AttributeField',['../namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f',1,'AQNWB::NWB']]],
-  ['attributes_47',['attributes',['../registered_type_page.html#use_the_define_field_macro',1,'DEFINE_FIELD: Creating read methods for datasets and attributes'],['../read_design_page.html#read_design_sec_read_date',1,'Reading datasets and attributes']]],
-  ['automated_20tests_20on_20github_48',['Automated tests on GitHub',['../testing.html#testing_github',1,'']]]
+  ['as_5fvariant_44',['as_variant',['../class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html#a957ab6f55f6be707def1ae317948a6eb',1,'AQNWB::IO::DataBlockGeneric']]],
+  ['attribute_45',['Attribute',['../class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915a459ad320d6c923a4111734767c71b20c',1,'AQNWB::Types']]],
+  ['attributeexists_46',['attributeExists',['../class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a06b5edf2bbd4c85adcafda13e7903873',1,'AQNWB::IO::BaseIO::attributeExists()'],['../class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a53bfbbdbf24afdd97ea45294b65c1e37',1,'AQNWB::IO::HDF5::HDF5IO::attributeExists()']]],
+  ['attributefield_47',['AttributeField',['../namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f',1,'AQNWB::NWB']]],
+  ['attributes_48',['attributes',['../registered_type_page.html#use_the_define_field_macro',1,'DEFINE_FIELD: Creating read methods for datasets and attributes'],['../read_design_page.html#read_design_sec_read_date',1,'Reading datasets and attributes']]],
+  ['automated_20tests_20on_20github_49',['Automated tests on GitHub',['../testing.html#testing_github',1,'']]]
 ];

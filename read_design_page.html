@@ -169,12 +169,16 @@ Reading datasets and attributes</h1>
 <li><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block.html">DataBlock</a> represents a typed, n-dimensional block of data, derived from a <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html">DataBlockGeneric</a> usually via the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a20df6af7d661de38f4b8cb3baba48339">DataBlock.fromGeneric</a> factory method. <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block.html">DataBlock</a> is templated on the specific data type, and stores the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a7e084bd163c177f45c41cdf93b61f2b6">data</a> as an appropriately typed 1-dimensional <code>std::vector</code> along with the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#adcd06e1ef4d9ab65081f8e5ab49eec36">shape</a> of the data.</li>
 </ul>
 </li>
-<li><code>BOOST::multi_array</code><ul>
+<li><a href="https://www.boost.org/doc/libs/1_83_0/libs/multi_array/doc/user.html">BOOST::multi_array</a><ul>
 <li><code>BOOST::multi_array</code> can also be used simplify access to multi-dimensional data. The <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a39c4d437721b818aac335f3c9a57dc97">DataBlock.as_multi_array</a> convenience method generates a <code>boost::const_multi_array_ref&lt;DTYPE, NDIMS&gt;</code> for us.</li>
 </ul>
 </li>
+<li><a href="https://en.cppreference.com/w/cpp/utility/variant">std::variant</a><ul>
+<li>`<code>std::variant</code> can also be used when we want to compute on the data in a type-safe manner but do not know the data type beforehand (e.g., when reading NWB data from a third party).</li>
+</ul>
+</li>
 </ol>
-<dl class="section note"><dt>Note</dt><dd>The <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a20df6af7d661de38f4b8cb3baba48339">DataBlock.fromGeneric</a> and <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a39c4d437721b818aac335f3c9a57dc97">DataBlock.as_multi_array</a> methods use casting and referencing to transform the data without making additional copies of the data.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>The <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a20df6af7d661de38f4b8cb3baba48339">DataBlock.fromGeneric</a>, <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a39c4d437721b818aac335f3c9a57dc97">DataBlock.as_multi_array</a>, and <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html#a957ab6f55f6be707def1ae317948a6eb">DataBlockGeneric.as_variant</a> methods use casting and referencing to transform the data without making additional copies of the data.</dd></dl>
 <div class="dotgraph">
 <iframe scrolling="no" frameborder="0" src="dot_inline_dotgraph_2.svg" width="982" height="826"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 <h1><a class="anchor" id="reading_neurodata_type_objects"></a>
@@ -479,7 +483,8 @@ Reading and Processing Data</h2>
 <div class="line">    <span class="comment">// We can then later convert the data block to a typed data block</span></div>
 <div class="line">    DataBlock&lt;float&gt; dataValueFloat =</div>
 <div class="line">        DataBlock&lt;float&gt;::fromGeneric(dataValuesGeneric);</div>
-</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>In most cases, we should not need runtime checking of types in the context of specific data acquisition systems. This is mostly likely relevant if one wants to consume arbitrary NWB files that may use different data types. One approach to implement behavior for types determined at runtime is to define a mapping of the type information to the corresponding statically type functionality, e.g., via <code>switch/case</code> logic or by using a map for lookup, such as: <div class="fragment"><div class="line">DataBlockGeneric dataValuesGeneric = readDataWrapperGeneric-&gt;valuesGeneric();</div>
+</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>In most cases, we should not need runtime checking of types in the context of specific data acquisition systems. This is mostly likely relevant if one wants to consume arbitrary NWB files that may use different data types. One approach is to use <code>std::variant</code> as described in <a class="el" href="read_page.html#read_example_variant_data">Working with fields with unknown data type</a>. Using <code>std::variant</code> helps avoid complex code for checking data types at runtime. <br  />
+ If for some reason we cannot easily use the <code>std:variant</code> approach (e.g., in case we need to use data types not natively supported by AqNWB), an alternative approach would be to define a mapping of the type information to the corresponding statically typedVector functionality, e.g., via <code>switch/case</code>` logic or by using a map for lookup, such as: <div class="fragment"><div class="line">DataBlockGeneric dataValuesGeneric = readDataWrapperGeneric-&gt;valuesGeneric();</div>
 <div class="line"><span class="comment">// Map to associate std::type_index with corresponding type-specific functions</span></div>
 <div class="line">std::unordered_map&lt;std::type_index, std::function&lt;void(<span class="keyword">const</span> DataBlockGeneric&amp;)&gt;&gt; typeMap = {</div>
 <div class="line">      {<span class="keyword">typeid</span>(float), processData&lt;float&gt;},</div>

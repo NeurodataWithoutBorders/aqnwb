@@ -123,9 +123,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a31df41e9b1baef44539e2f7ffda6563c" id="r_a31df41e9b1baef44539e2f7ffda6563c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a31df41e9b1baef44539e2f7ffda6563c">DataBlockGeneric</a> ()=default</td></tr>
 <tr class="memdesc:a31df41e9b1baef44539e2f7ffda6563c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <br /></td></tr>
 <tr class="separator:a31df41e9b1baef44539e2f7ffda6563c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa2762cbe3631fc0318e81904d4b64ca8" id="r_aa2762cbe3631fc0318e81904d4b64ca8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa2762cbe3631fc0318e81904d4b64ca8">DataBlockGeneric</a> (const std::any &amp;inData, const std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;inShape, const std::type_index &amp;inTypeIndex)</td></tr>
-<tr class="memdesc:aa2762cbe3631fc0318e81904d4b64ca8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parameterized constructor.  <br /></td></tr>
-<tr class="separator:aa2762cbe3631fc0318e81904d4b64ca8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3fc38c23343ef497af566c09413d16b" id="r_ad3fc38c23343ef497af566c09413d16b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad3fc38c23343ef497af566c09413d16b">DataBlockGeneric</a> (const std::any &amp;inData, const std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;inShape, const std::type_index &amp;inTypeIndex, const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">IO::BaseDataType</a> <a class="el" href="#a2205c59a91e46dd7df478a6ef426a837">baseDataType</a>)</td></tr>
+<tr class="memdesc:ad3fc38c23343ef497af566c09413d16b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parameterized constructor.  <br /></td></tr>
+<tr class="separator:ad3fc38c23343ef497af566c09413d16b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a957ab6f55f6be707def1ae317948a6eb" id="r_a957ab6f55f6be707def1ae317948a6eb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#ace36552e3d3f31981bfd32a4d9540312">BaseDataType::BaseDataVectorVariant</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a957ab6f55f6be707def1ae317948a6eb">as_variant</a> () const</td></tr>
+<tr class="memdesc:a957ab6f55f6be707def1ae317948a6eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cast the data to an std::variant for convenient access.  <br /></td></tr>
+<tr class="separator:a957ab6f55f6be707def1ae317948a6eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -171,8 +174,8 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="aa2762cbe3631fc0318e81904d4b64ca8" name="aa2762cbe3631fc0318e81904d4b64ca8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa2762cbe3631fc0318e81904d4b64ca8">&#9670;&#160;</a></span>DataBlockGeneric() <span class="overload">[2/2]</span></h2>
+<a id="ad3fc38c23343ef497af566c09413d16b" name="ad3fc38c23343ef497af566c09413d16b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3fc38c23343ef497af566c09413d16b">&#9670;&#160;</a></span>DataBlockGeneric() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -193,7 +196,12 @@ Public Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::type_index &amp;</td>          <td class="paramname"><span class="paramname"><em>inTypeIndex</em></span>&#160;)</td>
+          <td class="paramtype">const std::type_index &amp;</td>          <td class="paramname"><span class="paramname"><em>inTypeIndex</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">IO::BaseDataType</a></td>          <td class="paramname"><span class="paramname"><em>baseDataType</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -204,6 +212,36 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Parameterized constructor. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a957ab6f55f6be707def1ae317948a6eb" name="a957ab6f55f6be707def1ae317948a6eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a957ab6f55f6be707def1ae317948a6eb">&#9670;&#160;</a></span>as_variant()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#ace36552e3d3f31981bfd32a4d9540312">BaseDataType::BaseDataVectorVariant</a> AQNWB::IO::DataBlockGeneric::as_variant </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Cast the data to an std::variant for convenient access. </p>
+<p>This function casts the std::any data to an std::variant via an std::any_cast. This only works for data blocks that store data types defined by <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html" title="Represents a base data type.">BaseDataType</a>. For other types an std::monostate will be returned instead if the data cannot be cast to a <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#ace36552e3d3f31981bfd32a4d9540312">BaseDataType::BaseDataVectorVariant</a></p>
+<dl class="section return"><dt>Returns</dt><dd>An std::variant containing the data. </dd></dl>
 
 </div>
 </div>

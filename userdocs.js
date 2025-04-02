@@ -28,7 +28,8 @@ var userdocs =
       ] ],
       [ "Reading data from RegisteredType objects", "read_page.html#read_example_read", [
         [ "Reading predefined data fields", "read_page.html#read_design_example_read_posthoc_read_field", null ],
-        [ "Reading arbitrary fields", "read_page.html#read_example_arbitrary", null ]
+        [ "Reading arbitrary fields", "read_page.html#read_example_arbitrary", null ],
+        [ "Working with fields with unknown data type", "read_page.html#read_example_variant_data", null ]
       ] ],
       [ "Further reading", "read_page.html#read_further_reading", null ]
     ] ],

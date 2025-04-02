@@ -144,6 +144,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9e6884157d4fd39b4c3b5508ad64e305" id="r_a9e6884157d4fd39b4c3b5508ad64e305"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9e6884157d4fd39b4c3b5508ad64e305">getIO</a> () const</td></tr>
 <tr class="memdesc:a9e6884157d4fd39b4c3b5508ad64e305"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a shared pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html">IO</a> object.  <br /></td></tr>
 <tr class="separator:a9e6884157d4fd39b4c3b5508ad64e305"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1cd30b8818248e57f1f4c2eae2e2d5b" id="r_af1cd30b8818248e57f1f4c2eae2e2d5b"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af1cd30b8818248e57f1f4c2eae2e2d5b">getShape</a> () const</td></tr>
+<tr class="memdesc:af1cd30b8818248e57f1f4c2eae2e2d5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the shape of the data object.  <br /></td></tr>
+<tr class="separator:af1cd30b8818248e57f1f4c2eae2e2d5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a464b2f034e3ff26b0d248b1488171d2b" id="r_a464b2f034e3ff26b0d248b1488171d2b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a464b2f034e3ff26b0d248b1488171d2b">getNumDimensions</a> () const</td></tr>
+<tr class="memdesc:a464b2f034e3ff26b0d248b1488171d2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of dimensions of the data object.  <br /></td></tr>
+<tr class="separator:a464b2f034e3ff26b0d248b1488171d2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa67d145711df12192d43d07c3a52546a" id="r_aa67d145711df12192d43d07c3a52546a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa67d145711df12192d43d07c3a52546a">exists</a> () const</td></tr>
 <tr class="memdesc:aa67d145711df12192d43d07c3a52546a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check that the object exists.  <br /></td></tr>
 <tr class="separator:aa67d145711df12192d43d07c3a52546a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -360,6 +366,41 @@ template&lt;<a class="el" href="class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb1
 
 </div>
 </div>
+<a id="a464b2f034e3ff26b0d248b1488171d2b" name="a464b2f034e3ff26b0d248b1488171d2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a464b2f034e3ff26b0d248b1488171d2b">&#9670;&#160;</a></span>getNumDimensions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915">StorageObjectType</a> OTYPE, typename VTYPE = std::any&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; OTYPE, VTYPE &gt;::getNumDimensions </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the number of dimensions of the data object. </p>
+<dl class="section return"><dt>Returns</dt><dd>The number of dimensions of the data object </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper_a464b2f034e3ff26b0d248b1488171d2b_cgraph.svg" width="478" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
 <a id="ada55e7806d41cbd66d4099fc7a25651d" name="ada55e7806d41cbd66d4099fc7a25651d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ada55e7806d41cbd66d4099fc7a25651d">&#9670;&#160;</a></span>getPath()</h2>
 
@@ -387,6 +428,41 @@ template&lt;<a class="el" href="class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb1
 
 <p>Gets the path of the registered type. </p>
 <dl class="section return"><dt>Returns</dt><dd>The path of the registered type. </dd></dl>
+
+</div>
+</div>
+<a id="af1cd30b8818248e57f1f4c2eae2e2d5b" name="af1cd30b8818248e57f1f4c2eae2e2d5b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1cd30b8818248e57f1f4c2eae2e2d5b">&#9670;&#160;</a></span>getShape()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915">StorageObjectType</a> OTYPE, typename VTYPE = std::any&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; OTYPE, VTYPE &gt;::getShape </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the shape of the data object. </p>
+<dl class="section return"><dt>Returns</dt><dd>The shape of the data object. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper_af1cd30b8818248e57f1f4c2eae2e2d5b_icgraph.svg" width="478" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 
 </div>
 </div>

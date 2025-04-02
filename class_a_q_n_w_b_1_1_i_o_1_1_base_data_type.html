@@ -142,6 +142,8 @@ Public Types</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:a3ad0684f43e20f91bb130f18b35ed07c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration of different data types.  <a href="#a3ad0684f43e20f91bb130f18b35ed07c">More...</a><br /></td></tr>
 <tr class="separator:a3ad0684f43e20f91bb130f18b35ed07c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace36552e3d3f31981bfd32a4d9540312" id="r_ace36552e3d3f31981bfd32a4d9540312"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ace36552e3d3f31981bfd32a4d9540312">BaseDataVectorVariant</a></td></tr>
+<tr class="separator:ace36552e3d3f31981bfd32a4d9540312"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -156,6 +158,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a18d42dba7074fb4cdac771deef6c051b" id="r_a18d42dba7074fb4cdac771deef6c051b"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">BaseDataType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a18d42dba7074fb4cdac771deef6c051b">STR</a> (<a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> size)</td></tr>
 <tr class="memdesc:a18d42dba7074fb4cdac771deef6c051b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Accessor for string with specified size.  <br /></td></tr>
 <tr class="separator:a18d42dba7074fb4cdac771deef6c051b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4eca40525bf512e9f1a194dcc3f905b" id="r_ae4eca40525bf512e9f1a194dcc3f905b"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">BaseDataType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae4eca40525bf512e9f1a194dcc3f905b">fromTypeId</a> (const std::type_index &amp;typeIndex)</td></tr>
+<tr class="memdesc:ae4eca40525bf512e9f1a194dcc3f905b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html" title="Represents a base data type.">BaseDataType</a> from a std::type_index.  <br /></td></tr>
+<tr class="separator:ae4eca40525bf512e9f1a194dcc3f905b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -205,7 +210,34 @@ Static Public Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a base data type. </p>
 <p>This class provides an enumeration of different data types and their corresponding sizes. It also includes handy accessors for commonly used data types. </p>
-</div><h2 class="groupheader">Member Enumeration Documentation</h2>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="ace36552e3d3f31981bfd32a4d9540312" name="ace36552e3d3f31981bfd32a4d9540312"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace36552e3d3f31981bfd32a4d9540312">&#9670;&#160;</a></span>BaseDataVectorVariant</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#ace36552e3d3f31981bfd32a4d9540312">AQNWB::IO::BaseDataType::BaseDataVectorVariant</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line"> std::variant&lt;std::monostate,</div>
+<div class="line">                                             std::vector&lt;uint8_t&gt;,</div>
+<div class="line">                                             std::vector&lt;uint16_t&gt;,</div>
+<div class="line">                                             std::vector&lt;uint32_t&gt;,</div>
+<div class="line">                                             std::vector&lt;uint64_t&gt;,</div>
+<div class="line">                                             std::vector&lt;int8_t&gt;,</div>
+<div class="line">                                             std::vector&lt;int16_t&gt;,</div>
+<div class="line">                                             std::vector&lt;int32_t&gt;,</div>
+<div class="line">                                             std::vector&lt;int64_t&gt;,</div>
+<div class="line">                                             std::vector&lt;float&gt;,</div>
+<div class="line">                                             std::vector&lt;double&gt;,</div>
+<div class="line">                                             std::vector&lt;std::string&gt;&gt;</div>
+</div><!-- fragment -->
+</div>
+</div>
+<h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="a3ad0684f43e20f91bb130f18b35ed07c" name="a3ad0684f43e20f91bb130f18b35ed07c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3ad0684f43e20f91bb130f18b35ed07c">&#9670;&#160;</a></span>Type</h2>
 
@@ -279,12 +311,62 @@ Static Public Attributes</h2></td></tr>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type_abb1e4b6b662308e48b6b4a7ad989d157_icgraph.svg" width="100%" height="382"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type_abb1e4b6b662308e48b6b4a7ad989d157_icgraph.svg" width="100%" height="431"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="ae4eca40525bf512e9f1a194dcc3f905b" name="ae4eca40525bf512e9f1a194dcc3f905b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4eca40525bf512e9f1a194dcc3f905b">&#9670;&#160;</a></span>fromTypeId()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">BaseDataType</a> AQNWB::IO::BaseDataType::fromTypeId </td>
+          <td>(</td>
+          <td class="paramtype">const std::type_index &amp;</td>          <td class="paramname"><span class="paramname"><em>typeIndex</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html" title="Represents a base data type.">BaseDataType</a> from a std::type_index. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">typeIndex</td><td>The type index for which to determine the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html" title="Represents a base data type.">BaseDataType</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The corresponding <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html" title="Represents a base data type.">BaseDataType</a> </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>if the typeIndex does not correspond to a supported data type. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type_ae4eca40525bf512e9f1a194dcc3f905b_cgraph.svg" width="436" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type_ae4eca40525bf512e9f1a194dcc3f905b_icgraph.svg" width="411" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
 <a id="afebc97cbbd321594d89a5146c348b377" name="afebc97cbbd321594d89a5146c348b377"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afebc97cbbd321594d89a5146c348b377">&#9670;&#160;</a></span>operator==()</h2>
 

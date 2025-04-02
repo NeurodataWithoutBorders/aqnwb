@@ -9,5 +9,6 @@ var searchData=
   ['annotationseries_6',['AnnotationSeries',['../class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html#ab98f231850a75a82fade2234e8606359',1,'AQNWB::NWB::AnnotationSeries']]],
   ['arraydatasetconfig_7',['ArrayDataSetConfig',['../class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html#abe5aa8c2e9f5d7ad2a0ca4da2d7d5fd9',1,'AQNWB::IO::ArrayDataSetConfig']]],
   ['as_5fmulti_5farray_8',['as_multi_array',['../class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a39c4d437721b818aac335f3c9a57dc97',1,'AQNWB::IO::DataBlock']]],
-  ['attributeexists_9',['attributeExists',['../class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a06b5edf2bbd4c85adcafda13e7903873',1,'AQNWB::IO::BaseIO::attributeExists()'],['../class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a53bfbbdbf24afdd97ea45294b65c1e37',1,'AQNWB::IO::HDF5::HDF5IO::attributeExists()']]]
+  ['as_5fvariant_9',['as_variant',['../class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html#a957ab6f55f6be707def1ae317948a6eb',1,'AQNWB::IO::DataBlockGeneric']]],
+  ['attributeexists_10',['attributeExists',['../class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a06b5edf2bbd4c85adcafda13e7903873',1,'AQNWB::IO::BaseIO::attributeExists()'],['../class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a53bfbbdbf24afdd97ea45294b65c1e37',1,'AQNWB::IO::HDF5::HDF5IO::attributeExists()']]]
 ];

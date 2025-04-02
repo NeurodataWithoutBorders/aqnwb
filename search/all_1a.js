@@ -53,7 +53,7 @@ var searchData=
   ['to_20use_20the_20registeredtype_20registry_50',['How to Use the RegisteredType Registry',['../read_design_page.html#use_registered_type_registry',1,'']]],
   ['transformtoint16_51',['transformToInt16',['../namespace_a_q_n_w_b.html#a0e8a5fc18589d0ff3157b86c081ca252',1,'AQNWB']]],
   ['type_52',['Type',['../registered_type_page.html',1,'Implementing a new Neurodata Type'],['../class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#a3ad0684f43e20f91bb130f18b35ed07c',1,'AQNWB::IO::BaseDataType::Type']]],
-  ['type_53',['type',['../registered_type_page.html#implement_registered_type_example',1,'Example: Implementing a new type'],['../class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#abc52c244d8709f5e16374b7a730061f5',1,'AQNWB::IO::BaseDataType::type']]],
+  ['type_53',['type',['../registered_type_page.html#implement_registered_type_example',1,'Example: Implementing a new type'],['../class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#abc52c244d8709f5e16374b7a730061f5',1,'AQNWB::IO::BaseDataType::type'],['../read_page.html#read_example_variant_data',1,'Working with fields with unknown data type']]],
   ['type_20name_54',['How to implement a RegisteredType with a custom type name',['../registered_type_page.html#using_registered_subclass_with_typename',1,'']]],
   ['type_20registry_55',['Example: Using the type registry',['../read_design_page.html#use_registered_type_registry_example',1,'']]],
   ['type_20registry_20in_20registeredtype_20works_56',['How the Type Registry in RegisteredType Works',['../read_design_page.html#type_registry',1,'']]],

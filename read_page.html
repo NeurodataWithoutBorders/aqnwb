@@ -128,6 +128,9 @@ $(function(){initNavTree('read_page.html',''); initResizable(true); });
       <li class="level2">
         <a href="#read_example_arbitrary">Reading arbitrary fields</a>
       </li>
+      <li class="level2">
+        <a href="#read_example_variant_data">Working with fields with unknown data type</a>
+      </li>
     </ul>
   </li>
   <li class="level1">
@@ -169,7 +172,7 @@ Reading known RegisteredType objects</h2>
 <div class="line">    REQUIRE(locationColumnValues.data == expectedLocationValues);</div>
 </div><!-- fragment --><h2><a class="anchor" id="read_example_search"></a>
 Searching for RegisteredType objects</h2>
-<p>When paths are not fixed, we can use the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a788603f4c9c2698aad610134ab89f8e1">findType()</a> function of our I/O object to conveniently search for objects with a given type.</p>
+<p>When paths are not fixed, we can use the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a788603f4c9c2698aad610134ab89f8e1">findTypes()</a> function of our I/O object to conveniently search for objects with a given type.</p>
 <div class="fragment"><div class="line">    std::unordered_set&lt;std::string&gt; typesToSearch = {<span class="stringliteral">&quot;core::ElectricalSeries&quot;</span>};</div>
 <div class="line">    std::unordered_map&lt;std::string, std::string&gt; found_electrical_series =</div>
 <div class="line">        readio-&gt;findTypes(</div>
@@ -178,7 +181,7 @@ Searching for RegisteredType objects</h2>
 <div class="line">            <a class="code hl_enumvalue" href="namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035aec2c6b5e5e8c3b3810251e9974647ef8">IO::SearchMode::CONTINUE_ON_TYPE</a>  <span class="comment">// search also within types</span></div>
 <div class="line">        );</div>
 <div class="line"> </div>
-</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a788603f4c9c2698aad610134ab89f8e1">findType()</a> supports two main search modes. Using <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035aec2c6b5e5e8c3b3810251e9974647ef8">CONTINUE_ON_TYPE</a> mode we can search recursively through all types (here the whole file since we started at the root <code>"/"</code>). Using <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035a0bce90db02919671dbe161b9bd8cef05">STOP_ON_TYPE</a> does not recurse further into defined types, hence, this mode is useful if we only want to search for objects that the object at the starting path manages directly.</dd></dl>
+</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>Any <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> (such as our <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html">NWBFile</a>) object) provides the convenience method <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a4ea129c0e9a1bc15798efe2d45a5bb40">findOwnedTypes</a> which uses <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a788603f4c9c2698aad610134ab89f8e1">findTypes()</a> to search within the given object (so that we don't need to specify the path argument). By default, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a4ea129c0e9a1bc15798efe2d45a5bb40">findOwnedTypes</a> uses the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035a0bce90db02919671dbe161b9bd8cef05">STOP_ON_TYPE</a> mode, i.e., the search does not recurse further into defined types (hence, returning only data elements that the object owns directly). Alternatively, we can set the search mode to <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035aec2c6b5e5e8c3b3810251e9974647ef8">CONTINUE_ON_TYPE</a> to search recursively through all types (here the whole file since we started at the root <code>"/"</code>).</dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>The current implementation of <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a788603f4c9c2698aad610134ab89f8e1">findTypes()</a> is not aware of inheritance but searches for exact matches of types only. However, we can search for objects of multiple different times at the same time by specifying multiple types to search for in our <code>typesToSearch</code>.</dd></dl>
 <p>The <code>found_electrical_series</code> provides us with a map where each key is the path to an object and its corresponding value is the type of the object. Using this information we can read the <code>neurodata_type</code> objects from the file via the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a">RegisteredType::create</a> factory methods to conveniently construct an instance of the corresponding class in AqNWB.</p>
 <div class="fragment"><div class="line">    <span class="comment">// Read the ElectricalSeries from the file.</span></div>
@@ -220,9 +223,7 @@ Reading predefined data fields</h2>
 <div class="line">    std::string esUnitValue =</div>
 <div class="line">        readElectricalSeries-&gt;readDataUnit()-&gt;values().data[0];</div>
 <div class="line">    REQUIRE(esUnitValue == std::string(<span class="stringliteral">&quot;volts&quot;</span>));</div>
-</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>When working with data in AqNWB, you need to know the data type (e.g., <code>float</code>, <code>int</code>) at compile time since C++ is a strongly typed language. For example, when using <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block.html">DataBlock</a>, you need to specify the data type. And if you want to use <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a39c4d437721b818aac335f3c9a57dc97">DataBlock.as_multi_array</a>, you also need to know the number of dimensions at compile time.</dd></dl>
-<dl class="section user"><dt></dt><dd></dd></dl>
-<dl class="section note"><dt>Note</dt><dd>For attributes, slicing is disabled at compile time since attributes are intended for small data only.</dd></dl>
+</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>For attributes, slicing is disabled at compile time since attributes are intended for small data only.</dd></dl>
 <h2><a class="anchor" id="read_example_arbitrary"></a>
 Reading arbitrary fields</h2>
 <p>Even if there is no dedicated <code>DEFINE_FIELD</code> definition available, we can still read any arbitrary sub-field associated with a particular <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> via the generic <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ae0fb6e951eb0000e4a4fba81db8d466f">RegisteredType::readField</a> method. For example, to read the data from the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html">ElectricalSeries</a>:</p>
@@ -249,11 +250,58 @@ Reading arbitrary fields</h2>
 <div class="line">            readRegisteredType);</div>
 <div class="line">    REQUIRE(readElectricalSeries2 != <span class="keyword">nullptr</span>);</div>
 </div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>Even though we here do not specify the template parameter for <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a">RegisteredType::create</a>, the function still creates the correct type by reading the type information from the NWB file, however, because we do not specify the type, the function returns the object as a pointer of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a>, that we can then subsequently cast to the approbriate type if necessary.</dd></dl>
-<h1><a class="anchor" id="read_further_reading"></a>
+<h2><a class="anchor" id="read_example_variant_data"></a>
+Working with fields with unknown data type</h2>
+<p>C++ is a statically typed language, i.e., we need to know the type of every variable at compile time. This can be particularly challenging when reading data from disk where the data type may not be known before-hand. AqNWB helps us here by allocating memory and determining data types for us when reading data fields. However, when we want to compute on the data, we still need to know the data type, e.g., to use the typed <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block.html">DataBlock&lt;DTYPE&gt;</a> we need to know the DTYPE.</p>
+<p>Using <a href="https://en.cppreference.com/w/cpp/utility/variant">std::variant</a> with <a href="https://en.cppreference.com/w/cpp/utility/variant/visit">std::visit</a> (introduced in C++17) provides an alternative approach, that can help us avoid having to write complex <code>switch/case</code> statements to check for all possible types when we don't know the data type beforehand. E.g., using <code>std::visit</code> we can define a set of functions to compute the mean for any 1D <code>std::vector</code>:</p>
+<div class="fragment"><div class="line"><span class="comment">// Helper function to compute the mean of a vector</span></div>
+<div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><span class="keyword">inline</span> <span class="keywordtype">double</span> compute_mean(<span class="keyword">const</span> T&amp; data)</div>
+<div class="line">{</div>
+<div class="line">  <span class="keywordflow">if</span> (data.empty()) {</div>
+<div class="line">    <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Data vector is empty&quot;</span>);</div>
+<div class="line">  }</div>
+<div class="line">  <span class="keywordtype">double</span> sum = std::accumulate(data.begin(), data.end(), 0.0);</div>
+<div class="line">  <span class="keywordflow">return</span> sum / data.size();</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Function to compute the mean using std::visit</span></div>
+<div class="line"><span class="keyword">inline</span> <span class="keywordtype">double</span> compute_mean(<span class="keyword">const</span> BaseDataType::BaseDataVectorVariant&amp; variant)</div>
+<div class="line">{</div>
+<div class="line">  <span class="keywordflow">return</span> std::visit(</div>
+<div class="line">      [](<span class="keyword">auto</span>&amp;&amp; arg) -&gt; <span class="keywordtype">double</span></div>
+<div class="line">      {</div>
+<div class="line">        <span class="keyword">using </span>T = std::decay_t&lt;<span class="keyword">decltype</span>(arg)&gt;;</div>
+<div class="line">        <span class="comment">// Check that the variant represents a BaseDataType we can compute on</span></div>
+<div class="line">        <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (std::is_same_v&lt;T, std::monostate&gt;) {</div>
+<div class="line">          <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Invalid data type&quot;</span>);</div>
+<div class="line">        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (std::is_same_v&lt;T, std::vector&lt;std::string&gt;&gt;) {</div>
+<div class="line">          <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Cannot compute mean of string data&quot;</span>);</div>
+<div class="line">        } <span class="keywordflow">else</span> {</div>
+<div class="line">          <span class="keywordflow">return</span> compute_mean(arg);  <span class="comment">// Compute the mean</span></div>
+<div class="line">        }</div>
+<div class="line">      },</div>
+<div class="line">      variant);</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>Using <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html#a957ab6f55f6be707def1ae317948a6eb">DataBlockGeneric::as_variant</a> we can then cast our data to a <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#ace36552e3d3f31981bfd32a4d9540312">BaseDataVectorVariant</a>, which is am <code>std::variant</code> representing a 1D <code>std::vector</code> containing values of any valid <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">BaseDataType</a>. We can then using our <code>compute_mean</code> methods to conveniently compute on the data without having to explicitly specify the type of the data ourselves.</p>
+<div class="fragment"><div class="line">    <span class="comment">// Compute the mean using the std::variant approach. We specify</span></div>
+<div class="line">    <span class="comment">// the types of variables for clarity, but could us &quot;auto&quot; instead</span></div>
+<div class="line">    DataBlockGeneric genericDataBlock =</div>
+<div class="line">        readElectricalSeriesData-&gt;valuesGeneric();</div>
+<div class="line">    BaseDataType::BaseDataVectorVariant variantData =</div>
+<div class="line">        genericDataBlock.as_variant();</div>
+<div class="line">    <span class="keywordtype">double</span> meanFromVariant = compute_mean(variantData);</div>
+<div class="line">    <span class="comment">// Compare with computing the mean from the typed DataBlock&lt;float&gt;. We</span></div>
+<div class="line">    <span class="comment">// specify the template type for clarity although the compiler can infer it.</span></div>
+<div class="line">    <span class="keywordtype">double</span> meanFromTypedVector =</div>
+<div class="line">        compute_mean&lt;std::vector&lt;float&gt;&gt;(readDataValues.data);</div>
+<div class="line">    REQUIRE(meanFromVariant == Catch::Approx(meanFromTypedVector));</div>
+</div><!-- fragment --><h1><a class="anchor" id="read_further_reading"></a>
 Further reading</h1>
 <ul>
 <li><a class="el" href="read_design_page.html">Implementation of data read</a> discusses the underlying software design of AqNWB for data read</li>
-<li><a class="el" href="registered_type_page.html">Implementing a new Neurodata Type</a> discusses how to implement your own <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> classes for reading and writing data </li>
+<li><a class="el" href="registered_type_page.html">Implementing a new Neurodata Type</a> discusses how to implement your own <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> classes for reading and writing data</li>
+<li><code>demo/inspect_electrical_series</code> in the <a href="https://github.com/NeurodataWithoutBorders/aqnwb">AqNWB repo</a> contains a demo program that illustrates the use of AqNWB for inspecticing <code>ElectricalSeries</code> data in an arbitrary NWB file. </li>
 </ul>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

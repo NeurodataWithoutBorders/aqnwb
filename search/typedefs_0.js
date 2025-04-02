@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['channelvector_0',['ChannelVector',['../class_a_q_n_w_b_1_1_types.html#a17cc1d186ce80971c28e440471e910ff',1,'AQNWB::Types']]]
+  ['basedatavectorvariant_0',['BaseDataVectorVariant',['../class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#ace36552e3d3f31981bfd32a4d9540312',1,'AQNWB::IO::BaseDataType']]]
 ];
