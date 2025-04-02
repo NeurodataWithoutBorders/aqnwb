@@ -7,6 +7,7 @@
 #include "io/BaseIO.hpp"
 #include "io/ReadIO.hpp"
 #include "nwb/ecephys/ElectricalSeries.hpp"
+#include "spec/core.hpp"
 
 namespace AQNWB::NWB
 {
@@ -18,7 +19,7 @@ class SpikeEventSeries : public ElectricalSeries
 {
 public:
   // Register the TimeSeries as a subclass of Container
-  REGISTER_SUBCLASS(SpikeEventSeries, "core")
+  REGISTER_SUBCLASS(SpikeEventSeries, AQNWB::SPEC::CORE::namespaceName)
 
   /**
    * @brief Constructor.

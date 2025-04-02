@@ -7,6 +7,7 @@
 #include "io/BaseIO.hpp"
 #include "io/ReadIO.hpp"
 #include "nwb/hdmf/base/Container.hpp"
+#include "spec/core.hpp"
 
 namespace AQNWB::NWB
 {
@@ -17,7 +18,7 @@ class TimeSeries : public Container
 {
 public:
   // Register the TimeSeries as a subclass of Container
-  REGISTER_SUBCLASS(TimeSeries, "core")
+  REGISTER_SUBCLASS(TimeSeries, AQNWB::SPEC::CORE::namespaceName)
 
   /**
    * Used to describe the continuity of the data in a time series.
