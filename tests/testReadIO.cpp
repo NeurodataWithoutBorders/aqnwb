@@ -15,7 +15,7 @@ using namespace AQNWB::IO;
 
 // Helper function to compute the mean of a vector
 template<typename T>
-double compute_mean(const T& data)
+inline double test_compute_mean(const T& data)
 {
   if (data.empty()) {
     throw std::runtime_error("Data vector is empty");
@@ -25,7 +25,8 @@ double compute_mean(const T& data)
 }
 
 // Function to compute the mean using std::visit
-double compute_mean(const BaseDataType::BaseDataVectorVariant& variant)
+inline double test_compute_mean(
+    const BaseDataType::BaseDataVectorVariant& variant)
 {
   return std::visit(
       [](auto&& arg) -> double
@@ -36,10 +37,25 @@ double compute_mean(const BaseDataType::BaseDataVectorVariant& variant)
         } else if constexpr (std::is_same_v<T, std::vector<std::string>>) {
           throw std::runtime_error("Cannot compute mean of string data");
         } else {
-          return compute_mean(arg);
+          return test_compute_mean(arg);
         }
       },
       variant);
+}
+
+// Templated function to test variant conversion
+template<typename T>
+inline void test_variant_conversion(const std::vector<T>& data,
+                                    BaseDataType::Type baseType)
+{
+  std::vector<SizeType> shape = {data.size()};
+  BaseDataType baseDataType = {baseType};
+
+  DataBlockGeneric genericBlock(std::any(data), shape, typeid(T), baseDataType);
+
+  auto variant = genericBlock.as_variant();
+  REQUIRE(std::holds_alternative<std::vector<T>>(variant));
+  REQUIRE(std::get<std::vector<T>>(variant) == data);
 }
 
 TEST_CASE("DataBlock - Basic Functionality", "[DataBlock]")
@@ -135,16 +151,19 @@ TEST_CASE("DataBlockGeneric - as_variant Method", "[DataBlockGeneric]")
 {
   SECTION("Variant Conversion")
   {
-    std::vector<int> data = {1, 2, 3, 4, 5};
-    std::vector<SizeType> shape = {5};
-    BaseDataType baseDataType = {BaseDataType::T_I32};
-
-    DataBlockGeneric genericBlock(
-        std::any(data), shape, typeid(int), baseDataType);
-
-    auto variant = genericBlock.as_variant();
-    REQUIRE(std::holds_alternative<std::vector<int>>(variant));
-    REQUIRE(std::get<std::vector<int>>(variant) == data);
+    test_variant_conversion<uint8_t>({1, 2, 3, 4, 5}, BaseDataType::T_U8);
+    test_variant_conversion<uint16_t>({1, 2, 3, 4, 5}, BaseDataType::T_U16);
+    test_variant_conversion<uint32_t>({1, 2, 3, 4, 5}, BaseDataType::T_U32);
+    test_variant_conversion<uint64_t>({1, 2, 3, 4, 5}, BaseDataType::T_U64);
+    test_variant_conversion<int8_t>({1, 2, 3, 4, 5}, BaseDataType::T_I8);
+    test_variant_conversion<int16_t>({1, 2, 3, 4, 5}, BaseDataType::T_I16);
+    test_variant_conversion<int32_t>({1, 2, 3, 4, 5}, BaseDataType::T_I32);
+    test_variant_conversion<int64_t>({1, 2, 3, 4, 5}, BaseDataType::T_I64);
+    test_variant_conversion<float>({1.0f, 2.0f, 3.0f, 4.0f, 5.0f},
+                                   BaseDataType::T_F32);
+    test_variant_conversion<double>({1.0, 2.0, 3.0, 4.0, 5.0},
+                                    BaseDataType::T_F64);
+    test_variant_conversion<std::string>({"a", "b", "c"}, BaseDataType::T_STR);
   }
 
   SECTION("Unsupported Type")
@@ -175,7 +194,7 @@ TEST_CASE("DataBlockGeneric - Compute Mean with std::visit",
 
     auto variant = genericBlock.as_variant();
 
-    double mean = compute_mean(variant);
+    double mean = test_compute_mean(variant);
 
     REQUIRE(mean == Catch::Approx(3.0));
   }
@@ -191,7 +210,7 @@ TEST_CASE("DataBlockGeneric - Compute Mean with std::visit",
 
     auto variant = genericBlock.as_variant();
 
-    double mean = compute_mean(variant);
+    double mean = test_compute_mean(variant);
 
     REQUIRE(mean == Catch::Approx(3.0));
   }
@@ -207,7 +226,7 @@ TEST_CASE("DataBlockGeneric - Compute Mean with std::visit",
 
     auto variant = genericBlock.as_variant();
 
-    REQUIRE_THROWS_AS(compute_mean(variant), std::runtime_error);
+    REQUIRE_THROWS_AS(test_compute_mean(variant), std::runtime_error);
   }
 
   SECTION("Compute Mean for String Data")
@@ -221,6 +240,6 @@ TEST_CASE("DataBlockGeneric - Compute Mean with std::visit",
 
     auto variant = genericBlock.as_variant();
 
-    REQUIRE_THROWS_AS(compute_mean(variant), std::runtime_error);
+    REQUIRE_THROWS_AS(test_compute_mean(variant), std::runtime_error);
   }
 }

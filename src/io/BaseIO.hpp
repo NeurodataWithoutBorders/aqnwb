@@ -5,6 +5,7 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <typeindex>
 #include <unordered_map>
 #include <unordered_set>
 #include <variant>
@@ -104,6 +105,41 @@ public:
                                              std::vector<float>,
                                              std::vector<double>,
                                              std::vector<std::string>>;
+
+  /**
+   * @brief Get the BaseDataType from a std::type_index
+   *
+   * @param typeIndex The type index for which to determine the BaseDataType
+   * @return The corresponding BaseDataType
+   * @throws std::runtime_error if the typeIndex does not correspond to a
+   * supported data type.
+   */
+  static BaseDataType fromTypeId(const std::type_index& typeIndex)
+  {
+    if (typeIndex == typeid(uint8_t)) {
+      return BaseDataType(U8);
+    } else if (typeIndex == typeid(uint16_t)) {
+      return BaseDataType(U16);
+    } else if (typeIndex == typeid(uint32_t)) {
+      return BaseDataType(U32);
+    } else if (typeIndex == typeid(uint64_t)) {
+      return BaseDataType(U64);
+    } else if (typeIndex == typeid(int8_t)) {
+      return BaseDataType(I8);
+    } else if (typeIndex == typeid(int16_t)) {
+      return BaseDataType(I16);
+    } else if (typeIndex == typeid(int32_t)) {
+      return BaseDataType(I32);
+    } else if (typeIndex == typeid(int64_t)) {
+      return BaseDataType(I64);
+    } else if (typeIndex == typeid(float)) {
+      return BaseDataType(F32);
+    } else if (typeIndex == typeid(double)) {
+      return BaseDataType(F64);
+    } else {
+      throw std::runtime_error("Unsupported data type");
+    }
+  }
 };
 
 class DataBlockGeneric;

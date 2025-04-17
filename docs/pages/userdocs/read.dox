@@ -42,19 +42,23 @@
  *
  * \subsection read_example_search Searching for RegisteredType objects
  *
- * When paths are not fixed, we can use the \ref AQNWB::IO::BaseIO::findTypes "findType()" function of our I/O object to
+ * When paths are not fixed, we can use the \ref AQNWB::IO::BaseIO::findTypes "findTypes()" function of our I/O object to
  * conveniently search for objects with a given type.
  *
  * \snippet tests/examples/test_ecephys_data_read.cpp example_search_types_snippet
  *
  * \note
- * \ref AQNWB::IO::BaseIO::findTypes "findType()" supports two main search modes.
- * Using \ref AQNWB::IO::SearchMode::CONTINUE_ON_TYPE "CONTINUE_ON_TYPE" mode we
- * can search recursively through all types (here the whole file since we started at the root ``"/"``).
- * Using  \ref AQNWB::IO::SearchMode::STOP_ON_TYPE "STOP_ON_TYPE" does not
- * recurse further into defined types, hence, this mode is useful if we only
- * want to search for objects that the object at the starting path manages
- * directly.
+ * Any \ref AQNWB::NWB::RegisteredType "RegisteredType" (such as our 
+ * \ref AQNWB::NWB::NWBFile "NWBFile") object) provides the convenience method 
+ * \ref AQNWB::NWB::RegisteredType::findOwnedTypes "findOwnedTypes" which uses 
+ * \ref AQNWB::IO::BaseIO::findTypes "findTypes()" to search within the given object
+ * (so that we don't need to specify the path argument). 
+ * By default, \ref AQNWB::NWB::RegisteredType::findOwnedTypes "findOwnedTypes" uses the 
+ * \ref AQNWB::IO::SearchMode::STOP_ON_TYPE "STOP_ON_TYPE" mode, i.e., the search does not
+ * recurse further into defined types (hence, returning only data elements that
+ * the object owns directly). Alternatively, we can set the search mode to 
+ * \ref AQNWB::IO::SearchMode::CONTINUE_ON_TYPE "CONTINUE_ON_TYPE" to 
+ * search recursively through all types (here the whole file since we started at the root ``"/"``).
  *
  * \warning
  * The current implementation of \ref AQNWB::IO::BaseIO::findTypes "findTypes()" is
@@ -115,13 +119,6 @@
  *
  * \snippet tests/examples/test_ecephys_data_read.cpp example_read_only_stringattr_snippet
  *
- * \note
- * When working with data in AqNWB, you need to know the data type (e.g., `float`, `int`) at compile time
- * since C++ is a strongly typed language. For example, when using \ref AQNWB::IO::DataBlock "DataBlock",
- * you need to specify the data type. And if you want to use \ref AQNWB::IO::DataBlock::as_multi_array "DataBlock.as_multi_array",
- * you also need to know the number of dimensions at compile time.
- *
- * \par
  * \note 
  * For attributes, slicing is disabled at compile time since attributes are intended for small data only.
  *
@@ -156,8 +153,39 @@
  * of \ref AQNWB::NWB::RegisteredType "RegisteredType", that we can then subsequently cast to the 
  * approbriate type if necessary. 
  *
+ * \subsection read_example_variant_data Working with fields with unknown data type 
+ *
+ * C++ is a statically typed language, i.e., we need to know the type of every variable at compile time. 
+ * This can be particularly challenging when reading data from disk where the data type may not be 
+ * known before-hand. AqNWB helps us here by allocating memory and determining data types for us 
+ * when reading data fields. However, when we want to compute on the data, we still need to know
+ * the data type, e.g., to use the typed \ref AQNWB::IO::DataBlock "DataBlock<DTYPE>" we need to know 
+ * the DTYPE.
+ *
+ * Using [std::variant](https://en.cppreference.com/w/cpp/utility/variant) with 
+ * [std::visit](https://en.cppreference.com/w/cpp/utility/variant/visit) (introduced in C++17) 
+ * provides an alternative approach, that can help us avoid having to write complex `switch/case` 
+ * statements to check for all possible types when we don't know the data type beforehand. 
+ * E.g., using `std::visit` we can define a set of functions to compute the mean for 
+ * any 1D `std::vector`:
+ *
+ * \snippet tests/examples/test_ecephys_data_read.cpp  example_compute_mean_from_variant
+ *
+ * Using \ref AQNWB::IO::DataBlockGeneric::as_variant "DataBlockGeneric::as_variant" we can then
+ * cast our data to a \ref AQNWB::IO::BaseDataType::BaseDataVectorVariant "BaseDataVectorVariant", 
+ * which is am `std::variant` representing a 1D `std::vector` containing values of any valid 
+ * \ref AQNWB::IO::BaseDataType "BaseDataType". We can then using our `compute_mean` methods to
+ * conveniently compute on the data without having to explicitly specify the type of the data 
+ * ourselves. 
+ *
+ * \snippet tests/examples/test_ecephys_data_read.cpp  example_use_std_variant_to_compute_on_data
+ * 
+ *
  * \section read_further_reading Further reading
  * - \ref read_design_page discusses the underlying software design of AqNWB for data read 
  * - \ref registered_type_page discusses how to implement your own \ref AQNWB::NWB::RegisteredType "RegisteredType"
  *    classes for reading and writing data 
+ * - ``demo/inspect_electrical_series`` in the [AqNWB repo](https://github.com/NeurodataWithoutBorders/aqnwb)
+ *     contains a demo program that illustrates the use of AqNWB for inspecticing `ElectricalSeries` 
+ *     data in an arbitrary NWB file.
  */
