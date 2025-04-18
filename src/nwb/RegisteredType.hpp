@@ -88,6 +88,23 @@ public:
   inline std::shared_ptr<IO::BaseIO> getIO() const { return m_io; }
 
   /**
+   * @brief Clear the BaseRecordingData object cache to reset the recording
+   * state
+   */
+  inline void clearCacheRecordingData() { this->m_recordingDataCache.clear(); }
+
+  /**
+   * @brief Get the cache of BaseRecordingData objects
+   * @return A reference to the cache of BaseRecordingData objects
+   */
+  inline const std::unordered_map<std::string,
+                                  std::shared_ptr<IO::BaseRecordingData>>&
+  getCacheRecordingData() const
+  {
+    return this->m_recordingDataCache;
+  }
+
+  /**
    * @brief Get the registry of subclass names.
    *
    * The registry is a function-local static variable, which means it
@@ -323,7 +340,8 @@ protected:
   std::shared_ptr<IO::BaseIO> m_io;
 
   /**
-   * @brief Cache for dataset objects to avoid repeated calls to getDataSet.
+   * @brief Cache for BaseRecordingData objects for datasets to retain recording
+   * state.
    *
    * This map stores shared pointers to BaseRecordingData objects that have been
    * previously requested, using the field path as the key. This allows us to
@@ -333,9 +351,8 @@ protected:
    * This is important for writing data to the dataset in a streaming fashion.
    * The cache is mutable to allow modification in const methods.
    */
-  mutable std::unordered_map<std::string,
-                             std::shared_ptr<IO::BaseRecordingData>>
-      m_datasetCache;
+  std::unordered_map<std::string, std::shared_ptr<IO::BaseRecordingData>>
+      m_recordingDataCache;
 };
 
 /**
@@ -476,21 +493,30 @@ protected:
   /** \
    * @brief Returns the dataset object for the ##writeName field. \
    * \
+   * This functions modifies the m_recordingDataCache as a side effect \
+   * to retain the recording state. \
+   * \
+   * @param reset If true, the dataset will be reset to the beginning \
+   *        by creating a new BaseRecordingData object via m_io->getDataSet \
+   * \
    * @return A shared pointer to a BaseRecordingData for the dataset \
    * \
    * description \
    */ \
-  inline std::shared_ptr<IO::BaseRecordingData> writeName() const \
+  inline std::shared_ptr<IO::BaseRecordingData> writeName(bool reset = false) \
   { \
     std::string fullPath = AQNWB::mergePaths(m_path, fieldPath); \
-    auto it = m_datasetCache.find(fullPath); \
-    if (it != m_datasetCache.end()) { \
-      return it->second; \
+    if (!reset) { \
+      /* Check if the dataset is already in the cache */ \
+      auto it = m_recordingDataCache.find(fullPath); \
+      if (it != m_recordingDataCache.end()) { \
+        return it->second; \
+      } \
     } \
     /* Get the dataset from IO and cache it */ \
     auto dataset = m_io->getDataSet(fullPath); \
     if (dataset) { \
-      m_datasetCache[fullPath] = dataset; \
+      m_recordingDataCache[fullPath] = dataset; \
     } \
     return dataset; \
   }
