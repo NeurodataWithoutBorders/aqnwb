@@ -328,7 +328,10 @@ protected:
    * This map stores shared pointers to BaseRecordingData objects that have been
    * previously requested, using the field path as the key. This allows us to
    * reuse the same object when it is requested multiple times, improving
-   * performance.
+   * performance and more importantly, retaining the recording position so that
+   * we can append to the dataset from the last position that we recorded to.
+   * This is important for writing data to the dataset in a streaming fashion.
+   * The cache is mutable to allow modification in const methods.
    */
   mutable std::unordered_map<std::string,
                              std::shared_ptr<IO::BaseRecordingData>>

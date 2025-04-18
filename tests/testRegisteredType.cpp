@@ -408,12 +408,14 @@ TEST_CASE("RegisterType", "[base]")
     datasetRecordingData->writeDataBlock(
         SizeArray {3}, SizeArray {0}, BaseDataType::F32, datasetValues.data());
 
-    // Call recordDataset() multiple times and verify the same object is returned
+    // Call recordDataset() multiple times and verify the same object is
+    // returned
     auto dataset1 = testInstance->recordDataset();
     auto dataset2 = testInstance->recordDataset();
     auto dataset3 = testInstance->recordDataset();
 
-    // Check that all three calls return the same object (by comparing memory addresses)
+    // Check that all three calls return the same object (by comparing memory
+    // addresses)
     REQUIRE(dataset1.get() == dataset2.get());
     REQUIRE(dataset2.get() == dataset3.get());
     REQUIRE(dataset1.get() == dataset3.get());
