@@ -170,99 +170,88 @@ public:
   IO::BaseDataType controlType = IO::BaseDataType::U8;
 
   // Define the data fields to expose for lazy read access
-  DEFINE_FIELD(readDescription,
-               AttributeField,
-               std::string,
-               "description",
-               Description of the series)
+  DEFINE_ATTRIBUTE_FIELD(readDescription,
+                         std::string,
+                         "description",
+                         Description of the series)
 
-  DEFINE_FIELD(readComments,
-               AttributeField,
-               std::string,
-               "comments",
-               Human - readable comments about the TimeSeries)
+  DEFINE_ATTRIBUTE_FIELD(readComments,
+                         std::string,
+                         "comments",
+                         Human - readable comments about the TimeSeries)
 
-  DEFINE_FIELD(readData, DatasetField, std::any, "data", The main data)
+  DEFINE_DATASET_FIELD(readData, recordData, std::any, "data", The main data)
 
-  DEFINE_FIELD(readDataConversion,
-               AttributeField,
-               float,
-               "data/conversion",
-               Scalar to multiply each element in data to convert it to the
-                   specified unit)
+  DEFINE_ATTRIBUTE_FIELD(readDataConversion,
+                         float,
+                         "data/conversion",
+                         Scalar to multiply each element in data to convert it
+                             to the specified unit)
 
-  DEFINE_FIELD(readDataOffset,
-               AttributeField,
-               float,
-               "data/offset",
-               Scalar to add to the data after scaling by conversion to finalize
-                   its coercion to the specified unit)
+  DEFINE_ATTRIBUTE_FIELD(readDataOffset,
+                         float,
+                         "data/offset",
+                         Scalar to add to the data after scaling by conversion
+                             to finalize its coercion to the specified unit)
 
-  DEFINE_FIELD(readDataResolution,
-               AttributeField,
-               float,
-               "data/resolution",
-               Smallest meaningful difference between values in data)
+  DEFINE_ATTRIBUTE_FIELD(readDataResolution,
+                         float,
+                         "data/resolution",
+                         Smallest meaningful difference between values in data)
 
-  DEFINE_FIELD(readDataUnit,
-               AttributeField,
-               std::string,
-               "data/unit",
-               Base unit of measurement for working with the data)
+  DEFINE_ATTRIBUTE_FIELD(readDataUnit,
+                        std::string,
+                        "data/unit",
+                        Base unit of measurement for working with the data)
 
-  DEFINE_FIELD(readDataContinuity,
-               AttributeField,
-               std::string,
-               "data/continuity",
-               Continuity of the data)
+  DEFINE_ATTRIBUTE_FIELD(readDataContinuity,
+                         std::string,
+                         "data/continuity",
+                         Continuity of the data)
 
-  DEFINE_FIELD(readStartingTime,
-               DatasetField,
-               double,
-               "starting_time",
-               Timestamp of the first sample in seconds)
+  DEFINE_DATASET_FIELD(readStartingTime,
+                       recordStartingTime,
+                       double,
+                       "starting_time",
+                       Timestamp of the first sample in seconds)
 
-  DEFINE_FIELD(readStartingTimeRate,
-               AttributeField,
-               float,
-               "starting_time/rate",
-               Sampling rate in Hz)
+  DEFINE_ATTRIBUTE_FIELD(readStartingTimeRate,
+                         float,
+                         "starting_time/rate",
+                         Sampling rate in Hz)
 
-  DEFINE_FIELD(readStartingTimeUnit,
-               AttributeField,
-               std::string,
-               "starting_time/unit",
-               Unit of measurement for time fixed to seconds)
+  DEFINE_ATTRIBUTE_FIELD(readStartingTimeUnit,
+                        std::string,
+                        "starting_time/unit",
+                        Unit of measurement for time fixed to seconds)
 
-  DEFINE_FIELD(readTimestamps,
-               DatasetField,
-               double,
-               "timestamps",
-               Timestamps offset in seconds relative to the master time for samples stored in data)
+  DEFINE_DATASET_FIELD(readTimestamps,
+                      recordTimestamps,
+                      double,
+                      "timestamps",
+                      Timestamps offset in seconds relative to the master time for samples stored in data)
 
-  DEFINE_FIELD(readTimestampsInterval,
-               AttributeField,
-               int,
-               "timestamps/interval",
-               Interval value is 1)
+  DEFINE_ATTRIBUTE_FIELD(readTimestampsInterval,
+                         int,
+                         "timestamps/interval",
+                         Interval value is 1)
 
-  DEFINE_FIELD(readTimestampsUnit,
-               AttributeField,
-               std::string,
-               "timestamps/unit",
-               Unit of measurement for timestamps fixed to seconds)
+  DEFINE_ATTRIBUTE_FIELD(readTimestampsUnit,
+                        std::string,
+                        "timestamps/unit",
+                        Unit of measurement for timestamps fixed to seconds)
 
-  DEFINE_FIELD(readControl,
-               DatasetField,
-               uint8_t,
-               "control",
-               Numerical labels that apply to each time point in data)
+  DEFINE_DATASET_FIELD(readControl,
+                       recordControl,
+                       uint8_t,
+                       "control",
+                       Numerical labels that apply to each time point in data)
 
-  DEFINE_FIELD(readControlDescription,
-               DatasetField,
-               std::string,
-               "control_description",
-               Description of each control value)
+  DEFINE_DATASET_FIELD(readControlDescription,
+                       recordControlDescription,
+                       std::string,
+                       "control_description",
+                       Description of each control value)
 
 private:
   /**

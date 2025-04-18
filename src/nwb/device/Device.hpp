@@ -42,16 +42,14 @@ public:
                   const std::string& manufacturer);
 
   // Define the data fields to expose for lazy read access
-  DEFINE_FIELD(readDescription,
-               AttributeField,
-               std::string,
-               "description",
-               Description of the series)
+  DEFINE_ATTRIBUTE_FIELD(readDescription,
+                         std::string,
+                         "description",
+                         Description of the series)
 
-  DEFINE_FIELD(readManufacturer,
-               AttributeField,
-               std::string,
-               "manufacturer",
-               Manufacturer of the device)
+  DEFINE_ATTRIBUTE_FIELD(readManufacturer,
+                         std::string,
+                         "manufacturer",
+                         Manufacturer of the device)
 };
 }  // namespace AQNWB::NWB

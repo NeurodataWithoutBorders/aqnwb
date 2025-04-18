@@ -48,11 +48,10 @@ public:
     return dataStatus && attrStatus;
   }
 
-  DEFINE_FIELD(readDescription,
-               AttributeField,
-               std::string,
-               "description",
-               Description of what these vectors represent)
+  DEFINE_ATTRIBUTE_FIELD(readDescription,
+                         std::string,
+                         "description",
+                         Description of what these vectors represent)
 };
 
 /**
@@ -113,6 +112,6 @@ public:
   using RegisteredType::m_path;
 
   // Define the data fields to expose for lazy read access
-  DEFINE_FIELD(readData, DatasetField, DTYPE, "", The main data)
+  DEFINE_DATASET_FIELD(readData, recordData, DTYPE, "", The main data)
 };
 }  // namespace AQNWB::NWB

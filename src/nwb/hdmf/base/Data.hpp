@@ -53,19 +53,17 @@ public:
   inline bool isInitialized() { return m_dataset != nullptr; }
 
   // Define the data fields to expose for lazy read access
-  DEFINE_FIELD(readData, DatasetField, std::any, "", The main data)
+  DEFINE_DATASET_FIELD(readData, recordData, std::any, "", The main data)
 
-  DEFINE_FIELD(readNeurodataType,
-               AttributeField,
-               std::string,
-               "neurodata_type",
-               The name of the type)
+  DEFINE_ATTRIBUTE_FIELD(readNeurodataType,
+                         std::string,
+                         "neurodata_type",
+                         The name of the type)
 
-  DEFINE_FIELD(readNamespace,
-               AttributeField,
-               std::string,
-               "namespace",
-               The name of the namespace)
+  DEFINE_ATTRIBUTE_FIELD(readNamespace,
+                         std::string,
+                         "namespace",
+                         The name of the namespace)
 
   std::unique_ptr<IO::BaseRecordingData> m_dataset;
 };
@@ -122,7 +120,7 @@ public:
   }
 
   // Define the data fields to expose for lazy read access
-  DEFINE_FIELD(readData, DatasetField, DTYPE, "", The main data)
+  DEFINE_DATASET_FIELD(readData, recordData, DTYPE, "", The main data)
 
   using RegisteredType::m_io;
   using RegisteredType::m_path;

@@ -35,13 +35,12 @@ public:
   virtual std::string getTypeName() const override { return "TestFieldType"; }
   virtual std::string getNamespace() const override { return "test"; }
 
-  DEFINE_FIELD(testAttribute,
-               AttributeField,
-               int32_t,
-               "test_attr",
-               "Test attribute field")
-  DEFINE_FIELD(
-      testDataset, DatasetField, float, "test_dataset", "Test dataset field")
+  DEFINE_ATTRIBUTE_FIELD(testAttribute,
+                         int32_t,
+                         "test_attr",
+                         "Test attribute field")
+  DEFINE_DATASET_FIELD(
+      testDataset, recordDataset, float, "test_dataset", "Test dataset field")
 };
 
 TEST_CASE("RegisterType", "[base]")

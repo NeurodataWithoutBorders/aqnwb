@@ -15,7 +15,8 @@ PROJECT_NUMBER = "@PROJECT_VERSION@"
 # a simplified version of the macro as part of the PREDEFINED key to create a
 # simplified expansion of the macro for documentation purposes
 MACRO_EXPANSION = YES
-PREDEFINED           += "DEFINE_FIELD(name, storageObjectType, default_type, fieldPath, description)=/** description */ template<typename VTYPE = default_type> inline std::unique_ptr<IO::ReadDataWrapper<storageObjectType, VTYPE>> name() const;"
+PREDEFINED           += "DEFINE_ATTRIBUTE_FIELD(name, default_type, fieldPath, description)=/** description */ template<typename VTYPE = default_type> inline std::unique_ptr<IO::ReadDataWrapper<AttributeField, VTYPE>> name() const;"
+PREDEFINED           += "DEFINE_DATASET_FIELD(name, default_type, fieldPath, description)=/** description */ template<typename VTYPE = default_type> inline std::unique_ptr<IO::ReadDataWrapper<DatasetField, VTYPE>> name() const;"
 PREDEFINED           += "DEFINE_REGISTERED_FIELD(name, registeredType, fieldPath, description)=/** description */ template<typename RTYPE = registeredType> inline std::shared_ptr<RTYPE> name() const;" 
 PREDEFINED           += "DEFINE_REFERENCED_REGISTERED_FIELD(name, registeredType, fieldPath, description)=/** description */ template<typename RTYPE = registeredType> inline std::shared_ptr<RTYPE> name() const;" 
 EXPAND_ONLY_PREDEF   = YES
