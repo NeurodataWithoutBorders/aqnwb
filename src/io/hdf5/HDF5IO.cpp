@@ -1196,7 +1196,7 @@ std::vector<SizeType> HDF5IO::getStorageObjectShape(const std::string path)
   return std::vector<SizeType>(dims.begin(), dims.end());
 }
 
-std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::getDataSet(
+std::shared_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::getDataSet(
     const std::string& path)
 {
   std::unique_ptr<DataSet> data;
@@ -1206,7 +1206,7 @@ std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::getDataSet(
 
   try {
     data = std::make_unique<H5::DataSet>(m_file->openDataSet(path));
-    return std::make_unique<HDF5RecordingData>(std::move(data));
+    return std::make_shared<HDF5RecordingData>(std::move(data));
   } catch (DataSetIException error) {
     error.printErrorStack();
     return nullptr;

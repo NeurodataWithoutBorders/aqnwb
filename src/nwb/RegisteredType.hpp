@@ -321,6 +321,18 @@ protected:
    * @brief A shared pointer to the IO object.
    */
   std::shared_ptr<IO::BaseIO> m_io;
+
+  /**
+   * @brief Cache for dataset objects to avoid repeated calls to getDataSet.
+   *
+   * This map stores shared pointers to BaseRecordingData objects that have been
+   * previously requested, using the field path as the key. This allows us to
+   * reuse the same object when it is requested multiple times, improving
+   * performance.
+   */
+  mutable std::unordered_map<std::string,
+                             std::shared_ptr<IO::BaseRecordingData>>
+      m_datasetCache;
 };
 
 /**
@@ -461,13 +473,23 @@ protected:
   /** \
    * @brief Returns the dataset object for the ##writeName field. \
    * \
-   * @return A unique pointer to a BaseRecordingData for the dataset \
+   * @return A shared pointer to a BaseRecordingData for the dataset \
    * \
    * description \
    */ \
-  inline std::unique_ptr<IO::BaseRecordingData> writeName() const \
+  inline std::shared_ptr<IO::BaseRecordingData> writeName() const \
   { \
-    return m_io->getDataSet(AQNWB::mergePaths(m_path, fieldPath)); \
+    std::string fullPath = AQNWB::mergePaths(m_path, fieldPath); \
+    auto it = m_datasetCache.find(fullPath); \
+    if (it != m_datasetCache.end()) { \
+      return it->second; \
+    } \
+    /* Get the dataset from IO and cache it */ \
+    auto dataset = m_io->getDataSet(fullPath); \
+    if (dataset) { \
+      m_datasetCache[fullPath] = dataset; \
+    } \
+    return dataset; \
   }
 
 /**

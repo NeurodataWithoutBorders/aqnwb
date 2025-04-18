@@ -365,9 +365,9 @@ TEST_CASE("HDF5IO; write datasets", "[hdf5io]")
         dataShape, positionOffset, BaseDataType::I32, &testData[0]);
     REQUIRE(writeStatus == Status::Success);
 
-    std::unique_ptr<BaseRecordingData> dataRead = hdf5io->getDataSet(dataPath);
-    std::unique_ptr<IO::HDF5::HDF5RecordingData> datasetRead1D(
-        dynamic_cast<IO::HDF5::HDF5RecordingData*>(dataRead.release()));
+    std::shared_ptr<BaseRecordingData> dataRead = hdf5io->getDataSet(dataPath);
+    std::shared_ptr<IO::HDF5::HDF5RecordingData> datasetRead1D =
+        std::dynamic_pointer_cast<IO::HDF5::HDF5RecordingData>(dataRead);
     int* buffer = new int[numSamples];
     readH5DataBlock(datasetRead1D->getDataSet(), BaseDataType::I32, buffer);
     std::vector<int> dataOut(buffer, buffer + numSamples);
@@ -400,10 +400,10 @@ TEST_CASE("HDF5IO; write datasets", "[hdf5io]")
     REQUIRE(writeStatus == Status::Success);
 
     // Read back the 1D data block from 3D dataset
-    std::unique_ptr<BaseRecordingData> dataRead1D =
+    std::shared_ptr<BaseRecordingData> dataRead1D =
         hdf5io->getDataSet(dataPath);
-    std::unique_ptr<IO::HDF5::HDF5RecordingData> dataset1DRead(
-        dynamic_cast<IO::HDF5::HDF5RecordingData*>(dataRead1D.release()));
+    std::shared_ptr<IO::HDF5::HDF5RecordingData> dataset1DRead =
+        std::dynamic_pointer_cast<IO::HDF5::HDF5RecordingData>(dataRead1D);
     int* buffer1D = new int[numCols];
     readH5DataBlock(dataset1DRead->getDataSet(), BaseDataType::I32, buffer1D);
     std::vector<int> dataOut1D(buffer1D, buffer1D + numCols);
@@ -440,10 +440,10 @@ TEST_CASE("HDF5IO; write datasets", "[hdf5io]")
     REQUIRE(status == Status::Success);
 
     // Read back the 2D data block
-    std::unique_ptr<BaseRecordingData> dsetRead2D =
+    std::shared_ptr<BaseRecordingData> dsetRead2D =
         hdf5io->getDataSet(dataPath);
-    std::unique_ptr<IO::HDF5::HDF5RecordingData> data2DRead(
-        dynamic_cast<IO::HDF5::HDF5RecordingData*>(dsetRead2D.release()));
+    std::shared_ptr<IO::HDF5::HDF5RecordingData> data2DRead =
+        std::dynamic_pointer_cast<IO::HDF5::HDF5RecordingData>(dsetRead2D);
     int* buffer = new int[numRows * numCols];
     readH5DataBlock(data2DRead->getDataSet(), BaseDataType::I32, buffer);
     std::vector<int> dataOut(buffer, buffer + numRows * numCols);
@@ -478,10 +478,10 @@ TEST_CASE("HDF5IO; write datasets", "[hdf5io]")
     REQUIRE(status == Status::Success);
 
     // Read back the 1D data block from 3D dataset
-    std::unique_ptr<BaseRecordingData> dataRead1D =
+    std::shared_ptr<BaseRecordingData> dataRead1D =
         hdf5io->getDataSet(dataPath);
-    std::unique_ptr<IO::HDF5::HDF5RecordingData> dSet1D(
-        dynamic_cast<IO::HDF5::HDF5RecordingData*>(dataRead1D.release()));
+    std::shared_ptr<IO::HDF5::HDF5RecordingData> dSet1D =
+        std::dynamic_pointer_cast<IO::HDF5::HDF5RecordingData>(dataRead1D);
     int* buffer1D =
         new int[width];  // Assuming 'width' is the size of the 1D data block
     readH5DataBlock(dSet1D->getDataSet(), BaseDataType::I32, buffer1D);
@@ -516,10 +516,10 @@ TEST_CASE("HDF5IO; write datasets", "[hdf5io]")
     REQUIRE(status == Status::Success);
 
     // Read back the 2D data block from 3D dataset
-    std::unique_ptr<BaseRecordingData> dataRead2D =
+    std::shared_ptr<BaseRecordingData> dataRead2D =
         hdf5io->getDataSet(dataPath);
-    std::unique_ptr<IO::HDF5::HDF5RecordingData> dSetRead2D(
-        dynamic_cast<IO::HDF5::HDF5RecordingData*>(dataset.release()));
+    std::shared_ptr<IO::HDF5::HDF5RecordingData> dSetRead2D =
+        std::dynamic_pointer_cast<IO::HDF5::HDF5RecordingData>(dataRead2D);
     int* buffer2D =
         new int[height * width];  // Assuming 'numRows' and 'numCols' define the
                                   // 2D data block size
