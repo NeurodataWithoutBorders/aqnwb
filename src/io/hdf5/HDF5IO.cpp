@@ -106,11 +106,16 @@ std::unique_ptr<H5::Attribute> HDF5IO::getAttribute(
   // Split the path to get the parent object and the attribute name
   size_t pos = path.find_last_of('/');
   if (pos == std::string::npos) {
+    std::cerr << "Invalid path: " << path << std::endl;
     return nullptr;
   }
 
   std::string parentPath = path.substr(0, pos);
   std::string attrName = path.substr(pos + 1);
+  // If we are at the root, set parentPath to "/"
+  if(parentPath.empty()){
+    parentPath = "/";
+  }
 
   // open the group or dataset
   H5Object* loc;
@@ -374,7 +379,7 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(
   auto attributePtr = this->getAttribute(dataPath);
   if (attributePtr == nullptr) {
     throw std::invalid_argument(
-        "HDF5IO::readAttribute, attribute does not exist.");
+        "HDF5IO::readAttribute, attribute does not exist. " + dataPath);
   }
 
   H5::Attribute& attribute = *attributePtr;
