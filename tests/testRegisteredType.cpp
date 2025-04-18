@@ -382,4 +382,42 @@ TEST_CASE("RegisterType", "[base]")
 
     io->close();
   }
+
+  SECTION("test dataset caching")
+  {
+    std::string filename = getTestFilePath("testDatasetCaching.h5");
+    std::shared_ptr<BaseIO> io = std::make_unique<IO::HDF5::HDF5IO>(filename);
+    io->open();
+    std::string examplePath("/test_caching");
+
+    // Create test instance
+    auto testInstance = std::make_shared<TestFieldType>(examplePath, io);
+    REQUIRE(testInstance != nullptr);
+
+    // Create parent group
+    io->createGroup(examplePath);
+
+    // Create test data
+    const std::vector<float> datasetValues = {1.0f, 2.0f, 3.0f};
+
+    // Write test data
+    IO::ArrayDataSetConfig datasetConfig(
+        BaseDataType::F32, SizeArray {3}, SizeArray {3});
+    auto datasetRecordingData =
+        io->createArrayDataSet(datasetConfig, examplePath + "/test_dataset");
+    datasetRecordingData->writeDataBlock(
+        SizeArray {3}, SizeArray {0}, BaseDataType::F32, datasetValues.data());
+
+    // Call recordDataset() multiple times and verify the same object is returned
+    auto dataset1 = testInstance->recordDataset();
+    auto dataset2 = testInstance->recordDataset();
+    auto dataset3 = testInstance->recordDataset();
+
+    // Check that all three calls return the same object (by comparing memory addresses)
+    REQUIRE(dataset1.get() == dataset2.get());
+    REQUIRE(dataset2.get() == dataset3.get());
+    REQUIRE(dataset1.get() == dataset3.get());
+
+    io->close();
+  }
 }
