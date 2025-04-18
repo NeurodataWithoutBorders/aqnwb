@@ -176,7 +176,7 @@ public:
 
   DEFINE_DATASET_FIELD(readFileCreateDate,
                        recordFileCreateDate,
-                       std::any,
+                       std::string,
                        "file_create_date",
                        A record of the date the file was created and of
                            subsequent modifications)
@@ -196,13 +196,13 @@ public:
 
   DEFINE_DATASET_FIELD(readSessionStartTime,
                        recordSessionStartTime,
-                       std::any,
+                       std::string,
                        "session_start_time",
                        Date and time of the experiment or session start)
 
   DEFINE_DATASET_FIELD(readTimestampsReferenceTime,
                        recordTimestampsReferenceTime,
-                       std::any,
+                       std::string,
                        "timestamps_reference_time",
                        Date and time corresponding to time zero of all
                            timestamps)
