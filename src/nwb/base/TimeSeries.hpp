@@ -122,39 +122,6 @@ public:
                   const std::vector<std::string>& controlDescription = {});
 
   /**
-   * @brief Pointer to data values.
-   */
-  std::unique_ptr<IO::BaseRecordingData> data;
-
-  /**
-   * @brief Pointer to timestamp values. This may be a nullptr if starting_time
-   * is used.
-   */
-  std::unique_ptr<IO::BaseRecordingData> timestamps;
-
-  /**
-   * @brief Pointer to starting_time values. This may be a nullptr if timestamps
-   * are used.
-   *
-   * The starting_time is usually set when calling initialize(), but is exposed
-   * here to allow overwriting of the initial starting_time value in case that
-   * the correct starting_time is not known until later.
-   */
-  std::unique_ptr<IO::BaseRecordingData> starting_time;
-
-  /**
-   * @brief Pointer to control values. This may be a nullptr if useControl is
-   * false.
-   */
-  std::unique_ptr<IO::BaseRecordingData> control;
-
-  /**
-   * @brief Pointer to control_description values. This may be a nullptr if
-   * useControl is false.
-   */
-  std::unique_ptr<IO::BaseRecordingData> control_description;
-
-  /**
    * @brief Data type of the data.
    */
   IO::BaseDataType m_dataType;

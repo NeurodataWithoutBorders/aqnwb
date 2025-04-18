@@ -42,16 +42,19 @@ Status AnnotationSeries::writeAnnotation(const SizeType& numSamples,
 
   // Write timestamps
   Status tsStatus = Status::Success;
-  tsStatus = this->timestamps->writeDataBlock(
+  auto timestampsRecorder = this->recordTimestamps();
+  tsStatus = timestampsRecorder->writeDataBlock(
       dataShape, positionOffset, this->timestampsType, timestampsInput);
 
   // Write the data
-  Status dataStatus = this->data->writeDataBlock(
+  auto dataRecorder = this->recordData();
+  Status dataStatus = dataRecorder->writeDataBlock(
       dataShape, positionOffset, this->m_dataType, dataInput);
 
   // Write the control data if it exists
   if (controlInput != nullptr) {
-    tsStatus = this->control->writeDataBlock(
+    auto controlRecorder = this->recordControl();
+    tsStatus = controlRecorder->writeDataBlock(
         dataShape, positionOffset, this->controlType, controlInput);
   }
 

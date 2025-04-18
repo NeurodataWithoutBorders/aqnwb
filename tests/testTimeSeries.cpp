@@ -63,10 +63,10 @@ TEST_CASE("TimeSeries", "[base]")
         emptyControlDescription  // empty to NOT use a control and
                                  // control_description dataset
     );
-    REQUIRE(ts.timestamps != nullptr);
-    REQUIRE(ts.starting_time == nullptr);
-    REQUIRE(ts.control == nullptr);
-    REQUIRE(ts.control_description == nullptr);
+    REQUIRE(ts.readTimestamps()->exists() == true);
+    REQUIRE(ts.readStartingTime()->exists() == false);
+    REQUIRE(ts.readControl()->exists() == false);
+    REQUIRE(ts.readControlDescription()->exists() == false);
 
     // Write data to file
     Status writeStatus =
@@ -199,10 +199,10 @@ TEST_CASE("TimeSeries", "[base]")
                   startingTime,
                   startingTimeRate,
                   controlDescription);
-    REQUIRE(ts.timestamps == nullptr);
-    REQUIRE(ts.starting_time != nullptr);
-    REQUIRE(ts.control != nullptr);
-    REQUIRE(ts.control_description != nullptr);
+    REQUIRE(ts.readTimestamps()->exists() == false);
+    REQUIRE(ts.readStartingTime()->exists() == true);
+    REQUIRE(ts.readControl()->exists() == true);
+    REQUIRE(ts.readControlDescription()->exists() == true);
 
     // Write data to file
     Status writeStatus = ts.writeData(dataShape,
