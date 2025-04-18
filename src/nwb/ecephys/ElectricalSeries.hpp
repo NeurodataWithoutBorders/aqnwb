@@ -82,20 +82,11 @@ public:
    */
   Types::ChannelVector m_channelVector;
 
-  /**
-   * @brief Pointer to channel-specific conversion factor dataset.
-   */
-  std::unique_ptr<IO::BaseRecordingData> m_channelConversion;
-
-  /**
-   * @brief Pointer to electrodes dataset.
-   */
-  std::unique_ptr<IO::BaseRecordingData> m_electrodesDataset;
-
-  DEFINE_ATTRIBUTE_FIELD(readChannelConversion,
-                         float,
-                         "data/channel_conversion",
-                         Channel - specific conversion factor)
+  DEFINE_DATASET_FIELD(readChannelConversion,
+                       recordChannelConversion,
+                       float,
+                       "channel_conversion",
+                       Channel - specific conversion factor)
 
   DEFINE_DATASET_FIELD(
       readData, recordData, float, "data", Recorded voltage data)

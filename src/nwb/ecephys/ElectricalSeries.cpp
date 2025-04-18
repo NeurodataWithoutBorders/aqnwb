@@ -62,11 +62,11 @@ Status ElectricalSeries::initialize(const IO::ArrayDataSetConfig& dataConfig,
   // make channel conversion dataset
   IO::ArrayDataSetConfig channelConversionConfig(
       IO::BaseDataType::F32, SizeArray {1}, dataConfig.getChunking());
-  m_channelConversion =
-      std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet(
+  m_io->createArrayDataSet(
           channelConversionConfig,
-          AQNWB::mergePaths(getPath(), "/channel_conversion")));
-  m_channelConversion->writeDataBlock(
+          AQNWB::mergePaths(getPath(), "/channel_conversion"));
+  auto channelConversionRecorder = recordChannelConversion();
+  channelConversionRecorder->writeDataBlock(
       std::vector<SizeType>(1, channelVector.size()),
       IO::BaseDataType::F32,
       &channelConversions[0]);
@@ -82,11 +82,11 @@ Status ElectricalSeries::initialize(const IO::ArrayDataSetConfig& dataConfig,
   IO::ArrayDataSetConfig electrodesConfig(IO::BaseDataType::I32,
                                           SizeArray {channelVector.size()},
                                           dataConfig.getChunking());
-  m_electrodesDataset =
-      std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet(
-          electrodesConfig, AQNWB::mergePaths(getPath(), "electrodes")));
+  m_io->createArrayDataSet(
+          electrodesConfig, AQNWB::mergePaths(getPath(), "electrodes"));
 
-  m_electrodesDataset->writeDataBlock(SizeArray {channelVector.size()},
+  auto electrodesRecorder = recordElectrodes();
+  electrodesRecorder->writeDataBlock(SizeArray {channelVector.size()},
                                       IO::BaseDataType::I32,
                                       &electrodeInds[0]);
   auto electrodesPath = AQNWB::mergePaths(getPath(), "electrodes");
