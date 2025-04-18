@@ -113,7 +113,7 @@ std::unique_ptr<H5::Attribute> HDF5IO::getAttribute(
   std::string parentPath = path.substr(0, pos);
   std::string attrName = path.substr(pos + 1);
   // If we are at the root, set parentPath to "/"
-  if(parentPath.empty()){
+  if (parentPath.empty()) {
     parentPath = "/";
   }
 

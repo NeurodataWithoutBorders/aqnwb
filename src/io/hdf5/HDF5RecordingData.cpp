@@ -24,7 +24,7 @@ HDF5RecordingData::HDF5RecordingData(std::unique_ptr<H5::DataSet> data)
 
   numDimensions =
       static_cast<SizeType>(dSpace.getSimpleExtentDims(dims.data()));
-  
+
   // Check if the dataset is chunked before trying to get chunk information
   H5D_layout_t layout = prop.getLayout();
   if (layout == H5D_CHUNKED) {

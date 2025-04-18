@@ -221,15 +221,15 @@ public:
                          Sampling rate in Hz)
 
   DEFINE_ATTRIBUTE_FIELD(readStartingTimeUnit,
-                        std::string,
-                        "starting_time/unit",
-                        Unit of measurement for time fixed to seconds)
+                         std::string,
+                         "starting_time/unit",
+                         Unit of measurement for time fixed to seconds)
 
   DEFINE_DATASET_FIELD(readTimestamps,
-                      recordTimestamps,
-                      double,
-                      "timestamps",
-                      Timestamps offset in seconds relative to the master time for samples stored in data)
+                       recordTimestamps,
+                       double,
+                       "timestamps",
+                       Timestamps offset in seconds relative to the master time for samples stored in data)
 
   DEFINE_ATTRIBUTE_FIELD(readTimestampsInterval,
                          int,
@@ -237,9 +237,9 @@ public:
                          Interval value is 1)
 
   DEFINE_ATTRIBUTE_FIELD(readTimestampsUnit,
-                        std::string,
-                        "timestamps/unit",
-                        Unit of measurement for timestamps fixed to seconds)
+                         std::string,
+                         "timestamps/unit",
+                         Unit of measurement for timestamps fixed to seconds)
 
   DEFINE_DATASET_FIELD(readControl,
                        recordControl,
