@@ -231,17 +231,6 @@ protected:
 
 private:
   /**
-   * @brief Factory method for creating recording data.
-   * @param config The configuration for the dataset including data type, shape,
-   * and chunking.
-   * @param path The location in the file of the new dataset.
-   * @return std::unique_ptr<IO::BaseRecordingData> The unique pointer to the
-   * created recording data.
-   */
-  std::unique_ptr<IO::BaseRecordingData> createRecordingData(
-      const IO::ArrayDataSetConfig& config, const std::string& path);
-
-  /**
    * @brief Saves the specification files for the schema.
    *
    * @param namespaceInfo The NamespaceInfo object with the namespace

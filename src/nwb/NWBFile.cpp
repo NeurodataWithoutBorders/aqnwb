@@ -379,11 +379,3 @@ void NWBFile::cacheSpecifications(const Types::NamespaceInfo& namespaceInfo)
         std::string(content));
   }
 }
-
-// recording data factory method
-std::unique_ptr<AQNWB::IO::BaseRecordingData> NWBFile::createRecordingData(
-    const IO::ArrayDataSetConfig& config, const std::string& path)
-{
-  return std::unique_ptr<IO::BaseRecordingData>(
-      m_io->createArrayDataSet(config, path));
-}
