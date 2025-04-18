@@ -69,6 +69,36 @@ TEST_CASE("Data", "[base]")
     REQUIRE(neurodataTypeStr == "Data");
   }
 
+  SECTION("test record methods from DEFINE_DATASET_FIELD")
+  {
+    // Create a separate file for this test
+    std::string recordPath = getTestFilePath("testDataRecord.h5");
+    std::shared_ptr<BaseIO> recordIo = createIO("HDF5", recordPath);
+    recordIo->open();
+
+    // Prepare test data
+    SizeType numSamples = 10;
+    std::string dataPath = "/data_record_test";
+    SizeArray dataShape = {numSamples};
+    SizeArray chunking = {numSamples};
+    BaseDataType dataType = BaseDataType::I32;
+
+    // Create and initialize the dataset
+    IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
+    std::unique_ptr<BaseRecordingData> columnDataset =
+        recordIo->createArrayDataSet(config, dataPath);
+
+    // setup Data object
+    auto data = NWB::Data(dataPath, recordIo);
+    data.initialize(std::move(columnDataset));
+
+    // Test recordData method
+    auto dataRecorder = data.recordData();
+    REQUIRE(dataRecorder != nullptr);
+
+    recordIo->close();
+  }
+
   io->close();
 }
 
@@ -226,6 +256,39 @@ TEST_CASE("DataTyped", "[base]")
     auto convertedData = convertedDataTyped->readData();
     auto convertedBlockString = convertedData->values();
     REQUIRE(convertedBlockString.data == data);
+  }
+
+  SECTION("test record methods from DEFINE_DATASET_FIELD for DataTyped")
+  {
+    // Create a separate file for this test
+    std::string recordPath = getTestFilePath("testDataTypedRecord.h5");
+    std::shared_ptr<BaseIO> recordIo = createIO("HDF5", recordPath);
+    recordIo->open();
+
+    // Prepare test data
+    SizeType numSamples = 10;
+    std::string dataPath = "/data_typed_record_test";
+    SizeArray dataShape = {numSamples};
+    SizeArray chunking = {numSamples};
+    BaseDataType dataType = BaseDataType::I32;
+
+    // Create and initialize the dataset
+    IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
+    std::unique_ptr<BaseRecordingData> columnDataset =
+        recordIo->createArrayDataSet(config, dataPath);
+
+    // setup Data object
+    auto columnData = NWB::Data(dataPath, recordIo);
+    columnData.initialize(std::move(columnDataset));
+
+    // setup DataTyped<int> object
+    auto dataTyped = NWB::DataTyped<int>(dataPath, recordIo);
+
+    // Test recordData method
+    auto dataRecorder = dataTyped.recordData();
+    REQUIRE(dataRecorder != nullptr);
+
+    recordIo->close();
   }
 
   io->close();

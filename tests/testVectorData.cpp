@@ -122,6 +122,37 @@ TEST_CASE("VectorData", "[base]")
 
     io->close();
   }
+
+  SECTION("test record methods from DEFINE_DATASET_FIELD")
+  {
+    // Create a single file for all VectorData test sections
+    std::string path = getTestFilePath("testVectorDataRecord.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    // Prepare test data
+    SizeType numSamples = 10;
+    std::string dataPath = "/vdata_record_test";
+    SizeArray dataShape = {numSamples};
+    SizeArray chunking = {numSamples};
+    BaseDataType dataType = BaseDataType::I32;
+    std::string description = "Test VectorData record method";
+
+    // create BaseRecordingData to pass to VectorData.initialize
+    IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
+    std::unique_ptr<BaseRecordingData> columnDataset =
+        io->createArrayDataSet(config, dataPath);
+
+    // setup VectorData object
+    auto columnVectorData = NWB::VectorData(dataPath, io);
+    columnVectorData.initialize(std::move(columnDataset), description);
+
+    // Test recordData method
+    auto dataRecorder = columnVectorData.recordData();
+    REQUIRE(dataRecorder != nullptr);
+
+    io->close();
+  }
 }  // TEST_CASE("VectorData", "[base]")
 
 TEST_CASE("VectorDataTyped", "[base]")
@@ -389,5 +420,40 @@ TEST_CASE("VectorDataTyped", "[base]")
     auto convertedBlockString = convertedData->values();
     REQUIRE(convertedBlockString.data == data);
   }
+
+  SECTION("test record methods from DEFINE_DATASET_FIELD for VectorDataTyped")
+  {
+    // Create a separate file for this test
+    std::string recordPath = getTestFilePath("testVectorDataTypedRecord.h5");
+    std::shared_ptr<BaseIO> recordIo = createIO("HDF5", recordPath);
+    recordIo->open();
+
+    // Prepare test data
+    SizeType numSamples = 10;
+    std::string dataPath = "/vdata_typed_record_test";
+    SizeArray dataShape = {numSamples};
+    SizeArray chunking = {numSamples};
+    BaseDataType dataType = BaseDataType::I32;
+    std::string description = "Test VectorDataTyped record method";
+
+    // create BaseRecordingData to pass to VectorData.initialize
+    IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
+    std::unique_ptr<BaseRecordingData> columnDataset =
+        recordIo->createArrayDataSet(config, dataPath);
+
+    // setup VectorData object
+    auto columnVectorData = NWB::VectorData(dataPath, recordIo);
+    columnVectorData.initialize(std::move(columnDataset), description);
+
+    // setup VectorDataTyped<int> object
+    auto vectorDataTyped = NWB::VectorDataTyped<int>(dataPath, recordIo);
+
+    // Test recordData method
+    auto dataRecorder = vectorDataTyped.recordData();
+    REQUIRE(dataRecorder != nullptr);
+
+    recordIo->close();
+  }
+
   io->close();
 }  // TEST_CASE("VectorDataTyped", "[base]")

@@ -76,4 +76,34 @@ TEST_CASE("ElementIdentifiers", "[base]")
     auto dataBlockInt = dataData->values();
     REQUIRE(dataBlockInt.data == data);
   }
+
+  SECTION("test record methods from DEFINE_DATASET_FIELD")
+  {
+    // Prepare test data
+    SizeType numSamples = 10;
+    std::string dataPath = "/element_identifiers_record_test";
+    SizeArray dataShape = {numSamples};
+    SizeArray chunking = {numSamples};
+    BaseDataType dataType = BaseDataType::I32;
+    std::string path = getTestFilePath("testElementIdentifiersRecord.h5");
+
+    // Create the HDF5 file to write to
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    // create BaseRecordingData to pass to Data.initialize
+    IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
+    std::unique_ptr<BaseRecordingData> columnDataset =
+        io->createArrayDataSet(config, dataPath);
+
+    // setup ElementIdentifiers object
+    auto elementIdentifiers = NWB::ElementIdentifiers(dataPath, io);
+    elementIdentifiers.initialize(std::move(columnDataset));
+
+    // Test recordData method
+    auto dataRecorder = elementIdentifiers.recordData();
+    REQUIRE(dataRecorder != nullptr);
+
+    io->close();
+  }
 }
