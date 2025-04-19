@@ -136,7 +136,7 @@
  *
  * \snippet tests/examples/testWorkflowExamples.cpp example_workflow_advanced_snippet
  *
- * \subsection advanced_recording_workflow_reset Reseting the recording position
+ * \subsection advanced_recording_workflow_reset Resetting the recording position
  *
  * If for some reason we want to reset the recording (to overwrite already recorded values)
  * we can do so for individual datasets by setting `reset=true` when retrieving the 
