@@ -32,15 +32,14 @@ public:
   /**
    *  @brief Initialize the dataset for the Data object
    *
-   *  This functions takes ownership of the passed rvalue unique_ptr and moves
-   *  ownership to its internal m_dataset variable
+   *  This function creates a dataset using the provided configuration
    *
-   * @param dataset The rvalue unique pointer to the BaseRecordingData object
+   * @param dataConfig The configuration for the dataset
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status initialize(std::unique_ptr<IO::BaseRecordingData>&& dataset)
+  Status initialize(const IO::ArrayDataSetConfig& dataConfig)
   {
-    m_dataset = std::move(dataset);
+    m_io->createArrayDataSet(dataConfig, this->m_path);
     // setup common attributes
     Status commonAttrsStatus = m_io->createCommonNWBAttributes(
         m_path, this->getNamespace(), this->getTypeName());
@@ -48,9 +47,9 @@ public:
   }
 
   /**
-   * @brief Check whether the m_dataset has been initialized
+   * @brief Check whether the dataset has been initialized
    */
-  inline bool isInitialized() { return m_dataset != nullptr; }
+  inline bool isInitialized() { return this->readData()->exists(); }
 
   // Define the data fields to expose for lazy read access
   DEFINE_DATASET_FIELD(readData, recordData, std::any, "", The main data)
@@ -64,8 +63,6 @@ public:
                          std::string,
                          "namespace",
                          The name of the namespace)
-
-  std::unique_ptr<IO::BaseRecordingData> m_dataset;
 };
 
 /**

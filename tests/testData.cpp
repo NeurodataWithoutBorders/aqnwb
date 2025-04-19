@@ -36,17 +36,15 @@ TEST_CASE("Data", "[base]")
     BaseDataType dataType = BaseDataType::I32;
     std::vector<int> data = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
-    // create BaseRecordingData to pass to Data.initialize
+    // create config for Data.initialize
     IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
-    std::unique_ptr<BaseRecordingData> columnDataset =
-        io->createArrayDataSet(config, dataPath);
 
     // setup Data object
     auto columnData = NWB::Data(dataPath, io);
-    columnData.initialize(std::move(columnDataset));
+    columnData.initialize(config);
 
     // Write data to file
-    Status writeStatus = columnData.m_dataset->writeDataBlock(
+    Status writeStatus = columnData.recordData()->writeDataBlock(
         dataShape, positionOffset, dataType, data.data());
     REQUIRE(writeStatus == Status::Success);
     io->flush();
@@ -85,12 +83,10 @@ TEST_CASE("Data", "[base]")
 
     // Create and initialize the dataset
     IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
-    std::unique_ptr<BaseRecordingData> columnDataset =
-        recordIo->createArrayDataSet(config, dataPath);
 
     // setup Data object
     auto data = NWB::Data(dataPath, recordIo);
-    data.initialize(std::move(columnDataset));
+    data.initialize(config);
 
     // Test recordData method
     auto dataRecorder = data.recordData();
@@ -120,18 +116,15 @@ TEST_CASE("DataTyped", "[base]")
     BaseDataType dataType = BaseDataType::I32;
     std::vector<int> data = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
-    // create BaseRecordingData to pass to Data.initialize
+    // create config for Data.initialize
     IO::ArrayDataSetConfig config {dataType, dataShape, chunking};
-
-    std::unique_ptr<BaseRecordingData> columnDataset =
-        io->createArrayDataSet(config, dataPath);
 
     // setup Data object
     auto columnData = NWB::Data(dataPath, io);
-    columnData.initialize(std::move(columnDataset));
+    columnData.initialize(config);
 
     // Write data to file
-    Status writeStatus = columnData.m_dataset->writeDataBlock(
+    Status writeStatus = columnData.recordData()->writeDataBlock(
         dataShape, positionOffset, dataType, data.data());
     REQUIRE(writeStatus == Status::Success);
     io->flush();
@@ -168,17 +161,15 @@ TEST_CASE("DataTyped", "[base]")
     std::vector<double> data = {
         1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8, 9.9, 10.1};
 
-    // create BaseRecordingData to pass to Data.initialize
+    // create config for Data.initialize
     IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
-    std::unique_ptr<BaseRecordingData> columnDataset =
-        io->createArrayDataSet(config, dataPath);
 
     // setup Data object
     auto columnData = NWB::Data(dataPath, io);
-    columnData.initialize(std::move(columnDataset));
+    columnData.initialize(config);
 
     // Write data to file
-    Status writeStatus = columnData.m_dataset->writeDataBlock(
+    Status writeStatus = columnData.recordData()->writeDataBlock(
         dataShape, positionOffset, dataType, data.data());
     REQUIRE(writeStatus == Status::Success);
     io->flush();
@@ -223,17 +214,15 @@ TEST_CASE("DataTyped", "[base]")
                                      "nine",
                                      "ten"};
 
-    // create BaseRecordingData to pass to Data.initialize
+    // create config for Data.initialize
     IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
-    std::unique_ptr<BaseRecordingData> columnDataset =
-        io->createArrayDataSet(config, dataPath);
 
     // setup Data object
     auto columnData = NWB::Data(dataPath, io);
-    columnData.initialize(std::move(columnDataset));
+    columnData.initialize(config);
 
     // Write data to file
-    Status writeStatus = columnData.m_dataset->writeDataBlock(
+    Status writeStatus = columnData.recordData()->writeDataBlock(
         dataShape, positionOffset, dataType, data);
     REQUIRE(writeStatus == Status::Success);
     io->flush();
@@ -274,12 +263,10 @@ TEST_CASE("DataTyped", "[base]")
 
     // Create and initialize the dataset
     IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
-    std::unique_ptr<BaseRecordingData> columnDataset =
-        recordIo->createArrayDataSet(config, dataPath);
 
     // setup Data object
     auto columnData = NWB::Data(dataPath, recordIo);
-    columnData.initialize(std::move(columnDataset));
+    columnData.initialize(config);
 
     // setup DataTyped<int> object
     auto dataTyped = NWB::DataTyped<int>(dataPath, recordIo);

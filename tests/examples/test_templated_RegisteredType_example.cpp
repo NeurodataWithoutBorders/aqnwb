@@ -31,17 +31,15 @@ TEST_CASE("RegisterType Templated Example", "[base]")
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
 
-    // create BaseRecordingData to pass to VectorData.initialize
+    // create config for VectorData.initialize
     IO::ArrayDataSetConfig dataConfig(dataType, dataShape, chunking);
-    std::unique_ptr<BaseRecordingData> columnDataset =
-        io->createArrayDataSet(dataConfig, dataPath);
 
     // setup VectorData object
     auto columnVectorData = NWB::VectorData(dataPath, io);
-    columnVectorData.initialize(std::move(columnDataset), description);
+    columnVectorData.initialize(dataConfig, description);
 
     // Write data to file
-    Status writeStatus = columnVectorData.m_dataset->writeDataBlock(
+    Status writeStatus = columnVectorData.recordData()->writeDataBlock(
         dataShape, positionOffset, dataType, data.data());
     REQUIRE(writeStatus == Status::Success);
     io->flush();

@@ -36,17 +36,15 @@ TEST_CASE("ElementIdentifiers", "[base]")
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
 
-    // create BaseRecordingData to pass to Data.initialize
+    // create config for Data.initialize
     IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
-    std::unique_ptr<BaseRecordingData> columnDataset =
-        io->createArrayDataSet(config, dataPath);
 
     // setup Data object
     NWB::ElementIdentifiers columnData = NWB::ElementIdentifiers(dataPath, io);
-    columnData.initialize(std::move(columnDataset));
+    columnData.initialize(config);
 
     // Write data to file
-    Status writeStatus = columnData.m_dataset->writeDataBlock(
+    Status writeStatus = columnData.recordData()->writeDataBlock(
         dataShape, positionOffset, dataType, data.data());
     REQUIRE(writeStatus == Status::Success);
     io->flush();
@@ -91,14 +89,12 @@ TEST_CASE("ElementIdentifiers", "[base]")
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
 
-    // create BaseRecordingData to pass to Data.initialize
+    // create config for Data.initialize
     IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
-    std::unique_ptr<BaseRecordingData> columnDataset =
-        io->createArrayDataSet(config, dataPath);
 
     // setup ElementIdentifiers object
     auto elementIdentifiers = NWB::ElementIdentifiers(dataPath, io);
-    elementIdentifiers.initialize(std::move(columnDataset));
+    elementIdentifiers.initialize(config);
 
     // Test recordData method
     auto dataRecorder = elementIdentifiers.recordData();

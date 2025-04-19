@@ -39,17 +39,15 @@ TEST_CASE("VectorData", "[base]")
     std::vector<int> data = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     std::string description = "Test VectorData";
 
-    // create BaseRecordingData to pass to VectorData.initialize
+    // create config for VectorData.initialize
     IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
-    std::unique_ptr<BaseRecordingData> columnDataset =
-        io->createArrayDataSet(config, dataPath);
 
     // setup VectorData object
     auto columnVectorData = NWB::VectorData(dataPath, io);
-    columnVectorData.initialize(std::move(columnDataset), description);
+    columnVectorData.initialize(config, description);
 
     // Write data to file
-    Status writeStatus = columnVectorData.m_dataset->writeDataBlock(
+    Status writeStatus = columnVectorData.recordData()->writeDataBlock(
         dataShape, positionOffset, dataType, data.data());
     REQUIRE(writeStatus == Status::Success);
     io->flush();
@@ -101,17 +99,15 @@ TEST_CASE("VectorData", "[base]")
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
 
-    // create BaseRecordingData to pass to VectorData.initialize
+    // create config for VectorData.initialize
     IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
-    std::unique_ptr<BaseRecordingData> columnDataset =
-        io->createArrayDataSet(config, dataPath);
 
     // setup VectorData object
     auto columnVectorData = NWB::VectorData(dataPath, io);
-    columnVectorData.initialize(std::move(columnDataset), description);
+    columnVectorData.initialize(config, description);
 
     // Write data to file
-    Status writeStatus = columnVectorData.m_dataset->writeDataBlock(
+    Status writeStatus = columnVectorData.recordData()->writeDataBlock(
         dataShape, positionOffset, dataType, data.data());
     REQUIRE(writeStatus == Status::Success);
     io->flush();
@@ -138,14 +134,12 @@ TEST_CASE("VectorData", "[base]")
     BaseDataType dataType = BaseDataType::I32;
     std::string description = "Test VectorData record method";
 
-    // create BaseRecordingData to pass to VectorData.initialize
+    // create config for VectorData.initialize
     IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
-    std::unique_ptr<BaseRecordingData> columnDataset =
-        io->createArrayDataSet(config, dataPath);
 
     // setup VectorData object
     auto columnVectorData = NWB::VectorData(dataPath, io);
-    columnVectorData.initialize(std::move(columnDataset), description);
+    columnVectorData.initialize(config, description);
 
     // Test recordData method
     auto dataRecorder = columnVectorData.recordData();
@@ -174,17 +168,15 @@ TEST_CASE("VectorDataTyped", "[base]")
     std::vector<int> data = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     std::string description = "Test VectorDataTyped with int";
 
-    // create BaseRecordingData to pass to VectorData.initialize
+    // create config for VectorData.initialize
     IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
-    std::unique_ptr<BaseRecordingData> columnDataset =
-        io->createArrayDataSet(config, dataPath);
 
     // setup VectorData object
     auto columnVectorData = NWB::VectorData(dataPath, io);
-    columnVectorData.initialize(std::move(columnDataset), description);
+    columnVectorData.initialize(config, description);
 
     // Write data to file
-    Status writeStatus = columnVectorData.m_dataset->writeDataBlock(
+    Status writeStatus = columnVectorData.recordData()->writeDataBlock(
         dataShape, positionOffset, dataType, data.data());
     REQUIRE(writeStatus == Status::Success);
     io->flush();
@@ -258,17 +250,15 @@ TEST_CASE("VectorDataTyped", "[base]")
         1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8, 9.9, 10.1};
     std::string description = "Test VectorDataTyped with double";
 
-    // create BaseRecordingData to pass to VectorData.initialize
+    // create config for VectorData.initialize
     IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
-    std::unique_ptr<BaseRecordingData> columnDataset =
-        io->createArrayDataSet(config, dataPath);
 
     // setup VectorData object
     auto columnVectorData = NWB::VectorData(dataPath, io);
-    columnVectorData.initialize(std::move(columnDataset), description);
+    columnVectorData.initialize(config, description);
 
     // Write data to file
-    Status writeStatus = columnVectorData.m_dataset->writeDataBlock(
+    Status writeStatus = columnVectorData.recordData()->writeDataBlock(
         dataShape, positionOffset, dataType, data.data());
     REQUIRE(writeStatus == Status::Success);
     io->flush();
@@ -350,17 +340,15 @@ TEST_CASE("VectorDataTyped", "[base]")
                                      "ten"};
     std::string description = "Test VectorDataTyped with string";
 
-    // create BaseRecordingData to pass to VectorData.initialize
+    // create config for VectorData.initialize
     IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
-    std::unique_ptr<BaseRecordingData> columnDataset =
-        io->createArrayDataSet(config, dataPath);
 
     // setup VectorData object
     auto columnVectorData = NWB::VectorData(dataPath, io);
-    columnVectorData.initialize(std::move(columnDataset), description);
+    columnVectorData.initialize(config, description);
 
     // Write data to file
-    Status writeStatus = columnVectorData.m_dataset->writeDataBlock(
+    Status writeStatus = columnVectorData.recordData()->writeDataBlock(
         dataShape, positionOffset, dataType, data);
     REQUIRE(writeStatus == Status::Success);
     io->flush();
@@ -436,14 +424,12 @@ TEST_CASE("VectorDataTyped", "[base]")
     BaseDataType dataType = BaseDataType::I32;
     std::string description = "Test VectorDataTyped record method";
 
-    // create BaseRecordingData to pass to VectorData.initialize
+    // create config for VectorData.initialize
     IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
-    std::unique_ptr<BaseRecordingData> columnDataset =
-        recordIo->createArrayDataSet(config, dataPath);
 
     // setup VectorData object
     auto columnVectorData = NWB::VectorData(dataPath, recordIo);
-    columnVectorData.initialize(std::move(columnDataset), description);
+    columnVectorData.initialize(config, description);
 
     // setup VectorDataTyped<int> object
     auto vectorDataTyped = NWB::VectorDataTyped<int>(dataPath, recordIo);

@@ -30,19 +30,48 @@ public:
   virtual ~VectorData() override {}
 
   /**
+   * @brief Create a VectorData object with a reference dataset
+   *
+   * @param path The path of the container
+   * @param io A shared pointer to the IO object
+   * @param description The description of the VectorData
+   * @param references The vector of references
+   * @return A shared pointer to the created VectorData object, or nullptr if
+   * creation failed
+   */
+  static std::shared_ptr<VectorData> createReferenceVectorData(
+      const std::string& path,
+      std::shared_ptr<IO::BaseIO> io,
+      const std::string& description,
+      const std::vector<std::string>& references)
+  {
+    Status dataStatus = io->createReferenceDataSet(path, references);
+    if (dataStatus != Status::Success) {
+      return nullptr;
+    }
+
+    auto vectorData = std::make_shared<VectorData>(path, io);
+    Status attrStatus = io->createAttribute(description, path, "description");
+    if (attrStatus != Status::Success) {
+      return nullptr;
+    }
+
+    return vectorData;
+  }
+
+  /**
    *  @brief Initialize the dataset for the VectorData object
    *
-   *  This functions takes ownership of the passed rvalue unique_ptr and moves
-   *  ownership to its internal m_dataset variable
+   *  This function creates a dataset using the provided configuration
    *
-   * @param dataset The rvalue unique pointer to the BaseRecordingData object
+   * @param dataConfig The configuration for the dataset
    * @param description The description of the VectorData
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status initialize(std::unique_ptr<IO::BaseRecordingData>&& dataset,
+  Status initialize(const IO::ArrayDataSetConfig& dataConfig,
                     const std::string& description)
   {
-    Status dataStatus = Data::initialize(std::move(dataset));
+    Status dataStatus = Data::initialize(dataConfig);
     Status attrStatus =
         m_io->createAttribute(description, m_path, "description");
     return dataStatus && attrStatus;
