@@ -91,7 +91,7 @@ public:
    * @brief Clear the BaseRecordingData object cache to reset the recording
    * state
    */
-  inline void clearCacheRecordingData() { this->m_recordingDataCache.clear(); }
+  inline void clearRecordingDataCache() { this->m_recordingDataCache.clear(); }
 
   /**
    * @brief Get the cache of BaseRecordingData objects

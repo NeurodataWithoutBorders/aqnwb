@@ -383,7 +383,7 @@ TEST_CASE("RegisterType", "[base]")
     io->close();
   }
 
-  SECTION("test dataset caching")
+  SECTION("test BaseRecordingData caching")
   {
     std::string filename = getTestFilePath("testDatasetCaching.h5");
     std::shared_ptr<BaseIO> io = std::make_unique<IO::HDF5::HDF5IO>(filename);
@@ -401,24 +401,58 @@ TEST_CASE("RegisterType", "[base]")
     const std::vector<float> datasetValues = {1.0f, 2.0f, 3.0f};
 
     // Write test data
+    std::string datasetPath = examplePath + "/test_dataset";
     IO::ArrayDataSetConfig datasetConfig(
         BaseDataType::F32, SizeArray {3}, SizeArray {3});
     auto datasetRecordingData =
-        io->createArrayDataSet(datasetConfig, examplePath + "/test_dataset");
-    datasetRecordingData->writeDataBlock(
+        io->createArrayDataSet(datasetConfig, datasetPath);
+    auto dataset1 = testInstance->recordDataset();
+    dataset1->writeDataBlock(
         SizeArray {3}, SizeArray {0}, BaseDataType::F32, datasetValues.data());
 
     // Call recordDataset() multiple times and verify the same object is
     // returned
-    auto dataset1 = testInstance->recordDataset();
     auto dataset2 = testInstance->recordDataset();
     auto dataset3 = testInstance->recordDataset();
 
     // Check that all three calls return the same object (by comparing memory
     // addresses)
     REQUIRE(dataset1.get() == dataset2.get());
+    REQUIRE(dataset1->getPosition() == dataset2->getPosition());
     REQUIRE(dataset2.get() == dataset3.get());
+    REQUIRE(dataset3->getPosition() == dataset3->getPosition());
     REQUIRE(dataset1.get() == dataset3.get());
+    REQUIRE(dataset1->getPosition() == dataset3->getPosition());
+
+    // Check that we can explicitly reset the position
+    auto dataset4 = testInstance->recordDataset(true);
+    REQUIRE(dataset4.get() != dataset1.get());
+    REQUIRE(dataset4->getPosition() != dataset1->getPosition());
+
+    // Write some more data to overwrite the previous data
+    dataset4->writeDataBlock(
+        SizeArray {3}, SizeArray {0}, BaseDataType::F32, datasetValues.data());
+
+    // Check that the cache is not empty
+    auto cachedData = testInstance->getCacheRecordingData();
+    REQUIRE(cachedData.size() == 1);
+    // Check that the cached data is the same as the last dataset
+    auto checkCachedValue = cachedData.find(datasetPath);
+    REQUIRE(checkCachedValue != cachedData.end());
+    REQUIRE(checkCachedValue->second.get() == dataset4.get());
+
+    // Cleare the cache
+    testInstance->clearRecordingDataCache();
+
+    // Check that the cache is empty
+    cachedData = testInstance->getCacheRecordingData();
+    REQUIRE(cachedData.empty());
+
+    // Get a new dataset instance and check that it is not the same as the
+    // previous one
+    auto dataset5 = testInstance->recordDataset();
+    REQUIRE(dataset5.get() != dataset4.get());
+    REQUIRE(dataset5->getPosition() != dataset4->getPosition());
 
     io->close();
   }
