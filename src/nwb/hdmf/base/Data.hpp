@@ -39,7 +39,10 @@ public:
    */
   Status initialize(const IO::ArrayDataSetConfig& dataConfig)
   {
-    m_io->createArrayDataSet(dataConfig, this->m_path);
+    auto dataset = m_io->createArrayDataSet(dataConfig, this->m_path);
+    if (dataset == nullptr) {
+      return Status::Failure;
+    }
     // setup common attributes
     Status commonAttrsStatus = m_io->createCommonNWBAttributes(
         m_path, this->getNamespace(), this->getTypeName());

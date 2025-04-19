@@ -51,8 +51,10 @@ public:
     }
 
     auto vectorData = std::make_shared<VectorData>(path, io);
+    Status commonAttrsStatus = io->createCommonNWBAttributes(
+        path, vectorData->getNamespace(), vectorData->getTypeName());
     Status attrStatus = io->createAttribute(description, path, "description");
-    if (attrStatus != Status::Success) {
+    if ((attrStatus && commonAttrsStatus) != Status::Success) {
       return nullptr;
     }
 

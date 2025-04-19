@@ -44,7 +44,8 @@ Status DynamicTable::addColumn(std::unique_ptr<VectorData>& vectorData,
                                const std::vector<std::string>& values)
 {
   if (!vectorData->isInitialized()) {
-    std::cerr << "VectorData dataset is not initialized" << std::endl;
+    std::cerr << "VectorData dataset is not initialized "
+              << vectorData->getPath() << std::endl;
     return Status::Failure;
   } else {
     // Write all strings in a single block
