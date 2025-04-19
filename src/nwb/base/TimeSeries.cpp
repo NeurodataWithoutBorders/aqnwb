@@ -19,8 +19,6 @@ std::map<TimeSeries::ContinuityType, std::string>
 /** Constructor */
 TimeSeries::TimeSeries(const std::string& path, std::shared_ptr<IO::BaseIO> io)
     : Container(path, io)
-    , timestamps(nullptr)
-    , starting_time(nullptr)
 {
 }
 
@@ -88,32 +86,28 @@ void TimeSeries::initialize(const IO::ArrayDataSetConfig& dataConfig,
   m_io->createAttribute(comments, m_path, "comments");
 
   // setup data datasets
-  this->data = std::unique_ptr<IO::BaseRecordingData>(
-      m_io->createArrayDataSet(dataConfig, AQNWB::mergePaths(m_path, "data")));
+  m_io->createArrayDataSet(dataConfig, AQNWB::mergePaths(m_path, "data"));
   this->createDataAttributes(
       m_path, conversion, resolution, offset, unit, continuity);
 
   // setup timestamps datasets
   if (startingTime < 0) {
-    this->starting_time = nullptr;
     // timestamps match data along first dimension
     SizeArray tsDsetSize = {dataConfig.getShape()[0]};
     SizeArray tsChunkSize = {dataConfig.getChunking()[0]};
     IO::ArrayDataSetConfig timestampsConfig(
         this->timestampsType, tsDsetSize, tsChunkSize);
-    this->timestamps =
-        std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet(
-            timestampsConfig, AQNWB::mergePaths(m_path, "timestamps")));
+    m_io->createArrayDataSet(timestampsConfig,
+                             AQNWB::mergePaths(m_path, "timestamps"));
     this->createTimestampsAttributes(m_path);
   } else  // setup starting_time datasets
   {
-    this->timestamps = nullptr;
     std::string startingTimePath = AQNWB::mergePaths(m_path, "starting_time");
     IO::ArrayDataSetConfig startingTimeConfig(
         AQNWB::IO::BaseDataType::F64, {1}, {1});
-    this->starting_time =
-        m_io->createArrayDataSet(startingTimeConfig, startingTimePath);
-    this->starting_time->writeDataBlock(
+    m_io->createArrayDataSet(startingTimeConfig, startingTimePath);
+    auto startingTimeRecorder = this->recordStartingTime();
+    startingTimeRecorder->writeDataBlock(
         {1}, AQNWB::IO::BaseDataType::F64, &startingTime);
     m_io->createAttribute(AQNWB::IO::BaseDataType::F32,
                           &startingTimeRate,
@@ -129,9 +123,8 @@ void TimeSeries::initialize(const IO::ArrayDataSetConfig& dataConfig,
     SizeArray controlChunkSize = {dataConfig.getChunking()[0]};
     IO::ArrayDataSetConfig controlConfig(
         AQNWB::IO::BaseDataType::U8, controlDsetSize, controlChunkSize);
-    this->control =
-        std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet(
-            controlConfig, AQNWB::mergePaths(m_path, "control")));
+    m_io->createArrayDataSet(controlConfig,
+                             AQNWB::mergePaths(m_path, "control"));
 
     // control_description is its own data and contains for each control value
     // a string description
@@ -144,17 +137,13 @@ void TimeSeries::initialize(const IO::ArrayDataSetConfig& dataConfig,
         controlDesriptionType,
         controlDescriptionShape,
         controlDescriptionChunkSize);
-    this->control_description =
-        std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet(
-            controlDescriptionConfig,
-            AQNWB::mergePaths(m_path, "control_description")));
-    this->control_description->writeDataBlock(controlDescriptionShape,
-                                              controlDescriptionPositionOffset,
-                                              controlDesriptionType,
-                                              controlDescription);
-  } else {
-    this->control = nullptr;
-    this->control_description = nullptr;
+    m_io->createArrayDataSet(controlDescriptionConfig,
+                             AQNWB::mergePaths(m_path, "control_description"));
+    auto controlDescriptionRecorder = this->recordControlDescription();
+    controlDescriptionRecorder->writeDataBlock(controlDescriptionShape,
+                                               controlDescriptionPositionOffset,
+                                               controlDesriptionType,
+                                               controlDescription);
   }
 }
 
@@ -170,14 +159,16 @@ Status TimeSeries::writeData(const std::vector<SizeType>& dataShape,
     // timestamps should match shape of the first data dimension
     const std::vector<SizeType> timestampsShape = {dataShape[0]};
     const std::vector<SizeType> timestampsPositionOffset = {positionOffset[0]};
-    tsStatus = this->timestamps->writeDataBlock(timestampsShape,
-                                                timestampsPositionOffset,
-                                                this->timestampsType,
-                                                timestampsInput);
+    auto timestampsRecorder = this->recordTimestamps();
+    tsStatus = timestampsRecorder->writeDataBlock(timestampsShape,
+                                                  timestampsPositionOffset,
+                                                  this->timestampsType,
+                                                  timestampsInput);
   }
 
   // Write the data
-  Status dataStatus = this->data->writeDataBlock(
+  auto dataRecorder = this->recordData();
+  Status dataStatus = dataRecorder->writeDataBlock(
       dataShape, positionOffset, this->m_dataType, dataInput);
 
   // Write the control data if it exists
@@ -185,7 +176,8 @@ Status TimeSeries::writeData(const std::vector<SizeType>& dataShape,
     // control should match shape of the first data dimension
     const std::vector<SizeType> controlShape = {dataShape[0]};
     const std::vector<SizeType> controlPositionOffset = {positionOffset[0]};
-    tsStatus = this->control->writeDataBlock(
+    auto controlRecorder = this->recordControl();
+    tsStatus = controlRecorder->writeDataBlock(
         controlShape, controlPositionOffset, this->controlType, controlInput);
   }
 
