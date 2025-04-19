@@ -441,7 +441,7 @@ TEST_CASE("RegisterType", "[base]")
     REQUIRE(checkCachedValue != cachedData.end());
     REQUIRE(checkCachedValue->second.get() == dataset4.get());
 
-    // Cleare the cache
+    // Clear the cache
     testInstance->clearRecordingDataCache();
 
     // Check that the cache is empty
