@@ -82,9 +82,8 @@ def render_define_registered_field(
     return re
 
 
-def render_define_field(
+def render_define_attribute_field(
     field_name: str,
-    field_type: str,
     dtype: str,
     doc: str,
     field_parent: str = "",
@@ -92,11 +91,10 @@ def render_define_field(
     is_overridden: bool = False,
 ) -> str:
     """
-    Return string for DEFINE_FIELD macro.
+    Return string for DEFINE_ATTRIBUTE_FIELD macro.
 
     Parameters:
     field_name (str): Name of the field to use for generating the function name
-    field_type (str): One of DatasetField or AttributeField.
     dtype (str): C++ data type to use by default for read.
     doc (str): Documentation string to use for the field.
     field_parent: The name of the parent object
@@ -116,9 +114,8 @@ def render_define_field(
     if is_overridden:
         re += f"    // {field_name} overrides inherited field from parent neurodata_type\n"
 
-    re += "    DEFINE_FIELD(\n"
+    re += "    DEFINE_ATTRIBUTE_FIELD(\n"
     re += f"        read{field_full_name},\n"
-    re += f"        {field_type},\n"
     re += f"        {dtype},\n"
     re += f'        "{field_path}",\n'
     re += f"        {doc_string})\n"
@@ -126,6 +123,47 @@ def render_define_field(
         re += "    */\n"
     return re
 
+def render_define_dataset_field(
+    field_name: str,
+    dtype: str,
+    doc: str,
+    field_parent: str = "",
+    is_inherited: bool = False,
+    is_overridden: bool = False,
+) -> str:
+    """
+    Return string for DEFINE_DATASET_FIELD macro.
+
+    Parameters:
+    field_name (str): Name of the field to use for generating the function name
+    dtype (str): C++ data type to use by default for read.
+    doc (str): Documentation string to use for the field.
+    field_parent: The name of the parent object
+    is_inherited (bool): Indicates whether the field is inherited from the parent
+    is_overridden (bool): Indicates wheterh the field overrides a field from the parent
+
+    Returns:
+    str: A string representing the DEFINE_FIELD macro.
+    """
+    field_path = field_name if field_parent == "" else (field_parent + "/" + field_name)
+    field_full_name = f"{snake_to_camel(field_parent)}{snake_to_camel(field_name)}"
+    doc_string = doc.replace('"', "").replace("'", "")
+    re = ""
+    if is_inherited and not is_overridden:
+        re += "    /*\n"
+        re += f"    // {field_name} inherited from parent neurodata_type\n"
+    if is_overridden:
+        re += f"    // {field_name} overrides inherited field from parent neurodata_type\n"
+
+    re += "    DEFINE_DATASET_FIELD(\n"
+    re += f"        read{field_full_name},\n"
+    re += f"        record{field_full_name},\n"    
+    re += f"        {dtype},\n"
+    re += f'        "{field_path}",\n'
+    re += f"        {doc_string})\n"
+    if is_inherited and not is_overridden:
+        re += "    */\n"
+    return re
 
 def render_initalize_method(
     class_name: str,
@@ -599,9 +637,10 @@ public:
     def is_commented_field_def(input_field: str) -> bool:
         """
         Internal helper function ot check if a DEFINE_FIELD or DEFINE_REGISTERED_FIELD
-        definition created via the render_define_field and render_registered_field
-        methods has been commented out. This is used to be able to collect commented
-        fields such that they can be added at the end rather than intermixed with other fields.
+        definition created via the render_define_attribute_field, render_define_dataset_field,
+        or render_registered_field methods has been commented out. This is used to be able to 
+        collect commented fields such that they can be added at the end rather than intermixed
+        with other fields.
         """
         lines = input_field.split("\n")
         if len(lines) > 0:
@@ -612,10 +651,9 @@ public:
     for attr in attributes:
         attr_name = attr.name
         doc = attr.get("doc", "No documentation provided").replace("\n", " ")
-        fieldDef = render_define_field(
+        fieldDef = render_define_attribute_field(
             field_name=attr_name,
-            field_type="AQNWB::NWB::AttributeField",
-            dtype=get_cpp_type(attr.dtype),
+             dtype=get_cpp_type(attr.dtype),
             doc=doc,
             is_inherited=neurodata_type.is_inherited_spec(attr),
             is_overridden=neurodata_type.is_overridden_spec(attr),
@@ -623,7 +661,7 @@ public:
         if is_commented_field_def(fieldDef):
             commented_fields.append(fieldDef)
         else:
-            header += fieldDef
+            header += fieldDef + "\n"
 
     # Add fields for datasets
     for dataset in datasets:
@@ -638,9 +676,8 @@ public:
                 is_overridden=neurodata_type.is_overridden_spec(dataset),
             )
         else:
-            fieldDef = render_define_field(
+            fieldDef = render_define_dataset_field(
                 field_name=dataset_name,
-                field_type="AQNWB::NWB::DatasetField",
                 dtype=get_cpp_type(dataset.dtype),
                 doc=doc,
                 is_inherited=neurodata_type.is_inherited_spec(dataset),
@@ -649,13 +686,12 @@ public:
         if is_commented_field_def(fieldDef):
             commented_fields.append(fieldDef)
         else:
-            header += fieldDef
+            header += fieldDef + "\n"
 
         for attr in dataset.get("attributes", []):
             doc = attr.get("doc", "No documentation provided").replace("\n", " ")
-            fieldDef = render_define_field(
+            fieldDef = render_define_attribute_field(
                 field_name=attr.name,
-                field_type="AQNWB::NWB::AttributeField",
                 dtype=get_cpp_type(attr.dtype),
                 doc=doc,
                 field_parent=dataset_name,
@@ -665,7 +701,7 @@ public:
             if is_commented_field_def(fieldDef):
                 commented_fields.append(fieldDef)
             else:
-                header += fieldDef
+                header += fieldDef + "\n"
 
     # Add fields for groups
     for group in groups:
@@ -682,7 +718,7 @@ public:
             if is_commented_field_def(fieldDef):
                 commented_fields.append(fieldDef)
             else:
-                header += fieldDef
+                header += fieldDef +"\n"
         else:
             # TODO Groups without a type are just containers for fields that should be
             #      exposed directly via the parent neurodata_type. To do this we would need
@@ -695,7 +731,7 @@ public:
         header += "    // TODO: The following fields have been commented because they should have been inherited from the parent class.\n"
         header += "    //       They are included here for your convenience so you can decide which fields may still need be defined here.\n"
         for fieldDef in commented_fields:
-            header += fieldDef
+            header += fieldDef +"\n"
 
     # Add REGISTER_SUBCLASS macro
     header += f"""
