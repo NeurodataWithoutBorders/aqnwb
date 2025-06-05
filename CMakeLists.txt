@@ -39,6 +39,7 @@ add_library(
     src/nwb/hdmf/table/DynamicTable.cpp
     src/nwb/hdmf/table/VectorData.cpp
     src/nwb/hdmf/table/ElementIdentifiers.cpp
+    src/spec/NamespaceRegistry.cpp
 )
 
 add_library(aqnwb::aqnwb ALIAS aqnwb_aqnwb)
