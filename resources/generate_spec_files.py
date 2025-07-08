@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 def load_file(filepath: Path) -> Union[Dict, List]:
     """
-    Load a YAML or JSON file and return its content.
+    Load a YAML schema file and return its content.
     
     Args:
         filepath (Path): Path to the file.
@@ -27,13 +27,6 @@ def load_file(filepath: Path) -> Union[Dict, List]:
                 return yaml.load(f)
         except Exception as e:
             logger.error(f"Failed to load YAML file {filepath}: {e}")
-            raise
-    elif filepath.suffix == '.json':
-        try:
-            with open(filepath) as f:
-                return json.load(f)
-        except Exception as e:
-            logger.error(f"Failed to load JSON file {filepath}: {e}")
             raise
     else:
         logger.error(f"Unsupported file type for {filepath}")
@@ -86,7 +79,7 @@ def process_schema_file(schema_file: Path, header_file: Path, var_names: List[st
         return
 
     json_str = json.dumps(spec, separators=(',', ':'))
-    var_name = schema_file.stem.replace('.', '_')
+    var_name = schema_file.stem.replace('.yaml', '').replace('.', '_')
     if len(json_str) > chunk_size:
         chunks = [json_str[i:i + chunk_size] for i in range(0, len(json_str), chunk_size)]
         chunk_var_names = []
@@ -148,7 +141,7 @@ def process_namespace_file(namespace_file: Path, output_dir: Path, chunk_size: i
                 schema_file = namespace_file.parent / s['source']
                 # If the schem file is missing, check if it was converted to JSON/YAML
                 if not os.path.exists(schema_file):
-                    for ext in ['.yaml', '.yml', '.json']:
+                    for ext in ['.yaml', '.yml']:
                         temppath =  schema_file.with_suffix(ext)
                         if os.path.exists(temppath):
                             schema_file = temppath
@@ -168,7 +161,7 @@ def process_schema_files(schema_dir: Path, output_dir: Path, chunk_size: int) ->
     """
     logger.info(f"Starting to process schema files in directory: {schema_dir}")
     for file in schema_dir.rglob(r"*namespace.*"):
-        if file.suffix in ['.yaml', '.yml', '.json']:
+        if file.suffix in ['.yaml', '.yml']:
             process_namespace_file(file, output_dir, chunk_size)
     logger.info(f"Finished processing schema files in directory: {schema_dir}")
 
