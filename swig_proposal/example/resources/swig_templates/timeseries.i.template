@@ -1,0 +1,30 @@
+// Auto-generated SWIG interface for {{class_name}}
+// Generated from template: {{template_name}}
+// Provides default methods + type-specific alternatives for all BaseRecordingData types
+
+%module aqnwb_{{module_name}}
+
+%{
+#include "{{include_path}}"
+%}
+
+// Include standard SWIG libraries
+%include <std_string.i>
+%include <std_vector.i>
+%include <std_shared_ptr.i>
+%include <std_any.i>
+
+// Shared pointer declarations for referenced types
+{{shared_ptr_declarations}}
+
+// Template instantiations for macro-generated methods
+// Provides both default convenience and type-specific performance
+
+{{attribute_field_templates}}
+
+{{dataset_field_templates}}
+
+{{registered_field_templates}}
+
+// Include the actual header file
+%include "{{include_path}}"
