@@ -1,6 +1,6 @@
 var devdocs =
 [
-    [ "Installation & Setup", "dev_install_page.html", [
+    [ "Installation &amp; Setup", "dev_install_page.html", [
       [ "Requirements", "dev_install_page.html#dev_requirements_sec", null ],
       [ "Developer Build", "dev_install_page.html#devbuild_sec", null ],
       [ "Developer Presets", "dev_install_page.html#devbuild_presets_subsec", [

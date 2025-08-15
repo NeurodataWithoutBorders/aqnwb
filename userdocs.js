@@ -8,16 +8,16 @@ var userdocs =
     ] ],
     [ "Acquiring Data", "workflow.html", [
       [ "Overview of a recording workflow", "workflow.html#recording_workflow", [
-        [ "Create the I/O object.", "workflow.html#create_io", null ],
-        [ "Create the RecordingContainer object.", "workflow.html#create_recording_container", null ],
-        [ "Create the NWBFile", "workflow.html#create_nwbfile", null ],
-        [ "Create the recording metadata", "workflow.html#create_recmeta", [
+        [ "1. Create the I/O object.", "workflow.html#create_io", null ],
+        [ "2. Create the RecordingContainer object.", "workflow.html#create_recording_container", null ],
+        [ "3. Create the NWBFile", "workflow.html#create_nwbfile", null ],
+        [ "4. Create the recording metadata", "workflow.html#create_recmeta", [
           [ "Create the extracellular recording metadata", "workflow.html#create_recmeta_ecephys", null ]
         ] ],
-        [ "Create datasets and add to RecordingContainers.", "workflow.html#create_datasets", null ],
-        [ "Start the recording.", "workflow.html#start_recording", null ],
-        [ "Write data.", "workflow.html#write_data", null ],
-        [ "Stop the recording and finalize the file.", "workflow.html#stop_recording", null ]
+        [ "5. Create datasets and add to RecordingContainers.", "workflow.html#create_datasets", null ],
+        [ "6. Start the recording.", "workflow.html#start_recording", null ],
+        [ "7. Write data.", "workflow.html#write_data", null ],
+        [ "8. Stop the recording and finalize the file.", "workflow.html#stop_recording", null ]
       ] ]
     ] ],
     [ "Reading data", "read_page.html", [

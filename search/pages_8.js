@@ -1,7 +1,29 @@
 var searchData=
 [
-  ['o_0',['HDF5 I/O',['../hdf5io.html',1,'userdocs']]],
-  ['of_20conduct_1',['Code of Conduct',['../code_of_conduct_page.html',1,'devdocs']]],
-  ['of_20data_20read_2',['Implementation of data read',['../read_design_page.html',1,'devdocs']]],
-  ['overview_3',['Overview',['../index.html',1,'']]]
+  ['a_20base_20class_20and_20templated_20child_20class_0',['Using a base class and templated child class',['../registered_type_page.html#implement_templated_registered_type_two_class',1,'']]],
+  ['a_20custom_20type_20name_1',['How to implement a RegisteredType with a custom type name',['../registered_type_page.html#using_registered_subclass_with_typename',1,'']]],
+  ['a_20new_20neurodata_20type_2',['Implementing a new Neurodata Type',['../registered_type_page.html',1,'devdocs']]],
+  ['a_20new_20type_3',['Example: Implementing a new type',['../registered_type_page.html#implement_registered_type_example',1,'']]],
+  ['a_20recording_20workflow_4',['Overview of a recording workflow',['../workflow.html#recording_workflow',1,'']]],
+  ['a_20registeredtype_5',['How to Implement a RegisteredType',['../registered_type_page.html#implement_registered_type',1,'']]],
+  ['a_20registeredtype_20with_20a_20custom_20type_20name_6',['How to implement a RegisteredType with a custom type name',['../registered_type_page.html#using_registered_subclass_with_typename',1,'']]],
+  ['a_20single_20templated_20class_7',['Using a single templated class',['../registered_type_page.html#implement_templated_registered_type_single_class',1,'']]],
+  ['acquiring_20data_8',['Acquiring Data',['../workflow.html',1,'userdocs']]],
+  ['add_20to_20recordingcontainers_9',['5. Create datasets and add to RecordingContainers.',['../workflow.html#create_datasets',1,'']]],
+  ['an_20existing_20file_20for_20reading_10',['Opening an existing file for reading',['../read_page.html#read_example_open',1,'']]],
+  ['an_20nwb_20file_20with_20swmr_20mode_11',['Writing an NWB file with SWMR mode',['../hdf5io.html#hdf5io_swmr_workflow',1,'']]],
+  ['and_20add_20to_20recordingcontainers_12',['5. Create datasets and add to RecordingContainers.',['../workflow.html#create_datasets',1,'']]],
+  ['and_20attributes_13',['and attributes',['../registered_type_page.html#use_the_define_field_macro',1,'DEFINE_FIELD: Creating read methods for datasets and attributes'],['../read_design_page.html#read_design_sec_read_date',1,'Reading datasets and attributes']]],
+  ['and_20compression_14',['I/O Filters and Compression',['../hdf5io.html#hdf5io_filters',1,'']]],
+  ['and_20finalize_20the_20file_15',['8. Stop the recording and finalize the file.',['../workflow.html#stop_recording',1,'']]],
+  ['and_20i_20o_20filters_20in_20aqnwb_16',['Using Chunking and I/O Filters in AqNWB',['../hdf5io.html#hdf5io_filters_usage',1,'']]],
+  ['and_20processing_20data_17',['Reading and Processing Data',['../read_design_page.html#read_design_example_read',1,'']]],
+  ['and_20templated_20child_20class_18',['Using a base class and templated child class',['../registered_type_page.html#implement_templated_registered_type_two_class',1,'']]],
+  ['and_20test_19',['Configure, Build and Test',['../dev_install_page.html#configure_build_test',1,'']]],
+  ['and_20writing_20data_20',['Creating and Writing Data',['../read_design_page.html#read_design_example_create',1,'']]],
+  ['aqnwb_21',['AqNWB',['../user_install_page.html',1,'Installing AqNWB'],['../hdf5io.html#hdf5io_filters_usage',1,'Using Chunking and I/O Filters in AqNWB']]],
+  ['aqnwb_20use_20smwr_20mode_22',['Why does AqNWB use SMWR mode?',['../hdf5io.html#hdf5io_swmr_features',1,'']]],
+  ['arbitrary_20fields_23',['Reading arbitrary fields',['../read_page.html#read_example_arbitrary',1,'']]],
+  ['attributes_24',['attributes',['../registered_type_page.html#use_the_define_field_macro',1,'DEFINE_FIELD: Creating read methods for datasets and attributes'],['../read_design_page.html#read_design_sec_read_date',1,'Reading datasets and attributes']]],
+  ['automated_20tests_20on_20github_25',['Automated tests on GitHub',['../testing.html#testing_github',1,'']]]
 ];

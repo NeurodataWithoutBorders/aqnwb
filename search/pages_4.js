@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['hdf5_20i_20o_0',['HDF5 I/O',['../hdf5io.html',1,'userdocs']]]
+  ['5_20create_20datasets_20and_20add_20to_20recordingcontainers_0',['5. Create datasets and add to RecordingContainers.',['../workflow.html#create_datasets',1,'']]]
 ];

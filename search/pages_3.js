@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['for_20developers_0',['For Developers',['../devdocs.html',1,'']]],
-  ['for_20users_1',['For Users',['../userdocs.html',1,'']]]
+  ['4_20create_20the_20recording_20metadata_0',['4. Create the recording metadata',['../workflow.html#create_recmeta',1,'']]]
 ];

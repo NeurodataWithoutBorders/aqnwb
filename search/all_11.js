@@ -22,7 +22,7 @@ var searchData=
   ['install_19',['Install',['../user_install_page.html#userbuild_install_sec',1,'']]],
   ['install_2edox_20',['install.dox',['../devdocs_2install_8dox.html',1,'(Global Namespace)'],['../userdocs_2install_8dox.html',1,'(Global Namespace)']]],
   ['installation_21',['Installation',['../index.html#mainpage_installation',1,'']]],
-  ['installation_20setup_22',['Installation &amp; Setup',['../dev_install_page.html',1,'devdocs']]],
+  ['installation_20setup_22',['Installation &amp;amp; Setup',['../dev_install_page.html',1,'devdocs']]],
   ['installing_20aqnwb_23',['Installing AqNWB',['../user_install_page.html',1,'userdocs']]],
   ['instantaneous_24',['Instantaneous',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ab8143e245b1f62cb147cd9ed97c84e9caae953cfd9d7f5062027b26b22e5703e9',1,'AQNWB::NWB::TimeSeries']]],
   ['isallowedstorageobjecttype_25',['isAllowedStorageObjectType',['../struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type.html',1,'AQNWB::IO']]],

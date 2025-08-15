@@ -1,5 +1,29 @@
 var searchData=
 [
-  ['testing_0',['Testing',['../testing.html',1,'devdocs']]],
-  ['type_1',['Implementing a new Neurodata Type',['../registered_type_page.html',1,'devdocs']]]
+  ['data_0',['Data',['../workflow.html',1,'Acquiring Data'],['../read_design_page.html#read_design_example_create',1,'Creating and Writing Data'],['../read_design_page.html#read_design_example_read',1,'Reading and Processing Data']]],
+  ['data_1',['data',['../workflow.html#write_data',1,'7. Write data.'],['../read_page.html',1,'Reading data']]],
+  ['data_20fields_2',['Reading predefined data fields',['../read_page.html#read_design_example_read_posthoc_read_field',1,'']]],
+  ['data_20from_20registeredtype_20objects_3',['Reading data from RegisteredType objects',['../read_page.html#read_example_read',1,'']]],
+  ['data_20layout_4',['Optimizing Data Layout',['../hdf5io.html#hdf5io_data_layout',1,'']]],
+  ['data_20read_5',['Implementation of data read',['../read_design_page.html',1,'devdocs']]],
+  ['data_20type_6',['Working with fields with unknown data type',['../read_page.html#read_example_variant_data',1,'']]],
+  ['datasets_20and_20add_20to_20recordingcontainers_7',['5. Create datasets and add to RecordingContainers.',['../workflow.html#create_datasets',1,'']]],
+  ['datasets_20and_20attributes_8',['datasets and attributes',['../registered_type_page.html#use_the_define_field_macro',1,'DEFINE_FIELD: Creating read methods for datasets and attributes'],['../read_design_page.html#read_design_sec_read_date',1,'Reading datasets and attributes']]],
+  ['define_5ffield_3a_20creating_20read_20methods_20for_20datasets_20and_20attributes_9',['DEFINE_FIELD: Creating read methods for datasets and attributes',['../registered_type_page.html#use_the_define_field_macro',1,'']]],
+  ['define_5freferenced_5fregistered_5ffield_3a_20defining_20read_20methods_20for_20references_20to_20neurodata_5ftype_20objects_10',['DEFINE_REFERENCED_REGISTERED_FIELD: Defining read methods for references to neurodata_type objects',['../registered_type_page.html#use_the_define_referenced_registered_field_macro',1,'']]],
+  ['define_5fregistered_5ffield_3a_20defining_20read_20methods_20for_20neurodata_5ftype_20objects_11',['DEFINE_REGISTERED_FIELD: Defining read methods for neurodata_type objects',['../registered_type_page.html#use_the_define_registered_field_macro',1,'']]],
+  ['defining_20read_20methods_20for_20neurodata_5ftype_20objects_12',['DEFINE_REGISTERED_FIELD: Defining read methods for neurodata_type objects',['../registered_type_page.html#use_the_define_registered_field_macro',1,'']]],
+  ['defining_20read_20methods_20for_20references_20to_20neurodata_5ftype_20objects_13',['DEFINE_REFERENCED_REGISTERED_FIELD: Defining read methods for references to neurodata_type objects',['../registered_type_page.html#use_the_define_referenced_registered_field_macro',1,'']]],
+  ['details_14',['Example Implementation Details',['../read_design_page.html#read_design_example',1,'']]],
+  ['developer_20build_15',['Developer Build',['../dev_install_page.html#devbuild_sec',1,'']]],
+  ['developer_20mode_20targets_16',['Developer Mode Targets',['../dev_install_page.html#devbuild_dev_mode_targets_subsec',1,'']]],
+  ['developer_20presets_17',['Developer Presets',['../dev_install_page.html#devbuild_presets_subsec',1,'']]],
+  ['developers_18',['For Developers',['../devdocs.html',1,'']]],
+  ['disabled_19',['Workflow with SWMR disabled',['../hdf5io.html#hdf5io_noswmr_examples_without_swmr',1,'']]],
+  ['docs_20',['Building the Docs',['../dev_docs_page.html#dev_docs_requirements_sec',1,'']]],
+  ['documentation_21',['Documentation',['../dev_docs_page.html',1,'Documentation'],['../index.html#mainpage_navigation',1,'Navigating the Documentation']]],
+  ['documentation_20pages_22',['Creating New Documentation Pages',['../dev_docs_page.html#dev_docs_creating',1,'']]],
+  ['does_20aqnwb_20use_20smwr_20mode_23',['Why does AqNWB use SMWR mode?',['../hdf5io.html#hdf5io_swmr_features',1,'']]],
+  ['dot_20graphs_24',['Creating Custom Dot Graphs',['../dev_docs_page.html#dev_docs_graphviz_sec',1,'']]],
+  ['doxygen_25',['Including Code Examples in Doxygen',['../dev_docs_page.html#dev_docs_codeexamples_incl_sec',1,'']]]
 ];

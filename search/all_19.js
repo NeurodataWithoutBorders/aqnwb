@@ -10,7 +10,7 @@ var searchData=
   ['setname_7',['setName',['../class_a_q_n_w_b_1_1_channel.html#a318b7e5071abff381940a8fab579d4e4',1,'AQNWB::Channel']]],
   ['setposition_8',['setPosition',['../class_a_q_n_w_b_1_1_channel.html#a06f8d0458adc7d2edd778e1ad9ffb628',1,'AQNWB::Channel']]],
   ['setrowids_9',['setRowIDs',['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a041703ef385d58d2ccc7dc613b4a7de7',1,'AQNWB::NWB::DynamicTable']]],
-  ['setup_10',['Installation &amp; Setup',['../dev_install_page.html',1,'devdocs']]],
+  ['setup_10',['Installation &amp;amp; Setup',['../dev_install_page.html',1,'devdocs']]],
   ['shape_11',['shape',['../class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html#a1f6ba182a7b2987f7e27dd3cedb652b6',1,'AQNWB::IO::DataBlockGeneric::shape'],['../class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#adcd06e1ef4d9ab65081f8e5ab49eec36',1,'AQNWB::IO::DataBlock::shape']]],
   ['single_20templated_20class_12',['Using a single templated class',['../registered_type_page.html#implement_templated_registered_type_single_class',1,'']]],
   ['single_20writer_20multiple_20reader_20swmr_20mode_13',['Single-Writer Multiple-Reader (SWMR) Mode',['../hdf5io.html#hdf5io_swmr',1,'']]],

@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['a_20new_20neurodata_20type_0',['Implementing a new Neurodata Type',['../registered_type_page.html',1,'devdocs']]],
-  ['acquiring_20data_1',['Acquiring Data',['../workflow.html',1,'userdocs']]],
-  ['aqnwb_2',['Installing AqNWB',['../user_install_page.html',1,'userdocs']]]
+  ['1_20create_20the_20i_20o_20object_0',['1. Create the I/O object.',['../workflow.html#create_io',1,'']]]
 ];
