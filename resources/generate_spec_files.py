@@ -54,7 +54,7 @@ def generate_header_file(ns: Dict, header_file: Path, var_names: List[str], var_
         fo.write(f'constexpr std::string_view namespaces = R"delimiter(\n{json.dumps({"namespaces": [ns]}, separators=(",", ":"))})delimiter";\n\n')
         fo.write(f'const std::vector<std::pair<std::string_view, std::string_view>>\n    specVariables {{{{\n')
         fo.write(''.join([f'  {{"{name.replace("_", ".")}", {name.replace("-", "_")}}},\n' for name in var_names]))
-        fo.write('  {"namespace", namespaces}\n\n')
+        fo.write('  {"namespace", namespaces}\n')
         fo.write(f'}}}};\n\n')
         fo.write('// Register this namespace with the global registry\n')
         fo.write('REGISTER_NAMESPACE(namespaceName, version, specVariables)\n')
@@ -139,7 +139,7 @@ def process_namespace_file(namespace_file: Path, output_dir: Path, chunk_size: i
         for s in ns['schema']:
             if 'source' in s:
                 schema_file = namespace_file.parent / s['source']
-                # If the schem file is missing, check if it was converted to JSON/YAML
+                # If the schema file is missing, check if it was converted to JSON/YAML
                 if not os.path.exists(schema_file):
                     for ext in ['.yaml', '.yml']:
                         temppath =  schema_file.with_suffix(ext)
@@ -148,6 +148,14 @@ def process_namespace_file(namespace_file: Path, output_dir: Path, chunk_size: i
                             break
                 # Process the schema file
                 process_schema_file(schema_file, header_file, var_names, var_contents, chunk_size)
+        # Reformat the schema sources for the namespace file to match PyNWB cache
+        schema = []
+        for s in ns['schema']:
+            if 'source' in s:
+                s = {'source': s['source'].split('.yaml')[0]}
+            schema.append(s)
+        ns['schema'] = schema
+        # Generate the header file for the namespace
         generate_header_file(ns, header_file, var_names, var_contents)
 
 def process_schema_files(schema_dir: Path, output_dir: Path, chunk_size: int) -> None:
