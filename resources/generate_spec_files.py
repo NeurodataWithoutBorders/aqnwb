@@ -6,6 +6,8 @@ import logging
 from typing import List, Dict, Union
 import os
 
+YAML_EXTENSIONS = {'.yaml', '.yml'}
+
 # Setup logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -20,7 +22,7 @@ def load_file(filepath: Path) -> Union[Dict, List]:
     Returns:
         dict or list: Parsed content of the file.
     """
-    if filepath.suffix in ['.yaml', '.yml']:
+    if filepath.suffix in YAML_EXTENSIONS:
         yaml = YAML(typ='safe')
         try:
             with open(filepath) as f:
@@ -138,7 +140,7 @@ def process_namespace_file(namespace_file: Path, output_dir: Path, chunk_size: i
                 schema_file = namespace_file.parent / s['source']
                 # If the schema file is missing, check if it was converted to JSON/YAML
                 if not os.path.exists(schema_file):
-                    for ext in ['.yaml', '.yml']:
+                    for ext in YAML_EXTENSIONS:
                         temppath =  schema_file.with_suffix(ext)
                         if os.path.exists(temppath):
                             schema_file = temppath
@@ -166,7 +168,7 @@ def process_schema_files(schema_dir: Path, output_dir: Path, chunk_size: int) ->
     """
     logger.info(f"Starting to process schema files in directory: {schema_dir}")
     for file in schema_dir.rglob(r"*namespace.*"):
-        if file.suffix in ['.yaml', '.yml']:
+        if file.suffix in YAML_EXTENSIONS:
             process_namespace_file(file, output_dir, chunk_size)
     logger.info(f"Finished processing schema files in directory: {schema_dir}")
 
