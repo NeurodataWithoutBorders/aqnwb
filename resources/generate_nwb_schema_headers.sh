@@ -2,11 +2,11 @@
 ###############################################################################
 # generate_nwb_schema_headers.sh
 #
-# Generate C++ header files from the latest NWB and HDMF schema definitions.
+# Generate C++ header files from the latest *release* of the NWB and HDMF schema definitions.
 #
-# This script clones the NWB and HDMF schema repositories, runs the
-# generate_spec_files.py script to generate C++ header files, and copies them
-# to src/spec.
+# This script clones the NWB and HDMF schema repositories, checks out the latest
+# tagged release in each repo, runs the generate_spec_files.py script to generate
+# C++ header files, and copies them to src/spec.
 #
 # Usage:
 #   bash resources/generate_nwb_schema_headers.sh
@@ -23,9 +23,10 @@
 # The script will:
 #   1. Create a temporary working directory.
 #   2. Clone the NWB and HDMF schema repositories.
-#   3. Run generate_spec_files.py for both schemas.
-#   4. Copy the generated .hpp files to src/spec.
-#   5. Clean up the temporary directory automatically.
+#   3. Check out the latest tagged release in each repository.
+#   4. Run generate_spec_files.py for both schemas.
+#   5. Copy the generated .hpp files to src/spec.
+#   6. Clean up the temporary directory automatically.
 #
 # Example:
 #   PYTHON=python3 bash resources/generate_nwb_schema_headers.sh
@@ -55,10 +56,32 @@ log "Created temp dir: $TMPDIR"
 
 # Clone repositories
 log "Cloning NWB schema..."
-git clone --depth 1 "$NWB_REPO" "$TMPDIR/nwb-schema"
+git clone "$NWB_REPO" "$TMPDIR/nwb-schema"
+(
+    cd "$TMPDIR/nwb-schema"
+    git fetch --tags
+    LATEST_TAG=$(git tag --sort=-v:refname | head -n1)
+    if [ -n "$LATEST_TAG" ]; then
+        log "Checking out NWB schema latest release: $LATEST_TAG"
+        git checkout "$LATEST_TAG"
+    else
+        log "No tags found in NWB schema repo, using default branch."
+    fi
+)
 
 log "Cloning HDMF common schema..."
-git clone --depth 1 "$HDMF_REPO" "$TMPDIR/hdmf-common-schema"
+git clone "$HDMF_REPO" "$TMPDIR/hdmf-common-schema"
+(
+    cd "$TMPDIR/hdmf-common-schema"
+    git fetch --tags
+    LATEST_TAG=$(git tag --sort=-v:refname | head -n1)
+    if [ -n "$LATEST_TAG" ]; then
+        log "Checking out HDMF common schema latest release: $LATEST_TAG"
+        git checkout "$LATEST_TAG"
+    else
+        log "No tags found in HDMF common schema repo, using default branch."
+    fi
+)
 
 # Output directory
 OUTDIR="$TMPDIR/generated_headers"
