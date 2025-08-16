@@ -46,13 +46,13 @@ jobs:
           echo "PWD: $PWD"
           ls -l resources
           ls -l resources/utils
-          ls -l resources/generate_spec_files.py
-          cat resources/generate_nwb_schema_headers.sh | grep SCRIPT_DIR
+          ls -l resources/utils/generate_spec_files.py
+          cat resources/utils/generate_nwb_schema_headers.sh | grep SCRIPT_DIR
 
       - name: Run generate_nwb_schema_headers.sh
         run: |
-          chmod +x resources/generate_nwb_schema_headers.sh
-          bash resources/generate_nwb_schema_headers.sh
+          chmod +x resources/utils/generate_nwb_schema_headers.sh
+          bash resources/utils/generate_nwb_schema_headers.sh
 
       - name: Check generated contents
         run: |
