@@ -40,8 +40,23 @@
  *
  * \note
  * If you are using custom installations of **HDF5** or **BOOST** that are not being detected
- * automatically by cmake, you can specify `HDF5_ROOT` and `BOOST_ROOT` environment variables to
- * point to install directories of HDF5 and BOOST respectively.
+ * automatically by CMake, you should set the `CMAKE_PREFIX_PATH` variable to include the install
+ * directories of HDF5 and BOOST. This can be done either as an environment variable or directly
+ * on the CMake command line. For example:
+ *
+ * \code{.sh}
+ * # Option 1: Set as environment variable (colon-separated on Unix/macOS)
+ * export CMAKE_PREFIX_PATH=/path/to/hdf5_install:/path/to/boost_install
+ * cmake --preset=dev
+ *
+ * # Option 2: Pass as a CMake variable (semicolon-separated)
+ * cmake --preset=dev -DCMAKE_PREFIX_PATH=/path/to/hdf5_install;/path/to/boost_install
+ * \endcode
+ *
+ * This ensures CMake can find the necessary config files for both HDF5 and Boost.
+ * 
+ * The use of `HDF5_ROOT` and `BOOST_ROOT` environment variables is deprecated for modern CMake
+ * and may not work reliably with recent CMake versions.
  *
  * \section  devbuild_presets_subsec Developer Presets
  *
@@ -114,4 +129,3 @@
  * - `spell-fix` :  run the `codespell` tool on the codebase with `FIX=YES` to both check and automatically fix  common spelling errors
  * - `docs` : builds the documentation using Doxygen. (Note: run `cmake --preset=dev -DBUILD_DOCS=ON` before building to add docs target)
  */
-
