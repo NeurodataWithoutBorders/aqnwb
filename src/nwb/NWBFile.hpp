@@ -88,7 +88,7 @@ public:
   bool isInitialized() const;
 
   /**
-   * @brief Finalizes the NWB file by closing the io object.
+   * @brief Finalizes the NWB file by closing it.
    */
   Status finalize();
 
@@ -242,20 +242,15 @@ private:
 
   /**
    * @brief Saves the specification files for the schema.
-   * @param specPath The location in the file to store the spec information.
-   * @param versionNumber The version number of the specification files.
-   * @param specVariables The contents of the specification files.
-   * These values are generated from the nwb schema by
-   * `resources/generate_spec_files.py`
+   *
+   * @param namespaceInfo The NamespaceInfo object with the namespace
+   * specification
    */
-  template<SizeType N>
-  void cacheSpecifications(
-      const std::string& specPath,
-      const std::string& versionNumber,
-      const std::array<std::pair<std::string_view, std::string_view>, N>&
-          specVariables);
+  void cacheSpecifications(const Types::NamespaceInfo& namespaceInfo);
 
   inline const static std::string m_acquisitionPath = "/acquisition";
+
+  inline const static std::string m_specificationsPath = "/specifications";
 
   /**
    * @brief The ElectrodeTable for the file
