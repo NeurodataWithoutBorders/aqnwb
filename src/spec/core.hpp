@@ -6,6 +6,10 @@
 
 #include "spec/NamespaceRegistry.hpp"
 
+/*!
+ * \namespace AQNWB::SPEC::CORE
+ * \brief The namespace for the core NWB schema specification.
+ */
 namespace AQNWB::SPEC::CORE
 {
 
