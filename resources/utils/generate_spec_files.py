@@ -142,7 +142,7 @@ def process_namespace_file(namespace_file: Path, output_dir: Path, chunk_size: i
                 if not os.path.exists(schema_file):
                     for ext in YAML_EXTENSIONS:
                         temppath =  schema_file.with_suffix(ext)
-                        if os.path.exists(temppath):
+                        if os.path.exists(temppath):   # Stop when we found a path
                             schema_file = temppath
                             break
                         # check both replacing the file extension and adding the extension
