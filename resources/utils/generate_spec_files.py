@@ -52,6 +52,7 @@ def generate_header_file(ns: Dict, header_file: Path, var_names: List[str], var_
         fo.write(f'namespace AQNWB::SPEC::{ns["name"].upper().replace("-", "_")}\n{{\n\n')
         fo.write(f'const std::string namespaceName = "{ns["name"]}";\n\n')
         fo.write(f'const std::string version = "{ns["version"]}";\n\n')
+        fo.write('// clang-format off\n')  # Disable clang-format to prevent it from changing the constexpr string value
         for name in var_names:
             cpp_var_name = name.replace("-", "_")
             value = var_contents[name]
@@ -84,6 +85,7 @@ def generate_header_file(ns: Dict, header_file: Path, var_names: List[str], var_
             else:
                 logger.info(f"Writing module: {name} as a single string_view")
                 fo.write(f'constexpr std::string_view {cpp_var_name} = R"delimiter(\n{value})delimiter";\n\n')
+        fo.write('// clang-format on\n')  # Re-enable clang-format
         fo.write(f'constexpr std::string_view namespaces = R"delimiter(\n{json.dumps({"namespaces": [ns]}, separators=(",", ":"))})delimiter";\n\n')
         fo.write(f'const std::vector<std::pair<std::string_view, std::string_view>>\n    specVariables {{{{\n')
         fo.write(''.join([f'  {{"{name.replace("_", ".")}", {name.replace("-", "_")}}},\n' for name in var_names]))
