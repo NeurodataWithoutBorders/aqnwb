@@ -1,9 +1,10 @@
 #pragma once
 
-#include <vector>
+#include <array>
 #include <string>
 #include <string_view>
-#include <array>
+#include <vector>
+
 #include "spec/NamespaceRegistry.hpp"
 
 namespace AQNWB::SPEC::HDMF_COMMON

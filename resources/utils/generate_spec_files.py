@@ -48,7 +48,7 @@ def generate_header_file(ns: Dict, header_file: Path, var_names: List[str], var_
     logger.info(f"Generating header file: {header_file}")
     with open(header_file, 'w') as fo:
         fo.write('#pragma once\n\n')
-        fo.write('#include <vector>\n#include <string>\n#include <string_view>\n#include <array>\n#include "spec/NamespaceRegistry.hpp"\n\n')
+        fo.write('#include <array>\n#include <string>\n#include <string_view>\n#include <vector>\n\n#include "spec/NamespaceRegistry.hpp"\n\n')
         fo.write(f'namespace AQNWB::SPEC::{ns["name"].upper().replace("-", "_")}\n{{\n\n')
         fo.write(f'const std::string namespaceName = "{ns["name"]}";\n\n')
         fo.write(f'const std::string version = "{ns["version"]}";\n\n')
