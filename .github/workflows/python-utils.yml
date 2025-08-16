@@ -41,6 +41,15 @@ jobs:
             exit 1
           fi
 
+      - name: Run generate_nwb_schema_headers.sh
+        run: |
+          chmod +x resources/generate_nwb_schema_headers.sh
+          output=$(bash resources/generate_nwb_schema_headers.sh 2>&1)
+          echo "$output"
+          if echo "$output" | grep -q "ERROR"; then
+            exit 1
+          fi
+
       - name: Check generated contents
         run: |
           ls -la test_output
