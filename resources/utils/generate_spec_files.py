@@ -85,7 +85,6 @@ def generate_header_file(ns: Dict, header_file: Path, var_names: List[str], var_
             else:
                 logger.info(f"Writing module: {name} as a single string_view")
                 fo.write(f'constexpr std::string_view {cpp_var_name} = R"delimiter(\n{value})delimiter";\n\n')
-        fo.write('// clang-format on\n')  # Re-enable clang-format
         fo.write(f'constexpr std::string_view namespaces = R"delimiter(\n{json.dumps({"namespaces": [ns]}, separators=(",", ":"))})delimiter";\n\n')
         fo.write(f'const std::vector<std::pair<std::string_view, std::string_view>>\n    specVariables {{{{\n')
         fo.write(''.join([f'  {{"{name.replace("_", ".")}", {name.replace("-", "_")}}},\n' for name in var_names]))
@@ -93,6 +92,7 @@ def generate_header_file(ns: Dict, header_file: Path, var_names: List[str], var_
         fo.write(f'}}}};\n\n')
         fo.write('// Register this namespace with the global registry\n')
         fo.write('REGISTER_NAMESPACE(namespaceName, version, specVariables)\n')
+        fo.write('// clang-format on\n')  # Re-enable clang-format
         fo.write(f'\n}}  // namespace AQNWB::SPEC::{ns["name"].upper().replace("-", "_")}\n')
 
 def process_schema_file(schema_file: Path, var_names: List[str], var_contents: Dict[str, str], chunk_size: int) -> None:

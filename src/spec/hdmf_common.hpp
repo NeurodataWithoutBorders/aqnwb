@@ -24,7 +24,6 @@ constexpr std::string_view table = R"delimiter(
 constexpr std::string_view sparse = R"delimiter(
 {"groups":[{"data_type_def":"CSRMatrix","data_type_inc":"Container","doc":"A compressed sparse row matrix. Data are stored in the standard CSR format, where column indices for row i are stored in indices[indptr[i]:indptr[i+1]] and their corresponding values are stored in data[indptr[i]:indptr[i+1]].","attributes":[{"name":"shape","dtype":"uint","dims":["number of rows, number of columns"],"shape":[2],"doc":"The shape (number of rows, number of columns) of this sparse matrix."}],"datasets":[{"name":"indices","dtype":"uint","dims":["number of non-zero values"],"shape":[null],"doc":"The column indices."},{"name":"indptr","dtype":"uint","dims":["number of rows in the matrix + 1"],"shape":[null],"doc":"The row index pointer."},{"name":"data","dims":["number of non-zero values"],"shape":[null],"doc":"The non-zero values in the matrix."}]}]})delimiter";
 
-// clang-format on
 constexpr std::string_view namespaces = R"delimiter(
 {"namespaces":[{"name":"hdmf-common","doc":"Common data structures provided by HDMF","author":["Andrew Tritt","Oliver Ruebel","Ryan Ly","Ben Dichter"],"contact":["ajtritt@lbl.gov","oruebel@lbl.gov","rly@lbl.gov","bdichter@lbl.gov"],"full_name":"HDMF Common","schema":[{"source":"base"},{"source":"table"},{"source":"sparse"}],"version":"1.8.0"}]})delimiter";
 
@@ -38,5 +37,6 @@ const std::vector<std::pair<std::string_view, std::string_view>>
 
 // Register this namespace with the global registry
 REGISTER_NAMESPACE(namespaceName, version, specVariables)
+// clang-format on
 
 }  // namespace AQNWB::SPEC::HDMF_COMMON
