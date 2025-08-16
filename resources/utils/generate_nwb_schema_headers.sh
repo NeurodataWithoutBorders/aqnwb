@@ -56,13 +56,13 @@ log "Created temp dir: $TMPDIR"
 
 # Clone NWB schema (latest release only)
 log "Fetching latest NWB schema release tag..."
-NWB_LATEST_TAG=$(curl -s https://api.github.com/repos/NeurodataWithoutBorders/nwb-schema/releases/latest | grep tag_name | cut -d '\"' -f 4)
+NWB_LATEST_TAG=$(curl -s https://api.github.com/repos/NeurodataWithoutBorders/nwb-schema/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
 log "Cloning NWB schema at tag: $NWB_LATEST_TAG"
 git clone --branch "$NWB_LATEST_TAG" --depth=1 "$NWB_REPO" "$TMPDIR/nwb-schema"
 
 # Clone HDMF common schema (latest release only)
 log "Fetching latest HDMF common schema release tag..."
-HDMF_LATEST_TAG=$(curl -s https://api.github.com/repos/hdmf-dev/hdmf-common-schema/releases/latest | grep tag_name | cut -d '\"' -f 4)
+HDMF_LATEST_TAG=$(curl -s https://api.github.com/repos/hdmf-dev/hdmf-common-schema/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
 log "Cloning HDMF common schema at tag: $HDMF_LATEST_TAG"
 git clone --branch "$HDMF_LATEST_TAG" --depth=1 "$HDMF_REPO" "$TMPDIR/hdmf-common-schema"
 
@@ -81,7 +81,7 @@ log "Generating HDMF common schema headers..."
 "$PYTHON" "$SCRIPT_DIR/generate_spec_files.py" "$TMPDIR/hdmf-common-schema/common" "$OUTDIR"
 
 # Copy to destination
-DEST_DIR="$SCRIPT_DIR/../src/spec"
+DEST_DIR="$SCRIPT_DIR/../../src/spec"
 mkdir -p "$DEST_DIR"
 cp "$OUTDIR"/*.hpp "$DEST_DIR"
 
