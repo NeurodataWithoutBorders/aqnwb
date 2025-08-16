@@ -8,6 +8,7 @@
 #include "io/hdf5/HDF5IO.hpp"
 #include "nwb/NWBFile.hpp"
 #include "nwb/RecordingContainers.hpp"
+#include "nwb/ecephys/ElectricalSeries.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
 #include "testUtils.hpp"
 
@@ -118,6 +119,28 @@ TEST_CASE("workflowExamples")
         isRecording = false;
       }
     }
+
+    // [example_workflow_advanced_snippet]
+    // Get the ElectricalSeries container
+    auto container0 = recordingContainers->getContainer(containerIndexes[0]);
+    auto electricalSeries0 = static_cast<NWB::ElectricalSeries*>(container0);
+    // Get the BaseRecordingData object for updating the data and timestamps
+    auto recordingData0 = electricalSeries0->recordData();
+    auto timestampsData0 = electricalSeries0->recordTimestamps();
+    // Manually write timestamps and data to the file
+    Status writeDataStatus =
+        recordingData0->writeDataBlock({bufferSize, 1},
+                                       {samplesRecorded, 0},
+                                       BaseDataType::I16,
+                                       dataBuffer.data());
+    Status writeTimestampsStatus =
+        timestampsData0->writeDataBlock({bufferSize},
+                                        {samplesRecorded},
+                                        BaseDataType::F64,
+                                        timestampsBuffer.data());
+    REQUIRE(writeDataStatus == Status::Success);
+    REQUIRE(writeTimestampsStatus == Status::Success);
+    // [example_workflow_advanced_snippet]
 
     // [example_workflow_stop_snippet]
     io->stopRecording();

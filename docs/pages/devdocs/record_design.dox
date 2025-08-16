@@ -1,0 +1,203 @@
+/**
+ * \page record_design_page Implementation of data recording
+ *
+ * \tableofcontents
+ *
+ * This page focuses on the software architecture of AqNWB for implementing data recording
+ * and is mainly aimed at software developers. The recording system in AqNWB is built around 
+ * several key concepts:
+ * 
+ * 1. **Efficient data recording for individual datasets** via \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" objects 
+ *    discussed in \ref record_design_sec_recording_data
+ * 2. **Consistent multi-dataset recording through convenience methods** defined on individual \ref AQNWB::NWB::RegisteredType "RegisteredType" 
+ *    objects (e.g., \ref AQNWB::NWB::TimeSeries::writeData "TimeSeries::writeData")  discussed in \ref record_design_sec_timeseries 
+ * 3. **Managing collections of recording objects through RecordingContainers**, discussed in \ref record_design_sec_recording_containers
+ *
+ * \section record_design_sec_recording_data Recording datasets with BaseRecordingData
+ *
+ * AqNWB records datasets efficiently via \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" objects. The main components involved in
+ * writing data to an NWB file via AqNWB are:
+ *
+ * 1. \ref DEFINE_DATASET_FIELD Macro
+ *   - The \ref DEFINE_DATASET_FIELD macro not only defines methods for reading datasets for a particular neurodata_type (as described in \ref read_design_page),
+ *     but also defines methods for retrieving \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" objects that are used for recording to individual datasets.
+ *     For each dataset field defined with this macro, a corresponding method is generated that returns a \ref AQNWB::IO::BaseRecordingData "BaseRecordingData"
+ *     object configured for that specific dataset. The  \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" objects are then cached by 
+ *      \ref AQNWB::NWB::RegisteredType "RegisteredType" as described below.
+ *
+ * 2. \ref AQNWB::IO::BaseRecordingData "BaseRecordingData"
+ *   - \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" is a class that manages the recording process for a dataset.
+ *   - It keeps track of the current position in the dataset where data should be written next via the `m_position` member.
+ *   - It provides methods for writing data blocks to the dataset, such as \ref AQNWB::IO::BaseRecordingData::writeDataBlock "writeDataBlock",
+ *      which can handle different data types and dimensions.
+ *
+ * 3. \ref AQNWB::NWB::RegisteredType "RegisteredType"
+ *   - \ref AQNWB::NWB::RegisteredType "RegisteredType" maintains a cache of \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" objects via the `m_recordingDataCache` member.
+ *     This cache allows reusing the same \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" object when it is requested multiple times,
+ *     improving performance and retaining the recording position. The cache is essential for writing data to the dataset in a streaming fashion,
+ *     as it ensures that each write continues from where the previous write left off. The cache also avoids the need for manually maintaining
+ *     the objects and allows caching of an arbitrary number of \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" object such that the 
+ *     individual neurodata_type classes do not need to worry about maintaining their recording state.
+ *
+ * 4. \ref AQNWB::IO::BaseIO "BaseIO"
+ *   - \ref AQNWB::IO::BaseIO "BaseIO" and its implementations (e.g., \ref AQNWB::IO::HDF5::HDF5IO "HDF5IO") are responsible for
+ *     the actual writing of data to disk. They provide methods for creating datasets (e.g., \ref AQNWB::IO::BaseIO::createArrayDataSet "createArrayDataSet")
+ *     and getting existing datasets (\ref AQNWB::IO::BaseIO::getDataSet "getDataSet"), both of which return 
+ *     \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" objects.
+ *
+ * @dot
+ * digraph G {
+ *     node [shape=none];
+ *
+ *     HDF5IO [
+ *         label=<
+ *             <table border="0" cellborder="1" cellspacing="0">
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>HDF5IO</b></td></tr>
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Functions</b></td></tr>
+ *                 <tr><td align="left">+ createArrayDataSet(): BaseRecordingData</td></tr>
+ *                 <tr><td align="left">+ getDataSet(): BaseRecordingData</td></tr>
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Attributes</b></td></tr>
+ *             </table>
+ *         >
+ *     ];
+ *
+ *     NWBFile [
+ *         shape=note,
+ *         label="NWB file (HDF5)"
+ *     ];
+ *
+ *     BaseRecordingData [
+ *         label=<
+ *             <table border="0" cellborder="1" cellspacing="0">
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>BaseRecordingData</b></td></tr>
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Functions</b></td></tr>
+ *                 <tr><td align="left">+ writeDataBlock(): Status</td></tr>
+ *                 <tr><td align="left">+ getPosition(): std::vector&lt;SizeType&gt;</td></tr>
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Attributes</b></td></tr>
+ *                 <tr><td align="left">+ m_position: std::vector&lt;SizeType&gt;</td></tr>
+ *                 <tr><td align="left">+ m_shape: std::vector&lt;SizeType&gt;</td></tr>
+ *             </table>
+ *         >
+ *     ];
+ *
+ *     RegisteredType [
+ *         label=<
+ *             <table border="0" cellborder="1" cellspacing="0">
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>RegisteredType</b></td></tr>
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Functions</b></td></tr>
+ *                 <tr><td align="left">+ clearRecordingDataCache(): void</td></tr>
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Attributes</b></td></tr>
+ *                 <tr><td align="left">+ m_recordingDataCache: std::unordered_map</td></tr>
+ *                 <tr><td align="left">+ m_io: std::shared_ptr&lt;BaseIO&gt;</td></tr>
+ *                 <tr><td align="left">+ m_path: std::string</td></tr>
+ *             </table>
+ *         >
+ *     ];
+ *
+ *     Container [
+ *         label=<
+ *             <table border="0" cellborder="1" cellspacing="0">
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Container</b></td></tr>
+ *                 <tr><td colspan="2" bgcolor="lightgray"><b>Functions</b></td></tr>
+ *                 <tr><td align="left">+ writeDataField(): BaseRecordingData</td></tr>
+ *             </table>
+ *         >
+ *     ];
+ *
+ *     { rank=same; RegisteredType; }
+ *     { rank=same; Container; }
+ *     { rank=same; BaseRecordingData; }
+ *     { rank=same; HDF5IO; }
+ *     { rank=same; NWBFile; }
+ *
+ *     RegisteredType -> Container [arrowhead=empty, style=dashed];
+ *     Container -> BaseRecordingData [label="created by functions defined via \nDEFINE_DATASET_FIELD"];
+ *     RegisteredType -> BaseRecordingData [label="caches"];
+ *     BaseRecordingData -> HDF5IO [label="uses for\nwriting data"];
+ *     HDF5IO -> NWBFile [label="write data"];
+ * }
+ * @enddot
+ *
+ * \subsection record_design_sec_define_dataset_field The DEFINE_DATASET_FIELD Macro for Recording
+ *
+ * The \ref DEFINE_DATASET_FIELD macro not only defines methods for reading datasets but also for recording to them.
+ * For each dataset field defined with this macro, a corresponding method is generated that returns a \ref AQNWB::IO::BaseRecordingData "BaseRecordingData"
+ * object configured for that specific dataset.
+ *
+ * For example, if we have a \ref AQNWB::NWB::TimeSeries "TimeSeries" class with a 'data' field defined using the \ref DEFINE_DATASET_FIELD macro:
+ *
+ * \code{.cpp}
+ * DEFINE_DATASET_FIELD(readData, recordData, std::any, "data", The main data)
+ * \endcode
+ *
+ * This generates not only a `readData()` method for reading the dataset but also a `recordData()` method
+ * that returns a \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" object configured for writing to the 'data' dataset.
+ *
+ * The generated `recordData()` method:
+ * 1. Checks if a \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" object for the dataset already exists in the cache
+ * 2. If it exists and `reset` is false, returns the cached object
+ * 3. If it doesn't exist or `reset` is true, gets a new \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" object from the IO backend
+ * 4. Caches the new object and returns it
+ *
+ * This caching mechanism is crucial for maintaining the recording state across multiple writes to the same dataset.
+ *
+ * \subsection record_design_sec_baserecordingdata BaseRecordingData for Managing Recording
+ *
+ * The \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" class is responsible for managing the recording process
+ * for a dataset. It keeps track of the current position in the dataset where data should be written next, ensuring
+ * that data is written efficiently, especially for streaming data where multiple writes occur over time.
+ *
+ * Key features of \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" include:
+ *
+ * - **Position Tracking**: \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" keeps track of the current position in the dataset via the `m_position` member.
+ *   This is particularly important for streaming data, where data is written in chunks over time.
+ *
+ * - **Data Type Handling**: \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" can handle different data types and dimensions through its `writeDataBlock` methods,
+ *   making it flexible for various types of data.
+ *
+ * \section record_design_sec_timeseries TimeSeries Convenience Methods for Consistent Recording
+ *
+ * Specific types like \ref AQNWB::NWB::TimeSeries "TimeSeries" provide convenience methods for writing multiple datasets
+ * in a consistent manner. This ensures that related datasets (e.g., 'data' and 'timestamps' in a \ref AQNWB::NWB::TimeSeries "TimeSeries") are
+ * written consistently and simplifies the recording process.
+ *
+ * The \ref AQNWB::NWB::TimeSeries "TimeSeries" class provides:
+ *
+ * - An \ref AQNWB::NWB::TimeSeries::initialize "initialize" method that sets up all the necessary datasets and attributes 
+ *  for a time series, including `data`, `timestamps`, `control` and all their attributes, e.g., `unit`
+ * - A \ref AQNWB::NWB::TimeSeries::writeData "writeData" method that writes `data`, `timestamps`, and `control` 
+ *   information in a single call, ensuring consistency between these related datasets.
+ *
+ * These convenience methods handle the details of:
+ *
+ * - **Dataset Creation**: Creating the necessary datasets if they don't exist.
+ * - **Data Alignment**: Ensuring that related datasets (e.g., data and timestamps) are properly aligned.
+ * - **Position Management**: Managing the current position in each dataset to ensure consistent writing.
+ * - **Error Handling**: Handling errors that might occur during the writing process.
+ *
+ * \section record_design_sec_recording_containers RecordingContainers for Managing Collections
+ *
+ * \ref AQNWB::NWB::RecordingContainers "RecordingContainers" provides an additional convenience layer for managing
+ * collections of \ref AQNWB::NWB::RegisteredType "RegisteredType" Containers used for recording. This is particularly
+ * useful when recording data to multiple related containers, such as multiple \ref AQNWB::NWB::TimeSeries "TimeSeries" objects.
+ *
+ * \ref AQNWB::NWB::RecordingContainers "RecordingContainers" simplifies the process of:
+ *
+ * - **Container Management**: Adding and retrieving containers from the collection via `addContainer` and `getContainer` methods.
+ * - **Coordinated Recording**: Coordinating the recording process across multiple containers through specialized methods like:
+ *   - `writeTimeseriesData`: For writing data to a \ref AQNWB::NWB::TimeSeries "TimeSeries" container
+ *   - `writeElectricalSeriesData`: For writing data to an ElectricalSeries container
+ *   - `writeSpikeEventData`: For writing data to a SpikeEventSeries container
+ *   - `writeAnnotationSeriesData`: For writing data to an AnnotationSeries container
+ * - **Error Handling**: Handling errors that might occur during the recording process across multiple containers.
+ *
+ * \section recording_design_further_reading Further Reading 
+ *
+ * - \ref workflow provides a step-by-step overview of the typical recording process. 
+ * - \ref read_design_page provides a complementary overview of how data read is implemented, which involves 
+ *   many of the same classes, but using \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper" instead of 
+ *   \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" for accessing data. 
+ * - \ref registered_type_page discusess the use of \ref AQNWB::NWB::RegisteredType "RegisteredType" to 
+ *   implement writing and reading of neurodata_types for NWB.
+ *
+ */

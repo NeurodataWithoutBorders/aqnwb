@@ -126,17 +126,15 @@ public:
     return nullptr;
   }
 
-  DEFINE_FIELD(readColNames,
-               AttributeField,
-               std::string,
-               "colnames",
-               The names of the columns in the table)
+  DEFINE_ATTRIBUTE_FIELD(readColNames,
+                         std::string,
+                         "colnames",
+                         The names of the columns in the table)
 
-  DEFINE_FIELD(readDescription,
-               AttributeField,
-               std::string,
-               "description",
-               Description of what is in this dynamic table)
+  DEFINE_ATTRIBUTE_FIELD(readDescription,
+                         std::string,
+                         "description",
+                         Description of what is in this dynamic table)
 
   DEFINE_REGISTERED_FIELD(
       readIdColumn,

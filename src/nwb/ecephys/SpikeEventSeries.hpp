@@ -76,14 +76,13 @@ public:
                     const void* timestampsInput,
                     const void* controlInput = nullptr);
 
-  DEFINE_FIELD(readData, DatasetField, std::any, "data", Spike waveforms)
+  DEFINE_DATASET_FIELD(readData, recordData, std::any, "data", Spike waveforms)
 
-  DEFINE_FIELD(readDataUnit,
-               AttributeField,
-               std::string,
-               "data/unit",
-               Unit of measurement for waveforms.
-               This is fixed to volts)
+  DEFINE_ATTRIBUTE_FIELD(readDataUnit,
+                        std::string,
+                        "data/unit",
+                        Unit of measurement for waveforms.
+                        This is fixed to volts)
 
 private:
   /**
