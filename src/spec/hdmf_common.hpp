@@ -14,7 +14,6 @@ const std::string namespaceName = "hdmf-common";
 
 const std::string version = "1.8.0";
 
-// clang-format off
 constexpr std::string_view base = R"delimiter(
 {"datasets":[{"data_type_def":"Data","doc":"An abstract data type for a dataset."}],"groups":[{"data_type_def":"Container","doc":"An abstract data type for a group storing collections of data and metadata. Base type for all data and metadata containers."},{"data_type_def":"SimpleMultiContainer","data_type_inc":"Container","doc":"A simple Container for holding onto multiple containers.","datasets":[{"data_type_inc":"Data","quantity":"*","doc":"Data objects held within this SimpleMultiContainer."}],"groups":[{"data_type_inc":"Container","quantity":"*","doc":"Container objects held within this SimpleMultiContainer."}]}]})delimiter";
 
@@ -27,16 +26,13 @@ constexpr std::string_view sparse = R"delimiter(
 constexpr std::string_view namespaces = R"delimiter(
 {"namespaces":[{"name":"hdmf-common","doc":"Common data structures provided by HDMF","author":["Andrew Tritt","Oliver Ruebel","Ryan Ly","Ben Dichter"],"contact":["ajtritt@lbl.gov","oruebel@lbl.gov","rly@lbl.gov","bdichter@lbl.gov"],"full_name":"HDMF Common","schema":[{"source":"base"},{"source":"table"},{"source":"sparse"}],"version":"1.8.0"}]})delimiter";
 
-const std::vector<std::pair<std::string_view, std::string_view>>
-    specVariables {{
-  {"base", base},
-  {"table", table},
-  {"sparse", sparse},
-  {"namespace", namespaces}
-}};
+const std::vector<std::pair<std::string_view, std::string_view>> specVariables {
+    {{"base", base},
+     {"table", table},
+     {"sparse", sparse},
+     {"namespace", namespaces}}};
 
 // Register this namespace with the global registry
 REGISTER_NAMESPACE(namespaceName, version, specVariables)
-// clang-format on
 
 }  // namespace AQNWB::SPEC::HDMF_COMMON
