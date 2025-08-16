@@ -26,8 +26,11 @@ jobs:
 
       - name: Run generate_spec_files.py
         run: |
-          mkdir test_output
-          output=$(python resources/utils/generate_spec_files.py resources/spec/core/2.7.0 test_output 2>&1)
+          mkdir -p test_output
+          NWB_LATEST_TAG=$(curl -s https://api.github.com/repos/NeurodataWithoutBorders/nwb-schema/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+          echo "Cloning NWB schema at tag: $NWB_LATEST_TAG"
+          git clone --branch "$NWB_LATEST_TAG" --depth=1 https://github.com/NeurodataWithoutBorders/nwb-schema.git test_output/nwb-schema
+          output=$(python resources/utils/generate_spec_files.py test_output/nwb-schema/core test_output 2>&1)
           echo "$output"
           if echo "$output" | grep -q "ERROR"; then
             exit 1
