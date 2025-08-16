@@ -14,6 +14,7 @@ const std::string namespaceName = "hdmf-experimental";
 
 const std::string version = "0.5.0";
 
+// clang-format off
 constexpr std::string_view experimental = R"delimiter(
 {"groups":[],"datasets":[{"data_type_def":"EnumData","data_type_inc":"VectorData","dtype":"uint8","doc":"Data that come from a fixed set of values. A data value of i corresponds to the i-th value in the VectorData referenced by the 'elements' attribute.","attributes":[{"name":"elements","dtype":{"target_type":"VectorData","reftype":"object"},"doc":"Reference to the VectorData object that contains the enumerable elements"}]}]})delimiter";
 
@@ -23,12 +24,15 @@ constexpr std::string_view resources = R"delimiter(
 constexpr std::string_view namespaces = R"delimiter(
 {"namespaces":[{"name":"hdmf-experimental","doc":"Experimental data structures provided by HDMF. These are not guaranteed to be available in the future.","author":["Andrew Tritt","Oliver Ruebel","Ryan Ly","Ben Dichter","Matthew Avaylon"],"contact":["ajtritt@lbl.gov","oruebel@lbl.gov","rly@lbl.gov","bdichter@lbl.gov","mavaylon@lbl.gov"],"full_name":"HDMF Experimental","schema":[{"namespace":"hdmf-common"},{"source":"experimental"},{"source":"resources"}],"version":"0.5.0"}]})delimiter";
 
-const std::vector<std::pair<std::string_view, std::string_view>> specVariables {
-    {{"experimental", experimental},
-     {"resources", resources},
-     {"namespace", namespaces}}};
+const std::vector<std::pair<std::string_view, std::string_view>>
+    specVariables {{
+  {"experimental", experimental},
+  {"resources", resources},
+  {"namespace", namespaces}
+}};
 
 // Register this namespace with the global registry
 REGISTER_NAMESPACE(namespaceName, version, specVariables)
+// clang-format on
 
 }  // namespace AQNWB::SPEC::HDMF_EXPERIMENTAL
