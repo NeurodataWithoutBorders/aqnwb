@@ -6,6 +6,7 @@
 #include "nwb/hdmf/table/DynamicTable.hpp"
 #include "nwb/hdmf/table/ElementIdentifiers.hpp"
 #include "nwb/hdmf/table/VectorData.hpp"
+#include "spec/core.hpp"
 
 namespace AQNWB::NWB
 {
@@ -17,7 +18,9 @@ class ElectrodeTable : public DynamicTable
 public:
   // Register the ElectrodeTable as a subclass of Container
   // REGISTER_SUBCLASS(ElectrodeTable, "core")
-  REGISTER_SUBCLASS_WITH_TYPENAME(ElectrodeTable, "core", "DynamicTable")
+  REGISTER_SUBCLASS_WITH_TYPENAME(ElectrodeTable,
+                                  AQNWB::SPEC::CORE::namespaceName,
+                                  "DynamicTable")
 
   /**
    * @brief Constructor.

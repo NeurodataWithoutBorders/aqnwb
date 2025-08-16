@@ -5,6 +5,7 @@
 #include "Utils.hpp"
 #include "io/ReadIO.hpp"
 #include "nwb/hdmf/base/Data.hpp"
+#include "spec/hdmf_common.hpp"
 
 namespace AQNWB::NWB
 {
