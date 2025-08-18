@@ -236,16 +236,16 @@ $(function() {
 </div>
 <div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span></div>
 <div class="foldopen" id="foldopen00341" data-start="" data-end="">
-<div class="line"><a id="l00341" name="l00341"></a><span class="lineno"><a class="line" href="_registered_type_8hpp.html#a34a1efef99cdbc58adaec1c8fcf5d250">  341</a></span><span class="preprocessor">#define REGISTER_SUBCLASS_WITH_TYPENAME(T, NAMESPACE, TYPENAME) \</span></div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno"><a class="line" href="_registered_type_8hpp.html#af20769bbf87fb10f70c36fe248deaf4d">  341</a></span><span class="preprocessor">#define REGISTER_SUBCLASS_WITH_TYPENAME(T, NAMESPACE_VAR, TYPENAME) \</span></div>
 <div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span><span class="preprocessor">  static bool registerSubclass() \</span></div>
 <div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span><span class="preprocessor">  { \</span></div>
 <div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span><span class="preprocessor">    AQNWB::NWB::RegisteredType::registerSubclass( \</span></div>
-<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span><span class="preprocessor">        NAMESPACE &quot;::&quot; #T, \</span></div>
-<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span><span class="preprocessor">        [](const std::string&amp; path, std::shared_ptr&lt;IO::BaseIO&gt; io) \</span></div>
+<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span><span class="preprocessor">        std::string(NAMESPACE_VAR) + &quot;::&quot; + #T, \</span></div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span><span class="preprocessor">        [](const std::string&amp; path, std::shared_ptr&lt;AQNWB::IO::BaseIO&gt; io) \</span></div>
 <div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span><span class="preprocessor">            -&gt; std::unique_ptr&lt;AQNWB::NWB::RegisteredType&gt; \</span></div>
 <div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span><span class="preprocessor">        { return std::make_unique&lt;T&gt;(path, io); }, \</span></div>
 <div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span><span class="preprocessor">        TYPENAME, \</span></div>
-<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span><span class="preprocessor">        NAMESPACE); \</span></div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span><span class="preprocessor">        NAMESPACE_VAR); \</span></div>
 <div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span><span class="preprocessor">    return true; \</span></div>
 <div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span><span class="preprocessor">  } \</span></div>
 <div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span><span class="preprocessor">  static bool registered_; \</span></div>
@@ -255,7 +255,7 @@ $(function() {
 <div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span><span class="preprocessor">  } \</span></div>
 <div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span><span class="preprocessor">  virtual std::string getNamespace() const override \</span></div>
 <div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span><span class="preprocessor">  { \</span></div>
-<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span><span class="preprocessor">    return NAMESPACE; \</span></div>
+<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span><span class="preprocessor">    return NAMESPACE_VAR; \</span></div>
 <div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span><span class="preprocessor">  }</span></div>
 </div>
 <div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span></div>

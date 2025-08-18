@@ -22,5 +22,6 @@ var searchData=
   ['existing_20file_20for_20reading_19',['Opening an existing file for reading',['../read_page.html#read_example_open',1,'']]],
   ['exists_20',['exists',['../class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html#aa67d145711df12192d43d07c3a52546a',1,'AQNWB::IO::ReadDataWrapper']]],
   ['experimental_21',['experimental',['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_h_d_m_f___e_x_p_e_r_i_m_e_n_t_a_l.html#ac353ef164be0c431a75ad8f7a36129ca',1,'AQNWB::SPEC::HDMF_EXPERIMENTAL']]],
-  ['extracellular_20recording_20metadata_22',['Create the extracellular recording metadata',['../workflow.html#create_recmeta_ecephys',1,'']]]
+  ['extensions_22',['Integrating NWB Extensions',['../register_namespace_page.html',1,'devdocs']]],
+  ['extracellular_20recording_20metadata_23',['Create the extracellular recording metadata',['../workflow.html#create_recmeta_ecephys',1,'']]]
 ];

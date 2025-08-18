@@ -38,6 +38,9 @@ var annotated_dup =
         [ "VectorData", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data" ],
         [ "VectorDataTyped", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed" ]
       ] ],
+      [ "SPEC", "namespace_a_q_n_w_b_1_1_s_p_e_c.html", [
+        [ "NamespaceRegistry", "class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html", "class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry" ]
+      ] ],
       [ "Channel", "class_a_q_n_w_b_1_1_channel.html", "class_a_q_n_w_b_1_1_channel" ],
       [ "Types", "class_a_q_n_w_b_1_1_types.html", "class_a_q_n_w_b_1_1_types" ]
     ] ]

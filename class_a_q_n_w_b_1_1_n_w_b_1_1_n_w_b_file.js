@@ -4,7 +4,7 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file =
     [ "NWBFile", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#af62a01f10675b8fdd310f60f48cf23fe", null ],
     [ "NWBFile", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a4639155769006a79b189cdb7634bbaa5", null ],
     [ "~NWBFile", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aa92925025c0a04da1d6b03b82af99da3", null ],
-    [ "cacheSpecifications", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a2f061ec60bb617dc749b399cfb6e30ee", null ],
+    [ "cacheSpecifications", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aaf2e07b4e912fc34ab052d38f92e6cdd", null ],
     [ "createAnnotationSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a83dd681b168acf8d9948ee651cb4ae8b", null ],
     [ "createElectricalSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a332407516f0fd39e0743f4e569734153", null ],
     [ "createElectrodesTable", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a749bc45b2c60adf71b4d16ad247dc04d", null ],
@@ -23,5 +23,6 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file =
     [ "readSessionStartTime", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ac12eceea7bcebc1243eac9a64d4190b0", null ],
     [ "readTimestampsReferenceTime", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aa611b4def3f53c508ddd8ec71944ffe7", null ],
     [ "m_acquisitionPath", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#af4b8657f62c3a982d80085048ddfceea", null ],
-    [ "m_electrodeTable", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ab5447340e239b962c59c0386c0d65ac1", null ]
+    [ "m_electrodeTable", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ab5447340e239b962c59c0386c0d65ac1", null ],
+    [ "m_specificationsPath", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aff94e38864d697a67e542400799870dc", null ]
 ];

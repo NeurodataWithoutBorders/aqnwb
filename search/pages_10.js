@@ -17,5 +17,7 @@ var searchData=
   ['install_14',['Install',['../user_install_page.html#userbuild_install_sec',1,'']]],
   ['installation_15',['Installation',['../index.html#mainpage_installation',1,'']]],
   ['installation_20setup_16',['Installation &amp;amp; Setup',['../dev_install_page.html',1,'devdocs']]],
-  ['installing_20aqnwb_17',['Installing AqNWB',['../user_install_page.html',1,'userdocs']]]
+  ['installing_20aqnwb_17',['Installing AqNWB',['../user_install_page.html',1,'userdocs']]],
+  ['integrate_20a_20new_20namespace_18',['How to Integrate a New Namespace',['../register_namespace_page.html#integrate_namespace',1,'']]],
+  ['integrating_20nwb_20extensions_19',['Integrating NWB Extensions',['../register_namespace_page.html',1,'devdocs']]]
 ];

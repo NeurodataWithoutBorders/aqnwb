@@ -12,7 +12,7 @@ var searchData=
   ['workflow_20with_20swmr_20disabled_9',['Workflow with SWMR disabled',['../hdf5io.html#hdf5io_noswmr_examples_without_swmr',1,'']]],
   ['workflow_2edox_10',['workflow.dox',['../workflow_8dox.html',1,'']]],
   ['working_20with_20fields_20with_20unknown_20data_20type_11',['Working with fields with unknown data type',['../read_page.html#read_example_variant_data',1,'']]],
-  ['works_12',['How the Type Registry in RegisteredType Works',['../read_design_page.html#type_registry',1,'']]],
+  ['works_12',['Works',['../register_namespace_page.html#namespace_registry',1,'How the NamespaceRegistry Works'],['../read_design_page.html#type_registry',1,'How the Type Registry in RegisteredType Works']]],
   ['write_20data_13',['7. Write data.',['../workflow.html#write_data',1,'']]],
   ['writeannotation_14',['writeAnnotation',['../class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html#a02132ab3ba47c34556ea08abcfbf70bc',1,'AQNWB::NWB::AnnotationSeries']]],
   ['writeannotationseriesdata_15',['writeAnnotationSeriesData',['../class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#aa25337d3318281ac24caffcf80d6fdf0',1,'AQNWB::NWB::RecordingContainers']]],

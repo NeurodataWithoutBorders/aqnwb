@@ -115,6 +115,7 @@ Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
+<tr class="memitem:a1aeb5d31d5889e9b9b104dcaef2bb323" id="r_a1aeb5d31d5889e9b9b104dcaef2bb323"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1aeb5d31d5889e9b9b104dcaef2bb323">namespaceName</a> = &quot;core&quot;</td></tr>
 <tr class="memitem:a85a6c487bd8051993391e095c4b22208" id="r_a85a6c487bd8051993391e095c4b22208"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a85a6c487bd8051993391e095c4b22208">version</a> = &quot;2.7.0&quot;</td></tr>
 <tr class="memitem:aa4ac83aa3690c9b4fc9e4870c8a153e3" id="r_aa4ac83aa3690c9b4fc9e4870c8a153e3"><td class="memItemLeft" align="right" valign="top">constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa4ac83aa3690c9b4fc9e4870c8a153e3">nwb_base</a></td></tr>
 <tr class="memitem:a35cf953e6c8441312e069d901d687a5d" id="r_a35cf953e6c8441312e069d901d687a5d"><td class="memItemLeft" align="right" valign="top">constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a35cf953e6c8441312e069d901d687a5d">nwb_device</a></td></tr>
@@ -133,7 +134,7 @@ Variables</h2></td></tr>
 <tr class="memitem:a3dbadd78bfd057a1dcba6f77b957986b" id="r_a3dbadd78bfd057a1dcba6f77b957986b"><td class="memItemLeft" align="right" valign="top">constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3dbadd78bfd057a1dcba6f77b957986b">nwb_ophys</a></td></tr>
 <tr class="memitem:a3bc997e240ea3af6c88c9b8bdf29a075" id="r_a3bc997e240ea3af6c88c9b8bdf29a075"><td class="memItemLeft" align="right" valign="top">constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3bc997e240ea3af6c88c9b8bdf29a075">nwb_retinotopy</a></td></tr>
 <tr class="memitem:a2b54ef029670f26bc8a74a7eae6d870b" id="r_a2b54ef029670f26bc8a74a7eae6d870b"><td class="memItemLeft" align="right" valign="top">constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2b54ef029670f26bc8a74a7eae6d870b">namespaces</a></td></tr>
-<tr class="memitem:ae114b0de6c8ce77df3d11ddf1793a7ed" id="r_ae114b0de6c8ce77df3d11ddf1793a7ed"><td class="memItemLeft" align="right" valign="top">constexpr std::array&lt; std::pair&lt; std::string_view, std::string_view &gt;, 13 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae114b0de6c8ce77df3d11ddf1793a7ed">specVariables</a></td></tr>
+<tr class="memitem:a1f870bff4b834d9817781bce3ac0a046" id="r_a1f870bff4b834d9817781bce3ac0a046"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; std::pair&lt; std::string_view, std::string_view &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1f870bff4b834d9817781bce3ac0a046">specVariables</a></td></tr>
 </table>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="a44883cb19bbfdb3f3ed0ed6843baba19" name="a44883cb19bbfdb3f3ed0ed6843baba19"></a>
@@ -166,6 +167,20 @@ Variables</h2></td></tr>
 </div>
 </div>
 <a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Variable Documentation</h2>
+<a id="a1aeb5d31d5889e9b9b104dcaef2bb323" name="a1aeb5d31d5889e9b9b104dcaef2bb323"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1aeb5d31d5889e9b9b104dcaef2bb323">&#9670;&#160;</a></span>namespaceName</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string AQNWB::SPEC::CORE::namespaceName = &quot;core&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a2b54ef029670f26bc8a74a7eae6d870b" name="a2b54ef029670f26bc8a74a7eae6d870b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2b54ef029670f26bc8a74a7eae6d870b">&#9670;&#160;</a></span>namespaces</h2>
 
@@ -341,7 +356,7 @@ Variables</h2></td></tr>
 <div class="line">  result[pos] = <span class="charliteral">&#39;\0&#39;</span>;</div>
 <div class="line">  <span class="keywordflow">return</span> result;</div>
 <div class="line">}()</div>
-<div class="ttc" id="anamespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e_html_a72ef5d57fb91d59602fea2358d71127b"><div class="ttname"><a href="#a72ef5d57fb91d59602fea2358d71127b">AQNWB::SPEC::CORE::nwb_file_parts</a></div><div class="ttdeci">constexpr std::array&lt; std::string_view, 2 &gt; nwb_file_parts</div><div class="ttdef"><b>Definition</b> core.hpp:28</div></div>
+<div class="ttc" id="anamespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e_html_a72ef5d57fb91d59602fea2358d71127b"><div class="ttname"><a href="#a72ef5d57fb91d59602fea2358d71127b">AQNWB::SPEC::CORE::nwb_file_parts</a></div><div class="ttdeci">constexpr std::array&lt; std::string_view, 2 &gt; nwb_file_parts</div><div class="ttdef"><b>Definition</b> core.hpp:32</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -414,8 +429,8 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= {<a class="code hl_variable" href="#a96e1c0a5570173ca260719393ecc2f66">nwb_file_part0</a>,</div>
 <div class="line">                                                            <a class="code hl_variable" href="#a54864e45ffb11c1de9532d08ab598b36">nwb_file_part1</a>}</div>
-<div class="ttc" id="anamespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e_html_a54864e45ffb11c1de9532d08ab598b36"><div class="ttname"><a href="#a54864e45ffb11c1de9532d08ab598b36">AQNWB::SPEC::CORE::nwb_file_part1</a></div><div class="ttdeci">constexpr std::string_view nwb_file_part1</div><div class="ttdef"><b>Definition</b> core.hpp:26</div></div>
-<div class="ttc" id="anamespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e_html_a96e1c0a5570173ca260719393ecc2f66"><div class="ttname"><a href="#a96e1c0a5570173ca260719393ecc2f66">AQNWB::SPEC::CORE::nwb_file_part0</a></div><div class="ttdeci">constexpr std::string_view nwb_file_part0</div><div class="ttdef"><b>Definition</b> core.hpp:24</div></div>
+<div class="ttc" id="anamespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e_html_a54864e45ffb11c1de9532d08ab598b36"><div class="ttname"><a href="#a54864e45ffb11c1de9532d08ab598b36">AQNWB::SPEC::CORE::nwb_file_part1</a></div><div class="ttdeci">constexpr std::string_view nwb_file_part1</div><div class="ttdef"><b>Definition</b> core.hpp:30</div></div>
+<div class="ttc" id="anamespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e_html_a96e1c0a5570173ca260719393ecc2f66"><div class="ttname"><a href="#a96e1c0a5570173ca260719393ecc2f66">AQNWB::SPEC::CORE::nwb_file_part0</a></div><div class="ttdeci">constexpr std::string_view nwb_file_part0</div><div class="ttdef"><b>Definition</b> core.hpp:28</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -593,51 +608,44 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="ae114b0de6c8ce77df3d11ddf1793a7ed" name="ae114b0de6c8ce77df3d11ddf1793a7ed"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae114b0de6c8ce77df3d11ddf1793a7ed">&#9670;&#160;</a></span>specVariables</h2>
+<a id="a1f870bff4b834d9817781bce3ac0a046" name="a1f870bff4b834d9817781bce3ac0a046"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f870bff4b834d9817781bce3ac0a046">&#9670;&#160;</a></span>specVariables</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::array&lt;std::pair&lt;std::string_view, std::string_view&gt;, 13&gt; AQNWB::SPEC::CORE::specVariables</td>
+          <td class="memname">const std::vector&lt;std::pair&lt;std::string_view, std::string_view&gt; &gt; AQNWB::SPEC::CORE::specVariables</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">{{{<span class="stringliteral">&quot;nwb.base&quot;</span>, <a class="code hl_variable" href="#aa4ac83aa3690c9b4fc9e4870c8a153e3">nwb_base</a>},</div>
-<div class="line">                    {<span class="stringliteral">&quot;nwb.device&quot;</span>, <a class="code hl_variable" href="#a35cf953e6c8441312e069d901d687a5d">nwb_device</a>},</div>
-<div class="line">                    {<span class="stringliteral">&quot;nwb.epoch&quot;</span>, <a class="code hl_variable" href="#ad0967605c3219827e368475e5b156662">nwb_epoch</a>},</div>
-<div class="line">                    {<span class="stringliteral">&quot;nwb.image&quot;</span>, <a class="code hl_variable" href="#af698831d504b552e80ed9563bd173140">nwb_image</a>},</div>
-<div class="line">                    {<span class="stringliteral">&quot;nwb.file&quot;</span>, <a class="code hl_function" href="#a44883cb19bbfdb3f3ed0ed6843baba19">nwb_file</a>},</div>
-<div class="line">                    {<span class="stringliteral">&quot;nwb.misc&quot;</span>, <a class="code hl_variable" href="#ae67799177ba7530f5d9daaecfaa91593">nwb_misc</a>},</div>
-<div class="line">                    {<span class="stringliteral">&quot;nwb.behavior&quot;</span>, <a class="code hl_variable" href="#a97c5fd31e953734c86e91d6c0cba20e7">nwb_behavior</a>},</div>
-<div class="line">                    {<span class="stringliteral">&quot;nwb.ecephys&quot;</span>, <a class="code hl_variable" href="#a611c8883c4014f2be8fd0897086a4e33">nwb_ecephys</a>},</div>
-<div class="line">                    {<span class="stringliteral">&quot;nwb.icephys&quot;</span>, <a class="code hl_variable" href="#a806ffc7a5dc1a928bcab85a010ccecea">nwb_icephys</a>},</div>
-<div class="line">                    {<span class="stringliteral">&quot;nwb.ogen&quot;</span>, <a class="code hl_variable" href="#a1c3844344a5557956e138e0dae691738">nwb_ogen</a>},</div>
-<div class="line">                    {<span class="stringliteral">&quot;nwb.ophys&quot;</span>, <a class="code hl_variable" href="#a3dbadd78bfd057a1dcba6f77b957986b">nwb_ophys</a>},</div>
-<div class="line">                    {<span class="stringliteral">&quot;nwb.retinotopy&quot;</span>, <a class="code hl_variable" href="#a3bc997e240ea3af6c88c9b8bdf29a075">nwb_retinotopy</a>},</div>
-<div class="line">                    {<span class="stringliteral">&quot;namespace&quot;</span>, <a class="code hl_variable" href="#a2b54ef029670f26bc8a74a7eae6d870b">namespaces</a>}}}</div>
-<div class="ttc" id="anamespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e_html_a1c3844344a5557956e138e0dae691738"><div class="ttname"><a href="#a1c3844344a5557956e138e0dae691738">AQNWB::SPEC::CORE::nwb_ogen</a></div><div class="ttdeci">constexpr std::string_view nwb_ogen</div><div class="ttdef"><b>Definition</b> core.hpp:65</div></div>
-<div class="ttc" id="anamespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e_html_a2b54ef029670f26bc8a74a7eae6d870b"><div class="ttname"><a href="#a2b54ef029670f26bc8a74a7eae6d870b">AQNWB::SPEC::CORE::namespaces</a></div><div class="ttdeci">constexpr std::string_view namespaces</div><div class="ttdef"><b>Definition</b> core.hpp:74</div></div>
-<div class="ttc" id="anamespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e_html_a35cf953e6c8441312e069d901d687a5d"><div class="ttname"><a href="#a35cf953e6c8441312e069d901d687a5d">AQNWB::SPEC::CORE::nwb_device</a></div><div class="ttdeci">constexpr std::string_view nwb_device</div><div class="ttdef"><b>Definition</b> core.hpp:15</div></div>
-<div class="ttc" id="anamespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e_html_a3bc997e240ea3af6c88c9b8bdf29a075"><div class="ttname"><a href="#a3bc997e240ea3af6c88c9b8bdf29a075">AQNWB::SPEC::CORE::nwb_retinotopy</a></div><div class="ttdeci">constexpr std::string_view nwb_retinotopy</div><div class="ttdef"><b>Definition</b> core.hpp:71</div></div>
-<div class="ttc" id="anamespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e_html_a3dbadd78bfd057a1dcba6f77b957986b"><div class="ttname"><a href="#a3dbadd78bfd057a1dcba6f77b957986b">AQNWB::SPEC::CORE::nwb_ophys</a></div><div class="ttdeci">constexpr std::string_view nwb_ophys</div><div class="ttdef"><b>Definition</b> core.hpp:68</div></div>
+<b>Initial value:</b><div class="fragment"><div class="line">{</div>
+<div class="line">    {{<span class="stringliteral">&quot;nwb.base&quot;</span>, <a class="code hl_variable" href="#aa4ac83aa3690c9b4fc9e4870c8a153e3">nwb_base</a>},</div>
+<div class="line">     {<span class="stringliteral">&quot;nwb.device&quot;</span>, <a class="code hl_variable" href="#a35cf953e6c8441312e069d901d687a5d">nwb_device</a>},</div>
+<div class="line">     {<span class="stringliteral">&quot;nwb.epoch&quot;</span>, <a class="code hl_variable" href="#ad0967605c3219827e368475e5b156662">nwb_epoch</a>},</div>
+<div class="line">     {<span class="stringliteral">&quot;nwb.image&quot;</span>, <a class="code hl_variable" href="#af698831d504b552e80ed9563bd173140">nwb_image</a>},</div>
+<div class="line">     {<span class="stringliteral">&quot;nwb.file&quot;</span>, <a class="code hl_function" href="#a44883cb19bbfdb3f3ed0ed6843baba19">nwb_file</a>},</div>
+<div class="line">     {<span class="stringliteral">&quot;nwb.misc&quot;</span>, <a class="code hl_variable" href="#ae67799177ba7530f5d9daaecfaa91593">nwb_misc</a>},</div>
+<div class="line">     {<span class="stringliteral">&quot;nwb.behavior&quot;</span>, <a class="code hl_variable" href="#a97c5fd31e953734c86e91d6c0cba20e7">nwb_behavior</a>},</div>
+<div class="line">     {<span class="stringliteral">&quot;nwb.ecephys&quot;</span>, <a class="code hl_variable" href="#a611c8883c4014f2be8fd0897086a4e33">nwb_ecephys</a>},</div>
+<div class="line">     {<span class="stringliteral">&quot;nwb.icephys&quot;</span>, <a class="code hl_variable" href="#a806ffc7a5dc1a928bcab85a010ccecea">nwb_icephys</a>},</div>
+<div class="line">     {<span class="stringliteral">&quot;nwb.ogen&quot;</span>, <a class="code hl_variable" href="#a1c3844344a5557956e138e0dae691738">nwb_ogen</a>},</div>
+<div class="line">     {<span class="stringliteral">&quot;nwb.ophys&quot;</span>, <a class="code hl_variable" href="#a3dbadd78bfd057a1dcba6f77b957986b">nwb_ophys</a>},</div>
+<div class="line">     {<span class="stringliteral">&quot;nwb.retinotopy&quot;</span>, <a class="code hl_variable" href="#a3bc997e240ea3af6c88c9b8bdf29a075">nwb_retinotopy</a>},</div>
+<div class="line">     {<span class="stringliteral">&quot;namespace&quot;</span>, <a class="code hl_variable" href="#a2b54ef029670f26bc8a74a7eae6d870b">namespaces</a>}}}</div>
+<div class="ttc" id="anamespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e_html_a1c3844344a5557956e138e0dae691738"><div class="ttname"><a href="#a1c3844344a5557956e138e0dae691738">AQNWB::SPEC::CORE::nwb_ogen</a></div><div class="ttdeci">constexpr std::string_view nwb_ogen</div><div class="ttdef"><b>Definition</b> core.hpp:69</div></div>
+<div class="ttc" id="anamespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e_html_a2b54ef029670f26bc8a74a7eae6d870b"><div class="ttname"><a href="#a2b54ef029670f26bc8a74a7eae6d870b">AQNWB::SPEC::CORE::namespaces</a></div><div class="ttdeci">constexpr std::string_view namespaces</div><div class="ttdef"><b>Definition</b> core.hpp:78</div></div>
+<div class="ttc" id="anamespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e_html_a35cf953e6c8441312e069d901d687a5d"><div class="ttname"><a href="#a35cf953e6c8441312e069d901d687a5d">AQNWB::SPEC::CORE::nwb_device</a></div><div class="ttdeci">constexpr std::string_view nwb_device</div><div class="ttdef"><b>Definition</b> core.hpp:19</div></div>
+<div class="ttc" id="anamespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e_html_a3bc997e240ea3af6c88c9b8bdf29a075"><div class="ttname"><a href="#a3bc997e240ea3af6c88c9b8bdf29a075">AQNWB::SPEC::CORE::nwb_retinotopy</a></div><div class="ttdeci">constexpr std::string_view nwb_retinotopy</div><div class="ttdef"><b>Definition</b> core.hpp:75</div></div>
+<div class="ttc" id="anamespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e_html_a3dbadd78bfd057a1dcba6f77b957986b"><div class="ttname"><a href="#a3dbadd78bfd057a1dcba6f77b957986b">AQNWB::SPEC::CORE::nwb_ophys</a></div><div class="ttdeci">constexpr std::string_view nwb_ophys</div><div class="ttdef"><b>Definition</b> core.hpp:72</div></div>
 <div class="ttc" id="anamespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e_html_a44883cb19bbfdb3f3ed0ed6843baba19"><div class="ttname"><a href="#a44883cb19bbfdb3f3ed0ed6843baba19">AQNWB::SPEC::CORE::nwb_file</a></div><div class="ttdeci">constexpr std::string_view nwb_file(nwb_file_concatenate.data(), nwb_file_concatenate.size() - 1)</div></div>
-<div class="ttc" id="anamespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e_html_a611c8883c4014f2be8fd0897086a4e33"><div class="ttname"><a href="#a611c8883c4014f2be8fd0897086a4e33">AQNWB::SPEC::CORE::nwb_ecephys</a></div><div class="ttdeci">constexpr std::string_view nwb_ecephys</div><div class="ttdef"><b>Definition</b> core.hpp:59</div></div>
-<div class="ttc" id="anamespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e_html_a806ffc7a5dc1a928bcab85a010ccecea"><div class="ttname"><a href="#a806ffc7a5dc1a928bcab85a010ccecea">AQNWB::SPEC::CORE::nwb_icephys</a></div><div class="ttdeci">constexpr std::string_view nwb_icephys</div><div class="ttdef"><b>Definition</b> core.hpp:62</div></div>
-<div class="ttc" id="anamespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e_html_a97c5fd31e953734c86e91d6c0cba20e7"><div class="ttname"><a href="#a97c5fd31e953734c86e91d6c0cba20e7">AQNWB::SPEC::CORE::nwb_behavior</a></div><div class="ttdeci">constexpr std::string_view nwb_behavior</div><div class="ttdef"><b>Definition</b> core.hpp:56</div></div>
-<div class="ttc" id="anamespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e_html_aa4ac83aa3690c9b4fc9e4870c8a153e3"><div class="ttname"><a href="#aa4ac83aa3690c9b4fc9e4870c8a153e3">AQNWB::SPEC::CORE::nwb_base</a></div><div class="ttdeci">constexpr std::string_view nwb_base</div><div class="ttdef"><b>Definition</b> core.hpp:12</div></div>
-<div class="ttc" id="anamespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e_html_ad0967605c3219827e368475e5b156662"><div class="ttname"><a href="#ad0967605c3219827e368475e5b156662">AQNWB::SPEC::CORE::nwb_epoch</a></div><div class="ttdeci">constexpr std::string_view nwb_epoch</div><div class="ttdef"><b>Definition</b> core.hpp:18</div></div>
-<div class="ttc" id="anamespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e_html_ae67799177ba7530f5d9daaecfaa91593"><div class="ttname"><a href="#ae67799177ba7530f5d9daaecfaa91593">AQNWB::SPEC::CORE::nwb_misc</a></div><div class="ttdeci">constexpr std::string_view nwb_misc</div><div class="ttdef"><b>Definition</b> core.hpp:53</div></div>
-<div class="ttc" id="anamespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e_html_af698831d504b552e80ed9563bd173140"><div class="ttname"><a href="#af698831d504b552e80ed9563bd173140">AQNWB::SPEC::CORE::nwb_image</a></div><div class="ttdeci">constexpr std::string_view nwb_image</div><div class="ttdef"><b>Definition</b> core.hpp:21</div></div>
+<div class="ttc" id="anamespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e_html_a611c8883c4014f2be8fd0897086a4e33"><div class="ttname"><a href="#a611c8883c4014f2be8fd0897086a4e33">AQNWB::SPEC::CORE::nwb_ecephys</a></div><div class="ttdeci">constexpr std::string_view nwb_ecephys</div><div class="ttdef"><b>Definition</b> core.hpp:63</div></div>
+<div class="ttc" id="anamespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e_html_a806ffc7a5dc1a928bcab85a010ccecea"><div class="ttname"><a href="#a806ffc7a5dc1a928bcab85a010ccecea">AQNWB::SPEC::CORE::nwb_icephys</a></div><div class="ttdeci">constexpr std::string_view nwb_icephys</div><div class="ttdef"><b>Definition</b> core.hpp:66</div></div>
+<div class="ttc" id="anamespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e_html_a97c5fd31e953734c86e91d6c0cba20e7"><div class="ttname"><a href="#a97c5fd31e953734c86e91d6c0cba20e7">AQNWB::SPEC::CORE::nwb_behavior</a></div><div class="ttdeci">constexpr std::string_view nwb_behavior</div><div class="ttdef"><b>Definition</b> core.hpp:60</div></div>
+<div class="ttc" id="anamespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e_html_aa4ac83aa3690c9b4fc9e4870c8a153e3"><div class="ttname"><a href="#aa4ac83aa3690c9b4fc9e4870c8a153e3">AQNWB::SPEC::CORE::nwb_base</a></div><div class="ttdeci">constexpr std::string_view nwb_base</div><div class="ttdef"><b>Definition</b> core.hpp:16</div></div>
+<div class="ttc" id="anamespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e_html_ad0967605c3219827e368475e5b156662"><div class="ttname"><a href="#ad0967605c3219827e368475e5b156662">AQNWB::SPEC::CORE::nwb_epoch</a></div><div class="ttdeci">constexpr std::string_view nwb_epoch</div><div class="ttdef"><b>Definition</b> core.hpp:22</div></div>
+<div class="ttc" id="anamespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e_html_ae67799177ba7530f5d9daaecfaa91593"><div class="ttname"><a href="#ae67799177ba7530f5d9daaecfaa91593">AQNWB::SPEC::CORE::nwb_misc</a></div><div class="ttdeci">constexpr std::string_view nwb_misc</div><div class="ttdef"><b>Definition</b> core.hpp:57</div></div>
+<div class="ttc" id="anamespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e_html_af698831d504b552e80ed9563bd173140"><div class="ttname"><a href="#af698831d504b552e80ed9563bd173140">AQNWB::SPEC::CORE::nwb_image</a></div><div class="ttdeci">constexpr std::string_view nwb_image</div><div class="ttdef"><b>Definition</b> core.hpp:25</div></div>
 </div><!-- fragment -->
 </div>
 </div>

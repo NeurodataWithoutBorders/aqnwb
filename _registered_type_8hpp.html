@@ -145,8 +145,8 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-define-members" class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a34a1efef99cdbc58adaec1c8fcf5d250" id="r_a34a1efef99cdbc58adaec1c8fcf5d250"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a34a1efef99cdbc58adaec1c8fcf5d250">REGISTER_SUBCLASS_WITH_TYPENAME</a>(T,  NAMESPACE,  TYPENAME)</td></tr>
-<tr class="memdesc:a34a1efef99cdbc58adaec1c8fcf5d250"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to register a subclass with the RegisteredType class registry.  <br /></td></tr>
+<tr class="memitem:af20769bbf87fb10f70c36fe248deaf4d" id="r_af20769bbf87fb10f70c36fe248deaf4d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af20769bbf87fb10f70c36fe248deaf4d">REGISTER_SUBCLASS_WITH_TYPENAME</a>(T,  NAMESPACE_VAR,  TYPENAME)</td></tr>
+<tr class="memdesc:af20769bbf87fb10f70c36fe248deaf4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to register a subclass with the RegisteredType class registry.  <br /></td></tr>
 <tr class="memitem:a9c1f79aa46baaf33d1bf885cf7484aa1" id="r_a9c1f79aa46baaf33d1bf885cf7484aa1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9c1f79aa46baaf33d1bf885cf7484aa1">REGISTER_SUBCLASS</a>(T,  NAMESPACE)</td></tr>
 <tr class="memdesc:a9c1f79aa46baaf33d1bf885cf7484aa1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to register a subclass with the RegisteredType class registry.  <br /></td></tr>
 <tr class="memitem:a54ea7671d2bcf5bae392b8ba1824961e" id="r_a54ea7671d2bcf5bae392b8ba1824961e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a54ea7671d2bcf5bae392b8ba1824961e">REGISTER_SUBCLASS_IMPL</a>(T)</td></tr>
@@ -356,8 +356,8 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_define" href="#a34a1efef99cdbc58adaec1c8fcf5d250">REGISTER_SUBCLASS_WITH_TYPENAME</a>(T, NAMESPACE, #T)</div>
-<div class="ttc" id="a_registered_type_8hpp_html_a34a1efef99cdbc58adaec1c8fcf5d250"><div class="ttname"><a href="#a34a1efef99cdbc58adaec1c8fcf5d250">REGISTER_SUBCLASS_WITH_TYPENAME</a></div><div class="ttdeci">#define REGISTER_SUBCLASS_WITH_TYPENAME(T, NAMESPACE, TYPENAME)</div><div class="ttdoc">Macro to register a subclass with the RegisteredType class registry.</div><div class="ttdef"><b>Definition</b> RegisteredType.hpp:341</div></div>
+<b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_define" href="#af20769bbf87fb10f70c36fe248deaf4d">REGISTER_SUBCLASS_WITH_TYPENAME</a>(T, NAMESPACE, #T)</div>
+<div class="ttc" id="a_registered_type_8hpp_html_af20769bbf87fb10f70c36fe248deaf4d"><div class="ttname"><a href="#af20769bbf87fb10f70c36fe248deaf4d">REGISTER_SUBCLASS_WITH_TYPENAME</a></div><div class="ttdeci">#define REGISTER_SUBCLASS_WITH_TYPENAME(T, NAMESPACE_VAR, TYPENAME)</div><div class="ttdoc">Macro to register a subclass with the RegisteredType class registry.</div><div class="ttdef"><b>Definition</b> RegisteredType.hpp:341</div></div>
 </div><!-- fragment -->
 <p>Macro to register a subclass with the RegisteredType class registry. </p>
 <p>This macro is a convenience wrapper around the main REGISTER_SUBCLASS macro, providing a default value for TYPENAME.</p>
@@ -398,8 +398,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a34a1efef99cdbc58adaec1c8fcf5d250" name="a34a1efef99cdbc58adaec1c8fcf5d250"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a34a1efef99cdbc58adaec1c8fcf5d250">&#9670;&#160;</a></span>REGISTER_SUBCLASS_WITH_TYPENAME</h2>
+<a id="af20769bbf87fb10f70c36fe248deaf4d" name="af20769bbf87fb10f70c36fe248deaf4d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af20769bbf87fb10f70c36fe248deaf4d">&#9670;&#160;</a></span>REGISTER_SUBCLASS_WITH_TYPENAME</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -412,7 +412,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>NAMESPACE</em></span>, </td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>NAMESPACE_VAR</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -424,12 +424,12 @@ Variables</h2></td></tr>
 <b>Value:</b><div class="fragment"><div class="line">  <span class="keyword">static</span> <span class="keywordtype">bool</span> registerSubclass() \</div>
 <div class="line">  { \</div>
 <div class="line">    AQNWB::NWB::RegisteredType::registerSubclass( \</div>
-<div class="line">        NAMESPACE <span class="stringliteral">&quot;::&quot;</span> #T, \</div>
-<div class="line">        [](<span class="keyword">const</span> std::string&amp; path, std::shared_ptr&lt;IO::BaseIO&gt; io) \</div>
+<div class="line">        std::string(NAMESPACE_VAR) + <span class="stringliteral">&quot;::&quot;</span> + #T, \</div>
+<div class="line">        [](<span class="keyword">const</span> std::string&amp; path, std::shared_ptr&lt;AQNWB::IO::BaseIO&gt; io) \</div>
 <div class="line">            -&gt; std::unique_ptr&lt;AQNWB::NWB::RegisteredType&gt; \</div>
 <div class="line">        { <span class="keywordflow">return</span> std::make_unique&lt;T&gt;(path, io); }, \</div>
 <div class="line">        TYPENAME, \</div>
-<div class="line">        NAMESPACE); \</div>
+<div class="line">        NAMESPACE_VAR); \</div>
 <div class="line">    <span class="keywordflow">return</span> <span class="keyword">true</span>; \</div>
 <div class="line">  } \</div>
 <div class="line">  <span class="keyword">static</span> <span class="keywordtype">bool</span> registered_; \</div>
@@ -439,7 +439,7 @@ Variables</h2></td></tr>
 <div class="line">  } \</div>
 <div class="line">  <span class="keyword">virtual</span> std::string getNamespace() const override \</div>
 <div class="line">  { \</div>
-<div class="line">    <span class="keywordflow">return</span> NAMESPACE; \</div>
+<div class="line">    <span class="keywordflow">return</span> NAMESPACE_VAR; \</div>
 <div class="line">  }</div>
 </div><!-- fragment -->
 <p>Macro to register a subclass with the RegisteredType class registry. </p>

@@ -48,6 +48,13 @@ var devdocs =
       ] ],
       [ "Testing RegisteredTypes", "registered_type_page.html#implement_registered_type_unit_tests", null ]
     ] ],
+    [ "Integrating NWB Extensions", "register_namespace_page.html", [
+      [ "How to Integrate a New Namespace", "register_namespace_page.html#integrate_namespace", null ],
+      [ "How the NamespaceRegistry Works", "register_namespace_page.html#namespace_registry", [
+        [ "Registering a Namespace", "register_namespace_page.html#register_namespace", null ],
+        [ "Looking up Namespaces", "register_namespace_page.html#namespace_lookup", null ]
+      ] ]
+    ] ],
     [ "Implementation of data read", "read_design_page.html", [
       [ "Reading datasets and attributes", "read_design_page.html#read_design_sec_read_date", null ],
       [ "Reading neurodata_type objects", "read_design_page.html#reading_neurodata_type_objects", [

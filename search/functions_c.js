@@ -44,5 +44,6 @@ var searchData=
   ['readtimestampsunit_41',['readTimestampsUnit',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#adf3f178d207453927ae6ede7a53ac7f7',1,'AQNWB::NWB::TimeSeries']]],
   ['recordingcontainers_42',['RecordingContainers',['../class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#a22349d98ed8ba18336bbba9ca83ee3cd',1,'AQNWB::NWB::RecordingContainers::RecordingContainers()'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#a240f7f6cd7a386c81d8a68854dfceade',1,'AQNWB::NWB::RecordingContainers::RecordingContainers(const RecordingContainers &amp;)=delete']]],
   ['registeredtype_43',['RegisteredType',['../class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a4e2e5496f7c318307bfc2addfc68c859',1,'AQNWB::NWB::RegisteredType']]],
-  ['registersubclass_44',['registerSubclass',['../class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#acb4c10e5b18c0c637de8bccd8d13e1dc',1,'AQNWB::NWB::RegisteredType']]]
+  ['registernamespace_44',['registerNamespace',['../class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#a0c80d361d6fe067f0c30a82983858c59',1,'AQNWB::SPEC::NamespaceRegistry']]],
+  ['registersubclass_45',['registerSubclass',['../class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#acb4c10e5b18c0c637de8bccd8d13e1dc',1,'AQNWB::NWB::RegisteredType']]]
 ];

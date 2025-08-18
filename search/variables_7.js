@@ -41,5 +41,6 @@ var searchData=
   ['m_5fsamplesrecorded_38',['m_samplesRecorded',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a30298c5b6060c152101f6badd0e4824b',1,'AQNWB::NWB::ElectricalSeries::m_samplesRecorded'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html#a8801b9095e4f9131b4ede7e8e812f6e3',1,'AQNWB::NWB::AnnotationSeries::m_samplesRecorded']]],
   ['m_5fsamplingrate_39',['m_samplingRate',['../class_a_q_n_w_b_1_1_channel.html#abcd31d93b7b1e401d310757fd32f5ce5',1,'AQNWB::Channel']]],
   ['m_5fshape_40',['m_shape',['../class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html#a41e432293c0f71286a37af5437d0a3dd',1,'AQNWB::IO::ArrayDataSetConfig::m_shape'],['../class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html#ada38bb9b7163a82d36ab0658dbe5882e',1,'AQNWB::IO::BaseRecordingData::m_shape']]],
-  ['m_5ftype_41',['m_type',['../class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html#a55312807822c3aa1d9d85b274ce0f1c9',1,'AQNWB::IO::ArrayDataSetConfig']]]
+  ['m_5fspecificationspath_41',['m_specificationsPath',['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aff94e38864d697a67e542400799870dc',1,'AQNWB::NWB::NWBFile']]],
+  ['m_5ftype_42',['m_type',['../class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html#a55312807822c3aa1d9d85b274ce0f1c9',1,'AQNWB::IO::ArrayDataSetConfig']]]
 ];

@@ -7,5 +7,6 @@ var searchData=
   ['examples_4',['Examples',['../hdf5io.html#hdf5io_swmr_examples',1,'Code Examples'],['../dev_docs_page.html#dev_docs_codeexamples_sec',1,'Creating Code Examples']]],
   ['examples_20in_20doxygen_5',['Including Code Examples in Doxygen',['../dev_docs_page.html#dev_docs_codeexamples_incl_sec',1,'']]],
   ['existing_20file_20for_20reading_6',['Opening an existing file for reading',['../read_page.html#read_example_open',1,'']]],
-  ['extracellular_20recording_20metadata_7',['Create the extracellular recording metadata',['../workflow.html#create_recmeta_ecephys',1,'']]]
+  ['extensions_7',['Integrating NWB Extensions',['../register_namespace_page.html',1,'devdocs']]],
+  ['extracellular_20recording_20metadata_8',['Create the extracellular recording metadata',['../workflow.html#create_recmeta_ecephys',1,'']]]
 ];

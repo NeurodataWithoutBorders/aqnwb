@@ -33,9 +33,10 @@ var searchData=
   ['registeredtype_20with_20a_20custom_20type_20name_30',['How to implement a RegisteredType with a custom type name',['../registered_type_page.html#using_registered_subclass_with_typename',1,'']]],
   ['registeredtype_20works_31',['How the Type Registry in RegisteredType Works',['../read_design_page.html#type_registry',1,'']]],
   ['registeredtypes_32',['Testing RegisteredTypes',['../registered_type_page.html#implement_registered_type_unit_tests',1,'']]],
-  ['registry_33',['How to Use the RegisteredType Registry',['../read_design_page.html#use_registered_type_registry',1,'']]],
-  ['registry_34',['Example: Using the type registry',['../read_design_page.html#use_registered_type_registry_example',1,'']]],
-  ['registry_20in_20registeredtype_20works_35',['How the Type Registry in RegisteredType Works',['../read_design_page.html#type_registry',1,'']]],
-  ['requirements_36',['Requirements',['../dev_install_page.html#dev_requirements_sec',1,'Requirements'],['../user_install_page.html#user_requirements_sec',1,'Requirements']]],
-  ['running_20unit_20tests_37',['Running Unit Tests',['../testing.html#testing_unit_run',1,'']]]
+  ['registering_20a_20namespace_33',['Registering a Namespace',['../register_namespace_page.html#register_namespace',1,'']]],
+  ['registry_34',['How to Use the RegisteredType Registry',['../read_design_page.html#use_registered_type_registry',1,'']]],
+  ['registry_35',['Example: Using the type registry',['../read_design_page.html#use_registered_type_registry_example',1,'']]],
+  ['registry_20in_20registeredtype_20works_36',['How the Type Registry in RegisteredType Works',['../read_design_page.html#type_registry',1,'']]],
+  ['requirements_37',['Requirements',['../dev_install_page.html#dev_requirements_sec',1,'Requirements'],['../user_install_page.html#user_requirements_sec',1,'Requirements']]],
+  ['running_20unit_20tests_38',['Running Unit Tests',['../testing.html#testing_unit_run',1,'']]]
 ];
