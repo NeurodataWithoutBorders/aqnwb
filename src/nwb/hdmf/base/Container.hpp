@@ -4,6 +4,7 @@
 #include <string>
 
 #include "nwb/RegisteredType.hpp"
+#include "spec/hdmf_common.hpp"
 
 namespace AQNWB::NWB
 {
@@ -16,7 +17,7 @@ class Container : public RegisteredType
 {
 public:
   // Register the Container class as a registered type
-  REGISTER_SUBCLASS(Container, "hdmf-common")
+  REGISTER_SUBCLASS(Container, AQNWB::SPEC::HDMF_COMMON::namespaceName)
 
   /**
    * @brief Constructor.

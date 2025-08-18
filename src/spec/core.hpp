@@ -4,8 +4,12 @@
 #include <string>
 #include <string_view>
 
+#include "spec/NamespaceRegistry.hpp"
+
 namespace AQNWB::SPEC::CORE
 {
+
+const std::string namespaceName = "core";
 
 const std::string version = "2.7.0";
 
@@ -74,18 +78,21 @@ constexpr std::string_view nwb_retinotopy = R"delimiter(
 constexpr std::string_view namespaces = R"delimiter(
 {"namespaces":[{"name":"core","doc":"NWB namespace","author":["Andrew Tritt","Oliver Ruebel","Ryan Ly","Ben Dichter","Keith Godfrey","Jeff Teeters"],"contact":["ajtritt@lbl.gov","oruebel@lbl.gov","rly@lbl.gov","bdichter@lbl.gov","keithg@alleninstitute.org","jteeters@berkeley.edu"],"full_name":"NWB core","schema":[{"namespace":"hdmf-common"},{"source":"nwb.base"},{"source":"nwb.device"},{"source":"nwb.epoch"},{"source":"nwb.image"},{"source":"nwb.file"},{"source":"nwb.misc"},{"source":"nwb.behavior"},{"source":"nwb.ecephys"},{"source":"nwb.icephys"},{"source":"nwb.ogen"},{"source":"nwb.ophys"},{"source":"nwb.retinotopy"}],"version":"2.7.0"}]})delimiter";
 
-constexpr std::array<std::pair<std::string_view, std::string_view>, 13>
-    specVariables {{{"nwb.base", nwb_base},
-                    {"nwb.device", nwb_device},
-                    {"nwb.epoch", nwb_epoch},
-                    {"nwb.image", nwb_image},
-                    {"nwb.file", nwb_file},
-                    {"nwb.misc", nwb_misc},
-                    {"nwb.behavior", nwb_behavior},
-                    {"nwb.ecephys", nwb_ecephys},
-                    {"nwb.icephys", nwb_icephys},
-                    {"nwb.ogen", nwb_ogen},
-                    {"nwb.ophys", nwb_ophys},
-                    {"nwb.retinotopy", nwb_retinotopy},
-                    {"namespace", namespaces}}};
+const std::vector<std::pair<std::string_view, std::string_view>> specVariables {
+    {{"nwb.base", nwb_base},
+     {"nwb.device", nwb_device},
+     {"nwb.epoch", nwb_epoch},
+     {"nwb.image", nwb_image},
+     {"nwb.file", nwb_file},
+     {"nwb.misc", nwb_misc},
+     {"nwb.behavior", nwb_behavior},
+     {"nwb.ecephys", nwb_ecephys},
+     {"nwb.icephys", nwb_icephys},
+     {"nwb.ogen", nwb_ogen},
+     {"nwb.ophys", nwb_ophys},
+     {"nwb.retinotopy", nwb_retinotopy},
+     {"namespace", namespaces}}};
+
+// Register this namespace with the global registry
+REGISTER_NAMESPACE(namespaceName, version, specVariables)
 }  // namespace AQNWB::SPEC::CORE

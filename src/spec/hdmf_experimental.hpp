@@ -1,11 +1,15 @@
 #pragma once
 
-#include <array>
 #include <string>
 #include <string_view>
+#include <vector>
+
+#include "spec/NamespaceRegistry.hpp"
 
 namespace AQNWB::SPEC::HDMF_EXPERIMENTAL
 {
+
+const std::string namespaceName = "hdmf-experimental";
 
 const std::string version = "0.5.0";
 
@@ -18,8 +22,11 @@ constexpr std::string_view resources = R"delimiter(
 constexpr std::string_view namespaces = R"delimiter(
 {"namespaces":[{"name":"hdmf-experimental","doc":"Experimental data structures provided by HDMF. These are not guaranteed to be available in the future.","author":["Andrew Tritt","Oliver Ruebel","Ryan Ly","Ben Dichter","Matthew Avaylon"],"contact":["ajtritt@lbl.gov","oruebel@lbl.gov","rly@lbl.gov","bdichter@lbl.gov","mavaylon@lbl.gov"],"full_name":"HDMF Experimental","schema":[{"namespace":"hdmf-common"},{"source":"experimental"},{"source":"resources"}],"version":"0.5.0"}]})delimiter";
 
-constexpr std::array<std::pair<std::string_view, std::string_view>, 3>
-    specVariables {{{"experimental", experimental},
-                    {"resources", resources},
-                    {"namespace", namespaces}}};
+const std::vector<std::pair<std::string_view, std::string_view>> specVariables {
+    {{"experimental", experimental},
+     {"resources", resources},
+     {"namespace", namespaces}}};
+
+// Register this namespace with the global registry
+REGISTER_NAMESPACE(namespaceName, version, specVariables)
 }  // namespace AQNWB::SPEC::HDMF_EXPERIMENTAL
