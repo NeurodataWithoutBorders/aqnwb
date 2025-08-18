@@ -1,0 +1,60 @@
+/* Modern Doxygen Sidebar Layout */
+
+/* Use a clean, modern font */
+body, table, div, p, dl {
+    font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 15px;
+}
+
+/* Sidebar styling */
+#side-nav {
+    background-color: #f8f9fa;
+    border-right: 1px solid #ddd;
+    padding-top: 0;
+}
+
+/* Logo */
+#projectlogo img {
+    display: block;
+    margin: 1rem auto;
+    max-width: 120px;
+    height: auto;
+}
+
+/* Project name */
+#projectname {
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+/* Search box */
+#MSearchBox {
+    display: block;
+    margin: 0.5rem auto;
+    width: 90%;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    padding: 4px;
+}
+
+/* Navtree */
+#nav-tree {
+    padding: 0.5rem;
+    overflow-y: auto;
+}
+
+/* Main content */
+#doc-content {
+    padding: 1.5rem;
+}
+
+/* Links */
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
