@@ -1,6 +1,6 @@
 /**
  *
- * \page registered_type_page Implementing a new Neurodata Type
+ * \page registered_type_page Implementing a Registered Type 🔧
  *
  * \tableofcontents
  *
@@ -32,7 +32,7 @@
  *    @endcode 
  *    @note  
  *    If the neurodata_type you wish to integrate is not part of the NWB or HDMF namespaces that 
- *    ship with AqNWB, and  you have not yet integrate your extension namespace, then see
+ *    ship with AqNWB, and you have not yet integrated your extension namespace, then see
  *    \ref integrating_extensions_page for details on how to create your schema header file(s)
  *    to integrate your extension namespace with AqNWB first.   
  *
@@ -384,7 +384,7 @@
  * The `resources/utils/schematype_to_aqnwb.py` script, included in the 
  * [AqNWB source repository](https://github.com/NeurodataWithoutBorders/aqnwb),
  * is a simple utility designed to create skeleton C++ source files for integrating new 
- * neurodata_types with AqNWB. While the generated source files are only an outline, 
+ * neurodata_types with AqNWB. While the generated source files are only an outline and are not guaranteed to compile, 
  * they serve as a helpful starting point. Look for `TODO` comments in the generated files, indicating
  * items that need to be addressed. For example, the following command will generate template code
  * for AqNWB classes for all neurodata_types in the NWB schema:

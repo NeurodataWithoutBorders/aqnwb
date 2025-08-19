@@ -1,12 +1,15 @@
 #pragma once
 
-#include <array>
 #include <string>
 #include <string_view>
 #include <vector>
 
 #include "spec/NamespaceRegistry.hpp"
 
+/*!
+ * \namespace AQNWB::SPEC::HDMF_COMMON
+ * \brief The namespace for the hdmf-common schema specification.
+ */
 namespace AQNWB::SPEC::HDMF_COMMON
 {
 

@@ -1,5 +1,5 @@
 /**
- * \page workflow Acquiring Data
+ * \page workflow Acquiring Data 📊
  *
  * \tableofcontents
  *
@@ -25,6 +25,8 @@
  * 8. Stop the recording and close the \ref AQNWB::NWB::NWBFile "NWBFile".
  *
  * Below, we walk through these steps in more detail.
+ *
+ * \image html resources/images/aqnwb_workflow_and_api.png "Overview of the workflow and design of AqNWB." width=800px
  *
  *
  * \subsection create_io 1. Create the I/O object.
