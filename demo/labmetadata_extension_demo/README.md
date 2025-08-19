@@ -36,7 +36,7 @@ implement this app. To implement this example app we needed to:
     * **Ensure REGISTER_SUBCLASS is called in the header file**
     * **Ensure REGISTER_SUBCLASS_IMPL is called in the cpp file**
     * Implement the setup of your data type for write in a function called `initialize` (and make sure to call the `initialize` of your parent class).
-    * Include approbriate `DEFINE_FIELD` and `DEFINE_REGISTERED_FIELD` definitions to simplify read 
+    * Include appropriate `DEFINE_FIELD` and `DEFINE_REGISTERED_FIELD` definitions to simplify read 
    
 4. **Use your extension in your application:** Here we create a simple `main.cpp` example script that demonstrated the use 
    of our new ` LabMetaDataExtensionExample` type to write and read the example. 
