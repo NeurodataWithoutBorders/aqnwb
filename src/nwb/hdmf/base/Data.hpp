@@ -4,6 +4,7 @@
 
 #include "io/BaseIO.hpp"
 #include "nwb/RegisteredType.hpp"
+#include "spec/hdmf_common.hpp"
 
 namespace AQNWB::NWB
 {
@@ -14,6 +15,7 @@ namespace AQNWB::NWB
 class Data : public RegisteredType
 {
 public:
+  // Register the Data class with the type registry
   REGISTER_SUBCLASS(Data, "hdmf-common")
 
   /**
