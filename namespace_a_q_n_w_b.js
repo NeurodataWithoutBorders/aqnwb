@@ -1,6 +1,5 @@
 var namespace_a_q_n_w_b =
 [
-    [ "HDF5", "namespace_a_q_n_w_b_1_1_h_d_f5.html", null ],
     [ "IO", "namespace_a_q_n_w_b_1_1_i_o.html", "namespace_a_q_n_w_b_1_1_i_o" ],
     [ "NWB", "namespace_a_q_n_w_b_1_1_n_w_b.html", "namespace_a_q_n_w_b_1_1_n_w_b" ],
     [ "SPEC", "namespace_a_q_n_w_b_1_1_s_p_e_c.html", "namespace_a_q_n_w_b_1_1_s_p_e_c" ],

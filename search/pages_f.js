@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['hdf5_20i_20o_0',['HDF5 I/O',['../hdf5io.html',1,'userdocs']]],
+  ['hdf5_20i_20o_20📂_0',['HDF5 I/O 📂',['../hdf5io.html',1,'userdocs']]],
   ['header_20files_1',['Generating the schema header files',['../nwb_schema_page.html#dev_docs_generating_nwb_schema_headers_section',1,'']]],
   ['how_20the_20namespaceregistry_20works_2',['How the NamespaceRegistry Works',['../integrating_extensions_page.html#namespace_registry',1,'']]],
   ['how_20the_20type_20registry_20in_20registeredtype_20works_3',['How the Type Registry in RegisteredType Works',['../read_design_page.html#type_registry',1,'']]],

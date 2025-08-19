@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['license_2edox_0',['license.dox',['../license_8dox.html',1,'']]]
+  ['legal_2edox_0',['legal.dox',['../legal_8dox.html',1,'']]]
 ];

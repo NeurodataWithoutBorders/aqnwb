@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['o_0',['HDF5 I/O',['../hdf5io.html',1,'userdocs']]],
+  ['o_20📂_0',['HDF5 I/O 📂',['../hdf5io.html',1,'userdocs']]],
   ['o_20filters_20and_20compression_1',['I/O Filters and Compression',['../hdf5io.html#hdf5io_filters',1,'']]],
   ['o_20filters_20in_20aqnwb_2',['Using Chunking and I/O Filters in AqNWB',['../hdf5io.html#hdf5io_filters_usage',1,'']]],
   ['o_20object_3',['1. Create the I/O object.',['../workflow.html#create_io',1,'']]],
@@ -8,8 +8,8 @@ var searchData=
   ['objectexists_5',['objectExists',['../class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a01e6288db37a36dc4a160955e8f5b5b5',1,'AQNWB::IO::BaseIO::objectExists()'],['../class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#ad384fb7900056f833e217252d3bfc41b',1,'AQNWB::IO::HDF5::HDF5IO::objectExists()']]],
   ['objects_6',['objects',['../registered_type_page.html#use_the_define_referenced_registered_field_macro',1,'DEFINE_REFERENCED_REGISTERED_FIELD: Defining read methods for references to neurodata_type objects'],['../registered_type_page.html#use_the_define_registered_field_macro',1,'DEFINE_REGISTERED_FIELD: Defining read methods for neurodata_type objects'],['../read_page.html#read_example_read',1,'Reading data from RegisteredType objects'],['../read_page.html#read_example_predefined_registered_type',1,'Reading known RegisteredType objects'],['../read_design_page.html#reading_neurodata_type_objects',1,'Reading neurodata_type objects'],['../read_page.html#read_example_search',1,'Searching for RegisteredType objects']]],
   ['of_20a_20recording_20workflow_7',['Overview of a recording workflow',['../workflow.html#recording_workflow',1,'']]],
-  ['of_20conduct_8',['Code of Conduct',['../code_of_conduct_page.html',1,'devdocs']]],
-  ['of_20data_20read_9',['Implementation of data read',['../read_design_page.html',1,'devdocs']]],
+  ['of_20conduct_8',['Code of Conduct',['../legal_page.html#legal_code_of_conduct',1,'']]],
+  ['of_20data_20read_20📤_9',['Implementation of Data Read 📤',['../read_design_page.html',1,'devdocs']]],
   ['of_20register_5fsubclass_5fwith_5ftypename_10',['Limitations of REGISTER_SUBCLASS_WITH_TYPENAME',['../registered_type_page.html#limitations_registered_subclass_with_typename',1,'']]],
   ['of_20the_20extension_11',['Step 1: Get the Schema of the Extension',['../integrating_extensions_page.html#labmetadata_extension_schema',1,'']]],
   ['on_20github_12',['Automated tests on GitHub',['../testing.html#testing_github',1,'']]],

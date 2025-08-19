@@ -1,6 +1,6 @@
 var devdocs =
 [
-    [ "Installation &amp; Setup", "dev_install_page.html", [
+    [ "Installation 🛠️", "dev_install_page.html", [
       [ "Requirements", "dev_install_page.html#dev_requirements_sec", null ],
       [ "Developer Build", "dev_install_page.html#devbuild_sec", null ],
       [ "Developer Presets", "dev_install_page.html#devbuild_presets_subsec", [
@@ -10,7 +10,7 @@ var devdocs =
         [ "Target options", "dev_install_page.html#devbuild_target_options_subsubsec", null ]
       ] ]
     ] ],
-    [ "Testing", "testing.html", [
+    [ "Testing 🛡️", "testing.html", [
       [ "Unit Tests", "testing.html#testing_unit", [
         [ "Running Unit Tests", "testing.html#testing_unit_run", null ],
         [ "Automated tests on GitHub", "testing.html#testing_github", null ]
@@ -18,7 +18,7 @@ var devdocs =
       [ "Spellcheck", "testing.html#testing_spellcheck", null ],
       [ "Linting", "testing.html#testing_lint", null ]
     ] ],
-    [ "Documentation", "dev_docs_page.html", [
+    [ "Documentation 📚", "dev_docs_page.html", [
       [ "Building the Docs", "dev_docs_page.html#dev_docs_requirements_sec", null ],
       [ "Creating New Documentation Pages", "dev_docs_page.html#dev_docs_creating", null ],
       [ "Creating Code Examples", "dev_docs_page.html#dev_docs_codeexamples_sec", [
@@ -28,11 +28,11 @@ var devdocs =
       ] ],
       [ "Creating Custom Dot Graphs", "dev_docs_page.html#dev_docs_graphviz_sec", null ]
     ] ],
-    [ "NWB Schema", "nwb_schema_page.html", [
+    [ "NWB Schema 🧠", "nwb_schema_page.html", [
       [ "Generating the schema header files", "nwb_schema_page.html#dev_docs_generating_nwb_schema_headers_section", null ],
       [ "Updating the schema", "nwb_schema_page.html#dev_docs_updating_nwb_schema_section", null ]
     ] ],
-    [ "Implementing a new Neurodata Type", "registered_type_page.html", [
+    [ "Implementing a Registered Type 🔧", "registered_type_page.html", [
       [ "How to Implement a RegisteredType", "registered_type_page.html#implement_registered_type", [
         [ "Example: Implementing a new type", "registered_type_page.html#implement_registered_type_example", null ],
         [ "DEFINE_FIELD: Creating read methods for datasets and attributes", "registered_type_page.html#use_the_define_field_macro", null ],
@@ -48,7 +48,7 @@ var devdocs =
       ] ],
       [ "Testing RegisteredTypes", "registered_type_page.html#implement_registered_type_unit_tests", null ]
     ] ],
-    [ "Integrating NWB Extensions", "integrating_extensions_page.html", [
+    [ "Integrating NWB Extensions 🧩", "integrating_extensions_page.html", [
       [ "How to Integrate a New Namespace", "integrating_extensions_page.html#integrate_namespace", null ],
       [ "How the NamespaceRegistry Works", "integrating_extensions_page.html#namespace_registry", [
         [ "Registering a Namespace", "integrating_extensions_page.html#register_namespace", null ],
@@ -61,7 +61,7 @@ var devdocs =
         [ "Step 4: Using the Extension", "integrating_extensions_page.html#labmetadata_extension_usage", null ]
       ] ]
     ] ],
-    [ "Implementation of data read", "read_design_page.html", [
+    [ "Implementation of Data Read 📤", "read_design_page.html", [
       [ "Reading datasets and attributes", "read_design_page.html#read_design_sec_read_date", null ],
       [ "Reading neurodata_type objects", "read_design_page.html#reading_neurodata_type_objects", [
         [ "How the Type Registry in RegisteredType Works", "read_design_page.html#type_registry", null ],
@@ -74,7 +74,9 @@ var devdocs =
         [ "Reading and Processing Data", "read_design_page.html#read_design_example_read", null ]
       ] ]
     ] ],
-    [ "Code of Conduct", "code_of_conduct_page.html", null ],
-    [ "License", "license_page.html", null ],
-    [ "Copyright", "copyright_page.html", null ]
+    [ "Legal ⚖️", "legal_page.html", [
+      [ "Code of Conduct", "legal_page.html#legal_code_of_conduct", null ],
+      [ "License", "legal_page.html#legal_license", null ],
+      [ "Copyright", "legal_page.html#legal_copyright", null ]
+    ] ]
 ];

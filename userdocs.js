@@ -1,12 +1,12 @@
 var userdocs =
 [
-    [ "Installing AqNWB", "user_install_page.html", [
+    [ "Installation 🛠️", "user_install_page.html", [
       [ "Requirements", "user_install_page.html#user_requirements_sec", null ],
       [ "Source", "user_install_page.html#userbuild_source_sec", null ],
       [ "Build", "user_install_page.html#userbuild_build_sec", null ],
       [ "Install", "user_install_page.html#userbuild_install_sec", null ]
     ] ],
-    [ "Acquiring Data", "workflow.html", [
+    [ "Acquiring Data 📊", "workflow.html", [
       [ "Overview of a recording workflow", "workflow.html#recording_workflow", [
         [ "1. Create the I/O object.", "workflow.html#create_io", null ],
         [ "2. Create the RecordingContainer object.", "workflow.html#create_recording_container", null ],
@@ -20,7 +20,7 @@ var userdocs =
         [ "8. Stop the recording and finalize the file.", "workflow.html#stop_recording", null ]
       ] ]
     ] ],
-    [ "Reading data", "read_page.html", [
+    [ "Reading Data 📤", "read_page.html", [
       [ "Opening an existing file for reading", "read_page.html#read_example_open", null ],
       [ "Reading NWB neurodata_types", "read_page.html#read_example_registered_type", [
         [ "Reading known RegisteredType objects", "read_page.html#read_example_predefined_registered_type", null ],
@@ -33,7 +33,7 @@ var userdocs =
       ] ],
       [ "Further reading", "read_page.html#read_further_reading", null ]
     ] ],
-    [ "HDF5 I/O", "hdf5io.html", [
+    [ "HDF5 I/O 📂", "hdf5io.html", [
       [ "Optimizing Data Layout", "hdf5io.html#hdf5io_data_layout", [
         [ "Chunking", "hdf5io.html#hdf5io_chunking", null ],
         [ "I/O Filters and Compression", "hdf5io.html#hdf5io_filters", null ],
@@ -50,7 +50,7 @@ var userdocs =
         [ "Reading with SWMR mode", "hdf5io.html#hdf5io_swmr_read", null ]
       ] ]
     ] ],
-    [ "Demos", "user_demos.html", [
+    [ "Demos 📝", "user_demos.html", [
       [ "Inspect Electrical Series Data using AqNWB", "user_demos.html#demos_inspect_electrical_series", null ],
       [ "Integrating LabMetaData Extension with AqNWB", "user_demos.html#demos_labmetadata_extension", null ]
     ] ]

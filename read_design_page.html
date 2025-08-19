@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.14.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>aqnwb: Implementation of data read</title>
+<title>aqnwb: Implementation of Data Read 📤</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript">var page_layout=1;</script>
 <script type="text/javascript" src="jquery.js"></script>
@@ -105,14 +105,14 @@ $(function() {
 </div>
 
 <div><div class="header">
-  <div class="headertitle"><div class="title">Implementation of data read </div></div>
+  <div class="headertitle"><div class="title">Implementation of Data Read 📤 </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>This page focuses on the software architecture of AqNWB for implementing data read and is mainly aimed at software developers. See <a class="el" href="read_page.html">Reading data</a> if you want to learn more about how read is used in practice. The read system in AqNWB is built around several key concepts:</p>
+<div class="textblock"><p>This page focuses on the software architecture of AqNWB for implementing data read and is mainly aimed at software developers. See <a class="el" href="read_page.html">Reading Data 📤</a> if you want to learn more about how read is used in practice. The read system in AqNWB is built around several key concepts:</p>
 <ol type="1">
 <li><b>Lazy loading of datasets and attributes through wrapper objects</b>, discussed in <a class="el" href="#read_design_sec_read_date">Reading datasets and attributes</a></li>
 <li><b>Dynamic type creation through a registration system</b>, discussed in <a class="el" href="#reading_neurodata_type_objects">Reading neurodata_type objects</a></li>
-<li><b>Field access through generated accessor methods</b>. See the <a class="el" href="registered_type_page.html">Implementing a new Neurodata Type</a> page to learn more about the macros used to generate accessor methods.</li>
+<li><b>Field access through generated accessor methods</b>. See the <a class="el" href="registered_type_page.html">Implementing a Registered Type 🔧</a> page to learn more about the macros used to generate accessor methods.</li>
 </ol>
 <h1 class="doxsection"><a class="anchor" id="read_design_sec_read_date"></a>
 Reading datasets and attributes</h1>
@@ -153,7 +153,7 @@ Reading datasets and attributes</h1>
 <iframe scrolling="no" loading="lazy" frameborder="0" src="dot_inline_dotgraph_2.svg" width="982" height="826"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 <h1 class="doxsection"><a class="anchor" id="reading_neurodata_type_objects"></a>
 Reading neurodata_type objects</h1>
-<p>NWB <span class="tt">neurodata_types</span> are represented in AqNWB as classes that inherit from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> (see also <a class="el" href="registered_type_page.html">Implementing a new Neurodata Type</a>). <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> in turn maintains a registry of all available registered types that it uses to support convenient read of <span class="tt">neurodata_type</span> objects from an NWB file. For read, a user then typically uses either:</p><ul>
+<p>NWB <span class="tt">neurodata_types</span> are represented in AqNWB as classes that inherit from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> (see also <a class="el" href="registered_type_page.html">Implementing a Registered Type 🔧</a>). <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> in turn maintains a registry of all available registered types that it uses to support convenient read of <span class="tt">neurodata_type</span> objects from an NWB file. For read, a user then typically uses either:</p><ul>
 <li>Pre-defined read methods created via the <a class="el" href="_registered_type_8hpp.html#af374245a4f6d5a00540e9fdba52a652a">DEFINE_REGISTERED_FIELD</a> macro (see also <a class="el" href="registered_type_page.html#use_the_define_registered_field_macro">DEFINE_REGISTERED_FIELD: Defining read methods for neurodata_type objects</a>).</li>
 <li><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#adc5ba3d9e27c74f8181944e505bba6e5">RegisteredType::readField</a> to read arbitrary registered fields.</li>
 <li><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a">RegisteredType::create</a> to manually create a <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> from a file.</li>
@@ -164,7 +164,7 @@ Reading neurodata_type objects</h1>
 <li><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> as the main base class for all classes implementing a type, e.g., <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html">Container</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html">Data</a> and all their subtypes. <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> is responsible for managing all type classes and provides the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a">create</a> factory methods for creating instances of subclasses from a file.</li>
 <li><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">BaseIO</a>, <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html">HDF5IO</a> are responsible for i) reading type attribute and group information, ii) searching the file for typed objects via <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a788603f4c9c2698aad610134ab89f8e1">findTypes()</a> methods, and iii) retrieving the paths of all object associated with a storage object (e.g., a Group) via <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a981d7a455b4c057f8ade5c511afbb2ba">getStorageObjects()</a></li>
 </ul>
-<p>Here we focus mainly on the design of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> itself. If you want to learn more about how to implement a new subclass of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> then please see <a class="el" href="registered_type_page.html">Implementing a new Neurodata Type</a>.</p>
+<p>Here we focus mainly on the design of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> itself. If you want to learn more about how to implement a new subclass of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> then please see <a class="el" href="registered_type_page.html">Implementing a Registered Type 🔧</a>.</p>
 <div class="dotgraph">
 <iframe scrolling="no" loading="lazy" frameborder="0" src="dot_inline_dotgraph_3.svg" width="772" height="515"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 <h2 class="doxsection"><a class="anchor" id="type_registry"></a>

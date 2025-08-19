@@ -11,6 +11,6 @@ var searchData=
   ['extension_8',['Extension',['../integrating_extensions_page.html#labmetadata_extension_schema',1,'Step 1: Get the Schema of the Extension'],['../integrating_extensions_page.html#labmetadata_extension_usage',1,'Step 4: Using the Extension']]],
   ['extension_20demo_9',['LabMetaData Extension Demo',['../integrating_extensions_page.html#labmetadata_extension_demo',1,'']]],
   ['extension_20with_20aqnwb_10',['Integrating LabMetaData Extension with AqNWB',['../user_demos.html#demos_labmetadata_extension',1,'']]],
-  ['extensions_11',['Integrating NWB Extensions',['../integrating_extensions_page.html',1,'devdocs']]],
+  ['extensions_20🧩_11',['Integrating NWB Extensions 🧩',['../integrating_extensions_page.html',1,'devdocs']]],
   ['extracellular_20recording_20metadata_12',['Create the extracellular recording metadata',['../workflow.html#create_recmeta_ecephys',1,'']]]
 ];

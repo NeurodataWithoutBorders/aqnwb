@@ -1,7 +1,7 @@
 var searchData=
 [
   ['h5_0',['H5',['../namespace_h5.html',1,'']]],
-  ['hdf5_20i_20o_1',['HDF5 I/O',['../hdf5io.html',1,'userdocs']]],
+  ['hdf5_20i_20o_20📂_1',['HDF5 I/O 📂',['../hdf5io.html',1,'userdocs']]],
   ['hdf5arraydatasetconfig_2',['HDF5ArrayDataSetConfig',['../class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_array_data_set_config.html',1,'AQNWB::IO::HDF5::HDF5ArrayDataSetConfig'],['../class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_array_data_set_config.html#a8f21faa8589e1bdfc66d3ede8651fa27',1,'AQNWB::IO::HDF5::HDF5ArrayDataSetConfig::HDF5ArrayDataSetConfig()']]],
   ['hdf5arraydatasetconfig_2ecpp_3',['HDF5ArrayDataSetConfig.cpp',['../_h_d_f5_array_data_set_config_8cpp.html',1,'']]],
   ['hdf5arraydatasetconfig_2ehpp_4',['HDF5ArrayDataSetConfig.hpp',['../_h_d_f5_array_data_set_config_8hpp.html',1,'']]],
