@@ -8,6 +8,7 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table =
     [ "initialize", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#ac46ab239eea41a7f432fcbb559fa1b98", null ],
     [ "readGroupNameColumn", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#a777db077a0e60c7a4a745af62de41859", null ],
     [ "readLocationColumn", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#a9dc7530c9ef347e961963f1c92ff7127", null ],
+    [ "REGISTER_SUBCLASS_WITH_TYPENAME", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#ae74ad52ad117c87770485020674fb8dd", null ],
     [ "electrodeTablePath", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#a2375dcafcd8ab00dd313d3fec121fa42", null ],
     [ "m_electrodeDataset", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#a6ebf665e48bfb3b0f2c85d6c279cd430", null ],
     [ "m_electrodeNumbers", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#afb758fffeadfa2a27fde0f25a363f3b8", null ],

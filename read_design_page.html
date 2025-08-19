@@ -124,7 +124,7 @@ Reading datasets and attributes</h1>
 </li>
 <li><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">ReadDataWrapper</a><ul>
 <li><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">ReadDataWrapper</a> is a simple wrapper class that represents a dataset/attribute for read, enabling lazy data read and allowing for transparent use of different I/O backends. The <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">ReadDataWrapper</a> then calls the I/O backend to retrieve data lazily when the user requests access.</li>
-<li>To create a <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">ReadDataWrapper</a> object a user will typically use either pre-definied read methods created via the <a class="el" href="_registered_type_8hpp.html#acd3c876a1c357333cd4a8ff27300ee08">DEFINE_FIELD</a> macro (see also <a class="el" href="registered_type_page.html#use_the_define_field_macro">DEFINE_FIELD: Creating read methods for datasets and attributes</a>) or the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ae0fb6e951eb0000e4a4fba81db8d466f">RegisteredType::readField</a> method.</li>
+<li>To create a <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">ReadDataWrapper</a> object a user will typically use either pre-definied read methods created via the <a class="el" href="_registered_type_8hpp.html#acd3c876a1c357333cd4a8ff27300ee08">DEFINE_FIELD</a> macro (see also <a class="el" href="registered_type_page.html#use_the_define_field_macro">DEFINE_FIELD: Creating read methods for datasets and attributes</a>) or the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#adc5ba3d9e27c74f8181944e505bba6e5">RegisteredType::readField</a> method.</li>
 </ul>
 </li>
 <li><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">BaseIO</a><ul>
@@ -155,7 +155,7 @@ Reading datasets and attributes</h1>
 Reading neurodata_type objects</h1>
 <p>NWB <span class="tt">neurodata_types</span> are represented in AqNWB as classes that inherit from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> (see also <a class="el" href="registered_type_page.html">Implementing a new Neurodata Type</a>). <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> in turn maintains a registry of all available registered types that it uses to support convenient read of <span class="tt">neurodata_type</span> objects from an NWB file. For read, a user then typically uses either:</p><ul>
 <li>Pre-defined read methods created via the <a class="el" href="_registered_type_8hpp.html#af374245a4f6d5a00540e9fdba52a652a">DEFINE_REGISTERED_FIELD</a> macro (see also <a class="el" href="registered_type_page.html#use_the_define_registered_field_macro">DEFINE_REGISTERED_FIELD: Defining read methods for neurodata_type objects</a>).</li>
-<li><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ae0fb6e951eb0000e4a4fba81db8d466f">RegisteredType::readField</a> to read arbitrary registered fields.</li>
+<li><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#adc5ba3d9e27c74f8181944e505bba6e5">RegisteredType::readField</a> to read arbitrary registered fields.</li>
 <li><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a">RegisteredType::create</a> to manually create a <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> from a file.</li>
 <li>Construct the specific class directly using a known <span class="tt">path</span> and <span class="tt">io</span> object.</li>
 </ul>
@@ -178,7 +178,7 @@ How the Type Registry in RegisteredType Works</h2>
 <li><b>Preparing for Registration</b>: <a class="el" href="_registered_type_8hpp.html#a9c1f79aa46baaf33d1bf885cf7484aa1">REGISTER_SUBCLASS</a><ul>
 <li>The <a class="el" href="_registered_type_8hpp.html#a9c1f79aa46baaf33d1bf885cf7484aa1">REGISTER_SUBCLASS</a> macro macro modifies the class to make it ready for registration by:<ul>
 <li>Creating the <span class="tt">_registered</span> field to trigger the registration when the subclass is loaded</li>
-<li>Defining a static method <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#acb4c10e5b18c0c637de8bccd8d13e1dc">registerSubclass</a>, which is used to add a subclass name and its corresponding factory function to the registry.</li>
+<li>Defining a static method <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a68bea5945732c62a4a93ab9af5abbafb">registerSubclass</a>, which is used to add a subclass name and its corresponding factory function to the registry.</li>
 <li>Adding <span class="tt">getTypeName</span> and <span class="tt">getNamespace</span> functions for defining the <span class="tt">neurodata_type</span> name</li>
 </ul>
 </li>
@@ -186,7 +186,7 @@ How the Type Registry in RegisteredType Works</h2>
 </ul>
 </li>
 <li><b>Actual automatic Registration</b>: <a class="el" href="_registered_type_8hpp.html#a54ea7671d2bcf5bae392b8ba1824961e">REGISTER_SUBCLASS_IMPL</a><ul>
-<li>The <a class="el" href="_registered_type_8hpp.html#a54ea7671d2bcf5bae392b8ba1824961e">REGISTER_SUBCLASS_IMPL</a> macro initializes the static member (<span class="tt">registered_</span>), which triggers the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#acb4c10e5b18c0c637de8bccd8d13e1dc">registerSubclass</a> method and ensures that the subclass is registered when the program starts.</li>
+<li>The <a class="el" href="_registered_type_8hpp.html#a54ea7671d2bcf5bae392b8ba1824961e">REGISTER_SUBCLASS_IMPL</a> macro initializes the static member (<span class="tt">registered_</span>), which triggers the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a68bea5945732c62a4a93ab9af5abbafb">registerSubclass</a> method and ensures that the subclass is registered when the program starts.</li>
 </ul>
 </li>
 <li><b>Dynamic Creation</b>:<ul>

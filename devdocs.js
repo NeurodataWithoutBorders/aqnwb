@@ -48,11 +48,17 @@ var devdocs =
       ] ],
       [ "Testing RegisteredTypes", "registered_type_page.html#implement_registered_type_unit_tests", null ]
     ] ],
-    [ "Integrating NWB Extensions", "register_namespace_page.html", [
-      [ "How to Integrate a New Namespace", "register_namespace_page.html#integrate_namespace", null ],
-      [ "How the NamespaceRegistry Works", "register_namespace_page.html#namespace_registry", [
-        [ "Registering a Namespace", "register_namespace_page.html#register_namespace", null ],
-        [ "Looking up Namespaces", "register_namespace_page.html#namespace_lookup", null ]
+    [ "Integrating NWB Extensions", "integrating_extensions_page.html", [
+      [ "How to Integrate a New Namespace", "integrating_extensions_page.html#integrate_namespace", null ],
+      [ "How the NamespaceRegistry Works", "integrating_extensions_page.html#namespace_registry", [
+        [ "Registering a Namespace", "integrating_extensions_page.html#register_namespace", null ],
+        [ "Looking up Namespaces", "integrating_extensions_page.html#namespace_lookup", null ]
+      ] ],
+      [ "LabMetaData Extension Demo", "integrating_extensions_page.html#labmetadata_extension_demo", [
+        [ "Step 1: Get the Schema of the Extension", "integrating_extensions_page.html#labmetadata_extension_schema", null ],
+        [ "Step 2: Convert the Schema to C++", "integrating_extensions_page.html#labmetadata_extension_cpp_generation", null ],
+        [ "Step 3: Create RegisteredType Classes for all neurodata_types", "integrating_extensions_page.html#labmetadata_extension_registered_type", null ],
+        [ "Step 4: Using the Extension", "integrating_extensions_page.html#labmetadata_extension_usage", null ]
       ] ]
     ] ],
     [ "Implementation of data read", "read_design_page.html", [

@@ -1,0 +1,40 @@
+<map id="AQNWB::NWB::ElectrodeTable::REGISTER_SUBCLASS_WITH_TYPENAME" name="AQNWB::NWB::ElectrodeTable::REGISTER_SUBCLASS_WITH_TYPENAME">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,322,225,378"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#a41f29ce1a76fd932eac4a03e67d8268f" title="Sets up the ElectrodeTable by adding electrodes and their metadata." alt="" coords="273,361,479,402"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="225,360,257,364,257,370,225,366"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#a0d66d1ec3b341bb3132be86279d9f4c6" title="Constructor." alt="" coords="273,87,479,127"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="145,319,340,136,344,140,148,323"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#a9247849ca572bc6cbad24526e44d932c" title="Finalizes the ElectrodeTable." alt="" coords="273,275,479,315"/>
+<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="225,324,260,317,261,322,226,329"/>
+<area shape="rect" id="Node000013" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#ac46ab239eea41a7f432fcbb559fa1b98" title="Initializes the ElectrodeTable." alt="" coords="273,448,479,489"/>
+<area shape="poly" id="edge18_Node000001_Node000013" title=" " alt="" coords="179,376,316,439,314,443,177,381"/>
+<area shape="rect" id="Node000003" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="809,217,959,242"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="457,400,518,410,588,415,660,410,696,402,729,390,774,362,813,326,843,288,866,254,870,257,848,291,817,330,777,367,731,395,697,407,661,415,588,420,518,416,456,405"/>
+<area shape="poly" id="edge10_Node000004_Node000003" title=" " alt="" coords="479,99,538,99,602,104,667,113,731,130,768,145,802,165,858,205,855,209,799,169,765,150,729,135,666,119,601,109,537,105,479,104"/>
+<area shape="poly" id="edge9_Node000004_Node000004" title=" " alt="" coords="328,87,326,77,334,68,351,62,376,60,403,62,419,69,417,74,402,68,376,65,352,67,337,72,331,78,334,85"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a6b2079337b08a6e265eeb6e39889e55b" title="Constructor." alt="" coords="527,29,730,70"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="468,83,521,71,522,77,469,89"/>
+<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="581,29,579,19,587,10,603,5,629,3,656,5,672,11,670,16,655,10,629,8,604,10,590,15,584,21,586,28"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a0ec16ae5d28267ea37464ffe2c2c34e5" title="Constructor." alt="" coords="796,29,972,70"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="731,47,780,47,780,52,731,52"/>
+<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="836,29,834,19,842,10,858,5,884,3,911,5,928,11,926,16,910,10,884,8,860,10,845,15,839,21,841,28"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aa1e04074725b7331d725bbda8156bc2d" title="Constructor." alt="" coords="1038,29,1249,70"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="973,47,1022,47,1022,52,973,52"/>
+<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a916169b9c8b324833861df2af1b59c3f" title="Adds a column of vector string data to the table." alt="" coords="527,275,730,315"/>
+<area shape="poly" id="edge12_Node000008_Node000009" title=" " alt="" coords="480,292,512,292,512,298,480,298"/>
+<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#ab5d214fb6eb95bcaf0f4988b12e2b2db" title="Adds a column of references to the table." alt="" coords="527,209,730,250"/>
+<area shape="poly" id="edge13_Node000008_Node000010" title=" " alt="" coords="457,271,532,252,533,257,458,277"/>
+<area shape="rect" id="Node000011" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a73d77bda3d8c609a93a9a26296d36af9" title="Finalizes writing the DynamicTable." alt="" coords="527,340,730,381"/>
+<area shape="poly" id="edge15_Node000008_Node000011" title=" " alt="" coords="458,313,533,333,532,338,457,319"/>
+<area shape="rect" id="Node000012" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a041703ef385d58d2ccc7dc613b4a7de7" title="Adds a column of element identifiers to the table." alt="" coords="527,144,730,185"/>
+<area shape="poly" id="edge16_Node000008_Node000012" title=" " alt="" coords="403,272,458,234,526,195,541,188,544,193,528,200,461,238,406,276"/>
+<area shape="poly" id="edge14_Node000010_Node000003" title=" " alt="" coords="731,227,793,227,793,232,731,232"/>
+<area shape="poly" id="edge17_Node000012_Node000003" title=" " alt="" coords="712,183,817,210,815,215,710,188"/>
+<area shape="poly" id="edge22_Node000013_Node000003" title=" " alt="" coords="479,472,539,471,604,463,668,447,729,421,754,404,776,385,816,340,847,294,868,255,873,258,851,296,820,343,780,388,757,408,732,425,670,452,605,468,539,476,480,478"/>
+<area shape="rect" id="Node000014" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a420424e52795b5212d7dcb728396af6a" title="Initialize the container." alt="" coords="540,505,717,546"/>
+<area shape="poly" id="edge19_Node000013_Node000014" title=" " alt="" coords="469,487,526,500,525,505,468,492"/>
+<area shape="rect" id="Node000015" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a651f3d7e5cc28dc93888e8a821c5aa1c" title="Get the schema namespace of the class type." alt="" coords="778,472,990,513"/>
+<area shape="poly" id="edge20_Node000014_Node000015" title=" " alt="" coords="717,512,763,505,764,511,718,517"/>
+<area shape="rect" id="Node000016" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a150f881ad61cb8352eea7ddba47bc6ad" title="Get the name of the class type." alt="" coords="778,537,990,578"/>
+<area shape="poly" id="edge21_Node000014_Node000016" title=" " alt="" coords="718,534,764,540,763,545,717,539"/>
+</map>

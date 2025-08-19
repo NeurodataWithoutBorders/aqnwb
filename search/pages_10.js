@@ -14,10 +14,12 @@ var searchData=
   ['in_20doxygen_11',['Including Code Examples in Doxygen',['../dev_docs_page.html#dev_docs_codeexamples_incl_sec',1,'']]],
   ['in_20registeredtype_20works_12',['How the Type Registry in RegisteredType Works',['../read_design_page.html#type_registry',1,'']]],
   ['including_20code_20examples_20in_20doxygen_13',['Including Code Examples in Doxygen',['../dev_docs_page.html#dev_docs_codeexamples_incl_sec',1,'']]],
-  ['install_14',['Install',['../user_install_page.html#userbuild_install_sec',1,'']]],
-  ['installation_15',['Installation',['../index.html#mainpage_installation',1,'']]],
-  ['installation_20setup_16',['Installation &amp;amp; Setup',['../dev_install_page.html',1,'devdocs']]],
-  ['installing_20aqnwb_17',['Installing AqNWB',['../user_install_page.html',1,'userdocs']]],
-  ['integrate_20a_20new_20namespace_18',['How to Integrate a New Namespace',['../register_namespace_page.html#integrate_namespace',1,'']]],
-  ['integrating_20nwb_20extensions_19',['Integrating NWB Extensions',['../register_namespace_page.html',1,'devdocs']]]
+  ['inspect_20electrical_20series_20data_20using_20aqnwb_14',['Inspect Electrical Series Data using AqNWB',['../user_demos.html#demos_inspect_electrical_series',1,'']]],
+  ['install_15',['Install',['../user_install_page.html#userbuild_install_sec',1,'']]],
+  ['installation_16',['Installation',['../index.html#mainpage_installation',1,'']]],
+  ['installation_20setup_17',['Installation &amp;amp; Setup',['../dev_install_page.html',1,'devdocs']]],
+  ['installing_20aqnwb_18',['Installing AqNWB',['../user_install_page.html',1,'userdocs']]],
+  ['integrate_20a_20new_20namespace_19',['How to Integrate a New Namespace',['../integrating_extensions_page.html#integrate_namespace',1,'']]],
+  ['integrating_20labmetadata_20extension_20with_20aqnwb_20',['Integrating LabMetaData Extension with AqNWB',['../user_demos.html#demos_labmetadata_extension',1,'']]],
+  ['integrating_20nwb_20extensions_21',['Integrating NWB Extensions',['../integrating_extensions_page.html',1,'devdocs']]]
 ];

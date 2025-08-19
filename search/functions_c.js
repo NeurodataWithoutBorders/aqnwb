@@ -21,7 +21,7 @@ var searchData=
   ['readelectrodesdescription_18',['readElectrodesDescription',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a5969a7dad2d4eb63b34c86ce6358a09e',1,'AQNWB::NWB::ElectricalSeries']]],
   ['readelectrodestable_19',['readElectrodesTable',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a4e01c37f2bc3c228ccf2f1bbf8c1d387',1,'AQNWB::NWB::ElectricalSeries']]],
   ['readelectrodetable_20',['readElectrodeTable',['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a9df4c1ed0ddceac775116b0377784a1b',1,'AQNWB::NWB::NWBFile']]],
-  ['readfield_21',['readField',['../class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ae0fb6e951eb0000e4a4fba81db8d466f',1,'AQNWB::NWB::RegisteredType::readField(const std::string &amp;fieldPath) const'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a07451eb27d98493d2d362129a3934a4d',1,'AQNWB::NWB::RegisteredType::readField(const std::string &amp;fieldPath) const']]],
+  ['readfield_21',['readField',['../class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#adc5ba3d9e27c74f8181944e505bba6e5',1,'AQNWB::NWB::RegisteredType::readField(const std::string &amp;fieldPath) const'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a07451eb27d98493d2d362129a3934a4d',1,'AQNWB::NWB::RegisteredType::readField(const std::string &amp;fieldPath) const']]],
   ['readfilecreatedate_22',['readFileCreateDate',['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aab50ade1916ed284389c29d44e8a3a28',1,'AQNWB::NWB::NWBFile']]],
   ['readgroupnamecolumn_23',['readGroupNameColumn',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#a777db077a0e60c7a4a745af62de41859',1,'AQNWB::NWB::ElectrodeTable']]],
   ['readidcolumn_24',['readIdColumn',['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#af7db33b4f56fa8d6586bfcdc535ed430',1,'AQNWB::NWB::DynamicTable']]],
@@ -43,7 +43,8 @@ var searchData=
   ['readtimestampsreferencetime_40',['readTimestampsReferenceTime',['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aa611b4def3f53c508ddd8ec71944ffe7',1,'AQNWB::NWB::NWBFile']]],
   ['readtimestampsunit_41',['readTimestampsUnit',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#adf3f178d207453927ae6ede7a53ac7f7',1,'AQNWB::NWB::TimeSeries']]],
   ['recordingcontainers_42',['RecordingContainers',['../class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#a22349d98ed8ba18336bbba9ca83ee3cd',1,'AQNWB::NWB::RecordingContainers::RecordingContainers()'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#a240f7f6cd7a386c81d8a68854dfceade',1,'AQNWB::NWB::RecordingContainers::RecordingContainers(const RecordingContainers &amp;)=delete']]],
-  ['registeredtype_43',['RegisteredType',['../class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a4e2e5496f7c318307bfc2addfc68c859',1,'AQNWB::NWB::RegisteredType']]],
-  ['registernamespace_44',['registerNamespace',['../class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#a0c80d361d6fe067f0c30a82983858c59',1,'AQNWB::SPEC::NamespaceRegistry']]],
-  ['registersubclass_45',['registerSubclass',['../class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#acb4c10e5b18c0c637de8bccd8d13e1dc',1,'AQNWB::NWB::RegisteredType']]]
+  ['register_5fsubclass_5fwith_5ftypename_43',['REGISTER_SUBCLASS_WITH_TYPENAME',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#ae74ad52ad117c87770485020674fb8dd',1,'AQNWB::NWB::ElectrodeTable']]],
+  ['registeredtype_44',['RegisteredType',['../class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aa1e04074725b7331d725bbda8156bc2d',1,'AQNWB::NWB::RegisteredType']]],
+  ['registernamespace_45',['registerNamespace',['../class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#a0c80d361d6fe067f0c30a82983858c59',1,'AQNWB::SPEC::NamespaceRegistry']]],
+  ['registersubclass_46',['registerSubclass',['../class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a68bea5945732c62a4a93ab9af5abbafb',1,'AQNWB::NWB::RegisteredType']]]
 ];

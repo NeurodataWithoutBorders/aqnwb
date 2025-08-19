@@ -7,14 +7,16 @@ var searchData=
   ['undefined_4',['Undefined',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ab8143e245b1f62cb147cd9ed97c84e9ca63430566913dbf62230d5f365b3aa1a4',1,'AQNWB::NWB::TimeSeries::Undefined'],['../class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915adfd902706dc9678b3c629bed785567a0',1,'AQNWB::Types::Undefined']]],
   ['unit_20tests_5',['Unit Tests',['../testing.html#testing_unit_run',1,'Running Unit Tests'],['../testing.html#testing_unit',1,'Unit Tests']]],
   ['unknown_20data_20type_6',['Working with fields with unknown data type',['../read_page.html#read_example_variant_data',1,'']]],
-  ['up_20namespaces_7',['Looking up Namespaces',['../register_namespace_page.html#namespace_lookup',1,'']]],
+  ['up_20namespaces_7',['Looking up Namespaces',['../integrating_extensions_page.html#namespace_lookup',1,'']]],
   ['updating_20the_20schema_8',['Updating the schema',['../nwb_schema_page.html#dev_docs_updating_nwb_schema_section',1,'']]],
   ['use_20smwr_20mode_9',['Why does AqNWB use SMWR mode?',['../hdf5io.html#hdf5io_swmr_features',1,'']]],
   ['use_20the_20registeredtype_20registry_10',['How to Use the RegisteredType Registry',['../read_design_page.html#use_registered_type_registry',1,'']]],
   ['users_11',['For Users',['../userdocs.html',1,'']]],
   ['using_20a_20base_20class_20and_20templated_20child_20class_12',['Using a base class and templated child class',['../registered_type_page.html#implement_templated_registered_type_two_class',1,'']]],
   ['using_20a_20single_20templated_20class_13',['Using a single templated class',['../registered_type_page.html#implement_templated_registered_type_single_class',1,'']]],
-  ['using_20chunking_20and_20i_20o_20filters_20in_20aqnwb_14',['Using Chunking and I/O Filters in AqNWB',['../hdf5io.html#hdf5io_filters_usage',1,'']]],
-  ['using_20the_20type_20registry_15',['Example: Using the type registry',['../read_design_page.html#use_registered_type_registry_example',1,'']]],
-  ['utils_2ehpp_16',['Utils.hpp',['../_utils_8hpp.html',1,'']]]
+  ['using_20aqnwb_14',['Inspect Electrical Series Data using AqNWB',['../user_demos.html#demos_inspect_electrical_series',1,'']]],
+  ['using_20chunking_20and_20i_20o_20filters_20in_20aqnwb_15',['Using Chunking and I/O Filters in AqNWB',['../hdf5io.html#hdf5io_filters_usage',1,'']]],
+  ['using_20the_20extension_16',['Step 4: Using the Extension',['../integrating_extensions_page.html#labmetadata_extension_usage',1,'']]],
+  ['using_20the_20type_20registry_17',['Example: Using the type registry',['../read_design_page.html#use_registered_type_registry_example',1,'']]],
+  ['utils_2ehpp_18',['Utils.hpp',['../_utils_8hpp.html',1,'']]]
 ];

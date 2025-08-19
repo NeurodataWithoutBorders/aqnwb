@@ -1,5 +1,15 @@
 var NAVTREEINDEX5 =
 {
+"user_demos.html":[1,4],
+"user_demos.html#demos_inspect_electrical_series":[1,4,0],
+"user_demos.html#demos_labmetadata_extension":[1,4,1],
+"user_install_page.html":[1,0],
+"user_install_page.html#user_requirements_sec":[1,0,0],
+"user_install_page.html#userbuild_build_sec":[1,0,2],
+"user_install_page.html#userbuild_install_sec":[1,0,3],
+"user_install_page.html#userbuild_source_sec":[1,0,1],
+"userdocs.html":[1],
+"workflow.html":[1,1],
 "workflow.html#create_datasets":[1,1,0,4],
 "workflow.html#create_io":[1,1,0,0],
 "workflow.html#create_nwbfile":[1,1,0,2],

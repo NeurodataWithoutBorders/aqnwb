@@ -49,5 +49,9 @@ var userdocs =
         ] ],
         [ "Reading with SWMR mode", "hdf5io.html#hdf5io_swmr_read", null ]
       ] ]
+    ] ],
+    [ "Demos", "user_demos.html", [
+      [ "Inspect Electrical Series Data using AqNWB", "user_demos.html#demos_inspect_electrical_series", null ],
+      [ "Integrating LabMetaData Extension with AqNWB", "user_demos.html#demos_labmetadata_extension", null ]
     ] ]
 ];

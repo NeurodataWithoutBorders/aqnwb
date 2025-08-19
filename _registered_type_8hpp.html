@@ -201,12 +201,14 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line"> \</div>
 <div class="line">  <span class="keyword">template</span>&lt;<span class="keyword">typename</span> VTYPE = default_type&gt; \</div>
-<div class="line">  <span class="keyword">inline</span> std::unique_ptr&lt;IO::ReadDataWrapper&lt;storageObjectType, VTYPE&gt;&gt; name() \</div>
-<div class="line">      <span class="keyword">const</span> \</div>
+<div class="line">  <span class="keyword">inline</span> std::unique_ptr&lt;AQNWB::IO::ReadDataWrapper&lt;storageObjectType, VTYPE&gt;&gt; \</div>
+<div class="line">  name() const \</div>
 <div class="line">  { \</div>
-<div class="line">    <span class="keywordflow">return</span> std::make_unique&lt;IO::ReadDataWrapper&lt;storageObjectType, VTYPE&gt;&gt;( \</div>
+<div class="line">    <span class="keywordflow">return</span> std::make_unique&lt; \</div>
+<div class="line">        <a class="code hl_class" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper&lt;storageObjectType, VTYPE&gt;</a>&gt;( \</div>
 <div class="line">        m_io, <a class="code hl_function" href="namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881">AQNWB::mergePaths</a>(m_path, fieldPath)); \</div>
 <div class="line">  }</div>
+<div class="ttc" id="aclass_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper_html"><div class="ttname"><a href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a></div><div class="ttdoc">Class for wrapping data objects (datasets or attributes) for reading data from a file.</div><div class="ttdef"><b>Definition</b> ReadIO.hpp:270</div></div>
 <div class="ttc" id="anamespace_a_q_n_w_b_html_a31983dbaaa85c2e355b9687fc0ef1881"><div class="ttname"><a href="namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881">AQNWB::mergePaths</a></div><div class="ttdeci">static std::string mergePaths(const std::string &amp;path1, const std::string &amp;path2)</div><div class="ttdoc">Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;.</div><div class="ttdef"><b>Definition</b> Utils.hpp:112</div></div>
 </div><!-- fragment -->
 <p>Defines a lazy-loaded field accessor function. </p>
@@ -357,7 +359,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_define" href="#af20769bbf87fb10f70c36fe248deaf4d">REGISTER_SUBCLASS_WITH_TYPENAME</a>(T, NAMESPACE, #T)</div>
-<div class="ttc" id="a_registered_type_8hpp_html_af20769bbf87fb10f70c36fe248deaf4d"><div class="ttname"><a href="#af20769bbf87fb10f70c36fe248deaf4d">REGISTER_SUBCLASS_WITH_TYPENAME</a></div><div class="ttdeci">#define REGISTER_SUBCLASS_WITH_TYPENAME(T, NAMESPACE_VAR, TYPENAME)</div><div class="ttdoc">Macro to register a subclass with the RegisteredType class registry.</div><div class="ttdef"><b>Definition</b> RegisteredType.hpp:341</div></div>
+<div class="ttc" id="a_registered_type_8hpp_html_af20769bbf87fb10f70c36fe248deaf4d"><div class="ttname"><a href="#af20769bbf87fb10f70c36fe248deaf4d">REGISTER_SUBCLASS_WITH_TYPENAME</a></div><div class="ttdeci">#define REGISTER_SUBCLASS_WITH_TYPENAME(T, NAMESPACE_VAR, TYPENAME)</div><div class="ttdoc">Macro to register a subclass with the RegisteredType class registry.</div><div class="ttdef"><b>Definition</b> RegisteredType.hpp:345</div></div>
 </div><!-- fragment -->
 <p>Macro to register a subclass with the RegisteredType class registry. </p>
 <p>This macro is a convenience wrapper around the main REGISTER_SUBCLASS macro, providing a default value for TYPENAME.</p>
@@ -452,7 +454,7 @@ Variables</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">T</td><td>The subclass type to register. The name must match the type in the schema. </td></tr>
-    <tr><td class="paramname">NAMESPACE</td><td>The namespace of the subclass type in the format schema </td></tr>
+    <tr><td class="paramname">NAMESPACE_VAR</td><td>The namespace of the subclass type in the format schema. May be specified via a const variable or as a literal string. </td></tr>
     <tr><td class="paramname">TYPENAME</td><td>The name of the type (usually the class name). </td></tr>
   </table>
   </dd>
