@@ -123,6 +123,10 @@ Overview of a recording workflow</h1>
 <li>Stop the recording and close the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html">NWBFile</a>.</li>
 </ol>
 <p>Below, we walk through these steps in more detail.</p>
+<div class="image">
+<img src="aqnwb_workflow_and_api.png" alt="" width="800px"/>
+<div class="caption">
+Overview of the workflow and design of AqNWB.</div></div>
 <h2 class="doxsection"><a class="anchor" id="create_io"></a>
 1. Create the I/O object.</h2>
 <p>First, create an I/O object (e.g., <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html">HDF5IO</a>) used for writing data to the file. AqNWB provides the convenience method, <a class="el" href="namespace_a_q_n_w_b.html#aae4545d930db6f70b4438e0167c500d0">createIO</a> to create this object using one of the supported backends. For more fine-grained control of different backend parameters, you can create your own <span class="tt">std::shared_ptr</span> using any of the derived <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">BaseIO</a> classes.</p>
