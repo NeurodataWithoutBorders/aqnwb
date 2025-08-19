@@ -8,7 +8,7 @@ var searchData=
   ['neurodata_5ftypes_5',['neurodata_types',['../read_page.html#read_example_registered_type',1,'Reading NWB neurodata_types'],['../integrating_extensions_page.html#labmetadata_extension_registered_type',1,'Step 3: Create RegisteredType Classes for all neurodata_types']]],
   ['new_20documentation_20pages_6',['Creating New Documentation Pages',['../dev_docs_page.html#dev_docs_creating',1,'']]],
   ['new_20namespace_7',['How to Integrate a New Namespace',['../integrating_extensions_page.html#integrate_namespace',1,'']]],
-  ['new_20type_8',['Example: Implementing a new type',['../registered_type_page.html#implement_registered_type_example',1,'']]],
+  ['new_20type_8',['Example: Implementing a New Type',['../registered_type_page.html#implement_registered_type_example',1,'']]],
   ['nwb_20extensions_20🧩_9',['Integrating NWB Extensions 🧩',['../integrating_extensions_page.html',1,'devdocs']]],
   ['nwb_20file_20with_20swmr_20mode_10',['Writing an NWB file with SWMR mode',['../hdf5io.html#hdf5io_swmr_workflow',1,'']]],
   ['nwb_20neurodata_5ftypes_11',['Reading NWB neurodata_types',['../read_page.html#read_example_registered_type',1,'']]],

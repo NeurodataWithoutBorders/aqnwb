@@ -3,7 +3,7 @@ var searchData=
   ['electrical_20series_20data_20using_20aqnwb_0',['Inspect Electrical Series Data using AqNWB',['../user_demos.html#demos_inspect_electrical_series',1,'']]],
   ['example_20code_1',['Example Code',['../dev_docs_page.html#dev_docs_codeexamples_def_sec',1,'Creating the Example Code'],['../dev_docs_page.html#dev_docs_codeexamples_run_sec',1,'Testing the Example Code']]],
   ['example_20implementation_20details_2',['Example Implementation Details',['../read_design_page.html#read_design_example',1,'']]],
-  ['example_3a_20implementing_20a_20new_20type_3',['Example: Implementing a new type',['../registered_type_page.html#implement_registered_type_example',1,'']]],
+  ['example_3a_20implementing_20a_20new_20type_3',['Example: Implementing a New Type',['../registered_type_page.html#implement_registered_type_example',1,'']]],
   ['example_3a_20using_20the_20type_20registry_4',['Example: Using the type registry',['../read_design_page.html#use_registered_type_registry_example',1,'']]],
   ['examples_5',['Examples',['../hdf5io.html#hdf5io_swmr_examples',1,'Code Examples'],['../dev_docs_page.html#dev_docs_codeexamples_sec',1,'Creating Code Examples']]],
   ['examples_20in_20doxygen_6',['Including Code Examples in Doxygen',['../dev_docs_page.html#dev_docs_codeexamples_incl_sec',1,'']]],

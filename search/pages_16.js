@@ -3,5 +3,6 @@ var searchData=
   ['pages_0',['Creating New Documentation Pages',['../dev_docs_page.html#dev_docs_creating',1,'']]],
   ['predefined_20data_20fields_1',['Reading predefined data fields',['../read_page.html#read_design_example_read_posthoc_read_field',1,'']]],
   ['presets_2',['Developer Presets',['../dev_install_page.html#devbuild_presets_subsec',1,'']]],
-  ['processing_20data_3',['Reading and Processing Data',['../read_design_page.html#read_design_example_read',1,'']]]
+  ['processing_20data_3',['Reading and Processing Data',['../read_design_page.html#read_design_example_read',1,'']]],
+  ['py_20utility_4',['Using the schematype_to_aqnwb.py Utility',['../registered_type_page.html#using_schematype_to_aqnwb',1,'']]]
 ];

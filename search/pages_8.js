@@ -4,7 +4,7 @@ var searchData=
   ['a_20custom_20type_20name_1',['How to implement a RegisteredType with a custom type name',['../registered_type_page.html#using_registered_subclass_with_typename',1,'']]],
   ['a_20namespace_2',['Registering a Namespace',['../integrating_extensions_page.html#register_namespace',1,'']]],
   ['a_20new_20namespace_3',['How to Integrate a New Namespace',['../integrating_extensions_page.html#integrate_namespace',1,'']]],
-  ['a_20new_20type_4',['Example: Implementing a new type',['../registered_type_page.html#implement_registered_type_example',1,'']]],
+  ['a_20new_20type_4',['Example: Implementing a New Type',['../registered_type_page.html#implement_registered_type_example',1,'']]],
   ['a_20recording_20workflow_5',['Overview of a recording workflow',['../workflow.html#recording_workflow',1,'']]],
   ['a_20registered_20type_20🔧_6',['Implementing a Registered Type 🔧',['../registered_type_page.html',1,'devdocs']]],
   ['a_20registeredtype_7',['How to Implement a RegisteredType',['../registered_type_page.html#implement_registered_type',1,'']]],

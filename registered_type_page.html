@@ -111,13 +111,16 @@ $(function() {
 <div class="textblock"><p>New neurodata_types typically inherit from at least either <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html">Container</a> or <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html">Data</a>, or a more specialized type of the two. In any case, all classes that represent a <span class="tt">neurodata_type</span> defined in the schema should be implemented as a subtype of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a>. Here we focus on how to implement new subclasses of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a>. If you want to learn more about the how <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> manages types and implements data read then please see <a class="el" href="read_design_page.html">Implementation of Data Read 📤</a>.</p>
 <h1 class="doxsection"><a class="anchor" id="implement_registered_type"></a>
 How to Implement a RegisteredType</h1>
-<p>To implement a subclass of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a>, follow these steps:</p>
+<p>To implement a subclass of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a>, follow the steps below. Understanding these steps is important. <a class="el" href="#using_schematype_to_aqnwb">Using the schematype_to_aqnwb.py Utility</a> then provides additional help by helping you generate skeleton C++ classes automatically from the JSON/YAML schema and based on the steps outlined here.</p>
 <ol type="1">
 <li>Include the <span class="tt"><a class="el" href="_registered_type_8hpp.html">RegisteredType.hpp</a></span> header file in your subclass header file (or the header of your more specific parent class that inherits from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a>). <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="_registered_type_8hpp.html">nwb/RegisteredType.hpp</a>&quot;</span></div>
 <div class="ttc" id="a_registered_type_8hpp_html"><div class="ttname"><a href="_registered_type_8hpp.html">RegisteredType.hpp</a></div></div>
 </div><!-- fragment --> Also include the schema header file with the definition of the namespace schema. E.g., in the case of a type from the NWB core schema: <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="core_8hpp.html">spec/core.hpp</a>&quot;</span></div>
 <div class="ttc" id="acore_8hpp_html"><div class="ttname"><a href="core_8hpp.html">core.hpp</a></div></div>
-</div><!-- fragment --></li>
+</div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd><br  />
+ If the neurodata_type you wish to integrate is not part of the NWB or HDMF namespaces that ship with AqNWB, and you have not yet integrated your extension namespace, then see <a class="el" href="integrating_extensions_page.html">Integrating NWB Extensions 🧩</a> for details on how to create your schema header file(s) to integrate your extension namespace with AqNWB first. <br  />
+</dd></dl>
+</li>
 <li>Define your subclass by inheriting from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> (or one of its child classes). Ensure that your subclass implements a constructor with the arguments <span class="tt">(const std::string&amp; path, std::shared_ptr&lt;IO::BaseIO&gt; io)</span>, as the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a">RegisteredType::create</a> method expects this constructor signature. <div class="fragment"><div class="line"><span class="keyword">class </span>MySubClass : <span class="keyword">public</span> <a class="code hl_class" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">AQNWB::NWB::RegisteredType</a> {</div>
 <div class="line"><span class="keyword">public</span>:</div>
 <div class="line">    MySubClass(<span class="keyword">const</span> std::string&amp; path, std::shared_ptr&lt;IO::BaseIO&gt; io)</div>
@@ -148,7 +151,7 @@ How to Implement a RegisteredType</h1>
 </ol>
 <dl class="section note"><dt>Note</dt><dd><span class="tt">DEFINE_FIELD</span> and <span class="tt">DEFINE_REGISTERED_FIELD</span> create templated, non-virtual read functions. This means if we want to "redefine" a field in a child class by calling <span class="tt">DEFINE_FIELD</span> again, then the function will be "hidden" instead of "override". This is important to remember when casting a pointer to a base type, as in this case the implementation from the base type will be used since the function created by <span class="tt">DEFINE_FIELD</span> is not virtual.</dd></dl>
 <h2 class="doxsection"><a class="anchor" id="implement_registered_type_example"></a>
-Example: Implementing a new type</h2>
+Example: Implementing a New Type</h2>
 <p><em>MySubClass.hpp</em> </p><div class="fragment"><div class="line"><span class="preprocessor">#pragma once</span></div>
 <div class="line"><span class="preprocessor">#include &quot;<a class="code" href="_registered_type_8hpp.html">RegisteredType.hpp</a>&quot;</span></div>
 <div class="line"><span class="preprocessor">#include &quot;spec/my_namespace.hpp&quot;</span></div>
@@ -263,6 +266,14 @@ Limitations of REGISTER_SUBCLASS_WITH_TYPENAME</h2>
 <div class="line">    <span class="stringliteral">&quot;group_name&quot;</span>,</div>
 <div class="line">    <span class="stringliteral">&quot;the name of the ElectrodeGroup this electrode is a part of&quot;</span>)</div>
 </div><!-- fragment --><p>in the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html">ElectrodeTable</a> to read the <span class="tt">group_name</span> column as <span class="tt">VectorData&lt;std::string&gt;</span> with the data type already specified as <span class="tt">std::string</span> at compile time.</p>
+<h1 class="doxsection"><a class="anchor" id="using_schematype_to_aqnwb"></a>
+Using the schematype_to_aqnwb.py Utility</h1>
+<p>The <span class="tt">resources/utils/schematype_to_aqnwb.py</span> script, included in the <a href="https://github.com/NeurodataWithoutBorders/aqnwb">AqNWB source repository</a>, is a simple utility designed to create skeleton C++ source files for integrating new neurodata_types with AqNWB. While the generated source files are only an outline and are not guaranteed to compile, they serve as a helpful starting point. Look for <span class="tt">TODO</span> comments in the generated files, indicating items that need to be addressed. For example, the following command will generate template code for AqNWB classes for all neurodata_types in the NWB schema:</p>
+<div class="fragment"><div class="line">python resources/utils/schematype_to_aqnwb.py resources/spec/core/2.7.0/nwb.namespace.json test_output</div>
+</div><!-- fragment --><p>To learn more about how to use the script and its parameters, you can view the help doc by running:</p>
+<div class="fragment"><div class="line">python resources/utils/schematype_to_aqnwb.py --help</div>
+</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>The <span class="tt">schematype_to_aqnwb.py</span> uses <span class="tt">PyNWB</span> for parsing schema. Currently the script does not unload namespaces loaded by default by <span class="tt">PyNWB</span>. I.e., if you see a warning of the form: <div class="fragment"><div class="line">UserWarning: Ignoring cached <span class="keyword">namespace </span>&#39;core&#39; version 2.7.0 because version 2.8.0 is already loaded.</div>
+</div><!-- fragment --> it means that the script is actually using the namespace with the version already loaded by PyNWB rather than the requested version. In practice, this is mainly relevant if you are generating classes for the NWB <span class="tt">core</span> and <span class="tt">hdmf-common</span> namespaces.</dd></dl>
 <h1 class="doxsection"><a class="anchor" id="implement_registered_type_unit_tests"></a>
 Testing RegisteredTypes</h1>
 <p>As with all code, it is good practice to create appropriate unit tests to validate that our new class is functioning correctly. In the case of subclasses of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> we should pay attention to:</p>

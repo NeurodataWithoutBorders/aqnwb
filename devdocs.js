@@ -34,7 +34,7 @@ var devdocs =
     ] ],
     [ "Implementing a Registered Type 🔧", "registered_type_page.html", [
       [ "How to Implement a RegisteredType", "registered_type_page.html#implement_registered_type", [
-        [ "Example: Implementing a new type", "registered_type_page.html#implement_registered_type_example", null ],
+        [ "Example: Implementing a New Type", "registered_type_page.html#implement_registered_type_example", null ],
         [ "DEFINE_FIELD: Creating read methods for datasets and attributes", "registered_type_page.html#use_the_define_field_macro", null ],
         [ "DEFINE_REGISTERED_FIELD: Defining read methods for neurodata_type objects", "registered_type_page.html#use_the_define_registered_field_macro", null ],
         [ "DEFINE_REFERENCED_REGISTERED_FIELD: Defining read methods for references to neurodata_type objects", "registered_type_page.html#use_the_define_referenced_registered_field_macro", null ]
@@ -46,6 +46,7 @@ var devdocs =
         ] ],
         [ "Limitations of REGISTER_SUBCLASS_WITH_TYPENAME", "registered_type_page.html#limitations_registered_subclass_with_typename", null ]
       ] ],
+      [ "Using the schematype_to_aqnwb.py Utility", "registered_type_page.html#using_schematype_to_aqnwb", null ],
       [ "Testing RegisteredTypes", "registered_type_page.html#implement_registered_type_unit_tests", null ]
     ] ],
     [ "Integrating NWB Extensions 🧩", "integrating_extensions_page.html", [

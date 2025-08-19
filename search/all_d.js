@@ -16,7 +16,7 @@ var searchData=
   ['elementidentifiers_2ehpp_13',['ElementIdentifiers.hpp',['../_element_identifiers_8hpp.html',1,'']]],
   ['example_20code_14',['Example Code',['../dev_docs_page.html#dev_docs_codeexamples_def_sec',1,'Creating the Example Code'],['../dev_docs_page.html#dev_docs_codeexamples_run_sec',1,'Testing the Example Code']]],
   ['example_20implementation_20details_15',['Example Implementation Details',['../read_design_page.html#read_design_example',1,'']]],
-  ['example_3a_20implementing_20a_20new_20type_16',['Example: Implementing a new type',['../registered_type_page.html#implement_registered_type_example',1,'']]],
+  ['example_3a_20implementing_20a_20new_20type_16',['Example: Implementing a New Type',['../registered_type_page.html#implement_registered_type_example',1,'']]],
   ['example_3a_20using_20the_20type_20registry_17',['Example: Using the type registry',['../read_design_page.html#use_registered_type_registry_example',1,'']]],
   ['examples_18',['Examples',['../hdf5io.html#hdf5io_swmr_examples',1,'Code Examples'],['../dev_docs_page.html#dev_docs_codeexamples_sec',1,'Creating Code Examples']]],
   ['examples_20in_20doxygen_19',['Including Code Examples in Doxygen',['../dev_docs_page.html#dev_docs_codeexamples_incl_sec',1,'']]],

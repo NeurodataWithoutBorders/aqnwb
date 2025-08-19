@@ -114,11 +114,11 @@ How to Integrate a New Namespace</h1>
 <ol type="1">
 <li><b>Get the schema files</b>: Download or create the schema for the namespace in YAML format. <dl class="section note"><dt>Note</dt><dd>If you are creating a new extension, please see the <a href="https://nwb-overview.readthedocs.io/en/latest/extensions_tutorial/extensions_tutorial_home.html">NWB Extension Tutorial</a> for more information on how to create data schema for NWB.</dd></dl>
 </li>
-<li><b>Convert the schema files to C++</b>: Run the <span class="tt">resources/generate_spec_files.py</span> script on your schema files to generate the necessary C++ header files. This script processes the schema and creates the appropriate C++ header files that include the namespace definitions and registration. <dl class="section note"><dt>Note</dt><dd>To learn more about how to use the script and its parameters, you can view the help doc by running: <div class="fragment"><div class="line">python resources/generate_spec_files.py --help</div>
+<li><b>Convert the schema files to C++</b>: Run the <span class="tt">resources/utils/generate_spec_files.py</span> script on your schema files to generate the necessary C++ header files. This script processes the schema and creates the appropriate C++ header files that include the namespace definitions and registration. <dl class="section note"><dt>Note</dt><dd>To learn more about how to use the script and its parameters, you can view the help doc by running: <div class="fragment"><div class="line">python resources/utils/generate_spec_files.py --help</div>
 </div><!-- fragment --></dd></dl>
 </li>
 <li><b>Include the Generated Header Files</b>: In your C++ code that uses AqNWB, include the generated header files. The header files will automatically take care of registering the namespace with the <a class="el" href="class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html">NamespaceRegistry</a> by calling the <a class="el" href="_namespace_registry_8hpp.html#a1c5029fd0dece582bd5ca5153644edb2">REGISTER_NAMESPACE</a> macro. Once the extension has been registered, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a5fe5d0aba7a050db86d5caa5b8cf4a04">NWBFile::initialize</a> will automatically take care of caching your schema in the NWB file when creating a new file.</li>
-<li><b>Implement appropriate RegisteredType classes</b>: Follow the tutorial on <a class="el" href="registered_type_page.html">Implementing a Registered Type 🔧</a> to define appropriate interfaces for the <span class="tt">neurodata_type</span>s defined in your new namespace.</li>
+<li><b>Implement appropriate RegisteredType classes</b>: Follow the tutorial on <a class="el" href="registered_type_page.html">Implementing a Registered Type 🔧</a> to define appropriate interfaces for the <span class="tt">neurodata_type</span>s defined in your new namespace. <a class="el" href="registered_type_page.html#using_schematype_to_aqnwb">Using the schematype_to_aqnwb.py Utility</a> can also provide additional help by providing a simple utility that can automatically generate skeleton AqNWB C++ classes for neurodata_types directly from JSON/YAML schema files.</li>
 </ol>
 <h1 class="doxsection"><a class="anchor" id="namespace_registry"></a>
 How the NamespaceRegistry Works</h1>
@@ -148,9 +148,9 @@ Step 1: Get the Schema of the Extension</h2>
 <p>The demo uses the schema from <a href="https://github.com/NeurodataWithoutBorders/ndx-labmetadata-example/">ndx-labmetadata-example</a> as an example. For convenience, we copied the relevant schema files already to the <span class="tt">demo/labmetadata_extension_demo/spec</span> folder.</p>
 <h2 class="doxsection"><a class="anchor" id="labmetadata_extension_cpp_generation"></a>
 Step 2: Convert the Schema to C++</h2>
-<p>The schema files are converted to C++ using the <span class="tt">resources/generate_spec_files.py</span> script:</p>
+<p>The schema files are converted to C++ using the <span class="tt">resources/utils/generate_spec_files.py</span> script:</p>
 <div class="fragment"><div class="line">mkdir demo/labmetadata_extension_demo/src</div>
-<div class="line">python resources/generate_spec_files.py demo/labmetadata_extension_demo/spec demo/labmetadata_extension_demo/src</div>
+<div class="line">python resources/utils/generate_spec_files.py demo/labmetadata_extension_demo/spec demo/labmetadata_extension_demo/src</div>
 </div><!-- fragment --><p>This generates the following new header file in the <span class="tt">demo/labmetadata_extension_demo/src</span> folder:</p>
 <p><em>ndx_labmetadata_example.hpp</em> </p><div class="fragment"><div class="line"><span class="preprocessor">#pragma once</span></div>
 <div class="line"> </div>

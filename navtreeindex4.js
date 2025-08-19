@@ -217,7 +217,7 @@ var NAVTREEINDEX4 =
 "registered_type_page.html":[2,4],
 "registered_type_page.html#implement_registered_type":[2,4,0],
 "registered_type_page.html#implement_registered_type_example":[2,4,0,0],
-"registered_type_page.html#implement_registered_type_unit_tests":[2,4,2],
+"registered_type_page.html#implement_registered_type_unit_tests":[2,4,3],
 "registered_type_page.html#implement_templated_registered_type":[2,4,1,0],
 "registered_type_page.html#implement_templated_registered_type_single_class":[2,4,1,0,1],
 "registered_type_page.html#implement_templated_registered_type_two_class":[2,4,1,0,0],
@@ -226,6 +226,7 @@ var NAVTREEINDEX4 =
 "registered_type_page.html#use_the_define_referenced_registered_field_macro":[2,4,0,3],
 "registered_type_page.html#use_the_define_registered_field_macro":[2,4,0,2],
 "registered_type_page.html#using_registered_subclass_with_typename":[2,4,1],
+"registered_type_page.html#using_schematype_to_aqnwb":[2,4,2],
 "struct_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper_1_1is_dataset.html":[3,0,0,0,10,0],
 "struct_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper_1_1is_dataset.html":[4,0,0,0,10,0],
 "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type.html":[3,0,0,0,7],
@@ -248,6 +249,5 @@ var NAVTREEINDEX4 =
 "testing.html#testing_github":[2,1,0,1],
 "testing.html#testing_lint":[2,1,2],
 "testing.html#testing_spellcheck":[2,1,1],
-"testing.html#testing_unit":[2,1,0],
-"testing.html#testing_unit_run":[2,1,0,0]
+"testing.html#testing_unit":[2,1,0]
 };
