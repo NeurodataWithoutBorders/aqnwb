@@ -15,7 +15,7 @@ namespace AQNWB::NWB
 class VectorData : public Data
 {
 public:
-  REGISTER_SUBCLASS(VectorData, "hdmf-common")
+  REGISTER_SUBCLASS(VectorData, AQNWB::SPEC::HDMF_COMMON::namespaceName)
 
   /**
    * @brief Constructor.
