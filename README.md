@@ -9,7 +9,7 @@
 [![Docs](https://img.shields.io/badge/AqNWB-Docs-8A2BE2?style=flat)](https://nwb.org/aqnwb/)
 [![Code Stats](https://img.shields.io/badge/AqNWB-Code%20Statistics-8A2BE2?style=flat)](https://nwb-overview.readthedocs.io/en/latest/nwb-project-analytics/docs/source/code_stat_pages/AqNWB_stats.html)
 
-**AqNWB is currently under active development and should not yet be used in practice.**
+**AqNWB is under active development. The core functionality for writing and reading NWB files are fully functional. AqNWB does not yet support writing of all neurodata_types defined in NWB.**
 
 AqNWB is a C++ API for acquiring neurophysiological data directly into the NWB (Neurodata Without Borders) format.
 Our goal is to provide a lightweight API to integrate with existing acquisition systems.
