@@ -24,9 +24,9 @@ libs/
 
 # demo build
 /build/
+demo/*/build
 demo/*/CMakeFiles/
 demo/cmake-build-*/
 demo/inspect_electrical_series/*.nwb
 demo/*/Makefile
 demo/*/cmake_install.cmake
-

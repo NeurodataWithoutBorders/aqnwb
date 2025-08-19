@@ -19,13 +19,14 @@ PREDEFINED           += "DEFINE_ATTRIBUTE_FIELD(name, default_type, fieldPath, d
 PREDEFINED           += "DEFINE_DATASET_FIELD(readName, writeName, default_type, fieldPath, description)=/** description */ template<typename VTYPE = default_type> inline std::unique_ptr<IO::ReadDataWrapper<DatasetField, VTYPE>> readName() const; inline std::shared_ptr<IO::BaseRecordingData> writeName(bool reset = false); "
 PREDEFINED           += "DEFINE_REGISTERED_FIELD(name, registeredType, fieldPath, description)=/** description */ template<typename RTYPE = registeredType> inline std::shared_ptr<RTYPE> name() const;" 
 PREDEFINED           += "DEFINE_REFERENCED_REGISTERED_FIELD(name, registeredType, fieldPath, description)=/** description */ template<typename RTYPE = registeredType> inline std::shared_ptr<RTYPE> name() const;" 
+PREDEFINED           += "REGISTER_SUBCLASS_WITH_TYPENAME(className, namespaceName, typeName)=REGISTER_SUBCLASS_WITH_TYPENAME(className, namespaceName, typeName);"
 EXPAND_ONLY_PREDEF   = YES
 
 
 # Add sources
 INPUT = "@PROJECT_SOURCE_DIR@/src" "@PROJECT_SOURCE_DIR@/docs/pages"
 RECURSIVE = YES
-EXAMPLE_PATH = "@PROJECT_SOURCE_DIR@/tests"  "@PROJECT_SOURCE_DIR@/.github/CODE_OF_CONDUCT.md"  "@PROJECT_SOURCE_DIR@/Legal.txt" "@PROJECT_SOURCE_DIR@/LICENSE"
+EXAMPLE_PATH = "@PROJECT_SOURCE_DIR@/tests"  "@PROJECT_SOURCE_DIR@/.github/CODE_OF_CONDUCT.md"  "@PROJECT_SOURCE_DIR@/Legal.txt" "@PROJECT_SOURCE_DIR@/LICENSE"  "@PROJECT_SOURCE_DIR@/demo/labmetadata_extension_demo/src"
 IMAGE_PATH = "@PROJECT_SOURCE_DIR@/resources/images"
 EXTRACT_ALL = YES
 RECURSIVE = YES
@@ -60,8 +61,7 @@ CREATE_SUBDIRS = NO
 GENERATE_TREEVIEW      = YES # required!
 DISABLE_INDEX          = NO
 FULL_SIDEBAR           = YES
-HTML_EXTRA_STYLESHEET  =  "@PROJECT_SOURCE_DIR@/docs/layout/doxygen-awesome.css" \
-                         "@PROJECT_SOURCE_DIR@/docs/layout/doxygen-awesome-sidebar-only.css"
+HTML_EXTRA_STYLESHEET  =  "@PROJECT_SOURCE_DIR@/docs/layout/custom-modern.css"
 HTML_COLORSTYLE        = LIGHT # required with Doxygen >= 1.9.5
 
 # Use Graphviz to generate UML diagrams as vector graphics with transparent background

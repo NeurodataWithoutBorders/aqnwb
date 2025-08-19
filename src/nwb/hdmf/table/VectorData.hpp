@@ -5,6 +5,7 @@
 #include "Utils.hpp"
 #include "io/ReadIO.hpp"
 #include "nwb/hdmf/base/Data.hpp"
+#include "spec/hdmf_common.hpp"
 
 namespace AQNWB::NWB
 {
@@ -14,7 +15,7 @@ namespace AQNWB::NWB
 class VectorData : public Data
 {
 public:
-  REGISTER_SUBCLASS(VectorData, "hdmf-common")
+  REGISTER_SUBCLASS(VectorData, AQNWB::SPEC::HDMF_COMMON::namespaceName)
 
   /**
    * @brief Constructor.

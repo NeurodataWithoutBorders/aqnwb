@@ -1,0 +1,14 @@
+namespaces:
+- author:
+  - Oliver Ruebel
+  contact:
+  - oruebel@lbl.gov
+  doc: ' Example extension to illustrate how to extend LabMetaData for adding lab-specific
+    metadata'
+  name: ndx-labmetadata-example
+  schema:
+  - namespace: core
+    neurodata_types:
+    - LabMetaData
+  - source: ndx-labmetadata-example.extensions.yaml
+  version: 0.1.0

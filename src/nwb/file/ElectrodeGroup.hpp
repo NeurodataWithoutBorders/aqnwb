@@ -5,6 +5,7 @@
 #include "io/BaseIO.hpp"
 #include "nwb/device/Device.hpp"
 #include "nwb/hdmf/base/Container.hpp"
+#include "spec/core.hpp"
 
 namespace AQNWB::NWB
 {
@@ -16,7 +17,7 @@ class ElectrodeGroup : public Container
 {
 public:
   // Register ElectrodeGroup as a subclass of Container
-  REGISTER_SUBCLASS(ElectrodeGroup, "core")
+  REGISTER_SUBCLASS(ElectrodeGroup, AQNWB::SPEC::CORE::namespaceName)
 
   /**
    * @brief Constructor.

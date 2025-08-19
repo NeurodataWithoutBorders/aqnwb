@@ -1,6 +1,7 @@
 #pragma once
 
 #include "nwb/hdmf/base/Data.hpp"
+#include "spec/hdmf_common.hpp"
 
 namespace AQNWB::NWB
 {
@@ -12,7 +13,7 @@ class ElementIdentifiers : public Data
 {
 public:
   // Register ElementIdentifiers class as a registered type
-  REGISTER_SUBCLASS(ElementIdentifiers, "hdmf-common")
+  REGISTER_SUBCLASS(ElementIdentifiers, AQNWB::SPEC::HDMF_COMMON::namespaceName)
 
   /**
    * @brief Constructor.
