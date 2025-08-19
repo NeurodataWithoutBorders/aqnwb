@@ -3,6 +3,7 @@ if(POLICY CMP0167)
   cmake_policy(SET CMP0167 NEW)
 endif()
 
+cmake_policy(SET CMP0144 NEW)
 include(cmake/prelude.cmake)
 
 project(
