@@ -142,9 +142,14 @@ def process_namespace_file(namespace_file: Path, output_dir: Path, chunk_size: i
                 if not os.path.exists(schema_file):
                     for ext in YAML_EXTENSIONS:
                         temppath =  schema_file.with_suffix(ext)
-                        if os.path.exists(temppath):
+                        if os.path.exists(temppath):   # Stop when we found a path
                             schema_file = temppath
                             break
+                        # check both replacing the file extension and adding the extension
+                        temppaths =  [schema_file.with_suffix(ext), schema_file.with_name(schema_file.name + ext)]
+                        for tp in temppaths:
+                            if os.path.exists(tp):
+                                schema_file = tp
                 # Process the schema file
                 process_schema_file(schema_file, var_names, var_contents, chunk_size)
         # Reformat the schema sources for the namespace file to match PyNWB cache

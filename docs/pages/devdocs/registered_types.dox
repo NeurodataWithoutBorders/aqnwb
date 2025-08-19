@@ -15,7 +15,10 @@
  *
  * \section implement_registered_type How to Implement a RegisteredType
  *
- * To implement a subclass of \ref AQNWB::NWB::RegisteredType "RegisteredType", follow these steps:
+ * To implement a subclass of \ref AQNWB::NWB::RegisteredType "RegisteredType", follow the steps below.
+ * Understanding these steps is important. \ref using_schematype_to_aqnwb then provides additional help 
+ * by helping you generate skeleton C++ classes automatically from the JSON/YAML schema and based on the 
+ * steps outlined here. 
  *
  * 1. Include the `RegisteredType.hpp` header file in your subclass header file (or the header of your
  *    more specific parent class that inherits from  \ref AQNWB::NWB::RegisteredType "RegisteredType").
@@ -27,6 +30,11 @@
  *    @code
  *    #include "spec/core.hpp"
  *    @endcode 
+ *    @note  
+ *    If the neurodata_type you wish to integrate is not part of the NWB or HDMF namespaces that 
+ *    ship with AqNWB, and you have not yet integrated your extension namespace, then see
+ *    \ref integrating_extensions_page for details on how to create your schema header file(s)
+ *    to integrate your extension namespace with AqNWB first.   
  *
  * 2. Define your subclass by inheriting from \ref AQNWB::NWB::RegisteredType "RegisteredType" (or
  *    one of its child classes). Ensure that your subclass implements a constructor with the arguments
@@ -106,7 +114,7 @@
  * by these macros are not virtual.
  *
  *
- * @subsection implement_registered_type_example Example: Implementing a new type
+ * @subsection implement_registered_type_example Example: Implementing a New Type
  *
  * *MySubClass.hpp*
  * @code
@@ -406,6 +414,36 @@
  *
  * in the \ref AQNWB::NWB::ElectrodeTable "ElectrodeTable" to read the `group_name` column
  * as `VectorData<std::string>` with the data type already specified as `std::string` at compile time.
+ *
+ * \section using_schematype_to_aqnwb Using the schematype_to_aqnwb.py Utility
+ *
+ * The `resources/utils/schematype_to_aqnwb.py` script, included in the 
+ * [AqNWB source repository](https://github.com/NeurodataWithoutBorders/aqnwb),
+ * is a simple utility designed to create skeleton C++ source files for integrating new 
+ * neurodata_types with AqNWB. While the generated source files are only an outline and are not guaranteed to compile, 
+ * they serve as a helpful starting point. Look for `TODO` comments in the generated files, indicating
+ * items that need to be addressed. For example, the following command will generate template code
+ * for AqNWB classes for all neurodata_types in the NWB schema:
+ * 
+ * @code
+ * python resources/utils/schematype_to_aqnwb.py resources/spec/core/2.7.0/nwb.namespace.json test_output
+ * @endcode
+ *
+ * To learn more about how to use the script and its parameters, you can view the help doc by running: 
+ *
+ * @code
+ * python resources/utils/schematype_to_aqnwb.py --help
+ * @endcode
+ *
+ * \note
+ * The `schematype_to_aqnwb.py` uses `PyNWB` for parsing schema. Currently the script does not unload
+ * namespaces loaded by default by `PyNWB`. I.e., if you see a warning of the form:
+ * \code 
+ * UserWarning: Ignoring cached namespace 'core' version 2.7.0 because version 2.8.0 is already loaded.
+ * \endcode
+ * it means that the script is actually using the namespace with the version already loaded by PyNWB rather
+ * than the requested version. In practice, this is mainly relevant if you are generating classes for the
+ * NWB `core` and `hdmf-common` namespaces.
  *
  * \section implement_registered_type_unit_tests Testing RegisteredTypes
  *
