@@ -6,6 +6,10 @@
 
 #include "spec/NamespaceRegistry.hpp"
 
+/*!
+ * \namespace AQNWB::SPEC::HDMF_EXPERIMENTAL
+ * \brief The namespace for the hdmf-experimental schema specification.
+ */
 namespace AQNWB::SPEC::HDMF_EXPERIMENTAL
 {
 

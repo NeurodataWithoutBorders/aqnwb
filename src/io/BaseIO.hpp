@@ -24,8 +24,8 @@ using SizeArray = AQNWB::Types::SizeArray;
 using SizeType = AQNWB::Types::SizeType;
 
 /*!
- * \namespace AQNWB
- * \brief The main namespace for AqNWB
+ * \namespace AQNWB::IO
+ * \brief The namespace for IO components of AqNWB
  */
 namespace AQNWB::IO
 {
