@@ -11,13 +11,13 @@
  * other NWB-related software.
  * 
  * The contents of the `specifications` group are defined using the header files in the `spec` subfolder, which are in turn generated from the nwb-schema documentation files.
- * To regenerate these header files, developers can run `resources/generate_spec_files.py`. 
+ * To regenerate these header files, developers can run `resources/utils/generate_spec_files.py`. 
  *
  * \section dev_docs_updating_nwb_schema_section Updating the schema
  *
  * Currently, the version of the schema being used for development is fixed and stored in the `/resources/schema` folder. 
  * Updating to a newer version of the schema requires:
- * - Regeneration of the `spec` header files via `resources/generate_spec_files.py`
+ * - Regeneration of the `spec` header files via `resources/utils/generate_spec_files.py`
  * - Update of existing `Container` classes and unit tests in AqNWB to match changes in the  new schema compared to the previous schema
  * - Successful completion of all unit-test and round-trip testing with PyNWB and MatNWB
  *

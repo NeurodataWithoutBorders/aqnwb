@@ -17,13 +17,13 @@
  *    [NWB Extension Tutorial](https://nwb-overview.readthedocs.io/en/latest/extensions_tutorial/extensions_tutorial_home.html)
  *    for more information on how to create data schema for NWB. 
  * 
- * 2. **Convert the schema files to C++**: Run the `resources/generate_spec_files.py` script on your
+ * 2. **Convert the schema files to C++**: Run the `resources/utils/generate_spec_files.py` script on your
  *    schema files to generate the necessary C++ header files. This script processes the schema and creates 
  *    the appropriate C++ header files that include the namespace definitions and registration. 
  *    @note
  *    To learn more about how to use the script and its parameters, you can view the help doc by running:
  *    @code 
- *    python resources/generate_spec_files.py --help
+ *    python resources/utils/generate_spec_files.py --help
  *    @endcode
  *
  * 3. **Include the Generated Header Files**: In your C++ code that uses AqNWB, include the generated header files. The 
@@ -34,6 +34,9 @@
  *
  * 4. **Implement appropriate RegisteredType classes**: Follow the tutorial on
  *    \ref registered_type_page to define appropriate interfaces for the `neurodata_type`s defined in your new namespace. 
+ *    \ref using_schematype_to_aqnwb can also provide additional help by providing a simple 
+ *    utility that can automatically generate skeleton AqNWB C++ classes for neurodata_types
+ *    directly from JSON/YAML schema files.
  *
  * @section namespace_registry How the NamespaceRegistry Works
  *
@@ -87,11 +90,11 @@
  *
  * @subsection labmetadata_extension_cpp_generation Step 2: Convert the Schema to C++
  *
- * The schema files are converted to C++ using the `resources/generate_spec_files.py` script:
+ * The schema files are converted to C++ using the `resources/utils/generate_spec_files.py` script:
  *
  * @code
  * mkdir demo/labmetadata_extension_demo/src
- * python resources/generate_spec_files.py demo/labmetadata_extension_demo/spec demo/labmetadata_extension_demo/src
+ * python resources/utils/generate_spec_files.py demo/labmetadata_extension_demo/spec demo/labmetadata_extension_demo/src
  * @endcode
  *
  * This generates the following new header file in the `demo/labmetadata_extension_demo/src` folder:
