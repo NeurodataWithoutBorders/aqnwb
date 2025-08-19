@@ -100,7 +100,7 @@ public:
      * string with the JSON specification of the format schema.
      **/
     std::vector<std::pair<std::string_view, std::string_view>>
-        specVariables;  ///<
+        specVariables;  ///< The specVariables of the namespace.
   };
 };
 }  // namespace AQNWB
