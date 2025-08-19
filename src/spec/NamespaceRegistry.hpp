@@ -8,6 +8,10 @@
 
 #include "Types.hpp"
 
+/*!
+ * \namespace AQNWB::SPEC
+ * \brief The namespace for managing format schema and namespaces.
+ */
 namespace AQNWB::SPEC
 {
 /**

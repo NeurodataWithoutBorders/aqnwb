@@ -17,6 +17,7 @@ implement this app. To implement this example app we needed to:
     to learn more about how to create extensions and see the [Extensions for lab-specific metadata](https://nwb-overview.readthedocs.io/en/latest/extensions_tutorial/extension_examples/labmetadata_extension.html)
     in particular for details on how to create the [ndx-labmetadata-example](https://github.com/NeurodataWithoutBorders/ndx-labmetadata-example/) extension schema.
     For convenience we downloaded just the schema YAML files to the `demo/labmetadata_extension_demo/spec` folder.  
+
 2. **Convert the schema files to C++**:  Next we ran the `resources/generate_spec_files.py` script on the schema files to generate the necessary C++ header files.
     ```
     mkdir demo/labmetadata_extension_demo/src
