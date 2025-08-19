@@ -384,7 +384,7 @@
  * The `resources/utils/schematype_to_aqnwb.py` script, included in the 
  * [AqNWB source repository](https://github.com/NeurodataWithoutBorders/aqnwb),
  * is a simple utility designed to create skeleton C++ source files for integrating new 
- * neurodata_types with AqNWB. While the generated source files are only an outline, 
+ * neurodata_types with AqNWB. While the generated source files are only an outline and are not guaranteed to compile, 
  * they serve as a helpful starting point. Look for `TODO` comments in the generated files, indicating
  * items that need to be addressed. For example, the following command will generate template code
  * for AqNWB classes for all neurodata_types in the NWB schema:
