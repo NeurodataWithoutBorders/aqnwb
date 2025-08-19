@@ -60,8 +60,7 @@ CREATE_SUBDIRS = NO
 GENERATE_TREEVIEW      = YES # required!
 DISABLE_INDEX          = NO
 FULL_SIDEBAR           = YES
-HTML_EXTRA_STYLESHEET  =  "@PROJECT_SOURCE_DIR@/docs/layout/doxygen-awesome.css" \
-                         "@PROJECT_SOURCE_DIR@/docs/layout/doxygen-awesome-sidebar-only.css"
+HTML_EXTRA_STYLESHEET  =  "@PROJECT_SOURCE_DIR@/docs/layout/custom-modern.css"
 HTML_COLORSTYLE        = LIGHT # required with Doxygen >= 1.9.5
 
 # Use Graphviz to generate UML diagrams as vector graphics with transparent background

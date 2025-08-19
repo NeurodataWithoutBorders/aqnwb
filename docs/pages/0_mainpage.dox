@@ -11,7 +11,7 @@
  *
  * \section Status
  *
- * **AqNWB is currently under active development and should not yet be used in practice.**
+ * **AqNWB is under active development. The core functionality for writing and reading NWB files are fully functional. AqNWB does not yet support writing of all neurodata_types defined in NWB.**
  *
  * \htmlonly
  * <p>
