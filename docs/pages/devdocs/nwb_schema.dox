@@ -19,7 +19,7 @@
  * 
  * This script will:
  *   - Clone the latest NWB and HDMF schema repositories into a temporary directory
- *   - Run `resources/generate_spec_files.py` for both the NWB core and HDMF common schemas
+ *   - Run `resources/utils/generate_spec_files.py` for both the NWB core and HDMF common schemas
  *   - Copy the generated C++ header files to `src/spec`
  *   - Clean up all temporary files automatically
  * 
@@ -30,10 +30,10 @@
  * 
  * Example:
  * @code{.sh}
- * PYTHON=python3 bash resources/generate_nwb_schema_headers.sh
+ * PYTHON=python3 bash resources/utils/generate_nwb_schema_headers.sh
  * @endcode
  * 
- * For use with extensions and other advanced or custom use cases, developers may still run `resources/generate_spec_files.py` directly.
+ * For use with extensions and other advanced or custom use cases, developers may still run `resources/utils/generate_spec_files.py` directly.
  *
  *
  * \section dev_docs_updating_nwb_schema_section Updating the schema
