@@ -490,10 +490,12 @@ protected:
    * description \
    */ \
   template<typename VTYPE = default_type> \
-  inline std::unique_ptr<IO::ReadDataWrapper<DatasetField, VTYPE>> readName() \
-      const \
+  inline std::unique_ptr< \
+      AQNWB::IO::ReadDataWrapper<AQNWB::NWB::DatasetField, VTYPE>> \
+  readName() const \
   { \
-    return std::make_unique<IO::ReadDataWrapper<DatasetField, VTYPE>>( \
+    return std::make_unique< \
+        AQNWB::IO::ReadDataWrapper<AQNWB::NWB::DatasetField, VTYPE>>( \
         m_io, AQNWB::mergePaths(m_path, fieldPath)); \
   } \
   /** \
@@ -509,7 +511,8 @@ protected:
    * \
    * description \
    */ \
-  inline std::shared_ptr<IO::BaseRecordingData> writeName(bool reset = false) \
+  inline std::shared_ptr<AQNWB::IO::BaseRecordingData> writeName(bool reset = \
+                                                                     false) \
   { \
     std::string fullPath = AQNWB::mergePaths(m_path, fieldPath); \
     if (!reset) { \
