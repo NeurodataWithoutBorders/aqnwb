@@ -112,7 +112,21 @@ $(function() {
 <h1 class="doxsection"><a class="anchor" id="dev_docs_generating_nwb_schema_headers_section"></a>
 Generating the schema header files</h1>
 <p>AqNWB is linked to a specific version of the nwb-schema, and the schema version is written to the <span class="tt">nwb_version</span> field of the NWB File during acquisition. The full specification documentation for that schema version is also cached in the <span class="tt">specifications</span> group of the NWB File to facilitate compatibility with other NWB-related software.</p>
-<p>The contents of the <span class="tt">specifications</span> group are defined using the header files in the <span class="tt">spec</span> subfolder, which are in turn generated from the nwb-schema documentation files. To regenerate these header files, developers can run <span class="tt">resources/utils/generate_spec_files.py</span>.</p>
+<p>The contents of the <span class="tt">specifications</span> group are defined using the header files in the <span class="tt">spec</span> subfolder, which are in turn generated from the nwb-schema and hdmf-common-schema files. To regenerate these header files, it is recommended to use the script:</p>
+<div class="fragment"><div class="line">bash resources/utils/generate_nwb_schema_headers.sh</div>
+</div><!-- fragment --><p>This script will:</p><ul>
+<li>Clone the latest NWB and HDMF schema repositories into a temporary directory</li>
+<li>Run <span class="tt">resources/utils/generate_spec_files.py</span> for both the NWB core and HDMF common schemas</li>
+<li>Copy the generated C++ header files to <span class="tt">src/spec</span></li>
+<li>Clean up all temporary files automatically</li>
+</ul>
+<p>Optional environment variables:</p><ul>
+<li><span class="tt">PYTHON</span>: Python interpreter to use (default: python)</li>
+<li><span class="tt">NWB_REPO</span>: URL of the NWB schema git repository</li>
+<li><span class="tt">HDMF_REPO</span>: URL of the HDMF common schema git repository</li>
+</ul>
+<p>Example: </p><div class="fragment"><div class="line">PYTHON=python3 bash resources/utils/generate_nwb_schema_headers.sh</div>
+</div><!-- fragment --><p>For use with extensions and other advanced or custom use cases, developers may still run <span class="tt">resources/utils/generate_spec_files.py</span> directly.</p>
 <h1 class="doxsection"><a class="anchor" id="dev_docs_updating_nwb_schema_section"></a>
 Updating the schema</h1>
 <p>Currently, the version of the schema being used for development is fixed and stored in the <span class="tt">/resources/schema</span> folder. Updating to a newer version of the schema requires:</p><ul>
