@@ -113,16 +113,16 @@ private:
   /**
    * @brief The row ids data object for write
    */
-  std::unique_ptr<ElementIdentifiers> m_electrodeDataset;
+  std::shared_ptr<ElementIdentifiers> m_electrodeDataset;
 
   /**
    * @brief The group names column for write
    */
-  std::unique_ptr<VectorData> m_groupNamesDataset;
+  std::shared_ptr<VectorData> m_groupNamesDataset;
 
   /**
    * @brief The locations column for write
    */
-  std::unique_ptr<VectorData> m_locationsDataset;
+  std::shared_ptr<VectorData> m_locationsDataset;
 };
 }  // namespace AQNWB::NWB
