@@ -102,8 +102,8 @@ TEST_CASE("writeContinuousData", "[recording]")
 
     // 8. stop the recording and finalize the file
     io->stopRecording();
-    nwbfile->finalize();
-
+    io->close();
+    
     // check contents of data
     std::string dataPath = "/acquisition/esdata0/data";
     std::unique_ptr<H5::H5File> file =

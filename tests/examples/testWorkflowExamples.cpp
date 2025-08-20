@@ -148,8 +148,7 @@ TEST_CASE("workflowExamples")
     // [example_workflow_advanced_snippet]
 
     // [example_workflow_stop_snippet]
-    io->stopRecording();
-    nwbfile->finalize();
+    io->stopRecording();  // Calls finalize on all recording objects
     io->close();
     // [example_workflow_stop_snippet]
   }

@@ -31,7 +31,8 @@ TEST_CASE("saveNWBFile", "[nwb]")
   auto io = std::make_shared<IO::HDF5::HDF5IO>(filename);
   auto nwbfile = NWB::NWBFile::create(io);
   nwbfile->initialize(generateUuid());
-  nwbfile->finalize();
+  nwbfile->finalize(); // Good practive since we don't call stop recording, but not essential
+  io->close();
 }
 
 TEST_CASE("initialize", "[nwb]")
@@ -69,7 +70,8 @@ TEST_CASE("initialize", "[nwb]")
   auto result = nwbfile->findOwnedTypes();
   REQUIRE(result.size() == 0);
 
-  nwbfile->finalize();
+  nwbfile->finalize(); // Good practive since we don't call stop recording, but not essential
+  io->close(); // close the io
 }
 
 TEST_CASE("createElectrodesTable", "[nwb]")
@@ -142,7 +144,7 @@ TEST_CASE("createElectricalSeriesWithSubsetOfElectrodes", "[nwb]")
     }
   }
 
-  nwbfile->finalize();
+  io->stopRecording();
 }
 
 TEST_CASE("createElectricalSeriesFailsWithoutElectrodesTable", "[nwb]")
@@ -167,7 +169,8 @@ TEST_CASE("createElectricalSeriesFailsWithoutElectrodesTable", "[nwb]")
                                      BaseDataType::F32);
   REQUIRE(resultCreateES == Status::Failure);
 
-  nwbfile->finalize();
+  nwbfile->finalize();  // Good practive since we don't call stop recording, but not essential
+  io->close();
 }
 
 TEST_CASE("createElectricalSeriesFailsWithOutOfRangeIndices", "[nwb]")
@@ -280,7 +283,7 @@ TEST_CASE("createElectricalSeries", "[nwb]")
   REQUIRE(result.size() == 7);
 
   // finalize the nwb file
-  nwbfile->finalize();
+  io->stopRecording();
 }
 
 TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
@@ -356,7 +359,7 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
         numSamples, mockArrays.size(), mockData.data(), &mockTimestamps[i]);
   }
 
-  nwbfile->finalize();
+  io->stopRecording();
 }
 
 TEST_CASE("createAnnotationSeries", "[nwb]")
@@ -412,7 +415,7 @@ TEST_CASE("createAnnotationSeries", "[nwb]")
              || (pair.first == "/acquisition/annotations2")));
   }
 
-  nwbfile->finalize();
+  io->stopRecording();
 }
 
 TEST_CASE("setCanModifyObjectsMode", "[nwb]")
@@ -449,7 +452,7 @@ TEST_CASE("setCanModifyObjectsMode", "[nwb]")
   REQUIRE(resultCreatePostStart == Status::Failure);
 
   // stop recording
-  nwbfile->finalize();
+  io->stopRecording();
 }
 
 TEST_CASE("testAttributeAndDatasetFields", "[nwb]")
@@ -550,5 +553,5 @@ TEST_CASE("testAttributeAndDatasetFields", "[nwb]")
   REQUIRE(fileCreateDateRecorder != nullptr);
 
   // Finalize the file and close the io
-  nwbfile->finalize();
+  io->stopRecording();
 }

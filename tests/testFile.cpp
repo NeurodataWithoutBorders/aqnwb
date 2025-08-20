@@ -38,7 +38,7 @@ TEST_CASE("ElectrodeTable", "[ecephys]")
     auto electrodeTable = NWB::ElectrodeTable::create(io);
     electrodeTable->initialize();
     electrodeTable->addElectrodes(channels);
-    electrodeTable->finalize();
+    electrodeTable->finalize(); // Finalize the table so we can read the column names
 
     // Confirm that the column names are created correctly
     auto readColNames = electrodeTable->readColNames()->values().data;
