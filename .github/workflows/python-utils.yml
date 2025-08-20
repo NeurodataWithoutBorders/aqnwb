@@ -27,16 +27,15 @@ jobs:
       - name: Clone latest NWB schema release
         run: |
           mkdir -p test_output
-          api_response=$(curl -s https://api.github.com/repos/NeurodataWithoutBorders/nwb-schema/releases/latest)
-          echo "GitHub API response:"
-          echo "$api_response"
-          NWB_LATEST_TAG=$(echo "$api_response" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+          git clone https://github.com/NeurodataWithoutBorders/nwb-schema.git test_output/nwb-schema
+          cd test_output/nwb-schema
+          NWB_LATEST_TAG=$(git tag --sort=-v:refname | head -n 1)
           if [ -z "$NWB_LATEST_TAG" ]; then
             echo "ERROR: Could not determine latest NWB schema release tag."
             exit 1
           fi
-          echo "Cloning NWB schema at tag: $NWB_LATEST_TAG"
-          git clone --branch "$NWB_LATEST_TAG" --depth=1 https://github.com/NeurodataWithoutBorders/nwb-schema.git test_output/nwb-schema
+          echo "Checking out NWB schema at tag: $NWB_LATEST_TAG"
+          git checkout "$NWB_LATEST_TAG"
 
       - name: Run generate_spec_files.py
         run: |
@@ -57,11 +56,7 @@ jobs:
       - name: Run generate_nwb_schema_headers.sh
         run: |
           chmod +x resources/utils/generate_nwb_schema_headers.sh
-          output=$(bash resources/utils/generate_nwb_schema_headers.sh 2>&1)
-          echo "$output"
-          if echo "$output" | grep -q "ERROR"; then
-            exit 1
-          fi
+          bash resources/utils/generate_nwb_schema_headers.sh
 
       - name: Check generated contents
         run: |
