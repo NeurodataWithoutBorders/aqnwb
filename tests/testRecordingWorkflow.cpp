@@ -54,7 +54,7 @@ TEST_CASE("writeContinuousData", "[recording]")
     SizeType startIndex = io->getRecordingObjects()->size();
     nwbfile->createElectricalSeries(
         mockRecordingArrays, mockChannelNames, BaseDataType::F32);
-   
+
     // 6. start the recording
     io->startRecording();
 
