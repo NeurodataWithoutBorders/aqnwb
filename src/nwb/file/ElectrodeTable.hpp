@@ -57,7 +57,7 @@ public:
    * the data to the file.
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status finalize();
+  Status finalize() override;
 
   /**
    * @brief Sets up the ElectrodeTable by adding electrodes and their metadata.

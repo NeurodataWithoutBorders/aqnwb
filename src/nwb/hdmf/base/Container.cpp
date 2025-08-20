@@ -19,9 +19,13 @@ Container::~Container() {}
 /** Initialize */
 Status Container::initialize()
 {
+  // Call RegisteredType::initialize() to add this object to RecordingObjects
+  auto registerStatus = RegisteredType::initialize();
+
   auto createGroupStatus = m_io->createGroup(m_path);
   // setup common attributes
   auto createAttrsStatus = m_io->createCommonNWBAttributes(
       m_path, this->getNamespace(), this->getTypeName());
-  return createGroupStatus && createAttrsStatus;
+  
+  return createGroupStatus && createAttrsStatus && registerStatus;
 }

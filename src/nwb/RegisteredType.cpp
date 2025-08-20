@@ -2,6 +2,7 @@
 
 #include "Utils.hpp"
 #include "io/ReadIO.hpp"
+#include "nwb/RecordingObjects.hpp"
 
 using namespace AQNWB::NWB;
 
@@ -127,6 +128,28 @@ std::shared_ptr<AQNWB::NWB::RegisteredType> RegisteredType::create(
               << std::endl;
     return nullptr;
   }
+}
+
+AQNWB::Types::Status RegisteredType::initialize()
+{
+  // Add this object to the RecordingObjects object of the I/O it is associated with
+  // This ensures that all RegisteredType objects used for recording are automatically tracked
+  if (m_io) {
+    auto recordingObjects = m_io->getRecordingObjects();
+    if (recordingObjects) {
+      // Get a shared pointer to this object
+      std::shared_ptr<RegisteredType> sharedThis = shared_from_this();
+      recordingObjects->addRecordingObject(sharedThis);
+    }
+  }
+  return AQNWB::Types::Status::Success;
+}
+
+AQNWB::Types::Status RegisteredType::finalize()
+{
+  // Clear the recording data cache to remove all BaseRecordingData objects
+  clearRecordingDataCache();
+  return AQNWB::Types::Status::Success;
 }
 
 std::unordered_map<std::string, std::string> RegisteredType::findOwnedTypes(

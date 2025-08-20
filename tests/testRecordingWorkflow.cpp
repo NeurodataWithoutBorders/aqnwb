@@ -9,7 +9,7 @@
 #include "io/BaseIO.hpp"
 #include "io/hdf5/HDF5IO.hpp"
 #include "nwb/NWBFile.hpp"
-#include "nwb/RecordingContainers.hpp"
+#include "nwb/RecordingObjects.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
 #include "testUtils.hpp"
 
@@ -40,9 +40,7 @@ TEST_CASE("writeContinuousData", "[recording]")
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
 
-    // 2. create RecordingContainers object
-    std::unique_ptr<NWB::RecordingContainers> recordingContainers =
-        std::make_unique<NWB::RecordingContainers>();
+    // 2. RecordingObjects are now automatically managed by the IO object
     std::vector<SizeType> containerIndices = {};
 
     // 3. create NWBFile object
@@ -52,12 +50,10 @@ TEST_CASE("writeContinuousData", "[recording]")
     // 4. create an electrodes table.
     nwbfile->createElectrodesTable(mockRecordingArrays);
 
-    // 5. create datasets and add to recording containers
+    // 5. create datasets (automatically added to recording objects)
     nwbfile->createElectricalSeries(mockRecordingArrays,
                                     mockChannelNames,
-                                    BaseDataType::F32,
-                                    recordingContainers.get(),
-                                    containerIndices);
+                                    BaseDataType::F32);
 
     // 6. start the recording
     io->startRecording();
@@ -88,12 +84,13 @@ TEST_CASE("writeContinuousData", "[recording]")
                                                   channel.getLocalIndex()};
           std::vector<SizeType> dataShape = {dataBuffer.size(), 1};
 
-          recordingContainers->writeTimeseriesData(i,
-                                                   channel,
-                                                   dataShape,
-                                                   positionOffset,
-                                                   dataBuffer.data(),
-                                                   timestampsBuffer.data());
+          auto recordingObjects = io->getRecordingObjects();
+          recordingObjects->writeTimeseriesData(i,
+                                               channel,
+                                               dataShape,
+                                               positionOffset,
+                                               dataBuffer.data(),
+                                               timestampsBuffer.data());
         }
       }
       // check if recording is done

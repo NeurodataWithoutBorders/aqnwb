@@ -44,7 +44,7 @@ constexpr auto DatasetField = AQNWB::Types::StorageObjectType::Dataset;
  * runtime.
  *
  */
-class RegisteredType
+class RegisteredType : public std::enable_shared_from_this<RegisteredType>
 {
 public:
   /**
@@ -93,6 +93,33 @@ public:
    * state
    */
   inline void clearRecordingDataCache() { this->m_recordingDataCache.clear(); }
+
+  /**
+   * @brief Initialize the RegisteredType object.
+   * 
+   * This method provides a standard interface for initializing RegisteredType
+   * objects. The base implementation adds the object to the RecordingContainers
+   * object of the I/O it is associated with. Subclasses can override this method
+   * to provide additional initialization logic. In practice, subclasses will often
+   * override this method by having an initalize method that requires additional inputs
+   * but those should always also make sure to call their parent class initalize method
+   * to make sure this function is being run.
+   * 
+   * @return AQNWB::Types::Status::Success if successful, otherwise AQNWB::Types::Status::Failure.
+   */
+  virtual AQNWB::Types::Status initialize();
+
+  /**
+   * @brief Finalize the RegisteredType object.
+   * 
+   * This method provides a standard interface for finalizing RegisteredType
+   * objects. The base implementation clears the recording data cache to
+   * remove all BaseRecordingData objects from the cache. Subclasses can
+   * override this method to provide additional finalization logic.
+   * 
+   * @return AQNWB::Types::Status::Success if successful, otherwise AQNWB::Types::Status::Failure.
+   */
+  virtual AQNWB::Types::Status finalize();
 
   /**
    * @brief Get the cache of BaseRecordingData objects

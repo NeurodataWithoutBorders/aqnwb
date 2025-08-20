@@ -20,6 +20,9 @@ public:
   // Register the Device as a subclass of Container
   REGISTER_SUBCLASS(Device, AQNWB::SPEC::CORE::namespaceName)
 
+  // Bring base class initialize method into scope
+  using Container::initialize;
+
   /**
    * @brief Constructor.
    * @param path The location of the device in the file.

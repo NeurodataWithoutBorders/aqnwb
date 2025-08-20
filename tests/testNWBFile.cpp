@@ -1,3 +1,4 @@
+#include <numeric>
 #include <unordered_map>
 #include <unordered_set>
 
@@ -7,7 +8,7 @@
 #include "io/BaseIO.hpp"
 #include "io/hdf5/HDF5IO.hpp"
 #include "nwb/NWBFile.hpp"
-#include "nwb/RecordingContainers.hpp"
+#include "nwb/RecordingObjects.hpp"
 #include "nwb/base/TimeSeries.hpp"
 #include "nwb/ecephys/SpikeEventSeries.hpp"
 #include "nwb/misc/AnnotationSeries.hpp"
@@ -111,15 +112,15 @@ TEST_CASE("createElectricalSeriesWithSubsetOfElectrodes", "[nwb]")
       getMockChannelArrays(numChannels, 1);
   std::vector<std::string> recordingNames =
       getMockChannelArrayNames("esdata", 1);
-  std::unique_ptr<NWB::RecordingContainers> recordingContainers =
-      std::make_unique<NWB::RecordingContainers>();
-  std::vector<SizeType> containerIndices = {};
+  auto recordingObjects = io->getRecordingObjects();
+  SizeType sizeBefore = recordingObjects->size();
   Status resultCreateES =
       nwbfile.createElectricalSeries(recordingElectrodes,
                                      recordingNames,
-                                     BaseDataType::F32,
-                                     recordingContainers.get(),
-                                     containerIndices);
+                                     BaseDataType::F32);
+  SizeType sizeAfter = recordingObjects->size();
+  std::vector<SizeType> containerIndices(sizeAfter - sizeBefore);
+  std::iota(containerIndices.begin(), containerIndices.end(), sizeBefore);
   REQUIRE(resultCreateES == Status::Success);
 
   // Write some test data to verify recording works
@@ -133,11 +134,11 @@ TEST_CASE("createElectricalSeriesWithSubsetOfElectrodes", "[nwb]")
 
   for (size_t i = 0; i < recordingElectrodes.size(); ++i) {
     for (size_t j = 0; j < recordingElectrodes[i].size(); ++j) {
-      recordingContainers->writeElectricalSeriesData(0,
-                                                     recordingElectrodes[i][j],
-                                                     mockData.size(),
-                                                     mockData.data(),
-                                                     mockTimestamps.data());
+      recordingObjects->writeElectricalSeriesData(0,
+                                                  recordingElectrodes[i][j],
+                                                  mockData.size(),
+                                                  mockData.data(),
+                                                  mockTimestamps.data());
     }
   }
 
@@ -160,15 +161,10 @@ TEST_CASE("createElectricalSeriesFailsWithoutElectrodesTable", "[nwb]")
       getMockChannelArrays(1, 2);
   std::vector<std::string> recordingNames =
       getMockChannelArrayNames("esdata", 1);
-  std::unique_ptr<NWB::RecordingContainers> recordingContainers =
-      std::make_unique<NWB::RecordingContainers>();
-  std::vector<SizeType> containerIndices = {};
   Status resultCreateES =
       nwbfile.createElectricalSeries(recordingElectrodes,
                                      recordingNames,
-                                     BaseDataType::F32,
-                                     recordingContainers.get(),
-                                     containerIndices);
+                                     BaseDataType::F32);
   REQUIRE(resultCreateES == Status::Failure);
 
   nwbfile.finalize();
@@ -198,15 +194,10 @@ TEST_CASE("createElectricalSeriesFailsWithOutOfRangeIndices", "[nwb]")
 
   std::vector<std::string> recordingNames =
       getMockChannelArrayNames("esdata", 1);
-  std::unique_ptr<NWB::RecordingContainers> recordingContainers =
-      std::make_unique<NWB::RecordingContainers>();
-  std::vector<SizeType> containerIndices = {};
   Status resultCreateES =
       nwbfile.createElectricalSeries(recordingElectrodes,
                                      recordingNames,
-                                     BaseDataType::F32,
-                                     recordingContainers.get(),
-                                     containerIndices);
+                                     BaseDataType::F32);
   REQUIRE(resultCreateES == Status::Failure);
 }
 
@@ -228,15 +219,15 @@ TEST_CASE("createElectricalSeries", "[nwb]")
   // create Electrical Series
   std::vector<std::string> mockChannelNames =
       getMockChannelArrayNames("esdata");
-  std::unique_ptr<NWB::RecordingContainers> recordingContainers =
-      std::make_unique<NWB::RecordingContainers>();
-  std::vector<SizeType> containerIndices = {};
+  auto recordingObjects = io->getRecordingObjects();
+  SizeType sizeBefore = recordingObjects->size();
   Status resultCreate =
       nwbfile.createElectricalSeries(mockArrays,
                                      mockChannelNames,
-                                     BaseDataType::F32,
-                                     recordingContainers.get(),
-                                     containerIndices);
+                                     BaseDataType::F32);
+  SizeType sizeAfter = recordingObjects->size();
+  std::vector<SizeType> containerIndices(sizeAfter - sizeBefore);
+  std::iota(containerIndices.begin(), containerIndices.end(), sizeBefore);
   REQUIRE(resultCreate == Status::Success);
 
   // start recording
@@ -249,12 +240,10 @@ TEST_CASE("createElectricalSeries", "[nwb]")
   std::vector<SizeType> positionOffset = {0, 0};
   std::vector<SizeType> dataShape = {mockData.size(), 0};
 
-  NWB::TimeSeries* ts0 =
-      static_cast<NWB::TimeSeries*>(recordingContainers->getContainer(0));
+  auto ts0 = std::dynamic_pointer_cast<NWB::TimeSeries>(recordingObjects->getRecordingObject(containerIndices[0]));
   ts0->writeData(
       dataShape, positionOffset, mockData.data(), mockTimestamps.data());
-  NWB::TimeSeries* ts1 =
-      static_cast<NWB::TimeSeries*>(recordingContainers->getContainer(1));
+  auto ts1 = std::dynamic_pointer_cast<NWB::TimeSeries>(recordingObjects->getRecordingObject(containerIndices[1]));
   ts1->writeData(
       dataShape, positionOffset, mockData.data(), mockTimestamps.data());
 
@@ -311,27 +300,30 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
   // create Electrical Series
   std::vector<std::string> mockChannelNames =
       getMockChannelArrayNames("esdata");
-  std::unique_ptr<NWB::RecordingContainers> recordingContainers =
-      std::make_unique<NWB::RecordingContainers>();
-  std::vector<SizeType> containerIndices = {};
+  auto recordingObjects = io->getRecordingObjects();
+  SizeType sizeBefore = recordingObjects->size();
   Status resultCreateES =
       nwbfile.createElectricalSeries(mockArrays,
                                      mockChannelNames,
-                                     BaseDataType::F32,
-                                     recordingContainers.get(),
-                                     containerIndices);
+                                     BaseDataType::F32);
+  SizeType sizeAfter = recordingObjects->size();
+  std::vector<SizeType> containerIndices(sizeAfter - sizeBefore);
+  std::iota(containerIndices.begin(), containerIndices.end(), sizeBefore);
   REQUIRE(resultCreateES == Status::Success);
 
   // create SpikeEventSeries
   SizeType numSamples = 5;
   std::vector<std::string> mockSpikeChannelNames =
       getMockChannelArrayNames("spikedata");
+  sizeBefore = recordingObjects->size();
   Status resultCreateSES =
       nwbfile.createSpikeEventSeries(mockArrays,
                                      mockSpikeChannelNames,
-                                     BaseDataType::F32,
-                                     recordingContainers.get(),
-                                     containerIndices);
+                                     BaseDataType::F32);
+  sizeAfter = recordingObjects->size();
+  for (SizeType i = sizeBefore; i < sizeAfter; ++i) {
+    containerIndices.push_back(i);
+  }
   REQUIRE(resultCreateSES == Status::Success);
 
   // start recording
@@ -346,21 +338,17 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
   std::vector<SizeType> positionOffset = {0, 0};
   std::vector<SizeType> dataShape = {mockData.size(), 0};
 
-  NWB::TimeSeries* ts0 =
-      static_cast<NWB::TimeSeries*>(recordingContainers->getContainer(0));
+  auto ts0 = std::dynamic_pointer_cast<NWB::TimeSeries>(recordingObjects->getRecordingObject(containerIndices[0]));
   ts0->writeData(
       dataShape, positionOffset, mockData.data(), mockTimestamps.data());
-  NWB::TimeSeries* ts1 =
-      static_cast<NWB::TimeSeries*>(recordingContainers->getContainer(1));
+  auto ts1 = std::dynamic_pointer_cast<NWB::TimeSeries>(recordingObjects->getRecordingObject(containerIndices[1]));
   ts1->writeData(
       dataShape, positionOffset, mockData.data(), mockTimestamps.data());
 
   // write spike event series data
   SizeType numEvents = 10;
-  NWB::SpikeEventSeries* ses0 =
-      static_cast<NWB::SpikeEventSeries*>(recordingContainers->getContainer(2));
-  NWB::SpikeEventSeries* ses1 =
-      static_cast<NWB::SpikeEventSeries*>(recordingContainers->getContainer(3));
+  auto ses0 = std::dynamic_pointer_cast<NWB::SpikeEventSeries>(recordingObjects->getRecordingObject(containerIndices[2]));
+  auto ses1 = std::dynamic_pointer_cast<NWB::SpikeEventSeries>(recordingObjects->getRecordingObject(containerIndices[3]));
   for (SizeType i = 0; i < numEvents; ++i) {
     ses0->writeSpike(
         numSamples, mockArrays.size(), mockData.data(), &mockTimestamps[i]);
@@ -385,11 +373,12 @@ TEST_CASE("createAnnotationSeries", "[nwb]")
   // create Annotation Series
   std::vector<std::string> mockAnnotationNames = {"annotations1",
                                                   "annotations2"};
-  std::unique_ptr<NWB::RecordingContainers> recordingContainers =
-      std::make_unique<NWB::RecordingContainers>();
-  std::vector<SizeType> containerIndices = {};
-  Status resultCreate = nwbfile.createAnnotationSeries(
-      mockAnnotationNames, recordingContainers.get(), containerIndices);
+  auto recordingObjects = io->getRecordingObjects();
+  SizeType sizeBefore = recordingObjects->size();
+  Status resultCreate = nwbfile.createAnnotationSeries(mockAnnotationNames);
+  SizeType sizeAfter = recordingObjects->size();
+  std::vector<SizeType> containerIndices(sizeAfter - sizeBefore);
+  std::iota(containerIndices.begin(), containerIndices.end(), sizeBefore);
   REQUIRE(resultCreate == Status::Success);
 
   // start recording
@@ -404,10 +393,10 @@ TEST_CASE("createAnnotationSeries", "[nwb]")
   SizeType dataShape = mockAnnotations.size();
 
   // write to both annotation series
-  recordingContainers->writeAnnotationSeriesData(
-      0, dataShape, mockAnnotations, mockTimestamps.data());
-  recordingContainers->writeAnnotationSeriesData(
-      1, dataShape, mockAnnotations, mockTimestamps.data());
+  recordingObjects->writeAnnotationSeriesData(
+      containerIndices[0], dataShape, mockAnnotations, mockTimestamps.data());
+  recordingObjects->writeAnnotationSeriesData(
+      containerIndices[1], dataShape, mockAnnotations, mockTimestamps.data());
 
   // test searching for all AnnotationSeries objects
   std::unordered_set<std::string> typesToSearch = {"core::AnnotationSeries"};
@@ -453,13 +442,10 @@ TEST_CASE("setCanModifyObjectsMode", "[nwb]")
   std::vector<std::string> mockChannelNames =
       getMockChannelArrayNames("esdata");
   nwbfile.createElectrodesTable(mockArrays);  // create the Electrodes Table
-  std::vector<SizeType> containerIndices = {};
   Status resultCreatePostStart =
       nwbfile.createElectricalSeries(mockArrays,
                                      mockChannelNames,
-                                     BaseDataType::F32,
-                                     nullptr,
-                                     containerIndices);
+                                     BaseDataType::F32);
   REQUIRE(resultCreatePostStart == Status::Failure);
 
   // stop recording

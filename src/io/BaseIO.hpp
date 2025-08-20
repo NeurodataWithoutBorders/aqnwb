@@ -32,6 +32,22 @@ namespace AQNWB::IO
 
 class BaseRecordingData;
 
+}  // namespace AQNWB::IO
+
+/*!
+ * \namespace AQNWB::NWB
+ * \brief Forward declarations for NWB components
+ */
+namespace AQNWB::NWB
+{
+
+class RecordingObjects;
+
+}  // namespace AQNWB::NWB
+
+namespace AQNWB::IO
+{
+
 /**
  * @brief Represents a base data type.
  *
@@ -539,7 +555,7 @@ public:
    * @brief Stops the recording process.
    * @return The status of the operation.
    */
-  virtual Status stopRecording() = 0;
+  virtual Status stopRecording();
 
   /**
    * @brief Returns true if the file is in a mode where objects can
@@ -599,6 +615,12 @@ public:
    */
   inline bool isReadyToOpen() const { return m_readyToOpen; }
 
+  /**
+   * @brief Returns the recording objects container for this IO object.
+   * @return A shared pointer to the RecordingObjects container.
+   */
+  inline std::shared_ptr<NWB::RecordingObjects> getRecordingObjects() const { return m_recording_containers; }
+
 protected:
   /**
    * @brief The name of the file.
@@ -621,6 +643,12 @@ protected:
    * @brief Whether the file is currently open.
    */
   bool m_opened;
+
+  /**
+   * @brief The recording objects for tracking all RegisteredType objects used for recording
+   * associated with this IO object.
+   */
+  std::shared_ptr<NWB::RecordingObjects> m_recording_containers;
 };
 
 /**

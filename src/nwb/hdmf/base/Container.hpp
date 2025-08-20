@@ -36,7 +36,7 @@ public:
    * @brief Initialize the container.
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status initialize();
+  Status initialize() override;
 
   // Define the data fields to expose for lazy read access
   DEFINE_ATTRIBUTE_FIELD(readNeurodataType,

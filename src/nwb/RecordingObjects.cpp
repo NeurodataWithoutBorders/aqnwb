@@ -1,33 +1,51 @@
 
-#include "nwb/RecordingContainers.hpp"
+#include "nwb/RecordingObjects.hpp"
 
 #include "nwb/ecephys/ElectricalSeries.hpp"
 #include "nwb/ecephys/SpikeEventSeries.hpp"
 #include "nwb/hdmf/base/Container.hpp"
 #include "nwb/misc/AnnotationSeries.hpp"
+#include "nwb/RegisteredType.hpp"
 
 using namespace AQNWB::NWB;
-// Recording Container
+// Recording Objects
 
-RecordingContainers::RecordingContainers() {}
+RecordingObjects::RecordingObjects() {}
 
-RecordingContainers::~RecordingContainers() {}
+RecordingObjects::~RecordingObjects() {}
 
-void RecordingContainers::addContainer(std::unique_ptr<Container> container)
+void RecordingObjects::addRecordingObject(std::shared_ptr<RegisteredType> object)
 {
-  m_containers.push_back(std::move(container));
+  m_recording_objects.push_back(object);
 }
 
-Container* RecordingContainers::getContainer(const SizeType& containerInd)
+std::shared_ptr<RegisteredType> RecordingObjects::getRecordingObject(const SizeType& objectInd)
 {
-  if (containerInd >= m_containers.size()) {
+  if (objectInd >= m_recording_objects.size()) {
     return nullptr;
   } else {
-    return m_containers[containerInd].get();
+    return m_recording_objects[objectInd];
   }
 }
 
-Status RecordingContainers::writeTimeseriesData(
+Status RecordingObjects::finalize()
+{
+  Status overallStatus = Status::Success;
+  
+  // Call finalize on all RegisteredType objects in the collection
+  for (auto& object : m_recording_objects) {
+    if (object) {
+      Status status = object->finalize();
+      if (status != Status::Success) {
+        overallStatus = status;
+      }
+    }
+  }
+  
+  return overallStatus;
+}
+
+Status RecordingObjects::writeTimeseriesData(
     const SizeType& containerInd,
     const Channel& channel,
     const std::vector<SizeType>& dataShape,
@@ -36,7 +54,8 @@ Status RecordingContainers::writeTimeseriesData(
     const void* timestamps,
     const void* controlInput)
 {
-  TimeSeries* ts = dynamic_cast<TimeSeries*>(getContainer(containerInd));
+  auto registeredObject = getRecordingObject(containerInd);
+  TimeSeries* ts = dynamic_cast<TimeSeries*>(registeredObject.get());
 
   if (ts == nullptr)
     return Status::Failure;
@@ -53,7 +72,7 @@ Status RecordingContainers::writeTimeseriesData(
   }
 }
 
-Status RecordingContainers::writeElectricalSeriesData(
+Status RecordingObjects::writeElectricalSeriesData(
     const SizeType& containerInd,
     const Channel& channel,
     const SizeType& numSamples,
@@ -61,8 +80,8 @@ Status RecordingContainers::writeElectricalSeriesData(
     const void* timestamps,
     const void* controlInput)
 {
-  ElectricalSeries* es =
-      dynamic_cast<ElectricalSeries*>(getContainer(containerInd));
+  auto registeredObject = getRecordingObject(containerInd);
+  ElectricalSeries* es = dynamic_cast<ElectricalSeries*>(registeredObject.get());
 
   if (es == nullptr)
     return Status::Failure;
@@ -71,15 +90,15 @@ Status RecordingContainers::writeElectricalSeriesData(
       channel.getLocalIndex(), numSamples, data, timestamps, controlInput);
 }
 
-Status RecordingContainers::writeSpikeEventData(const SizeType& containerInd,
+Status RecordingObjects::writeSpikeEventData(const SizeType& containerInd,
                                                 const SizeType& numSamples,
                                                 const SizeType& numChannels,
                                                 const void* data,
                                                 const void* timestamps,
                                                 const void* controlInput)
 {
-  SpikeEventSeries* ses =
-      dynamic_cast<SpikeEventSeries*>(getContainer(containerInd));
+  auto registeredObject = getRecordingObject(containerInd);
+  SpikeEventSeries* ses = dynamic_cast<SpikeEventSeries*>(registeredObject.get());
 
   if (ses == nullptr)
     return Status::Failure;
@@ -88,15 +107,15 @@ Status RecordingContainers::writeSpikeEventData(const SizeType& containerInd,
       numSamples, numChannels, data, timestamps, controlInput);
 }
 
-Status RecordingContainers::writeAnnotationSeriesData(
+Status RecordingObjects::writeAnnotationSeriesData(
     const SizeType& containerInd,
     const SizeType& numSamples,
     const std::vector<std::string> data,
     const void* timestamps,
     const void* controlInput)
 {
-  AnnotationSeries* as =
-      dynamic_cast<AnnotationSeries*>(getContainer(containerInd));
+  auto registeredObject = getRecordingObject(containerInd);
+  AnnotationSeries* as = dynamic_cast<AnnotationSeries*>(registeredObject.get());
 
   if (as == nullptr)
     return Status::Failure;

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <any>
 #include <string>
 
 #include "io/BaseIO.hpp"
@@ -18,6 +19,9 @@ class ElectrodeGroup : public Container
 public:
   // Register ElectrodeGroup as a subclass of Container
   REGISTER_SUBCLASS(ElectrodeGroup, AQNWB::SPEC::CORE::namespaceName)
+
+  // Bring base class initialize method into scope
+  using Container::initialize;
 
   /**
    * @brief Constructor.

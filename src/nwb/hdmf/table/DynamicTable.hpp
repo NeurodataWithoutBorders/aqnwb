@@ -1,5 +1,6 @@
 #pragma once
 
+#include <any>
 #include <string>
 
 #include "Utils.hpp"
@@ -24,6 +25,9 @@ class DynamicTable : public Container
 public:
   // Register the TimeSeries as a subclass of Container
   REGISTER_SUBCLASS(DynamicTable, AQNWB::SPEC::HDMF_COMMON::namespaceName)
+
+  // Bring base class initialize method into scope
+  using Container::initialize;
 
   /**
    * @brief Constructor.
@@ -54,7 +58,7 @@ public:
    *
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status finalize();
+  Status finalize() override;
 
   /**
    * @brief Adds a column of vector string data to the table.

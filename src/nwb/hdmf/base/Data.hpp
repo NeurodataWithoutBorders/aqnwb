@@ -1,5 +1,6 @@
 #pragma once
 
+#include <any>
 #include <memory>
 
 #include "io/BaseIO.hpp"
@@ -41,6 +42,9 @@ public:
    */
   Status initialize(const IO::ArrayDataSetConfig& dataConfig)
   {
+    // Call RegisteredType::initialize() to add this object to RecordingObjects
+    auto registerStatus = RegisteredType::initialize();
+    
     auto dataset = m_io->createArrayDataSet(dataConfig, this->m_path);
     if (dataset == nullptr) {
       return Status::Failure;
@@ -48,7 +52,7 @@ public:
     // setup common attributes
     Status commonAttrsStatus = m_io->createCommonNWBAttributes(
         m_path, this->getNamespace(), this->getTypeName());
-    return commonAttrsStatus;
+    return commonAttrsStatus && registerStatus;
   }
 
   /**

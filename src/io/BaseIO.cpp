@@ -1,6 +1,7 @@
 #include "io/BaseIO.hpp"
 
 #include "Utils.hpp"
+#include "nwb/RecordingObjects.hpp"
 
 using namespace AQNWB::IO;
 using namespace AQNWB;
@@ -46,6 +47,7 @@ BaseIO::BaseIO(const std::string& filename)
     : m_filename(filename)
     , m_readyToOpen(true)
     , m_opened(false)
+    , m_recording_containers(std::make_shared<NWB::RecordingObjects>())
 {
 }
 
@@ -167,6 +169,20 @@ std::unordered_map<std::string, std::string> BaseIO::findTypes(
 BaseRecordingData::BaseRecordingData() {}
 
 BaseRecordingData::~BaseRecordingData() {}
+
+Status BaseIO::stopRecording()
+{
+  // Finalize all recording objects before stopping recording
+  if (m_recording_containers) {
+    Status finalizeStatus = m_recording_containers->finalize();
+    if (finalizeStatus != Status::Success) {
+      // Log the error but continue with stopping recording
+      std::cerr << "Warning: Failed to finalize some recording objects" << std::endl;
+    }
+  }
+  
+  return Status::Success;
+}
 
 // Overload that uses the member variable position (works for simple data
 // extension)

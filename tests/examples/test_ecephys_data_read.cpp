@@ -10,7 +10,7 @@
 #include "io/BaseIO.hpp"
 #include "io/hdf5/HDF5IO.hpp"
 #include "nwb/NWBFile.hpp"
-#include "nwb/RecordingContainers.hpp"
+#include "nwb/RecordingObjects.hpp"
 #include "nwb/RegisteredType.hpp"
 #include "nwb/device/Device.hpp"
 #include "nwb/ecephys/ElectricalSeries.hpp"
@@ -96,25 +96,20 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     Status initStatus = nwbfile.initialize(generateUuid());
     REQUIRE(initStatus == Status::Success);
 
-    // create the RecordingContainer for managing recordings
-    std::unique_ptr<NWB::RecordingContainers> recordingContainers =
-        std::make_unique<NWB::RecordingContainers>();
-    std::vector<SizeType> containerIndices = {};
+    // RecordingObjects are now automatically managed by the IO object
 
     // create a new ElectricalSeries
     nwbfile.createElectrodesTable(mockArrays);
     Status resultCreate =
         nwbfile.createElectricalSeries(mockArrays,
                                        mockChannelNames,
-                                       dataType,
-                                       recordingContainers.get(),
-                                       containerIndices);
+                                       dataType);
     REQUIRE(resultCreate == Status::Success);
 
     // get the new ElectricalSeries
-    NWB::ElectricalSeries* electricalSeries =
-        static_cast<NWB::ElectricalSeries*>(
-            recordingContainers->getContainer(0));
+    auto recordingObjects = io->getRecordingObjects();
+    auto electricalSeriesPtr = recordingObjects->getRecordingObject(0);
+    auto electricalSeries = std::dynamic_pointer_cast<NWB::ElectricalSeries>(electricalSeriesPtr);
     REQUIRE(electricalSeries != nullptr);
 
     // start recording

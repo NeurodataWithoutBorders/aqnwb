@@ -11,7 +11,7 @@
 #include "Utils.hpp"
 #include "io/BaseIO.hpp"
 #include "io/ReadIO.hpp"
-#include "nwb/RecordingContainers.hpp"
+#include "nwb/RecordingObjects.hpp"
 #include "nwb/base/TimeSeries.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
 #include "nwb/hdmf/base/Container.hpp"
@@ -91,7 +91,7 @@ public:
   /**
    * @brief Finalizes the NWB file by closing it.
    */
-  Status finalize();
+  Status finalize() override;
 
   /**
    * @brief Create ElectrodesTable.
@@ -109,7 +109,7 @@ public:
 
   /**
    * @brief Create ElectricalSeries objects to record data into.
-   * Created objects are stored in recordingContainers.
+   * Created objects are automatically added to the I/O's RecordingObjects.
    * Note, this function will fail if the file is in a mode where
    * new objects cannot be added, which can be checked via
    * nwbfile.io->canModifyObjects()
@@ -119,51 +119,36 @@ public:
    * @param recordingNames vector indicating the names of the ElectricalSeries
    * within the acquisition group
    * @param dataType The data type of the elements in the data block.
-   * @param recordingContainers The container to store the created TimeSeries.
-   * @param containerIndexes The indexes of the containers added to
-   * recordingContainers
    * @return Status The status of the object creation operation.
    */
   Status createElectricalSeries(
       std::vector<Types::ChannelVector> recordingArrays,
       std::vector<std::string> recordingNames,
-      const IO::BaseDataType& dataType,
-      RecordingContainers* recordingContainers,
-      std::vector<SizeType>& containerIndexes);
+      const IO::BaseDataType& dataType);
 
   /**
    * @brief Create SpikeEventSeries objects to record data into.
-   * Created objects are stored in recordingContainers.
+   * Created objects are automatically added to the I/O's RecordingObjects.
    * @param recordingArrays vector of ChannelVector indicating the electrodes to
    *                        record from. A separate ElectricalSeries will be
    *                        created for each ChannelVector.
    * @param recordingNames vector indicating the names of the SpikeEventSeries
    * within the acquisition group
    * @param dataType The data type of the elements in the data block.
-   * @param recordingContainers The container to store the created TimeSeries.
-   * @param containerIndexes The indexes of the containers added to
-   * recordingContainers
    * @return Status The status of the object creation operation.
    */
   Status createSpikeEventSeries(
       std::vector<Types::ChannelVector> recordingArrays,
       std::vector<std::string> recordingNames,
-      const IO::BaseDataType& dataType,
-      RecordingContainers* recordingContainers,
-      std::vector<SizeType>& containerIndexes);
+      const IO::BaseDataType& dataType);
 
   /** @brief Create AnnotationSeries objects to record data into.
-   * Created objects are stored in recordingContainers.
+   * Created objects are automatically added to the I/O's RecordingObjects.
    * @param recordingNames vector indicating the names of the AnnotationSeries
    * within the acquisition group
-   * @param recordingContainers The container to store the created TimeSeries.
-   * @param containerIndexes The indexes of the containers added to
-   * recordingContainers
    * @return Status The status of the object creation operation.
    */
-  Status createAnnotationSeries(std::vector<std::string> recordingNames,
-                                RecordingContainers* recordingContainers,
-                                std::vector<SizeType>& containerIndexes);
+  Status createAnnotationSeries(std::vector<std::string> recordingNames);
 
   DEFINE_REGISTERED_FIELD(readElectrodeTable,
                           ElectrodeTable,

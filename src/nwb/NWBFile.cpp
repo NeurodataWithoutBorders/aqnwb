@@ -54,6 +54,9 @@ Status NWBFile::initialize(const std::string& identifierText,
   if (!m_io->isOpen()) {
     return Status::Failure;
   }
+  // Call Container::initialize() to add this object to RecordingObjects
+  Status registerStatus = Container::initialize();
+
   std::string currentTime = getCurrentTime();
   // use the current time if sessionStartTime is empty
   std::string useSessionStartTime =
@@ -78,15 +81,16 @@ Status NWBFile::initialize(const std::string& identifierText,
   // Check that the file is empty and initialize if it is
   bool fileInitialized = isInitialized();
   if (!fileInitialized) {
-    return createFileStructure(identifierText,
-                               description,
-                               dataCollection,
-                               useSessionStartTime,
-                               useTimestampsReferenceTime);
+    Status createStatus = createFileStructure(identifierText,
+                                              description,
+                                              dataCollection,
+                                              useSessionStartTime,
+                                              useTimestampsReferenceTime);
+    return (createStatus == Status::Success && registerStatus == Status::Success) 
+           ? Status::Success : Status::Failure;
   } else {
-    return Status::Success;  // File is already initialized
+    return registerStatus;  // File is already initialized, return register status
   }
-  return Status::Failure;
 }
 
 bool NWBFile::isInitialized() const
@@ -215,9 +219,7 @@ Status NWBFile::createElectrodesTable(
 Status NWBFile::createElectricalSeries(
     std::vector<Types::ChannelVector> recordingArrays,
     std::vector<std::string> recordingNames,
-    const IO::BaseDataType& dataType,
-    RecordingContainers* recordingContainers,
-    std::vector<SizeType>& containerIndexes)
+    const IO::BaseDataType& dataType)
 {
   if (!m_io->canModifyObjects()) {
     return Status::Failure;
@@ -249,7 +251,7 @@ Status NWBFile::createElectricalSeries(
                                   SizeArray {0, channelVector.size()},
                                   SizeArray {CHUNK_XSIZE, 0});
     auto electricalSeries =
-        std::make_unique<ElectricalSeries>(electricalSeriesPath, m_io);
+        std::make_shared<ElectricalSeries>(electricalSeriesPath, m_io);
     Status esStatus = electricalSeries->initialize(
         config,
         channelVector,
@@ -258,8 +260,6 @@ Status NWBFile::createElectricalSeries(
     if (esStatus != Status::Success) {
       return esStatus;
     }
-    recordingContainers->addContainer(std::move(electricalSeries));
-    containerIndexes.push_back(recordingContainers->size() - 1);
   }
 
   return Status::Success;
@@ -268,9 +268,7 @@ Status NWBFile::createElectricalSeries(
 Status NWBFile::createSpikeEventSeries(
     std::vector<Types::ChannelVector> recordingArrays,
     std::vector<std::string> recordingNames,
-    const IO::BaseDataType& dataType,
-    RecordingContainers* recordingContainers,
-    std::vector<SizeType>& containerIndexes)
+    const IO::BaseDataType& dataType)
 {
   if (!m_io->canModifyObjects()) {
     return Status::Failure;
@@ -322,21 +320,17 @@ Status NWBFile::createSpikeEventSeries(
                                   : SizeArray {SPIKE_CHUNK_XSIZE, 1, 1});
 
     auto spikeEventSeries =
-        std::make_unique<SpikeEventSeries>(spikeEventSeriesPath, m_io);
+        std::make_shared<SpikeEventSeries>(spikeEventSeriesPath, m_io);
     spikeEventSeries->initialize(
         config,
         channelVector,
         "Stores spike waveforms from an extracellular ephys recording");
-    recordingContainers->addContainer(std::move(spikeEventSeries));
-    containerIndexes.push_back(recordingContainers->size() - 1);
   }
 
   return Status::Success;
 }
 
-Status NWBFile::createAnnotationSeries(std::vector<std::string> recordingNames,
-                                       RecordingContainers* recordingContainers,
-                                       std::vector<SizeType>& containerIndexes)
+Status NWBFile::createAnnotationSeries(std::vector<std::string> recordingNames)
 {
   if (!m_io->canModifyObjects()) {
     return Status::Failure;
@@ -352,13 +346,11 @@ Status NWBFile::createAnnotationSeries(std::vector<std::string> recordingNames,
     IO::ArrayDataSetConfig config(
         IO::BaseDataType::V_STR, SizeArray {0}, SizeArray {CHUNK_XSIZE});
     auto annotationSeries =
-        std::make_unique<AnnotationSeries>(annotationSeriesPath, m_io);
+        std::make_shared<AnnotationSeries>(annotationSeriesPath, m_io);
     annotationSeries->initialize(
         "Stores user annotations made during an experiment",
         "no comments",
         config);
-    recordingContainers->addContainer(std::move(annotationSeries));
-    containerIndexes.push_back(recordingContainers->size() - 1);
   }
 
   return Status::Success;

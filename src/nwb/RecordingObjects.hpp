@@ -7,48 +7,49 @@
 namespace AQNWB::NWB
 {
 
+// Forward declaration
+class RegisteredType;
+
 /**
- * @brief The RecordingContainers class provides an interface for managing
- * and holding groups of Containers acquired during a recording.
+ * @brief The RecordingObjects class provides an interface for managing
+ * and holding groups of RegisteredType objects used for recording
+ * during data acquistion.
  */
 
-class RecordingContainers
+class RecordingObjects
 {
 public:
   /**
-   * @brief Constructor for RecordingContainer class.
+   * @brief Constructor for RecordingObjects class.
    */
-  RecordingContainers();
+  RecordingObjects();
 
   /**
    * @brief Deleted copy constructor to prevent construction-copying.
    */
-  RecordingContainers(const RecordingContainers&) = delete;
+  RecordingObjects(const RecordingObjects&) = delete;
 
   /**
    * @brief Deleted copy assignment operator to prevent copying.
    */
-  RecordingContainers& operator=(const RecordingContainers&) = delete;
+  RecordingObjects& operator=(const RecordingObjects&) = delete;
 
   /**
-   * @brief Destructor for RecordingContainer class.
+   * @brief Destructor for RecordingObjects class.
    */
-  ~RecordingContainers();
+  ~RecordingObjects();
 
   /**
-   * @brief Adds a Container object to the container. Note that this function
-   * transfers ownership of the Container object to the RecordingContainers
-   * object, and should be called with the pattern
-   * recordingContainers.addContainer(std::move(container)).
-   * @param container The Container object to add.
+   * @brief Adds a RegisteredType object to the recording objects collection.
+   * @param object The RegisteredType object to add as a shared pointer.
    */
-  void addContainer(std::unique_ptr<Container> container);
+  void addRecordingObject(std::shared_ptr<RegisteredType> object);
 
   /**
-   * @brief Gets the Container object from the recordingContainers
-   * @param containerInd The index of the container dataset within the group.
+   * @brief Gets the RegisteredType object from the recording objects collection
+   * @param objectInd The index of the object within the collection.
    */
-  Container* getContainer(const SizeType& containerInd);
+  std::shared_ptr<RegisteredType> getRecordingObject(const SizeType& objectInd);
 
   /**
    * @brief Write timeseries data to a recordingContainer dataset.
@@ -128,18 +129,25 @@ public:
                                    const void* controlInput = nullptr);
 
   /**
-   * @brief Get the number of recording containers
+   * @brief Finalize all RegisteredType objects managed by this RecordingObjects instance.
+   * This method calls finalize() on all objects in the collection.
+   * @return The status of the finalize operation.
    */
-  inline SizeType size() const { return m_containers.size(); }
+  Status finalize();
+
+  /**
+   * @brief Get the number of recording objects
+   */
+  inline SizeType size() const { return m_recording_objects.size(); }
 
 private:
   /**
-   * @brief The Containers used for recording
+   * @brief The RegisteredType objects used for recording
    */
-  std::vector<std::unique_ptr<Container>> m_containers;
+  std::vector<std::shared_ptr<RegisteredType>> m_recording_objects;
 
   /**
-   * @brief The name of the collection of recording containers
+   * @brief The name of the collection of recording objects
    */
   std::string m_name;
 };
