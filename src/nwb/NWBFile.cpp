@@ -182,8 +182,8 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
 Status NWBFile::createElectrodesTable(
     std::vector<Types::ChannelVector> recordingArrays)
 {
-  std::unique_ptr<NWB::ElectrodeTable> electrodeTable =
-      std::make_unique<NWB::ElectrodeTable>(m_io);
+  std::shared_ptr<NWB::ElectrodeTable> electrodeTable =
+      std::make_shared<NWB::ElectrodeTable>(m_io);
   electrodeTable->initialize();
   for (const auto& channelVector : recordingArrays) {
     electrodeTable->addElectrodes(channelVector);
