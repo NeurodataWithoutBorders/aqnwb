@@ -17,8 +17,9 @@ class AnnotationSeries : public TimeSeries
 {
 public:
   // Register the AnnotationSeries
-  REGISTER_SUBCLASS(AnnotationSeries, AQNWB::SPEC::CORE::namespaceName)
+  REGISTER_SUBCLASS(AnnotationSeries, TimeSeries, AQNWB::SPEC::CORE::namespaceName)
 
+protected:
   /**
    * @brief Constructor.
    * @param path The location of the AnnotationSeries in the file.
@@ -26,6 +27,7 @@ public:
    */
   AnnotationSeries(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
+public:
   /**
    * @brief Destructor
    */

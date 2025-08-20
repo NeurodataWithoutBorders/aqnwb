@@ -24,11 +24,9 @@ class DynamicTable : public Container
 {
 public:
   // Register the TimeSeries as a subclass of Container
-  REGISTER_SUBCLASS(DynamicTable, AQNWB::SPEC::HDMF_COMMON::namespaceName)
+  REGISTER_SUBCLASS(DynamicTable, Container, AQNWB::SPEC::HDMF_COMMON::namespaceName)
 
-  // Bring base class initialize method into scope
-  using Container::initialize;
-
+protected:
   /**
    * @brief Constructor.
    * @param path The location of the table in the file.
@@ -36,6 +34,7 @@ public:
    */
   DynamicTable(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
+public:
   /**
    * @brief Destructor
    */
@@ -125,7 +124,7 @@ public:
     if (m_io->objectExists(columnPath)) {
       if (m_io->getStorageObjectType(columnPath) == StorageObjectType::Dataset)
       {
-        return std::make_shared<VectorDataTyped<DTYPE>>(columnPath, m_io);
+        return VectorDataTyped<DTYPE>::create(columnPath, m_io);
       }
     }
     return nullptr;

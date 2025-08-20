@@ -48,7 +48,7 @@ TEST_CASE("workflowExamples")
     // [example_workflow_recording_containers_snippet]
 
     // [example_workflow_nwbfile_snippet]
-    std::unique_ptr<NWB::NWBFile> nwbfile = std::make_unique<NWB::NWBFile>(io);
+    auto nwbfile = NWB::NWBFile::create(io);
     Status initStatus = nwbfile->initialize(generateUuid());
     REQUIRE(initStatus == Status::Success);
     // [example_workflow_nwbfile_snippet]

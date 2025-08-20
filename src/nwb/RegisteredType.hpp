@@ -48,18 +48,6 @@ class RegisteredType : public std::enable_shared_from_this<RegisteredType>
 {
 public:
   /**
-   * @brief Constructor.
-   *
-   * All registered subclasses of RegisteredType must implement a constructor
-   * with these arguments.
-   *
-   * @param path The path of the registered type.
-   * @param io A shared pointer to the IO object.
-   */
-  RegisteredType(const std::string& path,
-                 std::shared_ptr<AQNWB::IO::BaseIO> io);
-
-  /**
    * @brief Destructor.
    */
   virtual ~RegisteredType();
@@ -95,19 +83,16 @@ public:
   inline void clearRecordingDataCache() { this->m_recordingDataCache.clear(); }
 
   /**
-   * @brief Initialize the RegisteredType object.
+   * @brief Register this RegisteredType objecti with the RecordingContainers of the I/O.
    * 
-   * This method provides a standard interface for initializing RegisteredType
-   * objects. The base implementation adds the object to the RecordingContainers
-   * object of the I/O it is associated with. Subclasses can override this method
-   * to provide additional initialization logic. In practice, subclasses will often
-   * override this method by having an initalize method that requires additional inputs
-   * but those should always also make sure to call their parent class initalize method
-   * to make sure this function is being run.
+   * This method should be called when this RegisteredType object is being used for recording data.
+   * Usually this should be done when the initialize() function of the type is being called.
+   * AQNWB::NWB::Container and AQNWB::NWB::Data classes automatically in the initialize() function
+   * so most subclasses do not need to call this method explicitly.
    * 
    * @return AQNWB::Types::Status::Success if successful, otherwise AQNWB::Types::Status::Failure.
    */
-  virtual AQNWB::Types::Status initialize();
+  AQNWB::Types::Status registerRecordingObject();
 
   /**
    * @brief Finalize the RegisteredType object.
@@ -158,7 +143,7 @@ public:
    */
   static std::unordered_map<
       std::string,
-      std::pair<std::function<std::unique_ptr<RegisteredType>(
+      std::pair<std::function<std::shared_ptr<RegisteredType>(
                     const std::string&, std::shared_ptr<AQNWB::IO::BaseIO>)>,
                 std::pair<std::string, std::string>>>&
   getFactoryMap();
@@ -334,6 +319,20 @@ public:
           AQNWB::IO::SearchMode::STOP_ON_TYPE) const;
 
 protected:
+  /**
+   * @brief Constructor.
+   *
+   * All registered subclasses of RegisteredType must implement a constructor
+   * with these arguments.
+   *
+   * @param path The path of the registered type.
+   * @param io A shared pointer to the IO object.
+   */
+  RegisteredType(const std::string& path,
+                 std::shared_ptr<AQNWB::IO::BaseIO> io);
+
+
+
   /// @brief Save the default RegisteredType to use for reading Group types that
   /// are not registered
   static const std::string m_defaultUnregisteredGroupTypeClass;
@@ -353,7 +352,7 @@ protected:
    */
   static void registerSubclass(
       const std::string& fullClassName,
-      std::function<std::unique_ptr<RegisteredType>(
+      std::function<std::shared_ptr<RegisteredType>(
           const std::string&, std::shared_ptr<AQNWB::IO::BaseIO>)>
           factoryFunction,
       const std::string& typeName,
@@ -397,23 +396,30 @@ protected:
  *
  * @param T The subclass type to register. The name must match the type in the
  * schema.
-
+ * @param BASE The base class of the subclass type, which must be a subclass of
+ * RegisteredType.
  * @param NAMESPACE_VAR The namespace of the subclass type in the format schema.
  * May be specified via a const variable or as a literal string.
  * @param TYPENAME The name of the type (usually the class name).
  */
-#define REGISTER_SUBCLASS_WITH_TYPENAME(T, NAMESPACE_VAR, TYPENAME) \
+#define REGISTER_SUBCLASS_WITH_TYPENAME(T, BASE, NAMESPACE_VAR, TYPENAME) \
+  friend class AQNWB::NWB::RegisteredType; /* base can call constructor */ \
+  protected: \
+      using BASE::BASE; /* inherit from immediate base */ \
+  public: \
   static bool registerSubclass() \
-  { \
-    AQNWB::NWB::RegisteredType::registerSubclass( \
-        std::string(NAMESPACE_VAR) + "::" + #T, \
-        [](const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io) \
-            -> std::unique_ptr<AQNWB::NWB::RegisteredType> \
-        { return std::make_unique<T>(path, io); }, \
-        TYPENAME, \
-        NAMESPACE_VAR); \
-    return true; \
-  } \
+    { \
+        AQNWB::NWB::RegisteredType::registerSubclass( \
+            std::string(NAMESPACE_VAR) + "::" + #T, \
+            [](const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io) \
+                -> std::shared_ptr<AQNWB::NWB::RegisteredType> \
+            { \
+                return RegisteredType::create<T>(path, io); \
+            }, \
+            TYPENAME, \
+            NAMESPACE_VAR); \
+        return true; \
+    } \
   static bool registered_; \
   virtual std::string getTypeName() const override \
   { \
@@ -422,6 +428,12 @@ protected:
   virtual std::string getNamespace() const override \
   { \
     return NAMESPACE_VAR; \
+  } \
+  static std::shared_ptr<T> create( \
+    const std::string& path, \
+    std::shared_ptr<AQNWB::IO::BaseIO> io) \
+  { \
+    return RegisteredType::create<T>(path, io); \
   }
 
 /**
@@ -432,10 +444,12 @@ protected:
  *
  * @param T The subclass type to register. The name must match the type in the
  * schema.
+ * @param BASE The base class of the subclass type. Which must be a subclass of
+ * RegisteredType.
  * @param NAMESPACE The namespace of the subclass type in the format schema
  */
-#define REGISTER_SUBCLASS(T, NAMESPACE) \
-  REGISTER_SUBCLASS_WITH_TYPENAME(T, NAMESPACE, #T)
+#define REGISTER_SUBCLASS(T, BASE, NAMESPACE) \
+  REGISTER_SUBCLASS_WITH_TYPENAME(T, BASE, NAMESPACE, #T)
 
 /**
  * @brief Macro to initialize the static member `registered_` to trigger

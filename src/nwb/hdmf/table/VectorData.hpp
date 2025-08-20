@@ -15,8 +15,9 @@ namespace AQNWB::NWB
 class VectorData : public Data
 {
 public:
-  REGISTER_SUBCLASS(VectorData, AQNWB::SPEC::HDMF_COMMON::namespaceName)
+  REGISTER_SUBCLASS(VectorData, Data, AQNWB::SPEC::HDMF_COMMON::namespaceName)
 
+protected:
   /**
    * @brief Constructor.
    *
@@ -25,6 +26,7 @@ public:
    */
   VectorData(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
+public:
   /**
    * @brief Virtual destructor.
    */
@@ -51,7 +53,7 @@ public:
       return nullptr;
     }
 
-    auto vectorData = std::make_shared<VectorData>(path, io);
+    auto vectorData = VectorData::create(path, io);
     Status commonAttrsStatus = io->createCommonNWBAttributes(
         path, vectorData->getNamespace(), vectorData->getTypeName());
     Status attrStatus = io->createAttribute(description, path, "description");
@@ -103,7 +105,9 @@ public:
 template<typename DTYPE = std::any>
 class VectorDataTyped : public VectorData
 {
-public:
+friend class AQNWB::NWB::RegisteredType; /* base can call constructor */
+
+protected:
   /**
    * @brief Constructor.
    *
@@ -113,6 +117,21 @@ public:
   VectorDataTyped(const std::string& path, std::shared_ptr<IO::BaseIO> io)
       : VectorData(path, io)
   {
+  }
+  
+  using VectorData::VectorData; /* inherit from immediate base */ 
+
+public:
+  /** \bried Convenience factor method since the path is fixed to '/'
+   * @param io A shared pointer to the IO object.
+   * @return A shared pointer to the created NWBFile object, or nullptr if
+   * creation failed.
+   */
+  static std::shared_ptr<VectorDataTyped> create( 
+    const std::string& path, 
+    std::shared_ptr<AQNWB::IO::BaseIO> io) 
+  { 
+    return RegisteredType::create<VectorDataTyped>(path, io); 
   }
 
   /**
@@ -134,10 +153,9 @@ public:
    * IO object as the input
    */
   static std::shared_ptr<VectorDataTyped<DTYPE>> fromVectorData(
-      const VectorData& data)
+      const std::shared_ptr<VectorData>& data)
   {
-    return std::make_shared<VectorDataTyped<DTYPE>>(data.getPath(),
-                                                    data.getIO());
+    return VectorDataTyped<DTYPE>::create(data->getPath(), data->getIO());
   }
 
   using RegisteredType::m_io;

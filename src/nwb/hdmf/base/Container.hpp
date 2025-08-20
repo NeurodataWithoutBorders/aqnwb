@@ -17,8 +17,9 @@ class Container : public RegisteredType
 {
 public:
   // Register the Container class as a registered type
-  REGISTER_SUBCLASS(Container, AQNWB::SPEC::HDMF_COMMON::namespaceName)
+  REGISTER_SUBCLASS(Container, RegisteredType, AQNWB::SPEC::HDMF_COMMON::namespaceName)
 
+protected:
   /**
    * @brief Constructor.
    *
@@ -27,6 +28,7 @@ public:
    */
   Container(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
+public:
   /**
    * @brief Destructor.
    */
@@ -36,7 +38,7 @@ public:
    * @brief Initialize the container.
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status initialize() override;
+  Status initialize();
 
   // Define the data fields to expose for lazy read access
   DEFINE_ATTRIBUTE_FIELD(readNeurodataType,

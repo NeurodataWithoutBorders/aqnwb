@@ -29,9 +29,9 @@ TEST_CASE("saveNWBFile", "[nwb]")
 
   // initialize nwbfile object and create base structure
   auto io = std::make_shared<IO::HDF5::HDF5IO>(filename);
-  NWB::NWBFile nwbfile(io);
-  nwbfile.initialize(generateUuid());
-  nwbfile.finalize();
+  auto nwbfile = NWB::NWBFile::create(io);
+  nwbfile->initialize(generateUuid());
+  nwbfile->finalize();
 }
 
 TEST_CASE("initialize", "[nwb]")
@@ -41,10 +41,10 @@ TEST_CASE("initialize", "[nwb]")
   // initialize nwbfile object and create base structure
   auto io = std::make_shared<IO::HDF5::HDF5IO>(filename);
   io->open();
-  NWB::NWBFile nwbfile(io);
+  auto nwbfile = NWB::NWBFile::create(io);
 
   // bad session start time
-  Status initStatus = nwbfile.initialize(generateUuid(),
+  Status initStatus = nwbfile->initialize(generateUuid(),
                                          "test file",
                                          "no collection",
                                          "bad time",
@@ -52,7 +52,7 @@ TEST_CASE("initialize", "[nwb]")
   REQUIRE(initStatus == Status::Failure);
 
   // bad timestamp reference time
-  initStatus = nwbfile.initialize(generateUuid(),
+  initStatus = nwbfile->initialize(generateUuid(),
                                   "test file",
                                   "no collection",
                                   AQNWB::getCurrentTime(),
@@ -60,16 +60,16 @@ TEST_CASE("initialize", "[nwb]")
   REQUIRE(initStatus == Status::Failure);
 
   // check that regular init with current times works
-  initStatus = nwbfile.initialize(generateUuid());
+  initStatus = nwbfile->initialize(generateUuid());
   REQUIRE(initStatus == Status::Success);
-  REQUIRE(nwbfile.isInitialized());
+  REQUIRE(nwbfile->isInitialized());
 
   // Since we didn't create any typed objects within the NWBFile, we should
   // have no owned types
-  auto result = nwbfile.findOwnedTypes();
+  auto result = nwbfile->findOwnedTypes();
   REQUIRE(result.size() == 0);
 
-  nwbfile.finalize();
+  nwbfile->finalize();
 }
 
 TEST_CASE("createElectrodesTable", "[nwb]")
@@ -80,12 +80,12 @@ TEST_CASE("createElectrodesTable", "[nwb]")
   std::shared_ptr<IO::HDF5::HDF5IO> io =
       std::make_shared<IO::HDF5::HDF5IO>(filename);
   io->open();
-  NWB::NWBFile nwbfile(io);
-  nwbfile.initialize(generateUuid());
+  auto nwbfile = NWB::NWBFile::create(io);
+  nwbfile->initialize(generateUuid());
 
   // create the Electrodes Table
   std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(1, 2);
-  Status resultCreate = nwbfile.createElectrodesTable(mockArrays);
+  Status resultCreate = nwbfile->createElectrodesTable(mockArrays);
   REQUIRE(resultCreate == Status::Success);
 }
 
@@ -98,12 +98,12 @@ TEST_CASE("createElectricalSeriesWithSubsetOfElectrodes", "[nwb]")
   std::shared_ptr<IO::HDF5::HDF5IO> io =
       std::make_shared<IO::HDF5::HDF5IO>(filename);
   io->open();
-  NWB::NWBFile nwbfile(io);
-  nwbfile.initialize(generateUuid());
+  auto nwbfile = NWB::NWBFile::create(io);
+  nwbfile->initialize(generateUuid());
 
   // Create electrode table with full set of electrodes (4 channels)
   std::vector<Types::ChannelVector> allElectrodes = getMockChannelArrays(4, 1);
-  Status resultCreateTable = nwbfile.createElectrodesTable(allElectrodes);
+  Status resultCreateTable = nwbfile->createElectrodesTable(allElectrodes);
   REQUIRE(resultCreateTable == Status::Success);
 
   // Create electrical series with subset of electrodes (2 channels)
@@ -115,7 +115,7 @@ TEST_CASE("createElectricalSeriesWithSubsetOfElectrodes", "[nwb]")
   auto recordingObjects = io->getRecordingObjects();
   SizeType sizeBefore = recordingObjects->size();
   Status resultCreateES =
-      nwbfile.createElectricalSeries(recordingElectrodes,
+      nwbfile->createElectricalSeries(recordingElectrodes,
                                      recordingNames,
                                      BaseDataType::F32);
   SizeType sizeAfter = recordingObjects->size();
@@ -142,7 +142,7 @@ TEST_CASE("createElectricalSeriesWithSubsetOfElectrodes", "[nwb]")
     }
   }
 
-  nwbfile.finalize();
+  nwbfile->finalize();
 }
 
 TEST_CASE("createElectricalSeriesFailsWithoutElectrodesTable", "[nwb]")
@@ -153,8 +153,8 @@ TEST_CASE("createElectricalSeriesFailsWithoutElectrodesTable", "[nwb]")
   std::shared_ptr<IO::HDF5::HDF5IO> io =
       std::make_shared<IO::HDF5::HDF5IO>(filename);
   io->open();
-  NWB::NWBFile nwbfile(io);
-  nwbfile.initialize(generateUuid());
+  auto nwbfile = NWB::NWBFile::create(io);
+  nwbfile->initialize(generateUuid());
 
   // Attempt to create electrical series without creating electrodes table first
   std::vector<Types::ChannelVector> recordingElectrodes =
@@ -162,12 +162,12 @@ TEST_CASE("createElectricalSeriesFailsWithoutElectrodesTable", "[nwb]")
   std::vector<std::string> recordingNames =
       getMockChannelArrayNames("esdata", 1);
   Status resultCreateES =
-      nwbfile.createElectricalSeries(recordingElectrodes,
+      nwbfile->createElectricalSeries(recordingElectrodes,
                                      recordingNames,
                                      BaseDataType::F32);
   REQUIRE(resultCreateES == Status::Failure);
 
-  nwbfile.finalize();
+  nwbfile->finalize();
 }
 
 TEST_CASE("createElectricalSeriesFailsWithOutOfRangeIndices", "[nwb]")
@@ -178,13 +178,13 @@ TEST_CASE("createElectricalSeriesFailsWithOutOfRangeIndices", "[nwb]")
   std::shared_ptr<IO::HDF5::HDF5IO> io =
       std::make_shared<IO::HDF5::HDF5IO>(filename);
   io->open();
-  NWB::NWBFile nwbfile(io);
-  nwbfile.initialize(generateUuid());
+  auto nwbfile = NWB::NWBFile::create(io);
+  nwbfile->initialize(generateUuid());
 
   // Create electrode table with 2 channels
   std::vector<Types::ChannelVector> tableElectrodes =
       getMockChannelArrays(2, 1);
-  Status resultCreateTable = nwbfile.createElectrodesTable(tableElectrodes);
+  Status resultCreateTable = nwbfile->createElectrodesTable(tableElectrodes);
   REQUIRE(resultCreateTable == Status::Success);
 
   // Attempt to create electrical series with channels having higher indices
@@ -195,7 +195,7 @@ TEST_CASE("createElectricalSeriesFailsWithOutOfRangeIndices", "[nwb]")
   std::vector<std::string> recordingNames =
       getMockChannelArrayNames("esdata", 1);
   Status resultCreateES =
-      nwbfile.createElectricalSeries(recordingElectrodes,
+      nwbfile->createElectricalSeries(recordingElectrodes,
                                      recordingNames,
                                      BaseDataType::F32);
   REQUIRE(resultCreateES == Status::Failure);
@@ -209,12 +209,12 @@ TEST_CASE("createElectricalSeries", "[nwb]")
   std::shared_ptr<IO::HDF5::HDF5IO> io =
       std::make_shared<IO::HDF5::HDF5IO>(filename);
   io->open();
-  NWB::NWBFile nwbfile(io);
-  nwbfile.initialize(generateUuid());
+  auto nwbfile = NWB::NWBFile::create(io);
+  nwbfile->initialize(generateUuid());
 
   // create the Electrodes Table
   std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays();
-  nwbfile.createElectrodesTable(mockArrays);
+  nwbfile->createElectrodesTable(mockArrays);
 
   // create Electrical Series
   std::vector<std::string> mockChannelNames =
@@ -222,7 +222,7 @@ TEST_CASE("createElectricalSeries", "[nwb]")
   auto recordingObjects = io->getRecordingObjects();
   SizeType sizeBefore = recordingObjects->size();
   Status resultCreate =
-      nwbfile.createElectricalSeries(mockArrays,
+      nwbfile->createElectricalSeries(mockArrays,
                                      mockChannelNames,
                                      BaseDataType::F32);
   SizeType sizeAfter = recordingObjects->size();
@@ -276,11 +276,11 @@ TEST_CASE("createElectricalSeries", "[nwb]")
   // - /general/devices/array0 : core::Device
   // - /general/extracellular_ephys/array1 : core::ElectrodeGroup
   // - /acquisition/esdata0 : core::ElectricalSeries
-  auto result = nwbfile.findOwnedTypes();
+  auto result = nwbfile->findOwnedTypes();
   REQUIRE(result.size() == 7);
 
   // finalize the nwb file
-  nwbfile.finalize();
+  nwbfile->finalize();
 }
 
 TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
@@ -290,12 +290,12 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
   // initialize nwbfile object and create base structure
   std::shared_ptr<HDF5::HDF5IO> io = std::make_shared<HDF5::HDF5IO>(filename);
   io->open();
-  NWB::NWBFile nwbfile(io);
-  nwbfile.initialize(generateUuid());
+  auto nwbfile = AQNWB::NWB::NWBFile::create(io);
+  nwbfile->initialize(generateUuid());
 
   // create ElectrodesTable
   std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(2, 2);
-  nwbfile.createElectrodesTable(mockArrays);
+  nwbfile->createElectrodesTable(mockArrays);
 
   // create Electrical Series
   std::vector<std::string> mockChannelNames =
@@ -303,7 +303,7 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
   auto recordingObjects = io->getRecordingObjects();
   SizeType sizeBefore = recordingObjects->size();
   Status resultCreateES =
-      nwbfile.createElectricalSeries(mockArrays,
+      nwbfile->createElectricalSeries(mockArrays,
                                      mockChannelNames,
                                      BaseDataType::F32);
   SizeType sizeAfter = recordingObjects->size();
@@ -317,7 +317,7 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
       getMockChannelArrayNames("spikedata");
   sizeBefore = recordingObjects->size();
   Status resultCreateSES =
-      nwbfile.createSpikeEventSeries(mockArrays,
+      nwbfile->createSpikeEventSeries(mockArrays,
                                      mockSpikeChannelNames,
                                      BaseDataType::F32);
   sizeAfter = recordingObjects->size();
@@ -356,7 +356,7 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
         numSamples, mockArrays.size(), mockData.data(), &mockTimestamps[i]);
   }
 
-  nwbfile.finalize();
+  nwbfile->finalize();
 }
 
 TEST_CASE("createAnnotationSeries", "[nwb]")
@@ -367,15 +367,15 @@ TEST_CASE("createAnnotationSeries", "[nwb]")
   std::shared_ptr<IO::HDF5::HDF5IO> io =
       std::make_shared<IO::HDF5::HDF5IO>(filename);
   io->open();
-  NWB::NWBFile nwbfile(io);
-  nwbfile.initialize(generateUuid());
+  auto nwbfile = NWB::NWBFile::create(io);
+  nwbfile->initialize(generateUuid());
 
   // create Annotation Series
   std::vector<std::string> mockAnnotationNames = {"annotations1",
                                                   "annotations2"};
   auto recordingObjects = io->getRecordingObjects();
   SizeType sizeBefore = recordingObjects->size();
-  Status resultCreate = nwbfile.createAnnotationSeries(mockAnnotationNames);
+  Status resultCreate = nwbfile->createAnnotationSeries(mockAnnotationNames);
   SizeType sizeAfter = recordingObjects->size();
   std::vector<SizeType> containerIndices(sizeAfter - sizeBefore);
   std::iota(containerIndices.begin(), containerIndices.end(), sizeBefore);
@@ -412,7 +412,7 @@ TEST_CASE("createAnnotationSeries", "[nwb]")
              || (pair.first == "/acquisition/annotations2")));
   }
 
-  nwbfile.finalize();
+  nwbfile->finalize();
 }
 
 TEST_CASE("setCanModifyObjectsMode", "[nwb]")
@@ -423,8 +423,8 @@ TEST_CASE("setCanModifyObjectsMode", "[nwb]")
   std::shared_ptr<IO::HDF5::HDF5IO> io =
       std::make_shared<IO::HDF5::HDF5IO>(filename);
   io->open();
-  NWB::NWBFile nwbfile(io);
-  Status initStatus = nwbfile.initialize(generateUuid());
+  auto nwbfile = NWB::NWBFile::create(io);
+  Status initStatus = nwbfile->initialize(generateUuid());
   REQUIRE(initStatus == Status::Success);
 
   // start recording
@@ -432,7 +432,7 @@ TEST_CASE("setCanModifyObjectsMode", "[nwb]")
   REQUIRE(resultStart == Status::Success);
 
   // test that modifying the file structure after starting the recording fails
-  // Status resultInitializePostStart = nwbfile.initialize(generateUuid());
+  // Status resultInitializePostStart = nwbfile->initialize(generateUuid());
   Status resultInitializePostStart = io->createGroup("/new_group");
   REQUIRE(io->canModifyObjects() == false);
   REQUIRE(resultInitializePostStart == Status::Failure);
@@ -441,15 +441,15 @@ TEST_CASE("setCanModifyObjectsMode", "[nwb]")
   std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(1, 2);
   std::vector<std::string> mockChannelNames =
       getMockChannelArrayNames("esdata");
-  nwbfile.createElectrodesTable(mockArrays);  // create the Electrodes Table
+  nwbfile->createElectrodesTable(mockArrays);  // create the Electrodes Table
   Status resultCreatePostStart =
-      nwbfile.createElectricalSeries(mockArrays,
+      nwbfile->createElectricalSeries(mockArrays,
                                      mockChannelNames,
                                      BaseDataType::F32);
   REQUIRE(resultCreatePostStart == Status::Failure);
 
   // stop recording
-  nwbfile.finalize();
+  nwbfile->finalize();
 }
 
 TEST_CASE("testAttributeAndDatasetFields", "[nwb]")
@@ -461,7 +461,7 @@ TEST_CASE("testAttributeAndDatasetFields", "[nwb]")
   std::shared_ptr<IO::HDF5::HDF5IO> io =
       std::make_shared<IO::HDF5::HDF5IO>(filename);
   io->open();
-  NWB::NWBFile nwbfile(io);
+  auto nwbfile = NWB::NWBFile::create(io);
 
   // Generate a unique identifier for the file
   std::string identifier = generateUuid();
@@ -471,16 +471,16 @@ TEST_CASE("testAttributeAndDatasetFields", "[nwb]")
   std::string timestampsReferenceTime = AQNWB::getCurrentTime();
 
   // Initialize the file with our test values
-  Status initStatus = nwbfile.initialize(identifier,
+  Status initStatus = nwbfile->initialize(identifier,
                                          description,
                                          dataCollection,
                                          sessionStartTime,
                                          timestampsReferenceTime);
   REQUIRE(initStatus == Status::Success);
-  REQUIRE(nwbfile.isInitialized());
+  REQUIRE(nwbfile->isInitialized());
 
   // Test reading attribute fields (DEFINE_ATTRIBUTE_FIELD)
-  auto nwbVersionData = nwbfile.readNWBVersion();
+  auto nwbVersionData = nwbfile->readNWBVersion();
   REQUIRE(nwbVersionData->exists());
   REQUIRE(nwbVersionData->getStorageObjectType()
           == StorageObjectType::Attribute);
@@ -489,27 +489,27 @@ TEST_CASE("testAttributeAndDatasetFields", "[nwb]")
                                                       // current NWB version
 
   // Test reading dataset fields (DEFINE_DATASET_FIELD)
-  auto identifierData = nwbfile.readIdentifier();
+  auto identifierData = nwbfile->readIdentifier();
   REQUIRE(identifierData->exists());
   REQUIRE(identifierData->getStorageObjectType() == StorageObjectType::Dataset);
   std::string readIdentifier = identifierData->values().data[0];
   REQUIRE(readIdentifier == identifier);
 
-  auto sessionDescriptionData = nwbfile.readSessionDescription();
+  auto sessionDescriptionData = nwbfile->readSessionDescription();
   REQUIRE(sessionDescriptionData->exists());
   REQUIRE(sessionDescriptionData->getStorageObjectType()
           == StorageObjectType::Dataset);
   std::string readDescription = sessionDescriptionData->values().data[0];
   REQUIRE(readDescription == description);
 
-  auto sessionStartTimeData = nwbfile.readSessionStartTime();
+  auto sessionStartTimeData = nwbfile->readSessionStartTime();
   REQUIRE(sessionStartTimeData->exists());
   REQUIRE(sessionStartTimeData->getStorageObjectType()
           == StorageObjectType::Dataset);
   std::string readSessionStartTime = sessionStartTimeData->values().data[0];
   REQUIRE(readSessionStartTime == sessionStartTime);
 
-  auto timestampsReferenceTimeData = nwbfile.readTimestampsReferenceTime();
+  auto timestampsReferenceTimeData = nwbfile->readTimestampsReferenceTime();
   REQUIRE(timestampsReferenceTimeData->exists());
   REQUIRE(timestampsReferenceTimeData->getStorageObjectType()
           == StorageObjectType::Dataset);
@@ -517,7 +517,7 @@ TEST_CASE("testAttributeAndDatasetFields", "[nwb]")
       timestampsReferenceTimeData->values().data[0];
   REQUIRE(readTimestampsReferenceTime == timestampsReferenceTime);
 
-  auto fileCreateDateData = nwbfile.readFileCreateDate();
+  auto fileCreateDateData = nwbfile->readFileCreateDate();
   REQUIRE(fileCreateDateData->exists());
   REQUIRE(fileCreateDateData->getStorageObjectType()
           == StorageObjectType::Dataset);
@@ -529,26 +529,26 @@ TEST_CASE("testAttributeAndDatasetFields", "[nwb]")
   REQUIRE(resultStart == Status::Success);
 
   // Test recordIdentifier method
-  auto identifierRecorder = nwbfile.recordIdentifier();
+  auto identifierRecorder = nwbfile->recordIdentifier();
   REQUIRE(identifierRecorder != nullptr);
 
   // Test recordSessionDescription method
-  auto sessionDescriptionRecorder = nwbfile.recordSessionDescription();
+  auto sessionDescriptionRecorder = nwbfile->recordSessionDescription();
   REQUIRE(sessionDescriptionRecorder != nullptr);
 
   // Test recordSessionStartTime method
-  auto sessionStartTimeRecorder = nwbfile.recordSessionStartTime();
+  auto sessionStartTimeRecorder = nwbfile->recordSessionStartTime();
   REQUIRE(sessionStartTimeRecorder != nullptr);
 
   // Test recordTimestampsReferenceTime method
   auto timestampsReferenceTimeRecorder =
-      nwbfile.recordTimestampsReferenceTime();
+      nwbfile->recordTimestampsReferenceTime();
   REQUIRE(timestampsReferenceTimeRecorder != nullptr);
 
   // Test recordFileCreateDate method
-  auto fileCreateDateRecorder = nwbfile.recordFileCreateDate();
+  auto fileCreateDateRecorder = nwbfile->recordFileCreateDate();
   REQUIRE(fileCreateDateRecorder != nullptr);
 
   // Finalize the file and close the io
-  nwbfile.finalize();
+  nwbfile->finalize();
 }

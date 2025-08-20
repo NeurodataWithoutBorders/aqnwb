@@ -20,12 +20,12 @@ ElectrodeGroup::~ElectrodeGroup() {}
 
 void ElectrodeGroup::initialize(const std::string& description,
                                 const std::string& location,
-                                const Device& device)
+                                const std::shared_ptr<Device>& device)
 {
   Container::initialize();
   if (description != "")
     m_io->createAttribute(description, m_path, "description");
   m_io->createAttribute(location, m_path, "location");
   m_io->createLink(AQNWB::mergePaths("/" + m_path, "device"),
-                   AQNWB::mergePaths("/", device.getPath()));
+                   AQNWB::mergePaths("/", device->getPath()));
 }

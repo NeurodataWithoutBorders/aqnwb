@@ -35,11 +35,11 @@ TEST_CASE("RegisterType Templated Example", "[base]")
     IO::ArrayDataSetConfig dataConfig(dataType, dataShape, chunking);
 
     // setup VectorData object
-    auto columnVectorData = NWB::VectorData(dataPath, io);
-    columnVectorData.initialize(dataConfig, description);
+    auto columnVectorData = NWB::VectorData::create(dataPath, io);
+    columnVectorData->initialize(dataConfig, description);
 
     // Write data to file
-    Status writeStatus = columnVectorData.recordData()->writeDataBlock(
+    Status writeStatus = columnVectorData->recordData()->writeDataBlock(
         dataShape, positionOffset, dataType, data.data());
     REQUIRE(writeStatus == Status::Success);
     io->flush();
@@ -57,7 +57,7 @@ TEST_CASE("RegisterType Templated Example", "[base]")
     // Create VectorDataTyped<int> from VectorData and read the
     // data as typed DataBlock<int>
     auto readVectorDataTyped =
-        NWB::VectorDataTyped<int>::fromVectorData(*readVectorData);
+        NWB::VectorDataTyped<int>::fromVectorData(readVectorData);
     auto dataInt = readVectorDataTyped->readData();
     auto dataBlockInt = dataInt->values();
     // [example_RegisterType_templated_full_read_data]

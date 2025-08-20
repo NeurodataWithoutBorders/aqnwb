@@ -13,8 +13,9 @@ class ElementIdentifiers : public Data
 {
 public:
   // Register ElementIdentifiers class as a registered type
-  REGISTER_SUBCLASS(ElementIdentifiers, AQNWB::SPEC::HDMF_COMMON::namespaceName)
+  REGISTER_SUBCLASS(ElementIdentifiers, Data, AQNWB::SPEC::HDMF_COMMON::namespaceName)
 
+protected:
   /**
    * @brief Constructor.
    *
@@ -23,6 +24,7 @@ public:
    */
   ElementIdentifiers(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
+public:
   /**
    * @brief Virtual destructor.
    */

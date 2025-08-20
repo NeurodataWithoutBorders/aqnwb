@@ -325,6 +325,13 @@
  * the \ref DEFINE_REGISTERED_FIELD macro, we can set the data type for read at compile time, simplifying read. 
  *
  *  \note
+ *     Since the templacted  \ref AQNWB::NWB::VectorDataTyped "VectorDataTyped<DTYPE>" does not call
+ *     \ref REGISTER_SUBCLASS we must manually declare: 1) `friend class AQNWB::NWB::RegisteredType;` 
+ *     and 2) `using VectorData::VectorData;` (as protected) to make sure we have access to the 
+ *     constructors and define `static std::shared_ptr<VectorDataTyped> create( const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io) {  return RegisteredType::create<VectorDataTyped>(path, io); }`
+ *     to make sure we have the factory method available.
+ *
+ *  \note
  *     The `std::unique_ptr<..>` template type is not covariant, i.e.,  `std::unique_ptr<DerivedClass>` does 
  *     not automatically convert to `std::unique_ptr<BaseClass>`.  I.e.,  while \ref AQNWB::NWB::VectorDataTyped "VectorDataTyped<DTYPE>" 
  *     can be used anywhere \ref AQNWB::NWB::VectorData "VectorData" is being used, when using `std::unique_ptr<..>`

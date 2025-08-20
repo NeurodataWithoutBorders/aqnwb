@@ -40,11 +40,11 @@ TEST_CASE("Data", "[base]")
     IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
 
     // setup Data object
-    auto columnData = NWB::Data(dataPath, io);
-    columnData.initialize(config);
+    auto columnData = NWB::Data::create(dataPath, io);
+    columnData->initialize(config);
 
     // Write data to file
-    Status writeStatus = columnData.recordData()->writeDataBlock(
+    Status writeStatus = columnData->recordData()->writeDataBlock(
         dataShape, positionOffset, dataType, data.data());
     REQUIRE(writeStatus == Status::Success);
     io->flush();
@@ -85,11 +85,11 @@ TEST_CASE("Data", "[base]")
     IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
 
     // setup Data object
-    auto data = NWB::Data(dataPath, recordIo);
-    data.initialize(config);
+    auto data = NWB::Data::create(dataPath, recordIo);
+    data->initialize(config);
 
     // Test recordData method
-    auto dataRecorder = data.recordData();
+    auto dataRecorder = data->recordData();
     REQUIRE(dataRecorder != nullptr);
 
     recordIo->close();
@@ -120,27 +120,27 @@ TEST_CASE("DataTyped", "[base]")
     IO::ArrayDataSetConfig config {dataType, dataShape, chunking};
 
     // setup Data object
-    auto columnData = NWB::Data(dataPath, io);
-    columnData.initialize(config);
+    auto columnData = NWB::Data::create(dataPath, io);
+    columnData->initialize(config);
 
     // Write data to file
-    Status writeStatus = columnData.recordData()->writeDataBlock(
+    Status writeStatus = columnData->recordData()->writeDataBlock(
         dataShape, positionOffset, dataType, data.data());
     REQUIRE(writeStatus == Status::Success);
     io->flush();
 
     // Test DataTyped<int> direct construction
-    auto readDataTyped = NWB::DataTyped<int>(dataPath, io);
-    REQUIRE(readDataTyped.getTypeName() == "Data");
-    REQUIRE(readDataTyped.getNamespace() == "hdmf-common");
+    auto readDataTyped = NWB::DataTyped<int>::create(dataPath, io);
+    REQUIRE(readDataTyped->getTypeName() == "Data");
+    REQUIRE(readDataTyped->getNamespace() == "hdmf-common");
 
     // Read the data via the readData field
-    auto dataData = readDataTyped.readData();
+    auto dataData = readDataTyped->readData();
     auto dataBlockInt = dataData->values();
     REQUIRE(dataBlockInt.data == data);
 
     // Test fromData conversion
-    auto baseData = NWB::Data(dataPath, io);
+    auto baseData = NWB::Data::create(dataPath, io);
     auto convertedDataTyped = NWB::DataTyped<int>::fromData(baseData);
     REQUIRE(convertedDataTyped->getTypeName() == "Data");
     REQUIRE(convertedDataTyped->getNamespace() == "hdmf-common");
@@ -165,27 +165,27 @@ TEST_CASE("DataTyped", "[base]")
     IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
 
     // setup Data object
-    auto columnData = NWB::Data(dataPath, io);
-    columnData.initialize(config);
+    auto columnData = NWB::Data::create(dataPath, io);
+    columnData->initialize(config);
 
     // Write data to file
-    Status writeStatus = columnData.recordData()->writeDataBlock(
+    Status writeStatus = columnData->recordData()->writeDataBlock(
         dataShape, positionOffset, dataType, data.data());
     REQUIRE(writeStatus == Status::Success);
     io->flush();
 
     // Test DataTyped<double> direct construction
-    auto readDataTyped = NWB::DataTyped<double>(dataPath, io);
-    REQUIRE(readDataTyped.getTypeName() == "Data");
-    REQUIRE(readDataTyped.getNamespace() == "hdmf-common");
+    auto readDataTyped = NWB::DataTyped<double>::create(dataPath, io);
+    REQUIRE(readDataTyped->getTypeName() == "Data");
+    REQUIRE(readDataTyped->getNamespace() == "hdmf-common");
 
     // Read the data via the readData field
-    auto dataData = readDataTyped.readData();
+    auto dataData = readDataTyped->readData();
     auto dataBlockDouble = dataData->values();
     REQUIRE(dataBlockDouble.data == data);
 
     // Test fromData conversion
-    auto baseData = NWB::Data(dataPath, io);
+    auto baseData = NWB::Data::create(dataPath, io);
     auto convertedDataTyped = NWB::DataTyped<double>::fromData(baseData);
     REQUIRE(convertedDataTyped->getTypeName() == "Data");
     REQUIRE(convertedDataTyped->getNamespace() == "hdmf-common");
@@ -218,27 +218,27 @@ TEST_CASE("DataTyped", "[base]")
     IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
 
     // setup Data object
-    auto columnData = NWB::Data(dataPath, io);
-    columnData.initialize(config);
+    auto columnData = NWB::Data::create(dataPath, io);
+    columnData->initialize(config);
 
     // Write data to file
-    Status writeStatus = columnData.recordData()->writeDataBlock(
+    Status writeStatus = columnData->recordData()->writeDataBlock(
         dataShape, positionOffset, dataType, data);
     REQUIRE(writeStatus == Status::Success);
     io->flush();
 
     // Test DataTyped<string> direct construction
-    auto readDataTyped = NWB::DataTyped<std::string>(dataPath, io);
-    REQUIRE(readDataTyped.getTypeName() == "Data");
-    REQUIRE(readDataTyped.getNamespace() == "hdmf-common");
+    auto readDataTyped = NWB::DataTyped<std::string>::create(dataPath, io);
+    REQUIRE(readDataTyped->getTypeName() == "Data");
+    REQUIRE(readDataTyped->getNamespace() == "hdmf-common");
 
     // Read the data via the readData field
-    auto dataData = readDataTyped.readData();
+    auto dataData = readDataTyped->readData();
     auto dataBlockString = dataData->values();
     REQUIRE(dataBlockString.data == data);
 
     // Test fromData conversion
-    auto baseData = NWB::Data(dataPath, io);
+    auto baseData = NWB::Data::create(dataPath, io);
     auto convertedDataTyped = NWB::DataTyped<std::string>::fromData(baseData);
     REQUIRE(convertedDataTyped->getTypeName() == "Data");
     REQUIRE(convertedDataTyped->getNamespace() == "hdmf-common");
@@ -265,14 +265,14 @@ TEST_CASE("DataTyped", "[base]")
     IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
 
     // setup Data object
-    auto columnData = NWB::Data(dataPath, recordIo);
-    columnData.initialize(config);
+    auto columnData = NWB::Data::create(dataPath, recordIo);
+    columnData->initialize(config);
 
     // setup DataTyped<int> object
-    auto dataTyped = NWB::DataTyped<int>(dataPath, recordIo);
+    auto dataTyped = NWB::DataTyped<int>::create(dataPath, recordIo);
 
     // Test recordData method
-    auto dataRecorder = dataTyped.recordData();
+    auto dataRecorder = dataTyped->recordData();
     REQUIRE(dataRecorder != nullptr);
 
     recordIo->close();

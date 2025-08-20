@@ -17,8 +17,9 @@ class Data : public RegisteredType
 {
 public:
   // Register the Data class with the type registry
-  REGISTER_SUBCLASS(Data, "hdmf-common")
+  REGISTER_SUBCLASS(Data, RegisteredType, "hdmf-common")
 
+protected:
   /**
    * @brief Constructor.
    *
@@ -27,6 +28,7 @@ public:
    */
   Data(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
+public:
   /**
    * @brief Virtual destructor.
    */
@@ -43,7 +45,7 @@ public:
   Status initialize(const IO::ArrayDataSetConfig& dataConfig)
   {
     // Call RegisteredType::initialize() to add this object to RecordingObjects
-    auto registerStatus = RegisteredType::initialize();
+    auto registerStatus = registerRecordingObject();
     
     auto dataset = m_io->createArrayDataSet(dataConfig, this->m_path);
     if (dataset == nullptr) {
@@ -91,7 +93,9 @@ public:
 template<typename DTYPE = std::any>
 class DataTyped : public Data
 {
-public:
+friend class AQNWB::NWB::RegisteredType; /* base can call constructor */
+
+protected:
   /**
    * @brief Constructor.
    *
@@ -101,6 +105,21 @@ public:
   DataTyped(const std::string& path, std::shared_ptr<IO::BaseIO> io)
       : Data(path, io)
   {
+  }
+
+  using Data::Data; /* inherit from immediate base */ 
+
+public:
+  /** \bried Convenience factor method since the path is fixed to '/'
+   * @param io A shared pointer to the IO object.
+   * @return A shared pointer to the created NWBFile object, or nullptr if
+   * creation failed.
+   */
+  static std::shared_ptr<DataTyped> create( 
+    const std::string& path, 
+    std::shared_ptr<AQNWB::IO::BaseIO> io) 
+  { 
+    return RegisteredType::create<DataTyped>(path, io); 
   }
 
   /**
@@ -120,9 +139,9 @@ public:
    *  @param data The Data object to convert
    *  @return A DataTyped object with the same path and IO object as the input
    */
-  static std::shared_ptr<DataTyped<DTYPE>> fromData(const Data& data)
+  static std::shared_ptr<DataTyped<DTYPE>> fromData(const std::shared_ptr<Data>& data)
   {
-    return std::make_shared<DataTyped<DTYPE>>(data.getPath(), data.getIO());
+    return DataTyped<DTYPE>::create(data->getPath(), data->getIO());
   }
 
   // Define the data fields to expose for lazy read access

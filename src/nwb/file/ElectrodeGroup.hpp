@@ -18,11 +18,9 @@ class ElectrodeGroup : public Container
 {
 public:
   // Register ElectrodeGroup as a subclass of Container
-  REGISTER_SUBCLASS(ElectrodeGroup, AQNWB::SPEC::CORE::namespaceName)
+  REGISTER_SUBCLASS(ElectrodeGroup, Container, AQNWB::SPEC::CORE::namespaceName)
 
-  // Bring base class initialize method into scope
-  using Container::initialize;
-
+protected:
   /**
    * @brief Constructor.
    * @param path The location in the file of the electrode group.
@@ -30,6 +28,7 @@ public:
    */
   ElectrodeGroup(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
+public:
   /**
    * @brief Destructor.
    */
@@ -48,7 +47,7 @@ public:
    */
   void initialize(const std::string& description,
                   const std::string& location,
-                  const Device& device);
+                  const std::shared_ptr<Device>& device);
 
   DEFINE_DATASET_FIELD(readData,
                        recordData,

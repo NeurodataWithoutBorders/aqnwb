@@ -92,16 +92,16 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     io->open();
 
     // setup the NWBFile
-    NWB::NWBFile nwbfile(io);
-    Status initStatus = nwbfile.initialize(generateUuid());
+    auto nwbfile = NWB::NWBFile::create(io);
+    Status initStatus = nwbfile->initialize(generateUuid());
     REQUIRE(initStatus == Status::Success);
 
     // RecordingObjects are now automatically managed by the IO object
 
     // create a new ElectricalSeries
-    nwbfile.createElectrodesTable(mockArrays);
+    nwbfile->createElectrodesTable(mockArrays);
     Status resultCreate =
-        nwbfile.createElectricalSeries(mockArrays,
+        nwbfile->createElectricalSeries(mockArrays,
                                        mockChannelNames,
                                        dataType);
     REQUIRE(resultCreate == Status::Success);

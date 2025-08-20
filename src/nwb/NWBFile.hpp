@@ -32,8 +32,18 @@ class NWBFile : public Container
 {
 public:
   // Register the ElectrodeTable as a subclass of Container
-  REGISTER_SUBCLASS(NWBFile, AQNWB::SPEC::CORE::namespaceName)
+  REGISTER_SUBCLASS(NWBFile, Container, AQNWB::SPEC::CORE::namespaceName)
+  
+  /** \bried Convenience factor method since the path is fixed to '/'
+   * @param io A shared pointer to the IO object.
+   * @return A shared pointer to the created NWBFile object, or nullptr if
+   * creation failed.
+   */
+  static std::shared_ptr<NWBFile> create(std::shared_ptr<IO::BaseIO> io) {
+    return RegisteredType::create<NWBFile>("/", io);
+  }
 
+protected:
   /**
    * @brief Constructor for NWBFile class.
    * @param io The shared pointer to the IO object.
@@ -45,6 +55,7 @@ public:
    */
   NWBFile(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
+public:
   /**
    * @brief Deleted copy constructor to prevent construction-copying.
    */

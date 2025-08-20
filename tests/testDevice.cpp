@@ -22,10 +22,10 @@ TEST_CASE("Device", "[device]")
     // create the device without writing data
     std::string path = "test_path";
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
-    Device device(path, io);
+    auto device = Device::create(path, io);
 
-    REQUIRE(device.getPath() == path);
-    REQUIRE(device.getIO() == io);
+    REQUIRE(device->getPath() == path);
+    REQUIRE(device->getIO() == io);
   }
 
   SECTION("test Device write/read")
@@ -34,11 +34,11 @@ TEST_CASE("Device", "[device]")
     std::string path = "test_path";
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
-    Device device(path, io);
+    auto device = Device::create(path, io);
 
     std::string description = "Test Device Description";
     std::string manufacturer = "Test Manufacturer";
-    device.initialize(description, manufacturer);
+    device->initialize(description, manufacturer);
     io->flush();
     io->close();
 

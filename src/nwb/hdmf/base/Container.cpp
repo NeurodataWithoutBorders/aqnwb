@@ -20,7 +20,7 @@ Container::~Container() {}
 Status Container::initialize()
 {
   // Call RegisteredType::initialize() to add this object to RecordingObjects
-  auto registerStatus = RegisteredType::initialize();
+  auto registerStatus = registerRecordingObject();
 
   auto createGroupStatus = m_io->createGroup(m_path);
   // setup common attributes

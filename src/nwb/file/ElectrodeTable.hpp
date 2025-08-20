@@ -19,9 +19,11 @@ public:
   // Register the ElectrodeTable as a subclass of Container
   // REGISTER_SUBCLASS(ElectrodeTable, "core")
   REGISTER_SUBCLASS_WITH_TYPENAME(ElectrodeTable,
+                                  DynamicTable,
                                   AQNWB::SPEC::CORE::namespaceName,
                                   "DynamicTable")
 
+protected:
   /**
    * @brief Constructor.
    * @param io The shared pointer to the BaseIO object.
@@ -31,6 +33,16 @@ public:
 
   // required so we can call create
   ElectrodeTable(const std::string& path, std::shared_ptr<IO::BaseIO> io);
+
+public:
+  /** \bried Convenience factor method since the path is fixed to electrodeTablePath =
+   * @param io A shared pointer to the IO object.
+   * @return A shared pointer to the created NWBFile object, or nullptr if
+   * creation failed.
+   */
+  static std::shared_ptr<ElectrodeTable> create(std::shared_ptr<IO::BaseIO> io) {
+    return RegisteredType::create<ElectrodeTable>(ElectrodeTable::electrodeTablePath, io);
+  }
 
   /**
    * @brief Destructor.

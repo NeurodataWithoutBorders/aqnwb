@@ -44,7 +44,7 @@ TEST_CASE("writeContinuousData", "[recording]")
     std::vector<SizeType> containerIndices = {};
 
     // 3. create NWBFile object
-    std::unique_ptr<NWB::NWBFile> nwbfile = std::make_unique<NWB::NWBFile>(io);
+    auto nwbfile = NWB::NWBFile::create(io);
     nwbfile->initialize(generateUuid());
 
     // 4. create an electrodes table.

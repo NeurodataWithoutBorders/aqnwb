@@ -18,7 +18,7 @@ class TimeSeries : public Container
 {
 public:
   // Register the TimeSeries as a subclass of Container
-  REGISTER_SUBCLASS(TimeSeries, AQNWB::SPEC::CORE::namespaceName)
+  REGISTER_SUBCLASS(TimeSeries, Container, AQNWB::SPEC::CORE::namespaceName)
 
   /**
    * Used to describe the continuity of the data in a time series.
@@ -50,13 +50,6 @@ public:
    * is visualized, and what analysis methods are applicable.
    */
   static std::map<ContinuityType, std::string> ContinuityTypeNames;
-
-  /**
-   * @brief Constructor.
-   * @param path The location of the TimeSeries in the file.
-   * @param io A shared pointer to the IO object.
-   */
-  TimeSeries(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
   /**
    * @brief Destructor
@@ -220,6 +213,14 @@ public:
                        std::string,
                        "control_description",
                        Description of each control value)
+                       
+protected:
+  /**
+   * @brief Constructor.
+   * @param path The location of the TimeSeries in the file.
+   * @param io A shared pointer to the IO object.
+   */
+  TimeSeries(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
 private:
   /**

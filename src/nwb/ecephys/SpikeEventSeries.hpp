@@ -19,8 +19,9 @@ class SpikeEventSeries : public ElectricalSeries
 {
 public:
   // Register the TimeSeries as a subclass of Container
-  REGISTER_SUBCLASS(SpikeEventSeries, AQNWB::SPEC::CORE::namespaceName)
+  REGISTER_SUBCLASS(SpikeEventSeries, ElectricalSeries, AQNWB::SPEC::CORE::namespaceName)
 
+protected:
   /**
    * @brief Constructor.
    * @param path The location of the SpikeEventSeries in the file.
@@ -28,6 +29,7 @@ public:
    */
   SpikeEventSeries(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
+public:
   /**
    * @brief Destructor
    */

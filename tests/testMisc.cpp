@@ -34,17 +34,17 @@ TEST_CASE("AnnotationSeries", "[misc]")
     io->open();
 
     // setup annotation series
-    NWB::AnnotationSeries as = NWB::AnnotationSeries(dataPath, io);
+    auto as = NWB::AnnotationSeries::create(dataPath, io);
     IO::ArrayDataSetConfig config(
         IO::BaseDataType::V_STR, SizeArray {0}, SizeArray {1});
-    as.initialize("Test annotations", "Test comments", config);
+    as->initialize("Test annotations", "Test comments", config);
 
     // write annotations multiple times to test adding to same dataset
     Status writeStatus =
-        as.writeAnnotation(numSamples, mockAnnotations, mockTimestamps.data());
+        as->writeAnnotation(numSamples, mockAnnotations, mockTimestamps.data());
     REQUIRE(writeStatus == Status::Success);
     Status writeStatus2 =
-        as.writeAnnotation(numSamples, mockAnnotations, mockTimestamps2.data());
+        as->writeAnnotation(numSamples, mockAnnotations, mockTimestamps2.data());
     REQUIRE(writeStatus2 == Status::Success);
     io->flush();
 
@@ -55,7 +55,7 @@ TEST_CASE("AnnotationSeries", "[misc]")
                                mockAnnotations.end());
     std::vector<std::string> dataOut(expectedAnnotations.size());
 
-    auto readDataWrapper = as.readData();
+    auto readDataWrapper = as->readData();
     auto readAnnotationsDataTyped = readDataWrapper->values();
     REQUIRE(readAnnotationsDataTyped.data == expectedAnnotations);
 
@@ -66,7 +66,7 @@ TEST_CASE("AnnotationSeries", "[misc]")
                               mockTimestamps2.end());
     std::vector<double> timestampsOut(expectedTimestamps.size());
 
-    auto readTimestampsWrapper = as.readTimestamps();
+    auto readTimestampsWrapper = as->readTimestamps();
     auto readTimestampsDataTyped = readTimestampsWrapper->values();
     REQUIRE_THAT(readTimestampsDataTyped.data,
                  Catch::Matchers::Approx(expectedTimestamps));

@@ -182,8 +182,7 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
 Status NWBFile::createElectrodesTable(
     std::vector<Types::ChannelVector> recordingArrays)
 {
-  std::shared_ptr<NWB::ElectrodeTable> electrodeTable =
-      std::make_shared<NWB::ElectrodeTable>(m_io);
+  auto electrodeTable = NWB::ElectrodeTable::create(m_io);
   electrodeTable->initialize();
   for (const auto& channelVector : recordingArrays) {
     electrodeTable->addElectrodes(channelVector);
@@ -201,11 +200,11 @@ Status NWBFile::createElectrodesTable(
     // Check if device exists for groupName, create device and electrode group
     // if it does not
     if (!m_io->objectExists(devicePath)) {
-      NWB::Device device = NWB::Device(devicePath, m_io);
-      device.initialize("description", "unknown");
+      auto device = NWB::Device::create(devicePath, m_io);
+      device->initialize("description", "unknown");
 
-      NWB::ElectrodeGroup elecGroup = NWB::ElectrodeGroup(electrodePath, m_io);
-      elecGroup.initialize("description", "unknown", device);
+      auto elecGroup = NWB::ElectrodeGroup::create(electrodePath, m_io);
+      elecGroup->initialize("description", "unknown", device);
     }
   }
 
@@ -250,8 +249,7 @@ Status NWBFile::createElectricalSeries(
     IO::ArrayDataSetConfig config(dataType,
                                   SizeArray {0, channelVector.size()},
                                   SizeArray {CHUNK_XSIZE, 0});
-    auto electricalSeries =
-        std::make_shared<ElectricalSeries>(electricalSeriesPath, m_io);
+    auto electricalSeries = ElectricalSeries::create(electricalSeriesPath, m_io);
     Status esStatus = electricalSeries->initialize(
         config,
         channelVector,
@@ -304,11 +302,11 @@ Status NWBFile::createSpikeEventSeries(
     // Check if device exists for groupName, create device and electrode group
     // if not
     if (!m_io->objectExists(devicePath)) {
-      Device device = Device(devicePath, m_io);
-      device.initialize("description", "unknown");
+      auto device = Device::create(devicePath, m_io);
+      device->initialize("description", "unknown");
 
-      ElectrodeGroup elecGroup = ElectrodeGroup(electrodePath, m_io);
-      elecGroup.initialize("description", "unknown", device);
+      auto elecGroup = ElectrodeGroup::create(electrodePath, m_io);
+      elecGroup->initialize("description", "unknown", device);
     }
 
     // Setup Spike Event Series datasets
@@ -319,8 +317,7 @@ Status NWBFile::createSpikeEventSeries(
         channelVector.size() == 1 ? SizeArray {SPIKE_CHUNK_XSIZE, 1}
                                   : SizeArray {SPIKE_CHUNK_XSIZE, 1, 1});
 
-    auto spikeEventSeries =
-        std::make_shared<SpikeEventSeries>(spikeEventSeriesPath, m_io);
+    auto spikeEventSeries = SpikeEventSeries::create(spikeEventSeriesPath, m_io);
     spikeEventSeries->initialize(
         config,
         channelVector,
@@ -345,8 +342,7 @@ Status NWBFile::createAnnotationSeries(std::vector<std::string> recordingNames)
     // Setup annotation series datasets
     IO::ArrayDataSetConfig config(
         IO::BaseDataType::V_STR, SizeArray {0}, SizeArray {CHUNK_XSIZE});
-    auto annotationSeries =
-        std::make_shared<AnnotationSeries>(annotationSeriesPath, m_io);
+    auto annotationSeries = AnnotationSeries::create(annotationSeriesPath, m_io);
     annotationSeries->initialize(
         "Stores user annotations made during an experiment",
         "no comments",

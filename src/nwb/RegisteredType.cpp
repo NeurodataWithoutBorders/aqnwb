@@ -30,14 +30,14 @@ std::unordered_set<std::string>& RegisteredType::getRegistry()
 
 std::unordered_map<
     std::string,
-    std::pair<std::function<std::unique_ptr<RegisteredType>(
+    std::pair<std::function<std::shared_ptr<RegisteredType>(
                   const std::string&, std::shared_ptr<AQNWB::IO::BaseIO>)>,
               std::pair<std::string, std::string>>>&
 RegisteredType::getFactoryMap()
 {
   static std::unordered_map<
       std::string,
-      std::pair<std::function<std::unique_ptr<RegisteredType>(
+      std::pair<std::function<std::shared_ptr<RegisteredType>(
                     const std::string&, std::shared_ptr<AQNWB::IO::BaseIO>)>,
                 std::pair<std::string, std::string>>>
       factoryMap;
@@ -46,7 +46,7 @@ RegisteredType::getFactoryMap()
 
 void RegisteredType::registerSubclass(
     const std::string& fullClassName,
-    std::function<std::unique_ptr<RegisteredType>(
+    std::function<std::shared_ptr<RegisteredType>(
         const std::string&, std::shared_ptr<AQNWB::IO::BaseIO>)>
         factoryFunction,
     const std::string& typeName,
@@ -130,7 +130,7 @@ std::shared_ptr<AQNWB::NWB::RegisteredType> RegisteredType::create(
   }
 }
 
-AQNWB::Types::Status RegisteredType::initialize()
+AQNWB::Types::Status RegisteredType::registerRecordingObject()
 {
   // Add this object to the RecordingObjects object of the I/O it is associated with
   // This ensures that all RegisteredType objects used for recording are automatically tracked
