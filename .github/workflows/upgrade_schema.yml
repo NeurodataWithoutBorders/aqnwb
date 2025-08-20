@@ -39,7 +39,7 @@ jobs:
 
       - name: Configure AqNWB with latest NWB schema
         shell: pwsh
-        run: cmake "--preset=ci-$("${{ matrix.os }}".split("-")[0])"
+        run: cmake "--preset=ci-macos"
 
       - name: Build AqNWB with latest NWB schema
         run: cmake --build build --config Release -j 2
