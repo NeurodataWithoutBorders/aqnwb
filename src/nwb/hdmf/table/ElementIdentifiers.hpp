@@ -30,6 +30,6 @@ public:
 
   using RegisteredType::m_io;
   using RegisteredType::m_path;
-  DEFINE_FIELD(readData, DatasetField, int, "", The main data)
+  DEFINE_DATASET_FIELD(readData, recordData, int, "", The main data)
 };
 }  // namespace AQNWB::NWB

@@ -15,9 +15,9 @@ public:
     Status initialize(const std::string& tissuePreparation);
  
     // Define methods for reading custom extension fields
-    DEFINE_FIELD(
+    DEFINE_DATASET_FIELD(
         readTissuePreparation, 
-        AQNWB::NWB::DatasetField, 
+        recordTissuePreparation,
         std::string, 
         "tissue_preparation", 
         Lab-specific description of the preparation of the tissue)

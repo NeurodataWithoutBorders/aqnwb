@@ -170,42 +170,43 @@ public:
                           ElectrodeTable::electrodeTablePath,
                           "table with the extracellular electrodes")
 
-  DEFINE_FIELD(readNWBVersion,
-               AttributeField,
-               std::string,
-               "nwb_version",
-               File version string)
+  DEFINE_ATTRIBUTE_FIELD(readNWBVersion,
+                         std::string,
+                         "nwb_version",
+                         File version string)
 
-  DEFINE_FIELD(readFileCreateDate,
-               DatasetField,
-               std::any,
-               "file_create_date",
-               A record of the date the file was created and of subsequent
-                   modifications)
+  DEFINE_DATASET_FIELD(readFileCreateDate,
+                       recordFileCreateDate,
+                       std::string,
+                       "file_create_date",
+                       A record of the date the file was created and of
+                           subsequent modifications)
 
-  DEFINE_FIELD(readIdentifier,
-               DatasetField,
-               std::string,
-               "identifier",
-               A unique text identifier for the file)
+  DEFINE_DATASET_FIELD(readIdentifier,
+                      recordIdentifier,
+                      std::string,
+                      "identifier",
+                      A unique text identifier for the file)
 
-  DEFINE_FIELD(readSessionDescription,
-               DatasetField,
-               std::string,
-               "session_description",
-               A description of the experimental session and data in the file)
+  DEFINE_DATASET_FIELD(readSessionDescription,
+                       recordSessionDescription,
+                       std::string,
+                       "session_description",
+                       A description of the experimental session and data in the
+                           file)
 
-  DEFINE_FIELD(readSessionStartTime,
-               DatasetField,
-               std::any,
-               "session_start_time",
-               Date and time of the experiment or session start)
+  DEFINE_DATASET_FIELD(readSessionStartTime,
+                       recordSessionStartTime,
+                       std::string,
+                       "session_start_time",
+                       Date and time of the experiment or session start)
 
-  DEFINE_FIELD(readTimestampsReferenceTime,
-               DatasetField,
-               std::any,
-               "timestamps_reference_time",
-               Date and time corresponding to time zero of all timestamps)
+  DEFINE_DATASET_FIELD(readTimestampsReferenceTime,
+                       recordTimestampsReferenceTime,
+                       std::string,
+                       "timestamps_reference_time",
+                       Date and time corresponding to time zero of all
+                           timestamps)
 
 protected:
   /**
@@ -230,17 +231,6 @@ protected:
                              const std::string& timestampsReferenceTime);
 
 private:
-  /**
-   * @brief Factory method for creating recording data.
-   * @param config The configuration for the dataset including data type, shape,
-   * and chunking.
-   * @param path The location in the file of the new dataset.
-   * @return std::unique_ptr<IO::BaseRecordingData> The unique pointer to the
-   * created recording data.
-   */
-  std::unique_ptr<IO::BaseRecordingData> createRecordingData(
-      const IO::ArrayDataSetConfig& config, const std::string& path);
-
   /**
    * @brief Saves the specification files for the schema.
    *

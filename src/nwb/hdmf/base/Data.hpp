@@ -34,15 +34,17 @@ public:
   /**
    *  @brief Initialize the dataset for the Data object
    *
-   *  This functions takes ownership of the passed rvalue unique_ptr and moves
-   *  ownership to its internal m_dataset variable
+   *  This function creates a dataset using the provided configuration
    *
-   * @param dataset The rvalue unique pointer to the BaseRecordingData object
+   * @param dataConfig The configuration for the dataset
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status initialize(std::unique_ptr<IO::BaseRecordingData>&& dataset)
+  Status initialize(const IO::ArrayDataSetConfig& dataConfig)
   {
-    m_dataset = std::move(dataset);
+    auto dataset = m_io->createArrayDataSet(dataConfig, this->m_path);
+    if (dataset == nullptr) {
+      return Status::Failure;
+    }
     // setup common attributes
     Status commonAttrsStatus = m_io->createCommonNWBAttributes(
         m_path, this->getNamespace(), this->getTypeName());
@@ -50,26 +52,22 @@ public:
   }
 
   /**
-   * @brief Check whether the m_dataset has been initialized
+   * @brief Check whether the dataset has been initialized
    */
-  inline bool isInitialized() { return m_dataset != nullptr; }
+  inline bool isInitialized() { return this->readData()->exists(); }
 
   // Define the data fields to expose for lazy read access
-  DEFINE_FIELD(readData, DatasetField, std::any, "", The main data)
+  DEFINE_DATASET_FIELD(readData, recordData, std::any, "", The main data)
 
-  DEFINE_FIELD(readNeurodataType,
-               AttributeField,
-               std::string,
-               "neurodata_type",
-               The name of the type)
+  DEFINE_ATTRIBUTE_FIELD(readNeurodataType,
+                         std::string,
+                         "neurodata_type",
+                         The name of the type)
 
-  DEFINE_FIELD(readNamespace,
-               AttributeField,
-               std::string,
-               "namespace",
-               The name of the namespace)
-
-  std::unique_ptr<IO::BaseRecordingData> m_dataset;
+  DEFINE_ATTRIBUTE_FIELD(readNamespace,
+                         std::string,
+                         "namespace",
+                         The name of the namespace)
 };
 
 /**
@@ -124,7 +122,7 @@ public:
   }
 
   // Define the data fields to expose for lazy read access
-  DEFINE_FIELD(readData, DatasetField, DTYPE, "", The main data)
+  DEFINE_DATASET_FIELD(readData, recordData, DTYPE, "", The main data)
 
   using RegisteredType::m_io;
   using RegisteredType::m_path;
