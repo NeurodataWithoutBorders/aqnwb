@@ -28,7 +28,7 @@ jobs:
           pip install -r resources/utils/requirements.txt
           pip install nwbinspector
 
-      - name: Run generate_nwb_schema_headers.sh
+      - name: Run generate_nwb_schema_headers.sh to generated headers for the latest NWB schema
         run: |
           chmod +x resources/utils/generate_nwb_schema_headers.sh
           output=$(bash resources/utils/generate_nwb_schema_headers.sh 2>&1)
@@ -37,17 +37,17 @@ jobs:
             exit 1
           fi
 
-      - name: Configure AqNWB with latest NWB schema
+      - name: Configure AqNWB with latest NWB schema headers
         shell: pwsh
         run: cmake "--preset=ci-macos"
 
-      - name: Build AqNWB with latest NWB schema
+      - name: Build AqNWB with latest NWB schema headers
         run: cmake --build build --config Release -j 2
 
       - name: Install with latest NWB schema
         run: cmake --install build --config Release --prefix prefix
 
-      - name: Test with latest NWB schema
+      - name: Test with latest NWB schema headers
         working-directory: build
         run: ctest --output-on-failure --no-tests=error -C Release -j 2
 
