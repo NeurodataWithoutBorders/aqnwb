@@ -49,6 +49,9 @@ PYTHON=${PYTHON:-python}
 NWB_REPO=${NWB_REPO:-https://github.com/NeurodataWithoutBorders/nwb-schema.git}
 HDMF_REPO=${HDMF_REPO:-https://github.com/hdmf-dev/hdmf-common-schema.git}
 
+# Script location
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # Create temp dir and ensure cleanup
 TMPDIR=$(mktemp -d)
 trap 'rm -rf "$TMPDIR"' EXIT
@@ -83,9 +86,6 @@ cd "$TMPDIR"
 # Output directory
 OUTDIR="$TMPDIR/generated_headers"
 mkdir -p "$OUTDIR"
-
-# Script location
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Generate headers
 log "Generating NWB core schema headers..."
