@@ -100,11 +100,6 @@ public:
   bool isInitialized() const;
 
   /**
-   * @brief Finalizes the NWB file by closing it.
-   */
-  Status finalize() override;
-
-  /**
    * @brief Create ElectrodesTable.
    * Note, this function will fail if the file is in a mode where
    * new objects cannot be added, which can be checked via

@@ -107,5 +107,6 @@ Status DynamicTable::finalize()
       "colnames",
       true  // overwrite the attribute if it already exists
   );
-  return colNamesStatus;
+  Status parentStatus = Container::finalize();
+  return colNamesStatus && parentStatus;
 }

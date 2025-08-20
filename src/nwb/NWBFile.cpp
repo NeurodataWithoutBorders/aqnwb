@@ -127,11 +127,6 @@ bool NWBFile::isInitialized() const
   return (foundObjects.size() == requiredObjects.size());
 }
 
-Status NWBFile::finalize()
-{
-  return m_io->close();
-}
-
 Status NWBFile::createFileStructure(const std::string& identifierText,
                                     const std::string& description,
                                     const std::string& dataCollection,

@@ -100,16 +100,17 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
 
     // create a new ElectricalSeries
     nwbfile->createElectrodesTable(mockArrays);
+    SizeType startIndex = io->getRecordingObjects()->size();
     Status resultCreate =
         nwbfile->createElectricalSeries(mockArrays,
-                                       mockChannelNames,
-                                       dataType);
+                                        mockChannelNames,
+                                        dataType);
     REQUIRE(resultCreate == Status::Success);
 
     // get the new ElectricalSeries
     auto recordingObjects = io->getRecordingObjects();
-    auto electricalSeriesPtr = recordingObjects->getRecordingObject(0);
-    auto electricalSeries = std::dynamic_pointer_cast<NWB::ElectricalSeries>(electricalSeriesPtr);
+    auto registeredTypePtr = recordingObjects->getRecordingObject(startIndex);
+    auto electricalSeries = std::dynamic_pointer_cast<NWB::ElectricalSeries>(registeredTypePtr);
     REQUIRE(electricalSeries != nullptr);
 
     // start recording
