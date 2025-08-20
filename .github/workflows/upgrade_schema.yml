@@ -28,20 +28,6 @@ jobs:
           pip install -r resources/utils/requirements.txt
           pip install nwbinspector
 
-      - name: Clone latest NWB schema release
-        run: |
-          mkdir -p test_output
-          api_response=$(curl -s https://api.github.com/repos/NeurodataWithoutBorders/nwb-schema/releases/latest)
-          echo "GitHub API response:"
-          echo "$api_response"
-          NWB_LATEST_TAG=$(echo "$api_response" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
-          if [ -z "$NWB_LATEST_TAG" ]; then
-            echo "ERROR: Could not determine latest NWB schema release tag."
-            exit 1
-          fi
-          echo "Cloning NWB schema at tag: $NWB_LATEST_TAG"
-          git clone --branch "$NWB_LATEST_TAG" --depth=1 https://github.com/NeurodataWithoutBorders/nwb-schema.git test_output/nwb-schema
-
       - name: Run generate_nwb_schema_headers.sh
         run: |
           chmod +x resources/utils/generate_nwb_schema_headers.sh
