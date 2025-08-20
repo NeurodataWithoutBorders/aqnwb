@@ -110,6 +110,8 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // get the new ElectricalSeries
     auto recordingObjects = io->getRecordingObjects();
     auto registeredTypePtr = recordingObjects->getRecordingObject(startIndex);
+    REQUIRE(registeredTypePtr != nullptr);
+    REQUIRE(registeredTypePtr->getFullTypeName() == "core::ElectricalSeries");
     auto electricalSeries = std::dynamic_pointer_cast<NWB::ElectricalSeries>(registeredTypePtr);
     REQUIRE(electricalSeries != nullptr);
 
