@@ -619,7 +619,10 @@ public:
    * @brief Returns the recording objects container for this IO object.
    * @return A shared pointer to the RecordingObjects container.
    */
-  inline std::shared_ptr<NWB::RecordingObjects> getRecordingObjects() const { return m_recording_containers; }
+  inline std::shared_ptr<NWB::RecordingObjects> getRecordingObjects() const
+  {
+    return m_recording_containers;
+  }
 
 protected:
   /**
@@ -645,8 +648,8 @@ protected:
   bool m_opened;
 
   /**
-   * @brief The recording objects for tracking all RegisteredType objects used for recording
-   * associated with this IO object.
+   * @brief The recording objects for tracking all RegisteredType objects used
+   * for recording associated with this IO object.
    */
   std::shared_ptr<NWB::RecordingObjects> m_recording_containers;
 };

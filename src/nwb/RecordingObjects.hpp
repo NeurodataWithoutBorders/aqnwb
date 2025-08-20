@@ -129,8 +129,8 @@ public:
                                    const void* controlInput = nullptr);
 
   /**
-   * @brief Finalize all RegisteredType objects managed by this RecordingObjects instance.
-   * This method calls finalize() on all objects in the collection.
+   * @brief Finalize all RegisteredType objects managed by this RecordingObjects
+   * instance. This method calls finalize() on all objects in the collection.
    * @return The status of the finalize operation.
    */
   Status finalize();

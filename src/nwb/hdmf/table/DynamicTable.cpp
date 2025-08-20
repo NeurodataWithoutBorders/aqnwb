@@ -46,22 +46,23 @@ Status DynamicTable::addColumn(const std::shared_ptr<VectorData>& vectorData,
   if (!vectorData->isInitialized()) {
     std::cerr << "VectorData dataset is not initialized "
               << vectorData->getPath() << std::endl;
-      return Status::Failure;
-    } else {
-      // Write all strings in a single block
-      auto dataset = vectorData->recordData();
-      Status writeStatus =
-          dataset->writeDataBlock(std::vector<SizeType> {values.size()},
-                                  std::vector<SizeType> {0},
-                                  IO::BaseDataType::V_STR,
-                                  values);
-      m_colNames.push_back(vectorData->getName());
-      return writeStatus;
-    }
+    return Status::Failure;
+  } else {
+    // Write all strings in a single block
+    auto dataset = vectorData->recordData();
+    Status writeStatus =
+        dataset->writeDataBlock(std::vector<SizeType> {values.size()},
+                                std::vector<SizeType> {0},
+                                IO::BaseDataType::V_STR,
+                                values);
+    m_colNames.push_back(vectorData->getName());
+    return writeStatus;
   }
+}
 
-Status DynamicTable::setRowIDs(const std::shared_ptr<ElementIdentifiers>& elementIDs,
-                               const std::vector<int>& values)
+Status DynamicTable::setRowIDs(
+    const std::shared_ptr<ElementIdentifiers>& elementIDs,
+    const std::vector<int>& values)
 {
   if (!elementIDs->isInitialized()) {
     std::cerr << "ElementIdentifiers dataset is not initialized" << std::endl;

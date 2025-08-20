@@ -13,7 +13,9 @@ class ElementIdentifiers : public Data
 {
 public:
   // Register ElementIdentifiers class as a registered type
-  REGISTER_SUBCLASS(ElementIdentifiers, Data, AQNWB::SPEC::HDMF_COMMON::namespaceName)
+  REGISTER_SUBCLASS(ElementIdentifiers,
+                    Data,
+                    AQNWB::SPEC::HDMF_COMMON::namespaceName)
 
 protected:
   /**

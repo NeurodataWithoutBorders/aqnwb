@@ -213,7 +213,7 @@ public:
                        std::string,
                        "control_description",
                        Description of each control value)
-                       
+
 protected:
   /**
    * @brief Constructor.

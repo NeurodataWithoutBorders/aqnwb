@@ -177,10 +177,11 @@ Status BaseIO::stopRecording()
     Status finalizeStatus = m_recording_containers->finalize();
     if (finalizeStatus != Status::Success) {
       // Log the error but continue with stopping recording
-      std::cerr << "Warning: Failed to finalize some recording objects" << std::endl;
+      std::cerr << "Warning: Failed to finalize some recording objects"
+                << std::endl;
     }
   }
-  
+
   return Status::Success;
 }
 

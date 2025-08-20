@@ -17,7 +17,9 @@ class AnnotationSeries : public TimeSeries
 {
 public:
   // Register the AnnotationSeries
-  REGISTER_SUBCLASS(AnnotationSeries, TimeSeries, AQNWB::SPEC::CORE::namespaceName)
+  REGISTER_SUBCLASS(AnnotationSeries,
+                    TimeSeries,
+                    AQNWB::SPEC::CORE::namespaceName)
 
 protected:
   /**

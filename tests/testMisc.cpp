@@ -43,8 +43,8 @@ TEST_CASE("AnnotationSeries", "[misc]")
     Status writeStatus =
         as->writeAnnotation(numSamples, mockAnnotations, mockTimestamps.data());
     REQUIRE(writeStatus == Status::Success);
-    Status writeStatus2 =
-        as->writeAnnotation(numSamples, mockAnnotations, mockTimestamps2.data());
+    Status writeStatus2 = as->writeAnnotation(
+        numSamples, mockAnnotations, mockTimestamps2.data());
     REQUIRE(writeStatus2 == Status::Success);
     io->flush();
 

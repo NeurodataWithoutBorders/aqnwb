@@ -1,7 +1,7 @@
 
-#include <catch2/catch_test_macros.hpp>
+#include <numeric>  // for std::iota
 
-#include <numeric> // for std::iota
+#include <catch2/catch_test_macros.hpp>
 
 #include "Channel.hpp"
 #include "Types.hpp"
@@ -62,13 +62,11 @@ TEST_CASE("workflowExamples")
     // [example_workflow_datasets_snippet]
     auto recordingObjects = io->getRecordingObjects();
     SizeType sizeBefore = recordingObjects->size();
-    Status elecSeriesStatus =
-        nwbfile->createElectricalSeries(mockRecordingArrays,
-                                        mockChannelNames,
-                                        BaseDataType::I16);
+    Status elecSeriesStatus = nwbfile->createElectricalSeries(
+        mockRecordingArrays, mockChannelNames, BaseDataType::I16);
     REQUIRE(elecSeriesStatus == Status::Success);
     SizeType sizeAfter = recordingObjects->size();
-    
+
     // Create container indexes for the newly created objects
     std::vector<SizeType> containerIndexes(sizeAfter - sizeBefore);
     std::iota(containerIndexes.begin(), containerIndexes.end(), sizeBefore);
@@ -109,11 +107,11 @@ TEST_CASE("workflowExamples")
 
           // [example_workflow_write_snippet]
           recordingObjects->writeTimeseriesData(containerIndexes[i],
-                                               channel,
-                                               dataShape,
-                                               positionOffset,
-                                               intBuffer.get(),
-                                               timestampsBuffer.data());
+                                                channel,
+                                                dataShape,
+                                                positionOffset,
+                                                intBuffer.get(),
+                                                timestampsBuffer.data());
           io->flush();
           // [example_workflow_write_snippet]
         }
@@ -128,7 +126,8 @@ TEST_CASE("workflowExamples")
     // [example_workflow_advanced_snippet]
     // Get the ElectricalSeries container
     auto container0 = recordingObjects->getRecordingObject(containerIndexes[0]);
-    auto electricalSeries0 = std::dynamic_pointer_cast<NWB::ElectricalSeries>(container0);
+    auto electricalSeries0 =
+        std::dynamic_pointer_cast<NWB::ElectricalSeries>(container0);
     // Get the BaseRecordingData object for updating the data and timestamps
     auto recordingData0 = electricalSeries0->recordData();
     auto timestampsData0 = electricalSeries0->recordTimestamps();

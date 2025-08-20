@@ -17,7 +17,9 @@ class Container : public RegisteredType
 {
 public:
   // Register the Container class as a registered type
-  REGISTER_SUBCLASS(Container, RegisteredType, AQNWB::SPEC::HDMF_COMMON::namespaceName)
+  REGISTER_SUBCLASS(Container,
+                    RegisteredType,
+                    AQNWB::SPEC::HDMF_COMMON::namespaceName)
 
 protected:
   /**

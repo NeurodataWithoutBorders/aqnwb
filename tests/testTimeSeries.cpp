@@ -69,8 +69,8 @@ TEST_CASE("TimeSeries", "[base]")
     REQUIRE(ts->readControlDescription()->exists() == false);
 
     // Write data to file
-    Status writeStatus =
-        ts->writeData(dataShape, positionOffset, data.data(), timestamps.data());
+    Status writeStatus = ts->writeData(
+        dataShape, positionOffset, data.data(), timestamps.data());
     REQUIRE(writeStatus == Status::Success);
     io->flush();
     io->close();
@@ -189,16 +189,16 @@ TEST_CASE("TimeSeries", "[base]")
 
     IO::ArrayDataSetConfig config(dataType, SizeArray {0}, SizeArray {1});
     ts->initialize(config,
-                  unit,
-                  description,
-                  comments,
-                  conversion,
-                  resolution,
-                  offset,
-                  continuity,
-                  startingTime,
-                  startingTimeRate,
-                  controlDescription);
+                   unit,
+                   description,
+                   comments,
+                   conversion,
+                   resolution,
+                   offset,
+                   continuity,
+                   startingTime,
+                   startingTimeRate,
+                   controlDescription);
     REQUIRE(ts->readTimestamps()->exists() == false);
     REQUIRE(ts->readStartingTime()->exists() == true);
     REQUIRE(ts->readControl()->exists() == true);
@@ -206,10 +206,10 @@ TEST_CASE("TimeSeries", "[base]")
 
     // Write data to file
     Status writeStatus = ts->writeData(dataShape,
-                                      positionOffset,
-                                      data.data(),
-                                      nullptr,  // no timestamps
-                                      controlData.data());
+                                       positionOffset,
+                                       data.data(),
+                                       nullptr,  // no timestamps
+                                       controlData.data());
 
     REQUIRE(writeStatus == Status::Success);
     io->flush();
@@ -325,16 +325,16 @@ TEST_CASE("TimeSeries", "[base]")
     // Initialize a second TimeSeries with starting_time
     auto ts2 = NWB::TimeSeries::create(dataPath + "/ts2", io);
     ts2->initialize(config,
-                   unit,
-                   description,
-                   comments,
-                   conversion,
-                   resolution,
-                   offset,
-                   continuity,
-                   0.0,  // use starting time
-                   1.0,  // starting time rate
-                   emptyControlDescription);
+                    unit,
+                    description,
+                    comments,
+                    conversion,
+                    resolution,
+                    offset,
+                    continuity,
+                    0.0,  // use starting time
+                    1.0,  // starting time rate
+                    emptyControlDescription);
 
     // Test recordStartingTime method
     auto startingTimeRecorder = ts2->recordStartingTime();

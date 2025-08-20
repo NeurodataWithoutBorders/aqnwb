@@ -54,11 +54,13 @@ Status NWBFile::initialize(const std::string& identifierText,
   if (!m_io->isOpen()) {
     return Status::Failure;
   }
-  // TODO: Call Container::initialize() instead. However, then we need to check in 
-  //      Container that we don't create the root group and also remove the redundant call
-  //      to create the common attributes. For no we can just call registerRecordingObject
-  //      directly to to add this NWBFile object to RecordingObjects
-  Status registerStatus = registerRecordingObject();  // Container::initialize();
+  // TODO: Call Container::initialize() instead. However, then we need to check
+  //      in Container that we don't create the root group and also remove the
+  //      redundant call to create the common attributes. For no we can just
+  //      call registerRecordingObject directly to to add this NWBFile object to
+  //      RecordingObjects
+  Status registerStatus =
+      registerRecordingObject();  // Container::initialize();
 
   std::string currentTime = getCurrentTime();
   // use the current time if sessionStartTime is empty
@@ -89,10 +91,13 @@ Status NWBFile::initialize(const std::string& identifierText,
                                               dataCollection,
                                               useSessionStartTime,
                                               useTimestampsReferenceTime);
-    return (createStatus == Status::Success && registerStatus == Status::Success) 
-           ? Status::Success : Status::Failure;
+    return (createStatus == Status::Success
+            && registerStatus == Status::Success)
+        ? Status::Success
+        : Status::Failure;
   } else {
-    return registerStatus;  // File is already initialized, return register status
+    return registerStatus;  // File is already initialized, return register
+                            // status
   }
 }
 
@@ -247,7 +252,8 @@ Status NWBFile::createElectricalSeries(
     IO::ArrayDataSetConfig config(dataType,
                                   SizeArray {0, channelVector.size()},
                                   SizeArray {CHUNK_XSIZE, 0});
-    auto electricalSeries = ElectricalSeries::create(electricalSeriesPath, m_io);
+    auto electricalSeries =
+        ElectricalSeries::create(electricalSeriesPath, m_io);
     Status esStatus = electricalSeries->initialize(
         config,
         channelVector,
@@ -315,7 +321,8 @@ Status NWBFile::createSpikeEventSeries(
         channelVector.size() == 1 ? SizeArray {SPIKE_CHUNK_XSIZE, 1}
                                   : SizeArray {SPIKE_CHUNK_XSIZE, 1, 1});
 
-    auto spikeEventSeries = SpikeEventSeries::create(spikeEventSeriesPath, m_io);
+    auto spikeEventSeries =
+        SpikeEventSeries::create(spikeEventSeriesPath, m_io);
     spikeEventSeries->initialize(
         config,
         channelVector,
@@ -340,7 +347,8 @@ Status NWBFile::createAnnotationSeries(std::vector<std::string> recordingNames)
     // Setup annotation series datasets
     IO::ArrayDataSetConfig config(
         IO::BaseDataType::V_STR, SizeArray {0}, SizeArray {CHUNK_XSIZE});
-    auto annotationSeries = AnnotationSeries::create(annotationSeriesPath, m_io);
+    auto annotationSeries =
+        AnnotationSeries::create(annotationSeriesPath, m_io);
     annotationSeries->initialize(
         "Stores user annotations made during an experiment",
         "no comments",

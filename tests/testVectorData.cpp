@@ -267,7 +267,8 @@ TEST_CASE("VectorDataTyped", "[base]")
     auto readVectorData =
         std::dynamic_pointer_cast<NWB::VectorData>(readDataUntyped);
     REQUIRE(readVectorData != nullptr);
-    auto readVectorDataTyped = NWB::VectorDataTyped<double>::create(dataPath, io);
+    auto readVectorDataTyped =
+        NWB::VectorDataTyped<double>::create(dataPath, io);
     REQUIRE(readVectorDataTyped != nullptr);
 
     // Read the "namespace" attribute via the readNamespace field
@@ -292,7 +293,8 @@ TEST_CASE("VectorDataTyped", "[base]")
 
     // Test fromVectorData conversion
     auto baseVectorData = NWB::VectorData::create(dataPath, io);
-    auto convertedVectorDataTyped = NWB::VectorDataTyped<double>::fromVectorData(baseVectorData);
+    auto convertedVectorDataTyped =
+        NWB::VectorDataTyped<double>::fromVectorData(baseVectorData);
     REQUIRE(convertedVectorDataTyped != nullptr);
 
     // Read the "namespace" attribute via the readNamespace field
@@ -355,7 +357,8 @@ TEST_CASE("VectorDataTyped", "[base]")
     auto readVectorData =
         std::dynamic_pointer_cast<NWB::VectorData>(readDataUntyped);
     REQUIRE(readVectorData != nullptr);
-    auto readVectorDataTyped = NWB::VectorDataTyped<std::string>::create(dataPath, io);
+    auto readVectorDataTyped =
+        NWB::VectorDataTyped<std::string>::create(dataPath, io);
     REQUIRE(readVectorDataTyped != nullptr);
 
     // Read the "namespace" attribute via the readNamespace field
@@ -428,7 +431,8 @@ TEST_CASE("VectorDataTyped", "[base]")
     columnVectorData->initialize(config, description);
 
     // setup VectorDataTyped<int> object
-    auto vectorDataTyped = NWB::VectorDataTyped<int>::create(dataPath, recordIo);
+    auto vectorDataTyped =
+        NWB::VectorDataTyped<int>::create(dataPath, recordIo);
 
     // Test recordData method
     auto dataRecorder = vectorDataTyped->recordData();

@@ -1078,14 +1078,14 @@ Status HDF5IO::stopRecording()
 {
   // Call the base class method to finalize all recording objects
   Status baseStatus = BaseIO::stopRecording();
-  
+
   // if SWMR mode is disabled, stopping the recording will leave the file open
   if (!m_disableSWMRMode) {
     close();  // SWMR mode cannot be disabled so close the file
   } else {
     this->flush();
   }
-  
+
   return baseStatus;
 }
 

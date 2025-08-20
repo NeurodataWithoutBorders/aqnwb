@@ -24,7 +24,9 @@ class DynamicTable : public Container
 {
 public:
   // Register the TimeSeries as a subclass of Container
-  REGISTER_SUBCLASS(DynamicTable, Container, AQNWB::SPEC::HDMF_COMMON::namespaceName)
+  REGISTER_SUBCLASS(DynamicTable,
+                    Container,
+                    AQNWB::SPEC::HDMF_COMMON::namespaceName)
 
 protected:
   /**

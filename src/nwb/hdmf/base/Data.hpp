@@ -46,7 +46,7 @@ public:
   {
     // Call RegisteredType::initialize() to add this object to RecordingObjects
     auto registerStatus = registerRecordingObject();
-    
+
     auto dataset = m_io->createArrayDataSet(dataConfig, this->m_path);
     if (dataset == nullptr) {
       return Status::Failure;
@@ -93,7 +93,7 @@ public:
 template<typename DTYPE = std::any>
 class DataTyped : public Data
 {
-friend class AQNWB::NWB::RegisteredType; /* base can call constructor */
+  friend class AQNWB::NWB::RegisteredType; /* base can call constructor */
 
 protected:
   /**
@@ -107,11 +107,11 @@ protected:
   {
   }
 
-  using Data::Data; /* inherit from immediate base */ 
+  using Data::Data; /* inherit from immediate base */
 
 public:
-   /** \brief Factor method to create a DataTyped object. 
-   * 
+  /** \brief Factor method to create a DataTyped object.
+   *
    * This is required here since DataTyped is a template class and
    * is not being registered with the RegisteredType class registry via
    * REGISTER_SUBCLASS.
@@ -120,11 +120,10 @@ public:
    * @return A shared pointer to the created NWBFile object, or nullptr if
    * creation failed.
    */
-  static std::shared_ptr<DataTyped> create( 
-    const std::string& path, 
-    std::shared_ptr<AQNWB::IO::BaseIO> io) 
-  { 
-    return RegisteredType::create<DataTyped>(path, io); 
+  static std::shared_ptr<DataTyped> create(
+      const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io)
+  {
+    return RegisteredType::create<DataTyped>(path, io);
   }
 
   /**
@@ -144,7 +143,8 @@ public:
    *  @param data The Data object to convert
    *  @return A DataTyped object with the same path and IO object as the input
    */
-  static std::shared_ptr<DataTyped<DTYPE>> fromData(const std::shared_ptr<Data>& data)
+  static std::shared_ptr<DataTyped<DTYPE>> fromData(
+      const std::shared_ptr<Data>& data)
   {
     return DataTyped<DTYPE>::create(data->getPath(), data->getIO());
   }

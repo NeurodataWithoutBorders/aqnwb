@@ -19,7 +19,9 @@ class SpikeEventSeries : public ElectricalSeries
 {
 public:
   // Register the TimeSeries as a subclass of Container
-  REGISTER_SUBCLASS(SpikeEventSeries, ElectricalSeries, AQNWB::SPEC::CORE::namespaceName)
+  REGISTER_SUBCLASS(SpikeEventSeries,
+                    ElectricalSeries,
+                    AQNWB::SPEC::CORE::namespaceName)
 
 protected:
   /**

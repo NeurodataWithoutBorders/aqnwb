@@ -105,7 +105,7 @@ public:
 template<typename DTYPE = std::any>
 class VectorDataTyped : public VectorData
 {
-friend class AQNWB::NWB::RegisteredType; /* base can call constructor */
+  friend class AQNWB::NWB::RegisteredType; /* base can call constructor */
 
 protected:
   /**
@@ -118,12 +118,12 @@ protected:
       : VectorData(path, io)
   {
   }
-  
-  using VectorData::VectorData; /* inherit from immediate base */ 
+
+  using VectorData::VectorData; /* inherit from immediate base */
 
 public:
-  /** \brief Factor method to create a VectorDataTyped object. 
-   * 
+  /** \brief Factor method to create a VectorDataTyped object.
+   *
    * This is required here since VectorDataTyped is a template class and
    * is not being registered with the RegisteredType class registry via
    * REGISTER_SUBCLASS.
@@ -132,11 +132,10 @@ public:
    * @return A shared pointer to the created NWBFile object, or nullptr if
    * creation failed.
    */
-  static std::shared_ptr<VectorDataTyped> create( 
-    const std::string& path, 
-    std::shared_ptr<AQNWB::IO::BaseIO> io) 
-  { 
-    return RegisteredType::create<VectorDataTyped>(path, io); 
+  static std::shared_ptr<VectorDataTyped> create(
+      const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io)
+  {
+    return RegisteredType::create<VectorDataTyped>(path, io);
   }
 
   /**

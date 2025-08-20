@@ -34,8 +34,8 @@ TEST_CASE("RegisterType Example", "[base]")
     ts->initialize(config, "unit");
 
     // Write data to file
-    Status writeStatus =
-        ts->writeData(dataShape, positionOffset, data.data(), timestamps.data());
+    Status writeStatus = ts->writeData(
+        dataShape, positionOffset, data.data(), timestamps.data());
     REQUIRE(writeStatus == Status::Success);
     io->flush();
     // [example_RegisterType_setup_file]

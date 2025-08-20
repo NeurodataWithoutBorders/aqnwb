@@ -35,13 +35,16 @@ protected:
   ElectrodeTable(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
 public:
-  /** \brief Convenience factor method since the path is fixed to electrodeTablePath
+  /** \brief Convenience factor method since the path is fixed to
+   * electrodeTablePath
    * @param io A shared pointer to the IO object.
    * @return A shared pointer to the created NWBFile object, or nullptr if
    * creation failed.
    */
-  static std::shared_ptr<ElectrodeTable> create(std::shared_ptr<IO::BaseIO> io) {
-    return RegisteredType::create<ElectrodeTable>(ElectrodeTable::electrodeTablePath, io);
+  static std::shared_ptr<ElectrodeTable> create(std::shared_ptr<IO::BaseIO> io)
+  {
+    return RegisteredType::create<ElectrodeTable>(
+        ElectrodeTable::electrodeTablePath, io);
   }
 
   /**

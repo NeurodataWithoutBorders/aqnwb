@@ -132,8 +132,9 @@ std::shared_ptr<AQNWB::NWB::RegisteredType> RegisteredType::create(
 
 AQNWB::Types::Status RegisteredType::registerRecordingObject()
 {
-  // Add this object to the RecordingObjects object of the I/O it is associated with
-  // This ensures that all RegisteredType objects used for recording are automatically tracked
+  // Add this object to the RecordingObjects object of the I/O it is associated
+  // with This ensures that all RegisteredType objects used for recording are
+  // automatically tracked
   if (m_io) {
     auto recordingObjects = m_io->getRecordingObjects();
     if (recordingObjects) {

@@ -1,11 +1,11 @@
 
 #include "nwb/RecordingObjects.hpp"
 
+#include "nwb/RegisteredType.hpp"
 #include "nwb/ecephys/ElectricalSeries.hpp"
 #include "nwb/ecephys/SpikeEventSeries.hpp"
 #include "nwb/hdmf/base/Container.hpp"
 #include "nwb/misc/AnnotationSeries.hpp"
-#include "nwb/RegisteredType.hpp"
 
 using namespace AQNWB::NWB;
 // Recording Objects
@@ -14,12 +14,14 @@ RecordingObjects::RecordingObjects() {}
 
 RecordingObjects::~RecordingObjects() {}
 
-void RecordingObjects::addRecordingObject(std::shared_ptr<RegisteredType> object)
+void RecordingObjects::addRecordingObject(
+    std::shared_ptr<RegisteredType> object)
 {
   m_recording_objects.push_back(object);
 }
 
-std::shared_ptr<RegisteredType> RecordingObjects::getRecordingObject(const SizeType& objectInd)
+std::shared_ptr<RegisteredType> RecordingObjects::getRecordingObject(
+    const SizeType& objectInd)
 {
   if (objectInd >= m_recording_objects.size()) {
     return nullptr;
@@ -31,7 +33,7 @@ std::shared_ptr<RegisteredType> RecordingObjects::getRecordingObject(const SizeT
 Status RecordingObjects::finalize()
 {
   Status overallStatus = Status::Success;
-  
+
   // Call finalize on all RegisteredType objects in the collection
   for (auto& object : m_recording_objects) {
     if (object) {
@@ -41,7 +43,7 @@ Status RecordingObjects::finalize()
       }
     }
   }
-  
+
   return overallStatus;
 }
 
@@ -58,7 +60,7 @@ Status RecordingObjects::writeTimeseriesData(
   // Cast to TimeSeries
   // This assumes that the object at containerInd is a TimeSeries
   auto ts = std::dynamic_pointer_cast<NWB::TimeSeries>(registeredObject);
-  if (ts == nullptr){
+  if (ts == nullptr) {
     return Status::Failure;
   }
 
@@ -74,13 +76,12 @@ Status RecordingObjects::writeTimeseriesData(
   }
 }
 
-Status RecordingObjects::writeElectricalSeriesData(
-    const SizeType& containerInd,
-    const Channel& channel,
-    const SizeType& numSamples,
-    const void* data,
-    const void* timestamps,
-    const void* controlInput)
+Status RecordingObjects::writeElectricalSeriesData(const SizeType& containerInd,
+                                                   const Channel& channel,
+                                                   const SizeType& numSamples,
+                                                   const void* data,
+                                                   const void* timestamps,
+                                                   const void* controlInput)
 {
   auto registeredObject = getRecordingObject(containerInd);
   auto es = std::dynamic_pointer_cast<NWB::ElectricalSeries>(registeredObject);
@@ -93,11 +94,11 @@ Status RecordingObjects::writeElectricalSeriesData(
 }
 
 Status RecordingObjects::writeSpikeEventData(const SizeType& containerInd,
-                                                const SizeType& numSamples,
-                                                const SizeType& numChannels,
-                                                const void* data,
-                                                const void* timestamps,
-                                                const void* controlInput)
+                                             const SizeType& numSamples,
+                                             const SizeType& numChannels,
+                                             const void* data,
+                                             const void* timestamps,
+                                             const void* controlInput)
 {
   auto registeredObject = getRecordingObject(containerInd);
   auto ses = std::dynamic_pointer_cast<NWB::SpikeEventSeries>(registeredObject);
@@ -118,7 +119,7 @@ Status RecordingObjects::writeAnnotationSeriesData(
 {
   auto registeredObject = getRecordingObject(containerInd);
   auto as = std::dynamic_pointer_cast<NWB::AnnotationSeries>(registeredObject);
-  
+
   if (as == nullptr)
     return Status::Failure;
 

@@ -83,26 +83,30 @@ public:
   inline void clearRecordingDataCache() { this->m_recordingDataCache.clear(); }
 
   /**
-   * @brief Register this RegisteredType object with the RecordingObjects manager object of the I/O.
-   * 
-   * This method should be called when this RegisteredType object is being used for recording data.
-   * Usually this should be done when the initialize() function of the type is being called.
-   * AQNWB::NWB::Container and AQNWB::NWB::Data classes automatically in the initialize() function
-   * so most subclasses do not need to call this method explicitly.
-   * 
-   * @return AQNWB::Types::Status::Success if successful, otherwise AQNWB::Types::Status::Failure.
+   * @brief Register this RegisteredType object with the RecordingObjects
+   * manager object of the I/O.
+   *
+   * This method should be called when this RegisteredType object is being used
+   * for recording data. Usually this should be done when the initialize()
+   * function of the type is being called. AQNWB::NWB::Container and
+   * AQNWB::NWB::Data classes automatically in the initialize() function so most
+   * subclasses do not need to call this method explicitly.
+   *
+   * @return AQNWB::Types::Status::Success if successful, otherwise
+   * AQNWB::Types::Status::Failure.
    */
   AQNWB::Types::Status registerRecordingObject();
 
   /**
    * @brief Finalize the RegisteredType object.
-   * 
+   *
    * This method provides a standard interface for finalizing RegisteredType
    * objects. The base implementation clears the recording data cache to
    * remove all BaseRecordingData objects from the cache. Subclasses can
    * override this method to provide additional finalization logic.
-   * 
-   * @return AQNWB::Types::Status::Success if successful, otherwise AQNWB::Types::Status::Failure.
+   *
+   * @return AQNWB::Types::Status::Success if successful, otherwise
+   * AQNWB::Types::Status::Failure.
    */
   virtual AQNWB::Types::Status finalize();
 
@@ -331,8 +335,6 @@ protected:
   RegisteredType(const std::string& path,
                  std::shared_ptr<AQNWB::IO::BaseIO> io);
 
-
-
   /// @brief Save the default RegisteredType to use for reading Group types that
   /// are not registered
   static const std::string m_defaultUnregisteredGroupTypeClass;
@@ -404,22 +406,20 @@ protected:
  */
 #define REGISTER_SUBCLASS_WITH_TYPENAME(T, BASE, NAMESPACE_VAR, TYPENAME) \
   friend class AQNWB::NWB::RegisteredType; /* base can call constructor */ \
-  protected: \
-      using BASE::BASE; /* inherit from immediate base */ \
-  public: \
+protected: \
+  using BASE::BASE; /* inherit from immediate base */ \
+public: \
   static bool registerSubclass() \
-    { \
-        AQNWB::NWB::RegisteredType::registerSubclass( \
-            std::string(NAMESPACE_VAR) + "::" + #T, \
-            [](const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io) \
-                -> std::shared_ptr<AQNWB::NWB::RegisteredType> \
-            { \
-                return RegisteredType::create<T>(path, io); \
-            }, \
-            TYPENAME, \
-            NAMESPACE_VAR); \
-        return true; \
-    } \
+  { \
+    AQNWB::NWB::RegisteredType::registerSubclass( \
+        std::string(NAMESPACE_VAR) + "::" + #T, \
+        [](const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io) \
+            -> std::shared_ptr<AQNWB::NWB::RegisteredType> \
+        { return RegisteredType::create<T>(path, io); }, \
+        TYPENAME, \
+        NAMESPACE_VAR); \
+    return true; \
+  } \
   static bool registered_; \
   virtual std::string getTypeName() const override \
   { \
@@ -429,9 +429,8 @@ protected:
   { \
     return NAMESPACE_VAR; \
   } \
-  static std::shared_ptr<T> create( \
-    const std::string& path, \
-    std::shared_ptr<AQNWB::IO::BaseIO> io) \
+  static std::shared_ptr<T> create(const std::string& path, \
+                                   std::shared_ptr<AQNWB::IO::BaseIO> io) \
   { \
     return RegisteredType::create<T>(path, io); \
   }
