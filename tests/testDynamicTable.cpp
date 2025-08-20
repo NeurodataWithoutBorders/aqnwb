@@ -23,21 +23,21 @@ TEST_CASE("DynamicTable", "[table]")
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
 
-    NWB::DynamicTable table(tablePath, io);
-    Status status = table.initialize("A test dynamic table");
+    auto table = NWB::DynamicTable::create<NWB::DynamicTable>(tablePath, io);
+    Status status = table->initialize("A test dynamic table");
     REQUIRE(status == Status::Success);
 
     // Test reading description
-    auto readDesc = table.readDescription()->values().data;
+    auto readDesc = table->readDescription()->values().data;
     REQUIRE(readDesc[0] == "A test dynamic table");
 
     // Test setting and reading column names
     std::vector<std::string> colNames = {"col1", "col2", "col3"};
-    table.setColNames(colNames);
-    status = table.finalize();
+    table->setColNames(colNames);
+    status = table->finalize();
     REQUIRE(status == Status::Success);
 
-    auto readColNames = table.readColNames()->values().data;
+    auto readColNames = table->readColNames()->values().data;
     REQUIRE(readColNames == colNames);
 
     io->close();
@@ -58,8 +58,7 @@ TEST_CASE("DynamicTable", "[table]")
     SizeArray dataShape = {values.size()};
     SizeArray chunking = {values.size()};
     IO::ArrayDataSetConfig config(BaseDataType::V_STR, dataShape, chunking);
-    auto vectorData =
-        std::make_unique<NWB::VectorData>(tablePath + "/col1", io);
+    auto vectorData = std::make_shared<NWB::VectorData>(tablePath + "/col1", io);
     vectorData->initialize(config, "Column 1");
     status = table.addColumn(vectorData, values);
     REQUIRE(status == Status::Success);
@@ -69,8 +68,7 @@ TEST_CASE("DynamicTable", "[table]")
     SizeArray idShape = {ids.size()};
     SizeArray idChunking = {ids.size()};
     IO::ArrayDataSetConfig idConfig(BaseDataType::I32, idShape, idChunking);
-    auto elementIDs =
-        std::make_unique<NWB::ElementIdentifiers>(tablePath + "/id", io);
+    auto elementIDs = std::make_shared<NWB::ElementIdentifiers>(tablePath + "/id", io);
     elementIDs->initialize(idConfig);
     status = table.setRowIDs(elementIDs, ids);
     REQUIRE(status == Status::Success);
@@ -115,7 +113,7 @@ TEST_CASE("DynamicTable", "[table]")
       SizeArray chunking = {values.size()};
       std::string columnPath = mergePaths(tablePath, "col1");
       IO::ArrayDataSetConfig config(BaseDataType::V_STR, dataShape, chunking);
-      auto vectorData = std::make_unique<NWB::VectorData>(columnPath, io);
+      auto vectorData = std::make_shared<NWB::VectorData>(columnPath, io);
       vectorData->initialize(config, "Column 1");
       status = table.addColumn(vectorData, values);
       REQUIRE(status == Status::Success);
@@ -141,7 +139,7 @@ TEST_CASE("DynamicTable", "[table]")
       std::string columnPath2 = mergePaths(tablePath, "col2");
       IO::ArrayDataSetConfig config(
           BaseDataType::V_STR, newDataShape, newChunking);
-      auto newVectorData = std::make_unique<NWB::VectorData>(columnPath2, io);
+      auto newVectorData = std::make_shared<NWB::VectorData>(columnPath2, io);
       newVectorData->initialize(config, "Column 2");
       Status status = table.addColumn(newVectorData, newValues);
       REQUIRE(status == Status::Success);
@@ -185,7 +183,7 @@ TEST_CASE("DynamicTable", "[table]")
     SizeArray chunking = {values.size()};
     IO::ArrayDataSetConfig strConfig(BaseDataType::V_STR, dataShape, chunking);
     std::string columnPath = mergePaths(tablePath, "col1");
-    auto vectorData = std::make_unique<NWB::VectorData>(columnPath, io);
+    auto vectorData = std::make_shared<NWB::VectorData>(columnPath, io);
     vectorData->initialize(strConfig, "Column 1");
     status = table.addColumn(vectorData, values);
     REQUIRE(status == Status::Success);
@@ -197,7 +195,7 @@ TEST_CASE("DynamicTable", "[table]")
 
     std::string idPath = mergePaths(tablePath, "id");
     IO::ArrayDataSetConfig i32Config(BaseDataType::I32, idShape, idChunking);
-    auto elementIDs = std::make_unique<NWB::ElementIdentifiers>(idPath, io);
+    auto elementIDs = std::make_shared<NWB::ElementIdentifiers>(idPath, io);
     elementIDs->initialize(i32Config);
     status = table.setRowIDs(elementIDs, ids);
     REQUIRE(status == Status::Success);
