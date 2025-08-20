@@ -24,12 +24,21 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r resources/utils/requirements.txt
 
-      - name: Run generate_spec_files.py
+      - name: Clone latest NWB schema release
         run: |
           mkdir -p test_output
-          NWB_LATEST_TAG=$(curl -s https://api.github.com/repos/NeurodataWithoutBorders/nwb-schema/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
-          echo "Cloning NWB schema at tag: $NWB_LATEST_TAG"
-          git clone --branch "$NWB_LATEST_TAG" --depth=1 https://github.com/NeurodataWithoutBorders/nwb-schema.git test_output/nwb-schema
+          git clone https://github.com/NeurodataWithoutBorders/nwb-schema.git test_output/nwb-schema
+          cd test_output/nwb-schema
+          NWB_LATEST_TAG=$(git tag --sort=-v:refname | head -n 1)
+          if [ -z "$NWB_LATEST_TAG" ]; then
+            echo "ERROR: Could not determine latest NWB schema release tag."
+            exit 1
+          fi
+          echo "Checking out NWB schema at tag: $NWB_LATEST_TAG"
+          git checkout "$NWB_LATEST_TAG"
+
+      - name: Run generate_spec_files.py
+        run: |
           output=$(python resources/utils/generate_spec_files.py test_output/nwb-schema/core test_output 2>&1)
           echo "$output"
           if echo "$output" | grep -q "ERROR"; then
