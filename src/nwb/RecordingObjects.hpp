@@ -13,7 +13,7 @@ class RegisteredType;
 /**
  * @brief The RecordingObjects class provides an interface for managing
  * and holding groups of RegisteredType objects used for recording
- * during data acquistion.
+ * during data acquisition.
  */
 
 class RecordingObjects
