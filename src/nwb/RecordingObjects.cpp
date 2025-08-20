@@ -55,10 +55,12 @@ Status RecordingObjects::writeTimeseriesData(
     const void* controlInput)
 {
   auto registeredObject = getRecordingObject(containerInd);
-  TimeSeries* ts = dynamic_cast<TimeSeries*>(registeredObject.get());
-
-  if (ts == nullptr)
+  // Cast to TimeSeries
+  // This assumes that the object at containerInd is a TimeSeries
+  auto ts = std::dynamic_pointer_cast<NWB::TimeSeries>(registeredObject);
+  if (ts == nullptr){
     return Status::Failure;
+  }
 
   // write data and timestamps to datasets
   if (channel.getLocalIndex() == 0) {
@@ -81,7 +83,7 @@ Status RecordingObjects::writeElectricalSeriesData(
     const void* controlInput)
 {
   auto registeredObject = getRecordingObject(containerInd);
-  ElectricalSeries* es = dynamic_cast<ElectricalSeries*>(registeredObject.get());
+  auto es = std::dynamic_pointer_cast<NWB::ElectricalSeries>(registeredObject);
 
   if (es == nullptr)
     return Status::Failure;
@@ -98,7 +100,7 @@ Status RecordingObjects::writeSpikeEventData(const SizeType& containerInd,
                                                 const void* controlInput)
 {
   auto registeredObject = getRecordingObject(containerInd);
-  SpikeEventSeries* ses = dynamic_cast<SpikeEventSeries*>(registeredObject.get());
+  auto ses = std::dynamic_pointer_cast<NWB::SpikeEventSeries>(registeredObject);
 
   if (ses == nullptr)
     return Status::Failure;
@@ -115,8 +117,8 @@ Status RecordingObjects::writeAnnotationSeriesData(
     const void* controlInput)
 {
   auto registeredObject = getRecordingObject(containerInd);
-  AnnotationSeries* as = dynamic_cast<AnnotationSeries*>(registeredObject.get());
-
+  auto as = std::dynamic_pointer_cast<NWB::AnnotationSeries>(registeredObject);
+  
   if (as == nullptr)
     return Status::Failure;
 
