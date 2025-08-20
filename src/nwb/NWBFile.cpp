@@ -54,8 +54,11 @@ Status NWBFile::initialize(const std::string& identifierText,
   if (!m_io->isOpen()) {
     return Status::Failure;
   }
-  // Call Container::initialize() to add this object to RecordingObjects
-  Status registerStatus = Container::initialize();
+  // TODO: Call Container::initialize() instead. However, then we need to check in 
+  //      Container that we don't create the root group and also remove the redundant call
+  //      to create the common attributes. For no we can just call registerRecordingObject
+  //      directly to to add this NWBFile object to RecordingObjects
+  Status registerStatus = registerRecordingObject();  // Container::initialize();
 
   std::string currentTime = getCurrentTime();
   // use the current time if sessionStartTime is empty
