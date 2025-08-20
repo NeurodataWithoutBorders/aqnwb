@@ -66,7 +66,7 @@ public:
    * @param values The vector of string values.
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status addColumn(std::unique_ptr<VectorData>& vectorData,
+  Status addColumn(const std::shared_ptr<VectorData>& vectorData,
                    const std::vector<std::string>& values);
 
   /**
@@ -86,7 +86,7 @@ public:
    * @param values The vector of id values.
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status setRowIDs(std::unique_ptr<ElementIdentifiers>& elementIDs,
+  Status setRowIDs(const std::shared_ptr<ElementIdentifiers>& elementIDs,
                    const std::vector<int>& values);
 
   /**
