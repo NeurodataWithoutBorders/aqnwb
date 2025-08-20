@@ -55,16 +55,30 @@ trap 'rm -rf "$TMPDIR"' EXIT
 log "Created temp dir: $TMPDIR"
 
 # Clone NWB schema (latest release only)
-log "Fetching latest NWB schema release tag..."
-NWB_LATEST_TAG=$(curl -s https://api.github.com/repos/NeurodataWithoutBorders/nwb-schema/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
-log "Cloning NWB schema at tag: $NWB_LATEST_TAG"
-git clone --branch "$NWB_LATEST_TAG" --depth=1 "$NWB_REPO" "$TMPDIR/nwb-schema"
+log "Cloning NWB schema repository..."
+git clone "$NWB_REPO" "$TMPDIR/nwb-schema"
+cd "$TMPDIR/nwb-schema"
+NWB_LATEST_TAG=$(git tag --sort=-v:refname | head -n 1)
+if [ -z "$NWB_LATEST_TAG" ]; then
+    echo "[ERROR] Could not determine latest NWB schema release tag."
+    exit 1
+fi
+log "Checking out NWB schema at tag: $NWB_LATEST_TAG"
+git checkout "$NWB_LATEST_TAG"
+cd "$TMPDIR"
 
 # Clone HDMF common schema (latest release only)
-log "Fetching latest HDMF common schema release tag..."
-HDMF_LATEST_TAG=$(curl -s https://api.github.com/repos/hdmf-dev/hdmf-common-schema/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
-log "Cloning HDMF common schema at tag: $HDMF_LATEST_TAG"
-git clone --branch "$HDMF_LATEST_TAG" --depth=1 "$HDMF_REPO" "$TMPDIR/hdmf-common-schema"
+log "Cloning HDMF common schema repository..."
+git clone "$HDMF_REPO" "$TMPDIR/hdmf-common-schema"
+cd "$TMPDIR/hdmf-common-schema"
+HDMF_LATEST_TAG=$(git tag --sort=-v:refname | head -n 1)
+if [ -z "$HDMF_LATEST_TAG" ]; then
+    echo "[ERROR] Could not determine latest HDMF common schema release tag."
+    exit 1
+fi
+log "Checking out HDMF common schema at tag: $HDMF_LATEST_TAG"
+git checkout "$HDMF_LATEST_TAG"
+cd "$TMPDIR"
 
 # Output directory
 OUTDIR="$TMPDIR/generated_headers"
