@@ -34,7 +34,7 @@ public:
   // Register the ElectrodeTable as a subclass of Container
   REGISTER_SUBCLASS(NWBFile, Container, AQNWB::SPEC::CORE::namespaceName)
   
-  /** \bried Convenience factor method since the path is fixed to '/'
+  /** \brief Convenience factor method since the path is fixed to '/'
    * @param io A shared pointer to the IO object.
    * @return A shared pointer to the created NWBFile object, or nullptr if
    * creation failed.

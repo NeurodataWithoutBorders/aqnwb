@@ -83,7 +83,7 @@ public:
   inline void clearRecordingDataCache() { this->m_recordingDataCache.clear(); }
 
   /**
-   * @brief Register this RegisteredType objecti with the RecordingContainers of the I/O.
+   * @brief Register this RegisteredType object with the RecordingObjects manager object of the I/O.
    * 
    * This method should be called when this RegisteredType object is being used for recording data.
    * Usually this should be done when the initialize() function of the type is being called.

@@ -35,7 +35,7 @@ protected:
   ElectrodeTable(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
 public:
-  /** \bried Convenience factor method since the path is fixed to electrodeTablePath =
+  /** \brief Convenience factor method since the path is fixed to electrodeTablePath
    * @param io A shared pointer to the IO object.
    * @return A shared pointer to the created NWBFile object, or nullptr if
    * creation failed.

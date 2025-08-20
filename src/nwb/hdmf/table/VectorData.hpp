@@ -122,7 +122,12 @@ protected:
   using VectorData::VectorData; /* inherit from immediate base */ 
 
 public:
-  /** \bried Convenience factor method since the path is fixed to '/'
+  /** \brief Factor method to create a VectorDataTyped object. 
+   * 
+   * This is required here since VectorDataTyped is a template class and
+   * is not being registered with the RegisteredType class registry via
+   * REGISTER_SUBCLASS.
+   * @param path The path of the container.
    * @param io A shared pointer to the IO object.
    * @return A shared pointer to the created NWBFile object, or nullptr if
    * creation failed.
