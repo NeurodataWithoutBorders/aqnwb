@@ -1,0 +1,62 @@
+name: Test upgrade to latest NWB schema
+
+on: 
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  run-scripts:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Install C++ dependencies - macos
+        run: brew install hdf5 boost catch2
+
+      - name: Install python script dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r resources/utils/requirements.txt
+          pip install nwbinspector
+
+      - name: Run generate_nwb_schema_headers.sh to generated headers for the latest NWB schema
+        run: |
+          chmod +x resources/utils/generate_nwb_schema_headers.sh
+          output=$(bash resources/utils/generate_nwb_schema_headers.sh 2>&1)
+          echo "$output"
+          if echo "$output" | grep -q "ERROR"; then
+            exit 1
+          fi
+
+      - name: Configure AqNWB with latest NWB schema headers
+        shell: pwsh
+        run: cmake "--preset=ci-macos"
+
+      - name: Build AqNWB with latest NWB schema headers
+        run: cmake --build build --config Release -j 2
+
+      - name: Install with latest NWB schema
+        run: cmake --install build --config Release --prefix prefix
+
+      - name: Test with latest NWB schema headers
+        working-directory: build
+        run: ctest --output-on-failure --no-tests=error -C Release -j 2
+
+      - name: Validate NWB files
+        run: |
+          mkdir -p nwb_files
+          cp build/tests/data/*.nwb nwb_files/
+          nwbinspector nwb_files --threshold BEST_PRACTICE_VIOLATION --json-file-path out.json
+          if ! grep -q '"messages": \[\]' out.json; then
+            echo "NWBInspector found issues in the NWB files"
+            exit 1
+          fi
