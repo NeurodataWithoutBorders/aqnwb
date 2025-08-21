@@ -42,20 +42,7 @@ public:
    * @param dataConfig The configuration for the dataset
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status initialize(const IO::ArrayDataSetConfig& dataConfig)
-  {
-    // Call RegisteredType::initialize() to add this object to RecordingObjects
-    auto registerStatus = registerRecordingObject();
-
-    auto dataset = m_io->createArrayDataSet(dataConfig, this->m_path);
-    if (dataset == nullptr) {
-      return Status::Failure;
-    }
-    // setup common attributes
-    Status commonAttrsStatus = m_io->createCommonNWBAttributes(
-        m_path, this->getNamespace(), this->getTypeName());
-    return commonAttrsStatus && registerStatus;
-  }
+  Status initialize(const IO::ArrayDataSetConfig& dataConfig);
 
   /**
    * @brief Check whether the dataset has been initialized
@@ -152,7 +139,7 @@ public:
   // Define the data fields to expose for lazy read access
   DEFINE_DATASET_FIELD(readData, recordData, DTYPE, "", The main data)
 
-  using RegisteredType::m_io;
-  using RegisteredType::m_path;
+  using RegisteredType::getIO;
+  using RegisteredType::getPath;
 };
 }  // namespace AQNWB::NWB

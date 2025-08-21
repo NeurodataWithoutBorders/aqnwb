@@ -18,10 +18,13 @@ DynamicTable::DynamicTable(const std::string& path,
   // we may add append to the existing list of columns rather than
   // replacing it. This is important for the finalize function
   // to ensure that all columns are correctly listed.
-  if (m_io->isOpen()) {
-    auto colNamesFromFile = readColNames();
-    if (colNamesFromFile->exists()) {
-      m_colNames = colNamesFromFile->values().data;
+  auto ioPtr = getIO();
+  if(ioPtr){
+    if (ioPtr->isOpen()) {
+      auto colNamesFromFile = readColNames();
+      if (colNamesFromFile->exists()) {
+        m_colNames = colNamesFromFile->values().data;
+      }
     }
   }
 }
@@ -32,9 +35,15 @@ DynamicTable::~DynamicTable() {}
 /** Initialization function*/
 Status DynamicTable::initialize(const std::string& description)
 {
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    std::cerr << "DynamicTable::initialize IO object has been deleted." << std::endl;
+    return Status::Failure;
+  }
+
   Status containerStatus = Container::initialize();
   if (description != "") {
-    m_io->createAttribute(description, m_path, "description");
+    ioPtr->createAttribute(description, m_path, "description");
   }
   return containerStatus;
 }
@@ -68,14 +77,20 @@ Status DynamicTable::setRowIDs(
     std::cerr << "ElementIdentifiers dataset is not initialized" << std::endl;
     return Status::Failure;
   } else {
+    auto ioPtr = getIO();
+    if (!ioPtr) {
+      std::cerr << "DynamicTable::setRowIDs IO object has been deleted." << std::endl;
+      return Status::Failure;
+    }
+
     Status writeDataStatus = elementIDs->recordData()->writeDataBlock(
         std::vector<SizeType>(1, values.size()),
         IO::BaseDataType::I32,
         &values[0]);
     Status createAttrsStatus =
-        m_io->createCommonNWBAttributes(AQNWB::mergePaths(m_path, "id"),
-                                        elementIDs->getNamespace(),
-                                        elementIDs->getTypeName());
+        ioPtr->createCommonNWBAttributes(AQNWB::mergePaths(m_path, "id"),
+                                         elementIDs->getNamespace(),
+                                         elementIDs->getTypeName());
     return writeDataStatus && createAttrsStatus;
   }
 }
@@ -88,9 +103,15 @@ Status DynamicTable::addReferenceColumn(const std::string& name,
     std::cerr << "Data to add to column is empty" << std::endl;
     return Status::Failure;
   } else {
+    auto ioPtr = getIO();
+    if (!ioPtr) { 
+      std::cerr << "DynamicTable::addReferenceColumn IO object has been deleted." << std::endl;
+      return Status::Failure;
+    }
+
     std::string columnPath = AQNWB::mergePaths(m_path, name);
     auto refColumn = AQNWB::NWB::VectorData::createReferenceVectorData(
-        columnPath, m_io, colDescription, values);
+        columnPath, ioPtr, colDescription, values);
     if (refColumn == nullptr) {
       std::cerr << "Failed to create reference column" << std::endl;
       return Status::Failure;
@@ -102,7 +123,13 @@ Status DynamicTable::addReferenceColumn(const std::string& name,
 
 Status DynamicTable::finalize()
 {
-  Status colNamesStatus = m_io->createAttribute(
+  auto ioPtr = getIO();
+  if (!ioPtr) { 
+    std::cerr << "DynamicTable::finalize IO object has been deleted." << std::endl;
+    return Status::Failure;
+  }
+
+  Status colNamesStatus = ioPtr->createAttribute(
       m_colNames,
       m_path,
       "colnames",

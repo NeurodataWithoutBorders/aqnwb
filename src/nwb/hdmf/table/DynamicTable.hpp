@@ -123,11 +123,17 @@ public:
   std::shared_ptr<VectorDataTyped<DTYPE>> readColumn(const std::string& colName)
   {
     std::string columnPath = AQNWB::mergePaths(m_path, colName);
-    if (m_io->objectExists(columnPath)) {
-      if (m_io->getStorageObjectType(columnPath) == StorageObjectType::Dataset)
-      {
-        return VectorDataTyped<DTYPE>::create(columnPath, m_io);
+    auto ioPtr = getIO();
+    if (ioPtr != nullptr) {
+      if (ioPtr->objectExists(columnPath)) {
+        if (ioPtr->getStorageObjectType(columnPath) == StorageObjectType::Dataset)
+        {
+          return VectorDataTyped<DTYPE>::create(columnPath, ioPtr);
+        }
       }
+    } else {
+      std::cerr << "IO object has been deleted. Can't read column: "
+                << colName << " in DynamicTable: " << m_path << std::endl;
     }
     return nullptr;
   }

@@ -52,6 +52,14 @@ public:
   std::shared_ptr<RegisteredType> getRecordingObject(const SizeType& objectInd);
 
   /**
+   * @brief Clear the recording objects collection.
+   */
+  void clear()
+  {
+    m_recording_objects.clear();
+  }
+
+  /**
    * @brief Write timeseries data to a recordingContainer dataset.
    * @param containerInd The index of the timeseries dataset within the
    * timeseries group.

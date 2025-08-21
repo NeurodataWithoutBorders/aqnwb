@@ -43,8 +43,9 @@ public:
    *
    * @param description The description of the device.
    * @param manufacturer The manufacturer of the device.
+   * @return Status::Success if successful, otherwise Status::Failure.
    */
-  void initialize(const std::string& description,
+  Status initialize(const std::string& description,
                   const std::string& manufacturer);
 
   // Define the data fields to expose for lazy read access

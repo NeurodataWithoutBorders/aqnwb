@@ -76,9 +76,15 @@ public:
   Status initialize(const IO::ArrayDataSetConfig& dataConfig,
                     const std::string& description)
   {
+    auto ioPtr = getIO();
+    if (ioPtr == nullptr) {
+      std::cerr << "IO object has been deleted. Can't initialize VectorData: "
+                << m_path << std::endl;
+      return Status::Failure;
+    }
     Status dataStatus = Data::initialize(dataConfig);
     Status attrStatus =
-        m_io->createAttribute(description, m_path, "description");
+        ioPtr->createAttribute(description, m_path, "description");
     return dataStatus && attrStatus;
   }
 
@@ -162,8 +168,8 @@ public:
     return VectorDataTyped<DTYPE>::create(data->getPath(), data->getIO());
   }
 
-  using RegisteredType::m_io;
-  using RegisteredType::m_path;
+  using RegisteredType::getPath;
+  using RegisteredType::getIO;
 
   // Define the data fields to expose for lazy read access
   DEFINE_DATASET_FIELD(readData, recordData, DTYPE, "", The main data)

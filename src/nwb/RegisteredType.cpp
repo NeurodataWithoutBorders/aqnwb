@@ -135,8 +135,9 @@ AQNWB::Types::Status RegisteredType::registerRecordingObject()
   // Add this object to the RecordingObjects object of the I/O it is associated
   // with This ensures that all RegisteredType objects used for recording are
   // automatically tracked
-  if (m_io) {
-    auto recordingObjects = m_io->getRecordingObjects();
+  auto ioPtr = getIO();
+  if (ioPtr) {
+    auto recordingObjects = ioPtr->getRecordingObjects();
     if (recordingObjects) {
       // Get a shared pointer to this object
       std::shared_ptr<RegisteredType> sharedThis = shared_from_this();
@@ -157,5 +158,12 @@ std::unordered_map<std::string, std::string> RegisteredType::findOwnedTypes(
     const std::unordered_set<std::string>& types,
     const IO::SearchMode& search_mode) const
 {
-  return m_io->findTypes(m_path, types, search_mode, true);
+  auto ioPtr = getIO();
+  if (ioPtr != nullptr) {
+    return ioPtr->findTypes(m_path, types, search_mode, true);
+  } else {
+    std::cerr << "IO object has been deleted. Can't find owned types for: "
+              << m_path << std::endl;
+    return {};
+  }
 }

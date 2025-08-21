@@ -19,12 +19,18 @@ Container::~Container() {}
 /** Initialize */
 Status Container::initialize()
 {
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    std::cerr << "Container::initialize IO object has been deleted." << std::endl;
+    return AQNWB::Types::Status::Failure;
+  }
+
   // Call RegisteredType::initialize() to add this object to RecordingObjects
   auto registerStatus = registerRecordingObject();
 
-  auto createGroupStatus = m_io->createGroup(m_path);
+  auto createGroupStatus = ioPtr->createGroup(m_path);
   // setup common attributes
-  auto createAttrsStatus = m_io->createCommonNWBAttributes(
+  auto createAttrsStatus = ioPtr->createCommonNWBAttributes(
       m_path, this->getNamespace(), this->getTypeName());
 
   return createGroupStatus && createAttrsStatus && registerStatus;

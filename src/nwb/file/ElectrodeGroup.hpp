@@ -44,8 +44,9 @@ public:
    * @param location The location of electrode group within the subject e.g.
    * brain region.
    * @param device The device associated with the electrode group.
+   * @return Status::Success if successful, otherwise Status::Failure.
    */
-  void initialize(const std::string& description,
+  Status initialize(const std::string& description,
                   const std::string& location,
                   const std::shared_ptr<Device>& device);
 

@@ -43,8 +43,9 @@ public:
    * chunking. The shape must be a vector with one element specifying the length
    * in time. The data type is fixed to variable-length string according to
    * schema.
+   * @return Status::Success if successful, otherwise Status::Failure.
    */
-  void initialize(const std::string& description,
+  Status initialize(const std::string& description,
                   const std::string& comments,
                   const IO::ArrayDataSetConfig& dataConfig);
 

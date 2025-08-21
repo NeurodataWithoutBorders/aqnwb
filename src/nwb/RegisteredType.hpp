@@ -74,7 +74,11 @@ public:
    * @brief Get a shared pointer to the IO object.
    * @return Shared pointer to the IO object.
    */
-  inline std::shared_ptr<AQNWB::IO::BaseIO> getIO() const { return m_io; }
+  inline std::shared_ptr<AQNWB::IO::BaseIO> getIO() const 
+  { 
+    auto ioPtr = m_io.lock();
+    return ioPtr;
+  }
 
   /**
    * @brief Clear the BaseRecordingData object cache to reset the recording
@@ -281,8 +285,13 @@ public:
   inline std::unique_ptr<AQNWB::IO::ReadDataWrapper<SOT, VTYPE>> readField(
       const std::string& fieldPath) const
   {
+    auto ioPtr = getIO();
+    if (!ioPtr) {
+      std::cerr<<"IO object has been deleted. Can't read field: "<< fieldPath << std::endl;
+      return nullptr;
+    }
     return std::make_unique<AQNWB::IO::ReadDataWrapper<SOT, VTYPE>>(
-        m_io, AQNWB::mergePaths(m_path, fieldPath));
+        ioPtr, AQNWB::mergePaths(m_path, fieldPath));
   }
 
   /**
@@ -296,7 +305,12 @@ public:
   inline std::shared_ptr<AQNWB::NWB::RegisteredType> readField(
       const std::string& fieldPath) const
   {
-    return this->create(AQNWB::mergePaths(m_path, fieldPath), m_io);
+    auto ioPtr = getIO();
+    if (!ioPtr) {
+      std::cerr<<"IO object has been deleted. Can't read field: " << fieldPath << std::endl;
+      return nullptr;
+    }
+    return this->create(AQNWB::mergePaths(m_path, fieldPath), ioPtr);
   }
 
   /**
@@ -366,9 +380,16 @@ protected:
   std::string m_path;
 
   /**
-   * @brief A shared pointer to the IO object.
+   * @brief A weak pointer to the IO object. 
+   * 
+   * We use weak_ptr here because the RegisteredType object should not own
+   * or keep the I/O alive. The users owns the I/O object. Using a weak
+   * pointer allows us to access the I/O object without extending its lifetime.
+   * This is important to avoid circular dependencies and memory leaks.
+   * To ensure safe usage we should always for getIO() to retrieve a shared pointer
+   * to the IO object before using it.
    */
-  std::shared_ptr<IO::BaseIO> m_io;
+  std::weak_ptr<IO::BaseIO> m_io;
 
   /**
    * @brief Cache for BaseRecordingData objects for datasets to retain recording
@@ -493,9 +514,14 @@ public: \
   inline std::unique_ptr<AQNWB::IO::ReadDataWrapper<AttributeField, VTYPE>> \
   name() const \
   { \
+    auto ioPtr = getIO(); \
+    if (!ioPtr) { \
+      std::cerr << "IO object has been deleted. Can't read field: " << fieldPath << std::endl; \
+      return nullptr; \
+    } \
     return std::make_unique< \
         AQNWB::IO::ReadDataWrapper<AttributeField, VTYPE>>( \
-        m_io, AQNWB::mergePaths(m_path, fieldPath)); \
+        ioPtr, AQNWB::mergePaths(m_path, fieldPath)); \
   }
 
 /**
@@ -534,9 +560,14 @@ public: \
       AQNWB::IO::ReadDataWrapper<AQNWB::NWB::DatasetField, VTYPE>> \
   readName() const \
   { \
+    auto ioPtr = getIO(); \
+    if (!ioPtr) { \
+      std::cerr << "IO object has been deleted. Can't read field: " << fieldPath << std::endl; \
+      return nullptr; \
+    } \
     return std::make_unique< \
         AQNWB::IO::ReadDataWrapper<AQNWB::NWB::DatasetField, VTYPE>>( \
-        m_io, AQNWB::mergePaths(m_path, fieldPath)); \
+        ioPtr, AQNWB::mergePaths(m_path, fieldPath)); \
   } \
   /** \
    * @brief Returns the dataset object for the ##writeName field. \
@@ -545,7 +576,7 @@ public: \
    * to retain the recording state. \
    * \
    * @param reset If true, the dataset will be reset to the beginning \
-   *        by creating a new BaseRecordingData object via m_io->getDataSet \
+   *        by creating a new BaseRecordingData object via getIO()->getDataSet \
    * \
    * @return A shared pointer to a BaseRecordingData for the dataset \
    * \
@@ -563,7 +594,12 @@ public: \
       } \
     } \
     /* Get the dataset from IO and cache it */ \
-    auto dataset = m_io->getDataSet(fullPath); \
+    auto ioPtr = getIO(); \
+    if (!ioPtr) { \
+      std::cerr << "IO object has been deleted. Can't access: " << fullPath << std::endl; \
+      return nullptr; \
+    } \
+    auto dataset = ioPtr->getDataSet(fullPath); \
     if (dataset) { \
       m_recordingDataCache[fullPath] = dataset; \
     } \
@@ -608,8 +644,11 @@ public: \
   inline std::shared_ptr<RTYPE> name() const \
   { \
     std::string objectPath = AQNWB::mergePaths(m_path, fieldPath); \
-    if (m_io->objectExists(objectPath)) { \
-      return RegisteredType::create<RTYPE>(objectPath, m_io); \
+    auto ioPtr = getIO(); \
+    if(ioPtr != nullptr) { \
+      if (ioPtr->objectExists(objectPath)) { \
+        return RegisteredType::create<RTYPE>(objectPath, ioPtr); \
+      } \
     } \
     return nullptr; \
   }
@@ -654,9 +693,12 @@ public: \
   { \
     try { \
       std::string attrPath = AQNWB::mergePaths(m_path, fieldPath); \
-      std::string objectPath = m_io->readReferenceAttribute(attrPath); \
-      if (m_io->objectExists(objectPath)) { \
-        return RegisteredType::create<RTYPE>(objectPath, m_io); \
+      auto ioPtr = getIO(); \
+      if(ioPtr != nullptr){ \
+        std::string objectPath = ioPtr->readReferenceAttribute(attrPath); \
+        if (ioPtr->objectExists(objectPath)) { \
+          return RegisteredType::create<RTYPE>(objectPath, ioPtr); \
+        } \
       } \
     } catch (const std::exception& e) { \
       return nullptr; \

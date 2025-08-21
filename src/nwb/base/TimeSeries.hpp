@@ -102,8 +102,9 @@ public:
    * control_description data will be created (otherwise they will be nullptr).
    * We can update the control_description values later if needed via the
    * TimeSeries.control_description->writeStringDataBlock() method.
+   * @return Status::Success if successful, otherwise Status::Failure. 
    */
-  void initialize(const IO::ArrayDataSetConfig& dataConfig,
+  Status initialize(const IO::ArrayDataSetConfig& dataConfig,
                   const std::string& unit,
                   const std::string& description = "no description",
                   const std::string& comments = "no comments",

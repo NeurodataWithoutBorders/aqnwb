@@ -181,7 +181,12 @@ Status BaseIO::stopRecording()
                 << std::endl;
     }
   }
+  return Status::Success;
+}
 
+Status BaseIO::close()
+{
+  m_recording_containers->clear();
   return Status::Success;
 }
 
