@@ -46,8 +46,8 @@ public:
    * @return Status::Success if successful, otherwise Status::Failure.
    */
   Status initialize(const std::string& description,
-                  const std::string& comments,
-                  const IO::ArrayDataSetConfig& dataConfig);
+                    const std::string& comments,
+                    const IO::ArrayDataSetConfig& dataConfig);
 
   /**
    * @brief Writes a channel to an AnnotationSeries dataset.

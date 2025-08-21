@@ -19,7 +19,7 @@ DynamicTable::DynamicTable(const std::string& path,
   // replacing it. This is important for the finalize function
   // to ensure that all columns are correctly listed.
   auto ioPtr = getIO();
-  if(ioPtr){
+  if (ioPtr) {
     if (ioPtr->isOpen()) {
       auto colNamesFromFile = readColNames();
       if (colNamesFromFile->exists()) {
@@ -37,7 +37,8 @@ Status DynamicTable::initialize(const std::string& description)
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
-    std::cerr << "DynamicTable::initialize IO object has been deleted." << std::endl;
+    std::cerr << "DynamicTable::initialize IO object has been deleted."
+              << std::endl;
     return Status::Failure;
   }
 
@@ -79,7 +80,8 @@ Status DynamicTable::setRowIDs(
   } else {
     auto ioPtr = getIO();
     if (!ioPtr) {
-      std::cerr << "DynamicTable::setRowIDs IO object has been deleted." << std::endl;
+      std::cerr << "DynamicTable::setRowIDs IO object has been deleted."
+                << std::endl;
       return Status::Failure;
     }
 
@@ -104,8 +106,10 @@ Status DynamicTable::addReferenceColumn(const std::string& name,
     return Status::Failure;
   } else {
     auto ioPtr = getIO();
-    if (!ioPtr) { 
-      std::cerr << "DynamicTable::addReferenceColumn IO object has been deleted." << std::endl;
+    if (!ioPtr) {
+      std::cerr
+          << "DynamicTable::addReferenceColumn IO object has been deleted."
+          << std::endl;
       return Status::Failure;
     }
 
@@ -124,8 +128,9 @@ Status DynamicTable::addReferenceColumn(const std::string& name,
 Status DynamicTable::finalize()
 {
   auto ioPtr = getIO();
-  if (!ioPtr) { 
-    std::cerr << "DynamicTable::finalize IO object has been deleted." << std::endl;
+  if (!ioPtr) {
+    std::cerr << "DynamicTable::finalize IO object has been deleted."
+              << std::endl;
     return Status::Failure;
   }
 

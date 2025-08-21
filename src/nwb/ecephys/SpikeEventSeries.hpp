@@ -57,11 +57,11 @@ public:
    *               finalize its coercion to the specified 'unit'
    */
   Status initialize(const IO::ArrayDataSetConfig& dataConfig,
-                  const Types::ChannelVector& channelVector,
-                  const std::string& description,
-                  const float& conversion = 1.0f,
-                  const float& resolution = -1.0f,
-                  const float& offset = 0.0f);
+                    const Types::ChannelVector& channelVector,
+                    const std::string& description,
+                    const float& conversion = 1.0f,
+                    const float& resolution = -1.0f,
+                    const float& offset = 0.0f);
 
   /**
    * @brief Write a single spike series event

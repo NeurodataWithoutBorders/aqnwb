@@ -102,19 +102,20 @@ public:
    * control_description data will be created (otherwise they will be nullptr).
    * We can update the control_description values later if needed via the
    * TimeSeries.control_description->writeStringDataBlock() method.
-   * @return Status::Success if successful, otherwise Status::Failure. 
+   * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status initialize(const IO::ArrayDataSetConfig& dataConfig,
-                  const std::string& unit,
-                  const std::string& description = "no description",
-                  const std::string& comments = "no comments",
-                  const float& conversion = 1.0f,
-                  const float& resolution = -1.0f,
-                  const float& offset = 0.0f,
-                  const ContinuityType& continuity = ContinuityType::Undefined,
-                  const double& startingTime = -1.0,
-                  const float& startingTimeRate = 1.0f,
-                  const std::vector<std::string>& controlDescription = {});
+  Status initialize(
+      const IO::ArrayDataSetConfig& dataConfig,
+      const std::string& unit,
+      const std::string& description = "no description",
+      const std::string& comments = "no comments",
+      const float& conversion = 1.0f,
+      const float& resolution = -1.0f,
+      const float& offset = 0.0f,
+      const ContinuityType& continuity = ContinuityType::Undefined,
+      const double& startingTime = -1.0,
+      const float& startingTimeRate = 1.0f,
+      const std::vector<std::string>& controlDescription = {});
 
   /**
    * @brief Data type of the data.

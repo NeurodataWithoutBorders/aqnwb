@@ -21,7 +21,8 @@ Status Container::initialize()
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
-    std::cerr << "Container::initialize IO object has been deleted." << std::endl;
+    std::cerr << "Container::initialize IO object has been deleted."
+              << std::endl;
     return AQNWB::Types::Status::Failure;
   }
 

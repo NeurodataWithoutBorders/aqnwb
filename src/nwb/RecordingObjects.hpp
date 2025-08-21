@@ -54,10 +54,7 @@ public:
   /**
    * @brief Clear the recording objects collection.
    */
-  void clear()
-  {
-    m_recording_objects.clear();
-  }
+  void clear() { m_recording_objects.clear(); }
 
   /**
    * @brief Write timeseries data to a recordingContainer dataset.

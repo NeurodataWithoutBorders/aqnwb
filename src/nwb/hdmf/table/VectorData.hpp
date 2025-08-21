@@ -168,8 +168,8 @@ public:
     return VectorDataTyped<DTYPE>::create(data->getPath(), data->getIO());
   }
 
-  using RegisteredType::getPath;
   using RegisteredType::getIO;
+  using RegisteredType::getPath;
 
   // Define the data fields to expose for lazy read access
   DEFINE_DATASET_FIELD(readData, recordData, DTYPE, "", The main data)

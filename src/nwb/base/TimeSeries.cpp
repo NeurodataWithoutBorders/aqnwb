@@ -34,22 +34,23 @@ Status TimeSeries::createDataAttributes(const std::string& path,
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
-    std::cerr << "TimeSeries::createDataAttributes: IO object is not valid." << std::endl;
+    std::cerr << "TimeSeries::createDataAttributes: IO object is not valid."
+              << std::endl;
     return Status::Failure;
   }
 
   ioPtr->createAttribute(AQNWB::IO::BaseDataType::F32,
-                        &conversion,
-                        AQNWB::mergePaths(path, "data"),
-                        "conversion");
+                         &conversion,
+                         AQNWB::mergePaths(path, "data"),
+                         "conversion");
   ioPtr->createAttribute(AQNWB::IO::BaseDataType::F32,
-                        &resolution,
-                        AQNWB::mergePaths(path, "data"),
-                        "resolution");
+                         &resolution,
+                         AQNWB::mergePaths(path, "data"),
+                         "resolution");
   ioPtr->createAttribute(AQNWB::IO::BaseDataType::F32,
-                        &offset,
-                        AQNWB::mergePaths(path, "data"),
-                        "offset");
+                         &offset,
+                         AQNWB::mergePaths(path, "data"),
+                         "offset");
   ioPtr->createAttribute(unit, path + "/data", "unit");
   if (continuity != ContinuityType::Undefined) {
     ioPtr->createAttribute(
@@ -62,31 +63,34 @@ Status TimeSeries::createTimestampsAttributes(const std::string& path)
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
-    std::cerr << "TimeSeries::createTimestampsAttributes: IO object is not valid." << std::endl;
+    std::cerr
+        << "TimeSeries::createTimestampsAttributes: IO object is not valid."
+        << std::endl;
     return Status::Failure;
   }
 
   int interval = 1;
   ioPtr->createAttribute(AQNWB::IO::BaseDataType::I32,
-                        static_cast<const void*>(&interval),
-                        path + "/timestamps",
-                        "interval");
+                         static_cast<const void*>(&interval),
+                         path + "/timestamps",
+                         "interval");
   ioPtr->createAttribute("seconds", path + "/timestamps", "unit");
 
   return Status::Success;
 }
 
-Status TimeSeries::initialize(const IO::ArrayDataSetConfig& dataConfig,
-                            const std::string& unit,
-                            const std::string& description,
-                            const std::string& comments,
-                            const float& conversion,
-                            const float& resolution,
-                            const float& offset,
-                            const ContinuityType& continuity,
-                            const double& startingTime,
-                            const float& startingTimeRate,
-                            const std::vector<std::string>& controlDescription)
+Status TimeSeries::initialize(
+    const IO::ArrayDataSetConfig& dataConfig,
+    const std::string& unit,
+    const std::string& description,
+    const std::string& comments,
+    const float& conversion,
+    const float& resolution,
+    const float& offset,
+    const ContinuityType& continuity,
+    const double& startingTime,
+    const float& startingTimeRate,
+    const std::vector<std::string>& controlDescription)
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
@@ -99,7 +103,7 @@ Status TimeSeries::initialize(const IO::ArrayDataSetConfig& dataConfig,
   this->m_dataType = dataConfig.getType();
 
   // create comments attribute
-  if (description != ""){
+  if (description != "") {
     ioPtr->createAttribute(description, m_path, "description");
   }
   ioPtr->createAttribute(comments, m_path, "comments");
@@ -117,7 +121,7 @@ Status TimeSeries::initialize(const IO::ArrayDataSetConfig& dataConfig,
     IO::ArrayDataSetConfig timestampsConfig(
         this->timestampsType, tsDsetSize, tsChunkSize);
     ioPtr->createArrayDataSet(timestampsConfig,
-                             AQNWB::mergePaths(m_path, "timestamps"));
+                              AQNWB::mergePaths(m_path, "timestamps"));
     this->createTimestampsAttributes(m_path);
   } else  // setup starting_time datasets
   {
@@ -129,9 +133,9 @@ Status TimeSeries::initialize(const IO::ArrayDataSetConfig& dataConfig,
     startingTimeRecorder->writeDataBlock(
         {1}, AQNWB::IO::BaseDataType::F64, &startingTime);
     ioPtr->createAttribute(AQNWB::IO::BaseDataType::F32,
-                          &startingTimeRate,
-                          startingTimePath,
-                          "rate");
+                           &startingTimeRate,
+                           startingTimePath,
+                           "rate");
     ioPtr->createAttribute("seconds", startingTimePath, "unit");
   }
 
@@ -143,7 +147,7 @@ Status TimeSeries::initialize(const IO::ArrayDataSetConfig& dataConfig,
     IO::ArrayDataSetConfig controlConfig(
         AQNWB::IO::BaseDataType::U8, controlDsetSize, controlChunkSize);
     ioPtr->createArrayDataSet(controlConfig,
-                             AQNWB::mergePaths(m_path, "control"));
+                              AQNWB::mergePaths(m_path, "control"));
 
     // control_description is its own data and contains for each control value
     // a string description
@@ -157,7 +161,7 @@ Status TimeSeries::initialize(const IO::ArrayDataSetConfig& dataConfig,
         controlDescriptionShape,
         controlDescriptionChunkSize);
     ioPtr->createArrayDataSet(controlDescriptionConfig,
-                             AQNWB::mergePaths(m_path, "control_description"));
+                              AQNWB::mergePaths(m_path, "control_description"));
     auto controlDescriptionRecorder = this->recordControlDescription();
     controlDescriptionRecorder->writeDataBlock(controlDescriptionShape,
                                                controlDescriptionPositionOffset,

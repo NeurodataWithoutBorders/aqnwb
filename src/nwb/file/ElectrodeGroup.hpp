@@ -47,8 +47,8 @@ public:
    * @return Status::Success if successful, otherwise Status::Failure.
    */
   Status initialize(const std::string& description,
-                  const std::string& location,
-                  const std::shared_ptr<Device>& device);
+                    const std::string& location,
+                    const std::shared_ptr<Device>& device);
 
   DEFINE_DATASET_FIELD(readData,
                        recordData,

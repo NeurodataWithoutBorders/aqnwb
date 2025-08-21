@@ -74,8 +74,8 @@ public:
    * @brief Get a shared pointer to the IO object.
    * @return Shared pointer to the IO object.
    */
-  inline std::shared_ptr<AQNWB::IO::BaseIO> getIO() const 
-  { 
+  inline std::shared_ptr<AQNWB::IO::BaseIO> getIO() const
+  {
     auto ioPtr = m_io.lock();
     return ioPtr;
   }
@@ -287,7 +287,8 @@ public:
   {
     auto ioPtr = getIO();
     if (!ioPtr) {
-      std::cerr<<"IO object has been deleted. Can't read field: "<< fieldPath << std::endl;
+      std::cerr << "IO object has been deleted. Can't read field: " << fieldPath
+                << std::endl;
       return nullptr;
     }
     return std::make_unique<AQNWB::IO::ReadDataWrapper<SOT, VTYPE>>(
@@ -307,7 +308,8 @@ public:
   {
     auto ioPtr = getIO();
     if (!ioPtr) {
-      std::cerr<<"IO object has been deleted. Can't read field: " << fieldPath << std::endl;
+      std::cerr << "IO object has been deleted. Can't read field: " << fieldPath
+                << std::endl;
       return nullptr;
     }
     return this->create(AQNWB::mergePaths(m_path, fieldPath), ioPtr);
@@ -380,14 +382,14 @@ protected:
   std::string m_path;
 
   /**
-   * @brief A weak pointer to the IO object. 
-   * 
+   * @brief A weak pointer to the IO object.
+   *
    * We use weak_ptr here because the RegisteredType object should not own
    * or keep the I/O alive. The users owns the I/O object. Using a weak
    * pointer allows us to access the I/O object without extending its lifetime.
    * This is important to avoid circular dependencies and memory leaks.
-   * To ensure safe usage we should always for getIO() to retrieve a shared pointer
-   * to the IO object before using it.
+   * To ensure safe usage we should always for getIO() to retrieve a shared
+   * pointer to the IO object before using it.
    */
   std::weak_ptr<IO::BaseIO> m_io;
 
@@ -516,7 +518,8 @@ public: \
   { \
     auto ioPtr = getIO(); \
     if (!ioPtr) { \
-      std::cerr << "IO object has been deleted. Can't read field: " << fieldPath << std::endl; \
+      std::cerr << "IO object has been deleted. Can't read field: " \
+                << fieldPath << std::endl; \
       return nullptr; \
     } \
     return std::make_unique< \
@@ -562,7 +565,8 @@ public: \
   { \
     auto ioPtr = getIO(); \
     if (!ioPtr) { \
-      std::cerr << "IO object has been deleted. Can't read field: " << fieldPath << std::endl; \
+      std::cerr << "IO object has been deleted. Can't read field: " \
+                << fieldPath << std::endl; \
       return nullptr; \
     } \
     return std::make_unique< \
@@ -596,7 +600,8 @@ public: \
     /* Get the dataset from IO and cache it */ \
     auto ioPtr = getIO(); \
     if (!ioPtr) { \
-      std::cerr << "IO object has been deleted. Can't access: " << fullPath << std::endl; \
+      std::cerr << "IO object has been deleted. Can't access: " << fullPath \
+                << std::endl; \
       return nullptr; \
     } \
     auto dataset = ioPtr->getDataSet(fullPath); \
@@ -645,7 +650,7 @@ public: \
   { \
     std::string objectPath = AQNWB::mergePaths(m_path, fieldPath); \
     auto ioPtr = getIO(); \
-    if(ioPtr != nullptr) { \
+    if (ioPtr != nullptr) { \
       if (ioPtr->objectExists(objectPath)) { \
         return RegisteredType::create<RTYPE>(objectPath, ioPtr); \
       } \
@@ -694,7 +699,7 @@ public: \
     try { \
       std::string attrPath = AQNWB::mergePaths(m_path, fieldPath); \
       auto ioPtr = getIO(); \
-      if(ioPtr != nullptr){ \
+      if (ioPtr != nullptr) { \
         std::string objectPath = ioPtr->readReferenceAttribute(attrPath); \
         if (ioPtr->objectExists(objectPath)) { \
           return RegisteredType::create<RTYPE>(objectPath, ioPtr); \

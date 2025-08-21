@@ -57,7 +57,7 @@ Status NWBFile::initialize(const std::string& identifierText,
     return Status::Failure;
   }
   if (!ioPtr->isOpen()) {
-     std::cerr << "NWBFile::initialize IO object is not open." << std::endl;
+    std::cerr << "NWBFile::initialize IO object is not open." << std::endl;
     return Status::Failure;
   }
   // TODO: Call Container::initialize() instead. However, then we need to check
@@ -111,7 +111,8 @@ bool NWBFile::isInitialized() const
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
-    std::cerr << "NWBFile::isInitialized IO object has been deleted." << std::endl;
+    std::cerr << "NWBFile::isInitialized IO object has been deleted."
+              << std::endl;
     return false;
   }
   std::vector<std::pair<std::string, StorageObjectType>> existingGroupObjects =
@@ -151,10 +152,11 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
-    std::cerr << "NWBFile::createFileStructure IO object has been deleted." << std::endl;
+    std::cerr << "NWBFile::createFileStructure IO object has been deleted."
+              << std::endl;
     return Status::Failure;
   }
-  
+
   if (!ioPtr->canModifyObjects()) {
     return Status::Failure;
   }
@@ -194,7 +196,7 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
   ioPtr->createStringDataSet("/session_description", description);
   ioPtr->createStringDataSet("/session_start_time", sessionStartTime);
   ioPtr->createStringDataSet("/timestamps_reference_time",
-                            timestampsReferenceTime);
+                             timestampsReferenceTime);
   ioPtr->createStringDataSet("/identifier", identifierText);
   return Status::Success;
 }
@@ -255,8 +257,9 @@ Status NWBFile::createElectricalSeries(
   }
 
   if (!ioPtr->canModifyObjects()) {
-    std::cerr << "NWBFile::createElectricalSeries IO object cannot modify objects."
-              << std::endl;
+    std::cerr
+        << "NWBFile::createElectricalSeries IO object cannot modify objects."
+        << std::endl;
     return Status::Failure;
   }
 
@@ -311,10 +314,11 @@ Status NWBFile::createSpikeEventSeries(
               << std::endl;
     return Status::Failure;
   }
-  
+
   if (!ioPtr->canModifyObjects()) {
-    std::cerr << "NWBFile::createSpikeEventSeries IO object cannot modify objects."
-              << std::endl;
+    std::cerr
+        << "NWBFile::createSpikeEventSeries IO object cannot modify objects."
+        << std::endl;
     return Status::Failure;
   }
 
@@ -382,10 +386,11 @@ Status NWBFile::createAnnotationSeries(std::vector<std::string> recordingNames)
               << std::endl;
     return Status::Failure;
   }
-  
+
   if (!ioPtr->canModifyObjects()) {
-    std::cerr << "NWBFile::createAnnotationSeries IO object cannot modify objects."
-              << std::endl;
+    std::cerr
+        << "NWBFile::createAnnotationSeries IO object cannot modify objects."
+        << std::endl;
     return Status::Failure;
   }
 

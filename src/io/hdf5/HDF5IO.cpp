@@ -77,7 +77,7 @@ Status HDF5IO::open(FileMode mode)
 
 Status HDF5IO::close()
 {
-  auto baseCloseStatus = BaseIO::close();  // clear the recording containers 
+  auto baseCloseStatus = BaseIO::close();  // clear the recording containers
   // Close the file if it is open
   if (m_file != nullptr && m_opened) {
     m_file->close();

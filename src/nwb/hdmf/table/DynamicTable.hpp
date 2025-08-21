@@ -126,14 +126,15 @@ public:
     auto ioPtr = getIO();
     if (ioPtr != nullptr) {
       if (ioPtr->objectExists(columnPath)) {
-        if (ioPtr->getStorageObjectType(columnPath) == StorageObjectType::Dataset)
+        if (ioPtr->getStorageObjectType(columnPath)
+            == StorageObjectType::Dataset)
         {
           return VectorDataTyped<DTYPE>::create(columnPath, ioPtr);
         }
       }
     } else {
-      std::cerr << "IO object has been deleted. Can't read column: "
-                << colName << " in DynamicTable: " << m_path << std::endl;
+      std::cerr << "IO object has been deleted. Can't read column: " << colName
+                << " in DynamicTable: " << m_path << std::endl;
     }
     return nullptr;
   }

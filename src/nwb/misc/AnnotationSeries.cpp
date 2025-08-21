@@ -20,16 +20,17 @@ AnnotationSeries::~AnnotationSeries() {}
 
 /** Initialization function*/
 Status AnnotationSeries::initialize(const std::string& description,
-                                  const std::string& comments,
-                                  const IO::ArrayDataSetConfig& dataConfig)
+                                    const std::string& comments,
+                                    const IO::ArrayDataSetConfig& dataConfig)
 {
-  auto tsInitStatus = TimeSeries::initialize(dataConfig,
-                         "n/a",  // unit fixed to "n/a"
-                         description,
-                         comments,
-                         1.0f,  // conversion fixed to 1.0, since unit is n/a
-                         -1.0f,  // resolution fixed to -1.0
-                         0.0f);  // offset fixed to 0.0, since unit is n/a
+  auto tsInitStatus = TimeSeries::initialize(
+      dataConfig,
+      "n/a",  // unit fixed to "n/a"
+      description,
+      comments,
+      1.0f,  // conversion fixed to 1.0, since unit is n/a
+      -1.0f,  // resolution fixed to -1.0
+      0.0f);  // offset fixed to 0.0, since unit is n/a
   return tsInitStatus;
 }
 

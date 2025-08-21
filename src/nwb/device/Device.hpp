@@ -46,7 +46,7 @@ public:
    * @return Status::Success if successful, otherwise Status::Failure.
    */
   Status initialize(const std::string& description,
-                  const std::string& manufacturer);
+                    const std::string& manufacturer);
 
   // Define the data fields to expose for lazy read access
   DEFINE_ATTRIBUTE_FIELD(readDescription,

@@ -13,23 +13,23 @@ Data::Data(const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io)
 
 Status Data::initialize(const IO::ArrayDataSetConfig& dataConfig)
 {
-    // Call RegisteredType::initialize() to add this object to RecordingObjects
-    auto registerStatus = registerRecordingObject();
-    auto ioPtr = getIO();
-    if (ioPtr == nullptr) {
-        std::cerr << "IO object has been deleted. Can't initialize Data: "
-                << m_path << std::endl;
-        return Status::Failure;
-    }
-    // Create the dataset
-    auto dataset = ioPtr->createArrayDataSet(dataConfig, this->m_path);
-    if (dataset == nullptr) {
-        return Status::Failure;
-    }
-    // setup common attributes
-    Status commonAttrsStatus = ioPtr->createCommonNWBAttributes(
-        m_path, this->getNamespace(), this->getTypeName());
-    return commonAttrsStatus && registerStatus;
+  // Call RegisteredType::initialize() to add this object to RecordingObjects
+  auto registerStatus = registerRecordingObject();
+  auto ioPtr = getIO();
+  if (ioPtr == nullptr) {
+    std::cerr << "IO object has been deleted. Can't initialize Data: " << m_path
+              << std::endl;
+    return Status::Failure;
+  }
+  // Create the dataset
+  auto dataset = ioPtr->createArrayDataSet(dataConfig, this->m_path);
+  if (dataset == nullptr) {
+    return Status::Failure;
+  }
+  // setup common attributes
+  Status commonAttrsStatus = ioPtr->createCommonNWBAttributes(
+      m_path, this->getNamespace(), this->getTypeName());
+  return commonAttrsStatus && registerStatus;
 }
 
 namespace AQNWB::NWB

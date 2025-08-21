@@ -29,7 +29,8 @@ Status ElectricalSeries::initialize(const IO::ArrayDataSetConfig& dataConfig,
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
-    std::cerr << "ElectricalSeries::initialize: IO object is not valid." << std::endl;
+    std::cerr << "ElectricalSeries::initialize: IO object is not valid."
+              << std::endl;
     return Status::Failure;
   }
 
@@ -40,15 +41,14 @@ Status ElectricalSeries::initialize(const IO::ArrayDataSetConfig& dataConfig,
                                              conversion,
                                              resolution,
                                              offset);
-  
-
 
   this->m_channelVector = channelVector;
 
   // get the number of electrodes from the electrode table
   std::string idPath =
       AQNWB::mergePaths(ElectrodeTable::electrodeTablePath, "id");
-  std::vector<SizeType> elecTableDsetSize = ioPtr->getStorageObjectShape(idPath);
+  std::vector<SizeType> elecTableDsetSize =
+      ioPtr->getStorageObjectShape(idPath);
   SizeType numElectrodes = elecTableDsetSize[0];
 
   // setup variables based on number of channels
@@ -70,8 +70,9 @@ Status ElectricalSeries::initialize(const IO::ArrayDataSetConfig& dataConfig,
   // make channel conversion dataset
   IO::ArrayDataSetConfig channelConversionConfig(
       IO::BaseDataType::F32, SizeArray {1}, dataConfig.getChunking());
-  ioPtr->createArrayDataSet(channelConversionConfig,
-                           AQNWB::mergePaths(getPath(), "/channel_conversion"));
+  ioPtr->createArrayDataSet(
+      channelConversionConfig,
+      AQNWB::mergePaths(getPath(), "/channel_conversion"));
   auto channelConversionRecorder = recordChannelConversion();
   channelConversionRecorder->writeDataBlock(
       std::vector<SizeType>(1, channelVector.size()),
@@ -80,17 +81,17 @@ Status ElectricalSeries::initialize(const IO::ArrayDataSetConfig& dataConfig,
   // add axis attribute for channel conversion
   const signed int axis_value = 1;
   ioPtr->createAttribute(IO::BaseDataType::I32,
-                        &axis_value,
-                        AQNWB::mergePaths(getPath(), "channel_conversion"),
-                        "axis",
-                        1);
+                         &axis_value,
+                         AQNWB::mergePaths(getPath(), "channel_conversion"),
+                         "axis",
+                         1);
 
   // make electrodes dataset
   IO::ArrayDataSetConfig electrodesConfig(IO::BaseDataType::I32,
                                           SizeArray {channelVector.size()},
                                           dataConfig.getChunking());
   ioPtr->createArrayDataSet(electrodesConfig,
-                           AQNWB::mergePaths(getPath(), "electrodes"));
+                            AQNWB::mergePaths(getPath(), "electrodes"));
 
   auto electrodesRecorder = recordElectrodes();
   electrodesRecorder->writeDataBlock(SizeArray {channelVector.size()},
@@ -100,11 +101,11 @@ Status ElectricalSeries::initialize(const IO::ArrayDataSetConfig& dataConfig,
   ioPtr->createCommonNWBAttributes(
       electrodesPath, "hdmf-common", "DynamicTableRegion");
   ioPtr->createAttribute("the electrodes that generated this electrical series",
-                        electrodesPath,
-                        "description");
+                         electrodesPath,
+                         "description");
   ioPtr->createReferenceAttribute(ElectrodeTable::electrodeTablePath,
-                                 AQNWB::mergePaths(getPath(), "electrodes"),
-                                 "table");
+                                  AQNWB::mergePaths(getPath(), "electrodes"),
+                                  "table");
 
   return tsInitStatus;
 }

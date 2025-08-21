@@ -19,12 +19,13 @@ ElectrodeGroup::ElectrodeGroup(const std::string& path,
 ElectrodeGroup::~ElectrodeGroup() {}
 
 Status ElectrodeGroup::initialize(const std::string& description,
-                                const std::string& location,
-                                const std::shared_ptr<Device>& device)
+                                  const std::string& location,
+                                  const std::shared_ptr<Device>& device)
 {
   auto ioPtr = getIO();
-  if (!ioPtr) { 
-    std::cerr << "ElectrodeGroup::initialize: IO object is not valid." << std::endl;
+  if (!ioPtr) {
+    std::cerr << "ElectrodeGroup::initialize: IO object is not valid."
+              << std::endl;
     return Status::Failure;
   }
 
@@ -33,6 +34,6 @@ Status ElectrodeGroup::initialize(const std::string& description,
     ioPtr->createAttribute(description, m_path, "description");
   ioPtr->createAttribute(location, m_path, "location");
   ioPtr->createLink(AQNWB::mergePaths("/" + m_path, "device"),
-                   AQNWB::mergePaths("/", device->getPath()));
+                    AQNWB::mergePaths("/", device->getPath()));
   return ctrInitStatus;
 }

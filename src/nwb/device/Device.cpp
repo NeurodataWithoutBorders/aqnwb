@@ -16,7 +16,7 @@ Device::Device(const std::string& path, std::shared_ptr<IO::BaseIO> io)
 Device::~Device() {}
 
 Status Device::initialize(const std::string& description,
-                        const std::string& manufacturer)
+                          const std::string& manufacturer)
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
