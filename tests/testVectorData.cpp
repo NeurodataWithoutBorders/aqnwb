@@ -151,13 +151,12 @@ TEST_CASE("VectorData", "[base]")
 
 TEST_CASE("VectorDataTyped", "[base]")
 {
-  // Create a single file for all VectorDataTyped test sections
-  std::string path = getTestFilePath("testVectorDataTyped.h5");
-  std::shared_ptr<BaseIO> io = createIO("HDF5", path);
-  io->open();
-
   SECTION("test VectorDataTyped with int")
   {
+    std::string path = getTestFilePath("testVectorDataTyped_int.h5");
+    auto io = createIO("HDF5", path);
+    io->open();
+
     // Prepare test data
     SizeType numSamples = 10;
     std::string dataPath = "/vdata_int";
@@ -234,10 +233,16 @@ TEST_CASE("VectorDataTyped", "[base]")
     auto convertedData = convertedVectorDataTyped->readData();
     auto convertedBlockInt = convertedData->values();
     REQUIRE(convertedBlockInt.data == data);
+
+    io->close();
   }
 
   SECTION("test VectorDataTyped with double")
   {
+    std::string path = getTestFilePath("testVectorDataTyped_double.h5");
+    auto io = createIO("HDF5", path);
+    io->open();
+
     // Prepare test data
     SizeType numSamples = 10;
     std::string dataPath = "/vdata_double";
@@ -316,10 +321,16 @@ TEST_CASE("VectorDataTyped", "[base]")
     auto convertedData = convertedVectorDataTyped->readData();
     auto convertedBlockDouble = convertedData->values();
     REQUIRE(convertedBlockDouble.data == data);
+
+    io->close();
   }
 
   SECTION("test VectorDataTyped with string")
   {
+    std::string path = getTestFilePath("testVectorDataTyped_string.h5");
+    auto io = createIO("HDF5", path);
+    io->open();
+
     // Prepare test data
     SizeType numSamples = 10;
     std::string dataPath = "/vdata_string";
@@ -406,6 +417,8 @@ TEST_CASE("VectorDataTyped", "[base]")
     auto convertedData = convertedVectorDataTyped->readData();
     auto convertedBlockString = convertedData->values();
     REQUIRE(convertedBlockString.data == data);
+
+    io->close();
   }
 
   SECTION("test record methods from DEFINE_DATASET_FIELD for VectorDataTyped")
@@ -440,6 +453,4 @@ TEST_CASE("VectorDataTyped", "[base]")
 
     recordIo->close();
   }
-
-  io->close();
 }  // TEST_CASE("VectorDataTyped", "[base]")
