@@ -8,6 +8,7 @@
 #include "io/BaseIO.hpp"
 #include "io/RecordingObjects.hpp"
 #include "io/hdf5/HDF5IO.hpp"
+#include "io/nwbio_utils.hpp"
 #include "nwb/NWBFile.hpp"
 #include "nwb/base/TimeSeries.hpp"
 #include "nwb/ecephys/SpikeEventSeries.hpp"
@@ -136,11 +137,12 @@ TEST_CASE("createElectricalSeriesWithSubsetOfElectrodes", "[nwb]")
 
   for (size_t i = 0; i < recordingElectrodes.size(); ++i) {
     for (size_t j = 0; j < recordingElectrodes[i].size(); ++j) {
-      recordingObjects->writeElectricalSeriesData(0,
-                                                  recordingElectrodes[i][j],
-                                                  mockData.size(),
-                                                  mockData.data(),
-                                                  mockTimestamps.data());
+      IO::writeElectricalSeriesData(recordingObjects,
+                                    0,
+                                    recordingElectrodes[i][j],
+                                    mockData.size(),
+                                    mockData.data(),
+                                    mockTimestamps.data());
     }
   }
 
@@ -393,10 +395,16 @@ TEST_CASE("createAnnotationSeries", "[nwb]")
   SizeType dataShape = mockAnnotations.size();
 
   // write to both annotation series
-  recordingObjects->writeAnnotationSeriesData(
-      containerIndices[0], dataShape, mockAnnotations, mockTimestamps.data());
-  recordingObjects->writeAnnotationSeriesData(
-      containerIndices[1], dataShape, mockAnnotations, mockTimestamps.data());
+  IO::writeAnnotationSeriesData(recordingObjects,
+                                containerIndices[0],
+                                dataShape,
+                                mockAnnotations,
+                                mockTimestamps.data());
+  IO::writeAnnotationSeriesData(recordingObjects,
+                                containerIndices[1],
+                                dataShape,
+                                mockAnnotations,
+                                mockTimestamps.data());
 
   // test searching for all AnnotationSeries objects
   std::unordered_set<std::string> typesToSearch = {"core::AnnotationSeries"};

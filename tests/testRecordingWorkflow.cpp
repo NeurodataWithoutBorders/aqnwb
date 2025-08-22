@@ -9,6 +9,7 @@
 #include "io/BaseIO.hpp"
 #include "io/RecordingObjects.hpp"
 #include "io/hdf5/HDF5IO.hpp"
+#include "io/nwbio_utils.hpp"
 #include "nwb/NWBFile.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
 #include "testUtils.hpp"
@@ -89,12 +90,13 @@ TEST_CASE("writeContinuousData", "[recording]")
           std::vector<SizeType> dataShape = {samplesToWrite, 1};
 
           auto recordingObjects = io->getRecordingObjects();
-          recordingObjects->writeTimeseriesData(recordingObjectIndex,
-                                                channel,
-                                                dataShape,
-                                                positionOffset,
-                                                dataBuffer.data(),
-                                                timestampsBuffer.data());
+          IO::writeTimeseriesData(recordingObjects,
+                                  recordingObjectIndex,
+                                  channel,
+                                  dataShape,
+                                  positionOffset,
+                                  dataBuffer.data(),
+                                  timestampsBuffer.data());
         }
       }
       // check if recording is done

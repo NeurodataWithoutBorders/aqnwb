@@ -9,6 +9,7 @@
 #include "io/BaseIO.hpp"
 #include "io/RecordingObjects.hpp"
 #include "io/hdf5/HDF5IO.hpp"
+#include "io/nwbio_utils.hpp"
 #include "nwb/NWBFile.hpp"
 #include "nwb/ecephys/ElectricalSeries.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
@@ -45,6 +46,7 @@ TEST_CASE("workflowExamples")
 
     // [example_workflow_recording_containers_snippet]
     // RecordingObjects are now automatically managed by the IO object
+    auto recordingObjects = io->getRecordingObjects();
     // [example_workflow_recording_containers_snippet]
 
     // [example_workflow_nwbfile_snippet]
@@ -60,7 +62,6 @@ TEST_CASE("workflowExamples")
     // [example_workflow_electrodes_table_snippet]
 
     // [example_workflow_datasets_snippet]
-    auto recordingObjects = io->getRecordingObjects();
     SizeType sizeBefore = recordingObjects->size();
     Status elecSeriesStatus = nwbfile->createElectricalSeries(
         mockRecordingArrays, mockChannelNames, BaseDataType::I16);
@@ -106,12 +107,13 @@ TEST_CASE("workflowExamples")
               dataBuffer.size(), channel.getBitVolts(), dataBuffer.data());
 
           // [example_workflow_write_snippet]
-          recordingObjects->writeTimeseriesData(containerIndexes[i],
-                                                channel,
-                                                dataShape,
-                                                positionOffset,
-                                                intBuffer.get(),
-                                                timestampsBuffer.data());
+          IO::writeTimeseriesData(recordingObjects,
+                                  containerIndexes[i],
+                                  channel,
+                                  dataShape,
+                                  positionOffset,
+                                  intBuffer.get(),
+                                  timestampsBuffer.data());
           io->flush();
           // [example_workflow_write_snippet]
         }

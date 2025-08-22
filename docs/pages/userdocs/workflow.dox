@@ -122,8 +122,8 @@
  *
  * \section advanced_recording_workflow Advanced: Recording individual datasets
  *
- * In the above workflow we used convenience methods, e.g., 
- * \ref AQNWB::IO::RecordingObjects::writeTimeseriesData "RecordingObjects::writeTimeseriesData" 
+ * In the above workflow we used utility methods, e.g., 
+ * \ref AQNWB::IO::writeTimeseriesData "writeTimeseriesData" 
  * to ensure data is being recorded in a consistent manner such that data and timestamps
  * are both updated at the same time to ensure the recording is consistent. For finer-grained
  * control to record into individual datasets directly, we can use the corresponding 
