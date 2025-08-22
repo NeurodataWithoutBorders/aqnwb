@@ -96,10 +96,12 @@ public:
    * AQNWB::NWB::Data classes automatically in the initialize() function so most
    * subclasses do not need to call this method explicitly.
    *
-   * @return AQNWB::Types::Status::Success if successful, otherwise
-   * AQNWB::Types::Status::Failure.
+   * @return The index at which the object was registered. The sentinel value 
+   * std::numeric_limits<SizeType>::max(); is returned if the object could
+   * not be registered (e.g., if the lookup for the IO or RecordingObjects 
+   * failed for some unspecified reason).
    */
-  AQNWB::Types::Status registerRecordingObject();
+  SizeType registerRecordingObject();
 
   /**
    * @brief Finalize the RegisteredType object.

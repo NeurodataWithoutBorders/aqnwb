@@ -65,8 +65,8 @@ Status NWBFile::initialize(const std::string& identifierText,
   //      redundant call to create the common attributes. For no we can just
   //      call registerRecordingObject directly to to add this NWBFile object to
   //      RecordingObjects
-  Status registerStatus =
-      registerRecordingObject();  // Container::initialize();
+  auto registerIndex = registerRecordingObject(); // Container::initialize();
+  Status registerStatus = isValidIndex(registerIndex);
 
   std::string currentTime = getCurrentTime();
   // use the current time if sessionStartTime is empty

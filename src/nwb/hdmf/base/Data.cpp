@@ -14,7 +14,9 @@ Data::Data(const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io)
 Status Data::initialize(const IO::ArrayDataSetConfig& dataConfig)
 {
   // Call RegisteredType::initialize() to add this object to RecordingObjects
-  auto registerStatus = registerRecordingObject();
+  auto registerIndex = registerRecordingObject();
+  Status registerStatus = isValidIndex(registerIndex);
+
   auto ioPtr = getIO();
   if (ioPtr == nullptr) {
     std::cerr << "IO object has been deleted. Can't initialize Data: " << m_path

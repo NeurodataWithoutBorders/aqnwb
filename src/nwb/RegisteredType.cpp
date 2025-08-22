@@ -130,7 +130,7 @@ std::shared_ptr<AQNWB::NWB::RegisteredType> RegisteredType::create(
   }
 }
 
-AQNWB::Types::Status RegisteredType::registerRecordingObject()
+SizeType RegisteredType::registerRecordingObject()
 {
   // Add this object to the RecordingObjects object of the I/O it is associated
   // with This ensures that all RegisteredType objects used for recording are
@@ -141,10 +141,12 @@ AQNWB::Types::Status RegisteredType::registerRecordingObject()
     if (recordingObjects) {
       // Get a shared pointer to this object
       std::shared_ptr<RegisteredType> sharedThis = shared_from_this();
-      recordingObjects->addRecordingObject(sharedThis);
+      SizeType recordingIndex = recordingObjects->addRecordingObject(sharedThis);
+      return recordingIndex;
     }
   }
-  return AQNWB::Types::Status::Success;
+  // Return sentinel value for failure
+  return std::numeric_limits<SizeType>::max();
 }
 
 AQNWB::Types::Status RegisteredType::finalize()

@@ -27,7 +27,8 @@ Status Container::initialize()
   }
 
   // Call RegisteredType::initialize() to add this object to RecordingObjects
-  auto registerStatus = registerRecordingObject();
+  auto registerIndex = registerRecordingObject();
+  Status registerStatus = isValidIndex(registerIndex);
 
   auto createGroupStatus = ioPtr->createGroup(m_path);
   // setup common attributes
