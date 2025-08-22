@@ -33,7 +33,7 @@ SizeType RecordingObjects::addRecordingObject(
 {
   // Check if object already exists in the vector
   SizeType objectIndex = findRecordingObject(object);
-  if (objectIndex != std::numeric_limits<SizeType>::max()) {
+  if (isValidIndex(objectIndex)) {
     return objectIndex;  // Return existing index if found
   } else {
     // If not found, add it and return the new index

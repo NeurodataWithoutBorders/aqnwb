@@ -66,7 +66,9 @@ Status NWBFile::initialize(const std::string& identifierText,
   //      call registerRecordingObject directly to to add this NWBFile object to
   //      RecordingObjects
   auto registerIndex = registerRecordingObject();  // Container::initialize();
-  Status registerStatus = isValidIndex(registerIndex);
+  Status registerStatus = isValidIndex(registerIndex)
+      ? AQNWB::Types::Status::Success
+      : AQNWB::Types::Status::Failure;
 
   std::string currentTime = getCurrentTime();
   // use the current time if sessionStartTime is empty

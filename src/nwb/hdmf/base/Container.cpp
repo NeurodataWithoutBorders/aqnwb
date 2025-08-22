@@ -28,7 +28,9 @@ Status Container::initialize()
 
   // Call RegisteredType::initialize() to add this object to RecordingObjects
   auto registerIndex = registerRecordingObject();
-  Status registerStatus = isValidIndex(registerIndex);
+  Status registerStatus = isValidIndex(registerIndex)
+      ? AQNWB::Types::Status::Success
+      : AQNWB::Types::Status::Failure;
 
   auto createGroupStatus = ioPtr->createGroup(m_path);
   // setup common attributes

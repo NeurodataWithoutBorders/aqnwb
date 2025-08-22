@@ -202,11 +202,9 @@ static inline std::unique_ptr<int16_t[]> transformToInt16(
   return intData;
 }
 
-static inline AQNWB::Types::Status isValidIndex(SizeType index)
+static inline bool isValidIndex(SizeType index)
 {
-  return (index != std::numeric_limits<SizeType>::max())
-      ? AQNWB::Types::Status::Success
-      : AQNWB::Types::Status::Failure;
+  return (index != std::numeric_limits<SizeType>::max());
 }
 
 }  // namespace AQNWB
