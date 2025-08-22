@@ -42,8 +42,9 @@ public:
   /**
    * @brief Adds a RegisteredType object to the recording objects collection.
    * @param object The RegisteredType object to add as a shared pointer.
+   * @return The index of the added object in the collection.
    */
-  void addRecordingObject(std::shared_ptr<RegisteredType> object);
+  SizeType addRecordingObject(const std::shared_ptr<RegisteredType>& object);
 
   /**
    * @brief Gets the RegisteredType object from the recording objects collection

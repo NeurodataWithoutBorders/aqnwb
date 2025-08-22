@@ -14,10 +14,21 @@ RecordingObjects::RecordingObjects() {}
 
 RecordingObjects::~RecordingObjects() {}
 
-void RecordingObjects::addRecordingObject(
-    std::shared_ptr<RegisteredType> object)
+SizeType RecordingObjects::addRecordingObject(
+    const std::shared_ptr<RegisteredType>& object)
 {
+  // Check if object already exists in the vector
+  for (SizeType i = 0; i < m_recording_objects.size(); ++i)
+  {
+    // compares identy of the raw pointer for the RegisteredType object
+    if (m_recording_objects[i].get() == object.get())
+    {
+        return i; // Return existing index
+    }
+  }
+  // If not found, add it and return the new index
   m_recording_objects.push_back(object);
+  return m_recording_objects.size() - 1;
 }
 
 std::shared_ptr<RegisteredType> RecordingObjects::getRecordingObject(
