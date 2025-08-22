@@ -621,7 +621,7 @@ public:
    */
   inline std::shared_ptr<NWB::RecordingObjects> getRecordingObjects() const
   {
-    return m_recording_containers;
+    return m_recording_objects;
   }
 
 protected:
@@ -651,7 +651,7 @@ protected:
    * @brief The recording objects for tracking all RegisteredType objects used
    * for recording associated with this IO object.
    */
-  std::shared_ptr<NWB::RecordingObjects> m_recording_containers;
+  std::shared_ptr<NWB::RecordingObjects> m_recording_objects;
 };
 
 /**

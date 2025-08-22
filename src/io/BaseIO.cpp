@@ -47,7 +47,7 @@ BaseIO::BaseIO(const std::string& filename)
     : m_filename(filename)
     , m_readyToOpen(true)
     , m_opened(false)
-    , m_recording_containers(std::make_shared<NWB::RecordingObjects>())
+    , m_recording_objects(std::make_shared<NWB::RecordingObjects>())
 {
 }
 
@@ -173,8 +173,9 @@ BaseRecordingData::~BaseRecordingData() {}
 Status BaseIO::stopRecording()
 {
   // Finalize all recording objects before stopping recording
-  if (m_recording_containers) {
-    Status finalizeStatus = m_recording_containers->finalize();
+  auto recording_objects = getRecordingObjects();
+  if (recording_objects) {
+    Status finalizeStatus = recording_objects->finalize();
     if (finalizeStatus != Status::Success) {
       // Log the error but continue with stopping recording
       std::cerr << "Warning: Failed to finalize some recording objects"
@@ -186,7 +187,7 @@ Status BaseIO::stopRecording()
 
 Status BaseIO::close()
 {
-  m_recording_containers->clear();
+  m_recording_objects->clear();
   return Status::Success;
 }
 
