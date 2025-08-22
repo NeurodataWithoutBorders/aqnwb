@@ -76,6 +76,12 @@ public:
   using SizeType = size_t;
 
   /**
+   * @brief Value to use to indicate that a SizeType index is not set.
+   */
+  static constexpr SizeType SizeTypeNotSet =
+      std::numeric_limits<SizeType>::max();
+
+  /**
    * @brief Alias for an array of size types used in the project.
    */
   using SizeArray = std::vector<size_t>;

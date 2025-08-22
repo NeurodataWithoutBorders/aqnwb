@@ -59,8 +59,8 @@ public:
    * @return The index of the object in the collection, or
    * std::numeric_limits<SizeType>::max() if not found.
    */
-  SizeType findRecordingObject(
-      const std::shared_ptr<RegisteredType>& object) const;
+  SizeType getRecordingIndex(
+      const std::shared_ptr<const RegisteredType>& object) const;
 
   /**
    * @brief Clear the recording objects collection.

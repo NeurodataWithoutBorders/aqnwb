@@ -87,6 +87,23 @@ public:
   inline void clearRecordingDataCache() { this->m_recordingDataCache.clear(); }
 
   /**
+   * @brief Get the index of this object in m_io->m_recording_objects
+   * @return Index of the object of AQNWB::Types::SizeTypeNotSet if the object
+   * is not registered
+   */
+  SizeType getRecordingObjectIndex() const;
+
+  /**
+   * @brief Check if this RegisteredType object is registered in the
+   * RecordingObjects manager object of the I/O.
+   * @return True if the object is registered, false otherwise.
+   */
+  inline bool isRegisteredRecordingObject() const
+  {
+    return isValidIndex(getRecordingObjectIndex());
+  }
+
+  /**
    * @brief Register this RegisteredType object with the RecordingObjects
    * manager object of the I/O.
    *

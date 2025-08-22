@@ -170,3 +170,16 @@ std::unordered_map<std::string, std::string> RegisteredType::findOwnedTypes(
     return {};
   }
 }
+
+SizeType RegisteredType::getRecordingObjectIndex() const
+{
+  auto ioPtr = getIO();
+  if (ioPtr) {
+    auto recordingObjects = ioPtr->getRecordingObjects();
+    if (recordingObjects) {
+      return recordingObjects->getRecordingIndex(shared_from_this());
+    }
+  }
+  // Return sentinel value for failure
+  return AQNWB::Types::SizeTypeNotSet;
+}

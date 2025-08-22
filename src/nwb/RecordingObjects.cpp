@@ -14,8 +14,8 @@ RecordingObjects::RecordingObjects() {}
 
 RecordingObjects::~RecordingObjects() {}
 
-SizeType RecordingObjects::findRecordingObject(
-    const std::shared_ptr<RegisteredType>& object) const
+SizeType RecordingObjects::getRecordingIndex(
+    const std::shared_ptr<const RegisteredType>& object) const
 {
   // Check if object already exists in the vector
   for (SizeType i = 0; i < m_recording_objects.size(); ++i) {
@@ -32,7 +32,7 @@ SizeType RecordingObjects::addRecordingObject(
     const std::shared_ptr<RegisteredType>& object)
 {
   // Check if object already exists in the vector
-  SizeType objectIndex = findRecordingObject(object);
+  SizeType objectIndex = getRecordingIndex(object);
   if (isValidIndex(objectIndex)) {
     return objectIndex;  // Return existing index if found
   } else {
