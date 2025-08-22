@@ -202,9 +202,25 @@ static inline std::unique_ptr<int16_t[]> transformToInt16(
   return intData;
 }
 
+/**
+ * @brief Check if a SizeType index is valid (i.e., not equal to SizeTypeNotSet)
+ * @param index The index to check
+ * @return True if the index is valid, false otherwise
+ */
 static inline bool isValidIndex(SizeType index)
 {
   return (index != AQNWB::Types::SizeTypeNotSet);
+}
+
+/**
+ * @brief Convert an integer status code to a Types::Status enum value.
+ * Shorthand for `return (status < 0) ? Status::Failure : Status::Success;`
+ * @param status The integer status code to convert.
+ * @return The corresponding Types::Status enum value.
+ */
+static inline Status toStatus(int status)
+{
+  return (status < 0) ? Status::Failure : Status::Success;
 }
 
 }  // namespace AQNWB
