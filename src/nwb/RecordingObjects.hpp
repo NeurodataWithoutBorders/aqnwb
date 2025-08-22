@@ -53,6 +53,16 @@ public:
   std::shared_ptr<RegisteredType> getRecordingObject(const SizeType& objectInd);
 
   /**
+   * @brief Finds the index of a RegisteredType object in the recording objects
+   * collection.
+   * @param object The pointer to the RegisteredType object to find.
+   * @return The index of the object in the collection, or
+   * std::numeric_limits<SizeType>::max() if not found.
+   */
+  SizeType findRecordingObject(
+      const std::shared_ptr<RegisteredType>& object) const;
+
+  /**
    * @brief Clear the recording objects collection.
    */
   void clear() { m_recording_objects.clear(); }
