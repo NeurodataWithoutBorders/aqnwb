@@ -170,6 +170,21 @@ BaseRecordingData::BaseRecordingData() {}
 
 BaseRecordingData::~BaseRecordingData() {}
 
+Status BaseIO::startRecording()
+{
+  Status status = Status::Success;
+  // Clear any existing recording objects
+  // TODO: Fix finalize method of ElectrodeTable to not fail if called multiple
+  // times
+  //       to enable us to finalize objects automatically here
+  /* auto recording_objects = getRecordingObjects();
+  if (recording_objects) {
+    Status finalizeStatus = m_recording_objects->finalize();
+    status = status && finalizeStatus;
+  }*/
+  return status;
+}
+
 Status BaseIO::stopRecording()
 {
   Status status = Status::Success;
@@ -196,7 +211,10 @@ Status BaseIO::stopRecording()
 
 Status BaseIO::close()
 {
-  m_recording_objects->clear();
+  auto recording_objects = getRecordingObjects();
+  if (recording_objects) {
+    m_recording_objects->clear();
+  }
   return Status::Success;
 }
 

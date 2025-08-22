@@ -549,7 +549,7 @@ public:
    * @brief Starts the recording process.
    * @return The status of the operation.
    */
-  virtual Status startRecording() = 0;
+  virtual Status startRecording();
 
   /**
    * @brief Stops the recording process.
