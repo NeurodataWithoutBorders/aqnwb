@@ -67,7 +67,26 @@ Status RecordingObjects::finalize()
       }
     }
   }
+  return overallStatus;
+}
 
+Status RecordingObjects::clearRecordingDataCache()
+{
+  Status overallStatus = Status::Success;
+
+  // Call clearRecordingDataCache on all RegisteredType objects in the
+  // collection
+  for (auto& object : m_recording_objects) {
+    if (object) {
+      try {
+        object->clearRecordingDataCache();
+      } catch (const std::exception& e) {
+        std::cerr << "Error clearing recording data cache for object at path: "
+                  << object->getPath() << ". Error: " << e.what() << std::endl;
+        overallStatus = Status::Failure;
+      }
+    }
+  }
   return overallStatus;
 }
 

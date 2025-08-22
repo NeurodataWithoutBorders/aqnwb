@@ -154,8 +154,6 @@ SizeType RegisteredType::registerRecordingObject()
 
 AQNWB::Types::Status RegisteredType::finalize()
 {
-  // Clear the recording data cache to remove all BaseRecordingData objects
-  clearRecordingDataCache();
   return AQNWB::Types::Status::Success;
 }
 

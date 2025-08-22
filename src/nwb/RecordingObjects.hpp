@@ -152,6 +152,14 @@ public:
   Status finalize();
 
   /**
+   * @brief Clear recording data cache for all RegisteredType objects
+   * managed by this RecordingObjects instance. This method calls
+   * clearRecordingDataCache() on all objects in the collection.
+   * @return The status of the clear operation.
+   */
+  Status clearRecordingDataCache();
+
+  /**
    * @brief Get the number of recording objects
    */
   inline SizeType size() const { return m_recording_objects.size(); }

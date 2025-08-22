@@ -172,6 +172,7 @@ BaseRecordingData::~BaseRecordingData() {}
 
 Status BaseIO::stopRecording()
 {
+  Status status = Status::Success;
   // Finalize all recording objects before stopping recording
   auto recording_objects = getRecordingObjects();
   if (recording_objects) {
@@ -181,6 +182,14 @@ Status BaseIO::stopRecording()
       std::cerr << "Warning: Failed to finalize some recording objects"
                 << std::endl;
     }
+    Status clearStatus = recording_objects->clearRecordingDataCache();
+    if (clearStatus != Status::Success) {
+      // Log the error but continue with stopping recording
+      std::cerr << "Warning: Failed to clear recording data cache for some "
+                   "recording objects"
+                << std::endl;
+    }
+    status = status && finalizeStatus && clearStatus;
   }
   return Status::Success;
 }
