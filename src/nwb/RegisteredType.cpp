@@ -1,3 +1,5 @@
+#include <limits>
+
 #include "RegisteredType.hpp"
 
 #include "Utils.hpp"

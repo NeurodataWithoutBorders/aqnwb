@@ -1,4 +1,6 @@
 
+#include <limits>
+
 #include "nwb/RecordingObjects.hpp"
 
 #include "nwb/RegisteredType.hpp"
