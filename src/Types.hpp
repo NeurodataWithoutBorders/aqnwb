@@ -20,7 +20,7 @@ public:
    */
   enum Status
   {
-    Success = 0,
+    Success = 1,
     Failure = -1
   };
 
