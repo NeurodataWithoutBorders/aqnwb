@@ -18,12 +18,10 @@ SizeType RecordingObjects::addRecordingObject(
     const std::shared_ptr<RegisteredType>& object)
 {
   // Check if object already exists in the vector
-  for (SizeType i = 0; i < m_recording_objects.size(); ++i)
-  {
+  for (SizeType i = 0; i < m_recording_objects.size(); ++i) {
     // compares identy of the raw pointer for the RegisteredType object
-    if (m_recording_objects[i].get() == object.get())
-    {
-        return i; // Return existing index
+    if (m_recording_objects[i].get() == object.get()) {
+      return i;  // Return existing index
     }
   }
   // If not found, add it and return the new index

@@ -141,7 +141,8 @@ SizeType RegisteredType::registerRecordingObject()
     if (recordingObjects) {
       // Get a shared pointer to this object
       std::shared_ptr<RegisteredType> sharedThis = shared_from_this();
-      SizeType recordingIndex = recordingObjects->addRecordingObject(sharedThis);
+      SizeType recordingIndex =
+          recordingObjects->addRecordingObject(sharedThis);
       return recordingIndex;
     }
   }
