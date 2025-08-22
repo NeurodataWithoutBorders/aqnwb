@@ -6,9 +6,9 @@
 
 #include "Utils.hpp"
 #include "io/BaseIO.hpp"
+#include "io/RecordingObjects.hpp"
 #include "io/hdf5/HDF5IO.hpp"
 #include "nwb/NWBFile.hpp"
-#include "nwb/RecordingObjects.hpp"
 #include "nwb/base/TimeSeries.hpp"
 #include "nwb/ecephys/SpikeEventSeries.hpp"
 #include "nwb/misc/AnnotationSeries.hpp"

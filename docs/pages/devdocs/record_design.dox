@@ -177,11 +177,11 @@
  *
  * \section record_design_sec_recording_containers RecordingObjects for Managing Collections
  *
- * \ref AQNWB::NWB::RecordingObjects "RecordingObjects" provides an additional convenience layer for managing
+ * \ref AQNWB::IO::RecordingObjects "RecordingObjects" provides an additional convenience layer for managing
  * collections of \ref AQNWB::NWB::RegisteredType "RegisteredType" Containers used for recording. This is particularly
  * useful when recording data to multiple related containers, such as multiple \ref AQNWB::NWB::TimeSeries "TimeSeries" objects.
  *
- * \ref AQNWB::NWB::RecordingObjects "RecordingObjects" simplifies the process of:
+ * \ref AQNWB::IO::RecordingObjects "RecordingObjects" simplifies the process of:
  *
  * - **Container Management**: Adding and retrieving containers from the collection via `addContainer` and `getContainer` methods.
  * - **Coordinated Recording**: Coordinating the recording process across multiple containers through specialized methods like:

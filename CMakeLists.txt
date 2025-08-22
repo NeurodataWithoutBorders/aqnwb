@@ -25,8 +25,8 @@ add_library(
     src/io/hdf5/HDF5IO.cpp
     src/io/hdf5/HDF5RecordingData.cpp
     src/io/hdf5/HDF5ArrayDataSetConfig.cpp
+    src/io/RecordingObjects.cpp
     src/nwb/NWBFile.cpp
-    src/nwb/RecordingObjects.cpp
     src/nwb/RegisteredType.cpp
     src/nwb/base/TimeSeries.cpp
     src/nwb/device/Device.cpp

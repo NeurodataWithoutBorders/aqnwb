@@ -10,7 +10,7 @@
  *
  * 1. Create the I/O object (e.g,.  \ref AQNWB::IO::HDF5::HDF5IO "HDF5IO") used for
  *    writing data to the file on disk.
- * 2. Create the \ref AQNWB::NWB::RecordingObjects "RecordingObjects" object
+ * 2. Create the \ref AQNWB::IO::RecordingObjects "RecordingObjects" object
  *    used for managing \ref AQNWB::NWB::Container "Container" objects for storing recordings.
  * 3. Create the \ref AQNWB::NWB::NWBFile "NWBFile" object used for managing and creating NWB
  *    file contents.
@@ -19,7 +19,7 @@
  *    saving electrodes information. 
  * 5. Create the \ref AQNWB::NWB::Container "Container" objects (e.g.,
  *    \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries") used for recording and add them
- *    to the \ref AQNWB::NWB::RecordingObjects "RecordingObjects".
+ *    to the \ref AQNWB::IO::RecordingObjects "RecordingObjects".
  * 6. Start the recording.
  * 7. Write data.
  * 8. Stop the recording and close the \ref AQNWB::NWB::NWBFile "NWBFile".
@@ -42,7 +42,7 @@
  *
  * \subsection create_recording_container 2. Create the RecordingContainer object.
  *
- * Next, create a \ref AQNWB::NWB::RecordingObjects "RecordingObjects"  object to manage the
+ * Next, create a \ref AQNWB::IO::RecordingObjects "RecordingObjects"  object to manage the
  * different \ref AQNWB::NWB::Container "Container" objects with the datasets that you would
  * like to write data to.
  *
@@ -77,13 +77,13 @@
  *
  * Next, create the different data types (e.g. \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries"
  * or other AQNWB::NWB::TimeSeries "TimeSeries") that you would like to write data into. After
- * creation, these objects are added to the  \ref AQNWB::NWB::RecordingObjects "RecordingObjects"
+ * creation, these objects are added to the  \ref AQNWB::IO::RecordingObjects "RecordingObjects"
  * object so that it can mana ge access and data writing during the recording process.
  * When adding containers, ownership of the \ref AQNWB::NWB::Container "Container"  is transferred to the
- * \ref AQNWB::NWB::RecordingObjects "RecordingObjects" object, so that we can access it again via
+ * \ref AQNWB::IO::RecordingObjects "RecordingObjects" object, so that we can access it again via
  * its index. New containers will always be appended to the end of the private member
  * ``RecordingObjects::m_containers`` object and their index can be tracked
- * using the \ref AQNWB::NWB::RecordingObjects::size "RecordingObjects.size" of the input `recordingArrays`.
+ * using the \ref AQNWB::IO::RecordingObjects::size "RecordingObjects.size" of the input `recordingArrays`.
  *
  * \snippet tests/examples/testWorkflowExamples.cpp example_workflow_datasets_snippet
  *
@@ -104,7 +104,7 @@
  *
  * \subsection write_data 7. Write data.
  *
- * During the recording process, use the \ref AQNWB::NWB::RecordingObjects "RecordingObjects"
+ * During the recording process, use the \ref AQNWB::IO::RecordingObjects "RecordingObjects"
  * as an interface to access the various  \ref AQNWB::NWB::Container "Container" object and corresponding
  * datasets and write blocks of data to the file. Calling `flush()` on the I/O object at any time will
  * ensure the data is moved to disk.
@@ -123,7 +123,7 @@
  * \section advanced_recording_workflow Advanced: Recording individual datasets
  *
  * In the above workflow we used convenience methods, e.g., 
- * \ref AQNWB::NWB::RecordingObjects::writeTimeseriesData "RecordingObjects::writeTimeseriesData" 
+ * \ref AQNWB::IO::RecordingObjects::writeTimeseriesData "RecordingObjects::writeTimeseriesData" 
  * to ensure data is being recorded in a consistent manner such that data and timestamps
  * are both updated at the same time to ensure the recording is consistent. For finer-grained
  * control to record into individual datasets directly, we can use the corresponding 

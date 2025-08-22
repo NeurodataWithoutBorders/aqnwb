@@ -4,11 +4,18 @@
 #include "Types.hpp"
 #include "nwb/base/TimeSeries.hpp"
 
+/*!
+ * \namespace AQNWB::NWB
+ * \brief  \brief Namespace for all classes related to the NWB data standard
+ */
 namespace AQNWB::NWB
 {
-
 // Forward declaration
 class RegisteredType;
+}  // namespace AQNWB::NWB
+
+namespace AQNWB::IO
+{
 
 /**
  * @brief The RecordingObjects class provides an interface for managing
@@ -44,13 +51,15 @@ public:
    * @param object The RegisteredType object to add as a shared pointer.
    * @return The index of the added object in the collection.
    */
-  SizeType addRecordingObject(const std::shared_ptr<RegisteredType>& object);
+  SizeType addRecordingObject(
+      const std::shared_ptr<AQNWB::NWB::RegisteredType>& object);
 
   /**
    * @brief Gets the RegisteredType object from the recording objects collection
    * @param objectInd The index of the object within the collection.
    */
-  std::shared_ptr<RegisteredType> getRecordingObject(const SizeType& objectInd);
+  std::shared_ptr<AQNWB::NWB::RegisteredType> getRecordingObject(
+      const SizeType& objectInd);
 
   /**
    * @brief Finds the index of a RegisteredType object in the recording objects
@@ -60,7 +69,7 @@ public:
    * std::numeric_limits<SizeType>::max() if not found.
    */
   SizeType getRecordingIndex(
-      const std::shared_ptr<const RegisteredType>& object) const;
+      const std::shared_ptr<const AQNWB::NWB::RegisteredType>& object) const;
 
   /**
    * @brief Clear the recording objects collection.
@@ -168,7 +177,7 @@ private:
   /**
    * @brief The RegisteredType objects used for recording
    */
-  std::vector<std::shared_ptr<RegisteredType>> m_recording_objects;
+  std::vector<std::shared_ptr<AQNWB::NWB::RegisteredType>> m_recording_objects;
 
   /**
    * @brief The name of the collection of recording objects
@@ -176,4 +185,4 @@ private:
   std::string m_name;
 };
 
-}  // namespace AQNWB::NWB
+}  // namespace AQNWB::IO

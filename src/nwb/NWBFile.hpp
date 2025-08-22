@@ -11,7 +11,7 @@
 #include "Utils.hpp"
 #include "io/BaseIO.hpp"
 #include "io/ReadIO.hpp"
-#include "nwb/RecordingObjects.hpp"
+#include "io/RecordingObjects.hpp"
 #include "nwb/base/TimeSeries.hpp"
 #include "nwb/file/ElectrodeTable.hpp"
 #include "nwb/hdmf/base/Container.hpp"

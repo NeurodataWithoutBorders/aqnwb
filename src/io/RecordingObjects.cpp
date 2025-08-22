@@ -1,7 +1,7 @@
 
 #include <limits>
 
-#include "nwb/RecordingObjects.hpp"
+#include "io/RecordingObjects.hpp"
 
 #include "nwb/RegisteredType.hpp"
 #include "nwb/ecephys/ElectricalSeries.hpp"
@@ -9,7 +9,7 @@
 #include "nwb/hdmf/base/Container.hpp"
 #include "nwb/misc/AnnotationSeries.hpp"
 
-using namespace AQNWB::NWB;
+using namespace AQNWB::IO;
 // Recording Objects
 
 RecordingObjects::RecordingObjects() {}
@@ -17,7 +17,7 @@ RecordingObjects::RecordingObjects() {}
 RecordingObjects::~RecordingObjects() {}
 
 SizeType RecordingObjects::getRecordingIndex(
-    const std::shared_ptr<const RegisteredType>& object) const
+    const std::shared_ptr<const AQNWB::NWB::RegisteredType>& object) const
 {
   // Check if object already exists in the vector
   for (SizeType i = 0; i < m_recording_objects.size(); ++i) {
@@ -31,7 +31,7 @@ SizeType RecordingObjects::getRecordingIndex(
 }
 
 SizeType RecordingObjects::addRecordingObject(
-    const std::shared_ptr<RegisteredType>& object)
+    const std::shared_ptr<AQNWB::NWB::RegisteredType>& object)
 {
   // Check if object already exists in the vector
   SizeType objectIndex = getRecordingIndex(object);
@@ -44,8 +44,8 @@ SizeType RecordingObjects::addRecordingObject(
   }
 }
 
-std::shared_ptr<RegisteredType> RecordingObjects::getRecordingObject(
-    const SizeType& objectInd)
+std::shared_ptr<AQNWB::NWB::RegisteredType>
+RecordingObjects::getRecordingObject(const SizeType& objectInd)
 {
   if (objectInd >= m_recording_objects.size()) {
     return nullptr;

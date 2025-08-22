@@ -1,7 +1,7 @@
 #include "io/BaseIO.hpp"
 
 #include "Utils.hpp"
-#include "nwb/RecordingObjects.hpp"
+#include "io/RecordingObjects.hpp"
 
 using namespace AQNWB::IO;
 using namespace AQNWB;
@@ -47,7 +47,7 @@ BaseIO::BaseIO(const std::string& filename)
     : m_filename(filename)
     , m_readyToOpen(true)
     , m_opened(false)
-    , m_recording_objects(std::make_shared<NWB::RecordingObjects>())
+    , m_recording_objects(std::make_shared<RecordingObjects>())
 {
 }
 
@@ -175,8 +175,7 @@ Status BaseIO::startRecording()
   Status status = Status::Success;
   // Clear any existing recording objects
   // TODO: Fix finalize method of ElectrodeTable to not fail if called multiple
-  // times
-  //       to enable us to finalize objects automatically here
+  // times to enable us to finalize objects automatically here
   /* auto recording_objects = getRecordingObjects();
   if (recording_objects) {
     Status finalizeStatus = m_recording_objects->finalize();

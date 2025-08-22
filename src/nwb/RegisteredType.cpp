@@ -4,7 +4,7 @@
 
 #include "Utils.hpp"
 #include "io/ReadIO.hpp"
-#include "nwb/RecordingObjects.hpp"
+#include "io/RecordingObjects.hpp"
 
 using namespace AQNWB::NWB;
 
