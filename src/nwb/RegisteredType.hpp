@@ -626,6 +626,10 @@ public: \
     auto dataset = ioPtr->getDataSet(fullPath); \
     if (dataset) { \
       m_recordingDataCache[fullPath] = dataset; \
+      /* Ensure we are registered in the RecordingObjects manager */ \
+      if (!isRegisteredRecordingObject()) { \
+        registerRecordingObject(); \
+      } \
     } \
     return dataset; \
   }
