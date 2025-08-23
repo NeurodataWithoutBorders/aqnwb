@@ -108,11 +108,16 @@ public:
    * @param recordingArrays vector of ChannelVector indicating the electrodes to
    *                        add to the table. This vector should contain all the
    *                        electrodes that are detected by the acquisition
-   * system, not only those being actively recorded from.
-   * @return Status The status of the object creation operation.
+   *                        system, not only those being actively recorded from.
+   * @param finalizeTable If true (default) then the table will be finalized
+   *                      after creation to write it to the file. If false, the
+   *                      caller must call finalize() on the returned table
+   *                      object to write it to the file.
+   * @return The generated ElectrodeTable or nullptr if failed.
    */
-  Status createElectrodesTable(
-      std::vector<Types::ChannelVector> recordingArrays);
+  std::shared_ptr<ElectrodeTable> createElectrodesTable(
+      std::vector<Types::ChannelVector> recordingArrays,
+      bool finalizeTable = true);
 
   /**
    * @brief Create ElectricalSeries objects to record data into.

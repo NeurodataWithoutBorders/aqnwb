@@ -203,14 +203,14 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
   return Status::Success;
 }
 
-Status NWBFile::createElectrodesTable(
-    std::vector<Types::ChannelVector> recordingArrays)
+std::shared_ptr<ElectrodeTable> NWBFile::createElectrodesTable(
+    std::vector<Types::ChannelVector> recordingArrays, bool finalizeTable)
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
     std::cerr << "NWBFile::createElectrodesTable IO object has been deleted."
               << std::endl;
-    return Status::Failure;
+    return nullptr;
   }
 
   auto electrodeTable = NWB::ElectrodeTable::create(ioPtr);
@@ -238,12 +238,11 @@ Status NWBFile::createElectrodesTable(
       elecGroup->initialize("description", "unknown", device);
     }
   }
+  if (finalizeTable) {
+    electrodeTable->finalize();
+  }
 
-  // write electrodes information to datasets
-  // (requires that ElectrodeGroup data is initialized)
-  electrodeTable->finalize();
-
-  return Status::Success;
+  return electrodeTable;
 }
 
 Status NWBFile::createElectricalSeries(
