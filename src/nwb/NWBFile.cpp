@@ -307,7 +307,8 @@ Status NWBFile::createElectricalSeries(
 Status NWBFile::createSpikeEventSeries(
     std::vector<Types::ChannelVector> recordingArrays,
     std::vector<std::string> recordingNames,
-    const IO::BaseDataType& dataType)
+    const IO::BaseDataType& dataType,
+    std::vector<SizeType>& containerIndexes)
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
@@ -374,6 +375,7 @@ Status NWBFile::createSpikeEventSeries(
         config,
         channelVector,
         "Stores spike waveforms from an extracellular ephys recording");
+    containerIndexes.push_back(spikeEventSeries->getRecordingObjectIndex());
   }
 
   return Status::Success;

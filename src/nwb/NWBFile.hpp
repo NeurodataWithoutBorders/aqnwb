@@ -147,12 +147,15 @@ public:
    * @param recordingNames vector indicating the names of the SpikeEventSeries
    * within the acquisition group
    * @param dataType The data type of the elements in the data block.
+   * @param containerIndexes This vector is updated with the indexes of the
+   * created containers.
    * @return Status The status of the object creation operation.
    */
   Status createSpikeEventSeries(
       std::vector<Types::ChannelVector> recordingArrays,
       std::vector<std::string> recordingNames,
-      const IO::BaseDataType& dataType);
+      const IO::BaseDataType& dataType,
+      std::vector<SizeType>& containerIndexes);
 
   /** @brief Create AnnotationSeries objects to record data into.
    * Created objects are automatically added to the I/O's RecordingObjects.
