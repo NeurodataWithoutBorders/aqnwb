@@ -6,6 +6,7 @@
 #include "Utils.hpp"
 #include "io/BaseIO.hpp"
 #include "io/ReadIO.hpp"
+#include "io/RecordingObjects.hpp"
 #include "nwb/hdmf/base/Container.hpp"
 #include "nwb/hdmf/table/ElementIdentifiers.hpp"
 #include "nwb/hdmf/table/VectorData.hpp"
@@ -63,6 +64,10 @@ public:
 
   /**
    * @brief Adds a column of vector string data to the table.
+   *
+   * If the VectorData has already been added to the table, it will not be
+   * added again, but the values will still be appended to the existing dataset.
+   *
    * @param vectorData A unique pointer to the `VectorData` dataset.
    * @param values The vector of string values.
    * @return Status::Success if successful, otherwise Status::Failure.
@@ -110,7 +115,7 @@ public:
   }
 
   /**
-   * @brief Read an arbitrary column of the DyanmicTable
+   * @brief Read an arbitrary column of the DynamicTable
    *
    * For columns defined in the schema the corresponding DEFINE_REGISTERED_FIELD
    * read functions are preferred because they help avoid the need for
@@ -157,8 +162,24 @@ public:
 
 protected:
   /**
+   *  @brief Add a column name to m_colNames while preventing duplicates
+   *  @return Index of the column name in m_colNames
+   */
+  SizeType addColumnName(const std::string& colName);
+
+  /**
    * @brief Names of the columns in the table.
    */
   std::vector<std::string> m_colNames;
+
+  /**
+   * @brief The columns added for recording
+   */
+  std::unique_ptr<IO::RecordingObjects> m_recordingColumns;
+
+  /**
+   * @brief The row ids data object for write
+   */
+  std::shared_ptr<ElementIdentifiers> m_rowElementIdentifiers;
 };
 }  // namespace AQNWB::NWB

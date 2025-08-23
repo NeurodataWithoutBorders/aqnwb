@@ -13,6 +13,9 @@ DynamicTable::DynamicTable(const std::string& path,
                            std::shared_ptr<IO::BaseIO> io)
     : Container(path, io)
     , m_colNames({})
+    , m_recordingColumns(std::make_unique<IO::RecordingObjects>())
+    , m_rowElementIdentifiers(
+          ElementIdentifiers::create(AQNWB::mergePaths(path, "id"), io))
 {
   // Read the colNames attribute if it exists such that any columns
   // we may add append to the existing list of columns rather than
@@ -49,6 +52,19 @@ Status DynamicTable::initialize(const std::string& description)
   return containerStatus;
 }
 
+SizeType DynamicTable::addColumnName(const std::string& colName)
+{
+  auto it = std::find(m_colNames.begin(), m_colNames.end(), colName);
+  if (it != m_colNames.end()) {
+    // Column name already exists, return its index
+    return static_cast<SizeType>(std::distance(m_colNames.begin(), it));
+  } else {
+    // Column name does not exist, add it and return new index
+    m_colNames.push_back(colName);
+    return m_colNames.size() - 1;
+  }
+}
+
 /** Add column to table */
 Status DynamicTable::addColumn(const std::shared_ptr<VectorData>& vectorData,
                                const std::vector<std::string>& values)
@@ -65,7 +81,8 @@ Status DynamicTable::addColumn(const std::shared_ptr<VectorData>& vectorData,
                                 std::vector<SizeType> {0},
                                 IO::BaseDataType::V_STR,
                                 values);
-    m_colNames.push_back(vectorData->getName());
+    addColumnName(vectorData->getName());
+    m_recordingColumns->addRecordingObject(vectorData);
     return writeStatus;
   }
 }
@@ -101,6 +118,9 @@ Status DynamicTable::addReferenceColumn(const std::string& name,
                                         const std::string& colDescription,
                                         const std::vector<std::string>& values)
 {
+  // TODO: Similar to addColumn() we should check if the column already exists
+  // and if so append to it rather than creating a new column. This currently
+  // prevents append to work for ElectrodeTable.
   if (values.empty()) {
     std::cerr << "Data to add to column is empty" << std::endl;
     return Status::Failure;
@@ -114,13 +134,15 @@ Status DynamicTable::addReferenceColumn(const std::string& name,
     }
 
     std::string columnPath = AQNWB::mergePaths(m_path, name);
+
     auto refColumn = AQNWB::NWB::VectorData::createReferenceVectorData(
         columnPath, ioPtr, colDescription, values);
     if (refColumn == nullptr) {
       std::cerr << "Failed to create reference column" << std::endl;
       return Status::Failure;
     }
-    m_colNames.push_back(name);
+    addColumnName(name);
+    m_recordingColumns->addRecordingObject(refColumn);
     return Status::Success;
   }
 }
@@ -133,7 +155,6 @@ Status DynamicTable::finalize()
               << std::endl;
     return Status::Failure;
   }
-
   Status colNamesStatus = ioPtr->createAttribute(
       m_colNames,
       m_path,
