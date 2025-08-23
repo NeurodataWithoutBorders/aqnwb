@@ -136,7 +136,7 @@ TEST_CASE("createElectricalSeriesWithSubsetOfElectrodes", "[nwb]")
   for (size_t i = 0; i < recordingElectrodes.size(); ++i) {
     for (size_t j = 0; j < recordingElectrodes[i].size(); ++j) {
       IO::writeElectricalSeriesData(recordingObjects,
-                                    0,
+                                    containerIndices[0],
                                     recordingElectrodes[i][j],
                                     mockData.size(),
                                     mockData.data(),
