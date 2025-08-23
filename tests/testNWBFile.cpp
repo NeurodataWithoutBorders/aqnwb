@@ -90,8 +90,8 @@ TEST_CASE("createElectrodesTable", "[nwb]")
 
   // create the Electrodes Table
   std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(1, 2);
-  Status resultCreate = nwbfile->createElectrodesTable(mockArrays);
-  REQUIRE(resultCreate == Status::Success);
+  auto electrodesTable = nwbfile->createElectrodesTable(mockArrays);
+  REQUIRE(electrodesTable != nullptr);
 }
 
 TEST_CASE("createElectricalSeriesWithSubsetOfElectrodes", "[nwb]")
@@ -108,8 +108,9 @@ TEST_CASE("createElectricalSeriesWithSubsetOfElectrodes", "[nwb]")
 
   // Create electrode table with full set of electrodes (4 channels)
   std::vector<Types::ChannelVector> allElectrodes = getMockChannelArrays(4, 1);
-  Status resultCreateTable = nwbfile->createElectrodesTable(allElectrodes);
-  REQUIRE(resultCreateTable == Status::Success);
+  auto electrodesTable = nwbfile->createElectrodesTable(allElectrodes);
+  REQUIRE(electrodesTable != nullptr);
+  electrodesTable->finalize();  // finalize to write to file
 
   // Create electrical series with subset of electrodes (2 channels)
   SizeType numChannels = 2;
@@ -188,8 +189,8 @@ TEST_CASE("createElectricalSeriesFailsWithOutOfRangeIndices", "[nwb]")
   // Create electrode table with 2 channels
   std::vector<Types::ChannelVector> tableElectrodes =
       getMockChannelArrays(2, 1);
-  Status resultCreateTable = nwbfile->createElectrodesTable(tableElectrodes);
-  REQUIRE(resultCreateTable == Status::Success);
+  auto electrodesTable = nwbfile->createElectrodesTable(tableElectrodes);
+  REQUIRE(electrodesTable != nullptr);
 
   // Attempt to create electrical series with channels having higher indices
   // Create mock channels with global indices > 1 (out of range of table)
@@ -216,7 +217,8 @@ TEST_CASE("createElectricalSeries", "[nwb]")
 
   // create the Electrodes Table
   std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays();
-  nwbfile->createElectrodesTable(mockArrays);
+  auto electrodesTable = nwbfile->createElectrodesTable(mockArrays);
+  REQUIRE(electrodesTable != nullptr);
 
   // create Electrical Series
   std::vector<std::string> mockChannelNames =
@@ -297,7 +299,8 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
 
   // create ElectrodesTable
   std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(2, 2);
-  nwbfile->createElectrodesTable(mockArrays);
+  auto electrodesTable = nwbfile->createElectrodesTable(mockArrays);
+  REQUIRE(electrodesTable != nullptr);
 
   // create Electrical Series
   std::vector<std::string> mockChannelNames =
@@ -449,7 +452,9 @@ TEST_CASE("setCanModifyObjectsMode", "[nwb]")
   std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(1, 2);
   std::vector<std::string> mockChannelNames =
       getMockChannelArrayNames("esdata");
-  nwbfile->createElectrodesTable(mockArrays);  // create the Electrodes Table
+  auto electrodesTable = nwbfile->createElectrodesTable(
+      mockArrays);  // create the Electrodes Table
+  REQUIRE(electrodesTable != nullptr);
   Status resultCreatePostStart = nwbfile->createElectricalSeries(
       mockArrays, mockChannelNames, BaseDataType::F32);
   REQUIRE(resultCreatePostStart == Status::Failure);

@@ -99,7 +99,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // RecordingObjects are now automatically managed by the IO object
 
     // create a new ElectricalSeries
-    nwbfile->createElectrodesTable(mockArrays);
+    auto electrodesTable = nwbfile->createElectrodesTable(mockArrays);
     SizeType startIndex = io->getRecordingObjects()->size();
     Status resultCreate =
         nwbfile->createElectricalSeries(mockArrays, mockChannelNames, dataType);

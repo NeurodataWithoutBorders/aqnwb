@@ -124,9 +124,13 @@ public:
    * @brief Finalize the RegisteredType object.
    *
    * This method provides a standard interface for finalizing RegisteredType
-   * objects. The base implementation clears the recording data cache to
-   * remove all BaseRecordingData objects from the cache. Subclasses can
-   * override this method to provide additional finalization logic.
+   * objects. Finalizing means that the function must ensure to generate a
+   * valid state of the type in the file. E.g., in the case of a table, the
+   * function may generate row indices, column order etc.. Finalize may be
+   * called multiple times, e.g., when starting a recording to ensure the
+   * file is in a valid state, and then again when stopping the recording to
+   * ensure the final state is valid. The default implementation does nothing
+   * and returns AQNWB::Types::Status::Success.
    *
    * @return AQNWB::Types::Status::Success if successful, otherwise
    * AQNWB::Types::Status::Failure.

@@ -100,22 +100,23 @@ public:
 
 private:
   /**
-   * @brief The global indices for each electrode.
+   * @brief The global indices for each added electrode.
    */
   std::vector<int> m_electrodeNumbers;
 
   /**
-   * @brief The names of the ElectrodeGroup object for each electrode.
+   * @brief The names of the ElectrodeGroup object for each added electrode.
    */
   std::vector<std::string> m_groupNames;
 
   /**
-   * @brief The location names for each electrode.
+   * @brief The location names for each added electrode.
    */
   std::vector<std::string> m_locationNames;
 
   /**
-   * @brief The references to the ElectrodeGroup object for each electrode.
+   * @brief The references to the ElectrodeGroup object for each added
+   * electrode.
    */
   std::vector<std::string> m_groupReferences;
 
@@ -126,18 +127,13 @@ private:
       "/general/extracellular_ephys";
 
   /**
-   * @brief The row ids data object for write
-   */
-  std::shared_ptr<ElementIdentifiers> m_electrodeDataset;
-
-  /**
    * @brief The group names column for write
    */
-  std::shared_ptr<VectorData> m_groupNamesDataset;
+  std::shared_ptr<VectorData> m_groupNamesVectorData;
 
   /**
    * @brief The locations column for write
    */
-  std::shared_ptr<VectorData> m_locationsDataset;
+  std::shared_ptr<VectorData> m_locationsVectorData;
 };
 }  // namespace AQNWB::NWB
