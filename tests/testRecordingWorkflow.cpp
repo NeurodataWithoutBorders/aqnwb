@@ -52,9 +52,11 @@ TEST_CASE("writeContinuousData", "[recording]")
     nwbfile->createElectrodesTable(mockRecordingArrays);
 
     // 5. create datasets (automatically added to recording objects)
-    SizeType startIndex = io->getRecordingObjects()->size();
-    nwbfile->createElectricalSeries(
-        mockRecordingArrays, mockChannelNames, BaseDataType::F32);
+    std::vector<SizeType> containerIndexes = {};
+    nwbfile->createElectricalSeries(mockRecordingArrays,
+                                    mockChannelNames,
+                                    BaseDataType::F32,
+                                    containerIndexes);
 
     // 6. start the recording
     io->startRecording();
@@ -67,7 +69,7 @@ TEST_CASE("writeContinuousData", "[recording]")
 
       // write data to the file for each channel
       for (SizeType i = 0; i < mockRecordingArrays.size(); ++i) {
-        SizeType recordingObjectIndex = startIndex + i;
+        SizeType recordingObjectIndex = containerIndexes[i];
         const auto& channelVector = mockRecordingArrays[i];
         for (const auto& channel : channelVector) {
           // copy data into buffer

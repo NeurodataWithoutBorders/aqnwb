@@ -248,7 +248,8 @@ std::shared_ptr<ElectrodeTable> NWBFile::createElectrodesTable(
 Status NWBFile::createElectricalSeries(
     std::vector<Types::ChannelVector> recordingArrays,
     std::vector<std::string> recordingNames,
-    const IO::BaseDataType& dataType)
+    const IO::BaseDataType& dataType,
+    std::vector<SizeType>& containerIndexes)
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
@@ -279,6 +280,7 @@ Status NWBFile::createElectricalSeries(
   }
 
   // Create datasets
+  Status overallStatus = Status::Success;
   for (size_t i = 0; i < recordingArrays.size(); ++i) {
     const auto& channelVector = recordingArrays[i];
     const std::string& recordingName = recordingNames[i];
@@ -296,12 +298,11 @@ Status NWBFile::createElectricalSeries(
         channelVector,
         "Stores continuously sampled voltage data from an "
         "extracellular ephys recording");
-    if (esStatus != Status::Success) {
-      return esStatus;
-    }
+    overallStatus = overallStatus && esStatus;
+    containerIndexes.push_back(electricalSeries->getRecordingObjectIndex());
   }
 
-  return Status::Success;
+  return overallStatus;
 }
 
 Status NWBFile::createSpikeEventSeries(

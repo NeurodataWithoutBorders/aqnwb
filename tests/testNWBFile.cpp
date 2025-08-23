@@ -119,12 +119,9 @@ TEST_CASE("createElectricalSeriesWithSubsetOfElectrodes", "[nwb]")
   std::vector<std::string> recordingNames =
       getMockChannelArrayNames("esdata", 1);
   auto recordingObjects = io->getRecordingObjects();
-  SizeType sizeBefore = recordingObjects->size();
+  std::vector<SizeType> containerIndices = {};
   Status resultCreateES = nwbfile->createElectricalSeries(
-      recordingElectrodes, recordingNames, BaseDataType::F32);
-  SizeType sizeAfter = recordingObjects->size();
-  std::vector<SizeType> containerIndices(sizeAfter - sizeBefore);
-  std::iota(containerIndices.begin(), containerIndices.end(), sizeBefore);
+      recordingElectrodes, recordingNames, BaseDataType::F32, containerIndices);
   REQUIRE(resultCreateES == Status::Success);
 
   // Write some test data to verify recording works
@@ -166,8 +163,9 @@ TEST_CASE("createElectricalSeriesFailsWithoutElectrodesTable", "[nwb]")
       getMockChannelArrays(1, 2);
   std::vector<std::string> recordingNames =
       getMockChannelArrayNames("esdata", 1);
+  std::vector<SizeType> containerIndices = {};
   Status resultCreateES = nwbfile->createElectricalSeries(
-      recordingElectrodes, recordingNames, BaseDataType::F32);
+      recordingElectrodes, recordingNames, BaseDataType::F32, containerIndices);
   REQUIRE(resultCreateES == Status::Failure);
 
   nwbfile->finalize();  // Good practive since we don't call stop recording, but
@@ -199,8 +197,9 @@ TEST_CASE("createElectricalSeriesFailsWithOutOfRangeIndices", "[nwb]")
 
   std::vector<std::string> recordingNames =
       getMockChannelArrayNames("esdata", 1);
+  std::vector<SizeType> containerIndices = {};
   Status resultCreateES = nwbfile->createElectricalSeries(
-      recordingElectrodes, recordingNames, BaseDataType::F32);
+      recordingElectrodes, recordingNames, BaseDataType::F32, containerIndices);
   REQUIRE(resultCreateES == Status::Failure);
 }
 
@@ -224,12 +223,9 @@ TEST_CASE("createElectricalSeries", "[nwb]")
   std::vector<std::string> mockChannelNames =
       getMockChannelArrayNames("esdata");
   auto recordingObjects = io->getRecordingObjects();
-  SizeType sizeBefore = recordingObjects->size();
+  std::vector<SizeType> containerIndices = {};
   Status resultCreate = nwbfile->createElectricalSeries(
-      mockArrays, mockChannelNames, BaseDataType::F32);
-  SizeType sizeAfter = recordingObjects->size();
-  std::vector<SizeType> containerIndices(sizeAfter - sizeBefore);
-  std::iota(containerIndices.begin(), containerIndices.end(), sizeBefore);
+      mockArrays, mockChannelNames, BaseDataType::F32, containerIndices);
   REQUIRE(resultCreate == Status::Success);
 
   // start recording
@@ -306,12 +302,9 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
   std::vector<std::string> mockChannelNames =
       getMockChannelArrayNames("esdata");
   auto recordingObjects = io->getRecordingObjects();
-  SizeType sizeBefore = recordingObjects->size();
+  std::vector<SizeType> containerIndices = {};
   Status resultCreateES = nwbfile->createElectricalSeries(
-      mockArrays, mockChannelNames, BaseDataType::F32);
-  SizeType sizeAfter = recordingObjects->size();
-  std::vector<SizeType> containerIndices(sizeAfter - sizeBefore);
-  std::iota(containerIndices.begin(), containerIndices.end(), sizeBefore);
+      mockArrays, mockChannelNames, BaseDataType::F32, containerIndices);
   REQUIRE(resultCreateES == Status::Success);
 
   // create SpikeEventSeries
@@ -448,8 +441,9 @@ TEST_CASE("setCanModifyObjectsMode", "[nwb]")
   auto electrodesTable = nwbfile->createElectrodesTable(
       mockArrays);  // create the Electrodes Table
   REQUIRE(electrodesTable != nullptr);
+  std::vector<SizeType> containerIndices = {};
   Status resultCreatePostStart = nwbfile->createElectricalSeries(
-      mockArrays, mockChannelNames, BaseDataType::F32);
+      mockArrays, mockChannelNames, BaseDataType::F32, containerIndices);
   REQUIRE(resultCreatePostStart == Status::Failure);
 
   // stop recording

@@ -61,15 +61,15 @@ TEST_CASE("workflowExamples")
     // [example_workflow_electrodes_table_snippet]
 
     // [example_workflow_datasets_snippet]
-    SizeType sizeBefore = recordingObjects->size();
-    Status elecSeriesStatus = nwbfile->createElectricalSeries(
-        mockRecordingArrays, mockChannelNames, BaseDataType::I16);
+    std::vector<SizeType> containerIndexes = {};
+    Status elecSeriesStatus =
+        nwbfile->createElectricalSeries(mockRecordingArrays,
+                                        mockChannelNames,
+                                        BaseDataType::I16,
+                                        containerIndexes);
     REQUIRE(elecSeriesStatus == Status::Success);
     SizeType sizeAfter = recordingObjects->size();
 
-    // Create container indexes for the newly created objects
-    std::vector<SizeType> containerIndexes(sizeAfter - sizeBefore);
-    std::iota(containerIndexes.begin(), containerIndexes.end(), sizeBefore);
     // [example_workflow_datasets_snippet]
 
     // [example_workflow_start_snippet]

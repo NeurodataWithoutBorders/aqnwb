@@ -131,12 +131,15 @@ public:
    * @param recordingNames vector indicating the names of the ElectricalSeries
    * within the acquisition group
    * @param dataType The data type of the elements in the data block.
+   * @param containerIndexes This vector is updated with the indexes of the
+   * created containers.
    * @return Status The status of the object creation operation.
    */
   Status createElectricalSeries(
       std::vector<Types::ChannelVector> recordingArrays,
       std::vector<std::string> recordingNames,
-      const IO::BaseDataType& dataType);
+      const IO::BaseDataType& dataType,
+      std::vector<SizeType>& containerIndexes);
 
   /**
    * @brief Create SpikeEventSeries objects to record data into.
