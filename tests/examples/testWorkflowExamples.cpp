@@ -68,8 +68,6 @@ TEST_CASE("workflowExamples")
                                         BaseDataType::I16,
                                         containerIndexes);
     REQUIRE(elecSeriesStatus == Status::Success);
-    SizeType sizeAfter = recordingObjects->size();
-
     // [example_workflow_datasets_snippet]
 
     // [example_workflow_start_snippet]
