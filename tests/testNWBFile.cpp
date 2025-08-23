@@ -379,11 +379,9 @@ TEST_CASE("createAnnotationSeries", "[nwb]")
   std::vector<std::string> mockAnnotationNames = {"annotations1",
                                                   "annotations2"};
   auto recordingObjects = io->getRecordingObjects();
-  SizeType sizeBefore = recordingObjects->size();
-  Status resultCreate = nwbfile->createAnnotationSeries(mockAnnotationNames);
-  SizeType sizeAfter = recordingObjects->size();
-  std::vector<SizeType> containerIndices(sizeAfter - sizeBefore);
-  std::iota(containerIndices.begin(), containerIndices.end(), sizeBefore);
+  std::vector<SizeType> containerIndices = {};
+  Status resultCreate =
+      nwbfile->createAnnotationSeries(mockAnnotationNames, containerIndices);
   REQUIRE(resultCreate == Status::Success);
 
   // start recording

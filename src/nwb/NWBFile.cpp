@@ -379,7 +379,8 @@ Status NWBFile::createSpikeEventSeries(
   return Status::Success;
 }
 
-Status NWBFile::createAnnotationSeries(std::vector<std::string> recordingNames)
+Status NWBFile::createAnnotationSeries(std::vector<std::string> recordingNames,
+                                       std::vector<SizeType>& containerIndexes)
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
@@ -410,6 +411,7 @@ Status NWBFile::createAnnotationSeries(std::vector<std::string> recordingNames)
         "Stores user annotations made during an experiment",
         "no comments",
         config);
+    containerIndexes.push_back(annotationSeries->getRecordingObjectIndex());
   }
 
   return Status::Success;

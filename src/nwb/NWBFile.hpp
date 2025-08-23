@@ -158,9 +158,12 @@ public:
    * Created objects are automatically added to the I/O's RecordingObjects.
    * @param recordingNames vector indicating the names of the AnnotationSeries
    * within the acquisition group
+   * @param containerIndexes This vector is updated with the indexes of the
+   * created containers.
    * @return Status The status of the object creation operation.
    */
-  Status createAnnotationSeries(std::vector<std::string> recordingNames);
+  Status createAnnotationSeries(std::vector<std::string> recordingNames,
+                                std::vector<SizeType>& containerIndexes);
 
   DEFINE_REGISTERED_FIELD(readElectrodeTable,
                           ElectrodeTable,
