@@ -71,7 +71,7 @@ public:
 // -------------------------------------------------------------------------
 //   Test suite
 // -------------------------------------------------------------------------
-TEST_CASE("RecordingObjects – real‑NWB workflow tests", "[recording]")
+TEST_CASE("RecordingObjects recording workflow tests", "[recording]")
 {
   using AQNWB::createIO;
   using AQNWB::IO::BaseIO;
