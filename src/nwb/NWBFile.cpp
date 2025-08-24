@@ -99,10 +99,7 @@ Status NWBFile::initialize(const std::string& identifierText,
                                               dataCollection,
                                               useSessionStartTime,
                                               useTimestampsReferenceTime);
-    return (createStatus == Status::Success
-            && registerStatus == Status::Success)
-        ? Status::Success
-        : Status::Failure;
+    return createStatus && registerStatus;
   } else {
     return registerStatus;  // File is already initialized, return register
                             // status
