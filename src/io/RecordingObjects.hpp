@@ -62,6 +62,18 @@ public:
       const SizeType& objectInd);
 
   /**
+   * @brief Gets the RegisteredType object from the recording objects collection
+   * based on the path of the object.
+   * NOTE: This function performs a linear search. If for some reason multiple
+   * objects with the same path exist, the first one found will be returned.
+   * @param path The path of the object to retrieve.
+   * @return Shared pointer to the RegisteredType object if found, nullptr
+   *         otherwise.
+   */
+  std::shared_ptr<AQNWB::NWB::RegisteredType> getRecordingObject(
+      const std::string& path) const;
+
+  /**
    * @brief Finds the index of a RegisteredType object in the recording objects
    * collection.
    * @param object The pointer to the RegisteredType object to find.

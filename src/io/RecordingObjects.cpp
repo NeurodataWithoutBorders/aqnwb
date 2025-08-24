@@ -56,6 +56,17 @@ RecordingObjects::getRecordingObject(const SizeType& objectInd)
   }
 }
 
+std::shared_ptr<AQNWB::NWB::RegisteredType>
+RecordingObjects::getRecordingObject(const std::string& path) const
+{
+  for (const auto& obj : m_recording_objects) {
+    if (obj && obj->getPath() == path) {
+      return obj;
+    }
+  }
+  return nullptr;
+}
+
 Status RecordingObjects::finalize()
 {
   Status overallStatus = Status::Success;

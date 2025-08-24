@@ -153,6 +153,33 @@ TEST_CASE("RecordingObjects recording workflow tests", "[recording]")
       REQUIRE(recordingObjects->size() == expectedNumRecordingObjects);
     }
 
+    // test that lookup by path works as expected
+    for (SizeType i = 0; i < recordingObjects->size(); ++i) {
+      auto obj = recordingObjects->getRecordingObject(i);
+      auto obj2 = recordingObjects->getRecordingObject(obj->getPath());
+      REQUIRE(obj2 != nullptr);
+      REQUIRE(obj2 == obj);
+      SizeType idx = recordingObjects->getRecordingIndex(obj2);
+      REQUIRE(idx == i);
+    }
+
+    // test that lookup by object works as expected
+    for (SizeType i = 0; i < recordingObjects->size(); ++i) {
+      auto obj = recordingObjects->getRecordingObject(i);
+      SizeType idx = recordingObjects->getRecordingIndex(obj);
+      REQUIRE(idx == i);  // should return the correct index
+      REQUIRE(obj->isRegisteredRecordingObject() == true);
+      REQUIRE(obj->getRecordingObjectIndex() == i);
+    }
+
+    // test that the toString() method works
+    std::string recObjStr = recordingObjects->toString();
+    REQUIRE(recObjStr.find("Index = 0; Type = core::NWBFile; Path = /;")
+            != std::string::npos);
+    REQUIRE(recObjStr.find("Index = 10; Type = core::ElectricalSeries; Path = "
+                           "/acquisition/esdata1;")
+            != std::string::npos);
+
     // out‑of‑range lookup returns nullptr
     REQUIRE(recordingObjects->getRecordingObject(99) == nullptr);
 
