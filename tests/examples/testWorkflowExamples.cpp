@@ -44,11 +44,6 @@ TEST_CASE("workflowExamples")
     REQUIRE(io->isOpen());
     // [example_workflow_io_snippet]
 
-    // [example_workflow_recording_containers_snippet]
-    // RecordingObjects are now automatically managed by the IO object
-    auto recordingObjects = io->getRecordingObjects();
-    // [example_workflow_recording_containers_snippet]
-
     // [example_workflow_nwbfile_snippet]
     auto nwbfile = NWB::NWBFile::create(io);
     Status initStatus = nwbfile->initialize(generateUuid());
@@ -69,6 +64,12 @@ TEST_CASE("workflowExamples")
                                         containerIndexes);
     REQUIRE(elecSeriesStatus == Status::Success);
     // [example_workflow_datasets_snippet]
+
+    // [example_workflow_recording_containers_snippet]
+    // RecordingObjects are now automatically managed by the IO object
+    auto recordingObjects = io->getRecordingObjects();
+    std::cout << recordingObjects->toString() << std::endl;
+    // [example_workflow_recording_containers_snippet]
 
     // [example_workflow_start_snippet]
     Status startRecordingStatus = io->startRecording();
@@ -146,7 +147,7 @@ TEST_CASE("workflowExamples")
     // [example_workflow_advanced_snippet]
 
     // [example_workflow_stop_snippet]
-    io->stopRecording();  // Calls finalize on all recording objects
+    io->stopRecording();
     io->close();
     // [example_workflow_stop_snippet]
   }

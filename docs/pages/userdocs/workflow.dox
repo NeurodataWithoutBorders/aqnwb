@@ -10,26 +10,28 @@
  *
  * 1. Create the I/O object (e.g,.  \ref AQNWB::IO::HDF5::HDF5IO "HDF5IO") used for
  *    writing data to the file on disk.
- * 2. Create the \ref AQNWB::IO::RecordingObjects "RecordingObjects" object
- *    used for managing \ref AQNWB::NWB::Container "Container" objects for storing recordings.
- * 3. Create the \ref AQNWB::NWB::NWBFile "NWBFile" object used for managing and creating NWB
- *    file contents.
- * 4. Create the recording metadata stored in ``/general`` in NWB, e.g., the  
+ * 2. Create the \ref AQNWB::NWB::NWBFile "NWBFile" object which represents the NWB file and provides
+ *    convenience functions for creating NWB file contents.
+ * 3. Create the recording metadata stored in ``/general`` in NWB, e.g., the  
  *    \ref AQNWB::NWB::ElectrodeTable "ElectrodeTable" object used for 
  *    saving electrodes information. 
- * 5. Create the \ref AQNWB::NWB::Container "Container" objects (e.g.,
- *    \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries") used for recording and add them
- *    to the \ref AQNWB::IO::RecordingObjects "RecordingObjects".
- * 6. Start the recording.
- * 7. Write data.
- * 8. Stop the recording and close the \ref AQNWB::NWB::NWBFile "NWBFile".
+ * 4. Create the \ref AQNWB::NWB::RegisteredType "RegisteredType" objects (e.g.,
+ *    \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries") used for recording. 
+ *
+ *     - Once initalized, the \ref AQNWB::NWB::RegisteredType "RegisteredType" objects are automatically
+ *       registered wit the \ref AQNWB::IO::RecordingObjects "RecordingObjects" object provided by the I/O object 
+ *       for easy access and to facilitate management of the recording process.
+ *
+ * 5. Start the recording.
+ * 6. Write data.
+ * 7. Stop the recording and close the \ref AQNWB::NWB::NWBFile "NWBFile".
  *
  * Below, we walk through these steps in more detail.
  *
  * \image html resources/images/aqnwb_workflow_and_api.png "Overview of the workflow and design of AqNWB." width=800px
  *
  *
- * \subsection create_io 1. Create the I/O object.
+ * \subsection create_io 1. Create the I/O object
  *
  * First, create an I/O object (e.g., \ref AQNWB::IO::HDF5::HDF5IO "HDF5IO") used for writing
  * data to the file. AqNWB provides the convenience method, \ref AQNWB::createIO "createIO"
@@ -39,25 +41,20 @@
  *
  * \snippet tests/examples/testWorkflowExamples.cpp example_workflow_io_snippet
  *
- *
- * \subsection create_recording_container 2. Create the RecordingContainer object.
- *
- * Next, create a \ref AQNWB::IO::RecordingObjects "RecordingObjects"  object to manage the
- * different \ref AQNWB::NWB::Container "Container" objects with the datasets that you would
- * like to write data to.
- *
- * \snippet tests/examples/testWorkflowExamples.cpp example_workflow_recording_containers_snippet
- *
- *
- * \subsection create_nwbfile 3. Create the NWBFile
+ * \subsection create_nwbfile 2. Create the NWBFile
  *
  * Next, constructs the \ref AQNWB::NWB::NWBFile "NWBFile"  object, using the I/O object as an input.
  * Then, initialize the object to create the basic file structure of the NWBFile.
  *
  * \snippet tests/examples/testWorkflowExamples.cpp example_workflow_nwbfile_snippet
  *
+ * \note 
+ * In AqNWB `neurodata_types` in NWB are represented by subclasses of \ref AQNWB::NWB::RegisteredType "RegisteredType".
+ * All \ref AQNWB::NWB::RegisteredType "RegisteredType" objects (e.g., a  \ref AQNWB::NWB::TimeSeries "TimeSeries") are
+ * constructed via a `create` factory method that requires the `path` in the file and the `io` as input.   
  *
- * \subsection create_recmeta 4. Create the recording metadata 
+ * \subsection create_recmeta 3. Create the recording metadata 
+ *
  * \subsubsection create_recmeta_ecephys Create the extracellular recording metadata
  * Next, construct the \ref AQNWB::NWB::ElectrodeTable "ElectrodeTable" object, 
  * using the `recordingArrays` as an input. Note that in many cases, you will be recording from 
@@ -73,36 +70,69 @@
  * \snippet tests/examples/testWorkflowExamples.cpp example_workflow_electrodes_table_snippet
  * 
  *
- * \subsection create_datasets 5. Create datasets and add to RecordingObjects.
+ * \subsection create_datasets 4. Create datasets and add to RecordingObjects
  *
  * Next, create the different data types (e.g. \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries"
- * or other AQNWB::NWB::TimeSeries "TimeSeries") that you would like to write data into. After
- * creation, these objects are added to the  \ref AQNWB::IO::RecordingObjects "RecordingObjects"
- * object so that it can mana ge access and data writing during the recording process.
- * When adding containers, ownership of the \ref AQNWB::NWB::Container "Container"  is transferred to the
+ * or other \ref AQNWB::NWB::TimeSeries "TimeSeries") that you would like to write data into. After
+ * initalization, these objects are added automatically to the  \ref AQNWB::IO::RecordingObjects "RecordingObjects"
+ * instance owned by the I/O object so that it can manage access and data writing during the recording process.
+ * Once added, ownership of the \ref AQNWB::NWB::RegisteredType "RegisteredType"  is transferred to the
  * \ref AQNWB::IO::RecordingObjects "RecordingObjects" object, so that we can access it again via
  * its index. New containers will always be appended to the end of the private member
- * ``RecordingObjects::m_containers`` object and their index can be tracked
- * using the \ref AQNWB::IO::RecordingObjects::size "RecordingObjects.size" of the input `recordingArrays`.
+ * \ref AQNWB::IO::RecordingObjects::m_recording_objects "RecordingObjects::m_recording_objects" object.
  *
  * \snippet tests/examples/testWorkflowExamples.cpp example_workflow_datasets_snippet
  *
+ * We can check the contents of our \ref AQNWB::IO::RecordingObjects "RecordingObjects" to confirm:
  *
- * \subsection start_recording 6. Start the recording.
+ * \snippet tests/examples/testWorkflowExamples.cpp example_workflow_recording_containers_snippet
+ * 
+ * **Output:**
+ * @code
+ * RecordingObjects contents:
+ * Index = 0; Type = core::NWBFile; Path = /; 
+ * Index = 1; Type = core::DynamicTable; Path = /general/extracellular_ephys/electrodes; 
+ * Index = 2; Type = hdmf-common::ElementIdentifiers; Path = /general/extracellular_ephys/electrodes/id; 
+ * Index = 3; Type = hdmf-common::VectorData; Path = /general/extracellular_ephys/electrodes/group_name; 
+ * Index = 4; Type = hdmf-common::VectorData; Path = /general/extracellular_ephys/electrodes/location; 
+ * Index = 5; Type = core::Device; Path = /general/devices/array0; 
+ * Index = 6; Type = core::ElectrodeGroup; Path = /general/extracellular_ephys/array0; 
+ * Index = 7; Type = core::Device; Path = /general/devices/array1; 
+ * Index = 8; Type = core::ElectrodeGroup; Path = /general/extracellular_ephys/array1; 
+ * Index = 9; Type = core::ElectricalSeries; Path = /acquisition/esdata0; 
+ * Index = 10; Type = core::ElectricalSeries; Path = /acquisition/esdata1; 
+ * @endcode 
+ *
+ * \note
+ * Registration with the \ref AQNWB::IO::RecordingObjects "RecordingObjects"  of the I/O occurs when a 
+ * \ref AQNWB::NWB::RegisteredType "RegisteredType" is being initialized for write
+ * (e.g. via \ref AQNWB::NWB::TimeSeries::initialize "TimeSeries::initialize") or when 
+ * we access a dataset for recording (e.g., via  \ref AQNWB::NWB::TimeSeries::recordData "TimeSeries::recordData").
+ * I.e., if a an object is purely being used for read, then it is not being registered with the I/O
+ * since the object doesn't modify file contents.
+ *
+ * \subsection start_recording 5. Start the recording.
  *
  * Then, start the recording process with a call to the ``startRecording`` function of the I/O object.
  *
- *  \note
+ * \snippet tests/examples/testWorkflowExamples.cpp example_workflow_start_snippet
+ *
+ * \note
  * When using \ref AQNWB::IO::HDF5::HDF5IO "HDF5IO" for writing to HDF5, calling
  * \ref AQNWB::IO::HDF5::HDF5IO::startRecording "startRecording" will by default enable
  * \ref hdf5io_swmr "SWMR mode" to ensure file integrity and support concurrent read.
  * As a result, no additional datasets or groups can be added to the file once a recording
- * has been started unless the file is is closed and reopened.
+ * has been started unless the file is closed and reopened.
  *
- * \snippet tests/examples/testWorkflowExamples.cpp example_workflow_start_snippet
+ * <p></p>
  *
+ * \note 
+ * To ensure that all NWB metadata is consistent when we start the recording process, 
+ * \ref AQNWB::IO::BaseIO::startRecording "startRecording" also calls 
+ * \ref AQNWB::IO::RecordingObjects::finalize "RecordingObjects::finalize" to
+ * finalize all our \ref AQNWB::NWB::RegisteredType "RegisteredType" objects.
  *
- * \subsection write_data 7. Write data.
+ * \subsection write_data 6. Write data.
  *
  * During the recording process, use the \ref AQNWB::IO::RecordingObjects "RecordingObjects"
  * as an interface to access the various  \ref AQNWB::NWB::Container "Container" object and corresponding
@@ -112,13 +142,25 @@
  * \snippet tests/examples/testWorkflowExamples.cpp example_workflow_write_snippet
  *
  *
- * \subsection stop_recording 8. Stop the recording and finalize the file.
+ * \subsection stop_recording 7. Stop the recording and finalize the file.
  *
  * When the recording process is finished, call `stopRecording` from the I/O object
  * to flush any data and close the file.
  *
  * \snippet tests/examples/testWorkflowExamples.cpp example_workflow_stop_snippet
  *
+ * \note 
+ * To ensure that all NWB metadata is consistent after we complete the recording process, 
+ * \ref AQNWB::IO::BaseIO::stopRecording "stopRecording" also calls 
+ * \ref AQNWB::IO::RecordingObjects::finalize "RecordingObjects::finalize" again.
+ *
+ * <p></p>
+ *
+ * \note 
+ * If we do not use the \ref AQNWB::IO::BaseIO::startRecording "startRecording
+ * \ref AQNWB::IO::BaseIO::stopRecording "stopRecording" functions to create and NWBFile 
+ * then we need to make sure to manually call \ref AQNWB::IO::RecordingObjects::finalize "RecordingObjects::finalize"
+ * before we close the I/O to make sure file contents are finalized correctly.
  *
  * \section advanced_recording_workflow Advanced: Recording individual datasets
  *
@@ -128,9 +170,9 @@
  * are both updated at the same time to ensure the recording is consistent. For finer-grained
  * control to record into individual datasets directly, we can use the corresponding 
  * record methods, e.g., \ref AQNWB::NWB::TimeSeries::recordData "TimeSeries.recordData" to 
- * retrieve the current \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" object for 
+ * retrieve the \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" object for 
  * writing data to the datasets. The \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" 
- * object for all datasets that belong to a recording container are cached by the 
+ * objects for all datasets that belong to a recording object are cached by the 
  * \ref AQNWB::NWB::RegisteredType "RegisteredType" base class to ensure that the current
  * state of the recording process (e.g., the \ref AQNWB::IO::BaseRecordingData::getPosition() "position")
  * are stored. With this we can manually write individual data blocks ourselves while 
