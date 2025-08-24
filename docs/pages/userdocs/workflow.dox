@@ -19,7 +19,7 @@
  *    \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries") used for recording. 
  *
  *     - Once initialized, the \ref AQNWB::NWB::RegisteredType "RegisteredType" objects are automatically
- *       registered withthe \ref AQNWB::IO::RecordingObjects "RecordingObjects" object provided by the I/O object 
+ *       registered with the \ref AQNWB::IO::RecordingObjects "RecordingObjects" object provided by the I/O object 
  *       for easy access and to facilitate management of the recording process.
  *
  * 5. Start the recording.
