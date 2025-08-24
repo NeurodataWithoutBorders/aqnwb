@@ -27,7 +27,7 @@
 using namespace AQNWB;
 
 // -------------------------------------------------------------------------
-//   Helper RegisteredType subclasses that deliberately mis‑behave – they are
+//   Helper RegisteredType subclasses that deliberately misbehaves – they are
 //   still *TimeSeries*  objects, so they can be inserted into a
 //   RecordingObjects collection.
 //   -------------------------------------------------------------------------
@@ -281,7 +281,7 @@ TEST_CASE("RecordingObjects – real‑NWB workflow tests", "[recording]")
                                     contIdx);
     REQUIRE(recordingObjects->size() == 11);
     std::vector<SizeType> expextedCacheSize = {0, 0, 1, 1, 1, 0, 0, 0, 0, 2, 2};
-    // Confirm that the recording data chaches are as expected
+    // Confirm that the recording data caches are as expected
     for (SizeType i = 0; i < recordingObjects->size(); ++i) {
       auto obj = recordingObjects->getRecordingObject(i);
       REQUIRE(obj != nullptr);
@@ -294,7 +294,7 @@ TEST_CASE("RecordingObjects – real‑NWB workflow tests", "[recording]")
     // clear the BaseRecordingData caches – should succeed
     Status clearCachesStatus = recordingObjects->clearRecordingDataCache();
     REQUIRE(clearCachesStatus == Status::Success);
-    // Confirm that the recording data chaches are cleared
+    // Confirm that the recording data caches are cleared
     for (SizeType i = 0; i < recordingObjects->size(); ++i) {
       auto obj = recordingObjects->getRecordingObject(i);
       REQUIRE(obj != nullptr);
