@@ -96,6 +96,13 @@ public:
    */
   inline SizeType size() const { return m_recording_objects.size(); }
 
+  /**
+   * @brief Create a string representation of the RecordingObjects contents
+   * @return A string listing the intex, types, and paths of all RegisteredType
+   *         objects manages by this RecordingObjects instance.
+   */
+  std::string toString() const;
+
 private:
   /**
    * @brief The RegisteredType objects used for recording
