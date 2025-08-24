@@ -51,9 +51,25 @@ Status NWBFile::initialize(const std::string& identifierText,
                            const std::string& sessionStartTime,
                            const std::string& timestampsReferenceTime)
 {
-  if (!m_io->isOpen()) {
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    std::cerr << "NWBFile::initialize IO object has been deleted." << std::endl;
     return Status::Failure;
   }
+  if (!ioPtr->isOpen()) {
+    std::cerr << "NWBFile::initialize IO object is not open." << std::endl;
+    return Status::Failure;
+  }
+  // TODO: Call Container::initialize() instead. However, then we need to check
+  //      in Container that we don't create the root group and also remove the
+  //      redundant call to create the common attributes. For no we can just
+  //      call registerRecordingObject directly to to add this NWBFile object to
+  //      RecordingObjects
+  auto registerIndex = registerRecordingObject();  // Container::initialize();
+  Status registerStatus = isValidIndex(registerIndex)
+      ? AQNWB::Types::Status::Success
+      : AQNWB::Types::Status::Failure;
+
   std::string currentTime = getCurrentTime();
   // use the current time if sessionStartTime is empty
   std::string useSessionStartTime =
@@ -78,21 +94,28 @@ Status NWBFile::initialize(const std::string& identifierText,
   // Check that the file is empty and initialize if it is
   bool fileInitialized = isInitialized();
   if (!fileInitialized) {
-    return createFileStructure(identifierText,
-                               description,
-                               dataCollection,
-                               useSessionStartTime,
-                               useTimestampsReferenceTime);
+    Status createStatus = createFileStructure(identifierText,
+                                              description,
+                                              dataCollection,
+                                              useSessionStartTime,
+                                              useTimestampsReferenceTime);
+    return createStatus && registerStatus;
   } else {
-    return Status::Success;  // File is already initialized
+    return registerStatus;  // File is already initialized, return register
+                            // status
   }
-  return Status::Failure;
 }
 
 bool NWBFile::isInitialized() const
 {
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    std::cerr << "NWBFile::isInitialized IO object has been deleted."
+              << std::endl;
+    return false;
+  }
   std::vector<std::pair<std::string, StorageObjectType>> existingGroupObjects =
-      m_io->getStorageObjects("/", StorageObjectType::Group);
+      ioPtr->getStorageObjects("/", StorageObjectType::Group);
   if (existingGroupObjects.size() == 0) {
     return false;
   }
@@ -120,43 +143,45 @@ bool NWBFile::isInitialized() const
   return (foundObjects.size() == requiredObjects.size());
 }
 
-Status NWBFile::finalize()
-{
-  return m_io->close();
-}
-
 Status NWBFile::createFileStructure(const std::string& identifierText,
                                     const std::string& description,
                                     const std::string& dataCollection,
                                     const std::string& sessionStartTime,
                                     const std::string& timestampsReferenceTime)
 {
-  if (!m_io->canModifyObjects()) {
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    std::cerr << "NWBFile::createFileStructure IO object has been deleted."
+              << std::endl;
+    return Status::Failure;
+  }
+
+  if (!ioPtr->canModifyObjects()) {
     return Status::Failure;
   }
 
   // Create the namespace, neurodata_type, and nwb_version attributes
-  m_io->createCommonNWBAttributes(
+  ioPtr->createCommonNWBAttributes(
       m_path, this->getNamespace(), this->getTypeName());
-  m_io->createAttribute(AQNWB::SPEC::CORE::version, "/", "nwb_version");
+  ioPtr->createAttribute(AQNWB::SPEC::CORE::version, "/", "nwb_version");
 
   // Create the top-level group structure of the NWB file
-  m_io->createGroup("/acquisition");
-  m_io->createGroup("/analysis");
-  m_io->createGroup("/processing");
-  m_io->createGroup("/stimulus");
-  m_io->createGroup("/stimulus/presentation");
-  m_io->createGroup("/stimulus/templates");
-  m_io->createGroup("/general");
-  m_io->createGroup("/general/devices");
-  m_io->createGroup("/general/extracellular_ephys");
+  ioPtr->createGroup("/acquisition");
+  ioPtr->createGroup("/analysis");
+  ioPtr->createGroup("/processing");
+  ioPtr->createGroup("/stimulus");
+  ioPtr->createGroup("/stimulus/presentation");
+  ioPtr->createGroup("/stimulus/templates");
+  ioPtr->createGroup("/general");
+  ioPtr->createGroup("/general/devices");
+  ioPtr->createGroup("/general/extracellular_ephys");
   if (dataCollection != "") {
-    m_io->createStringDataSet("/general/data_collection", dataCollection);
+    ioPtr->createStringDataSet("/general/data_collection", dataCollection);
   }
 
   // Setupe the specifications cache in the file
-  m_io->createGroup(m_specificationsPath);
-  m_io->createReferenceAttribute(m_specificationsPath, "/", ".specloc");
+  ioPtr->createGroup(m_specificationsPath);
+  ioPtr->createReferenceAttribute(m_specificationsPath, "/", ".specloc");
   // Cache all namespaces registered with the namespace registry
   const auto& allNamespaces =
       AQNWB::SPEC::NamespaceRegistry::instance().getAllNamespaces();
@@ -166,20 +191,26 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
 
   // Create additional required datasets
   std::vector<std::string> timeVec = {sessionStartTime};
-  m_io->createStringDataSet("/file_create_date", timeVec);
-  m_io->createStringDataSet("/session_description", description);
-  m_io->createStringDataSet("/session_start_time", sessionStartTime);
-  m_io->createStringDataSet("/timestamps_reference_time",
-                            timestampsReferenceTime);
-  m_io->createStringDataSet("/identifier", identifierText);
+  ioPtr->createStringDataSet("/file_create_date", timeVec);
+  ioPtr->createStringDataSet("/session_description", description);
+  ioPtr->createStringDataSet("/session_start_time", sessionStartTime);
+  ioPtr->createStringDataSet("/timestamps_reference_time",
+                             timestampsReferenceTime);
+  ioPtr->createStringDataSet("/identifier", identifierText);
   return Status::Success;
 }
 
-Status NWBFile::createElectrodesTable(
-    std::vector<Types::ChannelVector> recordingArrays)
+std::shared_ptr<ElectrodeTable> NWBFile::createElectrodesTable(
+    std::vector<Types::ChannelVector> recordingArrays, bool finalizeTable)
 {
-  std::unique_ptr<NWB::ElectrodeTable> electrodeTable =
-      std::make_unique<NWB::ElectrodeTable>(m_io);
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    std::cerr << "NWBFile::createElectrodesTable IO object has been deleted."
+              << std::endl;
+    return nullptr;
+  }
+
+  auto electrodeTable = NWB::ElectrodeTable::create(ioPtr);
   electrodeTable->initialize();
   for (const auto& channelVector : recordingArrays) {
     electrodeTable->addElectrodes(channelVector);
@@ -196,30 +227,38 @@ Status NWBFile::createElectrodesTable(
 
     // Check if device exists for groupName, create device and electrode group
     // if it does not
-    if (!m_io->objectExists(devicePath)) {
-      NWB::Device device = NWB::Device(devicePath, m_io);
-      device.initialize("description", "unknown");
+    if (!ioPtr->objectExists(devicePath)) {
+      auto device = NWB::Device::create(devicePath, ioPtr);
+      device->initialize("description", "unknown");
 
-      NWB::ElectrodeGroup elecGroup = NWB::ElectrodeGroup(electrodePath, m_io);
-      elecGroup.initialize("description", "unknown", device);
+      auto elecGroup = NWB::ElectrodeGroup::create(electrodePath, ioPtr);
+      elecGroup->initialize("description", "unknown", device);
     }
   }
+  if (finalizeTable) {
+    electrodeTable->finalize();
+  }
 
-  // write electrodes information to datasets
-  // (requires that ElectrodeGroup data is initialized)
-  electrodeTable->finalize();
-
-  return Status::Success;
+  return electrodeTable;
 }
 
 Status NWBFile::createElectricalSeries(
     std::vector<Types::ChannelVector> recordingArrays,
     std::vector<std::string> recordingNames,
     const IO::BaseDataType& dataType,
-    RecordingContainers* recordingContainers,
     std::vector<SizeType>& containerIndexes)
 {
-  if (!m_io->canModifyObjects()) {
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    std::cerr << "NWBFile::createElectricalSeries IO object has been deleted."
+              << std::endl;
+    return Status::Failure;
+  }
+
+  if (!ioPtr->canModifyObjects()) {
+    std::cerr
+        << "NWBFile::createElectricalSeries IO object cannot modify objects."
+        << std::endl;
     return Status::Failure;
   }
 
@@ -229,7 +268,7 @@ Status NWBFile::createElectricalSeries(
 
   // Setup electrode table if it was not yet created
   bool electrodeTableCreated =
-      m_io->objectExists(ElectrodeTable::electrodeTablePath);
+      ioPtr->objectExists(ElectrodeTable::electrodeTablePath);
   if (!electrodeTableCreated) {
     std::cerr << "NWBFile::createElectricalSeries requires an electrodes table "
                  "to be present"
@@ -238,6 +277,7 @@ Status NWBFile::createElectricalSeries(
   }
 
   // Create datasets
+  Status overallStatus = Status::Success;
   for (size_t i = 0; i < recordingArrays.size(); ++i) {
     const auto& channelVector = recordingArrays[i];
     const std::string& recordingName = recordingNames[i];
@@ -249,30 +289,36 @@ Status NWBFile::createElectricalSeries(
                                   SizeArray {0, channelVector.size()},
                                   SizeArray {CHUNK_XSIZE, 0});
     auto electricalSeries =
-        std::make_unique<ElectricalSeries>(electricalSeriesPath, m_io);
+        ElectricalSeries::create(electricalSeriesPath, ioPtr);
     Status esStatus = electricalSeries->initialize(
         config,
         channelVector,
         "Stores continuously sampled voltage data from an "
         "extracellular ephys recording");
-    if (esStatus != Status::Success) {
-      return esStatus;
-    }
-    recordingContainers->addContainer(std::move(electricalSeries));
-    containerIndexes.push_back(recordingContainers->size() - 1);
+    overallStatus = overallStatus && esStatus;
+    containerIndexes.push_back(electricalSeries->getRecordingObjectIndex());
   }
 
-  return Status::Success;
+  return overallStatus;
 }
 
 Status NWBFile::createSpikeEventSeries(
     std::vector<Types::ChannelVector> recordingArrays,
     std::vector<std::string> recordingNames,
     const IO::BaseDataType& dataType,
-    RecordingContainers* recordingContainers,
     std::vector<SizeType>& containerIndexes)
 {
-  if (!m_io->canModifyObjects()) {
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    std::cerr << "NWBFile::createSpikeEventSeries IO object has been deleted."
+              << std::endl;
+    return Status::Failure;
+  }
+
+  if (!ioPtr->canModifyObjects()) {
+    std::cerr
+        << "NWBFile::createSpikeEventSeries IO object cannot modify objects."
+        << std::endl;
     return Status::Failure;
   }
 
@@ -282,7 +328,7 @@ Status NWBFile::createSpikeEventSeries(
 
   // Setup electrode table if it was not yet created
   bool electrodeTableCreated =
-      m_io->objectExists(ElectrodeTable::electrodeTablePath);
+      ioPtr->objectExists(ElectrodeTable::electrodeTablePath);
   if (!electrodeTableCreated) {
     std::cerr << "NWBFile::createElectricalSeries requires an electrodes table "
                  "to be present"
@@ -305,12 +351,12 @@ Status NWBFile::createSpikeEventSeries(
 
     // Check if device exists for groupName, create device and electrode group
     // if not
-    if (!m_io->objectExists(devicePath)) {
-      Device device = Device(devicePath, m_io);
-      device.initialize("description", "unknown");
+    if (!ioPtr->objectExists(devicePath)) {
+      auto device = Device::create(devicePath, ioPtr);
+      device->initialize("description", "unknown");
 
-      ElectrodeGroup elecGroup = ElectrodeGroup(electrodePath, m_io);
-      elecGroup.initialize("description", "unknown", device);
+      auto elecGroup = ElectrodeGroup::create(electrodePath, ioPtr);
+      elecGroup->initialize("description", "unknown", device);
     }
 
     // Setup Spike Event Series datasets
@@ -322,23 +368,31 @@ Status NWBFile::createSpikeEventSeries(
                                   : SizeArray {SPIKE_CHUNK_XSIZE, 1, 1});
 
     auto spikeEventSeries =
-        std::make_unique<SpikeEventSeries>(spikeEventSeriesPath, m_io);
+        SpikeEventSeries::create(spikeEventSeriesPath, ioPtr);
     spikeEventSeries->initialize(
         config,
         channelVector,
         "Stores spike waveforms from an extracellular ephys recording");
-    recordingContainers->addContainer(std::move(spikeEventSeries));
-    containerIndexes.push_back(recordingContainers->size() - 1);
+    containerIndexes.push_back(spikeEventSeries->getRecordingObjectIndex());
   }
 
   return Status::Success;
 }
 
 Status NWBFile::createAnnotationSeries(std::vector<std::string> recordingNames,
-                                       RecordingContainers* recordingContainers,
                                        std::vector<SizeType>& containerIndexes)
 {
-  if (!m_io->canModifyObjects()) {
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    std::cerr << "NWBFile::createAnnotationSeries IO object has been deleted."
+              << std::endl;
+    return Status::Failure;
+  }
+
+  if (!ioPtr->canModifyObjects()) {
+    std::cerr
+        << "NWBFile::createAnnotationSeries IO object cannot modify objects."
+        << std::endl;
     return Status::Failure;
   }
 
@@ -352,13 +406,12 @@ Status NWBFile::createAnnotationSeries(std::vector<std::string> recordingNames,
     IO::ArrayDataSetConfig config(
         IO::BaseDataType::V_STR, SizeArray {0}, SizeArray {CHUNK_XSIZE});
     auto annotationSeries =
-        std::make_unique<AnnotationSeries>(annotationSeriesPath, m_io);
+        AnnotationSeries::create(annotationSeriesPath, ioPtr);
     annotationSeries->initialize(
         "Stores user annotations made during an experiment",
         "no comments",
         config);
-    recordingContainers->addContainer(std::move(annotationSeries));
-    containerIndexes.push_back(recordingContainers->size() - 1);
+    containerIndexes.push_back(annotationSeries->getRecordingObjectIndex());
   }
 
   return Status::Success;
@@ -366,15 +419,22 @@ Status NWBFile::createAnnotationSeries(std::vector<std::string> recordingNames,
 
 void NWBFile::cacheSpecifications(const Types::NamespaceInfo& namespaceInfo)
 {
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    std::cerr << "NWBFile::cacheSpecifications IO object has been deleted."
+              << std::endl;
+    return;
+  }
+
   std::string specFullPath =
       AQNWB::mergePaths(m_specificationsPath, namespaceInfo.name);
   std::string specFullVersionPath =
       AQNWB::mergePaths(specFullPath, namespaceInfo.version);
-  m_io->createGroup(specFullPath);
-  m_io->createGroup(specFullVersionPath);
+  ioPtr->createGroup(specFullPath);
+  ioPtr->createGroup(specFullVersionPath);
 
   for (const auto& [name, content] : namespaceInfo.specVariables) {
-    m_io->createStringDataSet(
+    ioPtr->createStringDataSet(
         AQNWB::mergePaths(specFullVersionPath, std::string(name)),
         std::string(content));
   }

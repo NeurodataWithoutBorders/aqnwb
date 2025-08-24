@@ -19,8 +19,11 @@ class SpikeEventSeries : public ElectricalSeries
 {
 public:
   // Register the TimeSeries as a subclass of Container
-  REGISTER_SUBCLASS(SpikeEventSeries, AQNWB::SPEC::CORE::namespaceName)
+  REGISTER_SUBCLASS(SpikeEventSeries,
+                    ElectricalSeries,
+                    AQNWB::SPEC::CORE::namespaceName)
 
+protected:
   /**
    * @brief Constructor.
    * @param path The location of the SpikeEventSeries in the file.
@@ -28,6 +31,7 @@ public:
    */
   SpikeEventSeries(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
+public:
   /**
    * @brief Destructor
    */
@@ -52,12 +56,12 @@ public:
    * @param offset Scalar to add to the data after scaling by 'conversion' to
    *               finalize its coercion to the specified 'unit'
    */
-  void initialize(const IO::ArrayDataSetConfig& dataConfig,
-                  const Types::ChannelVector& channelVector,
-                  const std::string& description,
-                  const float& conversion = 1.0f,
-                  const float& resolution = -1.0f,
-                  const float& offset = 0.0f);
+  Status initialize(const IO::ArrayDataSetConfig& dataConfig,
+                    const Types::ChannelVector& channelVector,
+                    const std::string& description,
+                    const float& conversion = 1.0f,
+                    const float& resolution = -1.0f,
+                    const float& offset = 0.0f);
 
   /**
    * @brief Write a single spike series event

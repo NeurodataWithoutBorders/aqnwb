@@ -1,7 +1,10 @@
+#include <limits>
+
 #include "RegisteredType.hpp"
 
 #include "Utils.hpp"
 #include "io/ReadIO.hpp"
+#include "io/RecordingObjects.hpp"
 
 using namespace AQNWB::NWB;
 
@@ -29,14 +32,14 @@ std::unordered_set<std::string>& RegisteredType::getRegistry()
 
 std::unordered_map<
     std::string,
-    std::pair<std::function<std::unique_ptr<RegisteredType>(
+    std::pair<std::function<std::shared_ptr<RegisteredType>(
                   const std::string&, std::shared_ptr<AQNWB::IO::BaseIO>)>,
               std::pair<std::string, std::string>>>&
 RegisteredType::getFactoryMap()
 {
   static std::unordered_map<
       std::string,
-      std::pair<std::function<std::unique_ptr<RegisteredType>(
+      std::pair<std::function<std::shared_ptr<RegisteredType>(
                     const std::string&, std::shared_ptr<AQNWB::IO::BaseIO>)>,
                 std::pair<std::string, std::string>>>
       factoryMap;
@@ -45,7 +48,7 @@ RegisteredType::getFactoryMap()
 
 void RegisteredType::registerSubclass(
     const std::string& fullClassName,
-    std::function<std::unique_ptr<RegisteredType>(
+    std::function<std::shared_ptr<RegisteredType>(
         const std::string&, std::shared_ptr<AQNWB::IO::BaseIO>)>
         factoryFunction,
     const std::string& typeName,
@@ -129,9 +132,54 @@ std::shared_ptr<AQNWB::NWB::RegisteredType> RegisteredType::create(
   }
 }
 
+SizeType RegisteredType::registerRecordingObject()
+{
+  // Add this object to the RecordingObjects object of the I/O it is associated
+  // with This ensures that all RegisteredType objects used for recording are
+  // automatically tracked
+  auto ioPtr = getIO();
+  if (ioPtr) {
+    auto recordingObjects = ioPtr->getRecordingObjects();
+    if (recordingObjects) {
+      // Get a shared pointer to this object
+      std::shared_ptr<RegisteredType> sharedThis = shared_from_this();
+      SizeType recordingIndex =
+          recordingObjects->addRecordingObject(sharedThis);
+      return recordingIndex;
+    }
+  }
+  // Return sentinel value for failure
+  return std::numeric_limits<SizeType>::max();
+}
+
+AQNWB::Types::Status RegisteredType::finalize()
+{
+  return AQNWB::Types::Status::Success;
+}
+
 std::unordered_map<std::string, std::string> RegisteredType::findOwnedTypes(
     const std::unordered_set<std::string>& types,
     const IO::SearchMode& search_mode) const
 {
-  return m_io->findTypes(m_path, types, search_mode, true);
+  auto ioPtr = getIO();
+  if (ioPtr != nullptr) {
+    return ioPtr->findTypes(m_path, types, search_mode, true);
+  } else {
+    std::cerr << "IO object has been deleted. Can't find owned types for: "
+              << m_path << std::endl;
+    return {};
+  }
+}
+
+SizeType RegisteredType::getRecordingObjectIndex() const
+{
+  auto ioPtr = getIO();
+  if (ioPtr) {
+    auto recordingObjects = ioPtr->getRecordingObjects();
+    if (recordingObjects) {
+      return recordingObjects->getRecordingIndex(shared_from_this());
+    }
+  }
+  // Return sentinel value for failure
+  return AQNWB::Types::SizeTypeNotSet;
 }
