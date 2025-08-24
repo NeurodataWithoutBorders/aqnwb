@@ -18,4 +18,17 @@ jobs:
         - name: Checkout repository
           uses: actions/checkout@v4
         - name: Lint
-          run: cmake -D FORMAT_COMMAND=clang-format -P cmake/lint.cmake
+          run: |
+            echo "Checking code formatting..."
+            output=$(cmake -D FORMAT_COMMAND=clang-format -P cmake/lint.cmake)
+            if [ $? -ne 0 ]; then
+              echo "$output"
+              echo "The following files are badly formatted:"
+              echo "$output" | grep badly
+              for file in $(echo "$output" | grep badly | cut -d ':' -f 2-); do
+                echo "Diff for $file:"
+                clang-format-diff --style=file --lines --diff $file
+              done
+            else
+              echo "All files are well formatted."
+            fi
