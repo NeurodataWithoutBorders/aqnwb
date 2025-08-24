@@ -84,7 +84,10 @@ public:
    * @brief Clear the BaseRecordingData object cache to reset the recording
    * state
    */
-  inline void clearRecordingDataCache() { this->m_recordingDataCache.clear(); }
+  inline virtual void clearRecordingDataCache()
+  {
+    this->m_recordingDataCache.clear();
+  }
 
   /**
    * @brief Get the index of this object in m_io->m_recording_objects
