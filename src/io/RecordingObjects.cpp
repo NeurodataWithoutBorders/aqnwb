@@ -75,9 +75,7 @@ Status RecordingObjects::finalize()
   for (auto& object : m_recording_objects) {
     if (object) {
       Status status = object->finalize();
-      if (status != Status::Success) {
-        overallStatus = status;
-      }
+      overallStatus = overallStatus && status;
     }
   }
   return overallStatus;
