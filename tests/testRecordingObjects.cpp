@@ -217,7 +217,7 @@ TEST_CASE("RecordingObjects recording workflow tests", "[recording]")
   //   --------------------------------------------------------------
   SECTION("finalize aggregates status")
   {
-    const std::string path = getTestFilePath("recObjectsWorkflow_2.nwb");
+    const std::string path = getTestFilePath("recObjectsWorkflow_2.h5");
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
     REQUIRE(io->isOpen());
