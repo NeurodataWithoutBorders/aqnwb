@@ -243,6 +243,17 @@ public:
   {
     static_assert(std::is_base_of<RegisteredType, T>::value,
                   "T must be a derived class of RegisteredType");
+    // Check if we have existing instance
+    auto existingObject = RegisteredType::getExistingInstance(path, io);
+    if (existingObject != nullptr){
+      auto castExistingPointer =  std::dynamic_pointer_cast<T>(existingObject);
+      if(castExistingPointer == nullptr){
+        std::cerr<<"Failed to cast existing object of type "<<existingObject->getFullTypeName()<<" to requested type"<<std::endl;
+      }
+      return castExistingPointer;
+    }
+
+    // Create a new instance and register it
     auto result = std::shared_ptr<T>(new T(path, io));
     result->registerRecordingObject();
     return result;
@@ -365,6 +376,13 @@ public:
       const std::unordered_set<std::string>& types = {},
       const AQNWB::IO::SearchMode& search_mode =
           AQNWB::IO::SearchMode::STOP_ON_TYPE) const;
+
+  /** \brief Check if an instance already exists for the given path and io 
+   * @param path The path of the container.
+   * @param io A shared pointer to the IO object.
+   * @return A shared_ptr to the created instance of the subclass. 
+   */
+  static std::shared_ptr<RegisteredType> getExistingInstance(const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io);
 
 protected:
   /**

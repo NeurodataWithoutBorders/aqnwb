@@ -72,12 +72,25 @@ std::string RegisteredType::getNamespace() const
   return "";
 }
 
+std::shared_ptr<RegisteredType> RegisteredType::getExistingInstance(const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io)
+{
+  auto recordingObjects = io->getRecordingObjects();
+  auto existingObject = recordingObjects->getRecordingObject(path);
+  return existingObject;
+}
+
 std::shared_ptr<AQNWB::NWB::RegisteredType> RegisteredType::create(
     const std::string& fullClassName,
     const std::string& path,
     std::shared_ptr<IO::BaseIO> io,
     bool fallbackToBase)
 {
+  // Check the RecordingObjects cache if an object already exists
+  auto existingObject = RegisteredType::getExistingInstance(path, io);
+  if (existingObject != nullptr){
+    return existingObject;
+  }
+  
   // If no object exists for the path, or if the existing object is of a
   // different type, create a new instance
   //  Look up the factory RegisteredType for the fullClassName the registry
