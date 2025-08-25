@@ -19,8 +19,11 @@ class ElectricalSeries : public TimeSeries
 {
 public:
   // Register the TimeSeries as a subclass of Container
-  REGISTER_SUBCLASS(ElectricalSeries, AQNWB::SPEC::CORE::namespaceName)
+  REGISTER_SUBCLASS(ElectricalSeries,
+                    TimeSeries,
+                    AQNWB::SPEC::CORE::namespaceName)
 
+protected:
   /**
    * @brief Constructor.
    * @param path The location of the ElectricalSeries in the file.
@@ -28,6 +31,7 @@ public:
    */
   ElectricalSeries(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
+public:
   /**
    * @brief Destructor
    */
@@ -83,43 +87,32 @@ public:
    */
   Types::ChannelVector m_channelVector;
 
-  /**
-   * @brief Pointer to channel-specific conversion factor dataset.
-   */
-  std::unique_ptr<IO::BaseRecordingData> m_channelConversion;
+  DEFINE_DATASET_FIELD(readChannelConversion,
+                       recordChannelConversion,
+                       float,
+                       "channel_conversion",
+                       Channel - specific conversion factor)
 
-  /**
-   * @brief Pointer to electrodes dataset.
-   */
-  std::unique_ptr<IO::BaseRecordingData> m_electrodesDataset;
+  DEFINE_DATASET_FIELD(
+      readData, recordData, float, "data", Recorded voltage data)
 
-  DEFINE_FIELD(readChannelConversion,
-               AttributeField,
-               float,
-               "data/channel_conversion",
-               Channel - specific conversion factor)
+  DEFINE_ATTRIBUTE_FIELD(readDataUnit,
+                        std::string,
+                        "data/unit",
+                        Base unit of measurement for working with the data. 
+                        This value is fixed to volts)
 
-  DEFINE_FIELD(readData, DatasetField, float, "data", Recorded voltage data)
-
-  DEFINE_FIELD(readDataUnit,
-               AttributeField,
-               std::string,
-               "data/unit",
-               Base unit of measurement for working with the data. 
-               This value is fixed to volts)
-
-  DEFINE_FIELD(
+  DEFINE_DATASET_FIELD(
       readElectrodes,
-      DatasetField,
+      recordElectrodes,
       int,
       "electrodes",
       The indices of the electrodes that generated this electrical series.)
 
-  DEFINE_FIELD(readElectrodesDescription,
-               AttributeField,
-               std::string,
-               "electrodes/description",
-               The electrodes that generated this electrical series.)
+  DEFINE_ATTRIBUTE_FIELD(readElectrodesDescription,
+                         std::string,
+                         "electrodes/description",
+                         The electrodes that generated this electrical series.)
 
   DEFINE_REFERENCED_REGISTERED_FIELD(
       readElectrodesTable,

@@ -77,27 +77,20 @@ Status HDF5IO::open(FileMode mode)
 
 Status HDF5IO::close()
 {
+  auto baseCloseStatus = BaseIO::close();  // clear the recording containers
+  // Close the file if it is open
   if (m_file != nullptr && m_opened) {
     m_file->close();
     m_file = nullptr;
     m_opened = false;
   }
-
-  return Status::Success;
-}
-
-Status checkStatus(int status)
-{
-  if (status < 0)
-    return Status::Failure;
-  else
-    return Status::Success;
+  return baseCloseStatus;
 }
 
 Status HDF5IO::flush()
 {
   int status = H5Fflush(m_file->getId(), H5F_SCOPE_GLOBAL);
-  return checkStatus(status);
+  return toStatus(status);
 }
 
 std::unique_ptr<H5::Attribute> HDF5IO::getAttribute(
@@ -106,11 +99,16 @@ std::unique_ptr<H5::Attribute> HDF5IO::getAttribute(
   // Split the path to get the parent object and the attribute name
   size_t pos = path.find_last_of('/');
   if (pos == std::string::npos) {
+    std::cerr << "Invalid path: " << path << std::endl;
     return nullptr;
   }
 
   std::string parentPath = path.substr(0, pos);
   std::string attrName = path.substr(pos + 1);
+  // If we are at the root, set parentPath to "/"
+  if (parentPath.empty()) {
+    parentPath = "/";
+  }
 
   // open the group or dataset
   H5Object* loc;
@@ -374,7 +372,7 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(
   auto attributePtr = this->getAttribute(dataPath);
   if (attributePtr == nullptr) {
     throw std::invalid_argument(
-        "HDF5IO::readAttribute, attribute does not exist.");
+        "HDF5IO::readAttribute, attribute does not exist. " + dataPath);
   }
 
   H5::Attribute& attribute = *attributePtr;
@@ -972,7 +970,7 @@ Status HDF5IO::createLink(const std::string& path, const std::string& reference)
                                 H5P_DEFAULT,
                                 H5P_DEFAULT);
 
-  return checkStatus(error);
+  return toStatus(error);
 }
 
 Status HDF5IO::createReferenceDataSet(
@@ -1006,16 +1004,16 @@ Status HDF5IO::createReferenceDataSet(
   delete[] rdata;
 
   herr_t dsetStatus = H5Dclose(dset);
-  if (checkStatus(dsetStatus) == Status::Failure) {
+  if (toStatus(dsetStatus) == Status::Failure) {
     return Status::Failure;
   }
 
   herr_t spaceStatus = H5Sclose(space);
-  if (checkStatus(spaceStatus) == Status::Failure) {
+  if (toStatus(spaceStatus) == Status::Failure) {
     return Status::Failure;
   }
 
-  return checkStatus(writeStatus);
+  return toStatus(writeStatus);
 }
 
 Status HDF5IO::createStringDataSet(const std::string& path,
@@ -1059,25 +1057,32 @@ Status HDF5IO::createStringDataSet(const std::string& path,
 
 Status HDF5IO::startRecording()
 {
-  if (!m_opened)
+  if (!m_opened) {
     return Status::Failure;
-
-  if (!m_disableSWMRMode) {
-    herr_t status = H5Fstart_swmr_write(m_file->getId());
-    return checkStatus(status);
   }
-  return Status::Success;
+  // Call the base class method to pre-finalize all recording objects
+  Status status = BaseIO::startRecording();
+  // Start SWMR mode if it is not disabled
+  if (!m_disableSWMRMode) {
+    herr_t swmr_status = H5Fstart_swmr_write(m_file->getId());
+    status = status && toStatus(swmr_status);
+  }
+  return status;
 }
 
 Status HDF5IO::stopRecording()
 {
+  // Call the base class method to finalize all recording objects
+  Status baseStatus = BaseIO::stopRecording();
+
   // if SWMR mode is disabled, stopping the recording will leave the file open
   if (!m_disableSWMRMode) {
     close();  // SWMR mode cannot be disabled so close the file
   } else {
     this->flush();
   }
-  return Status::Success;
+
+  return baseStatus;
 }
 
 bool HDF5IO::canModifyObjects()
@@ -1191,7 +1196,7 @@ std::vector<SizeType> HDF5IO::getStorageObjectShape(const std::string path)
   return std::vector<SizeType>(dims.begin(), dims.end());
 }
 
-std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::getDataSet(
+std::shared_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::getDataSet(
     const std::string& path)
 {
   std::unique_ptr<DataSet> data;
@@ -1201,7 +1206,7 @@ std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::getDataSet(
 
   try {
     data = std::make_unique<H5::DataSet>(m_file->openDataSet(path));
-    return std::make_unique<HDF5RecordingData>(std::move(data));
+    return std::make_shared<HDF5RecordingData>(std::move(data));
   } catch (DataSetIException error) {
     error.printErrorStack();
     return nullptr;

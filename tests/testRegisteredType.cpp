@@ -35,13 +35,12 @@ public:
   virtual std::string getTypeName() const override { return "TestFieldType"; }
   virtual std::string getNamespace() const override { return "test"; }
 
-  DEFINE_FIELD(testAttribute,
-               AttributeField,
-               int32_t,
-               "test_attr",
-               "Test attribute field")
-  DEFINE_FIELD(
-      testDataset, DatasetField, float, "test_dataset", "Test dataset field")
+  DEFINE_ATTRIBUTE_FIELD(testAttribute,
+                         int32_t,
+                         "test_attr",
+                         "Test attribute field")
+  DEFINE_DATASET_FIELD(
+      testDataset, recordDataset, float, "test_dataset", "Test dataset field")
 };
 
 TEST_CASE("RegisterType", "[base]")
@@ -380,6 +379,80 @@ TEST_CASE("RegisterType", "[base]")
     REQUIRE(datasetWrapper2 != nullptr);
     auto datasetData2 = datasetWrapper2->values();
     REQUIRE(datasetData2.data == datasetValues);
+
+    io->close();
+  }
+
+  SECTION("test BaseRecordingData caching")
+  {
+    std::string filename = getTestFilePath("testDatasetCaching.h5");
+    std::shared_ptr<BaseIO> io = std::make_unique<IO::HDF5::HDF5IO>(filename);
+    io->open();
+    std::string examplePath("/test_caching");
+
+    // Create test instance
+    auto testInstance = std::make_shared<TestFieldType>(examplePath, io);
+    REQUIRE(testInstance != nullptr);
+
+    // Create parent group
+    io->createGroup(examplePath);
+
+    // Create test data
+    const std::vector<float> datasetValues = {1.0f, 2.0f, 3.0f};
+
+    // Write test data
+    std::string datasetPath = examplePath + "/test_dataset";
+    IO::ArrayDataSetConfig datasetConfig(
+        BaseDataType::F32, SizeArray {3}, SizeArray {3});
+    auto datasetRecordingData =
+        io->createArrayDataSet(datasetConfig, datasetPath);
+    auto dataset1 = testInstance->recordDataset();
+    dataset1->writeDataBlock(
+        SizeArray {3}, SizeArray {0}, BaseDataType::F32, datasetValues.data());
+
+    // Call recordDataset() multiple times and verify the same object is
+    // returned
+    auto dataset2 = testInstance->recordDataset();
+    auto dataset3 = testInstance->recordDataset();
+
+    // Check that all three calls return the same object (by comparing memory
+    // addresses)
+    REQUIRE(dataset1.get() == dataset2.get());
+    REQUIRE(dataset1->getPosition() == dataset2->getPosition());
+    REQUIRE(dataset2.get() == dataset3.get());
+    REQUIRE(dataset3->getPosition() == dataset3->getPosition());
+    REQUIRE(dataset1.get() == dataset3.get());
+    REQUIRE(dataset1->getPosition() == dataset3->getPosition());
+
+    // Check that we can explicitly reset the position
+    auto dataset4 = testInstance->recordDataset(true);
+    REQUIRE(dataset4.get() != dataset1.get());
+    REQUIRE(dataset4->getPosition() != dataset1->getPosition());
+
+    // Write some more data to overwrite the previous data
+    dataset4->writeDataBlock(
+        SizeArray {3}, SizeArray {0}, BaseDataType::F32, datasetValues.data());
+
+    // Check that the cache is not empty
+    auto cachedData = testInstance->getCacheRecordingData();
+    REQUIRE(cachedData.size() == 1);
+    // Check that the cached data is the same as the last dataset
+    auto checkCachedValue = cachedData.find(datasetPath);
+    REQUIRE(checkCachedValue != cachedData.end());
+    REQUIRE(checkCachedValue->second.get() == dataset4.get());
+
+    // Clear the cache
+    testInstance->clearRecordingDataCache();
+
+    // Check that the cache is empty
+    cachedData = testInstance->getCacheRecordingData();
+    REQUIRE(cachedData.empty());
+
+    // Get a new dataset instance and check that it is not the same as the
+    // previous one
+    auto dataset5 = testInstance->recordDataset();
+    REQUIRE(dataset5.get() != dataset4.get());
+    REQUIRE(dataset5->getPosition() != dataset4->getPosition());
 
     io->close();
   }

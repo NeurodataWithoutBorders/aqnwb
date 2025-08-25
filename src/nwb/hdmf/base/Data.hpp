@@ -1,5 +1,6 @@
 #pragma once
 
+#include <any>
 #include <memory>
 
 #include "io/BaseIO.hpp"
@@ -16,8 +17,9 @@ class Data : public RegisteredType
 {
 public:
   // Register the Data class with the type registry
-  REGISTER_SUBCLASS(Data, "hdmf-common")
+  REGISTER_SUBCLASS(Data, RegisteredType, "hdmf-common")
 
+protected:
   /**
    * @brief Constructor.
    *
@@ -26,6 +28,7 @@ public:
    */
   Data(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
+public:
   /**
    * @brief Virtual destructor.
    */
@@ -34,42 +37,30 @@ public:
   /**
    *  @brief Initialize the dataset for the Data object
    *
-   *  This functions takes ownership of the passed rvalue unique_ptr and moves
-   *  ownership to its internal m_dataset variable
+   *  This function creates a dataset using the provided configuration
    *
-   * @param dataset The rvalue unique pointer to the BaseRecordingData object
+   * @param dataConfig The configuration for the dataset
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status initialize(std::unique_ptr<IO::BaseRecordingData>&& dataset)
-  {
-    m_dataset = std::move(dataset);
-    // setup common attributes
-    Status commonAttrsStatus = m_io->createCommonNWBAttributes(
-        m_path, this->getNamespace(), this->getTypeName());
-    return commonAttrsStatus;
-  }
+  Status initialize(const IO::ArrayDataSetConfig& dataConfig);
 
   /**
-   * @brief Check whether the m_dataset has been initialized
+   * @brief Check whether the dataset has been initialized
    */
-  inline bool isInitialized() { return m_dataset != nullptr; }
+  inline bool isInitialized() { return this->readData()->exists(); }
 
   // Define the data fields to expose for lazy read access
-  DEFINE_FIELD(readData, DatasetField, std::any, "", The main data)
+  DEFINE_DATASET_FIELD(readData, recordData, std::any, "", The main data)
 
-  DEFINE_FIELD(readNeurodataType,
-               AttributeField,
-               std::string,
-               "neurodata_type",
-               The name of the type)
+  DEFINE_ATTRIBUTE_FIELD(readNeurodataType,
+                         std::string,
+                         "neurodata_type",
+                         The name of the type)
 
-  DEFINE_FIELD(readNamespace,
-               AttributeField,
-               std::string,
-               "namespace",
-               The name of the namespace)
-
-  std::unique_ptr<IO::BaseRecordingData> m_dataset;
+  DEFINE_ATTRIBUTE_FIELD(readNamespace,
+                         std::string,
+                         "namespace",
+                         The name of the namespace)
 };
 
 /**
@@ -89,7 +80,9 @@ public:
 template<typename DTYPE = std::any>
 class DataTyped : public Data
 {
-public:
+  friend class AQNWB::NWB::RegisteredType; /* base can call constructor */
+
+protected:
   /**
    * @brief Constructor.
    *
@@ -99,6 +92,25 @@ public:
   DataTyped(const std::string& path, std::shared_ptr<IO::BaseIO> io)
       : Data(path, io)
   {
+  }
+
+  using Data::Data; /* inherit from immediate base */
+
+public:
+  /** \brief Factor method to create a DataTyped object.
+   *
+   * This is required here since DataTyped is a template class and
+   * is not being registered with the RegisteredType class registry via
+   * REGISTER_SUBCLASS.
+   * @param path The path of the container.
+   * @param io A shared pointer to the IO object.
+   * @return A shared pointer to the created NWBFile object, or nullptr if
+   * creation failed.
+   */
+  static std::shared_ptr<DataTyped> create(
+      const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io)
+  {
+    return RegisteredType::create<DataTyped>(path, io);
   }
 
   /**
@@ -118,15 +130,16 @@ public:
    *  @param data The Data object to convert
    *  @return A DataTyped object with the same path and IO object as the input
    */
-  static std::shared_ptr<DataTyped<DTYPE>> fromData(const Data& data)
+  static std::shared_ptr<DataTyped<DTYPE>> fromData(
+      const std::shared_ptr<Data>& data)
   {
-    return std::make_shared<DataTyped<DTYPE>>(data.getPath(), data.getIO());
+    return DataTyped<DTYPE>::create(data->getPath(), data->getIO());
   }
 
   // Define the data fields to expose for lazy read access
-  DEFINE_FIELD(readData, DatasetField, DTYPE, "", The main data)
+  DEFINE_DATASET_FIELD(readData, recordData, DTYPE, "", The main data)
 
-  using RegisteredType::m_io;
-  using RegisteredType::m_path;
+  using RegisteredType::getIO;
+  using RegisteredType::getPath;
 };
 }  // namespace AQNWB::NWB
