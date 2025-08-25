@@ -18,7 +18,7 @@
  * 4. Create the \ref AQNWB::NWB::RegisteredType "RegisteredType" objects (e.g.,
  *    \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries") used for recording. 
  *
- *     - Once initialized, the \ref AQNWB::NWB::RegisteredType "RegisteredType" objects are automatically
+ *     - Upon creation, the \ref AQNWB::NWB::RegisteredType "RegisteredType" objects are automatically
  *       registered with the \ref AQNWB::IO::RecordingObjects "RecordingObjects" object provided by the I/O object 
  *       for easy access and to facilitate management of the recording process.
  *
@@ -91,25 +91,23 @@
  * @code
  * RecordingObjects contents:
  * Index = 0; Type = core::NWBFile; Path = /; 
- * Index = 1; Type = core::DynamicTable; Path = /general/extracellular_ephys/electrodes; 
- * Index = 2; Type = hdmf-common::ElementIdentifiers; Path = /general/extracellular_ephys/electrodes/id; 
- * Index = 3; Type = hdmf-common::VectorData; Path = /general/extracellular_ephys/electrodes/group_name; 
- * Index = 4; Type = hdmf-common::VectorData; Path = /general/extracellular_ephys/electrodes/location; 
+ * Index = 1; Type = hdmf-common::ElementIdentifiers; Path = /general/extracellular_ephys/electrodes/id; 
+ * Index = 2; Type = hdmf-common::VectorData; Path = /general/extracellular_ephys/electrodes/group_name; 
+ * Index = 3; Type = hdmf-common::VectorData; Path = /general/extracellular_ephys/electrodes/location; 
+ * Index = 4; Type = core::DynamicTable; Path = /general/extracellular_ephys/electrodes; 
  * Index = 5; Type = core::Device; Path = /general/devices/array0; 
  * Index = 6; Type = core::ElectrodeGroup; Path = /general/extracellular_ephys/array0; 
  * Index = 7; Type = core::Device; Path = /general/devices/array1; 
  * Index = 8; Type = core::ElectrodeGroup; Path = /general/extracellular_ephys/array1; 
- * Index = 9; Type = core::ElectricalSeries; Path = /acquisition/esdata0; 
- * Index = 10; Type = core::ElectricalSeries; Path = /acquisition/esdata1; 
+ * Index = 9; Type = hdmf-common::VectorData; Path = /general/extracellular_ephys/electrodes/group; 
+ * Index = 10; Type = core::ElectricalSeries; Path = /acquisition/esdata0; 
+ * Index = 11; Type = core::ElectricalSeries; Path = /acquisition/esdata1; 
  * @endcode 
  *
  * \note
  * Registration with the \ref AQNWB::IO::RecordingObjects "RecordingObjects"  of the I/O occurs when a 
- * \ref AQNWB::NWB::RegisteredType "RegisteredType" is being initialized for write
- * (e.g. via \ref AQNWB::NWB::TimeSeries::initialize "TimeSeries::initialize") or when 
- * we access a dataset for recording (e.g., via  \ref AQNWB::NWB::TimeSeries::recordData "TimeSeries::recordData").
- * I.e., if a an object is purely being used for read, then it is not being registered with the I/O
- * since the object doesn't modify file contents.
+ * \ref AQNWB::NWB::RegisteredType "RegisteredType" is being created via the the static
+ * \ref AQNWB::NWB::RegisteredType::create "RegisteredType::create" factory methods. 
  *
  * \subsection start_recording 5. Start the recording.
  *
@@ -141,6 +139,14 @@
  *
  * \snippet tests/examples/testWorkflowExamples.cpp example_workflow_write_snippet
  *
+ * \note
+ * We should always reuse the existing objects that are cached in 
+ * \ref AQNWB::IO::RecordingObjects "RecordingObjects". Calling for example
+ * `ElectricalSeries::create("/acquisition/esdata0", io) multiple times 
+ * for the same I/O and path will result in the creation and registration of 
+ * effectively duplicate objects that attempt to access (and potentially modify)
+ * the same objects in the NWB file, hence, leading to potentially unintended
+ * interactions, e.g., one object overwriting changes of the other. 
  *
  * \subsection stop_recording 7. Stop the recording and finalize the file.
  *

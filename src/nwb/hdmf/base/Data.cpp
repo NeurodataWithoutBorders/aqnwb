@@ -13,12 +13,6 @@ Data::Data(const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io)
 
 Status Data::initialize(const IO::ArrayDataSetConfig& dataConfig)
 {
-  // Call RegisteredType::initialize() to add this object to RecordingObjects
-  auto registerIndex = registerRecordingObject();
-  Status registerStatus = isValidIndex(registerIndex)
-      ? AQNWB::Types::Status::Success
-      : AQNWB::Types::Status::Failure;
-
   auto ioPtr = getIO();
   if (ioPtr == nullptr) {
     std::cerr << "IO object has been deleted. Can't initialize Data: " << m_path
@@ -33,7 +27,7 @@ Status Data::initialize(const IO::ArrayDataSetConfig& dataConfig)
   // setup common attributes
   Status commonAttrsStatus = ioPtr->createCommonNWBAttributes(
       m_path, this->getNamespace(), this->getTypeName());
-  return commonAttrsStatus && registerStatus;
+  return commonAttrsStatus;
 }
 
 namespace AQNWB::NWB

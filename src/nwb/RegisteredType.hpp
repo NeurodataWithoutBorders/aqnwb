@@ -243,7 +243,9 @@ public:
   {
     static_assert(std::is_base_of<RegisteredType, T>::value,
                   "T must be a derived class of RegisteredType");
-    return std::shared_ptr<T>(new T(path, io));
+    auto result = std::shared_ptr<T>(new T(path, io));
+    result->registerRecordingObject();
+    return result;
   }
 
   /**
@@ -633,10 +635,6 @@ public: \
     auto dataset = ioPtr->getDataSet(fullPath); \
     if (dataset) { \
       m_recordingDataCache[fullPath] = dataset; \
-      /* Ensure we are registered in the RecordingObjects manager */ \
-      if (!isRegisteredRecordingObject()) { \
-        registerRecordingObject(); \
-      } \
     } \
     return dataset; \
   }

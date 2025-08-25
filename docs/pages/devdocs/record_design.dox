@@ -234,12 +234,8 @@
  *
  * \note
  * Registration with the \ref AQNWB::IO::RecordingObjects "RecordingObjects"  of the I/O occurs when a 
- * \ref AQNWB::NWB::RegisteredType "RegisteredType" is being initialized for write
- * (e.g. via \ref AQNWB::NWB::TimeSeries::initialize "TimeSeries::initialize") or when 
- * we access a dataset for recording (e.g., via  \ref AQNWB::NWB::TimeSeries::recordData "TimeSeries::recordData").
- * I.e., if a an object is purely being used for read, then it is not being registered with the I/O
- * since the object doesn't modify file contents.
- *
+ * \ref AQNWB::NWB::RegisteredType "RegisteredType" is being created via the the static
+ * \ref AQNWB::NWB::RegisteredType::create "RegisteredType::create" factory methods. 
  *
  * \section recording_design_further_reading Further Reading 
  *
