@@ -234,7 +234,7 @@
  *
  * \note
  * Registration with the \ref AQNWB::IO::RecordingObjects "RecordingObjects"  of the I/O occurs when a 
- * \ref AQNWB::NWB::RegisteredType "RegisteredType" is being created via the the static
+ * \ref AQNWB::NWB::RegisteredType "RegisteredType" is being created via the static
  * \ref AQNWB::NWB::RegisteredType::create "RegisteredType::create" factory methods. 
  *
  * \section recording_design_further_reading Further Reading 
