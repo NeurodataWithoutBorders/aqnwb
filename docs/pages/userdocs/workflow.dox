@@ -140,13 +140,9 @@
  *
  * \subsection advanced_recording_workflow_reset Resetting the recording position
  *
- * If for some reason we want to reset the recording (to overwrite already recorded values)
- * we can do so for individual datasets by setting `reset=true` when retrieving the 
- * \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" object (e.g., via 
- * \ref AQNWB::NWB::TimeSeries::recordData "auto dataRecorder = electricalSeries0->recordData(true)")
- * or for all datasets of a particular object via, e.g.
- * \ref AQNWB::NWB::RegisteredType::clearRecordingDataCache "electricalSeries0->clearRecordingDataCache()".
- * In both cases the cached \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" object will be 
+ * If we want to clear the recording cache, we can do so
+by calling \ref AQNWB::NWB::RegisteredType::clearRecordingDataCache "electricalSeries0->clearRecordingDataCache()".
+ * In this case the cached \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" object will be 
  * deleted, such that the next time we request it, a new \ref AQNWB::IO::BaseRecordingData "BaseRecordingData"
  * object will be constructed that will then start again writing values from the beginning of the dataset.
  * 
