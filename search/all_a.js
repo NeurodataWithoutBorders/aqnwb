@@ -8,8 +8,9 @@ var searchData=
   ['baseio_5',['BaseIO',['../class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html',1,'AQNWB::IO::BaseIO'],['../class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a4c2e1e69fea2291d988fc6a5ec0a0cb9',1,'AQNWB::IO::BaseIO::BaseIO(const std::string &amp;filename)'],['../class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#adbf0b5bbf3a3781cf2d200b95e996869',1,'AQNWB::IO::BaseIO::BaseIO(const BaseIO &amp;)=delete']]],
   ['baseio_2ecpp_6',['BaseIO.cpp',['../_base_i_o_8cpp.html',1,'']]],
   ['baseio_2ehpp_7',['BaseIO.hpp',['../_base_i_o_8hpp.html',1,'']]],
-  ['baserecordingdata_8',['BaseRecordingData',['../class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html',1,'AQNWB::IO::BaseRecordingData'],['../class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html#a4eca327defbc16495f4dc31ea0f0bd71',1,'AQNWB::IO::BaseRecordingData::BaseRecordingData()'],['../class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html#abe2ab069f85522220c69068c79069bd6',1,'AQNWB::IO::BaseRecordingData::BaseRecordingData(const BaseRecordingData &amp;)=delete']]],
-  ['build_9',['Build',['../user_install_page.html#userbuild_build_sec',1,'Build'],['../dev_install_page.html#devbuild_sec',1,'Developer Build']]],
-  ['build_20and_20test_10',['Configure, Build and Test',['../dev_install_page.html#configure_build_test',1,'']]],
-  ['building_20the_20docs_11',['Building the Docs',['../dev_docs_page.html#dev_docs_requirements_sec',1,'']]]
+  ['baserecordingdata_8',['BaseRecordingData',['../class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html',1,'AQNWB::IO::BaseRecordingData'],['../class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html#a4eca327defbc16495f4dc31ea0f0bd71',1,'AQNWB::IO::BaseRecordingData::BaseRecordingData()'],['../class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html#abe2ab069f85522220c69068c79069bd6',1,'AQNWB::IO::BaseRecordingData::BaseRecordingData(const BaseRecordingData &amp;)=delete'],['../record_design_page.html#record_design_sec_recording_data',1,'Recording datasets with BaseRecordingData']]],
+  ['baserecordingdata_20for_20managing_20recording_9',['BaseRecordingData for Managing Recording',['../record_design_page.html#record_design_sec_baserecordingdata',1,'']]],
+  ['build_10',['Build',['../user_install_page.html#userbuild_build_sec',1,'Build'],['../dev_install_page.html#devbuild_sec',1,'Developer Build']]],
+  ['build_20and_20test_11',['Configure, Build and Test',['../dev_install_page.html#configure_build_test',1,'']]],
+  ['building_20the_20docs_12',['Building the Docs',['../dev_docs_page.html#dev_docs_requirements_sec',1,'']]]
 ];

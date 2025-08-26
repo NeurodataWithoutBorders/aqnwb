@@ -9,12 +9,13 @@ var searchData=
   ['of_20a_20recording_20workflow_6',['Overview of a recording workflow',['../workflow.html#recording_workflow',1,'']]],
   ['of_20conduct_7',['Code of Conduct',['../legal_page.html#legal_code_of_conduct',1,'']]],
   ['of_20data_20read_20📤_8',['Implementation of Data Read 📤',['../read_design_page.html',1,'devdocs']]],
-  ['of_20register_5fsubclass_5fwith_5ftypename_9',['Limitations of REGISTER_SUBCLASS_WITH_TYPENAME',['../registered_type_page.html#limitations_registered_subclass_with_typename',1,'']]],
-  ['of_20the_20extension_10',['Step 1: Get the Schema of the Extension',['../integrating_extensions_page.html#labmetadata_extension_schema',1,'']]],
-  ['on_20github_11',['Automated tests on GitHub',['../testing.html#testing_github',1,'']]],
-  ['opening_20an_20existing_20file_20for_20reading_12',['Opening an existing file for reading',['../read_page.html#read_example_open',1,'']]],
-  ['optimizing_20data_20layout_13',['Optimizing Data Layout',['../hdf5io.html#hdf5io_data_layout',1,'']]],
-  ['options_14',['Target options',['../dev_install_page.html#devbuild_target_options_subsubsec',1,'']]],
-  ['overview_15',['Overview',['../index.html',1,'']]],
-  ['overview_20of_20a_20recording_20workflow_16',['Overview of a recording workflow',['../workflow.html#recording_workflow',1,'']]]
+  ['of_20data_20recording_9',['Implementation of Data Recording',['../record_design_page.html',1,'devdocs']]],
+  ['of_20register_5fsubclass_5fwith_5ftypename_10',['Limitations of REGISTER_SUBCLASS_WITH_TYPENAME',['../registered_type_page.html#limitations_registered_subclass_with_typename',1,'']]],
+  ['of_20the_20extension_11',['Step 1: Get the Schema of the Extension',['../integrating_extensions_page.html#labmetadata_extension_schema',1,'']]],
+  ['on_20github_12',['Automated tests on GitHub',['../testing.html#testing_github',1,'']]],
+  ['opening_20an_20existing_20file_20for_20reading_13',['Opening an existing file for reading',['../read_page.html#read_example_open',1,'']]],
+  ['optimizing_20data_20layout_14',['Optimizing Data Layout',['../hdf5io.html#hdf5io_data_layout',1,'']]],
+  ['options_15',['Target options',['../dev_install_page.html#devbuild_target_options_subsubsec',1,'']]],
+  ['overview_16',['Overview',['../index.html',1,'']]],
+  ['overview_20of_20a_20recording_20workflow_17',['Overview of a recording workflow',['../workflow.html#recording_workflow',1,'']]]
 ];

@@ -181,8 +181,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ad973fe50bc5ef9e210319902a7a5ef81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the file is in a mode where objects can be added or deleted. Note, this does not apply to the modification of raw data on already existing objects. Derived classes should override this function to check if objects can be modified.  <br /></td></tr>
 <tr class="memitem:aacc45c55b5d653a8d8c64f26b7d7081e" id="r_aacc45c55b5d653a8d8c64f26b7d7081e"><td class="memItemLeft" align="right" valign="top">virtual std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">BaseRecordingData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aacc45c55b5d653a8d8c64f26b7d7081e">createArrayDataSet</a> (const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html">ArrayDataSetConfig</a> &amp;config, const std::string &amp;path)=0</td></tr>
 <tr class="memdesc:aacc45c55b5d653a8d8c64f26b7d7081e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an extendable dataset with the given configuration and path.  <br /></td></tr>
-<tr class="memitem:a88b3a8c8ba53a1ef53f637c51aec296e" id="r_a88b3a8c8ba53a1ef53f637c51aec296e"><td class="memItemLeft" align="right" valign="top">virtual std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">BaseRecordingData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a88b3a8c8ba53a1ef53f637c51aec296e">getDataSet</a> (const std::string &amp;path)=0</td></tr>
-<tr class="memdesc:a88b3a8c8ba53a1ef53f637c51aec296e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a pointer to a dataset at a given path.  <br /></td></tr>
+<tr class="memitem:abfecddd0a4a45740ccc84edd7461dba9" id="r_abfecddd0a4a45740ccc84edd7461dba9"><td class="memItemLeft" align="right" valign="top">virtual std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">BaseRecordingData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abfecddd0a4a45740ccc84edd7461dba9">getDataSet</a> (const std::string &amp;path)=0</td></tr>
+<tr class="memdesc:abfecddd0a4a45740ccc84edd7461dba9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a pointer to a dataset at a given path.  <br /></td></tr>
 <tr class="memitem:a53d0acc4f29c421c6036cd09437f072e" id="r_a53d0acc4f29c421c6036cd09437f072e"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a53d0acc4f29c421c6036cd09437f072e">getStorageObjectShape</a> (const std::string path)=0</td></tr>
 <tr class="memdesc:a53d0acc4f29c421c6036cd09437f072e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the size of the dataset or attribute for each dimension.  <br /></td></tr>
 <tr class="memitem:a813c55d88d9504e82d6871b9732d9bad" id="r_a813c55d88d9504e82d6871b9732d9bad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a813c55d88d9504e82d6871b9732d9bad">createCommonNWBAttributes</a> (const std::string &amp;path, const std::string &amp;objectNamespace, const std::string &amp;neurodataType=&quot;&quot;)</td></tr>
@@ -1019,8 +1019,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a88b3a8c8ba53a1ef53f637c51aec296e" name="a88b3a8c8ba53a1ef53f637c51aec296e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a88b3a8c8ba53a1ef53f637c51aec296e">&#9670;&#160;</a></span>getDataSet()</h2>
+<a id="abfecddd0a4a45740ccc84edd7461dba9" name="abfecddd0a4a45740ccc84edd7461dba9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abfecddd0a4a45740ccc84edd7461dba9">&#9670;&#160;</a></span>getDataSet()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1029,7 +1029,7 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">BaseRecordingData</a> &gt; AQNWB::IO::BaseIO::getDataSet </td>
+          <td class="memname">virtual std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">BaseRecordingData</a> &gt; AQNWB::IO::BaseIO::getDataSet </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
           <td></td>
@@ -1049,9 +1049,9 @@ Here is the call graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A pointer to the dataset. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A shared pointer to the dataset. </dd></dl>
 
-<p>Implemented in <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#aac30a560bd8394be63b2c9d76d147de7">AQNWB::IO::HDF5::HDF5IO</a>.</p>
+<p>Implemented in <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a0585d09b7e7c407ca41aeb6d160af0dc">AQNWB::IO::HDF5::HDF5IO</a>.</p>
 
 </div>
 </div>

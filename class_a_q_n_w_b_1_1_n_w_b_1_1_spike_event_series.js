@@ -5,6 +5,7 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series =
     [ "initialize", "class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#ac3e0620649cdaa83daaf03b99eef2fed", null ],
     [ "readData", "class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#a901f905f39e126af2705167ac37430cc", null ],
     [ "readDataUnit", "class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#aa50ddcae23645df21b0753fe6bbdd6a8", null ],
+    [ "recordData", "class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#aa2360679fd2eca138b157a877b6653c9", null ],
     [ "writeSpike", "class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#a5cfdd0f6bfdf9cec7e43219fb606a7e1", null ],
     [ "m_eventsRecorded", "class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#ab0d22d8f2ea5b272fcd1c451f97ab2a6", null ]
 ];

@@ -129,7 +129,7 @@ Chunking</h2>
 </ul>
 <dl class="section warning"><dt>Warning</dt><dd>Choosing a chunking configuration that does not align well with the desired read/write pattern may lead to reduced performance due to repeated read, decompression, and update to the same chunk or read of extra data as chunks are always read fully.</dd></dl>
 <div class="dotgraph">
-<iframe scrolling="no" loading="lazy" frameborder="0" src="dot_inline_dotgraph_4.svg" width="460" height="271"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<iframe scrolling="no" loading="lazy" frameborder="0" src="dot_inline_dotgraph_5.svg" width="460" height="271"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 <h2 class="doxsection"><a class="anchor" id="hdf5io_filters"></a>
 I/O Filters and Compression</h2>
 <p>HDF5 filters are used to transform data as it is written to and read from the file. Filters are applied on a per-chunk basis (i.e., chunking is required to use filters), and are typically used for compression or error detection.</p>
@@ -170,7 +170,7 @@ Using Chunking and I/O Filters in AqNWB</h2>
 Single-Writer Multiple-Reader (SWMR) Mode</h1>
 <p>The <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html">HDF5IO</a> I/O backend uses by default SWMR mode while recording data. Using SWMR, one process can write to the HDF5 file and multiple other processes can read from the file concurrently while ensuring that the readers see a consistent view of the data.</p>
 <div class="dotgraph">
-<iframe scrolling="no" loading="lazy" frameborder="0" src="dot_inline_dotgraph_5.svg" width="367" height="288"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<iframe scrolling="no" loading="lazy" frameborder="0" src="dot_inline_dotgraph_6.svg" width="367" height="288"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 <dl class="section warning"><dt>Warning</dt><dd>There are known issues using SWMR mode on Windows due to file locking by the reader processes. One workaround is to set the environment variable <span class="tt">HDF5_USE_FILE_LOCKING=FALSE</span> to prevent file access errors when using a writer process with other reader processes. <br  />
 </dd></dl>
 <h2 class="doxsection"><a class="anchor" id="hdf5io_swmr_features"></a>

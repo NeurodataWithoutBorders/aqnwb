@@ -185,7 +185,32 @@ Create the extracellular recording metadata</h3>
 <div class="fragment"><div class="line">    io-&gt;stopRecording();</div>
 <div class="line">    nwbfile-&gt;finalize();</div>
 <div class="line">    io-&gt;close();</div>
-</div><!-- fragment --> </div></div><!-- contents -->
+</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="advanced_recording_workflow"></a>
+Advanced: Recording individual datasets</h1>
+<p>In the above workflow we used convenience methods, e.g., <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#a915c805e44acd8cd376c6915b860d770">RecordingContainers::writeTimeseriesData</a> to ensure data is being recorded in a consistent manner such that data and timestamps are both updated at the same time to ensure the recording is consistent. For finer-grained control to record into individual datasets directly, we can use the corresponding record methods, e.g., <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a39ca5510e7d73fbd1d2c1b34ae730027">TimeSeries.recordData</a> to retrieve the current <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">BaseRecordingData</a> object for writing data to the datasets. The <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">BaseRecordingData</a> object for all datasets that belong to a recording container are cached by the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> base class to ensure that the current state of the recording process (e.g., the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html#a8d653c0bc1e4dd5aa4b9f949d4368a78">position</a>) are stored. With this we can manually write individual data blocks ourselves while ensuring continuation of the recording process:</p>
+<div class="fragment"><div class="line">    <span class="comment">// Get the ElectricalSeries container</span></div>
+<div class="line">    <span class="keyword">auto</span> container0 = recordingContainers-&gt;getContainer(containerIndexes[0]);</div>
+<div class="line">    <span class="keyword">auto</span> electricalSeries0 = <span class="keyword">static_cast&lt;</span><a class="code hl_class" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html">NWB::ElectricalSeries</a>*<span class="keyword">&gt;</span>(container0);</div>
+<div class="line">    <span class="comment">// Get the BaseRecordingData object for updating the data and timestamps</span></div>
+<div class="line">    <span class="keyword">auto</span> recordingData0 = electricalSeries0-&gt;<a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a17039b576caa7efdf76decfb8f079193">recordData</a>();</div>
+<div class="line">    <span class="keyword">auto</span> timestampsData0 = electricalSeries0-&gt;recordTimestamps();</div>
+<div class="line">    <span class="comment">// Manually write timestamps and data to the file</span></div>
+<div class="line">    <a class="code hl_typedef" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a> writeDataStatus =</div>
+<div class="line">        recordingData0-&gt;writeDataBlock({bufferSize, 1},</div>
+<div class="line">                                       {samplesRecorded, 0},</div>
+<div class="line">                                       BaseDataType::I16,</div>
+<div class="line">                                       dataBuffer.data());</div>
+<div class="line">    <a class="code hl_typedef" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a> writeTimestampsStatus =</div>
+<div class="line">        timestampsData0-&gt;writeDataBlock({bufferSize},</div>
+<div class="line">                                        {samplesRecorded},</div>
+<div class="line">                                        BaseDataType::F64,</div>
+<div class="line">                                        timestampsBuffer.data());</div>
+<div class="line">    REQUIRE(writeDataStatus == Status::Success);</div>
+<div class="line">    REQUIRE(writeTimestampsStatus == Status::Success);</div>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="advanced_recording_workflow_reset"></a>
+Resetting the recording position</h2>
+<p>If we want to clear the recording cache, we can do so by calling <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a35d9c02ee1c08009547fc59b2e947929">electricalSeries0-&gt;clearRecordingDataCache()</a>. In this case the cached <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">BaseRecordingData</a> object will be deleted, such that the next time we request it, a new <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">BaseRecordingData</a> object will be constructed that will then start again writing values from the beginning of the dataset. </p>
+</div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->
 <div id="page-nav" class="page-nav-panel">

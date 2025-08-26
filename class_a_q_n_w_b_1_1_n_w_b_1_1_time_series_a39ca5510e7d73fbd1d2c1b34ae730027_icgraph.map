@@ -1,0 +1,18 @@
+<map id="AQNWB::NWB::TimeSeries::recordData" name="AQNWB::NWB::TimeSeries::recordData">
+<area shape="rect" id="Node000001" title=" " alt="" coords="820,63,1007,103"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a8a43d4c249f6865ee4f77c58a91b6546" title=" " alt="" coords="586,29,772,70"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="805,70,772,66,773,60,805,65"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a33c3c764fdf8a5db861beeabc48d78e7" title="Writes a timeseries data block to the file." alt="" coords="586,95,772,135"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="805,100,773,105,772,100,805,95"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="717,16,703,10,679,8,657,10,643,15,638,21,640,28,635,29,633,19,640,10,656,5,679,3,704,5,719,11"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#abd499ff69952a61324f86034ea91111b" title="Writes a channel to an ElectricalSeries dataset." alt="" coords="311,29,522,70"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="579,93,501,73,502,68,581,88"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#a5cfdd0f6bfdf9cec7e43219fb606a7e1" title="Write a single spike series event." alt="" coords="305,95,529,135"/>
+<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="570,118,529,118,529,112,570,112"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#a915c805e44acd8cd376c6915b860d770" title="Write timeseries data to a recordingContainer dataset." alt="" coords="296,160,538,201"/>
+<area shape="poly" id="edge8_Node000003_Node000008" title=" " alt="" coords="581,142,502,162,501,157,579,137"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#a1abdbd933a4de4690b63b37ee9705cd3" title="Write ElectricalSeries data to a recordingContainer dataset." alt="" coords="5,29,248,70"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="296,52,248,52,248,47,296,47"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#a60bb8e7bff2ec1184d713f7f93e889a6" title="Write SpikeEventSeries data to a recordingContainer dataset." alt="" coords="5,95,248,135"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="289,118,248,118,248,112,289,112"/>
+</map>

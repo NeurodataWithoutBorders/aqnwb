@@ -2,10 +2,12 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type =
 [
     [ "RegisteredType", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aa1e04074725b7331d725bbda8156bc2d", null ],
     [ "~RegisteredType", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab92081cf30cab76ac6e35125300f77a4", null ],
+    [ "clearRecordingDataCache", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a35d9c02ee1c08009547fc59b2e947929", null ],
     [ "create", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a", null ],
     [ "create", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a2291ceaa71c1b02ed86a3d4626a7ac48", null ],
     [ "create", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a13dd3c9a0045cb3729ba9cf56e4a2fa7", null ],
     [ "findOwnedTypes", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a8a83a775f6a8a94d6ae3428e05ef9bfc", null ],
+    [ "getCacheRecordingData", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ad3753ec40e8c6b6fafa59ca80433e978", null ],
     [ "getFactoryMap", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a8792fccbd49f9d441b1f6d5a1b06b4cf", null ],
     [ "getFullTypeName", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a0e670647b466cb65a88b81f9fe4a6e37", null ],
     [ "getIO", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab614b1609f536e88ed1f32762dc3894b", null ],
@@ -19,6 +21,7 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type =
     [ "registerSubclass", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a68bea5945732c62a4a93ab9af5abbafb", null ],
     [ "m_defaultUnregisteredDatasetTypeClass", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a30cc61d9d6b91dd6bd767ceccf35fb7f", null ],
     [ "m_defaultUnregisteredGroupTypeClass", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ac3e284613a1e28db9875fb06b66b0c19", null ],
-    [ "m_io", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a4171d5ba4a4f802f8733e30ea438e851", null ],
-    [ "m_path", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a2c2954495607eb4afe4e9ab8eff3a08b", null ]
+    [ "m_io", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a5f4d142b8156b6b33ed01c11c5720fec", null ],
+    [ "m_path", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a2c2954495607eb4afe4e9ab8eff3a08b", null ],
+    [ "m_recordingDataCache", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a549f4d2169ae451bda8d959c9a11dbc3", null ]
 ];

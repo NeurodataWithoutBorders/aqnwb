@@ -35,7 +35,8 @@ var devdocs =
     [ "Implementing a Registered Type 🔧", "registered_type_page.html", [
       [ "How to Implement a RegisteredType", "registered_type_page.html#implement_registered_type", [
         [ "Example: Implementing a New Type", "registered_type_page.html#implement_registered_type_example", null ],
-        [ "DEFINE_FIELD: Creating read methods for datasets and attributes", "registered_type_page.html#use_the_define_field_macro", null ],
+        [ "DEFINE_ATTRIBUTE_FIELD: Creating read methods for attributes", "registered_type_page.html#use_the_define_attribute_field_macro", null ],
+        [ "DEFINE_DATASET_FIELD: Creating read and write methods for datasets", "registered_type_page.html#use_the_define_dataset_field_macro", null ],
         [ "DEFINE_REGISTERED_FIELD: Defining read methods for neurodata_type objects", "registered_type_page.html#use_the_define_registered_field_macro", null ],
         [ "DEFINE_REFERENCED_REGISTERED_FIELD: Defining read methods for references to neurodata_type objects", "registered_type_page.html#use_the_define_referenced_registered_field_macro", null ]
       ] ],
@@ -74,6 +75,15 @@ var devdocs =
         [ "Creating and Writing Data", "read_design_page.html#read_design_example_create", null ],
         [ "Reading and Processing Data", "read_design_page.html#read_design_example_read", null ]
       ] ]
+    ] ],
+    [ "Implementation of Data Recording", "record_design_page.html", [
+      [ "Recording datasets with BaseRecordingData", "record_design_page.html#record_design_sec_recording_data", [
+        [ "The DEFINE_DATASET_FIELD Macro for Recording", "record_design_page.html#record_design_sec_define_dataset_field", null ],
+        [ "BaseRecordingData for Managing Recording", "record_design_page.html#record_design_sec_baserecordingdata", null ]
+      ] ],
+      [ "TimeSeries Convenience Methods for Consistent Recording", "record_design_page.html#record_design_sec_timeseries", null ],
+      [ "RecordingContainers for Managing Collections", "record_design_page.html#record_design_sec_recording_containers", null ],
+      [ "Further Reading", "record_design_page.html#recording_design_further_reading", null ]
     ] ],
     [ "Legal ⚖️", "legal_page.html", [
       [ "Code of Conduct", "legal_page.html#legal_code_of_conduct", null ],

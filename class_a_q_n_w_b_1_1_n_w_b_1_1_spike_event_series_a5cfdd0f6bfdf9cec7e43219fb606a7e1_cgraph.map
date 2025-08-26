@@ -1,5 +1,11 @@
 <map id="AQNWB::NWB::SpikeEventSeries::writeSpike" name="AQNWB::NWB::SpikeEventSeries::writeSpike">
-<area shape="rect" id="Node000001" title="Write a single spike series event." alt="" coords="5,5,230,46"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a33c3c764fdf8a5db861beeabc48d78e7" title="Writes a timeseries data block to the file." alt="" coords="278,5,464,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="230,23,262,23,262,28,230,28"/>
+<area shape="rect" id="Node000001" title="Write a single spike series event." alt="" coords="5,71,230,111"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a33c3c764fdf8a5db861beeabc48d78e7" title="Writes a timeseries data block to the file." alt="" coords="278,71,464,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="230,88,262,88,262,94,230,94"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a09ead45365072d1f2dbdfe5d628d1af4" title=" " alt="" coords="512,5,698,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="445,68,514,48,515,53,447,73"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a39ca5510e7d73fbd1d2c1b34ae730027" title=" " alt="" coords="512,71,698,111"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="464,88,496,88,496,94,464,94"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a15cdc18874a799e4196a58e2c2d51c31" title=" " alt="" coords="512,136,698,177"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="447,109,515,129,514,134,445,114"/>
 </map>

@@ -47,9 +47,9 @@
   </g>
 </defs>
 <script type="application/ecmascript">
-var viewWidth = 1368;
+var viewWidth = 1380;
 var viewHeight = 235;
-var sectionId = 'dynsection-20';
+var sectionId = 'dynsection-19';
 </script>
 <script type="application/ecmascript" xlink:href="svg.min.js"/>
 <svg id="graph" class="graph">
@@ -59,9 +59,9 @@ var sectionId = 'dynsection-20';
 <g id="Node000001" class="node">
 <title>Node1</title>
 <g id="a_Node000001"><a xlink:title=" ">
-<polygon fill="#999999" stroke="#666666" points="130,-142.5 0,-142.5 0,-112 130,-112 130,-142.5"/>
-<text xml:space="preserve" text-anchor="start" x="8" y="-129" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::NWBFile</text>
-<text xml:space="preserve" text-anchor="middle" x="65" y="-117.75" font-family="Helvetica,sans-Serif" font-size="10.00">::readFileCreateDate</text>
+<polygon fill="#999999" stroke="#666666" points="130,-84.5 0,-84.5 0,-54 130,-54 130,-84.5"/>
+<text xml:space="preserve" text-anchor="start" x="8" y="-71" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::NWBFile</text>
+<text xml:space="preserve" text-anchor="middle" x="65" y="-59.75" font-family="Helvetica,sans-Serif" font-size="10.00">::readFileCreateDate</text>
 </a>
 </g>
 </g>
@@ -69,9 +69,9 @@ var sectionId = 'dynsection-20';
 <g id="Node000002" class="node">
 <title>Node2</title>
 <g id="a_Node000002"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#abae17504e9ba927509296efaf5fc99e2" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="296,-142.5 166,-142.5 166,-112 296,-112 296,-142.5"/>
-<text xml:space="preserve" text-anchor="start" x="174" y="-129" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::NWBFile</text>
-<text xml:space="preserve" text-anchor="middle" x="231" y="-117.75" font-family="Helvetica,sans-Serif" font-size="10.00">::readIdentifier</text>
+<polygon fill="white" stroke="#666666" points="296,-109.5 166,-109.5 166,-79 296,-79 296,-109.5"/>
+<text xml:space="preserve" text-anchor="start" x="174" y="-96" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::NWBFile</text>
+<text xml:space="preserve" text-anchor="middle" x="231" y="-84.75" font-family="Helvetica,sans-Serif" font-size="10.00">::readIdentifier</text>
 </a>
 </g>
 </g>
@@ -79,8 +79,27 @@ var sectionId = 'dynsection-20';
 <g id="edge1_Node000001_Node000002" class="edge">
 <title>Node1&#45;&gt;Node2</title>
 <g id="a_edge1_Node000001_Node000002"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M130.35,-127.25C138.21,-127.25 146.31,-127.25 154.33,-127.25"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="154.06,-130.75 164.06,-127.25 154.06,-123.75 154.06,-130.75"/>
+<path fill="none" stroke="#63b8ff" d="M130.35,-79.06C138.21,-80.26 146.31,-81.49 154.33,-82.71"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="153.66,-86.15 164.07,-84.2 154.72,-79.23 153.66,-86.15"/>
+</a>
+</g>
+</g>
+<!-- Node16 -->
+<g id="Node000016" class="node">
+<title>Node16</title>
+<g id="a_Node000016"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a407344117736e00a6f38459330af2bde" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="296,-60.5 166,-60.5 166,-30 296,-30 296,-60.5"/>
+<text xml:space="preserve" text-anchor="start" x="174" y="-47" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::NWBFile</text>
+<text xml:space="preserve" text-anchor="middle" x="231" y="-35.75" font-family="Helvetica,sans-Serif" font-size="10.00">::recordIdentifier</text>
+</a>
+</g>
+</g>
+<!-- Node1&#45;&gt;Node16 -->
+<g id="edge16_Node000001_Node000016" class="edge">
+<title>Node1&#45;&gt;Node16</title>
+<g id="a_edge16_Node000001_Node000016"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M130.35,-59.83C138.21,-58.68 146.31,-57.5 154.33,-56.32"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="154.68,-59.81 164.07,-54.9 153.67,-52.88 154.68,-59.81"/>
 </a>
 </g>
 </g>
@@ -88,9 +107,9 @@ var sectionId = 'dynsection-20';
 <g id="Node000003" class="node">
 <title>Node3</title>
 <g id="a_Node000003"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a5b62d301f9653fcf0cf083300362b371" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="462,-142.5 332,-142.5 332,-112 462,-112 462,-142.5"/>
-<text xml:space="preserve" text-anchor="start" x="340" y="-129" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::NWBFile</text>
-<text xml:space="preserve" text-anchor="middle" x="397" y="-117.75" font-family="Helvetica,sans-Serif" font-size="10.00">::readSessionDescription</text>
+<polygon fill="white" stroke="#666666" points="463.88,-133.5 333.88,-133.5 333.88,-103 463.88,-103 463.88,-133.5"/>
+<text xml:space="preserve" text-anchor="start" x="341.88" y="-120" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::NWBFile</text>
+<text xml:space="preserve" text-anchor="middle" x="398.88" y="-108.75" font-family="Helvetica,sans-Serif" font-size="10.00">::readSessionDescription</text>
 </a>
 </g>
 </g>
@@ -98,8 +117,27 @@ var sectionId = 'dynsection-20';
 <g id="edge2_Node000002_Node000003" class="edge">
 <title>Node2&#45;&gt;Node3</title>
 <g id="a_edge2_Node000002_Node000003"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M296.35,-127.25C304.21,-127.25 312.31,-127.25 320.33,-127.25"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="320.06,-130.75 330.06,-127.25 320.06,-123.75 320.06,-130.75"/>
+<path fill="none" stroke="#63b8ff" d="M296.13,-103.53C304.69,-104.77 313.53,-106.05 322.26,-107.31"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="321.74,-110.77 332.14,-108.74 322.75,-103.84 321.74,-110.77"/>
+</a>
+</g>
+</g>
+<!-- Node15 -->
+<g id="Node000015" class="node">
+<title>Node15</title>
+<g id="a_Node000015"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aa3a0f1d0f63f8bf7160257186cd2273d" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="465.75,-84.5 332,-84.5 332,-54 465.75,-54 465.75,-84.5"/>
+<text xml:space="preserve" text-anchor="start" x="340" y="-71" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::NWBFile</text>
+<text xml:space="preserve" text-anchor="middle" x="398.88" y="-59.75" font-family="Helvetica,sans-Serif" font-size="10.00">::recordSessionDescription</text>
+</a>
+</g>
+</g>
+<!-- Node2&#45;&gt;Node15 -->
+<g id="edge15_Node000002_Node000015" class="edge">
+<title>Node2&#45;&gt;Node15</title>
+<g id="a_edge15_Node000002_Node000015"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M296.13,-84.58C304.06,-83.39 312.24,-82.16 320.34,-80.94"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="320.86,-84.4 330.22,-79.45 319.81,-77.48 320.86,-84.4"/>
 </a>
 </g>
 </g>
@@ -107,9 +145,9 @@ var sectionId = 'dynsection-20';
 <g id="Node000004" class="node">
 <title>Node4</title>
 <g id="a_Node000004"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ac12eceea7bcebc1243eac9a64d4190b0" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="628,-142.5 498,-142.5 498,-112 628,-112 628,-142.5"/>
-<text xml:space="preserve" text-anchor="start" x="506" y="-129" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::NWBFile</text>
-<text xml:space="preserve" text-anchor="middle" x="563" y="-117.75" font-family="Helvetica,sans-Serif" font-size="10.00">::readSessionStartTime</text>
+<polygon fill="white" stroke="#666666" points="631.75,-157.5 501.75,-157.5 501.75,-127 631.75,-127 631.75,-157.5"/>
+<text xml:space="preserve" text-anchor="start" x="509.75" y="-144" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::NWBFile</text>
+<text xml:space="preserve" text-anchor="middle" x="566.75" y="-132.75" font-family="Helvetica,sans-Serif" font-size="10.00">::readSessionStartTime</text>
 </a>
 </g>
 </g>
@@ -117,8 +155,27 @@ var sectionId = 'dynsection-20';
 <g id="edge3_Node000003_Node000004" class="edge">
 <title>Node3&#45;&gt;Node4</title>
 <g id="a_edge3_Node000003_Node000004"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M462.35,-127.25C470.21,-127.25 478.31,-127.25 486.33,-127.25"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="486.06,-130.75 496.06,-127.25 486.06,-123.75 486.06,-130.75"/>
+<path fill="none" stroke="#63b8ff" d="M464.01,-127.53C472.56,-128.77 481.4,-130.05 490.13,-131.31"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="489.62,-134.77 500.02,-132.74 490.62,-127.84 489.62,-134.77"/>
+</a>
+</g>
+</g>
+<!-- Node14 -->
+<g id="Node000014" class="node">
+<title>Node14</title>
+<g id="a_Node000014"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a3ecf0a3b95b16b509c2446fc7c4d40b0" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="631.75,-108.5 501.75,-108.5 501.75,-78 631.75,-78 631.75,-108.5"/>
+<text xml:space="preserve" text-anchor="start" x="509.75" y="-95" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::NWBFile</text>
+<text xml:space="preserve" text-anchor="middle" x="566.75" y="-83.75" font-family="Helvetica,sans-Serif" font-size="10.00">::recordSessionStartTime</text>
+</a>
+</g>
+</g>
+<!-- Node3&#45;&gt;Node14 -->
+<g id="edge14_Node000003_Node000014" class="edge">
+<title>Node3&#45;&gt;Node14</title>
+<g id="a_edge14_Node000003_Node000014"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M464.01,-108.58C472.56,-107.29 481.4,-105.96 490.13,-104.65"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="490.65,-108.11 500.02,-103.16 489.61,-101.19 490.65,-108.11"/>
 </a>
 </g>
 </g>
@@ -126,9 +183,9 @@ var sectionId = 'dynsection-20';
 <g id="Node000005" class="node">
 <title>Node5</title>
 <g id="a_Node000005"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aa611b4def3f53c508ddd8ec71944ffe7" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="825.5,-142.5 664,-142.5 664,-112 825.5,-112 825.5,-142.5"/>
-<text xml:space="preserve" text-anchor="start" x="672" y="-129" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::NWBFile</text>
-<text xml:space="preserve" text-anchor="middle" x="744.75" y="-117.75" font-family="Helvetica,sans-Serif" font-size="10.00">::readTimestampsReferenceTime</text>
+<polygon fill="white" stroke="#666666" points="833.38,-181.5 671.88,-181.5 671.88,-151 833.38,-151 833.38,-181.5"/>
+<text xml:space="preserve" text-anchor="start" x="679.88" y="-168" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::NWBFile</text>
+<text xml:space="preserve" text-anchor="middle" x="752.62" y="-156.75" font-family="Helvetica,sans-Serif" font-size="10.00">::readTimestampsReferenceTime</text>
 </a>
 </g>
 </g>
@@ -136,8 +193,27 @@ var sectionId = 'dynsection-20';
 <g id="edge4_Node000004_Node000005" class="edge">
 <title>Node4&#45;&gt;Node5</title>
 <g id="a_edge4_Node000004_Node000005"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M628.39,-127.25C636.12,-127.25 644.14,-127.25 652.17,-127.25"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="651.99,-130.75 661.99,-127.25 651.99,-123.75 651.99,-130.75"/>
+<path fill="none" stroke="#63b8ff" d="M632.06,-150.64C641.22,-151.84 650.77,-153.09 660.32,-154.33"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="659.64,-157.77 670,-155.6 660.54,-150.83 659.64,-157.77"/>
+</a>
+</g>
+</g>
+<!-- Node13 -->
+<g id="Node000013" class="node">
+<title>Node13</title>
+<g id="a_Node000013"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a36db3290c76301b9af8a030cb975d516" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="837.5,-132.5 667.75,-132.5 667.75,-102 837.5,-102 837.5,-132.5"/>
+<text xml:space="preserve" text-anchor="start" x="675.75" y="-119" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::NWBFile</text>
+<text xml:space="preserve" text-anchor="middle" x="752.62" y="-107.75" font-family="Helvetica,sans-Serif" font-size="10.00">::recordTimestampsReferenceTime</text>
+</a>
+</g>
+</g>
+<!-- Node4&#45;&gt;Node13 -->
+<g id="edge13_Node000004_Node000013" class="edge">
+<title>Node4&#45;&gt;Node13</title>
+<g id="a_edge13_Node000004_Node000013"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M632.06,-133.51C639.89,-132.44 648.02,-131.34 656.18,-130.23"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="656.38,-133.73 665.81,-128.92 655.43,-126.8 656.38,-133.73"/>
 </a>
 </g>
 </g>
@@ -145,9 +221,9 @@ var sectionId = 'dynsection-20';
 <g id="Node000006" class="node">
 <title>Node6</title>
 <g id="a_Node000006"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aaf2e07b4e912fc34ab052d38f92e6cdd" target="_top" xlink:title="Saves the specification files for the schema.">
-<polygon fill="white" stroke="#666666" points="1184.12,-226.5 1054.12,-226.5 1054.12,-196 1184.12,-196 1184.12,-226.5"/>
-<text xml:space="preserve" text-anchor="start" x="1062.12" y="-213" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::NWBFile</text>
-<text xml:space="preserve" text-anchor="middle" x="1119.12" y="-201.75" font-family="Helvetica,sans-Serif" font-size="10.00">::cacheSpecifications</text>
+<polygon fill="white" stroke="#666666" points="1196.12,-226.5 1066.12,-226.5 1066.12,-196 1196.12,-196 1196.12,-226.5"/>
+<text xml:space="preserve" text-anchor="start" x="1074.12" y="-213" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::NWBFile</text>
+<text xml:space="preserve" text-anchor="middle" x="1131.12" y="-201.75" font-family="Helvetica,sans-Serif" font-size="10.00">::cacheSpecifications</text>
 </a>
 </g>
 </g>
@@ -155,8 +231,8 @@ var sectionId = 'dynsection-20';
 <g id="edge5_Node000005_Node000006" class="edge">
 <title>Node5&#45;&gt;Node6</title>
 <g id="a_edge5_Node000005_Node000006"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M815.35,-142.95C880.16,-157.57 976.5,-179.3 1043.02,-194.31"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1041.84,-197.63 1052.36,-196.42 1043.38,-190.8 1041.84,-197.63"/>
+<path fill="none" stroke="#63b8ff" d="M833.47,-175.79C898.73,-183.59 990.37,-194.55 1054.47,-202.21"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="1053.86,-205.66 1064.2,-203.37 1054.69,-198.71 1053.86,-205.66"/>
 </a>
 </g>
 </g>
@@ -164,9 +240,9 @@ var sectionId = 'dynsection-20';
 <g id="Node000008" class="node">
 <title>Node8</title>
 <g id="a_Node000008"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a71bd7b910a7ec89bdaf36304d67bfef1" target="_top" xlink:title="Creates the default file structure. Note, this function will fail if the file is in a mode where new ...">
-<polygon fill="white" stroke="#666666" points="991.5,-142.5 861.5,-142.5 861.5,-112 991.5,-112 991.5,-142.5"/>
-<text xml:space="preserve" text-anchor="start" x="869.5" y="-129" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::NWBFile</text>
-<text xml:space="preserve" text-anchor="middle" x="926.5" y="-117.75" font-family="Helvetica,sans-Serif" font-size="10.00">::createFileStructure</text>
+<polygon fill="white" stroke="#666666" points="1003.5,-152.5 873.5,-152.5 873.5,-122 1003.5,-122 1003.5,-152.5"/>
+<text xml:space="preserve" text-anchor="start" x="881.5" y="-139" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::NWBFile</text>
+<text xml:space="preserve" text-anchor="middle" x="938.5" y="-127.75" font-family="Helvetica,sans-Serif" font-size="10.00">::createFileStructure</text>
 </a>
 </g>
 </g>
@@ -174,27 +250,8 @@ var sectionId = 'dynsection-20';
 <g id="edge7_Node000005_Node000008" class="edge">
 <title>Node5&#45;&gt;Node8</title>
 <g id="a_edge7_Node000005_Node000008"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M825.9,-127.25C833.83,-127.25 841.85,-127.25 849.73,-127.25"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="849.63,-130.75 859.63,-127.25 849.63,-123.75 849.63,-130.75"/>
-</a>
-</g>
-</g>
-<!-- Node13 -->
-<g id="Node000013" class="node">
-<title>Node13</title>
-<g id="a_Node000013"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a50a14c73fc985e368168f8d406b6d2a5" target="_top" xlink:title="Factory method for creating recording data.">
-<polygon fill="white" stroke="#666666" points="991.5,-93.5 861.5,-93.5 861.5,-63 991.5,-63 991.5,-93.5"/>
-<text xml:space="preserve" text-anchor="start" x="869.5" y="-80" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::NWBFile</text>
-<text xml:space="preserve" text-anchor="middle" x="926.5" y="-68.75" font-family="Helvetica,sans-Serif" font-size="10.00">::createRecordingData</text>
-</a>
-</g>
-</g>
-<!-- Node5&#45;&gt;Node13 -->
-<g id="edge13_Node000005_Node000013" class="edge">
-<title>Node5&#45;&gt;Node13</title>
-<g id="a_edge13_Node000005_Node000013"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M803.12,-111.61C820.22,-106.95 839.14,-101.79 856.88,-96.96"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="857.56,-100.4 866.29,-94.39 855.72,-93.64 857.56,-100.4"/>
+<path fill="none" stroke="#63b8ff" d="M833.74,-153.61C843.1,-152.14 852.62,-150.64 861.91,-149.17"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="862.28,-152.66 871.61,-147.64 861.19,-145.74 862.28,-152.66"/>
 </a>
 </g>
 </g>
@@ -202,8 +259,8 @@ var sectionId = 'dynsection-20';
 <g id="Node000007" class="node">
 <title>Node7</title>
 <g id="a_Node000007"><a xlink:href="namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" target="_top" xlink:title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;.">
-<polygon fill="white" stroke="#666666" points="1359.5,-220.88 1246.75,-220.88 1246.75,-201.62 1359.5,-201.62 1359.5,-220.88"/>
-<text xml:space="preserve" text-anchor="middle" x="1303.12" y="-207.38" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::mergePaths</text>
+<polygon fill="white" stroke="#666666" points="1371.5,-220.88 1258.75,-220.88 1258.75,-201.62 1371.5,-201.62 1371.5,-220.88"/>
+<text xml:space="preserve" text-anchor="middle" x="1315.12" y="-207.38" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::mergePaths</text>
 </a>
 </g>
 </g>
@@ -211,8 +268,8 @@ var sectionId = 'dynsection-20';
 <g id="edge6_Node000006_Node000007" class="edge">
 <title>Node6&#45;&gt;Node7</title>
 <g id="a_edge6_Node000006_Node000007"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1184.55,-211.25C1201,-211.25 1218.72,-211.25 1235.29,-211.25"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1235.03,-214.75 1245.03,-211.25 1235.03,-207.75 1235.03,-214.75"/>
+<path fill="none" stroke="#63b8ff" d="M1196.55,-211.25C1213,-211.25 1230.72,-211.25 1247.29,-211.25"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="1247.03,-214.75 1257.03,-211.25 1247.03,-207.75 1247.03,-214.75"/>
 </a>
 </g>
 </g>
@@ -220,8 +277,8 @@ var sectionId = 'dynsection-20';
 <g id="edge8_Node000008_Node000006" class="edge">
 <title>Node8&#45;&gt;Node6</title>
 <g id="a_edge8_Node000008_Node000006"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M950.03,-142.89C969.72,-155.97 999.48,-174.37 1027.5,-186.25 1032.63,-188.42 1038,-190.46 1043.46,-192.36"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1041.99,-195.57 1052.58,-195.38 1044.18,-188.92 1041.99,-195.57"/>
+<path fill="none" stroke="#63b8ff" d="M967.75,-152.86C987.44,-163.29 1014.55,-176.79 1039.5,-186.25 1045.03,-188.35 1050.81,-190.35 1056.67,-192.25"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="1055.2,-195.46 1065.79,-195.09 1057.28,-188.77 1055.2,-195.46"/>
 </a>
 </g>
 </g>
@@ -229,9 +286,9 @@ var sectionId = 'dynsection-20';
 <g id="Node000009" class="node">
 <title>Node9</title>
 <g id="a_Node000009"><a xlink:href="class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#aceded37c693bb2f6aa21a5945a13557c" target="_top" xlink:title="Get all registered namespaces.">
-<polygon fill="white" stroke="#666666" points="1210.75,-177.5 1027.5,-177.5 1027.5,-147 1210.75,-147 1210.75,-177.5"/>
-<text xml:space="preserve" text-anchor="start" x="1035.5" y="-164" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::SPEC::NamespaceRegistry</text>
-<text xml:space="preserve" text-anchor="middle" x="1119.12" y="-152.75" font-family="Helvetica,sans-Serif" font-size="10.00">::getAllNamespaces</text>
+<polygon fill="white" stroke="#666666" points="1222.75,-177.5 1039.5,-177.5 1039.5,-147 1222.75,-147 1222.75,-177.5"/>
+<text xml:space="preserve" text-anchor="start" x="1047.5" y="-164" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::SPEC::NamespaceRegistry</text>
+<text xml:space="preserve" text-anchor="middle" x="1131.12" y="-152.75" font-family="Helvetica,sans-Serif" font-size="10.00">::getAllNamespaces</text>
 </a>
 </g>
 </g>
@@ -239,8 +296,8 @@ var sectionId = 'dynsection-20';
 <g id="edge9_Node000008_Node000009" class="edge">
 <title>Node8&#45;&gt;Node9</title>
 <g id="a_edge9_Node000008_Node000009"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M991.77,-139.05C1001.27,-140.8 1011.24,-142.62 1021.23,-144.46"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1020.53,-147.89 1031,-146.25 1021.8,-141 1020.53,-147.89"/>
+<path fill="none" stroke="#63b8ff" d="M1003.77,-145.68C1011.57,-146.7 1019.69,-147.77 1027.87,-148.84"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="1027.18,-152.28 1037.55,-150.11 1028.09,-145.34 1027.18,-152.28"/>
 </a>
 </g>
 </g>
@@ -248,9 +305,9 @@ var sectionId = 'dynsection-20';
 <g id="Node000010" class="node">
 <title>Node10</title>
 <g id="a_Node000010"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a651f3d7e5cc28dc93888e8a821c5aa1c" target="_top" xlink:title="Get the schema namespace of the class type.">
-<polygon fill="white" stroke="#666666" points="1198.38,-128.5 1039.88,-128.5 1039.88,-98 1198.38,-98 1198.38,-128.5"/>
-<text xml:space="preserve" text-anchor="start" x="1047.88" y="-115" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::RegisteredType</text>
-<text xml:space="preserve" text-anchor="middle" x="1119.12" y="-103.75" font-family="Helvetica,sans-Serif" font-size="10.00">::getNamespace</text>
+<polygon fill="white" stroke="#666666" points="1210.38,-128.5 1051.88,-128.5 1051.88,-98 1210.38,-98 1210.38,-128.5"/>
+<text xml:space="preserve" text-anchor="start" x="1059.88" y="-115" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::RegisteredType</text>
+<text xml:space="preserve" text-anchor="middle" x="1131.12" y="-103.75" font-family="Helvetica,sans-Serif" font-size="10.00">::getNamespace</text>
 </a>
 </g>
 </g>
@@ -258,8 +315,8 @@ var sectionId = 'dynsection-20';
 <g id="edge10_Node000008_Node000010" class="edge">
 <title>Node8&#45;&gt;Node10</title>
 <g id="a_edge10_Node000008_Node000010"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M991.77,-122.53C1003.52,-121.67 1015.98,-120.75 1028.31,-119.85"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1028.36,-123.35 1038.07,-119.13 1027.84,-116.37 1028.36,-123.35"/>
+<path fill="none" stroke="#63b8ff" d="M1003.77,-129.16C1015.52,-127.68 1027.98,-126.11 1040.31,-124.56"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="1040.6,-128.05 1050.08,-123.33 1039.72,-121.1 1040.6,-128.05"/>
 </a>
 </g>
 </g>
@@ -267,9 +324,9 @@ var sectionId = 'dynsection-20';
 <g id="Node000011" class="node">
 <title>Node11</title>
 <g id="a_Node000011"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a150f881ad61cb8352eea7ddba47bc6ad" target="_top" xlink:title="Get the name of the class type.">
-<polygon fill="white" stroke="#666666" points="1198.38,-79.5 1039.88,-79.5 1039.88,-49 1198.38,-49 1198.38,-79.5"/>
-<text xml:space="preserve" text-anchor="start" x="1047.88" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::RegisteredType</text>
-<text xml:space="preserve" text-anchor="middle" x="1119.12" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">::getTypeName</text>
+<polygon fill="white" stroke="#666666" points="1210.38,-79.5 1051.88,-79.5 1051.88,-49 1210.38,-49 1210.38,-79.5"/>
+<text xml:space="preserve" text-anchor="start" x="1059.88" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::RegisteredType</text>
+<text xml:space="preserve" text-anchor="middle" x="1131.12" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">::getTypeName</text>
 </a>
 </g>
 </g>
@@ -277,8 +334,8 @@ var sectionId = 'dynsection-20';
 <g id="edge11_Node000008_Node000011" class="edge">
 <title>Node8&#45;&gt;Node11</title>
 <g id="a_edge11_Node000008_Node000011"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M967.73,-111.52C990.22,-102.82 1015.98,-93.02 1027.5,-89.25 1034.02,-87.12 1040.83,-85.01 1047.68,-82.98"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1048.33,-86.44 1056.96,-80.29 1046.38,-79.72 1048.33,-86.44"/>
+<path fill="none" stroke="#63b8ff" d="M968.65,-121.55C988.28,-111.41 1014.97,-98.44 1039.5,-89.25 1045.14,-87.14 1051.03,-85.12 1056.99,-83.2"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="1057.78,-86.62 1066.3,-80.33 1055.71,-79.94 1057.78,-86.62"/>
 </a>
 </g>
 </g>
@@ -286,9 +343,9 @@ var sectionId = 'dynsection-20';
 <g id="Node000012" class="node">
 <title>Node12</title>
 <g id="a_Node000012"><a xlink:href="class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#a15d9c6f869f0270ad91a2af8067f5a88" target="_top" xlink:title="Get the singleton instance of the NamespaceRegistry.">
-<polygon fill="white" stroke="#666666" points="1210.75,-30.5 1027.5,-30.5 1027.5,0 1210.75,0 1210.75,-30.5"/>
-<text xml:space="preserve" text-anchor="start" x="1035.5" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::SPEC::NamespaceRegistry</text>
-<text xml:space="preserve" text-anchor="middle" x="1119.12" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::instance</text>
+<polygon fill="white" stroke="#666666" points="1222.75,-30.5 1039.5,-30.5 1039.5,0 1222.75,0 1222.75,-30.5"/>
+<text xml:space="preserve" text-anchor="start" x="1047.5" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::SPEC::NamespaceRegistry</text>
+<text xml:space="preserve" text-anchor="middle" x="1131.12" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::instance</text>
 </a>
 </g>
 </g>
@@ -296,8 +353,8 @@ var sectionId = 'dynsection-20';
 <g id="edge12_Node000008_Node000012" class="edge">
 <title>Node8&#45;&gt;Node12</title>
 <g id="a_edge12_Node000008_Node000012"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M977.63,-111.59C982.6,-108.92 987.33,-105.82 991.5,-102.25 1015.69,-81.51 1002.27,-59.71 1027.5,-40.25 1029.24,-38.9 1031.06,-37.63 1032.93,-36.43"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1034.35,-39.64 1041.36,-31.7 1030.93,-33.54 1034.35,-39.64"/>
+<path fill="none" stroke="#63b8ff" d="M951.29,-121.68C968.38,-100.17 1002.13,-61.63 1039.5,-40.25 1042.52,-38.52 1045.66,-36.91 1048.89,-35.4"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="1050.19,-38.65 1058.04,-31.54 1047.47,-32.21 1050.19,-38.65"/>
 </a>
 </g>
 </g>

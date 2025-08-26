@@ -1,21 +1,27 @@
 <map id="AQNWB::NWB::TimeSeries::readStartingTimeRate" name="AQNWB::NWB::TimeSeries::readStartingTimeRate">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,39,192,79"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a10c42d7daf3209d828814549062ba43b" title=" " alt="" coords="240,39,426,79"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,56,224,56,224,62,192,62"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#aad84484dbd8b930702c8c8c5408694b1" title=" " alt="" coords="474,39,660,79"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="426,56,458,56,458,62,426,62"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a6bc9efa6381b6761d45493c1b2628e22" title=" " alt="" coords="708,39,895,79"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="661,56,693,56,693,62,661,62"/>
-<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#adf3f178d207453927ae6ede7a53ac7f7" title=" " alt="" coords="943,39,1129,79"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="895,56,927,56,927,62,895,62"/>
-<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a0501cf1664c3ac781453e312aa3342b0" title=" " alt="" coords="1177,39,1363,79"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="1129,56,1161,56,1161,62,1129,62"/>
-<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a02d6ceb1f87f4a76906f00688708b8e9" title=" " alt="" coords="1411,39,1598,79"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="1364,56,1396,56,1396,62,1364,62"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,136,192,177"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a10c42d7daf3209d828814549062ba43b" title=" " alt="" coords="240,136,426,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,154,224,154,224,159,192,159"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#aad84484dbd8b930702c8c8c5408694b1" title=" " alt="" coords="474,103,660,143"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="426,140,458,136,459,141,427,146"/>
+<area shape="rect" id="Node000013" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a15cdc18874a799e4196a58e2c2d51c31" title=" " alt="" coords="474,168,660,209"/>
+<area shape="poly" id="edge12_Node000002_Node000013" title=" " alt="" coords="427,166,459,171,458,176,426,172"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a6bc9efa6381b6761d45493c1b2628e22" title=" " alt="" coords="708,103,895,143"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="661,120,693,120,693,126,661,126"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#adf3f178d207453927ae6ede7a53ac7f7" title=" " alt="" coords="943,103,1129,143"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="895,120,927,120,927,126,895,126"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a0501cf1664c3ac781453e312aa3342b0" title=" " alt="" coords="1177,69,1363,110"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="1129,107,1161,102,1162,108,1130,112"/>
+<area shape="rect" id="Node000012" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a09ead45365072d1f2dbdfe5d628d1af4" title=" " alt="" coords="1177,135,1363,175"/>
+<area shape="poly" id="edge11_Node000005_Node000012" title=" " alt="" coords="1130,133,1162,138,1161,143,1129,138"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a02d6ceb1f87f4a76906f00688708b8e9" title=" " alt="" coords="1411,37,1598,78"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="1363,74,1395,70,1396,75,1364,80"/>
+<area shape="rect" id="Node000011" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a7e7da4174344eee6e143a39fc45cc014" title=" " alt="" coords="1411,103,1598,143"/>
+<area shape="poly" id="edge10_Node000006_Node000011" title=" " alt="" coords="1364,100,1396,105,1395,110,1363,106"/>
 <area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ad02a2c3803891f352dd2496b9ff1887b" title="Convenience function for creating data related attributes." alt="" coords="1649,5,1836,46"/>
-<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="1598,43,1633,38,1634,44,1598,49"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="1598,42,1633,38,1634,43,1598,48"/>
 <area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a682200d497af6051d0ef9189509084dd" title="Convenience function for creating timestamp related attributes." alt="" coords="1646,71,1839,111"/>
-<area shape="poly" id="edge9_Node000007_Node000010" title=" " alt="" coords="1598,69,1630,73,1630,79,1598,74"/>
+<area shape="poly" id="edge9_Node000007_Node000010" title=" " alt="" coords="1598,68,1630,73,1630,78,1598,73"/>
 <area shape="rect" id="Node000009" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="1887,13,2037,38"/>
 <area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="1836,23,1871,23,1871,28,1836,28"/>
 </map>

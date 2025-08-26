@@ -130,12 +130,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ac0a68f39a709b9096ce797bce18c668f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <br /></td></tr>
 <tr class="memitem:a74a00fe8a1f49b2718b119a250237feb" id="r_a74a00fe8a1f49b2718b119a250237feb"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a74a00fe8a1f49b2718b119a250237feb">~Data</a> () override</td></tr>
 <tr class="memdesc:a74a00fe8a1f49b2718b119a250237feb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor.  <br /></td></tr>
-<tr class="memitem:a74b50c73b074e5f02bbcad3c011f2785" id="r_a74b50c73b074e5f02bbcad3c011f2785"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a74b50c73b074e5f02bbcad3c011f2785">initialize</a> (std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">IO::BaseRecordingData</a> &gt; &amp;&amp;dataset)</td></tr>
-<tr class="memdesc:a74b50c73b074e5f02bbcad3c011f2785"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the dataset for the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html" title="An abstract data type for a dataset.">Data</a> object.  <br /></td></tr>
+<tr class="memitem:a9460bfc567ad1a6326acf9eea26096c8" id="r_a9460bfc567ad1a6326acf9eea26096c8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9460bfc567ad1a6326acf9eea26096c8">initialize</a> (const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html">IO::ArrayDataSetConfig</a> &amp;dataConfig)</td></tr>
+<tr class="memdesc:a9460bfc567ad1a6326acf9eea26096c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the dataset for the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html" title="An abstract data type for a dataset.">Data</a> object.  <br /></td></tr>
 <tr class="memitem:a28976115b55b66fb89efb43a412a587e" id="r_a28976115b55b66fb89efb43a412a587e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a28976115b55b66fb89efb43a412a587e">isInitialized</a> ()</td></tr>
-<tr class="memdesc:a28976115b55b66fb89efb43a412a587e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the m_dataset has been initialized.  <br /></td></tr>
+<tr class="memdesc:a28976115b55b66fb89efb43a412a587e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the dataset has been initialized.  <br /></td></tr>
 <tr class="memitem:afe2d2e01b7ade2a1089e8cc051d7f49e" id="r_afe2d2e01b7ade2a1089e8cc051d7f49e"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::any&gt; </td></tr>
 <tr class="memitem:afe2d2e01b7ade2a1089e8cc051d7f49e template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#acfd896b65a7f56c25b3730a6e8dc80ca">DatasetField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afe2d2e01b7ade2a1089e8cc051d7f49e">readData</a> () const</td></tr>
+<tr class="memitem:a6cca6a13020f0c4372fe79164fae91e8" id="r_a6cca6a13020f0c4372fe79164fae91e8"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">IO::BaseRecordingData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6cca6a13020f0c4372fe79164fae91e8">recordData</a> (bool reset=false)</td></tr>
 <tr class="memitem:a82dc918d72bf83640458f08e7ba52be1" id="r_a82dc918d72bf83640458f08e7ba52be1"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::string&gt; </td></tr>
 <tr class="memitem:a82dc918d72bf83640458f08e7ba52be1 template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AttributeField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a82dc918d72bf83640458f08e7ba52be1">readNeurodataType</a> () const</td></tr>
 <tr class="memitem:a82e6a2830bb21264cf18aef80615df16" id="r_a82e6a2830bb21264cf18aef80615df16"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::string&gt; </td></tr>
@@ -151,6 +152,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a9fa62ba79d610ba55aacec4dce012ccf inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the object.  <br /></td></tr>
 <tr class="memitem:ab614b1609f536e88ed1f32762dc3894b inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_ab614b1609f536e88ed1f32762dc3894b"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab614b1609f536e88ed1f32762dc3894b">getIO</a> () const</td></tr>
 <tr class="memdesc:ab614b1609f536e88ed1f32762dc3894b inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a shared pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html" title="The namespace for IO components of AqNWB.">IO</a> object.  <br /></td></tr>
+<tr class="memitem:a35d9c02ee1c08009547fc59b2e947929 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a35d9c02ee1c08009547fc59b2e947929"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a35d9c02ee1c08009547fc59b2e947929">clearRecordingDataCache</a> ()</td></tr>
+<tr class="memdesc:a35d9c02ee1c08009547fc59b2e947929 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear the BaseRecordingData object cache to reset the recording state.  <br /></td></tr>
+<tr class="memitem:ad3753ec40e8c6b6fafa59ca80433e978 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_ad3753ec40e8c6b6fafa59ca80433e978"><td class="memItemLeft" align="right" valign="top">const std::unordered_map&lt; std::string, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">IO::BaseRecordingData</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ad3753ec40e8c6b6fafa59ca80433e978">getCacheRecordingData</a> () const</td></tr>
+<tr class="memdesc:ad3753ec40e8c6b6fafa59ca80433e978 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the cache of BaseRecordingData objects.  <br /></td></tr>
 <tr class="memitem:a150f881ad61cb8352eea7ddba47bc6ad inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a150f881ad61cb8352eea7ddba47bc6ad"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a150f881ad61cb8352eea7ddba47bc6ad">getTypeName</a> () const</td></tr>
 <tr class="memdesc:a150f881ad61cb8352eea7ddba47bc6ad inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the class type.  <br /></td></tr>
 <tr class="memitem:a651f3d7e5cc28dc93888e8a821c5aa1c inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a651f3d7e5cc28dc93888e8a821c5aa1c"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a651f3d7e5cc28dc93888e8a821c5aa1c">getNamespace</a> () const</td></tr>
@@ -164,10 +169,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a07451eb27d98493d2d362129a3934a4d inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a field that is itself a <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a>.  <br /></td></tr>
 <tr class="memitem:a8a83a775f6a8a94d6ae3428e05ef9bfc inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a8a83a775f6a8a94d6ae3428e05ef9bfc"><td class="memItemLeft" align="right" valign="top">virtual std::unordered_map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a8a83a775f6a8a94d6ae3428e05ef9bfc">findOwnedTypes</a> (const std::unordered_set&lt; std::string &gt; &amp;types={}, const <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035">AQNWB::IO::SearchMode</a> &amp;search_mode=<a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035a0bce90db02919671dbe161b9bd8cef05">AQNWB::IO::SearchMode::STOP_ON_TYPE</a>) const</td></tr>
 <tr class="memdesc:a8a83a775f6a8a94d6ae3428e05ef9bfc inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find all typed objects that are owned by this object, i.e., objects that have a neurodata_type and namespace attribute and have this object as there closest parent with an assigned type.  <br /></td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:aabc50384de7dc0ecb05ca253564d146c" id="r_aabc50384de7dc0ecb05ca253564d146c"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">IO::BaseRecordingData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aabc50384de7dc0ecb05ca253564d146c">m_dataset</a></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-inherited" class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -189,8 +190,10 @@ Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Protected Attributes inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">AQNWB::NWB::RegisteredType</a></td></tr>
 <tr class="memitem:a2c2954495607eb4afe4e9ab8eff3a08b inherit pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a2c2954495607eb4afe4e9ab8eff3a08b"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a2c2954495607eb4afe4e9ab8eff3a08b">m_path</a></td></tr>
 <tr class="memdesc:a2c2954495607eb4afe4e9ab8eff3a08b inherit pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">The path of the registered type.  <br /></td></tr>
-<tr class="memitem:a4171d5ba4a4f802f8733e30ea438e851 inherit pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a4171d5ba4a4f802f8733e30ea438e851"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a4171d5ba4a4f802f8733e30ea438e851">m_io</a></td></tr>
-<tr class="memdesc:a4171d5ba4a4f802f8733e30ea438e851 inherit pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">A shared pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html" title="The namespace for IO components of AqNWB.">IO</a> object.  <br /></td></tr>
+<tr class="memitem:a5f4d142b8156b6b33ed01c11c5720fec inherit pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a5f4d142b8156b6b33ed01c11c5720fec"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a5f4d142b8156b6b33ed01c11c5720fec">m_io</a></td></tr>
+<tr class="memdesc:a5f4d142b8156b6b33ed01c11c5720fec inherit pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">A shared pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html" title="The namespace for IO components of AqNWB.">IO</a> object.  <br /></td></tr>
+<tr class="memitem:a549f4d2169ae451bda8d959c9a11dbc3 inherit pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a549f4d2169ae451bda8d959c9a11dbc3"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">IO::BaseRecordingData</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a549f4d2169ae451bda8d959c9a11dbc3">m_recordingDataCache</a></td></tr>
+<tr class="memdesc:a549f4d2169ae451bda8d959c9a11dbc3 inherit pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cache for BaseRecordingData objects for datasets to retain recording state.  <br /></td></tr>
 <tr class="inherit_header pro_static_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_static_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Static Protected Attributes inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">AQNWB::NWB::RegisteredType</a></td></tr>
 <tr class="memitem:ac3e284613a1e28db9875fb06b66b0c19 inherit pro_static_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_ac3e284613a1e28db9875fb06b66b0c19"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ac3e284613a1e28db9875fb06b66b0c19">m_defaultUnregisteredGroupTypeClass</a></td></tr>
 <tr class="memdesc:ac3e284613a1e28db9875fb06b66b0c19 inherit pro_static_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save the default <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> to use for reading Group types that are not registered.  <br /></td></tr>
@@ -275,8 +278,8 @@ Here is the caller graph for this function:</div>
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="a74b50c73b074e5f02bbcad3c011f2785" name="a74b50c73b074e5f02bbcad3c011f2785"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a74b50c73b074e5f02bbcad3c011f2785">&#9670;&#160;</a></span>initialize()</h2>
+<a id="a9460bfc567ad1a6326acf9eea26096c8" name="a9460bfc567ad1a6326acf9eea26096c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9460bfc567ad1a6326acf9eea26096c8">&#9670;&#160;</a></span>initialize()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -287,7 +290,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> AQNWB::NWB::Data::initialize </td>
           <td>(</td>
-          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">IO::BaseRecordingData</a> &gt; &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>dataset</em></span></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html">IO::ArrayDataSetConfig</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>dataConfig</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -299,10 +302,10 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Initialize the dataset for the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html" title="An abstract data type for a dataset.">Data</a> object. </p>
-<p>This functions takes ownership of the passed rvalue unique_ptr and moves ownership to its internal m_dataset variable</p>
+<p>This function creates a dataset using the provided configuration</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">dataset</td><td>The rvalue unique pointer to the BaseRecordingData object </td></tr>
+    <tr><td class="paramname">dataConfig</td><td>The configuration for the dataset </td></tr>
   </table>
   </dd>
 </dl>
@@ -310,12 +313,12 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_data_a74b50c73b074e5f02bbcad3c011f2785_cgraph.svg" width="474" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_data_a9460bfc567ad1a6326acf9eea26096c8_cgraph.svg" width="474" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_data_a74b50c73b074e5f02bbcad3c011f2785_icgraph.svg" width="448" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_data_a9460bfc567ad1a6326acf9eea26096c8_icgraph.svg" width="448" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -343,7 +346,12 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Check whether the m_dataset has been initialized. </p>
+<p>Check whether the dataset has been initialized. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_data_a28976115b55b66fb89efb43a412a587e_cgraph.svg" width="100%" height="364"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
 
 </div>
 </div>
@@ -375,12 +383,12 @@ template&lt;typename VTYPE = std::any&gt; </div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_data_afe2d2e01b7ade2a1089e8cc051d7f49e_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_data_afe2d2e01b7ade2a1089e8cc051d7f49e_cgraph.svg" width="100%" height="364"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_data_afe2d2e01b7ade2a1089e8cc051d7f49e_icgraph.svg" width="220" height="60"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_data_afe2d2e01b7ade2a1089e8cc051d7f49e_icgraph.svg" width="490" height="60"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -451,23 +459,38 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_data_a82dc918d72bf83640458f08e7ba52be1_icgraph.svg" width="538" height="60"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_data_a82dc918d72bf83640458f08e7ba52be1_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
-<a id="aabc50384de7dc0ecb05ca253564d146c" name="aabc50384de7dc0ecb05ca253564d146c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aabc50384de7dc0ecb05ca253564d146c">&#9670;&#160;</a></span>m_dataset</h2>
+<a id="a6cca6a13020f0c4372fe79164fae91e8" name="a6cca6a13020f0c4372fe79164fae91e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6cca6a13020f0c4372fe79164fae91e8">&#9670;&#160;</a></span>recordData()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unique_ptr&lt;<a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">IO::BaseRecordingData</a>&gt; AQNWB::NWB::Data::m_dataset</td>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">IO::BaseRecordingData</a> &gt; AQNWB::NWB::Data::recordData </td>
+          <td>(</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>reset</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span></td><td>)</td>
+          <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_data_a6cca6a13020f0c4372fe79164fae91e8_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
 
 </div>
 </div>

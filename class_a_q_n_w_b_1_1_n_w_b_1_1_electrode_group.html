@@ -132,8 +132,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a213bc76d7b4dbb4c2bdfaf7e9fbe16fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <br /></td></tr>
 <tr class="memitem:ae1040ee51efcdfb2b4ba7ba046dd0a51" id="r_ae1040ee51efcdfb2b4ba7ba046dd0a51"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae1040ee51efcdfb2b4ba7ba046dd0a51">initialize</a> (const std::string &amp;description, const std::string &amp;location, const <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_device.html">Device</a> &amp;device)</td></tr>
 <tr class="memdesc:ae1040ee51efcdfb2b4ba7ba046dd0a51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html" title="The ElectrodeGroup class represents a physical grouping of electrodes, e.g. a shank of an array.">ElectrodeGroup</a> object.  <br /></td></tr>
-<tr class="memitem:aa723cab3580bedc5206884812478923e" id="r_aa723cab3580bedc5206884812478923e"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::any&gt; </td></tr>
-<tr class="memitem:aa723cab3580bedc5206884812478923e template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#acfd896b65a7f56c25b3730a6e8dc80ca">DatasetField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa723cab3580bedc5206884812478923e">readData</a> () const</td></tr>
+<tr class="memitem:aab5fc10637f3c877671a63eadb0c3061" id="r_aab5fc10637f3c877671a63eadb0c3061"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::any&gt; </td></tr>
+<tr class="memitem:aab5fc10637f3c877671a63eadb0c3061 template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#acfd896b65a7f56c25b3730a6e8dc80ca">DatasetField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aab5fc10637f3c877671a63eadb0c3061">readPosition</a> () const</td></tr>
+<tr class="memitem:a24b767e6f69d1aa17968f6bd766548a5" id="r_a24b767e6f69d1aa17968f6bd766548a5"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">IO::BaseRecordingData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a24b767e6f69d1aa17968f6bd766548a5">recordPosition</a> (bool reset=false)</td></tr>
 <tr class="inherit_header pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Member Functions inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html">AQNWB::NWB::Container</a></td></tr>
 <tr class="memitem:a0ec16ae5d28267ea37464ffe2c2c34e5 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container" id="r_a0ec16ae5d28267ea37464ffe2c2c34e5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a0ec16ae5d28267ea37464ffe2c2c34e5">Container</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt; io)</td></tr>
 <tr class="memdesc:a0ec16ae5d28267ea37464ffe2c2c34e5 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <br /></td></tr>
@@ -156,6 +157,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a9fa62ba79d610ba55aacec4dce012ccf inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the object.  <br /></td></tr>
 <tr class="memitem:ab614b1609f536e88ed1f32762dc3894b inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_ab614b1609f536e88ed1f32762dc3894b"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab614b1609f536e88ed1f32762dc3894b">getIO</a> () const</td></tr>
 <tr class="memdesc:ab614b1609f536e88ed1f32762dc3894b inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a shared pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html" title="The namespace for IO components of AqNWB.">IO</a> object.  <br /></td></tr>
+<tr class="memitem:a35d9c02ee1c08009547fc59b2e947929 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a35d9c02ee1c08009547fc59b2e947929"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a35d9c02ee1c08009547fc59b2e947929">clearRecordingDataCache</a> ()</td></tr>
+<tr class="memdesc:a35d9c02ee1c08009547fc59b2e947929 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear the BaseRecordingData object cache to reset the recording state.  <br /></td></tr>
+<tr class="memitem:ad3753ec40e8c6b6fafa59ca80433e978 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_ad3753ec40e8c6b6fafa59ca80433e978"><td class="memItemLeft" align="right" valign="top">const std::unordered_map&lt; std::string, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">IO::BaseRecordingData</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ad3753ec40e8c6b6fafa59ca80433e978">getCacheRecordingData</a> () const</td></tr>
+<tr class="memdesc:ad3753ec40e8c6b6fafa59ca80433e978 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the cache of BaseRecordingData objects.  <br /></td></tr>
 <tr class="memitem:a150f881ad61cb8352eea7ddba47bc6ad inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a150f881ad61cb8352eea7ddba47bc6ad"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a150f881ad61cb8352eea7ddba47bc6ad">getTypeName</a> () const</td></tr>
 <tr class="memdesc:a150f881ad61cb8352eea7ddba47bc6ad inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the class type.  <br /></td></tr>
 <tr class="memitem:a651f3d7e5cc28dc93888e8a821c5aa1c inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a651f3d7e5cc28dc93888e8a821c5aa1c"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a651f3d7e5cc28dc93888e8a821c5aa1c">getNamespace</a> () const</td></tr>
@@ -190,8 +195,10 @@ Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Protected Attributes inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">AQNWB::NWB::RegisteredType</a></td></tr>
 <tr class="memitem:a2c2954495607eb4afe4e9ab8eff3a08b inherit pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a2c2954495607eb4afe4e9ab8eff3a08b"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a2c2954495607eb4afe4e9ab8eff3a08b">m_path</a></td></tr>
 <tr class="memdesc:a2c2954495607eb4afe4e9ab8eff3a08b inherit pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">The path of the registered type.  <br /></td></tr>
-<tr class="memitem:a4171d5ba4a4f802f8733e30ea438e851 inherit pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a4171d5ba4a4f802f8733e30ea438e851"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a4171d5ba4a4f802f8733e30ea438e851">m_io</a></td></tr>
-<tr class="memdesc:a4171d5ba4a4f802f8733e30ea438e851 inherit pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">A shared pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html" title="The namespace for IO components of AqNWB.">IO</a> object.  <br /></td></tr>
+<tr class="memitem:a5f4d142b8156b6b33ed01c11c5720fec inherit pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a5f4d142b8156b6b33ed01c11c5720fec"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a5f4d142b8156b6b33ed01c11c5720fec">m_io</a></td></tr>
+<tr class="memdesc:a5f4d142b8156b6b33ed01c11c5720fec inherit pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">A shared pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html" title="The namespace for IO components of AqNWB.">IO</a> object.  <br /></td></tr>
+<tr class="memitem:a549f4d2169ae451bda8d959c9a11dbc3 inherit pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a549f4d2169ae451bda8d959c9a11dbc3"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">IO::BaseRecordingData</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a549f4d2169ae451bda8d959c9a11dbc3">m_recordingDataCache</a></td></tr>
+<tr class="memdesc:a549f4d2169ae451bda8d959c9a11dbc3 inherit pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cache for BaseRecordingData objects for datasets to retain recording state.  <br /></td></tr>
 <tr class="inherit_header pro_static_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_static_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Static Protected Attributes inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">AQNWB::NWB::RegisteredType</a></td></tr>
 <tr class="memitem:ac3e284613a1e28db9875fb06b66b0c19 inherit pro_static_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_ac3e284613a1e28db9875fb06b66b0c19"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ac3e284613a1e28db9875fb06b66b0c19">m_defaultUnregisteredGroupTypeClass</a></td></tr>
 <tr class="memdesc:ac3e284613a1e28db9875fb06b66b0c19 inherit pro_static_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save the default <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> to use for reading Group types that are not registered.  <br /></td></tr>
@@ -310,8 +317,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="aa723cab3580bedc5206884812478923e" name="aa723cab3580bedc5206884812478923e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa723cab3580bedc5206884812478923e">&#9670;&#160;</a></span>readData()</h2>
+<a id="aab5fc10637f3c877671a63eadb0c3061" name="aab5fc10637f3c877671a63eadb0c3061"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab5fc10637f3c877671a63eadb0c3061">&#9670;&#160;</a></span>readPosition()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -322,7 +329,7 @@ template&lt;typename VTYPE = std::any&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#acfd896b65a7f56c25b3730a6e8dc80ca">DatasetField</a>, VTYPE &gt; &gt; AQNWB::NWB::ElectrodeGroup::readData </td>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#acfd896b65a7f56c25b3730a6e8dc80ca">DatasetField</a>, VTYPE &gt; &gt; AQNWB::NWB::ElectrodeGroup::readPosition </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -335,6 +342,31 @@ template&lt;typename VTYPE = std::any&gt; </div>
 </table>
 </div><div class="memdoc">
 <p>Stereotaxis or common framework coordinates </p>
+
+</div>
+</div>
+<a id="a24b767e6f69d1aa17968f6bd766548a5" name="a24b767e6f69d1aa17968f6bd766548a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24b767e6f69d1aa17968f6bd766548a5">&#9670;&#160;</a></span>recordPosition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">IO::BaseRecordingData</a> &gt; AQNWB::NWB::ElectrodeGroup::recordPosition </td>
+          <td>(</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>reset</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>

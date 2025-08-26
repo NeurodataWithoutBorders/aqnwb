@@ -18,6 +18,9 @@ var userdocs =
         [ "6. Start the recording.", "workflow.html#start_recording", null ],
         [ "7. Write data.", "workflow.html#write_data", null ],
         [ "8. Stop the recording and finalize the file.", "workflow.html#stop_recording", null ]
+      ] ],
+      [ "Advanced: Recording individual datasets", "workflow.html#advanced_recording_workflow", [
+        [ "Resetting the recording position", "workflow.html#advanced_recording_workflow_reset", null ]
       ] ]
     ] ],
     [ "Reading Data 📤", "read_page.html", [

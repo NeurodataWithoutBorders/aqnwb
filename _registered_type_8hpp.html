@@ -151,8 +151,10 @@ Macros</h2></td></tr>
 <tr class="memdesc:a9c1f79aa46baaf33d1bf885cf7484aa1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to register a subclass with the RegisteredType class registry.  <br /></td></tr>
 <tr class="memitem:a54ea7671d2bcf5bae392b8ba1824961e" id="r_a54ea7671d2bcf5bae392b8ba1824961e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a54ea7671d2bcf5bae392b8ba1824961e">REGISTER_SUBCLASS_IMPL</a>(T)</td></tr>
 <tr class="memdesc:a54ea7671d2bcf5bae392b8ba1824961e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to initialize the static member <span class="tt">registered_</span> to trigger registration.  <br /></td></tr>
-<tr class="memitem:acd3c876a1c357333cd4a8ff27300ee08" id="r_acd3c876a1c357333cd4a8ff27300ee08"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acd3c876a1c357333cd4a8ff27300ee08">DEFINE_FIELD</a>(name,  storageObjectType,  default_type,  fieldPath,  description)</td></tr>
-<tr class="memdesc:acd3c876a1c357333cd4a8ff27300ee08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines a lazy-loaded field accessor function.  <br /></td></tr>
+<tr class="memitem:a9f1005a8dc218dba0592fe5d5aaedb0c" id="r_a9f1005a8dc218dba0592fe5d5aaedb0c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9f1005a8dc218dba0592fe5d5aaedb0c">DEFINE_ATTRIBUTE_FIELD</a>(name,  default_type,  fieldPath,  description)</td></tr>
+<tr class="memdesc:a9f1005a8dc218dba0592fe5d5aaedb0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines a lazy-loaded attribute field accessor function.  <br /></td></tr>
+<tr class="memitem:aeb21020579ca18f10e64fac9689a7ef6" id="r_aeb21020579ca18f10e64fac9689a7ef6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeb21020579ca18f10e64fac9689a7ef6">DEFINE_DATASET_FIELD</a>(readName,  writeName,  default_type,  fieldPath,  description)</td></tr>
+<tr class="memdesc:aeb21020579ca18f10e64fac9689a7ef6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines a lazy-loaded dataset field accessor function.  <br /></td></tr>
 <tr class="memitem:af374245a4f6d5a00540e9fdba52a652a" id="r_af374245a4f6d5a00540e9fdba52a652a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af374245a4f6d5a00540e9fdba52a652a">DEFINE_REGISTERED_FIELD</a>(name,  registeredType,  fieldPath,  description)</td></tr>
 <tr class="memdesc:af374245a4f6d5a00540e9fdba52a652a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines a lazy-loaded accessor function for reading fields that are RegisteredTypes.  <br /></td></tr>
 <tr class="memitem:a3b2c847e459e9e30e65e38897303a9a5" id="r_a3b2c847e459e9e30e65e38897303a9a5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3b2c847e459e9e30e65e38897303a9a5">DEFINE_REFERENCED_REGISTERED_FIELD</a>(name,  registeredType,  fieldPath,  description)</td></tr>
@@ -166,21 +168,16 @@ Variables</h2></td></tr>
 <tr class="memdesc:acfd896b65a7f56c25b3730a6e8dc80ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for AQNWB::Types::StorageObjectType::Dataset.  <br /></td></tr>
 </table>
 <a name="doc-define-members" id="doc-define-members"></a><h2 id="header-doc-define-members" class="groupheader">Macro Definition Documentation</h2>
-<a id="acd3c876a1c357333cd4a8ff27300ee08" name="acd3c876a1c357333cd4a8ff27300ee08"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acd3c876a1c357333cd4a8ff27300ee08">&#9670;&#160;</a></span>DEFINE_FIELD</h2>
+<a id="a9f1005a8dc218dba0592fe5d5aaedb0c" name="a9f1005a8dc218dba0592fe5d5aaedb0c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f1005a8dc218dba0592fe5d5aaedb0c">&#9670;&#160;</a></span>DEFINE_ATTRIBUTE_FIELD</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define DEFINE_FIELD</td>
+          <td class="memname">#define DEFINE_ATTRIBUTE_FIELD</td>
           <td>(</td>
           <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>name</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>storageObjectType</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -201,23 +198,75 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line"> \</div>
 <div class="line">  <span class="keyword">template</span>&lt;<span class="keyword">typename</span> VTYPE = default_type&gt; \</div>
-<div class="line">  <span class="keyword">inline</span> std::unique_ptr&lt;AQNWB::IO::ReadDataWrapper&lt;storageObjectType, VTYPE&gt;&gt; \</div>
+<div class="line">  <span class="keyword">inline</span> std::unique_ptr&lt;AQNWB::IO::ReadDataWrapper&lt;AttributeField, VTYPE&gt;&gt; \</div>
 <div class="line">  name() const \</div>
 <div class="line">  { \</div>
 <div class="line">    <span class="keywordflow">return</span> std::make_unique&lt; \</div>
-<div class="line">        <a class="code hl_class" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper&lt;storageObjectType, VTYPE&gt;</a>&gt;( \</div>
+<div class="line">        <a class="code hl_class" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper&lt;AttributeField, VTYPE&gt;</a>&gt;( \</div>
 <div class="line">        m_io, <a class="code hl_function" href="namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881">AQNWB::mergePaths</a>(m_path, fieldPath)); \</div>
 <div class="line">  }</div>
 <div class="ttc" id="aclass_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper_html"><div class="ttname"><a href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a></div><div class="ttdoc">Class for wrapping data objects (datasets or attributes) for reading data from a file.</div><div class="ttdef"><b>Definition</b> ReadIO.hpp:270</div></div>
 <div class="ttc" id="anamespace_a_q_n_w_b_html_a31983dbaaa85c2e355b9687fc0ef1881"><div class="ttname"><a href="namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881">AQNWB::mergePaths</a></div><div class="ttdeci">static std::string mergePaths(const std::string &amp;path1, const std::string &amp;path2)</div><div class="ttdoc">Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;.</div><div class="ttdef"><b>Definition</b> Utils.hpp:112</div></div>
 </div><!-- fragment -->
-<p>Defines a lazy-loaded field accessor function. </p>
-<p>This macro generates a function that returns a lazy-loaded wrapper for a dataset or attribute field.</p>
+<p>Defines a lazy-loaded attribute field accessor function. </p>
+<p>This macro generates a function that returns a lazy-loaded wrapper for an attribute field.</p>
 <dl class="section note"><dt>Note</dt><dd>The Doxyfile.in defines a simplified expansion of this function for generating the documentation for the autogenerated function. This means: 1) When updating the macro here, we also need to ensure that the expansion in the Doxyfile.in is still accurate and 2) the docstring that is defined by the macro here is not being used by Doxygen but the version generated by its on PREDEFINED expansion.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">name</td><td>The name of the function to generate. </td></tr>
-    <tr><td class="paramname">storageObjectType</td><td>The type of storage object (Attribute or Dataset). </td></tr>
+    <tr><td class="paramname">default_type</td><td>The default type of the field. </td></tr>
+    <tr><td class="paramname">fieldPath</td><td>The path to the field. </td></tr>
+    <tr><td class="paramname">description</td><td>A detailed description of the field. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aeb21020579ca18f10e64fac9689a7ef6" name="aeb21020579ca18f10e64fac9689a7ef6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb21020579ca18f10e64fac9689a7ef6">&#9670;&#160;</a></span>DEFINE_DATASET_FIELD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEFINE_DATASET_FIELD</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>readName</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>writeName</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>default_type</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>fieldPath</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>description</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Defines a lazy-loaded dataset field accessor function. </p>
+<p>This macro generates two functions:</p><ol type="1">
+<li>A read function that returns a lazy-loaded wrapper for a dataset field</li>
+<li>A write function that returns the dataset object directly</li>
+</ol>
+<dl class="section note"><dt>Note</dt><dd>The Doxyfile.in defines a simplified expansion of this function for generating the documentation for the autogenerated function. This means: 1) When updating the macro here, we also need to ensure that the expansion in the Doxyfile.in is still accurate and 2) the docstring that is defined by the macro here is not being used by Doxygen but the version generated by its on PREDEFINED expansion.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">readName</td><td>The name of the read function to generate. </td></tr>
+    <tr><td class="paramname">writeName</td><td>The name of the write function to generate. </td></tr>
     <tr><td class="paramname">default_type</td><td>The default type of the field. </td></tr>
     <tr><td class="paramname">fieldPath</td><td>The path to the field. </td></tr>
     <tr><td class="paramname">description</td><td>A detailed description of the field. </td></tr>
@@ -359,7 +408,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_define" href="#af20769bbf87fb10f70c36fe248deaf4d">REGISTER_SUBCLASS_WITH_TYPENAME</a>(T, NAMESPACE, #T)</div>
-<div class="ttc" id="a_registered_type_8hpp_html_af20769bbf87fb10f70c36fe248deaf4d"><div class="ttname"><a href="#af20769bbf87fb10f70c36fe248deaf4d">REGISTER_SUBCLASS_WITH_TYPENAME</a></div><div class="ttdeci">#define REGISTER_SUBCLASS_WITH_TYPENAME(T, NAMESPACE_VAR, TYPENAME)</div><div class="ttdoc">Macro to register a subclass with the RegisteredType class registry.</div><div class="ttdef"><b>Definition</b> RegisteredType.hpp:345</div></div>
+<div class="ttc" id="a_registered_type_8hpp_html_af20769bbf87fb10f70c36fe248deaf4d"><div class="ttname"><a href="#af20769bbf87fb10f70c36fe248deaf4d">REGISTER_SUBCLASS_WITH_TYPENAME</a></div><div class="ttdeci">#define REGISTER_SUBCLASS_WITH_TYPENAME(T, NAMESPACE_VAR, TYPENAME)</div><div class="ttdoc">Macro to register a subclass with the RegisteredType class registry.</div><div class="ttdef"><b>Definition</b> RegisteredType.hpp:378</div></div>
 </div><!-- fragment -->
 <p>Macro to register a subclass with the RegisteredType class registry. </p>
 <p>This macro is a convenience wrapper around the main REGISTER_SUBCLASS macro, providing a default value for TYPENAME.</p>
@@ -453,7 +502,7 @@ Variables</h2></td></tr>
 </ul>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">T</td><td>The subclass type to register. The name must match the type in the schema. </td></tr>
+    <tr><td class="paramname">T</td><td>The subclass type to register. The name must match the type in the schema.</td></tr>
     <tr><td class="paramname">NAMESPACE_VAR</td><td>The namespace of the subclass type in the format schema. May be specified via a const variable or as a literal string. </td></tr>
     <tr><td class="paramname">TYPENAME</td><td>The name of the type (usually the class name). </td></tr>
   </table>
