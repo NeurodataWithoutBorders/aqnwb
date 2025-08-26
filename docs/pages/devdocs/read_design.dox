@@ -29,9 +29,9 @@
  *     The \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper" then calls the I/O backend to retrieve data lazily 
  *     when the user requests access. 
  *   - To create a \ref AQNWB::IO::ReadDataWrapper "ReadDataWrapper"  object a user will typically 
- *     use either pre-definied read methods created via the \ref DEFINE_FIELD macro
- *     (see also \ref use_the_define_field_macro) or the \ref AQNWB::NWB::RegisteredType::readField "RegisteredType::readField" 
- *     method.
+ *     use either pre-definied read methods created via the \ref DEFINE_ATTRIBUTE_FIELD or \ref DEFINE_DATASET_FIELD macros
+ *     (see also \ref use_the_define_attribute_field_macro and \ref use_the_define_dataset_field_macro) or 
+ *      the \ref AQNWB::NWB::RegisteredType::readField "RegisteredType::readField" method.
  * 3. \ref AQNWB::IO::BaseIO "BaseIO"
  *   - \ref AQNWB::IO::BaseIO "BaseIO", \ref AQNWB::IO::HDF5::HDF5IO "HDF5IO" is then responsible for
  *     reading data from disk and allocating memory for data on read. Read methods, 

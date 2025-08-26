@@ -124,7 +124,7 @@
  *
  * \subsection read_example_arbitrary Reading arbitrary fields
  *
- * Even if there is no dedicated `DEFINE_FIELD` definition available, we can still read 
+ * Even if there is no dedicated `DEFINE_ATTRIBUTE_FIELD` or `DEFINE_DATASET_FIELD` definition available, we can still read 
  * any arbitrary sub-field associated with a particular \ref AQNWB::NWB::RegisteredType "RegisteredType"
  * via the generic \ref AQNWB::NWB::RegisteredType::readField "RegisteredType::readField" method.
  * For example, to read the data from the \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries":

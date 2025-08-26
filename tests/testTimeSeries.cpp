@@ -19,7 +19,7 @@ TEST_CASE("TimeSeries is registered as a subclass of RegisteredType", "[base]")
 
 TEST_CASE("TimeSeries", "[base]")
 {
-  // Prepare test data
+  // Prepare common test data
   SizeType numSamples = 10;
   std::string dataPath = "/tsdata";
   std::vector<SizeType> dataShape = {numSamples};
@@ -29,10 +29,11 @@ TEST_CASE("TimeSeries", "[base]")
   std::vector<double> timestamps = getMockTimestamps(numSamples, 1);
   std::vector<unsigned char> controlData = {0, 1, 0, 1, 0, 1, 0, 1, 0, 1};
   std::vector<std::string> controlDescription = {"c0", "c1"};
-  std::string path = getTestFilePath("testTimeseries.h5");
 
   SECTION("test writing and reading timeseries with timestamps")
   {
+    // Create a separate file for this test
+    std::string path = getTestFilePath("testTimeseriesWithTimestamps.h5");
     // setup timeseries object
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
@@ -62,10 +63,10 @@ TEST_CASE("TimeSeries", "[base]")
         emptyControlDescription  // empty to NOT use a control and
                                  // control_description dataset
     );
-    REQUIRE(ts.timestamps != nullptr);
-    REQUIRE(ts.starting_time == nullptr);
-    REQUIRE(ts.control == nullptr);
-    REQUIRE(ts.control_description == nullptr);
+    REQUIRE(ts.readTimestamps()->exists() == true);
+    REQUIRE(ts.readStartingTime()->exists() == false);
+    REQUIRE(ts.readControl()->exists() == false);
+    REQUIRE(ts.readControlDescription()->exists() == false);
 
     // Write data to file
     Status writeStatus =
@@ -169,6 +170,8 @@ TEST_CASE("TimeSeries", "[base]")
 
   SECTION("test writing and reading timeseries with starting time")
   {
+    // Create a separate file for this test
+    std::string path = getTestFilePath("testTimeseriesWithStartingTime.h5");
     // setup timeseries object
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
@@ -196,10 +199,10 @@ TEST_CASE("TimeSeries", "[base]")
                   startingTime,
                   startingTimeRate,
                   controlDescription);
-    REQUIRE(ts.timestamps == nullptr);
-    REQUIRE(ts.starting_time != nullptr);
-    REQUIRE(ts.control != nullptr);
-    REQUIRE(ts.control_description != nullptr);
+    REQUIRE(ts.readTimestamps()->exists() == false);
+    REQUIRE(ts.readStartingTime()->exists() == true);
+    REQUIRE(ts.readControl()->exists() == true);
+    REQUIRE(ts.readControlDescription()->exists() == true);
 
     // Write data to file
     Status writeStatus = ts.writeData(dataShape,
@@ -268,5 +271,75 @@ TEST_CASE("TimeSeries", "[base]")
     REQUIRE(readControlDescriptionValues.data == controlDescription);
 
     readio->close();
+  }
+
+  SECTION("test record methods from DEFINE_DATASET_FIELD")
+  {
+    // Create a separate file for this test
+    std::string path = getTestFilePath("testTimeseriesRecord.h5");
+    // setup timeseries object
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+    NWB::TimeSeries ts = NWB::TimeSeries(dataPath, io);
+    std::string description = "Test TimeSeries";
+    std::string comments = "Test comment";
+    std::string unit = "volts";
+    float conversion = 10.0;
+    float resolution = 9.0;
+    float offset = 8.0;
+    std::vector<std::string> emptyControlDescription = {};
+    AQNWB::NWB::TimeSeries::ContinuityType continuity =
+        AQNWB::NWB::TimeSeries::Continuous;
+
+    IO::ArrayDataSetConfig config(dataType, SizeArray {0}, SizeArray {1});
+    ts.initialize(
+        config,
+        unit,
+        description,
+        comments,
+        conversion,
+        resolution,
+        offset,
+        continuity,
+        -1.0,  // don't use starting time
+        1.0,  // starting time rate. Not used since starting time is -1
+        controlDescription  // use control and control_description
+    );
+
+    // Test recordData method
+    auto dataRecorder = ts.recordData();
+    REQUIRE(dataRecorder != nullptr);
+
+    // Test recordTimestamps method
+    auto timestampsRecorder = ts.recordTimestamps();
+    REQUIRE(timestampsRecorder != nullptr);
+
+    // Test recordControl method
+    auto controlRecorder = ts.recordControl();
+    REQUIRE(controlRecorder != nullptr);
+
+    // Test recordControlDescription method
+    auto controlDescriptionRecorder = ts.recordControlDescription();
+    REQUIRE(controlDescriptionRecorder != nullptr);
+
+    // Initialize a second TimeSeries with starting_time
+    NWB::TimeSeries ts2 = NWB::TimeSeries(dataPath + "/ts2", io);
+    ts2.initialize(config,
+                   unit,
+                   description,
+                   comments,
+                   conversion,
+                   resolution,
+                   offset,
+                   continuity,
+                   0.0,  // use starting time
+                   1.0,  // starting time rate
+                   emptyControlDescription);
+
+    // Test recordStartingTime method
+    auto startingTimeRecorder = ts2.recordStartingTime();
+    REQUIRE(startingTimeRecorder != nullptr);
+
+    io->close();
   }
 }

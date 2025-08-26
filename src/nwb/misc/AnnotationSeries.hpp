@@ -57,11 +57,11 @@ public:
                          const void* timestampsInput,
                          const void* controlInput = nullptr);
 
-  DEFINE_FIELD(readData,
-               DatasetField,
-               std::string,
-               "data",
-               Annotations made during an experiment.)
+  DEFINE_DATASET_FIELD(readData,
+                       recordData,
+                       std::string,
+                       "data",
+                       Annotations made during an experiment.)
 
 private:
   /**

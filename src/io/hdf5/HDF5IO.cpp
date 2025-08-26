@@ -106,11 +106,16 @@ std::unique_ptr<H5::Attribute> HDF5IO::getAttribute(
   // Split the path to get the parent object and the attribute name
   size_t pos = path.find_last_of('/');
   if (pos == std::string::npos) {
+    std::cerr << "Invalid path: " << path << std::endl;
     return nullptr;
   }
 
   std::string parentPath = path.substr(0, pos);
   std::string attrName = path.substr(pos + 1);
+  // If we are at the root, set parentPath to "/"
+  if (parentPath.empty()) {
+    parentPath = "/";
+  }
 
   // open the group or dataset
   H5Object* loc;
@@ -374,7 +379,7 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(
   auto attributePtr = this->getAttribute(dataPath);
   if (attributePtr == nullptr) {
     throw std::invalid_argument(
-        "HDF5IO::readAttribute, attribute does not exist.");
+        "HDF5IO::readAttribute, attribute does not exist. " + dataPath);
   }
 
   H5::Attribute& attribute = *attributePtr;
@@ -1191,7 +1196,7 @@ std::vector<SizeType> HDF5IO::getStorageObjectShape(const std::string path)
   return std::vector<SizeType>(dims.begin(), dims.end());
 }
 
-std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::getDataSet(
+std::shared_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::getDataSet(
     const std::string& path)
 {
   std::unique_ptr<DataSet> data;
@@ -1201,7 +1206,7 @@ std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::getDataSet(
 
   try {
     data = std::make_unique<H5::DataSet>(m_file->openDataSet(path));
-    return std::make_unique<HDF5RecordingData>(std::move(data));
+    return std::make_shared<HDF5RecordingData>(std::move(data));
   } catch (DataSetIException error) {
     error.printErrorStack();
     return nullptr;

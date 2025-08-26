@@ -36,17 +36,15 @@ TEST_CASE("Data", "[base]")
     BaseDataType dataType = BaseDataType::I32;
     std::vector<int> data = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
-    // create BaseRecordingData to pass to Data.initialize
+    // create config for Data.initialize
     IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
-    std::unique_ptr<BaseRecordingData> columnDataset =
-        io->createArrayDataSet(config, dataPath);
 
     // setup Data object
     auto columnData = NWB::Data(dataPath, io);
-    columnData.initialize(std::move(columnDataset));
+    columnData.initialize(config);
 
     // Write data to file
-    Status writeStatus = columnData.m_dataset->writeDataBlock(
+    Status writeStatus = columnData.recordData()->writeDataBlock(
         dataShape, positionOffset, dataType, data.data());
     REQUIRE(writeStatus == Status::Success);
     io->flush();
@@ -67,6 +65,34 @@ TEST_CASE("Data", "[base]")
     auto neurodataTypeData = readData->readNeurodataType();
     std::string neurodataTypeStr = neurodataTypeData->values().data[0];
     REQUIRE(neurodataTypeStr == "Data");
+  }
+
+  SECTION("test record methods from DEFINE_DATASET_FIELD")
+  {
+    // Create a separate file for this test
+    std::string recordPath = getTestFilePath("testDataRecord.h5");
+    std::shared_ptr<BaseIO> recordIo = createIO("HDF5", recordPath);
+    recordIo->open();
+
+    // Prepare test data
+    SizeType numSamples = 10;
+    std::string dataPath = "/data_record_test";
+    SizeArray dataShape = {numSamples};
+    SizeArray chunking = {numSamples};
+    BaseDataType dataType = BaseDataType::I32;
+
+    // Create and initialize the dataset
+    IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
+
+    // setup Data object
+    auto data = NWB::Data(dataPath, recordIo);
+    data.initialize(config);
+
+    // Test recordData method
+    auto dataRecorder = data.recordData();
+    REQUIRE(dataRecorder != nullptr);
+
+    recordIo->close();
   }
 
   io->close();
@@ -90,18 +116,15 @@ TEST_CASE("DataTyped", "[base]")
     BaseDataType dataType = BaseDataType::I32;
     std::vector<int> data = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
-    // create BaseRecordingData to pass to Data.initialize
+    // create config for Data.initialize
     IO::ArrayDataSetConfig config {dataType, dataShape, chunking};
-
-    std::unique_ptr<BaseRecordingData> columnDataset =
-        io->createArrayDataSet(config, dataPath);
 
     // setup Data object
     auto columnData = NWB::Data(dataPath, io);
-    columnData.initialize(std::move(columnDataset));
+    columnData.initialize(config);
 
     // Write data to file
-    Status writeStatus = columnData.m_dataset->writeDataBlock(
+    Status writeStatus = columnData.recordData()->writeDataBlock(
         dataShape, positionOffset, dataType, data.data());
     REQUIRE(writeStatus == Status::Success);
     io->flush();
@@ -138,17 +161,15 @@ TEST_CASE("DataTyped", "[base]")
     std::vector<double> data = {
         1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8, 9.9, 10.1};
 
-    // create BaseRecordingData to pass to Data.initialize
+    // create config for Data.initialize
     IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
-    std::unique_ptr<BaseRecordingData> columnDataset =
-        io->createArrayDataSet(config, dataPath);
 
     // setup Data object
     auto columnData = NWB::Data(dataPath, io);
-    columnData.initialize(std::move(columnDataset));
+    columnData.initialize(config);
 
     // Write data to file
-    Status writeStatus = columnData.m_dataset->writeDataBlock(
+    Status writeStatus = columnData.recordData()->writeDataBlock(
         dataShape, positionOffset, dataType, data.data());
     REQUIRE(writeStatus == Status::Success);
     io->flush();
@@ -193,17 +214,15 @@ TEST_CASE("DataTyped", "[base]")
                                      "nine",
                                      "ten"};
 
-    // create BaseRecordingData to pass to Data.initialize
+    // create config for Data.initialize
     IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
-    std::unique_ptr<BaseRecordingData> columnDataset =
-        io->createArrayDataSet(config, dataPath);
 
     // setup Data object
     auto columnData = NWB::Data(dataPath, io);
-    columnData.initialize(std::move(columnDataset));
+    columnData.initialize(config);
 
     // Write data to file
-    Status writeStatus = columnData.m_dataset->writeDataBlock(
+    Status writeStatus = columnData.recordData()->writeDataBlock(
         dataShape, positionOffset, dataType, data);
     REQUIRE(writeStatus == Status::Success);
     io->flush();
@@ -226,6 +245,37 @@ TEST_CASE("DataTyped", "[base]")
     auto convertedData = convertedDataTyped->readData();
     auto convertedBlockString = convertedData->values();
     REQUIRE(convertedBlockString.data == data);
+  }
+
+  SECTION("test record methods from DEFINE_DATASET_FIELD for DataTyped")
+  {
+    // Create a separate file for this test
+    std::string recordPath = getTestFilePath("testDataTypedRecord.h5");
+    std::shared_ptr<BaseIO> recordIo = createIO("HDF5", recordPath);
+    recordIo->open();
+
+    // Prepare test data
+    SizeType numSamples = 10;
+    std::string dataPath = "/data_typed_record_test";
+    SizeArray dataShape = {numSamples};
+    SizeArray chunking = {numSamples};
+    BaseDataType dataType = BaseDataType::I32;
+
+    // Create and initialize the dataset
+    IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
+
+    // setup Data object
+    auto columnData = NWB::Data(dataPath, recordIo);
+    columnData.initialize(config);
+
+    // setup DataTyped<int> object
+    auto dataTyped = NWB::DataTyped<int>(dataPath, recordIo);
+
+    // Test recordData method
+    auto dataRecorder = dataTyped.recordData();
+    REQUIRE(dataRecorder != nullptr);
+
+    recordIo->close();
   }
 
   io->close();
