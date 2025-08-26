@@ -14,7 +14,7 @@
  * from the nwb-schema and hdmf-common-schema files.  To regenerate these header files, it is recommended to use the script:
  * 
  * @code{.sh}
- * bash resources/generate_nwb_schema_headers.sh
+ * bash resources/utils/generate_nwb_schema_headers.sh
  * @endcode
  * 
  * This script will:
