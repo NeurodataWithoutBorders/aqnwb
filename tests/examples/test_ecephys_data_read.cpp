@@ -15,7 +15,7 @@
 #include "nwb/device/Device.hpp"
 #include "nwb/ecephys/ElectricalSeries.hpp"
 #include "nwb/file/ElectrodeGroup.hpp"
-#include "nwb/file/ElectrodeTable.hpp"
+#include "nwb/file/ElectrodesTable.hpp"
 #include "nwb/hdmf/base/Container.hpp"
 #include "testUtils.hpp"
 
@@ -250,10 +250,10 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     auto readNWBFile =
         NWB::RegisteredType::create<AQNWB::NWB::NWBFile>("/", readio);
     // Read the ElectrodesTable
-    auto readElectrodeTable = readNWBFile->readElectrodeTable();
+    auto readElectrodesTable = readNWBFile->readElectrodesTable();
     // read the location data. Note that both the type of the class and
     // the data values is being set for us, here, VectorDataTyped<std::string>
-    auto locationColumn = readElectrodeTable->readLocationColumn();
+    auto locationColumn = readElectrodesTable->readLocationColumn();
     auto locationColumnValues = locationColumn->readData()->values();
     // confirm that the values are correct
     std::vector<std::string> expectedLocationValues = {

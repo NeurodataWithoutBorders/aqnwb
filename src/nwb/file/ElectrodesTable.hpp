@@ -13,32 +13,32 @@ namespace AQNWB::NWB
 /**
  * @brief Represents a table containing electrode metadata.
  */
-class ElectrodeTable : public DynamicTable
+class ElectrodesTable : public DynamicTable
 {
 public:
-  // Register the ElectrodeTable as a subclass of Container
-  // REGISTER_SUBCLASS(ElectrodeTable, "core")
-  REGISTER_SUBCLASS(ElectrodeTable, AQNWB::SPEC::CORE::namespaceName)
+  // Register the ElectrodesTable as a subclass of Container
+  // REGISTER_SUBCLASS(ElectrodesTable, "core")
+  REGISTER_SUBCLASS(ElectrodesTable, AQNWB::SPEC::CORE::namespaceName)
 
   /**
    * @brief Constructor.
    * @param io The shared pointer to the BaseIO object.
    * extracellular electrodes").
    */
-  ElectrodeTable(std::shared_ptr<IO::BaseIO> io);
+  ElectrodesTable(std::shared_ptr<IO::BaseIO> io);
 
   // required so we can call create
-  ElectrodeTable(const std::string& path, std::shared_ptr<IO::BaseIO> io);
+  ElectrodesTable(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
   /**
    * @brief Destructor.
    */
-  ~ElectrodeTable();
+  ~ElectrodesTable();
 
   /**
-   * @brief Initializes the ElectrodeTable.
+   * @brief Initializes the ElectrodesTable.
    *
-   * Initializes the ElectrodeTable by creating NWB related attributes and
+   * Initializes the ElectrodesTable by creating NWB related attributes and
    * adding required columns.
    *
    * @param description The description of the table (default: "metadata about
@@ -49,22 +49,22 @@ public:
                         "metadata about extracellular electrodes");
 
   /**
-   * @brief Finalizes the ElectrodeTable.
+   * @brief Finalizes the ElectrodesTable.
    *
-   * Finalizes the ElectrodeTable by adding the required columns and writing
+   * Finalizes the ElectrodesTable by adding the required columns and writing
    * the data to the file.
    * @return Status::Success if successful, otherwise Status::Failure.
    */
   Status finalize();
 
   /**
-   * @brief Sets up the ElectrodeTable by adding electrodes and their metadata.
+   * @brief Sets up the ElectrodesTable by adding electrodes and their metadata.
    * @param channelsInput The vector of Channel objects to add to the table.
    */
   void addElectrodes(std::vector<Channel> channelsInput);
 
   /**
-   * @brief The path to the ElectrodeTable.
+   * @brief The path to the ElectrodesTable.
    */
   inline const static std::string electrodeTablePath =
       "/general/extracellular_ephys/electrodes";

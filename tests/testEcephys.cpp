@@ -12,7 +12,7 @@
 #include "nwb/ecephys/ElectricalSeries.hpp"
 #include "nwb/ecephys/SpikeEventSeries.hpp"
 #include "nwb/file/ElectrodeGroup.hpp"
-#include "nwb/file/ElectrodeTable.hpp"
+#include "nwb/file/ElectrodesTable.hpp"
 #include "testUtils.hpp"
 
 using namespace AQNWB;
@@ -22,7 +22,7 @@ TEST_CASE("registered ecephys types", "[ecephys]")
   auto registry = AQNWB::NWB::RegisteredType::getRegistry();
   REQUIRE(registry.find("core::Device") != registry.end());
   REQUIRE(registry.find("core::ElectrodeGroup") != registry.end());
-  REQUIRE(registry.find("core::ElectrodeTable") != registry.end());
+  REQUIRE(registry.find("core::ElectrodesTable") != registry.end());
   REQUIRE(registry.find("core::ElectricalSeries") != registry.end());
   REQUIRE(registry.find("core::SpikeEventSeries") != registry.end());
 }
@@ -61,7 +61,7 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     elecGroup.initialize("description", "unknown", device);
 
     // setup electrode table, device, and electrode group
-    NWB::ElectrodeTable elecTable = NWB::ElectrodeTable(io);
+    NWB::ElectrodesTable elecTable = NWB::ElectrodesTable(io);
     Status elecTableStatus = elecTable.initialize();
     REQUIRE(elecTableStatus == Status::Success);
     elecTable.addElectrodes(mockArrays[0]);
@@ -128,7 +128,7 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     elecGroup.initialize("description", "unknown", device);
 
     // setup electrode table
-    NWB::ElectrodeTable elecTable = NWB::ElectrodeTable(io);
+    NWB::ElectrodesTable elecTable = NWB::ElectrodesTable(io);
     Status elecTableStatus = elecTable.initialize();
     REQUIRE(elecTableStatus == Status::Success);
     elecTable.addElectrodes(mockArrays[0]);
@@ -214,7 +214,7 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     elecGroup.initialize("description", "unknown", device);
 
     // setup electrode table
-    NWB::ElectrodeTable elecTable = NWB::ElectrodeTable(io);
+    NWB::ElectrodesTable elecTable = NWB::ElectrodesTable(io);
     elecTable.initialize();
     elecTable.addElectrodes(mockArraysElectrodes[0]);
     elecTable.finalize();
@@ -249,11 +249,11 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     REQUIRE(readElectrodesDescriptionValues
             == "the electrodes that generated this electrical series");
 
-    // Read the references to the ElectrodeTable
+    // Read the references to the ElectrodesTable
     auto readElectrodesTable = readElectricalSeries->readElectrodesTable();
     REQUIRE(readElectrodesTable != nullptr);
     REQUIRE(readElectrodesTable->getPath()
-            == AQNWB::NWB::ElectrodeTable::electrodeTablePath);
+            == AQNWB::NWB::ElectrodesTable::electrodeTablePath);
   }
 }
 
@@ -292,7 +292,7 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
     elecGroup.initialize("description", "unknown", device);
 
     // setup electrode table, device, and electrode group
-    NWB::ElectrodeTable elecTable = NWB::ElectrodeTable(io);
+    NWB::ElectrodesTable elecTable = NWB::ElectrodesTable(io);
     Status elecTableStatus = elecTable.initialize();
     REQUIRE(elecTableStatus == Status::Success);
     elecTable.addElectrodes(mockArrays[0]);
@@ -359,7 +359,7 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
     elecGroup.initialize("description", "unknown", device);
 
     // setup electrode table, device, and electrode group
-    NWB::ElectrodeTable elecTable = NWB::ElectrodeTable(io);
+    NWB::ElectrodesTable elecTable = NWB::ElectrodesTable(io);
     Status elecTableStatus = elecTable.initialize();
     REQUIRE(elecTableStatus == Status::Success);
     elecTable.addElectrodes(mockArrays[0]);
