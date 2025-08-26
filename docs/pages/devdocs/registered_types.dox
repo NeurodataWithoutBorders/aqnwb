@@ -105,7 +105,7 @@
  *
  *
  * \note
- * \ref DEFINE_ATTRIBUTE_FIELD, \ref DEFINE_ATTRIBUTE_FIELD, \ref DEFINE_DATASET_FIELD, and 
+ * \ref DEFINE_ATTRIBUTE_FIELD, \ref DEFINE_DATASET_FIELD, and 
  * \ref DEFINE_REGISTERED_FIELD create templated, non-virtual read 
  * functions. This means if we want to "redefine" a field in a child class by calling 
  * one of these macros again, then the function will be "hidden" instead of "override". 
