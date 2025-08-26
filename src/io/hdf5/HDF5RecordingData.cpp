@@ -24,7 +24,18 @@ HDF5RecordingData::HDF5RecordingData(std::unique_ptr<H5::DataSet> data)
 
   numDimensions =
       static_cast<SizeType>(dSpace.getSimpleExtentDims(dims.data()));
-  prop.getChunk(static_cast<int>(numDimensions), chunk.data());
+
+  // Check if the dataset is chunked before trying to get chunk information
+  H5D_layout_t layout = prop.getLayout();
+  if (layout == H5D_CHUNKED) {
+    // Only get chunk information for chunked datasets
+    prop.getChunk(static_cast<int>(numDimensions), chunk.data());
+  } else {
+    // For non-chunked datasets, use the dataset dimensions as the chunk size
+    for (SizeType i = 0; i < numDimensions; ++i) {
+      chunk[i] = dims[i];
+    }
+  }
 
   m_shape = std::vector<SizeType>(numDimensions);
   for (SizeType i = 0; i < numDimensions; ++i) {

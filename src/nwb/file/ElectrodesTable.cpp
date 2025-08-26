@@ -48,20 +48,18 @@ Status ElectrodesTable::initialize(const std::string& description)
 
   IO::ArrayDataSetConfig electrodeConfig(
       IO::BaseDataType::I32, SizeArray {1}, SizeArray {1});
-  Status electrodeStatus = m_electrodeDataset->initialize(
-      std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet(
-          electrodeConfig, AQNWB::mergePaths(m_path, "id"))));
+  Status electrodeStatus = m_electrodeDataset->initialize(electrodeConfig);
+
   IO::ArrayDataSetConfig groupNameConfig(
       IO::BaseDataType::V_STR, SizeArray {0}, SizeArray {1});
   Status groupNameStatus = m_groupNamesDataset->initialize(
-      std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet(
-          groupNameConfig, AQNWB::mergePaths(m_path, "group_name"))),
+      groupNameConfig,
       "the name of the ElectrodeGroup this electrode is a part of");
+
   IO::ArrayDataSetConfig locationConfig(
       IO::BaseDataType::V_STR, SizeArray {0}, SizeArray {1});
   Status locationStatus = m_locationsDataset->initialize(
-      std::unique_ptr<IO::BaseRecordingData>(m_io->createArrayDataSet(
-          locationConfig, AQNWB::mergePaths(m_path, "location"))),
+      locationConfig,
       "the location of channel within the subject e.g. brain region");
   return electrodeStatus && groupNameStatus && locationStatus;
 }

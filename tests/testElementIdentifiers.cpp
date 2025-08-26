@@ -36,17 +36,15 @@ TEST_CASE("ElementIdentifiers", "[base]")
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
 
-    // create BaseRecordingData to pass to Data.initialize
+    // create config for Data.initialize
     IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
-    std::unique_ptr<BaseRecordingData> columnDataset =
-        io->createArrayDataSet(config, dataPath);
 
     // setup Data object
     NWB::ElementIdentifiers columnData = NWB::ElementIdentifiers(dataPath, io);
-    columnData.initialize(std::move(columnDataset));
+    columnData.initialize(config);
 
     // Write data to file
-    Status writeStatus = columnData.m_dataset->writeDataBlock(
+    Status writeStatus = columnData.recordData()->writeDataBlock(
         dataShape, positionOffset, dataType, data.data());
     REQUIRE(writeStatus == Status::Success);
     io->flush();
@@ -75,5 +73,33 @@ TEST_CASE("ElementIdentifiers", "[base]")
     auto dataData = readElementIdentifiers->readData();
     auto dataBlockInt = dataData->values();
     REQUIRE(dataBlockInt.data == data);
+  }
+
+  SECTION("test record methods from DEFINE_DATASET_FIELD")
+  {
+    // Prepare test data
+    SizeType numSamples = 10;
+    std::string dataPath = "/element_identifiers_record_test";
+    SizeArray dataShape = {numSamples};
+    SizeArray chunking = {numSamples};
+    BaseDataType dataType = BaseDataType::I32;
+    std::string path = getTestFilePath("testElementIdentifiersRecord.h5");
+
+    // Create the HDF5 file to write to
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    // create config for Data.initialize
+    IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
+
+    // setup ElementIdentifiers object
+    auto elementIdentifiers = NWB::ElementIdentifiers(dataPath, io);
+    elementIdentifiers.initialize(config);
+
+    // Test recordData method
+    auto dataRecorder = elementIdentifiers.recordData();
+    REQUIRE(dataRecorder != nullptr);
+
+    io->close();
   }
 }

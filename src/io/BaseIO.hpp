@@ -563,9 +563,9 @@ public:
   /**
    * @brief Returns a pointer to a dataset at a given path.
    * @param path The location in the file of the dataset.
-   * @return A pointer to the dataset.
+   * @return A shared pointer to the dataset.
    */
-  virtual std::unique_ptr<BaseRecordingData> getDataSet(
+  virtual std::shared_ptr<BaseRecordingData> getDataSet(
       const std::string& path) = 0;
 
   /**
