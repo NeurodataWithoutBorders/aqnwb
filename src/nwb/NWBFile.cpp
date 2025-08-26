@@ -60,15 +60,6 @@ Status NWBFile::initialize(const std::string& identifierText,
     std::cerr << "NWBFile::initialize IO object is not open." << std::endl;
     return Status::Failure;
   }
-  // TODO: Call Container::initialize() instead. However, then we need to check
-  //      in Container that we don't create the root group and also remove the
-  //      redundant call to create the common attributes. For no we can just
-  //      call registerRecordingObject directly to to add this NWBFile object to
-  //      RecordingObjects
-  auto registerIndex = registerRecordingObject();  // Container::initialize();
-  Status registerStatus = isValidIndex(registerIndex)
-      ? AQNWB::Types::Status::Success
-      : AQNWB::Types::Status::Failure;
 
   std::string currentTime = getCurrentTime();
   // use the current time if sessionStartTime is empty
@@ -99,10 +90,9 @@ Status NWBFile::initialize(const std::string& identifierText,
                                               dataCollection,
                                               useSessionStartTime,
                                               useTimestampsReferenceTime);
-    return createStatus && registerStatus;
+    return createStatus;
   } else {
-    return registerStatus;  // File is already initialized, return register
-                            // status
+    return Status::Success;
   }
 }
 

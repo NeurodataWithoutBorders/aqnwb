@@ -78,6 +78,8 @@ std::shared_ptr<AQNWB::NWB::RegisteredType> RegisteredType::create(
     std::shared_ptr<IO::BaseIO> io,
     bool fallbackToBase)
 {
+  // If no object exists for the path, or if the existing object is of a
+  // different type, create a new instance
   //  Look up the factory RegisteredType for the fullClassName the registry
   auto it = getFactoryMap().find(fullClassName);
   if (it != getFactoryMap().end()) {
@@ -86,18 +88,23 @@ std::shared_ptr<AQNWB::NWB::RegisteredType> RegisteredType::create(
   // If the class is not found, return a base class instance by calling this
   // function again with the fallback base class to use for Group and Dataset
   // types respectively
+  std::shared_ptr<AQNWB::NWB::RegisteredType> result = nullptr;
   if (fallbackToBase) {
     StorageObjectType sot = io->getStorageObjectType(path);
     if (sot == StorageObjectType::Group) {
-      return create(m_defaultUnregisteredGroupTypeClass, path, io);
+      result = create(m_defaultUnregisteredGroupTypeClass, path, io);
     } else if (sot == StorageObjectType::Dataset) {
-      return create(m_defaultUnregisteredDatasetTypeClass, path, io);
+      result = create(m_defaultUnregisteredDatasetTypeClass, path, io);
     }
   }
 
-  // If the class is not found and we are not falling back to a base class,
-  // return nullptr
-  return nullptr;
+  // Ensure the object is registered for recording if it is not already
+  if (result != nullptr) {
+    result->registerRecordingObject();
+  }
+
+  // Return the result, which may be nullptr if creation failed
+  return result;
 }
 
 std::shared_ptr<AQNWB::NWB::RegisteredType> RegisteredType::create(

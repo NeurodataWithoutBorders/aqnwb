@@ -25,17 +25,10 @@ Status Container::initialize()
               << std::endl;
     return AQNWB::Types::Status::Failure;
   }
-
-  // Call RegisteredType::initialize() to add this object to RecordingObjects
-  auto registerIndex = registerRecordingObject();
-  Status registerStatus = isValidIndex(registerIndex)
-      ? AQNWB::Types::Status::Success
-      : AQNWB::Types::Status::Failure;
-
   auto createGroupStatus = ioPtr->createGroup(m_path);
   // setup common attributes
   auto createAttrsStatus = ioPtr->createCommonNWBAttributes(
       m_path, this->getNamespace(), this->getTypeName());
 
-  return createGroupStatus && createAttrsStatus && registerStatus;
+  return createGroupStatus && createAttrsStatus;
 }
