@@ -8,8 +8,8 @@
 #include "io/hdf5/HDF5IO.hpp"
 #include "nwb/NWBFile.hpp"
 #include "nwb/RecordingContainers.hpp"
-#include "nwb/file/ElectrodesTable.hpp"
 #include "nwb/ecephys/ElectricalSeries.hpp"
+#include "nwb/file/ElectrodesTable.hpp"
 #include "testUtils.hpp"
 
 using namespace AQNWB;
