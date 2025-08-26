@@ -46,8 +46,8 @@ public:
                   const std::string& location,
                   const Device& device);
 
-  DEFINE_DATASET_FIELD(readData,
-                       recordData,
+  DEFINE_DATASET_FIELD(readPosition,
+                       recordPosition,
                        std::any,
                        "position",
                        Stereotaxis or common framework coordinates)
