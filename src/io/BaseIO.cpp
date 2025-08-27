@@ -62,30 +62,24 @@ Status BaseIO::createCommonNWBAttributes(const std::string& path,
   return Status::Success;
 }
 
-std::string BaseIO::getFullTypeNameFromFile(const std::string& path)
+std::string BaseIO::getFullTypeName(const std::string& path)
 {
-  std::cerr << "DEBUG BaseIO::getFullTypeNameFromFile path=" << path
-            << std::endl;
   // Read the "namespace" attribute
   AQNWB::IO::DataBlockGeneric namespaceData =
       readAttribute(AQNWB::mergePaths(path, "namespace"));
   auto namespaceBlock =
       AQNWB::IO::DataBlock<std::string>::fromGeneric(namespaceData);
   std::string typeNamespace = namespaceBlock.data[0];
-  std::cerr << "DEBUG BaseIO::getFullTypeNameFromFile typeNamespace="
-            << typeNamespace << std::endl;
 
   AQNWB::IO::DataBlockGeneric typeData =
       readAttribute(AQNWB::mergePaths(path, "neurodata_type"));
   auto typeBlock = AQNWB::IO::DataBlock<std::string>::fromGeneric(typeData);
   std::string typeName = typeBlock.data[0];
-  std::cerr << "DEBUG BaseIO::getFullTypeNameFromFile typeName=" << typeName
-            << std::endl;
 
   // Combine the namespace and type name to get the full class name
   std::string fullClassName = typeNamespace + "::" + typeName;
 
-  // Backward compatability logic to ensure use of the ElectrodesTable class for
+  // Backward compatibility logic to ensure use of the ElectrodesTable class for
   // reading the electrodes table even ffor NWB <=2.8 where ElectrodesTable was
   // a DynamicTable without its own specific neurodata_type
   if (path == "/general/extracellular_ephys/electrodes"
@@ -93,8 +87,7 @@ std::string BaseIO::getFullTypeNameFromFile(const std::string& path)
   {
     fullClassName = "core::ElectrodesTable";
   }
-  std::cerr << "DEBUG BaseIO::getFullTypeNameFromFile fullClassName="
-            << fullClassName << std::endl;
+
   // return the result
   return fullClassName;
 }

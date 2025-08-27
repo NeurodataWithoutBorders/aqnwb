@@ -293,8 +293,8 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
 
     // Read using the RegisteredType::create where we infer the type from the
     // file This should result in a `ElectrodesTable` object
-    std::string electrodesTableTypeName2 = io->getFullTypeNameFromFile(
-        AQNWB::NWB::ElectrodesTable::electrodesTablePath);
+    std::string electrodesTableTypeName2 =
+        io->getFullTypeName(AQNWB::NWB::ElectrodesTable::electrodesTablePath);
     REQUIRE(electrodesTableTypeName2 == "core::ElectrodesTable");
     auto readElectrodesTable2 = AQNWB::NWB::RegisteredType::create(
         AQNWB::NWB::ElectrodesTable::electrodesTablePath, io);
@@ -319,8 +319,8 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     REQUIRE(typeName == "DynamicTable");
 
     // Ensure the mapping of the typename in the I/O works
-    std::string electrodesTableTypeName3 = io->getFullTypeNameFromFile(
-        AQNWB::NWB::ElectrodesTable::electrodesTablePath);
+    std::string electrodesTableTypeName3 =
+        io->getFullTypeName(AQNWB::NWB::ElectrodesTable::electrodesTablePath);
     REQUIRE(electrodesTableTypeName2 == "core::ElectrodesTable");
 
     // Ensure that reading with ElectrodesTable type directly still works as

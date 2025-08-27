@@ -392,7 +392,7 @@ public:
    * Note, in NWB v2.9 the type for ElectrodesTable has changed from a basic
    * `DynamicTable` to the more specific `ElectrodesTable. To ensure consistent
    * behavior of the API for reading older NWB <=2.8 files, this function
-   * implements backward compatability logic to return `core::ElectrodesTable`
+   * implements backward compatibility logic to return `core::ElectrodesTable`
    * for `ElectrodesTable::electrodesTablePath` even if the file indicated
    * `DynamicTable.`
    *
@@ -404,7 +404,7 @@ public:
    * @return String with the full name of the type consisting of
    * `namespace::typename`
    */
-  std::string getFullTypeNameFromFile(const std::string& path);
+  std::string getFullTypeName(const std::string& path);
 
   /**
    * @brief Reads a dataset and determines the data type

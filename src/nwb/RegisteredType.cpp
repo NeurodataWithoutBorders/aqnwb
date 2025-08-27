@@ -104,8 +104,7 @@ std::shared_ptr<AQNWB::NWB::RegisteredType> RegisteredType::create(
 {
   try {
     // Read the "neurodata_type" attribute
-    std::string fullClassName = io->getFullTypeNameFromFile(path);
-    std::cerr << "DEBUG A: " << fullClassName << std::endl;
+    std::string fullClassName = io->getFullTypeName(path);
     // Create an instance of the corresponding RegisteredType subclass
     return AQNWB::NWB::RegisteredType::create(
         fullClassName, path, io, fallbackToBase);
