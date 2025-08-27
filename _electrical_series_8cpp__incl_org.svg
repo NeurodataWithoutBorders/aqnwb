@@ -57,9 +57,9 @@
 <!-- Node45 -->
 <g id="Node000045" class="node">
 <title>Node45</title>
-<g id="a_Node000045"><a xlink:href="_electrode_table_8hpp.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="872,-583 736,-583 736,-563.75 872,-563.75 872,-583"/>
-<text xml:space="preserve" text-anchor="middle" x="804" y="-569.5" font-family="Helvetica,sans-Serif" font-size="10.00">nwb/file/ElectrodeTable.hpp</text>
+<g id="a_Node000045"><a xlink:href="_electrodes_table_8hpp.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="874.62,-583 733.38,-583 733.38,-563.75 874.62,-563.75 874.62,-583"/>
+<text xml:space="preserve" text-anchor="middle" x="804" y="-569.5" font-family="Helvetica,sans-Serif" font-size="10.00">nwb/file/ElectrodesTable.hpp</text>
 </a>
 </g>
 </g>
@@ -1310,7 +1310,7 @@
 <g id="edge97_Node000045_Node000003" class="edge">
 <title>Node45&#45;&gt;Node3</title>
 <g id="a_edge97_Node000045_Node000003"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M735.71,-571.1C602.74,-566.76 322,-547.67 322,-463.88 322,-463.88 322,-463.88 322,-351.38 322,-293 316.98,-275.46 338,-221 348.82,-192.96 358.58,-189.5 377,-165.75 396.76,-140.28 400.3,-132.35 424,-110.5 435.73,-99.68 450.13,-89.18 462.1,-81.08"/>
+<path fill="none" stroke="#63b8ff" d="M732.88,-571.01C598.8,-566.48 322,-547.08 322,-463.88 322,-463.88 322,-463.88 322,-351.38 322,-293 316.98,-275.46 338,-221 348.82,-192.96 358.58,-189.5 377,-165.75 396.76,-140.28 400.3,-132.35 424,-110.5 435.73,-99.68 450.13,-89.18 462.1,-81.08"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="463.79,-84.16 470.2,-75.72 459.93,-78.32 463.79,-84.16"/>
 </a>
 </g>
@@ -1319,7 +1319,7 @@
 <g id="edge98_Node000045_Node000024" class="edge">
 <title>Node45&#45;&gt;Node24</title>
 <g id="a_edge98_Node000045_Node000024"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M872.26,-570.77C1235.82,-561.78 2928,-514.26 2928,-408.62 2928,-408.62 2928,-408.62 2928,-235.25 2928,-154.86 2839.58,-182.72 2761,-165.75 2623.11,-135.98 1610.55,-124.03 1370.79,-121.61"/>
+<path fill="none" stroke="#63b8ff" d="M874.97,-570.7C1244.14,-561.55 2928,-514 2928,-408.62 2928,-408.62 2928,-408.62 2928,-235.25 2928,-154.86 2839.58,-182.72 2761,-165.75 2623.11,-135.98 1610.55,-124.03 1370.79,-121.61"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="1370.87,-118.11 1360.83,-121.51 1370.8,-125.11 1370.87,-118.11"/>
 </a>
 </g>
@@ -1328,7 +1328,7 @@
 <g id="edge121_Node000045_Node000044" class="edge">
 <title>Node45&#45;&gt;Node44</title>
 <g id="a_edge121_Node000045_Node000044"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M735.61,-570.34C607.39,-565.92 340.79,-553.71 308,-527.75 260.12,-489.84 251.41,-411.12 250.07,-373.82"/>
+<path fill="none" stroke="#63b8ff" d="M733.11,-570.25C603.95,-565.76 340.58,-553.55 308,-527.75 260.12,-489.84 251.41,-411.12 250.07,-373.82"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="253.57,-373.94 249.88,-364.01 246.57,-374.07 253.57,-373.94"/>
 </a>
 </g>

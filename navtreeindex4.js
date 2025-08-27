@@ -1,7 +1,5 @@
 var NAVTREEINDEX4 =
 {
-"class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#a15d9c6f869f0270ad91a2af8067f5a88":[4,0,0,2,0,3],
-"class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#a7eff0825ec5b60563d58657c1ff40c72":[3,0,0,2,3,5],
 "class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#a7eff0825ec5b60563d58657c1ff40c72":[4,0,0,2,0,5],
 "class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#acd8db02533a181089950dad7a4feedd6":[3,0,0,2,3,2],
 "class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#acd8db02533a181089950dad7a4feedd6":[4,0,0,2,0,2],
@@ -249,5 +247,7 @@ var NAVTREEINDEX4 =
 "record_design_page.html#record_design_sec_baserecordingdata":[2,7,0,1],
 "record_design_page.html#record_design_sec_define_dataset_field":[2,7,0,0],
 "record_design_page.html#record_design_sec_recording_containers":[2,7,2],
-"record_design_page.html#record_design_sec_recording_data":[2,7,0]
+"record_design_page.html#record_design_sec_recording_data":[2,7,0],
+"record_design_page.html#record_design_sec_timeseries":[2,7,1],
+"record_design_page.html#recording_design_further_reading":[2,7,3]
 };

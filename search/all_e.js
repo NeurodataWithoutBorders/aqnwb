@@ -13,7 +13,7 @@ var searchData=
   ['filter_5fid_10',['filter_id',['../class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_filter_config.html#a3d59ee972d946872a37a2d1afadd926f',1,'AQNWB::IO::HDF5::HDF5FilterConfig']]],
   ['filters_20and_20compression_11',['I/O Filters and Compression',['../hdf5io.html#hdf5io_filters',1,'']]],
   ['filters_20in_20aqnwb_12',['Using Chunking and I/O Filters in AqNWB',['../hdf5io.html#hdf5io_filters_usage',1,'']]],
-  ['finalize_13',['finalize',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#a9247849ca572bc6cbad24526e44d932c',1,'AQNWB::NWB::ElectrodeTable::finalize()'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a73d77bda3d8c609a93a9a26296d36af9',1,'AQNWB::NWB::DynamicTable::finalize()'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#af7b3285fd7e02b444372fb1ab4341674',1,'AQNWB::NWB::NWBFile::finalize()']]],
+  ['finalize_13',['finalize',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#a5f23bb991eae271bf446f51bde205fd0',1,'AQNWB::NWB::ElectrodesTable::finalize()'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a73d77bda3d8c609a93a9a26296d36af9',1,'AQNWB::NWB::DynamicTable::finalize()'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#af7b3285fd7e02b444372fb1ab4341674',1,'AQNWB::NWB::NWBFile::finalize()']]],
   ['finalize_20the_20file_14',['8. Stop the recording and finalize the file.',['../workflow.html#stop_recording',1,'']]],
   ['findownedtypes_15',['findOwnedTypes',['../class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a8a83a775f6a8a94d6ae3428e05ef9bfc',1,'AQNWB::NWB::RegisteredType']]],
   ['findtypes_16',['findTypes',['../class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a788603f4c9c2698aad610134ab89f8e1',1,'AQNWB::IO::BaseIO']]],

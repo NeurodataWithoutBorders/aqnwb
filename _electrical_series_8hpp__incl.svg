@@ -194,9 +194,9 @@ var sectionId = 'dynsection-0';
 <!-- Node44 -->
 <g id="Node000044" class="node">
 <title>Node44</title>
-<g id="a_Node000044"><a xlink:href="_electrode_table_8hpp.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="827,-583 691,-583 691,-563.75 827,-563.75 827,-583"/>
-<text xml:space="preserve" text-anchor="middle" x="759" y="-569.5" font-family="Helvetica,sans-Serif" font-size="10.00">nwb/file/ElectrodeTable.hpp</text>
+<g id="a_Node000044"><a xlink:href="_electrodes_table_8hpp.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="829.62,-583 688.38,-583 688.38,-563.75 829.62,-563.75 829.62,-583"/>
+<text xml:space="preserve" text-anchor="middle" x="759" y="-569.5" font-family="Helvetica,sans-Serif" font-size="10.00">nwb/file/ElectrodesTable.hpp</text>
 </a>
 </g>
 </g>
@@ -1321,7 +1321,7 @@ var sectionId = 'dynsection-0';
 <g id="edge96_Node000044_Node000002" class="edge">
 <title>Node44&#45;&gt;Node2</title>
 <g id="a_edge96_Node000044_Node000002"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M690.61,-571.35C555.86,-567.48 269,-549.21 269,-463.88 269,-463.88 269,-463.88 269,-406.62 269,-324.11 223.94,-292.58 265,-221 328.92,-109.59 498.06,-77.55 568.51,-68.88"/>
+<path fill="none" stroke="#63b8ff" d="M688.01,-571.28C552.21,-567.24 269,-548.66 269,-463.88 269,-463.88 269,-463.88 269,-406.62 269,-324.11 223.94,-292.58 265,-221 328.92,-109.59 498.06,-77.55 568.51,-68.88"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="568.66,-72.39 578.2,-67.77 567.87,-65.43 568.66,-72.39"/>
 </a>
 </g>
@@ -1330,7 +1330,7 @@ var sectionId = 'dynsection-0';
 <g id="edge97_Node000044_Node000023" class="edge">
 <title>Node44&#45;&gt;Node23</title>
 <g id="a_edge97_Node000044_Node000023"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M827.31,-564.2C894.73,-553.17 997.78,-528.06 1069,-472.5 1099.94,-448.36 1237.41,-209.79 1277.19,-140.13"/>
+<path fill="none" stroke="#63b8ff" d="M829.86,-563.78C897.31,-552.54 998.67,-527.37 1069,-472.5 1099.94,-448.36 1237.41,-209.79 1277.19,-140.13"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="1280.22,-141.87 1282.14,-131.45 1274.14,-138.4 1280.22,-141.87"/>
 </a>
 </g>
@@ -1339,7 +1339,7 @@ var sectionId = 'dynsection-0';
 <g id="edge120_Node000044_Node000043" class="edge">
 <title>Node44&#45;&gt;Node43</title>
 <g id="a_edge120_Node000044_Node000043"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M690.93,-572.83C571.24,-572.58 328.74,-567.04 255,-527.75 246.23,-523.08 161.82,-415.02 127.95,-371.39"/>
+<path fill="none" stroke="#63b8ff" d="M688.08,-572.83C567.42,-572.49 328.16,-566.73 255,-527.75 246.23,-523.08 161.82,-415.02 127.95,-371.39"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="130.84,-369.4 121.95,-363.65 125.31,-373.69 130.84,-369.4"/>
 </a>
 </g>

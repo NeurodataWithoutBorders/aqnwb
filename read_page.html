@@ -126,15 +126,15 @@ Opening an existing file for reading</h1>
 Reading NWB neurodata_types</h1>
 <h2 class="doxsection"><a class="anchor" id="read_example_predefined_registered_type"></a>
 Reading known RegisteredType objects</h2>
-<p>When the path and type of objects is fixed in the schema (or we know them based on other conventions), then we can read the types directly from the file. E.g., here we first read the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html">NWBFile</a> directly, which we know exists at the root "/" of the file. We then read the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html">ElectrodeTable</a> via the predefined <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a9df4c1ed0ddceac775116b0377784a1b">NWBFile::readElectrodeTable</a> method. The advantage of this approach is that we do not need to manually specify paths or object types. Similarly, when we read the <span class="tt">locations</span> columns, we do not need to specify the name or the data type to use.</p>
+<p>When the path and type of objects is fixed in the schema (or we know them based on other conventions), then we can read the types directly from the file. E.g., here we first read the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html">NWBFile</a> directly, which we know exists at the root "/" of the file. We then read the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html">ElectrodesTable</a> via the predefined <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a65a36f2baf0b3bb7555b573295f97bf0">NWBFile::readElectrodesTable</a> method. The advantage of this approach is that we do not need to manually specify paths or object types. Similarly, when we read the <span class="tt">locations</span> columns, we do not need to specify the name or the data type to use.</p>
 <div class="fragment"><div class="line">    <span class="comment">// Read the NWBFile</span></div>
 <div class="line">    <span class="keyword">auto</span> readNWBFile =</div>
 <div class="line">        <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a">NWB::RegisteredType::create&lt;AQNWB::NWB::NWBFile&gt;</a>(<span class="stringliteral">&quot;/&quot;</span>, readio);</div>
 <div class="line">    <span class="comment">// Read the ElectrodesTable</span></div>
-<div class="line">    <span class="keyword">auto</span> readElectrodeTable = readNWBFile-&gt;readElectrodeTable();</div>
+<div class="line">    <span class="keyword">auto</span> readElectrodesTable = readNWBFile-&gt;readElectrodesTable();</div>
 <div class="line">    <span class="comment">// read the location data. Note that both the type of the class and</span></div>
 <div class="line">    <span class="comment">// the data values is being set for us, here, VectorDataTyped&lt;std::string&gt;</span></div>
-<div class="line">    <span class="keyword">auto</span> locationColumn = readElectrodeTable-&gt;readLocationColumn();</div>
+<div class="line">    <span class="keyword">auto</span> locationColumn = readElectrodesTable-&gt;readLocationColumn();</div>
 <div class="line">    <span class="keyword">auto</span> locationColumnValues = locationColumn-&gt;readData()-&gt;values();</div>
 <div class="line">    <span class="comment">// confirm that the values are correct</span></div>
 <div class="line">    std::vector&lt;std::string&gt; expectedLocationValues = {</div>

@@ -47,7 +47,7 @@
   </g>
 </defs>
 <script type="application/ecmascript">
-var viewWidth = 598;
+var viewWidth = 604;
 var viewHeight = 426;
 var sectionId = 'dynsection-1';
 </script>
@@ -123,9 +123,9 @@ var sectionId = 'dynsection-1';
 <!-- Node4 -->
 <g id="Node000004" class="node">
 <title>Node4</title>
-<g id="a_Node000004"><a xlink:href="_electrode_table_8hpp.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="439.25,-224.38 286.75,-224.38 286.75,-205.12 439.25,-205.12 439.25,-224.38"/>
-<text xml:space="preserve" text-anchor="middle" x="363" y="-210.88" font-family="Helvetica,sans-Serif" font-size="10.00">src/nwb/file/ElectrodeTable.hpp</text>
+<g id="a_Node000004"><a xlink:href="_electrodes_table_8hpp.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="441.88,-224.38 284.12,-224.38 284.12,-205.12 441.88,-205.12 441.88,-224.38"/>
+<text xml:space="preserve" text-anchor="middle" x="363" y="-210.88" font-family="Helvetica,sans-Serif" font-size="10.00">src/nwb/file/ElectrodesTable.hpp</text>
 </a>
 </g>
 </g>
@@ -235,9 +235,9 @@ var sectionId = 'dynsection-1';
 <!-- Node12 -->
 <g id="Node000012" class="node">
 <title>Node12</title>
-<g id="a_Node000012"><a xlink:href="_electrode_table_8cpp.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="590.25,-157.88 437.75,-157.88 437.75,-138.62 590.25,-138.62 590.25,-157.88"/>
-<text xml:space="preserve" text-anchor="middle" x="514" y="-144.38" font-family="Helvetica,sans-Serif" font-size="10.00">src/nwb/file/ElectrodeTable.cpp</text>
+<g id="a_Node000012"><a xlink:href="_electrodes_table_8cpp.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="595.88,-157.88 438.12,-157.88 438.12,-138.62 595.88,-138.62 595.88,-157.88"/>
+<text xml:space="preserve" text-anchor="middle" x="517" y="-144.38" font-family="Helvetica,sans-Serif" font-size="10.00">src/nwb/file/ElectrodesTable.cpp</text>
 </a>
 </g>
 </g>
@@ -245,8 +245,8 @@ var sectionId = 'dynsection-1';
 <g id="edge15_Node000004_Node000012" class="edge">
 <title>Node4&#45;&gt;Node12</title>
 <g id="a_edge15_Node000004_Node000012"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M394.88,-200.13C424.36,-187.54 467.33,-169.19 492.79,-158.31"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="393.53,-196.9 385.71,-204.05 396.28,-203.34 393.53,-196.9"/>
+<path fill="none" stroke="#63b8ff" d="M395.12,-200.3C425.19,-187.7 469.28,-169.24 495.37,-158.31"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="394.01,-196.97 386.13,-204.06 396.71,-203.43 394.01,-196.97"/>
 </a>
 </g>
 </g>
@@ -373,9 +373,9 @@ var sectionId = 'dynsection-1';
 <g id="Node000014" class="node">
 <title>Node14</title>
 <g id="a_Node000014"><a xlink:href="_dynamic_table_8cpp.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="269,-230 169,-230 169,-199.5 269,-199.5 269,-230"/>
-<text xml:space="preserve" text-anchor="start" x="177" y="-216.5" font-family="Helvetica,sans-Serif" font-size="10.00">src/nwb/hdmf/table</text>
-<text xml:space="preserve" text-anchor="middle" x="219" y="-205.25" font-family="Helvetica,sans-Serif" font-size="10.00">/DynamicTable.cpp</text>
+<polygon fill="white" stroke="#666666" points="266,-230 166,-230 166,-199.5 266,-199.5 266,-230"/>
+<text xml:space="preserve" text-anchor="start" x="174" y="-216.5" font-family="Helvetica,sans-Serif" font-size="10.00">src/nwb/hdmf/table</text>
+<text xml:space="preserve" text-anchor="middle" x="216" y="-205.25" font-family="Helvetica,sans-Serif" font-size="10.00">/DynamicTable.cpp</text>
 </a>
 </g>
 </g>
@@ -383,8 +383,8 @@ var sectionId = 'dynsection-1';
 <g id="edge18_Node000013_Node000014" class="edge">
 <title>Node13&#45;&gt;Node14</title>
 <g id="a_edge18_Node000013_Node000014"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M290.41,-259.61C274.88,-250.08 256.81,-238.98 242.73,-230.33"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="288.53,-262.57 298.88,-264.82 292.2,-256.61 288.53,-262.57"/>
+<path fill="none" stroke="#63b8ff" d="M289.9,-259.89C273.83,-250.29 255.03,-239.06 240.41,-230.33"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="287.81,-262.72 298.19,-264.84 291.4,-256.71 287.81,-262.72"/>
 </a>
 </g>
 </g>

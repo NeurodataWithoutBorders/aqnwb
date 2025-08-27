@@ -193,9 +193,9 @@ var sectionId = 'dynsection-0';
 <!-- Node5 -->
 <g id="Node000005" class="node">
 <title>Node5</title>
-<g id="a_Node000005"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html" target="_top" xlink:title="Represents a table containing electrode metadata.">
-<polygon fill="white" stroke="#666666" points="728.12,-258.88 573.38,-258.88 573.38,-239.62 728.12,-239.62 728.12,-258.88"/>
-<text xml:space="preserve" text-anchor="middle" x="650.75" y="-245.38" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::ElectrodeTable</text>
+<g id="a_Node000005"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html" target="_top" xlink:title="Represents a table containing electrode metadata.">
+<polygon fill="white" stroke="#666666" points="730.75,-258.88 570.75,-258.88 570.75,-239.62 730.75,-239.62 730.75,-258.88"/>
+<text xml:space="preserve" text-anchor="middle" x="650.75" y="-245.38" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::ElectrodesTable</text>
 </a>
 </g>
 </g>
@@ -203,7 +203,7 @@ var sectionId = 'dynsection-0';
 <g id="edge4_Node000004_Node000005" class="edge">
 <title>Node4&#45;&gt;Node5</title>
 <g id="a_edge4_Node000004_Node000005"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M535.29,-249.25C547.85,-249.25 560.71,-249.25 573.05,-249.25"/>
+<path fill="none" stroke="#63b8ff" d="M535.01,-249.25C546.75,-249.25 558.75,-249.25 570.36,-249.25"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="535.37,-245.75 525.37,-249.25 535.37,-252.75 535.37,-245.75"/>
 </a>
 </g>

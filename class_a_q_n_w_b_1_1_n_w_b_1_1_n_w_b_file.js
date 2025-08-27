@@ -14,7 +14,7 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file =
     [ "initialize", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a5fe5d0aba7a050db86d5caa5b8cf4a04", null ],
     [ "isInitialized", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aba967059704c8c81446775bd7beda42b", null ],
     [ "operator=", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a941d5b775441fac6c787cd55a8276461", null ],
-    [ "readElectrodeTable", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a9df4c1ed0ddceac775116b0377784a1b", null ],
+    [ "readElectrodesTable", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a65a36f2baf0b3bb7555b573295f97bf0", null ],
     [ "readFileCreateDate", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aab50ade1916ed284389c29d44e8a3a28", null ],
     [ "readIdentifier", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#abae17504e9ba927509296efaf5fc99e2", null ],
     [ "readNWBVersion", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aabb1a926056f5d26944328e928e42651", null ],
@@ -27,6 +27,6 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file =
     [ "recordSessionStartTime", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a3ecf0a3b95b16b509c2446fc7c4d40b0", null ],
     [ "recordTimestampsReferenceTime", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a36db3290c76301b9af8a030cb975d516", null ],
     [ "m_acquisitionPath", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#af4b8657f62c3a982d80085048ddfceea", null ],
-    [ "m_electrodeTable", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ab5447340e239b962c59c0386c0d65ac1", null ],
+    [ "m_electrodeTable", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a9b48d2f45c6a95409dbcc8928a6741f7", null ],
     [ "m_specificationsPath", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aff94e38864d697a67e542400799870dc", null ]
 ];

@@ -128,9 +128,9 @@
 <!-- Node5 -->
 <g id="Node000005" class="node">
 <title>Node5</title>
-<g id="a_Node000005"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html" target="_top" xlink:title="Represents a table containing electrode metadata.">
-<polygon fill="white" stroke="#666666" points="716.12,-148.25 561.38,-148.25 561.38,-129 716.12,-129 716.12,-148.25"/>
-<text xml:space="preserve" text-anchor="middle" x="638.75" y="-134.75" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::ElectrodeTable</text>
+<g id="a_Node000005"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html" target="_top" xlink:title="Represents a table containing electrode metadata.">
+<polygon fill="white" stroke="#666666" points="718.75,-148.25 558.75,-148.25 558.75,-129 718.75,-129 718.75,-148.25"/>
+<text xml:space="preserve" text-anchor="middle" x="638.75" y="-134.75" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::ElectrodesTable</text>
 </a>
 </g>
 </g>
@@ -138,7 +138,7 @@
 <g id="edge4_Node000004_Node000005" class="edge">
 <title>Node4&#45;&gt;Node5</title>
 <g id="a_edge4_Node000004_Node000005"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M529.64,-138.62C540.13,-138.62 550.78,-138.62 561.11,-138.62"/>
+<path fill="none" stroke="#63b8ff" d="M529.57,-138.62C539.21,-138.62 548.99,-138.62 558.53,-138.62"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="529.86,-135.13 519.86,-138.63 529.86,-142.13 529.86,-135.13"/>
 </a>
 </g>

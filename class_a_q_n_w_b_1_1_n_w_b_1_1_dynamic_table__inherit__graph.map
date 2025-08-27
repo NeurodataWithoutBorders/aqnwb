@@ -1,9 +1,9 @@
 <map id="AQNWB::NWB::DynamicTable" name="AQNWB::NWB::DynamicTable">
-<area shape="rect" id="Node000001" title="Represents a group containing multiple datasets that are aligned on the first dimension." alt="" coords="9,153,213,178"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html" title="Represents a table containing electrode metadata." alt="" coords="8,226,214,252"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="114,194,114,226,108,226,108,194"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html" title="Abstract data type for a group storing collections of data and metadata." alt="" coords="23,79,199,105"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="114,120,114,152,108,152,108,120"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema." alt="" coords="5,5,217,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="114,46,114,79,108,79,108,46"/>
+<area shape="rect" id="Node000001" title="Represents a group containing multiple datasets that are aligned on the first dimension." alt="" coords="10,153,214,178"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html" title="Represents a table containing electrode metadata." alt="" coords="5,226,219,252"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="115,194,115,226,109,226,109,194"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html" title="Abstract data type for a group storing collections of data and metadata." alt="" coords="24,79,200,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,120,115,152,109,152,109,120"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema." alt="" coords="6,5,218,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="115,46,115,79,109,79,109,46"/>
 </map>

@@ -159,9 +159,9 @@ var sectionId = 'dynsection-1';
 <!-- Node11 -->
 <g id="Node000011" class="node">
 <title>Node11</title>
-<g id="a_Node000011"><a xlink:href="_electrode_table_8cpp.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="691.88,-157.88 539.38,-157.88 539.38,-138.62 691.88,-138.62 691.88,-157.88"/>
-<text xml:space="preserve" text-anchor="middle" x="615.62" y="-144.38" font-family="Helvetica,sans-Serif" font-size="10.00">src/nwb/file/ElectrodeTable.cpp</text>
+<g id="a_Node000011"><a xlink:href="_electrodes_table_8cpp.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="697.5,-157.88 539.75,-157.88 539.75,-138.62 697.5,-138.62 697.5,-157.88"/>
+<text xml:space="preserve" text-anchor="middle" x="618.62" y="-144.38" font-family="Helvetica,sans-Serif" font-size="10.00">src/nwb/file/ElectrodesTable.cpp</text>
 </a>
 </g>
 </g>
@@ -169,8 +169,8 @@ var sectionId = 'dynsection-1';
 <g id="edge16_Node000001_Node000011" class="edge">
 <title>Node1&#45;&gt;Node11</title>
 <g id="a_edge16_Node000001_Node000011"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M387.28,-196.76C441.11,-185.56 522.31,-168.66 571.98,-158.33"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="386.78,-193.28 377.71,-198.75 388.21,-200.14 386.78,-193.28"/>
+<path fill="none" stroke="#63b8ff" d="M387.86,-196.76C442.26,-185.56 524.32,-168.66 574.51,-158.33"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="387.26,-193.31 378.17,-198.75 388.67,-200.16 387.26,-193.31"/>
 </a>
 </g>
 </g>

@@ -1,0 +1,16 @@
+<map id="AQNWB::NWB::ElectrodesTable::finalize" name="AQNWB::NWB::ElectrodesTable::finalize">
+<area shape="rect" id="Node000001" title="Finalizes the ElectrodesTable." alt="" coords="5,104,219,145"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a916169b9c8b324833861df2af1b59c3f" title="Adds a column of vector string data to the table." alt="" coords="267,5,470,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,101,266,57,286,49,288,54,268,61,161,106"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#ab5d214fb6eb95bcaf0f4988b12e2b2db" title="Adds a column of references to the table." alt="" coords="267,71,470,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="219,108,251,104,252,109,219,113"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a73d77bda3d8c609a93a9a26296d36af9" title="Finalizes writing the DynamicTable." alt="" coords="267,136,470,177"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="219,135,252,139,251,144,219,140"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a041703ef385d58d2ccc7dc613b4a7de7" title="Adds a column of element identifiers to the table." alt="" coords="267,201,470,242"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="162,143,268,186,288,193,286,198,266,191,160,148"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#abe2327fa906124532478a13abcee1ea4" title="Create a VectorData object with a reference dataset." alt="" coords="518,71,709,111"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="470,88,503,88,503,94,470,94"/>
+<area shape="rect" id="Node000005" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="538,172,689,197"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="436,109,471,122,570,163,568,167,469,127,434,114"/>
+<area shape="poly" id="edge7_Node000007_Node000005" title=" " alt="" coords="470,204,523,195,524,201,471,209"/>
+</map>

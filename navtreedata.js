@@ -69,9 +69,9 @@ var NAVTREEINDEX =
 "_annotation_series_8cpp.html",
 "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a53d0acc4f29c421c6036cd09437f072e",
 "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#ae63f84c453e96f4900b7bb2d23d0118e",
-"class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a407344117736e00a6f38459330af2bde",
-"class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#a15d9c6f869f0270ad91a2af8067f5a88",
-"record_design_page.html#record_design_sec_timeseries"
+"class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a4639155769006a79b189cdb7634bbaa5",
+"class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#a7eff0825ec5b60563d58657c1ff40c72",
+"registered_type_page.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

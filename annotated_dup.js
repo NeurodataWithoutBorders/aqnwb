@@ -28,7 +28,7 @@ var annotated_dup =
         [ "DynamicTable", "class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table" ],
         [ "ElectricalSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series" ],
         [ "ElectrodeGroup", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group" ],
-        [ "ElectrodeTable", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table" ],
+        [ "ElectrodesTable", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table" ],
         [ "ElementIdentifiers", "class_a_q_n_w_b_1_1_n_w_b_1_1_element_identifiers.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_element_identifiers" ],
         [ "NWBFile", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file" ],
         [ "RecordingContainers", "class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers" ],

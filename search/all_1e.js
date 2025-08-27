@@ -12,7 +12,7 @@ var searchData=
   ['_7edynamictable_9',['~DynamicTable',['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a62348c9e5821d64fc3b8f270c71dea49',1,'AQNWB::NWB::DynamicTable']]],
   ['_7eelectricalseries_10',['~ElectricalSeries',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a4a5242435023d86c91bf6df9d8b915df',1,'AQNWB::NWB::ElectricalSeries']]],
   ['_7eelectrodegroup_11',['~ElectrodeGroup',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html#a213bc76d7b4dbb4c2bdfaf7e9fbe16fe',1,'AQNWB::NWB::ElectrodeGroup']]],
-  ['_7eelectrodetable_12',['~ElectrodeTable',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html#ab901f67e96a3bc54843f1d68533af629',1,'AQNWB::NWB::ElectrodeTable']]],
+  ['_7eelectrodestable_12',['~ElectrodesTable',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#a55b3b3cf746b560912bed493090af6c6',1,'AQNWB::NWB::ElectrodesTable']]],
   ['_7eelementidentifiers_13',['~ElementIdentifiers',['../class_a_q_n_w_b_1_1_n_w_b_1_1_element_identifiers.html#a08043578d7674de4e314b5daacc9fca8',1,'AQNWB::NWB::ElementIdentifiers']]],
   ['_7ehdf5io_14',['~HDF5IO',['../class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a7a4c82820e1ad91a82c90c30dfb937fe',1,'AQNWB::IO::HDF5::HDF5IO']]],
   ['_7ehdf5recordingdata_15',['~HDF5RecordingData',['../class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a81d035b7d174a58236d0447ea7054724',1,'AQNWB::IO::HDF5::HDF5RecordingData']]],

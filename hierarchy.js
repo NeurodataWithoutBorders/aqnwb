@@ -31,7 +31,7 @@ var hierarchy =
       [ "AQNWB::NWB::Container", "class_a_q_n_w_b_1_1_n_w_b_1_1_container.html", [
         [ "AQNWB::NWB::Device", "class_a_q_n_w_b_1_1_n_w_b_1_1_device.html", null ],
         [ "AQNWB::NWB::DynamicTable", "class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html", [
-          [ "AQNWB::NWB::ElectrodeTable", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_table.html", null ]
+          [ "AQNWB::NWB::ElectrodesTable", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html", null ]
         ] ],
         [ "AQNWB::NWB::ElectrodeGroup", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html", null ],
         [ "AQNWB::NWB::NWBFile", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html", null ],

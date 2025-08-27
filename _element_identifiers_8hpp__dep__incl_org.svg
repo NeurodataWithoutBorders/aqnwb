@@ -21,9 +21,9 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="_electrode_table_8hpp.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="320.25,-224.38 167.75,-224.38 167.75,-205.12 320.25,-205.12 320.25,-224.38"/>
-<text xml:space="preserve" text-anchor="middle" x="244" y="-210.88" font-family="Helvetica,sans-Serif" font-size="10.00">src/nwb/file/ElectrodeTable.hpp</text>
+<g id="a_Node000002"><a xlink:href="_electrodes_table_8hpp.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="322.88,-224.38 165.12,-224.38 165.12,-205.12 322.88,-205.12 322.88,-224.38"/>
+<text xml:space="preserve" text-anchor="middle" x="244" y="-210.88" font-family="Helvetica,sans-Serif" font-size="10.00">src/nwb/file/ElectrodesTable.hpp</text>
 </a>
 </g>
 </g>
@@ -133,9 +133,9 @@
 <!-- Node10 -->
 <g id="Node000010" class="node">
 <title>Node10</title>
-<g id="a_Node000010"><a xlink:href="_electrode_table_8cpp.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="529.25,-157.88 376.75,-157.88 376.75,-138.62 529.25,-138.62 529.25,-157.88"/>
-<text xml:space="preserve" text-anchor="middle" x="453" y="-144.38" font-family="Helvetica,sans-Serif" font-size="10.00">src/nwb/file/ElectrodeTable.cpp</text>
+<g id="a_Node000010"><a xlink:href="_electrodes_table_8cpp.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="534.88,-157.88 377.12,-157.88 377.12,-138.62 534.88,-138.62 534.88,-157.88"/>
+<text xml:space="preserve" text-anchor="middle" x="456" y="-144.38" font-family="Helvetica,sans-Serif" font-size="10.00">src/nwb/file/ElectrodesTable.cpp</text>
 </a>
 </g>
 </g>
@@ -143,8 +143,8 @@
 <g id="edge13_Node000002_Node000010" class="edge">
 <title>Node2&#45;&gt;Node10</title>
 <g id="a_edge13_Node000002_Node000010"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M284.41,-201.28C325.23,-188.68 387.31,-169.52 423.65,-158.31"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="283.47,-197.91 274.95,-204.2 285.54,-204.59 283.47,-197.91"/>
+<path fill="none" stroke="#63b8ff" d="M284.73,-201.36C326.13,-188.76 389.29,-169.55 426.23,-158.31"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="283.92,-197.95 275.37,-204.2 285.96,-204.64 283.92,-197.95"/>
 </a>
 </g>
 </g>
@@ -271,9 +271,9 @@
 <g id="Node000012" class="node">
 <title>Node12</title>
 <g id="a_Node000012"><a xlink:href="_dynamic_table_8cpp.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="438,-230 338,-230 338,-199.5 438,-199.5 438,-230"/>
-<text xml:space="preserve" text-anchor="start" x="346" y="-216.5" font-family="Helvetica,sans-Serif" font-size="10.00">src/nwb/hdmf/table</text>
-<text xml:space="preserve" text-anchor="middle" x="388" y="-205.25" font-family="Helvetica,sans-Serif" font-size="10.00">/DynamicTable.cpp</text>
+<polygon fill="white" stroke="#666666" points="441,-230 341,-230 341,-199.5 441,-199.5 441,-230"/>
+<text xml:space="preserve" text-anchor="start" x="349" y="-216.5" font-family="Helvetica,sans-Serif" font-size="10.00">src/nwb/hdmf/table</text>
+<text xml:space="preserve" text-anchor="middle" x="391" y="-205.25" font-family="Helvetica,sans-Serif" font-size="10.00">/DynamicTable.cpp</text>
 </a>
 </g>
 </g>
@@ -281,8 +281,8 @@
 <g id="edge16_Node000011_Node000012" class="edge">
 <title>Node11&#45;&gt;Node12</title>
 <g id="a_edge16_Node000011_Node000012"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M345.09,-257.69C354.38,-248.61 364.82,-238.4 373.08,-230.33"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="342.76,-255.06 338.06,-264.56 347.66,-260.07 342.76,-255.06"/>
+<path fill="none" stroke="#63b8ff" d="M345.84,-257.96C355.63,-248.82 366.68,-238.48 375.4,-230.33"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="343.68,-255.19 338.76,-264.58 348.46,-260.31 343.68,-255.19"/>
 </a>
 </g>
 </g>
