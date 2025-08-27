@@ -13,7 +13,7 @@
 #include "io/ReadIO.hpp"
 #include "nwb/RecordingContainers.hpp"
 #include "nwb/base/TimeSeries.hpp"
-#include "nwb/file/ElectrodeTable.hpp"
+#include "nwb/file/ElectrodesTable.hpp"
 #include "nwb/hdmf/base/Container.hpp"
 #include "spec/core.hpp"
 
@@ -31,7 +31,7 @@ namespace AQNWB::NWB
 class NWBFile : public Container
 {
 public:
-  // Register the ElectrodeTable as a subclass of Container
+  // Register the ElectrodesTable as a subclass of Container
   REGISTER_SUBCLASS(NWBFile, AQNWB::SPEC::CORE::namespaceName)
 
   /**
@@ -165,9 +165,9 @@ public:
                                 RecordingContainers* recordingContainers,
                                 std::vector<SizeType>& containerIndexes);
 
-  DEFINE_REGISTERED_FIELD(readElectrodeTable,
-                          ElectrodeTable,
-                          ElectrodeTable::electrodeTablePath,
+  DEFINE_REGISTERED_FIELD(readElectrodesTable,
+                          ElectrodesTable,
+                          ElectrodesTable::electrodeTablePath,
                           "table with the extracellular electrodes")
 
   DEFINE_ATTRIBUTE_FIELD(readNWBVersion,
@@ -244,9 +244,9 @@ private:
   inline const static std::string m_specificationsPath = "/specifications";
 
   /**
-   * @brief The ElectrodeTable for the file
+   * @brief The ElectrodesTable for the file
    */
-  std::unique_ptr<ElectrodeTable> m_electrodeTable;
+  std::unique_ptr<ElectrodesTable> m_electrodeTable;
 };
 
 }  // namespace AQNWB::NWB

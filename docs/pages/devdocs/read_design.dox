@@ -327,12 +327,12 @@
  * via the \ref AQNWB::NWB::VectorData::readData "VectorData::readData" method for reading.
  *
  * In some cases, the data type for `VectorData` may be predetermined in the schema. For example, the `location` column
- * of the \ref AQNWB::NWB::ElectrodeTable "ElectrodeTable" requires string data. To simplify reading in such cases where
+ * of the \ref AQNWB::NWB::ElectrodesTable "ElectrodesTable" requires string data. To simplify reading in such cases where
  * the data type is fixed, AqNWB defines \ref AQNWB::NWB::VectorDataTyped "VectorDataTyped<DTYPE>", which inherits from
  * \ref AQNWB::NWB::VectorData "VectorData". This class allows the data type to be specified at compile time via the class
  * template, enabling \ref AQNWB::NWB::VectorDataTyped "VectorDataTyped<DTYPE>::readData" to expose the data with the type
  * already set at compile time. When used in combination with the \ref DEFINE_REGISTERED_FIELD macro, this approach allows
- * \ref AQNWB::NWB::ElectrodeTable::readLocationColumn "ElectrodeTable::readLocationColumn" to return the data to the user
+ * \ref AQNWB::NWB::ElectrodesTable::readLocationColumn "ElectrodesTable::readLocationColumn" to return the data to the user
  * with the type already set. The same approach is also applied in the case of \ref AQNWB::NWB::Data "Data" and its derived
  * class \ref AQNWB::NWB::DataTyped "DataTyped".
  *

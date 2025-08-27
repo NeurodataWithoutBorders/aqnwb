@@ -1,16 +1,16 @@
-#include "nwb/file/ElectrodeTable.hpp"
+#include "nwb/file/ElectrodesTable.hpp"
 
 #include "Channel.hpp"
 #include "Utils.hpp"
 
 using namespace AQNWB::NWB;
 
-// ElectrodeTable
+// ElectrodesTable
 // Initialize the static registered_ member to trigger registration
-REGISTER_SUBCLASS_IMPL(ElectrodeTable)
+REGISTER_SUBCLASS_IMPL(ElectrodesTable)
 
 /** Constructor */
-ElectrodeTable::ElectrodeTable(std::shared_ptr<IO::BaseIO> io)
+ElectrodesTable::ElectrodesTable(std::shared_ptr<IO::BaseIO> io)
     : DynamicTable(electrodeTablePath,  // use the electrodeTablePath
                    io)
     , m_electrodeDataset(std::make_unique<ElementIdentifiers>(
@@ -22,8 +22,8 @@ ElectrodeTable::ElectrodeTable(std::shared_ptr<IO::BaseIO> io)
 {
 }
 
-ElectrodeTable::ElectrodeTable(const std::string& path,
-                               std::shared_ptr<IO::BaseIO> io)
+ElectrodesTable::ElectrodesTable(const std::string& path,
+                                 std::shared_ptr<IO::BaseIO> io)
     : DynamicTable(electrodeTablePath, io)
     , m_electrodeDataset(std::make_unique<ElementIdentifiers>(
           AQNWB::mergePaths(electrodeTablePath, "id"), io))
@@ -32,14 +32,14 @@ ElectrodeTable::ElectrodeTable(const std::string& path,
     , m_locationsDataset(std::make_unique<VectorData>(
           AQNWB::mergePaths(electrodeTablePath, "location"), io))
 {
-  assert(path == this->electrodeTablePath && "ElectrodeTable object is required to appear at /general/extracellular_ephys/electrodes");
+  assert(path == this->electrodeTablePath && "ElectrodesTable object is required to appear at /general/extracellular_ephys/electrodes");
 }
 
 /** Destructor */
-ElectrodeTable::~ElectrodeTable() {}
+ElectrodesTable::~ElectrodesTable() {}
 
 /** Initialization function*/
-Status ElectrodeTable::initialize(const std::string& description)
+Status ElectrodesTable::initialize(const std::string& description)
 {
   // create group
   DynamicTable::initialize(description);
@@ -64,7 +64,7 @@ Status ElectrodeTable::initialize(const std::string& description)
   return electrodeStatus && groupNameStatus && locationStatus;
 }
 
-void ElectrodeTable::addElectrodes(std::vector<Channel> channelsInput)
+void ElectrodesTable::addElectrodes(std::vector<Channel> channelsInput)
 {
   // create datasets
   for (const auto& ch : channelsInput) {
@@ -76,7 +76,7 @@ void ElectrodeTable::addElectrodes(std::vector<Channel> channelsInput)
   }
 }
 
-Status ElectrodeTable::finalize()
+Status ElectrodesTable::finalize()
 {
   Status rowIdStatus = setRowIDs(m_electrodeDataset, m_electrodeNumbers);
   Status locationColStatus = addColumn(m_locationsDataset, m_locationNames);

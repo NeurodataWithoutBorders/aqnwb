@@ -178,8 +178,8 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
 Status NWBFile::createElectrodesTable(
     std::vector<Types::ChannelVector> recordingArrays)
 {
-  std::unique_ptr<NWB::ElectrodeTable> electrodeTable =
-      std::make_unique<NWB::ElectrodeTable>(m_io);
+  std::unique_ptr<NWB::ElectrodesTable> electrodeTable =
+      std::make_unique<NWB::ElectrodesTable>(m_io);
   electrodeTable->initialize();
   for (const auto& channelVector : recordingArrays) {
     electrodeTable->addElectrodes(channelVector);
@@ -229,7 +229,7 @@ Status NWBFile::createElectricalSeries(
 
   // Setup electrode table if it was not yet created
   bool electrodeTableCreated =
-      m_io->objectExists(ElectrodeTable::electrodeTablePath);
+      m_io->objectExists(ElectrodesTable::electrodeTablePath);
   if (!electrodeTableCreated) {
     std::cerr << "NWBFile::createElectricalSeries requires an electrodes table "
                  "to be present"
@@ -282,7 +282,7 @@ Status NWBFile::createSpikeEventSeries(
 
   // Setup electrode table if it was not yet created
   bool electrodeTableCreated =
-      m_io->objectExists(ElectrodeTable::electrodeTablePath);
+      m_io->objectExists(ElectrodesTable::electrodeTablePath);
   if (!electrodeTableCreated) {
     std::cerr << "NWBFile::createElectricalSeries requires an electrodes table "
                  "to be present"

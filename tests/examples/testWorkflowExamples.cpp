@@ -9,7 +9,7 @@
 #include "nwb/NWBFile.hpp"
 #include "nwb/RecordingContainers.hpp"
 #include "nwb/ecephys/ElectricalSeries.hpp"
-#include "nwb/file/ElectrodeTable.hpp"
+#include "nwb/file/ElectrodesTable.hpp"
 #include "testUtils.hpp"
 
 using namespace AQNWB;

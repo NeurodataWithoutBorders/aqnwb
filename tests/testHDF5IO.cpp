@@ -17,7 +17,7 @@
 #include "io/hdf5/HDF5IO.hpp"
 #include "io/hdf5/HDF5RecordingData.hpp"
 #include "nwb/NWBFile.hpp"
-#include "nwb/file/ElectrodeTable.hpp"
+#include "nwb/file/ElectrodesTable.hpp"
 #include "testUtils.hpp"
 
 // Get the current working directory
