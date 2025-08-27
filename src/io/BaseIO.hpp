@@ -387,6 +387,26 @@ public:
       bool exclude_starting_path = false) const;
 
   /**
+   * @brief Get the full name of the type from the attribute in the file
+   *
+   * Note, in NWB v2.9 the type for ElectrodesTable has changed from a basic
+   * `DynamicTable` to the more specific `ElectrodesTable. To ensure consistent
+   * behavior of the API for reading older NWB <=2.8 files, this function
+   * implements backward compatability logic to return `core::ElectrodesTable`
+   * for `ElectrodesTable::electrodesTablePath` even if the file indicated
+   * `DynamicTable.`
+   *
+   * @param path The path of the registered type.
+   * @exception The function will raise exception if the `neurodata_type` or
+   * `namespace` attributes cannot be read. E.g., when requesting the typename
+   * for a path that does not represent a neurodata_type. It is up to the caller
+   * to handle these exceptions.
+   * @return String with the full name of the type consisting of
+   * `namespace::typename`
+   */
+  std::string getFullTypeNameFromFile(const std::string& path);
+
+  /**
    * @brief Reads a dataset and determines the data type
    *
    * We use DataBlockGeneric here, i.e., the subclass must determine the
