@@ -119,14 +119,14 @@ int main(int argc, char* argv[])
   io->open(FileMode::ReadOnly);
 
   // Read the NWB file
-  auto nwbfile = AQNWB::NWB::NWBFile("/", io);
+  auto nwbfile = AQNWB::NWB::NWBFile::create("/", io);
 
   // Search for ElectricalSeries objects in the file
   // Use search mode to CONTINUE_ON_TYPE to also search inside processing modules
   std::cout << bold("Searching for ElectricalSeries objects...") << std::endl;
   std::unordered_set<std::string> typesToSearch = {"core::ElectricalSeries"};
   std::unordered_map<std::string, std::string> foundElectricalSeries =
-      nwbfile.findOwnedTypes(typesToSearch, IO::SearchMode::CONTINUE_ON_TYPE);   
+      nwbfile->findOwnedTypes(typesToSearch, IO::SearchMode::CONTINUE_ON_TYPE);
   if (foundElectricalSeries.empty()) {
     std::cout << "No ElectricalSeries found in the file." << std::endl;
     io->close();
@@ -156,8 +156,7 @@ int main(int argc, char* argv[])
   std::string esPath = foundElectricalSeries.begin()->first;
   std::cout << bold("Analyzing ElectricalSeries at: ") << esPath << std::endl;
 
-  auto electricalSeries =
-      NWB::RegisteredType::create<AQNWB::NWB::ElectricalSeries>(esPath, io);
+  auto electricalSeries = AQNWB::NWB::ElectricalSeries::create(esPath, io);
 
   // Read the data lazily. Here we only create the wrapper for reading 
   // but we do not yet load any actual data from disk here

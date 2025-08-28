@@ -90,11 +90,6 @@ private:
                               H5::DataSpace& fSpace);
 
   /**
-   * @brief Convert int status of HDF5 operations to AQNWB status.
-   */
-  Status intToStatus(int status);
-
-  /**
    * @brief Pointer to an extendable HDF5 dataset
    */
   std::unique_ptr<H5::DataSet> m_dataset;
