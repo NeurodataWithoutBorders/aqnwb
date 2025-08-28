@@ -218,9 +218,21 @@ static inline bool isValidIndex(SizeType index)
  * @param status The integer status code to convert.
  * @return The corresponding Types::Status enum value.
  */
-static inline Status toStatus(int status)
+static inline Status intToStatus(int status)
 {
   return (status < 0) ? Status::Failure : Status::Success;
+}
+
+/**
+ * @brief Check status and print to standard error
+ * @param Status The status of the operation
+ * @param operation The operation name that will be printed
+ */
+static inline void checkStatus(Status status, const std::string& operation)
+{
+  if (status != Status::Success) {
+    std::cerr << operation << " failed" << std::endl;
+  }
 }
 
 }  // namespace AQNWB

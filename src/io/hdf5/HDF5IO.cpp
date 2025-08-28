@@ -90,7 +90,7 @@ Status HDF5IO::close()
 Status HDF5IO::flush()
 {
   int status = H5Fflush(m_file->getId(), H5F_SCOPE_GLOBAL);
-  return toStatus(status);
+  return intToStatus(status);
 }
 
 std::unique_ptr<H5::Attribute> HDF5IO::getAttribute(
@@ -970,7 +970,7 @@ Status HDF5IO::createLink(const std::string& path, const std::string& reference)
                                 H5P_DEFAULT,
                                 H5P_DEFAULT);
 
-  return toStatus(error);
+  return intToStatus(error);
 }
 
 Status HDF5IO::createReferenceDataSet(
@@ -1004,16 +1004,16 @@ Status HDF5IO::createReferenceDataSet(
   delete[] rdata;
 
   herr_t dsetStatus = H5Dclose(dset);
-  if (toStatus(dsetStatus) == Status::Failure) {
+  if (intToStatus(dsetStatus) == Status::Failure) {
     return Status::Failure;
   }
 
   herr_t spaceStatus = H5Sclose(space);
-  if (toStatus(spaceStatus) == Status::Failure) {
+  if (intToStatus(spaceStatus) == Status::Failure) {
     return Status::Failure;
   }
 
-  return toStatus(writeStatus);
+  return intToStatus(writeStatus);
 }
 
 Status HDF5IO::createStringDataSet(const std::string& path,
@@ -1065,7 +1065,7 @@ Status HDF5IO::startRecording()
   // Start SWMR mode if it is not disabled
   if (!m_disableSWMRMode) {
     herr_t swmr_status = H5Fstart_swmr_write(m_file->getId());
-    status = status && toStatus(swmr_status);
+    status = status && intToStatus(swmr_status);
   }
   return status;
 }
