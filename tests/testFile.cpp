@@ -5,18 +5,18 @@
 #include "io/BaseIO.hpp"
 #include "io/hdf5/HDF5IO.hpp"
 #include "io/hdf5/HDF5RecordingData.hpp"
-#include "nwb/file/ElectrodeTable.hpp"
+#include "nwb/file/ElectrodesTable.hpp"
 #include "nwb/hdmf/table/ElementIdentifiers.hpp"
 #include "testUtils.hpp"
 
 using namespace AQNWB;
 
-TEST_CASE("ElectrodeTable", "[ecephys]")
+TEST_CASE("ElectrodesTable", "[ecephys]")
 {
-  SECTION("test ElectrodeTable is registered as a subclass of RegisteredType")
+  SECTION("test ElectrodesTable is registered as a subclass of RegisteredType")
   {
     auto registry = AQNWB::NWB::RegisteredType::getRegistry();
-    REQUIRE(registry.find("core::ElectrodeTable") != registry.end());
+    REQUIRE(registry.find("core::ElectrodesTable") != registry.end());
   }
 
   SECTION("test initialization and read")
@@ -35,7 +35,7 @@ TEST_CASE("ElectrodeTable", "[ecephys]")
         Channel("ch2", "array0", 0, channelIDs[2], 2),
     };
 
-    auto electrodeTable = NWB::ElectrodeTable::create(io);
+    auto electrodeTable = NWB::ElectrodesTable::create(io);
     electrodeTable->initialize();
     electrodeTable->addElectrodes(channels);
     electrodeTable
@@ -50,7 +50,7 @@ TEST_CASE("ElectrodeTable", "[ecephys]")
     // Check if id datasets are created correctly
     SizeType numChannels = 3;
     std::shared_ptr<BaseRecordingData> id_data =
-        io->getDataSet(NWB::ElectrodeTable::electrodeTablePath + "/id");
+        io->getDataSet(NWB::ElectrodesTable::electrodeTablePath + "/id");
     std::shared_ptr<IO::HDF5::HDF5RecordingData> idDataset =
         std::dynamic_pointer_cast<IO::HDF5::HDF5RecordingData>(id_data);
     int* buffer = new int[numChannels];
@@ -116,7 +116,7 @@ TEST_CASE("ElectrodeTable", "[ecephys]")
     io->open();
     io->createGroup("/general");
     io->createGroup("/general/extracellular_ephys");
-    auto electrodeTable = NWB::ElectrodeTable::create(io);
+    auto electrodeTable = NWB::ElectrodesTable::create(io);
     electrodeTable->initialize();
   }
 

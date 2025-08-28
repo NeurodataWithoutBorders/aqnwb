@@ -5,7 +5,7 @@
 #include "io/hdf5/HDF5IO.hpp"
 #include "nwb/RegisteredType.hpp"
 #include "nwb/base/TimeSeries.hpp"
-#include "nwb/file/ElectrodeTable.hpp"
+#include "nwb/file/ElectrodesTable.hpp"
 #include "testUtils.hpp"
 
 using namespace AQNWB::NWB;
@@ -76,13 +76,13 @@ TEST_CASE("RegisterType", "[base]")
 
       std::cout << subclassFullName << std::endl;
 
-      // NWBFile and ElectrodeTable enforce a specific path so we need
+      // NWBFile and ElectrodesTable enforce a specific path so we need
       // to make sure our path matches their expectations
       std::string exampleName = "";
       if (subclassFullName == "core::NWBFile") {
         examplePath = "/";
-      } else if (subclassFullName == "core::ElectrodeTable") {
-        examplePath = ElectrodeTable::electrodeTablePath;
+      } else if (subclassFullName == "core::ElectrodesTable") {
+        examplePath = ElectrodesTable::electrodeTablePath;
         exampleName = "electrodes";
       } else {
         examplePath = "/example/path";

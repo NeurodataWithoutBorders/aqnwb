@@ -92,7 +92,7 @@
  *
  * 6. Similarly, we use the \ref DEFINE_REGISTERED_FIELD macro to define getter methods for other 
  *    \ref AQNWB::NWB::RegisteredType "RegisteredType" objects that we own, such as a
- *     \ref AQNWB::NWB::ElectrodeTable "ElectrodeTable" that owns 
+ *     \ref AQNWB::NWB::ElectrodesTable "ElectrodesTable" that owns 
  *    predefined \ref AQNWB::NWB::VectorData "VectorData" columns:
  *    @code
  *    DEFINE_REGISTERED_FIELD(readGroupNameColumn, VectorData<std::string>, "group_name", "the name of the ElectrodeGroup")
@@ -274,7 +274,7 @@
  * the same as the `neurodata_type`. However, in some cases this may not be possible. 
  * In this case, we need to use \ref REGISTER_SUBCLASS_WITH_TYPENAME macro instead of 
  * \ref REGISTER_SUBCLASS. E.g. using
- * ``REGISTER_SUBCLASS_WITH_TYPENAME(ElectrodeTable, DynamicTable, "core", "DynamicTable")``, 
+ * ``REGISTER_SUBCLASS_WITH_TYPENAME(ElectrodesTable, DynamicTable, "core", "DynamicTable")``, 
  * the class will be registered in the registry,  under the ``core::ElectrodesTable`` key, 
  * but with "DynamicTable" as the typename value and the `ElectrodesTable.getTypeName` 
  * automatic override returning the indicated typename instead of the classname.
@@ -285,12 +285,12 @@
  *    An example is \ref AQNWB::NWB::VectorData "VectorData" which uses a template parameter to define the 
  *    data type of data that is manages. 
  * 2. A class for a modified type that does not have its  own `neurodata_type` 
- *    in the NWB schema. An example is `ElectrodesTable` in NWB <v2.7, which
+ *    in the NWB schema. An example is `ElectrodesTable` in NWB <v2.9, which
  *    did not have an assigned `neurodata_type`, but was implemented as a regular
- *    `DynamicTable`. To allow us to define a class `ElectrodeTable` to help with writing the table
- *    we can then use ``REGISTER_SUBCLASS_WITH_TYPENAME(ElectrodeTable, DynamicTable, "core", "DynamicTable")``
- *    in the \ref AQNWB::NWB::ElectrodeTable "ElectrodeTable" class. This ensures that the `neurodata_type` attribute is set
- *   correctly to `DynamicTable` on write instead of `ElectrodeTable`. 
+ *    `DynamicTable`. To allow us to define a class `ElectrodesTable` to help with writing the table
+ *    we can then use ``REGISTER_SUBCLASS_WITH_TYPENAME(ElectrodesTable, DynamicTable, "core", "DynamicTable")``
+ *    in the \ref AQNWB::NWB::ElectrodesTable "ElectrodesTable" class. This ensures that the `neurodata_type` attribute is set
+ *   correctly to `DynamicTable` on write instead of `ElectrodesTable`. 
  *
  * \subsection implement_templated_registered_type Templated RegisteredType Classes
  *
@@ -395,7 +395,7 @@
  *
  * The main limitaton of the  \ref REGISTER_SUBCLASS_WITH_TYPENAME approach is that on read, AqNWB 
  * will use the default class associated with the `neurodata_type`. E.g., in the case of 
- * the \ref AQNWB::NWB::ElectrodeTable "ElectrodeTable" class, by default the regular 
+ * the \ref AQNWB::NWB::ElectrodesTable "ElectrodesTable" class, by default the regular 
  * \ref AQNWB::NWB::DynamicTable "DynamicTable" class will be used since that is what 
  * the schema is indicating to use. Similarly, for \ref AQNWB::NWB::VectorData "VectorData" 
  * the default `VectorData<std::any>` will be used on read. To support reading using the
@@ -403,13 +403,13 @@
  * read methods that will return the approbriate type, e.g.:
  *
  * \code
- * DEFINE_REGISTERED_FIELD(readElectrodeTable,
- *                         ElectrodeTable,
- *                         ElectrodeTable::electrodeTablePath,
+ * DEFINE_REGISTERED_FIELD(readElectrodesTable,
+ *                         ElectrodesTable,
+ *                         ElectrodesTable::electrodeTablePath,
  *                         "table with the extracellular electrodes")
  * \endcode
  *
- * in \ref AQNWB::NWB::NWBFile "NWBFile" to read the \ref AQNWB::NWB::ElectrodeTable "ElectrodeTable",
+ * in \ref AQNWB::NWB::NWBFile "NWBFile" to read the \ref AQNWB::NWB::ElectrodesTable "ElectrodesTable",
  * or 
  *
  * \code
@@ -420,7 +420,7 @@
  *     "the name of the ElectrodeGroup this electrode is a part of")
  * \endcode
  *
- * in the \ref AQNWB::NWB::ElectrodeTable "ElectrodeTable" to read the `group_name` column
+ * in the \ref AQNWB::NWB::ElectrodesTable "ElectrodesTable" to read the `group_name` column
  * as `VectorData<std::string>` with the data type already specified as `std::string` at compile time.
  *
  * \section using_schematype_to_aqnwb Using the schematype_to_aqnwb.py Utility

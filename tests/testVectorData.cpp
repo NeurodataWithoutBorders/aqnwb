@@ -453,4 +453,36 @@ TEST_CASE("VectorDataTyped", "[base]")
 
     recordIo->close();
   }
+
+  SECTION("test record methods from DEFINE_DATASET_FIELD for VectorDataTyped")
+  {
+    // Create a separate file for this test
+    std::string recordPath = getTestFilePath("testVectorDataTypedRecord.h5");
+    std::shared_ptr<BaseIO> recordIo = createIO("HDF5", recordPath);
+    recordIo->open();
+
+    // Prepare test data
+    SizeType numSamples = 10;
+    std::string dataPath = "/vdata_typed_record_test";
+    SizeArray dataShape = {numSamples};
+    SizeArray chunking = {numSamples};
+    BaseDataType dataType = BaseDataType::I32;
+    std::string description = "Test VectorDataTyped record method";
+
+    // create config for VectorData.initialize
+    IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
+
+    // setup VectorData object
+    auto columnVectorData = NWB::VectorData::create(dataPath, recordIo);
+    columnVectorData->initialize(config, description);
+
+    // setup VectorDataTyped<int> object
+    auto vectorDataTyped = NWB::VectorDataTyped<int>::create(dataPath, recordIo);
+
+    // Test recordData method
+    auto dataRecorder = vectorDataTyped->recordData();
+    REQUIRE(dataRecorder != nullptr);
+
+    recordIo->close();
+  }
 }  // TEST_CASE("VectorDataTyped", "[base]")

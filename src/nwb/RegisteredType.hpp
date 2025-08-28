@@ -81,15 +81,6 @@ public:
   }
 
   /**
-   * @brief Clear the BaseRecordingData object cache to reset the recording
-   * state
-   */
-  inline virtual void clearRecordingDataCache()
-  {
-    this->m_recordingDataCache.clear();
-  }
-
-  /**
    * @brief Get the index of this object in m_io->m_recording_objects
    * @return Index of the object of AQNWB::Types::SizeTypeNotSet if the object
    * is not registered
@@ -139,6 +130,23 @@ public:
    * AQNWB::Types::Status::Failure.
    */
   virtual AQNWB::Types::Status finalize();
+
+  /**
+   * @brief Get the cache of BaseRecordingData objects
+   * @return A reference to the cache of BaseRecordingData objects
+   */
+  inline const std::unordered_map<std::string,
+                                  std::shared_ptr<IO::BaseRecordingData>>&
+  getCacheRecordingData() const
+  {
+    return this->m_recordingDataCache;
+  }
+
+  /**
+   * @brief Clear the BaseRecordingData object cache to reset the recording
+   * state
+   */
+  inline void clearRecordingDataCache() { this->m_recordingDataCache.clear(); }
 
   /**
    * @brief Get the cache of BaseRecordingData objects

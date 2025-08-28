@@ -120,7 +120,7 @@ Status DynamicTable::addReferenceColumn(const std::string& name,
 {
   // TODO: Similar to addColumn() we should check if the column already exists
   // and if so append to it rather than creating a new column. This currently
-  // prevents append to work for ElectrodeTable.
+  // prevents append to work for ElectrodesTable.
   if (values.empty()) {
     std::cerr << "Data to add to column is empty" << std::endl;
     return Status::Failure;

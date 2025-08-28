@@ -190,7 +190,7 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
   return Status::Success;
 }
 
-std::shared_ptr<ElectrodeTable> NWBFile::createElectrodesTable(
+std::shared_ptr<ElectrodesTable> NWBFile::createElectrodesTable(
     std::vector<Types::ChannelVector> recordingArrays, bool finalizeTable)
 {
   auto ioPtr = getIO();
@@ -200,7 +200,7 @@ std::shared_ptr<ElectrodeTable> NWBFile::createElectrodesTable(
     return nullptr;
   }
 
-  auto electrodeTable = NWB::ElectrodeTable::create(ioPtr);
+  auto electrodeTable = NWB::ElectrodesTable::create(ioPtr);
   electrodeTable->initialize();
   for (const auto& channelVector : recordingArrays) {
     electrodeTable->addElectrodes(channelVector);
@@ -258,7 +258,7 @@ Status NWBFile::createElectricalSeries(
 
   // Setup electrode table if it was not yet created
   bool electrodeTableCreated =
-      ioPtr->objectExists(ElectrodeTable::electrodeTablePath);
+      ioPtr->objectExists(ElectrodesTable::electrodeTablePath);
   if (!electrodeTableCreated) {
     std::cerr << "NWBFile::createElectricalSeries requires an electrodes table "
                  "to be present"
@@ -318,7 +318,7 @@ Status NWBFile::createSpikeEventSeries(
 
   // Setup electrode table if it was not yet created
   bool electrodeTableCreated =
-      ioPtr->objectExists(ElectrodeTable::electrodeTablePath);
+      ioPtr->objectExists(ElectrodesTable::electrodeTablePath);
   if (!electrodeTableCreated) {
     std::cerr << "NWBFile::createElectricalSeries requires an electrodes table "
                  "to be present"

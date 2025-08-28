@@ -11,7 +11,7 @@
 #include "io/hdf5/HDF5IO.hpp"
 #include "io/nwbio_utils.hpp"
 #include "nwb/NWBFile.hpp"
-#include "nwb/file/ElectrodeTable.hpp"
+#include "nwb/file/ElectrodesTable.hpp"
 #include "testUtils.hpp"
 
 using namespace AQNWB;

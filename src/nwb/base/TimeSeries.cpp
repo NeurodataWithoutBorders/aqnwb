@@ -109,7 +109,11 @@ Status TimeSeries::initialize(
   ioPtr->createAttribute(comments, m_path, "comments");
 
   // setup data datasets
+<<<<<<< HEAD
   ioPtr->createArrayDataSet(dataConfig, AQNWB::mergePaths(m_path, "data"));
+=======
+  m_io->createArrayDataSet(dataConfig, AQNWB::mergePaths(m_path, "data"));
+>>>>>>> main
   this->createDataAttributes(
       m_path, conversion, resolution, offset, unit, continuity);
 
@@ -120,15 +124,24 @@ Status TimeSeries::initialize(
     SizeArray tsChunkSize = {dataConfig.getChunking()[0]};
     IO::ArrayDataSetConfig timestampsConfig(
         this->timestampsType, tsDsetSize, tsChunkSize);
+<<<<<<< HEAD
     ioPtr->createArrayDataSet(timestampsConfig,
                               AQNWB::mergePaths(m_path, "timestamps"));
+=======
+    m_io->createArrayDataSet(timestampsConfig,
+                             AQNWB::mergePaths(m_path, "timestamps"));
+>>>>>>> main
     this->createTimestampsAttributes(m_path);
   } else  // setup starting_time datasets
   {
     std::string startingTimePath = AQNWB::mergePaths(m_path, "starting_time");
     IO::ArrayDataSetConfig startingTimeConfig(
         AQNWB::IO::BaseDataType::F64, {1}, {1});
+<<<<<<< HEAD
     ioPtr->createArrayDataSet(startingTimeConfig, startingTimePath);
+=======
+    m_io->createArrayDataSet(startingTimeConfig, startingTimePath);
+>>>>>>> main
     auto startingTimeRecorder = this->recordStartingTime();
     startingTimeRecorder->writeDataBlock(
         {1}, AQNWB::IO::BaseDataType::F64, &startingTime);
@@ -146,8 +159,13 @@ Status TimeSeries::initialize(
     SizeArray controlChunkSize = {dataConfig.getChunking()[0]};
     IO::ArrayDataSetConfig controlConfig(
         AQNWB::IO::BaseDataType::U8, controlDsetSize, controlChunkSize);
+<<<<<<< HEAD
     ioPtr->createArrayDataSet(controlConfig,
                               AQNWB::mergePaths(m_path, "control"));
+=======
+    m_io->createArrayDataSet(controlConfig,
+                             AQNWB::mergePaths(m_path, "control"));
+>>>>>>> main
 
     // control_description is its own data and contains for each control value
     // a string description
@@ -160,8 +178,13 @@ Status TimeSeries::initialize(
         controlDesriptionType,
         controlDescriptionShape,
         controlDescriptionChunkSize);
+<<<<<<< HEAD
     ioPtr->createArrayDataSet(controlDescriptionConfig,
                               AQNWB::mergePaths(m_path, "control_description"));
+=======
+    m_io->createArrayDataSet(controlDescriptionConfig,
+                             AQNWB::mergePaths(m_path, "control_description"));
+>>>>>>> main
     auto controlDescriptionRecorder = this->recordControlDescription();
     controlDescriptionRecorder->writeDataBlock(controlDescriptionShape,
                                                controlDescriptionPositionOffset,

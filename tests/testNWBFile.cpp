@@ -550,3 +550,104 @@ TEST_CASE("testAttributeAndDatasetFields", "[nwb]")
   // Finalize the file and close the io
   io->stopRecording();
 }
+
+TEST_CASE("testAttributeAndDatasetFields", "[nwb]")
+{
+  std::string filename =
+      getTestFilePath("testAttributeAndDatasetFieldsRead.nwb");
+
+  // Initialize nwbfile object and create base structure
+  std::shared_ptr<IO::HDF5::HDF5IO> io =
+      std::make_shared<IO::HDF5::HDF5IO>(filename);
+  io->open();
+  NWB::NWBFile nwbfile(io);
+
+  // Generate a unique identifier for the file
+  std::string identifier = generateUuid();
+  std::string description = "Test file for attribute and dataset fields";
+  std::string dataCollection = "Test data collection";
+  std::string sessionStartTime = AQNWB::getCurrentTime();
+  std::string timestampsReferenceTime = AQNWB::getCurrentTime();
+
+  // Initialize the file with our test values
+  Status initStatus = nwbfile.initialize(identifier,
+                                         description,
+                                         dataCollection,
+                                         sessionStartTime,
+                                         timestampsReferenceTime);
+  REQUIRE(initStatus == Status::Success);
+  REQUIRE(nwbfile.isInitialized());
+
+  // Test reading attribute fields (DEFINE_ATTRIBUTE_FIELD)
+  auto nwbVersionData = nwbfile.readNWBVersion();
+  REQUIRE(nwbVersionData->exists());
+  REQUIRE(nwbVersionData->getStorageObjectType()
+          == StorageObjectType::Attribute);
+  std::string nwbVersion = nwbVersionData->values().data[0];
+  REQUIRE(nwbVersion == AQNWB::SPEC::CORE::version);  // This should match the
+                                                      // current NWB version
+
+  // Test reading dataset fields (DEFINE_DATASET_FIELD)
+  auto identifierData = nwbfile.readIdentifier();
+  REQUIRE(identifierData->exists());
+  REQUIRE(identifierData->getStorageObjectType() == StorageObjectType::Dataset);
+  std::string readIdentifier = identifierData->values().data[0];
+  REQUIRE(readIdentifier == identifier);
+
+  auto sessionDescriptionData = nwbfile.readSessionDescription();
+  REQUIRE(sessionDescriptionData->exists());
+  REQUIRE(sessionDescriptionData->getStorageObjectType()
+          == StorageObjectType::Dataset);
+  std::string readDescription = sessionDescriptionData->values().data[0];
+  REQUIRE(readDescription == description);
+
+  auto sessionStartTimeData = nwbfile.readSessionStartTime();
+  REQUIRE(sessionStartTimeData->exists());
+  REQUIRE(sessionStartTimeData->getStorageObjectType()
+          == StorageObjectType::Dataset);
+  std::string readSessionStartTime = sessionStartTimeData->values().data[0];
+  REQUIRE(readSessionStartTime == sessionStartTime);
+
+  auto timestampsReferenceTimeData = nwbfile.readTimestampsReferenceTime();
+  REQUIRE(timestampsReferenceTimeData->exists());
+  REQUIRE(timestampsReferenceTimeData->getStorageObjectType()
+          == StorageObjectType::Dataset);
+  std::string readTimestampsReferenceTime =
+      timestampsReferenceTimeData->values().data[0];
+  REQUIRE(readTimestampsReferenceTime == timestampsReferenceTime);
+
+  auto fileCreateDateData = nwbfile.readFileCreateDate();
+  REQUIRE(fileCreateDateData->exists());
+  REQUIRE(fileCreateDateData->getStorageObjectType()
+          == StorageObjectType::Dataset);
+  REQUIRE(fileCreateDateData->values().data.size() > 0);
+
+  // Test record methods (from DEFINE_DATASET_FIELD)
+  // Start the recording for the file
+  Status resultStart = io->startRecording();
+  REQUIRE(resultStart == Status::Success);
+
+  // Test recordIdentifier method
+  auto identifierRecorder = nwbfile.recordIdentifier();
+  REQUIRE(identifierRecorder != nullptr);
+
+  // Test recordSessionDescription method
+  auto sessionDescriptionRecorder = nwbfile.recordSessionDescription();
+  REQUIRE(sessionDescriptionRecorder != nullptr);
+
+  // Test recordSessionStartTime method
+  auto sessionStartTimeRecorder = nwbfile.recordSessionStartTime();
+  REQUIRE(sessionStartTimeRecorder != nullptr);
+
+  // Test recordTimestampsReferenceTime method
+  auto timestampsReferenceTimeRecorder =
+      nwbfile.recordTimestampsReferenceTime();
+  REQUIRE(timestampsReferenceTimeRecorder != nullptr);
+
+  // Test recordFileCreateDate method
+  auto fileCreateDateRecorder = nwbfile.recordFileCreateDate();
+  REQUIRE(fileCreateDateRecorder != nullptr);
+
+  // Finalize the file and close the io
+  nwbfile.finalize();
+}

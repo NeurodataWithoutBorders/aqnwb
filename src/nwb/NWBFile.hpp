@@ -13,7 +13,7 @@
 #include "io/ReadIO.hpp"
 #include "io/RecordingObjects.hpp"
 #include "nwb/base/TimeSeries.hpp"
-#include "nwb/file/ElectrodeTable.hpp"
+#include "nwb/file/ElectrodesTable.hpp"
 #include "nwb/hdmf/base/Container.hpp"
 #include "spec/core.hpp"
 
@@ -31,7 +31,7 @@ namespace AQNWB::NWB
 class NWBFile : public Container
 {
 public:
-  // Register the ElectrodeTable as a subclass of Container
+  // Register the ElectrodesTable as a subclass of Container
   REGISTER_SUBCLASS(NWBFile, Container, AQNWB::SPEC::CORE::namespaceName)
 
   /** \brief Convenience factor method since the path is fixed to '/'
@@ -113,9 +113,9 @@ public:
    *                      after creation to write it to the file. If false, the
    *                      caller must call finalize() on the returned table
    *                      object to write it to the file.
-   * @return The generated ElectrodeTable or nullptr if failed.
+   * @return The generated ElectrodesTable or nullptr if failed.
    */
-  std::shared_ptr<ElectrodeTable> createElectrodesTable(
+  std::shared_ptr<ElectrodesTable> createElectrodesTable(
       std::vector<Types::ChannelVector> recordingArrays,
       bool finalizeTable = true);
 
@@ -171,9 +171,9 @@ public:
   Status createAnnotationSeries(std::vector<std::string> recordingNames,
                                 std::vector<SizeType>& containerIndexes);
 
-  DEFINE_REGISTERED_FIELD(readElectrodeTable,
-                          ElectrodeTable,
-                          ElectrodeTable::electrodeTablePath,
+  DEFINE_REGISTERED_FIELD(readElectrodesTable,
+                          ElectrodesTable,
+                          ElectrodesTable::electrodeTablePath,
                           "table with the extracellular electrodes")
 
   DEFINE_ATTRIBUTE_FIELD(readNWBVersion,
@@ -250,9 +250,9 @@ private:
   inline const static std::string m_specificationsPath = "/specifications";
 
   /**
-   * @brief The ElectrodeTable for the file
+   * @brief The ElectrodesTable for the file
    */
-  std::unique_ptr<ElectrodeTable> m_electrodeTable;
+  std::unique_ptr<ElectrodesTable> m_electrodeTable;
 };
 
 }  // namespace AQNWB::NWB
