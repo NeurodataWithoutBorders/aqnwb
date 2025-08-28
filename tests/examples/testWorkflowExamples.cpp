@@ -38,8 +38,8 @@ TEST_CASE("workflowExamples")
     // [example_workflow_io_snippet]
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
-    REQUIRE(io->isOpen());
     // [example_workflow_io_snippet]
+    REQUIRE(io->isOpen());
 
     // [example_workflow_recording_containers_snippet]
     std::unique_ptr<NWB::RecordingContainers> recordingContainers =
@@ -49,14 +49,16 @@ TEST_CASE("workflowExamples")
     // [example_workflow_nwbfile_snippet]
     std::unique_ptr<NWB::NWBFile> nwbfile = std::make_unique<NWB::NWBFile>(io);
     Status initStatus = nwbfile->initialize(generateUuid());
-    REQUIRE(initStatus == Status::Success);
+    AQNWB::checkStatus(initStatus, "NWBFile initialization");
     // [example_workflow_nwbfile_snippet]
+    REQUIRE(initStatus == Status::Success);
 
     // [example_workflow_electrodes_table_snippet]
     Status elecTableStatus =
         nwbfile->createElectrodesTable(mockRecordingArrays);
-    REQUIRE(elecTableStatus == Status::Success);
+    AQNWB::checkStatus(elecTableStatus, "ElectrodesTable creation");
     // [example_workflow_electrodes_table_snippet]
+    REQUIRE(elecTableStatus == Status::Success);
 
     // [example_workflow_datasets_snippet]
     std::vector<SizeType> containerIndexes;
@@ -66,13 +68,15 @@ TEST_CASE("workflowExamples")
                                         BaseDataType::I16,
                                         recordingContainers.get(),
                                         containerIndexes);
-    REQUIRE(elecSeriesStatus == Status::Success);
+    AQNWB::checkStatus(elecSeriesStatus, "ElectricalSeries creation");
     // [example_workflow_datasets_snippet]
+    REQUIRE(elecSeriesStatus == Status::Success);
 
     // [example_workflow_start_snippet]
     Status startRecordingStatus = io->startRecording();
-    REQUIRE(startRecordingStatus == Status::Success);
+    AQNWB::checkStatus(startRecordingStatus, "Start recording");
     // [example_workflow_start_snippet]
+    REQUIRE(startRecordingStatus == Status::Success);
 
     // write data during the recording
     bool isRecording = true;
@@ -138,9 +142,11 @@ TEST_CASE("workflowExamples")
                                         {samplesRecorded},
                                         BaseDataType::F64,
                                         timestampsBuffer.data());
+    AQNWB::checkStatus(writeDataStatus, "Write data");
+    AQNWB::checkStatus(writeTimestampsStatus, "Write timestamps");
+    // [example_workflow_advanced_snippet]
     REQUIRE(writeDataStatus == Status::Success);
     REQUIRE(writeTimestampsStatus == Status::Success);
-    // [example_workflow_advanced_snippet]
 
     // [example_workflow_stop_snippet]
     io->stopRecording();
