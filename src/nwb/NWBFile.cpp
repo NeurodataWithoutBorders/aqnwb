@@ -229,7 +229,7 @@ Status NWBFile::createElectricalSeries(
 
   // Setup electrode table if it was not yet created
   bool electrodeTableCreated =
-      m_io->objectExists(ElectrodesTable::electrodeTablePath);
+      m_io->objectExists(ElectrodesTable::electrodesTablePath);
   if (!electrodeTableCreated) {
     std::cerr << "NWBFile::createElectricalSeries requires an electrodes table "
                  "to be present"
@@ -282,7 +282,7 @@ Status NWBFile::createSpikeEventSeries(
 
   // Setup electrode table if it was not yet created
   bool electrodeTableCreated =
-      m_io->objectExists(ElectrodesTable::electrodeTablePath);
+      m_io->objectExists(ElectrodesTable::electrodesTablePath);
   if (!electrodeTableCreated) {
     std::cerr << "NWBFile::createElectricalSeries requires an electrodes table "
                  "to be present"

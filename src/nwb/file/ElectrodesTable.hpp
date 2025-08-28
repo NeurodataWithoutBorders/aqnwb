@@ -66,7 +66,7 @@ public:
   /**
    * @brief The path to the ElectrodesTable.
    */
-  inline const static std::string electrodeTablePath =
+  inline const static std::string electrodesTablePath =
       "/general/extracellular_ephys/electrodes";
 
   DEFINE_REGISTERED_FIELD(

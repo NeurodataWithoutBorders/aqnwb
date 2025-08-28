@@ -49,7 +49,7 @@ TEST_CASE("ElectrodesTable", "[ecephys]")
     // Check if id datasets are created correctly
     SizeType numChannels = 3;
     std::shared_ptr<BaseRecordingData> id_data =
-        io->getDataSet(NWB::ElectrodesTable::electrodeTablePath + "/id");
+        io->getDataSet(NWB::ElectrodesTable::electrodesTablePath + "/id");
     std::shared_ptr<IO::HDF5::HDF5RecordingData> idDataset =
         std::dynamic_pointer_cast<IO::HDF5::HDF5RecordingData>(id_data);
     int* buffer = new int[numChannels];
