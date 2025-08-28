@@ -202,4 +202,9 @@ static inline std::unique_ptr<int16_t[]> transformToInt16(
   return intData;
 }
 
+auto checkStatus = [](Status status, const std::string& operation) {
+    if (status != Status::Success) {
+        std::cerr << operation << " failed" << std::endl;
+    }
+};
 }  // namespace AQNWB
