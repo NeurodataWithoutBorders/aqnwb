@@ -86,7 +86,7 @@ Status HDF5IO::close()
   return Status::Success;
 }
 
-Status checkStatus(int status)
+Status intToStatus(int status)
 {
   if (status < 0)
     return Status::Failure;
@@ -97,7 +97,7 @@ Status checkStatus(int status)
 Status HDF5IO::flush()
 {
   int status = H5Fflush(m_file->getId(), H5F_SCOPE_GLOBAL);
-  return checkStatus(status);
+  return intToStatus(status);
 }
 
 std::unique_ptr<H5::Attribute> HDF5IO::getAttribute(
@@ -977,7 +977,7 @@ Status HDF5IO::createLink(const std::string& path, const std::string& reference)
                                 H5P_DEFAULT,
                                 H5P_DEFAULT);
 
-  return checkStatus(error);
+  return intToStatus(error);
 }
 
 Status HDF5IO::createReferenceDataSet(
@@ -1011,16 +1011,16 @@ Status HDF5IO::createReferenceDataSet(
   delete[] rdata;
 
   herr_t dsetStatus = H5Dclose(dset);
-  if (checkStatus(dsetStatus) == Status::Failure) {
+  if (intToStatus(dsetStatus) == Status::Failure) {
     return Status::Failure;
   }
 
   herr_t spaceStatus = H5Sclose(space);
-  if (checkStatus(spaceStatus) == Status::Failure) {
+  if (intToStatus(spaceStatus) == Status::Failure) {
     return Status::Failure;
   }
 
-  return checkStatus(writeStatus);
+  return intToStatus(writeStatus);
 }
 
 Status HDF5IO::createStringDataSet(const std::string& path,
@@ -1069,7 +1069,7 @@ Status HDF5IO::startRecording()
 
   if (!m_disableSWMRMode) {
     herr_t status = H5Fstart_swmr_write(m_file->getId());
-    return checkStatus(status);
+    return intToStatus(status);
   }
   return Status::Success;
 }
