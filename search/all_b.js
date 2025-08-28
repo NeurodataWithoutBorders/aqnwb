@@ -8,7 +8,7 @@ var searchData=
   ['channel_2ecpp_5',['Channel.cpp',['../_channel_8cpp.html',1,'']]],
   ['channel_2ehpp_6',['Channel.hpp',['../_channel_8hpp.html',1,'']]],
   ['channelvector_7',['ChannelVector',['../class_a_q_n_w_b_1_1_types.html#a17cc1d186ce80971c28e440471e910ff',1,'AQNWB::Types']]],
-  ['checkstatus_8',['checkStatus',['../class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a3c4ac95e1707ec993fcb7ae0b3399d2b',1,'AQNWB::IO::HDF5::HDF5RecordingData::checkStatus()'],['../_h_d_f5_i_o_8cpp.html#a1a84046757915fcc51031a92bee9588e',1,'checkStatus():&#160;HDF5IO.cpp']]],
+  ['checkstatus_8',['checkStatus',['../namespace_a_q_n_w_b.html#aa2ae7bd54f7ed396e61e6cec9d208140',1,'AQNWB']]],
   ['child_20class_9',['Using a base class and templated child class',['../registered_type_page.html#implement_templated_registered_type_two_class',1,'']]],
   ['chunk_5fxsize_10',['CHUNK_XSIZE',['../_n_w_b_file_8cpp.html#adbda02c91b5119380633296d30bc945e',1,'NWBFile.cpp']]],
   ['chunking_11',['Chunking',['../hdf5io.html#hdf5io_chunking',1,'']]],

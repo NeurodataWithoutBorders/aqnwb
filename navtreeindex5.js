@@ -1,5 +1,6 @@
 var NAVTREEINDEX5 =
 {
+"record_design_page.html#recording_design_further_reading":[2,7,3],
 "registered_type_page.html":[2,4],
 "registered_type_page.html#implement_registered_type":[2,4,0],
 "registered_type_page.html#implement_registered_type_example":[2,4,0,0],

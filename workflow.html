@@ -132,7 +132,6 @@ Overview of the workflow and design of AqNWB.</div></div>
 <p>First, create an I/O object (e.g., <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html">HDF5IO</a>) used for writing data to the file. AqNWB provides the convenience method, <a class="el" href="namespace_a_q_n_w_b.html#aae4545d930db6f70b4438e0167c500d0">createIO</a> to create this object using one of the supported backends. For more fine-grained control of different backend parameters, you can create your own <span class="tt">std::shared_ptr</span> using any of the derived <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">BaseIO</a> classes.</p>
 <div class="fragment"><div class="line">    std::shared_ptr&lt;BaseIO&gt; io = <a class="code hl_function" href="namespace_a_q_n_w_b.html#aae4545d930db6f70b4438e0167c500d0">createIO</a>(<span class="stringliteral">&quot;HDF5&quot;</span>, path);</div>
 <div class="line">    io-&gt;open();</div>
-<div class="line">    REQUIRE(io-&gt;isOpen());</div>
 </div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="create_recording_container"></a>
 2. Create the RecordingContainer object.</h2>
 <p>Next, create a <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html">RecordingContainers</a> object to manage the different <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html">Container</a> objects with the datasets that you would like to write data to.</p>
@@ -143,7 +142,7 @@ Overview of the workflow and design of AqNWB.</div></div>
 <p>Next, constructs the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html">NWBFile</a> object, using the I/O object as an input. Then, initialize the object to create the basic file structure of the NWBFile.</p>
 <div class="fragment"><div class="line">    std::unique_ptr&lt;NWB::NWBFile&gt; nwbfile = std::make_unique&lt;NWB::NWBFile&gt;(io);</div>
 <div class="line">    <a class="code hl_typedef" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a> initStatus = nwbfile-&gt;initialize(<a class="code hl_function" href="namespace_a_q_n_w_b.html#a7a202ee50288eeca65b9b98370226a82">generateUuid</a>());</div>
-<div class="line">    REQUIRE(initStatus == Status::Success);</div>
+<div class="line">    <a class="code hl_function" href="namespace_a_q_n_w_b.html#aa2ae7bd54f7ed396e61e6cec9d208140">AQNWB::checkStatus</a>(initStatus, <span class="stringliteral">&quot;NWBFile initialization&quot;</span>);</div>
 </div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="create_recmeta"></a>
 4. Create the recording metadata</h2>
 <h3 class="doxsection"><a class="anchor" id="create_recmeta_ecephys"></a>
@@ -151,7 +150,7 @@ Create the extracellular recording metadata</h3>
 <p>Next, construct the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html">ElectrodesTable</a> object, using the <span class="tt">recordingArrays</span> as an input. Note that in many cases, you will be recording from all electrodes detected by the device and this <span class="tt">recordingArrays</span> structure will be the same as is used to create the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html">ElectricalSeries</a>. However in some cases (e.g. when using Neuropixels or multiple probes), you may be recording from a subset of all available electrodes as part of a single <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html">ElectricalSeries</a>. In this case, you should create the ref <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html" title="Represents a table containing electrode metadata.">AQNWB::NWB::ElectrodesTable</a> "ElectrodesTable" with all electrodes detected by the acquisition system, not just those being actively recorded from. This approach is critical for mapping information about which <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html">ElectricalSeries</a> were recorded from which electrodes.</p>
 <div class="fragment"><div class="line">    <a class="code hl_typedef" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a> elecTableStatus =</div>
 <div class="line">        nwbfile-&gt;createElectrodesTable(mockRecordingArrays);</div>
-<div class="line">    REQUIRE(elecTableStatus == Status::Success);</div>
+<div class="line">    <a class="code hl_function" href="namespace_a_q_n_w_b.html#aa2ae7bd54f7ed396e61e6cec9d208140">AQNWB::checkStatus</a>(elecTableStatus, <span class="stringliteral">&quot;ElectrodesTable creation&quot;</span>);</div>
 </div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="create_datasets"></a>
 5. Create datasets and add to RecordingContainers.</h2>
 <p>Next, create the different data types (e.g. <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html">ElectricalSeries</a> or other <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html" title="General purpose time series.">AQNWB::NWB::TimeSeries</a> "TimeSeries") that you would like to write data into. After creation, these objects are added to the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html">RecordingContainers</a> object so that it can mana ge access and data writing during the recording process. When adding containers, ownership of the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html">Container</a> is transferred to the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html">RecordingContainers</a> object, so that we can access it again via its index. New containers will always be appended to the end of the private member <span class="tt">RecordingContainers::m_containers</span> object and their index can be tracked using the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#a795a7db853dbd164ec36f0cd5955934c">RecordingContainers.size</a> of the input <span class="tt">recordingArrays</span>.</p>
@@ -162,13 +161,13 @@ Create the extracellular recording metadata</h3>
 <div class="line">                                        BaseDataType::I16,</div>
 <div class="line">                                        recordingContainers.get(),</div>
 <div class="line">                                        containerIndexes);</div>
-<div class="line">    REQUIRE(elecSeriesStatus == Status::Success);</div>
+<div class="line">    <a class="code hl_function" href="namespace_a_q_n_w_b.html#aa2ae7bd54f7ed396e61e6cec9d208140">AQNWB::checkStatus</a>(elecSeriesStatus, <span class="stringliteral">&quot;ElectricalSeries creation&quot;</span>);</div>
 </div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="start_recording"></a>
 6. Start the recording.</h2>
 <p>Then, start the recording process with a call to the <span class="tt">startRecording</span> function of the I/O object.</p>
 <dl class="section note"><dt>Note</dt><dd>When using <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html">HDF5IO</a> for writing to HDF5, calling <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a8606979d328123bb7bd8efa9df85c6df">startRecording</a> will by default enable <a class="el" href="hdf5io.html#hdf5io_swmr">SWMR mode</a> to ensure file integrity and support concurrent read. As a result, no additional datasets or groups can be added to the file once a recording has been started unless the file is is closed and reopened.</dd></dl>
 <div class="fragment"><div class="line">    <a class="code hl_typedef" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a> startRecordingStatus = io-&gt;startRecording();</div>
-<div class="line">    REQUIRE(startRecordingStatus == Status::Success);</div>
+<div class="line">    <a class="code hl_function" href="namespace_a_q_n_w_b.html#aa2ae7bd54f7ed396e61e6cec9d208140">AQNWB::checkStatus</a>(startRecordingStatus, <span class="stringliteral">&quot;Start recording&quot;</span>);</div>
 </div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="write_data"></a>
 7. Write data.</h2>
 <p>During the recording process, use the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html">RecordingContainers</a> as an interface to access the various <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html">Container</a> object and corresponding datasets and write blocks of data to the file. Calling <span class="tt">flush()</span> on the I/O object at any time will ensure the data is moved to disk.</p>
@@ -205,8 +204,8 @@ Advanced: Recording individual datasets</h1>
 <div class="line">                                        {samplesRecorded},</div>
 <div class="line">                                        BaseDataType::F64,</div>
 <div class="line">                                        timestampsBuffer.data());</div>
-<div class="line">    REQUIRE(writeDataStatus == Status::Success);</div>
-<div class="line">    REQUIRE(writeTimestampsStatus == Status::Success);</div>
+<div class="line">    <a class="code hl_function" href="namespace_a_q_n_w_b.html#aa2ae7bd54f7ed396e61e6cec9d208140">AQNWB::checkStatus</a>(writeDataStatus, <span class="stringliteral">&quot;Write data&quot;</span>);</div>
+<div class="line">    <a class="code hl_function" href="namespace_a_q_n_w_b.html#aa2ae7bd54f7ed396e61e6cec9d208140">AQNWB::checkStatus</a>(writeTimestampsStatus, <span class="stringliteral">&quot;Write timestamps&quot;</span>);</div>
 </div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="advanced_recording_workflow_reset"></a>
 Resetting the recording position</h2>
 <p>If we want to clear the recording cache, we can do so by calling <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a35d9c02ee1c08009547fc59b2e947929">electricalSeries0-&gt;clearRecordingDataCache()</a>. In this case the cached <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">BaseRecordingData</a> object will be deleted, such that the next time we request it, a new <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">BaseRecordingData</a> object will be constructed that will then start again writing values from the beginning of the dataset. </p>

@@ -144,10 +144,50 @@ Functions</h2></td></tr>
 <tr class="memdesc:a222344ec88fdbd8803d14dabea0f97bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to convert float values to uint16 values. This method was adapted from JUCE AudioDataConverters using a default value of destBytesPerSample = 2.  <br /></td></tr>
 <tr class="memitem:a0e8a5fc18589d0ff3157b86c081ca252" id="r_a0e8a5fc18589d0ff3157b86c081ca252"><td class="memItemLeft" align="right" valign="top">static std::unique_ptr&lt; int16_t[]&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0e8a5fc18589d0ff3157b86c081ca252">transformToInt16</a> (<a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> numSamples, float conversion_factor, const float *data)</td></tr>
 <tr class="memdesc:a0e8a5fc18589d0ff3157b86c081ca252"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to scale float values and convert to int16 values.  <br /></td></tr>
+<tr class="memitem:aa2ae7bd54f7ed396e61e6cec9d208140" id="r_aa2ae7bd54f7ed396e61e6cec9d208140"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa2ae7bd54f7ed396e61e6cec9d208140">checkStatus</a> (<a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> status, const std::string &amp;operation)</td></tr>
+<tr class="memdesc:aa2ae7bd54f7ed396e61e6cec9d208140"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check status and print to standard error.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The main namespace for AqNWB. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
+<a id="aa2ae7bd54f7ed396e61e6cec9d208140" name="aa2ae7bd54f7ed396e61e6cec9d208140"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2ae7bd54f7ed396e61e6cec9d208140">&#9670;&#160;</a></span>checkStatus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AQNWB::checkStatus </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a></td>          <td class="paramname"><span class="paramname"><em>status</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>operation</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Check status and print to standard error. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname"><a class="el" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a></td><td>The status of the operation </td></tr>
+    <tr><td class="paramname">operation</td><td>The operation name that will be printed </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a222344ec88fdbd8803d14dabea0f97bc" name="a222344ec88fdbd8803d14dabea0f97bc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a222344ec88fdbd8803d14dabea0f97bc">&#9670;&#160;</a></span>convertFloatToInt16LE()</h2>
 

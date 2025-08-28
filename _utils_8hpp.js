@@ -1,5 +1,6 @@
 var _utils_8hpp =
 [
+    [ "AQNWB::checkStatus", "namespace_a_q_n_w_b.html#aa2ae7bd54f7ed396e61e6cec9d208140", null ],
     [ "AQNWB::convertFloatToInt16LE", "namespace_a_q_n_w_b.html#a222344ec88fdbd8803d14dabea0f97bc", null ],
     [ "AQNWB::createIO", "namespace_a_q_n_w_b.html#aae4545d930db6f70b4438e0167c500d0", null ],
     [ "AQNWB::generateUuid", "namespace_a_q_n_w_b.html#a7a202ee50288eeca65b9b98370226a82", null ],
