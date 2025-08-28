@@ -52,8 +52,8 @@ TEST_CASE("workflowExamples")
     REQUIRE(initStatus == Status::Success);
 
     // [example_workflow_electrodes_table_snippet]
-    Status elecTableStatus =
-        nwbfile->createElectrodesTable(mockRecordingArrays);
+    auto elecTable = nwbfile->createElectrodesTable(mockRecordingArrays);
+    Status elecTableStatus = intToStatus(elecTable != nullptr);
     AQNWB::checkStatus(elecTableStatus, "ElectrodesTable creation");
     // [example_workflow_electrodes_table_snippet]
     REQUIRE(elecTableStatus == Status::Success);
