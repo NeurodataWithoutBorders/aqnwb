@@ -17,7 +17,7 @@
 #include "nwb/NWBFile.hpp"
 #include "nwb/ecephys/ElectricalSeries.hpp"
 #include "nwb/ecephys/SpikeEventSeries.hpp"
-#include "nwb/file/ElectrodeTable.hpp"
+#include "nwb/file/ElectrodesTable.hpp"
 #include "testUtils.hpp"  // getTestFilePath(), createIO(),
 // getMockChannelArrays(),
 // getMockChannelArrayNames(),

@@ -17,7 +17,9 @@ class ElectrodesTable : public DynamicTable
 {
 public:
   // Register the ElectrodesTable as a subclass of Container
-  REGISTER_SUBCLASS(ElectrodesTable, DynamicTable, AQNWB::SPEC::CORE::namespaceName)
+  REGISTER_SUBCLASS(ElectrodesTable,
+                    DynamicTable,
+                    AQNWB::SPEC::CORE::namespaceName)
 
 protected:
   /**

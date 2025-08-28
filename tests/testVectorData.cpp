@@ -477,7 +477,8 @@ TEST_CASE("VectorDataTyped", "[base]")
     columnVectorData->initialize(config, description);
 
     // setup VectorDataTyped<int> object
-    auto vectorDataTyped = NWB::VectorDataTyped<int>::create(dataPath, recordIo);
+    auto vectorDataTyped =
+        NWB::VectorDataTyped<int>::create(dataPath, recordIo);
 
     // Test recordData method
     auto dataRecorder = vectorDataTyped->recordData();

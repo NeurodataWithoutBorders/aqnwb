@@ -146,17 +146,9 @@ public:
    * @brief Clear the BaseRecordingData object cache to reset the recording
    * state
    */
-  inline void clearRecordingDataCache() { this->m_recordingDataCache.clear(); }
-
-  /**
-   * @brief Get the cache of BaseRecordingData objects
-   * @return A reference to the cache of BaseRecordingData objects
-   */
-  inline const std::unordered_map<std::string,
-                                  std::shared_ptr<IO::BaseRecordingData>>&
-  getCacheRecordingData() const
+  inline virtual void clearRecordingDataCache()
   {
-    return this->m_recordingDataCache;
+    this->m_recordingDataCache.clear();
   }
 
   /**
