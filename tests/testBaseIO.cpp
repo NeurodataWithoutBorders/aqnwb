@@ -80,7 +80,7 @@ TEST_CASE("BaseDataType fromTypeId", "[BaseIO]")
   }
 }
 
-TEST_CASE("Test findTypes functionality", "[BaseIO]")
+TEST_CASE("Test findTypes and getFullTypeName", "[BaseIO]")
 {
   std::string filename = getTestFilePath("test_findTypes.h5");
   HDF5::HDF5IO io(filename);
@@ -91,6 +91,9 @@ TEST_CASE("Test findTypes functionality", "[BaseIO]")
     auto result =
         io.findTypes("/", {"core::NWBFile"}, SearchMode::STOP_ON_TYPE);
     REQUIRE(result.empty());
+
+    // Confirm that getFullTypeName throws an exception
+    REQUIRE_THROWS(io.getFullTypeName("/"));
   }
 
   SECTION("Single type at root")
@@ -104,6 +107,10 @@ TEST_CASE("Test findTypes functionality", "[BaseIO]")
         io.findTypes("/", {"core::NWBFile"}, SearchMode::STOP_ON_TYPE);
     REQUIRE(result.size() == 1);
     REQUIRE(result["/"] == "core::NWBFile");
+
+    // test getFullTypeName
+    std::string fullTypeName = io.getFullTypeName("/");
+    REQUIRE(fullTypeName == "core::NWBFile");
   }
 
   SECTION("Search for dataset type")
@@ -120,6 +127,9 @@ TEST_CASE("Test findTypes functionality", "[BaseIO]")
         "/", {"hdmf-common::VectorData"}, SearchMode::STOP_ON_TYPE);
     REQUIRE(result.size() == 1);
     REQUIRE(result["/dataset1"] == "hdmf-common::VectorData");
+
+    // The getFullTypeName for non-root paths
+    REQUIRE(io.getFullTypeName("/dataset1") == "hdmf-common::VectorData");
   }
 
   SECTION("Multiple nested types with STOP_ON_TYPE")

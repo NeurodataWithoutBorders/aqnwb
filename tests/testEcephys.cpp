@@ -253,7 +253,95 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     auto readElectrodesTable = readElectricalSeries->readElectrodesTable();
     REQUIRE(readElectrodesTable != nullptr);
     REQUIRE(readElectrodesTable->getPath()
-            == AQNWB::NWB::ElectrodesTable::electrodeTablePath);
+            == AQNWB::NWB::ElectrodesTable::electrodesTablePath);
+  }
+
+  SECTION("test reading electrodes")
+  {
+    std::vector<Types::ChannelVector> mockArraysElectrodes =
+        getMockChannelArrays(4);
+
+    // setup io object
+    std::string path = getTestFilePath("ElectrodesTableRead.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+    io->createGroup("/general");
+    io->createGroup("/general/extracellular_ephys");
+
+    // setup device and electrode group
+    auto device = NWB::Device(devicePath, io);
+    device.initialize("description", "unknown");
+    auto elecGroup = NWB::ElectrodeGroup(electrodePath, io);
+    elecGroup.initialize("description", "unknown", device);
+
+    // setup electrode table
+    NWB::ElectrodesTable elecTable = NWB::ElectrodesTable(io);
+    elecTable.initialize();
+    elecTable.addElectrodes(mockArraysElectrodes[0]);
+    elecTable.finalize();
+
+    // // read the data back in
+    io = createIO("HDF5", path);
+    io->open();
+
+    // Confirm the typename in the file
+    AQNWB::IO::DataBlockGeneric typeData = io->readAttribute(AQNWB::mergePaths(
+        AQNWB::NWB::ElectrodesTable::electrodesTablePath, "neurodata_type"));
+    auto typeBlock = AQNWB::IO::DataBlock<std::string>::fromGeneric(typeData);
+    std::string typeName = typeBlock.data[0];
+    REQUIRE(typeName == "ElectrodesTable");
+
+    // Read using the RegisteredType::create where we infer the type from the
+    // file This should result in a `ElectrodesTable` object
+    std::string electrodesTableTypeName2 =
+        io->getFullTypeName(AQNWB::NWB::ElectrodesTable::electrodesTablePath);
+    REQUIRE(electrodesTableTypeName2 == "core::ElectrodesTable");
+    auto readElectrodesTable2 = AQNWB::NWB::RegisteredType::create(
+        AQNWB::NWB::ElectrodesTable::electrodesTablePath, io);
+    REQUIRE(readElectrodesTable2->getFullTypeName() == "core::ElectrodesTable");
+    auto readElectrodesTable2Cast =
+        std::dynamic_pointer_cast<AQNWB::NWB::ElectrodesTable>(
+            readElectrodesTable2);
+    REQUIRE(readElectrodesTable2Cast != nullptr);
+
+    // Testing backward compatibility of ElectrodesTable with NWB <=2.8
+    // To test for older files, we modify the neurodata_type attribute for our
+    // ElectrodesTable to be DynamicTable instead
+    io->createAttribute("DynamicTable",
+                        AQNWB::NWB::ElectrodesTable::electrodesTablePath,
+                        "neurodata_type",
+                        true);
+    // read to confirm the overwrite worked
+    typeData = io->readAttribute(AQNWB::mergePaths(
+        AQNWB::NWB::ElectrodesTable::electrodesTablePath, "neurodata_type"));
+    auto typeBlock2 = AQNWB::IO::DataBlock<std::string>::fromGeneric(typeData);
+    typeName = typeBlock2.data[0];
+    REQUIRE(typeName == "DynamicTable");
+
+    // Ensure the mapping of the typename in the I/O works
+    std::string electrodesTableTypeName3 =
+        io->getFullTypeName(AQNWB::NWB::ElectrodesTable::electrodesTablePath);
+    REQUIRE(electrodesTableTypeName2 == "core::ElectrodesTable");
+
+    // Ensure that reading with ElectrodesTable type directly still works as
+    // expected
+    auto readElectrodesTable4 =
+        AQNWB::NWB::RegisteredType::create<AQNWB::NWB::ElectrodesTable>(
+            AQNWB::NWB::ElectrodesTable::electrodesTablePath, io);
+    REQUIRE(readElectrodesTable4 != nullptr);
+    REQUIRE(readElectrodesTable4->getFullTypeName() == "core::ElectrodesTable");
+
+    // Confirm that reading with the generic approach where the type is being
+    // read from the file, also still works. I.e., confirm that the remapping to
+    // the ElectrodesTable type is working as expected
+    auto readElectrodesTable5 = AQNWB::NWB::RegisteredType::create(
+        AQNWB::NWB::ElectrodesTable::electrodesTablePath, io);
+    REQUIRE(readElectrodesTable5 != nullptr);
+    REQUIRE(readElectrodesTable5->getFullTypeName() == "core::ElectrodesTable");
+    auto readElectrodesTable5_cast =
+        std::dynamic_pointer_cast<AQNWB::NWB::ElectrodesTable>(
+            readElectrodesTable5);
+    REQUIRE(readElectrodesTable5_cast != nullptr);
   }
 }
 

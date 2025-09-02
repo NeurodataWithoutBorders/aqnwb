@@ -82,7 +82,7 @@ TEST_CASE("RegisterType", "[base]")
       if (subclassFullName == "core::NWBFile") {
         examplePath = "/";
       } else if (subclassFullName == "core::ElectrodesTable") {
-        examplePath = ElectrodesTable::electrodeTablePath;
+        examplePath = ElectrodesTable::electrodesTablePath;
         exampleName = "electrodes";
       } else {
         examplePath = "/example/path";
