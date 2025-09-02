@@ -17,7 +17,7 @@ var searchData=
   ['getfactorymap_14',['getFactoryMap',['../class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a8792fccbd49f9d441b1f6d5a1b06b4cf',1,'AQNWB::NWB::RegisteredType']]],
   ['getfilename_15',['getFileName',['../class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#aaca68b05085b5e9f81a16d7612757163',1,'AQNWB::IO::BaseIO']]],
   ['getfilters_16',['getFilters',['../class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_array_data_set_config.html#ac9d01b29e8fa7809e183ff0b82673df5',1,'AQNWB::IO::HDF5::HDF5ArrayDataSetConfig']]],
-  ['getfulltypename_17',['getFullTypeName',['../class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a0e670647b466cb65a88b81f9fe4a6e37',1,'AQNWB::NWB::RegisteredType']]],
+  ['getfulltypename_17',['getFullTypeName',['../class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#aad16547be1f92b264ca056672cda6967',1,'AQNWB::IO::BaseIO::getFullTypeName()'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a0e670647b466cb65a88b81f9fe4a6e37',1,'AQNWB::NWB::RegisteredType::getFullTypeName()']]],
   ['getglobalindex_18',['getGlobalIndex',['../class_a_q_n_w_b_1_1_channel.html#ab9a4526b6c74d4b355b392f17e616c47',1,'AQNWB::Channel']]],
   ['getgroupindex_19',['getGroupIndex',['../class_a_q_n_w_b_1_1_channel.html#a44e4a1175f2921f85644c993371a9955',1,'AQNWB::Channel']]],
   ['getgroupname_20',['getGroupName',['../class_a_q_n_w_b_1_1_channel.html#af494c905e3c64bce247427510e3dcf83',1,'AQNWB::Channel']]],

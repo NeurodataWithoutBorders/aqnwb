@@ -1,9 +1,9 @@
 <map id="AQNWB::IO::DataBlock::fromGeneric" name="AQNWB::IO::DataBlock::fromGeneric">
-<area shape="rect" id="Node000001" title="Factory method to create an DataBlock from a DataBlockGeneric." alt="" coords="265,71,428,111"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a13dd3c9a0045cb3729ba9cf56e4a2fa7" title="Factory method to create an instance of a subclass of RegisteredType from file." alt="" coords="5,5,217,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="255,69,186,49,188,44,257,63"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a788603f4c9c2698aad610134ab89f8e1" title="Finds all datasets and groups of the given types in the HDF5 file." alt="" coords="34,71,188,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="249,94,189,94,189,88,249,88"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html#a6f847556dc94dc001eb66dda402f72c0" title="Reads an attribute with a specified data type." alt="" coords="6,136,216,177"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="257,119,188,138,186,133,255,113"/>
+<area shape="rect" id="Node000001" title="Factory method to create an DataBlock from a DataBlockGeneric." alt="" coords="263,71,426,111"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a788603f4c9c2698aad610134ab89f8e1" title="Finds all datasets and groups of the given types in the HDF5 file." alt="" coords="33,5,187,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="254,69,185,49,186,44,255,63"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#aad16547be1f92b264ca056672cda6967" title="Get the full name of the type from the attribute in the file." alt="" coords="33,71,187,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="248,94,188,94,188,88,248,88"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html#a6f847556dc94dc001eb66dda402f72c0" title="Reads an attribute with a specified data type." alt="" coords="5,136,215,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="255,119,186,138,185,133,254,113"/>
 </map>

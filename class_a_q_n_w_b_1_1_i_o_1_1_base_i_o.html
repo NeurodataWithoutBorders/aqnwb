@@ -149,6 +149,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a981d7a455b4c057f8ade5c511afbb2ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the list of storage objects (groups, datasets, attributes) inside a group.  <br /></td></tr>
 <tr class="memitem:a788603f4c9c2698aad610134ab89f8e1" id="r_a788603f4c9c2698aad610134ab89f8e1"><td class="memItemLeft" align="right" valign="top">virtual std::unordered_map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a788603f4c9c2698aad610134ab89f8e1">findTypes</a> (const std::string &amp;starting_path, const std::unordered_set&lt; std::string &gt; &amp;types, <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035">SearchMode</a> search_mode, bool exclude_starting_path=false) const</td></tr>
 <tr class="memdesc:a788603f4c9c2698aad610134ab89f8e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds all datasets and groups of the given types in the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> file.  <br /></td></tr>
+<tr class="memitem:aad16547be1f92b264ca056672cda6967" id="r_aad16547be1f92b264ca056672cda6967"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aad16547be1f92b264ca056672cda6967">getFullTypeName</a> (const std::string &amp;path)</td></tr>
+<tr class="memdesc:aad16547be1f92b264ca056672cda6967"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the full name of the type from the attribute in the file.  <br /></td></tr>
 <tr class="memitem:a59ab1d7c744d05623aa8626643e37a74" id="r_a59ab1d7c744d05623aa8626643e37a74"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html">DataBlockGeneric</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a59ab1d7c744d05623aa8626643e37a74">readDataset</a> (const std::string &amp;dataPath, const std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;start={}, const std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;count={}, const std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;stride={}, const std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;block={})=0</td></tr>
 <tr class="memdesc:a59ab1d7c744d05623aa8626643e37a74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a dataset and determines the data type.  <br /></td></tr>
 <tr class="memitem:aa9b3fc349e4149f6b1c75bb854deae07" id="r_aa9b3fc349e4149f6b1c75bb854deae07"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html">DataBlockGeneric</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa9b3fc349e4149f6b1c75bb854deae07">readAttribute</a> (const std::string &amp;dataPath) const =0</td></tr>
@@ -1088,6 +1090,48 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="aad16547be1f92b264ca056672cda6967" name="aad16547be1f92b264ca056672cda6967"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad16547be1f92b264ca056672cda6967">&#9670;&#160;</a></span>getFullTypeName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string BaseIO::getFullTypeName </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the full name of the type from the attribute in the file. </p>
+<p>Note, in <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> v2.9 the type for ElectrodesTable has changed from a basic <span class="tt">DynamicTable</span> to the more specific <span class="tt">ElectrodesTable. To ensure consistent
+behavior of the API for reading older <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> &lt;=2.8 files, this function
+implements backward compatibility logic to return </span>core::ElectrodesTable<span class="tt">
+for </span>ElectrodesTable::electrodesTablePath<span class="tt"> even if the file indicated
+</span>DynamicTable.`</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The path of the registered type. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">The</td><td>function will raise exception if the `neurodata_type` or <span class="tt">namespace</span> attributes cannot be read. E.g., when requesting the typename for a path that does not represent a neurodata_type. It is up to the caller to handle these exceptions. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>String with the full name of the type consisting of <span class="tt">namespace::typename</span> </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o_aad16547be1f92b264ca056672cda6967_cgraph.svg" width="588" height="167"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
 <a id="a981d7a455b4c057f8ade5c511afbb2ba" name="a981d7a455b4c057f8ade5c511afbb2ba"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a981d7a455b4c057f8ade5c511afbb2ba">&#9670;&#160;</a></span>getStorageObjects()</h2>
 
@@ -1439,7 +1483,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o_aa9b3fc349e4149f6b1c75bb854deae07_icgraph.svg" width="368" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o_aa9b3fc349e4149f6b1c75bb854deae07_icgraph.svg" width="368" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

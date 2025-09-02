@@ -22,6 +22,7 @@ var class_a_q_n_w_b_1_1_i_o_1_1_base_i_o =
     [ "flush", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a8f6ad4501f15fdfa8927aa63faae690a", null ],
     [ "getDataSet", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#abfecddd0a4a45740ccc84edd7461dba9", null ],
     [ "getFileName", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#aaca68b05085b5e9f81a16d7612757163", null ],
+    [ "getFullTypeName", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#aad16547be1f92b264ca056672cda6967", null ],
     [ "getStorageObjects", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a981d7a455b4c057f8ade5c511afbb2ba", null ],
     [ "getStorageObjectShape", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a53d0acc4f29c421c6036cd09437f072e", null ],
     [ "getStorageObjectType", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a032fc25850e9d5efe216fd22d44daa56", null ],

@@ -10,7 +10,7 @@ var searchData=
   ['electrodestable_7',['ElectrodesTable',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html',1,'AQNWB::NWB::ElectrodesTable'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#ac59e22d783a27642e78472f435943c9a',1,'AQNWB::NWB::ElectrodesTable::ElectrodesTable(std::shared_ptr&lt; IO::BaseIO &gt; io)'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#a619418bc86a44930589f2cfb8326bd22',1,'AQNWB::NWB::ElectrodesTable::ElectrodesTable(const std::string &amp;path, std::shared_ptr&lt; IO::BaseIO &gt; io)']]],
   ['electrodestable_2ecpp_8',['ElectrodesTable.cpp',['../_electrodes_table_8cpp.html',1,'']]],
   ['electrodestable_2ehpp_9',['ElectrodesTable.hpp',['../_electrodes_table_8hpp.html',1,'']]],
-  ['electrodetablepath_10',['electrodeTablePath',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#ae42a0072e6102dc4175ad795318352d0',1,'AQNWB::NWB::ElectrodesTable']]],
+  ['electrodestablepath_10',['electrodesTablePath',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#a869b69cfe13df06d73f174e466a267fd',1,'AQNWB::NWB::ElectrodesTable']]],
   ['elementidentifiers_11',['ElementIdentifiers',['../class_a_q_n_w_b_1_1_n_w_b_1_1_element_identifiers.html',1,'AQNWB::NWB::ElementIdentifiers'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_element_identifiers.html#a40f8d890a3fd976858bedc91e08fd745',1,'AQNWB::NWB::ElementIdentifiers::ElementIdentifiers()']]],
   ['elementidentifiers_2ecpp_12',['ElementIdentifiers.cpp',['../_element_identifiers_8cpp.html',1,'']]],
   ['elementidentifiers_2ehpp_13',['ElementIdentifiers.hpp',['../_element_identifiers_8hpp.html',1,'']]],
