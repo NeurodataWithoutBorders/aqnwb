@@ -46,7 +46,7 @@ Status ElectricalSeries::initialize(const IO::ArrayDataSetConfig& dataConfig,
 
   // get the number of electrodes from the electrode table
   std::string idPath =
-      AQNWB::mergePaths(ElectrodesTable::electrodeTablePath, "id");
+      AQNWB::mergePaths(ElectrodesTable::electrodesTablePath, "id");
   std::vector<SizeType> elecTableDsetSize =
       ioPtr->getStorageObjectShape(idPath);
   SizeType numElectrodes = elecTableDsetSize[0];
@@ -103,7 +103,7 @@ Status ElectricalSeries::initialize(const IO::ArrayDataSetConfig& dataConfig,
   ioPtr->createAttribute("the electrodes that generated this electrical series",
                          electrodesPath,
                          "description");
-  ioPtr->createReferenceAttribute(ElectrodesTable::electrodeTablePath,
+  ioPtr->createReferenceAttribute(ElectrodesTable::electrodesTablePath,
                                   AQNWB::mergePaths(getPath(), "electrodes"),
                                   "table");
 

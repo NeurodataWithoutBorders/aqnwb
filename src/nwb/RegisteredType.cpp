@@ -113,22 +113,8 @@ std::shared_ptr<AQNWB::NWB::RegisteredType> RegisteredType::create(
     bool fallbackToBase)
 {
   try {
-    // Read the "namespace" attribute
-    AQNWB::IO::DataBlockGeneric namespaceData =
-        io->readAttribute(AQNWB::mergePaths(path, "namespace"));
-    auto namespaceBlock =
-        AQNWB::IO::DataBlock<std::string>::fromGeneric(namespaceData);
-    std::string typeNamespace = namespaceBlock.data[0];
-
     // Read the "neurodata_type" attribute
-    AQNWB::IO::DataBlockGeneric typeData =
-        io->readAttribute(AQNWB::mergePaths(path, "neurodata_type"));
-    auto typeBlock = AQNWB::IO::DataBlock<std::string>::fromGeneric(typeData);
-    std::string typeName = typeBlock.data[0];
-
-    // Combine the namespace and type name to get the full class name
-    std::string fullClassName = typeNamespace + "::" + typeName;
-
+    std::string fullClassName = io->getFullTypeName(path);
     // Create an instance of the corresponding RegisteredType subclass
     return AQNWB::NWB::RegisteredType::create(
         fullClassName, path, io, fallbackToBase);

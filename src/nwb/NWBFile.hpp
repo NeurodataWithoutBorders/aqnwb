@@ -173,7 +173,7 @@ public:
 
   DEFINE_REGISTERED_FIELD(readElectrodesTable,
                           ElectrodesTable,
-                          ElectrodesTable::electrodeTablePath,
+                          ElectrodesTable::electrodesTablePath,
                           "table with the extracellular electrodes")
 
   DEFINE_ATTRIBUTE_FIELD(readNWBVersion,
