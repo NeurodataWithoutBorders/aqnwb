@@ -269,16 +269,16 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     io->createGroup("/general/extracellular_ephys");
 
     // setup device and electrode group
-    auto device = NWB::Device(devicePath, io);
-    device.initialize("description", "unknown");
-    auto elecGroup = NWB::ElectrodeGroup(electrodePath, io);
-    elecGroup.initialize("description", "unknown", device);
+    auto device = NWB::Device::create(devicePath, io);
+    device->initialize("description", "unknown");
+    auto elecGroup = NWB::ElectrodeGroup::create(electrodePath, io);
+    elecGroup->initialize("description", "unknown", device);
 
     // setup electrode table
-    NWB::ElectrodesTable elecTable = NWB::ElectrodesTable(io);
-    elecTable.initialize();
-    elecTable.addElectrodes(mockArraysElectrodes[0]);
-    elecTable.finalize();
+    auto elecTable = NWB::ElectrodesTable::create(io);
+    elecTable->initialize();
+    elecTable->addElectrodes(mockArraysElectrodes[0]);
+    elecTable->finalize();
 
     // // read the data back in
     io = createIO("HDF5", path);

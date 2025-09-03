@@ -13,24 +13,20 @@ REGISTER_SUBCLASS_IMPL(ElectrodesTable)
 ElectrodesTable::ElectrodesTable(std::shared_ptr<IO::BaseIO> io)
     : DynamicTable(electrodesTablePath,  // use the electrodesTablePath
                    io)
-    , m_electrodeDataset(ElementIdentifiers::create(
-          AQNWB::mergePaths(electrodesTablePath, "id"), io))
     , m_groupNamesVectorData(VectorData::create(
-          AQNWB::mergePaths(electrodeTablePath, "group_name"), io))
+          AQNWB::mergePaths(electrodesTablePath, "group_name"), io))
     , m_locationsVectorData(VectorData::create(
-          AQNWB::mergePaths(electrodeTablePath, "location"), io))
+          AQNWB::mergePaths(electrodesTablePath, "location"), io))
 {
 }
 
 ElectrodesTable::ElectrodesTable(const std::string& path,
                                  std::shared_ptr<IO::BaseIO> io)
-    : DynamicTable(electrodeTablePath, io)
-    , m_electrodeDataset(ElementIdentifiers>::create(
-          AQNWB::mergePaths(electrodesTablePath, "id"), io))  
+    : DynamicTable(electrodesTablePath, io)
     , m_groupNamesVectorData(VectorData::create(
-          AQNWB::mergePaths(electrodeTablePath, "group_name"), io))
+          AQNWB::mergePaths(electrodesTablePath, "group_name"), io))
     , m_locationsVectorData(VectorData::create(
-          AQNWB::mergePaths(electrodeTablePath, "location"), io))
+          AQNWB::mergePaths(electrodesTablePath, "location"), io))
 {
   assert(path == this->electrodesTablePath && "ElectrodesTable object is required to appear at /general/extracellular_ephys/electrodes");
 }

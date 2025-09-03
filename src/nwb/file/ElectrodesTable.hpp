@@ -42,7 +42,7 @@ public:
   static std::shared_ptr<ElectrodesTable> create(std::shared_ptr<IO::BaseIO> io)
   {
     return RegisteredType::create<ElectrodesTable>(
-        ElectrodesTable::electrodeTablePath, io);
+        ElectrodesTable::electrodesTablePath, io);
   }
 
   /**
