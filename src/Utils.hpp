@@ -225,7 +225,7 @@ static inline Status intToStatus(int status)
 
 /**
  * @brief Check status and print to standard error
- * @param Status The status of the operation
+ * @param status The status of the operation
  * @param operation The operation name that will be printed
  */
 static inline void checkStatus(Status status, const std::string& operation)
