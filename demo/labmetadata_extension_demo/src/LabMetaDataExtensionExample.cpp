@@ -23,8 +23,12 @@ LabMetaDataExtensionExample::LabMetaDataExtensionExample(
 /** Initialize */
 Status LabMetaDataExtensionExample::initialize(const std::string& tissuePreparation)
 {
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    return Status::Failure;
+ }
   Status containerStatus = Container::initialize();
   auto tissuePrepPath = AQNWB::mergePaths(m_path, "tissue_preparation");
-  Status tissueDataStatus = m_io->createStringDataSet(tissuePrepPath, tissuePreparation);
+  Status tissueDataStatus = ioPtr->createStringDataSet(tissuePrepPath, tissuePreparation);
   return containerStatus && tissueDataStatus;
 }

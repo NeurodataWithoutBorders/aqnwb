@@ -19,16 +19,17 @@ int main(int argc, char* argv[])
     io->open(AQNWB::IO::FileMode::Overwrite);
 
     // Create the NWBFile
-    auto nwbfile = AQNWB::NWB::NWBFile(io);
-    nwbfile.initialize("test_identifier", "Test NWB File", "Data collection info");
+    auto nwbfile = AQNWB::NWB::NWBFile::create(io);
+    nwbfile->initialize("test_identifier", "Test NWB File", "Data collection info");
 
     // Create the LabMetaDataExtensionExample object
     std::string labMetaDataPath = AQNWB::mergePaths("/general", "custom_lab_metadata");
-    auto labMetaData = LabMetaDataExtensionExample(labMetaDataPath, io);
-    std::cout << "Writing "<< labMetaData.getPath() << " extension data" << std::endl;
-    labMetaData.initialize("Tissue preparation details");
+    auto labMetaData = LabMetaDataExtensionExample::create(labMetaDataPath, io);
+    std::cout << "Writing "<< labMetaData->getPath() << " extension data" << std::endl;
+    labMetaData->initialize("Tissue preparation details");
 
     // Close the file
+    io->getRecordingObjects()->finalize();
     io->close();
     std::cout << "Finished data write. Starting read." <<std::endl;
 
@@ -37,10 +38,10 @@ int main(int argc, char* argv[])
     readIO->open(AQNWB::IO::FileMode::ReadOnly);
     
     // Read the LabMetaDataExtensionExample object from the file
-    auto readLabMetaData = LabMetaDataExtensionExample(labMetaDataPath, readIO);
+    auto readLabMetaData = LabMetaDataExtensionExample::create(labMetaDataPath, readIO);
 
     // Read the LabMetaDataExtensionExample.readTissuePreparation field
-    auto tissuePreparationWrapper = readLabMetaData.readTissuePreparation();
+    auto tissuePreparationWrapper = readLabMetaData->readTissuePreparation();
     std::string tissuePreparation = tissuePreparationWrapper->values().data[0];
     std::cout << "Read Tissue Preparation: " << tissuePreparation << std::endl;
 

@@ -43,11 +43,11 @@ TEST_CASE("VectorData", "[base]")
     IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
 
     // setup VectorData object
-    auto columnVectorData = NWB::VectorData(dataPath, io);
-    columnVectorData.initialize(config, description);
+    auto columnVectorData = NWB::VectorData::create(dataPath, io);
+    columnVectorData->initialize(config, description);
 
     // Write data to file
-    Status writeStatus = columnVectorData.recordData()->writeDataBlock(
+    Status writeStatus = columnVectorData->recordData()->writeDataBlock(
         dataShape, positionOffset, dataType, data.data());
     REQUIRE(writeStatus == Status::Success);
     io->flush();
@@ -103,17 +103,17 @@ TEST_CASE("VectorData", "[base]")
     IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
 
     // setup VectorData object
-    auto columnVectorData = NWB::VectorData(dataPath, io);
-    columnVectorData.initialize(config, description);
+    auto columnVectorData = NWB::VectorData::create(dataPath, io);
+    columnVectorData->initialize(config, description);
 
     // Write data to file
-    Status writeStatus = columnVectorData.recordData()->writeDataBlock(
+    Status writeStatus = columnVectorData->recordData()->writeDataBlock(
         dataShape, positionOffset, dataType, data.data());
     REQUIRE(writeStatus == Status::Success);
     io->flush();
 
     // Find all typed objects that are owned by this object
-    auto types = columnVectorData.findOwnedTypes();
+    auto types = columnVectorData->findOwnedTypes();
     REQUIRE(types.size() == 0);
 
     io->close();
@@ -138,11 +138,11 @@ TEST_CASE("VectorData", "[base]")
     IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
 
     // setup VectorData object
-    auto columnVectorData = NWB::VectorData(dataPath, io);
-    columnVectorData.initialize(config, description);
+    auto columnVectorData = NWB::VectorData::create(dataPath, io);
+    columnVectorData->initialize(config, description);
 
     // Test recordData method
-    auto dataRecorder = columnVectorData.recordData();
+    auto dataRecorder = columnVectorData->recordData();
     REQUIRE(dataRecorder != nullptr);
 
     io->close();
@@ -151,13 +151,12 @@ TEST_CASE("VectorData", "[base]")
 
 TEST_CASE("VectorDataTyped", "[base]")
 {
-  // Create a single file for all VectorDataTyped test sections
-  std::string path = getTestFilePath("testVectorDataTyped.h5");
-  std::shared_ptr<BaseIO> io = createIO("HDF5", path);
-  io->open();
-
   SECTION("test VectorDataTyped with int")
   {
+    std::string path = getTestFilePath("testVectorDataTyped_int.h5");
+    auto io = createIO("HDF5", path);
+    io->open();
+
     // Prepare test data
     SizeType numSamples = 10;
     std::string dataPath = "/vdata_int";
@@ -172,11 +171,11 @@ TEST_CASE("VectorDataTyped", "[base]")
     IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
 
     // setup VectorData object
-    auto columnVectorData = NWB::VectorData(dataPath, io);
-    columnVectorData.initialize(config, description);
+    auto columnVectorData = NWB::VectorData::create(dataPath, io);
+    columnVectorData->initialize(config, description);
 
     // Write data to file
-    Status writeStatus = columnVectorData.recordData()->writeDataBlock(
+    Status writeStatus = columnVectorData->recordData()->writeDataBlock(
         dataShape, positionOffset, dataType, data.data());
     REQUIRE(writeStatus == Status::Success);
     io->flush();
@@ -186,8 +185,7 @@ TEST_CASE("VectorDataTyped", "[base]")
     auto readVectorData =
         std::dynamic_pointer_cast<NWB::VectorData>(readDataUntyped);
     REQUIRE(readVectorData != nullptr);
-    auto readVectorDataTyped =
-        std::make_shared<NWB::VectorDataTyped<int>>(dataPath, io);
+    auto readVectorDataTyped = NWB::VectorDataTyped<int>::create(dataPath, io);
     REQUIRE(readVectorDataTyped != nullptr);
 
     // Read the "namespace" attribute via the readNamespace field
@@ -211,7 +209,7 @@ TEST_CASE("VectorDataTyped", "[base]")
     REQUIRE(dataBlockInt.data == data);
 
     // Test fromVectorData conversion
-    auto baseVectorData = NWB::VectorData(dataPath, io);
+    auto baseVectorData = NWB::VectorData::create(dataPath, io);
     auto convertedVectorDataTyped =
         NWB::VectorDataTyped<int>::fromVectorData(baseVectorData);
     REQUIRE(convertedVectorDataTyped != nullptr);
@@ -235,10 +233,16 @@ TEST_CASE("VectorDataTyped", "[base]")
     auto convertedData = convertedVectorDataTyped->readData();
     auto convertedBlockInt = convertedData->values();
     REQUIRE(convertedBlockInt.data == data);
+
+    io->close();
   }
 
   SECTION("test VectorDataTyped with double")
   {
+    std::string path = getTestFilePath("testVectorDataTyped_double.h5");
+    auto io = createIO("HDF5", path);
+    io->open();
+
     // Prepare test data
     SizeType numSamples = 10;
     std::string dataPath = "/vdata_double";
@@ -254,11 +258,11 @@ TEST_CASE("VectorDataTyped", "[base]")
     IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
 
     // setup VectorData object
-    auto columnVectorData = NWB::VectorData(dataPath, io);
-    columnVectorData.initialize(config, description);
+    auto columnVectorData = NWB::VectorData::create(dataPath, io);
+    columnVectorData->initialize(config, description);
 
     // Write data to file
-    Status writeStatus = columnVectorData.recordData()->writeDataBlock(
+    Status writeStatus = columnVectorData->recordData()->writeDataBlock(
         dataShape, positionOffset, dataType, data.data());
     REQUIRE(writeStatus == Status::Success);
     io->flush();
@@ -269,7 +273,7 @@ TEST_CASE("VectorDataTyped", "[base]")
         std::dynamic_pointer_cast<NWB::VectorData>(readDataUntyped);
     REQUIRE(readVectorData != nullptr);
     auto readVectorDataTyped =
-        std::make_shared<NWB::VectorDataTyped<double>>(dataPath, io);
+        NWB::VectorDataTyped<double>::create(dataPath, io);
     REQUIRE(readVectorDataTyped != nullptr);
 
     // Read the "namespace" attribute via the readNamespace field
@@ -293,7 +297,7 @@ TEST_CASE("VectorDataTyped", "[base]")
     REQUIRE(dataBlockDouble.data == data);
 
     // Test fromVectorData conversion
-    auto baseVectorData = NWB::VectorData(dataPath, io);
+    auto baseVectorData = NWB::VectorData::create(dataPath, io);
     auto convertedVectorDataTyped =
         NWB::VectorDataTyped<double>::fromVectorData(baseVectorData);
     REQUIRE(convertedVectorDataTyped != nullptr);
@@ -317,10 +321,16 @@ TEST_CASE("VectorDataTyped", "[base]")
     auto convertedData = convertedVectorDataTyped->readData();
     auto convertedBlockDouble = convertedData->values();
     REQUIRE(convertedBlockDouble.data == data);
+
+    io->close();
   }
 
   SECTION("test VectorDataTyped with string")
   {
+    std::string path = getTestFilePath("testVectorDataTyped_string.h5");
+    auto io = createIO("HDF5", path);
+    io->open();
+
     // Prepare test data
     SizeType numSamples = 10;
     std::string dataPath = "/vdata_string";
@@ -344,11 +354,11 @@ TEST_CASE("VectorDataTyped", "[base]")
     IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
 
     // setup VectorData object
-    auto columnVectorData = NWB::VectorData(dataPath, io);
-    columnVectorData.initialize(config, description);
+    auto columnVectorData = NWB::VectorData::create(dataPath, io);
+    columnVectorData->initialize(config, description);
 
     // Write data to file
-    Status writeStatus = columnVectorData.recordData()->writeDataBlock(
+    Status writeStatus = columnVectorData->recordData()->writeDataBlock(
         dataShape, positionOffset, dataType, data);
     REQUIRE(writeStatus == Status::Success);
     io->flush();
@@ -359,7 +369,7 @@ TEST_CASE("VectorDataTyped", "[base]")
         std::dynamic_pointer_cast<NWB::VectorData>(readDataUntyped);
     REQUIRE(readVectorData != nullptr);
     auto readVectorDataTyped =
-        std::make_shared<NWB::VectorDataTyped<std::string>>(dataPath, io);
+        NWB::VectorDataTyped<std::string>::create(dataPath, io);
     REQUIRE(readVectorDataTyped != nullptr);
 
     // Read the "namespace" attribute via the readNamespace field
@@ -383,7 +393,7 @@ TEST_CASE("VectorDataTyped", "[base]")
     REQUIRE(dataBlockString.data == data);
 
     // Test fromVectorData conversion
-    auto baseVectorData = NWB::VectorData(dataPath, io);
+    auto baseVectorData = NWB::VectorData::create(dataPath, io);
     auto convertedVectorDataTyped =
         NWB::VectorDataTyped<std::string>::fromVectorData(baseVectorData);
     REQUIRE(convertedVectorDataTyped != nullptr);
@@ -407,6 +417,8 @@ TEST_CASE("VectorDataTyped", "[base]")
     auto convertedData = convertedVectorDataTyped->readData();
     auto convertedBlockString = convertedData->values();
     REQUIRE(convertedBlockString.data == data);
+
+    io->close();
   }
 
   SECTION("test record methods from DEFINE_DATASET_FIELD for VectorDataTyped")
@@ -428,18 +440,50 @@ TEST_CASE("VectorDataTyped", "[base]")
     IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
 
     // setup VectorData object
-    auto columnVectorData = NWB::VectorData(dataPath, recordIo);
-    columnVectorData.initialize(config, description);
+    auto columnVectorData = NWB::VectorData::create(dataPath, recordIo);
+    columnVectorData->initialize(config, description);
 
     // setup VectorDataTyped<int> object
-    auto vectorDataTyped = NWB::VectorDataTyped<int>(dataPath, recordIo);
+    auto vectorDataTyped =
+        NWB::VectorDataTyped<int>::create(dataPath, recordIo);
 
     // Test recordData method
-    auto dataRecorder = vectorDataTyped.recordData();
+    auto dataRecorder = vectorDataTyped->recordData();
     REQUIRE(dataRecorder != nullptr);
 
     recordIo->close();
   }
 
-  io->close();
+  SECTION("test record methods from DEFINE_DATASET_FIELD for VectorDataTyped")
+  {
+    // Create a separate file for this test
+    std::string recordPath = getTestFilePath("testVectorDataTypedRecord.h5");
+    std::shared_ptr<BaseIO> recordIo = createIO("HDF5", recordPath);
+    recordIo->open();
+
+    // Prepare test data
+    SizeType numSamples = 10;
+    std::string dataPath = "/vdata_typed_record_test";
+    SizeArray dataShape = {numSamples};
+    SizeArray chunking = {numSamples};
+    BaseDataType dataType = BaseDataType::I32;
+    std::string description = "Test VectorDataTyped record method";
+
+    // create config for VectorData.initialize
+    IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
+
+    // setup VectorData object
+    auto columnVectorData = NWB::VectorData::create(dataPath, recordIo);
+    columnVectorData->initialize(config, description);
+
+    // setup VectorDataTyped<int> object
+    auto vectorDataTyped =
+        NWB::VectorDataTyped<int>::create(dataPath, recordIo);
+
+    // Test recordData method
+    auto dataRecorder = vectorDataTyped->recordData();
+    REQUIRE(dataRecorder != nullptr);
+
+    recordIo->close();
+  }
 }  // TEST_CASE("VectorDataTyped", "[base]")
