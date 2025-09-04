@@ -204,7 +204,7 @@ static inline std::unique_ptr<int16_t[]> transformToInt16(
 
 /**
  * @brief Check status and print to standard error
- * @param Status The status of the operation
+ * @param status The status of the operation
  * @param operation The operation name that will be printed
  */
 static inline void checkStatus(Status status, const std::string& operation)

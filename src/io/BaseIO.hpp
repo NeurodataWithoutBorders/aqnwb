@@ -390,11 +390,11 @@ public:
    * @brief Get the full name of the type from the attribute in the file
    *
    * Note, in NWB v2.9 the type for ElectrodesTable has changed from a basic
-   * `DynamicTable` to the more specific `ElectrodesTable. To ensure consistent
+   * DynamicTable to the more specific ElectrodesTable. To ensure consistent
    * behavior of the API for reading older NWB <=2.8 files, this function
-   * implements backward compatibility logic to return `core::ElectrodesTable`
-   * for `ElectrodesTable::electrodesTablePath` even if the file indicated
-   * `DynamicTable.`
+   * implements backward compatibility logic to return core::ElectrodesTable
+   * for ElectrodesTable::electrodesTablePath even if the file indicated
+   * DynamicTable.
    *
    * @param path The path of the registered type.
    * @exception The function will raise exception if the `neurodata_type` or
