@@ -89,5 +89,6 @@ var devdocs =
       [ "Code of Conduct", "legal_page.html#legal_code_of_conduct", null ],
       [ "License", "legal_page.html#legal_license", null ],
       [ "Copyright", "legal_page.html#legal_copyright", null ]
-    ] ]
+    ] ],
+    [ "Changelog ⚖️", "changelog_page.html", null ]
 ];

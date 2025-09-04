@@ -1,5 +1,6 @@
 var NAVTREEINDEX5 =
 {
+"record_design_page.html#record_design_sec_recording_containers":[2,7,2],
 "record_design_page.html#record_design_sec_recording_data":[2,7,0],
 "record_design_page.html#record_design_sec_timeseries":[2,7,1],
 "record_design_page.html#recording_design_further_reading":[2,7,3],

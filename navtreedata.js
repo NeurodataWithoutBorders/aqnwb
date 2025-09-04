@@ -71,7 +71,7 @@ var NAVTREEINDEX =
 "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#ad822c9112b15211f743fc540139a4dd4",
 "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a407344117736e00a6f38459330af2bde",
 "class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#a15d9c6f869f0270ad91a2af8067f5a88",
-"record_design_page.html#record_design_sec_recording_data"
+"record_design_page.html#record_design_sec_recording_containers"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';
