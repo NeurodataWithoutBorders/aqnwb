@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
-* Updated `schametype_to_aqnwb` utility script to place the generated source files into a folder hierarchy based on the namespace and schemafile (@oruebel, [#224](https://github.com/NeurodataWithoutBorders/aqnwb/pull/224))
+* Updated `schametype_to_aqnwb` utility script to place the generated source files into a folder hierarchy based on the name of the namespace and schemafile of the neurodata_type (@oruebel, [#224](https://github.com/NeurodataWithoutBorders/aqnwb/pull/224))
 
 
 ## [0.1.0] - 2025-09-03

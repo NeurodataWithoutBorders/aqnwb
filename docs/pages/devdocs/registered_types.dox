@@ -431,7 +431,7 @@
  * @endcode
  *
  * The generated files will be placed in the folder hierarchy based on the name of the namespace and 
- * source yaml file where the type is defined. E.g, `TimeSeries` is defined in `nwb.base.yame` in the 
+ * source yaml file where the type is defined. E.g, `TimeSeries` is defined in `nwb.base.yaml` in the 
  * `core` NWB namespace, and will be generated as `core/base/TimeSeries.hpp`. 
  * To learn more about how to use the script and its parameters, you can view the help doc by running: 
  *
