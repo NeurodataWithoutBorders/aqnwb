@@ -12,6 +12,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 import argparse
+import datetime
 import json
 import re
 from pathlib import Path
@@ -28,6 +29,7 @@ def render_define_registered_field(
     doc: str,
     is_inherited: bool = False,
     is_overridden: bool = False,
+    is_type_available: bool = True,
 ) -> str:
     """
     Return string for DEFINE_REGISTERED_FIELD macro.
@@ -42,21 +44,41 @@ def render_define_registered_field(
     Returns:
     str: A string representing the DEFINE_REGISTERED_FIELD macro.
     """
-    doc_string = doc.replace('"', "").replace("'", "")
+    # Clean up documentation string - remove quotes and commas that would break macro
+    doc_string = doc.replace('"', "").replace("'", "").replace(",", " -")
     unmodified_from_parent = is_inherited and not is_overridden
-    re = "" if unmodified_from_parent else "    /*\n"  # Comment out if inherited and not overridden
+    re = ""
+    
+    if unmodified_from_parent:
+        re += "    /*\n"
+        re += f"    // {field_name} inherited from parent neurodata_type\n"
     if is_inherited:
         re += f"    // name={field_name}, neurodata_type={neurodata_type}: This field is_inheritted={is_inherited}, is_overridden={is_overridden} from the parent neurodata_type\n"
+    
     if field_name is not None:
-        re += "    DEFINE_REGISTERED_FIELD(\n"
-        re += f"        read{snake_to_camel(field_name)},\n"
-        re += f"        {neurodata_type},\n"
-        re += f'        "{field_name}",\n'
-        re += f"        {doc_string})\n"
-        re += "" if unmodified_from_parent else "    */\n"
+        if not is_type_available and not unmodified_from_parent:
+            # Comment out the macro if the type is not available
+            re += f"    // TODO: Fix include and namespace for {neurodata_type}\n"
+            re += "    /*\n"
+            re += "    DEFINE_REGISTERED_FIELD(\n"
+            re += f"        read{snake_to_camel(field_name)},\n"
+            re += f"        {neurodata_type},\n"
+            re += f'        "{field_name}",\n'
+            re += f'        "{doc_string}")\n'
+            re += "    */\n"
+        else:
+            re += "    DEFINE_REGISTERED_FIELD(\n"
+            re += f"        read{snake_to_camel(field_name)},\n"
+            re += f"        {neurodata_type},\n"
+            re += f'        "{field_name}",\n'
+            re += f'        "{doc_string}")\n'
+        if unmodified_from_parent:
+            re += "    */\n"
     else:
-        re += f"""    // TODO: Update or remove as appropriate (e.g., fix namespace of return type)
-    /**
+        if unmodified_from_parent:
+            re += "    */\n"
+        re += f"""    // TODO: Update or remove as appropriate (e.g., fix namespace of return type and add proper include)
+    /*
     * @brief Read an arbitrary {neurodata_type} object owned by this object
     *
     * For {neurodata_type} objects defined in the schema with a fixed name
@@ -66,9 +88,9 @@ def render_define_registered_field(
     *
     * @return The {neurodata_type} object representing the object or a nullptr if the
     * object doesn't exist
-    */\n"""
-    re += "    /*\n" if unmodified_from_parent else ""
-    re += f"""    std::shared_ptr<{neurodata_type}> read{neurodata_type}(const std::string& objectName)
+    */
+    /*
+    std::shared_ptr<{neurodata_type}> read{neurodata_type}(const std::string& objectName)
     {{
         std::string objectPath = AQNWB::mergePaths(m_path, objectName);
         if (m_io->objectExists(objectPath)) {{
@@ -76,8 +98,8 @@ def render_define_registered_field(
         }}
         return nullptr;
     }}
+    */
 """
-    re += "    */\n" if unmodified_from_parent else ""
     
     return re
 
@@ -106,7 +128,8 @@ def render_define_attribute_field(
     """
     field_path = field_name if field_parent == "" else (field_parent + "/" + field_name)
     field_full_name = f"{snake_to_camel(field_parent)}{snake_to_camel(field_name)}"
-    doc_string = doc.replace('"', "").replace("'", "")
+    # Clean up documentation string - remove quotes and commas that would break macro
+    doc_string = doc.replace('"', "").replace("'", "").replace(",", " -")
     re = ""
     if is_inherited and not is_overridden:
         re += "    /*\n"
@@ -118,7 +141,7 @@ def render_define_attribute_field(
     re += f"        read{field_full_name},\n"
     re += f"        {dtype},\n"
     re += f'        "{field_path}",\n'
-    re += f"        {doc_string})\n"
+    re += f'        "{doc_string}")\n'
     if is_inherited and not is_overridden:
         re += "    */\n"
     return re
@@ -147,7 +170,8 @@ def render_define_dataset_field(
     """
     field_path = field_name if field_parent == "" else (field_parent + "/" + field_name)
     field_full_name = f"{snake_to_camel(field_parent)}{snake_to_camel(field_name)}"
-    doc_string = doc.replace('"', "").replace("'", "")
+    # Clean up documentation string - remove quotes and commas that would break macro
+    doc_string = doc.replace('"', "").replace("'", "").replace(",", " -")
     re = ""
     if is_inherited and not is_overridden:
         re += "    /*\n"
@@ -160,7 +184,7 @@ def render_define_dataset_field(
     re += f"        record{field_full_name},\n"    
     re += f"        {dtype},\n"
     re += f'        "{field_path}",\n'
-    re += f"        {doc_string})\n"
+    re += f'        "{doc_string}")\n'
     if is_inherited and not is_overridden:
         re += "    */\n"
     return re
@@ -578,7 +602,7 @@ def collect_neurodata_types(namespace: SpecNamespace) -> Dict[str, Spec]:
 
 
 def generate_header_file(
-    namespace: SpecNamespace, neurodata_type: Spec, all_types: Dict[str, Spec]
+    namespace: SpecNamespace, neurodata_type: Spec, all_types: Dict[str, Spec], type_to_file_map: Dict[str, Path], type_to_namespace_map: Dict[str, str]
 ) -> str:
     """
     Generate C++ header file for a neurodata type.
@@ -587,6 +611,8 @@ def generate_header_file(
     namespace (SpecNamespace): The namespace object.
     neurodata_type (Spec): The neurodata type spec.
     all_types (Dict[str, Spec]): A dictionary of all neurodata types.
+    type_to_file_map (Dict[str, Path]): Mapping of types to their source schema files.
+    type_to_namespace_map (Dict[str, str]): Mapping of types to their namespaces.
 
     Returns:
     str: The generated C++ header file content.
@@ -634,8 +660,16 @@ def generate_header_file(
             # External namespace, need to include appropriate header
             pass
         else:
-            # Same namespace, include the parent header
-            header += f'#include "{parent_type}.hpp"\n'
+            # Same namespace or different namespace, need to find the correct include path
+            if parent_type in type_to_file_map and parent_type in type_to_namespace_map:
+                parent_namespace = type_to_namespace_map[parent_type]
+                parent_source_file = type_to_file_map[parent_type]
+                parent_subfolder = get_schema_subfolder_name(parent_source_file)
+                parent_include_path = f"{parent_namespace}/{parent_subfolder}/{parent_type}.hpp"
+                header += f'#include "{parent_include_path}"\n'
+            else:
+                # Fallback to simple include
+                header += f'#include "{parent_type}.hpp"\n'
     else:
         if "Data" in parent_class:
             header += '#include "nwb/hdmf/base/Data.hpp"\n'
@@ -720,12 +754,20 @@ public:
         dataset_name = dataset.name
         doc = dataset.get("doc", "No documentation provided").replace("\n", " ")
         if dataset.get("neurodata_type_inc", None) is not None:
+            referenced_type = dataset["neurodata_type_inc"]
+            # Check if the referenced type is available
+            # Only comment out types from different namespaces (like hdmf-common)
+            # Types from the same namespace should be available even if defined in different files
+            referenced_namespace = type_to_namespace_map.get(referenced_type, namespace.name)
+            is_type_available = (referenced_type in all_types and 
+                               referenced_namespace == namespace.name)
             fieldDef = render_define_registered_field(
                 field_name=dataset_name,
-                neurodata_type=dataset["neurodata_type_inc"],
+                neurodata_type=referenced_type,
                 doc=doc,
                 is_inherited=neurodata_type.is_inherited_spec(dataset),
                 is_overridden=neurodata_type.is_overridden_spec(dataset),
+                is_type_available=is_type_available,
             )
         else:
             fieldDef = render_define_dataset_field(
@@ -760,12 +802,20 @@ public:
         group_name = group.name
         doc = group.get("doc", "No documentation provided").replace("\n", " ")
         if group.get("neurodata_type_inc", None) is not None:
+            referenced_type = group["neurodata_type_inc"]
+            # Check if the referenced type is available
+            # Only comment out types from different namespaces (like hdmf-common)
+            # Types from the same namespace should be available even if defined in different files
+            referenced_namespace = type_to_namespace_map.get(referenced_type, namespace.name)
+            is_type_available = (referenced_type in all_types and 
+                               referenced_namespace == namespace.name)
             fieldDef = render_define_registered_field(
                 field_name=group_name,
-                neurodata_type=group["neurodata_type_inc"],
+                neurodata_type=referenced_type,
                 doc=doc,
                 is_inherited=neurodata_type.is_inherited_spec(group),
                 is_overridden=neurodata_type.is_overridden_spec(group),
+                is_type_available=is_type_available,
             )
             if is_commented_field_def(fieldDef):
                 commented_fields.append(fieldDef)
@@ -863,6 +913,320 @@ REGISTER_SUBCLASS_IMPL({class_name})
     return impl
 
 
+def generate_test_app_cmake(output_dir: Path, app_name: str, cpp_files: List[str], script_dir: Path) -> str:
+    """
+    Generate CMakeLists.txt for the test app.
+
+    Parameters:
+    output_dir (Path): The output directory path.
+    app_name (str): Name of the test app.
+    cpp_files (List[str]): List of generated .cpp files.
+    script_dir (Path): Directory where the schematype_to_aqnwb.py script is located.
+
+    Returns:
+    str: The generated CMakeLists.txt content.
+    """
+    # Convert file paths to use forward slashes for CMake
+    cpp_files_cmake = [f.replace("\\", "/") for f in cpp_files]
+    
+    # Calculate the path to AqNWB source directory relative to script location
+    # Script is in resources/utils, so AqNWB src is ../../src relative to script
+    aqnwb_src_dir = script_dir.parent.parent / "src"
+    aqnwb_build_dir = script_dir.parent.parent / "build" / "dev"
+    aqnwb_libs_dir = script_dir.parent.parent / "libs"
+    
+    cmake_content = f"""cmake_minimum_required(VERSION 3.15)
+project({app_name} VERSION 0.1.0 LANGUAGES CXX)
+
+# Set C++ standard
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Allow configuring paths to dependencies based on script location
+set(AQNWB_SRC_DIR "{aqnwb_src_dir.as_posix()}" CACHE PATH "Path to aqnwb source directory")
+set(AQNWB_DIR "{aqnwb_build_dir.as_posix()}" CACHE PATH "Path to aqnwb build directory")
+set(HDF5_DIR "{(aqnwb_libs_dir / "hdf5_build" / "install" / "cmake").as_posix()}" CACHE PATH "Path to HDF5 build directory")
+set(BOOST_ROOT "{(aqnwb_libs_dir / "boost_install").as_posix()}" CACHE PATH "Path to Boost root directory")
+
+# Disable compiler flags that cause issues on macOS
+if(APPLE)
+    set(CMAKE_CXX_FLAGS "${{CMAKE_CXX_FLAGS}} -Wno-unused-command-line-argument")
+endif()
+
+# Find required dependencies
+find_package(HDF5 REQUIRED COMPONENTS CXX)
+find_package(Boost REQUIRED)
+
+# Generated source files
+set(GENERATED_SOURCES"""
+
+    for cpp_file in cpp_files_cmake:
+        cmake_content += f'\n    "${{CMAKE_CURRENT_SOURCE_DIR}}/../{cpp_file}"'
+
+    cmake_content += f"""
+)
+
+# Add the executable
+add_executable({app_name} 
+    main.cpp
+    ${{GENERATED_SOURCES}}
+)
+
+# Include directories
+target_include_directories({app_name} PRIVATE 
+    ${{AQNWB_SRC_DIR}}
+    ${{CMAKE_CURRENT_SOURCE_DIR}}/..
+    ${{HDF5_INCLUDE_DIRS}}
+    ${{Boost_INCLUDE_DIRS}}
+)
+
+# Find the aqnwb library
+if(EXISTS "${{AQNWB_DIR}}/libaqnwb.a")
+    set(AQNWB_LIBRARY "${{AQNWB_DIR}}/libaqnwb.a")
+elseif(EXISTS "${{AQNWB_DIR}}/libaqnwb.so")
+    set(AQNWB_LIBRARY "${{AQNWB_DIR}}/libaqnwb.so")
+elseif(EXISTS "${{AQNWB_DIR}}/libaqnwb.dylib")
+    set(AQNWB_LIBRARY "${{AQNWB_DIR}}/libaqnwb.dylib")
+else()
+    message(FATAL_ERROR "Could not find aqnwb library in ${{AQNWB_DIR}}. Please build the main project first or set AQNWB_DIR to the correct path.")
+endif()
+
+# Link libraries
+target_link_libraries({app_name} 
+    ${{AQNWB_LIBRARY}}
+    ${{HDF5_CXX_LIBRARIES}}
+    ${{Boost_LIBRARIES}}
+)
+
+# If on Windows, link bcrypt
+if(WIN32)
+    target_link_libraries({app_name} bcrypt)
+endif()
+
+# Set the output directory
+set_target_properties({app_name} PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${{CMAKE_CURRENT_BINARY_DIR}}/bin
+)
+
+# Install rules
+install(TARGETS {app_name}
+    RUNTIME DESTINATION bin
+)
+"""
+    return cmake_content
+
+
+def generate_test_app_main(neurodata_types: Dict[str, Spec], type_to_namespace_map: Dict[str, str], type_to_file_map: Dict[str, Path]) -> str:
+    """
+    Generate main.cpp for the test app that instantiates all types.
+
+    Parameters:
+    neurodata_types (Dict[str, Spec]): Dictionary of all neurodata types.
+    type_to_namespace_map (Dict[str, str]): Mapping of types to their namespaces.
+    type_to_file_map (Dict[str, Path]): Mapping of types to their source schema files.
+
+    Returns:
+    str: The generated main.cpp content.
+    """
+    # Collect includes and namespace information
+    includes = set()
+    namespace_types = {}
+    
+    for type_name, spec in neurodata_types.items():
+        namespace = type_to_namespace_map.get(type_name, "core")
+        cpp_namespace = namespace.upper().replace("-", "_")
+        
+        if cpp_namespace not in namespace_types:
+            namespace_types[cpp_namespace] = []
+        namespace_types[cpp_namespace].append(type_name)
+        
+        # Generate correct include path accounting for folder structure
+        source_file = type_to_file_map.get(type_name, Path("core.yaml"))
+        subfolder_name = get_schema_subfolder_name(source_file)
+        include_path = f"{namespace}/{subfolder_name}/{type_name}.hpp"
+        includes.add(f'#include "{include_path}"')
+    
+    # Generate the main.cpp content
+    main_content = """#include <iostream>
+#include <memory>
+#include <string>
+#include "io/hdf5/HDF5IO.hpp"
+#include "Utils.hpp"
+#include "nwb/RegisteredType.hpp"
+
+"""
+    
+    # Add all includes
+    for include in sorted(includes):
+        main_content += include + "\n"
+    
+    main_content += """
+int main(int argc, char* argv[])
+{
+    std::cout << "Starting C++ class compilation test..." << std::endl;
+    
+    // Create a temporary HDF5 file for testing
+    std::string testFilePath = "test_compilation.nwb";
+    
+    try {
+        // Create an IO object
+        auto io = AQNWB::createIO("HDF5", testFilePath);
+        io->open(AQNWB::IO::FileMode::Overwrite);
+        
+        std::cout << "Testing instantiation of all generated C++ classes:" << std::endl;
+        
+"""
+    
+    # Generate instantiation code for each type
+    for cpp_namespace, types in namespace_types.items():
+        main_content += f"        // Testing {cpp_namespace} namespace types\n"
+        for type_name in types:
+            main_content += f"""        try {{
+            std::string {type_name.lower()}_path = "/test_{type_name.lower()}";
+            auto {type_name.lower()}_obj = AQNWB::NWB::RegisteredType::create<{cpp_namespace}::{type_name}>({type_name.lower()}_path, io);
+            std::cout << "  ✓ {type_name} instantiated successfully" << std::endl;
+        }} catch (const std::exception& e) {{
+            std::cout << "  ✗ {type_name} instantiation failed: " << e.what() << std::endl;
+        }}
+        
+"""
+    
+    main_content += """        
+        // Close the IO
+        io->close();
+        
+        std::cout << "Compilation test completed successfully!" << std::endl;
+        
+    } catch (const std::exception& e) {
+        std::cerr << "Test failed with exception: " << e.what() << std::endl;
+        return 1;
+    }
+    
+    return 0;
+}
+"""
+    
+    return main_content
+
+
+def generate_test_app_readme(app_name: str, schema_file: str) -> str:
+    """
+    Generate README.md for the test app.
+
+    Parameters:
+    app_name (str): Name of the test app.
+    schema_file (str): Path to the schema file used.
+
+    Returns:
+    str: The generated README.md content.
+    """
+    readme_content = f"""# {app_name}
+
+This is an automatically generated test application to verify that all C++ classes generated from the NWB schema can be compiled and instantiated.
+
+## Generated from Schema
+- Schema file: `{schema_file}`
+- Generated on: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+
+## Purpose
+This test app serves to:
+1. Verify that all generated C++ classes compile without errors
+2. Test basic instantiation of each class using `std::make_shared<TypeName>(path, io)`
+3. Provide a simple compilation check for the generated code
+
+## Building and Running
+
+### Prerequisites
+- CMake 3.15 or higher
+- C++17 compatible compiler
+- HDF5 library
+- Boost library
+- Built aqnwb library
+
+### Build Instructions
+```bash
+mkdir build
+cd build
+cmake ..
+make
+```
+
+### Run the Test
+```bash
+./bin/{app_name}
+```
+
+The application will attempt to instantiate all generated C++ classes and report success or failure for each type.
+
+## Notes
+- This is a minimal test that only checks compilation and basic instantiation
+- The test creates a temporary HDF5 file for testing purposes
+- Each class is instantiated with a test path and shared IO object
+- The test does not perform full functional testing of the classes
+"""
+    return readme_content
+
+
+def generate_test_app(
+    output_dir: Path, 
+    schema_file: str, 
+    neurodata_types: Dict[str, Spec], 
+    type_to_namespace_map: Dict[str, str],
+    type_to_file_map: Dict[str, Path],
+    cpp_files: List[str]
+) -> None:
+    """
+    Generate a complete test application for verifying compilation of generated classes.
+
+    Parameters:
+    output_dir (Path): The output directory containing generated files.
+    schema_file (str): Path to the schema file used.
+    neurodata_types (Dict[str, Spec]): Dictionary of all neurodata types.
+    type_to_namespace_map (Dict[str, str]): Mapping of types to their namespaces.
+    type_to_file_map (Dict[str, Path]): Mapping of types to their source schema files.
+    cpp_files (List[str]): List of generated .cpp files relative to output_dir.
+
+    Returns:
+    None
+    """
+    app_name = "schema_compilation_test"
+    test_app_dir = output_dir / "test_app"
+    
+    try:
+        # Create test app directory
+        test_app_dir.mkdir(parents=True, exist_ok=True)
+        logger.info(f"Created test app directory: {test_app_dir}")
+        
+        logger.info(f"Using {len(cpp_files)} .cpp files for test app")
+        
+        # Generate CMakeLists.txt
+        script_dir = Path(__file__).parent
+        cmake_content = generate_test_app_cmake(output_dir, app_name, cpp_files, script_dir)
+        cmake_path = test_app_dir / "CMakeLists.txt"
+        with open(cmake_path, "w") as f:
+            f.write(cmake_content)
+        logger.info(f"Generated CMakeLists.txt: {cmake_path}")
+        
+        # Generate main.cpp
+        main_content = generate_test_app_main(neurodata_types, type_to_namespace_map, type_to_file_map)
+        main_path = test_app_dir / "main.cpp"
+        with open(main_path, "w") as f:
+            f.write(main_content)
+        logger.info(f"Generated main.cpp: {main_path}")
+        
+        # Generate README.md
+        readme_content = generate_test_app_readme(app_name, schema_file)
+        readme_path = test_app_dir / "README.md"
+        with open(readme_path, "w") as f:
+            f.write(readme_content)
+        logger.info(f"Generated README.md: {readme_path}")
+        
+        logger.info(f"Test application generated successfully in: {test_app_dir}")
+        
+    except Exception as e:
+        logger.error(f"Failed to generate test application: {e}")
+
+
 def main() -> None:
     """
     Main function to parse arguments and generate code.
@@ -883,6 +1247,11 @@ def main() -> None:
         "schema_file", help="Path to the namespace schema file (JSON or YAML)"
     )
     parser.add_argument("output_dir", help="Directory to output the generated code")
+    parser.add_argument(
+        "--generate-test-app", 
+        action="store_true", 
+        help="Generate a test application to verify compilation of all generated classes"
+    )
 
     args = parser.parse_args()
 
@@ -904,6 +1273,9 @@ def main() -> None:
         logger.error(f"Failed to create output directory {args.output_dir}: {e}")
         return
 
+    # Track generated files for test app
+    generated_cpp_files = []
+    
     # Generate code for each neurodata type
     for type_name, neurodata_type in neurodata_types.items():
         class_name = type_name
@@ -938,7 +1310,7 @@ def main() -> None:
             header_file_name = f"{class_name}.hpp"
             logger.info(f"    Generating header file: {header_file_name}")
             header_file = generate_header_file(
-                namespace, neurodata_type, neurodata_types
+                namespace, neurodata_type, neurodata_types, type_to_file_map, type_to_namespace_map
             )
             header_path = type_output_dir / header_file_name
             with open(header_path, "w") as f:
@@ -955,8 +1327,25 @@ def main() -> None:
             impl_path = type_output_dir / cpp_file_name
             with open(impl_path, "w") as f:
                 f.write(impl_file)
+            
+            # Track the generated cpp file relative to output_dir for test app
+            relative_cpp_path = impl_path.relative_to(output_dir)
+            generated_cpp_files.append(str(relative_cpp_path))
+            
         except Exception as e:
             logger.error(f"   Failed to generate implementation file {impl_path}: {e}")
+
+    # Generate test app if requested
+    if args.generate_test_app:
+        logger.info("Generating test application...")
+        generate_test_app(
+            output_dir=output_dir,
+            schema_file=args.schema_file,
+            neurodata_types=neurodata_types,
+            type_to_namespace_map=type_to_namespace_map,
+            type_to_file_map=type_to_file_map,
+            cpp_files=generated_cpp_files
+        )
 
     logger.info("Script execution completed.")
 
