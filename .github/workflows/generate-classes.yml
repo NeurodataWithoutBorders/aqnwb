@@ -71,6 +71,11 @@ jobs:
           make -j 2
           ./bin/schema_compilation_test
 
+      - name: Run the test program for LabMetadataExample extension
+        run: |
+          cd test_output/test_app/build
+          ./bin/schema_compilation_test
+
 # -----------------------------------------------------------------
 # 3. nwb_schema pipeline
 # -----------------------------------------------------------------
@@ -108,6 +113,10 @@ jobs:
           cd build
           cmake -DAQNWB_DIR="${{ github.workspace }}/build" ../
           make -j 2
+
+      - name: Run the test program for the nwb_schema
+        run: |
+          cd test_output_nwb_schema/test_app/build
           ./bin/schema_compilation_test
           
     
