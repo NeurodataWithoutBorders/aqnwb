@@ -863,7 +863,7 @@ def generate_implementation_file(
     str: The generated C++ implementation file content.
     """
     namespace_name = namespace.name
-    cpp_namespace_name = "AQNWB::SPEC::" + namespace_name.upper().replace("-", "_")
+    cpp_namespace_name = namespace_name.upper().replace("-", "_")
     type_name = neurodata_type.neurodata_type_def
     class_name = type_name
 
