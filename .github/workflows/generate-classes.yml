@@ -102,7 +102,7 @@ jobs:
         run: |
           python resources/utils/schematype_to_aqnwb.py --generate-test-app test_output_nwb_schema/nwb-schema/core/nwb.namespace.yaml test_output_nwb_schema
 
-      - name: List generated files for the LabMetadataExample extension
+      - name: List generated files for the nwb-schema
         run: |
           ls -laR test_output_nwb_schema
 
