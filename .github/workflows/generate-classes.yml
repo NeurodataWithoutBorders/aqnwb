@@ -47,11 +47,11 @@ jobs:
         run: |
           python resources/utils/schematype_to_aqnwb.py --generate-test-app demo/labmetadata_extension_demo/spec/ndx-labmetadata-example.namespace.yaml test_output
 
-      - name: List generated files
+      - name: List generated files for the LabMetadataExample extension
         run: | 
           ls -laR test_output 
       
-      - name: Compile test program using generated headers
+      - name: Compile test program for the LabMetadataExample extension
         run: |
           cd test_output/test_app
           mkdir build
@@ -59,3 +59,41 @@ jobs:
           cmake -DAQNWB_DIR="${{ github.workspace }}/build" ../
           make -j 2
           ./bin/schema_compilation_test
+
+      - name: Clone latest NWB schema release
+        run: |
+          mkdir test_output_nwb_schema
+          git clone https://github.com/NeurodataWithoutBorders/nwb-schema.git test_output_nwb_schema/nwb-schema
+          cd test_output_nwb_schema/nwb-schema
+          NWB_LATEST_TAG=$(git tag --sort=-v:refname | head -n 1)
+          if [ -z "$NWB_LATEST_TAG" ]; then
+            echo "ERROR: Could not determine latest NWB schema release tag."
+            exit 1
+          fi
+          echo "Checking out NWB schema at tag: $NWB_LATEST_TAG"
+          git checkout "$NWB_LATEST_TAG"
+          cd ../..
+
+      - name: Run generate_nwb_schema_headers.sh to generated headers the nwb_schema
+        run: |
+          mkdir test_output_nwb_schema/spec
+          python resources/utils/generate_spec_files.py test_output_nwb_schema/nwb-schema/core test_output_nwb_schema/spec
+
+      - name: Run schematype_to_aqnwb.py to generate AqNWB classes for the nwb_schema
+        run: |
+          python resources/utils/schematype_to_aqnwb.py --generate-test-app test_output_nwb_schema/nwb-schema/core/nwb.namespace.yaml test_output_nwb_schema
+
+      - name: List generated files for the LabMetadataExample extension
+        run: |
+          ls -laR test_output_nwb_schema
+
+      - name: Compile test program for the nwb_schema
+        run: |
+          cd test_output_nwb_schema/test_app
+          mkdir build
+          cd build
+          cmake -DAQNWB_DIR="${{ github.workspace }}/build" ../
+          make -j 2
+          ./bin/schema_compilation_test
+          
+    
