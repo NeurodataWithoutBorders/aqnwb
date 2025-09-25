@@ -1,4 +1,4 @@
-name: Test generating classes for LabMetadataExample extension
+name: Test generating classes from schema files
 
 on: 
   push:
@@ -14,10 +14,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
+# -----------------------------------------------------------------
+# 1. Install AqNWB
+# -----------------------------------------------------------------
       
       - name: Install C++ dependencies - macos
         run: brew install hdf5 boost catch2
@@ -32,11 +31,23 @@ jobs:
       - name: Install AqNWB
         run: cmake --install build --config Release --prefix prefix
 
+# -----------------------------------------------------------------
+# 1. Install Python dependencies
+# -----------------------------------------------------------------
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
       - name: Install python script dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r resources/utils/requirements.txt
 
+# -----------------------------------------------------------------
+# 2. LabMetadataExtension pipeline
+# -----------------------------------------------------------------
       - name: Run generate_nwb_schema_headers.sh to generated headers the LabMetadataExample extension
         run: |
           mkdir test_output
@@ -60,6 +71,9 @@ jobs:
           make -j 2
           ./bin/schema_compilation_test
 
+# -----------------------------------------------------------------
+# 3. nwb_schema pipeline
+# -----------------------------------------------------------------
       - name: Clone latest NWB schema release
         run: |
           mkdir test_output_nwb_schema
