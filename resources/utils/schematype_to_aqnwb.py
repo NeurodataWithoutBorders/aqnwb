@@ -849,16 +849,17 @@ public:
     # Add REGISTER_SUBCLASS macro
     if is_included_type:
         header += f"""
-        REGISTER_SUBCLASS(
-            {class_name},
-            "{actual_cpp_namespace_name}")  // TODO: Use namespace from schema header
-        """
+    REGISTER_SUBCLASS(
+        {class_name},
+        "{actual_cpp_namespace_name}")  // TODO: Use namespace from schema header
+    """
     else:
         header += f"""
-        REGISTER_SUBCLASS(
-            {class_name},
-            AQNWB::SPEC::{cpp_namespace_name}::namespaceName)
-        """
+    REGISTER_SUBCLASS(
+        {class_name},
+        AQNWB::SPEC::{cpp_namespace_name}::namespaceName)
+    """
+        
     header += f"""
 }};
 
