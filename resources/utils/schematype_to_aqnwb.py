@@ -67,7 +67,7 @@ def render_define_registered_field(
     else:
         if unmodified_from_parent:
             re += "    */\n"
-        re += f"""     (e.g., fix namespace of return type and add proper include)
+        re += f"""
     /*
     * @brief Read an arbitrary {neurodata_type} object owned by this object
     *
@@ -358,6 +358,19 @@ def snake_to_camel(name: str) -> str:
         return "".join(word.title() for word in re.split("[_-]", name))
     else:
         return None
+
+
+def to_cpp_namespace_name(name: str) -> str:
+    """
+    Convert a namespace name to a C++ namespace name by replacing hyphens with underscores and converting to uppercase.
+
+    Parameters:
+    name (str): The original namespace name.
+
+    Returns:
+    str: The converted C++ namespace name.
+    """
+    return name.upper().replace("-", "_")
 
 
 def get_basedata_type(dtype: str) -> str:
@@ -652,9 +665,9 @@ def generate_header_file(
     str: The generated C++ header file content.
     """
     namespace_name = namespace.name
-    cpp_namespace_name = namespace_name.upper().replace("-", "_")
+    cpp_namespace_name = to_cpp_namespace_name(namespace_name)
     type_name = neurodata_type.neurodata_type_def
-    actual_cpp_namespace_name = type_to_namespace_map[type_name].upper().replace("-", "_")
+    actual_cpp_namespace_name = to_cpp_namespace_name(type_to_namespace_map[type_name])
     class_name = type_name
     is_included_type = actual_cpp_namespace_name != cpp_namespace_name
 
@@ -675,7 +688,7 @@ def generate_header_file(
             parent_namespace, parent_type = parent_type.split("/")
             parent_class = f"{parent_namespace}::{parent_type}"
         else:
-            parent_class = type_to_namespace_map[parent_class].upper().replace("-", "_") + "::" + parent_class
+            parent_class = to_cpp_namespace_name(type_to_namespace_map[parent_class]) + "::" + parent_class
     else:
         # TODO: Handle special case when we create HDMF_COMMON::Data and HDMF_COMMON::Container
         # Default parent class based on neurodata_type
@@ -817,7 +830,7 @@ public:
             # Check if the referenced type is available
             # Only comment out types from different namespaces (like hdmf-common)
             # Types from the same namespace should be available even if defined in different files
-            referenced_namespace = type_to_namespace_map.get(referenced_type, namespace.name).upper().replace("-", "_")
+            referenced_namespace = to_cpp_namespace_name(type_to_namespace_map.get(referenced_type, namespace.name))
             fieldDef = render_define_registered_field(
                 field_name=dataset_name,
                 neurodata_type=referenced_type,
@@ -863,7 +876,7 @@ public:
             # Check if the referenced type is available
             # Only comment out types from different namespaces (like hdmf-common)
             # Types from the same namespace should be available even if defined in different files
-            referenced_namespace = type_to_namespace_map.get(referenced_type, namespace.name).upper().replace("-", "_")
+            referenced_namespace = to_cpp_namespace_name(type_to_namespace_map.get(referenced_type, namespace.name))
             fieldDef = render_define_registered_field(
                 field_name=group_name,
                 neurodata_type=referenced_type,
@@ -929,7 +942,7 @@ def generate_implementation_file(
     str: The generated C++ implementation file content.
     """
     type_name = neurodata_type.neurodata_type_def
-    cpp_namespace_name = type_to_namespace_map[type_name].upper().replace("-", "_")
+    cpp_namespace_name = to_cpp_namespace_name(type_to_namespace_map[type_name])
     class_name = type_name
 
     # Determine parent class
@@ -1099,7 +1112,7 @@ def generate_test_app_main(neurodata_types: Dict[str, Spec], type_to_namespace_m
     
     for type_name, spec in neurodata_types.items():
         namespace = type_to_namespace_map.get(type_name, "core")
-        cpp_namespace = namespace.upper().replace("-", "_")
+        cpp_namespace = to_cpp_namespace_name(namespace)
         
         if cpp_namespace not in namespace_types:
             namespace_types[cpp_namespace] = []
