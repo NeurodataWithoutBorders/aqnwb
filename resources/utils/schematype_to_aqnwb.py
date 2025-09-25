@@ -26,10 +26,10 @@ from pynwb import get_type_map
 def render_define_registered_field(
     field_name: str,
     neurodata_type: str,
+    referenced_namespace: str,
     doc: str,
     is_inherited: bool = False,
-    is_overridden: bool = False,
-    is_type_available: bool = True,
+    is_overridden: bool = False
 ) -> str:
     """
     Return string for DEFINE_REGISTERED_FIELD macro.
@@ -37,6 +37,7 @@ def render_define_registered_field(
     Parameters:
     field_name (str): Name of the field.
     neurodata_type (str): The neurodata type of the field.
+    referenced_namespace (str): The namespace of the referenced neurodata type.
     doc (str): Documentation string for the field.
     is_inherited (bool): Indicates whether the field is inherited from the parent
     is_overridden (bool): Indicates wheterh the field overrides a field from the parent
@@ -56,28 +57,17 @@ def render_define_registered_field(
         re += f"    // name={field_name}, neurodata_type={neurodata_type}: This field is_inheritted={is_inherited}, is_overridden={is_overridden} from the parent neurodata_type\n"
     
     if field_name is not None:
-        if not is_type_available and not unmodified_from_parent:
-            # Comment out the macro if the type is not available
-            re += f"    // TODO: Fix include and namespace for {neurodata_type}\n"
-            re += "    /*\n"
-            re += "    DEFINE_REGISTERED_FIELD(\n"
-            re += f"        read{snake_to_camel(field_name)},\n"
-            re += f"        {neurodata_type},\n"
-            re += f'        "{field_name}",\n'
-            re += f'        "{doc_string}")\n'
-            re += "    */\n"
-        else:
-            re += "    DEFINE_REGISTERED_FIELD(\n"
-            re += f"        read{snake_to_camel(field_name)},\n"
-            re += f"        {neurodata_type},\n"
-            re += f'        "{field_name}",\n'
-            re += f'        "{doc_string}")\n'
+        re += "    DEFINE_REGISTERED_FIELD(\n"
+        re += f"        read{snake_to_camel(field_name)},\n"
+        re += f"        {referenced_namespace}::{neurodata_type},\n"
+        re += f'        "{field_name}",\n'
+        re += f'        "{doc_string}")\n'
         if unmodified_from_parent:
             re += "    */\n"
     else:
         if unmodified_from_parent:
             re += "    */\n"
-        re += f"""    // TODO: Update or remove as appropriate (e.g., fix namespace of return type and add proper include)
+        re += f"""     (e.g., fix namespace of return type and add proper include)
     /*
     * @brief Read an arbitrary {neurodata_type} object owned by this object
     *
@@ -827,16 +817,14 @@ public:
             # Check if the referenced type is available
             # Only comment out types from different namespaces (like hdmf-common)
             # Types from the same namespace should be available even if defined in different files
-            referenced_namespace = type_to_namespace_map.get(referenced_type, namespace.name)
-            is_type_available = (referenced_type in all_types and 
-                               referenced_namespace == namespace.name)
+            referenced_namespace = type_to_namespace_map.get(referenced_type, namespace.name).upper().replace("-", "_")
             fieldDef = render_define_registered_field(
                 field_name=dataset_name,
                 neurodata_type=referenced_type,
+                referenced_namespace=referenced_namespace,
                 doc=doc,
                 is_inherited=neurodata_type.is_inherited_spec(dataset),
                 is_overridden=neurodata_type.is_overridden_spec(dataset),
-                is_type_available=is_type_available,
             )
         else:
             fieldDef = render_define_dataset_field(
@@ -875,16 +863,14 @@ public:
             # Check if the referenced type is available
             # Only comment out types from different namespaces (like hdmf-common)
             # Types from the same namespace should be available even if defined in different files
-            referenced_namespace = type_to_namespace_map.get(referenced_type, namespace.name)
-            is_type_available = (referenced_type in all_types and 
-                               referenced_namespace == namespace.name)
+            referenced_namespace = type_to_namespace_map.get(referenced_type, namespace.name).upper().replace("-", "_")
             fieldDef = render_define_registered_field(
                 field_name=group_name,
                 neurodata_type=referenced_type,
+                referenced_namespace=referenced_namespace,
                 doc=doc,
                 is_inherited=neurodata_type.is_inherited_spec(group),
-                is_overridden=neurodata_type.is_overridden_spec(group),
-                is_type_available=is_type_available,
+                is_overridden=neurodata_type.is_overridden_spec(group)
             )
             if is_commented_field_def(fieldDef):
                 commented_fields.append(fieldDef)
