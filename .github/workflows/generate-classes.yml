@@ -41,24 +41,15 @@ jobs:
         run: |
           mkdir test_output
           mkdir test_output/spec
-          output=$(python resources/utils/generate_spec_files.py demo/labmetadata_extension_demo/spec test_output/spec 2>&1)
-          echo "$output"
-          if echo "$output" | grep -q "ERROR"; then
-            exit 1
-          fi
+          python resources/utils/generate_spec_files.py demo/labmetadata_extension_demo/spec test_output/spec
 
       - name: Run schematype_to_aqnwb.py to generate AqNWB classes for the LabMetadataExample extension
         run: |
-          output=$(python resources/utils/schematype_to_aqnwb.py --generate-test-app demo/labmetadata_extension_demo/spec/ndx-labmetadata-example.namespace.yaml test_output2>&1)
-          echo "$output"
-          if echo "$output" | grep -q "ERROR"; then
-            exit 1
-          fi
+          python resources/utils/schematype_to_aqnwb.py --generate-test-app demo/labmetadata_extension_demo/spec/ndx-labmetadata-example.namespace.yaml test_output
 
       - name: List generated files
         run: | 
-          ls -la build
-          ls -la test_output 
+          ls -laR test_output 
       
       - name: Compile test program using generated headers
         run: |
