@@ -61,6 +61,6 @@ jobs:
           cd test_output/test_app
           mkdir build
           cd build
-          cmake ..
+          cmake -DAQNWB_DIR="${{ github.workspace }}/build" ../
           make -j 2
           ./bin/schema_compilation_test
