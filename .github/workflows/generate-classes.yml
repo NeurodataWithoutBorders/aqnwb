@@ -49,7 +49,7 @@ jobs:
 
       - name: Run schematype_to_aqnwb.py to generate AqNWB classes for the LabMetadataExample extension
         run: |
-          python resources/utils/schematype_to_aqnwb.py demo/labmetadata_extension_demo/spec ndx-labmetadata-example.namespace.yaml --generate-test-app test_output
+          python resources/utils/schematype_to_aqnwb.py --generate-test-app demo/labmetadata_extension_demo/spec/ndx-labmetadata-example.namespace.yaml test_output
 
       - name: List generated files
         run: | 
