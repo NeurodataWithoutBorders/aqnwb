@@ -494,6 +494,50 @@ def get_schema_subfolder_name(schema_file_path: Path) -> str:
     return subfolder_name
 
 
+def get_referenced_types(neurodata_type: Spec) -> set[str]:
+    """
+    Get all referenced neurodata types from a given neurodata type.
+
+    Parameters:
+    neurodata_type (Spec): The neurodata type spec.
+
+    Returns:
+    set[str]: A list of referenced neurodata type names.
+    """
+    referenced_types = []
+
+    # Check datasets for references
+    for dataset in neurodata_type.get("datasets", []):
+        # Check if the dataset itself is a reference to another neurodata_type
+        if dataset.get("neurodata_type_inc", None) is not None:
+            referenced_types.append(dataset["neurodata_type_inc"])
+        # Check if attributes of the dataset reference other neurodata_types
+        for attr in dataset.get("attributes", []):
+            if isinstance(attr.dtype, dict) and attr.dtype.get("reftype", None) == "object":
+                target_type = attr.dtype.get("target_type", None)
+                if target_type is not None:
+                    referenced_types.append(target_type)
+        # Check if the dataset's dtype is a reference type
+        if isinstance(dataset.dtype, dict) and dataset.dtype.get("reftype", None) == "object":
+            target_type = dataset.dtype.get("target_type", None)
+            if target_type is not None:
+                referenced_types.append(target_type)
+
+    # Check groups for references
+    for group in neurodata_type.get("groups", []):
+        if group.get("neurodata_type_inc", None) is not None:
+            referenced_types.append(group["neurodata_type_inc"])
+
+    # Check attributes for object references
+    for attr in neurodata_type.get("attributes", []):
+        if isinstance(attr.dtype, dict) and attr.dtype.get("reftype", None) == "object":
+            target_type = attr.dtype.get("target_type", None)
+            if target_type is not None:
+                referenced_types.append(target_type)
+
+    return set(referenced_types)  # Return unique types only
+
+
 def parse_schema_file(file_path: Path) -> Tuple[SpecNamespace, Dict[str, Spec], Dict[str, Path], Dict[str, str]]:
     """
     Parse a schema file and return the namespace and data types using PyNWB.
@@ -624,6 +668,11 @@ def generate_header_file(
     class_name = type_name
     is_included_type = actual_cpp_namespace_name != cpp_namespace_name
 
+    # Get attributes, datasets, and groups
+    attributes = neurodata_type.get("attributes", [])
+    datasets = neurodata_type.get("datasets", [])
+    groups = neurodata_type.get("groups", [])
+
     # Get documentation
     doc = getattr(neurodata_type, "doc", "No documentation provided")
 
@@ -648,16 +697,18 @@ def generate_header_file(
     # Start building the header file
     header = """#pragma once
 
+// Common STL includes
 #include <memory>
 #include <string>
 #include <vector>
+// Base AqNWB includes for IO and RegisteredType
 #include "nwb/RegisteredType.hpp"
 #include "io/ReadIO.hpp"
 #include "io/BaseIO.hpp"
 """
 
     # Add additional includes based on parent class
-    header += "// TODO: Confirm the parent class type used and include path\n"
+    header += "// Include for parent type\n"
     if parent_type:
         if parent_type == "data":
             header += '#include "nwb/hdmf/base/Data.hpp"\n'
@@ -683,7 +734,19 @@ def generate_header_file(
         else:
             header += '#include "nwb/hdmf/base/Container.hpp"\n'
 
+    # Determine additional includes required for DEFINE_REGISTERED_FIELD macro definitions 
+    # for groups and datasets, and links to other neurodata_types referenced via attributes
+    referenced_types = get_referenced_types(neurodata_type)
+    header += "// Includes for types that are referenced and used\n"
+    # Add inludes for all referenced types
+    for ref_type in referenced_types:
+        ref_namespace = type_to_namespace_map.get(ref_type, namespace.name)
+        ref_subfolder = get_schema_subfolder_name(type_to_file_map.get(ref_type, None))
+        ref_include_path = f"{ref_namespace}/{ref_subfolder}/{ref_type}.hpp"
+        header += f'#include "{ref_include_path}"\n'
+
     # Include the namespace header
+    header += "// Include for the namespace schema header\n"
     schema_header = namespace_name.replace("-", "_") + ".hpp"
     if not is_included_type:
         header += f'#include "spec/{schema_header}"\n'
@@ -717,11 +780,6 @@ public:
     
     {header_initalize_src}
 """
-
-    # Get attributes, datasets, and groups
-    attributes = neurodata_type.get("attributes", [])
-    datasets = neurodata_type.get("datasets", [])
-    groups = neurodata_type.get("groups", [])
 
     # Add DEFINE_FIELD and DEFINE_REGISTERED_FIELD macros
     header += "\n"
