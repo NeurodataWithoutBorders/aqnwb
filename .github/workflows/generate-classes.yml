@@ -1,4 +1,4 @@
-name: Test upgrade to latest NWB schema
+name: Test generating classes for LabMetadataExample extension
 
 on: 
   push:
