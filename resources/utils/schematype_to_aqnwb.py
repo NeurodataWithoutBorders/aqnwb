@@ -620,7 +620,9 @@ def generate_header_file(
     namespace_name = namespace.name
     cpp_namespace_name = namespace_name.upper().replace("-", "_")
     type_name = neurodata_type.neurodata_type_def
+    actual_cpp_namespace_name = type_to_namespace_map[type_name].upper().replace("-", "_")
     class_name = type_name
+    is_included_type = actual_cpp_namespace_name != cpp_namespace_name
 
     # Get documentation
     doc = getattr(neurodata_type, "doc", "No documentation provided")
@@ -633,7 +635,10 @@ def generate_header_file(
         if "/" in parent_type:
             parent_namespace, parent_type = parent_type.split("/")
             parent_class = f"{parent_namespace}::{parent_type}"
+        else:
+            parent_class = type_to_namespace_map[parent_class].upper().replace("-", "_") + "::" + parent_class
     else:
+        # TODO: Handle special case when we create HDMF_COMMON::Data and HDMF_COMMON::Container
         # Default parent class based on neurodata_type
         if isinstance(neurodata_type, DatasetSpec):
             parent_class = "AQNWB::NWB::Data"
@@ -671,6 +676,8 @@ def generate_header_file(
                 # Fallback to simple include
                 header += f'#include "{parent_type}.hpp"\n'
     else:
+        # TODO: Handle special case when we create HDMF_COMMON::Data and HDMF_COMMON::Container
+        # No parent type specified, use default based on whether it's a Dataset or Group
         if "Data" in parent_class:
             header += '#include "nwb/hdmf/base/Data.hpp"\n'
         else:
@@ -678,7 +685,11 @@ def generate_header_file(
 
     # Include the namespace header
     schema_header = namespace_name.replace("-", "_") + ".hpp"
-    header += f'#include "spec/{schema_header}"\n'
+    if not is_included_type:
+        header += f'#include "spec/{schema_header}"\n'
+    else:
+        header += f'// TODO: Fix include path for {namespace_name} namespace\n'
+        header += f'// #include "spec/{schema_header}"\n'
 
     # Get attributes, datasets, and groups
     header_initalize_src, _ = render_initalize_method(
@@ -687,7 +698,7 @@ def generate_header_file(
         neurodata_type=neurodata_type,
     )
     header += f"""
-namespace {cpp_namespace_name} {{
+namespace {actual_cpp_namespace_name} {{
 
 /**
  * @brief {neurodata_type.get('doc', 'No documentation provided')}
@@ -836,10 +847,19 @@ public:
             header += fieldDef +"\n"
 
     # Add REGISTER_SUBCLASS macro
+    if is_included_type:
+        header += f"""
+        REGISTER_SUBCLASS(
+            {class_name},
+            "{actual_cpp_namespace_name}")  // TODO: Use namespace from schema header
+        """
+    else:
+        header += f"""
+        REGISTER_SUBCLASS(
+            {class_name},
+            AQNWB::SPEC::{cpp_namespace_name}::namespaceName)
+        """
     header += f"""
-    REGISTER_SUBCLASS(
-        {class_name},
-        AQNWB::SPEC::{cpp_namespace_name}::namespaceName)
 }};
 
 }} // namespace {cpp_namespace_name}
@@ -849,7 +869,7 @@ public:
 
 
 def generate_implementation_file(
-    namespace: SpecNamespace, neurodata_type: Spec, all_types: Dict[str, Spec]
+    namespace: SpecNamespace, neurodata_type: Spec, all_types: Dict[str, Spec], type_to_namespace_map: Dict[str, str]
 ) -> str:
     """
     Generate C++ implementation file for a neurodata type.
@@ -858,13 +878,13 @@ def generate_implementation_file(
     namespace (SpecNamespace): The namespace object.
     neurodata_type (Spec): The neurodata type spec.
     all_types (Dict[str, Spec]): A dictionary of all neurodata types.
+    type_to_namespace_map (Dict[str, str]): Mapping of types to their namespaces.
 
     Returns:
     str: The generated C++ implementation file content.
     """
-    namespace_name = namespace.name
-    cpp_namespace_name = namespace_name.upper().replace("-", "_")
     type_name = neurodata_type.neurodata_type_def
+    cpp_namespace_name = type_to_namespace_map[type_name].upper().replace("-", "_")
     class_name = type_name
 
     # Determine parent class
@@ -1088,11 +1108,10 @@ int main(int argc, char* argv[])
         }} catch (const std::exception& e) {{
             std::cout << "  ✗ {type_name} instantiation failed: " << e.what() << std::endl;
         }}
-        
+
 """
     
-    main_content += """        
-        // Close the IO
+    main_content += """        // Close the IO
         io->close();
         
         std::cout << "Compilation test completed successfully!" << std::endl;
@@ -1322,7 +1341,7 @@ def main() -> None:
             cpp_file_name = f"{class_name}.cpp"
             logger.info(f"    Generating implementation file: {cpp_file_name}")
             impl_file = generate_implementation_file(
-                namespace, neurodata_type, neurodata_types
+                namespace, neurodata_type, neurodata_types, type_to_namespace_map
             )
             impl_path = type_output_dir / cpp_file_name
             with open(impl_path, "w") as f:
