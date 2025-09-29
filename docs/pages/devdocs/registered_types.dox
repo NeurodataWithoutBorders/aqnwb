@@ -422,13 +422,17 @@
  * is a simple utility designed to create skeleton C++ source files for integrating new 
  * neurodata_types with AqNWB. While the generated source files are only an outline and are not guaranteed to compile, 
  * they serve as a helpful starting point. Look for `TODO` comments in the generated files, indicating
- * items that need to be addressed. For example, the following command will generate template code
- * for AqNWB classes for all neurodata_types in the NWB schema:
+ * items that need to be addressed. For example, if you clone the [nwb-schema repo](https://github.com/NeurodataWithoutBorders/nwb-schema/),
+ * then the following command will generate template code for AqNWB classes 
+ * for all neurodata_types in the NWB schema:
  * 
  * @code
- * python resources/utils/schematype_to_aqnwb.py resources/spec/core/2.7.0/nwb.namespace.json test_output
+ * python resources/utils/schematype_to_aqnwb.py nwb-schema/core/nwb.namespace.yaml test_output
  * @endcode
  *
+ * The generated files will be placed in the folder hierarchy based on the name of the namespace and 
+ * source yaml file where the type is defined. E.g, `TimeSeries` is defined in `nwb.base.yaml` in the 
+ * `core` NWB namespace, and will be generated as `core/base/TimeSeries.hpp`. 
  * To learn more about how to use the script and its parameters, you can view the help doc by running: 
  *
  * @code
