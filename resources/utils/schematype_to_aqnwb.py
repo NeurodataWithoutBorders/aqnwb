@@ -13,8 +13,8 @@ logger = logging.getLogger(__name__)
 
 import argparse
 import json
-import os
 import re
+from pathlib import Path
 from ruamel.yaml import YAML
 from typing import Dict, List, Tuple
 from hdmf.spec import DatasetSpec, SpecNamespace
@@ -444,43 +444,73 @@ def get_cpp_type(dtype: str) -> str:
     return type_mapping.get(dtype, "std::string")  # Default to string for unknown types
 
 
-def parse_schema_file(file_path: str) -> Tuple[SpecNamespace, Dict[str, Spec]]:
+def get_schema_subfolder_name(schema_file_path: Path) -> str:
+    """
+    Generate subfolder name based on schema file name with specific rules:
+    1) Ignore file extension (e.g., .yaml)
+    2) Ignore "nwb." prefix on filename
+    3) Replace remaining "." with "_"
+
+    Parameters:
+    schema_file_path (Path): Path to the schema file.
+
+    Returns:
+    str: The subfolder name.
+    """
+    if schema_file_path is None:
+        return ""
+
+    # Get the filename without extension
+    filename = schema_file_path.stem
+    
+    # Remove "nwb." prefix if present
+    if filename.startswith("nwb."):
+        filename = filename[4:]  # Remove "nwb." prefix
+    
+    # Replace remaining dots with underscores
+    subfolder_name = filename.replace(".", "_")
+    
+    return subfolder_name
+
+
+def parse_schema_file(file_path: Path) -> Tuple[SpecNamespace, Dict[str, Spec], Dict[str, Path], Dict[str, str]]:
     """
     Parse a schema file and return the namespace and data types using PyNWB.
 
     Parameters:
-    file_path (str): Path to the schema file.
+    file_path (Path): Path to the schema file.
 
     Returns:
-    Tuple[SpecNamespace, Dict[str, Spec]]: The namespace and a dictionary of neurodata types.
+    Tuple[SpecNamespace, Dict[str, Spec], Dict[str, Path], Dict[str, str]]: The namespace, a dictionary of neurodata types,
+    a dictionary mapping neurodata type names to their source schema file paths, and a dictionary mapping neurodata type names to their original namespace names.
     """
     # Find the namespace file
     namespace_path = file_path
     if not (
-        namespace_path.endswith(".namespace.yaml")
-        or namespace_path.endswith(".namespace.json")
+        file_path.name.endswith(".namespace.yaml")
+        or file_path.name.endswith(".namespace.json")
     ):
         # Try to find the namespace file
-        if os.path.isdir(file_path):
+        if file_path.is_dir():
             # If a directory is provided, look for namespace files in it
-            for filename in os.listdir(file_path):
-                if filename.endswith(".namespace.yaml") or filename.endswith(
+            for filename in file_path.iterdir():
+                if filename.name.endswith(".namespace.yaml") or filename.name.endswith(
                     ".namespace.json"
                 ):
-                    namespace_path = os.path.join(file_path, filename)
+                    namespace_path = filename
                     break
         else:
             # If a schema file is provided, try to find the corresponding namespace file
-            dir_path = os.path.dirname(file_path)
-            base_name = os.path.basename(file_path).split(".")[0]
+            dir_path = file_path.parent
+            base_name = file_path.stem
             for ext in [".namespace.yaml", ".namespace.json"]:
-                potential_path = os.path.join(dir_path, f"{base_name}{ext}")
-                if os.path.exists(potential_path):
+                potential_path = dir_path / f"{base_name}{ext}"
+                if potential_path.exists():
                     namespace_path = potential_path
                     break
 
     # Load the namespace data to get the namespace name
-    if namespace_path.endswith(".json"):
+    if namespace_path.name.endswith(".json"):
         with open(namespace_path, "r") as f:
             namespace_data = json.load(f)
     else:  # Assume YAML
@@ -491,18 +521,43 @@ def parse_schema_file(file_path: str) -> Tuple[SpecNamespace, Dict[str, Spec]]:
     namespace_name = namespace_data["namespaces"][0]["name"]
 
     type_map = get_type_map()
-    type_map.load_namespaces(namespace_path)
+    type_map.load_namespaces(str(namespace_path))
     namespace = type_map.namespace_catalog.get_namespace(namespace_name)
 
-    # Get all the neurodata types in the namespace
+    # Get all the neurodata types in the namespace and track their source files and namespaces
     neurodata_types = {}
+    type_to_file_map = {}
+    type_to_namespace_map = {}
+    
     # Get all specs from the catalog
     for spec_name in namespace.catalog.get_registered_types():
         spec = namespace.catalog.get_spec(spec_name)
         if hasattr(spec, "neurodata_type_def") and spec.neurodata_type_def is not None:
             neurodata_types[spec.neurodata_type_def] = spec
+            
+            # Get the source file for this spec using the catalog method
+            source_file = namespace.catalog.get_spec_source_file(spec_name)
+            if source_file:
+                type_to_file_map[spec.neurodata_type_def] = Path(source_file)
+            else:
+                # No specific source file was found
+                type_to_file_map[spec.neurodata_type_def] = None
+            
+            # Determine the actual namespace this type belongs to
+            # Check if this type comes from an included namespace
+            type_namespace = namespace.name  # Default to current namespace
+            
+            # Look through all namespaces in the catalog to find the original namespace
+            for ns_name in type_map.namespace_catalog.namespaces:
+                ns = type_map.namespace_catalog.get_namespace(ns_name)
+                if ns != namespace and spec_name in ns.catalog.get_registered_types():
+                    # This type is originally from a different namespace
+                    type_namespace = ns_name
+                    break
+            
+            type_to_namespace_map[spec.neurodata_type_def] = type_namespace
 
-    return namespace, neurodata_types
+    return namespace, neurodata_types, type_to_file_map, type_to_namespace_map
 
 
 def collect_neurodata_types(namespace: SpecNamespace) -> Dict[str, Spec]:
@@ -838,7 +893,7 @@ def main() -> None:
 
     try:
         logger.info(f"Parsing schema file: {args.schema_file}")
-        namespace, neurodata_types = parse_schema_file(args.schema_file)
+        namespace, neurodata_types, type_to_file_map, type_to_namespace_map = parse_schema_file(Path(args.schema_file))
         logger.info(f"Successfully parsed schema file: {args.schema_file}")
     except Exception as e:
         logger.error(f"Failed to parse schema file {args.schema_file}: {e}")
@@ -847,7 +902,8 @@ def main() -> None:
     # Create output directory if it doesn't exist
     try:
         logger.info(f"Creating output directory: {args.output_dir}")
-        os.makedirs(args.output_dir, exist_ok=True)
+        output_dir = Path(args.output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
         logger.info(f"Successfully created output directory: {args.output_dir}")
     except Exception as e:
         logger.error(f"Failed to create output directory {args.output_dir}: {e}")
@@ -857,13 +913,39 @@ def main() -> None:
     for type_name, neurodata_type in neurodata_types.items():
         class_name = type_name
         logger.info(f"Processing neurodata_type: {class_name}")
+        
+        # Get the original namespace for this type (not the including namespace)
+        original_namespace = type_to_namespace_map.get(type_name, namespace.name)
+        
+        # Create namespace folder for the original namespace
+        namespace_folder = output_dir / original_namespace
+        try:
+            namespace_folder.mkdir(parents=True, exist_ok=True)
+            logger.info(f"    Created namespace folder: {original_namespace}")
+        except Exception as e:
+            logger.error(f"    Failed to create namespace folder {original_namespace}: {e}")
+            continue
+        
+        # Get the source schema file for this type and create subfolder within namespace folder
+        source_file = type_to_file_map.get(type_name, Path(args.schema_file))
+        subfolder_name = get_schema_subfolder_name(source_file)
+        type_output_dir = namespace_folder / subfolder_name
+        
+        # Create the subfolder if it doesn't exist
+        try:
+            type_output_dir.mkdir(parents=True, exist_ok=True)
+            logger.info(f"    Created subfolder: {original_namespace}/{subfolder_name}")
+        except Exception as e:
+            logger.error(f"    Failed to create subfolder {original_namespace}/{subfolder_name}: {e}")
+            continue
+        
         try:
             header_file_name = f"{class_name}.hpp"
             logger.info(f"    Generating header file: {header_file_name}")
             header_file = generate_header_file(
                 namespace, neurodata_type, neurodata_types
             )
-            header_path = os.path.join(args.output_dir, header_file_name)
+            header_path = type_output_dir / header_file_name
             with open(header_path, "w") as f:
                 f.write(header_file)
         except Exception as e:
@@ -875,7 +957,7 @@ def main() -> None:
             impl_file = generate_implementation_file(
                 namespace, neurodata_type, neurodata_types
             )
-            impl_path = os.path.join(args.output_dir, cpp_file_name)
+            impl_path = type_output_dir / cpp_file_name
             with open(impl_path, "w") as f:
                 f.write(impl_file)
         except Exception as e:
