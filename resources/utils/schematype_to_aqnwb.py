@@ -484,6 +484,9 @@ def get_schema_subfolder_name(schema_file_path: Path) -> str:
     Returns:
     str: The subfolder name.
     """
+    if schema_file_path is None:
+        return ""
+
     # Get the filename without extension
     filename = schema_file_path.stem
     
@@ -608,8 +611,8 @@ def parse_schema_file(file_path: Path) -> Tuple[SpecNamespace, Dict[str, Spec], 
             if source_file:
                 type_to_file_map[spec.neurodata_type_def] = Path(source_file)
             else:
-                # Fall back to namespace file if no specific source file found
-                type_to_file_map[spec.neurodata_type_def] = namespace_path
+                # No specific source file was found
+                type_to_file_map[spec.neurodata_type_def] = None
             
             # Determine the actual namespace this type belongs to
             # Check if this type comes from an included namespace
