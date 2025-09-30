@@ -1013,7 +1013,7 @@ def generate_test_app_cmake(output_dir: Path, app_name: str, cpp_files: List[str
     # Calculate the path to AqNWB source directory relative to script location
     # Script is in resources/utils, so AqNWB src is ../../src relative to script
     aqnwb_src_dir = script_dir.parent.parent / "src"
-    aqnwb_build_dir = script_dir.parent.parent / "build" / "dev"
+    aqnwb_build_dir = script_dir.parent.parent / "build" 
     aqnwb_libs_dir = script_dir.parent.parent / "libs"
     
     cmake_content = f"""cmake_minimum_required(VERSION 3.15)
@@ -1057,20 +1057,21 @@ add_executable({app_name}
 target_include_directories({app_name} PRIVATE 
     ${{AQNWB_SRC_DIR}}
     ${{CMAKE_CURRENT_SOURCE_DIR}}/..
+    ${{CMAKE_CURRENT_SOURCE_DIR}}/../spec
     ${{HDF5_INCLUDE_DIRS}}
     ${{Boost_INCLUDE_DIRS}}
 )
 
 # Find the aqnwb library
-if(EXISTS "${{AQNWB_DIR}}/libaqnwb.a")
-    set(AQNWB_LIBRARY "${{AQNWB_DIR}}/libaqnwb.a")
-elseif(EXISTS "${{AQNWB_DIR}}/libaqnwb.so")
-    set(AQNWB_LIBRARY "${{AQNWB_DIR}}/libaqnwb.so")
-elseif(EXISTS "${{AQNWB_DIR}}/libaqnwb.dylib")
-    set(AQNWB_LIBRARY "${{AQNWB_DIR}}/libaqnwb.dylib")
-else()
+find_library(AQNWB_LIBRARY
+    NAMES aqnwb
+    HINTS "${{AQNWB_DIR}}"
+    PATH_SUFFIXES "lib" "bin"
+)
+if (NOT AQNWB_LIBRARY)
     message(FATAL_ERROR "Could not find aqnwb library in ${{AQNWB_DIR}}. Please build the main project first or set AQNWB_DIR to the correct path.")
 endif()
+
 
 # Link libraries
 target_link_libraries({app_name} 
