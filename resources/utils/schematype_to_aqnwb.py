@@ -1,4 +1,10 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
+#
+# /// script
+# requires-python = ">=3.12"
+# dependencies = ["hdmf", "pynwb", "ruamel.yaml"]
+# ///
+
 """
 Script to generate C++ code from NWB schema files.
 
@@ -883,9 +889,9 @@ def main() -> None:
         description="Generate C++ code from NWB schema files."
     )
     parser.add_argument(
-        "schema_file", help="Path to the namespace schema file (JSON or YAML)"
+        "--schema_file", help="Path to the namespace schema file (JSON or YAML)"
     )
-    parser.add_argument("output_dir", help="Directory to output the generated code")
+    parser.add_argument("--output_dir", help="Directory to output the generated code")
 
     args = parser.parse_args()
 
