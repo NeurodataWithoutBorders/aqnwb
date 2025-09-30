@@ -7,6 +7,7 @@ setup(
     name="aqnwb-utils",
     version="0.1.0",
     packages=find_packages(),
+    py_modules=["aqnwb_utils", "generate_spec_files", "schematype_to_aqnwb"],
     install_requires=install_requires,
     entry_points={
         "console_scripts": [
