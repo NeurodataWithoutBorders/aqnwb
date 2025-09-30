@@ -1021,6 +1021,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # e.g. -Daqnwb_DIR=/path/to/aqnwb/install/lib/cmake/aqnwb
 find_package(aqnwb REQUIRED)
 
+# Find HDF5
+find_package(HDF5 REQUIRED COMPONENTS CXX)
+# Find Boost
+find_package(Boost REQUIRED)
+
 # Generated source files
 set(GENERATED_SOURCES"""
 
@@ -1040,11 +1045,15 @@ add_executable({app_name}
 target_include_directories({app_name} PRIVATE 
     "${{CMAKE_CURRENT_SOURCE_DIR}}/.."
     "${{CMAKE_CURRENT_SOURCE_DIR}}/../spec"
+    ${{HDF5_INCLUDE_DIRS}}
+    ${{Boost_INCLUDE_DIRS}}
 )
 
 # Link libraries
 target_link_libraries({app_name} 
     aqnwb::aqnwb
+    ${{HDF5_CXX_LIBRARIES}}
+    ${{Boost_LIBRARIES}}
 )
 
 # If on Windows, link bcrypt
