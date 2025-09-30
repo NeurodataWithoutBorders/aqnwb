@@ -39,6 +39,7 @@ jobs:
 
       - name: Run generate_spec_files.py
         run: |
+          chmod +x ./resources/utils/generate_spec_files.py
           output=$(./resources/utils/generate_spec_files.py test_output/nwb-schema/core test_output 2>&1)
           echo "$output"
           if echo "$output" | grep -q "ERROR"; then
@@ -47,6 +48,7 @@ jobs:
 
       - name: Run schematype_to_aqnwb.py
         run: |
+          chmod +x ./resources/utils/schematype_to_aqnwb.py
           output=$(./resources/utils/schematype_to_aqnwb.py test_output/nwb-schema/core/nwb.namespace.yaml test_output 2>&1)
           echo "$output"
           if echo "$output" | grep -q "ERROR"; then
