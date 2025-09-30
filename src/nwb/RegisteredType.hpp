@@ -450,11 +450,12 @@ protected:
    * description \
    */ \
   template<typename VTYPE = default_type> \
-  inline std::unique_ptr<AQNWB::IO::ReadDataWrapper<AttributeField, VTYPE>> \
+  inline std::unique_ptr< \
+      AQNWB::IO::ReadDataWrapper<AQNWB::NWB::AttributeField, VTYPE>> \
   name() const \
   { \
     return std::make_unique< \
-        AQNWB::IO::ReadDataWrapper<AttributeField, VTYPE>>( \
+        AQNWB::IO::ReadDataWrapper<AQNWB::NWB::AttributeField, VTYPE>>( \
         m_io, AQNWB::mergePaths(m_path, fieldPath)); \
   }
 
