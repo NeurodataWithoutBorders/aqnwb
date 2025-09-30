@@ -1307,7 +1307,21 @@ def generate_test_app(
         logger.error(f"Failed to generate test application: {e}")
 
 
-def main() -> None:
+def setup_parser(parser):
+    """
+    Set up argument parser for the script.
+    """
+    parser.add_argument(
+        "schema_file", help="Path to the namespace schema file (JSON or YAML)"
+    )
+    parser.add_argument("output_dir", help="Directory to output the generated code")
+    parser.add_argument(
+        "--generate-test-app",
+        action="store_true",
+        help="Generate a test application to verify compilation of all generated classes"
+    )
+
+def main(args=None) -> None:
     """
     Main function to parse arguments and generate code.
 
@@ -1320,20 +1334,12 @@ def main() -> None:
     Returns:
     None
     """
-    parser = argparse.ArgumentParser(
-        description="Generate C++ code from NWB schema files."
-    )
-    parser.add_argument(
-        "schema_file", help="Path to the namespace schema file (JSON or YAML)"
-    )
-    parser.add_argument("output_dir", help="Directory to output the generated code")
-    parser.add_argument(
-        "--generate-test-app", 
-        action="store_true", 
-        help="Generate a test application to verify compilation of all generated classes"
-    )
-
-    args = parser.parse_args()
+    if args is None:
+        parser = argparse.ArgumentParser(
+            description="Generate C++ code from NWB schema files."
+        )
+        setup_parser(parser)
+        args = parser.parse_args()
 
     try:
         logger.info(f"Parsing schema file: {args.schema_file}")
