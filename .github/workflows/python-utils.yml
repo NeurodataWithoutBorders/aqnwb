@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r resources/utils/requirements.txt
+          pip install uv
 
       - name: Clone latest NWB schema release
         run: |
@@ -39,7 +39,7 @@ jobs:
 
       - name: Run generate_spec_files.py
         run: |
-          output=$(python resources/utils/generate_spec_files.py test_output/nwb-schema/core test_output 2>&1)
+          output=$(./resources/utils/generate_spec_files.py test_output/nwb-schema/core test_output 2>&1)
           echo "$output"
           if echo "$output" | grep -q "ERROR"; then
             exit 1
@@ -47,7 +47,7 @@ jobs:
 
       - name: Run schematype_to_aqnwb.py
         run: |
-          output=$(python resources/utils/schematype_to_aqnwb.py test_output/nwb-schema/core/nwb.namespace.yaml test_output 2>&1)
+          output=$(./resources/utils/schematype_to_aqnwb.py test_output/nwb-schema/core/nwb.namespace.yaml test_output 2>&1)
           echo "$output"
           if echo "$output" | grep -q "ERROR"; then
             exit 1
