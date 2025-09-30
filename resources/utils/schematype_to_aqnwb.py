@@ -889,9 +889,9 @@ def main() -> None:
         description="Generate C++ code from NWB schema files."
     )
     parser.add_argument(
-        "--schema_file", help="Path to the namespace schema file (JSON or YAML)"
+        "schema_file", help="Path to the namespace schema file (JSON or YAML)"
     )
-    parser.add_argument("--output_dir", help="Directory to output the generated code")
+    parser.add_argument("output_dir", help="Directory to output the generated code")
 
     args = parser.parse_args()
 
