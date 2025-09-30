@@ -45,3 +45,10 @@ build/
 dist/
 *.egg-info/
 wheels/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Pytest
+.pytest_cache/
+htmlcov/

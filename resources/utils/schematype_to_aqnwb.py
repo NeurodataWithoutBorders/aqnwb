@@ -1010,12 +1010,6 @@ def generate_test_app_cmake(output_dir: Path, app_name: str, cpp_files: List[str
     # Convert file paths to use forward slashes for CMake
     cpp_files_cmake = [f.replace("\\", "/") for f in cpp_files]
     
-    # Calculate the path to AqNWB source directory relative to script location
-    # Script is in resources/utils, so AqNWB src is ../../src relative to script
-    aqnwb_src_dir = script_dir.parent.parent / "src"
-    aqnwb_build_dir = script_dir.parent.parent / "build" 
-    aqnwb_libs_dir = script_dir.parent.parent / "libs"
-    
     cmake_content = f"""cmake_minimum_required(VERSION 3.15)
 project({app_name} VERSION 0.1.0 LANGUAGES CXX)
 
@@ -1023,20 +1017,9 @@ project({app_name} VERSION 0.1.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Allow configuring paths to dependencies based on script location
-set(AQNWB_SRC_DIR "{aqnwb_src_dir.as_posix()}" CACHE PATH "Path to aqnwb source directory")
-set(AQNWB_DIR "{aqnwb_build_dir.as_posix()}" CACHE PATH "Path to aqnwb build directory")
-set(HDF5_DIR "{(aqnwb_libs_dir / "hdf5_build" / "install" / "cmake").as_posix()}" CACHE PATH "Path to HDF5 build directory")
-set(BOOST_ROOT "{(aqnwb_libs_dir / "boost_install").as_posix()}" CACHE PATH "Path to Boost root directory")
-
-# Disable compiler flags that cause issues on macOS
-if(APPLE)
-    set(CMAKE_CXX_FLAGS "${{CMAKE_CXX_FLAGS}} -Wno-unused-command-line-argument")
-endif()
-
-# Find required dependencies
-find_package(HDF5 REQUIRED COMPONENTS CXX)
-find_package(Boost REQUIRED)
+# Find aqnwb package. The aqnwb_DIR must be set on the command line
+# e.g. -Daqnwb_DIR=/path/to/aqnwb/install/lib/cmake/aqnwb
+find_package(aqnwb REQUIRED)
 
 # Generated source files
 set(GENERATED_SOURCES"""
@@ -1055,29 +1038,13 @@ add_executable({app_name}
 
 # Include directories
 target_include_directories({app_name} PRIVATE 
-    ${{AQNWB_SRC_DIR}}
-    ${{CMAKE_CURRENT_SOURCE_DIR}}/..
-    ${{CMAKE_CURRENT_SOURCE_DIR}}/../spec
-    ${{HDF5_INCLUDE_DIRS}}
-    ${{Boost_INCLUDE_DIRS}}
+    "${{CMAKE_CURRENT_SOURCE_DIR}}/.."
+    "${{CMAKE_CURRENT_SOURCE_DIR}}/../spec"
 )
-
-# Find the aqnwb library
-find_library(AQNWB_LIBRARY
-    NAMES aqnwb
-    HINTS "${{AQNWB_DIR}}"
-    PATH_SUFFIXES "lib" "bin"
-)
-if (NOT AQNWB_LIBRARY)
-    message(FATAL_ERROR "Could not find aqnwb library in ${{AQNWB_DIR}}. Please build the main project first or set AQNWB_DIR to the correct path.")
-endif()
-
 
 # Link libraries
 target_link_libraries({app_name} 
-    ${{AQNWB_LIBRARY}}
-    ${{HDF5_CXX_LIBRARIES}}
-    ${{Boost_LIBRARIES}}
+    aqnwb::aqnwb
 )
 
 # If on Windows, link bcrypt
