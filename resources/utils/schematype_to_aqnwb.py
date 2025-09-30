@@ -1321,7 +1321,7 @@ def setup_parser(parser):
         help="Generate a test application to verify compilation of all generated classes"
     )
 
-def main(args=None) -> None:
+def main(args) -> None:
     """
     Main function to parse arguments and generate code.
 
@@ -1334,13 +1334,6 @@ def main(args=None) -> None:
     Returns:
     None
     """
-    if args is None:
-        parser = argparse.ArgumentParser(
-            description="Generate C++ code from NWB schema files."
-        )
-        setup_parser(parser)
-        args = parser.parse_args()
-
     try:
         logger.info(f"Parsing schema file: {args.schema_file}")
         namespace, neurodata_types, type_to_file_map, type_to_namespace_map = parse_schema_file(Path(args.schema_file))
@@ -1437,4 +1430,9 @@ def main(args=None) -> None:
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(
+        description="Generate C++ code from NWB schema files."
+    )
+    setup_parser(parser)
+    args = parser.parse_args()
+    main(args)

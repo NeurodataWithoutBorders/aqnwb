@@ -192,13 +192,11 @@ def setup_parser(parser):
     parser.add_argument('output_dir', type=Path, nargs='?', default=Path('./src/spec/'), help='Directory to output the generated header files')
     parser.add_argument('--chunk-size', type=int, default=16000, help='Size of the chunks for splitting large JSON strings')
 
-def main(args=None):
-    if args is None:
-        parser = argparse.ArgumentParser(description='Process schema files.')
-        setup_parser(parser)
-        args = parser.parse_args()
-
+def main(args):
     process_schema_files(args.schema_dir, args.output_dir, args.chunk_size)
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser(description='Process schema files.')
+    setup_parser(parser)
+    args = parser.parse_args()
+    main(args)
