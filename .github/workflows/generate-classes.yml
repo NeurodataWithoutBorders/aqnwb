@@ -67,7 +67,9 @@ jobs:
           cd test_output/test_app
           mkdir build
           cd build
-          cmake -Daqnwb_DIR="${{ github.workspace }}/prefix/lib/cmake/aqnwb" ../
+          HDF5_ROOT=$(brew --prefix hdf5)
+          BOOST_ROOT=$(brew --prefix boost)
+          cmake -Daqnwb_DIR="${{ github.workspace }}/prefix/lib/cmake/aqnwb" -DCMAKE_PREFIX_PATH="$HDF5_ROOT;$BOOST_ROOT" ../
           make -j 2
 
       - name: Run the test program for LabMetadataExample extension
@@ -110,7 +112,9 @@ jobs:
           cd test_output_nwb_schema/test_app
           mkdir build
           cd build
-          cmake -Daqnwb_DIR="${{ github.workspace }}/prefix/lib/cmake/aqnwb" ../
+          HDF5_ROOT=$(brew --prefix hdf5)
+          BOOST_ROOT=$(brew --prefix boost)
+          cmake -Daqnwb_DIR="${{ github.workspace }}/prefix/lib/cmake/aqnwb" -DCMAKE_PREFIX_PATH="$HDF5_ROOT;$BOOST_ROOT" ../
           make -j 2
 
       - name: Run the test program for the nwb_schema
