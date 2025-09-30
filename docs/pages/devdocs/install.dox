@@ -24,6 +24,16 @@
  *    - clang-format (optional, required for ``target=format-check``, ``target=format-fix``)
  *    - codespell  (optional, required for ``target=spell-check``, ``target=spell-fix``)
  *
+ * \section dev_utils_sec Python Utilities
+ *
+ * AqNWB provides a set of Python utilities for developers to help with generating C++ classes from NWB schema files.
+ * To install these utilities, run the following command from the root of the project:
+ *
+ * \code{.sh}
+ * pip install ./resources/utils
+ * \endcode
+ *
+ * This will install the `aqnwb-utils` command-line utility, which can be used to access the various Python utilities.
  *
  * \section devbuild_sec Developer Build
  *

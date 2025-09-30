@@ -1,0 +1,98 @@
+/**
+ * \page python_utils_page Python Utilities 🐍
+ *
+ * \tableofcontents
+ *
+ * AqNWB provides a set of Python utilities for developers to help with generating C++ classes from NWB schema files.
+ * These utilities are available as a command-line tool called `aqnwb-utils`.
+ *
+ * \section install_utils_sec Installing the Utilities
+ *
+ * To install the Python utilities, run the following command from the root of the project:
+ *
+ * \code{.sh}
+ * pip install ./resources/utils
+ * \endcode
+ *
+ * This will install the `aqnwb-utils` command-line utility, which can be used to access the various Python utilities.
+ *
+ * \section using_utils_sec Using the Utilities
+ *
+ * The `aqnwb-utils` command-line utility provides two main commands:
+ *
+ * - `generate-spec`: This command generates C++ header files from NWB schema files.
+ * - `generate-types`: This command generates skeleton C++ source files for integrating new neurodata_types with AqNWB.
+ *
+ * You can get more information about each command by running it with the `--help` flag.
+ *
+ * \subsection generate_spec_sec generate-spec
+ *
+ * The `generate-spec` command is used to generate C++ header files from NWB schema files.
+ *
+ * \code{.sh}
+ * aqnwb-utils generate-spec <input_dir> <output_dir>
+ * \endcode
+ *
+ * - `<input_dir>`: The directory containing the NWB schema files.
+ * - `<output_dir>`: The directory where the generated C++ header files will be saved.
+ *
+ * \subsection generate_types_sec generate-types
+ *
+ * The `generate-types` command is used to generate skeleton C++ source files for integrating new neurodata_types with AqNWB.
+ *
+ * \code{.sh}
+ * aqnwb-utils generate-types <namespace_file> <output_dir>
+ * \endcode
+ *
+ * - `<namespace_file>`: The path to the namespace file (e.g., `nwb.namespace.yaml`).
+ * - `<output_dir>`: The directory where the generated C++ source files will be saved.
+ *
+ * \section create_utils_sec Creating a New Utility
+ *
+ * To create a new utility, you need to:
+ *
+ * 1. Create a new Python file in the `resources/utils` directory.
+ * 2. In the new file, define a function that takes `argparse.ArgumentParser` as input and adds the necessary arguments for your utility.
+ * 3. In the same file, define a function that takes the parsed arguments as input and implements the logic for your utility.
+ * 4. In `resources/utils/aqnwb_utils.py`, import your new functions and add a new subcommand to the `subparsers` object.
+ *
+ * For example, to add a new command called `my-command`, you would:
+ *
+ * 1. Create a new file `resources/utils/my_command.py` with the following content:
+ *
+ * \code{.py}
+ * def setup_parser(parser):
+ *     parser.add_argument("my_arg", help="My argument")
+ *
+ * def main(args):
+ *     print(f"My argument is {args.my_arg}")
+ *
+ * if __name__ == "__main__":
+ *     import argparse
+ *     parser = argparse.ArgumentParser()
+ *     setup_parser(parser)
+ *     args = parser.parse_args()
+ *     main(args)
+ * \endcode
+ *
+ * 2. In `resources/utils/aqnwb_utils.py`, add the following:
+ *
+ * \code{.py}
+ * from . import my_command
+ *
+ * # ...
+ *
+ * def main():
+ *     # ...
+ *     subparsers = parser.add_subparsers(dest="command")
+ *     # ...
+ *     my_command_parser = subparsers.add_parser("my-command", help="My command")
+ *     my_command.setup_parser(my_command_parser)
+ *
+ *     # ...
+ *
+ *     if args.command == "my-command":
+ *         my_command.main(args)
+ * \endcode
+ *
+ */

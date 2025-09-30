@@ -187,7 +187,7 @@ def process_schema_files(schema_dir: Path, output_dir: Path, chunk_size: int) ->
             process_namespace_file(file, output_dir, chunk_size)
     logger.info(f"Finished processing schema files in directory: {schema_dir}")
 
-if __name__ == '__main__':
+def main():
     parser = argparse.ArgumentParser(description='Process schema files.')
     parser.add_argument('schema_dir', type=Path, nargs='?', default=Path('./resources/schema/'), help='Directory containing the schema files')
     parser.add_argument('output_dir', type=Path, nargs='?', default=Path('./src/spec/'), help='Directory to output the generated header files')
@@ -195,3 +195,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     process_schema_files(args.schema_dir, args.output_dir, args.chunk_size)
+
+if __name__ == '__main__':
+    main()

@@ -39,3 +39,9 @@ __pycache__/
 .Python
 env/
 venv/
+
+# Python packaging
+build/
+dist/
+*.egg-info/
+wheels/
