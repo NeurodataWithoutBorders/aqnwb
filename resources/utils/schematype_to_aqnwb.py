@@ -1,4 +1,8 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.8"
+# dependencies = ["hdmf", "pynwb", "ruamel.yaml"]
+# ///
 """
 Script to generate C++ code from NWB schema files.
 

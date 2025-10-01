@@ -19,10 +19,8 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install ./resources/utils
+      - name: Install uv
+        run: brew install uv
 
       - name: Clone latest NWB schema release
         run: |
@@ -39,7 +37,7 @@ jobs:
 
       - name: Run generate_spec_files
         run: |
-          output=$(aqnwb-utils generate-spec test_output/nwb-schema/core test_output 2>&1)
+          output=$(uv run resources/utils/aqnwb_utils.py generate-spec test_output/nwb-schema/core test_output 2>&1)
           echo "$output"
           if echo "$output" | grep -q "ERROR"; then
             exit 1
@@ -47,7 +45,7 @@ jobs:
 
       - name: Run schematype_to_aqnwb
         run: |
-          output=$(aqnwb-utils generate-types test_output/nwb-schema/core/nwb.namespace.yaml test_output 2>&1)
+          output=$(uv run resources/utils/aqnwb_utils.py generate-types test_output/nwb-schema/core/nwb.namespace.yaml test_output 2>&1)
           echo "$output"
           if echo "$output" | grep -q "ERROR"; then
             exit 1

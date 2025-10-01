@@ -1,3 +1,9 @@
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.8"
+# dependencies = ["ruamel.yaml"]
+# ///
+
 import json
 import argparse
 from pathlib import Path
