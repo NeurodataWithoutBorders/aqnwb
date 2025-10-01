@@ -4,21 +4,43 @@
  * \tableofcontents
  *
  * AqNWB provides a set of Python utilities for developers to help with generating C++ classes from NWB schema files.
- * These utilities are available as a command-line tool called `aqnwb-utils`.
  *
- * \section install_utils_sec Installing the Utilities
+ * \section install_utils_sec Using the Utilities with uv (Recommended)
  *
- * To install the Python utilities, run the following command from the root of the project:
+ * The utilities use inline script metadata (PEP 723) and can be run directly with `uv` without installation.
+ * First install `uv`:
  *
  * \code{.sh}
+ * brew install uv
+ * \endcode
+ *
+ * Then run the utilities directly:
+ *
+ * \code{.sh}
+ * uv run resources/utils/aqnwb_utils.py <command> [options]
+ * \endcode
+ *
+ * \subsection install_utils_traditional_sec Traditional Installation (Optional)
+ *
+ * Alternatively, you can install the utilities as a package:
+ *
+ * \code{.sh}
+ * # Using uv
+ * uv pip install ./resources/utils
+ *
+ * # Or using pip
  * pip install ./resources/utils
  * \endcode
  *
- * This will install the `aqnwb-utils` command-line utility, which can be used to access the various Python utilities.
+ * After installation, the `aqnwb-utils` command will be available:
  *
- * \section using_utils_sec Using the Utilities
+ * \code{.sh}
+ * aqnwb-utils <command> [options]
+ * \endcode
  *
- * The `aqnwb-utils` command-line utility provides two main commands:
+ * \section using_utils_sec Available Commands
+ *
+ * The utilities provide two main commands:
  *
  * - `generate-spec`: This command generates C++ header files from NWB schema files.
  * - `generate-types`: This command generates skeleton C++ source files for integrating new neurodata_types with AqNWB.
@@ -29,6 +51,12 @@
  *
  * The `generate-spec` command is used to generate C++ header files from NWB schema files.
  *
+ * Using `uv run` (recommended):
+ * \code{.sh}
+ * uv run resources/utils/aqnwb_utils.py generate-spec <input_dir> <output_dir>
+ * \endcode
+ *
+ * Or if installed:
  * \code{.sh}
  * aqnwb-utils generate-spec <input_dir> <output_dir>
  * \endcode
@@ -40,6 +68,12 @@
  *
  * The `generate-types` command is used to generate skeleton C++ source files for integrating new neurodata_types with AqNWB.
  *
+ * Using `uv run` (recommended):
+ * \code{.sh}
+ * uv run resources/utils/aqnwb_utils.py generate-types <namespace_file> <output_dir>
+ * \endcode
+ *
+ * Or if installed:
  * \code{.sh}
  * aqnwb-utils generate-types <namespace_file> <output_dir>
  * \endcode

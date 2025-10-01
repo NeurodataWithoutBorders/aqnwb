@@ -9,10 +9,10 @@
  * Integrating a new schema namespace with AqNWB (e.g., to support an extension to NWB) involves generating
  * the necessary specification files and ensuring that the namespace is registered with the 
  * \ref AQNWB::SPEC::NamespaceRegistry "NamespaceRegistry". This process is simplified through 
- * the use of the `aqnwb-utils` command-line utility.
+ * the use of Python utilities that can be run with `uv`.
  *
  * @note
- * See the \ref dev_utils_sec "Python Utilities" section in the developer installation guide for instructions on how to install the utilities.
+ * See the \ref dev_utils_sec "Python Utilities" section in the developer installation guide for instructions on how to use the utilities with `uv`.
  *
  * 1. **Get the schema files**: Download or create the schema for the namespace in YAML format. 
  *    @note 
@@ -20,13 +20,13 @@
  *    [NWB Extension Tutorial](https://nwb-overview.readthedocs.io/en/latest/extensions_tutorial/extensions_tutorial_home.html)
  *    for more information on how to create data schema for NWB. 
  * 
- * 2. **Convert the schema files to C++**: Run the `aqnwb-utils generate-spec` command on your
+ * 2. **Convert the schema files to C++**: Run the `generate-spec` command on your
  *    schema files to generate the necessary C++ header files. This script processes the schema and creates 
  *    the appropriate C++ header files that include the namespace definitions and registration. 
  *    @note
  *    To learn more about how to use the script and its parameters, you can view the help doc by running:
  *    @code 
- *    aqnwb-utils generate-spec --help
+ *    uv run resources/utils/aqnwb_utils.py generate-spec --help
  *    @endcode
  *
  * 3. **Include the Generated Header Files**: In your C++ code that uses AqNWB, include the generated header files. The 
@@ -37,7 +37,7 @@
  *
  * 4. **Implement appropriate RegisteredType classes**: Follow the tutorial on
  *    \ref registered_type_page to define appropriate interfaces for the `neurodata_type`s defined in your new namespace. 
- *    The `aqnwb-utils generate-types` command can also provide additional help by providing a simple 
+ *    The `generate-types` command can also provide additional help by providing a simple 
  *    utility that can automatically generate skeleton AqNWB C++ classes for neurodata_types
  *    directly from JSON/YAML schema files.
  *
@@ -93,11 +93,11 @@
  *
  * @subsection labmetadata_extension_cpp_generation Step 2: Convert the Schema to C++
  *
- * The schema files are converted to C++ using the `aqnwb-utils generate-spec` command:
+ * The schema files are converted to C++ using the `generate-spec` command:
  *
  * @code
  * mkdir demo/labmetadata_extension_demo/src
- * aqnwb-utils generate-spec demo/labmetadata_extension_demo/spec demo/labmetadata_extension_demo/src
+ * uv run resources/utils/aqnwb_utils.py generate-spec demo/labmetadata_extension_demo/spec demo/labmetadata_extension_demo/src
  * @endcode
  *
  * This generates the following new header file in the `demo/labmetadata_extension_demo/src` folder:
