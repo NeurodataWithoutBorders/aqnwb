@@ -40,10 +40,8 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install python script dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install ./resources/utils
+      - name: Install uv
+        run: brew install uv
 
 # -----------------------------------------------------------------
 # 2. LabMetadataExtension pipeline
@@ -52,11 +50,11 @@ jobs:
         run: |
           mkdir test_output
           mkdir test_output/spec
-          aqnwb-utils generate-spec demo/labmetadata_extension_demo/spec test_output/spec
+          uv run resources/utils/aqnwb_utils.py generate-spec demo/labmetadata_extension_demo/spec test_output/spec
 
       - name: Run schematype_to_aqnwb.py to generate AqNWB classes for the LabMetadataExample extension
         run: |
-          aqnwb-utils generate-types --generate-test-app demo/labmetadata_extension_demo/spec/ndx-labmetadata-example.namespace.yaml test_output
+          uv run resources/utils/aqnwb_utils.py generate-types --generate-test-app demo/labmetadata_extension_demo/spec/ndx-labmetadata-example.namespace.yaml test_output
 
       - name: List generated files for the LabMetadataExample extension
         run: | 
@@ -95,11 +93,11 @@ jobs:
       - name: Run generate_nwb_schema_headers.sh to generated headers the nwb_schema
         run: |
           mkdir test_output_nwb_schema/spec
-          aqnwb-utils generate-spec test_output_nwb_schema/nwb-schema/core test_output_nwb_schema/spec
+          uv run resources/utils/aqnwb_utils.py generate-spec test_output_nwb_schema/nwb-schema/core test_output_nwb_schema/spec
 
       - name: Run schematype_to_aqnwb.py to generate AqNWB classes for the nwb_schema
         run: |
-          aqnwb-utils generate-types --generate-test-app test_output_nwb_schema/nwb-schema/core/nwb.namespace.yaml test_output_nwb_schema
+          uv run resources/utils/aqnwb_utils.py generate-types --generate-test-app test_output_nwb_schema/nwb-schema/core/nwb.namespace.yaml test_output_nwb_schema
 
       - name: List generated files for the nwb-schema
         run: |

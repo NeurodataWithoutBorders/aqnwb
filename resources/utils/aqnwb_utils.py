@@ -1,3 +1,9 @@
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.8"
+# dependencies = ["hdmf", "pynwb", "ruamel.yaml"]
+# ///
+
 import argparse
 import generate_spec_files
 import schematype_to_aqnwb

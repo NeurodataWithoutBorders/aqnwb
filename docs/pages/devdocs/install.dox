@@ -27,13 +27,41 @@
  * \section dev_utils_sec Python Utilities
  *
  * AqNWB provides a set of Python utilities for developers to help with generating C++ classes from NWB schema files.
- * To install these utilities, run the following command from the root of the project:
+ * 
+ * \subsection dev_utils_uv Using uv (Recommended)
+ *
+ * The utilities use inline script metadata (PEP 723) and can be run directly with `uv` without installation.
+ * First install `uv`:
  *
  * \code{.sh}
+ * brew install uv
+ * \endcode
+ *
+ * Then run the utilities directly:
+ *
+ * \code{.sh}
+ * uv run resources/utils/aqnwb_utils.py generate-spec <schema_dir> <output_dir>
+ * uv run resources/utils/aqnwb_utils.py generate-types <namespace_file> <output_dir>
+ * \endcode
+ *
+ * \subsection dev_utils_install Traditional Installation (Optional)
+ *
+ * Alternatively, you can install the utilities as a package:
+ *
+ * \code{.sh}
+ * # Using uv
+ * uv pip install ./resources/utils
+ *
+ * # Or using pip
  * pip install ./resources/utils
  * \endcode
  *
- * This will install the `aqnwb-utils` command-line utility, which can be used to access the various Python utilities.
+ * After installation, the `aqnwb-utils` command will be available:
+ *
+ * \code{.sh}
+ * aqnwb-utils generate-spec <schema_dir> <output_dir>
+ * aqnwb-utils generate-types <namespace_file> <output_dir>
+ * \endcode
  *
  * \section devbuild_sec Developer Build
  *
