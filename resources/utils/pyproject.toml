@@ -1,0 +1,25 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "aqnwb-utils"
+version = "0.1.0"
+description = "Command-line utilities for AqNWB development"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "BSD-3-Clause"}
+authors = [
+    {name = "AqNWB Development Team"}
+]
+dependencies = [
+    "hdmf",
+    "pynwb",
+    "ruamel.yaml",
+]
+
+[project.scripts]
+aqnwb-utils = "aqnwb_utils:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["."]

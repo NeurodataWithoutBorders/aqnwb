@@ -26,7 +26,7 @@ EXPAND_ONLY_PREDEF   = YES
 # Add sources
 INPUT = "@PROJECT_SOURCE_DIR@/src" "@PROJECT_SOURCE_DIR@/docs/pages"
 RECURSIVE = YES
-EXAMPLE_PATH = "@PROJECT_SOURCE_DIR@/tests"  "@PROJECT_SOURCE_DIR@/.github/CODE_OF_CONDUCT.md"  "@PROJECT_SOURCE_DIR@/Legal.txt" "@PROJECT_SOURCE_DIR@/LICENSE"  "@PROJECT_SOURCE_DIR@/demo/labmetadata_extension_demo/src" "@PROJECT_SOURCE_DIR@/CHANGELOG.md"
+EXAMPLE_PATH = "@PROJECT_SOURCE_DIR@/tests"  "@PROJECT_SOURCE_DIR@/.github/CODE_OF_CONDUCT.md"  "@PROJECT_SOURCE_DIR@/Legal.txt" "@PROJECT_SOURCE_DIR@/LICENSE"  "@PROJECT_SOURCE_DIR@/demo/labmetadata_extension_demo/src" "@PROJECT_SOURCE_DIR@/CHANGELOG.md" "@PROJECT_SOURCE_DIR@/resources/utils"
 IMAGE_PATH = "@PROJECT_SOURCE_DIR@/resources/images"
 EXTRACT_ALL = YES
 RECURSIVE = YES
@@ -39,7 +39,7 @@ EXTRACT_STATIC      = YES
 # HIDE_UNDOC_MEMBERS = YES
 
 # Enable Markdown support
-MARKDOWN_SUPPORT = YES
+MARKDOWN_SUPPORT = YES 
 
 # Enable the call and caller graphs (this increases built time but seems reasonable for AqNWB)
 CALL_GRAPH           = YES

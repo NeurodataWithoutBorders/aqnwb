@@ -3,7 +3,9 @@
  *
  * \tableofcontents
  *
- * \section dev_requirements_sec Requirements
+ * \section dev_install_aqnwb_sec Installing AqNWB
+ *
+ * \subsection dev_requirements_sec Requirements
  *
  * Please ensure that the required libraries described in the
  * \ref user_requirements_sec "User Requirements" section are installed and
@@ -24,8 +26,7 @@
  *    - clang-format (optional, required for ``target=format-check``, ``target=format-fix``)
  *    - codespell  (optional, required for ``target=spell-check``, ``target=spell-fix``)
  *
- *
- * \section devbuild_sec Developer Build
+ * \subsection devbuild_sec Developer Build
  *
  * Build system targets that are only useful for developers of AqNWB are
  * hidden if the `aqnwb_DEVELOPER_MODE` option is disabled. Enabling this
@@ -58,7 +59,7 @@
  * The use of `HDF5_ROOT` and `BOOST_ROOT` environment variables is deprecated for modern CMake
  * and may not work reliably with recent CMake versions.
  *
- * \section  devbuild_presets_subsec Developer Presets
+ * \subsubsection  devbuild_presets_subsec Developer Presets
  *
  * As a developer, you can create your own dev preset by making a `CMakeUserPresets.json` file at the root of
  * the project:
@@ -103,7 +104,7 @@
  * Replace `<os>` in the `CMakeUserPresets.json` file with the name of
  * the operating system you have (`win64`, `linux` or `darwin`).
  *
- * \subsection configure_build_test Configure, Build and Test
+ * \subsubsection configure_build_test Configure, Build and Test
  *
  * You can configure, build and test the project respectively with the following commands from the project root on
  * any operating system with any build system:
@@ -114,7 +115,7 @@
  * ctest --preset=dev
  * \endcode
  *
- * \section devbuild_dev_mode_targets_subsec Developer Mode Targets
+ * \subsubsection devbuild_dev_mode_targets_subsec Developer Mode Targets
  *
  * Additional targets can be invoked when in development mode using the commands below
  *
@@ -122,10 +123,19 @@
  * cmake --build --preset=dev --target=<name of the target>
  * \endcode
  *
- * \subsection  devbuild_target_options_subsubsec Target options
+ * \paragraph  devbuild_target_options_subsubsec Target options
  * - `format-check`: run the `clang-format` tool on the codebase to check for formatting errors
  * - `format-fix` :  run the `clang-format` tool on the codebase with `FIX=YES` to both check and automatically fix for formatting errors
  * - `spell-check`: run the `codespell` tool on the codebase to check for common spelling errors
  * - `spell-fix` :  run the `codespell` tool on the codebase with `FIX=YES` to both check and automatically fix  common spelling errors
  * - `docs` : builds the documentation using Doxygen. (Note: run `cmake --preset=dev -DBUILD_DOCS=ON` before building to add docs target)
+ *
+ * \section dev_install_utils_sec Installing Python Utilities
+ *
+ * AqNWB provides a set of Python utilities for developers to help with generating C++ classes from NWB schema files.
+ * For details on how to use the utilities, see the [README.md](https://github.com/NeurodataWithoutBorders/aqnwb/blob/main/resources/utils/README.md)
+ * in the `resources/utils` directory.
+ *
+ * **README.md**
+ * \include resources/utils/README.md
  */

@@ -19,7 +19,7 @@
  * 
  * This script will:
  *   - Clone the latest NWB and HDMF schema repositories into a temporary directory
- *   - Run `resources/utils/generate_spec_files.py` for both the NWB core and HDMF common schemas
+ *   - Run `uv run resources/utils/aqnwb_utils.py generate-spec` for both the NWB core and HDMF common schemas
  *   - Copy the generated C++ header files to `src/spec`
  *   - Clean up all temporary files automatically
  * 
@@ -33,16 +33,18 @@
  * PYTHON=python3 bash resources/utils/generate_nwb_schema_headers.sh
  * @endcode
  * 
- * For use with extensions and other advanced or custom use cases, developers may still run `resources/utils/generate_spec_files.py` directly.
+ * For use with extensions and other advanced or custom use cases, developers may still run the `generate-spec` command directly:
+ * @code{.sh}
+ * uv run resources/utils/aqnwb_utils.py generate-spec <schema_dir> <output_dir>
+ * @endcode
  *
  *
  * \section dev_docs_updating_nwb_schema_section Updating the schema
  *
  * Currently, the version of the schema being used for development is fixed and stored in the `/resources/schema` folder. 
  * Updating to a newer version of the schema requires:
- * - Regeneration of the `spec` header files via `resources/utils/generate_spec_files.py`
+ * - Regeneration of the `spec` header files via the `generate-spec` command
  * - Update of existing `Container` classes and unit tests in AqNWB to match changes in the  new schema compared to the previous schema
  * - Successful completion of all unit-test and round-trip testing with PyNWB and MatNWB
  *
  */
-
