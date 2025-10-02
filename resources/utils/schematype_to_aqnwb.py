@@ -183,11 +183,12 @@ def render_define_dataset_field(
         re += "    */\n"
     return re
 
-def render_initialize_method_signature(neurodata_type: Spec, for_call: bool = False, add_default_values: bool = False) -> str:
+def render_initialize_method_signature(neurodata_type: Spec, type_to_namespace_map: Dict[str, str], for_call: bool = False, add_default_values: bool = False) -> str:
     """
     Internal helper function to create the initialize method signature
     Parameters:
     neurodata_type (Spec): The neurodata type to render
+    type_to_namespace_map (Dict[str, str]): Mapping of types to their namespaces. 
     for_call (bool): If true, generate the arguments for a function call, otherwise the signature.
     add_default_values (bool): If true, add default values to the parameter string if available.
 
@@ -196,27 +197,45 @@ def render_initialize_method_signature(neurodata_type: Spec, for_call: bool = Fa
     """
     # Define helper functions for rendering the initialize method
     # TODO: The following helper function only support at most one layer of nesting via the parent
-    def spec_to_func_param(obj: Spec, parent: Spec = None, include_types: bool = True, add_default_values: bool = False) -> str:
+    def spec_to_func_param(obj: Spec, type_to_namespace_map: Dict[str, str], parent: Spec = None, include_types: bool = True, add_default_values: bool = False) -> str:
         """
         Internal helper function to create a paramter definition for the initialize method
 
         Parameter:
         obj (Spec) : The spec dataset or attribute spec to render
+        type_to_namespace_map (Dict[str, str]): Mapping of types to their namespaces.
         parent (Spec) : Optional parent spec
         include_types (bool): If true, include type information in the parameter string.
         add_default_values (bool): If true, add default values to the parameter string if available.
         """
-        field_full_name = f"{obj.name}"
+        # Name the parameter based on its assigned name or its neurodata_type if the name is not available
+        field_full_name = f"{obj.name}" if obj.name is not None else f"param{obj.data_type}"
         if parent is not None:
             field_full_name += f"{snake_to_camel(parent.name)}"
+        # If we are generating a function signature, then we need to include type information
         if include_types:
             has_default_value = getattr(obj, "default_value", None)
+            # Datasets with a neurodata_type_inc need to be created by the user first
+            if isinstance(obj, DatasetSpec) and (obj.data_type is not None):
+                # Determine the neurodata_type name
+                type_name = obj.data_type
+                full_type_name = type_name
+                if type_name in type_to_namespace_map:
+                    actual_cpp_namespace_name = to_cpp_namespace_name(type_to_namespace_map[type_name])
+                    full_type_name = f"{actual_cpp_namespace_name}::{type_name}"
+                # If the dataset is a single object, then we pass it as a shared_ptr, otherwise
+                # we pass a vector of shared_ptrs
+                if obj.name is not None or obj.quantity in ["1", "?", "one_or_zero"]:
+                    return f"\n       const std::shared_ptr<{full_type_name}>& {field_full_name},"
+                else:
+                    return f"\n       const std::vector<std::shared_ptr<{full_type_name}>>& {field_full_name},"
             # Datasets should be available for acquistion and therefore use ArrayDataSetConfig to
             # allow the user configure the dataset. The special case are scalar datasets with a
             # default value as those should be written on initalize directly in the same way
             # attributes are being created directly.
-            if isinstance(obj, DatasetSpec) and not has_default_value:
+            elif isinstance(obj, DatasetSpec) and not has_default_value:
                 return f"\n       const AQNWB::IO::ArrayDataSetConfig& {field_full_name},"
+            # Attributes and datasets with a default value should be passed by value
             else:
                 default_value = getattr(obj, "default_value", None) if add_default_values else None
                 obj_cpp_type = get_cpp_type(obj.dtype)
@@ -235,7 +254,7 @@ def render_initialize_method_signature(neurodata_type: Spec, for_call: bool = Fa
                         return re 
                 else:
                     return f"\n       const std::vector<{obj_cpp_type}>& {field_full_name},"
-                
+        # If we are generating a function call, then we just need the name of the parameter
         else:
             return f"\n       {field_full_name},"
     
@@ -244,20 +263,28 @@ def render_initialize_method_signature(neurodata_type: Spec, for_call: bool = Fa
     datasets = neurodata_type.get("datasets", [])
     groups = neurodata_type.get("groups", [])
 
-    # Collect all specs that define parameters that we need to include in the initalize call
+    # C1: Collect all specs that define parameters that we need to include in the initalize call
     all_initialize_params = []
-    # First we collect all specs that we own directly
+    # C1.1: Collect all specs that we own directly
     for obj in attributes + datasets:
         all_initialize_params.append({'obj': obj, 'parent': None})
         if hasattr(obj, "attributes"):
             for attr in obj.attributes:
                 all_initialize_params.append({'obj': attr, 'parent': obj})
-    # Next we iterate through all the groups we own directly (i.e., those that do not have a neurodata_type_inc
+    # C1.2 Next we iterate through all the groups we own directly (i.e., those that do not have a neurodata_type_inc
     # nor neurodata_type_def that are just containers), to make sure we initialize all the attributes, datasets,
     # and groups they own
     sub_objects_to_process = [group for group in groups if group.neurodata_type_inc is None and group.neurodata_type_def is None]
-    beforeSize = len(all_initialize_params)
-    for obj in sub_objects_to_process:
+    visited = set()
+    while sub_objects_to_process:
+        # Get the next object to process
+        obj = sub_objects_to_process.pop(0)
+        # Ensure we don't process objects twice (although this should not happen in a valid schema)
+        if id(obj) in visited:
+            continue
+        visited.add(id(obj))
+
+        # Process the object and add any sub-objects to the list of objects to process
         if hasattr(obj, "attributes"):
             for attr in obj.attributes:
                 all_initialize_params.append({'obj': attr, 'parent': obj})
@@ -268,7 +295,8 @@ def render_initialize_method_signature(neurodata_type: Spec, for_call: bool = Fa
         if hasattr(obj, "groups"):
             for group in obj.groups:
                 sub_objects_to_process.append(group)
-    # Sort the specs of all parameters so that those with default values are last
+
+    # C1.3: Sort the specs of all parameters so that those with default values are last
     all_initialize_params.sort(key=lambda item: getattr(item['obj'], "default_value", None) is not None)
 
     # Now we can create the function signature and add all the parameters
@@ -276,6 +304,7 @@ def render_initialize_method_signature(neurodata_type: Spec, for_call: bool = Fa
     for item in all_initialize_params:
         funcSignature += spec_to_func_param(
             obj=item['obj'],
+            type_to_namespace_map=type_to_namespace_map,
             parent=item['parent'],
             include_types=not for_call,
             add_default_values=add_default_values
@@ -288,6 +317,7 @@ def render_initalize_method(
     class_name: str,
     parent_class_name: str,
     neurodata_type: Spec,
+    type_to_namespace_map: Dict[str, str],
     parent_neurodata_type: Spec = None,
 ) -> Tuple[str, str]:
     """
@@ -297,6 +327,8 @@ def render_initalize_method(
     class_name (str): Name of the class
     parent_class_name (str): Name of the parent class
     neurodata_type (Spec): Spec of the neurodata_type to render
+    type_to_namespace_map (Dict[str, str]): Mapping of types to their namespaces.
+    parent_neurodata_type (Spec): Optional spec of the parent neurodata_type
 
     Returns:
     Tuple(str, str) : The first string is the signature for the header
@@ -368,7 +400,11 @@ def render_initalize_method(
     groups = neurodata_type.get("groups", [])
 
     ### Generate header source
-    funcSignature = render_initialize_method_signature(neurodata_type, for_call=False, add_default_values=True)
+    funcSignature = render_initialize_method_signature(
+        neurodata_type=neurodata_type,
+        type_to_namespace_map=type_to_namespace_map,
+        for_call=False,
+        add_default_values=True)
     headerSrc = f"""
     // TODO: Update the initialize method as appropriate.
     /**
@@ -377,10 +413,19 @@ def render_initalize_method(
      void {funcSignature};
 """
     ### Generate cpp source
-    funcSignature = render_initialize_method_signature(neurodata_type, for_call=False, add_default_values=False)
+    funcSignature = render_initialize_method_signature(
+        neurodata_type=neurodata_type,
+        type_to_namespace_map=type_to_namespace_map,
+        for_call=False,
+        add_default_values=False)
 
     if parent_neurodata_type is not None:
-        parent_initialize_call = f"{parent_class_name}::{render_initialize_method_signature(parent_neurodata_type, for_call=True)}"
+        parent_initialize_signature = render_initialize_method_signature(
+            neurodata_type=parent_neurodata_type,
+            type_to_namespace_map=type_to_namespace_map,
+            for_call=True,
+            add_default_values=False)
+        parent_initialize_call = f"{parent_class_name}::{parent_initialize_signature}"
     else:
         parent_initialize_call = "// TODO: Call the parents initialize method if applicable.\n"
         parent_initialize_call += f"    // {parent_class_name}::initialize()"
@@ -619,8 +664,13 @@ def get_referenced_types(neurodata_type: Spec) -> set[str]:
 
     # Check groups for references
     for group in neurodata_type.get("groups", []):
-        if group.get("neurodata_type_inc", None) is not None:
-            referenced_types.append(group["neurodata_type_inc"])
+        # if the group is typed then we only need to reference that type
+        if group.data_type is not None:
+            referenced_types.append(group.data_type)
+        # if the group is untyped, then we own its contents and we need to recursively check them
+        else:
+            nested_referenced_types = get_referenced_types(group)
+            referenced_types.extend(nested_referenced_types)
 
     # Check attributes for object references
     for attr in neurodata_type.get("attributes", []):
@@ -733,7 +783,7 @@ def collect_neurodata_types(namespace: SpecNamespace) -> Dict[str, Spec]:
 
     for spec_name in namespace.catalog.get_spec_names():
         spec = namespace.catalog.get_spec(spec_name)
-        if spec.get("neurodata_type_def", None) is not None:
+        if spec.get(spec.def_key, None) is not None:
             neurodata_types[spec.neurodata_type_def] = spec
 
     return neurodata_types
@@ -841,12 +891,8 @@ def generate_header_file(
 
     # Include the namespace header
     header += "// Include for the namespace schema header\n"
-    schema_header = namespace_name.replace("-", "_") + ".hpp"
-    if not is_included_type:
-        header += f'#include "spec/{schema_header}"\n'
-    else:
-        header += f'// TODO: Fix include path for {namespace_name} namespace\n'
-        header += f'// #include "spec/{schema_header}"\n'
+    schema_header = type_to_namespace_map.get(type_name, namespace_name).replace("-", "_") + ".hpp"
+    header += f'#include "spec/{schema_header}"\n'
 
     # Get parent neurodata_type spec
     parent_neurodata_type_spec = all_types.get(parent_type) if parent_type else None
@@ -856,6 +902,7 @@ def generate_header_file(
         class_name=class_name,
         parent_class_name=parent_class,
         neurodata_type=neurodata_type,
+        type_to_namespace_map=type_to_namespace_map,
         parent_neurodata_type=parent_neurodata_type_spec,
     )
     header += f"""
@@ -999,17 +1046,10 @@ public:
             header += fieldDef +"\n"
 
     # Add REGISTER_SUBCLASS macro
-    if is_included_type:
-        header += f"""
+    header += f"""
     REGISTER_SUBCLASS(
         {class_name},
-        "{actual_cpp_namespace_name}")  // TODO: Use namespace from schema header
-    """
-    else:
-        header += f"""
-    REGISTER_SUBCLASS(
-        {class_name},
-        AQNWB::SPEC::{cpp_namespace_name}::namespaceName)
+        AQNWB::SPEC::{actual_cpp_namespace_name}::namespaceName)
     """
         
     header += f"""
@@ -1063,6 +1103,7 @@ def generate_implementation_file(
         class_name=class_name,
         parent_class_name=parent_class,
         neurodata_type=neurodata_type,
+        type_to_namespace_map=type_to_namespace_map,
         parent_neurodata_type=parent_neurodata_type_spec
     )
 
@@ -1486,6 +1527,7 @@ def main(args) -> None:
             
         except Exception as e:
             logger.error(f"   Failed to generate implementation file {impl_path}: {e}")
+    logger.info(f"Generated {len(neurodata_types)} neurodata types in total.")
 
     # Generate test app if requested
     if args.generate_test_app:
