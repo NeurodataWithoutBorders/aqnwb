@@ -244,20 +244,35 @@ def render_initialize_method_signature(neurodata_type: Spec, for_call: bool = Fa
     datasets = neurodata_type.get("datasets", [])
     groups = neurodata_type.get("groups", [])
 
-    # Collect all specs that define parameters that we need to include the initalize call
-    # TODO: This is missing recursion through fields required to initialize groups owned by the type
+    # Collect all specs that define parameters that we need to include in the initalize call
     all_initialize_params = []
+    # First we collect all specs that we own directly
     for obj in attributes + datasets:
         all_initialize_params.append({'obj': obj, 'parent': None})
         if hasattr(obj, "attributes"):
             for attr in obj.attributes:
                 all_initialize_params.append({'obj': attr, 'parent': obj})
-
-    # Sort objects so that those with default values are last
+    # Next we iterate through all the groups we own directly (i.e., those that do not have a neurodata_type_inc
+    # nor neurodata_type_def that are just containers), to make sure we initialize all the attributes, datasets,
+    # and groups they own
+    sub_objects_to_process = [group for group in groups if group.neurodata_type_inc is None and group.neurodata_type_def is None]
+    beforeSize = len(all_initialize_params)
+    for obj in sub_objects_to_process:
+        if hasattr(obj, "attributes"):
+            for attr in obj.attributes:
+                all_initialize_params.append({'obj': attr, 'parent': obj})
+        if hasattr(obj, "datasets"):
+            for dataset in obj.datasets:
+                all_initialize_params.append({'obj': dataset, 'parent': obj})
+                sub_objects_to_process.append(dataset)
+        if hasattr(obj, "groups"):
+            for group in obj.groups:
+                sub_objects_to_process.append(group)
+    # Sort the specs of all parameters so that those with default values are last
     all_initialize_params.sort(key=lambda item: getattr(item['obj'], "default_value", None) is not None)
 
+    # Now we can create the function signature and add all the parameters
     funcSignature = "initialize("
-    # Add initialization for attributes
     for item in all_initialize_params:
         funcSignature += spec_to_func_param(
             obj=item['obj'],
