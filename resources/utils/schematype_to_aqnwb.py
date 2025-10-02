@@ -183,7 +183,7 @@ def render_define_dataset_field(
         re += "    */\n"
     return re
 
-def get_initalize_method_parameters(neurodata_type: Spec, type_to_namespace_map: Dict[str, str]) -> List[Dict]:
+def get_initalize_method_parameters(neurodata_type: Spec, type_to_namespace_map: Dict[str, str], sorted: bool = True) -> List[Dict]:
     """
     Internal helper function to create a list of all the parameters for the initialize method.
 
@@ -200,6 +200,8 @@ def get_initalize_method_parameters(neurodata_type: Spec, type_to_namespace_map:
     Parameters:
     neurodata_type (Spec): The neurodata type to render
     type_to_namespace_map (Dict[str, str]): Mapping of types to their namespaces.
+    sorted (bool): If true, sort the parameters so that those with default values are last, otherwise
+                   keep the order as they are found in the iteration through the schema.
 
     Returns:
     List[Dict]: A list of dictionaries, where each dictionary describes a parameter.
@@ -311,9 +313,10 @@ def get_initalize_method_parameters(neurodata_type: Spec, type_to_namespace_map:
         })
 
     # Sort the parameter list so that those with default values are last
-    parameter_list.sort(
-        key=lambda item: item['cpp_default_value'] is not None
-    )
+    if sorted:
+        parameter_list.sort(
+            key=lambda item: item['cpp_default_value'] is not None
+        )
 
     return parameter_list
 
@@ -463,11 +466,6 @@ def render_initialize_method_cpp(
         re += "\n"
         return re
 
-    # Retrieve all the fields
-    attributes = neurodata_type.get("attributes", [])
-    datasets = neurodata_type.get("datasets", [])
-    groups = neurodata_type.get("groups", [])
-
     ### Generate cpp source
     funcSignature = render_initialize_method_signature(
         neurodata_type=neurodata_type,
@@ -497,37 +495,42 @@ void {class_name}::{funcSignature}
     
     // Initialize attributes
 """
+    
+    # Get all the parameters for the initialize method
+    all_initialize_params = get_initalize_method_parameters(
+        neurodata_type=neurodata_type,
+        type_to_namespace_map=type_to_namespace_map,
+        sorted=False
+    )
 
     # Add initialization for attributes, datasets and groups
-    for attr in attributes:
-        cppSrc += attr_init(
-            attr=attr,
-            is_inherited=neurodata_type.is_inherited_spec(attr),
-            is_overridden=neurodata_type.is_overridden_spec(attr),
-        )
-    cppSrc += "    // Initialize datasets\n"
-    for dataset in datasets:
-        cppSrc += dataset_init(
-            dataset=dataset,
-            is_inherited=neurodata_type.is_inherited_spec(dataset),
-            is_overridden=neurodata_type.is_overridden_spec(dataset),
-        )
-        for attr in dataset.attributes:
-            cppSrc += attr_init(
-                attr=attr,
-                is_inherited=neurodata_type.is_inherited_spec(attr),
-                is_overridden=neurodata_type.is_overridden_spec(attr),
-                parent=dataset,
+    for param in all_initialize_params:
+        spec = param['spec']
+        is_inherited = neurodata_type.is_inherited_spec(spec)
+        is_overridden = neurodata_type.is_overridden_spec(spec)
+        
+        if isinstance(spec, GroupSpec):
+            if param['variable_name'] is None: # Untyped group we own
+                cppSrc += f"    // TODO: Initialize {spec.name} group\n"
+                cppSrc += f'    // auto {spec.name}Path = AQNWB::mergePaths(m_path, "{spec.name}");\n'
+                cppSrc += f"    // m_io->createGroup({spec.name}Path);\n\n"
+            else: # Typed group passed as parameter
+                cppSrc += f"    // TODO: {spec.name} group passed as parameter {param['variable_name']}\n\n"
+        elif isinstance(spec, DatasetSpec):
+            cppSrc += dataset_init(
+                dataset=spec,
+                is_inherited=is_inherited,
+                is_overridden=is_overridden
             )
-    cppSrc += "    // Initialize groups\n"
-    for group in groups:
-        cppSrc += f"    // TODO: Initialize {group.name} group\n"
-        cppSrc += f'    // auto {group.name}Path = AQNWB::mergePaths(m_path, "{group.name}");\n'
-        cppSrc += f"    // m_io->createGroup({group.name}Path);\n"
-        cppSrc += "\n"
-        cppSrc += (
-            f"    // TODO: Initialize any fields that the {group.name} group owns\n"
-        )
+        else: # Attribute
+            parent_spec = param['parent_spec']
+            cppSrc += attr_init(
+                attr=spec,
+                is_inherited=is_inherited,
+                is_overridden=is_overridden,
+                parent=parent_spec
+            )
+
     cppSrc += "}\n\n"
 
     return cppSrc
