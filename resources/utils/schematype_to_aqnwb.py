@@ -213,6 +213,8 @@ def render_initialize_method_signature(neurodata_type: Spec, type_to_namespace_m
             else:
                 return None
         elif isinstance(obj, DatasetSpec) and not getattr(obj, "default_value", None):
+            if not obj.required:
+                return "std::nullopt"
             return None
         else:
             default_value = getattr(obj, "default_value", None)
@@ -267,7 +269,15 @@ def render_initialize_method_signature(neurodata_type: Spec, type_to_namespace_m
             # default value as those should be written on initalize directly in the same way
             # attributes are being created directly.
             elif isinstance(obj, DatasetSpec) and not getattr(obj, "default_value", None):
-                return f"\n       const AQNWB::IO::ArrayDataSetConfig& {field_full_name},"
+                re = "\n       "
+                if not obj.required:
+                    re += f"const std::optional<AQNWB::IO::ArrayDataSetConfig> {field_full_name}"
+                    if add_default_values:
+                        re += f" = {default_value}"
+                else:
+                    re += f"const AQNWB::IO::ArrayDataSetConfig& {field_full_name}"
+                re += ","
+                return re
             # Attributes and datasets with a default value should be passed by value
             else:
                 obj_cpp_type = get_cpp_type(obj.dtype)
@@ -869,6 +879,7 @@ def generate_header_file(
 #include <memory>
 #include <string>
 #include <vector>
+#include <optional>
 // Base AqNWB includes for IO and RegisteredType
 #include "nwb/RegisteredType.hpp"
 #include "io/ReadIO.hpp"
