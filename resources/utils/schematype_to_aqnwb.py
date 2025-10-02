@@ -22,7 +22,7 @@ import re
 from pathlib import Path
 from ruamel.yaml import YAML
 from typing import Dict, List, Tuple
-from hdmf.spec import DatasetSpec, SpecNamespace
+from hdmf.spec import DatasetSpec, GroupSpec, SpecNamespace
 from hdmf.spec.spec import Spec
 from pynwb import get_type_map
 
@@ -216,7 +216,7 @@ def render_initialize_method_signature(neurodata_type: Spec, type_to_namespace_m
         if include_types:
             has_default_value = getattr(obj, "default_value", None)
             # Datasets with a neurodata_type_inc need to be created by the user first
-            if isinstance(obj, DatasetSpec) and (obj.data_type is not None):
+            if isinstance(obj, (DatasetSpec, GroupSpec)) and (obj.data_type is not None):
                 # Determine the neurodata_type name
                 type_name = obj.data_type
                 full_type_name = type_name
@@ -225,10 +225,17 @@ def render_initialize_method_signature(neurodata_type: Spec, type_to_namespace_m
                     full_type_name = f"{actual_cpp_namespace_name}::{type_name}"
                 # If the dataset is a single object, then we pass it as a shared_ptr, otherwise
                 # we pass a vector of shared_ptrs
+                re = "\n       "
                 if obj.name is not None or obj.quantity in ["1", "?", "one_or_zero"]:
-                    return f"\n       const std::shared_ptr<{full_type_name}>& {field_full_name},"
+                    re += f"const std::shared_ptr<{full_type_name}>& {field_full_name}"
+                    if add_default_values and obj.required is False:
+                        re += " = nullptr"
                 else:
-                    return f"\n       const std::vector<std::shared_ptr<{full_type_name}>>& {field_full_name},"
+                    re += f"const std::vector<std::shared_ptr<{full_type_name}>>& {field_full_name}"
+                    if add_default_values and obj.required is False:
+                        re += " = {}"
+                re += ","
+                return re
             # Datasets should be available for acquistion and therefore use ArrayDataSetConfig to
             # allow the user configure the dataset. The special case are scalar datasets with a
             # default value as those should be written on initalize directly in the same way
@@ -257,24 +264,13 @@ def render_initialize_method_signature(neurodata_type: Spec, type_to_namespace_m
         # If we are generating a function call, then we just need the name of the parameter
         else:
             return f"\n       {field_full_name},"
-    
-    # Retrieve all the fields
-    attributes = neurodata_type.get("attributes", [])
-    datasets = neurodata_type.get("datasets", [])
-    groups = neurodata_type.get("groups", [])
 
     # C1: Collect all specs that define parameters that we need to include in the initalize call
     all_initialize_params = []
-    # C1.1: Collect all specs that we own directly
-    for obj in attributes + datasets:
-        all_initialize_params.append({'obj': obj, 'parent': None})
-        if hasattr(obj, "attributes"):
-            for attr in obj.attributes:
-                all_initialize_params.append({'obj': attr, 'parent': obj})
-    # C1.2 Next we iterate through all the groups we own directly (i.e., those that do not have a neurodata_type_inc
-    # nor neurodata_type_def that are just containers), to make sure we initialize all the attributes, datasets,
-    # and groups they own
-    sub_objects_to_process = [group for group in groups if group.neurodata_type_inc is None and group.neurodata_type_def is None]
+    # Next we iterate through all the objects we own directly. This includes recursion through all
+    # objects that do not have a neurodata_type, to make sure we initialize all the attributes, datasets,
+    # and groups they own as well
+    sub_objects_to_process = [neurodata_type,]
     visited = set()
     while sub_objects_to_process:
         # Get the next object to process
@@ -285,19 +281,30 @@ def render_initialize_method_signature(neurodata_type: Spec, type_to_namespace_m
         visited.add(id(obj))
 
         # Process the object and add any sub-objects to the list of objects to process
+        parent = obj if obj != neurodata_type else None
         if hasattr(obj, "attributes"):
             for attr in obj.attributes:
-                all_initialize_params.append({'obj': attr, 'parent': obj})
+                all_initialize_params.append({'obj': attr, 'parent': parent})
         if hasattr(obj, "datasets"):
             for dataset in obj.datasets:
-                all_initialize_params.append({'obj': dataset, 'parent': obj})
+                all_initialize_params.append({'obj': dataset, 'parent': parent})
                 sub_objects_to_process.append(dataset)
         if hasattr(obj, "groups"):
             for group in obj.groups:
-                sub_objects_to_process.append(group)
+                if group.data_type is None:
+                    sub_objects_to_process.append(group)
+                else:
+                    all_initialize_params.append({'obj': group, 'parent': parent})
 
     # C1.3: Sort the specs of all parameters so that those with default values are last
-    all_initialize_params.sort(key=lambda item: getattr(item['obj'], "default_value", None) is not None)
+    all_initialize_params.sort(
+        key=lambda item: (getattr(item['obj'], "default_value", None) is not None)
+        or (
+            isinstance(item['obj'], (DatasetSpec, GroupSpec))
+            and (item['obj'].data_type is not None)
+            and not item['obj'].required
+        )
+    )
 
     # Now we can create the function signature and add all the parameters
     funcSignature = "initialize("
