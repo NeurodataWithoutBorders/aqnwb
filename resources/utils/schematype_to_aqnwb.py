@@ -183,12 +183,13 @@ def render_define_dataset_field(
         re += "    */\n"
     return re
 
-def render_initialize_method_signature(neurodata_type: Spec, for_call: bool = False) -> str:
+def render_initialize_method_signature(neurodata_type: Spec, for_call: bool = False, add_default_values: bool = False) -> str:
     """
     Internal helper function to create the initialize method signature
     Parameters:
     neurodata_type (Spec): The neurodata type to render
     for_call (bool): If true, generate the arguments for a function call, otherwise the signature.
+    add_default_values (bool): If true, add default values to the parameter string if available.
 
     Returns:
     str: The function signature for the initialize method
@@ -209,7 +210,12 @@ def render_initialize_method_signature(neurodata_type: Spec, for_call: bool = Fa
         if parent is not None:
             field_full_name += f"{snake_to_camel(parent.name)}"
         if include_types:
-            if isinstance(obj, DatasetSpec):
+            has_default_value = getattr(obj, "default_value", None)
+            # Datasets should be available for acquistion and therefore use ArrayDataSetConfig to
+            # allow the user configure the dataset. The special case are scalar datasets with a
+            # default value as those should be written on initalize directly in the same way
+            # attributes are being created directly.
+            if isinstance(obj, DatasetSpec) and not has_default_value:
                 return f"\n       const AQNWB::IO::ArrayDataSetConfig& {field_full_name},"
             else:
                 default_value = getattr(obj, "default_value", None) if add_default_values else None
@@ -238,14 +244,27 @@ def render_initialize_method_signature(neurodata_type: Spec, for_call: bool = Fa
     datasets = neurodata_type.get("datasets", [])
     groups = neurodata_type.get("groups", [])
 
-    funcSignature = "initialize("
-    # Add initialization for attributes
+    # Collect all specs that define parameters that we need to include the initalize call
     # TODO: This is missing recursion through fields required to initialize groups owned by the type
+    all_initialize_params = []
     for obj in attributes + datasets:
-        funcSignature += spec_to_func_param(obj=obj, include_types=not for_call)
+        all_initialize_params.append({'obj': obj, 'parent': None})
         if hasattr(obj, "attributes"):
             for attr in obj.attributes:
-                funcSignature += spec_to_func_param(obj=attr, parent=obj, include_types=not for_call)
+                all_initialize_params.append({'obj': attr, 'parent': obj})
+
+    # Sort objects so that those with default values are last
+    all_initialize_params.sort(key=lambda item: getattr(item['obj'], "default_value", None) is not None)
+
+    funcSignature = "initialize("
+    # Add initialization for attributes
+    for item in all_initialize_params:
+        funcSignature += spec_to_func_param(
+            obj=item['obj'],
+            parent=item['parent'],
+            include_types=not for_call,
+            add_default_values=add_default_values
+        )
     funcSignature = funcSignature.rstrip(",") + ")"
     return funcSignature
 
@@ -333,13 +352,8 @@ def render_initalize_method(
     datasets = neurodata_type.get("datasets", [])
     groups = neurodata_type.get("groups", [])
 
-    funcSignature = render_initialize_method_signature(neurodata_type, for_call=False)
-    if parent_neurodata_type is not None:
-        parent_initialize_call = f"{parent_class_name}::{render_initialize_method_signature(parent_neurodata_type, for_call=True)}"
-    else:
-        parent_initialize_call = "// TODO: Call the parents initialize method. This should typically also initialize inherited fields.\n"
-        parent_initialize_call += f"    // {parent_class_name}::initialize()"
-
+    ### Generate header source
+    funcSignature = render_initialize_method_signature(neurodata_type, for_call=False, add_default_values=True)
     headerSrc = f"""
     // TODO: Update the initialize method as appropriate.
     /**
@@ -347,6 +361,15 @@ def render_initalize_method(
      */
      void {funcSignature};
 """
+    ### Generate cpp source
+    funcSignature = render_initialize_method_signature(neurodata_type, for_call=False, add_default_values=False)
+
+    if parent_neurodata_type is not None:
+        parent_initialize_call = f"{parent_class_name}::{render_initialize_method_signature(parent_neurodata_type, for_call=True)}"
+    else:
+        parent_initialize_call = "// TODO: Call the parents initialize method if applicable.\n"
+        parent_initialize_call += f"    // {parent_class_name}::initialize()"
+
     cppSrc = f"""
 /**
  * @brief Initialize the object
@@ -1025,7 +1048,7 @@ def generate_implementation_file(
         class_name=class_name,
         parent_class_name=parent_class,
         neurodata_type=neurodata_type,
-        parent_neurodata_type=parent_neurodata_type_spec,
+        parent_neurodata_type=parent_neurodata_type_spec
     )
 
     # Start building the implementation file
