@@ -183,10 +183,67 @@ def render_define_dataset_field(
         re += "    */\n"
     return re
 
+def render_initialize_method_signature(neurodata_type: Spec, for_call: bool = False) -> str:
+    """
+    Internal helper function to create the initialize method signature
+    Parameters:
+    neurodata_type (Spec): The neurodata type to render
+    for_call (bool): If true, generate the arguments for a function call, otherwise the signature.
+
+    Returns:
+    str: The function signature for the initialize method
+    """
+    # Define helper functions for rendering the initialize method
+    # TODO: The following helper function only support at most one layer of nesting via the parent
+    def spec_to_func_param(obj: Spec, parent: Spec = None, include_types: bool = True) -> str:
+        """
+        Internal helper function to create a paramter definition for the initialize method
+
+        Parameter:
+        obj (Spec) : The spec dataset or attribute spec to render
+        parent (Spec) : Optional parent spec
+        include_types (bool): If true, include type information in the parameter string.
+        """
+        field_full_name = f"{obj.name}"
+        if parent is not None:
+            field_full_name += f"{snake_to_camel(parent.name)}"
+        if include_types:
+            if isinstance(obj, DatasetSpec):
+                return f"\n       const AQNWB::IO::ArrayDataSetConfig& {field_full_name},"
+            else:
+                obj_cpp_type = get_cpp_type(obj.dtype)
+                if obj.shape is None:
+                    if obj_cpp_type == "std::string":
+                        return f"\n       const {obj_cpp_type}& {field_full_name},"
+                    else:
+                        return f"\n       {obj_cpp_type} {field_full_name},"
+                else:
+                    return f"\n       const std::vector<{obj_cpp_type}>& {field_full_name},"
+        else:
+            return f"\n       {field_full_name},"
+    
+    # Retrieve all the fields
+    attributes = neurodata_type.get("attributes", [])
+    datasets = neurodata_type.get("datasets", [])
+    groups = neurodata_type.get("groups", [])
+
+    funcSignature = "initialize("
+    # Add initialization for attributes
+    # TODO: This is missing recursion through fields required to initialize groups owned by the type
+    for obj in attributes + datasets:
+        funcSignature += spec_to_func_param(obj=obj, include_types=not for_call)
+        if hasattr(obj, "attributes"):
+            for attr in obj.attributes:
+                funcSignature += spec_to_func_param(obj=attr, parent=obj, include_types=not for_call)
+    funcSignature = funcSignature.rstrip(",") + ")"
+    return funcSignature
+
+
 def render_initalize_method(
     class_name: str,
     parent_class_name: str,
     neurodata_type: Spec,
+    parent_neurodata_type: Spec = None,
 ) -> Tuple[str, str]:
     """
     Render the initalize method for a neurodata_type
@@ -201,28 +258,6 @@ def render_initalize_method(
     and the second string is the implementation for the cpp file.
     """
 
-    # Define helper functions for rendering the initialize method
-    # TODO: The following helper function only support at most one layer of nesting via the parent
-    def spec_to_func_param(obj: Spec, parent: Spec = None) -> str:
-        """
-        Internal helper function to create a paramter definition for the initialize method
-
-        Parameter:
-        obj (Spec) : The spec dataset or attribute spec to render
-        parent (Spec) : Optional parent spec
-        """
-        obj_cpp_type = get_cpp_type(obj.dtype)
-        field_full_name = f"{obj.name}"
-        if parent is not None:
-            field_full_name += f"{snake_to_camel(parent.name)}"
-        if obj.shape is None:
-            if obj_cpp_type == "std::string":
-                return f"\n       const {obj_cpp_type}& {field_full_name},"
-            else:
-                return f"\n       {obj_cpp_type} {field_full_name},"
-        else:
-            return f"\n       const std::vector<{obj_cpp_type}>& {field_full_name},"
-
     def attr_init(
         attr: Spec, is_inherited: bool, is_overridden: bool, parent: Spec = None
     ) -> str:
@@ -235,6 +270,8 @@ def render_initalize_method(
         is_overriden (bool): Is this an overrriden attribute
         parent: (Spec): Optional parent spec
 
+        Returns:
+        str: The suggested initialization code for the attribute
         """
         re = f"    // TODO: Initialize {attr.name} attribute"
         if is_inherited or is_overridden:
@@ -260,6 +297,9 @@ def render_initalize_method(
         dataset (Spec): The dataset to render
         is_inherited (bool): Is this an inherited attribute
         is_overriden (bool): Is this an overrriden attribute
+
+        Returns:
+        str: The suggested initialization code for the dataset
         """
         re = f"    // TODO: Initialize {dataset.name} dataset"
         if is_inherited or is_overridden:
@@ -282,16 +322,12 @@ def render_initalize_method(
     datasets = neurodata_type.get("datasets", [])
     groups = neurodata_type.get("groups", [])
 
-    funcSignature = "initialize("
-    # Add initialization for attributes
-    # TODO: This is missing recursion through field required to initialize groups owned by the type
-    for obj in attributes + datasets:
-        funcSignature += spec_to_func_param(obj=obj)
-        if hasattr(obj, "attributes"):
-            for attr in obj.attributes:
-                funcSignature += spec_to_func_param(obj=attr, parent=obj)
-
-    funcSignature = funcSignature.rstrip(",") + ")"
+    funcSignature = render_initialize_method_signature(neurodata_type, for_call=False)
+    if parent_neurodata_type is not None:
+        parent_initialize_call = f"{parent_class_name}::{render_initialize_method_signature(parent_neurodata_type, for_call=True)}"
+    else:
+        parent_initialize_call = "// TODO: Call the parents initialize method. This should typically also initialize inherited fields.\n"
+        parent_initialize_call += f"    // {parent_class_name}::initialize()"
 
     headerSrc = f"""
     // TODO: Update the initialize method as appropriate.
@@ -307,8 +343,7 @@ def render_initalize_method(
 void {class_name}::{funcSignature}
 {{
     // Call parent initialize method. 
-    // TODO: Call the parents initialize method. This should typically also initialize inherited fields.
-    // {parent_class_name}::initialize(...);
+    {parent_initialize_call};
     
     // Initialize attributes
 """
@@ -764,11 +799,15 @@ def generate_header_file(
         header += f'// TODO: Fix include path for {namespace_name} namespace\n'
         header += f'// #include "spec/{schema_header}"\n'
 
+    # Get parent neurodata_type spec
+    parent_neurodata_type_spec = all_types.get(parent_type) if parent_type else None
+
     # Get attributes, datasets, and groups
     header_initalize_src, _ = render_initalize_method(
         class_name=class_name,
         parent_class_name=parent_class,
         neurodata_type=neurodata_type,
+        parent_neurodata_type=parent_neurodata_type_spec,
     )
     header += f"""
 namespace {actual_cpp_namespace_name} {{
@@ -818,7 +857,7 @@ public:
         doc = attr.get("doc", "No documentation provided").replace("\n", " ")
         fieldDef = render_define_attribute_field(
             field_name=attr_name,
-             dtype=get_cpp_type(attr.dtype),
+            dtype=get_cpp_type(attr.dtype),
             doc=doc,
             is_inherited=neurodata_type.is_inherited_spec(attr),
             is_overridden=neurodata_type.is_overridden_spec(attr),
@@ -967,11 +1006,15 @@ def generate_implementation_file(
         else:
             parent_class = "AQNWB::NWB::Container"
 
+    # Get parent neurodata_type spec
+    parent_neurodata_type_spec = all_types.get(parent_type) if parent_type else None
+
     # Get attributes, datasets, and groups
     _, cpp_initalize_src = render_initalize_method(
         class_name=class_name,
         parent_class_name=parent_class,
         neurodata_type=neurodata_type,
+        parent_neurodata_type=parent_neurodata_type_spec,
     )
 
     # Start building the implementation file
