@@ -195,7 +195,7 @@ def render_initialize_method_signature(neurodata_type: Spec, for_call: bool = Fa
     """
     # Define helper functions for rendering the initialize method
     # TODO: The following helper function only support at most one layer of nesting via the parent
-    def spec_to_func_param(obj: Spec, parent: Spec = None, include_types: bool = True) -> str:
+    def spec_to_func_param(obj: Spec, parent: Spec = None, include_types: bool = True, add_default_values: bool = False) -> str:
         """
         Internal helper function to create a paramter definition for the initialize method
 
@@ -203,6 +203,7 @@ def render_initialize_method_signature(neurodata_type: Spec, for_call: bool = Fa
         obj (Spec) : The spec dataset or attribute spec to render
         parent (Spec) : Optional parent spec
         include_types (bool): If true, include type information in the parameter string.
+        add_default_values (bool): If true, add default values to the parameter string if available.
         """
         field_full_name = f"{obj.name}"
         if parent is not None:
@@ -211,14 +212,24 @@ def render_initialize_method_signature(neurodata_type: Spec, for_call: bool = Fa
             if isinstance(obj, DatasetSpec):
                 return f"\n       const AQNWB::IO::ArrayDataSetConfig& {field_full_name},"
             else:
+                default_value = getattr(obj, "default_value", None) if add_default_values else None
                 obj_cpp_type = get_cpp_type(obj.dtype)
                 if obj.shape is None:
                     if obj_cpp_type == "std::string":
-                        return f"\n       const {obj_cpp_type}& {field_full_name},"
+                        re = f"\n       const {obj_cpp_type}& {field_full_name}"
+                        if default_value is not None:
+                            re += f' = "{default_value}"'
+                        re += ","
+                        return re
                     else:
-                        return f"\n       {obj_cpp_type} {field_full_name},"
+                        re = f"\n       {obj_cpp_type} {field_full_name}"  
+                        if default_value is not None:
+                            re += f' = {default_value}'
+                        re += ","
+                        return re 
                 else:
                     return f"\n       const std::vector<{obj_cpp_type}>& {field_full_name},"
+                
         else:
             return f"\n       {field_full_name},"
     
