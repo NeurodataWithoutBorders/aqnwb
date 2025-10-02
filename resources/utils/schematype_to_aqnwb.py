@@ -195,6 +195,34 @@ def render_initialize_method_signature(neurodata_type: Spec, type_to_namespace_m
     Returns:
     str: The function signature for the initialize method
     """
+    def get_default_value(obj: Spec):
+        """
+        Internal helper function to get the default value for a spec object
+
+        NOTE: The logic here must match the logic in spec_to_func_param
+
+        Parameters:
+        obj (Spec): The spec object to get the default value for
+
+        Returns:
+        str: The default value as a string
+        """
+        if isinstance(obj, (DatasetSpec, GroupSpec)) and (obj.data_type is not None):
+            if not obj.required:
+                return "nullptr" if obj.quantity in ["1", "?", "one_or_zero"] else "{}"
+            else:
+                return None
+        elif isinstance(obj, DatasetSpec) and not getattr(obj, "default_value", None):
+            return None
+        else:
+            default_value = getattr(obj, "default_value", None)
+            if default_value is not None:
+                obj_cpp_type = get_cpp_type(obj.dtype)
+                if obj.shape is None:
+                    if obj_cpp_type == "std::string":
+                        default_value = f'"{default_value}"'
+            return default_value
+
     # Define helper functions for rendering the initialize method
     # TODO: The following helper function only support at most one layer of nesting via the parent
     def spec_to_func_param(obj: Spec, type_to_namespace_map: Dict[str, str], parent: Spec = None, include_types: bool = True, add_default_values: bool = False) -> str:
@@ -214,7 +242,7 @@ def render_initialize_method_signature(neurodata_type: Spec, type_to_namespace_m
             field_full_name += f"{snake_to_camel(parent.name)}"
         # If we are generating a function signature, then we need to include type information
         if include_types:
-            has_default_value = getattr(obj, "default_value", None)
+            default_value = get_default_value(obj=obj)
             # Datasets with a neurodata_type_inc need to be created by the user first
             if isinstance(obj, (DatasetSpec, GroupSpec)) and (obj.data_type is not None):
                 # Determine the neurodata_type name
@@ -228,37 +256,31 @@ def render_initialize_method_signature(neurodata_type: Spec, type_to_namespace_m
                 re = "\n       "
                 if obj.name is not None or obj.quantity in ["1", "?", "one_or_zero"]:
                     re += f"const std::shared_ptr<{full_type_name}>& {field_full_name}"
-                    if add_default_values and obj.required is False:
-                        re += " = nullptr"
                 else:
                     re += f"const std::vector<std::shared_ptr<{full_type_name}>>& {field_full_name}"
-                    if add_default_values and obj.required is False:
-                        re += " = {}"
+                if add_default_values and default_value is not None:
+                    re += f' = {default_value}'
                 re += ","
                 return re
             # Datasets should be available for acquistion and therefore use ArrayDataSetConfig to
             # allow the user configure the dataset. The special case are scalar datasets with a
             # default value as those should be written on initalize directly in the same way
             # attributes are being created directly.
-            elif isinstance(obj, DatasetSpec) and not has_default_value:
+            elif isinstance(obj, DatasetSpec) and not getattr(obj, "default_value", None):
                 return f"\n       const AQNWB::IO::ArrayDataSetConfig& {field_full_name},"
             # Attributes and datasets with a default value should be passed by value
             else:
-                default_value = getattr(obj, "default_value", None) if add_default_values else None
                 obj_cpp_type = get_cpp_type(obj.dtype)
                 if obj.shape is None:
+                    re = "\n       "
                     if obj_cpp_type == "std::string":
-                        re = f"\n       const {obj_cpp_type}& {field_full_name}"
-                        if default_value is not None:
-                            re += f' = "{default_value}"'
-                        re += ","
-                        return re
+                        re += f"const {obj_cpp_type}& {field_full_name}"
                     else:
-                        re = f"\n       {obj_cpp_type} {field_full_name}"  
-                        if default_value is not None:
-                            re += f' = {default_value}'
-                        re += ","
-                        return re 
+                        re += f"{obj_cpp_type} {field_full_name}"
+                    if add_default_values and default_value is not None:
+                        re += f' = {default_value}'
+                    re += ","
+                    return re
                 else:
                     return f"\n       const std::vector<{obj_cpp_type}>& {field_full_name},"
         # If we are generating a function call, then we just need the name of the parameter
@@ -298,12 +320,7 @@ def render_initialize_method_signature(neurodata_type: Spec, type_to_namespace_m
 
     # C1.3: Sort the specs of all parameters so that those with default values are last
     all_initialize_params.sort(
-        key=lambda item: (getattr(item['obj'], "default_value", None) is not None)
-        or (
-            isinstance(item['obj'], (DatasetSpec, GroupSpec))
-            and (item['obj'].data_type is not None)
-            and not item['obj'].required
-        )
+        key=lambda item: get_default_value(item['obj']) is not None
     )
 
     # Now we can create the function signature and add all the parameters
