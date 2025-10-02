@@ -881,13 +881,14 @@ def generate_header_file(
     # Determine additional includes required for DEFINE_REGISTERED_FIELD macro definitions 
     # for groups and datasets, and links to other neurodata_types referenced via attributes
     referenced_types = get_referenced_types(neurodata_type)
-    header += "// Includes for types that are referenced and used\n"
-    # Add inludes for all referenced types
-    for ref_type in referenced_types:
-        ref_namespace = type_to_namespace_map.get(ref_type, namespace.name)
-        ref_subfolder = get_schema_subfolder_name(type_to_file_map.get(ref_type, None))
-        ref_include_path = f"{ref_namespace}/{ref_subfolder}/{ref_type}.hpp"
-        header += f'#include "{ref_include_path}"\n'
+    if len(referenced_types) > 0:
+        header += "// Includes for types that are referenced and used\n"
+        # Add inludes for all referenced types
+        for ref_type in referenced_types:
+            ref_namespace = type_to_namespace_map.get(ref_type, namespace.name)
+            ref_subfolder = get_schema_subfolder_name(type_to_file_map.get(ref_type, None))
+            ref_include_path = f"{ref_namespace}/{ref_subfolder}/{ref_type}.hpp"
+            header += f'#include "{ref_include_path}"\n'
 
     # Include the namespace header
     header += "// Include for the namespace schema header\n"
