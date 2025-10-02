@@ -354,13 +354,42 @@ def render_initialize_method_signature(neurodata_type: Spec, type_to_namespace_m
     return funcSignature
 
 
-def render_initalize_method(
+def render_initialize_method_header(
+    neurodata_type: Spec,
+    type_to_namespace_map: Dict[str, str]
+) -> str:
+    """
+    Render the header portion of the initalize method for a neurodata_type
+
+    Parameters:
+    neurodata_type (Spec): Spec of the neurodata_type to render
+    type_to_namespace_map (Dict[str, str]): Mapping of types to their namespaces.
+
+    Returns:
+    str : The string with the method signature for the header
+    """
+    funcSignature = render_initialize_method_signature(
+        neurodata_type=neurodata_type,
+        type_to_namespace_map=type_to_namespace_map,
+        for_call=False,
+        add_default_values=True)
+    headerSrc = f"""
+    // TODO: Update the initialize method as appropriate.
+    /**
+     * @brief Initialize the object
+     */
+     void {funcSignature};
+"""
+    return headerSrc
+
+
+def render_initialize_method_cpp(
     class_name: str,
     parent_class_name: str,
     neurodata_type: Spec,
     type_to_namespace_map: Dict[str, str],
     parent_neurodata_type: Spec = None,
-) -> Tuple[str, str]:
+) -> str:
     """
     Render the initalize method for a neurodata_type
 
@@ -372,8 +401,7 @@ def render_initalize_method(
     parent_neurodata_type (Spec): Optional spec of the parent neurodata_type
 
     Returns:
-    Tuple(str, str) : The first string is the signature for the header
-    and the second string is the implementation for the cpp file.
+    str : The string with the method implementation for the cpp file.
     """
 
     def attr_init(
@@ -440,19 +468,6 @@ def render_initalize_method(
     datasets = neurodata_type.get("datasets", [])
     groups = neurodata_type.get("groups", [])
 
-    ### Generate header source
-    funcSignature = render_initialize_method_signature(
-        neurodata_type=neurodata_type,
-        type_to_namespace_map=type_to_namespace_map,
-        for_call=False,
-        add_default_values=True)
-    headerSrc = f"""
-    // TODO: Update the initialize method as appropriate.
-    /**
-     * @brief Initialize the object
-     */
-     void {funcSignature};
-"""
     ### Generate cpp source
     funcSignature = render_initialize_method_signature(
         neurodata_type=neurodata_type,
@@ -515,7 +530,7 @@ void {class_name}::{funcSignature}
         )
     cppSrc += "}\n\n"
 
-    return headerSrc, cppSrc
+    return cppSrc
 
 
 def snake_to_camel(name: str) -> str:
@@ -923,12 +938,9 @@ def generate_header_file(
     parent_neurodata_type_spec = all_types.get(parent_type) if parent_type else None
 
     # Get attributes, datasets, and groups
-    header_initalize_src, _ = render_initalize_method(
-        class_name=class_name,
-        parent_class_name=parent_class,
+    header_initalize_src = render_initialize_method_header(
         neurodata_type=neurodata_type,
         type_to_namespace_map=type_to_namespace_map,
-        parent_neurodata_type=parent_neurodata_type_spec,
     )
     header += f"""
 namespace {actual_cpp_namespace_name} {{
@@ -1124,7 +1136,7 @@ def generate_implementation_file(
     parent_neurodata_type_spec = all_types.get(parent_type) if parent_type else None
 
     # Get attributes, datasets, and groups
-    _, cpp_initalize_src = render_initalize_method(
+    cpp_initalize_src = render_initialize_method_cpp(
         class_name=class_name,
         parent_class_name=parent_class,
         neurodata_type=neurodata_type,
