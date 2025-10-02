@@ -207,18 +207,24 @@ def render_initialize_method_signature(neurodata_type: Spec, type_to_namespace_m
         Returns:
         str: The default value as a string
         """
+        # Datasets or groups with a neurodata_type need to be created by the user first
         if isinstance(obj, (DatasetSpec, GroupSpec)) and (obj.data_type is not None):
+            # If the object is not required, the we can set a default value that indicates missing
             if not obj.required:
+                # Use nullptr for single objects and empty std::vector for multiple objects
                 return "nullptr" if obj.quantity in ["1", "?", "one_or_zero"] else "{}"
             else:
                 return None
+        # Regular dataset used for acquistion
         elif isinstance(obj, DatasetSpec) and not getattr(obj, "default_value", None):
             if not obj.required:
                 return "std::nullopt"
             return None
+        # Either a: i) Attribute or ii) Dataset with a default value
         else:
             default_value = getattr(obj, "default_value", None)
             if default_value is not None:
+                # TODO: This assumes scalar default values. If we have default values that are list then they need to be handled here
                 obj_cpp_type = get_cpp_type(obj.dtype)
                 if obj.shape is None:
                     if obj_cpp_type == "std::string":
