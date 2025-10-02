@@ -183,172 +183,173 @@ def render_define_dataset_field(
         re += "    */\n"
     return re
 
-def render_initialize_method_signature(neurodata_type: Spec, type_to_namespace_map: Dict[str, str], for_call: bool = False, add_default_values: bool = False) -> str:
+def get_initalize_method_parameters(neurodata_type: Spec, type_to_namespace_map: Dict[str, str]) -> List[Dict]:
     """
-    Internal helper function to create the initialize method signature
+    Internal helper function to create a list of all the parameters for the initialize method.
+
+    For each parameter, the function collects the original spec, c++ data type, variable name to use,
+    and default value.
+
+    NOTE: For completeness, the returned list also includes groups that we own that do not have a neurodata_type.
+    Those groups are not passed as parameters to the initialize method, but they need to be initialized
+    in the body of the initialize method. We can therefore use the returned list to also generate the
+    initialization code for those groups. To distinguish those groups from parameters that are passed
+    to the initialize method, the 'variable_name' (as well as the 'cpp_type_str' and 'cpp_default_value')
+    field is set to None for those groups.
+
     Parameters:
     neurodata_type (Spec): The neurodata type to render
-    type_to_namespace_map (Dict[str, str]): Mapping of types to their namespaces. 
-    for_call (bool): If true, generate the arguments for a function call, otherwise the signature.
-    add_default_values (bool): If true, add default values to the parameter string if available.
+    type_to_namespace_map (Dict[str, str]): Mapping of types to their namespaces.
 
     Returns:
-    str: The function signature for the initialize method
+    List[Dict]: A list of dictionaries, where each dictionary describes a parameter.
     """
-    def get_default_value(obj: Spec):
-        """
-        Internal helper function to get the default value for a spec object
-
-        NOTE: The logic here must match the logic in spec_to_func_param
-
-        Parameters:
-        obj (Spec): The spec object to get the default value for
-
-        Returns:
-        str: The default value as a string
-        """
-        # Datasets or groups with a neurodata_type need to be created by the user first
-        if isinstance(obj, (DatasetSpec, GroupSpec)) and (obj.data_type is not None):
-            # If the object is not required, the we can set a default value that indicates missing
-            if not obj.required:
-                # Use nullptr for single objects and empty std::vector for multiple objects
-                return "nullptr" if obj.quantity in ["1", "?", "one_or_zero"] else "{}"
-            else:
-                return None
-        # Regular dataset used for acquistion
-        elif isinstance(obj, DatasetSpec) and not getattr(obj, "default_value", None):
-            if not obj.required:
-                return "std::nullopt"
-            return None
-        # Either a: i) Attribute or ii) Dataset with a default value
-        else:
-            default_value = getattr(obj, "default_value", None)
-            if default_value is not None:
-                # TODO: This assumes scalar default values. If we have default values that are list then they need to be handled here
-                obj_cpp_type = get_cpp_type(obj.dtype)
-                if obj.shape is None:
-                    if obj_cpp_type == "std::string":
-                        default_value = f'"{default_value}"'
-            return default_value
-
-    # Define helper functions for rendering the initialize method
-    # TODO: The following helper function only support at most one layer of nesting via the parent
-    def spec_to_func_param(obj: Spec, type_to_namespace_map: Dict[str, str], parent: Spec = None, include_types: bool = True, add_default_values: bool = False) -> str:
-        """
-        Internal helper function to create a paramter definition for the initialize method
-
-        Parameter:
-        obj (Spec) : The spec dataset or attribute spec to render
-        type_to_namespace_map (Dict[str, str]): Mapping of types to their namespaces.
-        parent (Spec) : Optional parent spec
-        include_types (bool): If true, include type information in the parameter string.
-        add_default_values (bool): If true, add default values to the parameter string if available.
-        """
-        # Name the parameter based on its assigned name or its neurodata_type if the name is not available
-        field_full_name = f"{obj.name}" if obj.name is not None else f"param{obj.data_type}"
-        if parent is not None:
-            field_full_name += f"{snake_to_camel(parent.name)}"
-        # If we are generating a function signature, then we need to include type information
-        if include_types:
-            default_value = get_default_value(obj=obj)
-            # Datasets with a neurodata_type_inc need to be created by the user first
-            if isinstance(obj, (DatasetSpec, GroupSpec)) and (obj.data_type is not None):
-                # Determine the neurodata_type name
-                type_name = obj.data_type
-                full_type_name = type_name
-                if type_name in type_to_namespace_map:
-                    actual_cpp_namespace_name = to_cpp_namespace_name(type_to_namespace_map[type_name])
-                    full_type_name = f"{actual_cpp_namespace_name}::{type_name}"
-                # If the dataset is a single object, then we pass it as a shared_ptr, otherwise
-                # we pass a vector of shared_ptrs
-                re = "\n       "
-                if obj.name is not None or obj.quantity in ["1", "?", "one_or_zero"]:
-                    re += f"const std::shared_ptr<{full_type_name}>& {field_full_name}"
-                else:
-                    re += f"const std::vector<std::shared_ptr<{full_type_name}>>& {field_full_name}"
-                if add_default_values and default_value is not None:
-                    re += f' = {default_value}'
-                re += ","
-                return re
-            # Datasets should be available for acquistion and therefore use ArrayDataSetConfig to
-            # allow the user configure the dataset. The special case are scalar datasets with a
-            # default value as those should be written on initalize directly in the same way
-            # attributes are being created directly.
-            elif isinstance(obj, DatasetSpec) and not getattr(obj, "default_value", None):
-                re = "\n       "
-                if not obj.required:
-                    re += f"const std::optional<AQNWB::IO::ArrayDataSetConfig> {field_full_name}"
-                    if add_default_values:
-                        re += f" = {default_value}"
-                else:
-                    re += f"const AQNWB::IO::ArrayDataSetConfig& {field_full_name}"
-                re += ","
-                return re
-            # Attributes and datasets with a default value should be passed by value
-            else:
-                obj_cpp_type = get_cpp_type(obj.dtype)
-                if obj.shape is None:
-                    re = "\n       "
-                    if obj_cpp_type == "std::string":
-                        re += f"const {obj_cpp_type}& {field_full_name}"
-                    else:
-                        re += f"{obj_cpp_type} {field_full_name}"
-                    if add_default_values and default_value is not None:
-                        re += f' = {default_value}'
-                    re += ","
-                    return re
-                else:
-                    return f"\n       const std::vector<{obj_cpp_type}>& {field_full_name},"
-        # If we are generating a function call, then we just need the name of the parameter
-        else:
-            return f"\n       {field_full_name},"
-
-    # C1: Collect all specs that define parameters that we need to include in the initalize call
-    all_initialize_params = []
+    # Collect all specs that define parameters that we need to include in the initalize call
+    parameter_list = []
     # Next we iterate through all the objects we own directly. This includes recursion through all
     # objects that do not have a neurodata_type, to make sure we initialize all the attributes, datasets,
     # and groups they own as well
-    sub_objects_to_process = [neurodata_type,]
+    sub_objects_to_process = [(neurodata_type, None),]
     visited = set()
     while sub_objects_to_process:
+        ## 1: Add all sub-objects to the list of objects to process
+
         # Get the next object to process
-        obj = sub_objects_to_process.pop(0)
+        obj, parent = sub_objects_to_process.pop(0)
         # Ensure we don't process objects twice (although this should not happen in a valid schema)
         if id(obj) in visited:
             continue
         visited.add(id(obj))
 
         # Process the object and add any sub-objects to the list of objects to process
-        parent = obj if obj != neurodata_type else None
+        current_parent = obj if obj != neurodata_type else None
         if hasattr(obj, "attributes"):
             for attr in obj.attributes:
-                all_initialize_params.append({'obj': attr, 'parent': parent})
+                sub_objects_to_process.append((attr, current_parent))
         if hasattr(obj, "datasets"):
             for dataset in obj.datasets:
-                all_initialize_params.append({'obj': dataset, 'parent': parent})
-                sub_objects_to_process.append(dataset)
+                sub_objects_to_process.append((dataset, current_parent))
+                # sub_objects_to_process.append(dataset)
         if hasattr(obj, "groups"):
             for group in obj.groups:
                 if group.data_type is None:
-                    sub_objects_to_process.append(group)
+                    sub_objects_to_process.append((group, current_parent))
                 else:
-                    all_initialize_params.append({'obj': group, 'parent': parent})
+                    sub_objects_to_process.append((group, current_parent))
 
-    # C1.3: Sort the specs of all parameters so that those with default values are last
-    all_initialize_params.sort(
-        key=lambda item: get_default_value(item['obj']) is not None
+        # If the object is the neurodata_type itself, we just use it to iterate
+        # but we don't add it as a parameter itself
+        if obj == neurodata_type:
+            continue
+
+        ## 2: Process the current object and add it to the parameter list
+
+        # Name the parameter based on its assigned name or its neurodata_type if the name is not available
+        variable_name = f"{obj.name}" if obj.name is not None else f"param{obj.data_type}"
+        if parent is not None:
+            variable_name += f"{snake_to_camel(parent.name)}"
+
+        # Determine C++ type information and default value
+        cpp_type_str = ""
+        default_value = None
+        # Datasets with a neurodata_type_inc need to be created by the user first
+        if isinstance(obj, (DatasetSpec, GroupSpec)) and (obj.data_type is not None):
+            # Determine the neurodata_type name
+            type_name = obj.data_type
+            full_type_name = type_name
+            if type_name in type_to_namespace_map:
+                actual_cpp_namespace_name = to_cpp_namespace_name(type_to_namespace_map[type_name])
+                full_type_name = f"{actual_cpp_namespace_name}::{type_name}"
+            # If the dataset is a single object, then we pass it as a shared_ptr, otherwise
+            # we pass a vector of shared_ptrs
+            if obj.name is not None or obj.quantity in ["1", "?", "one_or_zero"]:
+                cpp_type_str = f"const std::shared_ptr<{full_type_name}>&"
+                if not obj.required:
+                    default_value = "nullptr"
+            else:
+                cpp_type_str = f"const std::vector<std::shared_ptr<{full_type_name}>>&"
+                if not obj.required:
+                    default_value = "{}"
+        # Datasets should be available for acquistion and therefore use ArrayDataSetConfig to
+        # allow the user configure the dataset. The special case are scalar datasets with a
+        # default value as those should be written on initalize directly in the same way
+        # attributes are being created directly.
+        elif isinstance(obj, DatasetSpec) and not getattr(obj, "default_value", None):
+            if not obj.required:
+                cpp_type_str = f"const std::optional<AQNWB::IO::ArrayDataSetConfig>"
+                default_value = "std::nullopt"
+            else:
+                cpp_type_str = f"const AQNWB::IO::ArrayDataSetConfig&"
+        # Groups we own with no neurodata_type are not passed as parameters
+        elif isinstance(obj, GroupSpec):
+            variable_name = None
+            cpp_type_str = None
+            default_value = None
+        # Attributes and datasets with a default value should be passed by value
+        else:
+            obj_cpp_type = get_cpp_type(obj.dtype)
+            if obj.shape is None:
+                if obj_cpp_type == "std::string":
+                    cpp_type_str = f"const {obj_cpp_type}&"
+                else:
+                    cpp_type_str = f"{obj_cpp_type}"
+            else:
+                cpp_type_str = f"const std::vector<{obj_cpp_type}>&"
+            # Determine default value from the spec if available
+            default_value = getattr(obj, "default_value", None)
+            if default_value is not None:
+                # TODO: This assumes scalar default values. If we have default values that are list then they need to be handled here
+                if obj.shape is None and obj_cpp_type == "std::string":
+                    default_value = f'"{default_value}"'
+
+        parameter_list.append({
+            'spec': obj,
+            'parent_spec': parent,
+            'variable_name': variable_name,
+            'cpp_type': cpp_type_str,
+            'cpp_default_value': default_value
+        })
+
+    # Sort the parameter list so that those with default values are last
+    parameter_list.sort(
+        key=lambda item: item['cpp_default_value'] is not None
+    )
+
+    return parameter_list
+
+
+def render_initialize_method_signature(neurodata_type: Spec, type_to_namespace_map: Dict[str, str], for_call: bool = False, add_default_values: bool = False) -> str:
+    """
+    Internal helper function to create the initialize method signature
+    Parameters:
+    neurodata_type (Spec): The neurodata type to render
+    type_to_namespace_map (Dict[str, str]): Mapping of types to their namespaces.
+    for_call (bool): If true, generate the arguments for a function call, otherwise the signature.
+    add_default_values (bool): If true, add default values to the parameter string if available.
+
+    Returns:
+    str: The function signature for the initialize method
+    """
+    # Get the list of parameters
+    all_initialize_params = get_initalize_method_parameters(
+        neurodata_type=neurodata_type,
+        type_to_namespace_map=type_to_namespace_map
     )
 
     # Now we can create the function signature and add all the parameters
     funcSignature = "initialize("
-    for item in all_initialize_params:
-        funcSignature += spec_to_func_param(
-            obj=item['obj'],
-            type_to_namespace_map=type_to_namespace_map,
-            parent=item['parent'],
-            include_types=not for_call,
-            add_default_values=add_default_values
-        )
+    for param in all_initialize_params:
+        # Skip parameters that are groups we own that do not have a neurodata_type
+        if param['variable_name'] is None:
+            continue
+        if for_call:
+            funcSignature += f"\n       {param['variable_name']},"
+        else:
+            param_string = f"\n       {param['cpp_type']} {param['variable_name']}"
+            if add_default_values and param['cpp_default_value'] is not None:
+                param_string += f" = {param['cpp_default_value']}"
+            param_string += ","
+            funcSignature += param_string
     funcSignature = funcSignature.rstrip(",") + ")"
     return funcSignature
 
@@ -673,52 +674,34 @@ def get_schema_subfolder_name(schema_file_path: Path) -> str:
     return subfolder_name
 
 
-def get_referenced_types(neurodata_type: Spec) -> set[str]:
+def get_referenced_types(neurodata_type: Spec, type_to_namespace_map: Dict[str, str]) -> set[str]:
     """
     Get all referenced neurodata types from a given neurodata type.
 
     Parameters:
     neurodata_type (Spec): The neurodata type spec.
+    type_to_namespace_map (Dict[str, str]): Mapping of types to their namespaces.
 
     Returns:
     set[str]: A list of referenced neurodata type names.
     """
     referenced_types = []
-
-    # Check datasets for references
-    for dataset in neurodata_type.get("datasets", []):
-        # Check if the dataset itself is a reference to another neurodata_type
-        if dataset.get("neurodata_type_inc", None) is not None:
-            referenced_types.append(dataset["neurodata_type_inc"])
-        # Check if attributes of the dataset reference other neurodata_types
-        for attr in dataset.get("attributes", []):
-            if isinstance(attr.dtype, dict) and attr.dtype.get("reftype", None) == "object":
-                target_type = attr.dtype.get("target_type", None)
-                if target_type is not None:
-                    referenced_types.append(target_type)
-        # Check if the dataset's dtype is a reference type
-        if isinstance(dataset.dtype, dict) and dataset.dtype.get("reftype", None) == "object":
-            target_type = dataset.dtype.get("target_type", None)
+    # Get the list of parameters
+    all_initialize_params = get_initalize_method_parameters(
+        neurodata_type=neurodata_type,
+        type_to_namespace_map=type_to_namespace_map
+    )
+    # Check each parameter if it is (or stores) a reference to another neurodata_type
+    for param in all_initialize_params:
+        spec = param['spec']
+        # Check if the spec is a reference to another neurodata_type
+        if isinstance(spec, (DatasetSpec, GroupSpec)) and spec.data_type is not None:
+            referenced_types.append(spec.data_type)
+        # Check if the spec's dtype is a reference type
+        if hasattr(spec, 'dtype') and isinstance(spec.dtype, dict) and spec.dtype.get("reftype", None) == "object":
+            target_type = spec.dtype.get("target_type", None)
             if target_type is not None:
                 referenced_types.append(target_type)
-
-    # Check groups for references
-    for group in neurodata_type.get("groups", []):
-        # if the group is typed then we only need to reference that type
-        if group.data_type is not None:
-            referenced_types.append(group.data_type)
-        # if the group is untyped, then we own its contents and we need to recursively check them
-        else:
-            nested_referenced_types = get_referenced_types(group)
-            referenced_types.extend(nested_referenced_types)
-
-    # Check attributes for object references
-    for attr in neurodata_type.get("attributes", []):
-        if isinstance(attr.dtype, dict) and attr.dtype.get("reftype", None) == "object":
-            target_type = attr.dtype.get("target_type", None)
-            if target_type is not None:
-                referenced_types.append(target_type)
-
     return set(referenced_types)  # Return unique types only
 
 
@@ -921,7 +904,7 @@ def generate_header_file(
 
     # Determine additional includes required for DEFINE_REGISTERED_FIELD macro definitions 
     # for groups and datasets, and links to other neurodata_types referenced via attributes
-    referenced_types = get_referenced_types(neurodata_type)
+    referenced_types = get_referenced_types(neurodata_type, type_to_namespace_map)
     if len(referenced_types) > 0:
         header += "// Includes for types that are referenced and used\n"
         # Add inludes for all referenced types
