@@ -408,13 +408,14 @@ def render_initialize_method_cpp(
     """
 
     def attr_init(
-        attr: Spec, is_inherited: bool, is_overridden: bool, parent: Spec = None
+        attr: Spec, cpp_param_var_name: str, is_inherited: bool, is_overridden: bool, parent: Spec = None
     ) -> str:
         """
         Internal helper function to create suggested initializion code for an attribute
 
         Parameters:
         attr (Spec): The attribute to render
+        cpp_param_var_name(str): The name of the variable passed to the initialize method
         is_inherited (bool): Is this an inherited attribute
         is_overriden (bool): Is this an overrriden attribute
         parent: (Spec): Optional parent spec
@@ -433,9 +434,9 @@ def render_initialize_method_cpp(
             "m_path" if parent is None else f"AQNWB::mergePaths(m_path, {parent.name})"
         )
         if attr_cpp_type == "std::string":
-            re += f'    // m_io->createAttribute({attr.name}, {parent_path}, "{attr.name}");\n\n'
+            re += f'    // m_io->createAttribute({cpp_param_var_name}, {parent_path}, "{attr.name}");\n\n'
         elif attr.shape is None:
-            re += f'    // m_io->createAttribute({attr_base_type}, &{attr.name}, {parent_path}, "{attr.name}");\n\n'
+            re += f'    // m_io->createAttribute({attr_base_type}, &{cpp_param_var_name}, {parent_path}, "{attr.name}");\n\n'
         return re
 
     def dataset_init(dataset: Spec, is_inherited: bool, is_overridden: bool) -> str:
@@ -523,12 +524,12 @@ void {class_name}::{funcSignature}
                 is_overridden=is_overridden
             )
         else: # Attribute
-            parent_spec = param['parent_spec']
             cppSrc += attr_init(
                 attr=spec,
+                cpp_param_var_name=param['variable_name'],
                 is_inherited=is_inherited,
                 is_overridden=is_overridden,
-                parent=parent_spec
+                parent=param['parent_spec']
             )
 
     cppSrc += "}\n\n"
