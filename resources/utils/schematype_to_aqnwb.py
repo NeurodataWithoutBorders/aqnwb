@@ -183,7 +183,7 @@ def render_define_dataset_field(
         re += "    */\n"
     return re
 
-def get_initalize_method_parameters(neurodata_type: Spec, type_to_namespace_map: Dict[str, str], sorted: bool = True) -> List[Dict]:
+def get_initialize_method_parameters(neurodata_type: Spec, type_to_namespace_map: Dict[str, str], sorted: bool = True) -> List[Dict]:
     """
     Internal helper function to create a list of all the parameters for the initialize method.
 
@@ -206,7 +206,7 @@ def get_initalize_method_parameters(neurodata_type: Spec, type_to_namespace_map:
     Returns:
     List[Dict]: A list of dictionaries, where each dictionary describes a parameter.
     """
-    # Collect all specs that define parameters that we need to include in the initalize call
+    # Collect all specs that define parameters that we need to include in the initialize call
     parameter_list = []
     # Next we iterate through all the objects we own directly. This includes recursion through all
     # objects that do not have a neurodata_type, to make sure we initialize all the attributes, datasets,
@@ -274,7 +274,7 @@ def get_initalize_method_parameters(neurodata_type: Spec, type_to_namespace_map:
                     default_value = "{}"
         # Datasets should be available for acquistion and therefore use ArrayDataSetConfig to
         # allow the user configure the dataset. The special case are scalar datasets with a
-        # default value as those should be written on initalize directly in the same way
+        # default value as those should be written on initialize directly in the same way
         # attributes are being created directly.
         elif isinstance(obj, DatasetSpec) and not getattr(obj, "default_value", None):
             if not obj.required:
@@ -334,7 +334,7 @@ def render_initialize_method_signature(neurodata_type: Spec, type_to_namespace_m
     str: The function signature for the initialize method
     """
     # Get the list of parameters
-    all_initialize_params = get_initalize_method_parameters(
+    all_initialize_params = get_initialize_method_parameters(
         neurodata_type=neurodata_type,
         type_to_namespace_map=type_to_namespace_map
     )
@@ -362,7 +362,7 @@ def render_initialize_method_header(
     type_to_namespace_map: Dict[str, str]
 ) -> str:
     """
-    Render the header portion of the initalize method for a neurodata_type
+    Render the header portion of the initialize method for a neurodata_type
 
     Parameters:
     neurodata_type (Spec): Spec of the neurodata_type to render
@@ -394,7 +394,7 @@ def render_initialize_method_cpp(
     parent_neurodata_type: Spec = None,
 ) -> str:
     """
-    Render the initalize method for a neurodata_type
+    Render the initialize method for a neurodata_type
 
     Parameters:
     class_name (str): Name of the class
@@ -497,7 +497,7 @@ void {class_name}::{funcSignature}
 """
     
     # Get all the parameters for the initialize method
-    all_initialize_params = get_initalize_method_parameters(
+    all_initialize_params = get_initialize_method_parameters(
         neurodata_type=neurodata_type,
         type_to_namespace_map=type_to_namespace_map,
         sorted=False
@@ -705,7 +705,7 @@ def get_referenced_types(neurodata_type: Spec, type_to_namespace_map: Dict[str, 
     """
     referenced_types = []
     # Get the list of parameters
-    all_initialize_params = get_initalize_method_parameters(
+    all_initialize_params = get_initialize_method_parameters(
         neurodata_type=neurodata_type,
         type_to_namespace_map=type_to_namespace_map
     )
@@ -941,7 +941,7 @@ def generate_header_file(
     parent_neurodata_type_spec = all_types.get(parent_type) if parent_type else None
 
     # Get attributes, datasets, and groups
-    header_initalize_src = render_initialize_method_header(
+    header_initialize_src = render_initialize_method_header(
         neurodata_type=neurodata_type,
         type_to_namespace_map=type_to_namespace_map,
     )
@@ -963,7 +963,7 @@ public:
         const std::string& path,
         std::shared_ptr<AQNWB::IO::BaseIO> io);
     
-    {header_initalize_src}
+    {header_initialize_src}
 """
 
     # Add DEFINE_FIELD and DEFINE_REGISTERED_FIELD macros
@@ -1139,7 +1139,7 @@ def generate_implementation_file(
     parent_neurodata_type_spec = all_types.get(parent_type) if parent_type else None
 
     # Get attributes, datasets, and groups
-    cpp_initalize_src = render_initialize_method_cpp(
+    cpp_initialize_src = render_initialize_method_cpp(
         class_name=class_name,
         parent_class_name=parent_class,
         neurodata_type=neurodata_type,
@@ -1165,7 +1165,7 @@ REGISTER_SUBCLASS_IMPL({class_name})
 {{
 }}
 
-{cpp_initalize_src}
+{cpp_initialize_src}
 """
 
     return impl
