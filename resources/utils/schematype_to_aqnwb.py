@@ -22,13 +22,14 @@ import re
 from pathlib import Path
 from ruamel.yaml import YAML
 from typing import Dict, List, Tuple
-from hdmf.spec import DatasetSpec, GroupSpec, SpecNamespace
+from hdmf.spec import DatasetSpec, GroupSpec, AttributeSpec, SpecNamespace
 from hdmf.spec.spec import Spec
 from pynwb import get_type_map
 
 
 def render_define_registered_field(
     field_name: str,
+    field_path: str,
     neurodata_type: str,
     referenced_namespace: str,
     doc: str,
@@ -39,7 +40,8 @@ def render_define_registered_field(
     Return string for DEFINE_REGISTERED_FIELD macro.
 
     Parameters:
-    field_name (str): Name of the field.
+    field_name (str): The name of the field. Can be None for anonymous types.
+    field_path (str): Path to the field.
     neurodata_type (str): The neurodata type of the field.
     referenced_namespace (str): The namespace of the referenced neurodata type.
     doc (str): Documentation string for the field.
@@ -53,18 +55,19 @@ def render_define_registered_field(
     doc_string = doc.replace('"', "").replace("'", "").replace(",", " -")
     unmodified_from_parent = is_inherited and not is_overridden
     re = ""
+    func_name = f"read{snake_to_camel(field_name)}" if field_name else ""
     
     if unmodified_from_parent:
         re += "    /*\n"
-        re += f"    // {field_name} inherited from parent neurodata_type\n"
+        re += f"    // {field_path} inherited from parent neurodata_type\n"
     if is_inherited:
-        re += f"    // name={field_name}, neurodata_type={neurodata_type}: This field is_inheritted={is_inherited}, is_overridden={is_overridden} from the parent neurodata_type\n"
+        re += f"    // name={field_path}, neurodata_type={neurodata_type}: This field is_inheritted={is_inherited}, is_overridden={is_overridden} from the parent neurodata_type\n"
     
     if field_name is not None:
         re += "    DEFINE_REGISTERED_FIELD(\n"
-        re += f"        read{snake_to_camel(field_name)},\n"
+        re += f"        {func_name},\n"
         re += f"        {referenced_namespace}::{neurodata_type},\n"
-        re += f'        "{field_name}",\n'
+        re += f'        "{field_path}",\n'
         re += f'        "{doc_string}")\n'
         if unmodified_from_parent:
             re += "    */\n"
@@ -86,7 +89,8 @@ def render_define_registered_field(
     /*
     std::shared_ptr<{neurodata_type}> read{neurodata_type}(const std::string& objectName)
     {{
-        std::string objectPath = AQNWB::mergePaths(m_path, objectName);
+        std::string parentPath = AQNWB::mergePaths(m_path, "{field_path}");
+        std::string objectPath = AQNWB::mergePaths(parentPath, objectName);
         if (m_io->objectExists(objectPath)) {{
         return std::make_shared<{neurodata_type}>(objectPath, m_io);
         }}
@@ -99,10 +103,9 @@ def render_define_registered_field(
 
 
 def render_define_attribute_field(
-    field_name: str,
+    field_path: str,
     dtype: str,
     doc: str,
-    field_parent: str = "",
     is_inherited: bool = False,
     is_overridden: bool = False,
 ) -> str:
@@ -110,29 +113,29 @@ def render_define_attribute_field(
     Return string for DEFINE_ATTRIBUTE_FIELD macro.
 
     Parameters:
-    field_name (str): Name of the field to use for generating the function name
+    field_path (str): Path to the field.
     dtype (str): C++ data type to use by default for read.
     doc (str): Documentation string to use for the field.
-    field_parent: The name of the parent object
     is_inherited (bool): Indicates whether the field is inherited from the parent
     is_overridden (bool): Indicates wheterh the field overrides a field from the parent
 
     Returns:
     str: A string representing the DEFINE_FIELD macro.
     """
-    field_path = field_name if field_parent == "" else (field_parent + "/" + field_name)
-    field_full_name = f"{snake_to_camel(field_parent)}{snake_to_camel(field_name)}"
+    if field_path is None:
+        return "" # Should not happen for attributes
+    func_name = f"read{snake_to_camel(field_path.replace('/', '_'))}"
     # Clean up documentation string - remove quotes and commas that would break macro
     doc_string = doc.replace('"', "").replace("'", "").replace(",", " -")
     re = ""
     if is_inherited and not is_overridden:
         re += "    /*\n"
-        re += f"    // {field_name} inherited from parent neurodata_type\n"
+        re += f"    // {field_path} inherited from parent neurodata_type\n"
     if is_overridden:
-        re += f"    // {field_name} overrides inherited field from parent neurodata_type\n"
+        re += f"    // {field_path} overrides inherited field from parent neurodata_type\n"
 
     re += "    DEFINE_ATTRIBUTE_FIELD(\n"
-    re += f"        read{field_full_name},\n"
+    re += f"        {func_name},\n"
     re += f"        {dtype},\n"
     re += f'        "{field_path}",\n'
     re += f'        "{doc_string}")\n'
@@ -141,10 +144,9 @@ def render_define_attribute_field(
     return re
 
 def render_define_dataset_field(
-    field_name: str,
+    field_path: str,
     dtype: str,
     doc: str,
-    field_parent: str = "",
     is_inherited: bool = False,
     is_overridden: bool = False,
 ) -> str:
@@ -152,30 +154,32 @@ def render_define_dataset_field(
     Return string for DEFINE_DATASET_FIELD macro.
 
     Parameters:
-    field_name (str): Name of the field to use for generating the function name
+    field_path (str): Path to the field.
     dtype (str): C++ data type to use by default for read.
     doc (str): Documentation string to use for the field.
-    field_parent: The name of the parent object
     is_inherited (bool): Indicates whether the field is inherited from the parent
     is_overridden (bool): Indicates wheterh the field overrides a field from the parent
 
     Returns:
     str: A string representing the DEFINE_FIELD macro.
     """
-    field_path = field_name if field_parent == "" else (field_parent + "/" + field_name)
-    field_full_name = f"{snake_to_camel(field_parent)}{snake_to_camel(field_name)}"
+    if field_path is None:
+        return "" # Should not happen for datasets
+    func_name = snake_to_camel(field_path.replace('/', '_'))
+    read_func_name = f"read{func_name}"
+    record_func_name = f"record{func_name}"
     # Clean up documentation string - remove quotes and commas that would break macro
     doc_string = doc.replace('"', "").replace("'", "").replace(",", " -")
     re = ""
     if is_inherited and not is_overridden:
         re += "    /*\n"
-        re += f"    // {field_name} inherited from parent neurodata_type\n"
+        re += f"    // {field_path} inherited from parent neurodata_type\n"
     if is_overridden:
-        re += f"    // {field_name} overrides inherited field from parent neurodata_type\n"
+        re += f"    // {field_path} overrides inherited field from parent neurodata_type\n"
 
     re += "    DEFINE_DATASET_FIELD(\n"
-    re += f"        read{field_full_name},\n"
-    re += f"        record{field_full_name},\n"    
+    re += f"        {read_func_name},\n"
+    re += f"        {record_func_name},\n"    
     re += f"        {dtype},\n"
     re += f'        "{field_path}",\n'
     re += f'        "{doc_string}")\n'
@@ -211,13 +215,13 @@ def get_initialize_method_parameters(neurodata_type: Spec, type_to_namespace_map
     # Next we iterate through all the objects we own directly. This includes recursion through all
     # objects that do not have a neurodata_type, to make sure we initialize all the attributes, datasets,
     # and groups they own as well
-    sub_objects_to_process = [(neurodata_type, None),]
+    sub_objects_to_process = [(neurodata_type, None, "" ),]
     visited = set()
     while sub_objects_to_process:
         ## 1: Add all sub-objects to the list of objects to process
 
         # Get the next object to process
-        obj, parent = sub_objects_to_process.pop(0)
+        obj, parent, path_prefix = sub_objects_to_process.pop(0)
         # Ensure we don't process objects twice (although this should not happen in a valid schema)
         if id(obj) in visited:
             continue
@@ -225,23 +229,44 @@ def get_initialize_method_parameters(neurodata_type: Spec, type_to_namespace_map
 
         # Process the object and add any sub-objects to the list of objects to process
         current_parent = obj if obj != neurodata_type else None
-        if hasattr(obj, "attributes"):
-            for attr in obj.attributes:
-                sub_objects_to_process.append((attr, current_parent))
-        if hasattr(obj, "datasets"):
-            for dataset in obj.datasets:
-                sub_objects_to_process.append((dataset, current_parent))
-                # sub_objects_to_process.append(dataset)
-        if hasattr(obj, "groups"):
-            for group in obj.groups:
-                if group.data_type is None:
-                    sub_objects_to_process.append((group, current_parent))
-                else:
-                    sub_objects_to_process.append((group, current_parent))
+        
+        # Determine the path for the children of the current object.
+        # We extend the path for two types of containers:
+        # 1. Untyped Groups: These are structural groups (e.g., 'general') that don't have a
+        #    specific C++ class. We need to traverse into them to find the actual parameters.
+        #    The check 'obj.data_type is None' identifies these.
+        # 2. Named Datasets: Any dataset with a name can have its own attributes. This is
+        #    especially important for DynamicTable columns, which are datasets that contain
+        #    other attributes. This ensures that attributes of a column get the correct
+        #    path prefix (e.g., 'spike_times/resolution').
+        path_for_children = path_prefix
+        if (isinstance(obj, GroupSpec) and obj.data_type is None and obj.name) or \
+           (isinstance(obj, DatasetSpec) and obj.name):
+             path_for_children = f"{path_prefix}/{obj.name}" if path_prefix else obj.name
+
+        # If the object has a data_type, it's a self-contained parameter. We should not traverse
+        # its children, as they will be handled by that type's own constructor. We only
+        # traverse into untyped groups or the top-level neurodata_type itself.
+        is_typed_boundary = isinstance(obj, (DatasetSpec, GroupSpec)) and obj.data_type is not None
+        if not is_typed_boundary or obj == neurodata_type:
+            if hasattr(obj, "attributes"):
+                for attr in obj.attributes:
+                    sub_objects_to_process.append((attr, current_parent, path_for_children))
+            if hasattr(obj, "datasets"):
+                for dataset in obj.datasets:
+                    sub_objects_to_process.append((dataset, current_parent, path_for_children))
+            if hasattr(obj, "groups"):
+                for group in obj.groups:
+                    sub_objects_to_process.append((group, current_parent, path_for_children))
 
         # If the object is the neurodata_type itself, we just use it to iterate
         # but we don't add it as a parameter itself
         if obj == neurodata_type:
+            continue
+        
+        # If the object is an untyped group, we just use it to iterate
+        # but we don't add it as a parameter itself
+        if isinstance(obj, GroupSpec) and obj.data_type is None:
             continue
 
         ## 2: Process the current object and add it to the parameter list
@@ -250,6 +275,13 @@ def get_initialize_method_parameters(neurodata_type: Spec, type_to_namespace_map
         variable_name = f"{obj.name}" if obj.name is not None else f"param{obj.data_type}"
         if parent is not None:
             variable_name += f"{snake_to_camel(parent.name)}"
+        
+        # Determine the full path for the object
+        obj_path = obj.name
+        if path_prefix and obj.name:
+            obj_path = f"{path_prefix}/{obj.name}"
+        elif path_prefix:
+            obj_path = path_prefix
 
         # Determine C++ type information and default value
         cpp_type_str = ""
@@ -309,7 +341,8 @@ def get_initialize_method_parameters(neurodata_type: Spec, type_to_namespace_map
             'parent_spec': parent,
             'variable_name': variable_name,
             'cpp_type': cpp_type_str,
-            'cpp_default_value': default_value
+            'cpp_default_value': default_value,
+            'path': obj_path
         })
 
     # Sort the parameter list so that those with default values are last
@@ -408,7 +441,7 @@ def render_initialize_method_cpp(
     """
 
     def attr_init(
-        attr: Spec, param: dict, is_inherited: bool, is_overridden: bool, parent: Spec = None
+        attr: Spec, param: dict, is_inherited: bool, is_overridden: bool
     ) -> str:
         """
         Internal helper function to create suggested initializion code for an attribute
@@ -418,27 +451,32 @@ def render_initialize_method_cpp(
         param (dict): The parameter dictionary for the attribute generated by get_initialize_method_parameters
         is_inherited (bool): Is this an inherited attribute
         is_overriden (bool): Is this an overrriden attribute
-        parent: (Spec): Optional parent spec
 
         Returns:
         str: The suggested initialization code for the attribute
         """
-        parent = param['parent_spec']
         cpp_param_var_name = param['variable_name']
-        re = f"    // TODO: Initialize {attr.name} attribute"
+        re = f"    // TODO: Initialize {param['path']} attribute"
         if is_inherited or is_overridden:
             re += f" This attribute is_inheritted={is_inherited}, is_overridden={is_overridden}"
         re += "\n"
         # add example initializtion hints
         attr_cpp_type = get_cpp_type(attr.dtype)
         attr_base_type = get_basedata_type(attr.dtype)
-        parent_path = (
-            "m_path" if parent is None else f"AQNWB::mergePaths(m_path, {parent.name})"
-        )
+        
+        # Determine parent path and attribute name from the full path
+        path_parts = param['path'].rsplit('/', 1)
+        if len(path_parts) > 1:
+            parent_rel_path, attr_name = path_parts
+            parent_path_str = f'AQNWB::mergePaths(m_path, "{parent_rel_path}")'
+        else:
+            attr_name = param['path']
+            parent_path_str = 'm_path'
+
         if attr_cpp_type == "std::string":
-            re += f'    // m_io->createAttribute({cpp_param_var_name}, {parent_path}, "{attr.name}");\n\n'
+            re += f'    // m_io->createAttribute({cpp_param_var_name}, {parent_path_str}, "{attr_name}");\n\n'
         elif attr.shape is None:
-            re += f'    // m_io->createAttribute({attr_base_type}, &{cpp_param_var_name}, {parent_path}, "{attr.name}");\n\n'
+            re += f'    // m_io->createAttribute({attr_base_type}, &{cpp_param_var_name}, {parent_path_str}, "{attr_name}");\n\n'
         return re
 
     def dataset_init(dataset: Spec, param: dict, is_inherited: bool, is_overridden: bool) -> str:
@@ -447,27 +485,30 @@ def render_initialize_method_cpp(
 
         Parameters:
         dataset (Spec): The dataset to render
-        parm (dict): The parameter dictionary for the dataset generated by get_initialize_method_parameters
+        param (dict): The parameter dictionary for the dataset generated by get_initialize_method_parameters
         is_inherited (bool): Is this an inherited attribute
         is_overriden (bool): Is this an overrriden attribute
 
         Returns:
         str: The suggested initialization code for the dataset
         """
+        if param['path'] is None:
+            return f"    // NOTE: Anonymous dataset of type {dataset.data_type if hasattr(dataset, 'data_type') else 'unknown'} passed as parameter {param['variable_name']}. No initialization needed here.\n\n"
+        
         cpp_param_var_name = param['variable_name']
-        pathVarName = f"{cpp_param_var_name}Path"
-        re = f"    // TODO: Initialize {dataset.name} dataset"
+        pathVarName = f"{snake_to_camel(param['path'].replace('/', '_'))}Path"
+        re = f"    // TODO: Initialize {param['path']} dataset"
         if is_inherited or is_overridden:
             re += f" This dataset is_inheritted={is_inherited}, is_overridden={is_overridden}"
         re += "\n"
-        re += f"    // auto {pathVarName} = AQNWB::mergePaths(m_path, {dataset.name});\n"
+        re += f'    // auto {pathVarName} = AQNWB::mergePaths(m_path, "{param["path"]}");\n'
         # add example initializtion hints
         dataset_cpp_type = param['cpp_type']
         if dataset_cpp_type == "const std::string&":
-            re += f"    // m_io->createStringDataSet({pathVarName}, {dataset.name})\n"
+            re += f"    // m_io->createStringDataSet({pathVarName}, {cpp_param_var_name})\n"
         else:
             if "ArrayDataSetConfig" in dataset_cpp_type:
-                    re += f"    // std::unique_ptr<IO::BaseRecordingData> {dataset.name}Data = m_io->createArrayDataSet({cpp_param_var_name}, {pathVarName}));\n"
+                    re += f"    // std::unique_ptr<IO::BaseRecordingData> {cpp_param_var_name}Data = m_io->createArrayDataSet({cpp_param_var_name}, {pathVarName});\n"
             else:
                 re += f"    // create scalar dataset at {pathVarName} with default value {param['cpp_default_value']}\n"
         re += "\n"
@@ -518,9 +559,10 @@ void {class_name}::{funcSignature}
         
         if isinstance(spec, GroupSpec):
             if param['variable_name'] is None: # Untyped group we own
-                cppSrc += f"    // TODO: Initialize {spec.name} group\n"
-                cppSrc += f'    // auto {spec.name}Path = AQNWB::mergePaths(m_path, "{spec.name}");\n'
-                cppSrc += f"    // m_io->createGroup({spec.name}Path);\n\n"
+                path_var_name = f"{snake_to_camel(param['path'].replace('/', '_'))}Path"
+                cppSrc += f"    // TODO: Initialize {param['path']} group\n"
+                cppSrc += f'    // auto {path_var_name} = AQNWB::mergePaths(m_path, "{param["path"]}");\n'
+                cppSrc += f"    // m_io->createGroup({path_var_name});\n\n"
             else: # Typed group passed as parameter
                 cppSrc += f"    // TODO: {spec.name} group passed as parameter {param['variable_name']}\n\n"
         elif isinstance(spec, DatasetSpec):
@@ -860,11 +902,6 @@ def generate_header_file(
     class_name = type_name
     is_included_type = actual_cpp_namespace_name != cpp_namespace_name
 
-    # Get attributes, datasets, and groups
-    attributes = neurodata_type.get("attributes", [])
-    datasets = neurodata_type.get("datasets", [])
-    groups = neurodata_type.get("groups", [])
-
     # Get documentation
     doc = getattr(neurodata_type, "doc", "No documentation provided")
 
@@ -993,99 +1030,59 @@ public:
         if len(lines) > 0:
             return input_field.replace(" ", "").startswith("/*")
         return False
+    
+    # Get all the parameters for the initialize method
+    all_initialize_params = get_initialize_method_parameters(
+        neurodata_type=neurodata_type,
+        type_to_namespace_map=type_to_namespace_map,
+        sorted=False  # Do not sort to keep original order from the spec
+    )
 
-    # Add fields for attributes
-    for attr in attributes:
-        attr_name = attr.name
-        doc = attr.get("doc", "No documentation provided").replace("\n", " ")
-        fieldDef = render_define_attribute_field(
-            field_name=attr_name,
-            dtype=get_cpp_type(attr.dtype),
-            doc=doc,
-            is_inherited=neurodata_type.is_inherited_spec(attr),
-            is_overridden=neurodata_type.is_overridden_spec(attr),
-        )
-        if is_commented_field_def(fieldDef):
-            commented_fields.append(fieldDef)
-        else:
-            header += fieldDef + "\n"
-
-    # Add fields for datasets
-    for dataset in datasets:
-        dataset_name = dataset.name
-        doc = dataset.get("doc", "No documentation provided").replace("\n", " ")
-        if dataset.get("neurodata_type_inc", None) is not None:
-            referenced_type = dataset["neurodata_type_inc"]
-            # Check if the referenced type is available
-            # Only comment out types from different namespaces (like hdmf-common)
-            # Types from the same namespace should be available even if defined in different files
+    # Add fields for attributes, datasets, and groups
+    for param in all_initialize_params:
+        spec = param['spec']
+        doc = spec.get("doc", "No documentation provided").replace("\n", " ")
+        is_inherited=neurodata_type.is_inherited_spec(spec)
+        is_overridden=neurodata_type.is_overridden_spec(spec)
+        field_path = param.get('path', spec.name)
+        fieldDef = ""
+        # Group/Dataset with a neurodata_type
+        if (isinstance(spec, (GroupSpec, DatasetSpec))) and spec.data_type is not None:
+            referenced_type = spec.data_type
             referenced_namespace = to_cpp_namespace_name(type_to_namespace_map.get(referenced_type, namespace.name))
             fieldDef = render_define_registered_field(
-                field_name=dataset_name,
+                field_name=spec.name,
+                field_path=field_path,
                 neurodata_type=referenced_type,
                 referenced_namespace=referenced_namespace,
                 doc=doc,
-                is_inherited=neurodata_type.is_inherited_spec(dataset),
-                is_overridden=neurodata_type.is_overridden_spec(dataset),
+                is_inherited=is_inherited,
+                is_overridden=is_overridden,
             )
-        else:
+        # Dataset (wihout a neurodata_type)
+        elif isinstance(spec, DatasetSpec):
             fieldDef = render_define_dataset_field(
-                field_name=dataset_name,
-                dtype=get_cpp_type(dataset.dtype),
+                field_path=field_path,
+                dtype=get_cpp_type(spec.dtype),
                 doc=doc,
-                is_inherited=neurodata_type.is_inherited_spec(dataset),
-                is_overridden=neurodata_type.is_overridden_spec(dataset),
+                is_inherited=is_inherited,
+                is_overridden=is_overridden,
             )
-        if is_commented_field_def(fieldDef):
-            commented_fields.append(fieldDef)
-        else:
-            header += fieldDef + "\n"
-
-        for attr in dataset.get("attributes", []):
-            doc = attr.get("doc", "No documentation provided").replace("\n", " ")
+        # Attribute
+        elif isinstance(spec, AttributeSpec): 
             fieldDef = render_define_attribute_field(
-                field_name=attr.name,
-                dtype=get_cpp_type(attr.dtype),
+                field_path=field_path,
+                dtype=get_cpp_type(spec.dtype),
                 doc=doc,
-                field_parent=dataset_name,
-                is_inherited=neurodata_type.is_inherited_spec(attr),
-                is_overridden=neurodata_type.is_overridden_spec(attr),
+                is_inherited=is_inherited,
+                is_overridden=is_overridden,
             )
+        
+        if fieldDef:
             if is_commented_field_def(fieldDef):
                 commented_fields.append(fieldDef)
             else:
                 header += fieldDef + "\n"
-
-    # Add fields for groups
-    for group in groups:
-        group_name = group.name
-        doc = group.get("doc", "No documentation provided").replace("\n", " ")
-        if group.get("neurodata_type_inc", None) is not None:
-            referenced_type = group["neurodata_type_inc"]
-            # Check if the referenced type is available
-            # Only comment out types from different namespaces (like hdmf-common)
-            # Types from the same namespace should be available even if defined in different files
-            referenced_namespace = to_cpp_namespace_name(type_to_namespace_map.get(referenced_type, namespace.name))
-            fieldDef = render_define_registered_field(
-                field_name=group_name,
-                neurodata_type=referenced_type,
-                referenced_namespace=referenced_namespace,
-                doc=doc,
-                is_inherited=neurodata_type.is_inherited_spec(group),
-                is_overridden=neurodata_type.is_overridden_spec(group)
-            )
-            if is_commented_field_def(fieldDef):
-                commented_fields.append(fieldDef)
-            else:
-                header += fieldDef +"\n"
-        else:
-            # TODO Groups without a type are just containers for fields that should be
-            #      exposed directly via the parent neurodata_type. To do this we would need
-            #      to recursibely go through all the contents of the current group
-            #      and essentially repeat the whole process of adding read methods for
-            #      datasets, attributes, and groups. For now we are just adding a note for
-            #      the user to indicate that the fields for this group are missing.
-            header += f'    // TODO Add missing read definitions for the contents of the untyped group "{group_name}"\n'
     if len(commented_fields) > 0:
         header += "    // TODO: The following fields have been commented because they should have been inherited from the parent class.\n"
         header += "    //       They are included here for your convenience so you can decide which fields may still need be defined here.\n"
