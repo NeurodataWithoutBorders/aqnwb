@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     * Updated rendering of read/record methods via DEFINE_FIELD macros  to ensure inclusion of all owned parameters (including those in subgroups), consistent with the updates to the initialize methods (@oruebel, [#230](https://github.com/NeurodataWithoutBorders/aqnwb/pull/230))
     * Refactored code to generated initialize methods to centralize logic and make the code more robust. E.g., created new `get_initialize_method_parameters` to compile parameter details in one place and split the  `render_initialize_method`  into two functions. (@oruebel, [#230](https://github.com/NeurodataWithoutBorders/aqnwb/pull/230))
     * Enhanced the new `get_initialize_method_parameters` method and rendering functions to correctly track the full path of objects (@oruebel, [#230](https://github.com/NeurodataWithoutBorders/aqnwb/pull/230))
+    * Added support for rendering DEFINE_REFERENCED_REGISTERED_FIELD macros for attributes that are references (@oruebel, [#230](https://github.com/NeurodataWithoutBorders/aqnwb/pull/230))
 
 
 ## [0.1.0] - 2025-09-03

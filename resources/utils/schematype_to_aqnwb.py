@@ -143,6 +143,49 @@ def render_define_attribute_field(
         re += "    */\n"
     return re
 
+
+def render_define_referenced_registered_field(
+    field_path: str,
+    registered_type: str,
+    doc: str,
+    is_inherited: bool = False,
+    is_overridden: bool = False,
+) -> str:
+    """
+    Return string for DEFINE_REFERENCED_REGISTERED_FIELD macro.
+
+    Parameters:
+    field_path (str): Path to the field.
+    registered_type (str): Class to use as the RegisteredType that is being referenced.
+    doc (str): Documentation string to use for the field.
+    is_inherited (bool): Indicates whether the field is inherited from the parent
+    is_overridden (bool): Indicates wheterh the field overrides a field from the parent
+
+    Returns:
+    str: A string representing the DEFINE_FIELD macro.
+    """
+    if field_path is None:
+        return "" # Should not happen for attributes
+    func_name = f"read{snake_to_camel(field_path.replace('/', '_'))}"
+    # Clean up documentation string - remove quotes and commas that would break macro
+    doc_string = doc.replace('"', "").replace("'", "").replace(",", " -")
+    re = ""
+    if is_inherited and not is_overridden:
+        re += "    /*\n"
+        re += f"    // {field_path} inherited from parent neurodata_type\n"
+    if is_overridden:
+        re += f"    // {field_path} overrides inherited field from parent neurodata_type\n"
+
+    re += "    DEFINE_REFERENCED_REGISTERED_FIELD(\n"
+    re += f"        {func_name},\n"
+    re += f"        {registered_type},\n"
+    re += f'        "{field_path}",\n'
+    re += f'        "{doc_string}")\n'
+    if is_inherited and not is_overridden:
+        re += "    */\n"
+    return re
+
+
 def render_define_dataset_field(
     field_path: str,
     dtype: str,
@@ -1070,13 +1113,27 @@ public:
             )
         # Attribute
         elif isinstance(spec, AttributeSpec): 
-            fieldDef = render_define_attribute_field(
-                field_path=field_path,
-                dtype=get_cpp_type(spec.dtype),
-                doc=doc,
-                is_inherited=is_inherited,
-                is_overridden=is_overridden,
-            )
+            target_type = None
+            if isinstance(spec.dtype, dict) and "reftype" in spec.dtype:
+                target_type = spec.dtype.get("target_type", None)
+            # if the attribute stores a reference to a RegisteredType
+            if target_type is not None:
+                fieldDef = render_define_referenced_registered_field(
+                    field_path=field_path,
+                    registered_type=target_type,
+                    doc=doc,
+                    is_inherited=is_inherited,
+                    is_overridden=is_overridden
+                )
+            # else read as a regular attribute:
+            else:
+                fieldDef = render_define_attribute_field(
+                    field_path=field_path,
+                    dtype=get_cpp_type(spec.dtype),
+                    doc=doc,
+                    is_inherited=is_inherited,
+                    is_overridden=is_overridden
+                )
         
         if fieldDef:
             if is_commented_field_def(fieldDef):
