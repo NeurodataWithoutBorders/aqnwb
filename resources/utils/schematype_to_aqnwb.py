@@ -268,8 +268,11 @@ def get_initialize_method_parameters(neurodata_type: Spec, type_to_namespace_map
     Parameters:
     neurodata_type (Spec): The neurodata type to render
     type_to_namespace_map (Dict[str, str]): Mapping of types to their namespaces.
-    sorted (bool): If true, sort the parameters so that those with default values are last, otherwise
-                   keep the order as they are found in the iteration through the schema.
+    sorted (bool): If false, keep the order as they are found in the iteration through the schema.
+                   If true, sort the parameter list such that we have: 
+                   1. required parameters with no default value
+                   2. required parameters with default value
+                   3. optional RegisteredType instance parameters with empty default values
 
     Returns:
     List[Dict]: A list of dictionaries, where each dictionary describes a parameter.
@@ -350,6 +353,7 @@ def get_initialize_method_parameters(neurodata_type: Spec, type_to_namespace_map
         # Determine C++ type information and default value
         cpp_type_str = ""
         default_value = None
+        optional_registered_type = False
         # Datasets with a neurodata_type_inc need to be created by the user first
         if isinstance(obj, (DatasetSpec, GroupSpec)) and (obj.data_type is not None):
             # Determine the neurodata_type name
@@ -364,10 +368,12 @@ def get_initialize_method_parameters(neurodata_type: Spec, type_to_namespace_map
                 cpp_type_str = f"const std::shared_ptr<{full_type_name}>&"
                 if not obj.required:
                     default_value = "nullptr"
+                    optional_registered_type = True
             else:
                 cpp_type_str = f"const std::vector<std::shared_ptr<{full_type_name}>>&"
                 if not obj.required:
                     default_value = "{}"
+                    optional_registered_type = True
         # Datasets should be available for acquistion and therefore use ArrayDataSetConfig to
         # allow the user configure the dataset. The special case are scalar datasets with a
         # default value as those should be written on initialize directly in the same way
@@ -396,9 +402,23 @@ def get_initialize_method_parameters(neurodata_type: Spec, type_to_namespace_map
             # Determine default value from the spec if available
             default_value = getattr(obj, "default_value", None)
             if default_value is not None:
-                # TODO: This assumes scalar default values. If we have default values that are list then they need to be handled here
-                if obj.shape is None and obj_cpp_type == "std::string":
-                    default_value = f'"{default_value}"'
+                # Scalar default value
+                if obj.shape is None:
+                    # Scalar string default value
+                    if obj_cpp_type == "std::string":
+                        default_value = f'"{default_value}"'
+                    # Scalar numeric default value
+                    else:
+                        default_value = str(default_value)
+                # Default value is a list
+                else:
+                    # TODO This does not handle multi-dimensional default values
+                    # Default value is a list of strings
+                    if "std::string" in obj_cpp_type:
+                        default_value = str([f'"{val}"' for val in default_value]).replace("[", "}").replace("]", "}")
+                    # Default value is a list of numbers
+                    else:
+                        default_value = str(default_value).replace("[", "}").replace("]", "}")
 
         parameter_list.append({
             'spec': obj,
@@ -406,13 +426,20 @@ def get_initialize_method_parameters(neurodata_type: Spec, type_to_namespace_map
             'variable_name': variable_name,
             'cpp_type': cpp_type_str,
             'cpp_default_value': default_value,
-            'path': obj_path
+            'path': obj_path,
+            'optional_registered_type': optional_registered_type
         })
 
-    # Sort the parameter list so that those with default values are last
+    # Sort the parameter list so that we have:
+    # 1. required parameters with no default value
+    # 2. required parameters with default value
+    # 3. optional neurodata_type instance parameters with empty default values
     if sorted:
         parameter_list.sort(
-            key=lambda item: item['cpp_default_value'] is not None
+            key=lambda item: (
+                item['cpp_default_value'] is not None,  # no default value first
+                item['optional_registered_type']  # required parameters first
+            )
         )
 
     return parameter_list
@@ -433,7 +460,8 @@ def render_initialize_method_signature(neurodata_type: Spec, type_to_namespace_m
     # Get the list of parameters
     all_initialize_params = get_initialize_method_parameters(
         neurodata_type=neurodata_type,
-        type_to_namespace_map=type_to_namespace_map
+        type_to_namespace_map=type_to_namespace_map,
+        sorted=True  # Sort parameters such that optional parameters are last
     )
 
     # Now we can create the function signature and add all the parameters
@@ -443,14 +471,25 @@ def render_initialize_method_signature(neurodata_type: Spec, type_to_namespace_m
         if param['variable_name'] is None:
             continue
         if for_call:
-            funcSignature += f"\n       {param['variable_name']},"
+            param_string = f"\n       {param['variable_name']},"
         else:
-            param_string = f"\n       {param['cpp_type']} {param['variable_name']}"
+            param_string = "\n       "
+            # Define the parameter signature
+            param_string += f"{param['cpp_type']} {param['variable_name']}"
             if add_default_values and param['cpp_default_value'] is not None:
                 param_string += f" = {param['cpp_default_value']}"
             param_string += ","
-            funcSignature += param_string
-    funcSignature = funcSignature.rstrip(",") + ")"
+        # comment optional RegisteredType parameters as they are usually not be handled in the
+        # initialize by the user but are commonly created afterwards via corrsponding create methods
+        if param['optional_registered_type']:
+            # Comment out the parameter and add a note so the developer can decide what to do
+            param_string = param_string.replace("       ", "       // ", 1)
+            param_string += " // Optional RegisteredTypes are usually created after initialize"
+            # Optional neurodata_types are listed last so we need to remove the "," from the
+            # last uncommented parameter to make sure we have valid C++ code
+            funcSignature = funcSignature.rstrip(',')
+        funcSignature += param_string
+    funcSignature = funcSignature.rstrip(",") + "\n    )"
     return funcSignature
 
 
@@ -622,13 +661,16 @@ void {class_name}::{funcSignature}
         is_overridden = neurodata_type.is_overridden_spec(spec)
         
         if isinstance(spec, GroupSpec):
-            if param['variable_name'] is None: # Untyped group we own
+            if param['variable_name'] is None: # Untyped, named group we own
                 path_var_name = f"{snake_to_camel(param['path'].replace('/', '_'))}Path"
                 cppSrc += f"    // TODO: Initialize {param['path']} group\n"
                 cppSrc += f'    // auto {path_var_name} = AQNWB::mergePaths(m_path, "{param["path"]}");\n'
                 cppSrc += f"    // m_io->createGroup({path_var_name});\n\n"
             else: # Typed group passed as parameter
-                cppSrc += f"    // TODO: {spec.name} group passed as parameter {param['variable_name']}\n\n"
+                if param['optional_registered_type']:
+                    cppSrc += f"    // TODO: Optional RegisteredType {param['cpp_type']} passed as parameter {param['variable_name']}. Usually created after initialize.\n\n"
+                else:
+                    cppSrc += f"    // TODO: Required RegisteredType {param['cpp_type']} passed as parameter {param['variable_name']}\n\n"
         elif isinstance(spec, DatasetSpec):
             cppSrc += dataset_init(
                 dataset=spec,

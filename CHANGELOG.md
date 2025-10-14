@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     * Enhanced the new `get_initialize_method_parameters` method and rendering functions to correctly track the full path of objects (@oruebel, [#230](https://github.com/NeurodataWithoutBorders/aqnwb/pull/230))
     * Added support for rendering `DEFINE_REFERENCED_REGISTERED_FIELD` macros for attributes that are references (@oruebel, [#230](https://github.com/NeurodataWithoutBorders/aqnwb/pull/230))
     * Added support for `DEFINE_UNNAMED_REGISTERED_FIELD` macros for RegisteredTypes that are unnamed in the schema (@oruebel, [#231](https://github.com/NeurodataWithoutBorders/aqnwb/pull/231)
+    * Simplify the required signature of the generated initialize methods by placing optional RegisteredType arguments in comment blocks as these are usually created afterward initialize by the user (@oruebel, [#231](https://github.com/NeurodataWithoutBorders/aqnwb/pull/231)
 
 ## [0.1.0] - 2025-09-03
 
