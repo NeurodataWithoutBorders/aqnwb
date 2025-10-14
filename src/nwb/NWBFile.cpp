@@ -241,12 +241,13 @@ Status NWBFile::createElectricalSeries(
   for (size_t i = 0; i < recordingArrays.size(); ++i) {
     const auto& channelVector = recordingArrays[i];
     const std::string& recordingName = recordingNames[i];
-   
+
     // Setup electrical series datasets
     IO::ArrayDataSetConfig config(dataType,
                                   SizeArray {0, channelVector.size()},
                                   SizeArray {CHUNK_XSIZE, 0});
-    auto electricalSeries = this->createAquisitionSeries<ElectricalSeries>(recordingName);
+    auto electricalSeries =
+        this->createAquisitionSeries<ElectricalSeries>(recordingName);
     Status esStatus = electricalSeries->initialize(
         config,
         channelVector,
@@ -297,7 +298,7 @@ Status NWBFile::createSpikeEventSeries(
     std::string devicePath = AQNWB::mergePaths("/general/devices", groupName);
     std::string electrodePath =
         AQNWB::mergePaths("/general/extracellular_ephys", groupName);
-    
+
     // Check if device exists for groupName, create device and electrode group
     // if not
     if (!m_io->objectExists(devicePath)) {
@@ -316,7 +317,8 @@ Status NWBFile::createSpikeEventSeries(
         channelVector.size() == 1 ? SizeArray {SPIKE_CHUNK_XSIZE, 1}
                                   : SizeArray {SPIKE_CHUNK_XSIZE, 1, 1});
 
-    auto spikeEventSeries = this->createAquisitionSeries<SpikeEventSeries>(recordingName);
+    auto spikeEventSeries =
+        this->createAquisitionSeries<SpikeEventSeries>(recordingName);
     spikeEventSeries->initialize(
         config,
         channelVector,
@@ -340,14 +342,15 @@ Status NWBFile::createAnnotationSeries(std::vector<std::string> recordingNames,
     // Setup annotation series parameters
     const std::string& recordingName = recordingNames[i];
     IO::ArrayDataSetConfig config(
-        IO::BaseDataType::V_STR, SizeArray {0}, SizeArray {CHUNK_XSIZE}); 
+        IO::BaseDataType::V_STR, SizeArray {0}, SizeArray {CHUNK_XSIZE});
     // Create the annotation series in the acquisition group
-    auto annotationSeries = this->createAquisitionSeries<AnnotationSeries>(recordingName);
+    auto annotationSeries =
+        this->createAquisitionSeries<AnnotationSeries>(recordingName);
     annotationSeries->initialize(
         "Stores user annotations made during an experiment",
         "no comments",
         config);
-    // Add it to the recording containers    
+    // Add it to the recording containers
     recordingContainers->addContainer(std::move(annotationSeries));
     containerIndexes.push_back(recordingContainers->size() - 1);
   }
