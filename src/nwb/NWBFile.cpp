@@ -241,15 +241,12 @@ Status NWBFile::createElectricalSeries(
   for (size_t i = 0; i < recordingArrays.size(); ++i) {
     const auto& channelVector = recordingArrays[i];
     const std::string& recordingName = recordingNames[i];
-    std::string electricalSeriesPath =
-        AQNWB::mergePaths(m_acquisitionPath, recordingName);
-
+   
     // Setup electrical series datasets
     IO::ArrayDataSetConfig config(dataType,
                                   SizeArray {0, channelVector.size()},
                                   SizeArray {CHUNK_XSIZE, 0});
-    auto electricalSeries =
-        std::make_unique<ElectricalSeries>(electricalSeriesPath, m_io);
+    auto electricalSeries = this->createAquisitionSeries<ElectricalSeries>(recordingName);
     Status esStatus = electricalSeries->initialize(
         config,
         channelVector,
@@ -300,9 +297,7 @@ Status NWBFile::createSpikeEventSeries(
     std::string devicePath = AQNWB::mergePaths("/general/devices", groupName);
     std::string electrodePath =
         AQNWB::mergePaths("/general/extracellular_ephys", groupName);
-    std::string spikeEventSeriesPath =
-        AQNWB::mergePaths(m_acquisitionPath, recordingName);
-
+    
     // Check if device exists for groupName, create device and electrode group
     // if not
     if (!m_io->objectExists(devicePath)) {
@@ -321,8 +316,7 @@ Status NWBFile::createSpikeEventSeries(
         channelVector.size() == 1 ? SizeArray {SPIKE_CHUNK_XSIZE, 1}
                                   : SizeArray {SPIKE_CHUNK_XSIZE, 1, 1});
 
-    auto spikeEventSeries =
-        std::make_unique<SpikeEventSeries>(spikeEventSeriesPath, m_io);
+    auto spikeEventSeries = this->createAquisitionSeries<SpikeEventSeries>(recordingName);
     spikeEventSeries->initialize(
         config,
         channelVector,
@@ -343,20 +337,17 @@ Status NWBFile::createAnnotationSeries(std::vector<std::string> recordingNames,
   }
 
   for (size_t i = 0; i < recordingNames.size(); ++i) {
+    // Setup annotation series parameters
     const std::string& recordingName = recordingNames[i];
-
-    std::string annotationSeriesPath =
-        AQNWB::mergePaths(m_acquisitionPath, recordingName);
-
-    // Setup annotation series datasets
     IO::ArrayDataSetConfig config(
-        IO::BaseDataType::V_STR, SizeArray {0}, SizeArray {CHUNK_XSIZE});
-    auto annotationSeries =
-        std::make_unique<AnnotationSeries>(annotationSeriesPath, m_io);
+        IO::BaseDataType::V_STR, SizeArray {0}, SizeArray {CHUNK_XSIZE}); 
+    // Create the annotation series in the acquisition group
+    auto annotationSeries = this->createAquisitionSeries<AnnotationSeries>(recordingName);
     annotationSeries->initialize(
         "Stores user annotations made during an experiment",
         "no comments",
         config);
+    // Add it to the recording containers    
     recordingContainers->addContainer(std::move(annotationSeries));
     containerIndexes.push_back(recordingContainers->size() - 1);
   }

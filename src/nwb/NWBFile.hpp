@@ -208,6 +208,12 @@ public:
                        Date and time corresponding to time zero of all
                            timestamps)
 
+  DEFINE_UNNAMED_REGISTERED_FIELD(readAquisitionSeries, 
+                                  createAquisitionSeries,
+                                  TimeSeries, 
+                                  "acquisition", 
+                                  Get a TimeSeries stored in the acquisition group)
+
 protected:
   /**
    * @brief Creates the default file structure.
