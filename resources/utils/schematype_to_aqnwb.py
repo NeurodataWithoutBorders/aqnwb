@@ -685,6 +685,39 @@ def render_initialize_method_cpp(
         parent_initialize_call = "// TODO: Call the parents initialize method if applicable.\n"
         parent_initialize_call += f"    // {parent_class_name}::initialize()"
 
+    #### Render initialization for attributes, datasets and groups
+    initialize_fields_src = ""
+    for param in all_initialize_params:
+        spec = param['spec']
+        is_inherited = neurodata_type.is_inherited_spec(spec)
+        is_overridden = neurodata_type.is_overridden_spec(spec)
+        
+        if isinstance(spec, GroupSpec):
+            if param['variable_name'] is None: # Untyped, named group we own
+                path_var_name = f"{snake_to_camel(param['path'].replace('/', '_'))}Path"
+                initialize_fields_src += f"    // TODO: Initialize {param['path']} group\n"
+                initialize_fields_src += f'    // auto {path_var_name} = AQNWB::mergePaths(m_path, "{param["path"]}");\n'
+                initialize_fields_src += f"    // m_io->createGroup({path_var_name});\n\n"
+            else: # Typed group passed as parameter
+                if param['optional_registered_type']:
+                    initialize_fields_src += f"    // TODO: Optional RegisteredType {param['cpp_type']} passed as parameter {param['variable_name']}. Usually created after initialize.\n\n"
+                else:
+                    initialize_fields_src += f"    // TODO: Required RegisteredType {param['cpp_type']} passed as parameter {param['variable_name']}\n\n"
+        elif isinstance(spec, DatasetSpec):
+            initialize_fields_src += dataset_init(
+                dataset=spec,
+                param=param,
+                is_inherited=is_inherited,
+                is_overridden=is_overridden
+            )
+        else: # Attribute
+            initialize_fields_src += attr_init(
+                attr=spec,
+                param=param,
+                is_inherited=is_inherited,
+                is_overridden=is_overridden,
+            )
+
     ### Generate cpp source
     cppSrc = f"""
 /**
@@ -697,41 +730,9 @@ void {class_name}::{funcSignature}
     {parent_initialize_call};
     
     // Initialize attributes, datasets, and groups
+    {initialize_fields_src}
+}}
 """
-
-    #### Render initialization for attributes, datasets and groups
-    for param in all_initialize_params:
-        spec = param['spec']
-        is_inherited = neurodata_type.is_inherited_spec(spec)
-        is_overridden = neurodata_type.is_overridden_spec(spec)
-        
-        if isinstance(spec, GroupSpec):
-            if param['variable_name'] is None: # Untyped, named group we own
-                path_var_name = f"{snake_to_camel(param['path'].replace('/', '_'))}Path"
-                cppSrc += f"    // TODO: Initialize {param['path']} group\n"
-                cppSrc += f'    // auto {path_var_name} = AQNWB::mergePaths(m_path, "{param["path"]}");\n'
-                cppSrc += f"    // m_io->createGroup({path_var_name});\n\n"
-            else: # Typed group passed as parameter
-                if param['optional_registered_type']:
-                    cppSrc += f"    // TODO: Optional RegisteredType {param['cpp_type']} passed as parameter {param['variable_name']}. Usually created after initialize.\n\n"
-                else:
-                    cppSrc += f"    // TODO: Required RegisteredType {param['cpp_type']} passed as parameter {param['variable_name']}\n\n"
-        elif isinstance(spec, DatasetSpec):
-            cppSrc += dataset_init(
-                dataset=spec,
-                param=param,
-                is_inherited=is_inherited,
-                is_overridden=is_overridden
-            )
-        else: # Attribute
-            cppSrc += attr_init(
-                attr=spec,
-                param=param,
-                is_inherited=is_inherited,
-                is_overridden=is_overridden,
-            )
-
-    cppSrc += "}\n\n"
 
     return cppSrc
 
