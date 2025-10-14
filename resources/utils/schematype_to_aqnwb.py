@@ -277,6 +277,9 @@ def get_initialize_method_parameters(neurodata_type: Spec, type_to_namespace_map
     Returns:
     List[Dict]: A list of dictionaries, where each dictionary describes a parameter.
     """
+    if neurodata_type is None:
+        return []
+
     # Collect all specs that define parameters that we need to include in the initialize call
     parameter_list = []
     # Next we iterate through all the objects we own directly. This includes recursion through all
@@ -378,7 +381,7 @@ def get_initialize_method_parameters(neurodata_type: Spec, type_to_namespace_map
         # allow the user configure the dataset. The special case are scalar datasets with a
         # default value as those should be written on initialize directly in the same way
         # attributes are being created directly.
-        elif isinstance(obj, DatasetSpec) and not getattr(obj, "default_value", None):
+        elif isinstance(obj, DatasetSpec) and not (getattr(obj, "default_value", None) is not None or getattr(obj, "value", None) is not None):
             if not obj.required:
                 cpp_type_str = f"const std::optional<AQNWB::IO::ArrayDataSetConfig>"
                 default_value = "std::nullopt"
@@ -401,6 +404,8 @@ def get_initialize_method_parameters(neurodata_type: Spec, type_to_namespace_map
                 cpp_type_str = f"const std::vector<{obj_cpp_type}>&"
             # Determine default value from the spec if available
             default_value = getattr(obj, "default_value", None)
+            if default_value is None:
+                default_value = getattr(obj, "value", None)
             if default_value is not None:
                 # Scalar default value
                 if obj.shape is None:
@@ -427,7 +432,8 @@ def get_initialize_method_parameters(neurodata_type: Spec, type_to_namespace_map
             'cpp_type': cpp_type_str,
             'cpp_default_value': default_value,
             'path': obj_path,
-            'optional_registered_type': optional_registered_type
+            'optional_registered_type': optional_registered_type, 
+            'value_fixed': getattr(obj, "value", None) is not None
         })
 
     # Sort the parameter list so that we have:
@@ -438,7 +444,8 @@ def get_initialize_method_parameters(neurodata_type: Spec, type_to_namespace_map
         parameter_list.sort(
             key=lambda item: (
                 item['cpp_default_value'] is not None,  # no default value first
-                item['optional_registered_type']  # required parameters first
+                item['optional_registered_type'],  # required parameters first
+                getattr(item['spec'], "default_value", None) is None  and getattr(item['spec'], "value", None) is None # optional parameters with a set default or fixed value first
             )
         )
 
@@ -469,6 +476,9 @@ def render_initialize_method_signature(neurodata_type: Spec, type_to_namespace_m
     for param in all_initialize_params:
         # Skip parameters that are groups we own that do not have a neurodata_type
         if param['variable_name'] is None:
+            continue
+        # Skip parameters for which the value is fixed in the schema as they should not be setable by the user
+        if param['value_fixed']:
             continue
         if for_call:
             param_string = f"\n       {param['variable_name']},"
@@ -542,7 +552,7 @@ def render_initialize_method_cpp(
     Returns:
     str : The string with the method implementation for the cpp file.
     """
-
+    ### Define internal helper functions
     def attr_init(
         attr: Spec, param: dict, is_inherited: bool, is_overridden: bool
     ) -> str:
@@ -560,8 +570,10 @@ def render_initialize_method_cpp(
         """
         cpp_param_var_name = param['variable_name']
         re = f"    // TODO: Initialize {param['path']} attribute"
+        if param['value_fixed']:
+            re += f"with fixed value {param['cpp_type']} {param['cpp_default_value']}"
         if is_inherited or is_overridden:
-            re += f" This attribute is_inheritted={is_inherited}, is_overridden={is_overridden}"
+            re += f". This attribute is_inheritted={is_inherited}, is_overridden={is_overridden}"
         re += "\n"
         # add example initializtion hints
         attr_cpp_type = get_cpp_type(attr.dtype)
@@ -575,7 +587,7 @@ def render_initialize_method_cpp(
         else:
             attr_name = param['path']
             parent_path_str = 'm_path'
-
+        # Define the create call
         if attr_cpp_type == "std::string":
             re += f'    // m_io->createAttribute({cpp_param_var_name}, {parent_path_str}, "{attr_name}");\n\n'
         elif attr.shape is None:
@@ -601,8 +613,10 @@ def render_initialize_method_cpp(
         cpp_param_var_name = param['variable_name']
         pathVarName = f"{snake_to_camel(param['path'].replace('/', '_'))}Path"
         re = f"    // TODO: Initialize {param['path']} dataset"
+        if param['value_fixed']:
+            re += f" with fixed value {param['cpp_type']} {param['cpp_default_value']}"
         if is_inherited or is_overridden:
-            re += f" This dataset is_inheritted={is_inherited}, is_overridden={is_overridden}"
+            re += f". This dataset is_inheritted={is_inherited}, is_overridden={is_overridden}"
         re += "\n"
         re += f'    // auto {pathVarName} = AQNWB::mergePaths(m_path, "{param["path"]}");\n'
         # add example initializtion hints
@@ -613,17 +627,53 @@ def render_initialize_method_cpp(
             if "ArrayDataSetConfig" in dataset_cpp_type:
                     re += f"    // std::unique_ptr<IO::BaseRecordingData> {cpp_param_var_name}Data = m_io->createArrayDataSet({cpp_param_var_name}, {pathVarName});\n"
             else:
-                re += f"    // create scalar dataset at {pathVarName} with default value {param['cpp_default_value']}\n"
+                re += f"    // create scalar dataset at {pathVarName} with {'default' if not param['value_fixed'] else 'fixed'} value {param['cpp_type']} {param['cpp_default_value']}\n"
         re += "\n"
         return re
+    
+    ### Get all the parameters for the initialize method
+    all_initialize_params = get_initialize_method_parameters(
+        neurodata_type=neurodata_type,
+        type_to_namespace_map=type_to_namespace_map,
+        sorted=False)
 
-    ### Generate cpp source
+    ### Render variables with fixed values that are omitted from the initialize function signature
+    ### but which may be needed for calling the parent constructor (were they may not be fixed)
+    # Set the fixed variable value if necessary
+    fixed_value_inits = ""
+    parent_initialize_params = get_initialize_method_parameters(
+        neurodata_type=parent_neurodata_type,
+        type_to_namespace_map=type_to_namespace_map,
+        sorted=False)
+    for param in all_initialize_params:
+        if param['value_fixed']:
+            is_inherited = neurodata_type.is_inherited_spec(param['spec'])
+            is_overridden = neurodata_type.is_overridden_spec(param['spec']) 
+            # Special case were we modify a Dataset inherited from the parent. E.g,. in IZeroClampSeries
+            # we set the value for the "bias_current" dataset to 0. In this case the parent expects a
+            # ArrayDataSetConfig which we cannot set to 0. To ensure the code compiles we use the parents
+            # definition here and add a not for the developer to fix this in the code
+            if is_inherited and is_overridden and isinstance(param['spec'], DatasetSpec):
+                for parent_parm in parent_initialize_params:
+                    if parent_parm['variable_name'] == param['variable_name']:
+                        fixed_value_inits += f"    {parent_parm['cpp_type']} {param['variable_name']} = {parent_parm['cpp_default_value']};"
+                        fixed_value_inits += f" // TODO: Value should be fixed to {param['cpp_type']} {param['cpp_default_value']}. "
+                        break
+            # Regular case were we have a variable for which we are setting the fixed value
+            else:
+                fixed_value_inits  += f"    {param['cpp_type']} {param['variable_name']} = {param['cpp_default_value']}; // "
+            fixed_value_inits += f"This {'dataset' if isinstance(param['spec'], DatasetSpec) else 'attribute'} field is_inheritted={is_inherited}, is_overridden={is_overridden}\n"
+    if len(fixed_value_inits) > 0:
+        fixed_value_inits = f"// Initalize fixed field values\n{fixed_value_inits}"
+
+    ### Render the initalize function signature 
     funcSignature = render_initialize_method_signature(
         neurodata_type=neurodata_type,
         type_to_namespace_map=type_to_namespace_map,
         for_call=False,
         add_default_values=False)
 
+    ### Render the parents initalize call
     if parent_neurodata_type is not None:
         parent_initialize_signature = render_initialize_method_signature(
             neurodata_type=parent_neurodata_type,
@@ -635,26 +685,21 @@ def render_initialize_method_cpp(
         parent_initialize_call = "// TODO: Call the parents initialize method if applicable.\n"
         parent_initialize_call += f"    // {parent_class_name}::initialize()"
 
+    ### Generate cpp source
     cppSrc = f"""
 /**
  * @brief Initialize the object
  */
 void {class_name}::{funcSignature}
 {{
+    {fixed_value_inits}
     // Call parent initialize method. 
     {parent_initialize_call};
     
-    // Initialize attributes
+    // Initialize attributes, datasets, and groups
 """
-    
-    # Get all the parameters for the initialize method
-    all_initialize_params = get_initialize_method_parameters(
-        neurodata_type=neurodata_type,
-        type_to_namespace_map=type_to_namespace_map,
-        sorted=False
-    )
 
-    # Add initialization for attributes, datasets and groups
+    #### Render initialization for attributes, datasets and groups
     for param in all_initialize_params:
         spec = param['spec']
         is_inherited = neurodata_type.is_inherited_spec(spec)
