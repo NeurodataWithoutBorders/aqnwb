@@ -230,6 +230,7 @@ def render_define_dataset_field(
         re += "    */\n"
     return re
 
+
 def get_initialize_method_parameters(neurodata_type: Spec, type_to_namespace_map: Dict[str, str], sorted: bool = True) -> List[Dict]:
     """
     Internal helper function to create a list of all the parameters for the initialize method.
@@ -1053,6 +1054,11 @@ public:
     {class_name}(
         const std::string& path,
         std::shared_ptr<AQNWB::IO::BaseIO> io);
+
+    /**
+     * @brief Virtual destructor.
+     */
+    virtual ~{class_name}() override {{}}
     
     {header_initialize_src}
 """
