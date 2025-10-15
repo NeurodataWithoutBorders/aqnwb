@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     * Added support for rendering DEFINE_REFERENCED_REGISTERED_FIELD macros for attributes that are references (@oruebel, [#230](https://github.com/NeurodataWithoutBorders/aqnwb/pull/230))
     * Added rendering of virtual destructor in the header source (@oruebel, [#230](https://github.com/NeurodataWithoutBorders/aqnwb/pull/230))
     * Updated generated initialize methods to always return a Status (@oruebel, [#230](https://github.com/NeurodataWithoutBorders/aqnwb/pull/230))
+    * Updated new `get_initialize_method_parameters` to ensure for neurodata_types that are Datasets that we include the dataset itself as a custom parameter that needs initialization (@oruebel, [#230](https://github.com/NeurodataWithoutBorders/aqnwb/pull/230))
 
 ## [0.1.0] - 2025-09-03
 

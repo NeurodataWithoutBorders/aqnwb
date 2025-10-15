@@ -20,6 +20,7 @@ import datetime
 import json
 import re
 from pathlib import Path
+from copy import deepcopy
 from ruamel.yaml import YAML
 from typing import Dict, List, Tuple
 from hdmf.spec import DatasetSpec, GroupSpec, AttributeSpec, SpecNamespace
@@ -207,6 +208,7 @@ def render_define_dataset_field(
     str: A string representing the DEFINE_FIELD macro.
     """
     if field_path is None:
+        logger.warning("Missing field_path in render_define_dataset_field")
         return "" # Should not happen for datasets
     func_name = snake_to_camel(field_path.replace('/', '_'))
     read_func_name = f"read{func_name}"
@@ -303,9 +305,23 @@ def get_initialize_method_parameters(neurodata_type: Spec, type_to_namespace_map
                 for group in obj.groups:
                     sub_objects_to_process.append((group, current_parent, path_for_children))
 
-        # If the object is the neurodata_type itself, we just use it to iterate
-        # but we don't add it as a parameter itself
+        # If the object is the neurodata_type itself
         if obj == neurodata_type:
+            # In the special case that we are a neurodata_type that defines a Dataset, then we want
+            # the dataset itself to appear as a parameter, since we need to configure the dataset
+            # via an ArrayDatasetConfig. To achieve this we are creating a dummy spec to represent
+            # our dataset and process it as a regular parameter in one of the next iterations.
+            # NOTE: This approach of "faking" a spec is a bit hacky but it works and avoids custom logic throughout the code
+            if isinstance(obj, DatasetSpec):
+                copySpec = DatasetSpec(
+                    doc=obj.doc, 
+                    dtype=obj.dtype,
+                    name="data",
+                    shape=obj.shape,
+                    dims=obj.dims)
+                sub_objects_to_process.append((copySpec, None, ""))
+            # If the object is the neurodata_type itself, we just use it to iterate
+            # but we don't add it as a parameter itself
             continue
         
         # If the object is an untyped group, we just use it to iterate
