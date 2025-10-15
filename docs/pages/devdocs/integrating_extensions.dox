@@ -134,8 +134,8 @@
  *      with the \ref AQNWB::NWB::RegisteredType "RegisteredType"  type registry.
  *    - \ref REGISTER_SUBCLASS must appear in the header file
  *    - \ref REGISTER_SUBCLASS_IMPL must appear in the cpp file
- * 3. **Field Definitions**: The \ref DEFINE_DATASET_FIELD, \ref DEFINE_ATTRIBUTE_FIELD, and \ref DEFINE_REGISTERED_FIELD macros simplify 
- *    reading known fields from the file.
+ * 3. **Field Definitions**: The \ref DEFINE_DATASET_FIELD, \ref DEFINE_ATTRIBUTE_FIELD, \ref DEFINE_REGISTERED_FIELD 
+ *    and \ref DEFINE_UNNAMED_REGISTERED_FIELD macros simplify reading known fields from the file.
  * 4. **Schema Registration**: The generated header file automatically registers the namespace with
  *    the \ref AQNWB::SPEC::NamespaceRegistry "NamespaceRegistry" using the \ref REGISTER_NAMESPACE macro.
  *    This ensures that as soon as we include the header in our app that the schema will be cached in the NWB file.

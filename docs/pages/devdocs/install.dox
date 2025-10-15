@@ -114,6 +114,16 @@
  * cmake --build --preset=dev
  * ctest --preset=dev
  * \endcode
+ * 
+ * \subsubsection  devbuild_install_subsec Developer Install
+ *
+ * After build, we can install the developer library into a custom location, by navigating to the build 
+ * folder and call `cmake --install .` with a an optional `--prefix` to specify th install location, e.g.,
+ *
+ * \code{.sh}
+ * cd build/dev
+ * cmake --install . --prefix=../dev/install
+ * \endcode
  *
  * \subsubsection devbuild_dev_mode_targets_subsec Developer Mode Targets
  *

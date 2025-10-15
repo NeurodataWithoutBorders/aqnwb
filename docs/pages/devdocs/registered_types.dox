@@ -89,7 +89,7 @@
  *    @endcode
  *    
  *
- * 6. Similarly, we use the \ref DEFINE_REGISTERED_FIELD macro to define getter methods for other 
+ * 6. Similarly, we use the \ref DEFINE_REGISTERED_FIELD or \ref DEFINE_UNNAMED_REGISTERED_FIELD macro to define getter methods for other 
  *    \ref AQNWB::NWB::RegisteredType "RegisteredType" objects that we own, such as a
  *     \ref AQNWB::NWB::ElectrodesTable "ElectrodesTable" that owns 
  *    predefined \ref AQNWB::NWB::VectorData "VectorData" columns:
@@ -105,7 +105,7 @@
  *
  *
  * \note
- * \ref DEFINE_ATTRIBUTE_FIELD, \ref DEFINE_DATASET_FIELD, and 
+ * \ref DEFINE_ATTRIBUTE_FIELD, \ref DEFINE_DATASET_FIELD, \ref DEFINE_UNNAMED_REGISTERED_FIELD 
  * \ref DEFINE_REGISTERED_FIELD create templated, non-virtual read 
  * functions. This means if we want to "redefine" a field in a child class by calling 
  * one of these macros again, then the function will be "hidden" instead of "override". 
@@ -256,6 +256,68 @@
  * }
  * @endcode
  *
+ *
+ * \subsection use_the_define_unnamed_registered_field_macro DEFINE_UNNAMED_REGISTERED_FIELD: Defining read methods for unnamed neurodata_type objects
+ *
+ * The \ref DEFINE_UNNAMED_REGISTERED_FIELD macro works much like the \ref DEFINE_REGISTERED_FIELD macro but 
+ * is used for neurodata_types that do not have a fixed name in the schema (which are typically also either optional
+ * and/or allow for multiple instances, e.g., `VectorData` columns in a `DynamicTable`). The main inputs for 
+ * \ref DEFINE_UNNAMED_REGISTERED_FIELD are as follows:
+ *
+ *  * ``readName``: The name of the function to generate for reading an existing object.
+ *  * ``writeName``: The name of the functoin to generate for creating a new instance for writing a new object. 
+ *  * ``registeredType`` : The specific subclass of \ref AQNWB::NWB::RegisteredType "RegisteredType" to use 
+ *	* ``fieldPrefixPath`` : Literal string with the relative path to the group where the field appears within
+ *      the schema of the respective neurodata_type. This is automatically being expanded at runtime to the full path.
+ *      E.g., 
+ *  * ``description`` : Description of the field to include in the docstring for the docs
+ *
+ * All of these inputs are required. A typical example will look as follows:
+ *
+ * @code
+ * DEFINE_REGISTERED_FIELD(readAquisitionSeries, 
+                           createAquisitionSeries,
+                           TimeSeries, 
+                           "acquisition", 
+                           Get a TimeSeries stored in the acquisition group
+ * @endcode
+ *
+ * The compiler will then expand this definition to create two methods. The first method (here 
+ * called ``readAcquisitionSeries``) is for reading existing \ref AQNWB::NWB::TimeSeries "TimeSeries"
+ * from the `/acquisistion` group. The corresponding expanded function will look something like:
+ *
+ * @code
+ * template<typename RTYPE = TimeSeries> 
+ * inline std::shared_ptr<RTYPE> readAquisitionSeries(const std::string& objectName) const 
+ * { 
+ *   std::string prefixPath = AQNWB::mergePaths(m_path, fieldPrefixPath); 
+ *   std::string objectPath = AQNWB::mergePaths(prefixPath, objectName); 
+ *   if (m_io->objectExists(objectPath) || createNew) { 
+ *     return RegisteredType::create<RTYPE>(objectPath, m_io); 
+ *   } 
+ *   return nullptr; 
+ * }
+ *
+ * The second function is for creating new instances of \ref AQNWB::NWB::TimeSeries "TimeSeries" that we can 
+ * use for creating new objects or writing to the existing series. The expanded function will look like this:
+ *
+ * template<typename RTYPE = TimeSeries> 
+ * inline std::unique_ptr<RTYPE> createAquisitionSeries(const std::string& objectName) const 
+ * { 
+ *   std::string prefixPath = AQNWB::mergePaths(m_path, fieldPrefixPath); 
+ *   std::string objectPath = AQNWB::mergePaths(prefixPath, objectName); 
+ *   return std::make_unique<RTYPE>(objectPath, m_io); 
+ * }
+ * @endcode
+ *
+ * Since the function is templated, we can use it to create any \ref AQNWB::NWB::TimeSeries "TimeSeries", e.g., 
+ * we can create an \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries" via:
+ * @code 
+ * es = nwbfile.createAquisitionSeries<AQNWB::NWB::ElectricalSeries>("myElectricalSeries");
+ * es->initialize(...)
+ * @endcode
+ *
+ * 
  * \subsection use_the_define_referenced_registered_field_macro DEFINE_REFERENCED_REGISTERED_FIELD: Defining read methods for references to neurodata_type objects
  *
  * The \ref DEFINE_REFERENCED_REGISTERED_FIELD macro works exactly like the 
@@ -297,8 +359,9 @@
  * way. AqNWB uses  templated neurodata_type classes for \ref AQNWB::NWB::VectorDataTyped "VectorDataTyped<DTYPE>" 
  * and \ref AQNWB::NWB::DataTyped "DataTyped<DTYPE>" as these classes manage a particular dataset. Using
  * this approach, we specify the data types to use with the class directly as part of 
- * \ref DEFINE_REGISTERED_FIELD macro so that the user doesn't need to manually specify the data type 
- * for read. To implement the use of templated classes for read, we can take two main approaches
+ * \ref DEFINE_REGISTERED_FIELD (or \ref DEFINE_UNNAMED_REGISTERED_FIELD) macro so that the user 
+ * doesn't need to manually specify the data type for read. To implement the use of templated classes 
+ * for read, we can take two main approaches
  * by either \ref implement_templated_registered_type_two_class or \ref implement_templated_registered_type_single_class .
  * 
  * \subsubsection implement_templated_registered_type_two_class Using a base class and templated child class
@@ -475,7 +538,8 @@
  *    as expected for reading our new type, e.g. via:
  *    \snippet tests/testVectorData.cpp example_test_vectordata_create_snippet
  * - Test that every read method created via the \ref DEFINE_ATTRIBUTE_FIELD, \ref DEFINE_DATASET_FIELD, 
- *   and \ref DEFINE_REGISTERED_FIELD  macros is working as expected, e.g. via: 
+ *   \ref DEFINE_UNNAMED_REGISTERED_FIELD, \ref DEFINE_REGISTERED_FIELD, and \ref DEFINE_REFERENCED_REGISTERED_FIELD
+ *    macros is working as expected, e.g. via: 
  *    \snippet tests/testVectorData.cpp example_test_vectordata_read_snippet
  * - Test that the `initialize` method is working as expected (if included).
  *    

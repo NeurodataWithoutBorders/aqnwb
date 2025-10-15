@@ -164,8 +164,8 @@
  * \ref AQNWB::NWB::RegisteredType "RegisteredType" in turn maintains a registry of all 
  * available registered types that it uses to support convenient read of `neurodata_type`
  * objects from an NWB file. For read, a user then typically uses either: 
- * -  Pre-defined read methods created via the \ref DEFINE_REGISTERED_FIELD macro
- *    (see also \ref use_the_define_registered_field_macro).
+ * -  Pre-defined read methods created via the \ref DEFINE_REGISTERED_FIELD or \ref DEFINE_UNNAMED_REGISTERED_FIELD
+ *    macros (see also \ref use_the_define_registered_field_macro).
  * - \ref AQNWB::NWB::RegisteredType::readField "RegisteredType::readField"  to read 
  *    arbitrary registered fields.
  * - \ref AQNWB::NWB::RegisteredType::create "RegisteredType::create" to manually create
