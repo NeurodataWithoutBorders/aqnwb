@@ -20,6 +20,7 @@ import datetime
 import json
 import re
 from pathlib import Path
+from copy import deepcopy
 from ruamel.yaml import YAML
 from typing import Dict, List, Tuple
 from hdmf.spec import DatasetSpec, GroupSpec, AttributeSpec, SpecNamespace
@@ -228,6 +229,7 @@ def render_define_dataset_field(
     str: A string representing the DEFINE_FIELD macro.
     """
     if field_path is None:
+        logger.warning("Missing field_path in render_define_dataset_field")
         return "" # Should not happen for datasets
     func_name = snake_to_camel(field_path.replace('/', '_'))
     read_func_name = f"read{func_name}"
@@ -250,6 +252,7 @@ def render_define_dataset_field(
     if is_inherited and not is_overridden:
         re += "    */\n"
     return re
+
 
 def get_initialize_method_parameters(neurodata_type: Spec, type_to_namespace_map: Dict[str, str], sorted: bool = True) -> List[Dict]:
     """
@@ -329,9 +332,23 @@ def get_initialize_method_parameters(neurodata_type: Spec, type_to_namespace_map
                 for group in obj.groups:
                     sub_objects_to_process.append((group, current_parent, path_for_children))
 
-        # If the object is the neurodata_type itself, we just use it to iterate
-        # but we don't add it as a parameter itself
+        # If the object is the neurodata_type itself
         if obj == neurodata_type:
+            # In the special case that we are a neurodata_type that defines a Dataset, then we want
+            # the dataset itself to appear as a parameter, since we need to configure the dataset
+            # via an ArrayDatasetConfig. To achieve this we are creating a dummy spec to represent
+            # our dataset and process it as a regular parameter in one of the next iterations.
+            # NOTE: This approach of "faking" a spec is a bit hacky but it works and avoids custom logic throughout the code
+            if isinstance(obj, DatasetSpec):
+                copySpec = DatasetSpec(
+                    doc=obj.doc, 
+                    dtype=obj.dtype,
+                    name="data",
+                    shape=obj.shape,
+                    dims=obj.dims)
+                sub_objects_to_process.append((copySpec, None, ""))
+            # If the object is the neurodata_type itself, we just use it to iterate
+            # but we don't add it as a parameter itself
             continue
         
         # If the object is an untyped group, we just use it to iterate
@@ -527,7 +544,7 @@ def render_initialize_method_header(
     /**
      * @brief Initialize the object
      */
-     void {funcSignature};
+     Status {funcSignature};
 """
     return headerSrc
 
@@ -680,10 +697,12 @@ def render_initialize_method_cpp(
             type_to_namespace_map=type_to_namespace_map,
             for_call=True,
             add_default_values=False)
-        parent_initialize_call = f"{parent_class_name}::{parent_initialize_signature}"
+        parent_initialize_call = f"Status parentInitStatus = {parent_class_name}::{parent_initialize_signature};\n"
+        parent_initialize_call += f"    initStatus = initStatus && parentInitStatus;"
     else:
         parent_initialize_call = "// TODO: Call the parents initialize method if applicable.\n"
-        parent_initialize_call += f"    // {parent_class_name}::initialize()"
+        parent_initialize_call += f"    // Status parentInitStatus {parent_class_name}::initialize()"
+        parent_initialize_call += f"    // initStatus = initStatus && parentInitStatus;"
 
     #### Render initialization for attributes, datasets and groups
     initialize_fields_src = ""
@@ -720,9 +739,7 @@ def render_initialize_method_cpp(
 
     ### Generate cpp source
     cppSrc = f"""
-/**
- * @brief Initialize the object
- */
+// Initialize the object
 void {class_name}::{funcSignature}
 {{
     {fixed_value_inits}
@@ -731,6 +748,8 @@ void {class_name}::{funcSignature}
     
     // Initialize attributes, datasets, and groups
     {initialize_fields_src}
+    
+    cppSrc += "return initStatus;"
 }}
 """
 
@@ -1158,6 +1177,11 @@ public:
     {class_name}(
         const std::string& path,
         std::shared_ptr<AQNWB::IO::BaseIO> io);
+
+    /**
+     * @brief Virtual destructor.
+     */
+    virtual ~{class_name}() override {{}}
     
     {header_initialize_src}
 """
@@ -1334,9 +1358,7 @@ using namespace AQNWB::IO;
 // Initialize the static registered_ member to trigger registration
 REGISTER_SUBCLASS_IMPL({class_name})
 
-/**
- * @brief Constructor
- */
+// Constructor
 {class_name}::{class_name}(const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io)
     : {parent_class}(path, io)
 {{

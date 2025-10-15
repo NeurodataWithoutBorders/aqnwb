@@ -27,9 +27,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     * Refactored code to generated initialize methods to centralize logic and make the code more robust. E.g., created new `get_initialize_method_parameters` to compile parameter details in one place and split the  `render_initialize_method`  into two functions. (@oruebel, [#230](https://github.com/NeurodataWithoutBorders/aqnwb/pull/230))
     * Enhanced the new `get_initialize_method_parameters` method and rendering functions to correctly track the full path of objects (@oruebel, [#230](https://github.com/NeurodataWithoutBorders/aqnwb/pull/230))
     * Added support for rendering `DEFINE_REFERENCED_REGISTERED_FIELD` macros for attributes that are references (@oruebel, [#230](https://github.com/NeurodataWithoutBorders/aqnwb/pull/230))
+    * Added rendering of virtual destructor in the header source (@oruebel, [#230](https://github.com/NeurodataWithoutBorders/aqnwb/pull/230))
+    * Updated generated initialize methods to always return a Status (@oruebel, [#230](https://github.com/NeurodataWithoutBorders/aqnwb/pull/230))
+    * Updated new `get_initialize_method_parameters` to ensure for neurodata_types that are Datasets that we include the dataset itself as a custom parameter that needs initialization (@oruebel, [#230](https://github.com/NeurodataWithoutBorders/aqnwb/pull/230))
     * Added support for `DEFINE_UNNAMED_REGISTERED_FIELD` macros for RegisteredTypes that are unnamed in the schema (@oruebel, [#231](https://github.com/NeurodataWithoutBorders/aqnwb/pull/231)
     * Simplify the required signature of the generated initialize methods by placing optional RegisteredType arguments in comment blocks as these are usually created afterward initialize by the user (@oruebel, [#231](https://github.com/NeurodataWithoutBorders/aqnwb/pull/231)
     * Added support for attributes/datasets with fixed values, which are now created only inside the generated initialize method but no longer setable as a parameter (@oruebel, [#231](https://github.com/NeurodataWithoutBorders/aqnwb/pull/231)
+
 
 ## [0.1.0] - 2025-09-03
 
