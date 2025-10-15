@@ -544,7 +544,7 @@ def render_initialize_method_header(
     /**
      * @brief Initialize the object
      */
-     Status {funcSignature};
+    Status {funcSignature};
 """
     return headerSrc
 
@@ -736,12 +736,15 @@ def render_initialize_method_cpp(
                 is_inherited=is_inherited,
                 is_overridden=is_overridden,
             )
+    initialize_fields_src = initialize_fields_src.rstrip("\n") # Remove extra endlines
 
     ### Generate cpp source
     cppSrc = f"""
 // Initialize the object
-void {class_name}::{funcSignature}
+Status {class_name}::{funcSignature}
 {{
+    Status initStatus = Status::Success;
+
     {fixed_value_inits}
     // Call parent initialize method. 
     {parent_initialize_call};
@@ -749,7 +752,7 @@ void {class_name}::{funcSignature}
     // Initialize attributes, datasets, and groups
     {initialize_fields_src}
     
-    cppSrc += "return initStatus;"
+    return initStatus;
 }}
 """
 
