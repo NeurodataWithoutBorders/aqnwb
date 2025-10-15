@@ -14,7 +14,7 @@
 #include "nwb/RecordingContainers.hpp"
 #include "nwb/base/TimeSeries.hpp"
 #include "nwb/file/ElectrodesTable.hpp"
-#include "nwb/hdmf/base/Container.hpp"
+#include "nwb/base/NWBContainer.hpp"
 #include "spec/core.hpp"
 
 /*!
@@ -28,7 +28,7 @@ namespace AQNWB::NWB
  * @brief The NWBFile class provides an interface for setting up and managing
  * the NWB file.
  */
-class NWBFile : public Container
+class NWBFile : public NWBContainer
 {
 public:
   // Register the ElectrodesTable as a subclass of Container

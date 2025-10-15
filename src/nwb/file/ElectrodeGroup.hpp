@@ -4,7 +4,7 @@
 
 #include "io/BaseIO.hpp"
 #include "nwb/device/Device.hpp"
-#include "nwb/hdmf/base/Container.hpp"
+#include "nwb/base/NWBContainer.hpp"
 #include "spec/core.hpp"
 
 namespace AQNWB::NWB
@@ -13,7 +13,7 @@ namespace AQNWB::NWB
  * @brief The ElectrodeGroup class represents a physical grouping of electrodes,
  * e.g. a shank of an array.
  */
-class ElectrodeGroup : public Container
+class ElectrodeGroup : public NWBContainer
 {
 public:
   // Register ElectrodeGroup as a subclass of Container
