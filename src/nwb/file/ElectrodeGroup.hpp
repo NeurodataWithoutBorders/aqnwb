@@ -3,8 +3,8 @@
 #include <string>
 
 #include "io/BaseIO.hpp"
-#include "nwb/device/Device.hpp"
 #include "nwb/base/NWBContainer.hpp"
+#include "nwb/device/Device.hpp"
 #include "spec/core.hpp"
 
 namespace AQNWB::NWB

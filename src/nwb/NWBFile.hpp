@@ -12,9 +12,9 @@
 #include "io/BaseIO.hpp"
 #include "io/ReadIO.hpp"
 #include "nwb/RecordingContainers.hpp"
+#include "nwb/base/NWBContainer.hpp"
 #include "nwb/base/TimeSeries.hpp"
 #include "nwb/file/ElectrodesTable.hpp"
-#include "nwb/base/NWBContainer.hpp"
 #include "spec/core.hpp"
 
 /*!

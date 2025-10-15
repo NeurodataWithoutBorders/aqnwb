@@ -2,13 +2,13 @@
 
 // Common STL includes
 #include <memory>
+#include <optional>
 #include <string>
 #include <vector>
-#include <optional>
 // Base AqNWB includes for IO and RegisteredType
-#include "nwb/RegisteredType.hpp"
-#include "io/ReadIO.hpp"
 #include "io/BaseIO.hpp"
+#include "io/ReadIO.hpp"
+#include "nwb/RegisteredType.hpp"
 // Include for parent type
 #include "nwb/hdmf/base/Data.hpp"
 // Include for the namespace schema header
@@ -23,29 +23,22 @@ namespace AQNWB::NWB
 class NWBData : public AQNWB::NWB::Data
 {
 public:
-    /**
-     * @brief Constructor
-     * @param path Path to the object in the file
-     * @param io IO object for reading/writing
-     */
-    NWBData(
-        const std::string& path,
-        std::shared_ptr<AQNWB::IO::BaseIO> io);
-    
-    
-    /**
-     * @brief Initialize the object
-     * @param dataConfig The configuration for the dataset
-     * @return Status::Success if successful, otherwise Status::Failure.
-     */
-     Status initialize(const AQNWB::IO::ArrayDataSetConfig& dataConfig);
+  /**
+   * @brief Constructor
+   * @param path Path to the object in the file
+   * @param io IO object for reading/writing
+   */
+  NWBData(const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io);
 
-    REGISTER_SUBCLASS(
-        NWBData,
-        AQNWB::SPEC::CORE::namespaceName)
-    
+  /**
+   * @brief Initialize the object
+   * @param dataConfig The configuration for the dataset
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
+  Status initialize(const AQNWB::IO::ArrayDataSetConfig& dataConfig);
+
+  REGISTER_SUBCLASS(NWBData, AQNWB::SPEC::CORE::namespaceName)
 };
-
 
 /**
  * @brief A typed data container for a dataset.
@@ -106,4 +99,3 @@ public:
 };
 
 }  // namespace AQNWB::NWB
-

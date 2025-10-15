@@ -1,4 +1,5 @@
 #include "NWBData.hpp"
+
 #include "Utils.hpp"
 
 using namespace AQNWB::NWB;
@@ -14,7 +15,7 @@ NWBData::NWBData(const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io)
 
 Status NWBData::initialize(const AQNWB::IO::ArrayDataSetConfig& dataConfig)
 {
-    return Data::initialize(dataConfig);    
+  return Data::initialize(dataConfig);
 }
 
 namespace AQNWB::NWB
@@ -34,4 +35,4 @@ template class NWBDataTyped<int64_t>;
 template class NWBDataTyped<float>;
 template class NWBDataTyped<double>;
 template class NWBDataTyped<std::string>;
-}
+}  // namespace AQNWB::NWB
