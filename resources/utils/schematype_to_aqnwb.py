@@ -457,7 +457,7 @@ def render_initialize_method_header(
     /**
      * @brief Initialize the object
      */
-     void {funcSignature};
+     Status {funcSignature};
 """
     return headerSrc
 
@@ -570,19 +570,22 @@ def render_initialize_method_cpp(
             type_to_namespace_map=type_to_namespace_map,
             for_call=True,
             add_default_values=False)
-        parent_initialize_call = f"{parent_class_name}::{parent_initialize_signature}"
+        parent_initialize_call = f"Status parentInitStatus = {parent_class_name}::{parent_initialize_signature};\n"
+        parent_initialize_call += f"    initStatus = initStatus && parentInitStatus;"
     else:
         parent_initialize_call = "// TODO: Call the parents initialize method if applicable.\n"
-        parent_initialize_call += f"    // {parent_class_name}::initialize()"
+        parent_initialize_call += f"    // Status parentInitStatus {parent_class_name}::initialize()"
+        parent_initialize_call += f"    // initStatus = initStatus && parentInitStatus;"
 
     cppSrc = f"""
-/**
- * @brief Initialize the object
- */
-void {class_name}::{funcSignature}
+
+// Initialize the object
+Status {class_name}::{funcSignature}
 {{
+    Status initStatus = Status::Success;
+    
     // Call parent initialize method. 
-    {parent_initialize_call};
+    {parent_initialize_call}
     
     // Initialize attributes
 """
@@ -622,7 +625,8 @@ void {class_name}::{funcSignature}
                 is_inherited=is_inherited,
                 is_overridden=is_overridden,
             )
-
+    
+    cppSrc += "return initStatus;"
     cppSrc += "}\n\n"
 
     return cppSrc
@@ -1218,9 +1222,7 @@ using namespace AQNWB::IO;
 // Initialize the static registered_ member to trigger registration
 REGISTER_SUBCLASS_IMPL({class_name})
 
-/**
- * @brief Constructor
- */
+// Constructor
 {class_name}::{class_name}(const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io)
     : {parent_class}(path, io)
 {{
