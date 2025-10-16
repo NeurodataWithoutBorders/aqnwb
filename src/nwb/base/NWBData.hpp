@@ -1,6 +1,7 @@
 #pragma once
 
 // Common STL includes
+#include <any>
 #include <memory>
 #include <optional>
 #include <string>
@@ -68,11 +69,6 @@ public:
       : NWBData(path, io)
   {
   }
-
-  /**
-   * @brief Virtual destructor.
-   */
-  virtual ~NWBDataTyped() override {}
 
   /**
    *  \brief Create a DataTyped object from a Data object

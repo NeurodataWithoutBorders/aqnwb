@@ -30,7 +30,7 @@ inline double compute_mean(const T& data)
     throw std::runtime_error("Data vector is empty");
   }
   double sum = std::accumulate(data.begin(), data.end(), 0.0);
-  return sum / data.size();
+  return sum / static_cast<double>(data.size());
 }
 
 // Function to compute the mean using std::visit

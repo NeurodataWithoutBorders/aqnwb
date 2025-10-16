@@ -732,7 +732,7 @@ Status HDF5IO::createAttribute(const std::string& data,
   }
 
   // Create variable length string type
-  StrType H5type(PredType::C_S1, H5T_VARIABLE);
+  StrType H5type(PredType::C_S1, static_cast<size_t>(H5T_VARIABLE));
 
   auto manage_attribute = [&](H5Object& loc)
   {
@@ -794,7 +794,7 @@ Status HDF5IO::createAttribute(const std::vector<std::string>& data,
   }
 
   // Create variable length string type
-  StrType H5type(PredType::C_S1, H5T_VARIABLE);
+  StrType H5type(PredType::C_S1, static_cast<size_t>(H5T_VARIABLE));
 
   auto manage_attribute = [&](H5Object& loc)
   {
@@ -965,8 +965,12 @@ Status HDF5IO::createReferenceDataSet(
                          H5P_DEFAULT,
                          H5P_DEFAULT);
 
-  herr_t writeStatus =
-      H5Dwrite(dset, H5T_STD_REF_OBJ, H5S_ALL, H5S_ALL, H5P_DEFAULT, rdata);
+  herr_t writeStatus = H5Dwrite(dset,
+                                H5T_STD_REF_OBJ,
+                                H5S_ALL,
+                                H5S_ALL,
+                                H5P_DEFAULT,
+                                static_cast<const void*>(rdata));
 
   delete[] rdata;
 
@@ -1311,7 +1315,7 @@ H5::DataType HDF5IO::getNativeType(IO::BaseDataType type)
     case IO::BaseDataType::Type::T_STR:
       return H5::StrType(H5::PredType::C_S1, type.typeSize);
     case IO::BaseDataType::Type::V_STR:
-      return H5::StrType(H5::PredType::C_S1, H5T_VARIABLE);
+      return H5::StrType(H5::PredType::C_S1, static_cast<size_t>(H5T_VARIABLE));
     default:
       baseType = H5::PredType::NATIVE_INT32;
   }
@@ -1406,7 +1410,7 @@ H5::DataType HDF5IO::getH5Type(IO::BaseDataType type)
       return StrType(PredType::C_S1, type.typeSize);
       break;
     case BaseDataType::Type::V_STR:
-      return StrType(PredType::C_S1, H5T_VARIABLE);
+      return StrType(PredType::C_S1, static_cast<size_t>(H5T_VARIABLE));
       break;
     default:
       return PredType::STD_I32LE;
