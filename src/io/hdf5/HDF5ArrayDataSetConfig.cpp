@@ -4,10 +4,10 @@ using namespace AQNWB::IO::HDF5;
 
 // HDF5FilterConfig
 
-HDF5FilterConfig::HDF5FilterConfig(H5Z_filter_t filter_id,
-                                   const std::vector<unsigned int>& cd_values)
-    : filter_id(filter_id)
-    , cd_values(cd_values)
+HDF5FilterConfig::HDF5FilterConfig(
+    H5Z_filter_t in_filter_id, const std::vector<unsigned int>& in_cd_values)
+    : filter_id(in_filter_id)
+    , cd_values(in_cd_values)
 {
 }
 
