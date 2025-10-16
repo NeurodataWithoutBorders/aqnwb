@@ -34,7 +34,7 @@ inline double compute_mean(const T& data)
 }
 
 // Function to compute the mean using std::visit
-inline double compute_mean(const BaseDataType::BaseDataVectorVariant& variant)
+inline double compute_mean_variant(const BaseDataType::BaseDataVectorVariant& variant)
 {
   return std::visit(
       [](auto&& arg) -> double
@@ -352,7 +352,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
         readElectricalSeriesData->valuesGeneric();
     BaseDataType::BaseDataVectorVariant variantData =
         genericDataBlock.as_variant();
-    double meanFromVariant = compute_mean(variantData);
+    double meanFromVariant = compute_mean_variant(variantData);
     // Compare with computing the mean from the typed DataBlock<float>. We
     // specify the template type for clarity although the compiler can infer it.
     double meanFromTypedVector =
