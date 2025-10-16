@@ -34,7 +34,8 @@ inline double compute_mean(const T& data)
 }
 
 // Function to compute the mean using std::visit
-inline double compute_mean_variant(const BaseDataType::BaseDataVectorVariant& variant)
+inline double compute_mean_variant(
+    const BaseDataType::BaseDataVectorVariant& variant)
 {
   return std::visit(
       [](auto&& arg) -> double
