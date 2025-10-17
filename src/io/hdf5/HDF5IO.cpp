@@ -1148,7 +1148,7 @@ std::vector<SizeType> HDF5IO::getStorageObjectShape(const std::string path)
   try {
     H5::DataSet dataset = m_file->openDataSet(path);
     dataspace = dataset.getSpace();
-  } catch (H5::Exception& e) {
+  } catch (H5::Exception&) {
     // Read the attribute
     std::unique_ptr<H5::Attribute> attributePtr = this->getAttribute(path);
     dataspace = attributePtr->getSpace();
