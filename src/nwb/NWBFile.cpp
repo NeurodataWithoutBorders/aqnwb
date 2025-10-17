@@ -40,7 +40,11 @@ NWBFile::NWBFile(std::shared_ptr<IO::BaseIO> io)
 NWBFile::NWBFile(const std::string& path, std::shared_ptr<IO::BaseIO> io)
     : NWBContainer("/", io)  // Always use "/" for the path
 {
-  assert(path == "/" && "NWBFile object is always the root. Path must be /");
+  if (path != "/") {
+    std::cerr << "WARNING: NWBFile object is always the root. Path must be /. "
+                 "Ignoring provided path."
+              << std::endl;
+  }
 }
 
 NWBFile::~NWBFile() {}
