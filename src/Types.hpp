@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include <limits>
 #include <vector>
 
 namespace AQNWB
@@ -20,7 +21,7 @@ public:
    */
   enum Status
   {
-    Success = 0,
+    Success = 1,
     Failure = -1
   };
 
@@ -74,6 +75,12 @@ public:
    * @brief Alias for the size type used in the project.
    */
   using SizeType = size_t;
+
+  /**
+   * @brief Value to use to indicate that a SizeType index is not set.
+   */
+  static constexpr SizeType SizeTypeNotSet =
+      std::numeric_limits<SizeType>::max();
 
   /**
    * @brief Alias for an array of size types used in the project.

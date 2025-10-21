@@ -17,8 +17,11 @@ class AnnotationSeries : public TimeSeries
 {
 public:
   // Register the AnnotationSeries
-  REGISTER_SUBCLASS(AnnotationSeries, AQNWB::SPEC::CORE::namespaceName)
+  REGISTER_SUBCLASS(AnnotationSeries,
+                    TimeSeries,
+                    AQNWB::SPEC::CORE::namespaceName)
 
+protected:
   /**
    * @brief Constructor.
    * @param path The location of the AnnotationSeries in the file.
@@ -26,6 +29,7 @@ public:
    */
   AnnotationSeries(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
+public:
   /**
    * @brief Destructor
    */
@@ -39,10 +43,11 @@ public:
    * chunking. The shape must be a vector with one element specifying the length
    * in time. The data type is fixed to variable-length string according to
    * schema.
+   * @return Status::Success if successful, otherwise Status::Failure.
    */
-  void initialize(const std::string& description,
-                  const std::string& comments,
-                  const IO::ArrayDataSetConfig& dataConfig);
+  Status initialize(const std::string& description,
+                    const std::string& comments,
+                    const IO::ArrayDataSetConfig& dataConfig);
 
   /**
    * @brief Writes a channel to an AnnotationSeries dataset.

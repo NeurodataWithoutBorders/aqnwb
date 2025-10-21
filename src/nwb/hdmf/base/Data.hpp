@@ -1,5 +1,6 @@
 #pragma once
 
+#include <any>
 #include <memory>
 
 #include "io/BaseIO.hpp"
@@ -16,8 +17,9 @@ class Data : public RegisteredType
 {
 public:
   // Register the Data class with the type registry
-  REGISTER_SUBCLASS(Data, "hdmf-common")
+  REGISTER_SUBCLASS(Data, RegisteredType, "hdmf-common")
 
+protected:
   /**
    * @brief Constructor.
    *
@@ -26,6 +28,7 @@ public:
    */
   Data(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
+public:
   /**
    * @brief Virtual destructor.
    */
@@ -39,17 +42,7 @@ public:
    * @param dataConfig The configuration for the dataset
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status initialize(const IO::ArrayDataSetConfig& dataConfig)
-  {
-    auto dataset = m_io->createArrayDataSet(dataConfig, this->m_path);
-    if (dataset == nullptr) {
-      return Status::Failure;
-    }
-    // setup common attributes
-    Status commonAttrsStatus = m_io->createCommonNWBAttributes(
-        m_path, this->getNamespace(), this->getTypeName());
-    return commonAttrsStatus;
-  }
+  Status initialize(const IO::ArrayDataSetConfig& dataConfig);
 
   /**
    * @brief Check whether the dataset has been initialized
@@ -87,7 +80,9 @@ public:
 template<typename DTYPE = std::any>
 class DataTyped : public Data
 {
-public:
+  friend class AQNWB::NWB::RegisteredType; /* base can call constructor */
+
+protected:
   /**
    * @brief Constructor.
    *
@@ -97,6 +92,25 @@ public:
   DataTyped(const std::string& path, std::shared_ptr<IO::BaseIO> io)
       : Data(path, io)
   {
+  }
+
+  using Data::Data; /* inherit from immediate base */
+
+public:
+  /** \brief Factor method to create a DataTyped object.
+   *
+   * This is required here since DataTyped is a template class and
+   * is not being registered with the RegisteredType class registry via
+   * REGISTER_SUBCLASS.
+   * @param path The path of the container.
+   * @param io A shared pointer to the IO object.
+   * @return A shared pointer to the created NWBFile object, or nullptr if
+   * creation failed.
+   */
+  static std::shared_ptr<DataTyped> create(
+      const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io)
+  {
+    return RegisteredType::create<DataTyped>(path, io);
   }
 
   /**
@@ -116,15 +130,16 @@ public:
    *  @param data The Data object to convert
    *  @return A DataTyped object with the same path and IO object as the input
    */
-  static std::shared_ptr<DataTyped<DTYPE>> fromData(const Data& data)
+  static std::shared_ptr<DataTyped<DTYPE>> fromData(
+      const std::shared_ptr<Data>& data)
   {
-    return std::make_shared<DataTyped<DTYPE>>(data.getPath(), data.getIO());
+    return DataTyped<DTYPE>::create(data->getPath(), data->getIO());
   }
 
   // Define the data fields to expose for lazy read access
   DEFINE_DATASET_FIELD(readData, recordData, DTYPE, "", The main data)
 
-  using RegisteredType::m_io;
-  using RegisteredType::m_path;
+  using RegisteredType::getIO;
+  using RegisteredType::getPath;
 };
 }  // namespace AQNWB::NWB

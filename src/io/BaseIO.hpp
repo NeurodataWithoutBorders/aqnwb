@@ -29,8 +29,12 @@ using SizeType = AQNWB::Types::SizeType;
  */
 namespace AQNWB::IO
 {
-
 class BaseRecordingData;
+class RecordingObjects;
+}  // namespace AQNWB::IO
+
+namespace AQNWB::IO
+{
 
 /**
  * @brief Represents a base data type.
@@ -553,13 +557,13 @@ public:
    * @brief Starts the recording process.
    * @return The status of the operation.
    */
-  virtual Status startRecording() = 0;
+  virtual Status startRecording();
 
   /**
    * @brief Stops the recording process.
    * @return The status of the operation.
    */
-  virtual Status stopRecording() = 0;
+  virtual Status stopRecording();
 
   /**
    * @brief Returns true if the file is in a mode where objects can
@@ -619,6 +623,15 @@ public:
    */
   inline bool isReadyToOpen() const { return m_readyToOpen; }
 
+  /**
+   * @brief Returns the recording objects container for this IO object.
+   * @return A shared pointer to the RecordingObjects container.
+   */
+  inline std::shared_ptr<RecordingObjects> getRecordingObjects() const
+  {
+    return m_recording_objects;
+  }
+
 protected:
   /**
    * @brief The name of the file.
@@ -641,6 +654,12 @@ protected:
    * @brief Whether the file is currently open.
    */
   bool m_opened;
+
+  /**
+   * @brief The recording objects for tracking all RegisteredType objects used
+   * for recording associated with this IO object.
+   */
+  std::shared_ptr<RecordingObjects> m_recording_objects;
 };
 
 /**

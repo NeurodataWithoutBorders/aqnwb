@@ -663,7 +663,7 @@ namespace {cpp_namespace_name} {{
  */
 class {class_name} : public {parent_class}
 {{
-public:
+protected:
     /**
      * @brief Constructor
      * @param path Path to the object in the file
@@ -672,7 +672,8 @@ public:
     {class_name}(
         const std::string& path,
         std::shared_ptr<AQNWB::IO::BaseIO> io);
-    
+
+public:
     {header_initalize_src}
 """
 
@@ -792,6 +793,7 @@ public:
     header += f"""
     REGISTER_SUBCLASS(
         {class_name},
+        {parent_class},
         AQNWB::SPEC::{cpp_namespace_name}::namespaceName)
 }};
 

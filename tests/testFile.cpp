@@ -35,13 +35,14 @@ TEST_CASE("ElectrodesTable", "[ecephys]")
         Channel("ch2", "array0", 0, channelIDs[2], 2),
     };
 
-    NWB::ElectrodesTable electrodeTable(io);
-    electrodeTable.initialize();
-    electrodeTable.addElectrodes(channels);
-    electrodeTable.finalize();
+    auto electrodeTable = NWB::ElectrodesTable::create(io);
+    electrodeTable->initialize();
+    electrodeTable->addElectrodes(channels);
+    electrodeTable
+        ->finalize();  // Finalize the table so we can read the column names
 
     // Confirm that the column names are created correctly
-    auto readColNames = electrodeTable.readColNames()->values().data;
+    auto readColNames = electrodeTable->readColNames()->values().data;
     std::vector<std::string> expectedColNames = {
         "location", "group", "group_name"};
     REQUIRE(readColNames == expectedColNames);
@@ -59,7 +60,7 @@ TEST_CASE("ElectrodesTable", "[ecephys]")
     REQUIRE(channelIDs == read_channels);
 
     // Test reading the location data
-    auto readLocation = electrodeTable.readLocationColumn();
+    auto readLocation = electrodeTable->readLocationColumn();
     REQUIRE(readLocation != nullptr);
     auto readLocationData = readLocation->readData();
     auto readLocationValues = readLocationData->values().data;
@@ -69,7 +70,7 @@ TEST_CASE("ElectrodesTable", "[ecephys]")
     REQUIRE(readLocationValues == expectedLocations);
 
     // Test reading the groupName data
-    auto readGroupName = electrodeTable.readGroupNameColumn();
+    auto readGroupName = electrodeTable->readGroupNameColumn();
     REQUIRE(readGroupName != nullptr);
     auto readGroupNameData = readGroupName->readData();
     auto readGroupNameValues = readGroupNameData->values().data;
@@ -80,7 +81,7 @@ TEST_CASE("ElectrodesTable", "[ecephys]")
 
     // Test reading the id column
     std::shared_ptr<NWB::ElementIdentifiers> readId =
-        electrodeTable.readIdColumn();
+        electrodeTable->readIdColumn();
     REQUIRE(readId != nullptr);
     auto readIdData = readId->readData();
     auto readIdValues = readIdData->values().data;
@@ -89,7 +90,7 @@ TEST_CASE("ElectrodesTable", "[ecephys]")
     REQUIRE(readIdValues == expectedIdValues);
 
     // Test reading columns via the generic readColumn method
-    auto readGroupName2 = electrodeTable.readColumn<std::string>("group_name");
+    auto readGroupName2 = electrodeTable->readColumn<std::string>("group_name");
     REQUIRE(readGroupName2 != nullptr);
     auto readGroupNameData2 = readGroupName2->readData();
     auto readGroupNameValues2 = readGroupNameData2->values().data;
@@ -98,7 +99,7 @@ TEST_CASE("ElectrodesTable", "[ecephys]")
 
     // Test reading id column via the generic readColumn method as VectorData
     std::shared_ptr<NWB::VectorDataTyped<int>> readId2 =
-        electrodeTable.readColumn<int>("id");
+        electrodeTable->readColumn<int>("id");
     REQUIRE(readId2 != nullptr);
     auto readIdData2 = readId2->readData();
     auto readIdValues2 = readIdData2->values().data;
@@ -115,8 +116,8 @@ TEST_CASE("ElectrodesTable", "[ecephys]")
     io->open();
     io->createGroup("/general");
     io->createGroup("/general/extracellular_ephys");
-    NWB::ElectrodesTable electrodeTable(io);
-    electrodeTable.initialize();
+    auto electrodeTable = NWB::ElectrodesTable::create(io);
+    electrodeTable->initialize();
   }
 
   SECTION("test table creation with multiple arrays")
