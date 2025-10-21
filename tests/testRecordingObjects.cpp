@@ -1,6 +1,6 @@
 //==========================================================================
 //  RecordingObjectsTests.cpp
-//  Unit‑tests for AQNWB::IO::RecordingObjects
+//  Unit-tests for AQNWB::IO::RecordingObjects
 //  (uses the normal NWB recording workflow)
 //==========================================================================
 
@@ -27,7 +27,7 @@
 using namespace AQNWB;
 
 // -------------------------------------------------------------------------
-//   Helper RegisteredType subclasses that deliberately misbehaves – they are
+//   Helper RegisteredType subclasses that deliberately misbehave – they are
 //   still *TimeSeries*  objects, so they can be inserted into a
 //   RecordingObjects collection.
 //   -------------------------------------------------------------------------
@@ -45,7 +45,7 @@ public:
   // make finalize always fail
   Status finalize() override { return Status::Failure; }
 
-  // a no‑op clear (the default implementation would be fine)
+  // a no-op clear (the default implementation would be fine)
   void clearRecordingDataCache() override {}
 };
 
@@ -187,7 +187,7 @@ TEST_CASE("RecordingObjects recording workflow tests", "[recording]")
                            "/acquisition/esdata1;")
             != std::string::npos);
 
-    // out‑of‑range lookup returns nullptr
+    // out-of-range lookup returns nullptr
     REQUIRE(recordingObjects->getRecordingObject(99) == nullptr);
 
     // now read an existing series and confirm that we get back the already

@@ -32,7 +32,7 @@ TEST_CASE("saveNWBFile", "[nwb]")
   auto io = std::make_shared<IO::HDF5::HDF5IO>(filename);
   auto nwbfile = NWB::NWBFile::create(io);
   nwbfile->initialize(generateUuid());
-  nwbfile->finalize();  // Good practive since we don't call stop recording, but
+  nwbfile->finalize();  // Good practice since we don't call stop recording, but
                         // not essential
   io->close();
 }
@@ -72,7 +72,7 @@ TEST_CASE("initialize", "[nwb]")
   auto result = nwbfile->findOwnedTypes();
   REQUIRE(result.size() == 0);
 
-  nwbfile->finalize();  // Good practive since we don't call stop recording, but
+  nwbfile->finalize();  // Good practice since we don't call stop recording, but
                         // not essential
   io->close();  // close the io
 }
@@ -168,7 +168,7 @@ TEST_CASE("createElectricalSeriesFailsWithoutElectrodesTable", "[nwb]")
       recordingElectrodes, recordingNames, BaseDataType::F32, containerIndices);
   REQUIRE(resultCreateES == Status::Failure);
 
-  nwbfile->finalize();  // Good practive since we don't call stop recording, but
+  nwbfile->finalize();  // Good practice since we don't call stop recording, but
                         // not essential
   io->close();
 }

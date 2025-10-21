@@ -201,7 +201,7 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
         getMockChannelArrays(4);
 
     // setup io object
-    std::string path = getTestFilePath("ElectricalSeriesElectrodh5");
+    std::string path = getTestFilePath("ElectricalSeriesElectrodes.h5");
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
     io->createGroup("/general");

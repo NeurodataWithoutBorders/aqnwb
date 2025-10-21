@@ -110,7 +110,7 @@ public:
 
   /**
    * @brief Create a string representation of the RecordingObjects contents
-   * @return A string listing the intex, types, and paths of all RegisteredType
+   * @return A string listing the index, types, and paths of all RegisteredType
    *         objects manages by this RecordingObjects instance.
    */
   std::string toString() const;
