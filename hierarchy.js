@@ -11,7 +11,7 @@ var hierarchy =
       [ "AQNWB::IO::HDF5::HDF5RecordingData", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html", null ]
     ] ],
     [ "AQNWB::Channel", "class_a_q_n_w_b_1_1_channel.html", null ],
-    [ "AQNWB::IO::DataBlock< DTYPE >", "class_a_q_n_w_b_1_1_i_o_1_1_data_block.html", null ],
+    [ "AQNWB::IO::DataBlock&lt; DTYPE &gt;", "class_a_q_n_w_b_1_1_i_o_1_1_data_block.html", null ],
     [ "AQNWB::IO::DataBlockGeneric", "class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html", null ],
     [ "std::false_type", null, [
       [ "AQNWB::IO::isAllowedStorageObjectType< StorageObjectType::Attribute >", "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type_3_01_storage_object_type_1_1_attribute_01_4.html", null ],
@@ -25,7 +25,7 @@ var hierarchy =
     ] ],
     [ "AQNWB::Types::NamespaceInfo", "struct_a_q_n_w_b_1_1_types_1_1_namespace_info.html", null ],
     [ "AQNWB::SPEC::NamespaceRegistry", "class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html", null ],
-    [ "AQNWB::IO::ReadDataWrapper< OTYPE, VTYPE >", "class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html", null ],
+    [ "AQNWB::IO::ReadDataWrapper&lt; OTYPE, VTYPE &gt;", "class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html", null ],
     [ "AQNWB::NWB::RecordingContainers", "class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html", null ],
     [ "AQNWB::NWB::RegisteredType", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html", [
       [ "AQNWB::NWB::Container", "class_a_q_n_w_b_1_1_n_w_b_1_1_container.html", [

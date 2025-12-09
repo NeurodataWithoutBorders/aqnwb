@@ -1,12 +1,12 @@
 <map id="AQNWB::NWB::ElectricalSeries" name="AQNWB::NWB::ElectricalSeries">
 <area shape="rect" id="Node000001" title="General purpose time series." alt="" coords="108,493,319,519"/>
 <area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html" title="General purpose time series." alt="" coords="120,418,307,444"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="216,459,216,493,211,493,211,459"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="216,458,216,495,211,492,212,461"/>
 <area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html" title="Abstract data type for a group storing collections of data and metadata." alt="" coords="23,181,199,206"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="125,219,211,417,206,419,120,221"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="124,218,211,418,206,419,120,222"/>
 <area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema." alt="" coords="5,5,217,31"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="114,47,114,180,108,180,108,47"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="112,44,114,180,108,180,110,49"/>
 <area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html" title="Represents a base data type." alt="" coords="224,181,412,206"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="309,221,221,419,216,417,304,219"/>
-<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="351,172,381,165,409,167,430,176,436,184,438,194,436,205,428,213,403,221,370,220,337,209,339,204,371,215,402,216,425,209,431,202,433,193,431,186,427,180,408,172,382,171,353,177"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="309,220,221,420,217,417,304,221"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="351,172,381,165,409,167,430,176,436,184,438,194,436,205,428,213,403,221,370,220,338,209,338,204,371,215,402,216,425,209,431,202,433,193,431,186,427,180,408,172,382,171,353,177"/>
 </map>

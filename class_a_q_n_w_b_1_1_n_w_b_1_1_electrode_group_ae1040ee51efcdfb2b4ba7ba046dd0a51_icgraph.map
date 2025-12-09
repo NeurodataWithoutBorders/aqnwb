@@ -1,7 +1,7 @@
 <map id="AQNWB::NWB::ElectrodeGroup::initialize" name="AQNWB::NWB::ElectrodeGroup::initialize">
 <area shape="rect" id="Node000001" title="Initializes the ElectrodeGroup object." alt="" coords="227,39,437,79"/>
 <area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a749bc45b2c60adf71b4d16ad247dc04d" title="Create ElectrodesTable. Note, this function will fail if the file is in a mode where new objects cann..." alt="" coords="5,5,179,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="211,45,179,40,180,35,211,40"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="208,43,179,40,179,35,214,42"/>
 <area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a1081999095a4a94f6a3c70cb17807799" title="Create SpikeEventSeries objects to record data into. Created objects are stored in recordingContainer..." alt="" coords="5,71,179,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="211,78,180,82,179,77,211,72"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="208,76,180,82,179,77,214,75"/>
 </map>

@@ -1,23 +1,23 @@
 <map id="AQNWB::NWB::NWBFile::initialize" name="AQNWB::NWB::NWBFile::initialize">
 <area shape="rect" id="Node000001" title="Initializes the NWB file by setting up the file structure." alt="" coords="5,223,179,263"/>
 <area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a71bd7b910a7ec89bdaf36304d67bfef1" title="Creates the default file structure. Note, this function will fail if the file is in a mode where new ..." alt="" coords="227,136,400,177"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="142,220,226,186,240,180,242,185,228,191,144,225"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="142,220,226,186,244,181,239,184,228,191,144,225"/>
 <area shape="rect" id="Node000009" href="$namespace_a_q_n_w_b.html#ac436d136125307ef8158115a2296b3e9" title="Get the current time in ISO 8601 format with the UTC offset." alt="" coords="228,201,398,226"/>
-<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="179,229,212,224,213,230,179,234"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="178,229,215,226,210,228,180,234"/>
 <area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aba967059704c8c81446775bd7beda42b" title="Check if the NWB file is initialized." alt="" coords="227,251,400,291"/>
-<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="179,251,211,255,211,261,179,257"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="179,251,214,257,208,259,179,257"/>
 <area shape="rect" id="Node000011" href="$namespace_a_q_n_w_b.html#a4aacc6b82eca3064a8afe0070c44cde4" title="Check that a string is formatted in ISO8601 format." alt="" coords="229,316,398,341"/>
-<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="137,261,228,301,249,308,247,313,226,305,135,266"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="136,261,228,301,250,310,245,310,226,305,135,267"/>
 <area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aaf2e07b4e912fc34ab052d38f92e6cdd" title="Saves the specification files for the schema." alt="" coords="484,5,657,46"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="336,133,385,95,447,57,468,48,470,53,449,61,388,99,339,138"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="336,133,385,95,447,57,471,49,467,51,449,61,388,99,339,138"/>
 <area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#aceded37c693bb2f6aa21a5945a13557c" title="Get all registered namespaces." alt="" coords="448,71,692,111"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="395,133,472,113,473,118,397,138"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="395,133,475,115,470,117,397,138"/>
 <area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a651f3d7e5cc28dc93888e8a821c5aa1c" title="Get the schema namespace of the class type." alt="" coords="464,136,676,177"/>
-<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="400,154,449,154,449,159,400,159"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="400,154,452,156,446,157,401,159"/>
 <area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a150f881ad61cb8352eea7ddba47bc6ad" title="Get the name of the class type." alt="" coords="464,201,676,242"/>
-<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="397,175,473,194,472,200,395,180"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="396,175,475,197,470,197,396,180"/>
 <area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#a15d9c6f869f0270ad91a2af8067f5a88" title="Get the singleton instance of the NamespaceRegistry." alt="" coords="448,267,692,307"/>
-<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="383,175,402,186,418,203,426,220,434,236,450,252,459,257,456,262,446,256,430,239,421,223,413,206,398,190,380,179"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="382,175,402,186,418,203,426,220,434,236,450,252,460,260,455,259,446,256,430,239,421,223,413,206,398,190,382,180"/>
 <area shape="rect" id="Node000004" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="740,13,891,38"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="657,23,725,23,725,28,657,28"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="657,23,728,25,722,26,658,28"/>
 </map>

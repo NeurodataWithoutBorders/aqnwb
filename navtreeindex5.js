@@ -1,7 +1,5 @@
 var NAVTREEINDEX5 =
 {
-"record_design_page.html#record_design_sec_recording_containers":[2,7,2],
-"record_design_page.html#record_design_sec_recording_data":[2,7,0],
 "record_design_page.html#record_design_sec_timeseries":[2,7,1],
 "record_design_page.html#recording_design_further_reading":[2,7,3],
 "registered_type_page.html":[2,4],
@@ -22,10 +20,10 @@ var NAVTREEINDEX5 =
 "struct_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper_1_1is_dataset.html":[4,0,0,0,10,0],
 "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type.html":[3,0,0,0,7],
 "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type.html":[4,0,0,0,7],
-"struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type_3_01_storage_object_type_1_1_attribute_01_4.html":[3,0,0,0,8],
-"struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type_3_01_storage_object_type_1_1_attribute_01_4.html":[4,0,0,0,8],
-"struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type_3_01_storage_object_type_1_1_dataset_01_4.html":[3,0,0,0,9],
-"struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type_3_01_storage_object_type_1_1_dataset_01_4.html":[4,0,0,0,9],
+"struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type_3_01_storage_object_type_1_1_attribute_01_4.html":[3,0,0,0,9],
+"struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type_3_01_storage_object_type_1_1_attribute_01_4.html":[4,0,0,0,9],
+"struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type_3_01_storage_object_type_1_1_dataset_01_4.html":[3,0,0,0,8],
+"struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type_3_01_storage_object_type_1_1_dataset_01_4.html":[4,0,0,0,8],
 "struct_a_q_n_w_b_1_1_types_1_1_is_data_storage_object_type.html":[3,0,0,4,0],
 "struct_a_q_n_w_b_1_1_types_1_1_is_data_storage_object_type.html":[4,0,0,4,0],
 "struct_a_q_n_w_b_1_1_types_1_1_namespace_info.html":[3,0,0,4,1],

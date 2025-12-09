@@ -1,27 +1,27 @@
 <map id="AQNWB::IO::HDF5::HDF5IO::canModifyObjects" name="AQNWB::IO::HDF5::HDF5IO::canModifyObjects">
 <area shape="rect" id="Node000001" title="Checks whether the file is in a mode where objects can be added or deleted. Note, this does not apply..." alt="" coords="490,316,684,357"/>
 <area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a0b301f91a26412d2f1a36f233f7099db" title="Creates an extendable dataset with the given configuration and path." alt="" coords="248,5,442,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="573,302,555,250,527,187,489,123,466,93,440,66,414,49,417,44,444,62,470,89,494,120,532,185,560,248,578,300"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="573,300,555,250,527,187,489,123,466,93,440,66,416,49,415,44,444,62,470,89,494,120,532,185,560,248,578,302"/>
 <area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a97653ad67ac314515362c7fe2b6fbaa1" title="Creates a dataset that holds an array of string values." alt="" coords="5,35,200,75"/>
-<area shape="poly" id="edge13_Node000001_Node000003" title=" " alt="" coords="572,303,553,257,526,205,488,153,466,130,441,111,399,94,338,81,200,64,201,59,339,75,401,89,443,106,469,126,492,149,530,202,558,255,577,301"/>
+<area shape="poly" id="edge13_Node000001_Node000003" title=" " alt="" coords="572,301,553,257,526,205,488,153,466,130,441,111,399,94,338,81,201,64,199,59,339,75,401,89,443,106,469,126,492,149,530,202,558,255,577,302"/>
 <area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a7ce63eb864cc8678f4bacb5fbc695cbe" title="Creates an attribute at a given location in the file." alt="" coords="248,120,442,161"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="562,305,511,240,478,206,441,176,418,164,421,159,443,171,481,202,515,236,567,302"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="562,303,511,240,478,206,441,176,420,164,419,159,443,171,481,202,515,236,567,304"/>
 <area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a9e25b2f9b7ea08f7ac0be2f5c3a5f123" title="Creates a string attribute at a given location in the file." alt="" coords="248,185,442,226"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="546,309,497,274,441,241,413,229,415,224,443,237,500,270,549,304"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="545,307,497,274,441,241,414,229,413,224,443,237,500,270,550,306"/>
 <area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a6d212643870ac6b96ac08e7425a00a0a" title="Creates an array of variable length strings attribute at a given location in the file." alt="" coords="248,251,442,291"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="494,314,422,295,424,289,495,309"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="492,312,424,295,423,289,497,311"/>
 <area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a22f7fbb78b3b211669010cc05f61e0e4" title="Creates a new group in the file." alt="" coords="248,316,442,357"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="474,339,442,339,442,334,474,334"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="472,337,443,339,442,334,477,335"/>
 <area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#af3bc883205c98d08820bf234f42f4467" title="Creates a new group if it does not exist." alt="" coords="5,344,200,385"/>
-<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="492,363,442,371,316,377,200,374,200,369,316,372,442,366,491,358"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="489,361,442,371,316,377,201,374,199,369,316,372,442,366,494,359"/>
 <area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a351fa783e607e0840d5d28b3761d42ff" title="Creates a soft link to another location in the file." alt="" coords="248,431,442,471"/>
-<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="537,367,443,415,402,433,400,428,441,410,535,362"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="534,366,443,415,402,432,400,428,441,410,538,363"/>
 <area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a9181a28c31a25698ca748b1dcb955daa" title="Sets an object reference attribute for a given location in the file." alt="" coords="248,496,442,537"/>
-<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="563,371,512,429,479,459,443,485,419,498,417,493,441,481,476,455,508,425,559,367"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="564,367,512,429,479,459,443,485,419,498,417,493,441,481,476,455,508,425,559,371"/>
 <area shape="rect" id="Node000011" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a43cc98ba74643c5f93fcce3f30505e1f" title="Creates a dataset that holds an array of references to groups within the file." alt="" coords="248,561,442,602"/>
-<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="573,372,553,413,524,461,487,509,444,550,423,563,420,559,440,546,483,505,520,458,548,410,569,370"/>
+<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="573,369,553,413,524,461,487,509,444,550,422,563,420,558,440,546,483,505,520,458,548,410,569,373"/>
 <area shape="rect" id="Node000012" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#abb3541720c4613adc1c273cbe54f66a9" title="Creates a non&#45;modifiable dataset with a string value." alt="" coords="248,627,442,667"/>
-<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="579,372,562,426,534,491,495,558,471,588,444,616,425,628,422,624,440,612,467,585,491,555,529,488,557,424,574,371"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="232,42,200,46,200,41,232,37"/>
-<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="232,352,200,356,200,350,232,347"/>
+<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="579,370,562,426,534,491,495,558,471,588,444,616,424,629,422,624,440,612,467,585,491,555,529,488,557,424,575,373"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="230,41,202,45,198,41,234,38"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="230,351,201,355,199,351,234,348"/>
 </map>

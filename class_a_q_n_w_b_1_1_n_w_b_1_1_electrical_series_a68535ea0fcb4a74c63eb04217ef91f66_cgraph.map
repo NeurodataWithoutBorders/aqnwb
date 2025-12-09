@@ -1,19 +1,19 @@
 <map id="AQNWB::NWB::ElectricalSeries::initialize" name="AQNWB::NWB::ElectricalSeries::initialize">
 <area shape="rect" id="Node000001" title="Initializes the Electrical Series." alt="" coords="5,165,217,206"/>
 <area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html#aead95752724335677d8e3cee6afe97bb" title="Returns the chunking of the dataset." alt="" coords="265,5,484,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="130,163,187,110,224,82,263,57,277,50,279,55,266,61,227,86,190,114,134,167"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="130,163,187,110,224,82,263,57,280,51,276,54,266,61,227,86,190,114,134,167"/>
 <area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab3eec5d2a591356df25053a4159ab671" title="Gets the path of the registered type." alt="" coords="269,71,480,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="160,162,264,122,287,114,289,119,266,127,162,167"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="160,162,264,122,290,115,286,118,266,127,163,167"/>
 <area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a420424e52795b5212d7dcb728396af6a" title="Initialize the container." alt="" coords="286,136,462,177"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="217,171,270,165,271,171,218,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="216,171,273,167,268,169,218,176"/>
 <area shape="rect" id="Node000007" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="299,201,450,226"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="218,194,284,201,283,207,217,200"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="217,194,286,203,281,205,218,200"/>
 <area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#ab91599ee8b562b5fd1505733ff823b72" title=" " alt="" coords="269,251,480,291"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="171,204,265,236,287,243,286,248,264,242,169,209"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="170,204,265,236,289,246,284,246,264,242,170,209"/>
 <area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#aba56c00f2ba3844dac940092c8440d0d" title=" " alt="" coords="269,316,480,357"/>
-<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="136,204,192,252,228,278,266,301,281,308,279,312,263,305,225,283,189,257,132,208"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="134,204,192,252,228,278,266,301,282,310,277,310,263,305,225,283,189,257,133,209"/>
 <area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a651f3d7e5cc28dc93888e8a821c5aa1c" title="Get the schema namespace of the class type." alt="" coords="532,104,743,145"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="463,143,516,136,517,142,463,148"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="462,143,519,138,514,140,463,148"/>
 <area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a150f881ad61cb8352eea7ddba47bc6ad" title="Get the name of the class type." alt="" coords="532,169,743,210"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="463,165,517,172,516,177,462,170"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="463,165,519,174,514,175,463,170"/>
 </map>
