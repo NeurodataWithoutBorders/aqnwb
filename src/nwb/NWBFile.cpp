@@ -33,12 +33,12 @@ constexpr SizeType SPIKE_CHUNK_XSIZE =
 REGISTER_SUBCLASS_IMPL(NWBFile)
 
 NWBFile::NWBFile(std::shared_ptr<IO::BaseIO> io)
-    : Container("/", io)
+    : NWBContainer("/", io)
 {
 }
 
 NWBFile::NWBFile(const std::string& path, std::shared_ptr<IO::BaseIO> io)
-    : Container("/", io)  // Always use "/" for the path
+    : NWBContainer("/", io)  // Always use "/" for the path
 {
   assert(path == "/" && "NWBFile object is always the root. Path must be /");
 }

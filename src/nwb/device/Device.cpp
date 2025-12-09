@@ -8,7 +8,7 @@ REGISTER_SUBCLASS_IMPL(Device)
 
 /** Constructor */
 Device::Device(const std::string& path, std::shared_ptr<IO::BaseIO> io)
-    : Container(path, io)
+    : NWBContainer(path, io)
 {
 }
 
@@ -18,7 +18,7 @@ Device::~Device() {}
 void Device::initialize(const std::string& description,
                         const std::string& manufacturer)
 {
-  Container::initialize();
+  NWBContainer::initialize();
 
   m_io->createCommonNWBAttributes(
       m_path, this->getNamespace(), this->getTypeName());
