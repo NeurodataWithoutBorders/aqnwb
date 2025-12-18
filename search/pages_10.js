@@ -19,7 +19,9 @@ var searchData=
   ['inspect_20electrical_20series_20data_20using_20aqnwb_16',['Inspect Electrical Series Data using AqNWB',['../user_demos.html#demos_inspect_electrical_series',1,'']]],
   ['install_17',['Install',['../user_install_page.html#userbuild_install_sec',1,'']]],
   ['installation_20🛠️_18',['Installation 🛠️',['../dev_install_page.html',1,'Installation 🛠️'],['../user_install_page.html',1,'Installation 🛠️'],['../index.html#mainpage_installation',1,'Installation 🛠️']]],
-  ['integrate_20a_20new_20namespace_19',['How to Integrate a New Namespace',['../integrating_extensions_page.html#integrate_namespace',1,'']]],
-  ['integrating_20labmetadata_20extension_20with_20aqnwb_20',['Integrating LabMetaData Extension with AqNWB',['../user_demos.html#demos_labmetadata_extension',1,'']]],
-  ['integrating_20nwb_20extensions_20🧩_21',['Integrating NWB Extensions 🧩',['../integrating_extensions_page.html',1,'devdocs']]]
+  ['installing_20aqnwb_19',['Installing AqNWB',['../dev_install_page.html#dev_install_aqnwb_sec',1,'']]],
+  ['installing_20python_20utilities_20',['Installing Python Utilities',['../dev_install_page.html#dev_install_utils_sec',1,'']]],
+  ['integrate_20a_20new_20namespace_21',['How to Integrate a New Namespace',['../integrating_extensions_page.html#integrate_namespace',1,'']]],
+  ['integrating_20labmetadata_20extension_20with_20aqnwb_22',['Integrating LabMetaData Extension with AqNWB',['../user_demos.html#demos_labmetadata_extension',1,'']]],
+  ['integrating_20nwb_20extensions_20🧩_23',['Integrating NWB Extensions 🧩',['../integrating_extensions_page.html',1,'devdocs']]]
 ];

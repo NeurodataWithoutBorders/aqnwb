@@ -36,7 +36,7 @@ var searchData=
   ['annotationseries_2ecpp_33',['AnnotationSeries.cpp',['../_annotation_series_8cpp.html',1,'']]],
   ['annotationseries_2ehpp_34',['AnnotationSeries.hpp',['../_annotation_series_8hpp.html',1,'']]],
   ['aqnwb_35',['AQNWB',['../namespace_a_q_n_w_b.html',1,'']]],
-  ['aqnwb_36',['AqNWB',['../user_demos.html#demos_inspect_electrical_series',1,'Inspect Electrical Series Data using AqNWB'],['../user_demos.html#demos_labmetadata_extension',1,'Integrating LabMetaData Extension with AqNWB'],['../hdf5io.html#hdf5io_filters_usage',1,'Using Chunking and I/O Filters in AqNWB']]],
+  ['aqnwb_36',['AqNWB',['../user_demos.html#demos_inspect_electrical_series',1,'Inspect Electrical Series Data using AqNWB'],['../dev_install_page.html#dev_install_aqnwb_sec',1,'Installing AqNWB'],['../user_demos.html#demos_labmetadata_extension',1,'Integrating LabMetaData Extension with AqNWB'],['../hdf5io.html#hdf5io_filters_usage',1,'Using Chunking and I/O Filters in AqNWB']]],
   ['aqnwb_20use_20smwr_20mode_37',['Why does AqNWB use SMWR mode?',['../hdf5io.html#hdf5io_swmr_features',1,'']]],
   ['aqnwb_3a_3aio_38',['IO',['../namespace_a_q_n_w_b_1_1_i_o.html',1,'AQNWB']]],
   ['aqnwb_3a_3aio_3a_3ahdf5_39',['HDF5',['../namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html',1,'AQNWB::IO']]],

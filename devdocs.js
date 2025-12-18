@@ -1,14 +1,17 @@
 var devdocs =
 [
     [ "Installation 🛠️", "dev_install_page.html", [
-      [ "Requirements", "dev_install_page.html#dev_requirements_sec", null ],
-      [ "Developer Build", "dev_install_page.html#devbuild_sec", null ],
-      [ "Developer Presets", "dev_install_page.html#devbuild_presets_subsec", [
-        [ "Configure, Build and Test", "dev_install_page.html#configure_build_test", null ]
+      [ "Installing AqNWB", "dev_install_page.html#dev_install_aqnwb_sec", [
+        [ "Requirements", "dev_install_page.html#dev_requirements_sec", null ],
+        [ "Developer Build", "dev_install_page.html#devbuild_sec", [
+          [ "Developer Presets", "dev_install_page.html#devbuild_presets_subsec", null ],
+          [ "Configure, Build and Test", "dev_install_page.html#configure_build_test", null ],
+          [ "Developer Mode Targets", "dev_install_page.html#devbuild_dev_mode_targets_subsec", [
+            [ "Target options", "dev_install_page.html#devbuild_target_options_subsubsec", null ]
+          ] ]
+        ] ]
       ] ],
-      [ "Developer Mode Targets", "dev_install_page.html#devbuild_dev_mode_targets_subsec", [
-        [ "Target options", "dev_install_page.html#devbuild_target_options_subsubsec", null ]
-      ] ]
+      [ "Installing Python Utilities", "dev_install_page.html#dev_install_utils_sec", null ]
     ] ],
     [ "Testing 🛡️", "testing.html", [
       [ "Unit Tests", "testing.html#testing_unit", [
@@ -47,7 +50,7 @@ var devdocs =
         ] ],
         [ "Limitations of REGISTER_SUBCLASS_WITH_TYPENAME", "registered_type_page.html#limitations_registered_subclass_with_typename", null ]
       ] ],
-      [ "Using the schematype_to_aqnwb.py Utility", "registered_type_page.html#using_schematype_to_aqnwb", null ],
+      [ "Using the generate-types command", "registered_type_page.html#using_schematype_to_aqnwb", null ],
       [ "Testing RegisteredTypes", "registered_type_page.html#implement_registered_type_unit_tests", null ]
     ] ],
     [ "Integrating NWB Extensions 🧩", "integrating_extensions_page.html", [

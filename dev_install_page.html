@@ -108,8 +108,10 @@ $(function() {
   <div class="headertitle"><div class="title">Installation 🛠️ </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1 class="doxsection"><a class="anchor" id="dev_requirements_sec"></a>
-Requirements</h1>
+<div class="textblock"><h1 class="doxsection"><a class="anchor" id="dev_install_aqnwb_sec"></a>
+Installing AqNWB</h1>
+<h2 class="doxsection"><a class="anchor" id="dev_requirements_sec"></a>
+Requirements</h2>
 <p>Please ensure that the required libraries described in the <a class="el" href="user_install_page.html#user_requirements_sec">User Requirements</a> section are installed and clone the latest AqNWB source via:</p>
 <div class="fragment"><div class="line">git clone https://github.com/NeurodataWithoutBorders/aqnwb.git</div>
 </div><!-- fragment --><p>For developers we also recommend to install the following optional command line tools used for generating the documentation, for code quality checks, and for debugging.</p>
@@ -126,8 +128,8 @@ Requirements</h1>
 </ul>
 </li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="devbuild_sec"></a>
-Developer Build</h1>
+<h2 class="doxsection"><a class="anchor" id="devbuild_sec"></a>
+Developer Build</h2>
 <p>Build system targets that are only useful for developers of AqNWB are hidden if the <span class="tt">aqnwb_DEVELOPER_MODE</span> option is disabled. Enabling this option makes <a class="el" href="testing.html">tests</a> and other developer targets and options available. You can enable the option when configuring the build by adding <span class="tt">-Daqnwb_DEVELOPER_MODE=ON</span>, e.g.,</p>
 <div class="fragment"><div class="line">cmake -S . -B build -Daqnwb_DEVELOPER_MODE=ON</div>
 </div><!-- fragment --><p>Use the flag <span class="tt">-DBUILD_SHARED_LIBS=ON</span> to generate the shared library file.</p>
@@ -140,8 +142,8 @@ Developer Build</h1>
 <div class="line">cmake --preset=dev -DCMAKE_PREFIX_PATH=/path/to/hdf5_install;/path/to/boost_install</div>
 </div><!-- fragment --><p>This ensures CMake can find the necessary config files for both HDF5 and Boost.</p>
 <p>The use of <span class="tt">HDF5_ROOT</span> and <span class="tt">BOOST_ROOT</span> environment variables is deprecated for modern CMake and may not work reliably with recent CMake versions.</p>
-<h1 class="doxsection"><a class="anchor" id="devbuild_presets_subsec"></a>
-Developer Presets</h1>
+<h3 class="doxsection"><a class="anchor" id="devbuild_presets_subsec"></a>
+Developer Presets</h3>
 <p>As a developer, you can create your own dev preset by making a <span class="tt">CMakeUserPresets.json</span> file at the root of the project:</p>
 <div class="fragment"><div class="line">{</div>
 <div class="line">  &quot;version&quot;: 2,</div>
@@ -179,26 +181,102 @@ Developer Presets</h1>
 <div class="line">  ]</div>
 <div class="line">}</div>
 </div><!-- fragment --><p> Replace <span class="tt">&lt;os&gt;</span> in the <span class="tt">CMakeUserPresets.json</span> file with the name of the operating system you have (<span class="tt">win64</span>, <span class="tt">linux</span> or <span class="tt">darwin</span>).</p>
-<h2 class="doxsection"><a class="anchor" id="configure_build_test"></a>
-Configure, Build and Test</h2>
+<h3 class="doxsection"><a class="anchor" id="configure_build_test"></a>
+Configure, Build and Test</h3>
 <p>You can configure, build and test the project respectively with the following commands from the project root on any operating system with any build system:</p>
 <div class="fragment"><div class="line">cmake --preset=dev</div>
 <div class="line">cmake --build --preset=dev</div>
 <div class="line">ctest --preset=dev</div>
-</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="devbuild_dev_mode_targets_subsec"></a>
-Developer Mode Targets</h1>
+</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="devbuild_dev_mode_targets_subsec"></a>
+Developer Mode Targets</h3>
 <p>Additional targets can be invoked when in development mode using the commands below</p>
 <div class="fragment"><div class="line">cmake --build --preset=dev --target=&lt;name of the target&gt;</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="devbuild_target_options_subsubsec"></a>
-Target options</h2>
+</div><!-- fragment --><h4 class="doxsection"><a class="anchor" id="devbuild_target_options_subsubsec"></a>
+Target options</h4>
 <ul>
 <li><span class="tt">format-check</span>: run the <span class="tt">clang-format</span> tool on the codebase to check for formatting errors</li>
 <li><span class="tt">format-fix</span> : run the <span class="tt">clang-format</span> tool on the codebase with <span class="tt">FIX=YES</span> to both check and automatically fix for formatting errors</li>
 <li><span class="tt">spell-check</span>: run the <span class="tt">codespell</span> tool on the codebase to check for common spelling errors</li>
 <li><span class="tt">spell-fix</span> : run the <span class="tt">codespell</span> tool on the codebase with <span class="tt">FIX=YES</span> to both check and automatically fix common spelling errors</li>
-<li><span class="tt">docs</span> : builds the documentation using Doxygen. (Note: run <span class="tt">cmake --preset=dev -DBUILD_DOCS=ON</span> before building to add docs target) </li>
+<li><span class="tt">docs</span> : builds the documentation using Doxygen. (Note: run <span class="tt">cmake --preset=dev -DBUILD_DOCS=ON</span> before building to add docs target)</li>
 </ul>
-</div></div><!-- contents -->
+<h1 class="doxsection"><a class="anchor" id="dev_install_utils_sec"></a>
+Installing Python Utilities</h1>
+<p>AqNWB provides a set of Python utilities for developers to help with generating C++ classes from NWB schema files. For details on how to use the utilities, see the <a href="https://github.com/NeurodataWithoutBorders/aqnwb/blob/main/resources/utils/README.md">README.md</a> in the <span class="tt">resources/utils</span> directory.</p>
+<p><b>README.md</b> </p><div class="fragment"><div class="line"># AqNWB Utilities</div>
+<div class="line"> </div>
+<div class="line">Command-line utilities for AqNWB development.</div>
+<div class="line"> </div>
+<div class="line">## Installation</div>
+<div class="line"> </div>
+<div class="line">### Using uv (Recommended)</div>
+<div class="line"> </div>
+<div class="line">The utilities use inline script metadata (PEP 723) and can be run directly with `uv`:</div>
+<div class="line"> </div>
+<div class="line">```bash</div>
+<div class="line"># Install uv if you haven&#39;t already</div>
+<div class="line">brew install uv</div>
+<div class="line"> </div>
+<div class="line"># Run utilities directly without installation</div>
+<div class="line">uv run resources/utils/aqnwb_utils.py generate-spec &lt;schema_dir&gt; &lt;output_dir&gt;</div>
+<div class="line">uv run resources/utils/aqnwb_utils.py generate-types &lt;namespace_file&gt; &lt;output_dir&gt;</div>
+<div class="line">```</div>
+<div class="line"> </div>
+<div class="line">### Traditional Installation</div>
+<div class="line"> </div>
+<div class="line">You can also install the package if you prefer:</div>
+<div class="line"> </div>
+<div class="line">```bash</div>
+<div class="line"># Using uv</div>
+<div class="line">uv pip install ./resources/utils</div>
+<div class="line"> </div>
+<div class="line"># Or using pip</div>
+<div class="line">pip install ./resources/utils</div>
+<div class="line"> </div>
+<div class="line"># Then use the installed command</div>
+<div class="line">aqnwb-utils generate-spec &lt;schema_dir&gt; &lt;output_dir&gt;</div>
+<div class="line">```</div>
+<div class="line"> </div>
+<div class="line">## Usage</div>
+<div class="line"> </div>
+<div class="line">### Direct execution with uv (no installation required)</div>
+<div class="line"> </div>
+<div class="line">```bash</div>
+<div class="line"># Generate spec files</div>
+<div class="line">uv run resources/utils/aqnwb_utils.py generate-spec &lt;schema_dir&gt; &lt;output_dir&gt;</div>
+<div class="line"> </div>
+<div class="line"># Generate neurodata types</div>
+<div class="line">uv run resources/utils/aqnwb_utils.py generate-types &lt;namespace_file&gt; &lt;output_dir&gt;</div>
+<div class="line"> </div>
+<div class="line"># Generate types with test app</div>
+<div class="line">uv run resources/utils/aqnwb_utils.py generate-types --generate-test-app &lt;namespace_file&gt; &lt;output_dir&gt;</div>
+<div class="line">```</div>
+<div class="line"> </div>
+<div class="line">### After installation</div>
+<div class="line"> </div>
+<div class="line">```bash</div>
+<div class="line"># Generate spec files</div>
+<div class="line">aqnwb-utils generate-spec &lt;schema_dir&gt; &lt;output_dir&gt;</div>
+<div class="line"> </div>
+<div class="line"># Generate neurodata types</div>
+<div class="line">aqnwb-utils generate-types &lt;namespace_file&gt; &lt;output_dir&gt;</div>
+<div class="line"> </div>
+<div class="line"># Generate types with test app</div>
+<div class="line">aqnwb-utils generate-types --generate-test-app &lt;namespace_file&gt; &lt;output_dir&gt;</div>
+<div class="line">```</div>
+<div class="line"> </div>
+<div class="line">## Available Commands</div>
+<div class="line"> </div>
+<div class="line">- `generate-spec`: Generate C++ header files from NWB schema files</div>
+<div class="line">- `generate-types`: Generate C++ classes from neurodata types defined in schema files</div>
+<div class="line"> </div>
+<div class="line">## Benefits of using uv</div>
+<div class="line"> </div>
+<div class="line">- **No installation required**: Run scripts directly with their dependencies automatically managed</div>
+<div class="line">- **Isolated environments**: Each script run uses its own isolated environment</div>
+<div class="line">- **Fast**: uv is significantly faster than pip for dependency resolution and installation</div>
+<div class="line">- **Reproducible**: Dependencies are specified in the script itself using PEP 723 metadata</div>
+</div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->
 <div id="page-nav" class="page-nav-panel">

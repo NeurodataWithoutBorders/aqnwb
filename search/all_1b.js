@@ -17,8 +17,8 @@ var searchData=
   ['using_20aqnwb_14',['Inspect Electrical Series Data using AqNWB',['../user_demos.html#demos_inspect_electrical_series',1,'']]],
   ['using_20chunking_20and_20i_20o_20filters_20in_20aqnwb_15',['Using Chunking and I/O Filters in AqNWB',['../hdf5io.html#hdf5io_filters_usage',1,'']]],
   ['using_20the_20extension_16',['Step 4: Using the Extension',['../integrating_extensions_page.html#labmetadata_extension_usage',1,'']]],
-  ['using_20the_20schematype_5fto_5faqnwb_20py_20utility_17',['Using the schematype_to_aqnwb.py Utility',['../registered_type_page.html#using_schematype_to_aqnwb',1,'']]],
+  ['using_20the_20generate_20types_20command_17',['Using the generate-types command',['../registered_type_page.html#using_schematype_to_aqnwb',1,'']]],
   ['using_20the_20type_20registry_18',['Example: Using the type registry',['../read_design_page.html#use_registered_type_registry_example',1,'']]],
-  ['utility_19',['Using the schematype_to_aqnwb.py Utility',['../registered_type_page.html#using_schematype_to_aqnwb',1,'']]],
+  ['utilities_19',['Installing Python Utilities',['../dev_install_page.html#dev_install_utils_sec',1,'']]],
   ['utils_2ehpp_20',['Utils.hpp',['../_utils_8hpp.html',1,'']]]
 ];

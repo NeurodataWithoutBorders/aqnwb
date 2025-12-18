@@ -26,7 +26,7 @@ var searchData=
   ['and_20test_23',['Configure, Build and Test',['../dev_install_page.html#configure_build_test',1,'']]],
   ['and_20write_20methods_20for_20datasets_24',['DEFINE_DATASET_FIELD: Creating read and write methods for datasets',['../registered_type_page.html#use_the_define_dataset_field_macro',1,'']]],
   ['and_20writing_20data_25',['Creating and Writing Data',['../read_design_page.html#read_design_example_create',1,'']]],
-  ['aqnwb_26',['AqNWB',['../user_demos.html#demos_inspect_electrical_series',1,'Inspect Electrical Series Data using AqNWB'],['../user_demos.html#demos_labmetadata_extension',1,'Integrating LabMetaData Extension with AqNWB'],['../hdf5io.html#hdf5io_filters_usage',1,'Using Chunking and I/O Filters in AqNWB']]],
+  ['aqnwb_26',['AqNWB',['../user_demos.html#demos_inspect_electrical_series',1,'Inspect Electrical Series Data using AqNWB'],['../dev_install_page.html#dev_install_aqnwb_sec',1,'Installing AqNWB'],['../user_demos.html#demos_labmetadata_extension',1,'Integrating LabMetaData Extension with AqNWB'],['../hdf5io.html#hdf5io_filters_usage',1,'Using Chunking and I/O Filters in AqNWB']]],
   ['aqnwb_20use_20smwr_20mode_27',['Why does AqNWB use SMWR mode?',['../hdf5io.html#hdf5io_swmr_features',1,'']]],
   ['arbitrary_20fields_28',['Reading arbitrary fields',['../read_page.html#read_example_arbitrary',1,'']]],
   ['attributes_29',['attributes',['../registered_type_page.html#use_the_define_attribute_field_macro',1,'DEFINE_ATTRIBUTE_FIELD: Creating read methods for attributes'],['../read_design_page.html#read_design_sec_read_date',1,'Reading datasets and attributes']]],

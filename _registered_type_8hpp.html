@@ -198,11 +198,12 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line"> \</div>
 <div class="line">  <span class="keyword">template</span>&lt;<span class="keyword">typename</span> VTYPE = default_type&gt; \</div>
-<div class="line">  <span class="keyword">inline</span> std::unique_ptr&lt;AQNWB::IO::ReadDataWrapper&lt;AttributeField, VTYPE&gt;&gt; \</div>
+<div class="line">  <span class="keyword">inline</span> std::unique_ptr&lt; \</div>
+<div class="line">      <a class="code hl_class" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper&lt;AQNWB::NWB::AttributeField, VTYPE&gt;</a>&gt; \</div>
 <div class="line">  name() const \</div>
 <div class="line">  { \</div>
 <div class="line">    <span class="keywordflow">return</span> std::make_unique&lt; \</div>
-<div class="line">        <a class="code hl_class" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper&lt;AttributeField, VTYPE&gt;</a>&gt;( \</div>
+<div class="line">        <a class="code hl_class" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper&lt;AQNWB::NWB::AttributeField, VTYPE&gt;</a>&gt;( \</div>
 <div class="line">        m_io, <a class="code hl_function" href="namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881">AQNWB::mergePaths</a>(m_path, fieldPath)); \</div>
 <div class="line">  }</div>
 <div class="ttc" id="aclass_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper_html"><div class="ttname"><a href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a></div><div class="ttdoc">Class for wrapping data objects (datasets or attributes) for reading data from a file.</div><div class="ttdef"><b>Definition</b> ReadIO.hpp:270</div></div>

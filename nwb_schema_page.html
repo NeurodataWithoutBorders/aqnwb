@@ -116,7 +116,7 @@ Generating the schema header files</h1>
 <div class="fragment"><div class="line">bash resources/utils/generate_nwb_schema_headers.sh</div>
 </div><!-- fragment --><p>This script will:</p><ul>
 <li>Clone the latest NWB and HDMF schema repositories into a temporary directory</li>
-<li>Run <span class="tt">resources/utils/generate_spec_files.py</span> for both the NWB core and HDMF common schemas</li>
+<li>Run <span class="tt">uv run resources/utils/aqnwb_utils.py generate-spec</span> for both the NWB core and HDMF common schemas</li>
 <li>Copy the generated C++ header files to <span class="tt">src/spec</span></li>
 <li>Clean up all temporary files automatically</li>
 </ul>
@@ -126,11 +126,11 @@ Generating the schema header files</h1>
 <li><span class="tt">HDMF_REPO</span>: URL of the HDMF common schema git repository</li>
 </ul>
 <p>Example: </p><div class="fragment"><div class="line">PYTHON=python3 bash resources/utils/generate_nwb_schema_headers.sh</div>
-</div><!-- fragment --><p>For use with extensions and other advanced or custom use cases, developers may still run <span class="tt">resources/utils/generate_spec_files.py</span> directly.</p>
-<h1 class="doxsection"><a class="anchor" id="dev_docs_updating_nwb_schema_section"></a>
+</div><!-- fragment --><p>For use with extensions and other advanced or custom use cases, developers may still run the <span class="tt">generate-spec</span> command directly: </p><div class="fragment"><div class="line">uv run resources/utils/aqnwb_utils.py generate-spec &lt;schema_dir&gt; &lt;output_dir&gt;</div>
+</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="dev_docs_updating_nwb_schema_section"></a>
 Updating the schema</h1>
 <p>Currently, the version of the schema being used for development is fixed and stored in the <span class="tt">/resources/schema</span> folder. Updating to a newer version of the schema requires:</p><ul>
-<li>Regeneration of the <span class="tt">spec</span> header files via <span class="tt">resources/utils/generate_spec_files.py</span></li>
+<li>Regeneration of the <span class="tt">spec</span> header files via the <span class="tt">generate-spec</span> command</li>
 <li>Update of existing <span class="tt">Container</span> classes and unit tests in AqNWB to match changes in the new schema compared to the previous schema</li>
 <li>Successful completion of all unit-test and round-trip testing with PyNWB and MatNWB </li>
 </ul>

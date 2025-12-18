@@ -5,5 +5,5 @@ var searchData=
   ['predefined_20data_20fields_2',['Reading predefined data fields',['../read_page.html#read_design_example_read_posthoc_read_field',1,'']]],
   ['presets_3',['Developer Presets',['../dev_install_page.html#devbuild_presets_subsec',1,'']]],
   ['processing_20data_4',['Reading and Processing Data',['../read_design_page.html#read_design_example_read',1,'']]],
-  ['py_20utility_5',['Using the schematype_to_aqnwb.py Utility',['../registered_type_page.html#using_schematype_to_aqnwb',1,'']]]
+  ['python_20utilities_5',['Installing Python Utilities',['../dev_install_page.html#dev_install_utils_sec',1,'']]]
 ];
