@@ -922,14 +922,14 @@ TEST_CASE("HDF5IO; SWMR mode", "[hdf5io]")
     std::promise<int> promise;
     std::future<int> future = promise.get_future();
     std::thread readerThread(
-        [](const std::string& cmd, std::promise<int> promise)
+        [](const std::string& cmd, std::promise<int> p)
         {
 #ifdef _WIN32
           // required on Windows to allow writer process to access file
           _putenv_s("HDF5_USE_FILE_LOCKING", "FALSE");
 #endif
           int ret = std::system(cmd.c_str());
-          promise.set_value(ret);
+          p.set_value(ret);
         },
         command,
         std::move(promise));
@@ -945,7 +945,7 @@ TEST_CASE("HDF5IO; SWMR mode", "[hdf5io]")
 
       // update test data values
       for (size_t i = 0; i < testData.size(); ++i) {
-        testData[i] += (testData.size());
+        testData[i] += static_cast<int>(testData.size());
       }
 
       // pause to simulate streaming
@@ -1003,7 +1003,7 @@ TEST_CASE("HDF5IO; SWMR mode", "[hdf5io]")
 
       // update test data values
       for (size_t i = 0; i < testData.size(); ++i) {
-        testData[i] += (testData.size());
+        testData[i] += static_cast<int>(testData.size());
       }
     }
 

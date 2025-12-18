@@ -56,13 +56,14 @@ def render_define_registered_field(
     doc_string = doc.replace('"', "").replace("'", "").replace(",", " -")
     unmodified_from_parent = is_inherited and not is_overridden
     re = ""
+
     func_name = f"read{snake_to_camel(field_name)}" if field_name else ""
     
     if unmodified_from_parent:
         re += "    /*\n"
         re += f"    // {field_path} inherited from parent neurodata_type\n"
     if is_inherited:
-        re += f"    // name={field_path}, neurodata_type={neurodata_type}: This field is_inheritted={is_inherited}, is_overridden={is_overridden} from the parent neurodata_type\n"
+        re += f"    // name={field_path}, neurodata_type={neurodata_type}: This field is_inherited={is_inherited}, is_overridden={is_overridden} from the parent neurodata_type\n"
     
     if field_name is not None:
         re += "    DEFINE_REGISTERED_FIELD(\n"
@@ -1033,7 +1034,7 @@ def generate_header_file(
     referenced_types = get_referenced_types(neurodata_type, type_to_namespace_map)
     if len(referenced_types) > 0:
         header += "// Includes for types that are referenced and used\n"
-        # Add inludes for all referenced types
+        # Add includes for all referenced types
         for ref_type in referenced_types:
             ref_namespace = type_to_namespace_map.get(ref_type, namespace.name)
             ref_subfolder = get_schema_subfolder_name(type_to_file_map.get(ref_type, None))
@@ -1173,7 +1174,14 @@ public:
             header += fieldDef +"\n"
 
     # Add REGISTER_SUBCLASS macro
-    header += f"""
+    if is_included_type:
+        header += f"""
+    REGISTER_SUBCLASS(
+        {class_name},
+        "{actual_cpp_namespace_name}")  // TODO: Use namespace from schema header
+    """
+    else:
+        header += f"""
     REGISTER_SUBCLASS(
         {class_name},
         AQNWB::SPEC::{actual_cpp_namespace_name}::namespaceName)
@@ -1653,6 +1661,18 @@ def main(args) -> None:
         except Exception as e:
             logger.error(f"   Failed to generate implementation file {impl_path}: {e}")
     logger.info(f"Generated {len(neurodata_types)} neurodata types in total.")
+
+    # Generate test app if requested
+    if args.generate_test_app:
+        logger.info("Generating test application...")
+        generate_test_app(
+            output_dir=output_dir,
+            schema_file=args.schema_file,
+            neurodata_types=neurodata_types,
+            type_to_namespace_map=type_to_namespace_map,
+            type_to_file_map=type_to_file_map,
+            cpp_files=generated_cpp_files
+        )
 
     # Generate test app if requested
     if args.generate_test_app:
