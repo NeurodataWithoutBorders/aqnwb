@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     * Added `aqnwb-utils` as a command-line utility to provide a common interface for aqnwb command line tools, e.g., `schematype_to_aqnwb.py` and `generate_spec_files.py`. (@oruebel, [#227](https://github.com/NeurodataWithoutBorders/aqnwb/pull/227))
     * Added inline script metadata (PEP 723) to Python utilities to enable direct execution with `uv run` without installation (@oruebel, [#229](https://github.com/NeurodataWithoutBorders/aqnwb/pull/229)
     * Added `pyproject.toml` for modern Python packaging support (@oruebel, [#229](https://github.com/NeurodataWithoutBorders/aqnwb/pull/229)
+* Added `RegisteredType::DEFINE_UNNAMED_REGISTERED_FIELD` to simplify creation of read/write methods for RegisteredTypes that do not have a set name in the schema (@oruebel, [#231](https://github.com/NeurodataWithoutBorders/aqnwb/pull/231)
 
 ### Changed
 * Updated Python utilities to use `uv` instead of `pip` for dependency management and updated docs and github workflows to use uv (@oruebel, [#227](https://github.com/NeurodataWithoutBorders/aqnwb/pull/227)
@@ -35,10 +36,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     * Updated rendering of read/record methods via DEFINE_FIELD macros  to ensure inclusion of all owned parameters (including those in subgroups), consistent with the updates to the initialize methods (@oruebel, [#230](https://github.com/NeurodataWithoutBorders/aqnwb/pull/230))
     * Refactored code to generated initialize methods to centralize logic and make the code more robust. E.g., created new `get_initialize_method_parameters` to compile parameter details in one place and split the  `render_initialize_method`  into two functions. (@oruebel, [#230](https://github.com/NeurodataWithoutBorders/aqnwb/pull/230))
     * Enhanced the new `get_initialize_method_parameters` method and rendering functions to correctly track the full path of objects (@oruebel, [#230](https://github.com/NeurodataWithoutBorders/aqnwb/pull/230))
-    * Added support for rendering DEFINE_REFERENCED_REGISTERED_FIELD macros for attributes that are references (@oruebel, [#230](https://github.com/NeurodataWithoutBorders/aqnwb/pull/230))
+    * Added support for rendering `DEFINE_REFERENCED_REGISTERED_FIELD` macros for attributes that are references (@oruebel, [#230](https://github.com/NeurodataWithoutBorders/aqnwb/pull/230))
     * Added rendering of virtual destructor in the header source (@oruebel, [#230](https://github.com/NeurodataWithoutBorders/aqnwb/pull/230))
     * Updated generated initialize methods to always return a Status (@oruebel, [#230](https://github.com/NeurodataWithoutBorders/aqnwb/pull/230))
     * Updated new `get_initialize_method_parameters` to ensure for neurodata_types that are Datasets that we include the dataset itself as a custom parameter that needs initialization (@oruebel, [#230](https://github.com/NeurodataWithoutBorders/aqnwb/pull/230))
+    * Added support for `DEFINE_UNNAMED_REGISTERED_FIELD` macros for RegisteredTypes that are unnamed in the schema (@oruebel, [#231](https://github.com/NeurodataWithoutBorders/aqnwb/pull/231)
+    * Simplify the required signature of the generated initialize methods by placing optional RegisteredType arguments in comment blocks as these are usually created afterward initialize by the user (@oruebel, [#231](https://github.com/NeurodataWithoutBorders/aqnwb/pull/231)
+    * Added support for attributes/datasets with fixed values, which are now created only inside the generated initialize method but no longer setable as a parameter (@oruebel, [#231](https://github.com/NeurodataWithoutBorders/aqnwb/pull/231)
+
 
 ### Fixed
 * Resolved various compiler warnings on Windows (`-Wmaybe-uninitialized`, `-Wsign-conversion`, `-Wconversion`, `-Wshadow`, `-Wdeprecated-copy`, `-Wcatch-value`) and fixed cross-platform build issues related to `std::filesystem` linkage. (@oruebel, [#233](https://github.com/NeurodataWithoutBorders/aqnwb/pull/233))
