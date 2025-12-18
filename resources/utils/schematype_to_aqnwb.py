@@ -1,4 +1,8 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.8"
+# dependencies = ["hdmf", "pynwb", "ruamel.yaml"]
+# ///
 """
 Script to generate C++ code from NWB schema files.
 
@@ -1010,12 +1014,6 @@ def generate_test_app_cmake(output_dir: Path, app_name: str, cpp_files: List[str
     # Convert file paths to use forward slashes for CMake
     cpp_files_cmake = [f.replace("\\", "/") for f in cpp_files]
     
-    # Calculate the path to AqNWB source directory relative to script location
-    # Script is in resources/utils, so AqNWB src is ../../src relative to script
-    aqnwb_src_dir = script_dir.parent.parent / "src"
-    aqnwb_build_dir = script_dir.parent.parent / "build" / "dev"
-    aqnwb_libs_dir = script_dir.parent.parent / "libs"
-    
     cmake_content = f"""cmake_minimum_required(VERSION 3.15)
 project({app_name} VERSION 0.1.0 LANGUAGES CXX)
 
@@ -1023,19 +1021,13 @@ project({app_name} VERSION 0.1.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Allow configuring paths to dependencies based on script location
-set(AQNWB_SRC_DIR "{aqnwb_src_dir.as_posix()}" CACHE PATH "Path to aqnwb source directory")
-set(AQNWB_DIR "{aqnwb_build_dir.as_posix()}" CACHE PATH "Path to aqnwb build directory")
-set(HDF5_DIR "{(aqnwb_libs_dir / "hdf5_build" / "install" / "cmake").as_posix()}" CACHE PATH "Path to HDF5 build directory")
-set(BOOST_ROOT "{(aqnwb_libs_dir / "boost_install").as_posix()}" CACHE PATH "Path to Boost root directory")
+# Find aqnwb package. The aqnwb_DIR must be set on the command line
+# e.g. -Daqnwb_DIR=/path/to/aqnwb/install/lib/cmake/aqnwb
+find_package(aqnwb REQUIRED)
 
-# Disable compiler flags that cause issues on macOS
-if(APPLE)
-    set(CMAKE_CXX_FLAGS "${{CMAKE_CXX_FLAGS}} -Wno-unused-command-line-argument")
-endif()
-
-# Find required dependencies
+# Find HDF5
 find_package(HDF5 REQUIRED COMPONENTS CXX)
+# Find Boost
 find_package(Boost REQUIRED)
 
 # Generated source files
@@ -1055,26 +1047,15 @@ add_executable({app_name}
 
 # Include directories
 target_include_directories({app_name} PRIVATE 
-    ${{AQNWB_SRC_DIR}}
-    ${{CMAKE_CURRENT_SOURCE_DIR}}/..
+    "${{CMAKE_CURRENT_SOURCE_DIR}}/.."
+    "${{CMAKE_CURRENT_SOURCE_DIR}}/../spec"
     ${{HDF5_INCLUDE_DIRS}}
     ${{Boost_INCLUDE_DIRS}}
 )
 
-# Find the aqnwb library
-if(EXISTS "${{AQNWB_DIR}}/libaqnwb.a")
-    set(AQNWB_LIBRARY "${{AQNWB_DIR}}/libaqnwb.a")
-elseif(EXISTS "${{AQNWB_DIR}}/libaqnwb.so")
-    set(AQNWB_LIBRARY "${{AQNWB_DIR}}/libaqnwb.so")
-elseif(EXISTS "${{AQNWB_DIR}}/libaqnwb.dylib")
-    set(AQNWB_LIBRARY "${{AQNWB_DIR}}/libaqnwb.dylib")
-else()
-    message(FATAL_ERROR "Could not find aqnwb library in ${{AQNWB_DIR}}. Please build the main project first or set AQNWB_DIR to the correct path.")
-endif()
-
 # Link libraries
 target_link_libraries({app_name} 
-    ${{AQNWB_LIBRARY}}
+    aqnwb::aqnwb
     ${{HDF5_CXX_LIBRARIES}}
     ${{Boost_LIBRARIES}}
 )
@@ -1307,7 +1288,21 @@ def generate_test_app(
         logger.error(f"Failed to generate test application: {e}")
 
 
-def main() -> None:
+def setup_parser(parser):
+    """
+    Set up argument parser for the script.
+    """
+    parser.add_argument(
+        "schema_file", help="Path to the namespace schema file (JSON or YAML)"
+    )
+    parser.add_argument("output_dir", help="Directory to output the generated code")
+    parser.add_argument(
+        "--generate-test-app",
+        action="store_true",
+        help="Generate a test application to verify compilation of all generated classes"
+    )
+
+def main(args) -> None:
     """
     Main function to parse arguments and generate code.
 
@@ -1320,21 +1315,6 @@ def main() -> None:
     Returns:
     None
     """
-    parser = argparse.ArgumentParser(
-        description="Generate C++ code from NWB schema files."
-    )
-    parser.add_argument(
-        "schema_file", help="Path to the namespace schema file (JSON or YAML)"
-    )
-    parser.add_argument("output_dir", help="Directory to output the generated code")
-    parser.add_argument(
-        "--generate-test-app", 
-        action="store_true", 
-        help="Generate a test application to verify compilation of all generated classes"
-    )
-
-    args = parser.parse_args()
-
     try:
         logger.info(f"Parsing schema file: {args.schema_file}")
         namespace, neurodata_types, type_to_file_map, type_to_namespace_map = parse_schema_file(Path(args.schema_file))
@@ -1431,4 +1411,9 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(
+        description="Generate C++ code from NWB schema files."
+    )
+    setup_parser(parser)
+    args = parser.parse_args()
+    main(args)

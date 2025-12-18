@@ -7,7 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+* Python Utility enhancements:
+    * Added `aqnwb-utils` as a command-line utility to provide a common interface for aqnwb command line tools, e.g., `schematype_to_aqnwb.py` and `generate_spec_files.py`. (@oruebel, [#227](https://github.com/NeurodataWithoutBorders/aqnwb/pull/227))
+    * Added inline script metadata (PEP 723) to Python utilities to enable direct execution with `uv run` without installation (@oruebel, [#229](https://github.com/NeurodataWithoutBorders/aqnwb/pull/229)
+    * Added `pyproject.toml` for modern Python packaging support (@oruebel, [#229](https://github.com/NeurodataWithoutBorders/aqnwb/pull/229)
+
 ### Changed
+* Updated Python utilities to use `uv` instead of `pip` for dependency management and updated docs and github workflows to use uv (@oruebel, [#227](https://github.com/NeurodataWithoutBorders/aqnwb/pull/227)
+* Updated documentation to refer to the new `aqnwb-utils` command-line utility (@oruebel, [#227](https://github.com/NeurodataWithoutBorders/aqnwb/pull/227))
 * Enhanced the `schematype_to_aqnwb` utility script:
     * Generated source files are now placed into a folder hierarchy based on the name of the namespace and schemafile of the neurodata_type (@oruebel, [#224](https://github.com/NeurodataWithoutBorders/aqnwb/pull/224))
     * Added functionality to optionally create a simple example app that instantiates all generated classes to help test that all generated classes can be compiled (@oruebel, [#225](https://github.com/NeurodataWithoutBorders/aqnwb/pull/225))

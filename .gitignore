@@ -30,3 +30,23 @@ demo/cmake-build-*/
 demo/inspect_electrical_series/*.nwb
 demo/*/Makefile
 demo/*/cmake_install.cmake
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.ipynb_checkpoints
+
+# Python packaging
+build/
+dist/
+*.egg-info/
+wheels/
+
+# Pytest
+.pytest_cache/
+htmlcov/
