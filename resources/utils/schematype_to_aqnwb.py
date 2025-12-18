@@ -56,22 +56,51 @@ def render_define_registered_field(
     doc_string = doc.replace('"', "").replace("'", "").replace(",", " -")
     unmodified_from_parent = is_inherited and not is_overridden
     re = ""
-    func_name = f"read{snake_to_camel(field_name)}"
-    # Add prefix text
+
+    func_name = f"read{snake_to_camel(field_name)}" if field_name else ""
+    
     if unmodified_from_parent:
         re += "    /*\n"
         re += f"    // {field_path} inherited from parent neurodata_type\n"
     if is_inherited:
         re += f"    // name={field_path}, neurodata_type={neurodata_type}: This field is_inheritted={is_inherited}, is_overridden={is_overridden} from the parent neurodata_type\n"
-    # Add the defintion of the field
-    re += "    DEFINE_REGISTERED_FIELD(\n"
-    re += f"        {func_name},\n"
-    re += f"        {referenced_namespace}::{neurodata_type},\n"
-    re += f'        "{field_path}",\n'
-    re += f'        "{doc_string}")\n'
-    # Add postfix text and return
-    if unmodified_from_parent:
-        re += "    */\n"
+    
+    if field_name is not None:
+        re += "    DEFINE_REGISTERED_FIELD(\n"
+        re += f"        {func_name},\n"
+        re += f"        {referenced_namespace}::{neurodata_type},\n"
+        re += f'        "{field_path}",\n'
+        re += f'        "{doc_string}")\n'
+        if unmodified_from_parent:
+            re += "    */\n"
+    else:
+        if unmodified_from_parent:
+            re += "    */\n"
+        re += f"""
+    /*
+    * @brief Read an arbitrary {neurodata_type} object owned by this object
+    *
+    * For {neurodata_type} objects defined in the schema with a fixed name
+    * the corresponding DEFINE_REGISTERED_FIELD read functions are preferred
+    * because they help avoid the need for specifying the specific name
+    * and data type to use.
+    *
+    * @return The {neurodata_type} object representing the object or a nullptr if the
+    * object doesn't exist
+    */
+    /*
+    std::shared_ptr<{neurodata_type}> read{neurodata_type}(const std::string& objectName)
+    {{
+        std::string parentPath = AQNWB::mergePaths(m_path, "{field_path}");
+        std::string objectPath = AQNWB::mergePaths(parentPath, objectName);
+        if (m_io->objectExists(objectPath)) {{
+        return std::make_shared<{neurodata_type}>(objectPath, m_io);
+        }}
+        return nullptr;
+    }}
+    */
+"""
+    
     return re
 
 
@@ -121,6 +150,7 @@ def render_define_unnamed_registered_field(
     # Add postfix text and return
     if unmodified_from_parent:
         re += "    */\n"
+   
     return re
 
 
@@ -1143,7 +1173,7 @@ def generate_header_file(
     referenced_types = get_referenced_types(neurodata_type, type_to_namespace_map)
     if len(referenced_types) > 0:
         header += "// Includes for types that are referenced and used\n"
-        # Add inludes for all referenced types
+        # Add includes for all referenced types
         for ref_type in referenced_types:
             ref_namespace = type_to_namespace_map.get(ref_type, namespace.name)
             ref_subfolder = get_schema_subfolder_name(type_to_file_map.get(ref_type, None))
@@ -1290,7 +1320,14 @@ public:
             header += fieldDef +"\n"
 
     # Add REGISTER_SUBCLASS macro
-    header += f"""
+    if is_included_type:
+        header += f"""
+    REGISTER_SUBCLASS(
+        {class_name},
+        "{actual_cpp_namespace_name}")  // TODO: Use namespace from schema header
+    """
+    else:
+        header += f"""
     REGISTER_SUBCLASS(
         {class_name},
         AQNWB::SPEC::{actual_cpp_namespace_name}::namespaceName)
@@ -1770,6 +1807,18 @@ def main(args) -> None:
         except Exception as e:
             logger.error(f"   Failed to generate implementation file {impl_path}: {e}")
     logger.info(f"Generated {len(neurodata_types)} neurodata types in total.")
+
+    # Generate test app if requested
+    if args.generate_test_app:
+        logger.info("Generating test application...")
+        generate_test_app(
+            output_dir=output_dir,
+            schema_file=args.schema_file,
+            neurodata_types=neurodata_types,
+            type_to_namespace_map=type_to_namespace_map,
+            type_to_file_map=type_to_file_map,
+            cpp_files=generated_cpp_files
+        )
 
     # Generate test app if requested
     if args.generate_test_app:
