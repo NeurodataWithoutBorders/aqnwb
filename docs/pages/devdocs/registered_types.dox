@@ -415,9 +415,9 @@
  * in the \ref AQNWB::NWB::ElectrodesTable "ElectrodesTable" to read the `group_name` column
  * as `VectorData<std::string>` with the data type already specified as `std::string` at compile time.
  *
- * \section using_schematype_to_aqnwb Using the schematype_to_aqnwb.py Utility
+ * \section using_schematype_to_aqnwb Using the generate-types command
  *
- * The `resources/utils/schematype_to_aqnwb.py` script, included in the 
+ * The `generate-types` command, included in the 
  * [AqNWB source repository](https://github.com/NeurodataWithoutBorders/aqnwb),
  * is a simple utility designed to create skeleton C++ source files for integrating new 
  * neurodata_types with AqNWB. While the generated source files are only an outline and are not guaranteed to compile, 
@@ -427,20 +427,29 @@
  * for all neurodata_types in the NWB schema:
  * 
  * @code
- * python resources/utils/schematype_to_aqnwb.py nwb-schema/core/nwb.namespace.yaml test_output
+ * uv run resources/utils/aqnwb_utils.py generate-types nwb-schema/core/nwb.namespace.yaml test_output
  * @endcode
  *
  * The generated files will be placed in the folder hierarchy based on the name of the namespace and 
  * source yaml file where the type is defined. E.g, `TimeSeries` is defined in `nwb.base.yaml` in the 
  * `core` NWB namespace, and will be generated as `core/base/TimeSeries.hpp`. 
+ *
+ * We can also create a simple example app that instantiates all the generated classes to make it 
+ * simplify testing that all the classes can be compiled. To generate the app, simply add the
+ * `--generate-test-app` option: 
+ *
+ * @code
+ * uv run resources/utils/aqnwb_utils.py generate-types --generate-test-app nwb-schema/core/nwb.namespace.yaml test_output
+ * @endcode
+ *
  * To learn more about how to use the script and its parameters, you can view the help doc by running: 
  *
  * @code
- * python resources/utils/schematype_to_aqnwb.py --help
+ * uv run resources/utils/aqnwb_utils.py generate-types --help
  * @endcode
  *
  * \note
- * The `schematype_to_aqnwb.py` uses `PyNWB` for parsing schema. Currently the script does not unload
+ * The `generate-types` command uses `PyNWB` for parsing schema. Currently the script does not unload
  * namespaces loaded by default by `PyNWB`. I.e., if you see a warning of the form:
  * \code 
  * UserWarning: Ignoring cached namespace 'core' version 2.7.0 because version 2.8.0 is already loaded.
@@ -448,6 +457,10 @@
  * it means that the script is actually using the namespace with the version already loaded by PyNWB rather
  * than the requested version. In practice, this is mainly relevant if you are generating classes for the
  * NWB `core` and `hdmf-common` namespaces.
+ *
+ * \note
+ * When generating the test app via the `--generate-test-app` option we also
+ * need to generate the schema headers files and save them in the `/spec` folder.
  *
  * \section implement_registered_type_unit_tests Testing RegisteredTypes
  *

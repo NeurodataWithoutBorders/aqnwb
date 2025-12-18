@@ -1,0 +1,117 @@
+name: Test generating classes from schema files
+
+on: 
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  run-scripts:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+# -----------------------------------------------------------------
+# 1. Install AqNWB
+# -----------------------------------------------------------------
+      
+      - name: Install C++ dependencies - macos
+        run: brew install hdf5 boost catch2
+
+      - name: Configure AqNWB 
+        shell: pwsh
+        run: cmake "--preset=ci-macos"
+
+      - name: Build AqNWB 
+        run: cmake --build build --config Release -j 2
+
+      - name: Install AqNWB
+        run: cmake --install build --config Release --prefix prefix
+
+# -----------------------------------------------------------------
+# 1. Install Python dependencies
+# -----------------------------------------------------------------
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install uv
+        run: brew install uv
+
+# -----------------------------------------------------------------
+# 2. LabMetadataExtension pipeline
+# -----------------------------------------------------------------
+      - name: Run generate_nwb_schema_headers.sh to generated headers the LabMetadataExample extension
+        run: |
+          mkdir test_output
+          mkdir test_output/spec
+          uv run resources/utils/aqnwb_utils.py generate-spec demo/labmetadata_extension_demo/spec test_output/spec
+
+      - name: Run schematype_to_aqnwb.py to generate AqNWB classes for the LabMetadataExample extension
+        run: |
+          uv run resources/utils/aqnwb_utils.py generate-types --generate-test-app demo/labmetadata_extension_demo/spec/ndx-labmetadata-example.namespace.yaml test_output
+
+      - name: List generated files for the LabMetadataExample extension
+        run: | 
+          ls -laR test_output 
+      
+      - name: Compile test program for the LabMetadataExample extension
+        run: |
+          cd test_output/test_app
+          mkdir build
+          cd build
+          cmake -Daqnwb_DIR="${{ github.workspace }}/prefix/lib/cmake/aqnwb" ../
+          make -j 2
+
+      - name: Run the test program for LabMetadataExample extension
+        run: |
+          cd test_output/test_app/build
+          ./bin/schema_compilation_test
+
+# -----------------------------------------------------------------
+# 3. nwb_schema pipeline
+# -----------------------------------------------------------------
+      - name: Clone latest NWB schema release
+        run: |
+          mkdir test_output_nwb_schema
+          git clone https://github.com/NeurodataWithoutBorders/nwb-schema.git test_output_nwb_schema/nwb-schema
+          cd test_output_nwb_schema/nwb-schema
+          NWB_LATEST_TAG=$(git tag --sort=-v:refname | head -n 1)
+          if [ -z "$NWB_LATEST_TAG" ]; then
+            echo "ERROR: Could not determine latest NWB schema release tag."
+            exit 1
+          fi
+          echo "Checking out NWB schema at tag: $NWB_LATEST_TAG"
+          git checkout "$NWB_LATEST_TAG"
+          cd ../..
+
+      - name: Run generate_nwb_schema_headers.sh to generated headers the nwb_schema
+        run: |
+          mkdir test_output_nwb_schema/spec
+          uv run resources/utils/aqnwb_utils.py generate-spec test_output_nwb_schema/nwb-schema/core test_output_nwb_schema/spec
+
+      - name: Run schematype_to_aqnwb.py to generate AqNWB classes for the nwb_schema
+        run: |
+          uv run resources/utils/aqnwb_utils.py generate-types --generate-test-app test_output_nwb_schema/nwb-schema/core/nwb.namespace.yaml test_output_nwb_schema
+
+      - name: List generated files for the nwb-schema
+        run: |
+          ls -laR test_output_nwb_schema
+
+      - name: Compile test program for the nwb_schema
+        run: |
+          cd test_output_nwb_schema/test_app
+          mkdir build
+          cd build
+          cmake -Daqnwb_DIR="${{ github.workspace }}/prefix/lib/cmake/aqnwb" ../
+          make -j 2
+
+      - name: Run the test program for the nwb_schema
+        run: |
+          cd test_output_nwb_schema/test_app/build
+          ./bin/schema_compilation_test
