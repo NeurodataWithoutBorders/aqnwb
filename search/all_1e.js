@@ -16,12 +16,14 @@ var searchData=
   ['_7eelementidentifiers_13',['~ElementIdentifiers',['../class_a_q_n_w_b_1_1_n_w_b_1_1_element_identifiers.html#a08043578d7674de4e314b5daacc9fca8',1,'AQNWB::NWB::ElementIdentifiers']]],
   ['_7ehdf5io_14',['~HDF5IO',['../class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a7a4c82820e1ad91a82c90c30dfb937fe',1,'AQNWB::IO::HDF5::HDF5IO']]],
   ['_7ehdf5recordingdata_15',['~HDF5RecordingData',['../class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a81d035b7d174a58236d0447ea7054724',1,'AQNWB::IO::HDF5::HDF5RecordingData']]],
-  ['_7enwbfile_16',['~NWBFile',['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aa92925025c0a04da1d6b03b82af99da3',1,'AQNWB::NWB::NWBFile']]],
-  ['_7ereaddatawrapper_17',['~ReadDataWrapper',['../class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html#a8a5be17aa3facba3f748cccf8c37dc42',1,'AQNWB::IO::ReadDataWrapper']]],
-  ['_7erecordingcontainers_18',['~RecordingContainers',['../class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#ac49cffcf999fbcc918ac90f82a7c4040',1,'AQNWB::NWB::RecordingContainers']]],
-  ['_7eregisteredtype_19',['~RegisteredType',['../class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab92081cf30cab76ac6e35125300f77a4',1,'AQNWB::NWB::RegisteredType']]],
-  ['_7espikeeventseries_20',['~SpikeEventSeries',['../class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#a2b8b71027d2b756b87dc59de695c7309',1,'AQNWB::NWB::SpikeEventSeries']]],
-  ['_7etimeseries_21',['~TimeSeries',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a1e596cea2d047ec61f89158f1dc85276',1,'AQNWB::NWB::TimeSeries']]],
-  ['_7evectordata_22',['~VectorData',['../class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#acc415a8c8155b2ac865bee8647c9831f',1,'AQNWB::NWB::VectorData']]],
-  ['_7evectordatatyped_23',['~VectorDataTyped',['../class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html#ae38ea60f424c24d2f836512856b13781',1,'AQNWB::NWB::VectorDataTyped']]]
+  ['_7enwbcontainer_16',['~NWBContainer',['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html#a3da15cf481cf8fbcbaab3970014f8ca4',1,'AQNWB::NWB::NWBContainer']]],
+  ['_7enwbdatainterface_17',['~NWBDataInterface',['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface.html#a5ed099481e29aa261ff513bd27f8dc90',1,'AQNWB::NWB::NWBDataInterface']]],
+  ['_7enwbfile_18',['~NWBFile',['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aa92925025c0a04da1d6b03b82af99da3',1,'AQNWB::NWB::NWBFile']]],
+  ['_7ereaddatawrapper_19',['~ReadDataWrapper',['../class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html#a8a5be17aa3facba3f748cccf8c37dc42',1,'AQNWB::IO::ReadDataWrapper']]],
+  ['_7erecordingcontainers_20',['~RecordingContainers',['../class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html#ac49cffcf999fbcc918ac90f82a7c4040',1,'AQNWB::NWB::RecordingContainers']]],
+  ['_7eregisteredtype_21',['~RegisteredType',['../class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab92081cf30cab76ac6e35125300f77a4',1,'AQNWB::NWB::RegisteredType']]],
+  ['_7espikeeventseries_22',['~SpikeEventSeries',['../class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#a2b8b71027d2b756b87dc59de695c7309',1,'AQNWB::NWB::SpikeEventSeries']]],
+  ['_7etimeseries_23',['~TimeSeries',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a1e596cea2d047ec61f89158f1dc85276',1,'AQNWB::NWB::TimeSeries']]],
+  ['_7evectordata_24',['~VectorData',['../class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#acc415a8c8155b2ac865bee8647c9831f',1,'AQNWB::NWB::VectorData']]],
+  ['_7evectordatatyped_25',['~VectorDataTyped',['../class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html#ae38ea60f424c24d2f836512856b13781',1,'AQNWB::NWB::VectorDataTyped']]]
 ];

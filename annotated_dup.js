@@ -20,6 +20,10 @@ var annotated_dup =
         [ "ReadDataWrapper", "class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html", "class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper" ]
       ] ],
       [ "NWB", "namespace_a_q_n_w_b_1_1_n_w_b.html", [
+        [ "NWBContainer", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container" ],
+        [ "NWBData", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data" ],
+        [ "NWBDataTyped", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_typed.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_typed" ],
+        [ "NWBDataInterface", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface" ],
         [ "TimeSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series" ],
         [ "Device", "class_a_q_n_w_b_1_1_n_w_b_1_1_device.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_device" ],
         [ "ElectricalSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series" ],

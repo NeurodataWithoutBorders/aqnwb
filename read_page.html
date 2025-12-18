@@ -232,11 +232,12 @@ Working with fields with unknown data type</h2>
 <div class="line">    <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Data vector is empty&quot;</span>);</div>
 <div class="line">  }</div>
 <div class="line">  <span class="keywordtype">double</span> sum = std::accumulate(data.begin(), data.end(), 0.0);</div>
-<div class="line">  <span class="keywordflow">return</span> sum / data.size();</div>
+<div class="line">  <span class="keywordflow">return</span> sum / <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(data.size());</div>
 <div class="line">}</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Function to compute the mean using std::visit</span></div>
-<div class="line"><span class="keyword">inline</span> <span class="keywordtype">double</span> compute_mean(<span class="keyword">const</span> BaseDataType::BaseDataVectorVariant&amp; variant)</div>
+<div class="line"><span class="keyword">inline</span> <span class="keywordtype">double</span> compute_mean_variant(</div>
+<div class="line">    <span class="keyword">const</span> BaseDataType::BaseDataVectorVariant&amp; variant)</div>
 <div class="line">{</div>
 <div class="line">  <span class="keywordflow">return</span> std::visit(</div>
 <div class="line">      [](<span class="keyword">auto</span>&amp;&amp; arg) -&gt; <span class="keywordtype">double</span></div>
@@ -260,7 +261,7 @@ Working with fields with unknown data type</h2>
 <div class="line">        readElectricalSeriesData-&gt;valuesGeneric();</div>
 <div class="line">    BaseDataType::BaseDataVectorVariant variantData =</div>
 <div class="line">        genericDataBlock.as_variant();</div>
-<div class="line">    <span class="keywordtype">double</span> meanFromVariant = compute_mean(variantData);</div>
+<div class="line">    <span class="keywordtype">double</span> meanFromVariant = compute_mean_variant(variantData);</div>
 <div class="line">    <span class="comment">// Compare with computing the mean from the typed DataBlock&lt;float&gt;. We</span></div>
 <div class="line">    <span class="comment">// specify the template type for clarity although the compiler can infer it.</span></div>
 <div class="line">    <span class="keywordtype">double</span> meanFromTypedVector =</div>

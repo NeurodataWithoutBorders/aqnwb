@@ -315,6 +315,8 @@ Variables</h2></td></tr>
 <div class="line">        <span class="keywordflow">return</span> RegisteredType::create&lt;RTYPE&gt;(objectPath, m_io); \</div>
 <div class="line">      } \</div>
 <div class="line">    } <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) { \</div>
+<div class="line">      std::cerr &lt;&lt; <span class="stringliteral">&quot;WARNING Error occurred in &quot;</span> &lt;&lt; #name &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; e.what() \</div>
+<div class="line">                &lt;&lt; std::endl; \</div>
 <div class="line">      <span class="keywordflow">return</span> <span class="keyword">nullptr</span>; \</div>
 <div class="line">    } \</div>
 <div class="line">    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>; \</div>

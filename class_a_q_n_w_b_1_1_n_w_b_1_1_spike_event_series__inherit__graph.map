@@ -1,11 +1,15 @@
 <map id="AQNWB::NWB::SpikeEventSeries" name="AQNWB::NWB::SpikeEventSeries">
-<area shape="rect" id="Node000001" title="Stores snapshots/snippets of recorded spike events (i.e., threshold crossings)." alt="" coords="5,300,230,326"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html" title="General purpose time series." alt="" coords="12,226,223,252"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="119,266,120,301,115,298,116,269"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html" title="General purpose time series." alt="" coords="24,153,211,178"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="119,192,120,227,115,225,116,196"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html" title="Abstract data type for a group storing collections of data and metadata." alt="" coords="29,79,206,105"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="118,118,120,153,115,152,117,123"/>
-<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema." alt="" coords="12,5,223,31"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="118,44,120,79,115,78,117,49"/>
+<area shape="rect" id="Node000001" title="Stores snapshots/snippets of recorded spike events (i.e., threshold crossings)." alt="" coords="9,447,233,473"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html" title="General purpose time series." alt="" coords="15,374,227,399"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,413,123,448,119,446,119,417"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html" title="General purpose time series." alt="" coords="28,300,214,326"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="122,339,124,374,118,372,120,343"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface.html" title="An abstract data type for a generic container storing collections of data, as opposed to metadata." alt="" coords="5,226,237,252"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="122,265,124,300,118,299,120,270"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html" title="An abstract data type for a generic container storing collections of data and metadata...." alt="" coords="17,153,225,178"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="122,191,124,226,118,225,120,196"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html" title="Abstract data type for a group storing collections of data and metadata." alt="" coords="33,79,209,105"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="122,118,124,153,118,152,120,123"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema." alt="" coords="15,5,227,31"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="121,44,124,79,118,78,121,49"/>
 </map>

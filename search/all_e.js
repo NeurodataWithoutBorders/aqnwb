@@ -34,8 +34,9 @@ var searchData=
   ['from_20registeredtype_20objects_31',['Reading data from RegisteredType objects',['../read_page.html#read_example_read',1,'']]],
   ['fromdata_32',['fromData',['../class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html#a247e987f2485aa3dc1d3d0c482cf4160',1,'AQNWB::NWB::DataTyped']]],
   ['fromgeneric_33',['fromGeneric',['../class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a20df6af7d661de38f4b8cb3baba48339',1,'AQNWB::IO::DataBlock']]],
-  ['fromtypeid_34',['fromTypeId',['../class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#ae4eca40525bf512e9f1a194dcc3f905b',1,'AQNWB::IO::BaseDataType']]],
-  ['fromvectordata_35',['fromVectorData',['../class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html#a261537d26d0c1b0667780738d010906c',1,'AQNWB::NWB::VectorDataTyped']]],
-  ['further_20reading_36',['Further Reading',['../record_design_page.html#recording_design_further_reading',1,'']]],
-  ['further_20reading_37',['Further reading',['../read_page.html#read_further_reading',1,'']]]
+  ['fromnwbdata_34',['fromNWBData',['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_typed.html#a86badd745a05a7cee0cc5004580be9ae',1,'AQNWB::NWB::NWBDataTyped']]],
+  ['fromtypeid_35',['fromTypeId',['../class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#ae4eca40525bf512e9f1a194dcc3f905b',1,'AQNWB::IO::BaseDataType']]],
+  ['fromvectordata_36',['fromVectorData',['../class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html#a261537d26d0c1b0667780738d010906c',1,'AQNWB::NWB::VectorDataTyped']]],
+  ['further_20reading_37',['Further Reading',['../record_design_page.html#recording_design_further_reading',1,'']]],
+  ['further_20reading_38',['Further reading',['../read_page.html#read_further_reading',1,'']]]
 ];

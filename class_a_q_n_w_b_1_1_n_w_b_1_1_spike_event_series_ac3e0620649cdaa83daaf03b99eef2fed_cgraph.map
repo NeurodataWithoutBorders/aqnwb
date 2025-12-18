@@ -1,9 +1,11 @@
 <map id="AQNWB::NWB::SpikeEventSeries::initialize" name="AQNWB::NWB::SpikeEventSeries::initialize">
 <area shape="rect" id="Node000001" title="Initializes the SpikeEventSeries." alt="" coords="5,39,230,79"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a420424e52795b5212d7dcb728396af6a" title="Initialize the container." alt="" coords="278,39,454,79"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="230,56,265,59,259,59,230,62"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a651f3d7e5cc28dc93888e8a821c5aa1c" title="Get the schema namespace of the class type." alt="" coords="502,5,713,46"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="454,44,490,42,484,43,455,49"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a150f881ad61cb8352eea7ddba47bc6ad" title="Get the name of the class type." alt="" coords="502,71,713,111"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="455,68,489,75,484,75,454,73"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html#a80beeda4c4761fe414407e4cc0d4fe8c" title="Initialize the object." alt="" coords="278,39,486,79"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="230,56,264,59,259,59,230,62"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a420424e52795b5212d7dcb728396af6a" title="Initialize the container." alt="" coords="534,39,710,79"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="486,56,521,59,515,59,487,62"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a651f3d7e5cc28dc93888e8a821c5aa1c" title="Get the schema namespace of the class type." alt="" coords="758,5,970,46"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="711,44,741,43,746,42,711,49"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a150f881ad61cb8352eea7ddba47bc6ad" title="Get the name of the class type." alt="" coords="758,71,970,111"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="711,68,746,75,740,75,711,73"/>
 </map>

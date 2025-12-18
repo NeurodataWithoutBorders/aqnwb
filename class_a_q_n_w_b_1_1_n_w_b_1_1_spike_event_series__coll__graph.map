@@ -1,14 +1,18 @@
 <map id="AQNWB::NWB::SpikeEventSeries" name="AQNWB::NWB::SpikeEventSeries">
-<area shape="rect" id="Node000001" title="Stores snapshots/snippets of recorded spike events (i.e., threshold crossings)." alt="" coords="102,568,326,594"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html" title="General purpose time series." alt="" coords="108,493,319,519"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="216,533,216,570,211,567,212,536"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html" title="General purpose time series." alt="" coords="120,418,307,444"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="215,457,216,494,211,492,212,462"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html" title="Abstract data type for a group storing collections of data and metadata." alt="" coords="23,181,199,206"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="124,218,211,418,206,419,121,223"/>
-<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema." alt="" coords="5,5,217,31"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="111,44,114,180,108,180,111,49"/>
-<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html" title="Represents a base data type." alt="" coords="224,181,412,206"/>
-<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="309,219,221,419,217,417,304,222"/>
-<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="351,172,381,165,409,167,430,176,436,184,438,194,436,205,428,213,403,221,370,220,339,209,337,204,371,215,402,216,425,209,431,202,433,193,431,186,427,180,408,172,382,171,353,177"/>
+<area shape="rect" id="Node000001" title="Stores snapshots/snippets of recorded spike events (i.e., threshold crossings)." alt="" coords="125,718,349,744"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html" title="General purpose time series." alt="" coords="131,643,343,669"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="239,683,239,720,235,717,235,686"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html" title="General purpose time series." alt="" coords="144,568,330,594"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="239,607,239,644,235,642,235,612"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface.html" title="An abstract data type for a generic container storing collections of data, as opposed to metadata." alt="" coords="5,331,237,356"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="135,368,234,568,229,569,132,373"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html" title="An abstract data type for a generic container storing collections of data and metadata...." alt="" coords="17,155,225,181"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="122,194,124,330,118,330,120,199"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html" title="Abstract data type for a group storing collections of data and metadata." alt="" coords="33,80,209,106"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="121,119,124,155,118,155,121,124"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema." alt="" coords="15,5,227,31"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="121,44,124,80,118,80,121,49"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html" title="Represents a base data type." alt="" coords="260,331,448,356"/>
+<area shape="poly" id="edge7_Node000003_Node000008" title=" " alt="" coords="344,369,245,570,241,567,339,372"/>
+<area shape="poly" id="edge8_Node000008_Node000008" title=" " alt="" coords="387,322,418,315,446,317,466,326,473,334,475,344,472,355,464,363,439,371,407,370,375,359,374,354,408,365,439,366,462,359,468,352,470,343,468,336,463,330,445,322,418,321,390,327"/>
 </map>

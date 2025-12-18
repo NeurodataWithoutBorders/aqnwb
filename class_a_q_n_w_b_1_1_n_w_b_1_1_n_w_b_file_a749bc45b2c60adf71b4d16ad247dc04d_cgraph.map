@@ -2,20 +2,22 @@
 <area shape="rect" id="Node000001" title="Create ElectrodesTable. Note, this function will fail if the file is in a mode where new objects cann..." alt="" coords="5,168,179,209"/>
 <area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_device.html#ab9651ab77d0c1e46126178ea55cb0295" title="Initializes the device by creating NWB related attributes and writing the manufactor and description ..." alt="" coords="251,75,412,115"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="145,165,265,120,261,123,148,170"/>
-<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html#ae1040ee51efcdfb2b4ba7ba046dd0a51" title="Initializes the ElectrodeGroup object." alt="" coords="227,168,437,209"/>
-<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="179,186,214,188,209,189,180,191"/>
-<area shape="rect" id="Node000008" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="516,233,666,258"/>
-<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="171,207,227,218,370,234,502,243,497,244,370,239,226,223,171,212"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a651f3d7e5cc28dc93888e8a821c5aa1c" title="Get the schema namespace of the class type." alt="" coords="744,81,956,122"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="413,89,546,87,696,88,732,92,726,93,696,94,546,92,413,95"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a150f881ad61cb8352eea7ddba47bc6ad" title="Get the name of the class type." alt="" coords="744,5,956,46"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="412,79,485,68,732,39,727,41,485,74,414,84"/>
-<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a420424e52795b5212d7dcb728396af6a" title="Initialize the container." alt="" coords="502,103,679,143"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="413,101,489,111,484,112,413,106"/>
-<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="679,113,731,111,726,112,680,118"/>
-<area shape="poly" id="edge6_Node000005_Node000004" title=" " alt="" coords="646,100,777,53,782,51,648,105"/>
-<area shape="poly" id="edge9_Node000006_Node000005" title=" " alt="" coords="415,165,490,148,495,147,416,170"/>
-<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab3eec5d2a591356df25053a4159ab671" title="Gets the path of the registered type." alt="" coords="485,168,696,209"/>
-<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="437,186,472,188,467,189,438,191"/>
-<area shape="poly" id="edge10_Node000006_Node000008" title=" " alt="" coords="427,207,517,229,512,229,426,212"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html#ae1040ee51efcdfb2b4ba7ba046dd0a51" title="Initializes the ElectrodeGroup object." alt="" coords="227,168,437,209"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="179,186,214,188,209,189,180,191"/>
+<area shape="rect" id="Node000009" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="516,233,666,258"/>
+<area shape="poly" id="edge12_Node000001_Node000009" title=" " alt="" coords="171,207,227,218,370,234,502,243,497,244,370,239,226,223,171,212"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a651f3d7e5cc28dc93888e8a821c5aa1c" title="Get the schema namespace of the class type." alt="" coords="969,81,1180,122"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="413,90,641,85,921,88,956,92,951,93,921,94,641,91,413,95"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a150f881ad61cb8352eea7ddba47bc6ad" title="Get the name of the class type." alt="" coords="969,5,1180,46"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="412,79,485,68,735,44,955,32,950,33,735,50,485,74,414,84"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html#a80beeda4c4761fe414407e4cc0d4fe8c" title="Initialize the object." alt="" coords="486,103,695,143"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="413,101,474,110,468,110,413,106"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a420424e52795b5212d7dcb728396af6a" title="Initialize the container." alt="" coords="744,103,921,143"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="695,120,731,123,726,123,695,126"/>
+<area shape="poly" id="edge6_Node000006_Node000003" title=" " alt="" coords="921,113,956,112,951,113,922,118"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="884,100,1005,53,1011,51,886,105"/>
+<area shape="poly" id="edge10_Node000007_Node000005" title=" " alt="" coords="415,165,490,148,495,147,416,170"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab3eec5d2a591356df25053a4159ab671" title="Gets the path of the registered type." alt="" coords="485,168,696,209"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="437,186,472,188,467,189,438,191"/>
+<area shape="poly" id="edge11_Node000007_Node000009" title=" " alt="" coords="427,207,517,229,512,229,426,212"/>
 </map>

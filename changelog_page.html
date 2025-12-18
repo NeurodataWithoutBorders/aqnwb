@@ -120,6 +120,8 @@ $(function() {
 <div class="line">### Changed</div>
 <div class="line">* Updated `schametype_to_aqnwb` utility script to place the generated source files into a folder hierarchy based on the name of the namespace and schemafile of the neurodata_type (@oruebel, [#224](https://github.com/NeurodataWithoutBorders/aqnwb/pull/224))</div>
 <div class="line"> </div>
+<div class="line">### Fixed</div>
+<div class="line">* Resolved various compiler warnings on Windows (`-Wmaybe-uninitialized`, `-Wsign-conversion`, `-Wconversion`, `-Wshadow`, `-Wdeprecated-copy`, `-Wcatch-value`) and fixed cross-platform build issues related to `std::filesystem` linkage. (@oruebel, [#233](https://github.com/NeurodataWithoutBorders/aqnwb/pull/233))</div>
 <div class="line"> </div>
 <div class="line">## [0.1.0] - 2025-09-03</div>
 <div class="line"> </div>
