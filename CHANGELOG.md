@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 * Updated `schametype_to_aqnwb` utility script to place the generated source files into a folder hierarchy based on the name of the namespace and schemafile of the neurodata_type (@oruebel, [#224](https://github.com/NeurodataWithoutBorders/aqnwb/pull/224))
 
+### Fixed
+* Resolved various compiler warnings on Windows (`-Wmaybe-uninitialized`, `-Wsign-conversion`, `-Wconversion`, `-Wshadow`, `-Wdeprecated-copy`, `-Wcatch-value`) and fixed cross-platform build issues related to `std::filesystem` linkage. (@oruebel, [#233](https://github.com/NeurodataWithoutBorders/aqnwb/pull/233))
 
 ## [0.1.0] - 2025-09-03
 

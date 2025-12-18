@@ -619,6 +619,8 @@ protected:
         return RegisteredType::create<RTYPE>(objectPath, m_io); \
       } \
     } catch (const std::exception& e) { \
+      std::cerr << "WARNING Error occurred in " << #name << " " << e.what() \
+                << std::endl; \
       return nullptr; \
     } \
     return nullptr; \
