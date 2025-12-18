@@ -77,11 +77,11 @@ public:
   DataBlockGeneric(const std::any& inData,
                    const std::vector<SizeType>& inShape,
                    const std::type_index& inTypeIndex,
-                   const IO::BaseDataType baseDataType)
+                   const IO::BaseDataType inBaseDataType)
       : data(inData)
       , shape(inShape)
       , typeIndex(inTypeIndex)
-      , baseDataType(baseDataType)
+      , baseDataType(inBaseDataType)
   {
   }
 

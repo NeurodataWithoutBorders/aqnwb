@@ -28,6 +28,9 @@ add_library(
     src/nwb/NWBFile.cpp
     src/nwb/RecordingContainers.cpp
     src/nwb/RegisteredType.cpp
+    src/nwb/base/NWBData.cpp
+    src/nwb/base/NWBDataInterface.cpp
+    src/nwb/base/NWBContainer.cpp
     src/nwb/base/TimeSeries.cpp
     src/nwb/device/Device.cpp
     src/nwb/ecephys/ElectricalSeries.cpp
@@ -95,10 +98,14 @@ include_directories(${HDF5_INCLUDE_DIRS})
 find_package(Boost REQUIRED)
 include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 
-target_link_libraries(aqnwb_aqnwb ${HDF5_CXX_LIBRARIES} ${Boost_LIBRARIES})
-if (WIN32)
-    target_link_libraries(aqnwb_aqnwb bcrypt)
-endif()
+target_link_libraries(aqnwb_aqnwb
+    PUBLIC
+        ${HDF5_CXX_LIBRARIES}
+        ${Boost_LIBRARIES}
+    PRIVATE
+        $<$<CXX_COMPILER_ID:GNU>:stdc++fs>
+        $<$<BOOL:${WIN32}>:bcrypt>
+)
 
 # ---- Install rules ----
 
