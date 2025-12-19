@@ -860,7 +860,7 @@ Status HDF5IO::createReferenceAttribute(const std::string& referencePath,
       Attribute attr = loc.attrExists(name)
           ? loc.openAttribute(name)
           : loc.createAttribute(
-                name, H5::PredType::STD_REF_OBJ, DataSpace(H5S_SCALAR));
+              name, H5::PredType::STD_REF_OBJ, DataSpace(H5S_SCALAR));
 
       hobj_ref_t rdata;
       m_file->reference(&rdata, referencePath.c_str());

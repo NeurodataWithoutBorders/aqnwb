@@ -18,7 +18,9 @@ class ElectrodeGroup : public NWBContainer
 {
 public:
   // Register ElectrodeGroup as a subclass of NWBContainer
-  REGISTER_SUBCLASS(ElectrodeGroup, NWBContainer, AQNWB::SPEC::CORE::namespaceName)
+  REGISTER_SUBCLASS(ElectrodeGroup,
+                    NWBContainer,
+                    AQNWB::SPEC::CORE::namespaceName)
 
 protected:
   /**

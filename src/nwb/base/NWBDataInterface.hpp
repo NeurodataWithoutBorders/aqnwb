@@ -43,7 +43,9 @@ public:
    */
   Status initialize();
 
-  REGISTER_SUBCLASS(NWBDataInterface, NWBContainer, AQNWB::SPEC::CORE::namespaceName)
+  REGISTER_SUBCLASS(NWBDataInterface,
+                    NWBContainer,
+                    AQNWB::SPEC::CORE::namespaceName)
 };
 
 }  // namespace AQNWB::NWB
