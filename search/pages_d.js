@@ -21,8 +21,9 @@ var searchData=
   ['for_20recording_18',['The DEFINE_DATASET_FIELD Macro for Recording',['../record_design_page.html#record_design_sec_define_dataset_field',1,'']]],
   ['for_20references_20to_20neurodata_5ftype_20objects_19',['DEFINE_REFERENCED_REGISTERED_FIELD: Defining read methods for references to neurodata_type objects',['../registered_type_page.html#use_the_define_referenced_registered_field_macro',1,'']]],
   ['for_20registeredtype_20objects_20',['Searching for RegisteredType objects',['../read_page.html#read_example_search',1,'']]],
-  ['for_20users_21',['For Users',['../userdocs.html',1,'']]],
-  ['from_20registeredtype_20objects_22',['Reading data from RegisteredType objects',['../read_page.html#read_example_read',1,'']]],
-  ['further_20reading_23',['Further Reading',['../record_design_page.html#recording_design_further_reading',1,'']]],
-  ['further_20reading_24',['Further reading',['../read_page.html#read_further_reading',1,'']]]
+  ['for_20unnamed_20neurodata_5ftype_20objects_21',['DEFINE_UNNAMED_REGISTERED_FIELD: Defining read methods for unnamed neurodata_type objects',['../registered_type_page.html#use_the_define_unnamed_registered_field_macro',1,'']]],
+  ['for_20users_22',['For Users',['../userdocs.html',1,'']]],
+  ['from_20registeredtype_20objects_23',['Reading data from RegisteredType objects',['../read_page.html#read_example_read',1,'']]],
+  ['further_20reading_24',['Further Reading',['../record_design_page.html#recording_design_further_reading',1,'']]],
+  ['further_20reading_25',['Further reading',['../read_page.html#read_further_reading',1,'']]]
 ];

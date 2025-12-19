@@ -17,7 +17,7 @@ var searchData=
   ['including_20code_20examples_20in_20doxygen_14',['Including Code Examples in Doxygen',['../dev_docs_page.html#dev_docs_codeexamples_incl_sec',1,'']]],
   ['individual_20datasets_15',['Advanced: Recording individual datasets',['../workflow.html#advanced_recording_workflow',1,'']]],
   ['inspect_20electrical_20series_20data_20using_20aqnwb_16',['Inspect Electrical Series Data using AqNWB',['../user_demos.html#demos_inspect_electrical_series',1,'']]],
-  ['install_17',['Install',['../user_install_page.html#userbuild_install_sec',1,'']]],
+  ['install_17',['Install',['../dev_install_page.html#devbuild_install_subsec',1,'Developer Install'],['../user_install_page.html#userbuild_install_sec',1,'Install']]],
   ['installation_20🛠️_18',['Installation 🛠️',['../dev_install_page.html',1,'Installation 🛠️'],['../user_install_page.html',1,'Installation 🛠️'],['../index.html#mainpage_installation',1,'Installation 🛠️']]],
   ['installing_20aqnwb_19',['Installing AqNWB',['../dev_install_page.html#dev_install_aqnwb_sec',1,'']]],
   ['installing_20python_20utilities_20',['Installing Python Utilities',['../dev_install_page.html#dev_install_utils_sec',1,'']]],

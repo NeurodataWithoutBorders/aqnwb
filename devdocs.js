@@ -6,6 +6,7 @@ var devdocs =
         [ "Developer Build", "dev_install_page.html#devbuild_sec", [
           [ "Developer Presets", "dev_install_page.html#devbuild_presets_subsec", null ],
           [ "Configure, Build and Test", "dev_install_page.html#configure_build_test", null ],
+          [ "Developer Install", "dev_install_page.html#devbuild_install_subsec", null ],
           [ "Developer Mode Targets", "dev_install_page.html#devbuild_dev_mode_targets_subsec", [
             [ "Target options", "dev_install_page.html#devbuild_target_options_subsubsec", null ]
           ] ]
@@ -41,6 +42,7 @@ var devdocs =
         [ "DEFINE_ATTRIBUTE_FIELD: Creating read methods for attributes", "registered_type_page.html#use_the_define_attribute_field_macro", null ],
         [ "DEFINE_DATASET_FIELD: Creating read and write methods for datasets", "registered_type_page.html#use_the_define_dataset_field_macro", null ],
         [ "DEFINE_REGISTERED_FIELD: Defining read methods for neurodata_type objects", "registered_type_page.html#use_the_define_registered_field_macro", null ],
+        [ "DEFINE_UNNAMED_REGISTERED_FIELD: Defining read methods for unnamed neurodata_type objects", "registered_type_page.html#use_the_define_unnamed_registered_field_macro", null ],
         [ "DEFINE_REFERENCED_REGISTERED_FIELD: Defining read methods for references to neurodata_type objects", "registered_type_page.html#use_the_define_referenced_registered_field_macro", null ]
       ] ],
       [ "How to implement a RegisteredType with a custom type name", "registered_type_page.html#using_registered_subclass_with_typename", [

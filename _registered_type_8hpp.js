@@ -5,6 +5,7 @@ var _registered_type_8hpp =
     [ "DEFINE_DATASET_FIELD", "_registered_type_8hpp.html#aeb21020579ca18f10e64fac9689a7ef6", null ],
     [ "DEFINE_REFERENCED_REGISTERED_FIELD", "_registered_type_8hpp.html#a3b2c847e459e9e30e65e38897303a9a5", null ],
     [ "DEFINE_REGISTERED_FIELD", "_registered_type_8hpp.html#af374245a4f6d5a00540e9fdba52a652a", null ],
+    [ "DEFINE_UNNAMED_REGISTERED_FIELD", "_registered_type_8hpp.html#aee89c439c94a4a8aa1f42024d063e4c0", null ],
     [ "REGISTER_SUBCLASS", "_registered_type_8hpp.html#a9c1f79aa46baaf33d1bf885cf7484aa1", null ],
     [ "REGISTER_SUBCLASS_IMPL", "_registered_type_8hpp.html#a54ea7671d2bcf5bae392b8ba1824961e", null ],
     [ "REGISTER_SUBCLASS_WITH_TYPENAME", "_registered_type_8hpp.html#af20769bbf87fb10f70c36fe248deaf4d", null ],

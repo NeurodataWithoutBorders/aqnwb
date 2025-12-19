@@ -169,6 +169,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa611b4def3f53c508ddd8ec71944ffe7" id="r_aa611b4def3f53c508ddd8ec71944ffe7"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::string&gt; </td></tr>
 <tr class="memitem:aa611b4def3f53c508ddd8ec71944ffe7 template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#acfd896b65a7f56c25b3730a6e8dc80ca">DatasetField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa611b4def3f53c508ddd8ec71944ffe7">readTimestampsReferenceTime</a> () const</td></tr>
 <tr class="memitem:a36db3290c76301b9af8a030cb975d516" id="r_a36db3290c76301b9af8a030cb975d516"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">IO::BaseRecordingData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a36db3290c76301b9af8a030cb975d516">recordTimestampsReferenceTime</a> (bool reset=false)</td></tr>
+<tr class="memitem:a4c5e30290b87e858aea55a327e835e77" id="r_a4c5e30290b87e858aea55a327e835e77"><td class="memTemplParams" colspan="2">template&lt;typename RTYPE = TimeSeries&gt; </td></tr>
+<tr class="memitem:a4c5e30290b87e858aea55a327e835e77 template"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; RTYPE &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4c5e30290b87e858aea55a327e835e77">readAquisitionSeries</a> (std::string &amp;objectName) const</td></tr>
+<tr class="memitem:a116bb371a6ef2fec0a442530ce4c5344" id="r_a116bb371a6ef2fec0a442530ce4c5344"><td class="memTemplParams" colspan="2">template&lt;typename RTYPE = TimeSeries&gt; </td></tr>
+<tr class="memitem:a116bb371a6ef2fec0a442530ce4c5344 template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; RTYPE &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a116bb371a6ef2fec0a442530ce4c5344">createAquisitionSeries</a> (std::string &amp;objectName) const</td></tr>
 <tr class="inherit_header pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Member Functions inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html">AQNWB::NWB::NWBContainer</a></td></tr>
 <tr class="memitem:aadbde40c8c04d80d7b65a26e77f4cc20 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container" id="r_aadbde40c8c04d80d7b65a26e77f4cc20"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html#aadbde40c8c04d80d7b65a26e77f4cc20">NWBContainer</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt; io)</td></tr>
 <tr class="memdesc:aadbde40c8c04d80d7b65a26e77f4cc20 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <br /></td></tr>
@@ -420,7 +424,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_aaf2e07b4e912fc34ab052d38f92e6cdd_icgraph.svg" width="100%" height="388"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_aaf2e07b4e912fc34ab052d38f92e6cdd_icgraph.svg" width="100%" height="486"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -462,7 +466,44 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a83dd681b168acf8d9948ee651cb4ae8b_cgraph.svg" width="475" height="167"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a83dd681b168acf8d9948ee651cb4ae8b_cgraph.svg" width="100%" height="539"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
+<a id="a116bb371a6ef2fec0a442530ce4c5344" name="a116bb371a6ef2fec0a442530ce4c5344"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a116bb371a6ef2fec0a442530ce4c5344">&#9670;&#160;</a></span>createAquisitionSeries()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename RTYPE = TimeSeries&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt; RTYPE &gt; AQNWB::NWB::NWBFile::createAquisitionSeries </td>
+          <td>(</td>
+          <td class="paramtype">std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>objectName</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a116bb371a6ef2fec0a442530ce4c5344_cgraph.svg" width="100%" height="535"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a116bb371a6ef2fec0a442530ce4c5344_icgraph.svg" width="100%" height="486"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -516,7 +557,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a332407516f0fd39e0743f4e569734153_cgraph.svg" width="475" height="167"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a332407516f0fd39e0743f4e569734153_cgraph.svg" width="100%" height="539"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -614,7 +655,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a71bd7b910a7ec89bdaf36304d67bfef1_icgraph.svg" width="100%" height="388"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a71bd7b910a7ec89bdaf36304d67bfef1_icgraph.svg" width="100%" height="486"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -668,7 +709,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a1081999095a4a94f6a3c70cb17807799_cgraph.svg" width="100%" height="547"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a1081999095a4a94f6a3c70cb17807799_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -804,6 +845,39 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
+<a id="a4c5e30290b87e858aea55a327e835e77" name="a4c5e30290b87e858aea55a327e835e77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c5e30290b87e858aea55a327e835e77">&#9670;&#160;</a></span>readAquisitionSeries()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename RTYPE = TimeSeries&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; RTYPE &gt; AQNWB::NWB::NWBFile::readAquisitionSeries </td>
+          <td>(</td>
+          <td class="paramtype">std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>objectName</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Get a <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html" title="General purpose time series.">TimeSeries</a> stored in the acquisition group </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a4c5e30290b87e858aea55a327e835e77_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
 <a id="a65a36f2baf0b3bb7555b573295f97bf0" name="a65a36f2baf0b3bb7555b573295f97bf0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a65a36f2baf0b3bb7555b573295f97bf0">&#9670;&#160;</a></span>readElectrodesTable()</h2>
 
@@ -832,7 +906,7 @@ template&lt;typename RTYPE = ElectrodesTable&gt; </div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a65a36f2baf0b3bb7555b573295f97bf0_cgraph.svg" width="100%" height="535"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a65a36f2baf0b3bb7555b573295f97bf0_cgraph.svg" width="100%" height="553"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -946,7 +1020,7 @@ template&lt;typename VTYPE = std::string&gt; </div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_aabb1a926056f5d26944328e928e42651_cgraph.svg" width="100%" height="535"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_aabb1a926056f5d26944328e928e42651_cgraph.svg" width="100%" height="553"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>

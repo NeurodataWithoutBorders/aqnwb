@@ -187,6 +187,11 @@ Configure, Build and Test</h3>
 <div class="fragment"><div class="line">cmake --preset=dev</div>
 <div class="line">cmake --build --preset=dev</div>
 <div class="line">ctest --preset=dev</div>
+</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="devbuild_install_subsec"></a>
+Developer Install</h3>
+<p>After build, we can install the developer library into a custom location, by navigating to the build folder and call <span class="tt">cmake --install .</span> with a an optional <span class="tt">--prefix</span> to specify th install location, e.g.,</p>
+<div class="fragment"><div class="line">cd build/dev</div>
+<div class="line">cmake --install . --prefix=../dev/install</div>
 </div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="devbuild_dev_mode_targets_subsec"></a>
 Developer Mode Targets</h3>
 <p>Additional targets can be invoked when in development mode using the commands below</p>
