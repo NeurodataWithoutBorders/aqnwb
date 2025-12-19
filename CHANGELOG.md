@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     * Added inline script metadata (PEP 723) to Python utilities to enable direct execution with `uv run` without installation (@oruebel, [#229](https://github.com/NeurodataWithoutBorders/aqnwb/pull/229)
     * Added `pyproject.toml` for modern Python packaging support (@oruebel, [#229](https://github.com/NeurodataWithoutBorders/aqnwb/pull/229)
 * Added `RegisteredType::DEFINE_UNNAMED_REGISTERED_FIELD` to simplify creation of read/write methods for RegisteredTypes that do not have a set name in the schema (@oruebel, [#231](https://github.com/NeurodataWithoutBorders/aqnwb/pull/231)
+* Added new `NWBData`, `NWBDataInterface`, and `NWBContainer` data types and updated existing classes to match inheritance with NWB schema (@oruebel, [#232](https://github.com/NeurodataWithoutBorders/aqnwb/pull/232)
 
 ### Changed
 * Updated Python utilities to use `uv` instead of `pip` for dependency management and updated docs and github workflows to use uv (@oruebel, [#227](https://github.com/NeurodataWithoutBorders/aqnwb/pull/227)
