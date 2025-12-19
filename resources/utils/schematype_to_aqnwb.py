@@ -1327,14 +1327,14 @@ public:
         header += f"""
         REGISTER_SUBCLASS(
             {class_name},
-            {parent_class_name},  # Just the class name, no namespace
+            {parent_class_name},
             "{actual_cpp_namespace_name}")  // TODO: Use namespace from schema header
         """
     else:
         header += f"""
         REGISTER_SUBCLASS(
             {class_name},
-            {parent_class_name},  # Just the class name, no namespace
+            {parent_class_name},
             AQNWB::SPEC::{actual_cpp_namespace_name}::namespaceName)
         """
         
