@@ -1319,21 +1319,24 @@ public:
         for fieldDef in commented_fields:
             header += fieldDef +"\n"
 
-# Add REGISTER_SUBCLASS macro
+    # Add REGISTER_SUBCLASS macro
+    # Extract just the class name from parent_class (remove namespace)
+    parent_class_name = parent_class.split("::")[-1] if "::" in parent_class else parent_class
+
     if is_included_type:
         header += f"""
-    REGISTER_SUBCLASS(
-        {class_name},
-        {parent_class},
-        "{actual_cpp_namespace_name}")  // TODO: Use namespace from schema header
-    """
+        REGISTER_SUBCLASS(
+            {class_name},
+            {parent_class_name},  # Just the class name, no namespace
+            "{actual_cpp_namespace_name}")  // TODO: Use namespace from schema header
+        """
     else:
         header += f"""
-    REGISTER_SUBCLASS(
-        {class_name},
-        {parent_class},
-        AQNWB::SPEC::{actual_cpp_namespace_name}::namespaceName)
-    """
+        REGISTER_SUBCLASS(
+            {class_name},
+            {parent_class_name},  # Just the class name, no namespace
+            AQNWB::SPEC::{actual_cpp_namespace_name}::namespaceName)
+        """
         
     header += f"""
 }};
