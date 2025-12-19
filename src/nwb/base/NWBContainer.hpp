@@ -24,12 +24,8 @@ namespace AQNWB::NWB
 class NWBContainer : public AQNWB::NWB::Container
 {
 public:
-  /**
-   * @brief Constructor
-   * @param path Path to the object in the file
-   * @param io IO object for reading/writing
-   */
-  NWBContainer(const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io);
+  // Register the NWBContainer as a subclass of Container
+  REGISTER_SUBCLASS(NWBContainer, Container, AQNWB::SPEC::CORE::namespaceName)
 
   /**
    * @brief Virtual destructor.
@@ -42,7 +38,13 @@ public:
    */
   Status initialize();
 
-  REGISTER_SUBCLASS(NWBContainer, Container, AQNWB::SPEC::CORE::namespaceName)
+protected:
+  /**
+   * @brief Constructor
+   * @param path Path to the object in the file
+   * @param io IO object for reading/writing
+   */
+  NWBContainer(const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io);
 };
 
 }  // namespace AQNWB::NWB
