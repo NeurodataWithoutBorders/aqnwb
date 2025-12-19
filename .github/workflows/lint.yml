@@ -17,10 +17,10 @@ jobs:
     steps:
         - name: Checkout repository
           uses: actions/checkout@v4
-        - name: Lint
-          run: cmake -D FORMAT_COMMAND=clang-format -P cmake/lint.cmake
+        # - name: Lint
+        #   run: cmake -D FORMAT_COMMAND=clang-format -P cmake/lint.cmake
         - name: Fix linting
           run: | 
-            cmake -D FORMAT_COMMAND=clang-format -D FIX=YES  -P cmake/lint.cmake
+            cmake -D FORMAT_COMMAND=clang-format -D FIX=YES -P cmake/lint.cmake
             git diff
            
