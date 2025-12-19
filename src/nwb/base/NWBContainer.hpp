@@ -42,7 +42,7 @@ public:
    */
   Status initialize();
 
-  REGISTER_SUBCLASS(NWBContainer, AQNWB::SPEC::CORE::namespaceName)
+  REGISTER_SUBCLASS(NWBContainer, Container, AQNWB::SPEC::CORE::namespaceName)
 };
 
 }  // namespace AQNWB::NWB

@@ -38,7 +38,7 @@ public:
    */
   Status initialize(const AQNWB::IO::ArrayDataSetConfig& dataConfig);
 
-  REGISTER_SUBCLASS(NWBData, AQNWB::SPEC::CORE::namespaceName)
+  REGISTER_SUBCLASS(NWBData, Data, AQNWB::SPEC::CORE::namespaceName)
 };
 
 /**

@@ -17,8 +17,8 @@ namespace AQNWB::NWB
 class Device : public NWBContainer
 {
 public:
-  // Register the Device as a subclass of Container
-  REGISTER_SUBCLASS(Device, Container, AQNWB::SPEC::CORE::namespaceName)
+  // Register the Device as a subclass of NWBContainer
+  REGISTER_SUBCLASS(Device, NWBContainer, AQNWB::SPEC::CORE::namespaceName)
 
   // Bring base class initialize method into scope
   using Container::initialize;

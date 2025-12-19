@@ -398,9 +398,7 @@ Status NWBFile::createAnnotationSeries(std::vector<std::string> recordingNames,
         "Stores user annotations made during an experiment",
         "no comments",
         config);
-    // Add it to the recording containers
-    recordingContainers->addContainer(std::move(annotationSeries));
-    containerIndexes.push_back(recordingContainers->size() - 1);
+    containerIndexes.push_back(annotationSeries->getRecordingObjectIndex());
   }
 
   return Status::Success;

@@ -133,7 +133,6 @@ TEST_CASE("writeContinuousData", "[recording]")
         dataOut[i][j] = buffer[static_cast<size_t>(j) * numChannelsToRead + i];
       }
     }
-    delete[] buffer;
     REQUIRE_THAT(dataOut[0], Catch::Matchers::Approx(mockData[0]).margin(1.0));
     REQUIRE_THAT(dataOut[1], Catch::Matchers::Approx(mockData[1]).margin(1.0));
 

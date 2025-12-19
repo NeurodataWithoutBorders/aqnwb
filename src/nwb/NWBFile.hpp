@@ -11,7 +11,6 @@
 #include "Utils.hpp"
 #include "io/BaseIO.hpp"
 #include "io/ReadIO.hpp"
-#include "nwb/RecordingContainers.hpp"
 #include "nwb/base/NWBContainer.hpp"
 #include "nwb/base/TimeSeries.hpp"
 #include "nwb/file/ElectrodesTable.hpp"
@@ -31,8 +30,8 @@ namespace AQNWB::NWB
 class NWBFile : public NWBContainer
 {
 public:
-  // Register the ElectrodesTable as a subclass of Container
-  REGISTER_SUBCLASS(NWBFile, Container, AQNWB::SPEC::CORE::namespaceName)
+  // Register the NWBFile as a subclass of NWBContainer
+  REGISTER_SUBCLASS(NWBFile, NWBContainer, AQNWB::SPEC::CORE::namespaceName)
 
   /** \brief Convenience factor method since the path is fixed to '/'
    * @param io A shared pointer to the IO object.

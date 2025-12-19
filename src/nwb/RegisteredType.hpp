@@ -731,8 +731,14 @@ public: \
   { \
     std::string prefixPath = AQNWB::mergePaths(m_path, fieldPrefixPath); \
     std::string objectPath = AQNWB::mergePaths(prefixPath, objectName); \
-    if (m_io->objectExists(objectPath)) { \
-      return RegisteredType::create<RTYPE>(objectPath, m_io); \
+    auto ioPtr = getIO(); \
+    if (!ioPtr) { \
+      std::cerr << "IO object has been deleted. Can't read field: " \
+                << objectPath << std::endl; \
+      return nullptr; \
+    } \
+    if (ioPtr->objectExists(objectPath)) { \
+      return RegisteredType::create<RTYPE>(objectPath, ioPtr); \
     } \
     return nullptr; \
   } \
@@ -746,17 +752,23 @@ public: \
    * types, e.g,. VectorData<std::any> a user may want to change this to a \
    * more specific subtype to use, e.g., VectorData<int> \
    * @param objectName The name of the object to retrieve \
-   * @return A unique pointer to an instance of ##registeredType representing \
+   * @return A shared pointer to an instance of ##registeredType representing \
    * the object. \
    * \
    * description \
    */ \
   template<typename RTYPE = registeredType> \
-  inline std::unique_ptr<RTYPE> writeName(const std::string& objectName) const \
+  inline std::shared_ptr<RTYPE> writeName(const std::string& objectName) const \
   { \
     std::string prefixPath = AQNWB::mergePaths(m_path, fieldPrefixPath); \
     std::string objectPath = AQNWB::mergePaths(prefixPath, objectName); \
-    return std::make_unique<RTYPE>(objectPath, m_io); \
+    auto ioPtr = getIO(); \
+    if (!ioPtr) { \
+      std::cerr << "IO object has been deleted. Can't create field: " \
+                << objectPath << std::endl; \
+      return nullptr; \
+    } \
+    return RegisteredType::create<RTYPE>(objectPath, ioPtr); \
   }
 
 /**

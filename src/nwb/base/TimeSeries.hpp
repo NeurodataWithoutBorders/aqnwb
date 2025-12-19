@@ -17,8 +17,8 @@ namespace AQNWB::NWB
 class TimeSeries : public NWBDataInterface
 {
 public:
-  // Register the TimeSeries as a subclass of Container
-  REGISTER_SUBCLASS(TimeSeries, Container, AQNWB::SPEC::CORE::namespaceName)
+  // Register the TimeSeries as a subclass of NWBDataInterface
+  REGISTER_SUBCLASS(TimeSeries, NWBDataInterface, AQNWB::SPEC::CORE::namespaceName)
 
   /**
    * Used to describe the continuity of the data in a time series.
