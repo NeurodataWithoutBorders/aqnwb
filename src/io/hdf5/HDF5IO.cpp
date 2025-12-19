@@ -52,7 +52,8 @@ Status HDF5IO::open(FileMode mode)
   }
 
   FileAccPropList fapl = FileAccPropList::DEFAULT;
-  H5Pset_libver_bounds(fapl.getId(), H5F_LIBVER_LATEST, H5F_LIBVER_LATEST);
+  H5Pset_libver_bounds(
+      fapl.getId(), H5F_LIBVER_LATEST, H5F_LIBVER_LATEST);
 
   switch (mode) {
     case FileMode::Overwrite:
@@ -161,13 +162,11 @@ std::vector<T> HDF5IO::readDataHelper(const HDF5TYPE& dataSource,
 {
   std::vector<T> data(numElements);
   if (const H5::DataSet* dataset =
-          dynamic_cast<const H5::DataSet*>(&dataSource))
-  {
+          dynamic_cast<const H5::DataSet*>(&dataSource)) {
     H5::DataType type = dataset->getDataType();
     dataset->read(data.data(), type, memspace, dataspace);
   } else if (const H5::Attribute* attribute =
-                 dynamic_cast<const H5::Attribute*>(&dataSource))
-  {
+                 dynamic_cast<const H5::Attribute*>(&dataSource)) {
     H5::DataType type = attribute->getDataType();
     attribute->read(type, data.data());
   } else {
@@ -197,8 +196,7 @@ std::vector<std::string> HDF5IO::readStringDataHelper(
   try {
     // Check if the data source is a DataSet
     if (const H5::DataSet* dataset =
-            dynamic_cast<const H5::DataSet*>(&dataSource))
-    {
+            dynamic_cast<const H5::DataSet*>(&dataSource)) {
       // Get the string type of the dataset
       H5::StrType strType = dataset->getStrType();
 
@@ -235,8 +233,7 @@ std::vector<std::string> HDF5IO::readStringDataHelper(
     }
     // Check if the data source is an Attribute
     else if (const H5::Attribute* attribute =
-                 dynamic_cast<const H5::Attribute*>(&dataSource))
-    {
+                 dynamic_cast<const H5::Attribute*>(&dataSource)) {
       // Get the string type of the attribute
       H5::StrType strType = attribute->getStrType();
 
@@ -340,7 +337,8 @@ std::string HDF5IO::readReferenceAttribute(const std::string& dataPath) const
   // LCOV_EXCL_START
   // This is a safety check to safeguard against possible runtime issues,
   // but this should never happen.
-  if (H5Iget_name(obj_id, obj_name.data(), static_cast<size_t>(buf_size)) < 0) {
+  if (H5Iget_name(obj_id, obj_name.data(), static_cast<size_t>(buf_size))
+      < 0) {
     H5Oclose(obj_id);
     throw std::runtime_error(
         "HDF5IO::readReferenceAttribute, failed to get object name.");
@@ -693,8 +691,7 @@ Status HDF5IO::createAttribute(const IO::BaseDataType& type,
     attr_dataspace = DataSpace(H5S_SCALAR);
   }
 
-  auto manage_attribute = [&](H5Object& loc)
-  {
+  auto manage_attribute = [&](H5Object& loc) {
     Attribute attr = loc.attrExists(name)
         ? loc.openAttribute(name)
         : loc.createAttribute(name, H5type, attr_dataspace);
@@ -727,8 +724,7 @@ Status HDF5IO::createAttribute(const std::string& data,
   // Create variable length string type
   StrType H5type(PredType::C_S1, static_cast<size_t>(H5T_VARIABLE));
 
-  auto manage_attribute = [&](H5Object& loc)
-  {
+  auto manage_attribute = [&](H5Object& loc) {
     try {
       if (loc.attrExists(name)) {
         if (overwrite) {
@@ -789,8 +785,7 @@ Status HDF5IO::createAttribute(const std::vector<std::string>& data,
   // Create variable length string type
   StrType H5type(PredType::C_S1, static_cast<size_t>(H5T_VARIABLE));
 
-  auto manage_attribute = [&](H5Object& loc)
-  {
+  auto manage_attribute = [&](H5Object& loc) {
     try {
       if (loc.attrExists(name)) {
         if (overwrite) {
@@ -854,8 +849,7 @@ Status HDF5IO::createReferenceAttribute(const std::string& referencePath,
     return Status::Failure;
   }
 
-  auto manage_attribute = [&](H5Object& loc)
-  {
+  auto manage_attribute = [&](H5Object& loc) {
     try {
       Attribute attr = loc.attrExists(name)
           ? loc.openAttribute(name)
@@ -1110,16 +1104,14 @@ HDF5IO::getStorageObjects(const std::string& path,
           storageObjectType = StorageObjectType::Undefined;
       }
       if (storageObjectType == objectType
-          || objectType == StorageObjectType::Undefined)
-      {
+          || objectType == StorageObjectType::Undefined) {
         objects.emplace_back(objName, storageObjectType);
       }
     }
 
     // Include attributes for groups
     if (objectType == StorageObjectType::Attribute
-        || objectType == StorageObjectType::Undefined)
-    {
+        || objectType == StorageObjectType::Undefined) {
       unsigned int numAttrs = static_cast<unsigned int>(group.getNumAttrs());
       for (unsigned int i = 0; i < numAttrs; ++i) {
         H5::Attribute attr = group.openAttribute(i);
@@ -1128,8 +1120,7 @@ HDF5IO::getStorageObjects(const std::string& path,
     }
   } else if (h5Type == H5O_TYPE_DATASET) {
     if (objectType == StorageObjectType::Attribute
-        || objectType == StorageObjectType::Undefined)
-    {
+        || objectType == StorageObjectType::Undefined) {
       H5::DataSet dataset = m_file->openDataSet(path);
       unsigned int numAttrs = static_cast<unsigned int>(dataset.getNumAttrs());
       for (unsigned int i = 0; i < numAttrs; ++i) {

@@ -1,4 +1,3 @@
-
 #include <limits>
 #include <sstream>
 #include <string>
@@ -93,7 +92,8 @@ Status RecordingObjects::clearRecordingDataCache()
         object->clearRecordingDataCache();
       } catch (const std::exception& e) {
         std::cerr << "Error clearing recording data cache for object at path: "
-                  << object->getPath() << ". Error: " << e.what() << std::endl;
+                  << object->getPath() << ". Error: " << e.what()
+                  << std::endl;
         overallStatus = Status::Failure;
       }
     }
