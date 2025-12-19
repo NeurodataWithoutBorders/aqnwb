@@ -107,9 +107,8 @@ std::string RecordingObjects::toString() const
   for (SizeType i = 0; i < m_recording_objects.size(); ++i) {
     auto obj = m_recording_objects[i];
     if (obj) {
-      result << "Index = " << i << "; "
-             << "Type = " << obj->getFullTypeName() << "; "
-             << "Path = " << obj->getPath() << "; " << std::endl;
+      result << "Index = " << i << "; " << "Type = " << obj->getFullTypeName()
+             << "; " << "Path = " << obj->getPath() << "; " << std::endl;
     } else {
       result << "  [" + std::to_string(i) + "] <null object>\n";
     }
