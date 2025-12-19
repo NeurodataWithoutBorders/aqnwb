@@ -1384,6 +1384,9 @@ def generate_implementation_file(
         else:
             parent_class = "AQNWB::NWB::Container"
 
+    if class_name == "Container":
+        parent_class = "AQNWB::NWB::RegisteredType" # special case for container type to avoid registering Container as a subclass of Container
+
     # Get parent neurodata_type spec
     parent_neurodata_type_spec = all_types.get(parent_type) if parent_type else None
 
