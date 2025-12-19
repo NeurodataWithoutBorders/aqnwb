@@ -1128,7 +1128,7 @@ def generate_header_file(
             parent_class = "AQNWB::NWB::Container"
     
     if class_name == "Container":
-        parent_class = "RegisteredType" # special case for container type to avoid registering Container as a subclass of Container
+        parent_class = "AQNWB::NWB::RegisteredType" # special case for container type to avoid registering Container as a subclass of Container
 
     # Start building the header file
     header = """#pragma once
