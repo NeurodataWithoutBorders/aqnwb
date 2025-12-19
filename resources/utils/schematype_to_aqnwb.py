@@ -1322,7 +1322,9 @@ public:
     # Add REGISTER_SUBCLASS macro
     # Extract just the class name from parent_class (remove namespace)
     parent_class_name = parent_class.split("::")[-1] if "::" in parent_class else parent_class
-
+    if class_name == "Container":
+        parent_class_name = "RegisteredType" # special case for container type to avoid registering Container as a subclass of Container
+    
     if is_included_type:
         header += f"""
         REGISTER_SUBCLASS(
