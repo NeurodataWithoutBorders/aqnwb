@@ -161,8 +161,7 @@ std::vector<T> HDF5IO::readDataHelper(const HDF5TYPE& dataSource,
 {
   std::vector<T> data(numElements);
   if (const H5::DataSet* dataset =
-          dynamic_cast<const H5::DataSet*>(&dataSource))
-  {
+          dynamic_cast<const H5::DataSet*>(&dataSource)) {
     H5::DataType type = dataset->getDataType();
     dataset->read(data.data(), type, memspace, dataspace);
   } else if (const H5::Attribute* attribute =
@@ -197,8 +196,7 @@ std::vector<std::string> HDF5IO::readStringDataHelper(
   try {
     // Check if the data source is a DataSet
     if (const H5::DataSet* dataset =
-            dynamic_cast<const H5::DataSet*>(&dataSource))
-    {
+            dynamic_cast<const H5::DataSet*>(&dataSource)) {
       // Get the string type of the dataset
       H5::StrType strType = dataset->getStrType();
 
