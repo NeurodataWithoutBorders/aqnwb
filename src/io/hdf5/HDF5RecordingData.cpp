@@ -185,7 +185,8 @@ Status HDF5RecordingData::writeDataBlockHelper(
   // of the dataset
   SizeType numDimensions = this->getNumDimensions();
   if (dataShape.size() != numDimensions
-      || positionOffset.size() != numDimensions) {
+      || positionOffset.size() != numDimensions)
+  {
     return Status::Failure;
   }
 
