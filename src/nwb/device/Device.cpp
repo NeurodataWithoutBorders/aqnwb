@@ -8,7 +8,7 @@ REGISTER_SUBCLASS_IMPL(Device)
 
 /** Constructor */
 Device::Device(const std::string& path, std::shared_ptr<IO::BaseIO> io)
-    : Container(path, io)
+    : NWBContainer(path, io)
 {
 }
 
@@ -23,7 +23,7 @@ Status Device::initialize(const std::string& description,
     std::cerr << "Device::initialize IO object has been deleted." << std::endl;
     return Status::Failure;
   }
-  auto ctrInitStatus = Container::initialize();
+  auto ctrInitStatus = NWBContainer::initialize();
 
   ioPtr->createCommonNWBAttributes(
       m_path, this->getNamespace(), this->getTypeName());

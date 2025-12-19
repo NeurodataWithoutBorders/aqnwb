@@ -5,7 +5,7 @@
 #include "Utils.hpp"
 #include "io/BaseIO.hpp"
 #include "io/ReadIO.hpp"
-#include "nwb/hdmf/base/Container.hpp"
+#include "nwb/base/NWBContainer.hpp"
 #include "spec/core.hpp"
 
 namespace AQNWB::NWB
@@ -14,7 +14,7 @@ namespace AQNWB::NWB
  * @brief Metadata about a data acquisition device, e.g., recording system,
  * electrode, microscope.
  */
-class Device : public Container
+class Device : public NWBContainer
 {
 public:
   // Register the Device as a subclass of Container

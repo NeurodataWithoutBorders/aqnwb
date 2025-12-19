@@ -1,3 +1,9 @@
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.8"
+# dependencies = ["ruamel.yaml"]
+# ///
+
 import json
 import argparse
 from pathlib import Path
@@ -187,11 +193,16 @@ def process_schema_files(schema_dir: Path, output_dir: Path, chunk_size: int) ->
             process_namespace_file(file, output_dir, chunk_size)
     logger.info(f"Finished processing schema files in directory: {schema_dir}")
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Process schema files.')
+def setup_parser(parser):
     parser.add_argument('schema_dir', type=Path, nargs='?', default=Path('./resources/schema/'), help='Directory containing the schema files')
     parser.add_argument('output_dir', type=Path, nargs='?', default=Path('./src/spec/'), help='Directory to output the generated header files')
     parser.add_argument('--chunk-size', type=int, default=16000, help='Size of the chunks for splitting large JSON strings')
-    args = parser.parse_args()
 
+def main(args):
     process_schema_files(args.schema_dir, args.output_dir, args.chunk_size)
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Process schema files.')
+    setup_parser(parser)
+    args = parser.parse_args()
+    main(args)

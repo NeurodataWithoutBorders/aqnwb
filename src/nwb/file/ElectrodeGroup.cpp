@@ -11,7 +11,7 @@ REGISTER_SUBCLASS_IMPL(ElectrodeGroup)
 /** Constructor */
 ElectrodeGroup::ElectrodeGroup(const std::string& path,
                                std::shared_ptr<IO::BaseIO> io)
-    : Container(path, io)
+    : NWBContainer(path, io)
 {
 }
 
@@ -29,7 +29,7 @@ Status ElectrodeGroup::initialize(const std::string& description,
     return Status::Failure;
   }
 
-  auto ctrInitStatus = Container::initialize();
+  auto ctrInitStatus = NWBContainer::initialize();
   if (description != "")
     ioPtr->createAttribute(description, m_path, "description");
   ioPtr->createAttribute(location, m_path, "location");

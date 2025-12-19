@@ -130,11 +130,12 @@ TEST_CASE("writeContinuousData", "[recording]")
                                             std::vector<float>(numSamples));
     for (SizeType i = 0; i < numChannelsToRead; ++i) {
       for (SizeType j = 0; j < numSamples; ++j) {
-        dataOut[i][j] = buffer[j * numChannelsToRead + i];
+        dataOut[i][j] = buffer[static_cast<size_t>(j) * numChannelsToRead + i];
       }
     }
-    REQUIRE_THAT(dataOut[0], Catch::Matchers::Approx(mockData[0]).margin(1));
-    REQUIRE_THAT(dataOut[1], Catch::Matchers::Approx(mockData[1]).margin(1));
+    delete[] buffer;
+    REQUIRE_THAT(dataOut[0], Catch::Matchers::Approx(mockData[0]).margin(1.0));
+    REQUIRE_THAT(dataOut[1], Catch::Matchers::Approx(mockData[1]).margin(1.0));
 
     // check contents of timestamps
     std::string timestampsPath = "/acquisition/esdata0/timestamps";

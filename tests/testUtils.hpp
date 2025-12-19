@@ -120,7 +120,7 @@ inline std::vector<double> getMockTimestamps(SizeType numSamples = 1000,
                                              double maxOffset = 0.00001)
 {
   std::vector<double> mockTimestamps(numSamples);
-  double samplingPeriod = 1.0 / samplingRate;
+  double samplingPeriod = 1.0 / static_cast<double>(samplingRate);
 
   std::random_device rd;
   std::mt19937 rng(rd());  // random number generator
@@ -131,7 +131,7 @@ inline std::vector<double> getMockTimestamps(SizeType numSamples = 1000,
     // Each timestamp is the sample number times the sampling period with an
     // offset
     double offset = dis(rng);
-    mockTimestamps[i] = i * samplingPeriod + offset;
+    mockTimestamps[i] = static_cast<double>(i) * samplingPeriod + offset;
   }
 
   return mockTimestamps;

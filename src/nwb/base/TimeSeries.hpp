@@ -6,7 +6,7 @@
 #include "Utils.hpp"
 #include "io/BaseIO.hpp"
 #include "io/ReadIO.hpp"
-#include "nwb/hdmf/base/Container.hpp"
+#include "nwb/base/NWBDataInterface.hpp"
 #include "spec/core.hpp"
 
 namespace AQNWB::NWB
@@ -14,7 +14,7 @@ namespace AQNWB::NWB
 /**
  * @brief General purpose time series.
  */
-class TimeSeries : public Container
+class TimeSeries : public NWBDataInterface
 {
 public:
   // Register the TimeSeries as a subclass of Container

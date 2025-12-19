@@ -18,7 +18,7 @@ std::map<TimeSeries::ContinuityType, std::string>
 
 /** Constructor */
 TimeSeries::TimeSeries(const std::string& path, std::shared_ptr<IO::BaseIO> io)
-    : Container(path, io)
+    : NWBDataInterface(path, io)
 {
 }
 
@@ -98,7 +98,7 @@ Status TimeSeries::initialize(
     return Status::Failure;
   }
 
-  auto ctInitStatus = Container::initialize();
+  auto interfaceInitStatus = NWBDataInterface::initialize();
 
   this->m_dataType = dataConfig.getType();
 
@@ -168,7 +168,7 @@ Status TimeSeries::initialize(
                                                controlDesriptionType,
                                                controlDescription);
   }
-  return ctInitStatus;
+  return interfaceInitStatus;
 }
 
 Status TimeSeries::writeData(const std::vector<SizeType>& dataShape,

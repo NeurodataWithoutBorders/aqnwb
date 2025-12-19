@@ -541,7 +541,8 @@ public: \
    * description \
    */ \
   template<typename VTYPE = default_type> \
-  inline std::unique_ptr<AQNWB::IO::ReadDataWrapper<AttributeField, VTYPE>> \
+  inline std::unique_ptr< \
+      AQNWB::IO::ReadDataWrapper<AQNWB::NWB::AttributeField, VTYPE>> \
   name() const \
   { \
     auto ioPtr = getIO(); \
@@ -551,7 +552,7 @@ public: \
       return nullptr; \
     } \
     return std::make_unique< \
-        AQNWB::IO::ReadDataWrapper<AttributeField, VTYPE>>( \
+        AQNWB::IO::ReadDataWrapper<AQNWB::NWB::AttributeField, VTYPE>>( \
         ioPtr, AQNWB::mergePaths(m_path, fieldPath)); \
   }
 
@@ -734,6 +735,8 @@ public: \
         } \
       } \
     } catch (const std::exception& e) { \
+      std::cerr << "WARNING Error occurred in " << #name << " " << e.what() \
+                << std::endl; \
       return nullptr; \
     } \
     return nullptr; \
