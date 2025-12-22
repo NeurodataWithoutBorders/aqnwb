@@ -1,13 +1,15 @@
 <map id="AQNWB::NWB::ElectrodesTable::ElectrodesTable" name="AQNWB::NWB::ElectrodesTable::ElectrodesTable">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,59,219,99"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a6b2079337b08a6e265eeb6e39889e55b" title="Constructor." alt="" coords="267,29,470,70"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="219,64,254,63,249,64,220,69"/>
-<area shape="rect" id="Node000005" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="293,94,444,120"/>
-<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="219,88,280,97,275,97,219,93"/>
-<area shape="poly" id="edge5_Node000002_Node000002" title=" " alt="" coords="324,27,321,19,329,10,344,5,368,3,394,5,411,14,406,14,393,10,368,8,346,10,332,15,327,21,329,30"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a0ec16ae5d28267ea37464ffe2c2c34e5" title="Constructor." alt="" coords="518,29,694,70"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="470,47,505,49,500,50,471,52"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="562,27,559,19,567,10,582,5,606,3,632,5,649,14,643,13,631,10,606,8,583,10,570,15,564,21,566,30"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aa1e04074725b7331d725bbda8156bc2d" title="Constructor." alt="" coords="742,29,954,70"/>
-<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="695,47,730,50,724,50,695,52"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,95,219,135"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#a8e535744f840f12be8d0e3dd6cc7b27d" title=" " alt="" coords="267,5,480,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,92,266,56,293,50,288,52,268,62,170,97"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a6b2079337b08a6e265eeb6e39889e55b" title="Constructor." alt="" coords="272,95,475,135"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="219,112,259,115,253,115,220,118"/>
+<area shape="rect" id="Node000006" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="298,160,448,185"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="208,133,299,155,294,156,208,139"/>
+<area shape="poly" id="edge6_Node000003_Node000003" title=" " alt="" coords="328,93,325,85,333,76,349,70,373,68,400,70,417,79,411,79,398,76,373,73,350,75,336,80,331,86,333,95"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a0ec16ae5d28267ea37464ffe2c2c34e5" title="Constructor." alt="" coords="528,95,704,135"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="475,112,515,115,510,115,476,118"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="571,93,568,85,576,76,592,70,616,68,642,70,659,79,654,79,641,76,616,73,593,75,579,80,574,86,576,95"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aa1e04074725b7331d725bbda8156bc2d" title="Constructor." alt="" coords="752,95,964,135"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="705,112,740,115,734,115,705,118"/>
 </map>

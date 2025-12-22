@@ -172,21 +172,21 @@ How the Type Registry in RegisteredType Works</h2>
 <p>The type registry in <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> allows for dynamic creation of registered subclasses by name. Here is how it works:</p>
 <ol type="1">
 <li><b>Registry Storage</b>:<ul>
-<li>The registry is stored as static members within the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> class and is implemented using 1) an <span class="tt">std::unordered_set</span> to store subclass names (which can be accessed via <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab7e3361637885fe601cc20cb342bf01c">getRegistry()</a>) and 2) an <span class="tt">std::unordered_map</span> to store factory functions for creating instances of the subclasses (which can be accessed via <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a8792fccbd49f9d441b1f6d5a1b06b4cf">getFactoryMap()</a>). The factory methods are the required constructor that uses the io and path as input.</li>
+<li>The registry is stored as static members within the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> class and is implemented using 1) an <span class="tt">std::unordered_set</span> to store subclass names (which can be accessed via <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab7e3361637885fe601cc20cb342bf01c">getRegistry()</a>) and 2) an <span class="tt">std::unordered_map</span> to store factory functions for creating instances of the subclasses (which can be accessed via <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ac83aa589b9c3ab5a00bab462e58fdbd5">getFactoryMap()</a>). The factory methods are the required constructor that uses the io and path as input.</li>
 </ul>
 </li>
-<li><b>Preparing for Registration</b>: <a class="el" href="_registered_type_8hpp.html#a9c1f79aa46baaf33d1bf885cf7484aa1">REGISTER_SUBCLASS</a><ul>
-<li>The <a class="el" href="_registered_type_8hpp.html#a9c1f79aa46baaf33d1bf885cf7484aa1">REGISTER_SUBCLASS</a> macro macro modifies the class to make it ready for registration by:<ul>
+<li><b>Preparing for Registration</b>: <a class="el" href="_registered_type_8hpp.html#a48542bb43b1d1c733f729eb3f123c9dd">REGISTER_SUBCLASS</a><ul>
+<li>The <a class="el" href="_registered_type_8hpp.html#a48542bb43b1d1c733f729eb3f123c9dd">REGISTER_SUBCLASS</a> macro macro modifies the class to make it ready for registration by:<ul>
 <li>Creating the <span class="tt">_registered</span> field to trigger the registration when the subclass is loaded</li>
-<li>Defining a static method <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a68bea5945732c62a4a93ab9af5abbafb">registerSubclass</a>, which is used to add a subclass name and its corresponding factory function to the registry.</li>
+<li>Defining a static method <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab20cf389f4f512056d7755ec23d6d0a9">registerSubclass</a>, which is used to add a subclass name and its corresponding factory function to the registry.</li>
 <li>Adding <span class="tt">getTypeName</span> and <span class="tt">getNamespace</span> functions for defining the <span class="tt">neurodata_type</span> name</li>
 </ul>
 </li>
-<li><a class="el" href="_registered_type_8hpp.html#af20769bbf87fb10f70c36fe248deaf4d">REGISTER_SUBCLASS_WITH_TYPENAME</a> is a special version of the <a class="el" href="_registered_type_8hpp.html#a9c1f79aa46baaf33d1bf885cf7484aa1">REGISTER_SUBCLASS</a> macro, which allows setting the typename explicitly as a third argument. This is for the <b>special case</b> where the name of the class cannot be the same as the name of the type (see also <a class="el" href="registered_type_page.html#using_registered_subclass_with_typename">How to implement a RegisteredType with a custom type name</a>)</li>
+<li><a class="el" href="_registered_type_8hpp.html#a9401c336dd314b808058449cf8567033">REGISTER_SUBCLASS_WITH_TYPENAME</a> is a special version of the <a class="el" href="_registered_type_8hpp.html#a48542bb43b1d1c733f729eb3f123c9dd">REGISTER_SUBCLASS</a> macro, which allows setting the typename explicitly as a third argument. This is for the <b>special case</b> where the name of the class cannot be the same as the name of the type (see also <a class="el" href="registered_type_page.html#using_registered_subclass_with_typename">How to implement a RegisteredType with a custom type name</a>)</li>
 </ul>
 </li>
 <li><b>Actual automatic Registration</b>: <a class="el" href="_registered_type_8hpp.html#a54ea7671d2bcf5bae392b8ba1824961e">REGISTER_SUBCLASS_IMPL</a><ul>
-<li>The <a class="el" href="_registered_type_8hpp.html#a54ea7671d2bcf5bae392b8ba1824961e">REGISTER_SUBCLASS_IMPL</a> macro initializes the static member (<span class="tt">registered_</span>), which triggers the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a68bea5945732c62a4a93ab9af5abbafb">registerSubclass</a> method and ensures that the subclass is registered when the program starts.</li>
+<li>The <a class="el" href="_registered_type_8hpp.html#a54ea7671d2bcf5bae392b8ba1824961e">REGISTER_SUBCLASS_IMPL</a> macro initializes the static member (<span class="tt">registered_</span>), which triggers the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab20cf389f4f512056d7755ec23d6d0a9">registerSubclass</a> method and ensures that the subclass is registered when the program starts.</li>
 </ul>
 </li>
 <li><b>Dynamic Creation</b>:<ul>
@@ -194,7 +194,7 @@ How the Type Registry in RegisteredType Works</h2>
 </ul>
 </li>
 <li><b>Class Name and Namespace Retrieval</b>:<ul>
-<li>The <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a150f881ad61cb8352eea7ddba47bc6ad">getTypeName</a> and <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a651f3d7e5cc28dc93888e8a821c5aa1c">getNamespace</a> return the string name of the class and namespace, respectively. The <span class="tt"><a class="el" href="_registered_type_8hpp.html#a9c1f79aa46baaf33d1bf885cf7484aa1" title="Macro to register a subclass with the RegisteredType class registry.">REGISTER_SUBCLASS</a></span> macro implements an automatic override of the methods to ensure the appropriate type and namespace string are returned. These methods should, hence, not be manually overridden by subclasses, to ensure consistency in type identification.</li>
+<li>The <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a150f881ad61cb8352eea7ddba47bc6ad">getTypeName</a> and <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a651f3d7e5cc28dc93888e8a821c5aa1c">getNamespace</a> return the string name of the class and namespace, respectively. The <span class="tt"><a class="el" href="_registered_type_8hpp.html#a48542bb43b1d1c733f729eb3f123c9dd" title="Macro to register a subclass with the RegisteredType class registry.">REGISTER_SUBCLASS</a></span> macro implements an automatic override of the methods to ensure the appropriate type and namespace string are returned. These methods should, hence, not be manually overridden by subclasses, to ensure consistency in type identification.</li>
 </ul>
 </li>
 </ol>
@@ -222,8 +222,8 @@ How to Use the RegisteredType Registry</h2>
 </ul>
 </li>
 <li><b>Retrieving the Factory Map</b>:<ul>
-<li>Use the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a8792fccbd49f9d441b1f6d5a1b06b4cf">getFactoryMap</a> method to retrieve the map of factory functions for creating instances of registered subclasses. <div class="fragment"><div class="line">    <span class="comment">// Retrieve and print factory map</span></div>
-<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; factoryMap = <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a8792fccbd49f9d441b1f6d5a1b06b4cf">AQNWB::NWB::RegisteredType::getFactoryMap</a>();</div>
+<li>Use the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ac83aa589b9c3ab5a00bab462e58fdbd5">getFactoryMap</a> method to retrieve the map of factory functions for creating instances of registered subclasses. <div class="fragment"><div class="line">    <span class="comment">// Retrieve and print factory map</span></div>
+<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; factoryMap = <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ac83aa589b9c3ab5a00bab462e58fdbd5">AQNWB::NWB::RegisteredType::getFactoryMap</a>();</div>
 <div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Factory functions for registered subclasses:&quot;</span> &lt;&lt; std::endl;</div>
 <div class="line">    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; pair : factoryMap) {</div>
 <div class="line">      std::cout &lt;&lt; <span class="stringliteral">&quot; - &quot;</span> &lt;&lt; pair.first &lt;&lt; std::endl;</div>
@@ -234,7 +234,7 @@ How to Use the RegisteredType Registry</h2>
 </ol>
 <h2 class="doxsection"><a class="anchor" id="read_design_templates"></a>
 Reading templated RegisteredType classes</h2>
-<p>To facilitate the reading of data arrays and handle data types in a type-safe manner, AqNWB utilizes templated classes. For instance, the <span class="tt">VectorData</span> type in NWB may represent data arrays with varying data types (e.g., <span class="tt">int</span>, <span class="tt">string</span>, etc.). Accordingly, AqNWB implements the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html">VectorData</a> class, which exposes the data as <span class="tt">std::any</span> via the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#afe2d2e01b7ade2a1089e8cc051d7f49e">VectorData::readData</a> method for reading.</p>
+<p>To facilitate the reading of data arrays and handle data types in a type-safe manner, AqNWB utilizes templated classes. For instance, the <span class="tt">VectorData</span> type in NWB may represent data arrays with varying data types (e.g., <span class="tt">int</span>, <span class="tt">string</span>, etc.). Accordingly, AqNWB implements the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html">VectorData</a> class, which exposes the data as <span class="tt">std::any</span> via the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a7dad9d54ec248dda4cc9a168659382bf">VectorData::readData</a> method for reading.</p>
 <p>In some cases, the data type for <span class="tt">VectorData</span> may be predetermined in the schema. For example, the <span class="tt">location</span> column of the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html">ElectrodesTable</a> requires string data. To simplify reading in such cases where the data type is fixed, AqNWB defines <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html">VectorDataTyped&lt;DTYPE&gt;</a>, which inherits from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html">VectorData</a>. This class allows the data type to be specified at compile time via the class template, enabling <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html">VectorDataTyped&lt;DTYPE&gt;::readData</a> to expose the data with the type already set at compile time. When used in combination with the <a class="el" href="_registered_type_8hpp.html#af374245a4f6d5a00540e9fdba52a652a">DEFINE_REGISTERED_FIELD</a> macro, this approach allows <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#a12b45f8a1b32e2e5f38f731497f55ca0">ElectrodesTable::readLocationColumn</a> to return the data to the user with the type already set. The same approach is also applied in the case of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html">Data</a> and its derived class <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html">DataTyped</a>.</p>
 <p>For further details and alternative approaches for implementing templated <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> classes, see <a class="el" href="registered_type_page.html#implement_templated_registered_type">Templated RegisteredType Classes</a>. <br  />
 </p>
@@ -249,7 +249,7 @@ Reading templated RegisteredType classes</h2>
 <div class="line">    <span class="comment">// Create VectorDataTyped&lt;int&gt; from VectorData and read the</span></div>
 <div class="line">    <span class="comment">// data as typed DataBlock&lt;int&gt;</span></div>
 <div class="line">    <span class="keyword">auto</span> readVectorDataTyped =</div>
-<div class="line">        <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html#a261537d26d0c1b0667780738d010906c">NWB::VectorDataTyped&lt;int&gt;::fromVectorData</a>(*readVectorData);</div>
+<div class="line">        <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html#ab5c4d5084bb6134318dce6637fdd13e4">NWB::VectorDataTyped&lt;int&gt;::fromVectorData</a>(readVectorData);</div>
 <div class="line">    <span class="keyword">auto</span> dataInt = readVectorDataTyped-&gt;readData();</div>
 <div class="line">    <span class="keyword">auto</span> dataBlockInt = dataInt-&gt;values();</div>
 </div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="use_registered_type_registry_example"></a>
@@ -280,14 +280,14 @@ Example: Using the type registry</h2>
 <div class="line">    std::string filename = getTestFilePath(<span class="stringliteral">&quot;testRegisteredTypeExample.h5&quot;</span>);</div>
 <div class="line">    std::shared_ptr&lt;BaseIO&gt; io = std::make_unique&lt;IO::HDF5::HDF5IO&gt;(filename);</div>
 <div class="line">    io-&gt;open();</div>
-<div class="line">    <a class="code hl_class" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html">NWB::TimeSeries</a> ts = <a class="code hl_class" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html">NWB::TimeSeries</a>(dataPath, io);</div>
+<div class="line">    <span class="keyword">auto</span> ts = <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#aa6524a59a8162352e8117f5382186ce4">NWB::TimeSeries::create</a>(dataPath, io);</div>
 <div class="line">    <a class="code hl_class" href="class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html">IO::ArrayDataSetConfig</a> config(</div>
 <div class="line">        dataType, <a class="code hl_typedef" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> {numSamples}, <a class="code hl_typedef" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> {numSamples});</div>
-<div class="line">    ts.<a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a5758bc49963971c9bc8fa2e7287fcd81">initialize</a>(config, <span class="stringliteral">&quot;unit&quot;</span>);</div>
+<div class="line">    ts-&gt;initialize(config, <span class="stringliteral">&quot;unit&quot;</span>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Write data to file</span></div>
-<div class="line">    <a class="code hl_typedef" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a> writeStatus =</div>
-<div class="line">        ts.<a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a33c3c764fdf8a5db861beeabc48d78e7">writeData</a>(dataShape, positionOffset, data.data(), timestamps.data());</div>
+<div class="line">    <a class="code hl_typedef" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a> writeStatus = ts-&gt;writeData(</div>
+<div class="line">        dataShape, positionOffset, data.data(), timestamps.data());</div>
 <div class="line">    REQUIRE(writeStatus == Status::Success);</div>
 <div class="line">    io-&gt;flush();</div>
 <div class="line">    <span class="comment">// [example_RegisterType_setup_file]</span></div>
@@ -310,7 +310,7 @@ Example: Using the type registry</h2>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// [example_RegisterType_get_registered_factories]</span></div>
 <div class="line">    <span class="comment">// Retrieve and print factory map</span></div>
-<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; factoryMap = <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a8792fccbd49f9d441b1f6d5a1b06b4cf">AQNWB::NWB::RegisteredType::getFactoryMap</a>();</div>
+<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; factoryMap = <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ac83aa589b9c3ab5a00bab462e58fdbd5">AQNWB::NWB::RegisteredType::getFactoryMap</a>();</div>
 <div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Factory functions for registered subclasses:&quot;</span> &lt;&lt; std::endl;</div>
 <div class="line">    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; pair : factoryMap) {</div>
 <div class="line">      std::cout &lt;&lt; <span class="stringliteral">&quot; - &quot;</span> &lt;&lt; pair.first &lt;&lt; std::endl;</div>
@@ -350,29 +350,27 @@ Creating and Writing Data</h2>
 <div class="line">    io-&gt;open();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// setup the NWBFile</span></div>
-<div class="line">    <a class="code hl_class" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html">NWB::NWBFile</a> nwbfile(io);</div>
-<div class="line">    <a class="code hl_typedef" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a> initStatus = nwbfile.initialize(<a class="code hl_function" href="namespace_a_q_n_w_b.html#a7a202ee50288eeca65b9b98370226a82">generateUuid</a>());</div>
+<div class="line">    <span class="keyword">auto</span> nwbfile = <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a84f0f21cd7bd9745b1eeb508b747fb4b">NWB::NWBFile::create</a>(io);</div>
+<div class="line">    <a class="code hl_typedef" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a> initStatus = nwbfile-&gt;initialize(<a class="code hl_function" href="namespace_a_q_n_w_b.html#a7a202ee50288eeca65b9b98370226a82">generateUuid</a>());</div>
 <div class="line">    REQUIRE(initStatus == Status::Success);</div>
 <div class="line"> </div>
-<div class="line">    <span class="comment">// create the RecordingContainer for managing recordings</span></div>
-<div class="line">    std::unique_ptr&lt;NWB::RecordingContainers&gt; recordingContainers =</div>
-<div class="line">        std::make_unique&lt;NWB::RecordingContainers&gt;();</div>
-<div class="line">    std::vector&lt;SizeType&gt; containerIndices = {};</div>
+<div class="line">    <span class="comment">// RecordingObjects are now automatically managed by the IO object</span></div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// create a new ElectricalSeries</span></div>
-<div class="line">    nwbfile.createElectrodesTable(mockArrays);</div>
-<div class="line">    <a class="code hl_typedef" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a> resultCreate =</div>
-<div class="line">        nwbfile.createElectricalSeries(mockArrays,</div>
-<div class="line">                                       mockChannelNames,</div>
-<div class="line">                                       dataType,</div>
-<div class="line">                                       recordingContainers.get(),</div>
-<div class="line">                                       containerIndices);</div>
+<div class="line">    <span class="keyword">auto</span> electrodesTable = nwbfile-&gt;createElectrodesTable(mockArrays);</div>
+<div class="line">    std::vector&lt;SizeType&gt; containerIndexes = {};</div>
+<div class="line">    <a class="code hl_typedef" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a> resultCreate = nwbfile-&gt;createElectricalSeries(</div>
+<div class="line">        mockArrays, mockChannelNames, dataType, containerIndexes);</div>
 <div class="line">    REQUIRE(resultCreate == Status::Success);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// get the new ElectricalSeries</span></div>
-<div class="line">    <a class="code hl_class" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html">NWB::ElectricalSeries</a>* electricalSeries =</div>
-<div class="line">        <span class="keyword">static_cast&lt;</span><a class="code hl_class" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html">NWB::ElectricalSeries</a>*<span class="keyword">&gt;</span>(</div>
-<div class="line">            recordingContainers-&gt;getContainer(0));</div>
+<div class="line">    <span class="keyword">auto</span> recordingObjects = io-&gt;getRecordingObjects();</div>
+<div class="line">    <span class="keyword">auto</span> registeredTypePtr =</div>
+<div class="line">        recordingObjects-&gt;getRecordingObject(containerIndexes[0]);</div>
+<div class="line">    REQUIRE(registeredTypePtr != <span class="keyword">nullptr</span>);</div>
+<div class="line">    REQUIRE(registeredTypePtr-&gt;getFullTypeName() == <span class="stringliteral">&quot;core::ElectricalSeries&quot;</span>);</div>
+<div class="line">    <span class="keyword">auto</span> electricalSeries =</div>
+<div class="line">        std::dynamic_pointer_cast&lt;NWB::ElectricalSeries&gt;(registeredTypePtr);</div>
 <div class="line">    REQUIRE(electricalSeries != <span class="keyword">nullptr</span>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// start recording</span></div>
@@ -381,7 +379,7 @@ Creating and Writing Data</h2>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// write channel data</span></div>
 <div class="line">    <span class="keywordflow">for</span> (<a class="code hl_typedef" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> ch = 0; ch &lt; numChannels; ++ch) {</div>
-<div class="line">      electricalSeries-&gt;<a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#abd499ff69952a61324f86034ea91111b">writeChannel</a>(</div>
+<div class="line">      electricalSeries-&gt;writeChannel(</div>
 <div class="line">          ch, numSamples, mockData[ch].data(), mockTimestamps.data());</div>
 <div class="line">    }</div>
 <div class="line">    io-&gt;flush();</div>
@@ -392,7 +390,7 @@ Reading and Processing Data</h2>
 <div class="line">    <span class="comment">// typed data. However, in the particular case of ElectricalSeries.data, we</span></div>
 <div class="line">    <span class="comment">// could also have used readData() with &lt;float&gt; as the template parameter</span></div>
 <div class="line">    <span class="comment">// is already set to float by default for ElectricalSeries.readData()</span></div>
-<div class="line">    <span class="keyword">auto</span> readDataWrapper = electricalSeries-&gt;<a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a0e3139dbc00e4b143e1695e870532c15">readData</a>&lt;<span class="keywordtype">float</span>&gt;();</div>
+<div class="line">    <span class="keyword">auto</span> readDataWrapper = electricalSeries-&gt;readData&lt;<span class="keywordtype">float</span>&gt;();</div>
 </div><!-- fragment --><div class="fragment"><div class="line">    REQUIRE(readDataWrapper-&gt;exists());</div>
 </div><!-- fragment --><div class="fragment"><div class="line">    <span class="comment">// Read the full  ElectricalSeries.data back</span></div>
 <div class="line">    DataBlock&lt;float&gt; dataValues = readDataWrapper-&gt;values();</div>
@@ -432,7 +430,7 @@ Reading and Processing Data</h2>
 <div class="line">    }</div>
 </div><!-- fragment --><div class="fragment"><div class="line">    <span class="comment">// Get a ReadDataWrapper&lt;ReadObjectType::Attribute, float&gt; to read data</span></div>
 <div class="line">    <span class="comment">// lazily</span></div>
-<div class="line">    <span class="keyword">auto</span> readDataResolutionWrapper = electricalSeries-&gt;<a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#adf83d074710318ecd17f056deecf6f73">readDataResolution</a>();</div>
+<div class="line">    <span class="keyword">auto</span> readDataResolutionWrapper = electricalSeries-&gt;readDataResolution();</div>
 <div class="line">    <span class="comment">// Read the data values as a DataBlock&lt;float&gt;</span></div>
 <div class="line">    <span class="keyword">auto</span> resolutionValueFloat = readDataResolutionWrapper-&gt;values();</div>
 <div class="line">    REQUIRE(resolutionValueFloat.shape.empty());  <span class="comment">// Scalar</span></div>
@@ -441,7 +439,7 @@ Reading and Processing Data</h2>
 <div class="line">    REQUIRE(resolutionValueFloat.typeIndex == <span class="keyword">typeid</span>(<span class="keywordtype">float</span>));</div>
 </div><!-- fragment --><div class="fragment"><div class="line">    <span class="comment">// Get a generic ReadDatasetWrapper&lt;std::any&gt; for lazy reading of</span></div>
 <div class="line">    <span class="comment">// ElectricalSeries.data</span></div>
-<div class="line">    <span class="keyword">auto</span> readDataWrapperGeneric = electricalSeries-&gt;<a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a0e3139dbc00e4b143e1695e870532c15">readData</a>();</div>
+<div class="line">    <span class="keyword">auto</span> readDataWrapperGeneric = electricalSeries-&gt;readData();</div>
 <div class="line">    <span class="comment">// Instead of using values() to read typed data, we can read data as generic</span></div>
 <div class="line">    <span class="comment">// data first via valuesGeneric</span></div>
 <div class="line">    DataBlockGeneric dataValuesGeneric =</div>

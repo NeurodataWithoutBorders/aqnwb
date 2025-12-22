@@ -1,0 +1,37 @@
+<map id="AQNWB::NWB::TimeSeries::readTimestamps" name="AQNWB::NWB::TimeSeries::readTimestamps">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,136,192,177"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ab27f0f2b819123b27cf38ab0b6310fed" title=" " alt="" coords="240,136,426,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,154,227,156,222,157,192,159"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a6e74b051a3ea578a41ee33191f1ccf37" title=" " alt="" coords="474,136,660,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="426,154,461,156,456,157,427,159"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#af265a39e34b4fcf8b9db260775c6d73f" title=" " alt="" coords="708,103,895,143"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="660,140,690,139,695,138,661,146"/>
+<area shape="rect" id="Node000016" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#af988570828da57bff222d1ed5e71b5fa" title=" " alt="" coords="708,168,895,209"/>
+<area shape="poly" id="edge19_Node000003_Node000016" title=" " alt="" coords="661,166,695,174,690,173,661,172"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a87984ba6f9d5f86a3ba8a8c30e760683" title=" " alt="" coords="943,71,1129,111"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="895,108,925,106,930,105,895,113"/>
+<area shape="rect" id="Node000015" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a5ed12c92d17dbc8d3ba963eb2c515693" title=" " alt="" coords="943,136,1129,177"/>
+<area shape="poly" id="edge18_Node000004_Node000015" title=" " alt="" coords="895,134,930,141,924,141,895,139"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ad02a2c3803891f352dd2496b9ff1887b" title="Convenience function for creating data related attributes." alt="" coords="1180,71,1367,111"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="1129,88,1167,91,1162,91,1130,94"/>
+<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a682200d497af6051d0ef9189509084dd" title="Convenience function for creating timestamp related attributes." alt="" coords="1177,5,1370,46"/>
+<area shape="poly" id="edge8_Node000005_Node000009" title=" " alt="" coords="1112,68,1180,51,1185,50,1113,73"/>
+<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a523738fd2da4b70707e4ee6844cdce02" title="Constructor." alt="" coords="1180,140,1367,181"/>
+<area shape="poly" id="edge10_Node000005_Node000010" title=" " alt="" coords="1109,109,1190,135,1184,135,1108,115"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab614b1609f536e88ed1f32762dc3894b" title="Get a shared pointer to the IO object." alt="" coords="1428,7,1640,47"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="1359,67,1431,52,1437,51,1360,73"/>
+<area shape="rect" id="Node000008" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="1459,76,1609,101"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="1367,87,1446,89,1440,89,1367,93"/>
+<area shape="poly" id="edge9_Node000009_Node000007" title=" " alt="" coords="1371,24,1415,26,1410,27,1371,29"/>
+<area shape="rect" id="Node000011" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface.html#ae4bdb41408c2564c06438e0c5aed3531" title="Constructor." alt="" coords="1418,149,1650,190"/>
+<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="1367,161,1406,165,1400,165,1367,166"/>
+<area shape="poly" id="edge17_Node000011_Node000011" title=" " alt="" coords="1486,147,1483,139,1491,130,1508,125,1534,123,1562,125,1580,134,1575,133,1561,130,1534,128,1509,130,1494,135,1488,141,1490,150"/>
+<area shape="rect" id="Node000012" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html#aadbde40c8c04d80d7b65a26e77f4cc20" title="Constructor." alt="" coords="1698,149,1906,190"/>
+<area shape="poly" id="edge12_Node000011_Node000012" title=" " alt="" coords="1650,167,1685,170,1680,170,1650,172"/>
+<area shape="poly" id="edge16_Node000012_Node000012" title=" " alt="" coords="1757,147,1754,139,1762,130,1778,125,1802,123,1828,125,1845,134,1840,133,1826,130,1802,128,1779,130,1765,135,1760,141,1761,150"/>
+<area shape="rect" id="Node000013" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a0ec16ae5d28267ea37464ffe2c2c34e5" title="Constructor." alt="" coords="1954,149,2130,190"/>
+<area shape="poly" id="edge13_Node000012_Node000013" title=" " alt="" coords="1906,167,1941,170,1935,170,1906,172"/>
+<area shape="poly" id="edge14_Node000013_Node000013" title=" " alt="" coords="1997,147,1995,139,2002,130,2018,125,2042,123,2068,125,2085,134,2080,133,2067,130,2042,128,2019,130,2005,135,2000,141,2002,150"/>
+<area shape="rect" id="Node000014" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aa1e04074725b7331d725bbda8156bc2d" title="Constructor." alt="" coords="2178,149,2390,190"/>
+<area shape="poly" id="edge15_Node000013_Node000014" title=" " alt="" coords="2131,167,2166,170,2160,170,2131,172"/>
+</map>

@@ -1,23 +1,28 @@
 <map id="AQNWB::NWB::NWBFile::initialize" name="AQNWB::NWB::NWBFile::initialize">
-<area shape="rect" id="Node000001" title="Initializes the NWB file by setting up the file structure." alt="" coords="5,223,179,263"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a71bd7b910a7ec89bdaf36304d67bfef1" title="Creates the default file structure. Note, this function will fail if the file is in a mode where new ..." alt="" coords="227,136,400,177"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="142,220,226,186,244,181,239,184,228,191,144,225"/>
-<area shape="rect" id="Node000009" href="$namespace_a_q_n_w_b.html#ac436d136125307ef8158115a2296b3e9" title="Get the current time in ISO 8601 format with the UTC offset." alt="" coords="228,201,398,226"/>
-<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="178,229,215,226,210,228,180,234"/>
-<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aba967059704c8c81446775bd7beda42b" title="Check if the NWB file is initialized." alt="" coords="227,251,400,291"/>
-<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="179,251,214,257,208,259,179,257"/>
-<area shape="rect" id="Node000011" href="$namespace_a_q_n_w_b.html#a4aacc6b82eca3064a8afe0070c44cde4" title="Check that a string is formatted in ISO8601 format." alt="" coords="229,316,398,341"/>
-<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="136,261,228,301,250,310,245,310,226,305,135,267"/>
+<area shape="rect" id="Node000001" title="Initializes the NWB file by setting up the file structure." alt="" coords="5,424,179,465"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a71bd7b910a7ec89bdaf36304d67bfef1" title="Creates the default file structure. Note, this function will fail if the file is in a mode where new ..." alt="" coords="227,185,400,226"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,422,281,236,284,240,114,425"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab614b1609f536e88ed1f32762dc3894b" title="Get a shared pointer to the IO object." alt="" coords="740,217,952,258"/>
+<area shape="poly" id="edge11_Node000001_Node000004" title=" " alt="" coords="178,424,226,416,298,409,359,407,465,411,515,410,567,404,625,390,691,366,728,346,762,320,816,271,820,268,766,324,731,350,693,371,627,396,568,409,515,415,465,416,359,412,298,414,227,422,180,429"/>
+<area shape="rect" id="Node000010" href="$namespace_a_q_n_w_b.html#ac436d136125307ef8158115a2296b3e9" title="Get the current time in ISO 8601 format with the UTC offset." alt="" coords="228,432,398,457"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="178,442,215,443,210,445,180,447"/>
+<area shape="rect" id="Node000011" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aba967059704c8c81446775bd7beda42b" title="Check if the NWB file is initialized." alt="" coords="227,481,400,522"/>
+<area shape="poly" id="edge12_Node000001_Node000011" title=" " alt="" coords="173,463,220,476,215,478,173,468"/>
+<area shape="rect" id="Node000012" href="$namespace_a_q_n_w_b.html#a4aacc6b82eca3064a8afe0070c44cde4" title="Check that a string is formatted in ISO8601 format." alt="" coords="229,546,398,572"/>
+<area shape="poly" id="edge14_Node000001_Node000012" title=" " alt="" coords="120,462,169,497,228,531,246,541,241,540,225,536,166,502,118,468"/>
 <area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aaf2e07b4e912fc34ab052d38f92e6cdd" title="Saves the specification files for the schema." alt="" coords="484,5,657,46"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="336,133,385,95,447,57,471,49,467,51,449,61,388,99,339,138"/>
-<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#aceded37c693bb2f6aa21a5945a13557c" title="Get all registered namespaces." alt="" coords="448,71,692,111"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="395,133,475,115,470,117,397,138"/>
-<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a651f3d7e5cc28dc93888e8a821c5aa1c" title="Get the schema namespace of the class type." alt="" coords="464,136,676,177"/>
-<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="400,154,452,156,446,157,401,159"/>
-<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a150f881ad61cb8352eea7ddba47bc6ad" title="Get the name of the class type." alt="" coords="464,201,676,242"/>
-<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="396,175,475,197,470,197,396,180"/>
-<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#a15d9c6f869f0270ad91a2af8067f5a88" title="Get the singleton instance of the NamespaceRegistry." alt="" coords="448,267,692,307"/>
-<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="382,175,402,186,418,203,426,220,434,236,450,252,460,260,455,259,446,256,430,239,421,223,413,206,398,190,382,180"/>
-<area shape="rect" id="Node000004" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="740,13,891,38"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="657,23,728,25,722,26,658,28"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="327,183,375,123,409,91,447,62,472,51,468,54,449,67,412,95,379,127,331,186"/>
+<area shape="poly" id="edge6_Node000002_Node000004" title=" " alt="" coords="333,183,381,141,413,121,447,106,515,86,571,79,626,85,693,106,732,125,767,150,822,206,817,205,763,154,729,130,691,111,625,90,571,84,516,91,449,111,415,126,385,145,336,187"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#aceded37c693bb2f6aa21a5945a13557c" title="Get all registered namespaces." alt="" coords="448,120,692,161"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="395,182,475,164,470,166,397,187"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a0b44558c283edd9db7d2fcf284c1a5ec" title="Get the schema namespace of the class type." alt="" coords="484,185,657,226"/>
+<area shape="poly" id="edge7_Node000002_Node000007" title=" " alt="" coords="400,203,470,205,465,207,401,208"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ae22dafcb8cb963103fe0e2b4cbfd5dd8" title="Get the name of the class type." alt="" coords="484,251,657,291"/>
+<area shape="poly" id="edge8_Node000002_Node000008" title=" " alt="" coords="396,224,475,246,470,247,396,229"/>
+<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#a15d9c6f869f0270ad91a2af8067f5a88" title="Get the singleton instance of the NamespaceRegistry." alt="" coords="448,316,692,357"/>
+<area shape="poly" id="edge9_Node000002_Node000009" title=" " alt="" coords="338,224,388,263,449,301,467,310,462,310,447,305,385,267,337,229"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="657,44,694,62,735,94,771,132,826,205,821,204,767,135,731,98,691,67,657,49"/>
+<area shape="rect" id="Node000005" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="771,13,921,38"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="656,23,758,25,753,27,658,28"/>
+<area shape="poly" id="edge13_Node000011_Node000004" title=" " alt="" coords="400,494,467,485,542,469,619,445,691,410,732,379,769,342,822,273,827,270,773,345,736,383,694,415,621,450,543,474,468,490,401,499"/>
 </map>

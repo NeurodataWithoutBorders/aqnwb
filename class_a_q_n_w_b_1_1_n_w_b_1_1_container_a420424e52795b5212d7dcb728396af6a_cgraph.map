@@ -1,7 +1,9 @@
 <map id="AQNWB::NWB::Container::initialize" name="AQNWB::NWB::Container::initialize">
-<area shape="rect" id="Node000001" title="Initialize the container." alt="" coords="5,39,182,79"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a651f3d7e5cc28dc93888e8a821c5aa1c" title="Get the schema namespace of the class type." alt="" coords="230,5,441,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="182,44,217,42,212,43,183,49"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a150f881ad61cb8352eea7ddba47bc6ad" title="Get the name of the class type." alt="" coords="230,71,441,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="182,68,217,75,212,75,182,73"/>
+<area shape="rect" id="Node000001" title="Initialize the container." alt="" coords="5,71,182,111"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab614b1609f536e88ed1f32762dc3894b" title="Get a shared pointer to the IO object." alt="" coords="230,5,441,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,68,245,49,240,52,172,73"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a1a8f53595eb2637e32e816a3ff99a230" title="Get the schema namespace of the class type." alt="" coords="247,71,424,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="182,88,234,90,229,92,183,94"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a21e3abbea48e9455731f2859c7954c97" title="Get the name of the class type." alt="" coords="247,136,424,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="171,109,245,131,240,132,171,115"/>
 </map>

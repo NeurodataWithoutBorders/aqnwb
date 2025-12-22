@@ -1,23 +1,25 @@
 <map id="AQNWB::NWB::NWBContainer" name="AQNWB::NWB::NWBContainer">
-<area shape="rect" id="Node000001" title="An abstract data type for a generic container storing collections of data and metadata...." alt="" coords="489,80,697,106"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_device.html" title="Metadata about a data acquisition device, e.g., recording system, electrode, microscope." alt="" coords="780,5,942,31"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="644,72,745,40,787,32,792,31,746,45,646,77"/>
-<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html" title="The ElectrodeGroup class represents a physical grouping of electrodes, e.g. a shank of an array." alt="" coords="756,55,966,80"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="713,79,758,77,753,78,713,84"/>
-<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface.html" title="An abstract data type for a generic container storing collections of data, as opposed to metadata." alt="" coords="745,104,977,130"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="713,101,747,106,742,106,713,106"/>
-<area shape="rect" id="Node000011" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html" title="The NWBFile class provides an interface for setting up and managing the NWB file." alt="" coords="774,153,948,179"/>
-<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="646,108,746,140,793,153,787,153,745,145,645,114"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html" title="Abstract data type for a group storing collections of data and metadata." alt="" coords="265,80,441,106"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="457,90,491,93,486,93,457,95"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema." alt="" coords="5,80,217,106"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="232,90,267,92,262,93,233,95"/>
-<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html" title="General purpose time series." alt="" coords="1025,104,1211,130"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="992,114,1027,117,1022,117,992,119"/>
-<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html" title="TimeSeries storing text&#45;based records about the experiment." alt="" coords="1259,79,1478,104"/>
-<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="1227,103,1256,103,1261,102,1227,109"/>
-<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html" title="General purpose time series." alt="" coords="1263,128,1474,154"/>
-<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="1227,125,1265,131,1260,131,1227,130"/>
-<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html" title="Stores snapshots/snippets of recorded spike events (i.e., threshold crossings)." alt="" coords="1526,128,1751,154"/>
-<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="1490,138,1529,141,1523,141,1490,143"/>
+<area shape="rect" id="Node000001" title="An abstract data type for a generic container storing collections of data and metadata...." alt="" coords="734,80,943,106"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_device.html" title="Metadata about a data acquisition device, e.g., recording system, electrode, microscope." alt="" coords="1026,5,1187,31"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="890,72,990,40,1032,32,1037,31,991,45,891,77"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html" title="The ElectrodeGroup class represents a physical grouping of electrodes, e.g. a shank of an array." alt="" coords="1001,55,1212,80"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="958,79,1003,77,998,78,959,84"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface.html" title="An abstract data type for a generic container storing collections of data, as opposed to metadata." alt="" coords="991,104,1222,130"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="958,101,993,106,987,106,958,106"/>
+<area shape="rect" id="Node000012" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html" title="The NWBFile class provides an interface for setting up and managing the NWB file." alt="" coords="1020,153,1193,179"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="891,108,991,140,1038,153,1033,153,990,145,891,114"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html" title="Abstract data type for a group storing collections of data and metadata." alt="" coords="510,80,686,106"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="702,90,736,93,731,93,702,95"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema." alt="" coords="251,80,462,106"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="478,90,512,93,507,93,478,95"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="5,72,203,113"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="218,90,253,92,248,93,219,95"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html" title="General purpose time series." alt="" coords="1270,104,1456,130"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="1238,114,1272,117,1267,117,1238,119"/>
+<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html" title="TimeSeries storing text&#45;based records about the experiment." alt="" coords="1504,79,1724,104"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="1472,103,1501,103,1507,102,1472,109"/>
+<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html" title="General purpose time series." alt="" coords="1508,128,1720,154"/>
+<area shape="poly" id="edge9_Node000008_Node000010" title=" " alt="" coords="1472,125,1511,131,1505,131,1472,130"/>
+<area shape="rect" id="Node000011" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html" title="Stores snapshots/snippets of recorded spike events (i.e., threshold crossings)." alt="" coords="1772,128,1996,154"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="1735,138,1774,141,1769,141,1735,143"/>
 </map>

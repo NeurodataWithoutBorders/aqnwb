@@ -1,4 +1,29 @@
 var searchData=
 [
-  ['5_20create_20datasets_20and_20add_20to_20recordingcontainers_0',['5. Create datasets and add to RecordingContainers.',['../workflow.html#create_datasets',1,'']]]
+  ['a_20base_20class_20and_20templated_20child_20class_0',['Using a base class and templated child class',['../registered_type_page.html#implement_templated_registered_type_two_class',1,'']]],
+  ['a_20custom_20type_20name_1',['How to implement a RegisteredType with a custom type name',['../registered_type_page.html#using_registered_subclass_with_typename',1,'']]],
+  ['a_20namespace_2',['Registering a Namespace',['../integrating_extensions_page.html#register_namespace',1,'']]],
+  ['a_20new_20namespace_3',['How to Integrate a New Namespace',['../integrating_extensions_page.html#integrate_namespace',1,'']]],
+  ['a_20new_20type_4',['Example: Implementing a New Type',['../registered_type_page.html#implement_registered_type_example',1,'']]],
+  ['a_20registered_20type_20🔧_5',['Implementing a Registered Type 🔧',['../registered_type_page.html',1,'devdocs']]],
+  ['a_20registeredtype_6',['How to Implement a RegisteredType',['../registered_type_page.html#implement_registered_type',1,'']]],
+  ['a_20registeredtype_20with_20a_20custom_20type_20name_7',['How to implement a RegisteredType with a custom type name',['../registered_type_page.html#using_registered_subclass_with_typename',1,'']]],
+  ['a_20single_20templated_20class_8',['Using a single templated class',['../registered_type_page.html#implement_templated_registered_type_single_class',1,'']]],
+  ['all_20neurodata_5ftypes_9',['Step 3: Create RegisteredType Classes for all neurodata_types',['../integrating_extensions_page.html#labmetadata_extension_registered_type',1,'']]],
+  ['an_20existing_20file_20for_20reading_10',['Opening an existing file for reading',['../read_page.html#read_example_open',1,'']]],
+  ['an_20nwb_20file_20with_20swmr_20mode_11',['Writing an NWB file with SWMR mode',['../hdf5io.html#hdf5io_swmr_workflow',1,'']]],
+  ['and_20attributes_12',['Reading datasets and attributes',['../read_design_page.html#read_design_sec_read_date',1,'']]],
+  ['and_20compression_13',['I/O Filters and Compression',['../hdf5io.html#hdf5io_filters',1,'']]],
+  ['and_20i_20o_20filters_20in_20aqnwb_14',['Using Chunking and I/O Filters in AqNWB',['../hdf5io.html#hdf5io_filters_usage',1,'']]],
+  ['and_20memory_20management_15',['Object and memory management',['../record_design_page.html#record_design_object_memory_management',1,'']]],
+  ['and_20processing_20data_16',['Reading and Processing Data',['../read_design_page.html#read_design_example_read',1,'']]],
+  ['and_20templated_20child_20class_17',['Using a base class and templated child class',['../registered_type_page.html#implement_templated_registered_type_two_class',1,'']]],
+  ['and_20test_18',['Configure, Build and Test',['../dev_install_page.html#configure_build_test',1,'']]],
+  ['and_20write_20methods_20for_20datasets_19',['DEFINE_DATASET_FIELD: Creating read and write methods for datasets',['../registered_type_page.html#use_the_define_dataset_field_macro',1,'']]],
+  ['and_20writing_20data_20',['Creating and Writing Data',['../read_design_page.html#read_design_example_create',1,'']]],
+  ['aqnwb_21',['AqNWB',['../user_demos.html#demos_inspect_electrical_series',1,'Inspect Electrical Series Data using AqNWB'],['../dev_install_page.html#dev_install_aqnwb_sec',1,'Installing AqNWB'],['../user_demos.html#demos_labmetadata_extension',1,'Integrating LabMetaData Extension with AqNWB'],['../hdf5io.html#hdf5io_filters_usage',1,'Using Chunking and I/O Filters in AqNWB']]],
+  ['aqnwb_20use_20smwr_20mode_22',['Why does AqNWB use SMWR mode?',['../hdf5io.html#hdf5io_swmr_features',1,'']]],
+  ['arbitrary_20fields_23',['Reading arbitrary fields',['../read_page.html#read_example_arbitrary',1,'']]],
+  ['attributes_24',['attributes',['../registered_type_page.html#use_the_define_attribute_field_macro',1,'DEFINE_ATTRIBUTE_FIELD: Creating read methods for attributes'],['../read_design_page.html#read_design_sec_read_date',1,'Reading datasets and attributes']]],
+  ['automated_20tests_20on_20github_25',['Automated tests on GitHub',['../testing.html#testing_github',1,'']]]
 ];

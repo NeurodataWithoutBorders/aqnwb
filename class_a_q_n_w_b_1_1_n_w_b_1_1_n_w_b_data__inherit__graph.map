@@ -1,9 +1,11 @@
 <map id="AQNWB::NWB::NWBData" name="AQNWB::NWB::NWBData">
-<area shape="rect" id="Node000001" title="An abstract data type for a dataset." alt="" coords="23,153,203,178"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_typed.html" title="A typed data container for a dataset." alt="" coords="5,226,221,267"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="115,192,115,227,111,225,111,196"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data.html" title="An abstract data type for a dataset." alt="" coords="39,79,187,105"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="114,118,116,153,110,151,112,123"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema." alt="" coords="7,5,219,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="114,44,116,79,110,78,112,49"/>
+<area shape="rect" id="Node000001" title="An abstract data type for a dataset." alt="" coords="23,241,203,267"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_typed.html" title="A typed data container for a dataset." alt="" coords="5,315,221,356"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="115,280,115,316,111,314,111,284"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data.html" title="An abstract data type for a dataset." alt="" coords="39,168,187,193"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="114,206,116,242,110,240,112,211"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema." alt="" coords="7,94,219,120"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="114,133,116,168,110,167,112,138"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="14,5,212,46"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="114,59,116,94,110,93,112,64"/>
 </map>

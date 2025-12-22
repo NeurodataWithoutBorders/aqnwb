@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['📤_0',['📤',['../read_design_page.html',1,'Implementation of Data Read 📤'],['../read_page.html',1,'Reading Data 📤']]]
+  ['🧩_0',['Integrating NWB Extensions 🧩',['../integrating_extensions_page.html',1,'devdocs']]]
 ];

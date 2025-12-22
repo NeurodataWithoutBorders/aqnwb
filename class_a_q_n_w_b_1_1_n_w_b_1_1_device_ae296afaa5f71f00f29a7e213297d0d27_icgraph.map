@@ -1,0 +1,7 @@
+<map id="AQNWB::NWB::Device::create" name="AQNWB::NWB::Device::create">
+<area shape="rect" id="Node000001" title=" " alt="" coords="227,39,388,79"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a1dfa71717131843ff964e55ee37ceb23" title="Create ElectrodesTable. Note, this function will fail if the file is in a mode where new objects cann..." alt="" coords="5,5,179,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="209,45,179,42,179,36,214,44"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a0fa114190b0940cf54f44c626a69f550" title="Create SpikeEventSeries objects to record data into. Created objects are automatically added to the I..." alt="" coords="5,71,179,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="209,74,180,81,179,75,214,73"/>
+</map>

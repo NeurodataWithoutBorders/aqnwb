@@ -123,7 +123,7 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-types" class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a9f8b64371967b1e93cdb8e5caa8634c9" id="r_a9f8b64371967b1e93cdb8e5caa8634c9"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> { <a class="el" href="#a9f8b64371967b1e93cdb8e5caa8634c9a0fdf7f95f5ff12921eb169611b2d9db3">Success</a> = 0
+<tr class="memitem:a9f8b64371967b1e93cdb8e5caa8634c9" id="r_a9f8b64371967b1e93cdb8e5caa8634c9"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> { <a class="el" href="#a9f8b64371967b1e93cdb8e5caa8634c9a0fdf7f95f5ff12921eb169611b2d9db3">Success</a> = 1
 , <a class="el" href="#a9f8b64371967b1e93cdb8e5caa8634c9a5e4ad53b09bd2f26e1b2f42bd1ad8fdf">Failure</a> = -1
  }</td></tr>
 <tr class="memdesc:a9f8b64371967b1e93cdb8e5caa8634c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents the status of an operation.  <a href="#a9f8b64371967b1e93cdb8e5caa8634c9">More...</a><br /></td></tr>
@@ -139,6 +139,11 @@ Public Types</h2></td></tr>
 <tr class="memdesc:ad444fd27f3e592154c4fee87afd568aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for an array of size types used in the project.  <br /></td></tr>
 <tr class="memitem:a17cc1d186ce80971c28e440471e910ff" id="r_a17cc1d186ce80971c28e440471e910ff"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a17cc1d186ce80971c28e440471e910ff">ChannelVector</a> = std::vector&lt;<a class="el" href="class_a_q_n_w_b_1_1_channel.html">Channel</a>&gt;</td></tr>
 <tr class="memdesc:a17cc1d186ce80971c28e440471e910ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for a vector of channels.  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-static-attribs" class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:a489c41cdd124123f0595271873e00dbe" id="r_a489c41cdd124123f0595271873e00dbe"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="#ae7b68dd97f314f45e450b2f636ad7c6e">SizeType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a489c41cdd124123f0595271873e00dbe">SizeTypeNotSet</a></td></tr>
+<tr class="memdesc:a489c41cdd124123f0595271873e00dbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Value to use to indicate that a <a class="el" href="#ae7b68dd97f314f45e450b2f636ad7c6e" title="Alias for the size type used in the project.">SizeType</a> index is not set.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-friends" class="groupheader"><a id="friends" name="friends"></a>
 Friends</h2></td></tr>
@@ -317,6 +322,33 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Success if either status is Success, Failure otherwise </dd></dl>
+
+</div>
+</div>
+<a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
+<a id="a489c41cdd124123f0595271873e00dbe" name="a489c41cdd124123f0595271873e00dbe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a489c41cdd124123f0595271873e00dbe">&#9670;&#160;</a></span>SizeTypeNotSet</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ae7b68dd97f314f45e450b2f636ad7c6e">SizeType</a> AQNWB::Types::SizeTypeNotSet</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=</div>
+<div class="line">      std::numeric_limits&lt;SizeType&gt;::max()</div>
+</div><!-- fragment -->
+<p>Value to use to indicate that a <a class="el" href="#ae7b68dd97f314f45e450b2f636ad7c6e" title="Alias for the size type used in the project.">SizeType</a> index is not set. </p>
 
 </div>
 </div>

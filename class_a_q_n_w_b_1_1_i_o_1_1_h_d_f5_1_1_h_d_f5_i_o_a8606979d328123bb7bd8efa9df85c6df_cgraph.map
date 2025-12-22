@@ -1,5 +1,9 @@
 <map id="AQNWB::IO::HDF5::HDF5IO::startRecording" name="AQNWB::IO::HDF5::HDF5IO::startRecording">
-<area shape="rect" id="Node000001" title="Start SWMR write to start recording process." alt="" coords="5,5,200,46"/>
-<area shape="rect" id="Node000002" href="$_h_d_f5_i_o_8cpp.html#a59da06640826cf89d0edfd26df9d6a29" title=" " alt="" coords="248,13,335,38"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,23,235,26,229,26,200,28"/>
+<area shape="rect" id="Node000001" title="Start SWMR write to start recording process." alt="" coords="5,27,200,68"/>
+<area shape="rect" id="Node000002" href="$namespace_a_q_n_w_b.html#a09b9a48d0ec26fe72452788634ee12bb" title="Convert an integer status code to a Types::Status enum value. Shorthand for return (status &lt; 0) ?..." alt="" coords="252,5,398,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,32,238,29,233,30,201,37"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#abaa22a360d8127335bbbf966dbd3f1c6" title="Starts the recording process." alt="" coords="248,55,402,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="200,57,235,64,229,64,200,62"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a942684d24e1384409abc2fa51b09a427" title="Returns the recording objects container for this IO object." alt="" coords="450,55,604,96"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="402,73,437,75,432,76,402,78"/>
 </map>

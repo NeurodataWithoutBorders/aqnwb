@@ -1,5 +1,14 @@
 <map id="AQNWB::NWB::DynamicTable::readColumn" name="AQNWB::NWB::DynamicTable::readColumn">
-<area shape="rect" id="Node000001" title="Read an arbitrary column of the DyanmicTable." alt="" coords="5,5,209,46"/>
-<area shape="rect" id="Node000002" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="257,13,407,38"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="209,23,244,26,238,26,209,28"/>
+<area shape="rect" id="Node000001" title="Read an arbitrary column of the DynamicTable." alt="" coords="5,95,209,135"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html#af685f8c0dea09f2c03059a0c498b8cc3" title="Factor method to create a VectorDataTyped object." alt="" coords="257,29,478,70"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="190,92,271,73,266,75,192,97"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab614b1609f536e88ed1f32762dc3894b" title="Get a shared pointer to the IO object." alt="" coords="262,95,473,135"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="209,112,249,114,243,116,209,118"/>
+<area shape="rect" id="Node000006" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="292,160,442,185"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="203,133,293,155,288,156,202,139"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a" title="Create an instance of a registered subclass by name." alt="" coords="526,29,737,70"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="478,47,513,49,507,50,479,52"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="583,27,581,19,589,10,606,5,632,3,660,5,678,14,672,14,658,10,632,8,607,10,592,15,586,21,588,30"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ac83aa589b9c3ab5a00bab462e58fdbd5" title="Get the factory map for creating instances of subclasses." alt="" coords="785,29,997,70"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="738,47,772,49,767,50,738,52"/>
 </map>

@@ -1,0 +1,36 @@
+<map id="AQNWB::NWB::TimeSeries::recordControl" name="AQNWB::NWB::TimeSeries::recordControl">
+<area shape="rect" id="Node000001" title=" " alt="" coords="2888,95,3075,135"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a6e74b051a3ea578a41ee33191f1ccf37" title=" " alt="" coords="2638,29,2824,70"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="2883,90,2811,73,2812,68,2889,90"/>
+<area shape="rect" id="Node000014" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html#a02132ab3ba47c34556ea08abcfbf70bc" title="Writes a channel to an AnnotationSeries dataset." alt="" coords="2621,95,2840,135"/>
+<area shape="poly" id="edge14_Node000001_Node000014" title=" " alt="" coords="2870,115,2841,118,2841,112,2875,115"/>
+<area shape="rect" id="Node000015" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a33c3c764fdf8a5db861beeabc48d78e7" title="Writes a timeseries data block to the file." alt="" coords="2638,160,2824,201"/>
+<area shape="poly" id="edge15_Node000001_Node000015" title=" " alt="" coords="2889,139,2812,162,2811,157,2883,140"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ab27f0f2b819123b27cf38ab0b6310fed" title=" " alt="" coords="2368,29,2554,70"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="2619,50,2555,52,2554,47,2624,50"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ad6bc67f0ab42e8aeaeeef1b1b51c082d" title=" " alt="" coords="2114,29,2301,70"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="2349,50,2301,52,2301,47,2355,50"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a055a5a6a5b9bebbd3f517cdb59ebd65a" title=" " alt="" coords="1880,29,2066,70"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="2096,50,2067,52,2067,47,2102,50"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#af32a022bd96207ee5eb2b26ac6ae8d2e" title=" " alt="" coords="1646,29,1832,70"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="1862,50,1833,52,1832,47,1867,50"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a3a85691477ada29012a8cb1a2ab4fb5e" title=" " alt="" coords="1411,29,1598,70"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="1628,50,1598,52,1598,47,1633,50"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ade7280dcb98b4ce03104a3b9b7ee89d5" title=" " alt="" coords="1177,29,1363,70"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="1393,50,1364,52,1364,47,1399,49"/>
+<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#aada7da514e40b99b1b7ff897c92f5b2d" title=" " alt="" coords="943,29,1129,70"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="1159,50,1130,52,1129,47,1164,49"/>
+<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a05f88b4ef3d51fd24e79f8f61df60b5c" title=" " alt="" coords="708,29,895,70"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="925,50,895,52,895,47,930,49"/>
+<area shape="rect" id="Node000011" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a64808096931f82dbd378b2c21679ba03" title=" " alt="" coords="474,29,660,70"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="690,50,661,52,660,47,696,49"/>
+<area shape="rect" id="Node000012" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a32e11a8254db9fad8682fc8d8d118370" title=" " alt="" coords="240,29,426,70"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="456,50,427,52,426,47,461,49"/>
+<area shape="rect" id="Node000013" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a185cdbb22cb299862e950576a6c9ecab" title=" " alt="" coords="5,29,192,70"/>
+<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="222,51,193,52,191,47,227,49"/>
+<area shape="poly" id="edge13_Node000013_Node000013" title=" " alt="" coords="135,15,123,10,98,8,76,10,63,15,57,21,60,29,54,29,52,19,59,10,75,5,99,3,124,5,140,13"/>
+<area shape="rect" id="Node000016" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#abd499ff69952a61324f86034ea91111b" title="Writes a channel to an ElectricalSeries dataset." alt="" coords="2355,127,2566,167"/>
+<area shape="poly" id="edge16_Node000015_Node000016" title=" " alt="" coords="2619,167,2567,163,2567,157,2625,167"/>
+<area shape="rect" id="Node000017" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#a5cfdd0f6bfdf9cec7e43219fb606a7e1" title="Write a single spike series event." alt="" coords="2349,192,2573,233"/>
+<area shape="poly" id="edge17_Node000015_Node000017" title=" " alt="" coords="2625,193,2574,202,2573,196,2619,193"/>
+</map>

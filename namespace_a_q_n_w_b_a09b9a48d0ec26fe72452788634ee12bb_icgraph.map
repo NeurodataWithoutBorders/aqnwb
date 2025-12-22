@@ -1,0 +1,13 @@
+<map id="AQNWB::intToStatus" name="AQNWB::intToStatus">
+<area shape="rect" id="Node000001" title="Convert an integer status code to a Types::Status enum value. Shorthand for return (status &lt; 0) ?..." alt="" coords="490,112,636,137"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a351fa783e607e0840d5d28b3761d42ff" title="Creates a soft link to another location in the file." alt="" coords="248,5,442,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="524,104,441,61,411,49,411,44,443,57,530,103"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a43cc98ba74643c5f93fcce3f30505e1f" title="Creates a dataset that holds an array of references to groups within the file." alt="" coords="248,71,442,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="472,111,443,109,442,103,477,111"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#af169224331c1c4f67ccf8521f5d778db" title="Flush data to disk." alt="" coords="248,136,442,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="472,138,443,145,442,139,477,137"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a8606979d328123bb7bd8efa9df85c6df" title="Start SWMR write to start recording process." alt="" coords="248,201,442,242"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="529,144,443,191,411,203,410,198,441,186,524,146"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a0cfc2191ccfc122fa5098d4c4b4117b5" title="Stops the recording process." alt="" coords="5,136,200,177"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="229,157,201,159,200,154,235,156"/>
+</map>

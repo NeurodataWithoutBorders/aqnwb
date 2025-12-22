@@ -1,9 +1,27 @@
 var searchData=
 [
-  ['base_20class_20and_20templated_20child_20class_0',['Using a base class and templated child class',['../registered_type_page.html#implement_templated_registered_type_two_class',1,'']]],
-  ['baserecordingdata_1',['Recording datasets with BaseRecordingData',['../record_design_page.html#record_design_sec_recording_data',1,'']]],
-  ['baserecordingdata_20for_20managing_20recording_2',['BaseRecordingData for Managing Recording',['../record_design_page.html#record_design_sec_baserecordingdata',1,'']]],
-  ['build_3',['Build',['../user_install_page.html#userbuild_build_sec',1,'Build'],['../dev_install_page.html#devbuild_sec',1,'Developer Build']]],
-  ['build_20and_20test_4',['Configure, Build and Test',['../dev_install_page.html#configure_build_test',1,'']]],
-  ['building_20the_20docs_5',['Building the Docs',['../dev_docs_page.html#dev_docs_requirements_sec',1,'']]]
+  ['fields_0',['fields',['../read_page.html#read_example_arbitrary',1,'Reading arbitrary fields'],['../read_page.html#read_design_example_read_posthoc_read_field',1,'Reading predefined data fields']]],
+  ['fields_20with_20unknown_20data_20type_1',['Working with fields with unknown data type',['../read_page.html#read_example_variant_data',1,'']]],
+  ['file_20for_20reading_2',['Opening an existing file for reading',['../read_page.html#read_example_open',1,'']]],
+  ['file_20with_20swmr_20mode_3',['Writing an NWB file with SWMR mode',['../hdf5io.html#hdf5io_swmr_workflow',1,'']]],
+  ['files_4',['Generating the schema header files',['../nwb_schema_page.html#dev_docs_generating_nwb_schema_headers_section',1,'']]],
+  ['filters_20and_20compression_5',['I/O Filters and Compression',['../hdf5io.html#hdf5io_filters',1,'']]],
+  ['filters_20in_20aqnwb_6',['Using Chunking and I/O Filters in AqNWB',['../hdf5io.html#hdf5io_filters_usage',1,'']]],
+  ['for_20all_20neurodata_5ftypes_7',['Step 3: Create RegisteredType Classes for all neurodata_types',['../integrating_extensions_page.html#labmetadata_extension_registered_type',1,'']]],
+  ['for_20attributes_8',['DEFINE_ATTRIBUTE_FIELD: Creating read methods for attributes',['../registered_type_page.html#use_the_define_attribute_field_macro',1,'']]],
+  ['for_20consistent_20recording_9',['TimeSeries Convenience Methods for Consistent Recording',['../record_design_page.html#record_design_sec_timeseries',1,'']]],
+  ['for_20datasets_10',['DEFINE_DATASET_FIELD: Creating read and write methods for datasets',['../registered_type_page.html#use_the_define_dataset_field_macro',1,'']]],
+  ['for_20developers_11',['For Developers',['../devdocs.html',1,'']]],
+  ['for_20managing_20collections_12',['RecordingObjects for Managing Collections',['../record_design_page.html#record_design_sec_recording_containers',1,'']]],
+  ['for_20managing_20recording_13',['BaseRecordingData for Managing Recording',['../record_design_page.html#record_design_sec_baserecordingdata',1,'']]],
+  ['for_20neurodata_5ftype_20objects_14',['DEFINE_REGISTERED_FIELD: Defining read methods for neurodata_type objects',['../registered_type_page.html#use_the_define_registered_field_macro',1,'']]],
+  ['for_20reading_15',['Opening an existing file for reading',['../read_page.html#read_example_open',1,'']]],
+  ['for_20recording_16',['The DEFINE_DATASET_FIELD Macro for Recording',['../record_design_page.html#record_design_sec_define_dataset_field',1,'']]],
+  ['for_20references_20to_20neurodata_5ftype_20objects_17',['DEFINE_REFERENCED_REGISTERED_FIELD: Defining read methods for references to neurodata_type objects',['../registered_type_page.html#use_the_define_referenced_registered_field_macro',1,'']]],
+  ['for_20registeredtype_20objects_18',['Searching for RegisteredType objects',['../read_page.html#read_example_search',1,'']]],
+  ['for_20unnamed_20neurodata_5ftype_20objects_19',['DEFINE_UNNAMED_REGISTERED_FIELD: Defining read methods for unnamed neurodata_type objects',['../registered_type_page.html#use_the_define_unnamed_registered_field_macro',1,'']]],
+  ['for_20users_20',['For Users',['../userdocs.html',1,'']]],
+  ['from_20registeredtype_20objects_21',['Reading data from RegisteredType objects',['../read_page.html#read_example_read',1,'']]],
+  ['further_20reading_22',['Further Reading',['../record_design_page.html#recording_design_further_reading',1,'']]],
+  ['further_20reading_23',['Further reading',['../read_page.html#read_further_reading',1,'']]]
 ];

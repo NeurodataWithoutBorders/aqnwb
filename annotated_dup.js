@@ -17,7 +17,8 @@ var annotated_dup =
         [ "isAllowedStorageObjectType", "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type.html", null ],
         [ "isAllowedStorageObjectType&lt; StorageObjectType::Dataset &gt;", "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type_3_01_storage_object_type_1_1_dataset_01_4.html", null ],
         [ "isAllowedStorageObjectType&lt; StorageObjectType::Attribute &gt;", "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type_3_01_storage_object_type_1_1_attribute_01_4.html", null ],
-        [ "ReadDataWrapper", "class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html", "class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper" ]
+        [ "ReadDataWrapper", "class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html", "class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper" ],
+        [ "RecordingObjects", "class_a_q_n_w_b_1_1_i_o_1_1_recording_objects.html", "class_a_q_n_w_b_1_1_i_o_1_1_recording_objects" ]
       ] ],
       [ "NWB", "namespace_a_q_n_w_b_1_1_n_w_b.html", [
         [ "NWBContainer", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container" ],
@@ -39,7 +40,6 @@ var annotated_dup =
         [ "VectorDataTyped", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed" ],
         [ "AnnotationSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series" ],
         [ "NWBFile", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file" ],
-        [ "RecordingContainers", "class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers" ],
         [ "RegisteredType", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" ]
       ] ],
       [ "SPEC", "namespace_a_q_n_w_b_1_1_s_p_e_c.html", [

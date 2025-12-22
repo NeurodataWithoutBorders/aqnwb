@@ -49,7 +49,7 @@
 <script type="application/ecmascript">
 var viewWidth = 2614;
 var viewHeight = 88;
-var sectionId = 'dynsection-6';
+var sectionId = 'dynsection-7';
 </script>
 <script type="application/ecmascript" xlink:href="svg.min.js"/>
 <svg id="graph" class="graph">
@@ -68,7 +68,7 @@ var sectionId = 'dynsection-6';
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a5758bc49963971c9bc8fa2e7287fcd81" target="_top" xlink:title="Initializes the TimeSeries by creating NWB related attributes and writing the description and comment...">
+<g id="a_Node000002"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a82f1f4dae2debc649aa537974dc7f7a7" target="_top" xlink:title="Initializes the TimeSeries by creating NWB related attributes and writing the description and comment...">
 <polygon fill="white" stroke="#666666" points="2424.5,-79.5 2284.75,-79.5 2284.75,-49 2424.5,-49 2424.5,-79.5"/>
 <text xml:space="preserve" text-anchor="start" x="2292.75" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::TimeSeries</text>
 <text xml:space="preserve" text-anchor="middle" x="2354.62" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">::initialize</text>
@@ -87,7 +87,7 @@ var sectionId = 'dynsection-6';
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a02d6ceb1f87f4a76906f00688708b8e9" target="_top" xlink:title=" ">
+<g id="a_Node000003"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a87984ba6f9d5f86a3ba8a8c30e760683" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="2424.5,-30.5 2284.75,-30.5 2284.75,0 2424.5,0 2424.5,-30.5"/>
 <text xml:space="preserve" text-anchor="start" x="2292.75" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::TimeSeries</text>
 <text xml:space="preserve" text-anchor="middle" x="2354.62" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::readControlDescription</text>
@@ -106,7 +106,7 @@ var sectionId = 'dynsection-6';
 <!-- Node4 -->
 <g id="Node000004" class="node">
 <title>Node4</title>
-<g id="a_Node000004"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a0501cf1664c3ac781453e312aa3342b0" target="_top" xlink:title=" ">
+<g id="a_Node000004"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#af265a39e34b4fcf8b9db260775c6d73f" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="2248.75,-30.5 2109,-30.5 2109,0 2248.75,0 2248.75,-30.5"/>
 <text xml:space="preserve" text-anchor="start" x="2117" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::TimeSeries</text>
 <text xml:space="preserve" text-anchor="middle" x="2178.88" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::readControl</text>
@@ -125,7 +125,7 @@ var sectionId = 'dynsection-6';
 <!-- Node5 -->
 <g id="Node000005" class="node">
 <title>Node5</title>
-<g id="a_Node000005"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#adf3f178d207453927ae6ede7a53ac7f7" target="_top" xlink:title=" ">
+<g id="a_Node000005"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a6e74b051a3ea578a41ee33191f1ccf37" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="2073,-30.5 1933.25,-30.5 1933.25,0 2073,0 2073,-30.5"/>
 <text xml:space="preserve" text-anchor="start" x="1941.25" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::TimeSeries</text>
 <text xml:space="preserve" text-anchor="middle" x="2003.12" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::readTimestampsUnit</text>
@@ -144,7 +144,7 @@ var sectionId = 'dynsection-6';
 <!-- Node6 -->
 <g id="Node000006" class="node">
 <title>Node6</title>
-<g id="a_Node000006"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a6bc9efa6381b6761d45493c1b2628e22" target="_top" xlink:title=" ">
+<g id="a_Node000006"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ab27f0f2b819123b27cf38ab0b6310fed" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="1897.25,-30.5 1757.5,-30.5 1757.5,0 1897.25,0 1897.25,-30.5"/>
 <text xml:space="preserve" text-anchor="start" x="1765.5" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::TimeSeries</text>
 <text xml:space="preserve" text-anchor="middle" x="1827.38" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::readTimestampsInterval</text>
@@ -163,7 +163,7 @@ var sectionId = 'dynsection-6';
 <!-- Node7 -->
 <g id="Node000007" class="node">
 <title>Node7</title>
-<g id="a_Node000007"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#aad84484dbd8b930702c8c8c5408694b1" target="_top" xlink:title=" ">
+<g id="a_Node000007"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ad6bc67f0ab42e8aeaeeef1b1b51c082d" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="1721.5,-30.5 1581.75,-30.5 1581.75,0 1721.5,0 1721.5,-30.5"/>
 <text xml:space="preserve" text-anchor="start" x="1589.75" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::TimeSeries</text>
 <text xml:space="preserve" text-anchor="middle" x="1651.62" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::readTimestamps</text>
@@ -182,7 +182,7 @@ var sectionId = 'dynsection-6';
 <!-- Node8 -->
 <g id="Node000008" class="node">
 <title>Node8</title>
-<g id="a_Node000008"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a10c42d7daf3209d828814549062ba43b" target="_top" xlink:title=" ">
+<g id="a_Node000008"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a055a5a6a5b9bebbd3f517cdb59ebd65a" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="1545.75,-30.5 1406,-30.5 1406,0 1545.75,0 1545.75,-30.5"/>
 <text xml:space="preserve" text-anchor="start" x="1414" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::TimeSeries</text>
 <text xml:space="preserve" text-anchor="middle" x="1475.88" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::readStartingTimeUnit</text>
@@ -201,7 +201,7 @@ var sectionId = 'dynsection-6';
 <!-- Node9 -->
 <g id="Node000009" class="node">
 <title>Node9</title>
-<g id="a_Node000009"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a432eacaa5461a2adb7c74b8163109690" target="_top" xlink:title=" ">
+<g id="a_Node000009"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#af32a022bd96207ee5eb2b26ac6ae8d2e" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="1370,-30.5 1230.25,-30.5 1230.25,0 1370,0 1370,-30.5"/>
 <text xml:space="preserve" text-anchor="start" x="1238.25" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::TimeSeries</text>
 <text xml:space="preserve" text-anchor="middle" x="1300.12" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::readStartingTimeRate</text>
@@ -220,7 +220,7 @@ var sectionId = 'dynsection-6';
 <!-- Node10 -->
 <g id="Node000010" class="node">
 <title>Node10</title>
-<g id="a_Node000010"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a0d48a3a5d1f7468ae1e48226969f30c3" target="_top" xlink:title=" ">
+<g id="a_Node000010"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a3a85691477ada29012a8cb1a2ab4fb5e" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="1194.25,-30.5 1054.5,-30.5 1054.5,0 1194.25,0 1194.25,-30.5"/>
 <text xml:space="preserve" text-anchor="start" x="1062.5" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::TimeSeries</text>
 <text xml:space="preserve" text-anchor="middle" x="1124.38" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::readStartingTime</text>
@@ -239,7 +239,7 @@ var sectionId = 'dynsection-6';
 <!-- Node11 -->
 <g id="Node000011" class="node">
 <title>Node11</title>
-<g id="a_Node000011"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a7b9e5f855ab7ae45e6b9d66e8c21cacb" target="_top" xlink:title=" ">
+<g id="a_Node000011"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ade7280dcb98b4ce03104a3b9b7ee89d5" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="1018.5,-30.5 878.75,-30.5 878.75,0 1018.5,0 1018.5,-30.5"/>
 <text xml:space="preserve" text-anchor="start" x="886.75" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::TimeSeries</text>
 <text xml:space="preserve" text-anchor="middle" x="948.62" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::readDataContinuity</text>
@@ -258,7 +258,7 @@ var sectionId = 'dynsection-6';
 <!-- Node12 -->
 <g id="Node000012" class="node">
 <title>Node12</title>
-<g id="a_Node000012"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a5d7201b7efb3109e03172a7d383c8b45" target="_top" xlink:title=" ">
+<g id="a_Node000012"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#aada7da514e40b99b1b7ff897c92f5b2d" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="842.75,-30.5 703,-30.5 703,0 842.75,0 842.75,-30.5"/>
 <text xml:space="preserve" text-anchor="start" x="711" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::TimeSeries</text>
 <text xml:space="preserve" text-anchor="middle" x="772.88" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::readDataUnit</text>
@@ -277,7 +277,7 @@ var sectionId = 'dynsection-6';
 <!-- Node13 -->
 <g id="Node000013" class="node">
 <title>Node13</title>
-<g id="a_Node000013"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#adf83d074710318ecd17f056deecf6f73" target="_top" xlink:title=" ">
+<g id="a_Node000013"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a05f88b4ef3d51fd24e79f8f61df60b5c" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="667,-30.5 527.25,-30.5 527.25,0 667,0 667,-30.5"/>
 <text xml:space="preserve" text-anchor="start" x="535.25" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::TimeSeries</text>
 <text xml:space="preserve" text-anchor="middle" x="597.12" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::readDataResolution</text>
@@ -296,7 +296,7 @@ var sectionId = 'dynsection-6';
 <!-- Node14 -->
 <g id="Node000014" class="node">
 <title>Node14</title>
-<g id="a_Node000014"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a8e935bfd8eea957ae42d5ea752d802b4" target="_top" xlink:title=" ">
+<g id="a_Node000014"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a64808096931f82dbd378b2c21679ba03" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="491.25,-30.5 351.5,-30.5 351.5,0 491.25,0 491.25,-30.5"/>
 <text xml:space="preserve" text-anchor="start" x="359.5" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::TimeSeries</text>
 <text xml:space="preserve" text-anchor="middle" x="421.38" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::readDataOffset</text>
@@ -315,7 +315,7 @@ var sectionId = 'dynsection-6';
 <!-- Node15 -->
 <g id="Node000015" class="node">
 <title>Node15</title>
-<g id="a_Node000015"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#af65664bc3483cb62388ccada3b0cb304" target="_top" xlink:title=" ">
+<g id="a_Node000015"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a32e11a8254db9fad8682fc8d8d118370" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="315.5,-30.5 175.75,-30.5 175.75,0 315.5,0 315.5,-30.5"/>
 <text xml:space="preserve" text-anchor="start" x="183.75" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::TimeSeries</text>
 <text xml:space="preserve" text-anchor="middle" x="245.62" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::readDataConversion</text>
@@ -334,7 +334,7 @@ var sectionId = 'dynsection-6';
 <!-- Node16 -->
 <g id="Node000016" class="node">
 <title>Node16</title>
-<g id="a_Node000016"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a8a43d4c249f6865ee4f77c58a91b6546" target="_top" xlink:title=" ">
+<g id="a_Node000016"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a185cdbb22cb299862e950576a6c9ecab" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="139.75,-30.5 0,-30.5 0,0 139.75,0 139.75,-30.5"/>
 <text xml:space="preserve" text-anchor="start" x="8" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::TimeSeries</text>
 <text xml:space="preserve" text-anchor="middle" x="69.88" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::readData</text>

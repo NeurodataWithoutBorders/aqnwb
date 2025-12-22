@@ -1,26 +1,4 @@
 var searchData=
 [
-  ['schema_0',['Updating the schema',['../nwb_schema_page.html#dev_docs_updating_nwb_schema_section',1,'']]],
-  ['schema_20🧠_1',['NWB Schema 🧠',['../nwb_schema_page.html',1,'devdocs']]],
-  ['schema_20header_20files_2',['Generating the schema header files',['../nwb_schema_page.html#dev_docs_generating_nwb_schema_headers_section',1,'']]],
-  ['schema_20of_20the_20extension_3',['Step 1: Get the Schema of the Extension',['../integrating_extensions_page.html#labmetadata_extension_schema',1,'']]],
-  ['schema_20to_20c_4',['Step 2: Convert the Schema to C++',['../integrating_extensions_page.html#labmetadata_extension_cpp_generation',1,'']]],
-  ['searching_20for_20registeredtype_20objects_5',['Searching for RegisteredType objects',['../read_page.html#read_example_search',1,'']]],
-  ['series_20data_20using_20aqnwb_6',['Inspect Electrical Series Data using AqNWB',['../user_demos.html#demos_inspect_electrical_series',1,'']]],
-  ['single_20templated_20class_7',['Using a single templated class',['../registered_type_page.html#implement_templated_registered_type_single_class',1,'']]],
-  ['single_20writer_20multiple_20reader_20swmr_20mode_8',['Single-Writer Multiple-Reader (SWMR) Mode',['../hdf5io.html#hdf5io_swmr',1,'']]],
-  ['smwr_20mode_9',['Why does AqNWB use SMWR mode?',['../hdf5io.html#hdf5io_swmr_features',1,'']]],
-  ['source_10',['Source',['../user_install_page.html#userbuild_source_sec',1,'']]],
-  ['spellcheck_11',['Spellcheck',['../testing.html#testing_spellcheck',1,'']]],
-  ['start_20the_20recording_12',['6. Start the recording.',['../workflow.html#start_recording',1,'']]],
-  ['status_20📈_13',['Status 📈',['../index.html#mainpage_status',1,'']]],
-  ['step_201_3a_20get_20the_20schema_20of_20the_20extension_14',['Step 1: Get the Schema of the Extension',['../integrating_extensions_page.html#labmetadata_extension_schema',1,'']]],
-  ['step_202_3a_20convert_20the_20schema_20to_20c_15',['Step 2: Convert the Schema to C++',['../integrating_extensions_page.html#labmetadata_extension_cpp_generation',1,'']]],
-  ['step_203_3a_20create_20registeredtype_20classes_20for_20all_20neurodata_5ftypes_16',['Step 3: Create RegisteredType Classes for all neurodata_types',['../integrating_extensions_page.html#labmetadata_extension_registered_type',1,'']]],
-  ['step_204_3a_20using_20the_20extension_17',['Step 4: Using the Extension',['../integrating_extensions_page.html#labmetadata_extension_usage',1,'']]],
-  ['stop_20the_20recording_20and_20finalize_20the_20file_18',['8. Stop the recording and finalize the file.',['../workflow.html#stop_recording',1,'']]],
-  ['swmr_19',['Workflow with SWMR',['../hdf5io.html#hdf5io_swmr_examples_with_swmr',1,'']]],
-  ['swmr_20disabled_20',['Workflow with SWMR disabled',['../hdf5io.html#hdf5io_noswmr_examples_without_swmr',1,'']]],
-  ['swmr_20mode_21',['Single-Writer Multiple-Reader (SWMR) Mode',['../hdf5io.html#hdf5io_swmr',1,'']]],
-  ['swmr_20mode_22',['SWMR mode',['../hdf5io.html#hdf5io_swmr_read',1,'Reading with SWMR mode'],['../hdf5io.html#hdf5io_swmr_workflow',1,'Writing an NWB file with SWMR mode']]]
+  ['⚖️_0',['⚖️',['../changelog_page.html',1,'Changelog ⚖️'],['../legal_page.html',1,'Legal ⚖️'],['../index.html#mainpage_contributing',1,'Legal ⚖️']]]
 ];

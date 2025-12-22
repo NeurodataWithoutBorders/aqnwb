@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['📈_0',['Status 📈',['../index.html#mainpage_status',1,'']]]
+  ['🔧_0',['Implementing a Registered Type 🔧',['../registered_type_page.html',1,'devdocs']]]
 ];

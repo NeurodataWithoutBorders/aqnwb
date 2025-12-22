@@ -10,5 +10,6 @@ var searchData=
   ['nwbdatainterface_2ecpp_7',['NWBDataInterface.cpp',['../_n_w_b_data_interface_8cpp.html',1,'']]],
   ['nwbdatainterface_2ehpp_8',['NWBDataInterface.hpp',['../_n_w_b_data_interface_8hpp.html',1,'']]],
   ['nwbfile_2ecpp_9',['NWBFile.cpp',['../_n_w_b_file_8cpp.html',1,'']]],
-  ['nwbfile_2ehpp_10',['NWBFile.hpp',['../_n_w_b_file_8hpp.html',1,'']]]
+  ['nwbfile_2ehpp_10',['NWBFile.hpp',['../_n_w_b_file_8hpp.html',1,'']]],
+  ['nwbio_5futils_2ehpp_11',['nwbio_utils.hpp',['../nwbio__utils_8hpp.html',1,'']]]
 ];

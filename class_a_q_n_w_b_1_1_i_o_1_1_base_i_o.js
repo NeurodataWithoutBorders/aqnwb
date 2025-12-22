@@ -5,7 +5,7 @@ var class_a_q_n_w_b_1_1_i_o_1_1_base_i_o =
     [ "~BaseIO", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a7696f24a4136179a56625121069240de", null ],
     [ "attributeExists", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a06b5edf2bbd4c85adcafda13e7903873", null ],
     [ "canModifyObjects", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#ad973fe50bc5ef9e210319902a7a5ef81", null ],
-    [ "close", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#acdcf81e24923ede339dbdc2ca9d4e3a2", null ],
+    [ "close", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a30d70064c9032688b1a1c961bfe01aa6", null ],
     [ "createArrayDataSet", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#aacc45c55b5d653a8d8c64f26b7d7081e", null ],
     [ "createAttribute", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a54f2dfda9ffd291f45c3a429ca662103", null ],
     [ "createAttribute", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a558777e49431a6b7fe50bc59b481904c", null ],
@@ -23,6 +23,7 @@ var class_a_q_n_w_b_1_1_i_o_1_1_base_i_o =
     [ "getDataSet", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#abfecddd0a4a45740ccc84edd7461dba9", null ],
     [ "getFileName", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#aaca68b05085b5e9f81a16d7612757163", null ],
     [ "getFullTypeName", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#aad16547be1f92b264ca056672cda6967", null ],
+    [ "getRecordingObjects", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a942684d24e1384409abc2fa51b09a427", null ],
     [ "getStorageObjects", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a981d7a455b4c057f8ade5c511afbb2ba", null ],
     [ "getStorageObjectShape", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a53d0acc4f29c421c6036cd09437f072e", null ],
     [ "getStorageObjectType", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a032fc25850e9d5efe216fd22d44daa56", null ],
@@ -35,9 +36,10 @@ var class_a_q_n_w_b_1_1_i_o_1_1_base_i_o =
     [ "readAttribute", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#aa9b3fc349e4149f6b1c75bb854deae07", null ],
     [ "readDataset", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a59ab1d7c744d05623aa8626643e37a74", null ],
     [ "readReferenceAttribute", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#ad39c696cc54302f3e3dda87607222560", null ],
-    [ "startRecording", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a006c8398539656103fcc1eba2b3741bb", null ],
-    [ "stopRecording", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#abb70664e12700c9bc69505a71e365bf5", null ],
+    [ "startRecording", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#abaa22a360d8127335bbbf966dbd3f1c6", null ],
+    [ "stopRecording", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a53a279ee9e1adf0d52d03185311ad91a", null ],
     [ "m_filename", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a86e58b8c986d2d8f22dcd1deb028b4d8", null ],
     [ "m_opened", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#afe458200ac24b811c628256f00de0b07", null ],
-    [ "m_readyToOpen", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a8b71a8fca370cb3b3a1ab46881eb7be7", null ]
+    [ "m_readyToOpen", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a8b71a8fca370cb3b3a1ab46881eb7be7", null ],
+    [ "m_recording_objects", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#af5bcbe86c5258c1172cd9349f18654ad", null ]
 ];

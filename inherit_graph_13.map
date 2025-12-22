@@ -1,3 +1,43 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$struct_a_q_n_w_b_1_1_types_1_1_namespace_info.html" title="Struct to hold namespace information." alt="" coords="5,5,221,31"/>
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,154,137,194"/>
+<area shape="rect" id="Node000001" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema." alt="" coords="185,161,396,187"/>
+<area shape="poly" id="edge4_Node000000_Node000001" title=" " alt="" coords="151,172,187,173,182,175,153,177"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html" title="Abstract data type for a group storing collections of data and metadata." alt="" coords="444,104,620,130"/>
+<area shape="poly" id="edge5_Node000001_Node000002" title=" " alt="" coords="362,155,477,129,472,131,363,160"/>
+<area shape="rect" id="Node000014" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data.html" title="An abstract data type for a dataset." alt="" coords="458,219,606,244"/>
+<area shape="poly" id="edge17_Node000001_Node000014" title=" " alt="" coords="363,189,477,217,472,219,363,194"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html" title="Represents a group containing multiple datasets that are aligned on the first dimension." alt="" coords="679,31,883,56"/>
+<area shape="poly" id="edge6_Node000002_Node000003" title=" " alt="" coords="592,97,737,56,732,58,594,102"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html" title="An abstract data type for a generic container storing collections of data and metadata...." alt="" coords="677,104,885,130"/>
+<area shape="poly" id="edge8_Node000002_Node000005" title=" " alt="" coords="635,114,679,116,674,117,636,119"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html" title="Represents a table containing electrode metadata." alt="" coords="951,5,1164,31"/>
+<area shape="poly" id="edge7_Node000003_Node000004" title=" " alt="" coords="898,30,953,27,948,29,899,35"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_device.html" title="Metadata about a data acquisition device, e.g., recording system, electrode, microscope." alt="" coords="977,55,1138,80"/>
+<area shape="poly" id="edge9_Node000005_Node000006" title=" " alt="" coords="871,98,984,80,979,82,873,103"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html" title="The ElectrodeGroup class represents a physical grouping of electrodes, e.g. a shank of an array." alt="" coords="952,104,1162,130"/>
+<area shape="poly" id="edge10_Node000005_Node000007" title=" " alt="" coords="900,114,955,116,949,117,901,119"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface.html" title="An abstract data type for a generic container storing collections of data, as opposed to metadata." alt="" coords="942,153,1173,179"/>
+<area shape="poly" id="edge11_Node000005_Node000008" title=" " alt="" coords="872,130,984,153,979,153,872,136"/>
+<area shape="rect" id="Node000013" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html" title="The NWBFile class provides an interface for setting up and managing the NWB file." alt="" coords="971,203,1144,228"/>
+<area shape="poly" id="edge16_Node000005_Node000013" title=" " alt="" coords="880,133,895,140,911,152,920,165,929,178,943,189,973,204,968,203,940,194,925,182,915,168,907,156,892,144,880,138"/>
+<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html" title="General purpose time series." alt="" coords="1221,153,1407,179"/>
+<area shape="poly" id="edge12_Node000008_Node000009" title=" " alt="" coords="1188,164,1223,166,1218,166,1189,169"/>
+<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html" title="TimeSeries storing text&#45;based records about the experiment." alt="" coords="1455,128,1675,154"/>
+<area shape="poly" id="edge13_Node000009_Node000010" title=" " alt="" coords="1423,153,1457,152,1452,152,1423,158"/>
+<area shape="rect" id="Node000011" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html" title="General purpose time series." alt="" coords="1459,177,1671,203"/>
+<area shape="poly" id="edge14_Node000009_Node000011" title=" " alt="" coords="1423,174,1462,180,1456,180,1423,179"/>
+<area shape="rect" id="Node000012" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html" title="Stores snapshots/snippets of recorded spike events (i.e., threshold crossings)." alt="" coords="1723,177,1947,203"/>
+<area shape="poly" id="edge15_Node000011_Node000012" title=" " alt="" coords="1686,188,1725,190,1720,190,1686,193"/>
+<area shape="rect" id="Node000015" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html" title="A typed data container for a dataset." alt="" coords="689,154,873,194"/>
+<area shape="poly" id="edge18_Node000014_Node000015" title=" " alt="" coords="606,212,692,195,687,196,607,217"/>
+<area shape="rect" id="Node000016" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_element_identifiers.html" title="A list of unique identifiers for values within a dataset, e.g. rows of a DynamicTable." alt="" coords="668,219,894,244"/>
+<area shape="poly" id="edge19_Node000014_Node000016" title=" " alt="" coords="622,229,671,231,665,232,622,234"/>
+<area shape="rect" id="Node000017" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data.html" title="An abstract data type for a dataset." alt="" coords="691,268,871,294"/>
+<area shape="poly" id="edge20_Node000014_Node000017" title=" " alt="" coords="616,245,715,267,710,267,615,251"/>
+<area shape="rect" id="Node000019" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html" title="An n&#45;dimensional dataset representing a column of a DynamicTable." alt="" coords="688,321,874,347"/>
+<area shape="poly" id="edge22_Node000014_Node000019" title=" " alt="" coords="567,250,615,278,669,304,717,321,712,321,667,309,612,283,566,256"/>
+<area shape="rect" id="Node000018" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_typed.html" title="A typed data container for a dataset." alt="" coords="950,256,1165,297"/>
+<area shape="poly" id="edge21_Node000017_Node000018" title=" " alt="" coords="886,277,952,278,947,279,886,282"/>
+<area shape="rect" id="Node000020" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html" title="A typed n&#45;dimensional dataset representing a column of a DynamicTable." alt="" coords="947,322,1168,362"/>
+<area shape="poly" id="edge23_Node000019_Node000020" title=" " alt="" coords="890,335,949,339,943,339,890,340"/>
 </map>

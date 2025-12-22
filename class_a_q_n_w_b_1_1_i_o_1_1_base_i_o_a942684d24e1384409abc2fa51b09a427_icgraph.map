@@ -1,0 +1,18 @@
+<map id="AQNWB::IO::BaseIO::getRecordingObjects" name="AQNWB::IO::BaseIO::getRecordingObjects">
+<area shape="rect" id="Node000001" title="Returns the recording objects container for this IO object." alt="" coords="692,71,847,111"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a30d70064c9032688b1a1c961bfe01aa6" title="Closes the file." alt="" coords="490,5,644,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="687,65,632,49,633,44,693,66"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#abaa22a360d8127335bbbf966dbd3f1c6" title="Starts the recording process." alt="" coords="490,71,644,111"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="674,91,645,94,644,88,680,91"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a53a279ee9e1adf0d52d03185311ad91a" title="Stops the recording process." alt="" coords="268,136,422,177"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="682,115,645,126,528,143,423,153,422,148,528,137,644,120,677,116"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a969eb3d7ab2d93c5a83b58f27773e16f" title="Closes the file." alt="" coords="248,5,442,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="472,26,443,28,442,23,477,25"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a0cfc2191ccfc122fa5098d4c4b4117b5" title="Stops the recording process." alt="" coords="5,103,200,143"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="264,53,249,61,149,105,147,100,247,57,269,51"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a7a4c82820e1ad91a82c90c30dfb937fe" title="Destructor for the HDF5IO class." alt="" coords="5,5,200,46"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="230,27,201,28,199,23,235,25"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a8606979d328123bb7bd8efa9df85c6df" title="Start SWMR write to start recording process." alt="" coords="248,71,442,111"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="472,91,443,94,442,88,477,91"/>
+<area shape="poly" id="edge8_Node000008_Node000004" title=" " alt="" coords="250,144,200,139,200,134,255,143"/>
+</map>

@@ -195,12 +195,21 @@ Step 3: Create RegisteredType Classes for all neurodata_types</h2>
 <div class="line"> </div>
 <div class="line"><span class="keyword">class </span>LabMetaDataExtensionExample : <span class="keyword">public</span> <a class="code hl_class" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html">AQNWB::NWB::Container</a></div>
 <div class="line">{</div>
-<div class="line"><span class="keyword">public</span>:</div>
+<div class="line">    <span class="comment">// Register the class with the type registry</span></div>
+<div class="line">    <a class="code hl_define" href="_registered_type_8hpp.html#a48542bb43b1d1c733f729eb3f123c9dd">REGISTER_SUBCLASS</a>(</div>
+<div class="line">        LabMetaDataExtensionExample, </div>
+<div class="line">        Container,</div>
+<div class="line">        AQNWB::SPEC::NDX_LABMETADATA_EXAMPLE::namespaceName)</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">protected</span>:</div>
 <div class="line">    <span class="comment">// Constructor with path and io inputs required by RegisteredType</span></div>
+<div class="line">    <span class="comment">// The constructor is protected to enforce use of the create() </span></div>
+<div class="line">    <span class="comment">// factory method for creating instances of this class.</span></div>
 <div class="line">    LabMetaDataExtensionExample(</div>
 <div class="line">        <span class="keyword">const</span> std::string&amp; path, </div>
 <div class="line">        std::shared_ptr&lt;AQNWB::IO::BaseIO&gt; io);</div>
 <div class="line"> </div>
+<div class="line"><span class="keyword">public</span>:</div>
 <div class="line">    <span class="comment">// Method for initializing and writing the data in the NWB file</span></div>
 <div class="line">    <a class="code hl_typedef" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a> <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a420424e52795b5212d7dcb728396af6a">initialize</a>(<span class="keyword">const</span> std::string&amp; tissuePreparation);</div>
 <div class="line"> </div>
@@ -212,19 +221,14 @@ Step 3: Create RegisteredType Classes for all neurodata_types</h2>
 <div class="line">        <span class="stringliteral">&quot;tissue_preparation&quot;</span>, </div>
 <div class="line">        Lab-specific description of the preparation of the tissue)</div>
 <div class="line"> </div>
-<div class="line">    <span class="comment">// Register the class with the type registry</span></div>
-<div class="line">    <a class="code hl_define" href="_registered_type_8hpp.html#a9c1f79aa46baaf33d1bf885cf7484aa1">REGISTER_SUBCLASS</a>(</div>
-<div class="line">        LabMetaDataExtensionExample, </div>
-<div class="line">        AQNWB::SPEC::NDX_LABMETADATA_EXAMPLE::namespaceName)</div>
-<div class="line"> </div>
 <div class="line"><span class="keyword">private</span>:</div>
 <div class="line">    <span class="comment">// LabMetaData objects are stored in the NWB file at this location</span></div>
 <div class="line">    <span class="keyword">const</span> std::string m_nwbBasePath = <span class="stringliteral">&quot;/general&quot;</span>;</div>
 <div class="line">};</div>
 <div class="ttc" id="a_base_i_o_8hpp_html_a38fce1d86c801b13b6860d3346276776"><div class="ttname"><a href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a></div><div class="ttdeci">AQNWB::Types::Status Status</div><div class="ttdef"><b>Definition</b> BaseIO.hpp:22</div></div>
 <div class="ttc" id="a_container_8hpp_html"><div class="ttname"><a href="_container_8hpp.html">Container.hpp</a></div></div>
-<div class="ttc" id="a_registered_type_8hpp_html_a9c1f79aa46baaf33d1bf885cf7484aa1"><div class="ttname"><a href="_registered_type_8hpp.html#a9c1f79aa46baaf33d1bf885cf7484aa1">REGISTER_SUBCLASS</a></div><div class="ttdeci">#define REGISTER_SUBCLASS(T, NAMESPACE)</div><div class="ttdoc">Macro to register a subclass with the RegisteredType class registry.</div><div class="ttdef"><b>Definition</b> RegisteredType.hpp:410</div></div>
-<div class="ttc" id="a_registered_type_8hpp_html_aeb21020579ca18f10e64fac9689a7ef6"><div class="ttname"><a href="_registered_type_8hpp.html#aeb21020579ca18f10e64fac9689a7ef6">DEFINE_DATASET_FIELD</a></div><div class="ttdeci">#define DEFINE_DATASET_FIELD(readName, writeName, default_type, fieldPath, description)</div><div class="ttdoc">Defines a lazy-loaded dataset field accessor function.</div><div class="ttdef"><b>Definition</b> RegisteredType.hpp:476</div></div>
+<div class="ttc" id="a_registered_type_8hpp_html_a48542bb43b1d1c733f729eb3f123c9dd"><div class="ttname"><a href="_registered_type_8hpp.html#a48542bb43b1d1c733f729eb3f123c9dd">REGISTER_SUBCLASS</a></div><div class="ttdeci">#define REGISTER_SUBCLASS(T, BASE, NAMESPACE)</div><div class="ttdoc">Macro to register a subclass with the RegisteredType class registry.</div><div class="ttdef"><b>Definition</b> RegisteredType.hpp:501</div></div>
+<div class="ttc" id="a_registered_type_8hpp_html_aeb21020579ca18f10e64fac9689a7ef6"><div class="ttname"><a href="_registered_type_8hpp.html#aeb21020579ca18f10e64fac9689a7ef6">DEFINE_DATASET_FIELD</a></div><div class="ttdeci">#define DEFINE_DATASET_FIELD(readName, writeName, default_type, fieldPath, description)</div><div class="ttdoc">Defines a lazy-loaded dataset field accessor function.</div><div class="ttdef"><b>Definition</b> RegisteredType.hpp:573</div></div>
 <div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_container_html"><div class="ttname"><a href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html">AQNWB::NWB::Container</a></div><div class="ttdoc">Abstract data type for a group storing collections of data and metadata.</div><div class="ttdef"><b>Definition</b> Container.hpp:17</div></div>
 <div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_container_html_a420424e52795b5212d7dcb728396af6a"><div class="ttname"><a href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a420424e52795b5212d7dcb728396af6a">AQNWB::NWB::Container::initialize</a></div><div class="ttdeci">Status initialize()</div><div class="ttdoc">Initialize the container.</div><div class="ttdef"><b>Definition</b> Container.cpp:20</div></div>
 </div><!-- fragment --><p><em>LabMetaDataExtensionExample.cpp</em> </p><div class="fragment"><div class="line"><span class="preprocessor">#include &quot;LabMetaDataExtensionExample.hpp&quot;</span></div>
@@ -251,14 +255,18 @@ Step 3: Create RegisteredType Classes for all neurodata_types</h2>
 <div class="line"></div>
 <div class="line"><a class="code hl_typedef" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a> LabMetaDataExtensionExample::initialize(<span class="keyword">const</span> std::string&amp; tissuePreparation)</div>
 <div class="line">{</div>
+<div class="line">  <span class="keyword">auto</span> ioPtr = getIO();</div>
+<div class="line">  <span class="keywordflow">if</span> (!ioPtr) {</div>
+<div class="line">    <span class="keywordflow">return</span> Status::Failure;</div>
+<div class="line"> }</div>
 <div class="line">  <a class="code hl_typedef" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a> containerStatus = <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a420424e52795b5212d7dcb728396af6a">Container::initialize</a>();</div>
 <div class="line">  <span class="keyword">auto</span> tissuePrepPath = <a class="code hl_function" href="namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881">AQNWB::mergePaths</a>(m_path, <span class="stringliteral">&quot;tissue_preparation&quot;</span>);</div>
-<div class="line">  <a class="code hl_typedef" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a> tissueDataStatus = m_io-&gt;createStringDataSet(tissuePrepPath, tissuePreparation);</div>
+<div class="line">  <a class="code hl_typedef" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a> tissueDataStatus = ioPtr-&gt;createStringDataSet(tissuePrepPath, tissuePreparation);</div>
 <div class="line">  <span class="keywordflow">return</span> containerStatus &amp;&amp; tissueDataStatus;</div>
 <div class="line">}</div>
-<div class="ttc" id="a_registered_type_8hpp_html_a54ea7671d2bcf5bae392b8ba1824961e"><div class="ttname"><a href="_registered_type_8hpp.html#a54ea7671d2bcf5bae392b8ba1824961e">REGISTER_SUBCLASS_IMPL</a></div><div class="ttdeci">#define REGISTER_SUBCLASS_IMPL(T)</div><div class="ttdoc">Macro to initialize the static member registered_ to trigger registration.</div><div class="ttdef"><b>Definition</b> RegisteredType.hpp:422</div></div>
+<div class="ttc" id="a_registered_type_8hpp_html_a54ea7671d2bcf5bae392b8ba1824961e"><div class="ttname"><a href="_registered_type_8hpp.html#a54ea7671d2bcf5bae392b8ba1824961e">REGISTER_SUBCLASS_IMPL</a></div><div class="ttdeci">#define REGISTER_SUBCLASS_IMPL(T)</div><div class="ttdoc">Macro to initialize the static member registered_ to trigger registration.</div><div class="ttdef"><b>Definition</b> RegisteredType.hpp:513</div></div>
 <div class="ttc" id="a_utils_8hpp_html"><div class="ttname"><a href="_utils_8hpp.html">Utils.hpp</a></div></div>
-<div class="ttc" id="anamespace_a_q_n_w_b_1_1_n_w_b_html"><div class="ttname"><a href="namespace_a_q_n_w_b_1_1_n_w_b.html">AQNWB::NWB</a></div><div class="ttdoc">Namespace for all classes related to the NWB data standard.</div><div class="ttdef"><b>Definition</b> NWBContainer.hpp:18</div></div>
+<div class="ttc" id="anamespace_a_q_n_w_b_1_1_n_w_b_html"><div class="ttname"><a href="namespace_a_q_n_w_b_1_1_n_w_b.html">AQNWB::NWB</a></div><div class="ttdoc">Namespace for all classes related to the NWB data standard.</div></div>
 <div class="ttc" id="anamespace_a_q_n_w_b_html"><div class="ttname"><a href="namespace_a_q_n_w_b.html">AQNWB</a></div><div class="ttdoc">The main namespace for AqNWB.</div><div class="ttdef"><b>Definition</b> Channel.hpp:11</div></div>
 <div class="ttc" id="anamespace_a_q_n_w_b_html_a31983dbaaa85c2e355b9687fc0ef1881"><div class="ttname"><a href="namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881">AQNWB::mergePaths</a></div><div class="ttdeci">static std::string mergePaths(const std::string &amp;path1, const std::string &amp;path2)</div><div class="ttdoc">Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;.</div><div class="ttdef"><b>Definition</b> Utils.hpp:112</div></div>
 </div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>As also discussed in more detail in the <a class="el" href="registered_type_page.html">Implementing a Registered Type 🔧</a> tutorial, a few key points to note when implementing our derived <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> class:<ol type="1">
@@ -270,7 +278,7 @@ Step 3: Create RegisteredType Classes for all neurodata_types</h2>
 </ul>
 </li>
 <li><b>Ensure the registration macros are called</b>: These macros ensure that the class is registered with the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">RegisteredType</a> type registry.<ul>
-<li><a class="el" href="_registered_type_8hpp.html#a9c1f79aa46baaf33d1bf885cf7484aa1">REGISTER_SUBCLASS</a> must appear in the header file</li>
+<li><a class="el" href="_registered_type_8hpp.html#a48542bb43b1d1c733f729eb3f123c9dd">REGISTER_SUBCLASS</a> must appear in the header file</li>
 <li><a class="el" href="_registered_type_8hpp.html#a54ea7671d2bcf5bae392b8ba1824961e">REGISTER_SUBCLASS_IMPL</a> must appear in the cpp file</li>
 </ul>
 </li>
@@ -302,16 +310,17 @@ Step 4: Using the Extension</h2>
 <div class="line">    io-&gt;open(<a class="code hl_enumvalue" href="namespace_a_q_n_w_b_1_1_i_o.html#a969d0800c8e9e2141f272541b85e8bedada364eb37e143f6b2b5559aa03f5913a">AQNWB::IO::FileMode::Overwrite</a>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Create the NWBFile</span></div>
-<div class="line">    <span class="keyword">auto</span> nwbfile = <a class="code hl_class" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html">AQNWB::NWB::NWBFile</a>(io);</div>
-<div class="line">    nwbfile.initialize(<span class="stringliteral">&quot;test_identifier&quot;</span>, <span class="stringliteral">&quot;Test NWB File&quot;</span>, <span class="stringliteral">&quot;Data collection info&quot;</span>);</div>
+<div class="line">    <span class="keyword">auto</span> nwbfile = <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a84f0f21cd7bd9745b1eeb508b747fb4b">AQNWB::NWB::NWBFile::create</a>(io);</div>
+<div class="line">    nwbfile-&gt;initialize(<span class="stringliteral">&quot;test_identifier&quot;</span>, <span class="stringliteral">&quot;Test NWB File&quot;</span>, <span class="stringliteral">&quot;Data collection info&quot;</span>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Create the LabMetaDataExtensionExample object</span></div>
 <div class="line">    std::string labMetaDataPath = <a class="code hl_function" href="namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881">AQNWB::mergePaths</a>(<span class="stringliteral">&quot;/general&quot;</span>, <span class="stringliteral">&quot;custom_lab_metadata&quot;</span>);</div>
-<div class="line">    <span class="keyword">auto</span> labMetaData = LabMetaDataExtensionExample(labMetaDataPath, io);</div>
-<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Writing &quot;</span>&lt;&lt; labMetaData.getPath() &lt;&lt; <span class="stringliteral">&quot; extension data&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line">    labMetaData.initialize(<span class="stringliteral">&quot;Tissue preparation details&quot;</span>);</div>
+<div class="line">    <span class="keyword">auto</span> labMetaData = LabMetaDataExtensionExample::create(labMetaDataPath, io);</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Writing &quot;</span>&lt;&lt; labMetaData-&gt;getPath() &lt;&lt; <span class="stringliteral">&quot; extension data&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    labMetaData-&gt;initialize(<span class="stringliteral">&quot;Tissue preparation details&quot;</span>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Close the file</span></div>
+<div class="line">    io-&gt;getRecordingObjects()-&gt;finalize();</div>
 <div class="line">    io-&gt;close();</div>
 <div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Finished data write. Starting read.&quot;</span> &lt;&lt;std::endl;</div>
 <div class="line"> </div>
@@ -320,10 +329,10 @@ Step 4: Using the Extension</h2>
 <div class="line">    readIO-&gt;open(<a class="code hl_enumvalue" href="namespace_a_q_n_w_b_1_1_i_o.html#a969d0800c8e9e2141f272541b85e8beda131fb182a881796e7606ed6da27f1197">AQNWB::IO::FileMode::ReadOnly</a>);</div>
 <div class="line">    </div>
 <div class="line">    <span class="comment">// Read the LabMetaDataExtensionExample object from the file</span></div>
-<div class="line">    <span class="keyword">auto</span> readLabMetaData = LabMetaDataExtensionExample(labMetaDataPath, readIO);</div>
+<div class="line">    <span class="keyword">auto</span> readLabMetaData = LabMetaDataExtensionExample::create(labMetaDataPath, readIO);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Read the LabMetaDataExtensionExample.readTissuePreparation field</span></div>
-<div class="line">    <span class="keyword">auto</span> tissuePreparationWrapper = readLabMetaData.readTissuePreparation();</div>
+<div class="line">    <span class="keyword">auto</span> tissuePreparationWrapper = readLabMetaData-&gt;readTissuePreparation();</div>
 <div class="line">    std::string tissuePreparation = tissuePreparationWrapper-&gt;values().data[0];</div>
 <div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Read Tissue Preparation: &quot;</span> &lt;&lt; tissuePreparation &lt;&lt; std::endl;</div>
 <div class="line"> </div>
@@ -334,9 +343,9 @@ Step 4: Using the Extension</h2>
 <div class="line">}</div>
 <div class="ttc" id="a_h_d_f5_i_o_8hpp_html"><div class="ttname"><a href="_h_d_f5_i_o_8hpp.html">HDF5IO.hpp</a></div></div>
 <div class="ttc" id="a_n_w_b_file_8hpp_html"><div class="ttname"><a href="_n_w_b_file_8hpp.html">NWBFile.hpp</a></div></div>
-<div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_html"><div class="ttname"><a href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html">AQNWB::NWB::NWBFile</a></div><div class="ttdoc">The NWBFile class provides an interface for setting up and managing the NWB file.</div><div class="ttdef"><b>Definition</b> NWBFile.hpp:32</div></div>
-<div class="ttc" id="anamespace_a_q_n_w_b_1_1_i_o_html_a969d0800c8e9e2141f272541b85e8beda131fb182a881796e7606ed6da27f1197"><div class="ttname"><a href="namespace_a_q_n_w_b_1_1_i_o.html#a969d0800c8e9e2141f272541b85e8beda131fb182a881796e7606ed6da27f1197">AQNWB::IO::FileMode::ReadOnly</a></div><div class="ttdeci">@ ReadOnly</div><div class="ttdoc">Opens the file in read only mode.</div><div class="ttdef"><b>Definition</b> BaseIO.hpp:188</div></div>
-<div class="ttc" id="anamespace_a_q_n_w_b_1_1_i_o_html_a969d0800c8e9e2141f272541b85e8bedada364eb37e143f6b2b5559aa03f5913a"><div class="ttname"><a href="namespace_a_q_n_w_b_1_1_i_o.html#a969d0800c8e9e2141f272541b85e8bedada364eb37e143f6b2b5559aa03f5913a">AQNWB::IO::FileMode::Overwrite</a></div><div class="ttdeci">@ Overwrite</div><div class="ttdoc">Opens the file and overwrites any existing file.</div><div class="ttdef"><b>Definition</b> BaseIO.hpp:172</div></div>
+<div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_html_a84f0f21cd7bd9745b1eeb508b747fb4b"><div class="ttname"><a href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a84f0f21cd7bd9745b1eeb508b747fb4b">AQNWB::NWB::NWBFile::create</a></div><div class="ttdeci">static std::shared_ptr&lt; NWBFile &gt; create(const std::string &amp;path, std::shared_ptr&lt; AQNWB::IO::BaseIO &gt; io)</div></div>
+<div class="ttc" id="anamespace_a_q_n_w_b_1_1_i_o_html_a969d0800c8e9e2141f272541b85e8beda131fb182a881796e7606ed6da27f1197"><div class="ttname"><a href="namespace_a_q_n_w_b_1_1_i_o.html#a969d0800c8e9e2141f272541b85e8beda131fb182a881796e7606ed6da27f1197">AQNWB::IO::FileMode::ReadOnly</a></div><div class="ttdeci">@ ReadOnly</div><div class="ttdoc">Opens the file in read only mode.</div><div class="ttdef"><b>Definition</b> BaseIO.hpp:192</div></div>
+<div class="ttc" id="anamespace_a_q_n_w_b_1_1_i_o_html_a969d0800c8e9e2141f272541b85e8bedada364eb37e143f6b2b5559aa03f5913a"><div class="ttname"><a href="namespace_a_q_n_w_b_1_1_i_o.html#a969d0800c8e9e2141f272541b85e8bedada364eb37e143f6b2b5559aa03f5913a">AQNWB::IO::FileMode::Overwrite</a></div><div class="ttdeci">@ Overwrite</div><div class="ttdoc">Opens the file and overwrites any existing file.</div><div class="ttdef"><b>Definition</b> BaseIO.hpp:176</div></div>
 <div class="ttc" id="anamespace_a_q_n_w_b_html_aae4545d930db6f70b4438e0167c500d0"><div class="ttname"><a href="namespace_a_q_n_w_b.html#aae4545d930db6f70b4438e0167c500d0">AQNWB::createIO</a></div><div class="ttdeci">static std::shared_ptr&lt; IO::BaseIO &gt; createIO(const std::string &amp;type, const std::string &amp;filename)</div><div class="ttdoc">Factory method to create an IO object.</div><div class="ttdef"><b>Definition</b> Utils.hpp:89</div></div>
 </div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- PageDoc -->

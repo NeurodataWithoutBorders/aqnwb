@@ -1,4 +1,10 @@
 <map id="AQNWB::NWB::Device::Device" name="AQNWB::NWB::Device::Device">
-<area shape="rect" id="Node000001" title="Constructor." alt="" coords="5,29,167,70"/>
-<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="110,14,102,10,86,8,71,10,62,14,59,20,60,29,55,28,53,19,58,11,69,5,86,3,104,5,116,14"/>
+<area shape="rect" id="Node000001" title="Constructor." alt="" coords="436,39,597,79"/>
+<area shape="poly" id="edge4_Node000001_Node000001" title=" " alt="" coords="549,23,538,20,517,17,497,19,485,24,480,30,482,39,477,37,475,29,482,20,496,14,517,12,539,14,554,23"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_device.html#ae296afaa5f71f00f29a7e213297d0d27" title=" " alt="" coords="227,39,388,79"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="418,59,389,62,388,56,423,59"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a1dfa71717131843ff964e55ee37ceb23" title="Create ElectrodesTable. Note, this function will fail if the file is in a mode where new objects cann..." alt="" coords="5,5,179,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="209,45,179,42,179,36,214,44"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a0fa114190b0940cf54f44c626a69f550" title="Create SpikeEventSeries objects to record data into. Created objects are automatically added to the I..." alt="" coords="5,71,179,111"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="209,74,180,81,179,75,214,73"/>
 </map>

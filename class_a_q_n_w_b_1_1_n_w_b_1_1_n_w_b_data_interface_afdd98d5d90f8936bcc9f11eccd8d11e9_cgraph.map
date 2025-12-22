@@ -1,11 +1,13 @@
 <map id="AQNWB::NWB::NWBDataInterface::initialize" name="AQNWB::NWB::NWBDataInterface::initialize">
-<area shape="rect" id="Node000001" title="Initialize the object." alt="" coords="5,39,237,79"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html#a80beeda4c4761fe414407e4cc0d4fe8c" title="Initialize the object." alt="" coords="285,39,493,79"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="237,56,272,59,267,59,237,62"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a420424e52795b5212d7dcb728396af6a" title="Initialize the container." alt="" coords="541,39,717,79"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="493,56,528,59,522,59,493,62"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a651f3d7e5cc28dc93888e8a821c5aa1c" title="Get the schema namespace of the class type." alt="" coords="765,5,977,46"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="718,44,748,43,753,42,718,49"/>
-<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a150f881ad61cb8352eea7ddba47bc6ad" title="Get the name of the class type." alt="" coords="765,71,977,111"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="718,68,753,75,747,75,718,73"/>
+<area shape="rect" id="Node000001" title="Initialize the object." alt="" coords="5,71,237,111"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html#a80beeda4c4761fe414407e4cc0d4fe8c" title="Initialize the object." alt="" coords="285,71,493,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="237,88,272,90,267,92,237,94"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a420424e52795b5212d7dcb728396af6a" title="Initialize the container." alt="" coords="541,71,717,111"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="493,88,528,91,522,91,494,94"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab614b1609f536e88ed1f32762dc3894b" title="Get a shared pointer to the IO object." alt="" coords="765,5,977,46"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="706,68,775,51,781,50,707,73"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a1a8f53595eb2637e32e816a3ff99a230" title="Get the schema namespace of the class type." alt="" coords="783,71,959,111"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="718,88,770,91,765,91,718,94"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a21e3abbea48e9455731f2859c7954c97" title="Get the name of the class type." alt="" coords="783,136,959,177"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="707,109,781,131,775,131,707,114"/>
 </map>

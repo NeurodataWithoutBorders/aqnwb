@@ -87,7 +87,9 @@ var devdocs =
         [ "BaseRecordingData for Managing Recording", "record_design_page.html#record_design_sec_baserecordingdata", null ]
       ] ],
       [ "TimeSeries Convenience Methods for Consistent Recording", "record_design_page.html#record_design_sec_timeseries", null ],
-      [ "RecordingContainers for Managing Collections", "record_design_page.html#record_design_sec_recording_containers", null ],
+      [ "RecordingObjects for Managing Collections", "record_design_page.html#record_design_sec_recording_containers", null ],
+      [ "NWB I/O convenience utilities", "record_design_page.html#record_design_nwbio_utils", null ],
+      [ "Object and memory management", "record_design_page.html#record_design_object_memory_management", null ],
       [ "Further Reading", "record_design_page.html#recording_design_further_reading", null ]
     ] ],
     [ "Legal ⚖️", "legal_page.html", [

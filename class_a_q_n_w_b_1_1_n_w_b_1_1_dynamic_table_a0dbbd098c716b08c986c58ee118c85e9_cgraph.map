@@ -1,9 +1,12 @@
 <map id="AQNWB::NWB::DynamicTable::initialize" name="AQNWB::NWB::DynamicTable::initialize">
 <area shape="rect" id="Node000001" title="Initializes the DynamicTable object by creating NWB attributes and column names." alt="" coords="5,39,209,79"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a420424e52795b5212d7dcb728396af6a" title="Initialize the container." alt="" coords="257,39,433,79"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="209,56,244,59,238,59,209,62"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a651f3d7e5cc28dc93888e8a821c5aa1c" title="Get the schema namespace of the class type." alt="" coords="481,5,692,46"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="433,44,469,42,463,43,434,49"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a150f881ad61cb8352eea7ddba47bc6ad" title="Get the name of the class type." alt="" coords="481,71,692,111"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="434,68,468,75,463,75,433,73"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab614b1609f536e88ed1f32762dc3894b" title="Get a shared pointer to the IO object." alt="" coords="481,5,692,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="209,49,467,32,464,36,209,55"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a420424e52795b5212d7dcb728396af6a" title="Initialize the container." alt="" coords="257,67,433,107"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="209,68,244,74,239,75,209,74"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="427,63,492,50,486,51,428,69"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a1a8f53595eb2637e32e816a3ff99a230" title="Get the schema namespace of the class type." alt="" coords="498,71,675,111"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="433,86,486,89,481,90,434,91"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a21e3abbea48e9455731f2859c7954c97" title="Get the name of the class type." alt="" coords="498,136,675,177"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="419,105,501,131,496,131,418,111"/>
 </map>

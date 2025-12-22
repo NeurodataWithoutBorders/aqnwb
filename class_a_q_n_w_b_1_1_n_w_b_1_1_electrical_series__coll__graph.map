@@ -1,16 +1,18 @@
 <map id="AQNWB::NWB::ElectricalSeries" name="AQNWB::NWB::ElectricalSeries">
-<area shape="rect" id="Node000001" title="General purpose time series." alt="" coords="131,643,343,669"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html" title="General purpose time series." alt="" coords="144,568,330,594"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="239,608,239,645,235,642,235,611"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface.html" title="An abstract data type for a generic container storing collections of data, as opposed to metadata." alt="" coords="5,331,237,356"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="135,368,234,568,229,569,132,372"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html" title="An abstract data type for a generic container storing collections of data and metadata...." alt="" coords="17,155,225,181"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="122,194,124,330,118,330,120,199"/>
-<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html" title="Abstract data type for a group storing collections of data and metadata." alt="" coords="33,80,209,106"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="121,119,124,155,118,155,121,124"/>
-<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema." alt="" coords="15,5,227,31"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="121,44,124,80,118,80,121,49"/>
-<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html" title="Represents a base data type." alt="" coords="260,331,448,356"/>
-<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="344,370,245,570,241,567,339,371"/>
-<area shape="poly" id="edge7_Node000007_Node000007" title=" " alt="" coords="388,322,418,315,446,317,466,326,473,334,475,344,472,355,464,363,439,371,407,370,375,359,374,354,408,365,439,366,462,359,468,352,470,343,468,336,463,330,445,322,418,321,390,327"/>
+<area shape="rect" id="Node000001" title="General purpose time series." alt="" coords="131,733,343,759"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html" title="General purpose time series." alt="" coords="144,658,330,684"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="239,698,239,735,235,732,235,701"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface.html" title="An abstract data type for a generic container storing collections of data, as opposed to metadata." alt="" coords="5,421,237,446"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="135,458,234,658,229,659,132,462"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html" title="An abstract data type for a generic container storing collections of data and metadata...." alt="" coords="17,245,225,271"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="122,284,124,420,118,420,120,289"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html" title="Abstract data type for a group storing collections of data and metadata." alt="" coords="33,170,209,196"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="121,209,124,245,118,245,121,214"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema." alt="" coords="15,95,227,121"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="121,134,124,170,118,170,121,139"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="22,5,220,46"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="121,59,124,95,118,95,121,64"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html" title="Represents a base data type." alt="" coords="260,421,448,446"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="344,460,245,660,241,657,339,461"/>
+<area shape="poly" id="edge8_Node000008_Node000008" title=" " alt="" coords="388,412,418,405,446,407,466,416,473,424,475,434,472,445,464,453,439,461,407,460,375,449,374,444,408,455,439,456,462,449,468,442,470,433,468,426,463,420,445,412,418,411,390,417"/>
 </map>

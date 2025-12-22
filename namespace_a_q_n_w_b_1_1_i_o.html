@@ -136,6 +136,8 @@ Classes</h2></td></tr>
 <tr class="memitem:isAllowedStorageObjectType_3C_20StorageObjectType_3A_3AAttribute_20_3E" id="r_isAllowedStorageObjectType_3C_20StorageObjectType_3A_3AAttribute_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type_3_01_storage_object_type_1_1_attribute_01_4.html">isAllowedStorageObjectType&lt; StorageObjectType::Attribute &gt;</a></td></tr>
 <tr class="memitem:ReadDataWrapper" id="r_ReadDataWrapper"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">ReadDataWrapper</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class for wrapping data objects (datasets or attributes) for reading data from a file.  <a href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html#details">More...</a><br /></td></tr>
+<tr class="memitem:RecordingObjects" id="r_RecordingObjects"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_recording_objects.html">RecordingObjects</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_recording_objects.html" title="The RecordingObjects class provides an interface for managing and holding groups of RegisteredType ob...">RecordingObjects</a> class provides an interface for managing and holding groups of RegisteredType objects used for recording during data acquisition.  <a href="class_a_q_n_w_b_1_1_i_o_1_1_recording_objects.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-enum-members" class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -148,9 +150,23 @@ Enumerations</h2></td></tr>
 , <a class="el" href="#a969d0800c8e9e2141f272541b85e8beda131fb182a881796e7606ed6da27f1197">ReadOnly</a>
  }</td></tr>
 <tr class="memdesc:a969d0800c8e9e2141f272541b85e8bed"><td class="mdescLeft">&#160;</td><td class="mdescRight">The access mode for the file.  <a href="#a969d0800c8e9e2141f272541b85e8bed">More...</a><br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:acb284d332fd23c82aa8e8311dd31d319" id="r_acb284d332fd23c82aa8e8311dd31d319"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">AQNWB::Types::Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acb284d332fd23c82aa8e8311dd31d319">writeTimeseriesData</a> (std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_recording_objects.html">RecordingObjects</a> &gt; recording_objects, const <a class="el" href="class_a_q_n_w_b_1_1_types.html#ae7b68dd97f314f45e450b2f636ad7c6e">AQNWB::Types::SizeType</a> &amp;containerInd, const <a class="el" href="class_a_q_n_w_b_1_1_channel.html">AQNWB::Channel</a> &amp;channel, const std::vector&lt; <a class="el" href="class_a_q_n_w_b_1_1_types.html#ae7b68dd97f314f45e450b2f636ad7c6e">AQNWB::Types::SizeType</a> &gt; &amp;dataShape, const std::vector&lt; <a class="el" href="class_a_q_n_w_b_1_1_types.html#ae7b68dd97f314f45e450b2f636ad7c6e">AQNWB::Types::SizeType</a> &gt; &amp;positionOffset, const void *data, const void *timestamps, const void *controlInput=nullptr)</td></tr>
+<tr class="memdesc:acb284d332fd23c82aa8e8311dd31d319"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write timeseries data to a recordingContainer dataset.  <br /></td></tr>
+<tr class="memitem:a20c344888517796c27aabd7ca0d91209" id="r_a20c344888517796c27aabd7ca0d91209"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">AQNWB::Types::Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a20c344888517796c27aabd7ca0d91209">writeElectricalSeriesData</a> (std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_recording_objects.html">RecordingObjects</a> &gt; recording_objects, const <a class="el" href="class_a_q_n_w_b_1_1_types.html#ae7b68dd97f314f45e450b2f636ad7c6e">AQNWB::Types::SizeType</a> &amp;containerInd, const <a class="el" href="class_a_q_n_w_b_1_1_channel.html">AQNWB::Channel</a> &amp;channel, const <a class="el" href="class_a_q_n_w_b_1_1_types.html#ae7b68dd97f314f45e450b2f636ad7c6e">AQNWB::Types::SizeType</a> &amp;numSamples, const void *data, const void *timestamps, const void *controlInput=nullptr)</td></tr>
+<tr class="memdesc:a20c344888517796c27aabd7ca0d91209"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write ElectricalSeries data to a recordingContainer dataset.  <br /></td></tr>
+<tr class="memitem:a64543a3bdd0da0a54a2085aad3643089" id="r_a64543a3bdd0da0a54a2085aad3643089"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">AQNWB::Types::Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a64543a3bdd0da0a54a2085aad3643089">writeSpikeEventData</a> (std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_recording_objects.html">RecordingObjects</a> &gt; recording_objects, const <a class="el" href="class_a_q_n_w_b_1_1_types.html#ae7b68dd97f314f45e450b2f636ad7c6e">AQNWB::Types::SizeType</a> &amp;containerInd, const <a class="el" href="class_a_q_n_w_b_1_1_types.html#ae7b68dd97f314f45e450b2f636ad7c6e">AQNWB::Types::SizeType</a> &amp;numSamples, const <a class="el" href="class_a_q_n_w_b_1_1_types.html#ae7b68dd97f314f45e450b2f636ad7c6e">AQNWB::Types::SizeType</a> &amp;numChannels, const void *data, const void *timestamps, const void *controlInput=nullptr)</td></tr>
+<tr class="memdesc:a64543a3bdd0da0a54a2085aad3643089"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write SpikeEventSeries data to a recordingContainer dataset.  <br /></td></tr>
+<tr class="memitem:a08cfea2e8d69263b2a5818efffc17171" id="r_a08cfea2e8d69263b2a5818efffc17171"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">AQNWB::Types::Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a08cfea2e8d69263b2a5818efffc17171">writeAnnotationSeriesData</a> (std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_recording_objects.html">RecordingObjects</a> &gt; recording_objects, const <a class="el" href="class_a_q_n_w_b_1_1_types.html#ae7b68dd97f314f45e450b2f636ad7c6e">AQNWB::Types::SizeType</a> &amp;containerInd, const <a class="el" href="class_a_q_n_w_b_1_1_types.html#ae7b68dd97f314f45e450b2f636ad7c6e">AQNWB::Types::SizeType</a> &amp;numSamples, const std::vector&lt; std::string &gt; data, const void *timestamps, const void *controlInput=nullptr)</td></tr>
+<tr class="memdesc:a08cfea2e8d69263b2a5818efffc17171"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write AnnotationSeries data to a recordingContainer dataset.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The namespace for <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html" title="The namespace for IO components of AqNWB.">IO</a> components of AqNWB. </p>
+<p>Utility functions for <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html" title="The namespace for IO components of AqNWB.">IO</a> operations.</p>
+<p>This namespace contains utility functions for helping with <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html" title="The namespace for IO components of AqNWB.">IO</a> operations, such as writing timeseries data, electrical series data, spike event data, and annotation series data to recordingContainer datasets.</p>
+<p>The namespace for <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html" title="The namespace for IO components of AqNWB.">IO</a> components of AqNWB </p>
 </div><a name="doc-enum-members" id="doc-enum-members"></a><h2 id="header-doc-enum-members" class="groupheader">Enumeration Type Documentation</h2>
 <a id="a969d0800c8e9e2141f272541b85e8bed" name="a969d0800c8e9e2141f272541b85e8bed"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a969d0800c8e9e2141f272541b85e8bed">&#9670;&#160;</a></span>FileMode</h2>
@@ -213,6 +229,293 @@ Enumerations</h2></td></tr>
 <tr><td class="fieldname"><a id="af7fd0e43e0ffc4d765046020e6929035aec2c6b5e5e8c3b3810251e9974647ef8" name="af7fd0e43e0ffc4d765046020e6929035aec2c6b5e5e8c3b3810251e9974647ef8"></a>CONTINUE_ON_TYPE&#160;</td><td class="fielddoc"><p>Continue searching inside an object even after a matching type is found. </p>
 </td></tr>
 </table>
+
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
+<a id="a08cfea2e8d69263b2a5818efffc17171" name="a08cfea2e8d69263b2a5818efffc17171"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08cfea2e8d69263b2a5818efffc17171">&#9670;&#160;</a></span>writeAnnotationSeriesData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">AQNWB::Types::Status</a> AQNWB::IO::writeAnnotationSeriesData </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_recording_objects.html">RecordingObjects</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>recording_objects</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_a_q_n_w_b_1_1_types.html#ae7b68dd97f314f45e450b2f636ad7c6e">AQNWB::Types::SizeType</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>containerInd</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_a_q_n_w_b_1_1_types.html#ae7b68dd97f314f45e450b2f636ad7c6e">AQNWB::Types::SizeType</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>numSamples</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt;</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *</td>          <td class="paramname"><span class="paramname"><em>timestamps</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *</td>          <td class="paramname"><span class="paramname"><em>controlInput</em></span><span class="paramdefsep"> = </span><span class="paramdefval">nullptr</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Write AnnotationSeries data to a recordingContainer dataset. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">recording_objects</td><td>A shared pointer to the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_recording_objects.html" title="The RecordingObjects class provides an interface for managing and holding groups of RegisteredType ob...">RecordingObjects</a> instance. </td></tr>
+    <tr><td class="paramname">containerInd</td><td>The index of the AnnotationSeries dataset within the AnnotationSeries containers. </td></tr>
+    <tr><td class="paramname">numSamples</td><td>Number of samples in the time for the single event. </td></tr>
+    <tr><td class="paramname">data</td><td>A vector of strings of data to write. </td></tr>
+    <tr><td class="paramname">timestamps</td><td>A pointer to the timestamps block </td></tr>
+    <tr><td class="paramname">controlInput</td><td>A pointer to the control block data (optional) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the write operation. </dd></dl>
+
+</div>
+</div>
+<a id="a20c344888517796c27aabd7ca0d91209" name="a20c344888517796c27aabd7ca0d91209"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20c344888517796c27aabd7ca0d91209">&#9670;&#160;</a></span>writeElectricalSeriesData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">AQNWB::Types::Status</a> AQNWB::IO::writeElectricalSeriesData </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_recording_objects.html">RecordingObjects</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>recording_objects</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_a_q_n_w_b_1_1_types.html#ae7b68dd97f314f45e450b2f636ad7c6e">AQNWB::Types::SizeType</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>containerInd</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_a_q_n_w_b_1_1_channel.html">AQNWB::Channel</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>channel</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_a_q_n_w_b_1_1_types.html#ae7b68dd97f314f45e450b2f636ad7c6e">AQNWB::Types::SizeType</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>numSamples</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *</td>          <td class="paramname"><span class="paramname"><em>timestamps</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *</td>          <td class="paramname"><span class="paramname"><em>controlInput</em></span><span class="paramdefsep"> = </span><span class="paramdefval">nullptr</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Write ElectricalSeries data to a recordingContainer dataset. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">recording_objects</td><td>A shared pointer to the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_recording_objects.html" title="The RecordingObjects class provides an interface for managing and holding groups of RegisteredType ob...">RecordingObjects</a> instance. </td></tr>
+    <tr><td class="paramname">containerInd</td><td>The index of the electrical series dataset within the electrical series group. </td></tr>
+    <tr><td class="paramname">channel</td><td>The channel index to use for writing timestamps. </td></tr>
+    <tr><td class="paramname">numSamples</td><td>Number of samples in the time, i.e., the size of the first dimension of the data parameter </td></tr>
+    <tr><td class="paramname">data</td><td>A pointer to the data block. </td></tr>
+    <tr><td class="paramname">timestamps</td><td>A pointer to the timestamps block. May be null if multidimensional TimeSeries and only need to write the timestamps once but write data multiple times. </td></tr>
+    <tr><td class="paramname">controlInput</td><td>A pointer to the control block data (optional) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the write operation. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="namespace_a_q_n_w_b_1_1_i_o_a20c344888517796c27aabd7ca0d91209_cgraph.svg" width="428" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a64543a3bdd0da0a54a2085aad3643089" name="a64543a3bdd0da0a54a2085aad3643089"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64543a3bdd0da0a54a2085aad3643089">&#9670;&#160;</a></span>writeSpikeEventData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">AQNWB::Types::Status</a> AQNWB::IO::writeSpikeEventData </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_recording_objects.html">RecordingObjects</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>recording_objects</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_a_q_n_w_b_1_1_types.html#ae7b68dd97f314f45e450b2f636ad7c6e">AQNWB::Types::SizeType</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>containerInd</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_a_q_n_w_b_1_1_types.html#ae7b68dd97f314f45e450b2f636ad7c6e">AQNWB::Types::SizeType</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>numSamples</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_a_q_n_w_b_1_1_types.html#ae7b68dd97f314f45e450b2f636ad7c6e">AQNWB::Types::SizeType</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>numChannels</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *</td>          <td class="paramname"><span class="paramname"><em>timestamps</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *</td>          <td class="paramname"><span class="paramname"><em>controlInput</em></span><span class="paramdefsep"> = </span><span class="paramdefval">nullptr</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Write SpikeEventSeries data to a recordingContainer dataset. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">recording_objects</td><td>A shared pointer to the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_recording_objects.html" title="The RecordingObjects class provides an interface for managing and holding groups of RegisteredType ob...">RecordingObjects</a> instance. </td></tr>
+    <tr><td class="paramname">containerInd</td><td>The index of the SpikeEventSeries dataset within the SpikeEventSeries containers. </td></tr>
+    <tr><td class="paramname">numSamples</td><td>Number of samples in the time for the single event. </td></tr>
+    <tr><td class="paramname">numChannels</td><td>Number of channels in the time for the single event. </td></tr>
+    <tr><td class="paramname">data</td><td>A pointer to the data block. </td></tr>
+    <tr><td class="paramname">timestamps</td><td>A pointer to the timestamps block </td></tr>
+    <tr><td class="paramname">controlInput</td><td>A pointer to the control block data (optional) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the write operation. </dd></dl>
+
+</div>
+</div>
+<a id="acb284d332fd23c82aa8e8311dd31d319" name="acb284d332fd23c82aa8e8311dd31d319"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb284d332fd23c82aa8e8311dd31d319">&#9670;&#160;</a></span>writeTimeseriesData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">AQNWB::Types::Status</a> AQNWB::IO::writeTimeseriesData </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_recording_objects.html">RecordingObjects</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>recording_objects</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_a_q_n_w_b_1_1_types.html#ae7b68dd97f314f45e450b2f636ad7c6e">AQNWB::Types::SizeType</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>containerInd</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_a_q_n_w_b_1_1_channel.html">AQNWB::Channel</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>channel</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="class_a_q_n_w_b_1_1_types.html#ae7b68dd97f314f45e450b2f636ad7c6e">AQNWB::Types::SizeType</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>dataShape</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="class_a_q_n_w_b_1_1_types.html#ae7b68dd97f314f45e450b2f636ad7c6e">AQNWB::Types::SizeType</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>positionOffset</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *</td>          <td class="paramname"><span class="paramname"><em>timestamps</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *</td>          <td class="paramname"><span class="paramname"><em>controlInput</em></span><span class="paramdefsep"> = </span><span class="paramdefval">nullptr</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Write timeseries data to a recordingContainer dataset. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">recording_objects</td><td>A shared pointer to the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_recording_objects.html" title="The RecordingObjects class provides an interface for managing and holding groups of RegisteredType ob...">RecordingObjects</a> instance. </td></tr>
+    <tr><td class="paramname">containerInd</td><td>The index of the timeseries dataset within the timeseries group. </td></tr>
+    <tr><td class="paramname">channel</td><td>The channel index to use for writing timestamps. </td></tr>
+    <tr><td class="paramname">dataShape</td><td>The size of the data block. </td></tr>
+    <tr><td class="paramname">positionOffset</td><td>The position of the data block to write to. </td></tr>
+    <tr><td class="paramname">data</td><td>A pointer to the data block. </td></tr>
+    <tr><td class="paramname">timestamps</td><td>A pointer to the timestamps block. May be null if multidimensional TimeSeries and only need to write the timestamps once but write data multiple times. </td></tr>
+    <tr><td class="paramname">controlInput</td><td>A pointer to the control block data (optional) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the write operation. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="namespace_a_q_n_w_b_1_1_i_o_acb284d332fd23c82aa8e8311dd31d319_cgraph.svg" width="467" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 
 </div>
 </div>

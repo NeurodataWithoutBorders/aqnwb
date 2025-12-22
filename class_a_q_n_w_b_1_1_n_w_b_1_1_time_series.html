@@ -116,12 +116,12 @@ $(function() {
 <div class="dynheader">
 Inheritance diagram for AQNWB::NWB::TimeSeries:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series__inherit__graph.svg" width="472" height="479"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series__inherit__graph.svg" width="472" height="567"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
 Collaboration diagram for AQNWB::NWB::TimeSeries:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series__coll__graph.svg" width="523" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series__coll__graph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-types" class="groupheader"><a id="pub-types" name="pub-types"></a>
@@ -134,79 +134,73 @@ Public Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a523738fd2da4b70707e4ee6844cdce02" id="r_a523738fd2da4b70707e4ee6844cdce02"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a523738fd2da4b70707e4ee6844cdce02">TimeSeries</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt; io)</td></tr>
-<tr class="memdesc:a523738fd2da4b70707e4ee6844cdce02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <br /></td></tr>
+<tr class="memitem:aceff608228b87017b836a4a97f5b470d" id="r_aceff608228b87017b836a4a97f5b470d"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aceff608228b87017b836a4a97f5b470d">getTypeName</a> () const override</td></tr>
+<tr class="memdesc:aceff608228b87017b836a4a97f5b470d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the class type.  <br /></td></tr>
+<tr class="memitem:a939a4213950507861a18207b460d72ad" id="r_a939a4213950507861a18207b460d72ad"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a939a4213950507861a18207b460d72ad">getNamespace</a> () const override</td></tr>
+<tr class="memdesc:a939a4213950507861a18207b460d72ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the schema namespace of the class type.  <br /></td></tr>
 <tr class="memitem:a1e596cea2d047ec61f89158f1dc85276" id="r_a1e596cea2d047ec61f89158f1dc85276"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1e596cea2d047ec61f89158f1dc85276">~TimeSeries</a> ()</td></tr>
 <tr class="memdesc:a1e596cea2d047ec61f89158f1dc85276"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <br /></td></tr>
 <tr class="memitem:a33c3c764fdf8a5db861beeabc48d78e7" id="r_a33c3c764fdf8a5db861beeabc48d78e7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a33c3c764fdf8a5db861beeabc48d78e7">writeData</a> (const std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;dataShape, const std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;positionOffset, const void *dataInput, const void *timestampsInput=nullptr, const void *controlInput=nullptr)</td></tr>
 <tr class="memdesc:a33c3c764fdf8a5db861beeabc48d78e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a timeseries data block to the file.  <br /></td></tr>
-<tr class="memitem:a5758bc49963971c9bc8fa2e7287fcd81" id="r_a5758bc49963971c9bc8fa2e7287fcd81"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5758bc49963971c9bc8fa2e7287fcd81">initialize</a> (const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html">IO::ArrayDataSetConfig</a> &amp;dataConfig, const std::string &amp;unit, const std::string &amp;description=&quot;no description&quot;, const std::string &amp;comments=&quot;no comments&quot;, const float &amp;conversion=1.0f, const float &amp;resolution=-1.0f, const float &amp;offset=0.0f, const <a class="el" href="#ab8143e245b1f62cb147cd9ed97c84e9c">ContinuityType</a> &amp;continuity=<a class="el" href="#ab8143e245b1f62cb147cd9ed97c84e9ca63430566913dbf62230d5f365b3aa1a4">ContinuityType::Undefined</a>, const double &amp;startingTime=-1.0, const float &amp;startingTimeRate=1.0f, const std::vector&lt; std::string &gt; &amp;controlDescription={})</td></tr>
-<tr class="memdesc:a5758bc49963971c9bc8fa2e7287fcd81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html" title="General purpose time series.">TimeSeries</a> by creating <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> related attributes and writing the description and comment metadata.  <br /></td></tr>
-<tr class="memitem:ae2a561b2f5a56f86f8794bdfdd07f422" id="r_ae2a561b2f5a56f86f8794bdfdd07f422"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::string&gt; </td></tr>
-<tr class="memitem:ae2a561b2f5a56f86f8794bdfdd07f422 template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AttributeField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae2a561b2f5a56f86f8794bdfdd07f422">readDescription</a> () const</td></tr>
-<tr class="memitem:ab2eeb7e016b23097674627251e5e5ac7" id="r_ab2eeb7e016b23097674627251e5e5ac7"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::string&gt; </td></tr>
-<tr class="memitem:ab2eeb7e016b23097674627251e5e5ac7 template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AttributeField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab2eeb7e016b23097674627251e5e5ac7">readComments</a> () const</td></tr>
-<tr class="memitem:a8a43d4c249f6865ee4f77c58a91b6546" id="r_a8a43d4c249f6865ee4f77c58a91b6546"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::any&gt; </td></tr>
-<tr class="memitem:a8a43d4c249f6865ee4f77c58a91b6546 template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#acfd896b65a7f56c25b3730a6e8dc80ca">DatasetField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8a43d4c249f6865ee4f77c58a91b6546">readData</a> () const</td></tr>
-<tr class="memitem:a39ca5510e7d73fbd1d2c1b34ae730027" id="r_a39ca5510e7d73fbd1d2c1b34ae730027"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">IO::BaseRecordingData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a39ca5510e7d73fbd1d2c1b34ae730027">recordData</a> (bool reset=false)</td></tr>
-<tr class="memitem:af65664bc3483cb62388ccada3b0cb304" id="r_af65664bc3483cb62388ccada3b0cb304"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = float&gt; </td></tr>
-<tr class="memitem:af65664bc3483cb62388ccada3b0cb304 template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AttributeField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af65664bc3483cb62388ccada3b0cb304">readDataConversion</a> () const</td></tr>
-<tr class="memitem:a8e935bfd8eea957ae42d5ea752d802b4" id="r_a8e935bfd8eea957ae42d5ea752d802b4"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = float&gt; </td></tr>
-<tr class="memitem:a8e935bfd8eea957ae42d5ea752d802b4 template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AttributeField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8e935bfd8eea957ae42d5ea752d802b4">readDataOffset</a> () const</td></tr>
-<tr class="memitem:adf83d074710318ecd17f056deecf6f73" id="r_adf83d074710318ecd17f056deecf6f73"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = float&gt; </td></tr>
-<tr class="memitem:adf83d074710318ecd17f056deecf6f73 template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AttributeField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adf83d074710318ecd17f056deecf6f73">readDataResolution</a> () const</td></tr>
-<tr class="memitem:a5d7201b7efb3109e03172a7d383c8b45" id="r_a5d7201b7efb3109e03172a7d383c8b45"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::string&gt; </td></tr>
-<tr class="memitem:a5d7201b7efb3109e03172a7d383c8b45 template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AttributeField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5d7201b7efb3109e03172a7d383c8b45">readDataUnit</a> () const</td></tr>
-<tr class="memitem:a7b9e5f855ab7ae45e6b9d66e8c21cacb" id="r_a7b9e5f855ab7ae45e6b9d66e8c21cacb"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::string&gt; </td></tr>
-<tr class="memitem:a7b9e5f855ab7ae45e6b9d66e8c21cacb template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AttributeField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7b9e5f855ab7ae45e6b9d66e8c21cacb">readDataContinuity</a> () const</td></tr>
-<tr class="memitem:a0d48a3a5d1f7468ae1e48226969f30c3" id="r_a0d48a3a5d1f7468ae1e48226969f30c3"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = double&gt; </td></tr>
-<tr class="memitem:a0d48a3a5d1f7468ae1e48226969f30c3 template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#acfd896b65a7f56c25b3730a6e8dc80ca">DatasetField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0d48a3a5d1f7468ae1e48226969f30c3">readStartingTime</a> () const</td></tr>
-<tr class="memitem:a5418508f7ed2bddfb901867c66352327" id="r_a5418508f7ed2bddfb901867c66352327"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">IO::BaseRecordingData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5418508f7ed2bddfb901867c66352327">recordStartingTime</a> (bool reset=false)</td></tr>
-<tr class="memitem:a432eacaa5461a2adb7c74b8163109690" id="r_a432eacaa5461a2adb7c74b8163109690"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = float&gt; </td></tr>
-<tr class="memitem:a432eacaa5461a2adb7c74b8163109690 template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AttributeField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a432eacaa5461a2adb7c74b8163109690">readStartingTimeRate</a> () const</td></tr>
-<tr class="memitem:a10c42d7daf3209d828814549062ba43b" id="r_a10c42d7daf3209d828814549062ba43b"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::string&gt; </td></tr>
-<tr class="memitem:a10c42d7daf3209d828814549062ba43b template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AttributeField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a10c42d7daf3209d828814549062ba43b">readStartingTimeUnit</a> () const</td></tr>
-<tr class="memitem:aad84484dbd8b930702c8c8c5408694b1" id="r_aad84484dbd8b930702c8c8c5408694b1"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = double&gt; </td></tr>
-<tr class="memitem:aad84484dbd8b930702c8c8c5408694b1 template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#acfd896b65a7f56c25b3730a6e8dc80ca">DatasetField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aad84484dbd8b930702c8c8c5408694b1">readTimestamps</a> () const</td></tr>
-<tr class="memitem:a15cdc18874a799e4196a58e2c2d51c31" id="r_a15cdc18874a799e4196a58e2c2d51c31"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">IO::BaseRecordingData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a15cdc18874a799e4196a58e2c2d51c31">recordTimestamps</a> (bool reset=false)</td></tr>
-<tr class="memitem:a6bc9efa6381b6761d45493c1b2628e22" id="r_a6bc9efa6381b6761d45493c1b2628e22"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = int&gt; </td></tr>
-<tr class="memitem:a6bc9efa6381b6761d45493c1b2628e22 template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AttributeField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6bc9efa6381b6761d45493c1b2628e22">readTimestampsInterval</a> () const</td></tr>
-<tr class="memitem:adf3f178d207453927ae6ede7a53ac7f7" id="r_adf3f178d207453927ae6ede7a53ac7f7"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::string&gt; </td></tr>
-<tr class="memitem:adf3f178d207453927ae6ede7a53ac7f7 template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AttributeField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adf3f178d207453927ae6ede7a53ac7f7">readTimestampsUnit</a> () const</td></tr>
-<tr class="memitem:a0501cf1664c3ac781453e312aa3342b0" id="r_a0501cf1664c3ac781453e312aa3342b0"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = uint8_t&gt; </td></tr>
-<tr class="memitem:a0501cf1664c3ac781453e312aa3342b0 template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#acfd896b65a7f56c25b3730a6e8dc80ca">DatasetField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0501cf1664c3ac781453e312aa3342b0">readControl</a> () const</td></tr>
-<tr class="memitem:a09ead45365072d1f2dbdfe5d628d1af4" id="r_a09ead45365072d1f2dbdfe5d628d1af4"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">IO::BaseRecordingData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a09ead45365072d1f2dbdfe5d628d1af4">recordControl</a> (bool reset=false)</td></tr>
-<tr class="memitem:a02d6ceb1f87f4a76906f00688708b8e9" id="r_a02d6ceb1f87f4a76906f00688708b8e9"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::string&gt; </td></tr>
-<tr class="memitem:a02d6ceb1f87f4a76906f00688708b8e9 template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#acfd896b65a7f56c25b3730a6e8dc80ca">DatasetField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a02d6ceb1f87f4a76906f00688708b8e9">readControlDescription</a> () const</td></tr>
-<tr class="memitem:a7e7da4174344eee6e143a39fc45cc014" id="r_a7e7da4174344eee6e143a39fc45cc014"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">IO::BaseRecordingData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7e7da4174344eee6e143a39fc45cc014">recordControlDescription</a> (bool reset=false)</td></tr>
+<tr class="memitem:a82f1f4dae2debc649aa537974dc7f7a7" id="r_a82f1f4dae2debc649aa537974dc7f7a7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a82f1f4dae2debc649aa537974dc7f7a7">initialize</a> (const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html">IO::ArrayDataSetConfig</a> &amp;dataConfig, const std::string &amp;unit, const std::string &amp;description=&quot;no description&quot;, const std::string &amp;comments=&quot;no comments&quot;, const float &amp;conversion=1.0f, const float &amp;resolution=-1.0f, const float &amp;offset=0.0f, const <a class="el" href="#ab8143e245b1f62cb147cd9ed97c84e9c">ContinuityType</a> &amp;continuity=<a class="el" href="#ab8143e245b1f62cb147cd9ed97c84e9ca63430566913dbf62230d5f365b3aa1a4">ContinuityType::Undefined</a>, const double &amp;startingTime=-1.0, const float &amp;startingTimeRate=1.0f, const std::vector&lt; std::string &gt; &amp;controlDescription={})</td></tr>
+<tr class="memdesc:a82f1f4dae2debc649aa537974dc7f7a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html" title="General purpose time series.">TimeSeries</a> by creating <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> related attributes and writing the description and comment metadata.  <br /></td></tr>
+<tr class="memitem:ae06186c303282828d9f764f8cc6559ec" id="r_ae06186c303282828d9f764f8cc6559ec"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::string&gt; </td></tr>
+<tr class="memitem:ae06186c303282828d9f764f8cc6559ec template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AQNWB::NWB::AttributeField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae06186c303282828d9f764f8cc6559ec">readDescription</a> () const</td></tr>
+<tr class="memitem:a6b1836b8e50dca20add6f46936c1dab0" id="r_a6b1836b8e50dca20add6f46936c1dab0"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::string&gt; </td></tr>
+<tr class="memitem:a6b1836b8e50dca20add6f46936c1dab0 template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AQNWB::NWB::AttributeField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6b1836b8e50dca20add6f46936c1dab0">readComments</a> () const</td></tr>
+<tr class="memitem:a185cdbb22cb299862e950576a6c9ecab" id="r_a185cdbb22cb299862e950576a6c9ecab"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::any&gt; </td></tr>
+<tr class="memitem:a185cdbb22cb299862e950576a6c9ecab template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#acfd896b65a7f56c25b3730a6e8dc80ca">AQNWB::NWB::DatasetField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a185cdbb22cb299862e950576a6c9ecab">readData</a> () const</td></tr>
+<tr class="memitem:a97d9f3aa32ab004532f45222dcd320e0" id="r_a97d9f3aa32ab004532f45222dcd320e0"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">AQNWB::IO::BaseRecordingData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a97d9f3aa32ab004532f45222dcd320e0">recordData</a> (bool reset=false)</td></tr>
+<tr class="memitem:a32e11a8254db9fad8682fc8d8d118370" id="r_a32e11a8254db9fad8682fc8d8d118370"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = float&gt; </td></tr>
+<tr class="memitem:a32e11a8254db9fad8682fc8d8d118370 template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AQNWB::NWB::AttributeField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a32e11a8254db9fad8682fc8d8d118370">readDataConversion</a> () const</td></tr>
+<tr class="memitem:a64808096931f82dbd378b2c21679ba03" id="r_a64808096931f82dbd378b2c21679ba03"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = float&gt; </td></tr>
+<tr class="memitem:a64808096931f82dbd378b2c21679ba03 template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AQNWB::NWB::AttributeField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a64808096931f82dbd378b2c21679ba03">readDataOffset</a> () const</td></tr>
+<tr class="memitem:a05f88b4ef3d51fd24e79f8f61df60b5c" id="r_a05f88b4ef3d51fd24e79f8f61df60b5c"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = float&gt; </td></tr>
+<tr class="memitem:a05f88b4ef3d51fd24e79f8f61df60b5c template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AQNWB::NWB::AttributeField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a05f88b4ef3d51fd24e79f8f61df60b5c">readDataResolution</a> () const</td></tr>
+<tr class="memitem:aada7da514e40b99b1b7ff897c92f5b2d" id="r_aada7da514e40b99b1b7ff897c92f5b2d"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::string&gt; </td></tr>
+<tr class="memitem:aada7da514e40b99b1b7ff897c92f5b2d template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AQNWB::NWB::AttributeField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aada7da514e40b99b1b7ff897c92f5b2d">readDataUnit</a> () const</td></tr>
+<tr class="memitem:ade7280dcb98b4ce03104a3b9b7ee89d5" id="r_ade7280dcb98b4ce03104a3b9b7ee89d5"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::string&gt; </td></tr>
+<tr class="memitem:ade7280dcb98b4ce03104a3b9b7ee89d5 template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AQNWB::NWB::AttributeField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ade7280dcb98b4ce03104a3b9b7ee89d5">readDataContinuity</a> () const</td></tr>
+<tr class="memitem:a3a85691477ada29012a8cb1a2ab4fb5e" id="r_a3a85691477ada29012a8cb1a2ab4fb5e"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = double&gt; </td></tr>
+<tr class="memitem:a3a85691477ada29012a8cb1a2ab4fb5e template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#acfd896b65a7f56c25b3730a6e8dc80ca">AQNWB::NWB::DatasetField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3a85691477ada29012a8cb1a2ab4fb5e">readStartingTime</a> () const</td></tr>
+<tr class="memitem:abd85c18a23b27019aadf8cac3b34e41e" id="r_abd85c18a23b27019aadf8cac3b34e41e"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">AQNWB::IO::BaseRecordingData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abd85c18a23b27019aadf8cac3b34e41e">recordStartingTime</a> (bool reset=false)</td></tr>
+<tr class="memitem:af32a022bd96207ee5eb2b26ac6ae8d2e" id="r_af32a022bd96207ee5eb2b26ac6ae8d2e"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = float&gt; </td></tr>
+<tr class="memitem:af32a022bd96207ee5eb2b26ac6ae8d2e template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AQNWB::NWB::AttributeField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af32a022bd96207ee5eb2b26ac6ae8d2e">readStartingTimeRate</a> () const</td></tr>
+<tr class="memitem:a055a5a6a5b9bebbd3f517cdb59ebd65a" id="r_a055a5a6a5b9bebbd3f517cdb59ebd65a"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::string&gt; </td></tr>
+<tr class="memitem:a055a5a6a5b9bebbd3f517cdb59ebd65a template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AQNWB::NWB::AttributeField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a055a5a6a5b9bebbd3f517cdb59ebd65a">readStartingTimeUnit</a> () const</td></tr>
+<tr class="memitem:ad6bc67f0ab42e8aeaeeef1b1b51c082d" id="r_ad6bc67f0ab42e8aeaeeef1b1b51c082d"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = double&gt; </td></tr>
+<tr class="memitem:ad6bc67f0ab42e8aeaeeef1b1b51c082d template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#acfd896b65a7f56c25b3730a6e8dc80ca">AQNWB::NWB::DatasetField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad6bc67f0ab42e8aeaeeef1b1b51c082d">readTimestamps</a> () const</td></tr>
+<tr class="memitem:a42a04e2e5af03b642fb3af958115e1ef" id="r_a42a04e2e5af03b642fb3af958115e1ef"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">AQNWB::IO::BaseRecordingData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a42a04e2e5af03b642fb3af958115e1ef">recordTimestamps</a> (bool reset=false)</td></tr>
+<tr class="memitem:ab27f0f2b819123b27cf38ab0b6310fed" id="r_ab27f0f2b819123b27cf38ab0b6310fed"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = int&gt; </td></tr>
+<tr class="memitem:ab27f0f2b819123b27cf38ab0b6310fed template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AQNWB::NWB::AttributeField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab27f0f2b819123b27cf38ab0b6310fed">readTimestampsInterval</a> () const</td></tr>
+<tr class="memitem:a6e74b051a3ea578a41ee33191f1ccf37" id="r_a6e74b051a3ea578a41ee33191f1ccf37"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::string&gt; </td></tr>
+<tr class="memitem:a6e74b051a3ea578a41ee33191f1ccf37 template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AQNWB::NWB::AttributeField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6e74b051a3ea578a41ee33191f1ccf37">readTimestampsUnit</a> () const</td></tr>
+<tr class="memitem:af265a39e34b4fcf8b9db260775c6d73f" id="r_af265a39e34b4fcf8b9db260775c6d73f"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = uint8_t&gt; </td></tr>
+<tr class="memitem:af265a39e34b4fcf8b9db260775c6d73f template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#acfd896b65a7f56c25b3730a6e8dc80ca">AQNWB::NWB::DatasetField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af265a39e34b4fcf8b9db260775c6d73f">readControl</a> () const</td></tr>
+<tr class="memitem:af988570828da57bff222d1ed5e71b5fa" id="r_af988570828da57bff222d1ed5e71b5fa"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">AQNWB::IO::BaseRecordingData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af988570828da57bff222d1ed5e71b5fa">recordControl</a> (bool reset=false)</td></tr>
+<tr class="memitem:a87984ba6f9d5f86a3ba8a8c30e760683" id="r_a87984ba6f9d5f86a3ba8a8c30e760683"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::string&gt; </td></tr>
+<tr class="memitem:a87984ba6f9d5f86a3ba8a8c30e760683 template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#acfd896b65a7f56c25b3730a6e8dc80ca">AQNWB::NWB::DatasetField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a87984ba6f9d5f86a3ba8a8c30e760683">readControlDescription</a> () const</td></tr>
+<tr class="memitem:a5ed12c92d17dbc8d3ba963eb2c515693" id="r_a5ed12c92d17dbc8d3ba963eb2c515693"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">AQNWB::IO::BaseRecordingData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5ed12c92d17dbc8d3ba963eb2c515693">recordControlDescription</a> (bool reset=false)</td></tr>
 <tr class="inherit_header pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Member Functions inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface.html">AQNWB::NWB::NWBDataInterface</a></td></tr>
-<tr class="memitem:ae4bdb41408c2564c06438e0c5aed3531 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface" id="r_ae4bdb41408c2564c06438e0c5aed3531"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface.html#ae4bdb41408c2564c06438e0c5aed3531">NWBDataInterface</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt; io)</td></tr>
-<tr class="memdesc:ae4bdb41408c2564c06438e0c5aed3531 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <br /></td></tr>
 <tr class="memitem:a5ed099481e29aa261ff513bd27f8dc90 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface" id="r_a5ed099481e29aa261ff513bd27f8dc90"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface.html#a5ed099481e29aa261ff513bd27f8dc90">~NWBDataInterface</a> () override</td></tr>
 <tr class="memdesc:a5ed099481e29aa261ff513bd27f8dc90 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor.  <br /></td></tr>
 <tr class="memitem:afdd98d5d90f8936bcc9f11eccd8d11e9 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface" id="r_afdd98d5d90f8936bcc9f11eccd8d11e9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface.html#afdd98d5d90f8936bcc9f11eccd8d11e9">initialize</a> ()</td></tr>
 <tr class="memdesc:afdd98d5d90f8936bcc9f11eccd8d11e9 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the object.  <br /></td></tr>
 <tr class="inherit_header pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Member Functions inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html">AQNWB::NWB::NWBContainer</a></td></tr>
-<tr class="memitem:aadbde40c8c04d80d7b65a26e77f4cc20 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container" id="r_aadbde40c8c04d80d7b65a26e77f4cc20"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html#aadbde40c8c04d80d7b65a26e77f4cc20">NWBContainer</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt; io)</td></tr>
-<tr class="memdesc:aadbde40c8c04d80d7b65a26e77f4cc20 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <br /></td></tr>
 <tr class="memitem:a3da15cf481cf8fbcbaab3970014f8ca4 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container" id="r_a3da15cf481cf8fbcbaab3970014f8ca4"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html#a3da15cf481cf8fbcbaab3970014f8ca4">~NWBContainer</a> () override</td></tr>
 <tr class="memdesc:a3da15cf481cf8fbcbaab3970014f8ca4 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor.  <br /></td></tr>
 <tr class="memitem:a80beeda4c4761fe414407e4cc0d4fe8c inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container" id="r_a80beeda4c4761fe414407e4cc0d4fe8c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html#a80beeda4c4761fe414407e4cc0d4fe8c">initialize</a> ()</td></tr>
 <tr class="memdesc:a80beeda4c4761fe414407e4cc0d4fe8c inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the object.  <br /></td></tr>
 <tr class="inherit_header pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Member Functions inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html">AQNWB::NWB::Container</a></td></tr>
-<tr class="memitem:a0ec16ae5d28267ea37464ffe2c2c34e5 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container" id="r_a0ec16ae5d28267ea37464ffe2c2c34e5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a0ec16ae5d28267ea37464ffe2c2c34e5">Container</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt; io)</td></tr>
-<tr class="memdesc:a0ec16ae5d28267ea37464ffe2c2c34e5 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <br /></td></tr>
 <tr class="memitem:ae9f5d07bfc3defda274aa06091c19f56 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container" id="r_ae9f5d07bfc3defda274aa06091c19f56"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#ae9f5d07bfc3defda274aa06091c19f56">~Container</a> ()</td></tr>
 <tr class="memdesc:ae9f5d07bfc3defda274aa06091c19f56 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <br /></td></tr>
 <tr class="memitem:a420424e52795b5212d7dcb728396af6a inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container" id="r_a420424e52795b5212d7dcb728396af6a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a420424e52795b5212d7dcb728396af6a">initialize</a> ()</td></tr>
 <tr class="memdesc:a420424e52795b5212d7dcb728396af6a inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the container.  <br /></td></tr>
-<tr class="memitem:a88576f27f59a1b56de2adc00b4b43a4c inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container" id="r_a88576f27f59a1b56de2adc00b4b43a4c"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::string&gt; </td></tr>
-<tr class="memitem:a88576f27f59a1b56de2adc00b4b43a4c inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AttributeField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a88576f27f59a1b56de2adc00b4b43a4c">readNeurodataType</a> () const</td></tr>
-<tr class="memitem:ac1f0f847201b6f241a6e304b5131578e inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container" id="r_ac1f0f847201b6f241a6e304b5131578e"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::string&gt; </td></tr>
-<tr class="memitem:ac1f0f847201b6f241a6e304b5131578e inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AttributeField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#ac1f0f847201b6f241a6e304b5131578e">readNamespace</a> () const</td></tr>
+<tr class="memitem:aa4da2624ecbd2b4c29d71e9d54ac6c37 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container" id="r_aa4da2624ecbd2b4c29d71e9d54ac6c37"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::string&gt; </td></tr>
+<tr class="memitem:aa4da2624ecbd2b4c29d71e9d54ac6c37 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AQNWB::NWB::AttributeField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#aa4da2624ecbd2b4c29d71e9d54ac6c37">readNeurodataType</a> () const</td></tr>
+<tr class="memitem:a53025c104d763d4eedea7bbda30b23b3 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container" id="r_a53025c104d763d4eedea7bbda30b23b3"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::string&gt; </td></tr>
+<tr class="memitem:a53025c104d763d4eedea7bbda30b23b3 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AQNWB::NWB::AttributeField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a53025c104d763d4eedea7bbda30b23b3">readNamespace</a> () const</td></tr>
 <tr class="inherit_header pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Member Functions inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">AQNWB::NWB::RegisteredType</a></td></tr>
-<tr class="memitem:aa1e04074725b7331d725bbda8156bc2d inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_aa1e04074725b7331d725bbda8156bc2d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aa1e04074725b7331d725bbda8156bc2d">RegisteredType</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt; io)</td></tr>
-<tr class="memdesc:aa1e04074725b7331d725bbda8156bc2d inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <br /></td></tr>
 <tr class="memitem:ab92081cf30cab76ac6e35125300f77a4 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_ab92081cf30cab76ac6e35125300f77a4"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab92081cf30cab76ac6e35125300f77a4">~RegisteredType</a> ()</td></tr>
 <tr class="memdesc:ab92081cf30cab76ac6e35125300f77a4 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <br /></td></tr>
 <tr class="memitem:ab3eec5d2a591356df25053a4159ab671 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_ab3eec5d2a591356df25053a4159ab671"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab3eec5d2a591356df25053a4159ab671">getPath</a> () const</td></tr>
@@ -215,14 +209,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a9fa62ba79d610ba55aacec4dce012ccf inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the object.  <br /></td></tr>
 <tr class="memitem:ab614b1609f536e88ed1f32762dc3894b inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_ab614b1609f536e88ed1f32762dc3894b"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab614b1609f536e88ed1f32762dc3894b">getIO</a> () const</td></tr>
 <tr class="memdesc:ab614b1609f536e88ed1f32762dc3894b inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a shared pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html" title="The namespace for IO components of AqNWB.">IO</a> object.  <br /></td></tr>
-<tr class="memitem:a35d9c02ee1c08009547fc59b2e947929 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a35d9c02ee1c08009547fc59b2e947929"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a35d9c02ee1c08009547fc59b2e947929">clearRecordingDataCache</a> ()</td></tr>
-<tr class="memdesc:a35d9c02ee1c08009547fc59b2e947929 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear the BaseRecordingData object cache to reset the recording state.  <br /></td></tr>
+<tr class="memitem:ac277f0e6485c7c8050a76324eb994223 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_ac277f0e6485c7c8050a76324eb994223"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ac277f0e6485c7c8050a76324eb994223">getRecordingObjectIndex</a> () const</td></tr>
+<tr class="memdesc:ac277f0e6485c7c8050a76324eb994223 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the index of this object in m_io-&gt;m_recording_objects.  <br /></td></tr>
+<tr class="memitem:ae66a9bc325b1ddb2c6a5f537feb8591a inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_ae66a9bc325b1ddb2c6a5f537feb8591a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ae66a9bc325b1ddb2c6a5f537feb8591a">isRegisteredRecordingObject</a> () const</td></tr>
+<tr class="memdesc:ae66a9bc325b1ddb2c6a5f537feb8591a inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if this <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> object is registered in the RecordingObjects manager object of the I/O.  <br /></td></tr>
+<tr class="memitem:a9114e761cf006ec16c3733b9f8915f9d inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a9114e761cf006ec16c3733b9f8915f9d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a9114e761cf006ec16c3733b9f8915f9d">registerRecordingObject</a> ()</td></tr>
+<tr class="memdesc:a9114e761cf006ec16c3733b9f8915f9d inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register this <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> object with the RecordingObjects manager object of the I/O.  <br /></td></tr>
+<tr class="memitem:aafbac618f2867992dbe8c2f35a072bae inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_aafbac618f2867992dbe8c2f35a072bae"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">AQNWB::Types::Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aafbac618f2867992dbe8c2f35a072bae">finalize</a> ()</td></tr>
+<tr class="memdesc:aafbac618f2867992dbe8c2f35a072bae inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finalize the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> object.  <br /></td></tr>
 <tr class="memitem:ad3753ec40e8c6b6fafa59ca80433e978 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_ad3753ec40e8c6b6fafa59ca80433e978"><td class="memItemLeft" align="right" valign="top">const std::unordered_map&lt; std::string, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">IO::BaseRecordingData</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ad3753ec40e8c6b6fafa59ca80433e978">getCacheRecordingData</a> () const</td></tr>
 <tr class="memdesc:ad3753ec40e8c6b6fafa59ca80433e978 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the cache of BaseRecordingData objects.  <br /></td></tr>
-<tr class="memitem:a150f881ad61cb8352eea7ddba47bc6ad inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a150f881ad61cb8352eea7ddba47bc6ad"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a150f881ad61cb8352eea7ddba47bc6ad">getTypeName</a> () const</td></tr>
-<tr class="memdesc:a150f881ad61cb8352eea7ddba47bc6ad inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the class type.  <br /></td></tr>
-<tr class="memitem:a651f3d7e5cc28dc93888e8a821c5aa1c inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a651f3d7e5cc28dc93888e8a821c5aa1c"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a651f3d7e5cc28dc93888e8a821c5aa1c">getNamespace</a> () const</td></tr>
-<tr class="memdesc:a651f3d7e5cc28dc93888e8a821c5aa1c inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the schema namespace of the class type.  <br /></td></tr>
+<tr class="memitem:ab63d3505ee5b5f1c949cb042c7f2deeb inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_ab63d3505ee5b5f1c949cb042c7f2deeb"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab63d3505ee5b5f1c949cb042c7f2deeb">clearRecordingDataCache</a> ()</td></tr>
+<tr class="memdesc:ab63d3505ee5b5f1c949cb042c7f2deeb inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear the BaseRecordingData object cache to reset the recording state.  <br /></td></tr>
 <tr class="memitem:a0e670647b466cb65a88b81f9fe4a6e37 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a0e670647b466cb65a88b81f9fe4a6e37"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a0e670647b466cb65a88b81f9fe4a6e37">getFullTypeName</a> () const</td></tr>
 <tr class="memdesc:a0e670647b466cb65a88b81f9fe4a6e37 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the full name of the type, i.e., <span class="tt">namespace::typename</span>.  <br /></td></tr>
 <tr class="memitem:adc5ba3d9e27c74f8181944e505bba6e5 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_adc5ba3d9e27c74f8181944e505bba6e5"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915">StorageObjectType</a> SOT, typename VTYPE, typename std::enable_if&lt; <a class="el" href="struct_a_q_n_w_b_1_1_types_1_1_is_data_storage_object_type.html">Types::IsDataStorageObjectType</a>&lt; SOT &gt;::value, int &gt;::type = 0&gt; </td></tr>
@@ -230,6 +228,28 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:adc5ba3d9e27c74f8181944e505bba6e5 inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Support reading of arbitrary fields by their relative path.  <br /></td></tr>
 <tr class="memitem:a8a83a775f6a8a94d6ae3428e05ef9bfc inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a8a83a775f6a8a94d6ae3428e05ef9bfc"><td class="memItemLeft" align="right" valign="top">virtual std::unordered_map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a8a83a775f6a8a94d6ae3428e05ef9bfc">findOwnedTypes</a> (const std::unordered_set&lt; std::string &gt; &amp;types={}, const <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035">AQNWB::IO::SearchMode</a> &amp;search_mode=<a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035a0bce90db02919671dbe161b9bd8cef05">AQNWB::IO::SearchMode::STOP_ON_TYPE</a>) const</td></tr>
 <tr class="memdesc:a8a83a775f6a8a94d6ae3428e05ef9bfc inherit pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a field that is itself a <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a>.  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:aa6524a59a8162352e8117f5382186ce4" id="r_aa6524a59a8162352e8117f5382186ce4"><td class="memItemLeft" align="right" valign="top">static std::shared_ptr&lt; <a class="el" href="#a523738fd2da4b70707e4ee6844cdce02">TimeSeries</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa6524a59a8162352e8117f5382186ce4">create</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt; io)</td></tr>
+<tr class="inherit_header pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Static Public Member Functions inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface.html">AQNWB::NWB::NWBDataInterface</a></td></tr>
+<tr class="memitem:a16475477331e44a31a69e17eb6dcd383 inherit pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface" id="r_a16475477331e44a31a69e17eb6dcd383"><td class="memItemLeft" align="right" valign="top">static std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface.html#ae4bdb41408c2564c06438e0c5aed3531">NWBDataInterface</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface.html#a16475477331e44a31a69e17eb6dcd383">create</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt; io)</td></tr>
+<tr class="inherit_header pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Static Public Member Functions inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html">AQNWB::NWB::NWBContainer</a></td></tr>
+<tr class="memitem:a0c82d89ad96ec1324f307ac9b5474731 inherit pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container" id="r_a0c82d89ad96ec1324f307ac9b5474731"><td class="memItemLeft" align="right" valign="top">static std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html#aadbde40c8c04d80d7b65a26e77f4cc20">NWBContainer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html#a0c82d89ad96ec1324f307ac9b5474731">create</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt; io)</td></tr>
+<tr class="inherit_header pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Static Public Member Functions inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html">AQNWB::NWB::Container</a></td></tr>
+<tr class="memitem:af536df3741945cf7d8f43163d20fcff2 inherit pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container" id="r_af536df3741945cf7d8f43163d20fcff2"><td class="memItemLeft" align="right" valign="top">static std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a0ec16ae5d28267ea37464ffe2c2c34e5">Container</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#af536df3741945cf7d8f43163d20fcff2">create</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt; io)</td></tr>
+<tr class="inherit_header pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Static Public Member Functions inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">AQNWB::NWB::RegisteredType</a></td></tr>
+<tr class="memitem:ab7e3361637885fe601cc20cb342bf01c inherit pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_ab7e3361637885fe601cc20cb342bf01c"><td class="memItemLeft" align="right" valign="top">static std::unordered_set&lt; std::string &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab7e3361637885fe601cc20cb342bf01c">getRegistry</a> ()</td></tr>
+<tr class="memdesc:ab7e3361637885fe601cc20cb342bf01c inherit pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the registry of subclass names.  <br /></td></tr>
+<tr class="memitem:ac83aa589b9c3ab5a00bab462e58fdbd5 inherit pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_ac83aa589b9c3ab5a00bab462e58fdbd5"><td class="memItemLeft" align="right" valign="top">static std::unordered_map&lt; std::string, std::pair&lt; std::function&lt; std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aa1e04074725b7331d725bbda8156bc2d">RegisteredType</a> &gt;(const std::string &amp;, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt;)&gt;, std::pair&lt; std::string, std::string &gt; &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ac83aa589b9c3ab5a00bab462e58fdbd5">getFactoryMap</a> ()</td></tr>
+<tr class="memdesc:ac83aa589b9c3ab5a00bab462e58fdbd5 inherit pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the factory map for creating instances of subclasses.  <br /></td></tr>
+<tr class="memitem:a6f7d3d6d30763215c823452176ed876a inherit pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a6f7d3d6d30763215c823452176ed876a"><td class="memItemLeft" align="right" valign="top">static std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aa1e04074725b7331d725bbda8156bc2d">RegisteredType</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a">create</a> (const std::string &amp;fullClassName, const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt; io, bool fallbackToBase=false)</td></tr>
+<tr class="memdesc:a6f7d3d6d30763215c823452176ed876a inherit pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an instance of a registered subclass by name.  <br /></td></tr>
+<tr class="memitem:a13dd3c9a0045cb3729ba9cf56e4a2fa7 inherit pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a13dd3c9a0045cb3729ba9cf56e4a2fa7"><td class="memItemLeft" align="right" valign="top">static std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">AQNWB::NWB::RegisteredType</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a13dd3c9a0045cb3729ba9cf56e4a2fa7">create</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt; io, bool fallbackToBase=false)</td></tr>
+<tr class="memdesc:a13dd3c9a0045cb3729ba9cf56e4a2fa7 inherit pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method to create an instance of a subclass of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> from file.  <br /></td></tr>
+<tr class="memitem:a2291ceaa71c1b02ed86a3d4626a7ac48 inherit pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a2291ceaa71c1b02ed86a3d4626a7ac48"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a2291ceaa71c1b02ed86a3d4626a7ac48 inherit pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type template"><td class="memItemLeft" align="right" valign="top">static std::shared_ptr&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a2291ceaa71c1b02ed86a3d4626a7ac48">create</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt; io)</td></tr>
+<tr class="memdesc:a2291ceaa71c1b02ed86a3d4626a7ac48 inherit pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method to create an instance of a subclass of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> by type.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -242,8 +262,32 @@ Public Attributes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-attribs" class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
+<tr class="memitem:a4b1ac78825037b26729cc0366ecf7cf4" id="r_a4b1ac78825037b26729cc0366ecf7cf4"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4b1ac78825037b26729cc0366ecf7cf4">registered_</a> = <a class="el" href="#a523738fd2da4b70707e4ee6844cdce02">TimeSeries</a> <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab20cf389f4f512056d7755ec23d6d0a9">::registerSubclass</a>()</td></tr>
 <tr class="memitem:a0a25feb8ee6be44406d2c05cfccb80b2" id="r_a0a25feb8ee6be44406d2c05cfccb80b2"><td class="memItemLeft" align="right" valign="top">static std::map&lt; <a class="el" href="#ab8143e245b1f62cb147cd9ed97c84e9c">ContinuityType</a>, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0a25feb8ee6be44406d2c05cfccb80b2">ContinuityTypeNames</a></td></tr>
 <tr class="memdesc:a0a25feb8ee6be44406d2c05cfccb80b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">String names corresponding to the <a class="el" href="#ab8143e245b1f62cb147cd9ed97c84e9c">ContinuityType</a> enum.  <br /></td></tr>
+<tr class="inherit_header pub_static_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_static_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Static Public Attributes inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface.html">AQNWB::NWB::NWBDataInterface</a></td></tr>
+<tr class="memitem:a03b37ac3b187b90cfd8887deac667cad inherit pub_static_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface" id="r_a03b37ac3b187b90cfd8887deac667cad"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface.html#a03b37ac3b187b90cfd8887deac667cad">registered_</a> = <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface.html#ae4bdb41408c2564c06438e0c5aed3531">NWBDataInterface</a> <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab20cf389f4f512056d7755ec23d6d0a9">::registerSubclass</a>()</td></tr>
+<tr class="inherit_header pub_static_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_static_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Static Public Attributes inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html">AQNWB::NWB::NWBContainer</a></td></tr>
+<tr class="memitem:a08adfee0980100be672dec8d1fb17139 inherit pub_static_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container" id="r_a08adfee0980100be672dec8d1fb17139"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html#a08adfee0980100be672dec8d1fb17139">registered_</a> = <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html#aadbde40c8c04d80d7b65a26e77f4cc20">NWBContainer</a> <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab20cf389f4f512056d7755ec23d6d0a9">::registerSubclass</a>()</td></tr>
+<tr class="inherit_header pub_static_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_container"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_static_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_container')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Static Public Attributes inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html">AQNWB::NWB::Container</a></td></tr>
+<tr class="memitem:a0686146001738d10bafb97bccdab6f32 inherit pub_static_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_container" id="r_a0686146001738d10bafb97bccdab6f32"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a0686146001738d10bafb97bccdab6f32">registered_</a> = <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a0ec16ae5d28267ea37464ffe2c2c34e5">Container</a> <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab20cf389f4f512056d7755ec23d6d0a9">::registerSubclass</a>()</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pro-methods" class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a523738fd2da4b70707e4ee6844cdce02" id="r_a523738fd2da4b70707e4ee6844cdce02"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a523738fd2da4b70707e4ee6844cdce02">TimeSeries</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt; io)</td></tr>
+<tr class="memdesc:a523738fd2da4b70707e4ee6844cdce02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <br /></td></tr>
+<tr class="inherit_header pro_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Protected Member Functions inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface.html">AQNWB::NWB::NWBDataInterface</a></td></tr>
+<tr class="memitem:ae4bdb41408c2564c06438e0c5aed3531 inherit pro_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface" id="r_ae4bdb41408c2564c06438e0c5aed3531"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface.html#ae4bdb41408c2564c06438e0c5aed3531">NWBDataInterface</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt; io)</td></tr>
+<tr class="memdesc:ae4bdb41408c2564c06438e0c5aed3531 inherit pro_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <br /></td></tr>
+<tr class="inherit_header pro_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Protected Member Functions inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html">AQNWB::NWB::NWBContainer</a></td></tr>
+<tr class="memitem:aadbde40c8c04d80d7b65a26e77f4cc20 inherit pro_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container" id="r_aadbde40c8c04d80d7b65a26e77f4cc20"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html#aadbde40c8c04d80d7b65a26e77f4cc20">NWBContainer</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt; io)</td></tr>
+<tr class="memdesc:aadbde40c8c04d80d7b65a26e77f4cc20 inherit pro_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <br /></td></tr>
+<tr class="inherit_header pro_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Protected Member Functions inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html">AQNWB::NWB::Container</a></td></tr>
+<tr class="memitem:a0ec16ae5d28267ea37464ffe2c2c34e5 inherit pro_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container" id="r_a0ec16ae5d28267ea37464ffe2c2c34e5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a0ec16ae5d28267ea37464ffe2c2c34e5">Container</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt; io)</td></tr>
+<tr class="memdesc:a0ec16ae5d28267ea37464ffe2c2c34e5 inherit pro_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <br /></td></tr>
+<tr class="inherit_header pro_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Protected Member Functions inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">AQNWB::NWB::RegisteredType</a></td></tr>
+<tr class="memitem:aa1e04074725b7331d725bbda8156bc2d inherit pro_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_aa1e04074725b7331d725bbda8156bc2d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aa1e04074725b7331d725bbda8156bc2d">RegisteredType</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt; io)</td></tr>
+<tr class="memdesc:aa1e04074725b7331d725bbda8156bc2d inherit pro_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -254,26 +298,14 @@ Private Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-inherited" class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Static Public Member Functions inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">AQNWB::NWB::RegisteredType</a></td></tr>
-<tr class="memitem:ab7e3361637885fe601cc20cb342bf01c inherit pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_ab7e3361637885fe601cc20cb342bf01c"><td class="memItemLeft" align="right" valign="top">static std::unordered_set&lt; std::string &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab7e3361637885fe601cc20cb342bf01c">getRegistry</a> ()</td></tr>
-<tr class="memdesc:ab7e3361637885fe601cc20cb342bf01c inherit pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the registry of subclass names.  <br /></td></tr>
-<tr class="memitem:a8792fccbd49f9d441b1f6d5a1b06b4cf inherit pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a8792fccbd49f9d441b1f6d5a1b06b4cf"><td class="memItemLeft" align="right" valign="top">static std::unordered_map&lt; std::string, std::pair&lt; std::function&lt; std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aa1e04074725b7331d725bbda8156bc2d">RegisteredType</a> &gt;(const std::string &amp;, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt;)&gt;, std::pair&lt; std::string, std::string &gt; &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a8792fccbd49f9d441b1f6d5a1b06b4cf">getFactoryMap</a> ()</td></tr>
-<tr class="memdesc:a8792fccbd49f9d441b1f6d5a1b06b4cf inherit pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the factory map for creating instances of subclasses.  <br /></td></tr>
-<tr class="memitem:a6f7d3d6d30763215c823452176ed876a inherit pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a6f7d3d6d30763215c823452176ed876a"><td class="memItemLeft" align="right" valign="top">static std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aa1e04074725b7331d725bbda8156bc2d">RegisteredType</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a">create</a> (const std::string &amp;fullClassName, const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt; io, bool fallbackToBase=false)</td></tr>
-<tr class="memdesc:a6f7d3d6d30763215c823452176ed876a inherit pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an instance of a registered subclass by name.  <br /></td></tr>
-<tr class="memitem:a13dd3c9a0045cb3729ba9cf56e4a2fa7 inherit pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a13dd3c9a0045cb3729ba9cf56e4a2fa7"><td class="memItemLeft" align="right" valign="top">static std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">AQNWB::NWB::RegisteredType</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a13dd3c9a0045cb3729ba9cf56e4a2fa7">create</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt; io, bool fallbackToBase=false)</td></tr>
-<tr class="memdesc:a13dd3c9a0045cb3729ba9cf56e4a2fa7 inherit pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method to create an instance of a subclass of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> from file.  <br /></td></tr>
-<tr class="memitem:a2291ceaa71c1b02ed86a3d4626a7ac48 inherit pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a2291ceaa71c1b02ed86a3d4626a7ac48"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
-<tr class="memitem:a2291ceaa71c1b02ed86a3d4626a7ac48 inherit pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type template"><td class="memItemLeft" align="right" valign="top">static std::shared_ptr&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a2291ceaa71c1b02ed86a3d4626a7ac48">create</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt; io)</td></tr>
-<tr class="memdesc:a2291ceaa71c1b02ed86a3d4626a7ac48 inherit pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method to create an instance of a subclass of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> by type.  <br /></td></tr>
 <tr class="inherit_header pro_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Static Protected Member Functions inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">AQNWB::NWB::RegisteredType</a></td></tr>
-<tr class="memitem:a68bea5945732c62a4a93ab9af5abbafb inherit pro_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a68bea5945732c62a4a93ab9af5abbafb"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a68bea5945732c62a4a93ab9af5abbafb">registerSubclass</a> (const std::string &amp;fullClassName, std::function&lt; std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aa1e04074725b7331d725bbda8156bc2d">RegisteredType</a> &gt;(const std::string &amp;, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt;)&gt; factoryFunction, const std::string &amp;typeName, const std::string &amp;typeNamespace)</td></tr>
-<tr class="memdesc:a68bea5945732c62a4a93ab9af5abbafb inherit pro_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a subclass name and its factory function in the registry.  <br /></td></tr>
+<tr class="memitem:ab20cf389f4f512056d7755ec23d6d0a9 inherit pro_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_ab20cf389f4f512056d7755ec23d6d0a9"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab20cf389f4f512056d7755ec23d6d0a9">registerSubclass</a> (const std::string &amp;fullClassName, std::function&lt; std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aa1e04074725b7331d725bbda8156bc2d">RegisteredType</a> &gt;(const std::string &amp;, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt;)&gt; factoryFunction, const std::string &amp;typeName, const std::string &amp;typeNamespace)</td></tr>
+<tr class="memdesc:ab20cf389f4f512056d7755ec23d6d0a9 inherit pro_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a subclass name and its factory function in the registry.  <br /></td></tr>
 <tr class="inherit_header pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Protected Attributes inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">AQNWB::NWB::RegisteredType</a></td></tr>
 <tr class="memitem:a2c2954495607eb4afe4e9ab8eff3a08b inherit pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a2c2954495607eb4afe4e9ab8eff3a08b"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a2c2954495607eb4afe4e9ab8eff3a08b">m_path</a></td></tr>
 <tr class="memdesc:a2c2954495607eb4afe4e9ab8eff3a08b inherit pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">The path of the registered type.  <br /></td></tr>
-<tr class="memitem:a5f4d142b8156b6b33ed01c11c5720fec inherit pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a5f4d142b8156b6b33ed01c11c5720fec"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a5f4d142b8156b6b33ed01c11c5720fec">m_io</a></td></tr>
-<tr class="memdesc:a5f4d142b8156b6b33ed01c11c5720fec inherit pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">A shared pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html" title="The namespace for IO components of AqNWB.">IO</a> object.  <br /></td></tr>
+<tr class="memitem:a73f9bb35022892941b8b46a1669605da inherit pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a73f9bb35022892941b8b46a1669605da"><td class="memItemLeft" align="right" valign="top">std::weak_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a73f9bb35022892941b8b46a1669605da">m_io</a></td></tr>
+<tr class="memdesc:a73f9bb35022892941b8b46a1669605da inherit pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">A weak pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html" title="The namespace for IO components of AqNWB.">IO</a> object.  <br /></td></tr>
 <tr class="memitem:a549f4d2169ae451bda8d959c9a11dbc3 inherit pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a549f4d2169ae451bda8d959c9a11dbc3"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">IO::BaseRecordingData</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a549f4d2169ae451bda8d959c9a11dbc3">m_recordingDataCache</a></td></tr>
 <tr class="memdesc:a549f4d2169ae451bda8d959c9a11dbc3 inherit pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cache for BaseRecordingData objects for datasets to retain recording state.  <br /></td></tr>
 <tr class="inherit_header pro_static_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_static_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Static Protected Attributes inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">AQNWB::NWB::RegisteredType</a></td></tr>
@@ -311,47 +343,6 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a523738fd2da4b70707e4ee6844cdce02" name="a523738fd2da4b70707e4ee6844cdce02"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a523738fd2da4b70707e4ee6844cdce02">&#9670;&#160;</a></span>TimeSeries()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">TimeSeries::TimeSeries </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>io</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Constructor. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">path</td><td>The location of the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html" title="General purpose time series.">TimeSeries</a> in the file. </td></tr>
-    <tr><td class="paramname">io</td><td>A shared pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html" title="The namespace for IO components of AqNWB.">IO</a> object.</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>Constructor </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a523738fd2da4b70707e4ee6844cdce02_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a523738fd2da4b70707e4ee6844cdce02_icgraph.svg" width="100%" height="473"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
-
-</div>
-</div>
 <a id="a1e596cea2d047ec61f89158f1dc85276" name="a1e596cea2d047ec61f89158f1dc85276"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1e596cea2d047ec61f89158f1dc85276">&#9670;&#160;</a></span>~TimeSeries()</h2>
 
@@ -372,7 +363,85 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="a523738fd2da4b70707e4ee6844cdce02" name="a523738fd2da4b70707e4ee6844cdce02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a523738fd2da4b70707e4ee6844cdce02">&#9670;&#160;</a></span>TimeSeries()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">TimeSeries::TimeSeries </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>io</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The location of the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html" title="General purpose time series.">TimeSeries</a> in the file. </td></tr>
+    <tr><td class="paramname">io</td><td>A shared pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html" title="The namespace for IO components of AqNWB.">IO</a> object.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Constructor </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a523738fd2da4b70707e4ee6844cdce02_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a523738fd2da4b70707e4ee6844cdce02_icgraph.svg" width="100%" height="522"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="aa6524a59a8162352e8117f5382186ce4" name="aa6524a59a8162352e8117f5382186ce4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6524a59a8162352e8117f5382186ce4">&#9670;&#160;</a></span>create()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="#a523738fd2da4b70707e4ee6844cdce02">TimeSeries</a> &gt; AQNWB::NWB::TimeSeries::create </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>io</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ad02a2c3803891f352dd2496b9ff1887b" name="ad02a2c3803891f352dd2496b9ff1887b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad02a2c3803891f352dd2496b9ff1887b">&#9670;&#160;</a></span>createDataAttributes()</h2>
 
@@ -436,7 +505,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_ad02a2c3803891f352dd2496b9ff1887b_cgraph.svg" width="396" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_ad02a2c3803891f352dd2496b9ff1887b_cgraph.svg" width="456" height="102"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -478,6 +547,11 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The status of the operation. </dd></dl>
 <div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a682200d497af6051d0ef9189509084dd_cgraph.svg" width="464" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a682200d497af6051d0ef9189509084dd_icgraph.svg" width="100%" height="388"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
@@ -485,14 +559,80 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a5758bc49963971c9bc8fa2e7287fcd81" name="a5758bc49963971c9bc8fa2e7287fcd81"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5758bc49963971c9bc8fa2e7287fcd81">&#9670;&#160;</a></span>initialize()</h2>
+<a id="a939a4213950507861a18207b460d72ad" name="a939a4213950507861a18207b460d72ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a939a4213950507861a18207b460d72ad">&#9670;&#160;</a></span>getNamespace()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::string AQNWB::NWB::TimeSeries::getNamespace </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the schema namespace of the class type. </p>
+<p>This is the namespace of the neurodata_type in the format schema and NOT the namespace of the class in C++. The REGISTER_SUBCLASS macro defines an automatic override for this function to return the namespace as defined when the class was registered.</p>
+<dl class="section return"><dt>Returns</dt><dd>The namespace of the type as a string. </dd></dl>
+
+<p>Reimplemented from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface.html#a6fdcd6e22958c158470aed44495ee779">AQNWB::NWB::NWBDataInterface</a>.</p>
+
+<p>Reimplemented in <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html#a098c3c29e8df100c88029d9b9f5c88e9">AQNWB::NWB::AnnotationSeries</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#ae01cb16c642e895a4de05e64debd8dc7">AQNWB::NWB::ElectricalSeries</a>, and <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#af5db02bc128a66c17702fa5c2ae5eaa5">AQNWB::NWB::SpikeEventSeries</a>.</p>
+
+</div>
+</div>
+<a id="aceff608228b87017b836a4a97f5b470d" name="aceff608228b87017b836a4a97f5b470d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aceff608228b87017b836a4a97f5b470d">&#9670;&#160;</a></span>getTypeName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::string AQNWB::NWB::TimeSeries::getTypeName </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the name of the class type. </p>
+<p>The REGISTER_SUBCLASS macro defines an automatic override for this function to return the unmangled name of the class. The name of the class must be the same as the neurodata_type that it implements.</p>
+<dl class="section return"><dt>Returns</dt><dd>The name of the type as a string </dd></dl>
+
+<p>Reimplemented from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface.html#a5e7c44e6c2e60f4da2154c31a40ce861">AQNWB::NWB::NWBDataInterface</a>.</p>
+
+<p>Reimplemented in <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html#a1a1d20183ab9f430020d88e003f07ae4">AQNWB::NWB::AnnotationSeries</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a8b63df4e42d0e98a9ed1e77a51dce8ff">AQNWB::NWB::ElectricalSeries</a>, and <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#a9166033a4ff6e69f79ca64adbe591ae4">AQNWB::NWB::SpikeEventSeries</a>.</p>
+
+</div>
+</div>
+<a id="a82f1f4dae2debc649aa537974dc7f7a7" name="a82f1f4dae2debc649aa537974dc7f7a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82f1f4dae2debc649aa537974dc7f7a7">&#9670;&#160;</a></span>initialize()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void TimeSeries::initialize </td>
+          <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> TimeSeries::initialize </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html">IO::ArrayDataSetConfig</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>dataConfig</em></span>, </td>
         </tr>
@@ -566,16 +706,17 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>Status::Success if successful, otherwise Status::Failure. </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a5758bc49963971c9bc8fa2e7287fcd81_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a82f1f4dae2debc649aa537974dc7f7a7_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="ab2eeb7e016b23097674627251e5e5ac7" name="ab2eeb7e016b23097674627251e5e5ac7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab2eeb7e016b23097674627251e5e5ac7">&#9670;&#160;</a></span>readComments()</h2>
+<a id="a6b1836b8e50dca20add6f46936c1dab0" name="a6b1836b8e50dca20add6f46936c1dab0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b1836b8e50dca20add6f46936c1dab0">&#9670;&#160;</a></span>readComments()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -586,7 +727,7 @@ template&lt;typename VTYPE = std::string&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AttributeField</a>, VTYPE &gt; &gt; AQNWB::NWB::TimeSeries::readComments </td>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AQNWB::NWB::AttributeField</a>, VTYPE &gt; &gt; AQNWB::NWB::TimeSeries::readComments </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -602,18 +743,18 @@ template&lt;typename VTYPE = std::string&gt; </div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_ab2eeb7e016b23097674627251e5e5ac7_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a6b1836b8e50dca20add6f46936c1dab0_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_ab2eeb7e016b23097674627251e5e5ac7_icgraph.svg" width="432" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a6b1836b8e50dca20add6f46936c1dab0_icgraph.svg" width="432" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="a0501cf1664c3ac781453e312aa3342b0" name="a0501cf1664c3ac781453e312aa3342b0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0501cf1664c3ac781453e312aa3342b0">&#9670;&#160;</a></span>readControl()</h2>
+<a id="af265a39e34b4fcf8b9db260775c6d73f" name="af265a39e34b4fcf8b9db260775c6d73f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af265a39e34b4fcf8b9db260775c6d73f">&#9670;&#160;</a></span>readControl()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -624,7 +765,7 @@ template&lt;typename VTYPE = uint8_t&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#acfd896b65a7f56c25b3730a6e8dc80ca">DatasetField</a>, VTYPE &gt; &gt; AQNWB::NWB::TimeSeries::readControl </td>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#acfd896b65a7f56c25b3730a6e8dc80ca">AQNWB::NWB::DatasetField</a>, VTYPE &gt; &gt; AQNWB::NWB::TimeSeries::readControl </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -640,18 +781,18 @@ template&lt;typename VTYPE = uint8_t&gt; </div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a0501cf1664c3ac781453e312aa3342b0_cgraph.svg" width="100%" height="412"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_af265a39e34b4fcf8b9db260775c6d73f_cgraph.svg" width="100%" height="447"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a0501cf1664c3ac781453e312aa3342b0_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_af265a39e34b4fcf8b9db260775c6d73f_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="a02d6ceb1f87f4a76906f00688708b8e9" name="a02d6ceb1f87f4a76906f00688708b8e9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a02d6ceb1f87f4a76906f00688708b8e9">&#9670;&#160;</a></span>readControlDescription()</h2>
+<a id="a87984ba6f9d5f86a3ba8a8c30e760683" name="a87984ba6f9d5f86a3ba8a8c30e760683"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87984ba6f9d5f86a3ba8a8c30e760683">&#9670;&#160;</a></span>readControlDescription()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -662,7 +803,7 @@ template&lt;typename VTYPE = std::string&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#acfd896b65a7f56c25b3730a6e8dc80ca">DatasetField</a>, VTYPE &gt; &gt; AQNWB::NWB::TimeSeries::readControlDescription </td>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#acfd896b65a7f56c25b3730a6e8dc80ca">AQNWB::NWB::DatasetField</a>, VTYPE &gt; &gt; AQNWB::NWB::TimeSeries::readControlDescription </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -678,18 +819,18 @@ template&lt;typename VTYPE = std::string&gt; </div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a02d6ceb1f87f4a76906f00688708b8e9_cgraph.svg" width="638" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a87984ba6f9d5f86a3ba8a8c30e760683_cgraph.svg" width="100%" height="447"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a02d6ceb1f87f4a76906f00688708b8e9_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a87984ba6f9d5f86a3ba8a8c30e760683_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="a8a43d4c249f6865ee4f77c58a91b6546" name="a8a43d4c249f6865ee4f77c58a91b6546"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8a43d4c249f6865ee4f77c58a91b6546">&#9670;&#160;</a></span>readData()</h2>
+<a id="a185cdbb22cb299862e950576a6c9ecab" name="a185cdbb22cb299862e950576a6c9ecab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a185cdbb22cb299862e950576a6c9ecab">&#9670;&#160;</a></span>readData()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -700,7 +841,7 @@ template&lt;typename VTYPE = std::any&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#acfd896b65a7f56c25b3730a6e8dc80ca">DatasetField</a>, VTYPE &gt; &gt; AQNWB::NWB::TimeSeries::readData </td>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#acfd896b65a7f56c25b3730a6e8dc80ca">AQNWB::NWB::DatasetField</a>, VTYPE &gt; &gt; AQNWB::NWB::TimeSeries::readData </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -716,18 +857,18 @@ template&lt;typename VTYPE = std::any&gt; </div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a8a43d4c249f6865ee4f77c58a91b6546_cgraph.svg" width="100%" height="511"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a185cdbb22cb299862e950576a6c9ecab_cgraph.svg" width="100%" height="512"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a8a43d4c249f6865ee4f77c58a91b6546_icgraph.svg" width="198" height="76"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a185cdbb22cb299862e950576a6c9ecab_icgraph.svg" width="198" height="76"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="a7b9e5f855ab7ae45e6b9d66e8c21cacb" name="a7b9e5f855ab7ae45e6b9d66e8c21cacb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7b9e5f855ab7ae45e6b9d66e8c21cacb">&#9670;&#160;</a></span>readDataContinuity()</h2>
+<a id="ade7280dcb98b4ce03104a3b9b7ee89d5" name="ade7280dcb98b4ce03104a3b9b7ee89d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade7280dcb98b4ce03104a3b9b7ee89d5">&#9670;&#160;</a></span>readDataContinuity()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -738,7 +879,7 @@ template&lt;typename VTYPE = std::string&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AttributeField</a>, VTYPE &gt; &gt; AQNWB::NWB::TimeSeries::readDataContinuity </td>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AQNWB::NWB::AttributeField</a>, VTYPE &gt; &gt; AQNWB::NWB::TimeSeries::readDataContinuity </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -754,18 +895,18 @@ template&lt;typename VTYPE = std::string&gt; </div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a7b9e5f855ab7ae45e6b9d66e8c21cacb_cgraph.svg" width="100%" height="486"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_ade7280dcb98b4ce03104a3b9b7ee89d5_cgraph.svg" width="100%" height="511"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a7b9e5f855ab7ae45e6b9d66e8c21cacb_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_ade7280dcb98b4ce03104a3b9b7ee89d5_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="af65664bc3483cb62388ccada3b0cb304" name="af65664bc3483cb62388ccada3b0cb304"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af65664bc3483cb62388ccada3b0cb304">&#9670;&#160;</a></span>readDataConversion()</h2>
+<a id="a32e11a8254db9fad8682fc8d8d118370" name="a32e11a8254db9fad8682fc8d8d118370"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32e11a8254db9fad8682fc8d8d118370">&#9670;&#160;</a></span>readDataConversion()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -776,7 +917,7 @@ template&lt;typename VTYPE = float&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AttributeField</a>, VTYPE &gt; &gt; AQNWB::NWB::TimeSeries::readDataConversion </td>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AQNWB::NWB::AttributeField</a>, VTYPE &gt; &gt; AQNWB::NWB::TimeSeries::readDataConversion </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -792,18 +933,18 @@ template&lt;typename VTYPE = float&gt; </div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_af65664bc3483cb62388ccada3b0cb304_cgraph.svg" width="100%" height="486"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a32e11a8254db9fad8682fc8d8d118370_cgraph.svg" width="100%" height="511"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_af65664bc3483cb62388ccada3b0cb304_icgraph.svg" width="432" height="76"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a32e11a8254db9fad8682fc8d8d118370_icgraph.svg" width="432" height="76"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="a8e935bfd8eea957ae42d5ea752d802b4" name="a8e935bfd8eea957ae42d5ea752d802b4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8e935bfd8eea957ae42d5ea752d802b4">&#9670;&#160;</a></span>readDataOffset()</h2>
+<a id="a64808096931f82dbd378b2c21679ba03" name="a64808096931f82dbd378b2c21679ba03"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64808096931f82dbd378b2c21679ba03">&#9670;&#160;</a></span>readDataOffset()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -814,7 +955,7 @@ template&lt;typename VTYPE = float&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AttributeField</a>, VTYPE &gt; &gt; AQNWB::NWB::TimeSeries::readDataOffset </td>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AQNWB::NWB::AttributeField</a>, VTYPE &gt; &gt; AQNWB::NWB::TimeSeries::readDataOffset </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -830,18 +971,18 @@ template&lt;typename VTYPE = float&gt; </div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a8e935bfd8eea957ae42d5ea752d802b4_cgraph.svg" width="100%" height="486"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a64808096931f82dbd378b2c21679ba03_cgraph.svg" width="100%" height="511"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a8e935bfd8eea957ae42d5ea752d802b4_icgraph.svg" width="666" height="76"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a64808096931f82dbd378b2c21679ba03_icgraph.svg" width="666" height="76"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="adf83d074710318ecd17f056deecf6f73" name="adf83d074710318ecd17f056deecf6f73"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adf83d074710318ecd17f056deecf6f73">&#9670;&#160;</a></span>readDataResolution()</h2>
+<a id="a05f88b4ef3d51fd24e79f8f61df60b5c" name="a05f88b4ef3d51fd24e79f8f61df60b5c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05f88b4ef3d51fd24e79f8f61df60b5c">&#9670;&#160;</a></span>readDataResolution()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -852,7 +993,7 @@ template&lt;typename VTYPE = float&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AttributeField</a>, VTYPE &gt; &gt; AQNWB::NWB::TimeSeries::readDataResolution </td>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AQNWB::NWB::AttributeField</a>, VTYPE &gt; &gt; AQNWB::NWB::TimeSeries::readDataResolution </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -868,18 +1009,18 @@ template&lt;typename VTYPE = float&gt; </div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_adf83d074710318ecd17f056deecf6f73_cgraph.svg" width="100%" height="486"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a05f88b4ef3d51fd24e79f8f61df60b5c_cgraph.svg" width="100%" height="511"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_adf83d074710318ecd17f056deecf6f73_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a05f88b4ef3d51fd24e79f8f61df60b5c_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="a5d7201b7efb3109e03172a7d383c8b45" name="a5d7201b7efb3109e03172a7d383c8b45"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5d7201b7efb3109e03172a7d383c8b45">&#9670;&#160;</a></span>readDataUnit()</h2>
+<a id="aada7da514e40b99b1b7ff897c92f5b2d" name="aada7da514e40b99b1b7ff897c92f5b2d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aada7da514e40b99b1b7ff897c92f5b2d">&#9670;&#160;</a></span>readDataUnit()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -890,7 +1031,7 @@ template&lt;typename VTYPE = std::string&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AttributeField</a>, VTYPE &gt; &gt; AQNWB::NWB::TimeSeries::readDataUnit </td>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AQNWB::NWB::AttributeField</a>, VTYPE &gt; &gt; AQNWB::NWB::TimeSeries::readDataUnit </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -906,18 +1047,18 @@ template&lt;typename VTYPE = std::string&gt; </div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a5d7201b7efb3109e03172a7d383c8b45_cgraph.svg" width="100%" height="486"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_aada7da514e40b99b1b7ff897c92f5b2d_cgraph.svg" width="100%" height="511"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a5d7201b7efb3109e03172a7d383c8b45_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_aada7da514e40b99b1b7ff897c92f5b2d_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="ae2a561b2f5a56f86f8794bdfdd07f422" name="ae2a561b2f5a56f86f8794bdfdd07f422"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae2a561b2f5a56f86f8794bdfdd07f422">&#9670;&#160;</a></span>readDescription()</h2>
+<a id="ae06186c303282828d9f764f8cc6559ec" name="ae06186c303282828d9f764f8cc6559ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae06186c303282828d9f764f8cc6559ec">&#9670;&#160;</a></span>readDescription()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -928,7 +1069,7 @@ template&lt;typename VTYPE = std::string&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AttributeField</a>, VTYPE &gt; &gt; AQNWB::NWB::TimeSeries::readDescription </td>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AQNWB::NWB::AttributeField</a>, VTYPE &gt; &gt; AQNWB::NWB::TimeSeries::readDescription </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -944,13 +1085,13 @@ template&lt;typename VTYPE = std::string&gt; </div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_ae2a561b2f5a56f86f8794bdfdd07f422_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_ae06186c303282828d9f764f8cc6559ec_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="a0d48a3a5d1f7468ae1e48226969f30c3" name="a0d48a3a5d1f7468ae1e48226969f30c3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0d48a3a5d1f7468ae1e48226969f30c3">&#9670;&#160;</a></span>readStartingTime()</h2>
+<a id="a3a85691477ada29012a8cb1a2ab4fb5e" name="a3a85691477ada29012a8cb1a2ab4fb5e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a85691477ada29012a8cb1a2ab4fb5e">&#9670;&#160;</a></span>readStartingTime()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -961,7 +1102,7 @@ template&lt;typename VTYPE = double&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#acfd896b65a7f56c25b3730a6e8dc80ca">DatasetField</a>, VTYPE &gt; &gt; AQNWB::NWB::TimeSeries::readStartingTime </td>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#acfd896b65a7f56c25b3730a6e8dc80ca">AQNWB::NWB::DatasetField</a>, VTYPE &gt; &gt; AQNWB::NWB::TimeSeries::readStartingTime </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -977,18 +1118,18 @@ template&lt;typename VTYPE = double&gt; </div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a0d48a3a5d1f7468ae1e48226969f30c3_cgraph.svg" width="100%" height="461"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a3a85691477ada29012a8cb1a2ab4fb5e_cgraph.svg" width="100%" height="486"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a0d48a3a5d1f7468ae1e48226969f30c3_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a3a85691477ada29012a8cb1a2ab4fb5e_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="a432eacaa5461a2adb7c74b8163109690" name="a432eacaa5461a2adb7c74b8163109690"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a432eacaa5461a2adb7c74b8163109690">&#9670;&#160;</a></span>readStartingTimeRate()</h2>
+<a id="af32a022bd96207ee5eb2b26ac6ae8d2e" name="af32a022bd96207ee5eb2b26ac6ae8d2e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af32a022bd96207ee5eb2b26ac6ae8d2e">&#9670;&#160;</a></span>readStartingTimeRate()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -999,7 +1140,7 @@ template&lt;typename VTYPE = float&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AttributeField</a>, VTYPE &gt; &gt; AQNWB::NWB::TimeSeries::readStartingTimeRate </td>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AQNWB::NWB::AttributeField</a>, VTYPE &gt; &gt; AQNWB::NWB::TimeSeries::readStartingTimeRate </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -1015,18 +1156,18 @@ template&lt;typename VTYPE = float&gt; </div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a432eacaa5461a2adb7c74b8163109690_cgraph.svg" width="100%" height="461"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_af32a022bd96207ee5eb2b26ac6ae8d2e_cgraph.svg" width="100%" height="486"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a432eacaa5461a2adb7c74b8163109690_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_af32a022bd96207ee5eb2b26ac6ae8d2e_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="a10c42d7daf3209d828814549062ba43b" name="a10c42d7daf3209d828814549062ba43b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a10c42d7daf3209d828814549062ba43b">&#9670;&#160;</a></span>readStartingTimeUnit()</h2>
+<a id="a055a5a6a5b9bebbd3f517cdb59ebd65a" name="a055a5a6a5b9bebbd3f517cdb59ebd65a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a055a5a6a5b9bebbd3f517cdb59ebd65a">&#9670;&#160;</a></span>readStartingTimeUnit()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1037,7 +1178,7 @@ template&lt;typename VTYPE = std::string&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AttributeField</a>, VTYPE &gt; &gt; AQNWB::NWB::TimeSeries::readStartingTimeUnit </td>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AQNWB::NWB::AttributeField</a>, VTYPE &gt; &gt; AQNWB::NWB::TimeSeries::readStartingTimeUnit </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -1053,18 +1194,18 @@ template&lt;typename VTYPE = std::string&gt; </div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a10c42d7daf3209d828814549062ba43b_cgraph.svg" width="100%" height="461"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a055a5a6a5b9bebbd3f517cdb59ebd65a_cgraph.svg" width="100%" height="486"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a10c42d7daf3209d828814549062ba43b_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a055a5a6a5b9bebbd3f517cdb59ebd65a_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="aad84484dbd8b930702c8c8c5408694b1" name="aad84484dbd8b930702c8c8c5408694b1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aad84484dbd8b930702c8c8c5408694b1">&#9670;&#160;</a></span>readTimestamps()</h2>
+<a id="ad6bc67f0ab42e8aeaeeef1b1b51c082d" name="ad6bc67f0ab42e8aeaeeef1b1b51c082d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6bc67f0ab42e8aeaeeef1b1b51c082d">&#9670;&#160;</a></span>readTimestamps()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1075,7 +1216,7 @@ template&lt;typename VTYPE = double&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#acfd896b65a7f56c25b3730a6e8dc80ca">DatasetField</a>, VTYPE &gt; &gt; AQNWB::NWB::TimeSeries::readTimestamps </td>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#acfd896b65a7f56c25b3730a6e8dc80ca">AQNWB::NWB::DatasetField</a>, VTYPE &gt; &gt; AQNWB::NWB::TimeSeries::readTimestamps </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -1091,18 +1232,18 @@ template&lt;typename VTYPE = double&gt; </div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_aad84484dbd8b930702c8c8c5408694b1_cgraph.svg" width="100%" height="436"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_ad6bc67f0ab42e8aeaeeef1b1b51c082d_cgraph.svg" width="100%" height="461"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_aad84484dbd8b930702c8c8c5408694b1_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_ad6bc67f0ab42e8aeaeeef1b1b51c082d_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="a6bc9efa6381b6761d45493c1b2628e22" name="a6bc9efa6381b6761d45493c1b2628e22"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6bc9efa6381b6761d45493c1b2628e22">&#9670;&#160;</a></span>readTimestampsInterval()</h2>
+<a id="ab27f0f2b819123b27cf38ab0b6310fed" name="ab27f0f2b819123b27cf38ab0b6310fed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab27f0f2b819123b27cf38ab0b6310fed">&#9670;&#160;</a></span>readTimestampsInterval()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1113,7 +1254,7 @@ template&lt;typename VTYPE = int&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AttributeField</a>, VTYPE &gt; &gt; AQNWB::NWB::TimeSeries::readTimestampsInterval </td>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AQNWB::NWB::AttributeField</a>, VTYPE &gt; &gt; AQNWB::NWB::TimeSeries::readTimestampsInterval </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -1129,18 +1270,18 @@ template&lt;typename VTYPE = int&gt; </div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a6bc9efa6381b6761d45493c1b2628e22_cgraph.svg" width="100%" height="436"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_ab27f0f2b819123b27cf38ab0b6310fed_cgraph.svg" width="100%" height="461"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a6bc9efa6381b6761d45493c1b2628e22_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_ab27f0f2b819123b27cf38ab0b6310fed_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="adf3f178d207453927ae6ede7a53ac7f7" name="adf3f178d207453927ae6ede7a53ac7f7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adf3f178d207453927ae6ede7a53ac7f7">&#9670;&#160;</a></span>readTimestampsUnit()</h2>
+<a id="a6e74b051a3ea578a41ee33191f1ccf37" name="a6e74b051a3ea578a41ee33191f1ccf37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e74b051a3ea578a41ee33191f1ccf37">&#9670;&#160;</a></span>readTimestampsUnit()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1151,7 +1292,7 @@ template&lt;typename VTYPE = std::string&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AttributeField</a>, VTYPE &gt; &gt; AQNWB::NWB::TimeSeries::readTimestampsUnit </td>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AQNWB::NWB::AttributeField</a>, VTYPE &gt; &gt; AQNWB::NWB::TimeSeries::readTimestampsUnit </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -1167,18 +1308,18 @@ template&lt;typename VTYPE = std::string&gt; </div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_adf3f178d207453927ae6ede7a53ac7f7_cgraph.svg" width="100%" height="436"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a6e74b051a3ea578a41ee33191f1ccf37_cgraph.svg" width="100%" height="461"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_adf3f178d207453927ae6ede7a53ac7f7_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a6e74b051a3ea578a41ee33191f1ccf37_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="a09ead45365072d1f2dbdfe5d628d1af4" name="a09ead45365072d1f2dbdfe5d628d1af4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a09ead45365072d1f2dbdfe5d628d1af4">&#9670;&#160;</a></span>recordControl()</h2>
+<a id="af988570828da57bff222d1ed5e71b5fa" name="af988570828da57bff222d1ed5e71b5fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af988570828da57bff222d1ed5e71b5fa">&#9670;&#160;</a></span>recordControl()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1187,7 +1328,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">IO::BaseRecordingData</a> &gt; AQNWB::NWB::TimeSeries::recordControl </td>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">AQNWB::IO::BaseRecordingData</a> &gt; AQNWB::NWB::TimeSeries::recordControl </td>
           <td>(</td>
           <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>reset</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span></td><td>)</td>
           <td></td>
@@ -1202,13 +1343,13 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a09ead45365072d1f2dbdfe5d628d1af4_icgraph.svg" width="100%" height="553"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_af988570828da57bff222d1ed5e71b5fa_icgraph.svg" width="100%" height="479"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="a7e7da4174344eee6e143a39fc45cc014" name="a7e7da4174344eee6e143a39fc45cc014"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7e7da4174344eee6e143a39fc45cc014">&#9670;&#160;</a></span>recordControlDescription()</h2>
+<a id="a5ed12c92d17dbc8d3ba963eb2c515693" name="a5ed12c92d17dbc8d3ba963eb2c515693"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ed12c92d17dbc8d3ba963eb2c515693">&#9670;&#160;</a></span>recordControlDescription()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1217,7 +1358,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">IO::BaseRecordingData</a> &gt; AQNWB::NWB::TimeSeries::recordControlDescription </td>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">AQNWB::IO::BaseRecordingData</a> &gt; AQNWB::NWB::TimeSeries::recordControlDescription </td>
           <td>(</td>
           <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>reset</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span></td><td>)</td>
           <td></td>
@@ -1232,13 +1373,13 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a7e7da4174344eee6e143a39fc45cc014_icgraph.svg" width="100%" height="388"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a5ed12c92d17dbc8d3ba963eb2c515693_icgraph.svg" width="100%" height="388"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="a39ca5510e7d73fbd1d2c1b34ae730027" name="a39ca5510e7d73fbd1d2c1b34ae730027"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a39ca5510e7d73fbd1d2c1b34ae730027">&#9670;&#160;</a></span>recordData()</h2>
+<a id="a97d9f3aa32ab004532f45222dcd320e0" name="a97d9f3aa32ab004532f45222dcd320e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97d9f3aa32ab004532f45222dcd320e0">&#9670;&#160;</a></span>recordData()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1247,7 +1388,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">IO::BaseRecordingData</a> &gt; AQNWB::NWB::TimeSeries::recordData </td>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">AQNWB::IO::BaseRecordingData</a> &gt; AQNWB::NWB::TimeSeries::recordData </td>
           <td>(</td>
           <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>reset</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span></td><td>)</td>
           <td></td>
@@ -1262,13 +1403,13 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a39ca5510e7d73fbd1d2c1b34ae730027_icgraph.svg" width="100%" height="455"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a97d9f3aa32ab004532f45222dcd320e0_icgraph.svg" width="100%" height="430"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="a5418508f7ed2bddfb901867c66352327" name="a5418508f7ed2bddfb901867c66352327"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5418508f7ed2bddfb901867c66352327">&#9670;&#160;</a></span>recordStartingTime()</h2>
+<a id="abd85c18a23b27019aadf8cac3b34e41e" name="abd85c18a23b27019aadf8cac3b34e41e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd85c18a23b27019aadf8cac3b34e41e">&#9670;&#160;</a></span>recordStartingTime()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1277,7 +1418,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">IO::BaseRecordingData</a> &gt; AQNWB::NWB::TimeSeries::recordStartingTime </td>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">AQNWB::IO::BaseRecordingData</a> &gt; AQNWB::NWB::TimeSeries::recordStartingTime </td>
           <td>(</td>
           <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>reset</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span></td><td>)</td>
           <td></td>
@@ -1292,13 +1433,13 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a5418508f7ed2bddfb901867c66352327_icgraph.svg" width="100%" height="388"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_abd85c18a23b27019aadf8cac3b34e41e_icgraph.svg" width="100%" height="388"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="a15cdc18874a799e4196a58e2c2d51c31" name="a15cdc18874a799e4196a58e2c2d51c31"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a15cdc18874a799e4196a58e2c2d51c31">&#9670;&#160;</a></span>recordTimestamps()</h2>
+<a id="a42a04e2e5af03b642fb3af958115e1ef" name="a42a04e2e5af03b642fb3af958115e1ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42a04e2e5af03b642fb3af958115e1ef">&#9670;&#160;</a></span>recordTimestamps()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1307,7 +1448,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">IO::BaseRecordingData</a> &gt; AQNWB::NWB::TimeSeries::recordTimestamps </td>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">AQNWB::IO::BaseRecordingData</a> &gt; AQNWB::NWB::TimeSeries::recordTimestamps </td>
           <td>(</td>
           <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>reset</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span></td><td>)</td>
           <td></td>
@@ -1322,7 +1463,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a15cdc18874a799e4196a58e2c2d51c31_icgraph.svg" width="100%" height="553"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a42a04e2e5af03b642fb3af958115e1ef_icgraph.svg" width="100%" height="479"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -1381,7 +1522,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a33c3c764fdf8a5db861beeabc48d78e7_icgraph.svg" width="100%" height="437"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a33c3c764fdf8a5db861beeabc48d78e7_icgraph.svg" width="470" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -1410,9 +1551,9 @@ Here is the caller graph for this function:</div>
 <div class="line">        {<a class="code hl_enumvalue" href="#ab8143e245b1f62cb147cd9ed97c84e9ca562ad830cce4bde58ec8af2d1401be30">TimeSeries::Continuous</a>, <span class="stringliteral">&quot;continuous&quot;</span>},</div>
 <div class="line">        {<a class="code hl_enumvalue" href="#ab8143e245b1f62cb147cd9ed97c84e9caae953cfd9d7f5062027b26b22e5703e9">TimeSeries::Instantaneous</a>, <span class="stringliteral">&quot;instantaneous&quot;</span>},</div>
 <div class="line">        {<a class="code hl_enumvalue" href="#ab8143e245b1f62cb147cd9ed97c84e9cab927521463221688987dd0ce3aeecfed">TimeSeries::Step</a>, <span class="stringliteral">&quot;step&quot;</span>}}</div>
-<div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_time_series_html_ab8143e245b1f62cb147cd9ed97c84e9ca562ad830cce4bde58ec8af2d1401be30"><div class="ttname"><a href="#ab8143e245b1f62cb147cd9ed97c84e9ca562ad830cce4bde58ec8af2d1401be30">AQNWB::NWB::TimeSeries::Continuous</a></div><div class="ttdeci">@ Continuous</div><div class="ttdef"><b>Definition</b> TimeSeries.hpp:29</div></div>
-<div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_time_series_html_ab8143e245b1f62cb147cd9ed97c84e9caae953cfd9d7f5062027b26b22e5703e9"><div class="ttname"><a href="#ab8143e245b1f62cb147cd9ed97c84e9caae953cfd9d7f5062027b26b22e5703e9">AQNWB::NWB::TimeSeries::Instantaneous</a></div><div class="ttdeci">@ Instantaneous</div><div class="ttdef"><b>Definition</b> TimeSeries.hpp:31</div></div>
-<div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_time_series_html_ab8143e245b1f62cb147cd9ed97c84e9cab927521463221688987dd0ce3aeecfed"><div class="ttname"><a href="#ab8143e245b1f62cb147cd9ed97c84e9cab927521463221688987dd0ce3aeecfed">AQNWB::NWB::TimeSeries::Step</a></div><div class="ttdeci">@ Step</div><div class="ttdef"><b>Definition</b> TimeSeries.hpp:34</div></div>
+<div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_time_series_html_ab8143e245b1f62cb147cd9ed97c84e9ca562ad830cce4bde58ec8af2d1401be30"><div class="ttname"><a href="#ab8143e245b1f62cb147cd9ed97c84e9ca562ad830cce4bde58ec8af2d1401be30">AQNWB::NWB::TimeSeries::Continuous</a></div><div class="ttdeci">@ Continuous</div><div class="ttdef"><b>Definition</b> TimeSeries.hpp:31</div></div>
+<div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_time_series_html_ab8143e245b1f62cb147cd9ed97c84e9caae953cfd9d7f5062027b26b22e5703e9"><div class="ttname"><a href="#ab8143e245b1f62cb147cd9ed97c84e9caae953cfd9d7f5062027b26b22e5703e9">AQNWB::NWB::TimeSeries::Instantaneous</a></div><div class="ttdeci">@ Instantaneous</div><div class="ttdef"><b>Definition</b> TimeSeries.hpp:33</div></div>
+<div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_time_series_html_ab8143e245b1f62cb147cd9ed97c84e9cab927521463221688987dd0ce3aeecfed"><div class="ttname"><a href="#ab8143e245b1f62cb147cd9ed97c84e9cab927521463221688987dd0ce3aeecfed">AQNWB::NWB::TimeSeries::Step</a></div><div class="ttdeci">@ Step</div><div class="ttdef"><b>Definition</b> TimeSeries.hpp:36</div></div>
 </div><!-- fragment -->
 <p>String names corresponding to the <a class="el" href="#ab8143e245b1f62cb147cd9ed97c84e9c">ContinuityType</a> enum. </p>
 <p>These are the values to optionally describe the continuity of the data. Can be “continuous”, “instantaneous”, or “step”. For example, a voltage trace would be “continuous”, because samples are recorded from a continuous process. An array of lick times would be “instantaneous”, because the data represents distinct moments in time. Times of image presentations would be “step” because the picture remains the same until the next timepoint. This field is optional, but is useful in providing information about the underlying data. It may inform the way this data is interpreted, the way it is visualized, and what analysis methods are applicable. </p>
@@ -1448,6 +1589,28 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html" title="An abstract data type for a dataset.">Data</a> type of the data. </p>
+
+</div>
+</div>
+<a id="a4b1ac78825037b26729cc0366ecf7cf4" name="a4b1ac78825037b26729cc0366ecf7cf4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b1ac78825037b26729cc0366ecf7cf4">&#9670;&#160;</a></span>registered_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool TimeSeries::registered_ = <a class="el" href="#a523738fd2da4b70707e4ee6844cdce02">TimeSeries</a> <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab20cf389f4f512056d7755ec23d6d0a9">::registerSubclass</a>()</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>

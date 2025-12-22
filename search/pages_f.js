@@ -1,11 +1,18 @@
 var searchData=
 [
-  ['hdf5_20i_20o_20📂_0',['HDF5 I/O 📂',['../hdf5io.html',1,'userdocs']]],
-  ['header_20files_1',['Generating the schema header files',['../nwb_schema_page.html#dev_docs_generating_nwb_schema_headers_section',1,'']]],
-  ['how_20the_20namespaceregistry_20works_2',['How the NamespaceRegistry Works',['../integrating_extensions_page.html#namespace_registry',1,'']]],
-  ['how_20the_20type_20registry_20in_20registeredtype_20works_3',['How the Type Registry in RegisteredType Works',['../read_design_page.html#type_registry',1,'']]],
-  ['how_20to_20implement_20a_20registeredtype_4',['How to Implement a RegisteredType',['../registered_type_page.html#implement_registered_type',1,'']]],
-  ['how_20to_20implement_20a_20registeredtype_20with_20a_20custom_20type_20name_5',['How to implement a RegisteredType with a custom type name',['../registered_type_page.html#using_registered_subclass_with_typename',1,'']]],
-  ['how_20to_20integrate_20a_20new_20namespace_6',['How to Integrate a New Namespace',['../integrating_extensions_page.html#integrate_namespace',1,'']]],
-  ['how_20to_20use_20the_20registeredtype_20registry_7',['How to Use the RegisteredType Registry',['../read_design_page.html#use_registered_type_registry',1,'']]]
+  ['macro_20for_20recording_0',['The DEFINE_DATASET_FIELD Macro for Recording',['../record_design_page.html#record_design_sec_define_dataset_field',1,'']]],
+  ['management_1',['Object and memory management',['../record_design_page.html#record_design_object_memory_management',1,'']]],
+  ['managing_20collections_2',['RecordingObjects for Managing Collections',['../record_design_page.html#record_design_sec_recording_containers',1,'']]],
+  ['managing_20recording_3',['BaseRecordingData for Managing Recording',['../record_design_page.html#record_design_sec_baserecordingdata',1,'']]],
+  ['memory_20management_4',['Object and memory management',['../record_design_page.html#record_design_object_memory_management',1,'']]],
+  ['methods_20for_20attributes_5',['DEFINE_ATTRIBUTE_FIELD: Creating read methods for attributes',['../registered_type_page.html#use_the_define_attribute_field_macro',1,'']]],
+  ['methods_20for_20consistent_20recording_6',['TimeSeries Convenience Methods for Consistent Recording',['../record_design_page.html#record_design_sec_timeseries',1,'']]],
+  ['methods_20for_20datasets_7',['DEFINE_DATASET_FIELD: Creating read and write methods for datasets',['../registered_type_page.html#use_the_define_dataset_field_macro',1,'']]],
+  ['methods_20for_20neurodata_5ftype_20objects_8',['DEFINE_REGISTERED_FIELD: Defining read methods for neurodata_type objects',['../registered_type_page.html#use_the_define_registered_field_macro',1,'']]],
+  ['methods_20for_20references_20to_20neurodata_5ftype_20objects_9',['DEFINE_REFERENCED_REGISTERED_FIELD: Defining read methods for references to neurodata_type objects',['../registered_type_page.html#use_the_define_referenced_registered_field_macro',1,'']]],
+  ['methods_20for_20unnamed_20neurodata_5ftype_20objects_10',['DEFINE_UNNAMED_REGISTERED_FIELD: Defining read methods for unnamed neurodata_type objects',['../registered_type_page.html#use_the_define_unnamed_registered_field_macro',1,'']]],
+  ['mode_11',['Single-Writer Multiple-Reader (SWMR) Mode',['../hdf5io.html#hdf5io_swmr',1,'']]],
+  ['mode_12',['mode',['../hdf5io.html#hdf5io_swmr_read',1,'Reading with SWMR mode'],['../hdf5io.html#hdf5io_swmr_features',1,'Why does AqNWB use SMWR mode?'],['../hdf5io.html#hdf5io_swmr_workflow',1,'Writing an NWB file with SWMR mode']]],
+  ['mode_20targets_13',['Developer Mode Targets',['../dev_install_page.html#devbuild_dev_mode_targets_subsec',1,'']]],
+  ['multiple_20reader_20swmr_20mode_14',['Single-Writer Multiple-Reader (SWMR) Mode',['../hdf5io.html#hdf5io_swmr',1,'']]]
 ];

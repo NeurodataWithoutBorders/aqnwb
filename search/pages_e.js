@@ -1,8 +1,11 @@
 var searchData=
 [
-  ['generate_20types_20command_0',['Using the generate-types command',['../registered_type_page.html#using_schematype_to_aqnwb',1,'']]],
-  ['generating_20the_20schema_20header_20files_1',['Generating the schema header files',['../nwb_schema_page.html#dev_docs_generating_nwb_schema_headers_section',1,'']]],
-  ['get_20the_20schema_20of_20the_20extension_2',['Step 1: Get the Schema of the Extension',['../integrating_extensions_page.html#labmetadata_extension_schema',1,'']]],
-  ['github_3',['Automated tests on GitHub',['../testing.html#testing_github',1,'']]],
-  ['graphs_4',['Creating Custom Dot Graphs',['../dev_docs_page.html#dev_docs_graphviz_sec',1,'']]]
+  ['labmetadata_20extension_20demo_0',['LabMetaData Extension Demo',['../integrating_extensions_page.html#labmetadata_extension_demo',1,'']]],
+  ['labmetadata_20extension_20with_20aqnwb_1',['Integrating LabMetaData Extension with AqNWB',['../user_demos.html#demos_labmetadata_extension',1,'']]],
+  ['layout_2',['Optimizing Data Layout',['../hdf5io.html#hdf5io_data_layout',1,'']]],
+  ['legal_20⚖️_3',['Legal ⚖️',['../legal_page.html',1,'Legal ⚖️'],['../index.html#mainpage_contributing',1,'Legal ⚖️']]],
+  ['license_4',['License',['../legal_page.html#legal_license',1,'']]],
+  ['limitations_20of_20register_5fsubclass_5fwith_5ftypename_5',['Limitations of REGISTER_SUBCLASS_WITH_TYPENAME',['../registered_type_page.html#limitations_registered_subclass_with_typename',1,'']]],
+  ['linting_6',['Linting',['../testing.html#testing_lint',1,'']]],
+  ['looking_20up_20namespaces_7',['Looking up Namespaces',['../integrating_extensions_page.html#namespace_lookup',1,'']]]
 ];

@@ -22,7 +22,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title="Create a DataTyped object from a Data object.">
+<g id="a_Node000001"><a xlink:title="Create a NWBDataTyped object from a Data object.">
 <polygon fill="#999999" stroke="#666666" points="161.5,-54.5 0,-54.5 0,-24 161.5,-24 161.5,-54.5"/>
 <text xml:space="preserve" text-anchor="start" x="8" y="-41" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::NWBDataTyped</text>
 <text xml:space="preserve" text-anchor="middle" x="80.75" y="-29.75" font-family="Helvetica,sans-Serif" font-size="10.00">::fromNWBData</text>

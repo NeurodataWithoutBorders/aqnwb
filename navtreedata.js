@@ -55,7 +55,6 @@ var NAVTREE =
       [ "File List", "files.html", "files_dup" ],
       [ "File Members", "globals.html", [
         [ "All", "globals.html", null ],
-        [ "Functions", "globals_func.html", null ],
         [ "Variables", "globals_vars.html", null ],
         [ "Typedefs", "globals_type.html", null ],
         [ "Macros", "globals_defs.html", null ]
@@ -67,11 +66,12 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_annotation_series_8cpp.html",
-"class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a25e8586e97c3e0e6f3d4e0d6501f5a68",
-"class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a78a67b8d9aaa53fa9e05da41f5c65559",
-"class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html#a80beeda4c4761fe414407e4cc0d4fe8c",
-"class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ab8143e245b1f62cb147cd9ed97c84e9cab927521463221688987dd0ce3aeecfed",
-"namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#ad0967605c3219827e368475e5b156662"
+"class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a26ade11aa2bc4bb9cc4e985f4fc7c1c2",
+"class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a6549c44032a8e4c4a8e6fc17d4b24e1c",
+"class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a4e01c37f2bc3c228ccf2f1bbf8c1d387",
+"class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a0e670647b466cb65a88b81f9fe4a6e37",
+"dev_docs_page.html",
+"struct_a_q_n_w_b_1_1_types_1_1_is_data_storage_object_type.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

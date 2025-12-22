@@ -40,9 +40,9 @@
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="_h_d_f5_i_o_8cpp.html#a59da06640826cf89d0edfd26df9d6a29" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="287.38,-19.25 221.88,-19.25 221.88,0 287.38,0 287.38,-19.25"/>
-<text xml:space="preserve" text-anchor="middle" x="254.62" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">intToStatus</text>
+<g id="a_Node000003"><a xlink:href="namespace_a_q_n_w_b.html#a09b9a48d0ec26fe72452788634ee12bb" target="_top" xlink:title="Convert an integer status code to a Types::Status enum value. Shorthand for return (status &lt; 0) ?...">
+<polygon fill="white" stroke="#666666" points="309.5,-19.25 199.75,-19.25 199.75,0 309.5,0 309.5,-19.25"/>
+<text xml:space="preserve" text-anchor="middle" x="254.62" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::intToStatus</text>
 </a>
 </g>
 </g>
@@ -50,8 +50,8 @@
 <g id="edge2_Node000001_Node000003" class="edge">
 <title>Node1&#45;&gt;Node3</title>
 <g id="a_edge2_Node000001_Node000003"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M146.21,-22.17C167.86,-19.64 190.92,-16.95 210.11,-14.71"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="210.47,-18.19 220,-13.55 209.66,-11.24 210.47,-18.19"/>
+<path fill="none" stroke="#63b8ff" d="M146.21,-22.17C160.08,-20.55 174.53,-18.87 188.17,-17.27"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="188.38,-20.77 197.9,-16.14 187.56,-13.82 188.38,-20.77"/>
 </a>
 </g>
 </g>

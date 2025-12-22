@@ -1,6 +1,20 @@
 <map id="AQNWB::NWB::RegisteredType::create" name="AQNWB::NWB::RegisteredType::create">
-<area shape="rect" id="Node000001" title="Create an instance of a registered subclass by name." alt="" coords="265,29,476,70"/>
-<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="411,13,397,10,370,8,345,10,330,15,325,21,327,30,322,27,319,19,327,10,344,5,370,3,398,5,416,14"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a13dd3c9a0045cb3729ba9cf56e4a2fa7" title="Factory method to create an instance of a subclass of RegisteredType from file." alt="" coords="5,29,217,70"/>
-<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="247,50,217,52,217,47,252,50"/>
+<area shape="rect" id="Node000001" title="Create an instance of a registered subclass by name." alt="" coords="544,136,755,177"/>
+<area shape="poly" id="edge5_Node000001_Node000001" title=" " alt="" coords="691,120,677,117,650,115,624,117,609,121,603,127,605,137,600,134,598,126,606,117,623,111,650,109,678,112,697,120"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html#a960ffd9d6060c5acef094e54273446cf" title="Factor method to create a DataTyped object." alt="" coords="294,5,477,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="606,127,555,94,495,61,465,49,465,44,497,57,558,90,611,127"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#a520a13b699039571c159ef4a878afac1" title="Convenience factor method since the path is fixed to electrodeTablePath." alt="" coords="279,71,492,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="547,132,471,115,470,109,552,131"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a31a9458cf3b5ad8ef6e3346f995deb12" title="Convenience factor method since the path is fixed to &#39;/&#39;." alt="" coords="299,136,472,177"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="526,157,473,159,472,154,531,156"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a13dd3c9a0045cb3729ba9cf56e4a2fa7" title="Factory method to create an instance of a subclass of RegisteredType from file." alt="" coords="280,201,491,242"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="547,182,471,203,470,198,552,180"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html#af685f8c0dea09f2c03059a0c498b8cc3" title="Factor method to create a VectorDataTyped object." alt="" coords="275,267,496,307"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="611,185,558,223,497,256,465,269,464,264,495,251,555,218,606,187"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html#a90b834bfa32f7a1435e48ba2f213e24b" title="Create a DataTyped object from a Data object." alt="" coords="24,5,208,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="276,27,209,28,207,23,281,24"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html#ab5c4d5084bb6134318dce6637fdd13e4" title="Create a VectorDataTyped object from a Data object." alt="" coords="5,233,227,274"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="257,272,227,270,227,265,262,271"/>
+<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a4287d10a93adfa2ecaa9092438c6a9f0" title="Read an arbitrary column of the DynamicTable." alt="" coords="14,299,218,339"/>
+<area shape="poly" id="edge9_Node000007_Node000009" title=" " alt="" coords="257,302,218,310,218,304,262,302"/>
 </map>

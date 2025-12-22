@@ -49,7 +49,7 @@
 <script type="application/ecmascript">
 var viewWidth = 830;
 var viewHeight = 64;
-var sectionId = 'dynsection-6';
+var sectionId = 'dynsection-8';
 </script>
 <script type="application/ecmascript" xlink:href="svg.min.js"/>
 <svg id="graph" class="graph">
@@ -67,7 +67,7 @@ var sectionId = 'dynsection-6';
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#afe2d2e01b7ade2a1089e8cc051d7f49e" target="_top" xlink:title=" ">
+<g id="a_Node000002"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a7dad9d54ec248dda4cc9a168659382bf" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="359,-37.25 202,-37.25 202,-18 359,-18 359,-37.25"/>
 <text xml:space="preserve" text-anchor="middle" x="280.5" y="-23.75" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::Data::readData</text>
 </a>
@@ -94,7 +94,7 @@ var sectionId = 'dynsection-6';
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a82dc918d72bf83640458f08e7ba52be1" target="_top" xlink:title=" ">
+<g id="a_Node000003"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a75578fca4d408ead05a72393a0a5173c" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="597,-56.25 395,-56.25 395,-37 597,-37 597,-56.25"/>
 <text xml:space="preserve" text-anchor="middle" x="496" y="-42.75" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::Data::readNeurodataType</text>
 </a>
@@ -112,7 +112,7 @@ var sectionId = 'dynsection-6';
 <!-- Node5 -->
 <g id="Node000005" class="node">
 <title>Node5</title>
-<g id="a_Node000005"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a6cca6a13020f0c4372fe79164fae91e8" target="_top" xlink:title=" ">
+<g id="a_Node000005"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a721c35d624090f7860ecde8fa5225849" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="578.62,-19.25 413.38,-19.25 413.38,0 578.62,0 578.62,-19.25"/>
 <text xml:space="preserve" text-anchor="middle" x="496" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::Data::recordData</text>
 </a>
@@ -130,7 +130,7 @@ var sectionId = 'dynsection-6';
 <!-- Node4 -->
 <g id="Node000004" class="node">
 <title>Node4</title>
-<g id="a_Node000004"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a82e6a2830bb21264cf18aef80615df16" target="_top" xlink:title=" ">
+<g id="a_Node000004"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#acc46a4bf4a980465a04c2ed3bcec3e44" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="821.5,-56.25 633,-56.25 633,-37 821.5,-37 821.5,-56.25"/>
 <text xml:space="preserve" text-anchor="middle" x="727.25" y="-42.75" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::Data::readNamespace</text>
 </a>

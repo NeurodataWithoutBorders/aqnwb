@@ -144,6 +144,10 @@ Functions</h2></td></tr>
 <tr class="memdesc:a222344ec88fdbd8803d14dabea0f97bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to convert float values to uint16 values. This method was adapted from JUCE AudioDataConverters using a default value of destBytesPerSample = 2.  <br /></td></tr>
 <tr class="memitem:a0e8a5fc18589d0ff3157b86c081ca252" id="r_a0e8a5fc18589d0ff3157b86c081ca252"><td class="memItemLeft" align="right" valign="top">static std::unique_ptr&lt; int16_t[]&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0e8a5fc18589d0ff3157b86c081ca252">transformToInt16</a> (<a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> numSamples, float conversion_factor, const float *data)</td></tr>
 <tr class="memdesc:a0e8a5fc18589d0ff3157b86c081ca252"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to scale float values and convert to int16 values.  <br /></td></tr>
+<tr class="memitem:ad81a02abf6f39974e6a4d71346a7b164" id="r_ad81a02abf6f39974e6a4d71346a7b164"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad81a02abf6f39974e6a4d71346a7b164">isValidIndex</a> (<a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> index)</td></tr>
+<tr class="memdesc:ad81a02abf6f39974e6a4d71346a7b164"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> index is valid (i.e., not equal to SizeTypeNotSet).  <br /></td></tr>
+<tr class="memitem:a09b9a48d0ec26fe72452788634ee12bb" id="r_a09b9a48d0ec26fe72452788634ee12bb"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a09b9a48d0ec26fe72452788634ee12bb">intToStatus</a> (int status)</td></tr>
+<tr class="memdesc:a09b9a48d0ec26fe72452788634ee12bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an integer status code to a <a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9" title="Represents the status of an operation.">Types::Status</a> enum value. Shorthand for <span class="tt">return (status &lt; 0) ? Status::Failure : Status::Success;</span>.  <br /></td></tr>
 <tr class="memitem:aa2ae7bd54f7ed396e61e6cec9d208140" id="r_aa2ae7bd54f7ed396e61e6cec9d208140"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa2ae7bd54f7ed396e61e6cec9d208140">checkStatus</a> (<a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> status, const std::string &amp;operation)</td></tr>
 <tr class="memdesc:aa2ae7bd54f7ed396e61e6cec9d208140"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check status and print to standard error.  <br /></td></tr>
 </table>
@@ -335,6 +339,45 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="a09b9a48d0ec26fe72452788634ee12bb" name="a09b9a48d0ec26fe72452788634ee12bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09b9a48d0ec26fe72452788634ee12bb">&#9670;&#160;</a></span>intToStatus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> AQNWB::intToStatus </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>status</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convert an integer status code to a <a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9" title="Represents the status of an operation.">Types::Status</a> enum value. Shorthand for <span class="tt">return (status &lt; 0) ? Status::Failure : Status::Success;</span>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">status</td><td>The integer status code to convert. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The corresponding <a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9" title="Represents the status of an operation.">Types::Status</a> enum value. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="namespace_a_q_n_w_b_a09b9a48d0ec26fe72452788634ee12bb_icgraph.svg" width="642" height="248"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
 <a id="a4aacc6b82eca3064a8afe0070c44cde4" name="a4aacc6b82eca3064a8afe0070c44cde4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4aacc6b82eca3064a8afe0070c44cde4">&#9670;&#160;</a></span>isISO8601Date()</h2>
 
@@ -365,6 +408,45 @@ Here is the caller graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="namespace_a_q_n_w_b_a4aacc6b82eca3064a8afe0070c44cde4_icgraph.svg" width="402" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="ad81a02abf6f39974e6a4d71346a7b164" name="ad81a02abf6f39974e6a4d71346a7b164"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad81a02abf6f39974e6a4d71346a7b164">&#9670;&#160;</a></span>isValidIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool AQNWB::isValidIndex </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a></td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Check if a <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> index is valid (i.e., not equal to SizeTypeNotSet). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>The index to check </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the index is valid, false otherwise </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="namespace_a_q_n_w_b_ad81a02abf6f39974e6a4d71346a7b164_icgraph.svg" width="420" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

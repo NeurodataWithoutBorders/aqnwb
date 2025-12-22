@@ -118,11 +118,14 @@ Inheritance diagram for AQNWB::NWB::RegisteredType:</div>
 <div class="dyncontent">
 <div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type__inherit__graph.svg" width="100%" height="576"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for AQNWB::NWB::RegisteredType:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type__coll__graph.svg" width="223" height="126"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa1e04074725b7331d725bbda8156bc2d" id="r_aa1e04074725b7331d725bbda8156bc2d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa1e04074725b7331d725bbda8156bc2d">RegisteredType</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt; io)</td></tr>
-<tr class="memdesc:aa1e04074725b7331d725bbda8156bc2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <br /></td></tr>
 <tr class="memitem:ab92081cf30cab76ac6e35125300f77a4" id="r_ab92081cf30cab76ac6e35125300f77a4"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab92081cf30cab76ac6e35125300f77a4">~RegisteredType</a> ()</td></tr>
 <tr class="memdesc:ab92081cf30cab76ac6e35125300f77a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <br /></td></tr>
 <tr class="memitem:ab3eec5d2a591356df25053a4159ab671" id="r_ab3eec5d2a591356df25053a4159ab671"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab3eec5d2a591356df25053a4159ab671">getPath</a> () const</td></tr>
@@ -131,10 +134,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a9fa62ba79d610ba55aacec4dce012ccf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the object.  <br /></td></tr>
 <tr class="memitem:ab614b1609f536e88ed1f32762dc3894b" id="r_ab614b1609f536e88ed1f32762dc3894b"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab614b1609f536e88ed1f32762dc3894b">getIO</a> () const</td></tr>
 <tr class="memdesc:ab614b1609f536e88ed1f32762dc3894b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a shared pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html" title="The namespace for IO components of AqNWB.">IO</a> object.  <br /></td></tr>
-<tr class="memitem:a35d9c02ee1c08009547fc59b2e947929" id="r_a35d9c02ee1c08009547fc59b2e947929"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a35d9c02ee1c08009547fc59b2e947929">clearRecordingDataCache</a> ()</td></tr>
-<tr class="memdesc:a35d9c02ee1c08009547fc59b2e947929"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear the BaseRecordingData object cache to reset the recording state.  <br /></td></tr>
+<tr class="memitem:ac277f0e6485c7c8050a76324eb994223" id="r_ac277f0e6485c7c8050a76324eb994223"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac277f0e6485c7c8050a76324eb994223">getRecordingObjectIndex</a> () const</td></tr>
+<tr class="memdesc:ac277f0e6485c7c8050a76324eb994223"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the index of this object in m_io-&gt;m_recording_objects.  <br /></td></tr>
+<tr class="memitem:ae66a9bc325b1ddb2c6a5f537feb8591a" id="r_ae66a9bc325b1ddb2c6a5f537feb8591a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66a9bc325b1ddb2c6a5f537feb8591a">isRegisteredRecordingObject</a> () const</td></tr>
+<tr class="memdesc:ae66a9bc325b1ddb2c6a5f537feb8591a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if this <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> object is registered in the RecordingObjects manager object of the I/O.  <br /></td></tr>
+<tr class="memitem:a9114e761cf006ec16c3733b9f8915f9d" id="r_a9114e761cf006ec16c3733b9f8915f9d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9114e761cf006ec16c3733b9f8915f9d">registerRecordingObject</a> ()</td></tr>
+<tr class="memdesc:a9114e761cf006ec16c3733b9f8915f9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register this <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> object with the RecordingObjects manager object of the I/O.  <br /></td></tr>
+<tr class="memitem:aafbac618f2867992dbe8c2f35a072bae" id="r_aafbac618f2867992dbe8c2f35a072bae"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">AQNWB::Types::Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aafbac618f2867992dbe8c2f35a072bae">finalize</a> ()</td></tr>
+<tr class="memdesc:aafbac618f2867992dbe8c2f35a072bae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finalize the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> object.  <br /></td></tr>
 <tr class="memitem:ad3753ec40e8c6b6fafa59ca80433e978" id="r_ad3753ec40e8c6b6fafa59ca80433e978"><td class="memItemLeft" align="right" valign="top">const std::unordered_map&lt; std::string, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">IO::BaseRecordingData</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad3753ec40e8c6b6fafa59ca80433e978">getCacheRecordingData</a> () const</td></tr>
 <tr class="memdesc:ad3753ec40e8c6b6fafa59ca80433e978"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the cache of BaseRecordingData objects.  <br /></td></tr>
+<tr class="memitem:ab63d3505ee5b5f1c949cb042c7f2deeb" id="r_ab63d3505ee5b5f1c949cb042c7f2deeb"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab63d3505ee5b5f1c949cb042c7f2deeb">clearRecordingDataCache</a> ()</td></tr>
+<tr class="memdesc:ab63d3505ee5b5f1c949cb042c7f2deeb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear the BaseRecordingData object cache to reset the recording state.  <br /></td></tr>
 <tr class="memitem:a150f881ad61cb8352eea7ddba47bc6ad" id="r_a150f881ad61cb8352eea7ddba47bc6ad"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a150f881ad61cb8352eea7ddba47bc6ad">getTypeName</a> () const</td></tr>
 <tr class="memdesc:a150f881ad61cb8352eea7ddba47bc6ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the class type.  <br /></td></tr>
 <tr class="memitem:a651f3d7e5cc28dc93888e8a821c5aa1c" id="r_a651f3d7e5cc28dc93888e8a821c5aa1c"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a651f3d7e5cc28dc93888e8a821c5aa1c">getNamespace</a> () const</td></tr>
@@ -151,8 +162,8 @@ Public Member Functions</h2></td></tr>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:ab7e3361637885fe601cc20cb342bf01c" id="r_ab7e3361637885fe601cc20cb342bf01c"><td class="memItemLeft" align="right" valign="top">static std::unordered_set&lt; std::string &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab7e3361637885fe601cc20cb342bf01c">getRegistry</a> ()</td></tr>
 <tr class="memdesc:ab7e3361637885fe601cc20cb342bf01c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the registry of subclass names.  <br /></td></tr>
-<tr class="memitem:a8792fccbd49f9d441b1f6d5a1b06b4cf" id="r_a8792fccbd49f9d441b1f6d5a1b06b4cf"><td class="memItemLeft" align="right" valign="top">static std::unordered_map&lt; std::string, std::pair&lt; std::function&lt; std::unique_ptr&lt; <a class="el" href="#aa1e04074725b7331d725bbda8156bc2d">RegisteredType</a> &gt;(const std::string &amp;, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt;)&gt;, std::pair&lt; std::string, std::string &gt; &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8792fccbd49f9d441b1f6d5a1b06b4cf">getFactoryMap</a> ()</td></tr>
-<tr class="memdesc:a8792fccbd49f9d441b1f6d5a1b06b4cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the factory map for creating instances of subclasses.  <br /></td></tr>
+<tr class="memitem:ac83aa589b9c3ab5a00bab462e58fdbd5" id="r_ac83aa589b9c3ab5a00bab462e58fdbd5"><td class="memItemLeft" align="right" valign="top">static std::unordered_map&lt; std::string, std::pair&lt; std::function&lt; std::shared_ptr&lt; <a class="el" href="#aa1e04074725b7331d725bbda8156bc2d">RegisteredType</a> &gt;(const std::string &amp;, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt;)&gt;, std::pair&lt; std::string, std::string &gt; &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac83aa589b9c3ab5a00bab462e58fdbd5">getFactoryMap</a> ()</td></tr>
+<tr class="memdesc:ac83aa589b9c3ab5a00bab462e58fdbd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the factory map for creating instances of subclasses.  <br /></td></tr>
 <tr class="memitem:a6f7d3d6d30763215c823452176ed876a" id="r_a6f7d3d6d30763215c823452176ed876a"><td class="memItemLeft" align="right" valign="top">static std::shared_ptr&lt; <a class="el" href="#aa1e04074725b7331d725bbda8156bc2d">RegisteredType</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6f7d3d6d30763215c823452176ed876a">create</a> (const std::string &amp;fullClassName, const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt; io, bool fallbackToBase=false)</td></tr>
 <tr class="memdesc:a6f7d3d6d30763215c823452176ed876a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an instance of a registered subclass by name.  <br /></td></tr>
 <tr class="memitem:a13dd3c9a0045cb3729ba9cf56e4a2fa7" id="r_a13dd3c9a0045cb3729ba9cf56e4a2fa7"><td class="memItemLeft" align="right" valign="top">static std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">AQNWB::NWB::RegisteredType</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a13dd3c9a0045cb3729ba9cf56e4a2fa7">create</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt; io, bool fallbackToBase=false)</td></tr>
@@ -161,17 +172,22 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a2291ceaa71c1b02ed86a3d4626a7ac48 template"><td class="memItemLeft" align="right" valign="top">static std::shared_ptr&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2291ceaa71c1b02ed86a3d4626a7ac48">create</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt; io)</td></tr>
 <tr class="memdesc:a2291ceaa71c1b02ed86a3d4626a7ac48"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method to create an instance of a subclass of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> by type.  <br /></td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pro-methods" class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:aa1e04074725b7331d725bbda8156bc2d" id="r_aa1e04074725b7331d725bbda8156bc2d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa1e04074725b7331d725bbda8156bc2d">RegisteredType</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt; io)</td></tr>
+<tr class="memdesc:aa1e04074725b7331d725bbda8156bc2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <br /></td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pro-static-methods" class="groupheader"><a id="pro-static-methods" name="pro-static-methods"></a>
 Static Protected Member Functions</h2></td></tr>
-<tr class="memitem:a68bea5945732c62a4a93ab9af5abbafb" id="r_a68bea5945732c62a4a93ab9af5abbafb"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a68bea5945732c62a4a93ab9af5abbafb">registerSubclass</a> (const std::string &amp;fullClassName, std::function&lt; std::unique_ptr&lt; <a class="el" href="#aa1e04074725b7331d725bbda8156bc2d">RegisteredType</a> &gt;(const std::string &amp;, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt;)&gt; factoryFunction, const std::string &amp;typeName, const std::string &amp;typeNamespace)</td></tr>
-<tr class="memdesc:a68bea5945732c62a4a93ab9af5abbafb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a subclass name and its factory function in the registry.  <br /></td></tr>
+<tr class="memitem:ab20cf389f4f512056d7755ec23d6d0a9" id="r_ab20cf389f4f512056d7755ec23d6d0a9"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab20cf389f4f512056d7755ec23d6d0a9">registerSubclass</a> (const std::string &amp;fullClassName, std::function&lt; std::shared_ptr&lt; <a class="el" href="#aa1e04074725b7331d725bbda8156bc2d">RegisteredType</a> &gt;(const std::string &amp;, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt;)&gt; factoryFunction, const std::string &amp;typeName, const std::string &amp;typeNamespace)</td></tr>
+<tr class="memdesc:ab20cf389f4f512056d7755ec23d6d0a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a subclass name and its factory function in the registry.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pro-attribs" class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:a2c2954495607eb4afe4e9ab8eff3a08b" id="r_a2c2954495607eb4afe4e9ab8eff3a08b"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2c2954495607eb4afe4e9ab8eff3a08b">m_path</a></td></tr>
 <tr class="memdesc:a2c2954495607eb4afe4e9ab8eff3a08b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The path of the registered type.  <br /></td></tr>
-<tr class="memitem:a5f4d142b8156b6b33ed01c11c5720fec" id="r_a5f4d142b8156b6b33ed01c11c5720fec"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5f4d142b8156b6b33ed01c11c5720fec">m_io</a></td></tr>
-<tr class="memdesc:a5f4d142b8156b6b33ed01c11c5720fec"><td class="mdescLeft">&#160;</td><td class="mdescRight">A shared pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html" title="The namespace for IO components of AqNWB.">IO</a> object.  <br /></td></tr>
+<tr class="memitem:a73f9bb35022892941b8b46a1669605da" id="r_a73f9bb35022892941b8b46a1669605da"><td class="memItemLeft" align="right" valign="top">std::weak_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a73f9bb35022892941b8b46a1669605da">m_io</a></td></tr>
+<tr class="memdesc:a73f9bb35022892941b8b46a1669605da"><td class="mdescLeft">&#160;</td><td class="mdescRight">A weak pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html" title="The namespace for IO components of AqNWB.">IO</a> object.  <br /></td></tr>
 <tr class="memitem:a549f4d2169ae451bda8d959c9a11dbc3" id="r_a549f4d2169ae451bda8d959c9a11dbc3"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">IO::BaseRecordingData</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a549f4d2169ae451bda8d959c9a11dbc3">m_recordingDataCache</a></td></tr>
 <tr class="memdesc:a549f4d2169ae451bda8d959c9a11dbc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cache for BaseRecordingData objects for datasets to retain recording state.  <br /></td></tr>
 </table><table class="memberdecls">
@@ -186,42 +202,6 @@ Static Protected Attributes</h2></td></tr>
 <div class="textblock"><p>Base class for types defined in the <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> schema. </p>
 <p>This class maintains a static registry of all subclasses that inherit from it. To register a new class we need to call the macro "REGISTER_SUBCLASS(MySubClass)" in the definition of the subclass. All subclasses must also implement the constructor with the <span class="tt">path</span> and <span class="tt">io</span> as sole input arguments. This in turn allows us to create any subclass of container based on its name because we can : 1) look-up classes by their name in the registry and 2) all subclasses have a consistent constructor. The registry is static in the sense that it is a static member of the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html" title="Abstract data type for a group storing collections of data and metadata.">Container</a> class (and as such it is shared among all instances of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html" title="Abstract data type for a group storing collections of data and metadata.">Container</a> and its subclasses). However, the registry is not static in the sense that it is being created at compile time; but it is created and can be modified at runtime. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="aa1e04074725b7331d725bbda8156bc2d" name="aa1e04074725b7331d725bbda8156bc2d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa1e04074725b7331d725bbda8156bc2d">&#9670;&#160;</a></span>RegisteredType()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">RegisteredType::RegisteredType </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>io</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Constructor. </p>
-<p>All registered subclasses of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> must implement a constructor with these arguments.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">path</td><td>The path of the registered type. </td></tr>
-    <tr><td class="paramname">io</td><td>A shared pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html" title="The namespace for IO components of AqNWB.">IO</a> object. </td></tr>
-  </table>
-  </dd>
-</dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_aa1e04074725b7331d725bbda8156bc2d_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
-
-</div>
-</div>
 <a id="ab92081cf30cab76ac6e35125300f77a4" name="ab92081cf30cab76ac6e35125300f77a4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab92081cf30cab76ac6e35125300f77a4">&#9670;&#160;</a></span>~RegisteredType()</h2>
 
@@ -249,9 +229,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="a35d9c02ee1c08009547fc59b2e947929" name="a35d9c02ee1c08009547fc59b2e947929"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a35d9c02ee1c08009547fc59b2e947929">&#9670;&#160;</a></span>clearRecordingDataCache()</h2>
+<a id="aa1e04074725b7331d725bbda8156bc2d" name="aa1e04074725b7331d725bbda8156bc2d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1e04074725b7331d725bbda8156bc2d">&#9670;&#160;</a></span>RegisteredType()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -260,7 +239,52 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void AQNWB::NWB::RegisteredType::clearRecordingDataCache </td>
+          <td class="memname">RegisteredType::RegisteredType </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>io</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructor. </p>
+<p>All registered subclasses of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> must implement a constructor with these arguments.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The path of the registered type. </td></tr>
+    <tr><td class="paramname">io</td><td>A shared pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html" title="The namespace for IO components of AqNWB.">IO</a> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_aa1e04074725b7331d725bbda8156bc2d_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="ab63d3505ee5b5f1c949cb042c7f2deeb" name="ab63d3505ee5b5f1c949cb042c7f2deeb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab63d3505ee5b5f1c949cb042c7f2deeb">&#9670;&#160;</a></span>clearRecordingDataCache()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void AQNWB::NWB::RegisteredType::clearRecordingDataCache </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -268,7 +292,7 @@ Here is the caller graph for this function:</div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel virtual">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -333,7 +357,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_a6f7d3d6d30763215c823452176ed876a_icgraph.svg" width="482" height="76"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_a6f7d3d6d30763215c823452176ed876a_icgraph.svg" width="100%" height="559"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -436,6 +460,42 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
+<a id="aafbac618f2867992dbe8c2f35a072bae" name="aafbac618f2867992dbe8c2f35a072bae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aafbac618f2867992dbe8c2f35a072bae">&#9670;&#160;</a></span>finalize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">AQNWB::Types::Status</a> RegisteredType::finalize </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Finalize the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> object. </p>
+<p>This method provides a standard interface for finalizing <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> objects. Finalizing means that the function must ensure to generate a valid state of the type in the file. E.g., in the case of a table, the function may generate row indices, column order etc.. Finalize may be called multiple times, e.g., when starting a recording to ensure the file is in a valid state, and then again when stopping the recording to ensure the final state is valid. The default implementation does nothing and returns AQNWB::Types::Status::Success.</p>
+<dl class="section return"><dt>Returns</dt><dd>AQNWB::Types::Status::Success if successful, otherwise AQNWB::Types::Status::Failure. </dd></dl>
+
+<p>Reimplemented in <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#af5265103ac7a6ac7548a6a10757a0be5">AQNWB::NWB::DynamicTable</a>, and <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#a8c91ac320289a2bdc6c55aeb78b4a1ad">AQNWB::NWB::ElectrodesTable</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_aafbac618f2867992dbe8c2f35a072bae_icgraph.svg" width="100%" height="388"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
 <a id="a8a83a775f6a8a94d6ae3428e05ef9bfc" name="a8a83a775f6a8a94d6ae3428e05ef9bfc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8a83a775f6a8a94d6ae3428e05ef9bfc">&#9670;&#160;</a></span>findOwnedTypes()</h2>
 
@@ -471,7 +531,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A unique_ptr to the created instance of the subclass. */ inline std::shared_ptr&lt;AQNWB::NWB::RegisteredType&gt; <a class="el" href="#adc5ba3d9e27c74f8181944e505bba6e5" title="Support reading of arbitrary fields by their relative path.">readField(
-    const std::string&amp; fieldPath) const</a> { return this-&gt;create(AQNWB::mergePaths(m_path, fieldPath), m_io); }</dd></dl>
+    const std::string&amp; fieldPath) const</a> { auto ioPtr = <a class="el" href="#ab614b1609f536e88ed1f32762dc3894b" title="Get a shared pointer to the IO object.">getIO()</a>; if (!ioPtr) { std::cerr &lt;&lt; "IO object has been deleted. Can't read field: " &lt;&lt; fieldPath &lt;&lt; std::endl; return nullptr; } return this-&gt;create(AQNWB::mergePaths(m_path, fieldPath), ioPtr); }</dd></dl>
 <p>/**</p>
 <p>Find all typed objects that are owned by this object, i.e., objects that have a neurodata_type and namespace attribute and have this object as there closest parent with an assigned type.</p>
 <p>This is a shorthand for calling <span class="tt"><a class="el" href="#ab614b1609f536e88ed1f32762dc3894b" title="Get a shared pointer to the IO object.">getIO()</a>-&gt;findTypes(m_path, types, IO::SearchMode::STOP_ON_TYPE, true);</span></p>
@@ -483,6 +543,11 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>An unordered map where each key is the path to an object and its corresponding value is the type of the object. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_a8a83a775f6a8a94d6ae3428e05ef9bfc_cgraph.svg" width="482" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 
 </div>
 </div>
@@ -514,8 +579,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a8792fccbd49f9d441b1f6d5a1b06b4cf" name="a8792fccbd49f9d441b1f6d5a1b06b4cf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8792fccbd49f9d441b1f6d5a1b06b4cf">&#9670;&#160;</a></span>getFactoryMap()</h2>
+<a id="ac83aa589b9c3ab5a00bab462e58fdbd5" name="ac83aa589b9c3ab5a00bab462e58fdbd5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac83aa589b9c3ab5a00bab462e58fdbd5">&#9670;&#160;</a></span>getFactoryMap()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -524,7 +589,7 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unordered_map&lt; std::string, std::pair&lt; std::function&lt; std::unique_ptr&lt; <a class="el" href="#aa1e04074725b7331d725bbda8156bc2d">RegisteredType</a> &gt;(const std::string &amp;, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt;)&gt;, std::pair&lt; std::string, std::string &gt; &gt; &gt; &amp; RegisteredType::getFactoryMap </td>
+          <td class="memname">std::unordered_map&lt; std::string, std::pair&lt; std::function&lt; std::shared_ptr&lt; <a class="el" href="#aa1e04074725b7331d725bbda8156bc2d">RegisteredType</a> &gt;(const std::string &amp;, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt;)&gt;, std::pair&lt; std::string, std::string &gt; &gt; &gt; &amp; RegisteredType::getFactoryMap </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -543,7 +608,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_a8792fccbd49f9d441b1f6d5a1b06b4cf_icgraph.svg" width="100%" height="406"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_ac83aa589b9c3ab5a00bab462e58fdbd5_icgraph.svg" width="100%" height="559"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -610,7 +675,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_ab614b1609f536e88ed1f32762dc3894b_icgraph.svg" width="492" height="183"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_ab614b1609f536e88ed1f32762dc3894b_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -669,10 +734,12 @@ Here is the caller graph for this function:</div>
 <p>Get the schema namespace of the class type. </p>
 <p>This is the namespace of the neurodata_type in the format schema and NOT the namespace of the class in C++. The REGISTER_SUBCLASS macro defines an automatic override for this function to return the namespace as defined when the class was registered.</p>
 <dl class="section return"><dt>Returns</dt><dd>The namespace of the type as a string. </dd></dl>
+
+<p>Reimplemented in <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html#a098c3c29e8df100c88029d9b9f5c88e9">AQNWB::NWB::AnnotationSeries</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a1a8f53595eb2637e32e816a3ff99a230">AQNWB::NWB::Container</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a4492a59ec08422039f9d0bc509ffd06d">AQNWB::NWB::Data</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_device.html#af5743857e9c51c99360776cc757bc025">AQNWB::NWB::Device</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a92b40bccab43dde705a6fa86872cea32">AQNWB::NWB::DynamicTable</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#ae01cb16c642e895a4de05e64debd8dc7">AQNWB::NWB::ElectricalSeries</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html#ac9f300e2308bb4849cf44b733064746d">AQNWB::NWB::ElectrodeGroup</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#a92e0a4427f4eeb032b20c679876f8688">AQNWB::NWB::ElectrodesTable</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_element_identifiers.html#ab51c8869b9168dc945dcfc61692ae32c">AQNWB::NWB::ElementIdentifiers</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html#aa7ada6d9ac9c045bd810efb56d89bd8e">AQNWB::NWB::NWBContainer</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data.html#a53e8bf3b98dda1c724eb53e6ff488573">AQNWB::NWB::NWBData</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface.html#a6fdcd6e22958c158470aed44495ee779">AQNWB::NWB::NWBDataInterface</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a0b44558c283edd9db7d2fcf284c1a5ec">AQNWB::NWB::NWBFile</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#af5db02bc128a66c17702fa5c2ae5eaa5">AQNWB::NWB::SpikeEventSeries</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a939a4213950507861a18207b460d72ad">AQNWB::NWB::TimeSeries</a>, and <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a14d3fb14c1eb5cb40bf37a8666d32a91">AQNWB::NWB::VectorData</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_a651f3d7e5cc28dc93888e8a821c5aa1c_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_a651f3d7e5cc28dc93888e8a821c5aa1c_icgraph.svg" width="482" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -705,7 +772,37 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_ab3eec5d2a591356df25053a4159ab671_icgraph.svg" width="100%" height="559"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_ab3eec5d2a591356df25053a4159ab671_icgraph.svg" width="486" height="207"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="ac277f0e6485c7c8050a76324eb994223" name="ac277f0e6485c7c8050a76324eb994223"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac277f0e6485c7c8050a76324eb994223">&#9670;&#160;</a></span>getRecordingObjectIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> RegisteredType::getRecordingObjectIndex </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the index of this object in m_io-&gt;m_recording_objects. </p>
+<dl class="section return"><dt>Returns</dt><dd>Index of the object of <a class="el" href="class_a_q_n_w_b_1_1_types.html#a489c41cdd124123f0595271873e00dbe" title="Value to use to indicate that a SizeType index is not set.">AQNWB::Types::SizeTypeNotSet</a> if the object is not registered </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_ac277f0e6485c7c8050a76324eb994223_cgraph.svg" width="482" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_ac277f0e6485c7c8050a76324eb994223_icgraph.svg" width="482" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -770,10 +867,45 @@ Here is the caller graph for this function:</div>
 <p>Get the name of the class type. </p>
 <p>The REGISTER_SUBCLASS macro defines an automatic override for this function to return the unmangled name of the class. The name of the class must be the same as the neurodata_type that it implements.</p>
 <dl class="section return"><dt>Returns</dt><dd>The name of the type as a string </dd></dl>
+
+<p>Reimplemented in <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html#a1a1d20183ab9f430020d88e003f07ae4">AQNWB::NWB::AnnotationSeries</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a21e3abbea48e9455731f2859c7954c97">AQNWB::NWB::Container</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a27b6db1fbbd11f84f76456be6c6a741e">AQNWB::NWB::Data</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_device.html#a33695e62396fdd0b48b2174f403ed574">AQNWB::NWB::Device</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#ae55c617c34e682979efa695f422f295a">AQNWB::NWB::DynamicTable</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a8b63df4e42d0e98a9ed1e77a51dce8ff">AQNWB::NWB::ElectricalSeries</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html#a41a5e46de5e0105ed72884630e2533aa">AQNWB::NWB::ElectrodeGroup</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#a86ce3df2575a741dcd413fe27d1135c3">AQNWB::NWB::ElectrodesTable</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_element_identifiers.html#a8793b33175692d985adc438bd769457a">AQNWB::NWB::ElementIdentifiers</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html#abdefb9b990197efa6550ab3b1d1dcf66">AQNWB::NWB::NWBContainer</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data.html#af415f9629621a1b99bfcf202787d68b1">AQNWB::NWB::NWBData</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface.html#a5e7c44e6c2e60f4da2154c31a40ce861">AQNWB::NWB::NWBDataInterface</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ae22dafcb8cb963103fe0e2b4cbfd5dd8">AQNWB::NWB::NWBFile</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#a9166033a4ff6e69f79ca64adbe591ae4">AQNWB::NWB::SpikeEventSeries</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#aceff608228b87017b836a4a97f5b470d">AQNWB::NWB::TimeSeries</a>, and <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a9e1ef6be8f543a60dd03eef09d648c36">AQNWB::NWB::VectorData</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_a150f881ad61cb8352eea7ddba47bc6ad_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_a150f881ad61cb8352eea7ddba47bc6ad_icgraph.svg" width="482" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="ae66a9bc325b1ddb2c6a5f537feb8591a" name="ae66a9bc325b1ddb2c6a5f537feb8591a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae66a9bc325b1ddb2c6a5f537feb8591a">&#9670;&#160;</a></span>isRegisteredRecordingObject()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool AQNWB::NWB::RegisteredType::isRegisteredRecordingObject </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Check if this <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> object is registered in the RecordingObjects manager object of the I/O. </p>
+<dl class="section return"><dt>Returns</dt><dd>True if the object is registered, false otherwise. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_ae66a9bc325b1ddb2c6a5f537feb8591a_cgraph.svg" width="100%" height="376"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -823,13 +955,39 @@ template&lt;<a class="el" href="class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb1
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_adc5ba3d9e27c74f8181944e505bba6e5_cgraph.svg" width="420" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_adc5ba3d9e27c74f8181944e505bba6e5_cgraph.svg" width="482" height="102"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="a68bea5945732c62a4a93ab9af5abbafb" name="a68bea5945732c62a4a93ab9af5abbafb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a68bea5945732c62a4a93ab9af5abbafb">&#9670;&#160;</a></span>registerSubclass()</h2>
+<a id="a9114e761cf006ec16c3733b9f8915f9d" name="a9114e761cf006ec16c3733b9f8915f9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9114e761cf006ec16c3733b9f8915f9d">&#9670;&#160;</a></span>registerRecordingObject()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> RegisteredType::registerRecordingObject </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Register this <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> object with the RecordingObjects manager object of the I/O. </p>
+<p>This method should be called when this <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> object is being used for recording data. Usually this should be done when the initialize() function of the type is being called. <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html" title="Abstract data type for a group storing collections of data and metadata.">AQNWB::NWB::Container</a> and <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html" title="An abstract data type for a dataset.">AQNWB::NWB::Data</a> classes automatically in the initialize() function so most subclasses do not need to call this method explicitly.</p>
+<dl class="section return"><dt>Returns</dt><dd>The index at which the object was registered. The sentinel value std::numeric_limits&lt;SizeType&gt;::max(); is returned if the object could not be registered (e.g., if the lookup for the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html" title="The namespace for IO components of AqNWB.">IO</a> or RecordingObjects failed for some unspecified reason). </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_a9114e761cf006ec16c3733b9f8915f9d_cgraph.svg" width="482" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="ab20cf389f4f512056d7755ec23d6d0a9" name="ab20cf389f4f512056d7755ec23d6d0a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab20cf389f4f512056d7755ec23d6d0a9">&#9670;&#160;</a></span>registerSubclass()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -845,7 +1003,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::function&lt; std::unique_ptr&lt; <a class="el" href="#aa1e04074725b7331d725bbda8156bc2d">RegisteredType</a> &gt;(const std::string &amp;, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt;)&gt;</td>          <td class="paramname"><span class="paramname"><em>factoryFunction</em></span>, </td>
+          <td class="paramtype">std::function&lt; std::shared_ptr&lt; <a class="el" href="#aa1e04074725b7331d725bbda8156bc2d">RegisteredType</a> &gt;(const std::string &amp;, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt;)&gt;</td>          <td class="paramname"><span class="paramname"><em>factoryFunction</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -878,7 +1036,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_a68bea5945732c62a4a93ab9af5abbafb_cgraph.svg" width="482" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_ab20cf389f4f512056d7755ec23d6d0a9_cgraph.svg" width="482" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -937,8 +1095,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a5f4d142b8156b6b33ed01c11c5720fec" name="a5f4d142b8156b6b33ed01c11c5720fec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5f4d142b8156b6b33ed01c11c5720fec">&#9670;&#160;</a></span>m_io</h2>
+<a id="a73f9bb35022892941b8b46a1669605da" name="a73f9bb35022892941b8b46a1669605da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73f9bb35022892941b8b46a1669605da">&#9670;&#160;</a></span>m_io</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -947,7 +1105,7 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::shared_ptr&lt;<a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a>&gt; AQNWB::NWB::RegisteredType::m_io</td>
+          <td class="memname">std::weak_ptr&lt;<a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a>&gt; AQNWB::NWB::RegisteredType::m_io</td>
         </tr>
       </table>
   </td>
@@ -957,7 +1115,8 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>A shared pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html" title="The namespace for IO components of AqNWB.">IO</a> object. </p>
+<p>A weak pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html" title="The namespace for IO components of AqNWB.">IO</a> object. </p>
+<p>We use weak_ptr here because the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> object should not own or keep the I/O alive. The users owns the I/O object. Using a weak pointer allows us to access the I/O object without extending its lifetime. This is important to avoid circular dependencies and memory leaks. To ensure safe usage we should always for <a class="el" href="#ab614b1609f536e88ed1f32762dc3894b" title="Get a shared pointer to the IO object.">getIO()</a> to retrieve a shared pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html" title="The namespace for IO components of AqNWB.">IO</a> object before using it. </p>
 
 </div>
 </div>

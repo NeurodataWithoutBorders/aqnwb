@@ -1,9 +1,11 @@
 <map id="AQNWB::NWB::ElectrodesTable" name="AQNWB::NWB::ElectrodesTable">
-<area shape="rect" id="Node000001" title="Represents a table containing electrode metadata." alt="" coords="5,226,219,252"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html" title="Represents a group containing multiple datasets that are aligned on the first dimension." alt="" coords="10,153,214,178"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="114,192,114,227,110,225,110,196"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html" title="Abstract data type for a group storing collections of data and metadata." alt="" coords="24,79,200,105"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="113,118,115,153,109,151,111,123"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema." alt="" coords="6,5,218,31"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="113,44,115,79,109,78,111,49"/>
+<area shape="rect" id="Node000001" title="Represents a table containing electrode metadata." alt="" coords="5,315,219,341"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html" title="Represents a group containing multiple datasets that are aligned on the first dimension." alt="" coords="10,241,214,267"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="114,281,114,316,110,313,110,284"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html" title="Abstract data type for a group storing collections of data and metadata." alt="" coords="24,168,200,193"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="113,206,115,242,109,240,111,211"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema." alt="" coords="6,94,218,120"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="113,133,115,168,109,167,111,138"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="13,5,211,46"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="113,59,115,94,109,93,111,64"/>
 </map>

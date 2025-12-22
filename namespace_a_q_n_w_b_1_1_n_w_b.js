@@ -19,7 +19,6 @@ var namespace_a_q_n_w_b_1_1_n_w_b =
     [ "VectorDataTyped", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed" ],
     [ "AnnotationSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series" ],
     [ "NWBFile", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file" ],
-    [ "RecordingContainers", "class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers" ],
     [ "RegisteredType", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" ],
     [ "AttributeField", "namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f", null ],
     [ "DatasetField", "namespace_a_q_n_w_b_1_1_n_w_b.html#acfd896b65a7f56c25b3730a6e8dc80ca", null ]

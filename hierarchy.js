@@ -13,6 +13,38 @@ var hierarchy =
     [ "AQNWB::Channel", "class_a_q_n_w_b_1_1_channel.html", null ],
     [ "AQNWB::IO::DataBlock&lt; DTYPE &gt;", "class_a_q_n_w_b_1_1_i_o_1_1_data_block.html", null ],
     [ "AQNWB::IO::DataBlockGeneric", "class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html", null ],
+    [ "std::enable_shared_from_this", null, [
+      [ "AQNWB::NWB::RegisteredType", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html", [
+        [ "AQNWB::NWB::Container", "class_a_q_n_w_b_1_1_n_w_b_1_1_container.html", [
+          [ "AQNWB::NWB::DynamicTable", "class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html", [
+            [ "AQNWB::NWB::ElectrodesTable", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html", null ]
+          ] ],
+          [ "AQNWB::NWB::NWBContainer", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html", [
+            [ "AQNWB::NWB::Device", "class_a_q_n_w_b_1_1_n_w_b_1_1_device.html", null ],
+            [ "AQNWB::NWB::ElectrodeGroup", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html", null ],
+            [ "AQNWB::NWB::NWBDataInterface", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface.html", [
+              [ "AQNWB::NWB::TimeSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html", [
+                [ "AQNWB::NWB::AnnotationSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html", null ],
+                [ "AQNWB::NWB::ElectricalSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html", [
+                  [ "AQNWB::NWB::SpikeEventSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html", null ]
+                ] ]
+              ] ]
+            ] ],
+            [ "AQNWB::NWB::NWBFile", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html", null ]
+          ] ]
+        ] ],
+        [ "AQNWB::NWB::Data", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html", [
+          [ "AQNWB::NWB::DataTyped< DTYPE >", "class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html", null ],
+          [ "AQNWB::NWB::ElementIdentifiers", "class_a_q_n_w_b_1_1_n_w_b_1_1_element_identifiers.html", null ],
+          [ "AQNWB::NWB::NWBData", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data.html", [
+            [ "AQNWB::NWB::NWBDataTyped< DTYPE >", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_typed.html", null ]
+          ] ],
+          [ "AQNWB::NWB::VectorData", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html", [
+            [ "AQNWB::NWB::VectorDataTyped< DTYPE >", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html", null ]
+          ] ]
+        ] ]
+      ] ]
+    ] ],
     [ "std::false_type", null, [
       [ "AQNWB::IO::isAllowedStorageObjectType< StorageObjectType::Attribute >", "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type_3_01_storage_object_type_1_1_attribute_01_4.html", null ],
       [ "AQNWB::IO::isAllowedStorageObjectType< StorageObjectType::Dataset >", "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type_3_01_storage_object_type_1_1_dataset_01_4.html", null ],
@@ -26,37 +58,7 @@ var hierarchy =
     [ "AQNWB::Types::NamespaceInfo", "struct_a_q_n_w_b_1_1_types_1_1_namespace_info.html", null ],
     [ "AQNWB::SPEC::NamespaceRegistry", "class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html", null ],
     [ "AQNWB::IO::ReadDataWrapper&lt; OTYPE, VTYPE &gt;", "class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html", null ],
-    [ "AQNWB::NWB::RecordingContainers", "class_a_q_n_w_b_1_1_n_w_b_1_1_recording_containers.html", null ],
-    [ "AQNWB::NWB::RegisteredType", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html", [
-      [ "AQNWB::NWB::Container", "class_a_q_n_w_b_1_1_n_w_b_1_1_container.html", [
-        [ "AQNWB::NWB::DynamicTable", "class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html", [
-          [ "AQNWB::NWB::ElectrodesTable", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html", null ]
-        ] ],
-        [ "AQNWB::NWB::NWBContainer", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html", [
-          [ "AQNWB::NWB::Device", "class_a_q_n_w_b_1_1_n_w_b_1_1_device.html", null ],
-          [ "AQNWB::NWB::ElectrodeGroup", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html", null ],
-          [ "AQNWB::NWB::NWBDataInterface", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface.html", [
-            [ "AQNWB::NWB::TimeSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html", [
-              [ "AQNWB::NWB::AnnotationSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html", null ],
-              [ "AQNWB::NWB::ElectricalSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html", [
-                [ "AQNWB::NWB::SpikeEventSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html", null ]
-              ] ]
-            ] ]
-          ] ],
-          [ "AQNWB::NWB::NWBFile", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html", null ]
-        ] ]
-      ] ],
-      [ "AQNWB::NWB::Data", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html", [
-        [ "AQNWB::NWB::DataTyped< DTYPE >", "class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html", null ],
-        [ "AQNWB::NWB::ElementIdentifiers", "class_a_q_n_w_b_1_1_n_w_b_1_1_element_identifiers.html", null ],
-        [ "AQNWB::NWB::NWBData", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data.html", [
-          [ "AQNWB::NWB::NWBDataTyped< DTYPE >", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_typed.html", null ]
-        ] ],
-        [ "AQNWB::NWB::VectorData", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html", [
-          [ "AQNWB::NWB::VectorDataTyped< DTYPE >", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html", null ]
-        ] ]
-      ] ]
-    ] ],
+    [ "AQNWB::IO::RecordingObjects", "class_a_q_n_w_b_1_1_i_o_1_1_recording_objects.html", null ],
     [ "std::true_type", null, [
       [ "AQNWB::IO::isAllowedStorageObjectType< StorageObjectType::Attribute >", "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type_3_01_storage_object_type_1_1_attribute_01_4.html", null ],
       [ "AQNWB::IO::isAllowedStorageObjectType< StorageObjectType::Dataset >", "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type_3_01_storage_object_type_1_1_dataset_01_4.html", null ]
