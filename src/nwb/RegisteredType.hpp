@@ -533,12 +533,12 @@ public: \
  */
 #define DEFINE_ATTRIBUTE_FIELD(name, default_type, fieldPath, description) \
   /** \
-   * @brief Returns a lazy-loaded wrapper for the name attribute field. \
+   * @brief Returns a lazy-loaded wrapper for the ##name attribute field. \
    * \
    * @tparam VTYPE The type of the field (default: default_type) \
    * @return A unique pointer to a ReadDataWrapper for the field \
    * \
-   * description \
+   * ##description \
    */ \
   template<typename VTYPE = default_type> \
   inline std::unique_ptr< \
@@ -580,7 +580,7 @@ public: \
 #define DEFINE_DATASET_FIELD( \
     readName, writeName, default_type, fieldPath, description) \
   /** \
-   * @brief Returns a lazy-loaded wrapper for the readName dataset field. \
+   * @brief Returns a lazy-loaded wrapper for the ##readName dataset field. \
    * \
    * @tparam VTYPE The type of the field (default: default_type) \
    * @return A unique pointer to a ReadDataWrapper for the field \
@@ -603,7 +603,7 @@ public: \
         ioPtr, AQNWB::mergePaths(m_path, fieldPath)); \
   } \
   /** \
-   * @brief Returns the dataset object for the writeName field. \
+   * @brief Returns the dataset object for the ##writeName field. \
    * \
    * This functions modifies the m_recordingDataCache as a side effect \
    * to retain the recording state. \
@@ -613,7 +613,7 @@ public: \
    * \
    * @return A shared pointer to a BaseRecordingData for the dataset \
    * \
-   * description \
+   * ##description \
    */ \
   inline std::shared_ptr<AQNWB::IO::BaseRecordingData> writeName(bool reset = \
                                                                      false) \
@@ -663,7 +663,7 @@ public: \
  */
 #define DEFINE_REGISTERED_FIELD(name, registeredType, fieldPath, description) \
   /** \
-   * @brief Returns the instance of the class representing the name field. \
+   * @brief Returns the instance of the class representing the ##name field. \
    * \
    * @tparam RTYPE The RegisteredType of the field (default: registeredType) \
    * In most cases this should not be changed. But in the case of templated \
@@ -714,7 +714,7 @@ public: \
 #define DEFINE_UNNAMED_REGISTERED_FIELD( \
     readName, writeName, registeredType, fieldPrefixPath, description) \
   /** \
-   * @brief Returns the instance of the class representing the name field. \
+   * @brief Returns the instance of the class representing the ##name field. \
    * \
    * @tparam RTYPE The RegisteredType of the field (default: registeredType) \
    * In most cases this should not be changed. But in the case of templated \
@@ -724,7 +724,7 @@ public: \
    * @return A shared pointer to an instance of registeredType representing \
    * the object. May return nullptr if the path does not exist \
    * \
-   * description \
+   * ##description \
    */ \
   template<typename RTYPE = registeredType> \
   inline std::shared_ptr<RTYPE> readName(const std::string& objectName) const \
@@ -743,7 +743,7 @@ public: \
     return nullptr; \
   } \
   /** \
-   * @brief Returns the instance of the class representing the name field \
+   * @brief Returns the instance of the class representing the ##name field. \
    * for write \
    * \
    * @tparam RTYPE The RegisteredType of the field (default: registeredType) \
@@ -754,7 +754,7 @@ public: \
    * @return A shared pointer to an instance of registeredType representing \
    * the object. \
    * \
-   * description \
+   * ##description \
    */ \
   template<typename RTYPE = registeredType> \
   inline std::shared_ptr<RTYPE> writeName(const std::string& objectName) const \
