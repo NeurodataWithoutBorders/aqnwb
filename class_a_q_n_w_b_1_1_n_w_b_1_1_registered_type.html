@@ -155,8 +155,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:adc5ba3d9e27c74f8181944e505bba6e5" id="r_adc5ba3d9e27c74f8181944e505bba6e5"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915">StorageObjectType</a> SOT, typename VTYPE, typename std::enable_if&lt; <a class="el" href="struct_a_q_n_w_b_1_1_types_1_1_is_data_storage_object_type.html">Types::IsDataStorageObjectType</a>&lt; SOT &gt;::value, int &gt;::type = 0&gt; </td></tr>
 <tr class="memitem:adc5ba3d9e27c74f8181944e505bba6e5 template"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; SOT, VTYPE &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adc5ba3d9e27c74f8181944e505bba6e5">readField</a> (const std::string &amp;fieldPath) const</td></tr>
 <tr class="memdesc:adc5ba3d9e27c74f8181944e505bba6e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Support reading of arbitrary fields by their relative path.  <br /></td></tr>
+<tr class="memitem:a07451eb27d98493d2d362129a3934a4d" id="r_a07451eb27d98493d2d362129a3934a4d"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">AQNWB::NWB::RegisteredType</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07451eb27d98493d2d362129a3934a4d">readField</a> (const std::string &amp;fieldPath) const</td></tr>
+<tr class="memdesc:a07451eb27d98493d2d362129a3934a4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a field that is itself a <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a>.  <br /></td></tr>
 <tr class="memitem:a8a83a775f6a8a94d6ae3428e05ef9bfc" id="r_a8a83a775f6a8a94d6ae3428e05ef9bfc"><td class="memItemLeft" align="right" valign="top">virtual std::unordered_map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8a83a775f6a8a94d6ae3428e05ef9bfc">findOwnedTypes</a> (const std::unordered_set&lt; std::string &gt; &amp;types={}, const <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035">AQNWB::IO::SearchMode</a> &amp;search_mode=<a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035a0bce90db02919671dbe161b9bd8cef05">AQNWB::IO::SearchMode::STOP_ON_TYPE</a>) const</td></tr>
-<tr class="memdesc:a8a83a775f6a8a94d6ae3428e05ef9bfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a field that is itself a <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a>.  <br /></td></tr>
+<tr class="memdesc:a8a83a775f6a8a94d6ae3428e05ef9bfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find all typed objects that are owned by this object, i.e., objects that have a neurodata_type and namespace attribute and have this object as there closest parent with an assigned type.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -357,7 +359,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_a6f7d3d6d30763215c823452176ed876a_icgraph.svg" width="100%" height="559"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_a6f7d3d6d30763215c823452176ed876a_icgraph.svg" width="100%" height="584"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -523,17 +525,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Read a field that is itself a <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a>. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">fieldPath</td><td>The relative path of the field within the current type, i.e., relative to `m_path. The field must itself be <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A unique_ptr to the created instance of the subclass. */ inline std::shared_ptr&lt;AQNWB::NWB::RegisteredType&gt; <a class="el" href="#adc5ba3d9e27c74f8181944e505bba6e5" title="Support reading of arbitrary fields by their relative path.">readField(
-    const std::string&amp; fieldPath) const</a> { auto ioPtr = <a class="el" href="#ab614b1609f536e88ed1f32762dc3894b" title="Get a shared pointer to the IO object.">getIO()</a>; if (!ioPtr) { std::cerr &lt;&lt; "IO object has been deleted. Can't read field: " &lt;&lt; fieldPath &lt;&lt; std::endl; return nullptr; } return this-&gt;create(AQNWB::mergePaths(m_path, fieldPath), ioPtr); }</dd></dl>
-<p>/**</p>
-<p>Find all typed objects that are owned by this object, i.e., objects that have a neurodata_type and namespace attribute and have this object as there closest parent with an assigned type.</p>
+<p>Find all typed objects that are owned by this object, i.e., objects that have a neurodata_type and namespace attribute and have this object as there closest parent with an assigned type. </p>
 <p>This is a shorthand for calling <span class="tt"><a class="el" href="#ab614b1609f536e88ed1f32762dc3894b" title="Get a shared pointer to the IO object.">getIO()</a>-&gt;findTypes(m_path, types, IO::SearchMode::STOP_ON_TYPE, true);</span></p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -608,7 +600,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_ac83aa589b9c3ab5a00bab462e58fdbd5_icgraph.svg" width="100%" height="559"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_ac83aa589b9c3ab5a00bab462e58fdbd5_icgraph.svg" width="100%" height="584"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -910,8 +902,47 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
+<a id="a07451eb27d98493d2d362129a3934a4d" name="a07451eb27d98493d2d362129a3934a4d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07451eb27d98493d2d362129a3934a4d">&#9670;&#160;</a></span>readField() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">AQNWB::NWB::RegisteredType</a> &gt; AQNWB::NWB::RegisteredType::readField </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>fieldPath</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Read a field that is itself a <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fieldPath</td><td>The relative path of the field within the current type, i.e., relative to m_path. The field must itself be <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A unique_ptr to the created instance of the subclass. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_a07451eb27d98493d2d362129a3934a4d_cgraph.svg" width="100%" height="443"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
 <a id="adc5ba3d9e27c74f8181944e505bba6e5" name="adc5ba3d9e27c74f8181944e505bba6e5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adc5ba3d9e27c74f8181944e505bba6e5">&#9670;&#160;</a></span>readField()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#adc5ba3d9e27c74f8181944e505bba6e5">&#9670;&#160;</a></span>readField() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

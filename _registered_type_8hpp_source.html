@@ -246,7 +246,8 @@ $(function() {
 <div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>  }</div>
 </div>
 <div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span></div>
-<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>  <span class="keyword">inline</span> std::shared_ptr&lt;AQNWB::NWB::RegisteredType&gt; <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#adc5ba3d9e27c74f8181944e505bba6e5">readField</a>(</div>
+<div class="foldopen" id="foldopen00334" data-start="{" data-end="}">
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno"><a class="line" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a07451eb27d98493d2d362129a3934a4d">  334</a></span>  <span class="keyword">inline</span> std::shared_ptr&lt;AQNWB::NWB::RegisteredType&gt; <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a07451eb27d98493d2d362129a3934a4d">readField</a>(</div>
 <div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>      <span class="keyword">const</span> std::string&amp; fieldPath)<span class="keyword"> const</span></div>
 <div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span><span class="keyword">  </span>{</div>
 <div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>    <span class="keyword">auto</span> ioPtr = <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab614b1609f536e88ed1f32762dc3894b">getIO</a>();</div>
@@ -257,6 +258,7 @@ $(function() {
 <div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>    }</div>
 <div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span>    <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a">create</a>(<a class="code hl_function" href="namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881">AQNWB::mergePaths</a>(<a class="code hl_variable" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a2c2954495607eb4afe4e9ab8eff3a08b">m_path</a>, fieldPath), ioPtr);</div>
 <div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>  }</div>
+</div>
 <div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span></div>
 <div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>  <span class="keyword">virtual</span> std::unordered_map&lt;std::string, std::string&gt; <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a8a83a775f6a8a94d6ae3428e05ef9bfc">findOwnedTypes</a>(</div>
 <div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>      <span class="keyword">const</span> std::unordered_set&lt;std::string&gt;&amp; types = {},</div>
@@ -416,8 +418,8 @@ $(function() {
 <div class="line"><a id="l00729" name="l00729"></a><span class="lineno">  729</span><span class="preprocessor">  template&lt;typename RTYPE = registeredType&gt; \</span></div>
 <div class="line"><a id="l00730" name="l00730"></a><span class="lineno">  730</span><span class="preprocessor">  inline std::shared_ptr&lt;RTYPE&gt; readName(const std::string&amp; objectName) const \</span></div>
 <div class="line"><a id="l00731" name="l00731"></a><span class="lineno">  731</span><span class="preprocessor">  { \</span></div>
-<div class="line"><a id="l00732" name="l00732"></a><span class="lineno">  732</span><span class="preprocessor">    std::string prefixPath = AQNWB::mergePaths(m_path, fieldPrefixPath); \</span></div>
-<div class="line"><a id="l00733" name="l00733"></a><span class="lineno"><a class="line" href="_registered_type_8hpp.html#a3b2c847e459e9e30e65e38897303a9a5">  733</a></span><span class="preprocessor">    std::string objectPath = AQNWB::mergePaths(prefixPath, objectName); \</span></div>
+<div class="line"><a id="l00732" name="l00732"></a><span class="lineno"><a class="line" href="_registered_type_8hpp.html#a3b2c847e459e9e30e65e38897303a9a5">  732</a></span><span class="preprocessor">    std::string prefixPath = AQNWB::mergePaths(m_path, fieldPrefixPath); \</span></div>
+<div class="line"><a id="l00733" name="l00733"></a><span class="lineno">  733</span><span class="preprocessor">    std::string objectPath = AQNWB::mergePaths(prefixPath, objectName); \</span></div>
 <div class="line"><a id="l00734" name="l00734"></a><span class="lineno">  734</span><span class="preprocessor">    auto ioPtr = getIO(); \</span></div>
 <div class="line"><a id="l00735" name="l00735"></a><span class="lineno">  735</span><span class="preprocessor">    if (!ioPtr) { \</span></div>
 <div class="line"><a id="l00736" name="l00736"></a><span class="lineno">  736</span><span class="preprocessor">      std::cerr &lt;&lt; &quot;IO object has been deleted. Can&#39;t read field: &quot; \</span></div>
@@ -429,53 +431,53 @@ $(function() {
 <div class="line"><a id="l00742" name="l00742"></a><span class="lineno">  742</span><span class="preprocessor">    } \</span></div>
 <div class="line"><a id="l00743" name="l00743"></a><span class="lineno">  743</span><span class="preprocessor">    return nullptr; \</span></div>
 <div class="line"><a id="l00744" name="l00744"></a><span class="lineno">  744</span><span class="preprocessor">  } \</span></div>
-<div class="line"><a id="l00745" name="l00745"></a><span class="lineno">  745</span><span class="preprocessor">\</span></div>
-<div class="line"><a id="l00746" name="l00746"></a><span class="lineno">  746</span><span class="preprocessor"></span><span class="preprocessor"> \</span></div>
-<div class="line"><a id="l00760" name="l00760"></a><span class="lineno">  760</span><span class="preprocessor">  template&lt;typename RTYPE = registeredType&gt; \</span></div>
-<div class="line"><a id="l00761" name="l00761"></a><span class="lineno">  761</span><span class="preprocessor">  inline std::shared_ptr&lt;RTYPE&gt; writeName(const std::string&amp; objectName) const \</span></div>
-<div class="line"><a id="l00762" name="l00762"></a><span class="lineno">  762</span><span class="preprocessor">  { \</span></div>
-<div class="line"><a id="l00763" name="l00763"></a><span class="lineno">  763</span><span class="preprocessor">    std::string prefixPath = AQNWB::mergePaths(m_path, fieldPrefixPath); \</span></div>
-<div class="line"><a id="l00764" name="l00764"></a><span class="lineno">  764</span><span class="preprocessor">    std::string objectPath = AQNWB::mergePaths(prefixPath, objectName); \</span></div>
-<div class="line"><a id="l00765" name="l00765"></a><span class="lineno">  765</span><span class="preprocessor">    auto ioPtr = getIO(); \</span></div>
-<div class="line"><a id="l00766" name="l00766"></a><span class="lineno">  766</span><span class="preprocessor">    if (!ioPtr) { \</span></div>
-<div class="line"><a id="l00767" name="l00767"></a><span class="lineno">  767</span><span class="preprocessor">      std::cerr &lt;&lt; &quot;IO object has been deleted. Can&#39;t create field: &quot; \</span></div>
-<div class="line"><a id="l00768" name="l00768"></a><span class="lineno">  768</span><span class="preprocessor">                &lt;&lt; objectPath &lt;&lt; std::endl; \</span></div>
-<div class="line"><a id="l00769" name="l00769"></a><span class="lineno">  769</span><span class="preprocessor">      return nullptr; \</span></div>
-<div class="line"><a id="l00770" name="l00770"></a><span class="lineno">  770</span><span class="preprocessor">    } \</span></div>
-<div class="line"><a id="l00771" name="l00771"></a><span class="lineno">  771</span><span class="preprocessor">    return RegisteredType::create&lt;RTYPE&gt;(objectPath, ioPtr); \</span></div>
-<div class="line"><a id="l00772" name="l00772"></a><span class="lineno">  772</span><span class="preprocessor">  }</span></div>
-<div class="line"><a id="l00773" name="l00773"></a><span class="lineno">  773</span></div>
-<div class="line"><a id="l00795" name="l00795"></a><span class="lineno">  795</span><span class="preprocessor">#define DEFINE_REFERENCED_REGISTERED_FIELD( \</span></div>
-<div class="line"><a id="l00796" name="l00796"></a><span class="lineno">  796</span><span class="preprocessor">    name, registeredType, fieldPath, description) \</span></div>
-<div class="line"><a id="l00797" name="l00797"></a><span class="lineno">  797</span><span class="preprocessor"></span><span class="preprocessor"> \</span></div>
-<div class="line"><a id="l00809" name="l00809"></a><span class="lineno">  809</span><span class="preprocessor">  template&lt;typename RTYPE = registeredType&gt; \</span></div>
-<div class="line"><a id="l00810" name="l00810"></a><span class="lineno">  810</span><span class="preprocessor">  inline std::shared_ptr&lt;RTYPE&gt; name() const \</span></div>
-<div class="line"><a id="l00811" name="l00811"></a><span class="lineno">  811</span><span class="preprocessor">  { \</span></div>
-<div class="line"><a id="l00812" name="l00812"></a><span class="lineno">  812</span><span class="preprocessor">    try { \</span></div>
-<div class="line"><a id="l00813" name="l00813"></a><span class="lineno">  813</span><span class="preprocessor">      std::string attrPath = AQNWB::mergePaths(m_path, fieldPath); \</span></div>
-<div class="line"><a id="l00814" name="l00814"></a><span class="lineno">  814</span><span class="preprocessor">      auto ioPtr = getIO(); \</span></div>
-<div class="line"><a id="l00815" name="l00815"></a><span class="lineno">  815</span><span class="preprocessor">      if (ioPtr != nullptr) { \</span></div>
-<div class="line"><a id="l00816" name="l00816"></a><span class="lineno">  816</span><span class="preprocessor">        std::string objectPath = ioPtr-&gt;readReferenceAttribute(attrPath); \</span></div>
-<div class="line"><a id="l00817" name="l00817"></a><span class="lineno">  817</span><span class="preprocessor">        if (ioPtr-&gt;objectExists(objectPath)) { \</span></div>
-<div class="line"><a id="l00818" name="l00818"></a><span class="lineno">  818</span><span class="preprocessor">          return RegisteredType::create&lt;RTYPE&gt;(objectPath, ioPtr); \</span></div>
-<div class="line"><a id="l00819" name="l00819"></a><span class="lineno">  819</span><span class="preprocessor">        } \</span></div>
-<div class="line"><a id="l00820" name="l00820"></a><span class="lineno">  820</span><span class="preprocessor">      } \</span></div>
-<div class="line"><a id="l00821" name="l00821"></a><span class="lineno">  821</span><span class="preprocessor">    } catch (const std::exception&amp; e) { \</span></div>
-<div class="line"><a id="l00822" name="l00822"></a><span class="lineno">  822</span><span class="preprocessor">      std::cerr &lt;&lt; &quot;WARNING Error occurred in &quot; &lt;&lt; #name &lt;&lt; &quot; &quot; &lt;&lt; e.what() \</span></div>
-<div class="line"><a id="l00823" name="l00823"></a><span class="lineno">  823</span><span class="preprocessor">                &lt;&lt; std::endl; \</span></div>
-<div class="line"><a id="l00824" name="l00824"></a><span class="lineno">  824</span><span class="preprocessor">      return nullptr; \</span></div>
-<div class="line"><a id="l00825" name="l00825"></a><span class="lineno">  825</span><span class="preprocessor">    } \</span></div>
-<div class="line"><a id="l00826" name="l00826"></a><span class="lineno">  826</span><span class="preprocessor">    return nullptr; \</span></div>
-<div class="line"><a id="l00827" name="l00827"></a><span class="lineno">  827</span><span class="preprocessor">  }</span></div>
-<div class="line"><a id="l00828" name="l00828"></a><span class="lineno">  828</span> </div>
-<div class="line"><a id="l00829" name="l00829"></a><span class="lineno">  829</span>}  <span class="comment">// namespace NWB</span></div>
-<div class="line"><a id="l00830" name="l00830"></a><span class="lineno">  830</span>}  <span class="comment">// namespace AQNWB</span></div>
+<div class="line"><a id="l00745" name="l00745"></a><span class="lineno">  745</span><span class="preprocessor"></span><span class="preprocessor"> \</span></div>
+<div class="line"><a id="l00759" name="l00759"></a><span class="lineno">  759</span><span class="preprocessor">  template&lt;typename RTYPE = registeredType&gt; \</span></div>
+<div class="line"><a id="l00760" name="l00760"></a><span class="lineno">  760</span><span class="preprocessor">  inline std::shared_ptr&lt;RTYPE&gt; writeName(const std::string&amp; objectName) const \</span></div>
+<div class="line"><a id="l00761" name="l00761"></a><span class="lineno">  761</span><span class="preprocessor">  { \</span></div>
+<div class="line"><a id="l00762" name="l00762"></a><span class="lineno">  762</span><span class="preprocessor">    std::string prefixPath = AQNWB::mergePaths(m_path, fieldPrefixPath); \</span></div>
+<div class="line"><a id="l00763" name="l00763"></a><span class="lineno">  763</span><span class="preprocessor">    std::string objectPath = AQNWB::mergePaths(prefixPath, objectName); \</span></div>
+<div class="line"><a id="l00764" name="l00764"></a><span class="lineno">  764</span><span class="preprocessor">    auto ioPtr = getIO(); \</span></div>
+<div class="line"><a id="l00765" name="l00765"></a><span class="lineno">  765</span><span class="preprocessor">    if (!ioPtr) { \</span></div>
+<div class="line"><a id="l00766" name="l00766"></a><span class="lineno">  766</span><span class="preprocessor">      std::cerr &lt;&lt; &quot;IO object has been deleted. Can&#39;t create field: &quot; \</span></div>
+<div class="line"><a id="l00767" name="l00767"></a><span class="lineno">  767</span><span class="preprocessor">                &lt;&lt; objectPath &lt;&lt; std::endl; \</span></div>
+<div class="line"><a id="l00768" name="l00768"></a><span class="lineno">  768</span><span class="preprocessor">      return nullptr; \</span></div>
+<div class="line"><a id="l00769" name="l00769"></a><span class="lineno">  769</span><span class="preprocessor">    } \</span></div>
+<div class="line"><a id="l00770" name="l00770"></a><span class="lineno">  770</span><span class="preprocessor">    return RegisteredType::create&lt;RTYPE&gt;(objectPath, ioPtr); \</span></div>
+<div class="line"><a id="l00771" name="l00771"></a><span class="lineno">  771</span><span class="preprocessor">  }</span></div>
+<div class="line"><a id="l00772" name="l00772"></a><span class="lineno">  772</span></div>
+<div class="line"><a id="l00794" name="l00794"></a><span class="lineno">  794</span><span class="preprocessor">#define DEFINE_REFERENCED_REGISTERED_FIELD( \</span></div>
+<div class="line"><a id="l00795" name="l00795"></a><span class="lineno">  795</span><span class="preprocessor">    name, registeredType, fieldPath, description) \</span></div>
+<div class="line"><a id="l00796" name="l00796"></a><span class="lineno">  796</span><span class="preprocessor"></span><span class="preprocessor"> \</span></div>
+<div class="line"><a id="l00808" name="l00808"></a><span class="lineno">  808</span><span class="preprocessor">  template&lt;typename RTYPE = registeredType&gt; \</span></div>
+<div class="line"><a id="l00809" name="l00809"></a><span class="lineno">  809</span><span class="preprocessor">  inline std::shared_ptr&lt;RTYPE&gt; name() const \</span></div>
+<div class="line"><a id="l00810" name="l00810"></a><span class="lineno">  810</span><span class="preprocessor">  { \</span></div>
+<div class="line"><a id="l00811" name="l00811"></a><span class="lineno">  811</span><span class="preprocessor">    try { \</span></div>
+<div class="line"><a id="l00812" name="l00812"></a><span class="lineno">  812</span><span class="preprocessor">      std::string attrPath = AQNWB::mergePaths(m_path, fieldPath); \</span></div>
+<div class="line"><a id="l00813" name="l00813"></a><span class="lineno">  813</span><span class="preprocessor">      auto ioPtr = getIO(); \</span></div>
+<div class="line"><a id="l00814" name="l00814"></a><span class="lineno">  814</span><span class="preprocessor">      if (ioPtr != nullptr) { \</span></div>
+<div class="line"><a id="l00815" name="l00815"></a><span class="lineno">  815</span><span class="preprocessor">        std::string objectPath = ioPtr-&gt;readReferenceAttribute(attrPath); \</span></div>
+<div class="line"><a id="l00816" name="l00816"></a><span class="lineno">  816</span><span class="preprocessor">        if (ioPtr-&gt;objectExists(objectPath)) { \</span></div>
+<div class="line"><a id="l00817" name="l00817"></a><span class="lineno">  817</span><span class="preprocessor">          return RegisteredType::create&lt;RTYPE&gt;(objectPath, ioPtr); \</span></div>
+<div class="line"><a id="l00818" name="l00818"></a><span class="lineno">  818</span><span class="preprocessor">        } \</span></div>
+<div class="line"><a id="l00819" name="l00819"></a><span class="lineno">  819</span><span class="preprocessor">      } \</span></div>
+<div class="line"><a id="l00820" name="l00820"></a><span class="lineno">  820</span><span class="preprocessor">    } catch (const std::exception&amp; e) { \</span></div>
+<div class="line"><a id="l00821" name="l00821"></a><span class="lineno">  821</span><span class="preprocessor">      std::cerr &lt;&lt; &quot;WARNING Error occurred in &quot; &lt;&lt; #name &lt;&lt; &quot; &quot; &lt;&lt; e.what() \</span></div>
+<div class="line"><a id="l00822" name="l00822"></a><span class="lineno">  822</span><span class="preprocessor">                &lt;&lt; std::endl; \</span></div>
+<div class="line"><a id="l00823" name="l00823"></a><span class="lineno">  823</span><span class="preprocessor">      return nullptr; \</span></div>
+<div class="line"><a id="l00824" name="l00824"></a><span class="lineno">  824</span><span class="preprocessor">    } \</span></div>
+<div class="line"><a id="l00825" name="l00825"></a><span class="lineno">  825</span><span class="preprocessor">    return nullptr; \</span></div>
+<div class="line"><a id="l00826" name="l00826"></a><span class="lineno">  826</span><span class="preprocessor">  }</span></div>
+<div class="line"><a id="l00827" name="l00827"></a><span class="lineno">  827</span> </div>
+<div class="line"><a id="l00828" name="l00828"></a><span class="lineno">  828</span>}  <span class="comment">// namespace NWB</span></div>
+<div class="line"><a id="l00829" name="l00829"></a><span class="lineno">  829</span>}  <span class="comment">// namespace AQNWB</span></div>
 <div class="ttc" id="a_base_i_o_8hpp_html"><div class="ttname"><a href="_base_i_o_8hpp.html">BaseIO.hpp</a></div></div>
 <div class="ttc" id="a_base_i_o_8hpp_html_a16e1999667c6480170f48bf8e828be13"><div class="ttname"><a href="_base_i_o_8hpp.html#a16e1999667c6480170f48bf8e828be13">StorageObjectType</a></div><div class="ttdeci">AQNWB::Types::StorageObjectType StorageObjectType</div><div class="ttdef"><b>Definition</b> BaseIO.hpp:21</div></div>
 <div class="ttc" id="a_channel_8hpp_html_aa890fbdbba8cf62d61a471a1f84537e9"><div class="ttname"><a href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a></div><div class="ttdeci">AQNWB::Types::SizeType SizeType</div><div class="ttdef"><b>Definition</b> Channel.hpp:8</div></div>
 <div class="ttc" id="a_read_i_o_8hpp_html"><div class="ttname"><a href="_read_i_o_8hpp.html">ReadIO.hpp</a></div></div>
 <div class="ttc" id="a_types_8hpp_html"><div class="ttname"><a href="_types_8hpp.html">Types.hpp</a></div></div>
 <div class="ttc" id="a_utils_8hpp_html"><div class="ttname"><a href="_utils_8hpp.html">Utils.hpp</a></div></div>
+<div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_html_a07451eb27d98493d2d362129a3934a4d"><div class="ttname"><a href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a07451eb27d98493d2d362129a3934a4d">AQNWB::NWB::RegisteredType::readField</a></div><div class="ttdeci">std::shared_ptr&lt; AQNWB::NWB::RegisteredType &gt; readField(const std::string &amp;fieldPath) const</div><div class="ttdoc">Read a field that is itself a RegisteredType.</div><div class="ttdef"><b>Definition</b> RegisteredType.hpp:334</div></div>
 <div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_html_a0e670647b466cb65a88b81f9fe4a6e37"><div class="ttname"><a href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a0e670647b466cb65a88b81f9fe4a6e37">AQNWB::NWB::RegisteredType::getFullTypeName</a></div><div class="ttdeci">std::string getFullTypeName() const</div><div class="ttdoc">Get the full name of the type, i.e., namespace::typename.</div><div class="ttdef"><b>Definition</b> RegisteredType.hpp:284</div></div>
 <div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_html_a150f881ad61cb8352eea7ddba47bc6ad"><div class="ttname"><a href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a150f881ad61cb8352eea7ddba47bc6ad">AQNWB::NWB::RegisteredType::getTypeName</a></div><div class="ttdeci">virtual std::string getTypeName() const</div><div class="ttdoc">Get the name of the class type.</div><div class="ttdef"><b>Definition</b> RegisteredType.cpp:63</div></div>
 <div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_html_a2291ceaa71c1b02ed86a3d4626a7ac48"><div class="ttname"><a href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a2291ceaa71c1b02ed86a3d4626a7ac48">AQNWB::NWB::RegisteredType::create</a></div><div class="ttdeci">static std::shared_ptr&lt; T &gt; create(const std::string &amp;path, std::shared_ptr&lt; AQNWB::IO::BaseIO &gt; io)</div><div class="ttdoc">Factory method to create an instance of a subclass of RegisteredType by type.</div><div class="ttdef"><b>Definition</b> RegisteredType.hpp:241</div></div>
@@ -485,7 +487,7 @@ $(function() {
 <div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_html_a651f3d7e5cc28dc93888e8a821c5aa1c"><div class="ttname"><a href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a651f3d7e5cc28dc93888e8a821c5aa1c">AQNWB::NWB::RegisteredType::getNamespace</a></div><div class="ttdeci">virtual std::string getNamespace() const</div><div class="ttdoc">Get the schema namespace of the class type.</div><div class="ttdef"><b>Definition</b> RegisteredType.cpp:70</div></div>
 <div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_html_a6f7d3d6d30763215c823452176ed876a"><div class="ttname"><a href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a">AQNWB::NWB::RegisteredType::create</a></div><div class="ttdeci">static std::shared_ptr&lt; RegisteredType &gt; create(const std::string &amp;fullClassName, const std::string &amp;path, std::shared_ptr&lt; IO::BaseIO &gt; io, bool fallbackToBase=false)</div><div class="ttdoc">Create an instance of a registered subclass by name.</div><div class="ttdef"><b>Definition</b> RegisteredType.cpp:75</div></div>
 <div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_html_a73f9bb35022892941b8b46a1669605da"><div class="ttname"><a href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a73f9bb35022892941b8b46a1669605da">AQNWB::NWB::RegisteredType::m_io</a></div><div class="ttdeci">std::weak_ptr&lt; IO::BaseIO &gt; m_io</div><div class="ttdoc">A weak pointer to the IO object.</div><div class="ttdef"><b>Definition</b> RegisteredType.hpp:422</div></div>
-<div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_html_a8a83a775f6a8a94d6ae3428e05ef9bfc"><div class="ttname"><a href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a8a83a775f6a8a94d6ae3428e05ef9bfc">AQNWB::NWB::RegisteredType::findOwnedTypes</a></div><div class="ttdeci">virtual std::unordered_map&lt; std::string, std::string &gt; findOwnedTypes(const std::unordered_set&lt; std::string &gt; &amp;types={}, const AQNWB::IO::SearchMode &amp;search_mode=AQNWB::IO::SearchMode::STOP_ON_TYPE) const</div><div class="ttdoc">Read a field that is itself a RegisteredType.</div><div class="ttdef"><b>Definition</b> RegisteredType.cpp:153</div></div>
+<div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_html_a8a83a775f6a8a94d6ae3428e05ef9bfc"><div class="ttname"><a href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a8a83a775f6a8a94d6ae3428e05ef9bfc">AQNWB::NWB::RegisteredType::findOwnedTypes</a></div><div class="ttdeci">virtual std::unordered_map&lt; std::string, std::string &gt; findOwnedTypes(const std::unordered_set&lt; std::string &gt; &amp;types={}, const AQNWB::IO::SearchMode &amp;search_mode=AQNWB::IO::SearchMode::STOP_ON_TYPE) const</div><div class="ttdoc">Find all typed objects that are owned by this object, i.e., objects that have a neurodata_type and na...</div><div class="ttdef"><b>Definition</b> RegisteredType.cpp:153</div></div>
 <div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_html_a9114e761cf006ec16c3733b9f8915f9d"><div class="ttname"><a href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a9114e761cf006ec16c3733b9f8915f9d">AQNWB::NWB::RegisteredType::registerRecordingObject</a></div><div class="ttdeci">SizeType registerRecordingObject()</div><div class="ttdoc">Register this RegisteredType object with the RecordingObjects manager object of the I/O.</div><div class="ttdef"><b>Definition</b> RegisteredType.cpp:128</div></div>
 <div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_html_a9fa62ba79d610ba55aacec4dce012ccf"><div class="ttname"><a href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a9fa62ba79d610ba55aacec4dce012ccf">AQNWB::NWB::RegisteredType::getName</a></div><div class="ttdeci">std::string getName() const</div><div class="ttdoc">Get the name of the object.</div><div class="ttdef"><b>Definition</b> RegisteredType.hpp:68</div></div>
 <div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_html_aa1e04074725b7331d725bbda8156bc2d"><div class="ttname"><a href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aa1e04074725b7331d725bbda8156bc2d">AQNWB::NWB::RegisteredType::RegisteredType</a></div><div class="ttdeci">RegisteredType(const std::string &amp;path, std::shared_ptr&lt; AQNWB::IO::BaseIO &gt; io)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition</b> RegisteredType.cpp:18</div></div>

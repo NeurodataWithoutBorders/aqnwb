@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['🔧_0',['Implementing a Registered Type 🔧',['../registered_type_page.html',1,'devdocs']]]
+  ['📊_0',['Acquiring Data 📊',['../workflow.html',1,'userdocs']]]
 ];

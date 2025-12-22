@@ -1,11 +1,11 @@
 var searchData=
 [
-  ['labmetadata_20extension_20demo_0',['LabMetaData Extension Demo',['../integrating_extensions_page.html#labmetadata_extension_demo',1,'']]],
-  ['labmetadata_20extension_20with_20aqnwb_1',['Integrating LabMetaData Extension with AqNWB',['../user_demos.html#demos_labmetadata_extension',1,'']]],
-  ['layout_2',['Optimizing Data Layout',['../hdf5io.html#hdf5io_data_layout',1,'']]],
-  ['legal_20⚖️_3',['Legal ⚖️',['../legal_page.html',1,'Legal ⚖️'],['../index.html#mainpage_contributing',1,'Legal ⚖️']]],
-  ['license_4',['License',['../legal_page.html#legal_license',1,'']]],
-  ['limitations_20of_20register_5fsubclass_5fwith_5ftypename_5',['Limitations of REGISTER_SUBCLASS_WITH_TYPENAME',['../registered_type_page.html#limitations_registered_subclass_with_typename',1,'']]],
-  ['linting_6',['Linting',['../testing.html#testing_lint',1,'']]],
-  ['looking_20up_20namespaces_7',['Looking up Namespaces',['../integrating_extensions_page.html#namespace_lookup',1,'']]]
+  ['hdf5_20i_20o_20📂_0',['HDF5 I/O 📂',['../hdf5io.html',1,'userdocs']]],
+  ['header_20files_1',['Generating the schema header files',['../nwb_schema_page.html#dev_docs_generating_nwb_schema_headers_section',1,'']]],
+  ['how_20the_20namespaceregistry_20works_2',['How the NamespaceRegistry Works',['../integrating_extensions_page.html#namespace_registry',1,'']]],
+  ['how_20the_20type_20registry_20in_20registeredtype_20works_3',['How the Type Registry in RegisteredType Works',['../read_design_page.html#type_registry',1,'']]],
+  ['how_20to_20implement_20a_20registeredtype_4',['How to Implement a RegisteredType',['../registered_type_page.html#implement_registered_type',1,'']]],
+  ['how_20to_20implement_20a_20registeredtype_20with_20a_20custom_20type_20name_5',['How to implement a RegisteredType with a custom type name',['../registered_type_page.html#using_registered_subclass_with_typename',1,'']]],
+  ['how_20to_20integrate_20a_20new_20namespace_6',['How to Integrate a New Namespace',['../integrating_extensions_page.html#integrate_namespace',1,'']]],
+  ['how_20to_20use_20the_20registeredtype_20registry_7',['How to Use the RegisteredType Registry',['../read_design_page.html#use_registered_type_registry',1,'']]]
 ];

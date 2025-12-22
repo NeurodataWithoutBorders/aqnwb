@@ -19,6 +19,7 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type =
     [ "getRegistry", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab7e3361637885fe601cc20cb342bf01c", null ],
     [ "getTypeName", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a150f881ad61cb8352eea7ddba47bc6ad", null ],
     [ "isRegisteredRecordingObject", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ae66a9bc325b1ddb2c6a5f537feb8591a", null ],
+    [ "readField", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a07451eb27d98493d2d362129a3934a4d", null ],
     [ "readField", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#adc5ba3d9e27c74f8181944e505bba6e5", null ],
     [ "registerRecordingObject", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a9114e761cf006ec16c3733b9f8915f9d", null ],
     [ "registerSubclass", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab20cf389f4f512056d7755ec23d6d0a9", null ],

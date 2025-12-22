@@ -1,5 +1,7 @@
 var NAVTREEINDEX6 =
 {
+"struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type_3_01_storage_object_type_1_1_dataset_01_4.html":[3,0,0,0,8],
+"struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type_3_01_storage_object_type_1_1_dataset_01_4.html":[4,0,0,0,8],
 "struct_a_q_n_w_b_1_1_types_1_1_is_data_storage_object_type.html":[3,0,0,4,0],
 "struct_a_q_n_w_b_1_1_types_1_1_is_data_storage_object_type.html":[4,0,0,4,0],
 "struct_a_q_n_w_b_1_1_types_1_1_namespace_info.html":[3,0,0,4,1],
@@ -16,13 +18,25 @@ var NAVTREEINDEX6 =
 "testing.html#testing_spellcheck":[2,1,1],
 "testing.html#testing_unit":[2,1,0],
 "testing.html#testing_unit_run":[2,1,0,0],
-"user_demos.html":[1,3],
-"user_demos.html#demos_inspect_electrical_series":[1,3,0],
-"user_demos.html#demos_labmetadata_extension":[1,3,1],
+"user_demos.html":[1,4],
+"user_demos.html#demos_inspect_electrical_series":[1,4,0],
+"user_demos.html#demos_labmetadata_extension":[1,4,1],
 "user_install_page.html":[1,0],
 "user_install_page.html#user_requirements_sec":[1,0,0],
 "user_install_page.html#userbuild_build_sec":[1,0,2],
 "user_install_page.html#userbuild_install_sec":[1,0,3],
 "user_install_page.html#userbuild_source_sec":[1,0,1],
-"userdocs.html":[1]
+"userdocs.html":[1],
+"workflow.html":[1,1],
+"workflow.html#advanced_recording_workflow":[1,1,1],
+"workflow.html#advanced_recording_workflow_reset":[1,1,1,0],
+"workflow.html#create_datasets":[1,1,0,3],
+"workflow.html#create_io":[1,1,0,0],
+"workflow.html#create_nwbfile":[1,1,0,1],
+"workflow.html#create_recmeta":[1,1,0,2],
+"workflow.html#create_recmeta_ecephys":[1,1,0,2,0],
+"workflow.html#recording_workflow":[1,1,0],
+"workflow.html#start_recording":[1,1,0,4],
+"workflow.html#stop_recording":[1,1,0,6],
+"workflow.html#write_data":[1,1,0,5]
 };
