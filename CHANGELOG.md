@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
    * Added `BaseIO.m_recording_objects` to track all `RegisteredType` objects used for recording
    * Modified `RegisteredType` to automatically register with `RecordingObjects` instance of the IO
    * Updated `RegisteredType` to use `std::weak_ptr` to the IO to avoid circular referencing
-   * Made the constructor of `RegisteredType` and all its subclasses `protected` to prevent direct stack or raw pointer creation. `RegisteredType` objects must now always be created via the `RegisteredType.create` factory, ensuring that all objects are being created as `std::smart_ptr` and registered with the `m_recording_objects` RecordingContainers object of the I/O objet
+   * Made the constructor of `RegisteredType` and all its subclasses `protected` to prevent direct stack or raw pointer creation. `RegisteredType` objects must now always be created via the `RegisteredType.create` factory, ensuring that all objects are being created as `std::smart_ptr` and registered with the `m_recording_objects` RecordingContainers object of the I/O object
    * Updated `RegisteredType` to inherit from `public std::enable_shared_from_this<RegisteredType>`
    * Updated the `REGISTER_SUBCLASS` macro to add a `create` factory method for all classes
 * Harmonized finalization and clean-up of `RegisteredType` objects (@oruebel, [#209](https://github.com/NeurodataWithoutBorders/aqnwb/pull/209))
@@ -61,7 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
    * Moved NWB I/O utility functions (e.g., `writeTimeSeriesData`) from `RecordingObjects` to their own `src/io/nwbio_utils.hpp` header
    * Added RecordingObjects::`getRecordingObject(const std::string& path)` to simplify lookup of objects based on path
    * Added RecordingObjects::toString method for convenient printing   
-* Updated `initialize` functions of all `RegisteredType` clases to return a `Status` [#209](https://github.com/NeurodataWithoutBorders/aqnwb/pull/209))
+* Updated `initialize` functions of all `RegisteredType` classes to return a `Status` [#209](https://github.com/NeurodataWithoutBorders/aqnwb/pull/209))
 * Changed the value of `Status::SUCCESS` to 1 instead of 0 [#209](https://github.com/NeurodataWithoutBorders/aqnwb/pull/209))
 * Added `Types.SizeTypeNotSet` and `Utils.isValidIndex` to centralize definition and checking for invalid indices [#209](https://github.com/NeurodataWithoutBorders/aqnwb/pull/209))
 
