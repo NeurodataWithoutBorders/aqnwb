@@ -1127,7 +1127,7 @@ def generate_header_file(
         else:
             parent_class = "AQNWB::NWB::Container"
     
-    if class_name == "Container":
+    if class_name in ["Container", "Data"]:
         parent_class = "AQNWB::NWB::RegisteredType" # special case for container type to avoid registering Container as a subclass of Container
 
     # Start building the header file
@@ -1384,7 +1384,7 @@ def generate_implementation_file(
         else:
             parent_class = "AQNWB::NWB::Container"
 
-    if class_name == "Container":
+    if class_name in ["Container", "Data"]:
         parent_class = "AQNWB::NWB::RegisteredType" # special case for container type to avoid registering Container as a subclass of Container
 
     # Get parent neurodata_type spec
