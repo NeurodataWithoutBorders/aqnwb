@@ -62,7 +62,7 @@
  * is used to create the \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries". However in some cases
  * (e.g. when using Neuropixels or multiple probes), you may be recording from a subset of 
  * all available electrodes as part of a single \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries". In this case,
- * you should create the ref AQNWB::NWB::ElectrodesTable "ElectrodesTable" with all electrodes
+ * you should create the \ref AQNWB::NWB::ElectrodesTable "ElectrodesTable" with all electrodes
  * detected by the acquisition system, not just those being actively recorded from. This approach is
  * critical for mapping information about which \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries"
  * were recorded from which electrodes.
@@ -142,7 +142,7 @@
  * \note
  * We should always reuse the existing objects that are cached in 
  * \ref AQNWB::IO::RecordingObjects "RecordingObjects". Calling for example
- * `ElectricalSeries::create("/acquisition/esdata0", io) multiple times 
+ * ``ElectricalSeries::create("/acquisition/esdata0", io)`` multiple times 
  * for the same I/O and path will result in the creation and registration of 
  * effectively duplicate objects that attempt to access (and potentially modify)
  * the same objects in the NWB file, hence, leading to potentially unintended
@@ -163,8 +163,8 @@
  * <p></p>
  *
  * \note 
- * If we do not use the \ref AQNWB::IO::BaseIO::startRecording "startRecording
- * \ref AQNWB::IO::BaseIO::stopRecording "stopRecording" functions to create and NWBFile 
+ * If we do not use the \ref AQNWB::IO::BaseIO::startRecording "startRecording" and
+ * \ref AQNWB::IO::BaseIO::stopRecording "stopRecording" functions to create an NWBFile 
  * then we need to make sure to manually call \ref AQNWB::IO::RecordingObjects::finalize "RecordingObjects::finalize"
  * before we close the I/O to make sure file contents are finalized correctly.
  *
@@ -180,7 +180,7 @@
  * writing data to the datasets. The \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" 
  * objects for all datasets that belong to a recording object are cached by the 
  * \ref AQNWB::NWB::RegisteredType "RegisteredType" base class to ensure that the current
- * state of the recording process (e.g., the \ref AQNWB::IO::BaseRecordingData::getPosition() "position")
+ * state of the recording process (e.g., the \ref AQNWB::IO::BaseRecordingData::getPosition "position")
  * are stored. With this we can manually write individual data blocks ourselves while 
  * ensuring continuation of the recording process:
  *
@@ -189,7 +189,7 @@
  * \subsection advanced_recording_workflow_reset Resetting the recording position
  *
  * If we want to clear the recording cache, we can do so by calling 
- * ref AQNWB::NWB::RegisteredType::clearRecordingDataCache "electricalSeries0->clearRecordingDataCache()".
+ * \ref AQNWB::NWB::RegisteredType::clearRecordingDataCache "electricalSeries0->clearRecordingDataCache()".
  * In this case the cached \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" object will be 
  * deleted, such that the next time we request it, a new \ref AQNWB::IO::BaseRecordingData "BaseRecordingData"
  * object will be constructed that will then start again writing values from the beginning of the dataset.
