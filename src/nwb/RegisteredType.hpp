@@ -585,7 +585,7 @@ public: \
    * @tparam VTYPE The type of the field (default: default_type) \
    * @return A unique pointer to a ReadDataWrapper for the field \
    * \
-   * description \
+   * ##description \
    */ \
   template<typename VTYPE = default_type> \
   inline std::unique_ptr< \
@@ -672,7 +672,7 @@ public: \
    * @return A shared pointer to an instance of registeredType representing \
    * the object. May return nullptr if the path does not exist \
    * \
-   * description \
+   * ##description \
    */ \
   template<typename RTYPE = registeredType> \
   inline std::shared_ptr<RTYPE> name() const \
@@ -794,7 +794,7 @@ public: \
 #define DEFINE_REFERENCED_REGISTERED_FIELD( \
     name, registeredType, fieldPath, description) \
   /** \
-   * @brief Returns the instance of the class representing the name field. \
+   * @brief Returns the instance of the class representing the ##name field. \
    * \
    * @tparam RTYPE The RegisteredType of the field (default: registeredType) \
    * In most cases this should not be changed. But in the case of templated \
@@ -803,7 +803,7 @@ public: \
    * @return A shared pointer to an instance of registeredType representing \
    * the object. May return nullptr if the path does not exist \
    * \
-   * description \
+   * ##description \
    */ \
   template<typename RTYPE = registeredType> \
   inline std::shared_ptr<RTYPE> name() const \
