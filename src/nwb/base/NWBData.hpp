@@ -24,12 +24,8 @@ namespace AQNWB::NWB
 class NWBData : public AQNWB::NWB::Data
 {
 public:
-  /**
-   * @brief Constructor
-   * @param path Path to the object in the file
-   * @param io IO object for reading/writing
-   */
-  NWBData(const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io);
+  // Register the NWBData as a subclass of Data
+  REGISTER_SUBCLASS(NWBData, Data, AQNWB::SPEC::CORE::namespaceName)
 
   /**
    * @brief Initialize the object
@@ -38,7 +34,13 @@ public:
    */
   Status initialize(const AQNWB::IO::ArrayDataSetConfig& dataConfig);
 
-  REGISTER_SUBCLASS(NWBData, AQNWB::SPEC::CORE::namespaceName)
+protected:
+  /**
+   * @brief Constructor
+   * @param path Path to the object in the file
+   * @param io IO object for reading/writing
+   */
+  NWBData(const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io);
 };
 
 /**
@@ -71,16 +73,17 @@ public:
   }
 
   /**
-   *  \brief Create a DataTyped object from a Data object
+   *  \brief Create a NWBDataTyped object from a Data object
    *
    *  This function is useful when the type of the data is known and we want
    *  read data in a typed manner where the type is stored in the DTYPE template
    *  parameter. NOTE: The original Data object retains ownership of the
    *  Data.m_dataset recording dataset object if it was initialized, i.e.,
-   *  the returned DataTyped object will have a nullptr m_dataset.
+   *  the returned NWBDataTyped object will have a nullptr m_dataset.
    *
    *  @param data The Data object to convert
-   *  @return A DataTyped object with the same path and IO object as the input
+   *  @return A NWBDataTyped object with the same path and IO object as the
+   * input
    */
   static std::shared_ptr<NWBDataTyped<DTYPE>> fromNWBData(const Data& data)
   {

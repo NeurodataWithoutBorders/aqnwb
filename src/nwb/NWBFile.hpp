@@ -11,7 +11,6 @@
 #include "Utils.hpp"
 #include "io/BaseIO.hpp"
 #include "io/ReadIO.hpp"
-#include "nwb/RecordingContainers.hpp"
 #include "nwb/base/NWBContainer.hpp"
 #include "nwb/base/TimeSeries.hpp"
 #include "nwb/file/ElectrodesTable.hpp"
@@ -31,9 +30,20 @@ namespace AQNWB::NWB
 class NWBFile : public NWBContainer
 {
 public:
-  // Register the ElectrodesTable as a subclass of Container
-  REGISTER_SUBCLASS(NWBFile, AQNWB::SPEC::CORE::namespaceName)
+  // Register the NWBFile as a subclass of NWBContainer
+  REGISTER_SUBCLASS(NWBFile, NWBContainer, AQNWB::SPEC::CORE::namespaceName)
 
+  /** \brief Convenience factor method since the path is fixed to '/'
+   * @param io A shared pointer to the IO object.
+   * @return A shared pointer to the created NWBFile object, or nullptr if
+   * creation failed.
+   */
+  static std::shared_ptr<NWBFile> create(std::shared_ptr<IO::BaseIO> io)
+  {
+    return RegisteredType::create<NWBFile>("/", io);
+  }
+
+protected:
   /**
    * @brief Constructor for NWBFile class.
    * @param io The shared pointer to the IO object.
@@ -45,6 +55,7 @@ public:
    */
   NWBFile(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
+public:
   /**
    * @brief Deleted copy constructor to prevent construction-copying.
    */
@@ -89,11 +100,6 @@ public:
   bool isInitialized() const;
 
   /**
-   * @brief Finalizes the NWB file by closing it.
-   */
-  Status finalize();
-
-  /**
    * @brief Create ElectrodesTable.
    * Note, this function will fail if the file is in a mode where
    * new objects cannot be added, which can be checked via
@@ -101,15 +107,20 @@ public:
    * @param recordingArrays vector of ChannelVector indicating the electrodes to
    *                        add to the table. This vector should contain all the
    *                        electrodes that are detected by the acquisition
-   * system, not only those being actively recorded from.
-   * @return Status The status of the object creation operation.
+   *                        system, not only those being actively recorded from.
+   * @param finalizeTable If true (default) then the table will be finalized
+   *                      after creation to write it to the file. If false, the
+   *                      caller must call finalize() on the returned table
+   *                      object to write it to the file.
+   * @return The generated ElectrodesTable or nullptr if failed.
    */
-  Status createElectrodesTable(
-      std::vector<Types::ChannelVector> recordingArrays);
+  std::shared_ptr<ElectrodesTable> createElectrodesTable(
+      std::vector<Types::ChannelVector> recordingArrays,
+      bool finalizeTable = true);
 
   /**
    * @brief Create ElectricalSeries objects to record data into.
-   * Created objects are stored in recordingContainers.
+   * Created objects are automatically added to the I/O's RecordingObjects.
    * Note, this function will fail if the file is in a mode where
    * new objects cannot be added, which can be checked via
    * nwbfile.io->canModifyObjects()
@@ -119,50 +130,44 @@ public:
    * @param recordingNames vector indicating the names of the ElectricalSeries
    * within the acquisition group
    * @param dataType The data type of the elements in the data block.
-   * @param recordingContainers The container to store the created TimeSeries.
-   * @param containerIndexes The indexes of the containers added to
-   * recordingContainers
+   * @param containerIndexes This vector is updated with the indexes of the
+   * created containers.
    * @return Status The status of the object creation operation.
    */
   Status createElectricalSeries(
       std::vector<Types::ChannelVector> recordingArrays,
       std::vector<std::string> recordingNames,
       const IO::BaseDataType& dataType,
-      RecordingContainers* recordingContainers,
       std::vector<SizeType>& containerIndexes);
 
   /**
    * @brief Create SpikeEventSeries objects to record data into.
-   * Created objects are stored in recordingContainers.
+   * Created objects are automatically added to the I/O's RecordingObjects.
    * @param recordingArrays vector of ChannelVector indicating the electrodes to
    *                        record from. A separate ElectricalSeries will be
    *                        created for each ChannelVector.
    * @param recordingNames vector indicating the names of the SpikeEventSeries
    * within the acquisition group
    * @param dataType The data type of the elements in the data block.
-   * @param recordingContainers The container to store the created TimeSeries.
-   * @param containerIndexes The indexes of the containers added to
-   * recordingContainers
+   * @param containerIndexes This vector is updated with the indexes of the
+   * created containers.
    * @return Status The status of the object creation operation.
    */
   Status createSpikeEventSeries(
       std::vector<Types::ChannelVector> recordingArrays,
       std::vector<std::string> recordingNames,
       const IO::BaseDataType& dataType,
-      RecordingContainers* recordingContainers,
       std::vector<SizeType>& containerIndexes);
 
   /** @brief Create AnnotationSeries objects to record data into.
-   * Created objects are stored in recordingContainers.
+   * Created objects are automatically added to the I/O's RecordingObjects.
    * @param recordingNames vector indicating the names of the AnnotationSeries
    * within the acquisition group
-   * @param recordingContainers The container to store the created TimeSeries.
-   * @param containerIndexes The indexes of the containers added to
-   * recordingContainers
+   * @param containerIndexes This vector is updated with the indexes of the
+   * created containers.
    * @return Status The status of the object creation operation.
    */
   Status createAnnotationSeries(std::vector<std::string> recordingNames,
-                                RecordingContainers* recordingContainers,
                                 std::vector<SizeType>& containerIndexes);
 
   DEFINE_REGISTERED_FIELD(readElectrodesTable,

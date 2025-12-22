@@ -1126,6 +1126,9 @@ def generate_header_file(
             parent_class = "AQNWB::NWB::Data"
         else:
             parent_class = "AQNWB::NWB::Container"
+    
+    if class_name in ["Container", "Data"]:
+        parent_class = "AQNWB::NWB::RegisteredType" # special case for container type to avoid registering Container as a subclass of Container
 
     # Start building the header file
     header = """#pragma once
@@ -1320,18 +1323,23 @@ public:
             header += fieldDef +"\n"
 
     # Add REGISTER_SUBCLASS macro
+    # Extract just the class name from parent_class (remove namespace)
+    parent_class_name = parent_class.split("::")[-1] if "::" in parent_class else parent_class
+    
     if is_included_type:
         header += f"""
-    REGISTER_SUBCLASS(
-        {class_name},
-        "{actual_cpp_namespace_name}")  // TODO: Use namespace from schema header
-    """
+        REGISTER_SUBCLASS(
+            {class_name},
+            {parent_class_name},
+            "{actual_cpp_namespace_name}")  // TODO: Use namespace from schema header
+        """
     else:
         header += f"""
-    REGISTER_SUBCLASS(
-        {class_name},
-        AQNWB::SPEC::{actual_cpp_namespace_name}::namespaceName)
-    """
+        REGISTER_SUBCLASS(
+            {class_name},
+            {parent_class_name},
+            AQNWB::SPEC::{actual_cpp_namespace_name}::namespaceName)
+        """
         
     header += f"""
 }};
@@ -1375,6 +1383,9 @@ def generate_implementation_file(
             parent_class = "AQNWB::NWB::Data"
         else:
             parent_class = "AQNWB::NWB::Container"
+
+    if class_name in ["Container", "Data"]:
+        parent_class = "AQNWB::NWB::RegisteredType" # special case for container type to avoid registering Container as a subclass of Container
 
     # Get parent neurodata_type spec
     parent_neurodata_type_spec = all_types.get(parent_type) if parent_type else None

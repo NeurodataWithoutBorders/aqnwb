@@ -1,10 +1,12 @@
 #pragma once
 
+#include <any>
 #include <string>
 
 #include "Utils.hpp"
 #include "io/BaseIO.hpp"
 #include "io/ReadIO.hpp"
+#include "io/RecordingObjects.hpp"
 #include "nwb/hdmf/base/Container.hpp"
 #include "nwb/hdmf/table/ElementIdentifiers.hpp"
 #include "nwb/hdmf/table/VectorData.hpp"
@@ -23,8 +25,11 @@ class DynamicTable : public Container
 {
 public:
   // Register the TimeSeries as a subclass of Container
-  REGISTER_SUBCLASS(DynamicTable, AQNWB::SPEC::HDMF_COMMON::namespaceName)
+  REGISTER_SUBCLASS(DynamicTable,
+                    Container,
+                    AQNWB::SPEC::HDMF_COMMON::namespaceName)
 
+protected:
   /**
    * @brief Constructor.
    * @param path The location of the table in the file.
@@ -32,6 +37,7 @@ public:
    */
   DynamicTable(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
+public:
   /**
    * @brief Destructor
    */
@@ -54,15 +60,19 @@ public:
    *
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status finalize();
+  Status finalize() override;
 
   /**
    * @brief Adds a column of vector string data to the table.
+   *
+   * If the VectorData has already been added to the table, it will not be
+   * added again, but the values will still be appended to the existing dataset.
+   *
    * @param vectorData A unique pointer to the `VectorData` dataset.
    * @param values The vector of string values.
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status addColumn(std::unique_ptr<VectorData>& vectorData,
+  Status addColumn(const std::shared_ptr<VectorData>& vectorData,
                    const std::vector<std::string>& values);
 
   /**
@@ -82,7 +92,7 @@ public:
    * @param values The vector of id values.
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status setRowIDs(std::unique_ptr<ElementIdentifiers>& elementIDs,
+  Status setRowIDs(const std::shared_ptr<ElementIdentifiers>& elementIDs,
                    const std::vector<int>& values);
 
   /**
@@ -105,7 +115,7 @@ public:
   }
 
   /**
-   * @brief Read an arbitrary column of the DyanmicTable
+   * @brief Read an arbitrary column of the DynamicTable
    *
    * For columns defined in the schema the corresponding DEFINE_REGISTERED_FIELD
    * read functions are preferred because they help avoid the need for
@@ -118,11 +128,18 @@ public:
   std::shared_ptr<VectorDataTyped<DTYPE>> readColumn(const std::string& colName)
   {
     std::string columnPath = AQNWB::mergePaths(m_path, colName);
-    if (m_io->objectExists(columnPath)) {
-      if (m_io->getStorageObjectType(columnPath) == StorageObjectType::Dataset)
-      {
-        return std::make_shared<VectorDataTyped<DTYPE>>(columnPath, m_io);
+    auto ioPtr = getIO();
+    if (ioPtr != nullptr) {
+      if (ioPtr->objectExists(columnPath)) {
+        if (ioPtr->getStorageObjectType(columnPath)
+            == StorageObjectType::Dataset)
+        {
+          return VectorDataTyped<DTYPE>::create(columnPath, ioPtr);
+        }
       }
+    } else {
+      std::cerr << "IO object has been deleted. Can't read column: " << colName
+                << " in DynamicTable: " << m_path << std::endl;
     }
     return nullptr;
   }
@@ -145,8 +162,24 @@ public:
 
 protected:
   /**
+   *  @brief Add a column name to m_colNames while preventing duplicates
+   *  @return Index of the column name in m_colNames
+   */
+  SizeType addColumnName(const std::string& colName);
+
+  /**
    * @brief Names of the columns in the table.
    */
   std::vector<std::string> m_colNames;
+
+  /**
+   * @brief The columns added for recording
+   */
+  std::unique_ptr<IO::RecordingObjects> m_recordingColumns;
+
+  /**
+   * @brief The row ids data object for write
+   */
+  std::shared_ptr<ElementIdentifiers> m_rowElementIdentifiers;
 };
 }  // namespace AQNWB::NWB

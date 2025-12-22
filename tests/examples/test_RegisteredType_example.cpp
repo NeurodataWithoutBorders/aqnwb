@@ -28,14 +28,14 @@ TEST_CASE("RegisterType Example", "[base]")
     std::string filename = getTestFilePath("testRegisteredTypeExample.h5");
     std::shared_ptr<BaseIO> io = std::make_unique<IO::HDF5::HDF5IO>(filename);
     io->open();
-    NWB::TimeSeries ts = NWB::TimeSeries(dataPath, io);
+    auto ts = NWB::TimeSeries::create(dataPath, io);
     IO::ArrayDataSetConfig config(
         dataType, SizeArray {numSamples}, SizeArray {numSamples});
-    ts.initialize(config, "unit");
+    ts->initialize(config, "unit");
 
     // Write data to file
-    Status writeStatus =
-        ts.writeData(dataShape, positionOffset, data.data(), timestamps.data());
+    Status writeStatus = ts->writeData(
+        dataShape, positionOffset, data.data(), timestamps.data());
     REQUIRE(writeStatus == Status::Success);
     io->flush();
     // [example_RegisterType_setup_file]

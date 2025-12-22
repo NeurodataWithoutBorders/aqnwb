@@ -23,21 +23,21 @@ TEST_CASE("DynamicTable", "[table]")
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
 
-    NWB::DynamicTable table(tablePath, io);
-    Status status = table.initialize("A test dynamic table");
+    auto table = NWB::DynamicTable::create(tablePath, io);
+    Status status = table->initialize("A test dynamic table");
     REQUIRE(status == Status::Success);
 
     // Test reading description
-    auto readDesc = table.readDescription()->values().data;
+    auto readDesc = table->readDescription()->values().data;
     REQUIRE(readDesc[0] == "A test dynamic table");
 
     // Test setting and reading column names
     std::vector<std::string> colNames = {"col1", "col2", "col3"};
-    table.setColNames(colNames);
-    status = table.finalize();
+    table->setColNames(colNames);
+    status = table->finalize();
     REQUIRE(status == Status::Success);
 
-    auto readColNames = table.readColNames()->values().data;
+    auto readColNames = table->readColNames()->values().data;
     REQUIRE(readColNames == colNames);
 
     io->close();
@@ -49,8 +49,8 @@ TEST_CASE("DynamicTable", "[table]")
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
 
-    NWB::DynamicTable table(tablePath, io);
-    Status status = table.initialize("Table with columns");
+    auto table = NWB::DynamicTable::create(tablePath, io);
+    Status status = table->initialize("Table with columns");
     REQUIRE(status == Status::Success);
 
     // Add string vector data column
@@ -58,10 +58,9 @@ TEST_CASE("DynamicTable", "[table]")
     SizeArray dataShape = {values.size()};
     SizeArray chunking = {values.size()};
     IO::ArrayDataSetConfig config(BaseDataType::V_STR, dataShape, chunking);
-    auto vectorData =
-        std::make_unique<NWB::VectorData>(tablePath + "/col1", io);
+    auto vectorData = NWB::VectorData::create(tablePath + "/col1", io);
     vectorData->initialize(config, "Column 1");
-    status = table.addColumn(vectorData, values);
+    status = table->addColumn(vectorData, values);
     REQUIRE(status == Status::Success);
 
     // Set row IDs
@@ -69,14 +68,13 @@ TEST_CASE("DynamicTable", "[table]")
     SizeArray idShape = {ids.size()};
     SizeArray idChunking = {ids.size()};
     IO::ArrayDataSetConfig idConfig(BaseDataType::I32, idShape, idChunking);
-    auto elementIDs =
-        std::make_unique<NWB::ElementIdentifiers>(tablePath + "/id", io);
+    auto elementIDs = NWB::ElementIdentifiers::create(tablePath + "/id", io);
     elementIDs->initialize(idConfig);
-    status = table.setRowIDs(elementIDs, ids);
+    status = table->setRowIDs(elementIDs, ids);
     REQUIRE(status == Status::Success);
 
     // Finalize table
-    status = table.finalize();
+    status = table->finalize();
     REQUIRE(status == Status::Success);
 
     io->close();
@@ -84,14 +82,14 @@ TEST_CASE("DynamicTable", "[table]")
     // Reopen file and verify data
     io = createIO("HDF5", path);
     io->open();
-    NWB::DynamicTable readTable(tablePath, io);
+    auto readTable = NWB::DynamicTable::create(tablePath, io);
 
-    auto readColNames = readTable.readColNames()->values().data;
+    auto readColNames = readTable->readColNames()->values().data;
     std::vector<std::string> expectedColNames = {"col1"};
     REQUIRE(readColNames == expectedColNames);
 
     // Read row IDs
-    auto readIdsData = readTable.readIdColumn()->readData()->values().data;
+    auto readIdsData = readTable->readIdColumn()->readData()->values().data;
     REQUIRE(readIdsData == ids);
 
     io->close();
@@ -105,8 +103,8 @@ TEST_CASE("DynamicTable", "[table]")
       std::shared_ptr<BaseIO> io = createIO("HDF5", path);
       io->open();
 
-      NWB::DynamicTable table(tablePath, io);
-      Status status = table.initialize("Table for appending");
+      auto table = NWB::DynamicTable::create(tablePath, io);
+      Status status = table->initialize("Table for appending");
       REQUIRE(status == Status::Success);
 
       // Add initial column
@@ -115,13 +113,13 @@ TEST_CASE("DynamicTable", "[table]")
       SizeArray chunking = {values.size()};
       std::string columnPath = mergePaths(tablePath, "col1");
       IO::ArrayDataSetConfig config(BaseDataType::V_STR, dataShape, chunking);
-      auto vectorData = std::make_unique<NWB::VectorData>(columnPath, io);
+      auto vectorData = NWB::VectorData::create(columnPath, io);
       vectorData->initialize(config, "Column 1");
-      status = table.addColumn(vectorData, values);
+      status = table->addColumn(vectorData, values);
       REQUIRE(status == Status::Success);
 
-      // table.setColNames({"col1"});
-      status = table.finalize();
+      // table->setColNames({"col1"});
+      status = table->finalize();
       REQUIRE(status == Status::Success);
 
       io->close();
@@ -132,7 +130,7 @@ TEST_CASE("DynamicTable", "[table]")
       std::shared_ptr<BaseIO> io = createIO("HDF5", path);
       io->open();
 
-      NWB::DynamicTable table(tablePath, io);
+      auto table = NWB::DynamicTable::create(tablePath, io);
 
       // Add new column
       std::vector<std::string> newValues = {"new1", "new2", "new3"};
@@ -141,28 +139,28 @@ TEST_CASE("DynamicTable", "[table]")
       std::string columnPath2 = mergePaths(tablePath, "col2");
       IO::ArrayDataSetConfig config(
           BaseDataType::V_STR, newDataShape, newChunking);
-      auto newVectorData = std::make_unique<NWB::VectorData>(columnPath2, io);
+      auto newVectorData = NWB::VectorData::create(columnPath2, io);
       newVectorData->initialize(config, "Column 2");
-      Status status = table.addColumn(newVectorData, newValues);
+      Status status = table->addColumn(newVectorData, newValues);
       REQUIRE(status == Status::Success);
 
       // Finalize the table
-      status = table.finalize();
+      status = table->finalize();
       REQUIRE(status == Status::Success);
 
       // Verify updated column names
       std::vector<std::string> colNames = {"col1", "col2"};
-      auto readColNames = table.readColNames()->values().data;
+      auto readColNames = table->readColNames()->values().data;
       REQUIRE(readColNames == colNames);
 
       // Swap the columns
       colNames = {"col2", "col1"};
-      table.setColNames(colNames);
-      status = table.finalize();
+      table->setColNames(colNames);
+      status = table->finalize();
       REQUIRE(status == Status::Success);
 
       // Verify updated column names
-      auto readColNames2 = table.readColNames()->values().data;
+      auto readColNames2 = table->readColNames()->values().data;
       REQUIRE(readColNames2 == colNames);
 
       io->close();
@@ -175,8 +173,8 @@ TEST_CASE("DynamicTable", "[table]")
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
 
-    NWB::DynamicTable table(tablePath, io);
-    Status status = table.initialize("Table with columns");
+    auto table = NWB::DynamicTable::create(tablePath, io);
+    Status status = table->initialize("Table with columns");
     REQUIRE(status == Status::Success);
 
     // Add string vector data column
@@ -185,9 +183,9 @@ TEST_CASE("DynamicTable", "[table]")
     SizeArray chunking = {values.size()};
     IO::ArrayDataSetConfig strConfig(BaseDataType::V_STR, dataShape, chunking);
     std::string columnPath = mergePaths(tablePath, "col1");
-    auto vectorData = std::make_unique<NWB::VectorData>(columnPath, io);
+    auto vectorData = NWB::VectorData::create(columnPath, io);
     vectorData->initialize(strConfig, "Column 1");
-    status = table.addColumn(vectorData, values);
+    status = table->addColumn(vectorData, values);
     REQUIRE(status == Status::Success);
 
     // Set row IDs
@@ -197,18 +195,18 @@ TEST_CASE("DynamicTable", "[table]")
 
     std::string idPath = mergePaths(tablePath, "id");
     IO::ArrayDataSetConfig i32Config(BaseDataType::I32, idShape, idChunking);
-    auto elementIDs = std::make_unique<NWB::ElementIdentifiers>(idPath, io);
+    auto elementIDs = NWB::ElementIdentifiers::create(idPath, io);
     elementIDs->initialize(i32Config);
-    status = table.setRowIDs(elementIDs, ids);
+    status = table->setRowIDs(elementIDs, ids);
     REQUIRE(status == Status::Success);
 
     // Final
-    status = table.finalize();
+    status = table->finalize();
     REQUIRE(status == Status::Success);
     io->flush();
 
     // Find all typed objects that are owned by this object
-    auto types = table.findOwnedTypes();
+    auto types = table->findOwnedTypes();
     REQUIRE(types.size() == 2);
     REQUIRE(types["/test_table/id"] == "hdmf-common::ElementIdentifiers");
     REQUIRE(types["/test_table/col1"] == "hdmf-common::VectorData");

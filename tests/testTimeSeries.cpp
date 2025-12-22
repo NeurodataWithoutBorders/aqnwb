@@ -37,7 +37,7 @@ TEST_CASE("TimeSeries", "[base]")
     // setup timeseries object
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
-    NWB::TimeSeries ts = NWB::TimeSeries(dataPath, io);
+    auto ts = NWB::TimeSeries::create(dataPath, io);
     std::string description = "Test TimeSeries";
     std::string comments = "Test comment";
     std::string unit = "volts";
@@ -49,7 +49,7 @@ TEST_CASE("TimeSeries", "[base]")
         AQNWB::NWB::TimeSeries::Continuous;
 
     IO::ArrayDataSetConfig config(dataType, SizeArray {0}, SizeArray {1});
-    ts.initialize(
+    ts->initialize(
         config,
         unit,
         description,
@@ -63,14 +63,14 @@ TEST_CASE("TimeSeries", "[base]")
         emptyControlDescription  // empty to NOT use a control and
                                  // control_description dataset
     );
-    REQUIRE(ts.readTimestamps()->exists() == true);
-    REQUIRE(ts.readStartingTime()->exists() == false);
-    REQUIRE(ts.readControl()->exists() == false);
-    REQUIRE(ts.readControlDescription()->exists() == false);
+    REQUIRE(ts->readTimestamps()->exists() == true);
+    REQUIRE(ts->readStartingTime()->exists() == false);
+    REQUIRE(ts->readControl()->exists() == false);
+    REQUIRE(ts->readControlDescription()->exists() == false);
 
     // Write data to file
-    Status writeStatus =
-        ts.writeData(dataShape, positionOffset, data.data(), timestamps.data());
+    Status writeStatus = ts->writeData(
+        dataShape, positionOffset, data.data(), timestamps.data());
     REQUIRE(writeStatus == Status::Success);
     io->flush();
     io->close();
@@ -175,7 +175,7 @@ TEST_CASE("TimeSeries", "[base]")
     // setup timeseries object
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
-    NWB::TimeSeries ts = NWB::TimeSeries(dataPath, io);
+    auto ts = NWB::TimeSeries::create(dataPath, io);
     std::string description = "Test TimeSeries";
     std::string comments = "Test comment";
     std::string unit = "volts";
@@ -188,28 +188,28 @@ TEST_CASE("TimeSeries", "[base]")
     float startingTimeRate = 1.0;
 
     IO::ArrayDataSetConfig config(dataType, SizeArray {0}, SizeArray {1});
-    ts.initialize(config,
-                  unit,
-                  description,
-                  comments,
-                  conversion,
-                  resolution,
-                  offset,
-                  continuity,
-                  startingTime,
-                  startingTimeRate,
-                  controlDescription);
-    REQUIRE(ts.readTimestamps()->exists() == false);
-    REQUIRE(ts.readStartingTime()->exists() == true);
-    REQUIRE(ts.readControl()->exists() == true);
-    REQUIRE(ts.readControlDescription()->exists() == true);
+    ts->initialize(config,
+                   unit,
+                   description,
+                   comments,
+                   conversion,
+                   resolution,
+                   offset,
+                   continuity,
+                   startingTime,
+                   startingTimeRate,
+                   controlDescription);
+    REQUIRE(ts->readTimestamps()->exists() == false);
+    REQUIRE(ts->readStartingTime()->exists() == true);
+    REQUIRE(ts->readControl()->exists() == true);
+    REQUIRE(ts->readControlDescription()->exists() == true);
 
     // Write data to file
-    Status writeStatus = ts.writeData(dataShape,
-                                      positionOffset,
-                                      data.data(),
-                                      nullptr,  // no timestamps
-                                      controlData.data());
+    Status writeStatus = ts->writeData(dataShape,
+                                       positionOffset,
+                                       data.data(),
+                                       nullptr,  // no timestamps
+                                       controlData.data());
 
     REQUIRE(writeStatus == Status::Success);
     io->flush();
@@ -280,7 +280,7 @@ TEST_CASE("TimeSeries", "[base]")
     // setup timeseries object
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
-    NWB::TimeSeries ts = NWB::TimeSeries(dataPath, io);
+    auto ts = NWB::TimeSeries::create(dataPath, io);
     std::string description = "Test TimeSeries";
     std::string comments = "Test comment";
     std::string unit = "volts";
@@ -292,7 +292,7 @@ TEST_CASE("TimeSeries", "[base]")
         AQNWB::NWB::TimeSeries::Continuous;
 
     IO::ArrayDataSetConfig config(dataType, SizeArray {0}, SizeArray {1});
-    ts.initialize(
+    ts->initialize(
         config,
         unit,
         description,
@@ -307,37 +307,37 @@ TEST_CASE("TimeSeries", "[base]")
     );
 
     // Test recordData method
-    auto dataRecorder = ts.recordData();
+    auto dataRecorder = ts->recordData();
     REQUIRE(dataRecorder != nullptr);
 
     // Test recordTimestamps method
-    auto timestampsRecorder = ts.recordTimestamps();
+    auto timestampsRecorder = ts->recordTimestamps();
     REQUIRE(timestampsRecorder != nullptr);
 
     // Test recordControl method
-    auto controlRecorder = ts.recordControl();
+    auto controlRecorder = ts->recordControl();
     REQUIRE(controlRecorder != nullptr);
 
     // Test recordControlDescription method
-    auto controlDescriptionRecorder = ts.recordControlDescription();
+    auto controlDescriptionRecorder = ts->recordControlDescription();
     REQUIRE(controlDescriptionRecorder != nullptr);
 
     // Initialize a second TimeSeries with starting_time
-    NWB::TimeSeries ts2 = NWB::TimeSeries(dataPath + "/ts2", io);
-    ts2.initialize(config,
-                   unit,
-                   description,
-                   comments,
-                   conversion,
-                   resolution,
-                   offset,
-                   continuity,
-                   0.0,  // use starting time
-                   1.0,  // starting time rate
-                   emptyControlDescription);
+    auto ts2 = NWB::TimeSeries::create(dataPath + "/ts2", io);
+    ts2->initialize(config,
+                    unit,
+                    description,
+                    comments,
+                    conversion,
+                    resolution,
+                    offset,
+                    continuity,
+                    0.0,  // use starting time
+                    1.0,  // starting time rate
+                    emptyControlDescription);
 
     // Test recordStartingTime method
-    auto startingTimeRecorder = ts2.recordStartingTime();
+    auto startingTimeRecorder = ts2->recordStartingTime();
     REQUIRE(startingTimeRecorder != nullptr);
 
     io->close();

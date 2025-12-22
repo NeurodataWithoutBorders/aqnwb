@@ -17,9 +17,13 @@ namespace AQNWB::NWB
 class Device : public NWBContainer
 {
 public:
-  // Register the Device as a subclass of Container
-  REGISTER_SUBCLASS(Device, AQNWB::SPEC::CORE::namespaceName)
+  // Register the Device as a subclass of NWBContainer
+  REGISTER_SUBCLASS(Device, NWBContainer, AQNWB::SPEC::CORE::namespaceName)
 
+  // Bring base class initialize method into scope
+  using Container::initialize;
+
+protected:
   /**
    * @brief Constructor.
    * @param path The location of the device in the file.
@@ -27,6 +31,7 @@ public:
    */
   Device(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
+public:
   /**
    * @brief Destructor
    */
@@ -38,9 +43,10 @@ public:
    *
    * @param description The description of the device.
    * @param manufacturer The manufacturer of the device.
+   * @return Status::Success if successful, otherwise Status::Failure.
    */
-  void initialize(const std::string& description,
-                  const std::string& manufacturer);
+  Status initialize(const std::string& description,
+                    const std::string& manufacturer);
 
   // Define the data fields to expose for lazy read access
   DEFINE_ATTRIBUTE_FIELD(readDescription,

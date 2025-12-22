@@ -40,11 +40,11 @@ TEST_CASE("ElementIdentifiers", "[base]")
     IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
 
     // setup Data object
-    NWB::ElementIdentifiers columnData = NWB::ElementIdentifiers(dataPath, io);
-    columnData.initialize(config);
+    auto columnData = NWB::ElementIdentifiers::create(dataPath, io);
+    columnData->initialize(config);
 
     // Write data to file
-    Status writeStatus = columnData.recordData()->writeDataBlock(
+    Status writeStatus = columnData->recordData()->writeDataBlock(
         dataShape, positionOffset, dataType, data.data());
     REQUIRE(writeStatus == Status::Success);
     io->flush();
@@ -93,11 +93,11 @@ TEST_CASE("ElementIdentifiers", "[base]")
     IO::ArrayDataSetConfig config(dataType, dataShape, chunking);
 
     // setup ElementIdentifiers object
-    auto elementIdentifiers = NWB::ElementIdentifiers(dataPath, io);
-    elementIdentifiers.initialize(config);
+    auto elementIdentifiers = NWB::ElementIdentifiers::create(dataPath, io);
+    elementIdentifiers->initialize(config);
 
     // Test recordData method
-    auto dataRecorder = elementIdentifiers.recordData();
+    auto dataRecorder = elementIdentifiers->recordData();
     REQUIRE(dataRecorder != nullptr);
 
     io->close();

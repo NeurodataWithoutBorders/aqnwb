@@ -15,14 +15,16 @@ PROJECT_NUMBER = "@PROJECT_VERSION@"
 # a simplified version of the macro as part of the PREDEFINED key to create a
 # simplified expansion of the macro for documentation purposes
 MACRO_EXPANSION = YES
-PREDEFINED           += "DEFINE_ATTRIBUTE_FIELD(name, default_type, fieldPath, description)=/** description */ template<typename VTYPE = default_type> inline std::unique_ptr<IO::ReadDataWrapper<AttributeField, VTYPE>> name() const;"
-PREDEFINED           += "DEFINE_DATASET_FIELD(readName, writeName, default_type, fieldPath, description)=/** description */ template<typename VTYPE = default_type> inline std::unique_ptr<IO::ReadDataWrapper<DatasetField, VTYPE>> readName() const; inline std::shared_ptr<IO::BaseRecordingData> writeName(bool reset = false); "
-PREDEFINED           += "DEFINE_REGISTERED_FIELD(name, registeredType, fieldPath, description)=/** description */ template<typename RTYPE = registeredType> inline std::shared_ptr<RTYPE> name() const;" 
+PREDEFINED           += "DEFINE_ATTRIBUTE_FIELD(name, default_type, fieldPath, description)=/** description */ template<typename VTYPE = default_type> inline std::unique_ptr<AQNWB::IO::ReadDataWrapper<AQNWB::NWB::AttributeField, VTYPE>> name() const;"
+PREDEFINED           += "DEFINE_DATASET_FIELD(readName, writeName, default_type, fieldPath, description)=/** description */ template<typename VTYPE = default_type> inline std::unique_ptr<AQNWB::IO::ReadDataWrapper<AQNWB::NWB::DatasetField, VTYPE>> readName() const; inline std::shared_ptr<AQNWB::IO::BaseRecordingData> writeName(bool reset = false);"
+PREDEFINED           += "DEFINE_REGISTERED_FIELD(name, registeredType, fieldPath, description)=/** description */ template<typename RTYPE = registeredType> inline std::shared_ptr<RTYPE> name() const;"
 PREDEFINED           += "DEFINE_UNNAMED_REGISTERED_FIELD(readName, writeName, registeredType, fieldPrefixPath, description)=/** description */ template<typename RTYPE = registeredType> inline std::shared_ptr<RTYPE> readName(std::string& objectName) const; template<typename RTYPE = registeredType> inline std::unique_ptr<RTYPE> writeName(std::string& objectName) const;" 
-PREDEFINED           += "DEFINE_REFERENCED_REGISTERED_FIELD(name, registeredType, fieldPath, description)=/** description */ template<typename RTYPE = registeredType> inline std::shared_ptr<RTYPE> name() const;" 
-PREDEFINED           += "REGISTER_SUBCLASS_WITH_TYPENAME(className, namespaceName, typeName)=REGISTER_SUBCLASS_WITH_TYPENAME(className, namespaceName, typeName);"
+PREDEFINED           += "DEFINE_REFERENCED_REGISTERED_FIELD(name, registeredType, fieldPath, description)=/** description */ template<typename RTYPE = registeredType> inline std::shared_ptr<RTYPE> name() const;"
+# REGISTER_SUBCLASS macros simplified so Doxygen sees only declarations
+PREDEFINED           += "REGISTER_SUBCLASS_WITH_TYPENAME(T, BASE, NAMESPACE_VAR, TYPENAME)=public: static bool registered_; virtual std::string getTypeName() const override; virtual std::string getNamespace() const override; static std::shared_ptr<T> create(const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io);"
+PREDEFINED           += "REGISTER_SUBCLASS(T, BASE, NAMESPACE)=REGISTER_SUBCLASS_WITH_TYPENAME(T, BASE, NAMESPACE, #T)"
+PREDEFINED           += "REGISTER_SUBCLASS_IMPL(T)=bool T::registered_ = T::registerSubclass();"
 EXPAND_ONLY_PREDEF   = YES
-
 
 # Add sources
 INPUT = "@PROJECT_SOURCE_DIR@/src" "@PROJECT_SOURCE_DIR@/docs/pages"

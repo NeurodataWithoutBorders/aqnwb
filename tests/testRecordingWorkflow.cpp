@@ -7,9 +7,10 @@
 #include "Types.hpp"
 #include "Utils.hpp"
 #include "io/BaseIO.hpp"
+#include "io/RecordingObjects.hpp"
 #include "io/hdf5/HDF5IO.hpp"
+#include "io/nwbio_utils.hpp"
 #include "nwb/NWBFile.hpp"
-#include "nwb/RecordingContainers.hpp"
 #include "nwb/file/ElectrodesTable.hpp"
 #include "testUtils.hpp"
 
@@ -40,24 +41,22 @@ TEST_CASE("writeContinuousData", "[recording]")
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
 
-    // 2. create RecordingContainers object
-    std::unique_ptr<NWB::RecordingContainers> recordingContainers =
-        std::make_unique<NWB::RecordingContainers>();
+    // 2. RecordingObjects are now automatically managed by the IO object
     std::vector<SizeType> containerIndices = {};
 
     // 3. create NWBFile object
-    std::unique_ptr<NWB::NWBFile> nwbfile = std::make_unique<NWB::NWBFile>(io);
+    auto nwbfile = NWB::NWBFile::create(io);
     nwbfile->initialize(generateUuid());
 
     // 4. create an electrodes table.
     nwbfile->createElectrodesTable(mockRecordingArrays);
 
-    // 5. create datasets and add to recording containers
+    // 5. create datasets (automatically added to recording objects)
+    std::vector<SizeType> containerIndexes = {};
     nwbfile->createElectricalSeries(mockRecordingArrays,
                                     mockChannelNames,
                                     BaseDataType::F32,
-                                    recordingContainers.get(),
-                                    containerIndices);
+                                    containerIndexes);
 
     // 6. start the recording
     io->startRecording();
@@ -65,39 +64,45 @@ TEST_CASE("writeContinuousData", "[recording]")
     // 7. write data during the recording
     bool isRecording = true;
     while (isRecording) {
+      SizeType remainingSamples = numSamples - samplesRecorded;
+      SizeType samplesToWrite = std::min(bufferSize, remainingSamples);
+
       // write data to the file for each channel
       for (SizeType i = 0; i < mockRecordingArrays.size(); ++i) {
+        SizeType recordingObjectIndex = containerIndexes[i];
         const auto& channelVector = mockRecordingArrays[i];
         for (const auto& channel : channelVector) {
           // copy data into buffer
-          std::copy(
-              mockData[channel.getGlobalIndex()].begin()
-                  + static_cast<std::ptrdiff_t>(samplesRecorded),
-              mockData[channel.getGlobalIndex()].begin()
-                  + static_cast<std::ptrdiff_t>(samplesRecorded + bufferSize),
-              dataBuffer.begin());
-          std::copy(
-              mockTimestamps.begin()
-                  + static_cast<std::ptrdiff_t>(samplesRecorded),
-              mockTimestamps.begin()
-                  + static_cast<std::ptrdiff_t>(samplesRecorded + bufferSize),
-              timestampsBuffer.begin());
+          std::copy(mockData[channel.getGlobalIndex()].begin()
+                        + static_cast<std::ptrdiff_t>(samplesRecorded),
+                    mockData[channel.getGlobalIndex()].begin()
+                        + static_cast<std::ptrdiff_t>(samplesRecorded
+                                                      + samplesToWrite),
+                    dataBuffer.begin());
+          std::copy(mockTimestamps.begin()
+                        + static_cast<std::ptrdiff_t>(samplesRecorded),
+                    mockTimestamps.begin()
+                        + static_cast<std::ptrdiff_t>(samplesRecorded
+                                                      + samplesToWrite),
+                    timestampsBuffer.begin());
 
           // write timeseries data
           std::vector<SizeType> positionOffset = {samplesRecorded,
                                                   channel.getLocalIndex()};
-          std::vector<SizeType> dataShape = {dataBuffer.size(), 1};
+          std::vector<SizeType> dataShape = {samplesToWrite, 1};
 
-          recordingContainers->writeTimeseriesData(i,
-                                                   channel,
-                                                   dataShape,
-                                                   positionOffset,
-                                                   dataBuffer.data(),
-                                                   timestampsBuffer.data());
+          auto recordingObjects = io->getRecordingObjects();
+          IO::writeTimeseriesData(recordingObjects,
+                                  recordingObjectIndex,
+                                  channel,
+                                  dataShape,
+                                  positionOffset,
+                                  dataBuffer.data(),
+                                  timestampsBuffer.data());
         }
       }
       // check if recording is done
-      samplesRecorded += static_cast<SizeType>(dataBuffer.size());
+      samplesRecorded += samplesToWrite;
       if (samplesRecorded >= numSamples) {
         isRecording = false;
       }
@@ -105,7 +110,7 @@ TEST_CASE("writeContinuousData", "[recording]")
 
     // 8. stop the recording and finalize the file
     io->stopRecording();
-    nwbfile->finalize();
+    io->close();
 
     // check contents of data
     std::string dataPath = "/acquisition/esdata0/data";
@@ -115,12 +120,11 @@ TEST_CASE("writeContinuousData", "[recording]")
         std::make_unique<H5::DataSet>(file->openDataSet(dataPath));
     SizeType numChannelsToRead = numChannels / 2;
 
-    float* buffer = new float[numSamples * numChannelsToRead];
-
+    std::vector<float> buffer(numSamples * numChannelsToRead);
     H5::DataSpace fSpace = dataset->getSpace();
     hsize_t dims[1] = {numSamples * numChannelsToRead};
     H5::DataSpace mSpace(1, dims);
-    dataset->read(buffer, H5::PredType::NATIVE_FLOAT, mSpace, fSpace);
+    dataset->read(buffer.data(), H5::PredType::NATIVE_FLOAT, mSpace, fSpace);
 
     std::vector<std::vector<float>> dataOut(numChannelsToRead,
                                             std::vector<float>(numSamples));
@@ -129,7 +133,6 @@ TEST_CASE("writeContinuousData", "[recording]")
         dataOut[i][j] = buffer[static_cast<size_t>(j) * numChannelsToRead + i];
       }
     }
-    delete[] buffer;
     REQUIRE_THAT(dataOut[0], Catch::Matchers::Approx(mockData[0]).margin(1.0));
     REQUIRE_THAT(dataOut[1], Catch::Matchers::Approx(mockData[1]).margin(1.0));
 
@@ -137,13 +140,13 @@ TEST_CASE("writeContinuousData", "[recording]")
     std::string timestampsPath = "/acquisition/esdata0/timestamps";
     std::unique_ptr<H5::DataSet> tsDataset =
         std::make_unique<H5::DataSet>(file->openDataSet(timestampsPath));
-    double* tsBuffer = new double[numSamples];
+    std::vector<double> tsBuffer(numSamples);
 
     H5::DataSpace tsfSpace = tsDataset->getSpace();
-    tsDataset->read(tsBuffer, H5::PredType::NATIVE_DOUBLE, tsfSpace, tsfSpace);
+    tsDataset->read(
+        tsBuffer.data(), H5::PredType::NATIVE_DOUBLE, tsfSpace, tsfSpace);
 
-    std::vector<double> timestampsOut(tsBuffer, tsBuffer + numSamples);
-    delete[] tsBuffer;
+    std::vector<double> timestampsOut(tsBuffer.begin(), tsBuffer.end());
     double tolerance = 1e-9;
     REQUIRE_THAT(timestampsOut,
                  Catch::Matchers::Approx(mockTimestamps).margin(tolerance));

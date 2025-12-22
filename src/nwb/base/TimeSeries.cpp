@@ -32,21 +32,28 @@ Status TimeSeries::createDataAttributes(const std::string& path,
                                         const std::string& unit,
                                         const ContinuityType& continuity)
 {
-  m_io->createAttribute(AQNWB::IO::BaseDataType::F32,
-                        &conversion,
-                        AQNWB::mergePaths(path, "data"),
-                        "conversion");
-  m_io->createAttribute(AQNWB::IO::BaseDataType::F32,
-                        &resolution,
-                        AQNWB::mergePaths(path, "data"),
-                        "resolution");
-  m_io->createAttribute(AQNWB::IO::BaseDataType::F32,
-                        &offset,
-                        AQNWB::mergePaths(path, "data"),
-                        "offset");
-  m_io->createAttribute(unit, path + "/data", "unit");
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    std::cerr << "TimeSeries::createDataAttributes: IO object is not valid."
+              << std::endl;
+    return Status::Failure;
+  }
+
+  ioPtr->createAttribute(AQNWB::IO::BaseDataType::F32,
+                         &conversion,
+                         AQNWB::mergePaths(path, "data"),
+                         "conversion");
+  ioPtr->createAttribute(AQNWB::IO::BaseDataType::F32,
+                         &resolution,
+                         AQNWB::mergePaths(path, "data"),
+                         "resolution");
+  ioPtr->createAttribute(AQNWB::IO::BaseDataType::F32,
+                         &offset,
+                         AQNWB::mergePaths(path, "data"),
+                         "offset");
+  ioPtr->createAttribute(unit, path + "/data", "unit");
   if (continuity != ContinuityType::Undefined) {
-    m_io->createAttribute(
+    ioPtr->createAttribute(
         ContinuityTypeNames[continuity], path + "/data", "continuity");
   }
   return Status::Success;
@@ -54,39 +61,55 @@ Status TimeSeries::createDataAttributes(const std::string& path,
 
 Status TimeSeries::createTimestampsAttributes(const std::string& path)
 {
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    std::cerr
+        << "TimeSeries::createTimestampsAttributes: IO object is not valid."
+        << std::endl;
+    return Status::Failure;
+  }
+
   int interval = 1;
-  m_io->createAttribute(AQNWB::IO::BaseDataType::I32,
-                        static_cast<const void*>(&interval),
-                        path + "/timestamps",
-                        "interval");
-  m_io->createAttribute("seconds", path + "/timestamps", "unit");
+  ioPtr->createAttribute(AQNWB::IO::BaseDataType::I32,
+                         static_cast<const void*>(&interval),
+                         path + "/timestamps",
+                         "interval");
+  ioPtr->createAttribute("seconds", path + "/timestamps", "unit");
 
   return Status::Success;
 }
 
-void TimeSeries::initialize(const IO::ArrayDataSetConfig& dataConfig,
-                            const std::string& unit,
-                            const std::string& description,
-                            const std::string& comments,
-                            const float& conversion,
-                            const float& resolution,
-                            const float& offset,
-                            const ContinuityType& continuity,
-                            const double& startingTime,
-                            const float& startingTimeRate,
-                            const std::vector<std::string>& controlDescription)
+Status TimeSeries::initialize(
+    const IO::ArrayDataSetConfig& dataConfig,
+    const std::string& unit,
+    const std::string& description,
+    const std::string& comments,
+    const float& conversion,
+    const float& resolution,
+    const float& offset,
+    const ContinuityType& continuity,
+    const double& startingTime,
+    const float& startingTimeRate,
+    const std::vector<std::string>& controlDescription)
 {
-  NWBDataInterface::initialize();
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    std::cerr << "TimeSeries::initialize: IO object is not valid." << std::endl;
+    return Status::Failure;
+  }
+
+  auto interfaceInitStatus = NWBDataInterface::initialize();
 
   this->m_dataType = dataConfig.getType();
 
   // create comments attribute
-  if (description != "")
-    m_io->createAttribute(description, m_path, "description");
-  m_io->createAttribute(comments, m_path, "comments");
+  if (description != "") {
+    ioPtr->createAttribute(description, m_path, "description");
+  }
+  ioPtr->createAttribute(comments, m_path, "comments");
 
   // setup data datasets
-  m_io->createArrayDataSet(dataConfig, AQNWB::mergePaths(m_path, "data"));
+  ioPtr->createArrayDataSet(dataConfig, AQNWB::mergePaths(m_path, "data"));
   this->createDataAttributes(
       m_path, conversion, resolution, offset, unit, continuity);
 
@@ -97,23 +120,23 @@ void TimeSeries::initialize(const IO::ArrayDataSetConfig& dataConfig,
     SizeArray tsChunkSize = {dataConfig.getChunking()[0]};
     IO::ArrayDataSetConfig timestampsConfig(
         this->timestampsType, tsDsetSize, tsChunkSize);
-    m_io->createArrayDataSet(timestampsConfig,
-                             AQNWB::mergePaths(m_path, "timestamps"));
+    ioPtr->createArrayDataSet(timestampsConfig,
+                              AQNWB::mergePaths(m_path, "timestamps"));
     this->createTimestampsAttributes(m_path);
   } else  // setup starting_time datasets
   {
     std::string startingTimePath = AQNWB::mergePaths(m_path, "starting_time");
     IO::ArrayDataSetConfig startingTimeConfig(
         AQNWB::IO::BaseDataType::F64, {1}, {1});
-    m_io->createArrayDataSet(startingTimeConfig, startingTimePath);
+    ioPtr->createArrayDataSet(startingTimeConfig, startingTimePath);
     auto startingTimeRecorder = this->recordStartingTime();
     startingTimeRecorder->writeDataBlock(
         {1}, AQNWB::IO::BaseDataType::F64, &startingTime);
-    m_io->createAttribute(AQNWB::IO::BaseDataType::F32,
-                          &startingTimeRate,
-                          startingTimePath,
-                          "rate");
-    m_io->createAttribute("seconds", startingTimePath, "unit");
+    ioPtr->createAttribute(AQNWB::IO::BaseDataType::F32,
+                           &startingTimeRate,
+                           startingTimePath,
+                           "rate");
+    ioPtr->createAttribute("seconds", startingTimePath, "unit");
   }
 
   // create control datasets if necessary
@@ -123,8 +146,8 @@ void TimeSeries::initialize(const IO::ArrayDataSetConfig& dataConfig,
     SizeArray controlChunkSize = {dataConfig.getChunking()[0]};
     IO::ArrayDataSetConfig controlConfig(
         AQNWB::IO::BaseDataType::U8, controlDsetSize, controlChunkSize);
-    m_io->createArrayDataSet(controlConfig,
-                             AQNWB::mergePaths(m_path, "control"));
+    ioPtr->createArrayDataSet(controlConfig,
+                              AQNWB::mergePaths(m_path, "control"));
 
     // control_description is its own data and contains for each control value
     // a string description
@@ -137,14 +160,15 @@ void TimeSeries::initialize(const IO::ArrayDataSetConfig& dataConfig,
         controlDesriptionType,
         controlDescriptionShape,
         controlDescriptionChunkSize);
-    m_io->createArrayDataSet(controlDescriptionConfig,
-                             AQNWB::mergePaths(m_path, "control_description"));
+    ioPtr->createArrayDataSet(controlDescriptionConfig,
+                              AQNWB::mergePaths(m_path, "control_description"));
     auto controlDescriptionRecorder = this->recordControlDescription();
     controlDescriptionRecorder->writeDataBlock(controlDescriptionShape,
                                                controlDescriptionPositionOffset,
                                                controlDesriptionType,
                                                controlDescription);
   }
+  return interfaceInitStatus;
 }
 
 Status TimeSeries::writeData(const std::vector<SizeType>& dataShape,

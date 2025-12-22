@@ -17,9 +17,11 @@ class ElectrodesTable : public DynamicTable
 {
 public:
   // Register the ElectrodesTable as a subclass of Container
-  // REGISTER_SUBCLASS(ElectrodesTable, "core")
-  REGISTER_SUBCLASS(ElectrodesTable, AQNWB::SPEC::CORE::namespaceName)
+  REGISTER_SUBCLASS(ElectrodesTable,
+                    DynamicTable,
+                    AQNWB::SPEC::CORE::namespaceName)
 
+protected:
   /**
    * @brief Constructor.
    * @param io The shared pointer to the BaseIO object.
@@ -29,6 +31,19 @@ public:
 
   // required so we can call create
   ElectrodesTable(const std::string& path, std::shared_ptr<IO::BaseIO> io);
+
+public:
+  /** \brief Convenience factor method since the path is fixed to
+   * electrodeTablePath
+   * @param io A shared pointer to the IO object.
+   * @return A shared pointer to the created NWBFile object, or nullptr if
+   * creation failed.
+   */
+  static std::shared_ptr<ElectrodesTable> create(std::shared_ptr<IO::BaseIO> io)
+  {
+    return RegisteredType::create<ElectrodesTable>(
+        ElectrodesTable::electrodesTablePath, io);
+  }
 
   /**
    * @brief Destructor.
@@ -55,7 +70,7 @@ public:
    * the data to the file.
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status finalize();
+  Status finalize() override;
 
   /**
    * @brief Sets up the ElectrodesTable by adding electrodes and their metadata.
@@ -83,22 +98,23 @@ public:
 
 private:
   /**
-   * @brief The global indices for each electrode.
+   * @brief The global indices for each added electrode.
    */
   std::vector<int> m_electrodeNumbers;
 
   /**
-   * @brief The names of the ElectrodeGroup object for each electrode.
+   * @brief The names of the ElectrodeGroup object for each added electrode.
    */
   std::vector<std::string> m_groupNames;
 
   /**
-   * @brief The location names for each electrode.
+   * @brief The location names for each added electrode.
    */
   std::vector<std::string> m_locationNames;
 
   /**
-   * @brief The references to the ElectrodeGroup object for each electrode.
+   * @brief The references to the ElectrodeGroup object for each added
+   * electrode.
    */
   std::vector<std::string> m_groupReferences;
 
@@ -109,18 +125,13 @@ private:
       "/general/extracellular_ephys";
 
   /**
-   * @brief The row ids data object for write
-   */
-  std::unique_ptr<ElementIdentifiers> m_electrodeDataset;
-
-  /**
    * @brief The group names column for write
    */
-  std::unique_ptr<VectorData> m_groupNamesDataset;
+  std::shared_ptr<VectorData> m_groupNamesVectorData;
 
   /**
    * @brief The locations column for write
    */
-  std::unique_ptr<VectorData> m_locationsDataset;
+  std::shared_ptr<VectorData> m_locationsVectorData;
 };
 }  // namespace AQNWB::NWB

@@ -15,8 +15,9 @@ namespace AQNWB::NWB
 class VectorData : public Data
 {
 public:
-  REGISTER_SUBCLASS(VectorData, AQNWB::SPEC::HDMF_COMMON::namespaceName)
+  REGISTER_SUBCLASS(VectorData, Data, AQNWB::SPEC::HDMF_COMMON::namespaceName)
 
+protected:
   /**
    * @brief Constructor.
    *
@@ -25,6 +26,7 @@ public:
    */
   VectorData(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
+public:
   /**
    * @brief Virtual destructor.
    */
@@ -51,7 +53,7 @@ public:
       return nullptr;
     }
 
-    auto vectorData = std::make_shared<VectorData>(path, io);
+    auto vectorData = VectorData::create(path, io);
     Status commonAttrsStatus = io->createCommonNWBAttributes(
         path, vectorData->getNamespace(), vectorData->getTypeName());
     Status attrStatus = io->createAttribute(description, path, "description");
@@ -74,9 +76,15 @@ public:
   Status initialize(const IO::ArrayDataSetConfig& dataConfig,
                     const std::string& description)
   {
+    auto ioPtr = getIO();
+    if (ioPtr == nullptr) {
+      std::cerr << "IO object has been deleted. Can't initialize VectorData: "
+                << m_path << std::endl;
+      return Status::Failure;
+    }
     Status dataStatus = Data::initialize(dataConfig);
     Status attrStatus =
-        m_io->createAttribute(description, m_path, "description");
+        ioPtr->createAttribute(description, m_path, "description");
     return dataStatus && attrStatus;
   }
 
@@ -103,7 +111,9 @@ public:
 template<typename DTYPE = std::any>
 class VectorDataTyped : public VectorData
 {
-public:
+  friend class AQNWB::NWB::RegisteredType; /* base can call constructor */
+
+protected:
   /**
    * @brief Constructor.
    *
@@ -113,6 +123,25 @@ public:
   VectorDataTyped(const std::string& path, std::shared_ptr<IO::BaseIO> io)
       : VectorData(path, io)
   {
+  }
+
+  using VectorData::VectorData; /* inherit from immediate base */
+
+public:
+  /** \brief Factor method to create a VectorDataTyped object.
+   *
+   * This is required here since VectorDataTyped is a template class and
+   * is not being registered with the RegisteredType class registry via
+   * REGISTER_SUBCLASS.
+   * @param path The path of the container.
+   * @param io A shared pointer to the IO object.
+   * @return A shared pointer to the created NWBFile object, or nullptr if
+   * creation failed.
+   */
+  static std::shared_ptr<VectorDataTyped> create(
+      const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io)
+  {
+    return RegisteredType::create<VectorDataTyped>(path, io);
   }
 
   /**
@@ -134,14 +163,13 @@ public:
    * IO object as the input
    */
   static std::shared_ptr<VectorDataTyped<DTYPE>> fromVectorData(
-      const VectorData& data)
+      const std::shared_ptr<VectorData>& data)
   {
-    return std::make_shared<VectorDataTyped<DTYPE>>(data.getPath(),
-                                                    data.getIO());
+    return VectorDataTyped<DTYPE>::create(data->getPath(), data->getIO());
   }
 
-  using RegisteredType::m_io;
-  using RegisteredType::m_path;
+  using RegisteredType::getIO;
+  using RegisteredType::getPath;
 
   // Define the data fields to expose for lazy read access
   DEFINE_DATASET_FIELD(readData, recordData, DTYPE, "", The main data)

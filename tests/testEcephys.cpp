@@ -55,34 +55,34 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     io->createGroup("/general/extracellular_ephys");
 
     // setup device and electrode group
-    auto device = NWB::Device(devicePath, io);
-    device.initialize("description", "unknown");
-    auto elecGroup = NWB::ElectrodeGroup(electrodePath, io);
-    elecGroup.initialize("description", "unknown", device);
+    auto device = NWB::Device::create(devicePath, io);
+    device->initialize("description", "unknown");
+    auto elecGroup = NWB::ElectrodeGroup::create(electrodePath, io);
+    elecGroup->initialize("description", "unknown", device);
 
     // setup electrode table, device, and electrode group
-    NWB::ElectrodesTable elecTable = NWB::ElectrodesTable(io);
-    Status elecTableStatus = elecTable.initialize();
+    auto elecTable = NWB::ElectrodesTable::create(io);
+    Status elecTableStatus = elecTable->initialize();
     REQUIRE(elecTableStatus == Status::Success);
-    elecTable.addElectrodes(mockArrays[0]);
-    elecTableStatus = elecTable.finalize();
+    elecTable->addElectrodes(mockArrays[0]);
+    elecTableStatus = elecTable->finalize();
     REQUIRE(elecTableStatus == Status::Success);
 
     // Confirm that the electrode table is created correctly
-    auto readColNames = elecTable.readColNames()->values().data;
+    auto readColNames = elecTable->readColNames()->values().data;
     std::vector<std::string> expectedColNames = {
         "location", "group", "group_name"};
     REQUIRE(readColNames == expectedColNames);
 
     // setup electrical series
-    NWB::ElectricalSeries es = NWB::ElectricalSeries(dataPath, io);
+    auto es = NWB::ElectricalSeries::create(dataPath, io);
     IO::ArrayDataSetConfig config(
         dataType, SizeArray {0, mockArrays[0].size()}, SizeArray {1, 1});
-    es.initialize(config, mockArrays[0], "no description");
+    es->initialize(config, mockArrays[0], "no description");
 
     // write channel data
     for (SizeType ch = 0; ch < numChannels; ++ch) {
-      es.writeChannel(
+      es->writeChannel(
           ch, numSamples, mockData[ch].data(), mockTimestamps.data());
     }
     io->flush();
@@ -122,30 +122,30 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     io->createGroup("/general/extracellular_ephys");
 
     // setup device and electrode group
-    auto device = NWB::Device(devicePath, io);
-    device.initialize("description", "unknown");
-    auto elecGroup = NWB::ElectrodeGroup(electrodePath, io);
-    elecGroup.initialize("description", "unknown", device);
+    auto device = NWB::Device::create(devicePath, io);
+    device->initialize("description", "unknown");
+    auto elecGroup = NWB::ElectrodeGroup::create(electrodePath, io);
+    elecGroup->initialize("description", "unknown", device);
 
     // setup electrode table
-    NWB::ElectrodesTable elecTable = NWB::ElectrodesTable(io);
-    Status elecTableStatus = elecTable.initialize();
+    auto elecTable = NWB::ElectrodesTable::create(io);
+    Status elecTableStatus = elecTable->initialize();
     REQUIRE(elecTableStatus == Status::Success);
-    elecTable.addElectrodes(mockArrays[0]);
-    elecTableStatus = elecTable.finalize();
+    elecTable->addElectrodes(mockArrays[0]);
+    elecTableStatus = elecTable->finalize();
     REQUIRE(elecTableStatus == Status::Success);
 
     // Confirm that the electrode table is created correctly
-    auto readColNames = elecTable.readColNames()->values().data;
+    auto readColNames = elecTable->readColNames()->values().data;
     std::vector<std::string> expectedColNames = {
         "location", "group", "group_name"};
     REQUIRE(readColNames == expectedColNames);
 
     // setup electrical series
-    NWB::ElectricalSeries es = NWB::ElectricalSeries(dataPath, io);
+    auto es = NWB::ElectricalSeries::create(dataPath, io);
     IO::ArrayDataSetConfig config(
         dataType, SizeArray {0, mockArrays[0].size()}, SizeArray {1, 1});
-    es.initialize(config, mockArrays[0], "no description");
+    es->initialize(config, mockArrays[0], "no description");
 
     // write channel data in segments
     for (SizeType ch = 0; ch < numChannels; ++ch) {
@@ -164,7 +164,7 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
                 + static_cast<std::ptrdiff_t>(samplesRecorded + bufferSize),
             timestampsBuffer.begin());
 
-        es.writeChannel(
+        es->writeChannel(
             ch, dataBuffer.size(), dataBuffer.data(), timestampsBuffer.data());
         samplesRecorded += bufferSize;
       }
@@ -208,23 +208,23 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     io->createGroup("/general/extracellular_ephys");
 
     // setup device and electrode group
-    auto device = NWB::Device(devicePath, io);
-    device.initialize("description", "unknown");
-    auto elecGroup = NWB::ElectrodeGroup(electrodePath, io);
-    elecGroup.initialize("description", "unknown", device);
+    auto device = NWB::Device::create(devicePath, io);
+    device->initialize("description", "unknown");
+    auto elecGroup = NWB::ElectrodeGroup::create(electrodePath, io);
+    elecGroup->initialize("description", "unknown", device);
 
     // setup electrode table
-    NWB::ElectrodesTable elecTable = NWB::ElectrodesTable(io);
-    elecTable.initialize();
-    elecTable.addElectrodes(mockArraysElectrodes[0]);
-    elecTable.finalize();
+    auto elecTable = NWB::ElectrodesTable::create(io);
+    elecTable->initialize();
+    elecTable->addElectrodes(mockArraysElectrodes[0]);
+    elecTable->finalize();
 
     // setup electrical series
-    NWB::ElectricalSeries es = NWB::ElectricalSeries(dataPath, io);
+    auto es = NWB::ElectricalSeries::create(dataPath, io);
     IO::ArrayDataSetConfig config(BaseDataType::F32,
                                   SizeArray {0, mockArrays[0].size()},
                                   SizeArray {1, 1});
-    es.initialize(config, mockArraysElectrodes[0], "no description");
+    es->initialize(config, mockArraysElectrodes[0], "no description");
     io->close();
 
     // // read the data back in
@@ -269,16 +269,16 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     io->createGroup("/general/extracellular_ephys");
 
     // setup device and electrode group
-    auto device = NWB::Device(devicePath, io);
-    device.initialize("description", "unknown");
-    auto elecGroup = NWB::ElectrodeGroup(electrodePath, io);
-    elecGroup.initialize("description", "unknown", device);
+    auto device = NWB::Device::create(devicePath, io);
+    device->initialize("description", "unknown");
+    auto elecGroup = NWB::ElectrodeGroup::create(electrodePath, io);
+    elecGroup->initialize("description", "unknown", device);
 
     // setup electrode table
-    NWB::ElectrodesTable elecTable = NWB::ElectrodesTable(io);
-    elecTable.initialize();
-    elecTable.addElectrodes(mockArraysElectrodes[0]);
-    elecTable.finalize();
+    auto elecTable = NWB::ElectrodesTable::create(io);
+    elecTable->initialize();
+    elecTable->addElectrodes(mockArraysElectrodes[0]);
+    elecTable->finalize();
 
     // // read the data back in
     io = createIO("HDF5", path);
@@ -374,29 +374,29 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
     io->createGroup("/general/extracellular_ephys");
 
     // setup device and electrode group
-    auto device = NWB::Device(devicePath, io);
-    device.initialize("description", "unknown");
-    auto elecGroup = NWB::ElectrodeGroup(electrodePath, io);
-    elecGroup.initialize("description", "unknown", device);
+    auto device = NWB::Device::create(devicePath, io);
+    device->initialize("description", "unknown");
+    auto elecGroup = NWB::ElectrodeGroup::create(electrodePath, io);
+    elecGroup->initialize("description", "unknown", device);
 
     // setup electrode table, device, and electrode group
-    NWB::ElectrodesTable elecTable = NWB::ElectrodesTable(io);
-    Status elecTableStatus = elecTable.initialize();
+    auto elecTable = NWB::ElectrodesTable::create(io);
+    Status elecTableStatus = elecTable->initialize();
     REQUIRE(elecTableStatus == Status::Success);
-    elecTable.addElectrodes(mockArrays[0]);
-    elecTableStatus = elecTable.finalize();
+    elecTable->addElectrodes(mockArrays[0]);
+    elecTableStatus = elecTable->finalize();
     REQUIRE(elecTableStatus == Status::Success);
 
     // setup electrical series
-    NWB::SpikeEventSeries ses = NWB::SpikeEventSeries(dataPath, io);
+    auto ses = NWB::SpikeEventSeries::create(dataPath, io);
     IO::ArrayDataSetConfig config(
         dataType, SizeArray {0, numChannels, numSamples}, SizeArray {8, 1, 1});
-    ses.initialize(config, mockArrays[0], "no description");
+    ses->initialize(config, mockArrays[0], "no description");
 
     // write channel data
     for (SizeType e = 0; e < numEvents; ++e) {
       double timestamp = mockTimestamps[e];
-      ses.writeSpike(numSamples, numChannels, mockData[e].data(), &timestamp);
+      ses->writeSpike(numSamples, numChannels, mockData[e].data(), &timestamp);
     }
     io->close();
 
@@ -441,29 +441,29 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
     io->createGroup("/general/extracellular_ephys");
 
     // setup device and electrode group
-    auto device = NWB::Device(devicePath, io);
-    device.initialize("description", "unknown");
-    auto elecGroup = NWB::ElectrodeGroup(electrodePath, io);
-    elecGroup.initialize("description", "unknown", device);
+    auto device = NWB::Device::create(devicePath, io);
+    device->initialize("description", "unknown");
+    auto elecGroup = NWB::ElectrodeGroup::create(electrodePath, io);
+    elecGroup->initialize("description", "unknown", device);
 
     // setup electrode table, device, and electrode group
-    NWB::ElectrodesTable elecTable = NWB::ElectrodesTable(io);
-    Status elecTableStatus = elecTable.initialize();
+    auto elecTable = NWB::ElectrodesTable::create(io);
+    Status elecTableStatus = elecTable->initialize();
     REQUIRE(elecTableStatus == Status::Success);
-    elecTable.addElectrodes(mockArrays[0]);
-    elecTableStatus = elecTable.finalize();
+    elecTable->addElectrodes(mockArrays[0]);
+    elecTableStatus = elecTable->finalize();
     REQUIRE(elecTableStatus == Status::Success);
 
     // setup electrical series
-    NWB::SpikeEventSeries ses = NWB::SpikeEventSeries(dataPath, io);
+    auto ses = NWB::SpikeEventSeries::create(dataPath, io);
     IO::ArrayDataSetConfig config(
         dataType, SizeArray {0, numSamples}, SizeArray {8, 1});
-    ses.initialize(config, mockArrays[0], "no description");
+    ses->initialize(config, mockArrays[0], "no description");
 
     // write channel data
     for (SizeType e = 0; e < numEvents; ++e) {
       double timestamp = mockTimestamps[e];
-      ses.writeSpike(numSamples, 1, mockData[e].data(), &timestamp);
+      ses->writeSpike(numSamples, 1, mockData[e].data(), &timestamp);
     }
     io->close();
 

@@ -17,8 +17,10 @@ namespace AQNWB::NWB
 class TimeSeries : public NWBDataInterface
 {
 public:
-  // Register the TimeSeries as a subclass of Container
-  REGISTER_SUBCLASS(TimeSeries, AQNWB::SPEC::CORE::namespaceName)
+  // Register the TimeSeries as a subclass of NWBDataInterface
+  REGISTER_SUBCLASS(TimeSeries,
+                    NWBDataInterface,
+                    AQNWB::SPEC::CORE::namespaceName)
 
   /**
    * Used to describe the continuity of the data in a time series.
@@ -50,13 +52,6 @@ public:
    * is visualized, and what analysis methods are applicable.
    */
   static std::map<ContinuityType, std::string> ContinuityTypeNames;
-
-  /**
-   * @brief Constructor.
-   * @param path The location of the TimeSeries in the file.
-   * @param io A shared pointer to the IO object.
-   */
-  TimeSeries(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
   /**
    * @brief Destructor
@@ -109,18 +104,20 @@ public:
    * control_description data will be created (otherwise they will be nullptr).
    * We can update the control_description values later if needed via the
    * TimeSeries.control_description->writeStringDataBlock() method.
+   * @return Status::Success if successful, otherwise Status::Failure.
    */
-  void initialize(const IO::ArrayDataSetConfig& dataConfig,
-                  const std::string& unit,
-                  const std::string& description = "no description",
-                  const std::string& comments = "no comments",
-                  const float& conversion = 1.0f,
-                  const float& resolution = -1.0f,
-                  const float& offset = 0.0f,
-                  const ContinuityType& continuity = ContinuityType::Undefined,
-                  const double& startingTime = -1.0,
-                  const float& startingTimeRate = 1.0f,
-                  const std::vector<std::string>& controlDescription = {});
+  Status initialize(
+      const IO::ArrayDataSetConfig& dataConfig,
+      const std::string& unit,
+      const std::string& description = "no description",
+      const std::string& comments = "no comments",
+      const float& conversion = 1.0f,
+      const float& resolution = -1.0f,
+      const float& offset = 0.0f,
+      const ContinuityType& continuity = ContinuityType::Undefined,
+      const double& startingTime = -1.0,
+      const float& startingTimeRate = 1.0f,
+      const std::vector<std::string>& controlDescription = {});
 
   /**
    * @brief Data type of the data.
@@ -220,6 +217,14 @@ public:
                        std::string,
                        "control_description",
                        Description of each control value)
+
+protected:
+  /**
+   * @brief Constructor.
+   * @param path The location of the TimeSeries in the file.
+   * @param io A shared pointer to the IO object.
+   */
+  TimeSeries(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
 private:
   /**

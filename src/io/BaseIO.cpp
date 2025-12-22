@@ -1,6 +1,7 @@
 #include "io/BaseIO.hpp"
 
 #include "Utils.hpp"
+#include "io/RecordingObjects.hpp"
 
 using namespace AQNWB::IO;
 using namespace AQNWB;
@@ -46,6 +47,7 @@ BaseIO::BaseIO(const std::string& filename)
     : m_filename(filename)
     , m_readyToOpen(true)
     , m_opened(false)
+    , m_recording_objects(std::make_shared<RecordingObjects>())
 {
 }
 
@@ -197,6 +199,51 @@ std::unordered_map<std::string, std::string> BaseIO::findTypes(
 BaseRecordingData::BaseRecordingData() {}
 
 BaseRecordingData::~BaseRecordingData() {}
+
+Status BaseIO::startRecording()
+{
+  Status status = Status::Success;
+  // Finalize all recording objects before starting recording
+  auto recording_objects = getRecordingObjects();
+  if (recording_objects) {
+    Status finalizeStatus = m_recording_objects->finalize();
+    status = status && finalizeStatus;
+  }
+  return status;
+}
+
+Status BaseIO::stopRecording()
+{
+  Status status = Status::Success;
+  // Finalize all recording objects before stopping recording
+  auto recording_objects = getRecordingObjects();
+  if (recording_objects) {
+    Status finalizeStatus = recording_objects->finalize();
+    if (finalizeStatus != Status::Success) {
+      // Log the error but continue with stopping recording
+      std::cerr << "Warning: Failed to finalize some recording objects"
+                << std::endl;
+    }
+    Status clearStatus = recording_objects->clearRecordingDataCache();
+    if (clearStatus != Status::Success) {
+      // Log the error but continue with stopping recording
+      std::cerr << "Warning: Failed to clear recording data cache for some "
+                   "recording objects"
+                << std::endl;
+    }
+    status = status && finalizeStatus && clearStatus;
+  }
+  return Status::Success;
+}
+
+Status BaseIO::close()
+{
+  auto recording_objects = getRecordingObjects();
+  if (recording_objects) {
+    m_recording_objects->clear();
+  }
+  return Status::Success;
+}
 
 // Overload that uses the member variable position (works for simple data
 // extension)

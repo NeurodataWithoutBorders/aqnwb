@@ -13,11 +13,9 @@ REGISTER_SUBCLASS_IMPL(ElectrodesTable)
 ElectrodesTable::ElectrodesTable(std::shared_ptr<IO::BaseIO> io)
     : DynamicTable(electrodesTablePath,  // use the electrodesTablePath
                    io)
-    , m_electrodeDataset(std::make_unique<ElementIdentifiers>(
-          AQNWB::mergePaths(electrodesTablePath, "id"), io))
-    , m_groupNamesDataset(std::make_unique<VectorData>(
+    , m_groupNamesVectorData(VectorData::create(
           AQNWB::mergePaths(electrodesTablePath, "group_name"), io))
-    , m_locationsDataset(std::make_unique<VectorData>(
+    , m_locationsVectorData(VectorData::create(
           AQNWB::mergePaths(electrodesTablePath, "location"), io))
 {
 }
@@ -25,11 +23,9 @@ ElectrodesTable::ElectrodesTable(std::shared_ptr<IO::BaseIO> io)
 ElectrodesTable::ElectrodesTable(const std::string& path,
                                  std::shared_ptr<IO::BaseIO> io)
     : DynamicTable(electrodesTablePath, io)
-    , m_electrodeDataset(std::make_unique<ElementIdentifiers>(
-          AQNWB::mergePaths(electrodesTablePath, "id"), io))
-    , m_groupNamesDataset(std::make_unique<VectorData>(
+    , m_groupNamesVectorData(VectorData::create(
           AQNWB::mergePaths(electrodesTablePath, "group_name"), io))
-    , m_locationsDataset(std::make_unique<VectorData>(
+    , m_locationsVectorData(VectorData::create(
           AQNWB::mergePaths(electrodesTablePath, "location"), io))
 {
   if (path != this->electrodesTablePath) {
@@ -52,19 +48,20 @@ Status ElectrodesTable::initialize(const std::string& description)
 
   IO::ArrayDataSetConfig electrodeConfig(
       IO::BaseDataType::I32, SizeArray {1}, SizeArray {1});
-  Status electrodeStatus = m_electrodeDataset->initialize(electrodeConfig);
+  Status electrodeStatus = m_rowElementIdentifiers->initialize(electrodeConfig);
 
   IO::ArrayDataSetConfig groupNameConfig(
       IO::BaseDataType::V_STR, SizeArray {0}, SizeArray {1});
-  Status groupNameStatus = m_groupNamesDataset->initialize(
+  Status groupNameStatus = m_groupNamesVectorData->initialize(
       groupNameConfig,
       "the name of the ElectrodeGroup this electrode is a part of");
 
   IO::ArrayDataSetConfig locationConfig(
       IO::BaseDataType::V_STR, SizeArray {0}, SizeArray {1});
-  Status locationStatus = m_locationsDataset->initialize(
+  Status locationStatus = m_locationsVectorData->initialize(
       locationConfig,
       "the location of channel within the subject e.g. brain region");
+
   return electrodeStatus && groupNameStatus && locationStatus;
 }
 
@@ -82,14 +79,41 @@ void ElectrodesTable::addElectrodes(std::vector<Channel> channelsInput)
 
 Status ElectrodesTable::finalize()
 {
-  Status rowIdStatus = setRowIDs(m_electrodeDataset, m_electrodeNumbers);
-  Status locationColStatus = addColumn(m_locationsDataset, m_locationNames);
-  Status groupColStatus = addReferenceColumn(
-      "group",
-      "a reference to the ElectrodeGroup this electrode is a part of",
-      m_groupReferences);
-  Status groupNameColStatus = addColumn(m_groupNamesDataset, m_groupNames);
-  Status finalizeStatus = DynamicTable::finalize();
-  return rowIdStatus && locationColStatus && groupColStatus
-      && groupNameColStatus && finalizeStatus;
+  Status status = Status::Success;
+  // Check if new values have been added for the columns and update them
+  // Updated electrode numbers
+  if (m_electrodeNumbers.size() > 0) {
+    Status rowIdStatus = setRowIDs(m_rowElementIdentifiers, m_electrodeNumbers);
+    m_electrodeNumbers.clear();  // clear after writing
+    status = status && rowIdStatus;
+  }
+  // Add the location names
+  if (m_locationNames.size() > 0) {
+    Status locationColStatus =
+        addColumn(m_locationsVectorData, m_locationNames);
+    m_locationNames.clear();  // clear after writing
+    status = status && locationColStatus;
+  }
+  // Add the group references
+  if (m_groupReferences.size() > 0) {
+    // create the references to the ElectrodeGroup objects
+    Status groupColStatus = addReferenceColumn(
+        "group",
+        "a reference to the ElectrodeGroup this electrode is a part of",
+        m_groupReferences);
+    status = status && groupColStatus;
+    m_groupReferences.clear();  // clear after writing
+  }
+  // Add the group names
+  if (m_groupNames.size() > 0) {
+    Status groupNameColStatus = addColumn(m_groupNamesVectorData, m_groupNames);
+    m_groupNames.clear();  // clear after writing
+    status = status && groupNameColStatus;
+  }
+  // finalize the parent class to write the col names
+  // This must be done after all columns have been added
+  Status dtStatus = DynamicTable::finalize();
+  status = status && dtStatus;
+
+  return status;
 }

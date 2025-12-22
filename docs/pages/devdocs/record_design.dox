@@ -11,7 +11,7 @@
  *    discussed in \ref record_design_sec_recording_data
  * 2. **Consistent multi-dataset recording through convenience methods** defined on individual \ref AQNWB::NWB::RegisteredType "RegisteredType" 
  *    objects (e.g., \ref AQNWB::NWB::TimeSeries::writeData "TimeSeries::writeData")  discussed in \ref record_design_sec_timeseries 
- * 3. **Managing collections of recording objects through RecordingContainers**, discussed in \ref record_design_sec_recording_containers
+ * 3. **Managing collections of recording objects through RecordingObjects**, discussed in \ref record_design_sec_recording_containers
  *
  * \section record_design_sec_recording_data Recording datasets with BaseRecordingData
  *
@@ -45,6 +45,12 @@
  *     and getting existing datasets (\ref AQNWB::IO::BaseIO::getDataSet "getDataSet"), both of which return 
  *     \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" objects.
  *
+ * 5. \ref AQNWB::IO::RecordingObjects "RecordingObjects"
+ *   - All \ref AQNWB::NWB::RegisteredType "RegisteredType" objects used for recording are being registered with the 
+ *     \ref AQNWB::IO::BaseIO::m_recording_objects "BaseIO::m_recording_objects" instance of  \ref AQNWB::IO::RecordingObjects "RecordingObjects"
+ *     to facilitate management of all objects used for recording. 
+ *
+ *
  * @dot
  * digraph G {
  *     node [shape=none];
@@ -57,6 +63,7 @@
  *                 <tr><td align="left">+ createArrayDataSet(): BaseRecordingData</td></tr>
  *                 <tr><td align="left">+ getDataSet(): BaseRecordingData</td></tr>
  *                 <tr><td colspan="2" bgcolor="lightgray"><b>Attributes</b></td></tr>
+ *                 <tr><td align="left">- m_recording_objects:  std::shared_ptr&lt;RecordingObjects&gt;</td></tr>
  *             </table>
  *         >
  *     ];
@@ -137,7 +144,10 @@
  * 1. Checks if a \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" object for the dataset already exists in the cache
  * 2. If it exists and `reset` is false, returns the cached object
  * 3. If it doesn't exist or `reset` is true, gets a new \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" object from the IO backend
- * 4. Caches the new object and returns it
+ * 4. Calls \ref AQNWB::NWB::RegisteredType::registerRecordingObject "RegisteredType::registerRecordingObject" to register the 
+ *    current \ref AQNWB::NWB::RegisteredType "RegisteredType" object for recording with the I/O to make sure the object is being 
+ *    finalized at the end of the recording.
+ * 5. Caches the new object and returns it
  *
  * This caching mechanism is crucial for maintaining the recording state across multiple writes to the same dataset.
  *
@@ -175,21 +185,57 @@
  * - **Position Management**: Managing the current position in each dataset to ensure consistent writing.
  * - **Error Handling**: Handling errors that might occur during the writing process.
  *
- * \section record_design_sec_recording_containers RecordingContainers for Managing Collections
+ * \section record_design_sec_recording_containers RecordingObjects for Managing Collections
  *
- * \ref AQNWB::NWB::RecordingContainers "RecordingContainers" provides an additional convenience layer for managing
+ * \ref AQNWB::IO::RecordingObjects "RecordingObjects" provides an additional convenience layer for managing
  * collections of \ref AQNWB::NWB::RegisteredType "RegisteredType" Containers used for recording. This is particularly
  * useful when recording data to multiple related containers, such as multiple \ref AQNWB::NWB::TimeSeries "TimeSeries" objects.
  *
- * \ref AQNWB::NWB::RecordingContainers "RecordingContainers" simplifies the process of:
+ * \ref AQNWB::IO::RecordingObjects "RecordingObjects" simplifies the process of:
  *
- * - **Container Management**: Adding and retrieving containers from the collection via `addContainer` and `getContainer` methods.
- * - **Coordinated Recording**: Coordinating the recording process across multiple containers through specialized methods like:
- *   - `writeTimeseriesData`: For writing data to a \ref AQNWB::NWB::TimeSeries "TimeSeries" container
- *   - `writeElectricalSeriesData`: For writing data to an ElectricalSeries container
- *   - `writeSpikeEventData`: For writing data to a SpikeEventSeries container
- *   - `writeAnnotationSeriesData`: For writing data to an AnnotationSeries container
- * - **Error Handling**: Handling errors that might occur during the recording process across multiple containers.
+ * - **Container Management**: Adding and retrieving containers from the collection via 
+ *   \ref AQNWB::IO::RecordingObjects::addRecordingObject "addRecordingObject" and 
+ *   \ref AQNWB::IO::RecordingObjects::addRecordingObject "getRecordingObject" methods.
+ * - **Finalization of recording objects:** via \ref AQNWB::IO::RecordingObjects::finalize "finalize"
+ * - **Clearing of cached BaseRecordingData objects** via \ref AQNWB::IO::RecordingObjects::clearRecordingDataCache "clearRecordingDataCache";
+ *
+ * \section record_design_nwbio_utils NWB I/O convenience utilities
+ *
+ * The \ref src/io/nwbio_utils.hpp module provides convenience methods to help coordinating 
+ * the recording process across multiple containers through specialized methods like:
+ *   - \ref AQNWB::IO::writeTimeseriesData "writeTimeseriesData": For writing data to a \ref AQNWB::NWB::TimeSeries "TimeSeries" container
+ *   - \ref AQNWB::IO::writeElectricalSeriesData "writeElectricalSeriesData": For writing data to an \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries" container
+ *   - \ref AQNWB::IO::writeSpikeEventData "writeSpikeEventData": For writing data to a \ref AQNWB::NWB::SpikeEventSeries "SpikeEventSeries" container
+ *   - \ref AQNWB::IO::writeAnnotationSeriesData "writeAnnotationSeriesData": For writing data to an \ref AQNWB::NWB::AnnotationSeries "AnnotationSeries" container
+ *
+ * \section record_design_object_memory_management Object and memory management
+ *
+ * 1. The \ref AQNWB::IO::BaseIO "I/O" owns a \ref AQNWB::IO::BaseIO::m_recording_objects "std::shared_ptr<RecordingObjects> m_recording_objects"
+ *    smart pointer to its \ref AQNWB::IO::RecordingObjects "RecordingObjects"
+ * 2. The \ref AQNWB::IO::RecordingObjects "RecordingObjects" instance in turn tracks the \ref AQNWB::NWB::RegisteredType "RegisteredType" objects used 
+ *    for recroding with the I/O object by owning the \ref AQNWB::NWB::RegisteredType "RegisteredType" objects 
+ *    stored in  \ref AQNWB::IO::RecordingObjects::m_recording_objects "std::vector<std::shared_ptr<AQNWB::NWB::RegisteredType>> m_recording_objects"
+ * 3. \ref AQNWB::NWB::RegisteredType "RegisteredType"  objects in turn have a \ref AQNWB::NWB::RegisteredType::m_io "std::weak_ptr<IO::BaseIO> m_io" 
+ *    weak pointer to the I/O. 
+ * 
+ * \note 
+ * \ref AQNWB::NWB::RegisteredType::m_io "RegisteredType::m_io" is a `std::weak_ptr` to the I/O to avoid 
+ * circular referencing between the `I/O-->RecordingObjects-->RegisteredType` and back to the `I/O`, which 
+ * would prevent correct clean-up of the reference counted smart pointers, which would lead to memory leaks. 
+ * This also means, that the \ref AQNWB::NWB::RegisteredType "RegisteredType" object does not own or 
+ * keep the I/O alive, so we need to check first that the I/O is valid when we use it. 
+ *
+ *
+ * In this logic, the I/O essentially owns the recording process and the user in turn owns the I/O object. To ensure reliable management of
+ * the objects, the constructors of all \ref AQNWB::NWB::RegisteredType "RegisteredType" classes are protected, requiring the use of 
+ * the \ref AQNWB::NWB::RegisteredType::create "RegisteredType::create" factory methods. This ensures that all instance of 
+ * \ref AQNWB::NWB::RegisteredType "RegisteredType" and its subclasses are created as smart `std::shared_ptr` pointers to
+ * facilitate reliable memory management. 
+ *
+ * \note
+ * Registration with the \ref AQNWB::IO::RecordingObjects "RecordingObjects"  of the I/O occurs when a 
+ * \ref AQNWB::NWB::RegisteredType "RegisteredType" is being created via the static
+ * \ref AQNWB::NWB::RegisteredType::create "RegisteredType::create" factory methods. 
  *
  * \section recording_design_further_reading Further Reading 
  *
