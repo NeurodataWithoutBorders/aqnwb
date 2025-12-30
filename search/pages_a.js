@@ -8,7 +8,7 @@ var searchData=
   ['data_20from_20registeredtype_20objects_5',['Reading data from RegisteredType objects',['../read_page.html#read_example_read',1,'']]],
   ['data_20layout_6',['Optimizing Data Layout',['../hdf5io.html#hdf5io_data_layout',1,'']]],
   ['data_20read_20📤_7',['Implementation of Data Read 📤',['../read_design_page.html',1,'devdocs']]],
-  ['data_20recording_8',['Implementation of Data Recording',['../record_design_page.html',1,'devdocs']]],
+  ['data_20recording_20📊_8',['Implementation of Data Recording 📊',['../record_design_page.html',1,'devdocs']]],
   ['data_20type_9',['Working with fields with unknown data type',['../read_page.html#read_example_variant_data',1,'']]],
   ['data_20using_20aqnwb_10',['Inspect Electrical Series Data using AqNWB',['../user_demos.html#demos_inspect_electrical_series',1,'']]],
   ['datasets_11',['datasets',['../workflow.html#advanced_recording_workflow',1,'Advanced: Recording individual datasets'],['../registered_type_page.html#use_the_define_dataset_field_macro',1,'DEFINE_DATASET_FIELD: Creating read and write methods for datasets']]],

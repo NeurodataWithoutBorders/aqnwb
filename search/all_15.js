@@ -12,7 +12,7 @@ var searchData=
   ['of_20a_20recording_20workflow_9',['Overview of a recording workflow',['../workflow.html#recording_workflow',1,'']]],
   ['of_20conduct_10',['Code of Conduct',['../legal_page.html#legal_code_of_conduct',1,'']]],
   ['of_20data_20read_20📤_11',['Implementation of Data Read 📤',['../read_design_page.html',1,'devdocs']]],
-  ['of_20data_20recording_12',['Implementation of Data Recording',['../record_design_page.html',1,'devdocs']]],
+  ['of_20data_20recording_20📊_12',['Implementation of Data Recording 📊',['../record_design_page.html',1,'devdocs']]],
   ['of_20register_5fsubclass_5fwith_5ftypename_13',['Limitations of REGISTER_SUBCLASS_WITH_TYPENAME',['../registered_type_page.html#limitations_registered_subclass_with_typename',1,'']]],
   ['of_20the_20extension_14',['Step 1: Get the Schema of the Extension',['../integrating_extensions_page.html#labmetadata_extension_schema',1,'']]],
   ['on_20github_15',['Automated tests on GitHub',['../testing.html#testing_github',1,'']]],

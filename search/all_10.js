@@ -13,7 +13,7 @@ var searchData=
   ['implement_20a_20registeredtype_20with_20a_20custom_20type_20name_10',['How to implement a RegisteredType with a custom type name',['../registered_type_page.html#using_registered_subclass_with_typename',1,'']]],
   ['implementation_20details_11',['Example Implementation Details',['../read_design_page.html#read_design_example',1,'']]],
   ['implementation_20of_20data_20read_20📤_12',['Implementation of Data Read 📤',['../read_design_page.html',1,'devdocs']]],
-  ['implementation_20of_20data_20recording_13',['Implementation of Data Recording',['../record_design_page.html',1,'devdocs']]],
+  ['implementation_20of_20data_20recording_20📊_13',['Implementation of Data Recording 📊',['../record_design_page.html',1,'devdocs']]],
   ['implementing_20a_20new_20type_14',['Example: Implementing a New Type',['../registered_type_page.html#implement_registered_type_example',1,'']]],
   ['implementing_20a_20registered_20type_20🔧_15',['Implementing a Registered Type 🔧',['../registered_type_page.html',1,'devdocs']]],
   ['in_20aqnwb_16',['Using Chunking and I/O Filters in AqNWB',['../hdf5io.html#hdf5io_filters_usage',1,'']]],

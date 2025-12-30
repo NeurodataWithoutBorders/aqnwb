@@ -81,7 +81,7 @@ var devdocs =
         [ "Reading and Processing Data", "read_design_page.html#read_design_example_read", null ]
       ] ]
     ] ],
-    [ "Implementation of Data Recording", "record_design_page.html", [
+    [ "Implementation of Data Recording 📊", "record_design_page.html", [
       [ "Recording datasets with BaseRecordingData", "record_design_page.html#record_design_sec_recording_data", [
         [ "The DEFINE_DATASET_FIELD Macro for Recording", "record_design_page.html#record_design_sec_define_dataset_field", null ],
         [ "BaseRecordingData for Managing Recording", "record_design_page.html#record_design_sec_baserecordingdata", null ]
