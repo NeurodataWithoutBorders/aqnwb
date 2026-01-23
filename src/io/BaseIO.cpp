@@ -172,7 +172,8 @@ std::unordered_map<std::string, std::string> BaseIO::findTypes(
         }
       }
       // If the object is not a neurodata type then try to continue the search
-      else {
+      else
+      {
         // Get the list of objects inside the current group
         std::vector<std::pair<std::string, StorageObjectType>> objects =
             getStorageObjects(current_path, StorageObjectType::Undefined);
