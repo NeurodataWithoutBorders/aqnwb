@@ -52,10 +52,11 @@
  *     \ref AQNWB::IO::DataBlock "DataBlock" is templated on the specific data type, and
  *     stores the \ref AQNWB::IO::DataBlock::data "data" as an appropriately typed 1-dimensional 
  *     ``std::vector`` along with the \ref AQNWB::IO::DataBlock::shape "shape" of the data.
- * 6. [BOOST::multi_array](https://www.boost.org/doc/libs/1_83_0/libs/multi_array/doc/user.html)
- *   -  ``BOOST::multi_array`` can also be used simplify access to multi-dimensional data.
- *      The \ref AQNWB::IO::DataBlock::as_multi_array "DataBlock.as_multi_array"
- *      convenience method generates a ``boost::const_multi_array_ref<DTYPE, NDIMS>`` for us.
+ * 6. \ref AQNWB::IO::ConstMultiArrayView "ConstMultiArrayView"
+ *   - ``ConstMultiArrayView`` provides a lightweight, non-owning view over contiguous,
+ *     multi-dimensional data.
+ *     The \ref AQNWB::IO::DataBlock::as_multi_array "DataBlock.as_multi_array"
+ *     convenience method generates a ``ConstMultiArrayView<DTYPE, NDIMS>`` for us.
  * 7. [std::variant](https://en.cppreference.com/w/cpp/utility/variant)
  *   - ``std::variant` can also be used when we want to compute on the data in a type-safe
  *     manner but do not know the data type beforehand (e.g., when reading NWB data from a
@@ -123,7 +124,7 @@
  *                 <tr><td colspan="2" bgcolor="lightgray"><b>DataBlock</b></td></tr>
  *                 <tr><td colspan="2" bgcolor="lightgray"><b>Functions</b></td></tr>
  *                 <tr><td align="left">+ fromGeneric(): DataBlock</td></tr>
- *                 <tr><td align="left">+ as_multi_array(): MultiArray</td></tr>
+ *                 <tr><td align="left">+ as_multi_array(): MultiArrayView</td></tr>
  *                 <tr><td colspan="2" bgcolor="lightgray"><b>Attributes</b></td></tr>
  *                 <tr><td align="left">+ data: std::vector&lt;DTYPE&gt;</td></tr>
  *                 <tr><td align="left">+ shape: std::vector&lt;SizeType&gt;</td></tr>
@@ -365,9 +366,9 @@
  *
  * \snippet tests/examples/test_ecephys_data_read.cpp example_read_validate_datablock_snippet
  *
- * \snippet tests/examples/test_ecephys_data_read.cpp example_read_get_boostarray_snippet
+ * \snippet tests/examples/test_ecephys_data_read.cpp example_read_get_array_view_snippet
  *
- * \snippet tests/examples/test_ecephys_data_read.cpp example_read_validate_boostarray_snippet
+ * \snippet tests/examples/test_ecephys_data_read.cpp example_read_validate_array_view_snippet
  *
  * \snippet tests/examples/test_ecephys_data_read.cpp example_read_attribute_snippet
  *

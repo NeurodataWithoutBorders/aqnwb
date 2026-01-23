@@ -40,23 +40,23 @@
  * Use the flag ``-DBUILD_SHARED_LIBS=ON`` to generate the shared library file.
  *
  * \note
- * If you are using custom installations of **HDF5** or **BOOST** that are not being detected
+ * If you are using a custom installation of **HDF5** that is not being detected
  * automatically by CMake, you should set the `CMAKE_PREFIX_PATH` variable to include the install
- * directories of HDF5 and BOOST. This can be done either as an environment variable or directly
+ * directory of HDF5. This can be done either as an environment variable or directly
  * on the CMake command line. For example:
  *
  * \code{.sh}
  * # Option 1: Set as environment variable (colon-separated on Unix/macOS)
- * export CMAKE_PREFIX_PATH=/path/to/hdf5_install:/path/to/boost_install
+ * export CMAKE_PREFIX_PATH=/path/to/hdf5_install
  * cmake --preset=dev
  *
  * # Option 2: Pass as a CMake variable (semicolon-separated)
- * cmake --preset=dev -DCMAKE_PREFIX_PATH=/path/to/hdf5_install;/path/to/boost_install
+ * cmake --preset=dev -DCMAKE_PREFIX_PATH=/path/to/hdf5_install
  * \endcode
  *
- * This ensures CMake can find the necessary config files for both HDF5 and Boost.
+ * This ensures CMake can find the necessary config files for HDF5.
  * 
- * The use of `HDF5_ROOT` and `BOOST_ROOT` environment variables is deprecated for modern CMake
+ * The use of the `HDF5_ROOT` environment variable is deprecated for modern CMake
  * and may not work reliably with recent CMake versions.
  *
  * \subsubsection  devbuild_presets_subsec Developer Presets

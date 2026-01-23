@@ -188,8 +188,8 @@ int main(int argc, char* argv[])
   double meanFromVariant = calculateMeanFromVariant(variantData);
   std::cout << bold("Global mean: ") << meanFromVariant << " " << unit << std::endl;
 
-  // In the following part we use the typed `Boost::MultiArray` and `DataBlock`
-  // to compute statistics on a per-channle basis. These classes require that
+  // In the following part we use the typed multi-array view and `DataBlock`
+  // to compute statistics on a per-channel basis. These classes require that
   // the data type is specified. We here use the default behavior for
   // `ElectricalSeries.readData`, which defaults to float data consistent with
   // the NWB schema. To generalize this example to work with a wider range
@@ -202,7 +202,7 @@ int main(int argc, char* argv[])
     // Load data as DataBlock<float>
     auto dataValues = dataWrapper->values();
 
-    // Convert to boost multi_array for easier access
+    // Convert to a multi-array view for easier access
     auto dataArray = dataValues.as_multi_array<2>();
 
     // Print status update

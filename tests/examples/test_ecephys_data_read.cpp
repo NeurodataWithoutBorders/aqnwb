@@ -172,17 +172,17 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     }
     // [example_read_validate_datablock_snippet]
 
-    // [example_read_get_boostarray_snippet]
-    // Use the boost multi-array feature to simply interaction with data
-    auto boostMultiArray = dataValues.as_multi_array<2>();
-    // [example_read_get_boostarray_snippet]
+    // [example_read_get_array_view_snippet]
+    // Use the multi-array view to simplify interaction with data
+    auto dataView = dataValues.as_multi_array<2>();
+    // [example_read_get_array_view_snippet]
 
-    // [example_read_validate_boostarray_snippet]
-    // Iterate through all the time steps again, but now using the boost array
+    // [example_read_validate_array_view_snippet]
+    // Iterate through all the time steps again, but now using the view
     for (SizeType t = 0; t < numSamples; t++) {
       // Access [t, :], i.e., get a 1D array with the data
       // from all channels for time step t.
-      auto row_t = boostMultiArray[static_cast<long>(t)];
+      auto row_t = dataView[static_cast<long>(t)];
 
       // Compare to check that the data is correct.
       std::vector<float> row_t_vector(
@@ -190,7 +190,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
       REQUIRE_THAT(row_t_vector,
                    Catch::Matchers::Approx(mockDataTransposed[t]).margin(1));
     }
-    // [example_read_validate_boostarray_snippet]
+    // [example_read_validate_array_view_snippet]
 
     // [example_read_attribute_snippet]
     // Get a ReadDataWrapper<ReadObjectType::Attribute, float> to read data
@@ -296,7 +296,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // Now we can read the data in the same way we did during write
     auto readElectricalSeriesData = readElectricalSeries->readData();
     auto readDataValues = readElectricalSeriesData->values();
-    auto readBoostMultiArray = readDataValues.as_multi_array<2>();
+    auto readDataView = readDataValues.as_multi_array<2>();
     REQUIRE(readDataValues.data.size() == (numSamples * numChannels));
     REQUIRE(readDataValues.shape[0] == numSamples);
     REQUIRE(readDataValues.shape[1] == numChannels);

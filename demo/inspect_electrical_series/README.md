@@ -9,7 +9,6 @@ the `ElectricalSeries` electrophysiology data.
 - CMake (version 3.15 or higher)
 - C++ compiler with C++17 support
 - HDF5 library with C++ support
-- Boost library
 - aqnwb library (built from the parent project)
 
 ## Identify an example NWB dataset that contains ElectricalSeries data
@@ -41,8 +40,7 @@ cmake ..
 # Or with custom paths to dependencies
 cmake .. \
   -DAQNWB_DIR=../../build/dev \
-  -DHDF5_DIR=../../libs/hdf5_build \
-  -DBOOST_ROOT=../../libs/boost_1_82_0
+  -DHDF5_DIR=../../libs/hdf5_build
 
 # Build the project
 make

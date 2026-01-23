@@ -50,7 +50,6 @@ Before building the demo, ensure you have the following dependencies installed:
 - CMake (version 3.15 or higher)
 - C++ compiler with C++17 support
 - HDF5 library with C++ support
-- Boost library
 
 ### Build Instructions
 
@@ -68,7 +67,7 @@ Before building the demo, ensure you have the following dependencies installed:
 
    If you need to specify custom paths to dependencies, you can use the following CMake variables:
    ```bash
-   cmake .. -DAQNWB_DIR=/path/to/aqnwb/build/dev -DHDF5_DIR=/path/to/hdf5 -DBOOST_ROOT=/path/to/boost
+   cmake .. -DAQNWB_DIR=/path/to/aqnwb/build/dev -DHDF5_DIR=/path/to/hdf5
    ```
 
 3. **Run the demo**:
@@ -87,7 +86,7 @@ Before building the demo, ensure you have the following dependencies installed:
 
 If you encounter build errors:
 
-1. **Check dependency paths**: Ensure that the paths to AqNWB, HDF5, and Boost are correctly set in the CMake command or in the CMakeLists.txt file.
+1. **Check dependency paths**: Ensure that the paths to AqNWB and HDF5 are correctly set in the CMake command or in the CMakeLists.txt file.
 
 2. **Check compiler compatibility**: Make sure your compiler supports C++17 features.
 

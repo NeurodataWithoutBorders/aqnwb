@@ -1,14 +1,16 @@
 #pragma once
 
 #include <any>
+#include <array>
+#include <cassert>
 #include <cstdint>
 #include <iostream>
 #include <memory>
+#include <stdexcept>
 #include <string>
+#include <type_traits>
 #include <typeindex>
 #include <vector>
-
-#include <boost/multi_array.hpp>  // TODO move this and function def to the cpp file
 
 #include "BaseIO.hpp"
 #include "Types.hpp"
@@ -135,6 +137,75 @@ public:
 };
 
 /**
+ * @brief Non-owning multi-dimensional array view.
+ *
+ * The view assumes row-major, contiguous storage.
+ *
+ * @tparam DTYPE The data type of the array
+ * @tparam NDIMS The number of dimensions
+ */
+template<typename DTYPE, std::size_t NDIMS>
+class ConstMultiArrayView
+{
+public:
+  using size_type = std::size_t;
+
+  ConstMultiArrayView(const DTYPE* data,
+                      const std::array<size_type, NDIMS>& shape,
+                      const std::array<size_type, NDIMS>& strides)
+      : m_data(data)
+      , m_shape(shape)
+      , m_strides(strides)
+  {
+  }
+
+  template<size_type N = NDIMS, typename std::enable_if_t<N == 1, int> = 0>
+  const DTYPE& operator[](size_type index) const
+  {
+    assert(index < m_shape[0]);
+    return m_data[index * m_strides[0]];
+  }
+
+  template<size_type N = NDIMS, typename std::enable_if_t<(N > 1), int> = 0>
+  ConstMultiArrayView<DTYPE, NDIMS - 1> operator[](size_type index) const
+  {
+    assert(index < m_shape[0]);
+    std::array<size_type, NDIMS - 1> sub_shape {};
+    std::array<size_type, NDIMS - 1> sub_strides {};
+    for (size_type i = 1; i < NDIMS; ++i) {
+      sub_shape[i - 1] = m_shape[i];
+      sub_strides[i - 1] = m_strides[i];
+    }
+    return ConstMultiArrayView<DTYPE, NDIMS - 1>(
+        m_data + index * m_strides[0], sub_shape, sub_strides);
+  }
+
+  template<size_type N = NDIMS, typename std::enable_if_t<N == 1, int> = 0>
+  const DTYPE* begin() const
+  {
+    assert(m_shape[0] == 0 || m_data != nullptr);
+    return m_data;
+  }
+
+  template<size_type N = NDIMS, typename std::enable_if_t<N == 1, int> = 0>
+  const DTYPE* end() const
+  {
+    assert(m_shape[0] == 0 || m_data != nullptr);
+    if (m_shape[0] == 0) {
+      return m_data;
+    }
+    return m_data + (m_shape[0] * m_strides[0]);
+  }
+
+  const std::array<size_type, NDIMS>& shape() const { return m_shape; }
+
+private:
+  const DTYPE* m_data;
+  std::array<size_type, NDIMS> m_shape;
+  std::array<size_type, NDIMS> m_strides;
+};
+
+/**
  * @brief Structure to hold data and shape for a typed data vector
  *
  * @tparam DTYPE The data type of the vector
@@ -169,15 +240,13 @@ public:
   }
 
   /**
-   * \brief Transform the data to a boost multi-dimensional array for convenient
-   * access
-   *
-   * The function uses boost::const_multi_array_ref to avoid copying of the data
+   * \brief Transform the data to a multi-dimensional array view for convenient
+   * access.
    *
    * @tparam NDIMS The number of dimensions of the array. Same as shape.size()
    */
   template<std::size_t NDIMS>
-  inline boost::const_multi_array_ref<DTYPE, NDIMS> as_multi_array() const
+  inline ConstMultiArrayView<DTYPE, NDIMS> as_multi_array() const
   {
     if (shape.size() != NDIMS) {
       throw std::invalid_argument(
@@ -194,12 +263,19 @@ public:
       throw std::invalid_argument("Data size does not match the shape.");
     }
 
-    // Convert the shape vector to a boost::array
-    boost::array<std::size_t, NDIMS> boost_shape;
-    std::copy(shape.begin(), shape.end(), boost_shape.begin());
+    std::array<std::size_t, NDIMS> shape_array {};
+    for (std::size_t i = 0; i < NDIMS; ++i) {
+      shape_array[i] = static_cast<std::size_t>(shape[i]);
+    }
 
-    // Construct and return the boost::const_multi_array_ref
-    return boost::const_multi_array_ref<DTYPE, NDIMS>(data.data(), boost_shape);
+    std::array<std::size_t, NDIMS> strides {};
+    std::size_t stride = 1;
+    for (std::size_t i = NDIMS; i-- > 0;) {
+      strides[i] = stride;
+      stride *= shape_array[i];
+    }
+
+    return ConstMultiArrayView<DTYPE, NDIMS>(data.data(), shape_array, strides);
   }
 
   /**

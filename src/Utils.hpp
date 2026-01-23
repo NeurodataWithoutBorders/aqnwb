@@ -1,37 +1,125 @@
 #pragma once
 
 #include <algorithm>
+#include <array>
 #include <chrono>
 #include <cmath>
 #include <cstdint>
 #include <ctime>
 #include <iomanip>
+#include <random>
 #include <regex>
 #include <sstream>
 #include <string>
-
-#include <boost/date_time.hpp>
-#include <boost/endian/conversion.hpp>
-#include <boost/uuid/uuid.hpp>
-#include <boost/uuid/uuid_generators.hpp>
-#include <boost/uuid/uuid_io.hpp>
-
-#include "boost/date_time/c_local_time_adjustor.hpp"
 #include "io/BaseIO.hpp"
 #include "io/hdf5/HDF5IO.hpp"
 
 namespace AQNWB
 {
+namespace detail
+{
+inline std::tm to_local_tm(std::time_t time_value)
+{
+  std::tm local_tm {};
+#if defined(_WIN32)
+  localtime_s(&local_tm, &time_value);
+#elif defined(__unix__) || defined(__APPLE__)
+  localtime_r(&time_value, &local_tm);
+#else
+  std::tm* local_tm_ptr = std::localtime(&time_value);
+  if (local_tm_ptr) {
+    local_tm = *local_tm_ptr;
+  }
+#endif
+  return local_tm;
+}
+
+inline std::tm to_utc_tm(std::time_t time_value)
+{
+  std::tm utc_tm {};
+#if defined(_WIN32)
+  gmtime_s(&utc_tm, &time_value);
+#elif defined(__unix__) || defined(__APPLE__)
+  gmtime_r(&time_value, &utc_tm);
+#else
+  std::tm* utc_tm_ptr = std::gmtime(&time_value);
+  if (utc_tm_ptr) {
+    utc_tm = *utc_tm_ptr;
+  }
+#endif
+  return utc_tm;
+}
+
+inline long get_utc_offset_seconds(std::time_t time_value)
+{
+  std::tm local_tm = to_local_tm(time_value);
+  std::tm utc_tm = to_utc_tm(time_value);
+
+  std::time_t local_time = std::mktime(&local_tm);
+  std::time_t utc_time = std::mktime(&utc_tm);
+  if (local_time == static_cast<std::time_t>(-1)
+      || utc_time == static_cast<std::time_t>(-1)) {
+    return 0;
+  }
+  return static_cast<long>(std::difftime(local_time, utc_time));
+}
+
+inline std::string format_utc_offset(long offset_seconds)
+{
+  const char sign = (offset_seconds < 0) ? '-' : '+';
+  long abs_offset = (offset_seconds < 0) ? -offset_seconds : offset_seconds;
+  long hours = abs_offset / 3600;
+  long minutes = (abs_offset % 3600) / 60;
+
+  std::ostringstream oss;
+  oss << sign << std::setw(2) << std::setfill('0') << hours << ':'
+      << std::setw(2) << std::setfill('0') << minutes;
+  return oss.str();
+}
+
+inline uint16_t to_little_endian_u16(uint16_t value)
+{
+#if defined(_WIN32) \
+    || (defined(__BYTE_ORDER__) && (__BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__))
+  return value;
+#else
+  return static_cast<uint16_t>((value >> 8) | (value << 8));
+#endif
+}
+}  // namespace detail
+
 /**
  * @brief Generates a UUID (Universally Unique Identifier) as a string.
  * @return The generated UUID as a string.
  */
 static inline std::string generateUuid()
 {
-  boost::uuids::uuid uuid = boost::uuids::random_generator()();
-  std::string uuidStr = boost::uuids::to_string(uuid);
+  std::array<uint8_t, 16> bytes {};
+  std::random_device rd;
+  std::mt19937 gen(rd());
+  std::uniform_int_distribution<uint32_t> dist(0, 0xFFFFFFFF);
 
-  return uuidStr;
+  for (size_t i = 0; i < bytes.size(); i += 4) {
+    uint32_t random_value = dist(gen);
+    bytes[i] = static_cast<uint8_t>(random_value & 0xFF);
+    bytes[i + 1] = static_cast<uint8_t>((random_value >> 8) & 0xFF);
+    bytes[i + 2] = static_cast<uint8_t>((random_value >> 16) & 0xFF);
+    bytes[i + 3] = static_cast<uint8_t>((random_value >> 24) & 0xFF);
+  }
+
+  // RFC 4122 version 4 UUID.
+  bytes[6] = static_cast<uint8_t>((bytes[6] & 0x0F) | 0x40);
+  bytes[8] = static_cast<uint8_t>((bytes[8] & 0x3F) | 0x80);
+
+  std::ostringstream oss;
+  oss << std::hex << std::nouppercase << std::setfill('0');
+  for (size_t i = 0; i < bytes.size(); ++i) {
+    if (i == 4 || i == 6 || i == 8 || i == 10) {
+      oss << '-';
+    }
+    oss << std::setw(2) << static_cast<int>(bytes[i]);
+  }
+  return oss.str();
 }
 
 /**
@@ -40,26 +128,20 @@ static inline std::string generateUuid()
  */
 static inline std::string getCurrentTime()
 {
-  // Set up boost time zone adjustment and time facet
-  using local_adj =
-      boost::date_time::c_local_adjustor<boost::posix_time::ptime>;
-  boost::posix_time::time_facet* f = new boost::posix_time::time_facet();
-  f->time_duration_format("%+%H:%M");
+  auto now = std::chrono::system_clock::now();
+  auto seconds = std::chrono::time_point_cast<std::chrono::seconds>(now);
+  auto micros =
+      std::chrono::duration_cast<std::chrono::microseconds>(now - seconds)
+          .count();
+  std::time_t time_value = std::chrono::system_clock::to_time_t(seconds);
+  std::tm local_tm = detail::to_local_tm(time_value);
+  long offset_seconds = detail::get_utc_offset_seconds(time_value);
 
-  // get local time, utc time, and offset
-  auto now = boost::posix_time::microsec_clock::universal_time();
-  auto utc_now = local_adj::utc_to_local(now);
-  boost::posix_time::time_duration td = utc_now - now;
-
-  // Format the date and time in ISO 8601 format with the UTC offset
-  std::ostringstream oss_offset;
-  oss_offset.imbue(std::locale(oss_offset.getloc(), f));
-  oss_offset << td;
-
-  std::string currentTime = to_iso_extended_string(utc_now);
-  currentTime += oss_offset.str();
-
-  return currentTime;
+  std::ostringstream oss;
+  oss << std::put_time(&local_tm, "%Y-%m-%dT%H:%M:%S");
+  oss << '.' << std::setw(6) << std::setfill('0') << micros;
+  oss << detail::format_utc_offset(offset_seconds);
+  return oss.str();
 }
 
 /**
@@ -171,7 +253,7 @@ static inline void convertFloatToInt16LE(const float* source,
         std::clamp(maxVal * static_cast<double>(source[i]), -maxVal, maxVal);
     auto intValue =
         static_cast<uint16_t>(static_cast<int16_t>(std::round(clampedValue)));
-    intValue = boost::endian::native_to_little(intValue);
+    intValue = detail::to_little_endian_u16(intValue);
     *reinterpret_cast<uint16_t*>(intData) = intValue;
     intData += 2;  // destBytesPerSample is always 2
   }

@@ -8,7 +8,6 @@
  *  - A C++17-compliant compiler
  *  - [CMake >= 3.15](https://cmake.org)
  *  - [HDF5 >= 1.10](https://github.com/HDFGroup/hdf5)
- *  - [Boost](https://www.boost.org/)
  *
  * \section userbuild_source_sec Source
  *
@@ -32,9 +31,9 @@
  * Use the flag ``-DBUILD_SHARED_LIBS=ON`` to generate the shared library file.
  *
  * \note
- * If you are using custom installations of **HDF5** or **BOOST** that are not being detected
- * automatically by cmake, you can specify `HDF5_ROOT` and `BOOST_ROOT` environment variables to
- * point to install directories of HDF5 and BOOST respectively.
+ * If you are using a custom installation of **HDF5** that is not being detected
+ * automatically by CMake, you can specify the `HDF5_ROOT` environment variable to
+ * point to the install directory of HDF5.
  *
  * \section userbuild_install_sec Install
  *
@@ -46,4 +45,3 @@
  * \endcode
  *
  */
-
