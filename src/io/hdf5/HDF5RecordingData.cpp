@@ -1,9 +1,9 @@
 #include <codecvt>
+#include <cstring>
 #include <filesystem>
 #include <iostream>
 #include <memory>
 #include <vector>
-#include <cstring>
 
 #include "io/hdf5/HDF5RecordingData.hpp"
 

@@ -11,6 +11,7 @@
 #include <regex>
 #include <sstream>
 #include <string>
+
 #include "io/BaseIO.hpp"
 #include "io/hdf5/HDF5IO.hpp"
 
@@ -58,7 +59,8 @@ inline long get_utc_offset_seconds(std::time_t time_value)
   std::time_t local_time = std::mktime(&local_tm);
   std::time_t utc_time = std::mktime(&utc_tm);
   if (local_time == static_cast<std::time_t>(-1)
-      || utc_time == static_cast<std::time_t>(-1)) {
+      || utc_time == static_cast<std::time_t>(-1))
+  {
     return 0;
   }
   return static_cast<long>(std::difftime(local_time, utc_time));
@@ -80,7 +82,8 @@ inline std::string format_utc_offset(long offset_seconds)
 inline uint16_t to_little_endian_u16(uint16_t value)
 {
 #if defined(_WIN32) \
-    || (defined(__BYTE_ORDER__) && (__BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__))
+    || (defined(__BYTE_ORDER__) \
+        && (__BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__))
   return value;
 #else
   return static_cast<uint16_t>((value >> 8) | (value << 8));

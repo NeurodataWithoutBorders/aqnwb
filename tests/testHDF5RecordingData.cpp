@@ -1,3 +1,5 @@
+#include <numeric>
+
 #include <catch2/catch_approx.hpp>
 
 #include "io/hdf5/HDF5RecordingData.hpp"

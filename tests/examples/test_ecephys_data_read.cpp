@@ -1,3 +1,4 @@
+#include <numeric>
 #include <variant>
 
 #include <H5Cpp.h>
