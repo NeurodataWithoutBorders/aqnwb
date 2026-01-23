@@ -8,8 +8,9 @@ the `ElectricalSeries` electrophysiology data.
 
 - CMake (version 3.15 or higher)
 - C++ compiler with C++17 support
-- HDF5 library with C++ support
-- aqnwb library (built from the parent project)
+- aqnwb library (installed from the parent project)
+
+Note: HDF5 is a transitive dependency of aqnwb and will be found automatically.
 
 ## Identify an example NWB dataset that contains ElectricalSeries data
 
@@ -34,16 +35,14 @@ cd build
 3. Configure and build the demo:
 
 ```bash
-# Basic configuration
+# If aqnwb was installed to the system then it will be found automatically
 cmake ..
 
-# Or with custom paths to dependencies
-cmake .. \
-  -DAQNWB_DIR=../../build/dev \
-  -DHDF5_DIR=../../libs/hdf5_build
+# Otherwise, provide the path to the aqnwb install:
+cmake .. -DCMAKE_PREFIX_PATH=/path/to/aqnwb/install
 
 # Build the project
-make
+cmake --build .
 ```
 
 ## Running the Demo

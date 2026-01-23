@@ -107,7 +107,16 @@ target_compile_definitions(aqnwb_aqnwb PUBLIC AQNWB_CXX_STANDARD=${AQNWB_CXX_STA
 
 # ---- Additional libraries needed ----
 find_package(HDF5 REQUIRED COMPONENTS CXX)
-include_directories(${HDF5_INCLUDE_DIRS})
+
+# Note: For HDF5, it should be sufficient to only link hdf5::hdf5_cpp.
+#  However, FindHDF5 on MacOS creates UNKNOWN_LIBRARY imported targets
+#  that break C++ exception handling. The solutions is to be explicit
+#  about including and linking. Furthermore, we include / link as public
+#  because we want downstream users to also have access to the _same_ HDF5.
+target_include_directories(aqnwb_aqnwb
+    SYSTEM PUBLIC
+        ${HDF5_INCLUDE_DIRS}
+)
 
 target_link_libraries(aqnwb_aqnwb
     PUBLIC
