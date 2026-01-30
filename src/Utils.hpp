@@ -24,7 +24,7 @@ namespace detail
  * @param time_value The time value to convert.
  * @return The corresponding local std::tm structure.
  */
-inline std::tm to_local_tm(std::time_t time_value)
+inline std::tm to_local_time(std::time_t time_value)
 {
   std::tm local_tm {};
 #if defined(_WIN32)
@@ -45,7 +45,7 @@ inline std::tm to_local_tm(std::time_t time_value)
  * @param time_value The time value to convert.
  * @return The corresponding UTC std::tm structure.
  */
-inline std::tm to_utc_tm(std::time_t time_value)
+inline std::tm to_utc_time(std::time_t time_value)
 {
   std::tm utc_tm {};
 #if defined(_WIN32)
@@ -68,8 +68,8 @@ inline std::tm to_utc_tm(std::time_t time_value)
  */
 inline long get_utc_offset_seconds(std::time_t time_value)
 {
-  std::tm local_tm = to_local_tm(time_value);
-  std::tm utc_tm = to_utc_tm(time_value);
+  std::tm local_tm = to_local_time(time_value);
+  std::tm utc_tm = to_utc_time(time_value);
 
   std::time_t local_time = std::mktime(&local_tm);
   std::time_t utc_time = std::mktime(&utc_tm);
@@ -162,7 +162,7 @@ static inline std::string getCurrentTime()
       std::chrono::duration_cast<std::chrono::microseconds>(now - seconds)
           .count();
   std::time_t time_value = std::chrono::system_clock::to_time_t(seconds);
-  std::tm local_tm = detail::to_local_tm(time_value);
+  std::tm local_tm = detail::to_local_time(time_value);
   long offset_seconds = detail::get_utc_offset_seconds(time_value);
 
   std::ostringstream oss;
