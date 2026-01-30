@@ -176,9 +176,9 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
       REQUIRE_THAT(selectedRange,
                    Catch::Matchers::Approx(mockDataTransposed[t]).margin(1));
     }
-// [example_read_validate_datablock_snippet]
+    // [example_read_validate_datablock_snippet]
 
-// [example_read_get_array_view_snippet]
+    // [example_read_get_array_view_snippet]
 // Use the multi-array view to simplify interaction with data
 #if defined(__cpp_lib_mdspan)
     // Use std::mdspan for multi-dimensional access if available
