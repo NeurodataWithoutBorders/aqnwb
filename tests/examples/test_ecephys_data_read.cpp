@@ -183,7 +183,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     for (SizeType t = 0; t < numSamples; t++) {
       // Access [t, :], i.e., get a 1D array with the data
       // from all channels for time step t.
-      auto row_t = dataView[static_cast<long>(t)];
+      auto row_t = dataView[static_cast<SizeType>(t)];
 
       // Compare to check that the data is correct.
       std::vector<float> row_t_vector(
@@ -301,6 +301,8 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     REQUIRE(readDataValues.data.size() == (numSamples * numChannels));
     REQUIRE(readDataValues.shape[0] == numSamples);
     REQUIRE(readDataValues.shape[1] == numChannels);
+    REQUIRE(readDataView.shape()[0] == numSamples);
+    REQUIRE(readDataView.shape()[1] == numChannels);
     // [example_read_only_fields_snippet]
 
     std::cout << "Reading a subset of the ElectricalSeries data" << std::endl;
