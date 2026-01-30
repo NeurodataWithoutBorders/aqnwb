@@ -182,7 +182,6 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
 // Use the multi-array view to simplify interaction with data
 #if defined(__cpp_lib_mdspan)
     // Use std::mdspan for multi-dimensional access if available
-    // Use std::mdspan for multi-dimensional access if available
     float* data_ptr = dataValues.data.data();
     std::mdspan<float, std::dextents<size_t, 2>> dataView(
         data_ptr, dataValues.shape[0], dataValues.shape[1]);
@@ -319,8 +318,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     REQUIRE(readDataValues.data.size() == (numSamples * numChannels));
     REQUIRE(readDataValues.shape[0] == numSamples);
     REQUIRE(readDataValues.shape[1] == numChannels);
-    // Use the multi-array view to simplify interaction with multi-dimensional
-    // data
+    // Use multi-array view to simplify interaction with multi-dimensional data
 #if defined(__cpp_lib_mdspan)
     // Use std::mdspan for multi-dimensional access if available
     float* read_data_ptr = readDataValues.data.data();
