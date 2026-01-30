@@ -62,13 +62,13 @@
  *
  * \subsubsection devbuild_cpp_std_sec Selecting a newer C++ standard version
  *
- * You can also select the C++ standard to use (minimum 17, default 17, allows future standards) by setting the `AQNWB_CXX_STANDARD` option when configuring the build. For example, to build with C++23:
+ * You can also select the C++ standard to use (minimum 17, default 17) by setting the `AQNWB_CXX_STANDARD` option when configuring the build. For example, to build with C++23:
  * 
  * \code{.sh}
  *   cmake --preset=dev -DAQNWB_CXX_STANDARD=23
  * \endcode
  *
- * If not specified, the project will use C++17 by default. Any value 17 or greater is accepted (e.g., 20, 23, 26, ...).
+ * If not specified, the project will use C++17 by default. Currently, only the values 17, 20, or 23 are accepted.
  *
  * \subsubsection  devbuild_presets_subsec Developer Presets
  *

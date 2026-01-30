@@ -57,7 +57,7 @@
  *     multi-dimensional data. The \ref AQNWB::IO::DataBlock::as_multi_array "DataBlock.as_multi_array"
  *     convenience method generates a ``ConstMultiArrayView<DTYPE, NDIMS>`` for us.
  *     For C++23 and later, you can use ``std::mdspan`` for multi-dimensional access.
- *     Both approaches are demonstrated in code example below. 
+ *     Both approaches are demonstrated in the code example below. 
  *
  * 7. [std::variant](https://en.cppreference.com/w/cpp/utility/variant)
  *   - ``std::variant` can also be used when we want to compute on the data in a type-safe
