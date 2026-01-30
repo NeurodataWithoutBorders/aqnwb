@@ -146,3 +146,26 @@ jobs:
           echo "NWBInspector found issues in the NWB files"
           exit 1
         fi
+
+  test-cxx23:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies - macos
+        run: brew install hdf5 boost catch2
+
+      - name: Configure (C++23)
+        shell: pwsh
+        run: cmake "--preset=ci-macos" -DAQNWB_CXX_STANDARD=23
+
+      - name: Build
+        run: cmake --build build --config Release -j 2
+
+      - name: Install
+        run: cmake --install build --config Release --prefix prefix
+
+      - name: Test
+        working-directory: build
+        run: ctest --output-on-failure --no-tests=error -C Release -j 2

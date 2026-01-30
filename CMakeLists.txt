@@ -88,7 +88,16 @@ target_include_directories(
     "\$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/export>"
 )
 
-target_compile_features(aqnwb_aqnwb PUBLIC cxx_std_17)
+# Allow user to select C++ standard (default 17, minimum 17, allows future standards)
+option(AQNWB_CXX_STANDARD "C++ standard to use (e.g. 17, 20, 23, ...)" "17")
+if(NOT AQNWB_CXX_STANDARD OR AQNWB_CXX_STANDARD STREQUAL "OFF")
+  set(AQNWB_CXX_STANDARD "17")
+endif()
+if(AQNWB_CXX_STANDARD LESS 17)
+  message(FATAL_ERROR "AQNWB_CXX_STANDARD must be 17 or greater")
+endif()
+target_compile_features(aqnwb_aqnwb PUBLIC cxx_std_${AQNWB_CXX_STANDARD})
+
 # ---- Additional libraries needed ----
 find_package(HDF5 REQUIRED COMPONENTS CXX)
 include_directories(${HDF5_INCLUDE_DIRS})
