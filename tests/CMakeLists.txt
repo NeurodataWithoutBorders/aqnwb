@@ -51,7 +51,10 @@ target_link_libraries(
     aqnwb::aqnwb
     Catch2::Catch2WithMain
 )
-target_compile_features(aqnwb_test PRIVATE cxx_std_17)
+set_target_properties(aqnwb_test PROPERTIES
+    CXX_STANDARD ${AQNWB_CXX_STANDARD}
+    CXX_STANDARD_REQUIRED ON
+)
 target_compile_definitions(aqnwb_test PRIVATE BUILD_CONFIG=\"$<CONFIG>\")
 catch_discover_tests(aqnwb_test)
 
@@ -71,7 +74,10 @@ target_link_libraries(
     aqnwb_aqnwb
 )
 
-target_compile_features(reader_executable PRIVATE cxx_std_17)
+set_target_properties(reader_executable PROPERTIES
+    CXX_STANDARD ${AQNWB_CXX_STANDARD}
+    CXX_STANDARD_REQUIRED ON
+)
 
 # ---- End-of-file commands ----
 
