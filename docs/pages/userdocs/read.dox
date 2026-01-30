@@ -16,6 +16,10 @@
  *    the data of interest, at which point the data is being loaded from disk 
  *    and returned as a \ref AQNWB::IO::DataBlock "DataBlock", which contains a 1D vector with the 
  *    \ref AQNWB::IO::DataBlock::data "data" and the \ref AQNWB::IO::DataBlock::shape "shape" of the data.
+ * 5. To simplify multi-dimensional access, we can then use \ref AQNWB::IO::DataBlock::as_multi_array
+ *    "DataBlock.as_multi_array" to simplify slicing. For C++23 and later, `std::mdspan` can be used instead 
+ *    of \ref AQNWB::IO::DataBlock::as_multi_array "as_multi_array" to simplify multi-dimensional
+ *    array access.
  *
  * \section read_example_open Opening an existing file for reading
  *

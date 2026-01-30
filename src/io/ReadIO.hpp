@@ -139,7 +139,14 @@ public:
 /**
  * @brief Non-owning multi-dimensional array view.
  *
- * The view assumes row-major, contiguous storage.
+ * The view assumes row-major, contiguous storage. This class is used by
+ * DataBlock.as_multi_array to provide multi-dimensional access to the data
+ * for convenience and compatibility with C++17/20.
+ *
+ * @note For C++23 and later, prefer using std::mdspan for multi-dimensional
+ *       array access instead.
+ * @note This class may be deprecated and removed in future releases in favor
+ *       of std::mdspan once C++23 is widely adopted.
  *
  * @tparam DTYPE The data type of the array
  * @tparam NDIMS The number of dimensions
@@ -242,6 +249,24 @@ public:
   /**
    * \brief Transform the data to a multi-dimensional array view for convenient
    * access.
+   *
+   * @note For C++23 and later, prefer using std::mdspan for multi-dimensional
+   *       array access instead.
+   * @note This function may be deprecated and removed in future releases in
+   * favor of std::mdspan once C++23 is widely adopted.
+   *
+   * Example usage:
+   *   @code{.cpp}
+   *   #if defined(__cpp_lib_mdspan)
+   *   std::mdspan<const float, 2> arr(dataBlock.data.data(),
+   *                               dataBlock.shape[0],
+   *                               dataBlock.shape[1]);
+   *   float v = arr(0, 1);
+   *   #else auto
+   *     arr = dataBlock.as_multi_array<2>();
+   *     float v = arr[0][1];
+   *   #endif
+   *   @endcode
    *
    * @tparam NDIMS The number of dimensions of the array. Same as shape.size()
    */

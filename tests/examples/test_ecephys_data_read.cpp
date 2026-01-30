@@ -1,6 +1,11 @@
 #include <numeric>
 #include <variant>
 
+// Use mdspan if available (C++23 or with library support)
+#if defined(__cpp_lib_mdspan)
+#  include <mdspan>
+#endif
+
 #include <H5Cpp.h>
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_all.hpp>
@@ -175,22 +180,38 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
 
     // [example_read_get_array_view_snippet]
     // Use the multi-array view to simplify interaction with data
+    #if defined(__cpp_lib_mdspan)
+    // Use std::mdspan for multi-dimensional access if available
+    // Use std::mdspan for multi-dimensional access if available
+    float* data_ptr = dataValues.data.data();
+    std::mdspan<float, std::dextents<size_t, 2>> dataView(
+      data_ptr,
+      dataValues.shape[0],
+      dataValues.shape[1]);
+    #else
+    // Pre-C++23: use as_multi_array for multi-dimensional access
     auto dataView = dataValues.as_multi_array<2>();
+    #endif
     // [example_read_get_array_view_snippet]
 
     // [example_read_validate_array_view_snippet]
     // Iterate through all the time steps again, but now using the view
-    for (SizeType t = 0; t < numSamples; t++) {
-      // Access [t, :], i.e., get a 1D array with the data
-      // from all channels for time step t.
-      auto row_t = dataView[static_cast<SizeType>(t)];
-
-      // Compare to check that the data is correct.
-      std::vector<float> row_t_vector(
-          row_t.begin(), row_t.end());  // convert to std::vector for comparison
-      REQUIRE_THAT(row_t_vector,
-                   Catch::Matchers::Approx(mockDataTransposed[t]).margin(1));
-    }
+            for (SizeType t = 0; t < numSamples; t++) {
+        #if defined(__cpp_lib_mdspan)
+          // Use mdspan call operator for multi-dimensional access
+          std::vector<float> row_t_vector;
+          for (SizeType c = 0; c < numChannels; ++c) {
+            row_t_vector.push_back(dataView(t, c));
+          }
+        #else
+          // Pre-C++23: use as_multi_array row access
+          auto row_t = dataView[static_cast<SizeType>(t)];
+          std::vector<float> row_t_vector(row_t.begin(), row_t.end());
+        #endif
+          // Compare to check that the data is correct.
+          REQUIRE_THAT(row_t_vector,
+               Catch::Matchers::Approx(mockDataTransposed[t]).margin(1));
+            }
     // [example_read_validate_array_view_snippet]
 
     // [example_read_attribute_snippet]
@@ -297,12 +318,26 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // Now we can read the data in the same way we did during write
     auto readElectricalSeriesData = readElectricalSeries->readData();
     auto readDataValues = readElectricalSeriesData->values();
-    auto readDataView = readDataValues.as_multi_array<2>();
     REQUIRE(readDataValues.data.size() == (numSamples * numChannels));
     REQUIRE(readDataValues.shape[0] == numSamples);
     REQUIRE(readDataValues.shape[1] == numChannels);
+    // Use the multi-array view to simplify interaction with multi-dimensional
+    // data
+#if defined(__cpp_lib_mdspan)
+    // Use std::mdspan for multi-dimensional access if available
+    float* read_data_ptr = readDataValues.data.data();
+    std::mdspan<float, std::dextents<size_t, 2>> readDataView(
+      read_data_ptr,
+      readDataValues.shape[0],
+      readDataValues.shape[1]);
+    REQUIRE(readDataView.extent(0) == numSamples);
+    REQUIRE(readDataView.extent(1) == numChannels);
+#else
+    // Pre-C++23: use as_multi_array for multi-dimensional access
+    auto readDataView = readDataValues.as_multi_array<2>();
     REQUIRE(readDataView.shape()[0] == numSamples);
     REQUIRE(readDataView.shape()[1] == numChannels);
+#endif
     // [example_read_only_fields_snippet]
 
     std::cout << "Reading a subset of the ElectricalSeries data" << std::endl;
