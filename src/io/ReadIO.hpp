@@ -304,8 +304,8 @@ public:
    *                               dataBlock.shape[0],
    *                               dataBlock.shape[1]);
    *   float v = arr(0, 1);
-   *   #else auto
-   *     arr = dataBlock.as_multi_array<2>();
+   *   #else
+   *     auto arr = dataBlock.as_multi_array<2>();
    *     float v = arr[0][1];
    *   #endif
    *   @endcode
