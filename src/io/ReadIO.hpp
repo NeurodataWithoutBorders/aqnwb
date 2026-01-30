@@ -297,21 +297,8 @@ public:
    * @note This function may be deprecated and removed in future releases in
    * favor of std::mdspan once C++23 is widely adopted.
    *
-   * Example usage:
-   *   @code{.cpp}
-   *   #if defined(__cpp_lib_mdspan)
-   *   std::mdspan<const float, std::dextents<std::size_t, 2>> arr(
-   *       dataBlock.data.data(),
-   *       dataBlock.shape[0],
-   *       dataBlock.shape[1]);
-   *   float v = arr(0, 1);
-   *   #else
-   *     auto arr = dataBlock.as_multi_array<2>();
-   *     float v = arr[0][1];
-   *   #endif
-   *   @endcode
-   *
    * @tparam NDIMS The number of dimensions of the array. Same as shape.size()
+   * @return A ConstMultiArrayView providing multi-dimensional access to the
    */
   template<std::size_t NDIMS>
   inline ConstMultiArrayView<DTYPE, NDIMS> as_multi_array() const

@@ -1,9 +1,12 @@
 #include <numeric>
 #include <variant>
 
-// Use mdspan if available (C++23 or with library support)
-#if defined(__cpp_lib_mdspan)
+// Use mdspan only if C++23 or later
+#if defined(AQNWB_CXX_STANDARD) && AQNWB_CXX_STANDARD >= 23
+#  define HAVE_MDSPAN 1
 #  include <mdspan>
+#else
+#  define HAVE_MDSPAN 0
 #endif
 
 #include <H5Cpp.h>
@@ -180,7 +183,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
 
     // [example_read_get_array_view_snippet]
 // Use the multi-array view to simplify interaction with data
-#if defined(__cpp_lib_mdspan)
+#if HAVE_MDSPAN
     // Use std::mdspan for multi-dimensional access if available
     float* data_ptr = dataValues.data.data();
     std::mdspan<float, std::dextents<size_t, 2>> dataView(
@@ -194,7 +197,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // [example_read_validate_array_view_snippet]
     // Iterate through all the time steps again, but now using the view
     for (SizeType t = 0; t < numSamples; t++) {
-#if defined(__cpp_lib_mdspan)
+#if HAVE_MDSPAN
       // Use mdspan call operator for multi-dimensional access
       std::vector<float> row_t_vector;
       for (SizeType c = 0; c < numChannels; ++c) {
@@ -319,7 +322,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     REQUIRE(readDataValues.shape[0] == numSamples);
     REQUIRE(readDataValues.shape[1] == numChannels);
     // Use multi-array view to simplify interaction with multi-dimensional data
-#if defined(__cpp_lib_mdspan)
+#if HAVE_MDSPAN
     // Use std::mdspan for multi-dimensional access if available
     float* read_data_ptr = readDataValues.data.data();
     std::mdspan<float, std::dextents<size_t, 2>> readDataView(
