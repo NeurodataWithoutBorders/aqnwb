@@ -201,7 +201,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
       // Use mdspan call operator for multi-dimensional access
       std::vector<float> row_t_vector;
       for (SizeType c = 0; c < numChannels; ++c) {
-        row_t_vector.push_back(dataView(t, c));
+        row_t_vector.push_back(dataView[t, c]);
       }
 #else
       // Pre-C++23: use as_multi_array row access
