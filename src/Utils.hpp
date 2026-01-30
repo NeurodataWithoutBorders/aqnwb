@@ -19,6 +19,11 @@ namespace AQNWB
 {
 namespace detail
 {
+/**
+ * @brief Convert a std::time_t value to a local std::tm structure.
+ * @param time_value The time value to convert.
+ * @return The corresponding local std::tm structure.
+ */
 inline std::tm to_local_tm(std::time_t time_value)
 {
   std::tm local_tm {};
@@ -35,6 +40,11 @@ inline std::tm to_local_tm(std::time_t time_value)
   return local_tm;
 }
 
+/**
+ * @brief Convert a std::time_t value to a UTC std::tm structure.
+ * @param time_value The time value to convert.
+ * @return The corresponding UTC std::tm structure.
+ */
 inline std::tm to_utc_tm(std::time_t time_value)
 {
   std::tm utc_tm {};
@@ -51,6 +61,11 @@ inline std::tm to_utc_tm(std::time_t time_value)
   return utc_tm;
 }
 
+/**
+ * @brief Get the UTC offset in seconds for a given time_t value.
+ * @param time_value The time value to check.
+ * @return The offset from UTC in seconds.
+ */
 inline long get_utc_offset_seconds(std::time_t time_value)
 {
   std::tm local_tm = to_local_tm(time_value);
@@ -66,6 +81,11 @@ inline long get_utc_offset_seconds(std::time_t time_value)
   return static_cast<long>(std::difftime(local_time, utc_time));
 }
 
+/**
+ * @brief Format a UTC offset in seconds as a string (+HH:MM or -HH:MM).
+ * @param offset_seconds The offset in seconds.
+ * @return The formatted UTC offset string.
+ */
 inline std::string format_utc_offset(long offset_seconds)
 {
   const char sign = (offset_seconds < 0) ? '-' : '+';
@@ -79,6 +99,11 @@ inline std::string format_utc_offset(long offset_seconds)
   return oss.str();
 }
 
+/**
+ * @brief Convert a 16-bit unsigned integer to little-endian byte order.
+ * @param value The value to convert.
+ * @return The value in little-endian byte order.
+ */
 inline uint16_t to_little_endian_u16(uint16_t value)
 {
 #if defined(_WIN32) \
@@ -168,8 +193,11 @@ static inline bool isISO8601Date(const std::string& dateStr)
 }
 
 /**
- * @brief Factory method to create an IO object.
- * @return A pointer to a BaseIO object
+ * @brief Factory method to create an IO object of the specified type.
+ * @param type The type of IO object to create (e.g., "HDF5").
+ * @param filename The filename to use for the IO object.
+ * @return A shared pointer to a BaseIO object.
+ * @throws std::invalid_argument if the type is invalid.
  */
 static inline std::shared_ptr<IO::BaseIO> createIO(const std::string& type,
                                                    const std::string& filename)
