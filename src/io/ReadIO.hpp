@@ -300,9 +300,10 @@ public:
    * Example usage:
    *   @code{.cpp}
    *   #if defined(__cpp_lib_mdspan)
-   *   std::mdspan<const float, 2> arr(dataBlock.data.data(),
-   *                               dataBlock.shape[0],
-   *                               dataBlock.shape[1]);
+   *   std::mdspan<const float, std::dextents<std::size_t, 2>> arr(
+   *       dataBlock.data.data(),
+   *       dataBlock.shape[0],
+   *       dataBlock.shape[1]);
    *   float v = arr(0, 1);
    *   #else auto
    *     arr = dataBlock.as_multi_array<2>();
