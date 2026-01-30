@@ -137,19 +137,20 @@ public:
 };
 
 /**
- * @brief Non-owning multi-dimensional array view.
+ * @brief Non-owning, multi-dimensional, read-only array view for contiguous
+ * data.
  *
- * The view assumes row-major, contiguous storage. This class is used by
- * DataBlock.as_multi_array to provide multi-dimensional access to the data
- * for convenience and compatibility with C++17/20.
+ * Provides multi-dimensional access to a flat data buffer using row-major
+ * order. This class is used by DataBlock::as_multi_array for C++17/20
+ * compatibility.
+ *
+ * @tparam DTYPE The data type of the array elements.
+ * @tparam NDIMS The number of dimensions.
  *
  * @note For C++23 and later, prefer using std::mdspan for multi-dimensional
- *       array access instead.
- * @note This class may be deprecated and removed in future releases in favor
- *       of std::mdspan once C++23 is widely adopted.
- *
- * @tparam DTYPE The data type of the array
- * @tparam NDIMS The number of dimensions
+ * array access.
+ * @note This class may be deprecated and removed in future releases in favor of
+ * std::mdspan.
  */
 template<typename DTYPE, std::size_t NDIMS>
 class ConstMultiArrayView
@@ -157,6 +158,14 @@ class ConstMultiArrayView
 public:
   using size_type = std::size_t;
 
+  /**
+   * @brief Construct a multi-dimensional view over a contiguous data buffer.
+   * @param data Pointer to the data buffer (must remain valid for the lifetime
+   * of the view).
+   * @param shape Array specifying the size of each dimension.
+   * @param strides Array specifying the stride (in elements) for each
+   * dimension.
+   */
   ConstMultiArrayView(const DTYPE* data,
                       const std::array<size_type, NDIMS>& shape,
                       const std::array<size_type, NDIMS>& strides)
@@ -166,6 +175,13 @@ public:
   {
   }
 
+  /**
+   * @brief Access element at the given index for 1D arrays.
+   *
+   * @param index Index of the element to access.
+   * @return Reference to the element at the specified index.
+   * @note Only enabled for 1D arrays (NDIMS == 1).
+   */
   template<size_type N = NDIMS, typename std::enable_if_t<N == 1, int> = 0>
   const DTYPE& operator[](size_type index) const
   {
@@ -173,6 +189,14 @@ public:
     return m_data[index * m_strides[0]];
   }
 
+  /**
+   * @brief Access a sub-array view at the given index for multi-dimensional
+   * arrays.
+   *
+   * @param index Index of the sub-array to access (along the first dimension).
+   * @return A ConstMultiArrayView of one lower dimension.
+   * @note Only enabled for NDIMS > 1.
+   */
   template<size_type N = NDIMS, typename std::enable_if_t<(N > 1), int> = 0>
   ConstMultiArrayView<DTYPE, NDIMS - 1> operator[](size_type index) const
   {
@@ -187,6 +211,12 @@ public:
         m_data + index * m_strides[0], sub_shape, sub_strides);
   }
 
+  /**
+   * @brief Returns a pointer to the beginning of the data for 1D arrays.
+   *
+   * @return Pointer to the first element.
+   * @note Only enabled for 1D arrays (NDIMS == 1).
+   */
   template<size_type N = NDIMS, typename std::enable_if_t<N == 1, int> = 0>
   const DTYPE* begin() const
   {
@@ -194,6 +224,12 @@ public:
     return m_data;
   }
 
+  /**
+   * @brief Returns a pointer to one past the last element for 1D arrays.
+   *
+   * @return Pointer to one past the last element.
+   * @note Only enabled for 1D arrays (NDIMS == 1).
+   */
   template<size_type N = NDIMS, typename std::enable_if_t<N == 1, int> = 0>
   const DTYPE* end() const
   {
@@ -204,12 +240,18 @@ public:
     return m_data + (m_shape[0] * m_strides[0]);
   }
 
+  /**
+   * @brief Get the shape of the multi-dimensional array view.
+   *
+   * @return A const reference to the array specifying the size of each
+   * dimension.
+   */
   const std::array<size_type, NDIMS>& shape() const { return m_shape; }
 
 private:
-  const DTYPE* m_data;
-  std::array<size_type, NDIMS> m_shape;
-  std::array<size_type, NDIMS> m_strides;
+  const DTYPE* m_data;  ///< Pointer to the data buffer
+  std::array<size_type, NDIMS> m_shape;  ///< Size of each dimension
+  std::array<size_type, NDIMS> m_strides;  ///< Stride per dimension
 };
 
 /**
