@@ -39,7 +39,8 @@
  *
  * Use the flag ``-DBUILD_SHARED_LIBS=ON`` to generate the shared library file.
  *
- * \note
+ * \subsubsection devbuild_custom_hdf5_sec Using a custom HDF5 installation
+ *
  * If you are using a custom installation of **HDF5** that is not being detected
  * automatically by CMake, you should set the `CMAKE_PREFIX_PATH` variable to include the install
  * directory of HDF5. This can be done either as an environment variable or directly
@@ -58,6 +59,16 @@
  * 
  * The use of the `HDF5_ROOT` environment variable is deprecated for modern CMake
  * and may not work reliably with recent CMake versions.
+ *
+ * \subsubsection devbuild_cpp_std_sec Selecting a newer C++ standard version
+ *
+ * You can also select the C++ standard to use (minimum 17, default 17) by setting the `AQNWB_CXX_STANDARD` option when configuring the build. For example, to build with C++23:
+ * 
+ * \code{.sh}
+ *   cmake --preset=dev -DAQNWB_CXX_STANDARD=23
+ * \endcode
+ *
+ * If not specified, the project will use C++17 by default. Currently, only the values 17, 20, or 23 are accepted.
  *
  * \subsubsection  devbuild_presets_subsec Developer Presets
  *

@@ -54,9 +54,11 @@
  *     ``std::vector`` along with the \ref AQNWB::IO::DataBlock::shape "shape" of the data.
  * 6. \ref AQNWB::IO::ConstMultiArrayView "ConstMultiArrayView"
  *   - ``ConstMultiArrayView`` provides a lightweight, non-owning view over contiguous,
- *     multi-dimensional data.
- *     The \ref AQNWB::IO::DataBlock::as_multi_array "DataBlock.as_multi_array"
+ *     multi-dimensional data. The \ref AQNWB::IO::DataBlock::as_multi_array "DataBlock.as_multi_array"
  *     convenience method generates a ``ConstMultiArrayView<DTYPE, NDIMS>`` for us.
+ *     For C++23 and later, you can use ``std::mdspan`` for multi-dimensional access.
+ *     Both approaches are demonstrated in the code example below. 
+ *
  * 7. [std::variant](https://en.cppreference.com/w/cpp/utility/variant)
  *   - ``std::variant` can also be used when we want to compute on the data in a type-safe
  *     manner but do not know the data type beforehand (e.g., when reading NWB data from a

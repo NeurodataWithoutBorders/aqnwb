@@ -203,6 +203,13 @@ int main(int argc, char* argv[])
     auto dataValues = dataWrapper->values();
 
     // Convert to a multi-array view for easier access
+    // C++23 and later provide std::mdspan for multi-dimensional access.
+    // as_multi_array is provided here for C++17/20 compatibility.
+    // #if defined(__cpp_lib_mdspan)
+    //   std::mdspan<const float, std::dextents<size_t, 2>> dataArray(dataValues.data.data(), numTimePoints, numChannels);
+    //   auto dataValue = dataArray[t, ch];
+    // #endif
+    // C++17/20: use as_multi_array for multi-dimensional access
     auto dataArray = dataValues.as_multi_array<2>();
 
     // Print status update
