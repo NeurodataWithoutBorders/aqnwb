@@ -32,12 +32,13 @@ var searchData=
   ['for_20registeredtype_20objects_29',['Searching for RegisteredType objects',['../read_page.html#read_example_search',1,'']]],
   ['for_20unnamed_20neurodata_5ftype_20objects_30',['DEFINE_UNNAMED_REGISTERED_FIELD: Defining read methods for unnamed neurodata_type objects',['../registered_type_page.html#use_the_define_unnamed_registered_field_macro',1,'']]],
   ['for_20users_31',['For Users',['../userdocs.html',1,'']]],
-  ['from_20registeredtype_20objects_32',['Reading data from RegisteredType objects',['../read_page.html#read_example_read',1,'']]],
-  ['fromdata_33',['fromData',['../class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html#a90b834bfa32f7a1435e48ba2f213e24b',1,'AQNWB::NWB::DataTyped']]],
-  ['fromgeneric_34',['fromGeneric',['../class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a20df6af7d661de38f4b8cb3baba48339',1,'AQNWB::IO::DataBlock']]],
-  ['fromnwbdata_35',['fromNWBData',['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_typed.html#a86badd745a05a7cee0cc5004580be9ae',1,'AQNWB::NWB::NWBDataTyped']]],
-  ['fromtypeid_36',['fromTypeId',['../class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#ae4eca40525bf512e9f1a194dcc3f905b',1,'AQNWB::IO::BaseDataType']]],
-  ['fromvectordata_37',['fromVectorData',['../class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html#ab5c4d5084bb6134318dce6637fdd13e4',1,'AQNWB::NWB::VectorDataTyped']]],
-  ['further_20reading_38',['Further Reading',['../record_design_page.html#recording_design_further_reading',1,'']]],
-  ['further_20reading_39',['Further reading',['../read_page.html#read_further_reading',1,'']]]
+  ['format_5futc_5foffset_32',['format_utc_offset',['../namespace_a_q_n_w_b_1_1detail.html#ad0651da97ed82b774d723c172538375c',1,'AQNWB::detail']]],
+  ['from_20registeredtype_20objects_33',['Reading data from RegisteredType objects',['../read_page.html#read_example_read',1,'']]],
+  ['fromdata_34',['fromData',['../class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html#a90b834bfa32f7a1435e48ba2f213e24b',1,'AQNWB::NWB::DataTyped']]],
+  ['fromgeneric_35',['fromGeneric',['../class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a20df6af7d661de38f4b8cb3baba48339',1,'AQNWB::IO::DataBlock']]],
+  ['fromnwbdata_36',['fromNWBData',['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_typed.html#a86badd745a05a7cee0cc5004580be9ae',1,'AQNWB::NWB::NWBDataTyped']]],
+  ['fromtypeid_37',['fromTypeId',['../class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#ae4eca40525bf512e9f1a194dcc3f905b',1,'AQNWB::IO::BaseDataType']]],
+  ['fromvectordata_38',['fromVectorData',['../class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html#ab5c4d5084bb6134318dce6637fdd13e4',1,'AQNWB::NWB::VectorDataTyped']]],
+  ['further_20reading_39',['Further Reading',['../record_design_page.html#recording_design_further_reading',1,'']]],
+  ['further_20reading_40',['Further reading',['../read_page.html#read_further_reading',1,'']]]
 ];

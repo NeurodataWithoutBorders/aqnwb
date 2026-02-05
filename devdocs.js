@@ -4,6 +4,8 @@ var devdocs =
       [ "Installing AqNWB", "dev_install_page.html#dev_install_aqnwb_sec", [
         [ "Requirements", "dev_install_page.html#dev_requirements_sec", null ],
         [ "Developer Build", "dev_install_page.html#devbuild_sec", [
+          [ "Using a custom HDF5 installation", "dev_install_page.html#devbuild_custom_hdf5_sec", null ],
+          [ "Selecting a newer C++ standard version", "dev_install_page.html#devbuild_cpp_std_sec", null ],
           [ "Developer Presets", "dev_install_page.html#devbuild_presets_subsec", null ],
           [ "Configure, Build and Test", "dev_install_page.html#configure_build_test", null ],
           [ "Developer Install", "dev_install_page.html#devbuild_install_subsec", null ],

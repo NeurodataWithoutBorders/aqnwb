@@ -21,10 +21,11 @@ var searchData=
   ['operator_26_26_18',['operator&amp;&amp;',['../class_a_q_n_w_b_1_1_types.html#a77cd554a1f7edce669317b79790fb681',1,'AQNWB::Types']]],
   ['operator_3d_19',['operator=',['../class_a_q_n_w_b_1_1_channel.html#a2737d3d813c170ec4f3af49fa6bf2288',1,'AQNWB::Channel::operator=(const Channel &amp;other)=default'],['../class_a_q_n_w_b_1_1_channel.html#ac9ce75a8da0a9638d25708936f89c6ca',1,'AQNWB::Channel::operator=(Channel &amp;&amp;other)=default'],['../class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a25e8586e97c3e0e6f3d4e0d6501f5a68',1,'AQNWB::IO::BaseIO::operator=()'],['../class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html#ad25890b3d90a608823d321fcd22b8870',1,'AQNWB::IO::BaseRecordingData::operator=()'],['../class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a8472e4dc3b686dc32c7d71ae5cba8927',1,'AQNWB::IO::HDF5::HDF5RecordingData::operator=()'],['../class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html#a479c89bee92ff1b6c2916b7dd8e9d6bd',1,'AQNWB::IO::ReadDataWrapper::operator=()'],['../class_a_q_n_w_b_1_1_i_o_1_1_recording_objects.html#aea56b2f2a5e02a1769dd017d06e3c439',1,'AQNWB::IO::RecordingObjects::operator=()'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a941d5b775441fac6c787cd55a8276461',1,'AQNWB::NWB::NWBFile::operator=()']]],
   ['operator_3d_3d_20',['operator==',['../class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#afebc97cbbd321594d89a5146c348b377',1,'AQNWB::IO::BaseDataType']]],
-  ['operator_7c_7c_21',['operator||',['../class_a_q_n_w_b_1_1_types.html#a9181da58701832ace755fdd5e02ab038',1,'AQNWB::Types']]],
-  ['optimizing_20data_20layout_22',['Optimizing Data Layout',['../hdf5io.html#hdf5io_data_layout',1,'']]],
-  ['options_23',['Target options',['../dev_install_page.html#devbuild_target_options_subsubsec',1,'']]],
-  ['overview_24',['Overview',['../index.html',1,'']]],
-  ['overview_20of_20a_20recording_20workflow_25',['Overview of a recording workflow',['../workflow.html#recording_workflow',1,'']]],
-  ['overwrite_26',['Overwrite',['../namespace_a_q_n_w_b_1_1_i_o.html#a969d0800c8e9e2141f272541b85e8bedada364eb37e143f6b2b5559aa03f5913a',1,'AQNWB::IO']]]
+  ['operator_5b_5d_21',['operator[]',['../class_a_q_n_w_b_1_1_i_o_1_1_const_multi_array_view.html#a8e91ce79fa5805d182d3a43c86c52c8e',1,'AQNWB::IO::ConstMultiArrayView::operator[](size_type index) const'],['../class_a_q_n_w_b_1_1_i_o_1_1_const_multi_array_view.html#a44a2d70c56b05e5f8411016266b962a0',1,'AQNWB::IO::ConstMultiArrayView::operator[](size_type index) const']]],
+  ['operator_7c_7c_22',['operator||',['../class_a_q_n_w_b_1_1_types.html#a9181da58701832ace755fdd5e02ab038',1,'AQNWB::Types']]],
+  ['optimizing_20data_20layout_23',['Optimizing Data Layout',['../hdf5io.html#hdf5io_data_layout',1,'']]],
+  ['options_24',['Target options',['../dev_install_page.html#devbuild_target_options_subsubsec',1,'']]],
+  ['overview_25',['Overview',['../index.html',1,'']]],
+  ['overview_20of_20a_20recording_20workflow_26',['Overview of a recording workflow',['../workflow.html#recording_workflow',1,'']]],
+  ['overwrite_27',['Overwrite',['../namespace_a_q_n_w_b_1_1_i_o.html#a969d0800c8e9e2141f272541b85e8bedada364eb37e143f6b2b5559aa03f5913a',1,'AQNWB::IO']]]
 ];

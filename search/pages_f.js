@@ -19,10 +19,11 @@ var searchData=
   ['individual_20datasets_16',['Advanced: Recording individual datasets',['../workflow.html#advanced_recording_workflow',1,'']]],
   ['inspect_20electrical_20series_20data_20using_20aqnwb_17',['Inspect Electrical Series Data using AqNWB',['../user_demos.html#demos_inspect_electrical_series',1,'']]],
   ['install_18',['Install',['../dev_install_page.html#devbuild_install_subsec',1,'Developer Install'],['../user_install_page.html#userbuild_install_sec',1,'Install']]],
-  ['installation_20🛠️_19',['Installation 🛠️',['../dev_install_page.html',1,'Installation 🛠️'],['../user_install_page.html',1,'Installation 🛠️'],['../index.html#mainpage_installation',1,'Installation 🛠️']]],
-  ['installing_20aqnwb_20',['Installing AqNWB',['../dev_install_page.html#dev_install_aqnwb_sec',1,'']]],
-  ['installing_20python_20utilities_21',['Installing Python Utilities',['../dev_install_page.html#dev_install_utils_sec',1,'']]],
-  ['integrate_20a_20new_20namespace_22',['How to Integrate a New Namespace',['../integrating_extensions_page.html#integrate_namespace',1,'']]],
-  ['integrating_20labmetadata_20extension_20with_20aqnwb_23',['Integrating LabMetaData Extension with AqNWB',['../user_demos.html#demos_labmetadata_extension',1,'']]],
-  ['integrating_20nwb_20extensions_20🧩_24',['Integrating NWB Extensions 🧩',['../integrating_extensions_page.html',1,'devdocs']]]
+  ['installation_19',['Using a custom HDF5 installation',['../dev_install_page.html#devbuild_custom_hdf5_sec',1,'']]],
+  ['installation_20🛠️_20',['Installation 🛠️',['../dev_install_page.html',1,'Installation 🛠️'],['../user_install_page.html',1,'Installation 🛠️'],['../index.html#mainpage_installation',1,'Installation 🛠️']]],
+  ['installing_20aqnwb_21',['Installing AqNWB',['../dev_install_page.html#dev_install_aqnwb_sec',1,'']]],
+  ['installing_20python_20utilities_22',['Installing Python Utilities',['../dev_install_page.html#dev_install_utils_sec',1,'']]],
+  ['integrate_20a_20new_20namespace_23',['How to Integrate a New Namespace',['../integrating_extensions_page.html#integrate_namespace',1,'']]],
+  ['integrating_20labmetadata_20extension_20with_20aqnwb_24',['Integrating LabMetaData Extension with AqNWB',['../user_demos.html#demos_labmetadata_extension',1,'']]],
+  ['integrating_20nwb_20extensions_20🧩_25',['Integrating NWB Extensions 🧩',['../integrating_extensions_page.html',1,'devdocs']]]
 ];

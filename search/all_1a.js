@@ -14,13 +14,14 @@ var searchData=
   ['use_20the_20registeredtype_20registry_11',['How to Use the RegisteredType Registry',['../read_design_page.html#use_registered_type_registry',1,'']]],
   ['users_12',['For Users',['../userdocs.html',1,'']]],
   ['using_20a_20base_20class_20and_20templated_20child_20class_13',['Using a base class and templated child class',['../registered_type_page.html#implement_templated_registered_type_two_class',1,'']]],
-  ['using_20a_20single_20templated_20class_14',['Using a single templated class',['../registered_type_page.html#implement_templated_registered_type_single_class',1,'']]],
-  ['using_20aqnwb_15',['Inspect Electrical Series Data using AqNWB',['../user_demos.html#demos_inspect_electrical_series',1,'']]],
-  ['using_20chunking_20and_20i_20o_20filters_20in_20aqnwb_16',['Using Chunking and I/O Filters in AqNWB',['../hdf5io.html#hdf5io_filters_usage',1,'']]],
-  ['using_20the_20extension_17',['Step 4: Using the Extension',['../integrating_extensions_page.html#labmetadata_extension_usage',1,'']]],
-  ['using_20the_20generate_20types_20command_18',['Using the generate-types command',['../registered_type_page.html#using_schematype_to_aqnwb',1,'']]],
-  ['using_20the_20type_20registry_19',['Example: Using the type registry',['../read_design_page.html#use_registered_type_registry_example',1,'']]],
-  ['utilities_20',['Installing Python Utilities',['../dev_install_page.html#dev_install_utils_sec',1,'']]],
-  ['utilities_21',['NWB I/O convenience utilities',['../record_design_page.html#record_design_nwbio_utils',1,'']]],
-  ['utils_2ehpp_22',['Utils.hpp',['../_utils_8hpp.html',1,'']]]
+  ['using_20a_20custom_20hdf5_20installation_14',['Using a custom HDF5 installation',['../dev_install_page.html#devbuild_custom_hdf5_sec',1,'']]],
+  ['using_20a_20single_20templated_20class_15',['Using a single templated class',['../registered_type_page.html#implement_templated_registered_type_single_class',1,'']]],
+  ['using_20aqnwb_16',['Inspect Electrical Series Data using AqNWB',['../user_demos.html#demos_inspect_electrical_series',1,'']]],
+  ['using_20chunking_20and_20i_20o_20filters_20in_20aqnwb_17',['Using Chunking and I/O Filters in AqNWB',['../hdf5io.html#hdf5io_filters_usage',1,'']]],
+  ['using_20the_20extension_18',['Step 4: Using the Extension',['../integrating_extensions_page.html#labmetadata_extension_usage',1,'']]],
+  ['using_20the_20generate_20types_20command_19',['Using the generate-types command',['../registered_type_page.html#using_schematype_to_aqnwb',1,'']]],
+  ['using_20the_20type_20registry_20',['Example: Using the type registry',['../read_design_page.html#use_registered_type_registry_example',1,'']]],
+  ['utilities_21',['Installing Python Utilities',['../dev_install_page.html#dev_install_utils_sec',1,'']]],
+  ['utilities_22',['NWB I/O convenience utilities',['../record_design_page.html#record_design_nwbio_utils',1,'']]],
+  ['utils_2ehpp_23',['Utils.hpp',['../_utils_8hpp.html',1,'']]]
 ];

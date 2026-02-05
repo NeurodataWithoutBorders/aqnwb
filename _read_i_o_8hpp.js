@@ -1,6 +1,7 @@
 var _read_i_o_8hpp =
 [
     [ "AQNWB::IO::DataBlockGeneric", "class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html", "class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic" ],
+    [ "AQNWB::IO::ConstMultiArrayView&lt; DTYPE, NDIMS &gt;", "class_a_q_n_w_b_1_1_i_o_1_1_const_multi_array_view.html", "class_a_q_n_w_b_1_1_i_o_1_1_const_multi_array_view" ],
     [ "AQNWB::IO::DataBlock&lt; DTYPE &gt;", "class_a_q_n_w_b_1_1_i_o_1_1_data_block.html", "class_a_q_n_w_b_1_1_i_o_1_1_data_block" ],
     [ "AQNWB::IO::isAllowedStorageObjectType&lt; T &gt;", "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type.html", null ],
     [ "AQNWB::IO::isAllowedStorageObjectType&lt; StorageObjectType::Dataset &gt;", "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type_3_01_storage_object_type_1_1_dataset_01_4.html", null ],

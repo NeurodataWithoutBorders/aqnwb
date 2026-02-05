@@ -3,6 +3,13 @@ var namespace_a_q_n_w_b =
     [ "IO", "namespace_a_q_n_w_b_1_1_i_o.html", "namespace_a_q_n_w_b_1_1_i_o" ],
     [ "NWB", "namespace_a_q_n_w_b_1_1_n_w_b.html", "namespace_a_q_n_w_b_1_1_n_w_b" ],
     [ "SPEC", "namespace_a_q_n_w_b_1_1_s_p_e_c.html", "namespace_a_q_n_w_b_1_1_s_p_e_c" ],
+    [ "detail", "namespace_a_q_n_w_b_1_1detail.html", [
+      [ "format_utc_offset", "namespace_a_q_n_w_b_1_1detail.html#ad0651da97ed82b774d723c172538375c", null ],
+      [ "get_utc_offset_seconds", "namespace_a_q_n_w_b_1_1detail.html#af6ff85116f650b5a02fbca4c821b6c9b", null ],
+      [ "to_little_endian_u16", "namespace_a_q_n_w_b_1_1detail.html#aea8e61c8f226a4c85bdb734deabe8e4c", null ],
+      [ "to_local_time", "namespace_a_q_n_w_b_1_1detail.html#abcf2ceabe5c721ee1001c80fdc313fa3", null ],
+      [ "to_utc_time", "namespace_a_q_n_w_b_1_1detail.html#a565fcac4f2e7942f33f35b3de5b717f1", null ]
+    ] ],
     [ "Channel", "class_a_q_n_w_b_1_1_channel.html", "class_a_q_n_w_b_1_1_channel" ],
     [ "Types", "class_a_q_n_w_b_1_1_types.html", "class_a_q_n_w_b_1_1_types" ],
     [ "checkStatus", "namespace_a_q_n_w_b.html#aa2ae7bd54f7ed396e61e6cec9d208140", null ],

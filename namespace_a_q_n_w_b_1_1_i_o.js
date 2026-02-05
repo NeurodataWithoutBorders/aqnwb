@@ -6,6 +6,7 @@ var namespace_a_q_n_w_b_1_1_i_o =
     [ "BaseIO", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o" ],
     [ "BaseRecordingData", "class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html", "class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data" ],
     [ "DataBlockGeneric", "class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html", "class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic" ],
+    [ "ConstMultiArrayView", "class_a_q_n_w_b_1_1_i_o_1_1_const_multi_array_view.html", "class_a_q_n_w_b_1_1_i_o_1_1_const_multi_array_view" ],
     [ "DataBlock", "class_a_q_n_w_b_1_1_i_o_1_1_data_block.html", "class_a_q_n_w_b_1_1_i_o_1_1_data_block" ],
     [ "isAllowedStorageObjectType", "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type.html", null ],
     [ "isAllowedStorageObjectType&lt; StorageObjectType::Dataset &gt;", "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type_3_01_storage_object_type_1_1_dataset_01_4.html", null ],

@@ -11,6 +11,7 @@ var hierarchy =
       [ "AQNWB::IO::HDF5::HDF5RecordingData", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html", null ]
     ] ],
     [ "AQNWB::Channel", "class_a_q_n_w_b_1_1_channel.html", null ],
+    [ "AQNWB::IO::ConstMultiArrayView&lt; DTYPE, NDIMS &gt;", "class_a_q_n_w_b_1_1_i_o_1_1_const_multi_array_view.html", null ],
     [ "AQNWB::IO::DataBlock&lt; DTYPE &gt;", "class_a_q_n_w_b_1_1_i_o_1_1_data_block.html", null ],
     [ "AQNWB::IO::DataBlockGeneric", "class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html", null ],
     [ "std::enable_shared_from_this", null, [
