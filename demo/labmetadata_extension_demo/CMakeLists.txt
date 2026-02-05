@@ -8,11 +8,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Allow configuring paths to dependencies
 set(AQNWB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../build/dev" CACHE PATH "Path to aqnwb build directory")
 set(HDF5_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../libs/hdf5_build/install/cmake" CACHE PATH "Path to HDF5 build directory")
-set(BOOST_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../../libs/boost_1_82_0" CACHE PATH "Path to Boost root directory")
 
 # Find required dependencies
 find_package(HDF5 REQUIRED COMPONENTS CXX)
-find_package(Boost REQUIRED)
 
 # Add the executable
 add_executable(labmetadata_extension_demo 
@@ -24,7 +22,6 @@ add_executable(labmetadata_extension_demo
 target_include_directories(labmetadata_extension_demo PRIVATE 
     ${CMAKE_CURRENT_SOURCE_DIR}/../../src
     ${HDF5_INCLUDE_DIRS}
-    ${Boost_INCLUDE_DIRS}
 )
 
 # Find the aqnwb library
@@ -42,7 +39,6 @@ endif()
 target_link_libraries(labmetadata_extension_demo 
     ${AQNWB_LIBRARY}
     ${HDF5_CXX_LIBRARIES}
-    ${Boost_LIBRARIES}
 )
 
 # If on Windows, link bcrypt

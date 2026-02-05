@@ -1,4 +1,5 @@
 #include <codecvt>
+#include <cstring>
 #include <filesystem>
 #include <iostream>
 #include <memory>

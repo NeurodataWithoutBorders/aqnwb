@@ -1450,8 +1450,6 @@ find_package(aqnwb REQUIRED)
 
 # Find HDF5
 find_package(HDF5 REQUIRED COMPONENTS CXX)
-# Find Boost
-find_package(Boost REQUIRED)
 
 # Generated source files
 set(GENERATED_SOURCES"""
@@ -1473,14 +1471,12 @@ target_include_directories({app_name} PRIVATE
     "${{CMAKE_CURRENT_SOURCE_DIR}}/.."
     "${{CMAKE_CURRENT_SOURCE_DIR}}/../spec"
     ${{HDF5_INCLUDE_DIRS}}
-    ${{Boost_INCLUDE_DIRS}}
 )
 
 # Link libraries
 target_link_libraries({app_name} 
     aqnwb::aqnwb
     ${{HDF5_CXX_LIBRARIES}}
-    ${{Boost_LIBRARIES}}
 )
 
 # If on Windows, link bcrypt
@@ -1624,7 +1620,6 @@ This test app serves to:
 - CMake 3.15 or higher
 - C++17 compatible compiler
 - HDF5 library
-- Boost library
 - Built aqnwb library
 
 ### Build Instructions

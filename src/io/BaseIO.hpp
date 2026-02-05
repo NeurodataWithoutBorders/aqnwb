@@ -11,8 +11,6 @@
 #include <variant>
 #include <vector>
 
-#include <boost/multi_array.hpp>  // TODO move this and function def to the cpp file
-
 #include "Types.hpp"
 
 #define DEFAULT_STR_SIZE 256

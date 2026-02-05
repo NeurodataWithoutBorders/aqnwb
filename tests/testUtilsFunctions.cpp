@@ -1,3 +1,4 @@
+#include <ctime>
 #include <regex>
 
 #include "testUtils.hpp"
@@ -118,5 +119,65 @@ TEST_CASE("Test path merging", "[utils]")
   {
     REQUIRE(AQNWB::mergePaths("path1//", "//path2") == "path1/path2");
     REQUIRE(AQNWB::mergePaths("path1///", "///path2") == "path1/path2");
+  }
+}
+
+TEST_CASE("Test time conversion functions", "[utils]")
+{
+  std::time_t now = std::time(nullptr);
+
+  SECTION("to_local_time")
+  {
+    std::tm local_tm = AQNWB::detail::to_local_time(now);
+    // Basic sanity check: year should be reasonable (e.g., > 120 for 2020+)
+    REQUIRE(local_tm.tm_year > 120);
+    REQUIRE(local_tm.tm_mon >= 0);
+    REQUIRE(local_tm.tm_mon <= 11);
+    REQUIRE(local_tm.tm_mday >= 1);
+    REQUIRE(local_tm.tm_mday <= 31);
+  }
+
+  SECTION("to_utc_time")
+  {
+    std::tm utc_tm = AQNWB::detail::to_utc_time(now);
+    // Basic sanity check
+    REQUIRE(utc_tm.tm_year > 120);
+    REQUIRE(utc_tm.tm_mon >= 0);
+    REQUIRE(utc_tm.tm_mon <= 11);
+    REQUIRE(utc_tm.tm_mday >= 1);
+    REQUIRE(utc_tm.tm_mday <= 31);
+  }
+
+  SECTION("get_utc_offset_seconds")
+  {
+    long offset = AQNWB::detail::get_utc_offset_seconds(now);
+    // Offset should be within -12 to +14 hours (in seconds)
+    REQUIRE(offset >= -12 * 3600);
+    REQUIRE(offset <= 14 * 3600);
+  }
+
+  SECTION("format_utc_offset")
+  {
+    REQUIRE(AQNWB::detail::format_utc_offset(0) == "+00:00");
+    REQUIRE(AQNWB::detail::format_utc_offset(3600) == "+01:00");
+    REQUIRE(AQNWB::detail::format_utc_offset(-3600) == "-01:00");
+    REQUIRE(AQNWB::detail::format_utc_offset(5400) == "+01:30");
+    REQUIRE(AQNWB::detail::format_utc_offset(-5400) == "-01:30");
+  }
+}
+
+TEST_CASE("Test endian conversion", "[utils]")
+{
+  uint16_t val = 0x1234;
+  uint16_t converted = AQNWB::detail::to_little_endian_u16(val);
+
+  // Check system endianness
+  uint16_t num = 1;
+  bool isLittleEndian = (*reinterpret_cast<char*>(&num) == 1);
+
+  if (isLittleEndian) {
+    REQUIRE(converted == 0x1234);
+  } else {
+    REQUIRE(converted == 0x3412);
   }
 }

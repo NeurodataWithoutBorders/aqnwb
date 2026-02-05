@@ -80,7 +80,7 @@ public:
    * @brief Value to use to indicate that a SizeType index is not set.
    */
   static constexpr SizeType SizeTypeNotSet =
-      std::numeric_limits<SizeType>::max();
+      (std::numeric_limits<SizeType>::max)();
 
   /**
    * @brief Alias for an array of size types used in the project.

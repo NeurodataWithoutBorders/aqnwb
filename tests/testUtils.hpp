@@ -45,7 +45,8 @@ inline std::string getTestFilePath(std::string filename)
     fs::remove(filepath);
   }
 
-  return filepath.u8string();
+  // Always use generic_string for portability across C++17 and C++23
+  return filepath.generic_string();
 }
 
 inline std::vector<Types::ChannelVector> getMockChannelArrays(

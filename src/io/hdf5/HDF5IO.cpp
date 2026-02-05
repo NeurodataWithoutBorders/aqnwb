@@ -1,3 +1,4 @@
+#include <cassert>
 #include <codecvt>
 #include <filesystem>
 #include <iostream>

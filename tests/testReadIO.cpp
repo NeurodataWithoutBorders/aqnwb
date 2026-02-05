@@ -5,7 +5,6 @@
 #include <variant>
 #include <vector>
 
-#include <boost/multi_array.hpp>
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_all.hpp>
 
@@ -241,5 +240,127 @@ TEST_CASE("DataBlockGeneric - Compute Mean with std::visit",
     auto variant = genericBlock.as_variant();
 
     REQUIRE_THROWS_AS(test_compute_mean(variant), std::runtime_error);
+  }
+}
+
+TEST_CASE("ConstMultiArrayView - Basic Functionality", "[ConstMultiArrayView]")
+{
+  SECTION("1D View")
+  {
+    std::vector<int> data = {1, 2, 3, 4, 5};
+    std::array<size_t, 1> shape = {5};
+    std::array<size_t, 1> strides = {1};
+
+    ConstMultiArrayView<int, 1> view(data.data(), shape, strides);
+
+    REQUIRE(view.shape() == shape);
+    for (size_t i = 0; i < 5; ++i) {
+      REQUIRE(view[i] == data[i]);
+    }
+
+    // Test iterators
+    size_t count = 0;
+    for (auto it = view.begin(); it != view.end(); ++it) {
+      REQUIRE(*it == data[count]);
+      count++;
+    }
+    REQUIRE(count == 5);
+  }
+
+  SECTION("2D View")
+  {
+    // 2x3 array
+    // 1 2 3
+    // 4 5 6
+    std::vector<int> data = {1, 2, 3, 4, 5, 6};
+    std::array<size_t, 2> shape = {2, 3};
+    std::array<size_t, 2> strides = {3, 1};
+
+    ConstMultiArrayView<int, 2> view(data.data(), shape, strides);
+
+    REQUIRE(view.shape() == shape);
+
+    REQUIRE(view[0][0] == 1);
+    REQUIRE(view[0][1] == 2);
+    REQUIRE(view[0][2] == 3);
+    REQUIRE(view[1][0] == 4);
+    REQUIRE(view[1][1] == 5);
+    REQUIRE(view[1][2] == 6);
+  }
+
+  SECTION("3D View")
+  {
+    // 2x2x2 array
+    std::vector<int> data = {1, 2, 3, 4, 5, 6, 7, 8};
+    std::array<size_t, 3> shape = {2, 2, 2};
+    std::array<size_t, 3> strides = {4, 2, 1};
+
+    ConstMultiArrayView<int, 3> view(data.data(), shape, strides);
+
+    REQUIRE(view.shape() == shape);
+
+    REQUIRE(view[0][0][0] == 1);
+    REQUIRE(view[0][0][1] == 2);
+    REQUIRE(view[0][1][0] == 3);
+    REQUIRE(view[0][1][1] == 4);
+    REQUIRE(view[1][0][0] == 5);
+    REQUIRE(view[1][0][1] == 6);
+    REQUIRE(view[1][1][0] == 7);
+    REQUIRE(view[1][1][1] == 8);
+  }
+}
+
+TEST_CASE("DataBlock - as_multi_array", "[DataBlock]")
+{
+  SECTION("1D Array")
+  {
+    std::vector<int> data = {10, 20, 30};
+    std::vector<SizeType> shape = {3};
+    DataBlock<int> block(data, shape);
+
+    auto view = block.as_multi_array<1>();
+
+    REQUIRE(view.shape()[0] == 3);
+    REQUIRE(view[0] == 10);
+    REQUIRE(view[1] == 20);
+    REQUIRE(view[2] == 30);
+  }
+
+  SECTION("2D Array")
+  {
+    std::vector<int> data = {1, 2, 3, 4, 5, 6};
+    std::vector<SizeType> shape = {2, 3};
+    DataBlock<int> block(data, shape);
+
+    auto view = block.as_multi_array<2>();
+
+    REQUIRE(view.shape()[0] == 2);
+    REQUIRE(view.shape()[1] == 3);
+
+    REQUIRE(view[0][0] == 1);
+    REQUIRE(view[0][1] == 2);
+    REQUIRE(view[0][2] == 3);
+    REQUIRE(view[1][0] == 4);
+    REQUIRE(view[1][1] == 5);
+    REQUIRE(view[1][2] == 6);
+  }
+
+  SECTION("Invalid Dimensions")
+  {
+    std::vector<int> data = {1, 2, 3, 4};
+    std::vector<SizeType> shape = {2, 2};
+    DataBlock<int> block(data, shape);
+
+    REQUIRE_THROWS_AS(block.as_multi_array<1>(), std::invalid_argument);
+    REQUIRE_THROWS_AS(block.as_multi_array<3>(), std::invalid_argument);
+  }
+
+  SECTION("Data Size Mismatch")
+  {
+    std::vector<int> data = {1, 2, 3};  // Missing one element
+    std::vector<SizeType> shape = {2, 2};
+    DataBlock<int> block(data, shape);
+
+    REQUIRE_THROWS_AS(block.as_multi_array<2>(), std::invalid_argument);
   }
 }
