@@ -47,6 +47,8 @@ cmake .. -DCMAKE_PREFIX_PATH=/path/to/aqnwb/install
 cmake --build .
 ```
 
+Note: While the HDF5 dependency is transitive, CMake does not search non-standard locations for dependencies unless you tell it where to look. I.e., if HDF5 is installed in a non-standard location, you will also need to include the HDF5 prefix path, e.g, `cmake .. -DCMAKE_PREFIX_PATH="/path/to/aqnwb/install;/path/to/hdf5/install/cmake"`.
+
 ## Running the Demo
 
 After building, you can run the demo:
