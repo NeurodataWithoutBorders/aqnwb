@@ -78,7 +78,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Updated `initialize` functions of all `RegisteredType` classes to return a `Status` [#209](https://github.com/NeurodataWithoutBorders/aqnwb/pull/209))
 * Changed the value of `Status::SUCCESS` to 1 instead of 0 [#209](https://github.com/NeurodataWithoutBorders/aqnwb/pull/209))
 * Added `Types.SizeTypeNotSet` and `Utils.isValidIndex` to centralize definition and checking for invalid indices [#209](https://github.com/NeurodataWithoutBorders/aqnwb/pull/209))
-* Changed the dependency includes in CMake so hdf5::hdf5_cpp headers are available to aqnwb consumers [#248](https://github.com/NeurodataWithoutBorders/aqnwb/pull/248).
+* Changed the dependency includes in CMake so the HDF5 C++ headers and libraries found via `${HDF5_INCLUDE_DIRS}` / `${HDF5_CXX_LIBRARIES}` are exported to AqNWB consumers [#248](https://github.com/NeurodataWithoutBorders/aqnwb/pull/248).
 
 ### Fixed
 * Resolved various compiler warnings on Windows (`-Wmaybe-uninitialized`, `-Wsign-conversion`, `-Wconversion`, `-Wshadow`, `-Wdeprecated-copy`, `-Wcatch-value`) and fixed cross-platform build issues related to `std::filesystem` linkage. (@oruebel, [#233](https://github.com/NeurodataWithoutBorders/aqnwb/pull/233))
