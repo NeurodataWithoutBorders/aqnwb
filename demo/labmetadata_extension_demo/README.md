@@ -56,7 +56,8 @@ Note: HDF5 is a transitive dependency of aqnwb and will be found automatically.
 ### Build Instructions
 
 1. **Build the main AqNWB library**  Make sure you have built the main aqnwb project first 
-   following the instructions in the AqNWB documentation
+   following the instructions in the AqNWB documentation, including installing it to your
+   system or another local path.
 
 2. **Build the LabMetaData Extension Demo**:
    ```bash

@@ -22,7 +22,9 @@ to download a single file from DANDIset 000232 at https://dandiarchive.org/dandi
 ## Building the Demo
 
 1. Make sure you have built the main aqnwb project first 
-   following the instructions in the AqNWB documentation
+   following the instructions in the AqNWB documentation,
+   including installing the aqnwb library to your system
+   or another local path.
 
 2. Create a build directory for the demo:
 
