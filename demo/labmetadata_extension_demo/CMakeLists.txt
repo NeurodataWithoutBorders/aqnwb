@@ -5,46 +5,17 @@ project(labmetadata_extension_demo VERSION 0.1.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Allow configuring paths to dependencies
-set(AQNWB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../build/dev" CACHE PATH "Path to aqnwb build directory")
-set(HDF5_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../libs/hdf5_build/install/cmake" CACHE PATH "Path to HDF5 build directory")
-
-# Find required dependencies
-find_package(HDF5 REQUIRED COMPONENTS CXX)
+# Find aqnwb - this automatically brings in HDF5 as a transitive dependency
+find_package(aqnwb REQUIRED)
 
 # Add the executable
-add_executable(labmetadata_extension_demo 
+add_executable(labmetadata_extension_demo
     src/main.cpp
     src/LabMetaDataExtensionExample.cpp
 )
 
-# Include directories
-target_include_directories(labmetadata_extension_demo PRIVATE 
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../src
-    ${HDF5_INCLUDE_DIRS}
-)
-
-# Find the aqnwb library
-if(EXISTS "${AQNWB_DIR}/libaqnwb.a")
-    set(AQNWB_LIBRARY "${AQNWB_DIR}/libaqnwb.a")
-elseif(EXISTS "${AQNWB_DIR}/libaqnwb.so")
-    set(AQNWB_LIBRARY "${AQNWB_DIR}/libaqnwb.so")
-elseif(EXISTS "${AQNWB_DIR}/libaqnwb.dylib")
-    set(AQNWB_LIBRARY "${AQNWB_DIR}/libaqnwb.dylib")
-else()
-    message(FATAL_ERROR "Could not find aqnwb library in ${AQNWB_DIR}. Please build the main project first or set AQNWB_DIR to the correct path.")
-endif()
-
-# Link libraries
-target_link_libraries(labmetadata_extension_demo 
-    ${AQNWB_LIBRARY}
-    ${HDF5_CXX_LIBRARIES}
-)
-
-# If on Windows, link bcrypt
-if(WIN32)
-    target_link_libraries(labmetadata_extension_demo bcrypt)
-endif()
+# Link to aqnwb - HDF5 includes/libraries are provided transitively
+target_link_libraries(labmetadata_extension_demo PRIVATE aqnwb::aqnwb)
 
 # Set the output directory
 set_target_properties(labmetadata_extension_demo PROPERTIES

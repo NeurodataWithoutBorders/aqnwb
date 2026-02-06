@@ -8,8 +8,9 @@ the `ElectricalSeries` electrophysiology data.
 
 - CMake (version 3.15 or higher)
 - C++ compiler with C++17 support
-- HDF5 library with C++ support
-- aqnwb library (built from the parent project)
+- aqnwb library (installed from the parent project)
+
+Note: HDF5 is a transitive dependency of aqnwb and will be found automatically.
 
 ## Identify an example NWB dataset that contains ElectricalSeries data
 
@@ -21,7 +22,9 @@ to download a single file from DANDIset 000232 at https://dandiarchive.org/dandi
 ## Building the Demo
 
 1. Make sure you have built the main aqnwb project first 
-   following the instructions in the AqNWB documentation
+   following the instructions in the AqNWB documentation,
+   including installing the aqnwb library to your system
+   or another local path.
 
 2. Create a build directory for the demo:
 
@@ -34,17 +37,17 @@ cd build
 3. Configure and build the demo:
 
 ```bash
-# Basic configuration
+# If aqnwb was installed to the system then it will be found automatically
 cmake ..
 
-# Or with custom paths to dependencies
-cmake .. \
-  -DAQNWB_DIR=../../build/dev \
-  -DHDF5_DIR=../../libs/hdf5_build
+# Otherwise, provide the path to the aqnwb install:
+cmake .. -DCMAKE_PREFIX_PATH=/path/to/aqnwb/install
 
 # Build the project
-make
+cmake --build .
 ```
+
+Note: While the HDF5 dependency is transitive, CMake does not search non-standard locations for dependencies unless you tell it where to look. I.e., if HDF5 is installed in a non-standard location, you will also need to include the HDF5 prefix path, e.g, `cmake .. -DCMAKE_PREFIX_PATH="/path/to/aqnwb/install;/path/to/hdf5/install/cmake"`.
 
 ## Running the Demo
 

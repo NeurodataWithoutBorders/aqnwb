@@ -46,28 +46,26 @@ implement this app. To implement this example app we needed to:
 
 ### Prerequisites
 
-Before building the demo, ensure you have the following dependencies installed:
+Before building the demo, ensure you have the following:
 - CMake (version 3.15 or higher)
 - C++ compiler with C++17 support
-- HDF5 library with C++ support
+- aqnwb library (installed from the parent project)
+
+Note: HDF5 is a transitive dependency of aqnwb and will be found automatically.
 
 ### Build Instructions
 
 1. **Build the main AqNWB library**  Make sure you have built the main aqnwb project first 
-   following the instructions in the AqNWB documentation
+   following the instructions in the AqNWB documentation, including installing it to your
+   system or another local path.
 
 2. **Build the LabMetaData Extension Demo**:
    ```bash
    cd /path/to/aqnwb/demo/labmetadata_extension_demo
    mkdir build
    cd build
-   cmake ..
-   make
-   ```
-
-   If you need to specify custom paths to dependencies, you can use the following CMake variables:
-   ```bash
-   cmake .. -DAQNWB_DIR=/path/to/aqnwb/build/dev -DHDF5_DIR=/path/to/hdf5
+   cmake .. -DCMAKE_PREFIX_PATH=/path/to/aqnwb/install
+   cmake --build .
    ```
 
 3. **Run the demo**:
@@ -86,8 +84,10 @@ Before building the demo, ensure you have the following dependencies installed:
 
 If you encounter build errors:
 
-1. **Check dependency paths**: Ensure that the paths to AqNWB and HDF5 are correctly set in the CMake command or in the CMakeLists.txt file.
+1. **Check CMAKE_PREFIX_PATH**: Ensure that `-DCMAKE_PREFIX_PATH` points to the directory where aqnwb was installed (the directory containing `lib/cmake/aqnwb/`).
 
 2. **Check compiler compatibility**: Make sure your compiler supports C++17 features.
 
-3. **Library linking issues**: If you encounter linking errors, verify that the AqNWB library has been built successfully and that the path to it is correct.
+3. **Library linking issues**: If you encounter linking errors, verify that the aqnwb library has been built and installed successfully.
+ 
+4. **HDF5 not found**: While the HDF5 dependency is transitive, CMake does not search non-standard locations for dependencies unless you tell it where to look. I.e., if HDF5 is installed in a non-standard location, you will also need to include the HDF5 prefix path, e.g, `cmake .. -DCMAKE_PREFIX_PATH="/path/to/aqnwb/install;/path/to/hdf5/install/cmake"`. 

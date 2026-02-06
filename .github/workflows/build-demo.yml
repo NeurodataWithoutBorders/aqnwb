@@ -19,7 +19,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [macos-latest]
-    
+
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -36,7 +36,10 @@ jobs:
         cmake "--preset=ci-$("${{ matrix.os }}".split("-")[0])"
         cmake -B build -S .
         cmake --build build --config Release -j 2
-    
+
+    - name: Install aqnwb
+      run: cmake --install build --prefix ${{ github.workspace }}/install
+
     # Run the test suite to generate test files. Alternatively we
     # could have the workflow depend on the unit test workflow and
     # download its artifacts, but its simple enough to just run the tests
@@ -44,8 +47,8 @@ jobs:
     #   uses: actions/download-artifact@v4
     #   with:
     #     name: test-files-macos-latest
-    #     path: build/tests/data  
-    - name: Run AqNWB unit tests 
+    #     path: build/tests/data
+    - name: Run AqNWB unit tests
       working-directory: build
       run: ctest --output-on-failure --no-tests=error -C Release -j 2
 
@@ -53,7 +56,7 @@ jobs:
       if: matrix.os == 'macos-latest'
       run: |
         cd demo/inspect_electrical_series
-        cmake -B build -S . -DAQNWB_DIR="${{ github.workspace }}/build"
+        cmake -B build -S . -DCMAKE_PREFIX_PATH="${{ github.workspace }}/install"
         cmake --build build --config Release -j 2
 
     - name: Run the inspect_electrical_series demo - macos
@@ -66,7 +69,7 @@ jobs:
       if: matrix.os == 'macos-latest'
       run: |
         cd demo/labmetadata_extension_demo
-        cmake -B build -S . -DAQNWB_DIR="${{ github.workspace }}/build"
+        cmake -B build -S . -DCMAKE_PREFIX_PATH="${{ github.workspace }}/install"
         cmake --build build --config Release -j 2
 
     - name: Run the labmetadata_extension_demo demo - macos
@@ -74,4 +77,3 @@ jobs:
       run: |
         cd demo/labmetadata_extension_demo/build/bin
         ./labmetadata_extension_demo
-      
