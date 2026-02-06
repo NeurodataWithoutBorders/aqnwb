@@ -89,3 +89,5 @@ If you encounter build errors:
 2. **Check compiler compatibility**: Make sure your compiler supports C++17 features.
 
 3. **Library linking issues**: If you encounter linking errors, verify that the aqnwb library has been built and installed successfully.
+ 
+4. **HDF5 not found**: While the HDF5 dependency is transitive, CMake does not search non-standard locations for dependencies unless you tell it where to look. I.e., if HDF5 is installed in a non-standard location, you will also need to include the HDF5 prefix path, e.g, `cmake .. -DCMAKE_PREFIX_PATH="/path/to/aqnwb/install;/path/to/hdf5/install/cmake"`. 
