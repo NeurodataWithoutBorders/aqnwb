@@ -289,3 +289,98 @@ TEST_CASE("Test findTypes and getFullTypeName", "[BaseIO]")
   }
   io.close();
 }
+
+TEST_CASE("Test BaseArrayDataSetConfig polymorphism", "[BaseIO]")
+{
+  SECTION("ArrayDataSetConfig inherits from BaseArrayDataSetConfig")
+  {
+    ArrayDataSetConfig config(BaseDataType::F32, SizeArray {100}, SizeArray {10});
+    
+    // Can be used as base class pointer
+    BaseArrayDataSetConfig* basePtr = &config;
+    REQUIRE(basePtr != nullptr);
+    REQUIRE(basePtr->isLink() == false);
+  }
+
+  SECTION("LinkArrayDataSetConfig inherits from BaseArrayDataSetConfig")
+  {
+    LinkArrayDataSetConfig linkConfig("/path/to/target");
+    
+    // Can be used as base class pointer
+    BaseArrayDataSetConfig* basePtr = &linkConfig;
+    REQUIRE(basePtr != nullptr);
+    REQUIRE(basePtr->isLink() == true);
+  }
+
+  SECTION("ArrayDataSetConfig and LinkArrayDataSetConfig are polymorphic")
+  {
+    ArrayDataSetConfig arrayConfig(BaseDataType::I32, SizeArray {50}, SizeArray {5});
+    LinkArrayDataSetConfig linkConfig("/some/target/path");
+    
+    BaseArrayDataSetConfig* ptr1 = &arrayConfig;
+    BaseArrayDataSetConfig* ptr2 = &linkConfig;
+    
+    REQUIRE(ptr1->isLink() == false);
+    REQUIRE(ptr2->isLink() == true);
+  }
+}
+
+TEST_CASE("Test LinkArrayDataSetConfig", "[BaseIO]")
+{
+  SECTION("Test constructor with target path")
+  {
+    std::string targetPath = "/acquisition/raw_data/data";
+    LinkArrayDataSetConfig config(targetPath);
+    
+    REQUIRE(config.getTargetPath() == targetPath);
+    REQUIRE(config.isLink() == true);
+  }
+
+  SECTION("Test with different target paths")
+  {
+    LinkArrayDataSetConfig config1("/path/to/dataset1");
+    LinkArrayDataSetConfig config2("/path/to/dataset2");
+    
+    REQUIRE(config1.getTargetPath() == "/path/to/dataset1");
+    REQUIRE(config2.getTargetPath() == "/path/to/dataset2");
+    REQUIRE(config1.isLink() == true);
+    REQUIRE(config2.isLink() == true);
+  }
+
+  SECTION("Test with empty path")
+  {
+    LinkArrayDataSetConfig config("");
+    REQUIRE(config.getTargetPath() == "");
+    REQUIRE(config.isLink() == true);
+  }
+
+  SECTION("Test with absolute and relative paths")
+  {
+    LinkArrayDataSetConfig absoluteConfig("/absolute/path");
+    LinkArrayDataSetConfig relativeConfig("relative/path");
+    
+    REQUIRE(absoluteConfig.getTargetPath() == "/absolute/path");
+    REQUIRE(relativeConfig.getTargetPath() == "relative/path");
+  }
+}
+
+TEST_CASE("Test ArrayDataSetConfig does not report as link", "[BaseIO]")
+{
+  SECTION("Regular ArrayDataSetConfig is not a link")
+  {
+    ArrayDataSetConfig config(BaseDataType::F64, SizeArray {1000}, SizeArray {100});
+    REQUIRE(config.isLink() == false);
+  }
+
+  SECTION("Multiple ArrayDataSetConfig instances are not links")
+  {
+    ArrayDataSetConfig config1(BaseDataType::I8, SizeArray {10}, SizeArray {5});
+    ArrayDataSetConfig config2(BaseDataType::U16, SizeArray {20}, SizeArray {10});
+    ArrayDataSetConfig config3(BaseDataType::F32, SizeArray {30}, SizeArray {15});
+    
+    REQUIRE(config1.isLink() == false);
+    REQUIRE(config2.isLink() == false);
+    REQUIRE(config3.isLink() == false);
+  }
+}
+
