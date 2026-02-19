@@ -1161,6 +1161,30 @@ std::vector<SizeType> HDF5IO::getStorageObjectShape(const std::string path)
   return std::vector<SizeType>(dims.begin(), dims.end());
 }
 
+std::vector<SizeType> HDF5IO::getStorageObjectChunking(const std::string path)
+{
+  try {
+    H5::DataSet dataset = m_file->openDataSet(path);
+    H5::DSetCreatPropList plist = dataset.getCreatePlist();
+    
+    // Check if the dataset is chunked
+    if (plist.getLayout() != H5D_CHUNKED) {
+      return std::vector<SizeType>();
+    }
+    
+    // Get the chunk dimensions
+    int rank = dataset.getSpace().getSimpleExtentNdims();
+    std::vector<hsize_t> chunk_dims(rank);
+    plist.getChunk(rank, chunk_dims.data());
+    
+    return std::vector<SizeType>(chunk_dims.begin(), chunk_dims.end());
+  } catch (H5::Exception& e) {
+    std::cerr << "HDF5IO::getStorageObjectChunking: Could not get chunking for dataset at " 
+              << path << ": " << e.getDetailMsg() << std::endl;
+    return std::vector<SizeType>();
+  }
+}
+
 std::shared_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::getDataSet(
     const std::string& path)
 {

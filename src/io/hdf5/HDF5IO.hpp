@@ -280,6 +280,15 @@ public:
   std::vector<SizeType> getStorageObjectShape(const std::string path) override;
 
   /**
+   * @brief Gets the chunking configuration of a dataset.
+   * @param path The path to the dataset.
+   * @return The chunking configuration of the dataset, or an empty vector if
+   * the dataset is not chunked or doesn't exist.
+   */
+  std::vector<SizeType> getStorageObjectChunking(
+      const std::string path) override;
+
+  /**
    * @brief Checks whether a Dataset, Group, or Link already exists at the
    * location in the file.
    * @param path The location of the object in the file.

@@ -314,14 +314,15 @@ public:
   SizeArray getTargetShape(std::shared_ptr<BaseIO> io) const;
 
   /**
-   * @brief Derives reasonable default chunking based on the target dataset's shape.
+   * @brief Gets the actual chunking configuration of the target dataset.
    * 
-   * This convenience method queries the target dataset's shape and derives a
-   * reasonable chunking configuration. For the first dimension, it uses min(shape[0], 100),
-   * and for other dimensions it uses 0 (unlimited).
+   * This convenience method queries the target dataset's chunking configuration
+   * from the file. This ensures that related datasets (like timestamps) can use
+   * the same chunking as the linked data.
    * 
    * @param io The IO object to use for querying the target dataset.
-   * @return Derived chunking configuration, or an empty vector if the query fails.
+   * @return The chunking configuration of the target dataset, or an empty vector
+   * if the dataset is not chunked or the query fails.
    */
   SizeArray getTargetChunking(std::shared_ptr<BaseIO> io) const;
 
@@ -682,6 +683,15 @@ public:
    * @return The shape of the dataset or attribute.
    */
   virtual std::vector<SizeType> getStorageObjectShape(
+      const std::string path) = 0;
+
+  /**
+   * @brief Gets the chunking configuration of a dataset.
+   * @param path The path to the dataset.
+   * @return The chunking configuration of the dataset, or an empty vector if
+   * the dataset is not chunked or doesn't exist.
+   */
+  virtual std::vector<SizeType> getStorageObjectChunking(
       const std::string path) = 0;
 
   /**

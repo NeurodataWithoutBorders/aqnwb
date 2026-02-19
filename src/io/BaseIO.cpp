@@ -65,18 +65,18 @@ SizeArray LinkArrayDataSetConfig::getTargetShape(std::shared_ptr<BaseIO> io) con
 
 SizeArray LinkArrayDataSetConfig::getTargetChunking(std::shared_ptr<BaseIO> io) const
 {
-  SizeArray shape = getTargetShape(io);
-  if (shape.empty()) {
+  if (!io) {
     return SizeArray{};
   }
   
-  // For chunking, use a reasonable default based on the first dimension
-  SizeArray chunking(shape.size(), 0);
-  if (!shape.empty() && shape[0] > 0) {
-    chunking[0] = std::min(shape[0], SizeType(100));
+  std::vector<SizeType> targetChunking = io->getStorageObjectChunking(m_targetPath);
+  if (targetChunking.empty()) {
+    std::cerr << "LinkArrayDataSetConfig::getTargetChunking: Could not get chunking of linked dataset at " 
+              << m_targetPath << ". Dataset may not be chunked." << std::endl;
+    return SizeArray{};
   }
   
-  return chunking;
+  return SizeArray(targetChunking.begin(), targetChunking.end());
 }
 
 
