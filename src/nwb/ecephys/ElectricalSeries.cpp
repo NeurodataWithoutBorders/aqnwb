@@ -20,12 +20,13 @@ ElectricalSeries::ElectricalSeries(const std::string& path,
 ElectricalSeries::~ElectricalSeries() {}
 
 /** Initialization function*/
-Status ElectricalSeries::initialize(const IO::BaseArrayDataSetConfig& dataConfig,
-                                    const Types::ChannelVector& channelVector,
-                                    const std::string& description,
-                                    const float& conversion,
-                                    const float& resolution,
-                                    const float& offset)
+Status ElectricalSeries::initialize(
+    const IO::BaseArrayDataSetConfig& dataConfig,
+    const Types::ChannelVector& channelVector,
+    const std::string& description,
+    const float& conversion,
+    const float& resolution,
+    const float& offset)
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
@@ -52,9 +53,11 @@ Status ElectricalSeries::initialize(const IO::BaseArrayDataSetConfig& dataConfig
         dynamic_cast<const IO::LinkArrayDataSetConfig*>(&dataConfig);
     if (linkConfig) {
       chunking = linkConfig->getTargetChunking(ioPtr);
-      
+
       if (chunking.empty()) {
-        std::cerr << "ElectricalSeries::initialize: Could not get chunking for linked dataset" << std::endl;
+        std::cerr << "ElectricalSeries::initialize: Could not get chunking for "
+                     "linked dataset"
+                  << std::endl;
         return Status::Failure;
       }
     }
@@ -109,9 +112,8 @@ Status ElectricalSeries::initialize(const IO::BaseArrayDataSetConfig& dataConfig
                          1);
 
   // make electrodes dataset
-  IO::ArrayDataSetConfig electrodesConfig(IO::BaseDataType::I32,
-                                          SizeArray {channelVector.size()},
-                                          chunking);
+  IO::ArrayDataSetConfig electrodesConfig(
+      IO::BaseDataType::I32, SizeArray {channelVector.size()}, chunking);
   ioPtr->createArrayDataSet(electrodesConfig,
                             AQNWB::mergePaths(getPath(), "electrodes"));
 

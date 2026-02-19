@@ -102,7 +102,7 @@ Status TimeSeries::initialize(
 
   // Extract shape and chunking information
   SizeArray shape, chunking;
-  
+
   if (dataConfig.isLink()) {
     // For links, use convenience methods to query the target dataset
     const IO::LinkArrayDataSetConfig* linkConfig =
@@ -110,12 +110,14 @@ Status TimeSeries::initialize(
     if (linkConfig) {
       shape = linkConfig->getTargetShape(ioPtr);
       chunking = linkConfig->getTargetChunking(ioPtr);
-      
+
       if (shape.empty()) {
-        std::cerr << "TimeSeries::initialize: Could not get shape of linked dataset" << std::endl;
+        std::cerr
+            << "TimeSeries::initialize: Could not get shape of linked dataset"
+            << std::endl;
         return Status::Failure;
       }
-      
+
       // Query the actual data type from the linked dataset
       this->m_dataType = linkConfig->getTargetDataType(ioPtr);
     }

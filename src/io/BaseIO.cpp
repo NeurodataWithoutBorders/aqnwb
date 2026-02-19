@@ -47,48 +47,54 @@ LinkArrayDataSetConfig::LinkArrayDataSetConfig(const std::string& targetPath)
 {
 }
 
-SizeArray LinkArrayDataSetConfig::getTargetShape(std::shared_ptr<BaseIO> io) const
+SizeArray LinkArrayDataSetConfig::getTargetShape(
+    std::shared_ptr<BaseIO> io) const
 {
   if (!io) {
-    return SizeArray{};
+    return SizeArray {};
   }
-  
+
   SizeArray targetShape = io->getStorageObjectShape(m_targetPath);
   if (targetShape.empty()) {
-    std::cerr << "LinkArrayDataSetConfig::getTargetShape: Could not get shape of linked dataset at " 
+    std::cerr << "LinkArrayDataSetConfig::getTargetShape: Could not get shape "
+                 "of linked dataset at "
               << m_targetPath << std::endl;
-    return SizeArray{};
+    return SizeArray {};
   }
-  
+
   return targetShape;
 }
 
-SizeArray LinkArrayDataSetConfig::getTargetChunking(std::shared_ptr<BaseIO> io) const
+SizeArray LinkArrayDataSetConfig::getTargetChunking(
+    std::shared_ptr<BaseIO> io) const
 {
   if (!io) {
-    return SizeArray{};
+    return SizeArray {};
   }
-  
-  std::vector<SizeType> targetChunking = io->getStorageObjectChunking(m_targetPath);
+
+  std::vector<SizeType> targetChunking =
+      io->getStorageObjectChunking(m_targetPath);
   if (targetChunking.empty()) {
-    std::cerr << "LinkArrayDataSetConfig::getTargetChunking: Could not get chunking of linked dataset at " 
+    std::cerr << "LinkArrayDataSetConfig::getTargetChunking: Could not get "
+                 "chunking of linked dataset at "
               << m_targetPath << ". Dataset may not be chunked." << std::endl;
-    return SizeArray{};
+    return SizeArray {};
   }
-  
+
   return SizeArray(targetChunking.begin(), targetChunking.end());
 }
 
-BaseDataType LinkArrayDataSetConfig::getTargetDataType(std::shared_ptr<BaseIO> io) const
+BaseDataType LinkArrayDataSetConfig::getTargetDataType(
+    std::shared_ptr<BaseIO> io) const
 {
   if (!io) {
-    std::cerr << "LinkArrayDataSetConfig::getTargetDataType: IO object is null" << std::endl;
+    std::cerr << "LinkArrayDataSetConfig::getTargetDataType: IO object is null"
+              << std::endl;
     return BaseDataType(BaseDataType::Type::T_I32);
   }
-  
+
   return io->getStorageObjectDataType(m_targetPath);
 }
-
 
 // BaseIO
 

@@ -1165,35 +1165,36 @@ SizeArray HDF5IO::getStorageObjectChunking(const std::string path)
 {
   // First check what type of object we're dealing with
   StorageObjectType objectType = getStorageObjectType(path);
-  
+
   // Only datasets can have chunking - return empty for groups and attributes
   if (objectType != StorageObjectType::Dataset) {
     return SizeArray();
   }
-  
+
   try {
     H5::DataSet dataset = m_file->openDataSet(path);
     H5::DSetCreatPropList plist = dataset.getCreatePlist();
-    
+
     // Check if the dataset is chunked
     if (plist.getLayout() != H5D_CHUNKED) {
       return SizeArray();
     }
-    
+
     // Get the chunk dimensions
     int rank = dataset.getSpace().getSimpleExtentNdims();
-    std::vector<hsize_t> chunk_dims(rank);
+    std::vector<hsize_t> chunk_dims(static_cast<size_t>(rank));
     plist.getChunk(rank, chunk_dims.data());
-    
+
     return SizeArray(chunk_dims.begin(), chunk_dims.end());
   } catch (H5::Exception& e) {
-    std::cerr << "HDF5IO::getStorageObjectChunking: Could not get chunking for dataset at " 
+    std::cerr << "HDF5IO::getStorageObjectChunking: Could not get chunking for "
+                 "dataset at "
               << path << ": " << e.getDetailMsg() << std::endl;
     return SizeArray();
   }
 }
 
-BaseDataType HDF5IO::getStorageObjectDataType(const std::string path)
+AQNWB::IO::BaseDataType HDF5IO::getStorageObjectDataType(const std::string path)
 {
   // Check if the object is a dataset
   StorageObjectType objType = getStorageObjectType(path);
@@ -1201,13 +1202,14 @@ BaseDataType HDF5IO::getStorageObjectDataType(const std::string path)
     // Return default type for non-datasets
     return BaseDataType(BaseDataType::Type::T_I32);
   }
-  
+
   try {
     H5::DataSet dataset = m_file->openDataSet(path);
     H5::DataType dataType = dataset.getDataType();
     return getBaseDataType(dataType);
   } catch (H5::Exception& e) {
-    std::cerr << "HDF5IO::getStorageObjectDataType: Could not get data type for dataset at " 
+    std::cerr << "HDF5IO::getStorageObjectDataType: Could not get data type "
+                 "for dataset at "
               << path << ": " << e.getDetailMsg() << std::endl;
     return BaseDataType(BaseDataType::Type::T_I32);
   }

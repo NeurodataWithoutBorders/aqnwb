@@ -19,9 +19,10 @@ AnnotationSeries::AnnotationSeries(const std::string& path,
 AnnotationSeries::~AnnotationSeries() {}
 
 /** Initialization function*/
-Status AnnotationSeries::initialize(const std::string& description,
-                                    const std::string& comments,
-                                    const IO::BaseArrayDataSetConfig& dataConfig)
+Status AnnotationSeries::initialize(
+    const std::string& description,
+    const std::string& comments,
+    const IO::BaseArrayDataSetConfig& dataConfig)
 {
   auto tsInitStatus = TimeSeries::initialize(
       dataConfig,

@@ -516,8 +516,8 @@ TEST_CASE("LinkArrayDataSetConfig for VectorData", "[base][link]")
     vd1->initialize(config1, "Original VectorData");
 
     // Write data to first VectorData
-    Status writeStatus1 =
-        vd1->recordData()->writeDataBlock(dataShape, positionOffset, dataType, data.data());
+    Status writeStatus1 = vd1->recordData()->writeDataBlock(
+        dataShape, positionOffset, dataType, data.data());
     REQUIRE(writeStatus1 == Status::Success);
 
     // Create second VectorData with linked data
@@ -535,8 +535,8 @@ TEST_CASE("LinkArrayDataSetConfig for VectorData", "[base][link]")
     io->close();
 
     // Verify the link was created correctly using h5ls
-    // We can't easily verify via C++ API but we've already tested link creation in TimeSeries
-    // The important thing is that the initialize call succeeded
+    // We can't easily verify via C++ API but we've already tested link creation
+    // in TimeSeries The important thing is that the initialize call succeeded
   }
 
   SECTION("verify LinkArrayDataSetConfig works with Data hierarchy")
@@ -565,8 +565,8 @@ TEST_CASE("LinkArrayDataSetConfig for VectorData", "[base][link]")
     data1->initialize(config1);
 
     // Write data to first Data object
-    Status writeStatus1 =
-        data1->recordData()->writeDataBlock(dataShape, positionOffset, dataType, data.data());
+    Status writeStatus1 = data1->recordData()->writeDataBlock(
+        dataShape, positionOffset, dataType, data.data());
     REQUIRE(writeStatus1 == Status::Success);
 
     // Create second Data object with linked data

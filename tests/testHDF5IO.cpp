@@ -2048,7 +2048,6 @@ TEST_CASE("HDF5IO; read dataset subset", "[hdf5io]")
   }
 }
 
-
 TEST_CASE("Test HDF5IO createArrayDataSet with LinkArrayDataSetConfig",
           "[hdf5io]")
 {
@@ -2062,7 +2061,8 @@ TEST_CASE("Test HDF5IO createArrayDataSet with LinkArrayDataSetConfig",
     std::string originalPath = "/original_data";
     IO::ArrayDataSetConfig originalConfig(
         IO::BaseDataType::F32, SizeArray {100}, SizeArray {10});
-    auto originalDataset = hdf5io->createArrayDataSet(originalConfig, originalPath);
+    auto originalDataset =
+        hdf5io->createArrayDataSet(originalConfig, originalPath);
     REQUIRE(originalDataset != nullptr);
 
     // Write some data to original
@@ -2070,13 +2070,14 @@ TEST_CASE("Test HDF5IO createArrayDataSet with LinkArrayDataSetConfig",
     for (size_t i = 0; i < 100; ++i) {
       testData[i] = static_cast<float>(i);
     }
-    originalDataset->writeDataBlock({100}, {0}, IO::BaseDataType::F32, testData.data());
+    originalDataset->writeDataBlock(
+        {100}, {0}, IO::BaseDataType::F32, testData.data());
 
     // Create link to original dataset
     std::string linkPath = "/linked_data";
     IO::LinkArrayDataSetConfig linkConfig(originalPath);
     auto linkResult = hdf5io->createArrayDataSet(linkConfig, linkPath);
-    
+
     // createArrayDataSet should return nullptr for links
     REQUIRE(linkResult == nullptr);
 
@@ -2096,13 +2097,15 @@ TEST_CASE("Test HDF5IO createArrayDataSet with LinkArrayDataSetConfig",
     std::string originalPath = "/original";
     IO::ArrayDataSetConfig originalConfig(
         IO::BaseDataType::I32, SizeArray {50}, SizeArray {10});
-    auto originalDataset = hdf5io->createArrayDataSet(originalConfig, originalPath);
-    
+    auto originalDataset =
+        hdf5io->createArrayDataSet(originalConfig, originalPath);
+
     std::vector<int32_t> originalData(50);
     for (size_t i = 0; i < 50; ++i) {
       originalData[i] = static_cast<int32_t>(i * 2);
     }
-    originalDataset->writeDataBlock({50}, {0}, IO::BaseDataType::I32, originalData.data());
+    originalDataset->writeDataBlock(
+        {50}, {0}, IO::BaseDataType::I32, originalData.data());
 
     // Create link
     std::string linkPath = "/link_to_original";
@@ -2113,11 +2116,11 @@ TEST_CASE("Test HDF5IO createArrayDataSet with LinkArrayDataSetConfig",
 
     // Reopen and verify data can be read through link
     hdf5io->open(IO::FileMode::ReadOnly);
-    
+
     // Read through the link
     auto linkedData = hdf5io->readDataset(linkPath, {}, {});
     auto linkedDataTyped = DataBlock<int32_t>::fromGeneric(linkedData);
-    
+
     REQUIRE(linkedDataTyped.data.size() == 50);
     REQUIRE(linkedDataTyped.data == originalData);
 
@@ -2134,7 +2137,8 @@ TEST_CASE("Test HDF5IO createArrayDataSet with LinkArrayDataSetConfig",
     std::string originalPath = "/source_data";
     IO::ArrayDataSetConfig originalConfig(
         IO::BaseDataType::F64, SizeArray {20}, SizeArray {5});
-    auto originalDataset = hdf5io->createArrayDataSet(originalConfig, originalPath);
+    auto originalDataset =
+        hdf5io->createArrayDataSet(originalConfig, originalPath);
 
     // Create multiple links to the same dataset
     IO::LinkArrayDataSetConfig linkConfig1(originalPath);
@@ -2187,9 +2191,9 @@ TEST_CASE("Test HDF5IO createArrayDataSet with LinkArrayDataSetConfig",
     std::string linkPath = "/link";
     IO::LinkArrayDataSetConfig linkConfig(originalPath);
     IO::BaseArrayDataSetConfig* baseConfigPtr = &linkConfig;
-    
+
     REQUIRE(baseConfigPtr->isLink() == true);
-    
+
     auto result = hdf5io->createArrayDataSet(*baseConfigPtr, linkPath);
     REQUIRE(result == nullptr);
     REQUIRE(hdf5io->objectExists(linkPath));

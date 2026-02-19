@@ -355,7 +355,8 @@ TEST_CASE("LinkArrayDataSetConfig for TimeSeries data", "[base][link]")
   BaseDataType dataType = BaseDataType::F32;
   std::vector<float> data = getMockData1D(numSamples);
   std::vector<double> timestamps1 = getMockTimestamps(numSamples, 1);
-  std::vector<double> timestamps2 = getMockTimestamps(numSamples, 2);  // Different timestamps
+  std::vector<double> timestamps2 =
+      getMockTimestamps(numSamples, 2);  // Different timestamps
 
   SECTION("create TimeSeries with linked data")
   {
@@ -388,8 +389,8 @@ TEST_CASE("LinkArrayDataSetConfig for TimeSeries data", "[base][link]")
                     {});
 
     // Write data to first TimeSeries
-    Status writeStatus1 =
-        ts1->writeData(dataShape, positionOffset, data.data(), timestamps1.data());
+    Status writeStatus1 = ts1->writeData(
+        dataShape, positionOffset, data.data(), timestamps1.data());
     REQUIRE(writeStatus1 == Status::Success);
 
     // Create second TimeSeries with linked data
@@ -414,7 +415,8 @@ TEST_CASE("LinkArrayDataSetConfig for TimeSeries data", "[base][link]")
                     {});
 
     // Write only timestamps to second TimeSeries (data is linked)
-    // We need to manually write timestamps since recordData() returns nullptr for links
+    // We need to manually write timestamps since recordData() returns nullptr
+    // for links
     auto ts2TimestampsRecorder = ts2->recordTimestamps();
     REQUIRE(ts2TimestampsRecorder != nullptr);
     Status writeStatus2 = ts2TimestampsRecorder->writeDataBlock(
@@ -426,29 +428,31 @@ TEST_CASE("LinkArrayDataSetConfig for TimeSeries data", "[base][link]")
 
     // Verify the link was created correctly using HDF5 C++ API
     H5::H5File file(path, H5F_ACC_RDONLY);
-    
+
     // Check that the link exists
-    htri_t exists = H5Lexists(file.getId(), (dataPath2 + "/data").c_str(), H5P_DEFAULT);
+    htri_t exists =
+        H5Lexists(file.getId(), (dataPath2 + "/data").c_str(), H5P_DEFAULT);
     REQUIRE(exists > 0);
 
     // Get link info
     H5L_info_t linkInfo;
-    herr_t status = H5Lget_info(file.getId(), (dataPath2 + "/data").c_str(), &linkInfo, H5P_DEFAULT);
+    herr_t status = H5Lget_info(
+        file.getId(), (dataPath2 + "/data").c_str(), &linkInfo, H5P_DEFAULT);
     REQUIRE(status >= 0);
-    
+
     // Verify it's a soft link
     REQUIRE(linkInfo.type == H5L_TYPE_SOFT);
 
     // For a soft link, linkInfo.u.val_size contains the size
     REQUIRE(linkInfo.u.val_size > 0);
-    
+
     // Now read the actual link target
     std::vector<char> linkTargetBuffer(linkInfo.u.val_size + 1);
-    herr_t linkStatus = H5Lget_val(file.getId(), 
-                                    (dataPath2 + "/data").c_str(), 
-                                    linkTargetBuffer.data(), 
-                                    linkInfo.u.val_size + 1, 
-                                    H5P_DEFAULT);
+    herr_t linkStatus = H5Lget_val(file.getId(),
+                                   (dataPath2 + "/data").c_str(),
+                                   linkTargetBuffer.data(),
+                                   linkInfo.u.val_size + 1,
+                                   H5P_DEFAULT);
     REQUIRE(linkStatus >= 0);
     linkTargetBuffer[linkInfo.u.val_size] = '\0';  // Ensure null termination
     std::string actualTarget(linkTargetBuffer.data());
@@ -457,7 +461,7 @@ TEST_CASE("LinkArrayDataSetConfig for TimeSeries data", "[base][link]")
     // Verify data can be read through the link
     H5::DataSet linkedDataset = file.openDataSet(dataPath2 + "/data");
     H5::DataSpace linkedDataspace = linkedDataset.getSpace();
-    
+
     // Check dimensions
     hsize_t dims[1];
     linkedDataspace.getSimpleExtentDims(dims);
@@ -466,7 +470,7 @@ TEST_CASE("LinkArrayDataSetConfig for TimeSeries data", "[base][link]")
     // Read data through the link
     std::vector<float> readData(numSamples);
     linkedDataset.read(readData.data(), H5::PredType::NATIVE_FLOAT);
-    
+
     // Verify the data matches the original
     for (size_t i = 0; i < numSamples; ++i) {
       REQUIRE(approxComparator(readData[i], data[i]));
@@ -475,7 +479,8 @@ TEST_CASE("LinkArrayDataSetConfig for TimeSeries data", "[base][link]")
     file.close();
   }
 
-  SECTION("verify LinkArrayDataSetConfig returns nullptr from createArrayDataSet")
+  SECTION(
+      "verify LinkArrayDataSetConfig returns nullptr from createArrayDataSet")
   {
     // Create a file for this test
     std::string path = getTestFilePath("testLinkReturnValue.h5");
@@ -490,8 +495,9 @@ TEST_CASE("LinkArrayDataSetConfig for TimeSeries data", "[base][link]")
     // Try to create a link
     std::string linkTarget = dataPath1 + "/data";
     IO::LinkArrayDataSetConfig linkConfig(linkTarget);
-    
-    // createArrayDataSet should return nullptr for links (since you can't write to a link)
+
+    // createArrayDataSet should return nullptr for links (since you can't write
+    // to a link)
     auto result = io->createArrayDataSet(linkConfig, "/test_link");
     REQUIRE(result == nullptr);
 

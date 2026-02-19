@@ -196,7 +196,8 @@ enum class FileMode
  *
  * This abstract base class serves as the interface for different types of
  * array dataset configurations. It allows for polymorphic handling of both
- * regular datasets (ArrayDataSetConfig) and linked datasets (LinkArrayDataSetConfig).
+ * regular datasets (ArrayDataSetConfig) and linked datasets
+ * (LinkArrayDataSetConfig).
  */
 class BaseArrayDataSetConfig
 {
@@ -303,39 +304,40 @@ public:
 
   /**
    * @brief Queries and returns the shape of the linked target dataset.
-   * 
-   * This convenience method queries the shape of the target dataset from the file.
-   * This is useful when configuring related datasets that need to match the dimensions
-   * of the linked data.
-   * 
+   *
+   * This convenience method queries the shape of the target dataset from the
+   * file. This is useful when configuring related datasets that need to match
+   * the dimensions of the linked data.
+   *
    * @param io The IO object to use for querying the target dataset.
-   * @return The shape of the target dataset, or an empty vector if the query fails.
+   * @return The shape of the target dataset, or an empty vector if the query
+   * fails.
    */
   SizeArray getTargetShape(std::shared_ptr<BaseIO> io) const;
 
   /**
    * @brief Gets the actual chunking configuration of the target dataset.
-   * 
+   *
    * This convenience method queries the target dataset's chunking configuration
    * from the file. This ensures that related datasets (like timestamps) can use
    * the same chunking as the linked data.
-   * 
+   *
    * @param io The IO object to use for querying the target dataset.
-   * @return The chunking configuration of the target dataset, or an empty vector
-   * if the dataset is not chunked or the query fails.
+   * @return The chunking configuration of the target dataset, or an empty
+   * vector if the dataset is not chunked or the query fails.
    */
   SizeArray getTargetChunking(std::shared_ptr<BaseIO> io) const;
 
   /**
    * @brief Gets the BaseDataType of the target dataset.
-   * 
-   * This convenience method queries the target dataset's data type from the file.
-   * This allows TimeSeries and other classes to correctly set their m_dataType
-   * member when using linked data.
-   * 
+   *
+   * This convenience method queries the target dataset's data type from the
+   * file. This allows TimeSeries and other classes to correctly set their
+   * m_dataType member when using linked data.
+   *
    * @param io The IO object to use for querying the target dataset.
-   * @return The BaseDataType of the target dataset. Returns a default T_I32 type
-   * if the query fails.
+   * @return The BaseDataType of the target dataset. Returns a default T_I32
+   * type if the query fails.
    */
   BaseDataType getTargetDataType(std::shared_ptr<BaseIO> io) const;
 

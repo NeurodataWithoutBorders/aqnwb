@@ -262,7 +262,8 @@ public:
    * @return A pointer to the created dataset, or nullptr for links.
    */
   std::unique_ptr<IO::BaseRecordingData> createArrayDataSet(
-      const IO::BaseArrayDataSetConfig& config, const std::string& path) override;
+      const IO::BaseArrayDataSetConfig& config,
+      const std::string& path) override;
 
   /**
    * @brief Returns a pointer to a dataset at a given path.

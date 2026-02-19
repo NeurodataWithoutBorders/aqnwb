@@ -16,12 +16,13 @@ SpikeEventSeries::SpikeEventSeries(const std::string& path,
 /** Destructor */
 SpikeEventSeries::~SpikeEventSeries() {}
 
-Status SpikeEventSeries::initialize(const IO::BaseArrayDataSetConfig& dataConfig,
-                                    const Types::ChannelVector& channelVector,
-                                    const std::string& description,
-                                    const float& conversion,
-                                    const float& resolution,
-                                    const float& offset)
+Status SpikeEventSeries::initialize(
+    const IO::BaseArrayDataSetConfig& dataConfig,
+    const Types::ChannelVector& channelVector,
+    const std::string& description,
+    const float& conversion,
+    const float& resolution,
+    const float& offset)
 {
   auto esInitStatus = ElectricalSeries::initialize(
       dataConfig, channelVector, description, conversion, resolution, offset);
