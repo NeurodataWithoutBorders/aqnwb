@@ -107,13 +107,14 @@ TEST_CASE("ProcessingModule createNWBDataInterface and readNWBDataInterface",
     nwbfile->initialize(generateUuid());
 
     // create processing module
-    auto module = nwbfile->createProcessingModule("ecephys");
-    REQUIRE(module != nullptr);
-    REQUIRE(module->initialize("Processed ecephys data") == Status::Success);
+    auto processingModule = nwbfile->createProcessingModule("ecephys");
+    REQUIRE(processingModule != nullptr);
+    REQUIRE(processingModule->initialize("Processed ecephys data")
+            == Status::Success);
 
     // create a TimeSeries inside the module via createNWBDataInterface
-    auto ts =
-        module->createNWBDataInterface<NWB::TimeSeries>("filtered_signal");
+    auto ts = processingModule->createNWBDataInterface<NWB::TimeSeries>(
+        "filtered_signal");
     REQUIRE(ts != nullptr);
     REQUIRE(ts->getPath() == "/processing/ecephys/filtered_signal");
 
@@ -129,8 +130,8 @@ TEST_CASE("ProcessingModule createNWBDataInterface and readNWBDataInterface",
     REQUIRE(writeStatus == Status::Success);
 
     // read back the TimeSeries within the same session via readNWBDataInterface
-    auto readTs =
-        module->readNWBDataInterface<NWB::TimeSeries>("filtered_signal");
+    auto readTs = processingModule->readNWBDataInterface<NWB::TimeSeries>(
+        "filtered_signal");
     REQUIRE(readTs != nullptr);
     REQUIRE(readTs->getPath() == "/processing/ecephys/filtered_signal");
 
@@ -147,17 +148,17 @@ TEST_CASE("ProcessingModule createNWBDataInterface and readNWBDataInterface",
 
     // read the processing module
     auto nwbfile = NWB::NWBFile::create(readio);
-    auto module = nwbfile->readProcessingModule("ecephys");
-    REQUIRE(module != nullptr);
+    auto processingModule = nwbfile->readProcessingModule("ecephys");
+    REQUIRE(processingModule != nullptr);
 
     // verify description
-    auto descData = module->readDescription();
+    auto descData = processingModule->readDescription();
     REQUIRE(descData->exists());
     REQUIRE(descData->values().data[0] == "Processed ecephys data");
 
     // read the TimeSeries from the module
-    auto readTs =
-        module->readNWBDataInterface<NWB::TimeSeries>("filtered_signal");
+    auto readTs = processingModule->readNWBDataInterface<NWB::TimeSeries>(
+        "filtered_signal");
     REQUIRE(readTs != nullptr);
 
     // verify data
@@ -192,12 +193,13 @@ TEST_CASE("ProcessingModule createDynamicTable and readDynamicTable",
     nwbfile->initialize(generateUuid());
 
     // create processing module
-    auto module = nwbfile->createProcessingModule("analysis_module");
-    REQUIRE(module != nullptr);
-    REQUIRE(module->initialize("Analysis results") == Status::Success);
+    auto processingModule = nwbfile->createProcessingModule("analysis_module");
+    REQUIRE(processingModule != nullptr);
+    REQUIRE(processingModule->initialize("Analysis results")
+            == Status::Success);
 
     // create a DynamicTable inside the module via createDynamicTable
-    auto table = module->createDynamicTable("summary_table");
+    auto table = processingModule->createDynamicTable("summary_table");
     REQUIRE(table != nullptr);
     REQUIRE(table->getPath() == tablePath);
 
@@ -223,7 +225,7 @@ TEST_CASE("ProcessingModule createDynamicTable and readDynamicTable",
     REQUIRE(table->setRowIDs(elementIDs, ids) == Status::Success);
 
     // read back the table within the same session via readDynamicTable
-    auto readTable = module->readDynamicTable("summary_table");
+    auto readTable = processingModule->readDynamicTable("summary_table");
     REQUIRE(readTable != nullptr);
     REQUIRE(readTable->getPath() == tablePath);
 
@@ -240,11 +242,11 @@ TEST_CASE("ProcessingModule createDynamicTable and readDynamicTable",
     readio->open(IO::FileMode::ReadOnly);
 
     auto nwbfile = NWB::NWBFile::create(readio);
-    auto module = nwbfile->readProcessingModule("analysis_module");
-    REQUIRE(module != nullptr);
+    auto processingModule = nwbfile->readProcessingModule("analysis_module");
+    REQUIRE(processingModule != nullptr);
 
     // read the DynamicTable from the module
-    auto readTable = module->readDynamicTable("summary_table");
+    auto readTable = processingModule->readDynamicTable("summary_table");
     REQUIRE(readTable != nullptr);
 
     // verify description
@@ -263,19 +265,19 @@ TEST_CASE("ProcessingModule createDynamicTable and readDynamicTable",
 TEST_CASE("ProcessingModule initialize fails when IO is deleted",
           "[processingmodule]")
 {
-  std::shared_ptr<NWB::ProcessingModule> module;
+  std::shared_ptr<NWB::ProcessingModule> processingModule;
 
   // Create the ProcessingModule with a temporary IO that goes out of scope
   {
     std::shared_ptr<IO::HDF5::HDF5IO> io = std::make_shared<IO::HDF5::HDF5IO>(
         getTestFilePath("processingModuleDeletedIO.h5"));
-    module = NWB::RegisteredType::create<NWB::ProcessingModule>(
+    processingModule = NWB::RegisteredType::create<NWB::ProcessingModule>(
         "/processing/test", io);
-    REQUIRE(module != nullptr);
-    // io goes out of scope here, expiring the weak_ptr inside module
+    REQUIRE(processingModule != nullptr);
+    // io goes out of scope here, expiring the weak_ptr inside processingModule
   }
 
   // initialize should return Failure since the IO object has been deleted
-  Status result = module->initialize("should fail");
+  Status result = processingModule->initialize("should fail");
   REQUIRE(result == Status::Failure);
 }
