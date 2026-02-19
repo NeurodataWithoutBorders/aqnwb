@@ -128,7 +128,9 @@ cmake --preset=ci-macos -DAQNWB_CXX_STANDARD=23
 
 ### Important Build Notes
 - **HDF5 is PUBLIC**: HDF5 headers and libraries are exported to consumers
-- **Boost Removed**: Recent versions no longer depend on Boost (replaced with custom utilities)
+- **Boost Removed**: Boost dependency was removed in version 0.2.0+ (replaced with custom utilities in `src/Utils.hpp`)
+  - **Note**: The CI workflow in `.github/workflows/tests.yml` may still reference Boost packages - this is a legacy configuration that will be cleaned up
+  - If you encounter Boost references in older branches/versions, install Boost as documented in that version
 - **Cross-Platform**: Builds on Linux, macOS, and Windows (MSVC/vcpkg on Windows)
 - **Parallel Builds**: Use `-j N` with cmake --build for faster builds
 
@@ -399,7 +401,7 @@ git commit -m "Fix formatting"
 **Solutions**:
 1. Use vcpkg for dependencies:
    ```bash
-   vcpkg install hdf5[cpp]:x64-windows boost-*:x64-windows catch2:x64-windows
+   vcpkg install hdf5[cpp]:x64-windows catch2:x64-windows
    ```
 
 2. Use Visual Studio 2022 generator (required by presets)
@@ -407,6 +409,11 @@ git commit -m "Fix formatting"
 3. Ensure vcpkg toolchain file is set:
    ```bash
    cmake --preset=ci-windows  # Preset includes toolchain file path
+   ```
+
+**Note**: Older versions (pre-0.2.0) required Boost. If working with older code, also install:
+   ```bash
+   vcpkg install boost-date-time:x64-windows boost-endian:x64-windows boost-uuid:x64-windows boost-multi-array:x64-windows
    ```
 
 ### Issue: Boost Not Found (Older Versions)
