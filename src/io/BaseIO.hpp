@@ -211,6 +211,27 @@ public:
    * @return True if this is a link configuration, false otherwise.
    */
   virtual bool isLink() const { return false; }
+
+  /**
+   * @brief Returns the data type of the dataset.
+   * @param io The IO object, required for link configs to query the target dataset.
+   * @return The data type of the dataset.
+   */
+  virtual BaseDataType getType(std::shared_ptr<BaseIO> io = nullptr) const = 0;
+
+  /**
+   * @brief Returns the shape of the dataset.
+   * @param io The IO object, required for link configs to query the target dataset.
+   * @return The shape of the dataset.
+   */
+  virtual SizeArray getShape(std::shared_ptr<BaseIO> io = nullptr) const = 0;
+
+  /**
+   * @brief Returns the chunking of the dataset.
+   * @param io The IO object, required for link configs to query the target dataset.
+   * @return The chunking of the dataset.
+   */
+  virtual SizeArray getChunking(std::shared_ptr<BaseIO> io = nullptr) const = 0;
 };
 
 /**
@@ -242,21 +263,33 @@ public:
 
   /**
    * @brief Returns the data type of the dataset.
+   * @param io The IO object (not used for ArrayDataSetConfig, provided for interface compatibility).
    * @return The data type of the dataset.
    */
-  inline BaseDataType getType() const { return m_type; }
+  inline BaseDataType getType(std::shared_ptr<BaseIO> io = nullptr) const override { 
+    (void)io; // Unused parameter
+    return m_type; 
+  }
 
   /**
    * @brief Returns the shape of the dataset.
+   * @param io The IO object (not used for ArrayDataSetConfig, provided for interface compatibility).
    * @return The shape of the dataset.
    */
-  inline SizeArray getShape() const { return m_shape; }
+  inline SizeArray getShape(std::shared_ptr<BaseIO> io = nullptr) const override { 
+    (void)io; // Unused parameter
+    return m_shape; 
+  }
 
   /**
    * @brief Returns the chunking of the dataset.
+   * @param io The IO object (not used for ArrayDataSetConfig, provided for interface compatibility).
    * @return The chunking of the dataset.
    */
-  inline SizeArray getChunking() const { return m_chunking; }
+  inline SizeArray getChunking(std::shared_ptr<BaseIO> io = nullptr) const override { 
+    (void)io; // Unused parameter
+    return m_chunking; 
+  }
 
 protected:
   // The data type of the dataset
@@ -302,42 +335,39 @@ public:
   inline bool isLink() const override { return true; }
 
   /**
-   * @brief Queries and returns the shape of the linked target dataset.
+   * @brief Returns the data type of the linked target dataset.
    * 
-   * This convenience method queries the shape of the target dataset from the file.
-   * This is useful when configuring related datasets that need to match the dimensions
-   * of the linked data.
+   * Queries the target dataset's data type from the file. This allows TimeSeries 
+   * and other classes to correctly set their m_dataType member when using linked data.
    * 
-   * @param io The IO object to use for querying the target dataset.
-   * @return The shape of the target dataset, or an empty vector if the query fails.
-   */
-  SizeArray getTargetShape(std::shared_ptr<BaseIO> io) const;
-
-  /**
-   * @brief Gets the actual chunking configuration of the target dataset.
-   * 
-   * This convenience method queries the target dataset's chunking configuration
-   * from the file. This ensures that related datasets (like timestamps) can use
-   * the same chunking as the linked data.
-   * 
-   * @param io The IO object to use for querying the target dataset.
-   * @return The chunking configuration of the target dataset, or an empty vector
-   * if the dataset is not chunked or the query fails.
-   */
-  SizeArray getTargetChunking(std::shared_ptr<BaseIO> io) const;
-
-  /**
-   * @brief Gets the BaseDataType of the target dataset.
-   * 
-   * This convenience method queries the target dataset's data type from the file.
-   * This allows TimeSeries and other classes to correctly set their m_dataType
-   * member when using linked data.
-   * 
-   * @param io The IO object to use for querying the target dataset.
+   * @param io The IO object to use for querying the target dataset (required).
    * @return The BaseDataType of the target dataset. Returns a default T_I32 type
-   * if the query fails.
+   * if the query fails or io is null.
    */
-  BaseDataType getTargetDataType(std::shared_ptr<BaseIO> io) const;
+  BaseDataType getType(std::shared_ptr<BaseIO> io) const override;
+
+  /**
+   * @brief Returns the shape of the linked target dataset.
+   * 
+   * Queries the shape of the target dataset from the file. This is useful when 
+   * configuring related datasets that need to match the dimensions of the linked data.
+   * 
+   * @param io The IO object to use for querying the target dataset (required).
+   * @return The shape of the target dataset, or an empty vector if the query fails or io is null.
+   */
+  SizeArray getShape(std::shared_ptr<BaseIO> io) const override;
+
+  /**
+   * @brief Returns the chunking configuration of the linked target dataset.
+   * 
+   * Queries the target dataset's chunking configuration from the file. This ensures 
+   * that related datasets (like timestamps) can use the same chunking as the linked data.
+   * 
+   * @param io The IO object to use for querying the target dataset (required).
+   * @return The chunking configuration of the target dataset, or an empty vector
+   * if the dataset is not chunked, the query fails, or io is null.
+   */
+  SizeArray getChunking(std::shared_ptr<BaseIO> io) const override;
 
 private:
   // The path to the target dataset to link to
