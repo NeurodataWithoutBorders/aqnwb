@@ -313,7 +313,7 @@ public:
    * @return The shape of the target dataset, or an empty vector if the query
    * fails.
    */
-  SizeArray getTargetShape(std::shared_ptr<BaseIO> io) const;
+  SizeArray getTargetShape(const BaseIO& io) const;
 
   /**
    * @brief Gets the actual chunking configuration of the target dataset.
@@ -326,7 +326,7 @@ public:
    * @return The chunking configuration of the target dataset, or an empty
    * vector if the dataset is not chunked or the query fails.
    */
-  SizeArray getTargetChunking(std::shared_ptr<BaseIO> io) const;
+  SizeArray getTargetChunking(const BaseIO& io) const;
 
   /**
    * @brief Gets the BaseDataType of the target dataset.
@@ -339,7 +339,7 @@ public:
    * @return The BaseDataType of the target dataset. Returns a default T_I32
    * type if the query fails.
    */
-  BaseDataType getTargetDataType(std::shared_ptr<BaseIO> io) const;
+  BaseDataType getTargetDataType(const BaseIO& io) const;
 
 private:
   // The path to the target dataset to link to

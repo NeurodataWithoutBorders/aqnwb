@@ -47,14 +47,9 @@ LinkArrayDataSetConfig::LinkArrayDataSetConfig(const std::string& targetPath)
 {
 }
 
-SizeArray LinkArrayDataSetConfig::getTargetShape(
-    std::shared_ptr<BaseIO> io) const
+SizeArray LinkArrayDataSetConfig::getTargetShape(const BaseIO& io) const
 {
-  if (!io) {
-    return SizeArray {};
-  }
-
-  SizeArray targetShape = io->getStorageObjectShape(m_targetPath);
+  SizeArray targetShape = io.getStorageObjectShape(m_targetPath);
   if (targetShape.empty()) {
     std::cerr << "LinkArrayDataSetConfig::getTargetShape: Could not get shape "
                  "of linked dataset at "
@@ -65,15 +60,10 @@ SizeArray LinkArrayDataSetConfig::getTargetShape(
   return targetShape;
 }
 
-SizeArray LinkArrayDataSetConfig::getTargetChunking(
-    std::shared_ptr<BaseIO> io) const
+SizeArray LinkArrayDataSetConfig::getTargetChunking(const BaseIO& io) const
 {
-  if (!io) {
-    return SizeArray {};
-  }
-
   std::vector<SizeType> targetChunking =
-      io->getStorageObjectChunking(m_targetPath);
+      io.getStorageObjectChunking(m_targetPath);
   if (targetChunking.empty()) {
     std::cerr << "LinkArrayDataSetConfig::getTargetChunking: Could not get "
                  "chunking of linked dataset at "
@@ -84,16 +74,9 @@ SizeArray LinkArrayDataSetConfig::getTargetChunking(
   return SizeArray(targetChunking.begin(), targetChunking.end());
 }
 
-BaseDataType LinkArrayDataSetConfig::getTargetDataType(
-    std::shared_ptr<BaseIO> io) const
+BaseDataType LinkArrayDataSetConfig::getTargetDataType(const BaseIO& io) const
 {
-  if (!io) {
-    std::cerr << "LinkArrayDataSetConfig::getTargetDataType: IO object is null"
-              << std::endl;
-    return BaseDataType(BaseDataType::Type::T_I32);
-  }
-
-  return io->getStorageObjectDataType(m_targetPath);
+  return io.getStorageObjectDataType(m_targetPath);
 }
 
 // BaseIO

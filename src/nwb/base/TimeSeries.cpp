@@ -108,8 +108,8 @@ Status TimeSeries::initialize(
     const IO::LinkArrayDataSetConfig* linkConfig =
         dynamic_cast<const IO::LinkArrayDataSetConfig*>(&dataConfig);
     if (linkConfig) {
-      shape = linkConfig->getTargetShape(ioPtr);
-      chunking = linkConfig->getTargetChunking(ioPtr);
+      shape = linkConfig->getTargetShape(*ioPtr);
+      chunking = linkConfig->getTargetChunking(*ioPtr);
 
       if (shape.empty()) {
         std::cerr
@@ -119,7 +119,7 @@ Status TimeSeries::initialize(
       }
 
       // Query the actual data type from the linked dataset
-      this->m_dataType = linkConfig->getTargetDataType(ioPtr);
+      this->m_dataType = linkConfig->getTargetDataType(*ioPtr);
     }
   } else {
     const IO::ArrayDataSetConfig* arrayConfig =
