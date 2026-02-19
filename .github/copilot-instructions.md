@@ -317,6 +317,12 @@ Located in `.github/workflows/`:
    ```bash
    uv run resources/utils/aqnwb_utils.py generate-types <namespace_file> <output_dir>
    ```
+   
+   **Note**: Generated code provides a starting point but will likely require additional updates:
+   - Review and modify the generated classes to implement full functionality
+   - Copy the generated files to the appropriate location in the AqNWB source tree (e.g., `src/nwb/`)
+   - Add the new source files to `CMakeLists.txt`
+   - Create corresponding test files
 
 2. **Manual creation**:
    - Inherit from appropriate base class (RegisteredType, TimeSeries, etc.)
