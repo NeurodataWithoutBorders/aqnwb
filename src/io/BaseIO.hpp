@@ -273,23 +273,15 @@ protected:
  * to another dataset in the file, avoiding data duplication. This is useful
  * for scenarios like time-alignment where multiple TimeSeries share the same
  * data but have different timestamps.
- * 
- * The shape and chunking parameters are stored to enable proper configuration
- * of related datasets (e.g., timestamps in TimeSeries) even when the main
- * data is linked.
  */
 class LinkArrayDataSetConfig : public BaseArrayDataSetConfig
 {
 public:
   /**
-   * @brief Constructs a LinkArrayDataSetConfig object with the target path and optional metadata.
+   * @brief Constructs a LinkArrayDataSetConfig object with the target path.
    * @param targetPath The path to the target dataset to link to.
-   * @param shape The shape of the linked dataset (used for creating related datasets).
-   * @param chunking The chunking of the linked dataset (used for creating related datasets).
    */
-  LinkArrayDataSetConfig(const std::string& targetPath,
-                         const SizeArray& shape = {},
-                         const SizeArray& chunking = {});
+  explicit LinkArrayDataSetConfig(const std::string& targetPath);
 
   /**
    * @brief Virtual destructor.
@@ -303,33 +295,6 @@ public:
   inline std::string getTargetPath() const { return m_targetPath; }
 
   /**
-   * @brief Returns the data type. For links, returns a placeholder type.
-   * 
-   * Note: This method returns a placeholder BaseDataType (T_I32) for links
-   * since links do not have an intrinsic data type. The actual data type
-   * is determined by the linked target dataset. Callers should check isLink()
-   * before relying on the type returned by this method.
-   * 
-   * @return A placeholder BaseDataType (T_I32 with size 1).
-   */
-  inline BaseDataType getType() const
-  {
-    return BaseDataType(BaseDataType::T_I32, 1);
-  }
-
-  /**
-   * @brief Returns the shape of the linked dataset.
-   * @return The shape array.
-   */
-  inline SizeArray getShape() const { return m_shape; }
-
-  /**
-   * @brief Returns the chunking of the linked dataset.
-   * @return The chunking array.
-   */
-  inline SizeArray getChunking() const { return m_chunking; }
-
-  /**
    * @brief Checks if this configuration represents a link.
    * @return True (always, for this class).
    */
@@ -338,10 +303,6 @@ public:
 private:
   // The path to the target dataset to link to
   std::string m_targetPath;
-  // The shape of the linked dataset (for metadata purposes)
-  SizeArray m_shape;
-  // The chunking of the linked dataset (for metadata purposes)
-  SizeArray m_chunking;
 };
 
 /**

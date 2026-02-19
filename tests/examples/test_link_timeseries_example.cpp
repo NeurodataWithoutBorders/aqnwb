@@ -62,7 +62,7 @@ TEST_CASE("LinkTimeSeriesExamples", "[timeseries][link]")
     
     // Create link configuration pointing to the original data
     std::string linkTarget = "/acquisition/original_series/data";
-    IO::LinkArrayDataSetConfig linkConfig(linkTarget, SizeArray{0}, SizeArray{100});
+    IO::LinkArrayDataSetConfig linkConfig(linkTarget);
     
     linkedSeries->initialize(
         linkConfig,  // Use link instead of creating new data

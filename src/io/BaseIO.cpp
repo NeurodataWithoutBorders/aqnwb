@@ -42,12 +42,8 @@ ArrayDataSetConfig::ArrayDataSetConfig(const BaseDataType& type,
 }
 
 // LinkArrayDataSetConfig
-LinkArrayDataSetConfig::LinkArrayDataSetConfig(const std::string& targetPath,
-                                               const SizeArray& shape,
-                                               const SizeArray& chunking)
+LinkArrayDataSetConfig::LinkArrayDataSetConfig(const std::string& targetPath)
     : m_targetPath(targetPath)
-    , m_shape(shape)
-    , m_chunking(chunking)
 {
 }
 

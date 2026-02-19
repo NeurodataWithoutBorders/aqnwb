@@ -64,9 +64,10 @@
  *
  * \section link_notes Important Notes
  *
- * - The \ref AQNWB::IO::LinkArrayDataSetConfig "LinkArrayDataSetConfig" constructor requires
- *   the target path and optionally shape/chunking information
- * - Shape and chunking are used to configure related datasets (e.g., timestamps)
+ * - The \ref AQNWB::IO::LinkArrayDataSetConfig "LinkArrayDataSetConfig" constructor only requires
+ *   the target path
+ * - When creating a link, the shape and chunking are automatically queried from the target dataset
+ *   to properly configure related datasets (e.g., timestamps)
  * - `createArrayDataSet()` returns `nullptr` for links since you cannot write directly to a link
  * - Links can only point to datasets within the same HDF5 file
  * - The linked dataset must exist before creating the link

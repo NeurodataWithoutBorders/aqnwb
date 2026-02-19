@@ -523,7 +523,7 @@ TEST_CASE("LinkArrayDataSetConfig for VectorData", "[base][link]")
     // Create second VectorData with linked data
     auto vd2 = NWB::VectorData::create(dataPath2, io);
     std::string linkTarget = dataPath1;
-    IO::LinkArrayDataSetConfig linkConfig(linkTarget, dataShape, chunking);
+    IO::LinkArrayDataSetConfig linkConfig(linkTarget);
 
     // Verify it's identified as a link
     REQUIRE(linkConfig.isLink() == true);
@@ -572,7 +572,7 @@ TEST_CASE("LinkArrayDataSetConfig for VectorData", "[base][link]")
     // Create second Data object with linked data
     auto data2 = NWB::Data::create(dataPath2, io);
     std::string linkTarget = dataPath1;
-    IO::LinkArrayDataSetConfig linkConfig(linkTarget, dataShape, chunking);
+    IO::LinkArrayDataSetConfig linkConfig(linkTarget);
 
     // Verify it's identified as a link
     REQUIRE(linkConfig.isLink() == true);

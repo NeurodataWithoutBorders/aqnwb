@@ -101,15 +101,35 @@ Status TimeSeries::initialize(
   auto interfaceInitStatus = NWBDataInterface::initialize();
 
   // Extract shape and chunking information
-  // Both ArrayDataSetConfig and LinkArrayDataSetConfig have these methods
   SizeArray shape, chunking;
+  
   if (dataConfig.isLink()) {
+    // For links, query the target dataset to get its shape
     const IO::LinkArrayDataSetConfig* linkConfig =
         dynamic_cast<const IO::LinkArrayDataSetConfig*>(&dataConfig);
     if (linkConfig) {
-      this->m_dataType = linkConfig->getType();
-      shape = linkConfig->getShape();
-      chunking = linkConfig->getChunking();
+      std::string targetPath = linkConfig->getTargetPath();
+      std::vector<SizeType> targetShape = ioPtr->getStorageObjectShape(targetPath);
+      
+      if (targetShape.empty()) {
+        std::cerr << "TimeSeries::initialize: Could not get shape of linked dataset at " 
+                  << targetPath << std::endl;
+        return Status::Failure;
+      }
+      
+      // Use the target's shape
+      shape = SizeArray(targetShape.begin(), targetShape.end());
+      
+      // For chunking, use a reasonable default based on the first dimension
+      // Since we can't query chunking from HDF5 easily, use shape[0] or a default
+      chunking = SizeArray(shape.size(), 0);
+      if (!shape.empty() && shape[0] > 0) {
+        chunking[0] = std::min(shape[0], SizeType(100));
+      }
+      
+      // For data type, we'll use a placeholder since we can't easily query it
+      // The actual type doesn't matter for creating timestamps
+      this->m_dataType = IO::BaseDataType(IO::BaseDataType::T_F32, 1);
     }
   } else {
     const IO::ArrayDataSetConfig* arrayConfig =

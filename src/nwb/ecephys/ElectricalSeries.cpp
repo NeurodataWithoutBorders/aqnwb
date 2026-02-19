@@ -47,10 +47,24 @@ Status ElectricalSeries::initialize(const IO::BaseArrayDataSetConfig& dataConfig
   // Extract chunking information
   SizeArray chunking;
   if (dataConfig.isLink()) {
+    // For links, query the target dataset to get its shape and derive chunking
     const IO::LinkArrayDataSetConfig* linkConfig =
         dynamic_cast<const IO::LinkArrayDataSetConfig*>(&dataConfig);
     if (linkConfig) {
-      chunking = linkConfig->getChunking();
+      std::string targetPath = linkConfig->getTargetPath();
+      std::vector<SizeType> targetShape = ioPtr->getStorageObjectShape(targetPath);
+      
+      if (targetShape.empty()) {
+        std::cerr << "ElectricalSeries::initialize: Could not get shape of linked dataset at " 
+                  << targetPath << std::endl;
+        return Status::Failure;
+      }
+      
+      // For chunking, use a reasonable default based on the first dimension
+      chunking = SizeArray(targetShape.size(), 0);
+      if (!targetShape.empty() && targetShape[0] > 0) {
+        chunking[0] = std::min(targetShape[0], SizeType(100));
+      }
     }
   } else {
     const IO::ArrayDataSetConfig* arrayConfig =

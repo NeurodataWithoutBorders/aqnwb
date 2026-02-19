@@ -395,14 +395,11 @@ TEST_CASE("LinkArrayDataSetConfig for TimeSeries data", "[base][link]")
     // Create second TimeSeries with linked data
     auto ts2 = NWB::TimeSeries::create(dataPath2, io);
     std::string linkTarget = dataPath1 + "/data";
-    // Provide shape and chunking info so TimeSeries can create timestamps properly
-    IO::LinkArrayDataSetConfig linkConfig(linkTarget, SizeArray {0}, SizeArray {1});
+    IO::LinkArrayDataSetConfig linkConfig(linkTarget);
 
     // Verify it's identified as a link
     REQUIRE(linkConfig.isLink() == true);
     REQUIRE(linkConfig.getTargetPath() == linkTarget);
-    REQUIRE(linkConfig.getShape() == SizeArray{0});
-    REQUIRE(linkConfig.getChunking() == SizeArray{1});
 
     ts2->initialize(linkConfig,
                     unit,
@@ -492,7 +489,7 @@ TEST_CASE("LinkArrayDataSetConfig for TimeSeries data", "[base][link]")
 
     // Try to create a link
     std::string linkTarget = dataPath1 + "/data";
-    IO::LinkArrayDataSetConfig linkConfig(linkTarget, SizeArray {0}, SizeArray {1});
+    IO::LinkArrayDataSetConfig linkConfig(linkTarget);
     
     // createArrayDataSet should return nullptr for links (since you can't write to a link)
     auto result = io->createArrayDataSet(linkConfig, "/test_link");
