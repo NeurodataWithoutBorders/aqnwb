@@ -446,15 +446,15 @@ TEST_CASE("LinkArrayDataSetConfig for TimeSeries data", "[base][link]")
     REQUIRE(linkInfo.u.val_size > 0);
     
     // Now read the actual link target
-    std::vector<char> linkTarget_buf(linkInfo.u.val_size + 1);
+    std::vector<char> linkTargetBuffer(linkInfo.u.val_size + 1);
     herr_t linkStatus = H5Lget_val(file.getId(), 
                                     (dataPath2 + "/data").c_str(), 
-                                    linkTarget_buf.data(), 
+                                    linkTargetBuffer.data(), 
                                     linkInfo.u.val_size + 1, 
                                     H5P_DEFAULT);
     REQUIRE(linkStatus >= 0);
-    linkTarget_buf[linkInfo.u.val_size] = '\0';  // Ensure null termination
-    std::string actualTarget(linkTarget_buf.data());
+    linkTargetBuffer[linkInfo.u.val_size] = '\0';  // Ensure null termination
+    std::string actualTarget(linkTargetBuffer.data());
     REQUIRE(actualTarget == linkTarget);
 
     // Verify data can be read through the link

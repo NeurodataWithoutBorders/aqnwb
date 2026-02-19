@@ -322,7 +322,13 @@ public:
 
   /**
    * @brief Returns the data type. For links, returns a placeholder type.
-   * @return A default BaseDataType.
+   * 
+   * Note: This method returns a placeholder BaseDataType (T_I32) for links
+   * since links do not have an intrinsic data type. The actual data type
+   * is determined by the linked target dataset. Callers should check isLink()
+   * before relying on the type returned by this method.
+   * 
+   * @return A placeholder BaseDataType (T_I32 with size 1).
    */
   inline BaseDataType getType() const override
   {
