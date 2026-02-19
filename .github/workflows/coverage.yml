@@ -20,7 +20,7 @@ jobs:
             - name: Install LCov and dependencies
               run: |
                 sudo apt-get update -q
-                sudo apt-get install -q -y lcov libhdf5-dev libboost-all-dev
+                sudo apt-get install -q -y lcov libhdf5-dev
                 git clone https://github.com/catchorg/Catch2.git
                 cd Catch2
                 git checkout "v3.5.3"

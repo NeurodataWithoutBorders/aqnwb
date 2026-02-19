@@ -129,8 +129,6 @@ cmake --preset=ci-macos -DAQNWB_CXX_STANDARD=23
 ### Important Build Notes
 - **HDF5 is PUBLIC**: HDF5 headers and libraries are exported to consumers
 - **Boost Removed**: Boost dependency was removed in version 0.2.0+ (replaced with custom utilities in `src/Utils.hpp`)
-  - **Note**: The CI workflow in `.github/workflows/tests.yml` may still reference Boost packages - this is a legacy configuration that will be cleaned up
-  - If you encounter Boost references in older branches/versions, install Boost as documented in that version
 - **Cross-Platform**: Builds on Linux, macOS, and Windows (MSVC/vcpkg on Windows)
 - **Parallel Builds**: Use `-j N` with cmake --build for faster builds
 
@@ -523,6 +521,7 @@ rm -rf build
 8. **Documentation is code**: Example code in tests must work and compile
 9. **Schema-driven**: Many classes are generated from NWB schema
 10. **Cross-platform**: Changes must work on Linux, macOS, and Windows
+11. **Update CHANGELOG.md**: Document your changes in CHANGELOG.md under the "Unreleased" section following the existing format
 
 ## Additional Resources
 
