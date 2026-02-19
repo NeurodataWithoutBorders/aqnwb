@@ -1,11 +1,16 @@
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/matchers/catch_matchers_all.hpp>
 
 #include "Utils.hpp"
+#include "io/BaseIO.hpp"
 #include "io/hdf5/HDF5IO.hpp"
 #include "nwb/NWBFile.hpp"
 #include "nwb/RegisteredType.hpp"
 #include "nwb/base/ProcessingModule.hpp"
 #include "nwb/base/TimeSeries.hpp"
+#include "nwb/hdmf/table/DynamicTable.hpp"
+#include "nwb/hdmf/table/ElementIdentifiers.hpp"
+#include "nwb/hdmf/table/VectorData.hpp"
 #include "testUtils.hpp"
 
 using namespace AQNWB;
@@ -80,4 +85,177 @@ TEST_CASE("createMultipleProcessingModules", "[processingmodule]")
 
   nwbfile->finalize();
   io->close();
+}
+
+TEST_CASE("ProcessingModule createNWBDataInterface and readNWBDataInterface",
+          "[processingmodule]")
+{
+  std::string filename =
+      getTestFilePath("createProcessingModuleTimeSeries.nwb");
+  SizeType numSamples = 5;
+  std::vector<float> data = getMockData1D(numSamples);
+  std::vector<double> timestamps = getMockTimestamps(numSamples, 1);
+  std::vector<SizeType> dataShape = {numSamples};
+  std::vector<SizeType> positionOffset = {0};
+
+  // --- Write ---
+  {
+    std::shared_ptr<IO::HDF5::HDF5IO> io =
+        std::make_shared<IO::HDF5::HDF5IO>(filename);
+    io->open();
+    auto nwbfile = NWB::NWBFile::create(io);
+    nwbfile->initialize(generateUuid());
+
+    // create processing module
+    auto module = nwbfile->createProcessingModule("ecephys");
+    REQUIRE(module != nullptr);
+    REQUIRE(module->initialize("Processed ecephys data") == Status::Success);
+
+    // create a TimeSeries inside the module via createNWBDataInterface
+    auto ts =
+        module->createNWBDataInterface<NWB::TimeSeries>("filtered_signal");
+    REQUIRE(ts != nullptr);
+    REQUIRE(ts->getPath() == "/processing/ecephys/filtered_signal");
+
+    // initialize the TimeSeries
+    IO::ArrayDataSetConfig config(
+        BaseDataType::F32, SizeArray {0}, SizeArray {numSamples});
+    Status tsStatus = ts->initialize(config, "volts", "Filtered LFP signal");
+    REQUIRE(tsStatus == Status::Success);
+
+    // write data
+    Status writeStatus = ts->writeData(
+        dataShape, positionOffset, data.data(), timestamps.data());
+    REQUIRE(writeStatus == Status::Success);
+
+    // read back the TimeSeries within the same session via readNWBDataInterface
+    auto readTs =
+        module->readNWBDataInterface<NWB::TimeSeries>("filtered_signal");
+    REQUIRE(readTs != nullptr);
+    REQUIRE(readTs->getPath() == "/processing/ecephys/filtered_signal");
+
+    io->flush();
+    nwbfile->finalize();
+    io->close();
+  }
+
+  // --- Read back from file ---
+  {
+    std::shared_ptr<IO::HDF5::HDF5IO> readio =
+        std::make_shared<IO::HDF5::HDF5IO>(filename);
+    readio->open(IO::FileMode::ReadOnly);
+
+    // read the processing module
+    auto nwbfile = NWB::NWBFile::create(readio);
+    auto module = nwbfile->readProcessingModule("ecephys");
+    REQUIRE(module != nullptr);
+
+    // verify description
+    auto descData = module->readDescription();
+    REQUIRE(descData->exists());
+    REQUIRE(descData->values().data[0] == "Processed ecephys data");
+
+    // read the TimeSeries from the module
+    auto readTs =
+        module->readNWBDataInterface<NWB::TimeSeries>("filtered_signal");
+    REQUIRE(readTs != nullptr);
+
+    // verify data
+    auto readDataWrapper = readTs->readData<float>();
+    REQUIRE(readDataWrapper->exists());
+    auto readDataValues = readDataWrapper->values();
+    REQUIRE_THAT(readDataValues.data, Catch::Matchers::Approx(data).margin(1));
+
+    // verify timestamps
+    auto readTimestampsWrapper = readTs->readTimestamps();
+    REQUIRE(readTimestampsWrapper->exists());
+    auto readTimestampsValues = readTimestampsWrapper->values();
+    REQUIRE(readTimestampsValues.data == timestamps);
+
+    readio->close();
+  }
+}
+
+TEST_CASE("ProcessingModule createDynamicTable and readDynamicTable",
+          "[processingmodule]")
+{
+  std::string filename =
+      getTestFilePath("createProcessingModuleDynamicTable.nwb");
+  std::string tablePath = "/processing/analysis_module/summary_table";
+
+  // --- Write ---
+  {
+    std::shared_ptr<IO::HDF5::HDF5IO> io =
+        std::make_shared<IO::HDF5::HDF5IO>(filename);
+    io->open();
+    auto nwbfile = NWB::NWBFile::create(io);
+    nwbfile->initialize(generateUuid());
+
+    // create processing module
+    auto module = nwbfile->createProcessingModule("analysis_module");
+    REQUIRE(module != nullptr);
+    REQUIRE(module->initialize("Analysis results") == Status::Success);
+
+    // create a DynamicTable inside the module via createDynamicTable
+    auto table = module->createDynamicTable("summary_table");
+    REQUIRE(table != nullptr);
+    REQUIRE(table->getPath() == tablePath);
+
+    // initialize the table
+    Status tableStatus = table->initialize("Summary statistics table");
+    REQUIRE(tableStatus == Status::Success);
+
+    // add a string column
+    std::vector<std::string> colValues = {"alpha", "beta", "gamma"};
+    SizeArray dataShape = {colValues.size()};
+    IO::ArrayDataSetConfig config(BaseDataType::V_STR, dataShape, dataShape);
+    auto vectorData = NWB::VectorData::create(tablePath + "/label", io);
+    vectorData->initialize(config, "Label column");
+    Status colStatus = table->addColumn(vectorData, colValues);
+    REQUIRE(colStatus == Status::Success);
+
+    // set row IDs
+    std::vector<int> ids = {0, 1, 2};
+    SizeArray idShape = {ids.size()};
+    IO::ArrayDataSetConfig idConfig(BaseDataType::I32, idShape, idShape);
+    auto elementIDs = NWB::ElementIdentifiers::create(tablePath + "/id", io);
+    elementIDs->initialize(idConfig);
+    REQUIRE(table->setRowIDs(elementIDs, ids) == Status::Success);
+
+    // read back the table within the same session via readDynamicTable
+    auto readTable = module->readDynamicTable("summary_table");
+    REQUIRE(readTable != nullptr);
+    REQUIRE(readTable->getPath() == tablePath);
+
+    REQUIRE(table->finalize() == Status::Success);
+
+    nwbfile->finalize();
+    io->close();
+  }
+
+  // --- Read back from file ---
+  {
+    std::shared_ptr<IO::HDF5::HDF5IO> readio =
+        std::make_shared<IO::HDF5::HDF5IO>(filename);
+    readio->open(IO::FileMode::ReadOnly);
+
+    auto nwbfile = NWB::NWBFile::create(readio);
+    auto module = nwbfile->readProcessingModule("analysis_module");
+    REQUIRE(module != nullptr);
+
+    // read the DynamicTable from the module
+    auto readTable = module->readDynamicTable("summary_table");
+    REQUIRE(readTable != nullptr);
+
+    // verify description
+    auto readDesc = readTable->readDescription()->values().data;
+    REQUIRE(readDesc[0] == "Summary statistics table");
+
+    // verify column names include "label"
+    auto readColNames = readTable->readColNames()->values().data;
+    REQUIRE(std::find(readColNames.begin(), readColNames.end(), "label")
+            != readColNames.end());
+
+    readio->close();
+  }
 }
