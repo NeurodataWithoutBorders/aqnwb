@@ -12,6 +12,7 @@
 #include "io/BaseIO.hpp"
 #include "io/ReadIO.hpp"
 #include "nwb/base/NWBContainer.hpp"
+#include "nwb/base/ProcessingModule.hpp"
 #include "nwb/base/TimeSeries.hpp"
 #include "nwb/file/ElectrodesTable.hpp"
 #include "spec/core.hpp"
@@ -219,6 +220,13 @@ public:
                                   "acquisition",
                                   Get a TimeSeries stored in the acquisition
                                       group)
+
+  DEFINE_UNNAMED_REGISTERED_FIELD(readProcessingModule,
+                                  createProcessingModule,
+                                  ProcessingModule,
+                                  "processing",
+                                  Get a ProcessingModule stored in the
+                                      processing group)
 
 protected:
   /**

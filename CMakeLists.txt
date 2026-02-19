@@ -31,6 +31,7 @@ add_library(
     src/nwb/base/NWBData.cpp
     src/nwb/base/NWBDataInterface.cpp
     src/nwb/base/NWBContainer.cpp
+    src/nwb/base/ProcessingModule.cpp
     src/nwb/base/TimeSeries.cpp
     src/nwb/device/Device.cpp
     src/nwb/ecephys/ElectricalSeries.cpp

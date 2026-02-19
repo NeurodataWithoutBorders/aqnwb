@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Added `AQNWB::IO::ConstMultiArrayView<DTYPE, NDIMS>` as a lightweight, non-owning const multi-dimensional view over a buffer used to facilitate multi-dimensional array access in C++17/20  (@chittti , [#250](https://github.com/NeurodataWithoutBorders/aqnwb/pull/250)) 
 * Added UUID/time/endian utilities in `src/Utils.hpp` to replace corresponding Boost utilities (@chittti, [#250](https://github.com/NeurodataWithoutBorders/aqnwb/pull/250)) 
 * Added AQNWB_CXX_STANDARD option to the cmake build to allow configuration of the std C++ version to support 17, 20, and 23 to allow the use of `std::mdspan` if C++23 is used  (@oruebel, [#250](https://github.com/NeurodataWithoutBorders/aqnwb/pull/250))
+* Added `ProcessingModule` class in `src/nwb/base/` to support creation of processed data groups in the `/processing/` hierarchy of NWB files (@oruebel, [#255](https://github.com/NeurodataWithoutBorders/aqnwb/pull/255))
 
 ### Changed
 * Removed Boost as a dependency  (@chittti, [#250](https://github.com/NeurodataWithoutBorders/aqnwb/pull/250) )
