@@ -104,27 +104,16 @@ Status TimeSeries::initialize(
   SizeArray shape, chunking;
   
   if (dataConfig.isLink()) {
-    // For links, query the target dataset to get its shape
+    // For links, use convenience methods to query the target dataset
     const IO::LinkArrayDataSetConfig* linkConfig =
         dynamic_cast<const IO::LinkArrayDataSetConfig*>(&dataConfig);
     if (linkConfig) {
-      std::string targetPath = linkConfig->getTargetPath();
-      std::vector<SizeType> targetShape = ioPtr->getStorageObjectShape(targetPath);
+      shape = linkConfig->getTargetShape(ioPtr.get());
+      chunking = linkConfig->getTargetChunking(ioPtr.get());
       
-      if (targetShape.empty()) {
-        std::cerr << "TimeSeries::initialize: Could not get shape of linked dataset at " 
-                  << targetPath << std::endl;
+      if (shape.empty()) {
+        std::cerr << "TimeSeries::initialize: Could not get shape of linked dataset" << std::endl;
         return Status::Failure;
-      }
-      
-      // Use the target's shape
-      shape = SizeArray(targetShape.begin(), targetShape.end());
-      
-      // For chunking, use a reasonable default based on the first dimension
-      // Since we can't query chunking from HDF5 easily, use shape[0] or a default
-      chunking = SizeArray(shape.size(), 0);
-      if (!shape.empty() && shape[0] > 0) {
-        chunking[0] = std::min(shape[0], SizeType(100));
       }
       
       // For data type, we'll use a placeholder since we can't easily query it

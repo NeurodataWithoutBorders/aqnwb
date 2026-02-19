@@ -47,6 +47,39 @@ LinkArrayDataSetConfig::LinkArrayDataSetConfig(const std::string& targetPath)
 {
 }
 
+SizeArray LinkArrayDataSetConfig::getTargetShape(BaseIO* io) const
+{
+  if (!io) {
+    return SizeArray{};
+  }
+  
+  std::vector<SizeType> targetShape = io->getStorageObjectShape(m_targetPath);
+  if (targetShape.empty()) {
+    std::cerr << "LinkArrayDataSetConfig::getTargetShape: Could not get shape of linked dataset at " 
+              << m_targetPath << std::endl;
+    return SizeArray{};
+  }
+  
+  return SizeArray(targetShape.begin(), targetShape.end());
+}
+
+SizeArray LinkArrayDataSetConfig::getTargetChunking(BaseIO* io) const
+{
+  SizeArray shape = getTargetShape(io);
+  if (shape.empty()) {
+    return SizeArray{};
+  }
+  
+  // For chunking, use a reasonable default based on the first dimension
+  SizeArray chunking(shape.size(), 0);
+  if (!shape.empty() && shape[0] > 0) {
+    chunking[0] = std::min(shape[0], SizeType(100));
+  }
+  
+  return chunking;
+}
+
+
 // BaseIO
 
 BaseIO::BaseIO(const std::string& filename)

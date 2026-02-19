@@ -29,6 +29,7 @@ namespace AQNWB::IO
 {
 class BaseRecordingData;
 class RecordingObjects;
+class BaseIO;
 }  // namespace AQNWB::IO
 
 namespace AQNWB::IO
@@ -299,6 +300,30 @@ public:
    * @return True (always, for this class).
    */
   inline bool isLink() const override { return true; }
+
+  /**
+   * @brief Queries and returns the shape of the linked target dataset.
+   * 
+   * This convenience method queries the shape of the target dataset from the file.
+   * This is useful when configuring related datasets that need to match the dimensions
+   * of the linked data.
+   * 
+   * @param io The IO object to use for querying the target dataset.
+   * @return The shape of the target dataset, or an empty vector if the query fails.
+   */
+  SizeArray getTargetShape(BaseIO* io) const;
+
+  /**
+   * @brief Derives reasonable default chunking based on the target dataset's shape.
+   * 
+   * This convenience method queries the target dataset's shape and derives a
+   * reasonable chunking configuration. For the first dimension, it uses min(shape[0], 100),
+   * and for other dimensions it uses 0 (unlimited).
+   * 
+   * @param io The IO object to use for querying the target dataset.
+   * @return Derived chunking configuration, or an empty vector if the query fails.
+   */
+  SizeArray getTargetChunking(BaseIO* io) const;
 
 private:
   // The path to the target dataset to link to
