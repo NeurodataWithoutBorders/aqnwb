@@ -1207,13 +1207,20 @@ std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::createArrayDataSet(
     }
   }
 
-  // Regular dataset creation (existing implementation)
+  // Regular dataset creation
+  const IO::ArrayDataSetConfig* arrayConfig =
+      dynamic_cast<const IO::ArrayDataSetConfig*>(&config);
+  if (!arrayConfig) {
+    std::cerr << "Invalid configuration type for dataset creation" << std::endl;
+    return nullptr;
+  }
+
   std::unique_ptr<DataSet> data;
   DSetCreatPropList prop;
-  DataType H5type = getH5Type(config.getType());
+  DataType H5type = getH5Type(arrayConfig->getType());
 
-  const SizeArray& size = config.getShape();
-  const SizeArray& chunking = config.getChunking();
+  const SizeArray& size = arrayConfig->getShape();
+  const SizeArray& chunking = arrayConfig->getChunking();
 
   SizeType dimension = size.size();
   if (dimension < 1) {
@@ -1255,8 +1262,8 @@ std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::createArrayDataSet(
       }
     }
 
-    if (config.getType().type == IO::BaseDataType::Type::T_STR) {
-      H5type = StrType(PredType::C_S1, config.getType().typeSize);
+    if (arrayConfig->getType().type == IO::BaseDataType::Type::T_STR) {
+      H5type = StrType(PredType::C_S1, arrayConfig->getType().typeSize);
     }
 
     data = std::make_unique<DataSet>(

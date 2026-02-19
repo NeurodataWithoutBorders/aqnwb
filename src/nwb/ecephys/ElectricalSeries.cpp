@@ -44,6 +44,22 @@ Status ElectricalSeries::initialize(const IO::BaseArrayDataSetConfig& dataConfig
 
   this->m_channelVector = channelVector;
 
+  // Extract chunking information
+  SizeArray chunking;
+  if (dataConfig.isLink()) {
+    const IO::LinkArrayDataSetConfig* linkConfig =
+        dynamic_cast<const IO::LinkArrayDataSetConfig*>(&dataConfig);
+    if (linkConfig) {
+      chunking = linkConfig->getChunking();
+    }
+  } else {
+    const IO::ArrayDataSetConfig* arrayConfig =
+        dynamic_cast<const IO::ArrayDataSetConfig*>(&dataConfig);
+    if (arrayConfig) {
+      chunking = arrayConfig->getChunking();
+    }
+  }
+
   // get the number of electrodes from the electrode table
   std::string idPath =
       AQNWB::mergePaths(ElectrodesTable::electrodesTablePath, "id");
@@ -69,7 +85,7 @@ Status ElectricalSeries::initialize(const IO::BaseArrayDataSetConfig& dataConfig
 
   // make channel conversion dataset
   IO::ArrayDataSetConfig channelConversionConfig(
-      IO::BaseDataType::F32, SizeArray {1}, dataConfig.getChunking());
+      IO::BaseDataType::F32, SizeArray {1}, chunking);
   ioPtr->createArrayDataSet(
       channelConversionConfig,
       AQNWB::mergePaths(getPath(), "/channel_conversion"));
@@ -89,7 +105,7 @@ Status ElectricalSeries::initialize(const IO::BaseArrayDataSetConfig& dataConfig
   // make electrodes dataset
   IO::ArrayDataSetConfig electrodesConfig(IO::BaseDataType::I32,
                                           SizeArray {channelVector.size()},
-                                          dataConfig.getChunking());
+                                          chunking);
   ioPtr->createArrayDataSet(electrodesConfig,
                             AQNWB::mergePaths(getPath(), "electrodes"));
 

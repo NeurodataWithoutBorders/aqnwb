@@ -206,24 +206,6 @@ public:
   virtual ~BaseArrayDataSetConfig() = default;
 
   /**
-   * @brief Returns the data type of the dataset.
-   * @return The data type of the dataset.
-   */
-  virtual BaseDataType getType() const = 0;
-
-  /**
-   * @brief Returns the shape of the dataset.
-   * @return The shape of the dataset.
-   */
-  virtual SizeArray getShape() const = 0;
-
-  /**
-   * @brief Returns the chunking of the dataset.
-   * @return The chunking of the dataset.
-   */
-  virtual SizeArray getChunking() const = 0;
-
-  /**
    * @brief Checks if this configuration represents a link.
    * @return True if this is a link configuration, false otherwise.
    */
@@ -261,19 +243,19 @@ public:
    * @brief Returns the data type of the dataset.
    * @return The data type of the dataset.
    */
-  inline BaseDataType getType() const override { return m_type; }
+  inline BaseDataType getType() const { return m_type; }
 
   /**
    * @brief Returns the shape of the dataset.
    * @return The shape of the dataset.
    */
-  inline SizeArray getShape() const override { return m_shape; }
+  inline SizeArray getShape() const { return m_shape; }
 
   /**
    * @brief Returns the chunking of the dataset.
    * @return The chunking of the dataset.
    */
-  inline SizeArray getChunking() const override { return m_chunking; }
+  inline SizeArray getChunking() const { return m_chunking; }
 
 protected:
   // The data type of the dataset
@@ -330,7 +312,7 @@ public:
    * 
    * @return A placeholder BaseDataType (T_I32 with size 1).
    */
-  inline BaseDataType getType() const override
+  inline BaseDataType getType() const
   {
     return BaseDataType(BaseDataType::T_I32, 1);
   }
@@ -339,13 +321,13 @@ public:
    * @brief Returns the shape of the linked dataset.
    * @return The shape array.
    */
-  inline SizeArray getShape() const override { return m_shape; }
+  inline SizeArray getShape() const { return m_shape; }
 
   /**
    * @brief Returns the chunking of the linked dataset.
    * @return The chunking array.
    */
-  inline SizeArray getChunking() const override { return m_chunking; }
+  inline SizeArray getChunking() const { return m_chunking; }
 
   /**
    * @brief Checks if this configuration represents a link.

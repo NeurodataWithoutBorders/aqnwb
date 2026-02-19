@@ -100,7 +100,26 @@ Status TimeSeries::initialize(
 
   auto interfaceInitStatus = NWBDataInterface::initialize();
 
-  this->m_dataType = dataConfig.getType();
+  // Extract shape and chunking information
+  // Both ArrayDataSetConfig and LinkArrayDataSetConfig have these methods
+  SizeArray shape, chunking;
+  if (dataConfig.isLink()) {
+    const IO::LinkArrayDataSetConfig* linkConfig =
+        dynamic_cast<const IO::LinkArrayDataSetConfig*>(&dataConfig);
+    if (linkConfig) {
+      this->m_dataType = linkConfig->getType();
+      shape = linkConfig->getShape();
+      chunking = linkConfig->getChunking();
+    }
+  } else {
+    const IO::ArrayDataSetConfig* arrayConfig =
+        dynamic_cast<const IO::ArrayDataSetConfig*>(&dataConfig);
+    if (arrayConfig) {
+      this->m_dataType = arrayConfig->getType();
+      shape = arrayConfig->getShape();
+      chunking = arrayConfig->getChunking();
+    }
+  }
 
   // create comments attribute
   if (description != "") {
@@ -116,8 +135,8 @@ Status TimeSeries::initialize(
   // setup timestamps datasets
   if (startingTime < 0) {
     // timestamps match data along first dimension
-    SizeArray tsDsetSize = {dataConfig.getShape()[0]};
-    SizeArray tsChunkSize = {dataConfig.getChunking()[0]};
+    SizeArray tsDsetSize = {shape[0]};
+    SizeArray tsChunkSize = {chunking[0]};
     IO::ArrayDataSetConfig timestampsConfig(
         this->timestampsType, tsDsetSize, tsChunkSize);
     ioPtr->createArrayDataSet(timestampsConfig,
@@ -142,8 +161,8 @@ Status TimeSeries::initialize(
   // create control datasets if necessary
   if (controlDescription.size() > 0) {
     // control matches data along first dimension
-    SizeArray controlDsetSize = {dataConfig.getShape()[0]};
-    SizeArray controlChunkSize = {dataConfig.getChunking()[0]};
+    SizeArray controlDsetSize = {shape[0]};
+    SizeArray controlChunkSize = {chunking[0]};
     IO::ArrayDataSetConfig controlConfig(
         AQNWB::IO::BaseDataType::U8, controlDsetSize, controlChunkSize);
     ioPtr->createArrayDataSet(controlConfig,
