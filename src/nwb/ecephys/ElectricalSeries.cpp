@@ -51,7 +51,7 @@ Status ElectricalSeries::initialize(const IO::BaseArrayDataSetConfig& dataConfig
     const IO::LinkArrayDataSetConfig* linkConfig =
         dynamic_cast<const IO::LinkArrayDataSetConfig*>(&dataConfig);
     if (linkConfig) {
-      chunking = linkConfig->getTargetChunking(ioPtr.get());
+      chunking = linkConfig->getTargetChunking(ioPtr);
       
       if (chunking.empty()) {
         std::cerr << "ElectricalSeries::initialize: Could not get chunking for linked dataset" << std::endl;

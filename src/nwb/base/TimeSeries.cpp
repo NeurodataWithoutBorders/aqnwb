@@ -108,8 +108,8 @@ Status TimeSeries::initialize(
     const IO::LinkArrayDataSetConfig* linkConfig =
         dynamic_cast<const IO::LinkArrayDataSetConfig*>(&dataConfig);
     if (linkConfig) {
-      shape = linkConfig->getTargetShape(ioPtr.get());
-      chunking = linkConfig->getTargetChunking(ioPtr.get());
+      shape = linkConfig->getTargetShape(ioPtr);
+      chunking = linkConfig->getTargetChunking(ioPtr);
       
       if (shape.empty()) {
         std::cerr << "TimeSeries::initialize: Could not get shape of linked dataset" << std::endl;

@@ -47,7 +47,7 @@ LinkArrayDataSetConfig::LinkArrayDataSetConfig(const std::string& targetPath)
 {
 }
 
-SizeArray LinkArrayDataSetConfig::getTargetShape(BaseIO* io) const
+SizeArray LinkArrayDataSetConfig::getTargetShape(std::shared_ptr<BaseIO> io) const
 {
   if (!io) {
     return SizeArray{};
@@ -63,7 +63,7 @@ SizeArray LinkArrayDataSetConfig::getTargetShape(BaseIO* io) const
   return SizeArray(targetShape.begin(), targetShape.end());
 }
 
-SizeArray LinkArrayDataSetConfig::getTargetChunking(BaseIO* io) const
+SizeArray LinkArrayDataSetConfig::getTargetChunking(std::shared_ptr<BaseIO> io) const
 {
   SizeArray shape = getTargetShape(io);
   if (shape.empty()) {

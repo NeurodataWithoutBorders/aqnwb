@@ -311,7 +311,7 @@ public:
    * @param io The IO object to use for querying the target dataset.
    * @return The shape of the target dataset, or an empty vector if the query fails.
    */
-  SizeArray getTargetShape(BaseIO* io) const;
+  SizeArray getTargetShape(std::shared_ptr<BaseIO> io) const;
 
   /**
    * @brief Derives reasonable default chunking based on the target dataset's shape.
@@ -323,7 +323,7 @@ public:
    * @param io The IO object to use for querying the target dataset.
    * @return Derived chunking configuration, or an empty vector if the query fails.
    */
-  SizeArray getTargetChunking(BaseIO* io) const;
+  SizeArray getTargetChunking(std::shared_ptr<BaseIO> io) const;
 
 private:
   // The path to the target dataset to link to
