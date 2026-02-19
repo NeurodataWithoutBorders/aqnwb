@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+* Added support for creating soft-links to existing datasets to avoid data duplication (@copilot, [#XXX](https://github.com/NeurodataWithoutBorders/aqnwb/pull/XXX))
+  * Added `BaseArrayDataSetConfig` abstract base class for polymorphic dataset configuration
+  * Added `LinkArrayDataSetConfig` class for creating HDF5 soft-links to existing datasets
+  * Updated `ArrayDataSetConfig` to inherit from `BaseArrayDataSetConfig`
+  * Updated all NWB type `initialize()` methods to accept `BaseArrayDataSetConfig` (TimeSeries, ElectricalSeries, SpikeEventSeries, AnnotationSeries, Data, NWBData, VectorData)
+  * Added comprehensive unit tests for link functionality with TimeSeries and VectorData
+  * Added documentation page on using links for time-alignment and avoiding data duplication
 * Added `AQNWB::IO::ConstMultiArrayView<DTYPE, NDIMS>` as a lightweight, non-owning const multi-dimensional view over a buffer used to facilitate multi-dimensional array access in C++17/20  (@chittti , [#250](https://github.com/NeurodataWithoutBorders/aqnwb/pull/250)) 
 * Added UUID/time/endian utilities in `src/Utils.hpp` to replace corresponding Boost utilities (@chittti, [#250](https://github.com/NeurodataWithoutBorders/aqnwb/pull/250)) 
 * Added AQNWB_CXX_STANDARD option to the cmake build to allow configuration of the std C++ version to support 17, 20, and 23 to allow the use of `std::mdspan` if C++23 is used  (@oruebel, [#250](https://github.com/NeurodataWithoutBorders/aqnwb/pull/250))

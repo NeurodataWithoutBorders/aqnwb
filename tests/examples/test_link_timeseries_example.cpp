@@ -1,29 +1,29 @@
-# Using LinkArrayDataSetConfig for TimeSeries Data
+#include <catch2/catch_test_macros.hpp>
 
-This example demonstrates how to create multiple TimeSeries objects that share the same data via soft-links, which is useful for time-alignment scenarios.
-
-## Use Case
-
-When you have multiple TimeSeries that need to reference the same data array but with different timestamps or metadata, you can use `LinkArrayDataSetConfig` to create soft-links instead of duplicating the data.
-
-## Example Code
-
-```cpp
+#include "Channel.hpp"
 #include "io/hdf5/HDF5IO.hpp"
 #include "nwb/NWBFile.hpp"
 #include "nwb/base/TimeSeries.hpp"
+#include "testUtils.hpp"
 
 using namespace AQNWB;
 
-int main() {
+TEST_CASE("LinkTimeSeriesExamples", "[timeseries][link]")
+{
+  SECTION("Link TimeSeries data for time alignment")
+  {
+    std::string path = getTestFilePath("testLinkTimeSeriesExample.h5");
+    
+    // [example_link_timeseries_setup]
     // Create an NWB file
-    std::string filepath = "linked_timeseries_example.nwb";
-    auto io = std::make_shared<IO::HDF5::HDF5IO>(filepath);
+    auto io = std::make_shared<IO::HDF5::HDF5IO>(path);
     io->open();
     
     auto nwbfile = NWB::NWBFile::create(io);
-    nwbfile->initialize();
+    nwbfile->initialize(generateUuid());
+    // [example_link_timeseries_setup]
     
+    // [example_link_timeseries_original]
     // Create the original TimeSeries with actual data
     auto originalSeries = NWB::TimeSeries::create("/acquisition/original_series", io);
     
@@ -44,14 +44,19 @@ int main() {
     // Write data to the original series
     std::vector<float> data(numSamples);
     std::vector<double> timestamps(numSamples);
-    // ... fill data and timestamps ...
+    for (size_t i = 0; i < numSamples; ++i) {
+      data[i] = static_cast<float>(i) * 0.1f;
+      timestamps[i] = static_cast<double>(i) * 0.001;  // 1 ms sampling
+    }
     
     originalSeries->writeData(
         {numSamples}, {0}, 
         data.data(), 
         timestamps.data()
     );
+    // [example_link_timeseries_original]
     
+    // [example_link_timeseries_linked]
     // Create a linked TimeSeries with different timestamps
     auto linkedSeries = NWB::TimeSeries::create("/acquisition/resampled_series", io);
     
@@ -71,7 +76,9 @@ int main() {
     
     // Write only the new timestamps (data is linked)
     std::vector<double> newTimestamps(numSamples);
-    // ... fill with resampled timestamps ...
+    for (size_t i = 0; i < numSamples; ++i) {
+      newTimestamps[i] = static_cast<double>(i) * 0.001 + 5.0;  // Offset by 5 seconds
+    }
     
     auto timestampRecorder = linkedSeries->recordTimestamps();
     timestampRecorder->writeDataBlock(
@@ -79,38 +86,14 @@ int main() {
         IO::BaseDataType::F64,
         newTimestamps.data()
     );
+    // [example_link_timeseries_linked]
     
+    // [example_link_timeseries_cleanup]
     io->stopRecording();
     io->close();
+    // [example_link_timeseries_cleanup]
     
-    return 0;
+    // Verify the file was created
+    REQUIRE(std::filesystem::exists(path));
+  }
 }
-```
-
-## Benefits
-
-1. **Storage Efficiency**: Data is stored only once, saving disk space
-2. **Consistency**: Changes to the original data are automatically reflected in all linked series
-3. **Flexibility**: Each linked series can have its own metadata, timestamps, and attributes
-4. **NWB Compliance**: Soft-links are a standard HDF5 feature fully supported by NWB
-
-## Verification
-
-You can verify the links were created correctly using h5ls:
-
-```bash
-h5ls -r linked_timeseries_example.nwb
-```
-
-Output:
-```
-/acquisition/original_series/data     Dataset {1000/Inf}
-/acquisition/resampled_series/data    Soft Link {/acquisition/original_series/data}
-```
-
-## Notes
-
-- The `LinkArrayDataSetConfig` constructor requires the target path and optionally shape/chunking
-- Shape and chunking are used to configure related datasets (e.g., timestamps)
-- `createArrayDataSet()` returns `nullptr` for links since you cannot write directly to a link
-- Links can only point to datasets within the same HDF5 file
