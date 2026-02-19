@@ -697,7 +697,7 @@ public:
    * @param path The location of the dataset or attribute in the file
    * @return The shape of the dataset or attribute.
    */
-  virtual SizeArray getStorageObjectShape(const std::string path) = 0;
+  virtual SizeArray getStorageObjectShape(const std::string path) const = 0;
 
   /**
    * @brief Gets the chunking configuration of a dataset.
@@ -705,7 +705,7 @@ public:
    * @return The chunking configuration of the dataset, or an empty vector if
    * the dataset is not chunked or doesn't exist.
    */
-  virtual SizeArray getStorageObjectChunking(const std::string path) = 0;
+  virtual SizeArray getStorageObjectChunking(const std::string path) const = 0;
 
   /**
    * @brief Gets the BaseDataType of a dataset.
@@ -713,7 +713,7 @@ public:
    * @return The BaseDataType of the dataset. Returns a default T_I32 type if
    * the dataset doesn't exist or is not a dataset.
    */
-  virtual BaseDataType getStorageObjectDataType(const std::string path) = 0;
+  virtual BaseDataType getStorageObjectDataType(const std::string path) const = 0;
 
   /**
    * @brief Convenience function for creating NWB related attributes.

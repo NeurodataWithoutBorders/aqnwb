@@ -1143,7 +1143,7 @@ HDF5IO::getStorageObjects(const std::string& path,
   return objects;
 }
 
-SizeArray HDF5IO::getStorageObjectShape(const std::string path)
+SizeArray HDF5IO::getStorageObjectShape(const std::string path) const
 {
   H5::DataSpace dataspace;
   try {
@@ -1161,7 +1161,7 @@ SizeArray HDF5IO::getStorageObjectShape(const std::string path)
   return SizeArray(dims.begin(), dims.end());
 }
 
-SizeArray HDF5IO::getStorageObjectChunking(const std::string path)
+SizeArray HDF5IO::getStorageObjectChunking(const std::string path) const
 {
   // First check what type of object we're dealing with
   StorageObjectType objectType = getStorageObjectType(path);
@@ -1194,7 +1194,7 @@ SizeArray HDF5IO::getStorageObjectChunking(const std::string path)
   }
 }
 
-AQNWB::IO::BaseDataType HDF5IO::getStorageObjectDataType(const std::string path)
+AQNWB::IO::BaseDataType HDF5IO::getStorageObjectDataType(const std::string path) const
 {
   // Check if the object is a dataset
   StorageObjectType objType = getStorageObjectType(path);

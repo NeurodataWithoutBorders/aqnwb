@@ -278,7 +278,7 @@ public:
    * @param path The location of the dataset or attribute in the file
    * @return The shape of the dataset or attribute.
    */
-  SizeArray getStorageObjectShape(const std::string path) override;
+  SizeArray getStorageObjectShape(const std::string path) const override;
 
   /**
    * @brief Gets the chunking configuration of a dataset.
@@ -286,7 +286,7 @@ public:
    * @return The chunking configuration of the dataset, or an empty vector if
    * the dataset is not chunked or doesn't exist.
    */
-  SizeArray getStorageObjectChunking(const std::string path) override;
+  SizeArray getStorageObjectChunking(const std::string path) const override;
 
   /**
    * @brief Gets the BaseDataType of a dataset.
@@ -294,7 +294,7 @@ public:
    * @return The BaseDataType of the dataset. Returns a default T_I32 type if
    * the dataset doesn't exist or is not a dataset.
    */
-  BaseDataType getStorageObjectDataType(const std::string path) override;
+  BaseDataType getStorageObjectDataType(const std::string path) const override;
 
   /**
    * @brief Checks whether a Dataset, Group, or Link already exists at the
