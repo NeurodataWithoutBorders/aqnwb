@@ -79,6 +79,16 @@ SizeArray LinkArrayDataSetConfig::getTargetChunking(std::shared_ptr<BaseIO> io) 
   return SizeArray(targetChunking.begin(), targetChunking.end());
 }
 
+BaseDataType LinkArrayDataSetConfig::getTargetDataType(std::shared_ptr<BaseIO> io) const
+{
+  if (!io) {
+    std::cerr << "LinkArrayDataSetConfig::getTargetDataType: IO object is null" << std::endl;
+    return BaseDataType(BaseDataType::Type::T_I32);
+  }
+  
+  return io->getStorageObjectDataType(m_targetPath);
+}
+
 
 // BaseIO
 

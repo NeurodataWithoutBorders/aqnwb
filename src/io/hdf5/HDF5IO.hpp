@@ -288,6 +288,14 @@ public:
   SizeArray getStorageObjectChunking(const std::string path) override;
 
   /**
+   * @brief Gets the BaseDataType of a dataset.
+   * @param path The path to the dataset.
+   * @return The BaseDataType of the dataset. Returns a default T_I32 type if
+   * the dataset doesn't exist or is not a dataset.
+   */
+  BaseDataType getStorageObjectDataType(const std::string path) override;
+
+  /**
    * @brief Checks whether a Dataset, Group, or Link already exists at the
    * location in the file.
    * @param path The location of the object in the file.

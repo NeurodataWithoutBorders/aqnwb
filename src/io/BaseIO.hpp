@@ -326,6 +326,19 @@ public:
    */
   SizeArray getTargetChunking(std::shared_ptr<BaseIO> io) const;
 
+  /**
+   * @brief Gets the BaseDataType of the target dataset.
+   * 
+   * This convenience method queries the target dataset's data type from the file.
+   * This allows TimeSeries and other classes to correctly set their m_dataType
+   * member when using linked data.
+   * 
+   * @param io The IO object to use for querying the target dataset.
+   * @return The BaseDataType of the target dataset. Returns a default T_I32 type
+   * if the query fails.
+   */
+  BaseDataType getTargetDataType(std::shared_ptr<BaseIO> io) const;
+
 private:
   // The path to the target dataset to link to
   std::string m_targetPath;
@@ -691,6 +704,14 @@ public:
    * the dataset is not chunked or doesn't exist.
    */
   virtual SizeArray getStorageObjectChunking(const std::string path) = 0;
+
+  /**
+   * @brief Gets the BaseDataType of a dataset.
+   * @param path The path to the dataset.
+   * @return The BaseDataType of the dataset. Returns a default T_I32 type if
+   * the dataset doesn't exist or is not a dataset.
+   */
+  virtual BaseDataType getStorageObjectDataType(const std::string path) = 0;
 
   /**
    * @brief Convenience function for creating NWB related attributes.

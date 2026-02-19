@@ -1193,6 +1193,26 @@ SizeArray HDF5IO::getStorageObjectChunking(const std::string path)
   }
 }
 
+BaseDataType HDF5IO::getStorageObjectDataType(const std::string path)
+{
+  // Check if the object is a dataset
+  StorageObjectType objType = getStorageObjectType(path);
+  if (objType != StorageObjectType::Dataset) {
+    // Return default type for non-datasets
+    return BaseDataType(BaseDataType::Type::T_I32);
+  }
+  
+  try {
+    H5::DataSet dataset = m_file->openDataSet(path);
+    H5::DataType dataType = dataset.getDataType();
+    return getBaseDataType(dataType);
+  } catch (H5::Exception& e) {
+    std::cerr << "HDF5IO::getStorageObjectDataType: Could not get data type for dataset at " 
+              << path << ": " << e.getDetailMsg() << std::endl;
+    return BaseDataType(BaseDataType::Type::T_I32);
+  }
+}
+
 std::shared_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::getDataSet(
     const std::string& path)
 {

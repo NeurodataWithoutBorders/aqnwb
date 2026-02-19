@@ -116,9 +116,8 @@ Status TimeSeries::initialize(
         return Status::Failure;
       }
       
-      // For data type, we'll use a placeholder since we can't easily query it
-      // The actual type doesn't matter for creating timestamps
-      this->m_dataType = IO::BaseDataType(IO::BaseDataType::T_F32, 1);
+      // Query the actual data type from the linked dataset
+      this->m_dataType = linkConfig->getTargetDataType(ioPtr);
     }
   } else {
     const IO::ArrayDataSetConfig* arrayConfig =
