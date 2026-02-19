@@ -53,14 +53,14 @@ SizeArray LinkArrayDataSetConfig::getTargetShape(std::shared_ptr<BaseIO> io) con
     return SizeArray{};
   }
   
-  std::vector<SizeType> targetShape = io->getStorageObjectShape(m_targetPath);
+  SizeArray targetShape = io->getStorageObjectShape(m_targetPath);
   if (targetShape.empty()) {
     std::cerr << "LinkArrayDataSetConfig::getTargetShape: Could not get shape of linked dataset at " 
               << m_targetPath << std::endl;
     return SizeArray{};
   }
   
-  return SizeArray(targetShape.begin(), targetShape.end());
+  return targetShape;
 }
 
 SizeArray LinkArrayDataSetConfig::getTargetChunking(std::shared_ptr<BaseIO> io) const

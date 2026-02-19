@@ -1143,7 +1143,7 @@ HDF5IO::getStorageObjects(const std::string& path,
   return objects;
 }
 
-std::vector<SizeType> HDF5IO::getStorageObjectShape(const std::string path)
+SizeArray HDF5IO::getStorageObjectShape(const std::string path)
 {
   H5::DataSpace dataspace;
   try {
@@ -1158,10 +1158,10 @@ std::vector<SizeType> HDF5IO::getStorageObjectShape(const std::string path)
   std::vector<hsize_t> dims(static_cast<size_t>(rank));
   dataspace.getSimpleExtentDims(dims.data());
 
-  return std::vector<SizeType>(dims.begin(), dims.end());
+  return SizeArray(dims.begin(), dims.end());
 }
 
-std::vector<SizeType> HDF5IO::getStorageObjectChunking(const std::string path)
+SizeArray HDF5IO::getStorageObjectChunking(const std::string path)
 {
   try {
     H5::DataSet dataset = m_file->openDataSet(path);
@@ -1169,7 +1169,7 @@ std::vector<SizeType> HDF5IO::getStorageObjectChunking(const std::string path)
     
     // Check if the dataset is chunked
     if (plist.getLayout() != H5D_CHUNKED) {
-      return std::vector<SizeType>();
+      return SizeArray();
     }
     
     // Get the chunk dimensions
@@ -1177,11 +1177,11 @@ std::vector<SizeType> HDF5IO::getStorageObjectChunking(const std::string path)
     std::vector<hsize_t> chunk_dims(rank);
     plist.getChunk(rank, chunk_dims.data());
     
-    return std::vector<SizeType>(chunk_dims.begin(), chunk_dims.end());
+    return SizeArray(chunk_dims.begin(), chunk_dims.end());
   } catch (H5::Exception& e) {
     std::cerr << "HDF5IO::getStorageObjectChunking: Could not get chunking for dataset at " 
               << path << ": " << e.getDetailMsg() << std::endl;
-    return std::vector<SizeType>();
+    return SizeArray();
   }
 }
 
