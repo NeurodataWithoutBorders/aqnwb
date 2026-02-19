@@ -3,6 +3,7 @@
 #include <filesystem>
 #include <iostream>
 #include <memory>
+#include <stdexcept>
 #include <vector>
 
 #include "io/hdf5/HDF5IO.hpp"
@@ -1200,8 +1201,21 @@ AQNWB::IO::BaseDataType HDF5IO::getStorageObjectDataType(
   // Check if the object is a dataset
   StorageObjectType objType = getStorageObjectType(path);
   if (objType != StorageObjectType::Dataset) {
-    // Return default type for non-datasets
-    return BaseDataType(BaseDataType::Type::T_I32);
+    std::string typeStr;
+    switch (objType) {
+      case StorageObjectType::Group:
+        typeStr = "Group";
+        break;
+      case StorageObjectType::Attribute:
+        typeStr = "Attribute";
+        break;
+      default:
+        typeStr = "Unknown";
+        break;
+    }
+    throw std::runtime_error(
+        "HDF5IO::getStorageObjectDataType: Object at '" + path +
+        "' is a " + typeStr + ", not a dataset. Cannot determine data type.");
   }
 
   try {
@@ -1209,10 +1223,10 @@ AQNWB::IO::BaseDataType HDF5IO::getStorageObjectDataType(
     H5::DataType dataType = dataset.getDataType();
     return getBaseDataType(dataType);
   } catch (H5::Exception& e) {
-    std::cerr << "HDF5IO::getStorageObjectDataType: Could not get data type "
-                 "for dataset at "
-              << path << ": " << e.getDetailMsg() << std::endl;
-    return BaseDataType(BaseDataType::Type::T_I32);
+    throw std::runtime_error(
+        "HDF5IO::getStorageObjectDataType: Could not get data type for "
+        "dataset at '" +
+        path + "': " + e.getDetailMsg());
   }
 }
 
