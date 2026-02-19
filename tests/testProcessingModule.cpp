@@ -268,7 +268,7 @@ TEST_CASE("ProcessingModule initialize fails when IO is deleted",
   // Create the ProcessingModule with a temporary IO that goes out of scope
   {
     std::shared_ptr<IO::HDF5::HDF5IO> io = std::make_shared<IO::HDF5::HDF5IO>(
-        getTestFilePath("processingModuleDeletedIO.nwb"));
+        getTestFilePath("processingModuleDeletedIO.h5"));
     module = NWB::RegisteredType::create<NWB::ProcessingModule>(
         "/processing/test", io);
     REQUIRE(module != nullptr);
