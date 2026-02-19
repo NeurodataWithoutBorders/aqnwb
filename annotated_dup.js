@@ -26,6 +26,7 @@ var annotated_dup =
         [ "NWBData", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data" ],
         [ "NWBDataTyped", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_typed.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_typed" ],
         [ "NWBDataInterface", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface" ],
+        [ "ProcessingModule", "class_a_q_n_w_b_1_1_n_w_b_1_1_processing_module.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_processing_module" ],
         [ "TimeSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series" ],
         [ "Device", "class_a_q_n_w_b_1_1_n_w_b_1_1_device.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_device" ],
         [ "ElectricalSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series" ],

@@ -1,0 +1,11 @@
+<map id="AQNWB::NWB::ProcessingModule" name="AQNWB::NWB::ProcessingModule">
+<area shape="rect" id="Node000001" title="A collection of processed data." alt="" coords="5,315,233,341"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html" title="An abstract data type for a generic container storing collections of data and metadata...." alt="" coords="15,241,223,267"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,281,121,316,117,313,117,284"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html" title="Abstract data type for a group storing collections of data and metadata." alt="" coords="31,168,207,193"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="120,207,122,242,116,240,118,211"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema." alt="" coords="13,94,225,120"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="120,133,122,168,116,167,118,138"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="20,5,218,46"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="120,59,122,94,116,93,118,64"/>
+</map>
