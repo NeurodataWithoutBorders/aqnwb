@@ -1194,7 +1194,8 @@ SizeArray HDF5IO::getStorageObjectChunking(const std::string path) const
   }
 }
 
-AQNWB::IO::BaseDataType HDF5IO::getStorageObjectDataType(const std::string path) const
+AQNWB::IO::BaseDataType HDF5IO::getStorageObjectDataType(
+    const std::string path) const
 {
   // Check if the object is a dataset
   StorageObjectType objType = getStorageObjectType(path);

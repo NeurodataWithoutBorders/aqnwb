@@ -713,7 +713,8 @@ public:
    * @return The BaseDataType of the dataset. Returns a default T_I32 type if
    * the dataset doesn't exist or is not a dataset.
    */
-  virtual BaseDataType getStorageObjectDataType(const std::string path) const = 0;
+  virtual BaseDataType getStorageObjectDataType(
+      const std::string path) const = 0;
 
   /**
    * @brief Convenience function for creating NWB related attributes.
