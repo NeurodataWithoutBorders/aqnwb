@@ -48,19 +48,17 @@ public:
                          "description",
                          Description of this collection of processed data.)
 
-  DEFINE_UNNAMED_REGISTERED_FIELD(
-      readNWBDataInterface,
-      createNWBDataInterface,
-      NWBDataInterface,
-      "",
-      Data objects stored in this collection.)
+  DEFINE_UNNAMED_REGISTERED_FIELD(readNWBDataInterface,
+                                  createNWBDataInterface,
+                                  NWBDataInterface,
+                                  "",
+                                  Data objects stored in this collection.)
 
-  DEFINE_UNNAMED_REGISTERED_FIELD(
-      readDynamicTable,
-      createDynamicTable,
-      DynamicTable,
-      "",
-      Tables stored in this collection.)
+  DEFINE_UNNAMED_REGISTERED_FIELD(readDynamicTable,
+                                  createDynamicTable,
+                                  DynamicTable,
+                                  "",
+                                  Tables stored in this collection.)
 
 protected:
   /**
