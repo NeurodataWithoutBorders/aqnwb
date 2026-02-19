@@ -291,15 +291,23 @@ protected:
  * to another dataset in the file, avoiding data duplication. This is useful
  * for scenarios like time-alignment where multiple TimeSeries share the same
  * data but have different timestamps.
+ * 
+ * The shape and chunking parameters are stored to enable proper configuration
+ * of related datasets (e.g., timestamps in TimeSeries) even when the main
+ * data is linked.
  */
 class LinkArrayDataSetConfig : public BaseArrayDataSetConfig
 {
 public:
   /**
-   * @brief Constructs a LinkArrayDataSetConfig object with the target path.
+   * @brief Constructs a LinkArrayDataSetConfig object with the target path and optional metadata.
    * @param targetPath The path to the target dataset to link to.
+   * @param shape The shape of the linked dataset (used for creating related datasets).
+   * @param chunking The chunking of the linked dataset (used for creating related datasets).
    */
-  explicit LinkArrayDataSetConfig(const std::string& targetPath);
+  LinkArrayDataSetConfig(const std::string& targetPath,
+                         const SizeArray& shape = {},
+                         const SizeArray& chunking = {});
 
   /**
    * @brief Virtual destructor.
@@ -313,7 +321,7 @@ public:
   inline std::string getTargetPath() const { return m_targetPath; }
 
   /**
-   * @brief Returns a placeholder data type (not applicable for links).
+   * @brief Returns the data type. For links, returns a placeholder type.
    * @return A default BaseDataType.
    */
   inline BaseDataType getType() const override
@@ -322,16 +330,16 @@ public:
   }
 
   /**
-   * @brief Returns a placeholder shape (not applicable for links).
-   * @return An empty SizeArray.
+   * @brief Returns the shape of the linked dataset.
+   * @return The shape array.
    */
-  inline SizeArray getShape() const override { return {}; }
+  inline SizeArray getShape() const override { return m_shape; }
 
   /**
-   * @brief Returns a placeholder chunking (not applicable for links).
-   * @return An empty SizeArray.
+   * @brief Returns the chunking of the linked dataset.
+   * @return The chunking array.
    */
-  inline SizeArray getChunking() const override { return {}; }
+  inline SizeArray getChunking() const override { return m_chunking; }
 
   /**
    * @brief Checks if this configuration represents a link.
@@ -342,6 +350,10 @@ public:
 private:
   // The path to the target dataset to link to
   std::string m_targetPath;
+  // The shape of the linked dataset (for metadata purposes)
+  SizeArray m_shape;
+  // The chunking of the linked dataset (for metadata purposes)
+  SizeArray m_chunking;
 };
 
 /**
