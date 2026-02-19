@@ -26,6 +26,7 @@ add_executable(aqnwb_test
     testMisc.cpp
     testNamespaceRegistry.cpp
     testNWBFile.cpp
+    testProcessingModule.cpp
     testReadIO.cpp
     testRecordingWorkflow.cpp
     testRecordingObjects.cpp

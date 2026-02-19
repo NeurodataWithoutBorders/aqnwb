@@ -222,21 +222,11 @@ public:
                                       group)
 
   DEFINE_UNNAMED_REGISTERED_FIELD(readProcessingModule,
-                                  createProcessingGroupModule,
+                                  createProcessingModule,
                                   ProcessingModule,
                                   "processing",
                                   Get a ProcessingModule stored in the
                                       processing group)
-
-  /**
-   * @brief Create a ProcessingModule in the processing group.
-   * @param moduleName The name of the processing module.
-   * @param description A description of the processing module.
-   * @return A shared pointer to the created ProcessingModule, or nullptr if
-   * failed.
-   */
-  std::shared_ptr<ProcessingModule> createProcessingModule(
-      const std::string& moduleName, const std::string& description);
 
 protected:
   /**

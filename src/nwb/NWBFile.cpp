@@ -12,7 +12,6 @@
 #include "Channel.hpp"
 #include "Utils.hpp"
 #include "io/BaseIO.hpp"
-#include "nwb/base/ProcessingModule.hpp"
 #include "nwb/device/Device.hpp"
 #include "nwb/ecephys/ElectricalSeries.hpp"
 #include "nwb/ecephys/SpikeEventSeries.hpp"
@@ -426,30 +425,4 @@ void NWBFile::cacheSpecifications(const Types::NamespaceInfo& namespaceInfo)
         AQNWB::mergePaths(specFullVersionPath, std::string(name)),
         std::string(content));
   }
-}
-
-std::shared_ptr<ProcessingModule> NWBFile::createProcessingModule(
-    const std::string& moduleName, const std::string& description)
-{
-  auto ioPtr = getIO();
-  if (!ioPtr) {
-    std::cerr << "NWBFile::createProcessingModule IO object has been deleted."
-              << std::endl;
-    return nullptr;
-  }
-
-  if (!ioPtr->canModifyObjects()) {
-    std::cerr
-        << "NWBFile::createProcessingModule IO object cannot modify objects."
-        << std::endl;
-    return nullptr;
-  }
-
-  auto processingModule = this->createProcessingGroupModule(moduleName);
-  Status initStatus = processingModule->initialize(description);
-  if (initStatus != Status::Success) {
-    return nullptr;
-  }
-
-  return processingModule;
 }
