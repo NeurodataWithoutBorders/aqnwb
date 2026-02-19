@@ -62,8 +62,7 @@ SizeArray LinkArrayDataSetConfig::getTargetShape(const BaseIO& io) const
 
 SizeArray LinkArrayDataSetConfig::getTargetChunking(const BaseIO& io) const
 {
-  std::vector<SizeType> targetChunking =
-      io.getStorageObjectChunking(m_targetPath);
+  SizeArray targetChunking = io.getStorageObjectChunking(m_targetPath);
   if (targetChunking.empty()) {
     std::cerr << "LinkArrayDataSetConfig::getTargetChunking: Could not get "
                  "chunking of linked dataset at "
@@ -71,7 +70,7 @@ SizeArray LinkArrayDataSetConfig::getTargetChunking(const BaseIO& io) const
     return SizeArray {};
   }
 
-  return SizeArray(targetChunking.begin(), targetChunking.end());
+  return targetChunking;
 }
 
 BaseDataType LinkArrayDataSetConfig::getTargetDataType(const BaseIO& io) const
