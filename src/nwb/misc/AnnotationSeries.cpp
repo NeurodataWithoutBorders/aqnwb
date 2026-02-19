@@ -21,7 +21,7 @@ AnnotationSeries::~AnnotationSeries() {}
 /** Initialization function*/
 Status AnnotationSeries::initialize(const std::string& description,
                                     const std::string& comments,
-                                    const IO::ArrayDataSetConfig& dataConfig)
+                                    const IO::BaseArrayDataSetConfig& dataConfig)
 {
   auto tsInitStatus = TimeSeries::initialize(
       dataConfig,

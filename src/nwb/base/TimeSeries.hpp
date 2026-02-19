@@ -108,7 +108,7 @@ public:
    * @return Status::Success if successful, otherwise Status::Failure.
    */
   Status initialize(
-      const IO::ArrayDataSetConfig& dataConfig,
+      const IO::BaseArrayDataSetConfig& dataConfig,
       const std::string& unit,
       const std::string& description = "no description",
       const std::string& comments = "no comments",

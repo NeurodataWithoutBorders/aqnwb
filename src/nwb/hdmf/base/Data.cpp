@@ -11,7 +11,7 @@ Data::Data(const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io)
 {
 }
 
-Status Data::initialize(const IO::ArrayDataSetConfig& dataConfig)
+Status Data::initialize(const IO::BaseArrayDataSetConfig& dataConfig)
 {
   auto ioPtr = getIO();
   if (ioPtr == nullptr) {

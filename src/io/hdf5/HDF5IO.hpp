@@ -257,12 +257,12 @@ public:
   /**
    * @brief Creates an extendable dataset with the given configuration and path.
    * @param config The configuration for the dataset, including type, shape, and
-   * chunking.
+   * chunking. Can also be a LinkArrayDataSetConfig to create a soft-link.
    * @param path The location in the file of the new dataset.
-   * @return A pointer to the created dataset.
+   * @return A pointer to the created dataset, or nullptr for links.
    */
   std::unique_ptr<IO::BaseRecordingData> createArrayDataSet(
-      const IO::ArrayDataSetConfig& config, const std::string& path) override;
+      const IO::BaseArrayDataSetConfig& config, const std::string& path) override;
 
   /**
    * @brief Returns a pointer to a dataset at a given path.

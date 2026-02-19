@@ -80,7 +80,7 @@ Status TimeSeries::createTimestampsAttributes(const std::string& path)
 }
 
 Status TimeSeries::initialize(
-    const IO::ArrayDataSetConfig& dataConfig,
+    const IO::BaseArrayDataSetConfig& dataConfig,
     const std::string& unit,
     const std::string& description,
     const std::string& comments,

@@ -16,7 +16,7 @@ SpikeEventSeries::SpikeEventSeries(const std::string& path,
 /** Destructor */
 SpikeEventSeries::~SpikeEventSeries() {}
 
-Status SpikeEventSeries::initialize(const IO::ArrayDataSetConfig& dataConfig,
+Status SpikeEventSeries::initialize(const IO::BaseArrayDataSetConfig& dataConfig,
                                     const Types::ChannelVector& channelVector,
                                     const std::string& description,
                                     const float& conversion,

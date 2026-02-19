@@ -13,7 +13,7 @@ NWBData::NWBData(const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io)
 {
 }
 
-Status NWBData::initialize(const AQNWB::IO::ArrayDataSetConfig& dataConfig)
+Status NWBData::initialize(const AQNWB::IO::BaseArrayDataSetConfig& dataConfig)
 {
   return Data::initialize(dataConfig);
 }

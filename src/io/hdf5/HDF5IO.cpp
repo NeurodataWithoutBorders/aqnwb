@@ -1185,16 +1185,32 @@ std::shared_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::getDataSet(
 }
 
 std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::createArrayDataSet(
-    const IO::ArrayDataSetConfig& config, const std::string& path)
+    const IO::BaseArrayDataSetConfig& config, const std::string& path)
 {
-  std::unique_ptr<DataSet> data;
-  DSetCreatPropList prop;
-  DataType H5type = getH5Type(config.getType());
-
   if (!canModifyObjects()) {
     std::cerr << "Cannot modify objects" << std::endl;
     return nullptr;
   }
+
+  // Check if this is a link configuration
+  if (config.isLink()) {
+    const IO::LinkArrayDataSetConfig* linkConfig =
+        dynamic_cast<const IO::LinkArrayDataSetConfig*>(&config);
+    if (linkConfig) {
+      Status status = createLink(path, linkConfig->getTargetPath());
+      if (status != Status::Success) {
+        std::cerr << "Failed to create link from " << path << " to "
+                  << linkConfig->getTargetPath() << std::endl;
+      }
+      // Return nullptr for links as they don't provide a recordable dataset
+      return nullptr;
+    }
+  }
+
+  // Regular dataset creation (existing implementation)
+  std::unique_ptr<DataSet> data;
+  DSetCreatPropList prop;
+  DataType H5type = getH5Type(config.getType());
 
   const SizeArray& size = config.getShape();
   const SizeArray& chunking = config.getChunking();

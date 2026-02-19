@@ -191,6 +191,46 @@ enum class FileMode
 };
 
 /**
+ * @brief Base class for array dataset configuration.
+ *
+ * This abstract base class serves as the interface for different types of
+ * array dataset configurations. It allows for polymorphic handling of both
+ * regular datasets (ArrayDataSetConfig) and linked datasets (LinkArrayDataSetConfig).
+ */
+class BaseArrayDataSetConfig
+{
+public:
+  /**
+   * @brief Virtual destructor to ensure proper cleanup in derived classes.
+   */
+  virtual ~BaseArrayDataSetConfig() = default;
+
+  /**
+   * @brief Returns the data type of the dataset.
+   * @return The data type of the dataset.
+   */
+  virtual BaseDataType getType() const = 0;
+
+  /**
+   * @brief Returns the shape of the dataset.
+   * @return The shape of the dataset.
+   */
+  virtual SizeArray getShape() const = 0;
+
+  /**
+   * @brief Returns the chunking of the dataset.
+   * @return The chunking of the dataset.
+   */
+  virtual SizeArray getChunking() const = 0;
+
+  /**
+   * @brief Checks if this configuration represents a link.
+   * @return True if this is a link configuration, false otherwise.
+   */
+  virtual bool isLink() const { return false; }
+};
+
+/**
  * @brief The configuration for an array dataset
  *
  * This class defines basic properties of an n-Dimensional array dataset, e.g.,
@@ -198,7 +238,7 @@ enum class FileMode
  * create their own subclass to add additional configuration options, e.g.,
  * compression, chunking, etc.
  */
-class ArrayDataSetConfig
+class ArrayDataSetConfig : public BaseArrayDataSetConfig
 {
 public:
   /**
@@ -221,19 +261,19 @@ public:
    * @brief Returns the data type of the dataset.
    * @return The data type of the dataset.
    */
-  inline BaseDataType getType() const { return m_type; }
+  inline BaseDataType getType() const override { return m_type; }
 
   /**
    * @brief Returns the shape of the dataset.
    * @return The shape of the dataset.
    */
-  inline SizeArray getShape() const { return m_shape; }
+  inline SizeArray getShape() const override { return m_shape; }
 
   /**
    * @brief Returns the chunking of the dataset.
    * @return The chunking of the dataset.
    */
-  inline SizeArray getChunking() const { return m_chunking; }
+  inline SizeArray getChunking() const override { return m_chunking; }
 
 protected:
   // The data type of the dataset
@@ -242,6 +282,66 @@ protected:
   SizeArray m_shape;
   // The chunking of the dataset
   SizeArray m_chunking;
+};
+
+/**
+ * @brief Configuration for creating a soft-link to an existing dataset.
+ *
+ * This class allows configuration of a dataset as a soft-link (symbolic link)
+ * to another dataset in the file, avoiding data duplication. This is useful
+ * for scenarios like time-alignment where multiple TimeSeries share the same
+ * data but have different timestamps.
+ */
+class LinkArrayDataSetConfig : public BaseArrayDataSetConfig
+{
+public:
+  /**
+   * @brief Constructs a LinkArrayDataSetConfig object with the target path.
+   * @param targetPath The path to the target dataset to link to.
+   */
+  explicit LinkArrayDataSetConfig(const std::string& targetPath);
+
+  /**
+   * @brief Virtual destructor.
+   */
+  virtual ~LinkArrayDataSetConfig() = default;
+
+  /**
+   * @brief Returns the path to the target dataset.
+   * @return The target path.
+   */
+  inline std::string getTargetPath() const { return m_targetPath; }
+
+  /**
+   * @brief Returns a placeholder data type (not applicable for links).
+   * @return A default BaseDataType.
+   */
+  inline BaseDataType getType() const override
+  {
+    return BaseDataType(BaseDataType::T_I32, 1);
+  }
+
+  /**
+   * @brief Returns a placeholder shape (not applicable for links).
+   * @return An empty SizeArray.
+   */
+  inline SizeArray getShape() const override { return {}; }
+
+  /**
+   * @brief Returns a placeholder chunking (not applicable for links).
+   * @return An empty SizeArray.
+   */
+  inline SizeArray getChunking() const override { return {}; }
+
+  /**
+   * @brief Checks if this configuration represents a link.
+   * @return True (always, for this class).
+   */
+  inline bool isLink() const override { return true; }
+
+private:
+  // The path to the target dataset to link to
+  std::string m_targetPath;
 };
 
 /**
@@ -575,12 +675,12 @@ public:
   /**
    * @brief Creates an extendable dataset with the given configuration and path.
    * @param config The configuration for the dataset, including type, shape, and
-   * chunking.
+   * chunking. Can also be a LinkArrayDataSetConfig to create a soft-link.
    * @param path The location in the file of the new dataset.
-   * @return A pointer to the created dataset.
+   * @return A pointer to the created dataset, or nullptr for links.
    */
   virtual std::unique_ptr<BaseRecordingData> createArrayDataSet(
-      const ArrayDataSetConfig& config, const std::string& path) = 0;
+      const BaseArrayDataSetConfig& config, const std::string& path) = 0;
 
   /**
    * @brief Returns a pointer to a dataset at a given path.

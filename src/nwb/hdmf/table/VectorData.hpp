@@ -73,7 +73,7 @@ public:
    * @param description The description of the VectorData
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status initialize(const IO::ArrayDataSetConfig& dataConfig,
+  Status initialize(const IO::BaseArrayDataSetConfig& dataConfig,
                     const std::string& description)
   {
     auto ioPtr = getIO();

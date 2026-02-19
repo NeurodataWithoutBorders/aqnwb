@@ -41,6 +41,12 @@ ArrayDataSetConfig::ArrayDataSetConfig(const BaseDataType& type,
 {
 }
 
+// LinkArrayDataSetConfig
+LinkArrayDataSetConfig::LinkArrayDataSetConfig(const std::string& targetPath)
+    : m_targetPath(targetPath)
+{
+}
+
 // BaseIO
 
 BaseIO::BaseIO(const std::string& filename)
