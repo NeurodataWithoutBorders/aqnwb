@@ -1163,6 +1163,14 @@ SizeArray HDF5IO::getStorageObjectShape(const std::string path)
 
 SizeArray HDF5IO::getStorageObjectChunking(const std::string path)
 {
+  // First check what type of object we're dealing with
+  StorageObjectType objectType = getStorageObjectType(path);
+  
+  // Only datasets can have chunking - return empty for groups and attributes
+  if (objectType != StorageObjectType::Dataset) {
+    return SizeArray();
+  }
+  
   try {
     H5::DataSet dataset = m_file->openDataSet(path);
     H5::DSetCreatPropList plist = dataset.getCreatePlist();
