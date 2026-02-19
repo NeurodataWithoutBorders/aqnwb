@@ -49,28 +49,12 @@ LinkArrayDataSetConfig::LinkArrayDataSetConfig(const std::string& targetPath)
 
 SizeArray LinkArrayDataSetConfig::getTargetShape(const BaseIO& io) const
 {
-  SizeArray targetShape = io.getStorageObjectShape(m_targetPath);
-  if (targetShape.empty()) {
-    std::cerr << "LinkArrayDataSetConfig::getTargetShape: Could not get shape "
-                 "of linked dataset at "
-              << m_targetPath << std::endl;
-    return SizeArray {};
-  }
-
-  return targetShape;
+  return io.getStorageObjectShape(m_targetPath);
 }
 
 SizeArray LinkArrayDataSetConfig::getTargetChunking(const BaseIO& io) const
 {
-  SizeArray targetChunking = io.getStorageObjectChunking(m_targetPath);
-  if (targetChunking.empty()) {
-    std::cerr << "LinkArrayDataSetConfig::getTargetChunking: Could not get "
-                 "chunking of linked dataset at "
-              << m_targetPath << ". Dataset may not be chunked." << std::endl;
-    return SizeArray {};
-  }
-
-  return targetChunking;
+  return io.getStorageObjectChunking(m_targetPath);
 }
 
 BaseDataType LinkArrayDataSetConfig::getTargetDataType(const BaseIO& io) const
