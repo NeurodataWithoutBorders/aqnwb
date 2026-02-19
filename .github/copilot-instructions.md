@@ -32,7 +32,7 @@ aqnwb/
 │   ├── nwb/                      # NWB schema implementations
 │   │   ├── NWBFile.hpp/cpp       # Main NWB file interface
 │   │   ├── RegisteredType.hpp/cpp # Base type with registration system
-│   │   ├── base/                 # NWB base types (NWBData, NWBDataInterface, NWBContainer, TimeSeries)
+│   │   ├── base/                 # NWB base types (NWBData, NWBDataInterface, NWBContainer, ProcessingModule, TimeSeries)
 │   │   ├── device/               # Device types
 │   │   ├── ecephys/              # Electrophysiology types (ElectricalSeries, SpikeEventSeries)
 │   │   ├── file/                 # File-level types (ElectrodeGroup, ElectrodesTable)
