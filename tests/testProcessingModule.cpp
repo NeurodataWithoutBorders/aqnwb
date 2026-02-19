@@ -259,3 +259,23 @@ TEST_CASE("ProcessingModule createDynamicTable and readDynamicTable",
     readio->close();
   }
 }
+
+TEST_CASE("ProcessingModule initialize fails when IO is deleted",
+          "[processingmodule]")
+{
+  std::shared_ptr<NWB::ProcessingModule> module;
+
+  // Create the ProcessingModule with a temporary IO that goes out of scope
+  {
+    std::shared_ptr<IO::HDF5::HDF5IO> io = std::make_shared<IO::HDF5::HDF5IO>(
+        getTestFilePath("processingModuleDeletedIO.nwb"));
+    module = NWB::RegisteredType::create<NWB::ProcessingModule>(
+        "/processing/test", io);
+    REQUIRE(module != nullptr);
+    // io goes out of scope here, expiring the weak_ptr inside module
+  }
+
+  // initialize should return Failure since the IO object has been deleted
+  Status result = module->initialize("should fail");
+  REQUIRE(result == Status::Failure);
+}
