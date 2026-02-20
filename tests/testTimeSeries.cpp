@@ -1,7 +1,7 @@
+#include <sstream>
+
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_all.hpp>
-
-#include <sstream>
 
 #include "Types.hpp"
 #include "Utils.hpp"
@@ -526,12 +526,13 @@ TEST_CASE("TimeSeries chunking fallback and validation", "[base][chunking]")
     io->open();
     auto ts = NWB::TimeSeries::create(dataPath, io);
 
-    // Use fixed-size dataset (non-extendable) so we can test with empty chunking
-    // This simulates a scenario where chunking info is not available
+    // Use fixed-size dataset (non-extendable) so we can test with empty
+    // chunking This simulates a scenario where chunking info is not available
     // (e.g., from a link to a non-chunked dataset)
-    IO::ArrayDataSetConfig config(
-        dataType, SizeArray {numSamples}, SizeArray {});  // Fixed size, empty chunking
-    
+    IO::ArrayDataSetConfig config(dataType,
+                                  SizeArray {numSamples},
+                                  SizeArray {});  // Fixed size, empty chunking
+
     // Capture stderr to verify the warning message
     std::streambuf* oldCerr = std::cerr.rdbuf();
     std::ostringstream capturedCerr;
@@ -553,7 +554,7 @@ TEST_CASE("TimeSeries chunking fallback and validation", "[base][chunking]")
     std::cerr.rdbuf(oldCerr);
 
     REQUIRE(initStatus == Status::Success);
-    
+
     // Verify the warning message was printed
     std::string capturedOutput = capturedCerr.str();
     REQUIRE(capturedOutput.find("Chunking not provided") != std::string::npos);
@@ -617,7 +618,7 @@ TEST_CASE("TimeSeries chunking fallback and validation", "[base][chunking]")
 
     // Should fail due to empty shape
     REQUIRE(initStatus == Status::Failure);
-    
+
     // Verify the error message was printed
     std::string capturedOutput = capturedCerr.str();
     REQUIRE(capturedOutput.find("Shape cannot be empty") != std::string::npos);

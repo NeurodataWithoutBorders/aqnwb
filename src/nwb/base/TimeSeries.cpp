@@ -1,6 +1,6 @@
-#include "nwb/base/TimeSeries.hpp"
-
 #include <iostream>
+
+#include "nwb/base/TimeSeries.hpp"
 
 #include "Utils.hpp"
 #include "io/BaseIO.hpp"

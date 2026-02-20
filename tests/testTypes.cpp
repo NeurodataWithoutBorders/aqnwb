@@ -98,32 +98,30 @@ TEST_CASE("Test IsDataStorageObjectType template", "[Types]")
 {
   SECTION("Dataset is a data storage object type")
   {
-    REQUIRE(Types::IsDataStorageObjectType<Types::StorageObjectType::Dataset>::
-                value
-            == true);
+    REQUIRE(
+        Types::IsDataStorageObjectType<Types::StorageObjectType::Dataset>::value
+        == true);
   }
 
   SECTION("Attribute is a data storage object type")
   {
-    REQUIRE(
-        Types::IsDataStorageObjectType<Types::StorageObjectType::Attribute>::
-            value
-        == true);
+    REQUIRE(Types::IsDataStorageObjectType<
+                Types::StorageObjectType::Attribute>::value
+            == true);
   }
 
   SECTION("Group is not a data storage object type")
   {
-    REQUIRE(Types::IsDataStorageObjectType<Types::StorageObjectType::Group>::
-                value
-            == false);
+    REQUIRE(
+        Types::IsDataStorageObjectType<Types::StorageObjectType::Group>::value
+        == false);
   }
 
   SECTION("Undefined is not a data storage object type")
   {
-    REQUIRE(
-        Types::IsDataStorageObjectType<Types::StorageObjectType::Undefined>::
-            value
-        == false);
+    REQUIRE(Types::IsDataStorageObjectType<
+                Types::StorageObjectType::Undefined>::value
+            == false);
   }
 }
 

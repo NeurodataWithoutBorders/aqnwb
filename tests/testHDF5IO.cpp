@@ -2247,8 +2247,11 @@ TEST_CASE("getStorageObjectDataType", "[hdf5io]")
     const std::vector<int> intData = {1, 2, 3};
     const std::string intAttrName = "int_attr";
     const std::string intAttrPath = mergePaths(groupPath, intAttrName);
-    hdf5io.createAttribute(
-        BaseDataType::I32, intData.data(), groupPath, intAttrName, intData.size());
+    hdf5io.createAttribute(BaseDataType::I32,
+                           intData.data(),
+                           groupPath,
+                           intAttrName,
+                           intData.size());
 
     auto intAttrType = hdf5io.getStorageObjectDataType(intAttrPath);
     REQUIRE(intAttrType == BaseDataType::I32);
