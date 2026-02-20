@@ -2201,3 +2201,82 @@ TEST_CASE("Test HDF5IO createArrayDataSet with LinkArrayDataSetConfig",
     hdf5io->close();
   }
 }
+
+TEST_CASE("getStorageObjectDataType", "[hdf5io]")
+{
+  // create and open file
+  std::string filename = getTestFilePath("testGetStorageObjectDataType.h5");
+  IO::HDF5::HDF5IO hdf5io(filename);
+  hdf5io.open();
+
+  SECTION("get data type of a dataset")
+  {
+    // Create datasets with different types
+    std::string int32Path = "/dataset_int32";
+    IO::ArrayDataSetConfig int32Config {
+        BaseDataType::I32, SizeArray {5}, SizeArray {0}};
+    hdf5io.createArrayDataSet(int32Config, int32Path);
+
+    std::string floatPath = "/dataset_float";
+    IO::ArrayDataSetConfig floatConfig {
+        BaseDataType::F32, SizeArray {3}, SizeArray {0}};
+    hdf5io.createArrayDataSet(floatConfig, floatPath);
+
+    std::string uint8Path = "/dataset_uint8";
+    IO::ArrayDataSetConfig uint8Config {
+        BaseDataType::U8, SizeArray {10}, SizeArray {0}};
+    hdf5io.createArrayDataSet(uint8Config, uint8Path);
+
+    // Get and verify data types
+    auto int32Type = hdf5io.getStorageObjectDataType(int32Path);
+    REQUIRE(int32Type == BaseDataType::I32);
+
+    auto floatType = hdf5io.getStorageObjectDataType(floatPath);
+    REQUIRE(floatType == BaseDataType::F32);
+
+    auto uint8Type = hdf5io.getStorageObjectDataType(uint8Path);
+    REQUIRE(uint8Type == BaseDataType::U8);
+  }
+
+  SECTION("get data type of an attribute")
+  {
+    const std::string groupPath = "/data";
+    hdf5io.createGroup(groupPath);
+
+    // Test int32 attribute
+    const std::vector<int> intData = {1, 2, 3};
+    const std::string intAttrName = "int_attr";
+    const std::string intAttrPath = mergePaths(groupPath, intAttrName);
+    hdf5io.createAttribute(
+        BaseDataType::I32, intData.data(), groupPath, intAttrName, intData.size());
+
+    auto intAttrType = hdf5io.getStorageObjectDataType(intAttrPath);
+    REQUIRE(intAttrType == BaseDataType::I32);
+
+    // Test float attribute
+    const std::vector<float> floatData = {1.0f, 2.0f};
+    const std::string floatAttrName = "float_attr";
+    const std::string floatAttrPath = mergePaths(groupPath, floatAttrName);
+    hdf5io.createAttribute(BaseDataType::F32,
+                           floatData.data(),
+                           groupPath,
+                           floatAttrName,
+                           floatData.size());
+
+    auto floatAttrType = hdf5io.getStorageObjectDataType(floatAttrPath);
+    REQUIRE(floatAttrType == BaseDataType::F32);
+  }
+
+  SECTION("get data type of a group throws exception")
+  {
+    const std::string groupPath = "/testGroup";
+    hdf5io.createGroup(groupPath);
+
+    // Attempting to get data type of a group should throw
+    REQUIRE_THROWS_AS(hdf5io.getStorageObjectDataType(groupPath),
+                      std::runtime_error);
+  }
+
+  // close file
+  hdf5io.close();
+}
