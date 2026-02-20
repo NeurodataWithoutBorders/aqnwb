@@ -212,6 +212,27 @@ public:
    * @return True if this is a link configuration, false otherwise.
    */
   virtual bool isLink() const { return false; }
+
+  /**
+   * @brief Gets the shape, chunking, and data type from the configuration.
+   *
+   * This method provides a unified interface to retrieve configuration
+   * properties regardless of whether the config represents a regular dataset
+   * or a link. For LinkArrayDataSetConfig, the io parameter is used to query
+   * the target dataset.
+   *
+   * @param io Optional IO object for querying link targets. Required for
+   *           LinkArrayDataSetConfig, unused for ArrayDataSetConfig.
+   * @param[out] shape The dataset shape.
+   * @param[out] chunking The dataset chunking configuration.
+   * @param[out] dataType The dataset data type.
+   * @return Status::Success if the properties were retrieved successfully,
+   *         Status::Failure otherwise.
+   */
+  virtual Status getProperties(const BaseIO* io,
+                                SizeArray& shape,
+                                SizeArray& chunking,
+                                BaseDataType& dataType) const = 0;
 };
 
 /**
@@ -258,6 +279,30 @@ public:
    * @return The chunking of the dataset.
    */
   inline SizeArray getChunking() const { return m_chunking; }
+
+  /**
+   * @brief Gets the shape, chunking, and data type from the configuration.
+   *
+   * For ArrayDataSetConfig, this simply returns the stored values.
+   * The io parameter is unused.
+   *
+   * @param io Unused for ArrayDataSetConfig (provided for interface
+   * compatibility).
+   * @param[out] shape The dataset shape.
+   * @param[out] chunking The dataset chunking configuration.
+   * @param[out] dataType The dataset data type.
+   * @return Status::Success always.
+   */
+  Status getProperties(const BaseIO* io,
+                        SizeArray& shape,
+                        SizeArray& chunking,
+                        BaseDataType& dataType) const override
+  {
+    shape = m_shape;
+    chunking = m_chunking;
+    dataType = m_type;
+    return Status::Success;
+  }
 
 protected:
   // The data type of the dataset
@@ -340,6 +385,34 @@ public:
    * type if the query fails.
    */
   BaseDataType getTargetDataType(const BaseIO& io) const;
+
+  /**
+   * @brief Gets the shape, chunking, and data type from the linked target
+   * dataset.
+   *
+   * For LinkArrayDataSetConfig, this queries the target dataset properties
+   * from the file using the provided IO object.
+   *
+   * @param io IO object for querying the target dataset. Must not be nullptr.
+   * @param[out] shape The target dataset shape.
+   * @param[out] chunking The target dataset chunking configuration.
+   * @param[out] dataType The target dataset data type.
+   * @return Status::Success if properties were retrieved successfully,
+   *         Status::Failure if io is nullptr or query fails.
+   */
+  Status getProperties(const BaseIO* io,
+                        SizeArray& shape,
+                        SizeArray& chunking,
+                        BaseDataType& dataType) const override
+  {
+    if (!io) {
+      return Status::Failure;
+    }
+    shape = getTargetShape(*io);
+    chunking = getTargetChunking(*io);
+    dataType = getTargetDataType(*io);
+    return Status::Success;
+  }
 
 private:
   // The path to the target dataset to link to

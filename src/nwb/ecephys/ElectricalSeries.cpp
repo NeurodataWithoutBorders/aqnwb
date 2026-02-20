@@ -46,28 +46,15 @@ Status ElectricalSeries::initialize(
   this->m_channelVector = channelVector;
 
   // Extract chunking information from data config
-  SizeArray chunking;
-  if (dataConfig.isLink()) {
-    // For links, use convenience method to derive chunking from target dataset
-    const IO::LinkArrayDataSetConfig* linkConfig =
-        dynamic_cast<const IO::LinkArrayDataSetConfig*>(&dataConfig);
-    if (!linkConfig) {
-      std::cerr << "ElectricalSeries::initialize: Failed to cast to "
-                   "LinkArrayDataSetConfig for link data"
-                << std::endl;
-      return Status::Failure;
-    }
-    chunking = linkConfig->getTargetChunking(*ioPtr);
-  } else {
-    const IO::ArrayDataSetConfig* arrayConfig =
-        dynamic_cast<const IO::ArrayDataSetConfig*>(&dataConfig);
-    if (!arrayConfig) {
-      std::cerr << "ElectricalSeries::initialize: Failed to cast to "
-                   "ArrayDataSetConfig for array data"
-                << std::endl;
-      return Status::Failure;
-    }
-    chunking = arrayConfig->getChunking();
+  SizeArray shape, chunking;
+  IO::BaseDataType dataType;
+  Status configStatus =
+      dataConfig.getProperties(ioPtr.get(), shape, chunking, dataType);
+  if (configStatus != Status::Success) {
+    std::cerr << "ElectricalSeries::initialize: Failed to get properties from "
+                 "dataConfig"
+              << std::endl;
+    return Status::Failure;
   }
 
   // Use default chunking if empty (e.g., for non-chunked linked datasets)

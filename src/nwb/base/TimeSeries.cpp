@@ -100,36 +100,15 @@ Status TimeSeries::initialize(
 
   Status status = NWBDataInterface::initialize();
 
-  // Extract shape and chunking information
+  // Extract shape, chunking, and data type from the config
   SizeArray shape, chunking;
-
-  if (dataConfig.isLink()) {
-    // For links, query the target dataset for shape, chunking, and type
-    const IO::LinkArrayDataSetConfig* linkConfig =
-        dynamic_cast<const IO::LinkArrayDataSetConfig*>(&dataConfig);
-    if (!linkConfig) {
-      std::cerr << "TimeSeries::initialize: Failed to cast to "
-                   "LinkArrayDataSetConfig for link data"
-                << std::endl;
-      return Status::Failure;
-    }
-
-    shape = linkConfig->getTargetShape(*ioPtr);
-    chunking = linkConfig->getTargetChunking(*ioPtr);
-    this->m_dataType = linkConfig->getTargetDataType(*ioPtr);
-  } else {
-    const IO::ArrayDataSetConfig* arrayConfig =
-        dynamic_cast<const IO::ArrayDataSetConfig*>(&dataConfig);
-    if (!arrayConfig) {
-      std::cerr << "TimeSeries::initialize: Failed to cast to "
-                   "ArrayDataSetConfig for array data"
-                << std::endl;
-      return Status::Failure;
-    }
-
-    this->m_dataType = arrayConfig->getType();
-    shape = arrayConfig->getShape();
-    chunking = arrayConfig->getChunking();
+  status = status &&
+           dataConfig.getProperties(ioPtr.get(), shape, chunking, this->m_dataType);
+  if (status != Status::Success) {
+    std::cerr << "TimeSeries::initialize: Failed to get properties from "
+                 "dataConfig"
+              << std::endl;
+    return Status::Failure;
   }
 
   // Validate and set timestamp and control shape
