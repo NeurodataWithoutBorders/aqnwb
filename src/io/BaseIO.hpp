@@ -702,8 +702,9 @@ public:
   /**
    * @brief Gets the chunking configuration of a dataset.
    * @param path The path to the dataset.
-   * @return The chunking configuration of the dataset, or an empty vector if
-   * the dataset is not chunked or doesn't exist.
+   * @return The chunking configuration of the dataset, or an empty SizeArray if
+   * the dataset is not chunked, doesn't exist, or if the path points to a Group
+   * or Attribute (which cannot be chunked).
    */
   virtual SizeArray getStorageObjectChunking(const std::string path) const = 0;
 
