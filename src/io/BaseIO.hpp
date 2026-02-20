@@ -230,9 +230,9 @@ public:
    *         Status::Failure otherwise.
    */
   virtual Status getProperties(const BaseIO* io,
-                                SizeArray& shape,
-                                SizeArray& chunking,
-                                BaseDataType& dataType) const = 0;
+                               SizeArray& shape,
+                               SizeArray& chunking,
+                               BaseDataType& dataType) const = 0;
 };
 
 /**
@@ -294,9 +294,9 @@ public:
    * @return Status::Success always.
    */
   Status getProperties(const BaseIO* io,
-                        SizeArray& shape,
-                        SizeArray& chunking,
-                        BaseDataType& dataType) const override
+                       SizeArray& shape,
+                       SizeArray& chunking,
+                       BaseDataType& dataType) const override
   {
     (void)io;  // Unused parameter (not needed for ArrayDataSetConfig)
     shape = m_shape;
@@ -402,9 +402,9 @@ public:
    *         Status::Failure if io is nullptr or query fails.
    */
   Status getProperties(const BaseIO* io,
-                        SizeArray& shape,
-                        SizeArray& chunking,
-                        BaseDataType& dataType) const override
+                       SizeArray& shape,
+                       SizeArray& chunking,
+                       BaseDataType& dataType) const override
   {
     if (!io) {
       return Status::Failure;

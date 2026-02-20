@@ -86,7 +86,8 @@ Status ElectricalSeries::initialize(
   m_samplesRecorded = SizeArray(channelVector.size(), 0);
 
   // make channel conversion dataset (1D array with num_channels elements)
-  // Use chunking for channel dimension if available, otherwise default to full size
+  // Use chunking for channel dimension if available, otherwise default to full
+  // size
   SizeArray channelChunking = {channelVector.size()};
   if (chunking.size() >= 2 && chunking[1] > 0) {
     channelChunking = SizeArray {chunking[1]};

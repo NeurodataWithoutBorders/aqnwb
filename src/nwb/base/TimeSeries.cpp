@@ -102,8 +102,9 @@ Status TimeSeries::initialize(
 
   // Extract shape, chunking, and data type from the config
   SizeArray shape, chunking;
-  status = status &&
-           dataConfig.getProperties(ioPtr.get(), shape, chunking, this->m_dataType);
+  status = status
+      && dataConfig.getProperties(
+          ioPtr.get(), shape, chunking, this->m_dataType);
   if (status != Status::Success) {
     std::cerr << "TimeSeries::initialize: Failed to get properties from "
                  "dataConfig"
