@@ -19,7 +19,7 @@ jobs:
           submodules: "true"
 
       - name: Install dependencies - macos
-        run: brew install hdf5 boost catch2 doxygen graphviz
+        run: brew install hdf5 catch2 doxygen graphviz
 
       - name: Configure
         shell: pwsh
