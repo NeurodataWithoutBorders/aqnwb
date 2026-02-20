@@ -12,12 +12,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Added UUID/time/endian utilities in `src/Utils.hpp` to replace corresponding Boost utilities (@chittti, [#250](https://github.com/NeurodataWithoutBorders/aqnwb/pull/250)) 
 * Added AQNWB_CXX_STANDARD option to the cmake build to allow configuration of the std C++ version to support 17, 20, and 23 to allow the use of `std::mdspan` if C++23 is used  (@oruebel, [#250](https://github.com/NeurodataWithoutBorders/aqnwb/pull/250))
 * Added `ProcessingModule` class in `src/nwb/base/` to support creation of processed data groups in the `/processing/` hierarchy of NWB files (@oruebel, [#255](https://github.com/NeurodataWithoutBorders/aqnwb/pull/255))
+* Added `.github/copilot-instructions.md` with comprehensive onboarding documentation for GitHub Copilot coding agents, including repository architecture, build system, development workflows, troubleshooting guides, and best practices (@copilot)
 
 ### Changed
 * Removed Boost as a dependency  (@chittti, [#250](https://github.com/NeurodataWithoutBorders/aqnwb/pull/250) )
 * Updated `DataBlock::as_multi_array()` to return `ConstMultiArrayView` instead of `boost::const_multi_array_ref` to remove the need Boost and for C++17/20 compatibility  (@chittti, [#250](https://github.com/NeurodataWithoutBorders/aqnwb/pull/250))
 * Updated the docs and examples to discuss the optional use of `std::mdspan` if C++23 is used (@oruebel, [#250](https://github.com/NeurodataWithoutBorders/aqnwb/pull/250))
 * Changed the dependency includes in CMake so the HDF5 C++ headers and libraries found via `${HDF5_INCLUDE_DIRS}` / `${HDF5_CXX_LIBRARIES}` are exported to AqNWB consumers (@cboulay, [#248](https://github.com/NeurodataWithoutBorders/aqnwb/pull/248)).
+* Updated CI workflows (`.github/workflows/tests.yml` and `.github/workflows/coverage.yml`) to remove obsolete Boost dependencies from Ubuntu, macOS, and Windows builds (@copilot)
 
 ### Fixed
 * ...
