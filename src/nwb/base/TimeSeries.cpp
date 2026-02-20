@@ -166,8 +166,8 @@ Status TimeSeries::initialize(
     // Use reasonable default chunk size if chunking is empty
     SizeArray tsChunkSize;
     if (chunking.empty()) {
-      // Default to chunk size of 1 for extendable datasets
-      tsChunkSize = {1};
+      // Default to chunk size of 8192 for efficient 1D HDF5 datasets
+      tsChunkSize = {8192};
     } else {
       tsChunkSize = {chunking[0]};
     }
