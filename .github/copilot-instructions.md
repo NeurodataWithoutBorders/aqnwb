@@ -336,8 +336,39 @@ Located in `.github/workflows/`:
    - Implement required virtual methods
    - Add to CMakeLists.txt
    - Create corresponding test file
+   
+   **For more details**, see the [RegisteredType documentation](https://nwb.org/aqnwb/registered_type_page.html) or the [registered_types.dox](https://github.com/NeurodataWithoutBorders/aqnwb/blob/main/docs/pages/devdocs/registered_types.dox) file in the repository.
 
 3. **Add tests**: Create `tests/testYourType.cpp`
+
+### Adding Schema Extensions
+
+To integrate a new schema namespace with AqNWB (e.g., to support an extension to NWB):
+
+1. **Get the schema files**: Download or create the schema for the namespace in YAML format
+   - For creating new extensions, see the [NWB Extension Tutorial](https://nwb-overview.readthedocs.io/en/latest/extensions_tutorial/extensions_tutorial_home.html)
+
+2. **Convert schema to C++**: Run the `generate-spec` command on your schema files
+   ```bash
+   uv run resources/utils/aqnwb_utils.py generate-spec <schema_dir> <output_dir>
+   ```
+   This generates C++ header files with namespace definitions and registration
+
+3. **Include generated headers**: In your C++ code, include the generated header files
+   - Headers automatically register the namespace with `NamespaceRegistry` using the `REGISTER_NAMESPACE` macro
+   - `NWBFile::initialize` will automatically cache your schema in the NWB file
+
+4. **Implement RegisteredType classes**: Define appropriate interfaces for the `neurodata_type`s in your namespace
+   - Follow the [RegisteredType tutorial](https://nwb.org/aqnwb/registered_type_page.html)
+   - Use `generate-types` command for skeleton class generation from schema
+   - Key points:
+     - Inherit from appropriate base class (RegisteredType, Data for datasets, Container for groups)
+     - Use `REGISTER_SUBCLASS` macro in header and `REGISTER_SUBCLASS_IMPL` in cpp
+     - Use field definition macros: `DEFINE_DATASET_FIELD`, `DEFINE_ATTRIBUTE_FIELD`, `DEFINE_REGISTERED_FIELD`
+
+5. **Example demo**: See `demo/labmetadata_extension_demo/` for a complete working example
+
+**For comprehensive details**, see the [Integrating Extensions documentation](https://nwb.org/aqnwb/integrating_extensions_page.html) or the [integrating_extensions.dox](https://github.com/NeurodataWithoutBorders/aqnwb/blob/main/docs/pages/devdocs/integrating_extensions.dox) file.
 
 ### Adding Tests
 1. Create new test file: `tests/testFeature.cpp`
