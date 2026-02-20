@@ -1,6 +1,8 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_all.hpp>
 
+#include <sstream>
+
 #include "Types.hpp"
 #include "Utils.hpp"
 #include "io/BaseIO.hpp"
@@ -500,6 +502,123 @@ TEST_CASE("LinkArrayDataSetConfig for TimeSeries data", "[base][link]")
     // to a link)
     auto result = io->createArrayDataSet(linkConfig, "/test_link");
     REQUIRE(result == nullptr);
+
+    io->close();
+  }
+}
+
+TEST_CASE("TimeSeries chunking fallback and validation", "[base][chunking]")
+{
+  // Prepare common test data
+  SizeType numSamples = 10;
+  std::string dataPath = "/tsdata_chunking_test";
+  std::vector<SizeType> dataShape = {numSamples};
+  std::vector<SizeType> positionOffset = {0};
+  BaseDataType dataType = BaseDataType::F32;
+  std::vector<float> data = getMockData1D(numSamples);
+  std::vector<double> timestamps = getMockTimestamps(numSamples, 1);
+
+  SECTION("test chunking fallback to 8192 when empty")
+  {
+    // Create a separate file for this test
+    std::string path = getTestFilePath("testTimeseriesChunkingFallback.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+    auto ts = NWB::TimeSeries::create(dataPath, io);
+
+    // Use empty chunking - should trigger fallback to 8192
+    IO::ArrayDataSetConfig config(
+        dataType, SizeArray {0}, SizeArray {});  // Empty chunking
+    
+    // Capture stderr to verify the warning message
+    std::streambuf* oldCerr = std::cerr.rdbuf();
+    std::ostringstream capturedCerr;
+    std::cerr.rdbuf(capturedCerr.rdbuf());
+
+    Status initStatus = ts->initialize(config,
+                                       "volts",
+                                       "Test TimeSeries",
+                                       "Test comment",
+                                       1.0f,
+                                       -1.0f,
+                                       0.0f,
+                                       NWB::TimeSeries::Continuous,
+                                       -1.0,
+                                       1.0,
+                                       {});
+
+    // Restore stderr
+    std::cerr.rdbuf(oldCerr);
+
+    REQUIRE(initStatus == Status::Success);
+    
+    // Verify the warning message was printed
+    std::string capturedOutput = capturedCerr.str();
+    REQUIRE(capturedOutput.find("Chunking not provided") != std::string::npos);
+    REQUIRE(capturedOutput.find("8192") != std::string::npos);
+
+    // Write data to verify it works
+    Status writeStatus = ts->writeData(
+        dataShape, positionOffset, data.data(), timestamps.data());
+    REQUIRE(writeStatus == Status::Success);
+
+    io->flush();
+    io->close();
+
+    // Verify the data was written correctly with default chunking
+    std::shared_ptr<BaseIO> readio = createIO("HDF5", path);
+    readio->open(FileMode::ReadOnly);
+    auto readRegisteredType = NWB::RegisteredType::create(dataPath, readio);
+    auto readTimeSeries =
+        std::dynamic_pointer_cast<NWB::TimeSeries>(readRegisteredType);
+
+    // Verify timestamps exist and have correct shape
+    auto readTimestampsWrapper = readTimeSeries->readTimestamps();
+    REQUIRE(readTimestampsWrapper->exists());
+    auto readTimestampsValues = readTimestampsWrapper->values();
+    REQUIRE(readTimestampsValues.data.size() == numSamples);
+
+    readio->close();
+  }
+
+  SECTION("test empty shape validation error")
+  {
+    // Create a separate file for this test
+    std::string path = getTestFilePath("testTimeseriesEmptyShape.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+    auto ts = NWB::TimeSeries::create(dataPath, io);
+
+    // Create a config with empty shape
+    IO::ArrayDataSetConfig config(
+        dataType, SizeArray {}, SizeArray {1});  // Empty shape
+
+    // Capture stderr to verify the error message
+    std::streambuf* oldCerr = std::cerr.rdbuf();
+    std::ostringstream capturedCerr;
+    std::cerr.rdbuf(capturedCerr.rdbuf());
+
+    Status initStatus = ts->initialize(config,
+                                       "volts",
+                                       "Test TimeSeries",
+                                       "Test comment",
+                                       1.0f,
+                                       -1.0f,
+                                       0.0f,
+                                       NWB::TimeSeries::Continuous,
+                                       -1.0,
+                                       1.0,
+                                       {});
+
+    // Restore stderr
+    std::cerr.rdbuf(oldCerr);
+
+    // Should fail due to empty shape
+    REQUIRE(initStatus == Status::Failure);
+    
+    // Verify the error message was printed
+    std::string capturedOutput = capturedCerr.str();
+    REQUIRE(capturedOutput.find("Shape cannot be empty") != std::string::npos);
 
     io->close();
   }

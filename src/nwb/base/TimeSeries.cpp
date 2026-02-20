@@ -1,5 +1,7 @@
 #include "nwb/base/TimeSeries.hpp"
 
+#include <iostream>
+
 #include "Utils.hpp"
 #include "io/BaseIO.hpp"
 
@@ -125,8 +127,11 @@ Status TimeSeries::initialize(
   // Validate and set the timestamp and control chunking
   SizeArray tsChunkSize;
   if (chunking.empty()) {
-    // Use default to chunk size if chunking of data not found
+    // Use default chunk size if chunking of data not found
     tsChunkSize = {8192};
+    std::cerr << "TimeSeries::initialize: Chunking not provided, using default "
+                 "chunk size of 8192 for timestamps"
+              << std::endl;
   } else {
     tsChunkSize = {chunking[0]};
   }
