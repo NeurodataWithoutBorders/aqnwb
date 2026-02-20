@@ -141,6 +141,12 @@ Status TimeSeries::initialize(
     chunking = arrayConfig->getChunking();
   }
 
+  // Validate that shape is not empty before accessing shape[0]
+  if (shape.empty()) {
+    std::cerr << "TimeSeries::initialize: Shape cannot be empty" << std::endl;
+    return Status::Failure;
+  }
+
   // create comments attribute
   if (description != "") {
     ioPtr->createAttribute(description, m_path, "description");
@@ -156,7 +162,16 @@ Status TimeSeries::initialize(
   if (startingTime < 0) {
     // timestamps match data along first dimension
     SizeArray tsDsetSize = {shape[0]};
-    SizeArray tsChunkSize = {chunking[0]};
+    
+    // Use reasonable default chunk size if chunking is empty
+    SizeArray tsChunkSize;
+    if (chunking.empty()) {
+      // Default to chunk size of 1 for extendable datasets
+      tsChunkSize = {1};
+    } else {
+      tsChunkSize = {chunking[0]};
+    }
+    
     IO::ArrayDataSetConfig timestampsConfig(
         this->timestampsType, tsDsetSize, tsChunkSize);
     ioPtr->createArrayDataSet(timestampsConfig,
