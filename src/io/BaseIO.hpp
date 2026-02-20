@@ -708,10 +708,11 @@ public:
   virtual SizeArray getStorageObjectChunking(const std::string path) const = 0;
 
   /**
-   * @brief Gets the BaseDataType of a dataset.
-   * @param path The path to the dataset.
-   * @return The BaseDataType of the dataset. Returns a default T_I32 type if
-   * the dataset doesn't exist or is not a dataset.
+   * @brief Gets the BaseDataType of a dataset or attribute.
+   * @param path The path to the dataset or attribute.
+   * @return The BaseDataType of the dataset or attribute.
+   * @throws std::runtime_error if the object is a Group (which has no data
+   * type) or if the data type cannot be determined.
    */
   virtual BaseDataType getStorageObjectDataType(
       const std::string path) const = 0;
