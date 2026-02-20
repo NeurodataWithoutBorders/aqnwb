@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-* Added support for creating soft-links to existing datasets to avoid data duplication (@copilot, [#XXX](https://github.com/NeurodataWithoutBorders/aqnwb/pull/XXX))
+* Added support for creating soft-links to existing datasets to avoid data duplication (@copilot, @oruebel [#257](https://github.com/NeurodataWithoutBorders/aqnwb/pull/257))
   * Added `BaseArrayDataSetConfig` abstract base class for polymorphic dataset configuration
   * Added `LinkArrayDataSetConfig` class for creating HDF5 soft-links to existing datasets
   * Updated `ArrayDataSetConfig` to inherit from `BaseArrayDataSetConfig`
