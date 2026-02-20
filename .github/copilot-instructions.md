@@ -496,8 +496,8 @@ git commit -m "Fix formatting"
 ## Working with NWB Schema
 
 ### Schema Files
-- **Location**: `resources/schema/` (gitignored, generated)
-- **Generation**: Use Python utilities in `resources/utils/`
+- **Location**: Retrieved when needed from git in resources/utils/generate_nwb_schema_headers.sh
+- **In Source Location:**  Schema are translated statically to C++ and are available in src/spec/core.hpp, hdmf_common.hpp, and hdmf_experimental.hpp
 - **Namespace**: Defined in namespace YAML files
 
 ### Generating Code from Schema
