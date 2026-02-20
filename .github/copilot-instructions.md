@@ -497,7 +497,7 @@ git commit -m "Fix formatting"
 
 ### Schema Files
 - **Location**: Retrieved when needed from git in resources/utils/generate_nwb_schema_headers.sh
-- **In Source Location:**  Schema are translated statically to C++ and are available in src/spec/core.hpp, hdmf_common.hpp, and hdmf_experimental.hpp
+- **In Source Location:**  Schemas are translated statically to C++ and are available in src/spec/core.hpp, hdmf_common.hpp, and hdmf_experimental.hpp
 - **Namespace**: Defined in namespace YAML files
 
 ### Generating Code from Schema
