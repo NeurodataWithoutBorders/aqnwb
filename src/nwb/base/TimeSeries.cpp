@@ -98,7 +98,7 @@ Status TimeSeries::initialize(
     return Status::Failure;
   }
 
-  auto interfaceInitStatus = NWBDataInterface::initialize();
+  Status status = NWBDataInterface::initialize();
 
   // Extract shape and chunking information
   SizeArray shape, chunking;
@@ -139,51 +139,55 @@ Status TimeSeries::initialize(
     std::cerr << "TimeSeries::initialize: Shape cannot be empty" << std::endl;
     return Status::Failure;
   } else {
-    tsDsetSize = {shape[0]};   
+    tsDsetSize = {shape[0]};
   }
 
   // Validate and set the timestamp and control chunking
   SizeArray tsChunkSize;
   if (chunking.empty()) {
-      // Use default to chunk size if chunking of data not found
-      tsChunkSize = {8192};
+    // Use default to chunk size if chunking of data not found
+    tsChunkSize = {8192};
   } else {
-      tsChunkSize = {chunking[0]};
+    tsChunkSize = {chunking[0]};
   }
 
   // create comments attribute
   if (description != "") {
-    ioPtr->createAttribute(description, m_path, "description");
+    status =
+        status && ioPtr->createAttribute(description, m_path, "description");
   }
-  ioPtr->createAttribute(comments, m_path, "comments");
+  status = status && ioPtr->createAttribute(comments, m_path, "comments");
 
   // setup data datasets
   ioPtr->createArrayDataSet(dataConfig, AQNWB::mergePaths(m_path, "data"));
-  this->createDataAttributes(
-      m_path, conversion, resolution, offset, unit, continuity);
+  status = status
+      && this->createDataAttributes(
+          m_path, conversion, resolution, offset, unit, continuity);
 
   // setup timestamps datasets
-  if (startingTime < 0) { 
+  if (startingTime < 0) {
     IO::ArrayDataSetConfig timestampsConfig(
         this->timestampsType, tsDsetSize, tsChunkSize);
     ioPtr->createArrayDataSet(timestampsConfig,
                               AQNWB::mergePaths(m_path, "timestamps"));
-    this->createTimestampsAttributes(m_path);
-  } 
-  else  // setup starting_time datasets
+    status = status && this->createTimestampsAttributes(m_path);
+  } else  // setup starting_time datasets
   {
     std::string startingTimePath = AQNWB::mergePaths(m_path, "starting_time");
     IO::ArrayDataSetConfig startingTimeConfig(
         AQNWB::IO::BaseDataType::F64, {1}, {1});
     ioPtr->createArrayDataSet(startingTimeConfig, startingTimePath);
     auto startingTimeRecorder = this->recordStartingTime();
-    startingTimeRecorder->writeDataBlock(
-        {1}, AQNWB::IO::BaseDataType::F64, &startingTime);
-    ioPtr->createAttribute(AQNWB::IO::BaseDataType::F32,
-                           &startingTimeRate,
-                           startingTimePath,
-                           "rate");
-    ioPtr->createAttribute("seconds", startingTimePath, "unit");
+    status = status
+        && startingTimeRecorder->writeDataBlock(
+            {1}, AQNWB::IO::BaseDataType::F64, &startingTime);
+    status = status
+        && ioPtr->createAttribute(AQNWB::IO::BaseDataType::F32,
+                                  &startingTimeRate,
+                                  startingTimePath,
+                                  "rate");
+    status =
+        status && ioPtr->createAttribute("seconds", startingTimePath, "unit");
   }
 
   // create control datasets if necessary
@@ -208,12 +212,14 @@ Status TimeSeries::initialize(
     ioPtr->createArrayDataSet(controlDescriptionConfig,
                               AQNWB::mergePaths(m_path, "control_description"));
     auto controlDescriptionRecorder = this->recordControlDescription();
-    controlDescriptionRecorder->writeDataBlock(controlDescriptionShape,
-                                               controlDescriptionPositionOffset,
-                                               controlDesriptionType,
-                                               controlDescription);
+    status = status
+        && controlDescriptionRecorder->writeDataBlock(
+            controlDescriptionShape,
+            controlDescriptionPositionOffset,
+            controlDesriptionType,
+            controlDescription);
   }
-  return interfaceInitStatus;
+  return status;
 }
 
 Status TimeSeries::writeData(const std::vector<SizeType>& dataShape,
