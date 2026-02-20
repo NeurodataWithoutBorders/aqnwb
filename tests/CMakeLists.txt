@@ -32,6 +32,7 @@ add_executable(aqnwb_test
     testRecordingObjects.cpp
     testRegisteredType.cpp
     testTimeSeries.cpp
+    testTypes.cpp
     testUtilsFunctions.cpp
     testVectorData.cpp
     examples/test_HDF5IO_examples.cpp
