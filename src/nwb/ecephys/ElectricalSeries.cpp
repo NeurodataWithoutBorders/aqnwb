@@ -57,11 +57,6 @@ Status ElectricalSeries::initialize(
     return Status::Failure;
   }
 
-  // Use default chunking if empty (e.g., for non-chunked linked datasets)
-  if (chunking.empty()) {
-    chunking = SizeArray {1, 1};  // Default: 1 sample, 1 channel per chunk
-  }
-
   // get the number of electrodes from the electrode table
   std::string idPath =
       AQNWB::mergePaths(ElectrodesTable::electrodesTablePath, "id");
@@ -86,8 +81,8 @@ Status ElectricalSeries::initialize(
   m_samplesRecorded = SizeArray(channelVector.size(), 0);
 
   // make channel conversion dataset (1D array with num_channels elements)
-  // Use chunking for channel dimension if available, otherwise default to full
-  // size
+  // Extract channel chunking from data chunking if available, otherwise use
+  // full channel size
   SizeArray channelChunking = {channelVector.size()};
   if (chunking.size() >= 2 && chunking[1] > 0) {
     channelChunking = SizeArray {chunking[1]};
