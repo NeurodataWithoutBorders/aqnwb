@@ -45,28 +45,34 @@ Status ElectricalSeries::initialize(
 
   this->m_channelVector = channelVector;
 
-  // Extract chunking information
+  // Extract chunking information from data config
   SizeArray chunking;
   if (dataConfig.isLink()) {
     // For links, use convenience method to derive chunking from target dataset
     const IO::LinkArrayDataSetConfig* linkConfig =
         dynamic_cast<const IO::LinkArrayDataSetConfig*>(&dataConfig);
-    if (linkConfig) {
-      chunking = linkConfig->getTargetChunking(*ioPtr);
-
-      if (chunking.empty()) {
-        std::cerr << "ElectricalSeries::initialize: Could not get chunking for "
-                     "linked dataset"
-                  << std::endl;
-        return Status::Failure;
-      }
+    if (!linkConfig) {
+      std::cerr << "ElectricalSeries::initialize: Failed to cast to "
+                   "LinkArrayDataSetConfig for link data"
+                << std::endl;
+      return Status::Failure;
     }
+    chunking = linkConfig->getTargetChunking(*ioPtr);
   } else {
     const IO::ArrayDataSetConfig* arrayConfig =
         dynamic_cast<const IO::ArrayDataSetConfig*>(&dataConfig);
-    if (arrayConfig) {
-      chunking = arrayConfig->getChunking();
+    if (!arrayConfig) {
+      std::cerr << "ElectricalSeries::initialize: Failed to cast to "
+                   "ArrayDataSetConfig for array data"
+                << std::endl;
+      return Status::Failure;
     }
+    chunking = arrayConfig->getChunking();
+  }
+
+  // Use default chunking if empty (e.g., for non-chunked linked datasets)
+  if (chunking.empty()) {
+    chunking = SizeArray {1, 1};  // Default: 1 sample, 1 channel per chunk
   }
 
   // get the number of electrodes from the electrode table
@@ -92,9 +98,14 @@ Status ElectricalSeries::initialize(
   }
   m_samplesRecorded = SizeArray(channelVector.size(), 0);
 
-  // make channel conversion dataset
+  // make channel conversion dataset (1D array with num_channels elements)
+  // Use chunking for channel dimension if available, otherwise default to full size
+  SizeArray channelChunking = {channelVector.size()};
+  if (chunking.size() >= 2 && chunking[1] > 0) {
+    channelChunking = SizeArray {chunking[1]};
+  }
   IO::ArrayDataSetConfig channelConversionConfig(
-      IO::BaseDataType::F32, SizeArray {1}, chunking);
+      IO::BaseDataType::F32, SizeArray {channelVector.size()}, channelChunking);
   ioPtr->createArrayDataSet(
       channelConversionConfig,
       AQNWB::mergePaths(getPath(), "/channel_conversion"));
@@ -111,9 +122,9 @@ Status ElectricalSeries::initialize(
                          "axis",
                          1);
 
-  // make electrodes dataset
+  // make electrodes dataset (1D array with num_channels elements)
   IO::ArrayDataSetConfig electrodesConfig(
-      IO::BaseDataType::I32, SizeArray {channelVector.size()}, chunking);
+      IO::BaseDataType::I32, SizeArray {channelVector.size()}, channelChunking);
   ioPtr->createArrayDataSet(electrodesConfig,
                             AQNWB::mergePaths(getPath(), "electrodes"));
 
