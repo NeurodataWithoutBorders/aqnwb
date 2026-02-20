@@ -298,6 +298,7 @@ public:
                         SizeArray& chunking,
                         BaseDataType& dataType) const override
   {
+    (void)io;  // Unused parameter (not needed for ArrayDataSetConfig)
     shape = m_shape;
     chunking = m_chunking;
     dataType = m_type;
