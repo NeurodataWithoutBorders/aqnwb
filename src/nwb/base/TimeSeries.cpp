@@ -104,7 +104,7 @@ Status TimeSeries::initialize(
   SizeArray shape, chunking;
 
   if (dataConfig.isLink()) {
-    // For links, use convenience methods to query the target dataset
+    // For links, query the target dataset for shape, chunking, and type
     const IO::LinkArrayDataSetConfig* linkConfig =
         dynamic_cast<const IO::LinkArrayDataSetConfig*>(&dataConfig);
     if (!linkConfig) {
@@ -116,15 +116,6 @@ Status TimeSeries::initialize(
 
     shape = linkConfig->getTargetShape(*ioPtr);
     chunking = linkConfig->getTargetChunking(*ioPtr);
-
-    if (shape.empty()) {
-      std::cerr
-          << "TimeSeries::initialize: Could not get shape of linked dataset"
-          << std::endl;
-      return Status::Failure;
-    }
-
-    // Query the actual data type from the linked dataset
     this->m_dataType = linkConfig->getTargetDataType(*ioPtr);
   } else {
     const IO::ArrayDataSetConfig* arrayConfig =
@@ -141,10 +132,23 @@ Status TimeSeries::initialize(
     chunking = arrayConfig->getChunking();
   }
 
-  // Validate that shape is not empty before accessing shape[0]
+  // Validate and set timestamp and control shape
+  // timestamps match data along first dimension
+  SizeArray tsDsetSize;
   if (shape.empty()) {
     std::cerr << "TimeSeries::initialize: Shape cannot be empty" << std::endl;
     return Status::Failure;
+  } else {
+    tsDsetSize = {shape[0]};   
+  }
+
+  // Validate and set the timestamp and control chunking
+  SizeArray tsChunkSize;
+  if (chunking.empty()) {
+      // Use default to chunk size if chunking of data not found
+      tsChunkSize = {8192};
+  } else {
+      tsChunkSize = {chunking[0]};
   }
 
   // create comments attribute
@@ -159,25 +163,14 @@ Status TimeSeries::initialize(
       m_path, conversion, resolution, offset, unit, continuity);
 
   // setup timestamps datasets
-  if (startingTime < 0) {
-    // timestamps match data along first dimension
-    SizeArray tsDsetSize = {shape[0]};
-    
-    // Use reasonable default chunk size if chunking is empty
-    SizeArray tsChunkSize;
-    if (chunking.empty()) {
-      // Default to chunk size of 8192 for efficient 1D HDF5 datasets
-      tsChunkSize = {8192};
-    } else {
-      tsChunkSize = {chunking[0]};
-    }
-    
+  if (startingTime < 0) { 
     IO::ArrayDataSetConfig timestampsConfig(
         this->timestampsType, tsDsetSize, tsChunkSize);
     ioPtr->createArrayDataSet(timestampsConfig,
                               AQNWB::mergePaths(m_path, "timestamps"));
     this->createTimestampsAttributes(m_path);
-  } else  // setup starting_time datasets
+  } 
+  else  // setup starting_time datasets
   {
     std::string startingTimePath = AQNWB::mergePaths(m_path, "starting_time");
     IO::ArrayDataSetConfig startingTimeConfig(
@@ -196,10 +189,8 @@ Status TimeSeries::initialize(
   // create control datasets if necessary
   if (controlDescription.size() > 0) {
     // control matches data along first dimension
-    SizeArray controlDsetSize = {shape[0]};
-    SizeArray controlChunkSize = {chunking[0]};
     IO::ArrayDataSetConfig controlConfig(
-        AQNWB::IO::BaseDataType::U8, controlDsetSize, controlChunkSize);
+        AQNWB::IO::BaseDataType::U8, tsDsetSize, tsChunkSize);
     ioPtr->createArrayDataSet(controlConfig,
                               AQNWB::mergePaths(m_path, "control"));
 
