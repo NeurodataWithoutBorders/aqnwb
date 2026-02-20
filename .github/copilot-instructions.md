@@ -340,6 +340,8 @@ Located in `.github/workflows/`:
    **For more details**, see the [RegisteredType documentation](https://nwb.org/aqnwb/registered_type_page.html) or the [registered_types.dox](https://github.com/NeurodataWithoutBorders/aqnwb/blob/main/docs/pages/devdocs/registered_types.dox) file in the repository.
 
 3. **Add tests**: Create `tests/testYourType.cpp`
+   
+   **For comprehensive details on RegisteredType**, see the [RegisteredType documentation](https://nwb.org/aqnwb/registered_type_page.html) or the [registered_types.dox](https://github.com/NeurodataWithoutBorders/aqnwb/blob/main/docs/pages/devdocs/registered_types.dox) file.
 
 ### Adding Schema Extensions
 
