@@ -107,28 +107,38 @@ Status TimeSeries::initialize(
     // For links, use convenience methods to query the target dataset
     const IO::LinkArrayDataSetConfig* linkConfig =
         dynamic_cast<const IO::LinkArrayDataSetConfig*>(&dataConfig);
-    if (linkConfig) {
-      shape = linkConfig->getTargetShape(*ioPtr);
-      chunking = linkConfig->getTargetChunking(*ioPtr);
-
-      if (shape.empty()) {
-        std::cerr
-            << "TimeSeries::initialize: Could not get shape of linked dataset"
-            << std::endl;
-        return Status::Failure;
-      }
-
-      // Query the actual data type from the linked dataset
-      this->m_dataType = linkConfig->getTargetDataType(*ioPtr);
+    if (!linkConfig) {
+      std::cerr << "TimeSeries::initialize: Failed to cast to "
+                   "LinkArrayDataSetConfig for link data"
+                << std::endl;
+      return Status::Failure;
     }
+
+    shape = linkConfig->getTargetShape(*ioPtr);
+    chunking = linkConfig->getTargetChunking(*ioPtr);
+
+    if (shape.empty()) {
+      std::cerr
+          << "TimeSeries::initialize: Could not get shape of linked dataset"
+          << std::endl;
+      return Status::Failure;
+    }
+
+    // Query the actual data type from the linked dataset
+    this->m_dataType = linkConfig->getTargetDataType(*ioPtr);
   } else {
     const IO::ArrayDataSetConfig* arrayConfig =
         dynamic_cast<const IO::ArrayDataSetConfig*>(&dataConfig);
-    if (arrayConfig) {
-      this->m_dataType = arrayConfig->getType();
-      shape = arrayConfig->getShape();
-      chunking = arrayConfig->getChunking();
+    if (!arrayConfig) {
+      std::cerr << "TimeSeries::initialize: Failed to cast to "
+                   "ArrayDataSetConfig for array data"
+                << std::endl;
+      return Status::Failure;
     }
+
+    this->m_dataType = arrayConfig->getType();
+    shape = arrayConfig->getShape();
+    chunking = arrayConfig->getChunking();
   }
 
   // create comments attribute
