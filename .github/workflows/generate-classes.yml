@@ -19,7 +19,7 @@ jobs:
 # -----------------------------------------------------------------
       
       - name: Install C++ dependencies - macos
-        run: brew install hdf5 boost catch2
+        run: brew install hdf5 catch2
 
       - name: Configure AqNWB 
         shell: pwsh

@@ -20,7 +20,7 @@ jobs:
           python-version: '3.11'
       
       - name: Install C++ dependencies - macos
-        run: brew install hdf5 boost catch2
+        run: brew install hdf5 catch2
 
       - name: Install python script dependencies
         run: |

@@ -33,7 +33,7 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       run: |
         sudo apt-get update
-        sudo apt-get install -y libhdf5-dev libboost-all-dev
+        sudo apt-get install -y libhdf5-dev
         git clone https://github.com/catchorg/Catch2.git
         cd Catch2
         git checkout "v3.5.3"
@@ -42,13 +42,13 @@ jobs:
 
     - name: Install dependencies - macos
       if: matrix.os == 'macos-latest'
-      run: brew install hdf5 boost catch2
+      run: brew install hdf5 catch2
     
     - name: Install dependencies - windows
       if: matrix.os == 'windows-latest'
       run: |
         cd "${VCPKG_INSTALLATION_ROOT}"
-        vcpkg install hdf5[cpp]:x64-windows boost-date-time:x64-windows boost-endian:x64-windows boost-uuid:x64-windows boost-multi-array:x64-windows catch2:x64-windows
+        vcpkg install hdf5[cpp]:x64-windows catch2:x64-windows
         vcpkg integrate install
 
     - name: Configure
@@ -84,7 +84,7 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y libhdf5-dev libboost-all-dev
+        sudo apt-get install -y libhdf5-dev
         git clone https://github.com/catchorg/Catch2.git
         cd Catch2
         git checkout "v3.5.3"
@@ -154,7 +154,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install dependencies - macos
-        run: brew install hdf5 boost catch2
+        run: brew install hdf5 catch2
 
       - name: Configure (C++23)
         shell: pwsh
