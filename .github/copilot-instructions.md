@@ -72,9 +72,15 @@ aqnwb/
 - **BaseIO**: Abstract base class for I/O operations
 - **HDF5IO**: Concrete implementation using HDF5
 - **RecordingObjects**: Container tracking all RegisteredType objects for a recording session
+- **I/O Object Ownership**:
+  - **User Ownership**: The user creates and owns the I/O object (e.g., `HDF5IO`) as a `std::shared_ptr`
+  - **Weak Pointers in RegisteredTypes**: Each `RegisteredType` stores a `std::weak_ptr` to the I/O object
+  - **No Circular References**: Using `weak_ptr` prevents RegisteredType objects from keeping the I/O alive, avoiding circular dependencies and memory leaks
+  - **Safe Access**: RegisteredType objects use `getIO()` to obtain a `shared_ptr` from the `weak_ptr` before accessing the I/O
+  - **IO Owns RecordingObjects**: The I/O object owns a `shared_ptr` to `RecordingObjects`, which tracks all RegisteredType objects
 - **Recording Workflow**:
-  1. Create IO object
-  2. Create NWBFile and related types using factory methods
+  1. Create IO object (user retains ownership)
+  2. Create NWBFile and related types using factory methods (automatically registered with IO's RecordingObjects)
   3. Write data during acquisition
   4. Call `stopRecording()` which finalizes all objects and clears caches
 
