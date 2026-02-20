@@ -1198,36 +1198,45 @@ SizeArray HDF5IO::getStorageObjectChunking(const std::string path) const
 AQNWB::IO::BaseDataType HDF5IO::getStorageObjectDataType(
     const std::string path) const
 {
-  // Check if the object is a dataset
   StorageObjectType objType = getStorageObjectType(path);
-  if (objType != StorageObjectType::Dataset) {
-    std::string typeStr;
-    switch (objType) {
-      case StorageObjectType::Group:
-        typeStr = "Group";
-        break;
-      case StorageObjectType::Attribute:
-        typeStr = "Attribute";
-        break;
-      default:
-        typeStr = "Unknown";
-        break;
+  
+  // Handle datasets
+  if (objType == StorageObjectType::Dataset) {
+    try {
+      H5::DataSet dataset = m_file->openDataSet(path);
+      H5::DataType dataType = dataset.getDataType();
+      return getBaseDataType(dataType);
+    } catch (H5::Exception& e) {
+      throw std::runtime_error(
+          "HDF5IO::getStorageObjectDataType: Could not get data type for "
+          "dataset at '" +
+          path + "': " + e.getDetailMsg());
     }
-    throw std::runtime_error(
-        "HDF5IO::getStorageObjectDataType: Object at '" + path +
-        "' is a " + typeStr + ", not a dataset. Cannot determine data type.");
   }
-
-  try {
-    H5::DataSet dataset = m_file->openDataSet(path);
-    H5::DataType dataType = dataset.getDataType();
-    return getBaseDataType(dataType);
-  } catch (H5::Exception& e) {
-    throw std::runtime_error(
-        "HDF5IO::getStorageObjectDataType: Could not get data type for "
-        "dataset at '" +
-        path + "': " + e.getDetailMsg());
+  
+  // Handle attributes
+  if (objType == StorageObjectType::Attribute) {
+    try {
+      std::unique_ptr<H5::Attribute> attributePtr = getAttribute(path);
+      if (!attributePtr) {
+        throw std::runtime_error(
+            "HDF5IO::getStorageObjectDataType: Could not open attribute at '" +
+            path + "'");
+      }
+      H5::DataType dataType = attributePtr->getDataType();
+      return getBaseDataType(dataType);
+    } catch (H5::Exception& e) {
+      throw std::runtime_error(
+          "HDF5IO::getStorageObjectDataType: Could not get data type for "
+          "attribute at '" +
+          path + "': " + e.getDetailMsg());
+    }
   }
+  
+  // Groups don't have data types
+  throw std::runtime_error(
+      "HDF5IO::getStorageObjectDataType: Object at '" + path +
+      "' is a Group. Groups do not have data types.");
 }
 
 std::shared_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::getDataSet(
