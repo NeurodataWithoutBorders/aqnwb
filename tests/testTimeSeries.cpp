@@ -526,9 +526,11 @@ TEST_CASE("TimeSeries chunking fallback and validation", "[base][chunking]")
     io->open();
     auto ts = NWB::TimeSeries::create(dataPath, io);
 
-    // Use empty chunking - should trigger fallback to 8192
+    // Use fixed-size dataset (non-extendable) so we can test with empty chunking
+    // This simulates a scenario where chunking info is not available
+    // (e.g., from a link to a non-chunked dataset)
     IO::ArrayDataSetConfig config(
-        dataType, SizeArray {0}, SizeArray {});  // Empty chunking
+        dataType, SizeArray {numSamples}, SizeArray {});  // Fixed size, empty chunking
     
     // Capture stderr to verify the warning message
     std::streambuf* oldCerr = std::cerr.rdbuf();
