@@ -582,7 +582,5 @@ TEST_CASE("LinkArrayDataSetConfig for VectorData", "[base][link]")
 
     io->flush();
     io->close();
-
-    // Test successful - Data hierarchy supports links
   }
 }
