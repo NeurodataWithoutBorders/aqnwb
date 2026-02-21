@@ -148,9 +148,21 @@ Status TimeSeries::initialize(
     ioPtr->createArrayDataSet(dataConfig, AQNWB::mergePaths(m_path, "data"));
     if (dataConfig.isLink()) {
       // For links, we don't set attributes since there is no dataset to attach
-      // them to.
-      // TODO:: Validate that the target of the link has the appropriate
-      // attributes set.
+      // them to. Instead, validate that the target has the required attributes.
+      const auto* linkConfig =
+          dynamic_cast<const IO::LinkArrayDataSetConfig*>(&dataConfig);
+      if (linkConfig) {
+        // Validate that the linked target has the required TimeSeries data
+        // attributes: conversion, resolution, offset, and unit.
+        status = status
+            && linkConfig->validateTarget(
+                *ioPtr, {}, {}, {"conversion", "resolution", "offset", "unit"});
+      } else {
+        std::cerr << "TimeSeries::initialize: dataConfig.isLink() is true but "
+                  << "dynamic_cast to LinkArrayDataSetConfig failed."
+                  << std::endl;
+        status = Status::Failure;
+      }
     } else {
       status = status
           && this->createDataAttributes(

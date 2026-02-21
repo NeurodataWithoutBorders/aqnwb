@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   * Added user docs page on using links and processing modules
   * Added `BaseIO::getStorageObjectDataType` and `BaseIO::getStorageObjectChunking` and corresponding HDF5IO implementations
   * Updated `BaseIO::createArrayDataSet` to raise `std::runtime_error` on failure (rather than returning nullptr) to make error handling more robust and to allow link creation to return nullptr without ambiguity.
+  * Added `LinkArrayDataSetConfig::validateTarget()` to validate that a link target is compliant with expected schema requirements and updated initialize methods of Data, VectorData, and TimeSeries accordingly to check that link targets are valid (@copilot, @oruebel [#259](https://github.com/NeurodataWithoutBorders/aqnwb/pull/259))
 * Added `AQNWB::IO::ConstMultiArrayView<DTYPE, NDIMS>` as a lightweight, non-owning const multi-dimensional view over a buffer used to facilitate multi-dimensional array access in C++17/20  (@chittti , [#250](https://github.com/NeurodataWithoutBorders/aqnwb/pull/250)) 
 * Added UUID/time/endian utilities in `src/Utils.hpp` to replace corresponding Boost utilities (@chittti, [#250](https://github.com/NeurodataWithoutBorders/aqnwb/pull/250)) 
 * Added AQNWB_CXX_STANDARD option to the cmake build to allow configuration of the std C++ version to support 17, 20, and 23 to allow the use of `std::mdspan` if C++23 is used  (@oruebel, [#250](https://github.com/NeurodataWithoutBorders/aqnwb/pull/250))
@@ -31,7 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Updated NWBFile to make common root path definitions (e.g., acquisition, processing, stimulus) public to make path generation easier (@oruebel, [#257](https://github.com/NeurodataWithoutBorders/aqnwb/pull/257))
 
 ### Fixed
-* ...
+* Removed redundant `resources/utils/requirements.txt` and update CI accordingly. Dependencies are now defined in `resources/utils/pyproject.toml` (@copilot, @oruebel [#260](https://github.com/NeurodataWithoutBorders/aqnwb/pull/260))
 
 
 ## [0.2.0] - 2025-12-22
