@@ -34,6 +34,20 @@ public:
   // Register the NWBFile as a subclass of NWBContainer
   REGISTER_SUBCLASS(NWBFile, NWBContainer, AQNWB::SPEC::CORE::namespaceName)
 
+  // Static paths for NWB file structure
+  /// @brief The path to the acquisition group in the NWB file
+  inline const static std::string ACQUISITION_PATH = "/acquisition";
+  /// @brief The path to the processing group in the NWB file
+  inline const static std::string SPECIFICATIONS_PATH = "/specifications";
+  /// @brief The path to the processing group in the NWB file
+  inline const static std::string PROCESSING_PATH = "/processing";
+  /// @brief The path to the stimulus group in the NWB file
+  inline const static std::string STIMULUS_PATH = "/stimulus";
+  /// @brief The path to the general group in the NWB file
+  inline const static std::string GENERAL_PATH = "/general";
+  /// @brief The path to the analysis group in the NWB file
+  inline const static std::string ANALYSIS_PATH = "/analysis";
+
   /** \brief Convenience factor method since the path is fixed to '/'
    * @param io A shared pointer to the IO object.
    * @return A shared pointer to the created NWBFile object, or nullptr if
@@ -258,10 +272,6 @@ private:
    * specification
    */
   void cacheSpecifications(const Types::NamespaceInfo& namespaceInfo);
-
-  inline const static std::string m_acquisitionPath = "/acquisition";
-
-  inline const static std::string m_specificationsPath = "/specifications";
 
   /**
    * @brief The ElectrodesTable for the file

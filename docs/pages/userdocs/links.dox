@@ -60,7 +60,8 @@
  * \subsection link_processing 3. Create a ProcessingModule
  *
  * Create a \ref AQNWB::NWB::ProcessingModule "ProcessingModule" to store the time-aligned data.
- * This follows NWB best practices where processed/derived data is organized in processing modules:
+ * This follows NWB best practices where processed data generated post-acquisition is organized 
+ * in processing modules:
  *
  * \snippet tests/examples/test_link_timeseries_example.cpp example_link_timeseries_processing_module
  *
@@ -69,8 +70,8 @@
  * Create a second \ref AQNWB::NWB::TimeSeries "TimeSeries" in the ProcessingModule that links 
  * to the first one's data. This step is typically done after acquisition is completed. We use 
  * \ref AQNWB::NWB::ProcessingModule::createNWBDataInterface "ProcessingModule::createNWBDataInterface()"
- * to add the series to the processing module. The aligned series uses irregular timestamps with small 
- * adjustments to demonstrate the time-alignment use case:
+ * to create the \ref AQNWB::NWB::TimeSeries "TimeSeries" and add it to the processing module. The aligned 
+ * series uses irregular timestamps with small adjustments to demonstrate the time-alignment use case:
  *
  * \snippet tests/examples/test_link_timeseries_example.cpp example_link_timeseries_linked
  *
@@ -78,7 +79,10 @@
  *
  * Create a link to the original \ref AQNWB::NWB::TimeSeries "TimeSeries" in the 
  * \ref AQNWB::NWB::ProcessingModule "ProcessingModule" to explicitly document the relationship
- * and provenance of the processed data:
+ * and provenance of the processed data. This is not strictly necessary since the linkage is 
+ * already documented via the link of the data in the aligned timeseries, however, linking 
+ * the full orginal timeseries makes the provenance more explicit and makes the data easier 
+ * to reuse. 
  *
  * \snippet tests/examples/test_link_timeseries_example.cpp example_link_timeseries_reference
  *
