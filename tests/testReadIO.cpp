@@ -9,7 +9,10 @@
 #include <catch2/matchers/catch_matchers_all.hpp>
 
 #include "io/ReadIO.hpp"
+#include "io/hdf5/HDF5IO.hpp"
+#include "testUtils.hpp"
 
+using namespace AQNWB;
 using namespace AQNWB::IO;
 
 // Helper function to compute the mean of a vector
@@ -362,5 +365,136 @@ TEST_CASE("DataBlock - as_multi_array", "[DataBlock]")
     DataBlock<int> block(data, shape);
 
     REQUIRE_THROWS_AS(block.as_multi_array<2>(), std::invalid_argument);
+  }
+}
+
+// Detection trait: checks whether T::toLinkArrayDataSetConfig() is callable
+template<typename T, typename = void>
+struct has_toLinkArrayDataSetConfig : std::false_type
+{
+};
+template<typename T>
+struct has_toLinkArrayDataSetConfig<
+    T,
+    std::void_t<decltype(std::declval<T>().toLinkArrayDataSetConfig())>>
+    : std::true_type
+{
+};
+
+// Compile-time assertions: toLinkArrayDataSetConfig must be available for
+// Dataset wrappers and disabled for Attribute wrappers.
+static_assert(
+    has_toLinkArrayDataSetConfig<
+        ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset,
+                        int32_t>>::value,
+    "toLinkArrayDataSetConfig must be callable for Dataset wrappers");
+static_assert(
+    !has_toLinkArrayDataSetConfig<
+        ReadDataWrapper<AQNWB::Types::StorageObjectType::Attribute,
+                        int32_t>>::value,
+    "toLinkArrayDataSetConfig must not be callable for Attribute wrappers");
+
+TEST_CASE("ReadDataWrapper; introspection methods", "[ReadDataWrapper]")
+{
+  SECTION("getDataType returns correct type for a dataset")
+  {
+    std::string path = getTestFilePath("test_ReadDataWrapper_dtype.h5");
+    auto hdf5io = std::make_shared<IO::HDF5::HDF5IO>(path);
+    hdf5io->open();
+
+    std::string dataPath = "/float32dataset";
+    IO::ArrayDataSetConfig config(
+        IO::BaseDataType::F32, SizeArray {10}, SizeArray {5});
+    auto dataset = hdf5io->createArrayDataSet(config, dataPath);
+    std::vector<float> testData(10, 1.0f);
+    dataset->writeDataBlock({10}, {0}, IO::BaseDataType::F32, testData.data());
+
+    auto wrapper = std::make_unique<
+        ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset, float>>(
+        hdf5io, dataPath);
+    REQUIRE(wrapper->getDataType() == IO::BaseDataType::F32);
+
+    hdf5io->close();
+  }
+
+  SECTION("getDataType returns correct type for an attribute")
+  {
+    std::string path = getTestFilePath("test_ReadDataWrapper_attr_dtype.h5");
+    auto hdf5io = std::make_shared<IO::HDF5::HDF5IO>(path);
+    hdf5io->open();
+
+    hdf5io->createGroup("/mygroup");
+    std::vector<int32_t> attrData = {42};
+    hdf5io->createAttribute(
+        IO::BaseDataType::I32, attrData.data(), "/mygroup", "myattr", 1);
+
+    auto wrapper = std::make_unique<
+        ReadDataWrapper<AQNWB::Types::StorageObjectType::Attribute, int32_t>>(
+        hdf5io, "/mygroup/myattr");
+    REQUIRE(wrapper->getDataType() == IO::BaseDataType::I32);
+    // Attributes are not chunked; getChunking() should return an empty array
+    REQUIRE(wrapper->getChunking().empty());
+
+    hdf5io->close();
+  }
+
+  SECTION("getChunking returns correct chunking for a dataset")
+  {
+    std::string path = getTestFilePath("test_ReadDataWrapper_chunking.h5");
+    auto hdf5io = std::make_shared<IO::HDF5::HDF5IO>(path);
+    hdf5io->open();
+
+    std::string dataPath = "/chunked_dataset";
+    SizeArray chunking = {5};
+    IO::ArrayDataSetConfig config(
+        IO::BaseDataType::I32, SizeArray {0}, chunking);
+    auto dataset = hdf5io->createArrayDataSet(config, dataPath);
+    std::vector<int32_t> testData(10);
+    dataset->writeDataBlock({10}, {0}, IO::BaseDataType::I32, testData.data());
+
+    auto wrapper = std::make_unique<
+        ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset, int32_t>>(
+        hdf5io, dataPath);
+    SizeArray resultChunking = wrapper->getChunking();
+    REQUIRE(resultChunking == chunking);
+
+    hdf5io->close();
+  }
+
+  SECTION("toLinkArrayDataSetConfig creates config with correct target path")
+  {
+    std::string path = getTestFilePath("test_ReadDataWrapper_toLink.h5");
+    auto hdf5io = std::make_shared<IO::HDF5::HDF5IO>(path);
+    hdf5io->open();
+
+    std::string dataPath = "/original_data";
+    IO::ArrayDataSetConfig config(
+        IO::BaseDataType::F64, SizeArray {20}, SizeArray {10});
+    auto dataset = hdf5io->createArrayDataSet(config, dataPath);
+    std::vector<double> testData(20, 3.14);
+    dataset->writeDataBlock({20}, {0}, IO::BaseDataType::F64, testData.data());
+
+    auto wrapper = std::make_unique<
+        ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset, double>>(
+        hdf5io, dataPath);
+
+    // Create LinkArrayDataSetConfig from the wrapper
+    IO::LinkArrayDataSetConfig linkConfig = wrapper->toLinkArrayDataSetConfig();
+    REQUIRE(linkConfig.getTargetPath() == dataPath);
+    REQUIRE(linkConfig.isLink() == true);
+    REQUIRE(linkConfig.targetExists(*hdf5io) == true);
+
+    // Verify introspection via the link config
+    REQUIRE(linkConfig.getTargetShape(*hdf5io) == SizeArray {20});
+    REQUIRE(linkConfig.getTargetChunking(*hdf5io) == SizeArray {10});
+    REQUIRE(linkConfig.getTargetDataType(*hdf5io) == IO::BaseDataType::F64);
+
+    // Use link config to create an actual link in the file
+    std::string linkPath = "/link_to_original";
+    auto linkResult = hdf5io->createArrayDataSet(linkConfig, linkPath);
+    REQUIRE(linkResult == nullptr);
+    REQUIRE(hdf5io->objectExists(linkPath));
+
+    hdf5io->close();
   }
 }
