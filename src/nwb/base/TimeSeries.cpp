@@ -146,9 +146,16 @@ Status TimeSeries::initialize(
   // setup data datasets
   try {
     ioPtr->createArrayDataSet(dataConfig, AQNWB::mergePaths(m_path, "data"));
-    status = status
-        && this->createDataAttributes(
-            m_path, conversion, resolution, offset, unit, continuity);
+    if (dataConfig.isLink()) {
+      // For links, we don't set attributes since there is no dataset to attach
+      // them to.
+      // TODO:: Validate that the target of the link has the appropriate
+      // attributes set.
+    } else {
+      status = status
+          && this->createDataAttributes(
+              m_path, conversion, resolution, offset, unit, continuity);
+    }
   } catch (const std::runtime_error& e) {
     std::cerr << "Failed to create data dataset: " << e.what() << std::endl;
     status = Status::Failure;

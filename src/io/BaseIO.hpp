@@ -789,6 +789,8 @@ public:
    * @brief Returns the size of the dataset or attribute for each dimension.
    * @param path The location of the dataset or attribute in the file
    * @return The shape of the dataset or attribute.
+   * @throws std::runtime_error if the object does not exist or if the shape
+   * cannot be determined (e.g., for Groups or untyped objects).
    */
   virtual SizeArray getStorageObjectShape(const std::string path) const = 0;
 

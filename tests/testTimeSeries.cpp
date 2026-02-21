@@ -376,17 +376,18 @@ TEST_CASE("LinkArrayDataSetConfig for TimeSeries data", "[base][link]")
         AQNWB::NWB::TimeSeries::Continuous;
 
     IO::ArrayDataSetConfig config1(dataType, SizeArray {0}, SizeArray {1});
-    ts1->initialize(config1,
-                    unit,
-                    description,
-                    "Original comments",
-                    conversion,
-                    resolution,
-                    offset,
-                    continuity,
-                    -1.0,
-                    1.0,
-                    {});
+    Status status_ts1 = ts1->initialize(config1,
+                                        unit,
+                                        description,
+                                        "Original comments",
+                                        conversion,
+                                        resolution,
+                                        offset,
+                                        continuity,
+                                        -1.0,
+                                        1.0,
+                                        {});
+    REQUIRE(status_ts1 == Status::Success);
 
     // Write data to first TimeSeries
     Status writeStatus1 = ts1->writeData(
@@ -402,17 +403,18 @@ TEST_CASE("LinkArrayDataSetConfig for TimeSeries data", "[base][link]")
     REQUIRE(linkConfig.isLink() == true);
     REQUIRE(linkConfig.getTargetPath() == linkTarget);
 
-    ts2->initialize(linkConfig,
-                    unit,
-                    "Linked TimeSeries with same data",
-                    "Linked comments",
-                    conversion,
-                    resolution,
-                    offset,
-                    continuity,
-                    -1.0,
-                    1.0,
-                    {});
+    Status status_ts2 = ts2->initialize(linkConfig,
+                                        unit,
+                                        "Linked TimeSeries with same data",
+                                        "Linked comments",
+                                        conversion,
+                                        resolution,
+                                        offset,
+                                        continuity,
+                                        -1.0,
+                                        1.0,
+                                        {});
+    REQUIRE(status_ts2 == Status::Success);
 
     // Write only timestamps to second TimeSeries (data is linked)
     // We need to manually write timestamps since recordData() returns nullptr

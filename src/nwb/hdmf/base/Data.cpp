@@ -30,10 +30,20 @@ Status Data::initialize(const IO::BaseArrayDataSetConfig& dataConfig)
     return Status::Failure;
   }
 
-  // setup common attributes
-  Status commonAttrsStatus = ioPtr->createCommonNWBAttributes(
-      m_path, this->getNamespace(), this->getTypeName());
-  return commonAttrsStatus;
+  if (dataConfig.isLink()) {
+    // For links, we don't set attributes since there is no dataset to attach
+    // them to.
+    // TODO: Validate that the target of the link has the appropriate attributes
+    // set.
+    return Status::Success;
+  } else {
+    // setup common attributes
+    Status commonAttrsStatus = ioPtr->createCommonNWBAttributes(
+        m_path, this->getNamespace(), this->getTypeName());
+    std::cerr << "commonAttrsStatus: " << commonAttrsStatus << std::endl;
+    return commonAttrsStatus;
+  }
+  return Status::Success;
 }
 
 namespace AQNWB::NWB

@@ -37,7 +37,7 @@ public:
   // Static paths for NWB file structure
   /// @brief The path to the acquisition group in the NWB file
   inline const static std::string ACQUISITION_PATH = "/acquisition";
-  /// @brief The path to the processing group in the NWB file
+  /// @brief The path to the specification group in the NWB file
   inline const static std::string SPECIFICATIONS_PATH = "/specifications";
   /// @brief The path to the processing group in the NWB file
   inline const static std::string PROCESSING_PATH = "/processing";
