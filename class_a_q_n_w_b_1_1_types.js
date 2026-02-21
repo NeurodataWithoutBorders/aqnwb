@@ -15,6 +15,7 @@ var class_a_q_n_w_b_1_1_types =
       [ "Attribute", "class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915a459ad320d6c923a4111734767c71b20c", null ],
       [ "Undefined", "class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915adfd902706dc9678b3c629bed785567a0", null ]
     ] ],
+    [ "storageObjectTypeToString", "class_a_q_n_w_b_1_1_types.html#ab060fdd98ba0fa1fbab008fd69e124ad", null ],
     [ "operator&&", "class_a_q_n_w_b_1_1_types.html#a77cd554a1f7edce669317b79790fb681", null ],
     [ "operator||", "class_a_q_n_w_b_1_1_types.html#a9181da58701832ace755fdd5e02ab038", null ],
     [ "SizeTypeNotSet", "class_a_q_n_w_b_1_1_types.html#a489c41cdd124123f0595271873e00dbe", null ]

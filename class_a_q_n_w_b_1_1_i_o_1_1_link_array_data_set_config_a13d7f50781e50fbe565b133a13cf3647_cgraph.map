@@ -1,0 +1,15 @@
+<map id="AQNWB::IO::LinkArrayDataSetConfig::getProperties" name="AQNWB::IO::LinkArrayDataSetConfig::getProperties">
+<area shape="rect" id="Node000001" title="Gets the shape, chunking, and data type from the linked target dataset." alt="" coords="5,71,191,111"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html#a82e64d0c76fbce3f1ccdd7ad9048bc57" title="Gets the actual chunking configuration of the target dataset." alt="" coords="239,5,436,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,68,248,49,243,52,176,73"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html#a9db9ebc82f025b9aef92bf53c5e86146" title="Gets the BaseDataType of the target dataset." alt="" coords="239,71,436,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="191,88,226,90,221,92,192,94"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html#a2823f37d4929cb55cc8697a58516a9b4" title="Queries and returns the shape of the linked target dataset." alt="" coords="245,136,430,177"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="175,109,248,131,243,132,175,115"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a4d0740847311cffa3e1216fed89eca58" title="Gets the chunking configuration of a dataset." alt="" coords="484,5,662,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="435,23,471,25,466,26,436,28"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a3f759dc2b2c93500951a15e309f8ff34" title="Gets the BaseDataType of a dataset or attribute." alt="" coords="484,71,662,111"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="436,88,471,91,466,91,437,94"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#ae0bb3268dd3ab72d89e214f9638861a7" title="Returns the size of the dataset or attribute for each dimension." alt="" coords="494,136,653,177"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="430,154,480,156,475,156,431,159"/>
+</map>

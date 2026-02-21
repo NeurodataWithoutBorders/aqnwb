@@ -52,6 +52,18 @@ var userdocs =
         [ "Reading with SWMR mode", "hdf5io.html#hdf5io_swmr_read", null ]
       ] ]
     ] ],
+    [ "Using Links 🔗", "links.html", [
+      [ "Overview", "links.html#link_overview", null ],
+      [ "Use Case: Time-Aligned TimeSeries", "links.html#link_use_case", [
+        [ "1. Setup", "links.html#link_setup", null ],
+        [ "2. Create the Original TimeSeries", "links.html#link_original", null ],
+        [ "3. Create a ProcessingModule", "links.html#link_processing", null ],
+        [ "4. Create the Linked TimeSeries", "links.html#link_linked", null ],
+        [ "5. Link to the Original Series", "links.html#link_reference", null ],
+        [ "6. Cleanup", "links.html#link_cleanup", null ],
+        [ "Verification", "links.html#link_verification", null ]
+      ] ]
+    ] ],
     [ "Demos 📝", "user_demos.html", [
       [ "Inspect Electrical Series Data using AqNWB", "user_demos.html#demos_inspect_electrical_series", null ],
       [ "Integrating LabMetaData Extension with AqNWB", "user_demos.html#demos_labmetadata_extension", null ]

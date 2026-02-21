@@ -1,7 +1,10 @@
 var searchData=
 [
-  ['values_0',['values',['../class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html#a6f847556dc94dc001eb66dda402f72c0',1,'AQNWB::IO::ReadDataWrapper::values() const'],['../class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html#adc4133d3cbb85951dac42f2b5885345b',1,'AQNWB::IO::ReadDataWrapper::values(const std::vector&lt; SizeType &gt; &amp;start, const std::vector&lt; SizeType &gt; &amp;count={}, const std::vector&lt; SizeType &gt; &amp;stride={}, const std::vector&lt; SizeType &gt; &amp;block={}) const']]],
-  ['valuesgeneric_1',['valuesGeneric',['../class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html#a87906c320c5ca820768eacc98e8b09ca',1,'AQNWB::IO::ReadDataWrapper::valuesGeneric() const'],['../class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html#a5bded524757098c17eae87d626ffb8de',1,'AQNWB::IO::ReadDataWrapper::valuesGeneric(const std::vector&lt; SizeType &gt; &amp;start, const std::vector&lt; SizeType &gt; &amp;count={}, const std::vector&lt; SizeType &gt; &amp;stride={}, const std::vector&lt; SizeType &gt; &amp;block={}) const']]],
-  ['vectordata_2',['VectorData',['../class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#aaf127dfd1e590307b872ea785d578316',1,'AQNWB::NWB::VectorData::VectorData()'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html#aaf127dfd1e590307b872ea785d578316',1,'AQNWB::NWB::VectorDataTyped::VectorData(const std::string &amp;path, std::shared_ptr&lt; IO::BaseIO &gt; io)']]],
-  ['vectordatatyped_3',['VectorDataTyped',['../class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html#ae1574fc67b4fc214d68267283d5b2dbf',1,'AQNWB::NWB::VectorDataTyped']]]
+  ['targetexists_0',['targetExists',['../class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html#a7fccfbd5c0deb82ff9383627d3cf0477',1,'AQNWB::IO::LinkArrayDataSetConfig']]],
+  ['timeseries_1',['TimeSeries',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a523738fd2da4b70707e4ee6844cdce02',1,'AQNWB::NWB::TimeSeries']]],
+  ['to_5flittle_5fendian_5fu16_2',['to_little_endian_u16',['../namespace_a_q_n_w_b_1_1detail.html#aea8e61c8f226a4c85bdb734deabe8e4c',1,'AQNWB::detail']]],
+  ['to_5flocal_5ftime_3',['to_local_time',['../namespace_a_q_n_w_b_1_1detail.html#abcf2ceabe5c721ee1001c80fdc313fa3',1,'AQNWB::detail']]],
+  ['to_5futc_5ftime_4',['to_utc_time',['../namespace_a_q_n_w_b_1_1detail.html#a565fcac4f2e7942f33f35b3de5b717f1',1,'AQNWB::detail']]],
+  ['tostring_5',['toString',['../class_a_q_n_w_b_1_1_i_o_1_1_recording_objects.html#a0ef497c4dc2c3b8baacde0ab23b8aa5f',1,'AQNWB::IO::RecordingObjects']]],
+  ['transformtoint16_6',['transformToInt16',['../namespace_a_q_n_w_b.html#a0e8a5fc18589d0ff3157b86c081ca252',1,'AQNWB']]]
 ];

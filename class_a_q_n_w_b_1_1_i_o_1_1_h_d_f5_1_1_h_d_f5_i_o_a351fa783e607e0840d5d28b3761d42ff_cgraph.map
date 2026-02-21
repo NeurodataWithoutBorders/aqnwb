@@ -1,7 +1,9 @@
 <map id="AQNWB::IO::HDF5::HDF5IO::createLink" name="AQNWB::IO::HDF5::HDF5IO::createLink">
-<area shape="rect" id="Node000001" title="Creates a soft link to another location in the file." alt="" coords="5,35,200,75"/>
+<area shape="rect" id="Node000001" title="Creates a soft link to another location in the file." alt="" coords="5,63,200,103"/>
 <area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a96d8d872b2b974ac79a20b82fd72c5c2" title="Checks whether the file is in a mode where objects can be added or deleted. Note, this does not apply..." alt="" coords="248,5,442,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,41,235,39,230,40,201,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="191,60,244,49,239,51,192,65"/>
 <area shape="rect" id="Node000003" href="$namespace_a_q_n_w_b.html#a09b9a48d0ec26fe72452788634ee12bb" title="Convert an integer status code to a Types::Status enum value. Shorthand for return (status &lt; 0) ?..." alt="" coords="272,70,418,96"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="200,64,259,73,254,73,200,69"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="200,80,259,82,254,84,201,86"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#ad384fb7900056f833e217252d3bfc41b" title="Checks whether a Dataset, Group, or Link already exists at the location in the file." alt="" coords="248,120,442,161"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="192,101,244,116,239,116,191,107"/>
 </map>

@@ -142,8 +142,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a1e596cea2d047ec61f89158f1dc85276"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <br /></td></tr>
 <tr class="memitem:a33c3c764fdf8a5db861beeabc48d78e7" id="r_a33c3c764fdf8a5db861beeabc48d78e7"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a33c3c764fdf8a5db861beeabc48d78e7">writeData</a> (const std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;dataShape, const std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;positionOffset, const void *dataInput, const void *timestampsInput=nullptr, const void *controlInput=nullptr)</td></tr>
 <tr class="memdesc:a33c3c764fdf8a5db861beeabc48d78e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a timeseries data block to the file.  <br /></td></tr>
-<tr class="memitem:a82f1f4dae2debc649aa537974dc7f7a7" id="r_a82f1f4dae2debc649aa537974dc7f7a7"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a82f1f4dae2debc649aa537974dc7f7a7">initialize</a> (const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html">IO::ArrayDataSetConfig</a> &amp;dataConfig, const std::string &amp;unit, const std::string &amp;description=&quot;no description&quot;, const std::string &amp;comments=&quot;no comments&quot;, const float &amp;conversion=1.0f, const float &amp;resolution=-1.0f, const float &amp;offset=0.0f, const <a class="el" href="#ab8143e245b1f62cb147cd9ed97c84e9c">ContinuityType</a> &amp;continuity=<a class="el" href="#ab8143e245b1f62cb147cd9ed97c84e9ca63430566913dbf62230d5f365b3aa1a4">ContinuityType::Undefined</a>, const double &amp;startingTime=-1.0, const float &amp;startingTimeRate=1.0f, const std::vector&lt; std::string &gt; &amp;controlDescription={})</td></tr>
-<tr class="memdesc:a82f1f4dae2debc649aa537974dc7f7a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html" title="General purpose time series.">TimeSeries</a> by creating <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> related attributes and writing the description and comment metadata.  <br /></td></tr>
+<tr class="memitem:ab025c3806934a010991fb56c94945ab4" id="r_ab025c3806934a010991fb56c94945ab4"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#ab025c3806934a010991fb56c94945ab4">initialize</a> (const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_array_data_set_config.html">IO::BaseArrayDataSetConfig</a> &amp;dataConfig, const std::string &amp;unit, const std::string &amp;description=&quot;no description&quot;, const std::string &amp;comments=&quot;no comments&quot;, const float &amp;conversion=1.0f, const float &amp;resolution=-1.0f, const float &amp;offset=0.0f, const <a class="el" href="#ab8143e245b1f62cb147cd9ed97c84e9c">ContinuityType</a> &amp;continuity=<a class="el" href="#ab8143e245b1f62cb147cd9ed97c84e9ca63430566913dbf62230d5f365b3aa1a4">ContinuityType::Undefined</a>, const double &amp;startingTime=-1.0, const float &amp;startingTimeRate=1.0f, const std::vector&lt; std::string &gt; &amp;controlDescription={})</td></tr>
+<tr class="memdesc:ab025c3806934a010991fb56c94945ab4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html" title="General purpose time series.">TimeSeries</a> by creating <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> related attributes and writing the description and comment metadata.  <br /></td></tr>
 <tr class="memitem:ae06186c303282828d9f764f8cc6559ec" id="r_ae06186c303282828d9f764f8cc6559ec"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::string&gt; </td></tr>
 <tr class="memitem:ae06186c303282828d9f764f8cc6559ec template"><td class="memItemLeft">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AQNWB::NWB::AttributeField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ae06186c303282828d9f764f8cc6559ec">readDescription</a> () const</td></tr>
 <tr class="memitem:a6b1836b8e50dca20add6f46936c1dab0" id="r_a6b1836b8e50dca20add6f46936c1dab0"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::string&gt; </td></tr>
@@ -627,8 +627,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a82f1f4dae2debc649aa537974dc7f7a7" name="a82f1f4dae2debc649aa537974dc7f7a7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a82f1f4dae2debc649aa537974dc7f7a7">&#9670;&#160;</a></span>initialize()</h2>
+<a id="ab025c3806934a010991fb56c94945ab4" name="ab025c3806934a010991fb56c94945ab4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab025c3806934a010991fb56c94945ab4">&#9670;&#160;</a></span>initialize()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -636,7 +636,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> TimeSeries::initialize </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html">IO::ArrayDataSetConfig</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>dataConfig</em></span>, </td>
+          <td class="paramtype">const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_array_data_set_config.html">IO::BaseArrayDataSetConfig</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>dataConfig</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -712,7 +712,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_a82f1f4dae2debc649aa537974dc7f7a7_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series_ab025c3806934a010991fb56c94945ab4_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>

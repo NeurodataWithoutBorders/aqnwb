@@ -13,7 +13,7 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_time_series =
     [ "createTimestampsAttributes", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a682200d497af6051d0ef9189509084dd", null ],
     [ "getNamespace", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a939a4213950507861a18207b460d72ad", null ],
     [ "getTypeName", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#aceff608228b87017b836a4a97f5b470d", null ],
-    [ "initialize", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a82f1f4dae2debc649aa537974dc7f7a7", null ],
+    [ "initialize", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ab025c3806934a010991fb56c94945ab4", null ],
     [ "readComments", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a6b1836b8e50dca20add6f46936c1dab0", null ],
     [ "readControl", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#af265a39e34b4fcf8b9db260775c6d73f", null ],
     [ "readControlDescription", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a87984ba6f9d5f86a3ba8a8c30e760683", null ],

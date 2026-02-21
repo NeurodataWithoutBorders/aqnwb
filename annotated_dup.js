@@ -9,7 +9,9 @@ var annotated_dup =
           [ "HDF5RecordingData", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data" ]
         ] ],
         [ "BaseDataType", "class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html", "class_a_q_n_w_b_1_1_i_o_1_1_base_data_type" ],
+        [ "BaseArrayDataSetConfig", "class_a_q_n_w_b_1_1_i_o_1_1_base_array_data_set_config.html", "class_a_q_n_w_b_1_1_i_o_1_1_base_array_data_set_config" ],
         [ "ArrayDataSetConfig", "class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html", "class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config" ],
+        [ "LinkArrayDataSetConfig", "class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html", "class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config" ],
         [ "BaseIO", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o" ],
         [ "BaseRecordingData", "class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html", "class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data" ],
         [ "DataBlockGeneric", "class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html", "class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic" ],

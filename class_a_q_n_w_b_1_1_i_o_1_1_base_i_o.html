@@ -181,12 +181,16 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a53a279ee9e1adf0d52d03185311ad91a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops the recording process.  <br /></td></tr>
 <tr class="memitem:ad973fe50bc5ef9e210319902a7a5ef81" id="r_ad973fe50bc5ef9e210319902a7a5ef81"><td class="memItemLeft">virtual bool&#160;</td><td class="memItemRight"><a class="el" href="#ad973fe50bc5ef9e210319902a7a5ef81">canModifyObjects</a> ()</td></tr>
 <tr class="memdesc:ad973fe50bc5ef9e210319902a7a5ef81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the file is in a mode where objects can be added or deleted. Note, this does not apply to the modification of raw data on already existing objects. Derived classes should override this function to check if objects can be modified.  <br /></td></tr>
-<tr class="memitem:aacc45c55b5d653a8d8c64f26b7d7081e" id="r_aacc45c55b5d653a8d8c64f26b7d7081e"><td class="memItemLeft">virtual std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">BaseRecordingData</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#aacc45c55b5d653a8d8c64f26b7d7081e">createArrayDataSet</a> (const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html">ArrayDataSetConfig</a> &amp;config, const std::string &amp;path)=0</td></tr>
-<tr class="memdesc:aacc45c55b5d653a8d8c64f26b7d7081e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an extendable dataset with the given configuration and path.  <br /></td></tr>
+<tr class="memitem:a34edb8802204ec60e737113d4ccff1ef" id="r_a34edb8802204ec60e737113d4ccff1ef"><td class="memItemLeft">virtual std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">BaseRecordingData</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a34edb8802204ec60e737113d4ccff1ef">createArrayDataSet</a> (const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_array_data_set_config.html">BaseArrayDataSetConfig</a> &amp;config, const std::string &amp;path)=0</td></tr>
+<tr class="memdesc:a34edb8802204ec60e737113d4ccff1ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an extendable dataset with the given configuration and path.  <br /></td></tr>
 <tr class="memitem:abfecddd0a4a45740ccc84edd7461dba9" id="r_abfecddd0a4a45740ccc84edd7461dba9"><td class="memItemLeft">virtual std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">BaseRecordingData</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#abfecddd0a4a45740ccc84edd7461dba9">getDataSet</a> (const std::string &amp;path)=0</td></tr>
 <tr class="memdesc:abfecddd0a4a45740ccc84edd7461dba9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a pointer to a dataset at a given path.  <br /></td></tr>
-<tr class="memitem:a53d0acc4f29c421c6036cd09437f072e" id="r_a53d0acc4f29c421c6036cd09437f072e"><td class="memItemLeft">virtual std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a53d0acc4f29c421c6036cd09437f072e">getStorageObjectShape</a> (const std::string path)=0</td></tr>
-<tr class="memdesc:a53d0acc4f29c421c6036cd09437f072e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the size of the dataset or attribute for each dimension.  <br /></td></tr>
+<tr class="memitem:ae0bb3268dd3ab72d89e214f9638861a7" id="r_ae0bb3268dd3ab72d89e214f9638861a7"><td class="memItemLeft">virtual <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a>&#160;</td><td class="memItemRight"><a class="el" href="#ae0bb3268dd3ab72d89e214f9638861a7">getStorageObjectShape</a> (const std::string path) const =0</td></tr>
+<tr class="memdesc:ae0bb3268dd3ab72d89e214f9638861a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the size of the dataset or attribute for each dimension.  <br /></td></tr>
+<tr class="memitem:a4d0740847311cffa3e1216fed89eca58" id="r_a4d0740847311cffa3e1216fed89eca58"><td class="memItemLeft">virtual <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a>&#160;</td><td class="memItemRight"><a class="el" href="#a4d0740847311cffa3e1216fed89eca58">getStorageObjectChunking</a> (const std::string path) const =0</td></tr>
+<tr class="memdesc:a4d0740847311cffa3e1216fed89eca58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the chunking configuration of a dataset.  <br /></td></tr>
+<tr class="memitem:a3f759dc2b2c93500951a15e309f8ff34" id="r_a3f759dc2b2c93500951a15e309f8ff34"><td class="memItemLeft">virtual <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">BaseDataType</a>&#160;</td><td class="memItemRight"><a class="el" href="#a3f759dc2b2c93500951a15e309f8ff34">getStorageObjectDataType</a> (const std::string path) const =0</td></tr>
+<tr class="memdesc:a3f759dc2b2c93500951a15e309f8ff34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html" title="Represents a base data type.">BaseDataType</a> of a dataset or attribute.  <br /></td></tr>
 <tr class="memitem:a813c55d88d9504e82d6871b9732d9bad" id="r_a813c55d88d9504e82d6871b9732d9bad"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a813c55d88d9504e82d6871b9732d9bad">createCommonNWBAttributes</a> (const std::string &amp;path, const std::string &amp;objectNamespace, const std::string &amp;neurodataType=&quot;&quot;)</td></tr>
 <tr class="memdesc:a813c55d88d9504e82d6871b9732d9bad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience function for creating <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> related attributes.  <br /></td></tr>
 <tr class="memitem:a51780c3ba1e76902180b55c050eedaa7" id="r_a51780c3ba1e76902180b55c050eedaa7"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a51780c3ba1e76902180b55c050eedaa7">isOpen</a> () const</td></tr>
@@ -412,8 +416,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="aacc45c55b5d653a8d8c64f26b7d7081e" name="aacc45c55b5d653a8d8c64f26b7d7081e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aacc45c55b5d653a8d8c64f26b7d7081e">&#9670;&#160;</a></span>createArrayDataSet()</h2>
+<a id="a34edb8802204ec60e737113d4ccff1ef" name="a34edb8802204ec60e737113d4ccff1ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34edb8802204ec60e737113d4ccff1ef">&#9670;&#160;</a></span>createArrayDataSet()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -424,7 +428,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">virtual std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">BaseRecordingData</a> &gt; AQNWB::IO::BaseIO::createArrayDataSet </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html">ArrayDataSetConfig</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span>, </td>
+          <td class="paramtype">const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_array_data_set_config.html">BaseArrayDataSetConfig</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -442,14 +446,20 @@ Here is the caller graph for this function:</div>
 <p>Creates an extendable dataset with the given configuration and path. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">config</td><td>The configuration for the dataset, including type, shape, and chunking. </td></tr>
+    <tr><td class="paramname">config</td><td>The configuration for the dataset, including type, shape, and chunking. Can also be a <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html" title="Configuration for creating a soft-link to an existing dataset.">LinkArrayDataSetConfig</a> to create a soft-link. </td></tr>
     <tr><td class="paramname">path</td><td>The location in the file of the new dataset. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A pointer to the created dataset. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the created dataset. Returns nullptr for links. </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>if dataset or link creation fails. </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Implemented in <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a0b301f91a26412d2f1a36f233f7099db">AQNWB::IO::HDF5::HDF5IO</a>.</p>
+<p>Implemented in <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a8fc6f7149f6266cbf83019d4d8970d0f">AQNWB::IO::HDF5::HDF5IO</a>.</p>
 
 </div>
 </div>
@@ -772,7 +782,7 @@ Here is the call graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The status of the link creation operation. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the link creation operation. Link creation may fail if the reference path does not exist or if the path for the new link already exists. </dd></dl>
 
 <p>Implemented in <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a351fa783e607e0840d5d28b3761d42ff">AQNWB::IO::HDF5::HDF5IO</a>.</p>
 
@@ -1175,6 +1185,94 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="a4d0740847311cffa3e1216fed89eca58" name="a4d0740847311cffa3e1216fed89eca58"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d0740847311cffa3e1216fed89eca58">&#9670;&#160;</a></span>getStorageObjectChunking()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> AQNWB::IO::BaseIO::getStorageObjectChunking </td>
+          <td>(</td>
+          <td class="paramtype">const std::string</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets the chunking configuration of a dataset. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The path to the dataset. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The chunking configuration of the dataset, or an empty <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> if the dataset is not chunked, doesn't exist, or if the path points to a Group or Attribute (which cannot be chunked). </dd></dl>
+
+<p>Implemented in <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a626023cfd926326063745fe610e87ebf">AQNWB::IO::HDF5::HDF5IO</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o_a4d0740847311cffa3e1216fed89eca58_icgraph.svg" width="666" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a3f759dc2b2c93500951a15e309f8ff34" name="a3f759dc2b2c93500951a15e309f8ff34"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f759dc2b2c93500951a15e309f8ff34">&#9670;&#160;</a></span>getStorageObjectDataType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">BaseDataType</a> AQNWB::IO::BaseIO::getStorageObjectDataType </td>
+          <td>(</td>
+          <td class="paramtype">const std::string</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html" title="Represents a base data type.">BaseDataType</a> of a dataset or attribute. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The path to the dataset or attribute. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html" title="Represents a base data type.">BaseDataType</a> of the dataset or attribute. </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>if the object is a Group (which has no data type) or if the data type cannot be determined. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implemented in <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a6ad39352448a7574c604789d925f31dd">AQNWB::IO::HDF5::HDF5IO</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o_a3f759dc2b2c93500951a15e309f8ff34_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
 <a id="a981d7a455b4c057f8ade5c511afbb2ba" name="a981d7a455b4c057f8ade5c511afbb2ba"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a981d7a455b4c057f8ade5c511afbb2ba">&#9670;&#160;</a></span>getStorageObjects()</h2>
 
@@ -1222,8 +1320,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a53d0acc4f29c421c6036cd09437f072e" name="a53d0acc4f29c421c6036cd09437f072e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a53d0acc4f29c421c6036cd09437f072e">&#9670;&#160;</a></span>getStorageObjectShape()</h2>
+<a id="ae0bb3268dd3ab72d89e214f9638861a7" name="ae0bb3268dd3ab72d89e214f9638861a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0bb3268dd3ab72d89e214f9638861a7">&#9670;&#160;</a></span>getStorageObjectShape()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1232,10 +1330,10 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; AQNWB::IO::BaseIO::getStorageObjectShape </td>
+          <td class="memname">virtual <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> AQNWB::IO::BaseIO::getStorageObjectShape </td>
           <td>(</td>
           <td class="paramtype">const std::string</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -1253,8 +1351,19 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The shape of the dataset or attribute. </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>if the object does not exist or if the shape cannot be determined (e.g., for Groups or untyped objects). </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Implemented in <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a45a864dee0e28dc625ef2bcfeae0e4b4">AQNWB::IO::HDF5::HDF5IO</a>.</p>
+<p>Implemented in <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a5e9b8fb56bdd982369f92a3b3021311b">AQNWB::IO::HDF5::HDF5IO</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o_ae0bb3268dd3ab72d89e214f9638861a7_icgraph.svg" width="638" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 
 </div>
 </div>
@@ -1386,7 +1495,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o_a01e6288db37a36dc4a160955e8f5b5b5_icgraph.svg" width="368" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o_a01e6288db37a36dc4a160955e8f5b5b5_icgraph.svg" width="399" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

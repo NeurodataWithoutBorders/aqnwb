@@ -25,7 +25,9 @@ var searchData=
   ['operator_7c_7c_22',['operator||',['../class_a_q_n_w_b_1_1_types.html#a9181da58701832ace755fdd5e02ab038',1,'AQNWB::Types']]],
   ['optimizing_20data_20layout_23',['Optimizing Data Layout',['../hdf5io.html#hdf5io_data_layout',1,'']]],
   ['options_24',['Target options',['../dev_install_page.html#devbuild_target_options_subsubsec',1,'']]],
-  ['overview_25',['Overview',['../index.html',1,'']]],
-  ['overview_20of_20a_20recording_20workflow_26',['Overview of a recording workflow',['../workflow.html#recording_workflow',1,'']]],
-  ['overwrite_27',['Overwrite',['../namespace_a_q_n_w_b_1_1_i_o.html#a969d0800c8e9e2141f272541b85e8bedada364eb37e143f6b2b5559aa03f5913a',1,'AQNWB::IO']]]
+  ['original_20series_25',['5. Link to the Original Series',['../links.html#link_reference',1,'']]],
+  ['original_20timeseries_26',['2. Create the Original TimeSeries',['../links.html#link_original',1,'']]],
+  ['overview_27',['Overview',['../index.html',1,'Overview'],['../links.html#link_overview',1,'Overview']]],
+  ['overview_20of_20a_20recording_20workflow_28',['Overview of a recording workflow',['../workflow.html#recording_workflow',1,'']]],
+  ['overwrite_29',['Overwrite',['../namespace_a_q_n_w_b_1_1_i_o.html#a969d0800c8e9e2141f272541b85e8bedada364eb37e143f6b2b5559aa03f5913a',1,'AQNWB::IO']]]
 ];

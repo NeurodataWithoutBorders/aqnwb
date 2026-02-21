@@ -1,5 +1,7 @@
 <map id="AQNWB::IO::BaseIO::objectExists" name="AQNWB::IO::BaseIO::objectExists">
-<area shape="rect" id="Node000001" title="Checks whether a Dataset, Group, or Link already exists at the location in the file." alt="" coords="208,5,362,46"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a788603f4c9c2698aad610134ab89f8e1" title="Finds all datasets and groups of the given types in the HDF5 file." alt="" coords="5,5,160,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="190,26,160,28,160,23,195,25"/>
+<area shape="rect" id="Node000001" title="Checks whether a Dataset, Group, or Link already exists at the location in the file." alt="" coords="239,39,393,79"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a788603f4c9c2698aad610134ab89f8e1" title="Finds all datasets and groups of the given types in the HDF5 file." alt="" coords="21,5,175,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="220,45,176,40,175,35,226,44"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html#a7fccfbd5c0deb82ff9383627d3cf0477" title="Checks if the target path exists in the file. This is a convenience method to check if the link targe..." alt="" coords="5,71,191,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="221,73,191,80,191,75,226,72"/>
 </map>

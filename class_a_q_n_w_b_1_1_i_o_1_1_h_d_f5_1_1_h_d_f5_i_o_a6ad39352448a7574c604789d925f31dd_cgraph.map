@@ -1,0 +1,16 @@
+<map id="AQNWB::IO::HDF5::HDF5IO::getStorageObjectDataType" name="AQNWB::IO::HDF5::HDF5IO::getStorageObjectDataType">
+<area shape="rect" id="Node000001" title="Gets the BaseDataType of a dataset or attribute." alt="" coords="5,91,200,132"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a87d9b4075fd30c5ec692738985ae294c" title=" " alt="" coords="500,66,694,106"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="126,89,179,51,212,33,247,20,304,6,349,3,395,8,453,20,503,35,550,58,545,58,501,40,451,25,394,13,349,8,304,12,248,25,214,38,182,55,129,93"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a23f8ab1bc13e2c729c76f14bb246c9b0" title="Returns the BaseDataType for a given HDF5 native data type." alt="" coords="253,58,447,98"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="199,96,240,92,235,94,201,101"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a5fb171a91ef8134baf224115f0dcf8bc" title="Get the storage type (Group, Dataset, Attribute) of the object at path." alt="" coords="253,123,447,164"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="200,121,240,128,235,130,200,127"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_types.html#ab060fdd98ba0fa1fbab008fd69e124ad" title="Convert StorageObjectType enum value to string." alt="" coords="248,188,452,229"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="148,130,249,173,271,183,265,183,247,178,147,135"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#ab665700f5c67a74022c82353ec3d73ef" title="Returns the HDF5 type of object at a given path." alt="" coords="742,95,937,136"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="695,95,730,102,724,102,695,101"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="304,56,301,48,309,39,325,33,350,31,376,34,394,42,389,42,375,39,350,36,326,38,312,43,306,49,308,58"/>
+<area shape="poly" id="edge6_Node000005_Node000002" title=" " alt="" coords="440,120,494,110,489,111,441,125"/>
+<area shape="poly" id="edge7_Node000005_Node000003" title=" " alt="" coords="447,135,729,121,724,123,448,141"/>
+</map>

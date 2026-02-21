@@ -1,5 +1,9 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html" title="The configuration for an array dataset." alt="" coords="5,13,225,38"/>
-<area shape="rect" id="Node000001" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_array_data_set_config.html" title="The configuration for an HDF5 array dataset." alt="" coords="273,5,484,46"/>
-<area shape="poly" id="edge1_Node000000_Node000001" title=" " alt="" coords="240,23,275,26,270,26,240,28"/>
+<area shape="rect" id="Node000000" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_array_data_set_config.html" title="Base class for array dataset configuration." alt="" coords="5,35,197,75"/>
+<area shape="rect" id="Node000001" href="$class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html" title="The configuration for an array dataset." alt="" coords="245,13,464,38"/>
+<area shape="poly" id="edge1_Node000000_Node000001" title=" " alt="" coords="212,40,247,38,242,39,213,45"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html" title="Configuration for creating a soft&#45;link to an existing dataset." alt="" coords="262,63,447,103"/>
+<area shape="poly" id="edge3_Node000000_Node000003" title=" " alt="" coords="212,65,264,73,258,73,212,70"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_array_data_set_config.html" title="The configuration for an HDF5 array dataset." alt="" coords="512,5,723,46"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="479,23,514,25,509,26,480,28"/>
 </map>

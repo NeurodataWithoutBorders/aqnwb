@@ -1,26 +1,32 @@
 <map id="AQNWB::IO::HDF5::HDF5IO::getH5ObjectType" name="AQNWB::IO::HDF5::HDF5IO::getH5ObjectType">
-<area shape="rect" id="Node000001" title="Returns the HDF5 type of object at a given path." alt="" coords="490,201,684,242"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a7ce63eb864cc8678f4bacb5fbc695cbe" title="Creates an attribute at a given location in the file." alt="" coords="248,5,442,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="562,188,511,125,478,91,441,61,419,49,419,44,443,57,481,87,515,122,567,189"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a9e25b2f9b7ea08f7ac0be2f5c3a5f123" title="Creates a string attribute at a given location in the file." alt="" coords="248,71,442,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="545,192,497,160,441,127,414,115,413,109,443,122,500,155,550,192"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a6d212643870ac6b96ac08e7425a00a0a" title="Creates an array of variable length strings attribute at a given location in the file." alt="" coords="248,136,442,177"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="492,197,423,180,423,175,497,196"/>
-<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a9181a28c31a25698ca748b1dcb955daa" title="Sets an object reference attribute for a given location in the file." alt="" coords="248,201,442,242"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="472,222,443,224,442,219,477,221"/>
-<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a87d9b4075fd30c5ec692738985ae294c" title=" " alt="" coords="248,267,442,307"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="492,247,424,269,422,263,497,246"/>
-<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a5fb171a91ef8134baf224115f0dcf8bc" title="Get the storage type (Group, Dataset, Attribute) of the object at path." alt="" coords="5,365,200,406"/>
-<area shape="poly" id="edge12_Node000001_Node000009" title=" " alt="" coords="552,251,502,290,443,321,399,335,337,349,201,374,200,368,336,344,397,330,441,317,499,285,547,253"/>
-<area shape="rect" id="Node000012" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a54b2e3341ef695c712a9670c4a781c81" title="Gets the list of storage objects (groups, datasets, attributes) inside a group." alt="" coords="248,381,442,422"/>
-<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="562,253,510,311,478,340,443,365,409,383,407,378,441,361,475,335,506,307,557,255"/>
-<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a53bfbbdbf24afdd97ea45294b65c1e37" title="Checks whether an Attribute exists at the location in the file." alt="" coords="5,104,200,145"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="250,258,246,256,228,231,221,206,215,183,198,160,182,148,181,143,202,156,220,180,226,205,232,229,250,252,256,258"/>
-<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a45a864dee0e28dc625ef2bcfeae0e4b4" title="Returns the size of the dataset or attribute for each dimension." alt="" coords="5,169,200,210"/>
-<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="260,261,246,256,222,241,198,225,171,213,170,208,201,221,225,236,249,251,265,260"/>
-<area shape="poly" id="edge8_Node000006_Node000009" title=" " alt="" coords="277,313,249,328,201,355,170,367,168,362,199,350,246,323,272,315"/>
-<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a7535b7fcc607fe1f47703f21b25ae5de" title="Reads a attribute and determines the data type." alt="" coords="5,235,200,275"/>
-<area shape="poly" id="edge9_Node000006_Node000010" title=" " alt="" coords="230,273,201,270,200,265,235,271"/>
-<area shape="rect" id="Node000011" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a4074db2a2a9f186d1016c94329573421" title="Reads a reference attribute and returns the path to the referenced object." alt="" coords="5,300,200,341"/>
-<area shape="poly" id="edge10_Node000006_Node000011" title=" " alt="" coords="230,303,201,310,199,304,235,302"/>
+<area shape="rect" id="Node000001" title="Returns the HDF5 type of object at a given path." alt="" coords="732,201,927,242"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a7ce63eb864cc8678f4bacb5fbc695cbe" title="Creates an attribute at a given location in the file." alt="" coords="490,5,684,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="804,188,754,125,720,91,683,61,662,49,661,44,686,57,724,87,758,122,809,189"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a9e25b2f9b7ea08f7ac0be2f5c3a5f123" title="Creates a string attribute at a given location in the file." alt="" coords="490,71,684,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="787,192,739,160,683,127,656,115,656,109,686,122,742,155,793,192"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a6d212643870ac6b96ac08e7425a00a0a" title="Creates an array of variable length strings attribute at a given location in the file." alt="" coords="490,136,684,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="734,197,666,180,665,175,740,196"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a9181a28c31a25698ca748b1dcb955daa" title="Sets an object reference attribute for a given location in the file." alt="" coords="490,201,684,242"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="714,222,685,224,684,219,719,221"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a87d9b4075fd30c5ec692738985ae294c" title=" " alt="" coords="490,316,684,357"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="781,249,685,300,644,318,642,313,683,295,776,251"/>
+<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a5fb171a91ef8134baf224115f0dcf8bc" title="Get the storage type (Group, Dataset, Attribute) of the object at path." alt="" coords="248,201,442,242"/>
+<area shape="poly" id="edge16_Node000001_Node000010" title=" " alt="" coords="731,247,685,256,587,263,490,256,426,245,426,240,490,251,587,258,684,251,736,245"/>
+<area shape="rect" id="Node000014" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a54b2e3341ef695c712a9670c4a781c81" title="Gets the list of storage objects (groups, datasets, attributes) inside a group." alt="" coords="490,381,684,422"/>
+<area shape="poly" id="edge15_Node000001_Node000014" title=" " alt="" coords="806,253,754,314,721,344,686,371,661,383,659,378,683,366,718,340,750,310,801,256"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a53bfbbdbf24afdd97ea45294b65c1e37" title="Checks whether an Attribute exists at the location in the file." alt="" coords="248,381,442,422"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="492,362,424,383,422,378,497,360"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a6ad39352448a7574c604789d925f31dd" title="Gets the BaseDataType of a dataset or attribute." alt="" coords="5,381,200,422"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="501,363,492,372,477,388,470,405,461,422,443,436,406,450,368,458,328,460,289,458,215,444,154,425,155,420,216,439,290,452,328,454,367,452,405,445,441,431,457,418,465,402,473,385,488,368,496,365"/>
+<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a5e9b8fb56bdd982369f92a3b3021311b" title="Returns the size of the dataset or attribute for each dimension." alt="" coords="5,259,200,299"/>
+<area shape="poly" id="edge8_Node000006_Node000009" title=" " alt="" coords="484,313,442,307,316,293,201,285,199,280,316,288,442,302,489,312"/>
+<area shape="poly" id="edge9_Node000006_Node000010" title=" " alt="" coords="511,310,489,300,464,281,441,263,405,245,405,240,443,258,468,277,491,295,516,310"/>
+<area shape="rect" id="Node000012" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a7535b7fcc607fe1f47703f21b25ae5de" title="Reads a attribute and determines the data type." alt="" coords="248,316,442,357"/>
+<area shape="poly" id="edge13_Node000006_Node000012" title=" " alt="" coords="472,337,443,339,442,334,477,336"/>
+<area shape="rect" id="Node000013" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a4074db2a2a9f186d1016c94329573421" title="Reads a reference attribute and returns the path to the referenced object." alt="" coords="248,496,442,537"/>
+<area shape="poly" id="edge14_Node000006_Node000013" title=" " alt="" coords="497,364,492,372,481,385,474,397,468,424,463,451,456,465,444,480,418,498,416,493,440,476,451,463,457,450,463,423,469,396,476,382,488,368,493,367"/>
+<area shape="poly" id="edge11_Node000010_Node000008" title=" " alt="" coords="304,254,133,383,130,379,304,249"/>
+<area shape="poly" id="edge12_Node000010_Node000009" title=" " alt="" coords="239,248,193,260,190,256,244,244"/>
+<area shape="rect" id="Node000011" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a626023cfd926326063745fe610e87ebf" title="Gets the chunking configuration of a dataset." alt="" coords="5,193,200,234"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="230,219,201,219,199,214,234,217"/>
 </map>

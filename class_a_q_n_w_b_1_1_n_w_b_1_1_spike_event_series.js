@@ -5,7 +5,7 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series =
     [ "create", "class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#a74f94bb3753e23f4a2047a2c4ed3d4ba", null ],
     [ "getNamespace", "class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#af5db02bc128a66c17702fa5c2ae5eaa5", null ],
     [ "getTypeName", "class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#a9166033a4ff6e69f79ca64adbe591ae4", null ],
-    [ "initialize", "class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#ad000730145828ed5d2ed33079d48ed9e", null ],
+    [ "initialize", "class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#a11f811ece6d86305cdec7f3e7d37af2c", null ],
     [ "readData", "class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#a36396f617b65ccb1859c979328d65c8e", null ],
     [ "readDataUnit", "class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#ae40490ee8a33dbed51f3db830299a144", null ],
     [ "recordData", "class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#a14d9f08f39de890a43d27a89976c3208", null ],

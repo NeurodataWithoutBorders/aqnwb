@@ -1,7 +1,9 @@
 var _base_i_o_8hpp =
 [
     [ "AQNWB::IO::BaseDataType", "class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html", "class_a_q_n_w_b_1_1_i_o_1_1_base_data_type" ],
+    [ "AQNWB::IO::BaseArrayDataSetConfig", "class_a_q_n_w_b_1_1_i_o_1_1_base_array_data_set_config.html", "class_a_q_n_w_b_1_1_i_o_1_1_base_array_data_set_config" ],
     [ "AQNWB::IO::ArrayDataSetConfig", "class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html", "class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config" ],
+    [ "AQNWB::IO::LinkArrayDataSetConfig", "class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html", "class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config" ],
     [ "AQNWB::IO::BaseIO", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o" ],
     [ "AQNWB::IO::BaseRecordingData", "class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html", "class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data" ],
     [ "DEFAULT_ARRAY_SIZE", "_base_i_o_8hpp.html#a72040e80321fca59f8af8edf32c9ad57", null ],

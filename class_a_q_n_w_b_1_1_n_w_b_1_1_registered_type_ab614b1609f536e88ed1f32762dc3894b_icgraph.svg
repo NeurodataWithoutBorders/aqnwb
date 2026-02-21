@@ -220,7 +220,7 @@ var sectionId = 'dynsection-10';
 <!-- Node21 -->
 <g id="Node000021" class="node">
 <title>Node21</title>
-<g id="a_Node000021"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a82f1f4dae2debc649aa537974dc7f7a7" target="_top" xlink:title="Initializes the TimeSeries by creating NWB related attributes and writing the description and comment...">
+<g id="a_Node000021"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ab025c3806934a010991fb56c94945ab4" target="_top" xlink:title="Initializes the TimeSeries by creating NWB related attributes and writing the description and comment...">
 <polygon fill="white" stroke="#666666" points="845,-766.52 705.25,-766.52 705.25,-736.02 845,-736.02 845,-766.52"/>
 <text xml:space="preserve" text-anchor="start" x="713.25" y="-753.02" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::TimeSeries</text>
 <text xml:space="preserve" text-anchor="middle" x="775.12" y="-741.77" font-family="Helvetica,sans-Serif" font-size="10.00">::initialize</text>
@@ -410,7 +410,7 @@ var sectionId = 'dynsection-10';
 <!-- Node50 -->
 <g id="Node000050" class="node">
 <title>Node50</title>
-<g id="a_Node000050"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a68535ea0fcb4a74c63eb04217ef91f66" target="_top" xlink:title="Initializes the Electrical Series.">
+<g id="a_Node000050"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a0e6e50dbde5f6aeda31b625049c93970" target="_top" xlink:title="Initializes the Electrical Series.">
 <polygon fill="white" stroke="#666666" points="1047,-387.52 888.5,-387.52 888.5,-357.02 1047,-357.02 1047,-387.52"/>
 <text xml:space="preserve" text-anchor="start" x="896.5" y="-374.02" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::ElectricalSeries</text>
 <text xml:space="preserve" text-anchor="middle" x="967.75" y="-362.77" font-family="Helvetica,sans-Serif" font-size="10.00">::initialize</text>
@@ -467,7 +467,7 @@ var sectionId = 'dynsection-10';
 <!-- Node55 -->
 <g id="Node000055" class="node">
 <title>Node55</title>
-<g id="a_Node000055"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#ac1a420869382bcfca31f14802b4cb42f" target="_top" xlink:title="Initialize the dataset for the Data object.">
+<g id="a_Node000055"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a811f11bd212eab51664e415740101f2b" target="_top" xlink:title="Initialize the dataset for the Data object.">
 <polygon fill="white" stroke="#666666" points="1443.5,-322.89 1291,-322.89 1291,-303.64 1443.5,-303.64 1443.5,-322.89"/>
 <text xml:space="preserve" text-anchor="middle" x="1367.25" y="-309.39" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::Data::initialize</text>
 </a>
@@ -485,7 +485,7 @@ var sectionId = 'dynsection-10';
 <!-- Node57 -->
 <g id="Node000057" class="node">
 <title>Node57</title>
-<g id="a_Node000057"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#ab67c72a768dff1d8fd6cacd52709e833" target="_top" xlink:title="Initialize the dataset for the VectorData object.">
+<g id="a_Node000057"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a3d2136873a3ae9acae6e8f64388679ae" target="_top" xlink:title="Initialize the dataset for the VectorData object.">
 <polygon fill="white" stroke="#666666" points="1240.38,-274.52 1100.62,-274.52 1100.62,-244.02 1240.38,-244.02 1240.38,-274.52"/>
 <text xml:space="preserve" text-anchor="start" x="1108.62" y="-261.02" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::VectorData</text>
 <text xml:space="preserve" text-anchor="middle" x="1170.5" y="-249.77" font-family="Helvetica,sans-Serif" font-size="10.00">::initialize</text>
@@ -1039,7 +1039,7 @@ var sectionId = 'dynsection-10';
 <!-- Node48 -->
 <g id="Node000048" class="node">
 <title>Node48</title>
-<g id="a_Node000048"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html#a5fe99ca6d3df9e31461dbee2340c9610" target="_top" xlink:title="Initializes the AnnotationSeries.">
+<g id="a_Node000048"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html#a6a508c539bd039e6d0e1557307ad3536" target="_top" xlink:title="Initializes the AnnotationSeries.">
 <polygon fill="white" stroke="#666666" points="1050,-534.52 885.5,-534.52 885.5,-504.02 1050,-504.02 1050,-534.52"/>
 <text xml:space="preserve" text-anchor="start" x="893.5" y="-521.02" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::AnnotationSeries</text>
 <text xml:space="preserve" text-anchor="middle" x="967.75" y="-509.77" font-family="Helvetica,sans-Serif" font-size="10.00">::initialize</text>
@@ -1113,7 +1113,7 @@ var sectionId = 'dynsection-10';
 <!-- Node54 -->
 <g id="Node000054" class="node">
 <title>Node54</title>
-<g id="a_Node000054"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#ad000730145828ed5d2ed33079d48ed9e" target="_top" xlink:title="Initializes the SpikeEventSeries.">
+<g id="a_Node000054"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#a11f811ece6d86305cdec7f3e7d37af2c" target="_top" xlink:title="Initializes the SpikeEventSeries.">
 <polygon fill="white" stroke="#666666" points="1051.88,-485.52 883.62,-485.52 883.62,-455.02 1051.88,-455.02 1051.88,-485.52"/>
 <text xml:space="preserve" text-anchor="start" x="891.62" y="-472.02" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::SpikeEventSeries</text>
 <text xml:space="preserve" text-anchor="middle" x="967.75" y="-460.77" font-family="Helvetica,sans-Serif" font-size="10.00">::initialize</text>
@@ -1141,7 +1141,7 @@ var sectionId = 'dynsection-10';
 <!-- Node56 -->
 <g id="Node000056" class="node">
 <title>Node56</title>
-<g id="a_Node000056"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data.html#a1f5ddfbf0ebcf296a6674535fa38870b" target="_top" xlink:title="Initialize the object.">
+<g id="a_Node000056"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data.html#aac0fde847d74c0f50b0da2d8ca7594f9" target="_top" xlink:title="Initialize the object.">
 <polygon fill="white" stroke="#666666" points="1238.12,-323.52 1102.88,-323.52 1102.88,-293.02 1238.12,-293.02 1238.12,-323.52"/>
 <text xml:space="preserve" text-anchor="start" x="1110.88" y="-310.02" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::NWBData</text>
 <text xml:space="preserve" text-anchor="middle" x="1170.5" y="-298.77" font-family="Helvetica,sans-Serif" font-size="10.00">::initialize</text>

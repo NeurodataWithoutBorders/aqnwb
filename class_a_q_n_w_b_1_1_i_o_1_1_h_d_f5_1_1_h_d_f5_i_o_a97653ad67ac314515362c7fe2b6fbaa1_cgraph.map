@@ -1,18 +1,29 @@
 <map id="AQNWB::IO::HDF5::HDF5IO::createStringDataSet" name="AQNWB::IO::HDF5::HDF5IO::createStringDataSet">
-<area shape="rect" id="Node000001" title="Creates a dataset that holds an array of string values." alt="" coords="5,108,200,149"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a96d8d872b2b974ac79a20b82fd72c5c2" title="Checks whether the file is in a mode where objects can be added or deleted. Note, this does not apply..." alt="" coords="502,5,697,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="199,106,489,46,486,51,201,111"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a0b301f91a26412d2f1a36f233f7099db" title="Creates an extendable dataset with the given configuration and path." alt="" coords="248,136,442,177"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="199,137,235,142,230,144,201,142"/>
-<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="370,133,423,95,489,57,509,51,504,53,491,61,426,99,373,138"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html#aead95752724335677d8e3cee6afe97bb" title="Returns the chunking of the dataset." alt="" coords="490,71,709,111"/>
-<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="426,133,505,115,501,117,428,138"/>
-<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_array_data_set_config.html#ac9d01b29e8fa7809e183ff0b82673df5" title="Returns the filters of the dataset." alt="" coords="494,136,705,177"/>
-<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="442,154,481,156,476,157,443,159"/>
-<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#acdb9d079f684ceb29d16ebc5e7e57127" title="Returns the HDF5 data type for a given base data type." alt="" coords="502,201,697,242"/>
-<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="427,175,506,197,500,197,427,180"/>
-<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html#a565a46d8e1e48dffeb948964d5f51168" title="Returns the shape of the dataset." alt="" coords="490,267,709,307"/>
-<area shape="poly" id="edge7_Node000003_Node000007" title=" " alt="" coords="372,175,426,213,491,251,509,261,504,261,489,256,423,218,371,180"/>
-<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html#ad7fc70070109360904cb624d4a2d7f92" title="Returns the data type of the dataset." alt="" coords="490,332,709,373"/>
-<area shape="poly" id="edge8_Node000003_Node000008" title=" " alt="" coords="360,175,413,245,449,284,492,317,503,326,498,325,488,321,446,288,409,248,358,180"/>
+<area shape="rect" id="Node000001" title="Creates a dataset that holds an array of string values." alt="" coords="5,109,200,149"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a96d8d872b2b974ac79a20b82fd72c5c2" title="Checks whether the file is in a mode where objects can be added or deleted. Note, this does not apply..." alt="" coords="757,7,952,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="154,106,303,54,396,29,490,10,551,4,599,3,710,10,745,14,739,16,709,16,599,9,551,9,490,16,397,34,305,59,157,110"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a8fc6f7149f6266cbf83019d4d8970d0f" title="Creates an extendable dataset with the given configuration and path." alt="" coords="248,227,442,268"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="146,147,290,219,286,222,146,153"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="352,226,370,187,399,138,439,89,463,68,489,51,550,26,616,12,681,8,744,11,739,13,681,13,616,18,552,31,491,55,466,72,443,93,404,141,375,189,356,229"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a351fa783e607e0840d5d28b3761d42ff" title="Creates a soft link to another location in the file." alt="" coords="502,65,697,105"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="362,225,415,171,450,142,489,116,505,110,501,113,491,121,454,146,419,175,366,229"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html#aead95752724335677d8e3cee6afe97bb" title="Returns the chunking of the dataset." alt="" coords="490,130,709,171"/>
+<area shape="poly" id="edge8_Node000003_Node000007" title=" " alt="" coords="388,224,489,181,514,175,510,177,491,186,391,229"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_array_data_set_config.html#ac9d01b29e8fa7809e183ff0b82673df5" title="Returns the filters of the dataset." alt="" coords="494,195,705,236"/>
+<area shape="poly" id="edge9_Node000003_Node000008" title=" " alt="" coords="442,233,481,230,476,232,444,238"/>
+<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#acdb9d079f684ceb29d16ebc5e7e57127" title="Returns the HDF5 data type for a given base data type." alt="" coords="502,261,697,301"/>
+<area shape="poly" id="edge10_Node000003_Node000009" title=" " alt="" coords="442,258,490,266,485,267,443,263"/>
+<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html#a565a46d8e1e48dffeb948964d5f51168" title="Returns the shape of the dataset." alt="" coords="490,326,709,367"/>
+<area shape="poly" id="edge11_Node000003_Node000010" title=" " alt="" coords="388,266,491,311,514,321,509,321,489,316,388,271"/>
+<area shape="rect" id="Node000011" href="$class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html#ac3ad7086b33b5982eddb95e47ee18204" title="Returns the path to the target dataset." alt="" coords="507,391,692,432"/>
+<area shape="poly" id="edge12_Node000003_Node000011" title=" " alt="" coords="364,266,418,321,453,351,491,376,505,385,500,385,489,381,450,355,415,325,363,271"/>
+<area shape="rect" id="Node000012" href="$class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html#ad7fc70070109360904cb624d4a2d7f92" title="Returns the data type of the dataset." alt="" coords="490,457,709,497"/>
+<area shape="poly" id="edge13_Node000003_Node000012" title=" " alt="" coords="356,266,378,305,407,352,446,400,492,442,501,450,496,449,488,446,442,404,403,355,373,307,355,271"/>
+<area shape="rect" id="Node000013" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_array_data_set_config.html#afa73e29e69f976fb0dda013ae85fabeb" title="Checks if this configuration represents a link." alt="" coords="504,522,695,563"/>
+<area shape="poly" id="edge14_Node000003_Node000013" title=" " alt="" coords="353,266,370,317,398,381,438,449,463,480,492,507,499,515,494,513,488,511,459,484,434,452,393,384,365,319,351,271"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="692,62,749,51,744,53,694,67"/>
+<area shape="rect" id="Node000005" href="$namespace_a_q_n_w_b.html#a09b9a48d0ec26fe72452788634ee12bb" title="Convert an integer status code to a Types::Status enum value. Shorthand for return (status &lt; 0) ?..." alt="" coords="781,72,928,98"/>
+<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="697,83,768,84,763,86,698,88"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#ad384fb7900056f833e217252d3bfc41b" title="Checks whether a Dataset, Group, or Link already exists at the location in the file." alt="" coords="757,122,952,163"/>
+<area shape="poly" id="edge7_Node000004_Node000006" title=" " alt="" coords="693,103,749,118,744,119,693,109"/>
 </map>

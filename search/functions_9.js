@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['mergepaths_0',['mergePaths',['../namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881',1,'AQNWB']]]
+  ['linkarraydatasetconfig_0',['LinkArrayDataSetConfig',['../class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html#aebbdead878c1becfa02ccdae4d25eb12',1,'AQNWB::IO::LinkArrayDataSetConfig']]]
 ];

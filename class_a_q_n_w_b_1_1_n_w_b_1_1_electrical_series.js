@@ -5,7 +5,7 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series =
     [ "create", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#acf3eb0d1772834adaa921d71fd906bc6", null ],
     [ "getNamespace", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#ae01cb16c642e895a4de05e64debd8dc7", null ],
     [ "getTypeName", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a8b63df4e42d0e98a9ed1e77a51dce8ff", null ],
-    [ "initialize", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a68535ea0fcb4a74c63eb04217ef91f66", null ],
+    [ "initialize", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a0e6e50dbde5f6aeda31b625049c93970", null ],
     [ "readChannelConversion", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a296ce13af2d8b97ec212b800fe1faa2a", null ],
     [ "readData", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#afc2d2a161bde1584eeac0fbfa5685159", null ],
     [ "readDataUnit", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a63ad1e4cb62f07d9323e90ffe6981c57", null ],

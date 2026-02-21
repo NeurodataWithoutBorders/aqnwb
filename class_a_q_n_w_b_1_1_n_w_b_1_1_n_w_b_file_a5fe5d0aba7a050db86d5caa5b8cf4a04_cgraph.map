@@ -1,37 +1,38 @@
 <map id="AQNWB::NWB::NWBFile::initialize" name="AQNWB::NWB::NWBFile::initialize">
-<area shape="rect" id="Node000001" title="Initializes the NWB file by setting up the file structure." alt="" coords="5,432,179,473"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a71bd7b910a7ec89bdaf36304d67bfef1" title="Creates the default file structure. Note, this function will fail if the file is in a mode where new ..." alt="" coords="227,201,400,242"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,430,282,251,282,256,115,433"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab614b1609f536e88ed1f32762dc3894b" title="Get a shared pointer to the IO object." alt="" coords="740,349,952,390"/>
-<area shape="poly" id="edge16_Node000001_Node000004" title=" " alt="" coords="171,429,226,418,359,400,493,386,727,373,723,375,494,392,360,405,227,423,173,434"/>
-<area shape="rect" id="Node000010" href="$namespace_a_q_n_w_b.html#ac436d136125307ef8158115a2296b3e9" title="Get the current time in ISO 8601 format with the UTC offset." alt="" coords="228,497,398,522"/>
-<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="173,471,249,491,244,493,173,476"/>
-<area shape="rect" id="Node000015" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aba967059704c8c81446775bd7beda42b" title="Check if the NWB file is initialized." alt="" coords="227,432,400,473"/>
-<area shape="poly" id="edge17_Node000001_Node000015" title=" " alt="" coords="178,450,213,451,209,454,180,455"/>
-<area shape="rect" id="Node000016" href="$namespace_a_q_n_w_b.html#a4aacc6b82eca3064a8afe0070c44cde4" title="Check that a string is formatted in ISO8601 format." alt="" coords="229,546,398,572"/>
-<area shape="poly" id="edge19_Node000001_Node000016" title=" " alt="" coords="122,471,171,502,228,533,244,541,239,541,226,537,168,507,122,476"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aaf2e07b4e912fc34ab052d38f92e6cdd" title="Saves the specification files for the schema." alt="" coords="484,5,657,46"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="324,199,371,129,406,90,447,57,472,46,468,49,449,61,409,94,375,132,328,202"/>
-<area shape="poly" id="edge6_Node000002_Node000004" title=" " alt="" coords="336,240,386,280,416,300,449,317,518,339,590,354,660,363,727,369,722,370,660,368,589,359,517,344,447,321,414,305,383,285,336,245"/>
-<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#aceded37c693bb2f6aa21a5945a13557c" title="Get all registered namespaces." alt="" coords="448,71,692,111"/>
-<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="336,199,385,160,447,122,467,115,463,119,449,127,388,164,339,203"/>
-<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a0b44558c283edd9db7d2fcf284c1a5ec" title="Get the schema namespace of the class type." alt="" coords="484,136,657,177"/>
-<area shape="poly" id="edge7_Node000002_Node000007" title=" " alt="" coords="395,198,475,180,471,183,397,203"/>
-<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ae22dafcb8cb963103fe0e2b4cbfd5dd8" title="Get the name of the class type." alt="" coords="484,201,657,242"/>
-<area shape="poly" id="edge8_Node000002_Node000008" title=" " alt="" coords="399,219,470,220,465,223,401,224"/>
-<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#a15d9c6f869f0270ad91a2af8067f5a88" title="Get the singleton instance of the NamespaceRegistry." alt="" coords="448,267,692,307"/>
-<area shape="poly" id="edge9_Node000002_Node000009" title=" " alt="" coords="396,240,475,261,470,263,397,245"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="657,37,694,57,725,87,752,122,775,160,795,199,823,273,840,335,835,333,818,275,790,201,771,163,748,125,721,91,691,61,657,42"/>
-<area shape="rect" id="Node000005" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="771,13,921,38"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="656,23,758,25,753,27,658,28"/>
-<area shape="rect" id="Node000011" href="$namespace_a_q_n_w_b_1_1detail.html#ad0651da97ed82b774d723c172538375c" title="Format a UTC offset in seconds as a string (+HH:MM or &#45;HH:MM)." alt="" coords="492,533,648,574"/>
-<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="392,520,479,537,474,538,392,526"/>
-<area shape="rect" id="Node000012" href="$namespace_a_q_n_w_b_1_1detail.html#af6ff85116f650b5a02fbca4c821b6c9b" title="Get the UTC offset in seconds for a given time_t value." alt="" coords="499,599,641,639"/>
-<area shape="poly" id="edge12_Node000010_Node000012" title=" " alt="" coords="378,520,401,531,417,545,426,558,435,571,449,583,486,602,481,602,447,588,431,575,422,561,413,548,399,536,378,526"/>
-<area shape="rect" id="Node000013" href="$namespace_a_q_n_w_b_1_1detail.html#abcf2ceabe5c721ee1001c80fdc313fa3" title="Convert a std::time_t value to a local std::tm structure." alt="" coords="748,520,944,545"/>
-<area shape="poly" id="edge15_Node000010_Node000013" title=" " alt="" coords="399,509,692,519,735,524,729,524,692,524,399,514"/>
-<area shape="poly" id="edge13_Node000012_Node000013" title=" " alt="" coords="641,598,692,583,792,551,797,550,693,588,642,603"/>
-<area shape="rect" id="Node000014" href="$namespace_a_q_n_w_b_1_1detail.html#a565fcac4f2e7942f33f35b3de5b717f1" title="Convert a std::time_t value to a UTC std::tm structure." alt="" coords="752,606,940,632"/>
-<area shape="poly" id="edge14_Node000012_Node000014" title=" " alt="" coords="642,616,740,619,734,619,642,622"/>
-<area shape="poly" id="edge18_Node000015_Node000004" title=" " alt="" coords="400,445,538,434,692,411,770,394,765,396,693,416,538,439,401,451"/>
+<area shape="rect" id="Node000001" title="Initializes the NWB file by setting up the file structure." alt="" coords="5,471,179,512"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a71bd7b910a7ec89bdaf36304d67bfef1" title="Creates the default file structure. Note, this function will fail if the file is in a mode where new ..." alt="" coords="227,215,400,256"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,469,283,265,285,270,113,472"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab614b1609f536e88ed1f32762dc3894b" title="Get a shared pointer to the IO object." alt="" coords="740,395,952,436"/>
+<area shape="poly" id="edge17_Node000001_Node000004" title=" " alt="" coords="179,482,400,463,692,431,727,429,722,431,693,437,400,469,180,487"/>
+<area shape="rect" id="Node000010" href="$namespace_a_q_n_w_b.html#ac436d136125307ef8158115a2296b3e9" title="Get the current time in ISO 8601 format with the UTC offset." alt="" coords="228,536,398,561"/>
+<area shape="poly" id="edge11_Node000001_Node000010" title=" " alt="" coords="173,509,249,530,244,532,173,515"/>
+<area shape="rect" id="Node000015" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aba967059704c8c81446775bd7beda42b" title="Check if the NWB file is initialized." alt="" coords="227,414,400,454"/>
+<area shape="poly" id="edge18_Node000001_Node000015" title=" " alt="" coords="172,468,220,457,215,460,174,473"/>
+<area shape="rect" id="Node000016" href="$namespace_a_q_n_w_b.html#a4aacc6b82eca3064a8afe0070c44cde4" title="Check that a string is formatted in ISO8601 format." alt="" coords="229,585,398,611"/>
+<area shape="poly" id="edge20_Node000001_Node000016" title=" " alt="" coords="122,509,171,541,228,571,244,580,239,580,226,576,168,546,122,515"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aaf2e07b4e912fc34ab052d38f92e6cdd" title="Saves the specification files for the schema." alt="" coords="484,312,657,353"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="353,253,449,297,474,307,469,308,447,302,354,259"/>
+<area shape="poly" id="edge6_Node000002_Node000004" title=" " alt="" coords="329,253,379,310,412,339,449,362,498,377,568,390,727,407,722,409,567,395,497,383,447,367,409,343,375,314,329,259"/>
+<area shape="rect" id="Node000005" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="771,161,921,187"/>
+<area shape="poly" id="edge10_Node000002_Node000005" title=" " alt="" coords="319,214,335,174,361,124,398,75,421,54,447,37,512,10,540,4,568,3,625,13,693,37,735,59,773,88,804,119,829,149,823,148,800,123,769,92,732,63,691,42,624,18,568,8,541,9,513,15,449,42,424,58,402,78,366,127,340,176,324,216"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#aceded37c693bb2f6aa21a5945a13557c" title="Get all registered namespaces." alt="" coords="448,51,692,92"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="328,213,377,157,410,128,447,102,463,96,458,100,449,107,413,132,381,161,332,216"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a0b44558c283edd9db7d2fcf284c1a5ec" title="Get the schema namespace of the class type." alt="" coords="484,116,657,157"/>
+<area shape="poly" id="edge7_Node000002_Node000007" title=" " alt="" coords="351,212,447,167,473,160,469,163,449,172,354,217"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ae22dafcb8cb963103fe0e2b4cbfd5dd8" title="Get the name of the class type." alt="" coords="484,182,657,222"/>
+<area shape="poly" id="edge8_Node000002_Node000008" title=" " alt="" coords="399,222,471,214,466,216,401,226"/>
+<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#a15d9c6f869f0270ad91a2af8067f5a88" title="Get the singleton instance of the NamespaceRegistry." alt="" coords="448,247,692,288"/>
+<area shape="poly" id="edge9_Node000002_Node000009" title=" " alt="" coords="400,243,435,249,430,251,401,249"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="641,351,764,389,758,390,641,356"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="656,311,691,297,729,274,764,247,820,199,824,196,768,251,732,278,694,302,658,316"/>
+<area shape="rect" id="Node000011" href="$namespace_a_q_n_w_b_1_1detail.html#ad0651da97ed82b774d723c172538375c" title="Format a UTC offset in seconds as a string (+HH:MM or &#45;HH:MM)." alt="" coords="492,528,648,569"/>
+<area shape="poly" id="edge12_Node000010_Node000011" title=" " alt="" coords="399,546,479,548,474,549,399,551"/>
+<area shape="rect" id="Node000012" href="$namespace_a_q_n_w_b_1_1detail.html#af6ff85116f650b5a02fbca4c821b6c9b" title="Get the UTC offset in seconds for a given time_t value." alt="" coords="499,643,641,684"/>
+<area shape="poly" id="edge13_Node000010_Node000012" title=" " alt="" coords="378,559,401,570,417,583,426,597,435,610,449,622,487,643,481,642,447,627,431,613,422,600,413,587,399,575,378,565"/>
+<area shape="rect" id="Node000013" href="$namespace_a_q_n_w_b_1_1detail.html#abcf2ceabe5c721ee1001c80fdc313fa3" title="Convert a std::time_t value to a local std::tm structure." alt="" coords="748,597,944,623"/>
+<area shape="poly" id="edge16_Node000010_Node000013" title=" " alt="" coords="363,559,448,578,596,595,735,606,729,607,596,600,448,583,362,565"/>
+<area shape="poly" id="edge14_Node000012_Node000013" title=" " alt="" coords="641,647,759,626,764,626,642,652"/>
+<area shape="rect" id="Node000014" href="$namespace_a_q_n_w_b_1_1detail.html#a565fcac4f2e7942f33f35b3de5b717f1" title="Convert a std::time_t value to a UTC std::tm structure." alt="" coords="752,650,940,676"/>
+<area shape="poly" id="edge15_Node000012_Node000014" title=" " alt="" coords="642,661,740,663,734,663,642,666"/>
+<area shape="poly" id="edge19_Node000015_Node000004" title=" " alt="" coords="400,428,727,418,723,421,401,433"/>
 </map>

@@ -33,8 +33,12 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file =
     [ "recordSessionDescription", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#afd4eeee1907693a825844471fc9856d1", null ],
     [ "recordSessionStartTime", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a7cc3c4393f4ac760033be12538af05cd", null ],
     [ "recordTimestampsReferenceTime", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a0eda3212e6af58625670efc0c6ae81a3", null ],
-    [ "m_acquisitionPath", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#af4b8657f62c3a982d80085048ddfceea", null ],
+    [ "ACQUISITION_PATH", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a4664bafaa5a5b51370102b751e385768", null ],
+    [ "ANALYSIS_PATH", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aef1958f6da3a2dcf9ed1081d5f082398", null ],
+    [ "GENERAL_PATH", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ab406e18d81cde160cd3752f843b42d07", null ],
     [ "m_electrodeTable", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a9b48d2f45c6a95409dbcc8928a6741f7", null ],
-    [ "m_specificationsPath", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aff94e38864d697a67e542400799870dc", null ],
-    [ "registered_", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aaf60201da8596e3ead961c4e0bab4600", null ]
+    [ "PROCESSING_PATH", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aca85144d40925d69652b42d2058f33c7", null ],
+    [ "registered_", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aaf60201da8596e3ead961c4e0bab4600", null ],
+    [ "SPECIFICATIONS_PATH", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aee84d1c16fb8aeec42166bd38e7816f2", null ],
+    [ "STIMULUS_PATH", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a0c3fbd0acd94af626b3b1c9e29216c89", null ]
 ];

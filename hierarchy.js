@@ -1,7 +1,10 @@
 var hierarchy =
 [
-    [ "AQNWB::IO::ArrayDataSetConfig", "class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html", [
-      [ "AQNWB::IO::HDF5::HDF5ArrayDataSetConfig", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_array_data_set_config.html", null ]
+    [ "AQNWB::IO::BaseArrayDataSetConfig", "class_a_q_n_w_b_1_1_i_o_1_1_base_array_data_set_config.html", [
+      [ "AQNWB::IO::ArrayDataSetConfig", "class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html", [
+        [ "AQNWB::IO::HDF5::HDF5ArrayDataSetConfig", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_array_data_set_config.html", null ]
+      ] ],
+      [ "AQNWB::IO::LinkArrayDataSetConfig", "class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html", null ]
     ] ],
     [ "AQNWB::IO::BaseDataType", "class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html", null ],
     [ "AQNWB::IO::BaseIO", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html", [
