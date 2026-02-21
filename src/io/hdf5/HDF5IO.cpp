@@ -1288,8 +1288,9 @@ std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::createArrayDataSet(
     const IO::BaseArrayDataSetConfig& config, const std::string& path)
 {
   if (!canModifyObjects()) {
-    std::cerr << "Cannot modify objects" << std::endl;
-    return nullptr;
+    throw std::runtime_error(
+        "Cannot create dataset at '" + path
+        + "' because objects cannot be modified in this file.");
   }
 
   // Check if this is a link configuration
