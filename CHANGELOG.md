@@ -32,6 +32,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Updated NWBFile to make common root path definitions (e.g., acquisition, processing, stimulus) public to make path generation easier (@oruebel, [#257](https://github.com/NeurodataWithoutBorders/aqnwb/pull/257))
 
 ### Fixed
+* Restricted code coverage report to `src/` folder only (@copilot, @oruebel [#262](https://github.com/NeurodataWithoutBorders/aqnwb/pull/262)):
+  * Updated `cmake/coverage.cmake` to use a two-step lcov approach: capture all coverage into `coverage_raw.info`, then use `lcov --extract` to filter to `src/*` only, producing the final `coverage.info`
+  * Added `.codecov.yml` to instruct the Codecov server to ignore `tests/**`, preventing Codecov-action from including test files it discovers via independent `gcov` scanning of the build directory
 * Removed redundant `resources/utils/requirements.txt` and update CI accordingly. Dependencies are now defined in `resources/utils/pyproject.toml` (@copilot, @oruebel [#260](https://github.com/NeurodataWithoutBorders/aqnwb/pull/260))
 
 
