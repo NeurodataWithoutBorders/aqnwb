@@ -118,7 +118,7 @@ TEST_CASE("LinkTimeSeriesExamples", "[timeseries][link]")
     for (size_t i = 0; i < numSamples; ++i) {
       // Base offset of 5 seconds plus small jitter to make timestamps irregular
       double baseTime = 5.0 + static_cast<double>(i) * 0.001;
-      double jitter = (i % 10) * 0.00001;  // Small periodic adjustment
+      double jitter = static_cast<double>(i % 10) * 0.00001;
       newTimestamps[i] = baseTime + jitter;
     }
 
