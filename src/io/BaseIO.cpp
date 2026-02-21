@@ -82,7 +82,7 @@ Status LinkArrayDataSetConfig::validateTarget(
 
   // Validate data type if restrictions are specified
   if (!allowedTypes.empty()) {
-    BaseDataType targetType = BaseDataType::I32;
+    BaseDataType targetType;
     try {
       targetType = getTargetDataType(io);
     } catch (const std::runtime_error& e) {
@@ -129,7 +129,7 @@ Status LinkArrayDataSetConfig::validateTarget(
 
   // Validate required attributes
   for (const auto& attrName : requiredAttributes) {
-    std::string attrPath = m_targetPath + "/" + attrName;
+    std::string attrPath = mergePaths(m_targetPath, attrName);
     if (!io.attributeExists(attrPath)) {
       std::cerr
           << "LinkArrayDataSetConfig::validateTarget: required attribute '"

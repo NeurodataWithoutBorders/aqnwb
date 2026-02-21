@@ -152,6 +152,8 @@ Status TimeSeries::initialize(
       const auto* linkConfig =
           dynamic_cast<const IO::LinkArrayDataSetConfig*>(&dataConfig);
       if (linkConfig) {
+        // Validate that the linked target has the required TimeSeries data
+        // attributes: conversion, resolution, offset, and unit.
         status = status
             && linkConfig->validateTarget(
                 *ioPtr, {}, {}, {"conversion", "resolution", "offset", "unit"});
