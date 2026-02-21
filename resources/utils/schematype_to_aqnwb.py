@@ -388,10 +388,21 @@ def get_initialize_method_parameters(neurodata_type: Spec, type_to_namespace_map
 
         ## 2: Process the current object and add it to the parameter list
 
-        # Name the parameter based on its assigned name or its neurodata_type if the name is not available
-        variable_name = f"{obj.name}" if obj.name is not None else f"param{obj.data_type}"
+        # Name the parameter using lowerCamelCase consistently, with the parent name first
+        # (to reflect the path order in the file, e.g. general/experimenter -> generalExperimenter).
+        # When there is no parent, the field name alone is used in lowerCamelCase.
+        # When the object has no schema name, a "Param" prefix plus the data type name is used.
         if parent is not None:
-            variable_name += f"{snake_to_camel(parent.name)}"
+            parent_lower_camel = snake_to_lower_camel(parent.name)
+            if obj.name is not None:
+                variable_name = f"{parent_lower_camel}{snake_to_camel(obj.name)}"
+            else:
+                variable_name = f"{parent_lower_camel}Param{obj.data_type}"
+        else:
+            if obj.name is not None:
+                variable_name = snake_to_lower_camel(obj.name)
+            else:
+                variable_name = f"param{obj.data_type}"
         
         # Determine the full path for the object
         obj_path = obj.name
@@ -803,6 +814,22 @@ def snake_to_camel(name: str) -> str:
         return "".join(word.title() for word in re.split("[_-]", name))
     else:
         return None
+
+
+def snake_to_lower_camel(name: str) -> str:
+    """
+    Convert snake_case to lowerCamelCase.
+
+    Parameters:
+    name (str): The snake_case string to convert.
+
+    Returns:
+    str: The converted lowerCamelCase string, or None if name is None.
+    """
+    camel = snake_to_camel(name)
+    if camel:
+        return camel[0].lower() + camel[1:]
+    return camel
 
 
 def to_cpp_namespace_name(name: str) -> str:
