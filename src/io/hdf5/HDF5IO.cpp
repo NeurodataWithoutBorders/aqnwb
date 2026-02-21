@@ -1016,8 +1016,7 @@ Status HDF5IO::createStringDataSet(const std::string& path,
   IO::ArrayDataSetConfig config(
       IO::BaseDataType::V_STR, SizeArray {values.size()}, SizeArray {1});
   try {
-    dataset = std::unique_ptr<IO::BaseRecordingData>(
-        createArrayDataSet(config, path));
+    dataset = createArrayDataSet(config, path);
   } catch (const std::runtime_error& e) {
     return Status::Failure;
   }
