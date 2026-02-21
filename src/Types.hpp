@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <limits>
 #include <string>
+#include <type_traits>
 #include <vector>
 
 namespace AQNWB
