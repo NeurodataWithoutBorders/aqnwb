@@ -230,7 +230,7 @@ Use Case: Time-Aligned TimeSeries</h1>
 <div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; numSamples; ++i) {</div>
 <div class="line">      <span class="comment">// Base offset of 5 seconds plus small jitter to make timestamps irregular</span></div>
 <div class="line">      <span class="keywordtype">double</span> baseTime = 5.0 + <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(i) * 0.001;</div>
-<div class="line">      <span class="keywordtype">double</span> jitter = (i % 10) * 0.00001;  <span class="comment">// Small periodic adjustment</span></div>
+<div class="line">      <span class="keywordtype">double</span> jitter = <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(i % 10) * 0.00001;</div>
 <div class="line">      newTimestamps[i] = baseTime + jitter;</div>
 <div class="line">    }</div>
 <div class="line"> </div>
