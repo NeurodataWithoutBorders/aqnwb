@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Updated `DataBlock::as_multi_array()` to return `ConstMultiArrayView` instead of `boost::const_multi_array_ref` to remove the need Boost and for C++17/20 compatibility  (@chittti, [#250](https://github.com/NeurodataWithoutBorders/aqnwb/pull/250))
 * Updated the docs and examples to discuss the optional use of `std::mdspan` if C++23 is used (@oruebel, [#250](https://github.com/NeurodataWithoutBorders/aqnwb/pull/250))
 * Changed the dependency includes in CMake so the HDF5 C++ headers and libraries found via `${HDF5_INCLUDE_DIRS}` / `${HDF5_CXX_LIBRARIES}` are exported to AqNWB consumers (@cboulay, [#248](https://github.com/NeurodataWithoutBorders/aqnwb/pull/248)).
+* Updated NWBFile to make common root path definitions (e.g., acquisition, processing, stimulus) public to make path generation easier (@oruebel, [#257](https://github.com/NeurodataWithoutBorders/aqnwb/pull/257))
 
 ### Fixed
 * ...
