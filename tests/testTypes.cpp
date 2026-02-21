@@ -26,12 +26,15 @@ TEST_CASE("Test storageObjectTypeToString", "[Types]")
     // Cast invalid integer to StorageObjectType to test default case
     // This tests that the function handles unexpected values gracefully
     // Intentionally test invalid enum values (ignore conversion warnings)
-    REQUIRE(Types::storageObjectTypeToString(
-                static_cast<Types::StorageObjectType>(99))
-            == std::string("Unknown"));
-    REQUIRE(Types::storageObjectTypeToString(
-                static_cast<Types::StorageObjectType>(-99))
-            == std::string("Unknown"));
+    // Cast to underlying type first to avoid -Wconversion warning
+    REQUIRE(
+        Types::storageObjectTypeToString(static_cast<Types::StorageObjectType>(
+            static_cast<std::underlying_type_t<Types::StorageObjectType>>(99)))
+        == std::string("Unknown"));
+    REQUIRE(
+        Types::storageObjectTypeToString(static_cast<Types::StorageObjectType>(
+            static_cast<std::underlying_type_t<Types::StorageObjectType>>(-99)))
+        == std::string("Unknown"));
   }
 }
 
