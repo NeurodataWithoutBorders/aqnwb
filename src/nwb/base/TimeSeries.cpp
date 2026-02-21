@@ -157,6 +157,11 @@ Status TimeSeries::initialize(
         status = status
             && linkConfig->validateTarget(
                 *ioPtr, {}, {}, {"conversion", "resolution", "offset", "unit"});
+      } else {
+        std::cerr
+            << "TimeSeries::initialize: dataConfig.isLink() is true but "
+            << "dynamic_cast to LinkArrayDataSetConfig failed." << std::endl;
+        status = Status::Failure;
       }
     } else {
       status = status
