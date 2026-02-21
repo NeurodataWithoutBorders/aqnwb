@@ -2102,6 +2102,8 @@ TEST_CASE("ReadDataWrapper; introspection methods", "[hdf5io]")
         ReadDataWrapper<AQNWB::Types::StorageObjectType::Attribute, int32_t>>(
         hdf5io, "/mygroup/myattr");
     REQUIRE(wrapper->getDataType() == IO::BaseDataType::I32);
+    // Attributes are not chunked; getChunking() should return an empty array
+    REQUIRE(wrapper->getChunking().empty());
 
     hdf5io->close();
   }

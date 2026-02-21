@@ -510,14 +510,12 @@ public:
   /**
    * @brief Get the chunking configuration of the data object.
    *
-   * We do not support chunking for attributes, so this function is disabled
-   * for attributes.
+   * Attributes are not chunked, so this will return an empty SizeArray for
+   * attributes.
    *
    * @return The chunking configuration of the dataset, or an empty SizeArray
-   * if the dataset is not chunked.
+   * if the dataset is not chunked or if this is an attribute.
    */
-  template<StorageObjectType U = OTYPE,
-           typename std::enable_if<isDataset<U>::value, int>::type = 0>
   inline SizeArray getChunking() const
   {
     return m_io->getStorageObjectChunking(m_path);
