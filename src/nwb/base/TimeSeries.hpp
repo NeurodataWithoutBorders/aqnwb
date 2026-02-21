@@ -70,8 +70,8 @@ public:
    * @param controlInput A pointer to the control block data (optional)
    * @return The status of the write operation.
    */
-  Status writeData(const std::vector<SizeType>& dataShape,
-                   const std::vector<SizeType>& positionOffset,
+  Status writeData(const SizeArray& dataShape,
+                   const SizeArray& positionOffset,
                    const void* dataInput,
                    const void* timestampsInput = nullptr,
                    const void* controlInput = nullptr);

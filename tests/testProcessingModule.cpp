@@ -95,8 +95,8 @@ TEST_CASE("ProcessingModule createNWBDataInterface and readNWBDataInterface",
   SizeType numSamples = 5;
   std::vector<float> data = getMockData1D(numSamples);
   std::vector<double> timestamps = getMockTimestamps(numSamples, 1);
-  std::vector<SizeType> dataShape = {numSamples};
-  std::vector<SizeType> positionOffset = {0};
+  SizeArray dataShape = {numSamples};
+  SizeArray positionOffset = {0};
 
   // --- Write ---
   {

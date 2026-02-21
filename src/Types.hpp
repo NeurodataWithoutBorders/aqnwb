@@ -108,7 +108,7 @@ public:
   /**
    * @brief Alias for an array of size types used in the project.
    */
-  using SizeArray = std::vector<size_t>;
+  using SizeArray = std::vector<SizeType>;
 
   /**
    * @brief Alias for a vector of channels.

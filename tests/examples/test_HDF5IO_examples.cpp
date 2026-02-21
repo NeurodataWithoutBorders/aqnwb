@@ -56,7 +56,7 @@ TEST_CASE("SWMRmodeExamples", "[hdf5io]")
     // write the our testData to the file.
     for (SizeType b = 0; b <= numBlocks; b++) {
       // write a single 1D block of data and flush to file
-      std::vector<SizeType> dataShape = {numSamples};
+      SizeArray dataShape = {numSamples};
       dataset->writeDataBlock(dataShape, BaseDataType::I32, &testData[0]);
       // Optionally we can flush all data to disk
       status = hdf5io->flush();
@@ -110,7 +110,7 @@ TEST_CASE("SWMRmodeExamples", "[hdf5io]")
     // write the our testData to the file.
     for (SizeType b = 0; b <= numBlocks; b++) {
       // write a single 1D block of data and flush to file
-      std::vector<SizeType> dataShape = {numSamples};
+      SizeArray dataShape = {numSamples};
       dataset->writeDataBlock(dataShape, BaseDataType::I32, &testData[0]);
       // Optionally we can flush all data to disk
       status = hdf5io->flush();

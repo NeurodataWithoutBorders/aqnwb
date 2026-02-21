@@ -45,10 +45,8 @@ TEST_CASE("HDF5RecordingData write operations", "[hdf5recordingdata]")
       IO::ArrayDataSetConfig config(
           BaseDataType::I32, SizeArray {5}, SizeArray {5});
       auto dataset = hdf5io->createArrayDataSet(config, "/int32Dataset");
-      Status status = dataset->writeDataBlock(std::vector<SizeType> {5},
-                                              std::vector<SizeType> {0},
-                                              BaseDataType::I32,
-                                              data.data());
+      Status status = dataset->writeDataBlock(
+          SizeArray {5}, SizeArray {0}, BaseDataType::I32, data.data());
       REQUIRE(status == Status::Success);
     }
 
@@ -58,10 +56,8 @@ TEST_CASE("HDF5RecordingData write operations", "[hdf5recordingdata]")
       IO::ArrayDataSetConfig config(
           BaseDataType::F32, SizeArray {5}, SizeArray {5});
       auto dataset = hdf5io->createArrayDataSet(config, "/floatDataset");
-      Status status = dataset->writeDataBlock(std::vector<SizeType> {5},
-                                              std::vector<SizeType> {0},
-                                              BaseDataType::F32,
-                                              data.data());
+      Status status = dataset->writeDataBlock(
+          SizeArray {5}, SizeArray {0}, BaseDataType::F32, data.data());
       REQUIRE(status == Status::Success);
     }
   }
@@ -74,8 +70,8 @@ TEST_CASE("HDF5RecordingData write operations", "[hdf5recordingdata]")
       BaseDataType strType(BaseDataType::Type::T_STR, 3);
       IO::ArrayDataSetConfig config(strType, SizeArray {3}, SizeArray {3});
       auto dataset = hdf5io->createArrayDataSet(config, "/fixedStrDataset");
-      Status status = dataset->writeDataBlock(
-          std::vector<SizeType> {3}, std::vector<SizeType> {0}, strType, data);
+      Status status =
+          dataset->writeDataBlock(SizeArray {3}, SizeArray {0}, strType, data);
       REQUIRE(status == Status::Success);
     }
 
@@ -86,8 +82,8 @@ TEST_CASE("HDF5RecordingData write operations", "[hdf5recordingdata]")
       BaseDataType strType(BaseDataType::Type::V_STR, 0);
       IO::ArrayDataSetConfig config(strType, SizeArray {5}, SizeArray {5});
       auto dataset = hdf5io->createArrayDataSet(config, "/varStrDataset");
-      Status status = dataset->writeDataBlock(
-          std::vector<SizeType> {5}, std::vector<SizeType> {0}, strType, data);
+      Status status =
+          dataset->writeDataBlock(SizeArray {5}, SizeArray {0}, strType, data);
       REQUIRE(status == Status::Success);
     }
   }
@@ -101,11 +97,11 @@ TEST_CASE("HDF5RecordingData write operations", "[hdf5recordingdata]")
           BaseDataType::I32, SizeArray {5}, SizeArray {5});
       auto dataset = hdf5io->createArrayDataSet(config, "/errorDataset1");
       // Wrong number of dimensions in dataShape
-      Status status = dataset->writeDataBlock(
-          std::vector<SizeType> {5, 1},  // 2D shape for 1D dataset
-          std::vector<SizeType> {0},
-          BaseDataType::I32,
-          data.data());
+      Status status =
+          dataset->writeDataBlock(SizeArray {5, 1},  // 2D shape for 1D dataset
+                                  SizeArray {0},
+                                  BaseDataType::I32,
+                                  data.data());
       REQUIRE(status == Status::Failure);
     }
 
@@ -128,8 +124,8 @@ TEST_CASE("HDF5RecordingData write operations", "[hdf5recordingdata]")
         );
         // Try to write int32 data to float dataset
         Status status = dataset->writeDataBlock(
-            std::vector<SizeType>{5},
-            std::vector<SizeType>{0},
+            SizeArray{5},
+            SizeArray{0},
             BaseDataType::I32,  // Wrong type
             data.data()
         );
@@ -143,8 +139,8 @@ TEST_CASE("HDF5RecordingData write operations", "[hdf5recordingdata]")
           BaseDataType::V_STR, SizeArray {1}, SizeArray {1});
       auto dataset = hdf5io->createArrayDataSet(config, "/errorDataset3");
       // Try to write string data using void* interface
-      Status status = dataset->writeDataBlock(std::vector<SizeType> {1},
-                                              std::vector<SizeType> {0},
+      Status status = dataset->writeDataBlock(SizeArray {1},
+                                              SizeArray {0},
                                               BaseDataType::V_STR,
                                               data.data()  // This should fail
       );
@@ -159,8 +155,8 @@ TEST_CASE("HDF5RecordingData write operations", "[hdf5recordingdata]")
       auto dataset = hdf5io->createArrayDataSet(config, "/errorDataset4");
       // Write at larger offset - should succeed by extending dataset
       Status status = dataset->writeDataBlock(
-          std::vector<SizeType> {5},
-          std::vector<SizeType> {10},  // Dataset will extend to accommodate
+          SizeArray {5},
+          SizeArray {10},  // Dataset will extend to accommodate
           BaseDataType::I32,
           data.data());
       REQUIRE(status == Status::Success);
@@ -190,18 +186,14 @@ TEST_CASE("HDF5RecordingData multi-dimensional operations",
     auto dataset = hdf5io->createArrayDataSet(config, "/2dDataset");
 
     // Write full 2D block
-    Status status = dataset->writeDataBlock(std::vector<SizeType> {2, 3},
-                                            std::vector<SizeType> {0, 0},
-                                            BaseDataType::I32,
-                                            data.data());
+    Status status = dataset->writeDataBlock(
+        SizeArray {2, 3}, SizeArray {0, 0}, BaseDataType::I32, data.data());
     REQUIRE(status == Status::Success);
 
     // Write partial block
     std::vector<int32_t> partial = {7, 8};
-    status = dataset->writeDataBlock(std::vector<SizeType> {1, 2},
-                                     std::vector<SizeType> {1, 1},
-                                     BaseDataType::I32,
-                                     partial.data());
+    status = dataset->writeDataBlock(
+        SizeArray {1, 2}, SizeArray {1, 1}, BaseDataType::I32, partial.data());
     REQUIRE(status == Status::Success);
   }
 
@@ -215,16 +207,16 @@ TEST_CASE("HDF5RecordingData multi-dimensional operations",
     auto dataset = hdf5io->createArrayDataSet(config, "/3dDataset");
 
     // Write full 3D block
-    Status status = dataset->writeDataBlock(std::vector<SizeType> {2, 3, 4},
-                                            std::vector<SizeType> {0, 0, 0},
+    Status status = dataset->writeDataBlock(SizeArray {2, 3, 4},
+                                            SizeArray {0, 0, 0},
                                             BaseDataType::I32,
                                             data.data());
     REQUIRE(status == Status::Success);
 
     // Write partial block
     std::vector<int32_t> partial = {100, 101, 102, 103};
-    status = dataset->writeDataBlock(std::vector<SizeType> {1, 1, 4},
-                                     std::vector<SizeType> {1, 1, 0},
+    status = dataset->writeDataBlock(SizeArray {1, 1, 4},
+                                     SizeArray {1, 1, 0},
                                      BaseDataType::I32,
                                      partial.data());
     REQUIRE(status == Status::Success);

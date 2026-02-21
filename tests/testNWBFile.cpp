@@ -130,8 +130,8 @@ TEST_CASE("createElectricalSeriesWithSubsetOfElectrodes", "[nwb]")
 
   std::vector<float> mockData = {1.0f, 2.0f, 3.0f};
   std::vector<double> mockTimestamps = {0.1, 0.2, 0.4};
-  std::vector<SizeType> positionOffset = {0, 0};
-  std::vector<SizeType> dataShape = {mockData.size(), 0};
+  SizeArray positionOffset = {0, 0};
+  SizeArray dataShape = {mockData.size(), 0};
 
   for (size_t i = 0; i < recordingElectrodes.size(); ++i) {
     for (size_t j = 0; j < recordingElectrodes[i].size(); ++j) {
@@ -235,8 +235,8 @@ TEST_CASE("createElectricalSeries", "[nwb]")
   // write timeseries data
   std::vector<float> mockData = {1.0f, 2.0f, 3.0f, 4.0f, 5.0f};
   std::vector<double> mockTimestamps = {0.1, 0.3, 0.4, 0.5, 0.8};
-  std::vector<SizeType> positionOffset = {0, 0};
-  std::vector<SizeType> dataShape = {mockData.size(), 0};
+  SizeArray positionOffset = {0, 0};
+  SizeArray dataShape = {mockData.size(), 0};
 
   auto ts0 = std::dynamic_pointer_cast<NWB::TimeSeries>(
       recordingObjects->getRecordingObject(containerIndices[0]));
@@ -324,8 +324,8 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
       1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 1.0f, 2.0f, 3.0f, 4.0f, 5.0f};
   std::vector<double> mockTimestamps = {
       0.1, 0.3, 0.4, 0.5, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3};
-  std::vector<SizeType> positionOffset = {0, 0};
-  std::vector<SizeType> dataShape = {mockData.size(), 0};
+  SizeArray positionOffset = {0, 0};
+  SizeArray dataShape = {mockData.size(), 0};
 
   auto ts0 = std::dynamic_pointer_cast<NWB::TimeSeries>(
       recordingObjects->getRecordingObject(containerIndices[0]));
@@ -380,7 +380,7 @@ TEST_CASE("createAnnotationSeries", "[nwb]")
   std::vector<std::string> mockAnnotations = {
       "Start recording", "Subject moved", "End recording"};
   std::vector<double> mockTimestamps = {0.1, 0.5, 1.0};
-  std::vector<SizeType> positionOffset = {0};
+  SizeArray positionOffset = {0};
   SizeType dataShape = mockAnnotations.size();
 
   // write to both annotation series

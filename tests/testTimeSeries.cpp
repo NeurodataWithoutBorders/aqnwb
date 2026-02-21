@@ -22,8 +22,8 @@ TEST_CASE("TimeSeries", "[base]")
   // Prepare common test data
   SizeType numSamples = 10;
   std::string dataPath = "/tsdata";
-  std::vector<SizeType> dataShape = {numSamples};
-  std::vector<SizeType> positionOffset = {0};
+  SizeArray dataShape = {numSamples};
+  SizeArray positionOffset = {0};
   BaseDataType dataType = BaseDataType::F32;
   std::vector<float> data = getMockData1D(numSamples);
   std::vector<double> timestamps = getMockTimestamps(numSamples, 1);
@@ -350,8 +350,8 @@ TEST_CASE("LinkArrayDataSetConfig for TimeSeries data", "[base][link]")
   SizeType numSamples = 20;
   std::string dataPath1 = "/original_timeseries";
   std::string dataPath2 = "/linked_timeseries";
-  std::vector<SizeType> dataShape = {numSamples};
-  std::vector<SizeType> positionOffset = {0};
+  SizeArray dataShape = {numSamples};
+  SizeArray positionOffset = {0};
   BaseDataType dataType = BaseDataType::F32;
   std::vector<float> data = getMockData1D(numSamples);
   std::vector<double> timestamps1 = getMockTimestamps(numSamples, 1);

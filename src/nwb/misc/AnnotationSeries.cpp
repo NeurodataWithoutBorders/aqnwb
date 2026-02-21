@@ -40,8 +40,8 @@ Status AnnotationSeries::writeAnnotation(const SizeType& numSamples,
                                          const void* timestampsInput,
                                          const void* controlInput)
 {
-  std::vector<SizeType> dataShape = {numSamples};
-  std::vector<SizeType> positionOffset = {this->m_samplesRecorded};
+  SizeArray dataShape = {numSamples};
+  SizeArray positionOffset = {this->m_samplesRecorded};
 
   // Write timestamps
   Status tsStatus = Status::Success;
