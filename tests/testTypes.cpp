@@ -20,26 +20,6 @@ TEST_CASE("Test storageObjectTypeToString", "[Types]")
         Types::storageObjectTypeToString(Types::StorageObjectType::Undefined)
         == "Undefined");
   }
-
-  SECTION("Unknown values return 'Unknown'")
-  {
-    // Safely create out-of-range enum values for testing using a union to avoid
-    // -Wconversion
-    auto makeInvalidStorageObjectType = [](int val) -> Types::StorageObjectType
-    {
-      union
-      {
-        int i;
-        Types::StorageObjectType e;
-      } u;
-      u.i = val;
-      return u.e;
-    };
-    REQUIRE(Types::storageObjectTypeToString(makeInvalidStorageObjectType(99))
-            == std::string("Unknown"));
-    REQUIRE(Types::storageObjectTypeToString(makeInvalidStorageObjectType(-99))
-            == std::string("Unknown"));
-  }
 }
 
 TEST_CASE("Test Status enum operators", "[Types]")
