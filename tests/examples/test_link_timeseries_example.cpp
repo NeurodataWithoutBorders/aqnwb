@@ -21,8 +21,21 @@ TEST_CASE("LinkTimeSeriesExamples", "[timeseries][link]")
     auto nwbfile = NWB::NWBFile::create(io);
     nwbfile->initialize(generateUuid());
 
-    // Create electrodes table
-    auto electrodesTable = nwbfile->createElectrodesTable();
+    // [example_link_timeseries_setup]
+
+    // [example_link_timeseries_original]
+    // Create the original ElectricalSeries with actual data during acquisition
+    SizeType numSamples = 1000;
+    SizeType numChannels = 1;
+    IO::BaseDataType dataType = IO::BaseDataType::F32;
+
+    // Define the channels to record
+    std::vector<Types::ChannelVector> recordingArrays = {
+        {{0}, "ElectricalSeries", {numSamples}}};
+    std::vector<std::string> recordingNames = {"raw_voltage"};
+
+    // Create electrodes table with recording arrays
+    auto electrodesTable = nwbfile->createElectrodesTable(recordingArrays);
     REQUIRE(electrodesTable != nullptr);
 
     // Add electrode
@@ -36,18 +49,6 @@ TEST_CASE("LinkTimeSeriesExamples", "[timeseries][link]")
     electrodesTable->initialize();
     electrodesTable->addElectrodes(
         1, location, group, groupPosition, groupPath);
-    // [example_link_timeseries_setup]
-
-    // [example_link_timeseries_original]
-    // Create the original ElectricalSeries with actual data during acquisition
-    SizeType numSamples = 1000;
-    SizeType numChannels = 1;
-    IO::BaseDataType dataType = IO::BaseDataType::F32;
-
-    // Define the channels to record
-    std::vector<Types::ChannelVector> recordingArrays = {
-        {{0}, "ElectricalSeries", {numSamples}}};
-    std::vector<std::string> recordingNames = {"raw_voltage"};
 
     // Create the ElectricalSeries using NWBFile helper
     Status status = nwbfile->createElectricalSeries(
