@@ -13,8 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   * Added `LinkArrayDataSetConfig` class for creating HDF5 soft-links to existing datasets
   * Updated `ArrayDataSetConfig` to inherit from `BaseArrayDataSetConfig`
   * Updated all NWB type `initialize()` methods to accept `BaseArrayDataSetConfig` (TimeSeries, ElectricalSeries, SpikeEventSeries, AnnotationSeries, Data, NWBData, VectorData)
-  * Added comprehensive unit tests for link functionality with TimeSeries and VectorData
-  * Added documentation page on using links for time-alignment and avoiding data duplication
+  * Added user docs page on using links and processing modules
   * Added `BaseIO::getStorageObjectDataType` and `BaseIO::getStorageObjectChunking` and corresponding HDF5IO implementations
   * Updated `BaseIO::createArrayDataSet` to raise `std::runtime_error` on failure (rather than returning   nullptr) to make error handling more robust and to allow link creation to return nullptr without ambiguity.
 * Added `AQNWB::IO::ConstMultiArrayView<DTYPE, NDIMS>` as a lightweight, non-owning const multi-dimensional view over a buffer used to facilitate multi-dimensional array access in C++17/20  (@chittti , [#250](https://github.com/NeurodataWithoutBorders/aqnwb/pull/250)) 
