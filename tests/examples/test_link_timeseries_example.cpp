@@ -29,9 +29,10 @@ TEST_CASE("LinkTimeSeriesExamples", "[timeseries][link]")
 
     SizeType numSamples = 1000;
     IO::BaseDataType dataType = IO::BaseDataType::F32;
-    IO::ArrayDataSetConfig dataConfig(dataType, 
-                                      SizeArray {0}, // initial shape with 0 samples
-                                      SizeArray {1000} // chunk size of 1000 samples
+    IO::ArrayDataSetConfig dataConfig(
+        dataType,
+        SizeArray {0},  // initial shape with 0 samples
+        SizeArray {1000}  // chunk size of 1000 samples
     );
 
     originalSeries->initialize(dataConfig,
@@ -65,8 +66,9 @@ TEST_CASE("LinkTimeSeriesExamples", "[timeseries][link]")
     IO::LinkArrayDataSetConfig linkConfig(linkTarget);
 
     // Initialize the linked TimeSeries using the link configuration
-    // Note, TimeSeries::initialize  automatically queries shape and chunking from
-    // the linked dataset to properly configure related  datasets (e.g., timestamps)
+    // Note, TimeSeries::initialize  automatically queries shape and chunking
+    // from the linked dataset to properly configure related  datasets (e.g.,
+    // timestamps)
     linkedSeries->initialize(
         linkConfig,  // Use link instead of creating new data
         "volts",
