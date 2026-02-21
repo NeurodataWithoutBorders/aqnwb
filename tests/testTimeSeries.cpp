@@ -343,3 +343,166 @@ TEST_CASE("TimeSeries", "[base]")
     io->close();
   }
 }
+
+TEST_CASE("LinkArrayDataSetConfig for TimeSeries data", "[base][link]")
+{
+  // Prepare common test data
+  SizeType numSamples = 20;
+  std::string dataPath1 = "/original_timeseries";
+  std::string dataPath2 = "/linked_timeseries";
+  std::vector<SizeType> dataShape = {numSamples};
+  std::vector<SizeType> positionOffset = {0};
+  BaseDataType dataType = BaseDataType::F32;
+  std::vector<float> data = getMockData1D(numSamples);
+  std::vector<double> timestamps1 = getMockTimestamps(numSamples, 1);
+  std::vector<double> timestamps2 =
+      getMockTimestamps(numSamples, 2);  // Different timestamps
+
+  SECTION("create TimeSeries with linked data")
+  {
+    // Create a file for this test
+    std::string path = getTestFilePath("testTimeseriesWithLink.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    // Create first TimeSeries with actual data
+    auto ts1 = NWB::TimeSeries::create(dataPath1, io);
+    std::string description = "Original TimeSeries";
+    std::string unit = "volts";
+    float conversion = 1.0f;
+    float resolution = -1.0f;
+    float offset = 0.0f;
+    AQNWB::NWB::TimeSeries::ContinuityType continuity =
+        AQNWB::NWB::TimeSeries::Continuous;
+
+    IO::ArrayDataSetConfig config1(dataType, SizeArray {0}, SizeArray {1});
+    Status status_ts1 = ts1->initialize(config1,
+                                        unit,
+                                        description,
+                                        "Original comments",
+                                        conversion,
+                                        resolution,
+                                        offset,
+                                        continuity,
+                                        -1.0,
+                                        1.0,
+                                        {});
+    REQUIRE(status_ts1 == Status::Success);
+
+    // Write data to first TimeSeries
+    Status writeStatus1 = ts1->writeData(
+        dataShape, positionOffset, data.data(), timestamps1.data());
+    REQUIRE(writeStatus1 == Status::Success);
+
+    // Create second TimeSeries with linked data
+    auto ts2 = NWB::TimeSeries::create(dataPath2, io);
+    std::string linkTarget = dataPath1 + "/data";
+    IO::LinkArrayDataSetConfig linkConfig(linkTarget);
+
+    // Verify it's identified as a link
+    REQUIRE(linkConfig.isLink() == true);
+    REQUIRE(linkConfig.getTargetPath() == linkTarget);
+
+    Status status_ts2 = ts2->initialize(linkConfig,
+                                        unit,
+                                        "Linked TimeSeries with same data",
+                                        "Linked comments",
+                                        conversion,
+                                        resolution,
+                                        offset,
+                                        continuity,
+                                        -1.0,
+                                        1.0,
+                                        {});
+    REQUIRE(status_ts2 == Status::Success);
+
+    // Write only timestamps to second TimeSeries (data is linked)
+    // We need to manually write timestamps since recordData() returns nullptr
+    // for links
+    auto ts2TimestampsRecorder = ts2->recordTimestamps();
+    REQUIRE(ts2TimestampsRecorder != nullptr);
+    Status writeStatus2 = ts2TimestampsRecorder->writeDataBlock(
+        dataShape, positionOffset, IO::BaseDataType::F64, timestamps2.data());
+    REQUIRE(writeStatus2 == Status::Success);
+
+    io->flush();
+    io->close();
+
+    // Verify the link was created correctly using HDF5 C++ API
+    H5::H5File file(path, H5F_ACC_RDONLY);
+
+    // Check that the link exists
+    htri_t exists =
+        H5Lexists(file.getId(), (dataPath2 + "/data").c_str(), H5P_DEFAULT);
+    REQUIRE(exists > 0);
+
+    // Get link info
+    H5L_info_t linkInfo;
+    herr_t status = H5Lget_info(
+        file.getId(), (dataPath2 + "/data").c_str(), &linkInfo, H5P_DEFAULT);
+    REQUIRE(status >= 0);
+
+    // Verify it's a soft link
+    REQUIRE(linkInfo.type == H5L_TYPE_SOFT);
+
+    // For a soft link, linkInfo.u.val_size contains the size
+    REQUIRE(linkInfo.u.val_size > 0);
+
+    // Now read the actual link target
+    std::vector<char> linkTargetBuffer(linkInfo.u.val_size + 1);
+    herr_t linkStatus = H5Lget_val(file.getId(),
+                                   (dataPath2 + "/data").c_str(),
+                                   linkTargetBuffer.data(),
+                                   linkInfo.u.val_size + 1,
+                                   H5P_DEFAULT);
+    REQUIRE(linkStatus >= 0);
+    linkTargetBuffer[linkInfo.u.val_size] = '\0';  // Ensure null termination
+    std::string actualTarget(linkTargetBuffer.data());
+    REQUIRE(actualTarget == linkTarget);
+
+    // Verify data can be read through the link
+    H5::DataSet linkedDataset = file.openDataSet(dataPath2 + "/data");
+    H5::DataSpace linkedDataspace = linkedDataset.getSpace();
+
+    // Check dimensions
+    hsize_t dims[1];
+    linkedDataspace.getSimpleExtentDims(dims);
+    REQUIRE(dims[0] == numSamples);
+
+    // Read data through the link
+    std::vector<float> readData(numSamples);
+    linkedDataset.read(readData.data(), H5::PredType::NATIVE_FLOAT);
+
+    // Verify the data matches the original
+    for (size_t i = 0; i < numSamples; ++i) {
+      REQUIRE(approxComparator(readData[i], data[i]));
+    }
+
+    file.close();
+  }
+
+  SECTION(
+      "verify LinkArrayDataSetConfig returns nullptr from createArrayDataSet")
+  {
+    // Create a file for this test
+    std::string path = getTestFilePath("testLinkReturnValue.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    // Create a dummy dataset first
+    auto ts1 = NWB::TimeSeries::create(dataPath1, io);
+    IO::ArrayDataSetConfig config1(dataType, SizeArray {0}, SizeArray {1});
+    ts1->initialize(config1, "volts", "Test", "comments", 1.0f, -1.0f, 0.0f);
+
+    // Try to create a link
+    std::string linkTarget = dataPath1 + "/data";
+    IO::LinkArrayDataSetConfig linkConfig(linkTarget);
+
+    // createArrayDataSet should return nullptr for links (since you can't write
+    // to a link)
+    auto result = io->createArrayDataSet(linkConfig, "/test_link");
+    REQUIRE(result == nullptr);
+
+    io->close();
+  }
+}

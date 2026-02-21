@@ -3,6 +3,7 @@
 #include <filesystem>
 #include <iostream>
 #include <memory>
+#include <stdexcept>
 #include <vector>
 
 #include "io/hdf5/HDF5IO.hpp"
@@ -924,6 +925,11 @@ Status HDF5IO::createLink(const std::string& path, const std::string& reference)
   if (!canModifyObjects()) {
     return Status::Failure;
   }
+  if (!objectExists(reference)) {
+    std::cerr << "HDF5IO::createLink Reference target does not exist: "
+              << reference << std::endl;
+    return Status::Failure;  // Reference target must exist
+  }
 
   herr_t error = H5Lcreate_soft(reference.c_str(),
                                 m_file->getLocId(),
@@ -1009,8 +1015,14 @@ Status HDF5IO::createStringDataSet(const std::string& path,
   std::unique_ptr<IO::BaseRecordingData> dataset;
   IO::ArrayDataSetConfig config(
       IO::BaseDataType::V_STR, SizeArray {values.size()}, SizeArray {1});
-  dataset =
-      std::unique_ptr<IO::BaseRecordingData>(createArrayDataSet(config, path));
+  try {
+    dataset = createArrayDataSet(config, path);
+    if (!dataset) {
+      return Status::Failure;
+    }
+  } catch (const std::runtime_error& e) {
+    return Status::Failure;
+  }
 
   dataset->writeDataBlock(std::vector<SizeType> {1},
                           std::vector<SizeType> {0},
@@ -1143,8 +1155,18 @@ HDF5IO::getStorageObjects(const std::string& path,
   return objects;
 }
 
-std::vector<SizeType> HDF5IO::getStorageObjectShape(const std::string path)
+SizeArray HDF5IO::getStorageObjectShape(const std::string path) const
 {
+  // Check the object type and handle groups and missing objects
+  auto objectType = getStorageObjectType(path);
+  if (objectType == StorageObjectType::Group) {
+    return SizeArray();  // Groups don't have a shape
+  } else if (objectType == StorageObjectType::Undefined) {
+    throw std::runtime_error("HDF5IO::getStorageObjectShape: Object at '" + path
+                             + "' does not exist.");
+  }
+
+  // For datasets and attributes, get the dataspace and extract the dimensions
   H5::DataSpace dataspace;
   try {
     H5::DataSet dataset = m_file->openDataSet(path);
@@ -1158,7 +1180,85 @@ std::vector<SizeType> HDF5IO::getStorageObjectShape(const std::string path)
   std::vector<hsize_t> dims(static_cast<size_t>(rank));
   dataspace.getSimpleExtentDims(dims.data());
 
-  return std::vector<SizeType>(dims.begin(), dims.end());
+  return SizeArray(dims.begin(), dims.end());
+}
+
+SizeArray HDF5IO::getStorageObjectChunking(const std::string path) const
+{
+  // First check what type of object we're dealing with
+  StorageObjectType objectType = getStorageObjectType(path);
+
+  // Only datasets can have chunking - return empty for groups and attributes
+  if (objectType != StorageObjectType::Dataset) {
+    return SizeArray();
+  }
+
+  try {
+    H5::DataSet dataset = m_file->openDataSet(path);
+    H5::DSetCreatPropList plist = dataset.getCreatePlist();
+
+    // Check if the dataset is chunked
+    if (plist.getLayout() != H5D_CHUNKED) {
+      return SizeArray();
+    }
+
+    // Get the chunk dimensions
+    int rank = dataset.getSpace().getSimpleExtentNdims();
+    std::vector<hsize_t> chunk_dims(static_cast<size_t>(rank));
+    plist.getChunk(rank, chunk_dims.data());
+
+    return SizeArray(chunk_dims.begin(), chunk_dims.end());
+  } catch (H5::Exception& e) {
+    std::cerr << "HDF5IO::getStorageObjectChunking: Could not get chunking for "
+                 "dataset at "
+              << path << ": " << e.getDetailMsg() << std::endl;
+    return SizeArray();
+  }
+}
+
+AQNWB::IO::BaseDataType HDF5IO::getStorageObjectDataType(
+    const std::string path) const
+{
+  StorageObjectType objType = getStorageObjectType(path);
+
+  // Handle datasets
+  if (objType == StorageObjectType::Dataset) {
+    try {
+      H5::DataSet dataset = m_file->openDataSet(path);
+      H5::DataType dataType = dataset.getDataType();
+      return getBaseDataType(dataType);
+    } catch (H5::Exception& e) {
+      throw std::runtime_error(
+          "HDF5IO::getStorageObjectDataType: Could not get data type for "
+          + Types::storageObjectTypeToString(objType) + " at '" + path
+          + "': " + e.getDetailMsg());
+    }
+  }
+
+  // Handle attributes
+  if (objType == StorageObjectType::Attribute) {
+    try {
+      std::unique_ptr<H5::Attribute> attributePtr = getAttribute(path);
+      if (!attributePtr) {
+        throw std::runtime_error(
+            "HDF5IO::getStorageObjectDataType: Could not open "
+            + Types::storageObjectTypeToString(objType) + " at '" + path + "'");
+      }
+      H5::DataType dataType = attributePtr->getDataType();
+      return getBaseDataType(dataType);
+    } catch (H5::Exception& e) {
+      throw std::runtime_error(
+          "HDF5IO::getStorageObjectDataType: Could not get data type for "
+          + Types::storageObjectTypeToString(objType) + " at '" + path
+          + "': " + e.getDetailMsg());
+    }
+  }
+
+  // Groups don't have data types
+  throw std::runtime_error("HDF5IO::getStorageObjectDataType: Object at '"
+                           + path + "' is a "
+                           + Types::storageObjectTypeToString(objType)
+                           + ". Groups do not have data types.");
 }
 
 std::shared_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::getDataSet(
@@ -1185,24 +1285,48 @@ std::shared_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::getDataSet(
 }
 
 std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::createArrayDataSet(
-    const IO::ArrayDataSetConfig& config, const std::string& path)
+    const IO::BaseArrayDataSetConfig& config, const std::string& path)
 {
-  std::unique_ptr<DataSet> data;
-  DSetCreatPropList prop;
-  DataType H5type = getH5Type(config.getType());
-
   if (!canModifyObjects()) {
-    std::cerr << "Cannot modify objects" << std::endl;
-    return nullptr;
+    throw std::runtime_error(
+        "Cannot create dataset at '" + path
+        + "' because objects cannot be modified in this file.");
   }
 
-  const SizeArray& size = config.getShape();
-  const SizeArray& chunking = config.getChunking();
+  // Check if this is a link configuration
+  if (config.isLink()) {
+    const IO::LinkArrayDataSetConfig* linkConfig =
+        dynamic_cast<const IO::LinkArrayDataSetConfig*>(&config);
+    if (linkConfig) {
+      Status status = createLink(path, linkConfig->getTargetPath());
+      if (status != Status::Success) {
+        throw std::runtime_error("Failed to create link from " + path + " to "
+                                 + linkConfig->getTargetPath());
+      }
+      // Return nullptr for links as they don't provide a recordable dataset
+      return nullptr;
+    }
+  }
+
+  // Regular dataset creation
+  const IO::ArrayDataSetConfig* arrayConfig =
+      dynamic_cast<const IO::ArrayDataSetConfig*>(&config);
+  if (!arrayConfig) {
+    throw std::runtime_error(
+        "Invalid configuration type for dataset creation. Expected "
+        "ArrayDataSetConfig or LinkArrayDataSetConfig.");
+  }
+
+  std::unique_ptr<DataSet> data;
+  DSetCreatPropList prop;
+  DataType H5type = getH5Type(arrayConfig->getType());
+
+  const SizeArray& size = arrayConfig->getShape();
+  const SizeArray& chunking = arrayConfig->getChunking();
 
   SizeType dimension = size.size();
   if (dimension < 1) {
-    std::cerr << "Invalid dimension size" << std::endl;
-    return nullptr;
+    throw std::runtime_error("Invalid dimension size");
   }
 
   // Ensure chunking is properly allocated and has at least 'dimension' elements
@@ -1239,15 +1363,15 @@ std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::createArrayDataSet(
       }
     }
 
-    if (config.getType().type == IO::BaseDataType::Type::T_STR) {
-      H5type = StrType(PredType::C_S1, config.getType().typeSize);
+    if (arrayConfig->getType().type == IO::BaseDataType::Type::T_STR) {
+      H5type = StrType(PredType::C_S1, arrayConfig->getType().typeSize);
     }
 
     data = std::make_unique<DataSet>(
         m_file->createDataSet(path, H5type, dSpace, prop));
   } catch (const H5::Exception& e) {
-    std::cerr << "HDF5 error: " << e.getDetailMsg() << std::endl;
-    return nullptr;
+    throw std::runtime_error("Failed to create dataset at path '" + path
+                             + "': " + e.getDetailMsg());
   }
 
   return std::make_unique<HDF5RecordingData>(std::move(data));

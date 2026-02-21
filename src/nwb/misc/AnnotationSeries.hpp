@@ -47,7 +47,7 @@ public:
    */
   Status initialize(const std::string& description,
                     const std::string& comments,
-                    const IO::ArrayDataSetConfig& dataConfig);
+                    const IO::BaseArrayDataSetConfig& dataConfig);
 
   /**
    * @brief Writes a channel to an AnnotationSeries dataset.

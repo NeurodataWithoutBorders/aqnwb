@@ -1,0 +1,115 @@
+/**
+ * \page links Using Links 🔗
+ *
+ * \tableofcontents
+ *
+ * \section link_overview Overview
+ *
+ * To avoid copying large arrays and duplicating data, AqNWB supports creating soft-links
+ * to existing (!) datasets within the same file. This is accomplished by passing a
+ * \ref AQNWB::IO::LinkArrayDataSetConfig "LinkArrayDataSetConfig"
+ * when initializing a type. The \ref AQNWB::IO::LinkArrayDataSetConfig "LinkArrayDataSetConfig" 
+ * constructor only requires the target path. As a general rule, any function that accepts a 
+ * \ref AQNWB::IO::BaseArrayDataSetConfig "BaseArrayDataSetConfig" should be able to handle both 
+ * explicit datasets defined via \ref AQNWB::IO::ArrayDataSetConfig "ArrayDataSetConfig" or a linked 
+ * dataset via  \ref AQNWB::IO::LinkArrayDataSetConfig "LinkArrayDataSetConfig" (e.g., the `initialize` 
+ * methods of \ref AQNWB::NWB::TimeSeries "TimeSeries" and \ref AQNWB::NWB::Data "Data" and their
+ * subtypes).
+ *
+ * AqNWB also supports linking to existing Groups (or Datasets) via the 
+ * \ref AQNWB::IO::BaseIO::createLink "createLink" method of the I/O, 
+ * which we can use, e.g., to create a link to a TimeSeries.
+ *
+ * \warning
+ *   Links must point to targets that comply with the schema requirements to ensure valid NWB files.
+ *   E.g., a TimeSeries requires that the `data` has a `unit` attribute or a `VectorData`
+ *   requires corresponding attributes for `neurodata_type` and `namespace`. We should,
+ *   therefore, only create links between schema-compatible targets. 
+ *
+ * \section link_use_case Use Case: Time-Aligned TimeSeries
+ *
+ * NWB requires that timestamps in a file are aligned with the `timestampReferenceTime`. 
+ * However, time-alignment performed online during acquisition may not be as accurate as 
+ * post-hoc alignment. When performing post-hoc alignment of timestamps we may want to 
+ * avoid duplicating the recorded signal. In this case we would like to create multiple 
+ * \ref AQNWB::NWB::TimeSeries "TimeSeries" that share the same data but have 
+ * different timestamps.
+ *
+ * Key benefits of this approach are: 
+ * - **Storage Efficiency**: Data is stored only once, saving disk space
+ * - **Consistency**: Changes to the original data are automatically reflected in all linked series
+ * - **Flexibility**: Each linked series can have its own metadata, timestamps, and attributes
+ * - **NWB Compliance**: Soft-links are a standard HDF5 feature fully supported by NWB
+ * - **Best Practices**: Aligned data is organized in a \ref AQNWB::NWB::ProcessingModule "ProcessingModule", 
+ *   making the data organization and provenance explicit
+ *
+ * When you have multiple TimeSeries that need to reference the same data array but with
+ * different timestamps or metadata, you can use \ref AQNWB::IO::LinkArrayDataSetConfig
+ * "LinkArrayDataSetConfig" to create soft-links instead of duplicating the data.
+ * The example here illustrates the main steps for creating linked \ref AQNWB::NWB::TimeSeries "TimeSeries". 
+ *
+ * \subsection link_setup 1. Setup
+ *
+ * First, create an NWB file and initialize it:
+ *
+ * \snippet tests/examples/test_link_timeseries_example.cpp example_link_timeseries_setup
+ *
+ * \subsection link_original 2. Create the Original TimeSeries
+ *
+ * Create the first \ref AQNWB::NWB::TimeSeries "TimeSeries" with the actual data during acquisition.
+ * We create the series in the `/acquisition` group following NWB best practices. Since the data is 
+ * regularly sampled, we use `starting_time` and `rate` instead of explicit timestamps:
+ *
+ * \snippet tests/examples/test_link_timeseries_example.cpp example_link_timeseries_original
+ *
+ * \subsection link_processing 3. Create a ProcessingModule
+ *
+ * Create a \ref AQNWB::NWB::ProcessingModule "ProcessingModule" to store the time-aligned data.
+ * This follows NWB best practices where processed data generated post-acquisition is organized 
+ * in processing modules:
+ *
+ * \snippet tests/examples/test_link_timeseries_example.cpp example_link_timeseries_processing_module
+ *
+ * \subsection link_linked 4. Create the Linked TimeSeries
+ *
+ * Create a second \ref AQNWB::NWB::TimeSeries "TimeSeries" in the ProcessingModule that links 
+ * to the first one's data. This step is typically done after acquisition is completed. We use 
+ * \ref AQNWB::NWB::ProcessingModule::createNWBDataInterface "ProcessingModule::createNWBDataInterface()"
+ * to create the \ref AQNWB::NWB::TimeSeries "TimeSeries" and add it to the processing module. The aligned 
+ * series uses irregular timestamps with small adjustments to demonstrate the time-alignment use case:
+ *
+ * \snippet tests/examples/test_link_timeseries_example.cpp example_link_timeseries_linked
+ *
+ * \subsection link_reference 5. Link to the Original Series
+ *
+ * Create a link to the original \ref AQNWB::NWB::TimeSeries "TimeSeries" in the 
+ * \ref AQNWB::NWB::ProcessingModule "ProcessingModule" to explicitly document the relationship
+ * and provenance of the processed data. This is not strictly necessary since the linkage is 
+ * already documented via the link of the data in the aligned timeseries, however, linking 
+ * the full original timeseries makes the provenance more explicit and makes the data easier 
+ * to reuse. 
+ *
+ * \snippet tests/examples/test_link_timeseries_example.cpp example_link_timeseries_reference
+ *
+ * \subsection link_cleanup 6. Cleanup
+ *
+ * Finalize and close the file:
+ *
+ * \snippet tests/examples/test_link_timeseries_example.cpp example_link_timeseries_cleanup
+ *
+ * \subsection link_verification Verification
+ *
+ * If you would like to verify that links were created correctly using `h5ls`:
+ *
+ * \code{.sh}
+ * h5ls -r testLinkTimeSeriesExample.nwb
+ * \endcode
+ *
+ * You should see output similar to:
+ * \code
+ * /acquisition/original_series/data                           Dataset {1000/Inf}
+ * /processing/time_alignment/aligned_voltage/data             Soft Link {/acquisition/original_series/data}
+ * /processing/time_alignment/original_series                  Soft Link {/acquisition/original_series}
+ * \endcode
+ *
+ */

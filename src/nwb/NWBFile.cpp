@@ -160,22 +160,24 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
   ioPtr->createAttribute(AQNWB::SPEC::CORE::version, "/", "nwb_version");
 
   // Create the top-level group structure of the NWB file
-  ioPtr->createGroup("/acquisition");
-  ioPtr->createGroup("/analysis");
-  ioPtr->createGroup("/processing");
-  ioPtr->createGroup("/stimulus");
-  ioPtr->createGroup("/stimulus/presentation");
-  ioPtr->createGroup("/stimulus/templates");
-  ioPtr->createGroup("/general");
-  ioPtr->createGroup("/general/devices");
-  ioPtr->createGroup("/general/extracellular_ephys");
+  ioPtr->createGroup(NWBFile::ACQUISITION_PATH);
+  ioPtr->createGroup(NWBFile::ANALYSIS_PATH);
+  ioPtr->createGroup(NWBFile::PROCESSING_PATH);
+  ioPtr->createGroup(NWBFile::STIMULUS_PATH);
+  ioPtr->createGroup(mergePaths(NWBFile::STIMULUS_PATH, "presentation"));
+  ioPtr->createGroup(mergePaths(NWBFile::STIMULUS_PATH, "templates"));
+  ioPtr->createGroup(NWBFile::GENERAL_PATH);
+  ioPtr->createGroup(mergePaths(NWBFile::GENERAL_PATH, "/devices"));
+  ioPtr->createGroup(mergePaths(NWBFile::GENERAL_PATH, "/extracellular_ephys"));
   if (dataCollection != "") {
-    ioPtr->createStringDataSet("/general/data_collection", dataCollection);
+    ioPtr->createStringDataSet(
+        mergePaths(NWBFile::GENERAL_PATH, "/data_collection"), dataCollection);
   }
 
-  // Setupe the specifications cache in the file
-  ioPtr->createGroup(m_specificationsPath);
-  ioPtr->createReferenceAttribute(m_specificationsPath, "/", ".specloc");
+  // Setup the specifications cache in the file
+  ioPtr->createGroup(NWBFile::SPECIFICATIONS_PATH);
+  ioPtr->createReferenceAttribute(
+      NWBFile::SPECIFICATIONS_PATH, "/", ".specloc");
   // Cache all namespaces registered with the namespace registry
   const auto& allNamespaces =
       AQNWB::SPEC::NamespaceRegistry::instance().getAllNamespaces();
@@ -414,7 +416,7 @@ void NWBFile::cacheSpecifications(const Types::NamespaceInfo& namespaceInfo)
   }
 
   std::string specFullPath =
-      AQNWB::mergePaths(m_specificationsPath, namespaceInfo.name);
+      AQNWB::mergePaths(NWBFile::SPECIFICATIONS_PATH, namespaceInfo.name);
   std::string specFullVersionPath =
       AQNWB::mergePaths(specFullPath, namespaceInfo.version);
   ioPtr->createGroup(specFullPath);

@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <limits>
+#include <string>
 #include <vector>
 
 namespace AQNWB
@@ -57,6 +58,27 @@ public:
     Attribute = 2,
     Undefined = -1
   };
+
+  /**
+   * @brief Convert StorageObjectType enum value to string
+   * @param type The StorageObjectType value to convert
+   * @return String representation of the StorageObjectType
+   */
+  static std::string storageObjectTypeToString(StorageObjectType type)
+  {
+    switch (type) {
+      case Group:
+        return "Group";
+      case Dataset:
+        return "Dataset";
+      case Attribute:
+        return "Attribute";
+      case Undefined:
+        return "Undefined";
+      default:
+        return "Unknown";
+    }
+  }
 
   /**
    *  \brief Helper struct to check if a value is a data field, i.e.,

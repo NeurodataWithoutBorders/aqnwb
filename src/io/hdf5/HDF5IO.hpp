@@ -200,7 +200,9 @@ public:
    * @param path The location in the file to the new link.
    * @param reference The location in the file of the object that is being
    * linked to.
-   * @return The status of the link creation operation.
+   * @return The status of the link creation operation. Link creation may fail
+   * if the reference path does not exist or if the path for the new link
+   * already exists.
    */
   Status createLink(const std::string& path,
                     const std::string& reference) override;
@@ -257,12 +259,14 @@ public:
   /**
    * @brief Creates an extendable dataset with the given configuration and path.
    * @param config The configuration for the dataset, including type, shape, and
-   * chunking.
+   * chunking. Can also be a LinkArrayDataSetConfig to create a soft-link.
    * @param path The location in the file of the new dataset.
-   * @return A pointer to the created dataset.
+   * @return A pointer to the created dataset. Returns nullptr for links.
+   * @throws std::runtime_error if dataset or link creation fails.
    */
   std::unique_ptr<IO::BaseRecordingData> createArrayDataSet(
-      const IO::ArrayDataSetConfig& config, const std::string& path) override;
+      const IO::BaseArrayDataSetConfig& config,
+      const std::string& path) override;
 
   /**
    * @brief Returns a pointer to a dataset at a given path.
@@ -277,7 +281,25 @@ public:
    * @param path The location of the dataset or attribute in the file
    * @return The shape of the dataset or attribute.
    */
-  std::vector<SizeType> getStorageObjectShape(const std::string path) override;
+  SizeArray getStorageObjectShape(const std::string path) const override;
+
+  /**
+   * @brief Gets the chunking configuration of a dataset.
+   * @param path The path to the dataset.
+   * @return The chunking configuration of the dataset, or an empty SizeArray if
+   * the dataset is not chunked, doesn't exist, or if the path points to a Group
+   * or Attribute (which cannot be chunked).
+   */
+  SizeArray getStorageObjectChunking(const std::string path) const override;
+
+  /**
+   * @brief Gets the BaseDataType of a dataset or attribute.
+   * @param path The path to the dataset or attribute.
+   * @return The BaseDataType of the dataset or attribute.
+   * @throws std::runtime_error if the object is a Group (which has no data
+   * type) or if the data type cannot be determined.
+   */
+  BaseDataType getStorageObjectDataType(const std::string path) const override;
 
   /**
    * @brief Checks whether a Dataset, Group, or Link already exists at the

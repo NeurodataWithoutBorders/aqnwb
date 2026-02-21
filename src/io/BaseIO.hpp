@@ -29,6 +29,7 @@ namespace AQNWB::IO
 {
 class BaseRecordingData;
 class RecordingObjects;
+class BaseIO;
 }  // namespace AQNWB::IO
 
 namespace AQNWB::IO
@@ -191,6 +192,50 @@ enum class FileMode
 };
 
 /**
+ * @brief Base class for array dataset configuration.
+ *
+ * This abstract base class serves as the interface for different types of
+ * array dataset configurations. It allows for polymorphic handling of both
+ * regular datasets (ArrayDataSetConfig) and linked datasets
+ * (LinkArrayDataSetConfig).
+ */
+class BaseArrayDataSetConfig
+{
+public:
+  /**
+   * @brief Virtual destructor to ensure proper cleanup in derived classes.
+   */
+  virtual ~BaseArrayDataSetConfig() = default;
+
+  /**
+   * @brief Checks if this configuration represents a link.
+   * @return True if this is a link configuration, false otherwise.
+   */
+  virtual bool isLink() const { return false; }
+
+  /**
+   * @brief Gets the shape, chunking, and data type from the configuration.
+   *
+   * This method provides a unified interface to retrieve configuration
+   * properties regardless of whether the config represents a regular dataset
+   * or a link. For LinkArrayDataSetConfig, the io parameter is used to query
+   * the target dataset.
+   *
+   * @param io Optional IO object for querying link targets. Required for
+   *           LinkArrayDataSetConfig, unused for ArrayDataSetConfig.
+   * @param[out] shape The dataset shape.
+   * @param[out] chunking The dataset chunking configuration.
+   * @param[out] dataType The dataset data type.
+   * @return Status::Success if the properties were retrieved successfully,
+   *         Status::Failure otherwise.
+   */
+  virtual Status getProperties(const BaseIO* io,
+                               SizeArray& shape,
+                               SizeArray& chunking,
+                               BaseDataType& dataType) const = 0;
+};
+
+/**
  * @brief The configuration for an array dataset
  *
  * This class defines basic properties of an n-Dimensional array dataset, e.g.,
@@ -198,7 +243,7 @@ enum class FileMode
  * create their own subclass to add additional configuration options, e.g.,
  * compression, chunking, etc.
  */
-class ArrayDataSetConfig
+class ArrayDataSetConfig : public BaseArrayDataSetConfig
 {
 public:
   /**
@@ -235,6 +280,31 @@ public:
    */
   inline SizeArray getChunking() const { return m_chunking; }
 
+  /**
+   * @brief Gets the shape, chunking, and data type from the configuration.
+   *
+   * For ArrayDataSetConfig, this simply returns the stored values.
+   * The io parameter is unused.
+   *
+   * @param io Unused for ArrayDataSetConfig (provided for interface
+   * compatibility).
+   * @param[out] shape The dataset shape.
+   * @param[out] chunking The dataset chunking configuration.
+   * @param[out] dataType The dataset data type.
+   * @return Status::Success always.
+   */
+  Status getProperties(const BaseIO* io,
+                       SizeArray& shape,
+                       SizeArray& chunking,
+                       BaseDataType& dataType) const override
+  {
+    (void)io;  // Unused parameter (not needed for ArrayDataSetConfig)
+    shape = m_shape;
+    chunking = m_chunking;
+    dataType = m_type;
+    return Status::Success;
+  }
+
 protected:
   // The data type of the dataset
   BaseDataType m_type;
@@ -242,6 +312,128 @@ protected:
   SizeArray m_shape;
   // The chunking of the dataset
   SizeArray m_chunking;
+};
+
+/**
+ * @brief Configuration for creating a soft-link to an existing dataset.
+ *
+ * This class allows configuration of a dataset as a soft-link (symbolic link)
+ * to another dataset in the file, avoiding data duplication. This is useful
+ * for scenarios like time-alignment where multiple TimeSeries share the same
+ * data but have different timestamps.
+ */
+class LinkArrayDataSetConfig : public BaseArrayDataSetConfig
+{
+public:
+  /**
+   * @brief Constructs a LinkArrayDataSetConfig object with the target path.
+   * @param targetPath The path to the target dataset to link to.
+   */
+  explicit LinkArrayDataSetConfig(const std::string& targetPath);
+
+  /**
+   * @brief Virtual destructor.
+   */
+  virtual ~LinkArrayDataSetConfig() = default;
+
+  /**
+   * @brief Returns the path to the target dataset.
+   * @return The target path.
+   */
+  inline std::string getTargetPath() const { return m_targetPath; }
+
+  /**
+   * @brief Checks if this configuration represents a link.
+   * @return True (always, for this class).
+   */
+  inline bool isLink() const override { return true; }
+
+  /**
+   * @brief Checks if the target path exists in the file.
+   * This is a convenience method to check if the link target exists.
+   * The function only validates existence of an object at the target
+   * path, but does not verify that it is a dataset.
+   *
+   * @param io The IO object to use for checking the target path.
+   * @return True if an object exists at the target path, false otherwise.
+   */
+  bool targetExists(const BaseIO& io) const;
+
+  /**
+   * @brief Queries and returns the shape of the linked target dataset.
+   *
+   * This convenience method queries the shape of the target dataset from the
+   * file. This is useful when configuring related datasets that need to match
+   * the dimensions of the linked data.
+   *
+   * @param io The IO object to use for querying the target dataset.
+   * @return The shape of the target dataset, or an empty vector if the query
+   * fails.
+   */
+  SizeArray getTargetShape(const BaseIO& io) const;
+
+  /**
+   * @brief Gets the actual chunking configuration of the target dataset.
+   *
+   * This convenience method queries the target dataset's chunking configuration
+   * from the file. This ensures that related datasets (like timestamps) can use
+   * the same chunking as the linked data.
+   *
+   * @param io The IO object to use for querying the target dataset.
+   * @return The chunking configuration of the target dataset, or an empty
+   * vector if the dataset is not chunked or the query fails.
+   */
+  SizeArray getTargetChunking(const BaseIO& io) const;
+
+  /**
+   * @brief Gets the BaseDataType of the target dataset.
+   *
+   * This convenience method queries the target dataset's data type from the
+   * file. This allows TimeSeries and other classes to correctly set their
+   * m_dataType member when using linked data.
+   *
+   * @param io The IO object to use for querying the target dataset.
+   * @return The BaseDataType of the target dataset.
+   * @throws std::runtime_error if the object is a Group (which has no data
+   * type) or if the data type cannot be determined.
+   */
+  BaseDataType getTargetDataType(const BaseIO& io) const;
+
+  /**
+   * @brief Gets the shape, chunking, and data type from the linked target
+   * dataset.
+   *
+   * For LinkArrayDataSetConfig, this queries the target dataset properties
+   * from the file using the provided IO object.
+   *
+   * @param io IO object for querying the target dataset. Must not be nullptr.
+   * @param[out] shape The target dataset shape.
+   * @param[out] chunking The target dataset chunking configuration.
+   * @param[out] dataType The target dataset data type.
+   * @return Status::Success if properties were retrieved successfully,
+   *         Status::Failure if io is nullptr or query fails.
+   */
+  Status getProperties(const BaseIO* io,
+                       SizeArray& shape,
+                       SizeArray& chunking,
+                       BaseDataType& dataType) const override
+  {
+    if (!io) {
+      return Status::Failure;
+    }
+    try {
+      shape = getTargetShape(*io);
+      chunking = getTargetChunking(*io);
+      dataType = getTargetDataType(*io);
+    } catch (const std::runtime_error& e) {
+      return Status::Failure;
+    }
+    return Status::Success;
+  }
+
+private:
+  // The path to the target dataset to link to
+  std::string m_targetPath;
 };
 
 /**
@@ -518,7 +710,9 @@ public:
    * @param path The location in the file to the new link.
    * @param reference The location in the file of the object that is being
    * linked to.
-   * @return The status of the link creation operation.
+   * @return The status of the link creation operation. Link creation may fail
+   * if the reference path does not exist or if the path for the new link
+   * already exists.
    */
   virtual Status createLink(const std::string& path,
                             const std::string& reference) = 0;
@@ -575,12 +769,13 @@ public:
   /**
    * @brief Creates an extendable dataset with the given configuration and path.
    * @param config The configuration for the dataset, including type, shape, and
-   * chunking.
+   * chunking. Can also be a LinkArrayDataSetConfig to create a soft-link.
    * @param path The location in the file of the new dataset.
-   * @return A pointer to the created dataset.
+   * @return A pointer to the created dataset. Returns nullptr for links.
+   * @throws std::runtime_error if dataset or link creation fails.
    */
   virtual std::unique_ptr<BaseRecordingData> createArrayDataSet(
-      const ArrayDataSetConfig& config, const std::string& path) = 0;
+      const BaseArrayDataSetConfig& config, const std::string& path) = 0;
 
   /**
    * @brief Returns a pointer to a dataset at a given path.
@@ -594,9 +789,29 @@ public:
    * @brief Returns the size of the dataset or attribute for each dimension.
    * @param path The location of the dataset or attribute in the file
    * @return The shape of the dataset or attribute.
+   * @throws std::runtime_error if the object does not exist or if the shape
+   * cannot be determined (e.g., for Groups or untyped objects).
    */
-  virtual std::vector<SizeType> getStorageObjectShape(
-      const std::string path) = 0;
+  virtual SizeArray getStorageObjectShape(const std::string path) const = 0;
+
+  /**
+   * @brief Gets the chunking configuration of a dataset.
+   * @param path The path to the dataset.
+   * @return The chunking configuration of the dataset, or an empty SizeArray if
+   * the dataset is not chunked, doesn't exist, or if the path points to a Group
+   * or Attribute (which cannot be chunked).
+   */
+  virtual SizeArray getStorageObjectChunking(const std::string path) const = 0;
+
+  /**
+   * @brief Gets the BaseDataType of a dataset or attribute.
+   * @param path The path to the dataset or attribute.
+   * @return The BaseDataType of the dataset or attribute.
+   * @throws std::runtime_error if the object is a Group (which has no data
+   * type) or if the data type cannot be determined.
+   */
+  virtual BaseDataType getStorageObjectDataType(
+      const std::string path) const = 0;
 
   /**
    * @brief Convenience function for creating NWB related attributes.

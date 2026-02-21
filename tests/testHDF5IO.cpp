@@ -317,19 +317,31 @@ TEST_CASE("getStorageObjectShape", "[hdf5io]")
 
   SECTION("get shape of an attribute")
   {
-    const std::string groupPath = "/data";
-    hdf5io.createGroup(groupPath);
-
     // Test 1D array attribute
+    const std::string groupPath = "/";
     const std::vector<int> data = {1, 2, 3, 4, 5};
     const std::string attrName = "int_array";
-    const std::string attrPath = mergePaths(groupPath, attrName);
+    const std::string attrPath = groupPath + attrName;
 
     hdf5io.createAttribute(
         BaseDataType::I32, data.data(), groupPath, attrName, data.size());
     auto shape = hdf5io.getStorageObjectShape(attrPath);
     REQUIRE(shape.size() == 1);
     REQUIRE(shape[0] == 5);
+  }
+
+  SECTION("get shape of a group")
+  {
+    std::string groupPath = "/";
+    auto shape = hdf5io.getStorageObjectShape(groupPath);
+    REQUIRE(shape.empty());  // Groups don't have a shape
+  }
+
+  SECTION("get shape of non-existent object")
+  {
+    std::string invalidPath = "/nonExistentObject";
+    REQUIRE_THROWS_AS(hdf5io.getStorageObjectShape(invalidPath),
+                      std::runtime_error);
   }
 
   // close file
@@ -825,9 +837,13 @@ TEST_CASE("HDF5IO; create attributes", "[hdf5io]")
   // soft link
   SECTION("link")
   {
-    std::vector<std::string> data;
-    hdf5io.createLink("/data/link", "linked_data");
-    REQUIRE(hdf5io.objectExists("/data/link"));
+    // Test bad link creation
+    Status status = hdf5io.createLink("/bad_link", "missing_data");
+    REQUIRE(status == Status::Failure);
+    // Test successful link creation
+    Status status2 = hdf5io.createLink("/good_link", "/");
+    REQUIRE(status2 == Status::Success);
+    REQUIRE(hdf5io.objectExists("/good_link"));
   }
 
   // reference attribute tests
@@ -2046,4 +2062,240 @@ TEST_CASE("HDF5IO; read dataset subset", "[hdf5io]")
 
     hdf5io->close();
   }
+}
+
+TEST_CASE("Test HDF5IO createArrayDataSet with LinkArrayDataSetConfig",
+          "[hdf5io]")
+{
+  SECTION("Create link to existing dataset")
+  {
+    std::string filename = getTestFilePath("test_link_creation.h5");
+    auto hdf5io = std::make_shared<IO::HDF5::HDF5IO>(filename);
+    hdf5io->open(IO::FileMode::Overwrite);
+
+    // Create original dataset
+    std::string originalPath = "/original_data";
+    IO::ArrayDataSetConfig originalConfig(
+        IO::BaseDataType::F32, SizeArray {100}, SizeArray {10});
+    auto originalDataset =
+        hdf5io->createArrayDataSet(originalConfig, originalPath);
+    REQUIRE(originalDataset != nullptr);
+
+    // Write some data to original
+    std::vector<float> testData(100);
+    for (size_t i = 0; i < 100; ++i) {
+      testData[i] = static_cast<float>(i);
+    }
+    originalDataset->writeDataBlock(
+        {100}, {0}, IO::BaseDataType::F32, testData.data());
+
+    // Create link to original dataset
+    std::string linkPath = "/linked_data";
+    IO::LinkArrayDataSetConfig linkConfig(originalPath);
+    auto linkResult = hdf5io->createArrayDataSet(linkConfig, linkPath);
+
+    // createArrayDataSet should return nullptr for links
+    REQUIRE(linkResult == nullptr);
+
+    // Verify the link was created by checking if we can access it
+    REQUIRE(hdf5io->objectExists(linkPath));
+
+    hdf5io->close();
+  }
+
+  SECTION("Verify link points to correct target")
+  {
+    std::string filename = getTestFilePath("test_link_target.h5");
+    auto hdf5io = std::make_shared<IO::HDF5::HDF5IO>(filename);
+    hdf5io->open(IO::FileMode::Overwrite);
+
+    // Create original dataset with specific data
+    std::string originalPath = "/original";
+    IO::ArrayDataSetConfig originalConfig(
+        IO::BaseDataType::I32, SizeArray {50}, SizeArray {10});
+    auto originalDataset =
+        hdf5io->createArrayDataSet(originalConfig, originalPath);
+
+    std::vector<int32_t> originalData(50);
+    for (size_t i = 0; i < 50; ++i) {
+      originalData[i] = static_cast<int32_t>(i * 2);
+    }
+    originalDataset->writeDataBlock(
+        {50}, {0}, IO::BaseDataType::I32, originalData.data());
+
+    // Create link
+    std::string linkPath = "/link_to_original";
+    IO::LinkArrayDataSetConfig linkConfig(originalPath);
+    hdf5io->createArrayDataSet(linkConfig, linkPath);
+
+    hdf5io->close();
+
+    // Reopen and verify data can be read through link
+    hdf5io->open(IO::FileMode::ReadOnly);
+
+    // Read through the link
+    auto linkedData = hdf5io->readDataset(linkPath, {}, {});
+    auto linkedDataTyped = DataBlock<int32_t>::fromGeneric(linkedData);
+
+    REQUIRE(linkedDataTyped.data.size() == 50);
+    REQUIRE(linkedDataTyped.data == originalData);
+
+    hdf5io->close();
+  }
+
+  SECTION("Create multiple links to same dataset")
+  {
+    std::string filename = getTestFilePath("test_multiple_links.h5");
+    auto hdf5io = std::make_shared<IO::HDF5::HDF5IO>(filename);
+    hdf5io->open(IO::FileMode::Overwrite);
+
+    // Create original dataset
+    std::string originalPath = "/source_data";
+    IO::ArrayDataSetConfig originalConfig(
+        IO::BaseDataType::F64, SizeArray {20}, SizeArray {5});
+    auto originalDataset =
+        hdf5io->createArrayDataSet(originalConfig, originalPath);
+
+    // Create multiple links to the same dataset
+    IO::LinkArrayDataSetConfig linkConfig1(originalPath);
+    IO::LinkArrayDataSetConfig linkConfig2(originalPath);
+    IO::LinkArrayDataSetConfig linkConfig3(originalPath);
+
+    auto link1 = hdf5io->createArrayDataSet(linkConfig1, "/link1");
+    auto link2 = hdf5io->createArrayDataSet(linkConfig2, "/link2");
+    auto link3 = hdf5io->createArrayDataSet(linkConfig3, "/link3");
+
+    // All should return nullptr
+    REQUIRE(link1 == nullptr);
+    REQUIRE(link2 == nullptr);
+    REQUIRE(link3 == nullptr);
+
+    // All links should exist
+    REQUIRE(hdf5io->objectExists("/link1"));
+    REQUIRE(hdf5io->objectExists("/link2"));
+    REQUIRE(hdf5io->objectExists("/link3"));
+
+    hdf5io->close();
+  }
+
+  SECTION("LinkArrayDataSetConfig isLink() returns true")
+  {
+    IO::LinkArrayDataSetConfig linkConfig("/some/path");
+    REQUIRE(linkConfig.isLink() == true);
+  }
+
+  SECTION("ArrayDataSetConfig isLink() returns false")
+  {
+    IO::ArrayDataSetConfig arrayConfig(
+        IO::BaseDataType::I32, SizeArray {10}, SizeArray {5});
+    REQUIRE(arrayConfig.isLink() == false);
+  }
+
+  SECTION("Test link creation with polymorphic base class pointer")
+  {
+    std::string filename = getTestFilePath("test_polymorphic_link.h5");
+    auto hdf5io = std::make_shared<IO::HDF5::HDF5IO>(filename);
+    hdf5io->open(IO::FileMode::Overwrite);
+
+    // Create original dataset
+    std::string originalPath = "/original";
+    IO::ArrayDataSetConfig originalConfig(
+        IO::BaseDataType::U8, SizeArray {10}, SizeArray {5});
+    hdf5io->createArrayDataSet(originalConfig, originalPath);
+
+    // Use base class pointer to create link
+    std::string linkPath = "/link";
+    IO::LinkArrayDataSetConfig linkConfig(originalPath);
+    IO::BaseArrayDataSetConfig* baseConfigPtr = &linkConfig;
+
+    REQUIRE(baseConfigPtr->isLink() == true);
+
+    auto result = hdf5io->createArrayDataSet(*baseConfigPtr, linkPath);
+    REQUIRE(result == nullptr);
+    REQUIRE(hdf5io->objectExists(linkPath));
+
+    hdf5io->close();
+  }
+}
+
+TEST_CASE("getStorageObjectDataType", "[hdf5io]")
+{
+  // create and open file
+  std::string filename = getTestFilePath("testGetStorageObjectDataType.h5");
+  IO::HDF5::HDF5IO hdf5io(filename);
+  hdf5io.open();
+
+  SECTION("get data type of a dataset")
+  {
+    // Create datasets with different types
+    std::string int32Path = "/dataset_int32";
+    IO::ArrayDataSetConfig int32Config {
+        BaseDataType::I32, SizeArray {5}, SizeArray {0}};
+    hdf5io.createArrayDataSet(int32Config, int32Path);
+
+    std::string floatPath = "/dataset_float";
+    IO::ArrayDataSetConfig floatConfig {
+        BaseDataType::F32, SizeArray {3}, SizeArray {0}};
+    hdf5io.createArrayDataSet(floatConfig, floatPath);
+
+    std::string uint8Path = "/dataset_uint8";
+    IO::ArrayDataSetConfig uint8Config {
+        BaseDataType::U8, SizeArray {10}, SizeArray {0}};
+    hdf5io.createArrayDataSet(uint8Config, uint8Path);
+
+    // Get and verify data types
+    auto int32Type = hdf5io.getStorageObjectDataType(int32Path);
+    REQUIRE(int32Type == BaseDataType::I32);
+
+    auto floatType = hdf5io.getStorageObjectDataType(floatPath);
+    REQUIRE(floatType == BaseDataType::F32);
+
+    auto uint8Type = hdf5io.getStorageObjectDataType(uint8Path);
+    REQUIRE(uint8Type == BaseDataType::U8);
+  }
+
+  SECTION("get data type of an attribute")
+  {
+    const std::string groupPath = "/data";
+    hdf5io.createGroup(groupPath);
+
+    // Test int32 attribute
+    const std::vector<int> intData = {1, 2, 3};
+    const std::string intAttrName = "int_attr";
+    const std::string intAttrPath = mergePaths(groupPath, intAttrName);
+    hdf5io.createAttribute(BaseDataType::I32,
+                           intData.data(),
+                           groupPath,
+                           intAttrName,
+                           intData.size());
+
+    auto intAttrType = hdf5io.getStorageObjectDataType(intAttrPath);
+    REQUIRE(intAttrType == BaseDataType::I32);
+
+    // Test float attribute
+    const std::vector<float> floatData = {1.0f, 2.0f};
+    const std::string floatAttrName = "float_attr";
+    const std::string floatAttrPath = mergePaths(groupPath, floatAttrName);
+    hdf5io.createAttribute(BaseDataType::F32,
+                           floatData.data(),
+                           groupPath,
+                           floatAttrName,
+                           floatData.size());
+
+    auto floatAttrType = hdf5io.getStorageObjectDataType(floatAttrPath);
+    REQUIRE(floatAttrType == BaseDataType::F32);
+  }
+
+  SECTION("get data type of a group throws exception")
+  {
+    const std::string groupPath = "/testGroup";
+    hdf5io.createGroup(groupPath);
+
+    // Attempting to get data type of a group should throw
+    REQUIRE_THROWS_AS(hdf5io.getStorageObjectDataType(groupPath),
+                      std::runtime_error);
+  }
+
+  // close file
+  hdf5io.close();
 }

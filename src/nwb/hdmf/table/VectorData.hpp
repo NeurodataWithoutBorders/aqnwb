@@ -73,7 +73,7 @@ public:
    * @param description The description of the VectorData
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status initialize(const IO::ArrayDataSetConfig& dataConfig,
+  Status initialize(const IO::BaseArrayDataSetConfig& dataConfig,
                     const std::string& description)
   {
     auto ioPtr = getIO();
@@ -83,9 +83,17 @@ public:
       return Status::Failure;
     }
     Status dataStatus = Data::initialize(dataConfig);
-    Status attrStatus =
-        ioPtr->createAttribute(description, m_path, "description");
-    return dataStatus && attrStatus;
+    if (dataConfig.isLink()) {
+      // For links, we don't set attributes since there is no dataset to attach
+      // them to.
+      // TODO: Validate that the target of the link has the appropriate
+      // attributes set.
+      return dataStatus;
+    } else {
+      Status attrStatus =
+          ioPtr->createAttribute(description, m_path, "description");
+      return dataStatus && attrStatus;
+    }
   }
 
   DEFINE_ATTRIBUTE_FIELD(readDescription,

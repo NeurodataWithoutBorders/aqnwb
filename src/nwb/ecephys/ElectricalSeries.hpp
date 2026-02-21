@@ -56,7 +56,7 @@ public:
    *               finalize its coercion to the specified 'unit'
    * @return The status of the initialization operation.
    */
-  Status initialize(const IO::ArrayDataSetConfig& dataConfig,
+  Status initialize(const IO::BaseArrayDataSetConfig& dataConfig,
                     const Types::ChannelVector& channelVector,
                     const std::string& description,
                     const float& conversion = 1.0f,

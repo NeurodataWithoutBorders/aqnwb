@@ -487,3 +487,106 @@ TEST_CASE("VectorDataTyped", "[base]")
     recordIo->close();
   }
 }  // TEST_CASE("VectorDataTyped", "[base]")
+
+TEST_CASE("LinkArrayDataSetConfig for VectorData", "[base][link]")
+{
+  SECTION("create VectorData with linked data")
+  {
+    // Create a file for this test
+    std::string path = getTestFilePath("testVectorDataWithLink.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    // Prepare test data
+    SizeType numSamples = 20;
+    std::string dataPath1 = "/original_vectordata";
+    std::string dataPath2 = "/linked_vectordata";
+    SizeArray dataShape = {numSamples};
+    SizeArray chunking = {numSamples};
+    SizeArray positionOffset = {0};
+    BaseDataType dataType = BaseDataType::F64;
+    std::vector<double> data(numSamples);
+    for (size_t i = 0; i < numSamples; ++i) {
+      data[i] = static_cast<double>(i) * 1.5;
+    }
+
+    // Create first VectorData with actual data
+    auto vd1 = NWB::VectorData::create(dataPath1, io);
+    IO::ArrayDataSetConfig config1(dataType, dataShape, chunking);
+    Status status_vd1 = vd1->initialize(config1, "Original VectorData");
+    REQUIRE(status_vd1 == Status::Success);
+
+    // Write data to first VectorData
+    Status writeStatus1 = vd1->recordData()->writeDataBlock(
+        dataShape, positionOffset, dataType, data.data());
+    REQUIRE(writeStatus1 == Status::Success);
+
+    // Create second VectorData with linked data
+    auto vd2 = NWB::VectorData::create(dataPath2, io);
+    std::string linkTarget = dataPath1;
+    IO::LinkArrayDataSetConfig linkConfig(linkTarget);
+
+    // Verify it's identified as a link
+    REQUIRE(linkConfig.isLink() == true);
+    REQUIRE(linkConfig.getTargetPath() == linkTarget);
+
+    Status status_vd2 = vd2->initialize(linkConfig, "Linked VectorData");
+    REQUIRE(status_vd2 == Status::Success);
+
+    io->flush();
+    io->close();
+
+    // Verify the link was created correctly using HDF5 C++ API
+    H5::H5File file(path, H5F_ACC_RDONLY);
+    htri_t exists = H5Lexists(file.getId(), (dataPath2).c_str(), H5P_DEFAULT);
+    REQUIRE(exists > 0);
+    file.close();
+  }
+
+  SECTION("verify LinkArrayDataSetConfig works with Data hierarchy")
+  {
+    // Create a file for this test
+    std::string path = getTestFilePath("testDataHierarchyLink.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    // Prepare test data
+    SizeType numSamples = 15;
+    std::string dataPath1 = "/original_data";
+    std::string dataPath2 = "/linked_data";
+    SizeArray dataShape = {numSamples};
+    SizeArray chunking = {numSamples};
+    SizeArray positionOffset = {0};
+    BaseDataType dataType = BaseDataType::I32;
+    std::vector<int> data(numSamples);
+    for (size_t i = 0; i < numSamples; ++i) {
+      data[i] = static_cast<int>(i) * 10;
+    }
+
+    // Create first Data object with actual data
+    auto data1 = NWB::Data::create(dataPath1, io);
+    IO::ArrayDataSetConfig config1(dataType, dataShape, chunking);
+    Status status1 = data1->initialize(config1);
+    REQUIRE(status1 == Status::Success);
+
+    // Write data to first Data object
+    Status writeStatus1 = data1->recordData()->writeDataBlock(
+        dataShape, positionOffset, dataType, data.data());
+    REQUIRE(writeStatus1 == Status::Success);
+
+    // Create second Data object with linked data
+    auto data2 = NWB::Data::create(dataPath2, io);
+    std::string linkTarget = dataPath1;
+    IO::LinkArrayDataSetConfig linkConfig(linkTarget);
+
+    // Verify it's identified as a link
+    REQUIRE(linkConfig.isLink() == true);
+    REQUIRE(linkConfig.getTargetPath() == linkTarget);
+
+    Status status2 = data2->initialize(linkConfig);
+    REQUIRE(status2 == Status::Success);
+
+    io->flush();
+    io->close();
+  }
+}

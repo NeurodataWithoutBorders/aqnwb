@@ -42,7 +42,7 @@ public:
    * @param dataConfig The configuration for the dataset
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status initialize(const IO::ArrayDataSetConfig& dataConfig);
+  Status initialize(const IO::BaseArrayDataSetConfig& dataConfig);
 
   /**
    * @brief Check whether the dataset has been initialized

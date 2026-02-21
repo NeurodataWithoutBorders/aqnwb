@@ -41,6 +41,32 @@ ArrayDataSetConfig::ArrayDataSetConfig(const BaseDataType& type,
 {
 }
 
+// LinkArrayDataSetConfig
+LinkArrayDataSetConfig::LinkArrayDataSetConfig(const std::string& targetPath)
+    : m_targetPath(targetPath)
+{
+}
+
+bool LinkArrayDataSetConfig::targetExists(const BaseIO& io) const
+{
+  return io.objectExists(m_targetPath);
+}
+
+SizeArray LinkArrayDataSetConfig::getTargetShape(const BaseIO& io) const
+{
+  return io.getStorageObjectShape(m_targetPath);
+}
+
+SizeArray LinkArrayDataSetConfig::getTargetChunking(const BaseIO& io) const
+{
+  return io.getStorageObjectChunking(m_targetPath);
+}
+
+BaseDataType LinkArrayDataSetConfig::getTargetDataType(const BaseIO& io) const
+{
+  return io.getStorageObjectDataType(m_targetPath);
+}
+
 // BaseIO
 
 BaseIO::BaseIO(const std::string& filename)
