@@ -1017,7 +1017,7 @@ Status HDF5IO::createStringDataSet(const std::string& path,
       IO::BaseDataType::V_STR, SizeArray {values.size()}, SizeArray {1});
   try {
     dataset = createArrayDataSet(config, path);
-    if(!dataset) {
+    if (!dataset) {
       return Status::Failure;
     }
   } catch (const std::runtime_error& e) {
