@@ -35,6 +35,13 @@ Status ElectricalSeries::initialize(
     return Status::Failure;
   }
 
+  // Validate channelVector is not empty
+  if (channelVector.empty()) {
+    std::cerr << "ElectricalSeries::initialize: channelVector cannot be empty."
+              << std::endl;
+    return Status::Failure;
+  }
+
   auto tsInitStatus = TimeSeries::initialize(dataConfig,
                                              "volts",
                                              description,
