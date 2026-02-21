@@ -1,5 +1,3 @@
-#include <unordered_set>
-
 #include <catch2/catch_all.hpp>
 
 #include "io/BaseIO.hpp"

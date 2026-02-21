@@ -534,9 +534,11 @@ TEST_CASE("LinkArrayDataSetConfig for VectorData", "[base][link]")
     io->flush();
     io->close();
 
-    // Verify the link was created correctly using h5ls
-    // We can't easily verify via C++ API but we've already tested link creation
-    // in TimeSeries The important thing is that the initialize call succeeded
+    // Verify the link was created correctly using HDF5 C++ API
+    H5::H5File file(path, H5F_ACC_RDONLY);
+    htri_t exists = H5Lexists(file.getId(), (dataPath2).c_str(), H5P_DEFAULT);
+    REQUIRE(exists > 0);
+    file.close();
   }
 
   SECTION("verify LinkArrayDataSetConfig works with Data hierarchy")
