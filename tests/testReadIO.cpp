@@ -437,11 +437,11 @@ TEST_CASE("ReadDataWrapper; introspection methods", "[ReadDataWrapper]")
   const std::string grpPath = "/grp";
   const std::string attrPath = "/grp/attr";
   auto grpStatus = hdf5io->createGroup(grpPath);
-  REQUIRE(grpStatus == IO::Status::Success);
+  REQUIRE(grpStatus == Status::Success);
   const std::vector<int32_t> attrData = {10, 20, 30};
   auto attrStatus = hdf5io->createAttribute(
       IO::BaseDataType::I32, attrData.data(), grpPath, "attr", 3);
-  REQUIRE(attrStatus == IO::Status::Success);
+  REQUIRE(attrStatus == Status::Success);
 
   // -----------------------------------------------------------------------
 

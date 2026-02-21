@@ -510,10 +510,12 @@ public:
    * @brief Get the chunking configuration of the data object.
    *
    * Attributes are not chunked, so this will return an empty SizeArray for
-   * attributes.
+   * attributes. An empty SizeArray is also returned if the path does not exist
+   * in the file or if the dataset is contiguous (not chunked).
    *
    * @return The chunking configuration of the dataset, or an empty SizeArray
-   * if the dataset is not chunked or if this is an attribute.
+   * if the dataset is not chunked, if this is an attribute, or if the object
+   * does not exist.
    */
   inline SizeArray getChunking() const
   {
