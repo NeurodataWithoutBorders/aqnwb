@@ -2064,6 +2064,32 @@ TEST_CASE("HDF5IO; read dataset subset", "[hdf5io]")
   }
 }
 
+// Detection trait: checks whether T::toLinkArrayDataSetConfig() is callable
+template<typename T, typename = void>
+struct has_toLinkArrayDataSetConfig : std::false_type
+{
+};
+template<typename T>
+struct has_toLinkArrayDataSetConfig<
+    T,
+    std::void_t<decltype(std::declval<T>().toLinkArrayDataSetConfig())>>
+    : std::true_type
+{
+};
+
+// Compile-time assertions: toLinkArrayDataSetConfig must be available for
+// Dataset wrappers and disabled for Attribute wrappers.
+static_assert(
+    has_toLinkArrayDataSetConfig<
+        ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset,
+                        int32_t>>::value,
+    "toLinkArrayDataSetConfig must be callable for Dataset wrappers");
+static_assert(
+    !has_toLinkArrayDataSetConfig<
+        ReadDataWrapper<AQNWB::Types::StorageObjectType::Attribute,
+                        int32_t>>::value,
+    "toLinkArrayDataSetConfig must not be callable for Attribute wrappers");
+
 TEST_CASE("ReadDataWrapper; introspection methods", "[hdf5io]")
 {
   SECTION("getDataType returns correct type for a dataset")
