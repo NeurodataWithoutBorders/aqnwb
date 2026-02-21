@@ -398,7 +398,7 @@ TEST_CASE("ReadDataWrapper; introspection methods", "[ReadDataWrapper]")
   // Set up a single HDF5 file with all objects required by the sections below.
   std::string filePath = getTestFilePath("test_ReadDataWrapper.h5");
   auto hdf5io = std::make_shared<IO::HDF5::HDF5IO>(filePath);
-  hdf5io->open();
+  REQUIRE(hdf5io->open() == Status::Success);
 
   // 1D I32 dataset (chunk=1), data = {1,2,3,4,5}  — used for shape, values,
   // slicing
@@ -421,8 +421,8 @@ TEST_CASE("ReadDataWrapper; introspection methods", "[ReadDataWrapper]")
     ds->writeDataBlock({2, 3}, {0, 0}, IO::BaseDataType::I32, data.data());
   }
 
-  // F32 dataset (chunk=5), 10 elements — used for getDataType(F32) and
-  // getChunking
+  // F32 dataset (chunk=5), 10 elements — used for getDataType, getChunking,
+  // and toLinkArrayDataSetConfig
   const std::string dsF32Path = "/ds_f32_chunked";
   const SizeArray dsF32Chunking = {5};
   {
@@ -431,17 +431,6 @@ TEST_CASE("ReadDataWrapper; introspection methods", "[ReadDataWrapper]")
     auto ds = hdf5io->createArrayDataSet(cfg, dsF32Path);
     std::vector<float> data(10, 1.0f);
     ds->writeDataBlock({10}, {0}, IO::BaseDataType::F32, data.data());
-  }
-
-  // F64 dataset (chunk=10), 20 elements — used for toLinkArrayDataSetConfig
-  const std::string dsF64Path = "/ds_f64_chunked";
-  const SizeArray dsF64Chunking = {10};
-  {
-    IO::ArrayDataSetConfig cfg(
-        IO::BaseDataType::F64, SizeArray {20}, dsF64Chunking);
-    auto ds = hdf5io->createArrayDataSet(cfg, dsF64Path);
-    std::vector<double> data(20, 3.14);
-    ds->writeDataBlock({20}, {0}, IO::BaseDataType::F64, data.data());
   }
 
   // Group + I32 attribute (3 elements) — used for attribute tests
@@ -605,19 +594,19 @@ TEST_CASE("ReadDataWrapper; introspection methods", "[ReadDataWrapper]")
 
   SECTION("toLinkArrayDataSetConfig creates config with correct target path")
   {
-    ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset, double> wrapper(
-        hdf5io, dsF64Path);
+    ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset, float> wrapper(
+        hdf5io, dsF32Path);
 
     IO::LinkArrayDataSetConfig linkConfig = wrapper.toLinkArrayDataSetConfig();
-    REQUIRE(linkConfig.getTargetPath() == dsF64Path);
+    REQUIRE(linkConfig.getTargetPath() == dsF32Path);
     REQUIRE(linkConfig.isLink() == true);
     REQUIRE(linkConfig.targetExists(*hdf5io) == true);
-    REQUIRE(linkConfig.getTargetShape(*hdf5io) == SizeArray {20});
-    REQUIRE(linkConfig.getTargetChunking(*hdf5io) == dsF64Chunking);
-    REQUIRE(linkConfig.getTargetDataType(*hdf5io) == IO::BaseDataType::F64);
+    REQUIRE(linkConfig.getTargetShape(*hdf5io) == SizeArray {10});
+    REQUIRE(linkConfig.getTargetChunking(*hdf5io) == dsF32Chunking);
+    REQUIRE(linkConfig.getTargetDataType(*hdf5io) == IO::BaseDataType::F32);
 
     // Verify the link can be created in the file
-    std::string linkPath = "/link_to_ds_f64";
+    std::string linkPath = "/link_to_ds_f32";
     auto linkResult = hdf5io->createArrayDataSet(linkConfig, linkPath);
     REQUIRE(linkResult == nullptr);
     REQUIRE(hdf5io->objectExists(linkPath));
