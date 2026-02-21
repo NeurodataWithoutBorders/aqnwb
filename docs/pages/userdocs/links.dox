@@ -53,7 +53,8 @@
  *
  * Create the first \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries" with the actual data during acquisition.
  * We use \ref AQNWB::NWB::NWBFile::createElectricalSeries "NWBFile::createElectricalSeries()" to create the series
- * in the `/acquisition` group following NWB best practices:
+ * in the `/acquisition` group following NWB best practices. Since the data is regularly sampled, we use 
+ * `starting_time` and `rate` instead of explicit timestamps:
  *
  * \snippet tests/examples/test_link_timeseries_example.cpp example_link_timeseries_original
  *
@@ -69,7 +70,8 @@
  * Create a second \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries" in the ProcessingModule that links 
  * to the first one's data. This step is typically done after acquisition is completed. We use 
  * \ref AQNWB::NWB::ProcessingModule::createNWBDataInterface "ProcessingModule::createNWBDataInterface()"
- * to add the series to the processing module:
+ * to add the series to the processing module. The aligned series uses irregular timestamps with small 
+ * adjustments to demonstrate the time-alignment use case:
  *
  * \snippet tests/examples/test_link_timeseries_example.cpp example_link_timeseries_linked
  *

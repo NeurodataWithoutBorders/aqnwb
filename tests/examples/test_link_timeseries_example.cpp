@@ -58,15 +58,16 @@ TEST_CASE("LinkTimeSeriesExamples", "[timeseries][link]")
         NWB::ElectricalSeries>("/acquisition/ElectricalSeries#raw_voltage");
     REQUIRE(originalSeries != nullptr);
 
-    // Write data to the original series
+    // Write data to the original series using constant sampling rate
     std::vector<float> data(numSamples);
-    std::vector<double> timestamps(numSamples);
     for (size_t i = 0; i < numSamples; ++i) {
       data[i] = static_cast<float>(i) * 0.1f;  // Mock voltage data
-      timestamps[i] = static_cast<double>(i) * 0.001;  // 1 ms sampling
     }
 
-    originalSeries->writeChannel(0, numSamples, data.data(), timestamps.data());
+    // Use starting_time and rate for regular sampling (1000 Hz = 1ms sampling)
+    double startingTime = 0.0;  // Start at 0 seconds
+    double samplingRate = 1000.0;  // 1000 Hz
+    originalSeries->writeChannel(0, numSamples, data.data(), startingTime, samplingRate);
     // [example_link_timeseries_original]
 
     // [example_link_timeseries_processing_module]
@@ -103,11 +104,15 @@ TEST_CASE("LinkTimeSeriesExamples", "[timeseries][link]")
                             -1.0f,  // resolution
                             0.0f);  // offset
 
-    // Write only the new timestamps (data is linked)
+    // Write the adjusted timestamps (data is linked)
+    // Simulate time alignment with small adjustments to demonstrate irregular
+    // sampling that would result from aligning to stimulus events
     std::vector<double> newTimestamps(numSamples);
     for (size_t i = 0; i < numSamples; ++i) {
-      newTimestamps[i] =
-          static_cast<double>(i) * 0.001 + 5.0;  // Offset by 5 seconds
+      // Base offset of 5 seconds plus small jitter to make timestamps irregular
+      double baseTime = 5.0 + static_cast<double>(i) * 0.001;
+      double jitter = (i % 10) * 0.00001;  // Small periodic adjustment
+      newTimestamps[i] = baseTime + jitter;
     }
 
     auto timestampRecorder = linkedSeries->recordTimestamps();
