@@ -21,13 +21,13 @@
  *   you should not need to call \ref AQNWB::IO::BaseIO::createArrayDataSet "createArrayDataSet()"
  *   directly since creation of datasets is handled by the NWB type classes in AqNWB.
  *
- * \section link_use_case Use Case: Time-Aligned ElectricalSeries
+ * \section link_use_case Use Case: Time-Aligned TimeSeries
  *
  * NWB requires that timestamps in a file are aligned with the `timestampReferenceTime`. 
  * However, time-alignment performed online during acquisition may not be as accurate as 
  * post-hoc alignment. When performing post-hoc alignment of timestamps we may want to 
  * avoid duplicating the recorded signal. In this case we would like to create multiple 
- * \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries" that share the same data but have 
+ * \ref AQNWB::NWB::TimeSeries "TimeSeries" that share the same data but have 
  * different timestamps.
  *
  * Key benefits of this approach are: 
@@ -41,20 +41,19 @@
  * When you have multiple TimeSeries that need to reference the same data array but with
  * different timestamps or metadata, you can use \ref AQNWB::IO::LinkArrayDataSetConfig
  * "LinkArrayDataSetConfig" to create soft-links instead of duplicating the data.
- * The example here illustrates the main steps for creating linked \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries". 
+ * The example here illustrates the main steps for creating linked \ref AQNWB::NWB::TimeSeries "TimeSeries". 
  *
  * \subsection link_setup 1. Setup
  *
- * First, create an NWB file, initialize it, and create an electrodes table:
+ * First, create an NWB file and initialize it:
  *
  * \snippet tests/examples/test_link_timeseries_example.cpp example_link_timeseries_setup
  *
- * \subsection link_original 2. Create the Original ElectricalSeries
+ * \subsection link_original 2. Create the Original TimeSeries
  *
- * Create the first \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries" with the actual data during acquisition.
- * We use \ref AQNWB::NWB::NWBFile::createElectricalSeries "NWBFile::createElectricalSeries()" to create the series
- * in the `/acquisition` group following NWB best practices. Since the data is regularly sampled, we use 
- * `starting_time` and `rate` instead of explicit timestamps:
+ * Create the first \ref AQNWB::NWB::TimeSeries "TimeSeries" with the actual data during acquisition.
+ * We create the series in the `/acquisition` group following NWB best practices. Since the data is 
+ * regularly sampled, we use `starting_time` and `rate` instead of explicit timestamps:
  *
  * \snippet tests/examples/test_link_timeseries_example.cpp example_link_timeseries_original
  *
@@ -65,9 +64,9 @@
  *
  * \snippet tests/examples/test_link_timeseries_example.cpp example_link_timeseries_processing_module
  *
- * \subsection link_linked 4. Create the Linked ElectricalSeries
+ * \subsection link_linked 4. Create the Linked TimeSeries
  *
- * Create a second \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries" in the ProcessingModule that links 
+ * Create a second \ref AQNWB::NWB::TimeSeries "TimeSeries" in the ProcessingModule that links 
  * to the first one's data. This step is typically done after acquisition is completed. We use 
  * \ref AQNWB::NWB::ProcessingModule::createNWBDataInterface "ProcessingModule::createNWBDataInterface()"
  * to add the series to the processing module. The aligned series uses irregular timestamps with small 
@@ -77,7 +76,7 @@
  *
  * \subsection link_reference 5. Link to the Original Series
  *
- * Create a link to the original \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries" in the 
+ * Create a link to the original \ref AQNWB::NWB::TimeSeries "TimeSeries" in the 
  * \ref AQNWB::NWB::ProcessingModule "ProcessingModule" to explicitly document the relationship
  * and provenance of the processed data:
  *
@@ -99,9 +98,9 @@
  *
  * You should see output similar to:
  * \code
- * /acquisition/ElectricalSeries#raw_voltage/data              Dataset {1000/Inf, 1}
- * /processing/time_alignment/aligned_voltage/data             Soft Link {/acquisition/ElectricalSeries#raw_voltage/data}
- * /processing/time_alignment/original_series                  Soft Link {/acquisition/ElectricalSeries#raw_voltage}
+ * /acquisition/original_series/data                           Dataset {1000/Inf}
+ * /processing/time_alignment/aligned_voltage/data             Soft Link {/acquisition/original_series/data}
+ * /processing/time_alignment/original_series                  Soft Link {/acquisition/original_series}
  * \endcode
  *
  */

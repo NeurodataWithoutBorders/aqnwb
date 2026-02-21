@@ -1,9 +1,8 @@
 #include <catch2/catch_test_macros.hpp>
 
-#include "Channel.hpp"
 #include "io/hdf5/HDF5IO.hpp"
 #include "nwb/NWBFile.hpp"
-#include "nwb/ecephys/ElectricalSeries.hpp"
+#include "nwb/base/TimeSeries.hpp"
 #include "testUtils.hpp"
 
 using namespace AQNWB;
@@ -24,54 +23,36 @@ TEST_CASE("LinkTimeSeriesExamples", "[timeseries][link]")
     // [example_link_timeseries_setup]
 
     // [example_link_timeseries_original]
-    // Create the original ElectricalSeries with actual data during acquisition
-    SizeType numSamples = 1000;
-    SizeType numChannels = 1;
-    IO::BaseDataType dataType = IO::BaseDataType::F32;
-
-    // Define the channels to record
-    std::vector<Types::ChannelVector> recordingArrays = {
-        {{0}, "ElectricalSeries", {numSamples}}};
-    std::vector<std::string> recordingNames = {"raw_voltage"};
-
-    // Create electrodes table with recording arrays
-    auto electrodesTable = nwbfile->createElectrodesTable(recordingArrays);
-    REQUIRE(electrodesTable != nullptr);
-
-    // Add electrode
-    std::vector<std::string> location = {"CA1"};
-    std::vector<std::string> group = {
-        "/general/extracellular_ephys/electrodes"};
-    std::vector<float> groupPosition = {0.0f, 0.0f, 0.0f};
-    auto devicePath = nwbfile->createDevicePath("Device");
-    auto groupPath = nwbfile->createElectrodeGroupPath(
-        "my_electrode_group", devicePath, "my description", location[0]);
-    electrodesTable->initialize();
-    electrodesTable->addElectrodes(
-        1, location, group, groupPosition, groupPath);
-
-    // Create the ElectricalSeries using NWBFile helper
-    Status status = nwbfile->createElectricalSeries(
-        recordingArrays, recordingNames, dataType, "/acquisition");
-    REQUIRE(status == Status::Success);
-
-    // Get the created ElectricalSeries
+    // Create the original TimeSeries with actual data during acquisition
     auto originalSeries =
-        io->getRecordingContainers()->getContainer<NWB::ElectricalSeries>(
-            "/acquisition/ElectricalSeries#raw_voltage");
+        NWB::TimeSeries::create("/acquisition/original_series", io);
     REQUIRE(originalSeries != nullptr);
 
-    // Write data to the original series using constant sampling rate
+    // Generate sample data
+    SizeType numSamples = 1000;
     std::vector<float> data(numSamples);
     for (size_t i = 0; i < numSamples; ++i) {
-      data[i] = static_cast<float>(i) * 0.1f;  // Mock voltage data
+      data[i] = static_cast<float>(i) * 0.1f;  // Mock data
     }
 
-    // Use starting_time and rate for regular sampling (1000 Hz = 1ms sampling)
+    // Create configuration for the original data
+    IO::ArrayDataSetConfig dataConfig(
+        IO::BaseDataType::F32,  // Data type
+        SizeArray {0},  // Shape: extendable in time dimension
+        SizeArray {1},  // Chunking
+        SizeArray {numSamples});  // Max dimensions
+
+    // Initialize the TimeSeries with data
+    originalSeries->initialize(
+        dataConfig,  // Data configuration
+        "mV",  // Unit
+        "Original voltage recording");  // Description
+
+    // Write data using constant sampling rate (1000 Hz = 1ms sampling)
     double startingTime = 0.0;  // Start at 0 seconds
     double samplingRate = 1000.0;  // 1000 Hz
-    originalSeries->writeChannel(
-        0, numSamples, data.data(), startingTime, samplingRate);
+    originalSeries->writeTimestampedData(
+        numSamples, data.data(), startingTime, samplingRate);
     // [example_link_timeseries_original]
 
     // [example_link_timeseries_processing_module]
@@ -83,30 +64,23 @@ TEST_CASE("LinkTimeSeriesExamples", "[timeseries][link]")
     // [example_link_timeseries_processing_module]
 
     // [example_link_timeseries_linked]
-    // Create a linked ElectricalSeries in the ProcessingModule
+    // Create a linked TimeSeries in the ProcessingModule
     auto linkedSeries =
-        processingModule->createNWBDataInterface<NWB::ElectricalSeries>(
+        processingModule->createNWBDataInterface<NWB::TimeSeries>(
             "aligned_voltage");
     REQUIRE(linkedSeries != nullptr);
 
     // Create link configuration pointing to the original data
-    std::string linkTarget = "/acquisition/ElectricalSeries#raw_voltage/data";
+    std::string linkTarget = "/acquisition/original_series/data";
     IO::LinkArrayDataSetConfig linkConfig(linkTarget);
 
-    // Get the channel vector from the electrodes table
-    Types::ChannelVector channelVector = {
-        {0}, "ElectricalSeries", {numSamples}};
-
-    // Initialize the linked ElectricalSeries using the link configuration
-    // Note: ElectricalSeries::initialize automatically queries shape and
-    // chunking from the linked dataset to properly configure related datasets
+    // Initialize the linked TimeSeries using the link configuration
+    // Note: TimeSeries::initialize automatically queries shape and chunking
+    // from the linked dataset
     linkedSeries->initialize(
         linkConfig,  // Use link instead of creating new data
-        channelVector,
-        "Time-aligned voltage data",
-        1.0f,  // conversion
-        -1.0f,  // resolution
-        0.0f);  // offset
+        "mV",  // Same unit as original
+        "Time-aligned voltage data");  // Description
 
     // Write the adjusted timestamps (data is linked)
     // Simulate time alignment with small adjustments to demonstrate irregular
@@ -127,8 +101,7 @@ TEST_CASE("LinkTimeSeriesExamples", "[timeseries][link]")
     // [example_link_timeseries_reference]
     // Create a link to the original series in the ProcessingModule to make the
     // relationship explicit
-    std::string originalSeriesPath =
-        "/acquisition/ElectricalSeries#raw_voltage";
+    std::string originalSeriesPath = "/acquisition/original_series";
     std::string referenceLinkPath =
         "/processing/time_alignment/original_series";
     io->createLink(referenceLinkPath, originalSeriesPath);
