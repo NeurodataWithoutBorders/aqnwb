@@ -388,10 +388,21 @@ def get_initialize_method_parameters(neurodata_type: Spec, type_to_namespace_map
 
         ## 2: Process the current object and add it to the parameter list
 
-        # Name the parameter based on its assigned name or its neurodata_type if the name is not available
-        variable_name = f"{obj.name}" if obj.name is not None else f"param{obj.data_type}"
+        # Name the parameter using lowerCamelCase consistently, with the parent name first
+        # (to reflect the path order in the file, e.g. general/experimenter -> generalExperimenter).
+        # When there is no parent, the field name alone is used in lowerCamelCase.
+        # When the object has no schema name, a "Param" prefix plus the data type name is used.
         if parent is not None:
-            variable_name += f"{snake_to_camel(parent.name)}"
+            parent_lower_camel = snake_to_camel(parent.name, lower_camel=True)
+            if obj.name is not None:
+                variable_name = f"{parent_lower_camel}{snake_to_camel(obj.name)}"
+            else:
+                variable_name = f"{parent_lower_camel}Param{obj.data_type}"
+        else:
+            if obj.name is not None:
+                variable_name = snake_to_camel(obj.name, lower_camel=True)
+            else:
+                variable_name = f"param{obj.data_type}"
         
         # Determine the full path for the object
         obj_path = obj.name
@@ -789,18 +800,23 @@ Status {class_name}::{funcSignature}
     return cppSrc
 
 
-def snake_to_camel(name: str) -> str:
+def snake_to_camel(name: str, lower_camel: bool = False) -> str:
     """
-    Convert snake_case to CamelCase.
+    Convert snake_case to CamelCase or lowerCamelCase.
 
     Parameters:
     name (str): The snake_case string to convert.
+    lower_camel (bool): If True, return lowerCamelCase (first letter lowercase).
+                        If False (default), return CamelCase (all words capitalized).
 
     Returns:
-    str: The converted CamelCase string.
+    str: The converted CamelCase or lowerCamelCase string.
     """
     if name is not None:
-        return "".join(word.title() for word in re.split("[_-]", name))
+        camel = "".join(word.title() for word in re.split("[_-]", name))
+        if lower_camel and camel:
+            return camel[0].lower() + camel[1:]
+        return camel
     else:
         return None
 
