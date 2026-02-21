@@ -617,10 +617,10 @@ public:
    */
   virtual DataBlockGeneric readDataset(
       const std::string& dataPath,
-      const std::vector<SizeType>& start = {},
-      const std::vector<SizeType>& count = {},
-      const std::vector<SizeType>& stride = {},
-      const std::vector<SizeType>& block = {}) = 0;
+      const SizeArray& start = {},
+      const SizeArray& count = {},
+      const SizeArray& stride = {},
+      const SizeArray& block = {}) = 0;
 
   /**
    * @brief Reads a attribute  and determines the data type
@@ -912,7 +912,7 @@ public:
    * @param data A pointer to the data block.
    * @return The status of the write operation.
    */
-  Status writeDataBlock(const std::vector<SizeType>& dataShape,
+  Status writeDataBlock(const SizeArray& dataShape,
                         const BaseDataType& type,
                         const void* data);
 
@@ -924,8 +924,8 @@ public:
    * @param data A pointer to the data block.
    * @return The status of the write operation.
    */
-  virtual Status writeDataBlock(const std::vector<SizeType>& dataShape,
-                                const std::vector<SizeType>& positionOffset,
+  virtual Status writeDataBlock(const SizeArray& dataShape,
+                                const SizeArray& positionOffset,
                                 const BaseDataType& type,
                                 const void* data) = 0;
 
@@ -939,8 +939,8 @@ public:
    * @param data Vector with the string data
    * @return The status of the write operation.
    */
-  virtual Status writeDataBlock(const std::vector<SizeType>& dataShape,
-                                const std::vector<SizeType>& positionOffset,
+  virtual Status writeDataBlock(const SizeArray& dataShape,
+                                const SizeArray& positionOffset,
                                 const BaseDataType& type,
                                 const std::vector<std::string>& data) = 0;
 
@@ -954,24 +954,24 @@ public:
    * @brief Get the size of the dataset.
    * @return Vector containing the size in each dimension.
    */
-  inline const std::vector<SizeType>& getShape() const { return m_shape; }
+  inline const SizeArray& getShape() const { return m_shape; }
 
   /**
    * @brief Get the current position in the dataset.
    * @return Vector containing the position in each dimension.
    */
-  inline const std::vector<SizeType>& getPosition() const { return m_position; }
+  inline const SizeArray& getPosition() const { return m_position; }
 
 protected:
   /**
    * @brief The size of the dataset in each dimension.
    */
-  std::vector<SizeType> m_shape;
+  SizeArray m_shape;
 
   /**
    * @brief The current position in the dataset.
    */
-  std::vector<SizeType> m_position;
+  SizeArray m_position;
 };
 
 }  // namespace AQNWB::IO

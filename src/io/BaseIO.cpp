@@ -273,7 +273,7 @@ Status BaseIO::close()
 
 // Overload that uses the member variable position (works for simple data
 // extension)
-Status BaseRecordingData::writeDataBlock(const std::vector<SizeType>& dataShape,
+Status BaseRecordingData::writeDataBlock(const SizeArray& dataShape,
                                          const BaseDataType& type,
                                          const void* data)
 {

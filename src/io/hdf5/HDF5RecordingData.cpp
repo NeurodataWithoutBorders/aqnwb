@@ -38,11 +38,11 @@ HDF5RecordingData::HDF5RecordingData(std::unique_ptr<H5::DataSet> data)
     }
   }
 
-  m_shape = std::vector<SizeType>(numDimensions);
+  m_shape = SizeArray(numDimensions);
   for (SizeType i = 0; i < numDimensions; ++i) {
     m_shape[i] = static_cast<SizeType>(dims[i]);
   }
-  m_position = std::vector<SizeType>(
+  m_position = SizeArray(
       numDimensions, 0);  // Initialize position with 0 for each dimension
   m_dataset = std::make_unique<H5::DataSet>(*data);
 }
@@ -54,8 +54,8 @@ HDF5RecordingData::~HDF5RecordingData()
 }
 
 Status HDF5RecordingData::writeDataBlock(
-    const std::vector<SizeType>& dataShape,
-    const std::vector<SizeType>& positionOffset,
+    const SizeArray& dataShape,
+    const SizeArray& positionOffset,
     const BaseDataType& type,
     const void* data)
 {
@@ -108,8 +108,8 @@ Status HDF5RecordingData::writeDataBlock(
 }
 
 Status HDF5RecordingData::writeDataBlock(
-    const std::vector<SizeType>& dataShape,
-    const std::vector<SizeType>& positionOffset,
+    const SizeArray& dataShape,
+    const SizeArray& positionOffset,
     const AQNWB::IO::BaseDataType& type,
     const std::vector<std::string>& data)
 {
@@ -177,8 +177,8 @@ Status HDF5RecordingData::writeDataBlock(
 }
 
 Status HDF5RecordingData::writeDataBlockHelper(
-    const std::vector<SizeType>& dataShape,
-    const std::vector<SizeType>& positionOffset,
+    const SizeArray& dataShape,
+    const SizeArray& positionOffset,
     DataSpace& mSpace,
     DataSpace& fSpace)
 {

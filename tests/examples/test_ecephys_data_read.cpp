@@ -341,8 +341,8 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // [example_read_only_datasubset_snippet]
     // We can also read just subsets of the data, e.g., the first 10 time steps
     // for the first channel. "auto dataSlice" is again of type DataBlock<float>
-    std::vector<SizeType> start = {0, 0};
-    std::vector<SizeType> count = {9, 1};
+    SizeArray start = {0, 0};
+    SizeArray count = {9, 1};
     auto dataSlice = readElectricalSeriesData->values(start, count);
     // Validate that the slice was read correctly
     REQUIRE(dataSlice.data.size() == 9);

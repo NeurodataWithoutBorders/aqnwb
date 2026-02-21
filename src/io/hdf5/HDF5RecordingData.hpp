@@ -49,8 +49,8 @@ public:
    * @param data A pointer to the data block.
    * @return The status of the write operation.
    */
-  Status writeDataBlock(const std::vector<SizeType>& dataShape,
-                        const std::vector<SizeType>& positionOffset,
+  Status writeDataBlock(const SizeArray& dataShape,
+                        const SizeArray& positionOffset,
                         const AQNWB::IO::BaseDataType& type,
                         const void* data);
 
@@ -64,8 +64,8 @@ public:
    * @param data Vector with the string data
    * @return The status of the write operation.
    */
-  Status writeDataBlock(const std::vector<SizeType>& dataShape,
-                        const std::vector<SizeType>& positionOffset,
+  Status writeDataBlock(const SizeArray& dataShape,
+                        const SizeArray& positionOffset,
                         const AQNWB::IO::BaseDataType& type,
                         const std::vector<std::string>& data);
 
@@ -84,8 +84,8 @@ private:
    * @param fSpace The HDF5 file space (return value)
    * @return The status of the write operation.
    */
-  Status writeDataBlockHelper(const std::vector<SizeType>& dataShape,
-                              const std::vector<SizeType>& positionOffset,
+  Status writeDataBlockHelper(const SizeArray& dataShape,
+                              const SizeArray& positionOffset,
                               H5::DataSpace& mSpace,
                               H5::DataSpace& fSpace);
 

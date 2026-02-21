@@ -87,9 +87,9 @@ TEST_CASE("writeContinuousData", "[recording]")
                     timestampsBuffer.begin());
 
           // write timeseries data
-          std::vector<SizeType> positionOffset = {samplesRecorded,
+          SizeArray positionOffset = {samplesRecorded,
                                                   channel.getLocalIndex()};
-          std::vector<SizeType> dataShape = {samplesToWrite, 1};
+          SizeArray dataShape = {samplesToWrite, 1};
 
           auto recordingObjects = io->getRecordingObjects();
           IO::writeTimeseriesData(recordingObjects,
