@@ -589,4 +589,52 @@ TEST_CASE("LinkArrayDataSetConfig for VectorData", "[base][link]")
     io->flush();
     io->close();
   }
+
+  SECTION(
+      "Data initialize returns failure when link target lacks NWB "
+      "attributes")
+  {
+    // Create a file with a bare dataset (no NWB common attributes)
+    std::string path = getTestFilePath("testDataLinkInvalidTarget.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    // Create a raw dataset without namespace/object_id/neurodata_type
+    std::string targetPath = "/raw_dataset";
+    IO::ArrayDataSetConfig rawConfig(
+        BaseDataType::I32, SizeArray {15}, SizeArray {15});
+    io->createArrayDataSet(rawConfig, targetPath);
+
+    // Linking to this bare dataset should fail validation
+    auto data2 = NWB::Data::create("/linked_data2", io);
+    IO::LinkArrayDataSetConfig linkConfig(targetPath);
+    Status status = data2->initialize(linkConfig);
+    REQUIRE(status == Status::Failure);
+
+    io->close();
+  }
+
+  SECTION(
+      "VectorData initialize returns failure when link target lacks "
+      "required attributes")
+  {
+    // Create a file with a bare dataset (no VectorData attributes)
+    std::string path = getTestFilePath("testVectorDataLinkInvalidTarget.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    // Create a raw dataset without description/namespace/object_id attributes
+    std::string targetPath = "/raw_vectordata";
+    IO::ArrayDataSetConfig rawConfig(
+        BaseDataType::F64, SizeArray {20}, SizeArray {20});
+    io->createArrayDataSet(rawConfig, targetPath);
+
+    // Linking to this bare dataset should fail validation
+    auto vd2 = NWB::VectorData::create("/linked_vectordata2", io);
+    IO::LinkArrayDataSetConfig linkConfig(targetPath);
+    Status status = vd2->initialize(linkConfig, "Linked");
+    REQUIRE(status == Status::Failure);
+
+    io->close();
+  }
 }

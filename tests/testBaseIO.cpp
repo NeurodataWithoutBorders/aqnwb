@@ -345,3 +345,144 @@ TEST_CASE("Test LinkArrayDataSetConfig", "[BaseIO]")
     io.close();
   }
 }
+
+TEST_CASE("Test LinkArrayDataSetConfig::validateTarget", "[BaseIO]")
+{
+  std::string filename = getTestFilePath("test_validate_target.h5");
+
+  SECTION("validateTarget succeeds for a valid target with no restrictions")
+  {
+    HDF5::HDF5IO io(filename);
+    io.open(FileMode::Overwrite);
+    IO::ArrayDataSetConfig config(
+        BaseDataType::F32, SizeArray {10}, SizeArray {5});
+    io.createArrayDataSet(config, "/valid_dataset");
+
+    LinkArrayDataSetConfig linkConfig("/valid_dataset");
+    REQUIRE(linkConfig.validateTarget(io) == Status::Success);
+    io.close();
+  }
+
+  SECTION("validateTarget fails when the target does not exist")
+  {
+    HDF5::HDF5IO io(filename);
+    io.open(FileMode::Overwrite);
+
+    LinkArrayDataSetConfig linkConfig("/nonexistent_dataset");
+    REQUIRE(linkConfig.validateTarget(io) == Status::Failure);
+    io.close();
+  }
+
+  SECTION("validateTarget succeeds when data type matches allowed types")
+  {
+    HDF5::HDF5IO io(filename);
+    io.open(FileMode::Overwrite);
+    IO::ArrayDataSetConfig config(
+        BaseDataType::F32, SizeArray {10}, SizeArray {5});
+    io.createArrayDataSet(config, "/float_dataset");
+
+    LinkArrayDataSetConfig linkConfig("/float_dataset");
+    REQUIRE(
+        linkConfig.validateTarget(io, {BaseDataType::F32, BaseDataType::F64})
+        == Status::Success);
+    io.close();
+  }
+
+  SECTION("validateTarget fails when data type is not in allowed types")
+  {
+    HDF5::HDF5IO io(filename);
+    io.open(FileMode::Overwrite);
+    IO::ArrayDataSetConfig config(
+        BaseDataType::I32, SizeArray {10}, SizeArray {5});
+    io.createArrayDataSet(config, "/int_dataset");
+
+    LinkArrayDataSetConfig linkConfig("/int_dataset");
+    REQUIRE(
+        linkConfig.validateTarget(io, {BaseDataType::F32, BaseDataType::F64})
+        == Status::Failure);
+    io.close();
+  }
+
+  SECTION("validateTarget succeeds when dimensionality matches")
+  {
+    HDF5::HDF5IO io(filename);
+    io.open(FileMode::Overwrite);
+    IO::ArrayDataSetConfig config(
+        BaseDataType::F32, SizeArray {10}, SizeArray {5});
+    io.createArrayDataSet(config, "/1d_dataset");
+
+    LinkArrayDataSetConfig linkConfig("/1d_dataset");
+    REQUIRE(linkConfig.validateTarget(io, {}, {1, 2}) == Status::Success);
+    io.close();
+  }
+
+  SECTION("validateTarget fails when dimensionality is not in allowed list")
+  {
+    HDF5::HDF5IO io(filename);
+    io.open(FileMode::Overwrite);
+    IO::ArrayDataSetConfig config(
+        BaseDataType::F32, SizeArray {10}, SizeArray {5});
+    io.createArrayDataSet(config, "/1d_dataset");
+
+    LinkArrayDataSetConfig linkConfig("/1d_dataset");
+    REQUIRE(linkConfig.validateTarget(io, {}, {2, 3}) == Status::Failure);
+    io.close();
+  }
+
+  SECTION("validateTarget succeeds when all required attributes are present")
+  {
+    HDF5::HDF5IO io(filename);
+    io.open(FileMode::Overwrite);
+    IO::ArrayDataSetConfig config(
+        BaseDataType::F32, SizeArray {10}, SizeArray {5});
+    io.createArrayDataSet(config, "/dataset_with_attrs");
+    io.createAttribute("volts", "/dataset_with_attrs", "unit");
+    io.createAttribute("no comment", "/dataset_with_attrs", "description");
+
+    LinkArrayDataSetConfig linkConfig("/dataset_with_attrs");
+    REQUIRE(linkConfig.validateTarget(io, {}, {}, {"unit", "description"})
+            == Status::Success);
+    io.close();
+  }
+
+  SECTION("validateTarget fails when a required attribute is missing")
+  {
+    HDF5::HDF5IO io(filename);
+    io.open(FileMode::Overwrite);
+    IO::ArrayDataSetConfig config(
+        BaseDataType::F32, SizeArray {10}, SizeArray {5});
+    io.createArrayDataSet(config, "/dataset_missing_attr");
+    io.createAttribute("volts", "/dataset_missing_attr", "unit");
+
+    LinkArrayDataSetConfig linkConfig("/dataset_missing_attr");
+    REQUIRE(linkConfig.validateTarget(io, {}, {}, {"unit", "missing_attribute"})
+            == Status::Failure);
+    io.close();
+  }
+
+  SECTION("validateTarget checks all constraints together")
+  {
+    HDF5::HDF5IO io(filename);
+    io.open(FileMode::Overwrite);
+    IO::ArrayDataSetConfig config(
+        BaseDataType::F32, SizeArray {10}, SizeArray {5});
+    io.createArrayDataSet(config, "/complete_dataset");
+    io.createAttribute("volts", "/complete_dataset", "unit");
+
+    LinkArrayDataSetConfig linkConfig("/complete_dataset");
+    // All constraints satisfied
+    REQUIRE(linkConfig.validateTarget(io, {BaseDataType::F32}, {1}, {"unit"})
+            == Status::Success);
+    // Type mismatch
+    REQUIRE(linkConfig.validateTarget(io, {BaseDataType::I32}, {1}, {"unit"})
+            == Status::Failure);
+    // Dimensionality mismatch
+    REQUIRE(linkConfig.validateTarget(io, {BaseDataType::F32}, {2}, {"unit"})
+            == Status::Failure);
+    // Missing attribute
+    REQUIRE(linkConfig.validateTarget(
+                io, {BaseDataType::F32}, {1}, {"unit", "missing"})
+            == Status::Failure);
+    io.close();
+  }
+}

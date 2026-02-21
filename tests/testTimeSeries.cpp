@@ -505,4 +505,28 @@ TEST_CASE("LinkArrayDataSetConfig for TimeSeries data", "[base][link]")
 
     io->close();
   }
+
+  SECTION(
+      "TimeSeries initialize returns failure when link target lacks "
+      "required attributes")
+  {
+    // Create a file with a bare dataset (no TimeSeries attributes)
+    std::string path = getTestFilePath("testTimeseriesLinkInvalidTarget.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    // Create a raw dataset (flat path) without any TimeSeries data attributes
+    // (conversion, resolution, offset, unit)
+    std::string bareDatasetPath = "/bare_timeseries_data";
+    IO::ArrayDataSetConfig rawConfig(dataType, SizeArray {0}, SizeArray {1});
+    io->createArrayDataSet(rawConfig, bareDatasetPath);
+
+    // Linking to this target should fail because it lacks required attributes
+    auto ts2 = NWB::TimeSeries::create("/linked_timeseries2", io);
+    IO::LinkArrayDataSetConfig linkConfig(bareDatasetPath);
+    Status status = ts2->initialize(linkConfig, "volts", "Linked", "comments");
+    REQUIRE(status == Status::Failure);
+
+    io->close();
+  }
 }

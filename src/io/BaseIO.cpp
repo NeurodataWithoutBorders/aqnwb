@@ -67,6 +67,89 @@ BaseDataType LinkArrayDataSetConfig::getTargetDataType(const BaseIO& io) const
   return io.getStorageObjectDataType(m_targetPath);
 }
 
+Status LinkArrayDataSetConfig::validateTarget(
+    const BaseIO& io,
+    const std::vector<BaseDataType>& allowedTypes,
+    const std::vector<SizeType>& allowedDimensionalities,
+    const std::vector<std::string>& requiredAttributes) const
+{
+  // Check that the target dataset exists
+  if (!targetExists(io)) {
+    std::cerr << "LinkArrayDataSetConfig::validateTarget: target dataset '"
+              << m_targetPath << "' does not exist." << std::endl;
+    return Status::Failure;
+  }
+
+  // Validate data type if restrictions are specified
+  if (!allowedTypes.empty()) {
+    BaseDataType targetType;
+    try {
+      targetType = getTargetDataType(io);
+    } catch (const std::runtime_error& e) {
+      std::cerr << "LinkArrayDataSetConfig::validateTarget: failed to get "
+                   "data type of target dataset '"
+                << m_targetPath << "': " << e.what() << std::endl;
+      return Status::Failure;
+    }
+    bool typeMatch = false;
+    for (const auto& allowed : allowedTypes) {
+      if (targetType == allowed) {
+        typeMatch = true;
+        break;
+      }
+    }
+    if (!typeMatch) {
+      std::cerr << "LinkArrayDataSetConfig::validateTarget: data type of "
+                   "target dataset '"
+                << m_targetPath << "' is not in the list of allowed types."
+                << std::endl;
+      return Status::Failure;
+    }
+  }
+
+  // Validate dimensionality if restrictions are specified
+  if (!allowedDimensionalities.empty()) {
+    SizeArray shape;
+    try {
+      shape = getTargetShape(io);
+    } catch (const std::runtime_error& e) {
+      std::cerr << "LinkArrayDataSetConfig::validateTarget: failed to get "
+                   "shape of target dataset '"
+                << m_targetPath << "': " << e.what() << std::endl;
+      return Status::Failure;
+    }
+    SizeType ndims = static_cast<SizeType>(shape.size());
+    bool dimsMatch = false;
+    for (const auto& allowed : allowedDimensionalities) {
+      if (ndims == allowed) {
+        dimsMatch = true;
+        break;
+      }
+    }
+    if (!dimsMatch) {
+      std::cerr << "LinkArrayDataSetConfig::validateTarget: dimensionality ("
+                << ndims << ") of target dataset '" << m_targetPath
+                << "' is not in the list of allowed dimensionalities."
+                << std::endl;
+      return Status::Failure;
+    }
+  }
+
+  // Validate required attributes
+  for (const auto& attrName : requiredAttributes) {
+    std::string attrPath = mergePaths(m_targetPath, attrName);
+    if (!io.attributeExists(attrPath)) {
+      std::cerr
+          << "LinkArrayDataSetConfig::validateTarget: required attribute '"
+          << attrName << "' is missing on target dataset '" << m_targetPath
+          << "'." << std::endl;
+      return Status::Failure;
+    }
+  }
+
+  return Status::Success;
+}
+
 // BaseIO
 
 BaseIO::BaseIO(const std::string& filename)

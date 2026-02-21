@@ -400,6 +400,34 @@ public:
   BaseDataType getTargetDataType(const BaseIO& io) const;
 
   /**
+   * @brief Validates the target dataset against expected requirements.
+   *
+   * Checks that the target dataset exists, has an allowed data type,
+   * an allowed number of dimensions, and that all required attributes
+   * are present.
+   *
+   * An empty @p allowedTypes vector means any data type is accepted.
+   * An empty @p allowedDimensionalities vector means any number of
+   * dimensions is accepted.
+   * An empty @p requiredAttributes vector means no attributes are checked.
+   *
+   * @param io The IO object used to access the file.
+   * @param allowedTypes Allowed data types for the target dataset. Pass an
+   *        empty vector to skip type validation.
+   * @param allowedDimensionalities Allowed numbers of dimensions for the target
+   *        dataset. Pass an empty vector to skip dimensionality validation.
+   * @param requiredAttributes Names of attributes that must exist on the target
+   *        dataset. Pass an empty vector to skip attribute validation.
+   * @return Status::Success if the target satisfies all requirements,
+   *         Status::Failure otherwise (including if the target does not exist).
+   */
+  Status validateTarget(
+      const BaseIO& io,
+      const std::vector<BaseDataType>& allowedTypes = {},
+      const std::vector<SizeType>& allowedDimensionalities = {},
+      const std::vector<std::string>& requiredAttributes = {}) const;
+
+  /**
    * @brief Gets the shape, chunking, and data type from the linked target
    * dataset.
    *
