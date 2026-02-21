@@ -109,7 +109,15 @@ Status LinkArrayDataSetConfig::validateTarget(
 
   // Validate dimensionality if restrictions are specified
   if (!allowedDimensionalities.empty()) {
-    SizeArray shape = getTargetShape(io);
+    SizeArray shape;
+    try {
+      shape = getTargetShape(io);
+    } catch (const std::runtime_error& e) {
+      std::cerr << "LinkArrayDataSetConfig::validateTarget: failed to get "
+                   "shape of target dataset '"
+                << m_targetPath << "': " << e.what() << std::endl;
+      return Status::Failure;
+    }
     SizeType ndims = static_cast<SizeType>(shape.size());
     bool dimsMatch = false;
     for (const auto& allowed : allowedDimensionalities) {
