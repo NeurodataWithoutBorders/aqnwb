@@ -497,4 +497,251 @@ TEST_CASE("ReadDataWrapper; introspection methods", "[ReadDataWrapper]")
 
     hdf5io->close();
   }
+
+  SECTION("getPath and getIO return correct values")
+  {
+    std::string path = getTestFilePath("test_ReadDataWrapper_path.h5");
+    auto hdf5io = std::make_shared<IO::HDF5::HDF5IO>(path);
+    hdf5io->open();
+
+    std::string dataPath = "/my_dataset";
+    IO::ArrayDataSetConfig config(
+        IO::BaseDataType::I32, SizeArray {5}, SizeArray {0});
+    hdf5io->createArrayDataSet(config, dataPath);
+
+    auto wrapper = std::make_unique<
+        ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset, int32_t>>(
+        hdf5io, dataPath);
+    REQUIRE(wrapper->getPath() == dataPath);
+    REQUIRE(wrapper->getIO() == hdf5io);
+
+    hdf5io->close();
+  }
+
+  SECTION("getStorageObjectType returns correct type")
+  {
+    std::string path = getTestFilePath("test_ReadDataWrapper_otype.h5");
+    auto hdf5io = std::make_shared<IO::HDF5::HDF5IO>(path);
+    hdf5io->open();
+
+    IO::ArrayDataSetConfig config(
+        IO::BaseDataType::I32, SizeArray {5}, SizeArray {0});
+    hdf5io->createArrayDataSet(config, "/ds");
+    hdf5io->createGroup("/grp");
+    std::vector<int32_t> val = {1};
+    hdf5io->createAttribute(
+        IO::BaseDataType::I32, val.data(), "/grp", "attr", 1);
+
+    ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset, int32_t>
+        dsWrapper(hdf5io, "/ds");
+    REQUIRE(dsWrapper.getStorageObjectType()
+            == AQNWB::Types::StorageObjectType::Dataset);
+
+    ReadDataWrapper<AQNWB::Types::StorageObjectType::Attribute, int32_t>
+        attrWrapper(hdf5io, "/grp/attr");
+    REQUIRE(attrWrapper.getStorageObjectType()
+            == AQNWB::Types::StorageObjectType::Attribute);
+
+    hdf5io->close();
+  }
+
+  SECTION("isType compile-time check")
+  {
+    // isType<>() is a static constexpr function — check at compile time
+    static_assert(
+        ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset,
+                        float>::isType<float>(),
+        "isType<float>() must return true for VTYPE=float");
+    static_assert(
+        !ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset,
+                         float>::isType<int32_t>(),
+        "isType<int32_t>() must return false for VTYPE=float");
+  }
+
+  SECTION("getShape and getNumDimensions for a 1D dataset")
+  {
+    std::string path = getTestFilePath("test_ReadDataWrapper_shape1d.h5");
+    auto hdf5io = std::make_shared<IO::HDF5::HDF5IO>(path);
+    hdf5io->open();
+
+    std::string dataPath = "/data1d";
+    IO::ArrayDataSetConfig config(
+        IO::BaseDataType::I32, SizeArray {0}, SizeArray {1});
+    auto dataset = hdf5io->createArrayDataSet(config, dataPath);
+    std::vector<int32_t> testData = {1, 2, 3, 4, 5};
+    dataset->writeDataBlock({5}, {0}, IO::BaseDataType::I32, testData.data());
+
+    auto wrapper = std::make_unique<
+        ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset, int32_t>>(
+        hdf5io, dataPath);
+    SizeArray shape = wrapper->getShape();
+    REQUIRE(shape.size() == 1);
+    REQUIRE(shape[0] == 5);
+    REQUIRE(wrapper->getNumDimensions() == 1);
+
+    hdf5io->close();
+  }
+
+  SECTION("getShape and getNumDimensions for a 2D dataset")
+  {
+    std::string path = getTestFilePath("test_ReadDataWrapper_shape2d.h5");
+    auto hdf5io = std::make_shared<IO::HDF5::HDF5IO>(path);
+    hdf5io->open();
+
+    std::string dataPath = "/data2d";
+    IO::ArrayDataSetConfig config(
+        IO::BaseDataType::I32, SizeArray {2, 3}, SizeArray {0, 0});
+    auto dataset = hdf5io->createArrayDataSet(config, dataPath);
+    std::vector<int32_t> testData = {1, 2, 3, 4, 5, 6};
+    dataset->writeDataBlock({2, 3}, {0, 0}, IO::BaseDataType::I32,
+                            testData.data());
+
+    auto wrapper = std::make_unique<
+        ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset, int32_t>>(
+        hdf5io, dataPath);
+    SizeArray shape = wrapper->getShape();
+    REQUIRE(shape.size() == 2);
+    REQUIRE(shape[0] == 2);
+    REQUIRE(shape[1] == 3);
+    REQUIRE(wrapper->getNumDimensions() == 2);
+
+    hdf5io->close();
+  }
+
+  SECTION("getShape for an attribute")
+  {
+    std::string path = getTestFilePath("test_ReadDataWrapper_attrshape.h5");
+    auto hdf5io = std::make_shared<IO::HDF5::HDF5IO>(path);
+    hdf5io->open();
+
+    hdf5io->createGroup("/grp");
+    std::vector<int32_t> attrData = {10, 20, 30};
+    hdf5io->createAttribute(
+        IO::BaseDataType::I32, attrData.data(), "/grp", "attr", 3);
+
+    auto wrapper = std::make_unique<
+        ReadDataWrapper<AQNWB::Types::StorageObjectType::Attribute, int32_t>>(
+        hdf5io, "/grp/attr");
+    SizeArray shape = wrapper->getShape();
+    REQUIRE(shape.size() == 1);
+    REQUIRE(shape[0] == 3);
+    REQUIRE(wrapper->getNumDimensions() == 1);
+
+    hdf5io->close();
+  }
+
+  SECTION("exists returns true for existing dataset and attribute")
+  {
+    std::string path = getTestFilePath("test_ReadDataWrapper_exists.h5");
+    auto hdf5io = std::make_shared<IO::HDF5::HDF5IO>(path);
+    hdf5io->open();
+
+    std::string dataPath = "/existing_ds";
+    IO::ArrayDataSetConfig config(
+        IO::BaseDataType::I32, SizeArray {5}, SizeArray {0});
+    hdf5io->createArrayDataSet(config, dataPath);
+    hdf5io->createGroup("/grp");
+    std::vector<int32_t> val = {1};
+    hdf5io->createAttribute(
+        IO::BaseDataType::I32, val.data(), "/grp", "attr", 1);
+
+    ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset, int32_t>
+        dsWrapper(hdf5io, dataPath);
+    REQUIRE(dsWrapper.exists() == true);
+
+    ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset, int32_t>
+        missingDsWrapper(hdf5io, "/nonexistent");
+    REQUIRE(missingDsWrapper.exists() == false);
+
+    ReadDataWrapper<AQNWB::Types::StorageObjectType::Attribute, int32_t>
+        attrWrapper(hdf5io, "/grp/attr");
+    REQUIRE(attrWrapper.exists() == true);
+
+    ReadDataWrapper<AQNWB::Types::StorageObjectType::Attribute, int32_t>
+        missingAttrWrapper(hdf5io, "/grp/nonexistent");
+    REQUIRE(missingAttrWrapper.exists() == false);
+
+    hdf5io->close();
+  }
+
+  SECTION("valuesGeneric and values for a dataset")
+  {
+    std::string path = getTestFilePath("test_ReadDataWrapper_values_ds.h5");
+    auto hdf5io = std::make_shared<IO::HDF5::HDF5IO>(path);
+    hdf5io->open();
+
+    std::string dataPath = "/int_data";
+    IO::ArrayDataSetConfig config(
+        IO::BaseDataType::I32, SizeArray {0}, SizeArray {1});
+    auto dataset = hdf5io->createArrayDataSet(config, dataPath);
+    std::vector<int32_t> testData = {10, 20, 30};
+    dataset->writeDataBlock({3}, {0}, IO::BaseDataType::I32, testData.data());
+
+    auto wrapper = std::make_unique<
+        ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset, int32_t>>(
+        hdf5io, dataPath);
+
+    auto generic = wrapper->valuesGeneric();
+    REQUIRE(generic.shape[0] == 3);
+
+    auto typed = wrapper->values();
+    REQUIRE(typed.data == testData);
+    REQUIRE(typed.shape[0] == 3);
+
+    hdf5io->close();
+  }
+
+  SECTION("valuesGeneric and values for an attribute")
+  {
+    std::string path = getTestFilePath("test_ReadDataWrapper_values_attr.h5");
+    auto hdf5io = std::make_shared<IO::HDF5::HDF5IO>(path);
+    hdf5io->open();
+
+    hdf5io->createGroup("/grp");
+    std::vector<int32_t> attrData = {7, 8, 9};
+    hdf5io->createAttribute(
+        IO::BaseDataType::I32, attrData.data(), "/grp", "attr", 3);
+
+    auto wrapper = std::make_unique<
+        ReadDataWrapper<AQNWB::Types::StorageObjectType::Attribute, int32_t>>(
+        hdf5io, "/grp/attr");
+
+    auto generic = wrapper->valuesGeneric();
+    REQUIRE(generic.shape[0] == 3);
+
+    auto typed = wrapper->values();
+    REQUIRE(typed.data == attrData);
+
+    hdf5io->close();
+  }
+
+  SECTION("valuesGeneric with hyperslab slicing for a dataset")
+  {
+    std::string path = getTestFilePath("test_ReadDataWrapper_slice.h5");
+    auto hdf5io = std::make_shared<IO::HDF5::HDF5IO>(path);
+    hdf5io->open();
+
+    std::string dataPath = "/sliceable";
+    IO::ArrayDataSetConfig config(
+        IO::BaseDataType::I32, SizeArray {0}, SizeArray {1});
+    auto dataset = hdf5io->createArrayDataSet(config, dataPath);
+    std::vector<int32_t> testData = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    dataset->writeDataBlock({10}, {0}, IO::BaseDataType::I32, testData.data());
+
+    auto wrapper = std::make_unique<
+        ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset, int32_t>>(
+        hdf5io, dataPath);
+
+    // Read elements [2..4] (start=2, count=3)
+    auto sliced = wrapper->valuesGeneric({2}, {3});
+    auto slicedTyped = DataBlock<int32_t>::fromGeneric(sliced);
+    REQUIRE(slicedTyped.shape[0] == 3);
+    REQUIRE(slicedTyped.data == std::vector<int32_t>({3, 4, 5}));
+
+    // Same via values(start, count)
+    auto slicedValues = wrapper->values({2}, {3});
+    REQUIRE(slicedValues.data == std::vector<int32_t>({3, 4, 5}));
+
+    hdf5io->close();
+  }
 }
