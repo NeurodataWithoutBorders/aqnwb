@@ -84,42 +84,55 @@ Status ElectricalSeries::initialize(
       IO::BaseDataType::F32,
       SizeArray {channelVector.size()},
       SizeArray {channelChunkSize});
-  ioPtr->createArrayDataSet(
-      channelConversionConfig,
-      AQNWB::mergePaths(getPath(), "/channel_conversion"));
-  auto channelConversionRecorder = recordChannelConversion();
-  channelConversionRecorder->writeDataBlock(
-      std::vector<SizeType>(1, channelVector.size()),
-      IO::BaseDataType::F32,
-      &channelConversions[0]);
-  // add axis attribute for channel conversion
-  const signed int axis_value = 1;
-  ioPtr->createAttribute(IO::BaseDataType::I32,
-                         &axis_value,
-                         AQNWB::mergePaths(getPath(), "channel_conversion"),
-                         "axis",
-                         1);
+  try {
+    ioPtr->createArrayDataSet(
+        channelConversionConfig,
+        AQNWB::mergePaths(getPath(), "/channel_conversion"));
+    auto channelConversionRecorder = recordChannelConversion();
+    channelConversionRecorder->writeDataBlock(
+        std::vector<SizeType>(1, channelVector.size()),
+        IO::BaseDataType::F32,
+        &channelConversions[0]);
+    // add axis attribute for channel conversion
+    const signed int axis_value = 1;
+    ioPtr->createAttribute(IO::BaseDataType::I32,
+                           &axis_value,
+                           AQNWB::mergePaths(getPath(), "channel_conversion"),
+                           "axis",
+                           1);
+  } catch (const std::runtime_error& e) {
+    std::cerr << "Failed to create or write channel conversion dataset: "
+              << e.what() << std::endl;
+    return Status::Failure;
+  }
 
   // make electrodes dataset (1D array with num_channels elements)
   IO::ArrayDataSetConfig electrodesConfig(IO::BaseDataType::I32,
                                           SizeArray {channelVector.size()},
                                           SizeArray {channelChunkSize});
-  ioPtr->createArrayDataSet(electrodesConfig,
-                            AQNWB::mergePaths(getPath(), "electrodes"));
+  try {
+    ioPtr->createArrayDataSet(electrodesConfig,
+                              AQNWB::mergePaths(getPath(), "electrodes"));
 
-  auto electrodesRecorder = recordElectrodes();
-  electrodesRecorder->writeDataBlock(SizeArray {channelVector.size()},
-                                     IO::BaseDataType::I32,
-                                     &electrodeInds[0]);
-  auto electrodesPath = AQNWB::mergePaths(getPath(), "electrodes");
-  ioPtr->createCommonNWBAttributes(
-      electrodesPath, "hdmf-common", "DynamicTableRegion");
-  ioPtr->createAttribute("the electrodes that generated this electrical series",
-                         electrodesPath,
-                         "description");
-  ioPtr->createReferenceAttribute(ElectrodesTable::electrodesTablePath,
-                                  AQNWB::mergePaths(getPath(), "electrodes"),
-                                  "table");
+    auto electrodesRecorder = recordElectrodes();
+    electrodesRecorder->writeDataBlock(SizeArray {channelVector.size()},
+                                       IO::BaseDataType::I32,
+                                       &electrodeInds[0]);
+    auto electrodesPath = AQNWB::mergePaths(getPath(), "electrodes");
+    ioPtr->createCommonNWBAttributes(
+        electrodesPath, "hdmf-common", "DynamicTableRegion");
+    ioPtr->createAttribute(
+        "the electrodes that generated this electrical series",
+        electrodesPath,
+        "description");
+    ioPtr->createReferenceAttribute(ElectrodesTable::electrodesTablePath,
+                                    AQNWB::mergePaths(getPath(), "electrodes"),
+                                    "table");
+  } catch (const std::runtime_error& e) {
+    std::cerr << "Failed to create or write electrodes dataset: " << e.what()
+              << std::endl;
+    return Status::Failure;
+  }
 
   return tsInitStatus;
 }

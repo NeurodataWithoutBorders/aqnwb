@@ -259,7 +259,8 @@ public:
    * @param config The configuration for the dataset, including type, shape, and
    * chunking. Can also be a LinkArrayDataSetConfig to create a soft-link.
    * @param path The location in the file of the new dataset.
-   * @return A pointer to the created dataset, or nullptr for links.
+   * @return A pointer to the created dataset. Returns nullptr for links.
+   * @throws std::runtime_error if dataset or link creation fails.
    */
   std::unique_ptr<IO::BaseRecordingData> createArrayDataSet(
       const IO::BaseArrayDataSetConfig& config,

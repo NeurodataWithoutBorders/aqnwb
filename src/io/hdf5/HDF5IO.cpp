@@ -1010,8 +1010,12 @@ Status HDF5IO::createStringDataSet(const std::string& path,
   std::unique_ptr<IO::BaseRecordingData> dataset;
   IO::ArrayDataSetConfig config(
       IO::BaseDataType::V_STR, SizeArray {values.size()}, SizeArray {1});
-  dataset =
-      std::unique_ptr<IO::BaseRecordingData>(createArrayDataSet(config, path));
+  try {
+    dataset = std::unique_ptr<IO::BaseRecordingData>(
+        createArrayDataSet(config, path));
+  } catch (const std::runtime_error& e) {
+    return Status::Failure;
+  }
 
   dataset->writeDataBlock(std::vector<SizeType> {1},
                           std::vector<SizeType> {0},
@@ -1278,8 +1282,8 @@ std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::createArrayDataSet(
     if (linkConfig) {
       Status status = createLink(path, linkConfig->getTargetPath());
       if (status != Status::Success) {
-        std::cerr << "Failed to create link from " << path << " to "
-                  << linkConfig->getTargetPath() << std::endl;
+        throw std::runtime_error("Failed to create link from " + path + " to "
+                                 + linkConfig->getTargetPath());
       }
       // Return nullptr for links as they don't provide a recordable dataset
       return nullptr;
@@ -1290,8 +1294,9 @@ std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::createArrayDataSet(
   const IO::ArrayDataSetConfig* arrayConfig =
       dynamic_cast<const IO::ArrayDataSetConfig*>(&config);
   if (!arrayConfig) {
-    std::cerr << "Invalid configuration type for dataset creation" << std::endl;
-    return nullptr;
+    throw std::runtime_error(
+        "Invalid configuration type for dataset creation. Expected "
+        "ArrayDataSetConfig or LinkArrayDataSetConfig.");
   }
 
   std::unique_ptr<DataSet> data;
@@ -1303,8 +1308,7 @@ std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::createArrayDataSet(
 
   SizeType dimension = size.size();
   if (dimension < 1) {
-    std::cerr << "Invalid dimension size" << std::endl;
-    return nullptr;
+    throw std::runtime_error("Invalid dimension size");
   }
 
   // Ensure chunking is properly allocated and has at least 'dimension' elements
@@ -1348,8 +1352,8 @@ std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::createArrayDataSet(
     data = std::make_unique<DataSet>(
         m_file->createDataSet(path, H5type, dSpace, prop));
   } catch (const H5::Exception& e) {
-    std::cerr << "HDF5 error: " << e.getDetailMsg() << std::endl;
-    return nullptr;
+    throw std::runtime_error("Failed to create dataset at path '" + path
+                             + "': " + e.getDetailMsg());
   }
 
   return std::make_unique<HDF5RecordingData>(std::move(data));

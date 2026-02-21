@@ -144,65 +144,82 @@ Status TimeSeries::initialize(
   status = status && ioPtr->createAttribute(comments, m_path, "comments");
 
   // setup data datasets
-  ioPtr->createArrayDataSet(dataConfig, AQNWB::mergePaths(m_path, "data"));
-  status = status
-      && this->createDataAttributes(
-          m_path, conversion, resolution, offset, unit, continuity);
+  try {
+    ioPtr->createArrayDataSet(dataConfig, AQNWB::mergePaths(m_path, "data"));
+    status = status
+        && this->createDataAttributes(
+            m_path, conversion, resolution, offset, unit, continuity);
+  } catch (const std::runtime_error& e) {
+    std::cerr << "Failed to create data dataset: " << e.what() << std::endl;
+    status = Status::Failure;
+  }
 
   // setup timestamps datasets
-  if (startingTime < 0) {
-    IO::ArrayDataSetConfig timestampsConfig(
-        this->timestampsType, tsDsetSize, tsChunkSize);
-    ioPtr->createArrayDataSet(timestampsConfig,
-                              AQNWB::mergePaths(m_path, "timestamps"));
-    status = status && this->createTimestampsAttributes(m_path);
-  } else  // setup starting_time datasets
-  {
-    std::string startingTimePath = AQNWB::mergePaths(m_path, "starting_time");
-    IO::ArrayDataSetConfig startingTimeConfig(
-        AQNWB::IO::BaseDataType::F64, {1}, {1});
-    ioPtr->createArrayDataSet(startingTimeConfig, startingTimePath);
-    auto startingTimeRecorder = this->recordStartingTime();
-    status = status
-        && startingTimeRecorder->writeDataBlock(
-            {1}, AQNWB::IO::BaseDataType::F64, &startingTime);
-    status = status
-        && ioPtr->createAttribute(AQNWB::IO::BaseDataType::F32,
-                                  &startingTimeRate,
-                                  startingTimePath,
-                                  "rate");
-    status =
-        status && ioPtr->createAttribute("seconds", startingTimePath, "unit");
+  try {
+    if (startingTime < 0) {
+      IO::ArrayDataSetConfig timestampsConfig(
+          this->timestampsType, tsDsetSize, tsChunkSize);
+      ioPtr->createArrayDataSet(timestampsConfig,
+                                AQNWB::mergePaths(m_path, "timestamps"));
+      status = status && this->createTimestampsAttributes(m_path);
+    } else  // setup starting_time datasets
+    {
+      std::string startingTimePath = AQNWB::mergePaths(m_path, "starting_time");
+      IO::ArrayDataSetConfig startingTimeConfig(
+          AQNWB::IO::BaseDataType::F64, {1}, {1});
+      ioPtr->createArrayDataSet(startingTimeConfig, startingTimePath);
+      auto startingTimeRecorder = this->recordStartingTime();
+      status = status
+          && startingTimeRecorder->writeDataBlock(
+              {1}, AQNWB::IO::BaseDataType::F64, &startingTime);
+      status = status
+          && ioPtr->createAttribute(AQNWB::IO::BaseDataType::F32,
+                                    &startingTimeRate,
+                                    startingTimePath,
+                                    "rate");
+      status =
+          status && ioPtr->createAttribute("seconds", startingTimePath, "unit");
+    }
+  } catch (const std::runtime_error& e) {
+    std::cerr << "Failed to create timestamps dataset: " << e.what()
+              << std::endl;
+    status = Status::Failure;
   }
 
   // create control datasets if necessary
-  if (controlDescription.size() > 0) {
-    // control matches data along first dimension
-    IO::ArrayDataSetConfig controlConfig(
-        AQNWB::IO::BaseDataType::U8, tsDsetSize, tsChunkSize);
-    ioPtr->createArrayDataSet(controlConfig,
-                              AQNWB::mergePaths(m_path, "control"));
+  try {
+    if (controlDescription.size() > 0) {
+      // control matches data along first dimension
+      IO::ArrayDataSetConfig controlConfig(
+          AQNWB::IO::BaseDataType::U8, tsDsetSize, tsChunkSize);
+      ioPtr->createArrayDataSet(controlConfig,
+                                AQNWB::mergePaths(m_path, "control"));
 
-    // control_description is its own data and contains for each control value
-    // a string description
-    const SizeArray controlDescriptionShape = {controlDescription.size()};
-    const SizeArray controlDescriptionChunkSize = {controlDescription.size()};
-    const SizeArray controlDescriptionPositionOffset = {0};
-    IO::BaseDataType controlDesriptionType(IO::BaseDataType::Type::V_STR,
-                                           0);  // 0 indicates variable length
-    IO::ArrayDataSetConfig controlDescriptionConfig(
-        controlDesriptionType,
-        controlDescriptionShape,
-        controlDescriptionChunkSize);
-    ioPtr->createArrayDataSet(controlDescriptionConfig,
-                              AQNWB::mergePaths(m_path, "control_description"));
-    auto controlDescriptionRecorder = this->recordControlDescription();
-    status = status
-        && controlDescriptionRecorder->writeDataBlock(
-            controlDescriptionShape,
-            controlDescriptionPositionOffset,
-            controlDesriptionType,
-            controlDescription);
+      // control_description is its own data and contains for each control value
+      // a string description
+      const SizeArray controlDescriptionShape = {controlDescription.size()};
+      const SizeArray controlDescriptionChunkSize = {controlDescription.size()};
+      const SizeArray controlDescriptionPositionOffset = {0};
+      IO::BaseDataType controlDesriptionType(IO::BaseDataType::Type::V_STR,
+                                             0);  // 0 indicates variable length
+      IO::ArrayDataSetConfig controlDescriptionConfig(
+          controlDesriptionType,
+          controlDescriptionShape,
+          controlDescriptionChunkSize);
+      ioPtr->createArrayDataSet(
+          controlDescriptionConfig,
+          AQNWB::mergePaths(m_path, "control_description"));
+      auto controlDescriptionRecorder = this->recordControlDescription();
+      status = status
+          && controlDescriptionRecorder->writeDataBlock(
+              controlDescriptionShape,
+              controlDescriptionPositionOffset,
+              controlDesriptionType,
+              controlDescription);
+    }
+  } catch (const std::runtime_error& e) {
+    std::cerr << "Failed to create control dataset: " << e.what() << std::endl;
+    status = Status::Failure;
   }
   return status;
 }

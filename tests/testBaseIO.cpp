@@ -1,5 +1,8 @@
+#include <unordered_set>
+
 #include <catch2/catch_all.hpp>
 
+#include "io/BaseIO.hpp"
 #include "io/hdf5/HDF5IO.hpp"
 #include "testUtils.hpp"
 
@@ -323,5 +326,24 @@ TEST_CASE("Test LinkArrayDataSetConfig", "[BaseIO]")
 
     REQUIRE(config.getTargetPath() == targetPath);
     REQUIRE(config.isLink() == true);
+  }
+
+  SECTION("targetExists returns true if target exists and false if not")
+  {
+    std::string filename =
+        getTestFilePath("test_link_target_exists_and_missing.h5");
+    HDF5::HDF5IO io(filename);
+    io.open(FileMode::Overwrite);
+    // Create a dataset at /existing/dataset
+    IO::ArrayDataSetConfig config(
+        BaseDataType::I32, SizeArray {10}, SizeArray {5});
+    io.createArrayDataSet(config, "/existing_dataset");
+    // Test for existing target
+    LinkArrayDataSetConfig linkConfigExists("/existing_dataset");
+    REQUIRE(linkConfigExists.targetExists(io) == true);
+    // Test for missing target
+    LinkArrayDataSetConfig linkConfigMissing("/missing_dataset");
+    REQUIRE(linkConfigMissing.targetExists(io) == false);
+    io.close();
   }
 }

@@ -47,6 +47,11 @@ LinkArrayDataSetConfig::LinkArrayDataSetConfig(const std::string& targetPath)
 {
 }
 
+bool LinkArrayDataSetConfig::targetExists(const BaseIO& io) const
+{
+  return io.objectExists(m_targetPath);
+}
+
 SizeArray LinkArrayDataSetConfig::getTargetShape(const BaseIO& io) const
 {
   return io.getStorageObjectShape(m_targetPath);

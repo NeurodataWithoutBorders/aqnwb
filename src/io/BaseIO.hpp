@@ -349,6 +349,17 @@ public:
   inline bool isLink() const override { return true; }
 
   /**
+   * @brief Checks if the target path exists in the file.
+   * This is a convenience method to check if the link target exists.
+   * The function only validates existence of an object at the target
+   * path, but does not verify that it is a dataset.
+   *
+   * @param io The IO object to use for checking the target path.
+   * @return True if an object exists at the target path, false otherwise.
+   */
+  bool targetExists(const BaseIO& io) const;
+
+  /**
    * @brief Queries and returns the shape of the linked target dataset.
    *
    * This convenience method queries the shape of the target dataset from the
@@ -753,7 +764,8 @@ public:
    * @param config The configuration for the dataset, including type, shape, and
    * chunking. Can also be a LinkArrayDataSetConfig to create a soft-link.
    * @param path The location in the file of the new dataset.
-   * @return A pointer to the created dataset, or nullptr for links.
+   * @return A pointer to the created dataset. Returns nullptr for links.
+   * @throws std::runtime_error if dataset or link creation fails.
    */
   virtual std::unique_ptr<BaseRecordingData> createArrayDataSet(
       const BaseArrayDataSetConfig& config, const std::string& path) = 0;

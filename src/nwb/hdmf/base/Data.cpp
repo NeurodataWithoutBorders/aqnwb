@@ -19,32 +19,16 @@ Status Data::initialize(const IO::BaseArrayDataSetConfig& dataConfig)
               << std::endl;
     return Status::Failure;
   }
-  
+
   // Create the dataset or link
-  auto dataset = ioPtr->createArrayDataSet(dataConfig, this->m_path);
-  
-  // Check if this is a link configuration
-  const IO::LinkArrayDataSetConfig* linkConfig =
-      dynamic_cast<const IO::LinkArrayDataSetConfig*>(&dataConfig);
-  
-  if (linkConfig != nullptr) {
-    // For link configs, createArrayDataSet returns nullptr by design
-    // Verify the link target exists
-    if (!ioPtr->objectExists(linkConfig->getTargetPath())) {
-      std::cerr << "Data::initialize: Link target does not exist: "
-                << linkConfig->getTargetPath() << std::endl;
-      return Status::Failure;
-    }
-    // Link creation succeeded
-  } else {
-    // For non-link configs, nullptr indicates failure
-    if (dataset == nullptr) {
-      std::cerr << "Data::initialize: Failed to create dataset: " << m_path
-                << std::endl;
-      return Status::Failure;
-    }
+  try {
+    auto dataset = ioPtr->createArrayDataSet(dataConfig, this->m_path);
+  } catch (const std::runtime_error& e) {
+    std::cerr << "Data::initialize: Failed to create dataset: " << e.what()
+              << std::endl;
+    return Status::Failure;
   }
-  
+
   // setup common attributes
   Status commonAttrsStatus = ioPtr->createCommonNWBAttributes(
       m_path, this->getNamespace(), this->getTypeName());
