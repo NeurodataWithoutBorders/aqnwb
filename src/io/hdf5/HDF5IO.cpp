@@ -925,6 +925,11 @@ Status HDF5IO::createLink(const std::string& path, const std::string& reference)
   if (!canModifyObjects()) {
     return Status::Failure;
   }
+  if (!objectExists(reference)) {
+    std::cerr << "HDF5IO::createLink Reference target does not exist: "
+              << reference << std::endl;
+    return Status::Failure;  // Reference target must exist
+  }
 
   herr_t error = H5Lcreate_soft(reference.c_str(),
                                 m_file->getLocId(),

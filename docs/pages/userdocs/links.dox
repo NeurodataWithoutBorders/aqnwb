@@ -14,6 +14,10 @@
  * \ref AQNWB::IO::LinkArrayDataSetConfig "LinkArrayDataSetConfig" (e.g., the `initialize` methods of 
  * \ref AQNWB::NWB::TimeSeries "TimeSeries" and \ref AQNWB::NWB::Data "Data" and their subtypes).
  *
+ * AqNWB also supports linking to existing Groups (or Datasets) via the 
+ * \ref AQNWB::IO::BaseIO::createLink "createLink" method of the I/O, 
+ * which we can use, e.g., to create a link to a TimeSeries.
+ *
  * \note 
  * - AqNWB currently only supports SoftLinks within the same HDF5 file 
  * - \ref AQNWB::IO::BaseIO::createArrayDataSet "createArrayDataSet()" returns `nullptr` for 

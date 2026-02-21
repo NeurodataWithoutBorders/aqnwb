@@ -23,6 +23,7 @@ Status Data::initialize(const IO::BaseArrayDataSetConfig& dataConfig)
   // Create the dataset or link
   try {
     auto dataset = ioPtr->createArrayDataSet(dataConfig, this->m_path);
+    // Note: dataset may be nullptr for links; this is not an error.
   } catch (const std::runtime_error& e) {
     std::cerr << "Data::initialize: Failed to create dataset: " << e.what()
               << std::endl;

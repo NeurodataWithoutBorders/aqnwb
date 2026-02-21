@@ -421,9 +421,13 @@ public:
     if (!io) {
       return Status::Failure;
     }
-    shape = getTargetShape(*io);
-    chunking = getTargetChunking(*io);
-    dataType = getTargetDataType(*io);
+    try {
+      shape = getTargetShape(*io);
+      chunking = getTargetChunking(*io);
+      dataType = getTargetDataType(*io);
+    } catch (const std::runtime_error& e) {
+      return Status::Failure;
+    }
     return Status::Success;
   }
 
@@ -706,7 +710,9 @@ public:
    * @param path The location in the file to the new link.
    * @param reference The location in the file of the object that is being
    * linked to.
-   * @return The status of the link creation operation.
+   * @return The status of the link creation operation. Link creation may fail
+   * if the reference path does not exist or if the path for the new link
+   * already exists.
    */
   virtual Status createLink(const std::string& path,
                             const std::string& reference) = 0;

@@ -200,7 +200,9 @@ public:
    * @param path The location in the file to the new link.
    * @param reference The location in the file of the object that is being
    * linked to.
-   * @return The status of the link creation operation.
+   * @return The status of the link creation operation. Link creation may fail
+   * if the reference path does not exist or if the path for the new link
+   * already exists.
    */
   Status createLink(const std::string& path,
                     const std::string& reference) override;
