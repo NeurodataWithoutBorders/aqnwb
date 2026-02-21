@@ -30,7 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Updated NWBFile to make common root path definitions (e.g., acquisition, processing, stimulus) public to make path generation easier (@oruebel, [#257](https://github.com/NeurodataWithoutBorders/aqnwb/pull/257))
 
 ### Fixed
-* Removed redundant `resources/utils/requirements.txt` (dependencies are now defined in `resources/utils/pyproject.toml`) and updated `.github/workflows/upgrade_schema.yml` to install dependencies via `python -m pip install ./resources/utils` (@copilot, [#260](https://github.com/NeurodataWithoutBorders/aqnwb/pull/260))
+* Removed redundant `resources/utils/requirements.txt` and update CI accordingly. Dependencies are now defined in `resources/utils/pyproject.toml` (@copilot, @oruebel [#260](https://github.com/NeurodataWithoutBorders/aqnwb/pull/260))
 
 
 ## [0.2.0] - 2025-12-22
