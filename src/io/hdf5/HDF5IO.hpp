@@ -102,12 +102,11 @@ public:
    *
    * @return A DataGeneric structure containing the data and shape.
    */
-  AQNWB::IO::DataBlockGeneric readDataset(
-      const std::string& dataPath,
-      const SizeArray& start = {},
-      const SizeArray& count = {},
-      const SizeArray& stride = {},
-      const SizeArray& block = {}) override;
+  AQNWB::IO::DataBlockGeneric readDataset(const std::string& dataPath,
+                                          const SizeArray& start = {},
+                                          const SizeArray& count = {},
+                                          const SizeArray& stride = {},
+                                          const SizeArray& block = {}) override;
 
   /**
    * @brief Reads a attribute  and determines the data type

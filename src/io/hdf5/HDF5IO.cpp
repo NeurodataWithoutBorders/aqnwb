@@ -489,12 +489,11 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(
   return result;
 }
 
-AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(
-    const std::string& dataPath,
-    const SizeArray& start,
-    const SizeArray& count,
-    const SizeArray& stride,
-    const SizeArray& block)
+AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(const std::string& dataPath,
+                                                const SizeArray& start,
+                                                const SizeArray& count,
+                                                const SizeArray& stride,
+                                                const SizeArray& block)
 {
   // Check that the dataset exists
   assert(H5Lexists(m_file->getId(), dataPath.c_str(), H5P_DEFAULT) > 0);
@@ -1024,10 +1023,8 @@ Status HDF5IO::createStringDataSet(const std::string& path,
     return Status::Failure;
   }
 
-  dataset->writeDataBlock(SizeArray {1},
-                          SizeArray {0},
-                          IO::BaseDataType::V_STR,
-                          values);
+  dataset->writeDataBlock(
+      SizeArray {1}, SizeArray {0}, IO::BaseDataType::V_STR, values);
 
   return Status::Success;
 }

@@ -281,8 +281,7 @@ public:
   /**
    * Constructor
    */
-  DataBlock(const std::vector<DTYPE>& inData,
-            const SizeArray& inShape)
+  DataBlock(const std::vector<DTYPE>& inData, const SizeArray& inShape)
       : data(inData)
       , shape(inShape)
   {
@@ -554,11 +553,10 @@ public:
    */
   template<StorageObjectType U = OTYPE,
            typename std::enable_if<isDataset<U>::value, int>::type = 0>
-  inline DataBlockGeneric valuesGeneric(
-      const SizeArray& start,
-      const SizeArray& count = {},
-      const SizeArray& stride = {},
-      const SizeArray& block = {}) const
+  inline DataBlockGeneric valuesGeneric(const SizeArray& start,
+                                        const SizeArray& count = {},
+                                        const SizeArray& stride = {},
+                                        const SizeArray& block = {}) const
   {
     // The function is only enabled for datasets so we don't need to check
     // for attributes here.

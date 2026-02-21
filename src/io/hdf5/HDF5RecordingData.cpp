@@ -42,8 +42,8 @@ HDF5RecordingData::HDF5RecordingData(std::unique_ptr<H5::DataSet> data)
   for (SizeType i = 0; i < numDimensions; ++i) {
     m_shape[i] = static_cast<SizeType>(dims[i]);
   }
-  m_position = SizeArray(
-      numDimensions, 0);  // Initialize position with 0 for each dimension
+  m_position = SizeArray(numDimensions,
+                         0);  // Initialize position with 0 for each dimension
   m_dataset = std::make_unique<H5::DataSet>(*data);
 }
 
@@ -53,11 +53,10 @@ HDF5RecordingData::~HDF5RecordingData()
   m_dataset->flush(H5F_SCOPE_GLOBAL);
 }
 
-Status HDF5RecordingData::writeDataBlock(
-    const SizeArray& dataShape,
-    const SizeArray& positionOffset,
-    const BaseDataType& type,
-    const void* data)
+Status HDF5RecordingData::writeDataBlock(const SizeArray& dataShape,
+                                         const SizeArray& positionOffset,
+                                         const BaseDataType& type,
+                                         const void* data)
 {
   try {
     // check type. Strings should use the other variant of this function
@@ -107,11 +106,10 @@ Status HDF5RecordingData::writeDataBlock(
   return Status::Success;
 }
 
-Status HDF5RecordingData::writeDataBlock(
-    const SizeArray& dataShape,
-    const SizeArray& positionOffset,
-    const AQNWB::IO::BaseDataType& type,
-    const std::vector<std::string>& data)
+Status HDF5RecordingData::writeDataBlock(const SizeArray& dataShape,
+                                         const SizeArray& positionOffset,
+                                         const AQNWB::IO::BaseDataType& type,
+                                         const std::vector<std::string>& data)
 {
   try {
     // validate and allocate space
@@ -176,11 +174,10 @@ Status HDF5RecordingData::writeDataBlock(
   return Status::Success;
 }
 
-Status HDF5RecordingData::writeDataBlockHelper(
-    const SizeArray& dataShape,
-    const SizeArray& positionOffset,
-    DataSpace& mSpace,
-    DataSpace& fSpace)
+Status HDF5RecordingData::writeDataBlockHelper(const SizeArray& dataShape,
+                                               const SizeArray& positionOffset,
+                                               DataSpace& mSpace,
+                                               DataSpace& fSpace)
 {
   // Check that the dataShape and positionOffset inputs match the dimensions
   // of the dataset

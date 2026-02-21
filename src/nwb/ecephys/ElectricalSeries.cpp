@@ -55,8 +55,7 @@ Status ElectricalSeries::initialize(
   // get the number of electrodes from the electrode table
   std::string idPath =
       AQNWB::mergePaths(ElectrodesTable::electrodesTablePath, "id");
-  SizeArray elecTableDsetSize =
-      ioPtr->getStorageObjectShape(idPath);
+  SizeArray elecTableDsetSize = ioPtr->getStorageObjectShape(idPath);
   SizeType numElectrodes = elecTableDsetSize[0];
 
   // setup variables based on number of channels
@@ -146,8 +145,7 @@ Status ElectricalSeries::writeChannel(SizeType channelInd,
   // get offsets and datashape
   SizeArray dataShape = {
       numSamples, 1};  // Note: schema has 1D and 3D but planning to deprecate
-  SizeArray positionOffset = {m_samplesRecorded[channelInd],
-                                          channelInd};
+  SizeArray positionOffset = {m_samplesRecorded[channelInd], channelInd};
 
   // track samples recorded per channel
   m_samplesRecorded[channelInd] += numSamples;

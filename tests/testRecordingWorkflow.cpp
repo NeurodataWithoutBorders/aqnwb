@@ -87,8 +87,7 @@ TEST_CASE("writeContinuousData", "[recording]")
                     timestampsBuffer.begin());
 
           // write timeseries data
-          SizeArray positionOffset = {samplesRecorded,
-                                                  channel.getLocalIndex()};
+          SizeArray positionOffset = {samplesRecorded, channel.getLocalIndex()};
           SizeArray dataShape = {samplesToWrite, 1};
 
           auto recordingObjects = io->getRecordingObjects();

@@ -643,12 +643,11 @@ public:
    *
    * @return A DataGeneric structure containing the data and shape.
    */
-  virtual DataBlockGeneric readDataset(
-      const std::string& dataPath,
-      const SizeArray& start = {},
-      const SizeArray& count = {},
-      const SizeArray& stride = {},
-      const SizeArray& block = {}) = 0;
+  virtual DataBlockGeneric readDataset(const std::string& dataPath,
+                                       const SizeArray& start = {},
+                                       const SizeArray& count = {},
+                                       const SizeArray& stride = {},
+                                       const SizeArray& block = {}) = 0;
 
   /**
    * @brief Reads a attribute  and determines the data type
