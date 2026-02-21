@@ -32,11 +32,14 @@ Status Data::initialize(const IO::BaseArrayDataSetConfig& dataConfig)
 
   if (dataConfig.isLink()) {
     // For links, don't set attributes since we don't own the dataset.
-    // Validate that the link target exists.
+    // Validate that the link target has the common NWB attributes that
+    // createCommonNWBAttributes() would set: namespace, object_id,
+    // neurodata_type.
     const auto* linkConfig =
         dynamic_cast<const IO::LinkArrayDataSetConfig*>(&dataConfig);
     if (linkConfig) {
-      return linkConfig->validateTarget(*ioPtr);
+      return linkConfig->validateTarget(
+          *ioPtr, {}, {}, {"namespace", "object_id", "neurodata_type"});
     }
   } else {
     // setup common attributes
