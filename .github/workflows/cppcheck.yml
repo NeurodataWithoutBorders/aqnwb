@@ -44,9 +44,13 @@ jobs:
           2> cppcheck_results.xml
 
     - name: Convert to SARIF
-      run: |
-        python3 resources/utils/cppcheck_to_sarif.py \
-          cppcheck_results.xml cppcheck.sarif
+      # airtower-luna/convert-to-sarif has no tagged releases; pin to @main
+      # and update the ref when a tagged release becomes available.
+      uses: airtower-luna/convert-to-sarif@main
+      with:
+        tool: 'CppCheck'
+        input_file: 'cppcheck_results.xml'
+        sarif_file: 'cppcheck.sarif'
 
     - name: Upload SARIF to GitHub
       uses: github/codeql-action/upload-sarif@v3

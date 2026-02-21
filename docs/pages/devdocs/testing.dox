@@ -105,9 +105,18 @@
  * The ``cppcheck`` GitHub Actions workflow defined in
  * [.github/workflows/cppcheck.yml](https://github.com/NeurodataWithoutBorders/aqnwb/blob/main/.github/workflows/cppcheck.yml)
  * runs automatically on every push to ``main`` and on all pull requests.
- * Results are converted to SARIF 2.1.0 (using
- * ``resources/utils/cppcheck_to_sarif.py``) and uploaded to the
+ * Results are converted to SARIF using the
+ * [airtower-luna/convert-to-sarif](https://github.com/airtower-luna/convert-to-sarif) action
+ * (which uses Microsoft's Sarif.Multitool) and uploaded to the
  * **GitHub Security** tab via ``github/codeql-action/upload-sarif``, where they
  * can be browsed and tracked over time.
+ *
+ * For local SARIF conversion (e.g., for use with other tools), a standalone Python script
+ * is also available at ``resources/utils/cppcheck_to_sarif.py``:
+ *
+ * \code{.sh}
+ *  cppcheck --xml --xml-version=2 -I src src/ tests/ 2> cppcheck_results.xml
+ *  python3 resources/utils/cppcheck_to_sarif.py cppcheck_results.xml cppcheck.sarif
+ * \endcode
  *
  */
