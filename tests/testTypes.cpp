@@ -25,16 +25,13 @@ TEST_CASE("Test storageObjectTypeToString", "[Types]")
   {
     // Cast invalid integer to StorageObjectType to test default case
     // This tests that the function handles unexpected values gracefully
-    // Suppress conversion warning for intentionally invalid enum values
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wconversion"
+    // Intentionally test invalid enum values (ignore conversion warnings)
     REQUIRE(Types::storageObjectTypeToString(
                 static_cast<Types::StorageObjectType>(99))
-            == "Unknown");
+            == std::string("Unknown"));
     REQUIRE(Types::storageObjectTypeToString(
                 static_cast<Types::StorageObjectType>(-99))
-            == "Unknown");
-#pragma GCC diagnostic pop
+            == std::string("Unknown"));
   }
 }
 
