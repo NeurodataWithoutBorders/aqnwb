@@ -317,19 +317,31 @@ TEST_CASE("getStorageObjectShape", "[hdf5io]")
 
   SECTION("get shape of an attribute")
   {
-    const std::string groupPath = "/data";
-    hdf5io.createGroup(groupPath);
-
     // Test 1D array attribute
+    const std::string groupPath = "/";
     const std::vector<int> data = {1, 2, 3, 4, 5};
     const std::string attrName = "int_array";
-    const std::string attrPath = mergePaths(groupPath, attrName);
+    const std::string attrPath = groupPath + attrName;
 
     hdf5io.createAttribute(
         BaseDataType::I32, data.data(), groupPath, attrName, data.size());
     auto shape = hdf5io.getStorageObjectShape(attrPath);
     REQUIRE(shape.size() == 1);
     REQUIRE(shape[0] == 5);
+  }
+
+  SECTION("get shape of a group")
+  {
+    std::string groupPath = "/";
+    auto shape = hdf5io.getStorageObjectShape(groupPath);
+    REQUIRE(shape.empty());  // Groups don't have a shape
+  }
+
+  SECTION("get shape of non-existent object")
+  {
+    std::string invalidPath = "/nonExistentObject";
+    REQUIRE_THROWS_AS(hdf5io.getStorageObjectShape(invalidPath),
+                      std::runtime_error);
   }
 
   // close file

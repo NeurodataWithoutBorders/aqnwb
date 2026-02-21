@@ -1150,6 +1150,16 @@ HDF5IO::getStorageObjects(const std::string& path,
 
 SizeArray HDF5IO::getStorageObjectShape(const std::string path) const
 {
+  // Check the object type and handle groups and missing objects
+  auto objectType = getStorageObjectType(path);
+  if (objectType == StorageObjectType::Group) {
+    return SizeArray();  // Groups don't have a shape
+  } else if (objectType == StorageObjectType::Undefined) {
+    throw std::runtime_error("HDF5IO::getStorageObjectShape: Object at '" + path
+                             + "' does not exist.");
+  }
+
+  // For datasets and attributes, get the dataspace and extract the dimensions
   H5::DataSpace dataspace;
   try {
     H5::DataSet dataset = m_file->openDataSet(path);
