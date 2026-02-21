@@ -506,10 +506,3 @@ TEST_CASE("LinkArrayDataSetConfig for TimeSeries data", "[base][link]")
     io->close();
   }
 }
-
-TEST_CASE("TimeSeries chunking fallback and validation", "[base][chunking]")
-{
-  // Note: The chunking fallback logic (tsChunkSize = 8192 when chunking is empty)
-  // and empty shape validation are tested through the link creation tests where
-  // these scenarios occur naturally with LinkArrayDataSetConfig
-}

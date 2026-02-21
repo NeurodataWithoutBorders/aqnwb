@@ -12,10 +12,9 @@ TEST_CASE("LinkTimeSeriesExamples", "[timeseries][link]")
 {
   SECTION("Link TimeSeries data for time alignment")
   {
-    std::string path = getTestFilePath("testLinkTimeSeriesExample.h5");
-
     // [example_link_timeseries_setup]
     // Create an NWB file
+    std::string path = getTestFilePath("testLinkTimeSeriesExample.nwb");
     auto io = std::make_shared<IO::HDF5::HDF5IO>(path);
     io->open();
 
@@ -30,12 +29,15 @@ TEST_CASE("LinkTimeSeriesExamples", "[timeseries][link]")
 
     SizeType numSamples = 1000;
     IO::BaseDataType dataType = IO::BaseDataType::F32;
-    IO::ArrayDataSetConfig dataConfig(dataType, SizeArray {0}, SizeArray {100});
+    IO::ArrayDataSetConfig dataConfig(dataType, 
+                                      SizeArray {0}, // initial shape with 0 samples
+                                      SizeArray {1000} // chunk size of 1000 samples
+    );
 
     originalSeries->initialize(dataConfig,
-                               "volts",
-                               "Original electrical recording",
-                               "Recorded from electrode array",
+                               "seconds",  // data units
+                               "Original recording of subject speed",
+                               "Recorded from wearable device",
                                1.0f,  // conversion
                                -1.0f,  // resolution
                                0.0f  // offset
@@ -62,6 +64,9 @@ TEST_CASE("LinkTimeSeriesExamples", "[timeseries][link]")
     std::string linkTarget = "/acquisition/original_series/data";
     IO::LinkArrayDataSetConfig linkConfig(linkTarget);
 
+    // Initialize the linked TimeSeries using the link configuration
+    // Note, TimeSeries::initialize  automatically queries shape and chunking from
+    // the linked dataset to properly configure related  datasets (e.g., timestamps)
     linkedSeries->initialize(
         linkConfig,  // Use link instead of creating new data
         "volts",
