@@ -174,7 +174,7 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
         mergePaths(NWBFile::GENERAL_PATH, "/data_collection"), dataCollection);
   }
 
-  // Setupe the specifications cache in the file
+  // Setup the specifications cache in the file
   ioPtr->createGroup(NWBFile::SPECIFICATIONS_PATH);
   ioPtr->createReferenceAttribute(
       NWBFile::SPECIFICATIONS_PATH, "/", ".specloc");

@@ -564,7 +564,8 @@ TEST_CASE("LinkArrayDataSetConfig for VectorData", "[base][link]")
     // Create first Data object with actual data
     auto data1 = NWB::Data::create(dataPath1, io);
     IO::ArrayDataSetConfig config1(dataType, dataShape, chunking);
-    data1->initialize(config1);
+    Status status1 = data1->initialize(config1);
+    REQUIRE(status1 == Status::Success);
 
     // Write data to first Data object
     Status writeStatus1 = data1->recordData()->writeDataBlock(
@@ -580,7 +581,8 @@ TEST_CASE("LinkArrayDataSetConfig for VectorData", "[base][link]")
     REQUIRE(linkConfig.isLink() == true);
     REQUIRE(linkConfig.getTargetPath() == linkTarget);
 
-    data2->initialize(linkConfig);
+    Status status2 = data2->initialize(linkConfig);
+    REQUIRE(status2 == Status::Success);
 
     io->flush();
     io->close();

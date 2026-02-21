@@ -393,8 +393,9 @@ public:
    * m_dataType member when using linked data.
    *
    * @param io The IO object to use for querying the target dataset.
-   * @return The BaseDataType of the target dataset. Returns a default T_I32
-   * type if the query fails.
+   * @return The BaseDataType of the target dataset.
+   * @throws std::runtime_error if the object is a Group (which has no data
+   * type) or if the data type cannot be determined.
    */
   BaseDataType getTargetDataType(const BaseIO& io) const;
 

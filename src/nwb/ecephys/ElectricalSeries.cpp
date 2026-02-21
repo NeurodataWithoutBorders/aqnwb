@@ -76,7 +76,7 @@ Status ElectricalSeries::initialize(
   m_samplesRecorded = SizeArray(channelVector.size(), 0);
 
   // make channel conversion dataset (1D array with num_channels elements)
-  // use default chunk size of 8192 or us the num_channels if less than 2
+  // use default chunk size of 8192 or use the num_channels if less than 2
   // chunks would be created with the default chunk size
   SizeType channelChunkSize =
       channelVector.size() < 16385 ? channelVector.size() : 8192;
