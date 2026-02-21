@@ -837,9 +837,13 @@ TEST_CASE("HDF5IO; create attributes", "[hdf5io]")
   // soft link
   SECTION("link")
   {
-    std::vector<std::string> data;
-    hdf5io.createLink("/data/link", "linked_data");
-    REQUIRE(hdf5io.objectExists("/data/link"));
+    // Test bad link creation
+    Status status = hdf5io.createLink("/bad_link", "missing_data");
+    REQUIRE(status == Status::Failure);
+    // Test successful link creation
+    Status status2 = hdf5io.createLink("/good_link", "/");
+    REQUIRE(status2 == Status::Success);
+    REQUIRE(hdf5io.objectExists("/good_link"));
   }
 
   // reference attribute tests
