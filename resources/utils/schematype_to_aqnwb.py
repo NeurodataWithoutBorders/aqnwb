@@ -393,14 +393,14 @@ def get_initialize_method_parameters(neurodata_type: Spec, type_to_namespace_map
         # When there is no parent, the field name alone is used in lowerCamelCase.
         # When the object has no schema name, a "Param" prefix plus the data type name is used.
         if parent is not None:
-            parent_lower_camel = snake_to_lower_camel(parent.name)
+            parent_lower_camel = snake_to_camel(parent.name, lower_camel=True)
             if obj.name is not None:
                 variable_name = f"{parent_lower_camel}{snake_to_camel(obj.name)}"
             else:
                 variable_name = f"{parent_lower_camel}Param{obj.data_type}"
         else:
             if obj.name is not None:
-                variable_name = snake_to_lower_camel(obj.name)
+                variable_name = snake_to_camel(obj.name, lower_camel=True)
             else:
                 variable_name = f"param{obj.data_type}"
         
@@ -800,36 +800,25 @@ Status {class_name}::{funcSignature}
     return cppSrc
 
 
-def snake_to_camel(name: str) -> str:
+def snake_to_camel(name: str, lower_camel: bool = False) -> str:
     """
-    Convert snake_case to CamelCase.
+    Convert snake_case to CamelCase or lowerCamelCase.
 
     Parameters:
     name (str): The snake_case string to convert.
+    lower_camel (bool): If True, return lowerCamelCase (first letter lowercase).
+                        If False (default), return CamelCase (all words capitalized).
 
     Returns:
-    str: The converted CamelCase string.
+    str: The converted CamelCase or lowerCamelCase string.
     """
     if name is not None:
-        return "".join(word.title() for word in re.split("[_-]", name))
+        camel = "".join(word.title() for word in re.split("[_-]", name))
+        if lower_camel and camel:
+            return camel[0].lower() + camel[1:]
+        return camel
     else:
         return None
-
-
-def snake_to_lower_camel(name: str) -> str:
-    """
-    Convert snake_case to lowerCamelCase.
-
-    Parameters:
-    name (str): The snake_case string to convert.
-
-    Returns:
-    str: The converted lowerCamelCase string, or None if name is None.
-    """
-    camel = snake_to_camel(name)
-    if camel:
-        return camel[0].lower() + camel[1:]
-    return camel
 
 
 def to_cpp_namespace_name(name: str) -> str:
