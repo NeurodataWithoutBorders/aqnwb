@@ -140,8 +140,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:af169224331c1c4f67ccf8521f5d778db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flush data to disk.  <br /></td></tr>
 <tr class="memitem:a5fb171a91ef8134baf224115f0dcf8bc" id="r_a5fb171a91ef8134baf224115f0dcf8bc"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915">StorageObjectType</a>&#160;</td><td class="memItemRight"><a class="el" href="#a5fb171a91ef8134baf224115f0dcf8bc">getStorageObjectType</a> (std::string path) const override</td></tr>
 <tr class="memdesc:a5fb171a91ef8134baf224115f0dcf8bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the storage type (Group, Dataset, Attribute) of the object at path.  <br /></td></tr>
-<tr class="memitem:a805558f3372cd322dd8bb109151670d8" id="r_a805558f3372cd322dd8bb109151670d8"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html">AQNWB::IO::DataBlockGeneric</a>&#160;</td><td class="memItemRight"><a class="el" href="#a805558f3372cd322dd8bb109151670d8">readDataset</a> (const std::string &amp;dataPath, const std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;start={}, const std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;count={}, const std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;stride={}, const std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;block={}) override</td></tr>
-<tr class="memdesc:a805558f3372cd322dd8bb109151670d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a dataset or attribute and determines the data type.  <br /></td></tr>
+<tr class="memitem:ab7564591e00bb695e7c847a77acd995c" id="r_ab7564591e00bb695e7c847a77acd995c"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html">AQNWB::IO::DataBlockGeneric</a>&#160;</td><td class="memItemRight"><a class="el" href="#ab7564591e00bb695e7c847a77acd995c">readDataset</a> (const std::string &amp;dataPath, const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;start={}, const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;count={}, const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;stride={}, const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;block={}) override</td></tr>
+<tr class="memdesc:ab7564591e00bb695e7c847a77acd995c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a dataset or attribute and determines the data type.  <br /></td></tr>
 <tr class="memitem:a7535b7fcc607fe1f47703f21b25ae5de" id="r_a7535b7fcc607fe1f47703f21b25ae5de"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html">AQNWB::IO::DataBlockGeneric</a>&#160;</td><td class="memItemRight"><a class="el" href="#a7535b7fcc607fe1f47703f21b25ae5de">readAttribute</a> (const std::string &amp;dataPath) const override</td></tr>
 <tr class="memdesc:a7535b7fcc607fe1f47703f21b25ae5de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a attribute and determines the data type.  <br /></td></tr>
 <tr class="memitem:a4074db2a2a9f186d1016c94329573421" id="r_a4074db2a2a9f186d1016c94329573421"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a4074db2a2a9f186d1016c94329573421">readReferenceAttribute</a> (const std::string &amp;dataPath) const override</td></tr>
@@ -1785,8 +1785,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a805558f3372cd322dd8bb109151670d8" name="a805558f3372cd322dd8bb109151670d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a805558f3372cd322dd8bb109151670d8">&#9670;&#160;</a></span>readDataset()</h2>
+<a id="ab7564591e00bb695e7c847a77acd995c" name="ab7564591e00bb695e7c847a77acd995c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7564591e00bb695e7c847a77acd995c">&#9670;&#160;</a></span>readDataset()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1802,22 +1802,22 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>start</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>, </td>
+          <td class="paramtype">const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>start</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>count</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>, </td>
+          <td class="paramtype">const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>count</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>stride</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>, </td>
+          <td class="paramtype">const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>stride</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>block</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
+          <td class="paramtype">const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>block</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -1846,11 +1846,11 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A DataGeneric structure containing the data and shape. </dd></dl>
 
-<p>Implements <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a59ab1d7c744d05623aa8626643e37a74">AQNWB::IO::BaseIO</a>.</p>
+<p>Implements <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#ad554d43f98c5fc038cb7bc59d3d3721d">AQNWB::IO::BaseIO</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o_a805558f3372cd322dd8bb109151670d8_cgraph.svg" width="448" height="207"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o_ab7564591e00bb695e7c847a77acd995c_cgraph.svg" width="448" height="207"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

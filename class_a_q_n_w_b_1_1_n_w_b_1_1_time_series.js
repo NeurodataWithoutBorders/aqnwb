@@ -35,7 +35,7 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_time_series =
     [ "recordData", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a97d9f3aa32ab004532f45222dcd320e0", null ],
     [ "recordStartingTime", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#abd85c18a23b27019aadf8cac3b34e41e", null ],
     [ "recordTimestamps", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a42a04e2e5af03b642fb3af958115e1ef", null ],
-    [ "writeData", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a33c3c764fdf8a5db861beeabc48d78e7", null ],
+    [ "writeData", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#afb05f2252df2fc23d938894eb0bc6984", null ],
     [ "ContinuityTypeNames", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a0a25feb8ee6be44406d2c05cfccb80b2", null ],
     [ "controlType", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a1c688cde84718c2968c2642717f6c237", null ],
     [ "m_dataType", "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#acc6599d1e408b171f833d0373251c7e8", null ],

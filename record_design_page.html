@@ -111,7 +111,7 @@ $(function() {
 <div class="textblock"><p>This page focuses on the software architecture of AqNWB for implementing data recording and is mainly aimed at software developers. The recording system in AqNWB is built around several key concepts:</p>
 <ol type="1">
 <li><b>Efficient data recording for individual datasets</b> via <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html" title="AQNWB::IO::BaseRecordingData">BaseRecordingData</a> objects discussed in <a class="el" href="#record_design_sec_recording_data" title="Recording datasets with BaseRecordingData">Recording datasets with BaseRecordingData</a></li>
-<li><b>Consistent multi-dataset recording through convenience methods</b> defined on individual <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="AQNWB::NWB::RegisteredType">RegisteredType</a> objects (e.g., <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a33c3c764fdf8a5db861beeabc48d78e7" title="AQNWB::NWB::TimeSeries::writeData">TimeSeries::writeData</a>) discussed in <a class="el" href="#record_design_sec_timeseries" title="TimeSeries Convenience Methods for Consistent Recording">TimeSeries Convenience Methods for Consistent Recording</a></li>
+<li><b>Consistent multi-dataset recording through convenience methods</b> defined on individual <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="AQNWB::NWB::RegisteredType">RegisteredType</a> objects (e.g., <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#afb05f2252df2fc23d938894eb0bc6984" title="AQNWB::NWB::TimeSeries::writeData">TimeSeries::writeData</a>) discussed in <a class="el" href="#record_design_sec_timeseries" title="TimeSeries Convenience Methods for Consistent Recording">TimeSeries Convenience Methods for Consistent Recording</a></li>
 <li><b>Managing collections of recording objects through RecordingObjects</b>, discussed in <a class="el" href="#record_design_sec_recording_containers" title="RecordingObjects for Managing Collections">RecordingObjects for Managing Collections</a></li>
 </ol>
 <h1 class="doxsection"><a class="anchor" id="record_design_sec_recording_data"></a>
@@ -125,7 +125,7 @@ Recording datasets with BaseRecordingData</h1>
 <li><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html" title="AQNWB::IO::BaseRecordingData">BaseRecordingData</a><ul>
 <li><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html" title="AQNWB::IO::BaseRecordingData">BaseRecordingData</a> is a class that manages the recording process for a dataset.</li>
 <li>It keeps track of the current position in the dataset where data should be written next via the <span class="tt">m_position</span> member.</li>
-<li>It provides methods for writing data blocks to the dataset, such as <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html#a9ca4dc596b124ad57e0a55674c1d37d2" title="AQNWB::IO::BaseRecordingData::writeDataBlock">writeDataBlock</a>, which can handle different data types and dimensions.</li>
+<li>It provides methods for writing data blocks to the dataset, such as <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html#a24e2bbd5c76952a9237d046ddb2f7e93" title="AQNWB::IO::BaseRecordingData::writeDataBlock">writeDataBlock</a>, which can handle different data types and dimensions.</li>
 </ul>
 </li>
 <li><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="AQNWB::NWB::RegisteredType">RegisteredType</a><ul>
@@ -172,7 +172,7 @@ TimeSeries Convenience Methods for Consistent Recording</h1>
 <p>The <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html" title="AQNWB::NWB::TimeSeries">TimeSeries</a> class provides:</p>
 <ul>
 <li>An <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ab025c3806934a010991fb56c94945ab4" title="AQNWB::NWB::TimeSeries::initialize">initialize</a> method that sets up all the necessary datasets and attributes for a time series, including <span class="tt">data</span>, <span class="tt">timestamps</span>, <span class="tt">control</span> and all their attributes, e.g., <span class="tt">unit</span></li>
-<li>A <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a33c3c764fdf8a5db861beeabc48d78e7" title="AQNWB::NWB::TimeSeries::writeData">writeData</a> method that writes <span class="tt">data</span>, <span class="tt">timestamps</span>, and <span class="tt">control</span> information in a single call, ensuring consistency between these related datasets.</li>
+<li>A <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#afb05f2252df2fc23d938894eb0bc6984" title="AQNWB::NWB::TimeSeries::writeData">writeData</a> method that writes <span class="tt">data</span>, <span class="tt">timestamps</span>, and <span class="tt">control</span> information in a single call, ensuring consistency between these related datasets.</li>
 </ul>
 <p>These convenience methods handle the details of:</p>
 <ul>

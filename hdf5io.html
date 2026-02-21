@@ -248,7 +248,7 @@ Workflow with SWMR</h4>
 <div class="line">    <span class="comment">// write the our testData to the file.</span></div>
 <div class="line">    <span class="keywordflow">for</span> (<a class="code hl_typedef" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> b = 0; b &lt;= numBlocks; b++) {</div>
 <div class="line">      <span class="comment">// write a single 1D block of data and flush to file</span></div>
-<div class="line">      std::vector&lt;SizeType&gt; dataShape = {numSamples};</div>
+<div class="line">      <a class="code hl_typedef" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> dataShape = {numSamples};</div>
 <div class="line">      dataset-&gt;writeDataBlock(dataShape, BaseDataType::I32, &amp;testData[0]);</div>
 <div class="line">      <span class="comment">// Optionally we can flush all data to disk</span></div>
 <div class="line">      status = hdf5io-&gt;flush();</div>
@@ -298,7 +298,7 @@ Workflow with SWMR disabled</h4>
 <div class="line">    <span class="comment">// write the our testData to the file.</span></div>
 <div class="line">    <span class="keywordflow">for</span> (<a class="code hl_typedef" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> b = 0; b &lt;= numBlocks; b++) {</div>
 <div class="line">      <span class="comment">// write a single 1D block of data and flush to file</span></div>
-<div class="line">      std::vector&lt;SizeType&gt; dataShape = {numSamples};</div>
+<div class="line">      <a class="code hl_typedef" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> dataShape = {numSamples};</div>
 <div class="line">      dataset-&gt;writeDataBlock(dataShape, BaseDataType::I32, &amp;testData[0]);</div>
 <div class="line">      <span class="comment">// Optionally we can flush all data to disk</span></div>
 <div class="line">      status = hdf5io-&gt;flush();</div>

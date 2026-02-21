@@ -151,8 +151,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a788603f4c9c2698aad610134ab89f8e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds all datasets and groups of the given types in the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> file.  <br /></td></tr>
 <tr class="memitem:aad16547be1f92b264ca056672cda6967" id="r_aad16547be1f92b264ca056672cda6967"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#aad16547be1f92b264ca056672cda6967">getFullTypeName</a> (const std::string &amp;path)</td></tr>
 <tr class="memdesc:aad16547be1f92b264ca056672cda6967"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the full name of the type from the attribute in the file.  <br /></td></tr>
-<tr class="memitem:a59ab1d7c744d05623aa8626643e37a74" id="r_a59ab1d7c744d05623aa8626643e37a74"><td class="memItemLeft">virtual <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html">DataBlockGeneric</a>&#160;</td><td class="memItemRight"><a class="el" href="#a59ab1d7c744d05623aa8626643e37a74">readDataset</a> (const std::string &amp;dataPath, const std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;start={}, const std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;count={}, const std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;stride={}, const std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;block={})=0</td></tr>
-<tr class="memdesc:a59ab1d7c744d05623aa8626643e37a74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a dataset and determines the data type.  <br /></td></tr>
+<tr class="memitem:ad554d43f98c5fc038cb7bc59d3d3721d" id="r_ad554d43f98c5fc038cb7bc59d3d3721d"><td class="memItemLeft">virtual <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html">DataBlockGeneric</a>&#160;</td><td class="memItemRight"><a class="el" href="#ad554d43f98c5fc038cb7bc59d3d3721d">readDataset</a> (const std::string &amp;dataPath, const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;start={}, const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;count={}, const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;stride={}, const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;block={})=0</td></tr>
+<tr class="memdesc:ad554d43f98c5fc038cb7bc59d3d3721d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a dataset and determines the data type.  <br /></td></tr>
 <tr class="memitem:aa9b3fc349e4149f6b1c75bb854deae07" id="r_aa9b3fc349e4149f6b1c75bb854deae07"><td class="memItemLeft">virtual <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html">DataBlockGeneric</a>&#160;</td><td class="memItemRight"><a class="el" href="#aa9b3fc349e4149f6b1c75bb854deae07">readAttribute</a> (const std::string &amp;dataPath) const =0</td></tr>
 <tr class="memdesc:aa9b3fc349e4149f6b1c75bb854deae07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a attribute and determines the data type.  <br /></td></tr>
 <tr class="memitem:ad39c696cc54302f3e3dda87607222560" id="r_ad39c696cc54302f3e3dda87607222560"><td class="memItemLeft">virtual std::string&#160;</td><td class="memItemRight"><a class="el" href="#ad39c696cc54302f3e3dda87607222560">readReferenceAttribute</a> (const std::string &amp;dataPath) const =0</td></tr>
@@ -1640,8 +1640,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a59ab1d7c744d05623aa8626643e37a74" name="a59ab1d7c744d05623aa8626643e37a74"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a59ab1d7c744d05623aa8626643e37a74">&#9670;&#160;</a></span>readDataset()</h2>
+<a id="ad554d43f98c5fc038cb7bc59d3d3721d" name="ad554d43f98c5fc038cb7bc59d3d3721d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad554d43f98c5fc038cb7bc59d3d3721d">&#9670;&#160;</a></span>readDataset()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1657,22 +1657,22 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>start</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>, </td>
+          <td class="paramtype">const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>start</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>count</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>, </td>
+          <td class="paramtype">const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>count</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>stride</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>, </td>
+          <td class="paramtype">const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>stride</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>block</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
+          <td class="paramtype">const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>block</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -1696,7 +1696,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A DataGeneric structure containing the data and shape. </dd></dl>
 
-<p>Implemented in <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a805558f3372cd322dd8bb109151670d8">AQNWB::IO::HDF5::HDF5IO</a>.</p>
+<p>Implemented in <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#ab7564591e00bb695e7c847a77acd995c">AQNWB::IO::HDF5::HDF5IO</a>.</p>
 
 </div>
 </div>

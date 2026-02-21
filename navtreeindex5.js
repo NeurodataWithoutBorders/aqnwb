@@ -1,7 +1,5 @@
 var NAVTREEINDEX5 =
 {
-"class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#acc6599d1e408b171f833d0373251c7e8":[3,0,0,1,5,33],
-"class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#acc6599d1e408b171f833d0373251c7e8":[4,0,0,1,5,33],
 "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#aceff608228b87017b836a4a97f5b470d":[3,0,0,1,5,7],
 "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#aceff608228b87017b836a4a97f5b470d":[4,0,0,1,5,7],
 "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ad02a2c3803891f352dd2496b9ff1887b":[3,0,0,1,5,4],
@@ -18,6 +16,8 @@ var NAVTREEINDEX5 =
 "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#af32a022bd96207ee5eb2b26ac6ae8d2e":[4,0,0,1,5,20],
 "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#af988570828da57bff222d1ed5e71b5fa":[3,0,0,1,5,25],
 "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#af988570828da57bff222d1ed5e71b5fa":[4,0,0,1,5,25],
+"class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#afb05f2252df2fc23d938894eb0bc6984":[3,0,0,1,5,30],
+"class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#afb05f2252df2fc23d938894eb0bc6984":[4,0,0,1,5,30],
 "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html":[3,0,0,1,16],
 "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html":[4,0,0,1,16],
 "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a14d3fb14c1eb5cb40bf37a8666d32a91":[3,0,0,1,16,4],
@@ -102,8 +102,8 @@ var NAVTREEINDEX5 =
 "class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9a5e4ad53b09bd2f26e1b2f42bd1ad8fdf":[4,0,0,4,5,1],
 "class_a_q_n_w_b_1_1_types.html#ab060fdd98ba0fa1fbab008fd69e124ad":[3,0,0,5,7],
 "class_a_q_n_w_b_1_1_types.html#ab060fdd98ba0fa1fbab008fd69e124ad":[4,0,0,4,7],
-"class_a_q_n_w_b_1_1_types.html#ad444fd27f3e592154c4fee87afd568aa":[3,0,0,5,3],
-"class_a_q_n_w_b_1_1_types.html#ad444fd27f3e592154c4fee87afd568aa":[4,0,0,4,3],
+"class_a_q_n_w_b_1_1_types.html#adde13a31a0f254d84ebf8f02baaa2a97":[3,0,0,5,3],
+"class_a_q_n_w_b_1_1_types.html#adde13a31a0f254d84ebf8f02baaa2a97":[4,0,0,4,3],
 "class_a_q_n_w_b_1_1_types.html#ae7b68dd97f314f45e450b2f636ad7c6e":[3,0,0,5,4],
 "class_a_q_n_w_b_1_1_types.html#ae7b68dd97f314f45e450b2f636ad7c6e":[4,0,0,4,4],
 "classes.html":[4,1],

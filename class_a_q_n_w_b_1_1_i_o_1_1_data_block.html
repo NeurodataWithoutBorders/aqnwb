@@ -116,7 +116,7 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a19215d8fade24ca715da77a234766059" id="r_a19215d8fade24ca715da77a234766059"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a19215d8fade24ca715da77a234766059">DataBlock</a> (const std::vector&lt; DTYPE &gt; &amp;inData, const std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;inShape)</td></tr>
+<tr class="memitem:a8d7a3a3dd05f8bd7717b55fd6b4237e7" id="r_a8d7a3a3dd05f8bd7717b55fd6b4237e7"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a8d7a3a3dd05f8bd7717b55fd6b4237e7">DataBlock</a> (const std::vector&lt; DTYPE &gt; &amp;inData, const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;inShape)</td></tr>
 <tr class="memitem:aaf2d60165126bf43841cfe17361d7912" id="r_aaf2d60165126bf43841cfe17361d7912"><td class="memTemplParams" colspan="2">template&lt;std::size_t NDIMS&gt; </td></tr>
 <tr class="memitem:aaf2d60165126bf43841cfe17361d7912 template"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_const_multi_array_view.html">ConstMultiArrayView</a>&lt; DTYPE, NDIMS &gt;&#160;</td><td class="memItemRight"><a class="el" href="#aaf2d60165126bf43841cfe17361d7912">as_multi_array</a> () const</td></tr>
 <tr class="memdesc:aaf2d60165126bf43841cfe17361d7912"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transform the data to a multi-dimensional array view for convenient access.  <br /></td></tr>
@@ -125,14 +125,14 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a20df6af7d661de38f4b8cb3baba48339" id="r_a20df6af7d661de38f4b8cb3baba48339"><td class="memItemLeft">static <a class="el" href="#a19215d8fade24ca715da77a234766059">DataBlock</a>&lt; DTYPE &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a20df6af7d661de38f4b8cb3baba48339">fromGeneric</a> (const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html">DataBlockGeneric</a> &amp;genericData)</td></tr>
+<tr class="memitem:a20df6af7d661de38f4b8cb3baba48339" id="r_a20df6af7d661de38f4b8cb3baba48339"><td class="memItemLeft">static <a class="el" href="#a8d7a3a3dd05f8bd7717b55fd6b4237e7">DataBlock</a>&lt; DTYPE &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a20df6af7d661de38f4b8cb3baba48339">fromGeneric</a> (const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html">DataBlockGeneric</a> &amp;genericData)</td></tr>
 <tr class="memdesc:a20df6af7d661de38f4b8cb3baba48339"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method to create an <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block.html" title="Structure to hold data and shape for a typed data vector.">DataBlock</a> from a <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html" title="Generic structure to hold type-erased data and shape.">DataBlockGeneric</a>.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a7e084bd163c177f45c41cdf93b61f2b6" id="r_a7e084bd163c177f45c41cdf93b61f2b6"><td class="memItemLeft">std::vector&lt; DTYPE &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a7e084bd163c177f45c41cdf93b61f2b6">data</a></td></tr>
-<tr class="memitem:adcd06e1ef4d9ab65081f8e5ab49eec36" id="r_adcd06e1ef4d9ab65081f8e5ab49eec36"><td class="memItemLeft">std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#adcd06e1ef4d9ab65081f8e5ab49eec36">shape</a></td></tr>
-<tr class="memdesc:adcd06e1ef4d9ab65081f8e5ab49eec36"><td class="mdescLeft">&#160;</td><td class="mdescRight">The 1D vector with the n-dimensional shape of the data. Set to empty in case of scalar data.  <br /></td></tr>
+<tr class="memitem:a0dd6888bd290c181623ef164ebb7b9e8" id="r_a0dd6888bd290c181623ef164ebb7b9e8"><td class="memItemLeft"><a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a>&#160;</td><td class="memItemRight"><a class="el" href="#a0dd6888bd290c181623ef164ebb7b9e8">shape</a></td></tr>
+<tr class="memdesc:a0dd6888bd290c181623ef164ebb7b9e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">The 1D vector with the n-dimensional shape of the data. Set to empty in case of scalar data.  <br /></td></tr>
 <tr class="memitem:a5c2a6f2e7c2c5e4062f397c400588819" id="r_a5c2a6f2e7c2c5e4062f397c400588819"><td class="memItemLeft">const std::type_index&#160;</td><td class="memItemRight"><a class="el" href="#a5c2a6f2e7c2c5e4062f397c400588819">typeIndex</a> = typeid(DTYPE)</td></tr>
 <tr class="memdesc:a5c2a6f2e7c2c5e4062f397c400588819"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type index of the values stored in the data vector. Here this is fixed to <span class="tt">typeid(DTYPE)</span>.  <br /></td></tr>
 </table>
@@ -146,8 +146,8 @@ class AQNWB::IO::DataBlock&lt; DTYPE &gt;</div><p>Structure to hold data and sha
   </dd>
 </dl>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a19215d8fade24ca715da77a234766059" name="a19215d8fade24ca715da77a234766059"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a19215d8fade24ca715da77a234766059">&#9670;&#160;</a></span>DataBlock()</h2>
+<a id="a8d7a3a3dd05f8bd7717b55fd6b4237e7" name="a8d7a3a3dd05f8bd7717b55fd6b4237e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d7a3a3dd05f8bd7717b55fd6b4237e7">&#9670;&#160;</a></span>DataBlock()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -165,7 +165,7 @@ template&lt;typename DTYPE&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>inShape</em></span>&#160;)</td>
+          <td class="paramtype">const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>inShape</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -178,7 +178,7 @@ template&lt;typename DTYPE&gt; </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_data_block_a19215d8fade24ca715da77a234766059_icgraph.svg" width="643" height="183"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_data_block_a8d7a3a3dd05f8bd7717b55fd6b4237e7_icgraph.svg" width="643" height="183"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -237,7 +237,7 @@ template&lt;typename DTYPE&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="#a19215d8fade24ca715da77a234766059">DataBlock</a>&lt; DTYPE &gt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block.html">AQNWB::IO::DataBlock</a>&lt; DTYPE &gt;::fromGeneric </td>
+          <td class="memname"><a class="el" href="#a8d7a3a3dd05f8bd7717b55fd6b4237e7">DataBlock</a>&lt; DTYPE &gt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block.html">AQNWB::IO::DataBlock</a>&lt; DTYPE &gt;::fromGeneric </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html">DataBlockGeneric</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>genericData</em></span></td><td>)</td>
           <td></td>
@@ -332,8 +332,8 @@ template&lt;typename DTYPE&gt; </div>
 
 </div>
 </div>
-<a id="adcd06e1ef4d9ab65081f8e5ab49eec36" name="adcd06e1ef4d9ab65081f8e5ab49eec36"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adcd06e1ef4d9ab65081f8e5ab49eec36">&#9670;&#160;</a></span>shape</h2>
+<a id="a0dd6888bd290c181623ef164ebb7b9e8" name="a0dd6888bd290c181623ef164ebb7b9e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0dd6888bd290c181623ef164ebb7b9e8">&#9670;&#160;</a></span>shape</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -341,7 +341,7 @@ template&lt;typename DTYPE&gt; </div>
 template&lt;typename DTYPE&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;<a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a>&gt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block.html">AQNWB::IO::DataBlock</a>&lt; DTYPE &gt;::shape</td>
+          <td class="memname"><a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block.html">AQNWB::IO::DataBlock</a>&lt; DTYPE &gt;::shape</td>
         </tr>
       </table>
 </div><div class="memdoc">

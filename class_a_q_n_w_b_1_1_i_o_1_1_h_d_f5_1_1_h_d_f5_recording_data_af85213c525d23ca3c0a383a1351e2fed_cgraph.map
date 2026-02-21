@@ -1,8 +1,8 @@
 <map id="AQNWB::IO::HDF5::HDF5RecordingData::writeDataBlock" name="AQNWB::IO::HDF5::HDF5RecordingData::writeDataBlock">
-<area shape="rect" id="Node000001" title="Writes a block of data to the HDF5 dataset." alt="" coords="5,39,245,79"/>
+<area shape="rect" id="Node000001" title="Writes a block of string data (any number of dimensions)." alt="" coords="5,39,245,79"/>
 <area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#adad97dc270883ff2e21a01fc68d58bef" title="Returns the HDF5 native data type for a given base data type." alt="" coords="315,5,510,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="245,42,302,38,297,39,245,48"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a6549c44032a8e4c4a8e6fc17d4b24e1c" title="Allocate space and validate parameters." alt="" coords="293,71,532,111"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#afdf1dd4cbbd04b27a021f535020e1033" title="Allocate space and validate parameters." alt="" coords="293,71,532,111"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="245,70,280,76,274,76,245,75"/>
 <area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html#a01de766ba141485cbf422e5632d8cdba" title="Get the number of dimensions in the dataset." alt="" coords="580,71,771,111"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="533,88,567,91,562,91,533,94"/>
