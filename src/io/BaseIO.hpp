@@ -425,7 +425,7 @@ public:
       shape = getTargetShape(*io);
       chunking = getTargetChunking(*io);
       dataType = getTargetDataType(*io);
-    } catch (const std::runtime_error& e) {
+    } catch (const std::runtime_error&) {
       return Status::Failure;
     }
     return Status::Success;

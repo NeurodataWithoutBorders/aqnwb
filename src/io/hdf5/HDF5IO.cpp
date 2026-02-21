@@ -1020,7 +1020,7 @@ Status HDF5IO::createStringDataSet(const std::string& path,
     if (!dataset) {
       return Status::Failure;
     }
-  } catch (const std::runtime_error& e) {
+  } catch (const std::runtime_error&) {
     return Status::Failure;
   }
 
