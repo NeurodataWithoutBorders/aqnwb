@@ -5,11 +5,20 @@
 set(
     COVERAGE_TRACE_COMMAND
     lcov -c --verbose
-    -o "${PROJECT_BINARY_DIR}/coverage.info"
+    -o "${PROJECT_BINARY_DIR}/coverage_raw.info"
     -d "${PROJECT_BINARY_DIR}"
-    --include "${PROJECT_SOURCE_DIR}/src/*"
     CACHE STRING
     "; separated command to generate a trace for the 'coverage' target"
+)
+
+set(
+    COVERAGE_FILTER_COMMAND
+    lcov --verbose
+    --extract "${PROJECT_BINARY_DIR}/coverage_raw.info"
+    "${PROJECT_SOURCE_DIR}/src/*"
+    -o "${PROJECT_BINARY_DIR}/coverage.info"
+    CACHE STRING
+    "; separated command to filter the trace to src/ for the 'coverage' target"
 )
 
 set(
@@ -27,6 +36,7 @@ set(
 add_custom_target(
     coverage
     COMMAND ${COVERAGE_TRACE_COMMAND}
+    COMMAND ${COVERAGE_FILTER_COMMAND}
     COMMAND ${COVERAGE_HTML_COMMAND}
     COMMENT "Generating coverage report"
     VERBATIM
