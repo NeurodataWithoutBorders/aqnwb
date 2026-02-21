@@ -243,8 +243,8 @@ Status TimeSeries::initialize(
   return status;
 }
 
-Status TimeSeries::writeData(const std::vector<SizeType>& dataShape,
-                             const std::vector<SizeType>& positionOffset,
+Status TimeSeries::writeData(const SizeArray& dataShape,
+                             const SizeArray& positionOffset,
                              const void* dataInput,
                              const void* timestampsInput,
                              const void* controlInput)
@@ -253,8 +253,8 @@ Status TimeSeries::writeData(const std::vector<SizeType>& dataShape,
   Status tsStatus = Status::Success;
   if (timestampsInput != nullptr) {
     // timestamps should match shape of the first data dimension
-    const std::vector<SizeType> timestampsShape = {dataShape[0]};
-    const std::vector<SizeType> timestampsPositionOffset = {positionOffset[0]};
+    const SizeArray timestampsShape = {dataShape[0]};
+    const SizeArray timestampsPositionOffset = {positionOffset[0]};
     auto timestampsRecorder = this->recordTimestamps();
     tsStatus = timestampsRecorder->writeDataBlock(timestampsShape,
                                                   timestampsPositionOffset,
@@ -270,8 +270,8 @@ Status TimeSeries::writeData(const std::vector<SizeType>& dataShape,
   // Write the control data if it exists
   if (controlInput != nullptr) {
     // control should match shape of the first data dimension
-    const std::vector<SizeType> controlShape = {dataShape[0]};
-    const std::vector<SizeType> controlPositionOffset = {positionOffset[0]};
+    const SizeArray controlShape = {dataShape[0]};
+    const SizeArray controlPositionOffset = {positionOffset[0]};
     auto controlRecorder = this->recordControl();
     tsStatus = controlRecorder->writeDataBlock(
         controlShape, controlPositionOffset, this->controlType, controlInput);

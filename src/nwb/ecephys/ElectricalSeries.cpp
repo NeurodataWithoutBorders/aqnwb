@@ -55,8 +55,7 @@ Status ElectricalSeries::initialize(
   // get the number of electrodes from the electrode table
   std::string idPath =
       AQNWB::mergePaths(ElectrodesTable::electrodesTablePath, "id");
-  std::vector<SizeType> elecTableDsetSize =
-      ioPtr->getStorageObjectShape(idPath);
+  SizeArray elecTableDsetSize = ioPtr->getStorageObjectShape(idPath);
   SizeType numElectrodes = elecTableDsetSize[0];
 
   // setup variables based on number of channels
@@ -90,7 +89,7 @@ Status ElectricalSeries::initialize(
         AQNWB::mergePaths(getPath(), "/channel_conversion"));
     auto channelConversionRecorder = recordChannelConversion();
     channelConversionRecorder->writeDataBlock(
-        std::vector<SizeType>(1, channelVector.size()),
+        SizeArray(1, channelVector.size()),
         IO::BaseDataType::F32,
         &channelConversions[0]);
     // add axis attribute for channel conversion
@@ -144,10 +143,9 @@ Status ElectricalSeries::writeChannel(SizeType channelInd,
                                       const void* controlInput)
 {
   // get offsets and datashape
-  std::vector<SizeType> dataShape = {
+  SizeArray dataShape = {
       numSamples, 1};  // Note: schema has 1D and 3D but planning to deprecate
-  std::vector<SizeType> positionOffset = {m_samplesRecorded[channelInd],
-                                          channelInd};
+  SizeArray positionOffset = {m_samplesRecorded[channelInd], channelInd};
 
   // track samples recorded per channel
   m_samplesRecorded[channelInd] += numSamples;

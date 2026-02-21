@@ -103,9 +103,8 @@ TEST_CASE("workflowExamples")
               timestampsBuffer.begin());
 
           // write timeseries data
-          std::vector<SizeType> positionOffset = {samplesRecorded,
-                                                  channel.getLocalIndex()};
-          std::vector<SizeType> dataShape = {dataBuffer.size(), 1};
+          SizeArray positionOffset = {samplesRecorded, channel.getLocalIndex()};
+          SizeArray dataShape = {dataBuffer.size(), 1};
           std::unique_ptr<int16_t[]> intBuffer = transformToInt16(
               dataBuffer.size(), channel.getBitVolts(), dataBuffer.data());
 

@@ -50,7 +50,7 @@ template<typename T>
 inline void test_variant_conversion(const std::vector<T>& data,
                                     BaseDataType::Type baseType)
 {
-  std::vector<SizeType> shape = {data.size()};
+  SizeArray shape = {data.size()};
   BaseDataType baseDataType = {baseType};
 
   DataBlockGeneric genericBlock(std::any(data), shape, typeid(T), baseDataType);
@@ -65,7 +65,7 @@ TEST_CASE("DataBlock - Basic Functionality", "[DataBlock]")
   SECTION("Constructor and Accessors")
   {
     std::vector<int> data = {1, 2, 3, 4, 5};
-    std::vector<SizeType> shape = {5};
+    SizeArray shape = {5};
 
     DataBlock<int> block(data, shape);
 
@@ -77,7 +77,7 @@ TEST_CASE("DataBlock - Basic Functionality", "[DataBlock]")
   SECTION("Modification")
   {
     std::vector<int> data = {1, 2, 3, 4, 5};
-    std::vector<SizeType> shape = {5};
+    SizeArray shape = {5};
 
     DataBlock<int> block(data, shape);
     block.data[2] = 10;
@@ -88,7 +88,7 @@ TEST_CASE("DataBlock - Basic Functionality", "[DataBlock]")
   SECTION("From Generic")
   {
     std::vector<int> data = {1, 2, 3, 4, 5};
-    std::vector<SizeType> shape = {5};
+    SizeArray shape = {5};
     BaseDataType baseDataType = {BaseDataType::T_I32};
 
     DataBlock<int> block(data, shape);
@@ -107,7 +107,7 @@ TEST_CASE("DataBlockGeneric - Basic Functionality", "[DataBlockGeneric]")
   SECTION("Constructor and Accessors")
   {
     std::vector<int> data = {1, 2, 3, 4, 5};
-    std::vector<SizeType> shape = {5};
+    SizeArray shape = {5};
     BaseDataType baseDataType = {BaseDataType::T_I32};
 
     DataBlock<int> block(data, shape);
@@ -129,7 +129,7 @@ TEST_CASE("DataBlock - Edge Cases", "[DataBlock]")
   SECTION("Empty Data Block")
   {
     std::vector<int> data;
-    std::vector<SizeType> shape;
+    SizeArray shape;
 
     DataBlock<int> block(data, shape);
 
@@ -140,7 +140,7 @@ TEST_CASE("DataBlock - Edge Cases", "[DataBlock]")
   SECTION("Multi-dimensional Data Block")
   {
     std::vector<int> data = {1, 2, 3, 4, 5, 6};
-    std::vector<SizeType> shape = {2, 3};
+    SizeArray shape = {2, 3};
 
     DataBlock<int> block(data, shape);
 
@@ -171,7 +171,7 @@ TEST_CASE("DataBlockGeneric - as_variant Method", "[DataBlockGeneric]")
   SECTION("Unsupported Type")
   {
     std::vector<int> data = {1, 2, 3, 4, 5};
-    std::vector<SizeType> shape = {5};
+    SizeArray shape = {5};
     BaseDataType baseDataType = {BaseDataType::T_STR};
 
     DataBlockGeneric genericBlock(
@@ -188,7 +188,7 @@ TEST_CASE("DataBlockGeneric - Compute Mean with std::visit",
   SECTION("Compute Mean for Integer Data")
   {
     std::vector<int> data = {1, 2, 3, 4, 5};
-    std::vector<SizeType> shape = {5};
+    SizeArray shape = {5};
     BaseDataType baseDataType = {BaseDataType::T_I32};
 
     DataBlockGeneric genericBlock(
@@ -204,7 +204,7 @@ TEST_CASE("DataBlockGeneric - Compute Mean with std::visit",
   SECTION("Compute Mean for Float Data")
   {
     std::vector<float> data = {1.0f, 2.0f, 3.0f, 4.0f, 5.0f};
-    std::vector<SizeType> shape = {5};
+    SizeArray shape = {5};
     BaseDataType baseDataType = {BaseDataType::T_F32};
 
     DataBlockGeneric genericBlock(
@@ -220,7 +220,7 @@ TEST_CASE("DataBlockGeneric - Compute Mean with std::visit",
   SECTION("Compute Mean for Empty Data")
   {
     std::vector<int> data;
-    std::vector<SizeType> shape = {0};
+    SizeArray shape = {0};
     BaseDataType baseDataType = {BaseDataType::T_I32};
 
     DataBlockGeneric genericBlock(
@@ -234,7 +234,7 @@ TEST_CASE("DataBlockGeneric - Compute Mean with std::visit",
   SECTION("Compute Mean for String Data")
   {
     std::vector<std::string> data = {"a", "b", "c"};
-    std::vector<SizeType> shape = {3};
+    SizeArray shape = {3};
     BaseDataType baseDataType = {BaseDataType::T_STR};
 
     DataBlockGeneric genericBlock(
@@ -318,7 +318,7 @@ TEST_CASE("DataBlock - as_multi_array", "[DataBlock]")
   SECTION("1D Array")
   {
     std::vector<int> data = {10, 20, 30};
-    std::vector<SizeType> shape = {3};
+    SizeArray shape = {3};
     DataBlock<int> block(data, shape);
 
     auto view = block.as_multi_array<1>();
@@ -332,7 +332,7 @@ TEST_CASE("DataBlock - as_multi_array", "[DataBlock]")
   SECTION("2D Array")
   {
     std::vector<int> data = {1, 2, 3, 4, 5, 6};
-    std::vector<SizeType> shape = {2, 3};
+    SizeArray shape = {2, 3};
     DataBlock<int> block(data, shape);
 
     auto view = block.as_multi_array<2>();
@@ -351,7 +351,7 @@ TEST_CASE("DataBlock - as_multi_array", "[DataBlock]")
   SECTION("Invalid Dimensions")
   {
     std::vector<int> data = {1, 2, 3, 4};
-    std::vector<SizeType> shape = {2, 2};
+    SizeArray shape = {2, 2};
     DataBlock<int> block(data, shape);
 
     REQUIRE_THROWS_AS(block.as_multi_array<1>(), std::invalid_argument);
@@ -361,7 +361,7 @@ TEST_CASE("DataBlock - as_multi_array", "[DataBlock]")
   SECTION("Data Size Mismatch")
   {
     std::vector<int> data = {1, 2, 3};  // Missing one element
-    std::vector<SizeType> shape = {2, 2};
+    SizeArray shape = {2, 2};
     DataBlock<int> block(data, shape);
 
     REQUIRE_THROWS_AS(block.as_multi_array<2>(), std::invalid_argument);

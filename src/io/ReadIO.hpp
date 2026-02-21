@@ -43,7 +43,7 @@ public:
    * \brief The 1D vector with the n-dimensional shape of the data.
    *        Set to empty in case of scalar data.
    */
-  std::vector<SizeType> shape;
+  SizeArray shape;
 
   /**
    * \brief Type index of the values stored in the data vector.
@@ -77,7 +77,7 @@ public:
    * \brief Parameterized constructor
    */
   DataBlockGeneric(const std::any& inData,
-                   const std::vector<SizeType>& inShape,
+                   const SizeArray& inShape,
                    const std::type_index& inTypeIndex,
                    const IO::BaseDataType inBaseDataType)
       : data(inData)
@@ -271,7 +271,7 @@ public:
    * \brief The 1D vector with the n-dimensional shape of the data.
    *        Set to empty in case of scalar data
    */
-  std::vector<SizeType> shape;
+  SizeArray shape;
   /**
    * \brief Type index of the values stored in the data vector.
    *        Here this is fixed to ``typeid(DTYPE)``
@@ -281,8 +281,7 @@ public:
   /**
    * Constructor
    */
-  DataBlock(const std::vector<DTYPE>& inData,
-            const std::vector<SizeType>& inShape)
+  DataBlock(const std::vector<DTYPE>& inData, const SizeArray& inShape)
       : data(inData)
       , shape(inShape)
   {
@@ -486,7 +485,7 @@ public:
    * @brief Get the shape of the data object.
    * @return The shape of the data object.
    */
-  inline std::vector<SizeType> getShape() const
+  inline SizeArray getShape() const
   {
     return m_io->getStorageObjectShape(m_path);
   }
@@ -599,11 +598,10 @@ public:
    */
   template<StorageObjectType U = OTYPE,
            typename std::enable_if<isDataset<U>::value, int>::type = 0>
-  inline DataBlockGeneric valuesGeneric(
-      const std::vector<SizeType>& start,
-      const std::vector<SizeType>& count = {},
-      const std::vector<SizeType>& stride = {},
-      const std::vector<SizeType>& block = {}) const
+  inline DataBlockGeneric valuesGeneric(const SizeArray& start,
+                                        const SizeArray& count = {},
+                                        const SizeArray& stride = {},
+                                        const SizeArray& block = {}) const
   {
     // The function is only enabled for datasets so we don't need to check
     // for attributes here.
@@ -656,10 +654,10 @@ public:
   template<typename T = VTYPE,
            StorageObjectType U = OTYPE,
            typename std::enable_if<isDataset<U>::value, int>::type = 0>
-  inline DataBlock<VTYPE> values(const std::vector<SizeType>& start,
-                                 const std::vector<SizeType>& count = {},
-                                 const std::vector<SizeType>& stride = {},
-                                 const std::vector<SizeType>& block = {}) const
+  inline DataBlock<VTYPE> values(const SizeArray& start,
+                                 const SizeArray& count = {},
+                                 const SizeArray& stride = {},
+                                 const SizeArray& block = {}) const
   {
     // The function is only enabled for datasets so we don't need to check
     // for attributes here.

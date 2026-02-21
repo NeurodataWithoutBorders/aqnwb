@@ -371,8 +371,8 @@ TEST_CASE("HDF5IO; write datasets", "[hdf5io]")
         hdf5io->createArrayDataSet(config, dataPath);
 
     // Write data block
-    std::vector<SizeType> dataShape = {numSamples};
-    std::vector<SizeType> positionOffset = {0};
+    SizeArray dataShape = {numSamples};
+    SizeArray positionOffset = {0};
     Status writeStatus = dataset->writeDataBlock(
         dataShape, positionOffset, BaseDataType::I32, &testData[0]);
     REQUIRE(writeStatus == Status::Success);
@@ -400,8 +400,8 @@ TEST_CASE("HDF5IO; write datasets", "[hdf5io]")
     // Set up test data for 3D
     SizeType numRows = 1, numCols = 10;
     std::string dataPath = "/1DData2DDataset";
-    std::vector<SizeType> dataShape = {numRows, numCols};
-    std::vector<SizeType> positionOffset = {0, 0};
+    SizeArray dataShape = {numRows, numCols};
+    SizeArray positionOffset = {0, 0};
 
     IO::ArrayDataSetConfig config {
         BaseDataType::I32, SizeArray {numRows, numCols}, SizeArray {0, 0}};
@@ -437,8 +437,8 @@ TEST_CASE("HDF5IO; write datasets", "[hdf5io]")
     // Set up test data for 2D
     SizeType numRows = 2, numCols = 5;
     std::string dataPath = "/2DData2DDataset";
-    std::vector<SizeType> dataShape = {numRows, numCols};
-    std::vector<SizeType> positionOffset = {0, 0};
+    SizeArray dataShape = {numRows, numCols};
+    SizeArray positionOffset = {0, 0};
 
     // Create HDF5RecordingData object and dataset for 2D data
     IO::ArrayDataSetConfig config {
@@ -477,8 +477,8 @@ TEST_CASE("HDF5IO; write datasets", "[hdf5io]")
     // Set up test data for 3D
     SizeType depth = 1, height = 1, width = 10;
     std::string dataPath = "1DData3DDataset";
-    std::vector<SizeType> dataShape = {depth, height, width};
-    std::vector<SizeType> positionOffset = {0, 0, 0};
+    SizeArray dataShape = {depth, height, width};
+    SizeArray positionOffset = {0, 0, 0};
 
     IO::ArrayDataSetConfig config {BaseDataType::I32,
                                    SizeArray {depth, height, width},
@@ -515,8 +515,8 @@ TEST_CASE("HDF5IO; write datasets", "[hdf5io]")
 
     SizeType depth = 1, height = 2, width = 5;
     std::string dataPath = "2DData3DDataset";
-    std::vector<SizeType> dataShape = {depth, height, width};
-    std::vector<SizeType> positionOffset = {0, 0, 0};
+    SizeArray dataShape = {depth, height, width};
+    SizeArray positionOffset = {0, 0, 0};
 
     IO::ArrayDataSetConfig config {BaseDataType::I32,
                                    SizeArray {depth, height, width},
@@ -953,7 +953,7 @@ TEST_CASE("HDF5IO; SWMR mode", "[hdf5io]")
     // write to file
     for (SizeType b = 0; b <= numBlocks; b++) {
       // write data block and flush to file
-      std::vector<SizeType> dataShape = {numSamples};
+      SizeArray dataShape = {numSamples};
       dataset->writeDataBlock(dataShape, BaseDataType::I32, &testData[0]);
       H5Dflush(static_cast<IO::HDF5::HDF5RecordingData*>(dataset.get())
                    ->getDataSet()
@@ -1011,7 +1011,7 @@ TEST_CASE("HDF5IO; SWMR mode", "[hdf5io]")
     // write to file
     for (SizeType b = 0; b <= numBlocks; b++) {
       // write data block and flush to file
-      std::vector<SizeType> dataShape = {numSamples};
+      SizeArray dataShape = {numSamples};
       dataset->writeDataBlock(dataShape, BaseDataType::I32, &testData[0]);
       H5Dflush(static_cast<IO::HDF5::HDF5RecordingData*>(dataset.get())
                    ->getDataSet()
@@ -1041,7 +1041,7 @@ TEST_CASE("HDF5IO; SWMR mode", "[hdf5io]")
 
     for (SizeType b = 0; b <= numBlocks; b++) {
       // write data block and flush to file
-      std::vector<SizeType> dataShape = {numSamples};
+      SizeArray dataShape = {numSamples};
       datasetPostRestart->writeDataBlock(
           dataShape, BaseDataType::I32, &testData[0]);
       H5Dflush(
@@ -1611,8 +1611,8 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
         hdf5io->createArrayDataSet(config, dataPath);
 
     // Write data block
-    std::vector<SizeType> dataShape = {numSamples};
-    std::vector<SizeType> positionOffset = {0};
+    SizeArray dataShape = {numSamples};
+    SizeArray positionOffset = {0};
     dataset->writeDataBlock(
         dataShape, positionOffset, BaseDataType::I32, &testData[0]);
 
@@ -1660,8 +1660,8 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
         hdf5io->createArrayDataSet(config, dataPath);
 
     // Write data block
-    std::vector<SizeType> dataShape = {numRows, numCols};
-    std::vector<SizeType> positionOffset = {0, 0};
+    SizeArray dataShape = {numRows, numCols};
+    SizeArray positionOffset = {0, 0};
     dataset->writeDataBlock(
         dataShape, positionOffset, BaseDataType::I32, testData2D.data());
 
@@ -1697,8 +1697,8 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
         hdf5io->createArrayDataSet(floatConfig, floatDataPath);
 
     // Write float data block
-    std::vector<SizeType> floatDataShape = {5};
-    std::vector<SizeType> floatPositionOffset = {0};
+    SizeArray floatDataShape = {5};
+    SizeArray floatPositionOffset = {0};
     writeStatus = floatDataset->writeDataBlock(floatDataShape,
                                                floatPositionOffset,
                                                BaseDataType::F32,
@@ -1723,8 +1723,8 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
         hdf5io->createArrayDataSet(doubleConfig, doubleDataPath);
 
     // Write double data block
-    std::vector<SizeType> doubleDataShape = {5};
-    std::vector<SizeType> doublePositionOffset = {0};
+    SizeArray doubleDataShape = {5};
+    SizeArray doublePositionOffset = {0};
     writeStatus = doubleDataset->writeDataBlock(doubleDataShape,
                                                 doublePositionOffset,
                                                 BaseDataType::F64,
@@ -1749,8 +1749,8 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
         hdf5io->createArrayDataSet(u8Config, u8DataPath);
 
     // Write unsigned 8-bit integer data block
-    std::vector<SizeType> u8DataShape = {5};
-    std::vector<SizeType> u8PositionOffset = {0};
+    SizeArray u8DataShape = {5};
+    SizeArray u8PositionOffset = {0};
     writeStatus = u8Dataset->writeDataBlock(
         u8DataShape, u8PositionOffset, BaseDataType::T_U8, testDataU8.data());
     REQUIRE(writeStatus == Status::Success);
@@ -1774,8 +1774,8 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
         hdf5io->createArrayDataSet(u16Config, u16DataPath);
 
     // Write unsigned 16-bit integer data block
-    std::vector<SizeType> u16DataShape = {5};
-    std::vector<SizeType> u16PositionOffset = {0};
+    SizeArray u16DataShape = {5};
+    SizeArray u16PositionOffset = {0};
     writeStatus = u16Dataset->writeDataBlock(u16DataShape,
                                              u16PositionOffset,
                                              BaseDataType::T_U16,
@@ -1801,8 +1801,8 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
         hdf5io->createArrayDataSet(i8Config, i8DataPath);
 
     // Write signed 8-bit integer data block
-    std::vector<SizeType> i8DataShape = {5};
-    std::vector<SizeType> i8PositionOffset = {0};
+    SizeArray i8DataShape = {5};
+    SizeArray i8PositionOffset = {0};
     writeStatus = i8Dataset->writeDataBlock(
         i8DataShape, i8PositionOffset, BaseDataType::T_I8, testDataI8.data());
     REQUIRE(writeStatus == Status::Success);
@@ -1826,8 +1826,8 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
         hdf5io->createArrayDataSet(i16Config, i16DataPath);
 
     // Write signed 16-bit integer data block
-    std::vector<SizeType> i16DataShape = {5};
-    std::vector<SizeType> i16PositionOffset = {0};
+    SizeArray i16DataShape = {5};
+    SizeArray i16PositionOffset = {0};
     writeStatus = i16Dataset->writeDataBlock(i16DataShape,
                                              i16PositionOffset,
                                              BaseDataType::T_I16,
@@ -1854,8 +1854,8 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
         hdf5io->createArrayDataSet(strConfig, strDataPath);
 
     // Write fixed-length string data block
-    std::vector<SizeType> strDataShape = {3};
-    std::vector<SizeType> strPositionOffset = {0};
+    SizeArray strDataShape = {3};
+    SizeArray strPositionOffset = {0};
     writeStatus = strDataset->writeDataBlock(
         strDataShape, strPositionOffset, strType, testDataStr);
     REQUIRE(writeStatus == Status::Success);
@@ -1881,8 +1881,8 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
         hdf5io->createArrayDataSet(vstrConfig, vstrDataPath);
 
     // Write variable-length string data block
-    std::vector<SizeType> vstrDataShape = {3};
-    std::vector<SizeType> vstrPositionOffset = {0};
+    SizeArray vstrDataShape = {3};
+    SizeArray vstrPositionOffset = {0};
     writeStatus =
         vstrDataset->writeDataBlock(vstrDataShape,
                                     vstrPositionOffset,
@@ -1970,8 +1970,8 @@ TEST_CASE("HDF5IO; read dataset subset", "[hdf5io]")
 
     // Test case 1: Read a 2x2 hyperslab from the dataset
     {
-      std::vector<SizeType> start = {1, 1};
-      std::vector<SizeType> count = {2, 2};
+      SizeArray start = {1, 1};
+      SizeArray count = {2, 2};
 
       auto readData = hdf5io->readDataset(dataPath, start, count);
       auto readDataTyped = DataBlock<int32_t>::fromGeneric(readData);
@@ -1988,8 +1988,8 @@ TEST_CASE("HDF5IO; read dataset subset", "[hdf5io]")
 
     // Test case 2: Read the entire dataset
     {
-      std::vector<SizeType> start = {};
-      std::vector<SizeType> count = {};
+      SizeArray start = {};
+      SizeArray count = {};
 
       auto readData = hdf5io->readDataset(dataPath, start, count);
       auto readDataTyped = DataBlock<int32_t>::fromGeneric(readData);
@@ -2006,8 +2006,8 @@ TEST_CASE("HDF5IO; read dataset subset", "[hdf5io]")
 
     // Test case 3: Read a single element from the dataset
     {
-      std::vector<SizeType> start = {2, 2};
-      std::vector<SizeType> count = {1, 1};
+      SizeArray start = {2, 2};
+      SizeArray count = {1, 1};
 
       auto readData = hdf5io->readDataset(dataPath, start, count);
       auto readDataTyped = DataBlock<int32_t>::fromGeneric(readData);
@@ -2024,9 +2024,9 @@ TEST_CASE("HDF5IO; read dataset subset", "[hdf5io]")
 
     // Test case 4: Read with stride
     {
-      std::vector<SizeType> start = {0, 0};
-      std::vector<SizeType> count = {2, 2};
-      std::vector<SizeType> stride = {2, 2};
+      SizeArray start = {0, 0};
+      SizeArray count = {2, 2};
+      SizeArray stride = {2, 2};
 
       auto readData = hdf5io->readDataset(dataPath, start, count, stride);
       auto readDataTyped = DataBlock<int32_t>::fromGeneric(readData);
@@ -2043,9 +2043,9 @@ TEST_CASE("HDF5IO; read dataset subset", "[hdf5io]")
 
     // Test case 5: Read with block
     {
-      std::vector<SizeType> start = {0, 0};
-      std::vector<SizeType> count = {1, 1};
-      std::vector<SizeType> block = {2, 2};
+      SizeArray start = {0, 0};
+      SizeArray count = {1, 1};
+      SizeArray block = {2, 2};
 
       auto readData = hdf5io->readDataset(dataPath, start, count, {}, block);
       auto readDataTyped = DataBlock<int32_t>::fromGeneric(readData);

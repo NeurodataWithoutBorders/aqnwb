@@ -115,8 +115,8 @@ TEST_CASE("RegisterType", "[base]")
     // Prepare test data
     SizeType numSamples = 10;
     std::string dataPath = "/tsdata";
-    std::vector<SizeType> dataShape = {numSamples};
-    std::vector<SizeType> positionOffset = {0};
+    SizeArray dataShape = {numSamples};
+    SizeArray positionOffset = {0};
     BaseDataType dataType = BaseDataType::F32;
     std::vector<float> data = getMockData1D(numSamples);
     std::vector<double> timestamps = getMockTimestamps(numSamples, 1);

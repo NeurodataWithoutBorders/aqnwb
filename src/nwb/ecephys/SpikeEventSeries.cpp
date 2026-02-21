@@ -37,8 +37,8 @@ Status SpikeEventSeries::writeSpike(const SizeType& numSamples,
                                     const void* controlInput)
 {
   // get offsets and datashape
-  std::vector<SizeType> dataShape;
-  std::vector<SizeType> positionOffset;
+  SizeArray dataShape;
+  SizeArray positionOffset;
   if (numChannels == 1) {
     dataShape = {1, numSamples};
     positionOffset = {this->m_eventsRecorded, 0};

@@ -5,11 +5,25 @@
 set(
     COVERAGE_TRACE_COMMAND
     lcov -c --verbose
-    -o "${PROJECT_BINARY_DIR}/coverage.info"
+    -o "${PROJECT_BINARY_DIR}/coverage_raw.info"
     -d "${PROJECT_BINARY_DIR}"
-    --include "${PROJECT_SOURCE_DIR}/src/*"
     CACHE STRING
     "; separated command to generate a trace for the 'coverage' target"
+)
+
+# Use lcov --extract (rather than --include during lcov -c capture) to filter
+# coverage data to only the src/ directory. The --include flag behavior during
+# capture is inconsistent across lcov versions (1.x vs 2.x), whereas --extract
+# reliably filters an already-captured trace file. This ensures that test files
+# and third-party headers are excluded from the final coverage report.
+set(
+    COVERAGE_FILTER_COMMAND
+    lcov --verbose
+    --extract "${PROJECT_BINARY_DIR}/coverage_raw.info"
+    "${PROJECT_SOURCE_DIR}/src/*"
+    -o "${PROJECT_BINARY_DIR}/coverage.info"
+    CACHE STRING
+    "; separated command to filter the trace to src/ for the 'coverage' target"
 )
 
 set(
@@ -27,6 +41,7 @@ set(
 add_custom_target(
     coverage
     COMMAND ${COVERAGE_TRACE_COMMAND}
+    COMMAND ${COVERAGE_FILTER_COMMAND}
     COMMAND ${COVERAGE_HTML_COMMAND}
     COMMENT "Generating coverage report"
     VERBATIM

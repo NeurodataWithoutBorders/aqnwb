@@ -182,8 +182,8 @@ inline std::shared_ptr<IO::HDF5::HDF5IO> getHDF5IOWithInt32TestData2D(
   REQUIRE(dataset != nullptr);
 
   // Write data block
-  std::vector<SizeType> dataShape = {numRows, numCols};
-  std::vector<SizeType> positionOffset = {0, 0};
+  SizeArray dataShape = {numRows, numCols};
+  SizeArray positionOffset = {0, 0};
   Status status = dataset->writeDataBlock(
       dataShape, positionOffset, BaseDataType::I32, testData.data());
   REQUIRE(status == Status::Success);
