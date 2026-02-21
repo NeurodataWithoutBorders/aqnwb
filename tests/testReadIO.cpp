@@ -436,10 +436,12 @@ TEST_CASE("ReadDataWrapper; introspection methods", "[ReadDataWrapper]")
   // Group + I32 attribute (3 elements) — used for attribute tests
   const std::string grpPath = "/grp";
   const std::string attrPath = "/grp/attr";
-  hdf5io->createGroup(grpPath);
+  auto grpStatus = hdf5io->createGroup(grpPath);
+  REQUIRE(grpStatus == IO::Status::Success);
   const std::vector<int32_t> attrData = {10, 20, 30};
-  hdf5io->createAttribute(
+  auto attrStatus = hdf5io->createAttribute(
       IO::BaseDataType::I32, attrData.data(), grpPath, "attr", 3);
+  REQUIRE(attrStatus == IO::Status::Success);
 
   // -----------------------------------------------------------------------
 
