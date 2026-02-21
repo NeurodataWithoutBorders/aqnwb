@@ -9,5 +9,6 @@ var class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config =
     [ "getTargetShape", "class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html#a2823f37d4929cb55cc8697a58516a9b4", null ],
     [ "isLink", "class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html#a5ab306e3199eba4680ae8a66872eaf40", null ],
     [ "targetExists", "class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html#a7fccfbd5c0deb82ff9383627d3cf0477", null ],
+    [ "validateTarget", "class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html#a005446a702308bafc732b3c4b9520a94", null ],
     [ "m_targetPath", "class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html#afc6769ff138fff14266300d7152d6abc", null ]
 ];
