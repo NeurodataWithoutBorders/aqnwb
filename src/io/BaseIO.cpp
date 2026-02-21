@@ -131,9 +131,10 @@ Status LinkArrayDataSetConfig::validateTarget(
   for (const auto& attrName : requiredAttributes) {
     std::string attrPath = m_targetPath + "/" + attrName;
     if (!io.attributeExists(attrPath)) {
-      std::cerr << "LinkArrayDataSetConfig::validateTarget: required attribute '"
-                << attrName << "' is missing on target dataset '" << m_targetPath
-                << "'." << std::endl;
+      std::cerr
+          << "LinkArrayDataSetConfig::validateTarget: required attribute '"
+          << attrName << "' is missing on target dataset '" << m_targetPath
+          << "'." << std::endl;
       return Status::Failure;
     }
   }

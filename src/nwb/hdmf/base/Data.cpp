@@ -31,8 +31,13 @@ Status Data::initialize(const IO::BaseArrayDataSetConfig& dataConfig)
   }
 
   if (dataConfig.isLink()) {
-    // For links, don't set attributes since we don't own the dataset
-    // TODO: Validate that the link target has the appropriate attributes set.
+    // For links, don't set attributes since we don't own the dataset.
+    // Validate that the link target exists.
+    const auto* linkConfig =
+        dynamic_cast<const IO::LinkArrayDataSetConfig*>(&dataConfig);
+    if (linkConfig) {
+      return linkConfig->validateTarget(*ioPtr);
+    }
   } else {
     // setup common attributes
     Status commonAttrsStatus = ioPtr->createCommonNWBAttributes(

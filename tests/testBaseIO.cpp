@@ -382,9 +382,9 @@ TEST_CASE("Test LinkArrayDataSetConfig::validateTarget", "[BaseIO]")
     io.createArrayDataSet(config, "/float_dataset");
 
     LinkArrayDataSetConfig linkConfig("/float_dataset");
-    REQUIRE(linkConfig.validateTarget(
-                io, {BaseDataType::F32, BaseDataType::F64})
-            == Status::Success);
+    REQUIRE(
+        linkConfig.validateTarget(io, {BaseDataType::F32, BaseDataType::F64})
+        == Status::Success);
     io.close();
   }
 
@@ -455,9 +455,8 @@ TEST_CASE("Test LinkArrayDataSetConfig::validateTarget", "[BaseIO]")
     io.createAttribute("volts", "/dataset_missing_attr", "unit");
 
     LinkArrayDataSetConfig linkConfig("/dataset_missing_attr");
-    REQUIRE(
-        linkConfig.validateTarget(io, {}, {}, {"unit", "missing_attribute"})
-        == Status::Failure);
+    REQUIRE(linkConfig.validateTarget(io, {}, {}, {"unit", "missing_attribute"})
+            == Status::Failure);
     io.close();
   }
 
@@ -472,17 +471,14 @@ TEST_CASE("Test LinkArrayDataSetConfig::validateTarget", "[BaseIO]")
 
     LinkArrayDataSetConfig linkConfig("/complete_dataset");
     // All constraints satisfied
-    REQUIRE(
-        linkConfig.validateTarget(io, {BaseDataType::F32}, {1}, {"unit"})
-        == Status::Success);
+    REQUIRE(linkConfig.validateTarget(io, {BaseDataType::F32}, {1}, {"unit"})
+            == Status::Success);
     // Type mismatch
-    REQUIRE(
-        linkConfig.validateTarget(io, {BaseDataType::I32}, {1}, {"unit"})
-        == Status::Failure);
+    REQUIRE(linkConfig.validateTarget(io, {BaseDataType::I32}, {1}, {"unit"})
+            == Status::Failure);
     // Dimensionality mismatch
-    REQUIRE(
-        linkConfig.validateTarget(io, {BaseDataType::F32}, {2}, {"unit"})
-        == Status::Failure);
+    REQUIRE(linkConfig.validateTarget(io, {BaseDataType::F32}, {2}, {"unit"})
+            == Status::Failure);
     // Missing attribute
     REQUIRE(linkConfig.validateTarget(
                 io, {BaseDataType::F32}, {1}, {"unit", "missing"})

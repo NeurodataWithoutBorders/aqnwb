@@ -153,13 +153,8 @@ Status TimeSeries::initialize(
           dynamic_cast<const IO::LinkArrayDataSetConfig*>(&dataConfig);
       if (linkConfig) {
         status = status
-            && linkConfig->validateTarget(*ioPtr,
-                                          {},
-                                          {},
-                                          {"conversion",
-                                           "resolution",
-                                           "offset",
-                                           "unit"});
+            && linkConfig->validateTarget(
+                *ioPtr, {}, {}, {"conversion", "resolution", "offset", "unit"});
       }
     } else {
       status = status

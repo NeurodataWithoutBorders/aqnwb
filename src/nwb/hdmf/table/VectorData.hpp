@@ -85,9 +85,14 @@ public:
     Status dataStatus = Data::initialize(dataConfig);
     if (dataConfig.isLink()) {
       // For links, we don't set attributes since there is no dataset to attach
-      // them to.
-      // TODO: Validate that the target of the link has the appropriate
-      // attributes set.
+      // them to. Validate that the target has the required "description"
+      // attribute.
+      const auto* linkConfig =
+          dynamic_cast<const IO::LinkArrayDataSetConfig*>(&dataConfig);
+      if (linkConfig) {
+        return dataStatus
+            && linkConfig->validateTarget(*ioPtr, {}, {}, {"description"});
+      }
       return dataStatus;
     } else {
       Status attrStatus =
