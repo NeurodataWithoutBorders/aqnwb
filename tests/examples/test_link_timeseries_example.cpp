@@ -21,7 +21,8 @@ TEST_CASE("LinkTimeSeriesExamples", "[timeseries][link]")
     io->open();
 
     auto nwbfile = NWB::NWBFile::create(io);
-    nwbfile->initialize(generateUuid());
+    auto status = nwbfile->initialize(generateUuid());
+    REQUIRE(status == Status::Success);
     // [example_link_timeseries_setup]
 
     // [example_link_timeseries_original]
@@ -47,7 +48,7 @@ TEST_CASE("LinkTimeSeriesExamples", "[timeseries][link]")
     // Initialize the TimeSeries with data constant sampling rate
     double startingTime = 0.0;  // Start at 0 seconds
     float samplingRate = 1000.0;  // 1000 Hz
-    originalSeries->initialize(
+    status = originalSeries->initialize(
         dataConfig,  // Data configuration
         "m/s",  // unit for speed of the animal
         "Original speed recording of the animal",  // description
@@ -60,20 +61,23 @@ TEST_CASE("LinkTimeSeriesExamples", "[timeseries][link]")
         startingTime,  // starting time
         samplingRate  // sampling rate
     );
+    REQUIRE(status == Status::Success);
 
     // Write data. No timestamps needed since we have regular sampling rate
-    originalSeries->writeData({numSamples},  // dataShape
-                              {0},  // positionOffset
-                              data.data()  // dataInput
+    status = originalSeries->writeData({numSamples},  // dataShape
+                                       {0},  // positionOffset
+                                       data.data()  // dataInput
     );
+    REQUIRE(status == Status::Success);
     // [example_link_timeseries_original]
 
     // [example_link_timeseries_processing_module]
     // Create a ProcessingModule for time-aligned data
     auto processingModule = nwbfile->createProcessingModule("time_alignment");
     REQUIRE(processingModule != nullptr);
-    processingModule->initialize(
+    status = processingModule->initialize(
         "Time-aligned data relative to stimulus onset");
+    REQUIRE(status == Status::Success);
     // [example_link_timeseries_processing_module]
 
     // [example_link_timeseries_linked]
@@ -93,7 +97,7 @@ TEST_CASE("LinkTimeSeriesExamples", "[timeseries][link]")
     // Note: TimeSeries::initialize automatically queries shape and chunking
     // from the linked dataset to configure related datasets like timestamps
     // accordingly.
-    linkedSeries->initialize(
+    status = linkedSeries->initialize(
         linkConfig,  // Use link instead of creating new data
         originalSeries->readDataUnit()
             ->values()
@@ -106,6 +110,7 @@ TEST_CASE("LinkTimeSeriesExamples", "[timeseries][link]")
         TimeSeries::ContinuityType::Continuous  // continuity
         // no sampling rate or starting time needed since we use timestamps
     );
+    REQUIRE(status == Status::Success);
 
     // Simulate time alignment with small adjustments to demonstrate irregular
     // sampling that would result from aligning to stimulus events
@@ -119,8 +124,9 @@ TEST_CASE("LinkTimeSeriesExamples", "[timeseries][link]")
 
     // Write the adjusted timestamps to the aligned_voltage TimeSeries
     auto timestampRecorder = linkedSeries->recordTimestamps();
-    timestampRecorder->writeDataBlock(
+    status = timestampRecorder->writeDataBlock(
         {numSamples}, {0}, IO::BaseDataType::F64, newTimestamps.data());
+    REQUIRE(status == Status::Success);
     // [example_link_timeseries_linked]
 
     // [example_link_timeseries_reference]
@@ -128,7 +134,8 @@ TEST_CASE("LinkTimeSeriesExamples", "[timeseries][link]")
     // relationship explicit
     std::string referenceLinkPath =
         mergePaths(processingModule->getPath(), "original_series_reference");
-    io->createLink(referenceLinkPath, originalSeries->getPath());
+    status = io->createLink(referenceLinkPath, originalSeries->getPath());
+    REQUIRE(status == Status::Success);
     // [example_link_timeseries_reference]
 
     // [example_link_timeseries_cleanup]
