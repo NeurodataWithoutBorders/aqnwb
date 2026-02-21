@@ -32,7 +32,7 @@ Status Data::initialize(const IO::BaseArrayDataSetConfig& dataConfig)
 
   if (dataConfig.isLink()) {
     // For links, don't set attributes since we don't own the dataset.
-    // Validate that the link target has the common NWB attributes that
+    // Validate that the link target has the common NWB attributes.
     const auto* linkConfig =
         dynamic_cast<const IO::LinkArrayDataSetConfig*>(&dataConfig);
     if (linkConfig) {
