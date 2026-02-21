@@ -11,6 +11,11 @@ set(
     "; separated command to generate a trace for the 'coverage' target"
 )
 
+# Use lcov --extract (rather than --include during lcov -c capture) to filter
+# coverage data to only the src/ directory. The --include flag behavior during
+# capture is inconsistent across lcov versions (1.x vs 2.x), whereas --extract
+# reliably filters an already-captured trace file. This ensures that test files
+# and third-party headers are excluded from the final coverage report.
 set(
     COVERAGE_FILTER_COMMAND
     lcov --verbose
