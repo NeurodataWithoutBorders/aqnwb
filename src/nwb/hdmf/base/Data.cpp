@@ -31,16 +31,12 @@ Status Data::initialize(const IO::BaseArrayDataSetConfig& dataConfig)
   }
 
   if (dataConfig.isLink()) {
-    // For links, we don't set attributes since there is no dataset to attach
-    // them to.
-    // TODO: Validate that the target of the link has the appropriate attributes
-    // set.
-    return Status::Success;
+    // For links, don't set attributes since we don't own the dataset
+    // TODO: Validate that the link target has the appropriate attributes set.
   } else {
     // setup common attributes
     Status commonAttrsStatus = ioPtr->createCommonNWBAttributes(
         m_path, this->getNamespace(), this->getTypeName());
-    std::cerr << "commonAttrsStatus: " << commonAttrsStatus << std::endl;
     return commonAttrsStatus;
   }
   return Status::Success;

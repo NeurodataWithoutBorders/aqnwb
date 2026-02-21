@@ -6,24 +6,25 @@
  * \section link_overview Overview
  *
  * To avoid copying large arrays and duplicating data, AqNWB supports creating soft-links
- * to existing (!) datasets. This is accomplished by passing a \ref AQNWB::IO::LinkArrayDataSetConfig "LinkArrayDataSetConfig"
+ * to existing (!) datasets within the same file. This is accomplished by passing a
+ * \ref AQNWB::IO::LinkArrayDataSetConfig "LinkArrayDataSetConfig"
  * when initializing a type. The \ref AQNWB::IO::LinkArrayDataSetConfig "LinkArrayDataSetConfig" 
  * constructor only requires the target path. As a general rule, any function that accepts a 
- * \ref AQNWB::IO::BaseArrayDataSetConfig "BaseArrayDataSetConfig" should be able to handle both explicit datasets
- * defined via \ref AQNWB::IO::ArrayDataSetConfig "ArrayDataSetConfig" or a linked dataset via 
- * \ref AQNWB::IO::LinkArrayDataSetConfig "LinkArrayDataSetConfig" (e.g., the `initialize` methods of 
- * \ref AQNWB::NWB::TimeSeries "TimeSeries" and \ref AQNWB::NWB::Data "Data" and their subtypes).
+ * \ref AQNWB::IO::BaseArrayDataSetConfig "BaseArrayDataSetConfig" should be able to handle both 
+ * explicit datasets defined via \ref AQNWB::IO::ArrayDataSetConfig "ArrayDataSetConfig" or a linked 
+ * dataset via  \ref AQNWB::IO::LinkArrayDataSetConfig "LinkArrayDataSetConfig" (e.g., the `initialize` 
+ * methods of \ref AQNWB::NWB::TimeSeries "TimeSeries" and \ref AQNWB::NWB::Data "Data" and their
+ * subtypes).
  *
  * AqNWB also supports linking to existing Groups (or Datasets) via the 
  * \ref AQNWB::IO::BaseIO::createLink "createLink" method of the I/O, 
  * which we can use, e.g., to create a link to a TimeSeries.
  *
- * \note 
- * - AqNWB currently only supports SoftLinks within the same HDF5 file 
- * - \ref AQNWB::IO::BaseIO::createArrayDataSet "createArrayDataSet()" returns `nullptr` for 
- *   links since direct writing to a link is not supported. However, for most typical use cases 
- *   you should not need to call \ref AQNWB::IO::BaseIO::createArrayDataSet "createArrayDataSet()"
- *   directly since creation of datasets is handled by the NWB type classes in AqNWB.
+ * \warning
+ *   Links must point to targets that comply with the schema requirements to ensure valid NWB files.
+ *   E.g., a TimeSeries requires that the `data` has a `unit` attribute or a `VectorData`
+ *   requires corresponding attributes for `neurodata_type` and `namespace`. We should,
+ *   therefore, only create links between schema-compatible targets. 
  *
  * \section link_use_case Use Case: Time-Aligned TimeSeries
  *
