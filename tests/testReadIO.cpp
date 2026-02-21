@@ -383,11 +383,10 @@ struct has_toLinkArrayDataSetConfig<
 
 // Compile-time assertions: toLinkArrayDataSetConfig must be available for
 // Dataset wrappers and disabled for Attribute wrappers.
-static_assert(
-    has_toLinkArrayDataSetConfig<
-        ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset,
-                        int32_t>>::value,
-    "toLinkArrayDataSetConfig must be callable for Dataset wrappers");
+static_assert(has_toLinkArrayDataSetConfig<
+                  ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset,
+                                  int32_t>>::value,
+              "toLinkArrayDataSetConfig must be callable for Dataset wrappers");
 static_assert(
     !has_toLinkArrayDataSetConfig<
         ReadDataWrapper<AQNWB::Types::StorageObjectType::Attribute,
@@ -548,14 +547,12 @@ TEST_CASE("ReadDataWrapper; introspection methods", "[ReadDataWrapper]")
   SECTION("isType compile-time check")
   {
     // isType<>() is a static constexpr function — check at compile time
-    static_assert(
-        ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset,
-                        float>::isType<float>(),
-        "isType<float>() must return true for VTYPE=float");
-    static_assert(
-        !ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset,
-                         float>::isType<int32_t>(),
-        "isType<int32_t>() must return false for VTYPE=float");
+    static_assert(ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset,
+                                  float>::isType<float>(),
+                  "isType<float>() must return true for VTYPE=float");
+    static_assert(!ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset,
+                                   float>::isType<int32_t>(),
+                  "isType<int32_t>() must return false for VTYPE=float");
   }
 
   SECTION("getShape and getNumDimensions for a 1D dataset")
@@ -593,8 +590,8 @@ TEST_CASE("ReadDataWrapper; introspection methods", "[ReadDataWrapper]")
         IO::BaseDataType::I32, SizeArray {2, 3}, SizeArray {0, 0});
     auto dataset = hdf5io->createArrayDataSet(config, dataPath);
     std::vector<int32_t> testData = {1, 2, 3, 4, 5, 6};
-    dataset->writeDataBlock({2, 3}, {0, 0}, IO::BaseDataType::I32,
-                            testData.data());
+    dataset->writeDataBlock(
+        {2, 3}, {0, 0}, IO::BaseDataType::I32, testData.data());
 
     auto wrapper = std::make_unique<
         ReadDataWrapper<AQNWB::Types::StorageObjectType::Dataset, int32_t>>(
