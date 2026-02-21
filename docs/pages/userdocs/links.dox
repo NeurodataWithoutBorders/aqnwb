@@ -81,7 +81,7 @@
  * \ref AQNWB::NWB::ProcessingModule "ProcessingModule" to explicitly document the relationship
  * and provenance of the processed data. This is not strictly necessary since the linkage is 
  * already documented via the link of the data in the aligned timeseries, however, linking 
- * the full orginal timeseries makes the provenance more explicit and makes the data easier 
+ * the full original timeseries makes the provenance more explicit and makes the data easier 
  * to reuse. 
  *
  * \snippet tests/examples/test_link_timeseries_example.cpp example_link_timeseries_reference
