@@ -481,8 +481,12 @@ private:
    *
    * Called from both the destructor and the virtual close() method to avoid
    * calling a virtual function from a destructor.
+   *
+   * @return Status::Success if the file was closed successfully, or was
+   *         already closed. Returns Status::Failure if an HDF5 exception
+   *         occurs while closing.
    */
-  void closeFileImpl();
+  Status closeFileImpl();
 
   /**
    * @brief Unique pointer to the HDF5 file for reading
