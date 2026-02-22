@@ -7,7 +7,7 @@ macro(default name)
 endmacro()
 
 default(CPPCHECK_COMMAND cppcheck)
-default(SOURCE_DIRS "src")
+default(SOURCE_DIRS "src;tests")
 
 set(
     cppcheck_args
