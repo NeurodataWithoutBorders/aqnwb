@@ -38,6 +38,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Updated NWBFile to make common root path definitions (e.g., acquisition, processing, stimulus) public to make path generation easier (@oruebel, [#257](https://github.com/NeurodataWithoutBorders/aqnwb/pull/257))
 
 ### Fixed
+* Fixed a broad set of `cppcheck` static analysis warnings (@copilot, @oruebel [#274](https://github.com/NeurodataWithoutBorders/aqnwb/pull/274)):
+  * **Correctness**: Fixed `BaseIO::stopRecording` to return the computed composite `status` instead of hardcoded `Status::Success`; initialized `SpikeEventSeries::m_eventsRecorded` to `0` in-class; removed dead `chunk`/`DSetCreatPropList` code from `HDF5RecordingData` constructor
+  * **Performance**: Changed `const std::string` / `const std::vector` pass-by-value parameters to `const &` across `Channel`, `AnnotationSeries`, `ElectrodesTable`, `NWBFile`, `nwbio_utils.hpp`, and test utilities
+  * **API hygiene**: Added `explicit` to single-arg constructors on `HDF5IO`, `HDF5RecordingData`, `ElectrodesTable`, and `NWBFile`; added `override` to `HDF5RecordingData::writeDataBlock` overloads; marked `BaseIO::getFullTypeName` `const`; made `ReadDataWrapper::getStorageObjectType` `static`; aligned constructor parameter names in `HDF5IO`, `HDF5ArrayDataSetConfig`, and `DynamicTable::addReferenceColumn`; declared `const std::tm*` pointers in `Utils.hpp`
+  * **STL modernization**: Replaced raw loops with `std::any_of`, `std::accumulate`, `std::transform`, and `std::find_if` in `BaseIO.cpp`, `HDF5IO.cpp`, `RecordingObjects.cpp`, and `ReadIO.hpp`
+  * **cppcheck suppressions**: Added `--suppress=duplInheritedMember` globally to `cmake/cppcheck.cmake` and `.github/workflows/cppcheck.yml`; added inline `cppcheck-suppress` comments for intentional test patterns (`duplicateExpression`, `knownConditionTrueFalse`, `useStlAlgorithm`, `variableScope`)
 * Restricted code coverage report to `src/` folder only (@copilot, @oruebel [#262](https://github.com/NeurodataWithoutBorders/aqnwb/pull/262)):
   * Updated `cmake/coverage.cmake` to use a two-step lcov approach: capture all coverage into `coverage_raw.info`, then use `lcov --extract` to filter to `src/*` only, producing the final `coverage.info`
   * Added `.codecov.yml` to instruct the Codecov server to ignore `tests/**`, preventing Codecov-action from including test files it discovers via independent `gcov` scanning of the build directory
