@@ -477,6 +477,18 @@ private:
   std::unique_ptr<H5::Attribute> getAttribute(const std::string& path) const;
 
   /**
+   * @brief Non-virtual helper that performs the actual HDF5 file close.
+   *
+   * Called from both the destructor and the virtual close() method to avoid
+   * calling a virtual function from a destructor.
+   *
+   * @return Status::Success if the file was closed successfully, or was
+   *         already closed. Returns Status::Failure if an HDF5 exception
+   *         occurs while closing.
+   */
+  Status closeFileImpl();
+
+  /**
    * @brief Unique pointer to the HDF5 file for reading
    */
   std::unique_ptr<H5::H5File> m_file;

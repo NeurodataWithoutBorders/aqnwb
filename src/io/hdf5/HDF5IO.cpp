@@ -29,7 +29,19 @@ HDF5IO::HDF5IO(const std::string& fileName, const bool disableSWMRMode)
 
 HDF5IO::~HDF5IO()
 {
-  close();
+  try {
+    BaseIO::close();  // clear the recording containers
+    closeFileImpl();
+  } catch (const H5::Exception& e) {
+    std::cerr << "HDF5IO::~HDF5IO: error closing file '" << getFileName()
+              << "': " << e.getDetailMsg() << std::endl;
+  } catch (const std::exception& e) {
+    std::cerr << "HDF5IO::~HDF5IO: error closing file '" << getFileName()
+              << "': " << e.what() << std::endl;
+  } catch (...) {
+    std::cerr << "HDF5IO::~HDF5IO: unknown error closing file '"
+              << getFileName() << "'" << std::endl;
+  }
 }
 
 Status HDF5IO::open()
@@ -82,13 +94,24 @@ Status HDF5IO::open(FileMode mode)
 Status HDF5IO::close()
 {
   auto baseCloseStatus = BaseIO::close();  // clear the recording containers
+  return baseCloseStatus && closeFileImpl();
+}
+
+Status HDF5IO::closeFileImpl()
+{
   // Close the file if it is open
   if (m_file != nullptr && m_opened) {
-    m_file->close();
+    try {
+      m_file->close();
+    } catch (const H5::Exception& e) {
+      std::cerr << "HDF5IO::closeFileImpl: error closing file '"
+                << getFileName() << "': " << e.getDetailMsg() << std::endl;
+      return Status::Failure;
+    }
     m_file = nullptr;
     m_opened = false;
   }
-  return baseCloseStatus;
+  return Status::Success;
 }
 
 Status HDF5IO::flush()
