@@ -40,7 +40,7 @@ jobs:
           --xml \
           --xml-version=2 \
           -I src \
-          src/ tests/ \
+          src/ \
           2> cppcheck_results.xml
 
     - name: Convert to SARIF

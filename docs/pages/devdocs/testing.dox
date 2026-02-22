@@ -91,7 +91,7 @@
  *  cmake -D CPPCHECK_COMMAND=cppcheck -P cmake/cppcheck.cmake
  * \endcode
  *
- * The analysis checks for issues in the ``src/`` and ``tests/`` directories, covering
+ * The analysis checks for issues in the ``src/`` directory, covering
  * style, performance, portability, and warning categories.
  *
  * \subsection testing_cppcheck_suppress Suppressing false positives
