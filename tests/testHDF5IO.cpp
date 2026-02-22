@@ -752,7 +752,7 @@ TEST_CASE("HDF5IO; create attributes", "[hdf5io]")
     // Read the attribute and verify the attribute data
     auto readAttrGeneric = hdf5io.readAttribute(attrPath);
     auto readAttrData = IO::DataBlock<int>::fromGeneric(readAttrGeneric);
-    REQUIRE(readAttrData.shape.size() == 1);  // Scalar attribute
+    REQUIRE(readAttrData.shape.size() == 1);  // 1D attribute
     REQUIRE(readAttrData.data.size() == 5);
     REQUIRE(readAttrData.data == data);
 
