@@ -1,8 +1,5 @@
 name: Demo - Inspect Electrical Series
 
-permissions:
-  contents: read
-
 on:
   push:
     branches:
