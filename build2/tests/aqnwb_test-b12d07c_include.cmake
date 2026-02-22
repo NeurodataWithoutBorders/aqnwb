@@ -1,5 +1,0 @@
-if(EXISTS "/home/runner/work/aqnwb/aqnwb/build2/tests/aqnwb_test-b12d07c_tests.cmake")
-  include("/home/runner/work/aqnwb/aqnwb/build2/tests/aqnwb_test-b12d07c_tests.cmake")
-else()
-  add_test(aqnwb_test_NOT_BUILT-b12d07c aqnwb_test_NOT_BUILT-b12d07c)
-endif()
