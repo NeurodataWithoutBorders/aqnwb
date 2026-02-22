@@ -22,7 +22,11 @@ var devdocs =
         [ "Automated tests on GitHub", "testing.html#testing_github", null ]
       ] ],
       [ "Spellcheck", "testing.html#testing_spellcheck", null ],
-      [ "Linting", "testing.html#testing_lint", null ]
+      [ "Linting", "testing.html#testing_lint", null ],
+      [ "Static Analysis (Cppcheck)", "testing.html#testing_cppcheck", [
+        [ "Suppressing false positives", "testing.html#testing_cppcheck_suppress", null ],
+        [ "Cppcheck on GitHub", "testing.html#testing_cppcheck_github", null ]
+      ] ]
     ] ],
     [ "Documentation 📚", "dev_docs_page.html", [
       [ "Building the Docs", "dev_docs_page.html#dev_docs_requirements_sec", null ],

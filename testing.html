@@ -138,7 +138,20 @@ Linting</h1>
 <p>AqNWB uses <span class="tt">clang-format</span> for linting the code. You can run the linter via:</p>
 <div class="fragment"><div class="line">cmake --build --preset=dev --target=format-check</div>
 </div><!-- fragment --><p>To automatically fix formatting errors you can run the linter via the <span class="tt">format-fix</span> target instead: </p><div class="fragment"><div class="line">cmake --build --preset=dev --target=format-fix</div>
-</div><!-- fragment --> </div></div><!-- contents -->
+</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="testing_cppcheck"></a>
+Static Analysis (Cppcheck)</h1>
+<p>AqNWB uses <span class="tt">cppcheck</span> for static analysis of the C++ source code. You can run the static analyzer locally via the <span class="tt">cppcheck</span> cmake target:</p>
+<div class="fragment"><div class="line">cmake --build --preset=dev --target=cppcheck</div>
+</div><!-- fragment --><p>Alternatively, you can invoke the cmake script directly from the project root:</p>
+<div class="fragment"><div class="line">cmake -D CPPCHECK_COMMAND=cppcheck -P cmake/cppcheck.cmake</div>
+</div><!-- fragment --><p>The analysis checks for issues in the <span class="tt">src/</span> and <span class="tt">tests/</span> directories, covering style, performance, portability, and warning categories.</p>
+<h2 class="doxsection"><a class="anchor" id="testing_cppcheck_suppress"></a>
+Suppressing false positives</h2>
+<p>Individual false-positive warnings can be suppressed inline using cppcheck's <span class="tt">//cppcheck-suppress</span> comment directive directly in the source code. This is supported because <span class="tt">--inline-suppr</span> is passed to cppcheck by default.</p>
+<h2 class="doxsection"><a class="anchor" id="testing_cppcheck_github"></a>
+Cppcheck on GitHub</h2>
+<p>The <span class="tt">cppcheck</span> GitHub Actions workflow defined in <a href="https://github.com/NeurodataWithoutBorders/aqnwb/blob/main/.github/workflows/cppcheck.yml">.github/workflows/cppcheck.yml</a> runs automatically on every push to <span class="tt">main</span> and on all pull requests. Results are converted to SARIF and uploaded to the <a href="https://github.com/NeurodataWithoutBorders/aqnwb/security/code-scanning">GitHub Security</a> tab, where cppcheck results can be browsed and tracked over time. </p>
+</div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->
 <div id="page-nav" class="page-nav-panel">

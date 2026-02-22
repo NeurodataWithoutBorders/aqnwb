@@ -122,7 +122,7 @@ Requirements</h2>
 </ul>
 </li>
 <li><b>Code checks:</b> Additional command line tools used in developer mode <span class="tt">dev</span><ul>
-<li>cppcheck</li>
+<li>cppcheck (optional, required for <span class="tt">target=cppcheck</span>)</li>
 <li>clang-format (optional, required for <span class="tt">target=format-check</span>, <span class="tt">target=format-fix</span>)</li>
 <li>codespell (optional, required for <span class="tt">target=spell-check</span>, <span class="tt">target=spell-fix</span>)</li>
 </ul>
@@ -210,6 +210,7 @@ Target options</h4>
 <li><span class="tt">format-fix</span> : run the <span class="tt">clang-format</span> tool on the codebase with <span class="tt">FIX=YES</span> to both check and automatically fix for formatting errors</li>
 <li><span class="tt">spell-check</span>: run the <span class="tt">codespell</span> tool on the codebase to check for common spelling errors</li>
 <li><span class="tt">spell-fix</span> : run the <span class="tt">codespell</span> tool on the codebase with <span class="tt">FIX=YES</span> to both check and automatically fix common spelling errors</li>
+<li><span class="tt">cppcheck</span> : run the <span class="tt">cppcheck</span> static analysis tool on the codebase to check for potential bugs, style issues, performance issues, and portability issues</li>
 <li><span class="tt">docs</span> : builds the documentation using Doxygen. (Note: run <span class="tt">cmake --preset=dev -DBUILD_DOCS=ON</span> before building to add docs target)</li>
 </ul>
 <h1 class="doxsection"><a class="anchor" id="dev_install_utils_sec"></a>

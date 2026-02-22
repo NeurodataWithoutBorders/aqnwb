@@ -118,6 +118,10 @@ $(function() {
 <div class="line">## [Unreleased]</div>
 <div class="line"> </div>
 <div class="line">### Added</div>
+<div class="line">* Added `cppcheck` static analysis integration (@copilot, @oruebel [#270](https://github.com/NeurodataWithoutBorders/aqnwb/pull/270)):</div>
+<div class="line">  * Added `.github/workflows/cppcheck.yml` CI workflow that runs cppcheck on `src/` and `tests/`, converts results to SARIF using `airtower-luna/convert-to-sarif`, and uploads them to the GitHub Security tab via `github/codeql-action/upload-sarif`</div>
+<div class="line">  * Added `cmake/cppcheck.cmake` standalone script and `cmake/cppcheck-targets.cmake` for running cppcheck locally via `cmake --build --preset=dev --target=cppcheck`</div>
+<div class="line">  * Updated developer documentation in `docs/pages/devdocs/testing.dox` and `docs/pages/devdocs/install.dox` with cppcheck usage instructions</div>
 <div class="line">* Added `getDataType()`, `getChunking()`, and `toLinkArrayDataSetConfig()` functions to `ReadDataWrapper` (@copilot, @oruebel [#266](https://github.com/NeurodataWithoutBorders/aqnwb/pull/266))</div>
 <div class="line">* Added support for creating soft-links to existing datasets to avoid data duplication (@copilot, @oruebel [#257](https://github.com/NeurodataWithoutBorders/aqnwb/pull/257))</div>
 <div class="line">  * Added `BaseArrayDataSetConfig` abstract base class for polymorphic dataset configuration</div>
