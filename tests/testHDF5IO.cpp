@@ -759,7 +759,8 @@ TEST_CASE("HDF5IO; create attributes", "[hdf5io]")
     // Verify the attribute is stored with base element type (not H5T_ARRAY)
     // and a 1D dataspace. This matches pynwb behavior where the type is the
     // underlying element type and size is stored in the dataspace.
-    // Directly inspect the raw HDF5 attribute type to confirm it is NOT H5T_ARRAY.
+    // Directly inspect the raw HDF5 attribute type to confirm it is NOT
+    // H5T_ARRAY.
     {
       H5::H5File h5file(filename, H5F_ACC_RDONLY);
       H5::Group grp = h5file.openGroup(groupPath);
@@ -769,7 +770,9 @@ TEST_CASE("HDF5IO; create attributes", "[hdf5io]")
       REQUIRE(attrSpace.getSimpleExtentNdims() == 1);  // 1D dataspace
       hsize_t dim = 0;
       attrSpace.getSimpleExtentDims(&dim);
-      REQUIRE(dim == static_cast<hsize_t>(data.size()));  // Size matches array length
+      REQUIRE(
+          dim
+          == static_cast<hsize_t>(data.size()));  // Size matches array length
     }
   }
 
