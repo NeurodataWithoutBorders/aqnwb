@@ -756,14 +756,21 @@ TEST_CASE("HDF5IO; create attributes", "[hdf5io]")
     REQUIRE(readAttrData.data.size() == 5);
     REQUIRE(readAttrData.data == data);
 
-    // Verify the attribute is stored with base element type (not ArrayType)
+    // Verify the attribute is stored with base element type (not H5T_ARRAY)
     // and a 1D dataspace. This matches pynwb behavior where the type is the
     // underlying element type and size is stored in the dataspace.
-    auto storedType = hdf5io.getStorageObjectDataType(attrPath);
-    REQUIRE(storedType == BaseDataType::I32);  // Base element type, not Array
-    auto storedShape = hdf5io.getStorageObjectShape(attrPath);
-    REQUIRE(storedShape.size() == 1);  // 1D dataspace
-    REQUIRE(storedShape[0] == data.size());  // Size matches array length
+    // Directly inspect the raw HDF5 attribute type to confirm it is NOT H5T_ARRAY.
+    {
+      H5::H5File h5file(filename, H5F_ACC_RDONLY);
+      H5::Group grp = h5file.openGroup(groupPath);
+      H5::Attribute attr = grp.openAttribute(attrName);
+      REQUIRE(attr.getDataType().getClass() != H5T_ARRAY);
+      H5::DataSpace attrSpace = attr.getSpace();
+      REQUIRE(attrSpace.getSimpleExtentNdims() == 1);  // 1D dataspace
+      hsize_t dim = 0;
+      attrSpace.getSimpleExtentDims(&dim);
+      REQUIRE(dim == static_cast<hsize_t>(data.size()));  // Size matches array length
+    }
   }
 
   // string array with a single value
