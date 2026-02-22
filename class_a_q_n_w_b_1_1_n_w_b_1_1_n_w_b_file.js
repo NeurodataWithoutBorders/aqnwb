@@ -7,7 +7,7 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file =
     [ "cacheSpecifications", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aaf2e07b4e912fc34ab052d38f92e6cdd", null ],
     [ "create", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a84f0f21cd7bd9745b1eeb508b747fb4b", null ],
     [ "create", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a31a9458cf3b5ad8ef6e3346f995deb12", null ],
-    [ "createAnnotationSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aae7e93ae26ad836702d22c9339d7bbc4", null ],
+    [ "createAnnotationSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aab00aa182159eb7bee98657b42801a34", null ],
     [ "createAquisitionSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a116bb371a6ef2fec0a442530ce4c5344", null ],
     [ "createElectricalSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ae81ae76dea35d15be25ac40b32926e93", null ],
     [ "createElectrodesTable", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a1dfa71717131843ff964e55ee37ceb23", null ],

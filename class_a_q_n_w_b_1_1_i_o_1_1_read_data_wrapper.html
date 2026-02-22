@@ -123,8 +123,6 @@ Classes</h2></td></tr>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aa9662b302a78a9a7ef6bf4df22c8768f" id="r_aa9662b302a78a9a7ef6bf4df22c8768f"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aa9662b302a78a9a7ef6bf4df22c8768f">ReadDataWrapper</a> (const std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt; io, const std::string &amp;path)</td></tr>
 <tr class="memdesc:aa9662b302a78a9a7ef6bf4df22c8768f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <br /></td></tr>
-<tr class="memitem:ae4455d653e39ed6d1e041d90441e0c89" id="r_ae4455d653e39ed6d1e041d90441e0c89"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915">StorageObjectType</a>&#160;</td><td class="memItemRight"><a class="el" href="#ae4455d653e39ed6d1e041d90441e0c89">getStorageObjectType</a> () const</td></tr>
-<tr class="memdesc:ae4455d653e39ed6d1e041d90441e0c89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to return the <a class="el" href="class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915" title="AQNWB::Types::StorageObjectType">AQNWB::Types::StorageObjectType</a> OTYPE of the instance.  <br /></td></tr>
 <tr class="memitem:adc93caf03a2aa4cdc5cd4ae82c247646" id="r_adc93caf03a2aa4cdc5cd4ae82c247646"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#adc93caf03a2aa4cdc5cd4ae82c247646">ReadDataWrapper</a> (const ReadDataWrapper &amp;)=delete</td></tr>
 <tr class="memdesc:adc93caf03a2aa4cdc5cd4ae82c247646"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deleted copy constructor to prevent construction-copying.  <br /></td></tr>
 <tr class="memitem:a479c89bee92ff1b6c2916b7dd8e9d6bd" id="r_a479c89bee92ff1b6c2916b7dd8e9d6bd"><td class="memItemLeft"><a class="el" href="#aa9662b302a78a9a7ef6bf4df22c8768f">ReadDataWrapper</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a479c89bee92ff1b6c2916b7dd8e9d6bd">operator=</a> (const <a class="el" href="#aa9662b302a78a9a7ef6bf4df22c8768f">ReadDataWrapper</a> &amp;)=delete</td></tr>
@@ -162,6 +160,8 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a9b7d05178a731416ec1ce78a2dcfd1e0" id="r_a9b7d05178a731416ec1ce78a2dcfd1e0"><td class="memItemLeft">static <a class="el" href="class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915">StorageObjectType</a>&#160;</td><td class="memItemRight"><a class="el" href="#a9b7d05178a731416ec1ce78a2dcfd1e0">getStorageObjectType</a> ()</td></tr>
+<tr class="memdesc:a9b7d05178a731416ec1ce78a2dcfd1e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to return the <a class="el" href="class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915" title="AQNWB::Types::StorageObjectType">AQNWB::Types::StorageObjectType</a> OTYPE of the instance.  <br /></td></tr>
 <tr class="memitem:a1a48ed3eb5b234e384b09834896402e0" id="r_a1a48ed3eb5b234e384b09834896402e0"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
 <tr class="memitem:a1a48ed3eb5b234e384b09834896402e0 template"><td class="memItemLeft">static constexpr bool&#160;</td><td class="memItemRight"><a class="el" href="#a1a48ed3eb5b234e384b09834896402e0">isType</a> ()</td></tr>
 <tr class="memdesc:a1a48ed3eb5b234e384b09834896402e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to check at compile-time whether the object is of a particular VTYPE, e.g., <span class="tt">if constexpr (wrapper.isType&lt;float&gt;())</span>.  <br /></td></tr>
@@ -521,8 +521,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="ae4455d653e39ed6d1e041d90441e0c89" name="ae4455d653e39ed6d1e041d90441e0c89"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae4455d653e39ed6d1e041d90441e0c89">&#9670;&#160;</a></span>getStorageObjectType()</h2>
+<a id="a9b7d05178a731416ec1ce78a2dcfd1e0" name="a9b7d05178a731416ec1ce78a2dcfd1e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b7d05178a731416ec1ce78a2dcfd1e0">&#9670;&#160;</a></span>getStorageObjectType()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -536,12 +536,12 @@ template&lt;<a class="el" href="class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb1
           <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915">StorageObjectType</a> <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; OTYPE, VTYPE &gt;::getStorageObjectType </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
+          <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">

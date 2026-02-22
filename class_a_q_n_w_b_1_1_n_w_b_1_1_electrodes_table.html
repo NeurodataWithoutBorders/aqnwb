@@ -136,8 +136,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a08f16ba980c42f29b49139e89b847ad2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html" title="Represents a table containing electrode metadata.">ElectrodesTable</a>.  <br /></td></tr>
 <tr class="memitem:a8c91ac320289a2bdc6c55aeb78b4a1ad" id="r_a8c91ac320289a2bdc6c55aeb78b4a1ad"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a8c91ac320289a2bdc6c55aeb78b4a1ad">finalize</a> () override</td></tr>
 <tr class="memdesc:a8c91ac320289a2bdc6c55aeb78b4a1ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finalizes the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html" title="Represents a table containing electrode metadata.">ElectrodesTable</a>.  <br /></td></tr>
-<tr class="memitem:a4900b071766468aae121478ce9cc32b6" id="r_a4900b071766468aae121478ce9cc32b6"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a4900b071766468aae121478ce9cc32b6">addElectrodes</a> (std::vector&lt; <a class="el" href="class_a_q_n_w_b_1_1_channel.html">Channel</a> &gt; channelsInput)</td></tr>
-<tr class="memdesc:a4900b071766468aae121478ce9cc32b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets up the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html" title="Represents a table containing electrode metadata.">ElectrodesTable</a> by adding electrodes and their metadata.  <br /></td></tr>
+<tr class="memitem:ad29195cacd9a6c40fb8de417318c9cef" id="r_ad29195cacd9a6c40fb8de417318c9cef"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ad29195cacd9a6c40fb8de417318c9cef">addElectrodes</a> (const std::vector&lt; <a class="el" href="class_a_q_n_w_b_1_1_channel.html">Channel</a> &gt; &amp;channelsInput)</td></tr>
+<tr class="memdesc:ad29195cacd9a6c40fb8de417318c9cef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets up the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html" title="Represents a table containing electrode metadata.">ElectrodesTable</a> by adding electrodes and their metadata.  <br /></td></tr>
 <tr class="memitem:a12b45f8a1b32e2e5f38f731497f55ca0" id="r_a12b45f8a1b32e2e5f38f731497f55ca0"><td class="memTemplParams" colspan="2">template&lt;typename RTYPE = VectorDataTyped&lt;std::string&gt;&gt; </td></tr>
 <tr class="memitem:a12b45f8a1b32e2e5f38f731497f55ca0 template"><td class="memItemLeft">std::shared_ptr&lt; RTYPE &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a12b45f8a1b32e2e5f38f731497f55ca0">readLocationColumn</a> () const</td></tr>
 <tr class="memitem:ac3281e6367b3609c3c3b9f0e8d62c431" id="r_ac3281e6367b3609c3c3b9f0e8d62c431"><td class="memTemplParams" colspan="2">template&lt;typename RTYPE = VectorDataTyped&lt;std::string&gt;&gt; </td></tr>
@@ -317,7 +317,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+<span class="mlabels"><span class="mlabel explicit">explicit</span><span class="mlabel protected">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -398,8 +398,8 @@ Here is the call graph for this function:</div>
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="a4900b071766468aae121478ce9cc32b6" name="a4900b071766468aae121478ce9cc32b6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4900b071766468aae121478ce9cc32b6">&#9670;&#160;</a></span>addElectrodes()</h2>
+<a id="ad29195cacd9a6c40fb8de417318c9cef" name="ad29195cacd9a6c40fb8de417318c9cef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad29195cacd9a6c40fb8de417318c9cef">&#9670;&#160;</a></span>addElectrodes()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -407,7 +407,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname">void ElectrodesTable::addElectrodes </td>
           <td>(</td>
-          <td class="paramtype">std::vector&lt; <a class="el" href="class_a_q_n_w_b_1_1_channel.html">Channel</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>channelsInput</em></span></td><td>)</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="class_a_q_n_w_b_1_1_channel.html">Channel</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>channelsInput</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -423,7 +423,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table_a4900b071766468aae121478ce9cc32b6_cgraph.svg" width="423" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table_ad29195cacd9a6c40fb8de417318c9cef_cgraph.svg" width="423" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

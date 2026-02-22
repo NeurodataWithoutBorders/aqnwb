@@ -18,7 +18,7 @@ var searchData=
   ['add_20to_20recordingobjects_15',['4. Create datasets and add to RecordingObjects',['../workflow.html#create_datasets',1,'']]],
   ['addcolumn_16',['addColumn',['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#abe6a2507abfb6ec7897c57aebf3318fb',1,'AQNWB::NWB::DynamicTable']]],
   ['addcolumnname_17',['addColumnName',['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a29dd5ff05905b47f45379e01b79aa722',1,'AQNWB::NWB::DynamicTable']]],
-  ['addelectrodes_18',['addElectrodes',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#a4900b071766468aae121478ce9cc32b6',1,'AQNWB::NWB::ElectrodesTable']]],
+  ['addelectrodes_18',['addElectrodes',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#ad29195cacd9a6c40fb8de417318c9cef',1,'AQNWB::NWB::ElectrodesTable']]],
   ['addfilter_19',['addFilter',['../class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_array_data_set_config.html#a9aefd3b9c5e9fd7efcdb2950e63e557b',1,'AQNWB::IO::HDF5::HDF5ArrayDataSetConfig::addFilter(H5Z_filter_t filter_id, const std::vector&lt; unsigned int &gt; &amp;cd_values)'],['../class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_array_data_set_config.html#af7a55a42c9cab51fe6a59abc5dfed5ef',1,'AQNWB::IO::HDF5::HDF5ArrayDataSetConfig::addFilter(const HDF5FilterConfig &amp;filter)']]],
   ['addfilters_20',['addFilters',['../class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_array_data_set_config.html#accb494cb492b3a33526ab81f3a578320',1,'AQNWB::IO::HDF5::HDF5ArrayDataSetConfig']]],
   ['addrecordingobject_21',['addRecordingObject',['../class_a_q_n_w_b_1_1_i_o_1_1_recording_objects.html#a01b77fd8404c44b40b98380c600bf996',1,'AQNWB::IO::RecordingObjects']]],

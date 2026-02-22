@@ -162,7 +162,7 @@ var sectionId = 'dynsection-12';
 <!-- Node4 -->
 <g id="Node000004" class="node">
 <title>Node4</title>
-<g id="a_Node000004"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a3f759dc2b2c93500951a15e309f8ff34" target="_top" xlink:title="Gets the BaseDataType of a dataset or attribute.">
+<g id="a_Node000004"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#aa3f2c6871009254b8e3168de14b3c53f" target="_top" xlink:title="Gets the BaseDataType of a dataset or attribute.">
 <polygon fill="white" stroke="#666666" points="492.75,-165.5 359,-165.5 359,-135 492.75,-135 492.75,-165.5"/>
 <text xml:space="preserve" text-anchor="start" x="367" y="-152" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::IO::BaseIO::</text>
 <text xml:space="preserve" text-anchor="middle" x="425.88" y="-140.75" font-family="Helvetica,sans-Serif" font-size="10.00">getStorageObjectDataType</text>
@@ -181,7 +181,7 @@ var sectionId = 'dynsection-12';
 <!-- Node6 -->
 <g id="Node000006" class="node">
 <title>Node6</title>
-<g id="a_Node000006"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#ae0bb3268dd3ab72d89e214f9638861a7" target="_top" xlink:title="Returns the size of the dataset or attribute for each dimension.">
+<g id="a_Node000006"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#ade0c2d3b4f9ae88212d948d8c3421f48" target="_top" xlink:title="Returns the size of the dataset or attribute for each dimension.">
 <polygon fill="white" stroke="#666666" points="485.62,-116.5 366.12,-116.5 366.12,-86 485.62,-86 485.62,-116.5"/>
 <text xml:space="preserve" text-anchor="start" x="374.12" y="-103" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::IO::BaseIO::</text>
 <text xml:space="preserve" text-anchor="middle" x="425.88" y="-91.75" font-family="Helvetica,sans-Serif" font-size="10.00">getStorageObjectShape</text>

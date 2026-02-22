@@ -146,8 +146,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ae81ae76dea35d15be25ac40b32926e93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html" title="General purpose time series.">ElectricalSeries</a> objects to record data into. Created objects are automatically added to the I/O's RecordingObjects. Note, this function will fail if the file is in a mode where new objects cannot be added, which can be checked via nwbfile.io-&gt;canModifyObjects().  <br /></td></tr>
 <tr class="memitem:a0fa114190b0940cf54f44c626a69f550" id="r_a0fa114190b0940cf54f44c626a69f550"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a0fa114190b0940cf54f44c626a69f550">createSpikeEventSeries</a> (std::vector&lt; <a class="el" href="class_a_q_n_w_b_1_1_types.html#a17cc1d186ce80971c28e440471e910ff">Types::ChannelVector</a> &gt; recordingArrays, std::vector&lt; std::string &gt; recordingNames, const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">IO::BaseDataType</a> &amp;dataType, std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;containerIndexes)</td></tr>
 <tr class="memdesc:a0fa114190b0940cf54f44c626a69f550"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html" title="Stores snapshots/snippets of recorded spike events (i.e., threshold crossings).">SpikeEventSeries</a> objects to record data into. Created objects are automatically added to the I/O's RecordingObjects.  <br /></td></tr>
-<tr class="memitem:aae7e93ae26ad836702d22c9339d7bbc4" id="r_aae7e93ae26ad836702d22c9339d7bbc4"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#aae7e93ae26ad836702d22c9339d7bbc4">createAnnotationSeries</a> (std::vector&lt; std::string &gt; recordingNames, std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;containerIndexes)</td></tr>
-<tr class="memdesc:aae7e93ae26ad836702d22c9339d7bbc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html" title="TimeSeries storing text-based records about the experiment.">AnnotationSeries</a> objects to record data into. Created objects are automatically added to the I/O's RecordingObjects.  <br /></td></tr>
+<tr class="memitem:aab00aa182159eb7bee98657b42801a34" id="r_aab00aa182159eb7bee98657b42801a34"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#aab00aa182159eb7bee98657b42801a34">createAnnotationSeries</a> (const std::vector&lt; std::string &gt; &amp;recordingNames, std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;containerIndexes)</td></tr>
+<tr class="memdesc:aab00aa182159eb7bee98657b42801a34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html" title="TimeSeries storing text-based records about the experiment.">AnnotationSeries</a> objects to record data into. Created objects are automatically added to the I/O's RecordingObjects.  <br /></td></tr>
 <tr class="memitem:a65a36f2baf0b3bb7555b573295f97bf0" id="r_a65a36f2baf0b3bb7555b573295f97bf0"><td class="memTemplParams" colspan="2">template&lt;typename RTYPE = ElectrodesTable&gt; </td></tr>
 <tr class="memitem:a65a36f2baf0b3bb7555b573295f97bf0 template"><td class="memItemLeft">std::shared_ptr&lt; RTYPE &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a65a36f2baf0b3bb7555b573295f97bf0">readElectrodesTable</a> () const</td></tr>
 <tr class="memitem:ac63d558546622aae6157a8ecd82cf446" id="r_ac63d558546622aae6157a8ecd82cf446"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::string&gt; </td></tr>
@@ -329,7 +329,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+<span class="mlabels"><span class="mlabel explicit">explicit</span><span class="mlabel protected">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -563,8 +563,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="aae7e93ae26ad836702d22c9339d7bbc4" name="aae7e93ae26ad836702d22c9339d7bbc4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aae7e93ae26ad836702d22c9339d7bbc4">&#9670;&#160;</a></span>createAnnotationSeries()</h2>
+<a id="aab00aa182159eb7bee98657b42801a34" name="aab00aa182159eb7bee98657b42801a34"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab00aa182159eb7bee98657b42801a34">&#9670;&#160;</a></span>createAnnotationSeries()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -572,7 +572,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> NWBFile::createAnnotationSeries </td>
           <td>(</td>
-          <td class="paramtype">std::vector&lt; std::string &gt;</td>          <td class="paramname"><span class="paramname"><em>recordingNames</em></span>, </td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>recordingNames</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -594,7 +594,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_aae7e93ae26ad836702d22c9339d7bbc4_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_aab00aa182159eb7bee98657b42801a34_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>

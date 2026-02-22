@@ -1,6 +1,6 @@
 <map id="AQNWB::mergePaths" name="AQNWB::mergePaths">
 <area shape="rect" id="Node000001" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="3603,554,3754,580"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#a4900b071766468aae121478ce9cc32b6" title="Sets up the ElectrodesTable by adding electrodes and their metadata." alt="" coords="3342,25,3555,66"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#ad29195cacd9a6c40fb8de417318c9cef" title="Sets up the ElectrodesTable by adding electrodes and their metadata." alt="" coords="3342,25,3555,66"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="3671,537,3656,439,3630,303,3614,235,3596,172,3575,121,3553,86,3532,69,3533,64,3557,83,3580,119,3601,170,3619,233,3636,302,3661,438,3676,540"/>
 <area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#ab5d214fb6eb95bcaf0f4988b12e2b2db" title="Adds a column of references to the table." alt="" coords="3347,371,3550,411"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="3659,540,3616,484,3587,453,3554,427,3532,415,3532,409,3557,422,3590,449,3620,480,3664,542"/>
@@ -22,7 +22,7 @@
 <area shape="poly" id="edge42_Node000001_Node000039" title=" " alt="" coords="3595,583,3556,593,3555,588,3590,584"/>
 <area shape="rect" id="Node000040" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a788603f4c9c2698aad610134ab89f8e1" title="Finds all datasets and groups of the given types in the HDF5 file." alt="" coords="3372,656,3526,697"/>
 <area shape="poly" id="edge44_Node000001_Node000040" title=" " alt="" coords="3649,588,3606,619,3556,645,3525,658,3523,653,3554,641,3603,614,3644,590"/>
-<area shape="rect" id="Node000041" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#aad16547be1f92b264ca056672cda6967" title="Get the full name of the type from the attribute in the file." alt="" coords="3372,721,3526,762"/>
+<area shape="rect" id="Node000041" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a1b9c28abd50f22cf2e0bca20380a12b9" title="Get the full name of the type from the attribute in the file." alt="" coords="3372,721,3526,762"/>
 <area shape="poly" id="edge45_Node000001_Node000041" title=" " alt="" coords="3663,592,3620,653,3590,684,3557,711,3527,726,3525,721,3554,706,3587,680,3616,650,3659,595"/>
 <area shape="rect" id="Node000042" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a0e6e50dbde5f6aeda31b625049c93970" title="Initializes the Electrical Series." alt="" coords="3343,787,3554,827"/>
 <area shape="poly" id="edge46_Node000001_Node000042" title=" " alt="" coords="3670,593,3655,636,3631,684,3598,733,3557,776,3536,789,3535,784,3554,772,3594,730,3626,681,3650,633,3666,596"/>
@@ -46,7 +46,7 @@
 <area shape="poly" id="edge19_Node000006_Node000020" title=" " alt="" coords="3083,100,3027,100,3026,95,3088,99"/>
 <area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a116bb371a6ef2fec0a442530ce4c5344" title=" " alt="" coords="2618,136,2792,177"/>
 <area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="2835,159,2793,160,2792,155,2840,158"/>
-<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aae7e93ae26ad836702d22c9339d7bbc4" title="Create AnnotationSeries objects to record data into. Created objects are automatically added to the I..." alt="" coords="2370,136,2543,177"/>
+<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aab00aa182159eb7bee98657b42801a34" title="Create AnnotationSeries objects to record data into. Created objects are automatically added to the I..." alt="" coords="2370,136,2543,177"/>
 <area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="2601,157,2544,159,2543,154,2606,156"/>
 <area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ae81ae76dea35d15be25ac40b32926e93" title="Create ElectricalSeries objects to record data into. Created objects are automatically added to the I..." alt="" coords="2370,5,2543,46"/>
 <area shape="poly" id="edge9_Node000008_Node000010" title=" " alt="" coords="2664,126,2618,94,2563,61,2534,49,2534,44,2565,57,2621,89,2670,126"/>

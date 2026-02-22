@@ -3,7 +3,7 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table =
     [ "ElectrodesTable", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#ac59e22d783a27642e78472f435943c9a", null ],
     [ "ElectrodesTable", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#a619418bc86a44930589f2cfb8326bd22", null ],
     [ "~ElectrodesTable", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#a55b3b3cf746b560912bed493090af6c6", null ],
-    [ "addElectrodes", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#a4900b071766468aae121478ce9cc32b6", null ],
+    [ "addElectrodes", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#ad29195cacd9a6c40fb8de417318c9cef", null ],
     [ "create", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#a8e535744f840f12be8d0e3dd6cc7b27d", null ],
     [ "create", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#a520a13b699039571c159ef4a878afac1", null ],
     [ "finalize", "class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#a8c91ac320289a2bdc6c55aeb78b4a1ad", null ],

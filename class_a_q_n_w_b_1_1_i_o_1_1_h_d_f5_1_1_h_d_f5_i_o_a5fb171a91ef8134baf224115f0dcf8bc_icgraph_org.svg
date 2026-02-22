@@ -21,7 +21,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a626023cfd926326063745fe610e87ebf" target="_top" xlink:title="Gets the chunking configuration of a dataset.">
+<g id="a_Node000002"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a14071a0041e2c4931ba760cdd2c0ad66" target="_top" xlink:title="Gets the chunking configuration of a dataset.">
 <polygon fill="white" stroke="#666666" points="145.75,-128.5 0,-128.5 0,-98 145.75,-98 145.75,-128.5"/>
 <text xml:space="preserve" text-anchor="start" x="8" y="-115" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::IO::HDF5::HDF5IO</text>
 <text xml:space="preserve" text-anchor="middle" x="72.88" y="-103.75" font-family="Helvetica,sans-Serif" font-size="10.00">::getStorageObjectChunking</text>
@@ -40,7 +40,7 @@
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a6ad39352448a7574c604789d925f31dd" target="_top" xlink:title="Gets the BaseDataType of a dataset or attribute.">
+<g id="a_Node000003"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a5e0f1875a4e1a57493875dc89a19ee1d" target="_top" xlink:title="Gets the BaseDataType of a dataset or attribute.">
 <polygon fill="white" stroke="#666666" points="145.75,-79.5 0,-79.5 0,-49 145.75,-49 145.75,-79.5"/>
 <text xml:space="preserve" text-anchor="start" x="8" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::IO::HDF5::HDF5IO</text>
 <text xml:space="preserve" text-anchor="middle" x="72.88" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">::getStorageObjectDataType</text>
@@ -59,7 +59,7 @@
 <!-- Node4 -->
 <g id="Node000004" class="node">
 <title>Node4</title>
-<g id="a_Node000004"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a5e9b8fb56bdd982369f92a3b3021311b" target="_top" xlink:title="Returns the size of the dataset or attribute for each dimension.">
+<g id="a_Node000004"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a8d5cb50f8ac5129c92d027b894a64b2d" target="_top" xlink:title="Returns the size of the dataset or attribute for each dimension.">
 <polygon fill="white" stroke="#666666" points="145.75,-30.5 0,-30.5 0,0 145.75,0 145.75,-30.5"/>
 <text xml:space="preserve" text-anchor="start" x="8" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::IO::HDF5::HDF5IO</text>
 <text xml:space="preserve" text-anchor="middle" x="72.88" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::getStorageObjectShape</text>

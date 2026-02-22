@@ -139,7 +139,7 @@ $(function() {
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">#elif defined(__unix__) || defined(__APPLE__)</span></div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>  localtime_r(&amp;time_value, &amp;local_tm);</div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="preprocessor">#else</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>  std::tm* local_tm_ptr = std::localtime(&amp;time_value);</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>  <span class="keyword">const</span> std::tm* local_tm_ptr = std::localtime(&amp;time_value);</div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>  <span class="keywordflow">if</span> (local_tm_ptr) {</div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    local_tm = *local_tm_ptr;</div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>  }</div>
@@ -157,7 +157,7 @@ $(function() {
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#elif defined(__unix__) || defined(__APPLE__)</span></div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>  gmtime_r(&amp;time_value, &amp;utc_tm);</div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">#else</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>  std::tm* utc_tm_ptr = std::gmtime(&amp;time_value);</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>  <span class="keyword">const</span> std::tm* utc_tm_ptr = std::gmtime(&amp;time_value);</div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>  <span class="keywordflow">if</span> (utc_tm_ptr) {</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    utc_tm = *utc_tm_ptr;</div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>  }</div>
@@ -401,7 +401,7 @@ $(function() {
 <div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span> </div>
 <div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>}  <span class="comment">// namespace AQNWB</span></div>
 <div class="ttc" id="a_base_i_o_8hpp_html"><div class="ttname"><a href="_base_i_o_8hpp.html">BaseIO.hpp</a></div></div>
-<div class="ttc" id="a_base_i_o_8hpp_html_a38fce1d86c801b13b6860d3346276776"><div class="ttname"><a href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a></div><div class="ttdeci">AQNWB::Types::Status Status</div><div class="ttdef"><b>Definition</b> BaseIO.hpp:20</div></div>
+<div class="ttc" id="a_base_i_o_8hpp_html_a38fce1d86c801b13b6860d3346276776"><div class="ttname"><a href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a></div><div class="ttdeci">AQNWB::Types::Status Status</div><div class="ttdef"><b>Definition</b> BaseIO.hpp:21</div></div>
 <div class="ttc" id="a_channel_8hpp_html_aa890fbdbba8cf62d61a471a1f84537e9"><div class="ttname"><a href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a></div><div class="ttdeci">AQNWB::Types::SizeType SizeType</div><div class="ttdef"><b>Definition</b> Channel.hpp:8</div></div>
 <div class="ttc" id="a_h_d_f5_i_o_8hpp_html"><div class="ttname"><a href="_h_d_f5_i_o_8hpp.html">HDF5IO.hpp</a></div></div>
 <div class="ttc" id="aclass_a_q_n_w_b_1_1_types_html_a489c41cdd124123f0595271873e00dbe"><div class="ttname"><a href="class_a_q_n_w_b_1_1_types.html#a489c41cdd124123f0595271873e00dbe">AQNWB::Types::SizeTypeNotSet</a></div><div class="ttdeci">static constexpr SizeType SizeTypeNotSet</div><div class="ttdoc">Value to use to indicate that a SizeType index is not set.</div><div class="ttdef"><b>Definition</b> Types.hpp:105</div></div>

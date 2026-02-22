@@ -116,18 +116,18 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa880841cf90ac3a3a2ce00ba22a09442" id="r_aa880841cf90ac3a3a2ce00ba22a09442"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aa880841cf90ac3a3a2ce00ba22a09442">HDF5FilterConfig</a> (H5Z_filter_t <a class="el" href="#a3d59ee972d946872a37a2d1afadd926f">filter_id</a>, const std::vector&lt; unsigned int &gt; &amp;<a class="el" href="#a8f52de1d08c7a103010141926614fd6a">cd_values</a>)</td></tr>
-<tr class="memdesc:aa880841cf90ac3a3a2ce00ba22a09442"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_filter_config.html" title="The configuration for an HDF5 filter.">HDF5FilterConfig</a> object with the specified filter ID and client data array.  <br /></td></tr>
+<tr class="memitem:a7c236a93e7f2e4aeca475a1582dd4360" id="r_a7c236a93e7f2e4aeca475a1582dd4360"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a7c236a93e7f2e4aeca475a1582dd4360">HDF5FilterConfig</a> (H5Z_filter_t in_filter_id, const std::vector&lt; unsigned int &gt; &amp;in_cd_values)</td></tr>
+<tr class="memdesc:a7c236a93e7f2e4aeca475a1582dd4360"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_filter_config.html" title="The configuration for an HDF5 filter.">HDF5FilterConfig</a> object with the specified filter ID and client data array.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:abe6285c00a7407308c7e5dc5494b1938" id="r_abe6285c00a7407308c7e5dc5494b1938"><td class="memItemLeft">static <a class="el" href="#aa880841cf90ac3a3a2ce00ba22a09442">HDF5FilterConfig</a>&#160;</td><td class="memItemRight"><a class="el" href="#abe6285c00a7407308c7e5dc5494b1938">createGzipFilter</a> (unsigned int level=4)</td></tr>
+<tr class="memitem:abe6285c00a7407308c7e5dc5494b1938" id="r_abe6285c00a7407308c7e5dc5494b1938"><td class="memItemLeft">static <a class="el" href="#a7c236a93e7f2e4aeca475a1582dd4360">HDF5FilterConfig</a>&#160;</td><td class="memItemRight"><a class="el" href="#abe6285c00a7407308c7e5dc5494b1938">createGzipFilter</a> (unsigned int level=4)</td></tr>
 <tr class="memdesc:abe6285c00a7407308c7e5dc5494b1938"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a GZIP (DEFLATE) filter configuration.  <br /></td></tr>
-<tr class="memitem:a495cbe6122dc9cb7a9903ef76d291b2c" id="r_a495cbe6122dc9cb7a9903ef76d291b2c"><td class="memItemLeft">static <a class="el" href="#aa880841cf90ac3a3a2ce00ba22a09442">HDF5FilterConfig</a>&#160;</td><td class="memItemRight"><a class="el" href="#a495cbe6122dc9cb7a9903ef76d291b2c">createShuffleFilter</a> ()</td></tr>
+<tr class="memitem:a495cbe6122dc9cb7a9903ef76d291b2c" id="r_a495cbe6122dc9cb7a9903ef76d291b2c"><td class="memItemLeft">static <a class="el" href="#a7c236a93e7f2e4aeca475a1582dd4360">HDF5FilterConfig</a>&#160;</td><td class="memItemRight"><a class="el" href="#a495cbe6122dc9cb7a9903ef76d291b2c">createShuffleFilter</a> ()</td></tr>
 <tr class="memdesc:a495cbe6122dc9cb7a9903ef76d291b2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a Shuffle filter configuration.  <br /></td></tr>
-<tr class="memitem:a18eb93f16cd12e5f1cf9de006f455caf" id="r_a18eb93f16cd12e5f1cf9de006f455caf"><td class="memItemLeft">static <a class="el" href="#aa880841cf90ac3a3a2ce00ba22a09442">HDF5FilterConfig</a>&#160;</td><td class="memItemRight"><a class="el" href="#a18eb93f16cd12e5f1cf9de006f455caf">createFletcher32Filter</a> ()</td></tr>
+<tr class="memitem:a18eb93f16cd12e5f1cf9de006f455caf" id="r_a18eb93f16cd12e5f1cf9de006f455caf"><td class="memItemLeft">static <a class="el" href="#a7c236a93e7f2e4aeca475a1582dd4360">HDF5FilterConfig</a>&#160;</td><td class="memItemRight"><a class="el" href="#a18eb93f16cd12e5f1cf9de006f455caf">createFletcher32Filter</a> ()</td></tr>
 <tr class="memdesc:a18eb93f16cd12e5f1cf9de006f455caf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a Fletcher32 checksum filter configuration.  <br /></td></tr>
-<tr class="memitem:a078bcd64cb682e84205ba739aa493926" id="r_a078bcd64cb682e84205ba739aa493926"><td class="memItemLeft">static <a class="el" href="#aa880841cf90ac3a3a2ce00ba22a09442">HDF5FilterConfig</a>&#160;</td><td class="memItemRight"><a class="el" href="#a078bcd64cb682e84205ba739aa493926">createNbitFilter</a> ()</td></tr>
+<tr class="memitem:a078bcd64cb682e84205ba739aa493926" id="r_a078bcd64cb682e84205ba739aa493926"><td class="memItemLeft">static <a class="el" href="#a7c236a93e7f2e4aeca475a1582dd4360">HDF5FilterConfig</a>&#160;</td><td class="memItemRight"><a class="el" href="#a078bcd64cb682e84205ba739aa493926">createNbitFilter</a> ()</td></tr>
 <tr class="memdesc:a078bcd64cb682e84205ba739aa493926"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an N-Bit filter configuration.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
@@ -139,8 +139,8 @@ Public Attributes</h2></td></tr>
 <div class="textblock"><p>The configuration for an <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> filter. </p>
 <p>This class defines the properties of an <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> filter, including the filter ID, the number of elements in the client data array, and the client data array itself. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="aa880841cf90ac3a3a2ce00ba22a09442" name="aa880841cf90ac3a3a2ce00ba22a09442"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa880841cf90ac3a3a2ce00ba22a09442">&#9670;&#160;</a></span>HDF5FilterConfig()</h2>
+<a id="a7c236a93e7f2e4aeca475a1582dd4360" name="a7c236a93e7f2e4aeca475a1582dd4360"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c236a93e7f2e4aeca475a1582dd4360">&#9670;&#160;</a></span>HDF5FilterConfig()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -148,12 +148,12 @@ Public Attributes</h2></td></tr>
         <tr>
           <td class="memname">HDF5FilterConfig::HDF5FilterConfig </td>
           <td>(</td>
-          <td class="paramtype">H5Z_filter_t</td>          <td class="paramname"><span class="paramname"><em>filter_id</em></span>, </td>
+          <td class="paramtype">H5Z_filter_t</td>          <td class="paramname"><span class="paramname"><em>in_filter_id</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; unsigned int &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>cd_values</em></span>&#160;)</td>
+          <td class="paramtype">const std::vector&lt; unsigned int &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>in_cd_values</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -161,15 +161,15 @@ Public Attributes</h2></td></tr>
 <p>Constructs an <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_filter_config.html" title="The configuration for an HDF5 filter.">HDF5FilterConfig</a> object with the specified filter ID and client data array. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname"><a class="el" href="#a3d59ee972d946872a37a2d1afadd926f">filter_id</a></td><td>The ID of the filter. </td></tr>
-    <tr><td class="paramname"><a class="el" href="#a8f52de1d08c7a103010141926614fd6a">cd_values</a></td><td>The client data array. </td></tr>
+    <tr><td class="paramname">in_filter_id</td><td>The ID of the filter. </td></tr>
+    <tr><td class="paramname">in_cd_values</td><td>The client data array. </td></tr>
   </table>
   </dd>
 </dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_filter_config_aa880841cf90ac3a3a2ce00ba22a09442_icgraph.svg" width="478" height="248"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_filter_config_a7c236a93e7f2e4aeca475a1582dd4360_icgraph.svg" width="478" height="248"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -185,7 +185,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="#aa880841cf90ac3a3a2ce00ba22a09442">HDF5FilterConfig</a> HDF5FilterConfig::createFletcher32Filter </td>
+          <td class="memname"><a class="el" href="#a7c236a93e7f2e4aeca475a1582dd4360">HDF5FilterConfig</a> HDF5FilterConfig::createFletcher32Filter </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -218,7 +218,7 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="#aa880841cf90ac3a3a2ce00ba22a09442">HDF5FilterConfig</a> HDF5FilterConfig::createGzipFilter </td>
+          <td class="memname"><a class="el" href="#a7c236a93e7f2e4aeca475a1582dd4360">HDF5FilterConfig</a> HDF5FilterConfig::createGzipFilter </td>
           <td>(</td>
           <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>level</em></span><span class="paramdefsep"> = </span><span class="paramdefval">4</span></td><td>)</td>
           <td></td>
@@ -257,7 +257,7 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="#aa880841cf90ac3a3a2ce00ba22a09442">HDF5FilterConfig</a> HDF5FilterConfig::createNbitFilter </td>
+          <td class="memname"><a class="el" href="#a7c236a93e7f2e4aeca475a1582dd4360">HDF5FilterConfig</a> HDF5FilterConfig::createNbitFilter </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -290,7 +290,7 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="#aa880841cf90ac3a3a2ce00ba22a09442">HDF5FilterConfig</a> HDF5FilterConfig::createShuffleFilter </td>
+          <td class="memname"><a class="el" href="#a7c236a93e7f2e4aeca475a1582dd4360">HDF5FilterConfig</a> HDF5FilterConfig::createShuffleFilter </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>

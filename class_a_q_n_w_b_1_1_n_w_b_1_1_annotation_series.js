@@ -8,7 +8,7 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series =
     [ "initialize", "class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html#a6a508c539bd039e6d0e1557307ad3536", null ],
     [ "readData", "class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html#a17260ac5ac8f8ba1bc4858f55aa28ccd", null ],
     [ "recordData", "class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html#a3007e710f3b6ac2766ca8619f33a724e", null ],
-    [ "writeAnnotation", "class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html#a02132ab3ba47c34556ea08abcfbf70bc", null ],
+    [ "writeAnnotation", "class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html#a5d1ce0df68f30ea1d8111333a967d7f0", null ],
     [ "m_samplesRecorded", "class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html#a8801b9095e4f9131b4ede7e8e812f6e3", null ],
     [ "registered_", "class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html#a062ad1fae03fd6e12b944e366f3a0f09", null ]
 ];

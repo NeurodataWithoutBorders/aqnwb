@@ -24,7 +24,7 @@ var namespace_a_q_n_w_b_1_1_i_o =
       [ "STOP_ON_TYPE", "namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035a0bce90db02919671dbe161b9bd8cef05", null ],
       [ "CONTINUE_ON_TYPE", "namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035aec2c6b5e5e8c3b3810251e9974647ef8", null ]
     ] ],
-    [ "writeAnnotationSeriesData", "namespace_a_q_n_w_b_1_1_i_o.html#a08cfea2e8d69263b2a5818efffc17171", null ],
+    [ "writeAnnotationSeriesData", "namespace_a_q_n_w_b_1_1_i_o.html#a274c97d36f16912ad3e3bb88e2b58bf5", null ],
     [ "writeElectricalSeriesData", "namespace_a_q_n_w_b_1_1_i_o.html#a20c344888517796c27aabd7ca0d91209", null ],
     [ "writeSpikeEventData", "namespace_a_q_n_w_b_1_1_i_o.html#a64543a3bdd0da0a54a2085aad3643089", null ],
     [ "writeTimeseriesData", "namespace_a_q_n_w_b_1_1_i_o.html#acb284d332fd23c82aa8e8311dd31d319", null ]

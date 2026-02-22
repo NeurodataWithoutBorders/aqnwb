@@ -11,7 +11,7 @@ var class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper =
     [ "getNumDimensions", "class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html#a464b2f034e3ff26b0d248b1488171d2b", null ],
     [ "getPath", "class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html#ada55e7806d41cbd66d4099fc7a25651d", null ],
     [ "getShape", "class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html#acd48258c18b94ccbb591682b2e33c6b6", null ],
-    [ "getStorageObjectType", "class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html#ae4455d653e39ed6d1e041d90441e0c89", null ],
+    [ "getStorageObjectType", "class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html#a9b7d05178a731416ec1ce78a2dcfd1e0", null ],
     [ "isType", "class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html#a1a48ed3eb5b234e384b09834896402e0", null ],
     [ "operator=", "class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html#a479c89bee92ff1b6c2916b7dd8e9d6bd", null ],
     [ "toLinkArrayDataSetConfig", "class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html#a18e0001bcf43ff3ad51a8287d1da6584", null ],

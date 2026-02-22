@@ -149,8 +149,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a981d7a455b4c057f8ade5c511afbb2ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the list of storage objects (groups, datasets, attributes) inside a group.  <br /></td></tr>
 <tr class="memitem:a788603f4c9c2698aad610134ab89f8e1" id="r_a788603f4c9c2698aad610134ab89f8e1"><td class="memItemLeft">virtual std::unordered_map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a788603f4c9c2698aad610134ab89f8e1">findTypes</a> (const std::string &amp;starting_path, const std::unordered_set&lt; std::string &gt; &amp;types, <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035">SearchMode</a> search_mode, bool exclude_starting_path=false) const</td></tr>
 <tr class="memdesc:a788603f4c9c2698aad610134ab89f8e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds all datasets and groups of the given types in the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> file.  <br /></td></tr>
-<tr class="memitem:aad16547be1f92b264ca056672cda6967" id="r_aad16547be1f92b264ca056672cda6967"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#aad16547be1f92b264ca056672cda6967">getFullTypeName</a> (const std::string &amp;path)</td></tr>
-<tr class="memdesc:aad16547be1f92b264ca056672cda6967"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the full name of the type from the attribute in the file.  <br /></td></tr>
+<tr class="memitem:a1b9c28abd50f22cf2e0bca20380a12b9" id="r_a1b9c28abd50f22cf2e0bca20380a12b9"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a1b9c28abd50f22cf2e0bca20380a12b9">getFullTypeName</a> (const std::string &amp;path) const</td></tr>
+<tr class="memdesc:a1b9c28abd50f22cf2e0bca20380a12b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the full name of the type from the attribute in the file.  <br /></td></tr>
 <tr class="memitem:ad554d43f98c5fc038cb7bc59d3d3721d" id="r_ad554d43f98c5fc038cb7bc59d3d3721d"><td class="memItemLeft">virtual <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html">DataBlockGeneric</a>&#160;</td><td class="memItemRight"><a class="el" href="#ad554d43f98c5fc038cb7bc59d3d3721d">readDataset</a> (const std::string &amp;dataPath, const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;start={}, const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;count={}, const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;stride={}, const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;block={})=0</td></tr>
 <tr class="memdesc:ad554d43f98c5fc038cb7bc59d3d3721d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a dataset and determines the data type.  <br /></td></tr>
 <tr class="memitem:aa9b3fc349e4149f6b1c75bb854deae07" id="r_aa9b3fc349e4149f6b1c75bb854deae07"><td class="memItemLeft">virtual <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html">DataBlockGeneric</a>&#160;</td><td class="memItemRight"><a class="el" href="#aa9b3fc349e4149f6b1c75bb854deae07">readAttribute</a> (const std::string &amp;dataPath) const =0</td></tr>
@@ -185,12 +185,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a34edb8802204ec60e737113d4ccff1ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an extendable dataset with the given configuration and path.  <br /></td></tr>
 <tr class="memitem:abfecddd0a4a45740ccc84edd7461dba9" id="r_abfecddd0a4a45740ccc84edd7461dba9"><td class="memItemLeft">virtual std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">BaseRecordingData</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#abfecddd0a4a45740ccc84edd7461dba9">getDataSet</a> (const std::string &amp;path)=0</td></tr>
 <tr class="memdesc:abfecddd0a4a45740ccc84edd7461dba9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a pointer to a dataset at a given path.  <br /></td></tr>
-<tr class="memitem:ae0bb3268dd3ab72d89e214f9638861a7" id="r_ae0bb3268dd3ab72d89e214f9638861a7"><td class="memItemLeft">virtual <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a>&#160;</td><td class="memItemRight"><a class="el" href="#ae0bb3268dd3ab72d89e214f9638861a7">getStorageObjectShape</a> (const std::string path) const =0</td></tr>
-<tr class="memdesc:ae0bb3268dd3ab72d89e214f9638861a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the size of the dataset or attribute for each dimension.  <br /></td></tr>
-<tr class="memitem:a4d0740847311cffa3e1216fed89eca58" id="r_a4d0740847311cffa3e1216fed89eca58"><td class="memItemLeft">virtual <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a>&#160;</td><td class="memItemRight"><a class="el" href="#a4d0740847311cffa3e1216fed89eca58">getStorageObjectChunking</a> (const std::string path) const =0</td></tr>
-<tr class="memdesc:a4d0740847311cffa3e1216fed89eca58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the chunking configuration of a dataset.  <br /></td></tr>
-<tr class="memitem:a3f759dc2b2c93500951a15e309f8ff34" id="r_a3f759dc2b2c93500951a15e309f8ff34"><td class="memItemLeft">virtual <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">BaseDataType</a>&#160;</td><td class="memItemRight"><a class="el" href="#a3f759dc2b2c93500951a15e309f8ff34">getStorageObjectDataType</a> (const std::string path) const =0</td></tr>
-<tr class="memdesc:a3f759dc2b2c93500951a15e309f8ff34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html" title="Represents a base data type.">BaseDataType</a> of a dataset or attribute.  <br /></td></tr>
+<tr class="memitem:ade0c2d3b4f9ae88212d948d8c3421f48" id="r_ade0c2d3b4f9ae88212d948d8c3421f48"><td class="memItemLeft">virtual <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a>&#160;</td><td class="memItemRight"><a class="el" href="#ade0c2d3b4f9ae88212d948d8c3421f48">getStorageObjectShape</a> (const std::string &amp;path) const =0</td></tr>
+<tr class="memdesc:ade0c2d3b4f9ae88212d948d8c3421f48"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the size of the dataset or attribute for each dimension.  <br /></td></tr>
+<tr class="memitem:a67bb097eefc2ebe5ab1b45ed00859c0b" id="r_a67bb097eefc2ebe5ab1b45ed00859c0b"><td class="memItemLeft">virtual <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a>&#160;</td><td class="memItemRight"><a class="el" href="#a67bb097eefc2ebe5ab1b45ed00859c0b">getStorageObjectChunking</a> (const std::string &amp;path) const =0</td></tr>
+<tr class="memdesc:a67bb097eefc2ebe5ab1b45ed00859c0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the chunking configuration of a dataset.  <br /></td></tr>
+<tr class="memitem:aa3f2c6871009254b8e3168de14b3c53f" id="r_aa3f2c6871009254b8e3168de14b3c53f"><td class="memItemLeft">virtual <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">BaseDataType</a>&#160;</td><td class="memItemRight"><a class="el" href="#aa3f2c6871009254b8e3168de14b3c53f">getStorageObjectDataType</a> (const std::string &amp;path) const =0</td></tr>
+<tr class="memdesc:aa3f2c6871009254b8e3168de14b3c53f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html" title="Represents a base data type.">BaseDataType</a> of a dataset or attribute.  <br /></td></tr>
 <tr class="memitem:a813c55d88d9504e82d6871b9732d9bad" id="r_a813c55d88d9504e82d6871b9732d9bad"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a813c55d88d9504e82d6871b9732d9bad">createCommonNWBAttributes</a> (const std::string &amp;path, const std::string &amp;objectNamespace, const std::string &amp;neurodataType=&quot;&quot;)</td></tr>
 <tr class="memdesc:a813c55d88d9504e82d6871b9732d9bad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience function for creating <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> related attributes.  <br /></td></tr>
 <tr class="memitem:a51780c3ba1e76902180b55c050eedaa7" id="r_a51780c3ba1e76902180b55c050eedaa7"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a51780c3ba1e76902180b55c050eedaa7">isOpen</a> () const</td></tr>
@@ -1114,8 +1114,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="aad16547be1f92b264ca056672cda6967" name="aad16547be1f92b264ca056672cda6967"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aad16547be1f92b264ca056672cda6967">&#9670;&#160;</a></span>getFullTypeName()</h2>
+<a id="a1b9c28abd50f22cf2e0bca20380a12b9" name="a1b9c28abd50f22cf2e0bca20380a12b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b9c28abd50f22cf2e0bca20380a12b9">&#9670;&#160;</a></span>getFullTypeName()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1124,7 +1124,7 @@ Here is the caller graph for this function:</div>
           <td class="memname">std::string BaseIO::getFullTypeName </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1147,7 +1147,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o_aad16547be1f92b264ca056672cda6967_cgraph.svg" width="588" height="167"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o_a1b9c28abd50f22cf2e0bca20380a12b9_cgraph.svg" width="588" height="167"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -1185,8 +1185,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a4d0740847311cffa3e1216fed89eca58" name="a4d0740847311cffa3e1216fed89eca58"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4d0740847311cffa3e1216fed89eca58">&#9670;&#160;</a></span>getStorageObjectChunking()</h2>
+<a id="a67bb097eefc2ebe5ab1b45ed00859c0b" name="a67bb097eefc2ebe5ab1b45ed00859c0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67bb097eefc2ebe5ab1b45ed00859c0b">&#9670;&#160;</a></span>getStorageObjectChunking()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1197,7 +1197,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">virtual <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> AQNWB::IO::BaseIO::getStorageObjectChunking </td>
           <td>(</td>
-          <td class="paramtype">const std::string</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -1217,17 +1217,17 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The chunking configuration of the dataset, or an empty <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> if the dataset is not chunked, doesn't exist, or if the path points to a Group or Attribute (which cannot be chunked). </dd></dl>
 
-<p>Implemented in <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a626023cfd926326063745fe610e87ebf">AQNWB::IO::HDF5::HDF5IO</a>.</p>
+<p>Implemented in <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a14071a0041e2c4931ba760cdd2c0ad66">AQNWB::IO::HDF5::HDF5IO</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o_a4d0740847311cffa3e1216fed89eca58_icgraph.svg" width="666" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o_a67bb097eefc2ebe5ab1b45ed00859c0b_icgraph.svg" width="666" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="a3f759dc2b2c93500951a15e309f8ff34" name="a3f759dc2b2c93500951a15e309f8ff34"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3f759dc2b2c93500951a15e309f8ff34">&#9670;&#160;</a></span>getStorageObjectDataType()</h2>
+<a id="aa3f2c6871009254b8e3168de14b3c53f" name="aa3f2c6871009254b8e3168de14b3c53f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3f2c6871009254b8e3168de14b3c53f">&#9670;&#160;</a></span>getStorageObjectDataType()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1238,7 +1238,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">virtual <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">BaseDataType</a> AQNWB::IO::BaseIO::getStorageObjectDataType </td>
           <td>(</td>
-          <td class="paramtype">const std::string</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -1264,11 +1264,11 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a6ad39352448a7574c604789d925f31dd">AQNWB::IO::HDF5::HDF5IO</a>.</p>
+<p>Implemented in <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a5e0f1875a4e1a57493875dc89a19ee1d">AQNWB::IO::HDF5::HDF5IO</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o_a3f759dc2b2c93500951a15e309f8ff34_icgraph.svg" width="100%" height="388"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o_aa3f2c6871009254b8e3168de14b3c53f_icgraph.svg" width="100%" height="388"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -1320,8 +1320,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="ae0bb3268dd3ab72d89e214f9638861a7" name="ae0bb3268dd3ab72d89e214f9638861a7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae0bb3268dd3ab72d89e214f9638861a7">&#9670;&#160;</a></span>getStorageObjectShape()</h2>
+<a id="ade0c2d3b4f9ae88212d948d8c3421f48" name="ade0c2d3b4f9ae88212d948d8c3421f48"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade0c2d3b4f9ae88212d948d8c3421f48">&#9670;&#160;</a></span>getStorageObjectShape()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1332,7 +1332,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">virtual <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> AQNWB::IO::BaseIO::getStorageObjectShape </td>
           <td>(</td>
-          <td class="paramtype">const std::string</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -1358,11 +1358,11 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a5e9b8fb56bdd982369f92a3b3021311b">AQNWB::IO::HDF5::HDF5IO</a>.</p>
+<p>Implemented in <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a8d5cb50f8ac5129c92d027b894a64b2d">AQNWB::IO::HDF5::HDF5IO</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o_ae0bb3268dd3ab72d89e214f9638861a7_icgraph.svg" width="638" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o_ade0c2d3b4f9ae88212d948d8c3421f48_icgraph.svg" width="638" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

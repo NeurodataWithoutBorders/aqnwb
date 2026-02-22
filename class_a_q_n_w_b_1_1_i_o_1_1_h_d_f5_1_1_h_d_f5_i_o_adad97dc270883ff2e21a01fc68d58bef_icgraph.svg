@@ -51,7 +51,7 @@
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#af85213c525d23ca3c0a383a1351e2fed" target="_top" xlink:title="Writes a block of string data (any number of dimensions).">
+<g id="a_Node000003"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a46c696f828274f96765373e3ec5950d7" target="_top" xlink:title="Writes a block of string data (any number of dimensions).">
 <polygon fill="white" stroke="#666666" points="179.5,-79.5 0,-79.5 0,-49 179.5,-49 179.5,-79.5"/>
 <text xml:space="preserve" text-anchor="start" x="8" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::IO::HDF5::HDF5Recording</text>
 <text xml:space="preserve" text-anchor="middle" x="89.75" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">Data::writeDataBlock</text>
@@ -70,7 +70,7 @@
 <!-- Node4 -->
 <g id="Node000004" class="node">
 <title>Node4</title>
-<g id="a_Node000004"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a832550c7bce2b25509d0f0c75fc294e8" target="_top" xlink:title="Writes a block of data to the HDF5 dataset.">
+<g id="a_Node000004"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a98aad315b2d3f0a59642fe705c8a795a" target="_top" xlink:title="Writes a block of data to the HDF5 dataset.">
 <polygon fill="white" stroke="#666666" points="179.5,-30.5 0,-30.5 0,0 179.5,0 179.5,-30.5"/>
 <text xml:space="preserve" text-anchor="start" x="8" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::IO::HDF5::HDF5Recording</text>
 <text xml:space="preserve" text-anchor="middle" x="89.75" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">Data::writeDataBlock</text>

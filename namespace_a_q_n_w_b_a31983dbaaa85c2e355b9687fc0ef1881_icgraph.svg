@@ -67,7 +67,7 @@ var sectionId = 'dynsection-8';
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#a4900b071766468aae121478ce9cc32b6" target="_top" xlink:title="Sets up the ElectrodesTable by adding electrodes and their metadata.">
+<g id="a_Node000002"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#ad29195cacd9a6c40fb8de417318c9cef" target="_top" xlink:title="Sets up the ElectrodesTable by adding electrodes and their metadata.">
 <polygon fill="white" stroke="#666666" points="2662.5,-846.5 2502.5,-846.5 2502.5,-816 2662.5,-816 2662.5,-846.5"/>
 <text xml:space="preserve" text-anchor="start" x="2510.5" y="-833" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::ElectrodesTable</text>
 <text xml:space="preserve" text-anchor="middle" x="2582.5" y="-821.75" font-family="Helvetica,sans-Serif" font-size="10.00">::addElectrodes</text>
@@ -276,7 +276,7 @@ var sectionId = 'dynsection-8';
 <!-- Node41 -->
 <g id="Node000041" class="node">
 <title>Node41</title>
-<g id="a_Node000041"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#aad16547be1f92b264ca056672cda6967" target="_top" xlink:title="Get the full name of the type from the attribute in the file.">
+<g id="a_Node000041"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a1b9c28abd50f22cf2e0bca20380a12b9" target="_top" xlink:title="Get the full name of the type from the attribute in the file.">
 <polygon fill="white" stroke="#666666" points="2640.38,-324.5 2524.62,-324.5 2524.62,-294 2640.38,-294 2640.38,-324.5"/>
 <text xml:space="preserve" text-anchor="start" x="2532.62" y="-311" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::IO::BaseIO::</text>
 <text xml:space="preserve" text-anchor="middle" x="2582.5" y="-299.75" font-family="Helvetica,sans-Serif" font-size="10.00">getFullTypeName</text>
@@ -503,7 +503,7 @@ var sectionId = 'dynsection-8';
 <!-- Node9 -->
 <g id="Node000009" class="node">
 <title>Node9</title>
-<g id="a_Node000009"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aae7e93ae26ad836702d22c9339d7bbc4" target="_top" xlink:title="Create AnnotationSeries objects to record data into. Created objects are automatically added to the I...">
+<g id="a_Node000009"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aab00aa182159eb7bee98657b42801a34" target="_top" xlink:title="Create AnnotationSeries objects to record data into. Created objects are automatically added to the I...">
 <polygon fill="white" stroke="#666666" points="1903.25,-763.5 1773.25,-763.5 1773.25,-733 1903.25,-733 1903.25,-763.5"/>
 <text xml:space="preserve" text-anchor="start" x="1781.25" y="-750" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::NWBFile</text>
 <text xml:space="preserve" text-anchor="middle" x="1838.25" y="-738.75" font-family="Helvetica,sans-Serif" font-size="10.00">::createAnnotationSeries</text>
