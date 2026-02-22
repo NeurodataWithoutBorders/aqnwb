@@ -139,6 +139,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:acd48258c18b94ccbb591682b2e33c6b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the shape of the data object.  <br /></td></tr>
 <tr class="memitem:a464b2f034e3ff26b0d248b1488171d2b" id="r_a464b2f034e3ff26b0d248b1488171d2b"><td class="memItemLeft"><a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a>&#160;</td><td class="memItemRight"><a class="el" href="#a464b2f034e3ff26b0d248b1488171d2b">getNumDimensions</a> () const</td></tr>
 <tr class="memdesc:a464b2f034e3ff26b0d248b1488171d2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of dimensions of the data object.  <br /></td></tr>
+<tr class="memitem:a4e232e4badc79baae56a10ab590a28b4" id="r_a4e232e4badc79baae56a10ab590a28b4"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">IO::BaseDataType</a>&#160;</td><td class="memItemRight"><a class="el" href="#a4e232e4badc79baae56a10ab590a28b4">getDataType</a> () const</td></tr>
+<tr class="memdesc:a4e232e4badc79baae56a10ab590a28b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the data type of the data object.  <br /></td></tr>
+<tr class="memitem:a1d5ef6f0bc44eb385bbda6eeb05456bf" id="r_a1d5ef6f0bc44eb385bbda6eeb05456bf"><td class="memItemLeft"><a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a>&#160;</td><td class="memItemRight"><a class="el" href="#a1d5ef6f0bc44eb385bbda6eeb05456bf">getChunking</a> () const</td></tr>
+<tr class="memdesc:a1d5ef6f0bc44eb385bbda6eeb05456bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the chunking configuration of the data object.  <br /></td></tr>
+<tr class="memitem:a18e0001bcf43ff3ad51a8287d1da6584" id="r_a18e0001bcf43ff3ad51a8287d1da6584"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915">StorageObjectType</a> U = OTYPE, typename std::enable_if&lt; <a class="el" href="struct_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper_1_1is_dataset.html">isDataset</a>&lt; U &gt;::value, int &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:a18e0001bcf43ff3ad51a8287d1da6584 template"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html">IO::LinkArrayDataSetConfig</a>&#160;</td><td class="memItemRight"><a class="el" href="#a18e0001bcf43ff3ad51a8287d1da6584">toLinkArrayDataSetConfig</a> () const</td></tr>
+<tr class="memdesc:a18e0001bcf43ff3ad51a8287d1da6584"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html" title="AQNWB::IO::LinkArrayDataSetConfig">AQNWB::IO::LinkArrayDataSetConfig</a> from this wrapper.  <br /></td></tr>
 <tr class="memitem:aa67d145711df12192d43d07c3a52546a" id="r_aa67d145711df12192d43d07c3a52546a"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aa67d145711df12192d43d07c3a52546a">exists</a> () const</td></tr>
 <tr class="memdesc:aa67d145711df12192d43d07c3a52546a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check that the object exists.  <br /></td></tr>
 <tr class="memitem:a87906c320c5ca820768eacc98e8b09ca" id="r_a87906c320c5ca820768eacc98e8b09ca"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html">DataBlockGeneric</a>&#160;</td><td class="memItemRight"><a class="el" href="#a87906c320c5ca820768eacc98e8b09ca">valuesGeneric</a> () const</td></tr>
@@ -314,6 +321,73 @@ template&lt;<a class="el" href="class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb1
 
 <p>Check that the object exists. </p>
 <dl class="section return"><dt>Returns</dt><dd>Bool indicating whether the object exists in the file </dd></dl>
+
+</div>
+</div>
+<a id="a1d5ef6f0bc44eb385bbda6eeb05456bf" name="a1d5ef6f0bc44eb385bbda6eeb05456bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d5ef6f0bc44eb385bbda6eeb05456bf">&#9670;&#160;</a></span>getChunking()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915">StorageObjectType</a> OTYPE, typename VTYPE = std::any&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; OTYPE, VTYPE &gt;::getChunking </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the chunking configuration of the data object. </p>
+<p>Attributes are not chunked, so this will return an empty <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> for attributes. An empty <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> is also returned if the path does not exist in the file or if the dataset is contiguous (not chunked).</p>
+<dl class="section return"><dt>Returns</dt><dd>The chunking configuration of the dataset, or an empty <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> if the dataset is not chunked, if this is an attribute, or if the object does not exist. </dd></dl>
+
+</div>
+</div>
+<a id="a4e232e4badc79baae56a10ab590a28b4" name="a4e232e4badc79baae56a10ab590a28b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e232e4badc79baae56a10ab590a28b4">&#9670;&#160;</a></span>getDataType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915">StorageObjectType</a> OTYPE, typename VTYPE = std::any&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">IO::BaseDataType</a> <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; OTYPE, VTYPE &gt;::getDataType </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the data type of the data object. </p>
+<dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html" title="Represents a base data type.">BaseDataType</a> of the data object. </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>if the data type cannot be determined. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -538,6 +612,40 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper_a479c89bee92ff1b6c2916b7dd8e9d6bd_cgraph.svg" width="478" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
+
+</div>
+</div>
+<a id="a18e0001bcf43ff3ad51a8287d1da6584" name="a18e0001bcf43ff3ad51a8287d1da6584"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18e0001bcf43ff3ad51a8287d1da6584">&#9670;&#160;</a></span>toLinkArrayDataSetConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915">StorageObjectType</a> OTYPE, typename VTYPE = std::any&gt; </div>
+<div class="memtemplate">
+template&lt;<a class="el" href="class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915">StorageObjectType</a> U = OTYPE, typename std::enable_if&lt; <a class="el" href="struct_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper_1_1is_dataset.html">isDataset</a>&lt; U &gt;::value, int &gt;::type = 0&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html">IO::LinkArrayDataSetConfig</a> <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; OTYPE, VTYPE &gt;::toLinkArrayDataSetConfig </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs a <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html" title="AQNWB::IO::LinkArrayDataSetConfig">AQNWB::IO::LinkArrayDataSetConfig</a> from this wrapper. </p>
+<p>This is useful for creating soft-links to the dataset represented by this wrapper and for querying the storage properties (shape, chunking, data type) of the dataset via the returned config object.</p>
+<p>We do not support creating links to attributes, so this function is disabled for attributes.</p>
+<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html" title="AQNWB::IO::LinkArrayDataSetConfig">AQNWB::IO::LinkArrayDataSetConfig</a> with the path of this wrapper as the link target. </dd></dl>
 
 </div>
 </div>

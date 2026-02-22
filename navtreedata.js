@@ -68,10 +68,10 @@ var NAVTREEINDEX =
 "_annotation_series_8cpp.html",
 "class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#afee9dd35596851a1af7f4523444ba04b",
 "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a8b48955947cddf0659b0937bd1e58d39",
-"class_a_q_n_w_b_1_1_n_w_b_1_1_device.html#a93468ac9793a1e67250ced89a2fbd007",
-"class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a0fa114190b0940cf54f44c626a69f550",
-"class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#aceff608228b87017b836a4a97f5b470d",
-"namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881"
+"class_a_q_n_w_b_1_1_n_w_b_1_1_device.html#a2ad7fb2e8436a7accfce35978d962b74",
+"class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a0b44558c283edd9db7d2fcf284c1a5ec",
+"class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ab8143e245b1f62cb147cd9ed97c84e9cab927521463221688987dd0ce3aeecfed",
+"links.html#link_use_case"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

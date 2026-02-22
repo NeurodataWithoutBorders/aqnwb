@@ -1,5 +1,11 @@
 var NAVTREEINDEX4 =
 {
+"class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a0b44558c283edd9db7d2fcf284c1a5ec":[3,0,0,1,19,14],
+"class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a0b44558c283edd9db7d2fcf284c1a5ec":[4,0,0,1,19,14],
+"class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a0c3fbd0acd94af626b3b1c9e29216c89":[3,0,0,1,19,40],
+"class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a0c3fbd0acd94af626b3b1c9e29216c89":[4,0,0,1,19,40],
+"class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a0eda3212e6af58625670efc0c6ae81a3":[3,0,0,1,19,32],
+"class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a0eda3212e6af58625670efc0c6ae81a3":[4,0,0,1,19,32],
 "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a0fa114190b0940cf54f44c626a69f550":[3,0,0,1,19,13],
 "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a0fa114190b0940cf54f44c626a69f550":[4,0,0,1,19,13],
 "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a116bb371a6ef2fec0a442530ce4c5344":[3,0,0,1,19,8],
@@ -243,11 +249,5 @@ var NAVTREEINDEX4 =
 "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ab8143e245b1f62cb147cd9ed97c84e9ca63430566913dbf62230d5f365b3aa1a4":[3,0,0,1,5,0,3],
 "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ab8143e245b1f62cb147cd9ed97c84e9ca63430566913dbf62230d5f365b3aa1a4":[4,0,0,1,5,0,3],
 "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ab8143e245b1f62cb147cd9ed97c84e9caae953cfd9d7f5062027b26b22e5703e9":[3,0,0,1,5,0,1],
-"class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ab8143e245b1f62cb147cd9ed97c84e9caae953cfd9d7f5062027b26b22e5703e9":[4,0,0,1,5,0,1],
-"class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ab8143e245b1f62cb147cd9ed97c84e9cab927521463221688987dd0ce3aeecfed":[3,0,0,1,5,0,2],
-"class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ab8143e245b1f62cb147cd9ed97c84e9cab927521463221688987dd0ce3aeecfed":[4,0,0,1,5,0,2],
-"class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#abd85c18a23b27019aadf8cac3b34e41e":[3,0,0,1,5,28],
-"class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#abd85c18a23b27019aadf8cac3b34e41e":[4,0,0,1,5,28],
-"class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#acc6599d1e408b171f833d0373251c7e8":[3,0,0,1,5,33],
-"class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#acc6599d1e408b171f833d0373251c7e8":[4,0,0,1,5,33]
+"class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ab8143e245b1f62cb147cd9ed97c84e9caae953cfd9d7f5062027b26b22e5703e9":[4,0,0,1,5,0,1]
 };
