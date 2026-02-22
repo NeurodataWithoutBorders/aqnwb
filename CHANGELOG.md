@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+* Added `cppcheck` static analysis integration (@copilot, @oruebel [#270](https://github.com/NeurodataWithoutBorders/aqnwb/pull/270)):
+  * Added `.github/workflows/cppcheck.yml` CI workflow that runs cppcheck on `src/` and `tests/`, converts results to SARIF using `airtower-luna/convert-to-sarif`, and uploads them to the GitHub Security tab via `github/codeql-action/upload-sarif`
+  * Added `cmake/cppcheck.cmake` standalone script and `cmake/cppcheck-targets.cmake` for running cppcheck locally via `cmake --build --preset=dev --target=cppcheck`
+  * Updated developer documentation in `docs/pages/devdocs/testing.dox` and `docs/pages/devdocs/install.dox` with cppcheck usage instructions
 * Added `getDataType()`, `getChunking()`, and `toLinkArrayDataSetConfig()` functions to `ReadDataWrapper` (@copilot, @oruebel [#266](https://github.com/NeurodataWithoutBorders/aqnwb/pull/266))
 * Added support for creating soft-links to existing datasets to avoid data duplication (@copilot, @oruebel [#257](https://github.com/NeurodataWithoutBorders/aqnwb/pull/257))
   * Added `BaseArrayDataSetConfig` abstract base class for polymorphic dataset configuration
