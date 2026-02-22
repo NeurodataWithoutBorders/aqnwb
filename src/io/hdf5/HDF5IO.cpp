@@ -29,7 +29,7 @@ HDF5IO::HDF5IO(const std::string& fileName, const bool disableSWMRMode)
 
 HDF5IO::~HDF5IO()
 {
-  close();
+  closeFileImpl();
 }
 
 Status HDF5IO::open()
@@ -82,13 +82,18 @@ Status HDF5IO::open(FileMode mode)
 Status HDF5IO::close()
 {
   auto baseCloseStatus = BaseIO::close();  // clear the recording containers
+  closeFileImpl();
+  return baseCloseStatus;
+}
+
+void HDF5IO::closeFileImpl()
+{
   // Close the file if it is open
   if (m_file != nullptr && m_opened) {
     m_file->close();
     m_file = nullptr;
     m_opened = false;
   }
-  return baseCloseStatus;
 }
 
 Status HDF5IO::flush()
