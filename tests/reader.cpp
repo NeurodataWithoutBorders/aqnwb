@@ -50,7 +50,7 @@ int readerFunction(const std::string& path, const std::string& dataPath)
   return 0;
 }
 
-int main(int /*argc*/, char* argv[])
+int main(int /*argc*/, const char* const argv[])
 {
   std::string path = argv[1];
   std::string dataPath = argv[2];

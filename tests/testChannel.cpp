@@ -121,10 +121,15 @@ TEST_CASE("Test Channel Copy and Move Operations", "[channel]")
   {
     Channel copy("other", "other_group", 0, 0, 0);
     copy = original;
+    // cppcheck-suppress knownConditionTrueFalse
     REQUIRE(copy.getName() == original.getName());
+    // cppcheck-suppress knownConditionTrueFalse
     REQUIRE(copy.getGroupName() == original.getGroupName());
+    // cppcheck-suppress knownConditionTrueFalse
     REQUIRE(copy.getGroupIndex() == original.getGroupIndex());
+    // cppcheck-suppress knownConditionTrueFalse
     REQUIRE(copy.getLocalIndex() == original.getLocalIndex());
+    // cppcheck-suppress knownConditionTrueFalse
     REQUIRE(copy.getGlobalIndex() == original.getGlobalIndex());
     REQUIRE(copy.getConversion()
             == Catch::Approx(original.getConversion()).epsilon(0.001));
@@ -136,6 +141,7 @@ TEST_CASE("Test Channel Copy and Move Operations", "[channel]")
     const auto& copyPos = copy.getPosition();
     REQUIRE_THAT(copyPos,
                  Catch::Matchers::RangeEquals(origPos, approxComparator));
+    // cppcheck-suppress knownConditionTrueFalse
     REQUIRE(copy.getComments() == original.getComments());
   }
 

@@ -299,7 +299,8 @@ TEST_CASE("Test BaseArrayDataSetConfig polymorphism", "[BaseIO]")
         BaseDataType::F32, SizeArray {100}, SizeArray {10});
 
     // Can be used as base class pointer
-    BaseArrayDataSetConfig* basePtr = &config;
+    const BaseArrayDataSetConfig* basePtr = &config;
+    // cppcheck-suppress knownConditionTrueFalse
     REQUIRE(basePtr != nullptr);
     REQUIRE(basePtr->isLink() == false);
   }
@@ -309,7 +310,8 @@ TEST_CASE("Test BaseArrayDataSetConfig polymorphism", "[BaseIO]")
     LinkArrayDataSetConfig linkConfig("/path/to/target");
 
     // Can be used as base class pointer
-    BaseArrayDataSetConfig* basePtr = &linkConfig;
+    const BaseArrayDataSetConfig* basePtr = &linkConfig;
+    // cppcheck-suppress knownConditionTrueFalse
     REQUIRE(basePtr != nullptr);
     REQUIRE(basePtr->isLink() == true);
   }

@@ -52,7 +52,7 @@ public:
   Status writeDataBlock(const SizeArray& dataShape,
                         const SizeArray& positionOffset,
                         const AQNWB::IO::BaseDataType& type,
-                        const void* data);
+                        const void* data) override;
 
   /**
    * @brief Writes a block of string data (any number of dimensions).
@@ -67,7 +67,7 @@ public:
   Status writeDataBlock(const SizeArray& dataShape,
                         const SizeArray& positionOffset,
                         const AQNWB::IO::BaseDataType& type,
-                        const std::vector<std::string>& data);
+                        const std::vector<std::string>& data) override;
 
   /**
    * @brief Gets a const pointer to the HDF5 dataset.
