@@ -26,11 +26,11 @@ public:
   /**
    * @brief Constructs an HDF5FilterConfig object with the specified filter ID
    * and client data array.
-   * @param filter_id The ID of the filter.
-   * @param cd_values The client data array.
+   * @param in_filter_id The ID of the filter.
+   * @param in_cd_values The client data array.
    */
-  HDF5FilterConfig(H5Z_filter_t filter_id,
-                   const std::vector<unsigned int>& cd_values);
+  HDF5FilterConfig(H5Z_filter_t in_filter_id,
+                   const std::vector<unsigned int>& in_cd_values);
 
   // The ID of the filter
   H5Z_filter_t filter_id;

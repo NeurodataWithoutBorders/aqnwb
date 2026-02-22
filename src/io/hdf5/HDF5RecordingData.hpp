@@ -24,7 +24,7 @@ public:
    * @brief Constructs an HDF5RecordingData object.
    * @param data A pointer to the HDF5 dataset.
    */
-  HDF5RecordingData(std::unique_ptr<H5::DataSet> data);
+  explicit HDF5RecordingData(std::unique_ptr<H5::DataSet> data);
 
   /**
    * @brief Deleted copy constructor to prevent construction-copying.

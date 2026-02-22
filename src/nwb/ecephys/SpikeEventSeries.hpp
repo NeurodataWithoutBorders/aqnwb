@@ -93,6 +93,6 @@ private:
   /**
    * @brief The number of events already written.
    */
-  SizeType m_eventsRecorded;
+  SizeType m_eventsRecorded = 0;
 };
 }  // namespace AQNWB::NWB

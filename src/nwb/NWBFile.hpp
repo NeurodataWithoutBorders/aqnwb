@@ -63,7 +63,7 @@ protected:
    * @brief Constructor for NWBFile class.
    * @param io The shared pointer to the IO object.
    */
-  NWBFile(std::shared_ptr<IO::BaseIO> io);
+  explicit NWBFile(std::shared_ptr<IO::BaseIO> io);
 
   /** @brief Required constructor so we can call RegisteredType::create but the
    * path cannot be set
@@ -182,7 +182,7 @@ public:
    * created containers.
    * @return Status The status of the object creation operation.
    */
-  Status createAnnotationSeries(std::vector<std::string> recordingNames,
+  Status createAnnotationSeries(const std::vector<std::string>& recordingNames,
                                 std::vector<SizeType>& containerIndexes);
 
   DEFINE_REGISTERED_FIELD(readElectrodesTable,

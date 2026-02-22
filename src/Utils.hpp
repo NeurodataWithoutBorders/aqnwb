@@ -32,7 +32,7 @@ inline std::tm to_local_time(std::time_t time_value)
 #elif defined(__unix__) || defined(__APPLE__)
   localtime_r(&time_value, &local_tm);
 #else
-  std::tm* local_tm_ptr = std::localtime(&time_value);
+  const std::tm* local_tm_ptr = std::localtime(&time_value);
   if (local_tm_ptr) {
     local_tm = *local_tm_ptr;
   }
@@ -53,7 +53,7 @@ inline std::tm to_utc_time(std::time_t time_value)
 #elif defined(__unix__) || defined(__APPLE__)
   gmtime_r(&time_value, &utc_tm);
 #else
-  std::tm* utc_tm_ptr = std::gmtime(&time_value);
+  const std::tm* utc_tm_ptr = std::gmtime(&time_value);
   if (utc_tm_ptr) {
     utc_tm = *utc_tm_ptr;
   }

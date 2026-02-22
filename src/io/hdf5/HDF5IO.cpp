@@ -1,8 +1,10 @@
+#include <algorithm>
 #include <cassert>
 #include <codecvt>
 #include <filesystem>
 #include <iostream>
 #include <memory>
+#include <numeric>
 #include <stdexcept>
 #include <vector>
 
@@ -19,8 +21,8 @@ using namespace H5;
 using namespace AQNWB::IO::HDF5;
 
 // HDF5IO
-HDF5IO::HDF5IO(const std::string& filename, const bool disableSWMRMode)
-    : BaseIO(filename)
+HDF5IO::HDF5IO(const std::string& fileName, const bool disableSWMRMode)
+    : BaseIO(fileName)
     , m_disableSWMRMode(disableSWMRMode)
 {
 }
@@ -383,10 +385,8 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(
   }
 
   // Determine the size of the attribute from the shape
-  size_t numElements = 1;
-  for (const auto v : result.shape) {
-    numElements *= v;
-  }
+  size_t numElements = std::accumulate(
+      result.shape.begin(), result.shape.end(), size_t {1}, std::multiplies<size_t> {});
 
   // Set the base data type for the attribute
   result.baseDataType = getBaseDataType(dataType);
@@ -452,10 +452,10 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(
     // Update the shape to reflect the array dimensions
     result.shape.assign(arrayDims.begin(), arrayDims.end());
 
-    size_t arrayNumElements = 1;
-    for (const auto dim : arrayDims) {
-      arrayNumElements *= dim;
-    }
+    size_t arrayNumElements = std::accumulate(arrayDims.begin(),
+                                               arrayDims.end(),
+                                               size_t {1},
+                                               std::multiplies<size_t> {});
 
     if (baseType == H5::PredType::NATIVE_INT32) {
       result.data =
@@ -573,10 +573,8 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(const std::string& dataPath,
   }
 
   // Calculate the total number of elements based on the hyperslab selection
-  size_t numElements = 1;
-  for (const auto& c : result.shape) {
-    numElements *= c;
-  }
+  size_t numElements = std::accumulate(
+      result.shape.begin(), result.shape.end(), size_t {1}, std::multiplies<size_t> {});
 
   // Read the dataset into a vector of the appropriate type
   H5::DataType dataType = dataset.getDataType();
@@ -810,12 +808,13 @@ Status HDF5IO::createAttribute(const std::vector<std::string>& data,
       // Create the attribute
       Attribute attr = loc.createAttribute(name, H5type, attr_dataspace);
 
-      // Write the data directly from the vector of strings
-      std::vector<const char*> dataPtrs;
-      dataPtrs.reserve(data.size());
-      for (const auto& str : data) {
-        dataPtrs.push_back(str.c_str());
-      }
+      // Write the data directly from the vector of strings.
+      // Note: c_str() pointers are valid only while 'data' is unchanged.
+      std::vector<const char*> dataPtrs(data.size());
+      std::transform(data.begin(),
+                     data.end(),
+                     dataPtrs.begin(),
+                     [](const std::string& str) { return str.c_str(); });
       attr.write(H5type, dataPtrs.data());
 
     } catch (const GroupIException& error) {
@@ -1152,7 +1151,7 @@ HDF5IO::getStorageObjects(const std::string& path,
   return objects;
 }
 
-SizeArray HDF5IO::getStorageObjectShape(const std::string path) const
+SizeArray HDF5IO::getStorageObjectShape(const std::string& path) const
 {
   // Check the object type and handle groups and missing objects
   auto objectType = getStorageObjectType(path);
@@ -1180,7 +1179,7 @@ SizeArray HDF5IO::getStorageObjectShape(const std::string path) const
   return SizeArray(dims.begin(), dims.end());
 }
 
-SizeArray HDF5IO::getStorageObjectChunking(const std::string path) const
+SizeArray HDF5IO::getStorageObjectChunking(const std::string& path) const
 {
   // First check what type of object we're dealing with
   StorageObjectType objectType = getStorageObjectType(path);
@@ -1214,7 +1213,7 @@ SizeArray HDF5IO::getStorageObjectChunking(const std::string path) const
 }
 
 AQNWB::IO::BaseDataType HDF5IO::getStorageObjectDataType(
-    const std::string path) const
+    const std::string& path) const
 {
   StorageObjectType objType = getStorageObjectType(path);
 

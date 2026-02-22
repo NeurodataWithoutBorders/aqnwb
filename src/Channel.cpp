@@ -4,8 +4,8 @@
 
 using namespace AQNWB;
 
-Channel::Channel(const std::string name,
-                 const std::string groupName,
+Channel::Channel(const std::string& name,
+                 const std::string& groupName,
                  const SizeType groupIndex,
                  const SizeType localIndex,
                  const SizeType globalIndex,
@@ -13,7 +13,7 @@ Channel::Channel(const std::string name,
                  const float samplingRate,
                  const float bitVolts,
                  const std::array<float, 3> position,
-                 const std::string comments)
+                 const std::string& comments)
     : m_name(name)
     , m_groupName(groupName)
     , m_groupIndex(groupIndex)

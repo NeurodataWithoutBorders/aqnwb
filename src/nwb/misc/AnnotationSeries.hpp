@@ -58,7 +58,7 @@ public:
    * @return The status of the write operation.
    */
   Status writeAnnotation(const SizeType& numSamples,
-                         const std::vector<std::string> dataInput,
+                         const std::vector<std::string>& dataInput,
                          const void* timestampsInput,
                          const void* controlInput = nullptr);
 

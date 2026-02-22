@@ -36,7 +36,7 @@ Status AnnotationSeries::initialize(
 }
 
 Status AnnotationSeries::writeAnnotation(const SizeType& numSamples,
-                                         std::vector<std::string> dataInput,
+                                         const std::vector<std::string>& dataInput,
                                          const void* timestampsInput,
                                          const void* controlInput)
 {

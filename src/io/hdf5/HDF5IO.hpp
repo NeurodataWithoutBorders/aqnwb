@@ -47,7 +47,7 @@ public:
    *                 the recording process (but does not allow for new objects
    *                 (Groups or Datasets) to be created.
    */
-  HDF5IO(const std::string& fileName, const bool disableSWMRMode = false);
+  explicit HDF5IO(const std::string& fileName, const bool disableSWMRMode = false);
 
   /**
    * @brief Destructor for the HDF5IO class.
@@ -280,7 +280,7 @@ public:
    * @param path The location of the dataset or attribute in the file
    * @return The shape of the dataset or attribute.
    */
-  SizeArray getStorageObjectShape(const std::string path) const override;
+  SizeArray getStorageObjectShape(const std::string& path) const override;
 
   /**
    * @brief Gets the chunking configuration of a dataset.
@@ -289,7 +289,7 @@ public:
    * the dataset is not chunked, doesn't exist, or if the path points to a Group
    * or Attribute (which cannot be chunked).
    */
-  SizeArray getStorageObjectChunking(const std::string path) const override;
+  SizeArray getStorageObjectChunking(const std::string& path) const override;
 
   /**
    * @brief Gets the BaseDataType of a dataset or attribute.
@@ -298,7 +298,7 @@ public:
    * @throws std::runtime_error if the object is a Group (which has no data
    * type) or if the data type cannot be determined.
    */
-  BaseDataType getStorageObjectDataType(const std::string path) const override;
+  BaseDataType getStorageObjectDataType(const std::string& path) const override;
 
   /**
    * @brief Checks whether a Dataset, Group, or Link already exists at the

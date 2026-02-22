@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <any>
 #include <cstdint>
 #include <iostream>
@@ -626,7 +627,7 @@ public:
    * @return String with the full name of the type consisting of
    * `namespace::typename`
    */
-  std::string getFullTypeName(const std::string& path);
+  std::string getFullTypeName(const std::string& path) const;
 
   /**
    * @brief Reads a dataset and determines the data type
@@ -819,7 +820,7 @@ public:
    * @throws std::runtime_error if the object does not exist or if the shape
    * cannot be determined (e.g., for Groups or untyped objects).
    */
-  virtual SizeArray getStorageObjectShape(const std::string path) const = 0;
+  virtual SizeArray getStorageObjectShape(const std::string& path) const = 0;
 
   /**
    * @brief Gets the chunking configuration of a dataset.
@@ -828,7 +829,7 @@ public:
    * the dataset is not chunked, doesn't exist, or if the path points to a Group
    * or Attribute (which cannot be chunked).
    */
-  virtual SizeArray getStorageObjectChunking(const std::string path) const = 0;
+  virtual SizeArray getStorageObjectChunking(const std::string& path) const = 0;
 
   /**
    * @brief Gets the BaseDataType of a dataset or attribute.
@@ -838,7 +839,7 @@ public:
    * type) or if the data type cannot be determined.
    */
   virtual BaseDataType getStorageObjectDataType(
-      const std::string path) const = 0;
+      const std::string& path) const = 0;
 
   /**
    * @brief Convenience function for creating NWB related attributes.
