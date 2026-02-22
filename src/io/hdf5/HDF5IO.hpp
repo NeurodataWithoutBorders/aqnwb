@@ -47,7 +47,8 @@ public:
    *                 the recording process (but does not allow for new objects
    *                 (Groups or Datasets) to be created.
    */
-  explicit HDF5IO(const std::string& fileName, const bool disableSWMRMode = false);
+  explicit HDF5IO(const std::string& fileName,
+                  const bool disableSWMRMode = false);
 
   /**
    * @brief Destructor for the HDF5IO class.

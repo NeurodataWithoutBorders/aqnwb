@@ -385,8 +385,10 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(
   }
 
   // Determine the size of the attribute from the shape
-  size_t numElements = std::accumulate(
-      result.shape.begin(), result.shape.end(), size_t {1}, std::multiplies<size_t> {});
+  size_t numElements = std::accumulate(result.shape.begin(),
+                                       result.shape.end(),
+                                       size_t {1},
+                                       std::multiplies<size_t> {});
 
   // Set the base data type for the attribute
   result.baseDataType = getBaseDataType(dataType);
@@ -453,9 +455,9 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(
     result.shape.assign(arrayDims.begin(), arrayDims.end());
 
     size_t arrayNumElements = std::accumulate(arrayDims.begin(),
-                                               arrayDims.end(),
-                                               size_t {1},
-                                               std::multiplies<size_t> {});
+                                              arrayDims.end(),
+                                              size_t {1},
+                                              std::multiplies<size_t> {});
 
     if (baseType == H5::PredType::NATIVE_INT32) {
       result.data =
@@ -573,8 +575,10 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(const std::string& dataPath,
   }
 
   // Calculate the total number of elements based on the hyperslab selection
-  size_t numElements = std::accumulate(
-      result.shape.begin(), result.shape.end(), size_t {1}, std::multiplies<size_t> {});
+  size_t numElements = std::accumulate(result.shape.begin(),
+                                       result.shape.end(),
+                                       size_t {1},
+                                       std::multiplies<size_t> {});
 
   // Read the dataset into a vector of the appropriate type
   H5::DataType dataType = dataset.getDataType();

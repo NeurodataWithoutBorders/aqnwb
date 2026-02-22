@@ -35,10 +35,11 @@ Status AnnotationSeries::initialize(
   return tsInitStatus;
 }
 
-Status AnnotationSeries::writeAnnotation(const SizeType& numSamples,
-                                         const std::vector<std::string>& dataInput,
-                                         const void* timestampsInput,
-                                         const void* controlInput)
+Status AnnotationSeries::writeAnnotation(
+    const SizeType& numSamples,
+    const std::vector<std::string>& dataInput,
+    const void* timestampsInput,
+    const void* controlInput)
 {
   SizeArray dataShape = {numSamples};
   SizeArray positionOffset = {this->m_samplesRecorded};
