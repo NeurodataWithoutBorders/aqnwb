@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <limits>
 #include <sstream>
 #include <string>
@@ -58,12 +59,11 @@ RecordingObjects::getRecordingObject(const SizeType& objectInd)
 std::shared_ptr<AQNWB::NWB::RegisteredType>
 RecordingObjects::getRecordingObject(const std::string& path) const
 {
-  for (const auto& obj : m_recording_objects) {
-    if (obj && obj->getPath() == path) {
-      return obj;
-    }
-  }
-  return nullptr;
+  auto it = std::find_if(m_recording_objects.begin(),
+                         m_recording_objects.end(),
+                         [&path](const auto& obj)
+                         { return obj && obj->getPath() == path; });
+  return (it != m_recording_objects.end()) ? *it : nullptr;
 }
 
 Status RecordingObjects::finalize()

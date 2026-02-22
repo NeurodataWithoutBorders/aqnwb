@@ -18,8 +18,8 @@ public:
   /**
    * @brief Constructor.
    */
-  Channel(const std::string name,
-          const std::string groupName,
+  Channel(const std::string& name,
+          const std::string& groupName,
           const SizeType groupIndex,
           const SizeType localIndex,
           const SizeType globalIndex,
@@ -29,7 +29,7 @@ public:
                                          // convert 16-bit int to volts
                                          // currently a placeholder
           const std::array<float, 3> position = {0.f, 0.f, 0.f},
-          const std::string comments = "no comments");
+          const std::string& comments = "no comments");
 
   /**
    * @brief Destructor

@@ -37,6 +37,7 @@ jobs:
           --inline-suppr \
           --std=c++17 \
           --suppress=missingIncludeSystem \
+          --suppress=duplInheritedMember \
           --xml \
           --xml-version=2 \
           -I src \

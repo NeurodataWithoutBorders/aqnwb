@@ -91,13 +91,10 @@ Status LinkArrayDataSetConfig::validateTarget(
                 << m_targetPath << "': " << e.what() << std::endl;
       return Status::Failure;
     }
-    bool typeMatch = false;
-    for (const auto& allowed : allowedTypes) {
-      if (targetType == allowed) {
-        typeMatch = true;
-        break;
-      }
-    }
+    bool typeMatch = std::any_of(allowedTypes.begin(),
+                                 allowedTypes.end(),
+                                 [&targetType](const auto& allowed)
+                                 { return targetType == allowed; });
     if (!typeMatch) {
       std::cerr << "LinkArrayDataSetConfig::validateTarget: data type of "
                    "target dataset '"
@@ -119,13 +116,10 @@ Status LinkArrayDataSetConfig::validateTarget(
       return Status::Failure;
     }
     SizeType ndims = static_cast<SizeType>(shape.size());
-    bool dimsMatch = false;
-    for (const auto& allowed : allowedDimensionalities) {
-      if (ndims == allowed) {
-        dimsMatch = true;
-        break;
-      }
-    }
+    bool dimsMatch =
+        std::any_of(allowedDimensionalities.begin(),
+                    allowedDimensionalities.end(),
+                    [ndims](const auto& allowed) { return ndims == allowed; });
     if (!dimsMatch) {
       std::cerr << "LinkArrayDataSetConfig::validateTarget: dimensionality ("
                 << ndims << ") of target dataset '" << m_targetPath
@@ -173,7 +167,7 @@ Status BaseIO::createCommonNWBAttributes(const std::string& path,
   return Status::Success;
 }
 
-std::string BaseIO::getFullTypeName(const std::string& path)
+std::string BaseIO::getFullTypeName(const std::string& path) const
 {
   // Read the "namespace" attribute
   AQNWB::IO::DataBlockGeneric namespaceData =
@@ -342,7 +336,7 @@ Status BaseIO::stopRecording()
     }
     status = status && finalizeStatus && clearStatus;
   }
-  return Status::Success;
+  return status;
 }
 
 Status BaseIO::close()

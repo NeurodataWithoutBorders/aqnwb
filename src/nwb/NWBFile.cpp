@@ -371,8 +371,9 @@ Status NWBFile::createSpikeEventSeries(
   return Status::Success;
 }
 
-Status NWBFile::createAnnotationSeries(std::vector<std::string> recordingNames,
-                                       std::vector<SizeType>& containerIndexes)
+Status NWBFile::createAnnotationSeries(
+    const std::vector<std::string>& recordingNames,
+    std::vector<SizeType>& containerIndexes)
 {
   auto ioPtr = getIO();
   if (!ioPtr) {

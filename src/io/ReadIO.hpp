@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <iostream>
 #include <memory>
+#include <numeric>
 #include <stdexcept>
 #include <string>
 #include <type_traits>
@@ -308,10 +309,8 @@ public:
     }
 
     // Calculate the total number of elements expected
-    SizeType expected_size = 1;
-    for (SizeType dim : shape) {
-      expected_size *= dim;
-    }
+    SizeType expected_size = std::accumulate(
+        shape.begin(), shape.end(), SizeType {1}, std::multiplies<SizeType> {});
 
     if (data.size() != expected_size) {
       throw std::invalid_argument("Data size does not match the shape.");
@@ -442,7 +441,7 @@ public:
    * @brief Function to return the \ref AQNWB::Types::StorageObjectType OTYPE of
    * the instance
    */
-  inline StorageObjectType getStorageObjectType() const { return OTYPE; }
+  static inline StorageObjectType getStorageObjectType() { return OTYPE; }
 
   /**
    * @brief Function to check at compile-time whether the object is of a

@@ -23,6 +23,7 @@ TEST_CASE("AnnotationSeries", "[misc]")
   std::vector<double> mockTimestamps = getMockTimestamps(numSamples, 1);
   std::vector<double> mockTimestamps2 = mockTimestamps;
   for (double& value : mockTimestamps2) {
+    // cppcheck-suppress useStlAlgorithm
     value += 5;
   }
 

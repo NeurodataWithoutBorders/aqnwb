@@ -113,12 +113,12 @@ Status DynamicTable::setRowIDs(
 
 Status DynamicTable::addReferenceColumn(const std::string& name,
                                         const std::string& colDescription,
-                                        const std::vector<std::string>& values)
+                                        const std::vector<std::string>& dataset)
 {
   // TODO: Similar to addColumn() we should check if the column already exists
   // and if so append to it rather than creating a new column. This currently
   // prevents append to work for ElectrodesTable.
-  if (values.empty()) {
+  if (dataset.empty()) {
     std::cerr << "Data to add to column is empty" << std::endl;
     return Status::Failure;
   } else {
@@ -133,7 +133,7 @@ Status DynamicTable::addReferenceColumn(const std::string& name,
     std::string columnPath = AQNWB::mergePaths(m_path, name);
 
     auto refColumn = AQNWB::NWB::VectorData::createReferenceVectorData(
-        columnPath, ioPtr, colDescription, values);
+        columnPath, ioPtr, colDescription, dataset);
     if (refColumn == nullptr) {
       std::cerr << "Failed to create reference column" << std::endl;
       return Status::Failure;

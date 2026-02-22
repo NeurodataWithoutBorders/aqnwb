@@ -82,6 +82,7 @@ TEST_CASE("DataBlock - Basic Functionality", "[DataBlock]")
     DataBlock<int> block(data, shape);
     block.data[2] = 10;
 
+    // cppcheck-suppress knownConditionTrueFalse
     REQUIRE(block.data[2] == 10);
   }
 

@@ -27,6 +27,7 @@ TEST_CASE("Test Status enum operators", "[Types]")
   SECTION("Test && operator")
   {
     // Success && Success = Success
+    // cppcheck-suppress duplicateExpression
     REQUIRE((Types::Status::Success && Types::Status::Success)
             == Types::Status::Success);
 
@@ -39,6 +40,7 @@ TEST_CASE("Test Status enum operators", "[Types]")
             == Types::Status::Failure);
 
     // Failure && Failure = Failure
+    // cppcheck-suppress duplicateExpression
     REQUIRE((Types::Status::Failure && Types::Status::Failure)
             == Types::Status::Failure);
   }
@@ -46,6 +48,7 @@ TEST_CASE("Test Status enum operators", "[Types]")
   SECTION("Test || operator")
   {
     // Success || Success = Success
+    // cppcheck-suppress duplicateExpression
     REQUIRE((Types::Status::Success || Types::Status::Success)
             == Types::Status::Success);
 
@@ -58,6 +61,7 @@ TEST_CASE("Test Status enum operators", "[Types]")
             == Types::Status::Success);
 
     // Failure || Failure = Failure
+    // cppcheck-suppress duplicateExpression
     REQUIRE((Types::Status::Failure || Types::Status::Failure)
             == Types::Status::Failure);
   }
@@ -65,20 +69,26 @@ TEST_CASE("Test Status enum operators", "[Types]")
   SECTION("Test chaining of operators")
   {
     // Test that multiple && operations work correctly
+    // cppcheck-suppress-begin duplicateExpression
     REQUIRE((Types::Status::Success && Types::Status::Success
              && Types::Status::Success)
             == Types::Status::Success);
+    // cppcheck-suppress-end duplicateExpression
+    // cppcheck-suppress duplicateExpression
     REQUIRE((Types::Status::Success && Types::Status::Success
              && Types::Status::Failure)
             == Types::Status::Failure);
 
     // Test that multiple || operations work correctly
+    // cppcheck-suppress duplicateExpression
     REQUIRE((Types::Status::Failure || Types::Status::Failure
              || Types::Status::Success)
             == Types::Status::Success);
+    // cppcheck-suppress-begin duplicateExpression
     REQUIRE((Types::Status::Failure || Types::Status::Failure
              || Types::Status::Failure)
             == Types::Status::Failure);
+    // cppcheck-suppress-end duplicateExpression
   }
 }
 

@@ -30,7 +30,7 @@ inline bool approxComparator(float a, float b)
  * This function creates the data directory if it doesn't exist, removes the
  * file if it already exists, and returns the path to the file.
  */
-inline std::string getTestFilePath(std::string filename)
+inline std::string getTestFilePath(const std::string& filename)
 {
   // create data directory if it doesn't exist
   fs::path dirPath = fs::current_path() / "data";
@@ -52,7 +52,7 @@ inline std::string getTestFilePath(std::string filename)
 inline std::vector<Types::ChannelVector> getMockChannelArrays(
     SizeType numChannels = 2,
     SizeType numArrays = 2,
-    std::string groupName = "array")
+    const std::string& groupName = "array")
 {
   std::vector<Types::ChannelVector> arrays(numArrays);
   for (SizeType i = 0; i < numArrays; i++) {
@@ -71,7 +71,7 @@ inline std::vector<Types::ChannelVector> getMockChannelArrays(
 }
 
 inline std::vector<std::string> getMockChannelArrayNames(
-    std::string baseName = "esdata", SizeType numArrays = 2)
+    const std::string& baseName = "esdata", SizeType numArrays = 2)
 {
   std::vector<std::string> arrayNames(numArrays);
   for (SizeType i = 0; i < numArrays; i++) {
@@ -89,6 +89,7 @@ inline std::vector<float> getMockData1D(SizeType numSamples = 1000)
   std::uniform_real_distribution<> dis(-1.0, 1.0);  // range of floats
 
   for (auto& data : mockData) {
+    // cppcheck-suppress useStlAlgorithm
     data = static_cast<float>(dis(rng))
         * 1000.f;  // approximate microvolt unit range
   }
@@ -108,6 +109,7 @@ inline std::vector<std::vector<float>> getMockData2D(SizeType numSamples = 1000,
 
   for (auto& channelData : mockData) {
     for (auto& data : channelData) {
+      // cppcheck-suppress useStlAlgorithm
       data = static_cast<float>(dis(rng))
           * 100.f;  // approximate microvolt unit range
     }

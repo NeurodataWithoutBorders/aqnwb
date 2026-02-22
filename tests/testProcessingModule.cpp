@@ -182,6 +182,7 @@ TEST_CASE("ProcessingModule createDynamicTable and readDynamicTable",
 {
   std::string filename =
       getTestFilePath("createProcessingModuleDynamicTable.nwb");
+  // cppcheck-suppress variableScope
   std::string tablePath = "/processing/analysis_module/summary_table";
 
   // --- Write ---

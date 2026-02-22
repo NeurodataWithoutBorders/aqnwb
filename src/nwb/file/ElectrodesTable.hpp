@@ -27,7 +27,7 @@ protected:
    * @param io The shared pointer to the BaseIO object.
    * extracellular electrodes").
    */
-  ElectrodesTable(std::shared_ptr<IO::BaseIO> io);
+  explicit ElectrodesTable(std::shared_ptr<IO::BaseIO> io);
 
   // required so we can call create
   ElectrodesTable(const std::string& path, std::shared_ptr<IO::BaseIO> io);
@@ -76,7 +76,7 @@ public:
    * @brief Sets up the ElectrodesTable by adding electrodes and their metadata.
    * @param channelsInput The vector of Channel objects to add to the table.
    */
-  void addElectrodes(std::vector<Channel> channelsInput);
+  void addElectrodes(const std::vector<Channel>& channelsInput);
 
   /**
    * @brief The path to the ElectrodesTable.

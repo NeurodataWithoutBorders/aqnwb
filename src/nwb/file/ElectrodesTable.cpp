@@ -65,7 +65,7 @@ Status ElectrodesTable::initialize(const std::string& description)
   return electrodeStatus && groupNameStatus && locationStatus;
 }
 
-void ElectrodesTable::addElectrodes(std::vector<Channel> channelsInput)
+void ElectrodesTable::addElectrodes(const std::vector<Channel>& channelsInput)
 {
   // create datasets
   for (const auto& ch : channelsInput) {

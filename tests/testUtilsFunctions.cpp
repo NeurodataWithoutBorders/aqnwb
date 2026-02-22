@@ -173,9 +173,12 @@ TEST_CASE("Test endian conversion", "[utils]")
 
   // Check system endianness
   uint16_t num = 1;
+  // cppcheck-suppress knownConditionTrueFalse
   bool isLittleEndian = (*reinterpret_cast<char*>(&num) == 1);
 
+  // cppcheck-suppress knownConditionTrueFalse
   if (isLittleEndian) {
+    // cppcheck-suppress knownConditionTrueFalse
     REQUIRE(converted == 0x1234);
   } else {
     REQUIRE(converted == 0x3412);

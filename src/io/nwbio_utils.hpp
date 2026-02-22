@@ -154,7 +154,7 @@ static inline AQNWB::Types::Status writeAnnotationSeriesData(
     std::shared_ptr<RecordingObjects> recording_objects,
     const AQNWB::Types::SizeType& containerInd,
     const AQNWB::Types::SizeType& numSamples,
-    const std::vector<std::string> data,
+    const std::vector<std::string>& data,
     const void* timestamps,
     const void* controlInput = nullptr)
 {
