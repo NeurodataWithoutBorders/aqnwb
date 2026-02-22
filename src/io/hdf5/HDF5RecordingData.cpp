@@ -18,20 +18,12 @@ using namespace AQNWB::IO::HDF5;
 HDF5RecordingData::HDF5RecordingData(std::unique_ptr<H5::DataSet> data)
 {
   DataSpace dSpace = data->getSpace();
-  DSetCreatPropList prop = data->getCreatePlist();
 
   SizeType numDimensions = static_cast<SizeType>(dSpace.getSimpleExtentNdims());
-  std::vector<hsize_t> dims(numDimensions), chunk(numDimensions);
+  std::vector<hsize_t> dims(numDimensions);
 
   numDimensions =
       static_cast<SizeType>(dSpace.getSimpleExtentDims(dims.data()));
-
-  // Check if the dataset is chunked before trying to get chunk information
-  H5D_layout_t layout = prop.getLayout();
-  if (layout == H5D_CHUNKED) {
-    // Only get chunk information for chunked datasets
-    prop.getChunk(static_cast<int>(numDimensions), chunk.data());
-  }
 
   m_shape = SizeArray(numDimensions);
   for (SizeType i = 0; i < numDimensions; ++i) {
