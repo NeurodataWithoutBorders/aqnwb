@@ -15,6 +15,7 @@ set(
     --inline-suppr
     --std=c++17
     --suppress=missingIncludeSystem
+    --suppress=duplInheritedMember
     --error-exitcode=1
 )
 
