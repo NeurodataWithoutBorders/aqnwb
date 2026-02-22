@@ -689,7 +689,8 @@ Status HDF5IO::createAttribute(const IO::BaseDataType& type,
   // ArrayType) with a 1D dataspace. Array dimensions should be stored in the
   // dataspace, not embedded in the type (matches pynwb behavior).
   IO::BaseDataType elementType =
-      (size > 1 && type.type != IO::BaseDataType::Type::T_STR)
+      (size > 1 && type.type != IO::BaseDataType::Type::T_STR &&
+       type.type != IO::BaseDataType::Type::V_STR)
       ? IO::BaseDataType(type.type, 1)
       : type;
   DataType H5type = getH5Type(elementType);
