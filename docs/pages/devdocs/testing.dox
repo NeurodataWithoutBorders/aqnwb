@@ -76,4 +76,37 @@
  *  cmake --build --preset=dev --target=format-fix
  * \endcode
  *
+ * \section testing_cppcheck Static Analysis (Cppcheck)
+ *
+ * AqNWB uses ``cppcheck`` for static analysis of the C++ source code. You can run the static
+ * analyzer locally via the ``cppcheck`` cmake target:
+ *
+ * \code{.sh}
+ *  cmake --build --preset=dev --target=cppcheck
+ * \endcode
+ *
+ * Alternatively, you can invoke the cmake script directly from the project root:
+ *
+ * \code{.sh}
+ *  cmake -D CPPCHECK_COMMAND=cppcheck -P cmake/cppcheck.cmake
+ * \endcode
+ *
+ * The analysis checks for issues in the ``src/`` and ``tests/`` directories, covering
+ * style, performance, portability, and warning categories.
+ *
+ * \subsection testing_cppcheck_suppress Suppressing false positives
+ *
+ * Individual false-positive warnings can be suppressed inline using cppcheck's
+ * ``//cppcheck-suppress`` comment directive directly in the source code.
+ * This is supported because ``--inline-suppr`` is passed to cppcheck by default.
+ *
+ * \subsection testing_cppcheck_github Cppcheck on GitHub
+ *
+ * The ``cppcheck`` GitHub Actions workflow defined in
+ * [.github/workflows/cppcheck.yml](https://github.com/NeurodataWithoutBorders/aqnwb/blob/main/.github/workflows/cppcheck.yml)
+ * runs automatically on every push to ``main`` and on all pull requests.
+ * Results are converted to SARIF and uploaded to the
+ * [GitHub Security](https://github.com/NeurodataWithoutBorders/aqnwb/security/code-scanning) 
+ * tab via where cppcheck results can be browsed and tracked over time.
+ *
  */

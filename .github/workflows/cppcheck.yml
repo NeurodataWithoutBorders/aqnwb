@@ -1,0 +1,60 @@
+name: Cppcheck
+
+on:
+  push:
+    branches:
+    - main
+
+  pull_request:
+    #branches:
+    #- main
+  workflow_dispatch:
+
+jobs:
+  cppcheck:
+    name: Run cppcheck static analysis
+    runs-on: ubuntu-latest
+
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install cppcheck
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cppcheck
+
+    - name: Run cppcheck
+      continue-on-error: true
+      run: |
+        cppcheck \
+          --enable=style,performance,portability,warning \
+          --inline-suppr \
+          --std=c++17 \
+          --suppress=missingIncludeSystem \
+          --xml \
+          --xml-version=2 \
+          -I src \
+          -I tests \
+          src/ tests/ \
+          2> cppcheck_results.xml
+
+    - name: Convert to SARIF
+      # airtower-luna/convert-to-sarif has no tagged releases; pin to @main
+      # and update the ref when a tagged release becomes available.
+      uses: airtower-luna/convert-to-sarif@main
+      with:
+        tool: 'CppCheck'
+        input_file: 'cppcheck_results.xml'
+        sarif_file: 'cppcheck.sarif'
+
+    - name: Upload SARIF to GitHub
+      uses: github/codeql-action/upload-sarif@v3
+      with:
+        sarif_file: cppcheck.sarif
+        category: cppcheck

@@ -22,7 +22,7 @@
  *    - [Doxygen](https://www.doxygen.nl/)
  *    - [Graphviz](https://graphviz.org/)
  *  - **Code checks:** Additional command line tools used in developer mode `dev`
- *    - cppcheck
+ *    - cppcheck  (optional, required for ``target=cppcheck``)
  *    - clang-format (optional, required for ``target=format-check``, ``target=format-fix``)
  *    - codespell  (optional, required for ``target=spell-check``, ``target=spell-fix``)
  *
@@ -149,6 +149,7 @@
  * - `format-fix` :  run the `clang-format` tool on the codebase with `FIX=YES` to both check and automatically fix for formatting errors
  * - `spell-check`: run the `codespell` tool on the codebase to check for common spelling errors
  * - `spell-fix` :  run the `codespell` tool on the codebase with `FIX=YES` to both check and automatically fix  common spelling errors
+ * - `cppcheck`  :  run the `cppcheck` static analysis tool on the codebase to check for potential bugs, style issues, performance issues, and portability issues
  * - `docs` : builds the documentation using Doxygen. (Note: run `cmake --preset=dev -DBUILD_DOCS=ON` before building to add docs target)
  *
  * \section dev_install_utils_sec Installing Python Utilities
