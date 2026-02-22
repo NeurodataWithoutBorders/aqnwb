@@ -685,8 +685,15 @@ Status HDF5IO::createAttribute(const IO::BaseDataType& type,
     return Status::Failure;
   }
 
-  DataType H5type = getH5Type(type);
-  DataType origType = getNativeType(type);
+  // For array attributes (size > 1), use the underlying element type (not
+  // ArrayType) with a 1D dataspace. Array dimensions should be stored in the
+  // dataspace, not embedded in the type (matches pynwb behavior).
+  IO::BaseDataType elementType =
+      (size > 1 && type.type != IO::BaseDataType::Type::T_STR)
+      ? IO::BaseDataType(type.type, 1)
+      : type;
+  DataType H5type = getH5Type(elementType);
+  DataType origType = getNativeType(elementType);
 
   DataSpace attr_dataspace;
   if (size > 1) {

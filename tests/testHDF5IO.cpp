@@ -755,6 +755,15 @@ TEST_CASE("HDF5IO; create attributes", "[hdf5io]")
     REQUIRE(readAttrData.shape.size() == 1);  // Scalar attribute
     REQUIRE(readAttrData.data.size() == 5);
     REQUIRE(readAttrData.data == data);
+
+    // Verify the attribute is stored with base element type (not ArrayType)
+    // and a 1D dataspace. This matches pynwb behavior where the type is the
+    // underlying element type and size is stored in the dataspace.
+    auto storedType = hdf5io.getStorageObjectDataType(attrPath);
+    REQUIRE(storedType == BaseDataType::I32);  // Base element type, not Array
+    auto storedShape = hdf5io.getStorageObjectShape(attrPath);
+    REQUIRE(storedShape.size() == 1);  // 1D dataspace
+    REQUIRE(storedShape[0] == data.size());  // Size matches array length
   }
 
   // string array with a single value
