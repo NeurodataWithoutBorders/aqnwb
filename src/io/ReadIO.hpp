@@ -497,6 +497,53 @@ public:
   inline SizeType getNumDimensions() const { return this->getShape().size(); }
 
   /**
+   * @brief Get the data type of the data object.
+   * @return The BaseDataType of the data object.
+   * @throws std::runtime_error if the data type cannot be determined.
+   */
+  inline IO::BaseDataType getDataType() const
+  {
+    return m_io->getStorageObjectDataType(m_path);
+  }
+
+  /**
+   * @brief Get the chunking configuration of the data object.
+   *
+   * Attributes are not chunked, so this will return an empty SizeArray for
+   * attributes. An empty SizeArray is also returned if the path does not exist
+   * in the file or if the dataset is contiguous (not chunked).
+   *
+   * @return The chunking configuration of the dataset, or an empty SizeArray
+   * if the dataset is not chunked, if this is an attribute, or if the object
+   * does not exist.
+   */
+  inline SizeArray getChunking() const
+  {
+    return m_io->getStorageObjectChunking(m_path);
+  }
+
+  /**
+   * @brief Constructs a \ref AQNWB::IO::LinkArrayDataSetConfig from this
+   * wrapper.
+   *
+   * This is useful for creating soft-links to the dataset represented by
+   * this wrapper and for querying the storage properties (shape, chunking,
+   * data type) of the dataset via the returned config object.
+   *
+   * We do not support creating links to attributes, so this function is
+   * disabled for attributes.
+   *
+   * @return A \ref AQNWB::IO::LinkArrayDataSetConfig with the path of this
+   * wrapper as the link target.
+   */
+  template<StorageObjectType U = OTYPE,
+           typename std::enable_if<isDataset<U>::value, int>::type = 0>
+  inline IO::LinkArrayDataSetConfig toLinkArrayDataSetConfig() const
+  {
+    return IO::LinkArrayDataSetConfig(m_path);
+  }
+
+  /**
    * @brief Check that the object exists
    * @return Bool indicating whether the object exists in the file
    */
