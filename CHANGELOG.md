@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+* Added `getDataType()`, `getChunking()`, and `toLinkArrayDataSetConfig()` functions to `ReadDataWrapper` (@copilot, @oruebel [#266](https://github.com/NeurodataWithoutBorders/aqnwb/pull/266))
 * Added support for creating soft-links to existing datasets to avoid data duplication (@copilot, @oruebel [#257](https://github.com/NeurodataWithoutBorders/aqnwb/pull/257))
   * Added `BaseArrayDataSetConfig` abstract base class for polymorphic dataset configuration
   * Added `LinkArrayDataSetConfig` class for creating HDF5 soft-links to existing datasets
