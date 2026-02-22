@@ -33,9 +33,9 @@
 <g id="Node000002" class="node">
 <title>Node2</title>
 <g id="a_Node000002"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a969eb3d7ab2d93c5a83b58f27773e16f" target="_top" xlink:title="Closes the file.">
-<polygon fill="white" stroke="#666666" points="327.5,-54.5 181.75,-54.5 181.75,-24 327.5,-24 327.5,-54.5"/>
-<text xml:space="preserve" text-anchor="start" x="189.75" y="-41" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::IO::HDF5::HDF5IO</text>
-<text xml:space="preserve" text-anchor="middle" x="254.62" y="-29.75" font-family="Helvetica,sans-Serif" font-size="10.00">::close</text>
+<polygon fill="white" stroke="#666666" points="327.5,-79.5 181.75,-79.5 181.75,-49 327.5,-49 327.5,-79.5"/>
+<text xml:space="preserve" text-anchor="start" x="189.75" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::IO::HDF5::HDF5IO</text>
+<text xml:space="preserve" text-anchor="middle" x="254.62" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">::close</text>
 </a>
 </g>
 </g>
@@ -43,8 +43,27 @@
 <g id="edge1_Node000001_Node000002" class="edge">
 <title>Node1&#45;&gt;Node2</title>
 <g id="a_edge1_Node000001_Node000002"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M351.77,-39.25C343.84,-39.25 335.74,-39.25 327.78,-39.25"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="351.7,-42.75 361.7,-39.25 351.7,-35.75 351.7,-42.75"/>
+<path fill="none" stroke="#63b8ff" d="M352.04,-49.62C344.03,-50.83 335.84,-52.08 327.78,-53.3"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="352.36,-53.11 361.72,-48.15 351.31,-46.19 352.36,-53.11"/>
+</a>
+</g>
+</g>
+<!-- Node4 -->
+<g id="Node000004" class="node">
+<title>Node4</title>
+<g id="a_Node000004"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a7a4c82820e1ad91a82c90c30dfb937fe" target="_top" xlink:title="Destructor for the HDF5IO class.">
+<polygon fill="white" stroke="#666666" points="327.5,-30.5 181.75,-30.5 181.75,0 327.5,0 327.5,-30.5"/>
+<text xml:space="preserve" text-anchor="start" x="189.75" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::IO::HDF5::HDF5IO</text>
+<text xml:space="preserve" text-anchor="middle" x="254.62" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::~HDF5IO</text>
+</a>
+</g>
+</g>
+<!-- Node1&#45;&gt;Node4 -->
+<g id="edge3_Node000001_Node000004" class="edge">
+<title>Node1&#45;&gt;Node4</title>
+<g id="a_edge3_Node000001_Node000004"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M352.04,-29.3C344.03,-28.13 335.84,-26.93 327.78,-25.76"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="351.32,-32.73 361.72,-30.71 352.33,-25.8 351.32,-32.73"/>
 </a>
 </g>
 </g>
@@ -62,27 +81,8 @@
 <g id="edge2_Node000002_Node000003" class="edge">
 <title>Node2&#45;&gt;Node3</title>
 <g id="a_edge2_Node000002_Node000003"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M170.04,-50.88C162.03,-51.99 153.95,-53.11 146.06,-54.21"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="170.37,-54.36 179.79,-49.52 169.4,-47.43 170.37,-54.36"/>
-</a>
-</g>
-</g>
-<!-- Node4 -->
-<g id="Node000004" class="node">
-<title>Node4</title>
-<g id="a_Node000004"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a7a4c82820e1ad91a82c90c30dfb937fe" target="_top" xlink:title="Destructor for the HDF5IO class.">
-<polygon fill="white" stroke="#666666" points="145.75,-30.5 0,-30.5 0,0 145.75,0 145.75,-30.5"/>
-<text xml:space="preserve" text-anchor="start" x="8" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::IO::HDF5::HDF5IO</text>
-<text xml:space="preserve" text-anchor="middle" x="72.88" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::~HDF5IO</text>
-</a>
-</g>
-</g>
-<!-- Node2&#45;&gt;Node4 -->
-<g id="edge3_Node000002_Node000004" class="edge">
-<title>Node2&#45;&gt;Node4</title>
-<g id="a_edge3_Node000002_Node000004"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M170.04,-28.09C162.03,-27.02 153.95,-25.94 146.06,-24.89"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="169.42,-31.54 179.79,-29.39 170.34,-24.6 169.42,-31.54"/>
+<path fill="none" stroke="#63b8ff" d="M170.04,-64.25C162.03,-64.25 153.95,-64.25 146.06,-64.25"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="169.78,-67.75 179.78,-64.25 169.78,-60.75 169.78,-67.75"/>
 </a>
 </g>
 </g>

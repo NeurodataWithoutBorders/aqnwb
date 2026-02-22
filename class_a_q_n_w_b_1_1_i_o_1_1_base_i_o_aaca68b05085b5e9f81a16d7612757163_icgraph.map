@@ -1,8 +1,17 @@
 <map id="AQNWB::IO::BaseIO::getFileName" name="AQNWB::IO::BaseIO::getFileName">
-<area shape="rect" id="Node000001" title="Returns the full path to the file." alt="" coords="248,63,402,103"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#af13e43a73e40b98dcacd9cc587536143" title="Opens an existing file or creates a new file for writing." alt="" coords="5,29,200,70"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="230,70,200,67,200,62,235,69"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a4edb85857f5fe7d78cfe21aabe62a04d" title="Opens an existing file or creates a new file for writing." alt="" coords="5,95,200,135"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="230,97,200,104,200,98,235,96"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="137,14,125,10,102,8,81,10,68,15,64,21,66,29,60,28,58,19,65,10,80,5,103,3,127,5,142,13"/>
+<area shape="rect" id="Node000001" title="Returns the full path to the file." alt="" coords="732,112,887,153"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#ada2e4de37006527cf23d0fdd50d33a0c" title="Non&#45;virtual helper that performs the actual HDF5 file close." alt="" coords="490,13,684,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="751,105,683,75,642,57,642,52,685,70,756,105"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a7a4c82820e1ad91a82c90c30dfb937fe" title="Destructor for the HDF5IO class." alt="" coords="248,71,442,111"/>
+<area shape="poly" id="edge8_Node000001_Node000005" title=" " alt="" coords="715,120,684,119,443,100,442,94,685,114,720,120"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#af13e43a73e40b98dcacd9cc587536143" title="Opens an existing file or creates a new file for writing." alt="" coords="490,152,684,193"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="720,148,685,157,684,152,714,149"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a4edb85857f5fe7d78cfe21aabe62a04d" title="Opens an existing file or creates a new file for writing." alt="" coords="490,217,684,258"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="766,160,685,207,655,219,653,214,683,202,761,162"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a969eb3d7ab2d93c5a83b58f27773e16f" title="Closes the file." alt="" coords="248,5,442,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="472,31,443,31,442,26,477,29"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="481,59,435,73,433,67,486,57"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a0cfc2191ccfc122fa5098d4c4b4117b5" title="Stops the recording process." alt="" coords="5,5,200,46"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="230,27,201,28,199,23,234,24"/>
+<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="622,136,610,133,587,131,566,133,553,137,548,143,550,153,546,150,543,142,550,133,565,127,587,125,611,128,627,137"/>
 </map>
