@@ -111,12 +111,4 @@
  * **GitHub Security** tab via ``github/codeql-action/upload-sarif``, where they
  * can be browsed and tracked over time.
  *
- * For local SARIF conversion (e.g., for use with other tools), a standalone Python script
- * is also available at ``resources/utils/cppcheck_to_sarif.py``:
- *
- * \code{.sh}
- *  cppcheck --xml --xml-version=2 -I src src/ tests/ 2> cppcheck_results.xml
- *  python3 resources/utils/cppcheck_to_sarif.py cppcheck_results.xml cppcheck.sarif
- * \endcode
- *
  */
