@@ -29,6 +29,7 @@ HDF5IO::HDF5IO(const std::string& fileName, const bool disableSWMRMode)
 
 HDF5IO::~HDF5IO()
 {
+  BaseIO::close();  // clear the recording containers
   closeFileImpl();
 }
 
