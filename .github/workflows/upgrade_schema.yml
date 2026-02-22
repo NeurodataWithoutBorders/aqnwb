@@ -1,5 +1,8 @@
 name: Test upgrade to latest NWB schema
 
+permissions:
+  contents: read
+
 on: 
   push:
     branches:

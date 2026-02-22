@@ -1,5 +1,8 @@
 name: Test generating classes from schema files
 
+permissions:
+  contents: read
+
 on: 
   push:
     branches:

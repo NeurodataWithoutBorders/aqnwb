@@ -1,5 +1,8 @@
 name: Utility Scripts / run resources/utils
 
+permissions:
+  contents: read
+
 on: 
   push:
     branches:
