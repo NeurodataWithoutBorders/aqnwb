@@ -104,7 +104,8 @@ Status HDF5IO::closeFileImpl()
     try {
       m_file->close();
     } catch (const H5::Exception& e) {
-      e.printErrorStack();
+      std::cerr << "HDF5IO::closeFileImpl: error closing file '"
+                << getFileName() << "': " << e.getDetailMsg() << std::endl;
       return Status::Failure;
     }
     m_file = nullptr;
