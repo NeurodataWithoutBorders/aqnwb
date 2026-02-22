@@ -107,6 +107,6 @@
  * runs automatically on every push to ``main`` and on all pull requests.
  * Results are converted to SARIF and uploaded to the
  * [GitHub Security](https://github.com/NeurodataWithoutBorders/aqnwb/security/code-scanning) 
- * tab via where cppcheck results can be browsed and tracked over time.
+ * tab, where cppcheck results can be browsed and tracked over time.
  *
  */
