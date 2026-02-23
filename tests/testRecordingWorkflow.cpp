@@ -41,8 +41,8 @@ TEST_CASE("writeContinuousData", "[recording]")
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
 
-    // 2. RecordingObjects are now automatically managed by the IO object
-    std::vector<SizeType> containerIndices = {};
+    // 2. RecordingObjects are automatically managed by the IO object. See:
+    //    io->getRecordingObjects();
 
     // 3. create NWBFile object
     auto nwbfile = NWB::NWBFile::create(io);

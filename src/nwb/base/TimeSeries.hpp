@@ -57,7 +57,7 @@ public:
   /**
    * @brief Destructor
    */
-  ~TimeSeries();
+  ~TimeSeries() override;
 
   /**
    * @brief Writes a timeseries data block to the file.

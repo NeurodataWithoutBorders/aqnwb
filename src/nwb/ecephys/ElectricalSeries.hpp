@@ -35,7 +35,7 @@ public:
   /**
    * @brief Destructor
    */
-  ~ElectricalSeries();
+  ~ElectricalSeries() override;
 
   /**
    * @brief Initializes the Electrical Series

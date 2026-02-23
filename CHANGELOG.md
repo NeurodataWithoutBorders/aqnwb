@@ -5,7 +5,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+
+## [0.3.0] - 2026-02-25
 
 ### Added
 * Added `cppcheck` static analysis integration (@copilot, @oruebel [#270](https://github.com/NeurodataWithoutBorders/aqnwb/pull/270)):
@@ -18,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   * Added `LinkArrayDataSetConfig` class for creating HDF5 soft-links to existing datasets
   * Updated `ArrayDataSetConfig` to inherit from `BaseArrayDataSetConfig`
   * Updated all NWB type `initialize()` methods to accept `BaseArrayDataSetConfig` (TimeSeries, ElectricalSeries, SpikeEventSeries, AnnotationSeries, Data, NWBData, VectorData)
-  * Added user docs page on using links and processing modules
+  * Added user docs page on using links and processing modules `docs/pages/userdocs/links.dox`
   * Added `BaseIO::getStorageObjectDataType` and `BaseIO::getStorageObjectChunking` and corresponding HDF5IO implementations
   * Updated `BaseIO::createArrayDataSet` to raise `std::runtime_error` on failure (rather than returning nullptr) to make error handling more robust and to allow link creation to return nullptr without ambiguity.
   * Added `LinkArrayDataSetConfig::validateTarget()` to validate that a link target is compliant with expected schema requirements and updated initialize methods of Data, VectorData, and TimeSeries accordingly to check that link targets are valid (@copilot, @oruebel [#259](https://github.com/NeurodataWithoutBorders/aqnwb/pull/259))
@@ -27,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Added AQNWB_CXX_STANDARD option to the cmake build to allow configuration of the std C++ version to support 17, 20, and 23 to allow the use of `std::mdspan` if C++23 is used  (@oruebel, [#250](https://github.com/NeurodataWithoutBorders/aqnwb/pull/250))
 * Added `ProcessingModule` class in `src/nwb/base/` to support creation of processed data groups in the `/processing/` hierarchy of NWB files (@oruebel, [#255](https://github.com/NeurodataWithoutBorders/aqnwb/pull/255))
 * Added `.github/copilot-instructions.md` with comprehensive onboarding documentation for GitHub Copilot coding agents (@copilot, @oruebel, [#256](https://github.com/NeurodataWithoutBorders/aqnwb/pull/256))
+* Added `docs/pages/devdocs/github_release_workflow.dox` with instructions for how to make a release (@oruebel, [#279](https://github.com/NeurodataWithoutBorders/aqnwb/pull/279))
 
 ### Changed
 * Replaced explicit `std::vector<SizeType>` usages with the `SizeArray` type alias throughout the codebase for consistency (@copilot, @oruebel [#262](https://github.com/NeurodataWithoutBorders/aqnwb/pull/262))
@@ -39,12 +41,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 * Fixed `HDF5IO::createAttribute` to use base element type (typeSize=1) for numeric array attributes (instead of array-type with typeSize equal to the number of elements), to enhance compatibility with the NWB schema and PyNWB (@copilot, @oruebel [#276](https://github.com/NeurodataWithoutBorders/aqnwb/pull/276))
-* Fixed a broad set of `cppcheck` static analysis warnings (@copilot, @oruebel [#274](https://github.com/NeurodataWithoutBorders/aqnwb/pull/274) [#278](https://github.com/NeurodataWithoutBorders/aqnwb/pull/278)):
-  * **Correctness**: Fixed `BaseIO::stopRecording` to return the computed composite `status` instead of hardcoded `Status::Success`; initialized `SpikeEventSeries::m_eventsRecorded` to `0` in-class; removed dead `chunk`/`DSetCreatPropList` code from `HDF5RecordingData` constructor; updated `~HDF5IO()` to avoid calling the virtual `close()` from the destructor
-  * **Performance**: Changed `const std::string` / `const std::vector` pass-by-value parameters to `const &` across `Channel`, `AnnotationSeries`, `ElectrodesTable`, `NWBFile`, `nwbio_utils.hpp`, and test utilities
-  * **API hygiene**: Added `explicit` to single-arg constructors on `HDF5IO`, `HDF5RecordingData`, `ElectrodesTable`, and `NWBFile`; added `override` to `HDF5RecordingData::writeDataBlock` overloads; marked `BaseIO::getFullTypeName` `const`; made `ReadDataWrapper::getStorageObjectType` `static`; aligned constructor parameter names in `HDF5IO`, `HDF5ArrayDataSetConfig`, and `DynamicTable::addReferenceColumn`; declared `const std::tm*` pointers in `Utils.hpp`
+* Fixed a broad set of `cppcheck` static analysis warnings (@copilot, @oruebel [#274](https://github.com/NeurodataWithoutBorders/aqnwb/pull/274), [#278](https://github.com/NeurodataWithoutBorders/aqnwb/pull/278); @cline, @oruebel [#280](https://github.com/NeurodataWithoutBorders/aqnwb/pull/280)):
+  * **Correctness**: Fixed `BaseIO::stopRecording` to return the computed composite `status` instead of hardcoded `Status::Success`; initialized `SpikeEventSeries::m_eventsRecorded` to `0` in-class; removed dead `chunk`/`DSetCreatPropList` code from `HDF5RecordingData` constructor; updated `~HDF5IO()` to avoid calling the virtual `close()` from the destructor; added `override` to virtual destructors
+  * **Performance**: Changed `const std::string` / `const std::vector` pass-by-value parameters and return types to `const &` across `Channel`, `AnnotationSeries`, `ElectrodesTable`, `NWBFile`, `nwbio_utils.hpp`, `BaseIO`, `ReadIO`, `RegisteredType` and test utilities
+  * **API hygiene**: Added `explicit` to single-arg constructors on `HDF5IO`, `HDF5RecordingData`, `ElectrodesTable`, and `NWBFile`; added `override` to `HDF5RecordingData::writeDataBlock` overloads; marked `BaseIO::getFullTypeName` `const`; made `ReadDataWrapper::getStorageObjectType` `static`; aligned constructor parameter names in `HDF5IO`, `HDF5ArrayDataSetConfig`, and `DynamicTable::addReferenceColumn`; declared `const std::tm*` pointers in `Utils.hpp`; removed unused variables in tests
   * **STL modernization**: Replaced raw loops with `std::any_of`, `std::accumulate`, `std::transform`, and `std::find_if` in `BaseIO.cpp`, `HDF5IO.cpp`, `RecordingObjects.cpp`, and `ReadIO.hpp`
-  * **cppcheck suppressions**: Added `--suppress=duplInheritedMember` globally to `cmake/cppcheck.cmake` and `.github/workflows/cppcheck.yml`; added inline `cppcheck-suppress` comments for intentional test patterns (`duplicateExpression`, `knownConditionTrueFalse`, `useStlAlgorithm`, `variableScope`)
+  * **cppcheck suppressions**: Added `--suppress=duplInheritedMember` and `--suppress=normalCheckLevelMaxBranches` globally to `cmake/cppcheck.cmake` and `.github/workflows/cppcheck.yml`; added inline `cppcheck-suppress` comments for intentional test patterns (`duplicateExpression`, `knownConditionTrueFalse`, `useStlAlgorithm`, `variableScope`)
 * Restricted code coverage report to `src/` folder only (@copilot, @oruebel [#262](https://github.com/NeurodataWithoutBorders/aqnwb/pull/262)):
   * Updated `cmake/coverage.cmake` to use a two-step lcov approach: capture all coverage into `coverage_raw.info`, then use `lcov --extract` to filter to `src/*` only, producing the final `coverage.info`
   * Added `.codecov.yml` to instruct the Codecov server to ignore `tests/**`, preventing Codecov-action from including test files it discovers via independent `gcov` scanning of the build directory
