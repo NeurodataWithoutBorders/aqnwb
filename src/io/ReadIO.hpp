@@ -89,6 +89,13 @@ public:
   }
 
   /**
+   * @brief Get the BaseDataType for the data
+   *
+   * @return The BaseDataType as stored in baseDataType member
+   */
+  inline BaseDataType getBaseDataType() const { return baseDataType; }
+
+  /**
    * @brief Cast the data to an std::variant for convenient access.
    *
    * This function casts the std::any data to an std::variant via an

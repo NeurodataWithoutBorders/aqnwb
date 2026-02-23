@@ -708,8 +708,22 @@ Status HDF5IO::createAttribute(const IO::BaseDataType& type,
     return Status::Failure;
   }
 
-  DataType H5type = getH5Type(type);
-  DataType origType = getNativeType(type);
+  // For array attributes (size > 1), use the underlying element type (not
+  // ArrayType) with a 1D dataspace when the array length was historically
+  // encoded via BaseDataType::typeSize (legacy behavior). If the caller
+  // supplies a distinct element type (e.g., fixed-length array elements with
+  // typeSize > 1), preserve it instead of flattening.
+  IO::BaseDataType elementType =
+      (size > 1  // array data indicated by size > 1
+       && type.type != IO::BaseDataType::Type::T_STR  // non-string types
+       && type.type != IO::BaseDataType::Type::V_STR  // non-string types
+       && type.typeSize == static_cast<SizeType>(size)  // array-size in type
+       )
+      ? IO::BaseDataType(type.type,
+                         1)  // flatten element type for array attribute
+      : type;  // otherwise use the provided type as-is
+  DataType H5type = getH5Type(elementType);
+  DataType origType = getNativeType(elementType);
 
   DataSpace attr_dataspace;
   if (size > 1) {
