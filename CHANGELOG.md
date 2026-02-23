@@ -40,6 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Updated NWBFile to make common root path definitions (e.g., acquisition, processing, stimulus) public to make path generation easier (@oruebel, [#257](https://github.com/NeurodataWithoutBorders/aqnwb/pull/257))
 
 ### Fixed
+* Fixed `HDF5IO::createAttribute` to use base element type (typeSize=1) for numeric array attributes (instead of array-type with typeSize equal to the number of elements), to enhance compatibility with the NWB schema and PyNWB (@copilot, @oruebel [#276](https://github.com/NeurodataWithoutBorders/aqnwb/pull/276))
 * Fixed a broad set of `cppcheck` static analysis warnings (@copilot, @oruebel [#274](https://github.com/NeurodataWithoutBorders/aqnwb/pull/274) [#278](https://github.com/NeurodataWithoutBorders/aqnwb/pull/278)):
   * **Correctness**: Fixed `BaseIO::stopRecording` to return the computed composite `status` instead of hardcoded `Status::Success`; initialized `SpikeEventSeries::m_eventsRecorded` to `0` in-class; removed dead `chunk`/`DSetCreatPropList` code from `HDF5RecordingData` constructor; updated `~HDF5IO()` to avoid calling the virtual `close()` from the destructor
   * **Performance**: Changed `const std::string` / `const std::vector` pass-by-value parameters to `const &` across `Channel`, `AnnotationSeries`, `ElectrodesTable`, `NWBFile`, `nwbio_utils.hpp`, and test utilities

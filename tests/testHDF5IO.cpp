@@ -749,12 +749,38 @@ TEST_CASE("HDF5IO; create attributes", "[hdf5io]")
         BaseDataType::I32, data.data(), groupPath, attrName, data.size());
     REQUIRE(hdf5io.attributeExists(attrPath));
 
-    // Read the attribute and verify the attribute data
+    // Read the attribute as a DataBlockGeneric and verify basic properties
     auto readAttrGeneric = hdf5io.readAttribute(attrPath);
+    REQUIRE(readAttrGeneric.shape.size() == 1);
+    REQUIRE(readAttrGeneric.shape[0] == data.size());
+    REQUIRE(readAttrGeneric.getBaseDataType() == BaseDataType::I32);
+
+    // Read the data values of the attribute as a typed DataBlock
+    // and verify they match the original data
     auto readAttrData = IO::DataBlock<int>::fromGeneric(readAttrGeneric);
-    REQUIRE(readAttrData.shape.size() == 1);  // Scalar attribute
+    REQUIRE(readAttrData.getBaseDataType() == BaseDataType::I32);
+    REQUIRE(readAttrData.shape.size() == 1);  // 1D attribute
     REQUIRE(readAttrData.data.size() == 5);
     REQUIRE(readAttrData.data == data);
+
+    // Verify the attribute is stored with base element type (not H5T_ARRAY)
+    // and a 1D dataspace. This matches pynwb behavior where the type is the
+    // underlying element type and size is stored in the dataspace.
+    // Directly inspect the raw HDF5 attribute type to confirm it is NOT
+    // H5T_ARRAY.
+    {
+      H5::H5File h5file(filename, H5F_ACC_RDONLY);
+      H5::Group grp = h5file.openGroup(groupPath);
+      H5::Attribute attr = grp.openAttribute(attrName);
+      REQUIRE(attr.getDataType().getClass() != H5T_ARRAY);
+      H5::DataSpace attrSpace = attr.getSpace();
+      REQUIRE(attrSpace.getSimpleExtentNdims() == 1);  // 1D dataspace
+      hsize_t dim = 0;
+      attrSpace.getSimpleExtentDims(&dim);
+      REQUIRE(
+          dim
+          == static_cast<hsize_t>(data.size()));  // Size matches array length
+    }
   }
 
   // string array with a single value
