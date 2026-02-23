@@ -714,12 +714,14 @@ Status HDF5IO::createAttribute(const IO::BaseDataType& type,
   // supplies a distinct element type (e.g., fixed-length array elements with
   // typeSize > 1), preserve it instead of flattening.
   IO::BaseDataType elementType =
-      (size > 1
-       && type.type != IO::BaseDataType::Type::T_STR
-       && type.type != IO::BaseDataType::Type::V_STR
-       && type.typeSize == static_cast<SizeType>(size))
-      ? IO::BaseDataType(type.type, 1)
-      : type;
+      (size > 1  // array data indicated by size > 1
+       && type.type != IO::BaseDataType::Type::T_STR  // non-string types
+       && type.type != IO::BaseDataType::Type::V_STR  // non-string types
+       && type.typeSize == static_cast<SizeType>(size)  // array-size in type
+       )
+      ? IO::BaseDataType(type.type,
+                         1)  // flatten element type for array attribute
+      : type;  // otherwise use the provided type as-is
   DataType H5type = getH5Type(elementType);
   DataType origType = getNativeType(elementType);
 
