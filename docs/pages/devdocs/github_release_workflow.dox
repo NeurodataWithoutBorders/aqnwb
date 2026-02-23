@@ -60,8 +60,7 @@
  * @section quick_checklist Quick Checklist
  * - [ ] Create a release branch
  * - [ ] Update version numbers and changelog
- * - [ ] Commit and push changes
- * - [ ] Run tests and lint
+ * - [ ] Run tests and lint and confirm that CI workflows are passing
  * - [ ] Build and review docs
  * - [ ] Create and merge PR
  * - [ ] Create and push tag
