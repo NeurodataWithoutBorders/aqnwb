@@ -45,7 +45,7 @@
  *
  * - Open a PR from release/vX.Y.Z to main.
  * - Wait for CI to complete and fix any errors.
- * - Review [GitHub security](https://github.com/NeurodataWithoutBorders/aqnwb/security/code-scanning) warnings for the PR (query `is:open pr:<PR_NUMBER>)
+ * - Review [GitHub security](https://github.com/NeurodataWithoutBorders/aqnwb/security/code-scanning) warnings for the PR (query `is:open pr:<PR_NUMBER>`)
  * - Review, approve, and merge the PR from release/vX.Y.Z to main.
  *
  * @subsection release_steps_6 6. Tag the Release (after PR merge)
@@ -85,4 +85,4 @@
  * @section references References
  * - [AqNWB CI/CD Workflows](https://github.com/NeurodataWithoutBorders/aqnwb/tree/main/.github/workflows)
  * - [GitHub Releases Documentation](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases)
- */
+*/
