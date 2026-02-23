@@ -19,7 +19,7 @@
  * @code
  * git add -u
  * git commit -m "Release vX.Y.Z: update version numbers and changelog"
- * git push -u origin release/vX.Y.Z
+ * git push --set-upstream origin release/vX.Y.Z
  * @endcode
  *
  * @subsection release_steps_4 4. Test Locally

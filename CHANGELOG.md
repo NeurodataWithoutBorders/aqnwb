@@ -29,7 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   * Added `LinkArrayDataSetConfig` class for creating HDF5 soft-links to existing datasets
   * Updated `ArrayDataSetConfig` to inherit from `BaseArrayDataSetConfig`
   * Updated all NWB type `initialize()` methods to accept `BaseArrayDataSetConfig` (TimeSeries, ElectricalSeries, SpikeEventSeries, AnnotationSeries, Data, NWBData, VectorData)
-  * Added user docs page on using links and processing modules
+  * Added user docs page on using links and processing modules `docs/pages/userdocs/links.dox`
   * Added `BaseIO::getStorageObjectDataType` and `BaseIO::getStorageObjectChunking` and corresponding HDF5IO implementations
   * Updated `BaseIO::createArrayDataSet` to raise `std::runtime_error` on failure (rather than returning nullptr) to make error handling more robust and to allow link creation to return nullptr without ambiguity.
   * Added `LinkArrayDataSetConfig::validateTarget()` to validate that a link target is compliant with expected schema requirements and updated initialize methods of Data, VectorData, and TimeSeries accordingly to check that link targets are valid (@copilot, @oruebel [#259](https://github.com/NeurodataWithoutBorders/aqnwb/pull/259))
@@ -38,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Added AQNWB_CXX_STANDARD option to the cmake build to allow configuration of the std C++ version to support 17, 20, and 23 to allow the use of `std::mdspan` if C++23 is used  (@oruebel, [#250](https://github.com/NeurodataWithoutBorders/aqnwb/pull/250))
 * Added `ProcessingModule` class in `src/nwb/base/` to support creation of processed data groups in the `/processing/` hierarchy of NWB files (@oruebel, [#255](https://github.com/NeurodataWithoutBorders/aqnwb/pull/255))
 * Added `.github/copilot-instructions.md` with comprehensive onboarding documentation for GitHub Copilot coding agents (@copilot, @oruebel, [#256](https://github.com/NeurodataWithoutBorders/aqnwb/pull/256))
+* Added `docs/pages/devdocs/github_release_workflow.dox` with instructions for how to make a release (@oruebel, [#279](https://github.com/NeurodataWithoutBorders/aqnwb/pull/279))
 
 ### Changed
 * Replaced explicit `std::vector<SizeType>` usages with the `SizeArray` type alias throughout the codebase for consistency (@copilot, @oruebel [#262](https://github.com/NeurodataWithoutBorders/aqnwb/pull/262))
