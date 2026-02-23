@@ -99,7 +99,7 @@ var NAVTREEINDEX0 =
 "_vector_data_8hpp.html":[5,0,1,1,4,1,5],
 "_vector_data_8hpp_source.html":[5,0,1,1,4,1,5],
 "annotated.html":[4,0],
-"changelog_page.html":[2,9],
+"changelog_page.html":[2,10],
 "class_a_q_n_w_b_1_1_channel.html":[3,0,0,4],
 "class_a_q_n_w_b_1_1_channel.html":[4,0,0,3],
 "class_a_q_n_w_b_1_1_channel.html#a050f702384dacf61b0aa8e6883c7b3fc":[3,0,0,4,19],

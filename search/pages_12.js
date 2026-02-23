@@ -1,19 +1,15 @@
 var searchData=
 [
-  ['macro_20for_20recording_0',['The DEFINE_DATASET_FIELD Macro for Recording',['../record_design_page.html#record_design_sec_define_dataset_field',1,'']]],
-  ['management_1',['Object and memory management',['../record_design_page.html#record_design_object_memory_management',1,'']]],
-  ['managing_20collections_2',['RecordingObjects for Managing Collections',['../record_design_page.html#record_design_sec_recording_containers',1,'']]],
-  ['managing_20recording_3',['BaseRecordingData for Managing Recording',['../record_design_page.html#record_design_sec_baserecordingdata',1,'']]],
-  ['memory_20management_4',['Object and memory management',['../record_design_page.html#record_design_object_memory_management',1,'']]],
-  ['metadata_5',['metadata',['../workflow.html#create_recmeta',1,'3. Create the recording metadata'],['../workflow.html#create_recmeta_ecephys',1,'Create the extracellular recording metadata']]],
-  ['methods_20for_20attributes_6',['DEFINE_ATTRIBUTE_FIELD: Creating read methods for attributes',['../registered_type_page.html#use_the_define_attribute_field_macro',1,'']]],
-  ['methods_20for_20consistent_20recording_7',['TimeSeries Convenience Methods for Consistent Recording',['../record_design_page.html#record_design_sec_timeseries',1,'']]],
-  ['methods_20for_20datasets_8',['DEFINE_DATASET_FIELD: Creating read and write methods for datasets',['../registered_type_page.html#use_the_define_dataset_field_macro',1,'']]],
-  ['methods_20for_20neurodata_5ftype_20objects_9',['DEFINE_REGISTERED_FIELD: Defining read methods for neurodata_type objects',['../registered_type_page.html#use_the_define_registered_field_macro',1,'']]],
-  ['methods_20for_20references_20to_20neurodata_5ftype_20objects_10',['DEFINE_REFERENCED_REGISTERED_FIELD: Defining read methods for references to neurodata_type objects',['../registered_type_page.html#use_the_define_referenced_registered_field_macro',1,'']]],
-  ['methods_20for_20unnamed_20neurodata_5ftype_20objects_11',['DEFINE_UNNAMED_REGISTERED_FIELD: Defining read methods for unnamed neurodata_type objects',['../registered_type_page.html#use_the_define_unnamed_registered_field_macro',1,'']]],
-  ['mode_12',['Single-Writer Multiple-Reader (SWMR) Mode',['../hdf5io.html#hdf5io_swmr',1,'']]],
-  ['mode_13',['mode',['../hdf5io.html#hdf5io_swmr_read',1,'Reading with SWMR mode'],['../hdf5io.html#hdf5io_swmr_features',1,'Why does AqNWB use SMWR mode?'],['../hdf5io.html#hdf5io_swmr_workflow',1,'Writing an NWB file with SWMR mode']]],
-  ['mode_20targets_14',['Developer Mode Targets',['../dev_install_page.html#devbuild_dev_mode_targets_subsec',1,'']]],
-  ['multiple_20reader_20swmr_20mode_15',['Single-Writer Multiple-Reader (SWMR) Mode',['../hdf5io.html#hdf5io_swmr',1,'']]]
+  ['labmetadata_20extension_20demo_0',['LabMetaData Extension Demo',['../integrating_extensions_page.html#labmetadata_extension_demo',1,'']]],
+  ['labmetadata_20extension_20with_20aqnwb_1',['Integrating LabMetaData Extension with AqNWB',['../user_demos.html#demos_labmetadata_extension',1,'']]],
+  ['layout_2',['Optimizing Data Layout',['../hdf5io.html#hdf5io_data_layout',1,'']]],
+  ['legal_20⚖️_3',['Legal ⚖️',['../legal_page.html',1,'Legal ⚖️'],['../index.html#mainpage_contributing',1,'Legal ⚖️']]],
+  ['license_4',['License',['../legal_page.html#legal_license',1,'']]],
+  ['limitations_20of_20register_5fsubclass_5fwith_5ftypename_5',['Limitations of REGISTER_SUBCLASS_WITH_TYPENAME',['../registered_type_page.html#limitations_registered_subclass_with_typename',1,'']]],
+  ['link_20to_20the_20original_20series_6',['5. Link to the Original Series',['../links.html#link_reference',1,'']]],
+  ['linked_20timeseries_7',['4. Create the Linked TimeSeries',['../links.html#link_linked',1,'']]],
+  ['links_20🔗_8',['Using Links 🔗',['../links.html',1,'userdocs']]],
+  ['linting_9',['Linting',['../testing.html#testing_lint',1,'']]],
+  ['locally_10',['4. Test Locally',['../release_workflow.html#release_steps_4',1,'']]],
+  ['looking_20up_20namespaces_11',['Looking up Namespaces',['../integrating_extensions_page.html#namespace_lookup',1,'']]]
 ];

@@ -1,4 +1,29 @@
 var searchData=
 [
-  ['known_20registeredtype_20objects_0',['Reading known RegisteredType objects',['../read_page.html#read_example_predefined_registered_type',1,'']]]
+  ['i_20o_20📂_0',['HDF5 I/O 📂',['../hdf5io.html',1,'userdocs']]],
+  ['i_20o_20convenience_20utilities_1',['NWB I/O convenience utilities',['../record_design_page.html#record_design_nwbio_utils',1,'']]],
+  ['i_20o_20filters_20and_20compression_2',['I/O Filters and Compression',['../hdf5io.html#hdf5io_filters',1,'']]],
+  ['i_20o_20filters_20in_20aqnwb_3',['Using Chunking and I/O Filters in AqNWB',['../hdf5io.html#hdf5io_filters_usage',1,'']]],
+  ['i_20o_20object_4',['1. Create the I/O object',['../workflow.html#create_io',1,'']]],
+  ['implement_20a_20registeredtype_5',['How to Implement a RegisteredType',['../registered_type_page.html#implement_registered_type',1,'']]],
+  ['implement_20a_20registeredtype_20with_20a_20custom_20type_20name_6',['How to implement a RegisteredType with a custom type name',['../registered_type_page.html#using_registered_subclass_with_typename',1,'']]],
+  ['implementation_20details_7',['Example Implementation Details',['../read_design_page.html#read_design_example',1,'']]],
+  ['implementation_20of_20data_20read_20📤_8',['Implementation of Data Read 📤',['../read_design_page.html',1,'devdocs']]],
+  ['implementation_20of_20data_20recording_20📊_9',['Implementation of Data Recording 📊',['../record_design_page.html',1,'devdocs']]],
+  ['implementing_20a_20new_20type_10',['Example: Implementing a New Type',['../registered_type_page.html#implement_registered_type_example',1,'']]],
+  ['implementing_20a_20registered_20type_20🔧_11',['Implementing a Registered Type 🔧',['../registered_type_page.html',1,'devdocs']]],
+  ['in_20aqnwb_12',['Using Chunking and I/O Filters in AqNWB',['../hdf5io.html#hdf5io_filters_usage',1,'']]],
+  ['in_20doxygen_13',['Including Code Examples in Doxygen',['../dev_docs_page.html#dev_docs_codeexamples_incl_sec',1,'']]],
+  ['in_20registeredtype_20works_14',['How the Type Registry in RegisteredType Works',['../read_design_page.html#type_registry',1,'']]],
+  ['including_20code_20examples_20in_20doxygen_15',['Including Code Examples in Doxygen',['../dev_docs_page.html#dev_docs_codeexamples_incl_sec',1,'']]],
+  ['individual_20datasets_16',['Advanced: Recording individual datasets',['../workflow.html#advanced_recording_workflow',1,'']]],
+  ['inspect_20electrical_20series_20data_20using_20aqnwb_17',['Inspect Electrical Series Data using AqNWB',['../user_demos.html#demos_inspect_electrical_series',1,'']]],
+  ['install_18',['Install',['../dev_install_page.html#devbuild_install_subsec',1,'Developer Install'],['../user_install_page.html#userbuild_install_sec',1,'Install']]],
+  ['installation_19',['Using a custom HDF5 installation',['../dev_install_page.html#devbuild_custom_hdf5_sec',1,'']]],
+  ['installation_20🛠️_20',['Installation 🛠️',['../dev_install_page.html',1,'Installation 🛠️'],['../user_install_page.html',1,'Installation 🛠️'],['../index.html#mainpage_installation',1,'Installation 🛠️']]],
+  ['installing_20aqnwb_21',['Installing AqNWB',['../dev_install_page.html#dev_install_aqnwb_sec',1,'']]],
+  ['installing_20python_20utilities_22',['Installing Python Utilities',['../dev_install_page.html#dev_install_utils_sec',1,'']]],
+  ['integrate_20a_20new_20namespace_23',['How to Integrate a New Namespace',['../integrating_extensions_page.html#integrate_namespace',1,'']]],
+  ['integrating_20labmetadata_20extension_20with_20aqnwb_24',['Integrating LabMetaData Extension with AqNWB',['../user_demos.html#demos_labmetadata_extension',1,'']]],
+  ['integrating_20nwb_20extensions_20🧩_25',['Integrating NWB Extensions 🧩',['../integrating_extensions_page.html',1,'devdocs']]]
 ];

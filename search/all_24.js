@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['📤_0',['📤',['../read_design_page.html',1,'Implementation of Data Read 📤'],['../read_page.html',1,'Reading Data 📤']]]
+  ['📚_0',['📚',['../dev_docs_page.html',1,'Documentation 📚'],['../index.html#mainpage_navigation',1,'Documentation 📚']]]
 ];

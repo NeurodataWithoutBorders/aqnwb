@@ -98,6 +98,20 @@ var devdocs =
       [ "Object and memory management", "record_design_page.html#record_design_object_memory_management", null ],
       [ "Further Reading", "record_design_page.html#recording_design_further_reading", null ]
     ] ],
+    [ "Making a Release", "release_workflow.html", [
+      [ "Release Steps", "release_workflow.html#release_steps", [
+        [ "1. Create a Release Branch", "release_workflow.html#release_steps_1", null ],
+        [ "2. Update Version Numbers", "release_workflow.html#release_steps_2", null ],
+        [ "3. Commit and Push Changes", "release_workflow.html#release_steps_3", null ],
+        [ "4. Test Locally", "release_workflow.html#release_steps_4", null ],
+        [ "5. Open Pull Request", "release_workflow.html#release_steps_5", null ],
+        [ "6. Tag the Release (after PR merge)", "release_workflow.html#release_steps_6", null ],
+        [ "7. Draft GitHub Release", "release_workflow.html#release_steps_7", null ],
+        [ "8. Post-Release", "release_workflow.html#release_steps_8", null ]
+      ] ],
+      [ "Quick Checklist", "release_workflow.html#quick_checklist", null ],
+      [ "References", "release_workflow.html#references", null ]
+    ] ],
     [ "Legal ⚖️", "legal_page.html", [
       [ "Code of Conduct", "legal_page.html#legal_code_of_conduct", null ],
       [ "License", "legal_page.html#legal_license", null ],
