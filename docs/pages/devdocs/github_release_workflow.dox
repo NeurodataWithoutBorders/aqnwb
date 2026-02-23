@@ -10,15 +10,15 @@
  * 
  * Create a new branch from main: 
  * @code 
- * git checkout -b release/vX.Y.Z`
+ * git checkout -b release/vX.Y.Z
  * @endcode
  *
  * @subsection release_steps_2 2. Update Version Numbers
  * 
  * Update the version numbers in the following files:
  * - `CHANGELOG.md`: Move "Unreleased" changes to new version section, set date.
- * - `CMakeLists.txt`: Update `version` key. 
- *     - Doxygen retrieves the version from cmake, so no need to modify the docs. 
+ * - `CMakeLists.txt`: Update the `VERSION` argument in the `project()` command.
+ *     - Doxygen retrieves the version from CMake, so no need to modify the docs. 
  *
  * @subsection release_steps_3 3. Commit and Push Changes
 *
