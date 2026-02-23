@@ -34,7 +34,7 @@ public:
   /**
    * @brief Destructor.
    */
-  virtual ~Container();
+  ~Container() override;
 
   /**
    * @brief Initialize the container.

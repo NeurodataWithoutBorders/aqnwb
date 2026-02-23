@@ -11,6 +11,7 @@
 #include <string>
 #include <type_traits>
 #include <typeindex>
+#include <variant>
 #include <vector>
 
 #include "BaseIO.hpp"
@@ -479,7 +480,7 @@ public:
    * @brief Gets the path of the registered type.
    * @return The path of the registered type.
    */
-  inline std::string getPath() const { return m_path; }
+  inline const std::string& getPath() const { return m_path; }
 
   /**
    * @brief Get a shared pointer to the IO object.

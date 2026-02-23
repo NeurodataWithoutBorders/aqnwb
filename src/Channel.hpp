@@ -78,13 +78,13 @@ public:
    * @brief Get the name of the array group the channel belongs to.
    * @return The groupName value.
    */
-  inline std::string getGroupName() const { return m_groupName; }
+  inline const std::string& getGroupName() const { return m_groupName; }
 
   /**
    * @brief Get the name of the channel
    * @return The name value.
    */
-  inline std::string getName() const { return m_name; }
+  inline const std::string& getName() const { return m_name; }
 
   /**
    * @brief Get the array group index the channel belongs to
@@ -114,7 +114,7 @@ public:
    * @brief Get comments about the channel
    * @return The comments value.
    */
-  inline std::string getComments() const { return m_comments; }
+  inline const std::string& getComments() const { return m_comments; }
 
   /**
    * @brief Set comments about the channel.

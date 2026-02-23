@@ -35,7 +35,7 @@ public:
   /**
    * @brief Destructor
    */
-  ~SpikeEventSeries();
+  ~SpikeEventSeries() override;
 
   /**
    * @brief Initializes the SpikeEventSeries

@@ -38,6 +38,7 @@ jobs:
           --std=c++17 \
           --suppress=missingIncludeSystem \
           --suppress=duplInheritedMember \
+          --suppress=normalCheckLevelMaxBranches \
           --xml \
           --xml-version=2 \
           -I src \

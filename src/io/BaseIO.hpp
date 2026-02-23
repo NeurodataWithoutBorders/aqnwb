@@ -262,7 +262,7 @@ public:
   /**
    * @brief Virtual destructor to ensure proper cleanup in derived classes.
    */
-  virtual ~ArrayDataSetConfig() = default;
+  virtual ~ArrayDataSetConfig() override = default;
 
   /**
    * @brief Returns the data type of the dataset.
@@ -274,13 +274,13 @@ public:
    * @brief Returns the shape of the dataset.
    * @return The shape of the dataset.
    */
-  inline SizeArray getShape() const { return m_shape; }
+  inline const SizeArray& getShape() const { return m_shape; }
 
   /**
    * @brief Returns the chunking of the dataset.
    * @return The chunking of the dataset.
    */
-  inline SizeArray getChunking() const { return m_chunking; }
+  inline const SizeArray& getChunking() const { return m_chunking; }
 
   /**
    * @brief Gets the shape, chunking, and data type from the configuration.
@@ -336,13 +336,13 @@ public:
   /**
    * @brief Virtual destructor.
    */
-  virtual ~LinkArrayDataSetConfig() = default;
+  virtual ~LinkArrayDataSetConfig() override = default;
 
   /**
    * @brief Returns the path to the target dataset.
    * @return The target path.
    */
-  inline std::string getTargetPath() const { return m_targetPath; }
+  inline const std::string& getTargetPath() const { return m_targetPath; }
 
   /**
    * @brief Checks if this configuration represents a link.

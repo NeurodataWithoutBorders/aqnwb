@@ -41,7 +41,7 @@ public:
   /**
    * @brief Destructor
    */
-  virtual ~DynamicTable();
+  ~DynamicTable() override;
 
   /**
    * @brief Initializes the `DynamicTable` object by creating NWB attributes and

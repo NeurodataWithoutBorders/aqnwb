@@ -84,7 +84,7 @@ public:
   /**
    * @brief Destructor for NWBFile class.
    */
-  ~NWBFile();
+  ~NWBFile() override;
 
   /**
    * @brief Initializes the NWB file by setting up the file structure.

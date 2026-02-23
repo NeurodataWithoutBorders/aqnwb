@@ -51,9 +51,9 @@ public:
                   const bool disableSWMRMode = false);
 
   /**
-   * @brief Destructor for the HDF5IO class.
+   * @brief Destructor.
    */
-  ~HDF5IO();
+  ~HDF5IO() override;
 
   /**
    * @brief Opens an existing file or creates a new file for writing.
