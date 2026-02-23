@@ -561,12 +561,14 @@ rm -rf build
 3. **Finalization is required**: Call `finalize()` on objects before closing files
 4. **Test thoroughly**: Run full test suite before completing changes
 5. **Format before commit**: Always run `format-fix` target
-6. **Respect .gitignore**: Don't commit build artifacts, test data, or IDE configs
-7. **CI is authoritative**: Local passes don't guarantee CI passes (especially formatting)
-8. **Documentation is code**: Example code in tests must work and compile
-9. **Schema-driven**: Many classes are generated from NWB schema
-10. **Cross-platform**: Changes must work on Linux, macOS, and Windows
-11. **Update CHANGELOG.md**: Document your changes in CHANGELOG.md under the "Unreleased" section following the existing format
+6. **Spell check**: Run `spell-fix` target to avoid typos in code and documentation
+7. **cppcheck**: Run `cppcheck` target for static code analysis to catch potential issues
+8. **Respect .gitignore**: Don't commit build artifacts, test data, or IDE configs
+9. **CI is authoritative**: Local passes don't guarantee CI passes (especially formatting)
+10. **Documentation is code**: Example code in tests must work and compile
+11. **Schema-driven**: Many classes are generated from NWB schema
+12. **Cross-platform**: Changes must work on Linux, macOS, and Windows
+13. **Update CHANGELOG.md**: Document your changes in CHANGELOG.md under the "Unreleased" section following the existing format
 
 ## Additional Resources
 
