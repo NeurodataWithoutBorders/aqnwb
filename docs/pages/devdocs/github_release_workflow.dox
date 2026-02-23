@@ -30,19 +30,21 @@
  *
  * @subsection release_steps_4 4. Test Locally
  * 
- * Run tests, lint, and docs. Review, fix errors, and commit changes before PR merge.
+ * Run tests, lint, cppcheck, and docs. Review, fix errors, and commit changes before PR merge.
  * @code
  * cmake --build --preset=dev
  * ctest --preset=dev --output-on-failure
  * cmake --build --preset=dev --target=format-fix
  * cmake --build --preset=dev --target=spell-check
  * cmake --build --preset=dev --target=docs
+ * cmake --build --preset=dev --target=cppcheck
  * @endcode
  *
  * @subsection release_steps_5 5. Open Pull Request
  *
  * - Open a PR from release/vX.Y.Z to main.
  * - Wait for CI to complete and fix any errors.
+ * - Review [GitHub security](https://github.com/NeurodataWithoutBorders/aqnwb/security/code-scanning) warnings for the PR (query `is:open pr:<PR_NUMBER>)
  * - Review, approve, and merge the PR from release/vX.Y.Z to main.
  *
  * @subsection release_steps_6 6. Tag the Release (after PR merge)
@@ -74,6 +76,7 @@
  * - [ ] Run tests and lint and confirm that CI workflows are passing
  * - [ ] Build and review docs
  * - [ ] Create and merge PR
+ * - [ ] Review and address [GitHub security](https://github.com/NeurodataWithoutBorders/aqnwb/security/code-scanning) alerts
  * - [ ] Create and push tag
  * - [ ] [Draft GitHub release](https://github.com/NeurodataWithoutBorders/aqnwb/releases)
  * - [ ] Update changelog for next cycle

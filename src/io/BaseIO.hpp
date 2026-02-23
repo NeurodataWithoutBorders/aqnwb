@@ -70,6 +70,7 @@ public:
    * @param t The data type.
    * @param s The size of the data type.
    */
+  // cppcheck-suppress noExplicitConstructor
   BaseDataType(Type t = T_I32, SizeType s = 1);
 
   Type type;  ///< The data type.
