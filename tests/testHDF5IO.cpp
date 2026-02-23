@@ -749,9 +749,16 @@ TEST_CASE("HDF5IO; create attributes", "[hdf5io]")
         BaseDataType::I32, data.data(), groupPath, attrName, data.size());
     REQUIRE(hdf5io.attributeExists(attrPath));
 
-    // Read the attribute and verify the attribute data
+    // Read the attribute as a DataBlockGeneric and verify basic properties
     auto readAttrGeneric = hdf5io.readAttribute(attrPath);
+    REQUIRE(readAttrGeneric.shape.size() == 1);
+    REQUIRE(readAttrGeneric.shape[0] == data.size());
+    REQUIRE(readAttrGeneric.getBaseDataType() == BaseDataType::I32);
+
+    // Read the data values of the attribute as a typed DataBlock
+    // and verify they match the original data
     auto readAttrData = IO::DataBlock<int>::fromGeneric(readAttrGeneric);
+    REQUIRE(readAttrData.getBaseDataType() == BaseDataType::I32);
     REQUIRE(readAttrData.shape.size() == 1);  // 1D attribute
     REQUIRE(readAttrData.data.size() == 5);
     REQUIRE(readAttrData.data == data);
