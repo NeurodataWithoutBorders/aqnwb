@@ -34,7 +34,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="aqnwb-logo.png"/></td>
   <td id="projectalign">
-   <div id="projectname">aqnwb<span id="projectnumber">&#160;0.2.0</span>
+   <div id="projectname">aqnwb<span id="projectnumber">&#160;0.3.0</span>
    </div>
   </td>
  </tr>
@@ -128,10 +128,10 @@ Collaboration diagram for AQNWB::IO::LinkArrayDataSetConfig:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aebbdead878c1becfa02ccdae4d25eb12" id="r_aebbdead878c1becfa02ccdae4d25eb12"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aebbdead878c1becfa02ccdae4d25eb12">LinkArrayDataSetConfig</a> (const std::string &amp;targetPath)</td></tr>
 <tr class="memdesc:aebbdead878c1becfa02ccdae4d25eb12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html" title="Configuration for creating a soft-link to an existing dataset.">LinkArrayDataSetConfig</a> object with the target path.  <br /></td></tr>
-<tr class="memitem:a72f11f96106c1e4dbc1423d2a3ba9aad" id="r_a72f11f96106c1e4dbc1423d2a3ba9aad"><td class="memItemLeft">virtual&#160;</td><td class="memItemRight"><a class="el" href="#a72f11f96106c1e4dbc1423d2a3ba9aad">~LinkArrayDataSetConfig</a> ()=default</td></tr>
-<tr class="memdesc:a72f11f96106c1e4dbc1423d2a3ba9aad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor.  <br /></td></tr>
-<tr class="memitem:ac3ad7086b33b5982eddb95e47ee18204" id="r_ac3ad7086b33b5982eddb95e47ee18204"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#ac3ad7086b33b5982eddb95e47ee18204">getTargetPath</a> () const</td></tr>
-<tr class="memdesc:ac3ad7086b33b5982eddb95e47ee18204"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the path to the target dataset.  <br /></td></tr>
+<tr class="memitem:aee4ea2daab797abca66d998a4a58a7c6" id="r_aee4ea2daab797abca66d998a4a58a7c6"><td class="memItemLeft">virtual&#160;</td><td class="memItemRight"><a class="el" href="#aee4ea2daab797abca66d998a4a58a7c6">~LinkArrayDataSetConfig</a> () override=default</td></tr>
+<tr class="memdesc:aee4ea2daab797abca66d998a4a58a7c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor.  <br /></td></tr>
+<tr class="memitem:a52c365749901a7239932500a3671ea8c" id="r_a52c365749901a7239932500a3671ea8c"><td class="memItemLeft">const std::string &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a52c365749901a7239932500a3671ea8c">getTargetPath</a> () const</td></tr>
+<tr class="memdesc:a52c365749901a7239932500a3671ea8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the path to the target dataset.  <br /></td></tr>
 <tr class="memitem:a5ab306e3199eba4680ae8a66872eaf40" id="r_a5ab306e3199eba4680ae8a66872eaf40"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a5ab306e3199eba4680ae8a66872eaf40">isLink</a> () const override</td></tr>
 <tr class="memdesc:a5ab306e3199eba4680ae8a66872eaf40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if this configuration represents a link.  <br /></td></tr>
 <tr class="memitem:a7fccfbd5c0deb82ff9383627d3cf0477" id="r_a7fccfbd5c0deb82ff9383627d3cf0477"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a7fccfbd5c0deb82ff9383627d3cf0477">targetExists</a> (const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">BaseIO</a> &amp;io) const</td></tr>
@@ -191,8 +191,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a72f11f96106c1e4dbc1423d2a3ba9aad" name="a72f11f96106c1e4dbc1423d2a3ba9aad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a72f11f96106c1e4dbc1423d2a3ba9aad">&#9670;&#160;</a></span>~LinkArrayDataSetConfig()</h2>
+<a id="aee4ea2daab797abca66d998a4a58a7c6" name="aee4ea2daab797abca66d998a4a58a7c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee4ea2daab797abca66d998a4a58a7c6">&#9670;&#160;</a></span>~LinkArrayDataSetConfig()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -209,7 +209,7 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel virtual">virtual</span><span class="mlabel default">default</span></span>  </td>
+<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span><span class="mlabel default">default</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -358,8 +358,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="ac3ad7086b33b5982eddb95e47ee18204" name="ac3ad7086b33b5982eddb95e47ee18204"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac3ad7086b33b5982eddb95e47ee18204">&#9670;&#160;</a></span>getTargetPath()</h2>
+<a id="a52c365749901a7239932500a3671ea8c" name="a52c365749901a7239932500a3671ea8c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52c365749901a7239932500a3671ea8c">&#9670;&#160;</a></span>getTargetPath()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -368,7 +368,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::string AQNWB::IO::LinkArrayDataSetConfig::getTargetPath </td>
+          <td class="memname">const std::string &amp; AQNWB::IO::LinkArrayDataSetConfig::getTargetPath </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -386,7 +386,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config_ac3ad7086b33b5982eddb95e47ee18204_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config_a52c365749901a7239932500a3671ea8c_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>

@@ -34,7 +34,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="aqnwb-logo.png"/></td>
   <td id="projectalign">
-   <div id="projectname">aqnwb<span id="projectnumber">&#160;0.2.0</span>
+   <div id="projectname">aqnwb<span id="projectnumber">&#160;0.3.0</span>
    </div>
   </td>
  </tr>
@@ -128,8 +128,8 @@ Collaboration diagram for AQNWB::IO::HDF5::HDF5IO:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aaf848d1a42512f90e9c9a0e134508bb8" id="r_aaf848d1a42512f90e9c9a0e134508bb8"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aaf848d1a42512f90e9c9a0e134508bb8">HDF5IO</a> (const std::string &amp;fileName, const bool disableSWMRMode=false)</td></tr>
 <tr class="memdesc:aaf848d1a42512f90e9c9a0e134508bb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html" title="The HDF5IO class provides an interface for reading and writing data to HDF5 files.">HDF5IO</a> class that takes a file name as input.  <br /></td></tr>
-<tr class="memitem:a7a4c82820e1ad91a82c90c30dfb937fe" id="r_a7a4c82820e1ad91a82c90c30dfb937fe"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a7a4c82820e1ad91a82c90c30dfb937fe">~HDF5IO</a> ()</td></tr>
-<tr class="memdesc:a7a4c82820e1ad91a82c90c30dfb937fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor for the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html" title="The HDF5IO class provides an interface for reading and writing data to HDF5 files.">HDF5IO</a> class.  <br /></td></tr>
+<tr class="memitem:af492eb7675c4418ac4670e1c7fc9c9c2" id="r_af492eb7675c4418ac4670e1c7fc9c9c2"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#af492eb7675c4418ac4670e1c7fc9c9c2">~HDF5IO</a> () override</td></tr>
+<tr class="memdesc:af492eb7675c4418ac4670e1c7fc9c9c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <br /></td></tr>
 <tr class="memitem:af13e43a73e40b98dcacd9cc587536143" id="r_af13e43a73e40b98dcacd9cc587536143"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#af13e43a73e40b98dcacd9cc587536143">open</a> () override</td></tr>
 <tr class="memdesc:af13e43a73e40b98dcacd9cc587536143"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens an existing file or creates a new file for writing.  <br /></td></tr>
 <tr class="memitem:a4edb85857f5fe7d78cfe21aabe62a04d" id="r_a4edb85857f5fe7d78cfe21aabe62a04d"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a4edb85857f5fe7d78cfe21aabe62a04d">open</a> (<a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html#a969d0800c8e9e2141f272541b85e8bed">FileMode</a> mode) override</td></tr>
@@ -309,11 +309,14 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a7a4c82820e1ad91a82c90c30dfb937fe" name="a7a4c82820e1ad91a82c90c30dfb937fe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7a4c82820e1ad91a82c90c30dfb937fe">&#9670;&#160;</a></span>~HDF5IO()</h2>
+<a id="af492eb7675c4418ac4670e1c7fc9c9c2" name="af492eb7675c4418ac4670e1c7fc9c9c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af492eb7675c4418ac4670e1c7fc9c9c2">&#9670;&#160;</a></span>~HDF5IO()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">HDF5IO::~HDF5IO </td>
@@ -322,13 +325,18 @@ Here is the call graph for this function:</div>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel override">override</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Destructor for the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html" title="The HDF5IO class provides an interface for reading and writing data to HDF5 files.">HDF5IO</a> class. </p>
+<p>Destructor. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o_a7a4c82820e1ad91a82c90c30dfb937fe_cgraph.svg" width="650" height="146"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o_af492eb7675c4418ac4670e1c7fc9c9c2_cgraph.svg" width="650" height="146"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

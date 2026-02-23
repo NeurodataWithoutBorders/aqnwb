@@ -34,7 +34,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="aqnwb-logo.png"/></td>
   <td id="projectalign">
-   <div id="projectname">aqnwb<span id="projectnumber">&#160;0.2.0</span>
+   <div id="projectname">aqnwb<span id="projectnumber">&#160;0.3.0</span>
    </div>
   </td>
  </tr>
@@ -134,7 +134,7 @@ $(function() {
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>  <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_device.html#a2ad7fb2e8436a7accfce35978d962b74">Device</a>(<span class="keyword">const</span> std::string&amp; path, std::shared_ptr&lt;IO::BaseIO&gt; io);</div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>  <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_device.html#a9dabc419c8d8df3a686c33ce042bc99a">~Device</a>();</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>  <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_device.html#a4f0a3f6110cdae027a3cd5296a20b444">~Device</a>() <span class="keyword">override</span>;</div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span></div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>  <a class="code hl_typedef" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a> <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_device.html#a420424e52795b5212d7dcb728396af6a">initialize</a>(<span class="keyword">const</span> std::string&amp; description,</div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>                    <span class="keyword">const</span> std::string&amp; manufacturer);</div>
@@ -162,8 +162,8 @@ $(function() {
 <div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_container_html_a420424e52795b5212d7dcb728396af6a"><div class="ttname"><a href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a420424e52795b5212d7dcb728396af6a">AQNWB::NWB::Container::initialize</a></div><div class="ttdeci">Status initialize()</div><div class="ttdoc">Initialize the container.</div><div class="ttdef"><b>Definition</b> Container.cpp:20</div></div>
 <div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_device_html_a2ad7fb2e8436a7accfce35978d962b74"><div class="ttname"><a href="class_a_q_n_w_b_1_1_n_w_b_1_1_device.html#a2ad7fb2e8436a7accfce35978d962b74">AQNWB::NWB::Device::Device</a></div><div class="ttdeci">Device(const std::string &amp;path, std::shared_ptr&lt; IO::BaseIO &gt; io)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition</b> Device.cpp:10</div></div>
 <div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_device_html_a420424e52795b5212d7dcb728396af6a"><div class="ttname"><a href="class_a_q_n_w_b_1_1_n_w_b_1_1_device.html#a420424e52795b5212d7dcb728396af6a">AQNWB::NWB::Device::initialize</a></div><div class="ttdeci">Status initialize()</div><div class="ttdoc">Initialize the container.</div><div class="ttdef"><b>Definition</b> Container.cpp:20</div></div>
+<div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_device_html_a4f0a3f6110cdae027a3cd5296a20b444"><div class="ttname"><a href="class_a_q_n_w_b_1_1_n_w_b_1_1_device.html#a4f0a3f6110cdae027a3cd5296a20b444">AQNWB::NWB::Device::~Device</a></div><div class="ttdeci">~Device() override</div><div class="ttdoc">Destructor.</div><div class="ttdef"><b>Definition</b> Device.cpp:16</div></div>
 <div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_device_html_a93468ac9793a1e67250ced89a2fbd007"><div class="ttname"><a href="class_a_q_n_w_b_1_1_n_w_b_1_1_device.html#a93468ac9793a1e67250ced89a2fbd007">AQNWB::NWB::Device::readManufacturer</a></div><div class="ttdeci">std::unique_ptr&lt; AQNWB::IO::ReadDataWrapper&lt; AQNWB::NWB::AttributeField, VTYPE &gt; &gt; readManufacturer() const</div></div>
-<div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_device_html_a9dabc419c8d8df3a686c33ce042bc99a"><div class="ttname"><a href="class_a_q_n_w_b_1_1_n_w_b_1_1_device.html#a9dabc419c8d8df3a686c33ce042bc99a">AQNWB::NWB::Device::~Device</a></div><div class="ttdeci">~Device()</div><div class="ttdoc">Destructor.</div><div class="ttdef"><b>Definition</b> Device.cpp:16</div></div>
 <div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_device_html_aa2e15ae872eefc1ea0a3b43204a9af80"><div class="ttname"><a href="class_a_q_n_w_b_1_1_n_w_b_1_1_device.html#aa2e15ae872eefc1ea0a3b43204a9af80">AQNWB::NWB::Device::readDescription</a></div><div class="ttdeci">std::unique_ptr&lt; AQNWB::IO::ReadDataWrapper&lt; AQNWB::NWB::AttributeField, VTYPE &gt; &gt; readDescription() const</div></div>
 <div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container_html_aadbde40c8c04d80d7b65a26e77f4cc20"><div class="ttname"><a href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html#aadbde40c8c04d80d7b65a26e77f4cc20">AQNWB::NWB::NWBContainer::NWBContainer</a></div><div class="ttdeci">NWBContainer(const std::string &amp;path, std::shared_ptr&lt; AQNWB::IO::BaseIO &gt; io)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition</b> NWBContainer.cpp:11</div></div>
 <div class="ttc" id="acore_8hpp_html"><div class="ttname"><a href="core_8hpp.html">core.hpp</a></div></div>

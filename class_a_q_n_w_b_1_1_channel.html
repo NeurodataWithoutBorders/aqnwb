@@ -34,7 +34,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="aqnwb-logo.png"/></td>
   <td id="projectalign">
-   <div id="projectname">aqnwb<span id="projectnumber">&#160;0.2.0</span>
+   <div id="projectname">aqnwb<span id="projectnumber">&#160;0.3.0</span>
    </div>
   </td>
  </tr>
@@ -134,10 +134,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a3cb232d17dac42ee09c959c247307394"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter for sampling rate of the channel.  <br /></td></tr>
 <tr class="memitem:a9a1297853c6f0b358ad6fbc7d40e3332" id="r_a9a1297853c6f0b358ad6fbc7d40e3332"><td class="memItemLeft">float&#160;</td><td class="memItemRight"><a class="el" href="#a9a1297853c6f0b358ad6fbc7d40e3332">getBitVolts</a> () const</td></tr>
 <tr class="memdesc:a9a1297853c6f0b358ad6fbc7d40e3332"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter for bitVolts floating point value of microvolts per bit.  <br /></td></tr>
-<tr class="memitem:af494c905e3c64bce247427510e3dcf83" id="r_af494c905e3c64bce247427510e3dcf83"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#af494c905e3c64bce247427510e3dcf83">getGroupName</a> () const</td></tr>
-<tr class="memdesc:af494c905e3c64bce247427510e3dcf83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the array group the channel belongs to.  <br /></td></tr>
-<tr class="memitem:a56a25ab4138ccb40af61b025a5fa9ec1" id="r_a56a25ab4138ccb40af61b025a5fa9ec1"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a56a25ab4138ccb40af61b025a5fa9ec1">getName</a> () const</td></tr>
-<tr class="memdesc:a56a25ab4138ccb40af61b025a5fa9ec1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the channel.  <br /></td></tr>
+<tr class="memitem:ae044e966e103001e1b58fb24df5851a9" id="r_ae044e966e103001e1b58fb24df5851a9"><td class="memItemLeft">const std::string &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ae044e966e103001e1b58fb24df5851a9">getGroupName</a> () const</td></tr>
+<tr class="memdesc:ae044e966e103001e1b58fb24df5851a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the array group the channel belongs to.  <br /></td></tr>
+<tr class="memitem:a6daa209ba7d3fc434eb24f374f85d8cd" id="r_a6daa209ba7d3fc434eb24f374f85d8cd"><td class="memItemLeft">const std::string &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a6daa209ba7d3fc434eb24f374f85d8cd">getName</a> () const</td></tr>
+<tr class="memdesc:a6daa209ba7d3fc434eb24f374f85d8cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the channel.  <br /></td></tr>
 <tr class="memitem:a44e4a1175f2921f85644c993371a9955" id="r_a44e4a1175f2921f85644c993371a9955"><td class="memItemLeft"><a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a>&#160;</td><td class="memItemRight"><a class="el" href="#a44e4a1175f2921f85644c993371a9955">getGroupIndex</a> () const</td></tr>
 <tr class="memdesc:a44e4a1175f2921f85644c993371a9955"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the array group index the channel belongs to.  <br /></td></tr>
 <tr class="memitem:ac33ad4e1c2926b7be7b8ae15350ef401" id="r_ac33ad4e1c2926b7be7b8ae15350ef401"><td class="memItemLeft"><a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a>&#160;</td><td class="memItemRight"><a class="el" href="#ac33ad4e1c2926b7be7b8ae15350ef401">getLocalIndex</a> () const</td></tr>
@@ -146,8 +146,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ab9a4526b6c74d4b355b392f17e616c47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the index of the channel across the recording system.  <br /></td></tr>
 <tr class="memitem:a43658a92e1772172ad603d2b2922c46a" id="r_a43658a92e1772172ad603d2b2922c46a"><td class="memItemLeft">const std::array&lt; float, 3 &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a43658a92e1772172ad603d2b2922c46a">getPosition</a> () const</td></tr>
 <tr class="memdesc:a43658a92e1772172ad603d2b2922c46a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the coordinates of channel (x, y, z) within the recording array.  <br /></td></tr>
-<tr class="memitem:a988cff7a5a8bb02e9d86f3a4b38b8cc3" id="r_a988cff7a5a8bb02e9d86f3a4b38b8cc3"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a988cff7a5a8bb02e9d86f3a4b38b8cc3">getComments</a> () const</td></tr>
-<tr class="memdesc:a988cff7a5a8bb02e9d86f3a4b38b8cc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get comments about the channel.  <br /></td></tr>
+<tr class="memitem:ab4fc31a0c23211ac3c165741f375d527" id="r_ab4fc31a0c23211ac3c165741f375d527"><td class="memItemLeft">const std::string &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ab4fc31a0c23211ac3c165741f375d527">getComments</a> () const</td></tr>
+<tr class="memdesc:ab4fc31a0c23211ac3c165741f375d527"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get comments about the channel.  <br /></td></tr>
 <tr class="memitem:a7bbfb5ea72e32488026fea0866e4befb" id="r_a7bbfb5ea72e32488026fea0866e4befb"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a7bbfb5ea72e32488026fea0866e4befb">setComments</a> (const std::string &amp;comments)</td></tr>
 <tr class="memdesc:a7bbfb5ea72e32488026fea0866e4befb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set comments about the channel.  <br /></td></tr>
 <tr class="memitem:a06f8d0458adc7d2edd778e1ad9ffb628" id="r_a06f8d0458adc7d2edd778e1ad9ffb628"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a06f8d0458adc7d2edd778e1ad9ffb628">setPosition</a> (const std::array&lt; float, 3 &gt; &amp;position)</td></tr>
@@ -361,8 +361,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a988cff7a5a8bb02e9d86f3a4b38b8cc3" name="a988cff7a5a8bb02e9d86f3a4b38b8cc3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a988cff7a5a8bb02e9d86f3a4b38b8cc3">&#9670;&#160;</a></span>getComments()</h2>
+<a id="ab4fc31a0c23211ac3c165741f375d527" name="ab4fc31a0c23211ac3c165741f375d527"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4fc31a0c23211ac3c165741f375d527">&#9670;&#160;</a></span>getComments()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -371,7 +371,7 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::string AQNWB::Channel::getComments </td>
+          <td class="memname">const std::string &amp; AQNWB::Channel::getComments </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -473,8 +473,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="af494c905e3c64bce247427510e3dcf83" name="af494c905e3c64bce247427510e3dcf83"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af494c905e3c64bce247427510e3dcf83">&#9670;&#160;</a></span>getGroupName()</h2>
+<a id="ae044e966e103001e1b58fb24df5851a9" name="ae044e966e103001e1b58fb24df5851a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae044e966e103001e1b58fb24df5851a9">&#9670;&#160;</a></span>getGroupName()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -483,7 +483,7 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::string AQNWB::Channel::getGroupName </td>
+          <td class="memname">const std::string &amp; AQNWB::Channel::getGroupName </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -534,8 +534,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a56a25ab4138ccb40af61b025a5fa9ec1" name="a56a25ab4138ccb40af61b025a5fa9ec1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a56a25ab4138ccb40af61b025a5fa9ec1">&#9670;&#160;</a></span>getName()</h2>
+<a id="a6daa209ba7d3fc434eb24f374f85d8cd" name="a6daa209ba7d3fc434eb24f374f85d8cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6daa209ba7d3fc434eb24f374f85d8cd">&#9670;&#160;</a></span>getName()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -544,7 +544,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::string AQNWB::Channel::getName </td>
+          <td class="memname">const std::string &amp; AQNWB::Channel::getName </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>

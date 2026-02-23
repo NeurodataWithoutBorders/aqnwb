@@ -1,7 +1,7 @@
 var class_a_q_n_w_b_1_1_n_w_b_1_1_device =
 [
     [ "Device", "class_a_q_n_w_b_1_1_n_w_b_1_1_device.html#a2ad7fb2e8436a7accfce35978d962b74", null ],
-    [ "~Device", "class_a_q_n_w_b_1_1_n_w_b_1_1_device.html#a9dabc419c8d8df3a686c33ce042bc99a", null ],
+    [ "~Device", "class_a_q_n_w_b_1_1_n_w_b_1_1_device.html#a4f0a3f6110cdae027a3cd5296a20b444", null ],
     [ "create", "class_a_q_n_w_b_1_1_n_w_b_1_1_device.html#ae296afaa5f71f00f29a7e213297d0d27", null ],
     [ "getNamespace", "class_a_q_n_w_b_1_1_n_w_b_1_1_device.html#af5743857e9c51c99360776cc757bc025", null ],
     [ "getTypeName", "class_a_q_n_w_b_1_1_n_w_b_1_1_device.html#a33695e62396fdd0b48b2174f403ed574", null ],

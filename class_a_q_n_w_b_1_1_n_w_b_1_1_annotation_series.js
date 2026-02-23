@@ -1,7 +1,7 @@
 var class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series =
 [
     [ "AnnotationSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html#ab98f231850a75a82fade2234e8606359", null ],
-    [ "~AnnotationSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html#af6c7d52220a69e28c637c67651832071", null ],
+    [ "~AnnotationSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html#a6aa602d4f2ddf9508500321d62b8a43a", null ],
     [ "create", "class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html#af3246bcc9052653310ef740284337518", null ],
     [ "getNamespace", "class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html#a098c3c29e8df100c88029d9b9f5c88e9", null ],
     [ "getTypeName", "class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html#a1a1d20183ab9f430020d88e003f07ae4", null ],

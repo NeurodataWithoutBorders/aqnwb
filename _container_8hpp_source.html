@@ -34,7 +34,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="aqnwb-logo.png"/></td>
   <td id="projectalign">
-   <div id="projectname">aqnwb<span id="projectnumber">&#160;0.2.0</span>
+   <div id="projectname">aqnwb<span id="projectnumber">&#160;0.3.0</span>
    </div>
   </td>
  </tr>
@@ -131,7 +131,7 @@ $(function() {
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>  <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a0ec16ae5d28267ea37464ffe2c2c34e5">Container</a>(<span class="keyword">const</span> std::string&amp; path, std::shared_ptr&lt;IO::BaseIO&gt; io);</div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>  <span class="keyword">virtual</span> <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#ae9f5d07bfc3defda274aa06091c19f56">~Container</a>();</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>  <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#aed906eb69bbf66e32a2f89e54d59c211">~Container</a>() <span class="keyword">override</span>;</div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span></div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>  <a class="code hl_typedef" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a> <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a420424e52795b5212d7dcb728396af6a">initialize</a>();</div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
@@ -157,7 +157,7 @@ $(function() {
 <div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_container_html_a420424e52795b5212d7dcb728396af6a"><div class="ttname"><a href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a420424e52795b5212d7dcb728396af6a">AQNWB::NWB::Container::initialize</a></div><div class="ttdeci">Status initialize()</div><div class="ttdoc">Initialize the container.</div><div class="ttdef"><b>Definition</b> Container.cpp:20</div></div>
 <div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_container_html_a53025c104d763d4eedea7bbda30b23b3"><div class="ttname"><a href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a53025c104d763d4eedea7bbda30b23b3">AQNWB::NWB::Container::readNamespace</a></div><div class="ttdeci">std::unique_ptr&lt; AQNWB::IO::ReadDataWrapper&lt; AQNWB::NWB::AttributeField, VTYPE &gt; &gt; readNamespace() const</div></div>
 <div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_container_html_aa4da2624ecbd2b4c29d71e9d54ac6c37"><div class="ttname"><a href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#aa4da2624ecbd2b4c29d71e9d54ac6c37">AQNWB::NWB::Container::readNeurodataType</a></div><div class="ttdeci">std::unique_ptr&lt; AQNWB::IO::ReadDataWrapper&lt; AQNWB::NWB::AttributeField, VTYPE &gt; &gt; readNeurodataType() const</div></div>
-<div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_container_html_ae9f5d07bfc3defda274aa06091c19f56"><div class="ttname"><a href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#ae9f5d07bfc3defda274aa06091c19f56">AQNWB::NWB::Container::~Container</a></div><div class="ttdeci">virtual ~Container()</div><div class="ttdoc">Destructor.</div><div class="ttdef"><b>Definition</b> Container.cpp:17</div></div>
+<div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_container_html_aed906eb69bbf66e32a2f89e54d59c211"><div class="ttname"><a href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#aed906eb69bbf66e32a2f89e54d59c211">AQNWB::NWB::Container::~Container</a></div><div class="ttdeci">~Container() override</div><div class="ttdoc">Destructor.</div><div class="ttdef"><b>Definition</b> Container.cpp:17</div></div>
 <div class="ttc" id="aclass_a_q_n_w_b_1_1_n_w_b_1_1_registered_type_html_aa1e04074725b7331d725bbda8156bc2d"><div class="ttname"><a href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aa1e04074725b7331d725bbda8156bc2d">AQNWB::NWB::RegisteredType::RegisteredType</a></div><div class="ttdeci">RegisteredType(const std::string &amp;path, std::shared_ptr&lt; AQNWB::IO::BaseIO &gt; io)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition</b> RegisteredType.cpp:18</div></div>
 <div class="ttc" id="ahdmf__common_8hpp_html"><div class="ttname"><a href="hdmf__common_8hpp.html">hdmf_common.hpp</a></div></div>
 <div class="ttc" id="anamespace_a_q_n_w_b_1_1_n_w_b_html"><div class="ttname"><a href="namespace_a_q_n_w_b_1_1_n_w_b.html">AQNWB::NWB</a></div><div class="ttdoc">Namespace for all classes related to the NWB data standard.</div></div>

@@ -34,7 +34,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="aqnwb-logo.png"/></td>
   <td id="projectalign">
-   <div id="projectname">aqnwb<span id="projectnumber">&#160;0.2.0</span>
+   <div id="projectname">aqnwb<span id="projectnumber">&#160;0.3.0</span>
    </div>
   </td>
  </tr>
@@ -132,8 +132,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ac9d11ec199acb24f93fb158d257154a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deleted copy constructor to prevent construction-copying.  <br /></td></tr>
 <tr class="memitem:a8472e4dc3b686dc32c7d71ae5cba8927" id="r_a8472e4dc3b686dc32c7d71ae5cba8927"><td class="memItemLeft"><a class="el" href="#ad822c9112b15211f743fc540139a4dd4">HDF5RecordingData</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a8472e4dc3b686dc32c7d71ae5cba8927">operator=</a> (const <a class="el" href="#ad822c9112b15211f743fc540139a4dd4">HDF5RecordingData</a> &amp;)=delete</td></tr>
 <tr class="memdesc:a8472e4dc3b686dc32c7d71ae5cba8927"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deleted copy assignment operator to prevent copying.  <br /></td></tr>
-<tr class="memitem:a81d035b7d174a58236d0447ea7054724" id="r_a81d035b7d174a58236d0447ea7054724"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a81d035b7d174a58236d0447ea7054724">~HDF5RecordingData</a> ()</td></tr>
-<tr class="memdesc:a81d035b7d174a58236d0447ea7054724"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html" title="Represents an HDF5 Dataset that can be extended indefinitely in blocks.">HDF5RecordingData</a> object.  <br /></td></tr>
+<tr class="memitem:ae28a6112902b3c20d5dfbf2776271f8c" id="r_ae28a6112902b3c20d5dfbf2776271f8c"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ae28a6112902b3c20d5dfbf2776271f8c">~HDF5RecordingData</a> () override</td></tr>
+<tr class="memdesc:ae28a6112902b3c20d5dfbf2776271f8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html" title="Represents an HDF5 Dataset that can be extended indefinitely in blocks.">HDF5RecordingData</a> object.  <br /></td></tr>
 <tr class="memitem:a98aad315b2d3f0a59642fe705c8a795a" id="r_a98aad315b2d3f0a59642fe705c8a795a"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a98aad315b2d3f0a59642fe705c8a795a">writeDataBlock</a> (const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;dataShape, const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;positionOffset, const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">AQNWB::IO::BaseDataType</a> &amp;type, const void *data) override</td></tr>
 <tr class="memdesc:a98aad315b2d3f0a59642fe705c8a795a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a block of data to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> dataset.  <br /></td></tr>
 <tr class="memitem:a46c696f828274f96765373e3ec5950d7" id="r_a46c696f828274f96765373e3ec5950d7"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a46c696f828274f96765373e3ec5950d7">writeDataBlock</a> (const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;dataShape, const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;positionOffset, const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">AQNWB::IO::BaseDataType</a> &amp;type, const std::vector&lt; std::string &gt; &amp;data) override</td></tr>
@@ -250,11 +250,14 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a81d035b7d174a58236d0447ea7054724" name="a81d035b7d174a58236d0447ea7054724"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a81d035b7d174a58236d0447ea7054724">&#9670;&#160;</a></span>~HDF5RecordingData()</h2>
+<a id="ae28a6112902b3c20d5dfbf2776271f8c" name="ae28a6112902b3c20d5dfbf2776271f8c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae28a6112902b3c20d5dfbf2776271f8c">&#9670;&#160;</a></span>~HDF5RecordingData()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">HDF5RecordingData::~HDF5RecordingData </td>
@@ -263,6 +266,11 @@ Here is the call graph for this function:</div>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel override">override</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Destroys the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html" title="Represents an HDF5 Dataset that can be extended indefinitely in blocks.">HDF5RecordingData</a> object. </p>

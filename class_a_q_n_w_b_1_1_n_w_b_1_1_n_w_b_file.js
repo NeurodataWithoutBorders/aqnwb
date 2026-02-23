@@ -3,7 +3,7 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file =
     [ "NWBFile", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a277f89c64204a61491bb26ad309186f3", null ],
     [ "NWBFile", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#af62a01f10675b8fdd310f60f48cf23fe", null ],
     [ "NWBFile", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a4639155769006a79b189cdb7634bbaa5", null ],
-    [ "~NWBFile", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aa92925025c0a04da1d6b03b82af99da3", null ],
+    [ "~NWBFile", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#abeacbc7963002b46d971a8866dd90599", null ],
     [ "cacheSpecifications", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aaf2e07b4e912fc34ab052d38f92e6cdd", null ],
     [ "create", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a84f0f21cd7bd9745b1eeb508b747fb4b", null ],
     [ "create", "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a31a9458cf3b5ad8ef6e3346f995deb12", null ],

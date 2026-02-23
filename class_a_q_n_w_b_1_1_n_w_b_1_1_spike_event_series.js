@@ -1,7 +1,7 @@
 var class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series =
 [
     [ "SpikeEventSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#af5b323ae3afbdf308f151cf233b2c0db", null ],
-    [ "~SpikeEventSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#a2b8b71027d2b756b87dc59de695c7309", null ],
+    [ "~SpikeEventSeries", "class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#a9aaa52f1991cebbf7bc81447fe1e5896", null ],
     [ "create", "class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#a74f94bb3753e23f4a2047a2c4ed3d4ba", null ],
     [ "getNamespace", "class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#af5db02bc128a66c17702fa5c2ae5eaa5", null ],
     [ "getTypeName", "class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#a9166033a4ff6e69f79ca64adbe591ae4", null ],
