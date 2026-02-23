@@ -48,7 +48,7 @@ public:
   /**
    * @brief Destructor.
    */
-  ~ElectrodesTable();
+  ~ElectrodesTable() override;
 
   /**
    * @brief Initializes the ElectrodesTable.

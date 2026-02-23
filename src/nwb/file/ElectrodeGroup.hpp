@@ -34,7 +34,7 @@ public:
   /**
    * @brief Destructor.
    */
-  ~ElectrodeGroup();
+  ~ElectrodeGroup() override;
 
   /**
    * @brief Initializes the ElectrodeGroup object.

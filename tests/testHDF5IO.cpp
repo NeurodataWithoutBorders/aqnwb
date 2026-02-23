@@ -589,6 +589,7 @@ TEST_CASE("HDF5IO createArrayDataSet with filters", "[HDF5IO]")
     unsigned int filter_config;
     H5Z_filter_t filter_type = dcpl.getFilter(
         0, flags, cd_nelmts, cd_values, namelen, name, filter_config);
+    (void)filter_config;  // Unused variable needed for dcpl.getFilter
     REQUIRE(filter_type == H5Z_FILTER_DEFLATE);
     REQUIRE(cd_nelmts == 1);
     REQUIRE(cd_values[0] == gzip_level[0]);
@@ -623,6 +624,8 @@ TEST_CASE("HDF5IO createArrayDataSet with filters", "[HDF5IO]")
     unsigned int filter_config;
     H5Z_filter_t filter_type = dcpl.getFilter(
         0, flags, cd_nelmts, cd_values, namelen, name, filter_config);
+    (void)filter_config;
+    (void)cd_values;
     REQUIRE(filter_type == H5Z_FILTER_SHUFFLE);
     REQUIRE(cd_nelmts == 1);
   }
@@ -659,6 +662,7 @@ TEST_CASE("HDF5IO createArrayDataSet with filters", "[HDF5IO]")
     unsigned int filter_config;
     H5Z_filter_t filter_type = dcpl.getFilter(
         0, flags, cd_nelmts, cd_values, namelen, name, filter_config);
+    (void)filter_config;
     REQUIRE(filter_type == H5Z_FILTER_DEFLATE);
     REQUIRE(cd_nelmts == 1);
     REQUIRE(cd_values[0] == gzip_level[0]);
@@ -666,6 +670,8 @@ TEST_CASE("HDF5IO createArrayDataSet with filters", "[HDF5IO]")
     cd_nelmts = 1;
     filter_type = dcpl.getFilter(
         1, flags, cd_nelmts, cd_values, namelen, name, filter_config);
+    (void)filter_config;
+    (void)cd_values;
     REQUIRE(filter_type == H5Z_FILTER_SHUFFLE);
     REQUIRE(cd_nelmts == 1);
   }
@@ -1052,6 +1058,7 @@ TEST_CASE("HDF5IO; SWMR mode", "[hdf5io]")
     // stop recording, check that file is still open and recording can be
     // restarted
     status = hdf5io->stopRecording();
+    REQUIRE(status == Status::Success);
     REQUIRE(hdf5io->isOpen() == true);
 
     // restart recording and write to a dataset

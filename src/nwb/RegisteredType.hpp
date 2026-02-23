@@ -56,7 +56,7 @@ public:
    * @brief Gets the path of the registered type.
    * @return The path of the registered type.
    */
-  inline std::string getPath() const { return m_path; }
+  inline const std::string& getPath() const { return m_path; }
 
   /**
    * @brief Get the name of the object
