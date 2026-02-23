@@ -39,7 +39,7 @@ public:
   /**
    * @brief Destroys the HDF5RecordingData object.
    */
-  ~HDF5RecordingData();
+  ~HDF5RecordingData() override;
 
   /**
    * @brief Writes a block of data to the HDF5 dataset.

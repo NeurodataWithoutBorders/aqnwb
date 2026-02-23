@@ -35,7 +35,7 @@ public:
   /**
    * @brief Destructor
    */
-  ~Device();
+  ~Device() override;
 
   /**
    * @brief Initializes the device by creating NWB related attributes and

@@ -33,7 +33,7 @@ public:
   /**
    * @brief Destructor
    */
-  ~AnnotationSeries();
+  ~AnnotationSeries() override;
 
   /**
    * @brief Initializes the AnnotationSeries

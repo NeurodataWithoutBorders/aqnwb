@@ -16,6 +16,7 @@ set(
     --std=c++17
     --suppress=missingIncludeSystem
     --suppress=duplInheritedMember
+    --suppress=normalCheckLevelMaxBranches
     --error-exitcode=1
 )
 

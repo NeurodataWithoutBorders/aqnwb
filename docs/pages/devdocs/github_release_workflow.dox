@@ -1,0 +1,88 @@
+/**
+ * @page release_workflow Making a Release 
+ *
+ * AqNWB releases are managed via GitHub using [semantic versioning](https://semver.org/spec/v2.0.0.html). 
+ * AqNWB is released as source-releases only without pre-build binaries. 
+ * 
+ * @section release_steps Release Steps
+ *
+ * @subsection release_steps_1 1. Create a Release Branch
+ * 
+ * Create a new branch from main: 
+ * @code 
+ * git checkout -b release/vX.Y.Z
+ * @endcode
+ *
+ * @subsection release_steps_2 2. Update Version Numbers
+ * 
+ * Update the version numbers in the following files:
+ * - `CHANGELOG.md`: Move "Unreleased" changes to new version section, set date.
+ * - `CMakeLists.txt`: Update the `VERSION` argument in the `project()` command.
+ *     - Doxygen retrieves the version from CMake, so no need to modify the docs. 
+ *
+ * @subsection release_steps_3 3. Commit and Push Changes
+*
+ * @code
+ * git add -u
+ * git commit -m "Release vX.Y.Z: update version numbers and changelog"
+ * git push --set-upstream origin release/vX.Y.Z
+ * @endcode
+ *
+ * @subsection release_steps_4 4. Test Locally
+ * 
+ * Run tests, lint, cppcheck, and docs. Review, fix errors, and commit changes before PR merge.
+ * @code
+ * cmake --preset=dev
+ * cmake --build --preset=dev
+ * ctest --preset=dev --output-on-failure
+ * cmake --build --preset=dev --target=format-fix
+ * cmake --build --preset=dev --target=spell-check
+ * cmake --build --preset=dev --target=docs
+ * cmake --build --preset=dev --target=cppcheck
+ * @endcode
+ *
+ * @subsection release_steps_5 5. Open Pull Request
+ *
+ * - Open a PR from release/vX.Y.Z to main.
+ * - Wait for CI to complete and fix any errors.
+ * - Review [GitHub security](https://github.com/NeurodataWithoutBorders/aqnwb/security/code-scanning) warnings for the PR (query `is:open pr:<PR_NUMBER>)
+ * - Review, approve, and merge the PR from release/vX.Y.Z to main.
+ *
+ * @subsection release_steps_6 6. Tag the Release (after PR merge)
+ *
+ * @code
+ * git checkout main
+ * git pull
+ * git tag -a vX.Y.Z -m "AqNWB vX.Y.Z release"
+ * git push origin vX.Y.Z
+ * @endcode
+ *
+ * @subsection release_steps_7 7. Draft GitHub Release
+ *
+ * - Go to [GitHub Releases page](https://github.com/NeurodataWithoutBorders/aqnwb/releases)
+ * - Click "Draft a new release"
+ * - Select the tag, paste changelog notes, attach artifacts if needed
+ * - Publish
+ *
+ * @subsection release_steps_8 8. Post-Release
+ * 
+ * - Announce release (mailing list, Slack, etc.)
+ * - Monitor CI/CD
+ * - Update "Unreleased" section in CHANGELOG.md
+ *
+ * @section quick_checklist Quick Checklist
+ *
+ * - [ ] Create a release branch
+ * - [ ] Update version numbers and changelog
+ * - [ ] Run tests and lint and confirm that CI workflows are passing
+ * - [ ] Build and review docs
+ * - [ ] Create and merge PR
+ * - [ ] Review and address [GitHub security](https://github.com/NeurodataWithoutBorders/aqnwb/security/code-scanning) alerts
+ * - [ ] Create and push tag
+ * - [ ] [Draft GitHub release](https://github.com/NeurodataWithoutBorders/aqnwb/releases)
+ * - [ ] Update changelog for next cycle
+ *
+ * @section references References
+ * - [AqNWB CI/CD Workflows](https://github.com/NeurodataWithoutBorders/aqnwb/tree/main/.github/workflows)
+ * - [GitHub Releases Documentation](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases)
+ */
