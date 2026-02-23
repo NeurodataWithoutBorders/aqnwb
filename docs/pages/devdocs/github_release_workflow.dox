@@ -32,6 +32,7 @@
  * 
  * Run tests, lint, cppcheck, and docs. Review, fix errors, and commit changes before PR merge.
  * @code
+ * cmake --preset=dev
  * cmake --build --preset=dev
  * ctest --preset=dev --output-on-failure
  * cmake --build --preset=dev --target=format-fix
