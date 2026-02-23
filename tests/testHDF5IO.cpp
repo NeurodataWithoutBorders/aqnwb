@@ -1102,7 +1102,6 @@ TEST_CASE("getH5ObjectType", "[hdf5io]")
 
   SECTION("dataset")
   {
-    std::vector<int> testData = {1, 2, 3, 4, 5};
     std::string dataPath = "/dataset";
     IO::ArrayDataSetConfig config {
         BaseDataType::I32, SizeArray {0}, SizeArray {1}};
@@ -1307,7 +1306,6 @@ TEST_CASE("objectExists", "[hdf5io]")
 
   SECTION("existing dataset")
   {
-    std::vector<int> testData = {1, 2, 3, 4, 5};
     std::string dataPath = "/existingDataset";
     IO::ArrayDataSetConfig config {
         BaseDataType::I32, SizeArray {0}, SizeArray {1}};
@@ -2239,7 +2237,7 @@ TEST_CASE("Test HDF5IO createArrayDataSet with LinkArrayDataSetConfig",
     // Use base class pointer to create link
     std::string linkPath = "/link";
     IO::LinkArrayDataSetConfig linkConfig(originalPath);
-    IO::BaseArrayDataSetConfig* baseConfigPtr = &linkConfig;
+    const IO::BaseArrayDataSetConfig* baseConfigPtr = &linkConfig;
 
     REQUIRE(baseConfigPtr->isLink() == true);
 

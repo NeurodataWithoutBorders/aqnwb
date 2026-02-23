@@ -109,8 +109,6 @@ TEST_CASE("ElectrodesTable", "[ecephys]")
 
   SECTION("test initialization with empty channels")
   {
-    std::vector<Channel> channels = {};
-
     std::string filename = getTestFilePath("electrodeTableNoData.h5");
     std::shared_ptr<BaseIO> io = std::make_unique<IO::HDF5::HDF5IO>(filename);
     io->open();
@@ -118,6 +116,8 @@ TEST_CASE("ElectrodesTable", "[ecephys]")
     io->createGroup("/general/extracellular_ephys");
     auto electrodeTable = NWB::ElectrodesTable::create(io);
     electrodeTable->initialize();
+    electrodeTable->finalize();
+    io->close();
   }
 
   SECTION("test table creation with multiple arrays")

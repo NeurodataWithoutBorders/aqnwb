@@ -26,8 +26,9 @@ TEST_CASE("Test Status enum operators", "[Types]")
 {
   SECTION("Test && operator")
   {
+    // cppcheck-suppress-begin duplicateExpression
+    // cppcheck-suppress-begin compareBoolExpressionWithInt
     // Success && Success = Success
-    // cppcheck-suppress duplicateExpression
     REQUIRE((Types::Status::Success && Types::Status::Success)
             == Types::Status::Success);
 
@@ -40,15 +41,17 @@ TEST_CASE("Test Status enum operators", "[Types]")
             == Types::Status::Failure);
 
     // Failure && Failure = Failure
-    // cppcheck-suppress duplicateExpression
     REQUIRE((Types::Status::Failure && Types::Status::Failure)
             == Types::Status::Failure);
+    // cppcheck-suppress-end duplicateExpression
+    // cppcheck-suppress-end compareBoolExpressionWithInt
   }
 
   SECTION("Test || operator")
   {
+    // cppcheck-suppress-begin duplicateExpression
+    // cppcheck-suppress-begin compareBoolExpressionWithInt
     // Success || Success = Success
-    // cppcheck-suppress duplicateExpression
     REQUIRE((Types::Status::Success || Types::Status::Success)
             == Types::Status::Success);
 
@@ -61,34 +64,33 @@ TEST_CASE("Test Status enum operators", "[Types]")
             == Types::Status::Success);
 
     // Failure || Failure = Failure
-    // cppcheck-suppress duplicateExpression
     REQUIRE((Types::Status::Failure || Types::Status::Failure)
             == Types::Status::Failure);
+    // cppcheck-suppress-end duplicateExpression
+    // cppcheck-suppress-end compareBoolExpressionWithInt
   }
 
   SECTION("Test chaining of operators")
   {
-    // Test that multiple && operations work correctly
     // cppcheck-suppress-begin duplicateExpression
+    // cppcheck-suppress-begin compareBoolExpressionWithInt
+    // Test that multiple && operations work correctly
     REQUIRE((Types::Status::Success && Types::Status::Success
              && Types::Status::Success)
             == Types::Status::Success);
-    // cppcheck-suppress-end duplicateExpression
-    // cppcheck-suppress duplicateExpression
     REQUIRE((Types::Status::Success && Types::Status::Success
              && Types::Status::Failure)
             == Types::Status::Failure);
 
     // Test that multiple || operations work correctly
-    // cppcheck-suppress duplicateExpression
     REQUIRE((Types::Status::Failure || Types::Status::Failure
              || Types::Status::Success)
             == Types::Status::Success);
-    // cppcheck-suppress-begin duplicateExpression
     REQUIRE((Types::Status::Failure || Types::Status::Failure
              || Types::Status::Failure)
             == Types::Status::Failure);
     // cppcheck-suppress-end duplicateExpression
+    // cppcheck-suppress-end compareBoolExpressionWithInt
   }
 }
 
@@ -128,8 +130,10 @@ TEST_CASE("Test SizeTypeNotSet constant", "[Types]")
   SECTION("SizeTypeNotSet equals max value of SizeType")
   {
     // Verify that SizeTypeNotSet is set to the maximum value
+    // cppcheck-suppress-begin knownConditionTrueFalse
     REQUIRE(Types::SizeTypeNotSet
             == (std::numeric_limits<Types::SizeType>::max)());
+    // cppcheck-suppress-end knownConditionTrueFalse
   }
 
   SECTION("SizeTypeNotSet is distinct from typical indices")
