@@ -114,7 +114,7 @@ AqNWB's extension system supports automatic schema caching (embedding extension 
 
 Original design and implementation of the software by S. Prince and O. Ruebel. GitHub CoPilot was used in development and review of select features documented in the respective pull requests on GitHub. All code (both human and AI-generated) has undergone review by the development team via GitHub pull requests.
 
-# Acknowledgements
+# Acknowledgments
 
 Research reported in this publication was supported by the National Institute Of Neurological Disorders And Stroke of the National Institutes of Health under Award Number R03NS145401. The content is solely the responsibility of the authors and does  
 not necessarily represent the official views of the National Institutes of Health. Initial design of AqNWB was supported by the Kavli Foundation. 
