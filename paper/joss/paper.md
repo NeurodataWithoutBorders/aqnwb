@@ -59,11 +59,7 @@ AqNWB is built around a multi-layered architecture that separates I/O operations
 
 **Dynamic Type System:** The `RegisteredType` class provides a common base class for implementing NWB neurodata types and implements a dynamic registry that maps NWB neurodata types to C++ classes, enabling automatic object creation from file metadata. The system uses efficient hash-based lookups and supports both core NWB types and custom extensions through a unified interface. All instances of `RegisteredType` classes (e.g., a `TimeSeries`) are automatically registered with the `RecordingObjects` of the I/O object to facilitate management of memory and data objects. 
 
-**Macro-based Code Generation:** AqNWB uses a collection of macros defined by the  `RegisteredType` class to generate consistent read and write methods, reduce boilerplate code, ensure consistency of the API, and simplify integration of new NWB types:
-
-* `DEFINE_DATASET_FIELD` : Read/write datasets   
-* `DEFINE_ATTRIBUTE_FIELD`: Read/write attributes  
-* `DEFINE_REGISTERED_FIELD`: Read/write nested types).
+**Macro-based Code Generation:** AqNWB uses a collection of macros defined by the  `RegisteredType` class to generate consistent read and write methods, reduce boilerplate code, ensure consistency of the API, and simplify integration of new NWB types, e.g., `DEFINE_DATASET_FIELD`, `DEFINE_ATTRIBUTE_FIELD`, and `DEFINE_REGISTERED_FIELD` to read/write datasets, attributes, and nested types, respectively.
 
 **Lazy Loading System:** The read system uses `ReadDataWrapper` objects for lazy data loading, supporting both full dataset reads and efficient slicing operations. Data is returned as `DataBlock` objects with typed vectors and shape information, or as `DataBlockGeneric` for unknown types with `std::variant` and `std::mdspan` support.
 
