@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * ...
 
 ### Fixed
-* Updated nwbinsepctor tests in the CI to `--ignore=check_subject_exists` to ignore the check for subject existence in the test NWB files (@oruebel, [#289](https://github.com/NeurodataWithoutBorders/aqnwb/pull/289))
+* Updated nwbinspector validation tests in the CI to: 1) `--ignore=check_subject_exists` and 2) remove dependency on `sanitizer` tests to speed up CI (@oruebel, [#289](https://github.com/NeurodataWithoutBorders/aqnwb/pull/289))
 
 
 ## [0.3.0] - 2026-02-23
