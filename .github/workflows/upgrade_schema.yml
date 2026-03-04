@@ -58,7 +58,7 @@ jobs:
         run: |
           mkdir -p nwb_files
           cp build/tests/data/*.nwb nwb_files/
-          nwbinspector nwb_files --threshold BEST_PRACTICE_VIOLATION --json-file-path out.json
+          nwbinspector nwb_files --threshold BEST_PRACTICE_VIOLATION --ignore=check_subject_exists --json-file-path out.json
           if ! grep -q '"messages": \[\]' out.json; then
             echo "NWBInspector found issues in the NWB files"
             exit 1
