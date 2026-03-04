@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+
+## Upcoming  (~June 2026)
+
+### Added
+* ...
+
+### Changed
+* ...
+
+### Fixed
+* Updated nwbinsepctor tests in the CI to `--ignore=check_subject_exists` to ignore the check for subject existence in the test NWB files (@oruebel, [#289](https://github.com/NeurodataWithoutBorders/aqnwb/pull/289))
+
+
 ## [0.3.0] - 2026-02-23
 
 ### Added
