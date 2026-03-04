@@ -9,7 +9,7 @@ authors:
   - name: Stephanie Prince
     equal-contrib: true
     affiliation: 1
-  - name: Joshua Siegle
+  - name: Joshua H. Siegle
     orcid: 0000-0002-7736-4844
     affiliation: 2
   - name: Oliver Ruebel
@@ -69,7 +69,7 @@ AqNWB is built around a multi-layered architecture that separates I/O operations
 
 # Research Impact Statement
 
-The nwb-format plugin [@nwbOpenEphys] integrates NWB with the OpenEphys [@Siegle_2017] acquisition software, enabling direct recording of NWB data during experiments. This integration allows researchers to adopt the NWB standard from the point of data collection, eliminating the need for post-hoc conversion and ensuring that data is immediately available in a standardized format for analysis and sharing. By facilitating real-time NWB recording, this plugin promotes FAIR data practices, enhances metadata integrity, and accelerates reproducible neuroscience research. Further integrations of AqNWB with other acquisition systems are ongoing. AqNWB supports data acquisition and reading of NWB data and integration of extensions via the following workflows.
+The nwb-format plugin [@nwbOpenEphys] integrates NWB with the Open Ephys GUI [@Siegle_2017] acquisition software, enabling direct recording of NWB data during experiments. This integration allows researchers to adopt the NWB standard from the point of data collection, eliminating the need for post-hoc conversion and ensuring that data is immediately available in a standardized format for analysis and sharing. By facilitating real-time NWB recording, this plugin promotes FAIR data practices, enhances metadata integrity, and accelerates reproducible neuroscience research. Further integrations of AqNWB with other acquisition systems are ongoing. AqNWB supports data acquisition and reading of NWB data and integration of extensions via the following workflows.
 
 ## Data Acquisition
 
@@ -108,14 +108,14 @@ AqNWB's extension system supports automatic schema caching (embedding extension 
 
 # AI Usage Disclosure
 
-Original design and implementation of the software by S. Prince and O. Ruebel. GitHub CoPilot was used in development and review of select features documented in the respective pull requests on GitHub. All code (both human and AI-generated) has undergone review by the development team via GitHub pull requests.
+Original design and implementation of the software by S. Prince and O. Ruebel. GitHub Copilot was used in development and review of select features documented in the respective pull requests on GitHub. All code (both human and AI-generated) has undergone review by the development team via GitHub pull requests.
 
 # Acknowledgments
 
 Research reported in this publication was supported by the National Institute Of Neurological Disorders And Stroke of the National Institutes of Health under Award Number R03NS145401. The content is solely the responsibility of the authors and does  
 not necessarily represent the official views of the National Institutes of Health. Initial design of AqNWB was supported by the Kavli Foundation. 
 
-We thank and acknowledge contributions from Chadwick Boulay, Likhith Chitneni, Benjamin Dichter, Ryan Ly, and Joshua Siegle to the AqNWB software.
+We thank and acknowledge contributions from Chadwick Boulay, Likhith Chitneni, Benjamin Dichter, and Ryan Ly to the AqNWB software.
 
 We thank the Neurodata Without Borders (NWB) community for developing and maintaining the NWB standard, and the broader open-source community for their feedback and contributions. We are grateful to research groups and acquisition system teams who provided real-world requirements that shaped AqNWB's design.  
 
