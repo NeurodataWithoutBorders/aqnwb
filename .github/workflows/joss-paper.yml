@@ -9,6 +9,8 @@ on:
 jobs:
   paper:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     name: Paper Draft
     steps:
       - name: Checkout
