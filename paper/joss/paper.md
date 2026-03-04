@@ -45,7 +45,7 @@ Despite this widespread adoption, a critical gap remains in the data acquisition
 
 AqNWB addresses these challenges by providing a high-performance, lightweight C++ API that enables direct acquisition of neurophysiological and behavior data in NWB files. By integrating NWB support at the point of data collection, AqNWB eliminates conversion bottlenecks, preserves metadata integrity, and facilitates compliance with FAIR data principles. This approach empowers acquisition software developers and research groups to adopt standardized data practices from the outset.
 
-# State of the Fields
+# State of the Field
 
 NWB software APIs are currently mainly focused on Python (PyNWB) and MATLAB (MatNWB). Researchers commonly convert data to NWB after acquisition using these APIs and dedicated data conversion tools, e.g., NeuroConv and NWB GUIDE. Direct integration of NWB with data acquisition systems is limited by the lack of a native C++ API for NWB. 
 
