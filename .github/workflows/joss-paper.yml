@@ -1,9 +1,10 @@
 on:
   push:
     branches:
-      - paper
-    paths:
-      - "paper/joss/**"
+      - joss_paper
+  pull_request:
+    branches:
+      - joss_paper
   workflow_dispatch:
 
 jobs:
