@@ -114,7 +114,7 @@ jobs:
       run: ctest --output-on-failure --no-tests=error -j 2
 
   validate:
-    needs: [test, sanitize]
+    needs: [test]
     defaults:
       run:
         shell: bash
