@@ -47,7 +47,7 @@ AqNWB addresses these challenges by providing a high-performance, lightweight C+
 
 # State of the Field
 
-NWB software APIs are currently mainly focused on Python (PyNWB) and MATLAB (MatNWB). Researchers commonly convert data to NWB after acquisition using these APIs and dedicated data conversion tools, e.g., NeuroConv and NWB GUIDE. Direct integration of NWB with data acquisition systems is limited by the lack of a native C++ API for NWB. 
+NWB software APIs are currently mainly focused on Python (PyNWB) and MATLAB (MatNWB). Researchers commonly convert data to NWB after acquisition using these APIs and dedicated data conversion tools, e.g., NeuroConv [@mayorquin2025neuroconv] and NWB GUIDE (RRID:SCR_025467). Direct integration of NWB with data acquisition systems is limited by the lack of a native C++ API for NWB.
 
 # Software Design
 
