@@ -195,6 +195,154 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     REQUIRE_THAT(dataOut[1], Catch::Matchers::Approx(mockData[1]).margin(1));
   }
 
+  SECTION("test writing interleaved multichannel data")
+  {
+    // setup io object
+    std::string path =
+        getTestFilePath("ElectricalSeriesMultichannel.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+    io->createGroup("/general");
+    io->createGroup("/general/extracellular_ephys");
+
+    // setup device and electrode group
+    auto device = NWB::Device::create(devicePath, io);
+    device->initialize("description", "unknown");
+    auto elecGroup = NWB::ElectrodeGroup::create(electrodePath, io);
+    elecGroup->initialize("description", "unknown", device);
+
+    // setup electrode table
+    auto elecTable = NWB::ElectrodesTable::create(io);
+    Status elecTableStatus = elecTable->initialize();
+    REQUIRE(elecTableStatus == Status::Success);
+    elecTable->addElectrodes(mockArrays[0]);
+    elecTableStatus = elecTable->finalize();
+    REQUIRE(elecTableStatus == Status::Success);
+
+    // setup electrical series
+    auto es = NWB::ElectricalSeries::create(dataPath, io);
+    IO::ArrayDataSetConfig config(
+        dataType, SizeArray {0, mockArrays[0].size()}, SizeArray {1, 1});
+    es->initialize(config, mockArrays[0], "no description");
+
+    // Build interleaved buffer: layout [t0_ch0, t0_ch1, t1_ch0, t1_ch1, ...]
+    std::vector<float> interleavedData(numSamples * numChannels);
+    for (SizeType t = 0; t < numSamples; ++t) {
+      for (SizeType ch = 0; ch < numChannels; ++ch) {
+        interleavedData[t * numChannels + ch] = mockData[ch][t];
+      }
+    }
+
+    // Write all channels at once using the new writeData method
+    Status writeStatus = es->writeData(
+        numSamples, interleavedData.data(), mockTimestamps.data());
+    REQUIRE(writeStatus == Status::Success);
+
+    io->flush();
+    io->close();
+
+    // Read data back and verify
+    std::unique_ptr<H5::H5File> file =
+        std::make_unique<H5::H5File>(path, H5F_ACC_RDONLY);
+    std::unique_ptr<H5::DataSet> dataset =
+        std::make_unique<H5::DataSet>(file->openDataSet(dataPath + "/data"));
+    float* readBuffer = new float[numSamples * numChannels];
+
+    H5::DataSpace fSpace = dataset->getSpace();
+    hsize_t dims[1] = {numSamples * numChannels};
+    H5::DataSpace mSpace(1, dims);
+    dataset->read(readBuffer, H5::PredType::NATIVE_FLOAT, mSpace, fSpace);
+
+    std::vector<std::vector<float>> dataOut(numChannels,
+                                            std::vector<float>(numSamples));
+    for (SizeType i = 0; i < numChannels; ++i) {
+      for (SizeType j = 0; j < numSamples; ++j) {
+        dataOut[i][j] = readBuffer[j * numChannels + i];
+      }
+    }
+    delete[] readBuffer;
+    REQUIRE_THAT(dataOut[0], Catch::Matchers::Approx(mockData[0]).margin(1));
+    REQUIRE_THAT(dataOut[1], Catch::Matchers::Approx(mockData[1]).margin(1));
+  }
+
+  SECTION("test writing interleaved multichannel data in segments")
+  {
+    // setup io object
+    std::string path =
+        getTestFilePath("ElectricalSeriesMultichannelSegmented.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+    io->createGroup("/general");
+    io->createGroup("/general/extracellular_ephys");
+
+    // setup device and electrode group
+    auto device = NWB::Device::create(devicePath, io);
+    device->initialize("description", "unknown");
+    auto elecGroup = NWB::ElectrodeGroup::create(electrodePath, io);
+    elecGroup->initialize("description", "unknown", device);
+
+    // setup electrode table
+    auto elecTable = NWB::ElectrodesTable::create(io);
+    Status elecTableStatus = elecTable->initialize();
+    REQUIRE(elecTableStatus == Status::Success);
+    elecTable->addElectrodes(mockArrays[0]);
+    elecTableStatus = elecTable->finalize();
+    REQUIRE(elecTableStatus == Status::Success);
+
+    // setup electrical series
+    auto es = NWB::ElectricalSeries::create(dataPath, io);
+    IO::ArrayDataSetConfig config(
+        dataType, SizeArray {0, mockArrays[0].size()}, SizeArray {1, 1});
+    es->initialize(config, mockArrays[0], "no description");
+
+    // Build interleaved buffer for the full dataset
+    std::vector<float> interleavedData(numSamples * numChannels);
+    for (SizeType t = 0; t < numSamples; ++t) {
+      for (SizeType ch = 0; ch < numChannels; ++ch) {
+        interleavedData[t * numChannels + ch] = mockData[ch][t];
+      }
+    }
+
+    // Write in chunks using writeData
+    SizeType samplesRecorded = 0;
+    while (samplesRecorded < numSamples) {
+      SizeType chunkSamples =
+          std::min(bufferSize, numSamples - samplesRecorded);
+      Status writeStatus = es->writeData(
+          chunkSamples,
+          interleavedData.data()
+              + samplesRecorded * numChannels,
+          mockTimestamps.data() + samplesRecorded);
+      REQUIRE(writeStatus == Status::Success);
+      samplesRecorded += chunkSamples;
+    }
+
+    io->close();
+
+    // Read data back and verify
+    std::unique_ptr<H5::H5File> file =
+        std::make_unique<H5::H5File>(path, H5F_ACC_RDONLY);
+    std::unique_ptr<H5::DataSet> dataset =
+        std::make_unique<H5::DataSet>(file->openDataSet(dataPath + "/data"));
+    float* readBuffer = new float[numSamples * numChannels];
+
+    H5::DataSpace fSpace = dataset->getSpace();
+    hsize_t dims[1] = {numSamples * numChannels};
+    H5::DataSpace mSpace(1, dims);
+    dataset->read(readBuffer, H5::PredType::NATIVE_FLOAT, mSpace, fSpace);
+
+    std::vector<std::vector<float>> dataOut(numChannels,
+                                            std::vector<float>(numSamples));
+    for (SizeType i = 0; i < numChannels; ++i) {
+      for (SizeType j = 0; j < numSamples; ++j) {
+        dataOut[i][j] = readBuffer[j * numChannels + i];
+      }
+    }
+    delete[] readBuffer;
+    REQUIRE_THAT(dataOut[0], Catch::Matchers::Approx(mockData[0]).margin(1));
+    REQUIRE_THAT(dataOut[1], Catch::Matchers::Approx(mockData[1]).margin(1));
+  }
+
   SECTION("test writing electrodes")
   {
     std::vector<Types::ChannelVector> mockArraysElectrodes =

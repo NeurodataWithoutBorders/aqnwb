@@ -152,9 +152,30 @@ Status ElectricalSeries::writeChannel(SizeType channelInd,
 
   // write channel data
   if (channelInd == 0) {
-    return writeData(
+    return TimeSeries::writeData(
         dataShape, positionOffset, dataInput, timestampsInput, controlInput);
   } else {
-    return writeData(dataShape, positionOffset, dataInput);
+    return TimeSeries::writeData(dataShape, positionOffset, dataInput);
   }
+}
+
+Status ElectricalSeries::writeData(const SizeType& numSamples,
+                                   const void* dataInput,
+                                   const void* timestampsInput,
+                                   const void* controlInput)
+{
+  // Write all channels at once using a [numSamples, numChannels] block.
+  // The caller provides data in interleaved (row-major) order:
+  //   [t0_ch0, t0_ch1, ..., t0_chK, t1_ch0, ..., tJ_chK]
+  SizeType numChannels = m_channelVector.size();
+  SizeArray dataShape = {numSamples, numChannels};
+  SizeArray positionOffset = {m_samplesRecorded[0], 0};
+
+  // Advance the sample counter for every channel.
+  for (auto& count : m_samplesRecorded) {
+    count += numSamples;
+  }
+
+  return TimeSeries::writeData(
+      dataShape, positionOffset, dataInput, timestampsInput, controlInput);
 }

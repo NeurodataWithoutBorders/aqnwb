@@ -83,6 +83,35 @@ public:
                       const void* controlInput = nullptr);
 
   /**
+   * @brief Writes a block of multichannel samples to an ElectricalSeries
+   * dataset in a single operation.
+   *
+   * This method accepts interleaved multichannel data laid out in row-major
+   * (C) order: `[t0_ch0, t0_ch1, ..., t0_chK, t1_ch0, ..., tJ_chK]`,
+   * i.e. a contiguous 2D array of shape `[numSamples, numChannels]`.
+   * Writing all channels in one call avoids the per-channel de-interleaving
+   * copy that would otherwise be required when using @ref writeChannel.
+   *
+   * @param numSamples The number of time samples (rows) to write.
+   * @param dataInput Pointer to the interleaved data buffer with shape
+   *                  `[numSamples, numChannels]`.
+   * @param timestampsInput A pointer to the timestamps array of length
+   *                        `numSamples` (optional).
+   * @param controlInput A pointer to the control array of length `numSamples`
+   *                     (optional).
+   * @return The status of the write operation.
+   */
+  Status writeData(const SizeType& numSamples,
+                   const void* dataInput,
+                   const void* timestampsInput = nullptr,
+                   const void* controlInput = nullptr);
+
+  // Bring the base-class overload into scope so that subclasses (e.g.
+  // SpikeEventSeries) can still call TimeSeries::writeData with the full
+  // (dataShape, positionOffset, …) signature.
+  using TimeSeries::writeData;
+
+  /**
    * @brief Channel group that this time series is associated with.
    */
   Types::ChannelVector m_channelVector;
