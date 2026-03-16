@@ -157,4 +157,82 @@ TEST_CASE("workflowExamples")
     io->close();
     // [example_workflow_stop_snippet]
   }
+
+  SECTION("write all channels workflow")
+  {
+    // 0. setup mock data with a single electrode array covering all channels
+    SizeType numChannels = 4;
+    SizeType numSamples = 300;
+    SizeType samplesRecorded = 0;
+    SizeType bufferSize = numSamples / 10;
+
+    // Single electrode array containing all channels
+    std::vector<Types::ChannelVector> mockRecordingArrays =
+        getMockChannelArrays(numChannels, 1);
+    std::vector<std::string> mockChannelNames =
+        getMockChannelArrayNames("esdata_allch", 1);
+    std::vector<std::vector<float>> mockData =
+        getMockData2D(numSamples, numChannels);
+    std::vector<double> mockTimestamps = getMockTimestamps(numSamples);
+
+    std::string path = getTestFilePath("exampleRecordingAllChannels.nwb");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    auto nwbfile = NWB::NWBFile::create(io);
+    Status initStatus = nwbfile->initialize(generateUuid());
+    REQUIRE(initStatus == Status::Success);
+
+    auto elecTable = nwbfile->createElectrodesTable(mockRecordingArrays);
+    REQUIRE(elecTable != nullptr);
+
+    std::vector<SizeType> containerIndexes = {};
+    Status elecSeriesStatus =
+        nwbfile->createElectricalSeries(mockRecordingArrays,
+                                        mockChannelNames,
+                                        BaseDataType::F32,
+                                        containerIndexes);
+    REQUIRE(elecSeriesStatus == Status::Success);
+
+    auto recordingObjects = io->getRecordingObjects();
+
+    Status startRecordingStatus = io->startRecording();
+    REQUIRE(startRecordingStatus == Status::Success);
+
+    // write data during the recording using the all-channels write
+    bool isRecording = true;
+    while (isRecording) {
+      // Build interleaved buffer: [t0_ch0, t0_ch1, ..., tJ_chK]
+      std::vector<float> interleavedBuffer(bufferSize * numChannels);
+      std::vector<double> timestampsBuffer(bufferSize);
+      for (SizeType t = 0; t < bufferSize; ++t) {
+        for (SizeType ch = 0; ch < numChannels; ++ch) {
+          interleavedBuffer[t * numChannels + ch] =
+              mockData[ch][samplesRecorded + t];
+        }
+        timestampsBuffer[t] = mockTimestamps[samplesRecorded + t];
+      }
+
+      // [example_workflow_write_allchannels_snippet]
+      // Pass nullptr for controlInput when no control data is needed.
+      // To write control data, pass a pointer to an array of length bufferSize
+      // containing per-sample control values (e.g. electrode identifiers).
+      IO::writeElectricalSeriesData(recordingObjects,
+                                    containerIndexes[0],
+                                    bufferSize,
+                                    interleavedBuffer.data(),
+                                    timestampsBuffer.data(),
+                                    nullptr);
+      io->flush();
+      // [example_workflow_write_allchannels_snippet]
+
+      samplesRecorded += bufferSize;
+      if (samplesRecorded >= numSamples) {
+        isRecording = false;
+      }
+    }
+
+    io->stopRecording();
+    io->close();
+  }
 }

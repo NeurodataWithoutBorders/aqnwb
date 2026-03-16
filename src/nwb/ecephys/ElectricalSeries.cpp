@@ -160,9 +160,9 @@ Status ElectricalSeries::writeChannel(SizeType channelInd,
 }
 
 Status ElectricalSeries::writeAllChannels(const SizeType& numSamples,
-                                   const void* dataInput,
-                                   const void* timestampsInput,
-                                   const void* controlInput)
+                                          const void* dataInput,
+                                          const void* timestampsInput,
+                                          const void* controlInput)
 {
   // Write all channels at once using a [numSamples, numChannels] block.
   // The caller provides data in interleaved (row-major) order:

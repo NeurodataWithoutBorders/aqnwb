@@ -198,8 +198,7 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
   SECTION("test writing interleaved multichannel data")
   {
     // setup io object
-    std::string path =
-        getTestFilePath("ElectricalSeriesMultichannel.h5");
+    std::string path = getTestFilePath("ElectricalSeriesMultichannel.h5");
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
     io->createGroup("/general");
@@ -308,8 +307,7 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
           std::min(bufferSize, numSamples - samplesRecorded);
       Status writeStatus = es->writeAllChannels(
           chunkSamples,
-          interleavedData.data()
-              + samplesRecorded * numChannels,
+          interleavedData.data() + samplesRecorded * numChannels,
           mockTimestamps.data() + samplesRecorded);
       REQUIRE(writeStatus == Status::Success);
       samplesRecorded += chunkSamples;
