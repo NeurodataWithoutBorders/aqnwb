@@ -101,15 +101,10 @@ public:
    *                     (optional).
    * @return The status of the write operation.
    */
-  Status writeData(const SizeType& numSamples,
-                   const void* dataInput,
-                   const void* timestampsInput = nullptr,
-                   const void* controlInput = nullptr);
-
-  // Bring the base-class overload into scope so that subclasses (e.g.
-  // SpikeEventSeries) can still call TimeSeries::writeData with the full
-  // (dataShape, positionOffset, …) signature.
-  using TimeSeries::writeData;
+  Status writeAllChannels(const SizeType& numSamples,
+                          const void* dataInput,
+                          const void* timestampsInput = nullptr,
+                          const void* controlInput = nullptr);
 
   /**
    * @brief Channel group that this time series is associated with.

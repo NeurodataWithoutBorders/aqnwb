@@ -233,15 +233,13 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
       }
     }
 
-    // Write all channels at once using the new writeData method
-    Status writeStatus = es->writeData(
+    // Write all channels at once using the new writeAllChannels method
+    Status writeStatus = es->writeAllChannels(
         numSamples, interleavedData.data(), mockTimestamps.data());
     REQUIRE(writeStatus == Status::Success);
 
     io->flush();
     io->close();
-
-    // Read data back and verify
     std::unique_ptr<H5::H5File> file =
         std::make_unique<H5::H5File>(path, H5F_ACC_RDONLY);
     std::unique_ptr<H5::DataSet> dataset =
@@ -308,7 +306,7 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     while (samplesRecorded < numSamples) {
       SizeType chunkSamples =
           std::min(bufferSize, numSamples - samplesRecorded);
-      Status writeStatus = es->writeData(
+      Status writeStatus = es->writeAllChannels(
           chunkSamples,
           interleavedData.data()
               + samplesRecorded * numChannels,

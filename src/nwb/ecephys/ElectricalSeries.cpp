@@ -159,7 +159,7 @@ Status ElectricalSeries::writeChannel(SizeType channelInd,
   }
 }
 
-Status ElectricalSeries::writeData(const SizeType& numSamples,
+Status ElectricalSeries::writeAllChannels(const SizeType& numSamples,
                                    const void* dataInput,
                                    const void* timestampsInput,
                                    const void* controlInput)
