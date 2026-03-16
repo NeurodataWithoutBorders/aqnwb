@@ -108,6 +108,45 @@ static inline AQNWB::Types::Status writeElectricalSeriesData(
 }
 
 /**
+ * @brief Write all channels of an ElectricalSeries dataset in a single call.
+ *
+ * Accepts interleaved multichannel data laid out in row-major (C) order:
+ * `[t0_ch0, t0_ch1, ..., t0_chK, t1_ch0, ..., tJ_chK]`, i.e. a contiguous
+ * 2D array of shape `[numSamples, numChannels]`.  Writing all channels at
+ * once avoids the per-channel de-interleaving copy required by the
+ * channel-per-call overload above.
+ *
+ * @param recording_objects A shared pointer to the RecordingObjects instance.
+ * @param containerInd The index of the electrical series dataset within the
+ * electrical series group.
+ * @param numSamples Number of time samples (rows) to write.
+ * @param data A pointer to the interleaved data buffer with shape
+ *             `[numSamples, numChannels]`.
+ * @param timestamps A pointer to the timestamps array of length `numSamples`
+ *                   (optional).
+ * @param controlInput A pointer to the control array of length `numSamples`
+ *                     (optional).
+ * @return The status of the write operation.
+ */
+static inline AQNWB::Types::Status writeElectricalSeriesData(
+    std::shared_ptr<RecordingObjects> recording_objects,
+    const AQNWB::Types::SizeType& containerInd,
+    const AQNWB::Types::SizeType& numSamples,
+    const void* data,
+    const void* timestamps,
+    const void* controlInput = nullptr)
+{
+  auto registeredObject = recording_objects->getRecordingObject(containerInd);
+  auto es =
+      std::dynamic_pointer_cast<AQNWB::NWB::ElectricalSeries>(registeredObject);
+
+  if (es == nullptr)
+    return AQNWB::Types::Status::Failure;
+
+  return es->writeAllChannels(numSamples, data, timestamps, controlInput);
+}
+
+/**
  * @brief Write SpikeEventSeries data to a recordingContainer dataset.
  * @param recording_objects A shared pointer to the RecordingObjects instance.
  * @param containerInd The index of the SpikeEventSeries dataset within the
