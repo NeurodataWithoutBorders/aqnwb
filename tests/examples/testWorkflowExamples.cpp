@@ -102,20 +102,17 @@ TEST_CASE("workflowExamples")
                   + static_cast<std::ptrdiff_t>(samplesRecorded + bufferSize),
               timestampsBuffer.begin());
 
-          // write timeseries data
-          SizeArray positionOffset = {samplesRecorded, channel.getLocalIndex()};
-          SizeArray dataShape = {dataBuffer.size(), 1};
+          // Convert float buffer to int16 using channel's bitVolts
           std::unique_ptr<int16_t[]> intBuffer = transformToInt16(
               dataBuffer.size(), channel.getBitVolts(), dataBuffer.data());
 
           // [example_workflow_write_snippet]
-          IO::writeTimeseriesData(recordingObjects,
-                                  containerIndexes[i],
-                                  channel,
-                                  dataShape,
-                                  positionOffset,
-                                  intBuffer.get(),
-                                  timestampsBuffer.data());
+          IO::writeElectricalSeriesData(recordingObjects,
+                                        containerIndexes[i],
+                                        channel,
+                                        dataBuffer.size(),
+                                        intBuffer.get(),
+                                        timestampsBuffer.data());
           io->flush();
           // [example_workflow_write_snippet]
         }
@@ -127,28 +124,32 @@ TEST_CASE("workflowExamples")
       }
     }
 
-    // Build a row-major interleaved buffer [bufferSize × numChInArray0] for the
-    // first ElectricalSeries (channels 0..1 of mockRecordingArrays[0]) and
-    // write all channels in a single call. Reuse the first bufferSize samples.
+    // Build a row-major interleaved int16_t buffer [bufferSize × numChInArray0]
+    // for the first ElectricalSeries (channels 0..1 of mockRecordingArrays[0])
+    // and write all channels in a single call. Reuse the first bufferSize
+    // samples. All mock channels share the same bitVolts conversion factor.
     SizeType numChInArray0 = mockRecordingArrays[0].size();
-    std::vector<float> allChBuf(bufferSize * numChInArray0);
+    float bitVolts = mockRecordingArrays[0][0].getBitVolts();
+    std::vector<float> floatBuf(bufferSize * numChInArray0);
     std::vector<double> allChTimestamps(bufferSize);
     for (SizeType t = 0; t < bufferSize; ++t) {
       for (SizeType c = 0; c < numChInArray0; ++c) {
-        allChBuf[t * numChInArray0 + c] =
+        floatBuf[t * numChInArray0 + c] =
             mockData[mockRecordingArrays[0][c].getGlobalIndex()][t];
       }
       allChTimestamps[t] = mockTimestamps[t];
     }
+    std::unique_ptr<int16_t[]> allChBuf =
+        transformToInt16(bufferSize * numChInArray0, bitVolts, floatBuf.data());
 
     // [example_workflow_write_allchannels_snippet]
-    // Pass the row-major interleaved buffer [numSamples x numChannels]
+    // Pass the row-major interleaved int16_t buffer [bufferSize x numChannels]
     // directly. Pass nullptr for controlInput when no per-sample control data
     // is needed.
     IO::writeElectricalSeriesData(recordingObjects,
                                   containerIndexes[0],
                                   bufferSize,
-                                  allChBuf.data(),
+                                  allChBuf.get(),
                                   allChTimestamps.data(),
                                   nullptr);
     io->flush();
