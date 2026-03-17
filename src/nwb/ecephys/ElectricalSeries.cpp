@@ -1,3 +1,6 @@
+#include <algorithm>
+#include <functional>
+
 #include "nwb/ecephys/ElectricalSeries.hpp"
 
 #include "Utils.hpp"
@@ -164,6 +167,24 @@ Status ElectricalSeries::writeAllChannels(const SizeType& numSamples,
                                           const void* timestampsInput,
                                           const void* controlInput)
 {
+  // All channels must be at the same sample offset before calling this
+  // function (i.e. m_samplesRecorded must be uniform across all channels).
+  // This is always satisfied when writeAllChannels is called exclusively for
+  // every write, but would be violated if writeChannel had previously been
+  // called for only a subset of channels.
+  if (!m_samplesRecorded.empty()
+      && std::adjacent_find(m_samplesRecorded.begin(),
+                            m_samplesRecorded.end(),
+                            std::not_equal_to<SizeType>())
+          != m_samplesRecorded.end())
+  {
+    std::cerr << "ElectricalSeries::writeAllChannels: channels are at "
+                 "different sample offsets. All channels must have the same "
+                 "number of samples recorded before calling writeAllChannels."
+              << std::endl;
+    return Status::Failure;
+  }
+
   // Write all channels at once using a [numSamples, numChannels] block.
   // The caller provides data in interleaved (row-major) order:
   //   [t0_ch0, t0_ch1, ..., t0_chK, t1_ch0, ..., tJ_chK]
