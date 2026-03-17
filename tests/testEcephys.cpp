@@ -1,4 +1,5 @@
 #include <array>
+#include <algorithm>
 
 #include <H5Cpp.h>
 #include <catch2/catch_test_macros.hpp>

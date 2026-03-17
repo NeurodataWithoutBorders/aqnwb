@@ -187,13 +187,18 @@ Status ElectricalSeries::writeAllChannels(const SizeType& numSamples,
   SizeArray dataShape = {numSamples, numChannels};
   SizeArray positionOffset = {m_samplesRecorded[0], 0};
 
-  // Advance the sample counter for every channel.
-  for (auto& count : m_samplesRecorded) {
-    count += numSamples;
+  // Perform the write operation first.
+  Status status = TimeSeries::writeData(
+      dataShape, positionOffset, dataInput, timestampsInput, controlInput);
+
+  // Only advance the sample counter for every channel if the write succeeded.
+  if (status == Status::Success) {
+    for (auto& count : m_samplesRecorded) {
+      count += numSamples;
+    }
   }
 
-  return TimeSeries::writeData(
-      dataShape, positionOffset, dataInput, timestampsInput, controlInput);
+  return status;
 }
 
 bool ElectricalSeries::channelsAtSameSampleOffset() const

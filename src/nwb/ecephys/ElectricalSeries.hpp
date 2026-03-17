@@ -101,8 +101,13 @@ public:
    * @param dataInput Pointer to the interleaved data buffer with shape
    *                  `[numSamples, numChannels]`.
    * @param timestampsInput A pointer to the timestamps array of length
-   *                        `numSamples`. This is optional when sampling_rate is
-   *                        provided when explicit timestamps are used.
+   *                        `numSamples`. This pointer must be non-null when
+   *                        this ElectricalSeries is configured to use explicit
+   *                        timestamps. When the series instead uses implicit
+   *                        time via `starting_time` together with a
+   *                        `rate`/`sampling_rate`, this parameter should be
+   *                        `nullptr` (or omitted) and no timestamps are
+   *                        written.
    * @param controlInput A pointer to the control array of length `numSamples`
    *                     (optional). Required when control data is used in the
    *                     TimeSeries configuration.

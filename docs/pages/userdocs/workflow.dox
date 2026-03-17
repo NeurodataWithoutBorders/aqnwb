@@ -155,7 +155,7 @@
  * this would be a contiguous 2D buffer of shape `[numSamples, numChannels]` of the form 
  * `[t0_ch0, t0_ch1, ..., t0_chK, t1_ch0, ..., tJ_chK]`, e.g., a `std::vector<std::array<float, numChannels>>`. 
  * \ref AQNWB::NWB::TimeSeries::writeData "TimeSeries::writeData",
- * \ref AQNWB::NWB::ElectricalSeries::writeAllChannels "ElectricalSeries::writeAllChannels ", and 
+ * \ref AQNWB::NWB::ElectricalSeries::writeAllChannels "ElectricalSeries::writeAllChannels", and 
  * the corresponding all-channels overload of \ref AQNWB::IO::writeElectricalSeriesData "writeElectricalSeriesData"
  * accept interleaved data buffers directly to write all channels in a single
  * HDF5 hyperslab call:
