@@ -103,7 +103,6 @@ public:
    * @param timestampsInput A pointer to the timestamps array of length
    *                        `numSamples`. This is optional when sampling_rate is
    *                        provided when explicit timestamps are used.
->>>>>>> 4c593647d02c3c16039bec619fd819a1cf0e3f03
    * @param controlInput A pointer to the control array of length `numSamples`
    *                     (optional). Required when control data is used in the
    *                     TimeSeries configuration.
@@ -114,6 +113,14 @@ public:
                           const void* dataInput,
                           const void* timestampsInput = nullptr,
                           const void* controlInput = nullptr);
+
+  /**
+   * @brief Checks if all channels are at the same sample offset, i.e. if every
+   * channel has the same number of samples recorded.
+   * @return True if all channels are at the same sample offset, false
+   * otherwise.
+   */
+  bool channelsAtSameSampleOffset() const;
 
   /**
    * @brief Channel group that this time series is associated with.

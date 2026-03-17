@@ -172,12 +172,7 @@ Status ElectricalSeries::writeAllChannels(const SizeType& numSamples,
   // This is always satisfied when writeAllChannels is called exclusively for
   // every write, but would be violated if writeChannel had previously been
   // called for only a subset of channels.
-  if (!m_samplesRecorded.empty()
-      && std::adjacent_find(m_samplesRecorded.begin(),
-                            m_samplesRecorded.end(),
-                            std::not_equal_to<SizeType>())
-          != m_samplesRecorded.end())
-  {
+  if (!channelsAtSameSampleOffset()) {
     std::cerr << "ElectricalSeries::writeAllChannels: channels are at "
                  "different sample offsets. All channels must have the same "
                  "number of samples recorded before calling writeAllChannels."
@@ -199,4 +194,13 @@ Status ElectricalSeries::writeAllChannels(const SizeType& numSamples,
 
   return TimeSeries::writeData(
       dataShape, positionOffset, dataInput, timestampsInput, controlInput);
+}
+
+bool ElectricalSeries::channelsAtSameSampleOffset() const
+{
+  return m_samplesRecorded.empty()
+      || std::adjacent_find(m_samplesRecorded.begin(),
+                            m_samplesRecorded.end(),
+                            std::not_equal_to<SizeType>())
+      == m_samplesRecorded.end();
 }
