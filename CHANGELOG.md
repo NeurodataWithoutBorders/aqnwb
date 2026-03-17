@@ -10,8 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Upcoming  (~June 2026)
 
 ### Added
-* Added `ElectricalSeries::writeAllChannels` method and a new `writeElectricalSeriesData` overload (without `channel`, with required `controlInput`) for zero-copy interleaved multichannel writes. Streaming acquisition hardware produces row-major `[t0_ch0, t0_ch1, ..., tJ_chK]` buffers; the new API accepts that buffer directly and writes all channels in a single HDF5 hyperslab call, avoiding any per-channel de-interleaving copy (@copilot, @cboulay, @oruebel, [#293](https://github.com/NeurodataWithoutBorders/aqnwb/pull/293))
-* ...
+* Added `ElectricalSeries::writeAllChannels` method and `IO::writeElectricalSeriesData` overload to simplify zero-copy interleaved multichannel writes. (@copilot, @oruebel, [#293](https://github.com/NeurodataWithoutBorders/aqnwb/pull/293))
+* Added `ElectricalSeries::channelsAtSameSampleOffset` method to check if all channels are at the same sample offset, which is a requirement for using `writeAllChannels`. (@copilot, @oruebel, [#293](https://github.com/NeurodataWithoutBorders/aqnwb/pull/293))
 
 ### Changed
 * ...
