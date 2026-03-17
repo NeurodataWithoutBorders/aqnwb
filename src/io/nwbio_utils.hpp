@@ -123,6 +123,8 @@ static inline AQNWB::Types::Status writeElectricalSeriesData(
  * @param data A pointer to the interleaved data buffer with shape
  *             `[numSamples, numChannels]`.
  * @param timestamps A pointer to the timestamps array of length `numSamples`.
+ *                   Pass \c nullptr when sampling_rate is provided and no
+ *                   explicit timestamps are being recorded.
  * @param controlInput A pointer to the control array of length `numSamples`.
  *                     Pass \c nullptr when no control data is needed.
  * @return The status of the write operation.
@@ -132,8 +134,8 @@ static inline AQNWB::Types::Status writeElectricalSeriesData(
     const AQNWB::Types::SizeType& containerInd,
     const AQNWB::Types::SizeType& numSamples,
     const void* data,
-    const void* timestamps,
-    const void* controlInput)
+    const void* timestamps = nullptr,
+    const void* controlInput = nullptr)
 {
   auto registeredObject = recording_objects->getRecordingObject(containerInd);
   auto es =

@@ -95,10 +95,10 @@ public:
    *                  `[numSamples, numChannels]`.
    * @param timestampsInput A pointer to the timestamps array of length
    *                        `numSamples`. This is optional when sampling_rate is
-   *                        provided in the dataset configuration, but must be provided
-   *                        when explicit timestamps are used.
+   *                        provided in the dataset configuration, but must be
+   * provided when explicit timestamps are used.
    * @param controlInput A pointer to the control array of length `numSamples`
-   *                     (optional). Required when control data is used in the 
+   *                     (optional). Required when control data is used in the
    *                     TimeSeries configuration.
    */
   Status writeAllChannels(const SizeType& numSamples,
