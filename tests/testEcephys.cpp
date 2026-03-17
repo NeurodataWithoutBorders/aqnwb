@@ -339,6 +339,66 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     REQUIRE_THAT(dataOut[1], Catch::Matchers::Approx(mockData[1]).margin(1));
   }
 
+  SECTION("test channelsAtSameSampleOffset")
+  {
+    // setup io object
+    std::string path = getTestFilePath("ElectricalSeriesChannelOffset.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+    io->createGroup("/general");
+    io->createGroup("/general/extracellular_ephys");
+
+    // setup device and electrode group
+    auto device = NWB::Device::create(devicePath, io);
+    device->initialize("description", "unknown");
+    auto elecGroup = NWB::ElectrodeGroup::create(electrodePath, io);
+    elecGroup->initialize("description", "unknown", device);
+
+    // setup electrode table
+    auto elecTable = NWB::ElectrodesTable::create(io);
+    elecTable->initialize();
+    elecTable->addElectrodes(mockArrays[0]);
+    elecTable->finalize();
+
+    // setup electrical series with 2 channels
+    auto es = NWB::ElectricalSeries::create(dataPath, io);
+    IO::ArrayDataSetConfig config(
+        dataType, SizeArray {0, mockArrays[0].size()}, SizeArray {1, 1});
+    es->initialize(config, mockArrays[0], "no description");
+
+    // Immediately after initialize all per-channel counters are 0 → same
+    // offset, so the function should return true.
+    REQUIRE(es->channelsAtSameSampleOffset() == true);
+
+    // Write the same number of samples to every channel; offsets remain
+    // equal, so the function should still return true.
+    es->writeChannel(0, bufferSize, mockData[0].data(), mockTimestamps.data());
+    es->writeChannel(1, bufferSize, mockData[1].data(), mockTimestamps.data());
+    REQUIRE(es->channelsAtSameSampleOffset() == true);
+
+    // Write only to channel 0 so that its offset now exceeds channel 1's.
+    // The function should report false, and writeAllChannels should fail.
+    es->writeChannel(0, bufferSize, mockData[0].data(), mockTimestamps.data());
+    REQUIRE(es->channelsAtSameSampleOffset() == false);
+
+    // writeAllChannels must return Failure when offsets differ.
+    std::vector<float> interleavedData(bufferSize * numChannels);
+    Status writeStatus = es->writeAllChannels(
+        bufferSize, interleavedData.data(), mockTimestamps.data());
+    REQUIRE(writeStatus == Status::Failure);
+
+    // Restore balance: write the same number of samples to channel 1.
+    es->writeChannel(1, bufferSize, mockData[1].data(), mockTimestamps.data());
+    REQUIRE(es->channelsAtSameSampleOffset() == true);
+
+    // After rebalancing, writeAllChannels should succeed.
+    writeStatus = es->writeAllChannels(
+        bufferSize, interleavedData.data(), mockTimestamps.data());
+    REQUIRE(writeStatus == Status::Success);
+
+    io->close();
+  }
+
   SECTION("test writing electrodes")
   {
     std::vector<Types::ChannelVector> mockArraysElectrodes =
