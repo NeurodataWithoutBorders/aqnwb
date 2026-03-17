@@ -90,16 +90,25 @@ public:
    * (C) order: `[t0_ch0, t0_ch1, ..., t0_chK, t1_ch0, ..., tJ_chK]`,
    * i.e. a contiguous 2D array of shape `[numSamples, numChannels]`.
    *
+   * @note All channels must be at the same sample offset when this method is
+   * called, i.e. every channel must have the same number of samples already
+   * recorded. This condition is automatically satisfied when only
+   * `writeAllChannels` (and not `writeChannel`) is used for writing. Mixing
+   * `writeChannel` calls for a subset of channels with `writeAllChannels` will
+   * violate this requirement and result in a failure status.
+   *
    * @param numSamples The number of time samples (rows) to write.
    * @param dataInput Pointer to the interleaved data buffer with shape
    *                  `[numSamples, numChannels]`.
    * @param timestampsInput A pointer to the timestamps array of length
    *                        `numSamples`. This is optional when sampling_rate is
-   *                        provided in the dataset configuration, but must be provided
-   *                        when explicit timestamps are used.
+   *                        provided in the dataset configuration, but must be
+   *                        provided when explicit timestamps are used.
    * @param controlInput A pointer to the control array of length `numSamples`
-   *                     (optional). Required when control data is used in the 
+   *                     (optional). Required when control data is used in the
    *                     TimeSeries configuration.
+   * @return The status of the write operation. Returns `Status::Failure` if
+   *         the channels are at different sample offsets.
    */
   Status writeAllChannels(const SizeType& numSamples,
                           const void* dataInput,
