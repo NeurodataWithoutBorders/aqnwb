@@ -50,9 +50,11 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
   // Helper: creates and initialises an IO object together with the standard
   // device / electrode-group / electrode-table / ElectricalSeries stack that
   // is common to all write-related test SECTIONs in this TEST_CASE.
+  // Returns {io, es, elecTable}.
   auto createTestElectricalSeries = [&](const std::string& path)
-      -> std::pair<std::shared_ptr<BaseIO>,
-                   std::shared_ptr<NWB::ElectricalSeries>>
+      -> std::tuple<std::shared_ptr<BaseIO>,
+                    std::shared_ptr<NWB::ElectricalSeries>,
+                    std::shared_ptr<NWB::ElectrodesTable>>
   {
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
@@ -76,43 +78,19 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
         dataType, SizeArray {0, mockArrays[0].size()}, SizeArray {1, 1});
     es->initialize(config, mockArrays[0], "no description");
 
-    return {io, es};
+    return {io, es, elecTable};
   };
 
   SECTION("test writing channels")
   {
-    // setup io object
     std::string path = getTestFilePath("ElectricalSeries.h5");
-    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
-    io->open();
-    io->createGroup("/general");
-    io->createGroup("/general/extracellular_ephys");
-
-    // setup device and electrode group
-    auto device = NWB::Device::create(devicePath, io);
-    device->initialize("description", "unknown");
-    auto elecGroup = NWB::ElectrodeGroup::create(electrodePath, io);
-    elecGroup->initialize("description", "unknown", device);
-
-    // setup electrode table, device, and electrode group
-    auto elecTable = NWB::ElectrodesTable::create(io);
-    Status elecTableStatus = elecTable->initialize();
-    REQUIRE(elecTableStatus == Status::Success);
-    elecTable->addElectrodes(mockArrays[0]);
-    elecTableStatus = elecTable->finalize();
-    REQUIRE(elecTableStatus == Status::Success);
+    auto [io, es, elecTable] = createTestElectricalSeries(path);
 
     // Confirm that the electrode table is created correctly
     auto readColNames = elecTable->readColNames()->values().data;
     std::vector<std::string> expectedColNames = {
         "location", "group", "group_name"};
     REQUIRE(readColNames == expectedColNames);
-
-    // setup electrical series
-    auto es = NWB::ElectricalSeries::create(dataPath, io);
-    IO::ArrayDataSetConfig config(
-        dataType, SizeArray {0, mockArrays[0].size()}, SizeArray {1, 1});
-    es->initialize(config, mockArrays[0], "no description");
 
     // write channel data
     for (SizeType ch = 0; ch < numChannels; ++ch) {
@@ -148,38 +126,14 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
 
   SECTION("test samples recorded tracking")
   {
-    // setup io object
     std::string path = getTestFilePath("ElectricalSeriesSampleTracking.h5");
-    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
-    io->open();
-    io->createGroup("/general");
-    io->createGroup("/general/extracellular_ephys");
-
-    // setup device and electrode group
-    auto device = NWB::Device::create(devicePath, io);
-    device->initialize("description", "unknown");
-    auto elecGroup = NWB::ElectrodeGroup::create(electrodePath, io);
-    elecGroup->initialize("description", "unknown", device);
-
-    // setup electrode table
-    auto elecTable = NWB::ElectrodesTable::create(io);
-    Status elecTableStatus = elecTable->initialize();
-    REQUIRE(elecTableStatus == Status::Success);
-    elecTable->addElectrodes(mockArrays[0]);
-    elecTableStatus = elecTable->finalize();
-    REQUIRE(elecTableStatus == Status::Success);
+    auto [io, es, elecTable] = createTestElectricalSeries(path);
 
     // Confirm that the electrode table is created correctly
     auto readColNames = elecTable->readColNames()->values().data;
     std::vector<std::string> expectedColNames = {
         "location", "group", "group_name"};
     REQUIRE(readColNames == expectedColNames);
-
-    // setup electrical series
-    auto es = NWB::ElectricalSeries::create(dataPath, io);
-    IO::ArrayDataSetConfig config(
-        dataType, SizeArray {0, mockArrays[0].size()}, SizeArray {1, 1});
-    es->initialize(config, mockArrays[0], "no description");
 
     // write channel data in segments
     for (SizeType ch = 0; ch < numChannels; ++ch) {
@@ -233,7 +187,7 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
   {
     // setup io object and electrical series
     std::string path = getTestFilePath("ElectricalSeriesMultichannel.h5");
-    auto [io, es] = createTestElectricalSeries(path);
+    auto [io, es, elecTable] = createTestElectricalSeries(path);
 
     // Build interleaved buffer as 2D array: interleavedData[t][ch]
     std::array<std::array<float, numChannels>, numSamples> interleavedData;
@@ -278,7 +232,7 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     // setup io object and electrical series
     std::string path =
         getTestFilePath("ElectricalSeriesMultichannelSegmented.h5");
-    auto [io, es] = createTestElectricalSeries(path);
+    auto [io, es, elecTable] = createTestElectricalSeries(path);
 
     // Build interleaved buffer as 2D array: interleavedData[t][ch]
     std::array<std::array<float, numChannels>, numSamples> interleavedData;
@@ -331,7 +285,7 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
   {
     // setup io object and electrical series
     std::string path = getTestFilePath("ElectricalSeriesChannelOffset.h5");
-    auto [io, es] = createTestElectricalSeries(path);
+    auto [io, es, elecTable] = createTestElectricalSeries(path);
 
     // Immediately after initialize all per-channel counters are 0 → same
     // offset, so the function should return true.
