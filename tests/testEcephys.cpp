@@ -1,3 +1,5 @@
+#include <array>
+
 #include <H5Cpp.h>
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_all.hpp>
@@ -31,7 +33,7 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
 {
   // setup recording info
   SizeType numSamples = 100;
-  SizeType numChannels = 2;
+  constexpr SizeType numChannels = 2;
   SizeType bufferSize = numSamples / 5;
   std::vector<float> dataBuffer(bufferSize);
   std::vector<double> timestampsBuffer(bufferSize);
@@ -224,11 +226,11 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
         dataType, SizeArray {0, mockArrays[0].size()}, SizeArray {1, 1});
     es->initialize(config, mockArrays[0], "no description");
 
-    // Build interleaved buffer: layout [t0_ch0, t0_ch1, t1_ch0, t1_ch1, ...]
-    std::vector<float> interleavedData(numSamples * numChannels);
+    // Build interleaved buffer as 2D array: interleavedData[t][ch]
+    std::vector<std::array<float, numChannels>> interleavedData(numSamples);
     for (SizeType t = 0; t < numSamples; ++t) {
       for (SizeType ch = 0; ch < numChannels; ++ch) {
-        interleavedData[t * numChannels + ch] = mockData[ch][t];
+        interleavedData[t][ch] = mockData[ch][t];
       }
     }
 
@@ -292,11 +294,11 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
         dataType, SizeArray {0, mockArrays[0].size()}, SizeArray {1, 1});
     es->initialize(config, mockArrays[0], "no description");
 
-    // Build interleaved buffer for the full dataset
-    std::vector<float> interleavedData(numSamples * numChannels);
+    // Build interleaved buffer as 2D array: interleavedData[t][ch]
+    std::vector<std::array<float, numChannels>> interleavedData(numSamples);
     for (SizeType t = 0; t < numSamples; ++t) {
       for (SizeType ch = 0; ch < numChannels; ++ch) {
-        interleavedData[t * numChannels + ch] = mockData[ch][t];
+        interleavedData[t][ch] = mockData[ch][t];
       }
     }
 
@@ -305,10 +307,10 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     while (samplesRecorded < numSamples) {
       SizeType chunkSamples =
           std::min(bufferSize, numSamples - samplesRecorded);
-      Status writeStatus = es->writeAllChannels(
-          chunkSamples,
-          interleavedData.data() + samplesRecorded * numChannels,
-          mockTimestamps.data() + samplesRecorded);
+      Status writeStatus =
+          es->writeAllChannels(chunkSamples,
+                               interleavedData.data() + samplesRecorded,
+                               mockTimestamps.data() + samplesRecorded);
       REQUIRE(writeStatus == Status::Success);
       samplesRecorded += chunkSamples;
     }
@@ -382,7 +384,7 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     REQUIRE(es->channelsAtSameSampleOffset() == false);
 
     // writeAllChannels must return Failure when offsets differ.
-    std::vector<float> interleavedData(bufferSize * numChannels);
+    std::vector<std::array<float, numChannels>> interleavedData(bufferSize);
     Status writeStatus = es->writeAllChannels(
         bufferSize, interleavedData.data(), mockTimestamps.data());
     REQUIRE(writeStatus == Status::Failure);
