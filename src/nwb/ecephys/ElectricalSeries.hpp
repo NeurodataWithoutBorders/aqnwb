@@ -89,8 +89,6 @@ public:
    * This method accepts interleaved multichannel data laid out in row-major
    * (C) order: `[t0_ch0, t0_ch1, ..., t0_chK, t1_ch0, ..., tJ_chK]`,
    * i.e. a contiguous 2D array of shape `[numSamples, numChannels]`.
-   * Writing all channels in one call avoids the per-channel de-interleaving
-   * copy that would otherwise be required when using @ref writeChannel.
    *
    * @param numSamples The number of time samples (rows) to write.
    * @param dataInput Pointer to the interleaved data buffer with shape
