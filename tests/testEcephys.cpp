@@ -47,7 +47,7 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
   std::string electrodePath =
       "/general/extracellular_ephys/" + mockArrays[0][0].getGroupName();
 
-  // Helper: creates and initialises an IO object together with the standard
+  // Helper: creates and initializes an IO object together with the standard
   // device / electrode-group / electrode-table / ElectricalSeries stack that
   // is common to all write-related test SECTIONs in this TEST_CASE.
   // Returns {io, es, elecTable}.
