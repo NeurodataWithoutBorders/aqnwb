@@ -32,9 +32,9 @@ TEST_CASE("registered ecephys types", "[ecephys]")
 TEST_CASE("ElectricalSeries", "[ecephys]")
 {
   // setup recording info
-  SizeType numSamples = 100;
+  constexpr SizeType numSamples = 100;
   constexpr SizeType numChannels = 2;
-  SizeType bufferSize = numSamples / 5;
+  constexpr SizeType bufferSize = numSamples / 5;
   std::vector<float> dataBuffer(bufferSize);
   std::vector<double> timestampsBuffer(bufferSize);
   std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays();
@@ -236,7 +236,7 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     auto [io, es] = createTestElectricalSeries(path);
 
     // Build interleaved buffer as 2D array: interleavedData[t][ch]
-    std::vector<std::array<float, numChannels>> interleavedData(numSamples);
+    std::array<std::array<float, numChannels>, numSamples> interleavedData;
     for (SizeType t = 0; t < numSamples; ++t) {
       for (SizeType ch = 0; ch < numChannels; ++ch) {
         interleavedData[t][ch] = mockData[ch][t];
@@ -281,7 +281,7 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     auto [io, es] = createTestElectricalSeries(path);
 
     // Build interleaved buffer as 2D array: interleavedData[t][ch]
-    std::vector<std::array<float, numChannels>> interleavedData(numSamples);
+    std::array<std::array<float, numChannels>, numSamples> interleavedData;
     for (SizeType t = 0; t < numSamples; ++t) {
       for (SizeType ch = 0; ch < numChannels; ++ch) {
         interleavedData[t][ch] = mockData[ch][t];
@@ -349,7 +349,7 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     REQUIRE(es->channelsAtSameSampleOffset() == false);
 
     // writeAllChannels must return Failure when offsets differ.
-    std::vector<std::array<float, numChannels>> interleavedData(bufferSize);
+    std::array<std::array<float, numChannels>, bufferSize> interleavedData {};
     Status writeStatus = es->writeAllChannels(
         bufferSize, interleavedData.data(), mockTimestamps.data());
     REQUIRE(writeStatus == Status::Failure);
