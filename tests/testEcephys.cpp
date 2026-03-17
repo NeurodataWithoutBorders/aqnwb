@@ -1,3 +1,5 @@
+#include <array>
+
 #include <H5Cpp.h>
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_all.hpp>
@@ -31,7 +33,7 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
 {
   // setup recording info
   SizeType numSamples = 100;
-  SizeType numChannels = 2;
+  constexpr SizeType numChannels = 2;
   SizeType bufferSize = numSamples / 5;
   std::vector<float> dataBuffer(bufferSize);
   std::vector<double> timestampsBuffer(bufferSize);
@@ -44,6 +46,38 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
   std::string devicePath = "/device";
   std::string electrodePath =
       "/general/extracellular_ephys/" + mockArrays[0][0].getGroupName();
+
+  // Helper: creates and initialises an IO object together with the standard
+  // device / electrode-group / electrode-table / ElectricalSeries stack that
+  // is common to all write-related test SECTIONs in this TEST_CASE.
+  auto createTestElectricalSeries = [&](const std::string& path)
+      -> std::pair<std::shared_ptr<BaseIO>,
+                   std::shared_ptr<NWB::ElectricalSeries>>
+  {
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+    io->createGroup("/general");
+    io->createGroup("/general/extracellular_ephys");
+
+    auto device = NWB::Device::create(devicePath, io);
+    device->initialize("description", "unknown");
+    auto elecGroup = NWB::ElectrodeGroup::create(electrodePath, io);
+    elecGroup->initialize("description", "unknown", device);
+
+    auto elecTable = NWB::ElectrodesTable::create(io);
+    Status elecTableStatus = elecTable->initialize();
+    REQUIRE(elecTableStatus == Status::Success);
+    elecTable->addElectrodes(mockArrays[0]);
+    elecTableStatus = elecTable->finalize();
+    REQUIRE(elecTableStatus == Status::Success);
+
+    auto es = NWB::ElectricalSeries::create(dataPath, io);
+    IO::ArrayDataSetConfig config(
+        dataType, SizeArray {0, mockArrays[0].size()}, SizeArray {1, 1});
+    es->initialize(config, mockArrays[0], "no description");
+
+    return {io, es};
+  };
 
   SECTION("test writing channels")
   {
@@ -197,38 +231,15 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
 
   SECTION("test writing interleaved multichannel data")
   {
-    // setup io object
+    // setup io object and electrical series
     std::string path = getTestFilePath("ElectricalSeriesMultichannel.h5");
-    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
-    io->open();
-    io->createGroup("/general");
-    io->createGroup("/general/extracellular_ephys");
+    auto [io, es] = createTestElectricalSeries(path);
 
-    // setup device and electrode group
-    auto device = NWB::Device::create(devicePath, io);
-    device->initialize("description", "unknown");
-    auto elecGroup = NWB::ElectrodeGroup::create(electrodePath, io);
-    elecGroup->initialize("description", "unknown", device);
-
-    // setup electrode table
-    auto elecTable = NWB::ElectrodesTable::create(io);
-    Status elecTableStatus = elecTable->initialize();
-    REQUIRE(elecTableStatus == Status::Success);
-    elecTable->addElectrodes(mockArrays[0]);
-    elecTableStatus = elecTable->finalize();
-    REQUIRE(elecTableStatus == Status::Success);
-
-    // setup electrical series
-    auto es = NWB::ElectricalSeries::create(dataPath, io);
-    IO::ArrayDataSetConfig config(
-        dataType, SizeArray {0, mockArrays[0].size()}, SizeArray {1, 1});
-    es->initialize(config, mockArrays[0], "no description");
-
-    // Build interleaved buffer: layout [t0_ch0, t0_ch1, t1_ch0, t1_ch1, ...]
-    std::vector<float> interleavedData(numSamples * numChannels);
+    // Build interleaved buffer as 2D array: interleavedData[t][ch]
+    std::vector<std::array<float, numChannels>> interleavedData(numSamples);
     for (SizeType t = 0; t < numSamples; ++t) {
       for (SizeType ch = 0; ch < numChannels; ++ch) {
-        interleavedData[t * numChannels + ch] = mockData[ch][t];
+        interleavedData[t][ch] = mockData[ch][t];
       }
     }
 
@@ -264,39 +275,16 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
 
   SECTION("test writing interleaved multichannel data in segments")
   {
-    // setup io object
+    // setup io object and electrical series
     std::string path =
         getTestFilePath("ElectricalSeriesMultichannelSegmented.h5");
-    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
-    io->open();
-    io->createGroup("/general");
-    io->createGroup("/general/extracellular_ephys");
+    auto [io, es] = createTestElectricalSeries(path);
 
-    // setup device and electrode group
-    auto device = NWB::Device::create(devicePath, io);
-    device->initialize("description", "unknown");
-    auto elecGroup = NWB::ElectrodeGroup::create(electrodePath, io);
-    elecGroup->initialize("description", "unknown", device);
-
-    // setup electrode table
-    auto elecTable = NWB::ElectrodesTable::create(io);
-    Status elecTableStatus = elecTable->initialize();
-    REQUIRE(elecTableStatus == Status::Success);
-    elecTable->addElectrodes(mockArrays[0]);
-    elecTableStatus = elecTable->finalize();
-    REQUIRE(elecTableStatus == Status::Success);
-
-    // setup electrical series
-    auto es = NWB::ElectricalSeries::create(dataPath, io);
-    IO::ArrayDataSetConfig config(
-        dataType, SizeArray {0, mockArrays[0].size()}, SizeArray {1, 1});
-    es->initialize(config, mockArrays[0], "no description");
-
-    // Build interleaved buffer for the full dataset
-    std::vector<float> interleavedData(numSamples * numChannels);
+    // Build interleaved buffer as 2D array: interleavedData[t][ch]
+    std::vector<std::array<float, numChannels>> interleavedData(numSamples);
     for (SizeType t = 0; t < numSamples; ++t) {
       for (SizeType ch = 0; ch < numChannels; ++ch) {
-        interleavedData[t * numChannels + ch] = mockData[ch][t];
+        interleavedData[t][ch] = mockData[ch][t];
       }
     }
 
@@ -305,10 +293,10 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     while (samplesRecorded < numSamples) {
       SizeType chunkSamples =
           std::min(bufferSize, numSamples - samplesRecorded);
-      Status writeStatus = es->writeAllChannels(
-          chunkSamples,
-          interleavedData.data() + samplesRecorded * numChannels,
-          mockTimestamps.data() + samplesRecorded);
+      Status writeStatus =
+          es->writeAllChannels(chunkSamples,
+                               interleavedData.data() + samplesRecorded,
+                               mockTimestamps.data() + samplesRecorded);
       REQUIRE(writeStatus == Status::Success);
       samplesRecorded += chunkSamples;
     }
@@ -341,30 +329,9 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
 
   SECTION("test channelsAtSameSampleOffset")
   {
-    // setup io object
+    // setup io object and electrical series
     std::string path = getTestFilePath("ElectricalSeriesChannelOffset.h5");
-    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
-    io->open();
-    io->createGroup("/general");
-    io->createGroup("/general/extracellular_ephys");
-
-    // setup device and electrode group
-    auto device = NWB::Device::create(devicePath, io);
-    device->initialize("description", "unknown");
-    auto elecGroup = NWB::ElectrodeGroup::create(electrodePath, io);
-    elecGroup->initialize("description", "unknown", device);
-
-    // setup electrode table
-    auto elecTable = NWB::ElectrodesTable::create(io);
-    elecTable->initialize();
-    elecTable->addElectrodes(mockArrays[0]);
-    elecTable->finalize();
-
-    // setup electrical series with 2 channels
-    auto es = NWB::ElectricalSeries::create(dataPath, io);
-    IO::ArrayDataSetConfig config(
-        dataType, SizeArray {0, mockArrays[0].size()}, SizeArray {1, 1});
-    es->initialize(config, mockArrays[0], "no description");
+    auto [io, es] = createTestElectricalSeries(path);
 
     // Immediately after initialize all per-channel counters are 0 → same
     // offset, so the function should return true.
@@ -382,7 +349,7 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     REQUIRE(es->channelsAtSameSampleOffset() == false);
 
     // writeAllChannels must return Failure when offsets differ.
-    std::vector<float> interleavedData(bufferSize * numChannels);
+    std::vector<std::array<float, numChannels>> interleavedData(bufferSize);
     Status writeStatus = es->writeAllChannels(
         bufferSize, interleavedData.data(), mockTimestamps.data());
     REQUIRE(writeStatus == Status::Failure);
