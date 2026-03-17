@@ -150,24 +150,21 @@
  *
  * \subsubsection write_data_allchannels Writing all channels at once (interleaved data)
  *
- * Streaming acquisition systems typically produce data in interleaved row-major
- * order: `[t0_ch0, t0_ch1, ..., t0_chK, t1_ch0, ..., tJ_chK]` — a contiguous
- * 2D buffer of shape `[numSamples, numChannels]`.  Writing this buffer one
- * channel at a time (as in the loop above) requires a de-interleaving copy, which
- * is expensive at scale (hundreds of channels × 30 kHz).
- *
- * The all-channels overload of
- * \ref AQNWB::IO::writeElectricalSeriesData "writeElectricalSeriesData"
- * accepts the interleaved buffer directly and writes all channels in a single
- * HDF5 hyperslab call, avoiding any copy:
+ * Instead of one-channel-at-a-time, streaming acquisition systems may produce data in 
+ * interleaved row-major order. E.g., in the case of an  \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries"
+ * this would be a contiguous 2D buffer of shape `[numSamples, numChannels] of the form 
+ * `[t0_ch0, t0_ch1, ..., t0_chK, t1_ch0, ..., tJ_chK]. \ref AQNWB::NWB::TimeSeries::writeData "TimeSeries::writeData",
+ * \ref AQNWB::NWB::ElectricalSeries::writeAllChannels "ElectricalSeries::writeAllChannels ", and 
+ * the corresponding all-channels overload of \ref AQNWB::IO::writeElectricalSeriesData "writeElectricalSeriesData"
+ * accepts the interleaved buffer directly to write all channels in a single
+ * HDF5 hyperslab call:
  *
  * \snippet tests/examples/testWorkflowExamples.cpp example_workflow_write_allchannels_snippet
  *
  * \note
- * This overload requires the \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries"
- * to have been created with a **single** \ref AQNWB::Types::ChannelVector "ChannelVector"
- * containing all channels, so that the dataset shape is
- * `[numSamples, numChannels]` and the interleaved layout matches exactly. 
+ * This approach requires all channels to be at the same recording offset. As such, 
+ * mixing per-channel-write and all-channel-write operations can lead to errors if 
+ * the per-channel-write operations create inconsistent state. 
  *
  * \subsection stop_recording 7. Stop the recording and finalize the file.
  *
