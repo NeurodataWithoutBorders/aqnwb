@@ -94,10 +94,12 @@ public:
    * @param dataInput Pointer to the interleaved data buffer with shape
    *                  `[numSamples, numChannels]`.
    * @param timestampsInput A pointer to the timestamps array of length
-   *                        `numSamples` (optional).
+   *                        `numSamples`. This is optional when sampling_rate is
+   *                        provided in the dataset configuration, but must be provided
+   *                        when explicit timestamps are used.
    * @param controlInput A pointer to the control array of length `numSamples`
-   *                     (optional).
-   * @return The status of the write operation.
+   *                     (optional). Required when control data is used in the 
+   *                     TimeSeries configuration.
    */
   Status writeAllChannels(const SizeType& numSamples,
                           const void* dataInput,
