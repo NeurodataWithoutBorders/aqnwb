@@ -120,7 +120,8 @@ $(function() {
 <div class="line">## Upcoming  (~June 2026)</div>
 <div class="line"> </div>
 <div class="line">### Added</div>
-<div class="line">* ...</div>
+<div class="line">* Added `ElectricalSeries::writeAllChannels` method and `IO::writeElectricalSeriesData` overload to simplify zero-copy interleaved multichannel writes. (@copilot, @oruebel, [#293](https://github.com/NeurodataWithoutBorders/aqnwb/pull/293))</div>
+<div class="line">* Added `ElectricalSeries::channelsAtSameSampleOffset` method to check if all channels are at the same sample offset, which is a requirement for using `writeAllChannels`. (@copilot, @oruebel, [#293](https://github.com/NeurodataWithoutBorders/aqnwb/pull/293))</div>
 <div class="line"> </div>
 <div class="line">### Changed</div>
 <div class="line">* ...</div>

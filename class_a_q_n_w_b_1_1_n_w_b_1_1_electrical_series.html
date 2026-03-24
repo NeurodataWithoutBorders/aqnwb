@@ -136,6 +136,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a0e6e50dbde5f6aeda31b625049c93970"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the Electrical Series.  <br /></td></tr>
 <tr class="memitem:abd499ff69952a61324f86034ea91111b" id="r_abd499ff69952a61324f86034ea91111b"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#abd499ff69952a61324f86034ea91111b">writeChannel</a> (<a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> channelInd, const <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &amp;numSamples, const void *dataInput, const void *timestampsInput, const void *controlInput=nullptr)</td></tr>
 <tr class="memdesc:abd499ff69952a61324f86034ea91111b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a channel to an <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html" title="General purpose time series.">ElectricalSeries</a> dataset.  <br /></td></tr>
+<tr class="memitem:a3e3382ab70376c6e1307b53ec77c399f" id="r_a3e3382ab70376c6e1307b53ec77c399f"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a3e3382ab70376c6e1307b53ec77c399f">writeAllChannels</a> (const <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &amp;numSamples, const void *dataInput, const void *timestampsInput=nullptr, const void *controlInput=nullptr)</td></tr>
+<tr class="memdesc:a3e3382ab70376c6e1307b53ec77c399f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a block of multichannel samples to an <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html" title="General purpose time series.">ElectricalSeries</a> dataset in a single operation.  <br /></td></tr>
+<tr class="memitem:a36ff5f65f44cd571c6c70a725fd9c70e" id="r_a36ff5f65f44cd571c6c70a725fd9c70e"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a36ff5f65f44cd571c6c70a725fd9c70e">channelsAtSameSampleOffset</a> () const</td></tr>
+<tr class="memdesc:a36ff5f65f44cd571c6c70a725fd9c70e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if all channels are at the same sample offset, i.e. if every channel has the same number of samples recorded.  <br /></td></tr>
 <tr class="memitem:a296ce13af2d8b97ec212b800fe1faa2a" id="r_a296ce13af2d8b97ec212b800fe1faa2a"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = float&gt; </td></tr>
 <tr class="memitem:a296ce13af2d8b97ec212b800fe1faa2a template"><td class="memItemLeft">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#acfd896b65a7f56c25b3730a6e8dc80ca">AQNWB::NWB::DatasetField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a296ce13af2d8b97ec212b800fe1faa2a">readChannelConversion</a> () const</td></tr>
 <tr class="memitem:a117ae499b45dbf07845f9132bb15345d" id="r_a117ae499b45dbf07845f9132bb15345d"><td class="memItemLeft">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">AQNWB::IO::BaseRecordingData</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a117ae499b45dbf07845f9132bb15345d">recordChannelConversion</a> (bool reset=false)</td></tr>
@@ -425,6 +429,31 @@ Here is the caller graph for this function:</div>
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="a36ff5f65f44cd571c6c70a725fd9c70e" name="a36ff5f65f44cd571c6c70a725fd9c70e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36ff5f65f44cd571c6c70a725fd9c70e">&#9670;&#160;</a></span>channelsAtSameSampleOffset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ElectricalSeries::channelsAtSameSampleOffset </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks if all channels are at the same sample offset, i.e. if every channel has the same number of samples recorded. </p>
+<dl class="section return"><dt>Returns</dt><dd>True if all channels are at the same sample offset, false otherwise. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series_a36ff5f65f44cd571c6c70a725fd9c70e_icgraph.svg" width="482" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
 <a id="acf3eb0d1772834adaa921d71fd906bc6" name="acf3eb0d1772834adaa921d71fd906bc6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acf3eb0d1772834adaa921d71fd906bc6">&#9670;&#160;</a></span>create()</h2>
 
@@ -880,6 +909,56 @@ Here is the caller graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series_a6daa722cb1854b448b0eb67012f17573_icgraph.svg" width="100%" height="388"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
+<a id="a3e3382ab70376c6e1307b53ec77c399f" name="a3e3382ab70376c6e1307b53ec77c399f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e3382ab70376c6e1307b53ec77c399f">&#9670;&#160;</a></span>writeAllChannels()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> ElectricalSeries::writeAllChannels </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>numSamples</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *</td>          <td class="paramname"><span class="paramname"><em>dataInput</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *</td>          <td class="paramname"><span class="paramname"><em>timestampsInput</em></span><span class="paramdefsep"> = </span><span class="paramdefval">nullptr</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *</td>          <td class="paramname"><span class="paramname"><em>controlInput</em></span><span class="paramdefsep"> = </span><span class="paramdefval">nullptr</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Writes a block of multichannel samples to an <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html" title="General purpose time series.">ElectricalSeries</a> dataset in a single operation. </p>
+<p>This method accepts interleaved multichannel data laid out in row-major (C) order: <span class="tt">[t0_ch0, t0_ch1, ..., t0_chK, t1_ch0, ..., tJ_chK]</span>, i.e. a contiguous 2D array of shape <span class="tt">[numSamples, numChannels]</span>.</p>
+<dl class="section note"><dt>Note</dt><dd>All channels must be at the same sample offset when this method is called, i.e. every channel must have the same number of samples already recorded. This condition is automatically satisfied when only <span class="tt"><a class="el" href="#a3e3382ab70376c6e1307b53ec77c399f" title="Writes a block of multichannel samples to an ElectricalSeries dataset in a single operation.">writeAllChannels</a></span> (and not <span class="tt"><a class="el" href="#abd499ff69952a61324f86034ea91111b" title="Writes a channel to an ElectricalSeries dataset.">writeChannel</a></span>) is used for writing. Mixing <span class="tt"><a class="el" href="#abd499ff69952a61324f86034ea91111b" title="Writes a channel to an ElectricalSeries dataset.">writeChannel</a></span> calls for a subset of channels with <span class="tt"><a class="el" href="#a3e3382ab70376c6e1307b53ec77c399f" title="Writes a block of multichannel samples to an ElectricalSeries dataset in a single operation.">writeAllChannels</a></span> will violate this requirement and result in a failure status.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">numSamples</td><td>The number of time samples (rows) to write. </td></tr>
+    <tr><td class="paramname">dataInput</td><td>Pointer to the interleaved data buffer with shape <span class="tt">[numSamples, numChannels]</span>. </td></tr>
+    <tr><td class="paramname">timestampsInput</td><td>A pointer to the timestamps array of length <span class="tt">numSamples</span>. This pointer must be non-null when this <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html" title="General purpose time series.">ElectricalSeries</a> is configured to use explicit timestamps. When the series instead uses implicit time via <span class="tt">starting_time</span> together with a <span class="tt">rate</span>/<span class="tt">sampling_rate</span>, this parameter should be <span class="tt">nullptr</span> (or omitted) and no timestamps are written. </td></tr>
+    <tr><td class="paramname">controlInput</td><td>A pointer to the control array of length <span class="tt">numSamples</span> (optional). Required when control data is used in the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html" title="General purpose time series.">TimeSeries</a> configuration. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the write operation. Returns <span class="tt">Status::Failure</span> if the channels are at different sample offsets. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series_a3e3382ab70376c6e1307b53ec77c399f_cgraph.svg" width="100%" height="437"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>

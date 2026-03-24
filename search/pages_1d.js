@@ -14,9 +14,10 @@ var searchData=
   ['workflow_20with_20swmr_20disabled_11',['Workflow with SWMR disabled',['../hdf5io.html#hdf5io_noswmr_examples_without_swmr',1,'']]],
   ['working_20with_20fields_20with_20unknown_20data_20type_12',['Working with fields with unknown data type',['../read_page.html#read_example_variant_data',1,'']]],
   ['works_13',['Works',['../integrating_extensions_page.html#namespace_registry',1,'How the NamespaceRegistry Works'],['../read_design_page.html#type_registry',1,'How the Type Registry in RegisteredType Works']]],
-  ['write_20data_14',['6. Write data.',['../workflow.html#write_data',1,'']]],
+  ['write_20data_14',['6. Write data',['../workflow.html#write_data',1,'']]],
   ['write_20methods_20for_20datasets_15',['DEFINE_DATASET_FIELD: Creating read and write methods for datasets',['../registered_type_page.html#use_the_define_dataset_field_macro',1,'']]],
   ['writer_20multiple_20reader_20swmr_20mode_16',['Single-Writer Multiple-Reader (SWMR) Mode',['../hdf5io.html#hdf5io_swmr',1,'']]],
-  ['writing_20an_20nwb_20file_20with_20swmr_20mode_17',['Writing an NWB file with SWMR mode',['../hdf5io.html#hdf5io_swmr_workflow',1,'']]],
-  ['writing_20data_18',['Creating and Writing Data',['../read_design_page.html#read_design_example_create',1,'']]]
+  ['writing_20all_20channels_20at_20once_20interleaved_20data_17',['Writing all channels at once (interleaved data)',['../workflow.html#write_data_allchannels',1,'']]],
+  ['writing_20an_20nwb_20file_20with_20swmr_20mode_18',['Writing an NWB file with SWMR mode',['../hdf5io.html#hdf5io_swmr_workflow',1,'']]],
+  ['writing_20data_19',['Creating and Writing Data',['../read_design_page.html#read_design_example_create',1,'']]]
 ];

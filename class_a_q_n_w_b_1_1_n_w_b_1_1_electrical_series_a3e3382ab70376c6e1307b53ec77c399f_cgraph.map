@@ -1,0 +1,13 @@
+<map id="AQNWB::NWB::ElectricalSeries::writeAllChannels" name="AQNWB::NWB::ElectricalSeries::writeAllChannels">
+<area shape="rect" id="Node000001" title="Writes a block of multichannel samples to an ElectricalSeries dataset in a single operation." alt="" coords="5,39,217,79"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a36ff5f65f44cd571c6c70a725fd9c70e" title="Checks if all channels are at the same sample offset, i.e. if every channel has the same number of sa..." alt="" coords="265,5,476,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="216,43,252,40,247,42,218,48"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#afb05f2252df2fc23d938894eb0bc6984" title="Writes a timeseries data block to the file." alt="" coords="277,71,464,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="217,69,264,77,259,78,217,75"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#af988570828da57bff222d1ed5e71b5fa" title=" " alt="" coords="524,5,710,46"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="449,67,520,51,525,50,451,73"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a97d9f3aa32ab004532f45222dcd320e0" title=" " alt="" coords="524,71,710,111"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="464,88,511,91,506,91,464,94"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a42a04e2e5af03b642fb3af958115e1ef" title=" " alt="" coords="524,136,710,177"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="450,109,526,132,520,131,450,115"/>
+</map>

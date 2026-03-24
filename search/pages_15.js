@@ -15,12 +15,13 @@ var searchData=
   ['of_20register_5fsubclass_5fwith_5ftypename_12',['Limitations of REGISTER_SUBCLASS_WITH_TYPENAME',['../registered_type_page.html#limitations_registered_subclass_with_typename',1,'']]],
   ['of_20the_20extension_13',['Step 1: Get the Schema of the Extension',['../integrating_extensions_page.html#labmetadata_extension_schema',1,'']]],
   ['on_20github_14',['on GitHub',['../testing.html#testing_github',1,'Automated tests on GitHub'],['../testing.html#testing_cppcheck_github',1,'Cppcheck on GitHub']]],
-  ['open_20pull_20request_15',['5. Open Pull Request',['../release_workflow.html#release_steps_5',1,'']]],
-  ['opening_20an_20existing_20file_20for_20reading_16',['Opening an existing file for reading',['../read_page.html#read_example_open',1,'']]],
-  ['optimizing_20data_20layout_17',['Optimizing Data Layout',['../hdf5io.html#hdf5io_data_layout',1,'']]],
-  ['options_18',['Target options',['../dev_install_page.html#devbuild_target_options_subsubsec',1,'']]],
-  ['original_20series_19',['5. Link to the Original Series',['../links.html#link_reference',1,'']]],
-  ['original_20timeseries_20',['2. Create the Original TimeSeries',['../links.html#link_original',1,'']]],
-  ['overview_21',['Overview',['../index.html',1,'Overview'],['../links.html#link_overview',1,'Overview']]],
-  ['overview_20of_20a_20recording_20workflow_22',['Overview of a recording workflow',['../workflow.html#recording_workflow',1,'']]]
+  ['once_20interleaved_20data_15',['Writing all channels at once (interleaved data)',['../workflow.html#write_data_allchannels',1,'']]],
+  ['open_20pull_20request_16',['5. Open Pull Request',['../release_workflow.html#release_steps_5',1,'']]],
+  ['opening_20an_20existing_20file_20for_20reading_17',['Opening an existing file for reading',['../read_page.html#read_example_open',1,'']]],
+  ['optimizing_20data_20layout_18',['Optimizing Data Layout',['../hdf5io.html#hdf5io_data_layout',1,'']]],
+  ['options_19',['Target options',['../dev_install_page.html#devbuild_target_options_subsubsec',1,'']]],
+  ['original_20series_20',['5. Link to the Original Series',['../links.html#link_reference',1,'']]],
+  ['original_20timeseries_21',['2. Create the Original TimeSeries',['../links.html#link_original',1,'']]],
+  ['overview_22',['Overview',['../index.html',1,'Overview'],['../links.html#link_overview',1,'Overview']]],
+  ['overview_20of_20a_20recording_20workflow_23',['Overview of a recording workflow',['../workflow.html#recording_workflow',1,'']]]
 ];

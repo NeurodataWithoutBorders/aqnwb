@@ -25,5 +25,6 @@ var searchData=
   ['installing_20python_20utilities_22',['Installing Python Utilities',['../dev_install_page.html#dev_install_utils_sec',1,'']]],
   ['integrate_20a_20new_20namespace_23',['How to Integrate a New Namespace',['../integrating_extensions_page.html#integrate_namespace',1,'']]],
   ['integrating_20labmetadata_20extension_20with_20aqnwb_24',['Integrating LabMetaData Extension with AqNWB',['../user_demos.html#demos_labmetadata_extension',1,'']]],
-  ['integrating_20nwb_20extensions_20🧩_25',['Integrating NWB Extensions 🧩',['../integrating_extensions_page.html',1,'devdocs']]]
+  ['integrating_20nwb_20extensions_20🧩_25',['Integrating NWB Extensions 🧩',['../integrating_extensions_page.html',1,'devdocs']]],
+  ['interleaved_20data_26',['Writing all channels at once (interleaved data)',['../workflow.html#write_data_allchannels',1,'']]]
 ];

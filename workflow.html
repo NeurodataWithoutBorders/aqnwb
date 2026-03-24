@@ -179,26 +179,39 @@ Create the extracellular recording metadata</h3>
 <div class="line">Index = 11; Type = core::ElectricalSeries; Path = /acquisition/esdata1; </div>
 </div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>Registration with the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_recording_objects.html" title="AQNWB::IO::RecordingObjects">RecordingObjects</a> of the I/O occurs when a <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="AQNWB::NWB::RegisteredType">RegisteredType</a> is being created via the static <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a" title="AQNWB::NWB::RegisteredType::create">RegisteredType::create</a> factory methods.</dd></dl>
 <h2 class="doxsection"><a class="anchor" id="start_recording"></a>
-5. Start the recording.</h2>
+5. Start the recording</h2>
 <p>Then, start the recording process with a call to the <span class="tt">startRecording</span> function of the I/O object.</p>
 <div class="fragment"><div class="line">    <a class="code hl_typedef" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a> startRecordingStatus = io-&gt;startRecording();</div>
 <div class="line">    <a class="code hl_function" href="namespace_a_q_n_w_b.html#aa2ae7bd54f7ed396e61e6cec9d208140">AQNWB::checkStatus</a>(startRecordingStatus, <span class="stringliteral">&quot;Start recording&quot;</span>);</div>
 </div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>When using <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html" title="AQNWB::IO::HDF5::HDF5IO">HDF5IO</a> for writing to HDF5, calling <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a8606979d328123bb7bd8efa9df85c6df" title="AQNWB::IO::HDF5::HDF5IO::startRecording">startRecording</a> will by default enable <a class="el" href="hdf5io.html#hdf5io_swmr" title="Single-Writer Multiple-Reader (SWMR) Mode">SWMR mode</a> to ensure file integrity and support concurrent read. As a result, no additional datasets or groups can be added to the file once a recording has been started unless the file is closed and reopened.</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>To ensure that all NWB metadata is consistent when we start the recording process, <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#abaa22a360d8127335bbbf966dbd3f1c6" title="AQNWB::IO::BaseIO::startRecording">startRecording</a> also calls <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_recording_objects.html#ac5ca7864886ec0547a83bde8efcf0ac0" title="AQNWB::IO::RecordingObjects::finalize">RecordingObjects::finalize</a> to finalize all our <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="AQNWB::NWB::RegisteredType">RegisteredType</a> objects.</dd></dl>
 <h2 class="doxsection"><a class="anchor" id="write_data"></a>
-6. Write data.</h2>
+6. Write data</h2>
 <p>During the recording process, use the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_recording_objects.html" title="AQNWB::IO::RecordingObjects">RecordingObjects</a> as an interface to access the various <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html" title="AQNWB::NWB::Container">Container</a> object and corresponding datasets and write blocks of data to the file. Calling <span class="tt">flush()</span> on the I/O object at any time will ensure the data is moved to disk.</p>
-<div class="fragment"><div class="line">          <a class="code hl_function" href="namespace_a_q_n_w_b_1_1_i_o.html#acb284d332fd23c82aa8e8311dd31d319">IO::writeTimeseriesData</a>(recordingObjects,</div>
-<div class="line">                                  containerIndexes[i],</div>
-<div class="line">                                  channel,</div>
-<div class="line">                                  dataShape,</div>
-<div class="line">                                  positionOffset,</div>
-<div class="line">                                  intBuffer.get(),</div>
-<div class="line">                                  timestampsBuffer.data());</div>
+<div class="fragment"><div class="line">          <a class="code hl_function" href="namespace_a_q_n_w_b_1_1_i_o.html#a20c344888517796c27aabd7ca0d91209">IO::writeElectricalSeriesData</a>(recordingObjects,</div>
+<div class="line">                                        containerIndexes[i],</div>
+<div class="line">                                        channel,</div>
+<div class="line">                                        dataBuffer.size(),</div>
+<div class="line">                                        intBuffer.get(),</div>
+<div class="line">                                        timestampsBuffer.data());</div>
 <div class="line">          io-&gt;flush();</div>
 </div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>We should always reuse the existing objects that are cached in <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_recording_objects.html" title="AQNWB::IO::RecordingObjects">RecordingObjects</a>. Calling for example <span class="tt">ElectricalSeries::create("/acquisition/esdata0", io)</span> multiple times for the same I/O and path will result in the creation and registration of effectively duplicate objects that attempt to access (and potentially modify) the same objects in the NWB file, hence, leading to potentially unintended interactions, e.g., one object overwriting changes of the other.</dd></dl>
+<h3 class="doxsection"><a class="anchor" id="write_data_allchannels"></a>
+Writing all channels at once (interleaved data)</h3>
+<p>Instead of one-channel-at-a-time, streaming acquisition systems may produce data in interleaved row-major order. E.g., in the case of an <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html" title="AQNWB::NWB::ElectricalSeries">ElectricalSeries</a> this would be a contiguous 2D buffer of shape <span class="tt">[numSamples, numChannels]</span> of the form <span class="tt">[t0_ch0, t0_ch1, ..., t0_chK, t1_ch0, ..., tJ_chK]</span>, e.g., a <span class="tt">std::vector&lt;std::array&lt;float, numChannels&gt;&gt;</span>. <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#afb05f2252df2fc23d938894eb0bc6984" title="AQNWB::NWB::TimeSeries::writeData">TimeSeries::writeData</a>, <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a3e3382ab70376c6e1307b53ec77c399f" title="AQNWB::NWB::ElectricalSeries::writeAllChannels">ElectricalSeries::writeAllChannels</a>, and the corresponding all-channels overload of <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html#a20c344888517796c27aabd7ca0d91209" title="AQNWB::IO::writeElectricalSeriesData">writeElectricalSeriesData</a> accept interleaved data buffers directly to write all channels in a single HDF5 hyperslab call:</p>
+<div class="fragment"><div class="line">    <span class="comment">// Pass the row-major interleaved int16_t buffer [bufferSize x numChannels]</span></div>
+<div class="line">    <span class="comment">// directly. Pass nullptr for controlInput when no per-sample control data</span></div>
+<div class="line">    <span class="comment">// is needed.</span></div>
+<div class="line">    <a class="code hl_function" href="namespace_a_q_n_w_b_1_1_i_o.html#a20c344888517796c27aabd7ca0d91209">IO::writeElectricalSeriesData</a>(recordingObjects,</div>
+<div class="line">                                  containerIndexes[0],</div>
+<div class="line">                                  bufferSize,</div>
+<div class="line">                                  allChBuf.get(),</div>
+<div class="line">                                  allChTimestamps.data(),</div>
+<div class="line">                                  <span class="keyword">nullptr</span>);</div>
+<div class="line">    io-&gt;flush();</div>
+</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>This approach requires all channels to be at the same recording offset. As such, mixing per-channel-write and all-channel-write operations can lead to errors if the per-channel-write operations create inconsistent state.</dd></dl>
 <h2 class="doxsection"><a class="anchor" id="stop_recording"></a>
-7. Stop the recording and finalize the file.</h2>
+7. Stop the recording and finalize the file</h2>
 <p>When the recording process is finished, call <span class="tt">stopRecording</span> from the I/O object to flush any data and close the file.</p>
 <div class="fragment"><div class="line">    io-&gt;stopRecording();</div>
 <div class="line">    io-&gt;close();</div>

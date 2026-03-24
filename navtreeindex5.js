@@ -1,5 +1,9 @@
 var NAVTREEINDEX5 =
 {
+"class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ab8143e245b1f62cb147cd9ed97c84e9c":[3,0,0,1,5,0],
+"class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ab8143e245b1f62cb147cd9ed97c84e9c":[4,0,0,1,5,0],
+"class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ab8143e245b1f62cb147cd9ed97c84e9ca562ad830cce4bde58ec8af2d1401be30":[3,0,0,1,5,0,0],
+"class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ab8143e245b1f62cb147cd9ed97c84e9ca562ad830cce4bde58ec8af2d1401be30":[4,0,0,1,5,0,0],
 "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ab8143e245b1f62cb147cd9ed97c84e9ca63430566913dbf62230d5f365b3aa1a4":[3,0,0,1,5,0,3],
 "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ab8143e245b1f62cb147cd9ed97c84e9ca63430566913dbf62230d5f365b3aa1a4":[4,0,0,1,5,0,3],
 "class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ab8143e245b1f62cb147cd9ed97c84e9caae953cfd9d7f5062027b26b22e5703e9":[3,0,0,1,5,0,1],
@@ -245,9 +249,5 @@ var NAVTREEINDEX5 =
 "legal_page.html":[2,9],
 "legal_page.html#legal_code_of_conduct":[2,9,0],
 "legal_page.html#legal_copyright":[2,9,2],
-"legal_page.html#legal_license":[2,9,1],
-"links.html":[1,4],
-"links.html#link_cleanup":[1,4,1,5],
-"links.html#link_linked":[1,4,1,3],
-"links.html#link_original":[1,4,1,1]
+"legal_page.html#legal_license":[2,9,1]
 };

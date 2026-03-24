@@ -1,7 +1,7 @@
 var searchData=
 [
   ['data_0',['Data',['../read_design_page.html#read_design_example_create',1,'Creating and Writing Data'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_data.html',1,'AQNWB::NWB::Data'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#ac0a68f39a709b9096ce797bce18c668f',1,'AQNWB::NWB::Data::Data()'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html#ac0a68f39a709b9096ce797bce18c668f',1,'AQNWB::NWB::DataTyped::Data()'],['../read_design_page.html#read_design_example_read',1,'Reading and Processing Data']]],
-  ['data_1',['data',['../workflow.html#write_data',1,'6. Write data.'],['../class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html#a7c75a76906f183f7cc79be020823722e',1,'AQNWB::IO::DataBlockGeneric::data'],['../class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a7e084bd163c177f45c41cdf93b61f2b6',1,'AQNWB::IO::DataBlock::data']]],
+  ['data_1',['data',['../workflow.html#write_data',1,'6. Write data'],['../class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html#a7c75a76906f183f7cc79be020823722e',1,'AQNWB::IO::DataBlockGeneric::data'],['../class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a7e084bd163c177f45c41cdf93b61f2b6',1,'AQNWB::IO::DataBlock::data'],['../workflow.html#write_data_allchannels',1,'Writing all channels at once (interleaved data)']]],
   ['data_20📊_2',['Acquiring Data 📊',['../workflow.html',1,'userdocs']]],
   ['data_20📤_3',['Reading Data 📤',['../read_page.html',1,'userdocs']]],
   ['data_20fields_4',['Reading predefined data fields',['../read_page.html#read_design_example_read_posthoc_read_field',1,'']]],

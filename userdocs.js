@@ -14,9 +14,11 @@ var userdocs =
           [ "Create the extracellular recording metadata", "workflow.html#create_recmeta_ecephys", null ]
         ] ],
         [ "4. Create datasets and add to RecordingObjects", "workflow.html#create_datasets", null ],
-        [ "5. Start the recording.", "workflow.html#start_recording", null ],
-        [ "6. Write data.", "workflow.html#write_data", null ],
-        [ "7. Stop the recording and finalize the file.", "workflow.html#stop_recording", null ]
+        [ "5. Start the recording", "workflow.html#start_recording", null ],
+        [ "6. Write data", "workflow.html#write_data", [
+          [ "Writing all channels at once (interleaved data)", "workflow.html#write_data_allchannels", null ]
+        ] ],
+        [ "7. Stop the recording and finalize the file", "workflow.html#stop_recording", null ]
       ] ],
       [ "Advanced: Recording individual datasets", "workflow.html#advanced_recording_workflow", [
         [ "Resetting the recording position", "workflow.html#advanced_recording_workflow_reset", null ]

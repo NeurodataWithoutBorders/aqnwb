@@ -1,7 +1,7 @@
 var searchData=
 [
   ['data_0',['Data',['../read_design_page.html#read_design_example_create',1,'Creating and Writing Data'],['../read_design_page.html#read_design_example_read',1,'Reading and Processing Data']]],
-  ['data_1',['6. Write data.',['../workflow.html#write_data',1,'']]],
+  ['data_1',['data',['../workflow.html#write_data',1,'6. Write data'],['../workflow.html#write_data_allchannels',1,'Writing all channels at once (interleaved data)']]],
   ['data_20📊_2',['Acquiring Data 📊',['../workflow.html',1,'userdocs']]],
   ['data_20📤_3',['Reading Data 📤',['../read_page.html',1,'userdocs']]],
   ['data_20fields_4',['Reading predefined data fields',['../read_page.html#read_design_example_read_posthoc_read_field',1,'']]],
