@@ -1,3 +1,6 @@
+#include <algorithm>
+#include <array>
+
 #include <H5Cpp.h>
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_all.hpp>
@@ -30,9 +33,9 @@ TEST_CASE("registered ecephys types", "[ecephys]")
 TEST_CASE("ElectricalSeries", "[ecephys]")
 {
   // setup recording info
-  SizeType numSamples = 100;
-  SizeType numChannels = 2;
-  SizeType bufferSize = numSamples / 5;
+  constexpr SizeType numSamples = 100;
+  constexpr SizeType numChannels = 2;
+  constexpr SizeType bufferSize = numSamples / 5;
   std::vector<float> dataBuffer(bufferSize);
   std::vector<double> timestampsBuffer(bufferSize);
   std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays();
@@ -45,22 +48,25 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
   std::string electrodePath =
       "/general/extracellular_ephys/" + mockArrays[0][0].getGroupName();
 
-  SECTION("test writing channels")
+  // Helper: creates and initializes an IO object together with the standard
+  // device / electrode-group / electrode-table / ElectricalSeries stack that
+  // is common to all write-related test SECTIONs in this TEST_CASE.
+  // Returns {io, es, elecTable}.
+  auto createTestElectricalSeries = [&](const std::string& path)
+      -> std::tuple<std::shared_ptr<BaseIO>,
+                    std::shared_ptr<NWB::ElectricalSeries>,
+                    std::shared_ptr<NWB::ElectrodesTable>>
   {
-    // setup io object
-    std::string path = getTestFilePath("ElectricalSeries.h5");
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
     io->createGroup("/general");
     io->createGroup("/general/extracellular_ephys");
 
-    // setup device and electrode group
     auto device = NWB::Device::create(devicePath, io);
     device->initialize("description", "unknown");
     auto elecGroup = NWB::ElectrodeGroup::create(electrodePath, io);
     elecGroup->initialize("description", "unknown", device);
 
-    // setup electrode table, device, and electrode group
     auto elecTable = NWB::ElectrodesTable::create(io);
     Status elecTableStatus = elecTable->initialize();
     REQUIRE(elecTableStatus == Status::Success);
@@ -68,17 +74,24 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     elecTableStatus = elecTable->finalize();
     REQUIRE(elecTableStatus == Status::Success);
 
+    auto es = NWB::ElectricalSeries::create(dataPath, io);
+    IO::ArrayDataSetConfig config(
+        dataType, SizeArray {0, mockArrays[0].size()}, SizeArray {1, 1});
+    es->initialize(config, mockArrays[0], "no description");
+
+    return {io, es, elecTable};
+  };
+
+  SECTION("test writing channels")
+  {
+    std::string path = getTestFilePath("ElectricalSeries.h5");
+    auto [io, es, elecTable] = createTestElectricalSeries(path);
+
     // Confirm that the electrode table is created correctly
     auto readColNames = elecTable->readColNames()->values().data;
     std::vector<std::string> expectedColNames = {
         "location", "group", "group_name"};
     REQUIRE(readColNames == expectedColNames);
-
-    // setup electrical series
-    auto es = NWB::ElectricalSeries::create(dataPath, io);
-    IO::ArrayDataSetConfig config(
-        dataType, SizeArray {0, mockArrays[0].size()}, SizeArray {1, 1});
-    es->initialize(config, mockArrays[0], "no description");
 
     // write channel data
     for (SizeType ch = 0; ch < numChannels; ++ch) {
@@ -114,38 +127,14 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
 
   SECTION("test samples recorded tracking")
   {
-    // setup io object
     std::string path = getTestFilePath("ElectricalSeriesSampleTracking.h5");
-    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
-    io->open();
-    io->createGroup("/general");
-    io->createGroup("/general/extracellular_ephys");
-
-    // setup device and electrode group
-    auto device = NWB::Device::create(devicePath, io);
-    device->initialize("description", "unknown");
-    auto elecGroup = NWB::ElectrodeGroup::create(electrodePath, io);
-    elecGroup->initialize("description", "unknown", device);
-
-    // setup electrode table
-    auto elecTable = NWB::ElectrodesTable::create(io);
-    Status elecTableStatus = elecTable->initialize();
-    REQUIRE(elecTableStatus == Status::Success);
-    elecTable->addElectrodes(mockArrays[0]);
-    elecTableStatus = elecTable->finalize();
-    REQUIRE(elecTableStatus == Status::Success);
+    auto [io, es, elecTable] = createTestElectricalSeries(path);
 
     // Confirm that the electrode table is created correctly
     auto readColNames = elecTable->readColNames()->values().data;
     std::vector<std::string> expectedColNames = {
         "location", "group", "group_name"};
     REQUIRE(readColNames == expectedColNames);
-
-    // setup electrical series
-    auto es = NWB::ElectricalSeries::create(dataPath, io);
-    IO::ArrayDataSetConfig config(
-        dataType, SizeArray {0, mockArrays[0].size()}, SizeArray {1, 1});
-    es->initialize(config, mockArrays[0], "no description");
 
     // write channel data in segments
     for (SizeType ch = 0; ch < numChannels; ++ch) {
@@ -193,6 +182,143 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     delete[] buffer;
     REQUIRE_THAT(dataOut[0], Catch::Matchers::Approx(mockData[0]).margin(1));
     REQUIRE_THAT(dataOut[1], Catch::Matchers::Approx(mockData[1]).margin(1));
+  }
+
+  SECTION("test writing interleaved multichannel data")
+  {
+    // setup io object and electrical series
+    std::string path = getTestFilePath("ElectricalSeriesMultichannel.h5");
+    auto [io, es, elecTable] = createTestElectricalSeries(path);
+
+    // Build interleaved buffer as 2D array: interleavedData[t][ch]
+    std::array<std::array<float, numChannels>, numSamples> interleavedData;
+    for (SizeType t = 0; t < numSamples; ++t) {
+      for (SizeType ch = 0; ch < numChannels; ++ch) {
+        interleavedData[t][ch] = mockData[ch][t];
+      }
+    }
+
+    // Write all channels at once using the new writeAllChannels method
+    Status writeStatus = es->writeAllChannels(
+        numSamples, interleavedData.data(), mockTimestamps.data());
+    REQUIRE(writeStatus == Status::Success);
+
+    io->flush();
+    io->close();
+    std::unique_ptr<H5::H5File> file =
+        std::make_unique<H5::H5File>(path, H5F_ACC_RDONLY);
+    std::unique_ptr<H5::DataSet> dataset =
+        std::make_unique<H5::DataSet>(file->openDataSet(dataPath + "/data"));
+    float* readBuffer = new float[numSamples * numChannels];
+
+    H5::DataSpace fSpace = dataset->getSpace();
+    hsize_t dims[1] = {numSamples * numChannels};
+    H5::DataSpace mSpace(1, dims);
+    dataset->read(readBuffer, H5::PredType::NATIVE_FLOAT, mSpace, fSpace);
+
+    std::vector<std::vector<float>> dataOut(numChannels,
+                                            std::vector<float>(numSamples));
+    for (SizeType i = 0; i < numChannels; ++i) {
+      for (SizeType j = 0; j < numSamples; ++j) {
+        dataOut[i][j] = readBuffer[j * numChannels + i];
+      }
+    }
+    delete[] readBuffer;
+    REQUIRE_THAT(dataOut[0], Catch::Matchers::Approx(mockData[0]).margin(1));
+    REQUIRE_THAT(dataOut[1], Catch::Matchers::Approx(mockData[1]).margin(1));
+  }
+
+  SECTION("test writing interleaved multichannel data in segments")
+  {
+    // setup io object and electrical series
+    std::string path =
+        getTestFilePath("ElectricalSeriesMultichannelSegmented.h5");
+    auto [io, es, elecTable] = createTestElectricalSeries(path);
+
+    // Build interleaved buffer as 2D array: interleavedData[t][ch]
+    std::array<std::array<float, numChannels>, numSamples> interleavedData;
+    for (SizeType t = 0; t < numSamples; ++t) {
+      for (SizeType ch = 0; ch < numChannels; ++ch) {
+        interleavedData[t][ch] = mockData[ch][t];
+      }
+    }
+
+    // Write in chunks using writeData
+    SizeType samplesRecorded = 0;
+    while (samplesRecorded < numSamples) {
+      SizeType chunkSamples =
+          std::min(bufferSize, numSamples - samplesRecorded);
+      Status writeStatus =
+          es->writeAllChannels(chunkSamples,
+                               interleavedData.data() + samplesRecorded,
+                               mockTimestamps.data() + samplesRecorded);
+      REQUIRE(writeStatus == Status::Success);
+      samplesRecorded += chunkSamples;
+    }
+
+    io->close();
+
+    // Read data back and verify
+    std::unique_ptr<H5::H5File> file =
+        std::make_unique<H5::H5File>(path, H5F_ACC_RDONLY);
+    std::unique_ptr<H5::DataSet> dataset =
+        std::make_unique<H5::DataSet>(file->openDataSet(dataPath + "/data"));
+    float* readBuffer = new float[numSamples * numChannels];
+
+    H5::DataSpace fSpace = dataset->getSpace();
+    hsize_t dims[1] = {numSamples * numChannels};
+    H5::DataSpace mSpace(1, dims);
+    dataset->read(readBuffer, H5::PredType::NATIVE_FLOAT, mSpace, fSpace);
+
+    std::vector<std::vector<float>> dataOut(numChannels,
+                                            std::vector<float>(numSamples));
+    for (SizeType i = 0; i < numChannels; ++i) {
+      for (SizeType j = 0; j < numSamples; ++j) {
+        dataOut[i][j] = readBuffer[j * numChannels + i];
+      }
+    }
+    delete[] readBuffer;
+    REQUIRE_THAT(dataOut[0], Catch::Matchers::Approx(mockData[0]).margin(1));
+    REQUIRE_THAT(dataOut[1], Catch::Matchers::Approx(mockData[1]).margin(1));
+  }
+
+  SECTION("test channelsAtSameSampleOffset")
+  {
+    // setup io object and electrical series
+    std::string path = getTestFilePath("ElectricalSeriesChannelOffset.h5");
+    auto [io, es, elecTable] = createTestElectricalSeries(path);
+
+    // Immediately after initialize all per-channel counters are 0 → same
+    // offset, so the function should return true.
+    REQUIRE(es->channelsAtSameSampleOffset() == true);
+
+    // Write the same number of samples to every channel; offsets remain
+    // equal, so the function should still return true.
+    es->writeChannel(0, bufferSize, mockData[0].data(), mockTimestamps.data());
+    es->writeChannel(1, bufferSize, mockData[1].data(), mockTimestamps.data());
+    REQUIRE(es->channelsAtSameSampleOffset() == true);
+
+    // Write only to channel 0 so that its offset now exceeds channel 1's.
+    // The function should report false, and writeAllChannels should fail.
+    es->writeChannel(0, bufferSize, mockData[0].data(), mockTimestamps.data());
+    REQUIRE(es->channelsAtSameSampleOffset() == false);
+
+    // writeAllChannels must return Failure when offsets differ.
+    std::array<std::array<float, numChannels>, bufferSize> interleavedData {};
+    Status writeStatus = es->writeAllChannels(
+        bufferSize, interleavedData.data(), mockTimestamps.data());
+    REQUIRE(writeStatus == Status::Failure);
+
+    // Restore balance: write the same number of samples to channel 1.
+    es->writeChannel(1, bufferSize, mockData[1].data(), mockTimestamps.data());
+    REQUIRE(es->channelsAtSameSampleOffset() == true);
+
+    // After rebalancing, writeAllChannels should succeed.
+    writeStatus = es->writeAllChannels(
+        bufferSize, interleavedData.data(), mockTimestamps.data());
+    REQUIRE(writeStatus == Status::Success);
+
+    io->close();
   }
 
   SECTION("test writing electrodes")
