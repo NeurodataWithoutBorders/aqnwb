@@ -64,13 +64,29 @@ inline std::tm to_utc_time(std::time_t time_value)
 /**
  * @brief Get the UTC offset in seconds for a given time_t value.
  * @param time_value The time value to check.
- * @return The offset from UTC in seconds.
+ * @return The offset from UTC in seconds (includes DST when active).
  */
 inline long get_utc_offset_seconds(std::time_t time_value)
 {
+#if defined(__unix__) || defined(__APPLE__)
+  std::tm local_tm = to_local_time(time_value);
+  return local_tm.tm_gmtoff;
+#elif defined(_WIN32)
+  long tz_seconds = 0;
+  _get_timezone(&tz_seconds);
+  std::tm local_tm = to_local_time(time_value);
+  if (local_tm.tm_isdst > 0) {
+    int dstbias = 0;
+    _get_dstbias(&dstbias);
+    tz_seconds += dstbias;
+  }
+  return -tz_seconds;
+#else
+  // Fallback: force utc_tm.tm_isdst to match local so mktime treats both
+  // consistently, avoiding the DST double-count.
   std::tm local_tm = to_local_time(time_value);
   std::tm utc_tm = to_utc_time(time_value);
-
+  utc_tm.tm_isdst = local_tm.tm_isdst;
   std::time_t local_time = std::mktime(&local_tm);
   std::time_t utc_time = std::mktime(&utc_tm);
   if (local_time == static_cast<std::time_t>(-1)
@@ -79,6 +95,7 @@ inline long get_utc_offset_seconds(std::time_t time_value)
     return 0;
   }
   return static_cast<long>(std::difftime(local_time, utc_time));
+#endif
 }
 
 /**
