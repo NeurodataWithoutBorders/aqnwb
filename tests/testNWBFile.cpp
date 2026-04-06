@@ -513,6 +513,10 @@ TEST_CASE("testAttributeAndDatasetFields", "[nwb]")
     int offset_h = 0, offset_m = 0;
     char offset_sign = '+';
     // Parse "YYYY-MM-DDTHH:MM:SS.uuuuuu+HH:MM"
+#if defined(_MSC_VER)
+#pragma warning(push)
+#pragma warning(disable : 4996)  // sscanf deprecation
+#endif
     std::sscanf(readSessionStartTime.c_str(),
                 "%4d-%2d-%2dT%2d:%2d:%2d.%*d%c%2d:%2d",
                 &parsed.tm_year,
@@ -524,11 +528,18 @@ TEST_CASE("testAttributeAndDatasetFields", "[nwb]")
                 &offset_sign,
                 &offset_h,
                 &offset_m);
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#endif
     parsed.tm_year -= 1900;
     parsed.tm_mon -= 1;
     parsed.tm_isdst = 0;
-    // timegm interprets the struct as UTC
+    // Convert struct tm (interpreted as UTC) to time_t
+#if defined(_WIN32)
+    std::time_t utc_epoch = _mkgmtime(&parsed);
+#else
     std::time_t utc_epoch = timegm(&parsed);
+#endif
     long offset_total =
         ((long)offset_h * 3600 + offset_m * 60) * (offset_sign == '-' ? -1 : 1);
     // Convert local time to UTC by subtracting the offset
