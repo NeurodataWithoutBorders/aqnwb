@@ -156,6 +156,19 @@ TEST_CASE("Test time conversion functions", "[utils]")
     REQUIRE(offset <= 14 * 3600);
   }
 
+  SECTION("get_utc_offset_seconds matches tm_gmtoff")
+  {
+    // Verify the offset matches the OS-reported value (which includes DST).
+    // The old mktime-based implementation got this wrong during DST because
+    // mktime interprets its argument as local time, double-counting DST.
+    std::tm local_tm {};
+    localtime_r(&now, &local_tm);
+    long expected = local_tm.tm_gmtoff;
+    long actual = AQNWB::detail::get_utc_offset_seconds(now);
+    REQUIRE(actual == expected);
+  }
+
+
   SECTION("format_utc_offset")
   {
     REQUIRE(AQNWB::detail::format_utc_offset(0) == "+00:00");
