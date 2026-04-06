@@ -76,7 +76,7 @@ inline long get_utc_offset_seconds(std::time_t time_value)
   _get_timezone(&tz_seconds);
   std::tm local_tm = to_local_time(time_value);
   if (local_tm.tm_isdst > 0) {
-    int dstbias = 0;
+    long dstbias = 0;
     _get_dstbias(&dstbias);
     tz_seconds += dstbias;
   }
