@@ -168,7 +168,6 @@ TEST_CASE("Test time conversion functions", "[utils]")
     REQUIRE(actual == expected);
   }
 
-
   SECTION("format_utc_offset")
   {
     REQUIRE(AQNWB::detail::format_utc_offset(0) == "+00:00");

@@ -533,8 +533,7 @@ TEST_CASE("testAttributeAndDatasetFields", "[nwb]")
         ((long)offset_h * 3600 + offset_m * 60) * (offset_sign == '-' ? -1 : 1);
     // Convert local time to UTC by subtracting the offset
     utc_epoch -= offset_total;
-    auto written_tp =
-        std::chrono::system_clock::from_time_t(utc_epoch);
+    auto written_tp = std::chrono::system_clock::from_time_t(utc_epoch);
     auto now_tp = std::chrono::system_clock::now();
     REQUIRE(written_tp <= now_tp);
   }
