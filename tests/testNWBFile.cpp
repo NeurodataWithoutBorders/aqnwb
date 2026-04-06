@@ -530,7 +530,7 @@ TEST_CASE("testAttributeAndDatasetFields", "[nwb]")
     // timegm interprets the struct as UTC
     std::time_t utc_epoch = timegm(&parsed);
     long offset_total =
-        (offset_h * 3600 + offset_m * 60) * (offset_sign == '-' ? -1 : 1);
+        ((long)offset_h * 3600 + offset_m * 60) * (offset_sign == '-' ? -1 : 1);
     // Convert local time to UTC by subtracting the offset
     utc_epoch -= offset_total;
     auto written_tp =
