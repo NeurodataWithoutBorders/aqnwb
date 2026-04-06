@@ -514,8 +514,8 @@ TEST_CASE("testAttributeAndDatasetFields", "[nwb]")
     char offset_sign = '+';
     // Parse "YYYY-MM-DDTHH:MM:SS.uuuuuu+HH:MM"
 #if defined(_MSC_VER)
-#pragma warning(push)
-#pragma warning(disable : 4996)  // sscanf deprecation
+#  pragma warning(push)
+#  pragma warning(disable : 4996)  // sscanf deprecation
 #endif
     std::sscanf(readSessionStartTime.c_str(),
                 "%4d-%2d-%2dT%2d:%2d:%2d.%*d%c%2d:%2d",
@@ -529,7 +529,7 @@ TEST_CASE("testAttributeAndDatasetFields", "[nwb]")
                 &offset_h,
                 &offset_m);
 #if defined(_MSC_VER)
-#pragma warning(pop)
+#  pragma warning(pop)
 #endif
     parsed.tm_year -= 1900;
     parsed.tm_mon -= 1;
