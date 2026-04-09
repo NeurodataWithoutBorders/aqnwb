@@ -231,6 +231,19 @@
  * you can disable the use of SWMR mode by passing `disableSWMRMode=true` to
  * \ref AQNWB::IO::HDF5::HDF5IO::startRecording(bool) "HDF5IO::startRecording(bool)".
  *
+ * \note
+ * `startRecording(bool)` is an `HDF5IO`-specific overload and is not part of the
+ * \ref AQNWB::IO::BaseIO "BaseIO" interface. If the I/O object was created via
+ * \ref AQNWB::createIO "createIO" (which returns `std::shared_ptr<BaseIO>`),
+ * downcast to `HDF5IO` using `std::dynamic_pointer_cast` before calling it:
+ * \code{.cpp}
+ * std::shared_ptr<IO::BaseIO> io = createIO("HDF5", path);
+ * io->open();
+ * // ... create datasets and groups ...
+ * auto hdf5io = std::dynamic_pointer_cast<IO::HDF5::HDF5IO>(io);
+ * hdf5io->startRecording(true);  // disable SWMR mode
+ * \endcode
+ *
  * \warning
  * While disabling SWMR mode allows Groups and Datasets to be created during and after
  * recording, this comes at the  cost of losing the concurrent access and data integrity
