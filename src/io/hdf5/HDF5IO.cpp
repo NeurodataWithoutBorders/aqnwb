@@ -1071,7 +1071,7 @@ Status HDF5IO::createStringDataSet(const std::string& path,
 
 Status HDF5IO::startRecording()
 {
-  return startRecording(false);
+  return startRecording(m_disableSWMRMode);
 }
 
 Status HDF5IO::startRecording(bool disableSWMRMode)
