@@ -228,8 +228,8 @@
  *
  * This workflow is applicable to a wide range of data acquisition use-cases. However,
  * for use cases that require creation of new Groups and Datasets during acquisition,
- * you can disable the use of SWMR mode by setting `disableSWMRMode=true` when
- * constructing the \ref AQNWB::IO::HDF5::HDF5IO object.
+ * you can disable the use of SWMR mode by passing `disableSWMRMode=true` to
+ * \ref AQNWB::IO::HDF5::HDF5IO::startRecording(bool) "HDF5IO::startRecording(bool)".
  *
  * \warning
  * While disabling SWMR mode allows Groups and Datasets to be created during and after
