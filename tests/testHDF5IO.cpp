@@ -1022,7 +1022,7 @@ TEST_CASE("HDF5IO; SWMR mode", "[hdf5io]")
     // create and open file with SWMR mode disabled
     std::string path = getTestFilePath("testSWMRmodeDisable.h5");
     std::unique_ptr<IO::HDF5::HDF5IO> hdf5io =
-        std::make_unique<IO::HDF5::HDF5IO>(path, true);
+        std::make_unique<IO::HDF5::HDF5IO>(path);
     hdf5io->open();
 
     // add a dataset
@@ -1035,8 +1035,9 @@ TEST_CASE("HDF5IO; SWMR mode", "[hdf5io]")
     std::unique_ptr<BaseRecordingData> dataset =
         hdf5io->createArrayDataSet(datasetConfig, dataPath);
 
-    // start recording, check that can still modify objects
-    Status status = hdf5io->startRecording();
+    // start recording with SWMR mode disabled, check that can still modify
+    // objects
+    Status status = hdf5io->startRecording(true);
     REQUIRE(status == Status::Success);
     REQUIRE(hdf5io->canModifyObjects() == true);
 
@@ -1062,7 +1063,7 @@ TEST_CASE("HDF5IO; SWMR mode", "[hdf5io]")
     REQUIRE(hdf5io->isOpen() == true);
 
     // restart recording and write to a dataset
-    Status statusRestart = hdf5io->startRecording();
+    Status statusRestart = hdf5io->startRecording(true);
     REQUIRE(statusRestart == Status::Success);
 
     std::string dataPathPostRestart = "/dataPostRestart/data";

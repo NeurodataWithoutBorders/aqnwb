@@ -41,14 +41,8 @@ public:
   /**
    * @brief Constructor for the HDF5IO class that takes a file name as input.
    * @param fileName The name of the HDF5 file.
-   * @param disableSWMRMode Disable recording of data in Single Writer
-   *                 Multiple Reader (SWMR) mode. Using SWMR ensures that the
-   *                 HDF5 file remains valid and readable at all times during
-   *                 the recording process (but does not allow for new objects
-   *                 (Groups or Datasets) to be created.
    */
-  explicit HDF5IO(const std::string& fileName,
-                  const bool disableSWMRMode = false);
+  explicit HDF5IO(const std::string& fileName);
 
   /**
    * @brief Destructor.
@@ -237,10 +231,25 @@ public:
       const std::vector<std::string>& references) override;
 
   /**
-   * @brief Start SWMR write to start recording process
+   * @brief Start SWMR write to start recording process.
    * @return The status of the start recording operation.
    */
   Status startRecording() override;
+
+  /**
+   * @brief Start recording, optionally disabling SWMR mode.
+   *
+   * This overload is specific to @ref HDF5IO and is not part of the
+   * @ref BaseIO interface. Disabling SWMR mode allows new objects (Groups,
+   * Datasets, etc.) to be created during recording, but loses the data
+   * consistency and concurrent read guarantees that SWMR mode provides.
+   * When SWMR is disabled, @ref stopRecording will flush data to disk
+   * instead of closing the file, allowing recording to be restarted.
+   *
+   * @param disableSWMRMode When true, do not switch to SWMR mode.
+   * @return The status of the start recording operation.
+   */
+  Status startRecording(bool disableSWMRMode);
 
   /**
    * @brief Stops the recording process.
@@ -494,8 +503,8 @@ private:
   std::unique_ptr<H5::H5File> m_file;
 
   /**
-   * \brief When set true, then do not switch to SWMR mode when starting the
-   * recording
+   * \brief Tracks whether SWMR mode is disabled for the current recording.
+   * Set by @ref startRecording(bool) at the start of each recording cycle.
    */
   bool m_disableSWMRMode;
 };
