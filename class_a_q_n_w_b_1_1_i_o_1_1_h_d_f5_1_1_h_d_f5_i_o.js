@@ -1,6 +1,6 @@
 var class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o =
 [
-    [ "HDF5IO", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#aaf848d1a42512f90e9c9a0e134508bb8", null ],
+    [ "HDF5IO", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a97f6a87e029f8fc6dad03ffecde8f2ce", null ],
     [ "~HDF5IO", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#af492eb7675c4418ac4670e1c7fc9c9c2", null ],
     [ "attributeExists", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a53bfbbdbf24afdd97ea45294b65c1e37", null ],
     [ "canModifyObjects", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a96d8d872b2b974ac79a20b82fd72c5c2", null ],
@@ -40,6 +40,7 @@ var class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o =
     [ "readStringDataHelper", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a3b7d92f5cf720bb5f13b3bdc809b613c", null ],
     [ "readStringDataHelper", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a8b48955947cddf0659b0937bd1e58d39", null ],
     [ "startRecording", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a8606979d328123bb7bd8efa9df85c6df", null ],
+    [ "startRecording", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a56431bcc9b5f99b44b345011479f752c", null ],
     [ "stopRecording", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a0cfc2191ccfc122fa5098d4c4b4117b5", null ],
     [ "m_disableSWMRMode", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a20cfeb5cc6e7888f312d4e7ab611ffae", null ],
     [ "m_file", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#af9197ada3cbc012c92ef26849eb71445", null ]

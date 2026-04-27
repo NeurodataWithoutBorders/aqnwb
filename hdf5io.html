@@ -192,7 +192,13 @@ Writing an NWB file with SWMR mode</h2>
 <li>Start the recording process</li>
 <li>Stop recording and close the file</li>
 </ol>
-<p>This workflow is applicable to a wide range of data acquisition use-cases. However, for use cases that require creation of new Groups and Datasets during acquisition, you can disable the use of SWMR mode by setting <span class="tt">disableSWMRMode=true</span> when constructing the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html" title="AQNWB::IO::HDF5::HDF5IO">AQNWB::IO::HDF5::HDF5IO</a> object.</p>
+<p>This workflow is applicable to a wide range of data acquisition use-cases. However, for use cases that require creation of new Groups and Datasets during acquisition, you can disable the use of SWMR mode by passing <span class="tt">disableSWMRMode=true</span> to <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a56431bcc9b5f99b44b345011479f752c" title="AQNWB::IO::HDF5::HDF5IO::startRecording(bool)">HDF5IO::startRecording(bool)</a>.</p>
+<dl class="section note"><dt>Note</dt><dd><span class="tt">startRecording(bool)</span> is an <span class="tt">HDF5IO</span>-specific overload and is not part of the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html" title="AQNWB::IO::BaseIO">BaseIO</a> interface. If the I/O object was created via <a class="el" href="namespace_a_q_n_w_b.html#aae4545d930db6f70b4438e0167c500d0" title="AQNWB::createIO">createIO</a> (which returns <span class="tt">std::shared_ptr&lt;BaseIO&gt;</span>), downcast to <span class="tt">HDF5IO</span> using <span class="tt">std::dynamic_pointer_cast</span> before calling it: <div class="fragment"><div class="line">std::shared_ptr&lt;IO::BaseIO&gt; io = createIO(<span class="stringliteral">&quot;HDF5&quot;</span>, path);</div>
+<div class="line">io-&gt;open();</div>
+<div class="line"><span class="comment">// ... create datasets and groups ...</span></div>
+<div class="line"><span class="keyword">auto</span> hdf5io = std::dynamic_pointer_cast&lt;IO::HDF5::HDF5IO&gt;(io);</div>
+<div class="line">hdf5io-&gt;startRecording(<span class="keyword">true</span>);  <span class="comment">// disable SWMR mode</span></div>
+</div><!-- fragment --></dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>While disabling SWMR mode allows Groups and Datasets to be created during and after recording, this comes at the cost of losing the concurrent access and data integrity features that SWMR mode provides.</dd></dl>
 <h3 class="doxsection"><a class="anchor" id="hdf5io_swmr_examples"></a>
 Code Examples</h3>
@@ -262,12 +268,10 @@ Workflow with SWMR</h4>
 <div class="line">    REQUIRE(hdf5io-&gt;startRecording() == Status::Failure);</div>
 </div><!-- fragment --><h4 class="doxsection"><a class="anchor" id="hdf5io_noswmr_examples_without_swmr"></a>
 Workflow with SWMR disabled</h4>
-<div class="fragment"><div class="line">    <span class="comment">// create and open the HDF5 file. With SWMR mode explicitly disabled</span></div>
+<div class="fragment"><div class="line">    <span class="comment">// create and open the HDF5 file</span></div>
 <div class="line">    std::string path = getTestFilePath(<span class="stringliteral">&quot;testWithoutSWMRMode.h5&quot;</span>);</div>
 <div class="line">    std::unique_ptr&lt;AQNWB::IO::HDF5::HDF5IO&gt; hdf5io =</div>
-<div class="line">        std::make_unique&lt;AQNWB::IO::HDF5::HDF5IO&gt;(path,</div>
-<div class="line">                                                  <span class="keyword">true</span>  <span class="comment">// Disable SWMR mode</span></div>
-<div class="line">        );</div>
+<div class="line">        std::make_unique&lt;AQNWB::IO::HDF5::HDF5IO&gt;(path);</div>
 <div class="line">    hdf5io-&gt;open();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// add a dataset</span></div>
@@ -285,8 +289,10 @@ Workflow with SWMR disabled</h4>
 <div class="line">        datasetConfig,</div>
 <div class="line">        dataPath);  <span class="comment">// path. Path to the dataset in the HDF5 file</span></div>
 <div class="line"> </div>
-<div class="line">    <span class="comment">// Start recording. Starting the recording places the HDF5 file in SWMR mode</span></div>
-<div class="line">    <a class="code hl_typedef" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a> status = hdf5io-&gt;startRecording();</div>
+<div class="line">    <span class="comment">// Start recording with SWMR mode disabled. This allows new objects to be</span></div>
+<div class="line">    <span class="comment">// created during recording, but loses data consistency and concurrent read</span></div>
+<div class="line">    <span class="comment">// guarantees that SWMR mode provides.</span></div>
+<div class="line">    <a class="code hl_typedef" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a> status = hdf5io-&gt;startRecording(<span class="keyword">true</span>);</div>
 <div class="line">    REQUIRE(status == Status::Success);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// With SWMR mode disabled we are still allowed to create new data objects</span></div>
@@ -312,8 +318,8 @@ Workflow with SWMR disabled</h4>
 <div class="line">    <span class="comment">// so that we can restart the recording if we want to</span></div>
 <div class="line">    REQUIRE(hdf5io-&gt;isOpen() == <span class="keyword">true</span>);</div>
 <div class="line"> </div>
-<div class="line">    <span class="comment">// Restart the recording</span></div>
-<div class="line">    REQUIRE(hdf5io-&gt;startRecording() == Status::Success);</div>
+<div class="line">    <span class="comment">// Restart the recording with SWMR mode disabled</span></div>
+<div class="line">    REQUIRE(hdf5io-&gt;startRecording(<span class="keyword">true</span>) == Status::Success);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Stop the recording and close the file</span></div>
 <div class="line">    hdf5io-&gt;stopRecording();</div>

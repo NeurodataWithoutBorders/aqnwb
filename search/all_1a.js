@@ -36,7 +36,7 @@ var searchData=
   ['spikeeventseries_2ehpp_33',['SpikeEventSeries.hpp',['../_spike_event_series_8hpp.html',1,'']]],
   ['standard_20version_34',['Selecting a newer C++ standard version',['../dev_install_page.html#devbuild_cpp_std_sec',1,'']]],
   ['start_20the_20recording_35',['5. Start the recording',['../workflow.html#start_recording',1,'']]],
-  ['startrecording_36',['startRecording',['../class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#abaa22a360d8127335bbbf966dbd3f1c6',1,'AQNWB::IO::BaseIO::startRecording()'],['../class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a8606979d328123bb7bd8efa9df85c6df',1,'AQNWB::IO::HDF5::HDF5IO::startRecording()']]],
+  ['startrecording_36',['startRecording',['../class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#abaa22a360d8127335bbbf966dbd3f1c6',1,'AQNWB::IO::BaseIO::startRecording()'],['../class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a8606979d328123bb7bd8efa9df85c6df',1,'AQNWB::IO::HDF5::HDF5IO::startRecording() override'],['../class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a56431bcc9b5f99b44b345011479f752c',1,'AQNWB::IO::HDF5::HDF5IO::startRecording(bool disableSWMRMode)']]],
   ['static_20analysis_20cppcheck_37',['Static Analysis (Cppcheck)',['../testing.html#testing_cppcheck',1,'']]],
   ['status_38',['Status',['../class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9',1,'AQNWB::Types::Status'],['../_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776',1,'Status:&#160;BaseIO.hpp']]],
   ['status_20📈_39',['Status 📈',['../index.html#mainpage_status',1,'']]],

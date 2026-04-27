@@ -1,5 +1,7 @@
 var NAVTREEINDEX6 =
 {
+"legal_page.html#legal_copyright":[2,9,2],
+"legal_page.html#legal_license":[2,9,1],
 "links.html":[1,4],
 "links.html#link_cleanup":[1,4,1,5],
 "links.html#link_linked":[1,4,1,3],
