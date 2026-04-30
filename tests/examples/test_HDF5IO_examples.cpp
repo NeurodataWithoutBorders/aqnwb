@@ -74,12 +74,10 @@ TEST_CASE("SWMRmodeExamples", "[hdf5io]")
   SECTION("disableSWMRMode")
   {
     // [example_HDF5_without_SWMR_mode]
-    // create and open the HDF5 file. With SWMR mode explicitly disabled
+    // create and open the HDF5 file
     std::string path = getTestFilePath("testWithoutSWMRMode.h5");
     std::unique_ptr<AQNWB::IO::HDF5::HDF5IO> hdf5io =
-        std::make_unique<AQNWB::IO::HDF5::HDF5IO>(path,
-                                                  true  // Disable SWMR mode
-        );
+        std::make_unique<AQNWB::IO::HDF5::HDF5IO>(path);
     hdf5io->open();
 
     // add a dataset
@@ -97,8 +95,10 @@ TEST_CASE("SWMRmodeExamples", "[hdf5io]")
         datasetConfig,
         dataPath);  // path. Path to the dataset in the HDF5 file
 
-    // Start recording. Starting the recording places the HDF5 file in SWMR mode
-    Status status = hdf5io->startRecording();
+    // Start recording with SWMR mode disabled. This allows new objects to be
+    // created during recording, but loses data consistency and concurrent read
+    // guarantees that SWMR mode provides.
+    Status status = hdf5io->startRecording(true);
     REQUIRE(status == Status::Success);
 
     // With SWMR mode disabled we are still allowed to create new data objects
@@ -124,8 +124,8 @@ TEST_CASE("SWMRmodeExamples", "[hdf5io]")
     // so that we can restart the recording if we want to
     REQUIRE(hdf5io->isOpen() == true);
 
-    // Restart the recording
-    REQUIRE(hdf5io->startRecording() == Status::Success);
+    // Restart the recording with SWMR mode disabled
+    REQUIRE(hdf5io->startRecording(true) == Status::Success);
 
     // Stop the recording and close the file
     hdf5io->stopRecording();

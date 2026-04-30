@@ -21,9 +21,9 @@ using namespace H5;
 using namespace AQNWB::IO::HDF5;
 
 // HDF5IO
-HDF5IO::HDF5IO(const std::string& fileName, const bool disableSWMRMode)
+HDF5IO::HDF5IO(const std::string& fileName)
     : BaseIO(fileName)
-    , m_disableSWMRMode(disableSWMRMode)
+    , m_disableSWMRMode(false)
 {
 }
 
@@ -1071,9 +1071,15 @@ Status HDF5IO::createStringDataSet(const std::string& path,
 
 Status HDF5IO::startRecording()
 {
+  return startRecording(m_disableSWMRMode);
+}
+
+Status HDF5IO::startRecording(bool disableSWMRMode)
+{
   if (!m_opened) {
     return Status::Failure;
   }
+  m_disableSWMRMode = disableSWMRMode;
   // Call the base class method to pre-finalize all recording objects
   Status status = BaseIO::startRecording();
   // Start SWMR mode if it is not disabled
