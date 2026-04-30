@@ -1,3 +1,4 @@
+#include <cstdio>
 #include <numeric>
 #include <unordered_map>
 #include <unordered_set>
@@ -517,20 +518,21 @@ TEST_CASE("testAttributeAndDatasetFields", "[nwb]")
 #  pragma warning(push)
 #  pragma warning(disable : 4996)  // sscanf deprecation
 #endif
-    std::sscanf(readSessionStartTime.c_str(),
-                "%4d-%2d-%2dT%2d:%2d:%2d.%*d%c%2d:%2d",
-                &parsed.tm_year,
-                &parsed.tm_mon,
-                &parsed.tm_mday,
-                &parsed.tm_hour,
-                &parsed.tm_min,
-                &parsed.tm_sec,
-                &offset_sign,
-                &offset_h,
-                &offset_m);
+    int parsed_fields = std::sscanf(readSessionStartTime.c_str(),
+                                    "%4d-%2d-%2dT%2d:%2d:%2d.%*d%c%2d:%2d",
+                                    &parsed.tm_year,
+                                    &parsed.tm_mon,
+                                    &parsed.tm_mday,
+                                    &parsed.tm_hour,
+                                    &parsed.tm_min,
+                                    &parsed.tm_sec,
+                                    &offset_sign,
+                                    &offset_h,
+                                    &offset_m);
 #if defined(_MSC_VER)
 #  pragma warning(pop)
 #endif
+    REQUIRE(parsed_fields == 9);
     parsed.tm_year -= 1900;
     parsed.tm_mon -= 1;
     parsed.tm_isdst = 0;
