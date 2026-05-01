@@ -156,6 +156,34 @@ TEST_CASE("Test time conversion functions", "[utils]")
     REQUIRE(offset <= 14 * 3600);
   }
 
+  SECTION("get_utc_offset_seconds matches tm_gmtoff")
+  {
+    // Verify the offset matches the OS-reported value (which includes DST).
+    // The old mktime-based implementation got this wrong during DST because
+    // mktime interprets its argument as local time, double-counting DST.
+#if defined(__unix__) || defined(__APPLE__)
+    // tm_gmtoff is a non-standard extension available on Unix/macOS
+    std::tm local_tm {};
+    localtime_r(&now, &local_tm);
+    long expected = local_tm.tm_gmtoff;
+    long actual = AQNWB::detail::get_utc_offset_seconds(now);
+    REQUIRE(actual == expected);
+#elif defined(_WIN32)
+    // On Windows, verify against _get_timezone + _get_dstbias
+    long tz_seconds = 0;
+    _get_timezone(&tz_seconds);
+    std::tm local_tm = AQNWB::detail::to_local_time(now);
+    if (local_tm.tm_isdst > 0) {
+      long dstbias = 0;
+      _get_dstbias(&dstbias);
+      tz_seconds += dstbias;
+    }
+    long expected = -tz_seconds;
+    long actual = AQNWB::detail::get_utc_offset_seconds(now);
+    REQUIRE(actual == expected);
+#endif
+  }
+
   SECTION("format_utc_offset")
   {
     REQUIRE(AQNWB::detail::format_utc_offset(0) == "+00:00");

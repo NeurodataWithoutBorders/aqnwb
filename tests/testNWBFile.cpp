@@ -1,3 +1,4 @@
+#include <cstdio>
 #include <numeric>
 #include <unordered_map>
 #include <unordered_set>
@@ -503,6 +504,52 @@ TEST_CASE("testAttributeAndDatasetFields", "[nwb]")
           == StorageObjectType::Dataset);
   std::string readSessionStartTime = sessionStartTimeData->values().data[0];
   REQUIRE(readSessionStartTime == sessionStartTime);
+
+  // Mirrors nwbinspector's check_session_start_time_future_date: the
+  // session_start_time written to the file must not be in the future.
+  // The old mktime-based UTC offset was wrong during DST, which caused
+  // the recorded time to be ~1 hour ahead of actual UTC.
+  {
+    std::tm parsed {};
+    int offset_h = 0, offset_m = 0;
+    char offset_sign = '+';
+    // Parse "YYYY-MM-DDTHH:MM:SS.uuuuuu+HH:MM"
+#if defined(_MSC_VER)
+#  pragma warning(push)
+#  pragma warning(disable : 4996)  // sscanf deprecation
+#endif
+    int parsed_fields = std::sscanf(readSessionStartTime.c_str(),
+                                    "%4d-%2d-%2dT%2d:%2d:%2d.%*d%c%2d:%2d",
+                                    &parsed.tm_year,
+                                    &parsed.tm_mon,
+                                    &parsed.tm_mday,
+                                    &parsed.tm_hour,
+                                    &parsed.tm_min,
+                                    &parsed.tm_sec,
+                                    &offset_sign,
+                                    &offset_h,
+                                    &offset_m);
+#if defined(_MSC_VER)
+#  pragma warning(pop)
+#endif
+    REQUIRE(parsed_fields == 9);
+    parsed.tm_year -= 1900;
+    parsed.tm_mon -= 1;
+    parsed.tm_isdst = 0;
+    // Convert struct tm (interpreted as UTC) to time_t
+#if defined(_WIN32)
+    std::time_t utc_epoch = _mkgmtime(&parsed);
+#else
+    std::time_t utc_epoch = timegm(&parsed);
+#endif
+    long offset_total =
+        ((long)offset_h * 3600 + offset_m * 60) * (offset_sign == '-' ? -1 : 1);
+    // Convert local time to UTC by subtracting the offset
+    utc_epoch -= offset_total;
+    auto written_tp = std::chrono::system_clock::from_time_t(utc_epoch);
+    auto now_tp = std::chrono::system_clock::now();
+    REQUIRE(written_tp <= now_tp);
+  }
 
   auto timestampsReferenceTimeData = nwbfile->readTimestampsReferenceTime();
   REQUIRE(timestampsReferenceTimeData->exists());
