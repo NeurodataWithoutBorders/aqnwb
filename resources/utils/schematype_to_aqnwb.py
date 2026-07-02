@@ -93,8 +93,15 @@ def render_define_registered_field(
     {{
         std::string parentPath = AQNWB::mergePaths(m_path, "{field_path}");
         std::string objectPath = AQNWB::mergePaths(parentPath, objectName);
-        if (m_io->objectExists(objectPath)) {{
-        return std::make_shared<{neurodata_type}>(objectPath, m_io);
+        auto ioPtr = getIO();
+        if (ioPtr == nullptr) {{
+            std::cerr << "IO object has been deleted. Can't initialize %s: "
+                      << m_path << std::endl;
+            return Status::Failure;
+        }}
+
+        if (ioPtr->objectExists(objectPath)) {{
+            return std::make_shared<{neurodata_type}>(objectPath, ioPtr);
         }}
         return nullptr;
     }}
@@ -629,7 +636,7 @@ def render_initialize_method_cpp(
         cpp_param_var_name = param['variable_name']
         re = f"    // TODO: Initialize {param['path']} attribute"
         if param['value_fixed']:
-            re += f"with fixed value {param['cpp_type']} {param['cpp_default_value']}"
+            re += f" with fixed value {param['cpp_type']} {param['cpp_default_value']}"
         if is_inherited or is_overridden:
             re += f". This attribute is_inheritted={is_inherited}, is_overridden={is_overridden}"
         re += "\n"
@@ -647,9 +654,9 @@ def render_initialize_method_cpp(
             parent_path_str = 'm_path'
         # Define the create call
         if attr_cpp_type == "std::string":
-            re += f'    // m_io->createAttribute({cpp_param_var_name}, {parent_path_str}, "{attr_name}");\n\n'
+            re += f'    // ioPtr->createAttribute({cpp_param_var_name}, {parent_path_str}, "{attr_name}");\n\n'
         elif attr.shape is None:
-            re += f'    // m_io->createAttribute({attr_base_type}, &{cpp_param_var_name}, {parent_path_str}, "{attr_name}");\n\n'
+            re += f'    // ioPtr->createAttribute({attr_base_type}, &{cpp_param_var_name}, {parent_path_str}, "{attr_name}");\n\n'
         return re
 
     def dataset_init(dataset: Spec, param: dict, is_inherited: bool, is_overridden: bool) -> str:
@@ -680,10 +687,10 @@ def render_initialize_method_cpp(
         # add example initializtion hints
         dataset_cpp_type = param['cpp_type']
         if dataset_cpp_type == "const std::string&":
-            re += f"    // m_io->createStringDataSet({pathVarName}, {cpp_param_var_name})\n"
+            re += f"    // ioPtr->createStringDataSet({pathVarName}, {cpp_param_var_name})\n"
         else:
             if "ArrayDataSetConfig" in dataset_cpp_type:
-                    re += f"    // std::unique_ptr<IO::BaseRecordingData> {cpp_param_var_name}Data = m_io->createArrayDataSet({cpp_param_var_name}, {pathVarName});\n"
+                    re += f"    // std::unique_ptr<IO::BaseRecordingData> {cpp_param_var_name}Data = ioPtr->createArrayDataSet({cpp_param_var_name}, {pathVarName});\n"
             else:
                 re += f"    // create scalar dataset at {pathVarName} with {'default' if not param['value_fixed'] else 'fixed'} value {param['cpp_type']} {param['cpp_default_value']}\n"
         re += "\n"
@@ -745,6 +752,14 @@ def render_initialize_method_cpp(
         parent_initialize_call += f"    // Status parentInitStatus {parent_class_name}::initialize()"
         parent_initialize_call += f"    // initStatus = initStatus && parentInitStatus;"
 
+    #### Render retrieval of the IO object
+    retrieve_io_src = """auto ioPtr = getIO();
+    if (ioPtr == nullptr) {
+      std::cerr << "IO object has been deleted. Can't initialize %s: "
+                << m_path << std::endl;
+      return Status::Failure;
+    }""" % class_name
+
     #### Render initialization for attributes, datasets and groups
     initialize_fields_src = ""
     for param in all_initialize_params:
@@ -757,7 +772,7 @@ def render_initialize_method_cpp(
                 path_var_name = f"{snake_to_camel(param['path'].replace('/', '_'))}Path"
                 initialize_fields_src += f"    // TODO: Initialize {param['path']} group\n"
                 initialize_fields_src += f'    // auto {path_var_name} = AQNWB::mergePaths(m_path, "{param["path"]}");\n'
-                initialize_fields_src += f"    // m_io->createGroup({path_var_name});\n\n"
+                initialize_fields_src += f"    // ioPtr->createGroup({path_var_name});\n\n"
             else: # Typed group passed as parameter
                 if param['optional_registered_type']:
                     initialize_fields_src += f"    // TODO: Optional RegisteredType {param['cpp_type']} passed as parameter {param['variable_name']}. Usually created after initialize.\n\n"
@@ -785,6 +800,9 @@ def render_initialize_method_cpp(
 Status {class_name}::{funcSignature}
 {{
     Status initStatus = Status::Success;
+
+    // Retrieve the IO object
+    {retrieve_io_src}
 
     {fixed_value_inits}
     // Call parent initialize method. 
