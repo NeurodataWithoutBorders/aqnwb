@@ -32,7 +32,11 @@ Status MeaningsTable::initialize(const VectorData& targetVectorData,
               << m_path << std::endl;
     return Status::Failure;
   }
-
+  if (rowChunkSize == 0) {
+    std::cerr << "MeaningsTable::initialize rowChunkSize must be > 0."
+              << std::endl;
+    return Status::Failure;
+  }
   // Call parent initialize method. This initializes the DynamicTable and
   // creates the description attribute. Column names are written by
   // DynamicTable::finalize(). ElementIdentifiers ids are set in the
