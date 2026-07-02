@@ -2,8 +2,6 @@
 
 #include "Utils.hpp"
 // Includes for referenced types
-#include "nwb/event/DurationVectorData.hpp"
-#include "nwb/event/TimestampVectorData.hpp"
 #include "nwb/hdmf/table/ElementIdentifiers.hpp"
 #include "nwb/hdmf/table/MeaningsTable.hpp"
 #include "nwb/hdmf/table/VectorData.hpp"

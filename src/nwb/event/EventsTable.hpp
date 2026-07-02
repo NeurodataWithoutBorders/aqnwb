@@ -10,13 +10,9 @@
 #include "io/ReadIO.hpp"
 #include "nwb/RegisteredType.hpp"
 // Include for parent type
+#include "nwb/event/DurationVectorData.hpp"
+#include "nwb/event/TimestampVectorData.hpp"
 #include "nwb/hdmf/table/DynamicTable.hpp"
-// Forward declarations for referenced types
-namespace AQNWB::NWB
-{
-class DurationVectorData;
-class TimestampVectorData;
-}  // namespace AQNWB::NWB
 
 // Include for the namespace schema header
 #include "spec/core.hpp"
