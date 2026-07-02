@@ -221,16 +221,37 @@ public:
       "id",
       "unique identifiers for the rows of this dynamic table")
 
-  DEFINE_UNNAMED_REGISTERED_FIELD(
-      readMeaningsTable,
-      createMeaningsTableInstance,
-      AQNWB::NWB::MeaningsTable,
-      "meanings_tables",
-      "MeaningsTable objects that provide meanings for values in VectorData "
-      "columns within this DynamicTable. Tables should be named according to "
-      "the column they provide meanings for with a _meanings suffix. e.g. - if "
-      "a VectorData column is named stimulus_type - the corresponding "
-      "MeaningsTable should be named stimulus_type_meanings.")
+  /**
+   * @brief Returns the instance of the class representing the named
+   * MeaningsTable field.
+   *
+   * This overload is declared here and defined in DynamicTable.cpp so callers
+   * that include only DynamicTable.hpp do not need MeaningsTable.hpp to use the
+   * default MeaningsTable accessor.
+   *
+   * @param objectName The name of the object to retrieve.
+   * @return A shared pointer to a MeaningsTable representing the object. May
+   * return nullptr if the path does not exist.
+   */
+  std::shared_ptr<MeaningsTable> readMeaningsTable(
+      const std::string& objectName) const;
+
+  /**
+   * @brief Returns the instance of the class representing the named
+   * MeaningsTable field for write.
+   *
+   * This overload is declared here and defined in DynamicTable.cpp so callers
+   * that include only DynamicTable.hpp do not need MeaningsTable.hpp to use the
+   * default MeaningsTable accessor.
+   *
+   * **NOTE:** Use createMeaningsTable() to create and initialize a new
+   * MeaningsTable for a specific column.
+   *
+   * @param objectName The name of the object to retrieve.
+   * @return A shared pointer to a MeaningsTable representing the object.
+   */
+  std::shared_ptr<MeaningsTable> createMeaningsTableInstance(
+      const std::string& objectName) const;
 
 protected:
   /**
