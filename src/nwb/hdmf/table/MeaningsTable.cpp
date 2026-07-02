@@ -34,8 +34,8 @@ Status MeaningsTable::initialize(const VectorData& targetVectorData,
   }
 
   // Call parent initialize method. This initializes the DynamicTable and
-  // creates the description and colnames attributes. ElementIdentifiers ids are
-  // set in the constructor.
+  // creates the description attribute. Column names are written by
+  // DynamicTable::finalize(). ElementIdentifiers ids are set in the constructor.
   Status parentInitStatus = DynamicTable::initialize(description);
   initStatus = initStatus && parentInitStatus;
 
@@ -43,10 +43,10 @@ Status MeaningsTable::initialize(const VectorData& targetVectorData,
   auto valuePath = AQNWB::mergePaths(m_path, "value");
   IO::ArrayDataSetConfig valueConfig(
       valueDataType, SizeArray {0}, SizeArray {rowChunkSize});
-  auto valuesColmn = VectorData::create(valuePath, ioPtr);
-  Status valueStatus = valuesColmn->initialize(
+  auto valuesColumn = VectorData::create(valuePath, ioPtr);
+  Status valueStatus = valuesColumn->initialize(
       valueConfig, "The value of a row in the linked VectorData object.");
-  Status addValueColumnStatus = addColumn(valuesColmn);
+  Status addValueColumnStatus = addColumn(valuesColumn);
 
   // Initialize meaning dataset
   auto meaningPath = AQNWB::mergePaths(m_path, "meaning");
