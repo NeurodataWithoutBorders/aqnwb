@@ -39,7 +39,8 @@ ElectrodesTable::ElectrodesTable(const std::string& path,
 ElectrodesTable::~ElectrodesTable() {}
 
 /** Initialization function*/
-Status ElectrodesTable::initialize(const std::string& description)
+Status ElectrodesTable::initialize(const std::string& description,
+                                   const SizeType rowChunkSize)
 {
   // create group
   DynamicTable::initialize(description);
@@ -47,17 +48,17 @@ Status ElectrodesTable::initialize(const std::string& description)
   //                           0);  // 0 indicates variable length
 
   IO::ArrayDataSetConfig electrodeConfig(
-      IO::BaseDataType::I32, SizeArray {1}, SizeArray {1});
+      IO::BaseDataType::I32, SizeArray {1}, SizeArray {rowChunkSize});
   Status electrodeStatus = m_rowElementIdentifiers->initialize(electrodeConfig);
 
   IO::ArrayDataSetConfig groupNameConfig(
-      IO::BaseDataType::V_STR, SizeArray {0}, SizeArray {1});
+      IO::BaseDataType::V_STR, SizeArray {0}, SizeArray {rowChunkSize});
   Status groupNameStatus = m_groupNamesVectorData->initialize(
       groupNameConfig,
       "the name of the ElectrodeGroup this electrode is a part of");
 
   IO::ArrayDataSetConfig locationConfig(
-      IO::BaseDataType::V_STR, SizeArray {0}, SizeArray {1});
+      IO::BaseDataType::V_STR, SizeArray {0}, SizeArray {rowChunkSize});
   Status locationStatus = m_locationsVectorData->initialize(
       locationConfig,
       "the location of channel within the subject e.g. brain region");

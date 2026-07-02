@@ -91,8 +91,14 @@ TEST_CASE("createElectrodesTable", "[nwb]")
 
   // create the Electrodes Table
   std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(1, 2);
-  auto electrodesTable = nwbfile->createElectrodesTable(mockArrays);
+  auto electrodesTable = nwbfile->createElectrodesTable(mockArrays, true, 50);
   REQUIRE(electrodesTable != nullptr);
+
+  // Verify chunk size
+  auto chunking = io->getStorageObjectChunking(
+      "/general/extracellular_ephys/electrodes/id");
+  REQUIRE(chunking.size() == 1);
+  REQUIRE(chunking[0] == 50);
 }
 
 TEST_CASE("createElectricalSeriesWithSubsetOfElectrodes", "[nwb]")

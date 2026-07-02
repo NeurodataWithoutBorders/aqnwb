@@ -61,7 +61,8 @@ public:
    * @return Status::Success if successful, otherwise Status::Failure.
    */
   Status initialize(const std::string& description =
-                        "metadata about extracellular electrodes");
+                        "metadata about extracellular electrodes",
+                    const SizeType rowChunkSize = 100);
 
   /**
    * @brief Finalizes the ElectrodesTable.
