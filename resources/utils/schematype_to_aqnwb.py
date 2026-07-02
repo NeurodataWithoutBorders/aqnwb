@@ -992,6 +992,51 @@ def get_referenced_types(neurodata_type: Spec, type_to_namespace_map: Dict[str, 
     return set(referenced_types)  # Return unique types only
 
 
+def render_forward_declarations(
+    referenced_types: set[str],
+    type_to_namespace_map: Dict[str, str],
+    current_type_name: str,
+) -> str:
+    """
+    Render forward declarations for referenced neurodata types.
+
+    Forward declarations avoid circular includes when a generated parent type
+    references one of its generated subtypes while that subtype inherits from
+    the parent (e.g., DynamicTable <-> MeaningsTable in newer HDMF Common
+    schemas).
+
+    Parameters:
+    referenced_types (set[str]): Referenced neurodata type names.
+    type_to_namespace_map (Dict[str, str]): Mapping of types to their namespaces.
+    current_type_name (str): Name of the type currently being generated.
+
+    Returns:
+    str: Forward declaration blocks grouped by C++ namespace.
+    """
+    declarations_by_namespace = {}
+    for referenced_type in sorted(referenced_types):
+        if referenced_type == current_type_name:
+            continue
+        referenced_namespace = to_cpp_namespace_name(
+            type_to_namespace_map.get(referenced_type, "")
+        )
+        declarations_by_namespace.setdefault(referenced_namespace, []).append(
+            referenced_type
+        )
+
+    if not declarations_by_namespace:
+        return ""
+
+    forward_declarations = "// Forward declarations for referenced types\n"
+    for referenced_namespace in sorted(declarations_by_namespace):
+        forward_declarations += f"namespace {referenced_namespace} {{\n"
+        for referenced_type in declarations_by_namespace[referenced_namespace]:
+            forward_declarations += f"class {referenced_type};\n"
+        forward_declarations += f"}}  // namespace {referenced_namespace}\n"
+
+    return forward_declarations
+
+
 def parse_schema_file(file_path: Path) -> Tuple[SpecNamespace, Dict[str, Spec], Dict[str, Path], Dict[str, str]]:
     """
     Parse a schema file and return the namespace and data types using PyNWB.
@@ -1187,17 +1232,17 @@ def generate_header_file(
         else:
             header += '#include "nwb/hdmf/base/Container.hpp"\n'
 
-    # Determine additional includes required for DEFINE_REGISTERED_FIELD macro definitions 
-    # for groups and datasets, and links to other neurodata_types referenced via attributes
+    # Add forward declarations for referenced types used in generated shared_ptr
+    # accessors and initialize signatures. This avoids circular includes for
+    # schema patterns where a parent type references a child type that inherits
+    # from the same parent.
     referenced_types = get_referenced_types(neurodata_type, type_to_namespace_map)
     if len(referenced_types) > 0:
-        header += "// Includes for types that are referenced and used\n"
-        # Add includes for all referenced types
-        for ref_type in referenced_types:
-            ref_namespace = type_to_namespace_map.get(ref_type, namespace.name)
-            ref_subfolder = get_schema_subfolder_name(type_to_file_map.get(ref_type, None))
-            ref_include_path = f"{ref_namespace}/{ref_subfolder}/{ref_type}.hpp"
-            header += f'#include "{ref_include_path}"\n'
+        header += render_forward_declarations(
+            referenced_types=referenced_types,
+            type_to_namespace_map=type_to_namespace_map,
+            current_type_name=type_name,
+        )
 
     # Include the namespace header
     header += "// Include for the namespace schema header\n"
@@ -1367,7 +1412,11 @@ public:
 
 
 def generate_implementation_file(
-    namespace: SpecNamespace, neurodata_type: Spec, all_types: Dict[str, Spec], type_to_namespace_map: Dict[str, str]
+    namespace: SpecNamespace,
+    neurodata_type: Spec,
+    all_types: Dict[str, Spec],
+    type_to_file_map: Dict[str, Path],
+    type_to_namespace_map: Dict[str, str],
 ) -> str:
     """
     Generate C++ implementation file for a neurodata type.
@@ -1376,6 +1425,7 @@ def generate_implementation_file(
     namespace (SpecNamespace): The namespace object.
     neurodata_type (Spec): The neurodata type spec.
     all_types (Dict[str, Spec]): A dictionary of all neurodata types.
+    type_to_file_map (Dict[str, Path]): Mapping of types to their source schema files.
     type_to_namespace_map (Dict[str, str]): Mapping of types to their namespaces.
 
     Returns:
@@ -1415,9 +1465,22 @@ def generate_implementation_file(
         parent_neurodata_type=parent_neurodata_type_spec
     )
 
+    referenced_type_includes = ""
+    referenced_types = get_referenced_types(neurodata_type, type_to_namespace_map)
+    if referenced_types:
+        referenced_type_includes += "// Includes for referenced types\n"
+        for ref_type in sorted(referenced_types):
+            if ref_type == class_name:
+                continue
+            ref_namespace = type_to_namespace_map.get(ref_type, namespace.name)
+            ref_subfolder = get_schema_subfolder_name(type_to_file_map.get(ref_type, None))
+            ref_include_path = f"{ref_namespace}/{ref_subfolder}/{ref_type}.hpp"
+            referenced_type_includes += f'#include "{ref_include_path}"\n'
+
     # Start building the implementation file
     impl = f"""#include "{class_name}.hpp"
 #include "Utils.hpp"
+{referenced_type_includes}
 
 using namespace {cpp_namespace_name};
 using namespace AQNWB::IO;
@@ -1816,7 +1879,7 @@ def main(args) -> None:
             cpp_file_name = f"{class_name}.cpp"
             logger.info(f"    Generating implementation file: {cpp_file_name}")
             impl_file = generate_implementation_file(
-                namespace, neurodata_type, neurodata_types, type_to_namespace_map
+                namespace, neurodata_type, neurodata_types, type_to_file_map, type_to_namespace_map
             )
             impl_path = type_output_dir / cpp_file_name
             with open(impl_path, "w") as f:
