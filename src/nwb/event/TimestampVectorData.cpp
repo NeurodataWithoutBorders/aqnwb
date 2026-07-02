@@ -2,7 +2,7 @@
 
 #include "Utils.hpp"
 
-using namespace CORE;
+using namespace AQNWB::NWB;
 using namespace AQNWB::IO;
 
 // Initialize the static registered_ member to trigger registration
@@ -17,9 +17,9 @@ TimestampVectorData::TimestampVectorData(const std::string& path,
 
 // Initialize the object
 Status TimestampVectorData::initialize(
-    float resolution,
+    const AQNWB::IO::ArrayDataSetConfig& data,
     const std::string& description,
-    const AQNWB::IO::ArrayDataSetConfig& data)
+    float resolution)
 {
   Status initStatus = Status::Success;
 

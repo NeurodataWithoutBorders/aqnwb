@@ -39,7 +39,7 @@ Status MeaningsTable::initialize(const VectorData& targetVectorData,
   Status parentInitStatus = DynamicTable::initialize(description);
   initStatus = initStatus && parentInitStatus;
 
-  // Initialize value dataset
+  // Initialize value VectorData dataset
   auto valuePath = AQNWB::mergePaths(m_path, "value");
   IO::ArrayDataSetConfig valueConfig(
       valueDataType, SizeArray {0}, SizeArray {rowChunkSize});
@@ -48,7 +48,7 @@ Status MeaningsTable::initialize(const VectorData& targetVectorData,
       valueConfig, "The value of a row in the linked VectorData object.");
   Status addValueColumnStatus = addColumn(valuesColmn);
 
-  // Initialize meaning dataset
+  // Initialize meaning VectorData dataset
   auto meaningPath = AQNWB::mergePaths(m_path, "meaning");
   IO::ArrayDataSetConfig meaningConfig(
       IO::BaseDataType::V_STR, SizeArray {0}, SizeArray {rowChunkSize});

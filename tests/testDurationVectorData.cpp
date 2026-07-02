@@ -34,11 +34,11 @@ TEST_CASE("DurationVectorData", "[event]")
       io->open();
 
       IO::ArrayDataSetConfig config(BaseDataType::F32, dataShape, chunking);
-      auto durationVectorData = CORE::DurationVectorData::create(dataPath, io);
+      auto durationVectorData = AQNWB::NWB::DurationVectorData::create(dataPath, io);
       REQUIRE(durationVectorData != nullptr);
 
       Status initStatus =
-          durationVectorData->initialize(resolution, description, config);
+          durationVectorData->initialize(config, description, resolution);
       REQUIRE(initStatus == Status::Success);
 
       auto dataRecorder = durationVectorData->recordData();
@@ -58,7 +58,7 @@ TEST_CASE("DurationVectorData", "[event]")
       REQUIRE(readDataUntyped != nullptr);
 
       auto readDurationVectorData =
-          std::dynamic_pointer_cast<CORE::DurationVectorData>(readDataUntyped);
+          std::dynamic_pointer_cast<AQNWB::NWB::DurationVectorData>(readDataUntyped);
       REQUIRE(readDurationVectorData != nullptr);
 
       REQUIRE(readDurationVectorData->getNamespace() == "core");
@@ -100,11 +100,11 @@ TEST_CASE("DurationVectorData", "[event]")
     SizeArray chunking = {4};
     IO::ArrayDataSetConfig config(BaseDataType::F32, dataShape, chunking);
     auto durationVectorData =
-        CORE::DurationVectorData::create("/durations", io);
+        AQNWB::NWB::DurationVectorData::create("/durations", io);
     REQUIRE(durationVectorData != nullptr);
 
     Status initStatus =
-        durationVectorData->initialize(0.001f, "Owned types test", config);
+        durationVectorData->initialize(config, "Owned types test", 0.001f);
     REQUIRE(initStatus == Status::Success);
 
     auto ownedTypes = durationVectorData->findOwnedTypes();
@@ -122,13 +122,13 @@ TEST_CASE("DurationVectorData", "[event]")
     auto io =
         createIO("HDF5", getTestFilePath("testDurationVectorDataNoIO.h5"));
     auto durationVectorData =
-        CORE::DurationVectorData::create("/durations", io);
+        AQNWB::NWB::DurationVectorData::create("/durations", io);
     REQUIRE(durationVectorData != nullptr);
 
     io.reset();
 
     Status initStatus =
-        durationVectorData->initialize(0.01f, "Missing IO", config);
+        durationVectorData->initialize(config, "Missing IO", 0.01f);
     REQUIRE(initStatus == Status::Failure);
   }
 }

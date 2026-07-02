@@ -35,11 +35,11 @@ TEST_CASE("TimestampVectorData", "[event]")
 
       IO::ArrayDataSetConfig config(BaseDataType::F32, dataShape, chunking);
       auto timestampVectorData =
-          CORE::TimestampVectorData::create(dataPath, io);
+          AQNWB::NWB::TimestampVectorData::create(dataPath, io);
       REQUIRE(timestampVectorData != nullptr);
 
       Status initStatus =
-          timestampVectorData->initialize(resolution, description, config);
+          timestampVectorData->initialize(config, description, resolution);
       REQUIRE(initStatus == Status::Success);
 
       auto dataRecorder = timestampVectorData->recordData();
@@ -59,7 +59,7 @@ TEST_CASE("TimestampVectorData", "[event]")
       REQUIRE(readDataUntyped != nullptr);
 
       auto readTimestampVectorData =
-          std::dynamic_pointer_cast<CORE::TimestampVectorData>(readDataUntyped);
+          std::dynamic_pointer_cast<AQNWB::NWB::TimestampVectorData>(readDataUntyped);
       REQUIRE(readTimestampVectorData != nullptr);
 
       REQUIRE(readTimestampVectorData->getNamespace() == "core");
@@ -101,11 +101,11 @@ TEST_CASE("TimestampVectorData", "[event]")
     SizeArray chunking = {4};
     IO::ArrayDataSetConfig config(BaseDataType::F32, dataShape, chunking);
     auto timestampVectorData =
-        CORE::TimestampVectorData::create("/timestamps", io);
+        AQNWB::NWB::TimestampVectorData::create("/timestamps", io);
     REQUIRE(timestampVectorData != nullptr);
 
     Status initStatus =
-        timestampVectorData->initialize(0.001f, "Owned types test", config);
+        timestampVectorData->initialize(config, "Owned types test", 0.001f);
     REQUIRE(initStatus == Status::Success);
 
     auto ownedTypes = timestampVectorData->findOwnedTypes();
@@ -123,13 +123,13 @@ TEST_CASE("TimestampVectorData", "[event]")
     auto io =
         createIO("HDF5", getTestFilePath("testTimestampVectorDataNoIO.h5"));
     auto timestampVectorData =
-        CORE::TimestampVectorData::create("/timestamps", io);
+        AQNWB::NWB::TimestampVectorData::create("/timestamps", io);
     REQUIRE(timestampVectorData != nullptr);
 
     io.reset();
 
     Status initStatus =
-        timestampVectorData->initialize(0.01f, "Missing IO", config);
+        timestampVectorData->initialize(config, "Missing IO", 0.01f);
     REQUIRE(initStatus == Status::Failure);
   }
 }

@@ -195,21 +195,21 @@ TEST_CASE("DynamicTable", "[table]")
 
       IO::ArrayDataSetConfig eventConfig(
           BaseDataType::F32, dataShape, chunking);
-      auto timestampColumn = CORE::TimestampVectorData::create(
+      auto timestampColumn = AQNWB::NWB::TimestampVectorData::create(
           mergePaths(tablePath, "timestamp"), io);
       REQUIRE(timestampColumn != nullptr);
       status = timestampColumn->initialize(
-          0.001f, "Timestamp column for event table", eventConfig);
+          eventConfig, "Timestamp column for event table", 0.001f);
       REQUIRE(status == Status::Success);
       status = timestampColumn->recordData()->writeDataBlock(
           dataShape, positionOffset, BaseDataType::F32, timestamps.data());
       REQUIRE(status == Status::Success);
 
-      auto durationColumn = CORE::DurationVectorData::create(
+      auto durationColumn = AQNWB::NWB::DurationVectorData::create(
           mergePaths(tablePath, "duration"), io);
       REQUIRE(durationColumn != nullptr);
       status = durationColumn->initialize(
-          0.001f, "Duration column for event table", eventConfig);
+          eventConfig, "Duration column for event table", 0.001f);
       REQUIRE(status == Status::Success);
       status = durationColumn->recordData()->writeDataBlock(
           dataShape, positionOffset, BaseDataType::F32, durations.data());
@@ -250,7 +250,7 @@ TEST_CASE("DynamicTable", "[table]")
               == std::vector<std::string>({"timestamp", "duration"}));
 
       auto readTimestampColumn =
-          readTable->readColumn<CORE::TimestampVectorData>("timestamp");
+          readTable->readColumn<AQNWB::NWB::TimestampVectorData>("timestamp");
       REQUIRE(readTimestampColumn != nullptr);
       REQUIRE(readTimestampColumn->readUnit()->values().data[0] == "seconds");
       REQUIRE(readTimestampColumn->readResolution()->values().data[0]
@@ -262,7 +262,7 @@ TEST_CASE("DynamicTable", "[table]")
       }
 
       auto readDurationColumn =
-          readTable->readColumn<CORE::DurationVectorData>("duration");
+          readTable->readColumn<AQNWB::NWB::DurationVectorData>("duration");
       REQUIRE(readDurationColumn != nullptr);
       REQUIRE(readDurationColumn->readUnit()->values().data[0] == "seconds");
       REQUIRE(readDurationColumn->readResolution()->values().data[0]
