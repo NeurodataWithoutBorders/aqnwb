@@ -499,11 +499,12 @@ TEST_CASE("setCanModifyObjectsMode", "[nwb]")
   std::vector<std::string> mockChannelNames =
       getMockChannelArrayNames("esdata");
   // create the Electrodes Table
-  // This will fail because we cannot modify objects after starting the recording
+  // This will fail because we cannot modify objects after starting the
+  // recording
   auto electrodesTable = nwbfile->createElectrodesTable(mockArrays);
   REQUIRE(electrodesTable == nullptr);
-  // Because we done have and ElectrodesTable, we cannot create an ElectricalSeries
-  // either and that would fail even eariler.
+  // Because we done have and ElectrodesTable, we cannot create an
+  // ElectricalSeries either and that would fail even earlier.
 
   // stop recording
   io->stopRecording();

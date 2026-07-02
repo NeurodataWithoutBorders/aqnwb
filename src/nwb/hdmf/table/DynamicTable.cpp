@@ -37,7 +37,8 @@ DynamicTable::DynamicTable(const std::string& path,
 DynamicTable::~DynamicTable() {}
 
 /** Initialization function*/
-Status DynamicTable::initialize(const std::string& description, const SizeType rowChunkSize)
+Status DynamicTable::initialize(const std::string& description,
+                                const SizeType rowChunkSize)
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
@@ -50,7 +51,7 @@ Status DynamicTable::initialize(const std::string& description, const SizeType r
   if (description != "") {
     ioPtr->createAttribute(description, m_path, "description");
   }
-  
+
   // Initialize the row element identifiers
   Status idStatus = Status::Success;
   if (!m_rowElementIdentifiers->isInitialized()) {
@@ -59,7 +60,7 @@ Status DynamicTable::initialize(const std::string& description, const SizeType r
     IO::ArrayDataSetConfig idConfig(IO::BaseDataType::I32, idShape, idChunking);
     idStatus = m_rowElementIdentifiers->initialize(idConfig);
   }
-  
+
   return containerStatus && idStatus;
 }
 
@@ -127,8 +128,9 @@ Status DynamicTable::setRowIDs(const std::vector<int>& values)
       return Status::Failure;
     }
 
-    Status writeDataStatus = m_rowElementIdentifiers->recordData()->writeDataBlock(
-        SizeArray(1, values.size()), IO::BaseDataType::I32, &values[0]);
+    Status writeDataStatus =
+        m_rowElementIdentifiers->recordData()->writeDataBlock(
+            SizeArray(1, values.size()), IO::BaseDataType::I32, &values[0]);
     return writeDataStatus;
   }
 }

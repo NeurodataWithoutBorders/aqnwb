@@ -53,10 +53,12 @@ public:
    * column names.
    *
    * @param description The description of the table (optional).
-   * @param rowChunkSize The chunk size for the rows in the table (optional, default: 100).
+   * @param rowChunkSize The chunk size for the rows in the table (optional,
+   * default: 100).
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status initialize(const std::string& description, const SizeType rowChunkSize = 100);
+  Status initialize(const std::string& description,
+                    const SizeType rowChunkSize = 100);
 
   /**
    * @brief Finalizes writing the DynamicTable.
