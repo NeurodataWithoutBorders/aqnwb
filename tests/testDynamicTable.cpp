@@ -223,9 +223,17 @@ TEST_CASE("DynamicTable", "[table]")
       status = table->setRowIDs(elementIDs, ids);
       REQUIRE(status == Status::Success);
 
-      table->setColNames({"timestamp", "duration"});
+      status = table->addColumn(timestampColumn);
+      REQUIRE(status == Status::Success);
+
+      status = table->addColumn(durationColumn);
+      REQUIRE(status == Status::Success);
+
       status = table->finalize();
       REQUIRE(status == Status::Success);
+
+      auto colNames = table->readColNames()->values().data;
+      REQUIRE(colNames == std::vector<std::string>({"timestamp", "duration"}));
 
       io->close();
     }

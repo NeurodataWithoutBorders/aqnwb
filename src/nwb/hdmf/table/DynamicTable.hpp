@@ -76,6 +76,20 @@ public:
                    const std::vector<std::string>& values);
 
   /**
+   * @brief Adds a column to the table without writing data.
+   *
+   * This is useful for adding fully initialized columns where the
+   * data is written separately. This includes columns that may be
+   * subclasses of VectorData that have their own initialization
+   * and data writing methods (e.g,. TimestampVectorData or
+   * DurationVectorData, etc.).
+   *
+   * @param vectorData A shared pointer to the `VectorData` dataset.
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
+  Status addColumn(const std::shared_ptr<VectorData>& vectorData);
+
+  /**
    * @brief Adds a column of references to the table.
    * @param name The name of the column.
    * @param colDescription The description of the column.

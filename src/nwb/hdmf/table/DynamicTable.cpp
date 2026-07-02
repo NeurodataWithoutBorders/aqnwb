@@ -86,6 +86,19 @@ Status DynamicTable::addColumn(const std::shared_ptr<VectorData>& vectorData,
   }
 }
 
+Status DynamicTable::addColumn(const std::shared_ptr<VectorData>& vectorData)
+{
+  if (!vectorData->isInitialized()) {
+    std::cerr << "VectorData dataset is not initialized "
+              << vectorData->getPath() << std::endl;
+    return Status::Failure;
+  } else {
+    addColumnName(vectorData->getName());
+    m_recordingColumns->addRecordingObject(vectorData);
+    return Status::Success;
+  }
+}
+
 Status DynamicTable::setRowIDs(
     const std::shared_ptr<ElementIdentifiers>& elementIDs,
     const std::vector<int>& values)
