@@ -27,14 +27,17 @@ TEST_CASE("MeaningsTable", "[table]")
 
     // Create target VectorData
     auto targetVectorData = NWB::VectorData::create(targetPath, io);
-    IO::ArrayDataSetConfig targetConfig(BaseDataType::I32, SizeArray{0}, SizeArray{100});
-    Status targetStatus = targetVectorData->initialize(targetConfig, "Target vector data");
+    IO::ArrayDataSetConfig targetConfig(
+        BaseDataType::I32, SizeArray {0}, SizeArray {100});
+    Status targetStatus =
+        targetVectorData->initialize(targetConfig, "Target vector data");
     REQUIRE(targetStatus == Status::Success);
     targetVectorData->finalize();
 
     // Create MeaningsTable
     auto table = NWB::MeaningsTable::create(tablePath, io);
-    Status status = table->initialize(*targetVectorData, BaseDataType::I32, "A test meanings table", 50);
+    Status status = table->initialize(
+        *targetVectorData, BaseDataType::I32, "A test meanings table", 50);
     REQUIRE(status == Status::Success);
 
     // Finalize table to write attributes
@@ -62,7 +65,8 @@ TEST_CASE("MeaningsTable", "[table]")
 
     // Test target link
     REQUIRE(io->objectExists(tablePath + "/target"));
-    REQUIRE(io->getStorageObjectType(tablePath + "/target") == StorageObjectType::Dataset);
+    REQUIRE(io->getStorageObjectType(tablePath + "/target")
+            == StorageObjectType::Dataset);
 
     io->close();
   }
@@ -75,7 +79,8 @@ TEST_CASE("MeaningsTable", "[table]")
 
     // Create target VectorData
     auto targetVectorData = NWB::VectorData::create(targetPath, io);
-    IO::ArrayDataSetConfig targetConfig(BaseDataType::I32, SizeArray{0}, SizeArray{100});
+    IO::ArrayDataSetConfig targetConfig(
+        BaseDataType::I32, SizeArray {0}, SizeArray {100});
     targetVectorData->initialize(targetConfig, "Target vector data");
     targetVectorData->finalize();
 
@@ -86,11 +91,13 @@ TEST_CASE("MeaningsTable", "[table]")
     // Add data to the table
     std::vector<int> values = {1, 2, 3};
     std::vector<std::string> meanings = {"meaning 1", "meaning 2", "meaning 3"};
-    
+
     // Get the columns
-    auto valueCol = std::dynamic_pointer_cast<NWB::VectorDataTyped<int>>(table->readColumn<NWB::VectorDataTyped<int>>("value"));
-    auto meaningCol = table->readColumn<NWB::VectorDataTyped<std::string>>("meaning");
-    
+    auto valueCol = std::dynamic_pointer_cast<NWB::VectorDataTyped<int>>(
+        table->readColumn<NWB::VectorDataTyped<int>>("value"));
+    auto meaningCol =
+        table->readColumn<NWB::VectorDataTyped<std::string>>("meaning");
+
     REQUIRE(valueCol != nullptr);
     REQUIRE(meaningCol != nullptr);
 
@@ -98,13 +105,19 @@ TEST_CASE("MeaningsTable", "[table]")
     io->startRecording();
 
     // Write data
-    valueCol->recordData()->writeDataBlock(SizeArray{values.size()}, SizeArray{0}, BaseDataType::I32, values.data());
-    meaningCol->recordData()->writeDataBlock(SizeArray{meanings.size()}, SizeArray{0}, BaseDataType::V_STR, meanings);
+    valueCol->recordData()->writeDataBlock(SizeArray {values.size()},
+                                           SizeArray {0},
+                                           BaseDataType::I32,
+                                           values.data());
+    meaningCol->recordData()->writeDataBlock(SizeArray {meanings.size()},
+                                             SizeArray {0},
+                                             BaseDataType::V_STR,
+                                             meanings);
 
     // Stop the recording and finalize the table
     io->stopRecording();
     io->close();
-    
+
     // Reopen file and verify data
     io = createIO("HDF5", path);
     io->open();
@@ -112,7 +125,8 @@ TEST_CASE("MeaningsTable", "[table]")
 
     // Read values
     auto readValueCol = readTable->readValueColumn();
-    auto readValueColTyped = NWB::VectorDataTyped<int>::fromVectorData(readValueCol);
+    auto readValueColTyped =
+        NWB::VectorDataTyped<int>::fromVectorData(readValueCol);
     REQUIRE(readValueCol != nullptr);
     REQUIRE(readValueColTyped != nullptr);
     auto readValues = readValueColTyped->readData()->values().data;

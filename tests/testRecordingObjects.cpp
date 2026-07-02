@@ -101,7 +101,8 @@ TEST_CASE("RecordingObjects recording workflow tests", "[recording]")
 
     // ---- electrodes ----------------------------------------------------
     auto mockRecordingArrays = getMockChannelArrays();  // default 4 channels
-    auto electrodesTable = nwbFile->createElectrodesTable(mockRecordingArrays, true, 50);
+    auto electrodesTable =
+        nwbFile->createElectrodesTable(mockRecordingArrays, true, 50);
     REQUIRE(electrodesTable != nullptr);
 
     // Verify chunk size
