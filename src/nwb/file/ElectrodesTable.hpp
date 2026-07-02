@@ -58,6 +58,7 @@ public:
    *
    * @param description The description of the table (default: "metadata about
    * extracellular electrodes")
+   * @param rowChunkSize The chunk size for the rows of the table (default: 100)
    * @return Status::Success if successful, otherwise Status::Failure.
    */
   Status initialize(const std::string& description =

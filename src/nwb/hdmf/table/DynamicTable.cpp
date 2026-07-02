@@ -1,7 +1,6 @@
 #include "nwb/hdmf/table/DynamicTable.hpp"
 
 #include "Utils.hpp"
-#include "nwb/hdmf/table/ElementIdentifiers.hpp"
 #include "nwb/hdmf/table/MeaningsTable.hpp"
 
 using namespace AQNWB::NWB;
@@ -240,4 +239,35 @@ std::shared_ptr<MeaningsTable> DynamicTable::createMeaningsTable(
 
   // Return the created MeaningsTable
   return meaningsTable;
+}
+
+std::shared_ptr<MeaningsTable> DynamicTable::readMeaningsTable(
+    const std::string& objectName) const
+{
+  std::string prefixPath = AQNWB::mergePaths(m_path, "meanings_tables");
+  std::string objectPath = AQNWB::mergePaths(prefixPath, objectName);
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    std::cerr << "IO object has been deleted. Can't read field: " << objectPath
+              << std::endl;
+    return nullptr;
+  }
+  if (ioPtr->objectExists(objectPath)) {
+    return MeaningsTable::create(objectPath, ioPtr);
+  }
+  return nullptr;
+}
+
+std::shared_ptr<MeaningsTable> DynamicTable::createMeaningsTableInstance(
+    const std::string& objectName) const
+{
+  std::string prefixPath = AQNWB::mergePaths(m_path, "meanings_tables");
+  std::string objectPath = AQNWB::mergePaths(prefixPath, objectName);
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    std::cerr << "IO object has been deleted. Can't create field: "
+              << objectPath << std::endl;
+    return nullptr;
+  }
+  return MeaningsTable::create(objectPath, ioPtr);
 }

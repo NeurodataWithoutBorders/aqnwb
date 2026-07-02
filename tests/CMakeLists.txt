@@ -18,6 +18,7 @@ add_executable(aqnwb_test
     testDurationVectorData.cpp
     testDevice.cpp
     testDynamicTable.cpp
+    testDynamicTableForwardDeclaredMeanings.cpp
     testEcephys.cpp
     testElementIdentifiers.cpp
     testEventsTable.cpp

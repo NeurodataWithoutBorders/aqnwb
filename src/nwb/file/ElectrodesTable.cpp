@@ -42,6 +42,12 @@ ElectrodesTable::~ElectrodesTable() {}
 Status ElectrodesTable::initialize(const std::string& description,
                                    const SizeType rowChunkSize)
 {
+  if (rowChunkSize == 0) {
+    std::cerr << "ElectrodesTable::initialize rowChunkSize must be > 0."
+              << std::endl;
+    return Status::Failure;
+  }
+
   // create group
   DynamicTable::initialize(description);
   // IO::BaseDataType vstrType(IO::BaseDataType::Type::V_STR,
