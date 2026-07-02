@@ -197,7 +197,9 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
 }
 
 std::shared_ptr<ElectrodesTable> NWBFile::createElectrodesTable(
-    std::vector<Types::ChannelVector> recordingArrays, bool finalizeTable)
+    std::vector<Types::ChannelVector> recordingArrays,
+    bool finalizeTable,
+    const SizeType rowChunkSize)
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
@@ -207,7 +209,8 @@ std::shared_ptr<ElectrodesTable> NWBFile::createElectrodesTable(
   }
 
   auto electrodeTable = NWB::ElectrodesTable::create(ioPtr);
-  electrodeTable->initialize();
+  electrodeTable->initialize("metadata about extracellular electrodes",
+                             rowChunkSize);
   for (const auto& channelVector : recordingArrays) {
     electrodeTable->addElectrodes(channelVector);
   }

@@ -127,11 +127,13 @@ public:
    *                      after creation to write it to the file. If false, the
    *                      caller must call finalize() on the returned table
    *                      object to write it to the file.
+   * @param rowChunkSize The chunk size to use for the rows of the table.
    * @return The generated ElectrodesTable or nullptr if failed.
    */
   std::shared_ptr<ElectrodesTable> createElectrodesTable(
       std::vector<Types::ChannelVector> recordingArrays,
-      bool finalizeTable = true);
+      bool finalizeTable = true,
+      const SizeType rowChunkSize = 100);
 
   /**
    * @brief Create ElectricalSeries objects to record data into.
