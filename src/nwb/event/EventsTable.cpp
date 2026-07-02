@@ -57,9 +57,9 @@ Status EventsTable::initialize(const std::string& description,
   auto timestampColumn = TimestampVectorData::create(timestampPath, ioPtr);
   Status timestampStatus = timestampColumn->initialize(
       timestampConfig,
-      "A 1-dimensional VectorData that stores timestamps in seconds from thesession start time. Timestamp are not required to be sorted in time.",
-      timestampResolution
-    );
+      "A 1-dimensional VectorData that stores timestamps in seconds from "
+      "thesession start time. Timestamp are not required to be sorted in time.",
+      timestampResolution);
   Status addTimestampColumnStatus = addColumn(timestampColumn);
   timestampStatus = timestampStatus && addTimestampColumnStatus;
 
@@ -72,9 +72,9 @@ Status EventsTable::initialize(const std::string& description,
     auto durationColumn = DurationVectorData::create(durationPath, ioPtr);
     durationStatus = durationColumn->initialize(
         durationConfig,
-        "A 1-dimensional VectorData that stores the durations of the events in seconds. Durations are not required to be sorted in time.",
-        durationResolution
-      );
+        "A 1-dimensional VectorData that stores the durations of the events in "
+        "seconds. Durations are not required to be sorted in time.",
+        durationResolution);
     Status addDurationColumnStatus = addColumn(durationColumn);
     durationStatus = durationStatus && addDurationColumnStatus;
   }
@@ -88,14 +88,14 @@ Status EventsTable::initialize(const std::string& description,
     auto annotationColumn = VectorData::create(annotationPath, ioPtr);
     annotationStatus = annotationColumn->initialize(
         annotationConfig,
-        "A 1-dimensional VectorData that stores annotations for the events. Annotations are not required to be sorted in time."
-      );
+        "A 1-dimensional VectorData that stores annotations for the events. "
+        "Annotations are not required to be sorted in time.");
     Status addAnnotationColumnStatus = addColumn(annotationColumn);
     annotationStatus = annotationStatus && addAnnotationColumnStatus;
   }
 
   // Combine all statuses and return the final status
-  initStatus = initStatus && parentInitStatus && sourceDescStatus && timestampStatus &&
-               durationStatus  && annotationStatus;
+  initStatus = initStatus && parentInitStatus && sourceDescStatus
+      && timestampStatus && durationStatus && annotationStatus;
   return initStatus;
 }

@@ -59,7 +59,8 @@ TEST_CASE("TimestampVectorData", "[event]")
       REQUIRE(readDataUntyped != nullptr);
 
       auto readTimestampVectorData =
-          std::dynamic_pointer_cast<AQNWB::NWB::TimestampVectorData>(readDataUntyped);
+          std::dynamic_pointer_cast<AQNWB::NWB::TimestampVectorData>(
+              readDataUntyped);
       REQUIRE(readTimestampVectorData != nullptr);
 
       REQUIRE(readTimestampVectorData->getNamespace() == "core");

@@ -54,13 +54,13 @@ public:
    * @brief Initialize the object
    * @param description Description of the table
    * @param sourceDescription Optional short text description of where the
-   * events came from, applying to every row in the table. If empty string is 
+   * events came from, applying to every row in the table. If empty string is
    * provided (default), then the attribute will not be created.
    * @param timestampResolution The temporal resolution of the timestamps - in
    * seconds. See `TimestampVectorData::initialize()` for more details.
-   * @param durationResolution The temporal resolution of the optional duration 
+   * @param durationResolution The temporal resolution of the optional duration
    * column in seconds. See `DurationVectorData::initialize()` for more details.
-   * If a negative value is provided (default), then the duration column will 
+   * If a negative value is provided (default), then the duration column will
    * not be created.
    * @param createAnnotationColumn Whether to create the annotation column
    * (default: false)
