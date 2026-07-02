@@ -12,16 +12,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 * Added `ElectricalSeries::writeAllChannels` method and `IO::writeElectricalSeriesData` overload to simplify zero-copy interleaved multichannel writes. (@copilot, @oruebel, [#293](https://github.com/NeurodataWithoutBorders/aqnwb/pull/293))
 * Added `ElectricalSeries::channelsAtSameSampleOffset` method to check if all channels are at the same sample offset, which is a requirement for using `writeAllChannels`. (@copilot, @oruebel, [#293](https://github.com/NeurodataWithoutBorders/aqnwb/pull/293))
+* Added `TimestampVectorData` and `DurationVectorData` types to support event timing data. (@cline, @oruebel, [#301](https://github.com/NeurodataWithoutBorders/aqnwb/pull/301))
+* Added `DynamicTable::addColumn` overload to allow adding fully configured `VectorData` columns and derived column types without string values (@cline, @oruebel, [#301](https://github.com/NeurodataWithoutBorders/aqnwb/pull/301))
 
 ### Changed
 * **[BREAKING]** Moved `disableSWMRMode` option from `HDF5IO` constructor to a new `HDF5IO::startRecording(bool disableSWMRMode)` overload. The `BaseIO`-compliant `startRecording()` override is preserved and defaults to SWMR enabled. 
    * **Migration Note**: Code using `HDF5IO(path, true)` must be updated to `HDF5IO(path)` followed by `startRecording(true)`. When the `HDF5IO` object is held as a `std::shared_ptr<BaseIO>` (e.g., from `createIO`), downcast with `std::dynamic_pointer_cast<HDF5IO>` to access the overload. (@oruebel [#297](https://github.com/NeurodataWithoutBorders/aqnwb/pull/297))
 * Updated schema in the `spec/` module to the latest NWB releases: (i) NWB 2.10, (ii) HDMF Common 1.9, and (iii) HDMF Experimental 0.6 (@oruebel, [#300](https://github.com/NeurodataWithoutBorders/aqnwb/pull/300))
+* Updated `DynamicTable::readColumn` using type traits to support reading both `VectorData` columns with a specific data type and columns that are a subtype of `VectorData` (e.g., the new `TimestampVectorData` and `DurationVectorData`).
 
 ### Fixed
 * Updated nwbinspector validation tests in the CI to: 1) `--ignore=check_subject_exists` and 2) remove dependency on `sanitizer` tests to speed up CI (@oruebel, [#289](https://github.com/NeurodataWithoutBorders/aqnwb/pull/289))
 * Fixed `get_utc_offset_seconds` to correctly account for daylight saving time using platform-specific APIs (`tm_gmtoff` on Unix/macOS; `_get_timezone` + `_get_dstbias` on Windows), preventing `session_start_time` from being written ~1 hour ahead of UTC during DST (@cboulay, [#295](https://github.com/NeurodataWithoutBorders/aqnwb/pull/295))
-* Fixed `resources/utils/schematype_to_aqnwb.py` to emit forward declarations rather than full header includes for referenced generated types, avoiding circular header dependencies. This issue surfaced due to the update to the latest HDMF Common schema types where `DynamicTable` references `MeaningsTable`, which is itself a `DynamicTable` (@copilot, @oruebel, [#300](https://github.com/NeurodataWithoutBorders/aqnwb/pull/300))
+* Fixed `resources/utils/schematype_to_aqnwb.py` to facilitate generation of new types:
+    * Emit forward declarations rather than full header includes for referenced generated types, avoiding circular header dependencies. This issue surfaced due to the update to the latest HDMF Common schema types where `DynamicTable` references `MeaningsTable`, which is itself a `DynamicTable` (@copilot, @oruebel, [#300](https://github.com/NeurodataWithoutBorders/aqnwb/pull/300)
+    * Updated minimum Python version for `resources/utils` to ensure use of the latest versions of PyNWB with uv (@cline, @oruebel, [#301](https://github.com/NeurodataWithoutBorders/aqnwb/pull/301))
+    * Updated cpp code generation to use new `std::weak_ptr` via `getIO` instead of the previous `m_io` shared pointer. (@cline, @oruebel, [#301](https://github.com/NeurodataWithoutBorders/aqnwb/pull/301))
+    * Various intendaton and formatting fixes in generated cpp code to improve readability (across multiple PRs, e.g., #300, #301).
 * Fixed Windows CI by updating the CMake generator in `CMakePresets.json` from `"Visual Studio 17 2022"` to `"Visual Studio 18 2026"` to match the updated `windows-latest` runner (@copilot, [#300](https://github.com/NeurodataWithoutBorders/aqnwb/pull/300))
 
 ## [0.3.0] - 2026-02-23
