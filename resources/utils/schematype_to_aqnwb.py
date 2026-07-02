@@ -1388,19 +1388,25 @@ public:
     parent_class_name = parent_class.split("::")[-1] if "::" in parent_class else parent_class
     
     if is_included_type:
+        use_namespace = f""""{actual_cpp_namespace_name}")  // TODO: Use namespace from schema header"""
+        # Use the known NWB and HDMF_COMMON namespace header name definitons when used as includes
+        if actual_cpp_namespace_name == "HDMF_COMMON":
+            use_namespace = "AQNWB::SPEC::HDMF_COMMON::namespaceName)"
+        elif actual_cpp_namespace_name == "CORE":
+            use_namespace = "AQNWB::SPEC::CORE::namespaceName)"
         header += f"""
-        REGISTER_SUBCLASS(
-            {class_name},
-            {parent_class_name},
-            "{actual_cpp_namespace_name}")  // TODO: Use namespace from schema header
-        """
+    REGISTER_SUBCLASS(
+        {class_name},
+        {parent_class_name},
+        {use_namespace}
+    """
     else:
         header += f"""
-        REGISTER_SUBCLASS(
-            {class_name},
-            {parent_class_name},
-            AQNWB::SPEC::{actual_cpp_namespace_name}::namespaceName)
-        """
+    REGISTER_SUBCLASS(
+        {class_name},
+        {parent_class_name},
+        AQNWB::SPEC::{actual_cpp_namespace_name}::namespaceName)
+    """
         
     header += f"""
 }};
