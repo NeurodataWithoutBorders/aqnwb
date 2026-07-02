@@ -22,11 +22,9 @@ EventsTable::EventsTable(const std::string& path,
 }
 
 // Initialize the object
-Status EventsTable::initialize(
-    const std::string& description,
-    const std::string& sourceDescription,
-    const SizeType rowChunkSize
-)
+Status EventsTable::initialize(const std::string& description,
+                               const std::string& sourceDescription,
+                               const SizeType rowChunkSize)
 {
   Status initStatus = Status::Success;
 
@@ -41,7 +39,6 @@ Status EventsTable::initialize(
   // Call parent initialize method.
   Status parentInitStatus = DynamicTable::initialize(description);
   initStatus = initStatus && parentInitStatus;
-
 
   // Initialize attributes, datasets, and groups
 

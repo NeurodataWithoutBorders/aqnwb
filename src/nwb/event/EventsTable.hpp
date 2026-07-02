@@ -16,7 +16,7 @@ namespace AQNWB::NWB
 {
 class DurationVectorData;
 class TimestampVectorData;
-}  // namespace CORE
+}  // namespace AQNWB::NWB
 
 // Include for the namespace schema header
 #include "spec/core.hpp"
@@ -53,16 +53,16 @@ public:
   // TODO: Update the initialize method as appropriate.
   /**
    * @brief Initialize the object
-   * @param description Description of the table 
-   * @param sourceDescription Optional short text description of where the events came from - applying to every row in the table.
-   * @param rowChunkSize The chunk size for the rows of the table (optional, default: 100)
+   * @param description Description of the table
+   * @param sourceDescription Optional short text description of where the
+   * events came from - applying to every row in the table.
+   * @param rowChunkSize The chunk size for the rows of the table (optional,
+   * default: 100)
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status initialize(
-      const std::string& description,
-      const std::string& sourceDescription = "",
-      const SizeType rowChunkSize = 100
-  );
+  Status initialize(const std::string& description,
+                    const std::string& sourceDescription = "",
+                    const SizeType rowChunkSize = 100);
 
   // Define read methods
   // description overrides inherited field from parent neurodata_type
@@ -92,12 +92,11 @@ public:
       "narrative of how the event times were computed (channels used - "
       "encoding scheme - algorithm parameters - etc.).")
 
-  DEFINE_REGISTERED_FIELD(
-    readTimestampColumn,
-    AQNWB::NWB::TimestampVectorData,
-    "timestamp",
-    "Column containing the time that each event occurred "
-    "- in seconds - from the session start time.")
+  DEFINE_REGISTERED_FIELD(readTimestampColumn,
+                          AQNWB::NWB::TimestampVectorData,
+                          "timestamp",
+                          "Column containing the time that each event occurred "
+                          "- in seconds - from the session start time.")
 
   DEFINE_REGISTERED_FIELD(
       readDurationColumn,
@@ -112,11 +111,7 @@ public:
                           "annotation",
                           "Column containing user annotations about events.")
 
-
-  REGISTER_SUBCLASS(
-    EventsTable, 
-    DynamicTable, 
-    AQNWB::SPEC::CORE::namespaceName)
+  REGISTER_SUBCLASS(EventsTable, DynamicTable, AQNWB::SPEC::CORE::namespaceName)
 };
 
-}  // namespace CORE
+}  // namespace AQNWB::NWB
