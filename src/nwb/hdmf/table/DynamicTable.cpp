@@ -1,6 +1,8 @@
 #include "nwb/hdmf/table/DynamicTable.hpp"
 
 #include "Utils.hpp"
+#include "nwb/hdmf/table/ElementIdentifiers.hpp"
+#include "nwb/hdmf/table/MeaningsTable.hpp"
 
 using namespace AQNWB::NWB;
 
@@ -177,4 +179,65 @@ Status DynamicTable::finalize()
   );
   Status parentStatus = Container::finalize();
   return colNamesStatus && parentStatus;
+}
+
+std::shared_ptr<MeaningsTable> DynamicTable::createMeaningsTable(
+    const std::string& columnName, const SizeType rowChunkSize)
+{
+  // Get the I/O object an ensure it is valid
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    std::cerr << "DynamicTable::createMeaningsTable IO object has been deleted."
+              << std::endl;
+    return nullptr;
+  }
+
+  // Check that the column VectorData exists in the DynamicTable
+  auto columnVectorData = readColumn<VectorData>(columnName);
+  if (!columnVectorData) {
+    std::cerr << "Column VectorData '" << columnName
+              << "' does not exist in DynamicTable '" << m_path
+              << "'. Cannot create MeaningsTable." << std::endl;
+    return nullptr;
+  }
+  auto valueDataType = columnVectorData->readData()->getDataType();
+
+  // Check the meanings_tables group exists, if not create it
+  std::string meaningsTablesGroupPath =
+      AQNWB::mergePaths(m_path, "meanings_tables");
+  if (!ioPtr->objectExists(meaningsTablesGroupPath)) {
+    Status createGroupStatus = ioPtr->createGroup(meaningsTablesGroupPath);
+    if (createGroupStatus != Status::Success) {
+      std::cerr << "Failed to create meanings_tables group at '"
+                << meaningsTablesGroupPath << "'." << std::endl;
+      return nullptr;
+    }
+  }
+
+  // Create the MeaningsTable for the specified column
+  std::string meaningsTablePath =
+      AQNWB::mergePaths(meaningsTablesGroupPath, columnName + "_meanings");
+  auto meaningsTable = MeaningsTable::create(meaningsTablePath, ioPtr);
+  if (!meaningsTable) {
+    std::cerr << "Failed to create MeaningsTable at '" << meaningsTablePath
+              << "'." << std::endl;
+    return nullptr;
+  }
+
+  // Initialize the MeaningsTable with the target VectorData and value data type
+  Status initStatus =
+      meaningsTable->initialize(*columnVectorData,
+                                valueDataType,
+                                "Meanings table for column: " + columnName,
+                                rowChunkSize);
+
+  // Report error if initialization failed
+  if (initStatus != Status::Success) {
+    std::cerr << "Failed to initialize MeaningsTable at '" << meaningsTablePath
+              << "'." << std::endl;
+    return nullptr;
+  }
+
+  // Return the created MeaningsTable
+  return meaningsTable;
 }

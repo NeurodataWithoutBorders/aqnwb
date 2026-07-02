@@ -8,9 +8,14 @@
 #include "io/ReadIO.hpp"
 #include "io/RecordingObjects.hpp"
 #include "nwb/hdmf/base/Container.hpp"
-#include "nwb/hdmf/table/ElementIdentifiers.hpp"
 #include "nwb/hdmf/table/VectorData.hpp"
 #include "spec/hdmf_common.hpp"
+
+namespace AQNWB::NWB
+{
+class ElementIdentifiers;
+class MeaningsTable;
+}  // namespace AQNWB::NWB
 
 namespace AQNWB::NWB
 {
@@ -129,6 +134,19 @@ public:
   }
 
   /**
+   * @brief Create a MeaningsTable for a specific VectorData column in this
+   * DynamicTable.
+   * @param columnName The name of the VectorData column for which to create the
+   * MeaningsTable.
+   * @param rowChunkSize The chunk size for the rows in the MeaningsTable
+   * (optional, default: 100).
+   * @return A shared pointer to the created MeaningsTable, or nullptr if
+   * creation failed.
+   */
+  std::shared_ptr<MeaningsTable> createMeaningsTable(
+      const std::string& columnName, const SizeType rowChunkSize = 100);
+
+  /**
    * @brief Type trait to determine the return type of readColumn.
    *
    * If T is a subclass of VectorData, the return type is T.
@@ -196,6 +214,17 @@ public:
       ElementIdentifiers,
       "id",
       "unique identifiers for the rows of this dynamic table")
+
+  DEFINE_UNNAMED_REGISTERED_FIELD(
+      readMeaningsTable,
+      createMeaningsTableInstance,
+      AQNWB::NWB::MeaningsTable,
+      "meanings_tables",
+      "MeaningsTable objects that provide meanings for values in VectorData "
+      "columns within this DynamicTable. Tables should be named according to "
+      "the column they provide meanings for with a _meanings suffix. e.g. - if "
+      "a VectorData column is named stimulus_type - the corresponding "
+      "MeaningsTable should be named stimulus_type_meanings.")
 
 protected:
   /**

@@ -5,6 +5,8 @@
 #include "nwb/event/DurationVectorData.hpp"
 #include "nwb/event/TimestampVectorData.hpp"
 #include "nwb/hdmf/table/DynamicTable.hpp"
+#include "nwb/hdmf/table/ElementIdentifiers.hpp"
+#include "nwb/hdmf/table/MeaningsTable.hpp"
 #include "testUtils.hpp"
 
 using namespace AQNWB;
@@ -276,6 +278,117 @@ TEST_CASE("DynamicTable", "[table]")
 
       io->close();
     }
+  }
+
+  SECTION("test createMeaningsTable and readMeaningsTable")
+  {
+    std::string path = getTestFilePath("testDynamicTableMeanings.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    auto table = NWB::DynamicTable::create(tablePath, io);
+    Status status = table->initialize("Table with meanings");
+    REQUIRE(status == Status::Success);
+
+    // Add string vector data column
+    std::vector<std::string> values = {"value1", "value2", "value3"};
+    SizeArray dataShape = {values.size()};
+    SizeArray chunking = {values.size()};
+    IO::ArrayDataSetConfig strConfig(BaseDataType::V_STR, dataShape, chunking);
+    std::string columnPath = mergePaths(tablePath, "col1");
+    auto vectorData = NWB::VectorData::create(columnPath, io);
+    vectorData->initialize(strConfig, "Column 1");
+    status = table->addColumn(vectorData, values);
+    REQUIRE(status == Status::Success);
+
+    // Create MeaningsTable
+    auto meaningsTable = table->createMeaningsTable("col1");
+    REQUIRE(meaningsTable != nullptr);
+
+    // Add values to MeaningsTable
+    std::vector<std::string> meaningValues = {"value1", "value2", "value3"};
+    std::vector<std::string> meanings = {"meaning1", "meaning2", "meaning3"};
+    
+    auto valueCol = meaningsTable->readValueColumn();
+    REQUIRE(valueCol != nullptr);
+    status = valueCol->recordData()->writeDataBlock(
+        SizeArray{meaningValues.size()}, SizeArray{0}, BaseDataType::V_STR, meaningValues);
+    REQUIRE(status == Status::Success);
+
+    auto meaningCol = meaningsTable->readMeaningColumn();
+    REQUIRE(meaningCol != nullptr);
+    status = meaningCol->recordData()->writeDataBlock(
+        SizeArray{meanings.size()}, SizeArray{0}, BaseDataType::V_STR, meanings);
+    REQUIRE(status == Status::Success);
+
+    std::vector<int> meaningIds = {1, 2, 3};
+    auto meaningElementIDs = NWB::ElementIdentifiers::create(mergePaths(meaningsTable->getPath(), "id"), io);
+    IO::ArrayDataSetConfig meaningIdConfig(BaseDataType::I32, {meaningIds.size()}, {meaningIds.size()});
+    meaningElementIDs->initialize(meaningIdConfig);
+    status = meaningsTable->setRowIDs(meaningElementIDs, meaningIds);
+    REQUIRE(status == Status::Success);
+
+    // Set row IDs for main table
+    std::vector<int> ids = {1, 2, 3};
+    SizeArray idShape = {ids.size()};
+    SizeArray idChunking = {ids.size()};
+
+    std::string idPath = mergePaths(tablePath, "id");
+    IO::ArrayDataSetConfig i32Config(BaseDataType::I32, idShape, idChunking);
+    auto elementIDs = NWB::ElementIdentifiers::create(idPath, io);
+    elementIDs->initialize(i32Config);
+    status = table->setRowIDs(elementIDs, ids);
+    REQUIRE(status == Status::Success);
+
+    // Finalize main table
+    io->stopRecording();
+    io->close();
+
+    // Reopen and read
+    auto readio = createIO("HDF5", path);
+    readio->open();
+
+    auto readTable = NWB::DynamicTable::create(tablePath, readio);
+    
+    // Read MeaningsTable
+    auto readMeaningsTable = readTable->readMeaningsTable("col1_meanings");
+    REQUIRE(readMeaningsTable != nullptr);
+    REQUIRE(readMeaningsTable->getPath() == mergePaths(tablePath, "meanings_tables/col1_meanings"));
+
+    // Read value column
+    auto readValueCol = readMeaningsTable->readValueColumn();
+    REQUIRE(readValueCol != nullptr);
+    auto readValueColTyped = AQNWB::NWB::VectorDataTyped<std::string>::fromVectorData(readValueCol);
+    REQUIRE(readValueColTyped != nullptr);
+    auto readValueData = readValueColTyped->readData()->values().data;
+    REQUIRE(readValueData.size() == meaningValues.size());
+    for (size_t i = 0; i < readValueData.size(); ++i) {
+      REQUIRE(readValueData[i] == values[i]);
+    }
+
+    // Read meaning column
+    auto readMeaningCol = readMeaningsTable->readMeaningColumn();
+    REQUIRE(readMeaningCol != nullptr);
+    auto readMeaningData = readMeaningCol->readData()->values().data;
+    REQUIRE(readMeaningData.size() == meanings.size());
+    for (size_t i = 0; i < readMeaningData.size(); ++i) {
+      REQUIRE(readMeaningData[i] == meanings[i]);
+    }
+
+    // Read target VectorData link
+    auto readTarget = readMeaningsTable->readTarget();
+    REQUIRE(readTarget != nullptr);
+    auto readTargetTyped = AQNWB::NWB::VectorDataTyped<std::string>::fromVectorData(readTarget);
+    REQUIRE(readTargetTyped != nullptr);
+    auto readTargetValues = readTargetTyped->readData()->values().data;
+    REQUIRE(readTargetValues.size() == values.size());
+    for (size_t i = 0; i < readTargetValues.size(); ++i) {
+      // Check that the target values from the link match the original values 
+      REQUIRE(readTargetValues[i] == values[i]);
+    }
+
+    // close 
+    readio->close();
   }
 
   SECTION("test DynamicTable.findOwnedTypes")

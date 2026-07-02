@@ -77,7 +77,7 @@ public:
       "meaning",
       "The meaning of the value in the linked VectorData object.")
 
-  DEFINE_REFERENCED_REGISTERED_FIELD(
+  DEFINE_REGISTERED_FIELD(
       readTarget,
       AQNWB::NWB::VectorData,
       "target",
