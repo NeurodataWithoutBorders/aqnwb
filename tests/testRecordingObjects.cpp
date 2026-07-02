@@ -101,8 +101,14 @@ TEST_CASE("RecordingObjects recording workflow tests", "[recording]")
 
     // ---- electrodes ----------------------------------------------------
     auto mockRecordingArrays = getMockChannelArrays();  // default 4 channels
-    auto electrodesTable = nwbFile->createElectrodesTable(mockRecordingArrays);
+    auto electrodesTable = nwbFile->createElectrodesTable(mockRecordingArrays, true, 50);
     REQUIRE(electrodesTable != nullptr);
+
+    // Verify chunk size
+    auto chunking = io->getStorageObjectChunking(
+        "/general/extracellular_ephys/electrodes/id");
+    REQUIRE(chunking.size() == 1);
+    REQUIRE(chunking[0] == 50);
 
     // recordingObjects should hold:
     // Index = 0; Type = core::NWBFile; Path = /;  -- cache size: 0
