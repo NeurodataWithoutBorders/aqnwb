@@ -65,7 +65,7 @@ public:
       readData,
       recordData,
       float,
-      "data",
+      "",
       "A 1-dimensional VectorData that stores timestamps in seconds from the "
       "session start time. Timestamp are not required to be sorted in time.")
 

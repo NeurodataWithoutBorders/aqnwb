@@ -64,7 +64,7 @@ public:
       readData,
       recordData,
       float,
-      "data",
+      "",
       "A 1-dimensional VectorData that stores durations in seconds.")
 
   REGISTER_SUBCLASS(DurationVectorData,

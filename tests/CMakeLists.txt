@@ -15,6 +15,7 @@ add_executable(aqnwb_test
     testBaseIO.cpp
     testChannel.cpp
     testData.cpp
+    testDurationVectorData.cpp
     testDevice.cpp
     testDynamicTable.cpp
     testEcephys.cpp
@@ -32,6 +33,7 @@ add_executable(aqnwb_test
     testRecordingObjects.cpp
     testRegisteredType.cpp
     testTimeSeries.cpp
+    testTimestampVectorData.cpp
     testTypes.cpp
     testUtilsFunctions.cpp
     testVectorData.cpp
