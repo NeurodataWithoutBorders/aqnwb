@@ -115,18 +115,41 @@ public:
   }
 
   /**
+   * @brief Type trait to determine the return type of readColumn.
+   *
+   * If T is a subclass of VectorData, the return type is T.
+   * Otherwise, the return type is VectorDataTyped<T>.
+   */
+  template<typename T>
+  struct ColumnReturnType
+  {
+    using type =
+        typename std::conditional<std::is_base_of<VectorData, T>::value,
+                                  T,
+                                  VectorDataTyped<T>>::type;
+  };
+
+  /**
    * @brief Read an arbitrary column of the DynamicTable
    *
    * For columns defined in the schema the corresponding DEFINE_REGISTERED_FIELD
    * read functions are preferred because they help avoid the need for
    * specifying the specific name of the column and data type to use.
    *
+   * If the template parameter T is a subclass of VectorData (e.g.,
+   * TimestampVectorData), the function returns a shared pointer to T.
+   * Otherwise, it returns a shared pointer to VectorDataTyped<T>.
+   *
+   * @tparam T The data type of the column or the specific VectorData subclass.
+   * @param colName The name of the column to read.
    * @return The VectorData object representing the column or a nullptr if the
-   * column doesn't exists
+   * column doesn't exist.
    */
-  template<typename DTYPE = std::any>
-  std::shared_ptr<VectorDataTyped<DTYPE>> readColumn(const std::string& colName)
+  template<typename T = std::any>
+  std::shared_ptr<typename ColumnReturnType<T>::type> readColumn(
+      const std::string& colName)
   {
+    using ReturnType = typename ColumnReturnType<T>::type;
     std::string columnPath = AQNWB::mergePaths(m_path, colName);
     auto ioPtr = getIO();
     if (ioPtr != nullptr) {
@@ -134,7 +157,7 @@ public:
         if (ioPtr->getStorageObjectType(columnPath)
             == StorageObjectType::Dataset)
         {
-          return VectorDataTyped<DTYPE>::create(columnPath, ioPtr);
+          return ReturnType::create(columnPath, ioPtr);
         }
       }
     } else {
