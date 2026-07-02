@@ -109,6 +109,33 @@ TEST_CASE("createEventsTable", "[nwb]")
           == nullptr);  // duration column should not exist
   REQUIRE(eventsTable->readAnnotationColumn()
           != nullptr);  // annotation column should exist
+
+  // Write some data to the table
+  io->startRecording();
+
+  std::vector<float> timestamps = {1.0f, 2.0f, 3.0f};
+  std::vector<std::string> annotations = {"event1", "event2", "event3"};
+  std::vector<int> ids = {1, 2, 3};
+
+  SizeArray dataShape = {timestamps.size()};
+  SizeArray positionOffset = {0};
+
+  auto timestampColumn = eventsTable->readTimestampColumn();
+  timestampColumn->recordData()->writeDataBlock(
+      dataShape, positionOffset, BaseDataType::F32, timestamps.data());
+
+  auto annotationColumn = eventsTable->readAnnotationColumn();
+  annotationColumn->recordData()->writeDataBlock(
+      dataShape, positionOffset, BaseDataType::V_STR, annotations);
+
+  SizeArray idShape = {ids.size()};
+  SizeArray idChunking = {ids.size()};
+  IO::ArrayDataSetConfig idConfig(BaseDataType::I32, idShape, idChunking);
+  auto elementIDs =
+      NWB::ElementIdentifiers::create("/events/test_events/id", io);
+  elementIDs->initialize(idConfig);
+  eventsTable->setRowIDs(elementIDs, ids);
+
   io->stopRecording();
   io->close();
 }
