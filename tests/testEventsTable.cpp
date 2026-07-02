@@ -4,9 +4,9 @@
 #include "Types.hpp"
 #include "io/BaseIO.hpp"
 #include "nwb/RegisteredType.hpp"
+#include "nwb/event/DurationVectorData.hpp"
 #include "nwb/event/EventsTable.hpp"
 #include "nwb/event/TimestampVectorData.hpp"
-#include "nwb/event/DurationVectorData.hpp"
 #include "nwb/hdmf/table/ElementIdentifiers.hpp"
 #include "testUtils.hpp"
 
@@ -28,12 +28,12 @@ TEST_CASE("EventsTable", "[event]")
     std::string sourceDescription = "Test source description";
     float timestampResolution = 1.0f / 30000.0f;
     float durationResolution = 1.0f / 30000.0f;
-    
+
     std::vector<float> timestamps = {0.0f, 0.1f, 0.25f, 0.5f, 0.75f};
     std::vector<float> durations = {0.01f, 0.02f, 0.03f, 0.04f, 0.05f};
     std::vector<std::string> annotations = {"a", "b", "c", "d", "e"};
     std::vector<int> ids = {1, 2, 3, 4, 5};
-    
+
     SizeArray dataShape = {timestamps.size()};
     SizeArray positionOffset = {0};
 
@@ -44,21 +44,22 @@ TEST_CASE("EventsTable", "[event]")
       auto eventsTable = AQNWB::NWB::EventsTable::create(tablePath, io);
       REQUIRE(eventsTable != nullptr);
 
-      Status initStatus = eventsTable->initialize(
-          description,
-          sourceDescription,
-          timestampResolution,
-          durationResolution,
-          true, // createAnnotationColumn
-          100   // rowChunkSize
-      );
+      Status initStatus =
+          eventsTable->initialize(description,
+                                  sourceDescription,
+                                  timestampResolution,
+                                  durationResolution,
+                                  true,  // createAnnotationColumn
+                                  100  // rowChunkSize
+          );
       REQUIRE(initStatus == Status::Success);
 
       // Write timestamps
       auto timestampColumn = eventsTable->readTimestampColumn();
       REQUIRE(timestampColumn != nullptr);
-      Status writeTimestampStatus = timestampColumn->recordData()->writeDataBlock(
-          dataShape, positionOffset, BaseDataType::F32, timestamps.data());
+      Status writeTimestampStatus =
+          timestampColumn->recordData()->writeDataBlock(
+              dataShape, positionOffset, BaseDataType::F32, timestamps.data());
       REQUIRE(writeTimestampStatus == Status::Success);
 
       // Write durations
@@ -71,8 +72,9 @@ TEST_CASE("EventsTable", "[event]")
       // Write annotations
       auto annotationColumn = eventsTable->readAnnotationColumn();
       REQUIRE(annotationColumn != nullptr);
-      Status writeAnnotationStatus = annotationColumn->recordData()->writeDataBlock(
-          dataShape, positionOffset, BaseDataType::V_STR, annotations);
+      Status writeAnnotationStatus =
+          annotationColumn->recordData()->writeDataBlock(
+              dataShape, positionOffset, BaseDataType::V_STR, annotations);
       REQUIRE(writeAnnotationStatus == Status::Success);
 
       // Set row IDs
@@ -132,16 +134,19 @@ TEST_CASE("EventsTable", "[event]")
       auto readAnnotationColumn = readEventsTable->readAnnotationColumn();
       REQUIRE(readAnnotationColumn != nullptr);
       auto readAnnotationColumnTyped =
-          AQNWB::NWB::VectorDataTyped<std::string>::fromVectorData(readAnnotationColumn);
+          AQNWB::NWB::VectorDataTyped<std::string>::fromVectorData(
+              readAnnotationColumn);
       REQUIRE(readAnnotationColumnTyped != nullptr);
-      auto readAnnotationValues = readAnnotationColumnTyped->readData()->values().data;
+      auto readAnnotationValues =
+          readAnnotationColumnTyped->readData()->values().data;
       REQUIRE(readAnnotationValues.size() == annotations.size());
       for (size_t i = 0; i < readAnnotationValues.size(); ++i) {
         REQUIRE(readAnnotationValues[i] == annotations[i]);
       }
 
       // Read row IDs
-      auto readIdsData = readEventsTable->readIdColumn()->readData()->values().data;
+      auto readIdsData =
+          readEventsTable->readIdColumn()->readData()->values().data;
       REQUIRE(readIdsData == ids);
 
       io->close();
@@ -156,11 +161,7 @@ TEST_CASE("EventsTable", "[event]")
 
     io.reset();
 
-    Status initStatus = eventsTable->initialize(
-        "Missing IO",
-        "",
-        0.01f
-    );
+    Status initStatus = eventsTable->initialize("Missing IO", "", 0.01f);
     REQUIRE(initStatus == Status::Failure);
   }
 }

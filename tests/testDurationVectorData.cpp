@@ -34,7 +34,8 @@ TEST_CASE("DurationVectorData", "[event]")
       io->open();
 
       IO::ArrayDataSetConfig config(BaseDataType::F32, dataShape, chunking);
-      auto durationVectorData = AQNWB::NWB::DurationVectorData::create(dataPath, io);
+      auto durationVectorData =
+          AQNWB::NWB::DurationVectorData::create(dataPath, io);
       REQUIRE(durationVectorData != nullptr);
 
       Status initStatus =
@@ -58,7 +59,8 @@ TEST_CASE("DurationVectorData", "[event]")
       REQUIRE(readDataUntyped != nullptr);
 
       auto readDurationVectorData =
-          std::dynamic_pointer_cast<AQNWB::NWB::DurationVectorData>(readDataUntyped);
+          std::dynamic_pointer_cast<AQNWB::NWB::DurationVectorData>(
+              readDataUntyped);
       REQUIRE(readDurationVectorData != nullptr);
 
       REQUIRE(readDurationVectorData->getNamespace() == "core");
