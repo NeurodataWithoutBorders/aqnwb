@@ -8,12 +8,12 @@
 #include "io/ReadIO.hpp"
 #include "io/RecordingObjects.hpp"
 #include "nwb/hdmf/base/Container.hpp"
+#include "nwb/hdmf/table/ElementIdentifiers.hpp"
 #include "nwb/hdmf/table/VectorData.hpp"
 #include "spec/hdmf_common.hpp"
 
 namespace AQNWB::NWB
 {
-class ElementIdentifiers;
 class MeaningsTable;
 }  // namespace AQNWB::NWB
 

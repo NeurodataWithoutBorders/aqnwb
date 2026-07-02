@@ -1,7 +1,6 @@
 #include "nwb/hdmf/table/DynamicTable.hpp"
 
 #include "Utils.hpp"
-#include "nwb/hdmf/table/ElementIdentifiers.hpp"
 #include "nwb/hdmf/table/MeaningsTable.hpp"
 
 using namespace AQNWB::NWB;
