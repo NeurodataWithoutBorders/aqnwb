@@ -24,6 +24,9 @@ EventsTable::EventsTable(const std::string& path,
 // Initialize the object
 Status EventsTable::initialize(const std::string& description,
                                const std::string& sourceDescription,
+                               float timestampResolution,
+                               float durationResolution,
+                               const bool createAnnotationColumn,
                                const SizeType rowChunkSize)
 {
   Status initStatus = Status::Success;
@@ -38,43 +41,61 @@ Status EventsTable::initialize(const std::string& description,
 
   // Call parent initialize method.
   Status parentInitStatus = DynamicTable::initialize(description);
-  initStatus = initStatus && parentInitStatus;
 
   // Initialize attributes, datasets, and groups
+  // Create the source_description attribute if provided
+  Status sourceDescStatus = Status::Success;
+  if (!sourceDescription.empty()) {
+    sourceDescStatus =
+        ioPtr->createAttribute(sourceDescription, m_path, "source_description");
+  }
 
-  // TODO: Initialize source_description attribute
-  // ioPtr->createAttribute(sourceDescription, m_path, "source_description");
+  // Initialize the required TimestampVectorData dataset
+  auto timestampPath = AQNWB::mergePaths(m_path, "timestamp");
+  IO::ArrayDataSetConfig timestampConfig(
+      IO::BaseDataType::F32, SizeArray {0}, SizeArray {rowChunkSize});
+  auto timestampColumn = TimestampVectorData::create(timestampPath, ioPtr);
+  Status timestampStatus = timestampColumn->initialize(
+      timestampConfig,
+      "A 1-dimensional VectorData that stores timestamps in seconds from thesession start time. Timestamp are not required to be sorted in time.",
+      timestampResolution
+    );
+  Status addTimestampColumnStatus = addColumn(timestampColumn);
+  timestampStatus = timestampStatus && addTimestampColumnStatus;
 
-  // TODO: Initialize colnames attribute. This attribute is_inheritted=True,
-  // is_overridden=False ioPtr->createAttribute(colnames, m_path, "colnames");
+  // Initialize the optional DurationVectorData dataset if requested
+  Status durationStatus = Status::Success;
+  if (durationResolution >= 0.0f) {
+    auto durationPath = AQNWB::mergePaths(m_path, "duration");
+    IO::ArrayDataSetConfig durationConfig(
+        IO::BaseDataType::F32, SizeArray {0}, SizeArray {rowChunkSize});
+    auto durationColumn = DurationVectorData::create(durationPath, ioPtr);
+    durationStatus = durationColumn->initialize(
+        durationConfig,
+        "A 1-dimensional VectorData that stores the durations of the events in seconds. Durations are not required to be sorted in time.",
+        durationResolution
+      );
+    Status addDurationColumnStatus = addColumn(durationColumn);
+    durationStatus = durationStatus && addDurationColumnStatus;
+  }
 
-  // TODO: Initialize timestamp dataset
-  // auto TimestampPath = AQNWB::mergePaths(m_path, "timestamp");
-  // create scalar dataset at TimestampPath with default value const
-  // std::shared_ptr<CORE::TimestampVectorData>& None
+  // Initialize the optional annotation dataset
+  Status annotationStatus = Status::Success;
+  if (createAnnotationColumn) {
+    auto annotationPath = AQNWB::mergePaths(m_path, "annotation");
+    IO::ArrayDataSetConfig annotationConfig(
+        IO::BaseDataType::V_STR, SizeArray {0}, SizeArray {rowChunkSize});
+    auto annotationColumn = VectorData::create(annotationPath, ioPtr);
+    annotationStatus = annotationColumn->initialize(
+        annotationConfig,
+        "A 1-dimensional VectorData that stores annotations for the events. Annotations are not required to be sorted in time."
+      );
+    Status addAnnotationColumnStatus = addColumn(annotationColumn);
+    annotationStatus = annotationStatus && addAnnotationColumnStatus;
+  }
 
-  // TODO: Initialize duration dataset
-  // auto DurationPath = AQNWB::mergePaths(m_path, "duration");
-  // create scalar dataset at DurationPath with default value const
-  // std::shared_ptr<CORE::DurationVectorData>& nullptr
-
-  // TODO: Initialize annotation dataset
-  // auto AnnotationPath = AQNWB::mergePaths(m_path, "annotation");
-  // create scalar dataset at AnnotationPath with default value const
-  // std::shared_ptr<HDMF_COMMON::VectorData>& nullptr
-
-  // TODO: Initialize id dataset. This dataset is_inheritted=True,
-  // is_overridden=False auto IdPath = AQNWB::mergePaths(m_path, "id"); create
-  // scalar dataset at IdPath with default value const
-  // std::shared_ptr<HDMF_COMMON::ElementIdentifiers>& None
-
-  // NOTE: Anonymous dataset of type VectorData passed as parameter
-  // paramVectorData. No initialization needed here.
-
-  // TODO: Optional RegisteredType const
-  // std::vector<std::shared_ptr<HDMF_COMMON::MeaningsTable>>& passed as
-  // parameter meaningsTablesParamMeaningsTable. Usually created after
-  // initialize.
-
+  // Combine all statuses and return the final status
+  initStatus = initStatus && parentInitStatus && sourceDescStatus && timestampStatus &&
+               durationStatus  && annotationStatus;
   return initStatus;
 }

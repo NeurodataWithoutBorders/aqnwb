@@ -50,18 +50,29 @@ public:
    */
   virtual ~EventsTable() override {}
 
-  // TODO: Update the initialize method as appropriate.
   /**
    * @brief Initialize the object
    * @param description Description of the table
    * @param sourceDescription Optional short text description of where the
-   * events came from - applying to every row in the table.
+   * events came from, applying to every row in the table. If empty string is 
+   * provided (default), then the attribute will not be created.
+   * @param timestampResolution The temporal resolution of the timestamps - in
+   * seconds. See `TimestampVectorData::initialize()` for more details.
+   * @param durationResolution The temporal resolution of the optional duration 
+   * column in seconds. See `DurationVectorData::initialize()` for more details.
+   * If a negative value is provided (default), then the duration column will 
+   * not be created.
+   * @param createAnnotationColumn Whether to create the annotation column
+   * (default: false)
    * @param rowChunkSize The chunk size for the rows of the table (optional,
    * default: 100)
    * @return Status::Success if successful, otherwise Status::Failure.
    */
   Status initialize(const std::string& description,
-                    const std::string& sourceDescription = "",
+                    const std::string& sourceDescription,
+                    float timestampResolution,
+                    float durationResolution = -1.0f,
+                    const bool createAnnotationColumn = false,
                     const SizeType rowChunkSize = 100);
 
   // Define read methods

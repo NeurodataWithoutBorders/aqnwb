@@ -20,6 +20,7 @@ add_executable(aqnwb_test
     testDynamicTable.cpp
     testEcephys.cpp
     testElementIdentifiers.cpp
+    testEventsTable.cpp
     testFile.cpp
     testHDF5IO.cpp
     testHDF5ArrayDataSetConfig.cpp
