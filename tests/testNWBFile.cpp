@@ -542,8 +542,8 @@ TEST_CASE("testAttributeAndDatasetFields", "[nwb]")
 #else
     std::time_t utc_epoch = timegm(&parsed);
 #endif
-    long offset_total =
-        (static_cast<long>(offset_h) * 3600 + offset_m * 60) * (offset_sign == '-' ? -1 : 1);
+    long offset_total = (static_cast<long>(offset_h) * 3600 + offset_m * 60)
+        * (offset_sign == '-' ? -1 : 1);
     // Convert local time to UTC by subtracting the offset
     utc_epoch -= offset_total;
     auto written_tp = std::chrono::system_clock::from_time_t(utc_epoch);
