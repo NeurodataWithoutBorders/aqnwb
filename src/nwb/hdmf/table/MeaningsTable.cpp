@@ -41,7 +41,7 @@ Status MeaningsTable::initialize(const VectorData& targetVectorData,
   // creates the description attribute. Column names are written by
   // DynamicTable::finalize(). ElementIdentifiers ids are set in the
   // constructor.
-  Status parentInitStatus = DynamicTable::initialize(description);
+  Status parentInitStatus = DynamicTable::initialize(description, rowChunkSize);
   initStatus = initStatus && parentInitStatus;
 
   // Initialize value VectorData dataset

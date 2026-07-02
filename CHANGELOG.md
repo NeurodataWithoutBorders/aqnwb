@@ -16,13 +16,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Added `DynamicTable::addColumn` overload to allow adding fully configured `VectorData` columns and derived column types without string values (@cline, @oruebel, [#301](https://github.com/NeurodataWithoutBorders/aqnwb/pull/301))
 * Added new `MeaningsTable` type to support adding meanings to `DynamicTable` columns. (@cline, @oruebel, [#302](https://github.com/NeurodataWithoutBorders/aqnwb/pull/302))
 * Added `DynamicTable::createMeaningsTable` and `DynamicTable::readMeaningsTable` methods to support creating and reading `MeaningsTable` objects associated with a `DynamicTable`. (@cline, @oruebel, [#302](https://github.com/NeurodataWithoutBorders/aqnwb/pull/302))
+* Added new `EventTable` type to support recording of event data. (@cline, @oruebel, [#304](https://github.com/NeurodataWithoutBorders/aqnwb/pull/304))
+* Added `NWBFile::createEventsTable` convenience function (@cline, @oruebel, [#304](https://github.com/NeurodataWithoutBorders/aqnwb/pull/304))
 
 ### Changed
-* **[BREAKING]** Moved `disableSWMRMode` option from `HDF5IO` constructor to a new `HDF5IO::startRecording(bool disableSWMRMode)` overload. The `BaseIO`-compliant `startRecording()` override is preserved and defaults to SWMR enabled. 
-   * **Migration Note**: Code using `HDF5IO(path, true)` must be updated to `HDF5IO(path)` followed by `startRecording(true)`. When the `HDF5IO` object is held as a `std::shared_ptr<BaseIO>` (e.g., from `createIO`), downcast with `std::dynamic_pointer_cast<HDF5IO>` to access the overload. (@oruebel [#297](https://github.com/NeurodataWithoutBorders/aqnwb/pull/297))
 * Updated schema in the `spec/` module to the latest NWB releases: (i) NWB 2.10, (ii) HDMF Common 1.9, and (iii) HDMF Experimental 0.6 (@oruebel, [#300](https://github.com/NeurodataWithoutBorders/aqnwb/pull/300))
 * Updated `DynamicTable::readColumn` using type traits to support reading both `VectorData` columns with a specific data type and columns that are a subtype of `VectorData` (e.g., the new `TimestampVectorData` and `DurationVectorData`).
 * Updated `ElectrodesTable::initialize` and `NWBFile::createElectrodesTable` to add a new optional parameter `rowChunkSize` (default 100) to allow configuring the chunk size for the pre-defined columns.  (@oruebel, [#302](https://github.com/NeurodataWithoutBorders/aqnwb/pull/302))
+* Updated `NWBFile::initialize` to create the new top-level `events` group. (@cline, @oruebel, [#304](https://github.com/NeurodataWithoutBorders/aqnwb/pull/304))
+* **[BREAKING]** Moved `disableSWMRMode` option from `HDF5IO` constructor to a new `HDF5IO::startRecording(bool disableSWMRMode)` overload. The `BaseIO`-compliant `startRecording()` override is preserved and defaults to SWMR enabled. 
+   * **Migration Note**: Code using `HDF5IO(path, true)` must be updated to `HDF5IO(path)` followed by `startRecording(true)`. When the `HDF5IO` object is held as a `std::shared_ptr<BaseIO>` (e.g., from `createIO`), downcast with `std::dynamic_pointer_cast<HDF5IO>` to access the overload. (@oruebel [#297](https://github.com/NeurodataWithoutBorders/aqnwb/pull/297))
+* **[BREAKING]** Refactored `DynamicTable` so it creates and initializes its `ElementIdentifiers` `id` column internally during `initialize()`. As part of this change, `setRowIDs()` now takes only the row ID values and writes them directly to the table's built-in `id` column instead of accepting a separate `ElementIdentifiers` object. In practice this aligns the API with the intended usage, since callers should have always used the table's own `id` dataset.  (@oruebel, [#302](https://github.com/NeurodataWithoutBorders/aqnwb/pull/304))
 
 ### Fixed
 * Updated nwbinspector validation tests in the CI to: 1) `--ignore=check_subject_exists` and 2) remove dependency on `sanitizer` tests to speed up CI (@oruebel, [#289](https://github.com/NeurodataWithoutBorders/aqnwb/pull/289))

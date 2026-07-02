@@ -78,12 +78,7 @@ TEST_CASE("EventsTable", "[event]")
       REQUIRE(writeAnnotationStatus == Status::Success);
 
       // Set row IDs
-      SizeArray idShape = {ids.size()};
-      SizeArray idChunking = {ids.size()};
-      IO::ArrayDataSetConfig idConfig(BaseDataType::I32, idShape, idChunking);
-      auto elementIDs = NWB::ElementIdentifiers::create(tablePath + "/id", io);
-      elementIDs->initialize(idConfig);
-      Status setRowIDsStatus = eventsTable->setRowIDs(elementIDs, ids);
+      Status setRowIDsStatus = eventsTable->setRowIDs(ids);
       REQUIRE(setRowIDsStatus == Status::Success);
 
       Status finalizeStatus = eventsTable->finalize();

@@ -210,9 +210,30 @@ std::shared_ptr<ElectrodesTable> NWBFile::createElectrodesTable(
     return nullptr;
   }
 
+  if (!ioPtr->canModifyObjects()) {
+    std::cerr
+        << "NWBFile::createElectrodesTable IO object cannot modify objects."
+        << std::endl;
+    return nullptr;
+  }
+
   auto electrodeTable = NWB::ElectrodesTable::create(ioPtr);
-  electrodeTable->initialize("metadata about extracellular electrodes",
-                             rowChunkSize);
+  if (!electrodeTable) {
+    std::cerr << "NWBFile::createElectrodesTable failed to create "
+                 "ElectrodesTable object."
+              << std::endl;
+    return nullptr;
+  }
+
+  Status initStatus = electrodeTable->initialize(
+      "metadata about extracellular electrodes", rowChunkSize);
+  if (initStatus != Status::Success) {
+    std::cerr << "NWBFile::createElectrodesTable failed to initialize "
+                 "ElectrodesTable."
+              << std::endl;
+    return nullptr;
+  }
+
   for (const auto& channelVector : recordingArrays) {
     electrodeTable->addElectrodes(channelVector);
   }
@@ -237,7 +258,13 @@ std::shared_ptr<ElectrodesTable> NWBFile::createElectrodesTable(
     }
   }
   if (finalizeTable) {
-    electrodeTable->finalize();
+    Status finalizeStatus = electrodeTable->finalize();
+    if (finalizeStatus != Status::Success) {
+      std::cerr << "NWBFile::createElectrodesTable failed to finalize "
+                   "ElectrodesTable."
+                << std::endl;
+      return nullptr;
+    }
   }
 
   return electrodeTable;

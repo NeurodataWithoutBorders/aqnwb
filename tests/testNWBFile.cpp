@@ -128,13 +128,7 @@ TEST_CASE("createEventsTable", "[nwb]")
   annotationColumn->recordData()->writeDataBlock(
       dataShape, positionOffset, BaseDataType::V_STR, annotations);
 
-  SizeArray idShape = {ids.size()};
-  SizeArray idChunking = {ids.size()};
-  IO::ArrayDataSetConfig idConfig(BaseDataType::I32, idShape, idChunking);
-  auto elementIDs =
-      NWB::ElementIdentifiers::create("/events/test_events/id", io);
-  elementIDs->initialize(idConfig);
-  eventsTable->setRowIDs(elementIDs, ids);
+  eventsTable->setRowIDs(ids);
 
   io->stopRecording();
   io->close();
@@ -504,13 +498,12 @@ TEST_CASE("setCanModifyObjectsMode", "[nwb]")
   std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(1, 2);
   std::vector<std::string> mockChannelNames =
       getMockChannelArrayNames("esdata");
-  auto electrodesTable = nwbfile->createElectrodesTable(
-      mockArrays);  // create the Electrodes Table
-  REQUIRE(electrodesTable != nullptr);
-  std::vector<SizeType> containerIndices = {};
-  Status resultCreatePostStart = nwbfile->createElectricalSeries(
-      mockArrays, mockChannelNames, BaseDataType::F32, containerIndices);
-  REQUIRE(resultCreatePostStart == Status::Failure);
+  // create the Electrodes Table
+  // This will fail because we cannot modify objects after starting the recording
+  auto electrodesTable = nwbfile->createElectrodesTable(mockArrays);
+  REQUIRE(electrodesTable == nullptr);
+  // Because we done have and ElectrodesTable, we cannot create an ElectricalSeries
+  // either and that would fail even eariler.
 
   // stop recording
   io->stopRecording();

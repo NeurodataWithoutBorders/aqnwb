@@ -38,7 +38,7 @@ Status EventsTable::initialize(const std::string& description,
   }
 
   // Call parent initialize method.
-  Status parentInitStatus = DynamicTable::initialize(description);
+  Status parentInitStatus = DynamicTable::initialize(description, rowChunkSize);
 
   // Initialize attributes, datasets, and groups
   // Create the source_description attribute if provided

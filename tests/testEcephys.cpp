@@ -68,7 +68,7 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     elecGroup->initialize("description", "unknown", device);
 
     auto elecTable = NWB::ElectrodesTable::create(io);
-    Status elecTableStatus = elecTable->initialize();
+    Status elecTableStatus = elecTable->initialize("description");
     REQUIRE(elecTableStatus == Status::Success);
     elecTable->addElectrodes(mockArrays[0]);
     elecTableStatus = elecTable->finalize();
@@ -341,7 +341,7 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
 
     // setup electrode table
     auto elecTable = NWB::ElectrodesTable::create(io);
-    elecTable->initialize();
+    elecTable->initialize("description");
     elecTable->addElectrodes(mockArraysElectrodes[0]);
     elecTable->finalize();
 
@@ -402,7 +402,7 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
 
     // setup electrode table
     auto elecTable = NWB::ElectrodesTable::create(io);
-    elecTable->initialize();
+    elecTable->initialize("description");
     elecTable->addElectrodes(mockArraysElectrodes[0]);
     elecTable->finalize();
 
@@ -507,7 +507,7 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
 
     // setup electrode table, device, and electrode group
     auto elecTable = NWB::ElectrodesTable::create(io);
-    Status elecTableStatus = elecTable->initialize();
+    Status elecTableStatus = elecTable->initialize("description");
     REQUIRE(elecTableStatus == Status::Success);
     elecTable->addElectrodes(mockArrays[0]);
     elecTableStatus = elecTable->finalize();
@@ -574,7 +574,7 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
 
     // setup electrode table, device, and electrode group
     auto elecTable = NWB::ElectrodesTable::create(io);
-    Status elecTableStatus = elecTable->initialize();
+    Status elecTableStatus = elecTable->initialize("description");
     REQUIRE(elecTableStatus == Status::Success);
     elecTable->addElectrodes(mockArrays[0]);
     elecTableStatus = elecTable->finalize();

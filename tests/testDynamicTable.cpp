@@ -69,12 +69,7 @@ TEST_CASE("DynamicTable", "[table]")
 
     // Set row IDs
     std::vector<int> ids = {1, 2, 3};
-    SizeArray idShape = {ids.size()};
-    SizeArray idChunking = {ids.size()};
-    IO::ArrayDataSetConfig idConfig(BaseDataType::I32, idShape, idChunking);
-    auto elementIDs = NWB::ElementIdentifiers::create(tablePath + "/id", io);
-    elementIDs->initialize(idConfig);
-    status = table->setRowIDs(elementIDs, ids);
+    status = table->setRowIDs(ids);
     REQUIRE(status == Status::Success);
 
     // Finalize table
@@ -215,14 +210,7 @@ TEST_CASE("DynamicTable", "[table]")
           dataShape, positionOffset, BaseDataType::F32, durations.data());
       REQUIRE(status == Status::Success);
 
-      SizeArray idShape = {ids.size()};
-      SizeArray idChunking = {ids.size()};
-      IO::ArrayDataSetConfig idConfig(BaseDataType::I32, idShape, idChunking);
-      auto elementIDs = NWB::ElementIdentifiers::create(tablePath + "/id", io);
-      REQUIRE(elementIDs != nullptr);
-      status = elementIDs->initialize(idConfig);
-      REQUIRE(status == Status::Success);
-      status = table->setRowIDs(elementIDs, ids);
+      status = table->setRowIDs(ids);
       REQUIRE(status == Status::Success);
 
       status = table->addColumn(timestampColumn);
@@ -328,24 +316,12 @@ TEST_CASE("DynamicTable", "[table]")
     REQUIRE(status == Status::Success);
 
     std::vector<int> meaningIds = {1, 2, 3};
-    auto meaningElementIDs = NWB::ElementIdentifiers::create(
-        mergePaths(meaningsTable->getPath(), "id"), io);
-    IO::ArrayDataSetConfig meaningIdConfig(
-        BaseDataType::I32, {meaningIds.size()}, {meaningIds.size()});
-    meaningElementIDs->initialize(meaningIdConfig);
-    status = meaningsTable->setRowIDs(meaningElementIDs, meaningIds);
+    status = meaningsTable->setRowIDs(meaningIds);
     REQUIRE(status == Status::Success);
 
     // Set row IDs for main table
     std::vector<int> ids = {1, 2, 3};
-    SizeArray idShape = {ids.size()};
-    SizeArray idChunking = {ids.size()};
-
-    std::string idPath = mergePaths(tablePath, "id");
-    IO::ArrayDataSetConfig i32Config(BaseDataType::I32, idShape, idChunking);
-    auto elementIDs = NWB::ElementIdentifiers::create(idPath, io);
-    elementIDs->initialize(i32Config);
-    status = table->setRowIDs(elementIDs, ids);
+    status = table->setRowIDs(ids);
     REQUIRE(status == Status::Success);
 
     // Finalize main table
@@ -425,14 +401,7 @@ TEST_CASE("DynamicTable", "[table]")
 
     // Set row IDs
     std::vector<int> ids = {1, 2, 3};
-    SizeArray idShape = {ids.size()};
-    SizeArray idChunking = {ids.size()};
-
-    std::string idPath = mergePaths(tablePath, "id");
-    IO::ArrayDataSetConfig i32Config(BaseDataType::I32, idShape, idChunking);
-    auto elementIDs = NWB::ElementIdentifiers::create(idPath, io);
-    elementIDs->initialize(i32Config);
-    status = table->setRowIDs(elementIDs, ids);
+    status = table->setRowIDs(ids);
     REQUIRE(status == Status::Success);
 
     // Final

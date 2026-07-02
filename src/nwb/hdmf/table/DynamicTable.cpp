@@ -37,7 +37,7 @@ DynamicTable::DynamicTable(const std::string& path,
 DynamicTable::~DynamicTable() {}
 
 /** Initialization function*/
-Status DynamicTable::initialize(const std::string& description)
+Status DynamicTable::initialize(const std::string& description, const SizeType rowChunkSize)
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
@@ -50,7 +50,17 @@ Status DynamicTable::initialize(const std::string& description)
   if (description != "") {
     ioPtr->createAttribute(description, m_path, "description");
   }
-  return containerStatus;
+  
+  // Initialize the row element identifiers
+  Status idStatus = Status::Success;
+  if (!m_rowElementIdentifiers->isInitialized()) {
+    SizeArray idShape = {0};
+    SizeArray idChunking = {rowChunkSize};
+    IO::ArrayDataSetConfig idConfig(IO::BaseDataType::I32, idShape, idChunking);
+    idStatus = m_rowElementIdentifiers->initialize(idConfig);
+  }
+  
+  return containerStatus && idStatus;
 }
 
 SizeType DynamicTable::addColumnName(const std::string& colName)
@@ -104,11 +114,9 @@ Status DynamicTable::addColumn(const std::shared_ptr<VectorData>& vectorData)
   }
 }
 
-Status DynamicTable::setRowIDs(
-    const std::shared_ptr<ElementIdentifiers>& elementIDs,
-    const std::vector<int>& values)
+Status DynamicTable::setRowIDs(const std::vector<int>& values)
 {
-  if (!elementIDs->isInitialized()) {
+  if (!m_rowElementIdentifiers) {
     std::cerr << "ElementIdentifiers dataset is not initialized" << std::endl;
     return Status::Failure;
   } else {
@@ -119,13 +127,9 @@ Status DynamicTable::setRowIDs(
       return Status::Failure;
     }
 
-    Status writeDataStatus = elementIDs->recordData()->writeDataBlock(
+    Status writeDataStatus = m_rowElementIdentifiers->recordData()->writeDataBlock(
         SizeArray(1, values.size()), IO::BaseDataType::I32, &values[0]);
-    Status createAttrsStatus =
-        ioPtr->createCommonNWBAttributes(AQNWB::mergePaths(m_path, "id"),
-                                         elementIDs->getNamespace(),
-                                         elementIDs->getTypeName());
-    return writeDataStatus && createAttrsStatus;
+    return writeDataStatus;
   }
 }
 

@@ -53,9 +53,10 @@ public:
    * column names.
    *
    * @param description The description of the table (optional).
+   * @param rowChunkSize The chunk size for the rows in the table (optional, default: 100).
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status initialize(const std::string& description);
+  Status initialize(const std::string& description, const SizeType rowChunkSize = 100);
 
   /**
    * @brief Finalizes writing the DynamicTable.
@@ -106,13 +107,11 @@ public:
                             const std::vector<std::string>& dataset);
 
   /**
-   * @brief Adds a column of element identifiers to the table.
-   * @param elementIDs A unique pointer to the `ElementIdentifiers` dataset.
+   * @brief Sets the values of the element identifiers on the table.
    * @param values The vector of id values.
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status setRowIDs(const std::shared_ptr<ElementIdentifiers>& elementIDs,
-                   const std::vector<int>& values);
+  Status setRowIDs(const std::vector<int>& values);
 
   /**
    * @brief Sets the column names of the DynamicTable

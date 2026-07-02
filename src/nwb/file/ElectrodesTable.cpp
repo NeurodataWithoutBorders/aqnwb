@@ -49,13 +49,7 @@ Status ElectrodesTable::initialize(const std::string& description,
   }
 
   // create group
-  DynamicTable::initialize(description);
-  // IO::BaseDataType vstrType(IO::BaseDataType::Type::V_STR,
-  //                           0);  // 0 indicates variable length
-
-  IO::ArrayDataSetConfig electrodeConfig(
-      IO::BaseDataType::I32, SizeArray {1}, SizeArray {rowChunkSize});
-  Status electrodeStatus = m_rowElementIdentifiers->initialize(electrodeConfig);
+  Status dtStatus = DynamicTable::initialize(description, rowChunkSize);
 
   IO::ArrayDataSetConfig groupNameConfig(
       IO::BaseDataType::V_STR, SizeArray {0}, SizeArray {rowChunkSize});
@@ -69,7 +63,7 @@ Status ElectrodesTable::initialize(const std::string& description,
       locationConfig,
       "the location of channel within the subject e.g. brain region");
 
-  return electrodeStatus && groupNameStatus && locationStatus;
+  return dtStatus && groupNameStatus && locationStatus;
 }
 
 void ElectrodesTable::addElectrodes(const std::vector<Channel>& channelsInput)
@@ -90,7 +84,7 @@ Status ElectrodesTable::finalize()
   // Check if new values have been added for the columns and update them
   // Updated electrode numbers
   if (m_electrodeNumbers.size() > 0) {
-    Status rowIdStatus = setRowIDs(m_rowElementIdentifiers, m_electrodeNumbers);
+    Status rowIdStatus = setRowIDs(m_electrodeNumbers);
     m_electrodeNumbers.clear();  // clear after writing
     status = status && rowIdStatus;
   }
