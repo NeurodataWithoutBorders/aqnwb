@@ -94,11 +94,11 @@ def render_define_registered_field(
         std::string parentPath = AQNWB::mergePaths(m_path, "{field_path}");
         std::string objectPath = AQNWB::mergePaths(parentPath, objectName);
         auto ioPtr = getIO();
-        if (ioPtr == nullptr) {{
-            std::cerr << "IO object has been deleted. Can't initialize %s: "
+        if (ioPtr == nullptr) {
+            std::cerr << "IO object has been deleted. Can't read {neurodata_type}: "
                       << m_path << std::endl;
-            return Status::Failure;
-        }}
+            return nullptr;
+        }
 
         if (ioPtr->objectExists(objectPath)) {{
             return std::make_shared<{neurodata_type}>(objectPath, ioPtr);

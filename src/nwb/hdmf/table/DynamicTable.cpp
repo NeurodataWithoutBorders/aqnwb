@@ -88,6 +88,10 @@ Status DynamicTable::addColumn(const std::shared_ptr<VectorData>& vectorData,
 
 Status DynamicTable::addColumn(const std::shared_ptr<VectorData>& vectorData)
 {
+  if (!vectorData) {
+    std::cerr << "VectorData column is null" << std::endl;
+    return Status::Failure;
+  }
   if (!vectorData->isInitialized()) {
     std::cerr << "VectorData dataset is not initialized "
               << vectorData->getPath() << std::endl;

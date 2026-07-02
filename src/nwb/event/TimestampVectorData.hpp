@@ -19,7 +19,7 @@ namespace CORE
 
 /**
  * @brief A 1-dimensional VectorData that stores timestamps in seconds from the
- * session start time. Timestamp are not required to be sorted in time.
+ * session start time. Timestamps are not required to be sorted in time.
  */
 class TimestampVectorData : public AQNWB::NWB::VectorData
 {
@@ -67,7 +67,7 @@ public:
       float,
       "",
       "A 1-dimensional VectorData that stores timestamps in seconds from the "
-      "session start time. Timestamp are not required to be sorted in time.")
+      "session start time. Timestamps are not required to be sorted in time.")
 
   REGISTER_SUBCLASS(TimestampVectorData,
                     VectorData,

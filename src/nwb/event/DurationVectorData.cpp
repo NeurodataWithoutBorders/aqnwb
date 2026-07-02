@@ -26,7 +26,7 @@ Status DurationVectorData::initialize(float resolution,
   auto ioPtr = getIO();
   if (ioPtr == nullptr) {
     std::cerr
-        << "IO object has been deleted. Can't initialize TimestampVectorData: "
+        << "IO object has been deleted. Can't initialize DurationVectorData: "
         << m_path << std::endl;
     return Status::Failure;
   }

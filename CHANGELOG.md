@@ -25,10 +25,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Updated nwbinspector validation tests in the CI to: 1) `--ignore=check_subject_exists` and 2) remove dependency on `sanitizer` tests to speed up CI (@oruebel, [#289](https://github.com/NeurodataWithoutBorders/aqnwb/pull/289))
 * Fixed `get_utc_offset_seconds` to correctly account for daylight saving time using platform-specific APIs (`tm_gmtoff` on Unix/macOS; `_get_timezone` + `_get_dstbias` on Windows), preventing `session_start_time` from being written ~1 hour ahead of UTC during DST (@cboulay, [#295](https://github.com/NeurodataWithoutBorders/aqnwb/pull/295))
 * Fixed `resources/utils/schematype_to_aqnwb.py` to facilitate generation of new types:
-    * Emit forward declarations rather than full header includes for referenced generated types, avoiding circular header dependencies. This issue surfaced due to the update to the latest HDMF Common schema types where `DynamicTable` references `MeaningsTable`, which is itself a `DynamicTable` (@copilot, @oruebel, [#300](https://github.com/NeurodataWithoutBorders/aqnwb/pull/300)
+    * Emit forward declarations rather than full header includes for referenced generated types, avoiding circular header dependencies. This issue surfaced due to the update to the latest HDMF Common schema types where `DynamicTable` references `MeaningsTable`, which is itself a `DynamicTable` (@copilot, @oruebel, [#300](https://github.com/NeurodataWithoutBorders/aqnwb/pull/300))
     * Updated minimum Python version for `resources/utils` to ensure use of the latest versions of PyNWB with uv (@cline, @oruebel, [#301](https://github.com/NeurodataWithoutBorders/aqnwb/pull/301))
     * Updated cpp code generation to use new `std::weak_ptr` via `getIO` instead of the previous `m_io` shared pointer. (@cline, @oruebel, [#301](https://github.com/NeurodataWithoutBorders/aqnwb/pull/301))
-    * Various intendaton and formatting fixes in generated cpp code to improve readability (across multiple PRs, e.g., #300, #301).
+    * Various indentation and formatting fixes in generated cpp code to improve readability (across multiple PRs, e.g., #300, #301).
 * Fixed Windows CI by updating the CMake generator in `CMakePresets.json` from `"Visual Studio 17 2022"` to `"Visual Studio 18 2026"` to match the updated `windows-latest` runner (@copilot, [#300](https://github.com/NeurodataWithoutBorders/aqnwb/pull/300))
 
 ## [0.3.0] - 2026-02-23
