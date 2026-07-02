@@ -308,22 +308,30 @@ TEST_CASE("DynamicTable", "[table]")
     // Add values to MeaningsTable
     std::vector<std::string> meaningValues = {"value1", "value2", "value3"};
     std::vector<std::string> meanings = {"meaning1", "meaning2", "meaning3"};
-    
+
     auto valueCol = meaningsTable->readValueColumn();
     REQUIRE(valueCol != nullptr);
-    status = valueCol->recordData()->writeDataBlock(
-        SizeArray{meaningValues.size()}, SizeArray{0}, BaseDataType::V_STR, meaningValues);
+    status =
+        valueCol->recordData()->writeDataBlock(SizeArray {meaningValues.size()},
+                                               SizeArray {0},
+                                               BaseDataType::V_STR,
+                                               meaningValues);
     REQUIRE(status == Status::Success);
 
     auto meaningCol = meaningsTable->readMeaningColumn();
     REQUIRE(meaningCol != nullptr);
-    status = meaningCol->recordData()->writeDataBlock(
-        SizeArray{meanings.size()}, SizeArray{0}, BaseDataType::V_STR, meanings);
+    status =
+        meaningCol->recordData()->writeDataBlock(SizeArray {meanings.size()},
+                                                 SizeArray {0},
+                                                 BaseDataType::V_STR,
+                                                 meanings);
     REQUIRE(status == Status::Success);
 
     std::vector<int> meaningIds = {1, 2, 3};
-    auto meaningElementIDs = NWB::ElementIdentifiers::create(mergePaths(meaningsTable->getPath(), "id"), io);
-    IO::ArrayDataSetConfig meaningIdConfig(BaseDataType::I32, {meaningIds.size()}, {meaningIds.size()});
+    auto meaningElementIDs = NWB::ElementIdentifiers::create(
+        mergePaths(meaningsTable->getPath(), "id"), io);
+    IO::ArrayDataSetConfig meaningIdConfig(
+        BaseDataType::I32, {meaningIds.size()}, {meaningIds.size()});
     meaningElementIDs->initialize(meaningIdConfig);
     status = meaningsTable->setRowIDs(meaningElementIDs, meaningIds);
     REQUIRE(status == Status::Success);
@@ -349,16 +357,18 @@ TEST_CASE("DynamicTable", "[table]")
     readio->open();
 
     auto readTable = NWB::DynamicTable::create(tablePath, readio);
-    
+
     // Read MeaningsTable
     auto readMeaningsTable = readTable->readMeaningsTable("col1_meanings");
     REQUIRE(readMeaningsTable != nullptr);
-    REQUIRE(readMeaningsTable->getPath() == mergePaths(tablePath, "meanings_tables/col1_meanings"));
+    REQUIRE(readMeaningsTable->getPath()
+            == mergePaths(tablePath, "meanings_tables/col1_meanings"));
 
     // Read value column
     auto readValueCol = readMeaningsTable->readValueColumn();
     REQUIRE(readValueCol != nullptr);
-    auto readValueColTyped = AQNWB::NWB::VectorDataTyped<std::string>::fromVectorData(readValueCol);
+    auto readValueColTyped =
+        AQNWB::NWB::VectorDataTyped<std::string>::fromVectorData(readValueCol);
     REQUIRE(readValueColTyped != nullptr);
     auto readValueData = readValueColTyped->readData()->values().data;
     REQUIRE(readValueData.size() == meaningValues.size());
@@ -378,16 +388,17 @@ TEST_CASE("DynamicTable", "[table]")
     // Read target VectorData link
     auto readTarget = readMeaningsTable->readTarget();
     REQUIRE(readTarget != nullptr);
-    auto readTargetTyped = AQNWB::NWB::VectorDataTyped<std::string>::fromVectorData(readTarget);
+    auto readTargetTyped =
+        AQNWB::NWB::VectorDataTyped<std::string>::fromVectorData(readTarget);
     REQUIRE(readTargetTyped != nullptr);
     auto readTargetValues = readTargetTyped->readData()->values().data;
     REQUIRE(readTargetValues.size() == values.size());
     for (size_t i = 0; i < readTargetValues.size(); ++i) {
-      // Check that the target values from the link match the original values 
+      // Check that the target values from the link match the original values
       REQUIRE(readTargetValues[i] == values[i]);
     }
 
-    // close 
+    // close
     readio->close();
   }
 

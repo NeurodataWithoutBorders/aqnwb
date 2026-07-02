@@ -136,6 +136,12 @@ public:
   /**
    * @brief Create a MeaningsTable for a specific VectorData column in this
    * DynamicTable.
+   *
+   * The function creates and fully initializes a MeaningsTable for the
+   * specified VectorData column in this DynamicTable. The MeaningsTable will
+   * be created at the path "meanings_tables/<columnName>_meanings" within this
+   * DynamicTable.
+   *
    * @param columnName The name of the VectorData column for which to create the
    * MeaningsTable.
    * @param rowChunkSize The chunk size for the rows in the MeaningsTable
