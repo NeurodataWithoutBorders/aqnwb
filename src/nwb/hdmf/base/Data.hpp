@@ -29,7 +29,8 @@ public:
   {
     /**
      * @brief Construct the DataSpecBase.
-     * @param datasetName The dataset name relative to the owning table/container.
+     * @param datasetName The dataset name relative to the owning
+     * table/container.
      * @param dataConfig Dataset configuration for the object to create.
      */
     DataSpecBase(const std::string& datasetName,
