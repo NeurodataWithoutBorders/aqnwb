@@ -47,15 +47,26 @@ TEST_CASE("DynamicTable", "[table]")
     REQUIRE(table->addColumn(col2) == Status::Success);
     REQUIRE(table->addColumn(col3) == Status::Success);
 
+    // Adding columns should flush colnames immediately.
+    auto readInitialColNames = table->readColNames()->values().data;
+    REQUIRE(readInitialColNames
+            == std::vector<std::string>({"col1", "col2", "col3"}));
+
     // Test reordering and reading column names
     std::vector<std::string> colNames = {"col3", "col2", "col1"};
     table->setColNames(colNames);
-    status = table->finalize();
-    REQUIRE(status == Status::Success);
 
     auto readColNames = table->readColNames()->values().data;
     REQUIRE(readColNames == colNames);
 
+    io->close();
+
+    // Verify colnames persist without relying on finalize()
+    io = createIO("HDF5", path);
+    io->open();
+    auto readTable = NWB::DynamicTable::create(tablePath, io);
+    auto reopenedColNames = readTable->readColNames()->values().data;
+    REQUIRE(reopenedColNames == colNames);
     io->close();
   }
 
@@ -176,6 +187,37 @@ TEST_CASE("DynamicTable", "[table]")
 
       io->close();
     }
+  }
+
+  SECTION("test setColNames rejects non-permutations")
+  {
+    std::string path = getTestFilePath("testDynamicTableInvalidColNames.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    auto table = NWB::DynamicTable::create(tablePath, io);
+    Status status = table->initialize("Table with invalid colname reorder");
+    REQUIRE(status == Status::Success);
+
+    IO::ArrayDataSetConfig emptyConfig(BaseDataType::V_STR, {0}, {2});
+    auto col1 = NWB::VectorData::create(mergePaths(tablePath, "col1"), io);
+    auto col2 = NWB::VectorData::create(mergePaths(tablePath, "col2"), io);
+    REQUIRE(col1->initialize(emptyConfig, "Column 1") == Status::Success);
+    REQUIRE(col2->initialize(emptyConfig, "Column 2") == Status::Success);
+    REQUIRE(table->addColumn(col1) == Status::Success);
+    REQUIRE(table->addColumn(col2) == Status::Success);
+
+    auto initialColNames = table->readColNames()->values().data;
+    REQUIRE(initialColNames == std::vector<std::string>({"col1", "col2"}));
+
+    REQUIRE_THROWS_AS(table->setColNames({"col1"}), std::invalid_argument);
+    REQUIRE_THROWS_AS(table->setColNames({"col1", "col3"}),
+                      std::invalid_argument);
+
+    auto unchangedColNames = table->readColNames()->values().data;
+    REQUIRE(unchangedColNames == initialColNames);
+
+    io->close();
   }
 
   // This test section tests support for derived types of VectorData as columns
