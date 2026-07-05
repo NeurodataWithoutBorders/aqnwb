@@ -146,16 +146,16 @@ TEST_CASE("eventsWorkflowExamples")
 
     // [example_events_colbased_addcolumn_snippet]
     // Custom columns can also be added after table creation but before
-    // startRecording() using addColumn().  Here we add a string "condition"
-    // column that was not part of the original column spec list.
-    std::string conditionColPath = eventsTable->getPath() + "/condition";
-    auto conditionCol = NWB::VectorData::create(conditionColPath, io);
-    IO::ArrayDataSetConfig conditionConfig(
-        BaseDataType::V_STR,  // variable-length string
-        SizeArray {0},  // initial size (0 = extensible)
-        SizeArray {100});  // chunk size
-    conditionCol->initialize(conditionConfig, "Stimulus condition label.");
-    Status addColStatus = eventsTable->addColumn(conditionCol);
+    // startRecording() using addColumn(DataSpecPtr).  This is the preferred
+    // approach: it is consistent with the DataSpec-based API used by
+    // initialize() and createDefaultDataSpecs().
+    auto conditionSpec = NWB::VectorData::createDataSpec(
+        "condition",
+        IO::ArrayDataSetConfig(BaseDataType::V_STR,  // variable-length string
+                               SizeArray {0},  // initial size (0 = extensible)
+                               SizeArray {100}),  // chunk size
+        "Stimulus condition label.");
+    Status addColStatus = eventsTable->addColumn(conditionSpec);
     REQUIRE(addColStatus == Status::Success);
     // [example_events_colbased_addcolumn_snippet]
 
@@ -190,6 +190,7 @@ TEST_CASE("eventsWorkflowExamples")
     REQUIRE(durStatus == Status::Success);
 
     // Write the custom "condition" column
+    auto conditionCol = eventsTable->readColumn<NWB::VectorData>("condition");
     Status condStatus = conditionCol->recordData()->writeDataBlock(
         dataShape, positionOffset, BaseDataType::V_STR, conditions);
     REQUIRE(condStatus == Status::Success);

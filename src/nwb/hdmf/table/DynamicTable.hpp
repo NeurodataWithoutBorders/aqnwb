@@ -104,15 +104,29 @@ public:
                    const std::vector<std::string>& values);
 
   /**
-   * @brief Adds a column to the table without writing data.
+   * @brief Adds a column to the table from a DataSpecPtr.
    *
-   * This is useful for adding fully initialized columns where the
-   * data is written separately. This includes columns that may be
-   * subclasses of VectorData that have their own initialization
-   * and data writing methods (e.g,. TimestampVectorData or
-   * DurationVectorData, etc.).
+   * This is the preferred overload for adding columns after table creation
+   * (i.e. after initialize() has been called but before startRecording()).
+   * It is consistent with the DataSpec-based approach used by initialize() /
+   * configureDataObjects(): the spec bundles the column name, dataset
+   * configuration, and description, and the table creates and initializes the
+   * VectorData internally.  Because DataSpec::initialize() is virtual, this
+   * overload works for any VectorData subtype whose DataSpec is registered.
    *
-   * @param vectorData A shared pointer to the `VectorData` dataset.
+   * @param dataSpec The DataSpec describing the column to add.
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
+  Status addColumn(const DataSpecPtr& dataSpec);
+
+  /**
+   * @brief Adds an already-initialized column to the table without writing
+   * data.
+   *
+   * Kept for backward compatibility. Prefer addColumn(DataSpecPtr) for new
+   * code, which is consistent with the DataSpec-based API used by initialize().
+   *
+   * @param vectorData A shared pointer to the already-initialized `VectorData`.
    * @return Status::Success if successful, otherwise Status::Failure.
    */
   Status addColumn(const std::shared_ptr<VectorData>& vectorData);

@@ -159,6 +159,15 @@ SizeType DynamicTable::addColumnName(const std::string& colName)
   }
 }
 
+Status DynamicTable::addColumn(const DataSpecPtr& dataSpec)
+{
+  if (!dataSpec) {
+    std::cerr << "DynamicTable::addColumn received null DataSpec." << std::endl;
+    return Status::Failure;
+  }
+  return configureDataObject(*dataSpec);
+}
+
 /** Add column to table */
 Status DynamicTable::addColumn(const std::shared_ptr<VectorData>& vectorData,
                                const std::vector<std::string>& values)
