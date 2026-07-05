@@ -70,7 +70,6 @@ DynamicTable::DynamicTable(const std::string& path,
                            std::shared_ptr<IO::BaseIO> io)
     : Container(path, io)
     , m_colNames({})
-    , m_recordingColumns(std::make_unique<IO::RecordingObjects>())
     , m_rowElementIdentifiers(nullptr)
 {
   // Read the colNames attribute if it exists such that any columns
@@ -176,7 +175,6 @@ Status DynamicTable::addColumn(const std::shared_ptr<VectorData>& vectorData,
                                                  IO::BaseDataType::V_STR,
                                                  values);
     addColumnName(vectorData->getName());
-    m_recordingColumns->addRecordingObject(vectorData);
     return writeStatus;
   }
 }
@@ -193,7 +191,6 @@ Status DynamicTable::addColumn(const std::shared_ptr<VectorData>& vectorData)
     return Status::Failure;
   } else {
     addColumnName(vectorData->getName());
-    m_recordingColumns->addRecordingObject(vectorData);
     return Status::Success;
   }
 }
@@ -332,7 +329,6 @@ Status DynamicTable::addReferenceColumn(const std::string& name,
       return Status::Failure;
     }
     addColumnName(name);
-    m_recordingColumns->addRecordingObject(refColumn);
     return Status::Success;
   }
 }
@@ -520,7 +516,6 @@ Status DynamicTable::configureDataObject(const DataSpec& dataSpec)
   m_configuredColumnIndices[col.name] = m_configuredColumns.size() - 1;
 
   addColumnName(col.name);
-  m_recordingColumns->addRecordingObject(vectorData);
 
   return Status::Success;
 }
@@ -549,7 +544,6 @@ Status DynamicTable::loadConfiguredColumnsFromFile()
       confCol.column = col;
       m_configuredColumns.push_back(confCol);
       m_configuredColumnIndices[colName] = m_configuredColumns.size() - 1;
-      m_recordingColumns->addRecordingObject(col);
     }
   }
   return Status::Success;

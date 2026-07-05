@@ -20,7 +20,6 @@ ElectrodesTable::ElectrodesTable(const std::string& path,
                                  std::shared_ptr<IO::BaseIO> io)
     : DynamicTable(electrodesTablePath, io)
 {
-
   if (path != this->electrodesTablePath) {
     std::cerr << "WARNING: ElectrodesTable object is required to appear at "
               << this->electrodesTablePath << ". Ignoring provided path."
@@ -103,17 +102,16 @@ Status ElectrodesTable::finalize()
     if (!locationColumn) {
       std::cerr << "ElectrodesTable::finalize failed to get location column."
                 << std::endl;
-      status =Status::Failure;
-    }
-    else
-    {
+      status = Status::Failure;
+    } else {
       // Write all strings in a single block
       auto dataset = locationColumn->recordData();
-      Status writeStatus = dataset->writeDataBlock(SizeArray {m_locationNames.size()},
-                                                   SizeArray {0},
-                                                   IO::BaseDataType::V_STR,
-                                                   m_locationNames);
-    
+      Status writeStatus =
+          dataset->writeDataBlock(SizeArray {m_locationNames.size()},
+                                  SizeArray {0},
+                                  IO::BaseDataType::V_STR,
+                                  m_locationNames);
+
       m_locationNames.clear();  // clear after writing
       status = status && writeStatus;
     }
@@ -125,15 +123,14 @@ Status ElectrodesTable::finalize()
       std::cerr << "ElectrodesTable::finalize failed to get group_name column."
                 << std::endl;
       status = Status::Failure;
-    }
-    else
-    {
+    } else {
       // Write all strings in a single block
       auto dataset = groupNameColumn->recordData();
-      Status writeStatus = dataset->writeDataBlock(SizeArray {m_groupNames.size()},
-                                                   SizeArray {0},
-                                                   IO::BaseDataType::V_STR,
-                                                   m_groupNames);
+      Status writeStatus =
+          dataset->writeDataBlock(SizeArray {m_groupNames.size()},
+                                  SizeArray {0},
+                                  IO::BaseDataType::V_STR,
+                                  m_groupNames);
       m_groupNames.clear();  // clear after writing
       status = status && writeStatus;
     }

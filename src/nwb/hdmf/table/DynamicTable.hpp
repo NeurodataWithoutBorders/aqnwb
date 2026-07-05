@@ -321,26 +321,64 @@ protected:
   std::shared_ptr<VectorData> getConfiguredColumn(
       const std::string& name) const;
 
+  /**
+   * @brief Configure multiple data objects.
+   *
+   * @param dataSpecs The specifications for the data objects to configure.
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
   Status configureDataObjects(const std::vector<DataSpecPtr>& dataSpecs);
 
+  /**
+   * @brief Configure a single data object.
+   *
+   * @param dataSpec The specification for the data object to configure.
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
   Status configureDataObject(const DataSpec& dataSpec);
+
+  /**
+   * @brief Ensure that all configured columns are loaded from the file.
+   *
+   * This function checks whether all configured columns have been loaded into
+   * memory. If any configured column is not yet loaded, it attempts to load it
+   * from the file.
+   *
+   * @return Status::Success if all configured columns are loaded successfully,
+   * otherwise Status::Failure.
+   */
   Status ensureConfiguredColumnsLoaded();
+
   Status loadConfiguredColumnsFromFile();
+  /**
+   * @brief Write a buffer of data to a configured column.
+   *
+   * This function writes the provided buffer of data to the specified
+   * configured column. The column must have been previously configured via
+   * the DataSpec mechanism during initialize().
+   *
+   * @param configuredColumn The configured column to which to write data.
+   * @param buffer The buffer of data to write.
+   * @param rowCount The number of rows in the buffer.
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
   Status writeColumnBuffer(
       const ConfiguredColumn& configuredColumn,
       const IO::BaseDataType::BaseDataVectorVariant& buffer,
       SizeType rowCount);
+
+  /**
+   * @brief Generate row IDs for the table.
+   *
+   * @param rowCount The number of rows for which to generate IDs.
+   * @return A vector of generated row IDs.
+   */
   std::vector<int> generateRowIDs(SizeType rowCount);
 
   /**
    * @brief Names of the columns in the table.
    */
   std::vector<std::string> m_colNames;
-
-  /**
-   * @brief The columns added for recording
-   */
-  std::unique_ptr<IO::RecordingObjects> m_recordingColumns;
 
   /**
    * @brief The row ids data object for write
