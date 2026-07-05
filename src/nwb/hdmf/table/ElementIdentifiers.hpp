@@ -14,8 +14,9 @@ class ElementIdentifiers : public Data
 public:
   struct DataSpec : public Data::DataSpec<ElementIdentifiers>
   {
-    DataSpec(const std::string& name, const IO::ArrayDataSetConfig& dataConfig)
-        : Data::DataSpec<ElementIdentifiers>(name, dataConfig)
+    DataSpec(const std::string& datasetName,
+             const IO::ArrayDataSetConfig& dataConfig)
+        : Data::DataSpec<ElementIdentifiers>(datasetName, dataConfig)
     {
     }
 

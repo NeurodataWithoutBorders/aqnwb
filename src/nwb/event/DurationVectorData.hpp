@@ -25,13 +25,13 @@ class DurationVectorData : public AQNWB::NWB::VectorData
 public:
   struct DataSpec : public Data::DataSpec<DurationVectorData>
   {
-    DataSpec(const std::string& name,
+    DataSpec(const std::string& datasetName,
              const AQNWB::IO::ArrayDataSetConfig& dataConfig,
-             const std::string& description,
-             float resolution)
-        : Data::DataSpec<DurationVectorData>(name, dataConfig)
-        , description(description)
-        , resolution(resolution)
+             const std::string& columnDescription,
+             float columnResolution)
+        : Data::DataSpec<DurationVectorData>(datasetName, dataConfig)
+        , description(columnDescription)
+        , resolution(columnResolution)
     {
     }
 

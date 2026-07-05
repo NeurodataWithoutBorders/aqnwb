@@ -29,13 +29,13 @@ public:
   {
     /**
      * @brief Construct the DataSpecBase.
-     * @param name The dataset name relative to the owning table/container.
+     * @param datasetName The dataset name relative to the owning table/container.
      * @param dataConfig Dataset configuration for the object to create.
      */
-    DataSpecBase(const std::string& name,
+    DataSpecBase(const std::string& datasetName,
                  const IO::ArrayDataSetConfig& dataConfig)
         : IO::ArrayDataSetConfig(dataConfig)
-        , name(name)
+        , name(datasetName)
     {
     }
 
@@ -77,8 +77,9 @@ public:
      * @param name The dataset name relative to the owning table/container.
      * @param dataConfig Dataset configuration for the object to create.
      */
-    DataSpec(const std::string& name, const IO::ArrayDataSetConfig& dataConfig)
-        : DataSpecBase(name, dataConfig)
+    DataSpec(const std::string& datasetName,
+             const IO::ArrayDataSetConfig& dataConfig)
+        : DataSpecBase(datasetName, dataConfig)
     {
     }
 

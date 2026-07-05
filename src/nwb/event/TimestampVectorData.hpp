@@ -26,13 +26,13 @@ class TimestampVectorData : public AQNWB::NWB::VectorData
 public:
   struct DataSpec : public Data::DataSpec<TimestampVectorData>
   {
-    DataSpec(const std::string& name,
+    DataSpec(const std::string& datasetName,
              const AQNWB::IO::ArrayDataSetConfig& dataConfig,
-             const std::string& description,
-             float resolution)
-        : Data::DataSpec<TimestampVectorData>(name, dataConfig)
-        , description(description)
-        , resolution(resolution)
+             const std::string& columnDescription,
+             float columnResolution)
+        : Data::DataSpec<TimestampVectorData>(datasetName, dataConfig)
+        , description(columnDescription)
+        , resolution(columnResolution)
     {
     }
 

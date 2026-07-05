@@ -22,11 +22,11 @@ public:
    */
   struct DataSpec : public Data::DataSpec<VectorData>
   {
-    DataSpec(const std::string& name,
+    DataSpec(const std::string& datasetName,
              const IO::ArrayDataSetConfig& dataConfig,
-             const std::string& description)
-        : Data::DataSpec<VectorData>(name, dataConfig)
-        , description(description)
+             const std::string& columnDescription)
+        : Data::DataSpec<VectorData>(datasetName, dataConfig)
+        , description(columnDescription)
     {
     }
 
