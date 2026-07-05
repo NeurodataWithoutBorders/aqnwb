@@ -412,7 +412,8 @@ std::shared_ptr<MeaningsTable> DynamicTable::createMeaningsTable(
   }
 
   // Initialize the MeaningsTable with the target VectorData and value data type
-  auto specs = MeaningsTable::createDefaultDataSpecs(valueDataType, rowChunkSize);
+  auto specs =
+      MeaningsTable::createDefaultDataSpecs(valueDataType, rowChunkSize);
   Status initStatus =
       meaningsTable->initialize(*columnVectorData,
                                 valueDataType,

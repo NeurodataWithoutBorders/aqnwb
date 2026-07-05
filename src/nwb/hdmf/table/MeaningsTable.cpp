@@ -18,8 +18,7 @@ MeaningsTable::MeaningsTable(const std::string& path,
 }
 
 std::vector<DynamicTable::DataSpecPtr> MeaningsTable::createDefaultDataSpecs(
-    const AQNWB::IO::BaseDataType& valueDataType,
-    const SizeType rowChunkSize)
+    const AQNWB::IO::BaseDataType& valueDataType, const SizeType rowChunkSize)
 {
   std::vector<DataSpecPtr> specs =
       DynamicTable::createDefaultDataSpecs(rowChunkSize);

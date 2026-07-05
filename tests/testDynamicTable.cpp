@@ -508,7 +508,8 @@ TEST_CASE("DynamicTable", "[table]")
     // Verify that addColumn(vectorData, values) registers the column in
     // m_configuredColumns so that addRow/addRows can be used afterward
     // without pre-configuring via specs.
-    std::string path = getTestFilePath("testDynamicTableAddColumnWithValues.h5");
+    std::string path =
+        getTestFilePath("testDynamicTableAddColumnWithValues.h5");
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
 
@@ -586,9 +587,9 @@ TEST_CASE("DynamicTable", "[table]")
     REQUIRE(readTyped.data == std::vector<float>({1.0f, 2.0f, 3.0f}));
     io->close();
   }
-  
-  // TODO : Add row for refernece columns is not yet working. 
-  //        This will require support for chunked reference columns 
+
+  // TODO : Add row for reference columns is not yet working.
+  //        This will require support for chunked reference columns
   //        and support for column configuration with reference columns.
   /*
   SECTION("test addReferenceColumn configures column for addRow")
