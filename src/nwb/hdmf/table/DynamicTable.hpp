@@ -322,6 +322,13 @@ protected:
       const std::string& name) const;
 
   /**
+   * @brief Add a column to the list of configured columns.
+   * @param column A shared pointer to the `VectorData` column to add.
+   * @return The index of the added column in the list of configured columns.
+   */
+  SizeType addConfiguredColumn(const std::shared_ptr<VectorData>& column);
+
+  /**
    * @brief Configure multiple data objects.
    *
    * @param dataSpecs The specifications for the data objects to configure.

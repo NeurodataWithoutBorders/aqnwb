@@ -175,6 +175,10 @@ Status DynamicTable::addColumn(const std::shared_ptr<VectorData>& vectorData,
                                                  IO::BaseDataType::V_STR,
                                                  values);
     addColumnName(vectorData->getName());
+    // If the column is not already in the list of configured columns, add it
+    if (m_colNames.size() > m_configuredColumns.size()) {
+      addConfiguredColumn(vectorData);
+    }
     return writeStatus;
   }
 }
@@ -191,6 +195,10 @@ Status DynamicTable::addColumn(const std::shared_ptr<VectorData>& vectorData)
     return Status::Failure;
   } else {
     addColumnName(vectorData->getName());
+    // If the column is not already in the list of configured columns, add it
+    if (m_colNames.size() > m_configuredColumns.size()) {
+      addConfiguredColumn(vectorData);
+    }
     return Status::Success;
   }
 }
@@ -329,6 +337,10 @@ Status DynamicTable::addReferenceColumn(const std::string& name,
       return Status::Failure;
     }
     addColumnName(name);
+    // If the column is not already in the list of configured columns, add it
+    if (m_colNames.size() > m_configuredColumns.size()) {
+      addConfiguredColumn(refColumn);
+    }
     return Status::Success;
   }
 }
@@ -400,8 +412,7 @@ std::shared_ptr<MeaningsTable> DynamicTable::createMeaningsTable(
   }
 
   // Initialize the MeaningsTable with the target VectorData and value data type
-  auto specs = MeaningsTable::createDefaultDataSpecs(
-      *columnVectorData, valueDataType, rowChunkSize);
+  auto specs = MeaningsTable::createDefaultDataSpecs(valueDataType, rowChunkSize);
   Status initStatus =
       meaningsTable->initialize(*columnVectorData,
                                 valueDataType,
@@ -520,6 +531,23 @@ Status DynamicTable::configureDataObject(const DataSpec& dataSpec)
   return Status::Success;
 }
 
+SizeType DynamicTable::addConfiguredColumn(
+    const std::shared_ptr<VectorData>& column)
+{
+  if (!column) {
+    std::cerr << "DynamicTable::addConfiguredColumn received null column."
+              << std::endl;
+    return static_cast<SizeType>(-1);
+  }
+  ConfiguredColumn config;
+  config.name = column->getName();
+  config.dataType = column->readData()->getDataType();
+  config.column = column;
+
+  m_configuredColumns.push_back(config);
+  return m_configuredColumns.size() - 1;
+}
+
 Status DynamicTable::ensureConfiguredColumnsLoaded()
 {
   if (!m_configuredColumns.empty()) {
@@ -592,11 +620,11 @@ std::vector<int> DynamicTable::generateRowIDs(SizeType rowCount)
     auto idData = m_rowElementIdentifiers->recordData();
     auto currentShape = idData->getShape();
     if (!currentShape.empty()) {
-      startId = currentShape[0];
+      startId = static_cast<int>(currentShape[0]);
     }
   }
   for (SizeType i = 0; i < rowCount; ++i) {
-    ids[i] = startId + i;
+    ids[i] = startId + static_cast<int>(i);
   }
   return ids;
 }

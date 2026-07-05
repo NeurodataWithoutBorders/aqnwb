@@ -36,8 +36,7 @@ TEST_CASE("MeaningsTable", "[table]")
 
     // Create MeaningsTable
     auto table = NWB::MeaningsTable::create(tablePath, io);
-    auto specs = NWB::MeaningsTable::createDefaultDataSpecs(
-        *targetVectorData, BaseDataType::I32, 50);
+    auto specs = NWB::MeaningsTable::createDefaultDataSpecs(BaseDataType::I32, 50);
     Status status = table->initialize(
         *targetVectorData, BaseDataType::I32, "A test meanings table", specs);
     REQUIRE(status == Status::Success);
@@ -88,8 +87,7 @@ TEST_CASE("MeaningsTable", "[table]")
 
     // Create MeaningsTable
     auto table = NWB::MeaningsTable::create(tablePath, io);
-    auto specs = NWB::MeaningsTable::createDefaultDataSpecs(*targetVectorData,
-                                                            BaseDataType::I32);
+    auto specs = NWB::MeaningsTable::createDefaultDataSpecs(BaseDataType::I32);
     table->initialize(*targetVectorData, BaseDataType::I32, "", specs);
 
     // Add data to the table

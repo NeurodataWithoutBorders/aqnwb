@@ -18,7 +18,6 @@ MeaningsTable::MeaningsTable(const std::string& path,
 }
 
 std::vector<DynamicTable::DataSpecPtr> MeaningsTable::createDefaultDataSpecs(
-    const VectorData& targetVectorData,
     const AQNWB::IO::BaseDataType& valueDataType,
     const SizeType rowChunkSize)
 {
@@ -60,7 +59,7 @@ Status MeaningsTable::initialize(const VectorData& targetVectorData,
 
   std::vector<DataSpecPtr> specsToUse = columnSpecs;
   if (specsToUse.empty()) {
-    specsToUse = createDefaultDataSpecs(targetVectorData, valueDataType);
+    specsToUse = createDefaultDataSpecs(valueDataType);
   }
 
   // Call parent initialize method. This initializes the DynamicTable and

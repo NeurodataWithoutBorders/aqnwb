@@ -50,15 +50,12 @@ public:
 
   /**
    * @brief Creates the default data specs for the MeaningsTable.
-   * @param targetVectorData The VectorData object that this MeaningsTable is
-   * associated with.
    * @param valueDataType The data type of the 'value' column in the
    * MeaningsTable.
    * @param rowChunkSize The chunk size for the rows of the table.
    * @return A vector of DataSpecPtr containing the default specs.
    */
   static std::vector<DataSpecPtr> createDefaultDataSpecs(
-      const VectorData& targetVectorData,
       const AQNWB::IO::BaseDataType& valueDataType,
       const SizeType rowChunkSize = 100);
 

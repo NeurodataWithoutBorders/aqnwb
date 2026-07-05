@@ -503,6 +503,120 @@ TEST_CASE("DynamicTable", "[table]")
     io->close();
   }
 
+  SECTION("test addColumn with values configures column for addRow")
+  {
+    // Verify that addColumn(vectorData, values) registers the column in
+    // m_configuredColumns so that addRow/addRows can be used afterward
+    // without pre-configuring via specs.
+    std::string path = getTestFilePath("testDynamicTableAddColumnWithValues.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    auto table = NWB::DynamicTable::create(tablePath, io);
+    Status status = table->initialize("Table built with addColumn");
+    REQUIRE(status == Status::Success);
+
+    // Add a string column using addColumn(vectorData, values)
+    std::vector<std::string> initialValues = {"a", "b", "c"};
+    SizeArray dataShape = {initialValues.size()};
+    SizeArray chunking = {10};  // chunked to allow append
+    IO::ArrayDataSetConfig config(BaseDataType::V_STR, SizeArray {0}, chunking);
+    auto col1 = NWB::VectorData::create(mergePaths(tablePath, "col1"), io);
+    col1->initialize(config, "Column 1");
+    status = table->addColumn(col1, initialValues);
+    REQUIRE(status == Status::Success);
+
+    // Now use addRow to append another row — this requires col1 to be in
+    // m_configuredColumns, which addColumn should have registered it into.
+    NWB::DynamicTable::RowData newRow = {{"col1", std::string("d")}};
+    status = table->addRow(newRow);
+    REQUIRE(status == Status::Success);
+
+    io->close();
+
+    // Reopen and verify all 4 values are present
+    io = createIO("HDF5", path);
+    io->open();
+    auto readTable = NWB::DynamicTable::create(tablePath, io);
+    auto readCol = readTable->readColumn<NWB::VectorData>("col1");
+    REQUIRE(readCol != nullptr);
+    auto readData = readCol->readData()->valuesGeneric();
+    auto readTyped = DataBlock<std::string>::fromGeneric(readData);
+    REQUIRE(readTyped.data == std::vector<std::string>({"a", "b", "c", "d"}));
+    io->close();
+  }
+
+  SECTION("test addColumn without values configures column for addRow")
+  {
+    // Verify that addColumn(vectorData) (no values) registers the column in
+    // m_configuredColumns so that addRow/addRows can be used afterward.
+    std::string path =
+        getTestFilePath("testDynamicTableAddColumnConfigures.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    auto table = NWB::DynamicTable::create(tablePath, io);
+    Status status = table->initialize("Table built with addColumn no values");
+    REQUIRE(status == Status::Success);
+
+    // Initialize and add a float column without writing data yet
+    SizeArray chunking = {10};
+    IO::ArrayDataSetConfig config(BaseDataType::F32, SizeArray {0}, chunking);
+    auto col1 = NWB::VectorData::create(mergePaths(tablePath, "col1"), io);
+    col1->initialize(config, "Float column");
+    status = table->addColumn(col1);
+    REQUIRE(status == Status::Success);
+
+    // Use addRows to write data — requires col1 to be in m_configuredColumns
+    std::vector<NWB::DynamicTable::RowData> rows = {
+        {{"col1", 1.0f}}, {{"col1", 2.0f}}, {{"col1", 3.0f}}};
+    status = table->addRows(rows);
+    REQUIRE(status == Status::Success);
+
+    io->close();
+
+    // Reopen and verify
+    io = createIO("HDF5", path);
+    io->open();
+    auto readTable = NWB::DynamicTable::create(tablePath, io);
+    auto readCol = readTable->readColumn<NWB::VectorData>("col1");
+    REQUIRE(readCol != nullptr);
+    auto readData = readCol->readData()->valuesGeneric();
+    auto readTyped = DataBlock<float>::fromGeneric(readData);
+    REQUIRE(readTyped.data == std::vector<float>({1.0f, 2.0f, 3.0f}));
+    io->close();
+  }
+  
+  // TODO : Add row for refernece columns is not yet working. 
+  //        This will require support for chunked reference columns 
+  //        and support for column configuration with reference columns.
+  /*
+  SECTION("test addReferenceColumn configures column for addRow")
+  {
+    // Verify that addReferenceColumn registers the column in
+    // m_configuredColumns so that addRow/addRows can be used afterward.
+    std::string path =
+        getTestFilePath("testDynamicTableAddReferenceColumn.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    auto table = NWB::DynamicTable::create(tablePath, io);
+    Status status = table->initialize("Table with reference column");
+    REQUIRE(status == Status::Success);
+
+    // Add a reference column
+    std::vector<std::string> refs = {"/path/to/obj1", "/path/to/obj2"};
+    status = table->addReferenceColumn("group", "electrode group", refs);
+    REQUIRE(status == Status::Success);
+
+    // Verify the column name was registered
+    auto colNames = table->readColNames()->values().data;
+    REQUIRE(colNames == std::vector<std::string>({"group"}));
+
+    io->close();
+  }
+  */
+
   SECTION("test DynamicTable.findOwnedTypes")
   {
     std::string path = getTestFilePath("testDynamicTableFindOwned.h5");

@@ -52,7 +52,12 @@ std::vector<DynamicTable::DataSpecPtr> ElectrodesTable::createDefaultDataSpecs(
 
   // Note: "group" is a reference column, which is currently added dynamically
   // in finalize() We don't add it to the specs here because reference columns
-  // are not yet supported in DataSpec
+  // are not yet supported in DataSpec. Also, reference columns can currently
+  // not be configured with chunking to support resize/append.
+  // TODO: Add support for reference columns in DataSpec and configure them
+  // here.
+  // TODO: Add support for creating reference columns with chunking to support
+  // resize/append.
 
   return specs;
 }
