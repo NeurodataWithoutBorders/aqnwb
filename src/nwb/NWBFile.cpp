@@ -225,8 +225,9 @@ std::shared_ptr<ElectrodesTable> NWBFile::createElectrodesTable(
     return nullptr;
   }
 
+  auto specs = ElectrodesTable::createDefaultDataSpecs(rowChunkSize);
   Status initStatus = electrodeTable->initialize(
-      "metadata about extracellular electrodes", rowChunkSize);
+      "metadata about extracellular electrodes", specs);
   if (initStatus != Status::Success) {
     std::cerr << "NWBFile::createElectrodesTable failed to initialize "
                  "ElectrodesTable."
@@ -301,12 +302,12 @@ std::shared_ptr<EventsTable> NWBFile::createEventsTable(
     return nullptr;
   }
 
-  Status initStatus = eventsTable->initialize(description,
-                                              sourceDescription,
-                                              timestampResolution,
-                                              durationResolution,
-                                              createAnnotationColumn,
-                                              rowChunkSize);
+  auto specs = EventsTable::createDefaultDataSpecs(timestampResolution,
+                                                   durationResolution,
+                                                   createAnnotationColumn,
+                                                   rowChunkSize);
+  Status initStatus =
+      eventsTable->initialize(description, sourceDescription, specs);
 
   if (initStatus != Status::Success) {
     std::cerr << "NWBFile::createEventsTable failed to initialize EventsTable."

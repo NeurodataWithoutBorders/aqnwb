@@ -19,13 +19,52 @@ EventsTable::EventsTable(const std::string& path,
 {
 }
 
+std::vector<DynamicTable::DataSpecPtr> EventsTable::createDefaultDataSpecs(
+    float timestampResolution,
+    float durationResolution,
+    const bool createAnnotationColumn,
+    const SizeType rowChunkSize)
+{
+  std::vector<DataSpecPtr> specs =
+      DynamicTable::createDefaultDataSpecs(rowChunkSize);
+
+  IO::ArrayDataSetConfig timestampConfig(
+      IO::BaseDataType::F32, SizeArray {0}, SizeArray {rowChunkSize});
+  specs.push_back(std::make_shared<TimestampVectorData::DataSpec>(
+      "timestamp",
+      timestampConfig,
+      "A 1-dimensional VectorData that stores timestamps in seconds from "
+      "thesession start time. Timestamp are not required to be sorted in time.",
+      timestampResolution));
+
+  if (durationResolution >= 0.0f) {
+    IO::ArrayDataSetConfig durationConfig(
+        IO::BaseDataType::F32, SizeArray {0}, SizeArray {rowChunkSize});
+    specs.push_back(std::make_shared<DurationVectorData::DataSpec>(
+        "duration",
+        durationConfig,
+        "A 1-dimensional VectorData that stores the durations of the events in "
+        "seconds. Durations are not required to be sorted in time.",
+        durationResolution));
+  }
+
+  if (createAnnotationColumn) {
+    IO::ArrayDataSetConfig annotationConfig(
+        IO::BaseDataType::V_STR, SizeArray {0}, SizeArray {rowChunkSize});
+    specs.push_back(std::make_shared<VectorData::DataSpec>(
+        "annotation",
+        annotationConfig,
+        "A 1-dimensional VectorData that stores annotations for the events. "
+        "Annotations are not required to be sorted in time."));
+  }
+
+  return specs;
+}
+
 // Initialize the object
 Status EventsTable::initialize(const std::string& description,
                                const std::string& sourceDescription,
-                               float timestampResolution,
-                               float durationResolution,
-                               const bool createAnnotationColumn,
-                               const SizeType rowChunkSize)
+                               const std::vector<DataSpecPtr>& columnSpecs)
 {
   Status initStatus = Status::Success;
 
@@ -37,8 +76,17 @@ Status EventsTable::initialize(const std::string& description,
     return Status::Failure;
   }
 
+  std::vector<DataSpecPtr> specsToUse = columnSpecs;
+  if (specsToUse.empty()) {
+    // If no specs provided, we can't create the default ones because we don't
+    // have the resolutions. This is a limitation of the current API design
+    // where we removed the resolutions from initialize.
+    // For now, we'll just use the default DynamicTable specs.
+    specsToUse = DynamicTable::createDefaultDataSpecs();
+  }
+
   // Call parent initialize method.
-  Status parentInitStatus = DynamicTable::initialize(description, rowChunkSize);
+  Status parentInitStatus = DynamicTable::initialize(description, specsToUse);
 
   // Initialize attributes, datasets, and groups
   // Create the source_description attribute if provided
@@ -48,52 +96,7 @@ Status EventsTable::initialize(const std::string& description,
         ioPtr->createAttribute(sourceDescription, m_path, "source_description");
   }
 
-  // Initialize the required TimestampVectorData dataset
-  auto timestampPath = AQNWB::mergePaths(m_path, "timestamp");
-  IO::ArrayDataSetConfig timestampConfig(
-      IO::BaseDataType::F32, SizeArray {0}, SizeArray {rowChunkSize});
-  auto timestampColumn = TimestampVectorData::create(timestampPath, ioPtr);
-  Status timestampStatus = timestampColumn->initialize(
-      timestampConfig,
-      "A 1-dimensional VectorData that stores timestamps in seconds from "
-      "thesession start time. Timestamp are not required to be sorted in time.",
-      timestampResolution);
-  Status addTimestampColumnStatus = addColumn(timestampColumn);
-  timestampStatus = timestampStatus && addTimestampColumnStatus;
-
-  // Initialize the optional DurationVectorData dataset if requested
-  Status durationStatus = Status::Success;
-  if (durationResolution >= 0.0f) {
-    auto durationPath = AQNWB::mergePaths(m_path, "duration");
-    IO::ArrayDataSetConfig durationConfig(
-        IO::BaseDataType::F32, SizeArray {0}, SizeArray {rowChunkSize});
-    auto durationColumn = DurationVectorData::create(durationPath, ioPtr);
-    durationStatus = durationColumn->initialize(
-        durationConfig,
-        "A 1-dimensional VectorData that stores the durations of the events in "
-        "seconds. Durations are not required to be sorted in time.",
-        durationResolution);
-    Status addDurationColumnStatus = addColumn(durationColumn);
-    durationStatus = durationStatus && addDurationColumnStatus;
-  }
-
-  // Initialize the optional annotation dataset
-  Status annotationStatus = Status::Success;
-  if (createAnnotationColumn) {
-    auto annotationPath = AQNWB::mergePaths(m_path, "annotation");
-    IO::ArrayDataSetConfig annotationConfig(
-        IO::BaseDataType::V_STR, SizeArray {0}, SizeArray {rowChunkSize});
-    auto annotationColumn = VectorData::create(annotationPath, ioPtr);
-    annotationStatus = annotationColumn->initialize(
-        annotationConfig,
-        "A 1-dimensional VectorData that stores annotations for the events. "
-        "Annotations are not required to be sorted in time.");
-    Status addAnnotationColumnStatus = addColumn(annotationColumn);
-    annotationStatus = annotationStatus && addAnnotationColumnStatus;
-  }
-
   // Combine all statuses and return the final status
-  initStatus = initStatus && parentInitStatus && sourceDescStatus
-      && timestampStatus && durationStatus && annotationStatus;
+  initStatus = initStatus && parentInitStatus && sourceDescStatus;
   return initStatus;
 }

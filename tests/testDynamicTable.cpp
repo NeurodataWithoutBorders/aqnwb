@@ -432,6 +432,77 @@ TEST_CASE("DynamicTable", "[table]")
     readio->close();
   }
 
+  SECTION("test row-wise append")
+  {
+    std::string path = getTestFilePath("testDynamicTableRows.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    auto table = NWB::DynamicTable::create(tablePath, io);
+
+    // Configure schema
+    std::vector<NWB::DynamicTable::DataSpecPtr> specs;
+    specs.push_back(NWB::ElementIdentifiers::createDataSpec(
+        "id", IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10})));
+    specs.push_back(NWB::VectorData::createDataSpec(
+        "col_str",
+        IO::ArrayDataSetConfig(IO::BaseDataType::V_STR, {0}, {10}),
+        "String column"));
+    specs.push_back(NWB::VectorData::createDataSpec(
+        "col_f32",
+        IO::ArrayDataSetConfig(IO::BaseDataType::F32, {0}, {10}),
+        "Float column"));
+
+    Status status = table->initialize("Table with rows", specs);
+    REQUIRE(status == Status::Success);
+
+    // Add single row
+    NWB::DynamicTable::RowData row1 = {{"col_str", std::string("row1")},
+                                       {"col_f32", 1.5f}};
+    status = table->addRow(row1);
+    REQUIRE(status == Status::Success);
+
+    // Add multiple rows
+    std::vector<NWB::DynamicTable::RowData> rows = {
+        {{"col_str", std::string("row2")}, {"col_f32", 2.5f}},
+        {{"col_str", std::string("row3")}, {"col_f32", 3.5f}}};
+    status = table->addRows(rows);
+    REQUIRE(status == Status::Success);
+
+    status = table->finalize();
+    REQUIRE(status == Status::Success);
+
+    io->close();
+
+    // Reopen and verify
+    io = createIO("HDF5", path);
+    io->open();
+    auto readTable = NWB::DynamicTable::create(tablePath, io);
+
+    auto readColNames = readTable->readColNames()->values().data;
+    REQUIRE(readColNames == std::vector<std::string>({"col_str", "col_f32"}));
+
+    auto readIds = readTable->readIdColumn()->readData()->values().data;
+    REQUIRE(readIds == std::vector<int>({0, 1, 2}));
+
+    auto colStr = readTable->readColumn<NWB::VectorData>("col_str");
+    auto colStrDataGeneric = colStr->readData()->valuesGeneric();
+    auto colStrDataTyped =
+        DataBlock<std::string>::fromGeneric(colStrDataGeneric);
+    auto colStrData = colStrDataTyped.data;
+    REQUIRE(colStrData.size() == 3);
+    REQUIRE(colStrData == std::vector<std::string>({"row1", "row2", "row3"}));
+
+    auto colF32 = readTable->readColumn<NWB::VectorData>("col_f32");
+    auto colF32DataGeneric = colF32->readData()->valuesGeneric();
+    auto colF32DataTyped = DataBlock<float>::fromGeneric(colF32DataGeneric);
+    auto colF32Data = colF32DataTyped.data;
+    REQUIRE(colF32Data.size() == 3);
+    REQUIRE(colF32Data == std::vector<float>({1.5f, 2.5f, 3.5f}));
+
+    io->close();
+  }
+
   SECTION("test DynamicTable.findOwnedTypes")
   {
     std::string path = getTestFilePath("testDynamicTableFindOwned.h5");

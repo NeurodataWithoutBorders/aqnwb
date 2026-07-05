@@ -90,7 +90,7 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     // Confirm that the electrode table is created correctly
     auto readColNames = elecTable->readColNames()->values().data;
     std::vector<std::string> expectedColNames = {
-        "location", "group", "group_name"};
+        "location", "group_name", "group"};
     REQUIRE(readColNames == expectedColNames);
 
     // write channel data
@@ -133,7 +133,7 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     // Confirm that the electrode table is created correctly
     auto readColNames = elecTable->readColNames()->values().data;
     std::vector<std::string> expectedColNames = {
-        "location", "group", "group_name"};
+        "location", "group_name", "group"};
     REQUIRE(readColNames == expectedColNames);
 
     // write channel data in segments

@@ -47,11 +47,7 @@ public:
   virtual ~EventsTable() override {}
 
   /**
-   * @brief Initialize the object
-   * @param description Description of the table
-   * @param sourceDescription Optional short text description of where the
-   * events came from, applying to every row in the table. If empty string is
-   * provided (default), then the attribute will not be created.
+   * @brief Creates the default data specs for the EventsTable.
    * @param timestampResolution The temporal resolution of the timestamps - in
    * seconds. See `TimestampVectorData::initialize()` for more details.
    * @param durationResolution The temporal resolution of the optional duration
@@ -60,16 +56,27 @@ public:
    * not be created.
    * @param createAnnotationColumn Whether to create the annotation column
    * (default: false)
-   * @param rowChunkSize The chunk size for the rows of the table (optional,
-   * default: 100)
+   * @param rowChunkSize The chunk size for the rows of the table.
+   * @return A vector of DataSpecPtr containing the default specs.
+   */
+  static std::vector<DataSpecPtr> createDefaultDataSpecs(
+      float timestampResolution,
+      float durationResolution = -1.0f,
+      const bool createAnnotationColumn = false,
+      const SizeType rowChunkSize = 100);
+
+  /**
+   * @brief Initialize the object
+   * @param description Description of the table
+   * @param sourceDescription Optional short text description of where the
+   * events came from, applying to every row in the table. If empty string is
+   * provided (default), then the attribute will not be created.
+   * @param columnSpecs The column specifications to use for initialization.
    * @return Status::Success if successful, otherwise Status::Failure.
    */
   Status initialize(const std::string& description,
                     const std::string& sourceDescription,
-                    float timestampResolution,
-                    float durationResolution = -1.0f,
-                    const bool createAnnotationColumn = false,
-                    const SizeType rowChunkSize = 100);
+                    const std::vector<DataSpecPtr>& columnSpecs = {});
 
   // Define read methods
   // description overrides inherited field from parent neurodata_type

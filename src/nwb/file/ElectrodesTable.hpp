@@ -51,6 +51,14 @@ public:
   ~ElectrodesTable() override;
 
   /**
+   * @brief Creates the default data specs for the ElectrodesTable.
+   * @param rowChunkSize The chunk size for the rows of the table.
+   * @return A vector of DataSpecPtr containing the default specs.
+   */
+  static std::vector<DataSpecPtr> createDefaultDataSpecs(
+      const SizeType rowChunkSize = 100);
+
+  /**
    * @brief Initializes the ElectrodesTable.
    *
    * Initializes the ElectrodesTable by creating NWB related attributes and
@@ -58,12 +66,12 @@ public:
    *
    * @param description The description of the table (default: "metadata about
    * extracellular electrodes")
-   * @param rowChunkSize The chunk size for the rows of the table (default: 100)
+   * @param columnSpecs The column specifications to use for initialization.
    * @return Status::Success if successful, otherwise Status::Failure.
    */
   Status initialize(const std::string& description =
                         "metadata about extracellular electrodes",
-                    const SizeType rowChunkSize = 100);
+                    const std::vector<DataSpecPtr>& columnSpecs = {});
 
   /**
    * @brief Finalizes the ElectrodesTable.
@@ -125,15 +133,6 @@ private:
    */
   inline const static std::string m_groupPathBase =
       "/general/extracellular_ephys";
-
-  /**
-   * @brief The group names column for write
-   */
-  std::shared_ptr<VectorData> m_groupNamesVectorData;
-
-  /**
-   * @brief The locations column for write
-   */
-  std::shared_ptr<VectorData> m_locationsVectorData;
 };
+
 }  // namespace AQNWB::NWB

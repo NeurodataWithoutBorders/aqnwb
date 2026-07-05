@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <type_traits>
 
 #include "nwb/hdmf/table/DynamicTable.hpp"
 
@@ -6,6 +7,59 @@
 #include "nwb/hdmf/table/MeaningsTable.hpp"
 
 using namespace AQNWB::NWB;
+
+namespace
+{
+using BufferVariant = AQNWB::IO::BaseDataType::BaseDataVectorVariant;
+using CellValue = AQNWB::IO::BaseDataType::BaseDataVariant;
+
+template<typename T>
+bool appendTypedCell(BufferVariant& buffer, const CellValue& cellValue)
+{
+  auto* typedValue = std::get_if<T>(&cellValue);
+  if (!typedValue) {
+    return false;
+  }
+  auto* typedBuffer = std::get_if<std::vector<T>>(&buffer);
+  if (!typedBuffer) {
+    return false;
+  }
+  typedBuffer->push_back(*typedValue);
+  return true;
+}
+
+bool appendCellToBuffer(BufferVariant& buffer,
+                        const AQNWB::IO::BaseDataType& dataType,
+                        const CellValue& cellValue)
+{
+  switch (dataType.type) {
+    case AQNWB::IO::BaseDataType::T_U8:
+      return appendTypedCell<uint8_t>(buffer, cellValue);
+    case AQNWB::IO::BaseDataType::T_U16:
+      return appendTypedCell<uint16_t>(buffer, cellValue);
+    case AQNWB::IO::BaseDataType::T_U32:
+      return appendTypedCell<uint32_t>(buffer, cellValue);
+    case AQNWB::IO::BaseDataType::T_U64:
+      return appendTypedCell<uint64_t>(buffer, cellValue);
+    case AQNWB::IO::BaseDataType::T_I8:
+      return appendTypedCell<int8_t>(buffer, cellValue);
+    case AQNWB::IO::BaseDataType::T_I16:
+      return appendTypedCell<int16_t>(buffer, cellValue);
+    case AQNWB::IO::BaseDataType::T_I32:
+      return appendTypedCell<int32_t>(buffer, cellValue);
+    case AQNWB::IO::BaseDataType::T_I64:
+      return appendTypedCell<int64_t>(buffer, cellValue);
+    case AQNWB::IO::BaseDataType::T_F32:
+      return appendTypedCell<float>(buffer, cellValue);
+    case AQNWB::IO::BaseDataType::T_F64:
+      return appendTypedCell<double>(buffer, cellValue);
+    case AQNWB::IO::BaseDataType::T_STR:
+    case AQNWB::IO::BaseDataType::V_STR:
+      return appendTypedCell<std::string>(buffer, cellValue);
+  }
+  return false;
+}
+}  // namespace
 
 // DynamicTable
 // Initialize the static registered_ member to trigger registration
@@ -17,8 +71,7 @@ DynamicTable::DynamicTable(const std::string& path,
     : Container(path, io)
     , m_colNames({})
     , m_recordingColumns(std::make_unique<IO::RecordingObjects>())
-    , m_rowElementIdentifiers(
-          ElementIdentifiers::create(AQNWB::mergePaths(path, "id"), io))
+    , m_rowElementIdentifiers(nullptr)
 {
   // Read the colNames attribute if it exists such that any columns
   // we may add append to the existing list of columns rather than
@@ -40,7 +93,7 @@ DynamicTable::~DynamicTable() {}
 
 /** Initialization function*/
 Status DynamicTable::initialize(const std::string& description,
-                                const SizeType rowChunkSize)
+                                const std::vector<DataSpecPtr>& dataSpecs)
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
@@ -54,16 +107,19 @@ Status DynamicTable::initialize(const std::string& description,
     ioPtr->createAttribute(description, m_path, "description");
   }
 
-  // Initialize the row element identifiers
-  Status idStatus = Status::Success;
-  if (!m_rowElementIdentifiers->isInitialized()) {
-    SizeArray idShape = {0};
-    SizeArray idChunking = {rowChunkSize};
-    IO::ArrayDataSetConfig idConfig(IO::BaseDataType::I32, idShape, idChunking);
-    idStatus = m_rowElementIdentifiers->initialize(idConfig);
-  }
+  const auto effectiveSpecs =
+      dataSpecs.empty() ? createDefaultDataSpecs() : dataSpecs;
+  Status configureStatus = configureDataObjects(effectiveSpecs);
+  return containerStatus && configureStatus;
+}
 
-  return containerStatus && idStatus;
+std::vector<DynamicTable::DataSpecPtr> DynamicTable::createDefaultDataSpecs(
+    const SizeType rowChunkSize)
+{
+  return {ElementIdentifiers::createDataSpec(
+      "id",
+      IO::ArrayDataSetConfig(
+          IO::BaseDataType::I32, SizeArray {0}, SizeArray {rowChunkSize}))};
 }
 
 void DynamicTable::setColNames(const std::vector<std::string>& newColNames)
@@ -155,11 +211,97 @@ Status DynamicTable::setRowIDs(const std::vector<int>& values)
       return Status::Failure;
     }
 
-    Status writeDataStatus =
-        m_rowElementIdentifiers->recordData()->writeDataBlock(
-            SizeArray(1, values.size()), IO::BaseDataType::I32, &values[0]);
+    if (values.empty()) {
+      return Status::Success;
+    }
+    auto idData = m_rowElementIdentifiers->recordData();
+    SizeArray positionOffset = {0};
+    auto currentShape = idData->getShape();
+    if (!currentShape.empty()) {
+      positionOffset[0] = currentShape[0];
+    }
+    Status writeDataStatus = idData->writeDataBlock(SizeArray {values.size()},
+                                                    positionOffset,
+                                                    IO::BaseDataType::I32,
+                                                    &values[0]);
     return writeDataStatus;
   }
+}
+
+Status DynamicTable::addRow(const RowData& row, const std::optional<int>& rowId)
+{
+  if (rowId.has_value()) {
+    return addRows(std::vector<RowData> {row}, std::vector<int> {*rowId});
+  }
+  return addRows(std::vector<RowData> {row});
+}
+
+Status DynamicTable::addRows(const std::vector<RowData>& rows,
+                             const std::vector<int>& rowIds)
+{
+  if (rows.empty()) {
+    return Status::Success;
+  }
+  Status loadStatus = ensureConfiguredColumnsLoaded();
+  if (loadStatus != Status::Success) {
+    return Status::Failure;
+  }
+  if (m_configuredColumns.empty()) {
+    std::cerr << "DynamicTable::addRows no configured columns available."
+              << std::endl;
+    return Status::Failure;
+  }
+  if (!rowIds.empty() && rowIds.size() != rows.size()) {
+    std::cerr << "DynamicTable::addRows rowIds size must match rows size."
+              << std::endl;
+    return Status::Failure;
+  }
+
+  std::vector<BufferVariant> columnBuffers;
+  columnBuffers.reserve(m_configuredColumns.size());
+  for (const auto& configuredColumn : m_configuredColumns) {
+    columnBuffers.push_back(
+        IO::BaseDataType::createEmptyVectorVariant(configuredColumn.dataType));
+  }
+
+  for (const auto& row : rows) {
+    if (row.size() != m_configuredColumns.size()) {
+      std::cerr << "DynamicTable::addRows row size does not match configured "
+                   "column count."
+                << std::endl;
+      return Status::Failure;
+    }
+    for (SizeType i = 0; i < m_configuredColumns.size(); ++i) {
+      const auto& configuredColumn = m_configuredColumns[i];
+      auto rowValueIt = row.find(configuredColumn.name);
+      if (rowValueIt == row.end()) {
+        std::cerr << "DynamicTable::addRows missing value for column '"
+                  << configuredColumn.name << "'." << std::endl;
+        return Status::Failure;
+      }
+      if (!appendCellToBuffer(
+              columnBuffers[i], configuredColumn.dataType, rowValueIt->second))
+      {
+        std::cerr << "DynamicTable::addRows value type mismatch for column '"
+                  << configuredColumn.name << "'." << std::endl;
+        return Status::Failure;
+      }
+    }
+  }
+
+  Status status = Status::Success;
+  for (SizeType i = 0; i < m_configuredColumns.size(); ++i) {
+    status = status
+        && writeColumnBuffer(
+                 m_configuredColumns[i], columnBuffers[i], rows.size());
+  }
+  if (status != Status::Success) {
+    return status;
+  }
+
+  std::vector<int> idsToWrite =
+      rowIds.empty() ? generateRowIDs(rows.size()) : rowIds;
+  return setRowIDs(idsToWrite);
 }
 
 Status DynamicTable::addReferenceColumn(const std::string& name,
@@ -262,11 +404,13 @@ std::shared_ptr<MeaningsTable> DynamicTable::createMeaningsTable(
   }
 
   // Initialize the MeaningsTable with the target VectorData and value data type
+  auto specs = MeaningsTable::createDefaultDataSpecs(
+      *columnVectorData, valueDataType, rowChunkSize);
   Status initStatus =
       meaningsTable->initialize(*columnVectorData,
                                 valueDataType,
                                 "Meanings table for column: " + columnName,
-                                rowChunkSize);
+                                specs);
 
   // Report error if initialization failed
   if (initStatus != Status::Success) {
@@ -308,4 +452,157 @@ std::shared_ptr<MeaningsTable> DynamicTable::createMeaningsTableInstance(
     return nullptr;
   }
   return MeaningsTable::create(objectPath, ioPtr);
+}
+
+std::shared_ptr<VectorData> DynamicTable::getConfiguredColumn(
+    const std::string& name) const
+{
+  auto it = m_configuredColumnIndices.find(name);
+  if (it != m_configuredColumnIndices.end()) {
+    return m_configuredColumns[it->second].column;
+  }
+  return nullptr;
+}
+
+Status DynamicTable::configureDataObjects(
+    const std::vector<DataSpecPtr>& dataSpecs)
+{
+  m_configuredColumns.clear();
+  m_configuredColumnIndices.clear();
+
+  for (const auto& spec : dataSpecs) {
+    if (!spec) {
+      std::cerr << "DynamicTable::configureDataObjects received null spec."
+                << std::endl;
+      return Status::Failure;
+    }
+    Status status = configureDataObject(*spec);
+    if (status != Status::Success) {
+      return status;
+    }
+  }
+  return Status::Success;
+}
+
+Status DynamicTable::configureDataObject(const DataSpec& dataSpec)
+{
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    return Status::Failure;
+  }
+  std::string columnPath = AQNWB::mergePaths(m_path, dataSpec.name);
+  auto dataObj = dataSpec.create(columnPath, ioPtr);
+  if (!dataObj) {
+    return Status::Failure;
+  }
+  Status initStatus = dataSpec.initialize(*dataObj);
+  if (initStatus != Status::Success) {
+    return Status::Failure;
+  }
+
+  if (dataSpec.name == "id") {
+    m_rowElementIdentifiers =
+        std::dynamic_pointer_cast<ElementIdentifiers>(dataObj);
+    return Status::Success;
+  }
+
+  auto vectorData = std::dynamic_pointer_cast<VectorData>(dataObj);
+  if (!vectorData) {
+    return Status::Failure;
+  }
+
+  ConfiguredColumn col;
+  col.name = dataSpec.name;
+  col.dataType = dataSpec.getType();
+  col.column = vectorData;
+
+  m_configuredColumns.push_back(col);
+  m_configuredColumnIndices[col.name] = m_configuredColumns.size() - 1;
+
+  addColumnName(col.name);
+  m_recordingColumns->addRecordingObject(vectorData);
+
+  return Status::Success;
+}
+
+Status DynamicTable::ensureConfiguredColumnsLoaded()
+{
+  if (!m_configuredColumns.empty()) {
+    return Status::Success;
+  }
+  return loadConfiguredColumnsFromFile();
+}
+
+Status DynamicTable::loadConfiguredColumnsFromFile()
+{
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    return Status::Failure;
+  }
+
+  for (const auto& colName : m_colNames) {
+    auto col = readColumn<VectorData>(colName);
+    if (col) {
+      ConfiguredColumn confCol;
+      confCol.name = colName;
+      confCol.dataType = col->readData()->getDataType();
+      confCol.column = col;
+      m_configuredColumns.push_back(confCol);
+      m_configuredColumnIndices[colName] = m_configuredColumns.size() - 1;
+      m_recordingColumns->addRecordingObject(col);
+    }
+  }
+  return Status::Success;
+}
+
+Status DynamicTable::writeColumnBuffer(
+    const ConfiguredColumn& configuredColumn,
+    const IO::BaseDataType::BaseDataVectorVariant& buffer,
+    SizeType rowCount)
+{
+  auto dataset = configuredColumn.column->recordData();
+  SizeArray positionOffset = {0};
+  auto currentShape = dataset->getShape();
+  if (!currentShape.empty()) {
+    positionOffset[0] = currentShape[0];
+  }
+
+  return std::visit(
+      [&](auto&& arg) -> Status
+      {
+        using T = std::decay_t<decltype(arg)>;
+        if constexpr (std::is_same_v<T, std::monostate>) {
+          return Status::Failure;
+        } else {
+          if constexpr (std::is_same_v<T, std::vector<std::string>>) {
+            return dataset->writeDataBlock(SizeArray {rowCount},
+                                           positionOffset,
+                                           configuredColumn.dataType,
+                                           arg);
+          } else {
+            return dataset->writeDataBlock(SizeArray {rowCount},
+                                           positionOffset,
+                                           configuredColumn.dataType,
+                                           arg.data());
+          }
+        }
+      },
+      buffer);
+}
+
+std::vector<int> DynamicTable::generateRowIDs(SizeType rowCount)
+{
+  std::vector<int> ids(rowCount);
+  int startId = 0;
+  if (m_rowElementIdentifiers) {
+    auto idData = m_rowElementIdentifiers->recordData();
+    auto currentShape = idData->getShape();
+    if (!currentShape.empty()) {
+      startId = currentShape[0];
+    }
+  }
+  for (SizeType i = 0; i < rowCount; ++i) {
+    ids[i] = startId + i;
+  }
+  return ids;
 }

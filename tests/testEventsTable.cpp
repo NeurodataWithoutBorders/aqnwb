@@ -44,14 +44,10 @@ TEST_CASE("EventsTable", "[event]")
       auto eventsTable = AQNWB::NWB::EventsTable::create(tablePath, io);
       REQUIRE(eventsTable != nullptr);
 
+      auto specs = NWB::EventsTable::createDefaultDataSpecs(
+          timestampResolution, durationResolution, true, 100);
       Status initStatus =
-          eventsTable->initialize(description,
-                                  sourceDescription,
-                                  timestampResolution,
-                                  durationResolution,
-                                  true,  // createAnnotationColumn
-                                  100  // rowChunkSize
-          );
+          eventsTable->initialize(description, sourceDescription, specs);
       REQUIRE(initStatus == Status::Success);
 
       // Write timestamps
@@ -156,7 +152,9 @@ TEST_CASE("EventsTable", "[event]")
 
     io.reset();
 
-    Status initStatus = eventsTable->initialize("Missing IO", "", 0.01f);
+    auto specs =
+        NWB::EventsTable::createDefaultDataSpecs(0.01f, 0.01f, true, 100);
+    Status initStatus = eventsTable->initialize("Missing IO", "", specs);
     REQUIRE(initStatus == Status::Failure);
   }
 }

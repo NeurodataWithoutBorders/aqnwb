@@ -44,7 +44,7 @@ TEST_CASE("ElectrodesTable", "[ecephys]")
     // Confirm that the column names are created correctly
     auto readColNames = electrodeTable->readColNames()->values().data;
     std::vector<std::string> expectedColNames = {
-        "location", "group", "group_name"};
+        "location", "group_name", "group"};
     REQUIRE(readColNames == expectedColNames);
 
     // Check if id datasets are created correctly

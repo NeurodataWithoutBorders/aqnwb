@@ -1,8 +1,9 @@
 #pragma once
 
 #include <any>
-#include <set>
+#include <optional>
 #include <string>
+#include <unordered_map>
 
 #include "Utils.hpp"
 #include "io/BaseIO.hpp"
@@ -30,6 +31,11 @@ namespace AQNWB::NWB
 class DynamicTable : public Container
 {
 public:
+  using DataSpec = Data::DataSpecBase;
+  using DataSpecPtr = std::shared_ptr<DataSpec>;
+  using CellValue = IO::BaseDataType::BaseDataVariant;
+  using RowData = std::unordered_map<std::string, CellValue>;
+
   // Register the TimeSeries as a subclass of Container
   REGISTER_SUBCLASS(DynamicTable,
                     Container,
@@ -51,15 +57,28 @@ public:
 
   /**
    * @brief Initializes the `DynamicTable` object by creating NWB attributes and
-   * column names.
+   * optional configured data columns.
    *
    * @param description The description of the table (optional).
-   * @param rowChunkSize The chunk size for the rows in the table (optional,
-   * default: 100).
+   * @param dataSpecs Optional ordered configuration for the data objects to
+   *        create. If empty, only the default id column is created.
    * @return Status::Success if successful, otherwise Status::Failure.
    */
   Status initialize(const std::string& description,
-                    const SizeType rowChunkSize = 100);
+                    const std::vector<DataSpecPtr>& dataSpecs = {});
+
+  /**
+   * @brief Create the default data specs for a DynamicTable.
+   *
+   * The default DynamicTable schema consists only of the built-in
+   * ElementIdentifiers `id` dataset. Callers may use this as a starting point,
+   * modify the returned vector, and pass the result to initialize().
+   *
+   * @param rowChunkSize Chunk size to use for the default id dataset.
+   * @return Ordered default data specs for the table.
+   */
+  static std::vector<DataSpecPtr> createDefaultDataSpecs(
+      const SizeType rowChunkSize = 100);
 
   /**
    * @brief Finalizes writing the DynamicTable.
@@ -108,6 +127,11 @@ public:
   Status addReferenceColumn(const std::string& name,
                             const std::string& colDescription,
                             const std::vector<std::string>& dataset);
+
+  Status addRow(const RowData& row,
+                const std::optional<int>& rowId = std::nullopt);
+  Status addRows(const std::vector<RowData>& rows,
+                 const std::vector<int>& rowIds = {});
 
   /**
    * @brief Sets the values of the element identifiers on the table.
@@ -275,6 +299,39 @@ protected:
 
   Status flushColNames();
 
+  struct ConfiguredColumn
+  {
+    std::string name;
+    IO::BaseDataType dataType;
+    std::shared_ptr<VectorData> column;
+  };
+
+  /**
+   * @brief Look up an already-configured column by name.
+   *
+   * Configured columns are created and registered once during initialize()
+   * via the DataSpec mechanism. This accessor allows subclasses (and finalize()
+   * logic) to write data into the existing VectorData objects rather than
+   * creating new ones, which would register duplicate recording objects.
+   *
+   * @param name The name of the configured column to retrieve.
+   * @return A shared pointer to the configured VectorData column, or nullptr if
+   * no column with the given name has been configured.
+   */
+  std::shared_ptr<VectorData> getConfiguredColumn(
+      const std::string& name) const;
+
+  Status configureDataObjects(const std::vector<DataSpecPtr>& dataSpecs);
+
+  Status configureDataObject(const DataSpec& dataSpec);
+  Status ensureConfiguredColumnsLoaded();
+  Status loadConfiguredColumnsFromFile();
+  Status writeColumnBuffer(
+      const ConfiguredColumn& configuredColumn,
+      const IO::BaseDataType::BaseDataVectorVariant& buffer,
+      SizeType rowCount);
+  std::vector<int> generateRowIDs(SizeType rowCount);
+
   /**
    * @brief Names of the columns in the table.
    */
@@ -289,5 +346,8 @@ protected:
    * @brief The row ids data object for write
    */
   std::shared_ptr<ElementIdentifiers> m_rowElementIdentifiers;
+
+  std::vector<ConfiguredColumn> m_configuredColumns;
+  std::unordered_map<std::string, SizeType> m_configuredColumnIndices;
 };
 }  // namespace AQNWB::NWB

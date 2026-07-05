@@ -49,14 +49,27 @@ public:
   virtual ~MeaningsTable() override {}
 
   /**
+   * @brief Creates the default data specs for the MeaningsTable.
+   * @param targetVectorData The VectorData object that this MeaningsTable is
+   * associated with.
+   * @param valueDataType The data type of the 'value' column in the
+   * MeaningsTable.
+   * @param rowChunkSize The chunk size for the rows of the table.
+   * @return A vector of DataSpecPtr containing the default specs.
+   */
+  static std::vector<DataSpecPtr> createDefaultDataSpecs(
+      const VectorData& targetVectorData,
+      const AQNWB::IO::BaseDataType& valueDataType,
+      const SizeType rowChunkSize = 100);
+
+  /**
    * @brief Initialize the object
    * @param targetVectorData The VectorData object that this MeaningsTable is
    * associated with.
    * @param valueDataType The data type of the 'value' column in the
    * MeaningsTable.
    * @param description Description of the table (optional)
-   * @param rowChunkSize The chunk size for the rows of the table (optional,
-   * default: 100)
+   * @param columnSpecs The column specifications to use for initialization.
    * @return Status::Success if successful, otherwise Status::Failure.
    */
   Status initialize(const VectorData& targetVectorData,
@@ -64,7 +77,7 @@ public:
                     const std::string& description =
                         "A table to store information about the meanings of "
                         "values in a linked VectorData object.",
-                    const SizeType rowChunkSize = 100);
+                    const std::vector<DataSpecPtr>& columnSpecs = {});
 
   DEFINE_REGISTERED_FIELD(readValueColumn,
                           AQNWB::NWB::VectorData,
