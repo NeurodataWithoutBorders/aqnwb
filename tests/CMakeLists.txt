@@ -43,6 +43,7 @@ add_executable(aqnwb_test
     examples/test_HDF5IO_examples.cpp
     examples/test_example.cpp
     examples/testWorkflowExamples.cpp
+    examples/testEventsWorkflowExamples.cpp
     examples/test_ecephys_data_read.cpp
     examples/test_link_timeseries_example.cpp
     examples/test_RegisteredType_example.cpp

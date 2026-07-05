@@ -124,11 +124,6 @@ public:
   Status initialize(const IO::BaseArrayDataSetConfig& dataConfig);
 
   /**
-   * @brief Initialize the object from a DataSpec.
-   * @param dataSpec Runtime configuration for the object.
-   * @return Status::Success if successful, otherwise Status::Failure.
-   */
-  /**
    * @brief Check whether the dataset has been initialized
    */
   inline bool isInitialized() { return this->readData()->exists(); }

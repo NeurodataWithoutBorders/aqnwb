@@ -147,7 +147,7 @@ public:
    * If the newColNames is identical to the existing column names,
    * then no changes will be made.
    *
-   * @raises std::invalid_argument if the newColNames vector does not
+   * @exception Throws std::invalid_argument if the newColNames vector does not
    * contain all columns of the table. I.e., the newColNames vector
    * must be a permutation of the existing column names.
    * @param newColNames The vector of new column names.
