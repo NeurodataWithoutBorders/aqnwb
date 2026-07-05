@@ -1,0 +1,159 @@
+/**
+ * \page events Acquiring Event Data 📋
+ *
+ * \tableofcontents
+ *
+ * \section events_overview Overview
+ *
+ * AqNWB provides the \ref AQNWB::NWB::EventsTable "EventsTable" type for recording
+ * discrete events (such as TTL pulses, licks, rewards, stimulus onsets, or other
+ * event-based data), where each event is anchored at a single timestamp.  An optional duration
+ * column can be added when the length of each event is known.  Additional user-defined
+ * columns can be appended to store any per-event metadata.
+ *
+ * Each \ref AQNWB::NWB::EventsTable "EventsTable" should hold events of a **single type or related
+ * types** so that all rows share the same set of columns.  Events types with different metadata needs
+ * (e.g., behavioral events and TTL pulses) should be stored in separate
+ * \ref AQNWB::NWB::EventsTable "EventsTable" instances.
+ *
+ * AqNWB supports two complementary acquisition patterns. Both patterns share the same setup steps 
+ * (I/O, NWBFile, table creation, and `startRecording`) and differ only in how data are written 
+ * to the table.
+ *
+ * | Pattern | When to use |
+ * |---------|-------------|
+ * | **Row-based** (`addRow` / `addRows`) | Events arrive one at a time during acquisition; the total count is not known in advance. |
+ * | **Column-based** (write full column vectors) | All event data are available in memory at once and can be written in a single bulk call per column. Add additional complete columns after acquisition is completed. |
+ *
+ * \note 
+ * The two patterns are not exclusive and hybrid approaches are possible. 
+ * However, in particular when using column-based append, then we must 
+ * ensure that all columns have been approbriately updated such that 
+ * all columns have indeed the same number rows before we use `addRow` or
+ * `addRows` to avoid inconsistent data. 
+ *
+ * \section events_setup Setup: I/O, NWBFile, and table creation
+ *
+ * \subsection events_io 1. Create the I/O object
+ *
+ * \snippet tests/examples/testEventsWorkflowExamples.cpp example_events_rowbased_io_snippet
+ *
+ * \subsection events_nwbfile 2. Create the NWBFile
+ *
+ * \snippet tests/examples/testEventsWorkflowExamples.cpp example_events_rowbased_nwbfile_snippet
+ *
+ * \subsection events_configure_table 3. Configure and create the EventsTable
+ *
+ * Before creating the table, build a list of column specifications using
+ * \ref AQNWB::NWB::EventsTable::createDefaultDataSpecs "EventsTable::createDefaultDataSpecs".
+ * This factory returns the default set of columns (always including the `id` and
+ * `timestamp` columns) and allows you to decide to include the optional `duration` and `annotation`
+ * columns and control the HDF5 chunk size used for each column.
+ *
+ * \note
+ * Chunked storage is **required** for the row-based pattern because the total number
+ * of rows is not known in advance.  The `rowChunkSize` parameter controls how many
+ * rows are stored per HDF5 chunk. Avoid creating too small chunks (e.g,. single rows)
+ * as well as too large chunks (e.g., millions of rows per chunk).
+ *
+ * To add a **custom column** to the table, create a
+ * \ref AQNWB::NWB::VectorData::DataSpec "VectorData::DataSpec" (or a spec for any
+ * other \ref AQNWB::NWB::VectorData "VectorData" subtype) and push it onto the spec
+ * vector before passing it to
+ * \ref AQNWB::NWB::NWBFile::createEventsTable "NWBFile::createEventsTable".
+ * The spec bundles the column name, dataset configuration (data type, initial size,
+ * chunk size), and description in one object.
+ *
+ * Once the spec list is ready, pass it to
+ * \ref AQNWB::NWB::NWBFile::createEventsTable "NWBFile::createEventsTable" together
+ * with the table name, description, and an optional source description:
+ *
+ * \snippet tests/examples/testEventsWorkflowExamples.cpp example_events_rowbased_create_table_snippet
+ *
+ * \subsection events_start 4. Start the recording
+ *
+ * \snippet tests/examples/testEventsWorkflowExamples.cpp example_events_rowbased_start_snippet
+ *
+ * \note
+ * When using \ref AQNWB::IO::HDF5::HDF5IO "HDF5IO", calling `startRecording` enables
+ * \ref hdf5io_swmr "SWMR mode" by default.  No new datasets or groups can be added
+ * after this point unless the file is closed and reopened.
+ *
+ * \section events_rowbased Pattern 1 — Row-based acquisition
+ *
+ * Use this pattern when events are detected one at a time during an ongoing recording
+ * session and the total event count is not known in advance.
+ *
+ * Call \ref AQNWB::NWB::DynamicTable::addRow "addRow" to append a single event, or
+ * \ref AQNWB::NWB::DynamicTable::addRows "addRows" to append several events at once.
+ * Each row is expressed as a
+ * \ref AQNWB::NWB::DynamicTable::RowData "DynamicTable::RowData", which is an
+ * `std::unordered_map<std::string, CellValue>` that maps column names to typed scalar
+ * values.  Row IDs are auto-generated (0, 1, 2, …) when not explicitly supplied.
+ *
+ * \snippet tests/examples/testEventsWorkflowExamples.cpp example_events_rowbased_write_snippet
+ *
+ * \note
+ * `addRow` and `addRows` write data immediately to the underlying HDF5 datasets by
+ * extending the chunked arrays one row (or batch of rows) at a time.  Call
+ * `io->flush()` at any point to ensure data are moved to disk.
+ *
+ * \subsection events_rowbased_stop Stop the recording
+ *
+ * \snippet tests/examples/testEventsWorkflowExamples.cpp example_events_rowbased_stop_snippet
+ *
+ * \section events_colbased Pattern 2 — Column-based (bulk) acquisition
+ *
+ * Use this pattern when all event data are collected in memory first and can be
+ * written to the file in a single pass. This is common for post-acquistion or 
+ * offline processing pipelines or when events are buffered and flushed at the end of a trial.
+ *
+ * After `startRecording`, retrieve each column object via the corresponding
+ * `read*Column()` accessor on the table, then call
+ * \ref AQNWB::IO::BaseRecordingData::writeDataBlock "writeDataBlock" to write the
+ * full column vector in one call.  Finally, set the row IDs with
+ * \ref AQNWB::NWB::DynamicTable::setRowIDs "setRowIDs".
+ *
+ * \snippet tests/examples/testEventsWorkflowExamples.cpp example_events_colbased_create_table_snippet
+ *
+ * Custom columns that were not part of the original spec list can be added after
+ * table creation but **before** `startRecording()` using
+ * \ref AQNWB::NWB::DynamicTable::addColumn "addColumn".  Create a
+ * \ref AQNWB::NWB::VectorData "VectorData" object, initialize it with an
+ * \ref AQNWB::IO::ArrayDataSetConfig "ArrayDataSetConfig", and pass it to
+ * `addColumn`:
+ *
+ * \snippet tests/examples/testEventsWorkflowExamples.cpp example_events_colbased_addcolumn_snippet
+ *
+ * \snippet tests/examples/testEventsWorkflowExamples.cpp example_events_colbased_start_snippet
+ *
+ * Write all columns — including any custom ones — after `startRecording`:
+ *
+ * \snippet tests/examples/testEventsWorkflowExamples.cpp example_events_colbased_write_snippet
+ *
+ * \subsection events_colbased_stop Stop the recording
+ *
+ * \snippet tests/examples/testEventsWorkflowExamples.cpp example_events_colbased_stop_snippet
+ *
+ * \section events_tips Tips and best practices
+ *
+ * - **One table per event type.** Keep lick events, stimulus onsets, and reward
+ *   deliveries in separate \ref AQNWB::NWB::EventsTable "EventsTable" instances so
+ *   that every row in a table shares the same column schema.
+ * - **Choose the right chunk size.** For row-based acquisition, a `rowChunkSize` of
+ *   100–1000 is typically a good trade-off between write amplification and read
+ *   performance.  Larger chunks reduce overhead when reading but waste space if the
+ *   table has fewer rows than one chunk.
+ * - In the case of row-based acquisition it may be useful to collect multiple rows 
+ *   to used `addRows` to avoid many small I/O operations and repeated updates to 
+ *   the same chunks. 
+ * - **Customize the column layout.** Call
+ *   \ref AQNWB::NWB::EventsTable::createDefaultDataSpecs "EventsTable::createDefaultDataSpecs"
+ *   to obtain the default spec vector, modify individual entries (e.g., change the
+ *   chunk size of a specific column), and pass the modified vector to
+ *   \ref AQNWB::NWB::NWBFile::createEventsTable "NWBFile::createEventsTable".
+ * - **Add custom columns.** After table creation (but before `startRecording`), call
+ *   \ref AQNWB::NWB::DynamicTable::addColumn "DynamicTable::addColumn" to attach
+ *   additional \ref AQNWB::NWB::VectorData "VectorData" columns for any per-event
+ *   metadata not covered by the built-in columns.
+ */
