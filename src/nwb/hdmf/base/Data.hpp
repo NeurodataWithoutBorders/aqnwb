@@ -75,7 +75,8 @@ public:
   {
     /**
      * @brief Construct the typed DataSpec.
-     * @param name The dataset name relative to the owning table/container.
+     * @param datasetName The dataset name relative to the owning
+     * table/container.
      * @param dataConfig Dataset configuration for the object to create.
      */
     DataSpec(const std::string& datasetName,

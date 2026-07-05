@@ -16,21 +16,30 @@
  * (e.g., behavioral events and TTL pulses) should be stored in separate
  * \ref AQNWB::NWB::EventsTable "EventsTable" instances.
  *
- * AqNWB supports two complementary acquisition patterns. Both patterns share the same setup steps 
- * (I/O, NWBFile, table creation, and `startRecording`) and differ only in how data are written 
- * to the table.
+ * AqNWB supports two complementary acquisition patterns:
  *
  * | Pattern | When to use |
  * |---------|-------------|
  * | **Row-based** (`addRow` / `addRows`) | Events arrive one at a time during acquisition; the total count is not known in advance. |
  * | **Column-based** (write full column vectors) | All event data are available in memory at once and can be written in a single bulk call per column. Add additional complete columns after acquisition is completed. |
  *
- * \note 
- * The two patterns are not exclusive and hybrid approaches are possible. 
- * However, in particular when using column-based append, then we must 
+ * Both patterns share the same setup steps (I/O, NWBFile, table creation, and 
+ * `startRecording`) and differ only in how data are written to the table.
+ * The two patterns are not exclusive and hybrid approaches are possible, 
+ * but require caution. In particular when using column-based append, we must 
  * ensure that all columns have been approbriately updated such that 
  * all columns have indeed the same number rows before we use `addRow` or
  * `addRows` to avoid inconsistent data. 
+ *
+ * \par
+ * \note
+ * Chunked storage is **required** for when the total number of rows is not known in advance
+ * and we need to expand the columns at runtime. The  `rowChunkSize` parameter of the 
+ * `createDefaultDataSpecs` controls how many rows are stored per HDF5 chunk. In practice,
+ * the number of rows per chunk should typically be the same for all columns of a table. 
+ * The chunking behavior can also be customized via the individual `DataSpec` of the columns. 
+ * Avoid creating too small chunks (e.g,. single rows) as well as too large chunks 
+ * (e.g., millions of rows per chunk).
  *
  * \section events_setup Setup: I/O, NWBFile, and table creation
  *
@@ -50,25 +59,23 @@
  * `timestamp` columns) and allows you to decide to include the optional `duration` and `annotation`
  * columns and control the HDF5 chunk size used for each column.
  *
- * \note
- * Chunked storage is **required** for the row-based pattern because the total number
- * of rows is not known in advance.  The `rowChunkSize` parameter controls how many
- * rows are stored per HDF5 chunk. Avoid creating too small chunks (e.g,. single rows)
- * as well as too large chunks (e.g., millions of rows per chunk).
- *
  * To add a **custom column** to the table, create a
  * \ref AQNWB::NWB::VectorData::DataSpec "VectorData::DataSpec" (or a spec for any
  * other \ref AQNWB::NWB::VectorData "VectorData" subtype) and push it onto the spec
  * vector before passing it to
  * \ref AQNWB::NWB::NWBFile::createEventsTable "NWBFile::createEventsTable".
  * The spec bundles the column name, dataset configuration (data type, initial size,
- * chunk size), and description in one object.
- *
- * Once the spec list is ready, pass it to
+ * chunk size), and description in one object. Once the spec list is ready, pass it to
  * \ref AQNWB::NWB::NWBFile::createEventsTable "NWBFile::createEventsTable" together
  * with the table name, description, and an optional source description:
  *
  * \snippet tests/examples/testEventsWorkflowExamples.cpp example_events_rowbased_create_table_snippet
+ *
+ * \note 
+ * If you do not require custom columns (or want to create them later via 
+ * \ref AQNWB::NWB::EventsTable::addColumn "addColumn)", then you can bypass the 
+ * creation of the table configuration and instead configure the table directly 
+ * via \ref AQNWB::NWB::NWBFile::createEventsTable "NWBFile::createEventsTable".
  *
  * \subsection events_start 4. Start the recording
  *
@@ -79,10 +86,12 @@
  * \ref hdf5io_swmr "SWMR mode" by default.  No new datasets or groups can be added
  * after this point unless the file is closed and reopened.
  *
- * \section events_rowbased Pattern 1 — Row-based acquisition
+ * \section events_rowbased Pattern 1: Row-based acquisition
  *
  * Use this pattern when events are detected one at a time during an ongoing recording
  * session and the total event count is not known in advance.
+ *
+ *  \subsection events_rowbased_addrow Add rows 
  *
  * Call \ref AQNWB::NWB::DynamicTable::addRow "addRow" to append a single event, or
  * \ref AQNWB::NWB::DynamicTable::addRows "addRows" to append several events at once.
@@ -102,11 +111,13 @@
  *
  * \snippet tests/examples/testEventsWorkflowExamples.cpp example_events_rowbased_stop_snippet
  *
- * \section events_colbased Pattern 2 — Column-based (bulk) acquisition
+ * \section events_colbased Pattern 2: Column-based (bulk) acquisition
  *
  * Use this pattern when all event data are collected in memory first and can be
  * written to the file in a single pass. This is common for post-acquistion or 
  * offline processing pipelines or when events are buffered and flushed at the end of a trial.
+ *
+* \subsection events_colbased_adddata Add data to columns
  *
  * After `startRecording`, retrieve each column object via the corresponding
  * `read*Column()` accessor on the table, then call
@@ -135,18 +146,83 @@
  *
  * \snippet tests/examples/testEventsWorkflowExamples.cpp example_events_colbased_stop_snippet
  *
+ * \section events_meanings Annotating columns with a MeaningsTable
+ *
+ * When an \ref AQNWB::NWB::EventsTable "EventsTable" column stores **coded
+ * values** (e.g., integer event-type codes, stimulus IDs, or category labels),
+ * a \ref AQNWB::NWB::MeaningsTable "MeaningsTable" can be attached to that
+ * column to document what each code means.  The MeaningsTable lists every
+ * possible value together with a human-readable description, making the data
+ * self-documenting and easier to interpret.
+ *
+ * \subsection events_meanings_setup Setup: create the EventsTable with a coded column
+ *
+ * First, create the \ref AQNWB::NWB::EventsTable "EventsTable" as usual and
+ * include the column whose values you want to annotate.  In this example we
+ * add an integer `event_type` column:
+ *
+ * \snippet tests/examples/testEventsWorkflowExamples.cpp example_events_meanings_create_table_snippet
+ *
+ * \subsection events_meanings_create Create the MeaningsTable
+ *
+ * Before calling `startRecording()`, call
+ * \ref AQNWB::NWB::DynamicTable::createMeaningsTable "createMeaningsTable"
+ * on the \ref AQNWB::NWB::EventsTable "EventsTable" (which is a
+ * \ref AQNWB::NWB::DynamicTable "DynamicTable") and pass the name of the
+ * column to annotate.  The method automatically:
+ *
+ * - creates the \ref AQNWB::NWB::MeaningsTable "MeaningsTable" at the path
+ *   `meanings_tables/<columnName>_meanings` inside the table group,
+ * - adds `value` and `meaning` columns with the correct data type, and
+ * - links the \ref AQNWB::NWB::MeaningsTable "MeaningsTable" back to the
+ *   target \ref AQNWB::NWB::VectorData "VectorData" column.
+ * 
+ * Since \ref AQNWB::NWB::MeaningsTable "MeaningsTable" is a subclass of 
+ *  \ref AQNWB::NWB::DynamicTable "DynamicTable", it supports the same 
+ * approaches to add custom columns via `addColumn`
+ * as well as the same row- and column-based write patterns described above.
+ *
+ * \snippet tests/examples/testEventsWorkflowExamples.cpp example_events_meanings_create_meanings_table_snippet
+ *
+ * \subsection events_meanings_start Start the recording
+ *
+ * \snippet tests/examples/testEventsWorkflowExamples.cpp example_events_meanings_start_snippet
+ *
+ * \subsection events_meanings_write_events Write event data
+ *
+ * Write the event rows to the \ref AQNWB::NWB::EventsTable "EventsTable"
+ * using `addRow` / `addRows` as usual:
+ *
+ * \snippet tests/examples/testEventsWorkflowExamples.cpp example_events_meanings_write_events_snippet
+ *
+ * \subsection events_meanings_write_meanings Write meanings data
+ *
+ * Then populate the \ref AQNWB::NWB::MeaningsTable "MeaningsTable" by writing
+ * the `value` and `meaning` columns.  All possible values of the coded
+ * column may be listed, even if they do not appear in the recorded data.
+ * Since meanings only list values, we do not need to record the events first,
+ * i.e., if the meanings data is known beforehand, then we can also populate the 
+ * MeaningsTable before writing the data to the main table.
+ *
+ * \snippet tests/examples/testEventsWorkflowExamples.cpp example_events_meanings_write_meanings_snippet
+ *
+ * \subsection events_meanings_stop Stop the recording
+ *
+ * \snippet tests/examples/testEventsWorkflowExamples.cpp example_events_meanings_stop_snippet
+ *
  * \section events_tips Tips and best practices
  *
- * - **One table per event type.** Keep lick events, stimulus onsets, and reward
- *   deliveries in separate \ref AQNWB::NWB::EventsTable "EventsTable" instances so
+ * - **One table per event type.** Keep event types with different metadata, e.g., lick events, 
+ *   TTL, or reward deliveries in separate \ref AQNWB::NWB::EventsTable "EventsTable" instances so
  *   that every row in a table shares the same column schema.
  * - **Choose the right chunk size.** For row-based acquisition, a `rowChunkSize` of
- *   100–1000 is typically a good trade-off between write amplification and read
- *   performance.  Larger chunks reduce overhead when reading but waste space if the
- *   table has fewer rows than one chunk.
- * - In the case of row-based acquisition it may be useful to collect multiple rows 
- *   to used `addRows` to avoid many small I/O operations and repeated updates to 
- *   the same chunks. 
+ *   100–1000 may be a good trade-off between write and read
+ *   performance.  Larger chunks reduce overhead when reading but can waste space if the
+ *   chunks are not aligned well with rows of the table. 
+ * - **Avoid many small write operations:** Depending on the number and rate of events, 
+ *   it may be useful to collect multiple rows in memory when using row-based acquisition 
+ *   in order to use `addRows` to write larger blocks of data to avoid many 
+ *   small I/O operations and repeated updates to the same chunks in the file. 
  * - **Customize the column layout.** Call
  *   \ref AQNWB::NWB::EventsTable::createDefaultDataSpecs "EventsTable::createDefaultDataSpecs"
  *   to obtain the default spec vector, modify individual entries (e.g., change the
@@ -156,4 +232,11 @@
  *   \ref AQNWB::NWB::DynamicTable::addColumn "DynamicTable::addColumn" to attach
  *   additional \ref AQNWB::NWB::VectorData "VectorData" columns for any per-event
  *   metadata not covered by the built-in columns.
+ * - **Document coded columns with a MeaningsTable.** When a column stores integer
+ *   codes or other enumerated values, call
+ *   \ref AQNWB::NWB::DynamicTable::createMeaningsTable "createMeaningsTable"
+ *   before `startRecording` to attach a
+ *   \ref AQNWB::NWB::MeaningsTable "MeaningsTable" that maps every possible code
+ *   to a human-readable label. You may list **all** possible values in the MeaningsTable,
+ *   even if a particaly allowed value may do not appear in the recorded data.
  */
