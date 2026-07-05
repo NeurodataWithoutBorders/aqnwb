@@ -35,8 +35,20 @@ TEST_CASE("DynamicTable", "[table]")
     auto readDesc = table->readDescription()->values().data;
     REQUIRE(readDesc[0] == "A test dynamic table");
 
-    // Test setting and reading column names
-    std::vector<std::string> colNames = {"col1", "col2", "col3"};
+    // Add columns so the table tracks them before reordering colnames
+    IO::ArrayDataSetConfig emptyConfig(BaseDataType::V_STR, {0}, {3});
+    auto col1 = NWB::VectorData::create(mergePaths(tablePath, "col1"), io);
+    auto col2 = NWB::VectorData::create(mergePaths(tablePath, "col2"), io);
+    auto col3 = NWB::VectorData::create(mergePaths(tablePath, "col3"), io);
+    REQUIRE(col1->initialize(emptyConfig, "Column 1") == Status::Success);
+    REQUIRE(col2->initialize(emptyConfig, "Column 2") == Status::Success);
+    REQUIRE(col3->initialize(emptyConfig, "Column 3") == Status::Success);
+    REQUIRE(table->addColumn(col1) == Status::Success);
+    REQUIRE(table->addColumn(col2) == Status::Success);
+    REQUIRE(table->addColumn(col3) == Status::Success);
+
+    // Test reordering and reading column names
+    std::vector<std::string> colNames = {"col3", "col2", "col1"};
     table->setColNames(colNames);
     status = table->finalize();
     REQUIRE(status == Status::Success);

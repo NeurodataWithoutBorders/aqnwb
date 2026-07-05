@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "nwb/hdmf/table/DynamicTable.hpp"
 
 #include "Utils.hpp"
@@ -64,6 +66,30 @@ Status DynamicTable::initialize(const std::string& description,
   return containerStatus && idStatus;
 }
 
+void DynamicTable::setColNames(const std::vector<std::string>& newColNames)
+{
+  if (newColNames == m_colNames) {
+    return;
+  }
+
+  // Ensure that the new column names are a permutation of the existing column
+  // names. This check ensures that all existing columns are present in the new
+  // list, but allows for reordering.
+  if (newColNames.size() != m_colNames.size()
+      || !std::is_permutation(
+          newColNames.begin(), newColNames.end(), m_colNames.begin()))
+  {
+    std::cerr << "New column names do not match existing column names. "
+              << "All columns must be present in the newColNames vector."
+              << std::endl;
+    throw std::invalid_argument(
+        "New column names do not match existing column names.");
+  }
+
+  m_colNames = newColNames;
+  flushColNames();
+}
+
 SizeType DynamicTable::addColumnName(const std::string& colName)
 {
   auto it = std::find(m_colNames.begin(), m_colNames.end(), colName);
@@ -73,6 +99,7 @@ SizeType DynamicTable::addColumnName(const std::string& colName)
   } else {
     // Column name does not exist, add it and return new index
     m_colNames.push_back(colName);
+    flushColNames();
     return m_colNames.size() - 1;
   }
 }
@@ -168,11 +195,11 @@ Status DynamicTable::addReferenceColumn(const std::string& name,
   }
 }
 
-Status DynamicTable::finalize()
+Status DynamicTable::flushColNames()
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
-    std::cerr << "DynamicTable::finalize IO object has been deleted."
+    std::cerr << "DynamicTable::flushColNames IO object has been deleted."
               << std::endl;
     return Status::Failure;
   }
@@ -182,8 +209,13 @@ Status DynamicTable::finalize()
       "colnames",
       true  // overwrite the attribute if it already exists
   );
+  return colNamesStatus;
+}
+
+Status DynamicTable::finalize()
+{
   Status parentStatus = Container::finalize();
-  return colNamesStatus && parentStatus;
+  return parentStatus;
 }
 
 std::shared_ptr<MeaningsTable> DynamicTable::createMeaningsTable(

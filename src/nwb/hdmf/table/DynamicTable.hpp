@@ -1,6 +1,7 @@
 #pragma once
 
 #include <any>
+#include <set>
 #include <string>
 
 #include "Utils.hpp"
@@ -118,21 +119,16 @@ public:
   /**
    * @brief Sets the column names of the DynamicTable
    *
-   * ..note::
-   * For this change to take affect in the file we need to call
-   * finalize() after setting the column names to write the data to the file.
+   * All changes to the column names will be flushed to the file.
+   * If the newColNames is identical to the existing column names,
+   * then no changes will be made.
    *
-   * .. warning::
-   * This will overwrite any existing column names. It is up to
-   * the caller to ensure that all existing columns are included in the new
-   * list.
-   *
+   * @raises std::invalid_argument if the newColNames vector does not
+   * contain all columns of the table. I.e., the newColNames vector
+   * must be a permutation of the existing column names.
    * @param newColNames The vector of new column names.
    */
-  virtual void setColNames(const std::vector<std::string>& newColNames)
-  {
-    m_colNames = newColNames;
-  }
+  virtual void setColNames(const std::vector<std::string>& newColNames);
 
   /**
    * @brief Create a MeaningsTable for a specific VectorData column in this
@@ -257,9 +253,27 @@ public:
 protected:
   /**
    *  @brief Add a column name to m_colNames while preventing duplicates
+   *
+   *  If the column name already exists in m_colNames, it will not be added
+   * again. The function returns the index of the column name in m_colNames,
+   * whether it was newly added or already existed. If the column name is new,
+   * it will be appended to the end of m_colNames. Any changes to m_colNames
+   * will be flushed to the file.
+   *  @param colName The name of the column to add
    *  @return Index of the column name in m_colNames
    */
   SizeType addColumnName(const std::string& colName);
+
+  /**
+   * @brief Flush the column names to the file.
+   *
+   * This function writes the current column names in m_colNames to the file as
+   * an attribute.
+   *
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
+
+  Status flushColNames();
 
   /**
    * @brief Names of the columns in the table.
