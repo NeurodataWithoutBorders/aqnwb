@@ -1,4 +1,4 @@
-accor# ROS3 Benchmark Demo
+# ROS3 Benchmark Demo
 
 This is a simple C++ demo project that benchmarks the process of reading data from a NWB (Neurodata Without Borders) file stored on Amazon S3 using the aqnwb library with HDF5 ROS3 VFD.
 
@@ -14,6 +14,7 @@ The benchmark measures the time taken for each of the following steps:
 - C++ compiler with C++17 support
 - aqnwb library (installed from the parent project)
 - HDF5 installed with ROS3 VFD support
+- Python 3.x and [uv](https://github.com/astral-sh/uv) (recommended for running the Python benchmark)
 
 ## Building the Demo
 
@@ -69,7 +70,25 @@ cd demo/ros3_benchmark/build/bin
     "10,1"
 ```
 
+## Python Benchmark
+
+A Python equivalent of the benchmark is provided as `benchmark.py`. This script uses PyNWB and h5py to perform the same sequence of operations and measure their timing.
+
+### Running the Python Benchmark
+
+The script is configured for use with `uv`, which handles dependency installation automatically.
+
+```bash
+uv run demo/ros3_benchmark/benchmark.py \
+    "https://dandiarchive.s3.amazonaws.com/blobs/fec/8a6/fec8a690-2ece-4437-8877-8a002ff8bd8a" \
+    "us-east-2" \
+    "ElectricalSeriesAp" \
+    "0,0" \
+    "10,1"
+```
+
 ## Code Structure
 
-- `main.cpp`: Contains the benchmarking logic and timing measurements.
-- `CMakeLists.txt`: CMake configuration file for building the project.
+- `main.cpp`: Contains the C++ benchmarking logic and timing measurements.
+- `CMakeLists.txt`: CMake configuration file for building the C++ project.
+- `benchmark.py`: Contains the Python benchmarking logic using PyNWB.
