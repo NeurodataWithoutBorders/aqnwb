@@ -80,3 +80,16 @@ jobs:
       run: |
         cd demo/labmetadata_extension_demo/build/bin
         ./labmetadata_extension_demo
+
+    - name: Build the ros3_benchmark demo - macos
+      if: matrix.os == 'macos-latest'
+      run: |
+        cd demo/ros3_benchmark
+        cmake -B build -S . -DCMAKE_PREFIX_PATH="${{ github.workspace }}/install"
+        cmake --build build --config Release -j 2
+
+    - name: Run the ros3_benchmark demo - macos
+      if: matrix.os == 'macos-latest'
+      run: |
+        cd demo/ros3_benchmark/build/bin
+        ./ros3_benchmark
