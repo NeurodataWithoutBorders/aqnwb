@@ -29,8 +29,8 @@ TEST_CASE("ROS3 read example", "[hdf5io]")
 
     // [example_ros3_find_objects]
     // Find all TimeSeries objects in the file
-    auto timeSeriesFound = readio->findTypes(
-        "/", {"core::TimeSeries"}, IO::SearchMode::CONTINUE_ON_TYPE);
+    auto timeSeriesFound = nwbFile->findOwnedTypes(
+        {"core::TimeSeries"}, IO::SearchMode::CONTINUE_ON_TYPE);
     REQUIRE(timeSeriesFound.size() == 1);
     // Open the TimeSeries object
     auto timeSeries =
