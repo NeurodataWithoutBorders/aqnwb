@@ -13,6 +13,10 @@
 #include <H5Cpp.h>
 #include <H5Fpublic.h>
 
+#ifdef H5_HAVE_ROS3_VFD
+#  include <H5FDros3.h>
+#endif
+
 #include "Utils.hpp"
 #include "io/hdf5/HDF5ArrayDataSetConfig.hpp"
 #include "io/hdf5/HDF5RecordingData.hpp"
@@ -43,6 +47,39 @@ HDF5IO::~HDF5IO()
               << getFileName() << "'" << std::endl;
   }
 }
+
+#ifdef H5_HAVE_ROS3_VFD
+Status HDF5IO::open_s3(const std::string& aws_region,
+                       const std::string& secret_id,
+                       const std::string& secret_key)
+{
+  // Helper: safely copy a std::string into a fixed-size char array.
+  // Copies at most (N-1) characters and always null-terminates.
+  auto copyField = [](const std::string& src, char* dst, std::size_t N)
+  {
+    std::strncpy(dst, src.c_str(), N - 1);
+    dst[N - 1] = '\0';
+  };
+
+  H5FD_ros3_fapl_t ros3_fa = {};  // zero-initialize all fields
+  ros3_fa.version = H5FD_CURR_ROS3_FAPL_T_VERSION;
+  ros3_fa.authenticate = !secret_id.empty() && !secret_key.empty();
+
+  copyField(aws_region, ros3_fa.aws_region, sizeof(ros3_fa.aws_region));
+  copyField(secret_id, ros3_fa.secret_id, sizeof(ros3_fa.secret_id));
+  copyField(secret_key, ros3_fa.secret_key, sizeof(ros3_fa.secret_key));
+
+  FileAccPropList fapl = FileAccPropList::DEFAULT;
+  H5Pset_libver_bounds(fapl.getId(), H5F_LIBVER_LATEST, H5F_LIBVER_LATEST);
+  H5Pset_fapl_ros3(fapl.getId(), &ros3_fa);
+
+  m_file = std::make_unique<H5::H5File>(
+      getFileName(), H5F_ACC_RDONLY, FileCreatPropList::DEFAULT, fapl);
+  m_opened = true;
+
+  return Status::Success;
+}
+#endif  // H5_HAVE_ROS3_VFD
 
 Status HDF5IO::open()
 {

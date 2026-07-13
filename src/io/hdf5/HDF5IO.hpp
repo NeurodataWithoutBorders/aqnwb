@@ -62,6 +62,31 @@ public:
    */
   Status open(FileMode mode) override;
 
+#ifdef H5_HAVE_ROS3_VFD
+  /**
+   * @brief Opens an existing file in read-only mode using the ROS3 driver.
+   *
+   * The AWS region can be omitted here if it is set via the \c AWS_REGION or
+   * \c AWS_DEFAULT_REGION environment variable or in the AWS configuration
+   * file (~/.aws/config).
+   *
+   * When \p secret_id and \p secret_key are both non-empty, \c authenticate
+   * is set to \c true and credentials are taken exclusively from these
+   * arguments.  When either is empty the ROS3 VFD falls back to its default
+   * credential-discovery chain (environment variables, AWS profile files,
+   * EC2 instance metadata, etc.).
+   *
+   * @param aws_region  The AWS region of the S3 bucket (e.g. "us-east-1").
+   *                    May be empty if the region is configured elsewhere.
+   * @param secret_id   The AWS access key ID.  May be empty.
+   * @param secret_key  The AWS secret access key.  May be empty.
+   * @return The status of the file opening operation.
+   */
+  Status open_s3(const std::string& aws_region = "",
+                 const std::string& secret_id = "",
+                 const std::string& secret_key = "");
+#endif  // H5_HAVE_ROS3_VFD
+
   /**
    * @brief Closes the file.
    * @return The status of the file closing operation.

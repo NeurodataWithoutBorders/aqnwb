@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 * Added `ElectricalSeries::writeAllChannels` method and `IO::writeElectricalSeriesData` overload to simplify zero-copy interleaved multichannel writes. (@copilot, @oruebel, [#293](https://github.com/NeurodataWithoutBorders/aqnwb/pull/293))
 * Added `ElectricalSeries::channelsAtSameSampleOffset` method to check if all channels are at the same sample offset, which is a requirement for using `writeAllChannels`. (@copilot, @oruebel, [#293](https://github.com/NeurodataWithoutBorders/aqnwb/pull/293))
+* Added `HDF5IO::open_s3(const std::string& aws_region)` method to support opening an existing remote file in S3 in read-only mode using the HDF5 ROS3 driver. (@oruebel, [#307](https://github.com/NeurodataWithoutBorders/aqnwb/pull/307))
 
 ### Changed
 * **[BREAKING]** Moved `disableSWMRMode` option from `HDF5IO` constructor to a new `HDF5IO::startRecording(bool disableSWMRMode)` overload. The `BaseIO`-compliant `startRecording()` override is preserved and defaults to SWMR enabled. 
