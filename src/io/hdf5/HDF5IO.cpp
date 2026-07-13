@@ -7,6 +7,7 @@
 #include <numeric>
 #include <stdexcept>
 #include <vector>
+#include <cstring>
 
 #include "io/hdf5/HDF5IO.hpp"
 
