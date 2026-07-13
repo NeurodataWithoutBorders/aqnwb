@@ -44,7 +44,6 @@ jobs:
       shell: pwsh
       run: |
         cmake "--preset=ci-$("${{ matrix.os }}".split("-")[0])"
-        cmake -B build -S .
         cmake --build build --config Release -j 2
 
     - name: Install aqnwb
