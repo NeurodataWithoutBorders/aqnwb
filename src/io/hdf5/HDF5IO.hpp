@@ -82,7 +82,7 @@ public:
    * @param secret_key  The AWS secret access key.  May be empty.
    * @return The status of the file opening operation.
    */
-  Status open_s3(const std::string& aws_region = "",
+  Status openS3(const std::string& aws_region = "",
                  const std::string& secret_id = "",
                  const std::string& secret_key = "");
 #endif  // H5_HAVE_ROS3_VFD

@@ -1,0 +1,39 @@
+/**
+* \page reads3_page Reading Data from S3 ☁️
+ *
+ * \tableofcontents
+ *
+ * AqNWB supports reading data directly from Amazon S3 using the HDF5 ROS3 Virtual File Driver (VFD).
+ * This allows you to access NWB files stored in the cloud without having to download the entire file first.
+ *
+ * \warning
+ * The ROS3 VFD must be enabled in your HDF5 installation for S3 read to be enabled in AqNWB. This is typically
+ * checked using the `H5_HAVE_ROS3_VFD` macro define by the HDF5 library.
+ *
+ * \section reads3_example_open Opening a file from S3
+ *
+ * To open a file from S3, we create an \ref AQNWB::IO::HDF5::HDF5IO "HDF5IO" object with the S3 URL
+ * and then call \ref AQNWB::IO::HDF5::HDF5IO::openS3 "openS3" with the AWS region.
+ *
+ * \snippet tests/examples/test_ros3_read_example.cpp example_ros3_setup
+ *
+ * \section reads3_example_read Reading objects and data
+ *
+ * Once the file is open, reading objects and data works exactly the same as reading from a local file.
+ * For example, we can read the \ref AQNWB::NWB::NWBFile "NWBFile" object:
+ *
+ * \snippet tests/examples/test_ros3_read_example.cpp example_ros3_nwbfile_read
+ *
+ * We can also search for objects, e.g., here to find the `TimeSeries` objects. 
+ *
+ * \snippet tests/examples/test_ros3_read_example.cpp example_ros3_find_objects
+ *
+ * We can then also read data subsets as usual. Because we are using the ROS3 VFD,
+ * only the metadata and the specific data chunks requested are downloaded from S3, making
+ * this approach efficient for accessing specific parts of large NWB files in the cloud.
+ *
+ * \snippet tests/examples/test_ros3_read_example.cpp example_ros3_read_data
+ *
+ * \section reads3_further_reading Further reading
+ * - \ref read_page discusses the general process of reading data from NWB files in more detail.
+ */

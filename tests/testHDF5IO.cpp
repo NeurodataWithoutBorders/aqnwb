@@ -42,7 +42,7 @@ TEST_CASE("HDF5IO; ROS3 mode", "[hdf5io]")
   SECTION("open with ros3 driver - region only")
   {
     IO::HDF5::HDF5IO hdf5io(s3Url);
-    Status status = hdf5io.open_s3("us-east-2");
+    Status status = hdf5io.openS3("us-east-2");
     REQUIRE(status == Status::Success);
     REQUIRE(hdf5io.isOpen());
     REQUIRE(hdf5io.canModifyObjects() == false);
