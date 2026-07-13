@@ -83,8 +83,8 @@ public:
    * @return The status of the file opening operation.
    */
   Status openS3(const std::string& aws_region = "",
-                 const std::string& secret_id = "",
-                 const std::string& secret_key = "");
+                const std::string& secret_id = "",
+                const std::string& secret_key = "");
 #endif  // H5_HAVE_ROS3_VFD
 
   /**

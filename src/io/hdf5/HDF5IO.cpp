@@ -51,8 +51,8 @@ HDF5IO::~HDF5IO()
 
 #ifdef H5_HAVE_ROS3_VFD
 Status HDF5IO::openS3(const std::string& aws_region,
-                       const std::string& secret_id,
-                       const std::string& secret_key)
+                      const std::string& secret_id,
+                      const std::string& secret_key)
 {
   // Helper: safely copy a std::string into a fixed-size char array.
   // Copies at most (N-1) characters and always null-terminates.
