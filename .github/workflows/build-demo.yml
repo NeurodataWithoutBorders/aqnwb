@@ -62,6 +62,13 @@ jobs:
       working-directory: build
       run: ctest --output-on-failure --no-tests=error -C Release -j 2
 
+    - name: Set up Conda
+      uses: conda-incubator/setup-miniconda@v3
+      with:
+        activate-environment: aqnwb-demo
+        environment-file: demo/ros3_benchmark/conda-env.yml 
+      if: matrix.os == 'ubuntu-latest'
+
     - name: Build the inspect_electrical_series demo - ubuntu
       if: matrix.os == 'ubuntu-latest'
       run: |
@@ -99,4 +106,19 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       run: |
         cd demo/ros3_benchmark/build/bin
-        ./ros3_benchmark
+        ./ros3_benchmark \
+            "https://dandiarchive.s3.amazonaws.com/blobs/fec/8a6/fec8a690-2ece-4437-8877-8a002ff8bd8a" \
+            "us-east-2" \
+            "ElectricalSeriesAp" \
+            "0,0" \
+            "10,1"
+
+    - name: Run the ros3_benchmark Python benchmark - ubuntu
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        conda run -n aqnwb-demo python demo/ros3_benchmark/benchmark.py \
+            "https://dandiarchive.s3.amazonaws.com/blobs/fec/8a6/fec8a690-2ece-4437-8877-8a002ff8bd8a" \
+            "us-east-2" \
+            "ElectricalSeriesAp" \
+            "0,0" \
+            "10,1"
