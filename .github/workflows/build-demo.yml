@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest]
+        os: [ubuntu-latest]
 
     runs-on: ${{ matrix.os }}
 
@@ -29,9 +29,16 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Install dependencies - macos
-      if: matrix.os == 'macos-latest'
-      run: brew install hdf5 catch2
+    - name: Install dependencies - ubuntu
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libhdf5-dev
+        git clone https://github.com/catchorg/Catch2.git
+        cd Catch2
+        git checkout "v3.5.3"
+        cmake -Bbuild -H. -DBUILD_TESTING=OFF
+        sudo cmake --build build/ --target install
 
     - name: Configure and build the main project
       shell: pwsh
@@ -55,41 +62,41 @@ jobs:
       working-directory: build
       run: ctest --output-on-failure --no-tests=error -C Release -j 2
 
-    - name: Build the inspect_electrical_series demo - macos
-      if: matrix.os == 'macos-latest'
+    - name: Build the inspect_electrical_series demo - ubuntu
+      if: matrix.os == 'ubuntu-latest'
       run: |
         cd demo/inspect_electrical_series
         cmake -B build -S . -DCMAKE_PREFIX_PATH="${{ github.workspace }}/install"
         cmake --build build --config Release -j 2
 
-    - name: Run the inspect_electrical_series demo - macos
-      if: matrix.os == 'macos-latest'
+    - name: Run the inspect_electrical_series demo - ubuntu
+      if: matrix.os == 'ubuntu-latest'
       run: |
         cd demo/inspect_electrical_series/build/bin
         ./nwb_analysis_demo ../../../../build/tests/data/createElectricalSeries.nwb
 
-    - name: Build the labmetadata_extension_demo demo - macos
-      if: matrix.os == 'macos-latest'
+    - name: Build the labmetadata_extension_demo demo - ubuntu
+      if: matrix.os == 'ubuntu-latest'
       run: |
         cd demo/labmetadata_extension_demo
         cmake -B build -S . -DCMAKE_PREFIX_PATH="${{ github.workspace }}/install"
         cmake --build build --config Release -j 2
 
-    - name: Run the labmetadata_extension_demo demo - macos
-      if: matrix.os == 'macos-latest'
+    - name: Run the labmetadata_extension_demo demo - ubuntu
+      if: matrix.os == 'ubuntu-latest'
       run: |
         cd demo/labmetadata_extension_demo/build/bin
         ./labmetadata_extension_demo
 
-    - name: Build the ros3_benchmark demo - macos
-      if: matrix.os == 'macos-latest'
+    - name: Build the ros3_benchmark demo - ubuntu
+      if: matrix.os == 'ubuntu-latest'
       run: |
         cd demo/ros3_benchmark
         cmake -B build -S . -DCMAKE_PREFIX_PATH="${{ github.workspace }}/install"
         cmake --build build --config Release -j 2
 
-    - name: Run the ros3_benchmark demo - macos
-      if: matrix.os == 'macos-latest'
+    - name: Run the ros3_benchmark demo - ubuntu
+      if: matrix.os == 'ubuntu-latest'
       run: |
         cd demo/ros3_benchmark/build/bin
         ./ros3_benchmark
