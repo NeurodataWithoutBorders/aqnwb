@@ -45,6 +45,7 @@ TEST_CASE("HDF5IO; ROS3 mode", "[hdf5io]")
     Status status = hdf5io.open_s3("us-east-2");
     REQUIRE(status == Status::Success);
     REQUIRE(hdf5io.isOpen());
+    REQUIRE(hdf5io.canModifyObjects() == false);
     hdf5io.close();
   }
 }

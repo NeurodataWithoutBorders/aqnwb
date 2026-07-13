@@ -1144,21 +1144,26 @@ Status HDF5IO::stopRecording()
 
 bool HDF5IO::canModifyObjects()
 {
-  if (!m_opened)
+  // check if the file is opened
+  if (!m_opened) {
     return false;
-
-  // Check if we are in SWMR mode
-  bool inSWMRMode = false;
-  unsigned int intent;
-  herr_t status = H5Fget_intent(m_file->getId(), &intent);
-  bool statusOK = (status >= 0);
-  if (statusOK) {
-    inSWMRMode = (intent & (H5F_ACC_SWMR_READ | H5F_ACC_SWMR_WRITE));
   }
 
-  // if the file is opened and we are not in swmr mode then we can modify
-  // objects
-  return statusOK && !inSWMRMode;
+  // Query the file intent flags
+  unsigned int intent = 0;
+  herr_t status = H5Fget_intent(m_file->getId(), &intent);
+  if (status < 0) {
+    return false;
+  }
+
+  // H5F_ACC_RDONLY == 0x0000, so we cannot test for it with a bitmask.
+  // Instead, a file is writable only when H5F_ACC_RDWR is set.
+  bool isWritable = (intent & H5F_ACC_RDWR) != 0;
+
+  // SWMR write mode also prevents structural modifications
+  bool inSWMRMode = (intent & (H5F_ACC_SWMR_READ | H5F_ACC_SWMR_WRITE)) != 0;
+
+  return isWritable && !inSWMRMode;
 }
 
 bool HDF5IO::objectExists(const std::string& path) const
