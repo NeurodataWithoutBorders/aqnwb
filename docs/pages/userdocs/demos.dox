@@ -32,4 +32,17 @@
  * * \ref integrating_extensions_page
  * * \ref registered_type_page
  *
+ * \section demos_ros3_benchmark ROS3 S3 Read Benchmark
+ *
+ * This demo project benchmarks the performance of reading NWB data from Amazon S3 using the HDF5 ROS3 VFD.
+ * It measures the time taken for opening the file, initializing the NWB file structure, locating objects,
+ * and reading specific data slices.
+ *
+ * **📁 Source:**
+ * This demo is part of the [AqNWB repo](https://github.com/NeurodataWithoutBorders/aqnwb).
+ * For details see the ``demo/ros3_benchmark/README.md`` docs file.
+ *
+ * **📖 Further Reading:**
+ * * \ref reads3_page
+ *
  */

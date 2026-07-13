@@ -1,0 +1,75 @@
+accor# ROS3 Benchmark Demo
+
+This is a simple C++ demo project that benchmarks the process of reading data from a NWB (Neurodata Without Borders) file stored on Amazon S3 using the aqnwb library with HDF5 ROS3 VFD.
+
+The benchmark measures the time taken for each of the following steps:
+1. **`read_io`**: Creating the HDF5IO object and opening the S3 file.
+2. **`read_nwbfile`**: Creating the NWBFile object.
+3. **`find_object`**: Locating a specific object in the NWB file by name.
+4. **`read_slice`**: Reading a specific slice of data from the object.
+
+## Prerequisites
+
+- CMake (version 3.15 or higher)
+- C++ compiler with C++17 support
+- aqnwb library (installed from the parent project)
+- HDF5 installed with ROS3 VFD support
+
+## Building the Demo
+
+1. Make sure you have built the main aqnwb project first 
+   following the instructions in the AqNWB documentation,
+   including installing the aqnwb library to your system
+   or another local path.
+
+2. Create a build directory for the demo:
+
+```bash
+cd demo/ros3_benchmark
+mkdir -p build
+cd build
+```
+
+3. Configure and build the demo:
+
+```bash
+# If aqnwb was installed to the system then it will be found automatically
+cmake ..
+
+# Otherwise, provide the path to the aqnwb install:
+cmake .. -DCMAKE_PREFIX_PATH=/path/to/aqnwb/install
+
+# Build the project
+cmake --build .
+```
+
+Note: If HDF5 is installed in a non-standard location, you will also need to provide the HDF5 root path:
+`cmake .. -DCMAKE_PREFIX_PATH="/path/to/aqnwb/install" -DHDF5_ROOT="/path/to/hdf5/install"`
+
+## Running the Demo
+
+After building, you can run the benchmark using a file on S3.
+
+```bash
+cd demo/ros3_benchmark/build/bin
+./ros3_benchmark <s3_path> <aws_region> <object_name> <start_indices> <count_indices>
+```
+
+### Example
+
+You can use the following parameters to test with a known DANDI archive file:
+
+```bash
+cd demo/ros3_benchmark/build/bin
+./ros3_benchmark \
+    "https://dandiarchive.s3.amazonaws.com/blobs/fec/8a6/fec8a690-2ece-4437-8877-8a002ff8bd8a" \
+    "us-east-2" \
+    "ElectricalSeriesAp" \
+    "0,0" \
+    "10,1"
+```
+
+## Code Structure
+
+- `main.cpp`: Contains the benchmarking logic and timing measurements.
+- `CMakeLists.txt`: CMake configuration file for building the project.
