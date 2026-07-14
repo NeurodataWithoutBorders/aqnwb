@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Added `ElectricalSeries::channelsAtSameSampleOffset` method to check if all channels are at the same sample offset, which is a requirement for using `writeAllChannels`. (@copilot, @oruebel, [#293](https://github.com/NeurodataWithoutBorders/aqnwb/pull/293))
 * Added `HDF5IO::openS3(...)` method to support opening an existing remote file in S3 in read-only mode using the HDF5 ROS3 driver. (@oruebel, [#307](https://github.com/NeurodataWithoutBorders/aqnwb/pull/307))
    * Added tutorial on using the ROS3 driver to read NWB files in S3 (`docs/pages/userdocs/reads3.dox`)
+* Added simple demo for benchmarking ROS3 performance and comparing with PyNWB S3 reads (`demo/ros3_benchmark`). (@oruebel, [#308](https://github.com/NeurodataWithoutBorders/aqnwb/pull/308))
+   * Updated `build-demo.yml` CI for testings AqNWB demos to use Ubuntu and add ROS3 support, python install, and the new demo benchmarking script. 
+* Added new `BaseIO::findObject` and `RegisteredType::findOwnedObject` methods to simplify searching for objects by name. (@oruebel, [#308](https://github.com/NeurodataWithoutBorders/aqnwb/pull/308))   
 
 ### Changed
 * **[BREAKING]** Moved `disableSWMRMode` option from `HDF5IO` constructor to a new `HDF5IO::startRecording(bool disableSWMRMode)` overload. The `BaseIO`-compliant `startRecording()` override is preserved and defaults to SWMR enabled. 
@@ -23,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Updated nwbinspector validation tests in the CI to: 1) `--ignore=check_subject_exists` and 2) remove dependency on `sanitizer` tests to speed up CI (@oruebel, [#289](https://github.com/NeurodataWithoutBorders/aqnwb/pull/289))
 * Fixed `get_utc_offset_seconds` to correctly account for daylight saving time using platform-specific APIs (`tm_gmtoff` on Unix/macOS; `_get_timezone` + `_get_dstbias` on Windows), preventing `session_start_time` from being written ~1 hour ahead of UTC during DST (@cboulay, [#295](https://github.com/NeurodataWithoutBorders/aqnwb/pull/295))
 * Fixed bug in `HDF5IO::canModifyObjects` returning true when a file is opened in read-only. (@oruebel, [#307](https://github.com/NeurodataWithoutBorders/aqnwb/pull/307))
+* Fixed `install-config.cmake` to propagate HDF5 include directories to downstream consumers of the `aqnwb::aqnwb` target, allowing them to locate HDF5 headers regardless of where HDF5 is installed on the system. (@oruebel, [#308](https://github.com/NeurodataWithoutBorders/aqnwb/pull/308))
 
 
 ## [0.3.0] - 2026-02-23
