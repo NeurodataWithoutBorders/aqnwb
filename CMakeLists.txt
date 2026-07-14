@@ -137,8 +137,8 @@ if(AQNWB_USE_REMFILE)
     include(FetchContent)
     FetchContent_Declare(
         remfile
-        GIT_REPOSITORY https://github.com/bendichter/remfile-cpp.git
-        GIT_TAG main
+        GIT_REPOSITORY https://github.com/catalystneuro/remfile-cpp.git
+        GIT_TAG v0.1.0
     )
     FetchContent_MakeAvailable(remfile)
     message(STATUS "remfile VFD enabled (fetched from GitHub)")

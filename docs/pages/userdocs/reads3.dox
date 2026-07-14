@@ -37,7 +37,7 @@
  * \section reads3_remfile Reading via the remfile VFD
  *
  * As an alternative to ROS3, AqNWB can read remote files with the
- * [remfile-cpp](https://github.com/bendichter/remfile-cpp) virtual file driver, a C++
+ * [remfile-cpp](https://github.com/catalystneuro/remfile-cpp) virtual file driver, a C++
  * port of the Python [remfile](https://github.com/magland/remfile) package. Instead of \ref AQNWB::IO::HDF5::HDF5IO::openS3 "openS3",
  * call \ref AQNWB::IO::HDF5::HDF5IO::openRemote "openRemote":
  *

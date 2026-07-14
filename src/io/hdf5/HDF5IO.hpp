@@ -99,7 +99,7 @@ public:
    * including presigned S3 URLs.
    *
    * Reads are served from an in-memory chunk cache with adaptive
-   * read-ahead (see https://github.com/bendichter/remfile-cpp).
+   * read-ahead (see https://github.com/catalystneuro/remfile-cpp).
    *
    * @return The status of the file opening operation.
    */

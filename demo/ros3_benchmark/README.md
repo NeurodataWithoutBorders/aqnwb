@@ -1,6 +1,6 @@
 # ROS3 Benchmark Demo
 
-This is a simple C++ demo project that benchmarks the process of reading data from a NWB (Neurodata Without Borders) file stored on Amazon S3 using the aqnwb library, using either the HDF5 ROS3 VFD or the [remfile-cpp](https://github.com/bendichter/remfile-cpp) VFD.
+This is a simple C++ demo project that benchmarks the process of reading data from a NWB (Neurodata Without Borders) file stored on Amazon S3 using the aqnwb library, using either the HDF5 ROS3 VFD or the [remfile-cpp](https://github.com/catalystneuro/remfile-cpp) VFD.
 
 The benchmark measures the time taken for each of the following steps:
 1. **`read_io`**: Creating the HDF5IO object and opening the S3 file.
