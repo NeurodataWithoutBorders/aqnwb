@@ -45,22 +45,6 @@ std::shared_ptr<RegisteredType> find_object(std::shared_ptr<NWBFile> nwbFile, co
     }else {
         throw std::runtime_error("Object with name '" + objectName + "' not found in the NWB file");
     }
-    /*
-    auto foundObjects = nwbFile->findOwnedTypes({}, IO::SearchMode::CONTINUE_ON_TYPE);
-    
-    for (const auto& [objPath, type] : foundObjects) {
-        // Extract object name from path
-        size_t lastSlash = objPath.find_last_of('/');
-        std::string currObjectName = (lastSlash == std::string::npos) ? objPath : objPath.substr(lastSlash + 1);
-        
-        if (currObjectName == objectName) {
-            // Create the RegisteredType object using the path and the IO object from the NWBFile
-            return RegisteredType::create(objPath, nwbFile->getIO());
-        }
-    }
-    
-    throw std::runtime_error("Object with name '" + objectName + "' not found in the NWB file");
-    */
 }
 
 // Function to read the data from the object using the provided slice range
