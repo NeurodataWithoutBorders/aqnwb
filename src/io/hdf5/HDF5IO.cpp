@@ -158,6 +158,17 @@ Status HDF5IO::flush()
   return intToStatus(status);
 }
 
+// H5O_info2_t and the trailing `fields` argument to H5Ovisit were introduced
+// in HDF5 1.12.0. On older versions (e.g. the 1.10.x that ships with Ubuntu's
+// libhdf5-serial package) the type is H5O_info_t and H5Ovisit takes one fewer
+// argument. This alias let's the callback signature adapt to the installed
+// version. H5_VERSION_GE is provided by H5public.h (pulled in via H5Opublic.h).
+#if H5_VERSION_GE(1, 12, 0)
+using H5OInfoCompat = H5O_info2_t;
+#else
+using H5OInfoCompat = H5O_info_t;
+#endif
+
 std::string HDF5IO::findObject(const std::string& name,
                                const std::string& starting_path) const
 {
@@ -214,12 +225,14 @@ std::string HDF5IO::findObject(const std::string& name,
   // is what H5Ovisit requires. The match logic is inlined here (Option B) to
   // avoid any std::function indirection on the traversal hot path.
   //
-  // `name` is the path of the visited object relative to the object on which
+  // `nameC` is the path of the visited object relative to the object on which
   // H5Ovisit was called, using '/' separators and without a leading '/'. The
   // starting object itself is reported with the relative name ".".
+  // The info parameter type (H5OInfoCompat) adapts to the HDF5 version; only
+  // info->type is used, which exists in both H5O_info_t and H5O_info2_t.
   auto visitCallback = [](hid_t /*obj*/,
                           const char* nameC,
-                          const H5O_info2_t* info,
+                          const H5OInfoCompat* info,
                           void* op_data) -> herr_t
   {
     if (info->type != H5O_TYPE_GROUP && info->type != H5O_TYPE_DATASET) {
@@ -269,12 +282,20 @@ std::string HDF5IO::findObject(const std::string& name,
   //
   // H5_INDEX_NAME + H5_ITER_INC give a deterministic, name-ordered traversal
   // that matches the depth-first, name-ordered behavior of getStorageObjects.
+  //
+  // The 1.12+ signature takes a trailing `fields` argument (H5O_INFO_BASIC)
+  // that let's us request only the object type; the 1.10 signature omits it.
+#if H5_VERSION_GE(1, 12, 0)
   const herr_t status = H5Ovisit(startGroup.getId(),
                                  H5_INDEX_NAME,
                                  H5_ITER_INC,
                                  visitCallback,
                                  &ctx,
                                  H5O_INFO_BASIC);
+#else
+  const herr_t status = H5Ovisit(
+      startGroup.getId(), H5_INDEX_NAME, H5_ITER_INC, visitCallback, &ctx);
+#endif
 
   // status > 0  => callback returned non-zero (match found), result is set
   // status == 0 => traversal completed with no match
