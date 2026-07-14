@@ -29,20 +29,33 @@ from pynwb import NWBHDF5IO
 import remfile
 import h5py
 
-def read_io(s3_path, aws_region):
+def read_io(s3_path, aws_region, force_remfile=False):
     """
     Opens the NWB file using NWBHDF5IO with ROS3 VFD.
     Equivalent to C++ read_io.
+
+    If force_remfile is True, remfile is used directly instead of attempting
+    to use the ROS3 driver. This is useful for benchmarking/comparing the
+    two different read strategies, or on systems where h5py was not built
+    with ROS3 support.
     """
-    # In PyNWB, NWBHDF5IO handles the HDF5 file opening and ROS3 configuration.
-    try:
-        io = NWBHDF5IO(s3_path, mode='r', driver='ros3', aws_region=aws_region)
-    except (ImportError, ValueError) as e:
-        print("h5py with ROS3 support is required. Using remfile instead.")
+    def read_io_remfile(s3_path):
+        print("Using remfile to read the NWB file from S3.")
         rem_file = remfile.File(s3_path)
         h5py_file = h5py.File(rem_file, "r")
         io = NWBHDF5IO(file=h5py_file)
-    return io
+        return io
+
+    if force_remfile:
+        return read_io_remfile(s3_path)
+
+    # In PyNWB, NWBHDF5IO handles the HDF5 file opening and ROS3 configuration.
+    try:
+        return NWBHDF5IO(s3_path, mode='r', driver='ros3', aws_region=aws_region)
+    except (ImportError, ValueError) as e:
+        print("h5py with ROS3 support is required. Falling back to remfile.")
+        return read_io_remfile(s3_path)
+
 
 def read_nwbfile(io):
     """
@@ -94,9 +107,14 @@ def main():
     parser.add_argument("object_name", help="Name of the object to find")
     parser.add_argument("start_indices", help="Comma-separated start indices (e.g., '0,0')")
     parser.add_argument("count_indices", help="Comma-separated count indices (e.g., '10,1')")
-    
+    parser.add_argument(
+        "--force-remfile",
+        action="store_true",
+        help="Force the use of remfile instead of the ROS3 driver, even if ROS3 is available.",
+    )
+
     args = parser.parse_args()
-    
+
     try:
         start = [int(x) for x in args.start_indices.split(',')]
         count = [int(x) for x in args.count_indices.split(',')]
@@ -111,7 +129,7 @@ def main():
         
         # 1. read_io
         io_start = time.perf_counter()
-        io = read_io(args.s3_path, args.aws_region)
+        io = read_io(args.s3_path, args.aws_region, force_remfile=args.force_remfile)
         io_end = time.perf_counter()
         print(f"read_io took: {io_end - io_start:.6f} s")
         

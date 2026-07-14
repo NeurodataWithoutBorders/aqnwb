@@ -87,6 +87,11 @@ uv run demo/ros3_benchmark/benchmark.py \
     "10,1"
 ```
 
+By default, the script will attempt to use the ROS3 driver (falling back to
+`remfile` if h5py was not built with ROS3 support). To force the use of
+`remfile` instead of the ROS3 driver (e.g. to compare the performance of
+the two read strategies), pass the `--force-remfile` flag.
+
 ## Code Structure
 
 - `main.cpp`: Contains the C++ benchmarking logic and timing measurements.

@@ -112,7 +112,7 @@ jobs:
             "0,0" \
             "10,1"
 
-    - name: Run the ros3_benchmark Python benchmark - ubuntu
+    - name: Run the ros3_benchmark Python benchmark (ROS3) - ubuntu
       if: matrix.os == 'ubuntu-latest'
       run: |
         conda run -n aqnwb-demo python demo/ros3_benchmark/benchmark.py \
@@ -121,3 +121,15 @@ jobs:
             "ElectricalSeriesAp" \
             "0,0" \
             "10,1"
+
+    - name: Run the ros3_benchmark Python benchmark (remfile) - ubuntu
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        conda run -n aqnwb-demo python demo/ros3_benchmark/benchmark.py \
+            "https://dandiarchive.s3.amazonaws.com/blobs/fec/8a6/fec8a690-2ece-4437-8877-8a002ff8bd8a" \
+            "us-east-2" \
+            "ElectricalSeriesAp" \
+            "0,0" \
+            "10,1" \
+            --force-remfile
+
