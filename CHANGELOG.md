@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
    * Added tutorial on using the ROS3 driver to read NWB files in S3 (`docs/pages/userdocs/reads3.dox`)
 * Added simple demo for benchmarking ROS3 performance and comparing with PyNWB S3 reads (`demo/ros3_benchmark`). (@oruebel, [#308](https://github.com/NeurodataWithoutBorders/aqnwb/pull/308))
    * Updated `build-demo.yml` CI for testings AqNWB demos to use Ubuntu and add ROS3 support, python install, and the new demo benchmarking script. 
-* Added new `BaseIO::findObject` and `RegisteredType::findOwnedObject` methods to simplify searching for objects by name. (@oruebel, [#308](https://github.com/NeurodataWithoutBorders/aqnwb/pull/308))   
+* Added new `BaseIO::findObject` and `RegisteredType::findOwnedObject` methods to simplify searching for objects by name. Added `HDF5IO::findObject` override method to optimize the search for HDF5 objects. (@oruebel, [#308](https://github.com/NeurodataWithoutBorders/aqnwb/pull/308))   
 
 ### Changed
 * **[BREAKING]** Moved `disableSWMRMode` option from `HDF5IO` constructor to a new `HDF5IO::startRecording(bool disableSWMRMode)` overload. The `BaseIO`-compliant `startRecording()` override is preserved and defaults to SWMR enabled. 

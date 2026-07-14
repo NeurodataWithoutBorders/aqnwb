@@ -110,6 +110,22 @@ public:
   StorageObjectType getStorageObjectType(std::string path) const override;
 
   /**
+   * @brief Search for the first object (Group or Dataset) whose last path
+   * component matches @p name, starting the search at @p starting_path.
+   *
+   * This HDF5-specific override replaces the generic recursive implementation
+   * in BaseIO with a single H5Ovisit traversal that terminates early on the
+   * first match. The reduces the number of metadata operations with the goal
+   * to improve performance, especially for large files with many groups.
+   *
+   * @param name The last path component to search for (e.g. "electrodes").
+   * @param starting_path The path of the group to start the search from.
+   * @return The full path of the first matching object, or "" if not found.
+   */
+  std::string findObject(const std::string& name,
+                         const std::string& starting_path = "/") const override;
+
+  /**
    * @brief Reads a dataset or attribute and determines the data type.
    *
    * @param dataPath The path to the dataset or attribute within the file.

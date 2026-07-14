@@ -158,6 +158,133 @@ Status HDF5IO::flush()
   return intToStatus(status);
 }
 
+std::string HDF5IO::findObject(const std::string& name,
+                               const std::string& starting_path) const
+{
+  if (m_file == nullptr) {
+    return "";
+  }
+
+  // Local helper: true if the last path component of `path` equals `n`.
+  // This ensures we match a full path component and not just a substring,
+  // e.g., searching for "es" should not match "electrodes".
+  auto pathEndsWithName = [](const std::string& path,
+                             const std::string& n) -> bool
+  {
+    if (path.size() < n.size()) {
+      return false;
+    }
+    if (path.compare(path.size() - n.size(), n.size(), n) != 0) {
+      return false;
+    }
+    const size_t matchStart = path.size() - n.size();
+    return (matchStart == 0) || (path[matchStart - 1] == '/');
+  };
+
+  // Only Groups can be traversed. If the starting path does not exist we bail
+  // out; if it exists but is not a group (e.g. a Dataset), there are no
+  // children to traverse and we only need to check the object itself. This
+  // matches the behavior of the generic BaseIO implementation.
+  const H5O_type_t startType = getH5ObjectType(starting_path);
+  if (startType == H5O_TYPE_UNKNOWN) {
+    return "";  // starting_path does not exist
+  }
+  if (startType != H5O_TYPE_GROUP) {
+    return pathEndsWithName(starting_path, name) ? starting_path
+                                                 : std::string();
+  }
+
+  // Context passed through the H5Ovisit callback via op_data. Defined locally
+  // since it is only used here. The callback must be convertible to a plain C
+  // function pointer, so it cannot capture; all state travels via op_data.
+  struct FindObjectContext
+  {
+    const std::string* name;  //!< name (last path component) to search for
+    std::string starting_path;  //!< normalized starting path ("" for root)
+    std::string result;  //!< full path of the first match (output)
+  };
+
+  FindObjectContext ctx;
+  ctx.name = &name;
+  // Normalize starting_path: treat "/" as root ("") for path building so that
+  // mergePaths does not produce a double leading slash.
+  ctx.starting_path = (starting_path == "/") ? std::string() : starting_path;
+
+  // Non-capturing lambda -> implicitly converts to a C function pointer, which
+  // is what H5Ovisit requires. The match logic is inlined here (Option B) to
+  // avoid any std::function indirection on the traversal hot path.
+  //
+  // `name` is the path of the visited object relative to the object on which
+  // H5Ovisit was called, using '/' separators and without a leading '/'. The
+  // starting object itself is reported with the relative name ".".
+  auto visitCallback = [](hid_t /*obj*/,
+                          const char* nameC,
+                          const H5O_info2_t* info,
+                          void* op_data) -> herr_t
+  {
+    if (info->type != H5O_TYPE_GROUP && info->type != H5O_TYPE_DATASET) {
+      return 0;  // skip named datatypes, etc.
+    }
+
+    auto* c = static_cast<FindObjectContext*>(op_data);
+    const std::string relative(nameC);
+
+    // Build the absolute path corresponding to this relative name so that the
+    // returned value matches the generic implementation (which returns full,
+    // absolute-style paths built from starting_path).
+    std::string fullPath;
+    if (relative == ".") {
+      fullPath = c->starting_path.empty() ? "/" : c->starting_path;
+    } else if (c->starting_path.empty()) {
+      fullPath = AQNWB::mergePaths("/", relative);
+    } else {
+      fullPath = AQNWB::mergePaths(c->starting_path, relative);
+    }
+
+    // Inlined equivalent of pathEndsWithName.
+    const std::string& n = *c->name;
+    bool match = false;
+    if (fullPath.size() >= n.size()
+        && fullPath.compare(fullPath.size() - n.size(), n.size(), n) == 0)
+    {
+      const size_t matchStart = fullPath.size() - n.size();
+      match = (matchStart == 0) || (fullPath[matchStart - 1] == '/');
+    }
+
+    if (match) {
+      c->result = fullPath;
+      return 1;  // stop iteration: first match found
+    }
+    return 0;  // continue
+  };
+
+  H5::Group startGroup = m_file->openGroup(starting_path);
+
+  // H5Ovisit performs a single, library-driven traversal of the object
+  // hierarchy rooted at startGroup. Compared to the generic implementation
+  // (which issues objectExists + getNumObjs + getObjnameByIdx +
+  // getObjTypeByIdx per node, each a network round-trip under ROS3), this
+  // issues far fewer operations and the callback stops as soon as the
+  // first match is found.
+  //
+  // H5_INDEX_NAME + H5_ITER_INC give a deterministic, name-ordered traversal
+  // that matches the depth-first, name-ordered behavior of getStorageObjects.
+  const herr_t status = H5Ovisit(startGroup.getId(),
+                                 H5_INDEX_NAME,
+                                 H5_ITER_INC,
+                                 visitCallback,
+                                 &ctx,
+                                 H5O_INFO_BASIC);
+
+  // status > 0  => callback returned non-zero (match found), result is set
+  // status == 0 => traversal completed with no match
+  // status < 0  => an error occurred during traversal
+  if (status < 0) {
+    return "";
+  }
+  return ctx.result;
+}
+
 std::unique_ptr<H5::Attribute> HDF5IO::getAttribute(
     const std::string& path) const
 {
