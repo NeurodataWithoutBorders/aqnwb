@@ -50,17 +50,13 @@ std::shared_ptr<RegisteredType> find_object(std::shared_ptr<NWBFile> nwbFile, co
 // Function to read the data from the object using the provided slice range
 // This implementation uses the generic readField method to access the "data" dataset.
 template<typename T>
-std::vector<T> read_slice(std::shared_ptr<RegisteredType> object, const std::vector<size_t>& start, const std::vector<size_t>& count)
+std::vector<T> read_slice(std::shared_ptr<RegisteredType> object, const SizeArray& start, const SizeArray& count)
 {
     auto readWrapper = object->readField<DatasetField, T>("data");
     if (!readWrapper) {
         throw std::runtime_error("Failed to read 'data' field from the object. Ensure it is a data-bearing object.");
     }
-
-    SizeArray startArray(start.begin(), start.end());
-    SizeArray countArray(count.begin(), count.end());
-    
-    auto dataSlice = readWrapper->values(startArray, countArray);
+    auto dataSlice = readWrapper->values(start, count);
     return dataSlice.data;
 }
 
@@ -73,9 +69,9 @@ void printUsage(const char* programName)
 }
 
 // Helper to parse comma separated string to vector of size_t
-std::vector<size_t> parseIndices(const std::string& s)
+SizeArray parseIndices(const std::string& s)
 {
-    std::vector<size_t> indices;
+    SizeArray indices;
     size_t pos = 0;
     std::string token;
     std::string temp = s;
@@ -102,8 +98,8 @@ int main(int argc, char* argv[])
     std::string s3Path = argv[1];
     std::string awsRegion = argv[2];
     std::string objectName = argv[3];
-    std::vector<size_t> start = parseIndices(argv[4]);
-    std::vector<size_t> count = parseIndices(argv[5]);
+    SizeArray start = parseIndices(argv[4]);
+    SizeArray count = parseIndices(argv[5]);
 
     try {
         std::cout << "Benchmarking ROS3 read process..." << std::endl;
