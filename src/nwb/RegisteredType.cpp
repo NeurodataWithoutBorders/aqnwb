@@ -164,9 +164,22 @@ std::unordered_map<std::string, std::string> RegisteredType::findOwnedTypes(
   }
 }
 
+std::string RegisteredType::findOwnedObject(const std::string& name) const
+{
+  auto ioPtr = getIO();
+  if (ioPtr != nullptr) {
+    return ioPtr->findObject(name, m_path);
+  } else {
+    std::cerr << "IO object has been deleted. Can't find owned object for: "
+              << m_path << std::endl;
+    return "";
+  }
+}
+
 SizeType RegisteredType::getRecordingObjectIndex() const
 {
   auto ioPtr = getIO();
+
   if (ioPtr) {
     auto recordingObjects = ioPtr->getRecordingObjects();
     if (recordingObjects) {

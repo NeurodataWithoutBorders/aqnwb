@@ -39,6 +39,13 @@ std::shared_ptr<NWBFile> read_nwbfile(std::shared_ptr<HDF5::HDF5IO> readio)
 std::shared_ptr<RegisteredType> find_object(std::shared_ptr<NWBFile> nwbFile, const std::string& objectName)
 {
     // Search for all typed objects in the NWB file
+    std::string objPath = nwbFile->findOwnedObject(objectName);
+    if (!objPath.empty()) {
+        return RegisteredType::create(objPath, nwbFile->getIO());
+    }else {
+        throw std::runtime_error("Object with name '" + objectName + "' not found in the NWB file");
+    }
+    /*
     auto foundObjects = nwbFile->findOwnedTypes({}, IO::SearchMode::CONTINUE_ON_TYPE);
     
     for (const auto& [objPath, type] : foundObjects) {
@@ -53,6 +60,7 @@ std::shared_ptr<RegisteredType> find_object(std::shared_ptr<NWBFile> nwbFile, co
     }
     
     throw std::runtime_error("Object with name '" + objectName + "' not found in the NWB file");
+    */
 }
 
 // Function to read the data from the object using the provided slice range
