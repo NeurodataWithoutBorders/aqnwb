@@ -18,6 +18,10 @@
 #  include <H5FDros3.h>
 #endif
 
+#ifdef AQNWB_HAVE_REMFILE_VFD
+#  include <remfile/remfile_vfd.h>
+#endif
+
 #include "Utils.hpp"
 #include "io/hdf5/HDF5ArrayDataSetConfig.hpp"
 #include "io/hdf5/HDF5RecordingData.hpp"
@@ -81,6 +85,22 @@ Status HDF5IO::openS3(const std::string& aws_region,
   return Status::Success;
 }
 #endif  // H5_HAVE_ROS3_VFD
+
+#ifdef AQNWB_HAVE_REMFILE_VFD
+Status HDF5IO::openRemote()
+{
+  FileAccPropList fapl = FileAccPropList::DEFAULT;
+  if (H5Pset_fapl_remfile(fapl.getId(), nullptr) < 0) {
+    return Status::Failure;
+  }
+
+  m_file = std::make_unique<H5::H5File>(
+      getFileName(), H5F_ACC_RDONLY, FileCreatPropList::DEFAULT, fapl);
+  m_opened = true;
+
+  return Status::Success;
+}
+#endif  // AQNWB_HAVE_REMFILE_VFD
 
 Status HDF5IO::open()
 {

@@ -33,7 +33,7 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       run: |
         sudo apt-get update
-        sudo apt-get install -y libhdf5-dev
+        sudo apt-get install -y libhdf5-dev libcurl4-openssl-dev
         git clone https://github.com/catchorg/Catch2.git
         cd Catch2
         git checkout "v3.5.3"
@@ -111,6 +111,18 @@ jobs:
             "ElectricalSeriesAp" \
             "0,0" \
             "10,1"
+
+    - name: Run the ros3_benchmark demo with the remfile driver - ubuntu
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        cd demo/ros3_benchmark/build/bin
+        ./ros3_benchmark \
+            "https://dandiarchive.s3.amazonaws.com/blobs/fec/8a6/fec8a690-2ece-4437-8877-8a002ff8bd8a" \
+            "us-east-2" \
+            "ElectricalSeriesAp" \
+            "0,0" \
+            "10,1" \
+            remfile
 
     - name: Run the ros3_benchmark Python benchmark (ROS3) - ubuntu
       if: matrix.os == 'ubuntu-latest'
