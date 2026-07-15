@@ -47,9 +47,9 @@
  * \endcode
  *
  * Compared to ROS3, the remfile VFD:
- * - does not require HDF5 to be built with ROS3 support (it only requires libcurl,
- *   and is enabled with the ``AQNWB_USE_REMFILE`` CMake option, ON by default on
- *   non-Windows platforms)
+ * - does not require HDF5 to be built with ROS3 support. It only requires libcurl and the light-weight remfile-cpp. remfile support 
+ *   is enabled with the ``AQNWB_USE_REMFILE`` CMake option (OFF by default). If remfile-cpp is not installed, then AqNWB will build it directly 
+ *   as part of its built process, so only libcurl is required as a separate install.
  * - works with any HTTP(S) server that supports byte-range requests, not just S3,
  *   including presigned URLs
  * - uses adaptive read-ahead caching, which coalesces sequential reads into
