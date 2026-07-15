@@ -62,8 +62,9 @@ Status HDF5IO::openS3(const std::string& aws_region,
   // Copies at most (N-1) characters and always null-terminates.
   auto copyField = [](const std::string& src, char* dst, std::size_t N)
   {
-    std::strncpy(dst, src.c_str(), N - 1);
-    dst[N - 1] = '\0';
+    std::size_t len = std::min(src.length(), N - 1);
+    std::memcpy(dst, src.c_str(), len);
+    dst[len] = '\0';
   };
 
   H5FD_ros3_fapl_t ros3_fa = {};  // zero-initialize all fields
