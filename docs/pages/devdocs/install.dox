@@ -56,6 +56,10 @@
  * \endcode
  *
  * This ensures CMake can find the necessary config files for HDF5.
+ *
+ * \note It is strongly recommended to install HDF5 **outside** of the AqNWB project source directory.
+ * Installing dependencies within the source tree can cause CMake export errors during the
+ * installation process.
  * 
  * The use of the `HDF5_ROOT` environment variable is deprecated for modern CMake
  * and may not work reliably with recent CMake versions.
