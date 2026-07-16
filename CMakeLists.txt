@@ -116,7 +116,7 @@ find_package(HDF5 REQUIRED COMPONENTS CXX)
 #  because we want downstream users to also have access to the _same_ HDF5.
 target_include_directories(aqnwb_aqnwb
     SYSTEM PUBLIC
-        $<BUILD_INTERFACE:${HDF5_INCLUDE_DIRS}>
+        ${HDF5_INCLUDE_DIRS}
 )
 
 target_link_libraries(aqnwb_aqnwb
