@@ -25,19 +25,23 @@ the PyNWB library and h5py with the ROS3 VFD. It measures the time taken for:
 
 import time
 import argparse
-from pynwb import NWBHDF5IO
+from typing import List, Any
+from pynwb import NWBHDF5IO, NWBFile
 import remfile
 import h5py
 
-def read_io(s3_path, aws_region, force_remfile=False):
+def read_io(s3_path: str, aws_region: str, force_remfile: bool = False) -> NWBHDF5IO:
     """
     Opens the NWB file using NWBHDF5IO with ROS3 VFD.
     Equivalent to C++ read_io.
 
-    If force_remfile is True, remfile is used directly instead of attempting
-    to use the ROS3 driver. This is useful for benchmarking/comparing the
-    two different read strategies, or on systems where h5py was not built
-    with ROS3 support.
+    :param s3_path: S3 URL of the NWB file.
+    :param aws_region: AWS region (e.g., us-east-2).
+    :param force_remfile: If True, remfile is used directly instead of attempting
+                          to use the ROS3 driver. This is useful for benchmarking/comparing the
+                          two different read strategies, or on systems where h5py was not built
+                          with ROS3 support.
+    :return: An instance of NWBHDF5IO.
     """
     def read_io_remfile(s3_path):
         print("Using remfile to read the NWB file from S3.")
@@ -57,18 +61,26 @@ def read_io(s3_path, aws_region, force_remfile=False):
         return read_io_remfile(s3_path)
 
 
-def read_nwbfile(io):
+def read_nwbfile(io: NWBHDF5IO) -> NWBFile:
     """
     Initializes the PyNWB NWBFile object from the IO object.
     Equivalent to C++ read_nwbfile.
+
+    :param io: The NWBHDF5IO instance used to read the file.
+    :return: The initialized NWBFile object.
     """
     nwb = io.read()
     return nwb
 
-def get_object_by_name(nwb, object_name):
+def get_object_by_name(nwb: NWBFile, object_name: str) -> Any:
     """
     Simple helper function to retrieve a neurodata object by its name, if it is unique.
     Equivalent to C++ find_object.
+
+    :param nwb: The NWBFile object to search.
+    :param object_name: The name of the object to retrieve.
+    :return: The matching neurodata object.
+    :raises ValueError: If the object is not found or if multiple objects with the same name exist.
     """
     # Find all objects that are matching the given name
     matching_objects = [
@@ -85,10 +97,15 @@ def get_object_by_name(nwb, object_name):
     # Return the matching object
     return matching_objects[0][1]
 
-def read_slice(nwb_object, start, count):
+def read_slice(nwb_object: Any, start: List[int], count: List[int]) -> Any:
     """
     Reads a slice of data from the object.
     Equivalent to C++ read_slice.
+
+    :param nwb_object: The neurodata object from which to read data.
+    :param start: A list of start indices for each dimension.
+    :param count: A list of count indices for each dimension.
+    :return: The read data slice (typically as a numpy array).
     """
     # In PyNWB, data is typically accessed via the .data attribute
     dataset = nwb_object.data
@@ -100,7 +117,7 @@ def read_slice(nwb_object, start, count):
     
     return dataset[tuple(slices)]
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(description="ROS3 read process benchmark (Python version)")
     parser.add_argument("s3_path", help="S3 URL of the NWB file")
     parser.add_argument("aws_region", help="AWS region (e.g., us-east-2)")

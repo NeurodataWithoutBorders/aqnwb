@@ -179,7 +179,6 @@ std::string RegisteredType::findOwnedObject(const std::string& name) const
 SizeType RegisteredType::getRecordingObjectIndex() const
 {
   auto ioPtr = getIO();
-
   if (ioPtr) {
     auto recordingObjects = ioPtr->getRecordingObjects();
     if (recordingObjects) {

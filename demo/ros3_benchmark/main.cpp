@@ -1,3 +1,17 @@
+/**
+ * @file main.cpp
+ * @brief ROS3 Read Process Benchmark (C++ Version).
+ *
+ * This script benchmarks the performance of reading NWB data from Amazon S3 using
+ * the AQNWB library with the ROS3 VFD. It measures the time taken for:
+ * 1. Opening the S3 file via HDF5IO.
+ * 2. Initializing the NWBFile object.
+ * 3. Finding a specific neurodata object by name.
+ * 4. Reading a slice of data from that object.
+ *
+ * This provides a direct comparison point for the Python benchmark implementation.
+ */
+
 #include <chrono>
 #include <iomanip>
 #include <iostream>
@@ -14,11 +28,20 @@ using namespace AQNWB;
 using namespace AQNWB::IO;
 using namespace AQNWB::NWB;
 
-// Function to create the HDF5IO object and open the file with the
-// requested driver ("ros3" or "remfile")
+/**
+ * @brief Creates the HDF5IO object and opens the file with the.
+ *        requested driver ("ros3" or "remfile")
+ *
+ * @param s3Path The S3 URL of the NWB file.
+ * @param awsRegion The AWS region (e.g., us-east-1).
+ * @param driver The VFD driver to use ("ros3" or "remfile")
+ * @return A shared pointer to the initialized HDF5IO object.
+ * @throws std::runtime_error If the S3 file cannot be opened.
+ */
 std::shared_ptr<HDF5::HDF5IO> read_io(const std::string& s3Path,
                                       const std::string& awsRegion,
                                       const std::string& driver)
+
 {
     auto readio = std::make_shared<HDF5::HDF5IO>(s3Path);
     Status status = Status::Failure;
@@ -43,7 +66,13 @@ std::shared_ptr<HDF5::HDF5IO> read_io(const std::string& s3Path,
     return readio;
 }
 
-// Function to create the NWBFile object using the IO object
+/**
+ * @brief Creates the NWBFile object using the provided IO object.
+ *
+ * @param readio A shared pointer to the HDF5IO object.
+ * @return A shared pointer to the created NWBFile object.
+ * @throws std::runtime_error If the NWBFile object cannot be created.
+ */
 std::shared_ptr<NWBFile> read_nwbfile(std::shared_ptr<HDF5::HDF5IO> readio)
 {
     auto nwbFile = NWBFile::create("/", readio);
@@ -53,7 +82,14 @@ std::shared_ptr<NWBFile> read_nwbfile(std::shared_ptr<HDF5::HDF5IO> readio)
     return nwbFile;
 }
 
-// Function to find the object in the NWB file using the provided name
+/**
+ * @brief Finds a specific object in the NWB file by its name.
+ *
+ * @param nwbFile A shared pointer to the NWBFile object.
+ * @param objectName The name of the object to search for.
+ * @return A shared pointer to the found RegisteredType object.
+ * @throws std::runtime_error If the object is not found in the NWB file.
+ */
 std::shared_ptr<RegisteredType> find_object(std::shared_ptr<NWBFile> nwbFile, const std::string& objectName)
 {
     // Search for all typed objects in the NWB file
@@ -65,8 +101,18 @@ std::shared_ptr<RegisteredType> find_object(std::shared_ptr<NWBFile> nwbFile, co
     }
 }
 
-// Function to read the data from the object using the provided slice range
-// This implementation uses the generic readField method to access the "data" dataset.
+/**
+ * @brief Reads a slice of data from the object's "data" field.
+ *
+ * This implementation uses the generic readField method to access the "data" dataset.
+ *
+ * @tparam T The data type of the elements being read.
+ * @param object A shared pointer to the RegisteredType object.
+ * @param start The starting indices for each dimension.
+ * @param count The number of elements to read for each dimension.
+ * @return A vector containing the read data slice.
+ * @throws std::runtime_error If the "data" field cannot be read.
+ */
 template<typename T>
 std::vector<T> read_slice(std::shared_ptr<RegisteredType> object, const SizeArray& start, const SizeArray& count)
 {
@@ -78,6 +124,11 @@ std::vector<T> read_slice(std::shared_ptr<RegisteredType> object, const SizeArra
     return dataSlice.data;
 }
 
+/**
+ * @brief Prints the usage instructions for the benchmark program.
+ *
+ * @param programName The name of the program to be displayed in the usage message.
+ */
 void printUsage(const char* programName)
 {
     std::cout << "Usage: " << programName << " <s3_path> <aws_region> <object_name> <start_indices> <count_indices> [driver]" << std::endl;
@@ -87,7 +138,16 @@ void printUsage(const char* programName)
     std::cout << "driver: 'ros3' (default) or 'remfile'. The aws_region argument is ignored by remfile." << std::endl;
 }
 
-// Helper to parse comma separated string to vector of size_t
+/**
+ * @brief Parses a comma-separated string of integers into a SizeArray.
+ *
+ * This helper function removes optional quotes from the input string and
+ * converts comma-separated values into size_t.
+ *
+ * @param s The input string containing comma-separated indices (e.g., "0,0").
+ * @return A SizeArray (vector of size_t) containing the parsed indices.
+ * @throws std::invalid_argument or std::out_of_range if string conversion fails.
+ */
 SizeArray parseIndices(const std::string& s)
 {
     SizeArray indices;
