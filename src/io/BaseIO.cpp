@@ -324,10 +324,6 @@ std::string BaseIO::findObject(const std::string& name,
   std::function<std::string(const std::string&)> searchObject =
       [&](const std::string& current_path) -> std::string
   {
-    if (!objectExists(current_path)) {
-      return "";
-    }
-
     // Check if the current path matches the name we are looking for
     if (pathEndsWithName(current_path)) {
       return current_path;
@@ -350,6 +346,11 @@ std::string BaseIO::findObject(const std::string& name,
     return "";
   };
 
+  // Check if the starting path exists before beginning the search.
+  if (!objectExists(starting_path)) {
+    return "";
+  }
+  // Start the recursive search from the starting path
   return searchObject(starting_path);
 }
 
