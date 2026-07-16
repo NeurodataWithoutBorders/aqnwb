@@ -177,19 +177,21 @@ std::string HDF5IO::findObject(const std::string& name,
     return "";
   }
 
-  // Local helper: true if the last path component of `path` equals `n`.
+  // Local helper: true if the last path component of `path` equals `objName`.
   // This ensures we match a full path component and not just a substring,
   // e.g., searching for "es" should not match "electrodes".
   auto pathEndsWithName = [](const std::string& path,
-                             const std::string& n) -> bool
+                             const std::string& objName) -> bool
   {
-    if (path.size() < n.size()) {
+    if (path.size() < objName.size()) {
       return false;
     }
-    if (path.compare(path.size() - n.size(), n.size(), n) != 0) {
+    if (path.compare(path.size() - objName.size(), objName.size(), objName)
+        != 0)
+    {
       return false;
     }
-    const size_t matchStart = path.size() - n.size();
+    const size_t matchStart = path.size() - objName.size();
     return (matchStart == 0) || (path[matchStart - 1] == '/');
   };
 
@@ -218,9 +220,7 @@ std::string HDF5IO::findObject(const std::string& name,
 
   FindObjectContext ctx;
   ctx.name = &name;
-  // Normalize starting_path: treat "/" as root ("") for path building so that
-  // mergePaths does not produce a double leading slash.
-  ctx.starting_path = (starting_path == "/") ? std::string() : starting_path;
+  ctx.starting_path = starting_path;
 
   // Non-capturing lambda -> implicitly converts to a C function pointer, which
   // is what H5Ovisit requires. The match logic is inlined here (Option B) to
@@ -249,10 +249,9 @@ std::string HDF5IO::findObject(const std::string& name,
     std::string fullPath;
     if (relative == ".") {
       fullPath = c->starting_path.empty() ? "/" : c->starting_path;
-    } else if (c->starting_path.empty()) {
-      fullPath = AQNWB::mergePaths("/", relative);
     } else {
-      fullPath = AQNWB::mergePaths(c->starting_path, relative);
+      fullPath = AQNWB::mergePaths(
+          c->starting_path.empty() ? "/" : c->starting_path, relative);
     }
 
     // Inlined equivalent of pathEndsWithName.
@@ -272,14 +271,12 @@ std::string HDF5IO::findObject(const std::string& name,
     return 0;  // continue
   };
 
+  // We know that we are starting at a group, because the dataset case is
+  // handled above. Open it to get the group ID for H5Ovisit.
   H5::Group startGroup = m_file->openGroup(starting_path);
 
   // H5Ovisit performs a single, library-driven traversal of the object
-  // hierarchy rooted at startGroup. Compared to the generic implementation
-  // (which issues objectExists + getNumObjs + getObjnameByIdx +
-  // getObjTypeByIdx per node, each a network round-trip under ROS3), this
-  // issues far fewer operations and the callback stops as soon as the
-  // first match is found.
+  // hierarchy rooted at startGroup.
   //
   // H5_INDEX_NAME + H5_ITER_INC give a deterministic, name-ordered traversal
   // that matches the depth-first, name-ordered behavior of getStorageObjects.
