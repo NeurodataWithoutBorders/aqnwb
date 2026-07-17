@@ -50,9 +50,8 @@ jobs:
     - name: Install dependencies - windows
       if: matrix.os == 'windows-latest'
       run: |
-        cd "${VCPKG_INSTALLATION_ROOT}"
-        vcpkg install hdf5[cpp]:x64-windows catch2:x64-windows
-        vcpkg integrate install
+        "${VCPKG_INSTALLATION_ROOT}/vcpkg" install --triplet x64-windows
+        "${VCPKG_INSTALLATION_ROOT}/vcpkg" integrate install
 
     - name: Configure
       shell: pwsh
