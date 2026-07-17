@@ -1,23 +1,32 @@
 /**
-* \page reads3_page Reading Data from S3 ☁️
+ * \page reads3_page Reading Remote Data ☁️
  *
  * \tableofcontents
+ *
+ * AqNWB supports reading data from remote sources using different HDF5 Virtual File Drivers (VFDs).
+ * Depending on the data source and your HDF5 installation, you can use the \ref reads3_ros3 "ROS3 VFD"
+ * (for Amazon S3) or the \ref reads3_remfile "remfile VFD" (compatible with any HTTP(S) 
+ * server supporting byte-range requests).
+ *
+ * \warning
+ * Both remote drivers require specific build-time configurations
+ * (see the \ref user_install_page "Installation" page):
+ * - The **ROS3 VFD** must be enabled in your HDF5 installation. AqNWB checks this via the `H5_HAVE_ROS3_VFD` macro.
+ * - The **remfile VFD** requires `libcurl` and must be enabled with the `AQNWB_USE_REMFILE` CMake option.
+ *
+ * \section reads3_ros3 Reading via the ROS3 VFD
  *
  * AqNWB supports reading data directly from Amazon S3 using the HDF5 ROS3 Virtual File Driver (VFD).
  * This allows you to access NWB files stored in the cloud without having to download the entire file first.
  *
- * \warning
- * The ROS3 VFD must be enabled in your HDF5 installation for S3 read to be enabled in AqNWB. This is typically
- * checked using the `H5_HAVE_ROS3_VFD` macro define by the HDF5 library.
- *
- * \section reads3_example_open Opening a file from S3
+ * \subsection reads3_ros3_open Opening a file from S3
  *
  * To open a file from S3, we create an \ref AQNWB::IO::HDF5::HDF5IO "HDF5IO" object with the S3 URL
  * and then call \ref AQNWB::IO::HDF5::HDF5IO::openS3 "openS3" with the AWS region.
  *
  * \snippet tests/examples/test_ros3_read_example.cpp example_ros3_setup
  *
- * \section reads3_example_read Reading objects and data
+ * \subsection reads3_ros3_read Reading objects and data
  *
  * Once the file is open, reading objects and data works exactly the same as reading from a local file.
  * For example, we can read the \ref AQNWB::NWB::NWBFile "NWBFile" object:
@@ -33,6 +42,30 @@
  * this approach efficient for accessing specific parts of large NWB files in the cloud.
  *
  * \snippet tests/examples/test_ros3_read_example.cpp example_ros3_read_data
+ *
+ * \section reads3_remfile Reading via the remfile VFD
+ *
+ * As an alternative to ROS3, AqNWB can read remote files with the
+ * [remfile-cpp](https://github.com/catalystneuro/remfile-cpp) virtual file driver, a C++
+ * port of the Python [remfile](https://github.com/magland/remfile) package. Instead of \ref AQNWB::IO::HDF5::HDF5IO::openS3 "openS3",
+ * call \ref AQNWB::IO::HDF5::HDF5IO::openRemote "openRemote":
+ *
+ * \snippet tests/examples/test_remfile_read_example.cpp example_remfile_setup
+ *
+ * Once opened, reading from the file works exactly like in the ROS3 example above. For a complete example see
+ * [tests/examples/test_remfile_read_example.cpp](https://github.com/NeurodataWithoutBorders/aqnwb/blob/main/tests/examples/test_remfile_read_example.cpp).
+ *
+ * Compared to ROS3, the remfile VFD:
+ * - does not require HDF5 to be built with ROS3 support. It only requires libcurl and the light-weight remfile-cpp. remfile support 
+ *   is enabled with the ``AQNWB_USE_REMFILE`` CMake option (OFF by default). If remfile-cpp is not installed, then AqNWB will build it directly 
+ *   as part of its built process, so only libcurl is required as a separate install.
+ * - works with any HTTP(S) server that supports byte-range requests, not just S3,
+ *   including presigned URLs
+ * - uses adaptive read-ahead caching, which coalesces sequential reads into
+ *   geometrically growing range requests and is typically faster for large
+ *   sequential reads
+ *
+ * Availability at compile time is indicated by the ``AQNWB_HAVE_REMFILE_VFD`` macro.
  *
  * \section reads3_further_reading Further reading
  * - \ref read_page discusses the general process of reading data from NWB files in more detail.

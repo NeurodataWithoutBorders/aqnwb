@@ -87,6 +87,25 @@ public:
                 const std::string& secret_key = "");
 #endif  // H5_HAVE_ROS3_VFD
 
+#ifdef AQNWB_HAVE_REMFILE_VFD
+  /**
+   * @brief Opens a remote file over HTTP(S) in read-only mode using the
+   * remfile virtual file driver.
+   *
+   * The filename passed to the constructor must be an http:// or https://
+   * URL of a file on a server that supports byte-range requests (e.g., a
+   * DANDI archive asset URL). Unlike \ref openS3, this does not require
+   * HDF5 to be built with ROS3 support and works with any HTTP(S) server,
+   * including presigned S3 URLs.
+   *
+   * Reads are served from an in-memory chunk cache with adaptive
+   * read-ahead (see https://github.com/catalystneuro/remfile-cpp).
+   *
+   * @return The status of the file opening operation.
+   */
+  Status openRemote();
+#endif  // AQNWB_HAVE_REMFILE_VFD
+
   /**
    * @brief Closes the file.
    * @return The status of the file closing operation.
@@ -108,6 +127,22 @@ public:
    * exist.
    */
   StorageObjectType getStorageObjectType(std::string path) const override;
+
+  /**
+   * @brief Search for the first object (Group or Dataset) whose last path
+   * component matches @p name, starting the search at @p starting_path.
+   *
+   * This HDF5-specific override replaces the generic recursive implementation
+   * in BaseIO with a single H5Ovisit traversal that terminates early on the
+   * first match. The reduces the number of metadata operations with the goal
+   * to improve performance, especially for large files with many groups.
+   *
+   * @param name The last path component to search for (e.g. "electrodes").
+   * @param starting_path The path of the group to start the search from.
+   * @return The full path of the first matching object, or "" if not found.
+   */
+  std::string findObject(const std::string& name,
+                         const std::string& starting_path = "/") const override;
 
   /**
    * @brief Reads a dataset or attribute and determines the data type.
