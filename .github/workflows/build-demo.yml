@@ -43,7 +43,7 @@ jobs:
     - name: Configure and build the main project
       shell: pwsh
       run: |
-        cmake "--preset=ci-$("${{ matrix.os }}".split("-")[0])"
+        cmake "--preset=ci-$("${{ matrix.os }}".split("-")[0])" -DAQNWB_USE_REMFILE=ON
         cmake --build build --config Release -j 2
 
     - name: Install aqnwb
