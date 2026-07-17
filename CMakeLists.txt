@@ -110,11 +110,7 @@ target_compile_definitions(aqnwb_aqnwb PUBLIC AQNWB_CXX_STANDARD=${AQNWB_CXX_STA
 # remfile provides an HDF5 virtual file driver that reads remote files with
 # HTTP range requests and adaptive read-ahead caching. Unlike the ROS3 VFD,
 # it does not require HDF5 to be built with ROS3 support.
-if(WIN32)
-  set(aqnwb_use_remfile_default OFF)
-else()
-  set(aqnwb_use_remfile_default ON)
-endif()
+set(aqnwb_use_remfile_default OFF)
 option(AQNWB_USE_REMFILE "Enable reading remote files over HTTP(S) via the remfile VFD (requires libcurl)" ${aqnwb_use_remfile_default})
 
 if(AQNWB_USE_REMFILE)
