@@ -28,6 +28,11 @@
  *
  * \subsection devbuild_sec Developer Build
  *
+ * To enable reading remote files via the remfile virtual file driver, add the
+ * `-DAQNWB_USE_REMFILE=ON` option during configuration. Note that ROS3 support
+ * is automatically enabled if your HDF5 installation was built with ROS3 support
+ * (i.e., `H5_HAVE_ROS3_VFD` is defined).
+ *
  * Build system targets that are only useful for developers of AqNWB are
  * hidden if the `aqnwb_DEVELOPER_MODE` option is disabled. Enabling this
  * option makes \ref testing "tests" and other developer targets and options available. You can enable

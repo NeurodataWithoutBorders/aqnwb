@@ -41,10 +41,9 @@
  * port of the Python [remfile](https://github.com/magland/remfile) package. Instead of \ref AQNWB::IO::HDF5::HDF5IO::openS3 "openS3",
  * call \ref AQNWB::IO::HDF5::HDF5IO::openRemote "openRemote":
  *
- * \code
- * auto io = std::make_shared<AQNWB::IO::HDF5::HDF5IO>(url);
- * io->openRemote();
- * \endcode
+  * \snippet tests/examples/test_remfile_read_example.cpp example_remfile_setup
+ *
+ * For a complete example, see \c tests/examples/test_remfile_read_example.cpp.
  *
  * Compared to ROS3, the remfile VFD:
  * - does not require HDF5 to be built with ROS3 support. It only requires libcurl and the light-weight remfile-cpp. remfile support 
