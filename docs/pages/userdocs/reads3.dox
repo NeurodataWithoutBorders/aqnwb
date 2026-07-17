@@ -1,5 +1,5 @@
 /**
- * \page reads3_page Reading Remote ☁️
+ * \page reads3_page Reading Remote Data ☁️
  *
  * \tableofcontents
  *
@@ -8,14 +8,16 @@
  * (for Amazon S3) or the \ref reads3_remfile "remfile VFD" (compatible with any HTTP(S) 
  * server supporting byte-range requests).
  *
+ * \warning
+ * Both remote drivers require specific build-time configurations
+ * (see the \ref user_install_page "Installation" page):
+ * - The **ROS3 VFD** must be enabled in your HDF5 installation. AqNWB checks this via the `H5_HAVE_ROS3_VFD` macro.
+ * - The **remfile VFD** requires `libcurl` and must be enabled with the `AQNWB_USE_REMFILE` CMake option.
+ *
  * \section reads3_ros3 Reading via the ROS3 VFD
  *
  * AqNWB supports reading data directly from Amazon S3 using the HDF5 ROS3 Virtual File Driver (VFD).
  * This allows you to access NWB files stored in the cloud without having to download the entire file first.
- *
- * \warning
- * The ROS3 VFD must be enabled in your HDF5 installation for S3 read to be enabled in AqNWB. This is typically
- * checked using the `H5_HAVE_ROS3_VFD` macro define by the HDF5 library.
  *
  * \subsection reads3_ros3_open Opening a file from S3
  *
@@ -50,8 +52,8 @@
  *
  * \snippet tests/examples/test_remfile_read_example.cpp example_remfile_setup
  *
- * Once opened, reading from the file works exactly like in ROS3 example aboove. For a complete example, 
- * see [tests/examples/test_remfile_read_example.cpp](https://github.com/NeurodataWithoutBorders/aqnwb/blob/main/tests/examples/test_remfile_read_example.cpp).
+ * Once opened, reading from the file works exactly like in the ROS3 example above. For a complete example see
+ * [tests/examples/test_remfile_read_example.cpp](https://github.com/NeurodataWithoutBorders/aqnwb/blob/main/tests/examples/test_remfile_read_example.cpp).
  *
  * Compared to ROS3, the remfile VFD:
  * - does not require HDF5 to be built with ROS3 support. It only requires libcurl and the light-weight remfile-cpp. remfile support 
