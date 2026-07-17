@@ -11,11 +11,5 @@
     "catch2",
     "curl"
   ],
-  "builtin-baseline": "52c9e08cdf8580d2d9762f547d22b96fd81e82f2",
-  "overrides": [
-    {
-      "name": "libaec",
-      "version": "1.1.7"
-    }
-  ]
+  "builtin-baseline": "52c9e08cdf8580d2d9762f547d22b96fd81e82f2"
 }
