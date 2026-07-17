@@ -6,18 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-
 ## Upcoming  (~June 2026)
 
 ### Added
+* **Added support for streaming data read of remote NWB files:**
+    * Added `HDF5IO::openS3(...)` method to support opening an existing remote file in S3 in read-only mode using the HDF5 ROS3 driver. (@oruebel, [#307](https://github.com/NeurodataWithoutBorders/aqnwb/pull/307))
+    * Added `HDF5IO::openRemote()` method to read remote NWB files over HTTP(S) using the [remfile-cpp](https://github.com/catalystneuro/remfile-cpp) virtual file driver (a C++ port of the Python [remfile](https://github.com/magland/remfile) package), imported as an optional CMake dependency (`AQNWB_USE_REMFILE`, requires `libcurl`). Unlike ROS3, remfile does not require HDF5 to be built with ROS3 support and works with any HTTP(S) server that supports byte-range requests. (@bendichter, [#309](https://github.com/NeurodataWithoutBorders/aqnwb/pull/309))
+    * Added demo for benchmarking ROS3 and remfile performance and comparing with PyNWB S3 reads (`demo/ros3_benchmark`). (@oruebel, [#308](https://github.com/NeurodataWithoutBorders/aqnwb/pull/308); @bendichter, [#309](https://github.com/NeurodataWithoutBorders/aqnwb/pull/309))
+    * Added tutorial on using the ROS3 and remfile drivers to read NWB files in S3 (`docs/pages/userdocs/reads3.dox`) 
 * Added `ElectricalSeries::writeAllChannels` method and `IO::writeElectricalSeriesData` overload to simplify zero-copy interleaved multichannel writes. (@copilot, @oruebel, [#293](https://github.com/NeurodataWithoutBorders/aqnwb/pull/293))
 * Added `ElectricalSeries::channelsAtSameSampleOffset` method to check if all channels are at the same sample offset, which is a requirement for using `writeAllChannels`. (@copilot, @oruebel, [#293](https://github.com/NeurodataWithoutBorders/aqnwb/pull/293))
-* Added `HDF5IO::openS3(...)` method to support opening an existing remote file in S3 in read-only mode using the HDF5 ROS3 driver. (@oruebel, [#307](https://github.com/NeurodataWithoutBorders/aqnwb/pull/307))
-   * Added tutorial on using the ROS3 driver to read NWB files in S3 (`docs/pages/userdocs/reads3.dox`)
-* Added simple demo for benchmarking ROS3 performance and comparing with PyNWB S3 reads (`demo/ros3_benchmark`). (@oruebel, [#308](https://github.com/NeurodataWithoutBorders/aqnwb/pull/308))
-   * Updated `build-demo.yml` CI for testings AqNWB demos to use Ubuntu and add ROS3 support, python install, and the new demo benchmarking script. 
 * Added new `BaseIO::findObject` and `RegisteredType::findOwnedObject` methods to simplify searching for objects by name. Added `HDF5IO::findObject` override method to optimize the search for HDF5 objects. (@oruebel, [#308](https://github.com/NeurodataWithoutBorders/aqnwb/pull/308))   
-* Added `HDF5IO::openRemote()` method to read remote NWB files over HTTP(S) using the [remfile-cpp](https://github.com/catalystneuro/remfile-cpp) virtual file driver (a C++ port of the Python [remfile](https://github.com/magland/remfile) package), imported as an optional CMake dependency (`AQNWB_USE_REMFILE`, ON by default on non-Windows platforms; requires libcurl). Unlike ROS3, remfile does not require HDF5 to be built with ROS3 support and works with any HTTP(S) server that supports byte-range requests. The `ros3_benchmark` demo accepts an optional driver argument (`ros3` or `remfile`) to compare the two. (@bendichter, [#308](https://github.com/NeurodataWithoutBorders/aqnwb/pull/308))
 
 ### Changed
 * **[BREAKING]** Moved `disableSWMRMode` option from `HDF5IO` constructor to a new `HDF5IO::startRecording(bool disableSWMRMode)` overload. The `BaseIO`-compliant `startRecording()` override is preserved and defaults to SWMR enabled. 
@@ -28,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Fixed `get_utc_offset_seconds` to correctly account for daylight saving time using platform-specific APIs (`tm_gmtoff` on Unix/macOS; `_get_timezone` + `_get_dstbias` on Windows), preventing `session_start_time` from being written ~1 hour ahead of UTC during DST (@cboulay, [#295](https://github.com/NeurodataWithoutBorders/aqnwb/pull/295))
 * Fixed bug in `HDF5IO::canModifyObjects` returning true when a file is opened in read-only. (@oruebel, [#307](https://github.com/NeurodataWithoutBorders/aqnwb/pull/307))
 * Fixed `install-config.cmake` to propagate HDF5 include directories to downstream consumers of the `aqnwb::aqnwb` target, allowing them to locate HDF5 headers regardless of where HDF5 is installed on the system. (@oruebel, [#308](https://github.com/NeurodataWithoutBorders/aqnwb/pull/308))
+* Updated `build-demo.yml` and `tests.yml` CI to support testing of the the new ROS3 and remfile features and scipts  (@oruebel, [#308](https://github.com/NeurodataWithoutBorders/aqnwb/pull/308))
 
 
 ## [0.3.0] - 2026-02-23
