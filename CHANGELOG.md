@@ -27,7 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Fixed `get_utc_offset_seconds` to correctly account for daylight saving time using platform-specific APIs (`tm_gmtoff` on Unix/macOS; `_get_timezone` + `_get_dstbias` on Windows), preventing `session_start_time` from being written ~1 hour ahead of UTC during DST (@cboulay, [#295](https://github.com/NeurodataWithoutBorders/aqnwb/pull/295))
 * Fixed bug in `HDF5IO::canModifyObjects` returning true when a file is opened in read-only. (@oruebel, [#307](https://github.com/NeurodataWithoutBorders/aqnwb/pull/307))
 * Fixed `install-config.cmake` to propagate HDF5 include directories to downstream consumers of the `aqnwb::aqnwb` target, allowing them to locate HDF5 headers regardless of where HDF5 is installed on the system. (@oruebel, [#308](https://github.com/NeurodataWithoutBorders/aqnwb/pull/308))
-* Updated `build-demo.yml` and `tests.yml` CI to support testing of the the new ROS3 and remfile features and scripts  (@oruebel, [#308](https://github.com/NeurodataWithoutBorders/aqnwb/pull/308))
+* Updated `build-demo.yml` and `tests.yml` CI to support testing of the new ROS3 and remfile features and scripts  (@oruebel, [#308](https://github.com/NeurodataWithoutBorders/aqnwb/pull/308))
 
 
 ## [0.3.0] - 2026-02-23
