@@ -1,6 +1,6 @@
 # ROS3 Benchmark Demo
 
-This is a simple C++ demo project that benchmarks the process of reading data from a NWB (Neurodata Without Borders) file stored on Amazon S3 using the aqnwb library with HDF5 ROS3 VFD.
+This is a simple C++ demo project that benchmarks the process of reading data from a NWB (Neurodata Without Borders) file stored on Amazon S3 using the aqnwb library, using either the HDF5 ROS3 VFD or the [remfile-cpp](https://github.com/catalystneuro/remfile-cpp) VFD.
 
 The benchmark measures the time taken for each of the following steps:
 1. **`read_io`**: Creating the HDF5IO object and opening the S3 file.
@@ -53,8 +53,14 @@ After building, you can run the benchmark using a file on S3.
 
 ```bash
 cd demo/ros3_benchmark/build/bin
-./ros3_benchmark <s3_path> <aws_region> <object_name> <start_indices> <count_indices>
+./ros3_benchmark <s3_path> <aws_region> <object_name> <start_indices> <count_indices> [driver]
 ```
+
+The optional `driver` argument selects the HDF5 virtual file driver: `ros3`
+(the default) or `remfile`. The remfile driver requires aqnwb to be built
+with remfile support (`AQNWB_USE_REMFILE=ON`, the default on non-Windows
+platforms); it ignores the `aws_region` argument and works with any HTTP(S)
+server that supports byte-range requests, not just S3.
 
 ### Example
 
@@ -68,6 +74,18 @@ cd demo/ros3_benchmark/build/bin
     "ElectricalSeriesAp" \
     "0,0" \
     "10,1"
+```
+
+To run the same benchmark with the remfile driver, append `remfile`:
+
+```bash
+./ros3_benchmark \
+    "https://dandiarchive.s3.amazonaws.com/blobs/fec/8a6/fec8a690-2ece-4437-8877-8a002ff8bd8a" \
+    "us-east-2" \
+    "ElectricalSeriesAp" \
+    "0,0" \
+    "10,1" \
+    remfile
 ```
 
 ## Python Benchmark

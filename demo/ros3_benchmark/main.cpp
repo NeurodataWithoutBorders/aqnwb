@@ -29,19 +29,39 @@ using namespace AQNWB::IO;
 using namespace AQNWB::NWB;
 
 /**
- * @brief Creates the HDF5IO object and opens the file via ROS3.
+ * @brief Creates the HDF5IO object and opens the file with the.
+ *        requested driver ("ros3" or "remfile")
  *
  * @param s3Path The S3 URL of the NWB file.
  * @param awsRegion The AWS region (e.g., us-east-1).
+ * @param driver The VFD driver to use ("ros3" or "remfile")
  * @return A shared pointer to the initialized HDF5IO object.
  * @throws std::runtime_error If the S3 file cannot be opened.
  */
-std::shared_ptr<HDF5::HDF5IO> read_io(const std::string& s3Path, const std::string& awsRegion)
+std::shared_ptr<HDF5::HDF5IO> read_io(const std::string& s3Path,
+                                      const std::string& awsRegion,
+                                      const std::string& driver)
+
 {
     auto readio = std::make_shared<HDF5::HDF5IO>(s3Path);
-    Status status = readio->openS3(awsRegion);
+    Status status = Status::Failure;
+    if (driver == "ros3") {
+#ifdef H5_HAVE_ROS3_VFD
+        status = readio->openS3(awsRegion);
+#else
+        throw std::runtime_error("HDF5 was built without ROS3 VFD support");
+#endif
+    } else if (driver == "remfile") {
+#ifdef AQNWB_HAVE_REMFILE_VFD
+        status = readio->openRemote();
+#else
+        throw std::runtime_error("aqnwb was built without remfile VFD support");
+#endif
+    } else {
+        throw std::runtime_error("Unknown driver '" + driver + "' (expected 'ros3' or 'remfile')");
+    }
     if (status != Status::Success) {
-        throw std::runtime_error("Failed to open S3 file at " + s3Path + " in region " + awsRegion);
+        throw std::runtime_error("Failed to open file at " + s3Path + " with driver " + driver);
     }
     return readio;
 }
@@ -111,10 +131,11 @@ std::vector<T> read_slice(std::shared_ptr<RegisteredType> object, const SizeArra
  */
 void printUsage(const char* programName)
 {
-    std::cout << "Usage: " << programName << " <s3_path> <aws_region> <object_name> <start_indices> <count_indices>" << std::endl;
-    std::cout << "Example: " << programName 
+    std::cout << "Usage: " << programName << " <s3_path> <aws_region> <object_name> <start_indices> <count_indices> [driver]" << std::endl;
+    std::cout << "Example: " << programName
               << " https://bucket.s3.amazonaws.com/file us-east-1 my_timeseries \"0,0\" \"10,1\"" << std::endl;
     std::cout << "Note: indices should be comma-separated strings." << std::endl;
+    std::cout << "driver: 'ros3' (default) or 'remfile'. The aws_region argument is ignored by remfile." << std::endl;
 }
 
 /**
@@ -158,15 +179,16 @@ int main(int argc, char* argv[])
     std::string objectName = argv[3];
     SizeArray start = parseIndices(argv[4]);
     SizeArray count = parseIndices(argv[5]);
+    std::string driver = (argc > 6) ? argv[6] : "ros3";
 
     try {
-        std::cout << "Benchmarking ROS3 read process..." << std::endl;
+        std::cout << "Benchmarking " << driver << " read process..." << std::endl;
 
         auto start_total = std::chrono::high_resolution_clock::now();
 
         // 1. read_io
         auto start_io = std::chrono::high_resolution_clock::now();
-        auto readio = read_io(s3Path, awsRegion);
+        auto readio = read_io(s3Path, awsRegion, driver);
         auto end_io = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> elapsed_io = end_io - start_io;
         std::cout << "read_io took: " << elapsed_io.count() << " s" << std::endl;

@@ -87,6 +87,25 @@ public:
                 const std::string& secret_key = "");
 #endif  // H5_HAVE_ROS3_VFD
 
+#ifdef AQNWB_HAVE_REMFILE_VFD
+  /**
+   * @brief Opens a remote file over HTTP(S) in read-only mode using the
+   * remfile virtual file driver.
+   *
+   * The filename passed to the constructor must be an http:// or https://
+   * URL of a file on a server that supports byte-range requests (e.g., a
+   * DANDI archive asset URL). Unlike \ref openS3, this does not require
+   * HDF5 to be built with ROS3 support and works with any HTTP(S) server,
+   * including presigned S3 URLs.
+   *
+   * Reads are served from an in-memory chunk cache with adaptive
+   * read-ahead (see https://github.com/catalystneuro/remfile-cpp).
+   *
+   * @return The status of the file opening operation.
+   */
+  Status openRemote();
+#endif  // AQNWB_HAVE_REMFILE_VFD
+
   /**
    * @brief Closes the file.
    * @return The status of the file closing operation.
