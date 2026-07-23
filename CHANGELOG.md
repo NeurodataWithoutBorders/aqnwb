@@ -20,8 +20,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 * **[BREAKING]** Moved `disableSWMRMode` option from `HDF5IO` constructor to a new `HDF5IO::startRecording(bool disableSWMRMode)` overload. The `BaseIO`-compliant `startRecording()` override is preserved and defaults to SWMR enabled. 
    * **Migration Note**: Code using `HDF5IO(path, true)` must be updated to `HDF5IO(path)` followed by `startRecording(true)`. When the `HDF5IO` object is held as a `std::shared_ptr<BaseIO>` (e.g., from `createIO`), downcast with `std::dynamic_pointer_cast<HDF5IO>` to access the overload. (@oruebel [#297](https://github.com/NeurodataWithoutBorders/aqnwb/pull/297))
-* Updated schema in the `spec/` module to the latest NWB releases: (i) NWB 2.10, (ii) HDMF Common 1.9, and (iii) HDMF Experimental 0.6 (@oruebel, [#300](https://github.com/NeurodataWithoutBorders/aqnwb/pull/300))
-* Updated `DynamicTable::readColumn` using type traits to support reading both `VectorData` columns with a specific data type and columns that are a subtype of `VectorData` (e.g., the new `TimestampVectorData` and `DurationVectorData`).
+* Updated schema in the `spec/` module to the latest NWB releases: (i) NWB 2.10, (ii) HDMF Common 1.10, and (iii) HDMF Experimental 0.6 (@oruebel, [#300](https://github.com/NeurodataWithoutBorders/aqnwb/pull/300))
+* Updated `DynamicTable::readColumn` using type traits to support reading both `VectorData` columns with a specific data type and columns that are a subtype of `VectorData` (e.g., the new `TimestampVectorData` and `DurationVectorData`). (@cline, @oruebel, [#301](https://github.com/NeurodataWithoutBorders/aqnwb/pull/301))
 * Updated `ElectrodesTable::initialize` and `NWBFile::createElectrodesTable` to add a new optional parameter `rowChunkSize` (default 100) to allow configuring the chunk size for the pre-defined columns.  (@oruebel, [#302](https://github.com/NeurodataWithoutBorders/aqnwb/pull/302))
 
 ### Fixed
