@@ -78,6 +78,62 @@ TEST_CASE("initialize", "[nwb]")
   io->close();  // close the io
 }
 
+TEST_CASE("createEventsTable", "[nwb]")
+{
+  std::string filename = getTestFilePath("createEventsTable.nwb");
+
+  // initialize nwbfile object and create base structure
+  std::shared_ptr<IO::HDF5::HDF5IO> io =
+      std::make_shared<IO::HDF5::HDF5IO>(filename);
+  io->open();
+  auto nwbfile = NWB::NWBFile::create(io);
+  nwbfile->initialize(generateUuid());
+
+  // create the Events Table
+  auto eventsTable = nwbfile->createEventsTable("test_events",
+                                                "test description",
+                                                "test source",
+                                                0.001f,
+                                                -1.0f,
+                                                true,
+                                                50);
+  REQUIRE(eventsTable != nullptr);
+  REQUIRE(eventsTable->getName() == "test_events");
+  REQUIRE(eventsTable->readDescription()->values().data[0]
+          == "test description");
+  REQUIRE(eventsTable->readSourceDescription()->values().data[0]
+          == "test source");
+  REQUIRE(eventsTable->readTimestampColumn()->readResolution()->values().data[0]
+          == Catch::Approx(0.001f));
+  REQUIRE(eventsTable->readDurationColumn()
+          == nullptr);  // duration column should not exist
+  REQUIRE(eventsTable->readAnnotationColumn()
+          != nullptr);  // annotation column should exist
+
+  // Write some data to the table
+  io->startRecording();
+
+  std::vector<float> timestamps = {1.0f, 2.0f, 3.0f};
+  std::vector<std::string> annotations = {"event1", "event2", "event3"};
+  std::vector<int> ids = {1, 2, 3};
+
+  SizeArray dataShape = {timestamps.size()};
+  SizeArray positionOffset = {0};
+
+  auto timestampColumn = eventsTable->readTimestampColumn();
+  timestampColumn->recordData()->writeDataBlock(
+      dataShape, positionOffset, BaseDataType::F32, timestamps.data());
+
+  auto annotationColumn = eventsTable->readAnnotationColumn();
+  annotationColumn->recordData()->writeDataBlock(
+      dataShape, positionOffset, BaseDataType::V_STR, annotations);
+
+  eventsTable->setRowIDs(ids);
+
+  io->stopRecording();
+  io->close();
+}
+
 TEST_CASE("createElectrodesTable", "[nwb]")
 {
   std::string filename = getTestFilePath("createElectrodesTable.nwb");
@@ -442,13 +498,13 @@ TEST_CASE("setCanModifyObjectsMode", "[nwb]")
   std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(1, 2);
   std::vector<std::string> mockChannelNames =
       getMockChannelArrayNames("esdata");
-  auto electrodesTable = nwbfile->createElectrodesTable(
-      mockArrays);  // create the Electrodes Table
-  REQUIRE(electrodesTable != nullptr);
-  std::vector<SizeType> containerIndices = {};
-  Status resultCreatePostStart = nwbfile->createElectricalSeries(
-      mockArrays, mockChannelNames, BaseDataType::F32, containerIndices);
-  REQUIRE(resultCreatePostStart == Status::Failure);
+  // create the Electrodes Table
+  // This will fail because we cannot modify objects after starting the
+  // recording
+  auto electrodesTable = nwbfile->createElectrodesTable(mockArrays);
+  REQUIRE(electrodesTable == nullptr);
+  // Because we done have and ElectrodesTable, we cannot create an
+  // ElectricalSeries either and that would fail even earlier.
 
   // stop recording
   io->stopRecording();

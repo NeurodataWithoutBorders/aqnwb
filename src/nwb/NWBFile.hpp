@@ -14,6 +14,7 @@
 #include "nwb/base/NWBContainer.hpp"
 #include "nwb/base/ProcessingModule.hpp"
 #include "nwb/base/TimeSeries.hpp"
+#include "nwb/event/EventsTable.hpp"
 #include "nwb/file/ElectrodesTable.hpp"
 #include "spec/core.hpp"
 
@@ -47,6 +48,8 @@ public:
   inline const static std::string GENERAL_PATH = "/general";
   /// @brief The path to the analysis group in the NWB file
   inline const static std::string ANALYSIS_PATH = "/analysis";
+  /// @brief The path to the root events group in the NWB file
+  inline const static std::string EVENTS_PATH = "/events";
 
   /** \brief Convenience factor method since the path is fixed to '/'
    * @param io A shared pointer to the IO object.
@@ -134,6 +137,59 @@ public:
       std::vector<Types::ChannelVector> recordingArrays,
       bool finalizeTable = true,
       const SizeType rowChunkSize = 100);
+
+  /**
+   * @brief Create an EventsTable in the EVENTS_PATH group.
+   * Note, this function will fail if the file is in a mode where
+   * new objects cannot be added, which can be checked via
+   * nwbfile.io->canModifyObjects()
+   * @param name The name of the EventsTable to create.
+   * @param description Description of the table.
+   * @param sourceDescription Optional short text description of where the
+   * events came from.
+   * @param timestampResolution The temporal resolution of the timestamps in
+   * seconds.
+   * @param durationResolution The temporal resolution of the optional duration
+   * column in seconds.
+   * @param createAnnotationColumn Whether to create the annotation column.
+   * @param rowChunkSize The chunk size for the rows of the table.
+   * @return The generated EventsTable or nullptr if failed.
+   */
+  std::shared_ptr<EventsTable> createEventsTable(
+      const std::string& name,
+      const std::string& description,
+      const std::string& sourceDescription = "",
+      float timestampResolution = 0.001f,
+      float durationResolution = -1.0f,
+      const bool createAnnotationColumn = false,
+      const SizeType rowChunkSize = 100);
+
+  /**
+   * @brief Create an EventsTable in the EVENTS_PATH group using a pre-built
+   * column spec list.
+   *
+   * This overload is useful when the caller has already constructed a column
+   * spec vector (e.g. via EventsTable::createDefaultDataSpecs() followed by
+   * push_back() calls to add custom columns) and wants to pass it directly
+   * instead of using the individual resolution/flag parameters.
+   *
+   * Note, this function will fail if the file is in a mode where
+   * new objects cannot be added, which can be checked via
+   * nwbfile.io->canModifyObjects()
+   * @param name The name of the EventsTable to create.
+   * @param description Description of the table.
+   * @param sourceDescription Optional short text description of where the
+   * events came from.
+   * @param columnSpecs Pre-built vector of column specs (e.g. from
+   * EventsTable::createDefaultDataSpecs() with additional custom specs
+   * appended).
+   * @return The generated EventsTable or nullptr if failed.
+   */
+  std::shared_ptr<EventsTable> createEventsTable(
+      const std::string& name,
+      const std::string& description,
+      const std::string& sourceDescription,
+      const std::vector<NWB::DynamicTable::DataSpecPtr>& columnSpecs);
 
   /**
    * @brief Create ElectricalSeries objects to record data into.

@@ -36,8 +36,10 @@ TEST_CASE("MeaningsTable", "[table]")
 
     // Create MeaningsTable
     auto table = NWB::MeaningsTable::create(tablePath, io);
+    auto specs =
+        NWB::MeaningsTable::createDefaultDataSpecs(BaseDataType::I32, 50);
     Status status = table->initialize(
-        *targetVectorData, BaseDataType::I32, "A test meanings table", 50);
+        *targetVectorData, BaseDataType::I32, "A test meanings table", specs);
     REQUIRE(status == Status::Success);
 
     // Finalize table to write attributes
@@ -86,7 +88,8 @@ TEST_CASE("MeaningsTable", "[table]")
 
     // Create MeaningsTable
     auto table = NWB::MeaningsTable::create(tablePath, io);
-    table->initialize(*targetVectorData, BaseDataType::I32);
+    auto specs = NWB::MeaningsTable::createDefaultDataSpecs(BaseDataType::I32);
+    table->initialize(*targetVectorData, BaseDataType::I32, "", specs);
 
     // Add data to the table
     std::vector<int> values = {1, 2, 3};
@@ -137,6 +140,52 @@ TEST_CASE("MeaningsTable", "[table]")
     REQUIRE(readMeaningCol != nullptr);
     auto readMeanings = readMeaningCol->readData()->values().data;
     REQUIRE(readMeanings == meanings);
+
+    io->close();
+  }
+
+  SECTION("test MeaningsTable validation")
+  {
+    std::string path = getTestFilePath("testMeaningsTableValidation.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    auto table = NWB::MeaningsTable::create(tablePath, io);
+
+    // 1. Valid specs (contain "id", "value", "meaning")
+    std::vector<NWB::DynamicTable::DataSpecPtr> validSpecs;
+    validSpecs.push_back(NWB::ElementIdentifiers::createDataSpec(
+        "id", IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10})));
+    validSpecs.push_back(NWB::VectorData::createDataSpec(
+        "value",
+        IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10}),
+        "value"));
+    validSpecs.push_back(NWB::VectorData::createDataSpec(
+        "meaning",
+        IO::ArrayDataSetConfig(IO::BaseDataType::V_STR, {0}, {10}),
+        "meaning"));
+    REQUIRE(table->validateDataSpecs(validSpecs) == Status::Success);
+
+    // 2. Invalid specs (missing "meaning")
+    std::vector<NWB::DynamicTable::DataSpecPtr> invalidSpecs = {
+        NWB::ElementIdentifiers::createDataSpec(
+            "id", IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10})),
+        NWB::VectorData::createDataSpec(
+            "value",
+            IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10}),
+            "value")};
+    REQUIRE(table->validateDataSpecs(invalidSpecs) == Status::Failure);
+
+    // 3. Test initialize with invalid specs throws std::invalid_argument
+    auto targetVectorData = NWB::VectorData::create(targetPath, io);
+    targetVectorData->initialize(
+        IO::ArrayDataSetConfig(BaseDataType::I32, {0}, {10}), "target");
+
+    REQUIRE_THROWS_AS(table->initialize(*targetVectorData,
+                                        BaseDataType::I32,
+                                        "Test Meanings",
+                                        invalidSpecs),
+                      std::invalid_argument);
 
     io->close();
   }

@@ -2,7 +2,7 @@
 
 #include "Utils.hpp"
 
-using namespace CORE;
+using namespace AQNWB::NWB;
 using namespace AQNWB::IO;
 
 // Initialize the static registered_ member to trigger registration
@@ -16,9 +16,9 @@ DurationVectorData::DurationVectorData(const std::string& path,
 }
 
 // Initialize the object
-Status DurationVectorData::initialize(float resolution,
+Status DurationVectorData::initialize(const AQNWB::IO::ArrayDataSetConfig& data,
                                       const std::string& description,
-                                      const AQNWB::IO::ArrayDataSetConfig& data)
+                                      float resolution)
 {
   Status initStatus = Status::Success;
 
@@ -48,4 +48,29 @@ Status DurationVectorData::initialize(float resolution,
   initStatus = initStatus && parentInitStatus && unitStatus && resolutionStatus;
   // Return the final status of the initialization process
   return initStatus;
+}
+
+Status DurationVectorData::DataSpec::initialize(Data& data) const
+{
+  auto* durationData = dynamic_cast<DurationVectorData*>(&data);
+  if (!durationData) {
+    std::cerr << "DurationVectorData::DataSpec::initialize received "
+                 "incompatible Data object"
+              << std::endl;
+    return Status::Failure;
+  }
+  return durationData->initialize(
+      static_cast<const AQNWB::IO::ArrayDataSetConfig&>(*this),
+      description,
+      resolution);
+}
+
+std::shared_ptr<DurationVectorData::DataSpec>
+DurationVectorData::createDataSpec(
+    const std::string& name,
+    const AQNWB::IO::ArrayDataSetConfig& dataConfig,
+    const std::string& description,
+    float resolution)
+{
+  return std::make_shared<DataSpec>(name, dataConfig, description, resolution);
 }
