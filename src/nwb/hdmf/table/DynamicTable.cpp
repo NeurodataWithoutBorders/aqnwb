@@ -137,15 +137,11 @@ Status DynamicTable::checkRequiredColumnNames(
   }
 
   for (const auto& reqName : requiredNames) {
-    bool found = false;
-    for (const auto& spec : dataSpecs) {
-      if (spec && spec->name == reqName) {
-        found = true;
-        break;
-      }
-    }
-
-    if (!found) {
+    if (!std::any_of(dataSpecs.begin(),
+                     dataSpecs.end(),
+                     [&reqName](const DataSpecPtr& spec)
+                     { return spec && spec->name == reqName; }))
+    {
       std::cerr << "DynamicTable::checkRequiredColumnNames: required column '"
                 << reqName << "' not found." << std::endl;
       return Status::Failure;
