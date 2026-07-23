@@ -165,6 +165,33 @@ public:
       const SizeType rowChunkSize = 100);
 
   /**
+   * @brief Create an EventsTable in the EVENTS_PATH group using a pre-built
+   * column spec list.
+   *
+   * This overload is useful when the caller has already constructed a column
+   * spec vector (e.g. via EventsTable::createDefaultDataSpecs() followed by
+   * push_back() calls to add custom columns) and wants to pass it directly
+   * instead of using the individual resolution/flag parameters.
+   *
+   * Note, this function will fail if the file is in a mode where
+   * new objects cannot be added, which can be checked via
+   * nwbfile.io->canModifyObjects()
+   * @param name The name of the EventsTable to create.
+   * @param description Description of the table.
+   * @param sourceDescription Optional short text description of where the
+   * events came from.
+   * @param columnSpecs Pre-built vector of column specs (e.g. from
+   * EventsTable::createDefaultDataSpecs() with additional custom specs
+   * appended).
+   * @return The generated EventsTable or nullptr if failed.
+   */
+  std::shared_ptr<EventsTable> createEventsTable(
+      const std::string& name,
+      const std::string& description,
+      const std::string& sourceDescription,
+      const std::vector<NWB::DynamicTable::DataSpecPtr>& columnSpecs);
+
+  /**
    * @brief Create ElectricalSeries objects to record data into.
    * Created objects are automatically added to the I/O's RecordingObjects.
    * Note, this function will fail if the file is in a mode where

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <string>
 
 #include "Utils.hpp"
@@ -15,6 +16,38 @@ namespace AQNWB::NWB
 class VectorData : public Data
 {
 public:
+  /**
+   * @brief Runtime configuration for creating and initializing a VectorData
+   * column.
+   */
+  struct DataSpec : public Data::DataSpec<VectorData>
+  {
+    DataSpec(const std::string& datasetName,
+             const IO::ArrayDataSetConfig& dataConfig,
+             const std::string& columnDescription)
+        : Data::DataSpec<VectorData>(datasetName, dataConfig)
+        , description(columnDescription)
+    {
+    }
+
+    virtual ~DataSpec() = default;
+
+    std::string description;
+
+    Status initialize(Data& data) const override
+    {
+      auto* vectorData = dynamic_cast<VectorData*>(&data);
+      if (!vectorData) {
+        std::cerr << "VectorData::DataSpec::initialize received incompatible "
+                     "Data object"
+                  << std::endl;
+        return Status::Failure;
+      }
+      return vectorData->initialize(
+          static_cast<const IO::ArrayDataSetConfig&>(*this), description);
+    }
+  };
+
   REGISTER_SUBCLASS(VectorData, Data, AQNWB::SPEC::HDMF_COMMON::namespaceName)
 
 protected:
@@ -62,6 +95,23 @@ public:
     }
 
     return vectorData;
+  }
+
+  /**
+   * @brief Create a ColumnSpec for configuring this type as a DynamicTable
+   * column.
+   *
+   * @param name The column name.
+   * @param dataConfig Dataset configuration for the column.
+   * @param description The column description attribute.
+   * @return Shared pointer to the ColumnSpec for this column type.
+   */
+  static std::shared_ptr<DataSpec> createDataSpec(
+      const std::string& name,
+      const IO::ArrayDataSetConfig& dataConfig,
+      const std::string& description)
+  {
+    return std::make_shared<DataSpec>(name, dataConfig, description);
   }
 
   /**

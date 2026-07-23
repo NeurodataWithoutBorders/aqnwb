@@ -24,6 +24,24 @@ namespace AQNWB::NWB
 class TimestampVectorData : public AQNWB::NWB::VectorData
 {
 public:
+  struct DataSpec : public Data::DataSpec<TimestampVectorData>
+  {
+    DataSpec(const std::string& datasetName,
+             const AQNWB::IO::ArrayDataSetConfig& dataConfig,
+             const std::string& columnDescription,
+             float columnResolution)
+        : Data::DataSpec<TimestampVectorData>(datasetName, dataConfig)
+        , description(columnDescription)
+        , resolution(columnResolution)
+    {
+    }
+
+    std::string description;
+    float resolution;
+
+    Status initialize(Data& data) const override;
+  };
+
   /**
    * @brief Constructor
    * @param path Path to the object in the file
@@ -49,6 +67,12 @@ public:
   Status initialize(const AQNWB::IO::ArrayDataSetConfig& data,
                     const std::string& description,
                     float resolution);
+
+  static std::shared_ptr<DataSpec> createDataSpec(
+      const std::string& name,
+      const AQNWB::IO::ArrayDataSetConfig& dataConfig,
+      const std::string& description,
+      float resolution);
 
   // Define read methods
   DEFINE_ATTRIBUTE_FIELD(

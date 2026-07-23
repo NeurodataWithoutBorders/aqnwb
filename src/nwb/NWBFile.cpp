@@ -225,8 +225,9 @@ std::shared_ptr<ElectrodesTable> NWBFile::createElectrodesTable(
     return nullptr;
   }
 
+  auto specs = ElectrodesTable::createDefaultDataSpecs(rowChunkSize);
   Status initStatus = electrodeTable->initialize(
-      "metadata about extracellular electrodes", rowChunkSize);
+      "metadata about extracellular electrodes", specs);
   if (initStatus != Status::Success) {
     std::cerr << "NWBFile::createElectrodesTable failed to initialize "
                  "ElectrodesTable."
@@ -301,12 +302,52 @@ std::shared_ptr<EventsTable> NWBFile::createEventsTable(
     return nullptr;
   }
 
-  Status initStatus = eventsTable->initialize(description,
-                                              sourceDescription,
-                                              timestampResolution,
-                                              durationResolution,
-                                              createAnnotationColumn,
-                                              rowChunkSize);
+  auto specs = EventsTable::createDefaultDataSpecs(timestampResolution,
+                                                   durationResolution,
+                                                   createAnnotationColumn,
+                                                   rowChunkSize);
+  Status initStatus =
+      eventsTable->initialize(description, sourceDescription, specs);
+
+  if (initStatus != Status::Success) {
+    std::cerr << "NWBFile::createEventsTable failed to initialize EventsTable."
+              << std::endl;
+    return nullptr;
+  }
+
+  return eventsTable;
+}
+
+std::shared_ptr<EventsTable> NWBFile::createEventsTable(
+    const std::string& name,
+    const std::string& description,
+    const std::string& sourceDescription,
+    const std::vector<NWB::DynamicTable::DataSpecPtr>& columnSpecs)
+{
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    std::cerr << "NWBFile::createEventsTable IO object has been deleted."
+              << std::endl;
+    return nullptr;
+  }
+
+  if (!ioPtr->canModifyObjects()) {
+    std::cerr << "NWBFile::createEventsTable IO object cannot modify objects."
+              << std::endl;
+    return nullptr;
+  }
+
+  std::string tablePath = AQNWB::mergePaths(NWBFile::EVENTS_PATH, name);
+  auto eventsTable = NWB::EventsTable::create(tablePath, ioPtr);
+  if (!eventsTable) {
+    std::cerr
+        << "NWBFile::createEventsTable failed to create EventsTable object."
+        << std::endl;
+    return nullptr;
+  }
+
+  Status initStatus =
+      eventsTable->initialize(description, sourceDescription, columnSpecs);
 
   if (initStatus != Status::Success) {
     std::cerr << "NWBFile::createEventsTable failed to initialize EventsTable."

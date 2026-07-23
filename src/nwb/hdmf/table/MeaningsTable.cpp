@@ -17,11 +17,40 @@ MeaningsTable::MeaningsTable(const std::string& path,
 {
 }
 
+Status MeaningsTable::validateDataSpecs(
+    const std::vector<DataSpecPtr>& dataSpecs) const
+{
+  return checkRequiredColumnNames({"id", "value", "meaning"}, dataSpecs);
+}
+
+std::vector<DynamicTable::DataSpecPtr> MeaningsTable::createDefaultDataSpecs(
+    const AQNWB::IO::BaseDataType& valueDataType, const SizeType rowChunkSize)
+{
+  std::vector<DataSpecPtr> specs =
+      DynamicTable::createDefaultDataSpecs(rowChunkSize);
+
+  IO::ArrayDataSetConfig valueConfig(
+      valueDataType, SizeArray {0}, SizeArray {rowChunkSize});
+  specs.push_back(std::make_shared<VectorData::DataSpec>(
+      "value",
+      valueConfig,
+      "The value of a row in the linked VectorData object."));
+
+  IO::ArrayDataSetConfig meaningConfig(
+      IO::BaseDataType::V_STR, SizeArray {0}, SizeArray {rowChunkSize});
+  specs.push_back(std::make_shared<VectorData::DataSpec>(
+      "meaning",
+      meaningConfig,
+      "The meaning of the value in the linked VectorData object."));
+
+  return specs;
+}
+
 // Initialize the object
 Status MeaningsTable::initialize(const VectorData& targetVectorData,
                                  const AQNWB::IO::BaseDataType& valueDataType,
                                  const std::string& description,
-                                 const SizeType rowChunkSize)
+                                 const std::vector<DataSpecPtr>& columnSpecs)
 {
   Status initStatus = Status::Success;
 
@@ -32,43 +61,24 @@ Status MeaningsTable::initialize(const VectorData& targetVectorData,
               << m_path << std::endl;
     return Status::Failure;
   }
-  if (rowChunkSize == 0) {
-    std::cerr << "MeaningsTable::initialize rowChunkSize must be > 0."
-              << std::endl;
-    return Status::Failure;
+
+  std::vector<DataSpecPtr> specsToUse = columnSpecs;
+  if (specsToUse.empty()) {
+    specsToUse = createDefaultDataSpecs(valueDataType);
   }
+
   // Call parent initialize method. This initializes the DynamicTable and
   // creates the description attribute. Column names are written by
   // DynamicTable::finalize(). ElementIdentifiers ids are set in the
   // constructor.
-  Status parentInitStatus = DynamicTable::initialize(description, rowChunkSize);
+  Status parentInitStatus = DynamicTable::initialize(description, specsToUse);
   initStatus = initStatus && parentInitStatus;
-
-  // Initialize value VectorData dataset
-  auto valuePath = AQNWB::mergePaths(m_path, "value");
-  IO::ArrayDataSetConfig valueConfig(
-      valueDataType, SizeArray {0}, SizeArray {rowChunkSize});
-  auto valuesColumn = VectorData::create(valuePath, ioPtr);
-  Status valueStatus = valuesColumn->initialize(
-      valueConfig, "The value of a row in the linked VectorData object.");
-  Status addValueColumnStatus = addColumn(valuesColumn);
-
-  // Initialize meaning VectorData dataset
-  auto meaningPath = AQNWB::mergePaths(m_path, "meaning");
-  IO::ArrayDataSetConfig meaningConfig(
-      IO::BaseDataType::V_STR, SizeArray {0}, SizeArray {rowChunkSize});
-  auto meaningColumn = VectorDataTyped<std::string>::create(meaningPath, ioPtr);
-  Status meaningStatus = meaningColumn->initialize(
-      meaningConfig,
-      "The meaning of the value in the linked VectorData object.");
-  Status addMeaningColumnStatus = addColumn(meaningColumn);
 
   // Set the target VectorData reference as an attribute
   Status targetStatus = ioPtr->createReferenceAttribute(
       targetVectorData.getPath(), m_path, "target");
 
   // Update the overall status and return the final status
-  initStatus = initStatus && valueStatus && addValueColumnStatus
-      && meaningStatus && addMeaningColumnStatus && targetStatus;
+  initStatus = initStatus && targetStatus;
   return initStatus;
 }
