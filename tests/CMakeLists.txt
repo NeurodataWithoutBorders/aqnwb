@@ -15,14 +15,18 @@ add_executable(aqnwb_test
     testBaseIO.cpp
     testChannel.cpp
     testData.cpp
+    testDurationVectorData.cpp
     testDevice.cpp
     testDynamicTable.cpp
+    testDynamicTableForwardDeclaredMeanings.cpp
     testEcephys.cpp
     testElementIdentifiers.cpp
+    testEventsTable.cpp
     testFile.cpp
     testHDF5IO.cpp
     testHDF5ArrayDataSetConfig.cpp
     testHDF5RecordingData.cpp
+    testMeaningsTable.cpp
     testMisc.cpp
     testNamespaceRegistry.cpp
     testNWBFile.cpp
@@ -32,12 +36,14 @@ add_executable(aqnwb_test
     testRecordingObjects.cpp
     testRegisteredType.cpp
     testTimeSeries.cpp
+    testTimestampVectorData.cpp
     testTypes.cpp
     testUtilsFunctions.cpp
     testVectorData.cpp
     examples/test_HDF5IO_examples.cpp
     examples/test_example.cpp
     examples/testWorkflowExamples.cpp
+    examples/testEventsWorkflowExamples.cpp
     examples/test_ecephys_data_read.cpp
     examples/test_link_timeseries_example.cpp
     examples/test_RegisteredType_example.cpp

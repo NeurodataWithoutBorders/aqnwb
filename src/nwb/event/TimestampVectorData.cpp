@@ -1,0 +1,74 @@
+#include "TimestampVectorData.hpp"
+
+#include "Utils.hpp"
+
+using namespace AQNWB::NWB;
+using namespace AQNWB::IO;
+
+// Initialize the static registered_ member to trigger registration
+REGISTER_SUBCLASS_IMPL(TimestampVectorData)
+
+// Constructor
+TimestampVectorData::TimestampVectorData(const std::string& path,
+                                         std::shared_ptr<AQNWB::IO::BaseIO> io)
+    : VectorData(path, io)
+{
+}
+
+// Initialize the object
+Status TimestampVectorData::initialize(
+    const AQNWB::IO::ArrayDataSetConfig& data,
+    const std::string& description,
+    float resolution)
+{
+  Status initStatus = Status::Success;
+
+  // Retrieve the IO object
+  auto ioPtr = getIO();
+  if (ioPtr == nullptr) {
+    std::cerr
+        << "IO object has been deleted. Can't initialize TimestampVectorData: "
+        << m_path << std::endl;
+    return Status::Failure;
+  }
+
+  // Call parent initialize method, which initializes the description attribute
+  // and the data dataset.
+  Status parentInitStatus = VectorData::initialize(data, description);
+  // Initialize attributes, datasets, and groups
+  // Initialize unit attribute with fixed value const std::string& "seconds"
+  const std::string& unit = "seconds";
+  Status unitStatus = ioPtr->createAttribute(unit, m_path, "unit");
+  // Initialize resolution attribute
+  Status resolutionStatus = ioPtr->createAttribute(
+      AQNWB::IO::BaseDataType::F32, &resolution, m_path, "resolution");
+  // Update the status to reflect the success or failure of the initialization
+  initStatus = initStatus && parentInitStatus && unitStatus && resolutionStatus;
+  // Return the final status of the initialization process
+  return initStatus;
+}
+
+Status TimestampVectorData::DataSpec::initialize(Data& data) const
+{
+  auto* timestampData = dynamic_cast<TimestampVectorData*>(&data);
+  if (!timestampData) {
+    std::cerr << "TimestampVectorData::DataSpec::initialize received "
+                 "incompatible Data object"
+              << std::endl;
+    return Status::Failure;
+  }
+  return timestampData->initialize(
+      static_cast<const AQNWB::IO::ArrayDataSetConfig&>(*this),
+      description,
+      resolution);
+}
+
+std::shared_ptr<TimestampVectorData::DataSpec>
+TimestampVectorData::createDataSpec(
+    const std::string& name,
+    const AQNWB::IO::ArrayDataSetConfig& dataConfig,
+    const std::string& description,
+    float resolution)
+{
+  return std::make_shared<DataSpec>(name, dataConfig, description, resolution);
+}

@@ -44,7 +44,7 @@ TEST_CASE("ElectrodesTable", "[ecephys]")
     // Confirm that the column names are created correctly
     auto readColNames = electrodeTable->readColNames()->values().data;
     std::vector<std::string> expectedColNames = {
-        "location", "group", "group_name"};
+        "location", "group_name", "group"};
     REQUIRE(readColNames == expectedColNames);
 
     // Check if id datasets are created correctly
@@ -117,6 +117,45 @@ TEST_CASE("ElectrodesTable", "[ecephys]")
     auto electrodeTable = NWB::ElectrodesTable::create(io);
     electrodeTable->initialize();
     electrodeTable->finalize();
+    io->close();
+  }
+
+  SECTION("test ElectrodesTable validation")
+  {
+    std::string filename = getTestFilePath("electrodeTableValidation.h5");
+    std::shared_ptr<BaseIO> io = std::make_unique<IO::HDF5::HDF5IO>(filename);
+    io->open();
+
+    auto electrodeTable = NWB::ElectrodesTable::create(io);
+
+    // 1. Valid specs (contain "id", "location", "group_name")
+    std::vector<NWB::DynamicTable::DataSpecPtr> validSpecs;
+    validSpecs.push_back(NWB::ElementIdentifiers::createDataSpec(
+        "id", IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10})));
+    validSpecs.push_back(NWB::VectorData::createDataSpec(
+        "location",
+        IO::ArrayDataSetConfig(IO::BaseDataType::V_STR, {0}, {10}),
+        "location"));
+    validSpecs.push_back(NWB::VectorData::createDataSpec(
+        "group_name",
+        IO::ArrayDataSetConfig(IO::BaseDataType::V_STR, {0}, {10}),
+        "group_name"));
+    REQUIRE(electrodeTable->validateDataSpecs(validSpecs) == Status::Success);
+
+    // 2. Invalid specs (missing "group_name")
+    std::vector<NWB::DynamicTable::DataSpecPtr> invalidSpecs = {
+        NWB::ElementIdentifiers::createDataSpec(
+            "id", IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10})),
+        NWB::VectorData::createDataSpec(
+            "location",
+            IO::ArrayDataSetConfig(IO::BaseDataType::V_STR, {0}, {10}),
+            "location")};
+    REQUIRE(electrodeTable->validateDataSpecs(invalidSpecs) == Status::Failure);
+
+    // 3. Test initialize with invalid specs throws std::invalid_argument
+    REQUIRE_THROWS_AS(electrodeTable->initialize("Test Table", invalidSpecs),
+                      std::invalid_argument);
+
     io->close();
   }
 
