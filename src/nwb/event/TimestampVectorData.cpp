@@ -2,7 +2,7 @@
 
 #include "Utils.hpp"
 
-using namespace CORE;
+using namespace AQNWB::NWB;
 using namespace AQNWB::IO;
 
 // Initialize the static registered_ member to trigger registration
@@ -17,9 +17,9 @@ TimestampVectorData::TimestampVectorData(const std::string& path,
 
 // Initialize the object
 Status TimestampVectorData::initialize(
-    float resolution,
+    const AQNWB::IO::ArrayDataSetConfig& data,
     const std::string& description,
-    const AQNWB::IO::ArrayDataSetConfig& data)
+    float resolution)
 {
   Status initStatus = Status::Success;
 
@@ -46,4 +46,29 @@ Status TimestampVectorData::initialize(
   initStatus = initStatus && parentInitStatus && unitStatus && resolutionStatus;
   // Return the final status of the initialization process
   return initStatus;
+}
+
+Status TimestampVectorData::DataSpec::initialize(Data& data) const
+{
+  auto* timestampData = dynamic_cast<TimestampVectorData*>(&data);
+  if (!timestampData) {
+    std::cerr << "TimestampVectorData::DataSpec::initialize received "
+                 "incompatible Data object"
+              << std::endl;
+    return Status::Failure;
+  }
+  return timestampData->initialize(
+      static_cast<const AQNWB::IO::ArrayDataSetConfig&>(*this),
+      description,
+      resolution);
+}
+
+std::shared_ptr<TimestampVectorData::DataSpec>
+TimestampVectorData::createDataSpec(
+    const std::string& name,
+    const AQNWB::IO::ArrayDataSetConfig& dataConfig,
+    const std::string& description,
+    float resolution)
+{
+  return std::make_shared<DataSpec>(name, dataConfig, description, resolution);
 }

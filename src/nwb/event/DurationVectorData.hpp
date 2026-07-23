@@ -14,7 +14,7 @@
 // Include for the namespace schema header
 #include "spec/core.hpp"
 
-namespace CORE
+namespace AQNWB::NWB
 {
 
 /**
@@ -23,6 +23,24 @@ namespace CORE
 class DurationVectorData : public AQNWB::NWB::VectorData
 {
 public:
+  struct DataSpec : public Data::DataSpec<DurationVectorData>
+  {
+    DataSpec(const std::string& datasetName,
+             const AQNWB::IO::ArrayDataSetConfig& dataConfig,
+             const std::string& columnDescription,
+             float columnResolution)
+        : Data::DataSpec<DurationVectorData>(datasetName, dataConfig)
+        , description(columnDescription)
+        , resolution(columnResolution)
+    {
+    }
+
+    std::string description;
+    float resolution;
+
+    Status initialize(Data& data) const override;
+  };
+
   /**
    * @brief Constructor
    * @param path Path to the object in the file
@@ -39,10 +57,22 @@ public:
   // TODO: Update the initialize method as appropriate.
   /**
    * @brief Initialize the object
+   * @param data The configuration for the dataset
+   * @param description Description of the dataset
+   * @param resolution The temporal resolution of the timestamps - in seconds.
+   * This is typically the sampling period (1 / sampling_rate), also known as
+   * the clock period, of the data acquisition system from which the timestamps
+   * were recorded or derived.
    */
-  Status initialize(float resolution,
+  Status initialize(const AQNWB::IO::ArrayDataSetConfig& data,
                     const std::string& description,
-                    const AQNWB::IO::ArrayDataSetConfig& data);
+                    float resolution);
+
+  static std::shared_ptr<DataSpec> createDataSpec(
+      const std::string& name,
+      const AQNWB::IO::ArrayDataSetConfig& dataConfig,
+      const std::string& description,
+      float resolution);
 
   // Define read methods
   DEFINE_ATTRIBUTE_FIELD(
@@ -72,4 +102,4 @@ public:
                     AQNWB::SPEC::CORE::namespaceName)
 };
 
-}  // namespace CORE
+}  // namespace AQNWB::NWB

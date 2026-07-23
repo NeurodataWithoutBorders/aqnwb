@@ -16,6 +16,88 @@ namespace AQNWB::NWB
 class Data : public RegisteredType
 {
 public:
+  /**
+   * @brief Non-templated base class for runtime Data configuration.
+   *
+   * DynamicTable needs to store a heterogeneous list of specs for different
+   * Data subclasses (e.g., ElementIdentifiers, VectorData,
+   * TimestampVectorData). This non-templated base provides a common storage
+   * type while still allowing derived typed specs to implement concrete object
+   * creation.
+   */
+  struct DataSpecBase : public IO::ArrayDataSetConfig
+  {
+    /**
+     * @brief Construct the DataSpecBase.
+     * @param datasetName The dataset name relative to the owning
+     * table/container.
+     * @param dataConfig Dataset configuration for the object to create.
+     */
+    DataSpecBase(const std::string& datasetName,
+                 const IO::ArrayDataSetConfig& dataConfig)
+        : IO::ArrayDataSetConfig(dataConfig)
+        , name(datasetName)
+    {
+    }
+
+    virtual ~DataSpecBase() = default;
+
+    /**
+     * @brief Create the concrete Data object represented by this spec.
+     * @param path Full path of the dataset to create.
+     * @param io The IO object to associate with the created instance.
+     * @return The created concrete Data object.
+     */
+    virtual std::shared_ptr<Data> create(
+        const std::string& path, std::shared_ptr<IO::BaseIO> io) const = 0;
+
+    /**
+     * @brief Initialize the created concrete Data object from this spec.
+     * @param data The object to initialize.
+     * @return Status::Success if successful, otherwise Status::Failure.
+     */
+    virtual Status initialize(Data& data) const = 0;
+
+    /// @brief Dataset name relative to the owning table/container.
+    std::string name;
+  };
+
+  /**
+   * @brief Typed runtime configuration for a concrete Data subclass.
+   *
+   * The template parameter DataT supplies the `create(path, io)` factory used
+   * to instantiate the correct concrete subclass from the stored runtime spec.
+   *
+   * @tparam DataT Concrete subclass of Data represented by this spec.
+   */
+  template<typename DataT>
+  struct DataSpec : public DataSpecBase
+  {
+    /**
+     * @brief Construct the typed DataSpec.
+     * @param datasetName The dataset name relative to the owning
+     * table/container.
+     * @param dataConfig Dataset configuration for the object to create.
+     */
+    DataSpec(const std::string& datasetName,
+             const IO::ArrayDataSetConfig& dataConfig)
+        : DataSpecBase(datasetName, dataConfig)
+    {
+    }
+
+    /**
+     * @brief Create the concrete Data object represented by this typed spec.
+     * @param path Full path of the dataset to create.
+     * @param io The IO object to associate with the created instance.
+     * @return The created concrete Data object.
+     */
+    std::shared_ptr<Data> create(const std::string& path,
+                                 std::shared_ptr<IO::BaseIO> io) const override
+    {
+      return DataT::create(path, io);
+    }
+  };
+
   // Register the Data class with the type registry
   REGISTER_SUBCLASS(Data, RegisteredType, "hdmf-common")
 
