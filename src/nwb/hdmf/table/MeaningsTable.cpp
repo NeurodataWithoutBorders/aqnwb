@@ -74,10 +74,9 @@ Status MeaningsTable::initialize(const VectorData& targetVectorData,
   Status parentInitStatus = DynamicTable::initialize(description, specsToUse);
   initStatus = initStatus && parentInitStatus;
 
-  // Set the target VectorData reference
-  auto targetPath = AQNWB::mergePaths(m_path, "target");
-  Status targetStatus =
-      ioPtr->createLink(targetPath, targetVectorData.getPath());
+  // Set the target VectorData reference as an attribute
+  Status targetStatus = ioPtr->createReferenceAttribute(
+      targetVectorData.getPath(), m_path, "target");
 
   // Update the overall status and return the final status
   initStatus = initStatus && targetStatus;
