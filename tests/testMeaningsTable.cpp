@@ -63,10 +63,10 @@ TEST_CASE("MeaningsTable", "[table]")
     REQUIRE(meaningChunking.size() == 1);
     REQUIRE(meaningChunking[0] == 50);
 
-    // Test target link
-    REQUIRE(io->objectExists(tablePath + "/target"));
+    // Test target reference attribute
+    REQUIRE(io->attributeExists(tablePath + "/target"));
     REQUIRE(io->getStorageObjectType(tablePath + "/target")
-            == StorageObjectType::Dataset);
+            == StorageObjectType::Attribute);
 
     io->close();
   }
