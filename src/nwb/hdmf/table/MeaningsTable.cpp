@@ -63,10 +63,9 @@ Status MeaningsTable::initialize(const VectorData& targetVectorData,
       "The meaning of the value in the linked VectorData object.");
   Status addMeaningColumnStatus = addColumn(meaningColumn);
 
-  // Set the target VectorData reference
-  auto targetPath = AQNWB::mergePaths(m_path, "target");
-  Status targetStatus =
-      ioPtr->createLink(targetPath, targetVectorData.getPath());
+  // Set the target VectorData reference as an attribute
+  Status targetStatus = ioPtr->createReferenceAttribute(
+      targetVectorData.getPath(), m_path, "target");
 
   // Update the overall status and return the final status
   initStatus = initStatus && valueStatus && addValueColumnStatus
