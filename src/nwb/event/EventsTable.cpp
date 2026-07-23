@@ -19,6 +19,12 @@ EventsTable::EventsTable(const std::string& path,
 {
 }
 
+Status EventsTable::validateDataSpecs(
+    const std::vector<DataSpecPtr>& dataSpecs) const
+{
+  return checkRequiredColumnNames({"id", "timestamp"}, dataSpecs);
+}
+
 std::vector<DynamicTable::DataSpecPtr> EventsTable::createDefaultDataSpecs(
     float timestampResolution,
     float durationResolution,

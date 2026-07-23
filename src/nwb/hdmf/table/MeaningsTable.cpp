@@ -17,6 +17,12 @@ MeaningsTable::MeaningsTable(const std::string& path,
 {
 }
 
+Status MeaningsTable::validateDataSpecs(
+    const std::vector<DataSpecPtr>& dataSpecs) const
+{
+  return checkRequiredColumnNames({"id", "value", "meaning"}, dataSpecs);
+}
+
 std::vector<DynamicTable::DataSpecPtr> MeaningsTable::createDefaultDataSpecs(
     const AQNWB::IO::BaseDataType& valueDataType, const SizeType rowChunkSize)
 {

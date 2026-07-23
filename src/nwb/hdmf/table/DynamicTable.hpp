@@ -63,9 +63,25 @@ public:
    * @param dataSpecs Optional ordered configuration for the data objects to
    *        create. If empty, only the default id column is created.
    * @return Status::Success if successful, otherwise Status::Failure.
+   * @throw std::invalid_argument if the provided dataSpecs are invalid.
+   *
    */
   Status initialize(const std::string& description,
                     const std::vector<DataSpecPtr>& dataSpecs = {});
+
+  /**
+   * @brief Validates the provided data specifications for the table.
+   *
+   * This method checks whether the provided data specifications are valid
+   * for the current table type. It can be called during initialization or
+   * separately by the user to validate a proposed schema.
+   *
+   * @param dataSpecs The data specifications to validate.
+   * @return Status::Success if the specifications are valid, otherwise
+   * Status::Failure.
+   */
+  virtual Status validateDataSpecs(
+      const std::vector<DataSpecPtr>& dataSpecs) const;
 
   /**
    * @brief Create the default data specs for a DynamicTable.
@@ -371,6 +387,19 @@ protected:
   Status ensureConfiguredColumnsLoaded();
 
   Status loadConfiguredColumnsFromFile();
+
+  /**
+   * @brief Helper method to check if all required column names are present in
+   * the data specifications.
+   *
+   * @param requiredNames The list of required column names.
+   * @param dataSpecs The data specifications to check against.
+   * @return Status::Success if all required names are present, otherwise
+   * Status::Failure.
+   */
+  Status checkRequiredColumnNames(
+      const std::vector<std::string>& requiredNames,
+      const std::vector<DataSpecPtr>& dataSpecs) const;
   /**
    * @brief Write a buffer of data to a configured column.
    *

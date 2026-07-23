@@ -157,4 +157,35 @@ TEST_CASE("EventsTable", "[event]")
     Status initStatus = eventsTable->initialize("Missing IO", "", specs);
     REQUIRE(initStatus == Status::Failure);
   }
+
+  SECTION("test EventsTable validation")
+  {
+    std::string path = getTestFilePath("testEventsTableValidation.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    auto eventsTable = AQNWB::NWB::EventsTable::create("/events", io);
+
+    // 1. Valid specs (contain "id" and "timestamp")
+    std::vector<NWB::DynamicTable::DataSpecPtr> validSpecs;
+    validSpecs.push_back(NWB::ElementIdentifiers::createDataSpec(
+        "id", IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10})));
+    validSpecs.push_back(NWB::VectorData::createDataSpec(
+        "timestamp",
+        IO::ArrayDataSetConfig(IO::BaseDataType::F32, {0}, {10}),
+        "timestamp"));
+    REQUIRE(eventsTable->validateDataSpecs(validSpecs) == Status::Success);
+
+    // 2. Invalid specs (missing "timestamp")
+    std::vector<NWB::DynamicTable::DataSpecPtr> invalidSpecs = {
+        NWB::ElementIdentifiers::createDataSpec(
+            "id", IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10}))};
+    REQUIRE(eventsTable->validateDataSpecs(invalidSpecs) == Status::Failure);
+
+    // 3. Test initialize with invalid specs throws std::invalid_argument
+    REQUIRE_THROWS_AS(eventsTable->initialize("Test Events", "", invalidSpecs),
+                      std::invalid_argument);
+
+    io->close();
+  }
 }

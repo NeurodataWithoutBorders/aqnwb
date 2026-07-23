@@ -220,6 +220,39 @@ TEST_CASE("DynamicTable", "[table]")
     io->close();
   }
 
+  SECTION("test DynamicTable validation")
+  {
+    std::string path = getTestFilePath("testDynamicTableValidation.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    auto table = NWB::DynamicTable::create(tablePath, io);
+
+    // 1. Valid specs (contain "id")
+    std::vector<NWB::DynamicTable::DataSpecPtr> validSpecs = {
+        NWB::ElementIdentifiers::createDataSpec(
+            "id", IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10}))};
+    REQUIRE(table->validateDataSpecs(validSpecs) == Status::Success);
+
+    // 2. Invalid specs (missing "id")
+    std::vector<NWB::DynamicTable::DataSpecPtr> invalidSpecs = {
+        NWB::VectorData::createDataSpec(
+            "col1",
+            IO::ArrayDataSetConfig(IO::BaseDataType::F32, {0}, {10}),
+            "column 1")};
+    REQUIRE(table->validateDataSpecs(invalidSpecs) == Status::Failure);
+
+    // 3. Empty specs (should fail as "id" is missing)
+    std::vector<NWB::DynamicTable::DataSpecPtr> emptySpecs;
+    REQUIRE(table->validateDataSpecs(emptySpecs) == Status::Failure);
+
+    // 4. Test initialize with invalid specs throws std::invalid_argument
+    REQUIRE_THROWS_AS(table->initialize("Test Table", invalidSpecs),
+                      std::invalid_argument);
+
+    io->close();
+  }
+
   // This test section tests support for derived types of VectorData as columns
   // in DynamicTable, specifically TimestampVectorData and DurationVectorData.
   // It creates a DynamicTable with these columns, writes data to them, and then

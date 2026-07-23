@@ -59,6 +59,15 @@ public:
    * @param rowChunkSize The chunk size for the rows of the table.
    * @return A vector of DataSpecPtr containing the default specs.
    */
+  /**
+   * @brief Validates the provided data specifications for the EventsTable.
+   * @param dataSpecs The data specifications to validate.
+   * @return Status::Success if the specifications are valid, otherwise
+   * Status::Failure.
+   */
+  Status validateDataSpecs(
+      const std::vector<DataSpecPtr>& dataSpecs) const override;
+
   static std::vector<DataSpecPtr> createDefaultDataSpecs(
       float timestampResolution,
       float durationResolution = -1.0f,

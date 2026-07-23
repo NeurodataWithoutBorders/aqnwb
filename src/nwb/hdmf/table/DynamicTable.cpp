@@ -108,8 +108,51 @@ Status DynamicTable::initialize(const std::string& description,
 
   const auto effectiveSpecs =
       dataSpecs.empty() ? createDefaultDataSpecs() : dataSpecs;
+
+  Status validationStatus = validateDataSpecs(effectiveSpecs);
+  if (validationStatus != Status::Success) {
+    throw std::invalid_argument(
+        "DynamicTable::initialize: provided dataSpecs are invalid.");
+  }
+
   Status configureStatus = configureDataObjects(effectiveSpecs);
   return containerStatus && configureStatus;
+}
+
+Status DynamicTable::validateDataSpecs(
+    const std::vector<DataSpecPtr>& dataSpecs) const
+{
+  return checkRequiredColumnNames({"id"}, dataSpecs);
+}
+
+Status DynamicTable::checkRequiredColumnNames(
+    const std::vector<std::string>& requiredNames,
+    const std::vector<DataSpecPtr>& dataSpecs) const
+{
+  if (dataSpecs.empty()) {
+    std::cerr
+        << "DynamicTable::checkRequiredColumnNames: dataSpecs vector is empty."
+        << std::endl;
+    return Status::Failure;
+  }
+
+  for (const auto& reqName : requiredNames) {
+    bool found = false;
+    for (const auto& spec : dataSpecs) {
+      if (spec && spec->name == reqName) {
+        found = true;
+        break;
+      }
+    }
+
+    if (!found) {
+      std::cerr << "DynamicTable::checkRequiredColumnNames: required column '"
+                << reqName << "' not found." << std::endl;
+      return Status::Failure;
+    }
+  }
+
+  return Status::Success;
 }
 
 std::vector<DynamicTable::DataSpecPtr> DynamicTable::createDefaultDataSpecs(

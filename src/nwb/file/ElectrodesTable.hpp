@@ -13,7 +13,7 @@ namespace AQNWB::NWB
 /**
  * @brief Represents a table containing electrode metadata.
  */
-class ElectrodesTable : public DynamicTable
+class ElectrodesTable : public AQNWB::NWB::DynamicTable
 {
 public:
   // Register the ElectrodesTable as a subclass of Container
@@ -49,6 +49,15 @@ public:
    * @brief Destructor.
    */
   ~ElectrodesTable() override;
+
+  /**
+   * @brief Validates the provided data specifications for the ElectrodesTable.
+   * @param dataSpecs The data specifications to validate.
+   * @return Status::Success if the specifications are valid, otherwise
+   * Status::Failure.
+   */
+  Status validateDataSpecs(
+      const std::vector<DataSpecPtr>& dataSpecs) const override;
 
   /**
    * @brief Creates the default data specs for the ElectrodesTable.

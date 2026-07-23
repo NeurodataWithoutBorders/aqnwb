@@ -49,6 +49,15 @@ public:
   virtual ~MeaningsTable() override {}
 
   /**
+   * @brief Validates the provided data specifications for the MeaningsTable.
+   * @param dataSpecs The data specifications to validate.
+   * @return Status::Success if the specifications are valid, otherwise
+   * Status::Failure.
+   */
+  Status validateDataSpecs(
+      const std::vector<DataSpecPtr>& dataSpecs) const override;
+
+  /**
    * @brief Creates the default data specs for the MeaningsTable.
    * @param valueDataType The data type of the 'value' column in the
    * MeaningsTable.
