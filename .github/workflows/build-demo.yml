@@ -65,7 +65,7 @@ jobs:
       uses: conda-incubator/setup-miniconda@v3
       with:
         activate-environment: aqnwb-demo
-        environment-file: demo/ros3_benchmark/conda-env.yml 
+        environment-file: demo/remote_read_benchmark/conda-env.yml 
       if: matrix.os == 'ubuntu-latest'
 
     - name: Build the inspect_electrical_series demo - ubuntu
@@ -94,29 +94,29 @@ jobs:
         cd demo/labmetadata_extension_demo/build/bin
         ./labmetadata_extension_demo
 
-    - name: Build the ros3_benchmark demo - ubuntu
+    - name: Build the remote_read_benchmark demo - ubuntu
       if: matrix.os == 'ubuntu-latest'
       run: |
-        cd demo/ros3_benchmark
+        cd demo/remote_read_benchmark
         cmake -B build -S . -DCMAKE_PREFIX_PATH="${{ github.workspace }}/install"
         cmake --build build --config Release -j 2
 
-    - name: Run the ros3_benchmark demo - ubuntu
+    - name: Run the remote_read_benchmark demo - ubuntu
       if: matrix.os == 'ubuntu-latest'
       run: |
-        cd demo/ros3_benchmark/build/bin
-        ./ros3_benchmark \
+        cd demo/remote_read_benchmark/build/bin
+        ./remote_read_benchmark \
             "https://dandiarchive.s3.amazonaws.com/blobs/fec/8a6/fec8a690-2ece-4437-8877-8a002ff8bd8a" \
             "us-east-2" \
             "ElectricalSeriesAp" \
             "0,0" \
             "10,1"
 
-    - name: Run the ros3_benchmark demo with the remfile driver - ubuntu
+    - name: Run the remote_read_benchmark demo with the remfile driver - ubuntu
       if: matrix.os == 'ubuntu-latest'
       run: |
-        cd demo/ros3_benchmark/build/bin
-        ./ros3_benchmark \
+        cd demo/remote_read_benchmark/build/bin
+        ./remote_read_benchmark \
             "https://dandiarchive.s3.amazonaws.com/blobs/fec/8a6/fec8a690-2ece-4437-8877-8a002ff8bd8a" \
             "us-east-2" \
             "ElectricalSeriesAp" \
@@ -124,20 +124,20 @@ jobs:
             "10,1" \
             remfile
 
-    - name: Run the ros3_benchmark Python benchmark (ROS3) - ubuntu
+    - name: Run the remote_read_benchmark Python benchmark (ROS3) - ubuntu
       if: matrix.os == 'ubuntu-latest'
       run: |
-        conda run -n aqnwb-demo python demo/ros3_benchmark/benchmark.py \
+        conda run -n aqnwb-demo python demo/remote_read_benchmark/benchmark.py \
             "https://dandiarchive.s3.amazonaws.com/blobs/fec/8a6/fec8a690-2ece-4437-8877-8a002ff8bd8a" \
             "us-east-2" \
             "ElectricalSeriesAp" \
             "0,0" \
             "10,1"
 
-    - name: Run the ros3_benchmark Python benchmark (remfile) - ubuntu
+    - name: Run the remote_read_benchmark Python benchmark (remfile) - ubuntu
       if: matrix.os == 'ubuntu-latest'
       run: |
-        conda run -n aqnwb-demo python demo/ros3_benchmark/benchmark.py \
+        conda run -n aqnwb-demo python demo/remote_read_benchmark/benchmark.py \
             "https://dandiarchive.s3.amazonaws.com/blobs/fec/8a6/fec8a690-2ece-4437-8877-8a002ff8bd8a" \
             "us-east-2" \
             "ElectricalSeriesAp" \
