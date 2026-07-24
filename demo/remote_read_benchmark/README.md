@@ -1,4 +1,4 @@
-# ROS3 Benchmark Demo
+# Remote Read Benchmark Demo
 
 This is a simple C++ demo project that benchmarks the process of reading data from a NWB (Neurodata Without Borders) file stored on Amazon S3 using the aqnwb library, using either the HDF5 ROS3 VFD or the [remfile-cpp](https://github.com/catalystneuro/remfile-cpp) VFD.
 
@@ -26,7 +26,7 @@ The benchmark measures the time taken for each of the following steps:
 2. Create a build directory for the demo:
 
 ```bash
-cd demo/ros3_benchmark
+cd demo/remote_read_benchmark
 mkdir -p build
 cd build
 ```
@@ -52,8 +52,8 @@ Note: If HDF5 is installed in a non-standard location, you will also need to pro
 After building, you can run the benchmark using a file on S3.
 
 ```bash
-cd demo/ros3_benchmark/build/bin
-./ros3_benchmark <s3_path> <aws_region> <object_name> <start_indices> <count_indices> [driver]
+cd demo/remote_read_benchmark/build/bin
+./remote_read_benchmark <s3_path> <aws_region> <object_name> <start_indices> <count_indices> [driver]
 ```
 
 The optional `driver` argument selects the HDF5 virtual file driver: `ros3`
@@ -67,8 +67,8 @@ server that supports byte-range requests, not just S3.
 You can use the following parameters to test with a known DANDI archive file:
 
 ```bash
-cd demo/ros3_benchmark/build/bin
-./ros3_benchmark \
+cd demo/remote_read_benchmark/build/bin
+./remote_read_benchmark \
     "https://dandiarchive.s3.amazonaws.com/blobs/fec/8a6/fec8a690-2ece-4437-8877-8a002ff8bd8a" \
     "us-east-2" \
     "ElectricalSeriesAp" \
@@ -79,7 +79,7 @@ cd demo/ros3_benchmark/build/bin
 To run the same benchmark with the remfile driver, append `remfile`:
 
 ```bash
-./ros3_benchmark \
+./remote_read_benchmark \
     "https://dandiarchive.s3.amazonaws.com/blobs/fec/8a6/fec8a690-2ece-4437-8877-8a002ff8bd8a" \
     "us-east-2" \
     "ElectricalSeriesAp" \
@@ -97,7 +97,7 @@ A Python equivalent of the benchmark is provided as `benchmark.py`. This script 
 The script is configured for use with `uv`, which handles dependency installation automatically.
 
 ```bash
-uv run demo/ros3_benchmark/benchmark.py \
+uv run demo/remote_read_benchmark/benchmark.py \
     "https://dandiarchive.s3.amazonaws.com/blobs/fec/8a6/fec8a690-2ece-4437-8877-8a002ff8bd8a" \
     "us-east-2" \
     "ElectricalSeriesAp" \
