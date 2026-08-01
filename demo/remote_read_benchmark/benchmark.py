@@ -24,41 +24,44 @@ the PyNWB library and h5py with the ROS3 VFD. It measures the time taken for:
 """
 
 import time
+import json
 import argparse
-from typing import List, Any
+from typing import List, Any, Tuple, Dict
 from pynwb import NWBHDF5IO, NWBFile
 import remfile
 import h5py
 
-def read_io(s3_path: str, aws_region: str, force_remfile: bool = False) -> NWBHDF5IO:
+def read_io(s3_path: str, aws_region: str, driver: str, strict_driver: bool = False) -> Tuple[NWBHDF5IO, str]:
     """
-    Opens the NWB file using NWBHDF5IO with ROS3 VFD.
+    Opens the NWB file using NWBHDF5IO with the requested driver.
     Equivalent to C++ read_io.
 
     :param s3_path: S3 URL of the NWB file.
     :param aws_region: AWS region (e.g., us-east-2).
-    :param force_remfile: If True, remfile is used directly instead of attempting
-                          to use the ROS3 driver. This is useful for benchmarking/comparing the
-                          two different read strategies, or on systems where h5py was not built
-                          with ROS3 support.
-    :return: An instance of NWBHDF5IO.
+    :param driver: Requested driver ("ros3" or "remfile").
+    :param strict_driver: If True, raise an error instead of falling back to remfile.
+    :return: A tuple of the NWBHDF5IO instance and the actual driver used.
     """
-    def read_io_remfile(s3_path):
-        print("Using remfile to read the NWB file from S3.")
-        rem_file = remfile.File(s3_path)
+    def read_io_remfile(remote_path: str) -> NWBHDF5IO:
+        rem_file = remfile.File(remote_path)
         h5py_file = h5py.File(rem_file, "r")
         io = NWBHDF5IO(file=h5py_file)
         return io
 
-    if force_remfile:
-        return read_io_remfile(s3_path)
+    if driver == "remfile":
+        return read_io_remfile(s3_path), "remfile"
+
+    if driver != "ros3":
+        raise ValueError(f"Unknown driver '{driver}' (expected 'ros3' or 'remfile')")
 
     # In PyNWB, NWBHDF5IO handles the HDF5 file opening and ROS3 configuration.
     try:
-        return NWBHDF5IO(s3_path, mode='r', driver='ros3', aws_region=aws_region)
+        return NWBHDF5IO(s3_path, mode='r', driver='ros3', aws_region=aws_region), "ros3"
     except (ImportError, ValueError) as e:
+        if strict_driver:
+            raise RuntimeError("h5py with ROS3 support is required for the requested ROS3 benchmark.") from e
         print("h5py with ROS3 support is required. Falling back to remfile.")
-        return read_io_remfile(s3_path)
+        return read_io_remfile(s3_path), "remfile"
 
 
 def read_nwbfile(io: NWBHDF5IO) -> NWBFile:
@@ -117,6 +120,33 @@ def read_slice(nwb_object: Any, start: List[int], count: List[int]) -> Any:
     
     return dataset[tuple(slices)]
 
+
+def format_benchmark_result(
+    requested_driver: str,
+    actual_driver: str,
+    timings_seconds: Dict[str, float],
+    data_size_elements: int,
+) -> Dict[str, Any]:
+    return {
+        "implementation": "python",
+        "requested_driver": requested_driver,
+        "actual_driver": actual_driver,
+        "timings_seconds": timings_seconds,
+        "data_size_elements": data_size_elements,
+    }
+
+
+def print_text_result(result: Dict[str, Any]) -> None:
+    print("Benchmarking remote read process (Python using PyNWB)...")
+    print(f"Requested driver: {result['requested_driver']}")
+    print(f"Actual driver: {result['actual_driver']}")
+    print(f"read_io took: {result['timings_seconds']['read_io']:.6f} s")
+    print(f"read_nwbfile took: {result['timings_seconds']['read_nwbfile']:.6f} s")
+    print(f"find_object took: {result['timings_seconds']['find_object']:.6f} s")
+    print(f"read_slice took: {result['timings_seconds']['read_slice']:.6f} s")
+    print(f"Total time taken: {result['timings_seconds']['total']:.6f} s")
+    print(f"Data read size: {result['data_size_elements']} elements")
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="ROS3 read process benchmark (Python version)")
     parser.add_argument("s3_path", help="S3 URL of the NWB file")
@@ -125,12 +155,34 @@ def main() -> None:
     parser.add_argument("start_indices", help="Comma-separated start indices (e.g., '0,0')")
     parser.add_argument("count_indices", help="Comma-separated count indices (e.g., '10,1')")
     parser.add_argument(
+        "--driver",
+        choices=("ros3", "remfile"),
+        default="ros3",
+        help="Requested driver to benchmark. Defaults to ros3.",
+    )
+    parser.add_argument(
         "--force-remfile",
         action="store_true",
         help="Force the use of remfile instead of the ROS3 driver, even if ROS3 is available.",
     )
+    parser.add_argument(
+        "--strict-driver",
+        action="store_true",
+        help="Fail instead of falling back to remfile when the requested driver is unavailable.",
+    )
+    parser.add_argument(
+        "--output-format",
+        choices=("text", "json"),
+        default="text",
+        help="Choose human-readable text or machine-readable JSON output.",
+    )
 
     args = parser.parse_args()
+
+    if args.force_remfile:
+        requested_driver = "remfile"
+    else:
+        requested_driver = args.driver
 
     try:
         start = [int(x) for x in args.start_indices.split(',')]
@@ -140,40 +192,54 @@ def main() -> None:
         exit(1)
     
     try:
-        print("Benchmarking ROS3 read process (Python using PyNWB)...")
-        
         total_start = time.perf_counter()
-        
+
         # 1. read_io
         io_start = time.perf_counter()
-        io = read_io(args.s3_path, args.aws_region, force_remfile=args.force_remfile)
+        io, actual_driver = read_io(
+            args.s3_path,
+            args.aws_region,
+            driver=requested_driver,
+            strict_driver=args.strict_driver,
+        )
         io_end = time.perf_counter()
-        print(f"read_io took: {io_end - io_start:.6f} s")
-        
+
         # 2. read_nwbfile
         nwb_start = time.perf_counter()
         nwb = read_nwbfile(io)
         nwb_end = time.perf_counter()
-        print(f"read_nwbfile took: {nwb_end - nwb_start:.6f} s")
-        
+
         # 3. find_object
         find_start = time.perf_counter()
         nwb_object = get_object_by_name(nwb, args.object_name)
         find_end = time.perf_counter()
-        print(f"find_object took: {find_end - find_start:.6f} s")
-        
+
         # 4. read_slice
         slice_start = time.perf_counter()
         data = read_slice(nwb_object, start, count)
         slice_end = time.perf_counter()
-        print(f"read_slice took: {slice_end - slice_start:.6f} s")
-        
+
         total_end = time.perf_counter()
-        print(f"Total time taken: {total_end - total_start:.6f} s")
-        print(f"Data read size: {data.size} elements")
-        
+        result = format_benchmark_result(
+            requested_driver=requested_driver,
+            actual_driver=actual_driver,
+            timings_seconds={
+                "read_io": io_end - io_start,
+                "read_nwbfile": nwb_end - nwb_start,
+                "find_object": find_end - find_start,
+                "read_slice": slice_end - slice_start,
+                "total": total_end - total_start,
+            },
+            data_size_elements=int(data.size),
+        )
+
+        if args.output_format == "json":
+            print(json.dumps(result))
+        else:
+            print_text_result(result)
+
         io.close()
-        
+
     except Exception as e:
         print(f"Error: {e}")
         import traceback
