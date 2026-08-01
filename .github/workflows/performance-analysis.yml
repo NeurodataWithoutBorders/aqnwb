@@ -56,6 +56,9 @@ jobs:
         if [ -n "${{ matrix.conda_hdf5_spec }}" ]; then
           conda install -y "${{ matrix.conda_hdf5_spec }}"
         fi
+        if [ "${{ matrix.hdf5 }}" = "2.2" ]; then
+          conda install -y aws-c-s3
+        fi
 
     - name: Build HDF5 2.2 from source
       if: matrix.hdf5 == '2.2'
