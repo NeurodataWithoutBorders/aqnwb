@@ -25,7 +25,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        hdf5: ["1.14", "2.2"]
+        include:
+          - hdf5: "1.14"
+            conda_hdf5_spec: "hdf5=1.14"
+            hdf5_root: "$CONDA_PREFIX"
+          - hdf5: "2.2"
+            conda_hdf5_spec: ""
+            hdf5_root: "$GITHUB_WORKSPACE/hdf5-install"
 
     steps:
     - name: Checkout repository
@@ -44,35 +50,62 @@ jobs:
           python=3.12 \
           cmake \
           ninja \
-          "hdf5=${{ matrix.hdf5 }}" \
-          h5py \
           numpy \
           libcurl \
           pip
+        if [ -n "${{ matrix.conda_hdf5_spec }}" ]; then
+          conda install -y "${{ matrix.conda_hdf5_spec }}"
+        fi
+
+    - name: Build HDF5 2.2 from source
+      if: matrix.hdf5 == '2.2'
+      run: |
+        git clone --depth 1 --branch hdf5_2_2_0 https://github.com/HDFGroup/hdf5.git hdf5-src
+        cmake -S hdf5-src -B hdf5-build \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DCMAKE_INSTALL_PREFIX="$GITHUB_WORKSPACE/hdf5-install" \
+          -DCMAKE_PREFIX_PATH="$CONDA_PREFIX" \
+          -DHDF5_ENABLE_ROS3_VFD=ON \
+          -DHDF5_BUILD_CPP_LIB=ON \
+          -DHDF5_BUILD_TOOLS=OFF \
+          -DHDF5_BUILD_EXAMPLES=OFF \
+          -DBUILD_TESTING=OFF \
+          -DBUILD_SHARED_LIBS=ON
+        cmake --build hdf5-build --config Release -j 2
+        cmake --install hdf5-build
+
+    - name: Install Python benchmark stack against selected HDF5
+      run: |
+        export HDF5_DIR="${{ matrix.hdf5_root }}"
+        export LD_LIBRARY_PATH="${{ matrix.hdf5_root }}/lib:$CONDA_PREFIX/lib:${LD_LIBRARY_PATH:-}"
+        python -m pip install --no-binary=h5py h5py
         python -m pip install pynwb remfile
 
     - name: Configure and build aqnwb
       run: |
+        export LD_LIBRARY_PATH="${{ matrix.hdf5_root }}/lib:$CONDA_PREFIX/lib:${LD_LIBRARY_PATH:-}"
         cmake -S . -B build \
           -DCMAKE_BUILD_TYPE=Release \
           -DAQNWB_USE_REMFILE=ON \
-          -DCMAKE_PREFIX_PATH="$CONDA_PREFIX" \
-          -DHDF5_ROOT="$CONDA_PREFIX" \
+          -DCMAKE_PREFIX_PATH="${{ matrix.hdf5_root }};$CONDA_PREFIX" \
+          -DHDF5_ROOT="${{ matrix.hdf5_root }}" \
           -DHDF5_USE_STATIC_LIBRARIES=OFF
         cmake --build build --config Release -j 2
         cmake --install build --prefix "$GITHUB_WORKSPACE/install"
 
     - name: Build remote_read_benchmark demo
       run: |
+        export LD_LIBRARY_PATH="${{ matrix.hdf5_root }}/lib:$CONDA_PREFIX/lib:${LD_LIBRARY_PATH:-}"
         cmake -S demo/remote_read_benchmark -B demo/remote_read_benchmark/build \
           -DCMAKE_BUILD_TYPE=Release \
-          -DCMAKE_PREFIX_PATH="$GITHUB_WORKSPACE/install;$CONDA_PREFIX" \
-          -DHDF5_ROOT="$CONDA_PREFIX" \
+          -DCMAKE_PREFIX_PATH="$GITHUB_WORKSPACE/install;${{ matrix.hdf5_root }};$CONDA_PREFIX" \
+          -DHDF5_ROOT="${{ matrix.hdf5_root }}" \
           -DHDF5_USE_STATIC_LIBRARIES=OFF
         cmake --build demo/remote_read_benchmark/build --config Release -j 2
 
     - name: Run benchmark suite
       run: |
+        export LD_LIBRARY_PATH="${{ matrix.hdf5_root }}/lib:$CONDA_PREFIX/lib:${LD_LIBRARY_PATH:-}"
         python demo/remote_read_benchmark/run_benchmark_matrix.py \
           --cpp-binary demo/remote_read_benchmark/build/bin/remote_read_benchmark \
           --python-script demo/remote_read_benchmark/benchmark.py \
