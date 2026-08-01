@@ -14,6 +14,7 @@ env:
   BENCHMARK_START_INDICES: "0,0"
   BENCHMARK_COUNT_INDICES: "10,1"
   BENCHMARK_REPETITIONS: "10"
+  AQNWB_INSTALL_PREFIX: "${{ runner.temp }}/aqnwb-install"
 
 jobs:
   benchmark:
@@ -31,7 +32,7 @@ jobs:
             hdf5_root: "$CONDA_PREFIX"
           - hdf5: "2.2"
             conda_hdf5_spec: ""
-            hdf5_root: "$GITHUB_WORKSPACE/hdf5-install"
+            hdf5_root: "$RUNNER_TEMP/hdf5-install"
 
     steps:
     - name: Checkout repository
@@ -66,7 +67,7 @@ jobs:
         git clone --depth 1 --branch hdf5_2_2_0 https://github.com/HDFGroup/hdf5.git hdf5-src
         cmake -S hdf5-src -B hdf5-build \
           -DCMAKE_BUILD_TYPE=Release \
-          -DCMAKE_INSTALL_PREFIX="$GITHUB_WORKSPACE/hdf5-install" \
+          -DCMAKE_INSTALL_PREFIX="$RUNNER_TEMP/hdf5-install" \
           -DCMAKE_PREFIX_PATH="$CONDA_PREFIX" \
           -DHDF5_ENABLE_ROS3_VFD=ON \
           -DHDF5_BUILD_CPP_LIB=ON \
@@ -94,14 +95,14 @@ jobs:
           -DHDF5_ROOT="${{ matrix.hdf5_root }}" \
           -DHDF5_USE_STATIC_LIBRARIES=OFF
         cmake --build build --config Release -j 2
-        cmake --install build --prefix "$GITHUB_WORKSPACE/install"
+        cmake --install build --prefix "$AQNWB_INSTALL_PREFIX"
 
     - name: Build remote_read_benchmark demo
       run: |
         export LD_LIBRARY_PATH="${{ matrix.hdf5_root }}/lib:$CONDA_PREFIX/lib:${LD_LIBRARY_PATH:-}"
         cmake -S demo/remote_read_benchmark -B demo/remote_read_benchmark/build \
           -DCMAKE_BUILD_TYPE=Release \
-          -DCMAKE_PREFIX_PATH="$GITHUB_WORKSPACE/install;${{ matrix.hdf5_root }};$CONDA_PREFIX" \
+          -DCMAKE_PREFIX_PATH="$AQNWB_INSTALL_PREFIX;${{ matrix.hdf5_root }};$CONDA_PREFIX" \
           -DHDF5_ROOT="${{ matrix.hdf5_root }}" \
           -DHDF5_USE_STATIC_LIBRARIES=OFF
         cmake --build demo/remote_read_benchmark/build --config Release -j 2
