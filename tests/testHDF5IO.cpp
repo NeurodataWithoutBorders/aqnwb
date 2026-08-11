@@ -746,7 +746,7 @@ TEST_CASE("HDF5IO; create attributes", "[hdf5io]")
     H5::H5File h5file(filename, H5F_ACC_RDONLY);
     H5::Group grp = h5file.openGroup(groupPath);
     H5::Attribute attr = grp.openAttribute(attrName);
-H5::StrType attrType = attr.getStrType();
+    H5::StrType attrType = attr.getStrType();
     REQUIRE(attrType.getCset() == H5T_CSET_UTF8);
   }
 
@@ -1196,7 +1196,7 @@ TEST_CASE("getNativeType", "[hdf5io]")
     H5::DataType nativeTypeSTR = IO::HDF5::HDF5IO::getNativeType(typeSTR);
     REQUIRE(nativeTypeSTR.getSize()
             == H5::StrType(H5::PredType::C_S1, 256).getSize());
-REQUIRE(H5Tget_cset(nativeTypeSTR.getId()) == H5T_CSET_UTF8);
+    REQUIRE(H5Tget_cset(nativeTypeSTR.getId()) == H5T_CSET_UTF8);
 
     // Test for V_STR
     IO::BaseDataType typeVSTR(IO::BaseDataType::V_STR, 1);
@@ -1283,7 +1283,7 @@ TEST_CASE("getH5Type", "[hdf5io]")
     H5::DataType h5TypeSTR = IO::HDF5::HDF5IO::getH5Type(typeSTR);
     REQUIRE(h5TypeSTR.getSize()
             == H5::StrType(H5::PredType::C_S1, 256).getSize());
-REQUIRE(H5Tget_cset(h5TypeSTR.getId()) == H5T_CSET_UTF8);
+    REQUIRE(H5Tget_cset(h5TypeSTR.getId()) == H5T_CSET_UTF8);
 
     // Test for V_STR
     IO::BaseDataType typeVSTR(IO::BaseDataType::V_STR, 1);
@@ -1920,7 +1920,7 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     {
       H5::H5File h5file(path, H5F_ACC_RDONLY);
       H5::DataSet dataset = h5file.openDataSet(strDataPath);
-H5::StrType stringType = dataset.getStrType();
+      H5::StrType stringType = dataset.getStrType();
       REQUIRE(stringType.getCset() == H5T_CSET_UTF8);
     }
 
