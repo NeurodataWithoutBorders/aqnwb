@@ -114,7 +114,8 @@ Status HDF5RecordingData::writeDataBlock(const SizeArray& dataShape,
     // Write the data
     if (type.type == BaseDataType::Type::V_STR) {
       // Handle variable length strings
-      DataType nativeType = StrType(0, H5T_VARIABLE);
+      StrType nativeType(PredType::C_S1, H5T_VARIABLE);
+      nativeType.setCset(H5T_CSET_UTF8);
       std::vector<const char*> cstrBuffer(data.size());
       for (size_t i = 0; i < data.size(); ++i) {
         cstrBuffer[i] = data[i].c_str();
