@@ -1589,12 +1589,12 @@ H5::DataType HDF5IO::getH5Type(IO::BaseDataType type)
       StrType strType(PredType::C_S1, type.typeSize);
       strType.setCset(H5T_CSET_UTF8);
       return strType;
-    } break;
+    }
     case BaseDataType::Type::V_STR: {
       StrType strType(PredType::C_S1, static_cast<size_t>(H5T_VARIABLE));
       strType.setCset(H5T_CSET_UTF8);
       return strType;
-    } break;
+    }
     default:
       return PredType::STD_I32LE;
   }
