@@ -320,9 +320,7 @@ std::string BaseIO::findObject(const std::string& name,
     return (matchStart == 0) || (path[matchStart - 1] == '/');
   };
 
-  // Declared as an internal function to encapsulate the recursive search
-  // logic, avoid recursive function call overhead, and reduce the risk of
-  // stack overflow.
+  // Declared as an internal function to encapsulate the depth-first search logic.
   std::function<std::string(const std::string&)> searchObject =
       [&](const std::string& current_path) -> std::string
   {
