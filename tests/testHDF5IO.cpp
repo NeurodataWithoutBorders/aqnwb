@@ -46,7 +46,16 @@ TEST_CASE("HDF5IO; ROS3 mode", "[hdf5io]")
     REQUIRE(status == Status::Success);
     REQUIRE(hdf5io.isOpen());
     REQUIRE(hdf5io.canModifyObjects() == false);
+    REQUIRE(hdf5io.openS3("us-east-2") == Status::Failure);
+    REQUIRE(hdf5io.isOpen());
     hdf5io.close();
+  }
+
+  SECTION("invalid URL returns failure")
+  {
+    IO::HDF5::HDF5IO hdf5io("");
+    REQUIRE(hdf5io.openS3("us-east-2") == Status::Failure);
+    REQUIRE_FALSE(hdf5io.isOpen());
   }
 }
 #endif
@@ -65,7 +74,16 @@ TEST_CASE("HDF5IO; REMFILE mode", "[hdf5io]")
     REQUIRE(status == Status::Success);
     REQUIRE(hdf5io.isOpen());
     REQUIRE(hdf5io.canModifyObjects() == false);
+    REQUIRE(hdf5io.openRemote() == Status::Failure);
+    REQUIRE(hdf5io.isOpen());
     hdf5io.close();
+  }
+
+  SECTION("invalid URL returns failure")
+  {
+    IO::HDF5::HDF5IO hdf5io("");
+    REQUIRE(hdf5io.openRemote() == Status::Failure);
+    REQUIRE_FALSE(hdf5io.isOpen());
   }
 }
 #endif
@@ -127,6 +145,7 @@ TEST_CASE("open - hdf5 file modes", "[hdf5io]")
     IO::HDF5::HDF5IO hdf5io(fileName);
     REQUIRE(hdf5io.open(IO::FileMode::ReadOnly) == Status::Success);
     REQUIRE(hdf5io.isOpen());
+    REQUIRE_FALSE(hdf5io.canModifyObjects());
 
     // Verify file is opened in ReadOnly mode
     H5::H5File file(fileName, H5F_ACC_RDONLY | H5F_ACC_SWMR_READ);

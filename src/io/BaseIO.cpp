@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "io/BaseIO.hpp"
 
 #include "Utils.hpp"
@@ -318,9 +320,8 @@ std::string BaseIO::findObject(const std::string& name,
     return (matchStart == 0) || (path[matchStart - 1] == '/');
   };
 
-  // Declared as an internal function to encapsulate the recursive search
-  // logic, avoid recursive function call overhead, and reduce the risk of
-  // stack overflow.
+  // Declared as an internal function to encapsulate the depth-first search
+  // logic.
   std::function<std::string(const std::string&)> searchObject =
       [&](const std::string& current_path) -> std::string
   {
@@ -332,6 +333,10 @@ std::string BaseIO::findObject(const std::string& name,
     // Otherwise, recurse into the children of the current path
     std::vector<std::pair<std::string, StorageObjectType>> objects =
         getStorageObjects(current_path, StorageObjectType::Undefined);
+    std::sort(objects.begin(),
+              objects.end(),
+              [](const auto& lhs, const auto& rhs)
+              { return lhs.first < rhs.first; });
     for (const auto& obj : objects) {
       if (obj.second == StorageObjectType::Group
           || obj.second == StorageObjectType::Dataset)

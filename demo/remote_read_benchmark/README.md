@@ -1,6 +1,9 @@
 # Remote Read Benchmark Demo
 
-This is a simple C++ demo project that benchmarks the process of reading data from a NWB (Neurodata Without Borders) file stored on Amazon S3 using the aqnwb library, using either the HDF5 ROS3 VFD or the [remfile-cpp](https://github.com/catalystneuro/remfile-cpp) VFD.
+This is a simple C++ demo project that benchmarks reading data from a remote NWB
+(Neurodata Without Borders) file with the aqnwb library, using either the HDF5
+ROS3 VFD for Amazon S3 or the
+[remfile-cpp](https://github.com/catalystneuro/remfile-cpp) VFD for HTTP(S).
 
 The benchmark measures the time taken for each of the following steps:
 1. **`read_io`**: Creating the HDF5IO object and opening the S3 file.
@@ -13,7 +16,9 @@ The benchmark measures the time taken for each of the following steps:
 - CMake (version 3.15 or higher)
 - C++ compiler with C++17 support
 - aqnwb library (installed from the parent project)
-- HDF5 installed with ROS3 VFD support
+- HDF5 installed with ROS3 VFD support (required only for the ROS3 driver)
+- For the remfile driver: libcurl and aqnwb built with `-DAQNWB_USE_REMFILE=ON`
+  (remfile-cpp is found or fetched automatically by aqnwb)
 - Python 3.x and [uv](https://github.com/astral-sh/uv) (recommended for running the Python benchmark)
 
 ## Building the Demo
@@ -58,9 +63,9 @@ cd demo/remote_read_benchmark/build/bin
 
 The optional `driver` argument selects the HDF5 virtual file driver: `ros3`
 (the default) or `remfile`. The remfile driver requires aqnwb to be built
-with remfile support (`AQNWB_USE_REMFILE=ON`, the default on non-Windows
-platforms); it ignores the `aws_region` argument and works with any HTTP(S)
-server that supports byte-range requests, not just S3.
+with remfile support (`AQNWB_USE_REMFILE=ON`, which is off by default); it
+ignores the `aws_region` argument and works with any HTTP(S) server that
+supports byte-range requests, not just S3.
 
 ### Example
 

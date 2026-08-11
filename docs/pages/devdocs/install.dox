@@ -33,6 +33,13 @@
  * is automatically enabled if your HDF5 installation was built with ROS3 support
  * (i.e., `H5_HAVE_ROS3_VFD` is defined).
  *
+ * AqNWB first looks for an installed
+ * [remfile-cpp](https://github.com/catalystneuro/remfile-cpp) package. If it
+ * is not found, CMake downloads and builds the latest commit on remfile-cpp's
+ * `main` branch during configuration. Install remfile-cpp first to use that
+ * installation and skip the download. When CMake downloads remfile-cpp,
+ * installing AqNWB also installs remfile-cpp into the same installation prefix.
+ *
  * Build system targets that are only useful for developers of AqNWB are
  * hidden if the `aqnwb_DEVELOPER_MODE` option is disabled. Enabling this
  * option makes \ref testing "tests" and other developer targets and options available. You can enable

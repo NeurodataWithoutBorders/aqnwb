@@ -58,6 +58,10 @@ Status HDF5IO::openS3(const std::string& aws_region,
                       const std::string& secret_id,
                       const std::string& secret_key)
 {
+  if (m_opened) {
+    return Status::Failure;
+  }
+
   // Helper: safely copy a std::string into a fixed-size char array.
   // Copies at most (N-1) characters and always null-terminates.
   auto copyField = [](const std::string& src, char* dst, std::size_t N)
@@ -76,12 +80,20 @@ Status HDF5IO::openS3(const std::string& aws_region,
   copyField(secret_key, ros3_fa.secret_key, sizeof(ros3_fa.secret_key));
 
   FileAccPropList fapl = FileAccPropList::DEFAULT;
-  H5Pset_libver_bounds(fapl.getId(), H5F_LIBVER_LATEST, H5F_LIBVER_LATEST);
-  H5Pset_fapl_ros3(fapl.getId(), &ros3_fa);
+  const herr_t libverStatus =
+      H5Pset_libver_bounds(fapl.getId(), H5F_LIBVER_LATEST, H5F_LIBVER_LATEST);
+  const herr_t ros3Status = H5Pset_fapl_ros3(fapl.getId(), &ros3_fa);
+  if (libverStatus < 0 || ros3Status < 0) {
+    return Status::Failure;
+  }
 
-  m_file = std::make_unique<H5::H5File>(
-      getFileName(), H5F_ACC_RDONLY, FileCreatPropList::DEFAULT, fapl);
-  m_opened = true;
+  try {
+    m_file = std::make_unique<H5::H5File>(
+        getFileName(), H5F_ACC_RDONLY, FileCreatPropList::DEFAULT, fapl);
+    m_opened = true;
+  } catch (const H5::Exception&) {
+    return Status::Failure;
+  }
 
   return Status::Success;
 }
@@ -90,14 +102,22 @@ Status HDF5IO::openS3(const std::string& aws_region,
 #ifdef AQNWB_HAVE_REMFILE_VFD
 Status HDF5IO::openRemote()
 {
+  if (m_opened) {
+    return Status::Failure;
+  }
+
   FileAccPropList fapl = FileAccPropList::DEFAULT;
   if (H5Pset_fapl_remfile(fapl.getId(), nullptr) < 0) {
     return Status::Failure;
   }
 
-  m_file = std::make_unique<H5::H5File>(
-      getFileName(), H5F_ACC_RDONLY, FileCreatPropList::DEFAULT, fapl);
-  m_opened = true;
+  try {
+    m_file = std::make_unique<H5::H5File>(
+        getFileName(), H5F_ACC_RDONLY, FileCreatPropList::DEFAULT, fapl);
+    m_opened = true;
+  } catch (const H5::Exception&) {
+    return Status::Failure;
+  }
 
   return Status::Success;
 }
@@ -234,7 +254,7 @@ std::string HDF5IO::findObject(const std::string& name,
   struct FindObjectContext
   {
     const std::string* name;  //!< name (last path component) to search for
-    std::string starting_path;  //!< normalized starting path ("" for root)
+    std::string starting_path;  //!< starting path ("/" for root)
     std::string result;  //!< full path of the first match (output)
   };
 
@@ -243,8 +263,7 @@ std::string HDF5IO::findObject(const std::string& name,
   ctx.starting_path = starting_path;
 
   // Non-capturing lambda -> implicitly converts to a C function pointer, which
-  // is what H5Ovisit requires. The match logic is inlined here (Option B) to
-  // avoid any std::function indirection on the traversal hot path.
+  // is what H5Ovisit requires.
   //
   // `nameC` is the path of the visited object relative to the object on which
   // H5Ovisit was called, using '/' separators and without a leading '/'. The
