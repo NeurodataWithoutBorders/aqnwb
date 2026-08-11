@@ -263,8 +263,7 @@ std::string HDF5IO::findObject(const std::string& name,
   ctx.starting_path = starting_path;
 
   // Non-capturing lambda -> implicitly converts to a C function pointer, which
-  // is what H5Ovisit requires. The match logic is inlined here (Option B) to
-  // avoid any std::function indirection on the traversal hot path.
+  // is what H5Ovisit requires.
   //
   // `nameC` is the path of the visited object relative to the object on which
   // H5Ovisit was called, using '/' separators and without a leading '/'. The
