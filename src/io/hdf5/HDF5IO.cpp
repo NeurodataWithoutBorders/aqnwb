@@ -764,9 +764,9 @@ Status HDF5IO::createAttribute(const std::string& data,
     return Status::Failure;
   }
 
-  // Create variable length UTF-8 string type
-  StrType H5type(PredType::C_S1, static_cast<size_t>(H5T_VARIABLE));
-  H5type.setCset(H5T_CSET_UTF8);
+  const IO::BaseDataType strType(IO::BaseDataType::Type::V_STR);
+  DataType H5type = getH5Type(strType);
+  DataType nativeType = getNativeType(strType);
 
   auto manage_attribute = [&](H5Object& loc)
   {
@@ -787,7 +787,7 @@ Status HDF5IO::createAttribute(const std::string& data,
 
       // Write the scalar string data
       const char* dataPtr = data.c_str();
-      attr.write(H5type, &dataPtr);
+      attr.write(nativeType, &dataPtr);
 
     } catch (const GroupIException& error) {
       error.printErrorStack();
@@ -827,9 +827,9 @@ Status HDF5IO::createAttribute(const std::vector<std::string>& data,
     return Status::Failure;
   }
 
-  // Create variable length UTF-8 string type
-  StrType H5type(PredType::C_S1, static_cast<size_t>(H5T_VARIABLE));
-  H5type.setCset(H5T_CSET_UTF8);
+  const IO::BaseDataType strType(IO::BaseDataType::Type::V_STR);
+  DataType H5type = getH5Type(strType);
+  DataType nativeType = getNativeType(strType);
 
   auto manage_attribute = [&](H5Object& loc)
   {
@@ -858,7 +858,7 @@ Status HDF5IO::createAttribute(const std::vector<std::string>& data,
                      data.end(),
                      dataPtrs.begin(),
                      [](const std::string& str) { return str.c_str(); });
-      attr.write(H5type, dataPtrs.data());
+      attr.write(nativeType, dataPtrs.data());
 
     } catch (const GroupIException& error) {
       error.printErrorStack();
