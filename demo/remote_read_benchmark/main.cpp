@@ -31,16 +31,17 @@ using namespace AQNWB;
 using namespace AQNWB::IO;
 using namespace AQNWB::NWB;
 
-struct BenchmarkResult {
-    std::string implementation;
-    std::string requestedDriver;
-    std::string actualDriver;
-    double readIoSeconds;
-    double readNwbFileSeconds;
-    double findObjectSeconds;
-    double readSliceSeconds;
-    double totalSeconds;
-    size_t dataSizeElements;
+struct BenchmarkResult
+{
+  std::string implementation;
+  std::string requestedDriver;
+  std::string actualDriver;
+  double readIoSeconds;
+  double readNwbFileSeconds;
+  double findObjectSeconds;
+  double readSliceSeconds;
+  double totalSeconds;
+  size_t dataSizeElements;
 };
 
 /**
@@ -156,13 +157,18 @@ std::vector<T> read_slice(std::shared_ptr<RegisteredType> object,
  */
 void printUsage(const char* programName)
 {
-    std::cout << "Usage: " << programName
-              << " <s3_path> <aws_region> <object_name> <start_indices> <count_indices> [driver] [--json]"
-              << std::endl;
-    std::cout << "Example: " << programName
-              << " https://bucket.s3.amazonaws.com/file us-east-1 my_timeseries \"0,0\" \"10,1\"" << std::endl;
-    std::cout << "Note: indices should be comma-separated strings." << std::endl;
-    std::cout << "driver: 'ros3' (default) or 'remfile'. The aws_region argument is ignored by remfile." << std::endl;
+  std::cout << "Usage: " << programName
+            << " <s3_path> <aws_region> <object_name> <start_indices> "
+               "<count_indices> [driver] [--json]"
+            << std::endl;
+  std::cout << "Example: " << programName
+            << " https://bucket.s3.amazonaws.com/file us-east-1 my_timeseries "
+               "\"0,0\" \"10,1\""
+            << std::endl;
+  std::cout << "Note: indices should be comma-separated strings." << std::endl;
+  std::cout << "driver: 'ros3' (default) or 'remfile'. The aws_region argument "
+               "is ignored by remfile."
+            << std::endl;
 }
 
 /**
@@ -199,116 +205,125 @@ SizeArray parseIndices(const std::string& s)
 
 void printBenchmarkResultText(const BenchmarkResult& result)
 {
-    std::cout << "Benchmarking " << result.actualDriver << " read process..." << std::endl;
-    std::cout << "Requested driver: " << result.requestedDriver << std::endl;
-    std::cout << "Actual driver: " << result.actualDriver << std::endl;
-    std::cout << "read_io took: " << result.readIoSeconds << " s" << std::endl;
-    std::cout << "read_nwbfile took: " << result.readNwbFileSeconds << " s" << std::endl;
-    std::cout << "find_object took: " << result.findObjectSeconds << " s" << std::endl;
-    std::cout << "read_slice took: " << result.readSliceSeconds << " s" << std::endl;
-    std::cout << "Total time taken: " << result.totalSeconds << " s" << std::endl;
-    std::cout << "Data read size: " << result.dataSizeElements << " elements" << std::endl;
+  std::cout << "Benchmarking " << result.actualDriver << " read process..."
+            << std::endl;
+  std::cout << "Requested driver: " << result.requestedDriver << std::endl;
+  std::cout << "Actual driver: " << result.actualDriver << std::endl;
+  std::cout << "read_io took: " << result.readIoSeconds << " s" << std::endl;
+  std::cout << "read_nwbfile took: " << result.readNwbFileSeconds << " s"
+            << std::endl;
+  std::cout << "find_object took: " << result.findObjectSeconds << " s"
+            << std::endl;
+  std::cout << "read_slice took: " << result.readSliceSeconds << " s"
+            << std::endl;
+  std::cout << "Total time taken: " << result.totalSeconds << " s" << std::endl;
+  std::cout << "Data read size: " << result.dataSizeElements << " elements"
+            << std::endl;
 }
 
 void printBenchmarkResultJson(const BenchmarkResult& result)
 {
-    std::cout << std::fixed << std::setprecision(6)
-              << "{"
-              << "\"implementation\":\"" << result.implementation << "\","
-              << "\"requested_driver\":\"" << result.requestedDriver << "\","
-              << "\"actual_driver\":\"" << result.actualDriver << "\","
-              << "\"timings_seconds\":{"
-              << "\"read_io\":" << result.readIoSeconds << ","
-              << "\"read_nwbfile\":" << result.readNwbFileSeconds << ","
-              << "\"find_object\":" << result.findObjectSeconds << ","
-              << "\"read_slice\":" << result.readSliceSeconds << ","
-              << "\"total\":" << result.totalSeconds
-              << "},"
-              << "\"data_size_elements\":" << result.dataSizeElements
-              << "}" << std::endl;
+  std::cout << std::fixed << std::setprecision(6) << "{"
+            << "\"implementation\":\"" << result.implementation << "\","
+            << "\"requested_driver\":\"" << result.requestedDriver << "\","
+            << "\"actual_driver\":\"" << result.actualDriver << "\","
+            << "\"timings_seconds\":{"
+            << "\"read_io\":" << result.readIoSeconds << ","
+            << "\"read_nwbfile\":" << result.readNwbFileSeconds << ","
+            << "\"find_object\":" << result.findObjectSeconds << ","
+            << "\"read_slice\":" << result.readSliceSeconds << ","
+            << "\"total\":" << result.totalSeconds << "},"
+            << "\"data_size_elements\":" << result.dataSizeElements << "}"
+            << std::endl;
 }
 
 int main(int argc, char* argv[])
 {
-    if (argc < 6) {
-        printUsage(argv[0]);
-        return 1;
+  if (argc < 6) {
+    printUsage(argv[0]);
+    return 1;
+  }
+
+  std::string s3Path = argv[1];
+  std::string awsRegion = argv[2];
+  std::string objectName = argv[3];
+  SizeArray start = parseIndices(argv[4]);
+  SizeArray count = parseIndices(argv[5]);
+  std::string driver = "ros3";
+  bool jsonOutput = false;
+
+  for (int i = 6; i < argc; ++i) {
+    std::string arg = argv[i];
+    if (arg == "ros3" || arg == "remfile") {
+      driver = arg;
+    } else if (arg == "--json") {
+      jsonOutput = true;
+    } else {
+      std::cerr << "Unknown argument: " << arg << std::endl;
+      printUsage(argv[0]);
+      return 1;
+    }
+  }
+
+  try {
+    auto start_total = std::chrono::high_resolution_clock::now();
+
+    // 1. read_io
+    auto start_io = std::chrono::high_resolution_clock::now();
+    auto readio = read_io(s3Path, awsRegion, driver);
+    auto end_io = std::chrono::high_resolution_clock::now();
+    const double elapsedIoSeconds =
+        std::chrono::duration<double>(end_io - start_io).count();
+
+    // 2. read_nwbfile
+    auto start_nwb = std::chrono::high_resolution_clock::now();
+    auto nwbFile = read_nwbfile(readio);
+    auto end_nwb = std::chrono::high_resolution_clock::now();
+    const double elapsedNwbSeconds =
+        std::chrono::duration<double>(end_nwb - start_nwb).count();
+
+    // 3. find_object
+    auto start_find = std::chrono::high_resolution_clock::now();
+    auto object = find_object(nwbFile, objectName);
+    auto end_find = std::chrono::high_resolution_clock::now();
+    const double elapsedFindSeconds =
+        std::chrono::duration<double>(end_find - start_find).count();
+
+    // 4. read_slice (Assuming int16_t for benchmark, can be adjusted or made an
+    // argument)
+    auto start_slice = std::chrono::high_resolution_clock::now();
+    auto data = read_slice<int16_t>(object, start, count);
+    auto end_slice = std::chrono::high_resolution_clock::now();
+    const double elapsedSliceSeconds =
+        std::chrono::duration<double>(end_slice - start_slice).count();
+
+    auto end_total = std::chrono::high_resolution_clock::now();
+    const double elapsedTotalSeconds =
+        std::chrono::duration<double>(end_total - start_total).count();
+
+    BenchmarkResult result {
+        "cpp",
+        driver,
+        driver,
+        elapsedIoSeconds,
+        elapsedNwbSeconds,
+        elapsedFindSeconds,
+        elapsedSliceSeconds,
+        elapsedTotalSeconds,
+        data.size(),
+    };
+
+    if (jsonOutput) {
+      printBenchmarkResultJson(result);
+    } else {
+      printBenchmarkResultText(result);
     }
 
-    std::string s3Path = argv[1];
-    std::string awsRegion = argv[2];
-    std::string objectName = argv[3];
-    SizeArray start = parseIndices(argv[4]);
-    SizeArray count = parseIndices(argv[5]);
-    std::string driver = "ros3";
-    bool jsonOutput = false;
+    readio->close();
+  } catch (const std::exception& e) {
+    std::cerr << "Error: " << e.what() << std::endl;
+    return 1;
+  }
 
-    for (int i = 6; i < argc; ++i) {
-        std::string arg = argv[i];
-        if (arg == "ros3" || arg == "remfile") {
-            driver = arg;
-        } else if (arg == "--json") {
-            jsonOutput = true;
-        } else {
-            std::cerr << "Unknown argument: " << arg << std::endl;
-            printUsage(argv[0]);
-            return 1;
-        }
-    }
-
-    try {
-        auto start_total = std::chrono::high_resolution_clock::now();
-
-        // 1. read_io
-        auto start_io = std::chrono::high_resolution_clock::now();
-        auto readio = read_io(s3Path, awsRegion, driver);
-        auto end_io = std::chrono::high_resolution_clock::now();
-        const double elapsedIoSeconds = std::chrono::duration<double>(end_io - start_io).count();
-
-        // 2. read_nwbfile
-        auto start_nwb = std::chrono::high_resolution_clock::now();
-        auto nwbFile = read_nwbfile(readio);
-        auto end_nwb = std::chrono::high_resolution_clock::now();
-        const double elapsedNwbSeconds = std::chrono::duration<double>(end_nwb - start_nwb).count();
-
-        // 3. find_object
-        auto start_find = std::chrono::high_resolution_clock::now();
-        auto object = find_object(nwbFile, objectName);
-        auto end_find = std::chrono::high_resolution_clock::now();
-        const double elapsedFindSeconds = std::chrono::duration<double>(end_find - start_find).count();
-
-        // 4. read_slice (Assuming int16_t for benchmark, can be adjusted or made an argument)
-        auto start_slice = std::chrono::high_resolution_clock::now();
-        auto data = read_slice<int16_t>(object, start, count);
-        auto end_slice = std::chrono::high_resolution_clock::now();
-        const double elapsedSliceSeconds = std::chrono::duration<double>(end_slice - start_slice).count();
-
-        auto end_total = std::chrono::high_resolution_clock::now();
-        const double elapsedTotalSeconds = std::chrono::duration<double>(end_total - start_total).count();
-
-        BenchmarkResult result{
-            "cpp",
-            driver,
-            driver,
-            elapsedIoSeconds,
-            elapsedNwbSeconds,
-            elapsedFindSeconds,
-            elapsedSliceSeconds,
-            elapsedTotalSeconds,
-            data.size(),
-        };
-
-        if (jsonOutput) {
-            printBenchmarkResultJson(result);
-        } else {
-            printBenchmarkResultText(result);
-        }
-
-        readio->close();
-    } catch (const std::exception& e) {
-        std::cerr << "Error: " << e.what() << std::endl;
-        return 1;
-    }
-
-    return 0;
+  return 0;
 }
