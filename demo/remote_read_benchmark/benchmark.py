@@ -8,14 +8,15 @@
 # ///
 
 """
-ROS3 Read Process Benchmark (Python Version). 
-This provides a direct comparison point for the C++ benchmark implementation
-here. NOTE: This script is only intended as a simple comparison point for 
-demo purposed. It is not intended to be a fully featured benchmark script.
-For fully featured python benchmarking, please see https://nwb-benchmarks.readthedocs.io/
+Remote Read Benchmark (Python Version).
 
-This script benchmarks the performance of reading NWB data from Amazon S3 using 
-the PyNWB library and h5py with the ROS3 VFD. It measures the time taken for:
+This provides a direct comparison point for the C++ benchmark implementation
+here. It benchmarks remote NWB reads with PyNWB and h5py using either the ROS3
+VFD or remfile. This script is only intended as a simple comparison point for
+demo purposes. It is not intended to be a fully featured benchmark script. For
+fully featured Python benchmarking, see https://nwb-benchmarks.readthedocs.io/
+
+It measures the time taken for:
 1. Opening the S3 file via NWBHDF5IO.
 2. Initializing the NWBFile object.
 3. Finding a specific neurodata object by name.
