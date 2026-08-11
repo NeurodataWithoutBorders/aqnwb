@@ -48,6 +48,13 @@ TEST_CASE("HDF5IO; ROS3 mode", "[hdf5io]")
     REQUIRE(hdf5io.canModifyObjects() == false);
     hdf5io.close();
   }
+
+  SECTION("invalid URL returns failure")
+  {
+    IO::HDF5::HDF5IO hdf5io("");
+    REQUIRE(hdf5io.openS3("us-east-2") == Status::Failure);
+    REQUIRE_FALSE(hdf5io.isOpen());
+  }
 }
 #endif
 
@@ -66,6 +73,13 @@ TEST_CASE("HDF5IO; REMFILE mode", "[hdf5io]")
     REQUIRE(hdf5io.isOpen());
     REQUIRE(hdf5io.canModifyObjects() == false);
     hdf5io.close();
+  }
+
+  SECTION("invalid URL returns failure")
+  {
+    IO::HDF5::HDF5IO hdf5io("");
+    REQUIRE(hdf5io.openRemote() == Status::Failure);
+    REQUIRE_FALSE(hdf5io.isOpen());
   }
 }
 #endif

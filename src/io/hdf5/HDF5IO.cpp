@@ -76,12 +76,20 @@ Status HDF5IO::openS3(const std::string& aws_region,
   copyField(secret_key, ros3_fa.secret_key, sizeof(ros3_fa.secret_key));
 
   FileAccPropList fapl = FileAccPropList::DEFAULT;
-  H5Pset_libver_bounds(fapl.getId(), H5F_LIBVER_LATEST, H5F_LIBVER_LATEST);
-  H5Pset_fapl_ros3(fapl.getId(), &ros3_fa);
+  const herr_t libverStatus =
+      H5Pset_libver_bounds(fapl.getId(), H5F_LIBVER_LATEST, H5F_LIBVER_LATEST);
+  const herr_t ros3Status = H5Pset_fapl_ros3(fapl.getId(), &ros3_fa);
+  if (libverStatus < 0 || ros3Status < 0) {
+    return Status::Failure;
+  }
 
-  m_file = std::make_unique<H5::H5File>(
-      getFileName(), H5F_ACC_RDONLY, FileCreatPropList::DEFAULT, fapl);
-  m_opened = true;
+  try {
+    m_file = std::make_unique<H5::H5File>(
+        getFileName(), H5F_ACC_RDONLY, FileCreatPropList::DEFAULT, fapl);
+    m_opened = true;
+  } catch (const H5::Exception&) {
+    return Status::Failure;
+  }
 
   return Status::Success;
 }
@@ -95,9 +103,13 @@ Status HDF5IO::openRemote()
     return Status::Failure;
   }
 
-  m_file = std::make_unique<H5::H5File>(
-      getFileName(), H5F_ACC_RDONLY, FileCreatPropList::DEFAULT, fapl);
-  m_opened = true;
+  try {
+    m_file = std::make_unique<H5::H5File>(
+        getFileName(), H5F_ACC_RDONLY, FileCreatPropList::DEFAULT, fapl);
+    m_opened = true;
+  } catch (const H5::Exception&) {
+    return Status::Failure;
+  }
 
   return Status::Success;
 }
