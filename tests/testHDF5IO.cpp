@@ -145,6 +145,7 @@ TEST_CASE("open - hdf5 file modes", "[hdf5io]")
     IO::HDF5::HDF5IO hdf5io(fileName);
     REQUIRE(hdf5io.open(IO::FileMode::ReadOnly) == Status::Success);
     REQUIRE(hdf5io.isOpen());
+    REQUIRE_FALSE(hdf5io.canModifyObjects());
 
     // Verify file is opened in ReadOnly mode
     H5::H5File file(fileName, H5F_ACC_RDONLY | H5F_ACC_SWMR_READ);
