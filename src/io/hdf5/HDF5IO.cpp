@@ -254,7 +254,7 @@ std::string HDF5IO::findObject(const std::string& name,
   struct FindObjectContext
   {
     const std::string* name;  //!< name (last path component) to search for
-    std::string starting_path;  //!< normalized starting path ("" for root)
+    std::string starting_path;  //!< starting path ("/" for root)
     std::string result;  //!< full path of the first match (output)
   };
 
