@@ -46,6 +46,8 @@ TEST_CASE("HDF5IO; ROS3 mode", "[hdf5io]")
     REQUIRE(status == Status::Success);
     REQUIRE(hdf5io.isOpen());
     REQUIRE(hdf5io.canModifyObjects() == false);
+    REQUIRE(hdf5io.openS3("us-east-2") == Status::Failure);
+    REQUIRE(hdf5io.isOpen());
     hdf5io.close();
   }
 
@@ -72,6 +74,8 @@ TEST_CASE("HDF5IO; REMFILE mode", "[hdf5io]")
     REQUIRE(status == Status::Success);
     REQUIRE(hdf5io.isOpen());
     REQUIRE(hdf5io.canModifyObjects() == false);
+    REQUIRE(hdf5io.openRemote() == Status::Failure);
+    REQUIRE(hdf5io.isOpen());
     hdf5io.close();
   }
 

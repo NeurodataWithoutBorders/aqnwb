@@ -58,6 +58,10 @@ Status HDF5IO::openS3(const std::string& aws_region,
                       const std::string& secret_id,
                       const std::string& secret_key)
 {
+  if (m_opened) {
+    return Status::Failure;
+  }
+
   // Helper: safely copy a std::string into a fixed-size char array.
   // Copies at most (N-1) characters and always null-terminates.
   auto copyField = [](const std::string& src, char* dst, std::size_t N)
@@ -98,6 +102,10 @@ Status HDF5IO::openS3(const std::string& aws_region,
 #ifdef AQNWB_HAVE_REMFILE_VFD
 Status HDF5IO::openRemote()
 {
+  if (m_opened) {
+    return Status::Failure;
+  }
+
   FileAccPropList fapl = FileAccPropList::DEFAULT;
   if (H5Pset_fapl_remfile(fapl.getId(), nullptr) < 0) {
     return Status::Failure;
