@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "io/BaseIO.hpp"
 
 #include "Utils.hpp"
@@ -332,6 +334,10 @@ std::string BaseIO::findObject(const std::string& name,
     // Otherwise, recurse into the children of the current path
     std::vector<std::pair<std::string, StorageObjectType>> objects =
         getStorageObjects(current_path, StorageObjectType::Undefined);
+    std::sort(objects.begin(),
+              objects.end(),
+              [](const auto& lhs, const auto& rhs)
+              { return lhs.first < rhs.first; });
     for (const auto& obj : objects) {
       if (obj.second == StorageObjectType::Group
           || obj.second == StorageObjectType::Dataset)

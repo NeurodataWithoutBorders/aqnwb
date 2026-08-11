@@ -549,11 +549,11 @@ TEST_CASE("Test BaseIO/HDF5IO::findObject", "[BaseIO, HDF5IO]")
     io.createGroup("/b/target");
 
     std::string result = io.findObject("target");
-    REQUIRE((result == "/a/target" || result == "/b/target"));
-
-    std::string baseResult =
-        io.BaseIO::findObject("target");  // HDF5IO::findObject
-    REQUIRE((baseResult == "/a/target" || baseResult == "/b/target"));
+    // HDF5IO visits objects in increasing name order, so /a/target is first.
+    REQUIRE(result == "/a/target");
+    std::string baseResult = io.BaseIO::findObject("target");
+    // BaseIO sorts storage objects by name before its depth-first traversal.
+    REQUIRE(baseResult == "/a/target");
   }
 
   io.close();
