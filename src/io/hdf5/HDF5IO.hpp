@@ -134,8 +134,7 @@ public:
    *
    * This HDF5-specific override replaces the generic recursive implementation
    * in BaseIO with a single H5Ovisit traversal that terminates early on the
-   * first match. The reduces the number of metadata operations with the goal
-   * to improve performance, especially for large files with many groups.
+   * first match. This reduces the number of metadata operations with the goal
    *
    * @param name The last path component to search for (e.g. "electrodes").
    * @param starting_path The path of the group to start the search from.
