@@ -69,6 +69,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   * Added `.codecov.yml` to instruct the Codecov server to ignore `tests/**`, preventing Codecov-action from including test files it discovers via independent `gcov` scanning of the build directory
 * Removed redundant `resources/utils/requirements.txt` and update CI accordingly. Dependencies are now defined in `resources/utils/pyproject.toml` (@copilot, @oruebel [#260](https://github.com/NeurodataWithoutBorders/aqnwb/pull/260))
 * Added explicit `permissions` blocks to all GitHub Actions workflow files to restrict `GITHUB_TOKEN` to least-privilege scopes (@copilot, @oruebel [#269](https://github.com/NeurodataWithoutBorders/aqnwb/pull/269))
+* Fixed Windows CI by updating the CMake generator in `CMakePresets.json` from `"Visual Studio 17 2022"` to `"Visual Studio 18 2026"` to match the updated `windows-latest` runner (@copilot, @oruebel [#319](https://github.com/NeurodataWithoutBorders/aqnwb/pull/319))
 
 
 ## [0.2.0] - 2025-12-22
