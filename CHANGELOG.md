@@ -72,7 +72,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Added explicit `permissions` blocks to all GitHub Actions workflow files to restrict `GITHUB_TOKEN` to least-privilege scopes (@copilot, @oruebel [#269](https://github.com/NeurodataWithoutBorders/aqnwb/pull/269))
 
 
-
 ## [0.2.0] - 2025-12-22
 
 ### Added
