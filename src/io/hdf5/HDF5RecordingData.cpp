@@ -110,12 +110,11 @@ Status HDF5RecordingData::writeDataBlock(const SizeArray& dataShape,
     if (setupStatus == Status::Failure) {
       return Status::Failure;
     }
-
     // Write the data
+    // Write the data
+    DataType nativeType = HDF5IO::getNativeType(type);
     if (type.type == BaseDataType::Type::V_STR) {
       // Handle variable length strings
-      StrType nativeType(PredType::C_S1, H5T_VARIABLE);
-      nativeType.setCset(H5T_CSET_UTF8);
       std::vector<const char*> cstrBuffer(data.size());
       for (size_t i = 0; i < data.size(); ++i) {
         cstrBuffer[i] = data[i].c_str();
@@ -124,7 +123,6 @@ Status HDF5RecordingData::writeDataBlock(const SizeArray& dataShape,
       m_dataset->write(cstrBuffer.data(), nativeType, mSpace, fSpace);
     } else if (type.type == BaseDataType::Type::T_STR) {
       // Handle fixed-length strings
-      DataType nativeType = HDF5IO::getNativeType(type);
       std::vector<char> buffer(data.size() * type.typeSize, '\0');
       size_t bufferIndex = 0;
       for (const auto& str : data) {

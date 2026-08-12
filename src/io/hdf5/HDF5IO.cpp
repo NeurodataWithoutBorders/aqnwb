@@ -1408,12 +1408,6 @@ std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::createArrayDataSet(
       }
     }
 
-    if (arrayConfig->getType().type == IO::BaseDataType::Type::T_STR) {
-      StrType strType(PredType::C_S1, arrayConfig->getType().typeSize);
-      strType.setCset(H5T_CSET_UTF8);
-      H5type = strType;
-    }
-
     data = std::make_unique<DataSet>(
         m_file->createDataSet(path, H5type, dSpace, prop));
   } catch (const H5::Exception& e) {
