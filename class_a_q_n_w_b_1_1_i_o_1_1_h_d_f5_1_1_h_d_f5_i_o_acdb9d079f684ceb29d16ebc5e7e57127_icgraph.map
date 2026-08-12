@@ -1,11 +1,15 @@
 <map id="AQNWB::IO::HDF5::HDF5IO::getH5Type" name="AQNWB::IO::HDF5::HDF5IO::getH5Type">
-<area shape="rect" id="Node000001" title="Returns the HDF5 data type for a given base data type." alt="" coords="490,71,684,111"/>
+<area shape="rect" id="Node000001" title="Returns the HDF5 data type for a given base data type." alt="" coords="490,136,684,177"/>
 <area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a8fc6f7149f6266cbf83019d4d8970d0f" title="Creates an extendable dataset with the given configuration and path." alt="" coords="248,5,442,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="492,66,423,49,423,44,497,66"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="545,126,497,94,441,61,414,49,414,44,443,57,500,90,550,126"/>
 <area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a7ce63eb864cc8678f4bacb5fbc695cbe" title="Creates an attribute at a given location in the file." alt="" coords="248,71,442,111"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="472,91,443,94,442,88,477,91"/>
-<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#abb3541720c4613adc1c273cbe54f66a9" title="Creates a non&#45;modifiable dataset with a string value." alt="" coords="248,136,442,177"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="497,115,424,138,423,133,492,116"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="492,132,423,115,423,109,497,131"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a9e25b2f9b7ea08f7ac0be2f5c3a5f123" title="Creates a string attribute at a given location in the file." alt="" coords="248,136,442,177"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="472,157,443,159,442,154,477,156"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a6d212643870ac6b96ac08e7425a00a0a" title="Creates an array of variable length strings attribute at a given location in the file." alt="" coords="248,201,442,242"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="497,181,424,203,422,198,492,182"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#abb3541720c4613adc1c273cbe54f66a9" title="Creates a non&#45;modifiable dataset with a string value." alt="" coords="248,267,442,307"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="550,185,500,223,443,256,414,269,413,263,441,251,497,218,545,187"/>
 <area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a97653ad67ac314515362c7fe2b6fbaa1" title="Creates a dataset that holds an array of string values." alt="" coords="5,5,200,46"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="230,27,201,28,199,23,235,25"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="230,27,201,28,199,23,234,24"/>
 </map>
