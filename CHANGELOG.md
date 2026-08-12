@@ -20,6 +20,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 * Updated nwbinspector validation tests in the CI to: 1) `--ignore=check_subject_exists` and 2) remove dependency on `sanitizer` tests to speed up CI (@oruebel, [#289](https://github.com/NeurodataWithoutBorders/aqnwb/pull/289))
 * Fixed `get_utc_offset_seconds` to correctly account for daylight saving time using platform-specific APIs (`tm_gmtoff` on Unix/macOS; `_get_timezone` + `_get_dstbias` on Windows), preventing `session_start_time` from being written ~1 hour ahead of UTC during DST (@cboulay, [#295](https://github.com/NeurodataWithoutBorders/aqnwb/pull/295))
+* Fixed HDF5 string type creation to explicitly use UTF-8 character set for fixed-length and variable-length strings in datasets and attributes, improving compatibility with hdmf/PyNWB string decoding (@copilot, @oruebel [#319](https://github.com/NeurodataWithoutBorders/aqnwb/pull/319))
+* Fixed Windows CI by updating the CMake generator in `CMakePresets.json` from `"Visual Studio 17 2022"` to `"Visual Studio 18 2026"` to match the updated `windows-latest` runner (@copilot, @oruebel [#319](https://github.com/NeurodataWithoutBorders/aqnwb/pull/319))
 
 
 ## [0.3.0] - 2026-02-23
