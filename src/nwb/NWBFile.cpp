@@ -53,7 +53,8 @@ Status NWBFile::initialize(const std::string& identifierText,
                            const std::string& description,
                            const std::string& dataCollection,
                            const std::string& sessionStartTime,
-                           const std::string& timestampsReferenceTime)
+                           const std::string& timestampsReferenceTime,
+                           const std::optional<SubjectMetadata>& subject)
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
@@ -93,7 +94,8 @@ Status NWBFile::initialize(const std::string& identifierText,
                                               description,
                                               dataCollection,
                                               useSessionStartTime,
-                                              useTimestampsReferenceTime);
+                                              useTimestampsReferenceTime,
+                                              subject);
     return createStatus;
   } else {
     return Status::Success;
@@ -141,7 +143,8 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
                                     const std::string& description,
                                     const std::string& dataCollection,
                                     const std::string& sessionStartTime,
-                                    const std::string& timestampsReferenceTime)
+                                    const std::string& timestampsReferenceTime,
+                                    const std::optional<SubjectMetadata>& subject)
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
@@ -193,6 +196,45 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
   ioPtr->createStringDataSet("/timestamps_reference_time",
                              timestampsReferenceTime);
   ioPtr->createStringDataSet("/identifier", identifierText);
+
+  // Create subject group if subject metadata is provided
+  if (subject.has_value()) {
+    const std::string subjectPath =
+        mergePaths(NWBFile::GENERAL_PATH, "subject");
+    ioPtr->createGroup(subjectPath);
+    ioPtr->createAttribute("Subject", subjectPath, "neurodata_type");
+    ioPtr->createAttribute("core", subjectPath, "namespace");
+    const auto& s = subject.value();
+    if (!s.subjectId.empty()) {
+      ioPtr->createStringDataSet(mergePaths(subjectPath, "subject_id"),
+                                 s.subjectId);
+    }
+    if (!s.species.empty()) {
+      ioPtr->createStringDataSet(mergePaths(subjectPath, "species"),
+                                 s.species);
+    }
+    if (!s.sex.empty()) {
+      ioPtr->createStringDataSet(mergePaths(subjectPath, "sex"), s.sex);
+    }
+    if (!s.age.empty()) {
+      ioPtr->createStringDataSet(mergePaths(subjectPath, "age"), s.age);
+    }
+    if (!s.description.empty()) {
+      ioPtr->createStringDataSet(mergePaths(subjectPath, "description"),
+                                 s.description);
+    }
+    if (!s.genotype.empty()) {
+      ioPtr->createStringDataSet(mergePaths(subjectPath, "genotype"),
+                                 s.genotype);
+    }
+    if (!s.strain.empty()) {
+      ioPtr->createStringDataSet(mergePaths(subjectPath, "strain"), s.strain);
+    }
+    if (!s.weight.empty()) {
+      ioPtr->createStringDataSet(mergePaths(subjectPath, "weight"), s.weight);
+    }
+  }
+
   return Status::Success;
 }
 

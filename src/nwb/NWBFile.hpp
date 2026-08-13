@@ -3,6 +3,7 @@
 #include <array>
 #include <cstdint>
 #include <memory>
+#include <optional>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -23,6 +24,35 @@
  */
 namespace AQNWB::NWB
 {
+
+/**
+ * @brief Metadata about the experimental subject.
+ *
+ * All fields are optional. Pass an instance of this struct to
+ * NWBFile::initialize() to create a Subject group in the NWB file. To
+ * explicitly record that no subject information is available, pass
+ * @c std::nullopt for the subject parameter.
+ */
+struct SubjectMetadata
+{
+  /// @brief ID of animal/person used/participating in experiment (lab
+  /// convention).
+  std::string subjectId;
+  /// @brief Species of subject.
+  std::string species;
+  /// @brief Gender of subject.
+  std::string sex;
+  /// @brief Age of subject (e.g., "P90D" for 90 days post-natal).
+  std::string age;
+  /// @brief Description of subject and where subject came from.
+  std::string description;
+  /// @brief Genetic strain. If absent, assume Wild Type (WT).
+  std::string genotype;
+  /// @brief Strain of subject.
+  std::string strain;
+  /// @brief Weight at time of experiment.
+  std::string weight;
+};
 
 /**
  * @brief The NWBFile class provides an interface for setting up and managing
@@ -98,12 +128,18 @@ public:
    * time. If empty (default), then the getCurrentTime() will be used.
    * @param timestampsReferenceTime ISO formatted time string with the timestamp
    * reference time. If empty (default), then the getCurrentTime() will be used.
+   * @param subject Optional subject metadata. By default an empty
+   * SubjectMetadata{} is used, which creates a Subject group in the NWB file.
+   * Pass @c std::nullopt to explicitly state that no subject should be created
+   * (e.g., when the subject is unknown).
    */
   Status initialize(const std::string& identifierText,
                     const std::string& description = "a recording session",
                     const std::string& dataCollection = "",
                     const std::string& sessionStartTime = "",
-                    const std::string& timestampsReferenceTime = "");
+                    const std::string& timestampsReferenceTime = "",
+                    const std::optional<SubjectMetadata>& subject =
+                        SubjectMetadata {});
 
   /**
    * @brief Check if the NWB file is initialized.
@@ -256,13 +292,15 @@ protected:
    * time
    * @param timestampsReferenceTime ISO formatted time string with the timestamp
    * reference time
+   * @param subject Optional subject metadata to write to the file.
    * @return Status The status of the file structure creation.
    */
   Status createFileStructure(const std::string& identifierText,
                              const std::string& description,
                              const std::string& dataCollection,
                              const std::string& sessionStartTime,
-                             const std::string& timestampsReferenceTime);
+                             const std::string& timestampsReferenceTime,
+                             const std::optional<SubjectMetadata>& subject);
 
 private:
   /**
