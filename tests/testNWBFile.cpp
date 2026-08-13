@@ -68,10 +68,11 @@ TEST_CASE("initialize", "[nwb]")
   REQUIRE(initStatus == Status::Success);
   REQUIRE(nwbfile->isInitialized());
 
-  // Since we didn't create any typed objects within the NWBFile, we should
-  // have no owned types
+  // The default initializes a Subject group so we should have one owned type
   auto result = nwbfile->findOwnedTypes();
-  REQUIRE(result.size() == 0);
+  REQUIRE(result.size() == 1);
+  REQUIRE(result.count("/general/subject") == 1);
+  REQUIRE(result.at("/general/subject") == "core::Subject");
 
   nwbfile->finalize();  // Good practice since we don't call stop recording, but
                         // not essential
@@ -268,6 +269,7 @@ TEST_CASE("createElectricalSeries", "[nwb]")
   }
 
   // Check that we can find all the types that we created
+  // - /general/subject : core::Subject (created by default in initialize)
   // - /general/extracellular_ephys/array0 : core::ElectrodeGroup
   // - /general/devices/array1 : core::Device
   // - /general/extracellular_ephys/electrodes : core::DynamicTable
@@ -276,7 +278,7 @@ TEST_CASE("createElectricalSeries", "[nwb]")
   // - /general/extracellular_ephys/array1 : core::ElectrodeGroup
   // - /acquisition/esdata0 : core::ElectricalSeries
   auto result = nwbfile->findOwnedTypes();
-  REQUIRE(result.size() == 7);
+  REQUIRE(result.size() == 8);
 
   // finalize the nwb file
   io->stopRecording();

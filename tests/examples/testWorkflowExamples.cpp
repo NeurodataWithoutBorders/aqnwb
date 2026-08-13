@@ -46,7 +46,18 @@ TEST_CASE("workflowExamples")
 
     // [example_workflow_nwbfile_snippet]
     auto nwbfile = NWB::NWBFile::create(io);
-    Status initStatus = nwbfile->initialize(generateUuid());
+    NWB::SubjectMetadata subject;
+    subject.subjectId = "mouse001";
+    subject.species = "Mus musculus";
+    subject.sex = "M";
+    subject.age = "P90D";
+    subject.description = "Wild type mouse used for electrophysiology study";
+    Status initStatus = nwbfile->initialize(generateUuid(),
+                                            "a recording session",
+                                            "",
+                                            "",
+                                            "",
+                                            subject);
     AQNWB::checkStatus(initStatus, "NWBFile initialization");
     // [example_workflow_nwbfile_snippet]
     REQUIRE(initStatus == Status::Success);
