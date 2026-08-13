@@ -21,12 +21,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 * **[BREAKING]** Moved `disableSWMRMode` option from `HDF5IO` constructor to a new `HDF5IO::startRecording(bool disableSWMRMode)` overload. The `BaseIO`-compliant `startRecording()` override is preserved and defaults to SWMR enabled. 
    * **Migration Note**: Code using `HDF5IO(path, true)` must be updated to `HDF5IO(path)` followed by `startRecording(true)`. When the `HDF5IO` object is held as a `std::shared_ptr<BaseIO>` (e.g., from `createIO`), downcast with `std::dynamic_pointer_cast<HDF5IO>` to access the overload. (@oruebel [#297](https://github.com/NeurodataWithoutBorders/aqnwb/pull/297))
+* Updated `build-demo.yml` and `tests.yml` CI to support testing of the new ROS3 and remfile features and scripts  (@oruebel, [#308](https://github.com/NeurodataWithoutBorders/aqnwb/pull/308))
 
 ### Fixed
 * Updated nwbinspector validation tests in the CI to: 1) `--ignore=check_subject_exists` and 2) remove dependency on `sanitizer` tests to speed up CI (@oruebel, [#289](https://github.com/NeurodataWithoutBorders/aqnwb/pull/289))
 * Fixed `get_utc_offset_seconds` to correctly account for daylight saving time using platform-specific APIs (`tm_gmtoff` on Unix/macOS; `_get_timezone` + `_get_dstbias` on Windows), preventing `session_start_time` from being written ~1 hour ahead of UTC during DST (@cboulay, [#295](https://github.com/NeurodataWithoutBorders/aqnwb/pull/295))
 * Fixed bug in `HDF5IO::canModifyObjects` returning true when a file is opened in read-only. (@oruebel, [#307](https://github.com/NeurodataWithoutBorders/aqnwb/pull/307))
-* Updated `build-demo.yml` and `tests.yml` CI to support testing of the new ROS3 and remfile features and scripts  (@oruebel, [#308](https://github.com/NeurodataWithoutBorders/aqnwb/pull/308))
+* Fixed HDF5 string type creation to explicitly use UTF-8 character set for fixed-length and variable-length strings in datasets and attributes, improving compatibility with hdmf/PyNWB string decoding (@copilot, @oruebel [#319](https://github.com/NeurodataWithoutBorders/aqnwb/pull/319))
+* Fixed Windows CI by updating the CMake generator in `CMakePresets.json` from `"Visual Studio 17 2022"` to `"Visual Studio 18 2026"` to match the updated `windows-latest` runner (@copilot, @oruebel [#319](https://github.com/NeurodataWithoutBorders/aqnwb/pull/319))
 
 
 ## [0.3.0] - 2026-02-23

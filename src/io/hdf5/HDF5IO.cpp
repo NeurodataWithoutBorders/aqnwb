@@ -987,8 +987,9 @@ Status HDF5IO::createAttribute(const std::string& data,
     return Status::Failure;
   }
 
-  // Create variable length string type
-  StrType H5type(PredType::C_S1, static_cast<size_t>(H5T_VARIABLE));
+  const IO::BaseDataType strType(IO::BaseDataType::Type::V_STR);
+  DataType H5type = getH5Type(strType);
+  DataType nativeType = getNativeType(strType);
 
   auto manage_attribute = [&](H5Object& loc)
   {
@@ -1009,7 +1010,7 @@ Status HDF5IO::createAttribute(const std::string& data,
 
       // Write the scalar string data
       const char* dataPtr = data.c_str();
-      attr.write(H5type, &dataPtr);
+      attr.write(nativeType, &dataPtr);
 
     } catch (const GroupIException& error) {
       error.printErrorStack();
@@ -1049,8 +1050,9 @@ Status HDF5IO::createAttribute(const std::vector<std::string>& data,
     return Status::Failure;
   }
 
-  // Create variable length string type
-  StrType H5type(PredType::C_S1, static_cast<size_t>(H5T_VARIABLE));
+  const IO::BaseDataType strType(IO::BaseDataType::Type::V_STR);
+  DataType H5type = getH5Type(strType);
+  DataType nativeType = getNativeType(strType);
 
   auto manage_attribute = [&](H5Object& loc)
   {
@@ -1079,7 +1081,7 @@ Status HDF5IO::createAttribute(const std::vector<std::string>& data,
                      data.end(),
                      dataPtrs.begin(),
                      [](const std::string& str) { return str.c_str(); });
-      attr.write(H5type, dataPtrs.data());
+      attr.write(nativeType, dataPtrs.data());
 
     } catch (const GroupIException& error) {
       error.printErrorStack();
@@ -1634,10 +1636,6 @@ std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::createArrayDataSet(
       }
     }
 
-    if (arrayConfig->getType().type == IO::BaseDataType::Type::T_STR) {
-      H5type = StrType(PredType::C_S1, arrayConfig->getType().typeSize);
-    }
-
     data = std::make_unique<DataSet>(
         m_file->createDataSet(path, H5type, dSpace, prop));
   } catch (const H5::Exception& e) {
@@ -1708,10 +1706,17 @@ H5::DataType HDF5IO::getNativeType(IO::BaseDataType type)
     case IO::BaseDataType::Type::T_F64:
       baseType = H5::PredType::NATIVE_DOUBLE;
       break;
-    case IO::BaseDataType::Type::T_STR:
-      return H5::StrType(H5::PredType::C_S1, type.typeSize);
-    case IO::BaseDataType::Type::V_STR:
-      return H5::StrType(H5::PredType::C_S1, static_cast<size_t>(H5T_VARIABLE));
+    case IO::BaseDataType::Type::T_STR: {
+      H5::StrType strType(H5::PredType::C_S1, type.typeSize);
+      strType.setCset(H5T_CSET_UTF8);
+      return strType;
+    }
+    case IO::BaseDataType::Type::V_STR: {
+      H5::StrType strType(H5::PredType::C_S1,
+                          static_cast<size_t>(H5T_VARIABLE));
+      strType.setCset(H5T_CSET_UTF8);
+      return strType;
+    }
     default:
       baseType = H5::PredType::NATIVE_INT32;
   }
@@ -1802,12 +1807,16 @@ H5::DataType HDF5IO::getH5Type(IO::BaseDataType type)
     case BaseDataType::Type::T_F64:
       baseType = PredType::IEEE_F64LE;
       break;
-    case BaseDataType::Type::T_STR:
-      return StrType(PredType::C_S1, type.typeSize);
-      break;
-    case BaseDataType::Type::V_STR:
-      return StrType(PredType::C_S1, static_cast<size_t>(H5T_VARIABLE));
-      break;
+    case BaseDataType::Type::T_STR: {
+      StrType strType(PredType::C_S1, type.typeSize);
+      strType.setCset(H5T_CSET_UTF8);
+      return strType;
+    }
+    case BaseDataType::Type::V_STR: {
+      StrType strType(PredType::C_S1, static_cast<size_t>(H5T_VARIABLE));
+      strType.setCset(H5T_CSET_UTF8);
+      return strType;
+    }
     default:
       return PredType::STD_I32LE;
   }
