@@ -13,6 +13,7 @@
 #include "nwb/NWBFile.hpp"
 #include "nwb/ecephys/ElectricalSeries.hpp"
 #include "nwb/file/ElectrodesTable.hpp"
+#include "nwb/file/Subject.hpp"
 #include "testUtils.hpp"
 
 using namespace AQNWB;
@@ -46,18 +47,20 @@ TEST_CASE("workflowExamples")
 
     // [example_workflow_nwbfile_snippet]
     auto nwbfile = NWB::NWBFile::create(io);
-    NWB::SubjectMetadata subject;
-    subject.subjectId = "mouse001";
-    subject.species = "Mus musculus";
-    subject.sex = "M";
-    subject.age = "P90D";
-    subject.description = "Wild type mouse used for electrophysiology study";
+    AQNWB::NWB::Subject::SubjectSpec subjectSpec;
+    subjectSpec.subjectId = "mouse001";
+    subjectSpec.species = "Mus musculus";
+    subjectSpec.sex = "M";
+    subjectSpec.age = "P90D";
+    subjectSpec.description =
+        "Wild type mouse used for electrophysiology study";
+    std::string currentTime = getCurrentTime();
     Status initStatus = nwbfile->initialize(generateUuid(),
                                             "a recording session",
-                                            "",
-                                            "",
-                                            "",
-                                            subject);
+                                            "data collection info",
+                                            currentTime,
+                                            currentTime,
+                                            subjectSpec);
     AQNWB::checkStatus(initStatus, "NWBFile initialization");
     // [example_workflow_nwbfile_snippet]
     REQUIRE(initStatus == Status::Success);

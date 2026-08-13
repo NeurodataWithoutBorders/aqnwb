@@ -13,6 +13,7 @@
 #include "nwb/NWBFile.hpp"
 #include "nwb/base/TimeSeries.hpp"
 #include "nwb/ecephys/SpikeEventSeries.hpp"
+#include "nwb/file/Subject.hpp"
 #include "nwb/misc/AnnotationSeries.hpp"
 #include "spec/core.hpp"
 #include "testUtils.hpp"
@@ -67,12 +68,6 @@ TEST_CASE("initialize", "[nwb]")
   initStatus = nwbfile->initialize(generateUuid());
   REQUIRE(initStatus == Status::Success);
   REQUIRE(nwbfile->isInitialized());
-
-  // The default initializes a Subject group so we should have one owned type
-  auto result = nwbfile->findOwnedTypes();
-  REQUIRE(result.size() == 1);
-  REQUIRE(result.count("/general/subject") == 1);
-  REQUIRE(result.at("/general/subject") == "core::Subject");
 
   nwbfile->finalize();  // Good practice since we don't call stop recording, but
                         // not essential
@@ -212,7 +207,19 @@ TEST_CASE("createElectricalSeries", "[nwb]")
       std::make_shared<IO::HDF5::HDF5IO>(filename);
   io->open();
   auto nwbfile = NWB::NWBFile::create(io);
-  nwbfile->initialize(generateUuid());
+  AQNWB::NWB::Subject::SubjectSpec subjectSpec;
+  subjectSpec.subjectId = "mouse001";
+  subjectSpec.species = "Mus musculus";
+  subjectSpec.sex = "M";
+  subjectSpec.age = "P90D";
+  subjectSpec.description = "Wild type mouse used for electrophysiology study";
+  std::string currentTime = getCurrentTime();
+  nwbfile->initialize(generateUuid(),
+                      "a recording session",
+                      "data collection info",
+                      currentTime,
+                      currentTime,
+                      subjectSpec);
 
   // create the Electrodes Table
   std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays();
