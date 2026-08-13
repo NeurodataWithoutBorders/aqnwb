@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## Upcoming  (~June 2026)
+## Upcoming  (~August 2026)
 
 ### Added
 * **Added support for streaming data read of remote NWB files:**
