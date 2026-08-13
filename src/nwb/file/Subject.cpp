@@ -28,7 +28,7 @@ Subject::Subject(const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io)
 // Initialize the object
 Status Subject::initialize(const SubjectSpec& subjectSpec)
 {
-  // Get the IO object`
+  // Get the IO object
   auto ioPtr = getIO();
   if (!ioPtr) {
     std::cerr << "Subject::initialize IO object has been deleted." << std::endl;
