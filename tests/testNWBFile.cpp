@@ -79,6 +79,34 @@ TEST_CASE("initialize", "[nwb]")
   io->close();  // close the io
 }
 
+TEST_CASE("initialize preserves existing subject metadata", "[nwb]")
+{
+  const std::string filename =
+      getTestFilePath("testInitializeExistingSubject.nwb");
+  auto io = std::make_shared<IO::HDF5::HDF5IO>(filename);
+  io->open();
+
+  auto nwbfile = NWB::NWBFile::create(io);
+  REQUIRE(nwbfile->initialize(generateUuid()) == Status::Success);
+
+  auto existingSubjectSpec = getTestSubjectSpec();
+  existingSubjectSpec.subjectId = "existing-subject";
+  auto subject = NWB::Subject::create("/general/subject", io);
+  REQUIRE(subject->initialize(existingSubjectSpec) == Status::Success);
+
+  REQUIRE(nwbfile->initialize(generateUuid(),
+                              "Test initialized NWB file",
+                              "Test data collection",
+                              getCurrentTime(),
+                              getCurrentTime(),
+                              getTestSubjectSpec())
+          == Status::Success);
+  REQUIRE(subject->readSubjectId()->values().data
+          == std::vector<std::string> {"existing-subject"});
+
+  io->close();
+}
+
 TEST_CASE("createElectrodesTable", "[nwb]")
 {
   std::string filename = getTestFilePath("createElectrodesTable.nwb");
