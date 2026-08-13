@@ -37,6 +37,14 @@ var userdocs =
       ] ],
       [ "Further reading", "read_page.html#read_further_reading", null ]
     ] ],
+    [ "Reading Remote Data ☁️", "reads3_page.html", [
+      [ "Reading via the ROS3 VFD", "reads3_page.html#reads3_ros3", [
+        [ "Opening a file from S3", "reads3_page.html#reads3_ros3_open", null ],
+        [ "Reading objects and data", "reads3_page.html#reads3_ros3_read", null ]
+      ] ],
+      [ "Reading via the remfile VFD", "reads3_page.html#reads3_remfile", null ],
+      [ "Further reading", "reads3_page.html#reads3_further_reading", null ]
+    ] ],
     [ "HDF5 I/O 📂", "hdf5io.html", [
       [ "Optimizing Data Layout", "hdf5io.html#hdf5io_data_layout", [
         [ "Chunking", "hdf5io.html#hdf5io_chunking", null ],
@@ -68,6 +76,7 @@ var userdocs =
     ] ],
     [ "Demos 📝", "user_demos.html", [
       [ "Inspect Electrical Series Data using AqNWB", "user_demos.html#demos_inspect_electrical_series", null ],
-      [ "Integrating LabMetaData Extension with AqNWB", "user_demos.html#demos_labmetadata_extension", null ]
+      [ "Integrating LabMetaData Extension with AqNWB", "user_demos.html#demos_labmetadata_extension", null ],
+      [ "Remote Read Benchmark", "user_demos.html#demos_remote_read_benchmark", null ]
     ] ]
 ];

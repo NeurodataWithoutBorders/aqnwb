@@ -7,6 +7,7 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type =
     [ "create", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a2291ceaa71c1b02ed86a3d4626a7ac48", null ],
     [ "create", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a13dd3c9a0045cb3729ba9cf56e4a2fa7", null ],
     [ "finalize", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aafbac618f2867992dbe8c2f35a072bae", null ],
+    [ "findOwnedObject", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#adb4e0300f19ae6f847ff1c78a8b7ccbb", null ],
     [ "findOwnedTypes", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a8a83a775f6a8a94d6ae3428e05ef9bfc", null ],
     [ "getCacheRecordingData", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ad3753ec40e8c6b6fafa59ca80433e978", null ],
     [ "getFactoryMap", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ac83aa589b9c3ab5a00bab462e58fdbd5", null ],

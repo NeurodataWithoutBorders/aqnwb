@@ -18,6 +18,7 @@ var class_a_q_n_w_b_1_1_i_o_1_1_base_i_o =
     [ "createReferenceDataSet", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#ae528cc5bca847f19b94a6bd6a85a7a2c", null ],
     [ "createStringDataSet", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a28a1af7293ec4658e0862ea91d8bb95c", null ],
     [ "createStringDataSet", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#ae8d1965bf93c9e44438439ebde240323", null ],
+    [ "findObject", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a0b762c28ae74ea07599eb71bf2c5cfc6", null ],
     [ "findTypes", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a788603f4c9c2698aad610134ab89f8e1", null ],
     [ "flush", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a8f6ad4501f15fdfa8927aa63faae690a", null ],
     [ "getDataSet", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#abfecddd0a4a45740ccc84edd7461dba9", null ],

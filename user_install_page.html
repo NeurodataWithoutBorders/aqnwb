@@ -122,6 +122,7 @@ Requirements</h1>
 <li>A C++17-compliant compiler</li>
 <li><a href="https://cmake.org">CMake &gt;= 3.15</a></li>
 <li><a href="https://github.com/HDFGroup/hdf5">HDF5 &gt;= 1.10</a></li>
+<li><a href="https://curl.se/libcurl/">libcurl</a> (optional, required for remfile support)</li>
 </ul>
 <h1 class="doxsection"><a class="anchor" id="userbuild_source_sec"></a>
 Source</h1>
@@ -132,7 +133,10 @@ Build</h1>
 <p>Here are the steps for building in release mode with a multi-configuration generator:</p>
 <div class="fragment"><div class="line">cmake -S . -B build</div>
 <div class="line">cmake --build build --config Release</div>
-</div><!-- fragment --><p>Use the flag <span class="tt">-DBUILD_SHARED_LIBS=ON</span> to generate the shared library file.</p>
+</div><!-- fragment --><p>To enable reading remote files via the remfile virtual file driver, add the <span class="tt">-DAQNWB_USE_REMFILE=ON</span> option during configuration.</p>
+<p>AqNWB first looks for an installed <a href="https://github.com/catalystneuro/remfile-cpp">remfile-cpp</a> package. If it is not found, CMake downloads and builds a pinned remfile-cpp release during configuration. Install remfile-cpp first to use that installation and skip the download. When CMake downloads remfile-cpp, installing AqNWB also installs remfile-cpp into the same installation prefix.</p>
+<p>Note that ROS3 support is automatically enabled if your HDF5 installation was built with ROS3 support (i.e., <span class="tt">H5_HAVE_ROS3_VFD</span> is defined).</p>
+<p>Use the flag <span class="tt">-DBUILD_SHARED_LIBS=ON</span> to generate the shared library file.</p>
 <dl class="section note"><dt>Note</dt><dd>If you are using a custom installation of <b>HDF5</b> that is not being detected automatically by CMake, you can specify the <span class="tt">HDF5_ROOT</span> environment variable to point to the install directory of HDF5.</dd></dl>
 <h1 class="doxsection"><a class="anchor" id="userbuild_install_sec"></a>
 Install</h1>

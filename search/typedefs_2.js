@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['registrytype_0',['RegistryType',['../class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#a06ce04d28886b96bce8e9f92dd4538f2',1,'AQNWB::SPEC::NamespaceRegistry']]]
+  ['h5oinfocompat_0',['H5OInfoCompat',['../_h_d_f5_i_o_8cpp.html#a6a8fcacb1dfec7115ee401ec3039c515',1,'HDF5IO.cpp']]]
 ];

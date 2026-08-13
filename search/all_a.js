@@ -12,8 +12,9 @@ var searchData=
   ['baserecordingdata_9',['BaseRecordingData',['../class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html',1,'AQNWB::IO::BaseRecordingData'],['../class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html#a4eca327defbc16495f4dc31ea0f0bd71',1,'AQNWB::IO::BaseRecordingData::BaseRecordingData()'],['../class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html#abe2ab069f85522220c69068c79069bd6',1,'AQNWB::IO::BaseRecordingData::BaseRecordingData(const BaseRecordingData &amp;)=delete'],['../record_design_page.html#record_design_sec_recording_data',1,'Recording datasets with BaseRecordingData']]],
   ['baserecordingdata_20for_20managing_20recording_10',['BaseRecordingData for Managing Recording',['../record_design_page.html#record_design_sec_baserecordingdata',1,'']]],
   ['begin_11',['begin',['../class_a_q_n_w_b_1_1_i_o_1_1_const_multi_array_view.html#afc0745f33116b235bd934603a0a87ebc',1,'AQNWB::IO::ConstMultiArrayView']]],
-  ['branch_12',['1. Create a Release Branch',['../release_workflow.html#release_steps_1',1,'']]],
-  ['build_13',['Build',['../user_install_page.html#userbuild_build_sec',1,'Build'],['../dev_install_page.html#devbuild_sec',1,'Developer Build']]],
-  ['build_20and_20test_14',['Configure, Build and Test',['../dev_install_page.html#configure_build_test',1,'']]],
-  ['building_20the_20docs_15',['Building the Docs',['../dev_docs_page.html#dev_docs_requirements_sec',1,'']]]
+  ['benchmark_12',['Remote Read Benchmark',['../user_demos.html#demos_remote_read_benchmark',1,'']]],
+  ['branch_13',['1. Create a Release Branch',['../release_workflow.html#release_steps_1',1,'']]],
+  ['build_14',['Build',['../user_install_page.html#userbuild_build_sec',1,'Build'],['../dev_install_page.html#devbuild_sec',1,'Developer Build']]],
+  ['build_20and_20test_15',['Configure, Build and Test',['../dev_install_page.html#configure_build_test',1,'']]],
+  ['building_20the_20docs_16',['Building the Docs',['../dev_docs_page.html#dev_docs_requirements_sec',1,'']]]
 ];

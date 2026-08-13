@@ -10,5 +10,8 @@ var searchData=
   ['vectordatatyped_7',['VectorDataTyped',['../class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html',1,'AQNWB::NWB::VectorDataTyped&lt; DTYPE &gt;'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html#ae1574fc67b4fc214d68267283d5b2dbf',1,'AQNWB::NWB::VectorDataTyped::VectorDataTyped()']]],
   ['verification_8',['Verification',['../links.html#link_verification',1,'']]],
   ['version_9',['version',['../dev_install_page.html#devbuild_cpp_std_sec',1,'Selecting a newer C++ standard version'],['../struct_a_q_n_w_b_1_1_types_1_1_namespace_info.html#a7babf79b0da680392946d32ccbd8f944',1,'AQNWB::Types::NamespaceInfo::version'],['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#a85a6c487bd8051993391e095c4b22208',1,'AQNWB::SPEC::CORE::version'],['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_h_d_m_f___c_o_m_m_o_n.html#ab393e83226fc1aac525ae4e23f68a375',1,'AQNWB::SPEC::HDMF_COMMON::version'],['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_h_d_m_f___e_x_p_e_r_i_m_e_n_t_a_l.html#ac44c43d3fd8556ae81e395492b001ed0',1,'AQNWB::SPEC::HDMF_EXPERIMENTAL::version']]],
-  ['version_20numbers_10',['2. Update Version Numbers',['../release_workflow.html#release_steps_2',1,'']]]
+  ['version_20numbers_10',['2. Update Version Numbers',['../release_workflow.html#release_steps_2',1,'']]],
+  ['vfd_11',['VFD',['../reads3_page.html#reads3_remfile',1,'Reading via the remfile VFD'],['../reads3_page.html#reads3_ros3',1,'Reading via the ROS3 VFD']]],
+  ['via_20the_20remfile_20vfd_12',['Reading via the remfile VFD',['../reads3_page.html#reads3_remfile',1,'']]],
+  ['via_20the_20ros3_20vfd_13',['Reading via the ROS3 VFD',['../reads3_page.html#reads3_ros3',1,'']]]
 ];

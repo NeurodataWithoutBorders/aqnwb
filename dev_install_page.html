@@ -137,6 +137,8 @@ Requirements</h2>
 </ul>
 <h2 class="doxsection"><a class="anchor" id="devbuild_sec"></a>
 Developer Build</h2>
+<p>To enable reading remote files via the remfile virtual file driver, add the <span class="tt">-DAQNWB_USE_REMFILE=ON</span> option during configuration. Note that ROS3 support is automatically enabled if your HDF5 installation was built with ROS3 support (i.e., <span class="tt">H5_HAVE_ROS3_VFD</span> is defined).</p>
+<p>AqNWB first looks for an installed <a href="https://github.com/catalystneuro/remfile-cpp">remfile-cpp</a> package. If it is not found, CMake downloads and builds a pinned remfile-cpp release during configuration. Install remfile-cpp first to use that installation and skip the download. When CMake downloads remfile-cpp, installing AqNWB also installs remfile-cpp into the same installation prefix.</p>
 <p>Build system targets that are only useful for developers of AqNWB are hidden if the <span class="tt">aqnwb_DEVELOPER_MODE</span> option is disabled. Enabling this option makes <a class="el" href="testing.html" title="Testing 🛡️">tests</a> and other developer targets and options available. You can enable the option when configuring the build by adding <span class="tt">-Daqnwb_DEVELOPER_MODE=ON</span>, e.g.,</p>
 <div class="fragment"><div class="line">cmake -S . -B build -Daqnwb_DEVELOPER_MODE=ON</div>
 </div><!-- fragment --><p>Use the flag <span class="tt">-DBUILD_SHARED_LIBS=ON</span> to generate the shared library file.</p>
@@ -150,6 +152,7 @@ Using a custom HDF5 installation</h3>
 <div class="line"># Option 2: Pass as a CMake variable (semicolon-separated)</div>
 <div class="line">cmake --preset=dev -DCMAKE_PREFIX_PATH=/path/to/hdf5_install</div>
 </div><!-- fragment --><p>This ensures CMake can find the necessary config files for HDF5.</p>
+<dl class="section note"><dt>Note</dt><dd>It is strongly recommended to install HDF5 <b>outside</b> of the AqNWB project source directory. Installing dependencies within the source tree can cause CMake export errors during the installation process.</dd></dl>
 <p>The use of the <span class="tt">HDF5_ROOT</span> environment variable is deprecated for modern CMake and may not work reliably with recent CMake versions.</p>
 <h3 class="doxsection"><a class="anchor" id="devbuild_cpp_std_sec"></a>
 Selecting a newer C++ standard version</h3>

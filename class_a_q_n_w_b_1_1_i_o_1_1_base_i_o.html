@@ -156,6 +156,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a981d7a455b4c057f8ade5c511afbb2ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the list of storage objects (groups, datasets, attributes) inside a group.  <br /></td></tr>
 <tr class="memitem:a788603f4c9c2698aad610134ab89f8e1" id="r_a788603f4c9c2698aad610134ab89f8e1"><td class="memItemLeft">virtual std::unordered_map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a788603f4c9c2698aad610134ab89f8e1">findTypes</a> (const std::string &amp;starting_path, const std::unordered_set&lt; std::string &gt; &amp;types, <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html#af7fd0e43e0ffc4d765046020e6929035">SearchMode</a> search_mode, bool exclude_starting_path=false) const</td></tr>
 <tr class="memdesc:a788603f4c9c2698aad610134ab89f8e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds all datasets and groups of the given types in the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> file.  <br /></td></tr>
+<tr class="memitem:a0b762c28ae74ea07599eb71bf2c5cfc6" id="r_a0b762c28ae74ea07599eb71bf2c5cfc6"><td class="memItemLeft">virtual std::string&#160;</td><td class="memItemRight"><a class="el" href="#a0b762c28ae74ea07599eb71bf2c5cfc6">findObject</a> (const std::string &amp;name, const std::string &amp;starting_path=&quot;/&quot;) const</td></tr>
+<tr class="memdesc:a0b762c28ae74ea07599eb71bf2c5cfc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the first object in the file whose path ends with the given name.  <br /></td></tr>
 <tr class="memitem:a1b9c28abd50f22cf2e0bca20380a12b9" id="r_a1b9c28abd50f22cf2e0bca20380a12b9"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a1b9c28abd50f22cf2e0bca20380a12b9">getFullTypeName</a> (const std::string &amp;path) const</td></tr>
 <tr class="memdesc:a1b9c28abd50f22cf2e0bca20380a12b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the full name of the type from the attribute in the file.  <br /></td></tr>
 <tr class="memitem:ad554d43f98c5fc038cb7bc59d3d3721d" id="r_ad554d43f98c5fc038cb7bc59d3d3721d"><td class="memItemLeft">virtual <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html">DataBlockGeneric</a>&#160;</td><td class="memItemRight"><a class="el" href="#ad554d43f98c5fc038cb7bc59d3d3721d">readDataset</a> (const std::string &amp;dataPath, const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;start={}, const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;count={}, const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;stride={}, const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;block={})=0</td></tr>
@@ -965,6 +967,54 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
+<a id="a0b762c28ae74ea07599eb71bf2c5cfc6" name="a0b762c28ae74ea07599eb71bf2c5cfc6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b762c28ae74ea07599eb71bf2c5cfc6">&#9670;&#160;</a></span>findObject()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string BaseIO::findObject </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>starting_path</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;/&quot;</span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Find the first object in the file whose path ends with the given name. </p>
+<p>This function iterates through the storage objects (groups, datasets) in the file, starting from the given path, using getStorageObjects, and returns the full path of the first matching object in name-ordered, depth-first traversal. This is a light-weight alternative to findTypes for cases where the caller only needs to locate an object by its name (e.g., the name of a TimeSeries) rather than by its neurodata_type.</p>
+<p>Implementations may optimize this search differently. In particular, HDF5IO::findObject does not return paths that are reachable only through soft links; use the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html" title="The BaseIO class is an abstract base class that defines the interface for input/output (IO) operation...">BaseIO</a> implementation explicitly when those paths must be searched.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>The name (or path suffix) of the object to search for. </td></tr>
+    <tr><td class="paramname">starting_path</td><td>The path in the file to start the search from. Defaults to the root of the file ("/"). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The full path to the first matching object in name-ordered, depth-first traversal, or an empty string if no matching object was found. </dd></dl>
+
+<p>Reimplemented in <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a19a6ef59de82aa2bcf97e24945b64742">AQNWB::IO::HDF5::HDF5IO</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o_a0b762c28ae74ea07599eb71bf2c5cfc6_cgraph.svg" width="368" height="167"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
 <a id="a788603f4c9c2698aad610134ab89f8e1" name="a788603f4c9c2698aad610134ab89f8e1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a788603f4c9c2698aad610134ab89f8e1">&#9670;&#160;</a></span>findTypes()</h2>
 
@@ -1116,7 +1166,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o_aaca68b05085b5e9f81a16d7612757163_icgraph.svg" width="100%" height="498"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o_aaca68b05085b5e9f81a16d7612757163_icgraph.svg" width="100%" height="596"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -1322,7 +1372,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o_a981d7a455b4c057f8ade5c511afbb2ba_icgraph.svg" width="368" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o_a981d7a455b4c057f8ade5c511afbb2ba_icgraph.svg" width="368" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -1502,7 +1552,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o_a01e6288db37a36dc4a160955e8f5b5b5_icgraph.svg" width="632" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o_a01e6288db37a36dc4a160955e8f5b5b5_icgraph.svg" width="632" height="183"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

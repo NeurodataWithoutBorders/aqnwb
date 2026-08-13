@@ -1,17 +1,21 @@
 <map id="AQNWB::IO::BaseIO::getFileName" name="AQNWB::IO::BaseIO::getFileName">
-<area shape="rect" id="Node000001" title="Returns the full path to the file." alt="" coords="732,112,887,153"/>
+<area shape="rect" id="Node000001" title="Returns the full path to the file." alt="" coords="732,185,887,226"/>
 <area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#ada2e4de37006527cf23d0fdd50d33a0c" title="Non&#45;virtual helper that performs the actual HDF5 file close." alt="" coords="490,13,684,54"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="751,105,683,75,642,57,642,52,685,70,756,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="782,172,739,124,712,98,683,75,652,57,652,52,686,70,716,94,743,120,787,173"/>
 <area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#af492eb7675c4418ac4670e1c7fc9c9c2" title="Destructor." alt="" coords="248,71,442,111"/>
-<area shape="poly" id="edge8_Node000001_Node000005" title=" " alt="" coords="715,120,684,119,443,100,442,94,685,114,720,120"/>
+<area shape="poly" id="edge10_Node000001_Node000005" title=" " alt="" coords="773,174,733,145,683,119,623,102,560,92,498,88,443,87,442,82,499,82,560,87,624,97,685,114,736,140,778,175"/>
 <area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#af13e43a73e40b98dcacd9cc587536143" title="Opens an existing file or creates a new file for writing." alt="" coords="490,152,684,193"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="720,148,685,157,684,152,714,149"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="714,192,685,190,685,184,720,192"/>
 <area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a4edb85857f5fe7d78cfe21aabe62a04d" title="Opens an existing file or creates a new file for writing." alt="" coords="490,217,684,258"/>
-<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="766,160,685,207,655,219,653,214,683,202,761,162"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="714,219,685,226,684,221,720,218"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a0862e7e7433874d80835e467e413c3b3" title="Opens a remote file over HTTP(S) in read&#45;only mode using the remfile virtual file driver." alt="" coords="490,283,684,323"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="761,233,685,272,654,285,652,279,683,267,756,234"/>
+<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#ad677295c8d81010b08b399031d2c78e6" title="Opens an existing file in read&#45;only mode using the ROS3 driver." alt="" coords="490,348,684,389"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="787,237,743,290,715,315,686,337,662,350,660,345,683,333,712,311,739,286,782,240"/>
 <area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a969eb3d7ab2d93c5a83b58f27773e16f" title="Closes the file." alt="" coords="248,5,442,46"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="472,31,443,31,442,26,477,29"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="481,59,435,73,433,67,486,57"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="481,59,435,72,433,68,486,57"/>
 <area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a0cfc2191ccfc122fa5098d4c4b4117b5" title="Stops the recording process." alt="" coords="5,5,200,46"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="230,27,201,28,199,23,234,24"/>
-<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="622,136,610,133,587,131,566,133,553,137,548,143,550,153,546,150,543,142,550,133,565,127,587,125,611,128,627,137"/>
+<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="622,136,610,133,587,131,566,133,553,137,548,143,550,153,545,150,543,142,550,133,565,127,587,125,611,128,627,136"/>
 </map>

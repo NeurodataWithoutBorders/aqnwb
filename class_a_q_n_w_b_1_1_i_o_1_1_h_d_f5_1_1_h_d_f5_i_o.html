@@ -141,12 +141,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:af13e43a73e40b98dcacd9cc587536143"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens an existing file or creates a new file for writing.  <br /></td></tr>
 <tr class="memitem:a4edb85857f5fe7d78cfe21aabe62a04d" id="r_a4edb85857f5fe7d78cfe21aabe62a04d"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a4edb85857f5fe7d78cfe21aabe62a04d">open</a> (<a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html#a969d0800c8e9e2141f272541b85e8bed">FileMode</a> mode) override</td></tr>
 <tr class="memdesc:a4edb85857f5fe7d78cfe21aabe62a04d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens an existing file or creates a new file for writing.  <br /></td></tr>
+<tr class="memitem:ad677295c8d81010b08b399031d2c78e6" id="r_ad677295c8d81010b08b399031d2c78e6"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#ad677295c8d81010b08b399031d2c78e6">openS3</a> (const std::string &amp;aws_region=&quot;&quot;, const std::string &amp;secret_id=&quot;&quot;, const std::string &amp;secret_key=&quot;&quot;)</td></tr>
+<tr class="memdesc:ad677295c8d81010b08b399031d2c78e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens an existing file in read-only mode using the ROS3 driver.  <br /></td></tr>
+<tr class="memitem:a0862e7e7433874d80835e467e413c3b3" id="r_a0862e7e7433874d80835e467e413c3b3"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a0862e7e7433874d80835e467e413c3b3">openRemote</a> ()</td></tr>
+<tr class="memdesc:a0862e7e7433874d80835e467e413c3b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens a remote file over HTTP(S) in read-only mode using the remfile virtual file driver.  <br /></td></tr>
 <tr class="memitem:a969eb3d7ab2d93c5a83b58f27773e16f" id="r_a969eb3d7ab2d93c5a83b58f27773e16f"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a969eb3d7ab2d93c5a83b58f27773e16f">close</a> () override</td></tr>
 <tr class="memdesc:a969eb3d7ab2d93c5a83b58f27773e16f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Closes the file.  <br /></td></tr>
 <tr class="memitem:af169224331c1c4f67ccf8521f5d778db" id="r_af169224331c1c4f67ccf8521f5d778db"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#af169224331c1c4f67ccf8521f5d778db">flush</a> () override</td></tr>
 <tr class="memdesc:af169224331c1c4f67ccf8521f5d778db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flush data to disk.  <br /></td></tr>
 <tr class="memitem:a5fb171a91ef8134baf224115f0dcf8bc" id="r_a5fb171a91ef8134baf224115f0dcf8bc"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915">StorageObjectType</a>&#160;</td><td class="memItemRight"><a class="el" href="#a5fb171a91ef8134baf224115f0dcf8bc">getStorageObjectType</a> (std::string path) const override</td></tr>
 <tr class="memdesc:a5fb171a91ef8134baf224115f0dcf8bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the storage type (Group, Dataset, Attribute) of the object at path.  <br /></td></tr>
+<tr class="memitem:a19a6ef59de82aa2bcf97e24945b64742" id="r_a19a6ef59de82aa2bcf97e24945b64742"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a19a6ef59de82aa2bcf97e24945b64742">findObject</a> (const std::string &amp;name, const std::string &amp;starting_path=&quot;/&quot;) const override</td></tr>
+<tr class="memdesc:a19a6ef59de82aa2bcf97e24945b64742"><td class="mdescLeft">&#160;</td><td class="mdescRight">Search for the first object (Group or Dataset) whose last path component matches <code class="param">name</code>, starting the search at <code class="param">starting_path</code>.  <br /></td></tr>
 <tr class="memitem:ab7564591e00bb695e7c847a77acd995c" id="r_ab7564591e00bb695e7c847a77acd995c"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html">AQNWB::IO::DataBlockGeneric</a>&#160;</td><td class="memItemRight"><a class="el" href="#ab7564591e00bb695e7c847a77acd995c">readDataset</a> (const std::string &amp;dataPath, const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;start={}, const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;count={}, const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;stride={}, const <a class="el" href="_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460">SizeArray</a> &amp;block={}) override</td></tr>
 <tr class="memdesc:ab7564591e00bb695e7c847a77acd995c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a dataset or attribute and determines the data type.  <br /></td></tr>
 <tr class="memitem:a7535b7fcc607fe1f47703f21b25ae5de" id="r_a7535b7fcc607fe1f47703f21b25ae5de"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html">AQNWB::IO::DataBlockGeneric</a>&#160;</td><td class="memItemRight"><a class="el" href="#a7535b7fcc607fe1f47703f21b25ae5de">readAttribute</a> (const std::string &amp;dataPath) const override</td></tr>
@@ -1067,6 +1073,57 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
+<a id="a19a6ef59de82aa2bcf97e24945b64742" name="a19a6ef59de82aa2bcf97e24945b64742"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19a6ef59de82aa2bcf97e24945b64742">&#9670;&#160;</a></span>findObject()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string HDF5IO::findObject </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>starting_path</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;/&quot;</span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Search for the first object (Group or Dataset) whose last path component matches <code class="param">name</code>, starting the search at <code class="param">starting_path</code>. </p>
+<p>This HDF5-specific override replaces the generic recursive implementation in <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html" title="The BaseIO class is an abstract base class that defines the interface for input/output (IO) operation...">BaseIO</a> with a single H5Ovisit traversal that terminates early on the first match. This reduces the number of metadata operations with the goal to improve performance, especially for large files with many groups.</p>
+<p>H5Ovisit is object-centric and does not traverse soft links. Consequently, this method does not find objects that are reachable only through a soft link. Call <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a0b762c28ae74ea07599eb71bf2c5cfc6" title="Find the first object in the file whose path ends with the given name.">BaseIO::findObject</a> explicitly when soft-link paths must be searched.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>The last path component to search for (e.g. "electrodes"). </td></tr>
+    <tr><td class="paramname">starting_path</td><td>The path of the group to start the search from. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The full path of the first matching object, or "" if not found. </dd></dl>
+<p>&lt; name (last path component) to search for</p>
+<p>&lt; starting path ("/" for root)</p>
+<p>&lt; full path of the first match (output)</p>
+
+<p>Reimplemented from <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a0b762c28ae74ea07599eb71bf2c5cfc6">AQNWB::IO::BaseIO</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o_a19a6ef59de82aa2bcf97e24945b64742_cgraph.svg" width="448" height="102"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
 <a id="af169224331c1c4f67ccf8521f5d778db" name="af169224331c1c4f67ccf8521f5d778db"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af169224331c1c4f67ccf8521f5d778db">&#9670;&#160;</a></span>flush()</h2>
 
@@ -1674,6 +1731,77 @@ Here is the caller graph for this function:</div>
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o_a4edb85857f5fe7d78cfe21aabe62a04d_cgraph.svg" width="408" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a0862e7e7433874d80835e467e413c3b3" name="a0862e7e7433874d80835e467e413c3b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0862e7e7433874d80835e467e413c3b3">&#9670;&#160;</a></span>openRemote()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> HDF5IO::openRemote </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Opens a remote file over HTTP(S) in read-only mode using the remfile virtual file driver. </p>
+<p>The filename passed to the constructor must be an <a href="http://">http://</a> or <a href="https://">https://</a> URL of a file on a server that supports byte-range requests (e.g., a DANDI archive asset URL). Unlike <a class="el" href="#ad677295c8d81010b08b399031d2c78e6" title="openS3">openS3</a>, this does not require <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> to be built with ROS3 support and works with any HTTP(S) server, including presigned S3 URLs.</p>
+<p>Reads are served from an in-memory chunk cache with adaptive read-ahead (see <a href="https://github.com/catalystneuro/remfile-cpp">https://github.com/catalystneuro/remfile-cpp</a>).</p>
+<dl class="section return"><dt>Returns</dt><dd>The status of the file opening operation. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o_a0862e7e7433874d80835e467e413c3b3_cgraph.svg" width="408" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="ad677295c8d81010b08b399031d2c78e6" name="ad677295c8d81010b08b399031d2c78e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad677295c8d81010b08b399031d2c78e6">&#9670;&#160;</a></span>openS3()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> HDF5IO::openS3 </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>aws_region</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;&quot;</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>secret_id</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;&quot;</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>secret_key</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;&quot;</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Opens an existing file in read-only mode using the ROS3 driver. </p>
+<p>The AWS region can be omitted here if it is set via the <code>AWS_REGION</code> or <code>AWS_DEFAULT_REGION</code> environment variable or in the AWS configuration file (~/.aws/config).</p>
+<p>When <code class="param">secret_id</code> and <code class="param">secret_key</code> are both non-empty, <code>authenticate</code> is set to <code>true</code> and credentials are taken exclusively from these arguments. When either is empty the ROS3 VFD falls back to its default credential-discovery chain (environment variables, AWS profile files, EC2 instance metadata, etc.).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">aws_region</td><td>The AWS region of the S3 bucket (e.g. "us-east-1"). May be empty if the region is configured elsewhere. </td></tr>
+    <tr><td class="paramname">secret_id</td><td>The AWS access key ID. May be empty. </td></tr>
+    <tr><td class="paramname">secret_key</td><td>The AWS secret access key. May be empty. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the file opening operation. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o_ad677295c8d81010b08b399031d2c78e6_cgraph.svg" width="408" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

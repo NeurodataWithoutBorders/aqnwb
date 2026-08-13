@@ -66,12 +66,12 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_annotation_series_8cpp.html",
-"class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#afee9dd35596851a1af7f4523444ba04b",
-"class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a8b48955947cddf0659b0937bd1e58d39",
-"class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html#ab614b1609f536e88ed1f32762dc3894b",
-"class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_typed.html#a4b3444acebf6c3cadd02406be363b224",
-"class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ab27f0f2b819123b27cf38ab0b6310fed",
-"legal_page.html#legal_copyright"
+"class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#afebc97cbbd321594d89a5146c348b377",
+"class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a7535b7fcc607fe1f47703f21b25ae5de",
+"class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html#a592540e985a1aa371bf785d992d2785a",
+"class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface.html#ae4bdb41408c2564c06438e0c5aed3531",
+"class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a87984ba6f9d5f86a3ba8a8c30e760683",
+"integrating_extensions_page.html#integrate_namespace"
 ];
 
 const SYNCONMSG = 'click to disable panel synchronization';

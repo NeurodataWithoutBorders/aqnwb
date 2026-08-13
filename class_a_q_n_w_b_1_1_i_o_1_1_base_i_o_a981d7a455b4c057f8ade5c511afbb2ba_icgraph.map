@@ -1,5 +1,7 @@
 <map id="AQNWB::IO::BaseIO::getStorageObjects" name="AQNWB::IO::BaseIO::getStorageObjects">
-<area shape="rect" id="Node000001" title="Gets the list of storage objects (groups, datasets, attributes) inside a group." alt="" coords="208,5,362,46"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a788603f4c9c2698aad610134ab89f8e1" title="Finds all datasets and groups of the given types in the HDF5 file." alt="" coords="5,5,160,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="190,26,160,28,160,23,195,25"/>
+<area shape="rect" id="Node000001" title="Gets the list of storage objects (groups, datasets, attributes) inside a group." alt="" coords="208,39,362,79"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a0b762c28ae74ea07599eb71bf2c5cfc6" title="Find the first object in the file whose path ends with the given name." alt="" coords="5,5,160,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="190,44,160,41,160,36,195,43"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a788603f4c9c2698aad610134ab89f8e1" title="Finds all datasets and groups of the given types in the HDF5 file." alt="" coords="5,71,160,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="190,74,160,81,159,76,195,73"/>
 </map>
