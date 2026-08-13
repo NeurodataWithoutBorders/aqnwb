@@ -20,7 +20,7 @@ TEST_CASE("Subject", "[file]")
     auto registry = NWB::RegisteredType::getRegistry();
     REQUIRE(registry.find("core::Subject") != registry.end());
 
-    auto io = createIO("HDF5", getTestFilePath("subject_constructor.nwb"));
+    auto io = createIO("HDF5", getTestFilePath("subject_constructor.h5"));
     auto subject = NWB::Subject::create("/not/the/subject/path", io);
 
     REQUIRE(subject->getPath() == "/general/subject");
@@ -29,7 +29,7 @@ TEST_CASE("Subject", "[file]")
 
   SECTION("writes and reads every metadata field")
   {
-    const std::string filename = getTestFilePath("subject_all_fields.nwb");
+    const std::string filename = getTestFilePath("subject_all_fields.h5");
     auto io = std::make_shared<IO::HDF5::HDF5IO>(filename);
     io->open();
     io->createGroup("/general");
@@ -82,7 +82,7 @@ TEST_CASE("Subject", "[file]")
 
   SECTION("uses birth as the default age reference and omits unset fields")
   {
-    const std::string filename = getTestFilePath("subject_optional_fields.nwb");
+    const std::string filename = getTestFilePath("subject_optional_fields.h5");
     auto io = std::make_shared<IO::HDF5::HDF5IO>(filename);
     io->open();
     io->createGroup("/general");
@@ -107,14 +107,23 @@ TEST_CASE("Subject", "[file]")
     io->open();
 
     NWB::Subject::SubjectSpec subjectSpec;
-    subjectSpec.subjectId = "subject-from-nwbfile";
+    subjectSpec.age = "P90D";
+    subjectSpec.ageReference = "gestational";
+    subjectSpec.dateOfBirth = "2024-01-15T00:00:00.000000+00:00";
+    subjectSpec.description = "Test subject";
+    subjectSpec.genotype = "wt/wt";
+    subjectSpec.sex = "M";
+    subjectSpec.species = "Mus musculus";
+    subjectSpec.strain = "C57BL/6J";
+    subjectSpec.subjectId = "subject-001";
+    subjectSpec.weight = "25 g";
+    auto currentTime = getCurrentTime();
     auto nwbFile = NWB::NWBFile::create(io);
-
     REQUIRE(nwbFile->initialize(generateUuid(),
                                 "Subject integration test",
                                 "Subject test data collection",
-                                "",
-                                "",
+                                currentTime,
+                                currentTime,
                                 std::optional(subjectSpec))
             == Status::Success);
     REQUIRE(io->objectExists("/general/subject"));
