@@ -57,7 +57,7 @@ public:
   };
 
   /**
-   * @brief Constructor for NWBFile class.
+   * @brief Constructor for Subject.
    * @param io The shared pointer to the IO object.
    */
   explicit Subject(std::shared_ptr<IO::BaseIO> io);
