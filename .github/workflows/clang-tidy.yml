@@ -1,0 +1,49 @@
+name: Clang-Tidy
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches:
+    - main
+    paths:
+    - 'src/**'
+    - '.clang-tidy'
+    - 'CMakeLists.txt'
+    - 'CMakePresets.json'
+    - 'cmake/**'
+  pull_request:
+    paths:
+    - 'src/**'
+    - '.clang-tidy'
+    - 'CMakeLists.txt'
+    - 'CMakePresets.json'
+    - 'cmake/**'
+  workflow_dispatch:
+
+jobs:
+  clang-tidy:
+    name: Run clang-tidy static analysis
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y clang-tidy libhdf5-dev
+        git clone https://github.com/catchorg/Catch2.git
+        cd Catch2
+        git checkout "v3.5.3"
+        cmake -Bbuild -H. -DBUILD_TESTING=OFF
+        sudo cmake --build build/ --target install
+
+    - name: Configure compilation database
+      run: cmake --preset=ci-ubuntu -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+
+    - name: Run clang-tidy
+      continue-on-error: true
+      run: cmake --build build --target tidy-check

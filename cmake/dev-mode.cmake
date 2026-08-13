@@ -18,5 +18,6 @@ endif()
 include(cmake/lint-targets.cmake)
 include(cmake/spell-targets.cmake)
 include(cmake/cppcheck-targets.cmake)
+include(cmake/clang-tidy-targets.cmake)
 
 add_folders(Project)
