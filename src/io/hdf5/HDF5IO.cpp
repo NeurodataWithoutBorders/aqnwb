@@ -461,8 +461,10 @@ std::vector<std::string> HDF5IO::readStringDataHelper(
       if (strType.isVariableStr()) {
         // Handle variable-length strings
         std::vector<char*> buffer(numElements, nullptr);
-        dataset->read(
-            static_cast<void*>(buffer.data()), strType, memspace, dataspace);
+        dataset->read(reinterpret_cast<void*>(buffer.data()),
+                      strType,
+                      memspace,
+                      dataspace);
 
         // Convert char* to std::string and free allocated memory
         for (size_t i = 0; i < numElements; ++i) {
@@ -500,7 +502,7 @@ std::vector<std::string> HDF5IO::readStringDataHelper(
       if (strType.isVariableStr()) {
         // Handle variable-length strings
         std::vector<char*> buffer(numElements, nullptr);
-        attribute->read(strType, static_cast<void*>(buffer.data()));
+        attribute->read(strType, reinterpret_cast<void*>(buffer.data()));
 
         // Convert char* to std::string and free allocated memory
         for (size_t i = 0; i < numElements; ++i) {
@@ -647,7 +649,7 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(
       // Handle variable-length strings
       std::vector<std::string> stringData;
       std::vector<char*> buffer(numElements);
-      attribute.read(dataType, static_cast<void*>(buffer.data()));
+      attribute.read(dataType, reinterpret_cast<void*>(buffer.data()));
 
       for (size_t i = 0; i < numElements; ++i) {
         stringData.emplace_back(buffer[i]);
@@ -1012,7 +1014,7 @@ Status HDF5IO::createAttribute(const std::string& data,
 
       // Write the scalar string data
       const char* dataPtr = data.c_str();
-      attr.write(nativeType, static_cast<const void*>(&dataPtr));
+      attr.write(nativeType, reinterpret_cast<const void*>(&dataPtr));
 
     } catch (const GroupIException& error) {
       error.printErrorStack();
@@ -1083,7 +1085,7 @@ Status HDF5IO::createAttribute(const std::vector<std::string>& data,
                      data.end(),
                      dataPtrs.begin(),
                      [](const std::string& str) { return str.c_str(); });
-      attr.write(nativeType, static_cast<const void*>(dataPtrs.data()));
+      attr.write(nativeType, reinterpret_cast<const void*>(dataPtrs.data()));
 
     } catch (const GroupIException& error) {
       error.printErrorStack();

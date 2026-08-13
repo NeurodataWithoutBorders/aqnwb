@@ -120,7 +120,7 @@ Status HDF5RecordingData::writeDataBlock(const SizeArray& dataShape,
         cstrBuffer[i] = data[i].c_str();
       }
       // Write the data
-      m_dataset->write(static_cast<const void*>(cstrBuffer.data()),
+      m_dataset->write(reinterpret_cast<const void*>(cstrBuffer.data()),
                        nativeType,
                        mSpace,
                        fSpace);
