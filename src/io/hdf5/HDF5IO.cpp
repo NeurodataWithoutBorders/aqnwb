@@ -202,7 +202,7 @@ Status HDF5IO::flush()
 // H5O_info2_t and the trailing `fields` argument to H5Ovisit were introduced
 // in HDF5 1.12.0. On older versions (e.g. the 1.10.x that ships with Ubuntu's
 // libhdf5-serial package) the type is H5O_info_t and H5Ovisit takes one fewer
-// argument. This alias lets the callback signature adapt to the installed
+// argument. This alias adapts the callback signature to the installed
 // version. H5_VERSION_GE is provided by H5public.h (pulled in via H5Opublic.h).
 #if H5_VERSION_GE(1, 12, 0)
 using H5OInfoCompat = H5O_info2_t;
@@ -321,7 +321,7 @@ std::string HDF5IO::findObject(const std::string& name,
   // that matches the depth-first, name-ordered behavior of getStorageObjects.
   //
   // The 1.12+ signature takes a trailing `fields` argument (H5O_INFO_BASIC)
-  // that lets us request only the object type; the 1.10 signature omits it.
+  // that requests only the object type; the 1.10 signature omits it.
 #if H5_VERSION_GE(1, 12, 0)
   const herr_t status = H5Ovisit(startGroup.getId(),
                                  H5_INDEX_NAME,
