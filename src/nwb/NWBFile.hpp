@@ -100,10 +100,9 @@ public:
    * time. If empty (default), then the getCurrentTime() will be used.
    * @param timestampsReferenceTime ISO formatted time string with the timestamp
    * reference time. If empty (default), then the getCurrentTime() will be used.
-   * @param subject Optional subject metadata. By default an empty
-   * SubjectMetadata{} is used, which creates a Subject group in the NWB file.
-   * Pass @c std::nullopt to explicitly state that no subject should be created
-   * (e.g., when the subject is unknown).
+   * @param subjectSpec Optional subject metadata.  Pass @c std::nullopt
+   * (default)to explicitly state that no subject should be created (e.g., when
+   * the subject is unknown).
    */
   Status initialize(const std::string& identifierText,
                     const std::string& description = "a recording session",
