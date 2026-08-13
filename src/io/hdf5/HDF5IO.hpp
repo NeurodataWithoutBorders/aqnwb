@@ -137,6 +137,11 @@ public:
    * first match. This reduces the number of metadata operations with the goal
    * to improve performance, especially for large files with many groups.
    *
+   * H5Ovisit is object-centric and does not traverse soft links. Consequently,
+   * this method does not find objects that are reachable only through a soft
+   * link. Call BaseIO::findObject explicitly when soft-link paths must be
+   * searched.
+   *
    * @param name The last path component to search for (e.g. "electrodes").
    * @param starting_path The path of the group to start the search from.
    * @return The full path of the first matching object, or "" if not found.

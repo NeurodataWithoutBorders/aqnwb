@@ -621,6 +621,11 @@ public:
    * cases where the caller only needs to locate an object by its name (e.g.,
    * the name of a TimeSeries) rather than by its neurodata_type.
    *
+   * Implementations may optimize this search differently. In particular,
+   * HDF5IO::findObject does not return paths that are reachable only through
+   * soft links; use the BaseIO implementation explicitly when those paths
+   * must be searched.
+   *
    * @param name The name (or path suffix) of the object to search for.
    * @param starting_path The path in the file to start the search from.
    *        Defaults to the root of the file ("/").
