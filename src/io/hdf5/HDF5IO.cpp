@@ -27,6 +27,7 @@ HDF5IO::HDF5IO(const std::string& fileName)
 {
 }
 
+// NOLINTNEXTLINE(bugprone-exception-escape): teardown catches all close errors.
 HDF5IO::~HDF5IO()
 {
   try {
@@ -237,7 +238,8 @@ std::vector<std::string> HDF5IO::readStringDataHelper(
       if (strType.isVariableStr()) {
         // Handle variable-length strings
         std::vector<char*> buffer(numElements, nullptr);
-        dataset->read(buffer.data(), strType, memspace, dataspace);
+        dataset->read(
+            static_cast<void*>(buffer.data()), strType, memspace, dataspace);
 
         // Convert char* to std::string and free allocated memory
         for (size_t i = 0; i < numElements; ++i) {
@@ -275,7 +277,7 @@ std::vector<std::string> HDF5IO::readStringDataHelper(
       if (strType.isVariableStr()) {
         // Handle variable-length strings
         std::vector<char*> buffer(numElements, nullptr);
-        attribute->read(strType, buffer.data());
+        attribute->read(strType, static_cast<void*>(buffer.data()));
 
         // Convert char* to std::string and free allocated memory
         for (size_t i = 0; i < numElements; ++i) {
@@ -422,7 +424,7 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(
       // Handle variable-length strings
       std::vector<std::string> stringData;
       std::vector<char*> buffer(numElements);
-      attribute.read(dataType, buffer.data());
+      attribute.read(dataType, static_cast<void*>(buffer.data()));
 
       for (size_t i = 0; i < numElements; ++i) {
         stringData.emplace_back(buffer[i]);
@@ -787,7 +789,7 @@ Status HDF5IO::createAttribute(const std::string& data,
 
       // Write the scalar string data
       const char* dataPtr = data.c_str();
-      attr.write(nativeType, &dataPtr);
+      attr.write(nativeType, static_cast<const void*>(&dataPtr));
 
     } catch (const GroupIException& error) {
       error.printErrorStack();
@@ -858,7 +860,7 @@ Status HDF5IO::createAttribute(const std::vector<std::string>& data,
                      data.end(),
                      dataPtrs.begin(),
                      [](const std::string& str) { return str.c_str(); });
-      attr.write(nativeType, dataPtrs.data());
+      attr.write(nativeType, static_cast<const void*>(dataPtrs.data()));
 
     } catch (const GroupIException& error) {
       error.printErrorStack();
@@ -1503,6 +1505,8 @@ H5::DataType HDF5IO::getNativeType(IO::BaseDataType type)
 
 AQNWB::IO::BaseDataType HDF5IO::getBaseDataType(const H5::DataType& nativeType)
 {
+  // NOLINTBEGIN(bugprone-branch-clone): distinct HDF5 native types map to
+  // distinct AqNWB types.
   if (nativeType == H5::PredType::NATIVE_INT8) {
     return IO::BaseDataType(IO::BaseDataType::Type::T_I8);
   } else if (nativeType == H5::PredType::NATIVE_INT16) {
@@ -1542,6 +1546,7 @@ AQNWB::IO::BaseDataType HDF5IO::getBaseDataType(const H5::DataType& nativeType)
     // Default case: return a 32-bit integer type
     return IO::BaseDataType(IO::BaseDataType::Type::T_I32);
   }
+  // NOLINTEND(bugprone-branch-clone)
 }
 
 H5::DataType HDF5IO::getH5Type(IO::BaseDataType type)
