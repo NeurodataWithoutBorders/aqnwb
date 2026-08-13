@@ -1,5 +1,6 @@
 #include <cstdio>
 #include <numeric>
+#include <optional>
 #include <unordered_map>
 #include <unordered_set>
 
@@ -324,7 +325,15 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
   std::shared_ptr<HDF5::HDF5IO> io = std::make_shared<HDF5::HDF5IO>(filename);
   io->open();
   auto nwbfile = AQNWB::NWB::NWBFile::create(io);
-  nwbfile->initialize(generateUuid());
+  NWB::Subject::SubjectSpec subjectSpec;
+  subjectSpec.species = "Mus musculus";
+  auto currentTime = getCurrentTime();
+  nwbfile->initialize(generateUuid(),
+                      "a recording session",
+                      "data collection info",
+                      currentTime,
+                      currentTime,
+                      std::optional(subjectSpec));
 
   // create ElectrodesTable
   std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(2, 2);

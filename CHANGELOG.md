@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
    * **Migration Note**: Code using `HDF5IO(path, true)` must be updated to `HDF5IO(path)` followed by `startRecording(true)`. When the `HDF5IO` object is held as a `std::shared_ptr<BaseIO>` (e.g., from `createIO`), downcast with `std::dynamic_pointer_cast<HDF5IO>` to access the overload. (@oruebel [#297](https://github.com/NeurodataWithoutBorders/aqnwb/pull/297))
 
 ### Fixed
+* Updated nwbinspector validation tests to ignore the Allen CCF electrode location check when validating mock electrode locations. (@oruebel, [#320](https://github.com/NeurodataWithoutBorders/aqnwb/pull/320))
 * Updated nwbinspector validation tests in the CI to: 1) `--ignore=check_subject_exists` and 2) remove dependency on `sanitizer` tests to speed up CI (@oruebel, [#289](https://github.com/NeurodataWithoutBorders/aqnwb/pull/289))
 * Fixed `get_utc_offset_seconds` to correctly account for daylight saving time using platform-specific APIs (`tm_gmtoff` on Unix/macOS; `_get_timezone` + `_get_dstbias` on Windows), preventing `session_start_time` from being written ~1 hour ahead of UTC during DST (@cboulay, [#295](https://github.com/NeurodataWithoutBorders/aqnwb/pull/295))
 * Fixed HDF5 string type creation to explicitly use UTF-8 character set for fixed-length and variable-length strings in datasets and attributes, improving compatibility with hdmf/PyNWB string decoding (@copilot, @oruebel [#319](https://github.com/NeurodataWithoutBorders/aqnwb/pull/319))
