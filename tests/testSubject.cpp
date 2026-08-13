@@ -100,6 +100,24 @@ TEST_CASE("Subject", "[file]")
     io->close();
   }
 
+  SECTION("rejects invalid date of birth without writing it")
+  {
+    const std::string filename = getTestFilePath("subject_invalid_dob.h5");
+    auto io = std::make_shared<IO::HDF5::HDF5IO>(filename);
+    io->open();
+    io->createGroup("/general");
+
+    NWB::Subject::SubjectSpec subjectSpec;
+    subjectSpec.dateOfBirth = "January 15, 2024";
+    auto subject = NWB::Subject::create("/general/subject", io);
+
+    REQUIRE(subject->initialize(subjectSpec) == Status::Failure);
+    REQUIRE_FALSE(subject->readDateOfBirth()->exists());
+    REQUIRE_FALSE(io->objectExists("/general/subject/date_of_birth"));
+
+    io->close();
+  }
+
   SECTION("is created by NWBFile initialization when metadata is supplied")
   {
     const std::string filename = getTestFilePath("nwbfile_subject.nwb");

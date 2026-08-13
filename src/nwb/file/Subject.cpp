@@ -64,16 +64,18 @@ Status Subject::initialize(const SubjectSpec& subjectSpec)
 
   // Initialize date_of_birth dataset if date_of_birth is provided
   if (subjectSpec.dateOfBirth.has_value()) {
-    Status dobStatus =
-        ioPtr->createStringDataSet(mergePaths(this->m_path, "date_of_birth"),
-                                   subjectSpec.dateOfBirth.value());
-    initStatus = initStatus && dobStatus;
-    if (!dobStatus) {
-      std::cerr << "Failed to create date_of_birth dataset." << std::endl;
-    }
     if (isISO8601Date(subjectSpec.dateOfBirth.value()) == false) {
       std::cerr << "Warning: date_of_birth is not in ISO8601 format: "
                 << subjectSpec.dateOfBirth.value() << std::endl;
+      initStatus = Status::Failure;
+    } else {
+      Status dobStatus =
+          ioPtr->createStringDataSet(mergePaths(this->m_path, "date_of_birth"),
+                                     subjectSpec.dateOfBirth.value());
+      initStatus = initStatus && dobStatus;
+      if (!dobStatus) {
+        std::cerr << "Failed to create date_of_birth dataset." << std::endl;
+      }
     }
   }
   // Initialize description dataset if description is provided
