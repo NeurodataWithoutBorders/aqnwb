@@ -105,9 +105,15 @@ Status NWBFile::initialize(
   if (subjectSpec.has_value()) {
     const std::string subjectPath =
         mergePaths(NWBFile::GENERAL_PATH, "subject");
-    auto subject = AQNWB::NWB::Subject::create(subjectPath, ioPtr);
-    Status subjectInitStatus = subject->initialize(subjectSpec.value());
-    initStatus = initStatus && subjectInitStatus;
+    if (!ioPtr->objectExists(subjectPath)) {
+      auto subject = AQNWB::NWB::Subject::create(subjectPath, ioPtr);
+      Status subjectInitStatus = subject->initialize(subjectSpec.value());
+      initStatus = initStatus && subjectInitStatus;
+    } else {
+      std::cerr << "Subject group already exists in the file. Skipping "
+                   "subject initialization."
+                << std::endl;
+    }
   }
   return initStatus;
 }
