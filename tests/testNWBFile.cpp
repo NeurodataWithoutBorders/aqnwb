@@ -394,7 +394,14 @@ TEST_CASE("createAnnotationSeries", "[nwb]")
       std::make_shared<IO::HDF5::HDF5IO>(filename);
   io->open();
   auto nwbfile = NWB::NWBFile::create(io);
-  nwbfile->initialize(generateUuid());
+  auto currentTime = getCurrentTime();
+  auto subjectSpec = getTestSubjectSpec();
+  nwbfile->initialize(generateUuid(),
+                      "a recording session",
+                      "data collection info",
+                      currentTime,
+                      currentTime,
+                      subjectSpec);
 
   // create Annotation Series
   std::vector<std::string> mockAnnotationNames = {"annotations1",
