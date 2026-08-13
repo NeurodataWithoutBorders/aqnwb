@@ -31,6 +31,7 @@ add_executable(aqnwb_test
     testRecordingWorkflow.cpp
     testRecordingObjects.cpp
     testRegisteredType.cpp
+    testSubject.cpp
     testTimeSeries.cpp
     testTypes.cpp
     testUtilsFunctions.cpp

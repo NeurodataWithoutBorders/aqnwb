@@ -38,6 +38,7 @@ add_library(
     src/nwb/ecephys/SpikeEventSeries.cpp
     src/nwb/file/ElectrodeGroup.cpp
     src/nwb/file/ElectrodesTable.cpp
+    src/nwb/file/Subject.cpp
     src/nwb/misc/AnnotationSeries.cpp
     src/nwb/hdmf/base/Container.cpp
     src/nwb/hdmf/base/Data.cpp

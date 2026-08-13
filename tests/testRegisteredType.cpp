@@ -84,6 +84,9 @@ TEST_CASE("RegisterType", "[base]")
       } else if (subclassFullName == "core::ElectrodesTable") {
         examplePath = ElectrodesTable::electrodesTablePath;
         exampleName = "electrodes";
+      } else if (subclassFullName == "core::Subject") {
+        examplePath = "/general/subject";
+        exampleName = "subject";
       } else {
         examplePath = "/example/path";
         exampleName = "path";

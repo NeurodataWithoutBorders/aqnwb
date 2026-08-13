@@ -16,6 +16,7 @@
 #include "nwb/base/ProcessingModule.hpp"
 #include "nwb/base/TimeSeries.hpp"
 #include "nwb/file/ElectrodesTable.hpp"
+#include "nwb/file/Subject.hpp"
 #include "spec/core.hpp"
 
 /*!
@@ -24,35 +25,6 @@
  */
 namespace AQNWB::NWB
 {
-
-/**
- * @brief Metadata about the experimental subject.
- *
- * All fields are optional. Pass an instance of this struct to
- * NWBFile::initialize() to create a Subject group in the NWB file. To
- * explicitly record that no subject information is available, pass
- * @c std::nullopt for the subject parameter.
- */
-struct SubjectMetadata
-{
-  /// @brief ID of animal/person used/participating in experiment (lab
-  /// convention).
-  std::string subjectId;
-  /// @brief Species of subject.
-  std::string species;
-  /// @brief Gender of subject.
-  std::string sex;
-  /// @brief Age of subject (e.g., "P90D" for 90 days post-natal).
-  std::string age;
-  /// @brief Description of subject and where subject came from.
-  std::string description;
-  /// @brief Genetic strain. If absent, assume Wild Type (WT).
-  std::string genotype;
-  /// @brief Strain of subject.
-  std::string strain;
-  /// @brief Weight at time of experiment.
-  std::string weight;
-};
 
 /**
  * @brief The NWBFile class provides an interface for setting up and managing
@@ -138,8 +110,8 @@ public:
                     const std::string& dataCollection = "",
                     const std::string& sessionStartTime = "",
                     const std::string& timestampsReferenceTime = "",
-                    const std::optional<SubjectMetadata>& subject =
-                        SubjectMetadata {});
+                    const std::optional<AQNWB::NWB::Subject::SubjectSpec>&
+                        subjectSpec = std::nullopt);
 
   /**
    * @brief Check if the NWB file is initialized.
@@ -292,15 +264,13 @@ protected:
    * time
    * @param timestampsReferenceTime ISO formatted time string with the timestamp
    * reference time
-   * @param subject Optional subject metadata to write to the file.
    * @return Status The status of the file structure creation.
    */
   Status createFileStructure(const std::string& identifierText,
                              const std::string& description,
                              const std::string& dataCollection,
                              const std::string& sessionStartTime,
-                             const std::string& timestampsReferenceTime,
-                             const std::optional<SubjectMetadata>& subject);
+                             const std::string& timestampsReferenceTime);
 
 private:
   /**
