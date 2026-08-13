@@ -6,21 +6,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-
-## Upcoming  (~June 2026)
+## Upcoming  (~August 2026)
 
 ### Added
+* **Added support for streaming data read of remote NWB files:**
+    * Added `HDF5IO::openS3(...)` method to support opening an existing remote file in S3 in read-only mode using the HDF5 ROS3 driver. (@oruebel, [#307](https://github.com/NeurodataWithoutBorders/aqnwb/pull/307))
+    * Added `HDF5IO::openRemote()` method to read remote NWB files over HTTP(S) using the [remfile-cpp](https://github.com/catalystneuro/remfile-cpp) virtual file driver (a C++ port of the Python [remfile](https://github.com/magland/remfile) package), imported as an optional CMake dependency (`AQNWB_USE_REMFILE`, requires `libcurl`). Unlike ROS3, remfile does not require HDF5 to be built with ROS3 support and works with any HTTP(S) server that supports byte-range requests. (@bendichter, [#309](https://github.com/NeurodataWithoutBorders/aqnwb/pull/309))
+    * Added demo for benchmarking ROS3 and remfile performance and comparing with PyNWB S3 reads (`demo/remote_read_benchmark`). (@oruebel, [#308](https://github.com/NeurodataWithoutBorders/aqnwb/pull/308); @bendichter, [#309](https://github.com/NeurodataWithoutBorders/aqnwb/pull/309))
+    * Added tutorial on using the ROS3 and remfile drivers to read NWB files in S3 (`docs/pages/userdocs/reads3.dox`) (@oruebel, [#308](https://github.com/NeurodataWithoutBorders/aqnwb/pull/308); @bendichter, [#309](https://github.com/NeurodataWithoutBorders/aqnwb/pull/309))
 * Added `ElectricalSeries::writeAllChannels` method and `IO::writeElectricalSeriesData` overload to simplify zero-copy interleaved multichannel writes. (@copilot, @oruebel, [#293](https://github.com/NeurodataWithoutBorders/aqnwb/pull/293))
 * Added `ElectricalSeries::channelsAtSameSampleOffset` method to check if all channels are at the same sample offset, which is a requirement for using `writeAllChannels`. (@copilot, @oruebel, [#293](https://github.com/NeurodataWithoutBorders/aqnwb/pull/293))
-* Added an advisory clang-tidy workflow and `tidy-check` CMake target using compilation databases to analyze focused correctness and performance checks on production source changes. ([#320](https://github.com/NeurodataWithoutBorders/aqnwb/pull/320))
+* Added an advisory clang-tidy workflow and `tidy-check` CMake target using compilation databases to analyze focused correctness and performance checks on production source changes. ([#322](https://github.com/NeurodataWithoutBorders/aqnwb/pull/322))
+* Added new `BaseIO::findObject` and `RegisteredType::findOwnedObject` methods to simplify searching for objects by name. Added `HDF5IO::findObject` override method to optimize the search for HDF5 objects. (@oruebel, [#308](https://github.com/NeurodataWithoutBorders/aqnwb/pull/308))   
 
 ### Changed
 * **[BREAKING]** Moved `disableSWMRMode` option from `HDF5IO` constructor to a new `HDF5IO::startRecording(bool disableSWMRMode)` overload. The `BaseIO`-compliant `startRecording()` override is preserved and defaults to SWMR enabled. 
    * **Migration Note**: Code using `HDF5IO(path, true)` must be updated to `HDF5IO(path)` followed by `startRecording(true)`. When the `HDF5IO` object is held as a `std::shared_ptr<BaseIO>` (e.g., from `createIO`), downcast with `std::dynamic_pointer_cast<HDF5IO>` to access the overload. (@oruebel [#297](https://github.com/NeurodataWithoutBorders/aqnwb/pull/297))
+* Updated `build-demo.yml` and `tests.yml` CI to support testing of the new ROS3 and remfile features and scripts  (@oruebel, [#308](https://github.com/NeurodataWithoutBorders/aqnwb/pull/308))
 
 ### Fixed
 * Updated nwbinspector validation tests in the CI to: 1) `--ignore=check_subject_exists` and 2) remove dependency on `sanitizer` tests to speed up CI (@oruebel, [#289](https://github.com/NeurodataWithoutBorders/aqnwb/pull/289))
 * Fixed `get_utc_offset_seconds` to correctly account for daylight saving time using platform-specific APIs (`tm_gmtoff` on Unix/macOS; `_get_timezone` + `_get_dstbias` on Windows), preventing `session_start_time` from being written ~1 hour ahead of UTC during DST (@cboulay, [#295](https://github.com/NeurodataWithoutBorders/aqnwb/pull/295))
+* Fixed bug in `HDF5IO::canModifyObjects` returning true when a file is opened in read-only. (@oruebel, [#307](https://github.com/NeurodataWithoutBorders/aqnwb/pull/307))
 * Fixed HDF5 string type creation to explicitly use UTF-8 character set for fixed-length and variable-length strings in datasets and attributes, improving compatibility with hdmf/PyNWB string decoding (@copilot, @oruebel [#319](https://github.com/NeurodataWithoutBorders/aqnwb/pull/319))
 * Fixed Windows CI by updating the CMake generator in `CMakePresets.json` from `"Visual Studio 17 2022"` to `"Visual Studio 18 2026"` to match the updated `windows-latest` runner (@copilot, @oruebel [#319](https://github.com/NeurodataWithoutBorders/aqnwb/pull/319))
 
