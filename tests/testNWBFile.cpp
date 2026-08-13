@@ -65,7 +65,12 @@ TEST_CASE("initialize", "[nwb]")
   REQUIRE(initStatus == Status::Failure);
 
   // check that regular init with current times works
-  initStatus = nwbfile->initialize(generateUuid());
+  initStatus = nwbfile->initialize(generateUuid(),
+                                   "Test initialized NWB file",
+                                   "Test data collection",
+                                   getCurrentTime(),
+                                   getCurrentTime(),
+                                   getTestSubjectSpec());
   REQUIRE(initStatus == Status::Success);
   REQUIRE(nwbfile->isInitialized());
 
@@ -83,7 +88,12 @@ TEST_CASE("createElectrodesTable", "[nwb]")
       std::make_shared<IO::HDF5::HDF5IO>(filename);
   io->open();
   auto nwbfile = NWB::NWBFile::create(io);
-  nwbfile->initialize(generateUuid());
+  nwbfile->initialize(generateUuid(),
+                      "Test electrodes table",
+                      "Test data collection",
+                      getCurrentTime(),
+                      getCurrentTime(),
+                      getTestSubjectSpec());
 
   // create the Electrodes Table
   std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(1, 2);
@@ -101,7 +111,12 @@ TEST_CASE("createElectricalSeriesWithSubsetOfElectrodes", "[nwb]")
       std::make_shared<IO::HDF5::HDF5IO>(filename);
   io->open();
   auto nwbfile = NWB::NWBFile::create(io);
-  nwbfile->initialize(generateUuid());
+  nwbfile->initialize(generateUuid(),
+                      "Test electrical series subset",
+                      "Test data collection",
+                      getCurrentTime(),
+                      getCurrentTime(),
+                      getTestSubjectSpec());
 
   // Create electrode table with full set of electrodes (4 channels)
   std::vector<Types::ChannelVector> allElectrodes = getMockChannelArrays(4, 1);
@@ -151,7 +166,12 @@ TEST_CASE("createElectricalSeriesFailsWithoutElectrodesTable", "[nwb]")
       std::make_shared<IO::HDF5::HDF5IO>(filename);
   io->open();
   auto nwbfile = NWB::NWBFile::create(io);
-  nwbfile->initialize(generateUuid());
+  nwbfile->initialize(generateUuid(),
+                      "Test multiple ecephys datasets",
+                      "Test data collection",
+                      getCurrentTime(),
+                      getCurrentTime(),
+                      getTestSubjectSpec());
 
   // Attempt to create electrical series without creating electrodes table first
   std::vector<Types::ChannelVector> recordingElectrodes =
@@ -177,7 +197,12 @@ TEST_CASE("createElectricalSeriesFailsWithOutOfRangeIndices", "[nwb]")
       std::make_shared<IO::HDF5::HDF5IO>(filename);
   io->open();
   auto nwbfile = NWB::NWBFile::create(io);
-  nwbfile->initialize(generateUuid());
+  nwbfile->initialize(generateUuid(),
+                      "Test annotation series",
+                      "Test data collection",
+                      getCurrentTime(),
+                      getCurrentTime(),
+                      getTestSubjectSpec());
 
   // Create electrode table with 2 channels
   std::vector<Types::ChannelVector> tableElectrodes =
@@ -428,7 +453,12 @@ TEST_CASE("setCanModifyObjectsMode", "[nwb]")
       std::make_shared<IO::HDF5::HDF5IO>(filename);
   io->open();
   auto nwbfile = NWB::NWBFile::create(io);
-  Status initStatus = nwbfile->initialize(generateUuid());
+  Status initStatus = nwbfile->initialize(generateUuid(),
+                                          "Test recording mode",
+                                          "Test data collection",
+                                          getCurrentTime(),
+                                          getCurrentTime(),
+                                          getTestSubjectSpec());
   REQUIRE(initStatus == Status::Success);
 
   // start recording
@@ -480,7 +510,8 @@ TEST_CASE("testAttributeAndDatasetFields", "[nwb]")
                                           description,
                                           dataCollection,
                                           sessionStartTime,
-                                          timestampsReferenceTime);
+                                          timestampsReferenceTime,
+                                          getTestSubjectSpec());
   REQUIRE(initStatus == Status::Success);
   REQUIRE(nwbfile->isInitialized());
 

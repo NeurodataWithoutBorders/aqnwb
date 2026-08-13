@@ -30,7 +30,12 @@ TEST_CASE("createProcessingModule", "[processingmodule]")
       std::make_shared<IO::HDF5::HDF5IO>(filename);
   io->open();
   auto nwbfile = NWB::NWBFile::create(io);
-  nwbfile->initialize(generateUuid());
+  nwbfile->initialize(generateUuid(),
+                      "Test processing module",
+                      "Test data collection",
+                      getCurrentTime(),
+                      getCurrentTime(),
+                      getTestSubjectSpec());
 
   // create and initialize a ProcessingModule
   auto processingModule = nwbfile->createProcessingModule("test_module");
@@ -64,7 +69,12 @@ TEST_CASE("createMultipleProcessingModules", "[processingmodule]")
       std::make_shared<IO::HDF5::HDF5IO>(filename);
   io->open();
   auto nwbfile = NWB::NWBFile::create(io);
-  nwbfile->initialize(generateUuid());
+  nwbfile->initialize(generateUuid(),
+                      "Test processing modules",
+                      "Test data collection",
+                      getCurrentTime(),
+                      getCurrentTime(),
+                      getTestSubjectSpec());
 
   // create and initialize two ProcessingModules
   auto module1 = nwbfile->createProcessingModule("module1");
@@ -104,7 +114,12 @@ TEST_CASE("ProcessingModule createNWBDataInterface and readNWBDataInterface",
         std::make_shared<IO::HDF5::HDF5IO>(filename);
     io->open();
     auto nwbfile = NWB::NWBFile::create(io);
-    nwbfile->initialize(generateUuid());
+    nwbfile->initialize(generateUuid(),
+                        "Test processing module time series",
+                        "Test data collection",
+                        getCurrentTime(),
+                        getCurrentTime(),
+                        getTestSubjectSpec());
 
     // create processing module
     auto processingModule = nwbfile->createProcessingModule("ecephys");
@@ -191,7 +206,12 @@ TEST_CASE("ProcessingModule createDynamicTable and readDynamicTable",
         std::make_shared<IO::HDF5::HDF5IO>(filename);
     io->open();
     auto nwbfile = NWB::NWBFile::create(io);
-    nwbfile->initialize(generateUuid());
+    nwbfile->initialize(generateUuid(),
+                        "Test processing module dynamic table",
+                        "Test data collection",
+                        getCurrentTime(),
+                        getCurrentTime(),
+                        getTestSubjectSpec());
 
     // create processing module
     auto processingModule = nwbfile->createProcessingModule("analysis_module");
