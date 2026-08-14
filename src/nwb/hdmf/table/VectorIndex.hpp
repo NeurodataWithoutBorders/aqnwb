@@ -56,17 +56,17 @@ public:
     DataSpec(const std::string& datasetName,
              const IO::ArrayDataSetConfig& dataConfig,
              const std::string& columnDescription,
-             const VectorData& columnTarget)
+             const std::string& columnTargetPath)
         : Data::DataSpec<VectorIndex>(datasetName, dataConfig)
         , description(columnDescription)
-        , target(columnTarget)
+        , targetPath(columnTargetPath)
     {
     }
 
     virtual ~DataSpec() = default;
 
     std::string description;
-    const VectorData& target;
+    std::string targetPath;
 
     Status initialize(Data& data) const override
     {
@@ -80,7 +80,7 @@ public:
       return vectorIndex->initialize(
           static_cast<const IO::ArrayDataSetConfig&>(*this),
           description,
-          target);
+          targetPath);
     }
   };
 
@@ -96,13 +96,14 @@ public:
    *
    * @param dataConfig The configuration for the dataset. Must use a uint data
    * type.
-   * @param description The description of the VectorData
+   * @param description The description of the VectorIndex
+   * @param targetPath The path to the target VectorData
    * @throw std::invalid_argument if the provided dataSpecs are invalid.
    * @return Status::Success if successful, otherwise Status::Failure.
    */
   Status initialize(const IO::BaseArrayDataSetConfig& dataConfig,
                     const std::string& description,
-                    const VectorData& target);
+                    const std::string& targetPath);
 
   // Define read methods
   DEFINE_REFERENCED_REGISTERED_FIELD(

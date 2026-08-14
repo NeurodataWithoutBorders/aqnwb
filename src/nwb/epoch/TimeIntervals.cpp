@@ -18,7 +18,9 @@ TimeIntervals::TimeIntervals(const std::string& path,
 // TODO add addTimeseries parameter to also support construction of the
 // timeseries and timeseries_index columns
 std::vector<DynamicTable::DataSpecPtr> TimeIntervals::createDefaultDataSpecs(
-    const SizeType rowChunkSize, const bool addTagsColumn)
+    const std::string timeIntervalsPath,
+    const SizeType rowChunkSize,
+    const bool addTagsColumn)
 {
   std::vector<DataSpecPtr> specs =
       DynamicTable::createDefaultDataSpecs(rowChunkSize);
@@ -45,7 +47,14 @@ std::vector<DynamicTable::DataSpecPtr> TimeIntervals::createDefaultDataSpecs(
         tagsConfig,
         "User-defined tags that identify or categorize events"));
 
-    // TODO: add the tags_index column
+    // add the tags_index column
+    IO::ArrayDataSetConfig tagsIndexConfig(
+        IO::BaseDataType::T_U32, SizeArray {0}, SizeArray {rowChunkSize});
+    specs.push_back(std::make_shared<VectorIndex::DataSpec>(
+        "tags_index",
+        tagsIndexConfig,
+        "Index for user-defined tags that identify or categorize events",
+        AQNWB::mergePaths(timeIntervalsPath, "tags")));
   }
 
   // TODO add the timeseries and timeseries_index columns
@@ -72,7 +81,7 @@ Status TimeIntervals::initialize(const std::string& description,
 {
   std::vector<DataSpecPtr> specsToUse = columnSpecs;
   if (specsToUse.empty()) {
-    specsToUse = createDefaultDataSpecs();
+    specsToUse = createDefaultDataSpecs(this->getPath());
   }
 
   // create group. This configures the "start_time" and "stop_time" columns

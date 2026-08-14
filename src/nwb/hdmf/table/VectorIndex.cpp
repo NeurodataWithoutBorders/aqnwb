@@ -18,7 +18,7 @@ VectorIndex::VectorIndex(const std::string& path,
 // Initialize the object
 Status VectorIndex::initialize(const IO::BaseArrayDataSetConfig& dataConfig,
                                const std::string& description,
-                               const VectorData& target)
+                               const std::string& targetPath)
 {
   Status initStatus = Status::Success;
 
@@ -66,7 +66,7 @@ Status VectorIndex::initialize(const IO::BaseArrayDataSetConfig& dataConfig,
   ;
 
   // Initialize the target attribute
-  ioPtr->createReferenceAttribute(target.getPath(), getPath(), "target");
+  ioPtr->createReferenceAttribute(targetPath, getPath(), "target");
 
   return initStatus;
 }

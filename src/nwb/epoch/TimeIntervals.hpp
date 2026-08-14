@@ -14,12 +14,13 @@
 // Includes for types that are referenced and used
 #include "nwb/hdmf/table/ElementIdentifiers.hpp"
 #include "nwb/hdmf/table/VectorData.hpp"
-// #include "core/base/TimeSeriesReferenceVectorData.hpp"  // TODO Need to
-// implement this type #include "nwb/hdmf/table/VectorIndex.hpp"  // TODO
-// Implement support for VectorIndex and ragged arrays Include for the namespace
-// schema header
+#include "nwb/hdmf/table/VectorIndex.hpp"
+// #include "core/base/TimeSeriesReferenceVectorData.hpp"
+
 #include "spec/core.hpp"
 
+// TODO Need to implement this type #include "nwb/hdmf/table/VectorIndex.hpp"
+// TODO Implement support for ragged arrays on read/write
 // TODO Add unit tests for TimeIntervals
 
 namespace AQNWB::NWB
@@ -57,12 +58,16 @@ public:
 
   /**
    * @brief Creates the default data specs for the TimeIntervals table.
+   * @param timeIntervalsPath Path of the TimeIntervals table. Need to construct
+   * target for VectorIndex
    * @param rowChunkSize The chunk size for the rows of the table.
    * @param addTagsColumn Add the tags column to the spec
    * @return A vector of DataSpecPtr containing the default specs.
    */
   static std::vector<DataSpecPtr> createDefaultDataSpecs(
-      const SizeType rowChunkSize = 100, const bool addTagsColumn = false);
+      const std::string timeIntervalsPath,
+      const SizeType rowChunkSize = 100,
+      const bool addTagsColumn = false);
 
   /**
    * @brief Initializes the TimeIntervals table
@@ -94,14 +99,10 @@ public:
       "tags",
       "User-defined tags that identify or categorize events.")
 
-  /*
-  // TODO Add support for tag_index requires support for VectorIndex
-  DEFINE_REGISTERED_FIELD(
-      readTagsIndex,
-      HDMF_COMMON::VectorIndex,
-      "tags_index",
-      "Index for tags.")
-  */
+  DEFINE_REGISTERED_FIELD(readTagsIndex,
+                          VectorIndex,
+                          "tags_index",
+                          "Index for tags.")
 
   /*
   // TODO Add support for the timeseries collumns requires support for
