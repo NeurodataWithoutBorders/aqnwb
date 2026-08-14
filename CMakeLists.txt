@@ -36,6 +36,7 @@ add_library(
     src/nwb/device/Device.cpp
     src/nwb/ecephys/ElectricalSeries.cpp
     src/nwb/ecephys/SpikeEventSeries.cpp
+    src/nwb/epoch/TimeIntervals.cpp
     src/nwb/event/EventsTable.cpp
     src/nwb/event/TimestampVectorData.cpp
     src/nwb/event/DurationVectorData.cpp
