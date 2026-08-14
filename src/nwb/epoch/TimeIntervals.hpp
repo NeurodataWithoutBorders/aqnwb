@@ -20,7 +20,6 @@
 // schema header
 #include "spec/core.hpp"
 
-
 // TODO Add unit tests for TimeIntervals
 
 namespace AQNWB::NWB
@@ -32,7 +31,7 @@ namespace AQNWB::NWB
  */
 class TimeIntervals : public AQNWB::NWB::DynamicTable
 {
-public:
+protected:
   /**
    * @brief Constructor
    * @param path Path to the object in the file
@@ -40,6 +39,7 @@ public:
    */
   TimeIntervals(const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io);
 
+public:
   /**
    * @brief Virtual destructor.
    */
