@@ -20,9 +20,6 @@
 // TODO Add ReadDataWrapper that supports ragged array read
 // TODO Update DynamicTable::addRow and DynamicTable::addRows to support ragged
 // array cells with VectorIndex
-// TODO Update VectorData code to move implementation of funcitons into the cpp
-// file
-
 
 namespace AQNWB::NWB
 {

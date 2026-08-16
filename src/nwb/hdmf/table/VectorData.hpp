@@ -24,28 +24,13 @@ public:
   {
     DataSpec(const std::string& datasetName,
              const IO::ArrayDataSetConfig& dataConfig,
-             const std::string& columnDescription)
-        : Data::DataSpec<VectorData>(datasetName, dataConfig)
-        , description(columnDescription)
-    {
-    }
+             const std::string& columnDescription);
 
     virtual ~DataSpec() = default;
 
     std::string description;
 
-    Status initialize(Data& data) const override
-    {
-      auto* vectorData = dynamic_cast<VectorData*>(&data);
-      if (!vectorData) {
-        std::cerr << "VectorData::DataSpec::initialize received incompatible "
-                     "Data object"
-                  << std::endl;
-        return Status::Failure;
-      }
-      return vectorData->initialize(
-          static_cast<const IO::ArrayDataSetConfig&>(*this), description);
-    }
+    Status initialize(Data& data) const override;
   };
 
   REGISTER_SUBCLASS(VectorData, Data, AQNWB::SPEC::HDMF_COMMON::namespaceName)
@@ -79,23 +64,7 @@ public:
       const std::string& path,
       std::shared_ptr<IO::BaseIO> io,
       const std::string& description,
-      const std::vector<std::string>& references)
-  {
-    Status dataStatus = io->createReferenceDataSet(path, references);
-    if (dataStatus != Status::Success) {
-      return nullptr;
-    }
-
-    auto vectorData = VectorData::create(path, io);
-    Status commonAttrsStatus = io->createCommonNWBAttributes(
-        path, vectorData->getNamespace(), vectorData->getTypeName());
-    Status attrStatus = io->createAttribute(description, path, "description");
-    if ((attrStatus && commonAttrsStatus) != Status::Success) {
-      return nullptr;
-    }
-
-    return vectorData;
-  }
+      const std::vector<std::string>& references);
 
   /**
    * @brief Create a ColumnSpec for configuring this type as a DynamicTable
@@ -109,10 +78,7 @@ public:
   static std::shared_ptr<DataSpec> createDataSpec(
       const std::string& name,
       const IO::ArrayDataSetConfig& dataConfig,
-      const std::string& description)
-  {
-    return std::make_shared<DataSpec>(name, dataConfig, description);
-  }
+      const std::string& description);
 
   /**
    *  @brief Initialize the dataset for the VectorData object
@@ -124,32 +90,7 @@ public:
    * @return Status::Success if successful, otherwise Status::Failure.
    */
   Status initialize(const IO::BaseArrayDataSetConfig& dataConfig,
-                    const std::string& description)
-  {
-    auto ioPtr = getIO();
-    if (ioPtr == nullptr) {
-      std::cerr << "IO object has been deleted. Can't initialize VectorData: "
-                << m_path << std::endl;
-      return Status::Failure;
-    }
-    Status dataStatus = Data::initialize(dataConfig);
-    if (dataConfig.isLink()) {
-      // For links, we don't set attributes since there is no dataset to attach
-      // them to. Validate that the target has the required "description"
-      // attribute.
-      const auto* linkConfig =
-          dynamic_cast<const IO::LinkArrayDataSetConfig*>(&dataConfig);
-      if (linkConfig) {
-        return dataStatus
-            && linkConfig->validateTarget(*ioPtr, {}, {}, {"description"});
-      }
-      return dataStatus;
-    } else {
-      Status attrStatus =
-          ioPtr->createAttribute(description, m_path, "description");
-      return dataStatus && attrStatus;
-    }
-  }
+                    const std::string& description);
 
   DEFINE_ATTRIBUTE_FIELD(readDescription,
                          std::string,

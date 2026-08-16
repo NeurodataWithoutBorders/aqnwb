@@ -10,6 +10,83 @@ VectorData::VectorData(const std::string& path, std::shared_ptr<IO::BaseIO> io)
 {
 }
 
+VectorData::DataSpec::DataSpec(const std::string& datasetName,
+                               const IO::ArrayDataSetConfig& dataConfig,
+                               const std::string& columnDescription)
+    : Data::DataSpec<VectorData>(datasetName, dataConfig)
+    , description(columnDescription)
+{
+}
+
+Status VectorData::DataSpec::initialize(Data& data) const
+{
+  auto* vectorData = dynamic_cast<VectorData*>(&data);
+  if (!vectorData) {
+    std::cerr << "VectorData::DataSpec::initialize received incompatible Data "
+                 "object"
+              << std::endl;
+    return Status::Failure;
+  }
+  return vectorData->initialize(
+      static_cast<const IO::ArrayDataSetConfig&>(*this), description);
+}
+
+std::shared_ptr<VectorData> VectorData::createReferenceVectorData(
+    const std::string& path,
+    std::shared_ptr<IO::BaseIO> io,
+    const std::string& description,
+    const std::vector<std::string>& references)
+{
+  Status dataStatus = io->createReferenceDataSet(path, references);
+  if (dataStatus != Status::Success) {
+    return nullptr;
+  }
+
+  auto vectorData = VectorData::create(path, io);
+  Status commonAttrsStatus = io->createCommonNWBAttributes(
+      path, vectorData->getNamespace(), vectorData->getTypeName());
+  Status attrStatus = io->createAttribute(description, path, "description");
+  if ((attrStatus && commonAttrsStatus) != Status::Success) {
+    return nullptr;
+  }
+
+  return vectorData;
+}
+
+std::shared_ptr<VectorData::DataSpec> VectorData::createDataSpec(
+    const std::string& name,
+    const IO::ArrayDataSetConfig& dataConfig,
+    const std::string& description)
+{
+  return std::make_shared<DataSpec>(name, dataConfig, description);
+}
+
+Status VectorData::initialize(const IO::BaseArrayDataSetConfig& dataConfig,
+                              const std::string& description)
+{
+  auto ioPtr = getIO();
+  if (ioPtr == nullptr) {
+    std::cerr << "IO object has been deleted. Can't initialize VectorData: "
+              << m_path << std::endl;
+    return Status::Failure;
+  }
+
+  Status dataStatus = Data::initialize(dataConfig);
+  if (dataConfig.isLink()) {
+    const auto* linkConfig =
+        dynamic_cast<const IO::LinkArrayDataSetConfig*>(&dataConfig);
+    if (linkConfig) {
+      return dataStatus
+          && linkConfig->validateTarget(*ioPtr, {}, {}, {"description"});
+    }
+    return dataStatus;
+  }
+
+  Status attrStatus =
+      ioPtr->createAttribute(description, m_path, "description");
+  return dataStatus && attrStatus;
+}
+
 namespace AQNWB::NWB
 {
 // Explicitly instantiate the VectorDataTyped template for all common data
