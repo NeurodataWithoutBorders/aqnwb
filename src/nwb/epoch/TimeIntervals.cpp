@@ -18,7 +18,7 @@ TimeIntervals::TimeIntervals(const std::string& path,
 // TODO add addTimeseries parameter to also support construction of the
 // timeseries and timeseries_index columns
 std::vector<DynamicTable::DataSpecPtr> TimeIntervals::createDefaultDataSpecs(
-    const std::string timeIntervalsPath,
+    const std::string& timeIntervalsPath,
     const SizeType rowChunkSize,
     const bool addTagsColumn)
 {

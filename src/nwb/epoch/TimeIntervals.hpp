@@ -61,7 +61,7 @@ public:
    * @return A vector of DataSpecPtr containing the default specs.
    */
   static std::vector<DataSpecPtr> createDefaultDataSpecs(
-      const std::string timeIntervalsPath,
+      const std::string& timeIntervalsPath,
       const SizeType rowChunkSize = 100,
       const bool addTagsColumn = false);
 
