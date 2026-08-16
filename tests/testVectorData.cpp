@@ -486,6 +486,46 @@ TEST_CASE("VectorDataTyped", "[base]")
 
     recordIo->close();
   }
+
+  SECTION("test appendValue with std::vector")
+  {
+    std::string path = getTestFilePath("testVectorDataAppendVector.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    std::string dataPath = "/vdata_append_vector";
+    IO::ArrayDataSetConfig config(BaseDataType::I32, {0}, {10});
+    auto vectorData = NWB::VectorData::create(dataPath, io);
+    vectorData->initialize(config, "Test append vector");
+
+    std::vector<int> vec1 = {1, 2, 3};
+    std::vector<int> vec2 = {4, 5};
+    std::vector<int> vec3 = {6, 7, 8, 9};
+
+    size_t elementsAppended = 0;
+    REQUIRE(vectorData->appendData(vec1, elementsAppended) == Status::Success);
+    REQUIRE(elementsAppended == 3);
+    REQUIRE(vectorData->appendData(vec2, elementsAppended) == Status::Success);
+    REQUIRE(elementsAppended == 2);
+    REQUIRE(vectorData->appendData(vec3, elementsAppended) == Status::Success);
+    REQUIRE(elementsAppended == 4);
+
+    io->flush();
+
+    auto readDataUntyped = NWB::RegisteredType::create(dataPath, io);
+    auto readVectorData =
+        std::dynamic_pointer_cast<NWB::VectorData>(readDataUntyped);
+    REQUIRE(readVectorData != nullptr);
+
+    auto dataGeneric = readVectorData->readData()->valuesGeneric();
+    auto dataTyped = DataBlock<int>::fromGeneric(dataGeneric);
+    auto data = dataTyped.data;
+
+    REQUIRE(data.size() == 9);
+    REQUIRE(data == std::vector<int>({1, 2, 3, 4, 5, 6, 7, 8, 9}));
+
+    io->close();
+  }
 }  // TEST_CASE("VectorDataTyped", "[base]")
 
 TEST_CASE("LinkArrayDataSetConfig for VectorData", "[base][link]")

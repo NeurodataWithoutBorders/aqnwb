@@ -33,7 +33,9 @@ class DynamicTable : public Container
 public:
   using DataSpec = Data::DataSpecBase;
   using DataSpecPtr = std::shared_ptr<DataSpec>;
-  using CellValue = IO::BaseDataType::BaseDataVariant;
+
+public:
+  using CellValue = AQNWB::NWB::CellValue;
   using RowData = std::unordered_map<std::string, CellValue>;
 
   // Register the TimeSeries as a subclass of Container

@@ -109,6 +109,34 @@ public:
                     const std::string& description,
                     const std::string& targetPath);
 
+  /**
+   * @brief Appends data to the target VectorData and updates this
+   * index.
+   *
+   * This method delegates the actual appending of values to the target
+   * VectorData, determines how many elements were appended, increments its
+   * internal current index, and writes the new index value to its own dataset.
+   *
+   * @param targetValues The values to append to the target VectorData.
+   * @param elementsAppended Output parameter that will be set to the number of
+   * elements appended.
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
+  Status appendData(const CellValue& targetValues, size_t& elementsAppended);
+
+  /**
+   * @brief Sets the cached target VectorData column.
+   *
+   * This allows DynamicTable to provide the already-configured target column,
+   * avoiding the need to read it from the file on every append.
+   *
+   * @param target The target VectorData column.
+   */
+  void setTargetColumn(std::shared_ptr<VectorData> target)
+  {
+    m_targetColumn = target;
+  }
+
   // Define read methods
   DEFINE_REFERENCED_REGISTERED_FIELD(
       readTarget,
@@ -135,6 +163,44 @@ public:
   REGISTER_SUBCLASS(VectorIndex,
                     VectorData,
                     AQNWB::SPEC::HDMF_COMMON::namespaceName)
+
+private:
+  /**
+   * @brief The current index value, representing the total number of elements
+   * currently in the target VectorData. This is the same as the last value in
+   * this VectorIndex.
+   */
+  uint64_t m_currentIndex = 0;
+
+  /**
+   * @brief Flag indicating whether m_currentIndex has been initialized from the
+   * file.
+   */
+  bool m_currentIndexInitialized = false;
+
+  /**
+   * @brief Cached target VectorData column to avoid reading it from the file
+   * repeatedly.
+   */
+  std::shared_ptr<VectorData> m_targetColumn;
+
+  /**
+   * @brief Cached data type of the VectorIndex dataset.
+   */
+  IO::BaseDataType m_dataType;
+
+  /**
+   * @brief Flag indicating whether m_dataType has been initialized.
+   */
+  bool m_dataTypeInitialized = false;
+
+  /**
+   * @brief Initializes m_currentIndex and m_dataType by reading the last value
+   * from the dataset, or setting it to 0 if the dataset is empty. This is used
+   * for resuming appending of index values to the VectorIndex.
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
+  Status initializeAppendState();
 };
 
 }  // namespace AQNWB::NWB

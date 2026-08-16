@@ -7,6 +7,7 @@
 #include "nwb/hdmf/table/DynamicTable.hpp"
 #include "nwb/hdmf/table/ElementIdentifiers.hpp"
 #include "nwb/hdmf/table/MeaningsTable.hpp"
+#include "nwb/hdmf/table/VectorIndex.hpp"
 #include "testUtils.hpp"
 
 using namespace AQNWB;
@@ -650,6 +651,104 @@ TEST_CASE("DynamicTable", "[table]")
     io->close();
   }
   */
+
+  SECTION("test ragged array columns with VectorIndex")
+  {
+    std::string path = getTestFilePath("testDynamicTableRaggedArray.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    auto table = NWB::DynamicTable::create(tablePath, io);
+
+    // Configure schema
+    std::vector<NWB::DynamicTable::DataSpecPtr> specs;
+    specs.push_back(NWB::ElementIdentifiers::createDataSpec(
+        "id", IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10})));
+    specs.push_back(NWB::VectorData::createDataSpec(
+        "col_str",
+        IO::ArrayDataSetConfig(IO::BaseDataType::V_STR, {0}, {10}),
+        "String column"));
+
+    Status status = table->initialize("Table with ragged array", specs);
+    REQUIRE(status == Status::Success);
+
+    // Add target column for ragged array
+    auto targetCol =
+        NWB::VectorData::create(mergePaths(tablePath, "ragged_data"), io);
+    targetCol->initialize(
+        IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10}),
+        "Target data for ragged array");
+    status = table->addColumn(targetCol);
+    REQUIRE(status == Status::Success);
+    REQUIRE(table->readColNames()->values().data
+            == std::vector<std::string>({"col_str", "ragged_data"}));
+
+    // Add VectorIndex column
+    auto indexCol = NWB::VectorIndex::create(
+        mergePaths(tablePath, "ragged_data_index"), io);
+    indexCol->initialize(
+        IO::ArrayDataSetConfig(IO::BaseDataType::U32, {0}, {10}),
+        "Index for ragged array",
+        targetCol->getPath());
+    status = table->addColumn(indexCol);
+    REQUIRE(status == Status::Success);
+    REQUIRE(table->readColNames()->values().data
+            == std::vector<std::string>({"col_str", "ragged_data"}));
+
+    // Add rows
+    std::vector<NWB::DynamicTable::RowData> rows = {
+        {{"col_str", std::string("row1")},
+         {"ragged_data", std::vector<int> {1, 2, 3}}},
+        {{"col_str", std::string("row2")},
+         {"ragged_data", std::vector<int> {4, 5}}},
+        {{"col_str", std::string("row3")},
+         {"ragged_data", std::vector<int> {6, 7, 8, 9}}}};
+    status = table->addRows(rows);
+    REQUIRE(status == Status::Success);
+
+    status = table->finalize();
+    REQUIRE(status == Status::Success);
+
+    io->close();
+
+    // Reopen and verify
+    io = createIO("HDF5", path);
+    io->open();
+    auto readTable = NWB::DynamicTable::create(tablePath, io);
+
+    auto readColNames = readTable->readColNames()->values().data;
+    REQUIRE(readColNames
+            == std::vector<std::string>({"col_str", "ragged_data"}));
+
+    auto readIds = readTable->readIdColumn()->readData()->values().data;
+    REQUIRE(readIds == std::vector<int>({0, 1, 2}));
+
+    auto colStr = readTable->readColumn<NWB::VectorData>("col_str");
+    auto colStrDataGeneric = colStr->readData()->valuesGeneric();
+    auto colStrDataTyped =
+        DataBlock<std::string>::fromGeneric(colStrDataGeneric);
+    auto colStrData = colStrDataTyped.data;
+    REQUIRE(colStrData.size() == 3);
+    REQUIRE(colStrData == std::vector<std::string>({"row1", "row2", "row3"}));
+
+    auto raggedDataCol = readTable->readColumn<NWB::VectorData>("ragged_data");
+    auto raggedDataGeneric = raggedDataCol->readData()->valuesGeneric();
+    auto raggedDataTyped = DataBlock<int>::fromGeneric(raggedDataGeneric);
+    auto raggedData = raggedDataTyped.data;
+    REQUIRE(raggedData.size() == 9);
+    REQUIRE(raggedData == std::vector<int>({1, 2, 3, 4, 5, 6, 7, 8, 9}));
+
+    auto raggedIndexCol =
+        readTable->readColumn<NWB::VectorIndex>("ragged_data_index");
+    auto raggedIndexGeneric = raggedIndexCol->readData()->valuesGeneric();
+    auto raggedIndexTyped =
+        DataBlock<uint32_t>::fromGeneric(raggedIndexGeneric);
+    auto raggedIndexData = raggedIndexTyped.data;
+    REQUIRE(raggedIndexData.size() == 3);
+    REQUIRE(raggedIndexData == std::vector<uint32_t>({3, 5, 9}));
+
+    io->close();
+  }
 
   SECTION("test DynamicTable.findOwnedTypes")
   {

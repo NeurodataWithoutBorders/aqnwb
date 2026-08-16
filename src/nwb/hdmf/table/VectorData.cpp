@@ -87,6 +87,112 @@ Status VectorData::initialize(const IO::BaseArrayDataSetConfig& dataConfig,
   return dataStatus && attrStatus;
 }
 
+Status VectorData::appendData(const CellValue& cellValue,
+                              size_t& elementsAppended)
+{
+  auto ioPtr = getIO();
+  if (ioPtr == nullptr) {
+    std::cerr
+        << "IO object has been deleted. Can't append value to VectorData: "
+        << m_path << std::endl;
+    return Status::Failure;
+  }
+
+  auto dataset = recordData();
+  if (!dataset) {
+    std::cerr << "VectorData::appendValue: dataset is not initialized."
+              << std::endl;
+    return Status::Failure;
+  }
+
+  auto dataType = ioPtr->getStorageObjectDataType(this->getPath());
+  SizeArray positionOffset = {0};
+  auto currentShape = dataset->getShape();
+  if (!currentShape.empty()) {
+    positionOffset[0] = currentShape[0];
+  }
+
+  // The cellValue contains a variant that can hold either a scalar or a vector.
+  // We use std::visit to handle both cases.
+  return std::visit(
+      [&](auto&& arg) -> Status
+      {
+        using T = std::decay_t<decltype(arg)>;
+        if constexpr (std::is_same_v<T, std::monostate>) {
+          return Status::Failure;
+        } else {
+          // Check if the value is a scalar
+          if (auto* scalarVariant =
+                  std::get_if<AQNWB::IO::BaseDataType::BaseDataVariant>(
+                      &cellValue.value))
+          {
+            elementsAppended = 1;
+            // Visit the inner scalar variant to get the actual value
+            return std::visit(
+                [&](auto&& scalarArg) -> Status
+                {
+                  using ScalarT = std::decay_t<decltype(scalarArg)>;
+                  if constexpr (std::is_same_v<ScalarT, std::monostate>) {
+                    return Status::Failure;
+                  } else {
+                    // Strings need to be passed as a vector to writeDataBlock
+                    if constexpr (std::is_same_v<ScalarT, std::string>) {
+                      std::vector<std::string> strVec = {scalarArg};
+                      return dataset->writeDataBlock(
+                          SizeArray {1}, positionOffset, dataType, strVec);
+                    } else {
+                      // Other scalar types can be passed by pointer
+                      return dataset->writeDataBlock(
+                          SizeArray {1}, positionOffset, dataType, &scalarArg);
+                    }
+                  }
+                },
+                *scalarVariant);
+          }
+          // Check if the value is a vector (for ragged arrays)
+          else if (auto* vectorVariant = std::get_if<
+                       AQNWB::IO::BaseDataType::BaseDataVectorVariant>(
+                       &cellValue.value))
+          {
+            // Visit the inner vector variant to get the actual vector
+            return std::visit(
+                [&](auto&& vectorArg) -> Status
+                {
+                  using VectorT = std::decay_t<decltype(vectorArg)>;
+                  if constexpr (std::is_same_v<VectorT, std::monostate>) {
+                    return Status::Failure;
+                  } else {
+                    elementsAppended = vectorArg.size();
+                    if (elementsAppended == 0) {
+                      return Status::Success;  // Nothing to append
+                    }
+                    // Strings are passed directly as a vector
+                    if constexpr (std::is_same_v<VectorT,
+                                                 std::vector<std::string>>) {
+                      return dataset->writeDataBlock(
+                          SizeArray {static_cast<SizeType>(elementsAppended)},
+                          positionOffset,
+                          dataType,
+                          vectorArg);
+                    } else {
+                      // Other vector types are passed by pointer to their
+                      // underlying data
+                      return dataset->writeDataBlock(
+                          SizeArray {static_cast<SizeType>(elementsAppended)},
+                          positionOffset,
+                          dataType,
+                          vectorArg.data());
+                    }
+                  }
+                },
+                *vectorVariant);
+          }
+          return Status::Failure;
+        }
+      },
+      cellValue.value);
+}
+
 namespace AQNWB::NWB
 {
 // Explicitly instantiate the VectorDataTyped template for all common data

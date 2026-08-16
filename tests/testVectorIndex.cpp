@@ -114,4 +114,52 @@ TEST_CASE("VectorIndex", "[table]")
 
     io->close();
   }
+
+  SECTION("test appendData")
+  {
+    const std::string path = getTestFilePath("testVectorIndexAppendData.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    const std::string targetPath = "/ragged_values";
+    const std::string indexPath = targetPath + "_index";
+
+    auto target = NWB::VectorData::create(targetPath, io);
+    target->initialize(IO::ArrayDataSetConfig(BaseDataType::I32, {0}, {10}),
+                       "Target");
+
+    auto vectorIndex = NWB::VectorIndex::create(indexPath, io);
+    vectorIndex->initialize(
+        IO::ArrayDataSetConfig(BaseDataType::U32, {0}, {10}),
+        "Index",
+        targetPath);
+    vectorIndex->setTargetColumn(target);
+
+    std::vector<int> vec1 = {1, 2};
+    std::vector<int> vec2 = {3, 4, 5};
+    std::vector<int> vec3 = {6};
+
+    size_t elementsAppended = 0;
+    REQUIRE(vectorIndex->appendData(vec1, elementsAppended) == Status::Success);
+    REQUIRE(elementsAppended == 2);
+    REQUIRE(vectorIndex->appendData(vec2, elementsAppended) == Status::Success);
+    REQUIRE(elementsAppended == 3);
+    REQUIRE(vectorIndex->appendData(vec3, elementsAppended) == Status::Success);
+    REQUIRE(elementsAppended == 1);
+
+    io->flush();
+
+    auto readData = NWB::RegisteredType::create(indexPath, io);
+    auto readVectorIndex =
+        std::dynamic_pointer_cast<NWB::VectorIndex>(readData);
+    REQUIRE(readVectorIndex != nullptr);
+
+    auto indices = readVectorIndex->readData()->values().data;
+    REQUIRE(indices.size() == 3);
+    REQUIRE(indices[0] == 2);
+    REQUIRE(indices[1] == 5);
+    REQUIRE(indices[2] == 6);
+
+    io->close();
+  }
 }

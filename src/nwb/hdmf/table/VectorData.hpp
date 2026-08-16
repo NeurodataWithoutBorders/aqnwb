@@ -2,6 +2,8 @@
 
 #include <memory>
 #include <string>
+#include <variant>
+#include <vector>
 
 #include "Utils.hpp"
 #include "io/ReadIO.hpp"
@@ -10,6 +12,81 @@
 
 namespace AQNWB::NWB
 {
+
+/**
+ * @brief Type trait to check if a type is a std::vector.
+ * Used to enable/disable constructors in CellValue based on whether the input
+ * is a scalar or a vector.
+ */
+template<typename T>
+struct is_vector : std::false_type
+{
+};
+template<typename T, typename A>
+struct is_vector<std::vector<T, A>> : std::true_type
+{
+};
+
+/**
+ * @brief Represents a single cell value in a DynamicTable row.
+ *
+ * A cell can hold either a scalar value (for regular columns) or a vector of
+ * values (for ragged array columns). This struct wraps a std::variant of both
+ * types and provides templated constructors to allow implicit conversion from
+ * both scalar and vector types. This enables clean syntax like `RowData row =
+ * {{"col1", 5}, {"col2", std::vector<int>{1, 2}}}`.
+ */
+struct CellValue
+{
+  std::variant<IO::BaseDataType::BaseDataVariant,
+               IO::BaseDataType::BaseDataVectorVariant>
+      value;
+
+  CellValue() = default;
+
+  /**
+   * @brief Implicit constructor for scalar values.
+   *
+   * This constructor is enabled only if the input type T is NOT a std::vector
+   * and is NOT a CellValue itself (to prevent hiding the copy/move
+   * constructors). It forwards the value to the BaseDataVariant.
+   */
+  template<typename T,
+           typename =
+               std::enable_if_t<!is_vector<std::decay_t<T>>::value
+                                && !std::is_same_v<std::decay_t<T>, CellValue>>>
+  CellValue(T&& val)
+      : value(IO::BaseDataType::BaseDataVariant(std::forward<T>(val)))
+  {
+  }
+
+  /**
+   * @brief Implicit constructor for vector values.
+   *
+   * This constructor is enabled only if the input type T IS a std::vector.
+   * It forwards the vector to the BaseDataVectorVariant.
+   */
+  template<typename T,
+           typename = std::enable_if_t<is_vector<std::decay_t<T>>::value>,
+           typename = void>
+  CellValue(T&& val)
+      : value(IO::BaseDataType::BaseDataVectorVariant(std::forward<T>(val)))
+  {
+  }
+
+  /**
+   * @brief Implicit constructor for string literals.
+   *
+   * Required because string literals (const char*) would otherwise match the
+   * scalar template but fail to implicitly convert to std::string inside the
+   * variant.
+   */
+  CellValue(const char* val)
+      : value(IO::BaseDataType::BaseDataVariant(std::string(val)))
+  {
+  }
+};
+
 /**
  * @brief An n-dimensional dataset representing a column of a DynamicTable.
  */
@@ -91,6 +168,16 @@ public:
    */
   Status initialize(const IO::BaseArrayDataSetConfig& dataConfig,
                     const std::string& description);
+
+  /**
+   * @brief Appends a cell value (scalar or vector) to the dataset.
+   *
+   * @param cellValue The value to append.
+   * @param elementsAppended Output parameter that will be set to the number of
+   * elements appended.
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
+  Status appendData(const CellValue& cellValue, size_t& elementsAppended);
 
   DEFINE_ATTRIBUTE_FIELD(readDescription,
                          std::string,
