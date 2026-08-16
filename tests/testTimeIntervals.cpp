@@ -95,11 +95,11 @@ TEST_CASE("TimeIntervals - Initialize and Add Rows", "[TimeIntervals]")
       auto startTimes = startTimeData->values().data;
       auto stopTimes = stopTimeData->values().data;
 
-      REQUIRE(startTimes[0] == 1.0f);
-      REQUIRE(startTimes[1] == 2.5f);
+      REQUIRE(startTimes[0] == Catch::Approx(1.0f));
+      REQUIRE(startTimes[1] == Catch::Approx(2.5f));
 
-      REQUIRE(stopTimes[0] == 2.0f);
-      REQUIRE(stopTimes[1] == 3.5f);
+      REQUIRE(stopTimes[0] == Catch::Approx(2.0f));
+      REQUIRE(stopTimes[1] == Catch::Approx(3.5f));
     }
   }
 

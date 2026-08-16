@@ -679,9 +679,11 @@ std::vector<int> DynamicTable::generateRowIDs(SizeType rowCount)
   int startId = 0;
   if (m_rowElementIdentifiers) {
     auto idData = m_rowElementIdentifiers->recordData();
-    auto currentShape = idData->getShape();
-    if (!currentShape.empty()) {
-      startId = static_cast<int>(currentShape[0]);
+    if (idData) {
+      auto currentShape = idData->getShape();
+      if (!currentShape.empty()) {
+        startId = static_cast<int>(currentShape[0]);
+      }
     }
   }
   for (SizeType i = 0; i < rowCount; ++i) {
