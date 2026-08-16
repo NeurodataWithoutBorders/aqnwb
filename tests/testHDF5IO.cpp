@@ -742,6 +742,12 @@ TEST_CASE("HDF5IO; create attributes", "[hdf5io]")
     REQUIRE(readAttrData.shape.size() == 0);  // Scalar attribute
     REQUIRE(readAttrData.data.size() == 1);
     REQUIRE(readAttrData.data[0] == data);
+
+    H5::H5File h5file(filename, H5F_ACC_RDONLY);
+    H5::Group grp = h5file.openGroup(groupPath);
+    H5::Attribute attr = grp.openAttribute(attrName);
+    H5::StrType attrType = attr.getStrType();
+    REQUIRE(attrType.getCset() == H5T_CSET_UTF8);
   }
 
   // integer array
@@ -825,6 +831,12 @@ TEST_CASE("HDF5IO; create attributes", "[hdf5io]")
     REQUIRE(readAttrData.shape.size() == 1);
     REQUIRE(readAttrData.data.size() == 3);
     REQUIRE(readAttrData.data == data);
+
+    H5::H5File h5file(filename, H5F_ACC_RDONLY);
+    H5::Group grp = h5file.openGroup(groupPath);
+    H5::Attribute attr = grp.openAttribute(attrName);
+    H5::StrType attrType = attr.getStrType();
+    REQUIRE(attrType.getCset() == H5T_CSET_UTF8);
   }
 
   // string array with overwrite
@@ -1184,12 +1196,14 @@ TEST_CASE("getNativeType", "[hdf5io]")
     H5::DataType nativeTypeSTR = IO::HDF5::HDF5IO::getNativeType(typeSTR);
     REQUIRE(nativeTypeSTR.getSize()
             == H5::StrType(H5::PredType::C_S1, 256).getSize());
+    REQUIRE(H5Tget_cset(nativeTypeSTR.getId()) == H5T_CSET_UTF8);
 
     // Test for V_STR
     IO::BaseDataType typeVSTR(IO::BaseDataType::V_STR, 1);
     H5::DataType nativeTypeVSTR = IO::HDF5::HDF5IO::getNativeType(typeVSTR);
     REQUIRE(nativeTypeVSTR.getSize()
             == H5::StrType(H5::PredType::C_S1, H5T_VARIABLE).getSize());
+    REQUIRE(H5Tget_cset(nativeTypeVSTR.getId()) == H5T_CSET_UTF8);
   }
 
   SECTION("Array Types")
@@ -1268,12 +1282,14 @@ TEST_CASE("getH5Type", "[hdf5io]")
     H5::DataType h5TypeSTR = IO::HDF5::HDF5IO::getH5Type(typeSTR);
     REQUIRE(h5TypeSTR.getSize()
             == H5::StrType(H5::PredType::C_S1, 256).getSize());
+    REQUIRE(H5Tget_cset(h5TypeSTR.getId()) == H5T_CSET_UTF8);
 
     // Test for V_STR
     IO::BaseDataType typeVSTR(IO::BaseDataType::V_STR, 1);
     H5::DataType h5TypeVSTR = IO::HDF5::HDF5IO::getH5Type(typeVSTR);
     REQUIRE(h5TypeVSTR.getSize()
             == H5::StrType(H5::PredType::C_S1, H5T_VARIABLE).getSize());
+    REQUIRE(H5Tget_cset(h5TypeVSTR.getId()) == H5T_CSET_UTF8);
   }
 
   SECTION("Array Types")
@@ -1899,6 +1915,13 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     REQUIRE(readStrDataTyped.shape[0] == 3);
     REQUIRE(readStrDataTyped.data == testDataStr);
 
+    {
+      H5::H5File h5file(path, H5F_ACC_RDONLY);
+      H5::DataSet dataset = h5file.openDataSet(strDataPath);
+      H5::StrType stringType = dataset.getStrType();
+      REQUIRE(stringType.getCset() == H5T_CSET_UTF8);
+    }
+
     // Test writing and reading of variable length strings as datasets
     std::string vstrDataPath = "/VStrDataset";
     std::vector<std::string> testDataVStr = {"jkl", "mnop", "qrstu"};
@@ -1928,6 +1951,13 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     auto readVStrDataTyped = DataBlock<std::string>::fromGeneric(readVStrData);
     REQUIRE(readVStrDataTyped.shape[0] == 3);
     REQUIRE(readVStrDataTyped.data == testDataVStr);
+
+    {
+      H5::H5File h5file(path, H5F_ACC_RDONLY);
+      H5::DataSet dataset = h5file.openDataSet(vstrDataPath);
+      H5::StrType stringType = dataset.getStrType();
+      REQUIRE(stringType.getCset() == H5T_CSET_UTF8);
+    }
 
     hdf5io->close();
   }
