@@ -1,0 +1,11 @@
+name: aqnwb-demo
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - h5py
+  - numpy
+  - pip
+  - pip:
+    - pynwb
+    - remfile

@@ -8,6 +8,7 @@
  *  - A C++17-compliant compiler
  *  - [CMake >= 3.15](https://cmake.org)
  *  - [HDF5 >= 1.10](https://github.com/HDFGroup/hdf5)
+ *  - [libcurl](https://curl.se/libcurl/) (optional, required for remfile support)
  *
  * \section userbuild_source_sec Source
  *
@@ -27,6 +28,19 @@
  * cmake -S . -B build
  * cmake --build build --config Release
  * \endcode
+ *
+ * To enable reading remote files via the remfile virtual file driver, add the
+ * `-DAQNWB_USE_REMFILE=ON` option during configuration.
+ *
+ * AqNWB first looks for an installed
+ * [remfile-cpp](https://github.com/catalystneuro/remfile-cpp) package. If it
+ * is not found, CMake downloads and builds a pinned remfile-cpp release during
+ * configuration. Install remfile-cpp first to use that installation and skip
+ * the download. When CMake downloads remfile-cpp, installing AqNWB also
+ * installs remfile-cpp into the same installation prefix.
+ *
+ * Note that ROS3 support is automatically enabled if your HDF5 installation
+ * was built with ROS3 support (i.e., `H5_HAVE_ROS3_VFD` is defined).
  *
  * Use the flag ``-DBUILD_SHARED_LIBS=ON`` to generate the shared library file.
  *

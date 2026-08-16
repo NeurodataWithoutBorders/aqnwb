@@ -32,6 +32,62 @@ std::string executablePath = "./reader_executable";
 using namespace AQNWB;
 namespace fs = std::filesystem;
 
+#ifdef H5_HAVE_ROS3_VFD
+TEST_CASE("HDF5IO; ROS3 mode", "[hdf5io]")
+{
+  std::string s3Url =
+      "https://dandiarchive.s3.amazonaws.com/blobs/fec/8a6/"
+      "fec8a690-2ece-4437-8877-8a002ff8bd8a";
+
+  SECTION("open with ros3 driver - region only")
+  {
+    IO::HDF5::HDF5IO hdf5io(s3Url);
+    Status status = hdf5io.openS3("us-east-2");
+    REQUIRE(status == Status::Success);
+    REQUIRE(hdf5io.isOpen());
+    REQUIRE(hdf5io.canModifyObjects() == false);
+    REQUIRE(hdf5io.openS3("us-east-2") == Status::Failure);
+    REQUIRE(hdf5io.isOpen());
+    hdf5io.close();
+  }
+
+  SECTION("invalid URL returns failure")
+  {
+    IO::HDF5::HDF5IO hdf5io("");
+    REQUIRE(hdf5io.openS3("us-east-2") == Status::Failure);
+    REQUIRE_FALSE(hdf5io.isOpen());
+  }
+}
+#endif
+
+#ifdef AQNWB_HAVE_REMFILE_VFD
+TEST_CASE("HDF5IO; REMFILE mode", "[hdf5io]")
+{
+  std::string s3Url =
+      "https://dandiarchive.s3.amazonaws.com/blobs/fec/8a6/"
+      "fec8a690-2ece-4437-8877-8a002ff8bd8a";
+
+  SECTION("open with remfile-vfd driver - region only")
+  {
+    IO::HDF5::HDF5IO hdf5io(s3Url);
+    Status status = hdf5io.openRemote();
+    REQUIRE(status == Status::Success);
+    REQUIRE(hdf5io.isOpen());
+    REQUIRE(hdf5io.canModifyObjects() == false);
+    REQUIRE(hdf5io.openRemote() == Status::Failure);
+    REQUIRE(hdf5io.isOpen());
+    hdf5io.close();
+  }
+
+  SECTION("invalid URL returns failure")
+  {
+    IO::HDF5::HDF5IO hdf5io("");
+    REQUIRE(hdf5io.openRemote() == Status::Failure);
+    REQUIRE_FALSE(hdf5io.isOpen());
+  }
+}
+#endif
+
 TEST_CASE("open - hdf5 file modes", "[hdf5io]")
 {
   const std::string fileName = getTestFilePath("test_open_modes.h5");
@@ -89,6 +145,7 @@ TEST_CASE("open - hdf5 file modes", "[hdf5io]")
     IO::HDF5::HDF5IO hdf5io(fileName);
     REQUIRE(hdf5io.open(IO::FileMode::ReadOnly) == Status::Success);
     REQUIRE(hdf5io.isOpen());
+    REQUIRE_FALSE(hdf5io.canModifyObjects());
 
     // Verify file is opened in ReadOnly mode
     H5::H5File file(fileName, H5F_ACC_RDONLY | H5F_ACC_SWMR_READ);
