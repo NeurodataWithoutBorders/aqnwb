@@ -22,9 +22,7 @@
 // array cells with VectorIndex
 // TODO Update VectorData code to move implementation of funcitons into the cpp
 // file
-// TODO in the PR that adds Subject double check to make sure the constructor
-// for Subject is protected
-// TODO Add unit tests for VectorIndex
+
 
 namespace AQNWB::NWB
 {
@@ -35,6 +33,15 @@ namespace AQNWB::NWB
  * the rows of a DynamicTable and the indices of the VectorData. The name of the
  * VectorIndex is expected to be the name of the target VectorData object
  * followed by "_index".
+ *
+ * In a ragged array, each row can have a different number of elements. The
+ * first vector is at VectorData[0:VectorIndex[0]]. The second vector is at
+ * VectorData[VectorIndex[0]:VectorIndex[1]], and so on. This is using
+ * half-open intervals, so the first index is inclusive and the second index is
+ * exclusive. So for example, if VectorIndex = [3, 5, 8], then the first vector
+ * is at VectorData[0:3], the second vector is at VectorData[3:5], and the third
+ * vector is at VectorData[5:8], while the total number of elements in the
+ * VectorData is 8.
  */
 class VectorIndex : public AQNWB::NWB::VectorData
 {
@@ -121,7 +128,7 @@ public:
       readData,
       recordData,
       uint32_t,
-      "data",
+      "",
       "Used with VectorData to encode a ragged array. An array of indices into "
       "the first dimension of the target VectorData - and forming a map "
       "between the rows of a DynamicTable and the indices of the VectorData. "

@@ -40,6 +40,7 @@ add_executable(aqnwb_test
     testTypes.cpp
     testUtilsFunctions.cpp
     testVectorData.cpp
+    testVectorIndex.cpp
     examples/test_HDF5IO_examples.cpp
     examples/test_example.cpp
     examples/testWorkflowExamples.cpp
