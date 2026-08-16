@@ -47,10 +47,10 @@ Status VectorIndex::initialize(const IO::BaseArrayDataSetConfig& dataConfig,
     return Status::Failure;
   }
 
-  if (dataType != IO::BaseDataType::Type::T_U8
-      && dataType != IO::BaseDataType::Type::T_U16
-      && dataType != IO::BaseDataType::Type::T_U32
-      && dataType != IO::BaseDataType::Type::T_U64)
+  if (dataType.type != IO::BaseDataType::Type::T_U8
+      && dataType.type != IO::BaseDataType::Type::T_U16
+      && dataType.type != IO::BaseDataType::Type::T_U32
+      && dataType.type != IO::BaseDataType::Type::T_U64)
   {
     throw std::invalid_argument(
         "VectorIndex::initialize invalid dataConfig requires a unsigned int "
@@ -126,25 +126,25 @@ Status VectorIndex::initializeAppendState()
     auto dataBlock = dataset->valuesGeneric(positionOffset, readShape);
     auto variantData = dataBlock.as_variant();
 
-    if (m_dataType == IO::BaseDataType::Type::T_U8) {
+    if (m_dataType.type == IO::BaseDataType::Type::T_U8) {
       auto vec = std::get<std::vector<uint8_t>>(variantData);
       if (!vec.empty()) {
         lastValue = vec[0];
         readStatus = Status::Success;
       }
-    } else if (m_dataType == IO::BaseDataType::Type::T_U16) {
+    } else if (m_dataType.type == IO::BaseDataType::Type::T_U16) {
       auto vec = std::get<std::vector<uint16_t>>(variantData);
       if (!vec.empty()) {
         lastValue = vec[0];
         readStatus = Status::Success;
       }
-    } else if (m_dataType == IO::BaseDataType::Type::T_U32) {
+    } else if (m_dataType.type == IO::BaseDataType::Type::T_U32) {
       auto vec = std::get<std::vector<uint32_t>>(variantData);
       if (!vec.empty()) {
         lastValue = vec[0];
         readStatus = Status::Success;
       }
-    } else if (m_dataType == IO::BaseDataType::Type::T_U64) {
+    } else if (m_dataType.type == IO::BaseDataType::Type::T_U64) {
       auto vec = std::get<std::vector<uint64_t>>(variantData);
       if (!vec.empty()) {
         lastValue = vec[0];
@@ -208,16 +208,16 @@ Status VectorIndex::appendData(const CellValue& targetValues,
   }
   size_t indexElementsAppended = 0;
 
-  if (m_dataType == IO::BaseDataType::Type::T_U8) {
+  if (m_dataType.type == IO::BaseDataType::Type::T_U8) {
     CellValue indexValue(static_cast<uint8_t>(m_currentIndex));
     return VectorData::appendData(indexValue, indexElementsAppended);
-  } else if (m_dataType == IO::BaseDataType::Type::T_U16) {
+  } else if (m_dataType.type == IO::BaseDataType::Type::T_U16) {
     CellValue indexValue(static_cast<uint16_t>(m_currentIndex));
     return VectorData::appendData(indexValue, indexElementsAppended);
-  } else if (m_dataType == IO::BaseDataType::Type::T_U32) {
+  } else if (m_dataType.type == IO::BaseDataType::Type::T_U32) {
     CellValue indexValue(static_cast<uint32_t>(m_currentIndex));
     return VectorData::appendData(indexValue, indexElementsAppended);
-  } else if (m_dataType == IO::BaseDataType::Type::T_U64) {
+  } else if (m_dataType.type == IO::BaseDataType::Type::T_U64) {
     CellValue indexValue(m_currentIndex);
     return VectorData::appendData(indexValue, indexElementsAppended);
   } else {
