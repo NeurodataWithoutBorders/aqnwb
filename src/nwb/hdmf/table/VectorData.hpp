@@ -35,6 +35,14 @@ struct is_vector<std::vector<T, A>> : std::true_type
  * types and provides templated constructors to allow implicit conversion from
  * both scalar and vector types. This enables clean syntax like `RowData row =
  * {{"col1", 5}, {"col2", std::vector<int>{1, 2}}}`.
+ *
+ * Note: The constructors for this struct are intentionally implicit (not marked
+ * `explicit`) to allow for this clean initializer list syntax. The cppcheck
+ * warnings for `noExplicitConstructor` are suppressed because this implicit
+ * conversion is a deliberate design choice for the API. Otherwise, users would
+ * have to explicitly wrap values in `CellValue` when constructing rows, via
+ * `RowData row = {{"col1", CellValue(5)}, {"col2",
+ * CellValue(std::vector<int>{1, 2}))}`, which would be cumbersome.
  */
 struct CellValue
 {
@@ -55,6 +63,7 @@ struct CellValue
            typename =
                std::enable_if_t<!is_vector<std::decay_t<T>>::value
                                 && !std::is_same_v<std::decay_t<T>, CellValue>>>
+  // cppcheck-suppress noExplicitConstructor
   CellValue(T&& val)
       : value(IO::BaseDataType::BaseDataVariant(std::forward<T>(val)))
   {
@@ -69,6 +78,7 @@ struct CellValue
   template<typename T,
            typename = std::enable_if_t<is_vector<std::decay_t<T>>::value>,
            typename = void>
+  // cppcheck-suppress noExplicitConstructor
   CellValue(T&& val)
       : value(IO::BaseDataType::BaseDataVectorVariant(std::forward<T>(val)))
   {
@@ -81,6 +91,7 @@ struct CellValue
    * scalar template but fail to implicitly convert to std::string inside the
    * variant.
    */
+  // cppcheck-suppress noExplicitConstructor
   CellValue(const char* val)
       : value(IO::BaseDataType::BaseDataVariant(std::string(val)))
   {
