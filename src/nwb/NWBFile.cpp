@@ -15,6 +15,7 @@
 #include "nwb/device/Device.hpp"
 #include "nwb/ecephys/ElectricalSeries.hpp"
 #include "nwb/ecephys/SpikeEventSeries.hpp"
+#include "nwb/epoch/TimeIntervals.hpp"
 #include "nwb/file/ElectrodeGroup.hpp"
 #include "nwb/misc/AnnotationSeries.hpp"
 #include "spec/NamespaceRegistry.hpp"
@@ -121,7 +122,8 @@ bool NWBFile::isInitialized() const
       "stimulus",
       "general",
       "specifications",
-      "events"};
+      "events",
+      "intervals"};
 
   // Set to keep track of found objects
   std::unordered_set<std::string> foundObjects;
@@ -171,6 +173,7 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
   ioPtr->createGroup(mergePaths(NWBFile::GENERAL_PATH, "/devices"));
   ioPtr->createGroup(mergePaths(NWBFile::GENERAL_PATH, "/extracellular_ephys"));
   ioPtr->createGroup(NWBFile::EVENTS_PATH);
+  ioPtr->createGroup(NWBFile::INTERVALS_PATH);
   if (dataCollection != "") {
     ioPtr->createStringDataSet(
         mergePaths(NWBFile::GENERAL_PATH, "/data_collection"), dataCollection);
@@ -356,6 +359,105 @@ std::shared_ptr<EventsTable> NWBFile::createEventsTable(
   }
 
   return eventsTable;
+}
+
+std::shared_ptr<TimeIntervals> NWBFile::createEpochs(
+    const std::string& description, const SizeType rowChunkSize)
+{
+  return createTimeIntervals("epochs", description, true, rowChunkSize);
+}
+
+std::shared_ptr<TimeIntervals> NWBFile::createTrials(
+    const std::string& description, const SizeType rowChunkSize)
+{
+  return createTimeIntervals("trials", description, false, rowChunkSize);
+}
+
+std::shared_ptr<TimeIntervals> NWBFile::createInvalidTimes(
+    const std::string& description, const SizeType rowChunkSize)
+{
+  return createTimeIntervals("invalid_times", description, false, rowChunkSize);
+}
+
+std::shared_ptr<TimeIntervals> NWBFile::createTimeIntervals(
+    const std::string& name,
+    const std::string& description,
+    const bool createTagsColumn,
+    const SizeType rowChunkSize)
+{
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    std::cerr << "NWBFile::createTimeIntervals IO object has been deleted."
+              << std::endl;
+    return nullptr;
+  }
+
+  if (!ioPtr->canModifyObjects()) {
+    std::cerr << "NWBFile::createTimeIntervals IO object cannot modify objects."
+              << std::endl;
+    return nullptr;
+  }
+
+  std::string tablePath = AQNWB::mergePaths(NWBFile::INTERVALS_PATH, name);
+  auto timeIntervals = NWB::TimeIntervals::create(tablePath, ioPtr);
+  if (!timeIntervals) {
+    std::cerr
+        << "NWBFile::createTimeIntervals failed to create TimeIntervals object."
+        << std::endl;
+    return nullptr;
+  }
+
+  auto specs = TimeIntervals::createDefaultDataSpecs(
+      tablePath, rowChunkSize, createTagsColumn);
+  Status initStatus = timeIntervals->initialize(description, specs);
+
+  if (initStatus != Status::Success) {
+    std::cerr
+        << "NWBFile::createTimeIntervals failed to initialize TimeIntervals."
+        << std::endl;
+    return nullptr;
+  }
+
+  return timeIntervals;
+}
+
+std::shared_ptr<TimeIntervals> NWBFile::createTimeIntervals(
+    const std::string& name,
+    const std::string& description,
+    const std::vector<NWB::DynamicTable::DataSpecPtr>& columnSpecs)
+{
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    std::cerr << "NWBFile::createTimeIntervals IO object has been deleted."
+              << std::endl;
+    return nullptr;
+  }
+
+  if (!ioPtr->canModifyObjects()) {
+    std::cerr << "NWBFile::createTimeIntervals IO object cannot modify objects."
+              << std::endl;
+    return nullptr;
+  }
+
+  std::string tablePath = AQNWB::mergePaths(NWBFile::INTERVALS_PATH, name);
+  auto timeIntervals = NWB::TimeIntervals::create(tablePath, ioPtr);
+  if (!timeIntervals) {
+    std::cerr
+        << "NWBFile::createTimeIntervals failed to create TimeIntervals object."
+        << std::endl;
+    return nullptr;
+  }
+
+  Status initStatus = timeIntervals->initialize(description, columnSpecs);
+
+  if (initStatus != Status::Success) {
+    std::cerr
+        << "NWBFile::createTimeIntervals failed to initialize TimeIntervals."
+        << std::endl;
+    return nullptr;
+  }
+
+  return timeIntervals;
 }
 
 Status NWBFile::createElectricalSeries(

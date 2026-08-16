@@ -78,6 +78,59 @@ TEST_CASE("initialize", "[nwb]")
   io->close();  // close the io
 }
 
+TEST_CASE("createTimeIntervalsTables", "[nwb]")
+{
+  std::string filename = getTestFilePath("createTimeIntervalsTables.nwb");
+
+  // initialize nwbfile object and create base structure
+  std::shared_ptr<IO::HDF5::HDF5IO> io =
+      std::make_shared<IO::HDF5::HDF5IO>(filename);
+  io->open();
+  auto nwbfile = NWB::NWBFile::create(io);
+  nwbfile->initialize(generateUuid());
+
+  // create the Epochs Table
+  auto epochsTable = nwbfile->createEpochs("test epochs", 50);
+  REQUIRE(epochsTable != nullptr);
+  REQUIRE(epochsTable->getName() == "epochs");
+  REQUIRE(epochsTable->readDescription()->values().data[0] == "test epochs");
+
+  // create the Trials Table
+  auto trialsTable = nwbfile->createTrials("test trials", 50);
+  REQUIRE(trialsTable != nullptr);
+  REQUIRE(trialsTable->getName() == "trials");
+  REQUIRE(trialsTable->readDescription()->values().data[0] == "test trials");
+
+  // create the Invalid Times Table
+  auto invalidTimesTable =
+      nwbfile->createInvalidTimes("test invalid times", 50);
+  REQUIRE(invalidTimesTable != nullptr);
+  REQUIRE(invalidTimesTable->getName() == "invalid_times");
+  REQUIRE(invalidTimesTable->readDescription()->values().data[0]
+          == "test invalid times");
+
+  // create a custom TimeIntervals Table
+  auto customTable = nwbfile->createTimeIntervals(
+      "custom_intervals", "test custom", false, 50);
+  REQUIRE(customTable != nullptr);
+  REQUIRE(customTable->getName() == "custom_intervals");
+  REQUIRE(customTable->readDescription()->values().data[0] == "test custom");
+
+  // Write some data to the epochs table
+  io->startRecording();
+
+  AQNWB::NWB::DynamicTable::RowData row1 = {
+      {"start_time", 1.0f}, {"stop_time", 2.0f}, {"tags", std::string("tag1")}};
+  AQNWB::NWB::DynamicTable::RowData row2 = {
+      {"start_time", 2.5f}, {"stop_time", 3.5f}, {"tags", std::string("tag2")}};
+
+  REQUIRE(epochsTable->addRow(row1) == Status::Success);
+  REQUIRE(epochsTable->addRow(row2) == Status::Success);
+
+  io->stopRecording();
+  io->close();
+}
+
 TEST_CASE("createEventsTable", "[nwb]")
 {
   std::string filename = getTestFilePath("createEventsTable.nwb");

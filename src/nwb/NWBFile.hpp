@@ -14,6 +14,7 @@
 #include "nwb/base/NWBContainer.hpp"
 #include "nwb/base/ProcessingModule.hpp"
 #include "nwb/base/TimeSeries.hpp"
+#include "nwb/epoch/TimeIntervals.hpp"
 #include "nwb/event/EventsTable.hpp"
 #include "nwb/file/ElectrodesTable.hpp"
 #include "spec/core.hpp"
@@ -50,6 +51,8 @@ public:
   inline const static std::string ANALYSIS_PATH = "/analysis";
   /// @brief The path to the root events group in the NWB file
   inline const static std::string EVENTS_PATH = "/events";
+  /// @brief The path to the root intervals group in the NWB file
+  inline const static std::string INTERVALS_PATH = "/intervals";
 
   /** \brief Convenience factor method since the path is fixed to '/'
    * @param io A shared pointer to the IO object.
@@ -189,6 +192,76 @@ public:
       const std::string& name,
       const std::string& description,
       const std::string& sourceDescription,
+      const std::vector<NWB::DynamicTable::DataSpecPtr>& columnSpecs);
+
+  /**
+   * @brief Create the Epochs table in the INTERVALS_PATH group.
+   * @param description Description of the table.
+   * @param rowChunkSize The chunk size for the rows of the table.
+   * @return The generated TimeIntervals or nullptr if failed.
+   */
+  std::shared_ptr<TimeIntervals> createEpochs(
+      const std::string& description = "experimental epochs",
+      const SizeType rowChunkSize = 100);
+
+  /**
+   * @brief Create the Trials table in the INTERVALS_PATH group.
+   * @param description Description of the table.
+   * @param rowChunkSize The chunk size for the rows of the table.
+   * @return The generated TimeIntervals or nullptr if failed.
+   */
+  std::shared_ptr<TimeIntervals> createTrials(
+      const std::string& description = "experimental trials",
+      const SizeType rowChunkSize = 100);
+
+  /**
+   * @brief Create the Invalid Times table in the INTERVALS_PATH group.
+   * @param description Description of the table.
+   * @param rowChunkSize The chunk size for the rows of the table.
+   * @return The generated TimeIntervals or nullptr if failed.
+   */
+  std::shared_ptr<TimeIntervals> createInvalidTimes(
+      const std::string& description =
+          "time intervals to be removed from analysis",
+      const SizeType rowChunkSize = 100);
+
+  /**
+   * @brief Create a TimeIntervals table in the INTERVALS_PATH group.
+   * Note, this function will fail if the file is in a mode where
+   * new objects cannot be added, which can be checked via
+   * nwbfile.io->canModifyObjects()
+   * @param name The name of the TimeIntervals table to create (e.g., "epochs",
+   * "trials", "invalid_times").
+   * @param description Description of the table.
+   * @param createTagsColumn Whether to create the tags column.
+   * @param rowChunkSize The chunk size for the rows of the table.
+   * @return The generated TimeIntervals or nullptr if failed.
+   */
+  std::shared_ptr<TimeIntervals> createTimeIntervals(
+      const std::string& name,
+      const std::string& description,
+      const bool createTagsColumn = false,
+      const SizeType rowChunkSize = 100);
+
+  /**
+   * @brief Create a TimeIntervals table in the INTERVALS_PATH group using a
+   * pre-built column spec list.
+   *
+   * This overload is useful when the caller has already constructed a column
+   * spec vector (e.g. via TimeIntervals::createDefaultDataSpecs() followed by
+   * push_back() calls to add custom columns) and wants to pass it directly.
+   *
+   * Note, this function will fail if the file is in a mode where
+   * new objects cannot be added, which can be checked via
+   * nwbfile.io->canModifyObjects()
+   * @param name The name of the TimeIntervals table to create.
+   * @param description Description of the table.
+   * @param columnSpecs Pre-built vector of column specs.
+   * @return The generated TimeIntervals or nullptr if failed.
+   */
+  std::shared_ptr<TimeIntervals> createTimeIntervals(
+      const std::string& name,
+      const std::string& description,
       const std::vector<NWB::DynamicTable::DataSpecPtr>& columnSpecs);
 
   /**
