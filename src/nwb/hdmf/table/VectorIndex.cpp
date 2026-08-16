@@ -127,28 +127,32 @@ Status VectorIndex::initializeAppendState()
     auto variantData = dataBlock.as_variant();
 
     if (m_dataType.type == IO::BaseDataType::Type::T_U8) {
-      auto vec = std::get<std::vector<uint8_t>>(variantData);
-      if (!vec.empty()) {
-        lastValue = vec[0];
-        readStatus = Status::Success;
+      if (auto* vec = std::get_if<std::vector<uint8_t>>(&variantData)) {
+        if (!vec->empty()) {
+          lastValue = vec->front();
+          readStatus = Status::Success;
+        }
       }
     } else if (m_dataType.type == IO::BaseDataType::Type::T_U16) {
-      auto vec = std::get<std::vector<uint16_t>>(variantData);
-      if (!vec.empty()) {
-        lastValue = vec[0];
-        readStatus = Status::Success;
+      if (auto* vec = std::get_if<std::vector<uint16_t>>(&variantData)) {
+        if (!vec->empty()) {
+          lastValue = vec->front();
+          readStatus = Status::Success;
+        }
       }
     } else if (m_dataType.type == IO::BaseDataType::Type::T_U32) {
-      auto vec = std::get<std::vector<uint32_t>>(variantData);
-      if (!vec.empty()) {
-        lastValue = vec[0];
-        readStatus = Status::Success;
+      if (auto* vec = std::get_if<std::vector<uint32_t>>(&variantData)) {
+        if (!vec->empty()) {
+          lastValue = vec->front();
+          readStatus = Status::Success;
+        }
       }
     } else if (m_dataType.type == IO::BaseDataType::Type::T_U64) {
-      auto vec = std::get<std::vector<uint64_t>>(variantData);
-      if (!vec.empty()) {
-        lastValue = vec[0];
-        readStatus = Status::Success;
+      if (auto* vec = std::get_if<std::vector<uint64_t>>(&variantData)) {
+        if (!vec->empty()) {
+          lastValue = vec->front();
+          readStatus = Status::Success;
+        }
       }
     } else {
       std::cerr << "VectorIndex::initializeAppendState: unsupported data type."
