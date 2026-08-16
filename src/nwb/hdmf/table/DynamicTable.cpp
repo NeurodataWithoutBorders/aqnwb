@@ -5,6 +5,7 @@
 
 #include "Utils.hpp"
 #include "nwb/hdmf/table/MeaningsTable.hpp"
+#include "nwb/hdmf/table/VectorIndex.hpp"
 
 using namespace AQNWB::NWB;
 
@@ -575,8 +576,13 @@ Status DynamicTable::configureDataObject(const DataSpec& dataSpec)
   m_configuredColumns.push_back(col);
   m_configuredColumnIndices[col.name] = m_configuredColumns.size() - 1;
 
-  addColumnName(col.name);
-
+  // Only add actual data columns to the colnames attribute, not the VectorIndex
+  // columns
+  bool isVectorIndex =
+      (std::dynamic_pointer_cast<VectorIndex>(dataObj) != nullptr);
+  if (!isVectorIndex) {
+    addColumnName(col.name);
+  }
   return Status::Success;
 }
 
