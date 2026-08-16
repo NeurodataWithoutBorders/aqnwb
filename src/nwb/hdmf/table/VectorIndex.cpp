@@ -35,7 +35,7 @@ Status VectorIndex::initialize(const IO::BaseArrayDataSetConfig& dataConfig,
     return Status::Failure;
   }
 
-  // Make sure that dataConfig uses a uint data type as required
+  // Make sure that dataConfig uses a unsigned int data type as required
   // Extract shape, chunking, and data type from the config
   SizeArray shape, chunking;
   BaseDataType dataType;
@@ -53,7 +53,8 @@ Status VectorIndex::initialize(const IO::BaseArrayDataSetConfig& dataConfig,
       && dataType != IO::BaseDataType::Type::T_U64)
   {
     throw std::invalid_argument(
-        "VectorIndex::initalize invalid dataConfig requires a uint type");
+        "VectorIndex::initialize invalid dataConfig requires a unsigned int "
+        "type");
   }
   if (shape.size() != 1) {
     throw std::invalid_argument(

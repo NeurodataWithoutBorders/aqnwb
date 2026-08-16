@@ -94,8 +94,8 @@ public:
    *
    *  This function creates a dataset using the provided configuration
    *
-   * @param dataConfig The configuration for the dataset. Must use a uint data
-   * type.
+   * @param dataConfig The configuration for the dataset. Must use an
+   * unsigned int data type.
    * @param description The description of the VectorIndex
    * @param targetPath The path to the target VectorData
    * @throw std::invalid_argument if the provided dataSpecs are invalid.
