@@ -17,10 +17,6 @@
 // Include for the namespace schema header
 #include "spec/hdmf_common.hpp"
 
-// TODO Add ReadDataWrapper that supports ragged array read
-// TODO Update DynamicTable::addRow and DynamicTable::addRows to support ragged
-// array cells with VectorIndex
-
 namespace AQNWB::NWB
 {
 
