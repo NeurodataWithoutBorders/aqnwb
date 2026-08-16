@@ -19,10 +19,6 @@
 
 #include "spec/core.hpp"
 
-// TODO Need to implement this type #include "nwb/hdmf/table/VectorIndex.hpp"
-// TODO Implement support for ragged arrays on read/write
-// TODO Add unit tests for TimeIntervals
-
 namespace AQNWB::NWB
 {
 
@@ -105,7 +101,7 @@ public:
                           "Index for tags.")
 
   /*
-  // TODO Add support for the timeseries collumns requires support for
+  // TODO Add support for the timeseries columns requires support for
   TimeSeriesReferenceVectorData DEFINE_REGISTERED_FIELD( readTimeseries,
       CORE::TimeSeriesReferenceVectorData,
       "timeseries",
