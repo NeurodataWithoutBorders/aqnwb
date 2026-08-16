@@ -127,6 +127,27 @@ TEST_CASE("createTimeIntervalsTables", "[nwb]")
   REQUIRE(epochsTable->addRow(row1) == Status::Success);
   REQUIRE(epochsTable->addRow(row2) == Status::Success);
 
+  // Write some data to the trials table
+  AQNWB::NWB::DynamicTable::RowData trialRow = {
+      {"start_time", 1.0f},
+      {"stop_time", 2.0f},
+      {"tags", std::string("trial1")}};
+  REQUIRE(trialsTable->addRow(trialRow) == Status::Success);
+
+  // Write some data to the invalid times table
+  AQNWB::NWB::DynamicTable::RowData invalidTimeRow = {
+      {"start_time", 1.0f},
+      {"stop_time", 2.0f},
+      {"tags", std::string("invalid1")}};
+  REQUIRE(invalidTimesTable->addRow(invalidTimeRow) == Status::Success);
+
+  // Write some data to the custom intervals table
+  AQNWB::NWB::DynamicTable::RowData customRow = {
+      {"start_time", 1.0f},
+      {"stop_time", 2.0f},
+      {"tags", std::string("custom1")}};
+  REQUIRE(customTable->addRow(customRow) == Status::Success);
+
   io->stopRecording();
   io->close();
 }
