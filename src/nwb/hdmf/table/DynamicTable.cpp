@@ -291,11 +291,11 @@ std::vector<DynamicTable::RowData> DynamicTable::readRows(
       colNames.empty() ? m_colNames : colNames;
 
   // Add "id" to columnsToRead if it's not already there and includeId is true
-  if (includeId
-      && std::find(columnsToRead.begin(), columnsToRead.end(), "id")
-          == columnsToRead.end())
-  {
-    columnsToRead.insert(columnsToRead.begin(), "id");
+  if (includeId) {
+    auto it = std::find(columnsToRead.begin(), columnsToRead.end(), "id");
+    if (it == columnsToRead.end()) {
+      columnsToRead.insert(columnsToRead.begin(), "id");
+    }
   }
 
   // 1. Determine the actual number of rows to read
