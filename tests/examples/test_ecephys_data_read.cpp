@@ -455,6 +455,20 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     REQUIRE(specificRows[0].find("tags") != specificRows[0].end());
     // [example_read_dynamic_table_rows_specific_cols_snippet]
 
+    // [example_read_dynamic_table_to_string_snippet]
+    // Print the contents of the table
+    std::string tableString = readInvalidTimesTable->toString();
+    std::cout << "InvalidTimes table contents:\n" << tableString << std::endl;
+    // [example_read_dynamic_table_to_string_snippet]
+
+    std::string expectedTableString =
+        "id,start_time,stop_time,tags\n"
+        "0,1.000000,2.000000,\"[device_error, user_error]\"\n"
+        "1,3.000000,4.000000,[external_interference]\n"
+        "2,5.000000,6.000000,\"[lost_connection, external_interference, user_"
+        "error]\"\n";
+    REQUIRE(tableString == expectedTableString);
+
     // Close the io
     readio->close();
   }

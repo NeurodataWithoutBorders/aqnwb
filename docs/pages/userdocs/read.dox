@@ -207,6 +207,20 @@
  *
  * \snippet tests/examples/test_ecephys_data_read.cpp example_read_dynamic_table_rows_specific_cols_snippet
  *
+ * Finally, you can easily print the contents of a `DynamicTable` using the \ref AQNWB::NWB::DynamicTable::toString "DynamicTable::toString" method. This is useful for debugging and inspecting the table's contents.
+ *
+ * \snippet tests/examples/test_ecephys_data_read.cpp example_read_dynamic_table_to_string_snippet
+ *
+ * This will output the table contents in a readable CSV format:
+ *
+ * \code
+ * InvalidTimes table contents:
+ * id,start_time,stop_time,tags
+ * 0,1.000000,2.000000,"[device_error, user_error]"
+ * 1,3.000000,4.000000,[external_interference]
+ * 2,5.000000,6.000000,"[lost_connection, external_interference, user_error]"
+ * \endcode
+ *
  * \section read_further_reading Further reading
  * - \ref read_design_page discusses the underlying software design of AqNWB for data read 
  * - \ref registered_type_page discusses how to implement your own \ref AQNWB::NWB::RegisteredType "RegisteredType"
