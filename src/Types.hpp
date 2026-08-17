@@ -281,6 +281,60 @@ struct CellValue
   {
     return get<T>();
   }
+
+  /**
+   * @brief Convert the cell value to a string representation.
+   * @return A string representation of the cell value.
+   */
+  std::string toString() const
+  {
+    return std::visit(
+        [](auto&& arg) -> std::string
+        {
+          using T = std::decay_t<decltype(arg)>;
+          if constexpr (std::is_same_v<T, Types::ScalarDataVariant>) {
+            return std::visit(
+                [](auto&& scalarArg) -> std::string
+                {
+                  using ScalarT = std::decay_t<decltype(scalarArg)>;
+                  if constexpr (std::is_same_v<ScalarT, std::string>) {
+                    return scalarArg;
+                  } else {
+                    return std::to_string(scalarArg);
+                  }
+                },
+                arg);
+          } else if constexpr (std::is_same_v<T, Types::VectorDataVariant>) {
+            return std::visit(
+                [](auto&& vectorArg) -> std::string
+                {
+                  using VectorT = std::decay_t<decltype(vectorArg)>;
+                  if constexpr (std::is_same_v<VectorT, std::monostate>) {
+                    return "[]";
+                  } else {
+                    std::string res = "[";
+                    for (size_t i = 0; i < vectorArg.size(); ++i) {
+                      if constexpr (std::is_same_v<VectorT,
+                                                   std::vector<std::string>>) {
+                        res += vectorArg[i];
+                      } else {
+                        res += std::to_string(vectorArg[i]);
+                      }
+                      if (i < vectorArg.size() - 1) {
+                        res += ", ";
+                      }
+                    }
+                    res += "]";
+                    return res;
+                  }
+                },
+                arg);
+          } else {
+            return "Unknown";
+          }
+        },
+        value);
+  }
 };
 
 /**

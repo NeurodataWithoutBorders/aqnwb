@@ -179,21 +179,43 @@ public:
                  const std::vector<int>& rowIds = {});
 
   /**
+   * @brief Get the number of rows in the table.
+   * @return The number of rows.
+   */
+  SizeType getNumberOfRows() const;
+
+  /**
    * @brief Read rows from the table.
    *
-   * @param start The starting index of the rows to read.
-   * @param count The number of rows to read.
-   * @param colNames Optional list of column names to read. If empty, all
-   * columns are read.
-   * @param includeId Optional flag to include the "id" column in the returned
+   * @param start The starting row index.
+   * @param count The number of rows to read. If SizeTypeNotSet, reads to the
+   * end of the table. May be adjusted if start + count exceeds the number of
    * rows.
-   * @return A vector of RowData, where each RowData represents a row in the
-   * table.
+   * @param colNames The names of the columns to read. If empty, reads all
+   * columns.
+   * @param includeId Whether to include the 'id' column in the result.
+   * @return A vector of RowData objects.
+   * @throws std::invalid_argument if start index is out of bounds.
    */
-  std::vector<RowData> readRows(SizeType start,
-                                SizeType count,
+  std::vector<RowData> readRows(SizeType start = 0,
+                                SizeType count = Types::SizeTypeNotSet,
                                 const std::vector<std::string>& colNames = {},
                                 bool includeId = true);
+
+  /**
+   * @brief Convert the table to a string representation.
+   *
+   * @param start The starting row index.
+   * @param count The number of rows to read.
+   * @param colNames The names of the columns to read. If empty, reads all
+   * columns.
+   * @param includeId Whether to include the 'id' column in the result.
+   * @return A string representation of the table.
+   */
+  std::string toString(SizeType start = 0,
+                       SizeType count = Types::SizeTypeNotSet,
+                       const std::vector<std::string>& colNames = {},
+                       bool includeId = true);
 
   /**
    * @brief Sets the values of the element identifiers on the table.

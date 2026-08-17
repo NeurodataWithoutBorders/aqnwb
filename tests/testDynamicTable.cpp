@@ -466,6 +466,60 @@ TEST_CASE("DynamicTable", "[table]")
     readio->close();
   }
 
+  SECTION("test getNumberOfRows")
+  {
+    std::string path = getTestFilePath("testDynamicTableGetNumberOfRows.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    auto table = NWB::DynamicTable::create(tablePath, io);
+
+    // Missing id column
+    REQUIRE(table->getNumberOfRows() == 0);
+
+    // Configure schema
+    std::vector<NWB::DynamicTable::DataSpecPtr> specs;
+    specs.push_back(NWB::ElementIdentifiers::createDataSpec(
+        "id", IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10})));
+    specs.push_back(NWB::VectorData::createDataSpec(
+        "col_str",
+        IO::ArrayDataSetConfig(IO::BaseDataType::V_STR, {0}, {10}),
+        "String column"));
+
+    Status status = table->initialize("Table with rows", specs);
+    REQUIRE(status == Status::Success);
+
+    // Initially 0 rows
+    REQUIRE(table->getNumberOfRows() == 0);
+
+    // Add single row
+    NWB::DynamicTable::RowData row1 = {{"col_str", std::string("row1")}};
+    status = table->addRow(row1);
+    REQUIRE(status == Status::Success);
+    REQUIRE(table->getNumberOfRows() == 1);
+
+    // Add multiple rows
+    std::vector<NWB::DynamicTable::RowData> rows = {
+        {{"col_str", std::string("row2")}},
+        {{"col_str", std::string("row3")}}};
+    status = table->addRows(rows);
+    REQUIRE(status == Status::Success);
+    REQUIRE(table->getNumberOfRows() == 3);
+
+    status = table->finalize();
+    REQUIRE(status == Status::Success);
+
+    io->close();
+
+    // Reopen and verify
+    io = createIO("HDF5", path);
+    io->open();
+    auto readTable = NWB::DynamicTable::create(tablePath, io);
+    REQUIRE(readTable->getNumberOfRows() == 3);
+
+    io->close();
+  }
+
   SECTION("test row-wise append")
   {
     std::string path = getTestFilePath("testDynamicTableRows.h5");
@@ -827,6 +881,13 @@ TEST_CASE("DynamicTable", "[table]")
     auto readAllRows = readTable->readRows(0, 5);
     REQUIRE(readAllRows.size() == 5);
 
+    // Read out of bounds
+    REQUIRE_THROWS_AS(readTable->readRows(10, 5), std::invalid_argument);
+
+    // Read with count exceeding available rows
+    auto readExceedingRows = readTable->readRows(3, 10);
+    REQUIRE(readExceedingRows.size() == 2);
+
     // Check row 1
     std::string r1_str = readAllRows[0].at("col_str");
     float r1_f32 = readAllRows[0].at("col_f32");
@@ -882,6 +943,90 @@ TEST_CASE("DynamicTable", "[table]")
     REQUIRE(s2_str == "row4");
     REQUIRE(s2_f32 == Catch::Approx(4.5f));
     REQUIRE(s2_ragged == std::vector<int>({10}));
+
+    io->close();
+  }
+
+  SECTION("test DynamicTable.toString")
+  {
+    std::string path = getTestFilePath("testDynamicTableToString.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    auto table = NWB::DynamicTable::create(tablePath, io);
+
+    // Configure schema
+    std::vector<NWB::DynamicTable::DataSpecPtr> specs;
+    specs.push_back(NWB::ElementIdentifiers::createDataSpec(
+        "id", IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10})));
+    specs.push_back(NWB::VectorData::createDataSpec(
+        "col_str",
+        IO::ArrayDataSetConfig(IO::BaseDataType::V_STR, {0}, {10}),
+        "String column"));
+    specs.push_back(NWB::VectorData::createDataSpec(
+        "col_f32",
+        IO::ArrayDataSetConfig(IO::BaseDataType::F32, {0}, {10}),
+        "Float column"));
+
+    Status status = table->initialize("Table for toString test", specs);
+    REQUIRE(status == Status::Success);
+
+    // Add VectorData column for ragged array target
+    auto targetCol =
+        NWB::VectorData::create(mergePaths(tablePath, "ragged_data"), io);
+    targetCol->initialize(
+        IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10}),
+        "Target data for ragged array");
+    status = table->addColumn(targetCol);
+    REQUIRE(status == Status::Success);
+
+    // Add VectorIndex column
+    auto indexCol = NWB::VectorIndex::create(
+        mergePaths(tablePath, "ragged_data_index"), io);
+    indexCol->initialize(
+        IO::ArrayDataSetConfig(IO::BaseDataType::U32, {0}, {10}),
+        "Index for ragged array",
+        targetCol->getPath());
+    status = table->addColumn(indexCol);
+    REQUIRE(status == Status::Success);
+
+    // Add rows
+    std::vector<AQNWB::RowData> rows = {
+        {{"col_str", std::string("row1")},
+         {"col_f32", 1.5f},
+         {"ragged_data", std::vector<int> {1, 2, 3}}},
+        {{"col_str", std::string("row2")},
+         {"col_f32", 2.5f},
+         {"ragged_data", std::vector<int> {4, 5}}}};
+    status = table->addRows(rows);
+    REQUIRE(status == Status::Success);
+
+    status = table->finalize();
+    REQUIRE(status == Status::Success);
+
+    // Test toString
+    std::string tableStr = table->toString();
+    std::string expectedTableStr =
+        "id,col_str,col_f32,ragged_data\n"
+        "0,row1,1.500000,\"[1, 2, 3]\"\n"
+        "1,row2,2.500000,\"[4, 5]\"\n";
+    REQUIRE(tableStr == expectedTableStr);
+
+    // Test toString with specific rows
+    std::string rowStr = table->toString(1, 1);
+    std::string expectedRowStr =
+        "id,col_str,col_f32,ragged_data\n"
+        "1,row2,2.500000,\"[4, 5]\"\n";
+    REQUIRE(rowStr == expectedRowStr);
+
+    // Test toString with specific columns
+    std::string colStr =
+        table->toString(0, Types::SizeTypeNotSet, {"col_str"}, false);
+    std::string expectedColStr =
+        "col_str\n"
+        "row1\n"
+        "row2\n";
+    REQUIRE(colStr == expectedColStr);
 
     io->close();
   }

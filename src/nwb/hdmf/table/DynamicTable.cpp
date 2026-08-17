@@ -260,6 +260,19 @@ Status DynamicTable::addRow(const RowData& row, const std::optional<int>& rowId)
   return addRows(std::vector<RowData> {row});
 }
 
+SizeType DynamicTable::getNumberOfRows() const
+{
+  auto idCol = readIdColumn();
+  if (!idCol) {
+    return 0;
+  }
+  auto shape = idCol->readData()->getShape();
+  if (shape.empty()) {
+    return 0;
+  }
+  return shape[0];
+}
+
 std::vector<DynamicTable::RowData> DynamicTable::readRows(
     SizeType start,
     SizeType count,
@@ -285,7 +298,27 @@ std::vector<DynamicTable::RowData> DynamicTable::readRows(
     columnsToRead.insert(columnsToRead.begin(), "id");
   }
 
-  // 1. Read data for each column
+  // 1. Determine the actual number of rows to read
+  SizeType totalRows = getNumberOfRows();
+  if (totalRows == 0) {
+    std::cerr << "DynamicTable::readRows: Could not determine row count."
+              << std::endl;
+    return rows;
+  }
+
+  // Raise an error if start is out of bounds
+  if (start >= totalRows) {
+    throw std::invalid_argument(
+        "DynamicTable::readRows: start index out of bounds.");
+  }
+
+  // Adjust count if it exceeds the available rows
+  SizeType actualCount = count;
+  if (count == AQNWB::Types::SizeTypeNotSet || start + count > totalRows) {
+    actualCount = totalRows - start;
+  }
+
+  // 2. Read data for each column
   std::unordered_map<std::string, std::vector<CellValue>> columnData;
 
   for (const auto& colName : columnsToRead) {
@@ -293,11 +326,8 @@ std::vector<DynamicTable::RowData> DynamicTable::readRows(
       auto idCol = readIdColumn();
       if (idCol) {
         SizeArray startArray = {start};
-        SizeArray countArray = count > 0 ? SizeArray {count} : SizeArray {};
+        SizeArray countArray = {actualCount};
         columnData["id"] = idCol->readCellValues(startArray, countArray);
-      } else {
-        std::cerr << "DynamicTable::readRows: Could not read 'id' column."
-                  << std::endl;
       }
       continue;
     }
@@ -307,26 +337,19 @@ std::vector<DynamicTable::RowData> DynamicTable::readRows(
 
     if (vectorIndex) {
       // Read ragged array data using the VectorIndex
-      columnData[colName] = vectorIndex->readIndexedCellValues(start, count);
+      columnData[colName] =
+          vectorIndex->readIndexedCellValues(start, actualCount);
     } else {
       // Read regular column data
       auto col = readColumn<VectorData>(colName);
       if (col) {
         SizeArray startArray = {start};
-        SizeArray countArray = count > 0 ? SizeArray {count} : SizeArray {};
+        SizeArray countArray = {actualCount};
         columnData[colName] = col->readCellValues(startArray, countArray);
       } else {
         std::cerr << "DynamicTable::readRows: Could not read column '"
                   << colName << "'." << std::endl;
       }
-    }
-  }
-
-  // 2. Determine the actual number of rows read
-  SizeType actualCount = 0;
-  for (const auto& [colName, data] : columnData) {
-    if (data.size() > actualCount) {
-      actualCount = data.size();
     }
   }
 
@@ -341,6 +364,81 @@ std::vector<DynamicTable::RowData> DynamicTable::readRows(
   }
 
   return rows;
+}
+
+std::string DynamicTable::toString(SizeType start,
+                                   SizeType count,
+                                   const std::vector<std::string>& colNames,
+                                   bool includeId)
+{
+  std::vector<RowData> rows = readRows(start, count, colNames, includeId);
+  if (rows.empty()) {
+    return "Empty Table";
+  }
+
+  std::string result;
+
+  // Determine columns to print
+  std::vector<std::string> columnsToPrint;
+  if (includeId) {
+    columnsToPrint.push_back("id");
+  }
+
+  std::vector<std::string> cols = colNames.empty() ? m_colNames : colNames;
+  for (const auto& col : cols) {
+    if (col != "id") {
+      columnsToPrint.push_back(col);
+    }
+  }
+
+  // Print header
+  for (size_t i = 0; i < columnsToPrint.size(); ++i) {
+    result += columnsToPrint[i];
+    if (i < columnsToPrint.size() - 1) {
+      result += ",";
+    }
+  }
+  result += "\n";
+
+  // Helper to escape fields for CSV (RFC 4180)
+  auto csvEscape = [](std::string_view field) -> std::string
+  {
+    const bool needsQuotes =
+        field.find_first_of(",\"\n\r") != std::string_view::npos;
+    if (!needsQuotes)
+      return std::string(field);
+
+    std::string out;
+    out.reserve(field.size() + 2);
+    out.push_back('"');
+    for (char c : field) {
+      if (c == '"')
+        out.push_back('"');  // double it
+      out.push_back(c);
+    }
+    out.push_back('"');
+    return out;
+  };
+
+  // Print rows
+  for (const auto& row : rows) {
+    for (size_t i = 0; i < columnsToPrint.size(); ++i) {
+      const auto& colName = columnsToPrint[i];
+      auto it = row.find(colName);
+      if (it != row.end()) {
+        result += csvEscape(it->second.toString());
+      } else {
+        result += "NULL";
+      }
+
+      if (i < columnsToPrint.size() - 1) {
+        result += ",";
+      }
+    }
+    result += "\n";
+  }
+
+  return result;
 }
 
 Status DynamicTable::addRows(const std::vector<RowData>& rows,

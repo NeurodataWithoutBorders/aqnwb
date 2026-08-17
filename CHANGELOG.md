@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Upcoming [0.4.0] (~August 2026)
 
 ### Added
+* Added `DynamicTable::toString` to support converting rows to a string representation. (@cline, @oruebel, [#325](https://github.com/NeurodataWithoutBorders/aqnwb/pull/325))
+* Added `DynamicTable::getNumberOfRows` to support retrieving the number of rows in a `DynamicTable`. (@cline, @oruebel, [#325](https://github.com/NeurodataWithoutBorders/aqnwb/pull/325))
 * Added `TimeIntervals` type for annotating time intervals and updated `NWBFile` to support the standard `intervals` tables (e.g., `trials`, `invalid_times`, `epochs`). (@cline, @oruebel, [#325](https://github.com/NeurodataWithoutBorders/aqnwb/pull/325))
 * Added `VectorIndex` type for storing index columns. (@cline, @oruebel, [#325](https://github.com/NeurodataWithoutBorders/aqnwb/pull/325))
 * Added `VectorData::appendData` and `VectorIndex::appendData` to simplify appending values to columns. (@cline, @oruebel, [#325](https://github.com/NeurodataWithoutBorders/aqnwb/pull/325))
