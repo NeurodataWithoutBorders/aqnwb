@@ -123,7 +123,7 @@ Status VectorData::appendData(const CellValue& cellValue,
         } else {
           // Check if the value is a scalar
           if (auto* scalarVariant =
-                  std::get_if<AQNWB::IO::BaseDataType::BaseDataVariant>(
+                  std::get_if<AQNWB::Types::ScalarDataVariant>(
                       &cellValue.value))
           {
             elementsAppended = 1;
@@ -150,9 +150,9 @@ Status VectorData::appendData(const CellValue& cellValue,
                 *scalarVariant);
           }
           // Check if the value is a vector (for ragged arrays)
-          else if (auto* vectorVariant = std::get_if<
-                       AQNWB::IO::BaseDataType::BaseDataVectorVariant>(
-                       &cellValue.value))
+          else if (auto* vectorVariant =
+                       std::get_if<AQNWB::Types::VectorDataVariant>(
+                           &cellValue.value))
           {
             // Visit the inner vector variant to get the actual vector
             return std::visit(

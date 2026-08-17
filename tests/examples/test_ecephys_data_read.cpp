@@ -115,6 +115,23 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
         mockArrays, mockChannelNames, dataType, containerIndexes);
     REQUIRE(resultCreate == Status::Success);
 
+    // create InvalidTimes table for testing DynamicTable::readRows
+    auto invalidTimesTable = nwbfile->createInvalidTimes(true);
+    REQUIRE(invalidTimesTable != nullptr);
+    std::vector<NWB::DynamicTable::RowData> invalidTimesRows = {
+        {{"start_time", 1.0f},
+         {"stop_time", 2.0f},
+         {"tags", std::vector<std::string> {"device_error", "user_error"}}},
+        {{"start_time", 3.0f},
+         {"stop_time", 4.0f},
+         {"tags", std::vector<std::string> {"external_interference"}}},
+        {{"start_time", 5.0f},
+         {"stop_time", 6.0f},
+         {"tags",
+          std::vector<std::string> {
+              "lost_connection", "external_interference", "user_error"}}}};
+    REQUIRE(invalidTimesTable->addRows(invalidTimesRows) == Status::Success);
+
     // get the new ElectricalSeries
     auto recordingObjects = io->getRecordingObjects();
     auto registeredTypePtr =
@@ -393,6 +410,50 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
         compute_mean<std::vector<float>>(readDataValues.data);
     REQUIRE(meanFromVariant == Catch::Approx(meanFromTypedVector));
     // [example_use_std_variant_to_compute_on_data]
+
+    // [example_read_dynamic_table_rows_setup_snippet]
+    // Read the InvalidTimes table
+    auto readInvalidTimesTable = readNWBFile->readInvalidTimes();
+    REQUIRE(readInvalidTimesTable != nullptr);
+
+    // Standard approach: Read a single column's data
+    // This is efficient when you only need data from one or a few columns
+    auto startTimeColumn = readInvalidTimesTable->readStartTime();
+    auto startTimeData = startTimeColumn->readData()->values();
+    REQUIRE(startTimeData.data.size() == 3);
+    // [example_read_dynamic_table_rows_setup_snippet]
+
+    // [example_read_dynamic_table_rows_all_cols_snippet]
+    // readRows approach: Read a slice of rows (e.g., rows 0 to 2)
+    // This is convenient when you need to process data row-by-row across
+    // multiple columns
+    auto rows = readInvalidTimesTable->readRows(0, 2);
+    REQUIRE(rows.size() == 2);
+
+    // Access data from the rows
+    for (const auto& row : rows) {
+      float startTime = row.at("start_time");
+      float stopTime = row.at("stop_time");
+      // Access ragged array data (tags)
+      std::vector<std::string> tags = row.at("tags");
+      // Process the data...
+      std::cout << "Row start_time: " << startTime
+                << ", stop_time: " << stopTime << ", tags: ";
+      for (const auto& tag : tags) {
+        std::cout << tag << " ";
+      }
+      std::cout << std::endl;
+    }
+    // [example_read_dynamic_table_rows_all_cols_snippet]
+
+    // [example_read_dynamic_table_rows_specific_cols_snippet]
+    // Read specific columns for a slice of rows
+    auto specificRows =
+        readInvalidTimesTable->readRows(0, 2, {"start_time", "tags"});
+    REQUIRE(specificRows.size() == 2);
+    REQUIRE(specificRows[0].find("stop_time") == specificRows[0].end());
+    REQUIRE(specificRows[0].find("tags") != specificRows[0].end());
+    // [example_read_dynamic_table_rows_specific_cols_snippet]
 
     // Close the io
     readio->close();

@@ -133,6 +133,31 @@ public:
     m_targetColumn = target;
   }
 
+  /**
+   * @brief Gets the cached target VectorData column, or reads it if not cached.
+   *
+   * @return The target VectorData column, or nullptr if not available.
+   */
+  std::shared_ptr<VectorData> getTargetColumn();
+
+  /**
+   * @brief Reads a range of ragged array vectors from the target VectorData.
+   *
+   * For VectorIndex, this reads the indices and then uses them to read the
+   * corresponding ragged array vectors from the target VectorData.
+   *
+   * @param start The starting index for the slice (optional).
+   * @param count The number of elements to read (optional).
+   * @param stride The stride (optional).
+   * @param block The block size (optional).
+   * @return A vector of CellValue, where each CellValue contains the data for a
+   * cell.
+   */
+  std::vector<CellValue> readIndexedCellValues(SizeType start = 0,
+                                               SizeType count = 0,
+                                               SizeType stride = 1,
+                                               SizeType block = 1);
+
   // Define read methods
   DEFINE_REFERENCED_REGISTERED_FIELD(
       readTarget,

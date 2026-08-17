@@ -362,21 +362,34 @@ std::shared_ptr<EventsTable> NWBFile::createEventsTable(
 }
 
 std::shared_ptr<TimeIntervals> NWBFile::createEpochs(
-    const std::string& description, const SizeType rowChunkSize)
+    const bool createTagsColumn, const SizeType rowChunkSize)
 {
-  return createTimeIntervals("epochs", description, true, rowChunkSize);
+  std::string description =
+      "Time intervals marking coarse-grained experimental phases or "
+      "subdivisions of a recording session, such as baseline, task, rest, or "
+      "sleep stage";
+  return createTimeIntervals(
+      "epochs", description, createTagsColumn, rowChunkSize);
 }
 
 std::shared_ptr<TimeIntervals> NWBFile::createTrials(
-    const std::string& description, const SizeType rowChunkSize)
+    const bool createTagsColumn, const SizeType rowChunkSize)
 {
-  return createTimeIntervals("trials", description, false, rowChunkSize);
+  std::string description =
+      "Time intervals corresponding to repeated experimental units with "
+      "consistent structure, such as individual stimulus-response-reward "
+      "cycles.";
+  return createTimeIntervals(
+      "trials", description, createTagsColumn, rowChunkSize);
 }
 
 std::shared_ptr<TimeIntervals> NWBFile::createInvalidTimes(
-    const std::string& description, const SizeType rowChunkSize)
+    const bool createTagsColumn, const SizeType rowChunkSize)
 {
-  return createTimeIntervals("invalid_times", description, false, rowChunkSize);
+  std::string description =
+      "Time intervals that should be removed from analysis";
+  return createTimeIntervals(
+      "invalid_times", description, createTagsColumn, rowChunkSize);
 }
 
 std::shared_ptr<TimeIntervals> NWBFile::createTimeIntervals(

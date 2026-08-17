@@ -750,6 +750,142 @@ TEST_CASE("DynamicTable", "[table]")
     io->close();
   }
 
+  SECTION("test readRows")
+  {
+    std::string path = getTestFilePath("testDynamicTableReadRows.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    auto table = NWB::DynamicTable::create(tablePath, io);
+
+    // Configure schema
+    std::vector<NWB::DynamicTable::DataSpecPtr> specs;
+    specs.push_back(NWB::ElementIdentifiers::createDataSpec(
+        "id", IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10})));
+    specs.push_back(NWB::VectorData::createDataSpec(
+        "col_str",
+        IO::ArrayDataSetConfig(IO::BaseDataType::V_STR, {0}, {10}),
+        "String column"));
+    specs.push_back(NWB::VectorData::createDataSpec(
+        "col_f32",
+        IO::ArrayDataSetConfig(IO::BaseDataType::F32, {0}, {10}),
+        "Float column"));
+
+    Status status = table->initialize("Table with rows", specs);
+    REQUIRE(status == Status::Success);
+
+    // Add target column for ragged array
+    auto targetCol =
+        NWB::VectorData::create(mergePaths(tablePath, "ragged_data"), io);
+    targetCol->initialize(
+        IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10}),
+        "Target data for ragged array");
+    status = table->addColumn(targetCol);
+    REQUIRE(status == Status::Success);
+
+    // Add VectorIndex column
+    auto indexCol = NWB::VectorIndex::create(
+        mergePaths(tablePath, "ragged_data_index"), io);
+    indexCol->initialize(
+        IO::ArrayDataSetConfig(IO::BaseDataType::U32, {0}, {10}),
+        "Index for ragged array",
+        targetCol->getPath());
+    status = table->addColumn(indexCol);
+    REQUIRE(status == Status::Success);
+
+    // Add rows
+    std::vector<NWB::DynamicTable::RowData> rows = {
+        {{"col_str", std::string("row1")},
+         {"col_f32", 1.5f},
+         {"ragged_data", std::vector<int> {1, 2, 3}}},
+        {{"col_str", std::string("row2")},
+         {"col_f32", 2.5f},
+         {"ragged_data", std::vector<int> {4, 5}}},
+        {{"col_str", std::string("row3")},
+         {"col_f32", 3.5f},
+         {"ragged_data", std::vector<int> {6, 7, 8, 9}}},
+        {{"col_str", std::string("row4")},
+         {"col_f32", 4.5f},
+         {"ragged_data", std::vector<int> {10}}},
+        {{"col_str", std::string("row5")},
+         {"col_f32", 5.5f},
+         {"ragged_data", std::vector<int> {11, 12}}}};
+    status = table->addRows(rows);
+    REQUIRE(status == Status::Success);
+
+    status = table->finalize();
+    REQUIRE(status == Status::Success);
+
+    io->close();
+
+    // Reopen and verify
+    io = createIO("HDF5", path);
+    io->open();
+    auto readTable = NWB::DynamicTable::create(tablePath, io);
+
+    // Read all rows
+    auto readAllRows = readTable->readRows(0, 5);
+    REQUIRE(readAllRows.size() == 5);
+
+    // Check row 1
+    std::string r1_str = readAllRows[0].at("col_str");
+    float r1_f32 = readAllRows[0].at("col_f32");
+    std::vector<int> r1_ragged = readAllRows[0].at("ragged_data");
+    REQUIRE(r1_str == "row1");
+    REQUIRE(r1_f32 == Catch::Approx(1.5f));
+    REQUIRE(r1_ragged == std::vector<int>({1, 2, 3}));
+
+    // Check row 3
+    std::string r3_str = readAllRows[2].at("col_str");
+    float r3_f32 = readAllRows[2].at("col_f32");
+    std::vector<int> r3_ragged = readAllRows[2].at("ragged_data");
+    REQUIRE(r3_str == "row3");
+    REQUIRE(r3_f32 == Catch::Approx(3.5f));
+    REQUIRE(r3_ragged == std::vector<int>({6, 7, 8, 9}));
+
+    // Read a slice of rows
+    auto readSliceRows = readTable->readRows(1, 3);
+    REQUIRE(readSliceRows.size() == 3);
+
+    // Check row 2 (index 0 in slice)
+    std::string s0_str = readSliceRows[0].at("col_str");
+    float s0_f32 = readSliceRows[0].at("col_f32");
+    std::vector<int> s0_ragged = readSliceRows[0].at("ragged_data");
+    REQUIRE(s0_str == "row2");
+    REQUIRE(s0_f32 == Catch::Approx(2.5f));
+    REQUIRE(s0_ragged == std::vector<int>({4, 5}));
+
+    // Check row 4 (index 2 in slice)
+    std::string s2_str = readSliceRows[2].at("col_str");
+    float s2_f32 = readSliceRows[2].at("col_f32");
+
+    // Read a slice of rows with specific columns
+    auto readSliceRowsCols = readTable->readRows(1, 3, {"col_str", "col_f32"});
+    REQUIRE(readSliceRowsCols.size() == 3);
+
+    // Check row 2 (index 0 in slice)
+    std::string s0_str_cols = readSliceRowsCols[0].at("col_str");
+    float s0_f32_cols = readSliceRowsCols[0].at("col_f32");
+    REQUIRE(s0_str_cols == "row2");
+    REQUIRE(s0_f32_cols == Catch::Approx(2.5f));
+    REQUIRE(readSliceRowsCols[0].find("ragged_data")
+            == readSliceRowsCols[0].end());
+
+    // Check row 4 (index 2 in slice)
+    std::string s2_str_cols = readSliceRowsCols[2].at("col_str");
+    float s2_f32_cols = readSliceRowsCols[2].at("col_f32");
+    REQUIRE(s2_str_cols == "row4");
+    REQUIRE(s2_f32_cols == Catch::Approx(4.5f));
+    REQUIRE(readSliceRowsCols[2].find("ragged_data")
+            == readSliceRowsCols[2].end());
+    std::vector<int> s2_ragged = readSliceRows[2].at("ragged_data");
+    REQUIRE(s2_str == "row4");
+    REQUIRE(s2_f32 == Catch::Approx(4.5f));
+    REQUIRE(s2_ragged == std::vector<int>({10}));
+
+    io->close();
+  }
+
   SECTION("test DynamicTable.findOwnedTypes")
   {
     std::string path = getTestFilePath("testDynamicTableFindOwned.h5");

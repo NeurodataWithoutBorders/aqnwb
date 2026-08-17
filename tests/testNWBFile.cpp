@@ -90,24 +90,23 @@ TEST_CASE("createTimeIntervalsTables", "[nwb]")
   nwbfile->initialize(generateUuid());
 
   // create the Epochs Table
-  auto epochsTable = nwbfile->createEpochs("test epochs", 50);
+  auto epochsTable = nwbfile->createEpochs(false, 50);
   REQUIRE(epochsTable != nullptr);
   REQUIRE(epochsTable->getName() == "epochs");
-  REQUIRE(epochsTable->readDescription()->values().data[0] == "test epochs");
+  REQUIRE(epochsTable->readDescription()->values().data[0] == "Time intervals marking coarse-grained experimental phases or subdivisions of a recording session, such as baseline, task, rest, or sleep stage");
 
   // create the Trials Table
-  auto trialsTable = nwbfile->createTrials("test trials", 50);
+  auto trialsTable = nwbfile->createTrials(false, 50);
   REQUIRE(trialsTable != nullptr);
   REQUIRE(trialsTable->getName() == "trials");
-  REQUIRE(trialsTable->readDescription()->values().data[0] == "test trials");
+  REQUIRE(trialsTable->readDescription()->values().data[0] == "Time intervals corresponding to repeated experimental units with consistent structure, such as individual stimulus-response-reward cycles.");
 
   // create the Invalid Times Table
-  auto invalidTimesTable =
-      nwbfile->createInvalidTimes("test invalid times", 50);
+  auto invalidTimesTable = nwbfile->createInvalidTimes(false, 50);
   REQUIRE(invalidTimesTable != nullptr);
   REQUIRE(invalidTimesTable->getName() == "invalid_times");
   REQUIRE(invalidTimesTable->readDescription()->values().data[0]
-          == "test invalid times");
+          == "Time intervals that should be removed from analysis");
 
   // create a custom TimeIntervals Table
   auto customTable = nwbfile->createTimeIntervals(

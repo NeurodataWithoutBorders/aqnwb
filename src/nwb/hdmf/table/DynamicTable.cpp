@@ -260,6 +260,89 @@ Status DynamicTable::addRow(const RowData& row, const std::optional<int>& rowId)
   return addRows(std::vector<RowData> {row});
 }
 
+std::vector<DynamicTable::RowData> DynamicTable::readRows(
+    SizeType start,
+    SizeType count,
+    const std::vector<std::string>& colNames,
+    bool includeId)
+{
+  std::vector<RowData> rows;
+
+  if (m_colNames.empty()) {
+    std::cerr << "DynamicTable::readRows no columns available." << std::endl;
+    return rows;
+  }
+
+  // Determine which columns to read
+  std::vector<std::string> columnsToRead =
+      colNames.empty() ? m_colNames : colNames;
+
+  // Add "id" to columnsToRead if it's not already there and includeId is true
+  if (includeId
+      && std::find(columnsToRead.begin(), columnsToRead.end(), "id")
+          == columnsToRead.end())
+  {
+    columnsToRead.insert(columnsToRead.begin(), "id");
+  }
+
+  // 1. Read data for each column
+  std::unordered_map<std::string, std::vector<CellValue>> columnData;
+
+  for (const auto& colName : columnsToRead) {
+    if (colName == "id") {
+      auto idCol = readIdColumn();
+      if (idCol) {
+        SizeArray startArray = {start};
+        SizeArray countArray = count > 0 ? SizeArray {count} : SizeArray {};
+        columnData["id"] = idCol->readCellValues(startArray, countArray);
+      } else {
+        std::cerr << "DynamicTable::readRows: Could not read 'id' column."
+                  << std::endl;
+      }
+      continue;
+    }
+
+    // Check if there is a VectorIndex for this column
+    auto vectorIndex = readColumn<VectorIndex>(colName + "_index");
+
+    if (vectorIndex) {
+      // Read ragged array data using the VectorIndex
+      columnData[colName] = vectorIndex->readIndexedCellValues(start, count);
+    } else {
+      // Read regular column data
+      auto col = readColumn<VectorData>(colName);
+      if (col) {
+        SizeArray startArray = {start};
+        SizeArray countArray = count > 0 ? SizeArray {count} : SizeArray {};
+        columnData[colName] = col->readCellValues(startArray, countArray);
+      } else {
+        std::cerr << "DynamicTable::readRows: Could not read column '"
+                  << colName << "'." << std::endl;
+      }
+    }
+  }
+
+  // 2. Determine the actual number of rows read
+  SizeType actualCount = 0;
+  for (const auto& [colName, data] : columnData) {
+    if (data.size() > actualCount) {
+      actualCount = data.size();
+    }
+  }
+
+  // 3. Assemble the rows
+  rows.resize(actualCount);
+  for (SizeType i = 0; i < actualCount; ++i) {
+    for (const auto& [colName, data] : columnData) {
+      if (i < data.size()) {
+        rows[i][colName] = data[i];
+      }
+    }
+  }
+
+  return rows;
+}
+
 Status DynamicTable::addRows(const std::vector<RowData>& rows,
                              const std::vector<int>& rowIds)
 {

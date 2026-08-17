@@ -3,12 +3,16 @@
 #include <any>
 #include <memory>
 
+#include "Types.hpp"
 #include "io/BaseIO.hpp"
 #include "nwb/RegisteredType.hpp"
 #include "spec/hdmf_common.hpp"
 
 namespace AQNWB::NWB
 {
+
+using CellValue = AQNWB::CellValue;
+
 /**
  * @brief An abstract data type for a dataset.
  * @tparam DTYPE The data type of the data managed by Data
@@ -130,6 +134,28 @@ public:
    * @brief Check whether the dataset has been initialized
    */
   inline bool isInitialized() { return this->readData()->exists(); }
+
+  /**
+   * @brief Reads a range of cell values from the dataset.
+   *
+   * The function reads a slice of data from the dataset based on the provided
+   * start, count, stride, and block parameters. It returns a vector of
+   * CellValue objects, where each CellValue contains the data for a cell. This
+   * is used for reading data from the VectorData column in a DynamicTable. For
+   * regular data read of values used readData()->values() or
+   * readData()->valuesGeneric() instead.
+   *
+   * @param start The starting indices for the slice (optional).
+   * @param count The number of elements to read for each dimension (optional).
+   * @param stride The stride for each dimension (optional).
+   * @param block The block size for each dimension (optional).
+   * @return A vector of CellValue, where each CellValue contains the data for a
+   * cell.
+   */
+  virtual std::vector<CellValue> readCellValues(const SizeArray& start = {},
+                                                const SizeArray& count = {},
+                                                const SizeArray& stride = {},
+                                                const SizeArray& block = {});
 
   // Define the data fields to expose for lazy read access
   DEFINE_DATASET_FIELD(readData, recordData, std::any, "", The main data)

@@ -98,31 +98,10 @@ public:
   }
 
   // Variant data type for representing a single scalar with BaseDataType values
-  using BaseDataVariant = std::variant<uint8_t,
-                                       uint16_t,
-                                       uint32_t,
-                                       uint64_t,
-                                       int8_t,
-                                       int16_t,
-                                       int32_t,
-                                       int64_t,
-                                       float,
-                                       double,
-                                       std::string>;
+  using BaseDataVariant = AQNWB::Types::ScalarDataVariant;
 
   // Variant data type for representing any 1D vector with BaseDataType values
-  using BaseDataVectorVariant = std::variant<std::monostate,
-                                             std::vector<uint8_t>,
-                                             std::vector<uint16_t>,
-                                             std::vector<uint32_t>,
-                                             std::vector<uint64_t>,
-                                             std::vector<int8_t>,
-                                             std::vector<int16_t>,
-                                             std::vector<int32_t>,
-                                             std::vector<int64_t>,
-                                             std::vector<float>,
-                                             std::vector<double>,
-                                             std::vector<std::string>>;
+  using BaseDataVectorVariant = AQNWB::Types::VectorDataVariant;
 
   /**
    * @brief Create an empty BaseDataVectorVariant matching the given type.

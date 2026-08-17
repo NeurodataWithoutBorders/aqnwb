@@ -5,6 +5,7 @@
 #include <variant>
 #include <vector>
 
+#include "Types.hpp"
 #include "Utils.hpp"
 #include "io/ReadIO.hpp"
 #include "nwb/hdmf/base/Data.hpp"
@@ -13,90 +14,7 @@
 namespace AQNWB::NWB
 {
 
-/**
- * @brief Type trait to check if a type is a std::vector.
- * Used to enable/disable constructors in CellValue based on whether the input
- * is a scalar or a vector.
- */
-template<typename T>
-struct is_vector : std::false_type
-{
-};
-template<typename T, typename A>
-struct is_vector<std::vector<T, A>> : std::true_type
-{
-};
-
-/**
- * @brief Represents a single cell value in a DynamicTable row.
- *
- * A cell can hold either a scalar value (for regular columns) or a vector of
- * values (for ragged array columns). This struct wraps a std::variant of both
- * types and provides templated constructors to allow implicit conversion from
- * both scalar and vector types. This enables clean syntax like `RowData row =
- * {{"col1", 5}, {"col2", std::vector<int>{1, 2}}}`.
- *
- * Note: The constructors for this struct are intentionally implicit (not marked
- * `explicit`) to allow for this clean initializer list syntax. The cppcheck
- * warnings for `noExplicitConstructor` are suppressed because this implicit
- * conversion is a deliberate design choice for the API. Otherwise, users would
- * have to explicitly wrap values in `CellValue` when constructing rows, via
- * `RowData row = {{"col1", CellValue(5)}, {"col2",
- * CellValue(std::vector<int>{1, 2}))}`, which would be cumbersome.
- */
-struct CellValue
-{
-  std::variant<IO::BaseDataType::BaseDataVariant,
-               IO::BaseDataType::BaseDataVectorVariant>
-      value;
-
-  CellValue() = default;
-
-  /**
-   * @brief Implicit constructor for scalar values.
-   *
-   * This constructor is enabled only if the input type T is NOT a std::vector
-   * and is NOT a CellValue itself (to prevent hiding the copy/move
-   * constructors). It forwards the value to the BaseDataVariant.
-   */
-  template<typename T,
-           typename =
-               std::enable_if_t<!is_vector<std::decay_t<T>>::value
-                                && !std::is_same_v<std::decay_t<T>, CellValue>>>
-  // cppcheck-suppress noExplicitConstructor
-  CellValue(T&& val)
-      : value(IO::BaseDataType::BaseDataVariant(std::forward<T>(val)))
-  {
-  }
-
-  /**
-   * @brief Implicit constructor for vector values.
-   *
-   * This constructor is enabled only if the input type T IS a std::vector.
-   * It forwards the vector to the BaseDataVectorVariant.
-   */
-  template<typename T,
-           typename = std::enable_if_t<is_vector<std::decay_t<T>>::value>,
-           typename = void>
-  // cppcheck-suppress noExplicitConstructor
-  CellValue(T&& val)
-      : value(IO::BaseDataType::BaseDataVectorVariant(std::forward<T>(val)))
-  {
-  }
-
-  /**
-   * @brief Implicit constructor for string literals.
-   *
-   * Required because string literals (const char*) would otherwise match the
-   * scalar template but fail to implicitly convert to std::string inside the
-   * variant.
-   */
-  // cppcheck-suppress noExplicitConstructor
-  CellValue(const char* val)
-      : value(IO::BaseDataType::BaseDataVariant(std::string(val)))
-  {
-  }
-};
+using CellValue = AQNWB::CellValue;
 
 /**
  * @brief An n-dimensional dataset representing a column of a DynamicTable.

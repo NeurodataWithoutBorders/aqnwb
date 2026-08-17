@@ -48,6 +48,115 @@ Status Data::initialize(const IO::BaseArrayDataSetConfig& dataConfig)
   return Status::Success;
 }
 
+std::vector<CellValue> Data::readCellValues(const SizeArray& start,
+                                            const SizeArray& count,
+                                            const SizeArray& stride,
+                                            const SizeArray& block)
+{
+  std::vector<CellValue> result;
+
+  // Read the data block
+  auto dataBlock = readData()->valuesGeneric(start, count, stride, block);
+
+  // Get the number of elements read
+  size_t numElements = 1;
+  for (auto dim : dataBlock.shape) {
+    numElements *= dim;
+  }
+
+  if (numElements == 0) {
+    return result;
+  }
+
+  result.reserve(numElements);
+
+  // Convert the data block to CellValues based on the data type
+  switch (dataBlock.baseDataType.type) {
+    case IO::BaseDataType::T_U8: {
+      auto data = IO::DataBlock<uint8_t>::fromGeneric(dataBlock);
+      for (size_t i = 0; i < numElements; ++i) {
+        result.emplace_back(data.data[i]);
+      }
+      break;
+    }
+    case IO::BaseDataType::T_U16: {
+      auto data = IO::DataBlock<uint16_t>::fromGeneric(dataBlock);
+      for (size_t i = 0; i < numElements; ++i) {
+        result.emplace_back(data.data[i]);
+      }
+      break;
+    }
+    case IO::BaseDataType::T_U32: {
+      auto data = IO::DataBlock<uint32_t>::fromGeneric(dataBlock);
+      for (size_t i = 0; i < numElements; ++i) {
+        result.emplace_back(data.data[i]);
+      }
+      break;
+    }
+    case IO::BaseDataType::T_U64: {
+      auto data = IO::DataBlock<uint64_t>::fromGeneric(dataBlock);
+      for (size_t i = 0; i < numElements; ++i) {
+        result.emplace_back(data.data[i]);
+      }
+      break;
+    }
+    case IO::BaseDataType::T_I8: {
+      auto data = IO::DataBlock<int8_t>::fromGeneric(dataBlock);
+      for (size_t i = 0; i < numElements; ++i) {
+        result.emplace_back(data.data[i]);
+      }
+      break;
+    }
+    case IO::BaseDataType::T_I16: {
+      auto data = IO::DataBlock<int16_t>::fromGeneric(dataBlock);
+      for (size_t i = 0; i < numElements; ++i) {
+        result.emplace_back(data.data[i]);
+      }
+      break;
+    }
+    case IO::BaseDataType::T_I32: {
+      auto data = IO::DataBlock<int32_t>::fromGeneric(dataBlock);
+      for (size_t i = 0; i < numElements; ++i) {
+        result.emplace_back(data.data[i]);
+      }
+      break;
+    }
+    case IO::BaseDataType::T_I64: {
+      auto data = IO::DataBlock<int64_t>::fromGeneric(dataBlock);
+      for (size_t i = 0; i < numElements; ++i) {
+        result.emplace_back(data.data[i]);
+      }
+      break;
+    }
+    case IO::BaseDataType::T_F32: {
+      auto data = IO::DataBlock<float>::fromGeneric(dataBlock);
+      for (size_t i = 0; i < numElements; ++i) {
+        result.emplace_back(data.data[i]);
+      }
+      break;
+    }
+    case IO::BaseDataType::T_F64: {
+      auto data = IO::DataBlock<double>::fromGeneric(dataBlock);
+      for (size_t i = 0; i < numElements; ++i) {
+        result.emplace_back(data.data[i]);
+      }
+      break;
+    }
+    case IO::BaseDataType::T_STR:
+    case IO::BaseDataType::V_STR: {
+      auto data = IO::DataBlock<std::string>::fromGeneric(dataBlock);
+      for (size_t i = 0; i < numElements; ++i) {
+        result.emplace_back(data.data[i]);
+      }
+      break;
+    }
+    default:
+      throw std::runtime_error("Unsupported data type in Data::readCellValues");
+  }
+
+  return result;
+}
+
 namespace AQNWB::NWB
 {
 

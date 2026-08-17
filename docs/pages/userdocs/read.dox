@@ -184,6 +184,28 @@
  *
  * \snippet tests/examples/test_ecephys_data_read.cpp  example_use_std_variant_to_compute_on_data
  * 
+ * \subsection read_example_dynamic_table Reading data from DynamicTable objects
+ *
+ * First, let's get the table we want to read from. In this example, we'll use the `InvalidTimes` table. We can also see the standard approach of reading a single column's data, which is efficient when you only need data from one or a few columns.
+ *
+ * \snippet tests/examples/test_ecephys_data_read.cpp example_read_dynamic_table_rows_setup_snippet
+ *
+ * In addition to reading individual columns, the \ref AQNWB::NWB::DynamicTable "DynamicTable" class provides convenient methods for reading rows of data:
+ *
+ * - \ref AQNWB::NWB::DynamicTable::readRows "DynamicTable::readRows(start, stop, colNames)" reads a consecutive range of rows from the table.
+ *   - `start`: The starting row index (inclusive).
+ *   - `stop`: The stopping row index (exclusive).
+ *   - `colNames`: (Optional) A list of column names to read. If empty, all columns are read.
+ *
+ * This method returns a `std::vector<RowData>`, where each `RowData` is a map of column names to their corresponding values for that row.
+ *
+ * Now, let's use the `readRows` approach to read a slice of rows (e.g., rows 0 to 2). This is convenient when you need to process data row-by-row across multiple columns.
+ *
+ * \snippet tests/examples/test_ecephys_data_read.cpp example_read_dynamic_table_rows_all_cols_snippet
+ *
+ * You can also specify a subset of columns to read by passing a vector of column names as the third argument to `readRows`. This can improve performance if you only need data from specific columns.
+ *
+ * \snippet tests/examples/test_ecephys_data_read.cpp example_read_dynamic_table_rows_specific_cols_snippet
  *
  * \section read_further_reading Further reading
  * - \ref read_design_page discusses the underlying software design of AqNWB for data read 

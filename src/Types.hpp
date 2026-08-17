@@ -1,9 +1,12 @@
 #pragma once
 
 #include <cstddef>
+#include <cstdint>
 #include <limits>
 #include <string>
 #include <type_traits>
+#include <unordered_map>
+#include <variant>
 #include <vector>
 
 namespace AQNWB
@@ -116,6 +119,37 @@ public:
   using ChannelVector = std::vector<Channel>;
 
   /**
+   * @brief Variant data type for representing a single scalar value.
+   */
+  using ScalarDataVariant = std::variant<uint8_t,
+                                         uint16_t,
+                                         uint32_t,
+                                         uint64_t,
+                                         int8_t,
+                                         int16_t,
+                                         int32_t,
+                                         int64_t,
+                                         float,
+                                         double,
+                                         std::string>;
+
+  /**
+   * @brief Variant data type for representing any 1D vector of scalar values.
+   */
+  using VectorDataVariant = std::variant<std::monostate,
+                                         std::vector<uint8_t>,
+                                         std::vector<uint16_t>,
+                                         std::vector<uint32_t>,
+                                         std::vector<uint64_t>,
+                                         std::vector<int8_t>,
+                                         std::vector<int16_t>,
+                                         std::vector<int32_t>,
+                                         std::vector<int64_t>,
+                                         std::vector<float>,
+                                         std::vector<double>,
+                                         std::vector<std::string>>;
+
+  /**
    * @brief Struct to hold namespace information.
    */
   struct NamespaceInfo
@@ -133,4 +167,127 @@ public:
         specVariables;  ///< The specVariables of the namespace.
   };
 };
+
+/**
+ * @brief Type trait to check if a type is a std::vector.
+ * Used to enable/disable constructors in CellValue based on whether the input
+ * is a scalar or a vector.
+ */
+template<typename T>
+struct is_vector : std::false_type
+{
+};
+template<typename T, typename A>
+struct is_vector<std::vector<T, A>> : std::true_type
+{
+};
+
+/**
+ * @brief Represents a single cell value in a DynamicTable row.
+ *
+ * A cell can hold either a scalar value (for regular columns) or a vector of
+ * values (for ragged array columns). This struct wraps a std::variant of both
+ * types and provides templated constructors to allow implicit conversion from
+ * both scalar and vector types. This enables clean syntax like `RowData row =
+ * {{"col1", 5}, {"col2", std::vector<int>{1, 2}}}`.
+ *
+ * Note: The constructors for this struct are intentionally implicit (not marked
+ * `explicit`) to allow for this clean initializer list syntax. The cppcheck
+ * warnings for `noExplicitConstructor` are suppressed because this implicit
+ * conversion is a deliberate design choice for the API. Otherwise, users would
+ * have to explicitly wrap values in `CellValue` when constructing rows, via
+ * `RowData row = {{"col1", CellValue(5)}, {"col2",
+ * CellValue(std::vector<int>{1, 2}))}`, which would be cumbersome.
+ */
+struct CellValue
+{
+  std::variant<Types::ScalarDataVariant, Types::VectorDataVariant> value;
+
+  CellValue() = default;
+
+  /**
+   * @brief Implicit constructor for scalar values.
+   *
+   * This constructor is enabled only if the input type T is NOT a std::vector
+   * and is NOT a CellValue itself (to prevent hiding the copy/move
+   * constructors). It forwards the value to the ScalarDataVariant.
+   */
+  template<typename T,
+           typename =
+               std::enable_if_t<!is_vector<std::decay_t<T>>::value
+                                && !std::is_same_v<std::decay_t<T>, CellValue>>>
+  // cppcheck-suppress noExplicitConstructor
+  CellValue(T&& val)
+      : value(Types::ScalarDataVariant(std::forward<T>(val)))
+  {
+  }
+
+  /**
+   * @brief Implicit constructor for vector values.
+   *
+   * This constructor is enabled only if the input type T IS a std::vector.
+   * It forwards the vector to the VectorDataVariant.
+   */
+  template<typename T,
+           typename = std::enable_if_t<is_vector<std::decay_t<T>>::value>,
+           typename = void>
+  // cppcheck-suppress noExplicitConstructor
+  CellValue(T&& val)
+      : value(Types::VectorDataVariant(std::forward<T>(val)))
+  {
+  }
+
+  /**
+   * @brief Implicit constructor for string literals.
+   *
+   * Required because string literals (const char*) would otherwise match the
+   * scalar template but fail to implicitly convert to std::string inside the
+   * variant.
+   */
+  // cppcheck-suppress noExplicitConstructor
+  CellValue(const char* val)
+      : value(Types::ScalarDataVariant(std::string(val)))
+  {
+  }
+
+  /**
+   * @brief Helper method to extract the underlying value.
+   *
+   * @tparam T The expected type of the value.
+   * @return The value of type T.
+   * @throws std::bad_variant_access if the requested type does not match the
+   * stored type.
+   */
+  template<typename T>
+  T get() const
+  {
+    if constexpr (is_vector<T>::value) {
+      return std::get<T>(std::get<Types::VectorDataVariant>(value));
+    } else {
+      return std::get<T>(std::get<Types::ScalarDataVariant>(value));
+    }
+  }
+
+  /**
+   * @brief Implicit conversion operator to extract the underlying value.
+   *
+   * @tparam T The expected type of the value.
+   * @return The value of type T.
+   * @throws std::bad_variant_access if the requested type does not match the
+   * stored type.
+   */
+  template<typename T>
+  operator T() const
+  {
+    return get<T>();
+  }
+};
+
+/**
+ * @brief Represents a row of data in a DynamicTable.
+ *
+ * A row is a map from column names to cell values.
+ */
+using RowData = std::unordered_map<std::string, CellValue>;
+
 }  // namespace AQNWB

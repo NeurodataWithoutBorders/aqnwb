@@ -77,6 +77,174 @@ Status VectorIndex::initialize(const IO::BaseArrayDataSetConfig& dataConfig,
   return initStatus;
 }
 
+std::shared_ptr<VectorData> VectorIndex::getTargetColumn()
+{
+  if (!m_targetColumn) {
+    m_targetColumn = readTarget();
+  }
+  return m_targetColumn;
+}
+
+std::vector<CellValue> VectorIndex::readIndexedCellValues(SizeType start,
+                                                          SizeType count,
+                                                          SizeType stride,
+                                                          SizeType block)
+{
+  // First, read the indices from this VectorIndex
+  SizeArray startArray = {start};
+  SizeArray countArray = count > 0 ? SizeArray {count} : SizeArray {};
+  SizeArray strideArray = {stride};
+  SizeArray blockArray = {block};
+
+  std::vector<CellValue> indices = VectorData::readCellValues(
+      startArray, countArray, strideArray, blockArray);
+
+  if (indices.empty()) {
+    return {};
+  }
+
+  // Get the target column
+  auto target = getTargetColumn();
+  if (!target) {
+    std::cerr
+        << "VectorIndex::readCellValues: target VectorData is not available."
+        << std::endl;
+    return {};
+  }
+
+  // We need to read the previous index to know where the first vector starts
+  // If start == 0, the previous index is 0
+  uint64_t prevIndex = 0;
+  if (start > 0) {
+    SizeArray prevStart = {start - 1};
+    SizeArray prevCount = {1};
+    std::vector<CellValue> prevIndices =
+        VectorData::readCellValues(prevStart, prevCount);
+    if (!prevIndices.empty()) {
+      // Extract the value from the CellValue variant
+      std::visit(
+          [&](auto&& arg)
+          {
+            using T = std::decay_t<decltype(arg)>;
+            if constexpr (std::is_same_v<T, AQNWB::Types::ScalarDataVariant>) {
+              std::visit(
+                  [&](auto&& scalarArg)
+                  {
+                    using ScalarT = std::decay_t<decltype(scalarArg)>;
+                    if constexpr (std::is_integral_v<ScalarT>) {
+                      prevIndex = static_cast<uint64_t>(scalarArg);
+                    }
+                  },
+                  arg);
+            }
+          },
+          prevIndices[0].value);
+    }
+  }
+
+  std::vector<CellValue> result;
+  result.reserve(indices.size());
+
+  // For each index, read the corresponding vector from the target
+  for (const auto& indexCell : indices) {
+    uint64_t currIndex = 0;
+
+    // Extract the value from the CellValue variant
+    std::visit(
+        [&](auto&& arg)
+        {
+          using T = std::decay_t<decltype(arg)>;
+          if constexpr (std::is_same_v<T, AQNWB::Types::ScalarDataVariant>) {
+            std::visit(
+                [&](auto&& scalarArg)
+                {
+                  using ScalarT = std::decay_t<decltype(scalarArg)>;
+                  if constexpr (std::is_integral_v<ScalarT>) {
+                    currIndex = static_cast<uint64_t>(scalarArg);
+                  }
+                },
+                arg);
+          }
+        },
+        indexCell.value);
+
+    // Calculate the number of elements to read
+    uint64_t numElements = currIndex - prevIndex;
+
+    if (numElements == 0) {
+      // Empty vector
+      result.emplace_back(std::vector<uint8_t> {});  // Use a dummy type, it
+                                                     // will be empty anyway
+    } else {
+      // Read the vector from the target
+      SizeArray targetStart = {static_cast<SizeType>(prevIndex)};
+      SizeArray targetCount = {static_cast<SizeType>(numElements)};
+
+      std::vector<CellValue> targetCells =
+          target->readCellValues(targetStart, targetCount);
+
+      // We need to combine the individual cells into a single vector CellValue
+      // This is a bit tricky because we need to know the type
+      if (!targetCells.empty()) {
+        std::visit(
+            [&](auto&& arg)
+            {
+              using T = std::decay_t<decltype(arg)>;
+              if constexpr (std::is_same_v<T,
+                                           AQNWB::Types::ScalarDataVariant>) {
+                std::visit(
+                    [&](auto&& scalarArg)
+                    {
+                      using ScalarT = std::decay_t<decltype(scalarArg)>;
+                      if constexpr (!std::is_same_v<ScalarT, std::monostate>) {
+                        std::vector<ScalarT> vec;
+                        vec.reserve(targetCells.size());
+
+                        for (const auto& cell : targetCells) {
+                          std::visit(
+                              [&](auto&& cellArg)
+                              {
+                                using CellT = std::decay_t<decltype(cellArg)>;
+                                if constexpr (std::is_same_v<
+                                                  CellT,
+                                                  AQNWB::Types::
+                                                      ScalarDataVariant>)
+                                {
+                                  std::visit(
+                                      [&](auto&& cellScalarArg)
+                                      {
+                                        using CellScalarT = std::decay_t<
+                                            decltype(cellScalarArg)>;
+                                        if constexpr (std::is_same_v<
+                                                          CellScalarT,
+                                                          ScalarT>) {
+                                          vec.push_back(cellScalarArg);
+                                        }
+                                      },
+                                      cellArg);
+                                }
+                              },
+                              cell.value);
+                        }
+
+                        result.emplace_back(vec);
+                      }
+                    },
+                    arg);
+              }
+            },
+            targetCells[0].value);
+      } else {
+        result.emplace_back(std::vector<uint8_t> {});
+      }
+    }
+
+    prevIndex = currIndex;
+  }
+
+  return result;
+}
+
 Status VectorIndex::initializeAppendState()
 {
   if (m_currentIndexInitialized && m_dataTypeInitialized) {
@@ -183,17 +351,11 @@ Status VectorIndex::appendData(const CellValue& targetValues,
     }
   }
 
-  auto target = m_targetColumn;
+  auto target = getTargetColumn();
   if (!target) {
-    target = readTarget();
-    if (target) {
-      setTargetColumn(target);
-    } else {
-      std::cerr
-          << "VectorIndex::appendData: target VectorData is not available."
-          << std::endl;
-      return Status::Failure;
-    }
+    std::cerr << "VectorIndex::appendData: target VectorData is not available."
+              << std::endl;
+    return Status::Failure;
   }
 
   elementsAppended = 0;

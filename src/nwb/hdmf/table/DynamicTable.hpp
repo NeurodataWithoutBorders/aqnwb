@@ -160,10 +160,40 @@ public:
                             const std::string& colDescription,
                             const std::vector<std::string>& dataset);
 
+  /**
+   * @brief Adds a single row to the table.
+   * @param row The row data to add.
+   * @param rowId The ID of the row (optional).
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
   Status addRow(const RowData& row,
                 const std::optional<int>& rowId = std::nullopt);
+
+  /**
+   * @brief Adds multiple rows to the table.
+   * @param rows The vector of row data to add.
+   * @param rowIds The vector of row IDs (optional).
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
   Status addRows(const std::vector<RowData>& rows,
                  const std::vector<int>& rowIds = {});
+
+  /**
+   * @brief Read rows from the table.
+   *
+   * @param start The starting index of the rows to read.
+   * @param count The number of rows to read.
+   * @param colNames Optional list of column names to read. If empty, all
+   * columns are read.
+   * @param includeId Optional flag to include the "id" column in the returned
+   * rows.
+   * @return A vector of RowData, where each RowData represents a row in the
+   * table.
+   */
+  std::vector<RowData> readRows(SizeType start,
+                                SizeType count,
+                                const std::vector<std::string>& colNames = {},
+                                bool includeId = true);
 
   /**
    * @brief Sets the values of the element identifiers on the table.

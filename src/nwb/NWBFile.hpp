@@ -196,34 +196,30 @@ public:
 
   /**
    * @brief Create the Epochs table in the INTERVALS_PATH group.
-   * @param description Description of the table.
+   * @param createTagsColumn Whether to create the tags column.
    * @param rowChunkSize The chunk size for the rows of the table.
    * @return The generated TimeIntervals or nullptr if failed.
    */
   std::shared_ptr<TimeIntervals> createEpochs(
-      const std::string& description = "experimental epochs",
-      const SizeType rowChunkSize = 100);
+      const bool createTagsColumn = false, const SizeType rowChunkSize = 100);
 
   /**
    * @brief Create the Trials table in the INTERVALS_PATH group.
-   * @param description Description of the table.
+   * @param createTagsColumn Whether to create the tags column.
    * @param rowChunkSize The chunk size for the rows of the table.
    * @return The generated TimeIntervals or nullptr if failed.
    */
   std::shared_ptr<TimeIntervals> createTrials(
-      const std::string& description = "experimental trials",
-      const SizeType rowChunkSize = 100);
+      const bool createTagsColumn = false, const SizeType rowChunkSize = 100);
 
   /**
    * @brief Create the Invalid Times table in the INTERVALS_PATH group.
-   * @param description Description of the table.
+   * @param createTagsColumn Whether to create the tags column.
    * @param rowChunkSize The chunk size for the rows of the table.
    * @return The generated TimeIntervals or nullptr if failed.
    */
   std::shared_ptr<TimeIntervals> createInvalidTimes(
-      const std::string& description =
-          "time intervals to be removed from analysis",
-      const SizeType rowChunkSize = 100);
+      const bool createTagsColumn = false, const SizeType rowChunkSize = 100);
 
   /**
    * @brief Create a TimeIntervals table in the INTERVALS_PATH group.
@@ -315,6 +311,21 @@ public:
    */
   Status createAnnotationSeries(const std::vector<std::string>& recordingNames,
                                 std::vector<SizeType>& containerIndexes);
+
+  DEFINE_REGISTERED_FIELD(readEpochs,
+                          TimeIntervals,
+                          "intervals/epochs",
+                          "Table of experimental epochs.")
+
+  DEFINE_REGISTERED_FIELD(readTrials,
+                          TimeIntervals,
+                          "intervals/trials",
+                          "Table of experimental trials.")
+
+  DEFINE_REGISTERED_FIELD(readInvalidTimes,
+                          TimeIntervals,
+                          "intervals/invalid_times",
+                          "Table of invalid times.")
 
   DEFINE_REGISTERED_FIELD(readElectrodesTable,
                           ElectrodesTable,
