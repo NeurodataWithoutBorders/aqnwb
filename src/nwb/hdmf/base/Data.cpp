@@ -1,3 +1,5 @@
+#include <numeric>
+
 #include "nwb/hdmf/base/Data.hpp"
 
 using namespace AQNWB::NWB;
@@ -59,10 +61,10 @@ std::vector<CellValue> Data::readCellValues(const SizeArray& start,
   auto dataBlock = readData()->valuesGeneric(start, count, stride, block);
 
   // Get the number of elements read
-  size_t numElements = 1;
-  for (auto dim : dataBlock.shape) {
-    numElements *= dim;
-  }
+  size_t numElements = std::accumulate(dataBlock.shape.begin(),
+                                       dataBlock.shape.end(),
+                                       1ULL,
+                                       std::multiplies<size_t>());
 
   if (numElements == 0) {
     return result;
