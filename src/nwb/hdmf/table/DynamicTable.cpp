@@ -379,15 +379,12 @@ std::string DynamicTable::toString(SizeType start,
   std::string result;
 
   // Determine columns to print
-  std::vector<std::string> columnsToPrint;
+  std::vector<std::string> columnsToPrint =
+      colNames.empty() ? m_colNames : colNames;
   if (includeId) {
-    columnsToPrint.push_back("id");
-  }
-
-  std::vector<std::string> cols = colNames.empty() ? m_colNames : colNames;
-  for (const auto& col : cols) {
-    if (col != "id") {
-      columnsToPrint.push_back(col);
+    auto it = std::find(columnsToPrint.begin(), columnsToPrint.end(), "id");
+    if (it == columnsToPrint.end()) {
+      columnsToPrint.insert(columnsToPrint.begin(), "id");
     }
   }
 
