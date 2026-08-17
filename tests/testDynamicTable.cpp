@@ -500,8 +500,7 @@ TEST_CASE("DynamicTable", "[table]")
 
     // Add multiple rows
     std::vector<NWB::DynamicTable::RowData> rows = {
-        {{"col_str", std::string("row2")}},
-        {{"col_str", std::string("row3")}}};
+        {{"col_str", std::string("row2")}}, {{"col_str", std::string("row3")}}};
     status = table->addRows(rows);
     REQUIRE(status == Status::Success);
     REQUIRE(table->getNumberOfRows() == 3);
