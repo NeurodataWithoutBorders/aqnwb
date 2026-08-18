@@ -167,6 +167,13 @@ std::vector<AQNWB::Types::CellValue> VectorIndex::readIndexedCellValues(
         indexCell.value);
 
     // Calculate the number of elements to read
+    if (currIndex < prevIndex) {
+      throw std::runtime_error(
+          "VectorIndex::readIndexedCellValues: Invalid index data, "
+          "currIndex ("
+          + std::to_string(currIndex) + ") < prevIndex ("
+          + std::to_string(prevIndex) + ")");
+    }
     uint64_t numElements = currIndex - prevIndex;
 
     if (numElements == 0) {
