@@ -9,6 +9,8 @@
 #  define HAVE_MDSPAN 0
 #endif
 
+#include <variant>
+
 #include <H5Cpp.h>
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_all.hpp>
@@ -432,10 +434,17 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
 
     // Access data from the rows
     for (const auto& row : rows) {
+      // Implicit conversion to float
       float startTime = row.at("start_time");
-      float stopTime = row.at("stop_time");
-      // Access ragged array data (tags)
-      std::vector<std::string> tags = row.at("tags");
+      // Explicit conversion to float
+      float stopTime = row.at("stop_time").get<float>();
+      // Access ragged array data (tags) with checks for type safety
+      std::vector<std::string> tags;
+      if (row.at("tags").holds_alternative<std::vector<std::string>>()) {
+        tags = row.at("tags").get<std::vector<std::string>>();
+      } else {
+        throw std::runtime_error("Expected 'tags' to be a vector of strings");
+      }
       // Process the data...
       std::cout << "Row start_time: " << startTime
                 << ", stop_time: " << stopTime << ", tags: ";

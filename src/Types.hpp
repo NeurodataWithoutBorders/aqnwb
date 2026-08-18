@@ -4,8 +4,10 @@
 #include <cstdint>
 #include <limits>
 #include <string>
+#include <string_view>
 #include <type_traits>
 #include <unordered_map>
+#include <utility>
 #include <variant>
 #include <vector>
 
@@ -14,20 +16,6 @@ namespace AQNWB
 
 // Forward declaration of Channel
 class Channel;
-
-/**
- * @brief Type trait to check if a type is a std::vector.
- * Used to enable/disable constructors in CellValue based on whether the input
- * is a scalar or a vector.
- */
-template<typename T>
-struct is_vector : std::false_type
-{
-};
-template<typename T, typename A>
-struct is_vector<std::vector<T, A>> : std::true_type
-{
-};
 
 /**
  * @brief Provides definitions for various types used in the project.
@@ -44,7 +32,7 @@ enum Status
 };
 
 /**
- * @brief Overloaded && operator for Status enum 
+ * @brief Overloaded && operator for Status enum
  * @param lhs Left-hand side Status
  * @param rhs Right-hand side Status
  * @return Success if both statuses are Success, Failure otherwise
@@ -118,7 +106,7 @@ using SizeType = size_t;
 /**
  * @brief Value to use to indicate that a SizeType index is not set.
  */
-static constexpr SizeType SizeTypeNotSet =
+inline constexpr SizeType SizeTypeNotSet =
     (std::numeric_limits<SizeType>::max)();
 
 /**
@@ -134,7 +122,8 @@ using ChannelVector = std::vector<Channel>;
 /**
  * @brief Variant data type for representing a single scalar value.
  */
-using ScalarDataVariant = std::variant<uint8_t,
+using ScalarDataVariant = std::variant<std::monostate,
+                                       uint8_t,
                                        uint16_t,
                                        uint32_t,
                                        uint64_t,
@@ -206,13 +195,14 @@ struct CellValue
   /**
    * @brief Implicit constructor for scalar values.
    *
-   * This constructor is enabled only if the input type T is NOT a std::vector
-   * and is NOT a CellValue itself (to prevent hiding the copy/move
-   * constructors). It forwards the value to the ScalarDataVariant.
+   * This constructor is enabled only if the input type T is constructible
+   * into ScalarDataVariant and is NOT a CellValue itself (to prevent hiding
+   * the copy/move constructors). It forwards the value to the
+   * ScalarDataVariant.
    */
   template<typename T,
            typename =
-               std::enable_if_t<!is_vector<std::decay_t<T>>::value
+               std::enable_if_t<std::is_constructible_v<ScalarDataVariant, T&&>
                                 && !std::is_same_v<std::decay_t<T>, CellValue>>>
   // cppcheck-suppress noExplicitConstructor
   CellValue(T&& val)
@@ -223,11 +213,12 @@ struct CellValue
   /**
    * @brief Implicit constructor for vector values.
    *
-   * This constructor is enabled only if the input type T IS a std::vector.
-   * It forwards the vector to the VectorDataVariant.
+   * This constructor is enabled only if the input type T is constructible
+   * into VectorDataVariant. It forwards the vector to the VectorDataVariant.
    */
   template<typename T,
-           typename = std::enable_if_t<is_vector<std::decay_t<T>>::value>,
+           typename = std::enable_if_t<
+               std::is_constructible_v<VectorDataVariant, T&&>>,
            typename = void>
   // cppcheck-suppress noExplicitConstructor
   CellValue(T&& val)
@@ -249,6 +240,30 @@ struct CellValue
   }
 
   /**
+   * @brief Checks if the CellValue holds a specific type.
+   *
+   * @tparam T The type to check for.
+   * @return true if the CellValue holds the specified type, false otherwise.
+   */
+  template<typename T>
+  bool holds_alternative() const
+  {
+    if constexpr (std::is_constructible_v<VectorDataVariant, T>) {
+      if (std::holds_alternative<VectorDataVariant>(value)) {
+        return std::holds_alternative<T>(std::get<VectorDataVariant>(value));
+      }
+      return false;
+    } else if constexpr (std::is_constructible_v<ScalarDataVariant, T>) {
+      if (std::holds_alternative<ScalarDataVariant>(value)) {
+        return std::holds_alternative<T>(std::get<ScalarDataVariant>(value));
+      }
+      return false;
+    } else {
+      return false;
+    }
+  }
+
+  /**
    * @brief Helper method to extract the underlying value.
    *
    * @tparam T The expected type of the value.
@@ -257,9 +272,9 @@ struct CellValue
    * stored type.
    */
   template<typename T>
-  T get() const
+  const T& get() const
   {
-    if constexpr (is_vector<T>::value) {
+    if constexpr (std::is_constructible_v<VectorDataVariant, T>) {
       return std::get<T>(std::get<VectorDataVariant>(value));
     } else {
       return std::get<T>(std::get<ScalarDataVariant>(value));
@@ -269,12 +284,23 @@ struct CellValue
   /**
    * @brief Implicit conversion operator to extract the underlying value.
    *
+   * This operator allows for convenient shorthand syntax when extracting values
+   * (e.g., `float val = row.at("col");`). However, because it relies on
+   * implicit conversion, it can sometimes lead to ambiguous function calls or
+   * unexpected behavior if the compiler infers the wrong type.
+   *
+   * For a safer and more explicit approach, it is recommended to use the
+   * `get<T>()` method (e.g., `float val = row.at("col").get<float>();`).
+   *
    * @tparam T The expected type of the value.
    * @return The value of type T.
    * @throws std::bad_variant_access if the requested type does not match the
    * stored type.
    */
-  template<typename T>
+  template<typename T,
+           typename = std::enable_if_t<
+               std::is_constructible_v<ScalarDataVariant, T>
+               || std::is_constructible_v<VectorDataVariant, T>>>
   operator T() const
   {
     return get<T>();
@@ -295,7 +321,9 @@ struct CellValue
                 [](auto&& scalarArg) -> std::string
                 {
                   using ScalarT = std::decay_t<decltype(scalarArg)>;
-                  if constexpr (std::is_same_v<ScalarT, std::string>) {
+                  if constexpr (std::is_same_v<ScalarT, std::monostate>) {
+                    return "null";
+                  } else if constexpr (std::is_same_v<ScalarT, std::string>) {
                     return scalarArg;
                   } else {
                     return std::to_string(scalarArg);
