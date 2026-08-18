@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "nwb/hdmf/table/VectorIndex.hpp"
 
 #include "Utils.hpp"
@@ -233,9 +235,11 @@ std::vector<AQNWB::Types::CellValue> VectorIndex::readIndexedCellValues(
   // Extract all current indices
   std::vector<uint64_t> currIndices;
   currIndices.reserve(indices.size());
-  for (const auto& indexCell : indices) {
-    currIndices.push_back(extractIndexValue(indexCell));
-  }
+  std::transform(indices.begin(),
+                 indices.end(),
+                 std::back_inserter(currIndices),
+                 [this](const auto& indexCell)
+                 { return extractIndexValue(indexCell); });
 
   // Validate indices and find total range to read
   uint64_t totalElementsToRead = 0;
