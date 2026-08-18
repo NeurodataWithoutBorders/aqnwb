@@ -85,6 +85,113 @@ std::shared_ptr<VectorData> VectorIndex::getTargetColumn()
   return m_targetColumn;
 }
 
+uint64_t VectorIndex::extractIndexValue(
+    const AQNWB::Types::CellValue& cell) const
+{
+  uint64_t index = 0;
+  // A CellValue contains a variant (cell.value) which can be a scalar or a
+  // vector. We expect an index to be a scalar value.
+  std::visit(
+      [&](auto&& arg)
+      {
+        using T = std::decay_t<decltype(arg)>;
+        // Check if the variant holds a scalar value
+        if constexpr (std::is_same_v<T, AQNWB::Types::ScalarDataVariant>) {
+          // The scalar value itself is another variant holding the actual type
+          // (e.g., uint32_t, uint64_t)
+          std::visit(
+              [&](auto&& scalarArg)
+              {
+                using ScalarT = std::decay_t<decltype(scalarArg)>;
+                // Ensure the scalar is an integral type before casting to
+                // uint64_t
+                if constexpr (std::is_integral_v<ScalarT>) {
+                  index = static_cast<uint64_t>(scalarArg);
+                }
+              },
+              arg);
+        }
+      },
+      cell.value);
+  return index;
+}
+
+AQNWB::Types::CellValue VectorIndex::combineCellsToVector(
+    const std::vector<AQNWB::Types::CellValue>& cells,
+    size_t offset,
+    size_t count) const
+{
+  // Handle edge cases where the requested slice is empty or out of bounds
+  if (offset >= cells.size() || count == 0) {
+    return AQNWB::Types::CellValue(std::vector<uint8_t> {});
+  }
+
+  AQNWB::Types::CellValue result(std::vector<uint8_t> {});
+
+  // We need to determine the underlying data type of the cells to create a
+  // vector of the same type. We inspect the first cell in the requested slice
+  // to find its type.
+  std::visit(
+      [&](auto&& arg)
+      {
+        using T = std::decay_t<decltype(arg)>;
+        // We expect the individual cells to be scalar values
+        if constexpr (std::is_same_v<T, AQNWB::Types::ScalarDataVariant>) {
+          std::visit(
+              [&](auto&& scalarArg)
+              {
+                using ScalarT = std::decay_t<decltype(scalarArg)>;
+                // Ensure the scalar is not empty (monostate)
+                if constexpr (!std::is_same_v<ScalarT, std::monostate>) {
+                  // Create a vector of the discovered type to hold the combined
+                  // elements
+                  std::vector<ScalarT> vec;
+                  vec.reserve(count);
+
+                  // Iterate over the requested slice of cells
+                  for (size_t i = 0; i < count; ++i) {
+                    if (offset + i >= cells.size()) {
+                      break;
+                    }
+
+                    // Extract the value from each cell and add it to our vector
+                    std::visit(
+                        [&](auto&& cellArg)
+                        {
+                          using CellT = std::decay_t<decltype(cellArg)>;
+                          if constexpr (std::is_same_v<
+                                            CellT,
+                                            AQNWB::Types::ScalarDataVariant>)
+                          {
+                            std::visit(
+                                [&](auto&& cellScalarArg)
+                                {
+                                  using CellScalarT =
+                                      std::decay_t<decltype(cellScalarArg)>;
+                                  // Only add the value if its type matches the
+                                  // type of the first cell
+                                  if constexpr (std::is_same_v<CellScalarT,
+                                                               ScalarT>) {
+                                    vec.push_back(cellScalarArg);
+                                  }
+                                },
+                                cellArg);
+                          }
+                        },
+                        cells[offset + i].value);
+                  }
+                  // Wrap the populated vector in a CellValue
+                  result = AQNWB::Types::CellValue(std::move(vec));
+                }
+              },
+              arg);
+        }
+      },
+      cells[offset].value);
+
+  return result;
+}
+
 std::vector<AQNWB::Types::CellValue> VectorIndex::readIndexedCellValues(
     SizeType start, SizeType count, SizeType stride, SizeType block)
 {
@@ -119,24 +226,7 @@ std::vector<AQNWB::Types::CellValue> VectorIndex::readIndexedCellValues(
     std::vector<AQNWB::Types::CellValue> prevIndices =
         VectorData::readCellValues(prevStart, prevCount);
     if (!prevIndices.empty()) {
-      // Extract the value from the CellValue variant
-      std::visit(
-          [&](auto&& arg)
-          {
-            using T = std::decay_t<decltype(arg)>;
-            if constexpr (std::is_same_v<T, AQNWB::Types::ScalarDataVariant>) {
-              std::visit(
-                  [&](auto&& scalarArg)
-                  {
-                    using ScalarT = std::decay_t<decltype(scalarArg)>;
-                    if constexpr (std::is_integral_v<ScalarT>) {
-                      prevIndex = static_cast<uint64_t>(scalarArg);
-                    }
-                  },
-                  arg);
-            }
-          },
-          prevIndices[0].value);
+      prevIndex = extractIndexValue(prevIndices[0]);
     }
   }
 
@@ -144,25 +234,7 @@ std::vector<AQNWB::Types::CellValue> VectorIndex::readIndexedCellValues(
   std::vector<uint64_t> currIndices;
   currIndices.reserve(indices.size());
   for (const auto& indexCell : indices) {
-    uint64_t currIndex = 0;
-    std::visit(
-        [&](auto&& arg)
-        {
-          using T = std::decay_t<decltype(arg)>;
-          if constexpr (std::is_same_v<T, AQNWB::Types::ScalarDataVariant>) {
-            std::visit(
-                [&](auto&& scalarArg)
-                {
-                  using ScalarT = std::decay_t<decltype(scalarArg)>;
-                  if constexpr (std::is_integral_v<ScalarT>) {
-                    currIndex = static_cast<uint64_t>(scalarArg);
-                  }
-                },
-                arg);
-          }
-        },
-        indexCell.value);
-    currIndices.push_back(currIndex);
+    currIndices.push_back(extractIndexValue(indexCell));
   }
 
   // Validate indices and find total range to read
@@ -204,65 +276,8 @@ std::vector<AQNWB::Types::CellValue> VectorIndex::readIndexedCellValues(
       result.emplace_back(std::vector<uint8_t> {});  // Use a dummy type, it
                                                      // will be empty anyway
     } else {
-      // We need to combine the individual cells into a single vector CellValue
-      // This is a bit tricky because we need to know the type
-      if (targetCellOffset < allTargetCells.size()) {
-        std::visit(
-            [&](auto&& arg)
-            {
-              using T = std::decay_t<decltype(arg)>;
-              if constexpr (std::is_same_v<T,
-                                           AQNWB::Types::ScalarDataVariant>) {
-                std::visit(
-                    [&](auto&& scalarArg)
-                    {
-                      using ScalarT = std::decay_t<decltype(scalarArg)>;
-                      if constexpr (!std::is_same_v<ScalarT, std::monostate>) {
-                        std::vector<ScalarT> vec;
-                        vec.reserve(numElements);
-
-                        for (size_t i = 0; i < numElements; ++i) {
-                          if (targetCellOffset + i >= allTargetCells.size()) {
-                            break;
-                          }
-                          const auto& cell =
-                              allTargetCells[targetCellOffset + i];
-                          std::visit(
-                              [&](auto&& cellArg)
-                              {
-                                using CellT = std::decay_t<decltype(cellArg)>;
-                                if constexpr (std::is_same_v<
-                                                  CellT,
-                                                  AQNWB::Types::
-                                                      ScalarDataVariant>)
-                                {
-                                  std::visit(
-                                      [&](auto&& cellScalarArg)
-                                      {
-                                        using CellScalarT = std::decay_t<
-                                            decltype(cellScalarArg)>;
-                                        if constexpr (std::is_same_v<
-                                                          CellScalarT,
-                                                          ScalarT>) {
-                                          vec.push_back(cellScalarArg);
-                                        }
-                                      },
-                                      cellArg);
-                                }
-                              },
-                              cell.value);
-                        }
-
-                        result.emplace_back(std::move(vec));
-                      }
-                    },
-                    arg);
-              }
-            },
-            allTargetCells[targetCellOffset].value);
-      } else {
-        result.emplace_back(std::vector<uint8_t> {});
-      }
+      result.push_back(
+          combineCellsToVector(allTargetCells, targetCellOffset, numElements));
       targetCellOffset += numElements;
     }
 

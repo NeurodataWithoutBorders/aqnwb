@@ -115,7 +115,8 @@ public:
    * @param buffer The buffer of values to append.
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  virtual Status appendBuffer(const IO::BaseDataType::BaseDataVectorVariant& buffer);
+  virtual Status appendBuffer(
+      const IO::BaseDataType::BaseDataVectorVariant& buffer);
 
   DEFINE_ATTRIBUTE_FIELD(readDescription,
                          std::string,

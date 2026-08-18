@@ -224,6 +224,36 @@ private:
    * @return Status::Success if successful, otherwise Status::Failure.
    */
   Status initializeAppendState();
+
+  /**
+   * @brief Extracts the integer index value from a CellValue variant.
+   *
+   * This helper function safely extracts the underlying integer value from a
+   * CellValue that is expected to contain a scalar integer.
+   *
+   * @param cell The CellValue containing the index.
+   * @return The extracted index as a uint64_t. Returns 0 if the cell does not
+   * contain a valid integer.
+   */
+  uint64_t extractIndexValue(const AQNWB::Types::CellValue& cell) const;
+
+  /**
+   * @brief Combines multiple scalar CellValues into a single vector CellValue.
+   *
+   * This helper function takes a slice of scalar CellValues (representing
+   * individual elements of a ragged array vector) and combines them into a
+   * single CellValue containing a std::vector of the appropriate type.
+   *
+   * @param cells The vector of scalar CellValues to combine.
+   * @param offset The starting index in the cells vector.
+   * @param count The number of elements to combine.
+   * @return A CellValue containing a vector of the combined elements. Returns
+   * an empty vector CellValue if count is 0 or offset is out of bounds.
+   */
+  AQNWB::Types::CellValue combineCellsToVector(
+      const std::vector<AQNWB::Types::CellValue>& cells,
+      size_t offset,
+      size_t count) const;
 };
 
 }  // namespace AQNWB::NWB

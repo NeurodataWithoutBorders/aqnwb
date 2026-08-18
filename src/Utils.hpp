@@ -12,9 +12,9 @@
 #include <sstream>
 #include <string>
 
+#include "Types.hpp"
 #include "io/BaseIO.hpp"
 #include "io/hdf5/HDF5IO.hpp"
-#include "Types.hpp"
 
 namespace AQNWB
 {

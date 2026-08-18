@@ -193,7 +193,8 @@ Status VectorData::appendData(const AQNWB::Types::CellValue& cellValue,
       cellValue.value);
 }
 
-Status VectorData::appendBuffer(const IO::BaseDataType::BaseDataVectorVariant& buffer)
+Status VectorData::appendBuffer(
+    const IO::BaseDataType::BaseDataVectorVariant& buffer)
 {
   auto ioPtr = getIO();
   if (ioPtr == nullptr) {
