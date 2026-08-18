@@ -508,35 +508,69 @@ Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
     }
   }
 
-  // 3. Append values to each column
-  for (const auto& row : rows) {
-    for (size_t i = 0; i < m_configuredColumns.size(); ++i) {
-      const auto& col = m_configuredColumns[i];
+  // 3. Buffer values for each column
+  std::unordered_map<std::string, IO::BaseDataType::BaseDataVectorVariant>
+      columnBuffers;
+  std::unordered_map<std::string, std::vector<uint32_t>> indexBuffers;
 
+  for (const auto& col : m_configuredColumns) {
+    auto vectorIndex = std::dynamic_pointer_cast<VectorIndex>(col.column);
+    if (vectorIndex) {
+      auto target = vectorIndex->readTarget();
+      if (!target)
+        return Status::Failure;
+      std::string targetName = target->getName();
+      columnBuffers[targetName] =
+          IO::BaseDataType::createEmptyVectorVariant(target->readData()->getDataType());
+      indexBuffers[col.name] = std::vector<uint32_t>();
+    } else if (targetColumns.find(col.name) == targetColumns.end()) {
+      columnBuffers[col.name] =
+          IO::BaseDataType::createEmptyVectorVariant(col.dataType);
+    }
+  }
+
+  for (const auto& row : rows) {
+    for (const auto& col : m_configuredColumns) {
       auto vectorIndex = std::dynamic_pointer_cast<VectorIndex>(col.column);
       if (vectorIndex) {
         auto target = vectorIndex->readTarget();
         if (!target)
           return Status::Failure;
-        auto it = row.find(target->getName());
+        std::string targetName = target->getName();
+        auto it = row.find(targetName);
         if (it != row.end()) {
-          size_t elementsAppended = 0;
-          Status appendStatus =
-              vectorIndex->appendData(it->second, elementsAppended);
+          // Also need to account for existing elements in the target column
+          size_t existingTargetElements = 0;
+          auto targetData = target->readData();
+          if (targetData) {
+            auto shape = targetData->getShape();
+            if (!shape.empty()) {
+              existingTargetElements = shape[0];
+            }
+          }
+          
+          Status appendStatus = appendCellValueToBuffer(columnBuffers[targetName], it->second);
           if (appendStatus != Status::Success) {
             std::cerr << "DynamicTable::addRows: Failed to append row to "
                          "VectorIndex '"
                       << col.name << "'." << std::endl;
             return Status::Failure;
           }
+          
+          size_t newTargetSize = std::visit([](const auto& vec) -> size_t {
+            using VecType = std::decay_t<decltype(vec)>;
+            if constexpr (std::is_same_v<VecType, std::monostate>) return 0;
+            else return vec.size();
+          }, columnBuffers[targetName]);
+          
+          uint32_t newIndex = static_cast<uint32_t>(existingTargetElements + newTargetSize);
+          indexBuffers[col.name].push_back(newIndex);
         }
       } else if (targetColumns.find(col.name) == targetColumns.end()) {
         // Regular column (not a target of a VectorIndex)
         auto it = row.find(col.name);
         if (it != row.end()) {
-          size_t elementsAppended = 0;
-          Status appendStatus =
-              col.column->appendData(it->second, elementsAppended);
+          Status appendStatus = appendCellValueToBuffer(columnBuffers[col.name], it->second);
           if (appendStatus != Status::Success) {
             std::cerr
                 << "DynamicTable::addRows: Failed to append value to column '"
@@ -548,7 +582,46 @@ Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
     }
   }
 
-  // 4. Handle IDs
+  // 4. Write buffers to columns
+  for (const auto& col : m_configuredColumns) {
+    auto vectorIndex = std::dynamic_pointer_cast<VectorIndex>(col.column);
+    if (vectorIndex) {
+      auto target = vectorIndex->readTarget();
+      if (!target) return Status::Failure;
+      std::string targetName = target->getName();
+      
+      // Write target buffer
+      if (columnBuffers.find(targetName) != columnBuffers.end()) {
+        Status writeStatus = target->appendBuffer(columnBuffers[targetName]);
+        if (writeStatus != Status::Success) {
+          std::cerr << "DynamicTable::addRows: Failed to write buffer for target column '"
+                    << targetName << "'." << std::endl;
+          return Status::Failure;
+        }
+        // Clear buffer so we don't write it again if multiple indices point to it
+        columnBuffers.erase(targetName);
+      }
+      
+      // Write index buffer
+      IO::BaseDataType::BaseDataVectorVariant indexVariant = indexBuffers[col.name];
+      Status writeIndexStatus = vectorIndex->appendBuffer(indexVariant);
+      if (writeIndexStatus != Status::Success) {
+        std::cerr << "DynamicTable::addRows: Failed to write buffer for index column '"
+                  << col.name << "'." << std::endl;
+        return Status::Failure;
+      }
+    } else if (targetColumns.find(col.name) == targetColumns.end()) {
+      // Write regular column buffer
+      Status writeStatus = col.column->appendBuffer(columnBuffers[col.name]);
+      if (writeStatus != Status::Success) {
+        std::cerr << "DynamicTable::addRows: Failed to write buffer for column '"
+                  << col.name << "'." << std::endl;
+        return Status::Failure;
+      }
+    }
+  }
+
+  // 5. Handle IDs
   std::vector<int> finalRowIds = rowIds;
   if (finalRowIds.empty()) {
     finalRowIds = generateRowIDs(rowCount);

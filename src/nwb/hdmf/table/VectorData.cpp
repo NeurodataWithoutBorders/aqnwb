@@ -193,6 +193,53 @@ Status VectorData::appendData(const AQNWB::Types::CellValue& cellValue,
       cellValue.value);
 }
 
+Status VectorData::appendBuffer(const IO::BaseDataType::BaseDataVectorVariant& buffer)
+{
+  auto ioPtr = getIO();
+  if (ioPtr == nullptr) {
+    std::cerr
+        << "IO object has been deleted. Can't append buffer to VectorData: "
+        << m_path << std::endl;
+    return Status::Failure;
+  }
+
+  auto dataset = recordData();
+  if (!dataset) {
+    std::cerr << "VectorData::appendBuffer: dataset is not initialized."
+              << std::endl;
+    return Status::Failure;
+  }
+
+  auto dataType = ioPtr->getStorageObjectDataType(this->getPath());
+  SizeArray positionOffset = {0};
+  auto currentShape = dataset->getShape();
+  if (!currentShape.empty()) {
+    positionOffset[0] = currentShape[0];
+  }
+
+  return std::visit(
+      [&](const auto& vec) -> Status
+      {
+        using VecType = std::decay_t<decltype(vec)>;
+        if constexpr (std::is_same_v<VecType, std::monostate>) {
+          return Status::Failure;
+        } else {
+          if (vec.empty()) {
+            return Status::Success;
+          }
+          SizeArray dataShape = {static_cast<SizeType>(vec.size())};
+          if constexpr (std::is_same_v<VecType, std::vector<std::string>>) {
+            return dataset->writeDataBlock(
+                dataShape, positionOffset, dataType, vec);
+          } else {
+            return dataset->writeDataBlock(
+                dataShape, positionOffset, dataType, vec.data());
+          }
+        }
+      },
+      buffer);
+}
+
 namespace AQNWB::NWB
 {
 // Explicitly instantiate the VectorDataTyped template for all common data

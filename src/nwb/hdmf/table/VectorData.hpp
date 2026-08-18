@@ -109,6 +109,14 @@ public:
   virtual Status appendData(const AQNWB::Types::CellValue& cellValue,
                             size_t& elementsAppended);
 
+  /**
+   * @brief Appends a buffer of values to the dataset.
+   *
+   * @param buffer The buffer of values to append.
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
+  virtual Status appendBuffer(const IO::BaseDataType::BaseDataVectorVariant& buffer);
+
   DEFINE_ATTRIBUTE_FIELD(readDescription,
                          std::string,
                          "description",
