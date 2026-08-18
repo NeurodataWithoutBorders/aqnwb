@@ -140,14 +140,11 @@ std::vector<AQNWB::Types::CellValue> VectorIndex::readIndexedCellValues(
     }
   }
 
-  std::vector<AQNWB::Types::CellValue> result;
-  result.reserve(indices.size());
-
-  // For each index, read the corresponding vector from the target
+  // Extract all current indices
+  std::vector<uint64_t> currIndices;
+  currIndices.reserve(indices.size());
   for (const auto& indexCell : indices) {
     uint64_t currIndex = 0;
-
-    // Extract the value from the CellValue variant
     std::visit(
         [&](auto&& arg)
         {
@@ -165,15 +162,41 @@ std::vector<AQNWB::Types::CellValue> VectorIndex::readIndexedCellValues(
           }
         },
         indexCell.value);
+    currIndices.push_back(currIndex);
+  }
 
-    // Calculate the number of elements to read
-    if (currIndex < prevIndex) {
+  // Validate indices and find total range to read
+  uint64_t totalElementsToRead = 0;
+  uint64_t lastIndex = prevIndex;
+  for (uint64_t currIndex : currIndices) {
+    if (currIndex < lastIndex) {
       throw std::runtime_error(
           "VectorIndex::readIndexedCellValues: Invalid index data, "
           "currIndex ("
           + std::to_string(currIndex) + ") < prevIndex ("
-          + std::to_string(prevIndex) + ")");
+          + std::to_string(lastIndex) + ")");
     }
+    lastIndex = currIndex;
+  }
+
+  if (!currIndices.empty()) {
+    totalElementsToRead = currIndices.back() - prevIndex;
+  }
+
+  // Read all required target cells in one go
+  std::vector<AQNWB::Types::CellValue> allTargetCells;
+  if (totalElementsToRead > 0) {
+    SizeArray targetStart = {static_cast<SizeType>(prevIndex)};
+    SizeArray targetCount = {static_cast<SizeType>(totalElementsToRead)};
+    allTargetCells = target->readCellValues(targetStart, targetCount);
+  }
+
+  std::vector<AQNWB::Types::CellValue> result;
+  result.reserve(indices.size());
+
+  // Slice the bulk-read target cells into individual vectors
+  size_t targetCellOffset = 0;
+  for (uint64_t currIndex : currIndices) {
     uint64_t numElements = currIndex - prevIndex;
 
     if (numElements == 0) {
@@ -181,16 +204,9 @@ std::vector<AQNWB::Types::CellValue> VectorIndex::readIndexedCellValues(
       result.emplace_back(std::vector<uint8_t> {});  // Use a dummy type, it
                                                      // will be empty anyway
     } else {
-      // Read the vector from the target
-      SizeArray targetStart = {static_cast<SizeType>(prevIndex)};
-      SizeArray targetCount = {static_cast<SizeType>(numElements)};
-
-      std::vector<AQNWB::Types::CellValue> targetCells =
-          target->readCellValues(targetStart, targetCount);
-
       // We need to combine the individual cells into a single vector CellValue
       // This is a bit tricky because we need to know the type
-      if (!targetCells.empty()) {
+      if (targetCellOffset < allTargetCells.size()) {
         std::visit(
             [&](auto&& arg)
             {
@@ -203,9 +219,14 @@ std::vector<AQNWB::Types::CellValue> VectorIndex::readIndexedCellValues(
                       using ScalarT = std::decay_t<decltype(scalarArg)>;
                       if constexpr (!std::is_same_v<ScalarT, std::monostate>) {
                         std::vector<ScalarT> vec;
-                        vec.reserve(targetCells.size());
+                        vec.reserve(numElements);
 
-                        for (const auto& cell : targetCells) {
+                        for (size_t i = 0; i < numElements; ++i) {
+                          if (targetCellOffset + i >= allTargetCells.size()) {
+                            break;
+                          }
+                          const auto& cell =
+                              allTargetCells[targetCellOffset + i];
                           std::visit(
                               [&](auto&& cellArg)
                               {
@@ -232,16 +253,17 @@ std::vector<AQNWB::Types::CellValue> VectorIndex::readIndexedCellValues(
                               cell.value);
                         }
 
-                        result.emplace_back(vec);
+                        result.emplace_back(std::move(vec));
                       }
                     },
                     arg);
               }
             },
-            targetCells[0].value);
+            allTargetCells[targetCellOffset].value);
       } else {
         result.emplace_back(std::vector<uint8_t> {});
       }
+      targetCellOffset += numElements;
     }
 
     prevIndex = currIndex;
