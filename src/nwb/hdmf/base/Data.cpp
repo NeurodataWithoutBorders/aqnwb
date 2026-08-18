@@ -50,12 +50,13 @@ Status Data::initialize(const IO::BaseArrayDataSetConfig& dataConfig)
   return Status::Success;
 }
 
-std::vector<CellValue> Data::readCellValues(const SizeArray& start,
-                                            const SizeArray& count,
-                                            const SizeArray& stride,
-                                            const SizeArray& block)
+std::vector<AQNWB::Types::CellValue> Data::readCellValues(
+    const SizeArray& start,
+    const SizeArray& count,
+    const SizeArray& stride,
+    const SizeArray& block)
 {
-  std::vector<CellValue> result;
+  std::vector<AQNWB::Types::CellValue> result;
 
   // Read the data block
   auto dataBlock = readData()->valuesGeneric(start, count, stride, block);

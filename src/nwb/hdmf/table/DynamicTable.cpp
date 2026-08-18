@@ -252,12 +252,14 @@ Status DynamicTable::setRowIDs(const std::vector<int>& values)
   }
 }
 
-Status DynamicTable::addRow(const RowData& row, const std::optional<int>& rowId)
+Status DynamicTable::addRow(const AQNWB::Types::RowData& row,
+                            const std::optional<int>& rowId)
 {
   if (rowId.has_value()) {
-    return addRows(std::vector<RowData> {row}, std::vector<int> {*rowId});
+    return addRows(std::vector<AQNWB::Types::RowData> {row},
+                   std::vector<int> {*rowId});
   }
-  return addRows(std::vector<RowData> {row});
+  return addRows(std::vector<AQNWB::Types::RowData> {row});
 }
 
 SizeType DynamicTable::getNumberOfRows() const
@@ -273,13 +275,13 @@ SizeType DynamicTable::getNumberOfRows() const
   return shape[0];
 }
 
-std::vector<DynamicTable::RowData> DynamicTable::readRows(
+std::vector<AQNWB::Types::RowData> DynamicTable::readRows(
     SizeType start,
     SizeType count,
     const std::vector<std::string>& colNames,
     bool includeId)
 {
-  std::vector<RowData> rows;
+  std::vector<AQNWB::Types::RowData> rows;
 
   if (m_colNames.empty()) {
     std::cerr << "DynamicTable::readRows no columns available." << std::endl;
@@ -319,7 +321,8 @@ std::vector<DynamicTable::RowData> DynamicTable::readRows(
   }
 
   // 2. Read data for each column
-  std::unordered_map<std::string, std::vector<CellValue>> columnData;
+  std::unordered_map<std::string, std::vector<AQNWB::Types::CellValue>>
+      columnData;
 
   for (const auto& colName : columnsToRead) {
     if (colName == "id") {
@@ -371,7 +374,8 @@ std::string DynamicTable::toString(SizeType start,
                                    const std::vector<std::string>& colNames,
                                    bool includeId)
 {
-  std::vector<RowData> rows = readRows(start, count, colNames, includeId);
+  std::vector<AQNWB::Types::RowData> rows =
+      readRows(start, count, colNames, includeId);
   if (rows.empty()) {
     return "Empty Table";
   }
@@ -438,7 +442,7 @@ std::string DynamicTable::toString(SizeType start,
   return result;
 }
 
-Status DynamicTable::addRows(const std::vector<RowData>& rows,
+Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
                              const std::vector<int>& rowIds)
 {
   if (rows.empty()) {

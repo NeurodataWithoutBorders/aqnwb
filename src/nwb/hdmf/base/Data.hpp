@@ -11,7 +11,7 @@
 namespace AQNWB::NWB
 {
 
-using CellValue = AQNWB::CellValue;
+using CellValue = AQNWB::Types::CellValue;
 
 /**
  * @brief An abstract data type for a dataset.
@@ -152,10 +152,11 @@ public:
    * @return A vector of CellValue, where each CellValue contains the data for a
    * cell.
    */
-  virtual std::vector<CellValue> readCellValues(const SizeArray& start = {},
-                                                const SizeArray& count = {},
-                                                const SizeArray& stride = {},
-                                                const SizeArray& block = {});
+  virtual std::vector<AQNWB::Types::CellValue> readCellValues(
+      const SizeArray& start = {},
+      const SizeArray& count = {},
+      const SizeArray& stride = {},
+      const SizeArray& block = {});
 
   // Define the data fields to expose for lazy read access
   DEFINE_DATASET_FIELD(readData, recordData, std::any, "", The main data)

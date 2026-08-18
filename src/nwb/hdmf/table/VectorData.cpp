@@ -87,7 +87,7 @@ Status VectorData::initialize(const IO::BaseArrayDataSetConfig& dataConfig,
   return dataStatus && attrStatus;
 }
 
-Status VectorData::appendData(const CellValue& cellValue,
+Status VectorData::appendData(const AQNWB::Types::CellValue& cellValue,
                               size_t& elementsAppended)
 {
   auto ioPtr = getIO();

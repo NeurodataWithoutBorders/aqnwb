@@ -493,13 +493,13 @@ TEST_CASE("DynamicTable", "[table]")
     REQUIRE(table->getNumberOfRows() == 0);
 
     // Add single row
-    NWB::DynamicTable::RowData row1 = {{"col_str", std::string("row1")}};
+    AQNWB::Types::RowData row1 = {{"col_str", std::string("row1")}};
     status = table->addRow(row1);
     REQUIRE(status == Status::Success);
     REQUIRE(table->getNumberOfRows() == 1);
 
     // Add multiple rows
-    std::vector<NWB::DynamicTable::RowData> rows = {
+    std::vector<AQNWB::Types::RowData> rows = {
         {{"col_str", std::string("row2")}}, {{"col_str", std::string("row3")}}};
     status = table->addRows(rows);
     REQUIRE(status == Status::Success);
@@ -544,13 +544,13 @@ TEST_CASE("DynamicTable", "[table]")
     REQUIRE(status == Status::Success);
 
     // Add single row
-    NWB::DynamicTable::RowData row1 = {{"col_str", std::string("row1")},
-                                       {"col_f32", 1.5f}};
+    AQNWB::Types::RowData row1 = {{"col_str", std::string("row1")},
+                                  {"col_f32", 1.5f}};
     status = table->addRow(row1);
     REQUIRE(status == Status::Success);
 
     // Add multiple rows
-    std::vector<NWB::DynamicTable::RowData> rows = {
+    std::vector<AQNWB::Types::RowData> rows = {
         {{"col_str", std::string("row2")}, {"col_f32", 2.5f}},
         {{"col_str", std::string("row3")}, {"col_f32", 3.5f}}};
     status = table->addRows(rows);
@@ -616,7 +616,7 @@ TEST_CASE("DynamicTable", "[table]")
 
     // Now use addRow to append another row — this requires col1 to be in
     // m_configuredColumns, which addColumn should have registered it into.
-    NWB::DynamicTable::RowData newRow = {{"col1", std::string("d")}};
+    AQNWB::Types::RowData newRow = {{"col1", std::string("d")}};
     status = table->addRow(newRow);
     REQUIRE(status == Status::Success);
 
@@ -656,7 +656,7 @@ TEST_CASE("DynamicTable", "[table]")
     REQUIRE(status == Status::Success);
 
     // Use addRows to write data — requires col1 to be in m_configuredColumns
-    std::vector<NWB::DynamicTable::RowData> rows = {
+    std::vector<AQNWB::Types::RowData> rows = {
         {{"col1", 1.0f}}, {{"col1", 2.0f}}, {{"col1", 3.0f}}};
     status = table->addRows(rows);
     REQUIRE(status == Status::Success);
@@ -749,7 +749,7 @@ TEST_CASE("DynamicTable", "[table]")
             == std::vector<std::string>({"col_str", "ragged_data"}));
 
     // Add rows
-    std::vector<NWB::DynamicTable::RowData> rows = {
+    std::vector<AQNWB::Types::RowData> rows = {
         {{"col_str", std::string("row1")},
          {"ragged_data", std::vector<int> {1, 2, 3}}},
         {{"col_str", std::string("row2")},
@@ -847,7 +847,7 @@ TEST_CASE("DynamicTable", "[table]")
     REQUIRE(status == Status::Success);
 
     // Add rows
-    std::vector<NWB::DynamicTable::RowData> rows = {
+    std::vector<AQNWB::Types::RowData> rows = {
         {{"col_str", std::string("row1")},
          {"col_f32", 1.5f},
          {"ragged_data", std::vector<int> {1, 2, 3}}},
@@ -990,7 +990,7 @@ TEST_CASE("DynamicTable", "[table]")
     REQUIRE(status == Status::Success);
 
     // Add rows
-    std::vector<AQNWB::RowData> rows = {
+    std::vector<AQNWB::Types::RowData> rows = {
         {{"col_str", std::string("row1")},
          {"col_f32", 1.5f},
          {"ragged_data", std::vector<int> {1, 2, 3}}},

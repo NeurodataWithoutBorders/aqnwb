@@ -62,9 +62,9 @@ TEST_CASE("TimeIntervals - Initialize and Add Rows", "[TimeIntervals]")
       REQUIRE(status == Status::Success);
 
       // Add some rows
-      DynamicTable::RowData row1 = {{"start_time", 1.0f}, {"stop_time", 2.0f}};
+      AQNWB::Types::RowData row1 = {{"start_time", 1.0f}, {"stop_time", 2.0f}};
 
-      DynamicTable::RowData row2 = {{"start_time", 2.5f}, {"stop_time", 3.5f}};
+      AQNWB::Types::RowData row2 = {{"start_time", 2.5f}, {"stop_time", 3.5f}};
 
       REQUIRE(timeIntervals->addRow(row1) == Status::Success);
       REQUIRE(timeIntervals->addRow(row2) == Status::Success);
@@ -119,12 +119,12 @@ TEST_CASE("TimeIntervals - Initialize and Add Rows", "[TimeIntervals]")
       REQUIRE(status == Status::Success);
 
       // Add rows with tags
-      DynamicTable::RowData row1 = {
+      AQNWB::Types::RowData row1 = {
           {"start_time", 1.0f},
           {"stop_time", 2.0f},
           {"tags", std::vector<std::string> {"tag1", "tag2"}}};
 
-      DynamicTable::RowData row2 = {
+      AQNWB::Types::RowData row2 = {
           {"start_time", 2.5f},
           {"stop_time", 3.5f},
           {"tags", std::vector<std::string> {"tag3"}}};

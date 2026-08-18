@@ -11,7 +11,7 @@
  * appended to store any per-interval metadata.
  *
  * NWB provides several standard `TimeIntervals` tables that can be created via convenience methods on `NWBFile`:
- * - **epochs**: \ref AQNWB::NWB::NWBFile::createEpochs "NWBFile::createEpochs" for storing yime intervals marking 
+ * - **epochs**: \ref AQNWB::NWB::NWBFile::createEpochs "NWBFile::createEpochs" for storing time intervals marking 
  *    coarse-grained experimental phases or subdivisions of a recording session, such as baseline, task, rest, or
  *    sleep stages
  * - **trials**: \ref AQNWB::NWB::NWBFile::createTrials "NWBFile::createTrials" for storing time intervals 
@@ -133,7 +133,7 @@
  * \subsection time_intervals_colbased_adddata Add data to columns
  *
  * After `startRecording`, retrieve each column object via the corresponding
- * `read*()` accessor on the table, then call
+ * `record*()` accessor on the table, then call
  * \ref AQNWB::IO::BaseRecordingData::writeDataBlock "writeDataBlock" to write the
  * full column vector in one call.  Finally, set the row IDs with
  * \ref AQNWB::NWB::DynamicTable::setRowIDs "setRowIDs".

@@ -118,7 +118,8 @@ public:
    * elements appended.
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status appendData(const CellValue& targetValues, size_t& elementsAppended);
+  Status appendData(const AQNWB::Types::CellValue& targetValues,
+                    size_t& elementsAppended);
 
   /**
    * @brief Sets the cached target VectorData column.
@@ -153,10 +154,11 @@ public:
    * @return A vector of CellValue, where each CellValue contains the data for a
    * cell.
    */
-  std::vector<CellValue> readIndexedCellValues(SizeType start = 0,
-                                               SizeType count = 0,
-                                               SizeType stride = 1,
-                                               SizeType block = 1);
+  std::vector<AQNWB::Types::CellValue> readIndexedCellValues(
+      SizeType start = 0,
+      SizeType count = 0,
+      SizeType stride = 1,
+      SizeType block = 1);
 
   // Define read methods
   DEFINE_REFERENCED_REGISTERED_FIELD(

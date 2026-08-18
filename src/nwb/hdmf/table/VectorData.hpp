@@ -14,7 +14,7 @@
 namespace AQNWB::NWB
 {
 
-using CellValue = AQNWB::CellValue;
+using CellValue = AQNWB::Types::CellValue;
 
 /**
  * @brief An n-dimensional dataset representing a column of a DynamicTable.
@@ -106,7 +106,8 @@ public:
    * elements appended.
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status appendData(const CellValue& cellValue, size_t& elementsAppended);
+  Status appendData(const AQNWB::Types::CellValue& cellValue,
+                    size_t& elementsAppended);
 
   DEFINE_ATTRIBUTE_FIELD(readDescription,
                          std::string,

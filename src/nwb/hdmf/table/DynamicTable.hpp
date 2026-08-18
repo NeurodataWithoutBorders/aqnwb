@@ -166,7 +166,7 @@ public:
    * @param rowId The ID of the row (optional).
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status addRow(const RowData& row,
+  Status addRow(const AQNWB::Types::RowData& row,
                 const std::optional<int>& rowId = std::nullopt);
 
   /**
@@ -175,7 +175,7 @@ public:
    * @param rowIds The vector of row IDs (optional).
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status addRows(const std::vector<RowData>& rows,
+  Status addRows(const std::vector<AQNWB::Types::RowData>& rows,
                  const std::vector<int>& rowIds = {});
 
   /**
@@ -197,10 +197,11 @@ public:
    * @return A vector of RowData objects.
    * @throws std::invalid_argument if start index is out of bounds.
    */
-  std::vector<RowData> readRows(SizeType start = 0,
-                                SizeType count = Types::SizeTypeNotSet,
-                                const std::vector<std::string>& colNames = {},
-                                bool includeId = true);
+  std::vector<AQNWB::Types::RowData> readRows(
+      SizeType start = 0,
+      SizeType count = Types::SizeTypeNotSet,
+      const std::vector<std::string>& colNames = {},
+      bool includeId = true);
 
   /**
    * @brief Convert the table to a string representation.

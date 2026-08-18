@@ -74,7 +74,7 @@ TEST_CASE("timeIntervalsWorkflowExamples")
     // Each row is a map from column name to value.  The row ID is
     // auto-generated (0, 1, 2, …) when not supplied.
     // All columns — including custom ones — must be provided for every row.
-    NWB::DynamicTable::RowData row0 = {
+    AQNWB::Types::RowData row0 = {
         {"start_time", 0.123f},
         {"stop_time", 1.456f},
         {"tags", std::vector<std::string> {"correct", "fast"}},
@@ -82,7 +82,7 @@ TEST_CASE("timeIntervalsWorkflowExamples")
     Status s0 = trialsTable->addRow(row0);
 
     // We can also append multiple rows at once using addRows().
-    std::vector<NWB::DynamicTable::RowData> moreRows = {
+    std::vector<AQNWB::Types::RowData> moreRows = {
         {{"start_time", 2.123f},
          {"stop_time", 3.456f},
          {"tags", std::vector<std::string> {"incorrect"}},

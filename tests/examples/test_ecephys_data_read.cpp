@@ -118,7 +118,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // create InvalidTimes table for testing DynamicTable::readRows
     auto invalidTimesTable = nwbfile->createInvalidTimes(true);
     REQUIRE(invalidTimesTable != nullptr);
-    std::vector<NWB::DynamicTable::RowData> invalidTimesRows = {
+    std::vector<AQNWB::Types::RowData> invalidTimesRows = {
         {{"start_time", 1.0f},
          {"stop_time", 2.0f},
          {"tags", std::vector<std::string> {"device_error", "user_error"}}},

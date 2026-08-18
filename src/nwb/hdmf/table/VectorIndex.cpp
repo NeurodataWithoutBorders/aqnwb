@@ -85,10 +85,8 @@ std::shared_ptr<VectorData> VectorIndex::getTargetColumn()
   return m_targetColumn;
 }
 
-std::vector<CellValue> VectorIndex::readIndexedCellValues(SizeType start,
-                                                          SizeType count,
-                                                          SizeType stride,
-                                                          SizeType block)
+std::vector<AQNWB::Types::CellValue> VectorIndex::readIndexedCellValues(
+    SizeType start, SizeType count, SizeType stride, SizeType block)
 {
   // First, read the indices from this VectorIndex
   SizeArray startArray = {start};
@@ -96,7 +94,7 @@ std::vector<CellValue> VectorIndex::readIndexedCellValues(SizeType start,
   SizeArray strideArray = {stride};
   SizeArray blockArray = {block};
 
-  std::vector<CellValue> indices = VectorData::readCellValues(
+  std::vector<AQNWB::Types::CellValue> indices = VectorData::readCellValues(
       startArray, countArray, strideArray, blockArray);
 
   if (indices.empty()) {
@@ -118,7 +116,7 @@ std::vector<CellValue> VectorIndex::readIndexedCellValues(SizeType start,
   if (start > 0) {
     SizeArray prevStart = {start - 1};
     SizeArray prevCount = {1};
-    std::vector<CellValue> prevIndices =
+    std::vector<AQNWB::Types::CellValue> prevIndices =
         VectorData::readCellValues(prevStart, prevCount);
     if (!prevIndices.empty()) {
       // Extract the value from the CellValue variant
@@ -142,7 +140,7 @@ std::vector<CellValue> VectorIndex::readIndexedCellValues(SizeType start,
     }
   }
 
-  std::vector<CellValue> result;
+  std::vector<AQNWB::Types::CellValue> result;
   result.reserve(indices.size());
 
   // For each index, read the corresponding vector from the target
@@ -180,7 +178,7 @@ std::vector<CellValue> VectorIndex::readIndexedCellValues(SizeType start,
       SizeArray targetStart = {static_cast<SizeType>(prevIndex)};
       SizeArray targetCount = {static_cast<SizeType>(numElements)};
 
-      std::vector<CellValue> targetCells =
+      std::vector<AQNWB::Types::CellValue> targetCells =
           target->readCellValues(targetStart, targetCount);
 
       // We need to combine the individual cells into a single vector CellValue
@@ -341,7 +339,7 @@ Status VectorIndex::initializeAppendState()
   return readStatus;
 }
 
-Status VectorIndex::appendData(const CellValue& targetValues,
+Status VectorIndex::appendData(const AQNWB::Types::CellValue& targetValues,
                                size_t& elementsAppended)
 {
   if (!m_currentIndexInitialized || !m_dataTypeInitialized) {
