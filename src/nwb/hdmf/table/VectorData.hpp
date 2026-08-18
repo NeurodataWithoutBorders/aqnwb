@@ -106,8 +106,8 @@ public:
    * elements appended.
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status appendData(const AQNWB::Types::CellValue& cellValue,
-                    size_t& elementsAppended);
+  virtual Status appendData(const AQNWB::Types::CellValue& cellValue,
+                            size_t& elementsAppended);
 
   DEFINE_ATTRIBUTE_FIELD(readDescription,
                          std::string,

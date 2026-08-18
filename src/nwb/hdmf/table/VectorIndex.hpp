@@ -119,7 +119,7 @@ public:
    * @return Status::Success if successful, otherwise Status::Failure.
    */
   Status appendData(const AQNWB::Types::CellValue& targetValues,
-                    size_t& elementsAppended);
+                    size_t& elementsAppended) override;
 
   /**
    * @brief Sets the cached target VectorData column.
