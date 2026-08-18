@@ -473,7 +473,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     std::string expectedTableString =
         "id,start_time,stop_time,tags\n"
         "0,1.000000,2.000000,\"[device_error, user_error]\"\n"
-        "1,3.000000,4.000000,[external_interference]\n"
+        "1,3.000000,4.000000,\"[external_interference]\"\n"
         "2,5.000000,6.000000,\"[lost_connection, external_interference, user_"
         "error]\"\n";
     REQUIRE(tableString == expectedTableString);

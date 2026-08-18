@@ -405,7 +405,8 @@ std::string DynamicTable::toString(SizeType start,
   auto csvEscape = [](std::string_view field) -> std::string
   {
     const bool needsQuotes =
-        field.find_first_of(",\"\n\r") != std::string_view::npos;
+        field.find_first_of(",\"\n\r") != std::string_view::npos
+        || (!field.empty() && field.front() == '[' && field.back() == ']');
     if (!needsQuotes)
       return std::string(field);
 
