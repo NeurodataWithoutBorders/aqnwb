@@ -115,6 +115,29 @@ TEST_CASE("createTimeIntervalsTables", "[nwb]")
   REQUIRE(customTable->getName() == "custom_intervals");
   REQUIRE(customTable->readDescription()->values().data[0] == "test custom");
 
+  // test readTimeIntervals
+  auto readCustomTable = nwbfile->readTimeIntervals("custom_intervals");
+  REQUIRE(readCustomTable != nullptr);
+  REQUIRE(readCustomTable->getName() == "custom_intervals");
+  REQUIRE(readCustomTable->readDescription()->values().data[0]
+          == "test custom");
+
+  // create a custom TimeIntervals Table with column specs
+  auto customTimeIntervals = nwbfile->createTimeIntervals("custom_intervals2");
+  REQUIRE(customTimeIntervals != nullptr);
+  Status customTimeIntervalsInitStatus =
+      customTimeIntervals->initialize("no description");
+  REQUIRE(customTimeIntervalsInitStatus == Status::Success);
+  REQUIRE(customTimeIntervals->getName() == "custom_intervals2");
+
+  // test readTimeIntervals for the table created with specs
+  auto readCustomTimeIntervals =
+      nwbfile->readTimeIntervals("custom_intervals2");
+  REQUIRE(readCustomTimeIntervals != nullptr);
+  REQUIRE(readCustomTimeIntervals->getName() == "custom_intervals2");
+  REQUIRE(readCustomTimeIntervals->readDescription()->values().data[0]
+          == "no description");
+
   // Write some data to the epochs table
   io->startRecording();
 
@@ -143,6 +166,11 @@ TEST_CASE("createTimeIntervalsTables", "[nwb]")
                                      {"stop_time", 2.0f},
                                      {"tags", std::string("custom1")}};
   REQUIRE(customTable->addRow(customRow) == Status::Success);
+
+  // Write some data to the custom intervals table with specs
+  AQNWB::Types::RowData customRow2 = {{"start_time", 1.0f},
+                                      {"stop_time", 2.0f}};
+  REQUIRE(customTimeIntervals->addRow(customRow2) == Status::Success);
 
   io->stopRecording();
   io->close();

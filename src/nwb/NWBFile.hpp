@@ -384,6 +384,13 @@ public:
                                   Get a ProcessingModule stored in the
                                       processing group)
 
+  DEFINE_UNNAMED_REGISTERED_FIELD(readTimeIntervals,
+                                  createTimeIntervals,
+                                  TimeIntervals,
+                                  "intervals",
+                                  Get a TimeIntervals object stored in the
+                                      intervals group)
+
 protected:
   /**
    * @brief Creates the default file structure.
