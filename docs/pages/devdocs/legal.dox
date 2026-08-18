@@ -1,6 +1,46 @@
 /**
  * @page legal_page Legal ⚖️
  *
+ * @section citing_aqnwb Citing AqNWB
+ *
+ * If you use AqNWB or NWB in your research, please cite the following:
+ *
+ * - **AqNWB: [RRID:SCR_028050]()**
+ *   @code
+ *   @article {Ruebel2026,
+ *      article_type = {journal},
+ *      title = {AqNWB: A C++ API for acquiring neurophysiological data directly into the NWB format},
+ *      author = {Prince, Stephanie and Siegle, Joshua H. and Rübel, Oliver},
+ *      year = 2026,
+ *      month = {},
+ *      pub_date = {},
+ *      doi = {10.7554/eLife.78362},
+ *      url = {https://doi.org/10.7554/eLife.78362},
+ *      journal = {Journal of Open Source Software (JOSS)},
+ *   }
+ *   @endcode
+ *
+ * - **NWB: [RRID:SCR_015242](https://rrid.site/data/record/nlx_144509-1/SCR_015242/resolver?q=NWB&l=NWB&i=rrid:scr_015242)**
+ *   @code
+ *   @article {Ruebel2022,
+ *      article_type = {journal},
+ *      title = {The Neurodata Without Borders ecosystem for neurophysiological data science},
+ *      author = {Rübel, Oliver and Tritt, Andrew and Ly, Ryan and Dichter, Benjamin K and Ghosh, Satrajit and Niu, Lawrence and Baker, Pamela and Soltesz, Ivan and Ng, Lydia and Svoboda, Karel and Frank, Loren and Bouchard, Kristofer E},
+ *      editor = {Colgin, Laura L and Jadhav, Shantanu P},
+ *      volume = 11,
+ *      year = 2022,
+ *      month = {oct},
+ *      pub_date = {2022-10-04},
+ *      pages = {e78362},
+ *      citation = {eLife 2022;11:e78362},
+ *      doi = {10.7554/eLife.78362},
+ *      url = {https://doi.org/10.7554/eLife.78362},
+ *      journal = {eLife},
+ *      issn = {2050-084X},
+ *      publisher = {eLife Sciences Publications, Ltd},
+ *   }
+ *   @endcode
+ *
  * @section legal_code_of_conduct Code of Conduct
  *
  * This project and everyone participating in it is governed by our code of conduct guidelines. By participating, you are expected to uphold this code.
