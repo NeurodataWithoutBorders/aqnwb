@@ -22,6 +22,19 @@ TEST_CASE("DynamicTable", "[table]")
     REQUIRE(registry.find("hdmf-common::DynamicTable") != registry.end());
   }
 
+  SECTION("test createDefaultDataSpecs")
+  {
+    auto specs = NWB::DynamicTable::createDefaultDataSpecs(50);
+    REQUIRE(specs.size() == 1);
+    REQUIRE(specs[0]->name == "id");
+    REQUIRE(specs[0]->getType() == IO::BaseDataType::I32);
+    REQUIRE(specs[0]->getChunking() == SizeArray {50});
+    auto idSpec =
+        std::dynamic_pointer_cast<NWB::Data::DataSpec<NWB::ElementIdentifiers>>(
+            specs[0]);
+    REQUIRE(idSpec != nullptr);
+  }
+
   SECTION("test initialization and column names")
   {
     std::string path = getTestFilePath("testDynamicTable.h5");
@@ -68,6 +81,54 @@ TEST_CASE("DynamicTable", "[table]")
     auto readTable = NWB::DynamicTable::create(tablePath, io);
     auto reopenedColNames = readTable->readColNames()->values().data;
     REQUIRE(reopenedColNames == colNames);
+    io->close();
+  }
+
+  SECTION("test addColumn with DataSpecPtr")
+  {
+    std::string path = getTestFilePath("testDynamicTableAddColumnDataSpec.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    auto table = NWB::DynamicTable::create(tablePath, io);
+    Status status = table->initialize("Table with DataSpec column");
+    REQUIRE(status == Status::Success);
+
+    // Create a DataSpec for a new column
+    auto colSpec = NWB::VectorData::createDataSpec(
+        "col_spec",
+        IO::ArrayDataSetConfig(IO::BaseDataType::V_STR, {0}, {10}),
+        "Column added via DataSpec");
+
+    // Add the column using the DataSpecPtr overload
+    status = table->addColumn(colSpec);
+    REQUIRE(status == Status::Success);
+
+    // Verify the column name was registered
+    auto colNames = table->readColNames()->values().data;
+    REQUIRE(colNames == std::vector<std::string>({"col_spec"}));
+
+    // Add a row to verify the column is configured and writable
+    AQNWB::Types::RowData row = {{"col_spec", std::string("test_value")}};
+    status = table->addRow(row);
+    REQUIRE(status == Status::Success);
+
+    status = table->finalize();
+    REQUIRE(status == Status::Success);
+
+    io->close();
+
+    // Reopen and verify
+    io = createIO("HDF5", path);
+    io->open();
+    auto readTable = NWB::DynamicTable::create(tablePath, io);
+
+    auto readCol = readTable->readColumn<NWB::VectorData>("col_spec");
+    REQUIRE(readCol != nullptr);
+    auto readData = readCol->readData()->valuesGeneric();
+    auto readTyped = DataBlock<std::string>::fromGeneric(readData);
+    REQUIRE(readTyped.data == std::vector<std::string>({"test_value"}));
+
     io->close();
   }
 
@@ -428,6 +489,13 @@ TEST_CASE("DynamicTable", "[table]")
     REQUIRE(readMeaningsTable->getPath()
             == mergePaths(tablePath, "meanings_tables/col1_meanings"));
 
+    // Test createMeaningsTableInstance
+    auto meaningsTableInstance =
+        readTable->createMeaningsTableInstance("col1_meanings");
+    REQUIRE(meaningsTableInstance != nullptr);
+    REQUIRE(meaningsTableInstance->getPath()
+            == mergePaths(tablePath, "meanings_tables/col1_meanings"));
+
     // Read value column
     auto readValueCol = readMeaningsTable->readValueColumn();
     REQUIRE(readValueCol != nullptr);
@@ -515,6 +583,54 @@ TEST_CASE("DynamicTable", "[table]")
     io->open();
     auto readTable = NWB::DynamicTable::create(tablePath, io);
     REQUIRE(readTable->getNumberOfRows() == 3);
+
+    io->close();
+  }
+
+  SECTION("test row-wise append with explicit IDs")
+  {
+    std::string path = getTestFilePath("testDynamicTableExplicitIDs.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    auto table = NWB::DynamicTable::create(tablePath, io);
+
+    // Configure schema
+    std::vector<NWB::DynamicTable::DataSpecPtr> specs;
+    specs.push_back(NWB::ElementIdentifiers::createDataSpec(
+        "id", IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10})));
+    specs.push_back(NWB::VectorData::createDataSpec(
+        "col_str",
+        IO::ArrayDataSetConfig(IO::BaseDataType::V_STR, {0}, {10}),
+        "String column"));
+
+    Status status = table->initialize("Table with explicit IDs", specs);
+    REQUIRE(status == Status::Success);
+
+    // Add single row with explicit ID
+    AQNWB::Types::RowData row1 = {{"col_str", std::string("row1")}};
+    status = table->addRow(row1, 100);
+    REQUIRE(status == Status::Success);
+
+    // Add multiple rows with explicit IDs
+    std::vector<AQNWB::Types::RowData> rows = {
+        {{"col_str", std::string("row2")}}, {{"col_str", std::string("row3")}}};
+    std::vector<int> rowIds = {101, 102};
+    status = table->addRows(rows, rowIds);
+    REQUIRE(status == Status::Success);
+
+    status = table->finalize();
+    REQUIRE(status == Status::Success);
+
+    io->close();
+
+    // Reopen and verify
+    io = createIO("HDF5", path);
+    io->open();
+    auto readTable = NWB::DynamicTable::create(tablePath, io);
+
+    auto readIds = readTable->readIdColumn()->readData()->values().data;
+    REQUIRE(readIds == std::vector<int>({100, 101, 102}));
 
     io->close();
   }
@@ -880,6 +996,12 @@ TEST_CASE("DynamicTable", "[table]")
     auto readAllRows = readTable->readRows(0, 5);
     REQUIRE(readAllRows.size() == 5);
 
+    // Read rows without ID
+    auto readRowsNoId = readTable->readRows(0, 1, {}, false);
+    REQUIRE(readRowsNoId.size() == 1);
+    REQUIRE(readRowsNoId[0].find("id") == readRowsNoId[0].end());
+    REQUIRE(readRowsNoId[0].find("col_str") != readRowsNoId[0].end());
+
     // Read out of bounds
     REQUIRE_THROWS_AS(readTable->readRows(10, 5), std::invalid_argument);
 
@@ -1026,6 +1148,50 @@ TEST_CASE("DynamicTable", "[table]")
         "row1\n"
         "row2\n";
     REQUIRE(colStr == expectedColStr);
+
+    io->close();
+  }
+
+  SECTION("test edge cases and error handling")
+  {
+    std::string path = getTestFilePath("testDynamicTableEdgeCases.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    auto table = NWB::DynamicTable::create(tablePath, io);
+
+    std::vector<NWB::DynamicTable::DataSpecPtr> specs;
+    specs.push_back(NWB::ElementIdentifiers::createDataSpec(
+        "id", IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10})));
+    specs.push_back(NWB::VectorData::createDataSpec(
+        "col_str",
+        IO::ArrayDataSetConfig(IO::BaseDataType::V_STR, {0}, {10}),
+        "String column"));
+
+    Status status = table->initialize("Table for edge cases", specs);
+    REQUIRE(status == Status::Success);
+
+    // Test readColumn with non-existent column
+    auto nonExistentCol = table->readColumn<NWB::VectorData>("non_existent");
+    REQUIRE(nonExistentCol == nullptr);
+
+    // Test addRow with missing required column
+    AQNWB::Types::RowData missingColRow = {{"wrong_col", std::string("val")}};
+    REQUIRE(table->addRow(missingColRow) == Status::Failure);
+
+    // Add a valid row so we can test readRows
+    AQNWB::Types::RowData validRow = {{"col_str", std::string("val")}};
+    REQUIRE(table->addRow(validRow) == Status::Success);
+
+    // Test readRows with non-existent column name
+    // It should just ignore the non-existent column and return the others
+    auto rowsWithInvalidCol =
+        table->readRows(0, 1, {"col_str", "non_existent"});
+    REQUIRE(rowsWithInvalidCol.size() == 1);
+    REQUIRE(rowsWithInvalidCol[0].find("col_str")
+            != rowsWithInvalidCol[0].end());
+    REQUIRE(rowsWithInvalidCol[0].find("non_existent")
+            == rowsWithInvalidCol[0].end());
 
     io->close();
   }
