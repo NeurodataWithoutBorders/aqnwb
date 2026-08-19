@@ -197,6 +197,13 @@ AQNWB::Types::CellValue VectorIndex::combineCellsToVector(
 std::vector<AQNWB::Types::CellValue> VectorIndex::readIndexedCellValues(
     SizeType start, SizeType count, SizeType stride, SizeType block)
 {
+  auto ioPtr = getIO();
+  if (!ioPtr || !ioPtr->isOpen()) {
+    throw std::runtime_error(
+        "VectorIndex::readIndexedCellValues: IO object has been deleted or is "
+        "closed.");
+  }
+
   // First, read the indices from this VectorIndex
   SizeArray startArray = {start};
   SizeArray countArray = count > 0 ? SizeArray {count} : SizeArray {};
@@ -213,10 +220,9 @@ std::vector<AQNWB::Types::CellValue> VectorIndex::readIndexedCellValues(
   // Get the target column
   auto target = getTargetColumn();
   if (!target) {
-    std::cerr
-        << "VectorIndex::readCellValues: target VectorData is not available."
-        << std::endl;
-    return {};
+    throw std::runtime_error(
+        "VectorIndex::readIndexedCellValues: target VectorData is not "
+        "available.");
   }
 
   // We need to read the previous index to know where the first vector starts
@@ -246,7 +252,7 @@ std::vector<AQNWB::Types::CellValue> VectorIndex::readIndexedCellValues(
   uint64_t lastIndex = prevIndex;
   for (uint64_t currIndex : currIndices) {
     if (currIndex < lastIndex) {
-      throw std::runtime_error(
+      throw std::invalid_argument(
           "VectorIndex::readIndexedCellValues: Invalid index data, "
           "currIndex ("
           + std::to_string(currIndex) + ") < prevIndex ("
@@ -259,12 +265,54 @@ std::vector<AQNWB::Types::CellValue> VectorIndex::readIndexedCellValues(
     totalElementsToRead = currIndices.back() - prevIndex;
   }
 
+  // Validate that the indices do not exceed the target dataset size
+  if (totalElementsToRead > 0) {
+    SizeArray targetShape;
+    bool targetExists = ioPtr->objectExists(target->getPath());
+    if (!targetExists) {
+      throw std::runtime_error(
+          "VectorIndex::readIndexedCellValues: Target dataset does not exist.");
+    }
+
+    try {
+      targetShape = ioPtr->getStorageObjectShape(target->getPath());
+    } catch (const std::exception& e) {
+      throw std::runtime_error(
+          "VectorIndex::readIndexedCellValues: Failed to get target dataset "
+          "shape: "
+          + std::string(e.what()));
+    }
+
+    if (!targetShape.empty() && currIndices.back() > targetShape[0]) {
+      throw std::out_of_range(
+          "VectorIndex::readIndexedCellValues: Index out of bounds. "
+          "Max index ("
+          + std::to_string(currIndices.back())
+          + ") exceeds target dataset size (" + std::to_string(targetShape[0])
+          + ").");
+    } else if (targetShape.empty() && currIndices.back() > 0) {
+      throw std::out_of_range(
+          "VectorIndex::readIndexedCellValues: Index out of bounds. "
+          "Max index ("
+          + std::to_string(currIndices.back())
+          + ") exceeds target dataset size (0).");
+    }
+  }
+
   // Read all required target cells in one go
   std::vector<AQNWB::Types::CellValue> allTargetCells;
   if (totalElementsToRead > 0) {
     SizeArray targetStart = {static_cast<SizeType>(prevIndex)};
     SizeArray targetCount = {static_cast<SizeType>(totalElementsToRead)};
-    allTargetCells = target->readCellValues(targetStart, targetCount);
+    try {
+      allTargetCells = target->readCellValues(targetStart, targetCount);
+    } catch (const std::out_of_range& e) {
+      throw;  // Re-throw out_of_range
+    } catch (const std::exception& e) {
+      throw std::runtime_error(
+          "VectorIndex::readIndexedCellValues: Failed to read target cells: "
+          + std::string(e.what()));
+    }
   }
 
   std::vector<AQNWB::Types::CellValue> result;

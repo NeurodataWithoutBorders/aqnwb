@@ -153,6 +153,13 @@ public:
    * @param block The block size (optional).
    * @return A vector of CellValue, where each CellValue contains the data for a
    * cell.
+   * @throws std::out_of_range if the requested range is invalid (e.g., start +
+   * count exceeds the number of rows), or if the indices point outside the
+   * target dataset.
+   * @throws std::runtime_error if the VectorData cannot be read, if the target
+   * column is not available, or if the IO object is closed.
+   * @throws std::invalid_argument if the indices stored in the VectorIndex are
+   * invalid (e.g., not monotonically increasing).
    */
   std::vector<AQNWB::Types::CellValue> readIndexedCellValues(
       SizeType start = 0,
