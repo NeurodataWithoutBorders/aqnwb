@@ -163,7 +163,7 @@ public:
    */
   std::vector<AQNWB::Types::CellValue> readIndexedCellValues(
       SizeType start = 0,
-      SizeType count = 0,
+      SizeType count = AQNWB::Types::SizeTypeNotSet,
       SizeType stride = 1,
       SizeType block = 1);
 

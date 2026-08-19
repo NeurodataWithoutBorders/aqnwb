@@ -197,6 +197,18 @@ AQNWB::Types::CellValue VectorIndex::combineCellsToVector(
 std::vector<AQNWB::Types::CellValue> VectorIndex::readIndexedCellValues(
     SizeType start, SizeType count, SizeType stride, SizeType block)
 {
+  if (count == 0) {
+    return {};
+  }
+  if (stride == 0) {
+    throw std::invalid_argument(
+        "VectorIndex::readIndexedCellValues: stride must be greater than 0");
+  }
+  if (block == 0) {
+    throw std::invalid_argument(
+        "VectorIndex::readIndexedCellValues: block must be greater than 0");
+  }
+
   auto ioPtr = getIO();
   if (!ioPtr || !ioPtr->isOpen()) {
     throw std::runtime_error(
@@ -204,9 +216,17 @@ std::vector<AQNWB::Types::CellValue> VectorIndex::readIndexedCellValues(
         "closed.");
   }
 
+  auto dataset = readData();
+  if (!dataset || !dataset->exists()) {
+    throw std::runtime_error(
+        "VectorIndex::readIndexedCellValues: dataset is not initialized or "
+        "does not exist.");
+  }
+
   // First, read the indices from this VectorIndex
   SizeArray startArray = {start};
-  SizeArray countArray = count > 0 ? SizeArray {count} : SizeArray {};
+  SizeArray countArray =
+      count != AQNWB::Types::SizeTypeNotSet ? SizeArray {count} : SizeArray {};
   SizeArray strideArray = {stride};
   SizeArray blockArray = {block};
 
@@ -346,7 +366,7 @@ Status VectorIndex::initializeAppendState()
   }
 
   auto dataset = readData();
-  if (!dataset) {
+  if (!dataset || !dataset->exists()) {
     std::cerr
         << "VectorIndex::initializeAppendState: dataset is not initialized."
         << std::endl;
@@ -362,8 +382,15 @@ Status VectorIndex::initializeAppendState()
   }
 
   if (!m_dataTypeInitialized) {
-    m_dataType = ioPtr->getStorageObjectDataType(dataset->getPath());
-    m_dataTypeInitialized = true;
+    try {
+      m_dataType = ioPtr->getStorageObjectDataType(dataset->getPath());
+      m_dataTypeInitialized = true;
+    } catch (const std::exception& e) {
+      std::cerr
+          << "VectorIndex::initializeAppendState: error getting data type: "
+          << e.what() << std::endl;
+      return Status::Failure;
+    }
   }
 
   if (m_currentIndexInitialized) {

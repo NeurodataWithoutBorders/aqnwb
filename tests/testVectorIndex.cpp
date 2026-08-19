@@ -320,6 +320,7 @@ TEST_CASE("VectorIndex", "[table]")
         size_t elementsAppended = 0;
         REQUIRE(vectorIndex->appendData(vec1, elementsAppended)
                 == Status::Success);
+        REQUIRE(elementsAppended == 2);
 
         io->close();
       }
@@ -338,6 +339,7 @@ TEST_CASE("VectorIndex", "[table]")
         // This will trigger initializeAppendState
         REQUIRE(vectorIndex->appendData(vec2, elementsAppended)
                 == Status::Success);
+        REQUIRE(elementsAppended == 3);
 
         io->flush();
 
@@ -370,6 +372,15 @@ TEST_CASE("VectorIndex", "[table]")
         REQUIRE(cells[0].get<std::vector<int>>() == vec1);
         REQUIRE(cells[1].get<std::vector<int>>() == vec2);
 
+        // Test readIndexedCellValues with start/count/stride/block
+        auto cells2 = vectorIndex->readIndexedCellValues(
+            0, 0);  // count 0 should return empty
+        REQUIRE(cells2.empty());
+        // Stride of 0 should throw
+        REQUIRE_THROWS(vectorIndex->readIndexedCellValues(0, 2, 0));
+        // Block of 0 should throw
+        REQUIRE_THROWS(vectorIndex->readIndexedCellValues(0, 2, 1, 0));
+
         io->close();
       }
     }
@@ -384,19 +395,13 @@ TEST_CASE("VectorIndex", "[table]")
     auto vectorIndex = NWB::VectorIndex::create("/index", io);
 
     std::vector<int> vec = {1, 2};
-    // size_t elementsAppended = 0;
+    size_t elementsAppended = 0;
 
     // appendData on uninitialized index should fail
-    // We don't test this directly because it throws an exception from HDF5IO
-    // when trying to get the data type of a non-existent dataset.
-    // REQUIRE(vectorIndex->appendData(vec, elementsAppended) ==
-    // Status::Failure);
+    REQUIRE(vectorIndex->appendData(vec, elementsAppended) == Status::Failure);
 
-    // readIndexedCellValues on uninitialized index should return empty
-    // We don't test this directly because it triggers an assertion in HDF5IO
-    // when trying to read a non-existent dataset.
-    // auto cells = vectorIndex->readIndexedCellValues();
-    // REQUIRE(cells.empty());
+    // readIndexedCellValues on uninitialized index should throw runtime_error
+    REQUIRE_THROWS_AS(vectorIndex->readIndexedCellValues(), std::runtime_error);
 
     io->close();
   }
