@@ -248,19 +248,20 @@ struct CellValue
   template<typename T>
   bool holds_alternative() const
   {
+    bool result = false;
+    if constexpr (std::is_constructible_v<ScalarDataVariant, T>) {
+      if (std::holds_alternative<ScalarDataVariant>(value)) {
+        result = result
+            || std::holds_alternative<T>(std::get<ScalarDataVariant>(value));
+      }
+    }
     if constexpr (std::is_constructible_v<VectorDataVariant, T>) {
       if (std::holds_alternative<VectorDataVariant>(value)) {
-        return std::holds_alternative<T>(std::get<VectorDataVariant>(value));
+        result = result
+            || std::holds_alternative<T>(std::get<VectorDataVariant>(value));
       }
-      return false;
-    } else if constexpr (std::is_constructible_v<ScalarDataVariant, T>) {
-      if (std::holds_alternative<ScalarDataVariant>(value)) {
-        return std::holds_alternative<T>(std::get<ScalarDataVariant>(value));
-      }
-      return false;
-    } else {
-      return false;
     }
+    return result;
   }
 
   /**
