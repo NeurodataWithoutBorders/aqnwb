@@ -113,7 +113,9 @@ Status VectorData::appendData(const AQNWB::Types::CellValue& cellValue,
   }
 
   // The cellValue contains a variant that can hold either a scalar or a vector.
-  // We use std::visit to handle both cases.
+  // The vector case is used for ragged arrays where the VectorData is indexed
+  // by a VectorIndex, in which case a single cell of a table can contain
+  // multiple elements. We use std::visit to handle both cases.
   return std::visit(
       [&](auto&& arg) -> Status
       {
