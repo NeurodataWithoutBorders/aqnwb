@@ -202,7 +202,7 @@ Status HDF5IO::flush()
 // H5O_info2_t and the trailing `fields` argument to H5Ovisit were introduced
 // in HDF5 1.12.0. On older versions (e.g. the 1.10.x that ships with Ubuntu's
 // libhdf5-serial package) the type is H5O_info_t and H5Ovisit takes one fewer
-// argument. This alias let's the callback signature adapt to the installed
+// argument. This alias adapts the callback signature to the installed
 // version. H5_VERSION_GE is provided by H5public.h (pulled in via H5Opublic.h).
 #if H5_VERSION_GE(1, 12, 0)
 using H5OInfoCompat = H5O_info2_t;
@@ -321,7 +321,7 @@ std::string HDF5IO::findObject(const std::string& name,
   // that matches the depth-first, name-ordered behavior of getStorageObjects.
   //
   // The 1.12+ signature takes a trailing `fields` argument (H5O_INFO_BASIC)
-  // that let's us request only the object type; the 1.10 signature omits it.
+  // that requests only the object type; the 1.10 signature omits it.
 #if H5_VERSION_GE(1, 12, 0)
   const herr_t status = H5Ovisit(startGroup.getId(),
                                  H5_INDEX_NAME,
@@ -987,8 +987,9 @@ Status HDF5IO::createAttribute(const std::string& data,
     return Status::Failure;
   }
 
-  // Create variable length string type
-  StrType H5type(PredType::C_S1, static_cast<size_t>(H5T_VARIABLE));
+  const IO::BaseDataType strType(IO::BaseDataType::Type::V_STR);
+  DataType H5type = getH5Type(strType);
+  DataType nativeType = getNativeType(strType);
 
   auto manage_attribute = [&](H5Object& loc)
   {
@@ -1009,7 +1010,7 @@ Status HDF5IO::createAttribute(const std::string& data,
 
       // Write the scalar string data
       const char* dataPtr = data.c_str();
-      attr.write(H5type, &dataPtr);
+      attr.write(nativeType, &dataPtr);
 
     } catch (const GroupIException& error) {
       error.printErrorStack();
@@ -1049,8 +1050,9 @@ Status HDF5IO::createAttribute(const std::vector<std::string>& data,
     return Status::Failure;
   }
 
-  // Create variable length string type
-  StrType H5type(PredType::C_S1, static_cast<size_t>(H5T_VARIABLE));
+  const IO::BaseDataType strType(IO::BaseDataType::Type::V_STR);
+  DataType H5type = getH5Type(strType);
+  DataType nativeType = getNativeType(strType);
 
   auto manage_attribute = [&](H5Object& loc)
   {
@@ -1079,7 +1081,7 @@ Status HDF5IO::createAttribute(const std::vector<std::string>& data,
                      data.end(),
                      dataPtrs.begin(),
                      [](const std::string& str) { return str.c_str(); });
-      attr.write(H5type, dataPtrs.data());
+      attr.write(nativeType, dataPtrs.data());
 
     } catch (const GroupIException& error) {
       error.printErrorStack();
@@ -1634,10 +1636,6 @@ std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::createArrayDataSet(
       }
     }
 
-    if (arrayConfig->getType().type == IO::BaseDataType::Type::T_STR) {
-      H5type = StrType(PredType::C_S1, arrayConfig->getType().typeSize);
-    }
-
     data = std::make_unique<DataSet>(
         m_file->createDataSet(path, H5type, dSpace, prop));
   } catch (const H5::Exception& e) {
@@ -1708,10 +1706,17 @@ H5::DataType HDF5IO::getNativeType(IO::BaseDataType type)
     case IO::BaseDataType::Type::T_F64:
       baseType = H5::PredType::NATIVE_DOUBLE;
       break;
-    case IO::BaseDataType::Type::T_STR:
-      return H5::StrType(H5::PredType::C_S1, type.typeSize);
-    case IO::BaseDataType::Type::V_STR:
-      return H5::StrType(H5::PredType::C_S1, static_cast<size_t>(H5T_VARIABLE));
+    case IO::BaseDataType::Type::T_STR: {
+      H5::StrType strType(H5::PredType::C_S1, type.typeSize);
+      strType.setCset(H5T_CSET_UTF8);
+      return strType;
+    }
+    case IO::BaseDataType::Type::V_STR: {
+      H5::StrType strType(H5::PredType::C_S1,
+                          static_cast<size_t>(H5T_VARIABLE));
+      strType.setCset(H5T_CSET_UTF8);
+      return strType;
+    }
     default:
       baseType = H5::PredType::NATIVE_INT32;
   }
@@ -1802,12 +1807,16 @@ H5::DataType HDF5IO::getH5Type(IO::BaseDataType type)
     case BaseDataType::Type::T_F64:
       baseType = PredType::IEEE_F64LE;
       break;
-    case BaseDataType::Type::T_STR:
-      return StrType(PredType::C_S1, type.typeSize);
-      break;
-    case BaseDataType::Type::V_STR:
-      return StrType(PredType::C_S1, static_cast<size_t>(H5T_VARIABLE));
-      break;
+    case BaseDataType::Type::T_STR: {
+      StrType strType(PredType::C_S1, type.typeSize);
+      strType.setCset(H5T_CSET_UTF8);
+      return strType;
+    }
+    case BaseDataType::Type::V_STR: {
+      StrType strType(PredType::C_S1, static_cast<size_t>(H5T_VARIABLE));
+      strType.setCset(H5T_CSET_UTF8);
+      return strType;
+    }
     default:
       return PredType::STD_I32LE;
   }

@@ -45,8 +45,8 @@ struct BenchmarkResult
 };
 
 /**
- * @brief Creates the HDF5IO object and opens the file with the.
- *        requested driver ("ros3" or "remfile")
+ * @brief Creates the HDF5IO object and opens the file with the
+ *        requested driver ("ros3" or "remfile").
  *
  * @param s3Path The S3 URL of the NWB file.
  * @param awsRegion The AWS region (e.g., us-east-1).

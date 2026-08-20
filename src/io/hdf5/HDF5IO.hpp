@@ -135,6 +135,12 @@ public:
    * This HDF5-specific override replaces the generic recursive implementation
    * in BaseIO with a single H5Ovisit traversal that terminates early on the
    * first match. This reduces the number of metadata operations with the goal
+   * to improve performance, especially for large files with many groups.
+   *
+   * H5Ovisit is object-centric and does not traverse soft links. Consequently,
+   * this method does not find objects that are reachable only through a soft
+   * link. Call BaseIO::findObject explicitly when soft-link paths must be
+   * searched.
    *
    * @param name The last path component to search for (e.g. "electrodes").
    * @param starting_path The path of the group to start the search from.
