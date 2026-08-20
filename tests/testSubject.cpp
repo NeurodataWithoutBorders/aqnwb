@@ -36,7 +36,7 @@ TEST_CASE("Subject", "[file]")
     REQUIRE(subject->getIO() == io);
   }
 
-  SECTION("setting parameters via with function chainging")
+  SECTION("setting parameters via with function chaining")
   {
     NWB::Subject::SubjectSpec subjectSpec;
     subjectSpec.withAge("P90D")
