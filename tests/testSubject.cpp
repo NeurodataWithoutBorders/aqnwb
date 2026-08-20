@@ -36,6 +36,32 @@ TEST_CASE("Subject", "[file]")
     REQUIRE(subject->getIO() == io);
   }
 
+  SECTION("setting parameters via with function chainging")
+  {
+    NWB::Subject::SubjectSpec subjectSpec;
+    subjectSpec.withAge("P90D")
+        .withAgeReference("gestational")
+        .withDateOfBirth("2024-01-15T00:00:00.000000+00:00")
+        .withDescription("Test subject")
+        .withGenotype("wt/wt")
+        .withSex("M")
+        .withSpecies("Mus musculus")
+        .withStrain("C57BL/6J")
+        .withSubjectId("subject-001")
+        .withWeight("25 g");
+
+    REQUIRE(subjectSpec.age == "P90D");
+    REQUIRE(subjectSpec.ageReference == "gestational");
+    REQUIRE(subjectSpec.dateOfBirth == "2024-01-15T00:00:00.000000+00:00");
+    REQUIRE(subjectSpec.description == "Test subject");
+    REQUIRE(subjectSpec.genotype == "wt/wt");
+    REQUIRE(subjectSpec.sex == "M");
+    REQUIRE(subjectSpec.species == "Mus musculus");
+    REQUIRE(subjectSpec.strain == "C57BL/6J");
+    REQUIRE(subjectSpec.subjectId == "subject-001");
+    REQUIRE(subjectSpec.weight == "25 g");
+  }
+
   SECTION("writes and reads every metadata field")
   {
     const std::string filename = getTestFilePath("subject_all_fields.h5");

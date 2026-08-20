@@ -56,6 +56,118 @@ public:
     std::optional<std::string> subjectId = std::nullopt;
     /// @brief Weight at time of experiment.
     std::optional<std::string> weight = std::nullopt;
+
+    /**
+     * @brief Set the age of the subject.
+     * @param value Age of subject (e.g., "P90D" for 90 days post-natal).
+     * @return Reference to this SubjectSpec, to allow method chaining.
+     */
+    SubjectSpec& withAge(std::string value)
+    {
+      age = std::move(value);
+      return *this;
+    }
+
+    /**
+     * @brief Set the age reference event of the subject.
+     * @param value Age is with reference to this event. Can be ‘birth’ or
+     * ‘gestational’. If reference is omitted, ‘birth’ is implied.
+     * @return Reference to this SubjectSpec, to allow method chaining.
+     */
+    SubjectSpec& withAgeReference(std::string value)
+    {
+      ageReference = std::move(value);
+      return *this;
+    }
+
+    /**
+     * @brief Set the date of birth of the subject.
+     * @param value Date of birth of subject as iso formatted date string.
+     * @return Reference to this SubjectSpec, to allow method chaining.
+     */
+    SubjectSpec& withDateOfBirth(std::string value)
+    {
+      dateOfBirth = std::move(value);
+      return *this;
+    }
+
+    /**
+     * @brief Set the description of the subject.
+     * @param value Description of subject and where subject came from.
+     * @return Reference to this SubjectSpec, to allow method chaining.
+     */
+    SubjectSpec& withDescription(std::string value)
+    {
+      description = std::move(value);
+      return *this;
+    }
+
+    /**
+     * @brief Set the genotype of the subject.
+     * @param value Genetic strain. If absent, assume Wild Type (WT).
+     * @return Reference to this SubjectSpec, to allow method chaining.
+     */
+    SubjectSpec& withGenotype(std::string value)
+    {
+      genotype = std::move(value);
+      return *this;
+    }
+
+    /**
+     * @brief Set the biological sex of the subject.
+     * @param value Biological sex of subject.
+     * @return Reference to this SubjectSpec, to allow method chaining.
+     */
+    SubjectSpec& withSex(std::string value)
+    {
+      sex = std::move(value);
+      return *this;
+    }
+
+    /**
+     * @brief Set the species of the subject.
+     * @param value Species of subject.
+     * @return Reference to this SubjectSpec, to allow method chaining.
+     */
+    SubjectSpec& withSpecies(std::string value)
+    {
+      species = std::move(value);
+      return *this;
+    }
+
+    /**
+     * @brief Set the strain of the subject.
+     * @param value Strain of subject.
+     * @return Reference to this SubjectSpec, to allow method chaining.
+     */
+    SubjectSpec& withStrain(std::string value)
+    {
+      strain = std::move(value);
+      return *this;
+    }
+
+    /**
+     * @brief Set the ID of the subject.
+     * @param value ID of animal/person used/participating in experiment (lab
+     * convention).
+     * @return Reference to this SubjectSpec, to allow method chaining.
+     */
+    SubjectSpec& withSubjectId(std::string value)
+    {
+      subjectId = std::move(value);
+      return *this;
+    }
+
+    /**
+     * @brief Set the weight of the subject.
+     * @param value Weight at time of experiment.
+     * @return Reference to this SubjectSpec, to allow method chaining.
+     */
+    SubjectSpec& withWeight(std::string value)
+    {
+      weight = std::move(value);
+      return *this;
+    }
   };
 
   /** \brief Convenience factor method since the path is fixed to

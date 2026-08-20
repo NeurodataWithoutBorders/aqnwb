@@ -47,13 +47,14 @@ TEST_CASE("workflowExamples")
 
     // [example_workflow_nwbfile_snippet]
     auto nwbfile = NWB::NWBFile::create(io);
-    AQNWB::NWB::Subject::SubjectSpec subjectSpec;
-    subjectSpec.subjectId = "mouse001";
-    subjectSpec.species = "Mus musculus";
-    subjectSpec.sex = "M";
-    subjectSpec.age = "P90D";
-    subjectSpec.description =
-        "Wild type mouse used for electrophysiology study";
+    auto subjectSpec =
+        AQNWB::NWB::Subject::SubjectSpec()
+            .withSubjectId("mouse001")
+            .withSpecies("Mus musculus")
+            .withSex("M")
+            .withAge("P90D")
+            .withDescription(
+                "Wild type mouse used for electrophysiology study");
     std::string currentTime = getCurrentTime();
     Status initStatus = nwbfile->initialize(generateUuid(),
                                             "a recording session",
