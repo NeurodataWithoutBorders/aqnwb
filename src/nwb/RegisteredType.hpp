@@ -656,7 +656,7 @@ public: \
                 << std::endl; \
       return nullptr; \
     } \
-    return ioPtr->getCachedRecordingData(fullPath, reset); \
+    return ioPtr->getDataSet(fullPath, reset); \
   }
 
 /**

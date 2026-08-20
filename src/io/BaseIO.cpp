@@ -298,8 +298,8 @@ std::unordered_map<std::string, std::string> BaseIO::findTypes(
   return found_types;
 }
 
-std::shared_ptr<BaseRecordingData> BaseIO::getCachedRecordingData(
-    const std::string& path, bool reset)
+std::shared_ptr<BaseRecordingData> BaseIO::getDataSet(const std::string& path,
+                                                      bool reset)
 {
   if (!reset) {
     auto it = m_recordingDataCache.find(path);
@@ -307,7 +307,7 @@ std::shared_ptr<BaseRecordingData> BaseIO::getCachedRecordingData(
       return it->second;
     }
   }
-  auto dataset = getDataSet(path);
+  auto dataset = getDataSetImpl(path);
   if (dataset) {
     m_recordingDataCache[path] = dataset;
   }
