@@ -213,7 +213,7 @@ TEST_CASE("VectorDataTyped", "[base]")
     auto convertedVectorDataTyped =
         NWB::VectorDataTyped<int>::fromVectorData(baseVectorData);
     REQUIRE(convertedVectorDataTyped != nullptr);
-    REQUIRE(dynamic_pointer_cast<NWB::VectorDataTyped<int>>(
+    REQUIRE(std::dynamic_pointer_cast<NWB::VectorDataTyped<int>>(
                 convertedVectorDataTyped)
             != nullptr);
 
