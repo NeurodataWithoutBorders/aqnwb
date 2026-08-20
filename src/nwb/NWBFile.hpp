@@ -390,6 +390,12 @@ public:
                                   "intervals",
                                   Get a TimeIntervals object stored in the
                                       intervals group)
+  
+  DEFINE_UNNAMED_REGISTERED_FIELD(readEventsTable,
+                                  createEventsTable,
+                                  EventsTable,
+                                  "events",
+                                  Get an EventsTable stored in the events group)
 
 protected:
   /**

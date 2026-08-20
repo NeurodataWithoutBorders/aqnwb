@@ -176,7 +176,7 @@ TEST_CASE("createTimeIntervalsTables", "[nwb]")
   io->close();
 }
 
-TEST_CASE("createEventsTable", "[nwb]")
+TEST_CASE("createEventsTable with full initialization", "[nwb]")
 {
   std::string filename = getTestFilePath("createEventsTable.nwb");
 
@@ -230,6 +230,83 @@ TEST_CASE("createEventsTable", "[nwb]")
 
   io->stopRecording();
   io->close();
+}
+
+TEST_CASE("createEventsTable with post initialization", "[nwb]")
+{
+  std::string filename = getTestFilePath("createEventsTablePostInit.nwb");
+
+  // initialize nwbfile object and create base structure
+  std::shared_ptr<IO::HDF5::HDF5IO> io =
+      std::make_shared<IO::HDF5::HDF5IO>(filename);
+  io->open();
+  auto nwbfile = NWB::NWBFile::create(io);
+  nwbfile->initialize(generateUuid());
+
+  // create the Events Table
+  auto eventsTable = nwbfile->createEventsTable("test_events");
+  REQUIRE(eventsTable != nullptr);
+  std::string description = "Test events table";
+  std::string sourceDescription = "Test source description";
+  float timestampResolution = 1.0f / 30000.0f;
+  float durationResolution = -1.0f;  // no duration column
+  auto specs = NWB::EventsTable::createDefaultDataSpecs(
+      timestampResolution, durationResolution, true, 100);
+  Status initStatus =
+      eventsTable->initialize(description, sourceDescription, specs);
+  REQUIRE(initStatus == Status::Success);
+  REQUIRE(eventsTable->getName() == "test_events");
+  REQUIRE(eventsTable->readDescription()->values().data[0] == description);
+  REQUIRE(eventsTable->readSourceDescription()->values().data[0]
+          == sourceDescription);
+  REQUIRE(eventsTable->readTimestampColumn()->readResolution()->values().data[0]
+          == Catch::Approx(timestampResolution));
+  REQUIRE(eventsTable->readDurationColumn()
+          == nullptr);  // duration column should not exist
+  REQUIRE(eventsTable->readAnnotationColumn()
+          != nullptr);  // annotation column should exist
+
+  // Write some data to the table
+  io->startRecording();
+
+  std::vector<float> timestamps = {1.0f, 2.0f, 3.0f};
+  std::vector<std::string> annotations = {"event1", "event2", "event3"};
+  std::vector<int> ids = {1, 2, 3};
+
+  SizeArray dataShape = {timestamps.size()};
+  SizeArray positionOffset = {0};
+
+  auto timestampColumn = eventsTable->readTimestampColumn();
+  timestampColumn->recordData()->writeDataBlock(
+      dataShape, positionOffset, BaseDataType::F32, timestamps.data());
+
+  auto annotationColumn = eventsTable->readAnnotationColumn();
+  annotationColumn->recordData()->writeDataBlock(
+      dataShape, positionOffset, BaseDataType::V_STR, annotations);
+
+  eventsTable->setRowIDs(ids);
+
+  io->stopRecording();
+  io->close();
+
+  // Reopen the file and verify that the data was written correctly
+  std::shared_ptr<IO::HDF5::HDF5IO> readio =
+      std::make_shared<IO::HDF5::HDF5IO>(filename);
+  readio->open();
+  auto readnwbfile = NWB::NWBFile::create(readio);
+  REQUIRE(readnwbfile != nullptr);
+  auto readEventsTable = readnwbfile->readEventsTable("test_events");
+  REQUIRE(readEventsTable != nullptr);
+  REQUIRE(readEventsTable->readDescription()->values().data[0] == description);
+  REQUIRE(readEventsTable->readSourceDescription()->values().data[0]
+          == sourceDescription);
+  REQUIRE(
+      readEventsTable->readTimestampColumn()->readResolution()->values().data[0]
+      == Catch::Approx(timestampResolution));
+  REQUIRE(readEventsTable->readDurationColumn()
+          == nullptr);  // duration column should not exist
+  REQUIRE(readEventsTable->readAnnotationColumn()
+          != nullptr);  // annotation column should exist
 }
 
 TEST_CASE("createElectrodesTable", "[nwb]")
