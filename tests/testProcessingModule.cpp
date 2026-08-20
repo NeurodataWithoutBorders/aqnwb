@@ -239,11 +239,7 @@ TEST_CASE("ProcessingModule createDynamicTable and readDynamicTable",
 
     // set row IDs
     std::vector<int> ids = {0, 1, 2};
-    SizeArray idShape = {ids.size()};
-    IO::ArrayDataSetConfig idConfig(BaseDataType::I32, idShape, idShape);
-    auto elementIDs = NWB::ElementIdentifiers::create(tablePath + "/id", io);
-    elementIDs->initialize(idConfig);
-    REQUIRE(table->setRowIDs(elementIDs, ids) == Status::Success);
+    REQUIRE(table->setRowIDs(ids) == Status::Success);
 
     // read back the table within the same session via readDynamicTable
     auto readTable = processingModule->readDynamicTable("summary_table");

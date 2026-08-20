@@ -1,6 +1,6 @@
 #!/usr/bin/env -S uv run --script
 # /// script
-# requires-python = ">=3.8"
+# requires-python = ">=3.10"
 # dependencies = ["hdmf", "pynwb", "ruamel.yaml"]
 # ///
 """
@@ -93,8 +93,15 @@ def render_define_registered_field(
     {{
         std::string parentPath = AQNWB::mergePaths(m_path, "{field_path}");
         std::string objectPath = AQNWB::mergePaths(parentPath, objectName);
-        if (m_io->objectExists(objectPath)) {{
-        return std::make_shared<{neurodata_type}>(objectPath, m_io);
+        auto ioPtr = getIO();
+        if (ioPtr == nullptr) {
+            std::cerr << "IO object has been deleted. Can't read {neurodata_type}: "
+                      << m_path << std::endl;
+            return nullptr;
+        }
+
+        if (ioPtr->objectExists(objectPath)) {{
+            return std::make_shared<{neurodata_type}>(objectPath, ioPtr);
         }}
         return nullptr;
     }}
@@ -629,7 +636,7 @@ def render_initialize_method_cpp(
         cpp_param_var_name = param['variable_name']
         re = f"    // TODO: Initialize {param['path']} attribute"
         if param['value_fixed']:
-            re += f"with fixed value {param['cpp_type']} {param['cpp_default_value']}"
+            re += f" with fixed value {param['cpp_type']} {param['cpp_default_value']}"
         if is_inherited or is_overridden:
             re += f". This attribute is_inheritted={is_inherited}, is_overridden={is_overridden}"
         re += "\n"
@@ -647,9 +654,9 @@ def render_initialize_method_cpp(
             parent_path_str = 'm_path'
         # Define the create call
         if attr_cpp_type == "std::string":
-            re += f'    // m_io->createAttribute({cpp_param_var_name}, {parent_path_str}, "{attr_name}");\n\n'
+            re += f'    // ioPtr->createAttribute({cpp_param_var_name}, {parent_path_str}, "{attr_name}");\n\n'
         elif attr.shape is None:
-            re += f'    // m_io->createAttribute({attr_base_type}, &{cpp_param_var_name}, {parent_path_str}, "{attr_name}");\n\n'
+            re += f'    // ioPtr->createAttribute({attr_base_type}, &{cpp_param_var_name}, {parent_path_str}, "{attr_name}");\n\n'
         return re
 
     def dataset_init(dataset: Spec, param: dict, is_inherited: bool, is_overridden: bool) -> str:
@@ -680,10 +687,10 @@ def render_initialize_method_cpp(
         # add example initializtion hints
         dataset_cpp_type = param['cpp_type']
         if dataset_cpp_type == "const std::string&":
-            re += f"    // m_io->createStringDataSet({pathVarName}, {cpp_param_var_name})\n"
+            re += f"    // ioPtr->createStringDataSet({pathVarName}, {cpp_param_var_name})\n"
         else:
             if "ArrayDataSetConfig" in dataset_cpp_type:
-                    re += f"    // std::unique_ptr<IO::BaseRecordingData> {cpp_param_var_name}Data = m_io->createArrayDataSet({cpp_param_var_name}, {pathVarName});\n"
+                    re += f"    // std::unique_ptr<IO::BaseRecordingData> {cpp_param_var_name}Data = ioPtr->createArrayDataSet({cpp_param_var_name}, {pathVarName});\n"
             else:
                 re += f"    // create scalar dataset at {pathVarName} with {'default' if not param['value_fixed'] else 'fixed'} value {param['cpp_type']} {param['cpp_default_value']}\n"
         re += "\n"
@@ -745,6 +752,14 @@ def render_initialize_method_cpp(
         parent_initialize_call += f"    // Status parentInitStatus {parent_class_name}::initialize()"
         parent_initialize_call += f"    // initStatus = initStatus && parentInitStatus;"
 
+    #### Render retrieval of the IO object
+    retrieve_io_src = """auto ioPtr = getIO();
+    if (ioPtr == nullptr) {
+      std::cerr << "IO object has been deleted. Can't initialize %s: "
+                << m_path << std::endl;
+      return Status::Failure;
+    }""" % class_name
+
     #### Render initialization for attributes, datasets and groups
     initialize_fields_src = ""
     for param in all_initialize_params:
@@ -757,7 +772,7 @@ def render_initialize_method_cpp(
                 path_var_name = f"{snake_to_camel(param['path'].replace('/', '_'))}Path"
                 initialize_fields_src += f"    // TODO: Initialize {param['path']} group\n"
                 initialize_fields_src += f'    // auto {path_var_name} = AQNWB::mergePaths(m_path, "{param["path"]}");\n'
-                initialize_fields_src += f"    // m_io->createGroup({path_var_name});\n\n"
+                initialize_fields_src += f"    // ioPtr->createGroup({path_var_name});\n\n"
             else: # Typed group passed as parameter
                 if param['optional_registered_type']:
                     initialize_fields_src += f"    // TODO: Optional RegisteredType {param['cpp_type']} passed as parameter {param['variable_name']}. Usually created after initialize.\n\n"
@@ -785,6 +800,9 @@ def render_initialize_method_cpp(
 Status {class_name}::{funcSignature}
 {{
     Status initStatus = Status::Success;
+
+    // Retrieve the IO object
+    {retrieve_io_src}
 
     {fixed_value_inits}
     // Call parent initialize method. 
@@ -992,6 +1010,51 @@ def get_referenced_types(neurodata_type: Spec, type_to_namespace_map: Dict[str, 
     return set(referenced_types)  # Return unique types only
 
 
+def render_forward_declarations(
+    referenced_types: set[str],
+    type_to_namespace_map: Dict[str, str],
+    current_type_name: str,
+) -> str:
+    """
+    Render forward declarations for referenced neurodata types.
+
+    Forward declarations avoid circular includes when a generated parent type
+    references one of its generated subtypes while that subtype inherits from
+    the parent (e.g., DynamicTable <-> MeaningsTable in newer HDMF Common
+    schemas).
+
+    Parameters:
+    referenced_types (set[str]): Referenced neurodata type names.
+    type_to_namespace_map (Dict[str, str]): Mapping of types to their namespaces.
+    current_type_name (str): Name of the type currently being generated.
+
+    Returns:
+    str: Forward declaration blocks grouped by C++ namespace.
+    """
+    declarations_by_namespace = {}
+    for referenced_type in sorted(referenced_types):
+        if referenced_type == current_type_name:
+            continue
+        referenced_namespace = to_cpp_namespace_name(
+            type_to_namespace_map.get(referenced_type, "")
+        )
+        declarations_by_namespace.setdefault(referenced_namespace, []).append(
+            referenced_type
+        )
+
+    if not declarations_by_namespace:
+        return ""
+
+    forward_declarations = "// Forward declarations for referenced types\n"
+    for referenced_namespace in sorted(declarations_by_namespace):
+        forward_declarations += f"namespace {referenced_namespace} {{\n"
+        for referenced_type in declarations_by_namespace[referenced_namespace]:
+            forward_declarations += f"class {referenced_type};\n"
+        forward_declarations += f"}}  // namespace {referenced_namespace}\n"
+
+    return forward_declarations
+
+
 def parse_schema_file(file_path: Path) -> Tuple[SpecNamespace, Dict[str, Spec], Dict[str, Path], Dict[str, str]]:
     """
     Parse a schema file and return the namespace and data types using PyNWB.
@@ -1187,17 +1250,17 @@ def generate_header_file(
         else:
             header += '#include "nwb/hdmf/base/Container.hpp"\n'
 
-    # Determine additional includes required for DEFINE_REGISTERED_FIELD macro definitions 
-    # for groups and datasets, and links to other neurodata_types referenced via attributes
+    # Add forward declarations for referenced types used in generated shared_ptr
+    # accessors and initialize signatures. This avoids circular includes for
+    # schema patterns where a parent type references a child type that inherits
+    # from the same parent.
     referenced_types = get_referenced_types(neurodata_type, type_to_namespace_map)
     if len(referenced_types) > 0:
-        header += "// Includes for types that are referenced and used\n"
-        # Add includes for all referenced types
-        for ref_type in referenced_types:
-            ref_namespace = type_to_namespace_map.get(ref_type, namespace.name)
-            ref_subfolder = get_schema_subfolder_name(type_to_file_map.get(ref_type, None))
-            ref_include_path = f"{ref_namespace}/{ref_subfolder}/{ref_type}.hpp"
-            header += f'#include "{ref_include_path}"\n'
+        header += render_forward_declarations(
+            referenced_types=referenced_types,
+            type_to_namespace_map=type_to_namespace_map,
+            current_type_name=type_name,
+        )
 
     # Include the namespace header
     header += "// Include for the namespace schema header\n"
@@ -1343,19 +1406,25 @@ public:
     parent_class_name = parent_class.split("::")[-1] if "::" in parent_class else parent_class
     
     if is_included_type:
+        use_namespace = f""""{actual_cpp_namespace_name}")  // TODO: Use namespace from schema header"""
+        # Use the known NWB and HDMF_COMMON namespace header name definitons when used as includes
+        if actual_cpp_namespace_name == "HDMF_COMMON":
+            use_namespace = "AQNWB::SPEC::HDMF_COMMON::namespaceName)"
+        elif actual_cpp_namespace_name == "CORE":
+            use_namespace = "AQNWB::SPEC::CORE::namespaceName)"
         header += f"""
-        REGISTER_SUBCLASS(
-            {class_name},
-            {parent_class_name},
-            "{actual_cpp_namespace_name}")  // TODO: Use namespace from schema header
-        """
+    REGISTER_SUBCLASS(
+        {class_name},
+        {parent_class_name},
+        {use_namespace}
+    """
     else:
         header += f"""
-        REGISTER_SUBCLASS(
-            {class_name},
-            {parent_class_name},
-            AQNWB::SPEC::{actual_cpp_namespace_name}::namespaceName)
-        """
+    REGISTER_SUBCLASS(
+        {class_name},
+        {parent_class_name},
+        AQNWB::SPEC::{actual_cpp_namespace_name}::namespaceName)
+    """
         
     header += f"""
 }};
@@ -1367,7 +1436,11 @@ public:
 
 
 def generate_implementation_file(
-    namespace: SpecNamespace, neurodata_type: Spec, all_types: Dict[str, Spec], type_to_namespace_map: Dict[str, str]
+    namespace: SpecNamespace,
+    neurodata_type: Spec,
+    all_types: Dict[str, Spec],
+    type_to_file_map: Dict[str, Path],
+    type_to_namespace_map: Dict[str, str],
 ) -> str:
     """
     Generate C++ implementation file for a neurodata type.
@@ -1376,6 +1449,7 @@ def generate_implementation_file(
     namespace (SpecNamespace): The namespace object.
     neurodata_type (Spec): The neurodata type spec.
     all_types (Dict[str, Spec]): A dictionary of all neurodata types.
+    type_to_file_map (Dict[str, Path]): Mapping of types to their source schema files.
     type_to_namespace_map (Dict[str, str]): Mapping of types to their namespaces.
 
     Returns:
@@ -1415,9 +1489,22 @@ def generate_implementation_file(
         parent_neurodata_type=parent_neurodata_type_spec
     )
 
+    referenced_type_includes = ""
+    referenced_types = get_referenced_types(neurodata_type, type_to_namespace_map)
+    if referenced_types:
+        referenced_type_includes += "// Includes for referenced types\n"
+        for ref_type in sorted(referenced_types):
+            if ref_type == class_name:
+                continue
+            ref_namespace = type_to_namespace_map.get(ref_type, namespace.name)
+            ref_subfolder = get_schema_subfolder_name(type_to_file_map.get(ref_type, None))
+            ref_include_path = f"{ref_namespace}/{ref_subfolder}/{ref_type}.hpp"
+            referenced_type_includes += f'#include "{ref_include_path}"\n'
+
     # Start building the implementation file
     impl = f"""#include "{class_name}.hpp"
 #include "Utils.hpp"
+{referenced_type_includes}
 
 using namespace {cpp_namespace_name};
 using namespace AQNWB::IO;
@@ -1816,7 +1903,7 @@ def main(args) -> None:
             cpp_file_name = f"{class_name}.cpp"
             logger.info(f"    Generating implementation file: {cpp_file_name}")
             impl_file = generate_implementation_file(
-                namespace, neurodata_type, neurodata_types, type_to_namespace_map
+                namespace, neurodata_type, neurodata_types, type_to_file_map, type_to_namespace_map
             )
             impl_path = type_output_dir / cpp_file_name
             with open(impl_path, "w") as f:

@@ -97,6 +97,19 @@ public:
     return type == other.type && typeSize == other.typeSize;
   }
 
+  // Variant data type for representing a single scalar with BaseDataType values
+  using BaseDataVariant = std::variant<uint8_t,
+                                       uint16_t,
+                                       uint32_t,
+                                       uint64_t,
+                                       int8_t,
+                                       int16_t,
+                                       int32_t,
+                                       int64_t,
+                                       float,
+                                       double,
+                                       std::string>;
+
   // Variant data type for representing any 1D vector with BaseDataType values
   using BaseDataVectorVariant = std::variant<std::monostate,
                                              std::vector<uint8_t>,
@@ -110,6 +123,47 @@ public:
                                              std::vector<float>,
                                              std::vector<double>,
                                              std::vector<std::string>>;
+
+  /**
+   * @brief Create an empty BaseDataVectorVariant matching the given type.
+   *
+   * This helper is useful for code that needs to accumulate values for an
+   * arbitrary runtime BaseDataType before writing them in batch.
+   *
+   * @param dataType The runtime data type to create an empty buffer for.
+   * @return An empty vector variant matching the given type, or std::monostate
+   *         if the type is unsupported.
+   */
+  static BaseDataVectorVariant createEmptyVectorVariant(
+      const BaseDataType& dataType)
+  {
+    switch (dataType.type) {
+      case T_U8:
+        return std::vector<uint8_t> {};
+      case T_U16:
+        return std::vector<uint16_t> {};
+      case T_U32:
+        return std::vector<uint32_t> {};
+      case T_U64:
+        return std::vector<uint64_t> {};
+      case T_I8:
+        return std::vector<int8_t> {};
+      case T_I16:
+        return std::vector<int16_t> {};
+      case T_I32:
+        return std::vector<int32_t> {};
+      case T_I64:
+        return std::vector<int64_t> {};
+      case T_F32:
+        return std::vector<float> {};
+      case T_F64:
+        return std::vector<double> {};
+      case T_STR:
+      case V_STR:
+        return std::vector<std::string> {};
+    }
+    return std::monostate {};
+  }
 
   /**
    * @brief Get the BaseDataType from a std::type_index

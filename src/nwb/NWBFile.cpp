@@ -138,7 +138,8 @@ bool NWBFile::isInitialized() const
       "processing",
       "stimulus",
       "general",
-      "specifications"};
+      "specifications",
+      "events"};
 
   // Set to keep track of found objects
   std::unordered_set<std::string> foundObjects;
@@ -187,6 +188,7 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
   ioPtr->createGroup(NWBFile::GENERAL_PATH);
   ioPtr->createGroup(mergePaths(NWBFile::GENERAL_PATH, "/devices"));
   ioPtr->createGroup(mergePaths(NWBFile::GENERAL_PATH, "/extracellular_ephys"));
+  ioPtr->createGroup(NWBFile::EVENTS_PATH);
   if (dataCollection != "") {
     ioPtr->createStringDataSet(
         mergePaths(NWBFile::GENERAL_PATH, "/data_collection"), dataCollection);
@@ -216,7 +218,9 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
 }
 
 std::shared_ptr<ElectrodesTable> NWBFile::createElectrodesTable(
-    std::vector<Types::ChannelVector> recordingArrays, bool finalizeTable)
+    std::vector<Types::ChannelVector> recordingArrays,
+    bool finalizeTable,
+    const SizeType rowChunkSize)
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
@@ -225,8 +229,31 @@ std::shared_ptr<ElectrodesTable> NWBFile::createElectrodesTable(
     return nullptr;
   }
 
+  if (!ioPtr->canModifyObjects()) {
+    std::cerr
+        << "NWBFile::createElectrodesTable IO object cannot modify objects."
+        << std::endl;
+    return nullptr;
+  }
+
   auto electrodeTable = NWB::ElectrodesTable::create(ioPtr);
-  electrodeTable->initialize();
+  if (!electrodeTable) {
+    std::cerr << "NWBFile::createElectrodesTable failed to create "
+                 "ElectrodesTable object."
+              << std::endl;
+    return nullptr;
+  }
+
+  auto specs = ElectrodesTable::createDefaultDataSpecs(rowChunkSize);
+  Status initStatus = electrodeTable->initialize(
+      "metadata about extracellular electrodes", specs);
+  if (initStatus != Status::Success) {
+    std::cerr << "NWBFile::createElectrodesTable failed to initialize "
+                 "ElectrodesTable."
+              << std::endl;
+    return nullptr;
+  }
+
   for (const auto& channelVector : recordingArrays) {
     electrodeTable->addElectrodes(channelVector);
   }
@@ -251,10 +278,103 @@ std::shared_ptr<ElectrodesTable> NWBFile::createElectrodesTable(
     }
   }
   if (finalizeTable) {
-    electrodeTable->finalize();
+    Status finalizeStatus = electrodeTable->finalize();
+    if (finalizeStatus != Status::Success) {
+      std::cerr << "NWBFile::createElectrodesTable failed to finalize "
+                   "ElectrodesTable."
+                << std::endl;
+      return nullptr;
+    }
   }
 
   return electrodeTable;
+}
+
+std::shared_ptr<EventsTable> NWBFile::createEventsTable(
+    const std::string& name,
+    const std::string& description,
+    const std::string& sourceDescription,
+    float timestampResolution,
+    float durationResolution,
+    const bool createAnnotationColumn,
+    const SizeType rowChunkSize)
+{
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    std::cerr << "NWBFile::createEventsTable IO object has been deleted."
+              << std::endl;
+    return nullptr;
+  }
+
+  if (!ioPtr->canModifyObjects()) {
+    std::cerr << "NWBFile::createEventsTable IO object cannot modify objects."
+              << std::endl;
+    return nullptr;
+  }
+
+  std::string tablePath = AQNWB::mergePaths(NWBFile::EVENTS_PATH, name);
+  auto eventsTable = NWB::EventsTable::create(tablePath, ioPtr);
+  if (!eventsTable) {
+    std::cerr
+        << "NWBFile::createEventsTable failed to create EventsTable object."
+        << std::endl;
+    return nullptr;
+  }
+
+  auto specs = EventsTable::createDefaultDataSpecs(timestampResolution,
+                                                   durationResolution,
+                                                   createAnnotationColumn,
+                                                   rowChunkSize);
+  Status initStatus =
+      eventsTable->initialize(description, sourceDescription, specs);
+
+  if (initStatus != Status::Success) {
+    std::cerr << "NWBFile::createEventsTable failed to initialize EventsTable."
+              << std::endl;
+    return nullptr;
+  }
+
+  return eventsTable;
+}
+
+std::shared_ptr<EventsTable> NWBFile::createEventsTable(
+    const std::string& name,
+    const std::string& description,
+    const std::string& sourceDescription,
+    const std::vector<NWB::DynamicTable::DataSpecPtr>& columnSpecs)
+{
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    std::cerr << "NWBFile::createEventsTable IO object has been deleted."
+              << std::endl;
+    return nullptr;
+  }
+
+  if (!ioPtr->canModifyObjects()) {
+    std::cerr << "NWBFile::createEventsTable IO object cannot modify objects."
+              << std::endl;
+    return nullptr;
+  }
+
+  std::string tablePath = AQNWB::mergePaths(NWBFile::EVENTS_PATH, name);
+  auto eventsTable = NWB::EventsTable::create(tablePath, ioPtr);
+  if (!eventsTable) {
+    std::cerr
+        << "NWBFile::createEventsTable failed to create EventsTable object."
+        << std::endl;
+    return nullptr;
+  }
+
+  Status initStatus =
+      eventsTable->initialize(description, sourceDescription, columnSpecs);
+
+  if (initStatus != Status::Success) {
+    std::cerr << "NWBFile::createEventsTable failed to initialize EventsTable."
+              << std::endl;
+    return nullptr;
+  }
+
+  return eventsTable;
 }
 
 Status NWBFile::createElectricalSeries(
