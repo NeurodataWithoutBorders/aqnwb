@@ -115,8 +115,37 @@ By default, the script will attempt to use the ROS3 driver (falling back to
 `remfile` instead of the ROS3 driver (e.g. to compare the performance of
 the two read strategies), pass the `--force-remfile` flag.
 
+For automation, both the C++ and Python benchmarks also support machine-readable
+JSON output:
+
+```bash
+./remote_read_benchmark \
+    "https://dandiarchive.s3.amazonaws.com/blobs/fec/8a6/fec8a690-2ece-4437-8877-8a002ff8bd8a" \
+    "us-east-2" \
+    "ElectricalSeriesAp" \
+    "0,0" \
+    "10,1" \
+    --json
+
+python demo/remote_read_benchmark/benchmark.py \
+    "https://dandiarchive.s3.amazonaws.com/blobs/fec/8a6/fec8a690-2ece-4437-8877-8a002ff8bd8a" \
+    "us-east-2" \
+    "ElectricalSeriesAp" \
+    "0,0" \
+    "10,1" \
+    --driver ros3 \
+    --strict-driver \
+    --output-format json
+```
+
+The helper scripts `run_benchmark_matrix.py` and `summarize_benchmark_results.py`
+are used by the dedicated GitHub Actions performance workflow to run all
+benchmark variants repeatedly and render markdown summary tables.
+
 ## Code Structure
 
 - `main.cpp`: Contains the C++ benchmarking logic and timing measurements.
 - `CMakeLists.txt`: CMake configuration file for building the C++ project.
 - `benchmark.py`: Contains the Python benchmarking logic using PyNWB.
+- `run_benchmark_matrix.py`: Repeats all benchmark variants for one HDF5 environment and writes raw JSON results.
+- `summarize_benchmark_results.py`: Combines JSON artifacts into markdown summary tables.

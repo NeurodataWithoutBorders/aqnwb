@@ -1,0 +1,170 @@
+name: Remote Read Performance Analysis
+
+permissions:
+  contents: read
+
+on:
+  workflow_dispatch:
+
+env:
+  BENCHMARK_S3_PATH: "https://dandiarchive.s3.amazonaws.com/blobs/fec/8a6/fec8a690-2ece-4437-8877-8a002ff8bd8a"
+  BENCHMARK_AWS_REGION: "us-east-2"
+  BENCHMARK_OBJECT_NAME: "ElectricalSeriesAp"
+  BENCHMARK_START_INDICES: "0,0"
+  BENCHMARK_COUNT_INDICES: "10,1"
+  BENCHMARK_REPETITIONS: "10"
+
+jobs:
+  benchmark:
+    name: HDF5 ${{ matrix.hdf5 }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - hdf5: "1.14"
+            conda_hdf5_spec: "hdf5=1.14"
+            hdf5_root: "$CONDA_PREFIX"
+          - hdf5: "2.2"
+            conda_hdf5_spec: ""
+            hdf5_root: "$RUNNER_TEMP/hdf5-install"
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Conda
+      uses: conda-incubator/setup-miniconda@v3
+      with:
+        activate-environment: aqnwb-performance
+        channels: conda-forge
+        conda-remove-defaults: true
+
+    - name: Install benchmark dependencies
+      run: |
+        conda install -y \
+          python=3.12 \
+          cmake \
+          ninja \
+          numpy \
+          libcurl \
+          pip
+        if [ -n "${{ matrix.conda_hdf5_spec }}" ]; then
+          conda install -y "${{ matrix.conda_hdf5_spec }}"
+        fi
+        if [ "${{ matrix.hdf5 }}" = "2.2" ]; then
+          conda install -y aws-c-s3
+        fi
+
+    - name: Build HDF5 2.2 from source
+      if: matrix.hdf5 == '2.2'
+      run: |
+        git clone --depth 1 --branch hdf5_2_2_0 https://github.com/HDFGroup/hdf5.git hdf5-src
+        cmake -S hdf5-src -B hdf5-build \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DCMAKE_INSTALL_PREFIX="$RUNNER_TEMP/hdf5-install" \
+          -DCMAKE_PREFIX_PATH="$CONDA_PREFIX" \
+          -DHDF5_ENABLE_ROS3_VFD=ON \
+          -DHDF5_BUILD_CPP_LIB=ON \
+          -DHDF5_BUILD_TOOLS=OFF \
+          -DHDF5_BUILD_EXAMPLES=OFF \
+          -DBUILD_TESTING=OFF \
+          -DBUILD_SHARED_LIBS=ON
+        cmake --build hdf5-build --config Release -j 2
+        cmake --install hdf5-build
+
+    - name: Install Python benchmark stack against selected HDF5
+      run: |
+        export HDF5_DIR="${{ matrix.hdf5_root }}"
+        export LD_LIBRARY_PATH="${{ matrix.hdf5_root }}/lib:$CONDA_PREFIX/lib:${LD_LIBRARY_PATH:-}"
+        python -m pip install --no-binary=h5py h5py
+        python -m pip install pynwb remfile
+
+    - name: Configure and build aqnwb
+      run: |
+        export LD_LIBRARY_PATH="${{ matrix.hdf5_root }}/lib:$CONDA_PREFIX/lib:${LD_LIBRARY_PATH:-}"
+        cmake -S . -B build \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DAQNWB_USE_REMFILE=ON \
+          -DCMAKE_PREFIX_PATH="${{ matrix.hdf5_root }};$CONDA_PREFIX" \
+          -DHDF5_ROOT="${{ matrix.hdf5_root }}" \
+          -DHDF5_USE_STATIC_LIBRARIES=OFF
+        cmake --build build --config Release -j 2
+        cmake --install build --prefix "$RUNNER_TEMP/aqnwb-install"
+
+    - name: Build remote_read_benchmark demo
+      run: |
+        export LD_LIBRARY_PATH="${{ matrix.hdf5_root }}/lib:$CONDA_PREFIX/lib:${LD_LIBRARY_PATH:-}"
+        cmake -S demo/remote_read_benchmark -B demo/remote_read_benchmark/build \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DCMAKE_PREFIX_PATH="$RUNNER_TEMP/aqnwb-install;${{ matrix.hdf5_root }};$CONDA_PREFIX" \
+          -DHDF5_ROOT="${{ matrix.hdf5_root }}" \
+          -DHDF5_USE_STATIC_LIBRARIES=OFF
+        cmake --build demo/remote_read_benchmark/build --config Release -j 2
+
+    - name: Run benchmark suite
+      run: |
+        export LD_LIBRARY_PATH="${{ matrix.hdf5_root }}/lib:$CONDA_PREFIX/lib:${LD_LIBRARY_PATH:-}"
+        python demo/remote_read_benchmark/run_benchmark_matrix.py \
+          --cpp-binary demo/remote_read_benchmark/build/bin/remote_read_benchmark \
+          --python-script demo/remote_read_benchmark/benchmark.py \
+          --python-executable python \
+          --hdf5-version "${{ matrix.hdf5 }}" \
+          --repetitions "$BENCHMARK_REPETITIONS" \
+          --output-json "artifacts/benchmark-results-${{ matrix.hdf5 }}.json" \
+          "$BENCHMARK_S3_PATH" \
+          "$BENCHMARK_AWS_REGION" \
+          "$BENCHMARK_OBJECT_NAME" \
+          "$BENCHMARK_START_INDICES" \
+          "$BENCHMARK_COUNT_INDICES"
+
+    - name: Upload benchmark results
+      uses: actions/upload-artifact@v4
+      with:
+        name: benchmark-results-hdf5-${{ matrix.hdf5 }}
+        path: artifacts/benchmark-results-${{ matrix.hdf5 }}.json
+
+  summarize:
+    name: Summarize benchmark results
+    needs: benchmark
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Download benchmark artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: benchmark-artifacts
+        pattern: benchmark-results-hdf5-*
+        merge-multiple: true
+
+    - name: Generate markdown summary
+      run: |
+        python demo/remote_read_benchmark/summarize_benchmark_results.py \
+          --results-dir benchmark-artifacts \
+          --output-markdown benchmark-artifacts/benchmark-summary.md \
+          --output-json benchmark-artifacts/benchmark-summary.json \
+          --output-all-runs-csv benchmark-artifacts/benchmark-all-runs.csv \
+          --output-fastest-runs-csv benchmark-artifacts/benchmark-fastest-runs.csv
+        cat benchmark-artifacts/benchmark-summary.md >> "$GITHUB_STEP_SUMMARY"
+        echo "===== Remote Read Benchmark Summary (Markdown) ====="
+        cat benchmark-artifacts/benchmark-summary.md
+        echo "===== All Runs CSV ====="
+        cat benchmark-artifacts/benchmark-all-runs.csv
+        echo "===== Fastest Runs CSV ====="
+        cat benchmark-artifacts/benchmark-fastest-runs.csv
+
+    - name: Upload benchmark summary
+      uses: actions/upload-artifact@v4
+      with:
+        name: benchmark-summary
+        path: |
+          benchmark-artifacts/benchmark-summary.md
+          benchmark-artifacts/benchmark-summary.json
+          benchmark-artifacts/benchmark-all-runs.csv
+          benchmark-artifacts/benchmark-fastest-runs.csv
