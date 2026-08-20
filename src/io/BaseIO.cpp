@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "io/BaseIO.hpp"
 
 #include "Utils.hpp"
@@ -294,6 +296,66 @@ std::unordered_map<std::string, std::string> BaseIO::findTypes(
   searchTypes(starting_path);
 
   return found_types;
+}
+
+std::string BaseIO::findObject(const std::string& name,
+                               const std::string& starting_path) const
+{
+  // Helper function to check if a path ends with the given name.
+  // This ensures we match the full last path component and not just a
+  // substring, e.g., searching for "es" should not match "electrodes".
+  auto pathEndsWithName = [&name](const std::string& path) -> bool
+  {
+    if (path.size() < name.size()) {
+      return false;
+    }
+    // Check that the tail of path matches name
+    if (path.compare(path.size() - name.size(), name.size(), name) != 0) {
+      return false;
+    }
+    // Ensure that the match is a full path component, i.e., that the
+    // character right before the match (if any) is a '/'
+    size_t matchStart = path.size() - name.size();
+    return (matchStart == 0) || (path[matchStart - 1] == '/');
+  };
+
+  // Declared as an internal function to encapsulate the depth-first search
+  // logic.
+  std::function<std::string(const std::string&)> searchObject =
+      [&](const std::string& current_path) -> std::string
+  {
+    // Check if the current path matches the name we are looking for
+    if (pathEndsWithName(current_path)) {
+      return current_path;
+    }
+
+    // Otherwise, recurse into the children of the current path
+    std::vector<std::pair<std::string, StorageObjectType>> objects =
+        getStorageObjects(current_path, StorageObjectType::Undefined);
+    std::sort(objects.begin(),
+              objects.end(),
+              [](const auto& lhs, const auto& rhs)
+              { return lhs.first < rhs.first; });
+    for (const auto& obj : objects) {
+      if (obj.second == StorageObjectType::Group
+          || obj.second == StorageObjectType::Dataset)
+      {
+        std::string result =
+            searchObject(AQNWB::mergePaths(current_path, obj.first));
+        if (!result.empty()) {
+          return result;
+        }
+      }
+    }
+    return "";
+  };
+
+  // Check if the starting path exists before beginning the search.
+  if (!objectExists(starting_path)) {
+    return "";
+  }
+  // Start the recursive search from the starting path
+  return searchObject(starting_path);
 }
 
 // BaseRecordingData
