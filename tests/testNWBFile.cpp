@@ -105,6 +105,104 @@ TEST_CASE("initialize preserves existing subject metadata", "[nwb]")
           == std::vector<std::string> {"existing-subject"});
 }
 
+TEST_CASE("createTimeIntervalsTables", "[nwb]")
+{
+  std::string filename = getTestFilePath("createTimeIntervalsTables.nwb");
+
+  // initialize nwbfile object and create base structure
+  std::shared_ptr<IO::HDF5::HDF5IO> io =
+      std::make_shared<IO::HDF5::HDF5IO>(filename);
+  io->open();
+  auto nwbfile = NWB::NWBFile::create(io);
+  nwbfile->initialize(generateUuid());
+
+  // create the Epochs Table
+  auto epochsTable = nwbfile->createEpochs(false, 50);
+  REQUIRE(epochsTable != nullptr);
+  REQUIRE(epochsTable->getName() == "epochs");
+  REQUIRE(epochsTable->readDescription()->values().data[0] == "Time intervals marking coarse-grained experimental phases or subdivisions of a recording session, such as baseline, task, rest, or sleep stage");
+
+  // create the Trials Table
+  auto trialsTable = nwbfile->createTrials(false, 50);
+  REQUIRE(trialsTable != nullptr);
+  REQUIRE(trialsTable->getName() == "trials");
+  REQUIRE(trialsTable->readDescription()->values().data[0] == "Time intervals corresponding to repeated experimental units with consistent structure, such as individual stimulus-response-reward cycles.");
+
+  // create the Invalid Times Table
+  auto invalidTimesTable = nwbfile->createInvalidTimes(false, 50);
+  REQUIRE(invalidTimesTable != nullptr);
+  REQUIRE(invalidTimesTable->getName() == "invalid_times");
+  REQUIRE(invalidTimesTable->readDescription()->values().data[0]
+          == "Time intervals that should be removed from analysis");
+
+  // create a custom TimeIntervals Table
+  auto customTable = nwbfile->createTimeIntervals(
+      "custom_intervals", "test custom", false, 50);
+  REQUIRE(customTable != nullptr);
+  REQUIRE(customTable->getName() == "custom_intervals");
+  REQUIRE(customTable->readDescription()->values().data[0] == "test custom");
+
+  // test readTimeIntervals
+  auto readCustomTable = nwbfile->readTimeIntervals("custom_intervals");
+  REQUIRE(readCustomTable != nullptr);
+  REQUIRE(readCustomTable->getName() == "custom_intervals");
+  REQUIRE(readCustomTable->readDescription()->values().data[0]
+          == "test custom");
+
+  // create a custom TimeIntervals Table with column specs
+  auto customTimeIntervals = nwbfile->createTimeIntervals("custom_intervals2");
+  REQUIRE(customTimeIntervals != nullptr);
+  Status customTimeIntervalsInitStatus =
+      customTimeIntervals->initialize("no description");
+  REQUIRE(customTimeIntervalsInitStatus == Status::Success);
+  REQUIRE(customTimeIntervals->getName() == "custom_intervals2");
+
+  // test readTimeIntervals for the table created with specs
+  auto readCustomTimeIntervals =
+      nwbfile->readTimeIntervals("custom_intervals2");
+  REQUIRE(readCustomTimeIntervals != nullptr);
+  REQUIRE(readCustomTimeIntervals->getName() == "custom_intervals2");
+  REQUIRE(readCustomTimeIntervals->readDescription()->values().data[0]
+          == "no description");
+
+  // Write some data to the epochs table
+  io->startRecording();
+
+  AQNWB::Types::RowData row1 = {
+      {"start_time", 1.0f}, {"stop_time", 2.0f}, {"tags", std::string("tag1")}};
+  AQNWB::Types::RowData row2 = {
+      {"start_time", 2.5f}, {"stop_time", 3.5f}, {"tags", std::string("tag2")}};
+
+  REQUIRE(epochsTable->addRow(row1) == Status::Success);
+  REQUIRE(epochsTable->addRow(row2) == Status::Success);
+
+  // Write some data to the trials table
+  AQNWB::Types::RowData trialRow = {{"start_time", 1.0f},
+                                    {"stop_time", 2.0f},
+                                    {"tags", std::string("trial1")}};
+  REQUIRE(trialsTable->addRow(trialRow) == Status::Success);
+
+  // Write some data to the invalid times table
+  AQNWB::Types::RowData invalidTimeRow = {{"start_time", 1.0f},
+                                          {"stop_time", 2.0f},
+                                          {"tags", std::string("invalid1")}};
+  REQUIRE(invalidTimesTable->addRow(invalidTimeRow) == Status::Success);
+
+  // Write some data to the custom intervals table
+  AQNWB::Types::RowData customRow = {{"start_time", 1.0f},
+                                     {"stop_time", 2.0f},
+                                     {"tags", std::string("custom1")}};
+  REQUIRE(customTable->addRow(customRow) == Status::Success);
+
+  // Write some data to the custom intervals table with specs
+  AQNWB::Types::RowData customRow2 = {{"start_time", 1.0f},
+                                      {"stop_time", 2.0f}};
+  REQUIRE(customTimeIntervals->addRow(customRow2) == Status::Success);
+
+  io->stopRecording();
+  io->close();
+}
+
 TEST_CASE("createEventsTable", "[nwb]")
 {
   std::string filename = getTestFilePath("createEventsTable.nwb");

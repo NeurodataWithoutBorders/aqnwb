@@ -3,12 +3,16 @@
 #include <any>
 #include <memory>
 
+#include "Types.hpp"
 #include "io/BaseIO.hpp"
 #include "nwb/RegisteredType.hpp"
 #include "spec/hdmf_common.hpp"
 
 namespace AQNWB::NWB
 {
+
+using CellValue = AQNWB::Types::CellValue;
+
 /**
  * @brief An abstract data type for a dataset.
  * @tparam DTYPE The data type of the data managed by Data
@@ -131,6 +135,29 @@ public:
    */
   inline bool isInitialized() { return this->readData()->exists(); }
 
+  /**
+   * @brief Reads a range of cell values from the dataset.
+   *
+   * The function reads a slice of data from the dataset based on the provided
+   * start, count, stride, and block parameters. It returns a vector of
+   * CellValue objects, where each CellValue contains the data for a cell. This
+   * is used for reading data from the VectorData column in a DynamicTable. For
+   * regular data read of values used readData()->values() or
+   * readData()->valuesGeneric() instead.
+   *
+   * @param start The starting indices for the slice (optional).
+   * @param count The number of elements to read for each dimension (optional).
+   * @param stride The stride for each dimension (optional).
+   * @param block The block size for each dimension (optional).
+   * @return A vector of CellValue, where each CellValue contains the data for a
+   * cell.
+   */
+  virtual std::vector<AQNWB::Types::CellValue> readCellValues(
+      const SizeArray& start = {},
+      const SizeArray& count = {},
+      const SizeArray& stride = {},
+      const SizeArray& block = {});
+
   // Define the data fields to expose for lazy read access
   DEFINE_DATASET_FIELD(readData, recordData, std::any, "", The main data)
 
@@ -190,10 +217,7 @@ public:
    * creation failed.
    */
   static std::shared_ptr<DataTyped> create(
-      const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io)
-  {
-    return RegisteredType::create<DataTyped>(path, io);
-  }
+      const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io);
 
   /**
    * @brief Virtual destructor.
@@ -205,9 +229,10 @@ public:
    *
    *  This function is useful when the type of the data is known and we want
    *  read data in a typed manner where the type is stored in the DTYPE template
-   *  parameter. NOTE: The original Data object retains ownership of the
-   *  Data.m_dataset recording dataset object if it was initialized, i.e.,
-   *  the returned DataTyped object will have a nullptr m_dataset.
+   *  parameter. NOTE: The BaseRecordingData object used for recording to the
+   *  dataset is cached in the BaseIO object and is, hence, shared between the
+   *  Data and the DataTyped, such that recording to either object
+   *  will be reflected in the other.
    *
    *  @param data The Data object to convert
    *  @return A DataTyped object with the same path and IO object as the input

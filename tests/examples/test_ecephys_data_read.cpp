@@ -9,6 +9,8 @@
 #  define HAVE_MDSPAN 0
 #endif
 
+#include <variant>
+
 #include <H5Cpp.h>
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_all.hpp>
@@ -114,6 +116,23 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     Status resultCreate = nwbfile->createElectricalSeries(
         mockArrays, mockChannelNames, dataType, containerIndexes);
     REQUIRE(resultCreate == Status::Success);
+
+    // create InvalidTimes table for testing DynamicTable::readRows
+    auto invalidTimesTable = nwbfile->createInvalidTimes(true);
+    REQUIRE(invalidTimesTable != nullptr);
+    std::vector<AQNWB::Types::RowData> invalidTimesRows = {
+        {{"start_time", 1.0f},
+         {"stop_time", 2.0f},
+         {"tags", std::vector<std::string> {"device_error", "user_error"}}},
+        {{"start_time", 3.0f},
+         {"stop_time", 4.0f},
+         {"tags", std::vector<std::string> {"external_interference"}}},
+        {{"start_time", 5.0f},
+         {"stop_time", 6.0f},
+         {"tags",
+          std::vector<std::string> {
+              "lost_connection", "external_interference", "user_error"}}}};
+    REQUIRE(invalidTimesTable->addRows(invalidTimesRows) == Status::Success);
 
     // get the new ElectricalSeries
     auto recordingObjects = io->getRecordingObjects();
@@ -393,6 +412,71 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
         compute_mean<std::vector<float>>(readDataValues.data);
     REQUIRE(meanFromVariant == Catch::Approx(meanFromTypedVector));
     // [example_use_std_variant_to_compute_on_data]
+
+    // [example_read_dynamic_table_rows_setup_snippet]
+    // Read the InvalidTimes table
+    auto readInvalidTimesTable = readNWBFile->readInvalidTimes();
+    REQUIRE(readInvalidTimesTable != nullptr);
+
+    // Standard approach: Read a single column's data
+    // This is efficient when you only need data from one or a few columns
+    auto startTimeColumn = readInvalidTimesTable->readStartTime();
+    auto startTimeData = startTimeColumn->readData()->values();
+    REQUIRE(startTimeData.data.size() == 3);
+    // [example_read_dynamic_table_rows_setup_snippet]
+
+    // [example_read_dynamic_table_rows_all_cols_snippet]
+    // readRows approach: Read a slice of rows (e.g., rows 0 to 2)
+    // This is convenient when you need to process data row-by-row across
+    // multiple columns
+    auto rows = readInvalidTimesTable->readRows(0, 2);
+    REQUIRE(rows.size() == 2);
+
+    // Access data from the rows
+    for (const auto& row : rows) {
+      // Implicit conversion to float
+      float startTime = row.at("start_time");
+      // Explicit conversion to float
+      float stopTime = row.at("stop_time").get<float>();
+      // Access ragged array data (tags) with checks for type safety
+      std::vector<std::string> tags;
+      if (row.at("tags").holds_alternative<std::vector<std::string>>()) {
+        tags = row.at("tags").get<std::vector<std::string>>();
+      } else {
+        throw std::runtime_error("Expected 'tags' to be a vector of strings");
+      }
+      // Process the data...
+      std::cout << "Row start_time: " << startTime
+                << ", stop_time: " << stopTime << ", tags: ";
+      for (const auto& tag : tags) {
+        std::cout << tag << " ";
+      }
+      std::cout << std::endl;
+    }
+    // [example_read_dynamic_table_rows_all_cols_snippet]
+
+    // [example_read_dynamic_table_rows_specific_cols_snippet]
+    // Read specific columns for a slice of rows
+    auto specificRows =
+        readInvalidTimesTable->readRows(0, 2, {"start_time", "tags"});
+    REQUIRE(specificRows.size() == 2);
+    REQUIRE(specificRows[0].find("stop_time") == specificRows[0].end());
+    REQUIRE(specificRows[0].find("tags") != specificRows[0].end());
+    // [example_read_dynamic_table_rows_specific_cols_snippet]
+
+    // [example_read_dynamic_table_to_string_snippet]
+    // Print the contents of the table
+    std::string tableString = readInvalidTimesTable->toString();
+    std::cout << "InvalidTimes table contents:\n" << tableString << std::endl;
+    // [example_read_dynamic_table_to_string_snippet]
+
+    std::string expectedTableString =
+        "id,start_time,stop_time,tags\n"
+        "0,1.000000,2.000000,\"[device_error, user_error]\"\n"
+        "1,3.000000,4.000000,\"[external_interference]\"\n"
+        "2,5.000000,6.000000,\"[lost_connection, external_interference, user_"
+        "error]\"\n";
+    REQUIRE(tableString == expectedTableString);
 
     // Close the io
     readio->close();

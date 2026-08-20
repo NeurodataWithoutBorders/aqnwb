@@ -36,6 +36,7 @@ add_library(
     src/nwb/device/Device.cpp
     src/nwb/ecephys/ElectricalSeries.cpp
     src/nwb/ecephys/SpikeEventSeries.cpp
+    src/nwb/epoch/TimeIntervals.cpp
     src/nwb/event/EventsTable.cpp
     src/nwb/event/TimestampVectorData.cpp
     src/nwb/event/DurationVectorData.cpp
@@ -46,9 +47,10 @@ add_library(
     src/nwb/hdmf/base/Container.cpp
     src/nwb/hdmf/base/Data.cpp
     src/nwb/hdmf/table/DynamicTable.cpp
+    src/nwb/hdmf/table/ElementIdentifiers.cpp
     src/nwb/hdmf/table/MeaningsTable.cpp
     src/nwb/hdmf/table/VectorData.cpp
-    src/nwb/hdmf/table/ElementIdentifiers.cpp
+    src/nwb/hdmf/table/VectorIndex.cpp
     src/spec/NamespaceRegistry.cpp
 )
 

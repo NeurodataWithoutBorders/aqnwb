@@ -12,6 +12,7 @@
 #include <sstream>
 #include <string>
 
+#include "Types.hpp"
 #include "io/BaseIO.hpp"
 #include "io/hdf5/HDF5IO.hpp"
 
@@ -363,6 +364,38 @@ static inline void checkStatus(Status status, const std::string& operation)
   if (status != Status::Success) {
     std::cerr << operation << " failed" << std::endl;
   }
+}
+
+/**
+ * @brief Appends a CellValue to a BaseDataVectorVariant buffer.
+ * @param buffer The buffer to append to.
+ * @param value The CellValue to append.
+ * @return Status::Success if successful, otherwise Status::Failure.
+ */
+static inline Status appendCellValueToBuffer(
+    IO::BaseDataType::BaseDataVectorVariant& buffer,
+    const Types::CellValue& value)
+{
+  return std::visit(
+      [&value](auto& vec) -> Status
+      {
+        using VecType = std::decay_t<decltype(vec)>;
+        if constexpr (std::is_same_v<VecType, std::monostate>) {
+          return Status::Failure;
+        } else {
+          using ElementType = typename VecType::value_type;
+          if (value.holds_alternative<ElementType>()) {
+            vec.push_back(value.get<ElementType>());
+            return Status::Success;
+          } else if (value.holds_alternative<std::vector<ElementType>>()) {
+            const auto& vals = value.get<std::vector<ElementType>>();
+            vec.insert(vec.end(), vals.begin(), vals.end());
+            return Status::Success;
+          }
+          return Status::Failure;
+        }
+      },
+      buffer);
 }
 
 }  // namespace AQNWB

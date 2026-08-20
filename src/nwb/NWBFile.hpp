@@ -15,6 +15,7 @@
 #include "nwb/base/NWBContainer.hpp"
 #include "nwb/base/ProcessingModule.hpp"
 #include "nwb/base/TimeSeries.hpp"
+#include "nwb/epoch/TimeIntervals.hpp"
 #include "nwb/event/EventsTable.hpp"
 #include "nwb/file/ElectrodesTable.hpp"
 #include "nwb/file/Subject.hpp"
@@ -52,6 +53,8 @@ public:
   inline const static std::string ANALYSIS_PATH = "/analysis";
   /// @brief The path to the root events group in the NWB file
   inline const static std::string EVENTS_PATH = "/events";
+  /// @brief The path to the root intervals group in the NWB file
+  inline const static std::string INTERVALS_PATH = "/intervals";
 
   /** \brief Convenience factor method since the path is fixed to '/'
    * @param io A shared pointer to the IO object.
@@ -199,6 +202,72 @@ public:
       const std::vector<NWB::DynamicTable::DataSpecPtr>& columnSpecs);
 
   /**
+   * @brief Create the Epochs table in the INTERVALS_PATH group.
+   * @param createTagsColumn Whether to create the tags column.
+   * @param rowChunkSize The chunk size for the rows of the table.
+   * @return The generated TimeIntervals or nullptr if failed.
+   */
+  std::shared_ptr<TimeIntervals> createEpochs(
+      const bool createTagsColumn = false, const SizeType rowChunkSize = 100);
+
+  /**
+   * @brief Create the Trials table in the INTERVALS_PATH group.
+   * @param createTagsColumn Whether to create the tags column.
+   * @param rowChunkSize The chunk size for the rows of the table.
+   * @return The generated TimeIntervals or nullptr if failed.
+   */
+  std::shared_ptr<TimeIntervals> createTrials(
+      const bool createTagsColumn = false, const SizeType rowChunkSize = 100);
+
+  /**
+   * @brief Create the Invalid Times table in the INTERVALS_PATH group.
+   * @param createTagsColumn Whether to create the tags column.
+   * @param rowChunkSize The chunk size for the rows of the table.
+   * @return The generated TimeIntervals or nullptr if failed.
+   */
+  std::shared_ptr<TimeIntervals> createInvalidTimes(
+      const bool createTagsColumn = false, const SizeType rowChunkSize = 100);
+
+  /**
+   * @brief Create a TimeIntervals table in the INTERVALS_PATH group.
+   * Note, this function will fail if the file is in a mode where
+   * new objects cannot be added, which can be checked via
+   * nwbfile.io->canModifyObjects()
+   * @param name The name of the TimeIntervals table to create (e.g., "epochs",
+   * "trials", "invalid_times").
+   * @param description Description of the table.
+   * @param createTagsColumn Whether to create the tags column.
+   * @param rowChunkSize The chunk size for the rows of the table.
+   * @return The generated TimeIntervals or nullptr if failed.
+   */
+  std::shared_ptr<TimeIntervals> createTimeIntervals(
+      const std::string& name,
+      const std::string& description,
+      const bool createTagsColumn = false,
+      const SizeType rowChunkSize = 100);
+
+  /**
+   * @brief Create a TimeIntervals table in the INTERVALS_PATH group using a
+   * pre-built column spec list.
+   *
+   * This overload is useful when the caller has already constructed a column
+   * spec vector (e.g. via TimeIntervals::createDefaultDataSpecs() followed by
+   * push_back() calls to add custom columns) and wants to pass it directly.
+   *
+   * Note, this function will fail if the file is in a mode where
+   * new objects cannot be added, which can be checked via
+   * nwbfile.io->canModifyObjects()
+   * @param name The name of the TimeIntervals table to create.
+   * @param description Description of the table.
+   * @param columnSpecs Pre-built vector of column specs.
+   * @return The generated TimeIntervals or nullptr if failed.
+   */
+  std::shared_ptr<TimeIntervals> createTimeIntervals(
+      const std::string& name,
+      const std::string& description,
+      const std::vector<NWB::DynamicTable::DataSpecPtr>& columnSpecs);
+
+  /**
    * @brief Create ElectricalSeries objects to record data into.
    * Created objects are automatically added to the I/O's RecordingObjects.
    * Note, this function will fail if the file is in a mode where
@@ -249,6 +318,21 @@ public:
    */
   Status createAnnotationSeries(const std::vector<std::string>& recordingNames,
                                 std::vector<SizeType>& containerIndexes);
+
+  DEFINE_REGISTERED_FIELD(readEpochs,
+                          TimeIntervals,
+                          "intervals/epochs",
+                          "Table of experimental epochs.")
+
+  DEFINE_REGISTERED_FIELD(readTrials,
+                          TimeIntervals,
+                          "intervals/trials",
+                          "Table of experimental trials.")
+
+  DEFINE_REGISTERED_FIELD(readInvalidTimes,
+                          TimeIntervals,
+                          "intervals/invalid_times",
+                          "Table of invalid times.")
 
   DEFINE_REGISTERED_FIELD(readElectrodesTable,
                           ElectrodesTable,
@@ -306,6 +390,13 @@ public:
                                   "processing",
                                   Get a ProcessingModule stored in the
                                       processing group)
+
+  DEFINE_UNNAMED_REGISTERED_FIELD(readTimeIntervals,
+                                  createTimeIntervals,
+                                  TimeIntervals,
+                                  "intervals",
+                                  Get a TimeIntervals object stored in the
+                                      intervals group)
 
 protected:
   /**
