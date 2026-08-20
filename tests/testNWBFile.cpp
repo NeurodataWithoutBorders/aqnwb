@@ -114,8 +114,13 @@ TEST_CASE("createTimeIntervalsTables", "[nwb]")
       std::make_shared<IO::HDF5::HDF5IO>(filename);
   io->open();
   auto nwbfile = NWB::NWBFile::create(io);
-  nwbfile->initialize(generateUuid());
-
+  REQUIRE(nwbfile->initialize(generateUuid(),
+                              "Test initialized NWB file",
+                              "Test data collection",
+                              getCurrentTime(),
+                              getCurrentTime(),
+                              getTestSubjectSpec())
+          == Status::Success);
   // create the Epochs Table
   auto epochsTable = nwbfile->createEpochs(false, 50);
   REQUIRE(epochsTable != nullptr);
