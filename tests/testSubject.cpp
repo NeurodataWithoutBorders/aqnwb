@@ -27,6 +27,15 @@ TEST_CASE("Subject", "[file]")
     REQUIRE(subject->getIO() == io);
   }
 
+  SECTION("convience create method creates a Subject at the canonical path")
+  {
+    auto io = createIO("HDF5", getTestFilePath("subject_create.h5"));
+    auto subject = NWB::Subject::create(io);
+
+    REQUIRE(subject->getPath() == "/general/subject");
+    REQUIRE(subject->getIO() == io);
+  }
+
   SECTION("writes and reads every metadata field")
   {
     const std::string filename = getTestFilePath("subject_all_fields.h5");

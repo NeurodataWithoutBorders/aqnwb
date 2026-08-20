@@ -25,6 +25,12 @@ Subject::Subject(const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io)
   }
 }
 
+std::shared_ptr<Subject> Subject::create(std::shared_ptr<IO::BaseIO> io)
+{
+  return RegisteredType::create<Subject>(
+      mergePaths(NWBFile::GENERAL_PATH, "subject"), io);
+}
+
 // Initialize the object
 Status Subject::initialize(const SubjectSpec& subjectSpec)
 {

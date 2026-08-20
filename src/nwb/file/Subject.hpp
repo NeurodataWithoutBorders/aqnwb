@@ -58,6 +58,14 @@ public:
     std::optional<std::string> weight = std::nullopt;
   };
 
+  /** \brief Convenience factor method since the path is fixed to
+   * '/general/subject'
+   * @param io A shared pointer to the IO object.
+   * @return A shared pointer to the created NWBFile object, or nullptr if
+   * creation failed.
+   */
+  static std::shared_ptr<Subject> create(std::shared_ptr<IO::BaseIO> io);
+
   /**
    * @brief Virtual destructor.
    */
