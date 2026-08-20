@@ -279,7 +279,13 @@ TEST_CASE("createEventsTable with post initialization", "[nwb]")
       std::make_shared<IO::HDF5::HDF5IO>(filename);
   io->open();
   auto nwbfile = NWB::NWBFile::create(io);
-  nwbfile->initialize(generateUuid());
+  Status fileStatus = nwbfile->initialize(generateUuid(),
+                                          "Test initialized NWB file",
+                                          "Test data collection",
+                                          getCurrentTime(),
+                                          getCurrentTime(),
+                                          getTestSubjectSpec());
+  REQUIRE(fileStatus == Status::Success);
 
   // create the Events Table
   auto eventsTable = nwbfile->createEventsTable("test_events");
