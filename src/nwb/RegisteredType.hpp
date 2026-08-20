@@ -390,6 +390,19 @@ public:
       const AQNWB::IO::SearchMode& search_mode =
           AQNWB::IO::SearchMode::STOP_ON_TYPE) const;
 
+  /**
+   * @brief Find the first object owned by this object whose path ends with
+   * the given name.
+   *
+   * This is a shorthand for calling
+   * ``getIO()->findObject(name, m_path);``
+   *
+   * @param name The name (or path suffix) of the object to search for.
+   * @return The full path to the first matching object, or an empty string
+   * if no matching object was found.
+   */
+  virtual std::string findOwnedObject(const std::string& name) const;
+
 protected:
   /**
    * @brief Helper to get an existing recording object from the IO object.
