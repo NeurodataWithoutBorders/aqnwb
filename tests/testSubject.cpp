@@ -27,7 +27,7 @@ TEST_CASE("Subject", "[file]")
     REQUIRE(subject->getIO() == io);
   }
 
-  SECTION("convience create method creates a Subject at the canonical path")
+  SECTION("convenience create method creates a Subject at the canonical path")
   {
     auto io = createIO("HDF5", getTestFilePath("subject_create.h5"));
     auto subject = NWB::Subject::create(io);
