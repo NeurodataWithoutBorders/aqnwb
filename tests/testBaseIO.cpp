@@ -488,3 +488,73 @@ TEST_CASE("Test LinkArrayDataSetConfig::validateTarget", "[BaseIO]")
     io.close();
   }
 }
+
+TEST_CASE("Test BaseIO/HDF5IO::findObject", "[BaseIO, HDF5IO]")
+{
+  std::string filename = getTestFilePath("test_findObject.h5");
+  HDF5::HDF5IO io(filename);
+  io.open(FileMode::Overwrite);
+
+  SECTION("Object exists at root")
+  {
+    io.createGroup("/myObject");
+    REQUIRE(io.findObject("myObject") == "/myObject");  // HDF5IO::findObject
+    REQUIRE(io.BaseIO::findObject("myObject") == "/myObject");
+  }
+
+  SECTION("Object exists in nested group")
+  {
+    io.createGroup("/group1");
+    io.createGroup("/group1/subgroup1");
+    io.createGroup("/group1/subgroup1/myNestedObject");
+    REQUIRE(io.findObject("myNestedObject")
+            == "/group1/subgroup1/myNestedObject");  // HDF5IO::findObject
+    REQUIRE(io.BaseIO::findObject("myNestedObject")
+            == "/group1/subgroup1/myNestedObject");
+  }
+
+  SECTION("Object does not exist")
+  {
+    io.createGroup("/group1");
+    REQUIRE(io.findObject("nonExistent") == "");  // HDF5IO::findObject
+    REQUIRE(io.BaseIO::findObject("nonExistent") == "");
+  }
+
+  SECTION("Name is a substring but not a full component")
+  {
+    io.createGroup("/electrodes");
+    // Searching for "es" should not match "electrodes"
+    REQUIRE(io.findObject("es") == "");  // HDF5IO::findObject
+    REQUIRE(io.BaseIO::findObject("es") == "");
+  }
+
+  SECTION("Custom starting path")
+  {
+    io.createGroup("/group1");
+    io.createGroup("/group1/target");
+    io.createGroup("/group2");
+    io.createGroup("/group2/target");
+
+    // Search starting from /group1 should find /group1/target
+    REQUIRE(io.findObject("target", "/group1")
+            == "/group1/target");  // HDF5IO::findObject
+    REQUIRE(io.BaseIO::findObject("target", "/group1") == "/group1/target");
+  }
+
+  SECTION("Finds the first match in depth-first search")
+  {
+    io.createGroup("/a");
+    io.createGroup("/a/target");
+    io.createGroup("/b");
+    io.createGroup("/b/target");
+
+    std::string result = io.findObject("target");
+    // HDF5IO visits objects in increasing name order, so /a/target is first.
+    REQUIRE(result == "/a/target");
+    std::string baseResult = io.BaseIO::findObject("target");
+    // BaseIO sorts storage objects by name before its depth-first traversal.
+    REQUIRE(baseResult == "/a/target");
+  }
+
+  io.close();
+}
