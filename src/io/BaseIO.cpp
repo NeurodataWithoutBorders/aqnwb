@@ -323,8 +323,8 @@ const std::unordered_map<std::string, std::shared_ptr<BaseRecordingData>>&
 BaseIO::getRecordingDataCache() const
 {
   return m_recordingDataCache;
-}  
-  
+}
+
 std::string BaseIO::findObject(const std::string& name,
                                const std::string& starting_path) const
 {
