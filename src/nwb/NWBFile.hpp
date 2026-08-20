@@ -300,6 +300,12 @@ public:
                                   Get a ProcessingModule stored in the
                                       processing group)
 
+  DEFINE_UNNAMED_REGISTERED_FIELD(readEventsTable,
+                                  createEventsTable,
+                                  EventsTable,
+                                  "events",
+                                  Get an EventsTable stored in the events group)
+
 protected:
   /**
    * @brief Creates the default file structure.
