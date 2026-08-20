@@ -169,10 +169,7 @@ public:
    * creation failed.
    */
   static std::shared_ptr<VectorDataTyped> create(
-      const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io)
-  {
-    return RegisteredType::create<VectorDataTyped>(path, io);
-  }
+      const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io);
 
   /**
    * @brief Virtual destructor.
@@ -184,9 +181,10 @@ public:
    *
    *  This function is useful when the type of the data is known and we want
    *  read data in a typed manner where the type is stored in the DTYPE template
-   *  parameter. NOTE: The original Data object retains ownership of the
-   *  Data.m_dataset recording dataset object if it was initialized, i.e.,
-   *  the returned VectorDataTyped object will have a nullptr m_dataset.
+   *  parameter. NOTE: The BaseRecordingData object used for recording to the
+   *  dataset is cached in the BaseIO object and is, hence, shared between the
+   *  VectorData and the VectorDataTyped, such that recording to either object
+   *  will be reflected in the other.
    *
    *  @param data The Data object to convert
    *  @return A shared pointer for VectorDataTyped object with the same path and

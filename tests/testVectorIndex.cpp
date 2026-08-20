@@ -134,7 +134,6 @@ TEST_CASE("VectorIndex", "[table]")
         IO::ArrayDataSetConfig(BaseDataType::U32, {0}, {10}),
         "Index",
         targetPath);
-    vectorIndex->setTargetColumn(target);
 
     std::vector<int> vec1 = {1, 2};
     std::vector<int> vec2 = {3, 4, 5};
@@ -250,7 +249,6 @@ TEST_CASE("VectorIndex", "[table]")
         IO::ArrayDataSetConfig(BaseDataType::U32, {0}, {10}),
         "Index",
         targetPath);
-    vectorIndex->setTargetColumn(target);
 
     std::vector<int> vec1 = {1, 2};
     std::vector<int> vec2 = {};  // Empty vector
@@ -315,7 +313,6 @@ TEST_CASE("VectorIndex", "[table]")
             IO::ArrayDataSetConfig(BaseDataType(type), {0}, {10}),
             "Index",
             targetPath);
-        vectorIndex->setTargetColumn(target);
 
         size_t elementsAppended = 0;
         REQUIRE(vectorIndex->appendData(vec1, elementsAppended)

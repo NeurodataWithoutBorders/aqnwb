@@ -865,12 +865,28 @@ public:
       const BaseArrayDataSetConfig& config, const std::string& path) = 0;
 
   /**
-   * @brief Returns a pointer to a dataset at a given path.
+   * @brief Returns a cached pointer to a BaseRecordingData dataset at a given
+   * path.
    * @param path The location in the file of the dataset.
+   * @param reset If true, bypasses the cache and fetches a new dataset via
+   * getDataSetImpl and updates the cache. If false, returns the cached dataset
+   * if it exists.
    * @return A shared pointer to the dataset.
    */
-  virtual std::shared_ptr<BaseRecordingData> getDataSet(
-      const std::string& path) = 0;
+  std::shared_ptr<BaseRecordingData> getDataSet(const std::string& path,
+                                                bool reset = false);
+
+  /**
+   * @brief Clears the recording data cache.
+   */
+  void clearRecordingDataCache();
+
+  /**
+   * @brief Gets the recording data cache.
+   * @return A const reference to the recording data cache.
+   */
+  const std::unordered_map<std::string, std::shared_ptr<BaseRecordingData>>&
+  getRecordingDataCache() const;
 
   /**
    * @brief Returns the size of the dataset or attribute for each dimension.
@@ -956,10 +972,24 @@ protected:
   bool m_opened;
 
   /**
-   * @brief The recording objects for tracking all RegisteredType objects used
+   * @brief Implementation of getDataSet to be provided by derived classes.
+   * @param path The location in the file of the dataset.
+   * @return A shared pointer to the dataset.
+   */
+  virtual std::shared_ptr<BaseRecordingData> getDataSetImpl(
+      const std::string& path) = 0;
+
+  /**
+   * @brief The recording objects collection to manage the recording state
    * for recording associated with this IO object.
    */
   std::shared_ptr<RecordingObjects> m_recording_objects;
+
+  /**
+   * @brief Cache of BaseRecordingData objects to retain recording state.
+   */
+  std::unordered_map<std::string, std::shared_ptr<BaseRecordingData>>
+      m_recordingDataCache;
 };
 
 /**

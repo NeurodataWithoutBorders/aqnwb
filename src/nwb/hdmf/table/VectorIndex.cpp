@@ -326,7 +326,7 @@ std::vector<AQNWB::Types::CellValue> VectorIndex::readIndexedCellValues(
     SizeArray targetCount = {static_cast<SizeType>(totalElementsToRead)};
     try {
       allTargetCells = target->readCellValues(targetStart, targetCount);
-    } catch (const std::out_of_range& e) {
+    } catch (const std::out_of_range&) {
       throw;  // Re-throw out_of_range
     } catch (const std::exception& e) {
       throw std::runtime_error(

@@ -474,11 +474,6 @@ Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
       auto target = vectorIndex->readTarget();
       if (target) {
         targetColumns.insert(target->getName());
-        // Cache the target column in the VectorIndex
-        auto targetCol = getConfiguredColumn(target->getName());
-        if (targetCol) {
-          vectorIndex->setTargetColumn(targetCol);
-        }
       }
     }
   }
@@ -950,9 +945,9 @@ std::vector<int> DynamicTable::generateRowIDs(SizeType rowCount)
   if (m_rowElementIdentifiers) {
     auto idData = m_rowElementIdentifiers->recordData();
     if (idData) {
-      auto currentShape = idData->getShape();
+      const auto& currentShape = idData->getShape();
       if (!currentShape.empty()) {
-        startId = static_cast<int>(currentShape[0]);
+        startId = static_cast<int>(currentShape.front());
       }
     }
   }

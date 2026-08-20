@@ -298,6 +298,33 @@ std::unordered_map<std::string, std::string> BaseIO::findTypes(
   return found_types;
 }
 
+std::shared_ptr<BaseRecordingData> BaseIO::getDataSet(const std::string& path,
+                                                      bool reset)
+{
+  if (!reset) {
+    auto it = m_recordingDataCache.find(path);
+    if (it != m_recordingDataCache.end()) {
+      return it->second;
+    }
+  }
+  auto dataset = getDataSetImpl(path);
+  if (dataset) {
+    m_recordingDataCache[path] = dataset;
+  }
+  return dataset;
+}
+
+void BaseIO::clearRecordingDataCache()
+{
+  m_recordingDataCache.clear();
+}
+
+const std::unordered_map<std::string, std::shared_ptr<BaseRecordingData>>&
+BaseIO::getRecordingDataCache() const
+{
+  return m_recordingDataCache;
+}
+
 std::string BaseIO::findObject(const std::string& name,
                                const std::string& starting_path) const
 {
@@ -388,14 +415,7 @@ Status BaseIO::stopRecording()
       std::cerr << "Warning: Failed to finalize some recording objects"
                 << std::endl;
     }
-    Status clearStatus = recording_objects->clearRecordingDataCache();
-    if (clearStatus != Status::Success) {
-      // Log the error but continue with stopping recording
-      std::cerr << "Warning: Failed to clear recording data cache for some "
-                   "recording objects"
-                << std::endl;
-    }
-    status = status && finalizeStatus && clearStatus;
+    status = status && finalizeStatus;
   }
   return status;
 }
@@ -406,6 +426,7 @@ Status BaseIO::close()
   if (recording_objects) {
     m_recording_objects->clear();
   }
+  this->clearRecordingDataCache();
   return Status::Success;
 }
 

@@ -84,7 +84,10 @@
  *    DEFINE_ATTRIBUTE_FIELD(getDescription, std::string, "description", Description of the data)
  *    @endcode
  *    and in for datasets also a method for retrieving a \ref AQNWB::IO::BaseRecordingData "BaseRecordingData"
- *    wrapper used for recording data to a dataset.
+ *    wrapper used for recording data to a dataset. The \ref AQNWB::IO::BaseRecordingData "BaseRecordingData"
+ *    objects are cached by the \ref AQNWB::IO::BaseIO "BaseIO" object to ensure that the current
+ *    state of the recording process (e.g., the \ref AQNWB::IO::BaseRecordingData::getPosition "position")
+ *    are stored.
  *    @code
  *    DEFINE_DATASET_FIELD(getData, recordData, float, "data", The main data)
  *    @endcode

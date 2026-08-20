@@ -1534,7 +1534,7 @@ AQNWB::IO::BaseDataType HDF5IO::getStorageObjectDataType(
                            + ". Groups do not have data types.");
 }
 
-std::shared_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::getDataSet(
+std::shared_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::getDataSetImpl(
     const std::string& path)
 {
   std::unique_ptr<DataSet> data;

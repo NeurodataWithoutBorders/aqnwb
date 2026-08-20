@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <limits>
 #include <sstream>
+#include <stdexcept>
 #include <string>
 
 #include "io/RecordingObjects.hpp"
@@ -21,28 +22,39 @@ RecordingObjects::~RecordingObjects() {}
 SizeType RecordingObjects::getRecordingIndex(
     const std::shared_ptr<const AQNWB::NWB::RegisteredType>& object) const
 {
-  // Check if object already exists in the vector
-  for (SizeType i = 0; i < m_recording_objects.size(); ++i) {
-    // compares identity of the raw pointer for the RegisteredType object
-    if (m_recording_objects[i].get() == object.get()) {
-      return i;  // Return existing index
-    }
+  if (!object) {
+    return AQNWB::Types::SizeTypeNotSet;
   }
-  // Return sentinel value for failure
-  return std::numeric_limits<SizeType>::max();
+  auto it = m_path_to_index.find(object->getPath());
+  if (it != m_path_to_index.end()) {
+    return it->second;
+  }
+  return AQNWB::Types::SizeTypeNotSet;
 }
 
 SizeType RecordingObjects::addRecordingObject(
     const std::shared_ptr<AQNWB::NWB::RegisteredType>& object)
 {
-  // Check if object already exists in the vector
-  SizeType objectIndex = getRecordingIndex(object);
-  if (isValidIndex(objectIndex)) {
-    return objectIndex;  // Return existing index if found
+  if (!object) {
+    return AQNWB::Types::SizeTypeNotSet;
+  }
+
+  // Check if object already exists in the map
+  auto it = m_path_to_index.find(object->getPath());
+  if (it != m_path_to_index.end()) {
+    // Update the object in the vector if it's a different instance
+    if (m_recording_objects[it->second].get() != object.get()) {
+      throw std::runtime_error(
+          "Attempting to add a different instance of a RegisteredType with the "
+          "same path.");
+    }
+    return it->second;
   } else {
     // If not found, add it and return the new index
     m_recording_objects.push_back(object);
-    return m_recording_objects.size() - 1;
+    SizeType newIndex = m_recording_objects.size() - 1;
+    m_path_to_index[object->getPath()] = newIndex;
+    return newIndex;
   }
 }
 
@@ -59,11 +71,11 @@ RecordingObjects::getRecordingObject(const SizeType& objectInd)
 std::shared_ptr<AQNWB::NWB::RegisteredType>
 RecordingObjects::getRecordingObject(const std::string& path) const
 {
-  auto it = std::find_if(m_recording_objects.begin(),
-                         m_recording_objects.end(),
-                         [&path](const auto& obj)
-                         { return obj && obj->getPath() == path; });
-  return (it != m_recording_objects.end()) ? *it : nullptr;
+  auto it = m_path_to_index.find(path);
+  if (it != m_path_to_index.end()) {
+    return m_recording_objects[it->second];
+  }
+  return nullptr;
 }
 
 Status RecordingObjects::finalize()
@@ -75,26 +87,6 @@ Status RecordingObjects::finalize()
     if (object) {
       Status status = object->finalize();
       overallStatus = overallStatus && status;
-    }
-  }
-  return overallStatus;
-}
-
-Status RecordingObjects::clearRecordingDataCache()
-{
-  Status overallStatus = Status::Success;
-
-  // Call clearRecordingDataCache on all RegisteredType objects in the
-  // collection
-  for (auto& object : m_recording_objects) {
-    if (object) {
-      try {
-        object->clearRecordingDataCache();
-      } catch (const std::exception& e) {
-        std::cerr << "Error clearing recording data cache for object at path: "
-                  << object->getPath() << ". Error: " << e.what() << std::endl;
-        overallStatus = Status::Failure;
-      }
     }
   }
   return overallStatus;

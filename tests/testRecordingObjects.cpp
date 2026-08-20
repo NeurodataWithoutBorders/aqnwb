@@ -44,27 +44,6 @@ public:
 
   // make finalize always fail
   Status finalize() override { return Status::Failure; }
-
-  // a no-op clear (the default implementation would be fine)
-  void clearRecordingDataCache() override {}
-};
-
-class ExceptionThrowingSeries : public NWB::TimeSeries
-{
-public:
-  ExceptionThrowingSeries(const std::string& p,
-                          const std::shared_ptr<AQNWB::IO::BaseIO>& io)
-      : TimeSeries(p, io)
-  {
-  }
-
-  Status finalize() override { return Status::Success; }
-
-  // throw when the RecordingObjects wrapper asks us to clear the cache
-  void clearRecordingDataCache() override
-  {
-    throw std::runtime_error("simulated clearRecordingDataCache failure");
-  }
 };
 }  // anonymous namespace
 
@@ -205,23 +184,22 @@ TEST_CASE("RecordingObjects recording workflow tests", "[recording]")
     // registered object
     auto existingSeries =
         NWB::ElectricalSeries::create("/acquisition/esdata0", io);
-    expectedNumRecordingObjects += 1;  // we created a new object
+    // expectedNumRecordingObjects remains the same because we reuse the
+    // existing object
     REQUIRE(existingSeries != nullptr);
     REQUIRE(existingSeries->isRegisteredRecordingObject() == true);
     REQUIRE(recordingObjects->size() == expectedNumRecordingObjects);
-    // NOTE: since we created a new ElectricalSeries object (instead of reusing
-    // the existing one), we now have 2 objects for the same path
+    // NOTE: since we reuse the existing ElectricalSeries object, we get the
+    // same index
     SizeType existingIdx = recordingObjects->getRecordingIndex(existingSeries);
-    REQUIRE(existingIdx == 12);  // should be the same as before
+    REQUIRE(existingIdx == 10);  // should be the same as before
     // Since existingSeries exists in the file, requesting recordData() should
     // yield the same object that is already in the cache
     auto existingRecordData = existingSeries->recordData();
     REQUIRE(existingRecordData != nullptr);
     REQUIRE(existingSeries->isRegisteredRecordingObject() == true);
 
-    // recordingObjects should now hold (13 entries; note that index 12 is a
-    // second, independently created object for the same /acquisition/esdata0
-    // path):
+    // recordingObjects should now hold (12 entries):
     // Index = 0; Type = core::NWBFile; Path = /;
     // Index = 1; Type = core::ElectrodesTable; Path =
     //   /general/extracellular_ephys/electrodes;
@@ -289,73 +267,6 @@ TEST_CASE("RecordingObjects recording workflow tests", "[recording]")
     // any single failure flips the overall status to Failure
     REQUIRE(recordingObjects->finalize() == Status::Failure);
 
-    io->close();
-  }
-
-  // --------------------------------------------------------------
-  //   SECTION 3 – clearRecordingDataCache aggregates & tolerates exceptions
-  //   --------------------------------------------------------------
-  SECTION("clearRecordingDataCache aggregates and tolerates exceptions")
-  {
-    const std::string path = getTestFilePath("recObjectsWorkflow_3.h5");
-    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
-    io->open();
-    REQUIRE(io->isOpen());
-    auto recordingObjects = io->getRecordingObjects();
-    REQUIRE(recordingObjects != nullptr);
-    REQUIRE(recordingObjects->size() == 0);
-
-    // good series (created through the normal workflow)
-    auto nwbFile = NWB::NWBFile::create(io);
-    nwbFile->initialize(generateUuid());
-    auto mockArrays = getMockChannelArrays();
-    nwbFile->createElectrodesTable(mockArrays);
-    std::vector<std::size_t> contIdx;
-    nwbFile->createElectricalSeries(mockArrays,
-                                    getMockChannelArrayNames("esdata"),
-                                    BaseDataType::I16,
-                                    contIdx);
-    // 10 from the finalized electrodes table (see SECTION 1) + 2
-    // ElectricalSeries
-    REQUIRE(recordingObjects->size() == 12);
-    // Expected recording-data cache size per object, matching the object order:
-    // 0:NWBFile 1:ElectrodesTable 2:id 3:location 4:group_name 5:Device
-    // 6:ElectrodeGroup 7:Device 8:ElectrodeGroup 9:group 10:ES 11:ES
-    std::vector<SizeType> expextedCacheSize = {
-        0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 2, 2};
-
-    // Confirm that the recording data caches are as expected
-    for (SizeType i = 0; i < recordingObjects->size(); ++i) {
-      auto obj = recordingObjects->getRecordingObject(i);
-      REQUIRE(obj != nullptr);
-      std::cout << "obj[" << i << "] = " << obj->getFullTypeName() << ": "
-                << obj->getPath()
-                << " -- cache size: " << obj->getCacheRecordingData().size()
-                << std::endl;
-      REQUIRE(obj->getCacheRecordingData().size() <= expextedCacheSize[i]);
-    }
-    // clear the BaseRecordingData caches – should succeed
-    Status clearCachesStatus = recordingObjects->clearRecordingDataCache();
-    REQUIRE(clearCachesStatus == Status::Success);
-    // Confirm that the recording data caches are cleared
-    for (SizeType i = 0; i < recordingObjects->size(); ++i) {
-      auto obj = recordingObjects->getRecordingObject(i);
-      REQUIRE(obj != nullptr);
-      REQUIRE(obj->getCacheRecordingData().size() == 0);
-    }
-
-    // add a series that throws when clearing its cache
-    auto throwing = std::make_shared<ExceptionThrowingSeries>("/throwing", io);
-    recordingObjects->addRecordingObject(throwing);
-    REQUIRE(recordingObjects->size() == 13);
-
-    REQUIRE(recordingObjects->clearRecordingDataCache() == Status::Failure);
-
-    // Clear the recordingObjects and check it's cleared
-    recordingObjects->clear();
-    REQUIRE(recordingObjects->size() == 0);
-
-    // cleanup
     io->close();
   }
 }

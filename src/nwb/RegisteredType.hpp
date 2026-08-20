@@ -134,21 +134,38 @@ public:
   /**
    * @brief Get the cache of BaseRecordingData objects
    * @return A reference to the cache of BaseRecordingData objects
+   * @deprecated The cache is owned by the I/O so there should be no need to
+   * access it via RegisteredType. Use getIO()->getRecordingDataCache() instead.
    */
+  [[deprecated(
+      "The cache is owned by the I/O so there should be no need to access it "
+      "via RegisteredType. Use getIO()->getRecordingDataCache() instead.")]]
   inline const std::unordered_map<std::string,
                                   std::shared_ptr<IO::BaseRecordingData>>&
   getCacheRecordingData() const
   {
-    return this->m_recordingDataCache;
+    if (auto io = getIO()) {
+      return io->getRecordingDataCache();
+    }
+    throw std::runtime_error(
+        "RegisteredType::getCacheRecordingData: IO object is not available");
   }
 
   /**
    * @brief Clear the BaseRecordingData object cache to reset the recording
    * state
+   * @deprecated The cache is owned by the I/O so there should be no need to
+   * access it via RegisteredType. Use getIO()->clearRecordingDataCache()
+   * instead.
    */
+  [[deprecated(
+      "The cache is owned by the I/O so there should be no need to access it "
+      "via RegisteredType. Use getIO()->clearRecordingDataCache() instead.")]]
   inline virtual void clearRecordingDataCache()
   {
-    this->m_recordingDataCache.clear();
+    if (auto io = getIO()) {
+      io->clearRecordingDataCache();
+    }
   }
 
   /**
@@ -243,6 +260,13 @@ public:
   {
     static_assert(std::is_base_of<RegisteredType, T>::value,
                   "T must be a derived class of RegisteredType");
+    auto existing = getExistingRecordingObject(path, io);
+    if (existing) {
+      auto casted = std::dynamic_pointer_cast<T>(existing);
+      if (casted) {
+        return casted;
+      }
+    }
     auto result = std::shared_ptr<T>(new T(path, io));
     result->registerRecordingObject();
     return result;
@@ -381,6 +405,15 @@ public:
 
 protected:
   /**
+   * @brief Helper to get an existing recording object from the IO object.
+   * @param path The path of the object.
+   * @param io A shared pointer to the IO object.
+   * @return A shared pointer to the existing object, or nullptr if not found.
+   */
+  static std::shared_ptr<RegisteredType> getExistingRecordingObject(
+      const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io);
+
+  /**
    * @brief Constructor.
    *
    * All registered subclasses of RegisteredType must implement a constructor
@@ -433,21 +466,6 @@ protected:
    * pointer to the IO object before using it.
    */
   std::weak_ptr<IO::BaseIO> m_io;
-
-  /**
-   * @brief Cache for BaseRecordingData objects for datasets to retain recording
-   * state.
-   *
-   * This map stores shared pointers to BaseRecordingData objects that have been
-   * previously requested, using the field path as the key. This allows us to
-   * reuse the same object when it is requested multiple times, improving
-   * performance and more importantly, retaining the recording position so that
-   * we can append to the dataset from the last position that we recorded to.
-   * This is important for writing data to the dataset in a streaming fashion.
-   * The cache is mutable to allow modification in const methods.
-   */
-  std::unordered_map<std::string, std::shared_ptr<IO::BaseRecordingData>>
-      m_recordingDataCache;
 };
 
 /**
@@ -632,25 +650,13 @@ public: \
                                                                      false) \
   { \
     std::string fullPath = AQNWB::mergePaths(m_path, fieldPath); \
-    if (!reset) { \
-      /* Check if the dataset is already in the cache */ \
-      auto it = m_recordingDataCache.find(fullPath); \
-      if (it != m_recordingDataCache.end()) { \
-        return it->second; \
-      } \
-    } \
-    /* Get the dataset from IO and cache it */ \
     auto ioPtr = getIO(); \
     if (!ioPtr) { \
       std::cerr << "IO object has been deleted. Can't access: " << fullPath \
                 << std::endl; \
       return nullptr; \
     } \
-    auto dataset = ioPtr->getDataSet(fullPath); \
-    if (dataset) { \
-      m_recordingDataCache[fullPath] = dataset; \
-    } \
-    return dataset; \
+    return ioPtr->getDataSet(fullPath, reset); \
   }
 
 /**
@@ -694,7 +700,7 @@ public: \
     auto ioPtr = getIO(); \
     if (ioPtr != nullptr) { \
       if (ioPtr->objectExists(objectPath)) { \
-        return RegisteredType::create<RTYPE>(objectPath, ioPtr); \
+        return RTYPE::create(objectPath, ioPtr); \
       } \
     } \
     return nullptr; \
@@ -751,7 +757,7 @@ public: \
       return nullptr; \
     } \
     if (ioPtr->objectExists(objectPath)) { \
-      return RegisteredType::create<RTYPE>(objectPath, ioPtr); \
+      return RTYPE::create(objectPath, ioPtr); \
     } \
     return nullptr; \
   } \
@@ -780,7 +786,7 @@ public: \
                 << objectPath << std::endl; \
       return nullptr; \
     } \
-    return RegisteredType::create<RTYPE>(objectPath, ioPtr); \
+    return RTYPE::create(objectPath, ioPtr); \
   }
 
 /**
@@ -827,7 +833,7 @@ public: \
       if (ioPtr != nullptr) { \
         std::string objectPath = ioPtr->readReferenceAttribute(attrPath); \
         if (ioPtr->objectExists(objectPath)) { \
-          return RegisteredType::create<RTYPE>(objectPath, ioPtr); \
+          return RTYPE::create(objectPath, ioPtr); \
         } \
       } \
     } catch (const std::exception& e) { \
