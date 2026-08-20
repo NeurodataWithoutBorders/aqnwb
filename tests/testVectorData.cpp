@@ -213,6 +213,9 @@ TEST_CASE("VectorDataTyped", "[base]")
     auto convertedVectorDataTyped =
         NWB::VectorDataTyped<int>::fromVectorData(baseVectorData);
     REQUIRE(convertedVectorDataTyped != nullptr);
+    REQUIRE(dynamic_pointer_cast<NWB::VectorDataTyped<int>>(
+                convertedVectorDataTyped)
+            != nullptr);
 
     // Read the "namespace" attribute via the readNamespace field
     namespaceData = convertedVectorDataTyped->readNamespace();

@@ -848,6 +848,30 @@ public:
       const std::string& path) = 0;
 
   /**
+   * @brief Returns a cached pointer to a BaseRecordingData dataset at a given
+   * path.
+   * @param path The location in the file of the dataset.
+   * @param reset If true, bypasses the cache and fetches a new dataset via
+   * getDataSet and updates the cache. If false, returns the cached dataset if
+   * it exists.
+   * @return A shared pointer to the dataset.
+   */
+  std::shared_ptr<BaseRecordingData> getCachedRecordingData(
+      const std::string& path, bool reset = false);
+
+  /**
+   * @brief Clears the recording data cache.
+   */
+  void clearRecordingDataCache();
+
+  /**
+   * @brief Gets the recording data cache.
+   * @return A const reference to the recording data cache.
+   */
+  const std::unordered_map<std::string, std::shared_ptr<BaseRecordingData>>&
+  getRecordingDataCache() const;
+
+  /**
    * @brief Returns the size of the dataset or attribute for each dimension.
    * @param path The location of the dataset or attribute in the file
    * @return The shape of the dataset or attribute.
@@ -935,6 +959,12 @@ protected:
    * for recording associated with this IO object.
    */
   std::shared_ptr<RecordingObjects> m_recording_objects;
+
+  /**
+   * @brief Cache of BaseRecordingData objects to retain recording state.
+   */
+  std::unordered_map<std::string, std::shared_ptr<BaseRecordingData>>
+      m_recordingDataCache;
 };
 
 /**

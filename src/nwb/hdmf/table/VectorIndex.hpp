@@ -122,19 +122,6 @@ public:
                     size_t& elementsAppended) override;
 
   /**
-   * @brief Sets the cached target VectorData column.
-   *
-   * This allows DynamicTable to provide the already-configured target column,
-   * avoiding the need to read it from the file on every append.
-   *
-   * @param target The target VectorData column.
-   */
-  void setTargetColumn(std::shared_ptr<VectorData> target)
-  {
-    m_targetColumn = target;
-  }
-
-  /**
    * @brief Gets the cached target VectorData column, or reads it if not cached.
    *
    * @return The target VectorData column, or nullptr if not available.

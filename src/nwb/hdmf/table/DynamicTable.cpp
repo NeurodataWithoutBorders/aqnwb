@@ -474,11 +474,6 @@ Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
       auto target = vectorIndex->readTarget();
       if (target) {
         targetColumns.insert(target->getName());
-        // Cache the target column in the VectorIndex
-        auto targetCol = getConfiguredColumn(target->getName());
-        if (targetCol) {
-          vectorIndex->setTargetColumn(targetCol);
-        }
       }
     }
   }
