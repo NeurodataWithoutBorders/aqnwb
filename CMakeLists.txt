@@ -110,6 +110,43 @@ set_target_properties(aqnwb_aqnwb PROPERTIES
 
 target_compile_definitions(aqnwb_aqnwb PUBLIC AQNWB_CXX_STANDARD=${AQNWB_CXX_STANDARD})
 
+# ---- Optional remfile VFD for reading remote files over HTTP(S) ----
+# remfile provides an HDF5 virtual file driver that reads remote files with
+# HTTP range requests and adaptive read-ahead caching. Unlike the ROS3 VFD,
+# it does not require HDF5 to be built with ROS3 support.
+set(aqnwb_use_remfile_default OFF)
+option(AQNWB_USE_REMFILE "Enable reading remote files over HTTP(S) via the remfile VFD (requires libcurl)" ${aqnwb_use_remfile_default})
+
+if(AQNWB_USE_REMFILE)
+  find_package(CURL QUIET)
+  if(NOT CURL_FOUND)
+    message(STATUS "remfile VFD disabled: libcurl not found")
+    set(AQNWB_USE_REMFILE OFF)
+  endif()
+endif()
+
+if(AQNWB_USE_REMFILE)
+  # Prefer an installed remfile package; otherwise fetch it from GitHub.
+  # When fetched, remfile's own install rules run as part of this project's
+  # install, so downstream consumers of the installed aqnwb package can
+  # resolve the remfile::remfile target via find_dependency(remfile).
+  find_package(remfile CONFIG QUIET)
+  if(remfile_FOUND)
+    message(STATUS "remfile VFD enabled (found installed remfile ${remfile_VERSION})")
+  else()
+    include(FetchContent)
+    FetchContent_Declare(
+        remfile
+        GIT_REPOSITORY https://github.com/catalystneuro/remfile-cpp.git
+        GIT_TAG v0.1.3
+    )
+    FetchContent_MakeAvailable(remfile)
+    message(STATUS "remfile VFD enabled (fetched from GitHub)")
+  endif()
+  target_compile_definitions(aqnwb_aqnwb PUBLIC AQNWB_HAVE_REMFILE_VFD)
+  target_link_libraries(aqnwb_aqnwb PUBLIC remfile::remfile)
+endif()
+
 # ---- Additional libraries needed ----
 find_package(HDF5 REQUIRED COMPONENTS CXX)
 

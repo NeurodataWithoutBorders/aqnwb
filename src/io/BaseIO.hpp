@@ -665,6 +665,31 @@ public:
       bool exclude_starting_path = false) const;
 
   /**
+   * @brief Find the first object in the file whose path ends with the given
+   * name.
+   *
+   * This function iterates through the storage objects (groups, datasets)
+   * in the file, starting from the given path, using getStorageObjects, and
+   * returns the full path of the first matching object in name-ordered,
+   * depth-first traversal. This is a light-weight alternative to findTypes for
+   * cases where the caller only needs to locate an object by its name (e.g.,
+   * the name of a TimeSeries) rather than by its neurodata_type.
+   *
+   * Implementations may optimize this search differently. In particular,
+   * HDF5IO::findObject does not return paths that are reachable only through
+   * soft links; use the BaseIO implementation explicitly when those paths
+   * must be searched.
+   *
+   * @param name The name (or path suffix) of the object to search for.
+   * @param starting_path The path in the file to start the search from.
+   *        Defaults to the root of the file ("/").
+   * @return The full path to the first matching object in name-ordered,
+   * depth-first traversal, or an empty string if no matching object was found.
+   */
+  virtual std::string findObject(const std::string& name,
+                                 const std::string& starting_path = "/") const;
+
+  /**
    * @brief Get the full name of the type from the attribute in the file
    *
    * Note, in NWB v2.9 the type for ElectrodesTable has changed from a basic

@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <cassert>
 #include <codecvt>
+#include <cstring>
 #include <filesystem>
 #include <iostream>
 #include <memory>
@@ -12,6 +13,14 @@
 
 #include <H5Cpp.h>
 #include <H5Fpublic.h>
+
+#ifdef H5_HAVE_ROS3_VFD
+#  include <H5FDros3.h>
+#endif
+
+#ifdef AQNWB_HAVE_REMFILE_VFD
+#  include <remfile/remfile_vfd.h>
+#endif
 
 #include "Utils.hpp"
 #include "io/hdf5/HDF5ArrayDataSetConfig.hpp"
@@ -43,6 +52,76 @@ HDF5IO::~HDF5IO()
               << getFileName() << "'" << std::endl;
   }
 }
+
+#ifdef H5_HAVE_ROS3_VFD
+Status HDF5IO::openS3(const std::string& aws_region,
+                      const std::string& secret_id,
+                      const std::string& secret_key)
+{
+  if (m_opened) {
+    return Status::Failure;
+  }
+
+  // Helper: safely copy a std::string into a fixed-size char array.
+  // Copies at most (N-1) characters and always null-terminates.
+  auto copyField = [](const std::string& src, char* dst, std::size_t N)
+  {
+    std::size_t len = std::min(src.length(), N - 1);
+    std::memcpy(dst, src.c_str(), len);
+    dst[len] = '\0';
+  };
+
+  H5FD_ros3_fapl_t ros3_fa = {};  // zero-initialize all fields
+  ros3_fa.version = H5FD_CURR_ROS3_FAPL_T_VERSION;
+  ros3_fa.authenticate = !secret_id.empty() && !secret_key.empty();
+
+  copyField(aws_region, ros3_fa.aws_region, sizeof(ros3_fa.aws_region));
+  copyField(secret_id, ros3_fa.secret_id, sizeof(ros3_fa.secret_id));
+  copyField(secret_key, ros3_fa.secret_key, sizeof(ros3_fa.secret_key));
+
+  FileAccPropList fapl = FileAccPropList::DEFAULT;
+  const herr_t libverStatus =
+      H5Pset_libver_bounds(fapl.getId(), H5F_LIBVER_LATEST, H5F_LIBVER_LATEST);
+  const herr_t ros3Status = H5Pset_fapl_ros3(fapl.getId(), &ros3_fa);
+  if (libverStatus < 0 || ros3Status < 0) {
+    return Status::Failure;
+  }
+
+  try {
+    m_file = std::make_unique<H5::H5File>(
+        getFileName(), H5F_ACC_RDONLY, FileCreatPropList::DEFAULT, fapl);
+    m_opened = true;
+  } catch (const H5::Exception&) {
+    return Status::Failure;
+  }
+
+  return Status::Success;
+}
+#endif  // H5_HAVE_ROS3_VFD
+
+#ifdef AQNWB_HAVE_REMFILE_VFD
+Status HDF5IO::openRemote()
+{
+  if (m_opened) {
+    return Status::Failure;
+  }
+
+  FileAccPropList fapl = FileAccPropList::DEFAULT;
+  if (H5Pset_fapl_remfile(fapl.getId(), nullptr) < 0) {
+    return Status::Failure;
+  }
+
+  try {
+    m_file = std::make_unique<H5::H5File>(
+        getFileName(), H5F_ACC_RDONLY, FileCreatPropList::DEFAULT, fapl);
+    m_opened = true;
+  } catch (const H5::Exception&) {
+    return Status::Failure;
+  }
+
+  return Status::Success;
+}
+#endif  // AQNWB_HAVE_REMFILE_VFD
 
 Status HDF5IO::open()
 {
@@ -118,6 +197,150 @@ Status HDF5IO::flush()
 {
   int status = H5Fflush(m_file->getId(), H5F_SCOPE_GLOBAL);
   return intToStatus(status);
+}
+
+// H5O_info2_t and the trailing `fields` argument to H5Ovisit were introduced
+// in HDF5 1.12.0. On older versions (e.g. the 1.10.x that ships with Ubuntu's
+// libhdf5-serial package) the type is H5O_info_t and H5Ovisit takes one fewer
+// argument. This alias adapts the callback signature to the installed
+// version. H5_VERSION_GE is provided by H5public.h (pulled in via H5Opublic.h).
+#if H5_VERSION_GE(1, 12, 0)
+using H5OInfoCompat = H5O_info2_t;
+#else
+using H5OInfoCompat = H5O_info_t;
+#endif
+
+std::string HDF5IO::findObject(const std::string& name,
+                               const std::string& starting_path) const
+{
+  if (m_file == nullptr) {
+    return "";
+  }
+
+  // Local helper: true if the last path component of `path` equals `objName`.
+  // This ensures we match a full path component and not just a substring,
+  // e.g., searching for "es" should not match "electrodes".
+  auto pathEndsWithName = [](const std::string& path,
+                             const std::string& objName) -> bool
+  {
+    if (path.size() < objName.size()) {
+      return false;
+    }
+    if (path.compare(path.size() - objName.size(), objName.size(), objName)
+        != 0)
+    {
+      return false;
+    }
+    const size_t matchStart = path.size() - objName.size();
+    return (matchStart == 0) || (path[matchStart - 1] == '/');
+  };
+
+  // Only Groups can be traversed. If the starting path does not exist we bail
+  // out; if it exists but is not a group (e.g. a Dataset), there are no
+  // children to traverse and we only need to check the object itself. This
+  // matches the behavior of the generic BaseIO implementation.
+  const H5O_type_t startType = getH5ObjectType(starting_path);
+  if (startType == H5O_TYPE_UNKNOWN) {
+    return "";  // starting_path does not exist
+  }
+  if (startType != H5O_TYPE_GROUP) {
+    return pathEndsWithName(starting_path, name) ? starting_path
+                                                 : std::string();
+  }
+
+  // Context passed through the H5Ovisit callback via op_data. Defined locally
+  // since it is only used here. The callback must be convertible to a plain C
+  // function pointer, so it cannot capture; all state travels via op_data.
+  struct FindObjectContext
+  {
+    const std::string* name;  //!< name (last path component) to search for
+    std::string starting_path;  //!< starting path ("/" for root)
+    std::string result;  //!< full path of the first match (output)
+  };
+
+  FindObjectContext ctx;
+  ctx.name = &name;
+  ctx.starting_path = starting_path;
+
+  // Non-capturing lambda -> implicitly converts to a C function pointer, which
+  // is what H5Ovisit requires.
+  //
+  // `nameC` is the path of the visited object relative to the object on which
+  // H5Ovisit was called, using '/' separators and without a leading '/'. The
+  // starting object itself is reported with the relative name ".".
+  // The info parameter type (H5OInfoCompat) adapts to the HDF5 version; only
+  // info->type is used, which exists in both H5O_info_t and H5O_info2_t.
+  auto visitCallback = [](hid_t /*obj*/,
+                          const char* nameC,
+                          const H5OInfoCompat* info,
+                          void* op_data) -> herr_t
+  {
+    if (info->type != H5O_TYPE_GROUP && info->type != H5O_TYPE_DATASET) {
+      return 0;  // skip named datatypes, etc.
+    }
+
+    auto* c = static_cast<FindObjectContext*>(op_data);
+    const std::string relative(nameC);
+
+    // Build the absolute path corresponding to this relative name so that the
+    // returned value matches the generic implementation (which returns full,
+    // absolute-style paths built from starting_path).
+    std::string fullPath;
+    if (relative == ".") {
+      fullPath = c->starting_path.empty() ? "/" : c->starting_path;
+    } else {
+      fullPath = AQNWB::mergePaths(
+          c->starting_path.empty() ? "/" : c->starting_path, relative);
+    }
+
+    // Inlined equivalent of pathEndsWithName.
+    const std::string& n = *c->name;
+    bool match = false;
+    if (fullPath.size() >= n.size()
+        && fullPath.compare(fullPath.size() - n.size(), n.size(), n) == 0)
+    {
+      const size_t matchStart = fullPath.size() - n.size();
+      match = (matchStart == 0) || (fullPath[matchStart - 1] == '/');
+    }
+
+    if (match) {
+      c->result = fullPath;
+      return 1;  // stop iteration: first match found
+    }
+    return 0;  // continue
+  };
+
+  // We know that we are starting at a group, because the dataset case is
+  // handled above. Open it to get the group ID for H5Ovisit.
+  H5::Group startGroup = m_file->openGroup(starting_path);
+
+  // H5Ovisit performs a single, library-driven traversal of the object
+  // hierarchy rooted at startGroup.
+  //
+  // H5_INDEX_NAME + H5_ITER_INC give a deterministic, name-ordered traversal
+  // that matches the depth-first, name-ordered behavior of getStorageObjects.
+  //
+  // The 1.12+ signature takes a trailing `fields` argument (H5O_INFO_BASIC)
+  // that requests only the object type; the 1.10 signature omits it.
+#if H5_VERSION_GE(1, 12, 0)
+  const herr_t status = H5Ovisit(startGroup.getId(),
+                                 H5_INDEX_NAME,
+                                 H5_ITER_INC,
+                                 visitCallback,
+                                 &ctx,
+                                 H5O_INFO_BASIC);
+#else
+  const herr_t status = H5Ovisit(
+      startGroup.getId(), H5_INDEX_NAME, H5_ITER_INC, visitCallback, &ctx);
+#endif
+
+  // status > 0  => callback returned non-zero (match found), result is set
+  // status == 0 => traversal completed with no match
+  // status < 0  => an error occurred during traversal
+  if (status < 0) {
+    return "";
+  }
+  return ctx.result;
 }
 
 std::unique_ptr<H5::Attribute> HDF5IO::getAttribute(
@@ -764,8 +987,9 @@ Status HDF5IO::createAttribute(const std::string& data,
     return Status::Failure;
   }
 
-  // Create variable length string type
-  StrType H5type(PredType::C_S1, static_cast<size_t>(H5T_VARIABLE));
+  const IO::BaseDataType strType(IO::BaseDataType::Type::V_STR);
+  DataType H5type = getH5Type(strType);
+  DataType nativeType = getNativeType(strType);
 
   auto manage_attribute = [&](H5Object& loc)
   {
@@ -786,7 +1010,7 @@ Status HDF5IO::createAttribute(const std::string& data,
 
       // Write the scalar string data
       const char* dataPtr = data.c_str();
-      attr.write(H5type, &dataPtr);
+      attr.write(nativeType, &dataPtr);
 
     } catch (const GroupIException& error) {
       error.printErrorStack();
@@ -826,8 +1050,9 @@ Status HDF5IO::createAttribute(const std::vector<std::string>& data,
     return Status::Failure;
   }
 
-  // Create variable length string type
-  StrType H5type(PredType::C_S1, static_cast<size_t>(H5T_VARIABLE));
+  const IO::BaseDataType strType(IO::BaseDataType::Type::V_STR);
+  DataType H5type = getH5Type(strType);
+  DataType nativeType = getNativeType(strType);
 
   auto manage_attribute = [&](H5Object& loc)
   {
@@ -856,7 +1081,7 @@ Status HDF5IO::createAttribute(const std::vector<std::string>& data,
                      data.end(),
                      dataPtrs.begin(),
                      [](const std::string& str) { return str.c_str(); });
-      attr.write(H5type, dataPtrs.data());
+      attr.write(nativeType, dataPtrs.data());
 
     } catch (const GroupIException& error) {
       error.printErrorStack();
@@ -1107,21 +1332,26 @@ Status HDF5IO::stopRecording()
 
 bool HDF5IO::canModifyObjects()
 {
-  if (!m_opened)
+  // check if the file is opened
+  if (!m_opened) {
     return false;
-
-  // Check if we are in SWMR mode
-  bool inSWMRMode = false;
-  unsigned int intent;
-  herr_t status = H5Fget_intent(m_file->getId(), &intent);
-  bool statusOK = (status >= 0);
-  if (statusOK) {
-    inSWMRMode = (intent & (H5F_ACC_SWMR_READ | H5F_ACC_SWMR_WRITE));
   }
 
-  // if the file is opened and we are not in swmr mode then we can modify
-  // objects
-  return statusOK && !inSWMRMode;
+  // Query the file intent flags
+  unsigned int intent = 0;
+  herr_t status = H5Fget_intent(m_file->getId(), &intent);
+  if (status < 0) {
+    return false;
+  }
+
+  // H5F_ACC_RDONLY == 0x0000, so we cannot test for it with a bitmask.
+  // Instead, a file is writable only when H5F_ACC_RDWR is set.
+  bool isWritable = (intent & H5F_ACC_RDWR) != 0;
+
+  // SWMR write mode also prevents structural modifications
+  bool inSWMRMode = (intent & (H5F_ACC_SWMR_READ | H5F_ACC_SWMR_WRITE)) != 0;
+
+  return isWritable && !inSWMRMode;
 }
 
 bool HDF5IO::objectExists(const std::string& path) const
@@ -1406,10 +1636,6 @@ std::unique_ptr<AQNWB::IO::BaseRecordingData> HDF5IO::createArrayDataSet(
       }
     }
 
-    if (arrayConfig->getType().type == IO::BaseDataType::Type::T_STR) {
-      H5type = StrType(PredType::C_S1, arrayConfig->getType().typeSize);
-    }
-
     data = std::make_unique<DataSet>(
         m_file->createDataSet(path, H5type, dSpace, prop));
   } catch (const H5::Exception& e) {
@@ -1480,10 +1706,17 @@ H5::DataType HDF5IO::getNativeType(IO::BaseDataType type)
     case IO::BaseDataType::Type::T_F64:
       baseType = H5::PredType::NATIVE_DOUBLE;
       break;
-    case IO::BaseDataType::Type::T_STR:
-      return H5::StrType(H5::PredType::C_S1, type.typeSize);
-    case IO::BaseDataType::Type::V_STR:
-      return H5::StrType(H5::PredType::C_S1, static_cast<size_t>(H5T_VARIABLE));
+    case IO::BaseDataType::Type::T_STR: {
+      H5::StrType strType(H5::PredType::C_S1, type.typeSize);
+      strType.setCset(H5T_CSET_UTF8);
+      return strType;
+    }
+    case IO::BaseDataType::Type::V_STR: {
+      H5::StrType strType(H5::PredType::C_S1,
+                          static_cast<size_t>(H5T_VARIABLE));
+      strType.setCset(H5T_CSET_UTF8);
+      return strType;
+    }
     default:
       baseType = H5::PredType::NATIVE_INT32;
   }
@@ -1574,12 +1807,16 @@ H5::DataType HDF5IO::getH5Type(IO::BaseDataType type)
     case BaseDataType::Type::T_F64:
       baseType = PredType::IEEE_F64LE;
       break;
-    case BaseDataType::Type::T_STR:
-      return StrType(PredType::C_S1, type.typeSize);
-      break;
-    case BaseDataType::Type::V_STR:
-      return StrType(PredType::C_S1, static_cast<size_t>(H5T_VARIABLE));
-      break;
+    case BaseDataType::Type::T_STR: {
+      StrType strType(PredType::C_S1, type.typeSize);
+      strType.setCset(H5T_CSET_UTF8);
+      return strType;
+    }
+    case BaseDataType::Type::V_STR: {
+      StrType strType(PredType::C_S1, static_cast<size_t>(H5T_VARIABLE));
+      strType.setCset(H5T_CSET_UTF8);
+      return strType;
+    }
     default:
       return PredType::STD_I32LE;
   }

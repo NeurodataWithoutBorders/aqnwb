@@ -457,3 +457,55 @@ TEST_CASE("RegisterType", "[base]")
     io->close();
   }
 }
+
+TEST_CASE("Test RegisteredType::findOwnedObject", "[RegisteredType]")
+{
+  std::string filename = getTestFilePath("test_findOwnedObject_RT.h5");
+  std::shared_ptr<IO::BaseIO> io = std::make_unique<IO::HDF5::HDF5IO>(filename);
+  io->open(IO::FileMode::Overwrite);
+
+  std::string parentPath = "/parent";
+  io->createGroup(parentPath);
+
+  // Create child objects
+  io->createGroup("/parent/child1");
+  io->createGroup("/parent/child2");
+  io->createGroup("/parent/child1/grandchild");
+
+  // Create a RegisteredType instance for the parent
+  auto parentInstance = std::make_shared<CustomNameType>(parentPath, io);
+
+  SECTION("Find child object")
+  {
+    REQUIRE(parentInstance->findOwnedObject("child1") == "/parent/child1");
+    REQUIRE(parentInstance->findOwnedObject("child2") == "/parent/child2");
+  }
+
+  SECTION("Find nested child object")
+  {
+    REQUIRE(parentInstance->findOwnedObject("grandchild")
+            == "/parent/child1/grandchild");
+  }
+
+  SECTION("Object does not exist")
+  {
+    REQUIRE(parentInstance->findOwnedObject("nonExistent") == "");
+  }
+
+  SECTION("Name is a substring but not a full component")
+  {
+    // "child" is a substring of "child1"
+    REQUIRE(parentInstance->findOwnedObject("child") == "");
+  }
+
+  SECTION("Find only searches within the object's path")
+  {
+    io->createGroup("/other");
+    io->createGroup("/other/target");
+
+    // Should not find target because it is not owned by /parent
+    REQUIRE(parentInstance->findOwnedObject("target") == "");
+  }
+
+  io->close();
+}

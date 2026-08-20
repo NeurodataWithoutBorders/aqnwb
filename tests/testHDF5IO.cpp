@@ -32,6 +32,62 @@ std::string executablePath = "./reader_executable";
 using namespace AQNWB;
 namespace fs = std::filesystem;
 
+#ifdef H5_HAVE_ROS3_VFD
+TEST_CASE("HDF5IO; ROS3 mode", "[hdf5io]")
+{
+  std::string s3Url =
+      "https://dandiarchive.s3.amazonaws.com/blobs/fec/8a6/"
+      "fec8a690-2ece-4437-8877-8a002ff8bd8a";
+
+  SECTION("open with ros3 driver - region only")
+  {
+    IO::HDF5::HDF5IO hdf5io(s3Url);
+    Status status = hdf5io.openS3("us-east-2");
+    REQUIRE(status == Status::Success);
+    REQUIRE(hdf5io.isOpen());
+    REQUIRE(hdf5io.canModifyObjects() == false);
+    REQUIRE(hdf5io.openS3("us-east-2") == Status::Failure);
+    REQUIRE(hdf5io.isOpen());
+    hdf5io.close();
+  }
+
+  SECTION("invalid URL returns failure")
+  {
+    IO::HDF5::HDF5IO hdf5io("");
+    REQUIRE(hdf5io.openS3("us-east-2") == Status::Failure);
+    REQUIRE_FALSE(hdf5io.isOpen());
+  }
+}
+#endif
+
+#ifdef AQNWB_HAVE_REMFILE_VFD
+TEST_CASE("HDF5IO; REMFILE mode", "[hdf5io]")
+{
+  std::string s3Url =
+      "https://dandiarchive.s3.amazonaws.com/blobs/fec/8a6/"
+      "fec8a690-2ece-4437-8877-8a002ff8bd8a";
+
+  SECTION("open with remfile-vfd driver - region only")
+  {
+    IO::HDF5::HDF5IO hdf5io(s3Url);
+    Status status = hdf5io.openRemote();
+    REQUIRE(status == Status::Success);
+    REQUIRE(hdf5io.isOpen());
+    REQUIRE(hdf5io.canModifyObjects() == false);
+    REQUIRE(hdf5io.openRemote() == Status::Failure);
+    REQUIRE(hdf5io.isOpen());
+    hdf5io.close();
+  }
+
+  SECTION("invalid URL returns failure")
+  {
+    IO::HDF5::HDF5IO hdf5io("");
+    REQUIRE(hdf5io.openRemote() == Status::Failure);
+    REQUIRE_FALSE(hdf5io.isOpen());
+  }
+}
+#endif
+
 TEST_CASE("open - hdf5 file modes", "[hdf5io]")
 {
   const std::string fileName = getTestFilePath("test_open_modes.h5");
@@ -89,6 +145,7 @@ TEST_CASE("open - hdf5 file modes", "[hdf5io]")
     IO::HDF5::HDF5IO hdf5io(fileName);
     REQUIRE(hdf5io.open(IO::FileMode::ReadOnly) == Status::Success);
     REQUIRE(hdf5io.isOpen());
+    REQUIRE_FALSE(hdf5io.canModifyObjects());
 
     // Verify file is opened in ReadOnly mode
     H5::H5File file(fileName, H5F_ACC_RDONLY | H5F_ACC_SWMR_READ);
@@ -742,6 +799,12 @@ TEST_CASE("HDF5IO; create attributes", "[hdf5io]")
     REQUIRE(readAttrData.shape.size() == 0);  // Scalar attribute
     REQUIRE(readAttrData.data.size() == 1);
     REQUIRE(readAttrData.data[0] == data);
+
+    H5::H5File h5file(filename, H5F_ACC_RDONLY);
+    H5::Group grp = h5file.openGroup(groupPath);
+    H5::Attribute attr = grp.openAttribute(attrName);
+    H5::StrType attrType = attr.getStrType();
+    REQUIRE(attrType.getCset() == H5T_CSET_UTF8);
   }
 
   // integer array
@@ -825,6 +888,12 @@ TEST_CASE("HDF5IO; create attributes", "[hdf5io]")
     REQUIRE(readAttrData.shape.size() == 1);
     REQUIRE(readAttrData.data.size() == 3);
     REQUIRE(readAttrData.data == data);
+
+    H5::H5File h5file(filename, H5F_ACC_RDONLY);
+    H5::Group grp = h5file.openGroup(groupPath);
+    H5::Attribute attr = grp.openAttribute(attrName);
+    H5::StrType attrType = attr.getStrType();
+    REQUIRE(attrType.getCset() == H5T_CSET_UTF8);
   }
 
   // string array with overwrite
@@ -1184,12 +1253,14 @@ TEST_CASE("getNativeType", "[hdf5io]")
     H5::DataType nativeTypeSTR = IO::HDF5::HDF5IO::getNativeType(typeSTR);
     REQUIRE(nativeTypeSTR.getSize()
             == H5::StrType(H5::PredType::C_S1, 256).getSize());
+    REQUIRE(H5Tget_cset(nativeTypeSTR.getId()) == H5T_CSET_UTF8);
 
     // Test for V_STR
     IO::BaseDataType typeVSTR(IO::BaseDataType::V_STR, 1);
     H5::DataType nativeTypeVSTR = IO::HDF5::HDF5IO::getNativeType(typeVSTR);
     REQUIRE(nativeTypeVSTR.getSize()
             == H5::StrType(H5::PredType::C_S1, H5T_VARIABLE).getSize());
+    REQUIRE(H5Tget_cset(nativeTypeVSTR.getId()) == H5T_CSET_UTF8);
   }
 
   SECTION("Array Types")
@@ -1268,12 +1339,14 @@ TEST_CASE("getH5Type", "[hdf5io]")
     H5::DataType h5TypeSTR = IO::HDF5::HDF5IO::getH5Type(typeSTR);
     REQUIRE(h5TypeSTR.getSize()
             == H5::StrType(H5::PredType::C_S1, 256).getSize());
+    REQUIRE(H5Tget_cset(h5TypeSTR.getId()) == H5T_CSET_UTF8);
 
     // Test for V_STR
     IO::BaseDataType typeVSTR(IO::BaseDataType::V_STR, 1);
     H5::DataType h5TypeVSTR = IO::HDF5::HDF5IO::getH5Type(typeVSTR);
     REQUIRE(h5TypeVSTR.getSize()
             == H5::StrType(H5::PredType::C_S1, H5T_VARIABLE).getSize());
+    REQUIRE(H5Tget_cset(h5TypeVSTR.getId()) == H5T_CSET_UTF8);
   }
 
   SECTION("Array Types")
@@ -1899,6 +1972,13 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     REQUIRE(readStrDataTyped.shape[0] == 3);
     REQUIRE(readStrDataTyped.data == testDataStr);
 
+    {
+      H5::H5File h5file(path, H5F_ACC_RDONLY);
+      H5::DataSet dataset = h5file.openDataSet(strDataPath);
+      H5::StrType stringType = dataset.getStrType();
+      REQUIRE(stringType.getCset() == H5T_CSET_UTF8);
+    }
+
     // Test writing and reading of variable length strings as datasets
     std::string vstrDataPath = "/VStrDataset";
     std::vector<std::string> testDataVStr = {"jkl", "mnop", "qrstu"};
@@ -1928,6 +2008,13 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     auto readVStrDataTyped = DataBlock<std::string>::fromGeneric(readVStrData);
     REQUIRE(readVStrDataTyped.shape[0] == 3);
     REQUIRE(readVStrDataTyped.data == testDataVStr);
+
+    {
+      H5::H5File h5file(path, H5F_ACC_RDONLY);
+      H5::DataSet dataset = h5file.openDataSet(vstrDataPath);
+      H5::StrType stringType = dataset.getStrType();
+      REQUIRE(stringType.getCset() == H5T_CSET_UTF8);
+    }
 
     hdf5io->close();
   }
