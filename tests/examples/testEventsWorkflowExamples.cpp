@@ -32,7 +32,20 @@ TEST_CASE("eventsWorkflowExamples")
 
     // [example_events_rowbased_nwbfile_snippet]
     auto nwbfile = NWB::NWBFile::create(io);
-    Status initStatus = nwbfile->initialize(generateUuid());
+    AQNWB::NWB::Subject::SubjectSpec subjectSpec;
+    subjectSpec.subjectId = "mouse001";
+    subjectSpec.species = "Mus musculus";
+    subjectSpec.sex = "M";
+    subjectSpec.age = "P90D";
+    subjectSpec.description =
+        "Wild type mouse used for electrophysiology study";
+    std::string currentTime = getCurrentTime();
+    Status initStatus = nwbfile->initialize(generateUuid(),
+                                            "a recording session",
+                                            "data collection info",
+                                            currentTime,
+                                            currentTime,
+                                            subjectSpec);
     AQNWB::checkStatus(initStatus, "NWBFile initialization");
     // [example_events_rowbased_nwbfile_snippet]
     REQUIRE(initStatus == Status::Success);
