@@ -24,6 +24,8 @@ namespace AQNWB::NWB
 class Subject : public AQNWB::NWB::NWBContainer
 {
 public:
+  REGISTER_SUBCLASS(Subject, NWBContainer, AQNWB::SPEC::CORE::namespaceName)
+
   /**
    * @brief Metadata about the experimental subject.
    *
@@ -57,24 +59,10 @@ public:
   };
 
   /**
-   * @brief Constructor for Subject.
-   * @param io The shared pointer to the IO object.
-   */
-  explicit Subject(std::shared_ptr<IO::BaseIO> io);
-
-  /**
-   * @brief Constructor
-   * @param path Path to the object in the file
-   * @param io IO object for reading/writing
-   */
-  Subject(const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io);
-
-  /**
    * @brief Virtual destructor.
    */
   virtual ~Subject() override {}
 
-  // TODO: Update the initialize method as appropriate.
   /**
    * @brief Initialize the object
    * @param subjectSpec The SubjectSpec object with the subject metadata
@@ -140,7 +128,19 @@ public:
       "Age is with reference to this event. Can be birth or gestational. If "
       "reference is omitted - birth is implied.")
 
-  REGISTER_SUBCLASS(Subject, NWBContainer, AQNWB::SPEC::CORE::namespaceName)
+protected:
+  /**
+   * @brief Constructor for Subject.
+   * @param io The shared pointer to the IO object.
+   */
+  explicit Subject(std::shared_ptr<IO::BaseIO> io);
+
+  /**
+   * @brief Constructor
+   * @param path Path to the object in the file
+   * @param io IO object for reading/writing
+   */
+  Subject(const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io);
 };
 
 }  // namespace AQNWB::NWB
