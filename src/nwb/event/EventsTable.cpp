@@ -27,8 +27,9 @@ Status EventsTable::validateDataSpecs(
 }
 
 std::vector<DynamicTable::DataSpecPtr> EventsTable::createDefaultDataSpecs(
-    float timestampResolution,
-    float durationResolution,
+    std::optional<float> timestampResolution,
+    bool createDurationColumn,
+    std::optional<float> durationResolution,
     const bool createAnnotationColumn,
     const SizeType rowChunkSize)
 {
@@ -44,7 +45,7 @@ std::vector<DynamicTable::DataSpecPtr> EventsTable::createDefaultDataSpecs(
       "thesession start time. Timestamp are not required to be sorted in time.",
       timestampResolution));
 
-  if (durationResolution >= 0.0f) {
+  if (createDurationColumn) {
     IO::ArrayDataSetConfig durationConfig(
         IO::BaseDataType::F32, SizeArray {0}, SizeArray {rowChunkSize});
     specs.push_back(std::make_shared<DurationVectorData::DataSpec>(
@@ -69,9 +70,10 @@ std::vector<DynamicTable::DataSpecPtr> EventsTable::createDefaultDataSpecs(
 }
 
 // Initialize the object
-Status EventsTable::initialize(const std::string& description,
-                               const std::string& sourceDescription,
-                               const std::vector<DataSpecPtr>& columnSpecs)
+Status EventsTable::initialize(
+    const std::string& description,
+    const std::optional<std::string>& sourceDescription,
+    const std::vector<DataSpecPtr>& columnSpecs)
 {
   Status initStatus = Status::Success;
 
@@ -109,9 +111,9 @@ Status EventsTable::initialize(const std::string& description,
   // Initialize attributes, datasets, and groups
   // Create the source_description attribute if provided
   Status sourceDescStatus = Status::Success;
-  if (!sourceDescription.empty()) {
-    sourceDescStatus =
-        ioPtr->createAttribute(sourceDescription, m_path, "source_description");
+  if (sourceDescription.has_value() && !sourceDescription.value().empty()) {
+    sourceDescStatus = ioPtr->createAttribute(
+        sourceDescription.value(), m_path, "source_description");
   }
 
   // Combine all statuses and return the final status

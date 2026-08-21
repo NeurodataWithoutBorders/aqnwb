@@ -3,6 +3,7 @@
 #include <array>
 #include <cstdint>
 #include <memory>
+#include <optional>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -185,8 +186,15 @@ public:
    * events came from.
    * @param timestampResolution The temporal resolution of the timestamps in
    * seconds.
+   * @param createDurationColumn Whether to create the optional duration column
+   * (default: false). If true, the duration column will be created with the
+   * specified `durationResolution`. If false, the duration column will not be
+   * created.
    * @param durationResolution The temporal resolution of the optional duration
-   * column in seconds.
+   * column in seconds. See `DurationVectorData::initialize()` for more details.
+   * If a std::nullopt is provided, the duration.resolution attribute of the
+   * duration column will not be created. Note, if `createDurationColumn` is
+   * false, this parameter is ignored.
    * @param createAnnotationColumn Whether to create the annotation column.
    * @param rowChunkSize The chunk size for the rows of the table.
    * @return The generated EventsTable or nullptr if failed.
@@ -194,9 +202,10 @@ public:
   std::shared_ptr<EventsTable> createEventsTable(
       const std::string& name,
       const std::string& description,
-      const std::string& sourceDescription = "",
-      float timestampResolution = 0.001f,
-      float durationResolution = -1.0f,
+      const std::optional<std::string>& sourceDescription = std::nullopt,
+      std::optional<float> timestampResolution = std::nullopt,
+      bool createDurationColumn = false,
+      std::optional<float> durationResolution = std::nullopt,
       const bool createAnnotationColumn = false,
       const SizeType rowChunkSize = 100);
 

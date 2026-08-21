@@ -59,18 +59,24 @@ public:
    * @brief Creates the default data specs for the EventsTable.
    * @param timestampResolution The temporal resolution of the timestamps - in
    * seconds. See `TimestampVectorData::initialize()` for more details.
+   * @param createDurationColumn Whether to create the optional duration column
+   * (default: false). If true, the duration column will be created with the
+   * specified `durationResolution`. If false, the duration column will not be
+   * created.
    * @param durationResolution The temporal resolution of the optional duration
    * column in seconds. See `DurationVectorData::initialize()` for more details.
-   * If a negative value is provided (default), then the duration column will
-   * not be created.
+   * If a std::nullopt is provided, the duration.resolution attribute of the
+   * duration column will not be created. Note, if `createDurationColumn` is
+   * false, this parameter is ignored.
    * @param createAnnotationColumn Whether to create the annotation column
    * (default: false)
    * @param rowChunkSize The chunk size for the rows of the table.
    * @return A vector of DataSpecPtr containing the default specs.
    */
   static std::vector<DataSpecPtr> createDefaultDataSpecs(
-      float timestampResolution,
-      float durationResolution = -1.0f,
+      std::optional<float> timestampResolution = std::nullopt,
+      bool createDurationColumn = false,
+      std::optional<float> durationResolution = std::nullopt,
       const bool createAnnotationColumn = false,
       const SizeType rowChunkSize = 100);
 
@@ -95,9 +101,10 @@ public:
    * @param columnSpecs The column specifications to use for initialization.
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status initialize(const std::string& description,
-                    const std::string& sourceDescription,
-                    const std::vector<DataSpecPtr>& columnSpecs = {});
+  Status initialize(
+      const std::string& description,
+      const std::optional<std::string>& sourceDescription = std::nullopt,
+      const std::vector<DataSpecPtr>& columnSpecs = {});
 
   // Define read methods
   // description overrides inherited field from parent neurodata_type

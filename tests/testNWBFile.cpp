@@ -205,7 +205,8 @@ TEST_CASE("createEventsTable with full initialization", "[nwb]")
                                                 "test description",
                                                 "test source",
                                                 0.001f,
-                                                -1.0f,
+                                                false,
+                                                std::nullopt,
                                                 true,
                                                 50);
   REQUIRE(eventsTable != nullptr);
@@ -265,9 +266,9 @@ TEST_CASE("createEventsTable with post initialization", "[nwb]")
   std::string description = "Test events table";
   std::string sourceDescription = "Test source description";
   float timestampResolution = 1.0f / 30000.0f;
-  float durationResolution = -1.0f;  // no duration column
+  std::optional<float> durationResolution = std::nullopt;  // no duration column
   auto specs = NWB::EventsTable::createDefaultDataSpecs(
-      timestampResolution, durationResolution, true, 100);
+      timestampResolution, false, durationResolution, true, 100);
   Status initStatus =
       eventsTable->initialize(description, sourceDescription, specs);
   REQUIRE(initStatus == Status::Success);

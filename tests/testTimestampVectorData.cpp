@@ -115,6 +115,49 @@ TEST_CASE("TimestampVectorData", "[event]")
     io->close();
   }
 
+  SECTION("test TimestampVectorData initialize with optional resolution")
+  {
+    std::string path = getTestFilePath("testTimestampVectorDataOptional.h5");
+    std::string dataPath = "/timestamps_optional";
+    std::string description = "Test timestamp data optional";
+    std::vector<float> timestamps = {0.0f, 0.1f, 0.25f};
+    SizeArray dataShape = {timestamps.size()};
+    SizeArray chunking = {timestamps.size()};
+
+    {
+      std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+      io->open();
+
+      IO::ArrayDataSetConfig config(BaseDataType::F32, dataShape, chunking);
+      auto timestampVectorData =
+          AQNWB::NWB::TimestampVectorData::create(dataPath, io);
+      REQUIRE(timestampVectorData != nullptr);
+
+      Status initStatus =
+          timestampVectorData->initialize(config, description, std::nullopt);
+      REQUIRE(initStatus == Status::Success);
+      io->close();
+    }
+
+    {
+      std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+      io->open();
+
+      auto readDataUntyped = NWB::RegisteredType::create(dataPath, io);
+      REQUIRE(readDataUntyped != nullptr);
+
+      auto readTimestampVectorData =
+          std::dynamic_pointer_cast<AQNWB::NWB::TimestampVectorData>(
+              readDataUntyped);
+      REQUIRE(readTimestampVectorData != nullptr);
+
+      auto resolutionData = readTimestampVectorData->readResolution();
+      REQUIRE(resolutionData->exists() == false);
+
+      io->close();
+    }
+  }
+
   SECTION("test TimestampVectorData initialize fails after IO deletion")
   {
     SizeArray dataShape = {3};

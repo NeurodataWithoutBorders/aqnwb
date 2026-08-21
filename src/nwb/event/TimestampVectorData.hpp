@@ -29,7 +29,7 @@ public:
     DataSpec(const std::string& datasetName,
              const AQNWB::IO::ArrayDataSetConfig& dataConfig,
              const std::string& columnDescription,
-             float columnResolution)
+             std::optional<float> columnResolution = std::nullopt)
         : Data::DataSpec<TimestampVectorData>(datasetName, dataConfig)
         , description(columnDescription)
         , resolution(columnResolution)
@@ -37,7 +37,7 @@ public:
     }
 
     std::string description;
-    float resolution;
+    std::optional<float> resolution;
 
     Status initialize(Data& data) const override;
   };
@@ -66,13 +66,13 @@ public:
    */
   Status initialize(const AQNWB::IO::ArrayDataSetConfig& data,
                     const std::string& description,
-                    float resolution);
+                    std::optional<float> resolution = std::nullopt);
 
   static std::shared_ptr<DataSpec> createDataSpec(
       const std::string& name,
       const AQNWB::IO::ArrayDataSetConfig& dataConfig,
       const std::string& description,
-      float resolution);
+      std::optional<float> resolution = std::nullopt);
 
   // Define read methods
   DEFINE_ATTRIBUTE_FIELD(

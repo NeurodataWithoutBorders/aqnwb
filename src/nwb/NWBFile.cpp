@@ -307,9 +307,10 @@ Status NWBFile::requireIntervalsGroup(std::shared_ptr<IO::BaseIO> io)
 std::shared_ptr<EventsTable> NWBFile::createEventsTable(
     const std::string& name,
     const std::string& description,
-    const std::string& sourceDescription,
-    float timestampResolution,
-    float durationResolution,
+    const std::optional<std::string>& sourceDescription,
+    std::optional<float> timestampResolution,
+    bool createDurationColumn,
+    std::optional<float> durationResolution,
     const bool createAnnotationColumn,
     const SizeType rowChunkSize)
 {
@@ -336,6 +337,7 @@ std::shared_ptr<EventsTable> NWBFile::createEventsTable(
   }
 
   auto specs = EventsTable::createDefaultDataSpecs(timestampResolution,
+                                                   createDurationColumn,
                                                    durationResolution,
                                                    createAnnotationColumn,
                                                    rowChunkSize);
