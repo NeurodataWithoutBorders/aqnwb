@@ -23,7 +23,7 @@ TEST_CASE("EventsTable", "[event]")
   SECTION("test EventsTable initialize, write, and read")
   {
     std::string path = getTestFilePath("testEventsTable.h5");
-    std::string tablePath = "/events";
+    std::string tablePath = "/events/test_events";
     std::string description = "Test events table";
     std::string sourceDescription = "Test source description";
     float timestampResolution = 1.0f / 30000.0f;
@@ -41,6 +41,9 @@ TEST_CASE("EventsTable", "[event]")
       std::shared_ptr<BaseIO> io = createIO("HDF5", path);
       io->open();
 
+      // Verify events group does not exist initially
+      REQUIRE(io->objectExists("/events") == false);
+
       auto eventsTable = AQNWB::NWB::EventsTable::create(tablePath, io);
       REQUIRE(eventsTable != nullptr);
 
@@ -49,6 +52,9 @@ TEST_CASE("EventsTable", "[event]")
       Status initStatus =
           eventsTable->initialize(description, sourceDescription, specs);
       REQUIRE(initStatus == Status::Success);
+
+      // Verify events group was created
+      REQUIRE(io->objectExists("/events") == true);
 
       // Write timestamps
       auto timestampColumn = eventsTable->readTimestampColumn();
@@ -144,10 +150,37 @@ TEST_CASE("EventsTable", "[event]")
     }
   }
 
+  SECTION("test EventsTable initialize at non-events path")
+  {
+    std::string path = getTestFilePath("testEventsTableNonEventsPath.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    // Verify events group does not exist initially
+    REQUIRE(io->objectExists("/events") == false);
+    REQUIRE(io->createGroup("/other_path") == Status::Success);
+
+    auto eventsTable =
+        AQNWB::NWB::EventsTable::create("/other_path/test_events", io);
+    REQUIRE(eventsTable != nullptr);
+
+    auto specs =
+        NWB::EventsTable::createDefaultDataSpecs(0.01f, 0.01f, true, 100);
+    Status initStatus = eventsTable->initialize(
+        "Test events table", "Test source description", specs);
+    REQUIRE(initStatus == Status::Success);
+
+    // Verify events group was NOT created
+    REQUIRE(io->objectExists("/events") == false);
+
+    io->close();
+  }
+
   SECTION("test EventsTable initialize fails after IO deletion")
   {
     auto io = createIO("HDF5", getTestFilePath("testEventsTableNoIO.h5"));
-    auto eventsTable = AQNWB::NWB::EventsTable::create("/events", io);
+    auto eventsTable =
+        AQNWB::NWB::EventsTable::create("/events/test_events", io);
     REQUIRE(eventsTable != nullptr);
 
     io.reset();
@@ -164,7 +197,8 @@ TEST_CASE("EventsTable", "[event]")
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
 
-    auto eventsTable = AQNWB::NWB::EventsTable::create("/events", io);
+    auto eventsTable =
+        AQNWB::NWB::EventsTable::create("/events/test_events", io);
 
     // 1. Valid specs (contain "id" and "timestamp")
     std::vector<NWB::DynamicTable::DataSpecPtr> validSpecs;

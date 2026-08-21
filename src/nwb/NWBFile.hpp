@@ -29,6 +29,15 @@ namespace AQNWB::NWB
 /**
  * @brief The NWBFile class provides an interface for setting up and managing
  * the NWB file.
+ *
+ * \note
+ * **Handling of Optional Paths:**
+ * Some groups in the NWB file structure (e.g., `/events`, `/intervals`) are
+ * optional and are not created by default during `initialize()`. These groups
+ * are created automatically on-demand when objects are added to them (e.g., via
+ * `createEventsTable` or `createTimeIntervals`). If you are creating objects in
+ * these paths manually, you can use helper methods like `requireEventsGroup` or
+ * `requireIntervalsGroup` to ensure the parent groups exist.
  */
 class NWBFile : public NWBContainer
 {
@@ -140,6 +149,30 @@ public:
       std::vector<Types::ChannelVector> recordingArrays,
       bool finalizeTable = true,
       const SizeType rowChunkSize = 100);
+
+  /**
+   * @brief Ensure that the events group exists in the NWB file.
+   *
+   * This function checks if the events group exists and creates it if it does
+   * not.
+   *
+   * @param io The shared pointer to the IO object.
+   * @return Status::Success if the group exists or was successfully created,
+   * Status::Failure otherwise.
+   */
+  static Status requireEventsGroup(std::shared_ptr<IO::BaseIO> io);
+
+  /**
+   * @brief Ensure that the intervals group exists in the NWB file.
+   *
+   * This function checks if the intervals group exists and creates it if it
+   * does not.
+   *
+   * @param io The shared pointer to the IO object.
+   * @return Status::Success if the group exists or was successfully created,
+   * Status::Failure otherwise.
+   */
+  static Status requireIntervalsGroup(std::shared_ptr<IO::BaseIO> io);
 
   /**
    * @brief Create an EventsTable in the EVENTS_PATH group.

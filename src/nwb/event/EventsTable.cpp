@@ -1,6 +1,7 @@
 #include "nwb/event/EventsTable.hpp"
 
 #include "Utils.hpp"
+#include "nwb/NWBFile.hpp"
 // Includes for referenced types
 #include "nwb/hdmf/table/ElementIdentifiers.hpp"
 #include "nwb/hdmf/table/MeaningsTable.hpp"
@@ -89,6 +90,17 @@ Status EventsTable::initialize(const std::string& description,
     // where we removed the resolutions from initialize.
     // For now, we'll just use the default DynamicTable specs.
     specsToUse = DynamicTable::createDefaultDataSpecs();
+  }
+
+  // Ensure the events group exists if this table is being created in the events
+  // group
+  if (m_path.find(NWBFile::EVENTS_PATH) == 0) {
+    Status requireStatus = NWBFile::requireEventsGroup(ioPtr);
+    if (requireStatus != Status::Success) {
+      std::cerr << "Failed to create or verify events group for EventsTable: "
+                << m_path << std::endl;
+      return Status::Failure;
+    }
   }
 
   // Call parent initialize method.

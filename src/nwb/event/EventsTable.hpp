@@ -76,6 +76,18 @@ public:
 
   /**
    * @brief Initialize the object
+   *
+   * \note
+   * **Handling of Optional Paths:**
+   * If the EventsTable is being created in the `/events` group (e.g.,
+   * `/events/my_table`), this method will automatically create the `/events`
+   * group if it does not already exist using the
+   * `NWBFile::requireEventsGroup()` helper method. This is because the
+   * `/events` group is optional in the NWB file structure and as such needs to
+   * be created on-demand. If the EventsTable is being created in a different
+   * path, this method will not create any parent groups, and it is the caller's
+   * responsibility to ensure that the parent group exists.
+   *
    * @param description Description of the table
    * @param sourceDescription Optional short text description of where the
    * events came from, applying to every row in the table. If empty string is

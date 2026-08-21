@@ -1,6 +1,7 @@
 #include "nwb/epoch/TimeIntervals.hpp"
 
 #include "Utils.hpp"
+#include "nwb/NWBFile.hpp"
 
 using namespace AQNWB::NWB;
 using namespace AQNWB::IO;
@@ -82,6 +83,26 @@ Status TimeIntervals::initialize(const std::string& description,
   std::vector<DataSpecPtr> specsToUse = columnSpecs;
   if (specsToUse.empty()) {
     specsToUse = createDefaultDataSpecs(this->getPath());
+  }
+
+  // Retrieve the IO object
+  auto ioPtr = getIO();
+  if (ioPtr == nullptr) {
+    std::cerr << "IO object has been deleted. Can't initialize TimeIntervals: "
+              << m_path << std::endl;
+    return Status::Failure;
+  }
+
+  // Ensure the intervals group exists if this table is being created in the
+  // intervals group
+  if (m_path.find(NWBFile::INTERVALS_PATH) == 0) {
+    Status requireStatus = NWBFile::requireIntervalsGroup(ioPtr);
+    if (requireStatus != Status::Success) {
+      std::cerr
+          << "Failed to create or verify intervals group for TimeIntervals: "
+          << m_path << std::endl;
+      return Status::Failure;
+    }
   }
 
   // create group. This configures the "start_time" and "stop_time" columns

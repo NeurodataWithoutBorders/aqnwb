@@ -68,6 +68,10 @@ TEST_CASE("initialize", "[nwb]")
   REQUIRE(initStatus == Status::Success);
   REQUIRE(nwbfile->isInitialized());
 
+  // Verify that events and intervals groups are NOT created by default
+  REQUIRE(io->objectExists("/events") == false);
+  REQUIRE(io->objectExists("/intervals") == false);
+
   // Since we didn't create any typed objects within the NWBFile, we should
   // have no owned types
   auto result = nwbfile->findOwnedTypes();
@@ -89,10 +93,16 @@ TEST_CASE("createTimeIntervalsTables", "[nwb]")
   auto nwbfile = NWB::NWBFile::create(io);
   nwbfile->initialize(generateUuid());
 
+  // Verify intervals group does not exist initially
+  REQUIRE(io->objectExists("/intervals") == false);
+
   // create the Epochs Table
   auto epochsTable = nwbfile->createEpochs(false, 50);
   REQUIRE(epochsTable != nullptr);
   REQUIRE(epochsTable->getName() == "epochs");
+
+  // Verify intervals group was created
+  REQUIRE(io->objectExists("/intervals") == true);
   REQUIRE(epochsTable->readDescription()->values().data[0] == "Time intervals marking coarse-grained experimental phases or subdivisions of a recording session, such as baseline, task, rest, or sleep stage");
 
   // create the Trials Table
@@ -187,6 +197,9 @@ TEST_CASE("createEventsTable with full initialization", "[nwb]")
   auto nwbfile = NWB::NWBFile::create(io);
   nwbfile->initialize(generateUuid());
 
+  // Verify events group does not exist initially
+  REQUIRE(io->objectExists("/events") == false);
+
   // create the Events Table
   auto eventsTable = nwbfile->createEventsTable("test_events",
                                                 "test description",
@@ -197,6 +210,9 @@ TEST_CASE("createEventsTable with full initialization", "[nwb]")
                                                 50);
   REQUIRE(eventsTable != nullptr);
   REQUIRE(eventsTable->getName() == "test_events");
+
+  // Verify events group was created
+  REQUIRE(io->objectExists("/events") == true);
   REQUIRE(eventsTable->readDescription()->values().data[0]
           == "test description");
   REQUIRE(eventsTable->readSourceDescription()->values().data[0]
