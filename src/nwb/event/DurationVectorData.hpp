@@ -54,7 +54,6 @@ public:
    */
   virtual ~DurationVectorData() override {}
 
-  // TODO: Update the initialize method as appropriate.
   /**
    * @brief Initialize the object
    * @param data The configuration for the dataset
