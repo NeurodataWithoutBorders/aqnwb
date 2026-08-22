@@ -96,11 +96,11 @@ public:
       "meaning",
       "The meaning of the value in the linked VectorData object.")
 
-  DEFINE_REFERENCED_REGISTERED_FIELD(
-      readTarget,
-      AQNWB::NWB::VectorData,
-      "target",
-      "The VectorData object for which this table provides meanings.")
+  DEFINE_REFERENCED_REGISTERED_FIELD(readTarget,
+                                     AQNWB::NWB::VectorData,
+                                     "target",
+                                     "Reference to the VectorData object for "
+                                     "which this table provides meanings.")
 
   REGISTER_SUBCLASS(MeaningsTable,
                     DynamicTable,
