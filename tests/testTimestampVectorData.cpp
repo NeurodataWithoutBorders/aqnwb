@@ -119,12 +119,12 @@ TEST_CASE("TimestampVectorData", "[event]")
   {
     std::string path = getTestFilePath("testTimestampVectorDataOptional.h5");
     std::string dataPath = "/timestamps_optional";
-    std::string description = "Test timestamp data optional";
     std::vector<float> timestamps = {0.0f, 0.1f, 0.25f};
     SizeArray dataShape = {timestamps.size()};
     SizeArray chunking = {timestamps.size()};
 
     {
+      std::string description = "Test timestamp data optional";
       std::shared_ptr<BaseIO> io = createIO("HDF5", path);
       io->open();
 
