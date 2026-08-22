@@ -78,10 +78,9 @@ TEST_CASE("initialize", "[nwb]")
   REQUIRE(io->objectExists("/events") == false);
   REQUIRE(io->objectExists("/intervals") == false);
 
-  // Since we didn't create any typed objects within the NWBFile, we should
-  // have no owned types
+  // We created a Subject so we should have 1 owned type
   auto result = nwbfile->findOwnedTypes();
-  REQUIRE(result.size() == 0);
+  REQUIRE(result.size() == 1);
 
   nwbfile->finalize();  // Good practice since we don't call stop recording, but
                         // not essential
