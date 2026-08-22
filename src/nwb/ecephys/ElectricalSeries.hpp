@@ -51,7 +51,7 @@ public:
    * @param conversion Scalar to multiply each element in data to convert it to
    *                   the specified 'unit'
    * @param resolution Smallest meaningful difference between values in data,
-   *                   stored in the specified by unit
+   *                   stored in the specified unit
    * @param offset Scalar to add to the data after scaling by 'conversion' to
    *               finalize its coercion to the specified 'unit'
    * @return The status of the initialization operation.

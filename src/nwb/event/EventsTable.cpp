@@ -39,8 +39,8 @@ std::vector<DynamicTable::DataSpecPtr> EventsTable::createDefaultDataSpecs(
   specs.push_back(std::make_shared<TimestampVectorData::DataSpec>(
       "timestamp",
       timestampConfig,
-      "A 1-dimensional VectorData that stores timestamps in seconds from the "
-      "session start time. Timestamps are not required to be sorted in time.",
+      "A 1-D VectorData that stores timestamps in seconds from the session "
+      "start time. Timestamps are not required to be sorted in time.",
       timestampResolution));
 
   if (durationResolution >= 0.0f) {
@@ -49,8 +49,8 @@ std::vector<DynamicTable::DataSpecPtr> EventsTable::createDefaultDataSpecs(
     specs.push_back(std::make_shared<DurationVectorData::DataSpec>(
         "duration",
         durationConfig,
-        "A 1-dimensional VectorData that stores the durations of the events in "
-        "seconds. Durations are not required to be sorted in time.",
+        "A 1-D VectorData that stores the durations of the events in seconds. "
+        "Durations are not required to be sorted in time.",
         durationResolution));
   }
 
@@ -60,8 +60,8 @@ std::vector<DynamicTable::DataSpecPtr> EventsTable::createDefaultDataSpecs(
     specs.push_back(std::make_shared<VectorData::DataSpec>(
         "annotation",
         annotationConfig,
-        "A 1-dimensional VectorData that stores annotations for the events. "
-        "Annotations are not required to be sorted in time."));
+        "A 1-D VectorData that stores annotations for the events. Annotations "
+        "are not required to be sorted in time."));
   }
 
   return specs;

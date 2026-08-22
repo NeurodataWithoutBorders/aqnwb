@@ -56,6 +56,7 @@ public:
                        recordPosition,
                        std::any,
                        "position",
-                       Stereotaxis or common framework coordinates)
+                       Stereotaxic or common framework coordinates of the
+                           electrode group position)
 };
 }  // namespace AQNWB::NWB

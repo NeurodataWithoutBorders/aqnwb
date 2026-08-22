@@ -18,7 +18,7 @@ namespace AQNWB::NWB
 {
 
 /**
- * @brief A 1-dimensional VectorData that stores durations in seconds.
+ * @brief A 1-D VectorData that stores durations in seconds.
  */
 class DurationVectorData : public AQNWB::NWB::VectorData
 {
@@ -94,7 +94,7 @@ public:
       recordData,
       float,
       "",
-      "A 1-dimensional VectorData that stores durations in seconds.")
+      "A 1-D VectorData that stores durations in seconds.")
 
   REGISTER_SUBCLASS(DurationVectorData,
                     VectorData,
