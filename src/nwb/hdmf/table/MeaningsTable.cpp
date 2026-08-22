@@ -34,14 +34,14 @@ std::vector<DynamicTable::DataSpecPtr> MeaningsTable::createDefaultDataSpecs(
   specs.push_back(std::make_shared<VectorData::DataSpec>(
       "value",
       valueConfig,
-      "The value of a row in the linked VectorData object."));
+      "The value of a row in the referenced VectorData object."));
 
   IO::ArrayDataSetConfig meaningConfig(
       IO::BaseDataType::V_STR, SizeArray {0}, SizeArray {rowChunkSize});
   specs.push_back(std::make_shared<VectorData::DataSpec>(
       "meaning",
       meaningConfig,
-      "The meaning of the value in the linked VectorData object."));
+      "The meaning of the value in the referenced VectorData object."));
 
   return specs;
 }
