@@ -74,6 +74,15 @@ TEST_CASE("initialize", "[nwb]")
   REQUIRE(initStatus == Status::Success);
   REQUIRE(nwbfile->isInitialized());
 
+  // Verify that events and intervals groups are NOT created by default
+  REQUIRE(io->objectExists("/events") == false);
+  REQUIRE(io->objectExists("/intervals") == false);
+
+  // Since we didn't create any typed objects within the NWBFile, we should
+  // have no owned types
+  auto result = nwbfile->findOwnedTypes();
+  REQUIRE(result.size() == 0);
+
   nwbfile->finalize();  // Good practice since we don't call stop recording, but
                         // not essential
   io->close();  // close the io
@@ -121,10 +130,17 @@ TEST_CASE("createTimeIntervalsTables", "[nwb]")
                               getCurrentTime(),
                               getTestSubjectSpec())
           == Status::Success);
+
+  // Verify intervals group does not exist initially
+  REQUIRE(io->objectExists("/intervals") == false);
+
   // create the Epochs Table
   auto epochsTable = nwbfile->createEpochs(false, 50);
   REQUIRE(epochsTable != nullptr);
   REQUIRE(epochsTable->getName() == "epochs");
+
+  // Verify intervals group was created
+  REQUIRE(io->objectExists("/intervals") == true);
   REQUIRE(epochsTable->readDescription()->values().data[0] == "Time intervals marking coarse-grained experimental phases or subdivisions of a recording session, such as baseline, task, rest, or sleep stage");
 
   // create the Trials Table
@@ -225,16 +241,23 @@ TEST_CASE("createEventsTable with full initialization", "[nwb]")
                                           getTestSubjectSpec());
   REQUIRE(fileStatus == Status::Success);
 
+  // Verify events group does not exist initially
+  REQUIRE(io->objectExists("/events") == false);
+
   // create the Events Table
   auto eventsTable = nwbfile->createEventsTable("test_events",
                                                 "test description",
                                                 "test source",
                                                 0.001f,
-                                                -1.0f,
+                                                false,
+                                                std::nullopt,
                                                 true,
                                                 50);
   REQUIRE(eventsTable != nullptr);
   REQUIRE(eventsTable->getName() == "test_events");
+
+  // Verify events group was created
+  REQUIRE(io->objectExists("/events") == true);
   REQUIRE(eventsTable->readDescription()->values().data[0]
           == "test description");
   REQUIRE(eventsTable->readSourceDescription()->values().data[0]
@@ -293,9 +316,9 @@ TEST_CASE("createEventsTable with post initialization", "[nwb]")
   std::string description = "Test events table";
   std::string sourceDescription = "Test source description";
   float timestampResolution = 1.0f / 30000.0f;
-  float durationResolution = -1.0f;  // no duration column
+  std::optional<float> durationResolution = std::nullopt;  // no duration column
   auto specs = NWB::EventsTable::createDefaultDataSpecs(
-      timestampResolution, durationResolution, true, 100);
+      timestampResolution, false, durationResolution, true, 100);
   Status initStatus =
       eventsTable->initialize(description, sourceDescription, specs);
   REQUIRE(initStatus == Status::Success);

@@ -18,7 +18,7 @@ DurationVectorData::DurationVectorData(const std::string& path,
 // Initialize the object
 Status DurationVectorData::initialize(const AQNWB::IO::ArrayDataSetConfig& data,
                                       const std::string& description,
-                                      float resolution)
+                                      std::optional<float> resolution)
 {
   Status initStatus = Status::Success;
 
@@ -41,8 +41,12 @@ Status DurationVectorData::initialize(const AQNWB::IO::ArrayDataSetConfig& data,
   const std::string& unit = "seconds";
   Status unitStatus = ioPtr->createAttribute(unit, m_path, "unit");
   // Initialize resolution attribute
-  Status resolutionStatus = ioPtr->createAttribute(
-      AQNWB::IO::BaseDataType::F32, &resolution, m_path, "resolution");
+  Status resolutionStatus = Status::Success;
+  if (resolution.has_value()) {
+    float resValue = resolution.value();
+    resolutionStatus = ioPtr->createAttribute(
+        AQNWB::IO::BaseDataType::F32, &resValue, m_path, "resolution");
+  }
 
   // Update the status to reflect the success or failure of the initialization
   initStatus = initStatus && parentInitStatus && unitStatus && resolutionStatus;
@@ -70,7 +74,7 @@ DurationVectorData::createDataSpec(
     const std::string& name,
     const AQNWB::IO::ArrayDataSetConfig& dataConfig,
     const std::string& description,
-    float resolution)
+    std::optional<float> resolution)
 {
   return std::make_shared<DataSpec>(name, dataConfig, description, resolution);
 }

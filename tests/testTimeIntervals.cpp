@@ -53,13 +53,19 @@ TEST_CASE("TimeIntervals - Initialize and Add Rows", "[TimeIntervals]")
     {
       auto io = createIO("HDF5", filename);
       io->open(FileMode::Overwrite);
-      io->createGroup("/intervals");
+
+      // Verify intervals group does not exist initially
+      REQUIRE(io->objectExists("/intervals") == false);
+
       auto timeIntervals = TimeIntervals::create("/intervals/epochs", io);
 
       REQUIRE(timeIntervals != nullptr);
 
       Status status = timeIntervals->initialize("Test epochs");
       REQUIRE(status == Status::Success);
+
+      // Verify intervals group was created
+      REQUIRE(io->objectExists("/intervals") == true);
 
       // Add some rows
       AQNWB::Types::RowData row1 = {{"start_time", 1.0f}, {"stop_time", 2.0f}};
@@ -103,12 +109,37 @@ TEST_CASE("TimeIntervals - Initialize and Add Rows", "[TimeIntervals]")
     }
   }
 
+  SECTION("Initialization at non-intervals path")
+  {
+    {
+      auto io = createIO("HDF5", filename);
+      io->open(FileMode::Overwrite);
+
+      // Verify intervals group does not exist initially
+      REQUIRE(io->objectExists("/intervals") == false);
+      REQUIRE(io->createGroup("/other_path") == Status::Success);
+
+      auto timeIntervals = TimeIntervals::create("/other_path/epochs", io);
+
+      REQUIRE(timeIntervals != nullptr);
+
+      Status status = timeIntervals->initialize("Test epochs");
+      REQUIRE(status == Status::Success);
+
+      // Verify intervals group was NOT created
+      REQUIRE(io->objectExists("/intervals") == false);
+    }
+  }
+
   SECTION("Initialization with tags column")
   {
     {
       auto io = createIO("HDF5", filename);
       io->open(FileMode::Overwrite);
-      io->createGroup("/intervals");
+
+      // Verify intervals group does not exist initially
+      REQUIRE(io->objectExists("/intervals") == false);
+
       auto timeIntervals = TimeIntervals::create("/intervals/epochs", io);
 
       REQUIRE(timeIntervals != nullptr);
@@ -117,6 +148,9 @@ TEST_CASE("TimeIntervals - Initialize and Add Rows", "[TimeIntervals]")
           TimeIntervals::createDefaultDataSpecs("/intervals/epochs", 100, true);
       Status status = timeIntervals->initialize("Test epochs with tags", specs);
       REQUIRE(status == Status::Success);
+
+      // Verify intervals group was created
+      REQUIRE(io->objectExists("/intervals") == true);
 
       // Add rows with tags
       AQNWB::Types::RowData row1 = {

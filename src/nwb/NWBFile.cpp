@@ -139,9 +139,10 @@ bool NWBFile::isInitialized() const
       "processing",
       "stimulus",
       "general",
-      "specifications",
-      "events",
-      "intervals"};
+      "specifications"};
+  // Note,  "events" and "intervals" are optional and will be
+  // created when the corresponding tables are created, so we don't include them
+  // in the required objects set
 
   // Set to keep track of found objects
   std::unordered_set<std::string> foundObjects;
@@ -190,8 +191,9 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
   ioPtr->createGroup(NWBFile::GENERAL_PATH);
   ioPtr->createGroup(mergePaths(NWBFile::GENERAL_PATH, "/devices"));
   ioPtr->createGroup(mergePaths(NWBFile::GENERAL_PATH, "/extracellular_ephys"));
-  ioPtr->createGroup(NWBFile::EVENTS_PATH);
-  ioPtr->createGroup(NWBFile::INTERVALS_PATH);
+  // NWBFile::EVENTS_PATH and NWBFile::INTERVALS_PATH are optional and will
+  // be created when the corresponding tables are created
+
   if (dataCollection != "") {
     ioPtr->createStringDataSet(
         mergePaths(NWBFile::GENERAL_PATH, "/data_collection"), dataCollection);
@@ -293,12 +295,41 @@ std::shared_ptr<ElectrodesTable> NWBFile::createElectrodesTable(
   return electrodeTable;
 }
 
+Status NWBFile::requireEventsGroup(std::shared_ptr<IO::BaseIO> io)
+{
+  if (!io) {
+    return Status::Failure;
+  }
+  if (!io->objectExists(NWBFile::EVENTS_PATH)) {
+    if (!io->canModifyObjects()) {
+      return Status::Failure;
+    }
+    return io->createGroup(NWBFile::EVENTS_PATH);
+  }
+  return Status::Success;
+}
+
+Status NWBFile::requireIntervalsGroup(std::shared_ptr<IO::BaseIO> io)
+{
+  if (!io) {
+    return Status::Failure;
+  }
+  if (!io->objectExists(NWBFile::INTERVALS_PATH)) {
+    if (!io->canModifyObjects()) {
+      return Status::Failure;
+    }
+    return io->createGroup(NWBFile::INTERVALS_PATH);
+  }
+  return Status::Success;
+}
+
 std::shared_ptr<EventsTable> NWBFile::createEventsTable(
     const std::string& name,
     const std::string& description,
-    const std::string& sourceDescription,
-    float timestampResolution,
-    float durationResolution,
+    const std::optional<std::string>& sourceDescription,
+    std::optional<float> timestampResolution,
+    bool createDurationColumn,
+    std::optional<float> durationResolution,
     const bool createAnnotationColumn,
     const SizeType rowChunkSize)
 {
@@ -325,6 +356,7 @@ std::shared_ptr<EventsTable> NWBFile::createEventsTable(
   }
 
   auto specs = EventsTable::createDefaultDataSpecs(timestampResolution,
+                                                   createDurationColumn,
                                                    durationResolution,
                                                    createAnnotationColumn,
                                                    rowChunkSize);

@@ -71,6 +71,18 @@ public:
    * Initializes the TimeIntervals table by creating NWB related attributes and
    * adding required columns.
    *
+   * \note
+   * **Handling of Optional Paths:**
+   * If the TimeIntervals table is being created in the `/intervals` group
+   * (e.g.,
+   * `/intervals/epochs`), this method will automatically create the
+   * `/intervals` group if it does not already exist using the
+   * `NWBFile::requireIntervalsGroup()` helper method. This is because the
+   * `/intervals` group is optional in the NWB file structure and as such needs
+   * to be created on-demand. If the TimeIntervals table is being created in a
+   * different path, this method will not create any parent groups, and it is
+   * the caller's responsibility to ensure that the parent group exists.
+   *
    * @param description The description of the table
    * @param columnSpecs The column specifications to use for initialization.
    * @return Status::Success if successful, otherwise Status::Failure.

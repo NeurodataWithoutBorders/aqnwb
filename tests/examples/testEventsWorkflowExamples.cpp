@@ -59,7 +59,9 @@ TEST_CASE("eventsWorkflowExamples")
     float timestampResolution = 1.0f / 30000.0f;
     auto columnSpecs = NWB::EventsTable::createDefaultDataSpecs(
         timestampResolution,
-        -1.0f,  // omit duration column
+        false,  // omit duration column
+        std::nullopt,  // duration resolution is ignored since no duration
+                       // column
         true,  // create annotation column
         100);  // number of rows in a chunk (chunked storage is required to
                // support append when the total number of rows is not known in
@@ -162,6 +164,7 @@ TEST_CASE("eventsWorkflowExamples")
     float durationResolution = 1.0f / 30000.0f;
     auto columnSpecs =
         NWB::EventsTable::createDefaultDataSpecs(timestampResolution,
+                                                 true,
                                                  durationResolution,
                                                  false,  // no annotation column
                                                  100);  // row chunk size
@@ -282,11 +285,12 @@ TEST_CASE("eventsWorkflowExamples")
     // column storing integer codes.  We will attach a MeaningsTable to that
     // column so that readers can look up what each integer code means.
     float timestampResolution = 1.0f / 30000.0f;
-    auto columnSpecs =
-        NWB::EventsTable::createDefaultDataSpecs(timestampResolution,
-                                                 -1.0f,  // omit duration column
-                                                 false,  // no annotation column
-                                                 100);  // row chunk size
+    auto columnSpecs = NWB::EventsTable::createDefaultDataSpecs(
+        timestampResolution,
+        false,
+        std::nullopt,  // omit duration column
+        false,  // no annotation column
+        100);  // row chunk size
 
     // Add an integer "event_type" column that stores event-type codes.
     IO::ArrayDataSetConfig eventTypeConfig(
