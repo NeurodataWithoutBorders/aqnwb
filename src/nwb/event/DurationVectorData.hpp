@@ -89,12 +89,11 @@ public:
       "clock period - of the data acquisition system from which the durations "
       "were recorded or derived.")
 
-  DEFINE_DATASET_FIELD(
-      readData,
-      recordData,
-      float,
-      "",
-      "A 1-D VectorData that stores durations in seconds.")
+  DEFINE_DATASET_FIELD(readData,
+                       recordData,
+                       float,
+                       "",
+                       "A 1-D VectorData that stores durations in seconds.")
 
   REGISTER_SUBCLASS(DurationVectorData,
                     VectorData,
