@@ -24,14 +24,15 @@ namespace AQNWB::NWB
 {
 
 /**
- * @brief A table to store information about the meanings of values in a linked
- * VectorData object. All possible values of the linked VectorData object should
- * be present in the 'value' column of this table, even if the value is not
- * observed in the data. Additional columns may be added to store additional
- * metadata about each value. The name of the MeaningsTable should correspond to
- * the name of the linked VectorData object with a "_meanings" suffix. e.g., if
- * the linked VectorData object is named "stimulus_type", the corresponding
- * MeaningsTable should be named "stimulus_type_meanings".
+ * @brief A table to store information about the meanings of values in a
+ * referenced VectorData object. All possible values of the referenced
+ * VectorData object should be present in the 'value' column of this table, even
+ * if the value is not observed in the data. Additional columns may be added to
+ * store additional metadata about each value. The name of the MeaningsTable
+ * should correspond to the name of the referenced VectorData object with a
+ * "_meanings" suffix. e.g., if the referenced VectorData object is named
+ * "stimulus_type", the corresponding MeaningsTable should be named
+ * "stimulus_type_meanings".
  */
 class MeaningsTable : public AQNWB::NWB::DynamicTable
 {
@@ -82,25 +83,26 @@ public:
                     const AQNWB::IO::BaseDataType& valueDataType,
                     const std::string& description =
                         "A table to store information about the meanings of "
-                        "values in a linked VectorData object.",
+                        "values in a referenced VectorData object.",
                     const std::vector<DataSpecPtr>& columnSpecs = {});
 
-  DEFINE_REGISTERED_FIELD(readValueColumn,
-                          AQNWB::NWB::VectorData,
-                          "value",
-                          "The value of a row in the linked VectorData object.")
+  DEFINE_REGISTERED_FIELD(
+      readValueColumn,
+      AQNWB::NWB::VectorData,
+      "value",
+      "The value of a row in the referenced VectorData object.")
 
   DEFINE_REGISTERED_FIELD(
       readMeaningColumn,
       AQNWB::NWB::VectorDataTyped<std::string>,
       "meaning",
-      "The meaning of the value in the linked VectorData object.")
+      "The meaning of the value in the referenced VectorData object.")
 
-  DEFINE_REFERENCED_REGISTERED_FIELD(
-      readTarget,
-      AQNWB::NWB::VectorData,
-      "target",
-      "The VectorData object for which this table provides meanings.")
+  DEFINE_REFERENCED_REGISTERED_FIELD(readTarget,
+                                     AQNWB::NWB::VectorData,
+                                     "target",
+                                     "Reference to the VectorData object for "
+                                     "which this table provides meanings.")
 
   REGISTER_SUBCLASS(MeaningsTable,
                     DynamicTable,

@@ -18,8 +18,8 @@ namespace AQNWB::NWB
 {
 
 /**
- * @brief A 1-dimensional VectorData that stores timestamps in seconds from the
- * session start time. Timestamps are not required to be sorted in time.
+ * @brief A 1-D VectorData that stores timestamps in seconds from the session
+ * start time. Timestamps are not required to be sorted in time.
  */
 class TimestampVectorData : public AQNWB::NWB::VectorData
 {
@@ -95,8 +95,8 @@ public:
       recordData,
       float,
       "",
-      "A 1-dimensional VectorData that stores timestamps in seconds from the "
-      "session start time. Timestamps are not required to be sorted in time.")
+      "A 1-D VectorData that stores timestamps in seconds from the session "
+      "start time. Timestamps are not required to be sorted in time.")
 
   REGISTER_SUBCLASS(TimestampVectorData,
                     VectorData,

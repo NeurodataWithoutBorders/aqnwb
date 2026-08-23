@@ -12,7 +12,7 @@
  * columns can be appended to store any per-event metadata.
  *
  * Each \ref AQNWB::NWB::EventsTable "EventsTable" should hold events of a **single type or related
- * types** so that all rows share the same set of columns.  Events types with different metadata needs
+ * types** so that all rows share the same set of columns.  Event types with different metadata needs
  * (e.g., behavioral events and TTL pulses) should be stored in separate
  * \ref AQNWB::NWB::EventsTable "EventsTable" instances.
  *
@@ -27,7 +27,7 @@
  * `startRecording`) and differ only in how data are written to the table.
  * The two patterns are not exclusive and hybrid approaches are possible, 
  * but require caution. In particular when using column-based append, we must 
- * ensure that all columns have been approbriately updated such that 
+ * ensure that all columns have been appropriately updated such that
  * all columns have indeed the same number rows before we use `addRow` or
  * `addRows` to avoid inconsistent data. 
  *
@@ -38,7 +38,7 @@
  * `createDefaultDataSpecs` controls how many rows are stored per HDF5 chunk. In practice,
  * the number of rows per chunk should typically be the same for all columns of a table. 
  * The chunking behavior can also be customized via the individual `DataSpec` of the columns. 
- * Avoid creating too small chunks (e.g,. single rows) as well as too large chunks 
+ * Avoid creating too small chunks (e.g., single rows) as well as too large chunks
  * (e.g., millions of rows per chunk).
  *
  * \section events_setup Setup: I/O, NWBFile, and table creation
@@ -73,7 +73,7 @@
  *
  * \note 
  * If you do not require custom columns (or want to create them later via 
- * \ref AQNWB::NWB::EventsTable::addColumn "addColumn)", then you can bypass the 
+ * \ref AQNWB::NWB::EventsTable::addColumn "addColumn"), then you can bypass the
  * creation of the table configuration and instead configure the table directly 
  * via \ref AQNWB::NWB::NWBFile::createEventsTable "NWBFile::createEventsTable".
  *
@@ -114,10 +114,10 @@
  * \section events_colbased Pattern 2: Column-based (bulk) acquisition
  *
  * Use this pattern when all event data are collected in memory first and can be
- * written to the file in a single pass. This is common for post-acquistion or 
+ * written to the file in a single pass. This is common for post-acquisition or
  * offline processing pipelines or when events are buffered and flushed at the end of a trial.
  *
-* \subsection events_colbased_adddata Add data to columns
+ * \subsection events_colbased_adddata Add data to columns
  *
  * After `startRecording`, retrieve each column object via the corresponding
  * `record*()` accessor on the table, then call
@@ -238,5 +238,5 @@
  *   before `startRecording` to attach a
  *   \ref AQNWB::NWB::MeaningsTable "MeaningsTable" that maps every possible code
  *   to a human-readable label. You may list **all** possible values in the MeaningsTable,
- *   even if a particaly allowed value may do not appear in the recorded data.
+ *   even if a particular allowed value does not appear in the recorded data.
  */
