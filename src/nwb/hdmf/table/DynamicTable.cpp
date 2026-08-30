@@ -623,6 +623,8 @@ Status DynamicTable::loadConfiguredColumnsFromFile()
       m_configuredColumnIndices[colName] = m_configuredColumns.size() - 1;
     }
   }
+
+  m_rowElementIdentifiers = readIdColumn();
   return Status::Success;
 }
 
