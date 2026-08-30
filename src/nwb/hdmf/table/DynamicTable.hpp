@@ -99,8 +99,7 @@ public:
   /**
    * @brief Finalizes writing the DynamicTable.
    *
-   * Finalizes the DynamicTable by writing the column names
-   * as a single write once the table has been set up
+   * Finalizes the DynamicTable once the table has been set up.
    *
    * @return Status::Success if successful, otherwise Status::Failure.
    */

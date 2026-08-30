@@ -156,7 +156,7 @@ Status ElectrodesTable::finalize()
     status = status && groupColStatus;
     m_groupReferences.clear();  // clear after writing
   }
-  // finalize the parent class to write the col names
+  // finalize the parent class
   // This must be done after all columns have been added
   Status dtStatus = DynamicTable::finalize();
   status = status && dtStatus;

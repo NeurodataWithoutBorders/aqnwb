@@ -134,7 +134,7 @@ TEST_CASE("createEventsTable with full initialization", "[nwb]")
   io->close();
 }
 
-TEST_CASE("createEventsTable with post initialization", "[nwb]")
+TEST_CASE("createEventsTableInstance with post initialization", "[nwb]")
 {
   std::string filename = getTestFilePath("createEventsTablePostInit.nwb");
 
@@ -146,7 +146,7 @@ TEST_CASE("createEventsTable with post initialization", "[nwb]")
   nwbfile->initialize(generateUuid());
 
   // create the Events Table
-  auto eventsTable = nwbfile->createEventsTable("test_events");
+  auto eventsTable = nwbfile->createEventsTableInstance("test_events");
   REQUIRE(eventsTable != nullptr);
   std::string description = "Test events table";
   std::string sourceDescription = "Test source description";
