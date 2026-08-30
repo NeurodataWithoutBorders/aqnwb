@@ -115,6 +115,7 @@ Status DynamicTable::initialize(const std::string& description,
         "DynamicTable::initialize: provided dataSpecs are invalid.");
   }
 
+  clearColumns();
   Status configureStatus = configureDataObjects(effectiveSpecs);
   return containerStatus && configureStatus;
 }
@@ -222,11 +223,7 @@ Status DynamicTable::addColumn(const std::shared_ptr<VectorData>& vectorData,
                                                  SizeArray {0},
                                                  IO::BaseDataType::V_STR,
                                                  values);
-    addColumnName(vectorData->getName());
-    // If the column is not already in the list of configured columns, add it
-    if (m_colNames.size() > m_configuredColumns.size()) {
-      addConfiguredColumn(vectorData);
-    }
+    registerColumn(vectorData);
     return writeStatus;
   }
 }
@@ -242,11 +239,7 @@ Status DynamicTable::addColumn(const std::shared_ptr<VectorData>& vectorData)
               << vectorData->getPath() << std::endl;
     return Status::Failure;
   } else {
-    addColumnName(vectorData->getName());
-    // If the column is not already in the list of configured columns, add it
-    if (m_colNames.size() > m_configuredColumns.size()) {
-      addConfiguredColumn(vectorData);
-    }
+    registerColumn(vectorData);
     return Status::Success;
   }
 }
@@ -384,11 +377,7 @@ Status DynamicTable::addReferenceColumn(const std::string& name,
       std::cerr << "Failed to create reference column" << std::endl;
       return Status::Failure;
     }
-    addColumnName(name);
-    // If the column is not already in the list of configured columns, add it
-    if (m_colNames.size() > m_configuredColumns.size()) {
-      addConfiguredColumn(refColumn);
-    }
+    registerColumn(refColumn);
     return Status::Success;
   }
 }
@@ -520,12 +509,17 @@ std::shared_ptr<VectorData> DynamicTable::getConfiguredColumn(
   return nullptr;
 }
 
-Status DynamicTable::configureDataObjects(
-    const std::vector<DataSpecPtr>& dataSpecs)
+void DynamicTable::clearColumns()
 {
   m_configuredColumns.clear();
   m_configuredColumnIndices.clear();
+  m_colNames.clear();
+  m_rowElementIdentifiers.reset();
+}
 
+Status DynamicTable::configureDataObjects(
+    const std::vector<DataSpecPtr>& dataSpecs)
+{
   for (const auto& spec : dataSpecs) {
     if (!spec) {
       std::cerr << "DynamicTable::configureDataObjects received null spec."
@@ -567,34 +561,40 @@ Status DynamicTable::configureDataObject(const DataSpec& dataSpec)
     return Status::Failure;
   }
 
-  ConfiguredColumn col;
-  col.name = dataSpec.name;
-  col.dataType = dataSpec.getType();
-  col.column = vectorData;
-
-  m_configuredColumns.push_back(col);
-  m_configuredColumnIndices[col.name] = m_configuredColumns.size() - 1;
-
-  addColumnName(col.name);
+  registerColumn(vectorData);
 
   return Status::Success;
 }
 
-SizeType DynamicTable::addConfiguredColumn(
-    const std::shared_ptr<VectorData>& column)
+SizeType DynamicTable::registerColumn(const std::shared_ptr<VectorData>& column)
 {
   if (!column) {
-    std::cerr << "DynamicTable::addConfiguredColumn received null column."
+    std::cerr << "DynamicTable::registerColumn received null column."
               << std::endl;
     return static_cast<SizeType>(-1);
   }
+
+  std::string name = column->getName();
+
+  // If already registered, return its index.
+  auto it = m_configuredColumnIndices.find(name);
+  if (it != m_configuredColumnIndices.end()) {
+    return it->second;
+  }
+
+  // Register column
   ConfiguredColumn config;
-  config.name = column->getName();
+  config.name = name;
   config.dataType = column->readData()->getDataType();
   config.column = column;
 
   m_configuredColumns.push_back(config);
-  return m_configuredColumns.size() - 1;
+  SizeType index = m_configuredColumns.size() - 1;
+  m_configuredColumnIndices[name] = index;
+
+  addColumnName(name);
+
+  return index;
 }
 
 Status DynamicTable::ensureConfiguredColumnsLoaded()
@@ -615,12 +615,7 @@ Status DynamicTable::loadConfiguredColumnsFromFile()
   for (const auto& colName : m_colNames) {
     auto col = readColumn<VectorData>(colName);
     if (col) {
-      ConfiguredColumn confCol;
-      confCol.name = colName;
-      confCol.dataType = col->readData()->getDataType();
-      confCol.column = col;
-      m_configuredColumns.push_back(confCol);
-      m_configuredColumnIndices[colName] = m_configuredColumns.size() - 1;
+      registerColumn(col);
     }
   }
 

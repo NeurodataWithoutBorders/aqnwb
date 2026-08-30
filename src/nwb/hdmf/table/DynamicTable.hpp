@@ -157,8 +157,25 @@ public:
                             const std::string& colDescription,
                             const std::vector<std::string>& dataset);
 
+  /**
+   * @brief Adds a single row of data to the table.
+   *
+   * @param row A map from column name to cell value variant.
+   * @param rowId Optional custom row ID. If not provided, an ID is
+   * auto-generated.
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
   Status addRow(const RowData& row,
                 const std::optional<int>& rowId = std::nullopt);
+
+  /**
+   * @brief Adds multiple rows of data to the table.
+   *
+   * @param rows A vector of row data maps.
+   * @param rowIds Optional custom row IDs corresponding to the rows. If empty,
+   * IDs are auto-generated.
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
   Status addRows(const std::vector<RowData>& rows,
                  const std::vector<int>& rowIds = {});
 
@@ -328,11 +345,15 @@ protected:
 
   Status flushColNames();
 
+  /**
+   * @brief Internal state structure tracking a configured table column.
+   */
   struct ConfiguredColumn
   {
-    std::string name;
-    IO::BaseDataType dataType;
-    std::shared_ptr<VectorData> column;
+    std::string name;  ///< The column name
+    IO::BaseDataType dataType;  ///< The underlying data type
+    std::shared_ptr<VectorData>
+        column;  ///< Shared pointer to the column dataset
   };
 
   /**
@@ -351,11 +372,23 @@ protected:
       const std::string& name) const;
 
   /**
-   * @brief Add a column to the list of configured columns.
-   * @param column A shared pointer to the `VectorData` column to add.
-   * @return The index of the added column in the list of configured columns.
+   * @brief Register a column in the table's column registry.
+   *
+   * Adds the column to the ordered list of configured columns, records its
+   * name-to-index lookup, and adds its name to the colnames attribute. If a
+   * column of the same name is already registered, returns the existing index
+   * and modifies no state.
    */
-  SizeType addConfiguredColumn(const std::shared_ptr<VectorData>& column);
+  SizeType registerColumn(const std::shared_ptr<VectorData>& column);
+
+  /**
+   * @brief Clear all registered columns and column names.
+   *
+   * Resets the internal registry of configured columns, the column names list,
+   * and the row identifiers dataset. This is used by initialize() before
+   * rebuilding the table's column configuration from data specs.
+   */
+  void clearColumns();
 
   /**
    * @brief Configure multiple data objects.
@@ -385,6 +418,15 @@ protected:
    */
   Status ensureConfiguredColumnsLoaded();
 
+  /**
+   * @brief Load all configured columns and row element identifiers from the
+   * file.
+   *
+   * Invoked automatically when rows are added to a previously initialized but
+   * newly loaded table. It registers existing columns based on colnames.
+   *
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
   Status loadConfiguredColumnsFromFile();
 
   /**
@@ -434,7 +476,14 @@ protected:
    */
   std::shared_ptr<ElementIdentifiers> m_rowElementIdentifiers;
 
+  /**
+   * @brief Ordered list of configured columns managed by the table.
+   */
   std::vector<ConfiguredColumn> m_configuredColumns;
+
+  /**
+   * @brief Lookup map from column name to its index in m_configuredColumns.
+   */
   std::unordered_map<std::string, SizeType> m_configuredColumnIndices;
 };
 }  // namespace AQNWB::NWB
