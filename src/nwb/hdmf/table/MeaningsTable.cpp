@@ -68,9 +68,7 @@ Status MeaningsTable::initialize(const VectorData& targetVectorData,
   }
 
   // Call parent initialize method. This initializes the DynamicTable and
-  // creates the description attribute. Column names are written by
-  // DynamicTable::finalize(). ElementIdentifiers ids are set in the
-  // constructor.
+  // creates the description attribute.
   Status parentInitStatus = DynamicTable::initialize(description, specsToUse);
   initStatus = initStatus && parentInitStatus;
 

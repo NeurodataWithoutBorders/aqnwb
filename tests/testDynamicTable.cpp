@@ -703,6 +703,22 @@ TEST_CASE("DynamicTable", "[table]")
     REQUIRE(colF32Data.size() == 3);
     REQUIRE(colF32Data == std::vector<float>({1.5f, 2.5f, 3.5f}));
 
+    // Append a row after reopening
+    NWB::DynamicTable::RowData row4 = {{"col_str", std::string("row4")},
+                                       {"col_f32", 4.5f}};
+    status = readTable->addRow(row4);
+    REQUIRE(status == Status::Success);
+
+    // Read back again to check appended row
+    auto readIdsNew = readTable->readIdColumn()->readData()->values().data;
+    REQUIRE(readIdsNew == std::vector<int>({0, 1, 2, 3}));
+
+    auto colStrNew = readTable->readColumn<NWB::VectorData>("col_str");
+    auto colStrDataTypedNew = DataBlock<std::string>::fromGeneric(
+        colStrNew->readData()->valuesGeneric());
+    REQUIRE(colStrDataTypedNew.data
+            == std::vector<std::string>({"row1", "row2", "row3", "row4"}));
+
     io->close();
   }
 
