@@ -188,7 +188,7 @@ Status DynamicTable::addColumn(const std::shared_ptr<VectorData>& vectorData)
     std::cerr << "VectorData dataset is not initialized "
               << vectorData->getPath() << std::endl;
     return Status::Failure;
-  } 
+  }
 
   registerColumn(vectorData);
   return Status::Success;
