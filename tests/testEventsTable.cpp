@@ -258,4 +258,25 @@ TEST_CASE("EventsTable", "[event]")
 
     io->close();
   }
+
+  SECTION("test EventsTable initialize with defaulted columnSpecs")
+  {
+    std::string path = getTestFilePath("testEventsTableDefaultedSpecs.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    auto eventsTable =
+        AQNWB::NWB::EventsTable::create("/events/test_events", io);
+    REQUIRE(eventsTable != nullptr);
+
+    // Call initialize with only description, allowing columnSpecs to default
+    Status initStatus = eventsTable->initialize("Test events");
+    REQUIRE(initStatus == Status::Success);
+
+    // Verify timestamp column was created
+    auto timestampColumn = eventsTable->readTimestampColumn();
+    REQUIRE(timestampColumn != nullptr);
+
+    io->close();
+  }
 }
