@@ -58,9 +58,9 @@ public:
    * @brief Initialize the object
    * @param data The configuration for the dataset
    * @param description Description of the dataset
-   * @param resolution The temporal resolution of the timestamps - in seconds.
+   * @param resolution The temporal resolution of the durations - in seconds.
    * This is typically the sampling period (1 / sampling_rate), also known as
-   * the clock period, of the data acquisition system from which the timestamps
+   * the clock period, of the data acquisition system from which the durations
    * were recorded or derived.
    */
   Status initialize(const AQNWB::IO::ArrayDataSetConfig& data,

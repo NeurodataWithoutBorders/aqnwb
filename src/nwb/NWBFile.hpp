@@ -440,7 +440,7 @@ public:
                                       intervals group)
 
   DEFINE_UNNAMED_REGISTERED_FIELD(readEventsTable,
-                                  createEventsTable,
+                                  createEventsTableInstance,
                                   EventsTable,
                                   "events",
                                   Get an EventsTable stored in the events group)
