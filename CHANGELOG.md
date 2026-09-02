@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
    * Added tutorials for the new `MeaningsTable` and `EventsTable` types in `docs/pages/userdocs/events.dox`. (@cline, @oruebel, [#305](https://github.com/NeurodataWithoutBorders/aqnwb/pull/305))
    * Added tutorials for the new `TimeIntervals` type in `docs/pages/userdocs/time_intervals.dox`. (@cline, @oruebel, [#325](https://github.com/NeurodataWithoutBorders/aqnwb/pull/325))
    * Added `Subject` class to represent the `/general/subject` group in NWB files. Added corresponding `SubjectSpec` to simplify configuration and initialization of `Subject`.  Updated `NWBFile::initialize` to accept a `SubjectSpec` argument for subject metadata initialization (@copilot, @oruebel, [#320](https://github.com/NeurodataWithoutBorders/aqnwb/pull/320))
+   * Added `isPathOrDescendant` utility functoin to simplify path initalization checks for root groups, e.g, `/events` and `/intervals` (@copilot, @oruebel, [#325](https://github.com/NeurodataWithoutBorders/aqnwb/pull/325))
 * **Added support for single-ragged array columns in `DynamicTable`:**
    * Added `VectorIndex` type for storing index columns. (@cline, @oruebel, [#325](https://github.com/NeurodataWithoutBorders/aqnwb/pull/325))
    * Added `VectorData::appendData` and `VectorIndex::appendBuffer` to simplify appending values to columns. (@cline, @oruebel, [#325](https://github.com/NeurodataWithoutBorders/aqnwb/pull/325))
