@@ -392,19 +392,25 @@
  * the \ref DEFINE_REGISTERED_FIELD macro, we can set the data type for read at compile time, simplifying read. 
  *
  *  \note
- *     Since the templacted  \ref AQNWB::NWB::VectorDataTyped "VectorDataTyped<DTYPE>" does not call
- *     \ref REGISTER_SUBCLASS we must manually declare: 1) `friend class AQNWB::NWB::RegisteredType;` 
- *     and 2) `using VectorData::VectorData;` (as protected) to make sure we have access to the 
- *     constructors and define `static std::shared_ptr<VectorDataTyped> create( const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io) {  return RegisteredType::create<VectorDataTyped>(path, io); }`
- *     to make sure we have the factory method available.
+ *     Since the templated \ref AQNWB::NWB::VectorDataTyped
+ *     "VectorDataTyped<DTYPE>" does not call \ref REGISTER_SUBCLASS, it must
+ *     declare `friend class AQNWB::NWB::RegisteredType;` and inherit the
+ *     protected `VectorData` constructors with `using VectorData::VectorData;`
+ *     so its specialized factory can construct it. That factory must create a
+ *     transient typed view rather than delegate to
+ *     \ref AQNWB::NWB::RegisteredType::create
+ *     "RegisteredType::create<T>", because that factory registers canonical
+ *     objects in \ref AQNWB::IO::RecordingObjects "RecordingObjects".
+ *     `DataTyped<DTYPE>` and `NWBDataTyped<DTYPE>` follow the same transient
+ *     typed-view pattern; only their non-templated base classes are canonical
+ *     registered types.
  *
+ *  \par
  *  \note
- *     The `std::unique_ptr<..>` template type is not covariant, i.e.,  `std::unique_ptr<DerivedClass>` does 
- *     not automatically convert to `std::unique_ptr<BaseClass>`.  I.e.,  while \ref AQNWB::NWB::VectorDataTyped "VectorDataTyped<DTYPE>" 
- *     can be used anywhere \ref AQNWB::NWB::VectorData "VectorData" is being used, when using `std::unique_ptr<..>`
- *     we cannot rely on the compiler to automatically upcast for us, but we will need to explicitly release
- *     and upcast `std::unique_ptr<VectorDataTyped<DTYPE>` if `std::unique_ptr<VectorData>` is required. Since 
- *     defining the `DTYPE` is primarily useful for read, we therefore typically use 
+ *     AqNWB uses `std::shared_ptr` for registered and typed-view objects, so a
+ *     `std::shared_ptr<VectorDataTyped<DTYPE>>` converts to
+ *     `std::shared_ptr<VectorData>` when needed. Since defining `DTYPE` is
+ *     primarily useful for read, we therefore typically use
  *     \ref AQNWB::NWB::VectorDataTyped "VectorDataTyped<DTYPE>" on read while
  *     using \ref AQNWB::NWB::VectorData "VectorData" otherwise. 
  *
@@ -532,6 +538,7 @@
  * than the requested version. In practice, this is mainly relevant if you are generating classes for the
  * NWB `core` and `hdmf-common` namespaces.
  *
+ * \par
  * \note
  * When generating the test app via the `--generate-test-app` option we also
  * need to generate the schema headers files and save them in the `/spec` folder.

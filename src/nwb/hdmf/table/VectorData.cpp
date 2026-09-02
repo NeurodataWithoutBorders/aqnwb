@@ -286,8 +286,10 @@ std::shared_ptr<VectorDataTyped<DTYPE>> VectorDataTyped<DTYPE>::create(
             new VectorDataTyped<DTYPE>(path, io));
       }
     }
+    return std::shared_ptr<VectorDataTyped<DTYPE>>(
+        new VectorDataTyped<DTYPE>(path, io));
   }
-  return RegisteredType::create<VectorDataTyped<DTYPE>>(path, io);
+  return nullptr;
 }
 
 // Explicitly instantiate the VectorDataTyped template for all common data

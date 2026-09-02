@@ -232,13 +232,20 @@
  * facilitate reliable memory management. 
  *
  * \note
- * Registration with the \ref AQNWB::IO::RecordingObjects "RecordingObjects"  of the I/O occurs when a 
- * \ref AQNWB::NWB::RegisteredType "RegisteredType" is being created via the static
- * \ref AQNWB::NWB::RegisteredType::create "RegisteredType::create" factory methods. 
- * These factory methods also automatically cache and reuse existing objects that are registered in 
- * \ref AQNWB::IO::RecordingObjects "RecordingObjects". Calling `create` multiple times 
- * for the same I/O and path will return the exact same object instance, ensuring that the state 
- * of the object is maintained and preventing unintended interactions from duplicate objects.
+ * Canonical \ref AQNWB::NWB::RegisteredType "RegisteredType" objects created
+ * through \ref AQNWB::NWB::RegisteredType::create "RegisteredType::create"
+ * are registered with the I/O's \ref AQNWB::IO::RecordingObjects
+ * "RecordingObjects". The cache has one canonical registered object per I/O
+ * and path; repeated compatible factory calls return that same instance. A
+ * request for a conflicting registered type fails rather than creating a
+ * second object for the path.
+ *
+ * Typed dataset facades such as \ref AQNWB::NWB::DataTyped "DataTyped",
+ * \ref AQNWB::NWB::VectorDataTyped "VectorDataTyped", and
+ * \ref AQNWB::NWB::NWBDataTyped "NWBDataTyped" are intentionally transient
+ * and are not registered with RecordingObjects. They share the I/O's
+ * BaseRecordingData cache with the canonical object when accessing the same
+ * dataset.
  *
  * \section recording_design_further_reading Further Reading 
  *

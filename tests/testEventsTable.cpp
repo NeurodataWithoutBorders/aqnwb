@@ -109,6 +109,10 @@ TEST_CASE("EventsTable", "[event]")
       auto sourceDescriptionData = readEventsTable->readSourceDescription();
       REQUIRE(sourceDescriptionData->values().data[0] == sourceDescription);
 
+      // readRows resolves and caches columns before the typed accessors below.
+      const auto rows = readEventsTable->readRows();
+      REQUIRE(rows.size() == timestamps.size());
+
       // Read timestamps
       auto readTimestampColumn = readEventsTable->readTimestampColumn();
       REQUIRE(readTimestampColumn != nullptr);

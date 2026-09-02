@@ -93,7 +93,14 @@ std::shared_ptr<AQNWB::NWB::RegisteredType> RegisteredType::create(
   // Check if the object already exists in the cache
   auto existing = getExistingRecordingObject(path, io);
   if (existing) {
-    return existing;
+    if (existing->getFullTypeName() == fullClassName) {
+      return existing;
+    }
+    std::cerr << "RegisteredType::create: cached object at path " << path
+              << " has type " << existing->getFullTypeName()
+              << ", which does not match the requested type " << fullClassName
+              << "." << std::endl;
+    return nullptr;
   }
 
   // Look up the factory RegisteredType for the fullClassName the registry
@@ -131,14 +138,15 @@ std::shared_ptr<AQNWB::NWB::RegisteredType> RegisteredType::create(
     std::shared_ptr<IO::BaseIO> io,
     bool fallbackToBase)
 {
-  // Check if the object already exists in the cache
-  auto existing = getExistingRecordingObject(path, io);
-  if (existing) {
-    return existing;
+  if (!io) {
+    std::cerr << "RegisteredType::create: IO object is not available."
+              << std::endl;
+    return nullptr;
   }
 
   try {
-    // Read the "neurodata_type" attribute
+    // Resolve the on-disk type before consulting the cache so a generic
+    // wrapper cannot be returned for a derived registered type.
     std::string fullClassName = io->getFullTypeName(path);
     // Create an instance of the corresponding RegisteredType subclass
     return AQNWB::NWB::RegisteredType::create(
