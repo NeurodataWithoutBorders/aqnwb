@@ -132,8 +132,9 @@ TEST_CASE("createTimeIntervalsTables", "[nwb]")
   REQUIRE(readCustomTable->readDescription()->values().data[0]
           == "test custom");
 
-  // create a custom TimeIntervals Table with column specs
-  auto customTimeIntervals = nwbfile->createTimeIntervals("custom_intervals2");
+  // create a custom TimeIntervals Table with post initialization
+  auto customTimeIntervals =
+      nwbfile->createTimeIntervalsInstance("custom_intervals2");
   REQUIRE(customTimeIntervals != nullptr);
   Status customTimeIntervalsInitStatus =
       customTimeIntervals->initialize("no description");

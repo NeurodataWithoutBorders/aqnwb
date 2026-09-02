@@ -427,7 +427,7 @@ public:
                                       processing group)
 
   DEFINE_UNNAMED_REGISTERED_FIELD(readTimeIntervals,
-                                  createTimeIntervals,
+                                  createTimeIntervalsInstance,
                                   TimeIntervals,
                                   "intervals",
                                   Get a TimeIntervals object stored in the
