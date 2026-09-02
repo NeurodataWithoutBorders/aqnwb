@@ -30,10 +30,10 @@
  * Both patterns share the same setup steps (I/O, NWBFile, table creation, and 
  * `startRecording`) and differ only in how data are written to the table.
  * The two patterns are not exclusive and hybrid approaches are possible, 
- * but require caution. In particular when using column-based append, we must 
- * ensure that all columns have been approbriately updated such that 
- * all columns have indeed the same number rows before we use `addRow` or
- * `addRows` to avoid inconsistent data. 
+ * but require caution. In particular when using column-based append, we must
+ * ensure that all columns have been appropriately updated such that
+ * all columns have indeed the same number of rows before we use `addRow` or
+ * `addRows` to avoid inconsistent data.
  *
  * \par
  * \note
