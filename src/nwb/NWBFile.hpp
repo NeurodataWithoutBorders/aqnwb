@@ -115,9 +115,10 @@ public:
    * time. If empty (default), then the getCurrentTime() will be used.
    * @param timestampsReferenceTime ISO formatted time string with the timestamp
    * reference time. If empty (default), then the getCurrentTime() will be used.
-   * @param subjectSpec Optional subject metadata. By default, an empty Subject
-   * is created. Pass @c std::nullopt to explicitly state that no subject should
-   * be created (e.g., when the subject is unknown).
+   * @param subjectSpec Optional subject metadata. Defaults to @c std::nullopt,
+   * so no Subject group is created unless a SubjectSpec is supplied. For DANDI
+   * validation, the supplied SubjectSpec must include subjectId, species, sex,
+   * and either age or dateOfBirth.
    */
   Status initialize(const std::string& identifierText,
                     const std::string& description = "a recording session",
