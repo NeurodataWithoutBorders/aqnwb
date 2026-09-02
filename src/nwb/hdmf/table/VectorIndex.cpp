@@ -43,7 +43,7 @@ Status VectorIndex::initialize(const IO::BaseArrayDataSetConfig& dataConfig,
   BaseDataType dataType;
   Status propStatus =
       dataConfig.getProperties(ioPtr.get(), shape, chunking, dataType);
-  if (!propStatus) {
+  if (propStatus != Status::Success) {
     std::cerr << "VectorIndex::initialize could not retrieve dataset properties"
               << std::endl;
     return Status::Failure;
