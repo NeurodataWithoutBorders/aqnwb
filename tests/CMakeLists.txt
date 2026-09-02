@@ -53,6 +53,7 @@ add_executable(aqnwb_test
     examples/test_remfile_read_example.cpp
     examples/test_ros3_read_example.cpp
     examples/test_templated_RegisteredType_example.cpp
+    examples/testTimeIntervalsWorkflowExamples.cpp
 )
 
 # Ensure the aqnwb_test target can include headers from the current directory

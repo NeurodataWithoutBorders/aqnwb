@@ -117,9 +117,9 @@ TEST_CASE("TimeIntervals - Initialize and Add Rows", "[TimeIntervals]")
 
       // Verify intervals group does not exist initially
       REQUIRE(io->objectExists("/intervals") == false);
-      REQUIRE(io->createGroup("/other_path") == Status::Success);
+      REQUIRE(io->createGroup("/intervals2") == Status::Success);
 
-      auto timeIntervals = TimeIntervals::create("/other_path/epochs", io);
+      auto timeIntervals = TimeIntervals::create("/intervals2/epochs", io);
 
       REQUIRE(timeIntervals != nullptr);
 

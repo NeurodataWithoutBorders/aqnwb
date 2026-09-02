@@ -569,6 +569,35 @@ TEST_CASE("VectorDataTyped", "[base]")
 
     io->close();
   }
+
+  SECTION("rejects values with a mismatched dataset type")
+  {
+    std::string path = getTestFilePath("testVectorDataTypeMismatch.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    auto vectorData = NWB::VectorData::create("/type_mismatch", io);
+    REQUIRE(vectorData->initialize(
+                IO::ArrayDataSetConfig(BaseDataType::F64, {0}, {10}),
+                "Type mismatch test")
+            == Status::Success);
+
+    size_t elementsAppended = 42;
+    REQUIRE(vectorData->appendData(int32_t {1}, elementsAppended)
+            == Status::Failure);
+    REQUIRE(elementsAppended == 0);
+    REQUIRE(
+        vectorData->appendData(std::vector<int32_t> {1, 2}, elementsAppended)
+        == Status::Failure);
+    REQUIRE(elementsAppended == 0);
+
+    IO::BaseDataType::BaseDataVectorVariant buffer =
+        std::vector<int32_t> {1, 2};
+    REQUIRE(vectorData->appendBuffer(buffer) == Status::Failure);
+    REQUIRE(vectorData->recordData()->getShape()[0] == 0);
+
+    io->close();
+  }
 }  // TEST_CASE("VectorDataTyped", "[base]")
 
 TEST_CASE("LinkArrayDataSetConfig for VectorData", "[base][link]")

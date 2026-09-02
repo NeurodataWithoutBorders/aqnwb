@@ -92,6 +92,8 @@ Status VectorData::initialize(const IO::BaseArrayDataSetConfig& dataConfig,
 Status VectorData::appendData(const AQNWB::Types::CellValue& cellValue,
                               size_t& elementsAppended)
 {
+  elementsAppended = 0;
+
   auto ioPtr = getIO();
   if (ioPtr == nullptr) {
     std::cerr
@@ -108,6 +110,13 @@ Status VectorData::appendData(const AQNWB::Types::CellValue& cellValue,
   }
 
   auto dataType = ioPtr->getStorageObjectDataType(this->getPath());
+  if (!dataType.isCompatibleCellValue(cellValue)) {
+    std::cerr << "VectorData::appendData: value type does not match dataset "
+                 "type."
+              << std::endl;
+    return Status::Failure;
+  }
+
   SizeArray positionOffset = {0};
   auto currentShape = dataset->getShape();
   if (!currentShape.empty()) {
@@ -216,6 +225,13 @@ Status VectorData::appendBuffer(
   }
 
   auto dataType = ioPtr->getStorageObjectDataType(this->getPath());
+  if (!dataType.isCompatibleVector(buffer)) {
+    std::cerr << "VectorData::appendBuffer: buffer type does not match dataset "
+                 "type."
+              << std::endl;
+    return Status::Failure;
+  }
+
   SizeArray positionOffset = {0};
   auto currentShape = dataset->getShape();
   if (!currentShape.empty()) {

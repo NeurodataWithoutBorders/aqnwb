@@ -194,10 +194,10 @@ TEST_CASE("EventsTable", "[event]")
 
     // Verify events group does not exist initially
     REQUIRE(io->objectExists("/events") == false);
-    REQUIRE(io->createGroup("/other_path") == Status::Success);
+    REQUIRE(io->createGroup("/events2") == Status::Success);
 
     auto eventsTable =
-        AQNWB::NWB::EventsTable::create("/other_path/test_events", io);
+        AQNWB::NWB::EventsTable::create("/events2/test_events", io);
     REQUIRE(eventsTable != nullptr);
 
     auto specs =
@@ -255,6 +255,27 @@ TEST_CASE("EventsTable", "[event]")
     // 3. Test initialize with invalid specs throws std::invalid_argument
     REQUIRE_THROWS_AS(eventsTable->initialize("Test Events", "", invalidSpecs),
                       std::invalid_argument);
+
+    io->close();
+  }
+
+  SECTION("test EventsTable initialize with defaulted columnSpecs")
+  {
+    std::string path = getTestFilePath("testEventsTableDefaultedSpecs.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    auto eventsTable =
+        AQNWB::NWB::EventsTable::create("/events/test_events", io);
+    REQUIRE(eventsTable != nullptr);
+
+    // Call initialize with only description, allowing columnSpecs to default
+    Status initStatus = eventsTable->initialize("Test events");
+    REQUIRE(initStatus == Status::Success);
+
+    // Verify timestamp column was created
+    auto timestampColumn = eventsTable->readTimestampColumn();
+    REQUIRE(timestampColumn != nullptr);
 
     io->close();
   }

@@ -87,16 +87,12 @@ Status EventsTable::initialize(
 
   std::vector<DataSpecPtr> specsToUse = columnSpecs;
   if (specsToUse.empty()) {
-    // If no specs provided, we can't create the default ones because we don't
-    // have the resolutions. This is a limitation of the current API design
-    // where we removed the resolutions from initialize.
-    // For now, we'll just use the default DynamicTable specs.
-    specsToUse = DynamicTable::createDefaultDataSpecs();
+    specsToUse = createDefaultDataSpecs();
   }
 
   // Ensure the events group exists if this table is being created in the events
   // group
-  if (m_path.find(NWBFile::EVENTS_PATH) == 0) {
+  if (AQNWB::isPathOrDescendant(m_path, NWBFile::EVENTS_PATH)) {
     Status requireStatus = NWBFile::requireEventsGroup(ioPtr);
     if (requireStatus != Status::Success) {
       std::cerr << "Failed to create or verify events group for EventsTable: "
