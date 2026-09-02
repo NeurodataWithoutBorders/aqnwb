@@ -55,14 +55,14 @@ Status Subject::initialize(const SubjectSpec& subjectSpec)
     Status ageStatus = ioPtr->createStringDataSet(
         mergePaths(this->m_path, "age"), subjectSpec.age.value());
     initStatus = initStatus && ageStatus;
-    if (!ageStatus) {
+    if (ageStatus != Status::Success) {
       std::cerr << "Failed to create age dataset." << std::endl;
     } else {
       std::string ageReference = subjectSpec.ageReference.value_or("birth");
       Status ageRefStatus = ioPtr->createAttribute(
           ageReference, mergePaths(this->m_path, "age"), "reference");
       initStatus = initStatus && ageRefStatus;
-      if (!ageRefStatus) {
+      if (ageRefStatus != Status::Success) {
         std::cerr << "Failed to create age reference attribute." << std::endl;
       }
     }
@@ -79,7 +79,7 @@ Status Subject::initialize(const SubjectSpec& subjectSpec)
           ioPtr->createStringDataSet(mergePaths(this->m_path, "date_of_birth"),
                                      subjectSpec.dateOfBirth.value());
       initStatus = initStatus && dobStatus;
-      if (!dobStatus) {
+      if (dobStatus != Status::Success) {
         std::cerr << "Failed to create date_of_birth dataset." << std::endl;
       }
     }
@@ -90,7 +90,7 @@ Status Subject::initialize(const SubjectSpec& subjectSpec)
         ioPtr->createStringDataSet(mergePaths(this->m_path, "description"),
                                    subjectSpec.description.value());
     initStatus = initStatus && descStatus;
-    if (!descStatus) {
+    if (descStatus != Status::Success) {
       std::cerr << "Failed to create description dataset." << std::endl;
     }
   }
@@ -100,7 +100,7 @@ Status Subject::initialize(const SubjectSpec& subjectSpec)
     Status genotypeStatus = ioPtr->createStringDataSet(
         mergePaths(this->m_path, "genotype"), subjectSpec.genotype.value());
     initStatus = initStatus && genotypeStatus;
-    if (!genotypeStatus) {
+    if (genotypeStatus != Status::Success) {
       std::cerr << "Failed to create genotype dataset." << std::endl;
     }
   }
@@ -110,7 +110,7 @@ Status Subject::initialize(const SubjectSpec& subjectSpec)
     Status sexStatus = ioPtr->createStringDataSet(
         mergePaths(this->m_path, "sex"), subjectSpec.sex.value());
     initStatus = initStatus && sexStatus;
-    if (!sexStatus) {
+    if (sexStatus != Status::Success) {
       std::cerr << "Failed to create sex dataset." << std::endl;
     }
   }
@@ -120,7 +120,7 @@ Status Subject::initialize(const SubjectSpec& subjectSpec)
     Status speciesStatus = ioPtr->createStringDataSet(
         mergePaths(this->m_path, "species"), subjectSpec.species.value());
     initStatus = initStatus && speciesStatus;
-    if (!speciesStatus) {
+    if (speciesStatus != Status::Success) {
       std::cerr << "Failed to create species dataset." << std::endl;
     }
   }
@@ -130,7 +130,7 @@ Status Subject::initialize(const SubjectSpec& subjectSpec)
     Status strainStatus = ioPtr->createStringDataSet(
         mergePaths(this->m_path, "strain"), subjectSpec.strain.value());
     initStatus = initStatus && strainStatus;
-    if (!strainStatus) {
+    if (strainStatus != Status::Success) {
       std::cerr << "Failed to create strain dataset." << std::endl;
     }
   }
@@ -140,7 +140,7 @@ Status Subject::initialize(const SubjectSpec& subjectSpec)
     Status subjectIdStatus = ioPtr->createStringDataSet(
         mergePaths(this->m_path, "subject_id"), subjectSpec.subjectId.value());
     initStatus = initStatus && subjectIdStatus;
-    if (!subjectIdStatus) {
+    if (subjectIdStatus != Status::Success) {
       std::cerr << "Failed to create subject_id dataset." << std::endl;
     }
   }
@@ -150,7 +150,7 @@ Status Subject::initialize(const SubjectSpec& subjectSpec)
     Status weightStatus = ioPtr->createStringDataSet(
         mergePaths(this->m_path, "weight"), subjectSpec.weight.value());
     initStatus = initStatus && weightStatus;
-    if (!weightStatus) {
+    if (weightStatus != Status::Success) {
       std::cerr << "Failed to create weight dataset." << std::endl;
     }
   }
