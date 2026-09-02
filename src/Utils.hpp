@@ -228,6 +228,23 @@ static inline std::shared_ptr<IO::BaseIO> createIO(const std::string& type,
 }
 
 /**
+ * @brief Check whether a path is equal to or a descendant of a parent path.
+ *
+ * A matching prefix must end at a path separator so that, for example,
+ * `/events2` is not considered a descendant of `/events`.
+ *
+ * @param path The path to check.
+ * @param parentPath The parent path.
+ * @return True if the path equals the parent path or is a descendant of it.
+ */
+static inline bool isPathOrDescendant(const std::string& path,
+                                      const std::string& parentPath)
+{
+  return path.compare(0, parentPath.size(), parentPath) == 0
+      && (path.size() == parentPath.size() || path[parentPath.size()] == '/');
+}
+
+/**
  * @brief Merge two paths into a single path, handling extra trailing and
  * starting "/".
  *

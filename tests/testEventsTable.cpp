@@ -194,10 +194,10 @@ TEST_CASE("EventsTable", "[event]")
 
     // Verify events group does not exist initially
     REQUIRE(io->objectExists("/events") == false);
-    REQUIRE(io->createGroup("/other_path") == Status::Success);
+    REQUIRE(io->createGroup("/events2") == Status::Success);
 
     auto eventsTable =
-        AQNWB::NWB::EventsTable::create("/other_path/test_events", io);
+        AQNWB::NWB::EventsTable::create("/events2/test_events", io);
     REQUIRE(eventsTable != nullptr);
 
     auto specs =

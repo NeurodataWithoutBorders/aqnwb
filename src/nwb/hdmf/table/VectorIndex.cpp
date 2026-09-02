@@ -71,6 +71,7 @@ Status VectorIndex::initialize(const IO::BaseArrayDataSetConfig& dataConfig,
   Status targetStatus =
       ioPtr->createReferenceAttribute(targetPath, getPath(), "target");
   initStatus = initStatus && targetStatus;
+
   // Save the data type and current index for use in appendRow
   m_dataType = dataType;
   m_dataTypeInitialized = true;

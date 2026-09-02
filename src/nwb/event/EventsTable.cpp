@@ -92,7 +92,7 @@ Status EventsTable::initialize(
 
   // Ensure the events group exists if this table is being created in the events
   // group
-  if (m_path.find(NWBFile::EVENTS_PATH) == 0) {
+  if (AQNWB::isPathOrDescendant(m_path, NWBFile::EVENTS_PATH)) {
     Status requireStatus = NWBFile::requireEventsGroup(ioPtr);
     if (requireStatus != Status::Success) {
       std::cerr << "Failed to create or verify events group for EventsTable: "

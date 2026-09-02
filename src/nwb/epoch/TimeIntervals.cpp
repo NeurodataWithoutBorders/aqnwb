@@ -95,7 +95,7 @@ Status TimeIntervals::initialize(const std::string& description,
 
   // Ensure the intervals group exists if this table is being created in the
   // intervals group
-  if (m_path.find(NWBFile::INTERVALS_PATH) == 0) {
+  if (AQNWB::isPathOrDescendant(m_path, NWBFile::INTERVALS_PATH)) {
     Status requireStatus = NWBFile::requireIntervalsGroup(ioPtr);
     if (requireStatus != Status::Success) {
       std::cerr
