@@ -426,7 +426,7 @@ TEST_CASE("ElectricalSeriesReadExample", "[ecephys]")
     // [example_read_dynamic_table_rows_setup_snippet]
 
     // [example_read_dynamic_table_rows_all_cols_snippet]
-    // readRows approach: Read a slice of rows (e.g., rows 0 to 2)
+    // readRows approach: Read a slice of rows (e.g., start=0, count=2 -> rows 0 and 1)
     // This is convenient when you need to process data row-by-row across
     // multiple columns
     auto rows = readInvalidTimesTable->readRows(0, 2);
