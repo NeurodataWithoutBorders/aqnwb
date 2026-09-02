@@ -192,9 +192,9 @@
  *
  * \snippet tests/examples/test_ecephys_data_read.cpp example_read_dynamic_table_rows_setup_snippet
  *
- * In addition to reading individual columns, \ref AQNWB::NWB::DynamicTable::readRows "DynamicTable::readRows(start, stop, colNames)" 
+ * In addition to reading individual columns, \ref AQNWB::NWB::DynamicTable::readRows "DynamicTable::readRows(start, count, colNames)" 
  * provides a convenient method for reading a consecutive range of rows from the table. Note, `start`
- * as the starting row index is *inclusive*, while `stop` as the stopping row index is *exclusive*. 
+ * as the starting row index is *inclusive*, while `count` is the number of rows to read.
  * `colNames` is optional and allows reading of a subset of columns.
  *
  * This method returns a `std::vector<RowData>`, where each \ref AQNWB::Types::RowData "RowData" is a map 
