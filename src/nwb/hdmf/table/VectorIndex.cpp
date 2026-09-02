@@ -321,7 +321,21 @@ std::vector<AQNWB::Types::CellValue> VectorIndex::readIndexedCellValues(
     }
   }
 
-  // Read all required target cells in one go
+  // Empty rows have no values from which to infer their element type, so use
+  // the target dataset metadata to create correctly typed empty vectors.
+  auto targetData = target->readData();
+  if (!targetData) {
+    throw std::runtime_error(
+        "VectorIndex::readIndexedCellValues: target data is unavailable.");
+  }
+  const auto emptyTargetValues =
+      IO::BaseDataType::createEmptyVectorVariant(targetData->getDataType());
+  if (std::holds_alternative<std::monostate>(emptyTargetValues)) {
+    throw std::runtime_error(
+        "VectorIndex::readIndexedCellValues: target data type is unsupported.");
+  }
+
+  // Read nonempty target values in one operation before slicing them into rows.
   std::vector<AQNWB::Types::CellValue> allTargetCells;
   if (totalElementsToRead > 0) {
     SizeArray targetStart = {static_cast<SizeType>(prevIndex)};
@@ -346,9 +360,7 @@ std::vector<AQNWB::Types::CellValue> VectorIndex::readIndexedCellValues(
     uint64_t numElements = currIndex - prevIndex;
 
     if (numElements == 0) {
-      // Empty vector
-      result.emplace_back(std::vector<uint8_t> {});  // Use a dummy type, it
-                                                     // will be empty anyway
+      result.emplace_back(emptyTargetValues);
     } else {
       result.push_back(
           combineCellsToVector(allTargetCells, targetCellOffset, numElements));

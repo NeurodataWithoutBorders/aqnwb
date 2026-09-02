@@ -241,7 +241,7 @@ TEST_CASE("VectorIndex", "[table]")
     io->open();
 
     auto target = NWB::VectorData::create(targetPath, io);
-    target->initialize(IO::ArrayDataSetConfig(BaseDataType::I32, {0}, {10}),
+    target->initialize(IO::ArrayDataSetConfig(BaseDataType::F32, {0}, {10}),
                        "Target");
 
     auto vectorIndex = NWB::VectorIndex::create(indexPath, io);
@@ -250,10 +250,10 @@ TEST_CASE("VectorIndex", "[table]")
         "Index",
         targetPath);
 
-    std::vector<int> vec1 = {1, 2};
-    std::vector<int> vec2 = {};  // Empty vector
-    std::vector<int> vec3 = {3, 4, 5};
-    std::vector<int> vec4 = {6};
+    std::vector<float> vec1 = {1.0f, 2.0f};
+    std::vector<float> vec2 = {};  // Empty vector
+    std::vector<float> vec3 = {3.0f, 4.0f, 5.0f};
+    std::vector<float> vec4 = {6.0f};
 
     size_t elementsAppended = 0;
     vectorIndex->appendData(vec1, elementsAppended);
@@ -266,19 +266,60 @@ TEST_CASE("VectorIndex", "[table]")
     // Read all
     auto allCells = vectorIndex->readIndexedCellValues();
     REQUIRE(allCells.size() == 4);
-    REQUIRE(allCells[0].get<std::vector<int>>() == vec1);
-    REQUIRE(allCells[1].get<std::vector<uint8_t>>().empty());
-    REQUIRE(allCells[2].get<std::vector<int>>() == vec3);
-    REQUIRE(allCells[3].get<std::vector<int>>() == vec4);
+    REQUIRE(allCells[0].get<std::vector<float>>() == vec1);
+    REQUIRE(allCells[1].get<std::vector<float>>() == vec2);
+    REQUIRE(allCells[2].get<std::vector<float>>() == vec3);
+    REQUIRE(allCells[3].get<std::vector<float>>() == vec4);
 
     // Read slice (start=1, count=2)
     auto sliceCells = vectorIndex->readIndexedCellValues(1, 2);
     REQUIRE(sliceCells.size() == 2);
-    REQUIRE(sliceCells[0].get<std::vector<uint8_t>>().empty());
-    REQUIRE(sliceCells[1].get<std::vector<int>>() == vec3);
+    REQUIRE(sliceCells[0].get<std::vector<float>>() == vec2);
+    REQUIRE(sliceCells[1].get<std::vector<float>>() == vec3);
 
     // Read out of bounds
     REQUIRE_THROWS(vectorIndex->readIndexedCellValues(10, 2));
+
+    io->close();
+  }
+
+  SECTION("readIndexedCellValues preserves empty string vector type")
+  {
+    const std::string path =
+        getTestFilePath("testVectorIndexReadIndexedStrings.h5");
+    const std::string targetPath = "/target";
+    const std::string indexPath = "/index";
+
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    auto target = NWB::VectorData::create(targetPath, io);
+    REQUIRE(
+        target->initialize(IO::ArrayDataSetConfig(
+                               BaseDataType(BaseDataType::V_STR), {0}, {10}),
+                           "Target")
+        == Status::Success);
+
+    auto vectorIndex = NWB::VectorIndex::create(indexPath, io);
+    REQUIRE(vectorIndex->initialize(
+                IO::ArrayDataSetConfig(BaseDataType::U32, {0}, {10}),
+                "Index",
+                targetPath)
+            == Status::Success);
+
+    size_t elementsAppended = 0;
+    REQUIRE(vectorIndex->appendData(std::vector<std::string> {"one"},
+                                    elementsAppended)
+            == Status::Success);
+    REQUIRE(
+        vectorIndex->appendData(std::vector<std::string> {}, elementsAppended)
+        == Status::Success);
+
+    const auto cells = vectorIndex->readIndexedCellValues();
+    REQUIRE(cells.size() == 2);
+    REQUIRE(cells[0].get<std::vector<std::string>>()
+            == std::vector<std::string> {"one"});
+    REQUIRE(cells[1].get<std::vector<std::string>>().empty());
 
     io->close();
   }
