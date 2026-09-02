@@ -145,6 +145,45 @@ public:
   }
 
   /**
+   * @brief Check whether a CellValue has a type compatible with this data type.
+   *
+   * Fixed- and variable-length string datasets both accept string values.
+   *
+   * @param value The cell value to check.
+   * @return True if the value's scalar or vector type matches this data type.
+   */
+  bool isCompatibleCellValue(const Types::CellValue& value) const
+  {
+    const BaseDataVectorVariant expectedValues =
+        createEmptyVectorVariant(*this);
+    if (std::holds_alternative<std::monostate>(expectedValues)) {
+      return false;
+    }
+
+    const SizeType expectedTypeIndex = expectedValues.index();
+    return std::visit([expectedTypeIndex](const auto& values)
+                      { return values.index() == expectedTypeIndex; },
+                      value.value);
+  }
+
+  /**
+   * @brief Check whether a vector buffer has a type compatible with this data
+   * type.
+   *
+   * Fixed- and variable-length string datasets both accept string buffers.
+   *
+   * @param buffer The vector buffer to check.
+   * @return True if the buffer's element type matches this data type.
+   */
+  bool isCompatibleVector(const BaseDataVectorVariant& buffer) const
+  {
+    const BaseDataVectorVariant expectedBuffer =
+        createEmptyVectorVariant(*this);
+    return !std::holds_alternative<std::monostate>(expectedBuffer)
+        && buffer.index() == expectedBuffer.index();
+  }
+
+  /**
    * @brief Get the BaseDataType from a std::type_index
    *
    * @param typeIndex The type index for which to determine the BaseDataType
