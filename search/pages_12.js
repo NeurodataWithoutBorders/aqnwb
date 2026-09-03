@@ -10,6 +10,7 @@ var searchData=
   ['linked_20timeseries_7',['4. Create the Linked TimeSeries',['../links.html#link_linked',1,'']]],
   ['links_20🔗_8',['Using Links 🔗',['../links.html',1,'userdocs']]],
   ['linting_9',['Linting',['../testing.html#testing_lint',1,'']]],
-  ['locally_10',['4. Test Locally',['../release_workflow.html#release_steps_4',1,'']]],
-  ['looking_20up_20namespaces_11',['Looking up Namespaces',['../integrating_extensions_page.html#namespace_lookup',1,'']]]
+  ['list_10',['Deprecated List',['../deprecated.html',1,'']]],
+  ['locally_11',['4. Test Locally',['../release_workflow.html#release_steps_4',1,'']]],
+  ['looking_20up_20namespaces_12',['Looking up Namespaces',['../integrating_extensions_page.html#namespace_lookup',1,'']]]
 ];

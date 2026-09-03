@@ -1,5 +1,7 @@
 var class_a_q_n_w_b_1_1_n_w_b_1_1_data =
 [
+    [ "DataSpecBase", "struct_a_q_n_w_b_1_1_n_w_b_1_1_data_1_1_data_spec_base.html", "struct_a_q_n_w_b_1_1_n_w_b_1_1_data_1_1_data_spec_base" ],
+    [ "DataSpec", "struct_a_q_n_w_b_1_1_n_w_b_1_1_data_1_1_data_spec.html", "struct_a_q_n_w_b_1_1_n_w_b_1_1_data_1_1_data_spec" ],
     [ "Data", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#ac0a68f39a709b9096ce797bce18c668f", null ],
     [ "~Data", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a74a00fe8a1f49b2718b119a250237feb", null ],
     [ "create", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a7e079992fdc9571869cacc503332086b", null ],
@@ -7,6 +9,7 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_data =
     [ "getTypeName", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a27b6db1fbbd11f84f76456be6c6a741e", null ],
     [ "initialize", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a811f11bd212eab51664e415740101f2b", null ],
     [ "isInitialized", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a28976115b55b66fb89efb43a412a587e", null ],
+    [ "readCellValues", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#ac4ddaa7dc83e3d5e6444a6ed81a256ed", null ],
     [ "readData", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a7dad9d54ec248dda4cc9a168659382bf", null ],
     [ "readNamespace", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#acc46a4bf4a980465a04c2ed3bcec3e44", null ],
     [ "readNeurodataType", "class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a75578fca4d408ead05a72393a0a5173c", null ],

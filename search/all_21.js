@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['⚖️_0',['⚖️',['../changelog_page.html',1,'Changelog ⚖️'],['../legal_page.html',1,'Legal ⚖️'],['../index.html#mainpage_contributing',1,'Legal ⚖️']]]
+  ['☁️_0',['Reading Remote Data ☁️',['../reads3_page.html',1,'userdocs']]]
 ];

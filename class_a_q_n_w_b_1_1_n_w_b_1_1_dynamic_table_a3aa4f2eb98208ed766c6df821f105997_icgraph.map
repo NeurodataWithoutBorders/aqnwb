@@ -1,0 +1,27 @@
+<map id="AQNWB::NWB::DynamicTable::registerColumn" name="AQNWB::NWB::DynamicTable::registerColumn">
+<area shape="rect" id="Node000001" title="Register a column in the table&#39;s column registry." alt="" coords="1049,136,1252,177"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a39b5e98d5ab26cce0658b1c11b7b7122" title="Adds an already&#45;initialized column to the table without writing data." alt="" coords="789,5,993,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1108,126,1058,94,1000,61,970,49,970,44,1002,57,1061,90,1113,127"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#abe6a2507abfb6ec7897c57aebf3318fb" title="Adds a column of vector string data to the table." alt="" coords="789,71,993,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="1049,132,974,115,975,109,1055,132"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#ab5d214fb6eb95bcaf0f4988b12e2b2db" title="Adds a column of references to the table." alt="" coords="789,136,993,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="1031,157,993,159,993,154,1036,156"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#af911859ba3c21bd6c0d045a9fb112756" title="Configure a single data object." alt="" coords="789,201,993,242"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="1055,181,975,203,974,198,1049,182"/>
+<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a9538766579a7b74e216d450f9abb17e1" title="Load all configured columns and row element identifiers from the file." alt="" coords="781,267,1001,307"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="1113,185,1061,223,1002,256,970,269,969,264,1000,251,1058,219,1108,187"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#a8c91ac320289a2bdc6c55aeb78b4a1ad" title="Finalizes the ElectrodesTable." alt="" coords="514,103,727,143"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="771,142,728,139,727,133,776,142"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#af6bee79f772707a66de379c6f207e971" title="Adds a column to the table from a DataSpecPtr." alt="" coords="519,168,722,209"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="771,207,723,204,723,198,777,207"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a37d84b97bc18f362d6bc76e58afaf2a3" title="Configure multiple data objects." alt="" coords="519,233,722,274"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="771,236,723,244,722,239,777,235"/>
+<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a98edee39e873a4246b928a112d41819d" title="Initializes the DynamicTable object by creating NWB attributes and optional configured data columns." alt="" coords="257,233,460,274"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="501,254,461,256,460,251,506,253"/>
+<area shape="rect" id="Node000011" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#ac43e333295fe72f2d87f0e88ced5be55" title="Ensure that all configured columns are loaded from the file." alt="" coords="508,299,733,339"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="768,302,734,308,734,303,763,302"/>
+<area shape="rect" id="Node000012" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a2541ab21f542dfd45cfbcfe50314afd6" title="Adds multiple rows to the table." alt="" coords="257,299,460,339"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="490,319,461,322,460,316,495,319"/>
+<area shape="rect" id="Node000013" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a7fb6730f68879bbba07b968cdecac4ba" title="Adds a single row to the table." alt="" coords="5,299,209,339"/>
+<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="239,319,209,322,209,316,244,319"/>
+</map>

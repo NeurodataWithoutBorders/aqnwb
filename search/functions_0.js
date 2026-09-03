@@ -1,15 +1,20 @@
 var searchData=
 [
-  ['addcolumn_0',['addColumn',['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#abe6a2507abfb6ec7897c57aebf3318fb',1,'AQNWB::NWB::DynamicTable']]],
+  ['addcolumn_0',['addColumn',['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#abe6a2507abfb6ec7897c57aebf3318fb',1,'AQNWB::NWB::DynamicTable::addColumn(const std::shared_ptr&lt; VectorData &gt; &amp;vectorData, const std::vector&lt; std::string &gt; &amp;values)'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#af6bee79f772707a66de379c6f207e971',1,'AQNWB::NWB::DynamicTable::addColumn(const DataSpecPtr &amp;dataSpec)'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a39b5e98d5ab26cce0658b1c11b7b7122',1,'AQNWB::NWB::DynamicTable::addColumn(const std::shared_ptr&lt; VectorData &gt; &amp;vectorData)']]],
   ['addcolumnname_1',['addColumnName',['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a29dd5ff05905b47f45379e01b79aa722',1,'AQNWB::NWB::DynamicTable']]],
   ['addelectrodes_2',['addElectrodes',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#ad29195cacd9a6c40fb8de417318c9cef',1,'AQNWB::NWB::ElectrodesTable']]],
   ['addfilter_3',['addFilter',['../class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_array_data_set_config.html#a9aefd3b9c5e9fd7efcdb2950e63e557b',1,'AQNWB::IO::HDF5::HDF5ArrayDataSetConfig::addFilter(H5Z_filter_t filter_id, const std::vector&lt; unsigned int &gt; &amp;cd_values)'],['../class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_array_data_set_config.html#af7a55a42c9cab51fe6a59abc5dfed5ef',1,'AQNWB::IO::HDF5::HDF5ArrayDataSetConfig::addFilter(const HDF5FilterConfig &amp;filter)']]],
   ['addfilters_4',['addFilters',['../class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_array_data_set_config.html#accb494cb492b3a33526ab81f3a578320',1,'AQNWB::IO::HDF5::HDF5ArrayDataSetConfig']]],
   ['addrecordingobject_5',['addRecordingObject',['../class_a_q_n_w_b_1_1_i_o_1_1_recording_objects.html#a01b77fd8404c44b40b98380c600bf996',1,'AQNWB::IO::RecordingObjects']]],
   ['addreferencecolumn_6',['addReferenceColumn',['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#ab5d214fb6eb95bcaf0f4988b12e2b2db',1,'AQNWB::NWB::DynamicTable']]],
-  ['annotationseries_7',['AnnotationSeries',['../class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html#ab98f231850a75a82fade2234e8606359',1,'AQNWB::NWB::AnnotationSeries']]],
-  ['arraydatasetconfig_8',['ArrayDataSetConfig',['../class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html#abe5aa8c2e9f5d7ad2a0ca4da2d7d5fd9',1,'AQNWB::IO::ArrayDataSetConfig']]],
-  ['as_5fmulti_5farray_9',['as_multi_array',['../class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#aaf2d60165126bf43841cfe17361d7912',1,'AQNWB::IO::DataBlock']]],
-  ['as_5fvariant_10',['as_variant',['../class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html#a957ab6f55f6be707def1ae317948a6eb',1,'AQNWB::IO::DataBlockGeneric']]],
-  ['attributeexists_11',['attributeExists',['../class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a06b5edf2bbd4c85adcafda13e7903873',1,'AQNWB::IO::BaseIO::attributeExists()'],['../class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a53bfbbdbf24afdd97ea45294b65c1e37',1,'AQNWB::IO::HDF5::HDF5IO::attributeExists()']]]
+  ['addrow_7',['addRow',['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a7fb6730f68879bbba07b968cdecac4ba',1,'AQNWB::NWB::DynamicTable']]],
+  ['addrows_8',['addRows',['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a2541ab21f542dfd45cfbcfe50314afd6',1,'AQNWB::NWB::DynamicTable']]],
+  ['annotationseries_9',['AnnotationSeries',['../class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html#ab98f231850a75a82fade2234e8606359',1,'AQNWB::NWB::AnnotationSeries']]],
+  ['appendbuffer_10',['appendBuffer',['../class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a0fe5c2f70e1922244ea702db4fec8f6f',1,'AQNWB::NWB::VectorData']]],
+  ['appendcellvaluetobuffer_11',['appendCellValueToBuffer',['../namespace_a_q_n_w_b.html#ab61fb380a62609e576ed5fe352b3e94f',1,'AQNWB']]],
+  ['appenddata_12',['appendData',['../class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a5d5d48aef5b2b049c5ca1b16e15c63c8',1,'AQNWB::NWB::VectorData::appendData()'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html#a63166d71772ab8ca8de54141bfc314dc',1,'AQNWB::NWB::VectorIndex::appendData()']]],
+  ['arraydatasetconfig_13',['ArrayDataSetConfig',['../class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html#abe5aa8c2e9f5d7ad2a0ca4da2d7d5fd9',1,'AQNWB::IO::ArrayDataSetConfig']]],
+  ['as_5fmulti_5farray_14',['as_multi_array',['../class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#aaf2d60165126bf43841cfe17361d7912',1,'AQNWB::IO::DataBlock']]],
+  ['as_5fvariant_15',['as_variant',['../class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html#a957ab6f55f6be707def1ae317948a6eb',1,'AQNWB::IO::DataBlockGeneric']]],
+  ['attributeexists_16',['attributeExists',['../class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a06b5edf2bbd4c85adcafda13e7903873',1,'AQNWB::IO::BaseIO::attributeExists()'],['../class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a53bfbbdbf24afdd97ea45294b65c1e37',1,'AQNWB::IO::HDF5::HDF5IO::attributeExists()']]]
 ];

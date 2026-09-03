@@ -1,8 +1,12 @@
 <map id="AQNWB::NWB::Data::readNeurodataType" name="AQNWB::NWB::Data::readNeurodataType">
-<area shape="rect" id="Node000001" title=" " alt="" coords="532,29,801,55"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a7dad9d54ec248dda4cc9a168659382bf" title=" " alt="" coords="275,29,484,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="514,42,485,45,485,40,519,42"/>
-<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="424,15,411,11,379,8,351,10,336,15,333,20,341,30,336,28,327,21,333,11,350,5,379,3,412,5,430,15"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a28976115b55b66fb89efb43a412a587e" title="Check whether the dataset has been initialized." alt="" coords="5,29,227,55"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="257,42,227,45,227,40,262,42"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="770,35,1040,60"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a7dad9d54ec248dda4cc9a168659382bf" title=" " alt="" coords="513,35,722,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="752,48,723,50,723,45,757,47"/>
+<area shape="poly" id="edge5_Node000002_Node000002" title=" " alt="" coords="663,20,649,16,618,13,590,15,574,20,571,25,579,35,574,33,566,26,571,16,589,10,618,8,650,11,668,21"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a28976115b55b66fb89efb43a412a587e" title="Check whether the dataset has been initialized." alt="" coords="244,5,465,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="495,34,465,33,465,28,500,34"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#ac4ddaa7dc83e3d5e6444a6ed81a256ed" title="Reads a range of cell values from the dataset." alt="" coords="252,55,456,96"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="500,60,457,67,457,62,495,61"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html#a0944ead63d5241985a49c629da2d70a8" title="Reads a range of ragged array vectors from the target VectorData." alt="" coords="5,55,196,96"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="234,76,196,78,196,73,239,75"/>
 </map>

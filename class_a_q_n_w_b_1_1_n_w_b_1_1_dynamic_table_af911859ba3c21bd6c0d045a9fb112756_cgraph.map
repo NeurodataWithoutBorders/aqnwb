@@ -1,0 +1,23 @@
+<map id="AQNWB::NWB::DynamicTable::configureDataObject" name="AQNWB::NWB::DynamicTable::configureDataObject">
+<area shape="rect" id="Node000001" title="Configure a single data object." alt="" coords="5,120,209,161"/>
+<area shape="rect" id="Node000002" href="$struct_a_q_n_w_b_1_1_n_w_b_1_1_data_1_1_data_spec_base.html#a1b6b18769808869c0e0a05310d58ab8e" title="Create the concrete Data object represented by this spec." alt="" coords="257,5,471,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="144,117,256,62,290,50,285,53,258,67,147,122"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab614b1609f536e88ed1f32762dc3894b" title="Get a shared pointer to the IO object." alt="" coords="1030,141,1241,182"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="190,117,256,106,460,87,620,84,779,95,982,123,1044,137,1039,137,981,128,779,101,620,89,460,93,257,111,191,122"/>
+<area shape="rect" id="Node000004" href="$struct_a_q_n_w_b_1_1_n_w_b_1_1_data_1_1_data_spec_base.html#ae8e912b02204ebb0188ef7fd6dbcd6cf" title="Initialize the created concrete Data object from this spec." alt="" coords="257,120,471,161"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="209,138,244,139,239,141,210,143"/>
+<area shape="rect" id="Node000007" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="289,185,439,210"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="201,159,291,180,286,182,201,164"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a3aa4f2eb98208ed766c6df821f105997" title="Register a column in the table&#39;s column registry." alt="" coords="262,235,466,275"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="141,159,195,190,258,221,275,229,269,229,256,225,193,195,140,164"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#ac0a68f39a709b9096ce797bce18c668f" title="Constructor." alt="" coords="528,145,713,170"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="471,145,515,150,510,151,472,150"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="578,144,570,136,575,126,592,120,621,118,652,121,670,131,664,130,651,126,621,123,593,126,579,130,576,136,583,145"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aa1e04074725b7331d725bbda8156bc2d" title="Constructor." alt="" coords="770,137,982,178"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="713,155,757,157,752,158,713,160"/>
+<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a29dd5ff05905b47f45379e01b79aa722" title="Add a column name to m_colNames while preventing duplicates." alt="" coords="519,227,722,267"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="466,249,506,251,501,251,466,254"/>
+<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a024be97bb1ec9f7193ddb8bcd38052e1" title="Flush the column names to the file." alt="" coords="774,211,978,251"/>
+<area shape="poly" id="edge10_Node000009_Node000010" title=" " alt="" coords="723,238,756,238,761,238,723,243"/>
+<area shape="poly" id="edge11_Node000010_Node000003" title=" " alt="" coords="955,207,1039,187,1045,186,956,213"/>
+</map>

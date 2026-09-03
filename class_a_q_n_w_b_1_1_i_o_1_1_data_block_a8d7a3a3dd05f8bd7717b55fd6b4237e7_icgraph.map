@@ -1,11 +1,23 @@
 <map id="AQNWB::IO::DataBlock::DataBlock" name="AQNWB::IO::DataBlock::DataBlock">
-<area shape="rect" id="Node000001" title=" " alt="" coords="474,71,637,111"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a20df6af7d661de38f4b8cb3baba48339" title="Factory method to create an DataBlock from a DataBlockGeneric." alt="" coords="263,71,426,111"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="456,91,427,94,426,88,461,91"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a788603f4c9c2698aad610134ab89f8e1" title="Finds all datasets and groups of the given types in the HDF5 file." alt="" coords="33,5,187,46"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="252,67,186,49,186,44,257,65"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a1b9c28abd50f22cf2e0bca20380a12b9" title="Get the full name of the type from the attribute in the file." alt="" coords="33,71,187,111"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="245,92,188,94,187,88,250,90"/>
-<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html#a6f847556dc94dc001eb66dda402f72c0" title="Reads an attribute with a specified data type." alt="" coords="5,136,215,177"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="257,115,186,138,185,133,252,117"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="1175,136,1338,177"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a20df6af7d661de38f4b8cb3baba48339" title="Factory method to create an DataBlock from a DataBlockGeneric." alt="" coords="964,136,1127,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1157,157,1128,159,1127,154,1162,156"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html#ac0a68f39a709b9096ce797bce18c668f" title="Constructor." alt="" coords="719,5,903,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1008,125,965,93,914,61,887,49,888,44,917,57,968,89,1013,126"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a788603f4c9c2698aad610134ab89f8e1" title="Finds all datasets and groups of the given types in the HDF5 file." alt="" coords="734,71,888,111"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="953,131,887,115,887,109,958,131"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a1b9c28abd50f22cf2e0bca20380a12b9" title="Get the full name of the type from the attribute in the file." alt="" coords="734,136,888,177"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="946,157,889,159,888,154,951,156"/>
+<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#ac4ddaa7dc83e3d5e6444a6ed81a256ed" title="Reads a range of cell values from the dataset." alt="" coords="709,201,913,242"/>
+<area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="958,181,887,203,886,198,953,182"/>
+<area shape="rect" id="Node000011" href="$class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html#a6f847556dc94dc001eb66dda402f72c0" title="Reads an attribute with a specified data type." alt="" coords="706,267,916,307"/>
+<area shape="poly" id="edge10_Node000002_Node000011" title=" " alt="" coords="1013,186,968,224,917,256,888,269,887,263,914,251,965,219,1008,188"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html#a3a4fcbb17231aaebae71044026f34c46" title="Constructor." alt="" coords="472,5,655,46"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="701,26,656,28,655,23,706,25"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html#aa14023fd7689f61fadcae685d505c9a5" title="Factor method to create a DataTyped object." alt="" coords="237,5,420,46"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="454,27,421,28,420,23,459,25"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html#a90b834bfa32f7a1435e48ba2f213e24b" title="Create a DataTyped object from a Data object." alt="" coords="5,5,189,46"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="219,27,190,28,188,23,224,24"/>
+<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html#a0944ead63d5241985a49c629da2d70a8" title="Reads a range of ragged array vectors from the target VectorData." alt="" coords="468,201,658,242"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="690,222,659,224,659,219,696,221"/>
 </map>

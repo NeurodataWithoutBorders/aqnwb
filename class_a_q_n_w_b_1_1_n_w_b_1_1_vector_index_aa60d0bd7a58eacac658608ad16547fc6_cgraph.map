@@ -1,0 +1,22 @@
+<map id="AQNWB::NWB::VectorIndex::initialize" name="AQNWB::NWB::VectorIndex::initialize">
+<area shape="rect" id="Node000001" title="Initialize the dataset for the VectorIndex object." alt="" coords="5,74,196,115"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab614b1609f536e88ed1f32762dc3894b" title="Get a shared pointer to the IO object." alt="" coords="771,22,982,63"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,72,185,47,243,27,310,15,379,7,517,3,646,10,758,23,753,24,646,15,517,9,380,13,311,20,244,32,187,51,137,76"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a079202bc1ce62c7f5794f5b658598b8c" title="Gets the path of the registered type." alt="" coords="244,41,455,82"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="195,79,231,77,226,79,197,85"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_array_data_set_config.html#ae9caa9c5963893b2d5a6982751482266" title="Gets the shape, chunking, and data type from the configuration." alt="" coords="254,106,445,147"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="196,104,241,112,236,113,197,110"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a6a6c873a78cabd4d99098fa8febcf8cd" title="Initialize the dataset for the VectorData object." alt="" coords="256,172,442,212"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="145,113,245,156,267,166,262,166,243,161,144,118"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="425,169,454,156,477,139,502,122,565,97,631,78,758,56,753,57,632,84,567,103,504,126,480,143,456,161,427,174"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a811f11bd212eab51664e415740101f2b" title="Initialize the dataset for the Data object." alt="" coords="503,137,706,162"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="443,174,506,166,512,165,443,179"/>
+<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_array_data_set_config.html#afa73e29e69f976fb0dda013ae85fabeb" title="Checks if this configuration represents a link." alt="" coords="781,186,972,227"/>
+<area shape="poly" id="edge11_Node000005_Node000009" title=" " alt="" coords="443,192,768,203,763,204,443,197"/>
+<area shape="poly" id="edge7_Node000006_Node000002" title=" " alt="" coords="628,134,684,103,753,72,771,69,776,67,755,77,686,108,630,139"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a4492a59ec08422039f9d0bc509ffd06d" title="Get the schema namespace of the class type." alt="" coords="754,87,999,113"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="679,133,784,117,789,116,680,139"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a27b6db1fbbd11f84f76456be6c6a741e" title="Get the name of the class type." alt="" coords="758,137,995,162"/>
+<area shape="poly" id="edge9_Node000006_Node000008" title=" " alt="" coords="707,147,745,149,740,150,707,152"/>
+<area shape="poly" id="edge10_Node000006_Node000009" title=" " alt="" coords="669,160,768,183,763,183,669,166"/>
+</map>

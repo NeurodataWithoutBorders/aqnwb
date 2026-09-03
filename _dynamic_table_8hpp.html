@@ -116,7 +116,9 @@ document.addEventListener('DOMContentLoaded', () => {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;any&gt;</code><br />
+<code>#include &lt;optional&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
+<code>#include &lt;unordered_map&gt;</code><br />
 <code>#include &quot;<a class="el" href="_utils_8hpp_source.html">Utils.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_base_i_o_8hpp_source.html">io/BaseIO.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_read_i_o_8hpp_source.html">io/ReadIO.hpp</a>&quot;</code><br />
@@ -142,6 +144,13 @@ This graph shows which files directly or indirectly include this file:</div>
 Classes</h2></td></tr>
 <tr class="memitem:AQNWB_3A_3ANWB_3A_3ADynamicTable" id="r_AQNWB_3A_3ANWB_3A_3ADynamicTable"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html">AQNWB::NWB::DynamicTable</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a group containing multiple datasets that are aligned on the first dimension.  <a href="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#details">More...</a><br /></td></tr>
+<tr class="memitem:AQNWB_3A_3ANWB_3A_3ADynamicTable_3A_3AColumnReturnType_3C_20T_20_3E" id="r_AQNWB_3A_3ANWB_3A_3ADynamicTable_3A_3AColumnReturnType_3C_20T_20_3E"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="struct_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_1_1_column_return_type.html">AQNWB::NWB::DynamicTable::ColumnReturnType&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type trait to determine the return type of readColumn.  <a href="struct_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_1_1_column_return_type.html#details">More...</a><br /></td></tr>
+<tr class="memitem:AQNWB_3A_3ANWB_3A_3ADynamicTable_3A_3AIsVectorDataTyped_3C_20T_20_3E" id="r_AQNWB_3A_3ANWB_3A_3ADynamicTable_3A_3AIsVectorDataTyped_3C_20T_20_3E"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="struct_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_1_1_is_vector_data_typed.html">AQNWB::NWB::DynamicTable::IsVectorDataTyped&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type trait identifying non-registered typed <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html" title="An n-dimensional dataset representing a column of a DynamicTable.">VectorData</a> facades.  <a href="struct_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_1_1_is_vector_data_typed.html#details">More...</a><br /></td></tr>
+<tr class="memitem:AQNWB_3A_3ANWB_3A_3ADynamicTable_3A_3AIsVectorDataTyped_3C_20VectorDataTyped_3C_20DTYPE_20_3E_20_3E" id="r_AQNWB_3A_3ANWB_3A_3ADynamicTable_3A_3AIsVectorDataTyped_3C_20VectorDataTyped_3C_20DTYPE_20_3E_20_3E"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="struct_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_1_1_is_vector_data_typed_3_01_vector_data_typed_3_01_d_t_y_p_e_01_4_01_4.html">AQNWB::NWB::DynamicTable::IsVectorDataTyped&lt; VectorDataTyped&lt; DTYPE &gt; &gt;</a></td></tr>
+<tr class="memitem:AQNWB_3A_3ANWB_3A_3ADynamicTable_3A_3AConfiguredColumn" id="r_AQNWB_3A_3ANWB_3A_3ADynamicTable_3A_3AConfiguredColumn"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="struct_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_1_1_configured_column.html">AQNWB::NWB::DynamicTable::ConfiguredColumn</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal state structure tracking a configured table column.  <a href="struct_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_1_1_configured_column.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>

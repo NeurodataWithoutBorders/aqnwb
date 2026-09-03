@@ -198,6 +198,7 @@ How the Type Registry in RegisteredType Works</h2>
 </li>
 <li><b>Dynamic Creation</b>:<ul>
 <li>The <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a" title="AQNWB::NWB::RegisteredType::create">RegisteredType::create</a> method is used to create an instance of a registered subclass by name. This method looks up the subclass name in the registry and calls the corresponding factory function to create an instance.</li>
+<li>Each I/O object caches one canonical registered object per file path. The path-only <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a" title="AQNWB::NWB::RegisteredType::create">create</a> overload resolves the object's on-disk <span class="tt">namespace</span> and <span class="tt">neurodata_type</span> before reusing a cache entry. A request whose registered type conflicts with an existing cache entry fails rather than returning a different type or creating a second object for the same path.</li>
 </ul>
 </li>
 <li><b>Class Name and Namespace Retrieval</b>:<ul>
@@ -243,6 +244,7 @@ How to Use the RegisteredType Registry</h2>
 Reading templated RegisteredType classes</h2>
 <p>To facilitate the reading of data arrays and handle data types in a type-safe manner, AqNWB utilizes templated classes. For instance, the <span class="tt">VectorData</span> type in NWB may represent data arrays with varying data types (e.g., <span class="tt">int</span>, <span class="tt">string</span>, etc.). Accordingly, AqNWB implements the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html" title="AQNWB::NWB::VectorData">VectorData</a> class, which exposes the data as <span class="tt">std::any</span> via the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a7dad9d54ec248dda4cc9a168659382bf" title="AQNWB::NWB::VectorData::readData">VectorData::readData</a> method for reading.</p>
 <p>In some cases, the data type for <span class="tt">VectorData</span> may be predetermined in the schema. For example, the <span class="tt">location</span> column of the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html" title="AQNWB::NWB::ElectrodesTable">ElectrodesTable</a> requires string data. To simplify reading in such cases where the data type is fixed, AqNWB defines <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html" title="AQNWB::NWB::VectorDataTyped">VectorDataTyped&lt;DTYPE&gt;</a>, which inherits from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html" title="AQNWB::NWB::VectorData">VectorData</a>. This class allows the data type to be specified at compile time via the class template, enabling <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html" title="AQNWB::NWB::VectorDataTyped">VectorDataTyped&lt;DTYPE&gt;::readData</a> to expose the data with the type already set at compile time. When used in combination with the <a class="el" href="_registered_type_8hpp.html#af374245a4f6d5a00540e9fdba52a652a" title="DEFINE_REGISTERED_FIELD">DEFINE_REGISTERED_FIELD</a> macro, this approach allows <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#a12b45f8a1b32e2e5f38f731497f55ca0" title="AQNWB::NWB::ElectrodesTable::readLocationColumn">ElectrodesTable::readLocationColumn</a> to return the data to the user with the type already set. The same approach is also applied in the case of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_data.html" title="AQNWB::NWB::Data">Data</a> and its derived class <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html" title="AQNWB::NWB::DataTyped">DataTyped</a>.</p>
+<p><span class="tt">DataTyped&lt;DTYPE&gt;</span>, <span class="tt">VectorDataTyped&lt;DTYPE&gt;</span>, and <span class="tt">NWBDataTyped&lt;DTYPE&gt;</span> are typed read facades, not canonical registered objects. They are intentionally not stored in <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_recording_objects.html" title="AQNWB::IO::RecordingObjects">RecordingObjects</a>; use their specialized <span class="tt">create</span> or <span class="tt">from...</span> methods to obtain a typed view of a dataset without changing the canonical object cached for its path.</p>
 <p>For further details and alternative approaches for implementing templated <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="AQNWB::NWB::RegisteredType">RegisteredType</a> classes, see <a class="el" href="registered_type_page.html#implement_templated_registered_type" title="Templated RegisteredType Classes">Templated RegisteredType Classes</a>. <br  />
 </p>
 <div class="fragment"><div class="line">    <span class="comment">// Read as generic RegisteredType and case to VectorData</span></div>
@@ -369,6 +371,23 @@ Creating and Writing Data</h2>
 <div class="line">    <a class="code hl_typedef" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a> resultCreate = nwbfile-&gt;createElectricalSeries(</div>
 <div class="line">        mockArrays, mockChannelNames, dataType, containerIndexes);</div>
 <div class="line">    REQUIRE(resultCreate == Status::Success);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// create InvalidTimes table for testing DynamicTable::readRows</span></div>
+<div class="line">    <span class="keyword">auto</span> invalidTimesTable = nwbfile-&gt;createInvalidTimes(<span class="keyword">true</span>);</div>
+<div class="line">    REQUIRE(invalidTimesTable != <span class="keyword">nullptr</span>);</div>
+<div class="line">    std::vector&lt;AQNWB::Types::RowData&gt; invalidTimesRows = {</div>
+<div class="line">        {{<span class="stringliteral">&quot;start_time&quot;</span>, 1.0f},</div>
+<div class="line">         {<span class="stringliteral">&quot;stop_time&quot;</span>, 2.0f},</div>
+<div class="line">         {<span class="stringliteral">&quot;tags&quot;</span>, std::vector&lt;std::string&gt; {<span class="stringliteral">&quot;device_error&quot;</span>, <span class="stringliteral">&quot;user_error&quot;</span>}}},</div>
+<div class="line">        {{<span class="stringliteral">&quot;start_time&quot;</span>, 3.0f},</div>
+<div class="line">         {<span class="stringliteral">&quot;stop_time&quot;</span>, 4.0f},</div>
+<div class="line">         {<span class="stringliteral">&quot;tags&quot;</span>, std::vector&lt;std::string&gt; {<span class="stringliteral">&quot;external_interference&quot;</span>}}},</div>
+<div class="line">        {{<span class="stringliteral">&quot;start_time&quot;</span>, 5.0f},</div>
+<div class="line">         {<span class="stringliteral">&quot;stop_time&quot;</span>, 6.0f},</div>
+<div class="line">         {<span class="stringliteral">&quot;tags&quot;</span>,</div>
+<div class="line">          std::vector&lt;std::string&gt; {</div>
+<div class="line">              <span class="stringliteral">&quot;lost_connection&quot;</span>, <span class="stringliteral">&quot;external_interference&quot;</span>, <span class="stringliteral">&quot;user_error&quot;</span>}}}};</div>
+<div class="line">    REQUIRE(invalidTimesTable-&gt;addRows(invalidTimesRows) == Status::Success);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// get the new ElectricalSeries</span></div>
 <div class="line">    <span class="keyword">auto</span> recordingObjects = io-&gt;getRecordingObjects();</div>

@@ -13,6 +13,8 @@ var searchData=
   ['links_20🔗_10',['Using Links 🔗',['../links.html',1,'userdocs']]],
   ['links_2edox_11',['links.dox',['../links_8dox.html',1,'']]],
   ['linting_12',['Linting',['../testing.html#testing_lint',1,'']]],
-  ['locally_13',['4. Test Locally',['../release_workflow.html#release_steps_4',1,'']]],
-  ['looking_20up_20namespaces_14',['Looking up Namespaces',['../integrating_extensions_page.html#namespace_lookup',1,'']]]
+  ['list_13',['Deprecated List',['../deprecated.html',1,'']]],
+  ['loadconfiguredcolumnsfromfile_14',['loadConfiguredColumnsFromFile',['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a9538766579a7b74e216d450f9abb17e1',1,'AQNWB::NWB::DynamicTable']]],
+  ['locally_15',['4. Test Locally',['../release_workflow.html#release_steps_4',1,'']]],
+  ['looking_20up_20namespaces_16',['Looking up Namespaces',['../integrating_extensions_page.html#namespace_lookup',1,'']]]
 ];

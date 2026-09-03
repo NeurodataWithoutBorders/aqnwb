@@ -140,7 +140,12 @@ Use Case: Time-Aligned TimeSeries</h1>
 <div class="line">    io-&gt;open();</div>
 <div class="line"> </div>
 <div class="line">    <span class="keyword">auto</span> nwbfile = <a class="code hl_function" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a84f0f21cd7bd9745b1eeb508b747fb4b">NWB::NWBFile::create</a>(io);</div>
-<div class="line">    <span class="keyword">auto</span> status = nwbfile-&gt;initialize(<a class="code hl_function" href="namespace_a_q_n_w_b.html#a7a202ee50288eeca65b9b98370226a82">generateUuid</a>());</div>
+<div class="line">    <span class="keyword">auto</span> status = nwbfile-&gt;initialize(<a class="code hl_function" href="namespace_a_q_n_w_b.html#a7a202ee50288eeca65b9b98370226a82">generateUuid</a>(),</div>
+<div class="line">                                      <span class="stringliteral">&quot;Test linked time series&quot;</span>,</div>
+<div class="line">                                      <span class="stringliteral">&quot;Test data collection&quot;</span>,</div>
+<div class="line">                                      <a class="code hl_function" href="namespace_a_q_n_w_b.html#ac436d136125307ef8158115a2296b3e9">getCurrentTime</a>(),</div>
+<div class="line">                                      <a class="code hl_function" href="namespace_a_q_n_w_b.html#ac436d136125307ef8158115a2296b3e9">getCurrentTime</a>(),</div>
+<div class="line">                                      getTestSubjectSpec());</div>
 <div class="line">    REQUIRE(status == Status::Success);</div>
 </div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="link_original"></a>
 2. Create the Original TimeSeries</h2>

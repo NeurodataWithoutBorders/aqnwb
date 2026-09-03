@@ -1,8 +1,5 @@
 var searchData=
 [
-  ['size_5ftype_0',['size_type',['../class_a_q_n_w_b_1_1_i_o_1_1_const_multi_array_view.html#a5a2b391153fbfd68e07deedd06a6ffb4',1,'AQNWB::IO::ConstMultiArrayView']]],
-  ['sizearray_1',['SizeArray',['../class_a_q_n_w_b_1_1_types.html#adde13a31a0f254d84ebf8f02baaa2a97',1,'AQNWB::Types::SizeArray'],['../_base_i_o_8hpp.html#ae7b9f006e82f06f4fc09caf38bd47460',1,'SizeArray:&#160;BaseIO.hpp']]],
-  ['sizetype_2',['SizeType',['../class_a_q_n_w_b_1_1_types.html#ae7b68dd97f314f45e450b2f636ad7c6e',1,'AQNWB::Types::SizeType'],['../_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9',1,'SizeType:&#160;Channel.hpp']]],
-  ['status_3',['Status',['../_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776',1,'BaseIO.hpp']]],
-  ['storageobjecttype_4',['StorageObjectType',['../_base_i_o_8hpp.html#a16e1999667c6480170f48bf8e828be13',1,'BaseIO.hpp']]]
+  ['registrytype_0',['RegistryType',['../class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#a06ce04d28886b96bce8e9f92dd4538f2',1,'AQNWB::SPEC::NamespaceRegistry']]],
+  ['rowdata_1',['RowData',['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#ae6874d341e19d769b91b35b25ba2eb05',1,'AQNWB::NWB::DynamicTable::RowData'],['../namespace_a_q_n_w_b_1_1_types.html#a6e60aeea6e3cf6ed2677338844fdab4a',1,'AQNWB::Types::RowData']]]
 ];

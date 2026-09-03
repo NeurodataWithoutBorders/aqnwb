@@ -1,0 +1,11 @@
+<map id="AQNWB::NWB::TimestampVectorData" name="AQNWB::NWB::TimestampVectorData">
+<area shape="rect" id="Node000001" title="A 1&#45;D VectorData that stores timestamps in seconds from the session start time. Timestamps are not re..." alt="" coords="5,315,257,341"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html" title="An n&#45;dimensional dataset representing a column of a DynamicTable." alt="" coords="38,241,224,267"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="133,281,133,316,129,313,129,284"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data.html" title="An abstract data type for a dataset." alt="" coords="57,168,205,193"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="132,207,134,242,128,240,130,211"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema." alt="" coords="25,94,237,120"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="132,133,134,168,128,167,130,138"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="32,5,230,46"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="132,59,134,94,128,93,130,64"/>
+</map>

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['h5oinfocompat_0',['H5OInfoCompat',['../_h_d_f5_i_o_8cpp.html#a6a8fcacb1dfec7115ee401ec3039c515',1,'HDF5IO.cpp']]]
+  ['dataspec_0',['DataSpec',['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a7234f7d2ad88d8278986462ecf0fb6c7',1,'AQNWB::NWB::DynamicTable']]],
+  ['dataspecptr_1',['DataSpecPtr',['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a81a2e0b8f0630420c8c5d11201ecf9b2',1,'AQNWB::NWB::DynamicTable']]]
 ];

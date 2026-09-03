@@ -1,0 +1,25 @@
+<map id="AQNWB::NWB::VectorIndex::VectorIndex" name="AQNWB::NWB::VectorIndex::VectorIndex">
+<area shape="rect" id="Node000001" title="Constructor." alt="" coords="1197,95,1387,135"/>
+<area shape="poly" id="edge13_Node000001_Node000001" title=" " alt="" coords="1329,79,1317,76,1292,73,1269,75,1256,80,1250,86,1252,96,1248,93,1245,85,1253,76,1268,70,1292,68,1318,70,1335,79"/>
+<area shape="rect" id="Node000002" href="$struct_a_q_n_w_b_1_1_n_w_b_1_1_vector_index_1_1_data_spec.html#a94dcadb09c430a5411821c190ee97332" title=" " alt="" coords="959,29,1149,70"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1199,90,1131,73,1131,68,1204,90"/>
+<area shape="rect" id="Node000003" href="$struct_a_q_n_w_b_1_1_n_w_b_1_1_vector_index_1_1_data_spec.html#a540cdf553ab296583277dc89c6123d09" title="Initialize the created concrete Data object from this spec." alt="" coords="959,95,1149,135"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="1179,115,1149,118,1149,112,1184,115"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html#ae6c36960ee230d8f6114ba2de17c1086" title=" " alt="" coords="959,160,1149,201"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="1204,139,1131,162,1130,157,1199,140"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="1091,14,1078,10,1054,8,1031,10,1017,15,1012,21,1014,30,1009,27,1007,19,1014,10,1030,5,1054,3,1080,5,1096,14"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html#ae0381762897fab5ab36eb0de1bb1e96d" title="Initializes m_currentIndex and m_dataType by reading the last value from the dataset,..." alt="" coords="482,95,672,135"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="950,156,910,151,786,135,673,124,673,119,787,129,911,146,955,156"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html#a87f270bd71244297da6a60ecc2ae91cc" title=" " alt="" coords="720,160,911,201"/>
+<area shape="poly" id="edge7_Node000004_Node000007" title=" " alt="" coords="940,180,911,183,911,178,946,180"/>
+<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html#a0944ead63d5241985a49c629da2d70a8" title="Reads a range of ragged array vectors from the target VectorData." alt="" coords="5,193,196,234"/>
+<area shape="poly" id="edge12_Node000004_Node000010" title=" " alt="" coords="962,204,911,215,712,230,514,233,335,229,196,223,196,218,336,224,514,228,712,224,910,210,957,205"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html#a63166d71772ab8ca8de54141bfc314dc" title="Appends data to the target VectorData and updates this index." alt="" coords="5,116,196,157"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="466,122,197,135,196,129,468,117"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html#a23f54cde93117c0af81c40baf9f4e934" title=" " alt="" coords="482,160,672,201"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="702,180,673,183,673,178,707,180"/>
+<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html#a5b9b86676fb4fb85ad091d1cc20145eb" title="Gets the cached target VectorData column, or reads it if not cached." alt="" coords="244,160,434,201"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="464,181,434,183,434,178,469,180"/>
+<area shape="poly" id="edge10_Node000009_Node000006" title=" " alt="" coords="225,160,196,157,196,151,231,159"/>
+<area shape="poly" id="edge11_Node000009_Node000010" title=" " alt="" coords="225,196,196,203,196,198,231,195"/>
+</map>

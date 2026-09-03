@@ -1,0 +1,26 @@
+<map id="AQNWB::NWB::NWBFile::createTimeIntervalsInstance" name="AQNWB::NWB::NWBFile::createTimeIntervalsInstance">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,135,200,175"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a2f74050c96301fd6dc939e47d14d8fb8" title=" " alt="" coords="248,101,435,142"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="199,139,235,135,230,138,201,144"/>
+<area shape="rect" id="Node000011" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ac26347469d25aeea9bd0421568ed2ddd" title=" " alt="" coords="255,167,428,207"/>
+<area shape="poly" id="edge13_Node000001_Node000011" title=" " alt="" coords="199,165,242,172,237,174,201,171"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aaf2e07b4e912fc34ab052d38f92e6cdd" title="Saves the specification files for the schema." alt="" coords="740,5,913,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="434,101,727,44,722,47,436,106"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a71bd7b910a7ec89bdaf36304d67bfef1" title="Creates the default file structure. Note, this function will fail if the file is in a mode where new ..." alt="" coords="483,153,656,194"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="433,140,470,150,465,151,433,145"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab614b1609f536e88ed1f32762dc3894b" title="Get a shared pointer to the IO object." alt="" coords="997,35,1208,75"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="913,32,984,42,979,43,914,38"/>
+<area shape="rect" id="Node000005" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="1027,193,1178,218"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="860,44,1071,184,1066,184,858,49"/>
+<area shape="poly" id="edge6_Node000006_Node000003" title=" " alt="" coords="590,151,639,106,670,83,703,62,734,51,729,53,706,67,673,87,642,111,593,155"/>
+<area shape="poly" id="edge8_Node000006_Node000004" title=" " alt="" coords="604,151,650,127,704,106,774,88,846,74,984,60,979,62,847,79,775,93,705,111,653,132,607,155"/>
+<area shape="poly" id="edge12_Node000006_Node000005" title=" " alt="" coords="585,192,606,219,634,250,667,279,705,301,771,322,825,327,880,319,948,300,984,286,1018,267,1073,230,1078,228,1021,272,986,291,950,306,881,324,825,332,770,327,703,305,664,283,630,254,602,223,583,197"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#aceded37c693bb2f6aa21a5945a13557c" title="Get all registered namespaces." alt="" coords="704,365,949,406"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="583,192,630,267,665,309,706,345,727,359,721,358,703,349,661,313,626,271,580,197"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a0b44558c283edd9db7d2fcf284c1a5ec" title="Get the schema namespace of the class type." alt="" coords="740,120,913,161"/>
+<area shape="poly" id="edge9_Node000006_Node000008" title=" " alt="" coords="656,160,727,153,722,154,657,165"/>
+<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ae22dafcb8cb963103fe0e2b4cbfd5dd8" title="Get the name of the class type." alt="" coords="740,185,913,226"/>
+<area shape="poly" id="edge10_Node000006_Node000009" title=" " alt="" coords="657,182,727,193,722,193,657,187"/>
+<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#a15d9c6f869f0270ad91a2af8067f5a88" title="Get the singleton instance of the NamespaceRegistry." alt="" coords="704,251,949,291"/>
+<area shape="poly" id="edge11_Node000006_Node000010" title=" " alt="" coords="610,192,705,235,730,246,725,246,703,240,610,197"/>
+</map>

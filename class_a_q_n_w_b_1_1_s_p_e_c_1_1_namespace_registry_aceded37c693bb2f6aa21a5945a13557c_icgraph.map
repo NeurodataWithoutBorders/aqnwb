@@ -1,33 +1,43 @@
 <map id="AQNWB::SPEC::NamespaceRegistry::getAllNamespaces" name="AQNWB::SPEC::NamespaceRegistry::getAllNamespaces">
-<area shape="rect" id="Node000001" title="Get all registered namespaces." alt="" coords="2482,137,2726,178"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a71bd7b910a7ec89bdaf36304d67bfef1" title="Creates the default file structure. Note, this function will fail if the file is in a mode where new ..." alt="" coords="2261,137,2434,178"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="2464,158,2434,160,2434,155,2469,158"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a1609e4048024fdbf5776df794cba91de" title=" " alt="" coords="2039,104,2213,145"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="2243,142,2213,140,2213,135,2248,142"/>
-<area shape="rect" id="Node000016" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a5fe5d0aba7a050db86d5caa5b8cf4a04" title="Initializes the NWB file by setting up the file structure." alt="" coords="2039,169,2213,210"/>
-<area shape="poly" id="edge15_Node000002_Node000016" title=" " alt="" coords="2248,172,2213,180,2213,174,2243,173"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a116bb371a6ef2fec0a442530ce4c5344" title=" " alt="" coords="1818,104,1991,145"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="2021,124,1992,127,1992,122,2027,124"/>
-<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aab00aa182159eb7bee98657b42801a34" title="Create AnnotationSeries objects to record data into. Created objects are automatically added to the I..." alt="" coords="1576,5,1749,46"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="1849,96,1769,61,1735,49,1736,44,1771,57,1854,97"/>
-<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ae81ae76dea35d15be25ac40b32926e93" title="Create ElectricalSeries objects to record data into. Created objects are automatically added to the I..." alt="" coords="1576,71,1749,111"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="1800,110,1749,106,1749,100,1805,110"/>
-<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a0fa114190b0940cf54f44c626a69f550" title="Create SpikeEventSeries objects to record data into. Created objects are automatically added to the I..." alt="" coords="1576,136,1749,177"/>
-<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="1805,138,1750,148,1749,142,1800,138"/>
-<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a2a132886b5369537f717fdcc80bc9b49" title=" " alt="" coords="1555,201,1770,242"/>
-<area shape="poly" id="edge7_Node000004_Node000008" title=" " alt="" coords="1853,151,1771,191,1736,203,1735,198,1769,186,1848,153"/>
-<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#af515ce14c705e833c1ad96837cbe92d8" title=" " alt="" coords="1333,201,1507,242"/>
-<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="1536,222,1507,224,1507,219,1542,222"/>
-<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a3cebcab2c5ed464414d3c566e08a5b7f" title=" " alt="" coords="1112,201,1285,242"/>
-<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="1315,222,1286,224,1286,219,1321,222"/>
-<area shape="rect" id="Node000011" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aa928ef570b33a28a2ba83b8edff18d79" title=" " alt="" coords="891,201,1064,242"/>
-<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="1094,222,1065,224,1065,219,1099,222"/>
-<area shape="rect" id="Node000012" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ad0a87b247b8b3ff2fe16a19eaad0767a" title=" " alt="" coords="669,201,843,242"/>
-<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="873,222,843,224,843,219,878,222"/>
-<area shape="rect" id="Node000013" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ac63d558546622aae6157a8ecd82cf446" title=" " alt="" coords="448,201,621,242"/>
-<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="651,222,622,224,622,219,657,222"/>
-<area shape="rect" id="Node000014" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a65a36f2baf0b3bb7555b573295f97bf0" title=" " alt="" coords="227,201,400,242"/>
-<area shape="poly" id="edge13_Node000013_Node000014" title=" " alt="" coords="430,222,401,224,401,219,435,222"/>
-<area shape="rect" id="Node000015" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a941d5b775441fac6c787cd55a8276461" title="Deleted copy assignment operator to prevent copying." alt="" coords="5,201,179,242"/>
-<area shape="poly" id="edge14_Node000014_Node000015" title=" " alt="" coords="209,222,179,224,179,219,214,221"/>
+<area shape="rect" id="Node000001" title="Get all registered namespaces." alt="" coords="3624,137,3868,178"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a71bd7b910a7ec89bdaf36304d67bfef1" title="Creates the default file structure. Note, this function will fail if the file is in a mode where new ..." alt="" coords="3402,137,3576,178"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="3606,158,3576,160,3576,155,3611,158"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a2f74050c96301fd6dc939e47d14d8fb8" title=" " alt="" coords="3167,104,3354,145"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="3384,143,3355,141,3355,135,3389,143"/>
+<area shape="rect" id="Node000021" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#adb3e26c787d7f03124972d5963e511ba" title="Initializes the NWB file by setting up the file structure." alt="" coords="3174,169,3347,210"/>
+<area shape="poly" id="edge20_Node000002_Node000021" title=" " alt="" coords="3389,172,3348,180,3348,175,3384,172"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a3fe7a591293e64ca560f52f77fc59b57" title=" " alt="" coords="2925,104,3119,145"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="3149,124,3119,127,3119,122,3154,124"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a1609e4048024fdbf5776df794cba91de" title=" " alt="" coords="2703,104,2877,145"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="2907,124,2877,127,2877,122,2912,124"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a116bb371a6ef2fec0a442530ce4c5344" title=" " alt="" coords="2482,104,2655,145"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="2685,124,2656,127,2656,122,2691,124"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aab00aa182159eb7bee98657b42801a34" title="Create AnnotationSeries objects to record data into. Created objects are automatically added to the I..." alt="" coords="2240,5,2413,46"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="2513,96,2433,61,2399,49,2400,44,2435,57,2518,97"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ae81ae76dea35d15be25ac40b32926e93" title="Create ElectricalSeries objects to record data into. Created objects are automatically added to the I..." alt="" coords="2240,71,2413,111"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="2464,110,2413,106,2413,100,2469,110"/>
+<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a0fa114190b0940cf54f44c626a69f550" title="Create SpikeEventSeries objects to record data into. Created objects are automatically added to the I..." alt="" coords="2240,136,2413,177"/>
+<area shape="poly" id="edge8_Node000006_Node000009" title=" " alt="" coords="2469,138,2414,148,2413,142,2464,138"/>
+<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a2a132886b5369537f717fdcc80bc9b49" title=" " alt="" coords="2219,201,2434,242"/>
+<area shape="poly" id="edge9_Node000006_Node000010" title=" " alt="" coords="2517,151,2435,191,2400,203,2399,198,2433,186,2512,153"/>
+<area shape="rect" id="Node000011" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#af515ce14c705e833c1ad96837cbe92d8" title=" " alt="" coords="1997,201,2171,242"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="2200,222,2171,224,2171,219,2206,222"/>
+<area shape="rect" id="Node000012" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a3cebcab2c5ed464414d3c566e08a5b7f" title=" " alt="" coords="1776,201,1949,242"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="1979,222,1950,224,1950,219,1985,222"/>
+<area shape="rect" id="Node000013" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aa928ef570b33a28a2ba83b8edff18d79" title=" " alt="" coords="1555,201,1728,242"/>
+<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="1758,222,1729,224,1729,219,1763,222"/>
+<area shape="rect" id="Node000014" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ad0a87b247b8b3ff2fe16a19eaad0767a" title=" " alt="" coords="1333,201,1507,242"/>
+<area shape="poly" id="edge13_Node000013_Node000014" title=" " alt="" coords="1537,222,1507,224,1507,219,1542,222"/>
+<area shape="rect" id="Node000015" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ac63d558546622aae6157a8ecd82cf446" title=" " alt="" coords="1112,201,1285,242"/>
+<area shape="poly" id="edge14_Node000014_Node000015" title=" " alt="" coords="1315,222,1286,224,1286,219,1321,222"/>
+<area shape="rect" id="Node000016" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a65a36f2baf0b3bb7555b573295f97bf0" title=" " alt="" coords="891,201,1064,242"/>
+<area shape="poly" id="edge15_Node000015_Node000016" title=" " alt="" coords="1094,222,1065,224,1065,219,1099,222"/>
+<area shape="rect" id="Node000017" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a2507f7d9b981dcdae6449d13fa5cfb1f" title=" " alt="" coords="669,201,843,242"/>
+<area shape="poly" id="edge16_Node000016_Node000017" title=" " alt="" coords="873,222,843,224,843,219,878,222"/>
+<area shape="rect" id="Node000018" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a9ae90cbee93648d12c62c28ded38d655" title=" " alt="" coords="448,201,621,242"/>
+<area shape="poly" id="edge17_Node000017_Node000018" title=" " alt="" coords="651,222,622,224,622,219,657,222"/>
+<area shape="rect" id="Node000019" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a98a645d08b9cf0592a31f8916e0b1bce" title=" " alt="" coords="227,201,400,242"/>
+<area shape="poly" id="edge18_Node000018_Node000019" title=" " alt="" coords="430,222,401,224,401,219,435,222"/>
+<area shape="rect" id="Node000020" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a941d5b775441fac6c787cd55a8276461" title="Deleted copy assignment operator to prevent copying." alt="" coords="5,201,179,242"/>
+<area shape="poly" id="edge19_Node000019_Node000020" title=" " alt="" coords="209,222,179,224,179,219,214,221"/>
 </map>

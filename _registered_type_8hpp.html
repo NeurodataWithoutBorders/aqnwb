@@ -222,7 +222,7 @@ Variables</h2></td></tr>
 <div class="line">      ioPtr, <a class="code hl_function" href="namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881">AQNWB::mergePaths</a>(m_path, fieldPath)); \</div>
 <div class="line">}</div>
 <div class="ttc" id="aclass_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper_html"><div class="ttname"><a href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a></div><div class="ttdoc">Class for wrapping data objects (datasets or attributes) for reading data from a file.</div><div class="ttdef"><b>Definition</b> ReadIO.hpp:407</div></div>
-<div class="ttc" id="anamespace_a_q_n_w_b_html_a31983dbaaa85c2e355b9687fc0ef1881"><div class="ttname"><a href="namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881">AQNWB::mergePaths</a></div><div class="ttdeci">static std::string mergePaths(const std::string &amp;path1, const std::string &amp;path2)</div><div class="ttdoc">Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;.</div><div class="ttdef"><b>Definition</b> Utils.hpp:242</div></div>
+<div class="ttc" id="anamespace_a_q_n_w_b_html_a31983dbaaa85c2e355b9687fc0ef1881"><div class="ttname"><a href="namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881">AQNWB::mergePaths</a></div><div class="ttdeci">static std::string mergePaths(const std::string &amp;path1, const std::string &amp;path2)</div><div class="ttdoc">Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;.</div><div class="ttdef"><b>Definition</b> Utils.hpp:263</div></div>
 </div><!-- fragment -->
 <p>Defines a lazy-loaded attribute field accessor function. </p>
 <p>This macro generates a function that returns a lazy-loaded wrapper for an attribute field.</p>
@@ -372,7 +372,7 @@ Variables</h2></td></tr>
 <div class="line">  <span class="keyword">auto</span> ioPtr = getIO(); \</div>
 <div class="line">  if (ioPtr != <span class="keyword">nullptr</span>) { \</div>
 <div class="line">    if (ioPtr-&gt;objectExists(objectPath)) { \</div>
-<div class="line">      <span class="keywordflow">return</span> RegisteredType::create&lt;RTYPE&gt;(objectPath, ioPtr); \</div>
+<div class="line">      <span class="keywordflow">return</span> RTYPE::create(objectPath, ioPtr); \</div>
 <div class="line">    } \</div>
 <div class="line">  } \</div>
 <div class="line">  <span class="keywordflow">return</span> <span class="keyword">nullptr</span>; \</div>
@@ -467,7 +467,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line"><a class="code hl_define" href="#a9401c336dd314b808058449cf8567033">REGISTER_SUBCLASS_WITH_TYPENAME</a>(T, BASE, NAMESPACE, #T)</div>
-<div class="ttc" id="a_registered_type_8hpp_html_a9401c336dd314b808058449cf8567033"><div class="ttname"><a href="#a9401c336dd314b808058449cf8567033">REGISTER_SUBCLASS_WITH_TYPENAME</a></div><div class="ttdeci">#define REGISTER_SUBCLASS_WITH_TYPENAME(T, BASE, NAMESPACE_VAR, TYPENAME)</div><div class="ttdoc">Macro to register a subclass with the RegisteredType class registry.</div><div class="ttdef"><b>Definition</b> RegisteredType.hpp:471</div></div>
+<div class="ttc" id="a_registered_type_8hpp_html_a9401c336dd314b808058449cf8567033"><div class="ttname"><a href="#a9401c336dd314b808058449cf8567033">REGISTER_SUBCLASS_WITH_TYPENAME</a></div><div class="ttdeci">#define REGISTER_SUBCLASS_WITH_TYPENAME(T, BASE, NAMESPACE_VAR, TYPENAME)</div><div class="ttdoc">Macro to register a subclass with the RegisteredType class registry.</div><div class="ttdef"><b>Definition</b> RegisteredType.hpp:504</div></div>
 </div><!-- fragment -->
 <p>Macro to register a subclass with the RegisteredType class registry. </p>
 <p>This macro is a convenience wrapper around the main REGISTER_SUBCLASS macro, providing a default value for TYPENAME.</p>

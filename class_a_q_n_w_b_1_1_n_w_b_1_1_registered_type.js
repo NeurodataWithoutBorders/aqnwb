@@ -10,6 +10,7 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type =
     [ "findOwnedObject", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#adb4e0300f19ae6f847ff1c78a8b7ccbb", null ],
     [ "findOwnedTypes", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a8a83a775f6a8a94d6ae3428e05ef9bfc", null ],
     [ "getCacheRecordingData", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ad3753ec40e8c6b6fafa59ca80433e978", null ],
+    [ "getExistingRecordingObject", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab7b0836d580db8f8e3791a6e81fcb9fa", null ],
     [ "getFactoryMap", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ac83aa589b9c3ab5a00bab462e58fdbd5", null ],
     [ "getFullTypeName", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a0e670647b466cb65a88b81f9fe4a6e37", null ],
     [ "getIO", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab614b1609f536e88ed1f32762dc3894b", null ],
@@ -27,6 +28,5 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type =
     [ "m_defaultUnregisteredDatasetTypeClass", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a30cc61d9d6b91dd6bd767ceccf35fb7f", null ],
     [ "m_defaultUnregisteredGroupTypeClass", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ac3e284613a1e28db9875fb06b66b0c19", null ],
     [ "m_io", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a73f9bb35022892941b8b46a1669605da", null ],
-    [ "m_path", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a2c2954495607eb4afe4e9ab8eff3a08b", null ],
-    [ "m_recordingDataCache", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a549f4d2169ae451bda8d959c9a11dbc3", null ]
+    [ "m_path", "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a2c2954495607eb4afe4e9ab8eff3a08b", null ]
 ];

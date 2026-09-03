@@ -1,9 +1,33 @@
 <map id="AQNWB::IO::BaseArrayDataSetConfig" name="AQNWB::IO::BaseArrayDataSetConfig">
-<area shape="rect" id="Node000001" title="Base class for array dataset configuration." alt="" coords="133,5,324,46"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html" title="The configuration for an array dataset." alt="" coords="5,102,225,127"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="189,58,132,103,129,99,192,54"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html" title="Configuration for creating a soft&#45;link to an existing dataset." alt="" coords="249,94,434,135"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="267,53,319,93,313,94,266,58"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_array_data_set_config.html" title="The configuration for an HDF5 array dataset." alt="" coords="9,183,221,223"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="117,141,117,184,113,182,113,145"/>
+<area shape="rect" id="Node000001" title="Base class for array dataset configuration." alt="" coords="5,169,197,210"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_array_data_set_config.html" title="The configuration for an array dataset." alt="" coords="245,148,464,173"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="211,174,247,172,242,174,213,179"/>
+<area shape="rect" id="Node000016" href="$class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html" title="Configuration for creating a soft&#45;link to an existing dataset." alt="" coords="262,197,447,238"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="211,199,263,206,259,208,212,205"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_array_data_set_config.html" title="The configuration for an HDF5 array dataset." alt="" coords="528,112,740,153"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="479,145,531,142,525,144,480,150"/>
+<area shape="rect" id="Node000004" href="$struct_a_q_n_w_b_1_1_n_w_b_1_1_data_1_1_data_spec_base.html" title="Non&#45;templated base class for runtime Data configuration." alt="" coords="512,177,756,202"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="479,171,514,176,509,177,480,176"/>
+<area shape="rect" id="Node000005" href="$struct_a_q_n_w_b_1_1_n_w_b_1_1_data_1_1_data_spec.html" title=" " alt="" coords="804,5,1019,46"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="749,167,755,162,766,150,773,138,778,112,784,84,791,71,803,57,820,48,825,45,806,61,795,73,789,86,784,113,778,140,770,154,758,166,751,171"/>
+<area shape="rect" id="Node000007" href="$struct_a_q_n_w_b_1_1_n_w_b_1_1_data_1_1_data_spec.html" title=" " alt="" coords="804,71,1019,111"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="738,169,755,162,769,153,779,143,788,132,803,122,829,113,834,111,806,127,792,136,783,147,773,157,758,167,740,174"/>
+<area shape="rect" id="Node000009" href="$struct_a_q_n_w_b_1_1_n_w_b_1_1_data_1_1_data_spec.html" title=" " alt="" coords="804,136,1019,177"/>
+<area shape="poly" id="edge8_Node000004_Node000009" title=" " alt="" coords="761,172,806,169,801,170,762,177"/>
+<area shape="rect" id="Node000011" href="$struct_a_q_n_w_b_1_1_n_w_b_1_1_data_1_1_data_spec.html" title=" " alt="" coords="804,201,1019,242"/>
+<area shape="poly" id="edge10_Node000004_Node000011" title=" " alt="" coords="766,202,806,209,801,209,767,208"/>
+<area shape="rect" id="Node000013" href="$struct_a_q_n_w_b_1_1_n_w_b_1_1_data_1_1_data_spec.html" title=" " alt="" coords="804,267,1019,307"/>
+<area shape="poly" id="edge12_Node000004_Node000013" title=" " alt="" coords="683,206,805,251,844,266,839,266,803,256,683,211"/>
+<area shape="rect" id="Node000015" href="$struct_a_q_n_w_b_1_1_n_w_b_1_1_data_1_1_data_spec.html" title="Typed runtime configuration for a concrete Data subclass." alt="" coords="804,332,1019,373"/>
+<area shape="poly" id="edge14_Node000004_Node000015" title=" " alt="" coords="661,211,725,264,764,292,806,317,835,332,830,331,803,321,761,296,721,268,659,216"/>
+<area shape="rect" id="Node000006" href="$struct_a_q_n_w_b_1_1_n_w_b_1_1_duration_vector_data_1_1_data_spec.html" title=" " alt="" coords="1076,5,1283,46"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="1034,23,1078,25,1072,26,1035,28"/>
+<area shape="rect" id="Node000008" href="$struct_a_q_n_w_b_1_1_n_w_b_1_1_element_identifiers_1_1_data_spec.html" title=" " alt="" coords="1067,71,1292,111"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="1034,88,1069,91,1063,91,1035,94"/>
+<area shape="rect" id="Node000010" href="$struct_a_q_n_w_b_1_1_n_w_b_1_1_timestamp_vector_data_1_1_data_spec.html" title=" " alt="" coords="1068,136,1291,177"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="1034,154,1070,156,1065,157,1034,159"/>
+<area shape="rect" id="Node000012" href="$struct_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_1_1_data_spec.html" title="Runtime configuration for creating and initializing a VectorData column." alt="" coords="1086,201,1272,242"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="1034,219,1088,221,1083,222,1034,224"/>
+<area shape="rect" id="Node000014" href="$struct_a_q_n_w_b_1_1_n_w_b_1_1_vector_index_1_1_data_spec.html" title="Runtime configuration for creating and initializing a VectorIndex column." alt="" coords="1084,267,1274,307"/>
+<area shape="poly" id="edge13_Node000013_Node000014" title=" " alt="" coords="1034,284,1086,287,1081,287,1034,290"/>
 </map>

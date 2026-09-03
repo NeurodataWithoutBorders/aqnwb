@@ -1,26 +1,34 @@
 <map id="AQNWB::NWB::RegisteredType::getFactoryMap" name="AQNWB::NWB::RegisteredType::getFactoryMap">
-<area shape="rect" id="Node000001" title="Get the factory map for creating instances of subclasses." alt="" coords="803,203,1015,243"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a" title="Create an instance of a registered subclass by name." alt="" coords="544,169,755,210"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="785,208,756,206,756,201,791,207"/>
-<area shape="rect" id="Node000012" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab20cf389f4f512056d7755ec23d6d0a9" title="Register a subclass name and its factory function in the registry." alt="" coords="544,235,755,275"/>
-<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="785,238,756,245,755,239,791,238"/>
-<area shape="poly" id="edge6_Node000002_Node000002" title=" " alt="" coords="690,154,676,150,650,148,625,150,610,155,604,161,606,170,601,167,599,159,607,150,624,145,650,143,678,145,696,154"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html#a960ffd9d6060c5acef094e54273446cf" title="Factor method to create a DataTyped object." alt="" coords="294,5,477,46"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="617,158,563,109,530,84,495,61,469,49,469,44,497,57,533,79,567,105,622,158"/>
-<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#a520a13b699039571c159ef4a878afac1" title="Convenience factor method since the path is fixed to electrodeTablePath." alt="" coords="279,71,492,111"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="587,163,495,127,460,115,459,109,497,122,592,162"/>
-<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a31a9458cf3b5ad8ef6e3346f995deb12" title="Convenience factor method since the path is fixed to &#39;/&#39;." alt="" coords="299,136,472,177"/>
-<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="526,175,473,170,472,165,531,174"/>
-<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a13dd3c9a0045cb3729ba9cf56e4a2fa7" title="Factory method to create an instance of a subclass of RegisteredType from file." alt="" coords="280,201,491,242"/>
-<area shape="poly" id="edge7_Node000002_Node000007" title=" " alt="" coords="526,205,492,211,491,206,531,204"/>
-<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html#af685f8c0dea09f2c03059a0c498b8cc3" title="Factor method to create a VectorDataTyped object." alt="" coords="275,267,496,307"/>
-<area shape="poly" id="edge8_Node000002_Node000008" title=" " alt="" coords="563,215,545,225,521,241,497,256,466,269,464,264,495,251,519,236,543,221,558,217"/>
-<area shape="rect" id="Node000011" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a07451eb27d98493d2d362129a3934a4d" title="Read a field that is itself a RegisteredType." alt="" coords="280,332,491,373"/>
-<area shape="poly" id="edge11_Node000002_Node000011" title=" " alt="" coords="552,217,546,225,529,248,523,272,516,297,498,321,478,334,476,329,494,317,511,294,517,270,524,246,542,221,548,219"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html#a90b834bfa32f7a1435e48ba2f213e24b" title="Create a DataTyped object from a Data object." alt="" coords="24,5,208,46"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="276,27,209,28,207,23,280,24"/>
-<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html#ab5c4d5084bb6134318dce6637fdd13e4" title="Create a VectorDataTyped object from a Data object." alt="" coords="5,235,227,275"/>
-<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="257,273,227,271,227,266,262,271"/>
-<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a4287d10a93adfa2ecaa9092438c6a9f0" title="Read an arbitrary column of the DynamicTable." alt="" coords="14,300,218,341"/>
-<area shape="poly" id="edge10_Node000008_Node000010" title=" " alt="" coords="257,303,218,310,217,305,262,302"/>
+<area shape="rect" id="Node000001" title="Get the factory map for creating instances of subclasses." alt="" coords="1569,203,1781,243"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a" title="Create or retrieve the canonical instance of a registered subclass." alt="" coords="1310,169,1521,210"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1551,207,1522,206,1522,201,1557,207"/>
+<area shape="rect" id="Node000016" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab20cf389f4f512056d7755ec23d6d0a9" title="Register a subclass name and its factory function in the registry." alt="" coords="1310,235,1521,275"/>
+<area shape="poly" id="edge16_Node000001_Node000016" title=" " alt="" coords="1557,238,1522,245,1522,239,1551,238"/>
+<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="1457,153,1442,150,1416,148,1391,150,1376,155,1370,161,1372,170,1367,167,1365,159,1373,150,1390,145,1416,143,1444,145,1462,154"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#a520a13b699039571c159ef4a878afac1" title="Convenience factor method since the path is fixed to electrodeTablePath." alt="" coords="1049,5,1262,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1383,158,1329,110,1296,84,1261,61,1235,49,1236,44,1263,57,1299,79,1332,106,1388,159"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a31a9458cf3b5ad8ef6e3346f995deb12" title="Convenience factor method since the path is fixed to &#39;/&#39;." alt="" coords="1069,71,1242,111"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="1352,162,1261,127,1226,115,1226,109,1263,122,1357,163"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a13dd3c9a0045cb3729ba9cf56e4a2fa7" title="Create or retrieve the canonical RegisteredType instance from file." alt="" coords="1050,136,1261,177"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="1292,174,1261,173,1261,167,1297,174"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_subject.html#a8998fdce57022d34e4c02289838f6c22" title="Convenience factor method since the path is fixed to &#39;/general/subject&#39;." alt="" coords="1073,201,1238,242"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="1292,205,1238,214,1238,209,1297,204"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a6486ed799d4c499232718b1a66376e85" title="Read an arbitrary column of the DynamicTable." alt="" coords="1054,267,1257,307"/>
+<area shape="poly" id="edge7_Node000002_Node000007" title=" " alt="" coords="1329,215,1311,225,1287,241,1263,256,1232,269,1231,263,1261,251,1285,236,1309,221,1324,217"/>
+<area shape="rect" id="Node000015" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a07451eb27d98493d2d362129a3934a4d" title="Read a field that is itself a RegisteredType." alt="" coords="1050,332,1261,373"/>
+<area shape="poly" id="edge15_Node000002_Node000015" title=" " alt="" coords="1319,217,1312,225,1295,248,1289,272,1282,296,1264,321,1244,334,1242,329,1260,317,1277,294,1283,270,1290,246,1308,221,1314,219"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a79ccf333480f9a5440c594b34d0ef282" title="Create a MeaningsTable for a specific VectorData column in this DynamicTable." alt="" coords="789,201,993,242"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="1053,262,976,245,976,240,1058,262"/>
+<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a9538766579a7b74e216d450f9abb17e1" title="Load all configured columns and row element identifiers from the file." alt="" coords="781,267,1001,307"/>
+<area shape="poly" id="edge9_Node000007_Node000009" title=" " alt="" coords="1035,287,1001,290,1001,284,1041,287"/>
+<area shape="rect" id="Node000013" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#ad2623ad55b9abf7df29b39b85ea970da" title="Read rows from the table." alt="" coords="789,332,993,373"/>
+<area shape="poly" id="edge13_Node000007_Node000013" title=" " alt="" coords="1058,311,977,334,976,329,1053,312"/>
+<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#ac43e333295fe72f2d87f0e88ced5be55" title="Ensure that all configured columns are loaded from the file." alt="" coords="508,267,733,307"/>
+<area shape="poly" id="edge10_Node000009_Node000010" title=" " alt="" coords="763,287,734,290,734,284,768,287"/>
+<area shape="rect" id="Node000011" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a2541ab21f542dfd45cfbcfe50314afd6" title="Adds multiple rows to the table." alt="" coords="257,267,460,307"/>
+<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="490,287,461,290,460,284,495,287"/>
+<area shape="rect" id="Node000012" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a7fb6730f68879bbba07b968cdecac4ba" title="Adds a single row to the table." alt="" coords="5,267,209,307"/>
+<area shape="poly" id="edge12_Node000011_Node000012" title=" " alt="" coords="239,288,210,290,209,284,244,286"/>
+<area shape="rect" id="Node000014" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#ad9af4140c83b8dd49b842879be66a2f5" title="Convert the table to a string representation." alt="" coords="519,332,722,373"/>
+<area shape="poly" id="edge14_Node000013_Node000014" title=" " alt="" coords="771,352,723,355,723,350,777,352"/>
 </map>

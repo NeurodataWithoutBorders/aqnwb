@@ -1,13 +1,25 @@
 <map id="AQNWB::IO::BaseDataType::BaseDataType" name="AQNWB::IO::BaseDataType::BaseDataType">
-<area shape="rect" id="Node000001" title="Constructs a BaseDataType object with the specified type and size." alt="" coords="519,71,707,111"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#ae4eca40525bf512e9f1a194dcc3f905b" title="Get the BaseDataType from a std::type_index." alt="" coords="265,5,454,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="514,66,441,49,441,44,519,66"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#afebc97cbbd321594d89a5146c348b377" title=" " alt="" coords="265,71,454,111"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="501,91,454,94,454,88,506,91"/>
-<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#a18d42dba7074fb4cdac771deef6c051b" title="Accessor for string with specified size." alt="" coords="248,136,471,161"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="508,115,420,137,419,132,503,116"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#aad50453ab9a800a7551003d544c7a3dd" title="Get the BaseDataType for the data." alt="" coords="21,5,184,46"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="247,27,185,28,184,23,252,25"/>
-<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#abb3541720c4613adc1c273cbe54f66a9" title="Creates a non&#45;modifiable dataset with a string value." alt="" coords="5,128,200,169"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="229,148,200,151,200,146,235,148"/>
+<area shape="rect" id="Node000001" title="Constructs a BaseDataType object with the specified type and size." alt="" coords="779,271,968,311"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#a600928be65016fe305b7bd470baa3e72" title="Create an empty BaseDataVectorVariant matching the given type." alt="" coords="526,136,714,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="817,263,660,180,661,175,823,263"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#ae4eca40525bf512e9f1a194dcc3f905b" title="Get the BaseDataType from a std::type_index." alt="" coords="526,237,714,278"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="761,277,714,273,714,267,767,277"/>
+<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#afebc97cbbd321594d89a5146c348b377" title=" " alt="" coords="526,303,714,343"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="767,304,715,314,714,308,761,305"/>
+<area shape="rect" id="Node000011" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#a18d42dba7074fb4cdac771deef6c051b" title="Accessor for string with specified size." alt="" coords="508,368,731,393"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="821,318,732,358,690,370,689,364,730,352,815,319"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a2541ab21f542dfd45cfbcfe50314afd6" title="Adds multiple rows to the table." alt="" coords="257,5,460,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="574,127,521,95,459,61,430,49,429,44,461,57,524,90,579,127"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#a30288d0c74447faacde87b0f42a46b89" title="Check whether a CellValue has a type compatible with this data type." alt="" coords="264,71,452,111"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="518,132,443,115,442,109,523,131"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#a03de71cfff253b0747b348f8e788270c" title="Check whether a vector buffer has a type compatible with this data type." alt="" coords="264,136,452,177"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="507,157,453,159,452,154,512,156"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html#a0944ead63d5241985a49c629da2d70a8" title="Reads a range of ragged array vectors from the target VectorData." alt="" coords="263,201,454,242"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="518,182,443,203,442,198,523,180"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a7fb6730f68879bbba07b968cdecac4ba" title="Adds a single row to the table." alt="" coords="5,5,209,46"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="239,27,210,28,208,23,243,24"/>
+<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#aad50453ab9a800a7551003d544c7a3dd" title="Get the BaseDataType for the data." alt="" coords="277,267,440,307"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="507,271,441,280,440,275,512,269"/>
+<area shape="rect" id="Node000012" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#abb3541720c4613adc1c273cbe54f66a9" title="Creates a non&#45;modifiable dataset with a string value." alt="" coords="261,360,456,401"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="489,380,456,383,456,378,495,380"/>
 </map>

@@ -28,13 +28,16 @@ var NAVTREE =
     [ "Overview", "index.html", "index" ],
     [ "For Users", "userdocs.html", "userdocs" ],
     [ "For Developers", "devdocs.html", "devdocs" ],
+    [ "Deprecated List", "deprecated.html", null ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
         [ "All", "namespacemembers.html", null ],
         [ "Functions", "namespacemembers_func.html", null ],
         [ "Variables", "namespacemembers_vars.html", null ],
-        [ "Enumerations", "namespacemembers_enum.html", null ]
+        [ "Typedefs", "namespacemembers_type.html", null ],
+        [ "Enumerations", "namespacemembers_enum.html", null ],
+        [ "Enumerator", "namespacemembers_eval.html", null ]
       ] ]
     ] ],
     [ "Classes", "annotated.html", [
@@ -66,12 +69,15 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_annotation_series_8cpp.html",
-"class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#afebc97cbbd321594d89a5146c348b377",
-"class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a7535b7fcc607fe1f47703f21b25ae5de",
-"class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html#a592540e985a1aa371bf785d992d2785a",
-"class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data_interface.html#ae4bdb41408c2564c06438e0c5aed3531",
-"class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#a87984ba6f9d5f86a3ba8a8c30e760683",
-"integrating_extensions_page.html#integrate_namespace"
+"class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#a3ad0684f43e20f91bb130f18b35ed07cabfe20715ad229a30d57a1301f9492b27",
+"class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a0cfc2191ccfc122fa5098d4c4b4117b5",
+"class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#af536df3741945cf7d8f43163d20fcff2",
+"class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html#a86694bfab4fe8988caf3323247855969",
+"class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a65a36f2baf0b3bb7555b573295f97bf0",
+"class_a_q_n_w_b_1_1_n_w_b_1_1_time_intervals.html#a4b2d3ef1bf02c846b139d36a52f4cc43",
+"dev_install_page.html#devbuild_custom_hdf5_sec",
+"nwb_schema_page.html",
+"time_intervals.html#time_intervals_rowbased_addrow"
 ];
 
 const SYNCONMSG = 'click to disable panel synchronization';

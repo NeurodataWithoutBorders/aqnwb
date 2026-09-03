@@ -4,7 +4,7 @@ var searchData=
   ['u32_1',['U32',['../class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#a2714edcd482a021be1455cb07ce8abf2',1,'AQNWB::IO::BaseDataType']]],
   ['u64_2',['U64',['../class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#a3b677aa53324f06022819010d41ed6b5',1,'AQNWB::IO::BaseDataType']]],
   ['u8_3',['U8',['../class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#a69146c183a01f52dc3e034b1a91ff577',1,'AQNWB::IO::BaseDataType']]],
-  ['undefined_4',['Undefined',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ab8143e245b1f62cb147cd9ed97c84e9ca63430566913dbf62230d5f365b3aa1a4',1,'AQNWB::NWB::TimeSeries::Undefined'],['../class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915adfd902706dc9678b3c629bed785567a0',1,'AQNWB::Types::Undefined']]],
+  ['undefined_4',['Undefined',['../class_a_q_n_w_b_1_1_n_w_b_1_1_time_series.html#ab8143e245b1f62cb147cd9ed97c84e9ca63430566913dbf62230d5f365b3aa1a4',1,'AQNWB::NWB::TimeSeries::Undefined'],['../namespace_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915adfd902706dc9678b3c629bed785567a0',1,'AQNWB::Types::Undefined']]],
   ['unit_20tests_5',['Unit Tests',['../testing.html#testing_unit_run',1,'Running Unit Tests'],['../testing.html#testing_unit',1,'Unit Tests']]],
   ['unknown_20data_20type_6',['Working with fields with unknown data type',['../read_page.html#read_example_variant_data',1,'']]],
   ['unnamed_20neurodata_5ftype_20objects_7',['DEFINE_UNNAMED_REGISTERED_FIELD: Defining read methods for unnamed neurodata_type objects',['../registered_type_page.html#use_the_define_unnamed_registered_field_macro',1,'']]],

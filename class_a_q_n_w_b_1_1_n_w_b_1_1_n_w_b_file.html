@@ -143,18 +143,38 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a941d5b775441fac6c787cd55a8276461"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deleted copy assignment operator to prevent copying.  <br /></td></tr>
 <tr class="memitem:abeacbc7963002b46d971a8866dd90599" id="r_abeacbc7963002b46d971a8866dd90599"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#abeacbc7963002b46d971a8866dd90599">~NWBFile</a> () override</td></tr>
 <tr class="memdesc:abeacbc7963002b46d971a8866dd90599"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor for <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html" title="The NWBFile class provides an interface for setting up and managing the NWB file.">NWBFile</a> class.  <br /></td></tr>
-<tr class="memitem:a5fe5d0aba7a050db86d5caa5b8cf4a04" id="r_a5fe5d0aba7a050db86d5caa5b8cf4a04"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a5fe5d0aba7a050db86d5caa5b8cf4a04">initialize</a> (const std::string &amp;identifierText, const std::string &amp;description=&quot;a recording session&quot;, const std::string &amp;dataCollection=&quot;&quot;, const std::string &amp;sessionStartTime=&quot;&quot;, const std::string &amp;timestampsReferenceTime=&quot;&quot;)</td></tr>
-<tr class="memdesc:a5fe5d0aba7a050db86d5caa5b8cf4a04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> file by setting up the file structure.  <br /></td></tr>
+<tr class="memitem:adb3e26c787d7f03124972d5963e511ba" id="r_adb3e26c787d7f03124972d5963e511ba"><td class="memItemLeft"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#adb3e26c787d7f03124972d5963e511ba">initialize</a> (const std::string &amp;identifierText, const std::string &amp;description=&quot;a recording session&quot;, const std::string &amp;dataCollection=&quot;&quot;, const std::string &amp;sessionStartTime=&quot;&quot;, const std::string &amp;timestampsReferenceTime=&quot;&quot;, const std::optional&lt; <a class="el" href="struct_a_q_n_w_b_1_1_n_w_b_1_1_subject_1_1_subject_spec.html">AQNWB::NWB::Subject::SubjectSpec</a> &gt; &amp;subjectSpec=std::nullopt)</td></tr>
+<tr class="memdesc:adb3e26c787d7f03124972d5963e511ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> file by setting up the file structure.  <br /></td></tr>
 <tr class="memitem:aba967059704c8c81446775bd7beda42b" id="r_aba967059704c8c81446775bd7beda42b"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aba967059704c8c81446775bd7beda42b">isInitialized</a> () const</td></tr>
 <tr class="memdesc:aba967059704c8c81446775bd7beda42b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> file is initialized.  <br /></td></tr>
-<tr class="memitem:a1dfa71717131843ff964e55ee37ceb23" id="r_a1dfa71717131843ff964e55ee37ceb23"><td class="memItemLeft">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html">ElectrodesTable</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a1dfa71717131843ff964e55ee37ceb23">createElectrodesTable</a> (std::vector&lt; <a class="el" href="class_a_q_n_w_b_1_1_types.html#a17cc1d186ce80971c28e440471e910ff">Types::ChannelVector</a> &gt; recordingArrays, bool finalizeTable=true)</td></tr>
-<tr class="memdesc:a1dfa71717131843ff964e55ee37ceb23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html" title="Represents a table containing electrode metadata.">ElectrodesTable</a>. Note, this function will fail if the file is in a mode where new objects cannot be added, which can be checked via nwbfile.io-&gt;canModifyObjects().  <br /></td></tr>
-<tr class="memitem:ae81ae76dea35d15be25ac40b32926e93" id="r_ae81ae76dea35d15be25ac40b32926e93"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#ae81ae76dea35d15be25ac40b32926e93">createElectricalSeries</a> (std::vector&lt; <a class="el" href="class_a_q_n_w_b_1_1_types.html#a17cc1d186ce80971c28e440471e910ff">Types::ChannelVector</a> &gt; recordingArrays, std::vector&lt; std::string &gt; recordingNames, const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">IO::BaseDataType</a> &amp;dataType, std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;containerIndexes)</td></tr>
+<tr class="memitem:ad129b18fa04fe8eea386bd30398a3223" id="r_ad129b18fa04fe8eea386bd30398a3223"><td class="memItemLeft">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html">ElectrodesTable</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ad129b18fa04fe8eea386bd30398a3223">createElectrodesTable</a> (std::vector&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a17cc1d186ce80971c28e440471e910ff">Types::ChannelVector</a> &gt; recordingArrays, bool finalizeTable=true, const <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> rowChunkSize=100)</td></tr>
+<tr class="memdesc:ad129b18fa04fe8eea386bd30398a3223"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html" title="Represents a table containing electrode metadata.">ElectrodesTable</a>. Note, this function will fail if the file is in a mode where new objects cannot be added, which can be checked via nwbfile.io-&gt;canModifyObjects().  <br /></td></tr>
+<tr class="memitem:adb7b63bfd0b0bb59469483f7c52d07b1" id="r_adb7b63bfd0b0bb59469483f7c52d07b1"><td class="memItemLeft">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_events_table.html">EventsTable</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#adb7b63bfd0b0bb59469483f7c52d07b1">createEventsTable</a> (const std::string &amp;name, const std::string &amp;description, const std::optional&lt; std::string &gt; &amp;sourceDescription=std::nullopt, std::optional&lt; float &gt; timestampResolution=std::nullopt, bool createDurationColumn=false, std::optional&lt; float &gt; durationResolution=std::nullopt, const bool createAnnotationColumn=false, const <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> rowChunkSize=100)</td></tr>
+<tr class="memdesc:adb7b63bfd0b0bb59469483f7c52d07b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_events_table.html" title="A column-based table to store information about events, one event per row. Use EventsTable when each ...">EventsTable</a> in the EVENTS_PATH group. Note, this function will fail if the file is in a mode where new objects cannot be added, which can be checked via nwbfile.io-&gt;canModifyObjects().  <br /></td></tr>
+<tr class="memitem:a5ff28db415dd3102184e33a9324f6fd7" id="r_a5ff28db415dd3102184e33a9324f6fd7"><td class="memItemLeft">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_events_table.html">EventsTable</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a5ff28db415dd3102184e33a9324f6fd7">createEventsTable</a> (const std::string &amp;name, const std::string &amp;description, const std::string &amp;sourceDescription, const std::vector&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a81a2e0b8f0630420c8c5d11201ecf9b2">NWB::DynamicTable::DataSpecPtr</a> &gt; &amp;columnSpecs)</td></tr>
+<tr class="memdesc:a5ff28db415dd3102184e33a9324f6fd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_events_table.html" title="A column-based table to store information about events, one event per row. Use EventsTable when each ...">EventsTable</a> in the EVENTS_PATH group using a pre-built column spec list.  <br /></td></tr>
+<tr class="memitem:a605a7ea462b38135d0ee6f95447dd8f0" id="r_a605a7ea462b38135d0ee6f95447dd8f0"><td class="memItemLeft">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_intervals.html">TimeIntervals</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a605a7ea462b38135d0ee6f95447dd8f0">createEpochs</a> (const bool createTagsColumn=false, const <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> rowChunkSize=100)</td></tr>
+<tr class="memdesc:a605a7ea462b38135d0ee6f95447dd8f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create the Epochs table in the INTERVALS_PATH group.  <br /></td></tr>
+<tr class="memitem:a8b42c61ec6bf627b3eebd2dc2f06bbbd" id="r_a8b42c61ec6bf627b3eebd2dc2f06bbbd"><td class="memItemLeft">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_intervals.html">TimeIntervals</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a8b42c61ec6bf627b3eebd2dc2f06bbbd">createTrials</a> (const bool createTagsColumn=false, const <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> rowChunkSize=100)</td></tr>
+<tr class="memdesc:a8b42c61ec6bf627b3eebd2dc2f06bbbd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create the Trials table in the INTERVALS_PATH group.  <br /></td></tr>
+<tr class="memitem:a318c4be532893dafd593f6d9ccf99684" id="r_a318c4be532893dafd593f6d9ccf99684"><td class="memItemLeft">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_intervals.html">TimeIntervals</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a318c4be532893dafd593f6d9ccf99684">createInvalidTimes</a> (const bool createTagsColumn=false, const <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> rowChunkSize=100)</td></tr>
+<tr class="memdesc:a318c4be532893dafd593f6d9ccf99684"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create the Invalid Times table in the INTERVALS_PATH group.  <br /></td></tr>
+<tr class="memitem:a6f45bb65ce5c7d3829b57d19b37601a3" id="r_a6f45bb65ce5c7d3829b57d19b37601a3"><td class="memItemLeft">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_intervals.html">TimeIntervals</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a6f45bb65ce5c7d3829b57d19b37601a3">createTimeIntervals</a> (const std::string &amp;name, const std::string &amp;description, const bool createTagsColumn=false, const <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> rowChunkSize=100)</td></tr>
+<tr class="memdesc:a6f45bb65ce5c7d3829b57d19b37601a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_intervals.html" title="A container for aggregating epoch data and the TimeSeries that each epoch applies to.">TimeIntervals</a> table in the INTERVALS_PATH group. Note, this function will fail if the file is in a mode where new objects cannot be added, which can be checked via nwbfile.io-&gt;canModifyObjects().  <br /></td></tr>
+<tr class="memitem:a4344e75329b02b900931c5514f4dc768" id="r_a4344e75329b02b900931c5514f4dc768"><td class="memItemLeft">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_intervals.html">TimeIntervals</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a4344e75329b02b900931c5514f4dc768">createTimeIntervals</a> (const std::string &amp;name, const std::string &amp;description, const std::vector&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a81a2e0b8f0630420c8c5d11201ecf9b2">NWB::DynamicTable::DataSpecPtr</a> &gt; &amp;columnSpecs)</td></tr>
+<tr class="memdesc:a4344e75329b02b900931c5514f4dc768"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_intervals.html" title="A container for aggregating epoch data and the TimeSeries that each epoch applies to.">TimeIntervals</a> table in the INTERVALS_PATH group using a pre-built column spec list.  <br /></td></tr>
+<tr class="memitem:ae81ae76dea35d15be25ac40b32926e93" id="r_ae81ae76dea35d15be25ac40b32926e93"><td class="memItemLeft"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#ae81ae76dea35d15be25ac40b32926e93">createElectricalSeries</a> (std::vector&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a17cc1d186ce80971c28e440471e910ff">Types::ChannelVector</a> &gt; recordingArrays, std::vector&lt; std::string &gt; recordingNames, const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">IO::BaseDataType</a> &amp;dataType, std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;containerIndexes)</td></tr>
 <tr class="memdesc:ae81ae76dea35d15be25ac40b32926e93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html" title="General purpose time series.">ElectricalSeries</a> objects to record data into. Created objects are automatically added to the I/O's RecordingObjects. Note, this function will fail if the file is in a mode where new objects cannot be added, which can be checked via nwbfile.io-&gt;canModifyObjects().  <br /></td></tr>
-<tr class="memitem:a0fa114190b0940cf54f44c626a69f550" id="r_a0fa114190b0940cf54f44c626a69f550"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a0fa114190b0940cf54f44c626a69f550">createSpikeEventSeries</a> (std::vector&lt; <a class="el" href="class_a_q_n_w_b_1_1_types.html#a17cc1d186ce80971c28e440471e910ff">Types::ChannelVector</a> &gt; recordingArrays, std::vector&lt; std::string &gt; recordingNames, const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">IO::BaseDataType</a> &amp;dataType, std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;containerIndexes)</td></tr>
+<tr class="memitem:a0fa114190b0940cf54f44c626a69f550" id="r_a0fa114190b0940cf54f44c626a69f550"><td class="memItemLeft"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a0fa114190b0940cf54f44c626a69f550">createSpikeEventSeries</a> (std::vector&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a17cc1d186ce80971c28e440471e910ff">Types::ChannelVector</a> &gt; recordingArrays, std::vector&lt; std::string &gt; recordingNames, const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">IO::BaseDataType</a> &amp;dataType, std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;containerIndexes)</td></tr>
 <tr class="memdesc:a0fa114190b0940cf54f44c626a69f550"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html" title="Stores snapshots/snippets of recorded spike events (i.e., threshold crossings).">SpikeEventSeries</a> objects to record data into. Created objects are automatically added to the I/O's RecordingObjects.  <br /></td></tr>
-<tr class="memitem:aab00aa182159eb7bee98657b42801a34" id="r_aab00aa182159eb7bee98657b42801a34"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#aab00aa182159eb7bee98657b42801a34">createAnnotationSeries</a> (const std::vector&lt; std::string &gt; &amp;recordingNames, std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;containerIndexes)</td></tr>
+<tr class="memitem:aab00aa182159eb7bee98657b42801a34" id="r_aab00aa182159eb7bee98657b42801a34"><td class="memItemLeft"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#aab00aa182159eb7bee98657b42801a34">createAnnotationSeries</a> (const std::vector&lt; std::string &gt; &amp;recordingNames, std::vector&lt; <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &gt; &amp;containerIndexes)</td></tr>
 <tr class="memdesc:aab00aa182159eb7bee98657b42801a34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_annotation_series.html" title="TimeSeries storing text-based records about the experiment.">AnnotationSeries</a> objects to record data into. Created objects are automatically added to the I/O's RecordingObjects.  <br /></td></tr>
+<tr class="memitem:a98a645d08b9cf0592a31f8916e0b1bce" id="r_a98a645d08b9cf0592a31f8916e0b1bce"><td class="memTemplParams" colspan="2">template&lt;typename RTYPE = TimeIntervals&gt; </td></tr>
+<tr class="memitem:a98a645d08b9cf0592a31f8916e0b1bce template"><td class="memItemLeft">std::shared_ptr&lt; RTYPE &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a98a645d08b9cf0592a31f8916e0b1bce">readEpochs</a> () const</td></tr>
+<tr class="memitem:a9ae90cbee93648d12c62c28ded38d655" id="r_a9ae90cbee93648d12c62c28ded38d655"><td class="memTemplParams" colspan="2">template&lt;typename RTYPE = TimeIntervals&gt; </td></tr>
+<tr class="memitem:a9ae90cbee93648d12c62c28ded38d655 template"><td class="memItemLeft">std::shared_ptr&lt; RTYPE &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a9ae90cbee93648d12c62c28ded38d655">readTrials</a> () const</td></tr>
+<tr class="memitem:a2507f7d9b981dcdae6449d13fa5cfb1f" id="r_a2507f7d9b981dcdae6449d13fa5cfb1f"><td class="memTemplParams" colspan="2">template&lt;typename RTYPE = TimeIntervals&gt; </td></tr>
+<tr class="memitem:a2507f7d9b981dcdae6449d13fa5cfb1f template"><td class="memItemLeft">std::shared_ptr&lt; RTYPE &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a2507f7d9b981dcdae6449d13fa5cfb1f">readInvalidTimes</a> () const</td></tr>
 <tr class="memitem:a65a36f2baf0b3bb7555b573295f97bf0" id="r_a65a36f2baf0b3bb7555b573295f97bf0"><td class="memTemplParams" colspan="2">template&lt;typename RTYPE = ElectrodesTable&gt; </td></tr>
 <tr class="memitem:a65a36f2baf0b3bb7555b573295f97bf0 template"><td class="memItemLeft">std::shared_ptr&lt; RTYPE &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a65a36f2baf0b3bb7555b573295f97bf0">readElectrodesTable</a> () const</td></tr>
 <tr class="memitem:ac63d558546622aae6157a8ecd82cf446" id="r_ac63d558546622aae6157a8ecd82cf446"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::string&gt; </td></tr>
@@ -182,15 +202,23 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8389d66680e64980ab23337029e75753 template"><td class="memItemLeft">std::shared_ptr&lt; RTYPE &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a8389d66680e64980ab23337029e75753">readProcessingModule</a> (std::string &amp;objectName) const</td></tr>
 <tr class="memitem:a1609e4048024fdbf5776df794cba91de" id="r_a1609e4048024fdbf5776df794cba91de"><td class="memTemplParams" colspan="2">template&lt;typename RTYPE = ProcessingModule&gt; </td></tr>
 <tr class="memitem:a1609e4048024fdbf5776df794cba91de template"><td class="memItemLeft">std::unique_ptr&lt; RTYPE &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a1609e4048024fdbf5776df794cba91de">createProcessingModule</a> (std::string &amp;objectName) const</td></tr>
+<tr class="memitem:a477a8a431db2b70a1b8c80ea58d657df" id="r_a477a8a431db2b70a1b8c80ea58d657df"><td class="memTemplParams" colspan="2">template&lt;typename RTYPE = TimeIntervals&gt; </td></tr>
+<tr class="memitem:a477a8a431db2b70a1b8c80ea58d657df template"><td class="memItemLeft">std::shared_ptr&lt; RTYPE &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a477a8a431db2b70a1b8c80ea58d657df">readTimeIntervals</a> (std::string &amp;objectName) const</td></tr>
+<tr class="memitem:a3fe7a591293e64ca560f52f77fc59b57" id="r_a3fe7a591293e64ca560f52f77fc59b57"><td class="memTemplParams" colspan="2">template&lt;typename RTYPE = TimeIntervals&gt; </td></tr>
+<tr class="memitem:a3fe7a591293e64ca560f52f77fc59b57 template"><td class="memItemLeft">std::unique_ptr&lt; RTYPE &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a3fe7a591293e64ca560f52f77fc59b57">createTimeIntervalsInstance</a> (std::string &amp;objectName) const</td></tr>
+<tr class="memitem:ac26347469d25aeea9bd0421568ed2ddd" id="r_ac26347469d25aeea9bd0421568ed2ddd"><td class="memTemplParams" colspan="2">template&lt;typename RTYPE = EventsTable&gt; </td></tr>
+<tr class="memitem:ac26347469d25aeea9bd0421568ed2ddd template"><td class="memItemLeft">std::shared_ptr&lt; RTYPE &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ac26347469d25aeea9bd0421568ed2ddd">readEventsTable</a> (std::string &amp;objectName) const</td></tr>
+<tr class="memitem:a2f74050c96301fd6dc939e47d14d8fb8" id="r_a2f74050c96301fd6dc939e47d14d8fb8"><td class="memTemplParams" colspan="2">template&lt;typename RTYPE = EventsTable&gt; </td></tr>
+<tr class="memitem:a2f74050c96301fd6dc939e47d14d8fb8 template"><td class="memItemLeft">std::unique_ptr&lt; RTYPE &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a2f74050c96301fd6dc939e47d14d8fb8">createEventsTableInstance</a> (std::string &amp;objectName) const</td></tr>
 <tr class="inherit_header pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container"><td colspan="2">Public Member Functions inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html">AQNWB::NWB::NWBContainer</a></td></tr>
 <tr class="memitem:a3da15cf481cf8fbcbaab3970014f8ca4 pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container" id="r_a3da15cf481cf8fbcbaab3970014f8ca4"><td class="memItemLeft">virtual&#160;</td><td class="memItemRight"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html#a3da15cf481cf8fbcbaab3970014f8ca4">~NWBContainer</a> () override</td></tr>
 <tr class="memdesc:a3da15cf481cf8fbcbaab3970014f8ca4 pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor.  <br /></td></tr>
-<tr class="memitem:a80beeda4c4761fe414407e4cc0d4fe8c pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container" id="r_a80beeda4c4761fe414407e4cc0d4fe8c"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html#a80beeda4c4761fe414407e4cc0d4fe8c">initialize</a> ()</td></tr>
+<tr class="memitem:a80beeda4c4761fe414407e4cc0d4fe8c pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container" id="r_a80beeda4c4761fe414407e4cc0d4fe8c"><td class="memItemLeft"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html#a80beeda4c4761fe414407e4cc0d4fe8c">initialize</a> ()</td></tr>
 <tr class="memdesc:a80beeda4c4761fe414407e4cc0d4fe8c pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the object.  <br /></td></tr>
 <tr class="inherit_header pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container"><td colspan="2">Public Member Functions inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html">AQNWB::NWB::Container</a></td></tr>
 <tr class="memitem:aed906eb69bbf66e32a2f89e54d59c211 pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container" id="r_aed906eb69bbf66e32a2f89e54d59c211"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#aed906eb69bbf66e32a2f89e54d59c211">~Container</a> () override</td></tr>
 <tr class="memdesc:aed906eb69bbf66e32a2f89e54d59c211 pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <br /></td></tr>
-<tr class="memitem:a420424e52795b5212d7dcb728396af6a pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container" id="r_a420424e52795b5212d7dcb728396af6a"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a420424e52795b5212d7dcb728396af6a">initialize</a> ()</td></tr>
+<tr class="memitem:a420424e52795b5212d7dcb728396af6a pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container" id="r_a420424e52795b5212d7dcb728396af6a"><td class="memItemLeft"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a420424e52795b5212d7dcb728396af6a">initialize</a> ()</td></tr>
 <tr class="memdesc:a420424e52795b5212d7dcb728396af6a pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the container.  <br /></td></tr>
 <tr class="memitem:aa4da2624ecbd2b4c29d71e9d54ac6c37 pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container" id="r_aa4da2624ecbd2b4c29d71e9d54ac6c37"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::string&gt; </td></tr>
 <tr class="memitem:aa4da2624ecbd2b4c29d71e9d54ac6c37 pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container template"><td class="memItemLeft">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html#a4a7413b10eb1a838f0349fc59b5a333f">AQNWB::NWB::AttributeField</a>, VTYPE &gt; &gt;&#160;</td><td class="memItemRight"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#aa4da2624ecbd2b4c29d71e9d54ac6c37">readNeurodataType</a> () const</td></tr>
@@ -211,7 +239,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ae66a9bc325b1ddb2c6a5f537feb8591a pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if this <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> object is registered in the RecordingObjects manager object of the I/O.  <br /></td></tr>
 <tr class="memitem:a9114e761cf006ec16c3733b9f8915f9d pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a9114e761cf006ec16c3733b9f8915f9d"><td class="memItemLeft"><a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a>&#160;</td><td class="memItemRight"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a9114e761cf006ec16c3733b9f8915f9d">registerRecordingObject</a> ()</td></tr>
 <tr class="memdesc:a9114e761cf006ec16c3733b9f8915f9d pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register this <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> object with the RecordingObjects manager object of the I/O.  <br /></td></tr>
-<tr class="memitem:aafbac618f2867992dbe8c2f35a072bae pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_aafbac618f2867992dbe8c2f35a072bae"><td class="memItemLeft">virtual <a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">AQNWB::Types::Status</a>&#160;</td><td class="memItemRight"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aafbac618f2867992dbe8c2f35a072bae">finalize</a> ()</td></tr>
+<tr class="memitem:aafbac618f2867992dbe8c2f35a072bae pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_aafbac618f2867992dbe8c2f35a072bae"><td class="memItemLeft">virtual <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">AQNWB::Types::Status</a>&#160;</td><td class="memItemRight"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aafbac618f2867992dbe8c2f35a072bae">finalize</a> ()</td></tr>
 <tr class="memdesc:aafbac618f2867992dbe8c2f35a072bae pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finalize the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> object.  <br /></td></tr>
 <tr class="memitem:ad3753ec40e8c6b6fafa59ca80433e978 pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_ad3753ec40e8c6b6fafa59ca80433e978"><td class="memItemLeft">const std::unordered_map&lt; std::string, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">IO::BaseRecordingData</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ad3753ec40e8c6b6fafa59ca80433e978">getCacheRecordingData</a> () const</td></tr>
 <tr class="memdesc:ad3753ec40e8c6b6fafa59ca80433e978 pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the cache of BaseRecordingData objects.  <br /></td></tr>
@@ -219,7 +247,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ab63d3505ee5b5f1c949cb042c7f2deeb pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear the BaseRecordingData object cache to reset the recording state.  <br /></td></tr>
 <tr class="memitem:a0e670647b466cb65a88b81f9fe4a6e37 pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a0e670647b466cb65a88b81f9fe4a6e37"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a0e670647b466cb65a88b81f9fe4a6e37">getFullTypeName</a> () const</td></tr>
 <tr class="memdesc:a0e670647b466cb65a88b81f9fe4a6e37 pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the full name of the type, i.e., <span class="tt">namespace::typename</span>.  <br /></td></tr>
-<tr class="memitem:adc5ba3d9e27c74f8181944e505bba6e5 pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_adc5ba3d9e27c74f8181944e505bba6e5"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="class_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915">StorageObjectType</a> SOT, typename VTYPE, typename std::enable_if&lt; <a class="el" href="struct_a_q_n_w_b_1_1_types_1_1_is_data_storage_object_type.html">Types::IsDataStorageObjectType</a>&lt; SOT &gt;::value, int &gt;::type = 0&gt; </td></tr>
+<tr class="memitem:adc5ba3d9e27c74f8181944e505bba6e5 pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_adc5ba3d9e27c74f8181944e505bba6e5"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915">StorageObjectType</a> SOT, typename VTYPE, typename std::enable_if&lt; <a class="el" href="struct_a_q_n_w_b_1_1_types_1_1_is_data_storage_object_type.html">Types::IsDataStorageObjectType</a>&lt; SOT &gt;::value, int &gt;::type = 0&gt; </td></tr>
 <tr class="memitem:adc5ba3d9e27c74f8181944e505bba6e5 pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type template"><td class="memItemLeft">std::unique_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html">AQNWB::IO::ReadDataWrapper</a>&lt; SOT, VTYPE &gt; &gt;&#160;</td><td class="memItemRight"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#adc5ba3d9e27c74f8181944e505bba6e5">readField</a> (const std::string &amp;fieldPath) const</td></tr>
 <tr class="memdesc:adc5ba3d9e27c74f8181944e505bba6e5 pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Support reading of arbitrary fields by their relative path.  <br /></td></tr>
 <tr class="memitem:a07451eb27d98493d2d362129a3934a4d pub_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a07451eb27d98493d2d362129a3934a4d"><td class="memItemLeft">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">AQNWB::NWB::RegisteredType</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a07451eb27d98493d2d362129a3934a4d">readField</a> (const std::string &amp;fieldPath) const</td></tr>
@@ -234,6 +262,10 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a84f0f21cd7bd9745b1eeb508b747fb4b" id="r_a84f0f21cd7bd9745b1eeb508b747fb4b"><td class="memItemLeft">static std::shared_ptr&lt; <a class="el" href="#a277f89c64204a61491bb26ad309186f3">NWBFile</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a84f0f21cd7bd9745b1eeb508b747fb4b">create</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt; io)</td></tr>
 <tr class="memitem:a31a9458cf3b5ad8ef6e3346f995deb12" id="r_a31a9458cf3b5ad8ef6e3346f995deb12"><td class="memItemLeft">static std::shared_ptr&lt; <a class="el" href="#a277f89c64204a61491bb26ad309186f3">NWBFile</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a31a9458cf3b5ad8ef6e3346f995deb12">create</a> (std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt; io)</td></tr>
 <tr class="memdesc:a31a9458cf3b5ad8ef6e3346f995deb12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience factor method since the path is fixed to '/'.  <br /></td></tr>
+<tr class="memitem:a50c34a9bcd1103534d7a7303c96dd109" id="r_a50c34a9bcd1103534d7a7303c96dd109"><td class="memItemLeft">static <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a50c34a9bcd1103534d7a7303c96dd109">requireEventsGroup</a> (std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt; io)</td></tr>
+<tr class="memdesc:a50c34a9bcd1103534d7a7303c96dd109"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ensure that the events group exists in the <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> file.  <br /></td></tr>
+<tr class="memitem:a24ff459c6a7c0d6ad31972c44c1371b6" id="r_a24ff459c6a7c0d6ad31972c44c1371b6"><td class="memItemLeft">static <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a24ff459c6a7c0d6ad31972c44c1371b6">requireIntervalsGroup</a> (std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt; io)</td></tr>
+<tr class="memdesc:a24ff459c6a7c0d6ad31972c44c1371b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ensure that the intervals group exists in the <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> file.  <br /></td></tr>
 <tr class="inherit_header pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container"><td colspan="2">Static Public Member Functions inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html">AQNWB::NWB::NWBContainer</a></td></tr>
 <tr class="memitem:a0c82d89ad96ec1324f307ac9b5474731 pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container" id="r_a0c82d89ad96ec1324f307ac9b5474731"><td class="memItemLeft">static std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html#aadbde40c8c04d80d7b65a26e77f4cc20">NWBContainer</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html#a0c82d89ad96ec1324f307ac9b5474731">create</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt; io)</td></tr>
 <tr class="inherit_header pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_container"><td colspan="2">Static Public Member Functions inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html">AQNWB::NWB::Container</a></td></tr>
@@ -244,12 +276,12 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:ac83aa589b9c3ab5a00bab462e58fdbd5 pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_ac83aa589b9c3ab5a00bab462e58fdbd5"><td class="memItemLeft">static std::unordered_map&lt; std::string, std::pair&lt; std::function&lt; std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aa1e04074725b7331d725bbda8156bc2d">RegisteredType</a> &gt;(const std::string &amp;, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt;)&gt;, std::pair&lt; std::string, std::string &gt; &gt; &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ac83aa589b9c3ab5a00bab462e58fdbd5">getFactoryMap</a> ()</td></tr>
 <tr class="memdesc:ac83aa589b9c3ab5a00bab462e58fdbd5 pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the factory map for creating instances of subclasses.  <br /></td></tr>
 <tr class="memitem:a6f7d3d6d30763215c823452176ed876a pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a6f7d3d6d30763215c823452176ed876a"><td class="memItemLeft">static std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aa1e04074725b7331d725bbda8156bc2d">RegisteredType</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a">create</a> (const std::string &amp;fullClassName, const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt; io, bool fallbackToBase=false)</td></tr>
-<tr class="memdesc:a6f7d3d6d30763215c823452176ed876a pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an instance of a registered subclass by name.  <br /></td></tr>
+<tr class="memdesc:a6f7d3d6d30763215c823452176ed876a pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create or retrieve the canonical instance of a registered subclass.  <br /></td></tr>
 <tr class="memitem:a13dd3c9a0045cb3729ba9cf56e4a2fa7 pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a13dd3c9a0045cb3729ba9cf56e4a2fa7"><td class="memItemLeft">static std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">AQNWB::NWB::RegisteredType</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a13dd3c9a0045cb3729ba9cf56e4a2fa7">create</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt; io, bool fallbackToBase=false)</td></tr>
-<tr class="memdesc:a13dd3c9a0045cb3729ba9cf56e4a2fa7 pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method to create an instance of a subclass of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> from file.  <br /></td></tr>
+<tr class="memdesc:a13dd3c9a0045cb3729ba9cf56e4a2fa7 pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create or retrieve the canonical <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> instance from file.  <br /></td></tr>
 <tr class="memitem:a2291ceaa71c1b02ed86a3d4626a7ac48 pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a2291ceaa71c1b02ed86a3d4626a7ac48"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
 <tr class="memitem:a2291ceaa71c1b02ed86a3d4626a7ac48 pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type template"><td class="memItemLeft">static std::shared_ptr&lt; T &gt;&#160;</td><td class="memItemRight"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a2291ceaa71c1b02ed86a3d4626a7ac48">create</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt; io)</td></tr>
-<tr class="memdesc:a2291ceaa71c1b02ed86a3d4626a7ac48 pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method to create an instance of a subclass of <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> by type.  <br /></td></tr>
+<tr class="memdesc:a2291ceaa71c1b02ed86a3d4626a7ac48 pub_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create or retrieve a canonical instance of a <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> subtype.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-attribs" class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -266,6 +298,10 @@ Static Public Attributes</h2></td></tr>
 <tr class="memdesc:ab406e18d81cde160cd3752f843b42d07"><td class="mdescLeft">&#160;</td><td class="mdescRight">The path to the general group in the <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> file.  <br /></td></tr>
 <tr class="memitem:aef1958f6da3a2dcf9ed1081d5f082398" id="r_aef1958f6da3a2dcf9ed1081d5f082398"><td class="memItemLeft">static const std::string&#160;</td><td class="memItemRight"><a class="el" href="#aef1958f6da3a2dcf9ed1081d5f082398">ANALYSIS_PATH</a> = &quot;/analysis&quot;</td></tr>
 <tr class="memdesc:aef1958f6da3a2dcf9ed1081d5f082398"><td class="mdescLeft">&#160;</td><td class="mdescRight">The path to the analysis group in the <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> file.  <br /></td></tr>
+<tr class="memitem:a70cdc1fe7a82431c4f30383ffb505a00" id="r_a70cdc1fe7a82431c4f30383ffb505a00"><td class="memItemLeft">static const std::string&#160;</td><td class="memItemRight"><a class="el" href="#a70cdc1fe7a82431c4f30383ffb505a00">EVENTS_PATH</a> = &quot;/events&quot;</td></tr>
+<tr class="memdesc:a70cdc1fe7a82431c4f30383ffb505a00"><td class="mdescLeft">&#160;</td><td class="mdescRight">The path to the root events group in the <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> file.  <br /></td></tr>
+<tr class="memitem:af59d38c3ad1fe90e02aaaf1b90e6f2f2" id="r_af59d38c3ad1fe90e02aaaf1b90e6f2f2"><td class="memItemLeft">static const std::string&#160;</td><td class="memItemRight"><a class="el" href="#af59d38c3ad1fe90e02aaaf1b90e6f2f2">INTERVALS_PATH</a> = &quot;/intervals&quot;</td></tr>
+<tr class="memdesc:af59d38c3ad1fe90e02aaaf1b90e6f2f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The path to the root intervals group in the <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> file.  <br /></td></tr>
 <tr class="inherit_header pub_static_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container"><td colspan="2">Static Public Attributes inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html">AQNWB::NWB::NWBContainer</a></td></tr>
 <tr class="memitem:a08adfee0980100be672dec8d1fb17139 pub_static_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container" id="r_a08adfee0980100be672dec8d1fb17139"><td class="memItemLeft">static bool&#160;</td><td class="memItemRight"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html#a08adfee0980100be672dec8d1fb17139">registered_</a> = <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html#aadbde40c8c04d80d7b65a26e77f4cc20">NWBContainer</a> <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab20cf389f4f512056d7755ec23d6d0a9">::registerSubclass</a>()</td></tr>
 <tr class="inherit_header pub_static_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_container"><td colspan="2">Static Public Attributes inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_container.html">AQNWB::NWB::Container</a></td></tr>
@@ -276,8 +312,8 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a277f89c64204a61491bb26ad309186f3" id="r_a277f89c64204a61491bb26ad309186f3"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a277f89c64204a61491bb26ad309186f3">NWBFile</a> (std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt; io)</td></tr>
 <tr class="memdesc:a277f89c64204a61491bb26ad309186f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html" title="The NWBFile class provides an interface for setting up and managing the NWB file.">NWBFile</a> class.  <br /></td></tr>
 <tr class="memitem:af62a01f10675b8fdd310f60f48cf23fe" id="r_af62a01f10675b8fdd310f60f48cf23fe"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#af62a01f10675b8fdd310f60f48cf23fe">NWBFile</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt; io)</td></tr>
-<tr class="memdesc:af62a01f10675b8fdd310f60f48cf23fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Required constructor so we can call <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a" title="Create an instance of a registered subclass by name.">RegisteredType::create</a> but the path cannot be set.  <br /></td></tr>
-<tr class="memitem:a71bd7b910a7ec89bdaf36304d67bfef1" id="r_a71bd7b910a7ec89bdaf36304d67bfef1"><td class="memItemLeft"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a71bd7b910a7ec89bdaf36304d67bfef1">createFileStructure</a> (const std::string &amp;identifierText, const std::string &amp;description, const std::string &amp;dataCollection, const std::string &amp;sessionStartTime, const std::string &amp;timestampsReferenceTime)</td></tr>
+<tr class="memdesc:af62a01f10675b8fdd310f60f48cf23fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Required constructor so we can call <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a" title="Create or retrieve the canonical instance of a registered subclass.">RegisteredType::create</a> but the path cannot be set.  <br /></td></tr>
+<tr class="memitem:a71bd7b910a7ec89bdaf36304d67bfef1" id="r_a71bd7b910a7ec89bdaf36304d67bfef1"><td class="memItemLeft"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a71bd7b910a7ec89bdaf36304d67bfef1">createFileStructure</a> (const std::string &amp;identifierText, const std::string &amp;description, const std::string &amp;dataCollection, const std::string &amp;sessionStartTime, const std::string &amp;timestampsReferenceTime)</td></tr>
 <tr class="memdesc:a71bd7b910a7ec89bdaf36304d67bfef1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates the default file structure. Note, this function will fail if the file is in a mode where new objects cannot be added, which can be checked via nwbfile.io-&gt;canModifyObjects().  <br /></td></tr>
 <tr class="inherit_header pro_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container"><td colspan="2">Protected Member Functions inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html">AQNWB::NWB::NWBContainer</a></td></tr>
 <tr class="memitem:aadbde40c8c04d80d7b65a26e77f4cc20 pro_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container" id="r_aadbde40c8c04d80d7b65a26e77f4cc20"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html#aadbde40c8c04d80d7b65a26e77f4cc20">NWBContainer</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt; io)</td></tr>
@@ -302,6 +338,8 @@ Private Attributes</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 id="header-inherited" class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pro_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td colspan="2">Static Protected Member Functions inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">AQNWB::NWB::RegisteredType</a></td></tr>
+<tr class="memitem:ab7b0836d580db8f8e3791a6e81fcb9fa pro_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_ab7b0836d580db8f8e3791a6e81fcb9fa"><td class="memItemLeft">static std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aa1e04074725b7331d725bbda8156bc2d">RegisteredType</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab7b0836d580db8f8e3791a6e81fcb9fa">getExistingRecordingObject</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt; io)</td></tr>
+<tr class="memdesc:ab7b0836d580db8f8e3791a6e81fcb9fa pro_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper to get an existing recording object from the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html" title="The namespace for IO components of AqNWB.">IO</a> object.  <br /></td></tr>
 <tr class="memitem:ab20cf389f4f512056d7755ec23d6d0a9 pro_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_ab20cf389f4f512056d7755ec23d6d0a9"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab20cf389f4f512056d7755ec23d6d0a9">registerSubclass</a> (const std::string &amp;fullClassName, std::function&lt; std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aa1e04074725b7331d725bbda8156bc2d">RegisteredType</a> &gt;(const std::string &amp;, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">AQNWB::IO::BaseIO</a> &gt;)&gt; factoryFunction, const std::string &amp;typeName, const std::string &amp;typeNamespace)</td></tr>
 <tr class="memdesc:ab20cf389f4f512056d7755ec23d6d0a9 pro_static_methods_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a subclass name and its factory function in the registry.  <br /></td></tr>
 <tr class="inherit_header pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td colspan="2">Protected Attributes inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">AQNWB::NWB::RegisteredType</a></td></tr>
@@ -309,8 +347,6 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memdesc:a2c2954495607eb4afe4e9ab8eff3a08b pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">The path of the registered type.  <br /></td></tr>
 <tr class="memitem:a73f9bb35022892941b8b46a1669605da pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a73f9bb35022892941b8b46a1669605da"><td class="memItemLeft">std::weak_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a73f9bb35022892941b8b46a1669605da">m_io</a></td></tr>
 <tr class="memdesc:a73f9bb35022892941b8b46a1669605da pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">A weak pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html" title="The namespace for IO components of AqNWB.">IO</a> object.  <br /></td></tr>
-<tr class="memitem:a549f4d2169ae451bda8d959c9a11dbc3 pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_a549f4d2169ae451bda8d959c9a11dbc3"><td class="memItemLeft">std::unordered_map&lt; std::string, std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html">IO::BaseRecordingData</a> &gt; &gt;&#160;</td><td class="memItemRight"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a549f4d2169ae451bda8d959c9a11dbc3">m_recordingDataCache</a></td></tr>
-<tr class="memdesc:a549f4d2169ae451bda8d959c9a11dbc3 pro_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cache for BaseRecordingData objects for datasets to retain recording state.  <br /></td></tr>
 <tr class="inherit_header pro_static_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td colspan="2">Static Protected Attributes inherited from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html">AQNWB::NWB::RegisteredType</a></td></tr>
 <tr class="memitem:ac3e284613a1e28db9875fb06b66b0c19 pro_static_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type" id="r_ac3e284613a1e28db9875fb06b66b0c19"><td class="memItemLeft">static const std::string&#160;</td><td class="memItemRight"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ac3e284613a1e28db9875fb06b66b0c19">m_defaultUnregisteredGroupTypeClass</a></td></tr>
 <tr class="memdesc:ac3e284613a1e28db9875fb06b66b0c19 pro_static_attribs_class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save the default <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema.">RegisteredType</a> to use for reading Group types that are not registered.  <br /></td></tr>
@@ -319,6 +355,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html" title="The NWBFile class provides an interface for setting up and managing the NWB file.">NWBFile</a> class provides an interface for setting up and managing the <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> file. </p>
+<dl class="section note"><dt>Note</dt><dd><b>Handling of Optional Paths:</b> Some groups in the <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> file structure (e.g., <span class="tt">/events</span>, <span class="tt">/intervals</span>) are optional and are not created by default during <span class="tt"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html#a80beeda4c4761fe414407e4cc0d4fe8c" title="Initialize the object.">initialize()</a></span>. These groups are created automatically on-demand when objects are added to them (e.g., via <span class="tt"><a class="el" href="#adb7b63bfd0b0bb59469483f7c52d07b1" title="Create an EventsTable in the EVENTS_PATH group. Note, this function will fail if the file is in a mod...">createEventsTable</a></span> or <span class="tt"><a class="el" href="#a6f45bb65ce5c7d3829b57d19b37601a3" title="Create a TimeIntervals table in the INTERVALS_PATH group. Note, this function will fail if the file i...">createTimeIntervals</a></span>). If you are creating objects in these paths manually, you can use helper methods like <span class="tt"><a class="el" href="#a50c34a9bcd1103534d7a7303c96dd109" title="Ensure that the events group exists in the NWB file.">requireEventsGroup</a></span> or <span class="tt"><a class="el" href="#a24ff459c6a7c0d6ad31972c44c1371b6" title="Ensure that the intervals group exists in the NWB file.">requireIntervalsGroup</a></span> to ensure the parent groups exist. </dd></dl>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a277f89c64204a61491bb26ad309186f3" name="a277f89c64204a61491bb26ad309186f3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a277f89c64204a61491bb26ad309186f3">&#9670;&#160;</a></span>NWBFile() <span class="overload">[1/3]</span></h2>
@@ -390,7 +427,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Required constructor so we can call <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a" title="Create an instance of a registered subclass by name.">RegisteredType::create</a> but the path cannot be set. </p>
+<p>Required constructor so we can call <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a" title="Create or retrieve the canonical instance of a registered subclass.">RegisteredType::create</a> but the path cannot be set. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -575,7 +612,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a31a9458cf3b5ad8ef6e3346f995deb12_cgraph.svg" width="100%" height="448"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a31a9458cf3b5ad8ef6e3346f995deb12_cgraph.svg" width="100%" height="491"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -587,7 +624,7 @@ Here is the call graph for this function:</div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> NWBFile::createAnnotationSeries </td>
+          <td class="memname"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> NWBFile::createAnnotationSeries </td>
           <td>(</td>
           <td class="paramtype">const std::vector&lt; std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>recordingNames</em></span>, </td>
         </tr>
@@ -660,9 +697,9 @@ Here is the caller graph for this function:</div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> NWBFile::createElectricalSeries </td>
+          <td class="memname"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> NWBFile::createElectricalSeries </td>
           <td>(</td>
-          <td class="paramtype">std::vector&lt; <a class="el" href="class_a_q_n_w_b_1_1_types.html#a17cc1d186ce80971c28e440471e910ff">Types::ChannelVector</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>recordingArrays</em></span>, </td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a17cc1d186ce80971c28e440471e910ff">Types::ChannelVector</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>recordingArrays</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -701,8 +738,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a1dfa71717131843ff964e55ee37ceb23" name="a1dfa71717131843ff964e55ee37ceb23"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1dfa71717131843ff964e55ee37ceb23">&#9670;&#160;</a></span>createElectrodesTable()</h2>
+<a id="ad129b18fa04fe8eea386bd30398a3223" name="ad129b18fa04fe8eea386bd30398a3223"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad129b18fa04fe8eea386bd30398a3223">&#9670;&#160;</a></span>createElectrodesTable()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -710,12 +747,17 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html">ElectrodesTable</a> &gt; NWBFile::createElectrodesTable </td>
           <td>(</td>
-          <td class="paramtype">std::vector&lt; <a class="el" href="class_a_q_n_w_b_1_1_types.html#a17cc1d186ce80971c28e440471e910ff">Types::ChannelVector</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>recordingArrays</em></span>, </td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a17cc1d186ce80971c28e440471e910ff">Types::ChannelVector</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>recordingArrays</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>finalizeTable</em></span><span class="paramdefsep"> = </span><span class="paramdefval">true</span>&#160;)</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>finalizeTable</em></span><span class="paramdefsep"> = </span><span class="paramdefval">true</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a></td>          <td class="paramname"><span class="paramname"><em>rowChunkSize</em></span><span class="paramdefsep"> = </span><span class="paramdefval">100</span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -725,6 +767,7 @@ Here is the call graph for this function:</div>
   <table class="params">
     <tr><td class="paramname">recordingArrays</td><td>vector of ChannelVector indicating the electrodes to add to the table. This vector should contain all the electrodes that are detected by the acquisition system, not only those being actively recorded from. </td></tr>
     <tr><td class="paramname">finalizeTable</td><td>If true (default) then the table will be finalized after creation to write it to the file. If false, the caller must call <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aafbac618f2867992dbe8c2f35a072bae" title="Finalize the RegisteredType object.">finalize()</a> on the returned table object to write it to the file. </td></tr>
+    <tr><td class="paramname">rowChunkSize</td><td>The chunk size to use for the rows of the table. </td></tr>
   </table>
   </dd>
 </dl>
@@ -732,7 +775,201 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a1dfa71717131843ff964e55ee37ceb23_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_ad129b18fa04fe8eea386bd30398a3223_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
+<a id="a605a7ea462b38135d0ee6f95447dd8f0" name="a605a7ea462b38135d0ee6f95447dd8f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a605a7ea462b38135d0ee6f95447dd8f0">&#9670;&#160;</a></span>createEpochs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_intervals.html">TimeIntervals</a> &gt; NWBFile::createEpochs </td>
+          <td>(</td>
+          <td class="paramtype">const bool</td>          <td class="paramname"><span class="paramname"><em>createTagsColumn</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a></td>          <td class="paramname"><span class="paramname"><em>rowChunkSize</em></span><span class="paramdefsep"> = </span><span class="paramdefval">100</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create the Epochs table in the INTERVALS_PATH group. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">createTagsColumn</td><td>Whether to create the tags column. </td></tr>
+    <tr><td class="paramname">rowChunkSize</td><td>The chunk size for the rows of the table. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The generated <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_intervals.html" title="A container for aggregating epoch data and the TimeSeries that each epoch applies to.">TimeIntervals</a> or nullptr if failed. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a605a7ea462b38135d0ee6f95447dd8f0_cgraph.svg" width="100%" height="474"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
+<a id="adb7b63bfd0b0bb59469483f7c52d07b1" name="adb7b63bfd0b0bb59469483f7c52d07b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb7b63bfd0b0bb59469483f7c52d07b1">&#9670;&#160;</a></span>createEventsTable() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_events_table.html">EventsTable</a> &gt; NWBFile::createEventsTable </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>description</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::optional&lt; std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>sourceDescription</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::nullopt</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::optional&lt; float &gt;</td>          <td class="paramname"><span class="paramname"><em>timestampResolution</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::nullopt</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>createDurationColumn</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::optional&lt; float &gt;</td>          <td class="paramname"><span class="paramname"><em>durationResolution</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::nullopt</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const bool</td>          <td class="paramname"><span class="paramname"><em>createAnnotationColumn</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a></td>          <td class="paramname"><span class="paramname"><em>rowChunkSize</em></span><span class="paramdefsep"> = </span><span class="paramdefval">100</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create an <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_events_table.html" title="A column-based table to store information about events, one event per row. Use EventsTable when each ...">EventsTable</a> in the EVENTS_PATH group. Note, this function will fail if the file is in a mode where new objects cannot be added, which can be checked via nwbfile.io-&gt;canModifyObjects(). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>The name of the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_events_table.html" title="A column-based table to store information about events, one event per row. Use EventsTable when each ...">EventsTable</a> to create. </td></tr>
+    <tr><td class="paramname">description</td><td>Description of the table. </td></tr>
+    <tr><td class="paramname">sourceDescription</td><td>Optional short text description of where the events came from. </td></tr>
+    <tr><td class="paramname">timestampResolution</td><td>The temporal resolution of the timestamps in seconds. </td></tr>
+    <tr><td class="paramname">createDurationColumn</td><td>Whether to create the optional duration column (default: false). If true, the duration column will be created with the specified <span class="tt">durationResolution</span>. If false, the duration column will not be created. </td></tr>
+    <tr><td class="paramname">durationResolution</td><td>The temporal resolution of the optional duration column in seconds. See <span class="tt"><a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_duration_vector_data.html#a3cc39bd2db4799f998155ea20cef3ac3" title="Initialize the object.">DurationVectorData::initialize()</a></span> for more details. If a std::nullopt is provided, the duration.resolution attribute of the duration column will not be created. Note, if <span class="tt">createDurationColumn</span> is false, this parameter is ignored. </td></tr>
+    <tr><td class="paramname">createAnnotationColumn</td><td>Whether to create the annotation column. </td></tr>
+    <tr><td class="paramname">rowChunkSize</td><td>The chunk size for the rows of the table. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The generated <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_events_table.html" title="A column-based table to store information about events, one event per row. Use EventsTable when each ...">EventsTable</a> or nullptr if failed. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_adb7b63bfd0b0bb59469483f7c52d07b1_cgraph.svg" width="100%" height="522"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
+<a id="a5ff28db415dd3102184e33a9324f6fd7" name="a5ff28db415dd3102184e33a9324f6fd7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ff28db415dd3102184e33a9324f6fd7">&#9670;&#160;</a></span>createEventsTable() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_events_table.html">EventsTable</a> &gt; NWBFile::createEventsTable </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>description</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>sourceDescription</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a81a2e0b8f0630420c8c5d11201ecf9b2">NWB::DynamicTable::DataSpecPtr</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>columnSpecs</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create an <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_events_table.html" title="A column-based table to store information about events, one event per row. Use EventsTable when each ...">EventsTable</a> in the EVENTS_PATH group using a pre-built column spec list. </p>
+<p>This overload is useful when the caller has already constructed a column spec vector (e.g. via <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_events_table.html#a24df0f35941c92b04144f2579c738796" title="Creates the default data specs for the EventsTable.">EventsTable::createDefaultDataSpecs()</a> followed by push_back() calls to add custom columns) and wants to pass it directly instead of using the individual resolution/flag parameters.</p>
+<p>Note, this function will fail if the file is in a mode where new objects cannot be added, which can be checked via nwbfile.io-&gt;canModifyObjects() </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>The name of the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_events_table.html" title="A column-based table to store information about events, one event per row. Use EventsTable when each ...">EventsTable</a> to create. </td></tr>
+    <tr><td class="paramname">description</td><td>Description of the table. </td></tr>
+    <tr><td class="paramname">sourceDescription</td><td>Optional short text description of where the events came from. </td></tr>
+    <tr><td class="paramname">columnSpecs</td><td>Pre-built vector of column specs (e.g. from <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_events_table.html#a24df0f35941c92b04144f2579c738796" title="Creates the default data specs for the EventsTable.">EventsTable::createDefaultDataSpecs()</a> with additional custom specs appended). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The generated <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_events_table.html" title="A column-based table to store information about events, one event per row. Use EventsTable when each ...">EventsTable</a> or nullptr if failed. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a5ff28db415dd3102184e33a9324f6fd7_cgraph.svg" width="100%" height="442"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
+<a id="a2f74050c96301fd6dc939e47d14d8fb8" name="a2f74050c96301fd6dc939e47d14d8fb8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f74050c96301fd6dc939e47d14d8fb8">&#9670;&#160;</a></span>createEventsTableInstance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename RTYPE = EventsTable&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt; RTYPE &gt; AQNWB::NWB::NWBFile::createEventsTableInstance </td>
+          <td>(</td>
+          <td class="paramtype">std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>objectName</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a2f74050c96301fd6dc939e47d14d8fb8_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a2f74050c96301fd6dc939e47d14d8fb8_icgraph.svg" width="100%" height="486"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -747,7 +984,7 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> NWBFile::createFileStructure </td>
+          <td class="memname"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> NWBFile::createFileStructure </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>identifierText</em></span>, </td>
         </tr>
@@ -804,6 +1041,42 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="a318c4be532893dafd593f6d9ccf99684" name="a318c4be532893dafd593f6d9ccf99684"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a318c4be532893dafd593f6d9ccf99684">&#9670;&#160;</a></span>createInvalidTimes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_intervals.html">TimeIntervals</a> &gt; NWBFile::createInvalidTimes </td>
+          <td>(</td>
+          <td class="paramtype">const bool</td>          <td class="paramname"><span class="paramname"><em>createTagsColumn</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a></td>          <td class="paramname"><span class="paramname"><em>rowChunkSize</em></span><span class="paramdefsep"> = </span><span class="paramdefval">100</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create the Invalid Times table in the INTERVALS_PATH group. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">createTagsColumn</td><td>Whether to create the tags column. </td></tr>
+    <tr><td class="paramname">rowChunkSize</td><td>The chunk size for the rows of the table. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The generated <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_intervals.html" title="A container for aggregating epoch data and the TimeSeries that each epoch applies to.">TimeIntervals</a> or nullptr if failed. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a318c4be532893dafd593f6d9ccf99684_cgraph.svg" width="100%" height="474"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
 <a id="a1609e4048024fdbf5776df794cba91de" name="a1609e4048024fdbf5776df794cba91de"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1609e4048024fdbf5776df794cba91de">&#9670;&#160;</a></span>createProcessingModule()</h2>
 
@@ -848,9 +1121,9 @@ Here is the caller graph for this function:</div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> NWBFile::createSpikeEventSeries </td>
+          <td class="memname"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> NWBFile::createSpikeEventSeries </td>
           <td>(</td>
-          <td class="paramtype">std::vector&lt; <a class="el" href="class_a_q_n_w_b_1_1_types.html#a17cc1d186ce80971c28e440471e910ff">Types::ChannelVector</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>recordingArrays</em></span>, </td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a17cc1d186ce80971c28e440471e910ff">Types::ChannelVector</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>recordingArrays</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -885,6 +1158,175 @@ Here is the caller graph for this function:</div>
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a0fa114190b0940cf54f44c626a69f550_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
+<a id="a6f45bb65ce5c7d3829b57d19b37601a3" name="a6f45bb65ce5c7d3829b57d19b37601a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f45bb65ce5c7d3829b57d19b37601a3">&#9670;&#160;</a></span>createTimeIntervals() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_intervals.html">TimeIntervals</a> &gt; NWBFile::createTimeIntervals </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>description</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const bool</td>          <td class="paramname"><span class="paramname"><em>createTagsColumn</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a></td>          <td class="paramname"><span class="paramname"><em>rowChunkSize</em></span><span class="paramdefsep"> = </span><span class="paramdefval">100</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create a <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_intervals.html" title="A container for aggregating epoch data and the TimeSeries that each epoch applies to.">TimeIntervals</a> table in the INTERVALS_PATH group. Note, this function will fail if the file is in a mode where new objects cannot be added, which can be checked via nwbfile.io-&gt;canModifyObjects(). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>The name of the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_intervals.html" title="A container for aggregating epoch data and the TimeSeries that each epoch applies to.">TimeIntervals</a> table to create (e.g., "epochs", "trials", "invalid_times"). </td></tr>
+    <tr><td class="paramname">description</td><td>Description of the table. </td></tr>
+    <tr><td class="paramname">createTagsColumn</td><td>Whether to create the tags column. </td></tr>
+    <tr><td class="paramname">rowChunkSize</td><td>The chunk size for the rows of the table. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The generated <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_intervals.html" title="A container for aggregating epoch data and the TimeSeries that each epoch applies to.">TimeIntervals</a> or nullptr if failed. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a6f45bb65ce5c7d3829b57d19b37601a3_cgraph.svg" width="100%" height="474"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a6f45bb65ce5c7d3829b57d19b37601a3_icgraph.svg" width="406" height="183"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a4344e75329b02b900931c5514f4dc768" name="a4344e75329b02b900931c5514f4dc768"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4344e75329b02b900931c5514f4dc768">&#9670;&#160;</a></span>createTimeIntervals() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_intervals.html">TimeIntervals</a> &gt; NWBFile::createTimeIntervals </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>description</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a81a2e0b8f0630420c8c5d11201ecf9b2">NWB::DynamicTable::DataSpecPtr</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>columnSpecs</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create a <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_intervals.html" title="A container for aggregating epoch data and the TimeSeries that each epoch applies to.">TimeIntervals</a> table in the INTERVALS_PATH group using a pre-built column spec list. </p>
+<p>This overload is useful when the caller has already constructed a column spec vector (e.g. via <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_intervals.html#a7b9808b4fb78b4dbd74f74a841774bef" title="Creates the default data specs for the TimeIntervals table.">TimeIntervals::createDefaultDataSpecs()</a> followed by push_back() calls to add custom columns) and wants to pass it directly.</p>
+<p>Note, this function will fail if the file is in a mode where new objects cannot be added, which can be checked via nwbfile.io-&gt;canModifyObjects() </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>The name of the <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_intervals.html" title="A container for aggregating epoch data and the TimeSeries that each epoch applies to.">TimeIntervals</a> table to create. </td></tr>
+    <tr><td class="paramname">description</td><td>Description of the table. </td></tr>
+    <tr><td class="paramname">columnSpecs</td><td>Pre-built vector of column specs. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The generated <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_intervals.html" title="A container for aggregating epoch data and the TimeSeries that each epoch applies to.">TimeIntervals</a> or nullptr if failed. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a4344e75329b02b900931c5514f4dc768_cgraph.svg" width="444" height="167"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a3fe7a591293e64ca560f52f77fc59b57" name="a3fe7a591293e64ca560f52f77fc59b57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3fe7a591293e64ca560f52f77fc59b57">&#9670;&#160;</a></span>createTimeIntervalsInstance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename RTYPE = TimeIntervals&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt; RTYPE &gt; AQNWB::NWB::NWBFile::createTimeIntervalsInstance </td>
+          <td>(</td>
+          <td class="paramtype">std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>objectName</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a3fe7a591293e64ca560f52f77fc59b57_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a3fe7a591293e64ca560f52f77fc59b57_icgraph.svg" width="100%" height="486"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
+<a id="a8b42c61ec6bf627b3eebd2dc2f06bbbd" name="a8b42c61ec6bf627b3eebd2dc2f06bbbd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b42c61ec6bf627b3eebd2dc2f06bbbd">&#9670;&#160;</a></span>createTrials()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_intervals.html">TimeIntervals</a> &gt; NWBFile::createTrials </td>
+          <td>(</td>
+          <td class="paramtype">const bool</td>          <td class="paramname"><span class="paramname"><em>createTagsColumn</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a></td>          <td class="paramname"><span class="paramname"><em>rowChunkSize</em></span><span class="paramdefsep"> = </span><span class="paramdefval">100</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create the Trials table in the INTERVALS_PATH group. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">createTagsColumn</td><td>Whether to create the tags column. </td></tr>
+    <tr><td class="paramname">rowChunkSize</td><td>The chunk size for the rows of the table. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The generated <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_intervals.html" title="A container for aggregating epoch data and the TimeSeries that each epoch applies to.">TimeIntervals</a> or nullptr if failed. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a8b42c61ec6bf627b3eebd2dc2f06bbbd_cgraph.svg" width="100%" height="474"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -961,14 +1403,14 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a5fe5d0aba7a050db86d5caa5b8cf4a04" name="a5fe5d0aba7a050db86d5caa5b8cf4a04"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5fe5d0aba7a050db86d5caa5b8cf4a04">&#9670;&#160;</a></span>initialize()</h2>
+<a id="adb3e26c787d7f03124972d5963e511ba" name="adb3e26c787d7f03124972d5963e511ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb3e26c787d7f03124972d5963e511ba">&#9670;&#160;</a></span>initialize()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> NWBFile::initialize </td>
+          <td class="memname"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> NWBFile::initialize </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>identifierText</em></span>, </td>
         </tr>
@@ -990,7 +1432,12 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>timestampsReferenceTime</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;&quot;</span>&#160;)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>timestampsReferenceTime</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;&quot;</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::optional&lt; <a class="el" href="struct_a_q_n_w_b_1_1_n_w_b_1_1_subject_1_1_subject_spec.html">AQNWB::NWB::Subject::SubjectSpec</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>subjectSpec</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::nullopt</span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1004,13 +1451,14 @@ Here is the caller graph for this function:</div>
     <tr><td class="paramname">dataCollection</td><td>Information about the data collection methods. </td></tr>
     <tr><td class="paramname">sessionStartTime</td><td>ISO formatted time string with the session start time. If empty (default), then the <a class="el" href="namespace_a_q_n_w_b.html#ac436d136125307ef8158115a2296b3e9" title="Get the current time in ISO 8601 format with the UTC offset.">getCurrentTime()</a> will be used. </td></tr>
     <tr><td class="paramname">timestampsReferenceTime</td><td>ISO formatted time string with the timestamp reference time. If empty (default), then the <a class="el" href="namespace_a_q_n_w_b.html#ac436d136125307ef8158115a2296b3e9" title="Get the current time in ISO 8601 format with the UTC offset.">getCurrentTime()</a> will be used. </td></tr>
+    <tr><td class="paramname">subjectSpec</td><td>Optional subject metadata. Defaults to <code>std::nullopt</code>, so no <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_subject.html" title="Information about the animal or person from which the data was measured.">Subject</a> group is created unless a SubjectSpec is supplied. For DANDI validation, the supplied SubjectSpec must include subjectId, species, sex, and either age or dateOfBirth. </td></tr>
   </table>
   </dd>
 </dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a5fe5d0aba7a050db86d5caa5b8cf4a04_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_adb3e26c787d7f03124972d5963e511ba_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -1144,7 +1592,78 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a65a36f2baf0b3bb7555b573295f97bf0_icgraph.svg" width="406" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a65a36f2baf0b3bb7555b573295f97bf0_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
+<a id="a98a645d08b9cf0592a31f8916e0b1bce" name="a98a645d08b9cf0592a31f8916e0b1bce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98a645d08b9cf0592a31f8916e0b1bce">&#9670;&#160;</a></span>readEpochs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename RTYPE = TimeIntervals&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; RTYPE &gt; AQNWB::NWB::NWBFile::readEpochs </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>"Table of experimental epochs." </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a98a645d08b9cf0592a31f8916e0b1bce_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a98a645d08b9cf0592a31f8916e0b1bce_icgraph.svg" width="406" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="ac26347469d25aeea9bd0421568ed2ddd" name="ac26347469d25aeea9bd0421568ed2ddd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac26347469d25aeea9bd0421568ed2ddd">&#9670;&#160;</a></span>readEventsTable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename RTYPE = EventsTable&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; RTYPE &gt; AQNWB::NWB::NWBFile::readEventsTable </td>
+          <td>(</td>
+          <td class="paramtype">std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>objectName</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Get an <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_events_table.html" title="A column-based table to store information about events, one event per row. Use EventsTable when each ...">EventsTable</a> stored in the events group </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_ac26347469d25aeea9bd0421568ed2ddd_icgraph.svg" width="100%" height="486"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -1225,6 +1744,44 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="a2507f7d9b981dcdae6449d13fa5cfb1f" name="a2507f7d9b981dcdae6449d13fa5cfb1f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2507f7d9b981dcdae6449d13fa5cfb1f">&#9670;&#160;</a></span>readInvalidTimes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename RTYPE = TimeIntervals&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; RTYPE &gt; AQNWB::NWB::NWBFile::readInvalidTimes </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>"Table of invalid times." </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a2507f7d9b981dcdae6449d13fa5cfb1f_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a2507f7d9b981dcdae6449d13fa5cfb1f_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
 <a id="ac63d558546622aae6157a8ecd82cf446" name="ac63d558546622aae6157a8ecd82cf446"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac63d558546622aae6157a8ecd82cf446">&#9670;&#160;</a></span>readNWBVersion()</h2>
 
@@ -1258,7 +1815,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_ac63d558546622aae6157a8ecd82cf446_icgraph.svg" width="627" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_ac63d558546622aae6157a8ecd82cf446_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -1372,6 +1929,39 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="a477a8a431db2b70a1b8c80ea58d657df" name="a477a8a431db2b70a1b8c80ea58d657df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a477a8a431db2b70a1b8c80ea58d657df">&#9670;&#160;</a></span>readTimeIntervals()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename RTYPE = TimeIntervals&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; RTYPE &gt; AQNWB::NWB::NWBFile::readTimeIntervals </td>
+          <td>(</td>
+          <td class="paramtype">std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>objectName</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Get a <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_time_intervals.html" title="A container for aggregating epoch data and the TimeSeries that each epoch applies to.">TimeIntervals</a> object stored in the intervals group </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a477a8a431db2b70a1b8c80ea58d657df_icgraph.svg" width="100%" height="486"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
 <a id="a2a132886b5369537f717fdcc80bc9b49" name="a2a132886b5369537f717fdcc80bc9b49"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2a132886b5369537f717fdcc80bc9b49">&#9670;&#160;</a></span>readTimestampsReferenceTime()</h2>
 
@@ -1406,6 +1996,44 @@ Here is the call graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a2a132886b5369537f717fdcc80bc9b49_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
+<a id="a9ae90cbee93648d12c62c28ded38d655" name="a9ae90cbee93648d12c62c28ded38d655"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ae90cbee93648d12c62c28ded38d655">&#9670;&#160;</a></span>readTrials()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename RTYPE = TimeIntervals&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; RTYPE &gt; AQNWB::NWB::NWBFile::readTrials </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>"Table of experimental trials." </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a9ae90cbee93648d12c62c28ded38d655_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a9ae90cbee93648d12c62c28ded38d655_icgraph.svg" width="627" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -1560,6 +2188,86 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="a50c34a9bcd1103534d7a7303c96dd109" name="a50c34a9bcd1103534d7a7303c96dd109"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50c34a9bcd1103534d7a7303c96dd109">&#9670;&#160;</a></span>requireEventsGroup()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> NWBFile::requireEventsGroup </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>io</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ensure that the events group exists in the <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> file. </p>
+<p>This function checks if the events group exists and creates it if it does not.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">io</td><td>The shared pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html" title="The namespace for IO components of AqNWB.">IO</a> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Status::Success if the group exists or was successfully created, Status::Failure otherwise. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a50c34a9bcd1103534d7a7303c96dd109_icgraph.svg" width="424" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a24ff459c6a7c0d6ad31972c44c1371b6" name="a24ff459c6a7c0d6ad31972c44c1371b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24ff459c6a7c0d6ad31972c44c1371b6">&#9670;&#160;</a></span>requireIntervalsGroup()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> NWBFile::requireIntervalsGroup </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>io</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ensure that the intervals group exists in the <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> file. </p>
+<p>This function checks if the intervals group exists and creates it if it does not.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">io</td><td>The shared pointer to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html" title="The namespace for IO components of AqNWB.">IO</a> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Status::Success if the group exists or was successfully created, Status::Failure otherwise. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_a24ff459c6a7c0d6ad31972c44c1371b6_icgraph.svg" width="432" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
 <a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
 <a id="a4664bafaa5a5b51370102b751e385768" name="a4664bafaa5a5b51370102b751e385768"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4664bafaa5a5b51370102b751e385768">&#9670;&#160;</a></span>ACQUISITION_PATH</h2>
@@ -1609,6 +2317,30 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="a70cdc1fe7a82431c4f30383ffb505a00" name="a70cdc1fe7a82431c4f30383ffb505a00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70cdc1fe7a82431c4f30383ffb505a00">&#9670;&#160;</a></span>EVENTS_PATH</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string AQNWB::NWB::NWBFile::EVENTS_PATH = &quot;/events&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The path to the root events group in the <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> file. </p>
+
+</div>
+</div>
 <a id="ab406e18d81cde160cd3752f843b42d07" name="ab406e18d81cde160cd3752f843b42d07"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab406e18d81cde160cd3752f843b42d07">&#9670;&#160;</a></span>GENERAL_PATH</h2>
 
@@ -1630,6 +2362,30 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>The path to the general group in the <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> file. </p>
+
+</div>
+</div>
+<a id="af59d38c3ad1fe90e02aaaf1b90e6f2f2" name="af59d38c3ad1fe90e02aaaf1b90e6f2f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af59d38c3ad1fe90e02aaaf1b90e6f2f2">&#9670;&#160;</a></span>INTERVALS_PATH</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string AQNWB::NWB::NWBFile::INTERVALS_PATH = &quot;/intervals&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The path to the root intervals group in the <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> file. </p>
 
 </div>
 </div>

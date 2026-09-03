@@ -116,14 +116,19 @@ document.addEventListener('DOMContentLoaded', () => {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
 <code>#include &lt;limits&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
+<code>#include &lt;string_view&gt;</code><br />
 <code>#include &lt;type_traits&gt;</code><br />
+<code>#include &lt;unordered_map&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
+<code>#include &lt;variant&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Types.hpp:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="_types_8hpp__incl.svg" width="418" height="111"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="_types_8hpp__incl.svg" width="100%" height="383"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
@@ -135,17 +140,61 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:AQNWB_3A_3ATypes" id="r_AQNWB_3A_3ATypes"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="class_a_q_n_w_b_1_1_types.html">AQNWB::Types</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides definitions for various types used in the project.  <a href="class_a_q_n_w_b_1_1_types.html#details">More...</a><br /></td></tr>
 <tr class="memitem:AQNWB_3A_3ATypes_3A_3AIsDataStorageObjectType_3C_20T_20_3E" id="r_AQNWB_3A_3ATypes_3A_3AIsDataStorageObjectType_3C_20T_20_3E"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="struct_a_q_n_w_b_1_1_types_1_1_is_data_storage_object_type.html">AQNWB::Types::IsDataStorageObjectType&lt; T &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper struct to check if a value is a data field, i.e., Dataset or Attribute.  <a href="struct_a_q_n_w_b_1_1_types_1_1_is_data_storage_object_type.html#details">More...</a><br /></td></tr>
 <tr class="memitem:AQNWB_3A_3ATypes_3A_3ANamespaceInfo" id="r_AQNWB_3A_3ATypes_3A_3ANamespaceInfo"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="struct_a_q_n_w_b_1_1_types_1_1_namespace_info.html">AQNWB::Types::NamespaceInfo</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct to hold namespace information.  <a href="struct_a_q_n_w_b_1_1_types_1_1_namespace_info.html#details">More...</a><br /></td></tr>
+<tr class="memitem:AQNWB_3A_3ATypes_3A_3ACellValue" id="r_AQNWB_3A_3ATypes_3A_3ACellValue"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html">AQNWB::Types::CellValue</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a single cell value in a DynamicTable row.  <a href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:AQNWB" id="r_AQNWB"><td class="memItemLeft">namespace &#160;</td><td class="memItemRight"><a class="el" href="namespace_a_q_n_w_b.html">AQNWB</a></td></tr>
 <tr class="memdesc:namespace_a_q_n_w_b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The main namespace for AqNWB. <br /></td></tr>
+<tr class="memitem:AQNWB_3A_3ATypes" id="r_AQNWB_3A_3ATypes"><td class="memItemLeft">namespace &#160;</td><td class="memItemRight"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html">AQNWB::Types</a></td></tr>
+<tr class="memdesc:namespace_a_q_n_w_b_1_1_types"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides definitions for various types used in the project. <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-typedef-members" class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:ae7b68dd97f314f45e450b2f636ad7c6e" id="r_ae7b68dd97f314f45e450b2f636ad7c6e"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#ae7b68dd97f314f45e450b2f636ad7c6e">AQNWB::Types::SizeType</a> = size_t</td></tr>
+<tr class="memdesc:ae7b68dd97f314f45e450b2f636ad7c6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for the size type used in the project.  <br /></td></tr>
+<tr class="memitem:adde13a31a0f254d84ebf8f02baaa2a97" id="r_adde13a31a0f254d84ebf8f02baaa2a97"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#adde13a31a0f254d84ebf8f02baaa2a97">AQNWB::Types::SizeArray</a> = std::vector&lt;<a class="el" href="namespace_a_q_n_w_b_1_1_types.html#ae7b68dd97f314f45e450b2f636ad7c6e">SizeType</a>&gt;</td></tr>
+<tr class="memdesc:adde13a31a0f254d84ebf8f02baaa2a97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for an array of size types used in the project.  <br /></td></tr>
+<tr class="memitem:a17cc1d186ce80971c28e440471e910ff" id="r_a17cc1d186ce80971c28e440471e910ff"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a17cc1d186ce80971c28e440471e910ff">AQNWB::Types::ChannelVector</a> = std::vector&lt;<a class="el" href="class_a_q_n_w_b_1_1_channel.html">Channel</a>&gt;</td></tr>
+<tr class="memdesc:a17cc1d186ce80971c28e440471e910ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for a vector of channels.  <br /></td></tr>
+<tr class="memitem:ad9967a8a1dcb24f6fe5fb3e78979972b" id="r_ad9967a8a1dcb24f6fe5fb3e78979972b"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#ad9967a8a1dcb24f6fe5fb3e78979972b">AQNWB::Types::ScalarDataVariant</a></td></tr>
+<tr class="memdesc:ad9967a8a1dcb24f6fe5fb3e78979972b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Variant data type for representing a single scalar value.  <br /></td></tr>
+<tr class="memitem:a61d7ff2c71fdd9d51c1b943ee3c0f141" id="r_a61d7ff2c71fdd9d51c1b943ee3c0f141"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a61d7ff2c71fdd9d51c1b943ee3c0f141">AQNWB::Types::VectorDataVariant</a></td></tr>
+<tr class="memdesc:a61d7ff2c71fdd9d51c1b943ee3c0f141"><td class="mdescLeft">&#160;</td><td class="mdescRight">Variant data type for representing any 1D vector of scalar values.  <br /></td></tr>
+<tr class="memitem:a6e60aeea6e3cf6ed2677338844fdab4a" id="r_a6e60aeea6e3cf6ed2677338844fdab4a"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a6e60aeea6e3cf6ed2677338844fdab4a">AQNWB::Types::RowData</a> = std::unordered_map&lt;std::string, <a class="el" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html">CellValue</a>&gt;</td></tr>
+<tr class="memdesc:a6e60aeea6e3cf6ed2677338844fdab4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a row of data in a DynamicTable.  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-enum-members" class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a9f8b64371967b1e93cdb8e5caa8634c9" id="r_a9f8b64371967b1e93cdb8e5caa8634c9"><td class="memItemLeft">enum &#160;</td><td class="memItemRight"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">AQNWB::Types::Status</a> { <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9a0fdf7f95f5ff12921eb169611b2d9db3">AQNWB::Types::Success</a> = 1
+, <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9a5e4ad53b09bd2f26e1b2f42bd1ad8fdf">AQNWB::Types::Failure</a> = -1
+ }</td></tr>
+<tr class="memdesc:a9f8b64371967b1e93cdb8e5caa8634c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents the status of an operation.  <a href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">More...</a><br /></td></tr>
+<tr class="memitem:a778ba605df5dabb117ede12e41111915" id="r_a778ba605df5dabb117ede12e41111915"><td class="memItemLeft">enum &#160;</td><td class="memItemRight"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915">AQNWB::Types::StorageObjectType</a> { <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915a5d8b12216d606def4af0aec215130e33">AQNWB::Types::Group</a> = 0
+, <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915aa49936f5ff8023036d74e6d9a599c2fa">AQNWB::Types::Dataset</a> = 1
+, <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915a459ad320d6c923a4111734767c71b20c">AQNWB::Types::Attribute</a> = 2
+, <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915adfd902706dc9678b3c629bed785567a0">AQNWB::Types::Undefined</a> = -1
+ }</td></tr>
+<tr class="memdesc:a778ba605df5dabb117ede12e41111915"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html" title="Provides definitions for various types used in the project.">Types</a> of object used in the <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> schema.  <a href="namespace_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915">More...</a><br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a74f9d53508a21d5bac5a7d842fac8cd8" id="r_a74f9d53508a21d5bac5a7d842fac8cd8"><td class="memItemLeft"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a74f9d53508a21d5bac5a7d842fac8cd8">AQNWB::Types::operator&amp;&amp;</a> (<a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> lhs, <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> rhs)</td></tr>
+<tr class="memdesc:a74f9d53508a21d5bac5a7d842fac8cd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overloaded &amp;&amp; operator for <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9" title="Represents the status of an operation.">Status</a> enum.  <br /></td></tr>
+<tr class="memitem:a9c61cdcd188ce06e601ffa56b3c7823a" id="r_a9c61cdcd188ce06e601ffa56b3c7823a"><td class="memItemLeft"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9c61cdcd188ce06e601ffa56b3c7823a">AQNWB::Types::operator||</a> (<a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> lhs, <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> rhs)</td></tr>
+<tr class="memdesc:a9c61cdcd188ce06e601ffa56b3c7823a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overloaded || operator for <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9" title="Represents the status of an operation.">Status</a> enum.  <br /></td></tr>
+<tr class="memitem:a3214a78395efe346c54719bf5df5f4a3" id="r_a3214a78395efe346c54719bf5df5f4a3"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a3214a78395efe346c54719bf5df5f4a3">AQNWB::Types::storageObjectTypeToString</a> (<a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915">StorageObjectType</a> type)</td></tr>
+<tr class="memdesc:a3214a78395efe346c54719bf5df5f4a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915" title="Types of object used in the NWB schema.">StorageObjectType</a> enum value to string.  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a489c41cdd124123f0595271873e00dbe" id="r_a489c41cdd124123f0595271873e00dbe"><td class="memItemLeft">constexpr <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#ae7b68dd97f314f45e450b2f636ad7c6e">SizeType</a>&#160;</td><td class="memItemRight"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a489c41cdd124123f0595271873e00dbe">AQNWB::Types::SizeTypeNotSet</a></td></tr>
+<tr class="memdesc:a489c41cdd124123f0595271873e00dbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Value to use to indicate that a <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#ae7b68dd97f314f45e450b2f636ad7c6e" title="Alias for the size type used in the project.">SizeType</a> index is not set.  <br /></td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

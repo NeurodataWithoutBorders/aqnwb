@@ -7,5 +7,8 @@ var searchData=
   ['electrodestable_2ecpp_4',['ElectrodesTable.cpp',['../_electrodes_table_8cpp.html',1,'']]],
   ['electrodestable_2ehpp_5',['ElectrodesTable.hpp',['../_electrodes_table_8hpp.html',1,'']]],
   ['elementidentifiers_2ecpp_6',['ElementIdentifiers.cpp',['../_element_identifiers_8cpp.html',1,'']]],
-  ['elementidentifiers_2ehpp_7',['ElementIdentifiers.hpp',['../_element_identifiers_8hpp.html',1,'']]]
+  ['elementidentifiers_2ehpp_7',['ElementIdentifiers.hpp',['../_element_identifiers_8hpp.html',1,'']]],
+  ['events_2edox_8',['events.dox',['../events_8dox.html',1,'']]],
+  ['eventstable_2ecpp_9',['EventsTable.cpp',['../_events_table_8cpp.html',1,'']]],
+  ['eventstable_2ehpp_10',['EventsTable.hpp',['../_events_table_8hpp.html',1,'']]]
 ];

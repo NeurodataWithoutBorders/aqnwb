@@ -24,6 +24,50 @@ var userdocs =
         [ "Resetting the recording position", "workflow.html#advanced_recording_workflow_reset", null ]
       ] ]
     ] ],
+    [ "Acquiring Event Data 📋", "events.html", [
+      [ "Overview", "events.html#events_overview", null ],
+      [ "Setup: I/O, NWBFile, and table creation", "events.html#events_setup", [
+        [ "1. Create the I/O object", "events.html#events_io", null ],
+        [ "2. Create the NWBFile", "events.html#events_nwbfile", null ],
+        [ "3. Configure and create the EventsTable", "events.html#events_configure_table", null ],
+        [ "4. Start the recording", "events.html#events_start", null ]
+      ] ],
+      [ "Pattern 1: Row-based acquisition", "events.html#events_rowbased", [
+        [ "Add rows", "events.html#events_rowbased_addrow", null ],
+        [ "Stop the recording", "events.html#events_rowbased_stop", null ]
+      ] ],
+      [ "Pattern 2: Column-based (bulk) acquisition", "events.html#events_colbased", [
+        [ "Add data to columns", "events.html#events_colbased_adddata", null ],
+        [ "Stop the recording", "events.html#events_colbased_stop", null ]
+      ] ],
+      [ "Annotating columns with a MeaningsTable", "events.html#events_meanings", [
+        [ "Setup: create the EventsTable with a coded column", "events.html#events_meanings_setup", null ],
+        [ "Create the MeaningsTable", "events.html#events_meanings_create", null ],
+        [ "Start the recording", "events.html#events_meanings_start", null ],
+        [ "Write event data", "events.html#events_meanings_write_events", null ],
+        [ "Write meanings data", "events.html#events_meanings_write_meanings", null ],
+        [ "Stop the recording", "events.html#events_meanings_stop", null ]
+      ] ],
+      [ "Tips and best practices", "events.html#events_tips", null ]
+    ] ],
+    [ "Annotating Time Intervals ⏱️", "time_intervals.html", [
+      [ "Overview", "time_intervals.html#time_intervals_overview", null ],
+      [ "Setup: I/O, NWBFile, and table creation", "time_intervals.html#time_intervals_setup", [
+        [ "1. Create the I/O object", "time_intervals.html#time_intervals_io", null ],
+        [ "2. Create the NWBFile", "time_intervals.html#time_intervals_nwbfile", null ],
+        [ "3. Configure and create the TimeIntervals table", "time_intervals.html#time_intervals_configure_table", null ],
+        [ "4. Start the recording", "time_intervals.html#time_intervals_start", null ]
+      ] ],
+      [ "Pattern 1: Row-based acquisition", "time_intervals.html#time_intervals_rowbased", [
+        [ "Add rows", "time_intervals.html#time_intervals_rowbased_addrow", null ],
+        [ "Stop the recording", "time_intervals.html#time_intervals_rowbased_stop", null ]
+      ] ],
+      [ "Pattern 2: Column-based (bulk) acquisition", "time_intervals.html#time_intervals_colbased", [
+        [ "Add data to columns", "time_intervals.html#time_intervals_colbased_adddata", null ],
+        [ "Stop the recording", "time_intervals.html#time_intervals_colbased_stop", null ]
+      ] ],
+      [ "Further reading", "time_intervals.html#time_intervals_further_reading", null ]
+    ] ],
     [ "Reading Data 📤", "read_page.html", [
       [ "Opening an existing file for reading", "read_page.html#read_example_open", null ],
       [ "Reading NWB neurodata_types", "read_page.html#read_example_registered_type", [
@@ -33,7 +77,8 @@ var userdocs =
       [ "Reading data from RegisteredType objects", "read_page.html#read_example_read", [
         [ "Reading predefined data fields", "read_page.html#read_design_example_read_posthoc_read_field", null ],
         [ "Reading arbitrary fields", "read_page.html#read_example_arbitrary", null ],
-        [ "Working with fields with unknown data type", "read_page.html#read_example_variant_data", null ]
+        [ "Working with fields with unknown data type", "read_page.html#read_example_variant_data", null ],
+        [ "Reading data from DynamicTable objects", "read_page.html#read_example_dynamic_table", null ]
       ] ],
       [ "Further reading", "read_page.html#read_further_reading", null ]
     ] ],

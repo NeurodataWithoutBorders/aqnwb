@@ -1,5 +1,11 @@
 <map id="AQNWB::NWB::Data::initialize" name="AQNWB::NWB::Data::initialize">
-<area shape="rect" id="Node000001" title="Initialize the dataset for the Data object." alt="" coords="5,13,209,38"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab614b1609f536e88ed1f32762dc3894b" title="Get a shared pointer to the IO object." alt="" coords="257,5,468,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="209,23,243,26,238,26,209,28"/>
+<area shape="rect" id="Node000001" title="Initialize the dataset for the Data object." alt="" coords="5,96,209,121"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab614b1609f536e88ed1f32762dc3894b" title="Get a shared pointer to the IO object." alt="" coords="273,5,484,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="144,92,256,55,283,50,278,52,257,60,146,97"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a4492a59ec08422039f9d0bc509ffd06d" title="Get the schema namespace of the class type." alt="" coords="257,70,501,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="209,96,244,95,239,97,210,101"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a27b6db1fbbd11f84f76456be6c6a741e" title="Get the name of the class type." alt="" coords="260,120,498,145"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="209,115,247,120,242,121,210,120"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_array_data_set_config.html#afa73e29e69f976fb0dda013ae85fabeb" title="Checks if this configuration represents a link." alt="" coords="283,169,474,210"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="147,119,257,155,284,165,279,165,256,160,146,124"/>
 </map>

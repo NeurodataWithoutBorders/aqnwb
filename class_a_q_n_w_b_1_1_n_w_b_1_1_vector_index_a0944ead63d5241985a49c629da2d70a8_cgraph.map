@@ -1,0 +1,51 @@
+<map id="AQNWB::NWB::VectorIndex::readIndexedCellValues" name="AQNWB::NWB::VectorIndex::readIndexedCellValues">
+<area shape="rect" id="Node000001" title="Reads a range of ragged array vectors from the target VectorData." alt="" coords="5,201,196,242"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html#ab95b9e1338cbf2d3cb892a7bb6efe895" title="Combines multiple scalar CellValues into a single vector CellValue." alt="" coords="254,5,444,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="112,200,163,130,200,91,242,57,255,51,252,55,245,61,204,95,167,133,117,202"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#a600928be65016fe305b7bd470baa3e72" title="Create an empty BaseDataVectorVariant matching the given type." alt="" coords="255,71,444,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="125,199,178,160,242,122,261,116,257,119,245,127,181,165,129,203"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html#a6ed59fcb591ce449a19d8aab2a5729e1" title="Extracts the integer index value from a CellValue variant." alt="" coords="254,136,444,177"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="179,198,257,179,253,183,182,203"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab614b1609f536e88ed1f32762dc3894b" title="Get a shared pointer to the IO object." alt="" coords="244,201,455,242"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="195,219,230,220,226,223,197,224"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html#a5b9b86676fb4fb85ad091d1cc20145eb" title="Gets the cached target VectorData column, or reads it if not cached." alt="" coords="254,267,444,307"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="180,240,257,261,252,263,181,245"/>
+<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html#ae6c36960ee230d8f6114ba2de17c1086" title=" " alt="" coords="1108,324,1298,365"/>
+<area shape="poly" id="edge27_Node000001_Node000010" title=" " alt="" coords="123,240,177,282,209,301,244,316,316,332,411,343,523,350,645,353,890,352,1095,349,1090,350,890,358,645,359,523,355,411,349,315,338,243,322,207,306,174,286,123,245"/>
+<area shape="rect" id="Node000016" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#ac4ddaa7dc83e3d5e6444a6ed81a256ed" title="Reads a range of cell values from the dataset." alt="" coords="247,381,452,422"/>
+<area shape="poly" id="edge19_Node000001_Node000016" title=" " alt="" coords="118,240,172,299,207,332,245,361,268,374,262,375,242,365,203,336,168,303,117,245"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#abb1e4b6b662308e48b6b4a7ad989d157" title="Constructs a BaseDataType object with the specified type and size." alt="" coords="514,71,702,111"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="443,88,501,90,496,92,445,94"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html#a23f54cde93117c0af81c40baf9f4e934" title=" " alt="" coords="512,267,703,307"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="445,284,500,286,495,288,446,290"/>
+<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html#a87f270bd71244297da6a60ecc2ae91cc" title=" " alt="" coords="800,267,990,307"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="703,284,787,286,782,288,704,290"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="991,302,1095,324,1090,324,991,307"/>
+<area shape="rect" id="Node000015" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html#af4f0142ce717c1346813f91828f89e47" title=" " alt="" coords="1108,259,1298,299"/>
+<area shape="poly" id="edge18_Node000009_Node000015" title=" " alt="" coords="990,282,1095,281,1090,282,991,287"/>
+<area shape="rect" id="Node000011" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#aaf127dfd1e590307b872ea785d578316" title="Constructor." alt="" coords="1615,325,1802,366"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="1299,332,1377,327,1472,324,1567,327,1603,332,1597,332,1567,332,1472,329,1377,332,1299,338"/>
+<area shape="rect" id="Node000014" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html#aceb4864bf5304fd0630613497cf0fc41" title="Constructor." alt="" coords="1377,365,1567,406"/>
+<area shape="poly" id="edge15_Node000010_Node000014" title=" " alt="" coords="1299,356,1364,369,1359,369,1299,362"/>
+<area shape="poly" id="edge14_Node000011_Node000011" title=" " alt="" coords="1665,323,1662,315,1670,306,1685,301,1709,299,1734,301,1750,310,1745,309,1732,306,1708,304,1686,306,1673,311,1668,317,1669,326"/>
+<area shape="rect" id="Node000012" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#ac0a68f39a709b9096ce797bce18c668f" title="Constructor." alt="" coords="1850,333,2034,358"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="1802,343,1836,346,1831,346,1802,348"/>
+<area shape="poly" id="edge12_Node000012_Node000012" title=" " alt="" coords="1903,331,1896,324,1900,314,1916,308,1942,306,1970,309,1986,319,1981,318,1969,314,1942,311,1917,314,1904,318,1901,324,1908,333"/>
+<area shape="rect" id="Node000013" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aa1e04074725b7331d725bbda8156bc2d" title="Constructor." alt="" coords="2082,325,2293,366"/>
+<area shape="poly" id="edge13_Node000012_Node000013" title=" " alt="" coords="2034,343,2069,346,2064,346,2035,348"/>
+<area shape="poly" id="edge16_Node000014_Node000011" title=" " alt="" coords="1568,367,1597,364,1602,364,1568,372"/>
+<area shape="poly" id="edge17_Node000014_Node000014" title=" " alt="" coords="1428,363,1425,355,1433,346,1448,341,1472,339,1498,341,1514,350,1509,349,1496,346,1472,344,1450,346,1436,351,1431,357,1432,366"/>
+<area shape="rect" id="Node000017" href="$class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a20df6af7d661de38f4b8cb3baba48339" title="Factory method to create an DataBlock from a DataBlockGeneric." alt="" coords="526,381,689,422"/>
+<area shape="poly" id="edge20_Node000016_Node000017" title=" " alt="" coords="452,399,513,401,508,402,452,404"/>
+<area shape="rect" id="Node000019" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a7dad9d54ec248dda4cc9a168659382bf" title=" " alt="" coords="503,470,712,496"/>
+<area shape="poly" id="edge22_Node000016_Node000019" title=" " alt="" coords="417,420,552,465,547,465,416,425"/>
+<area shape="rect" id="Node000018" href="$class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a8d7a3a3dd05f8bd7717b55fd6b4237e7" title=" " alt="" coords="813,381,977,422"/>
+<area shape="poly" id="edge21_Node000017_Node000018" title=" " alt="" coords="690,399,801,401,795,402,690,404"/>
+<area shape="poly" id="edge23_Node000019_Node000019" title=" " alt="" coords="565,469,557,462,562,452,579,446,608,444,640,446,657,456,652,455,638,451,608,449,580,451,565,456,562,461,570,471"/>
+<area shape="rect" id="Node000020" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a75578fca4d408ead05a72393a0a5173c" title=" " alt="" coords="760,458,1030,484"/>
+<area shape="poly" id="edge24_Node000019_Node000020" title=" " alt="" coords="713,476,747,477,742,477,713,481"/>
+<area shape="rect" id="Node000022" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a721c35d624090f7860ecde8fa5225849" title=" " alt="" coords="785,508,1005,533"/>
+<area shape="poly" id="edge26_Node000019_Node000022" title=" " alt="" coords="712,494,779,505,774,505,712,499"/>
+<area shape="rect" id="Node000021" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#acc46a4bf4a980465a04c2ed3bcec3e44" title=" " alt="" coords="1078,458,1329,484"/>
+<area shape="poly" id="edge25_Node000020_Node000021" title=" " alt="" coords="1030,468,1065,471,1060,471,1030,474"/>
+</map>

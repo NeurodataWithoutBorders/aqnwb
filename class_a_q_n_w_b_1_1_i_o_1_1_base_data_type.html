@@ -146,18 +146,25 @@ Public Types</h2></td></tr>
 <br />
  }</td></tr>
 <tr class="memdesc:a3ad0684f43e20f91bb130f18b35ed07c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration of different data types.  <a href="#a3ad0684f43e20f91bb130f18b35ed07c">More...</a><br /></td></tr>
-<tr class="memitem:ae2fcf9cb632b6933b0a980f035212e28" id="r_ae2fcf9cb632b6933b0a980f035212e28"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#ae2fcf9cb632b6933b0a980f035212e28">BaseDataVectorVariant</a></td></tr>
+<tr class="memitem:afb819a696aedb91d19de714f2cd6f669" id="r_afb819a696aedb91d19de714f2cd6f669"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#afb819a696aedb91d19de714f2cd6f669">BaseDataVariant</a> = <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#ad9967a8a1dcb24f6fe5fb3e78979972b">AQNWB::Types::ScalarDataVariant</a></td></tr>
+<tr class="memitem:a1308a49c22a6990922c7433eb45f59ca" id="r_a1308a49c22a6990922c7433eb45f59ca"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a1308a49c22a6990922c7433eb45f59ca">BaseDataVectorVariant</a> = <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a61d7ff2c71fdd9d51c1b943ee3c0f141">AQNWB::Types::VectorDataVariant</a></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:abb1e4b6b662308e48b6b4a7ad989d157" id="r_abb1e4b6b662308e48b6b4a7ad989d157"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#abb1e4b6b662308e48b6b4a7ad989d157">BaseDataType</a> (<a class="el" href="#a3ad0684f43e20f91bb130f18b35ed07c">Type</a> t=<a class="el" href="#a3ad0684f43e20f91bb130f18b35ed07ca173028aa2272afaa22cea5057be4faf8">T_I32</a>, <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> s=1)</td></tr>
 <tr class="memdesc:abb1e4b6b662308e48b6b4a7ad989d157"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html" title="Represents a base data type.">BaseDataType</a> object with the specified type and size.  <br /></td></tr>
 <tr class="memitem:afebc97cbbd321594d89a5146c348b377" id="r_afebc97cbbd321594d89a5146c348b377"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#afebc97cbbd321594d89a5146c348b377">operator==</a> (const <a class="el" href="#abb1e4b6b662308e48b6b4a7ad989d157">BaseDataType</a> &amp;other) const</td></tr>
+<tr class="memitem:a30288d0c74447faacde87b0f42a46b89" id="r_a30288d0c74447faacde87b0f42a46b89"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a30288d0c74447faacde87b0f42a46b89">isCompatibleCellValue</a> (const <a class="el" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html">Types::CellValue</a> &amp;value) const</td></tr>
+<tr class="memdesc:a30288d0c74447faacde87b0f42a46b89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether a CellValue has a type compatible with this data type.  <br /></td></tr>
+<tr class="memitem:a03de71cfff253b0747b348f8e788270c" id="r_a03de71cfff253b0747b348f8e788270c"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a03de71cfff253b0747b348f8e788270c">isCompatibleVector</a> (const <a class="el" href="#a1308a49c22a6990922c7433eb45f59ca">BaseDataVectorVariant</a> &amp;buffer) const</td></tr>
+<tr class="memdesc:a03de71cfff253b0747b348f8e788270c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether a vector buffer has a type compatible with this data type.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a18d42dba7074fb4cdac771deef6c051b" id="r_a18d42dba7074fb4cdac771deef6c051b"><td class="memItemLeft">static <a class="el" href="#abb1e4b6b662308e48b6b4a7ad989d157">BaseDataType</a>&#160;</td><td class="memItemRight"><a class="el" href="#a18d42dba7074fb4cdac771deef6c051b">STR</a> (<a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> size)</td></tr>
 <tr class="memdesc:a18d42dba7074fb4cdac771deef6c051b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Accessor for string with specified size.  <br /></td></tr>
+<tr class="memitem:a600928be65016fe305b7bd470baa3e72" id="r_a600928be65016fe305b7bd470baa3e72"><td class="memItemLeft">static <a class="el" href="#a1308a49c22a6990922c7433eb45f59ca">BaseDataVectorVariant</a>&#160;</td><td class="memItemRight"><a class="el" href="#a600928be65016fe305b7bd470baa3e72">createEmptyVectorVariant</a> (const <a class="el" href="#abb1e4b6b662308e48b6b4a7ad989d157">BaseDataType</a> &amp;dataType)</td></tr>
+<tr class="memdesc:a600928be65016fe305b7bd470baa3e72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an empty <a class="el" href="#a1308a49c22a6990922c7433eb45f59ca">BaseDataVectorVariant</a> matching the given type.  <br /></td></tr>
 <tr class="memitem:ae4eca40525bf512e9f1a194dcc3f905b" id="r_ae4eca40525bf512e9f1a194dcc3f905b"><td class="memItemLeft">static <a class="el" href="#abb1e4b6b662308e48b6b4a7ad989d157">BaseDataType</a>&#160;</td><td class="memItemRight"><a class="el" href="#ae4eca40525bf512e9f1a194dcc3f905b">fromTypeId</a> (const std::type_index &amp;typeIndex)</td></tr>
 <tr class="memdesc:ae4eca40525bf512e9f1a194dcc3f905b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html" title="Represents a base data type.">BaseDataType</a> from a std::type_index.  <br /></td></tr>
 </table><table class="memberdecls">
@@ -197,30 +204,32 @@ Static Public Attributes</h2></td></tr>
 <div class="textblock"><p>Represents a base data type. </p>
 <p>This class provides an enumeration of different data types and their corresponding sizes. It also includes handy accessors for commonly used data types. </p>
 </div><a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Member Typedef Documentation</h2>
-<a id="ae2fcf9cb632b6933b0a980f035212e28" name="ae2fcf9cb632b6933b0a980f035212e28"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae2fcf9cb632b6933b0a980f035212e28">&#9670;&#160;</a></span>BaseDataVectorVariant</h2>
+<a id="afb819a696aedb91d19de714f2cd6f669" name="afb819a696aedb91d19de714f2cd6f669"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb819a696aedb91d19de714f2cd6f669">&#9670;&#160;</a></span>BaseDataVariant</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="#ae2fcf9cb632b6933b0a980f035212e28">AQNWB::IO::BaseDataType::BaseDataVectorVariant</a></td>
+          <td class="memname">using <a class="el" href="#afb819a696aedb91d19de714f2cd6f669">AQNWB::IO::BaseDataType::BaseDataVariant</a> = <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#ad9967a8a1dcb24f6fe5fb3e78979972b">AQNWB::Types::ScalarDataVariant</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">std::variant&lt;std::monostate,</div>
-<div class="line">                                            std::vector&lt;uint8_t&gt;,</div>
-<div class="line">                                            std::vector&lt;uint16_t&gt;,</div>
-<div class="line">                                            std::vector&lt;uint32_t&gt;,</div>
-<div class="line">                                            std::vector&lt;uint64_t&gt;,</div>
-<div class="line">                                            std::vector&lt;int8_t&gt;,</div>
-<div class="line">                                            std::vector&lt;int16_t&gt;,</div>
-<div class="line">                                            std::vector&lt;int32_t&gt;,</div>
-<div class="line">                                            std::vector&lt;int64_t&gt;,</div>
-<div class="line">                                            std::vector&lt;float&gt;,</div>
-<div class="line">                                            std::vector&lt;double&gt;,</div>
-<div class="line">                                            std::vector&lt;std::string&gt;&gt;</div>
-</div><!-- fragment -->
+
+</div>
+</div>
+<a id="a1308a49c22a6990922c7433eb45f59ca" name="a1308a49c22a6990922c7433eb45f59ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1308a49c22a6990922c7433eb45f59ca">&#9670;&#160;</a></span>BaseDataVectorVariant</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a1308a49c22a6990922c7433eb45f59ca">AQNWB::IO::BaseDataType::BaseDataVectorVariant</a> = <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a61d7ff2c71fdd9d51c1b943ee3c0f141">AQNWB::Types::VectorDataVariant</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
 </div>
 </div>
 <a name="doc-enum-members" id="doc-enum-members"></a><h2 id="header-doc-enum-members" class="groupheader">Member Enumeration Documentation</h2>
@@ -297,12 +306,57 @@ Static Public Attributes</h2></td></tr>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type_abb1e4b6b662308e48b6b4a7ad989d157_icgraph.svg" width="100%" height="431"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type_abb1e4b6b662308e48b6b4a7ad989d157_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="a600928be65016fe305b7bd470baa3e72" name="a600928be65016fe305b7bd470baa3e72"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a600928be65016fe305b7bd470baa3e72">&#9670;&#160;</a></span>createEmptyVectorVariant()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a1308a49c22a6990922c7433eb45f59ca">BaseDataVectorVariant</a> AQNWB::IO::BaseDataType::createEmptyVectorVariant </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="#abb1e4b6b662308e48b6b4a7ad989d157">BaseDataType</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>dataType</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Create an empty <a class="el" href="#a1308a49c22a6990922c7433eb45f59ca">BaseDataVectorVariant</a> matching the given type. </p>
+<p>This helper is useful for code that needs to accumulate values for an arbitrary runtime <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html" title="Represents a base data type.">BaseDataType</a> before writing them in batch.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dataType</td><td>The runtime data type to create an empty buffer for. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An empty vector variant matching the given type, or std::monostate if the type is unsupported. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type_a600928be65016fe305b7bd470baa3e72_cgraph.svg" width="436" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type_a600928be65016fe305b7bd470baa3e72_icgraph.svg" width="100%" height="486"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
 <a id="ae4eca40525bf512e9f1a194dcc3f905b" name="ae4eca40525bf512e9f1a194dcc3f905b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae4eca40525bf512e9f1a194dcc3f905b">&#9670;&#160;</a></span>fromTypeId()</h2>
 
@@ -349,6 +403,86 @@ Here is the call graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type_ae4eca40525bf512e9f1a194dcc3f905b_icgraph.svg" width="411" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a30288d0c74447faacde87b0f42a46b89" name="a30288d0c74447faacde87b0f42a46b89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a30288d0c74447faacde87b0f42a46b89">&#9670;&#160;</a></span>isCompatibleCellValue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool AQNWB::IO::BaseDataType::isCompatibleCellValue </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html">Types::CellValue</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Check whether a CellValue has a type compatible with this data type. </p>
+<p>Fixed- and variable-length string datasets both accept string values.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The cell value to check. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the value's scalar or vector type matches this data type. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type_a30288d0c74447faacde87b0f42a46b89_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
+<a id="a03de71cfff253b0747b348f8e788270c" name="a03de71cfff253b0747b348f8e788270c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03de71cfff253b0747b348f8e788270c">&#9670;&#160;</a></span>isCompatibleVector()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool AQNWB::IO::BaseDataType::isCompatibleVector </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="#a1308a49c22a6990922c7433eb45f59ca">BaseDataVectorVariant</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>buffer</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Check whether a vector buffer has a type compatible with this data type. </p>
+<p>Fixed- and variable-length string datasets both accept string buffers.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buffer</td><td>The vector buffer to check. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the buffer's element type matches this data type. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type_a03de71cfff253b0747b348f8e788270c_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>

@@ -8,6 +8,7 @@ var core_8hpp =
     [ "AQNWB::SPEC::CORE::nwb_device", "namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#a35cf953e6c8441312e069d901d687a5d", null ],
     [ "AQNWB::SPEC::CORE::nwb_ecephys", "namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#a611c8883c4014f2be8fd0897086a4e33", null ],
     [ "AQNWB::SPEC::CORE::nwb_epoch", "namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#ad0967605c3219827e368475e5b156662", null ],
+    [ "AQNWB::SPEC::CORE::nwb_event", "namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#a2b1742bb50aee3ddd352f5659fce0096", null ],
     [ "AQNWB::SPEC::CORE::nwb_file_concatenate", "namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#a1fca16ae178518d5b9defc5d71afc4be", null ],
     [ "AQNWB::SPEC::CORE::nwb_file_part0", "namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#a96e1c0a5570173ca260719393ecc2f66", null ],
     [ "AQNWB::SPEC::CORE::nwb_file_part1", "namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#a54864e45ffb11c1de9532d08ab598b36", null ],

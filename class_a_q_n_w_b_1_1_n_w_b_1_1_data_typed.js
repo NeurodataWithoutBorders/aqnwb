@@ -2,7 +2,7 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed =
 [
     [ "DataTyped", "class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html#a3a4fcbb17231aaebae71044026f34c46", null ],
     [ "~DataTyped", "class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html#aa0c093e3eb48c57b21adb3e3c187d696", null ],
-    [ "create", "class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html#a960ffd9d6060c5acef094e54273446cf", null ],
+    [ "create", "class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html#aa14023fd7689f61fadcae685d505c9a5", null ],
     [ "Data", "class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html#ac0a68f39a709b9096ce797bce18c668f", null ],
     [ "fromData", "class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html#a90b834bfa32f7a1435e48ba2f213e24b", null ],
     [ "getIO", "class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html#ab614b1609f536e88ed1f32762dc3894b", null ],

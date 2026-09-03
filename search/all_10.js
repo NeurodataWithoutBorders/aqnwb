@@ -18,10 +18,11 @@ var searchData=
   ['hdmf_5fcommon_2ehpp_15',['hdmf_common.hpp',['../hdmf__common_8hpp.html',1,'']]],
   ['hdmf_5fexperimental_2ehpp_16',['hdmf_experimental.hpp',['../hdmf__experimental_8hpp.html',1,'']]],
   ['header_20files_17',['Generating the schema header files',['../nwb_schema_page.html#dev_docs_generating_nwb_schema_headers_section',1,'']]],
-  ['how_20the_20namespaceregistry_20works_18',['How the NamespaceRegistry Works',['../integrating_extensions_page.html#namespace_registry',1,'']]],
-  ['how_20the_20type_20registry_20in_20registeredtype_20works_19',['How the Type Registry in RegisteredType Works',['../read_design_page.html#type_registry',1,'']]],
-  ['how_20to_20implement_20a_20registeredtype_20',['How to Implement a RegisteredType',['../registered_type_page.html#implement_registered_type',1,'']]],
-  ['how_20to_20implement_20a_20registeredtype_20with_20a_20custom_20type_20name_21',['How to implement a RegisteredType with a custom type name',['../registered_type_page.html#using_registered_subclass_with_typename',1,'']]],
-  ['how_20to_20integrate_20a_20new_20namespace_22',['How to Integrate a New Namespace',['../integrating_extensions_page.html#integrate_namespace',1,'']]],
-  ['how_20to_20use_20the_20registeredtype_20registry_23',['How to Use the RegisteredType Registry',['../read_design_page.html#use_registered_type_registry',1,'']]]
+  ['holds_5falternative_18',['holds_alternative',['../struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#adf32897841f87e27405767d09b64450e',1,'AQNWB::Types::CellValue']]],
+  ['how_20the_20namespaceregistry_20works_19',['How the NamespaceRegistry Works',['../integrating_extensions_page.html#namespace_registry',1,'']]],
+  ['how_20the_20type_20registry_20in_20registeredtype_20works_20',['How the Type Registry in RegisteredType Works',['../read_design_page.html#type_registry',1,'']]],
+  ['how_20to_20implement_20a_20registeredtype_21',['How to Implement a RegisteredType',['../registered_type_page.html#implement_registered_type',1,'']]],
+  ['how_20to_20implement_20a_20registeredtype_20with_20a_20custom_20type_20name_22',['How to implement a RegisteredType with a custom type name',['../registered_type_page.html#using_registered_subclass_with_typename',1,'']]],
+  ['how_20to_20integrate_20a_20new_20namespace_23',['How to Integrate a New Namespace',['../integrating_extensions_page.html#integrate_namespace',1,'']]],
+  ['how_20to_20use_20the_20registeredtype_20registry_24',['How to Use the RegisteredType Registry',['../read_design_page.html#use_registered_type_registry',1,'']]]
 ];

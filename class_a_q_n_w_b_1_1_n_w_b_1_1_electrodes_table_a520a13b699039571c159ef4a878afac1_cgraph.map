@@ -1,8 +1,10 @@
 <map id="AQNWB::NWB::ElectrodesTable::create" name="AQNWB::NWB::ElectrodesTable::create">
-<area shape="rect" id="Node000001" title="Convenience factor method since the path is fixed to electrodeTablePath." alt="" coords="5,29,219,70"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a" title="Create an instance of a registered subclass by name." alt="" coords="267,29,478,70"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="219,47,254,50,249,50,219,52"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="324,27,321,19,329,10,346,5,372,3,400,5,418,14,413,13,399,10,372,8,347,10,332,15,327,21,329,30"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ac83aa589b9c3ab5a00bab462e58fdbd5" title="Get the factory map for creating instances of subclasses." alt="" coords="526,29,737,70"/>
-<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="478,47,513,50,508,50,478,52"/>
+<area shape="rect" id="Node000001" title="Convenience factor method since the path is fixed to electrodeTablePath." alt="" coords="5,39,219,79"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a" title="Create or retrieve the canonical instance of a registered subclass." alt="" coords="267,39,478,79"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="219,56,254,59,249,59,219,62"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="324,37,321,29,329,20,346,14,372,12,400,14,418,23,413,23,399,20,372,17,347,19,332,24,327,30,329,39"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab7b0836d580db8f8e3791a6e81fcb9fa" title="Helper to get an existing recording object from the IO object." alt="" coords="526,5,737,46"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="478,43,513,41,508,42,479,48"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ac83aa589b9c3ab5a00bab462e58fdbd5" title="Get the factory map for creating instances of subclasses." alt="" coords="526,71,737,111"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="479,69,513,76,508,76,478,75"/>
 </map>

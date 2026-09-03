@@ -1,0 +1,13 @@
+<map id="AQNWB::NWB::TimeIntervals::createDefaultDataSpecs" name="AQNWB::NWB::TimeIntervals::createDefaultDataSpecs">
+<area shape="rect" id="Node000001" title="Creates the default data specs for the TimeIntervals table." alt="" coords="474,104,673,145"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a6f45bb65ce5c7d3829b57d19b37601a3" title="Create a TimeIntervals table in the INTERVALS_PATH group. Note, this function will fail if the file i..." alt="" coords="240,71,413,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="456,109,413,105,413,100,461,109"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_intervals.html#a0de89711cca0902234ae9dc0a9261f09" title="Initializes the TimeIntervals table." alt="" coords="227,136,426,177"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="461,139,427,146,426,141,456,139"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a605a7ea462b38135d0ee6f95447dd8f0" title="Create the Epochs table in the INTERVALS_PATH group." alt="" coords="5,5,179,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="234,67,168,49,168,44,239,65"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a318c4be532893dafd593f6d9ccf99684" title="Create the Invalid Times table in the INTERVALS_PATH group." alt="" coords="5,71,179,111"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="222,92,179,94,179,88,227,90"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a8b42c61ec6bf627b3eebd2dc2f06bbbd" title="Create the Trials table in the INTERVALS_PATH group." alt="" coords="5,136,179,177"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="239,115,168,138,167,133,234,117"/>
+</map>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['☁️_0',['Reading Remote Data ☁️',['../reads3_page.html',1,'userdocs']]]
+  ['⏱️_0',['Annotating Time Intervals ⏱️',['../time_intervals.html',1,'userdocs']]]
 ];

@@ -5,6 +5,7 @@ var class_a_q_n_w_b_1_1_i_o_1_1_base_i_o =
     [ "~BaseIO", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a7696f24a4136179a56625121069240de", null ],
     [ "attributeExists", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a06b5edf2bbd4c85adcafda13e7903873", null ],
     [ "canModifyObjects", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#ad973fe50bc5ef9e210319902a7a5ef81", null ],
+    [ "clearRecordingDataCache", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a5f7c6808159c937927da661cc704673b", null ],
     [ "close", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a30d70064c9032688b1a1c961bfe01aa6", null ],
     [ "createArrayDataSet", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a34edb8802204ec60e737113d4ccff1ef", null ],
     [ "createAttribute", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a54f2dfda9ffd291f45c3a429ca662103", null ],
@@ -21,9 +22,11 @@ var class_a_q_n_w_b_1_1_i_o_1_1_base_i_o =
     [ "findObject", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a0b762c28ae74ea07599eb71bf2c5cfc6", null ],
     [ "findTypes", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a788603f4c9c2698aad610134ab89f8e1", null ],
     [ "flush", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a8f6ad4501f15fdfa8927aa63faae690a", null ],
-    [ "getDataSet", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#abfecddd0a4a45740ccc84edd7461dba9", null ],
+    [ "getDataSet", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#ab2168a022011f0ddb2d9fbb67aaa3599", null ],
+    [ "getDataSetImpl", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a2d6f56531784d31794ac37b4b78cbd85", null ],
     [ "getFileName", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#aaca68b05085b5e9f81a16d7612757163", null ],
     [ "getFullTypeName", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a1b9c28abd50f22cf2e0bca20380a12b9", null ],
+    [ "getRecordingDataCache", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a97032f7f132ef2f9fa777356832eaf8f", null ],
     [ "getRecordingObjects", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a942684d24e1384409abc2fa51b09a427", null ],
     [ "getStorageObjectChunking", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a67bb097eefc2ebe5ab1b45ed00859c0b", null ],
     [ "getStorageObjectDataType", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#aa3f2c6871009254b8e3168de14b3c53f", null ],
@@ -44,5 +47,6 @@ var class_a_q_n_w_b_1_1_i_o_1_1_base_i_o =
     [ "m_filename", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a86e58b8c986d2d8f22dcd1deb028b4d8", null ],
     [ "m_opened", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#afe458200ac24b811c628256f00de0b07", null ],
     [ "m_readyToOpen", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a8b71a8fca370cb3b3a1ab46881eb7be7", null ],
-    [ "m_recording_objects", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#af5bcbe86c5258c1172cd9349f18654ad", null ]
+    [ "m_recording_objects", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#af5bcbe86c5258c1172cd9349f18654ad", null ],
+    [ "m_recordingDataCache", "class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a0c73adc8260d6a091c4cdf35376f8368", null ]
 ];

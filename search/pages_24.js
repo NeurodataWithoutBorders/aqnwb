@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['📝_0',['Demos 📝',['../user_demos.html',1,'userdocs']]]
+  ['📋_0',['Acquiring Event Data 📋',['../events.html',1,'userdocs']]]
 ];

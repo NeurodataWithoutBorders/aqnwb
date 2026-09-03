@@ -128,13 +128,13 @@ Namespaces</h2></td></tr>
 <tr class="memdesc:namespace_a_q_n_w_b_1_1_n_w_b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Namespace for all classes related to the <a class="el" href="namespace_a_q_n_w_b_1_1_n_w_b.html" title="Namespace for all classes related to the NWB data standard.">NWB</a> data standard. <br /></td></tr>
 <tr class="memitem:SPEC" id="r_SPEC"><td class="memItemLeft">namespace &#160;</td><td class="memItemRight"><a class="el" href="namespace_a_q_n_w_b_1_1_s_p_e_c.html">SPEC</a></td></tr>
 <tr class="memdesc:namespace_a_q_n_w_b_1_1_s_p_e_c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The namespace for managing format schema and namespaces. <br /></td></tr>
+<tr class="memitem:Types" id="r_Types"><td class="memItemLeft">namespace &#160;</td><td class="memItemRight"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html">Types</a></td></tr>
+<tr class="memdesc:namespace_a_q_n_w_b_1_1_types"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides definitions for various types used in the project. <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:Channel" id="r_Channel"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="class_a_q_n_w_b_1_1_channel.html">Channel</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class for storing acquisition system channel information.  <a href="class_a_q_n_w_b_1_1_channel.html#details">More...</a><br /></td></tr>
-<tr class="memitem:Types" id="r_Types"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="class_a_q_n_w_b_1_1_types.html">Types</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides definitions for various types used in the project.  <a href="class_a_q_n_w_b_1_1_types.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -146,6 +146,8 @@ Functions</h2></td></tr>
 <tr class="memdesc:a4aacc6b82eca3064a8afe0070c44cde4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check that a string is formatted in ISO8601 format.  <br /></td></tr>
 <tr class="memitem:aae4545d930db6f70b4438e0167c500d0" id="r_aae4545d930db6f70b4438e0167c500d0"><td class="memItemLeft">static std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#aae4545d930db6f70b4438e0167c500d0">createIO</a> (const std::string &amp;type, const std::string &amp;filename)</td></tr>
 <tr class="memdesc:aae4545d930db6f70b4438e0167c500d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method to create an <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html" title="The namespace for IO components of AqNWB.">IO</a> object of the specified type.  <br /></td></tr>
+<tr class="memitem:adc7efaaa5a01e00116c3a02b6c4d194d" id="r_adc7efaaa5a01e00116c3a02b6c4d194d"><td class="memItemLeft">static bool&#160;</td><td class="memItemRight"><a class="el" href="#adc7efaaa5a01e00116c3a02b6c4d194d">isPathOrDescendant</a> (const std::string &amp;path, const std::string &amp;parentPath)</td></tr>
+<tr class="memdesc:adc7efaaa5a01e00116c3a02b6c4d194d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether a path is equal to or a descendant of a parent path.  <br /></td></tr>
 <tr class="memitem:a31983dbaaa85c2e355b9687fc0ef1881" id="r_a31983dbaaa85c2e355b9687fc0ef1881"><td class="memItemLeft">static std::string&#160;</td><td class="memItemRight"><a class="el" href="#a31983dbaaa85c2e355b9687fc0ef1881">mergePaths</a> (const std::string &amp;path1, const std::string &amp;path2)</td></tr>
 <tr class="memdesc:a31983dbaaa85c2e355b9687fc0ef1881"><td class="mdescLeft">&#160;</td><td class="mdescRight">Merge two paths into a single path, handling extra trailing and starting "/".  <br /></td></tr>
 <tr class="memitem:a222344ec88fdbd8803d14dabea0f97bc" id="r_a222344ec88fdbd8803d14dabea0f97bc"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#a222344ec88fdbd8803d14dabea0f97bc">convertFloatToInt16LE</a> (const float *source, void *dest, <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> numSamples)</td></tr>
@@ -154,14 +156,65 @@ Functions</h2></td></tr>
 <tr class="memdesc:a0e8a5fc18589d0ff3157b86c081ca252"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to scale float values and convert to int16 values.  <br /></td></tr>
 <tr class="memitem:ad81a02abf6f39974e6a4d71346a7b164" id="r_ad81a02abf6f39974e6a4d71346a7b164"><td class="memItemLeft">static bool&#160;</td><td class="memItemRight"><a class="el" href="#ad81a02abf6f39974e6a4d71346a7b164">isValidIndex</a> (<a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> index)</td></tr>
 <tr class="memdesc:ad81a02abf6f39974e6a4d71346a7b164"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> index is valid (i.e., not equal to SizeTypeNotSet).  <br /></td></tr>
-<tr class="memitem:a09b9a48d0ec26fe72452788634ee12bb" id="r_a09b9a48d0ec26fe72452788634ee12bb"><td class="memItemLeft">static <a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a09b9a48d0ec26fe72452788634ee12bb">intToStatus</a> (int status)</td></tr>
-<tr class="memdesc:a09b9a48d0ec26fe72452788634ee12bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an integer status code to a <a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9" title="Represents the status of an operation.">Types::Status</a> enum value. Shorthand for <span class="tt">return (status &lt; 0) ? Status::Failure : Status::Success;</span>.  <br /></td></tr>
-<tr class="memitem:aa2ae7bd54f7ed396e61e6cec9d208140" id="r_aa2ae7bd54f7ed396e61e6cec9d208140"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#aa2ae7bd54f7ed396e61e6cec9d208140">checkStatus</a> (<a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> status, const std::string &amp;operation)</td></tr>
+<tr class="memitem:a09b9a48d0ec26fe72452788634ee12bb" id="r_a09b9a48d0ec26fe72452788634ee12bb"><td class="memItemLeft">static <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a09b9a48d0ec26fe72452788634ee12bb">intToStatus</a> (int status)</td></tr>
+<tr class="memdesc:a09b9a48d0ec26fe72452788634ee12bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an integer status code to a <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9" title="Represents the status of an operation.">Types::Status</a> enum value. Shorthand for <span class="tt">return (status &lt; 0) ? Status::Failure : Status::Success;</span>.  <br /></td></tr>
+<tr class="memitem:aa2ae7bd54f7ed396e61e6cec9d208140" id="r_aa2ae7bd54f7ed396e61e6cec9d208140"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#aa2ae7bd54f7ed396e61e6cec9d208140">checkStatus</a> (<a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> status, const std::string &amp;operation)</td></tr>
 <tr class="memdesc:aa2ae7bd54f7ed396e61e6cec9d208140"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check status and print to standard error.  <br /></td></tr>
+<tr class="memitem:ab61fb380a62609e576ed5fe352b3e94f" id="r_ab61fb380a62609e576ed5fe352b3e94f"><td class="memItemLeft">static <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#ab61fb380a62609e576ed5fe352b3e94f">appendCellValueToBuffer</a> (<a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#a1308a49c22a6990922c7433eb45f59ca">IO::BaseDataType::BaseDataVectorVariant</a> &amp;buffer, const <a class="el" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html">Types::CellValue</a> &amp;value)</td></tr>
+<tr class="memdesc:ab61fb380a62609e576ed5fe352b3e94f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends a CellValue to a BaseDataVectorVariant buffer.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The main namespace for AqNWB. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
+<a id="ab61fb380a62609e576ed5fe352b3e94f" name="ab61fb380a62609e576ed5fe352b3e94f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab61fb380a62609e576ed5fe352b3e94f">&#9670;&#160;</a></span>appendCellValueToBuffer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> AQNWB::appendCellValueToBuffer </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#a1308a49c22a6990922c7433eb45f59ca">IO::BaseDataType::BaseDataVectorVariant</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>buffer</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html">Types::CellValue</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Appends a CellValue to a BaseDataVectorVariant buffer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buffer</td><td>The buffer to append to. </td></tr>
+    <tr><td class="paramname">value</td><td>The CellValue to append. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Status::Success if successful, otherwise Status::Failure. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="namespace_a_q_n_w_b_ab61fb380a62609e576ed5fe352b3e94f_cgraph.svg" width="455" height="102"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="namespace_a_q_n_w_b_ab61fb380a62609e576ed5fe352b3e94f_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
 <a id="aa2ae7bd54f7ed396e61e6cec9d208140" name="aa2ae7bd54f7ed396e61e6cec9d208140"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa2ae7bd54f7ed396e61e6cec9d208140">&#9670;&#160;</a></span>checkStatus()</h2>
 
@@ -174,7 +227,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void AQNWB::checkStatus </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a></td>          <td class="paramname"><span class="paramname"><em>status</em></span>, </td>
+          <td class="paramtype"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a></td>          <td class="paramname"><span class="paramname"><em>status</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -380,7 +433,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> AQNWB::intToStatus </td>
+          <td class="memname"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> AQNWB::intToStatus </td>
           <td>(</td>
           <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>status</em></span></td><td>)</td>
           <td></td>
@@ -393,14 +446,14 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Convert an integer status code to a <a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9" title="Represents the status of an operation.">Types::Status</a> enum value. Shorthand for <span class="tt">return (status &lt; 0) ? Status::Failure : Status::Success;</span>. </p>
+<p>Convert an integer status code to a <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9" title="Represents the status of an operation.">Types::Status</a> enum value. Shorthand for <span class="tt">return (status &lt; 0) ? Status::Failure : Status::Success;</span>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">status</td><td>The integer status code to convert. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The corresponding <a class="el" href="class_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9" title="Represents the status of an operation.">Types::Status</a> enum value. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The corresponding <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9" title="Represents the status of an operation.">Types::Status</a> enum value. </dd></dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -438,7 +491,52 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="namespace_a_q_n_w_b_a4aacc6b82eca3064a8afe0070c44cde4_icgraph.svg" width="402" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="namespace_a_q_n_w_b_a4aacc6b82eca3064a8afe0070c44cde4_icgraph.svg" width="402" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="adc7efaaa5a01e00116c3a02b6c4d194d" name="adc7efaaa5a01e00116c3a02b6c4d194d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc7efaaa5a01e00116c3a02b6c4d194d">&#9670;&#160;</a></span>isPathOrDescendant()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool AQNWB::isPathOrDescendant </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>parentPath</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Check whether a path is equal to or a descendant of a parent path. </p>
+<p>A matching prefix must end at a path separator so that, for example, <span class="tt">/events2</span> is not considered a descendant of <span class="tt">/events</span>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The path to check. </td></tr>
+    <tr><td class="paramname">parentPath</td><td>The parent path. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the path equals the parent path or is a descendant of it. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="namespace_a_q_n_w_b_adc7efaaa5a01e00116c3a02b6c4d194d_icgraph.svg" width="460" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -477,7 +575,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="namespace_a_q_n_w_b_ad81a02abf6f39974e6a4d71346a7b164_icgraph.svg" width="420" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="namespace_a_q_n_w_b_ad81a02abf6f39974e6a4d71346a7b164_icgraph.svg" width="420" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

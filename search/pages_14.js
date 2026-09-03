@@ -16,5 +16,6 @@ var searchData=
   ['nwb_20i_20o_20convenience_20utilities_13',['NWB I/O convenience utilities',['../record_design_page.html#record_design_nwbio_utils',1,'']]],
   ['nwb_20neurodata_5ftypes_14',['Reading NWB neurodata_types',['../read_page.html#read_example_registered_type',1,'']]],
   ['nwb_20schema_20🧠_15',['NWB Schema 🧠',['../nwb_schema_page.html',1,'devdocs']]],
-  ['nwbfile_16',['2. Create the NWBFile',['../workflow.html#create_nwbfile',1,'']]]
+  ['nwbfile_16',['NWBFile',['../events.html#events_nwbfile',1,'2. Create the NWBFile'],['../time_intervals.html#time_intervals_nwbfile',1,'2. Create the NWBFile'],['../workflow.html#create_nwbfile',1,'2. Create the NWBFile']]],
+  ['nwbfile_20and_20table_20creation_17',['NWBFile and table creation',['../events.html#events_setup',1,'Setup: I/O, NWBFile, and table creation'],['../time_intervals.html#time_intervals_setup',1,'Setup: I/O, NWBFile, and table creation']]]
 ];

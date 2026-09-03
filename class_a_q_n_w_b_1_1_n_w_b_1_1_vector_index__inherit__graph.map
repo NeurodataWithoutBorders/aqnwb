@@ -1,0 +1,11 @@
+<map id="AQNWB::NWB::VectorIndex" name="AQNWB::NWB::VectorIndex">
+<area shape="rect" id="Node000001" title="Used with VectorData to encode a ragged array. An array of indices into the first dimension of the ta..." alt="" coords="16,315,206,341"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html" title="An n&#45;dimensional dataset representing a column of a DynamicTable." alt="" coords="18,241,204,267"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,281,113,316,109,313,109,284"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data.html" title="An abstract data type for a dataset." alt="" coords="37,168,185,193"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="112,206,114,242,108,240,110,211"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html" title="Base class for types defined in the NWB schema." alt="" coords="5,94,217,120"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="112,133,114,168,108,167,110,138"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="12,5,210,46"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="112,59,114,94,108,93,110,64"/>
+</map>

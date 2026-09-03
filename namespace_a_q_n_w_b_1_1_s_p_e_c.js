@@ -9,6 +9,7 @@ var namespace_a_q_n_w_b_1_1_s_p_e_c =
       [ "nwb_device", "namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#a35cf953e6c8441312e069d901d687a5d", null ],
       [ "nwb_ecephys", "namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#a611c8883c4014f2be8fd0897086a4e33", null ],
       [ "nwb_epoch", "namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#ad0967605c3219827e368475e5b156662", null ],
+      [ "nwb_event", "namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#a2b1742bb50aee3ddd352f5659fce0096", null ],
       [ "nwb_file_concatenate", "namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#a1fca16ae178518d5b9defc5d71afc4be", null ],
       [ "nwb_file_part0", "namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#a96e1c0a5570173ca260719393ecc2f66", null ],
       [ "nwb_file_part1", "namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#a54864e45ffb11c1de9532d08ab598b36", null ],
@@ -27,6 +28,7 @@ var namespace_a_q_n_w_b_1_1_s_p_e_c =
       [ "base", "namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_h_d_m_f___c_o_m_m_o_n.html#ae9c5cbe3bdc3d66b50551e9e47a09b8b", null ],
       [ "namespaceName", "namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_h_d_m_f___c_o_m_m_o_n.html#acf0797dd57ee70ef0d6bd1bd84b49e21", null ],
       [ "namespaces", "namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_h_d_m_f___c_o_m_m_o_n.html#a42ee7316f12ecda846a273adf9bdc9a7", null ],
+      [ "resources", "namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_h_d_m_f___c_o_m_m_o_n.html#a37322ddbab892c610495edc5bd091b4f", null ],
       [ "sparse", "namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_h_d_m_f___c_o_m_m_o_n.html#aaf298a798626cba1e492c31b7f6cb9ec", null ],
       [ "specVariables", "namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_h_d_m_f___c_o_m_m_o_n.html#a4f87f26379c40b2a91421ca1d6d47c26", null ],
       [ "table", "namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_h_d_m_f___c_o_m_m_o_n.html#a53b3c7eb7c54b3472735bd8784747d81", null ],
@@ -36,7 +38,6 @@ var namespace_a_q_n_w_b_1_1_s_p_e_c =
       [ "experimental", "namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_h_d_m_f___e_x_p_e_r_i_m_e_n_t_a_l.html#ac353ef164be0c431a75ad8f7a36129ca", null ],
       [ "namespaceName", "namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_h_d_m_f___e_x_p_e_r_i_m_e_n_t_a_l.html#a1b567aa5d9e0cf4aafc5bdbdeb2a61ab", null ],
       [ "namespaces", "namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_h_d_m_f___e_x_p_e_r_i_m_e_n_t_a_l.html#a99764a4d93e7eafc4874a9f934c78eea", null ],
-      [ "resources", "namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_h_d_m_f___e_x_p_e_r_i_m_e_n_t_a_l.html#af764fbdaf1d4cbf85aed9e8f0e4b1c09", null ],
       [ "specVariables", "namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_h_d_m_f___e_x_p_e_r_i_m_e_n_t_a_l.html#af5c8a8f04e2049549326dad259d8c989", null ],
       [ "version", "namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_h_d_m_f___e_x_p_e_r_i_m_e_n_t_a_l.html#ac44c43d3fd8556ae81e395492b001ed0", null ]
     ] ],

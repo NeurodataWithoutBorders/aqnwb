@@ -1,0 +1,26 @@
+<map id="AQNWB::NWB::TimeIntervals::initialize" name="AQNWB::NWB::TimeIntervals::initialize">
+<area shape="rect" id="Node000001" title="Initializes the TimeIntervals table." alt="" coords="5,181,205,222"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_time_intervals.html#a7b9808b4fb78b4dbd74f74a841774bef" title="Creates the default data specs for the TimeIntervals table." alt="" coords="259,33,458,74"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="128,179,182,135,251,90,280,79,276,82,254,95,186,139,132,183"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab614b1609f536e88ed1f32762dc3894b" title="Get a shared pointer to the IO object." alt="" coords="512,120,723,161"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="140,179,192,153,252,134,314,124,378,120,499,125,494,127,378,125,315,129,253,139,194,158,143,183"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a079202bc1ce62c7f5794f5b658598b8c" title="Gets the path of the registered type." alt="" coords="253,148,464,189"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="204,186,239,183,235,185,206,191"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a420424e52795b5212d7dcb728396af6a" title="Initialize the container." alt="" coords="270,213,446,254"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="205,212,257,220,252,222,205,217"/>
+<area shape="rect" id="Node000011" href="$namespace_a_q_n_w_b.html#adc7efaaa5a01e00116c3a02b6c4d194d" title="Check whether a path is equal to or a descendant of a parent path." alt="" coords="258,278,459,304"/>
+<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="149,220,254,263,282,274,277,274,252,268,148,225"/>
+<area shape="rect" id="Node000012" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a24ff459c6a7c0d6ad31972c44c1371b6" title="Ensure that the intervals group exists in the NWB file." alt="" coords="272,328,445,369"/>
+<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="128,220,183,267,218,292,254,314,266,322,261,321,251,319,215,297,180,271,127,225"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#ab26c94730b19687ca84bead79fa784d0" title="Create the default data specs for a DynamicTable." alt="" coords="516,5,719,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="458,40,503,37,498,39,459,45"/>
+<area shape="rect" id="Node000005" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="542,70,693,96"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="458,62,529,72,524,74,459,68"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_element_identifiers.html#a25ae84040936201129ec18e361072cb5" title=" " alt="" coords="771,5,997,46"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="719,23,758,25,753,26,720,28"/>
+<area shape="poly" id="edge8_Node000008_Node000006" title=" " alt="" coords="426,210,463,198,549,168,554,166,465,203,428,215"/>
+<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a1a8f53595eb2637e32e816a3ff99a230" title="Get the schema namespace of the class type." alt="" coords="530,213,706,254"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="447,231,516,233,511,234,447,236"/>
+<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a21e3abbea48e9455731f2859c7954c97" title="Get the name of the class type." alt="" coords="530,279,706,319"/>
+<area shape="poly" id="edge10_Node000008_Node000010" title=" " alt="" coords="442,252,522,274,517,274,442,257"/>
+</map>

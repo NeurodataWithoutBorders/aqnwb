@@ -1,0 +1,17 @@
+<map id="AQNWB::NWB::VectorIndex::readData" name="AQNWB::NWB::VectorIndex::readData">
+<area shape="rect" id="Node000001" title=" " alt="" coords="959,71,1149,111"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html#ae0381762897fab5ab36eb0de1bb1e96d" title="Initializes m_currentIndex and m_dataType by reading the last value from the dataset,..." alt="" coords="482,5,672,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="950,67,910,62,786,45,673,35,673,29,787,40,911,56,955,67"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html#a87f270bd71244297da6a60ecc2ae91cc" title=" " alt="" coords="720,71,911,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="940,91,911,94,911,88,946,91"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html#a0944ead63d5241985a49c629da2d70a8" title="Reads a range of ragged array vectors from the target VectorData." alt="" coords="5,104,196,145"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="962,115,911,126,712,140,514,144,335,140,196,134,196,128,336,135,514,138,712,135,910,120,957,115"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html#a63166d71772ab8ca8de54141bfc314dc" title="Appends data to the target VectorData and updates this index." alt="" coords="5,27,196,67"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="466,33,197,45,196,40,468,28"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html#a23f54cde93117c0af81c40baf9f4e934" title=" " alt="" coords="482,71,672,111"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="702,91,673,94,673,88,707,91"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html#a5b9b86676fb4fb85ad091d1cc20145eb" title="Gets the cached target VectorData column, or reads it if not cached." alt="" coords="244,71,434,111"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="464,91,434,94,434,88,469,91"/>
+<area shape="poly" id="edge6_Node000006_Node000003" title=" " alt="" coords="225,71,196,67,196,62,231,70"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="225,107,196,114,196,108,231,106"/>
+</map>

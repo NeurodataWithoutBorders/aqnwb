@@ -1,10 +1,13 @@
 <map id="AQNWB::NWB::DataTyped::fromData" name="AQNWB::NWB::DataTyped::fromData">
-<area shape="rect" id="Node000001" title="Create a DataTyped object from a Data object." alt="" coords="5,29,189,70"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html#a960ffd9d6060c5acef094e54273446cf" title="Factor method to create a DataTyped object." alt="" coords="237,29,420,70"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="189,47,224,49,218,50,189,52"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a" title="Create an instance of a registered subclass by name." alt="" coords="468,29,679,70"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="420,47,455,50,450,50,420,52"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="528,27,525,19,533,10,549,5,574,3,600,5,617,14,612,13,599,10,574,8,550,10,536,15,531,21,532,30"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ac83aa589b9c3ab5a00bab462e58fdbd5" title="Get the factory map for creating instances of subclasses." alt="" coords="727,29,939,70"/>
-<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="680,47,714,50,709,50,680,52"/>
+<area shape="rect" id="Node000001" title="Create a DataTyped object from a Data object." alt="" coords="5,5,189,46"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html#aa14023fd7689f61fadcae685d505c9a5" title="Factor method to create a DataTyped object." alt="" coords="237,5,420,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="189,23,224,25,218,26,189,28"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html#a3a4fcbb17231aaebae71044026f34c46" title="Constructor." alt="" coords="468,5,651,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="420,23,455,26,450,26,420,28"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data_typed.html#ac0a68f39a709b9096ce797bce18c668f" title="Constructor." alt="" coords="699,5,883,46"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="651,23,686,26,681,26,651,28"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a20df6af7d661de38f4b8cb3baba48339" title="Factory method to create an DataBlock from a DataBlockGeneric." alt="" coords="931,5,1094,46"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="883,23,918,26,912,26,883,28"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a8d7a3a3dd05f8bd7717b55fd6b4237e7" title=" " alt="" coords="1142,5,1305,46"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="1094,23,1129,26,1124,26,1094,28"/>
 </map>

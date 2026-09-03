@@ -2,19 +2,21 @@
 <area shape="rect" id="Node000001" title="Stops the recording process." alt="" coords="5,124,200,165"/>
 <area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a969eb3d7ab2d93c5a83b58f27773e16f" title="Closes the file." alt="" coords="248,59,442,99"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,121,254,103,250,105,181,126"/>
-<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#af169224331c1c4f67ccf8521f5d778db" title="Flush data to disk." alt="" coords="248,124,442,165"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="200,142,235,144,230,145,201,147"/>
-<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a53a279ee9e1adf0d52d03185311ad91a" title="Stops the recording process." alt="" coords="268,189,422,230"/>
-<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="181,163,255,184,250,185,180,168"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#af169224331c1c4f67ccf8521f5d778db" title="Flush data to disk." alt="" coords="248,124,442,165"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="200,142,235,144,230,145,201,147"/>
+<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a53a279ee9e1adf0d52d03185311ad91a" title="Stops the recording process." alt="" coords="268,189,422,230"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="181,163,255,184,250,185,180,168"/>
 <area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a30d70064c9032688b1a1c961bfe01aa6" title="Closes the file." alt="" coords="510,71,664,111"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="442,81,497,86,492,87,443,86"/>
-<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#ada2e4de37006527cf23d0fdd50d33a0c" title="Non&#45;virtual helper that performs the actual HDF5 file close." alt="" coords="490,5,684,46"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="439,56,479,49,474,51,441,61"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a942684d24e1384409abc2fa51b09a427" title="Returns the recording objects container for this IO object." alt="" coords="732,124,887,165"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="665,107,720,122,715,122,665,112"/>
-<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#aaca68b05085b5e9f81a16d7612757163" title="Returns the full path to the file." alt="" coords="732,5,887,46"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="684,23,719,25,714,26,685,28"/>
-<area shape="rect" id="Node000008" href="$namespace_a_q_n_w_b.html#a09b9a48d0ec26fe72452788634ee12bb" title="Convert an integer status code to a Types::Status enum value. Shorthand for return (status &lt; 0) ?..." alt="" coords="514,136,660,161"/>
-<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="442,143,501,147,496,147,443,149"/>
-<area shape="poly" id="edge9_Node000009_Node000004" title=" " alt="" coords="422,202,545,190,684,171,714,168,720,167,685,176,546,195,423,207"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#ada2e4de37006527cf23d0fdd50d33a0c" title="Non&#45;virtual helper that performs the actual HDF5 file close." alt="" coords="490,5,684,46"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="439,56,479,49,474,51,441,61"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a5f7c6808159c937927da661cc704673b" title="Clears the recording data cache." alt="" coords="732,71,907,111"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="665,88,719,91,714,91,665,94"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a942684d24e1384409abc2fa51b09a427" title="Returns the recording objects container for this IO object." alt="" coords="742,157,897,198"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="653,109,685,121,758,151,753,151,683,125,653,115"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#aaca68b05085b5e9f81a16d7612757163" title="Returns the full path to the file." alt="" coords="742,5,897,46"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="684,23,729,25,724,26,685,28"/>
+<area shape="rect" id="Node000009" href="$namespace_a_q_n_w_b.html#a09b9a48d0ec26fe72452788634ee12bb" title="Convert an integer status code to a Types::Status enum value. Shorthand for return (status &lt; 0) ?..." alt="" coords="514,136,660,161"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="442,143,501,147,496,147,443,149"/>
+<area shape="poly" id="edge10_Node000010_Node000005" title=" " alt="" coords="422,202,724,184,730,184,423,207"/>
 </map>

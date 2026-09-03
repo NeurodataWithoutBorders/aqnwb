@@ -25,8 +25,9 @@ var searchData=
   ['for_20registeredtype_20objects_22',['Searching for RegisteredType objects',['../read_page.html#read_example_search',1,'']]],
   ['for_20unnamed_20neurodata_5ftype_20objects_23',['DEFINE_UNNAMED_REGISTERED_FIELD: Defining read methods for unnamed neurodata_type objects',['../registered_type_page.html#use_the_define_unnamed_registered_field_macro',1,'']]],
   ['for_20users_24',['For Users',['../userdocs.html',1,'']]],
-  ['from_20registeredtype_20objects_25',['Reading data from RegisteredType objects',['../read_page.html#read_example_read',1,'']]],
-  ['from_20s3_26',['Opening a file from S3',['../reads3_page.html#reads3_ros3_open',1,'']]],
-  ['further_20reading_27',['Further Reading',['../record_design_page.html#recording_design_further_reading',1,'']]],
-  ['further_20reading_28',['Further reading',['../read_page.html#read_further_reading',1,'Further reading'],['../reads3_page.html#reads3_further_reading',1,'Further reading']]]
+  ['from_20dynamictable_20objects_25',['Reading data from DynamicTable objects',['../read_page.html#read_example_dynamic_table',1,'']]],
+  ['from_20registeredtype_20objects_26',['Reading data from RegisteredType objects',['../read_page.html#read_example_read',1,'']]],
+  ['from_20s3_27',['Opening a file from S3',['../reads3_page.html#reads3_ros3_open',1,'']]],
+  ['further_20reading_28',['Further Reading',['../record_design_page.html#recording_design_further_reading',1,'']]],
+  ['further_20reading_29',['Further reading',['../read_page.html#read_further_reading',1,'Further reading'],['../reads3_page.html#reads3_further_reading',1,'Further reading'],['../time_intervals.html#time_intervals_further_reading',1,'Further reading']]]
 ];

@@ -1,0 +1,22 @@
+<map id="AQNWB::NWB::EventsTable::initialize" name="AQNWB::NWB::EventsTable::initialize">
+<area shape="rect" id="Node000001" title="Initialize the object." alt="" coords="5,128,198,169"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_events_table.html#a24df0f35941c92b04144f2579c738796" title="Creates the default data specs for the EventsTable." alt="" coords="250,9,442,50"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="139,125,244,70,282,55,278,58,247,75,141,130"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab614b1609f536e88ed1f32762dc3894b" title="Get a shared pointer to the IO object." alt="" coords="495,71,706,111"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="186,125,245,114,365,100,482,94,477,96,366,105,246,119,188,130"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a420424e52795b5212d7dcb728396af6a" title="Initialize the container." alt="" coords="258,128,434,169"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="198,146,245,147,240,149,199,151"/>
+<area shape="rect" id="Node000009" href="$namespace_a_q_n_w_b.html#adc7efaaa5a01e00116c3a02b6c4d194d" title="Check whether a path is equal to or a descendant of a parent path." alt="" coords="246,193,447,218"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="191,167,276,188,271,190,191,172"/>
+<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a50c34a9bcd1103534d7a7303c96dd109" title="Ensure that the events group exists in the NWB file." alt="" coords="260,243,433,283"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="135,166,187,198,247,229,262,237,257,237,245,233,184,202,134,172"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#ab26c94730b19687ca84bead79fa784d0" title="Create the default data specs for a DynamicTable." alt="" coords="499,5,702,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="442,26,486,27,481,28,443,31"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_element_identifiers.html#a25ae84040936201129ec18e361072cb5" title=" " alt="" coords="754,5,980,46"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="702,23,741,25,736,26,703,28"/>
+<area shape="poly" id="edge6_Node000006_Node000005" title=" " alt="" coords="434,126,495,114,490,116,436,131"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a1a8f53595eb2637e32e816a3ff99a230" title="Get the schema namespace of the class type." alt="" coords="512,136,689,177"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="435,148,500,153,495,154,435,154"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a21e3abbea48e9455731f2859c7954c97" title="Get the name of the class type." alt="" coords="512,201,689,242"/>
+<area shape="poly" id="edge8_Node000006_Node000008" title=" " alt="" coords="420,167,515,196,510,197,419,172"/>
+</map>

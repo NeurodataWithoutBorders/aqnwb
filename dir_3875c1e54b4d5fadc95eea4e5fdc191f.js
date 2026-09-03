@@ -3,6 +3,8 @@ var dir_3875c1e54b4d5fadc95eea4e5fdc191f =
     [ "base", "dir_2c5b7fd6b972088aa6b0c8b33452cfb2.html", "dir_2c5b7fd6b972088aa6b0c8b33452cfb2" ],
     [ "device", "dir_768b474e02849cb20a8de3864ffdf8c9.html", "dir_768b474e02849cb20a8de3864ffdf8c9" ],
     [ "ecephys", "dir_233c518972f8f5648ed7849c4d3f4524.html", "dir_233c518972f8f5648ed7849c4d3f4524" ],
+    [ "epoch", "dir_e562e9ccbc090da85b8fd6ea31ade2ef.html", "dir_e562e9ccbc090da85b8fd6ea31ade2ef" ],
+    [ "event", "dir_b5b9bbb43efbc0449ece7d09d9a9e88e.html", "dir_b5b9bbb43efbc0449ece7d09d9a9e88e" ],
     [ "file", "dir_f14b33441b8f3c4a1a213ba2de2e3c66.html", "dir_f14b33441b8f3c4a1a213ba2de2e3c66" ],
     [ "hdmf", "dir_42a4622eeadeb301e554ade53994b57b.html", "dir_42a4622eeadeb301e554ade53994b57b" ],
     [ "misc", "dir_f7e250f2dab84b749f9aab45f742d0c7.html", "dir_f7e250f2dab84b749f9aab45f742d0c7" ],

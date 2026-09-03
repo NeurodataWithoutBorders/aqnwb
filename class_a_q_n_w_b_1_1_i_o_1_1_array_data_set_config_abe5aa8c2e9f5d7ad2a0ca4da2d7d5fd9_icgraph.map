@@ -1,5 +1,9 @@
 <map id="AQNWB::IO::ArrayDataSetConfig::ArrayDataSetConfig" name="AQNWB::IO::ArrayDataSetConfig::ArrayDataSetConfig">
-<area shape="rect" id="Node000001" title="Constructs an ArrayDataSetConfig object with the specified type, shape, and chunking." alt="" coords="283,13,502,54"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_array_data_set_config.html#a8f21faa8589e1bdfc66d3ede8651fa27" title="Constructs an HDF5ArrayDataSetConfig object with the specified type, shape, and chunking." alt="" coords="5,5,235,61"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="264,33,235,36,235,31,270,33"/>
+<area shape="rect" id="Node000001" title="Constructs an ArrayDataSetConfig object with the specified type, shape, and chunking." alt="" coords="545,41,764,82"/>
+<area shape="rect" id="Node000002" href="$struct_a_q_n_w_b_1_1_n_w_b_1_1_data_1_1_data_spec_base.html#a2b5a918e96747bec1d897e26b56907a0" title="Construct the DataSpecBase." alt="" coords="275,5,490,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="527,45,490,43,490,37,532,45"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_array_data_set_config.html#a8f21faa8589e1bdfc66d3ede8651fa27" title="Constructs an HDF5ArrayDataSetConfig object with the specified type, shape, and chunking." alt="" coords="268,70,497,126"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="532,78,498,85,497,80,527,78"/>
+<area shape="rect" id="Node000003" href="$struct_a_q_n_w_b_1_1_n_w_b_1_1_data_1_1_data_spec.html#a78c441a633ac80348136a8d2f439a771" title="Construct the typed DataSpec." alt="" coords="5,5,220,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="257,26,221,28,220,23,262,25"/>
 </map>
