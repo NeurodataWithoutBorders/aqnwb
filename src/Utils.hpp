@@ -240,6 +240,9 @@ static inline std::shared_ptr<IO::BaseIO> createIO(const std::string& type,
 static inline bool isPathOrDescendant(const std::string& path,
                                       const std::string& parentPath)
 {
+  if (parentPath == "/") {
+    return !path.empty() && path.front() == '/';
+  }
   return path.compare(0, parentPath.size(), parentPath) == 0
       && (path.size() == parentPath.size() || path[parentPath.size()] == '/');
 }
