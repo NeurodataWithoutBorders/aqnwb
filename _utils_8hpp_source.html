@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', init_search);
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="aqnwb-logo.png"/></td>
   <td id="projectalign">
-   <div id="projectname">aqnwb<span id="projectnumber">&#160;0.3.0</span>
+   <div id="projectname">aqnwb<span id="projectnumber">&#160;0.4.0</span>
    </div>
   </td>
  </tr>
@@ -290,181 +290,181 @@ document.addEventListener('DOMContentLoaded', () => {
 <div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>}</div>
 </div>
 <div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span></div>
-<div class="foldopen" id="foldopen00201" data-start="{" data-end="}">
-<div class="line"><a id="l00201" name="l00201"></a><span class="lineno"><a class="line" href="namespace_a_q_n_w_b.html#a4aacc6b82eca3064a8afe0070c44cde4">  201</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="namespace_a_q_n_w_b.html#a4aacc6b82eca3064a8afe0070c44cde4">isISO8601Date</a>(<span class="keyword">const</span> std::string&amp; dateStr)</div>
-<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>{</div>
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>  <span class="comment">// Define the regex pattern for ISO 8601 extended format with timezone offset</span></div>
-<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>  <span class="comment">// Allow one or more fractional seconds digits</span></div>
-<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>  <span class="keyword">const</span> std::string iso8601Pattern =</div>
-<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>      R<span class="stringliteral">&quot;(^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+[+-]\d{2}:\d{2}$)&quot;;</span></div>
-<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span><span class="stringliteral">  std::regex pattern(iso8601Pattern);</span></div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span><span class="stringliteral"></span> </div>
-<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span><span class="stringliteral">  </span><span class="comment">// Check if the date string matches the regex pattern</span></div>
-<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>  <span class="keywordflow">return</span> std::regex_match(dateStr, pattern);</div>
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>}</div>
+<div class="foldopen" id="foldopen00202" data-start="{" data-end="}">
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno"><a class="line" href="namespace_a_q_n_w_b.html#a4aacc6b82eca3064a8afe0070c44cde4">  202</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="namespace_a_q_n_w_b.html#a4aacc6b82eca3064a8afe0070c44cde4">isISO8601Date</a>(<span class="keyword">const</span> std::string&amp; dateStr)</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>{</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>  <span class="comment">// Require extended date/time fields and a UTC or numeric timezone designator.</span></div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>  <span class="comment">// Fractional seconds and the colon in numeric offsets are optional.</span></div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>  <span class="keyword">const</span> std::string iso8601Pattern =</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>      R<span class="stringliteral">&quot;(^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:?\d{2})$)&quot;;</span></div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span><span class="stringliteral">  std::regex pattern(iso8601Pattern);</span></div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span><span class="stringliteral">  </span><span class="comment">// Check if the date string matches the regex pattern</span></div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>  <span class="keywordflow">return</span> std::regex_match(dateStr, pattern);</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>}</div>
 </div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span></div>
-<div class="foldopen" id="foldopen00220" data-start="{" data-end="}">
-<div class="line"><a id="l00220" name="l00220"></a><span class="lineno"><a class="line" href="namespace_a_q_n_w_b.html#aae4545d930db6f70b4438e0167c500d0">  220</a></span><span class="keyword">static</span> <span class="keyword">inline</span> std::shared_ptr&lt;IO::BaseIO&gt; <a class="code hl_function" href="namespace_a_q_n_w_b.html#aae4545d930db6f70b4438e0167c500d0">createIO</a>(<span class="keyword">const</span> std::string&amp; type,</div>
-<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>                                                   <span class="keyword">const</span> std::string&amp; filename)</div>
-<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>{</div>
-<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>  <span class="keywordflow">if</span> (type == <span class="stringliteral">&quot;HDF5&quot;</span>) {</div>
-<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>    <span class="keywordflow">return</span> std::make_shared&lt;AQNWB::IO::HDF5::HDF5IO&gt;(filename);</div>
-<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>  } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>    <span class="keywordflow">throw</span> std::invalid_argument(<span class="stringliteral">&quot;Invalid IO type&quot;</span>);</div>
-<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>  }</div>
-<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>}</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span></div>
+<div class="foldopen" id="foldopen00221" data-start="{" data-end="}">
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno"><a class="line" href="namespace_a_q_n_w_b.html#aae4545d930db6f70b4438e0167c500d0">  221</a></span><span class="keyword">static</span> <span class="keyword">inline</span> std::shared_ptr&lt;IO::BaseIO&gt; <a class="code hl_function" href="namespace_a_q_n_w_b.html#aae4545d930db6f70b4438e0167c500d0">createIO</a>(<span class="keyword">const</span> std::string&amp; type,</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>                                                   <span class="keyword">const</span> std::string&amp; filename)</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>{</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>  <span class="keywordflow">if</span> (type == <span class="stringliteral">&quot;HDF5&quot;</span>) {</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>    <span class="keywordflow">return</span> std::make_shared&lt;AQNWB::IO::HDF5::HDF5IO&gt;(filename);</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>  } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    <span class="keywordflow">throw</span> std::invalid_argument(<span class="stringliteral">&quot;Invalid IO type&quot;</span>);</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>  }</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>}</div>
 </div>
-<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span></div>
-<div class="foldopen" id="foldopen00240" data-start="{" data-end="}">
-<div class="line"><a id="l00240" name="l00240"></a><span class="lineno"><a class="line" href="namespace_a_q_n_w_b.html#adc7efaaa5a01e00116c3a02b6c4d194d">  240</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="namespace_a_q_n_w_b.html#adc7efaaa5a01e00116c3a02b6c4d194d">isPathOrDescendant</a>(<span class="keyword">const</span> std::string&amp; path,</div>
-<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>                                      <span class="keyword">const</span> std::string&amp; parentPath)</div>
-<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>{</div>
-<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>  <span class="keywordflow">if</span> (parentPath == <span class="stringliteral">&quot;/&quot;</span>) {</div>
-<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>    <span class="keywordflow">return</span> !path.empty() &amp;&amp; path.front() == <span class="charliteral">&#39;/&#39;</span>;</div>
-<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>  }</div>
-<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>  <span class="keywordflow">return</span> path.compare(0, parentPath.size(), parentPath) == 0</div>
-<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>      &amp;&amp; (path.size() == parentPath.size() || path[parentPath.size()] == <span class="charliteral">&#39;/&#39;</span>);</div>
-<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>}</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span></div>
+<div class="foldopen" id="foldopen00241" data-start="{" data-end="}">
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno"><a class="line" href="namespace_a_q_n_w_b.html#adc7efaaa5a01e00116c3a02b6c4d194d">  241</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="namespace_a_q_n_w_b.html#adc7efaaa5a01e00116c3a02b6c4d194d">isPathOrDescendant</a>(<span class="keyword">const</span> std::string&amp; path,</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>                                      <span class="keyword">const</span> std::string&amp; parentPath)</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>{</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>  <span class="keywordflow">if</span> (parentPath == <span class="stringliteral">&quot;/&quot;</span>) {</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>    <span class="keywordflow">return</span> !path.empty() &amp;&amp; path.front() == <span class="charliteral">&#39;/&#39;</span>;</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>  }</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>  <span class="keywordflow">return</span> path.compare(0, parentPath.size(), parentPath) == 0</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>      &amp;&amp; (path.size() == parentPath.size() || path[parentPath.size()] == <span class="charliteral">&#39;/&#39;</span>);</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>}</div>
 </div>
-<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span></div>
-<div class="foldopen" id="foldopen00263" data-start="{" data-end="}">
-<div class="line"><a id="l00263" name="l00263"></a><span class="lineno"><a class="line" href="namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881">  263</a></span><span class="keyword">static</span> <span class="keyword">inline</span> std::string <a class="code hl_function" href="namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881">mergePaths</a>(<span class="keyword">const</span> std::string&amp; path1,</div>
-<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>                                     <span class="keyword">const</span> std::string&amp; path2)</div>
-<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>{</div>
-<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>  std::string result = path1;</div>
-<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>  <span class="comment">// Remove trailing &quot;/&quot; from path1</span></div>
-<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>  <span class="keywordflow">while</span> (!result.empty() &amp;&amp; result.back() == <span class="charliteral">&#39;/&#39;</span> &amp;&amp; result != <span class="stringliteral">&quot;/&quot;</span>) {</div>
-<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>    result.pop_back();</div>
-<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>  }</div>
-<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>  <span class="comment">// Remove leading &quot;/&quot; from path2</span></div>
-<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>  <span class="keywordtype">size_t</span> start = 0;</div>
-<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>  <span class="keywordflow">while</span> (start &lt; path2.size() &amp;&amp; path2[start] == <span class="charliteral">&#39;/&#39;</span>) {</div>
-<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>    start++;</div>
-<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>  }</div>
-<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>  <span class="comment">// Get path2 without trailing slashes</span></div>
-<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>  std::string path2Clean = path2.substr(start);</div>
-<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>  <span class="keywordflow">while</span> (!path2Clean.empty() &amp;&amp; path2Clean.back() == <span class="charliteral">&#39;/&#39;</span> &amp;&amp; path2Clean != <span class="stringliteral">&quot;/&quot;</span>) {</div>
-<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>    path2Clean.pop_back();</div>
-<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>  }</div>
-<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>  <span class="comment">// Append path2 to path1 with a &quot;/&quot; in between</span></div>
-<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>  <span class="keywordflow">if</span> (!result.empty() &amp;&amp; !path2Clean.empty()) {</div>
-<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>    result += <span class="charliteral">&#39;/&#39;</span>;</div>
-<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>  }</div>
-<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>  result += path2Clean;</div>
-<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span> </div>
-<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>  <span class="comment">// Remove any potential occurrences of &quot;//&quot; and replace with &quot;/&quot;</span></div>
-<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>  <span class="keywordtype">size_t</span> pos = result.find(<span class="stringliteral">&quot;//&quot;</span>);</div>
-<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>  <span class="keywordflow">while</span> (pos != std::string::npos) {</div>
-<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>    result.replace(pos, 2, <span class="stringliteral">&quot;/&quot;</span>);</div>
-<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>    pos = result.find(<span class="stringliteral">&quot;//&quot;</span>, pos);</div>
-<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>  }</div>
-<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span> </div>
-<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>  <span class="comment">// Remove trailing &quot;/&quot; from final result if not root path</span></div>
-<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>  <span class="keywordflow">while</span> (!result.empty() &amp;&amp; result.back() == <span class="charliteral">&#39;/&#39;</span> &amp;&amp; result != <span class="stringliteral">&quot;/&quot;</span>) {</div>
-<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>    result.pop_back();</div>
-<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>  }</div>
-<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span> </div>
-<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>  <span class="keywordflow">return</span> result;</div>
-<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>}</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span></div>
+<div class="foldopen" id="foldopen00264" data-start="{" data-end="}">
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno"><a class="line" href="namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881">  264</a></span><span class="keyword">static</span> <span class="keyword">inline</span> std::string <a class="code hl_function" href="namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881">mergePaths</a>(<span class="keyword">const</span> std::string&amp; path1,</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>                                     <span class="keyword">const</span> std::string&amp; path2)</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>{</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>  std::string result = path1;</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>  <span class="comment">// Remove trailing &quot;/&quot; from path1</span></div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>  <span class="keywordflow">while</span> (!result.empty() &amp;&amp; result.back() == <span class="charliteral">&#39;/&#39;</span> &amp;&amp; result != <span class="stringliteral">&quot;/&quot;</span>) {</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>    result.pop_back();</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>  }</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>  <span class="comment">// Remove leading &quot;/&quot; from path2</span></div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>  <span class="keywordtype">size_t</span> start = 0;</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>  <span class="keywordflow">while</span> (start &lt; path2.size() &amp;&amp; path2[start] == <span class="charliteral">&#39;/&#39;</span>) {</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>    start++;</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>  }</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>  <span class="comment">// Get path2 without trailing slashes</span></div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>  std::string path2Clean = path2.substr(start);</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>  <span class="keywordflow">while</span> (!path2Clean.empty() &amp;&amp; path2Clean.back() == <span class="charliteral">&#39;/&#39;</span> &amp;&amp; path2Clean != <span class="stringliteral">&quot;/&quot;</span>) {</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>    path2Clean.pop_back();</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>  }</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>  <span class="comment">// Append path2 to path1 with a &quot;/&quot; in between</span></div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>  <span class="keywordflow">if</span> (!result.empty() &amp;&amp; !path2Clean.empty()) {</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>    result += <span class="charliteral">&#39;/&#39;</span>;</div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>  }</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>  result += path2Clean;</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span> </div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>  <span class="comment">// Remove any potential occurrences of &quot;//&quot; and replace with &quot;/&quot;</span></div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>  <span class="keywordtype">size_t</span> pos = result.find(<span class="stringliteral">&quot;//&quot;</span>);</div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>  <span class="keywordflow">while</span> (pos != std::string::npos) {</div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>    result.replace(pos, 2, <span class="stringliteral">&quot;/&quot;</span>);</div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>    pos = result.find(<span class="stringliteral">&quot;//&quot;</span>, pos);</div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>  }</div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span> </div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>  <span class="comment">// Remove trailing &quot;/&quot; from final result if not root path</span></div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>  <span class="keywordflow">while</span> (!result.empty() &amp;&amp; result.back() == <span class="charliteral">&#39;/&#39;</span> &amp;&amp; result != <span class="stringliteral">&quot;/&quot;</span>) {</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>    result.pop_back();</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>  }</div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span> </div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>  <span class="keywordflow">return</span> result;</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>}</div>
 </div>
-<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span></div>
-<div class="foldopen" id="foldopen00310" data-start="{" data-end="}">
-<div class="line"><a id="l00310" name="l00310"></a><span class="lineno"><a class="line" href="namespace_a_q_n_w_b.html#a222344ec88fdbd8803d14dabea0f97bc">  310</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="namespace_a_q_n_w_b.html#a222344ec88fdbd8803d14dabea0f97bc">convertFloatToInt16LE</a>(<span class="keyword">const</span> <span class="keywordtype">float</span>* source,</div>
-<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>                                         <span class="keywordtype">void</span>* dest,</div>
-<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>                                         <a class="code hl_typedef" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> numSamples)</div>
-<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>{</div>
-<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>  <span class="comment">// TODO - several steps in this function may be unnecessary for our use</span></div>
-<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>  <span class="comment">// case. Consider simplifying the intermediate cast to char and the</span></div>
-<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>  <span class="comment">// final cast to uint16_t.</span></div>
-<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>  <span class="keyword">auto</span> maxVal = <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(0x7fff);</div>
-<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>  <span class="keyword">auto</span> intData = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span>*<span class="keyword">&gt;</span>(dest);</div>
-<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span> </div>
-<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>  <span class="keywordflow">for</span> (<a class="code hl_typedef" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> i = 0; i &lt; numSamples; ++i) {</div>
-<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>    <span class="keyword">auto</span> clampedValue =</div>
-<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>        std::clamp(maxVal * <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(source[i]), -maxVal, maxVal);</div>
-<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>    <span class="keyword">auto</span> intValue =</div>
-<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>        <span class="keyword">static_cast&lt;</span>uint16_t<span class="keyword">&gt;</span>(<span class="keyword">static_cast&lt;</span>int16_t<span class="keyword">&gt;</span>(std::round(clampedValue)));</div>
-<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>    intValue = <a class="code hl_function" href="namespace_a_q_n_w_b_1_1detail.html#aea8e61c8f226a4c85bdb734deabe8e4c">detail::to_little_endian_u16</a>(intValue);</div>
-<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>    *<span class="keyword">reinterpret_cast&lt;</span>uint16_t*<span class="keyword">&gt;</span>(intData) = intValue;</div>
-<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>    intData += 2;  <span class="comment">// destBytesPerSample is always 2</span></div>
-<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>  }</div>
-<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>}</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span></div>
+<div class="foldopen" id="foldopen00311" data-start="{" data-end="}">
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno"><a class="line" href="namespace_a_q_n_w_b.html#a222344ec88fdbd8803d14dabea0f97bc">  311</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="namespace_a_q_n_w_b.html#a222344ec88fdbd8803d14dabea0f97bc">convertFloatToInt16LE</a>(<span class="keyword">const</span> <span class="keywordtype">float</span>* source,</div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>                                         <span class="keywordtype">void</span>* dest,</div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>                                         <a class="code hl_typedef" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> numSamples)</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>{</div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>  <span class="comment">// TODO - several steps in this function may be unnecessary for our use</span></div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>  <span class="comment">// case. Consider simplifying the intermediate cast to char and the</span></div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>  <span class="comment">// final cast to uint16_t.</span></div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>  <span class="keyword">auto</span> maxVal = <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(0x7fff);</div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>  <span class="keyword">auto</span> intData = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span>*<span class="keyword">&gt;</span>(dest);</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span> </div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>  <span class="keywordflow">for</span> (<a class="code hl_typedef" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> i = 0; i &lt; numSamples; ++i) {</div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>    <span class="keyword">auto</span> clampedValue =</div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>        std::clamp(maxVal * <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(source[i]), -maxVal, maxVal);</div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>    <span class="keyword">auto</span> intValue =</div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>        <span class="keyword">static_cast&lt;</span>uint16_t<span class="keyword">&gt;</span>(<span class="keyword">static_cast&lt;</span>int16_t<span class="keyword">&gt;</span>(std::round(clampedValue)));</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>    intValue = <a class="code hl_function" href="namespace_a_q_n_w_b_1_1detail.html#aea8e61c8f226a4c85bdb734deabe8e4c">detail::to_little_endian_u16</a>(intValue);</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>    *<span class="keyword">reinterpret_cast&lt;</span>uint16_t*<span class="keyword">&gt;</span>(intData) = intValue;</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>    intData += 2;  <span class="comment">// destBytesPerSample is always 2</span></div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>  }</div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>}</div>
 </div>
-<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span></div>
-<div class="foldopen" id="foldopen00337" data-start="{" data-end="}">
-<div class="line"><a id="l00337" name="l00337"></a><span class="lineno"><a class="line" href="namespace_a_q_n_w_b.html#a0e8a5fc18589d0ff3157b86c081ca252">  337</a></span><span class="keyword">static</span> <span class="keyword">inline</span> std::unique_ptr&lt;int16_t[]&gt; <a class="code hl_function" href="namespace_a_q_n_w_b.html#a0e8a5fc18589d0ff3157b86c081ca252">transformToInt16</a>(</div>
-<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>    <a class="code hl_typedef" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> numSamples, <span class="keywordtype">float</span> conversion_factor, <span class="keyword">const</span> <span class="keywordtype">float</span>* data)</div>
-<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>{</div>
-<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>  std::unique_ptr&lt;float[]&gt; scaledData = std::make_unique&lt;float[]&gt;(numSamples);</div>
-<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>  std::unique_ptr&lt;int16_t[]&gt; intData = std::make_unique&lt;int16_t[]&gt;(numSamples);</div>
-<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span> </div>
-<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span>  <span class="comment">// copy data and multiply by scaling factor</span></div>
-<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>  <span class="keywordtype">float</span> multFactor = 1.0f / (32767.0f * conversion_factor);</div>
-<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>  std::transform(data,</div>
-<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>                 data + numSamples,</div>
-<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>                 scaledData.get(),</div>
-<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>                 [multFactor](<span class="keywordtype">float</span> value) { return value * multFactor; });</div>
-<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span> </div>
-<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>  <span class="comment">// convert float to int16</span></div>
-<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>  <a class="code hl_function" href="namespace_a_q_n_w_b.html#a222344ec88fdbd8803d14dabea0f97bc">convertFloatToInt16LE</a>(scaledData.get(), intData.get(), numSamples);</div>
-<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span> </div>
-<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>  <span class="keywordflow">return</span> intData;</div>
-<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>}</div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span></div>
+<div class="foldopen" id="foldopen00338" data-start="{" data-end="}">
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno"><a class="line" href="namespace_a_q_n_w_b.html#a0e8a5fc18589d0ff3157b86c081ca252">  338</a></span><span class="keyword">static</span> <span class="keyword">inline</span> std::unique_ptr&lt;int16_t[]&gt; <a class="code hl_function" href="namespace_a_q_n_w_b.html#a0e8a5fc18589d0ff3157b86c081ca252">transformToInt16</a>(</div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>    <a class="code hl_typedef" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> numSamples, <span class="keywordtype">float</span> conversion_factor, <span class="keyword">const</span> <span class="keywordtype">float</span>* data)</div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>{</div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>  std::unique_ptr&lt;float[]&gt; scaledData = std::make_unique&lt;float[]&gt;(numSamples);</div>
+<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>  std::unique_ptr&lt;int16_t[]&gt; intData = std::make_unique&lt;int16_t[]&gt;(numSamples);</div>
+<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span> </div>
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>  <span class="comment">// copy data and multiply by scaling factor</span></div>
+<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>  <span class="keywordtype">float</span> multFactor = 1.0f / (32767.0f * conversion_factor);</div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>  std::transform(data,</div>
+<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>                 data + numSamples,</div>
+<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>                 scaledData.get(),</div>
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>                 [multFactor](<span class="keywordtype">float</span> value) { return value * multFactor; });</div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span> </div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>  <span class="comment">// convert float to int16</span></div>
+<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>  <a class="code hl_function" href="namespace_a_q_n_w_b.html#a222344ec88fdbd8803d14dabea0f97bc">convertFloatToInt16LE</a>(scaledData.get(), intData.get(), numSamples);</div>
+<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span> </div>
+<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>  <span class="keywordflow">return</span> intData;</div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>}</div>
 </div>
-<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span></div>
-<div class="foldopen" id="foldopen00361" data-start="{" data-end="}">
-<div class="line"><a id="l00361" name="l00361"></a><span class="lineno"><a class="line" href="namespace_a_q_n_w_b.html#ad81a02abf6f39974e6a4d71346a7b164">  361</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="namespace_a_q_n_w_b.html#ad81a02abf6f39974e6a4d71346a7b164">isValidIndex</a>(<a class="code hl_typedef" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> index)</div>
-<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>{</div>
-<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>  <span class="keywordflow">return</span> (index != <a class="code hl_variable" href="namespace_a_q_n_w_b_1_1_types.html#a489c41cdd124123f0595271873e00dbe">AQNWB::Types::SizeTypeNotSet</a>);</div>
-<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>}</div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span></div>
+<div class="foldopen" id="foldopen00362" data-start="{" data-end="}">
+<div class="line"><a id="l00362" name="l00362"></a><span class="lineno"><a class="line" href="namespace_a_q_n_w_b.html#ad81a02abf6f39974e6a4d71346a7b164">  362</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="namespace_a_q_n_w_b.html#ad81a02abf6f39974e6a4d71346a7b164">isValidIndex</a>(<a class="code hl_typedef" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> index)</div>
+<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>{</div>
+<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>  <span class="keywordflow">return</span> (index != <a class="code hl_variable" href="namespace_a_q_n_w_b_1_1_types.html#a489c41cdd124123f0595271873e00dbe">AQNWB::Types::SizeTypeNotSet</a>);</div>
+<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>}</div>
 </div>
-<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span></div>
-<div class="foldopen" id="foldopen00372" data-start="{" data-end="}">
-<div class="line"><a id="l00372" name="l00372"></a><span class="lineno"><a class="line" href="namespace_a_q_n_w_b.html#a09b9a48d0ec26fe72452788634ee12bb">  372</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <a class="code hl_typedef" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a> <a class="code hl_function" href="namespace_a_q_n_w_b.html#a09b9a48d0ec26fe72452788634ee12bb">intToStatus</a>(<span class="keywordtype">int</span> status)</div>
-<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span>{</div>
-<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>  <span class="keywordflow">return</span> (status &lt; 0) ? Status::Failure : Status::Success;</div>
-<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span>}</div>
+<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span></div>
+<div class="foldopen" id="foldopen00373" data-start="{" data-end="}">
+<div class="line"><a id="l00373" name="l00373"></a><span class="lineno"><a class="line" href="namespace_a_q_n_w_b.html#a09b9a48d0ec26fe72452788634ee12bb">  373</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <a class="code hl_typedef" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a> <a class="code hl_function" href="namespace_a_q_n_w_b.html#a09b9a48d0ec26fe72452788634ee12bb">intToStatus</a>(<span class="keywordtype">int</span> status)</div>
+<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>{</div>
+<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span>  <span class="keywordflow">return</span> (status &lt; 0) ? Status::Failure : Status::Success;</div>
+<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span>}</div>
 </div>
-<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span></div>
-<div class="foldopen" id="foldopen00382" data-start="{" data-end="}">
-<div class="line"><a id="l00382" name="l00382"></a><span class="lineno"><a class="line" href="namespace_a_q_n_w_b.html#aa2ae7bd54f7ed396e61e6cec9d208140">  382</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="namespace_a_q_n_w_b.html#aa2ae7bd54f7ed396e61e6cec9d208140">checkStatus</a>(<a class="code hl_typedef" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a> status, <span class="keyword">const</span> std::string&amp; operation)</div>
-<div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span>{</div>
-<div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span>  <span class="keywordflow">if</span> (status != Status::Success) {</div>
-<div class="line"><a id="l00385" name="l00385"></a><span class="lineno">  385</span>    std::cerr &lt;&lt; operation &lt;&lt; <span class="stringliteral">&quot; failed&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span>  }</div>
-<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span>}</div>
+<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span></div>
+<div class="foldopen" id="foldopen00383" data-start="{" data-end="}">
+<div class="line"><a id="l00383" name="l00383"></a><span class="lineno"><a class="line" href="namespace_a_q_n_w_b.html#aa2ae7bd54f7ed396e61e6cec9d208140">  383</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="namespace_a_q_n_w_b.html#aa2ae7bd54f7ed396e61e6cec9d208140">checkStatus</a>(<a class="code hl_typedef" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a> status, <span class="keyword">const</span> std::string&amp; operation)</div>
+<div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span>{</div>
+<div class="line"><a id="l00385" name="l00385"></a><span class="lineno">  385</span>  <span class="keywordflow">if</span> (status != Status::Success) {</div>
+<div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span>    std::cerr &lt;&lt; operation &lt;&lt; <span class="stringliteral">&quot; failed&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span>  }</div>
+<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span>}</div>
 </div>
-<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span></div>
-<div class="foldopen" id="foldopen00395" data-start="{" data-end="}">
-<div class="line"><a id="l00395" name="l00395"></a><span class="lineno"><a class="line" href="namespace_a_q_n_w_b.html#ab61fb380a62609e576ed5fe352b3e94f">  395</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <a class="code hl_typedef" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a> <a class="code hl_function" href="namespace_a_q_n_w_b.html#ab61fb380a62609e576ed5fe352b3e94f">appendCellValueToBuffer</a>(</div>
-<div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span>    <a class="code hl_typedef" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#a1308a49c22a6990922c7433eb45f59ca">IO::BaseDataType::BaseDataVectorVariant</a>&amp; buffer,</div>
-<div class="line"><a id="l00397" name="l00397"></a><span class="lineno">  397</span>    <span class="keyword">const</span> <a class="code hl_struct" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html">Types::CellValue</a>&amp; value)</div>
-<div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span>{</div>
-<div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span>  <span class="keywordflow">return</span> std::visit(</div>
-<div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span>      [&amp;value](<span class="keyword">auto</span>&amp; vec) -&gt; <a class="code hl_typedef" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a></div>
-<div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>      {</div>
-<div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span>        <span class="keyword">using </span>VecType = std::decay_t&lt;<span class="keyword">decltype</span>(vec)&gt;;</div>
-<div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span>        <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (std::is_same_v&lt;VecType, std::monostate&gt;) {</div>
-<div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span>          <span class="keywordflow">return</span> Status::Failure;</div>
-<div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span>          <span class="keyword">using </span>ElementType = <span class="keyword">typename</span> VecType::value_type;</div>
-<div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span>          <span class="keywordflow">if</span> (value.<a class="code hl_function" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#adf32897841f87e27405767d09b64450e">holds_alternative</a>&lt;ElementType&gt;()) {</div>
-<div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span>            vec.push_back(value.<a class="code hl_function" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a2e7b7bfc3f94107aac5b3f5674f7bc17">get</a>&lt;ElementType&gt;());</div>
-<div class="line"><a id="l00409" name="l00409"></a><span class="lineno">  409</span>            <span class="keywordflow">return</span> Status::Success;</div>
-<div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span>          } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (value.<a class="code hl_function" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#adf32897841f87e27405767d09b64450e">holds_alternative</a>&lt;std::vector&lt;ElementType&gt;&gt;()) {</div>
-<div class="line"><a id="l00411" name="l00411"></a><span class="lineno">  411</span>            <span class="keyword">const</span> <span class="keyword">auto</span>&amp; vals = value.<a class="code hl_function" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a2e7b7bfc3f94107aac5b3f5674f7bc17">get</a>&lt;std::vector&lt;ElementType&gt;&gt;();</div>
-<div class="line"><a id="l00412" name="l00412"></a><span class="lineno">  412</span>            vec.insert(vec.end(), vals.begin(), vals.end());</div>
-<div class="line"><a id="l00413" name="l00413"></a><span class="lineno">  413</span>            <span class="keywordflow">return</span> Status::Success;</div>
-<div class="line"><a id="l00414" name="l00414"></a><span class="lineno">  414</span>          }</div>
-<div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span>          <span class="keywordflow">return</span> Status::Failure;</div>
-<div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span>        }</div>
-<div class="line"><a id="l00417" name="l00417"></a><span class="lineno">  417</span>      },</div>
-<div class="line"><a id="l00418" name="l00418"></a><span class="lineno">  418</span>      buffer);</div>
-<div class="line"><a id="l00419" name="l00419"></a><span class="lineno">  419</span>}</div>
+<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span></div>
+<div class="foldopen" id="foldopen00396" data-start="{" data-end="}">
+<div class="line"><a id="l00396" name="l00396"></a><span class="lineno"><a class="line" href="namespace_a_q_n_w_b.html#ab61fb380a62609e576ed5fe352b3e94f">  396</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <a class="code hl_typedef" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a> <a class="code hl_function" href="namespace_a_q_n_w_b.html#ab61fb380a62609e576ed5fe352b3e94f">appendCellValueToBuffer</a>(</div>
+<div class="line"><a id="l00397" name="l00397"></a><span class="lineno">  397</span>    <a class="code hl_typedef" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#a1308a49c22a6990922c7433eb45f59ca">IO::BaseDataType::BaseDataVectorVariant</a>&amp; buffer,</div>
+<div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span>    <span class="keyword">const</span> <a class="code hl_struct" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html">Types::CellValue</a>&amp; value)</div>
+<div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span>{</div>
+<div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span>  <span class="keywordflow">return</span> std::visit(</div>
+<div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>      [&amp;value](<span class="keyword">auto</span>&amp; vec) -&gt; <a class="code hl_typedef" href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a></div>
+<div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span>      {</div>
+<div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span>        <span class="keyword">using </span>VecType = std::decay_t&lt;<span class="keyword">decltype</span>(vec)&gt;;</div>
+<div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span>        <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (std::is_same_v&lt;VecType, std::monostate&gt;) {</div>
+<div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span>          <span class="keywordflow">return</span> Status::Failure;</div>
+<div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span>          <span class="keyword">using </span>ElementType = <span class="keyword">typename</span> VecType::value_type;</div>
+<div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span>          <span class="keywordflow">if</span> (value.<a class="code hl_function" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#adf32897841f87e27405767d09b64450e">holds_alternative</a>&lt;ElementType&gt;()) {</div>
+<div class="line"><a id="l00409" name="l00409"></a><span class="lineno">  409</span>            vec.push_back(value.<a class="code hl_function" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a2e7b7bfc3f94107aac5b3f5674f7bc17">get</a>&lt;ElementType&gt;());</div>
+<div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span>            <span class="keywordflow">return</span> Status::Success;</div>
+<div class="line"><a id="l00411" name="l00411"></a><span class="lineno">  411</span>          } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (value.<a class="code hl_function" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#adf32897841f87e27405767d09b64450e">holds_alternative</a>&lt;std::vector&lt;ElementType&gt;&gt;()) {</div>
+<div class="line"><a id="l00412" name="l00412"></a><span class="lineno">  412</span>            <span class="keyword">const</span> <span class="keyword">auto</span>&amp; vals = value.<a class="code hl_function" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a2e7b7bfc3f94107aac5b3f5674f7bc17">get</a>&lt;std::vector&lt;ElementType&gt;&gt;();</div>
+<div class="line"><a id="l00413" name="l00413"></a><span class="lineno">  413</span>            vec.insert(vec.end(), vals.begin(), vals.end());</div>
+<div class="line"><a id="l00414" name="l00414"></a><span class="lineno">  414</span>            <span class="keywordflow">return</span> Status::Success;</div>
+<div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span>          }</div>
+<div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span>          <span class="keywordflow">return</span> Status::Failure;</div>
+<div class="line"><a id="l00417" name="l00417"></a><span class="lineno">  417</span>        }</div>
+<div class="line"><a id="l00418" name="l00418"></a><span class="lineno">  418</span>      },</div>
+<div class="line"><a id="l00419" name="l00419"></a><span class="lineno">  419</span>      buffer);</div>
+<div class="line"><a id="l00420" name="l00420"></a><span class="lineno">  420</span>}</div>
 </div>
-<div class="line"><a id="l00420" name="l00420"></a><span class="lineno">  420</span> </div>
-<div class="line"><a id="l00421" name="l00421"></a><span class="lineno">  421</span>}  <span class="comment">// namespace AQNWB</span></div>
+<div class="line"><a id="l00421" name="l00421"></a><span class="lineno">  421</span> </div>
+<div class="line"><a id="l00422" name="l00422"></a><span class="lineno">  422</span>}  <span class="comment">// namespace AQNWB</span></div>
 <div class="ttc" id="a_base_i_o_8hpp_html"><div class="ttname"><a href="_base_i_o_8hpp.html">BaseIO.hpp</a></div></div>
 <div class="ttc" id="a_base_i_o_8hpp_html_a38fce1d86c801b13b6860d3346276776"><div class="ttname"><a href="_base_i_o_8hpp.html#a38fce1d86c801b13b6860d3346276776">Status</a></div><div class="ttdeci">AQNWB::Types::Status Status</div><div class="ttdef"><b>Definition</b> BaseIO.hpp:21</div></div>
 <div class="ttc" id="a_channel_8hpp_html_aa890fbdbba8cf62d61a471a1f84537e9"><div class="ttname"><a href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a></div><div class="ttdeci">AQNWB::Types::SizeType SizeType</div><div class="ttdef"><b>Definition</b> Channel.hpp:8</div></div>
@@ -479,18 +479,18 @@ document.addEventListener('DOMContentLoaded', () => {
 <div class="ttc" id="anamespace_a_q_n_w_b_1_1detail_html_aea8e61c8f226a4c85bdb734deabe8e4c"><div class="ttname"><a href="namespace_a_q_n_w_b_1_1detail.html#aea8e61c8f226a4c85bdb734deabe8e4c">AQNWB::detail::to_little_endian_u16</a></div><div class="ttdeci">uint16_t to_little_endian_u16(uint16_t value)</div><div class="ttdoc">Convert a 16-bit unsigned integer to little-endian byte order.</div><div class="ttdef"><b>Definition</b> Utils.hpp:125</div></div>
 <div class="ttc" id="anamespace_a_q_n_w_b_1_1detail_html_af6ff85116f650b5a02fbca4c821b6c9b"><div class="ttname"><a href="namespace_a_q_n_w_b_1_1detail.html#af6ff85116f650b5a02fbca4c821b6c9b">AQNWB::detail::get_utc_offset_seconds</a></div><div class="ttdeci">long get_utc_offset_seconds(std::time_t time_value)</div><div class="ttdoc">Get the UTC offset in seconds for a given time_t value.</div><div class="ttdef"><b>Definition</b> Utils.hpp:70</div></div>
 <div class="ttc" id="anamespace_a_q_n_w_b_html"><div class="ttname"><a href="namespace_a_q_n_w_b.html">AQNWB</a></div><div class="ttdoc">The main namespace for AqNWB.</div><div class="ttdef"><b>Definition</b> Channel.hpp:11</div></div>
-<div class="ttc" id="anamespace_a_q_n_w_b_html_a09b9a48d0ec26fe72452788634ee12bb"><div class="ttname"><a href="namespace_a_q_n_w_b.html#a09b9a48d0ec26fe72452788634ee12bb">AQNWB::intToStatus</a></div><div class="ttdeci">static Status intToStatus(int status)</div><div class="ttdoc">Convert an integer status code to a Types::Status enum value. Shorthand for return (status &lt; 0) ?...</div><div class="ttdef"><b>Definition</b> Utils.hpp:372</div></div>
-<div class="ttc" id="anamespace_a_q_n_w_b_html_a0e8a5fc18589d0ff3157b86c081ca252"><div class="ttname"><a href="namespace_a_q_n_w_b.html#a0e8a5fc18589d0ff3157b86c081ca252">AQNWB::transformToInt16</a></div><div class="ttdeci">static std::unique_ptr&lt; int16_t[]&gt; transformToInt16(SizeType numSamples, float conversion_factor, const float *data)</div><div class="ttdoc">Method to scale float values and convert to int16 values.</div><div class="ttdef"><b>Definition</b> Utils.hpp:337</div></div>
-<div class="ttc" id="anamespace_a_q_n_w_b_html_a222344ec88fdbd8803d14dabea0f97bc"><div class="ttname"><a href="namespace_a_q_n_w_b.html#a222344ec88fdbd8803d14dabea0f97bc">AQNWB::convertFloatToInt16LE</a></div><div class="ttdeci">static void convertFloatToInt16LE(const float *source, void *dest, SizeType numSamples)</div><div class="ttdoc">Method to convert float values to uint16 values. This method was adapted from JUCE AudioDataConverter...</div><div class="ttdef"><b>Definition</b> Utils.hpp:310</div></div>
-<div class="ttc" id="anamespace_a_q_n_w_b_html_a31983dbaaa85c2e355b9687fc0ef1881"><div class="ttname"><a href="namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881">AQNWB::mergePaths</a></div><div class="ttdeci">static std::string mergePaths(const std::string &amp;path1, const std::string &amp;path2)</div><div class="ttdoc">Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;.</div><div class="ttdef"><b>Definition</b> Utils.hpp:263</div></div>
-<div class="ttc" id="anamespace_a_q_n_w_b_html_a4aacc6b82eca3064a8afe0070c44cde4"><div class="ttname"><a href="namespace_a_q_n_w_b.html#a4aacc6b82eca3064a8afe0070c44cde4">AQNWB::isISO8601Date</a></div><div class="ttdeci">static bool isISO8601Date(const std::string &amp;dateStr)</div><div class="ttdoc">Check that a string is formatted in ISO8601 format.</div><div class="ttdef"><b>Definition</b> Utils.hpp:201</div></div>
+<div class="ttc" id="anamespace_a_q_n_w_b_html_a09b9a48d0ec26fe72452788634ee12bb"><div class="ttname"><a href="namespace_a_q_n_w_b.html#a09b9a48d0ec26fe72452788634ee12bb">AQNWB::intToStatus</a></div><div class="ttdeci">static Status intToStatus(int status)</div><div class="ttdoc">Convert an integer status code to a Types::Status enum value. Shorthand for return (status &lt; 0) ?...</div><div class="ttdef"><b>Definition</b> Utils.hpp:373</div></div>
+<div class="ttc" id="anamespace_a_q_n_w_b_html_a0e8a5fc18589d0ff3157b86c081ca252"><div class="ttname"><a href="namespace_a_q_n_w_b.html#a0e8a5fc18589d0ff3157b86c081ca252">AQNWB::transformToInt16</a></div><div class="ttdeci">static std::unique_ptr&lt; int16_t[]&gt; transformToInt16(SizeType numSamples, float conversion_factor, const float *data)</div><div class="ttdoc">Method to scale float values and convert to int16 values.</div><div class="ttdef"><b>Definition</b> Utils.hpp:338</div></div>
+<div class="ttc" id="anamespace_a_q_n_w_b_html_a222344ec88fdbd8803d14dabea0f97bc"><div class="ttname"><a href="namespace_a_q_n_w_b.html#a222344ec88fdbd8803d14dabea0f97bc">AQNWB::convertFloatToInt16LE</a></div><div class="ttdeci">static void convertFloatToInt16LE(const float *source, void *dest, SizeType numSamples)</div><div class="ttdoc">Method to convert float values to uint16 values. This method was adapted from JUCE AudioDataConverter...</div><div class="ttdef"><b>Definition</b> Utils.hpp:311</div></div>
+<div class="ttc" id="anamespace_a_q_n_w_b_html_a31983dbaaa85c2e355b9687fc0ef1881"><div class="ttname"><a href="namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881">AQNWB::mergePaths</a></div><div class="ttdeci">static std::string mergePaths(const std::string &amp;path1, const std::string &amp;path2)</div><div class="ttdoc">Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;.</div><div class="ttdef"><b>Definition</b> Utils.hpp:264</div></div>
+<div class="ttc" id="anamespace_a_q_n_w_b_html_a4aacc6b82eca3064a8afe0070c44cde4"><div class="ttname"><a href="namespace_a_q_n_w_b.html#a4aacc6b82eca3064a8afe0070c44cde4">AQNWB::isISO8601Date</a></div><div class="ttdeci">static bool isISO8601Date(const std::string &amp;dateStr)</div><div class="ttdoc">Check that a string is formatted as an ISO 8601 datetime.</div><div class="ttdef"><b>Definition</b> Utils.hpp:202</div></div>
 <div class="ttc" id="anamespace_a_q_n_w_b_html_a7a202ee50288eeca65b9b98370226a82"><div class="ttname"><a href="namespace_a_q_n_w_b.html#a7a202ee50288eeca65b9b98370226a82">AQNWB::generateUuid</a></div><div class="ttdeci">static std::string generateUuid()</div><div class="ttdoc">Generates a UUID (Universally Unique Identifier) as a string.</div><div class="ttdef"><b>Definition</b> Utils.hpp:141</div></div>
-<div class="ttc" id="anamespace_a_q_n_w_b_html_aa2ae7bd54f7ed396e61e6cec9d208140"><div class="ttname"><a href="namespace_a_q_n_w_b.html#aa2ae7bd54f7ed396e61e6cec9d208140">AQNWB::checkStatus</a></div><div class="ttdeci">static void checkStatus(Status status, const std::string &amp;operation)</div><div class="ttdoc">Check status and print to standard error.</div><div class="ttdef"><b>Definition</b> Utils.hpp:382</div></div>
-<div class="ttc" id="anamespace_a_q_n_w_b_html_aae4545d930db6f70b4438e0167c500d0"><div class="ttname"><a href="namespace_a_q_n_w_b.html#aae4545d930db6f70b4438e0167c500d0">AQNWB::createIO</a></div><div class="ttdeci">static std::shared_ptr&lt; IO::BaseIO &gt; createIO(const std::string &amp;type, const std::string &amp;filename)</div><div class="ttdoc">Factory method to create an IO object of the specified type.</div><div class="ttdef"><b>Definition</b> Utils.hpp:220</div></div>
-<div class="ttc" id="anamespace_a_q_n_w_b_html_ab61fb380a62609e576ed5fe352b3e94f"><div class="ttname"><a href="namespace_a_q_n_w_b.html#ab61fb380a62609e576ed5fe352b3e94f">AQNWB::appendCellValueToBuffer</a></div><div class="ttdeci">static Status appendCellValueToBuffer(IO::BaseDataType::BaseDataVectorVariant &amp;buffer, const Types::CellValue &amp;value)</div><div class="ttdoc">Appends a CellValue to a BaseDataVectorVariant buffer.</div><div class="ttdef"><b>Definition</b> Utils.hpp:395</div></div>
+<div class="ttc" id="anamespace_a_q_n_w_b_html_aa2ae7bd54f7ed396e61e6cec9d208140"><div class="ttname"><a href="namespace_a_q_n_w_b.html#aa2ae7bd54f7ed396e61e6cec9d208140">AQNWB::checkStatus</a></div><div class="ttdeci">static void checkStatus(Status status, const std::string &amp;operation)</div><div class="ttdoc">Check status and print to standard error.</div><div class="ttdef"><b>Definition</b> Utils.hpp:383</div></div>
+<div class="ttc" id="anamespace_a_q_n_w_b_html_aae4545d930db6f70b4438e0167c500d0"><div class="ttname"><a href="namespace_a_q_n_w_b.html#aae4545d930db6f70b4438e0167c500d0">AQNWB::createIO</a></div><div class="ttdeci">static std::shared_ptr&lt; IO::BaseIO &gt; createIO(const std::string &amp;type, const std::string &amp;filename)</div><div class="ttdoc">Factory method to create an IO object of the specified type.</div><div class="ttdef"><b>Definition</b> Utils.hpp:221</div></div>
+<div class="ttc" id="anamespace_a_q_n_w_b_html_ab61fb380a62609e576ed5fe352b3e94f"><div class="ttname"><a href="namespace_a_q_n_w_b.html#ab61fb380a62609e576ed5fe352b3e94f">AQNWB::appendCellValueToBuffer</a></div><div class="ttdeci">static Status appendCellValueToBuffer(IO::BaseDataType::BaseDataVectorVariant &amp;buffer, const Types::CellValue &amp;value)</div><div class="ttdoc">Appends a CellValue to a BaseDataVectorVariant buffer.</div><div class="ttdef"><b>Definition</b> Utils.hpp:396</div></div>
 <div class="ttc" id="anamespace_a_q_n_w_b_html_ac436d136125307ef8158115a2296b3e9"><div class="ttname"><a href="namespace_a_q_n_w_b.html#ac436d136125307ef8158115a2296b3e9">AQNWB::getCurrentTime</a></div><div class="ttdeci">static std::string getCurrentTime()</div><div class="ttdoc">Get the current time in ISO 8601 format with the UTC offset.</div><div class="ttdef"><b>Definition</b> Utils.hpp:175</div></div>
-<div class="ttc" id="anamespace_a_q_n_w_b_html_ad81a02abf6f39974e6a4d71346a7b164"><div class="ttname"><a href="namespace_a_q_n_w_b.html#ad81a02abf6f39974e6a4d71346a7b164">AQNWB::isValidIndex</a></div><div class="ttdeci">static bool isValidIndex(SizeType index)</div><div class="ttdoc">Check if a SizeType index is valid (i.e., not equal to SizeTypeNotSet).</div><div class="ttdef"><b>Definition</b> Utils.hpp:361</div></div>
-<div class="ttc" id="anamespace_a_q_n_w_b_html_adc7efaaa5a01e00116c3a02b6c4d194d"><div class="ttname"><a href="namespace_a_q_n_w_b.html#adc7efaaa5a01e00116c3a02b6c4d194d">AQNWB::isPathOrDescendant</a></div><div class="ttdeci">static bool isPathOrDescendant(const std::string &amp;path, const std::string &amp;parentPath)</div><div class="ttdoc">Check whether a path is equal to or a descendant of a parent path.</div><div class="ttdef"><b>Definition</b> Utils.hpp:240</div></div>
+<div class="ttc" id="anamespace_a_q_n_w_b_html_ad81a02abf6f39974e6a4d71346a7b164"><div class="ttname"><a href="namespace_a_q_n_w_b.html#ad81a02abf6f39974e6a4d71346a7b164">AQNWB::isValidIndex</a></div><div class="ttdeci">static bool isValidIndex(SizeType index)</div><div class="ttdoc">Check if a SizeType index is valid (i.e., not equal to SizeTypeNotSet).</div><div class="ttdef"><b>Definition</b> Utils.hpp:362</div></div>
+<div class="ttc" id="anamespace_a_q_n_w_b_html_adc7efaaa5a01e00116c3a02b6c4d194d"><div class="ttname"><a href="namespace_a_q_n_w_b.html#adc7efaaa5a01e00116c3a02b6c4d194d">AQNWB::isPathOrDescendant</a></div><div class="ttdeci">static bool isPathOrDescendant(const std::string &amp;path, const std::string &amp;parentPath)</div><div class="ttdoc">Check whether a path is equal to or a descendant of a parent path.</div><div class="ttdef"><b>Definition</b> Utils.hpp:241</div></div>
 <div class="ttc" id="astruct_a_q_n_w_b_1_1_types_1_1_cell_value_html"><div class="ttname"><a href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html">AQNWB::Types::CellValue</a></div><div class="ttdoc">Represents a single cell value in a DynamicTable row.</div><div class="ttdef"><b>Definition</b> Types.hpp:190</div></div>
 <div class="ttc" id="astruct_a_q_n_w_b_1_1_types_1_1_cell_value_html_a2e7b7bfc3f94107aac5b3f5674f7bc17"><div class="ttname"><a href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a2e7b7bfc3f94107aac5b3f5674f7bc17">AQNWB::Types::CellValue::get</a></div><div class="ttdeci">const T &amp; get() const</div><div class="ttdoc">Helper method to extract the underlying value.</div><div class="ttdef"><b>Definition</b> Types.hpp:276</div></div>
 <div class="ttc" id="astruct_a_q_n_w_b_1_1_types_1_1_cell_value_html_adf32897841f87e27405767d09b64450e"><div class="ttname"><a href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#adf32897841f87e27405767d09b64450e">AQNWB::Types::CellValue::holds_alternative</a></div><div class="ttdeci">bool holds_alternative() const</div><div class="ttdoc">Checks if the CellValue holds a specific type.</div><div class="ttdef"><b>Definition</b> Types.hpp:249</div></div>

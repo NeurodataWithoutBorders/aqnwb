@@ -36,7 +36,7 @@ var searchData=
   ['readgroupnamecolumn_33',['readGroupNameColumn',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#ac3281e6367b3609c3c3b9f0e8d62c431',1,'AQNWB::NWB::ElectrodesTable']]],
   ['readidcolumn_34',['readIdColumn',['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#af7db33b4f56fa8d6586bfcdc535ed430',1,'AQNWB::NWB::DynamicTable']]],
   ['readidentifier_35',['readIdentifier',['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aa928ef570b33a28a2ba83b8edff18d79',1,'AQNWB::NWB::NWBFile']]],
-  ['readindexedcellvalues_36',['readIndexedCellValues',['../class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html#a0944ead63d5241985a49c629da2d70a8',1,'AQNWB::NWB::VectorIndex']]],
+  ['readindexedcellvalues_36',['readIndexedCellValues',['../class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html#a8677578a8699a77ece80ea2033d8ec7e',1,'AQNWB::NWB::VectorIndex']]],
   ['readinvalidtimes_37',['readInvalidTimes',['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a2507f7d9b981dcdae6449d13fa5cfb1f',1,'AQNWB::NWB::NWBFile']]],
   ['readlocationcolumn_38',['readLocationColumn',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#a12b45f8a1b32e2e5f38f731497f55ca0',1,'AQNWB::NWB::ElectrodesTable']]],
   ['readmanufacturer_39',['readManufacturer',['../class_a_q_n_w_b_1_1_n_w_b_1_1_device.html#a93468ac9793a1e67250ced89a2fbd007',1,'AQNWB::NWB::Device']]],

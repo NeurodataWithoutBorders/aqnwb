@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', init_search);
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="aqnwb-logo.png"/></td>
   <td id="projectalign">
-   <div id="projectname">aqnwb<span id="projectnumber">&#160;0.3.0</span>
+   <div id="projectname">aqnwb<span id="projectnumber">&#160;0.4.0</span>
    </div>
   </td>
  </tr>
@@ -146,8 +146,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a63166d71772ab8ca8de54141bfc314dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends data to the target <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html" title="An n-dimensional dataset representing a column of a DynamicTable.">VectorData</a> and updates this index.  <br /></td></tr>
 <tr class="memitem:a5b9b86676fb4fb85ad091d1cc20145eb" id="r_a5b9b86676fb4fb85ad091d1cc20145eb"><td class="memItemLeft">std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#aaf127dfd1e590307b872ea785d578316">VectorData</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a5b9b86676fb4fb85ad091d1cc20145eb">getTargetColumn</a> ()</td></tr>
 <tr class="memdesc:a5b9b86676fb4fb85ad091d1cc20145eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the cached target <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html" title="An n-dimensional dataset representing a column of a DynamicTable.">VectorData</a> column, or reads it if not cached.  <br /></td></tr>
-<tr class="memitem:a0944ead63d5241985a49c629da2d70a8" id="r_a0944ead63d5241985a49c629da2d70a8"><td class="memItemLeft">std::vector&lt; <a class="el" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html">AQNWB::Types::CellValue</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a0944ead63d5241985a49c629da2d70a8">readIndexedCellValues</a> (<a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> start=0, <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> count=<a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a489c41cdd124123f0595271873e00dbe">AQNWB::Types::SizeTypeNotSet</a>, <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> stride=1, <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> block=1)</td></tr>
-<tr class="memdesc:a0944ead63d5241985a49c629da2d70a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a range of ragged array vectors from the target <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html" title="An n-dimensional dataset representing a column of a DynamicTable.">VectorData</a>.  <br /></td></tr>
+<tr class="memitem:a8677578a8699a77ece80ea2033d8ec7e" id="r_a8677578a8699a77ece80ea2033d8ec7e"><td class="memItemLeft">std::vector&lt; <a class="el" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html">AQNWB::Types::CellValue</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a8677578a8699a77ece80ea2033d8ec7e">readIndexedCellValues</a> (<a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> start=0, <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> count=<a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a489c41cdd124123f0595271873e00dbe">AQNWB::Types::SizeTypeNotSet</a>)</td></tr>
+<tr class="memdesc:a8677578a8699a77ece80ea2033d8ec7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a range of ragged array vectors from the target <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html" title="An n-dimensional dataset representing a column of a DynamicTable.">VectorData</a>.  <br /></td></tr>
 <tr class="memitem:a23f54cde93117c0af81c40baf9f4e934" id="r_a23f54cde93117c0af81c40baf9f4e934"><td class="memTemplParams" colspan="2">template&lt;typename RTYPE = VectorData&gt; </td></tr>
 <tr class="memitem:a23f54cde93117c0af81c40baf9f4e934 template"><td class="memItemLeft">std::shared_ptr&lt; RTYPE &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a23f54cde93117c0af81c40baf9f4e934">readTarget</a> () const</td></tr>
 <tr class="memitem:a87f270bd71244297da6a60ecc2ae91cc" id="r_a87f270bd71244297da6a60ecc2ae91cc"><td class="memTemplParams" colspan="2">template&lt;typename VTYPE = std::string&gt; </td></tr>
@@ -805,8 +805,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a0944ead63d5241985a49c629da2d70a8" name="a0944ead63d5241985a49c629da2d70a8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0944ead63d5241985a49c629da2d70a8">&#9670;&#160;</a></span>readIndexedCellValues()</h2>
+<a id="a8677578a8699a77ece80ea2033d8ec7e" name="a8677578a8699a77ece80ea2033d8ec7e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8677578a8699a77ece80ea2033d8ec7e">&#9670;&#160;</a></span>readIndexedCellValues()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -819,17 +819,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a></td>          <td class="paramname"><span class="paramname"><em>count</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a489c41cdd124123f0595271873e00dbe">AQNWB::Types::SizeTypeNotSet</a></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a></td>          <td class="paramname"><span class="paramname"><em>stride</em></span><span class="paramdefsep"> = </span><span class="paramdefval">1</span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a></td>          <td class="paramname"><span class="paramname"><em>block</em></span><span class="paramdefsep"> = </span><span class="paramdefval">1</span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a></td>          <td class="paramname"><span class="paramname"><em>count</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a489c41cdd124123f0595271873e00dbe">AQNWB::Types::SizeTypeNotSet</a></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -840,8 +830,6 @@ Here is the caller graph for this function:</div>
   <table class="params">
     <tr><td class="paramname">start</td><td>The starting index for the slice (optional). </td></tr>
     <tr><td class="paramname">count</td><td>The number of elements to read (optional). </td></tr>
-    <tr><td class="paramname">stride</td><td>The stride (optional). </td></tr>
-    <tr><td class="paramname">block</td><td>The block size (optional). </td></tr>
   </table>
   </dd>
 </dl>
@@ -857,7 +845,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index_a0944ead63d5241985a49c629da2d70a8_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index_a8677578a8699a77ece80ea2033d8ec7e_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>

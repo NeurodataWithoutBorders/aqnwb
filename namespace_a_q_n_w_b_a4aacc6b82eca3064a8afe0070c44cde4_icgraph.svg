@@ -22,7 +22,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title="Check that a string is formatted in ISO8601 format.">
+<g id="a_Node000001"><a xlink:title="Check that a string is formatted as an ISO 8601 datetime.">
 <polygon fill="#999999" stroke="#666666" points="293,-48.88 166,-48.88 166,-29.62 293,-29.62 293,-48.88"/>
 <text xml:space="preserve" text-anchor="middle" x="229.5" y="-35.38" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::isISO8601Date</text>
 </a>

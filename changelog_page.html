@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', init_search);
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="aqnwb-logo.png"/></td>
   <td id="projectalign">
-   <div id="projectname">aqnwb<span id="projectnumber">&#160;0.3.0</span>
+   <div id="projectname">aqnwb<span id="projectnumber">&#160;0.4.0</span>
    </div>
   </td>
  </tr>
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <div class="line"> </div>
 <div class="line"> </div>
 <div class="line"> </div>
-<div class="line">## Upcoming [0.4.0] (~August 2026)</div>
+<div class="line">## [0.4.0] - 2026-09-03</div>
 <div class="line"> </div>
 <div class="line">### Added</div>
 <div class="line">* **Added support for streaming data read of remote NWB files:**</div>
@@ -191,6 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <div class="line">   * Updated unit tests to create `Subject` for all NWB files generated in the test suite to comply with NWB best practices. `nwbinspector` tests require subject by default now. (@oruebel, [#289](https://github.com/NeurodataWithoutBorders/aqnwb/pull/289) removed this requirements by specifying  `--ignore=check_subject_exists` and [#320](https://github.com/NeurodataWithoutBorders/aqnwb/pull/320) removed the ignore to ensure that subject is always present in the test files)</div>
 <div class="line"> </div>
 <div class="line">### Fixed</div>
+<div class="line">* Fixed overly restrictive ISO 8601 datetime validation in `isISO8601Date()` that incorrectly rejected valid timestamps with optional fractional seconds and UTC (`Z`), basic, or extended numeric timezone offsets. (@copilot, @oruebel, [#340](https://github.com/NeurodataWithoutBorders/aqnwb/pull/340))</div>
 <div class="line">* Fixed `get_utc_offset_seconds` to correctly account for daylight saving time using platform-specific APIs (`tm_gmtoff` on Unix/macOS; `_get_timezone` + `_get_dstbias` on Windows), preventing `session_start_time` from being written ~1 hour ahead of UTC during DST (@cboulay, [#295](https://github.com/NeurodataWithoutBorders/aqnwb/pull/295))</div>
 <div class="line">* Fixed `resources/utils/schematype_to_aqnwb.py` to facilitate generation of new types:</div>
 <div class="line">    * Emit forward declarations rather than full header includes for referenced generated types, avoiding circular header dependencies. This issue surfaced due to the update to the latest HDMF Common schema types where `DynamicTable` references `MeaningsTable`, which is itself a `DynamicTable` (@copilot, @oruebel, [#300](https://github.com/NeurodataWithoutBorders/aqnwb/pull/300))</div>

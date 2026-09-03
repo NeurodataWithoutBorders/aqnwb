@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', init_search);
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="aqnwb-logo.png"/></td>
   <td id="projectalign">
-   <div id="projectname">aqnwb<span id="projectnumber">&#160;0.3.0</span>
+   <div id="projectname">aqnwb<span id="projectnumber">&#160;0.4.0</span>
    </div>
   </td>
  </tr>
@@ -143,7 +143,7 @@ Functions</h2></td></tr>
 <tr class="memitem:ac436d136125307ef8158115a2296b3e9" id="r_ac436d136125307ef8158115a2296b3e9"><td class="memItemLeft">static std::string&#160;</td><td class="memItemRight"><a class="el" href="#ac436d136125307ef8158115a2296b3e9">getCurrentTime</a> ()</td></tr>
 <tr class="memdesc:ac436d136125307ef8158115a2296b3e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current time in ISO 8601 format with the UTC offset.  <br /></td></tr>
 <tr class="memitem:a4aacc6b82eca3064a8afe0070c44cde4" id="r_a4aacc6b82eca3064a8afe0070c44cde4"><td class="memItemLeft">static bool&#160;</td><td class="memItemRight"><a class="el" href="#a4aacc6b82eca3064a8afe0070c44cde4">isISO8601Date</a> (const std::string &amp;dateStr)</td></tr>
-<tr class="memdesc:a4aacc6b82eca3064a8afe0070c44cde4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check that a string is formatted in ISO8601 format.  <br /></td></tr>
+<tr class="memdesc:a4aacc6b82eca3064a8afe0070c44cde4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check that a string is formatted as an ISO 8601 datetime.  <br /></td></tr>
 <tr class="memitem:aae4545d930db6f70b4438e0167c500d0" id="r_aae4545d930db6f70b4438e0167c500d0"><td class="memItemLeft">static std::shared_ptr&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html">IO::BaseIO</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#aae4545d930db6f70b4438e0167c500d0">createIO</a> (const std::string &amp;type, const std::string &amp;filename)</td></tr>
 <tr class="memdesc:aae4545d930db6f70b4438e0167c500d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method to create an <a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html" title="The namespace for IO components of AqNWB.">IO</a> object of the specified type.  <br /></td></tr>
 <tr class="memitem:adc7efaaa5a01e00116c3a02b6c4d194d" id="r_adc7efaaa5a01e00116c3a02b6c4d194d"><td class="memItemLeft">static bool&#160;</td><td class="memItemRight"><a class="el" href="#adc7efaaa5a01e00116c3a02b6c4d194d">isPathOrDescendant</a> (const std::string &amp;path, const std::string &amp;parentPath)</td></tr>
@@ -485,8 +485,8 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Check that a string is formatted in ISO8601 format. </p>
-<p>This function only validates the regex pattern but does not check that the time values specified are indeed valid.</p>
+<p>Check that a string is formatted as an ISO 8601 datetime. </p>
+<p>This function only validates the datetime syntax and requires a timezone designator. It does not check that the specified date and time values are valid.</p>
 <dl class="section return"><dt>Returns</dt><dd>bool indicating whether the string is in ISO8601 form </dd></dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>

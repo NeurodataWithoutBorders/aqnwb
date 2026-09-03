@@ -46,7 +46,7 @@ var searchData=
   ['readgroupnamecolumn_43',['readGroupNameColumn',['../class_a_q_n_w_b_1_1_n_w_b_1_1_electrodes_table.html#ac3281e6367b3609c3c3b9f0e8d62c431',1,'AQNWB::NWB::ElectrodesTable']]],
   ['readidcolumn_44',['readIdColumn',['../class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#af7db33b4f56fa8d6586bfcdc535ed430',1,'AQNWB::NWB::DynamicTable']]],
   ['readidentifier_45',['readIdentifier',['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aa928ef570b33a28a2ba83b8edff18d79',1,'AQNWB::NWB::NWBFile']]],
-  ['readindexedcellvalues_46',['readIndexedCellValues',['../class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html#a0944ead63d5241985a49c629da2d70a8',1,'AQNWB::NWB::VectorIndex']]],
+  ['readindexedcellvalues_46',['readIndexedCellValues',['../class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html#a8677578a8699a77ece80ea2033d8ec7e',1,'AQNWB::NWB::VectorIndex']]],
   ['reading_47',['Further Reading',['../record_design_page.html#recording_design_further_reading',1,'']]],
   ['reading_48',['reading',['../read_page.html#read_further_reading',1,'Further reading'],['../reads3_page.html#reads3_further_reading',1,'Further reading'],['../time_intervals.html#time_intervals_further_reading',1,'Further reading'],['../read_page.html#read_example_open',1,'Opening an existing file for reading']]],
   ['reading_20and_20processing_20data_49',['Reading and Processing Data',['../read_design_page.html#read_design_example_read',1,'']]],
