@@ -108,6 +108,11 @@ Status NWBFile::initialize(
         mergePaths(NWBFile::GENERAL_PATH, "subject");
     if (!ioPtr->objectExists(subjectPath)) {
       auto subject = AQNWB::NWB::Subject::create(subjectPath, ioPtr);
+      if (!subject) {
+        std::cerr << "NWBFile::initialize failed to create Subject at "
+                  << subjectPath << "." << std::endl;
+        return Status::Failure;
+      }
       Status subjectInitStatus = subject->initialize(subjectSpec.value());
       initStatus = initStatus && subjectInitStatus;
     } else {

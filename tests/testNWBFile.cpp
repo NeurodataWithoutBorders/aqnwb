@@ -14,6 +14,7 @@
 #include "nwb/base/TimeSeries.hpp"
 #include "nwb/ecephys/SpikeEventSeries.hpp"
 #include "nwb/file/Subject.hpp"
+#include "nwb/hdmf/table/DynamicTable.hpp"
 #include "nwb/misc/AnnotationSeries.hpp"
 #include "spec/core.hpp"
 #include "testUtils.hpp"
@@ -111,6 +112,32 @@ TEST_CASE("initialize preserves existing subject metadata", "[nwb]")
           == Status::Success);
   REQUIRE(subject->readSubjectId()->values().data
           == std::vector<std::string> {"existing-subject"});
+}
+
+TEST_CASE("initialize fails when Subject has an incompatible cached type",
+          "[nwb]")
+{
+  const std::string filename =
+      getTestFilePath("testInitializeIncompatibleCachedSubject.nwb");
+  auto io = std::make_shared<IO::HDF5::HDF5IO>(filename);
+  io->open();
+
+  auto nwbfile = NWB::NWBFile::create(io);
+  REQUIRE(nwbfile->initialize(generateUuid()) == Status::Success);
+
+  auto incompatibleSubject = NWB::DynamicTable::create("/general/subject", io);
+  REQUIRE(incompatibleSubject != nullptr);
+  REQUIRE_FALSE(io->objectExists("/general/subject"));
+
+  REQUIRE(nwbfile->initialize(generateUuid(),
+                              "Test initialized NWB file",
+                              "Test data collection",
+                              getCurrentTime(),
+                              getCurrentTime(),
+                              getTestSubjectSpec())
+          == Status::Failure);
+
+  io->close();
 }
 
 TEST_CASE("createTimeIntervalsTables", "[nwb]")
