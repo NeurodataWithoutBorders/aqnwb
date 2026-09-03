@@ -136,8 +136,6 @@ public:
    *
    * @param start The starting index for the slice (optional).
    * @param count The number of elements to read (optional).
-   * @param stride The stride (optional).
-   * @param block The block size (optional).
    * @return A vector of CellValue, where each CellValue contains the data for a
    * cell.
    * @throws std::out_of_range if the requested range is invalid (e.g., start +
@@ -150,9 +148,7 @@ public:
    */
   std::vector<AQNWB::Types::CellValue> readIndexedCellValues(
       SizeType start = 0,
-      SizeType count = AQNWB::Types::SizeTypeNotSet,
-      SizeType stride = 1,
-      SizeType block = 1);
+      SizeType count = AQNWB::Types::SizeTypeNotSet);
 
   // Define read methods
   DEFINE_REFERENCED_REGISTERED_FIELD(

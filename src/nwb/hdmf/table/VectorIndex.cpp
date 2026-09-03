@@ -197,18 +197,10 @@ AQNWB::Types::CellValue VectorIndex::combineCellsToVector(
 }
 
 std::vector<AQNWB::Types::CellValue> VectorIndex::readIndexedCellValues(
-    SizeType start, SizeType count, SizeType stride, SizeType block)
+    SizeType start, SizeType count)
 {
   if (count == 0) {
     return {};
-  }
-  if (stride == 0) {
-    throw std::invalid_argument(
-        "VectorIndex::readIndexedCellValues: stride must be greater than 0");
-  }
-  if (block == 0) {
-    throw std::invalid_argument(
-        "VectorIndex::readIndexedCellValues: block must be greater than 0");
   }
 
   auto ioPtr = getIO();
@@ -229,11 +221,9 @@ std::vector<AQNWB::Types::CellValue> VectorIndex::readIndexedCellValues(
   SizeArray startArray = {start};
   SizeArray countArray =
       count != AQNWB::Types::SizeTypeNotSet ? SizeArray {count} : SizeArray {};
-  SizeArray strideArray = {stride};
-  SizeArray blockArray = {block};
 
-  std::vector<AQNWB::Types::CellValue> indices = VectorData::readCellValues(
-      startArray, countArray, strideArray, blockArray);
+  std::vector<AQNWB::Types::CellValue> indices =
+      VectorData::readCellValues(startArray, countArray);
 
   if (indices.empty()) {
     return {};

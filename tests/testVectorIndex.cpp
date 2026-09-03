@@ -410,14 +410,10 @@ TEST_CASE("VectorIndex", "[table]")
         REQUIRE(cells[0].get<std::vector<int>>() == vec1);
         REQUIRE(cells[1].get<std::vector<int>>() == vec2);
 
-        // Test readIndexedCellValues with start/count/stride/block
+        // Test readIndexedCellValues with start/count
         auto cells2 = vectorIndex->readIndexedCellValues(
             0, 0);  // count 0 should return empty
         REQUIRE(cells2.empty());
-        // Stride of 0 should throw
-        REQUIRE_THROWS(vectorIndex->readIndexedCellValues(0, 2, 0));
-        // Block of 0 should throw
-        REQUIRE_THROWS(vectorIndex->readIndexedCellValues(0, 2, 1, 0));
 
         io->close();
       }
