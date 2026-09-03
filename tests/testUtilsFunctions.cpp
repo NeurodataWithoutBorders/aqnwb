@@ -122,6 +122,14 @@ TEST_CASE("Test path merging", "[utils]")
   }
 }
 
+TEST_CASE("Test path ancestry", "[utils]")
+{
+  REQUIRE(AQNWB::isPathOrDescendant("/events", "/events"));
+  REQUIRE(AQNWB::isPathOrDescendant("/events/table", "/events"));
+  REQUIRE_FALSE(AQNWB::isPathOrDescendant("/events2/table", "/events"));
+  REQUIRE_FALSE(AQNWB::isPathOrDescendant("/event", "/events"));
+}
+
 TEST_CASE("Test time conversion functions", "[utils]")
 {
   std::time_t now = std::time(nullptr);

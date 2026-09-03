@@ -13,6 +13,7 @@
 #include "nwb/NWBFile.hpp"
 #include "nwb/base/TimeSeries.hpp"
 #include "nwb/ecephys/SpikeEventSeries.hpp"
+#include "nwb/file/Subject.hpp"
 #include "nwb/misc/AnnotationSeries.hpp"
 #include "spec/core.hpp"
 #include "testUtils.hpp"
@@ -64,18 +65,163 @@ TEST_CASE("initialize", "[nwb]")
   REQUIRE(initStatus == Status::Failure);
 
   // check that regular init with current times works
-  initStatus = nwbfile->initialize(generateUuid());
+  initStatus = nwbfile->initialize(generateUuid(),
+                                   "Test initialized NWB file",
+                                   "Test data collection",
+                                   getCurrentTime(),
+                                   getCurrentTime(),
+                                   getTestSubjectSpec());
   REQUIRE(initStatus == Status::Success);
   REQUIRE(nwbfile->isInitialized());
 
-  // Since we didn't create any typed objects within the NWBFile, we should
-  // have no owned types
+  // Verify that events and intervals groups are NOT created by default
+  REQUIRE(io->objectExists("/events") == false);
+  REQUIRE(io->objectExists("/intervals") == false);
+
+  // We created a Subject so we should have 1 owned type
   auto result = nwbfile->findOwnedTypes();
-  REQUIRE(result.size() == 0);
+  REQUIRE(result.size() == 1);
 
   nwbfile->finalize();  // Good practice since we don't call stop recording, but
                         // not essential
   io->close();  // close the io
+}
+
+TEST_CASE("initialize preserves existing subject metadata", "[nwb]")
+{
+  const std::string filename =
+      getTestFilePath("testInitializeExistingSubject.nwb");
+  auto io = std::make_shared<IO::HDF5::HDF5IO>(filename);
+  io->open();
+
+  auto nwbfile = NWB::NWBFile::create(io);
+  REQUIRE(nwbfile->initialize(generateUuid()) == Status::Success);
+
+  auto existingSubjectSpec = getTestSubjectSpec();
+  existingSubjectSpec.subjectId = "existing-subject";
+  auto subject = NWB::Subject::create("/general/subject", io);
+  REQUIRE(subject->initialize(existingSubjectSpec) == Status::Success);
+
+  REQUIRE(nwbfile->initialize(generateUuid(),
+                              "Test initialized NWB file",
+                              "Test data collection",
+                              getCurrentTime(),
+                              getCurrentTime(),
+                              getTestSubjectSpec())
+          == Status::Success);
+  REQUIRE(subject->readSubjectId()->values().data
+          == std::vector<std::string> {"existing-subject"});
+}
+
+TEST_CASE("createTimeIntervalsTables", "[nwb]")
+{
+  std::string filename = getTestFilePath("createTimeIntervalsTables.nwb");
+
+  // initialize nwbfile object and create base structure
+  std::shared_ptr<IO::HDF5::HDF5IO> io =
+      std::make_shared<IO::HDF5::HDF5IO>(filename);
+  io->open();
+  auto nwbfile = NWB::NWBFile::create(io);
+  REQUIRE(nwbfile->initialize(generateUuid(),
+                              "Test initialized NWB file",
+                              "Test data collection",
+                              getCurrentTime(),
+                              getCurrentTime(),
+                              getTestSubjectSpec())
+          == Status::Success);
+
+  // Verify intervals group does not exist initially
+  REQUIRE(io->objectExists("/intervals") == false);
+
+  // create the Epochs Table
+  auto epochsTable = nwbfile->createEpochs(false, 50);
+  REQUIRE(epochsTable != nullptr);
+  REQUIRE(epochsTable->getName() == "epochs");
+
+  // Verify intervals group was created
+  REQUIRE(io->objectExists("/intervals") == true);
+  REQUIRE(epochsTable->readDescription()->values().data[0] == "Time intervals marking coarse-grained experimental phases or subdivisions of a recording session, such as baseline, task, rest, or sleep stage");
+
+  // create the Trials Table
+  auto trialsTable = nwbfile->createTrials(false, 50);
+  REQUIRE(trialsTable != nullptr);
+  REQUIRE(trialsTable->getName() == "trials");
+  REQUIRE(trialsTable->readDescription()->values().data[0] == "Time intervals corresponding to repeated experimental units with consistent structure, such as individual stimulus-response-reward cycles.");
+
+  // create the Invalid Times Table
+  auto invalidTimesTable = nwbfile->createInvalidTimes(false, 50);
+  REQUIRE(invalidTimesTable != nullptr);
+  REQUIRE(invalidTimesTable->getName() == "invalid_times");
+  REQUIRE(invalidTimesTable->readDescription()->values().data[0]
+          == "Time intervals that should be removed from analysis");
+
+  // create a custom TimeIntervals Table
+  auto customTable = nwbfile->createTimeIntervals(
+      "custom_intervals", "test custom", false, 50);
+  REQUIRE(customTable != nullptr);
+  REQUIRE(customTable->getName() == "custom_intervals");
+  REQUIRE(customTable->readDescription()->values().data[0] == "test custom");
+
+  // test readTimeIntervals
+  auto readCustomTable = nwbfile->readTimeIntervals("custom_intervals");
+  REQUIRE(readCustomTable != nullptr);
+  REQUIRE(readCustomTable->getName() == "custom_intervals");
+  REQUIRE(readCustomTable->readDescription()->values().data[0]
+          == "test custom");
+
+  // create a custom TimeIntervals Table with post initialization
+  auto customTimeIntervals =
+      nwbfile->createTimeIntervalsInstance("custom_intervals2");
+  REQUIRE(customTimeIntervals != nullptr);
+  Status customTimeIntervalsInitStatus =
+      customTimeIntervals->initialize("no description");
+  REQUIRE(customTimeIntervalsInitStatus == Status::Success);
+  REQUIRE(customTimeIntervals->getName() == "custom_intervals2");
+
+  // test readTimeIntervals for the table created with specs
+  auto readCustomTimeIntervals =
+      nwbfile->readTimeIntervals("custom_intervals2");
+  REQUIRE(readCustomTimeIntervals != nullptr);
+  REQUIRE(readCustomTimeIntervals->getName() == "custom_intervals2");
+  REQUIRE(readCustomTimeIntervals->readDescription()->values().data[0]
+          == "no description");
+
+  // Write some data to the epochs table
+  io->startRecording();
+
+  AQNWB::Types::RowData row1 = {
+      {"start_time", 1.0f}, {"stop_time", 2.0f}, {"tags", std::string("tag1")}};
+  AQNWB::Types::RowData row2 = {
+      {"start_time", 2.5f}, {"stop_time", 3.5f}, {"tags", std::string("tag2")}};
+
+  REQUIRE(epochsTable->addRow(row1) == Status::Success);
+  REQUIRE(epochsTable->addRow(row2) == Status::Success);
+
+  // Write some data to the trials table
+  AQNWB::Types::RowData trialRow = {{"start_time", 1.0f},
+                                    {"stop_time", 2.0f},
+                                    {"tags", std::string("trial1")}};
+  REQUIRE(trialsTable->addRow(trialRow) == Status::Success);
+
+  // Write some data to the invalid times table
+  AQNWB::Types::RowData invalidTimeRow = {{"start_time", 1.0f},
+                                          {"stop_time", 2.0f},
+                                          {"tags", std::string("invalid1")}};
+  REQUIRE(invalidTimesTable->addRow(invalidTimeRow) == Status::Success);
+
+  // Write some data to the custom intervals table
+  AQNWB::Types::RowData customRow = {{"start_time", 1.0f},
+                                     {"stop_time", 2.0f},
+                                     {"tags", std::string("custom1")}};
+  REQUIRE(customTable->addRow(customRow) == Status::Success);
+
+  // Write some data to the custom intervals table with specs
+  AQNWB::Types::RowData customRow2 = {{"start_time", 1.0f},
+                                      {"stop_time", 2.0f}};
+  REQUIRE(customTimeIntervals->addRow(customRow2) == Status::Success);
+
+  io->stopRecording();
+  io->close();
 }
 
 TEST_CASE("createEventsTable with full initialization", "[nwb]")
@@ -87,18 +233,31 @@ TEST_CASE("createEventsTable with full initialization", "[nwb]")
       std::make_shared<IO::HDF5::HDF5IO>(filename);
   io->open();
   auto nwbfile = NWB::NWBFile::create(io);
-  nwbfile->initialize(generateUuid());
+  Status fileStatus = nwbfile->initialize(generateUuid(),
+                                          "Test initialized NWB file",
+                                          "Test data collection",
+                                          getCurrentTime(),
+                                          getCurrentTime(),
+                                          getTestSubjectSpec());
+  REQUIRE(fileStatus == Status::Success);
+
+  // Verify events group does not exist initially
+  REQUIRE(io->objectExists("/events") == false);
 
   // create the Events Table
   auto eventsTable = nwbfile->createEventsTable("test_events",
                                                 "test description",
                                                 "test source",
                                                 0.001f,
-                                                -1.0f,
+                                                false,
+                                                std::nullopt,
                                                 true,
                                                 50);
   REQUIRE(eventsTable != nullptr);
   REQUIRE(eventsTable->getName() == "test_events");
+
+  // Verify events group was created
+  REQUIRE(io->objectExists("/events") == true);
   REQUIRE(eventsTable->readDescription()->values().data[0]
           == "test description");
   REQUIRE(eventsTable->readSourceDescription()->values().data[0]
@@ -143,7 +302,13 @@ TEST_CASE("createEventsTableInstance with post initialization", "[nwb]")
       std::make_shared<IO::HDF5::HDF5IO>(filename);
   io->open();
   auto nwbfile = NWB::NWBFile::create(io);
-  nwbfile->initialize(generateUuid());
+  Status fileStatus = nwbfile->initialize(generateUuid(),
+                                          "Test initialized NWB file",
+                                          "Test data collection",
+                                          getCurrentTime(),
+                                          getCurrentTime(),
+                                          getTestSubjectSpec());
+  REQUIRE(fileStatus == Status::Success);
 
   // create the Events Table
   auto eventsTable = nwbfile->createEventsTableInstance("test_events");
@@ -151,9 +316,9 @@ TEST_CASE("createEventsTableInstance with post initialization", "[nwb]")
   std::string description = "Test events table";
   std::string sourceDescription = "Test source description";
   float timestampResolution = 1.0f / 30000.0f;
-  float durationResolution = -1.0f;  // no duration column
+  std::optional<float> durationResolution = std::nullopt;  // no duration column
   auto specs = NWB::EventsTable::createDefaultDataSpecs(
-      timestampResolution, durationResolution, true, 100);
+      timestampResolution, false, durationResolution, true, 100);
   Status initStatus =
       eventsTable->initialize(description, sourceDescription, specs);
   REQUIRE(initStatus == Status::Success);
@@ -220,7 +385,12 @@ TEST_CASE("createElectrodesTable", "[nwb]")
       std::make_shared<IO::HDF5::HDF5IO>(filename);
   io->open();
   auto nwbfile = NWB::NWBFile::create(io);
-  nwbfile->initialize(generateUuid());
+  nwbfile->initialize(generateUuid(),
+                      "Test electrodes table",
+                      "Test data collection",
+                      getCurrentTime(),
+                      getCurrentTime(),
+                      getTestSubjectSpec());
 
   // create the Electrodes Table
   std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(1, 2);
@@ -244,7 +414,12 @@ TEST_CASE("createElectricalSeriesWithSubsetOfElectrodes", "[nwb]")
       std::make_shared<IO::HDF5::HDF5IO>(filename);
   io->open();
   auto nwbfile = NWB::NWBFile::create(io);
-  nwbfile->initialize(generateUuid());
+  nwbfile->initialize(generateUuid(),
+                      "Test electrical series subset",
+                      "Test data collection",
+                      getCurrentTime(),
+                      getCurrentTime(),
+                      getTestSubjectSpec());
 
   // Create electrode table with full set of electrodes (4 channels)
   std::vector<Types::ChannelVector> allElectrodes = getMockChannelArrays(4, 1);
@@ -294,7 +469,12 @@ TEST_CASE("createElectricalSeriesFailsWithoutElectrodesTable", "[nwb]")
       std::make_shared<IO::HDF5::HDF5IO>(filename);
   io->open();
   auto nwbfile = NWB::NWBFile::create(io);
-  nwbfile->initialize(generateUuid());
+  nwbfile->initialize(generateUuid(),
+                      "Test multiple ecephys datasets",
+                      "Test data collection",
+                      getCurrentTime(),
+                      getCurrentTime(),
+                      getTestSubjectSpec());
 
   // Attempt to create electrical series without creating electrodes table first
   std::vector<Types::ChannelVector> recordingElectrodes =
@@ -320,7 +500,12 @@ TEST_CASE("createElectricalSeriesFailsWithOutOfRangeIndices", "[nwb]")
       std::make_shared<IO::HDF5::HDF5IO>(filename);
   io->open();
   auto nwbfile = NWB::NWBFile::create(io);
-  nwbfile->initialize(generateUuid());
+  nwbfile->initialize(generateUuid(),
+                      "Test annotation series",
+                      "Test data collection",
+                      getCurrentTime(),
+                      getCurrentTime(),
+                      getTestSubjectSpec());
 
   // Create electrode table with 2 channels
   std::vector<Types::ChannelVector> tableElectrodes =
@@ -350,7 +535,19 @@ TEST_CASE("createElectricalSeries", "[nwb]")
       std::make_shared<IO::HDF5::HDF5IO>(filename);
   io->open();
   auto nwbfile = NWB::NWBFile::create(io);
-  nwbfile->initialize(generateUuid());
+  AQNWB::NWB::Subject::SubjectSpec subjectSpec;
+  subjectSpec.subjectId = "mouse001";
+  subjectSpec.species = "Mus musculus";
+  subjectSpec.sex = "M";
+  subjectSpec.age = "P90D";
+  subjectSpec.description = "Wild type mouse used for electrophysiology study";
+  std::string currentTime = getCurrentTime();
+  nwbfile->initialize(generateUuid(),
+                      "a recording session",
+                      "data collection info",
+                      currentTime,
+                      currentTime,
+                      subjectSpec);
 
   // create the Electrodes Table
   std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays();
@@ -407,6 +604,7 @@ TEST_CASE("createElectricalSeries", "[nwb]")
   }
 
   // Check that we can find all the types that we created
+  // - /general/subject : core::Subject (created by default in initialize)
   // - /general/extracellular_ephys/array0 : core::ElectrodeGroup
   // - /general/devices/array1 : core::Device
   // - /general/extracellular_ephys/electrodes : core::DynamicTable
@@ -415,7 +613,7 @@ TEST_CASE("createElectricalSeries", "[nwb]")
   // - /general/extracellular_ephys/array1 : core::ElectrodeGroup
   // - /acquisition/esdata0 : core::ElectricalSeries
   auto result = nwbfile->findOwnedTypes();
-  REQUIRE(result.size() == 7);
+  REQUIRE(result.size() == 8);
 
   // finalize the nwb file
   io->stopRecording();
@@ -429,7 +627,13 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
   std::shared_ptr<HDF5::HDF5IO> io = std::make_shared<HDF5::HDF5IO>(filename);
   io->open();
   auto nwbfile = AQNWB::NWB::NWBFile::create(io);
-  nwbfile->initialize(generateUuid());
+  auto currentTime = getCurrentTime();
+  nwbfile->initialize(generateUuid(),
+                      "a recording session",
+                      "data collection info",
+                      currentTime,
+                      currentTime,
+                      getTestSubjectSpec());
 
   // create ElectrodesTable
   std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(2, 2);
@@ -499,7 +703,14 @@ TEST_CASE("createAnnotationSeries", "[nwb]")
       std::make_shared<IO::HDF5::HDF5IO>(filename);
   io->open();
   auto nwbfile = NWB::NWBFile::create(io);
-  nwbfile->initialize(generateUuid());
+  auto currentTime = getCurrentTime();
+  auto subjectSpec = getTestSubjectSpec();
+  nwbfile->initialize(generateUuid(),
+                      "a recording session",
+                      "data collection info",
+                      currentTime,
+                      currentTime,
+                      subjectSpec);
 
   // create Annotation Series
   std::vector<std::string> mockAnnotationNames = {"annotations1",
@@ -558,7 +769,12 @@ TEST_CASE("setCanModifyObjectsMode", "[nwb]")
       std::make_shared<IO::HDF5::HDF5IO>(filename);
   io->open();
   auto nwbfile = NWB::NWBFile::create(io);
-  Status initStatus = nwbfile->initialize(generateUuid());
+  Status initStatus = nwbfile->initialize(generateUuid(),
+                                          "Test recording mode",
+                                          "Test data collection",
+                                          getCurrentTime(),
+                                          getCurrentTime(),
+                                          getTestSubjectSpec());
   REQUIRE(initStatus == Status::Success);
 
   // start recording
@@ -610,7 +826,8 @@ TEST_CASE("testAttributeAndDatasetFields", "[nwb]")
                                           description,
                                           dataCollection,
                                           sessionStartTime,
-                                          timestampsReferenceTime);
+                                          timestampsReferenceTime,
+                                          getTestSubjectSpec());
   REQUIRE(initStatus == Status::Success);
   REQUIRE(nwbfile->isInitialized());
 

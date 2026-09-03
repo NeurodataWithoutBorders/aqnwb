@@ -21,7 +21,12 @@ TEST_CASE("LinkTimeSeriesExamples", "[timeseries][link]")
     io->open();
 
     auto nwbfile = NWB::NWBFile::create(io);
-    auto status = nwbfile->initialize(generateUuid());
+    auto status = nwbfile->initialize(generateUuid(),
+                                      "Test linked time series",
+                                      "Test data collection",
+                                      getCurrentTime(),
+                                      getCurrentTime(),
+                                      getTestSubjectSpec());
     REQUIRE(status == Status::Success);
     // [example_link_timeseries_setup]
 

@@ -32,7 +32,21 @@ TEST_CASE("eventsWorkflowExamples")
 
     // [example_events_rowbased_nwbfile_snippet]
     auto nwbfile = NWB::NWBFile::create(io);
-    Status initStatus = nwbfile->initialize(generateUuid());
+    auto subjectSpec =
+        AQNWB::NWB::Subject::SubjectSpec()
+            .withSubjectId("mouse001")
+            .withSpecies("Mus musculus")
+            .withSex("M")
+            .withAge("P90D")
+            .withDescription(
+                "Wild type mouse used for electrophysiology study");
+    std::string currentTime = getCurrentTime();
+    Status initStatus = nwbfile->initialize(generateUuid(),
+                                            "a recording session",
+                                            "data collection info",
+                                            currentTime,
+                                            currentTime,
+                                            subjectSpec);
     AQNWB::checkStatus(initStatus, "NWBFile initialization");
     // [example_events_rowbased_nwbfile_snippet]
     REQUIRE(initStatus == Status::Success);
@@ -45,7 +59,9 @@ TEST_CASE("eventsWorkflowExamples")
     float timestampResolution = 1.0f / 30000.0f;
     auto columnSpecs = NWB::EventsTable::createDefaultDataSpecs(
         timestampResolution,
-        -1.0f,  // omit duration column
+        false,  // omit duration column
+        std::nullopt,  // duration resolution is ignored since no duration
+                       // column
         true,  // create annotation column
         100);  // number of rows in a chunk (chunked storage is required to
                // support append when the total number of rows is not known in
@@ -81,13 +97,13 @@ TEST_CASE("eventsWorkflowExamples")
     // Each row is a map from column name to value.  The row ID is
     // auto-generated (0, 1, 2, …) when not supplied.
     // All columns — including custom ones — must be provided for every row.
-    NWB::DynamicTable::RowData row0 = {{"timestamp", 0.123f},
-                                       {"annotation", std::string("lick")},
-                                       {"confidence", 0.95f}};
+    AQNWB::Types::RowData row0 = {{"timestamp", 0.123f},
+                                  {"annotation", std::string("lick")},
+                                  {"confidence", 0.95f}};
     Status s0 = eventsTable->addRow(row0);
 
     // We can also append multiple rows at once using addRows().
-    std::vector<NWB::DynamicTable::RowData> moreRows = {
+    std::vector<AQNWB::Types::RowData> moreRows = {
         {{"timestamp", 0.456f},
          {"annotation", std::string("lick")},
          {"confidence", 0.87f}},
@@ -122,8 +138,22 @@ TEST_CASE("eventsWorkflowExamples")
 
     // [example_events_colbased_nwbfile_snippet]
     auto nwbfile = NWB::NWBFile::create(io);
-    Status initStatus = nwbfile->initialize(generateUuid());
-    REQUIRE(initStatus == Status::Success);
+    auto subjectSpec =
+        AQNWB::NWB::Subject::SubjectSpec()
+            .withSubjectId("mouse001")
+            .withSpecies("Mus musculus")
+            .withSex("M")
+            .withAge("P90D")
+            .withDescription(
+                "Wild type mouse used for electrophysiology study");
+    std::string currentTime = getCurrentTime();
+    Status initStatus = nwbfile->initialize(generateUuid(),
+                                            "a recording session",
+                                            "data collection info",
+                                            currentTime,
+                                            currentTime,
+                                            subjectSpec);
+    AQNWB::checkStatus(initStatus, "NWBFile initialization");
     // [example_events_colbased_nwbfile_snippet]
     REQUIRE(initStatus == Status::Success);
 
@@ -134,6 +164,7 @@ TEST_CASE("eventsWorkflowExamples")
     float durationResolution = 1.0f / 30000.0f;
     auto columnSpecs =
         NWB::EventsTable::createDefaultDataSpecs(timestampResolution,
+                                                 true,
                                                  durationResolution,
                                                  false,  // no annotation column
                                                  100);  // row chunk size
@@ -230,7 +261,21 @@ TEST_CASE("eventsWorkflowExamples")
 
     // [example_events_meanings_nwbfile_snippet]
     auto nwbfile = NWB::NWBFile::create(io);
-    Status initStatus = nwbfile->initialize(generateUuid());
+    auto subjectSpec =
+        AQNWB::NWB::Subject::SubjectSpec()
+            .withSubjectId("mouse001")
+            .withSpecies("Mus musculus")
+            .withSex("M")
+            .withAge("P90D")
+            .withDescription(
+                "Wild type mouse used for electrophysiology study");
+    std::string currentTime = getCurrentTime();
+    Status initStatus = nwbfile->initialize(generateUuid(),
+                                            "a recording session",
+                                            "data collection info",
+                                            currentTime,
+                                            currentTime,
+                                            subjectSpec);
     AQNWB::checkStatus(initStatus, "NWBFile initialization");
     // [example_events_meanings_nwbfile_snippet]
     REQUIRE(initStatus == Status::Success);
@@ -240,11 +285,12 @@ TEST_CASE("eventsWorkflowExamples")
     // column storing integer codes.  We will attach a MeaningsTable to that
     // column so that readers can look up what each integer code means.
     float timestampResolution = 1.0f / 30000.0f;
-    auto columnSpecs =
-        NWB::EventsTable::createDefaultDataSpecs(timestampResolution,
-                                                 -1.0f,  // omit duration column
-                                                 false,  // no annotation column
-                                                 100);  // row chunk size
+    auto columnSpecs = NWB::EventsTable::createDefaultDataSpecs(
+        timestampResolution,
+        false,
+        std::nullopt,  // omit duration column
+        false,  // no annotation column
+        100);  // row chunk size
 
     // Add an integer "event_type" column that stores event-type codes.
     IO::ArrayDataSetConfig eventTypeConfig(
@@ -281,7 +327,7 @@ TEST_CASE("eventsWorkflowExamples")
     // [example_events_meanings_write_events_snippet]
     // Write event rows using addRows().  Each row supplies a timestamp and the
     // integer event_type code.
-    std::vector<NWB::DynamicTable::RowData> eventRows = {
+    std::vector<AQNWB::Types::RowData> eventRows = {
         {{"timestamp", 0.100f}, {"event_type", 1}},
         {{"timestamp", 0.350f}, {"event_type", 2}},
         {{"timestamp", 0.700f}, {"event_type", 1}},
@@ -295,7 +341,7 @@ TEST_CASE("eventsWorkflowExamples")
     // Populate the MeaningsTable: list every possible event_type code together
     // with its human-readable meaning.  All possible values should be present
     // even if they do not appear in the recorded data.
-    std::vector<NWB::DynamicTable::RowData> meaningsRows = {
+    std::vector<AQNWB::Types::RowData> meaningsRows = {
         {{"value", 1}, {"meaning", "lick"}},
         {{"value", 2}, {"meaning", "reward_delivery"}},
         {{"value", 3}, {"meaning", "air_puff"}},

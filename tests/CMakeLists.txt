@@ -35,11 +35,14 @@ add_executable(aqnwb_test
     testRecordingWorkflow.cpp
     testRecordingObjects.cpp
     testRegisteredType.cpp
+    testSubject.cpp
     testTimeSeries.cpp
     testTimestampVectorData.cpp
     testTypes.cpp
     testUtilsFunctions.cpp
     testVectorData.cpp
+    testVectorIndex.cpp
+    testTimeIntervals.cpp
     examples/test_HDF5IO_examples.cpp
     examples/test_example.cpp
     examples/testWorkflowExamples.cpp
@@ -50,6 +53,7 @@ add_executable(aqnwb_test
     examples/test_remfile_read_example.cpp
     examples/test_ros3_read_example.cpp
     examples/test_templated_RegisteredType_example.cpp
+    examples/testTimeIntervalsWorkflowExamples.cpp
 )
 
 # Ensure the aqnwb_test target can include headers from the current directory

@@ -121,6 +121,7 @@
  *
  * After `startRecording`, retrieve each column object via the corresponding
  * `read*Column()` accessor on the table, then call
+ * \ref AQNWB::NWB::Data::recordData "recordData" on the column and
  * \ref AQNWB::IO::BaseRecordingData::writeDataBlock "writeDataBlock" to write the
  * full column vector in one call.  Finally, set the row IDs with
  * \ref AQNWB::NWB::DynamicTable::setRowIDs "setRowIDs".

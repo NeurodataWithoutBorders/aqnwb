@@ -33,7 +33,9 @@ class DynamicTable : public Container
 public:
   using DataSpec = Data::DataSpecBase;
   using DataSpecPtr = std::shared_ptr<DataSpec>;
-  using CellValue = IO::BaseDataType::BaseDataVariant;
+
+public:
+  using CellValue = AQNWB::NWB::CellValue;
   using RowData = std::unordered_map<std::string, CellValue>;
 
   // Register the TimeSeries as a subclass of Container
@@ -158,26 +160,62 @@ public:
                             const std::vector<std::string>& dataset);
 
   /**
-   * @brief Adds a single row of data to the table.
-   *
-   * @param row A map from column name to cell value variant.
-   * @param rowId Optional custom row ID. If not provided, an ID is
-   * auto-generated.
+   * @brief Adds a single row to the table.
+   * @param row The row data to add.
+   * @param rowId The ID of the row (optional).
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status addRow(const RowData& row,
+  Status addRow(const AQNWB::Types::RowData& row,
                 const std::optional<int>& rowId = std::nullopt);
 
   /**
-   * @brief Adds multiple rows of data to the table.
-   *
-   * @param rows A vector of row data maps.
-   * @param rowIds Optional custom row IDs corresponding to the rows. If empty,
-   * IDs are auto-generated.
+   * @brief Adds multiple rows to the table.
+   * @param rows The vector of row data to add.
+   * @param rowIds The vector of row IDs (optional).
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status addRows(const std::vector<RowData>& rows,
+  Status addRows(const std::vector<AQNWB::Types::RowData>& rows,
                  const std::vector<int>& rowIds = {});
+
+  /**
+   * @brief Get the number of rows in the table.
+   * @return The number of rows.
+   */
+  SizeType getNumberOfRows() const;
+
+  /**
+   * @brief Read rows from the table.
+   *
+   * @param start The starting row index.
+   * @param count The number of rows to read. If SizeTypeNotSet, reads to the
+   * end of the table. May be adjusted if start + count exceeds the number of
+   * rows.
+   * @param colNames The names of the columns to read. If empty, reads all
+   * columns.
+   * @param includeId Whether to include the 'id' column in the result.
+   * @return A vector of RowData objects.
+   * @throws std::invalid_argument if start index is out of bounds.
+   */
+  std::vector<AQNWB::Types::RowData> readRows(
+      SizeType start = 0,
+      SizeType count = Types::SizeTypeNotSet,
+      const std::vector<std::string>& colNames = {},
+      bool includeId = true);
+
+  /**
+   * @brief Convert the table to a string representation.
+   *
+   * @param start The starting row index.
+   * @param count The number of rows to read.
+   * @param colNames The names of the columns to read. If empty, reads all
+   * columns.
+   * @param includeId Whether to include the 'id' column in the result.
+   * @return A string representation of the table.
+   */
+  std::string toString(SizeType start = 0,
+                       SizeType count = Types::SizeTypeNotSet,
+                       const std::vector<std::string>& colNames = {},
+                       bool includeId = true);
 
   /**
    * @brief Sets the values of the element identifiers on the table.
@@ -235,6 +273,22 @@ public:
   };
 
   /**
+   * @brief Type trait identifying non-registered typed VectorData facades.
+   *
+   * VectorDataTyped instances provide compile-time value typing without
+   * becoming the single canonical RegisteredType cached for a dataset path.
+   */
+  template<typename T>
+  struct IsVectorDataTyped : std::false_type
+  {
+  };
+
+  template<typename DTYPE>
+  struct IsVectorDataTyped<VectorDataTyped<DTYPE>> : std::true_type
+  {
+  };
+
+  /**
    * @brief Read an arbitrary column of the DynamicTable
    *
    * For columns defined in the schema the corresponding DEFINE_REGISTERED_FIELD
@@ -262,7 +316,15 @@ public:
         if (ioPtr->getStorageObjectType(columnPath)
             == StorageObjectType::Dataset)
         {
-          return ReturnType::create(columnPath, ioPtr);
+          if constexpr (std::is_base_of<VectorData, T>::value
+                        && !IsVectorDataTyped<ReturnType>::value)
+          {
+            // Resolve the concrete on-disk registered type before caching it.
+            auto column = RegisteredType::create(columnPath, ioPtr);
+            return std::dynamic_pointer_cast<ReturnType>(column);
+          } else {
+            return ReturnType::create(columnPath, ioPtr);
+          }
         }
       }
     } else {

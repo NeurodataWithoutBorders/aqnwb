@@ -291,6 +291,12 @@
  *    - The \ref AQNWB::NWB::RegisteredType::create "RegisteredType::create" method is used to create
  *      an instance of a registered subclass by name. This method looks up the subclass name in the 
  *      registry and calls the corresponding factory function to create an instance.
+ *    - Each I/O object caches one canonical registered object per file path.
+ *      The path-only \ref AQNWB::NWB::RegisteredType::create "create" overload
+ *      resolves the object's on-disk ``namespace`` and ``neurodata_type`` before
+ *      reusing a cache entry. A request whose registered type conflicts with an
+ *      existing cache entry fails rather than returning a different type or
+ *      creating a second object for the same path.
  *
  * 5. **Class Name and Namespace Retrieval**:
  *    - The \ref AQNWB::NWB::RegisteredType::getTypeName "getTypeName" and
@@ -338,6 +344,13 @@
  * \ref AQNWB::NWB::ElectrodesTable::readLocationColumn "ElectrodesTable::readLocationColumn" to return the data to the user
  * with the type already set. The same approach is also applied in the case of \ref AQNWB::NWB::Data "Data" and its derived
  * class \ref AQNWB::NWB::DataTyped "DataTyped".
+ *
+ * ``DataTyped<DTYPE>``, ``VectorDataTyped<DTYPE>``, and
+ * ``NWBDataTyped<DTYPE>`` are typed read facades, not canonical registered
+ * objects. They are intentionally not stored in
+ * \ref AQNWB::IO::RecordingObjects "RecordingObjects"; use their specialized
+ * ``create`` or ``from...`` methods to obtain a typed view of a dataset without
+ * changing the canonical object cached for its path.
  *
  * For further details and alternative approaches for implementing templated \ref AQNWB::NWB::RegisteredType "RegisteredType"
  * classes, see \ref implement_templated_registered_type.  

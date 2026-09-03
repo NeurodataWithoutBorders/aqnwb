@@ -98,31 +98,10 @@ public:
   }
 
   // Variant data type for representing a single scalar with BaseDataType values
-  using BaseDataVariant = std::variant<uint8_t,
-                                       uint16_t,
-                                       uint32_t,
-                                       uint64_t,
-                                       int8_t,
-                                       int16_t,
-                                       int32_t,
-                                       int64_t,
-                                       float,
-                                       double,
-                                       std::string>;
+  using BaseDataVariant = AQNWB::Types::ScalarDataVariant;
 
   // Variant data type for representing any 1D vector with BaseDataType values
-  using BaseDataVectorVariant = std::variant<std::monostate,
-                                             std::vector<uint8_t>,
-                                             std::vector<uint16_t>,
-                                             std::vector<uint32_t>,
-                                             std::vector<uint64_t>,
-                                             std::vector<int8_t>,
-                                             std::vector<int16_t>,
-                                             std::vector<int32_t>,
-                                             std::vector<int64_t>,
-                                             std::vector<float>,
-                                             std::vector<double>,
-                                             std::vector<std::string>>;
+  using BaseDataVectorVariant = AQNWB::Types::VectorDataVariant;
 
   /**
    * @brief Create an empty BaseDataVectorVariant matching the given type.
@@ -163,6 +142,45 @@ public:
         return std::vector<std::string> {};
     }
     return std::monostate {};
+  }
+
+  /**
+   * @brief Check whether a CellValue has a type compatible with this data type.
+   *
+   * Fixed- and variable-length string datasets both accept string values.
+   *
+   * @param value The cell value to check.
+   * @return True if the value's scalar or vector type matches this data type.
+   */
+  bool isCompatibleCellValue(const Types::CellValue& value) const
+  {
+    const BaseDataVectorVariant expectedValues =
+        createEmptyVectorVariant(*this);
+    if (std::holds_alternative<std::monostate>(expectedValues)) {
+      return false;
+    }
+
+    const SizeType expectedTypeIndex = expectedValues.index();
+    return std::visit([expectedTypeIndex](const auto& values)
+                      { return values.index() == expectedTypeIndex; },
+                      value.value);
+  }
+
+  /**
+   * @brief Check whether a vector buffer has a type compatible with this data
+   * type.
+   *
+   * Fixed- and variable-length string datasets both accept string buffers.
+   *
+   * @param buffer The vector buffer to check.
+   * @return True if the buffer's element type matches this data type.
+   */
+  bool isCompatibleVector(const BaseDataVectorVariant& buffer) const
+  {
+    const BaseDataVectorVariant expectedBuffer =
+        createEmptyVectorVariant(*this);
+    return !std::holds_alternative<std::monostate>(expectedBuffer)
+        && buffer.index() == expectedBuffer.index();
   }
 
   /**
@@ -886,12 +904,28 @@ public:
       const BaseArrayDataSetConfig& config, const std::string& path) = 0;
 
   /**
-   * @brief Returns a pointer to a dataset at a given path.
+   * @brief Returns a cached pointer to a BaseRecordingData dataset at a given
+   * path.
    * @param path The location in the file of the dataset.
+   * @param reset If true, bypasses the cache and fetches a new dataset via
+   * getDataSetImpl and updates the cache. If false, returns the cached dataset
+   * if it exists.
    * @return A shared pointer to the dataset.
    */
-  virtual std::shared_ptr<BaseRecordingData> getDataSet(
-      const std::string& path) = 0;
+  std::shared_ptr<BaseRecordingData> getDataSet(const std::string& path,
+                                                bool reset = false);
+
+  /**
+   * @brief Clears the recording data cache.
+   */
+  void clearRecordingDataCache();
+
+  /**
+   * @brief Gets the recording data cache.
+   * @return A const reference to the recording data cache.
+   */
+  const std::unordered_map<std::string, std::shared_ptr<BaseRecordingData>>&
+  getRecordingDataCache() const;
 
   /**
    * @brief Returns the size of the dataset or attribute for each dimension.
@@ -977,10 +1011,24 @@ protected:
   bool m_opened;
 
   /**
-   * @brief The recording objects for tracking all RegisteredType objects used
+   * @brief Implementation of getDataSet to be provided by derived classes.
+   * @param path The location in the file of the dataset.
+   * @return A shared pointer to the dataset.
+   */
+  virtual std::shared_ptr<BaseRecordingData> getDataSetImpl(
+      const std::string& path) = 0;
+
+  /**
+   * @brief The recording objects collection to manage the recording state
    * for recording associated with this IO object.
    */
   std::shared_ptr<RecordingObjects> m_recording_objects;
+
+  /**
+   * @brief Cache of BaseRecordingData objects to retain recording state.
+   */
+  std::unordered_map<std::string, std::shared_ptr<BaseRecordingData>>
+      m_recordingDataCache;
 };
 
 /**

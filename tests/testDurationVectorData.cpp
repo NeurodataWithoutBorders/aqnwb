@@ -115,6 +115,49 @@ TEST_CASE("DurationVectorData", "[event]")
     io->close();
   }
 
+  SECTION("test DurationVectorData initialize with optional resolution")
+  {
+    std::string path = getTestFilePath("testDurationVectorDataOptional.h5");
+    std::string dataPath = "/durations_optional";
+    std::vector<float> durations = {0.0f, 0.05f, 0.25f};
+    SizeArray dataShape = {durations.size()};
+    SizeArray chunking = {durations.size()};
+
+    {
+      std::string description = "Test duration data optional";
+      std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+      io->open();
+
+      IO::ArrayDataSetConfig config(BaseDataType::F32, dataShape, chunking);
+      auto durationVectorData =
+          AQNWB::NWB::DurationVectorData::create(dataPath, io);
+      REQUIRE(durationVectorData != nullptr);
+
+      Status initStatus =
+          durationVectorData->initialize(config, description, std::nullopt);
+      REQUIRE(initStatus == Status::Success);
+      io->close();
+    }
+
+    {
+      std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+      io->open();
+
+      auto readDataUntyped = NWB::RegisteredType::create(dataPath, io);
+      REQUIRE(readDataUntyped != nullptr);
+
+      auto readDurationVectorData =
+          std::dynamic_pointer_cast<AQNWB::NWB::DurationVectorData>(
+              readDataUntyped);
+      REQUIRE(readDurationVectorData != nullptr);
+
+      auto resolutionData = readDurationVectorData->readResolution();
+      REQUIRE(resolutionData->exists() == false);
+
+      io->close();
+    }
+  }
+
   SECTION("test DurationVectorData initialize fails after IO deletion")
   {
     SizeArray dataShape = {3};
