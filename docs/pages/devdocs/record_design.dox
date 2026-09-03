@@ -18,7 +18,7 @@
  * AqNWB records datasets efficiently via \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" objects. The main components involved in
  * writing data to an NWB file via AqNWB are:
  *
- * 1. \ref DEFINE_DATASET_FIELD Macro
+ * 1. \ref DEFINE_DATASET_FIELD Macro  and \ref AQNWB::NWB::RegisteredType "RegisteredType"
  *   - The \ref DEFINE_DATASET_FIELD macro not only defines methods for reading datasets for a particular neurodata_type (as described in \ref read_design_page),
  *     but also defines methods for retrieving \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" objects that are used for recording to individual datasets.
  *     For each dataset field defined with this macro, a corresponding method is generated that returns a \ref AQNWB::IO::BaseRecordingData "BaseRecordingData"
@@ -31,13 +31,14 @@
  *   - It provides methods for writing data blocks to the dataset, such as \ref AQNWB::IO::BaseRecordingData::writeDataBlock "writeDataBlock",
  *      which can handle different data types and dimensions.
  *
- * 3. \ref AQNWB::NWB::RegisteredType "RegisteredType"
- *   - \ref AQNWB::NWB::RegisteredType "RegisteredType" maintains a cache of \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" objects via the `m_recordingDataCache` member.
+ * 3. \ref AQNWB::IO::BaseIO::m_recordingDataCache "BaseIO::m_recordingDataCache"
+ *   - \ref AQNWB::IO::BaseIO "BaseIO" maintains a cache of \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" objects that belong to the I/O object/file.
  *     This cache allows reusing the same \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" object when it is requested multiple times,
  *     improving performance and retaining the recording position. The cache is essential for writing data to the dataset in a streaming fashion,
  *     as it ensures that each write continues from where the previous write left off. The cache also avoids the need for manually maintaining
  *     the objects and allows caching of an arbitrary number of \ref AQNWB::IO::BaseRecordingData "BaseRecordingData" object such that the 
- *     individual neurodata_type classes do not need to worry about maintaining their recording state.
+ *     individual RegisteredType classes (i.e., neurodata_types) do not need to worry about maintaining their recording state, but the state is maintained 
+ *     centrally in the I/O object they belong to.
  *
  * 4. \ref AQNWB::IO::BaseIO "BaseIO"
  *   - \ref AQNWB::IO::BaseIO "BaseIO" and its implementations (e.g., \ref AQNWB::IO::HDF5::HDF5IO "HDF5IO") are responsible for
@@ -64,6 +65,7 @@
  *                 <tr><td align="left">+ getDataSet(): BaseRecordingData</td></tr>
  *                 <tr><td colspan="2" bgcolor="lightgray"><b>Attributes</b></td></tr>
  *                 <tr><td align="left">- m_recording_objects:  std::shared_ptr&lt;RecordingObjects&gt;</td></tr>
+ *                 <tr><td align="left">- m_recordingDataCache: std::unordered_map&lt;std::string, std::shared_ptr&lt;BaseRecordingData&gt;&gt;</td></tr>
  *             </table>
  *         >
  *     ];
@@ -91,11 +93,8 @@
  *         label=<
  *             <table border="0" cellborder="1" cellspacing="0">
  *                 <tr><td colspan="2" bgcolor="lightgray"><b>RegisteredType</b></td></tr>
- *                 <tr><td colspan="2" bgcolor="lightgray"><b>Functions</b></td></tr>
- *                 <tr><td align="left">+ clearRecordingDataCache(): void</td></tr>
  *                 <tr><td colspan="2" bgcolor="lightgray"><b>Attributes</b></td></tr>
- *                 <tr><td align="left">+ m_recordingDataCache: std::unordered_map</td></tr>
- *                 <tr><td align="left">+ m_io: std::shared_ptr&lt;BaseIO&gt;</td></tr>
+ *                 <tr><td align="left">+ m_io: std::weak_ptr&lt;BaseIO&gt;</td></tr>
  *                 <tr><td align="left">+ m_path: std::string</td></tr>
  *             </table>
  *         >
@@ -119,7 +118,8 @@
  *
  *     RegisteredType -> Container [arrowhead=empty, style=dashed];
  *     Container -> BaseRecordingData [label="created by functions defined via \nDEFINE_DATASET_FIELD"];
- *     RegisteredType -> BaseRecordingData [label="caches"];
+ *     HDF5IO -> BaseRecordingData [label="caches"];
+ *     HDF5IO -> RegisteredType [label="caches"];
  *     BaseRecordingData -> HDF5IO [label="uses for\nwriting data"];
  *     HDF5IO -> NWBFile [label="write data"];
  * }
@@ -197,7 +197,6 @@
  *   \ref AQNWB::IO::RecordingObjects::addRecordingObject "addRecordingObject" and 
  *   \ref AQNWB::IO::RecordingObjects::addRecordingObject "getRecordingObject" methods.
  * - **Finalization of recording objects:** via \ref AQNWB::IO::RecordingObjects::finalize "finalize"
- * - **Clearing of cached BaseRecordingData objects** via \ref AQNWB::IO::RecordingObjects::clearRecordingDataCache "clearRecordingDataCache";
  *
  * \section record_design_nwbio_utils NWB I/O convenience utilities
  *
@@ -233,9 +232,20 @@
  * facilitate reliable memory management. 
  *
  * \note
- * Registration with the \ref AQNWB::IO::RecordingObjects "RecordingObjects"  of the I/O occurs when a 
- * \ref AQNWB::NWB::RegisteredType "RegisteredType" is being created via the static
- * \ref AQNWB::NWB::RegisteredType::create "RegisteredType::create" factory methods. 
+ * Canonical \ref AQNWB::NWB::RegisteredType "RegisteredType" objects created
+ * through \ref AQNWB::NWB::RegisteredType::create "RegisteredType::create"
+ * are registered with the I/O's \ref AQNWB::IO::RecordingObjects
+ * "RecordingObjects". The cache has one canonical registered object per I/O
+ * and path; repeated compatible factory calls return that same instance. A
+ * request for a conflicting registered type fails rather than creating a
+ * second object for the path.
+ *
+ * Typed dataset facades such as \ref AQNWB::NWB::DataTyped "DataTyped",
+ * \ref AQNWB::NWB::VectorDataTyped "VectorDataTyped", and
+ * \ref AQNWB::NWB::NWBDataTyped "NWBDataTyped" are intentionally transient
+ * and are not registered with RecordingObjects. They share the I/O's
+ * BaseRecordingData cache with the canonical object when accessing the same
+ * dataset.
  *
  * \section recording_design_further_reading Further Reading 
  *

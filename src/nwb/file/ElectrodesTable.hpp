@@ -13,7 +13,7 @@ namespace AQNWB::NWB
 /**
  * @brief Represents a table containing electrode metadata.
  */
-class ElectrodesTable : public DynamicTable
+class ElectrodesTable : public AQNWB::NWB::DynamicTable
 {
 public:
   // Register the ElectrodesTable as a subclass of Container
@@ -51,6 +51,23 @@ public:
   ~ElectrodesTable() override;
 
   /**
+   * @brief Validates the provided data specifications for the ElectrodesTable.
+   * @param dataSpecs The data specifications to validate.
+   * @return Status::Success if the specifications are valid, otherwise
+   * Status::Failure.
+   */
+  Status validateDataSpecs(
+      const std::vector<DataSpecPtr>& dataSpecs) const override;
+
+  /**
+   * @brief Creates the default data specs for the ElectrodesTable.
+   * @param rowChunkSize The chunk size for the rows of the table.
+   * @return A vector of DataSpecPtr containing the default specs.
+   */
+  static std::vector<DataSpecPtr> createDefaultDataSpecs(
+      const SizeType rowChunkSize = 100);
+
+  /**
    * @brief Initializes the ElectrodesTable.
    *
    * Initializes the ElectrodesTable by creating NWB related attributes and
@@ -58,10 +75,12 @@ public:
    *
    * @param description The description of the table (default: "metadata about
    * extracellular electrodes")
+   * @param columnSpecs The column specifications to use for initialization.
    * @return Status::Success if successful, otherwise Status::Failure.
    */
   Status initialize(const std::string& description =
-                        "metadata about extracellular electrodes");
+                        "metadata about extracellular electrodes",
+                    const std::vector<DataSpecPtr>& columnSpecs = {});
 
   /**
    * @brief Finalizes the ElectrodesTable.
@@ -123,15 +142,6 @@ private:
    */
   inline const static std::string m_groupPathBase =
       "/general/extracellular_ephys";
-
-  /**
-   * @brief The group names column for write
-   */
-  std::shared_ptr<VectorData> m_groupNamesVectorData;
-
-  /**
-   * @brief The locations column for write
-   */
-  std::shared_ptr<VectorData> m_locationsVectorData;
 };
+
 }  // namespace AQNWB::NWB

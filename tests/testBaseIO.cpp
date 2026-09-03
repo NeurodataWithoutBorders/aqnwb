@@ -81,6 +81,42 @@ TEST_CASE("BaseDataType fromTypeId", "[BaseIO]")
   }
 }
 
+TEST_CASE("BaseDataType value compatibility", "[BaseIO]")
+{
+  SECTION("Numeric values require an exact type match")
+  {
+    const BaseDataType dataType = BaseDataType::I32;
+
+    REQUIRE(
+        dataType.isCompatibleCellValue(AQNWB::Types::CellValue(int32_t {1})));
+    REQUIRE(dataType.isCompatibleCellValue(
+        AQNWB::Types::CellValue(std::vector<int32_t> {1, 2})));
+    REQUIRE_FALSE(
+        dataType.isCompatibleCellValue(AQNWB::Types::CellValue(float {1.0f})));
+    REQUIRE_FALSE(dataType.isCompatibleCellValue(
+        AQNWB::Types::CellValue(std::vector<float> {1.0f, 2.0f})));
+
+    REQUIRE(dataType.isCompatibleVector(std::vector<int32_t> {1, 2}));
+    REQUIRE_FALSE(dataType.isCompatibleVector(std::vector<float> {1.0f, 2.0f}));
+  }
+
+  SECTION("String values support both string storage types")
+  {
+    const AQNWB::Types::CellValue scalarValue(std::string("value"));
+    const AQNWB::Types::CellValue vectorValue(
+        std::vector<std::string> {"value1", "value2"});
+
+    REQUIRE(BaseDataType::DSTR.isCompatibleCellValue(scalarValue));
+    REQUIRE(BaseDataType::DSTR.isCompatibleCellValue(vectorValue));
+    REQUIRE(BaseDataType::STR(8).isCompatibleCellValue(scalarValue));
+    REQUIRE(BaseDataType::STR(8).isCompatibleCellValue(vectorValue));
+    REQUIRE(BaseDataType::DSTR.isCompatibleVector(
+        std::vector<std::string> {"value"}));
+    REQUIRE(BaseDataType::STR(8).isCompatibleVector(
+        std::vector<std::string> {"value"}));
+  }
+}
+
 TEST_CASE("Test findTypes and getFullTypeName", "[BaseIO]")
 {
   std::string filename = getTestFilePath("test_findTypes.h5");

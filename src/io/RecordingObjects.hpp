@@ -1,5 +1,8 @@
 #pragma once
 
+#include <map>
+#include <vector>
+
 #include "Channel.hpp"
 #include "Types.hpp"
 #include "nwb/base/TimeSeries.hpp"
@@ -64,8 +67,6 @@ public:
   /**
    * @brief Gets the RegisteredType object from the recording objects collection
    * based on the path of the object.
-   * NOTE: This function performs a linear search. If for some reason multiple
-   * objects with the same path exist, the first one found will be returned.
    * @param path The path of the object to retrieve.
    * @return Shared pointer to the RegisteredType object if found, nullptr
    *         otherwise.
@@ -86,7 +87,11 @@ public:
   /**
    * @brief Clear the recording objects collection.
    */
-  void clear() { m_recording_objects.clear(); }
+  void clear()
+  {
+    m_recording_objects.clear();
+    m_path_to_index.clear();
+  }
 
   /**
    * @brief Finalize all RegisteredType objects managed by this RecordingObjects
@@ -94,14 +99,6 @@ public:
    * @return The status of the finalize operation.
    */
   Status finalize();
-
-  /**
-   * @brief Clear recording data cache for all RegisteredType objects
-   * managed by this RecordingObjects instance. This method calls
-   * clearRecordingDataCache() on all objects in the collection.
-   * @return The status of the clear operation.
-   */
-  Status clearRecordingDataCache();
 
   /**
    * @brief Get the number of recording objects
@@ -120,6 +117,11 @@ private:
    * @brief The RegisteredType objects used for recording
    */
   std::vector<std::shared_ptr<AQNWB::NWB::RegisteredType>> m_recording_objects;
+
+  /**
+   * @brief Map from object path to its index in m_recording_objects
+   */
+  std::map<std::string, SizeType> m_path_to_index;
 
   /**
    * @brief The name of the collection of recording objects

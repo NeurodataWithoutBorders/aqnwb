@@ -44,27 +44,6 @@ public:
 
   // make finalize always fail
   Status finalize() override { return Status::Failure; }
-
-  // a no-op clear (the default implementation would be fine)
-  void clearRecordingDataCache() override {}
-};
-
-class ExceptionThrowingSeries : public NWB::TimeSeries
-{
-public:
-  ExceptionThrowingSeries(const std::string& p,
-                          const std::shared_ptr<AQNWB::IO::BaseIO>& io)
-      : TimeSeries(p, io)
-  {
-  }
-
-  Status finalize() override { return Status::Success; }
-
-  // throw when the RecordingObjects wrapper asks us to clear the cache
-  void clearRecordingDataCache() override
-  {
-    throw std::runtime_error("simulated clearRecordingDataCache failure");
-  }
 };
 }  // anonymous namespace
 
@@ -101,27 +80,38 @@ TEST_CASE("RecordingObjects recording workflow tests", "[recording]")
 
     // ---- electrodes ----------------------------------------------------
     auto mockRecordingArrays = getMockChannelArrays();  // default 4 channels
-    auto electrodesTable = nwbFile->createElectrodesTable(mockRecordingArrays);
+    auto electrodesTable =
+        nwbFile->createElectrodesTable(mockRecordingArrays, true, 50);
     REQUIRE(electrodesTable != nullptr);
 
-    // recordingObjects should hold:
-    // Index = 0; Type = core::NWBFile; Path = /;  -- cache size: 0
-    // Index = 1; Type = hdmf-common::ElementIdentifiers; Path =
-    // /general/extracellular_ephys/electrodes/id;  -- cache size: 1 Index = 2;
-    // Type = hdmf-common::VectorData; Path =
-    // /general/extracellular_ephys/electrodes/group_name;  -- cache size: 1
+    // Verify chunk size
+    auto chunking = io->getStorageObjectChunking(
+        "/general/extracellular_ephys/electrodes/id");
+    REQUIRE(chunking.size() == 1);
+    REQUIRE(chunking[0] == 50);
+
+    // After createElectrodesTable() (with finalizeTable=true) recordingObjects
+    // should hold the following 10 objects. Note that the ElectrodesTable
+    // registers itself first and then configures its columns during
+    // initialize(); the "group" reference column is added last during
+    // finalize(). Each object appears exactly once (no duplicates):
+    // Index = 0; Type = core::NWBFile; Path = /;
+    // Index = 1; Type = core::ElectrodesTable; Path =
+    //   /general/extracellular_ephys/electrodes;
+    // Index = 2; Type = hdmf-common::ElementIdentifiers; Path =
+    //   /general/extracellular_ephys/electrodes/id;
     // Index = 3; Type = hdmf-common::VectorData; Path =
-    // /general/extracellular_ephys/electrodes/location;  -- cache size: 1 Index
-    // = 4; Type = core::DynamicTable; Path =
-    // /general/extracellular_ephys/electrodes;  -- cache size: 0 Index = 5;
-    // Type = core::Device; Path = /general/devices/array0;  -- cache size: 0
+    //   /general/extracellular_ephys/electrodes/location;
+    // Index = 4; Type = hdmf-common::VectorData; Path =
+    //   /general/extracellular_ephys/electrodes/group_name;
+    // Index = 5; Type = core::Device; Path = /general/devices/array0;
     // Index = 6; Type = core::ElectrodeGroup; Path =
-    // /general/extracellular_ephys/array0;  -- cache size: 0 Index = 7; Type =
-    // core::Device; Path = /general/devices/array1;  -- cache size: 0 Index =
-    // 8; Type = core::ElectrodeGroup; Path =
-    // /general/extracellular_ephys/array1;  -- cache size: 0 Index = 9; Type =
-    // hdmf-common::VectorData; Path =
-    // /general/extracellular_ephys/electrodes/group;  -- cache size: 0
+    //   /general/extracellular_ephys/array0;
+    // Index = 7; Type = core::Device; Path = /general/devices/array1;
+    // Index = 8; Type = core::ElectrodeGroup; Path =
+    //   /general/extracellular_ephys/array1;
+    // Index = 9; Type = hdmf-common::VectorData; Path =
+    //   /general/extracellular_ephys/electrodes/group; (added in finalize())
     SizeType expectedNumRecordingObjects = 10;
     REQUIRE(recordingObjects->size() == expectedNumRecordingObjects);
 
@@ -194,39 +184,42 @@ TEST_CASE("RecordingObjects recording workflow tests", "[recording]")
     // registered object
     auto existingSeries =
         NWB::ElectricalSeries::create("/acquisition/esdata0", io);
-    expectedNumRecordingObjects += 1;  // we created a new object
+    // expectedNumRecordingObjects remains the same because we reuse the
+    // existing object
     REQUIRE(existingSeries != nullptr);
     REQUIRE(existingSeries->isRegisteredRecordingObject() == true);
     REQUIRE(recordingObjects->size() == expectedNumRecordingObjects);
-    // NOTE: since we created a new ElectricalSeries object (instead of reusing
-    // the existing one), we now have 2 objects for the same path
+    // NOTE: since we reuse the existing ElectricalSeries object, we get the
+    // same index
     SizeType existingIdx = recordingObjects->getRecordingIndex(existingSeries);
-    REQUIRE(existingIdx == 12);  // should be the same as before
+    REQUIRE(existingIdx == 10);  // should be the same as before
     // Since existingSeries exists in the file, requesting recordData() should
     // yield the same object that is already in the cache
     auto existingRecordData = existingSeries->recordData();
     REQUIRE(existingRecordData != nullptr);
     REQUIRE(existingSeries->isRegisteredRecordingObject() == true);
 
-    // recordingObjects should now hold:
-    // RecordingObjects contents:
+    // recordingObjects should now hold (12 entries):
     // Index = 0; Type = core::NWBFile; Path = /;
-    // Index = 1; Type = hdmf-common::ElementIdentifiers; Path =
-    // /general/extracellular_ephys/electrodes/id; Index = 2; Type =
-    // hdmf-common::VectorData; Path =
-    // /general/extracellular_ephys/electrodes/group_name; Index = 3; Type =
-    // hdmf-common::VectorData; Path =
-    // /general/extracellular_ephys/electrodes/location; Index = 4; Type =
-    // core::DynamicTable; Path = /general/extracellular_ephys/electrodes; Index
-    // = 5; Type = core::Device; Path = /general/devices/array0; Index = 6; Type
-    // = core::ElectrodeGroup; Path = /general/extracellular_ephys/array0; Index
-    // = 7; Type = core::Device; Path = /general/devices/array1; Index = 8; Type
-    // = core::ElectrodeGroup; Path = /general/extracellular_ephys/array1; Index
-    // = 9; Type = hdmf-common::VectorData; Path =
-    // /general/extracellular_ephys/electrodes/group; Index = 10; Type =
-    // core::ElectricalSeries; Path = /acquisition/esdata0; Index = 11; Type =
-    // core::ElectricalSeries; Path = /acquisition/esdata1; Index = 12; Type =
-    // core::ElectricalSeries; Path = /acquisition/esdata0;
+    // Index = 1; Type = core::ElectrodesTable; Path =
+    //   /general/extracellular_ephys/electrodes;
+    // Index = 2; Type = hdmf-common::ElementIdentifiers; Path =
+    //   /general/extracellular_ephys/electrodes/id;
+    // Index = 3; Type = hdmf-common::VectorData; Path =
+    //   /general/extracellular_ephys/electrodes/location;
+    // Index = 4; Type = hdmf-common::VectorData; Path =
+    //   /general/extracellular_ephys/electrodes/group_name;
+    // Index = 5; Type = core::Device; Path = /general/devices/array0;
+    // Index = 6; Type = core::ElectrodeGroup; Path =
+    //   /general/extracellular_ephys/array0;
+    // Index = 7; Type = core::Device; Path = /general/devices/array1;
+    // Index = 8; Type = core::ElectrodeGroup; Path =
+    //   /general/extracellular_ephys/array1;
+    // Index = 9; Type = hdmf-common::VectorData; Path =
+    //   /general/extracellular_ephys/electrodes/group;
+    // Index = 10; Type = core::ElectricalSeries; Path = /acquisition/esdata0;
+    // Index = 11; Type = core::ElectricalSeries; Path = /acquisition/esdata1;
+    // Index = 12; Type = core::ElectricalSeries; Path = /acquisition/esdata0;
 
     // cleanup
     io->close();
@@ -257,7 +250,9 @@ TEST_CASE("RecordingObjects recording workflow tests", "[recording]")
     nwbFile->createElectricalSeries(
         mockArrays, mockNames, BaseDataType::I16, contIdx);
     REQUIRE(contIdx.size() == mockNames.size());
-    REQUIRE(recordingObjects->size() == 12);  // see previous section
+    // 10 from the finalized electrodes table (see SECTION 1) + 2
+    // ElectricalSeries
+    REQUIRE(recordingObjects->size() == 12);
 
     // Repeated calls to finalize should succeed without error
     for (SizeType i = 0; i < 4; i++) {
@@ -272,67 +267,6 @@ TEST_CASE("RecordingObjects recording workflow tests", "[recording]")
     // any single failure flips the overall status to Failure
     REQUIRE(recordingObjects->finalize() == Status::Failure);
 
-    io->close();
-  }
-
-  // --------------------------------------------------------------
-  //   SECTION 3 – clearRecordingDataCache aggregates & tolerates exceptions
-  //   --------------------------------------------------------------
-  SECTION("clearRecordingDataCache aggregates and tolerates exceptions")
-  {
-    const std::string path = getTestFilePath("recObjectsWorkflow_3.h5");
-    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
-    io->open();
-    REQUIRE(io->isOpen());
-    auto recordingObjects = io->getRecordingObjects();
-    REQUIRE(recordingObjects != nullptr);
-    REQUIRE(recordingObjects->size() == 0);
-
-    // good series (created through the normal workflow)
-    auto nwbFile = NWB::NWBFile::create(io);
-    nwbFile->initialize(generateUuid());
-    auto mockArrays = getMockChannelArrays();
-    nwbFile->createElectrodesTable(mockArrays);
-    std::vector<std::size_t> contIdx;
-    nwbFile->createElectricalSeries(mockArrays,
-                                    getMockChannelArrayNames("esdata"),
-                                    BaseDataType::I16,
-                                    contIdx);
-    REQUIRE(recordingObjects->size() == 12);
-    std::vector<SizeType> expextedCacheSize = {
-        0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 2, 2};
-    // Confirm that the recording data caches are as expected
-    for (SizeType i = 0; i < recordingObjects->size(); ++i) {
-      auto obj = recordingObjects->getRecordingObject(i);
-      REQUIRE(obj != nullptr);
-      std::cout << "obj[" << i << "] = " << obj->getFullTypeName() << ": "
-                << obj->getPath()
-                << " -- cache size: " << obj->getCacheRecordingData().size()
-                << std::endl;
-      REQUIRE(obj->getCacheRecordingData().size() <= expextedCacheSize[i]);
-    }
-    // clear the BaseRecordingData caches – should succeed
-    Status clearCachesStatus = recordingObjects->clearRecordingDataCache();
-    REQUIRE(clearCachesStatus == Status::Success);
-    // Confirm that the recording data caches are cleared
-    for (SizeType i = 0; i < recordingObjects->size(); ++i) {
-      auto obj = recordingObjects->getRecordingObject(i);
-      REQUIRE(obj != nullptr);
-      REQUIRE(obj->getCacheRecordingData().size() == 0);
-    }
-
-    // add a series that throws when clearing its cache
-    auto throwing = std::make_shared<ExceptionThrowingSeries>("/throwing", io);
-    recordingObjects->addRecordingObject(throwing);
-    REQUIRE(recordingObjects->size() == 13);
-
-    REQUIRE(recordingObjects->clearRecordingDataCache() == Status::Failure);
-
-    // Clear the recordingObjects and check it's cleared
-    recordingObjects->clear();
-    REQUIRE(recordingObjects->size() == 0);
-
-    // cleanup
     io->close();
   }
 }
