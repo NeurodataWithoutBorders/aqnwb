@@ -430,7 +430,10 @@ Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
     // 2.1 Validate the keys in the row, e.g., no unknown columns
     for (const auto& [key, value] : row) {
       if (key == "id") {
-        continue;
+        std::cerr << "DynamicTable::addRows: Row IDs must be provided via the "
+                     "rowIds parameter, not as an 'id' key in the row data."
+                  << std::endl;
+        return Status::Failure;
       }
       if (m_configuredColumnIndices.find(key) == m_configuredColumnIndices.end()
           && targetColumns.find(key) == targetColumns.end())
