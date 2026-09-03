@@ -16,22 +16,20 @@ TEST_CASE("isISO8601Date function tests", "[utils]")
     REQUIRE(AQNWB::isISO8601Date(
         "2018-09-28T14:43:54.12345+02:00"));  // Allow for too many fractional
                                               // seconds
+    REQUIRE(AQNWB::isISO8601Date("2018-09-28T14:43:54+02:00"));
+    REQUIRE(AQNWB::isISO8601Date("2018-09-28T14:43:54.123+0200"));
+    REQUIRE(AQNWB::isISO8601Date("2018-09-28T14:43:54.123Z"));
+    REQUIRE(AQNWB::isISO8601Date("2018-09-28T14:43:54.123-0800"));
   }
 
   SECTION("Invalid ISO 8601 date strings")
   {
     REQUIRE_FALSE(AQNWB::isISO8601Date(
         "2018-09-28 14:43:54.123+02:00"));  // Space instead of 'T'
-    REQUIRE_FALSE(AQNWB::isISO8601Date(
-        "2018-09-28T14:43:54+02:00"));  // Missing fractional seconds
-    REQUIRE_FALSE(AQNWB::isISO8601Date(
-        "2018-09-28T14:43:54.123+0200"));  // Missing colon in timezone
-    REQUIRE_FALSE(AQNWB::isISO8601Date(
-        "2018-09-28T14:43:54.123Z"));  // Missing timezone offset
-    REQUIRE_FALSE(AQNWB::isISO8601Date(
-        "2018-09-28T14:43:54.123-0800"));  // Incorrect timezone format
     REQUIRE_FALSE(
         AQNWB::isISO8601Date("2018-09-28T14:43:54.123"));  // Missing timezone
+    REQUIRE_FALSE(AQNWB::isISO8601Date("2018-09-28T14:43:54+02"));
+    REQUIRE_FALSE(AQNWB::isISO8601Date("2018-09-28"));
     REQUIRE_FALSE(AQNWB::isISO8601Date("Random text 1213"));
   }
 }
@@ -68,6 +66,7 @@ TEST_CASE("Test current time format", "[utils]")
   SECTION("Time format is valid ISO 8601")
   {
     REQUIRE(std::regex_match(time, timeRegex));
+    REQUIRE(AQNWB::isISO8601Date(time));
   }
 }
 

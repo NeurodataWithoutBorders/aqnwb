@@ -427,6 +427,23 @@ Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
 
   // 2. Validate that all rows have the required columns
   for (const auto& row : rows) {
+    // 2.1 Validate the keys in the row, e.g., no unknown columns
+    for (const auto& [key, value] : row) {
+      if (key == "id") {
+        std::cerr << "DynamicTable::addRows: Row IDs must be provided via the "
+                     "rowIds parameter, not as an 'id' key in the row data."
+                  << std::endl;
+        return Status::Failure;
+      }
+      if (m_configuredColumnIndices.find(key) == m_configuredColumnIndices.end()
+          && targetColumns.find(key) == targetColumns.end())
+      {
+        std::cerr << "DynamicTable::addRows: Unknown column '" << key
+                  << "' provided." << std::endl;
+        return Status::Failure;
+      }
+    }
+    // 2.2 Validate against the configured columns
     for (const auto& col : m_configuredColumns) {
       if (targetColumns.find(col.name) != targetColumns.end()) {
         // Target columns must be present in the row
@@ -458,11 +475,20 @@ Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
     }
   }
 
-  // 3. Buffer values for each column
+  // 3. Buffer values for each column.
+  // We accumulate all the incoming row data into memory buffers before
+  // performing any disk I/O. This batching strategy significantly reduces I/O
+  // overhead and helps ensure consistency: if a type mismatch or validation
+  // error is found in the incoming data, we can fail early without leaving the
+  // file partially modified.
   std::unordered_map<std::string, IO::BaseDataType::BaseDataVectorVariant>
       columnBuffers;
-  std::unordered_map<std::string, std::vector<uint32_t>> indexBuffers;
+  std::unordered_map<std::string, IO::BaseDataType::BaseDataVectorVariant>
+      indexBuffers;
 
+  // Initialize empty variants with the correct underlying vector type (e.g.
+  // std::vector<float>) based on the column's data type, so that std::visit can
+  // append to them later.
   for (const auto& col : m_configuredColumns) {
     auto vectorIndex = std::dynamic_pointer_cast<VectorIndex>(col.column);
     if (vectorIndex) {
@@ -472,13 +498,16 @@ Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
       std::string targetName = target->getName();
       columnBuffers[targetName] = IO::BaseDataType::createEmptyVectorVariant(
           target->readData()->getDataType());
-      indexBuffers[col.name] = std::vector<uint32_t>();
+      indexBuffers[col.name] = IO::BaseDataType::createEmptyVectorVariant(
+          vectorIndex->readData()->getDataType());
     } else if (targetColumns.find(col.name) == targetColumns.end()) {
       columnBuffers[col.name] =
           IO::BaseDataType::createEmptyVectorVariant(col.dataType);
     }
   }
 
+  // Iterate over each user-provided row and serialize their cell values into
+  // our memory buffers
   for (const auto& row : rows) {
     for (const auto& col : m_configuredColumns) {
       auto vectorIndex = std::dynamic_pointer_cast<VectorIndex>(col.column);
@@ -489,7 +518,9 @@ Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
         std::string targetName = target->getName();
         auto it = row.find(targetName);
         if (it != row.end()) {
-          // Also need to account for existing elements in the target column
+          // For ragged columns, we need to track how many elements exist in the
+          // target dataset so we know what the boundary index is for the
+          // current ragged element.
           size_t existingTargetElements = 0;
           auto targetData = target->readData();
           if (targetData) {
@@ -519,9 +550,40 @@ Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
               },
               columnBuffers[targetName]);
 
-          uint32_t newIndex =
-              static_cast<uint32_t>(existingTargetElements + newTargetSize);
-          indexBuffers[col.name].push_back(newIndex);
+          size_t newIndex = existingTargetElements + newTargetSize;
+          Status indexAppendStatus = std::visit(
+              [newIndex, &col](auto& vec) -> Status
+              {
+                using VecType = std::decay_t<decltype(vec)>;
+                if constexpr (std::is_same_v<VecType, std::monostate>) {
+                  return Status::Failure;
+                } else {
+                  using ValType = typename VecType::value_type;
+                  // std::visit forces the compiler to generate code for ALL
+                  // possible types in BaseDataVectorVariant (including
+                  // std::vector<std::string>). We use if constexpr to prevent
+                  // compilation errors when casting size_t to a string.
+                  // VectorIndex must be an integer, so we reject other types.
+                  // Note: HDMF formally requires VectorIndex to be unsigned.
+                  // However, we use std::is_integral_v to be lenient and permit
+                  // signed integers as well, in case we are appending to an
+                  // existing non-strict dataset.
+                  if constexpr (std::is_integral_v<ValType>) {
+                    vec.push_back(static_cast<ValType>(newIndex));
+                    return Status::Success;
+                  } else {
+                    std::cerr
+                        << "DynamicTable::addRows: VectorIndex '" << col.name
+                        << "' has invalid non-integral data type." << std::endl;
+                    return Status::Failure;
+                  }
+                }
+              },
+              indexBuffers[col.name]);
+
+          if (indexAppendStatus != Status::Success) {
+            return Status::Failure;
+          }
         }
       } else if (targetColumns.find(col.name) == targetColumns.end()) {
         // Regular column (not a target of a VectorIndex)
@@ -549,6 +611,17 @@ Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
         return Status::Failure;
       std::string targetName = target->getName();
 
+      // Write index buffer
+      IO::BaseDataType::BaseDataVectorVariant indexVariant =
+          indexBuffers[col.name];
+      Status writeIndexStatus = vectorIndex->appendBuffer(indexVariant);
+      if (writeIndexStatus != Status::Success) {
+        std::cerr << "DynamicTable::addRows: Failed to write buffer for index "
+                     "column '"
+                  << col.name << "'." << std::endl;
+        return Status::Failure;
+      }
+
       // Write target buffer
       if (columnBuffers.find(targetName) != columnBuffers.end()) {
         Status writeStatus = target->appendBuffer(columnBuffers[targetName]);
@@ -561,17 +634,6 @@ Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
         // Clear buffer so we don't write it again if multiple indices point to
         // it
         columnBuffers.erase(targetName);
-      }
-
-      // Write index buffer
-      IO::BaseDataType::BaseDataVectorVariant indexVariant =
-          indexBuffers[col.name];
-      Status writeIndexStatus = vectorIndex->appendBuffer(indexVariant);
-      if (writeIndexStatus != Status::Success) {
-        std::cerr << "DynamicTable::addRows: Failed to write buffer for index "
-                     "column '"
-                  << col.name << "'." << std::endl;
-        return Status::Failure;
       }
     } else if (targetColumns.find(col.name) == targetColumns.end()) {
       // Write regular column buffer
@@ -891,6 +953,20 @@ Status DynamicTable::loadConfiguredColumnsFromFile()
     auto col = readColumn<VectorData>(colName);
     if (col) {
       registerColumn(col);
+
+      // Also check for associated index columns because m_colNames only lists
+      // target columns. A ragged array of ragged arrays would have multiple
+      // "_index" suffixes.
+      std::string currentIndexName = colName + "_index";
+      while (true) {
+        auto indexCol = readColumn<VectorIndex>(currentIndexName);
+        if (indexCol) {
+          registerColumn(indexCol);
+          currentIndexName += "_index";
+        } else {
+          break;
+        }
+      }
     }
   }
 

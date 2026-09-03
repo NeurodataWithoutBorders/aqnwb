@@ -191,19 +191,20 @@ static inline std::string getCurrentTime()
 }
 
 /**
- * @brief Check that a string is formatted in ISO8601 format
+ * @brief Check that a string is formatted as an ISO 8601 datetime.
  *
- * This function only validates the regex pattern but does not check that
- * the time values specified are indeed valid.
+ * This function only validates the datetime syntax and requires a timezone
+ * designator. It does not check that the specified date and time values are
+ * valid.
  *
  * @return bool indicating whether the string is in ISO8601 form
  */
 static inline bool isISO8601Date(const std::string& dateStr)
 {
-  // Define the regex pattern for ISO 8601 extended format with timezone offset
-  // Allow one or more fractional seconds digits
+  // Require extended date/time fields and a UTC or numeric timezone designator.
+  // Fractional seconds and the colon in numeric offsets are optional.
   const std::string iso8601Pattern =
-      R"(^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+[+-]\d{2}:\d{2}$)";
+      R"(^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:?\d{2})$)";
   std::regex pattern(iso8601Pattern);
 
   // Check if the date string matches the regex pattern
