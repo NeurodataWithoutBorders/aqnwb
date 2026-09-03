@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-## [0.4.0] - 2026-09-01
+## [0.4.0] - 2026-09-03
 
 ### Added
 * **Added support for streaming data read of remote NWB files:**
