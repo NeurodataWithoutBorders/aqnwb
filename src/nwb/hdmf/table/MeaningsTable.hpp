@@ -38,13 +38,6 @@ class MeaningsTable : public AQNWB::NWB::DynamicTable
 {
 public:
   /**
-   * @brief Constructor
-   * @param path Path to the object in the file
-   * @param io IO object for reading/writing
-   */
-  MeaningsTable(const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io);
-
-  /**
    * @brief Virtual destructor.
    */
   virtual ~MeaningsTable() override {}
@@ -107,6 +100,14 @@ public:
   REGISTER_SUBCLASS(MeaningsTable,
                     DynamicTable,
                     AQNWB::SPEC::HDMF_COMMON::namespaceName)
+
+protected:
+  /**
+   * @brief Constructor
+   * @param path Path to the object in the file
+   * @param io IO object for reading/writing
+   */
+  MeaningsTable(const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io);
 };
 
 }  // namespace AQNWB::NWB
