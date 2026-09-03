@@ -4,6 +4,7 @@
 #include "Types.hpp"
 #include "Utils.hpp"
 #include "io/BaseIO.hpp"
+#include "io/RecordingObjects.hpp"
 #include "io/hdf5/HDF5RecordingData.hpp"
 #include "nwb/RegisteredType.hpp"
 #include "nwb/hdmf/table/VectorData.hpp"
@@ -151,6 +152,16 @@ TEST_CASE("VectorData", "[base]")
 
 TEST_CASE("VectorDataTyped", "[base]")
 {
+  SECTION("typed vector data facades are not registered")
+  {
+    auto io = createIO("HDF5", getTestFilePath("testVectorDataTypedFacade.h5"));
+    const std::string dataPath = "/typed_vector_data";
+
+    auto vectorDataTyped = NWB::VectorDataTyped<int>::create(dataPath, io);
+    REQUIRE(vectorDataTyped != nullptr);
+    REQUIRE(io->getRecordingObjects()->getRecordingObject(dataPath) == nullptr);
+  }
+
   SECTION("test VectorDataTyped with int")
   {
     std::string path = getTestFilePath("testVectorDataTyped_int.h5");
@@ -213,6 +224,9 @@ TEST_CASE("VectorDataTyped", "[base]")
     auto convertedVectorDataTyped =
         NWB::VectorDataTyped<int>::fromVectorData(baseVectorData);
     REQUIRE(convertedVectorDataTyped != nullptr);
+    REQUIRE(std::dynamic_pointer_cast<NWB::VectorDataTyped<int>>(
+                convertedVectorDataTyped)
+            != nullptr);
 
     // Read the "namespace" attribute via the readNamespace field
     namespaceData = convertedVectorDataTyped->readNamespace();
@@ -485,6 +499,115 @@ TEST_CASE("VectorDataTyped", "[base]")
     REQUIRE(dataRecorder != nullptr);
 
     recordIo->close();
+  }
+
+  SECTION("test appendValue with std::vector")
+  {
+    std::string path = getTestFilePath("testVectorDataAppendVector.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    std::string dataPath = "/vdata_append_vector";
+    IO::ArrayDataSetConfig config(BaseDataType::I32, {0}, {10});
+    auto vectorData = NWB::VectorData::create(dataPath, io);
+    vectorData->initialize(config, "Test append vector");
+
+    std::vector<int> vec1 = {1, 2, 3};
+    std::vector<int> vec2 = {4, 5};
+    std::vector<int> vec3 = {6, 7, 8, 9};
+
+    size_t elementsAppended = 0;
+    REQUIRE(vectorData->appendData(vec1, elementsAppended) == Status::Success);
+    REQUIRE(elementsAppended == 3);
+    REQUIRE(vectorData->appendData(vec2, elementsAppended) == Status::Success);
+    REQUIRE(elementsAppended == 2);
+    REQUIRE(vectorData->appendData(vec3, elementsAppended) == Status::Success);
+    REQUIRE(elementsAppended == 4);
+
+    io->flush();
+
+    auto readDataUntyped = NWB::RegisteredType::create(dataPath, io);
+    auto readVectorData =
+        std::dynamic_pointer_cast<NWB::VectorData>(readDataUntyped);
+    REQUIRE(readVectorData != nullptr);
+
+    auto dataGeneric = readVectorData->readData()->valuesGeneric();
+    auto dataTyped = DataBlock<int>::fromGeneric(dataGeneric);
+    auto data = dataTyped.data;
+
+    REQUIRE(data.size() == 9);
+    REQUIRE(data == std::vector<int>({1, 2, 3, 4, 5, 6, 7, 8, 9}));
+
+    io->close();
+  }
+
+  SECTION("test appendBuffer")
+  {
+    std::string path = getTestFilePath("testVectorDataAppendBuffer.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    std::string dataPath = "/vdata_append_buffer";
+    IO::ArrayDataSetConfig config(BaseDataType::I32, {0}, {10});
+    auto vectorData = NWB::VectorData::create(dataPath, io);
+    vectorData->initialize(config, "Test append buffer");
+
+    std::vector<int> vec1 = {1, 2, 3};
+    std::vector<int> vec2 = {4, 5};
+    std::vector<int> vec3 = {6, 7, 8, 9};
+
+    IO::BaseDataType::BaseDataVectorVariant var1 = vec1;
+    IO::BaseDataType::BaseDataVectorVariant var2 = vec2;
+    IO::BaseDataType::BaseDataVectorVariant var3 = vec3;
+
+    REQUIRE(vectorData->appendBuffer(var1) == Status::Success);
+    REQUIRE(vectorData->appendBuffer(var2) == Status::Success);
+    REQUIRE(vectorData->appendBuffer(var3) == Status::Success);
+
+    io->flush();
+
+    auto readDataUntyped = NWB::RegisteredType::create(dataPath, io);
+    auto readVectorData =
+        std::dynamic_pointer_cast<NWB::VectorData>(readDataUntyped);
+    REQUIRE(readVectorData != nullptr);
+
+    auto dataGeneric = readVectorData->readData()->valuesGeneric();
+    auto dataTyped = DataBlock<int>::fromGeneric(dataGeneric);
+    auto data = dataTyped.data;
+
+    REQUIRE(data.size() == 9);
+    REQUIRE(data == std::vector<int>({1, 2, 3, 4, 5, 6, 7, 8, 9}));
+
+    io->close();
+  }
+
+  SECTION("rejects values with a mismatched dataset type")
+  {
+    std::string path = getTestFilePath("testVectorDataTypeMismatch.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+
+    auto vectorData = NWB::VectorData::create("/type_mismatch", io);
+    REQUIRE(vectorData->initialize(
+                IO::ArrayDataSetConfig(BaseDataType::F64, {0}, {10}),
+                "Type mismatch test")
+            == Status::Success);
+
+    size_t elementsAppended = 42;
+    REQUIRE(vectorData->appendData(int32_t {1}, elementsAppended)
+            == Status::Failure);
+    REQUIRE(elementsAppended == 0);
+    REQUIRE(
+        vectorData->appendData(std::vector<int32_t> {1, 2}, elementsAppended)
+        == Status::Failure);
+    REQUIRE(elementsAppended == 0);
+
+    IO::BaseDataType::BaseDataVectorVariant buffer =
+        std::vector<int32_t> {1, 2};
+    REQUIRE(vectorData->appendBuffer(buffer) == Status::Failure);
+    REQUIRE(vectorData->recordData()->getShape()[0] == 0);
+
+    io->close();
   }
 }  // TEST_CASE("VectorDataTyped", "[base]")
 

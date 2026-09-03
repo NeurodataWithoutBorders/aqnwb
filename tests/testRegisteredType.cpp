@@ -84,10 +84,16 @@ TEST_CASE("RegisterType", "[base]")
       } else if (subclassFullName == "core::ElectrodesTable") {
         examplePath = ElectrodesTable::electrodesTablePath;
         exampleName = "electrodes";
+      } else if (subclassFullName == "core::Subject") {
+        examplePath = "/general/subject";
+        exampleName = "subject";
       } else {
-        examplePath = "/example/path";
-        exampleName = "path";
+        examplePath = "/example/path_" + typeName;
+        exampleName = "path_" + typeName;
       }
+
+      // Clear the cache to ensure we create a new instance
+      io->getRecordingObjects()->clear();
 
       // Create the type
       auto instance = RegisteredType::create(subclassFullName, examplePath, io);
@@ -228,17 +234,27 @@ TEST_CASE("RegisterType", "[base]")
     REQUIRE(fallbackInstance->getTypeName() == fallBackClassName);
     REQUIRE(fallbackInstance->getNamespace() == fallBackNamespace);
 
+    // Clear the cache so the next call doesn't return the cached fallback
+    // instance
+    io->getRecordingObjects()->clear();
+
     // Test with unknown type and fallbackToBase=false
     // Should return nullptr as before
     auto noFallbackInstance =
         RegisteredType::create(fullClassName, examplePath, io, false);
     REQUIRE(noFallbackInstance == nullptr);
 
+    // Clear the cache again
+    io->getRecordingObjects()->clear();
+
     // Test with empty type name and fallbackToBase=true
     auto emptyWithFallback = RegisteredType::create("", examplePath, io, true);
     REQUIRE(emptyWithFallback != nullptr);
     REQUIRE(emptyWithFallback->getTypeName() == fallBackClassName);
     REQUIRE(emptyWithFallback->getNamespace() == fallBackNamespace);
+
+    // Clear the cache
+    io->getRecordingObjects()->clear();
 
     // Test with unknown type and fallbackToBase=true while reading the type
     // information from file Should return base Container type
@@ -247,7 +263,10 @@ TEST_CASE("RegisterType", "[base]")
     REQUIRE(fallbackInstance2->getTypeName() == fallBackClassName);
     REQUIRE(fallbackInstance2->getNamespace() == fallBackNamespace);
 
-    // Test with unknown type and fallbackToBase=true while reading the type
+    // Clear the cache
+    io->getRecordingObjects()->clear();
+
+    // Test with unknown type and fallbackToBase=false while reading the type
     // information from file Should return nullptr as before
     auto noFallbackInstance2 = RegisteredType::create(examplePath, io, false);
     REQUIRE(noFallbackInstance2 == nullptr);
@@ -283,17 +302,27 @@ TEST_CASE("RegisterType", "[base]")
     REQUIRE(fallbackInstance->getTypeName() == fallBackClassName);
     REQUIRE(fallbackInstance->getNamespace() == fallBackNamespace);
 
+    // Clear the cache so the next call doesn't return the cached fallback
+    // instance
+    io->getRecordingObjects()->clear();
+
     // Test with unknown type and fallbackToBase=false
     // Should return nullptr as before
     auto noFallbackInstance =
         RegisteredType::create(fullClassName, examplePath, io, false);
     REQUIRE(noFallbackInstance == nullptr);
 
+    // Clear the cache again
+    io->getRecordingObjects()->clear();
+
     // Test with empty type name and fallbackToBase=true
     auto emptyWithFallback = RegisteredType::create("", examplePath, io, true);
     REQUIRE(emptyWithFallback != nullptr);
     REQUIRE(emptyWithFallback->getTypeName() == fallBackClassName);
     REQUIRE(emptyWithFallback->getNamespace() == fallBackNamespace);
+
+    // Clear the cache
+    io->getRecordingObjects()->clear();
 
     // Test with unknown type and fallbackToBase=true while reading the type
     // information from file Should return base Container type
@@ -302,7 +331,10 @@ TEST_CASE("RegisterType", "[base]")
     REQUIRE(fallbackInstance2->getTypeName() == fallBackClassName);
     REQUIRE(fallbackInstance2->getNamespace() == fallBackNamespace);
 
-    // Test with unknown type and fallbackToBase=true while reading the type
+    // Clear the cache
+    io->getRecordingObjects()->clear();
+
+    // Test with unknown type and fallbackToBase=false while reading the type
     // information from file Should return nullptr as before
     auto noFallbackInstance2 = RegisteredType::create(examplePath, io, false);
     REQUIRE(noFallbackInstance2 == nullptr);
@@ -434,7 +466,7 @@ TEST_CASE("RegisterType", "[base]")
         SizeArray {3}, SizeArray {0}, BaseDataType::F32, datasetValues.data());
 
     // Check that the cache is not empty
-    auto cachedData = testInstance->getCacheRecordingData();
+    auto cachedData = testInstance->getIO()->getRecordingDataCache();
     REQUIRE(cachedData.size() == 1);
     // Check that the cached data is the same as the last dataset
     auto checkCachedValue = cachedData.find(datasetPath);
@@ -442,10 +474,10 @@ TEST_CASE("RegisterType", "[base]")
     REQUIRE(checkCachedValue->second.get() == dataset4.get());
 
     // Clear the cache
-    testInstance->clearRecordingDataCache();
+    testInstance->getIO()->clearRecordingDataCache();
 
     // Check that the cache is empty
-    cachedData = testInstance->getCacheRecordingData();
+    cachedData = testInstance->getIO()->getRecordingDataCache();
     REQUIRE(cachedData.empty());
 
     // Get a new dataset instance and check that it is not the same as the

@@ -56,6 +56,6 @@ public:
                        recordPosition,
                        std::any,
                        "position",
-                       Stereotaxis or common framework coordinates)
+                       Stereotaxic or common framework coordinates)
 };
 }  // namespace AQNWB::NWB

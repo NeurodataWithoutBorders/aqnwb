@@ -15,7 +15,9 @@
 #include "nwb/device/Device.hpp"
 #include "nwb/ecephys/ElectricalSeries.hpp"
 #include "nwb/ecephys/SpikeEventSeries.hpp"
+#include "nwb/epoch/TimeIntervals.hpp"
 #include "nwb/file/ElectrodeGroup.hpp"
+#include "nwb/file/Subject.hpp"
 #include "nwb/misc/AnnotationSeries.hpp"
 #include "spec/NamespaceRegistry.hpp"
 #include "spec/core.hpp"
@@ -49,11 +51,13 @@ NWBFile::NWBFile(const std::string& path, std::shared_ptr<IO::BaseIO> io)
 
 NWBFile::~NWBFile() {}
 
-Status NWBFile::initialize(const std::string& identifierText,
-                           const std::string& description,
-                           const std::string& dataCollection,
-                           const std::string& sessionStartTime,
-                           const std::string& timestampsReferenceTime)
+Status NWBFile::initialize(
+    const std::string& identifierText,
+    const std::string& description,
+    const std::string& dataCollection,
+    const std::string& sessionStartTime,
+    const std::string& timestampsReferenceTime,
+    const std::optional<AQNWB::NWB::Subject::SubjectSpec>& subjectSpec)
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
@@ -88,16 +92,36 @@ Status NWBFile::initialize(const std::string& identifierText,
 
   // Check that the file is empty and initialize if it is
   bool fileInitialized = isInitialized();
+  Status initStatus = Status::Success;
   if (!fileInitialized) {
     Status createStatus = createFileStructure(identifierText,
                                               description,
                                               dataCollection,
                                               useSessionStartTime,
                                               useTimestampsReferenceTime);
-    return createStatus;
-  } else {
-    return Status::Success;
+    initStatus = initStatus && createStatus;
   }
+
+  // Create subject group and its contents if subject metadata is provided
+  if (subjectSpec.has_value()) {
+    const std::string subjectPath =
+        mergePaths(NWBFile::GENERAL_PATH, "subject");
+    if (!ioPtr->objectExists(subjectPath)) {
+      auto subject = AQNWB::NWB::Subject::create(subjectPath, ioPtr);
+      if (!subject) {
+        std::cerr << "NWBFile::initialize failed to create Subject at "
+                  << subjectPath << "." << std::endl;
+        return Status::Failure;
+      }
+      Status subjectInitStatus = subject->initialize(subjectSpec.value());
+      initStatus = initStatus && subjectInitStatus;
+    } else {
+      std::cerr << "Subject group already exists in the file. Skipping "
+                   "subject initialization."
+                << std::endl;
+    }
+  }
+  return initStatus;
 }
 
 bool NWBFile::isInitialized() const
@@ -121,6 +145,9 @@ bool NWBFile::isInitialized() const
       "stimulus",
       "general",
       "specifications"};
+  // Note,  "events" and "intervals" are optional and will be
+  // created when the corresponding tables are created, so we don't include them
+  // in the required objects set
 
   // Set to keep track of found objects
   std::unordered_set<std::string> foundObjects;
@@ -169,6 +196,9 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
   ioPtr->createGroup(NWBFile::GENERAL_PATH);
   ioPtr->createGroup(mergePaths(NWBFile::GENERAL_PATH, "/devices"));
   ioPtr->createGroup(mergePaths(NWBFile::GENERAL_PATH, "/extracellular_ephys"));
+  // NWBFile::EVENTS_PATH and NWBFile::INTERVALS_PATH are optional and will
+  // be created when the corresponding tables are created
+
   if (dataCollection != "") {
     ioPtr->createStringDataSet(
         mergePaths(NWBFile::GENERAL_PATH, "/data_collection"), dataCollection);
@@ -193,11 +223,14 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
   ioPtr->createStringDataSet("/timestamps_reference_time",
                              timestampsReferenceTime);
   ioPtr->createStringDataSet("/identifier", identifierText);
+
   return Status::Success;
 }
 
 std::shared_ptr<ElectrodesTable> NWBFile::createElectrodesTable(
-    std::vector<Types::ChannelVector> recordingArrays, bool finalizeTable)
+    std::vector<Types::ChannelVector> recordingArrays,
+    bool finalizeTable,
+    const SizeType rowChunkSize)
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
@@ -206,8 +239,31 @@ std::shared_ptr<ElectrodesTable> NWBFile::createElectrodesTable(
     return nullptr;
   }
 
+  if (!ioPtr->canModifyObjects()) {
+    std::cerr
+        << "NWBFile::createElectrodesTable IO object cannot modify objects."
+        << std::endl;
+    return nullptr;
+  }
+
   auto electrodeTable = NWB::ElectrodesTable::create(ioPtr);
-  electrodeTable->initialize();
+  if (!electrodeTable) {
+    std::cerr << "NWBFile::createElectrodesTable failed to create "
+                 "ElectrodesTable object."
+              << std::endl;
+    return nullptr;
+  }
+
+  auto specs = ElectrodesTable::createDefaultDataSpecs(rowChunkSize);
+  Status initStatus = electrodeTable->initialize(
+      "metadata about extracellular electrodes", specs);
+  if (initStatus != Status::Success) {
+    std::cerr << "NWBFile::createElectrodesTable failed to initialize "
+                 "ElectrodesTable."
+              << std::endl;
+    return nullptr;
+  }
+
   for (const auto& channelVector : recordingArrays) {
     electrodeTable->addElectrodes(channelVector);
   }
@@ -232,10 +288,245 @@ std::shared_ptr<ElectrodesTable> NWBFile::createElectrodesTable(
     }
   }
   if (finalizeTable) {
-    electrodeTable->finalize();
+    Status finalizeStatus = electrodeTable->finalize();
+    if (finalizeStatus != Status::Success) {
+      std::cerr << "NWBFile::createElectrodesTable failed to finalize "
+                   "ElectrodesTable."
+                << std::endl;
+      return nullptr;
+    }
   }
 
   return electrodeTable;
+}
+
+Status NWBFile::requireEventsGroup(std::shared_ptr<IO::BaseIO> io)
+{
+  if (!io) {
+    return Status::Failure;
+  }
+  if (!io->objectExists(NWBFile::EVENTS_PATH)) {
+    if (!io->canModifyObjects()) {
+      return Status::Failure;
+    }
+    return io->createGroup(NWBFile::EVENTS_PATH);
+  }
+  return Status::Success;
+}
+
+Status NWBFile::requireIntervalsGroup(std::shared_ptr<IO::BaseIO> io)
+{
+  if (!io) {
+    return Status::Failure;
+  }
+  if (!io->objectExists(NWBFile::INTERVALS_PATH)) {
+    if (!io->canModifyObjects()) {
+      return Status::Failure;
+    }
+    return io->createGroup(NWBFile::INTERVALS_PATH);
+  }
+  return Status::Success;
+}
+
+std::shared_ptr<EventsTable> NWBFile::createEventsTable(
+    const std::string& name,
+    const std::string& description,
+    const std::optional<std::string>& sourceDescription,
+    std::optional<float> timestampResolution,
+    bool createDurationColumn,
+    std::optional<float> durationResolution,
+    const bool createAnnotationColumn,
+    const SizeType rowChunkSize)
+{
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    std::cerr << "NWBFile::createEventsTable IO object has been deleted."
+              << std::endl;
+    return nullptr;
+  }
+
+  if (!ioPtr->canModifyObjects()) {
+    std::cerr << "NWBFile::createEventsTable IO object cannot modify objects."
+              << std::endl;
+    return nullptr;
+  }
+
+  std::string tablePath = AQNWB::mergePaths(NWBFile::EVENTS_PATH, name);
+  auto eventsTable = NWB::EventsTable::create(tablePath, ioPtr);
+  if (!eventsTable) {
+    std::cerr
+        << "NWBFile::createEventsTable failed to create EventsTable object."
+        << std::endl;
+    return nullptr;
+  }
+
+  auto specs = EventsTable::createDefaultDataSpecs(timestampResolution,
+                                                   createDurationColumn,
+                                                   durationResolution,
+                                                   createAnnotationColumn,
+                                                   rowChunkSize);
+  Status initStatus =
+      eventsTable->initialize(description, sourceDescription, specs);
+
+  if (initStatus != Status::Success) {
+    std::cerr << "NWBFile::createEventsTable failed to initialize EventsTable."
+              << std::endl;
+    return nullptr;
+  }
+
+  return eventsTable;
+}
+
+std::shared_ptr<EventsTable> NWBFile::createEventsTable(
+    const std::string& name,
+    const std::string& description,
+    const std::string& sourceDescription,
+    const std::vector<NWB::DynamicTable::DataSpecPtr>& columnSpecs)
+{
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    std::cerr << "NWBFile::createEventsTable IO object has been deleted."
+              << std::endl;
+    return nullptr;
+  }
+
+  if (!ioPtr->canModifyObjects()) {
+    std::cerr << "NWBFile::createEventsTable IO object cannot modify objects."
+              << std::endl;
+    return nullptr;
+  }
+
+  std::string tablePath = AQNWB::mergePaths(NWBFile::EVENTS_PATH, name);
+  auto eventsTable = NWB::EventsTable::create(tablePath, ioPtr);
+  if (!eventsTable) {
+    std::cerr
+        << "NWBFile::createEventsTable failed to create EventsTable object."
+        << std::endl;
+    return nullptr;
+  }
+
+  Status initStatus =
+      eventsTable->initialize(description, sourceDescription, columnSpecs);
+
+  if (initStatus != Status::Success) {
+    std::cerr << "NWBFile::createEventsTable failed to initialize EventsTable."
+              << std::endl;
+    return nullptr;
+  }
+
+  return eventsTable;
+}
+
+std::shared_ptr<TimeIntervals> NWBFile::createEpochs(
+    const bool createTagsColumn, const SizeType rowChunkSize)
+{
+  std::string description =
+      "Time intervals marking coarse-grained experimental phases or "
+      "subdivisions of a recording session, such as baseline, task, rest, or "
+      "sleep stage";
+  return createTimeIntervals(
+      "epochs", description, createTagsColumn, rowChunkSize);
+}
+
+std::shared_ptr<TimeIntervals> NWBFile::createTrials(
+    const bool createTagsColumn, const SizeType rowChunkSize)
+{
+  std::string description =
+      "Time intervals corresponding to repeated experimental units with "
+      "consistent structure, such as individual stimulus-response-reward "
+      "cycles.";
+  return createTimeIntervals(
+      "trials", description, createTagsColumn, rowChunkSize);
+}
+
+std::shared_ptr<TimeIntervals> NWBFile::createInvalidTimes(
+    const bool createTagsColumn, const SizeType rowChunkSize)
+{
+  std::string description =
+      "Time intervals that should be removed from analysis";
+  return createTimeIntervals(
+      "invalid_times", description, createTagsColumn, rowChunkSize);
+}
+
+std::shared_ptr<TimeIntervals> NWBFile::createTimeIntervals(
+    const std::string& name,
+    const std::string& description,
+    const bool createTagsColumn,
+    const SizeType rowChunkSize)
+{
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    std::cerr << "NWBFile::createTimeIntervals IO object has been deleted."
+              << std::endl;
+    return nullptr;
+  }
+
+  if (!ioPtr->canModifyObjects()) {
+    std::cerr << "NWBFile::createTimeIntervals IO object cannot modify objects."
+              << std::endl;
+    return nullptr;
+  }
+
+  std::string tablePath = AQNWB::mergePaths(NWBFile::INTERVALS_PATH, name);
+  auto timeIntervals = NWB::TimeIntervals::create(tablePath, ioPtr);
+  if (!timeIntervals) {
+    std::cerr
+        << "NWBFile::createTimeIntervals failed to create TimeIntervals object."
+        << std::endl;
+    return nullptr;
+  }
+
+  auto specs = TimeIntervals::createDefaultDataSpecs(
+      tablePath, rowChunkSize, createTagsColumn);
+  Status initStatus = timeIntervals->initialize(description, specs);
+
+  if (initStatus != Status::Success) {
+    std::cerr
+        << "NWBFile::createTimeIntervals failed to initialize TimeIntervals."
+        << std::endl;
+    return nullptr;
+  }
+
+  return timeIntervals;
+}
+
+std::shared_ptr<TimeIntervals> NWBFile::createTimeIntervals(
+    const std::string& name,
+    const std::string& description,
+    const std::vector<NWB::DynamicTable::DataSpecPtr>& columnSpecs)
+{
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    std::cerr << "NWBFile::createTimeIntervals IO object has been deleted."
+              << std::endl;
+    return nullptr;
+  }
+
+  if (!ioPtr->canModifyObjects()) {
+    std::cerr << "NWBFile::createTimeIntervals IO object cannot modify objects."
+              << std::endl;
+    return nullptr;
+  }
+
+  std::string tablePath = AQNWB::mergePaths(NWBFile::INTERVALS_PATH, name);
+  auto timeIntervals = NWB::TimeIntervals::create(tablePath, ioPtr);
+  if (!timeIntervals) {
+    std::cerr
+        << "NWBFile::createTimeIntervals failed to create TimeIntervals object."
+        << std::endl;
+    return nullptr;
+  }
+
+  Status initStatus = timeIntervals->initialize(description, columnSpecs);
+
+  if (initStatus != Status::Success) {
+    std::cerr
+        << "NWBFile::createTimeIntervals failed to initialize TimeIntervals."
+        << std::endl;
+    return nullptr;
+  }
+
+  return timeIntervals;
 }
 
 Status NWBFile::createElectricalSeries(

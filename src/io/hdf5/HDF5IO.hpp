@@ -343,14 +343,6 @@ public:
       const std::string& path) override;
 
   /**
-   * @brief Returns a pointer to a dataset at a given path.
-   * @param path The location in the file of the dataset.
-   * @return A shared pointer to the dataset.
-   */
-  std::shared_ptr<IO::BaseRecordingData> getDataSet(
-      const std::string& path) override;
-
-  /**
    * @brief Returns the size of the dataset or attribute for each dimension.
    * @param path The location of the dataset or attribute in the file
    * @return The shape of the dataset or attribute.
@@ -458,6 +450,14 @@ public:
   static H5::DataType getH5Type(IO::BaseDataType type);
 
 protected:
+  /**
+   * @brief Implementation of getDataSet to be provided by derived classes.
+   * @param path The location in the file of the dataset.
+   * @return A shared pointer to the dataset.
+   */
+  std::shared_ptr<IO::BaseRecordingData> getDataSetImpl(
+      const std::string& path) override;
+
   /**
    * @brief Creates a new group if it does not exist.
    * @param path The location in the file of the group.

@@ -134,21 +134,38 @@ public:
   /**
    * @brief Get the cache of BaseRecordingData objects
    * @return A reference to the cache of BaseRecordingData objects
+   * @deprecated The cache is owned by the I/O so there should be no need to
+   * access it via RegisteredType. Use getIO()->getRecordingDataCache() instead.
    */
+  [[deprecated(
+      "The cache is owned by the I/O so there should be no need to access it "
+      "via RegisteredType. Use getIO()->getRecordingDataCache() instead.")]]
   inline const std::unordered_map<std::string,
                                   std::shared_ptr<IO::BaseRecordingData>>&
   getCacheRecordingData() const
   {
-    return this->m_recordingDataCache;
+    if (auto io = getIO()) {
+      return io->getRecordingDataCache();
+    }
+    throw std::runtime_error(
+        "RegisteredType::getCacheRecordingData: IO object is not available");
   }
 
   /**
    * @brief Clear the BaseRecordingData object cache to reset the recording
    * state
+   * @deprecated The cache is owned by the I/O so there should be no need to
+   * access it via RegisteredType. Use getIO()->clearRecordingDataCache()
+   * instead.
    */
+  [[deprecated(
+      "The cache is owned by the I/O so there should be no need to access it "
+      "via RegisteredType. Use getIO()->clearRecordingDataCache() instead.")]]
   inline virtual void clearRecordingDataCache()
   {
-    this->m_recordingDataCache.clear();
+    if (auto io = getIO()) {
+      io->clearRecordingDataCache();
+    }
   }
 
   /**
@@ -183,7 +200,11 @@ public:
   getFactoryMap();
 
   /**
-   * @brief Create an instance of a registered subclass by name.
+   * @brief Create or retrieve the canonical instance of a registered subclass.
+   *
+   * Each I/O object caches at most one canonical RegisteredType per path. If a
+   * cached instance exists, its full registered type must match fullClassName;
+   * otherwise this function logs the mismatch and returns nullptr.
    *
    * @param fullClassName The combined namespace and class name to instantiate,
    * i.e., namespace::class
@@ -194,8 +215,8 @@ public:
    *        m_defaultUnregisteredGroupTypeClass and
    * m_defaultUnregisteredDatasetTypeClass depending on whether the type is a
    * group or dataset.
-   * @return A unique_ptr to the created instance of the subclass, or nullptr if
-   * the subclass is not found.
+   * @return The canonical instance of the subclass, or nullptr if the subclass
+   * is not found or a cached instance has a different registered type.
    */
   static std::shared_ptr<RegisteredType> create(
       const std::string& fullClassName,
@@ -204,13 +225,14 @@ public:
       bool fallbackToBase = false);
 
   /**
-   * @brief Factory method to create an instance of a subclass of RegisteredType
-   * from file
+   * @brief Create or retrieve the canonical RegisteredType instance from file.
    *
    * The function: 1) reads the  "namespace" and "neurodata_type" attributes at
    * the given path, 2) looks up the corresponding subclass of  RegisteredType
    * for that type in the type registry 3) instantiates the subclass to
-   * represent the object at the path.
+   * represent the object at the path. The on-disk type is resolved before a
+   * cached object is used, ensuring that a cached instance has the same
+   * registered type as the file object.
    *
    * @param path The path of the registered type.
    * @param io A shared pointer to the IO object.
@@ -220,8 +242,8 @@ public:
    * m_defaultUnregisteredDatasetTypeClass depending on whether the type is a
    * group or dataset.
    *
-   * @return A unique pointer to the created RegisteredType instance, or nullptr
-   * if creation fails.
+   * @return The canonical RegisteredType instance, or nullptr if creation
+   * fails or a cached instance has a different registered type.
    */
   static std::shared_ptr<AQNWB::NWB::RegisteredType> create(
       const std::string& path,
@@ -229,13 +251,19 @@ public:
       bool fallbackToBase = false);
 
   /**
-   * @brief Factory method to create an instance of a subclass of RegisteredType
-   * by type.
+   * @brief Create or retrieve a canonical instance of a RegisteredType subtype.
+   *
+   * If a cached object exists at path, it is returned only when it can be cast
+   * to T. A type mismatch is reported and returns nullptr rather than creating
+   * a second instance for the same path. Non-registered typed facades, such as
+   * DataTyped and VectorDataTyped, provide their own create methods and are not
+   * cached by this factory.
    *
    * @tparam T The subclass of RegisteredType to instantiate.
    * @param path The path of the container.
    * @param io A shared pointer to the IO object.
-   * @return A unique_ptr to the created instance of the subclass.
+   * @return The canonical instance of T, or nullptr if a cached instance has an
+   * incompatible type.
    */
   template<typename T>
   static inline std::shared_ptr<T> create(const std::string& path,
@@ -243,6 +271,17 @@ public:
   {
     static_assert(std::is_base_of<RegisteredType, T>::value,
                   "T must be a derived class of RegisteredType");
+    auto existing = getExistingRecordingObject(path, io);
+    if (existing) {
+      auto casted = std::dynamic_pointer_cast<T>(existing);
+      if (casted) {
+        return casted;
+      }
+      std::cerr << "RegisteredType::create: cached object at path " << path
+                << " has type " << existing->getFullTypeName()
+                << ", which does not match the requested type." << std::endl;
+      return nullptr;
+    }
     auto result = std::shared_ptr<T>(new T(path, io));
     result->registerRecordingObject();
     return result;
@@ -381,6 +420,15 @@ public:
 
 protected:
   /**
+   * @brief Helper to get an existing recording object from the IO object.
+   * @param path The path of the object.
+   * @param io A shared pointer to the IO object.
+   * @return A shared pointer to the existing object, or nullptr if not found.
+   */
+  static std::shared_ptr<RegisteredType> getExistingRecordingObject(
+      const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io);
+
+  /**
    * @brief Constructor.
    *
    * All registered subclasses of RegisteredType must implement a constructor
@@ -433,21 +481,6 @@ protected:
    * pointer to the IO object before using it.
    */
   std::weak_ptr<IO::BaseIO> m_io;
-
-  /**
-   * @brief Cache for BaseRecordingData objects for datasets to retain recording
-   * state.
-   *
-   * This map stores shared pointers to BaseRecordingData objects that have been
-   * previously requested, using the field path as the key. This allows us to
-   * reuse the same object when it is requested multiple times, improving
-   * performance and more importantly, retaining the recording position so that
-   * we can append to the dataset from the last position that we recorded to.
-   * This is important for writing data to the dataset in a streaming fashion.
-   * The cache is mutable to allow modification in const methods.
-   */
-  std::unordered_map<std::string, std::shared_ptr<IO::BaseRecordingData>>
-      m_recordingDataCache;
 };
 
 /**
@@ -632,25 +665,13 @@ public: \
                                                                      false) \
   { \
     std::string fullPath = AQNWB::mergePaths(m_path, fieldPath); \
-    if (!reset) { \
-      /* Check if the dataset is already in the cache */ \
-      auto it = m_recordingDataCache.find(fullPath); \
-      if (it != m_recordingDataCache.end()) { \
-        return it->second; \
-      } \
-    } \
-    /* Get the dataset from IO and cache it */ \
     auto ioPtr = getIO(); \
     if (!ioPtr) { \
       std::cerr << "IO object has been deleted. Can't access: " << fullPath \
                 << std::endl; \
       return nullptr; \
     } \
-    auto dataset = ioPtr->getDataSet(fullPath); \
-    if (dataset) { \
-      m_recordingDataCache[fullPath] = dataset; \
-    } \
-    return dataset; \
+    return ioPtr->getDataSet(fullPath, reset); \
   }
 
 /**
@@ -694,7 +715,7 @@ public: \
     auto ioPtr = getIO(); \
     if (ioPtr != nullptr) { \
       if (ioPtr->objectExists(objectPath)) { \
-        return RegisteredType::create<RTYPE>(objectPath, ioPtr); \
+        return RTYPE::create(objectPath, ioPtr); \
       } \
     } \
     return nullptr; \
@@ -751,7 +772,7 @@ public: \
       return nullptr; \
     } \
     if (ioPtr->objectExists(objectPath)) { \
-      return RegisteredType::create<RTYPE>(objectPath, ioPtr); \
+      return RTYPE::create(objectPath, ioPtr); \
     } \
     return nullptr; \
   } \
@@ -780,7 +801,7 @@ public: \
                 << objectPath << std::endl; \
       return nullptr; \
     } \
-    return RegisteredType::create<RTYPE>(objectPath, ioPtr); \
+    return RTYPE::create(objectPath, ioPtr); \
   }
 
 /**
@@ -827,7 +848,7 @@ public: \
       if (ioPtr != nullptr) { \
         std::string objectPath = ioPtr->readReferenceAttribute(attrPath); \
         if (ioPtr->objectExists(objectPath)) { \
-          return RegisteredType::create<RTYPE>(objectPath, ioPtr); \
+          return RTYPE::create(objectPath, ioPtr); \
         } \
       } \
     } catch (const std::exception& e) { \

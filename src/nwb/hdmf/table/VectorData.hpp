@@ -1,7 +1,11 @@
 #pragma once
 
+#include <memory>
 #include <string>
+#include <variant>
+#include <vector>
 
+#include "Types.hpp"
 #include "Utils.hpp"
 #include "io/ReadIO.hpp"
 #include "nwb/hdmf/base/Data.hpp"
@@ -9,12 +13,32 @@
 
 namespace AQNWB::NWB
 {
+
+using CellValue = AQNWB::Types::CellValue;
+
 /**
  * @brief An n-dimensional dataset representing a column of a DynamicTable.
  */
 class VectorData : public Data
 {
 public:
+  /**
+   * @brief Runtime configuration for creating and initializing a VectorData
+   * column.
+   */
+  struct DataSpec : public Data::DataSpec<VectorData>
+  {
+    DataSpec(const std::string& datasetName,
+             const IO::ArrayDataSetConfig& dataConfig,
+             const std::string& columnDescription);
+
+    virtual ~DataSpec() = default;
+
+    std::string description;
+
+    Status initialize(Data& data) const override;
+  };
+
   REGISTER_SUBCLASS(VectorData, Data, AQNWB::SPEC::HDMF_COMMON::namespaceName)
 
 protected:
@@ -46,23 +70,21 @@ public:
       const std::string& path,
       std::shared_ptr<IO::BaseIO> io,
       const std::string& description,
-      const std::vector<std::string>& references)
-  {
-    Status dataStatus = io->createReferenceDataSet(path, references);
-    if (dataStatus != Status::Success) {
-      return nullptr;
-    }
+      const std::vector<std::string>& references);
 
-    auto vectorData = VectorData::create(path, io);
-    Status commonAttrsStatus = io->createCommonNWBAttributes(
-        path, vectorData->getNamespace(), vectorData->getTypeName());
-    Status attrStatus = io->createAttribute(description, path, "description");
-    if ((attrStatus && commonAttrsStatus) != Status::Success) {
-      return nullptr;
-    }
-
-    return vectorData;
-  }
+  /**
+   * @brief Create a ColumnSpec for configuring this type as a DynamicTable
+   * column.
+   *
+   * @param name The column name.
+   * @param dataConfig Dataset configuration for the column.
+   * @param description The column description attribute.
+   * @return Shared pointer to the ColumnSpec for this column type.
+   */
+  static std::shared_ptr<DataSpec> createDataSpec(
+      const std::string& name,
+      const IO::ArrayDataSetConfig& dataConfig,
+      const std::string& description);
 
   /**
    *  @brief Initialize the dataset for the VectorData object
@@ -74,32 +96,27 @@ public:
    * @return Status::Success if successful, otherwise Status::Failure.
    */
   Status initialize(const IO::BaseArrayDataSetConfig& dataConfig,
-                    const std::string& description)
-  {
-    auto ioPtr = getIO();
-    if (ioPtr == nullptr) {
-      std::cerr << "IO object has been deleted. Can't initialize VectorData: "
-                << m_path << std::endl;
-      return Status::Failure;
-    }
-    Status dataStatus = Data::initialize(dataConfig);
-    if (dataConfig.isLink()) {
-      // For links, we don't set attributes since there is no dataset to attach
-      // them to. Validate that the target has the required "description"
-      // attribute.
-      const auto* linkConfig =
-          dynamic_cast<const IO::LinkArrayDataSetConfig*>(&dataConfig);
-      if (linkConfig) {
-        return dataStatus
-            && linkConfig->validateTarget(*ioPtr, {}, {}, {"description"});
-      }
-      return dataStatus;
-    } else {
-      Status attrStatus =
-          ioPtr->createAttribute(description, m_path, "description");
-      return dataStatus && attrStatus;
-    }
-  }
+                    const std::string& description);
+
+  /**
+   * @brief Appends a cell value (scalar or vector) to the dataset.
+   *
+   * @param cellValue The value to append.
+   * @param elementsAppended Output parameter that will be set to the number of
+   * elements appended.
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
+  virtual Status appendData(const AQNWB::Types::CellValue& cellValue,
+                            size_t& elementsAppended);
+
+  /**
+   * @brief Appends a buffer of values to the dataset.
+   *
+   * @param buffer The buffer of values to append.
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
+  virtual Status appendBuffer(
+      const IO::BaseDataType::BaseDataVectorVariant& buffer);
 
   DEFINE_ATTRIBUTE_FIELD(readDescription,
                          std::string,
@@ -152,10 +169,7 @@ public:
    * creation failed.
    */
   static std::shared_ptr<VectorDataTyped> create(
-      const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io)
-  {
-    return RegisteredType::create<VectorDataTyped>(path, io);
-  }
+      const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io);
 
   /**
    * @brief Virtual destructor.
@@ -167,9 +181,10 @@ public:
    *
    *  This function is useful when the type of the data is known and we want
    *  read data in a typed manner where the type is stored in the DTYPE template
-   *  parameter. NOTE: The original Data object retains ownership of the
-   *  Data.m_dataset recording dataset object if it was initialized, i.e.,
-   *  the returned VectorDataTyped object will have a nullptr m_dataset.
+   *  parameter. NOTE: The BaseRecordingData object used for recording to the
+   *  dataset is cached in the BaseIO object and is, hence, shared between the
+   *  VectorData and the VectorDataTyped, such that recording to either object
+   *  will be reflected in the other.
    *
    *  @param data The Data object to convert
    *  @return A shared pointer for VectorDataTyped object with the same path and

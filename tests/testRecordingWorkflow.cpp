@@ -46,10 +46,21 @@ TEST_CASE("writeContinuousData", "[recording]")
 
     // 3. create NWBFile object
     auto nwbfile = NWB::NWBFile::create(io);
-    nwbfile->initialize(generateUuid());
+    nwbfile->initialize(generateUuid(),
+                        "Test continuous recording",
+                        "Test data collection",
+                        getCurrentTime(),
+                        getCurrentTime(),
+                        getTestSubjectSpec());
 
     // 4. create an electrodes table.
-    nwbfile->createElectrodesTable(mockRecordingArrays);
+    nwbfile->createElectrodesTable(mockRecordingArrays, true, 50);
+
+    // Verify chunk size
+    auto chunking = io->getStorageObjectChunking(
+        "/general/extracellular_ephys/electrodes/id");
+    REQUIRE(chunking.size() == 1);
+    REQUIRE(chunking[0] == 50);
 
     // 5. create datasets (automatically added to recording objects)
     std::vector<SizeType> containerIndexes = {};

@@ -3,6 +3,7 @@
 #include <array>
 #include <cstdint>
 #include <memory>
+#include <optional>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -14,7 +15,10 @@
 #include "nwb/base/NWBContainer.hpp"
 #include "nwb/base/ProcessingModule.hpp"
 #include "nwb/base/TimeSeries.hpp"
+#include "nwb/epoch/TimeIntervals.hpp"
+#include "nwb/event/EventsTable.hpp"
 #include "nwb/file/ElectrodesTable.hpp"
+#include "nwb/file/Subject.hpp"
 #include "spec/core.hpp"
 
 /*!
@@ -27,6 +31,15 @@ namespace AQNWB::NWB
 /**
  * @brief The NWBFile class provides an interface for setting up and managing
  * the NWB file.
+ *
+ * \note
+ * **Handling of Optional Paths:**
+ * Some groups in the NWB file structure (e.g., `/events`, `/intervals`) are
+ * optional and are not created by default during `initialize()`. These groups
+ * are created automatically on-demand when objects are added to them (e.g., via
+ * `createEventsTable` or `createTimeIntervals`). If you are creating objects in
+ * these paths manually, you can use helper methods like `requireEventsGroup` or
+ * `requireIntervalsGroup` to ensure the parent groups exist.
  */
 class NWBFile : public NWBContainer
 {
@@ -47,6 +60,10 @@ public:
   inline const static std::string GENERAL_PATH = "/general";
   /// @brief The path to the analysis group in the NWB file
   inline const static std::string ANALYSIS_PATH = "/analysis";
+  /// @brief The path to the root events group in the NWB file
+  inline const static std::string EVENTS_PATH = "/events";
+  /// @brief The path to the root intervals group in the NWB file
+  inline const static std::string INTERVALS_PATH = "/intervals";
 
   /** \brief Convenience factor method since the path is fixed to '/'
    * @param io A shared pointer to the IO object.
@@ -98,12 +115,18 @@ public:
    * time. If empty (default), then the getCurrentTime() will be used.
    * @param timestampsReferenceTime ISO formatted time string with the timestamp
    * reference time. If empty (default), then the getCurrentTime() will be used.
+   * @param subjectSpec Optional subject metadata. Defaults to @c std::nullopt,
+   * so no Subject group is created unless a SubjectSpec is supplied. For DANDI
+   * validation, the supplied SubjectSpec must include subjectId, species, sex,
+   * and either age or dateOfBirth.
    */
   Status initialize(const std::string& identifierText,
                     const std::string& description = "a recording session",
                     const std::string& dataCollection = "",
                     const std::string& sessionStartTime = "",
-                    const std::string& timestampsReferenceTime = "");
+                    const std::string& timestampsReferenceTime = "",
+                    const std::optional<AQNWB::NWB::Subject::SubjectSpec>&
+                        subjectSpec = std::nullopt);
 
   /**
    * @brief Check if the NWB file is initialized.
@@ -127,11 +150,164 @@ public:
    *                      after creation to write it to the file. If false, the
    *                      caller must call finalize() on the returned table
    *                      object to write it to the file.
+   * @param rowChunkSize The chunk size to use for the rows of the table.
    * @return The generated ElectrodesTable or nullptr if failed.
    */
   std::shared_ptr<ElectrodesTable> createElectrodesTable(
       std::vector<Types::ChannelVector> recordingArrays,
-      bool finalizeTable = true);
+      bool finalizeTable = true,
+      const SizeType rowChunkSize = 100);
+
+  /**
+   * @brief Ensure that the events group exists in the NWB file.
+   *
+   * This function checks if the events group exists and creates it if it does
+   * not.
+   *
+   * @param io The shared pointer to the IO object.
+   * @return Status::Success if the group exists or was successfully created,
+   * Status::Failure otherwise.
+   */
+  static Status requireEventsGroup(std::shared_ptr<IO::BaseIO> io);
+
+  /**
+   * @brief Ensure that the intervals group exists in the NWB file.
+   *
+   * This function checks if the intervals group exists and creates it if it
+   * does not.
+   *
+   * @param io The shared pointer to the IO object.
+   * @return Status::Success if the group exists or was successfully created,
+   * Status::Failure otherwise.
+   */
+  static Status requireIntervalsGroup(std::shared_ptr<IO::BaseIO> io);
+
+  /**
+   * @brief Create an EventsTable in the EVENTS_PATH group.
+   * Note, this function will fail if the file is in a mode where
+   * new objects cannot be added, which can be checked via
+   * nwbfile.io->canModifyObjects()
+   * @param name The name of the EventsTable to create.
+   * @param description Description of the table.
+   * @param sourceDescription Optional short text description of where the
+   * events came from.
+   * @param timestampResolution The temporal resolution of the timestamps in
+   * seconds.
+   * @param createDurationColumn Whether to create the optional duration column
+   * (default: false). If true, the duration column will be created with the
+   * specified `durationResolution`. If false, the duration column will not be
+   * created.
+   * @param durationResolution The temporal resolution of the optional duration
+   * column in seconds. See `DurationVectorData::initialize()` for more details.
+   * If a std::nullopt is provided, the duration.resolution attribute of the
+   * duration column will not be created. Note, if `createDurationColumn` is
+   * false, this parameter is ignored.
+   * @param createAnnotationColumn Whether to create the annotation column.
+   * @param rowChunkSize The chunk size for the rows of the table.
+   * @return The generated EventsTable or nullptr if failed.
+   */
+  std::shared_ptr<EventsTable> createEventsTable(
+      const std::string& name,
+      const std::string& description,
+      const std::optional<std::string>& sourceDescription = std::nullopt,
+      std::optional<float> timestampResolution = std::nullopt,
+      bool createDurationColumn = false,
+      std::optional<float> durationResolution = std::nullopt,
+      const bool createAnnotationColumn = false,
+      const SizeType rowChunkSize = 100);
+
+  /**
+   * @brief Create an EventsTable in the EVENTS_PATH group using a pre-built
+   * column spec list.
+   *
+   * This overload is useful when the caller has already constructed a column
+   * spec vector (e.g. via EventsTable::createDefaultDataSpecs() followed by
+   * push_back() calls to add custom columns) and wants to pass it directly
+   * instead of using the individual resolution/flag parameters.
+   *
+   * Note, this function will fail if the file is in a mode where
+   * new objects cannot be added, which can be checked via
+   * nwbfile.io->canModifyObjects()
+   * @param name The name of the EventsTable to create.
+   * @param description Description of the table.
+   * @param sourceDescription Optional short text description of where the
+   * events came from.
+   * @param columnSpecs Pre-built vector of column specs (e.g. from
+   * EventsTable::createDefaultDataSpecs() with additional custom specs
+   * appended).
+   * @return The generated EventsTable or nullptr if failed.
+   */
+  std::shared_ptr<EventsTable> createEventsTable(
+      const std::string& name,
+      const std::string& description,
+      const std::string& sourceDescription,
+      const std::vector<NWB::DynamicTable::DataSpecPtr>& columnSpecs);
+
+  /**
+   * @brief Create the Epochs table in the INTERVALS_PATH group.
+   * @param createTagsColumn Whether to create the tags column.
+   * @param rowChunkSize The chunk size for the rows of the table.
+   * @return The generated TimeIntervals or nullptr if failed.
+   */
+  std::shared_ptr<TimeIntervals> createEpochs(
+      const bool createTagsColumn = false, const SizeType rowChunkSize = 100);
+
+  /**
+   * @brief Create the Trials table in the INTERVALS_PATH group.
+   * @param createTagsColumn Whether to create the tags column.
+   * @param rowChunkSize The chunk size for the rows of the table.
+   * @return The generated TimeIntervals or nullptr if failed.
+   */
+  std::shared_ptr<TimeIntervals> createTrials(
+      const bool createTagsColumn = false, const SizeType rowChunkSize = 100);
+
+  /**
+   * @brief Create the Invalid Times table in the INTERVALS_PATH group.
+   * @param createTagsColumn Whether to create the tags column.
+   * @param rowChunkSize The chunk size for the rows of the table.
+   * @return The generated TimeIntervals or nullptr if failed.
+   */
+  std::shared_ptr<TimeIntervals> createInvalidTimes(
+      const bool createTagsColumn = false, const SizeType rowChunkSize = 100);
+
+  /**
+   * @brief Create a TimeIntervals table in the INTERVALS_PATH group.
+   * Note, this function will fail if the file is in a mode where
+   * new objects cannot be added, which can be checked via
+   * nwbfile.io->canModifyObjects()
+   * @param name The name of the TimeIntervals table to create (e.g., "epochs",
+   * "trials", "invalid_times").
+   * @param description Description of the table.
+   * @param createTagsColumn Whether to create the tags column.
+   * @param rowChunkSize The chunk size for the rows of the table.
+   * @return The generated TimeIntervals or nullptr if failed.
+   */
+  std::shared_ptr<TimeIntervals> createTimeIntervals(
+      const std::string& name,
+      const std::string& description,
+      const bool createTagsColumn = false,
+      const SizeType rowChunkSize = 100);
+
+  /**
+   * @brief Create a TimeIntervals table in the INTERVALS_PATH group using a
+   * pre-built column spec list.
+   *
+   * This overload is useful when the caller has already constructed a column
+   * spec vector (e.g. via TimeIntervals::createDefaultDataSpecs() followed by
+   * push_back() calls to add custom columns) and wants to pass it directly.
+   *
+   * Note, this function will fail if the file is in a mode where
+   * new objects cannot be added, which can be checked via
+   * nwbfile.io->canModifyObjects()
+   * @param name The name of the TimeIntervals table to create.
+   * @param description Description of the table.
+   * @param columnSpecs Pre-built vector of column specs.
+   * @return The generated TimeIntervals or nullptr if failed.
+   */
+  std::shared_ptr<TimeIntervals> createTimeIntervals(
+      const std::string& name,
+      const std::string& description,
+      const std::vector<NWB::DynamicTable::DataSpecPtr>& columnSpecs);
 
   /**
    * @brief Create ElectricalSeries objects to record data into.
@@ -184,6 +360,21 @@ public:
    */
   Status createAnnotationSeries(const std::vector<std::string>& recordingNames,
                                 std::vector<SizeType>& containerIndexes);
+
+  DEFINE_REGISTERED_FIELD(readEpochs,
+                          TimeIntervals,
+                          "intervals/epochs",
+                          "Table of experimental epochs.")
+
+  DEFINE_REGISTERED_FIELD(readTrials,
+                          TimeIntervals,
+                          "intervals/trials",
+                          "Table of experimental trials.")
+
+  DEFINE_REGISTERED_FIELD(readInvalidTimes,
+                          TimeIntervals,
+                          "intervals/invalid_times",
+                          "Table of invalid times.")
 
   DEFINE_REGISTERED_FIELD(readElectrodesTable,
                           ElectrodesTable,
@@ -241,6 +432,19 @@ public:
                                   "processing",
                                   Get a ProcessingModule stored in the
                                       processing group)
+
+  DEFINE_UNNAMED_REGISTERED_FIELD(readTimeIntervals,
+                                  createTimeIntervalsInstance,
+                                  TimeIntervals,
+                                  "intervals",
+                                  Get a TimeIntervals object stored in the
+                                      intervals group)
+
+  DEFINE_UNNAMED_REGISTERED_FIELD(readEventsTable,
+                                  createEventsTableInstance,
+                                  EventsTable,
+                                  "events",
+                                  Get an EventsTable stored in the events group)
 
 protected:
   /**
