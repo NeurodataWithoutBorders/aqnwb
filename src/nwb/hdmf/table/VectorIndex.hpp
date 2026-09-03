@@ -147,8 +147,7 @@ public:
    * invalid (e.g., not monotonically increasing).
    */
   std::vector<AQNWB::Types::CellValue> readIndexedCellValues(
-      SizeType start = 0,
-      SizeType count = AQNWB::Types::SizeTypeNotSet);
+      SizeType start = 0, SizeType count = AQNWB::Types::SizeTypeNotSet);
 
   // Define read methods
   DEFINE_REFERENCED_REGISTERED_FIELD(
