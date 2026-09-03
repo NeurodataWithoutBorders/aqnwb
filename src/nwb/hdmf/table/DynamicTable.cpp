@@ -589,15 +589,6 @@ Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
         // Regular column (not a target of a VectorIndex)
         auto it = row.find(col.name);
         if (it != row.end()) {
-          if (std::holds_alternative<Types::VectorDataVariant>(
-                  it->second.value))
-          {
-            std::cerr << "DynamicTable::addRows: Vector cell value provided "
-                         "for a regular column '"
-                      << col.name << "' without a registered index."
-                      << std::endl;
-            return Status::Failure;
-          }
           Status appendStatus =
               appendCellValueToBuffer(columnBuffers[col.name], it->second);
           if (appendStatus != Status::Success) {
