@@ -531,7 +531,7 @@ protected:
         return Status::Failure;
       }
       if (expectedDataType.has_value()
-          && spec->getType() != expectedDataType.value())
+          && !(spec->getType() == expectedDataType.value()))
       {
         std::cerr << "DynamicTable::checkRequiredColumnSpec: required column '"
                   << requiredName << "' has an invalid data type." << std::endl;
