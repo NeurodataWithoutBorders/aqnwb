@@ -109,4 +109,26 @@
  * [GitHub Security](https://github.com/NeurodataWithoutBorders/aqnwb/security/code-scanning) 
  * tab, where cppcheck results can be browsed and tracked over time.
  *
+ * \section testing_clang_tidy Static Analysis (clang-tidy)
+ *
+ * AqNWB uses ``clang-tidy`` as an advisory, compiler-aware static analysis check.
+ * Its focused initial policy covers Clang static-analyzer, ``bugprone``, and
+ * ``performance`` checks for production code. Unlike cppcheck, clang-tidy uses
+ * the CMake compilation database, so it analyzes the compiler flags, include
+ * paths, and definitions used by the project.
+ *
+ * To run it locally, first configure a build with an exported compilation database,
+ * then invoke the ``tidy-check`` target:
+ *
+ * \code{.sh}
+ * cmake --preset=dev -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+ * cmake --build --preset=dev --target=tidy-check
+ * \endcode
+ *
+ * The ``clang-tidy`` GitHub Actions workflow defined in
+ * [.github/workflows/clang-tidy.yml](https://github.com/NeurodataWithoutBorders/aqnwb/blob/main/.github/workflows/clang-tidy.yml)
+ * runs on changes to production source or analysis configuration. It invokes the
+ * same ``tidy-check`` target and analyzes all production translation units.
+ * Findings are advisory while initial CI coverage is established.
+ *
  */

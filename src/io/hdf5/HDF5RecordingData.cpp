@@ -120,7 +120,10 @@ Status HDF5RecordingData::writeDataBlock(const SizeArray& dataShape,
         cstrBuffer[i] = data[i].c_str();
       }
       // Write the data
-      m_dataset->write(cstrBuffer.data(), nativeType, mSpace, fSpace);
+      m_dataset->write(reinterpret_cast<const void*>(cstrBuffer.data()),
+                       nativeType,
+                       mSpace,
+                       fSpace);
     } else if (type.type == BaseDataType::Type::T_STR) {
       // Handle fixed-length strings
       std::vector<char> buffer(data.size() * type.typeSize, '\0');

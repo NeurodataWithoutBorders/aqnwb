@@ -37,13 +37,6 @@
       }
     },
     {
-      "name": "clang-tidy",
-      "hidden": true,
-      "cacheVariables": {
-        "CMAKE_CXX_CLANG_TIDY": "clang-tidy;--header-filter=^${sourceDir}/"
-      }
-    },
-    {
       "name": "ci-std",
       "description": "This preset makes sure the project actually builds with at least the specified standard",
       "hidden": true,
