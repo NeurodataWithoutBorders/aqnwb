@@ -427,6 +427,20 @@ Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
 
   // 2. Validate that all rows have the required columns
   for (const auto& row : rows) {
+    // 2.1 Validate the keys in the row, e.g., no unknown columns
+    for (const auto& [key, value] : row) {
+      if (key == "id") {
+        continue;
+      }
+      if (m_configuredColumnIndices.find(key) == m_configuredColumnIndices.end()
+          && targetColumns.find(key) == targetColumns.end())
+      {
+        std::cerr << "DynamicTable::addRows: Unknown column '" << key
+                  << "' provided." << std::endl;
+        return Status::Failure;
+      }
+    }
+    // 2.2 Validate against the configured columns
     for (const auto& col : m_configuredColumns) {
       if (targetColumns.find(col.name) != targetColumns.end()) {
         // Target columns must be present in the row

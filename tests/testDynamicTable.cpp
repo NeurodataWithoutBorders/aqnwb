@@ -1213,8 +1213,16 @@ TEST_CASE("DynamicTable", "[table]")
     REQUIRE(nonExistentCol == nullptr);
 
     // Test addRow with missing required column
+    size_t initialRowCount = table->getNumberOfRows();
     AQNWB::Types::RowData missingColRow = {{"wrong_col", std::string("val")}};
     REQUIRE(table->addRow(missingColRow) == Status::Failure);
+    REQUIRE(table->getNumberOfRows() == initialRowCount);
+
+    // Test addRow with an unknown extra column (should fail)
+    AQNWB::Types::RowData extraColRow = {{"col_str", std::string("val")},
+                                         {"unknown_col", std::string("bad")}};
+    REQUIRE(table->addRow(extraColRow) == Status::Failure);
+    REQUIRE(table->getNumberOfRows() == initialRowCount);
 
     // Add a valid row so we can test readRows
     AQNWB::Types::RowData validRow = {{"col_str", std::string("val")}};

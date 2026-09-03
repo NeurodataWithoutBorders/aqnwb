@@ -161,7 +161,7 @@ TEST_CASE("createTimeIntervalsTables", "[nwb]")
   REQUIRE(io->objectExists("/intervals") == false);
 
   // create the Epochs Table
-  auto epochsTable = nwbfile->createEpochs(false, 50);
+  auto epochsTable = nwbfile->createEpochs(true, 50);
   REQUIRE(epochsTable != nullptr);
   REQUIRE(epochsTable->getName() == "epochs");
 
@@ -170,21 +170,21 @@ TEST_CASE("createTimeIntervalsTables", "[nwb]")
   REQUIRE(epochsTable->readDescription()->values().data[0] == "Time intervals marking coarse-grained experimental phases or subdivisions of a recording session, such as baseline, task, rest, or sleep stage");
 
   // create the Trials Table
-  auto trialsTable = nwbfile->createTrials(false, 50);
+  auto trialsTable = nwbfile->createTrials(true, 50);
   REQUIRE(trialsTable != nullptr);
   REQUIRE(trialsTable->getName() == "trials");
   REQUIRE(trialsTable->readDescription()->values().data[0] == "Time intervals corresponding to repeated experimental units with consistent structure, such as individual stimulus-response-reward cycles.");
 
   // create the Invalid Times Table
-  auto invalidTimesTable = nwbfile->createInvalidTimes(false, 50);
+  auto invalidTimesTable = nwbfile->createInvalidTimes(true, 50);
   REQUIRE(invalidTimesTable != nullptr);
   REQUIRE(invalidTimesTable->getName() == "invalid_times");
   REQUIRE(invalidTimesTable->readDescription()->values().data[0]
           == "Time intervals that should be removed from analysis");
 
   // create a custom TimeIntervals Table
-  auto customTable = nwbfile->createTimeIntervals(
-      "custom_intervals", "test custom", false, 50);
+  auto customTable =
+      nwbfile->createTimeIntervals("custom_intervals", "test custom", true, 50);
   REQUIRE(customTable != nullptr);
   REQUIRE(customTable->getName() == "custom_intervals");
   REQUIRE(customTable->readDescription()->values().data[0] == "test custom");
