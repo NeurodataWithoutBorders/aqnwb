@@ -17,6 +17,7 @@
 #include "nwb/ecephys/SpikeEventSeries.hpp"
 #include "nwb/epoch/TimeIntervals.hpp"
 #include "nwb/file/ElectrodeGroup.hpp"
+#include "nwb/file/Subject.hpp"
 #include "nwb/misc/AnnotationSeries.hpp"
 #include "spec/NamespaceRegistry.hpp"
 #include "spec/core.hpp"
@@ -50,11 +51,13 @@ NWBFile::NWBFile(const std::string& path, std::shared_ptr<IO::BaseIO> io)
 
 NWBFile::~NWBFile() {}
 
-Status NWBFile::initialize(const std::string& identifierText,
-                           const std::string& description,
-                           const std::string& dataCollection,
-                           const std::string& sessionStartTime,
-                           const std::string& timestampsReferenceTime)
+Status NWBFile::initialize(
+    const std::string& identifierText,
+    const std::string& description,
+    const std::string& dataCollection,
+    const std::string& sessionStartTime,
+    const std::string& timestampsReferenceTime,
+    const std::optional<AQNWB::NWB::Subject::SubjectSpec>& subjectSpec)
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
@@ -89,16 +92,31 @@ Status NWBFile::initialize(const std::string& identifierText,
 
   // Check that the file is empty and initialize if it is
   bool fileInitialized = isInitialized();
+  Status initStatus = Status::Success;
   if (!fileInitialized) {
     Status createStatus = createFileStructure(identifierText,
                                               description,
                                               dataCollection,
                                               useSessionStartTime,
                                               useTimestampsReferenceTime);
-    return createStatus;
-  } else {
-    return Status::Success;
+    initStatus = initStatus && createStatus;
   }
+
+  // Create subject group and its contents if subject metadata is provided
+  if (subjectSpec.has_value()) {
+    const std::string subjectPath =
+        mergePaths(NWBFile::GENERAL_PATH, "subject");
+    if (!ioPtr->objectExists(subjectPath)) {
+      auto subject = AQNWB::NWB::Subject::create(subjectPath, ioPtr);
+      Status subjectInitStatus = subject->initialize(subjectSpec.value());
+      initStatus = initStatus && subjectInitStatus;
+    } else {
+      std::cerr << "Subject group already exists in the file. Skipping "
+                   "subject initialization."
+                << std::endl;
+    }
+  }
+  return initStatus;
 }
 
 bool NWBFile::isInitialized() const
@@ -200,6 +218,7 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
   ioPtr->createStringDataSet("/timestamps_reference_time",
                              timestampsReferenceTime);
   ioPtr->createStringDataSet("/identifier", identifierText);
+
   return Status::Success;
 }
 

@@ -32,7 +32,21 @@ TEST_CASE("eventsWorkflowExamples")
 
     // [example_events_rowbased_nwbfile_snippet]
     auto nwbfile = NWB::NWBFile::create(io);
-    Status initStatus = nwbfile->initialize(generateUuid());
+    auto subjectSpec =
+        AQNWB::NWB::Subject::SubjectSpec()
+            .withSubjectId("mouse001")
+            .withSpecies("Mus musculus")
+            .withSex("M")
+            .withAge("P90D")
+            .withDescription(
+                "Wild type mouse used for electrophysiology study");
+    std::string currentTime = getCurrentTime();
+    Status initStatus = nwbfile->initialize(generateUuid(),
+                                            "a recording session",
+                                            "data collection info",
+                                            currentTime,
+                                            currentTime,
+                                            subjectSpec);
     AQNWB::checkStatus(initStatus, "NWBFile initialization");
     // [example_events_rowbased_nwbfile_snippet]
     REQUIRE(initStatus == Status::Success);
@@ -124,8 +138,22 @@ TEST_CASE("eventsWorkflowExamples")
 
     // [example_events_colbased_nwbfile_snippet]
     auto nwbfile = NWB::NWBFile::create(io);
-    Status initStatus = nwbfile->initialize(generateUuid());
-    REQUIRE(initStatus == Status::Success);
+    auto subjectSpec =
+        AQNWB::NWB::Subject::SubjectSpec()
+            .withSubjectId("mouse001")
+            .withSpecies("Mus musculus")
+            .withSex("M")
+            .withAge("P90D")
+            .withDescription(
+                "Wild type mouse used for electrophysiology study");
+    std::string currentTime = getCurrentTime();
+    Status initStatus = nwbfile->initialize(generateUuid(),
+                                            "a recording session",
+                                            "data collection info",
+                                            currentTime,
+                                            currentTime,
+                                            subjectSpec);
+    AQNWB::checkStatus(initStatus, "NWBFile initialization");
     // [example_events_colbased_nwbfile_snippet]
     REQUIRE(initStatus == Status::Success);
 
@@ -233,7 +261,21 @@ TEST_CASE("eventsWorkflowExamples")
 
     // [example_events_meanings_nwbfile_snippet]
     auto nwbfile = NWB::NWBFile::create(io);
-    Status initStatus = nwbfile->initialize(generateUuid());
+    auto subjectSpec =
+        AQNWB::NWB::Subject::SubjectSpec()
+            .withSubjectId("mouse001")
+            .withSpecies("Mus musculus")
+            .withSex("M")
+            .withAge("P90D")
+            .withDescription(
+                "Wild type mouse used for electrophysiology study");
+    std::string currentTime = getCurrentTime();
+    Status initStatus = nwbfile->initialize(generateUuid(),
+                                            "a recording session",
+                                            "data collection info",
+                                            currentTime,
+                                            currentTime,
+                                            subjectSpec);
     AQNWB::checkStatus(initStatus, "NWBFile initialization");
     // [example_events_meanings_nwbfile_snippet]
     REQUIRE(initStatus == Status::Success);

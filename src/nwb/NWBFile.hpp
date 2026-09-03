@@ -18,6 +18,7 @@
 #include "nwb/epoch/TimeIntervals.hpp"
 #include "nwb/event/EventsTable.hpp"
 #include "nwb/file/ElectrodesTable.hpp"
+#include "nwb/file/Subject.hpp"
 #include "spec/core.hpp"
 
 /*!
@@ -114,12 +115,18 @@ public:
    * time. If empty (default), then the getCurrentTime() will be used.
    * @param timestampsReferenceTime ISO formatted time string with the timestamp
    * reference time. If empty (default), then the getCurrentTime() will be used.
+   * @param subjectSpec Optional subject metadata. Defaults to @c std::nullopt,
+   * so no Subject group is created unless a SubjectSpec is supplied. For DANDI
+   * validation, the supplied SubjectSpec must include subjectId, species, sex,
+   * and either age or dateOfBirth.
    */
   Status initialize(const std::string& identifierText,
                     const std::string& description = "a recording session",
                     const std::string& dataCollection = "",
                     const std::string& sessionStartTime = "",
-                    const std::string& timestampsReferenceTime = "");
+                    const std::string& timestampsReferenceTime = "",
+                    const std::optional<AQNWB::NWB::Subject::SubjectSpec>&
+                        subjectSpec = std::nullopt);
 
   /**
    * @brief Check if the NWB file is initialized.

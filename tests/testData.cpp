@@ -4,8 +4,10 @@
 #include "Types.hpp"
 #include "Utils.hpp"
 #include "io/BaseIO.hpp"
+#include "io/RecordingObjects.hpp"
 #include "io/hdf5/HDF5RecordingData.hpp"
 #include "nwb/RegisteredType.hpp"
+#include "nwb/base/NWBData.hpp"
 #include "nwb/hdmf/base/Data.hpp"
 #include "testUtils.hpp"
 
@@ -101,6 +103,22 @@ TEST_CASE("Data", "[base]")
 
 TEST_CASE("DataTyped", "[base]")
 {
+  SECTION("typed data facades are not registered")
+  {
+    auto io = createIO("HDF5", getTestFilePath("testDataTypedFacade.h5"));
+    const std::string dataPath = "/typed_data";
+
+    auto dataTyped = NWB::DataTyped<int>::create(dataPath, io);
+    REQUIRE(dataTyped != nullptr);
+    REQUIRE(io->getRecordingObjects()->getRecordingObject(dataPath) == nullptr);
+
+    auto nwbData = NWB::NWBData::create("/nwb_data", io);
+    auto nwbDataTyped = NWB::NWBDataTyped<int>::fromNWBData(*nwbData);
+    REQUIRE(nwbDataTyped != nullptr);
+    REQUIRE(io->getRecordingObjects()->getRecordingObject("/nwb_data")
+            == nwbData);
+  }
+
   SECTION("test DataTyped<int> write/read")
   {
     std::string path = getTestFilePath("testDataTypedInt.h5");

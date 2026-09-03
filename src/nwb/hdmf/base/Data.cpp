@@ -187,8 +187,9 @@ std::shared_ptr<DataTyped<DTYPE>> DataTyped<DTYPE>::create(
             new DataTyped<DTYPE>(path, io));
       }
     }
+    return std::shared_ptr<DataTyped<DTYPE>>(new DataTyped<DTYPE>(path, io));
   }
-  return RegisteredType::create<DataTyped<DTYPE>>(path, io);
+  return nullptr;
 }
 
 // Explicitly instantiate the DataTyped template for all common data types.

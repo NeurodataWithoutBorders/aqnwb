@@ -273,6 +273,22 @@ public:
   };
 
   /**
+   * @brief Type trait identifying non-registered typed VectorData facades.
+   *
+   * VectorDataTyped instances provide compile-time value typing without
+   * becoming the single canonical RegisteredType cached for a dataset path.
+   */
+  template<typename T>
+  struct IsVectorDataTyped : std::false_type
+  {
+  };
+
+  template<typename DTYPE>
+  struct IsVectorDataTyped<VectorDataTyped<DTYPE>> : std::true_type
+  {
+  };
+
+  /**
    * @brief Read an arbitrary column of the DynamicTable
    *
    * For columns defined in the schema the corresponding DEFINE_REGISTERED_FIELD
@@ -300,7 +316,15 @@ public:
         if (ioPtr->getStorageObjectType(columnPath)
             == StorageObjectType::Dataset)
         {
-          return ReturnType::create(columnPath, ioPtr);
+          if constexpr (std::is_base_of<VectorData, T>::value
+                        && !IsVectorDataTyped<ReturnType>::value)
+          {
+            // Resolve the concrete on-disk registered type before caching it.
+            auto column = RegisteredType::create(columnPath, ioPtr);
+            return std::dynamic_pointer_cast<ReturnType>(column);
+          } else {
+            return ReturnType::create(columnPath, ioPtr);
+          }
         }
       }
     } else {

@@ -4,6 +4,7 @@
 #include "Types.hpp"
 #include "Utils.hpp"
 #include "io/BaseIO.hpp"
+#include "io/RecordingObjects.hpp"
 #include "io/hdf5/HDF5RecordingData.hpp"
 #include "nwb/RegisteredType.hpp"
 #include "nwb/hdmf/table/VectorData.hpp"
@@ -151,6 +152,16 @@ TEST_CASE("VectorData", "[base]")
 
 TEST_CASE("VectorDataTyped", "[base]")
 {
+  SECTION("typed vector data facades are not registered")
+  {
+    auto io = createIO("HDF5", getTestFilePath("testVectorDataTypedFacade.h5"));
+    const std::string dataPath = "/typed_vector_data";
+
+    auto vectorDataTyped = NWB::VectorDataTyped<int>::create(dataPath, io);
+    REQUIRE(vectorDataTyped != nullptr);
+    REQUIRE(io->getRecordingObjects()->getRecordingObject(dataPath) == nullptr);
+  }
+
   SECTION("test VectorDataTyped with int")
   {
     std::string path = getTestFilePath("testVectorDataTyped_int.h5");

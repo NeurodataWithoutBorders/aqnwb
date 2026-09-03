@@ -200,7 +200,11 @@ public:
   getFactoryMap();
 
   /**
-   * @brief Create an instance of a registered subclass by name.
+   * @brief Create or retrieve the canonical instance of a registered subclass.
+   *
+   * Each I/O object caches at most one canonical RegisteredType per path. If a
+   * cached instance exists, its full registered type must match fullClassName;
+   * otherwise this function logs the mismatch and returns nullptr.
    *
    * @param fullClassName The combined namespace and class name to instantiate,
    * i.e., namespace::class
@@ -211,8 +215,8 @@ public:
    *        m_defaultUnregisteredGroupTypeClass and
    * m_defaultUnregisteredDatasetTypeClass depending on whether the type is a
    * group or dataset.
-   * @return A unique_ptr to the created instance of the subclass, or nullptr if
-   * the subclass is not found.
+   * @return The canonical instance of the subclass, or nullptr if the subclass
+   * is not found or a cached instance has a different registered type.
    */
   static std::shared_ptr<RegisteredType> create(
       const std::string& fullClassName,
@@ -221,13 +225,14 @@ public:
       bool fallbackToBase = false);
 
   /**
-   * @brief Factory method to create an instance of a subclass of RegisteredType
-   * from file
+   * @brief Create or retrieve the canonical RegisteredType instance from file.
    *
    * The function: 1) reads the  "namespace" and "neurodata_type" attributes at
    * the given path, 2) looks up the corresponding subclass of  RegisteredType
    * for that type in the type registry 3) instantiates the subclass to
-   * represent the object at the path.
+   * represent the object at the path. The on-disk type is resolved before a
+   * cached object is used, ensuring that a cached instance has the same
+   * registered type as the file object.
    *
    * @param path The path of the registered type.
    * @param io A shared pointer to the IO object.
@@ -237,8 +242,8 @@ public:
    * m_defaultUnregisteredDatasetTypeClass depending on whether the type is a
    * group or dataset.
    *
-   * @return A unique pointer to the created RegisteredType instance, or nullptr
-   * if creation fails.
+   * @return The canonical RegisteredType instance, or nullptr if creation
+   * fails or a cached instance has a different registered type.
    */
   static std::shared_ptr<AQNWB::NWB::RegisteredType> create(
       const std::string& path,
@@ -246,13 +251,19 @@ public:
       bool fallbackToBase = false);
 
   /**
-   * @brief Factory method to create an instance of a subclass of RegisteredType
-   * by type.
+   * @brief Create or retrieve a canonical instance of a RegisteredType subtype.
+   *
+   * If a cached object exists at path, it is returned only when it can be cast
+   * to T. A type mismatch is reported and returns nullptr rather than creating
+   * a second instance for the same path. Non-registered typed facades, such as
+   * DataTyped and VectorDataTyped, provide their own create methods and are not
+   * cached by this factory.
    *
    * @tparam T The subclass of RegisteredType to instantiate.
    * @param path The path of the container.
    * @param io A shared pointer to the IO object.
-   * @return A unique_ptr to the created instance of the subclass.
+   * @return The canonical instance of T, or nullptr if a cached instance has an
+   * incompatible type.
    */
   template<typename T>
   static inline std::shared_ptr<T> create(const std::string& path,
@@ -266,6 +277,10 @@ public:
       if (casted) {
         return casted;
       }
+      std::cerr << "RegisteredType::create: cached object at path " << path
+                << " has type " << existing->getFullTypeName()
+                << ", which does not match the requested type." << std::endl;
+      return nullptr;
     }
     auto result = std::shared_ptr<T>(new T(path, io));
     result->registerRecordingObject();

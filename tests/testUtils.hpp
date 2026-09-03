@@ -11,6 +11,7 @@
 #include "Channel.hpp"
 #include "Types.hpp"
 #include "io/hdf5/HDF5IO.hpp"
+#include "nwb/file/Subject.hpp"
 
 using namespace AQNWB;
 using namespace AQNWB::IO;
@@ -47,6 +48,22 @@ inline std::string getTestFilePath(const std::string& filename)
 
   // Always use generic_string for portability across C++17 and C++23
   return filepath.generic_string();
+}
+
+inline NWB::Subject::SubjectSpec getTestSubjectSpec()
+{
+  NWB::Subject::SubjectSpec subjectSpec;
+  subjectSpec.age = "P90D";
+  subjectSpec.ageReference = "birth";
+  subjectSpec.dateOfBirth = "2024-01-15T00:00:00.000000+00:00";
+  subjectSpec.description = "Test subject";
+  subjectSpec.genotype = "wt/wt";
+  subjectSpec.sex = "U";
+  subjectSpec.species = "Mus musculus";
+  subjectSpec.strain = "C57BL/6J";
+  subjectSpec.subjectId = "test-subject";
+  subjectSpec.weight = "25 g";
+  return subjectSpec;
 }
 
 inline std::vector<Types::ChannelVector> getMockChannelArrays(
