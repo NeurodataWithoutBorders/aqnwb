@@ -43,14 +43,6 @@ public:
   };
 
   /**
-   * @brief Constructor
-   * @param path Path to the object in the file
-   * @param io IO object for reading/writing
-   */
-  TimestampVectorData(const std::string& path,
-                      std::shared_ptr<AQNWB::IO::BaseIO> io);
-
-  /**
    * @brief Virtual destructor.
    */
   virtual ~TimestampVectorData() override {}
@@ -101,6 +93,15 @@ public:
   REGISTER_SUBCLASS(TimestampVectorData,
                     VectorData,
                     AQNWB::SPEC::CORE::namespaceName)
+
+protected:
+  /**
+   * @brief Constructor
+   * @param path Path to the object in the file
+   * @param io IO object for reading/writing
+   */
+  TimestampVectorData(const std::string& path,
+                      std::shared_ptr<AQNWB::IO::BaseIO> io);
 };
 
 }  // namespace AQNWB::NWB
