@@ -575,6 +575,12 @@ TEST_CASE("DynamicTable", "[table]")
     // Initially 0 rows
     REQUIRE(table->getNumberOfRows() == 0);
 
+    // Vector-valued cells are valid only for VectorIndex target columns.
+    AQNWB::Types::RowData vectorValuedRow = {
+        {"col_str", std::vector<std::string> {"row1", "row2"}}};
+    REQUIRE(table->addRow(vectorValuedRow) == Status::Failure);
+    REQUIRE(table->getNumberOfRows() == 0);
+
     // Add single row
     AQNWB::Types::RowData row1 = {{"col_str", std::string("row1")}};
     status = table->addRow(row1);

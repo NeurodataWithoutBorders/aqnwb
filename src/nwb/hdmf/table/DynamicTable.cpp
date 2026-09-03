@@ -440,9 +440,17 @@ Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
         auto vectorIndex = std::dynamic_pointer_cast<VectorIndex>(col.column);
         if (!vectorIndex) {
           // Regular columns must be present in the row
-          if (row.find(col.name) == row.end()) {
+          auto cell = row.find(col.name);
+          if (cell == row.end()) {
             std::cerr << "DynamicTable::addRows: Missing value for column '"
                       << col.name << "'." << std::endl;
+            return Status::Failure;
+          }
+          if (std::holds_alternative<AQNWB::Types::VectorDataVariant>(
+                  cell->second.value))
+          {
+            std::cerr << "DynamicTable::addRows: Regular column '" << col.name
+                      << "' does not accept vector-valued cells." << std::endl;
             return Status::Failure;
           }
         }
