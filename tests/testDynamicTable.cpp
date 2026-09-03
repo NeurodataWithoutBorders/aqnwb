@@ -929,20 +929,33 @@ TEST_CASE("DynamicTable", "[table]")
     auto readIds = readTable->readIdColumn()->readData()->values().data;
     REQUIRE(readIds == std::vector<int>({0, 1, 2}));
 
+    // Test Issue #330: Append a row to a ragged column after reopening
+    std::vector<AQNWB::Types::RowData> rowsToAppend = {
+        {{"col_str", std::string("row4")},
+         {"ragged_data", std::vector<int> {10, 11}}}};
+    status = readTable->addRows(rowsToAppend);
+    REQUIRE(status == Status::Success);
+
+    // Read back again to check appended row
+    auto readIdsNew = readTable->readIdColumn()->readData()->values().data;
+    REQUIRE(readIdsNew == std::vector<int>({0, 1, 2, 3}));
+
     auto colStr = readTable->readColumn<NWB::VectorData>("col_str");
     auto colStrDataGeneric = colStr->readData()->valuesGeneric();
     auto colStrDataTyped =
         DataBlock<std::string>::fromGeneric(colStrDataGeneric);
     auto colStrData = colStrDataTyped.data;
-    REQUIRE(colStrData.size() == 3);
-    REQUIRE(colStrData == std::vector<std::string>({"row1", "row2", "row3"}));
+    REQUIRE(colStrData.size() == 4);
+    REQUIRE(colStrData
+            == std::vector<std::string>({"row1", "row2", "row3", "row4"}));
 
     auto raggedDataCol = readTable->readColumn<NWB::VectorData>("ragged_data");
     auto raggedDataGeneric = raggedDataCol->readData()->valuesGeneric();
     auto raggedDataTyped = DataBlock<int>::fromGeneric(raggedDataGeneric);
     auto raggedData = raggedDataTyped.data;
-    REQUIRE(raggedData.size() == 9);
-    REQUIRE(raggedData == std::vector<int>({1, 2, 3, 4, 5, 6, 7, 8, 9}));
+    REQUIRE(raggedData.size() == 11);
+    REQUIRE(raggedData
+            == std::vector<int>({1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}));
 
     auto raggedIndexCol =
         readTable->readColumn<NWB::VectorIndex>("ragged_data_index");
@@ -950,10 +963,110 @@ TEST_CASE("DynamicTable", "[table]")
     auto raggedIndexTyped =
         DataBlock<uint32_t>::fromGeneric(raggedIndexGeneric);
     auto raggedIndexData = raggedIndexTyped.data;
-    REQUIRE(raggedIndexData.size() == 3);
-    REQUIRE(raggedIndexData == std::vector<uint32_t>({3, 5, 9}));
+    REQUIRE(raggedIndexData.size() == 4);
+    REQUIRE(raggedIndexData == std::vector<uint32_t>({3, 5, 9, 11}));
 
     io->close();
+  }
+
+  SECTION("test ragged array columns with different data types")
+  {
+    auto testRaggedType = [&tablePath](IO::BaseDataType indexType,
+                                       const std::string& typeName,
+                                       bool shouldSucceed)
+    {
+      std::string path =
+          getTestFilePath("testDynamicTableRaggedArray_" + typeName + ".h5");
+      std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+      io->open();
+
+      auto table = NWB::DynamicTable::create(tablePath, io);
+
+      // Configure schema
+      std::vector<NWB::DynamicTable::DataSpecPtr> specs;
+      specs.push_back(NWB::ElementIdentifiers::createDataSpec(
+          "id", IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10})));
+      specs.push_back(NWB::VectorData::createDataSpec(
+          "col_str",
+          IO::ArrayDataSetConfig(IO::BaseDataType::V_STR, {0}, {10}),
+          "String column"));
+
+      Status status = table->initialize("Table with ragged array", specs);
+      REQUIRE(status == Status::Success);
+
+      // Add target column for ragged array
+      auto targetCol =
+          NWB::VectorData::create(mergePaths(tablePath, "ragged_data"), io);
+      targetCol->initialize(
+          IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10}),
+          "Target data for ragged array");
+      status = table->addColumn(targetCol);
+      REQUIRE(status == Status::Success);
+
+      // Add VectorIndex column
+      auto indexCol = NWB::VectorIndex::create(
+          mergePaths(tablePath, "ragged_data_index"), io);
+      indexCol->initialize(IO::ArrayDataSetConfig(indexType, {0}, {10}),
+                           "Index for ragged array",
+                           targetCol->getPath());
+      status = table->addColumn(indexCol);
+      REQUIRE(status == Status::Success);
+
+      // Add rows
+      std::vector<AQNWB::Types::RowData> rows = {
+          {{"col_str", std::string("row1")},
+           {"ragged_data", std::vector<int> {1, 2, 3}}}};
+
+      status = table->addRows(rows);
+
+      if (!shouldSucceed) {
+        REQUIRE(status == Status::Failure);
+      } else {
+        REQUIRE(status == Status::Success);
+      }
+
+      io->close();
+    };
+
+    // Test the 4 unsigned widths. (Issue #332)
+    testRaggedType(IO::BaseDataType::U8, "U8", true);
+    testRaggedType(IO::BaseDataType::U16, "U16", true);
+    testRaggedType(IO::BaseDataType::U32, "U32", true);
+    testRaggedType(IO::BaseDataType::U64, "U64", true);
+
+    // Note: Signed integers (e.g. I32) and non-integral types (F32, V_STR)
+    // are rejected by VectorIndex::initialize and thus cannot be created here.
+    // However, DynamicTable::addRows gracefully tolerates pre-existing signed
+    // integer indices and explicitly fails on non-integral types.
+
+    // Explicitly test that non-integral index types fail (by verifying that
+    // VectorIndex::initialize rejects them, fulfilling our contract).
+    auto testBadIndexInit =
+        [&tablePath](IO::BaseDataType badIndexType, const std::string& typeName)
+    {
+      std::string path = getTestFilePath("testDynamicTableRaggedArray_bad_"
+                                         + typeName + ".h5");
+      std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+      io->open();
+
+      auto targetCol =
+          NWB::VectorData::create(mergePaths(tablePath, "ragged_data"), io);
+      targetCol->initialize(
+          IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10}),
+          "Target data");
+
+      auto indexCol = NWB::VectorIndex::create(
+          mergePaths(tablePath, "ragged_data_index"), io);
+      REQUIRE_THROWS_AS(
+          indexCol->initialize(IO::ArrayDataSetConfig(badIndexType, {0}, {10}),
+                               "Index",
+                               targetCol->getPath()),
+          std::invalid_argument);
+      io->close();
+    };
+
+    testBadIndexInit(IO::BaseDataType::F32, "F32");
+    testBadIndexInit(IO::BaseDataType::V_STR, "V_STR");
   }
 
   SECTION("test readRows")
