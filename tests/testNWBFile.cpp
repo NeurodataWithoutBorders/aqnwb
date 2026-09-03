@@ -118,7 +118,7 @@ TEST_CASE("initialize fails when Subject has an incompatible cached type",
           "[nwb]")
 {
   const std::string filename =
-      getTestFilePath("testInitializeIncompatibleCachedSubject.nwb");
+      getTestFilePath("testInitializeIncompatibleCachedSubject.h5");
   auto io = std::make_shared<IO::HDF5::HDF5IO>(filename);
   io->open();
 
