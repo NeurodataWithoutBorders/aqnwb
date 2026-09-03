@@ -20,7 +20,18 @@ MeaningsTable::MeaningsTable(const std::string& path,
 Status MeaningsTable::validateDataSpecs(
     const std::vector<DataSpecPtr>& dataSpecs) const
 {
-  return checkRequiredColumnNames({"id", "value", "meaning"}, dataSpecs);
+  Status status = DynamicTable::validateDataSpecs(dataSpecs);
+  if (status != Status::Success) {
+    return status;
+  }
+
+  status = checkRequiredColumnSpec<VectorData::DataSpec>("value", dataSpecs);
+  if (status != Status::Success) {
+    return status;
+  }
+
+  return checkRequiredColumnSpec<VectorData::DataSpec>(
+      "meaning", dataSpecs, IO::BaseDataType(IO::BaseDataType::V_STR));
 }
 
 std::vector<DynamicTable::DataSpecPtr> MeaningsTable::createDefaultDataSpecs(

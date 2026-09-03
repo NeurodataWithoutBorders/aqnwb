@@ -71,9 +71,19 @@ std::vector<DynamicTable::DataSpecPtr> TimeIntervals::createDefaultDataSpecs(
 Status TimeIntervals::validateDataSpecs(
     const std::vector<DataSpecPtr>& dataSpecs) const
 {
-  return checkRequiredColumnNames({"id", "start_time", "stop_time"}, dataSpecs);
-  // TODO Also add support for checking dtype of named columns defined in the
-  // schema
+  Status status = DynamicTable::validateDataSpecs(dataSpecs);
+  if (status != Status::Success) {
+    return status;
+  }
+
+  status = checkRequiredColumnSpec<VectorData::DataSpec>(
+      "start_time", dataSpecs, IO::BaseDataType::F32);
+  if (status != Status::Success) {
+    return status;
+  }
+
+  return checkRequiredColumnSpec<VectorData::DataSpec>(
+      "stop_time", dataSpecs, IO::BaseDataType::F32);
 }
 
 // Initialize the object

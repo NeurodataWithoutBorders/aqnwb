@@ -290,26 +290,41 @@ TEST_CASE("DynamicTable", "[table]")
 
     auto table = NWB::DynamicTable::create(tablePath, io);
 
-    // 1. Valid specs (contain "id")
+    // 1. Valid id spec
     std::vector<NWB::DynamicTable::DataSpecPtr> validSpecs = {
         NWB::ElementIdentifiers::createDataSpec(
             "id", IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10}))};
     REQUIRE(table->validateDataSpecs(validSpecs) == Status::Success);
 
-    // 2. Invalid specs (missing "id")
-    std::vector<NWB::DynamicTable::DataSpecPtr> invalidSpecs = {
+    // 2. Invalid id specs: wrong DataSpec type, shape, and data type.
+    std::vector<NWB::DynamicTable::DataSpecPtr> missingIdSpecs = {
         NWB::VectorData::createDataSpec(
             "col1",
             IO::ArrayDataSetConfig(IO::BaseDataType::F32, {0}, {10}),
             "column 1")};
-    REQUIRE(table->validateDataSpecs(invalidSpecs) == Status::Failure);
+    std::vector<NWB::DynamicTable::DataSpecPtr> wrongIdSpecType = {
+        NWB::VectorData::createDataSpec(
+            "id",
+            IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10}),
+            "id")};
+    std::vector<NWB::DynamicTable::DataSpecPtr> wrongIdShape = {
+        NWB::ElementIdentifiers::createDataSpec(
+            "id",
+            IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0, 1}, {1, 1}))};
+    std::vector<NWB::DynamicTable::DataSpecPtr> wrongIdDataType = {
+        NWB::ElementIdentifiers::createDataSpec(
+            "id", IO::ArrayDataSetConfig(IO::BaseDataType::F32, {0}, {10}))};
 
-    // 3. Empty specs (should fail as "id" is missing)
-    std::vector<NWB::DynamicTable::DataSpecPtr> emptySpecs;
-    REQUIRE(table->validateDataSpecs(emptySpecs) == Status::Failure);
+    REQUIRE(table->validateDataSpecs(missingIdSpecs) == Status::Failure);
+    REQUIRE(table->validateDataSpecs(wrongIdSpecType) == Status::Failure);
+    REQUIRE(table->validateDataSpecs(wrongIdShape) == Status::Failure);
+    REQUIRE(table->validateDataSpecs(wrongIdDataType) == Status::Failure);
 
-    // 4. Test initialize with invalid specs throws std::invalid_argument
-    REQUIRE_THROWS_AS(table->initialize("Test Table", invalidSpecs),
+    REQUIRE_THROWS_AS(table->initialize("Test Table", wrongIdSpecType),
+                      std::invalid_argument);
+    REQUIRE_THROWS_AS(table->initialize("Test Table", wrongIdShape),
+                      std::invalid_argument);
+    REQUIRE_THROWS_AS(table->initialize("Test Table", wrongIdDataType),
                       std::invalid_argument);
 
     io->close();

@@ -492,17 +492,61 @@ protected:
   Status loadConfiguredColumnsFromFile();
 
   /**
-   * @brief Helper method to check if all required column names are present in
-   * the data specifications.
+   * @brief Validate the concrete specification, shape, and optionally data
+   * type of a required column.
    *
-   * @param requiredNames The list of required column names.
-   * @param dataSpecs The data specifications to check against.
-   * @return Status::Success if all required names are present, otherwise
-   * Status::Failure.
+   * @tparam RequiredDataSpec The concrete DataSpec type required by the
+   * column.
+   * @param requiredName Name of the required column.
+   * @param dataSpecs Data specifications to inspect.
+   * @param expectedDataType Required data type, if the column has a fixed
+   * schema data type.
+   * @return Status::Success when every spec for the required column has the
+   * required concrete type, is one-dimensional, and has the expected data
+   * type when specified; otherwise Status::Failure.
    */
-  Status checkRequiredColumnNames(
-      const std::vector<std::string>& requiredNames,
-      const std::vector<DataSpecPtr>& dataSpecs) const;
+  template<typename RequiredDataSpec>
+  Status checkRequiredColumnSpec(const std::string& requiredName,
+                                 const std::vector<DataSpecPtr>& dataSpecs,
+                                 const std::optional<IO::BaseDataType>&
+                                     expectedDataType = std::nullopt) const
+  {
+    bool found = false;
+    for (const auto& spec : dataSpecs) {
+      if (!spec || spec->name != requiredName) {
+        continue;
+      }
+
+      found = true;
+      if (!std::dynamic_pointer_cast<RequiredDataSpec>(spec)) {
+        std::cerr << "DynamicTable::checkRequiredColumnSpec: required column '"
+                  << requiredName
+                  << "' does not use the required concrete DataSpec type."
+                  << std::endl;
+        return Status::Failure;
+      }
+      if (spec->getShape().size() != 1) {
+        std::cerr << "DynamicTable::checkRequiredColumnSpec: required column '"
+                  << requiredName << "' must be one-dimensional." << std::endl;
+        return Status::Failure;
+      }
+      if (expectedDataType.has_value()
+          && spec->getType() != expectedDataType.value())
+      {
+        std::cerr << "DynamicTable::checkRequiredColumnSpec: required column '"
+                  << requiredName << "' has an invalid data type." << std::endl;
+        return Status::Failure;
+      }
+    }
+
+    if (!found) {
+      std::cerr << "DynamicTable::checkRequiredColumnSpec: required column '"
+                << requiredName << "' not found." << std::endl;
+      return Status::Failure;
+    }
+    return Status::Success;
+  }
+
   /**
    * @brief Write a buffer of data to a configured column.
    *

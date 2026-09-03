@@ -128,33 +128,72 @@ TEST_CASE("ElectrodesTable", "[ecephys]")
 
     auto electrodeTable = NWB::ElectrodesTable::create(io);
 
-    // 1. Valid specs (contain "id", "location", "group_name")
-    std::vector<NWB::DynamicTable::DataSpecPtr> validSpecs;
-    validSpecs.push_back(NWB::ElementIdentifiers::createDataSpec(
-        "id", IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10})));
-    validSpecs.push_back(NWB::VectorData::createDataSpec(
-        "location",
-        IO::ArrayDataSetConfig(IO::BaseDataType::V_STR, {0}, {10}),
-        "location"));
-    validSpecs.push_back(NWB::VectorData::createDataSpec(
-        "group_name",
-        IO::ArrayDataSetConfig(IO::BaseDataType::V_STR, {0}, {10}),
-        "group_name"));
+    // 1. Valid default specs have required VectorData string columns.
+    std::vector<NWB::DynamicTable::DataSpecPtr> validSpecs =
+        NWB::ElectrodesTable::createDefaultDataSpecs();
     REQUIRE(electrodeTable->validateDataSpecs(validSpecs) == Status::Success);
 
-    // 2. Invalid specs (missing "group_name")
-    std::vector<NWB::DynamicTable::DataSpecPtr> invalidSpecs = {
-        NWB::ElementIdentifiers::createDataSpec(
-            "id", IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10})),
-        NWB::VectorData::createDataSpec(
-            "location",
-            IO::ArrayDataSetConfig(IO::BaseDataType::V_STR, {0}, {10}),
-            "location")};
-    REQUIRE(electrodeTable->validateDataSpecs(invalidSpecs) == Status::Failure);
+    // 2. Each required string column rejects the wrong DataSpec type, shape,
+    // and dtype.
+    auto wrongLocationSpecType = validSpecs;
+    wrongLocationSpecType[1] = NWB::ElementIdentifiers::createDataSpec(
+        "location", IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10}));
+    auto wrongLocationShape = validSpecs;
+    wrongLocationShape[1] = NWB::VectorData::createDataSpec(
+        "location",
+        IO::ArrayDataSetConfig(IO::BaseDataType::V_STR, {0, 1}, {1, 1}),
+        "location");
+    auto wrongLocationDataType = validSpecs;
+    wrongLocationDataType[1] = NWB::VectorData::createDataSpec(
+        "location",
+        IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10}),
+        "location");
 
-    // 3. Test initialize with invalid specs throws std::invalid_argument
-    REQUIRE_THROWS_AS(electrodeTable->initialize("Test Table", invalidSpecs),
-                      std::invalid_argument);
+    auto wrongGroupNameSpecType = validSpecs;
+    wrongGroupNameSpecType[2] = NWB::ElementIdentifiers::createDataSpec(
+        "group_name", IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10}));
+    auto wrongGroupNameShape = validSpecs;
+    wrongGroupNameShape[2] = NWB::VectorData::createDataSpec(
+        "group_name",
+        IO::ArrayDataSetConfig(IO::BaseDataType::V_STR, {0, 1}, {1, 1}),
+        "group_name");
+    auto wrongGroupNameDataType = validSpecs;
+    wrongGroupNameDataType[2] = NWB::VectorData::createDataSpec(
+        "group_name",
+        IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10}),
+        "group_name");
+
+    REQUIRE(electrodeTable->validateDataSpecs(wrongLocationSpecType)
+            == Status::Failure);
+    REQUIRE(electrodeTable->validateDataSpecs(wrongLocationShape)
+            == Status::Failure);
+    REQUIRE(electrodeTable->validateDataSpecs(wrongLocationDataType)
+            == Status::Failure);
+    REQUIRE(electrodeTable->validateDataSpecs(wrongGroupNameSpecType)
+            == Status::Failure);
+    REQUIRE(electrodeTable->validateDataSpecs(wrongGroupNameShape)
+            == Status::Failure);
+    REQUIRE(electrodeTable->validateDataSpecs(wrongGroupNameDataType)
+            == Status::Failure);
+
+    REQUIRE_THROWS_AS(
+        electrodeTable->initialize("Test Table", wrongLocationSpecType),
+        std::invalid_argument);
+    REQUIRE_THROWS_AS(
+        electrodeTable->initialize("Test Table", wrongLocationShape),
+        std::invalid_argument);
+    REQUIRE_THROWS_AS(
+        electrodeTable->initialize("Test Table", wrongLocationDataType),
+        std::invalid_argument);
+    REQUIRE_THROWS_AS(
+        electrodeTable->initialize("Test Table", wrongGroupNameSpecType),
+        std::invalid_argument);
+    REQUIRE_THROWS_AS(
+        electrodeTable->initialize("Test Table", wrongGroupNameShape),
+        std::invalid_argument);
+    REQUIRE_THROWS_AS(
+        electrodeTable->initialize("Test Table", wrongGroupNameDataType),
+        std::invalid_argument);
 
     io->close();
   }

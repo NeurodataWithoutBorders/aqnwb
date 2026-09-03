@@ -65,7 +65,19 @@ std::vector<DynamicTable::DataSpecPtr> ElectrodesTable::createDefaultDataSpecs(
 Status ElectrodesTable::validateDataSpecs(
     const std::vector<DataSpecPtr>& dataSpecs) const
 {
-  return checkRequiredColumnNames({"id", "location", "group_name"}, dataSpecs);
+  Status status = DynamicTable::validateDataSpecs(dataSpecs);
+  if (status != Status::Success) {
+    return status;
+  }
+
+  status = checkRequiredColumnSpec<VectorData::DataSpec>(
+      "location", dataSpecs, IO::BaseDataType(IO::BaseDataType::V_STR));
+  if (status != Status::Success) {
+    return status;
+  }
+
+  return checkRequiredColumnSpec<VectorData::DataSpec>(
+      "group_name", dataSpecs, IO::BaseDataType(IO::BaseDataType::V_STR));
 }
 
 /** Initialization function*/

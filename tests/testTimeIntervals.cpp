@@ -44,6 +44,81 @@ TEST_CASE("TimeIntervals - createDefaultDataSpecs", "[TimeIntervals]")
   }
 }
 
+TEST_CASE("TimeIntervals - DataSpec validation", "[TimeIntervals]")
+{
+  auto io = createIO("HDF5",
+                     getTestFilePath("testTimeIntervalsDataSpecValidation.h5"));
+  io->open();
+
+  auto timeIntervals = TimeIntervals::create("/intervals/epochs", io);
+  auto validSpecs = TimeIntervals::createDefaultDataSpecs("/intervals/epochs");
+  REQUIRE(timeIntervals->validateDataSpecs(validSpecs) == Status::Success);
+
+  // Each required time column must use VectorData, be one-dimensional, and
+  // store 32-bit floats.
+  auto wrongStartTimeSpecType = validSpecs;
+  wrongStartTimeSpecType[1] = ElementIdentifiers::createDataSpec(
+      "start_time", ArrayDataSetConfig(BaseDataType::I32, {0}, {10}));
+  auto wrongStartTimeShape = validSpecs;
+  wrongStartTimeShape[1] = VectorData::createDataSpec(
+      "start_time",
+      ArrayDataSetConfig(BaseDataType::F32, {0, 1}, {1, 1}),
+      "start time");
+  auto wrongStartTimeDataType = validSpecs;
+  wrongStartTimeDataType[1] = VectorData::createDataSpec(
+      "start_time",
+      ArrayDataSetConfig(BaseDataType::I32, {0}, {10}),
+      "start time");
+
+  auto wrongStopTimeSpecType = validSpecs;
+  wrongStopTimeSpecType[2] = ElementIdentifiers::createDataSpec(
+      "stop_time", ArrayDataSetConfig(BaseDataType::I32, {0}, {10}));
+  auto wrongStopTimeShape = validSpecs;
+  wrongStopTimeShape[2] = VectorData::createDataSpec(
+      "stop_time",
+      ArrayDataSetConfig(BaseDataType::F32, {0, 1}, {1, 1}),
+      "stop time");
+  auto wrongStopTimeDataType = validSpecs;
+  wrongStopTimeDataType[2] = VectorData::createDataSpec(
+      "stop_time",
+      ArrayDataSetConfig(BaseDataType::I32, {0}, {10}),
+      "stop time");
+
+  REQUIRE(timeIntervals->validateDataSpecs(wrongStartTimeSpecType)
+          == Status::Failure);
+  REQUIRE(timeIntervals->validateDataSpecs(wrongStartTimeShape)
+          == Status::Failure);
+  REQUIRE(timeIntervals->validateDataSpecs(wrongStartTimeDataType)
+          == Status::Failure);
+  REQUIRE(timeIntervals->validateDataSpecs(wrongStopTimeSpecType)
+          == Status::Failure);
+  REQUIRE(timeIntervals->validateDataSpecs(wrongStopTimeShape)
+          == Status::Failure);
+  REQUIRE(timeIntervals->validateDataSpecs(wrongStopTimeDataType)
+          == Status::Failure);
+
+  REQUIRE_THROWS_AS(
+      timeIntervals->initialize("Test intervals", wrongStartTimeSpecType),
+      std::invalid_argument);
+  REQUIRE_THROWS_AS(
+      timeIntervals->initialize("Test intervals", wrongStartTimeShape),
+      std::invalid_argument);
+  REQUIRE_THROWS_AS(
+      timeIntervals->initialize("Test intervals", wrongStartTimeDataType),
+      std::invalid_argument);
+  REQUIRE_THROWS_AS(
+      timeIntervals->initialize("Test intervals", wrongStopTimeSpecType),
+      std::invalid_argument);
+  REQUIRE_THROWS_AS(
+      timeIntervals->initialize("Test intervals", wrongStopTimeShape),
+      std::invalid_argument);
+  REQUIRE_THROWS_AS(
+      timeIntervals->initialize("Test intervals", wrongStopTimeDataType),
+      std::invalid_argument);
+
+  io->close();
+}
+
 TEST_CASE("TimeIntervals - Initialize and Add Rows", "[TimeIntervals]")
 {
   std::string filename = getTestFilePath("testTimeIntervals.h5");

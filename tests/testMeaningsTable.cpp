@@ -152,31 +152,45 @@ TEST_CASE("MeaningsTable", "[table]")
 
     auto table = NWB::MeaningsTable::create(tablePath, io);
 
-    // 1. Valid specs (contain "id", "value", "meaning")
-    std::vector<NWB::DynamicTable::DataSpecPtr> validSpecs;
-    validSpecs.push_back(NWB::ElementIdentifiers::createDataSpec(
-        "id", IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10})));
-    validSpecs.push_back(NWB::VectorData::createDataSpec(
-        "value",
-        IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10}),
-        "value"));
-    validSpecs.push_back(NWB::VectorData::createDataSpec(
-        "meaning",
-        IO::ArrayDataSetConfig(IO::BaseDataType::V_STR, {0}, {10}),
-        "meaning"));
+    // 1. Value preserves its configurable data type; meaning is VLEN string.
+    std::vector<NWB::DynamicTable::DataSpecPtr> validSpecs =
+        NWB::MeaningsTable::createDefaultDataSpecs(IO::BaseDataType::I32);
     REQUIRE(table->validateDataSpecs(validSpecs) == Status::Success);
+    REQUIRE(table->validateDataSpecs(NWB::MeaningsTable::createDefaultDataSpecs(
+                IO::BaseDataType::F32))
+            == Status::Success);
 
-    // 2. Invalid specs (missing "meaning")
-    std::vector<NWB::DynamicTable::DataSpecPtr> invalidSpecs = {
-        NWB::ElementIdentifiers::createDataSpec(
-            "id", IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10})),
-        NWB::VectorData::createDataSpec(
-            "value",
-            IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10}),
-            "value")};
-    REQUIRE(table->validateDataSpecs(invalidSpecs) == Status::Failure);
+    // 2. Value and meaning must use VectorData and be one-dimensional; meaning
+    // must additionally use VLEN string storage.
+    auto wrongValueSpecType = validSpecs;
+    wrongValueSpecType[1] = NWB::ElementIdentifiers::createDataSpec(
+        "value", IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10}));
+    auto wrongValueShape = validSpecs;
+    wrongValueShape[1] = NWB::VectorData::createDataSpec(
+        "value",
+        IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0, 1}, {1, 1}),
+        "value");
+    auto wrongMeaningSpecType = validSpecs;
+    wrongMeaningSpecType[2] = NWB::ElementIdentifiers::createDataSpec(
+        "meaning", IO::ArrayDataSetConfig(IO::BaseDataType::V_STR, {0}, {10}));
+    auto wrongMeaningShape = validSpecs;
+    wrongMeaningShape[2] = NWB::VectorData::createDataSpec(
+        "meaning",
+        IO::ArrayDataSetConfig(IO::BaseDataType::V_STR, {0, 1}, {1, 1}),
+        "meaning");
+    auto wrongMeaningDataType = validSpecs;
+    wrongMeaningDataType[2] = NWB::VectorData::createDataSpec(
+        "meaning",
+        IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10}),
+        "meaning");
 
-    // 3. Test initialize with invalid specs throws std::invalid_argument
+    REQUIRE(table->validateDataSpecs(wrongValueSpecType) == Status::Failure);
+    REQUIRE(table->validateDataSpecs(wrongValueShape) == Status::Failure);
+    REQUIRE(table->validateDataSpecs(wrongMeaningSpecType) == Status::Failure);
+    REQUIRE(table->validateDataSpecs(wrongMeaningShape) == Status::Failure);
+    REQUIRE(table->validateDataSpecs(wrongMeaningDataType) == Status::Failure);
+
+    // 3. Invalid specifications cause initialization to reject the table.
     auto targetVectorData = NWB::VectorData::create(targetPath, io);
     targetVectorData->initialize(
         IO::ArrayDataSetConfig(BaseDataType::I32, {0}, {10}), "target");
@@ -184,7 +198,27 @@ TEST_CASE("MeaningsTable", "[table]")
     REQUIRE_THROWS_AS(table->initialize(*targetVectorData,
                                         BaseDataType::I32,
                                         "Test Meanings",
-                                        invalidSpecs),
+                                        wrongValueSpecType),
+                      std::invalid_argument);
+    REQUIRE_THROWS_AS(table->initialize(*targetVectorData,
+                                        BaseDataType::I32,
+                                        "Test Meanings",
+                                        wrongValueShape),
+                      std::invalid_argument);
+    REQUIRE_THROWS_AS(table->initialize(*targetVectorData,
+                                        BaseDataType::I32,
+                                        "Test Meanings",
+                                        wrongMeaningSpecType),
+                      std::invalid_argument);
+    REQUIRE_THROWS_AS(table->initialize(*targetVectorData,
+                                        BaseDataType::I32,
+                                        "Test Meanings",
+                                        wrongMeaningShape),
+                      std::invalid_argument);
+    REQUIRE_THROWS_AS(table->initialize(*targetVectorData,
+                                        BaseDataType::I32,
+                                        "Test Meanings",
+                                        wrongMeaningDataType),
                       std::invalid_argument);
 
     io->close();

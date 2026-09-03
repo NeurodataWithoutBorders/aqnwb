@@ -23,7 +23,13 @@ EventsTable::EventsTable(const std::string& path,
 Status EventsTable::validateDataSpecs(
     const std::vector<DataSpecPtr>& dataSpecs) const
 {
-  return checkRequiredColumnNames({"id", "timestamp"}, dataSpecs);
+  Status status = DynamicTable::validateDataSpecs(dataSpecs);
+  if (status != Status::Success) {
+    return status;
+  }
+
+  return checkRequiredColumnSpec<TimestampVectorData::DataSpec>(
+      "timestamp", dataSpecs, IO::BaseDataType::F32);
 }
 
 std::vector<DynamicTable::DataSpecPtr> EventsTable::createDefaultDataSpecs(

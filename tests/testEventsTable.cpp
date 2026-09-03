@@ -240,25 +240,44 @@ TEST_CASE("EventsTable", "[event]")
     auto eventsTable =
         AQNWB::NWB::EventsTable::create("/events/test_events", io);
 
-    // 1. Valid specs (contain "id" and "timestamp")
-    std::vector<NWB::DynamicTable::DataSpecPtr> validSpecs;
-    validSpecs.push_back(NWB::ElementIdentifiers::createDataSpec(
-        "id", IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10})));
-    validSpecs.push_back(NWB::VectorData::createDataSpec(
-        "timestamp",
-        IO::ArrayDataSetConfig(IO::BaseDataType::F32, {0}, {10}),
-        "timestamp"));
+    // 1. Valid default specs contain a TimestampVectorData timestamp column.
+    std::vector<NWB::DynamicTable::DataSpecPtr> validSpecs =
+        NWB::EventsTable::createDefaultDataSpecs();
     REQUIRE(eventsTable->validateDataSpecs(validSpecs) == Status::Success);
 
-    // 2. Invalid specs (missing "timestamp")
-    std::vector<NWB::DynamicTable::DataSpecPtr> invalidSpecs = {
-        NWB::ElementIdentifiers::createDataSpec(
-            "id", IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10}))};
-    REQUIRE(eventsTable->validateDataSpecs(invalidSpecs) == Status::Failure);
+    // 2. Timestamp must have the expected DataSpec type, shape, and dtype.
+    auto wrongTimestampSpecType = validSpecs;
+    wrongTimestampSpecType[1] = NWB::VectorData::createDataSpec(
+        "timestamp",
+        IO::ArrayDataSetConfig(IO::BaseDataType::F32, {0}, {10}),
+        "timestamp");
+    auto wrongTimestampShape = validSpecs;
+    wrongTimestampShape[1] = NWB::TimestampVectorData::createDataSpec(
+        "timestamp",
+        IO::ArrayDataSetConfig(IO::BaseDataType::F32, {0, 1}, {1, 1}),
+        "timestamp");
+    auto wrongTimestampDataType = validSpecs;
+    wrongTimestampDataType[1] = NWB::TimestampVectorData::createDataSpec(
+        "timestamp",
+        IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10}),
+        "timestamp");
 
-    // 3. Test initialize with invalid specs throws std::invalid_argument
-    REQUIRE_THROWS_AS(eventsTable->initialize("Test Events", "", invalidSpecs),
-                      std::invalid_argument);
+    REQUIRE(eventsTable->validateDataSpecs(wrongTimestampSpecType)
+            == Status::Failure);
+    REQUIRE(eventsTable->validateDataSpecs(wrongTimestampShape)
+            == Status::Failure);
+    REQUIRE(eventsTable->validateDataSpecs(wrongTimestampDataType)
+            == Status::Failure);
+
+    REQUIRE_THROWS_AS(
+        eventsTable->initialize("Test Events", "", wrongTimestampSpecType),
+        std::invalid_argument);
+    REQUIRE_THROWS_AS(
+        eventsTable->initialize("Test Events", "", wrongTimestampShape),
+        std::invalid_argument);
+    REQUIRE_THROWS_AS(
+        eventsTable->initialize("Test Events", "", wrongTimestampDataType),
+        std::invalid_argument);
 
     io->close();
   }
