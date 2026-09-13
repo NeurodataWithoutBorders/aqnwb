@@ -27,6 +27,10 @@ See the [AqNWB Documentation](https://nwb.org/aqnwb) for installation and integr
 * [User Installation](https://nwb.org/aqnwb/user_install_page)
 * [Developer Installation](https://nwb.org/aqnwb/dev_install_page)
 
+## Citing AqNWB
+
+See the [AqNWB Documentation](https://nwb.org/aqnwb/legal_page.html#citing_aqnwb) for information about how to cite AqNWB in your work.
+
 ## Contributing and Legal
 
 For more information about the license, contributing guidelines, code of conduct
