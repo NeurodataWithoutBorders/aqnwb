@@ -743,6 +743,7 @@ TEST_CASE("createSpikeEventSeries conversion", "[nwb]")
        Channel("ch1", "array0", 0, 1, 1, 1e6f, 30000.f, bitVoltsB)}};
   REQUIRE(nwbfile->createElectrodesTable(arrays) != nullptr);
   auto recordingObjects = io->getRecordingObjects();
+  std::shared_ptr<NWB::SpikeEventSeries> ses = nullptr;
 
   SECTION("default: per-channel factors are stored in channel_conversion")
   {
@@ -750,7 +751,7 @@ TEST_CASE("createSpikeEventSeries conversion", "[nwb]")
     Status status = nwbfile->createSpikeEventSeries(
         arrays, {"spikedata"}, BaseDataType::I16, containerIndices);
     REQUIRE(status == Status::Success);
-    auto ses = std::dynamic_pointer_cast<NWB::SpikeEventSeries>(
+    ses = std::dynamic_pointer_cast<NWB::SpikeEventSeries>(
         recordingObjects->getRecordingObject(containerIndices[0]));
     REQUIRE(ses != nullptr);
 
@@ -770,7 +771,7 @@ TEST_CASE("createSpikeEventSeries conversion", "[nwb]")
     Status status = nwbfile->createSpikeEventSeries(
         arrays, {"spikedata"}, BaseDataType::I16, containerIndices, false);
     REQUIRE(status == Status::Success);
-    auto ses = std::dynamic_pointer_cast<NWB::SpikeEventSeries>(
+    ses = std::dynamic_pointer_cast<NWB::SpikeEventSeries>(
         recordingObjects->getRecordingObject(containerIndices[0]));
     REQUIRE(ses != nullptr);
 
@@ -780,7 +781,17 @@ TEST_CASE("createSpikeEventSeries conversion", "[nwb]")
     REQUIRE(conversion[0] == Catch::Approx(bitVoltsA / 1e6f));
   }
 
-  io->close();
+  // write a few spikes so that the file contains valid (non-empty) data
+  REQUIRE(io->startRecording() == Status::Success);
+  const SizeType numSamples = 5;
+  std::vector<int16_t> spike(arrays[0].size() * numSamples, 1);
+  const std::vector<double> timestamps = {0.1, 0.35, 0.9};  // irregular
+  for (double timestamp : timestamps) {
+    REQUIRE(
+        ses->writeSpike(numSamples, arrays[0].size(), spike.data(), &timestamp)
+        == Status::Success);
+  }
+  io->stopRecording();
 }
 
 TEST_CASE("createAnnotationSeries", "[nwb]")
