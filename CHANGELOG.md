@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 * Fixed `NWBFile::createSpikeEventSeries` ignoring the status of `SpikeEventSeries::initialize` and always returning `Status::Success`. (@claude, @oruebel, [#341](https://github.com/NeurodataWithoutBorders/aqnwb/pull/341))
+* Fixed `EventsTable` and `TimeIntervals` rejecting float64 time columns. The schema defines the `timestamp` (`EventsTable`) and `start_time`/`stop_time` (`TimeIntervals`) columns with dtype `float`, which allows float32 and float64, but the column validation only accepted float32, whose precision is not sufficient for long recordings (e.g., ~0.24 ms spacing at 1 hour). The default columns are unchanged (float32); callers can now provide float64 column specs. Added a `DynamicTable::checkRequiredColumnSpec` overload that accepts a list of allowed data types. (@claude, @oruebel, [#345](https://github.com/NeurodataWithoutBorders/aqnwb/pull/345))
 
 ## [0.4.0] - 2026-09-03
 

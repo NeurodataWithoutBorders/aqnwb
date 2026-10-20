@@ -303,3 +303,52 @@ TEST_CASE("EventsTable", "[event]")
     io->close();
   }
 }
+
+TEST_CASE("EventsTable - float64 timestamp column", "[event]")
+{
+  std::string path = getTestFilePath("testEventsTableFloat64.h5");
+  std::string tablePath = "/events/test_events";
+  // times for which float32 is not precise enough (spacing ~0.24 ms at 1 h)
+  const std::vector<double> timestamps = {3600.0001, 3600.0002, 3600.00033};
+
+  {
+    std::shared_ptr<IO::BaseIO> io = createIO("HDF5", path);
+    io->open();
+    auto eventsTable = NWB::EventsTable::create(tablePath, io);
+    REQUIRE(eventsTable != nullptr);
+
+    // replace the default float32 timestamp column with a float64 column
+    auto specs = NWB::EventsTable::createDefaultDataSpecs(1.0f / 30000.0f);
+    for (auto& spec : specs) {
+      if (spec->name == "timestamp") {
+        spec = std::make_shared<NWB::TimestampVectorData::DataSpec>(
+            "timestamp",
+            IO::ArrayDataSetConfig(
+                IO::BaseDataType::F64, SizeArray {0}, SizeArray {100}),
+            "Time of each event, in seconds.",
+            1.0f / 30000.0f);
+      }
+    }
+    REQUIRE(eventsTable->initialize("Test events", "Test source", specs)
+            == Status::Success);
+    for (double timestamp : timestamps) {
+      AQNWB::Types::RowData row = {{"timestamp", timestamp}};
+      REQUIRE(eventsTable->addRow(row) == Status::Success);
+    }
+    REQUIRE(eventsTable->finalize() == Status::Success);
+    io->close();
+  }
+
+  {
+    std::shared_ptr<IO::BaseIO> io = createIO("HDF5", path);
+    io->open(IO::FileMode::ReadOnly);
+    auto eventsTable = NWB::EventsTable::create(tablePath, io);
+    REQUIRE(eventsTable != nullptr);
+    REQUIRE(io->getStorageObjectDataType(tablePath + "/timestamp")
+            == IO::BaseDataType::F64);
+    auto readTimestamps =
+        eventsTable->readColumn<double>("timestamp")->readData()->values();
+    REQUIRE(readTimestamps.data == timestamps);
+    io->close();
+  }
+}

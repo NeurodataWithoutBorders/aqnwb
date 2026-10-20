@@ -28,8 +28,12 @@ Status EventsTable::validateDataSpecs(
     return status;
   }
 
+  // dtype `float` in the schema: allow float32 and float64
   return checkRequiredColumnSpec<TimestampVectorData::DataSpec>(
-      "timestamp", dataSpecs, IO::BaseDataType::F32);
+      "timestamp",
+      dataSpecs,
+      std::vector<IO::BaseDataType> {IO::BaseDataType::F32,
+                                     IO::BaseDataType::F64});
 }
 
 std::vector<DynamicTable::DataSpecPtr> EventsTable::createDefaultDataSpecs(
