@@ -1,5 +1,3 @@
-#include <algorithm>
-#include <cmath>
 #include <filesystem>
 #include <fstream>
 #include <iomanip>
@@ -593,7 +591,8 @@ Status NWBFile::createSpikeEventSeries(
     std::vector<Types::ChannelVector> recordingArrays,
     std::vector<std::string> recordingNames,
     const IO::BaseDataType& dataType,
-    std::vector<SizeType>& containerIndexes)
+    std::vector<SizeType>& containerIndexes,
+    const bool useChannelConversion)
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
@@ -653,34 +652,19 @@ Status NWBFile::createSpikeEventSeries(
         channelVector.size() == 1 ? SizeArray {SPIKE_CHUNK_XSIZE, 1}
                                   : SizeArray {SPIKE_CHUNK_XSIZE, 1, 1});
 
-    // If all channels share the same conversion factor, store it in the
-    // `conversion` attribute of `data` instead of in `channel_conversion`.
-    // This is the common case for spike waveforms and is supported by all
-    // readers (e.g., PyNWB does not read `channel_conversion` for
-    // SpikeEventSeries).
-    const float firstConversion = channelVector[0].getConversion();
-    const bool uniformConversion = std::all_of(
-        channelVector.begin(),
-        channelVector.end(),
-        [firstConversion](const Channel& ch)
-        {
-          // compare with a relative tolerance (float == is not safe)
-          const float diff = std::fabs(ch.getConversion() - firstConversion);
-          return diff <= 1e-6f
-              * std::max(std::fabs(ch.getConversion()),
-                         std::fabs(firstConversion));
-        });
-
+    // Either store per-channel conversion factors in `channel_conversion`, or
+    // store the conversion factor of the first channel in the `conversion`
+    // attribute of `data` (for all channels)
     auto spikeEventSeries =
         this->createAquisitionSeries<SpikeEventSeries>(recordingName);
     Status sesStatus = spikeEventSeries->initialize(
         config,
         channelVector,
         "Stores spike waveforms from an extracellular ephys recording",
-        uniformConversion ? firstConversion : 1.0f,
+        useChannelConversion ? 1.0f : channelVector[0].getConversion(),
         -1.0f,
         0.0f,
-        !uniformConversion);
+        useChannelConversion);
     overallStatus = overallStatus && sesStatus;
     containerIndexes.push_back(spikeEventSeries->getRecordingObjectIndex());
   }

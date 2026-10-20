@@ -11,9 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 * Added optional `createChannelConversion` parameter to `ElectricalSeries::initialize` and `SpikeEventSeries::initialize` to allow omitting the optional `channel_conversion` dataset when the scaling is fully described by the `conversion` attribute. (@oruebel, [#341](https://github.com/NeurodataWithoutBorders/aqnwb/pull/341))
-
-### Changed
-* Updated `NWBFile::createSpikeEventSeries` to store the conversion factor in the `conversion` attribute of `data` (and to omit `channel_conversion`) when all channels of a `SpikeEventSeries` share the same conversion factor. This is the common case for spike waveforms, and PyNWB does not read `channel_conversion` for `SpikeEventSeries`, so the scaling was previously lost when reading such files with PyNWB (and nwbinspector reported `check_electrical_series_unscaled_data`). Per-channel factors are still stored in `channel_conversion` if they differ. (@oruebel, [#341](https://github.com/NeurodataWithoutBorders/aqnwb/pull/341))
+* Added optional `useChannelConversion` parameter to `NWBFile::createSpikeEventSeries` (default `true`, unchanged behavior). If `false`, the conversion factor of the first channel is stored in the `conversion` attribute of `data` and applies to all channels, and no `channel_conversion` dataset is created. This is useful when all channels share the same conversion factor and for compatibility with PyNWB, which does not read `channel_conversion` for `SpikeEventSeries`. (@oruebel, [#341](https://github.com/NeurodataWithoutBorders/aqnwb/pull/341))
 
 ### Fixed
 * Fixed `NWBFile::createSpikeEventSeries` ignoring the status of `SpikeEventSeries::initialize` and always returning `Status::Success`. (@oruebel, [#341](https://github.com/NeurodataWithoutBorders/aqnwb/pull/341))

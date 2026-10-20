@@ -736,53 +736,48 @@ TEST_CASE("createSpikeEventSeries conversion", "[nwb]")
                       currentTime,
                       getTestSubjectSpec());
 
-  // array0: all channels share the same bitVolts -> uniform conversion
-  // array1: channels with different bitVolts -> per-channel conversion
   const float bitVoltsA = 0.195f;
   const float bitVoltsB = 0.5f;
   std::vector<Types::ChannelVector> arrays = {
       {Channel("ch0", "array0", 0, 0, 0, 1e6f, 30000.f, bitVoltsA),
-       Channel("ch1", "array0", 0, 1, 1, 1e6f, 30000.f, bitVoltsA)},
-      {Channel("ch0", "array1", 1, 0, 2, 1e6f, 30000.f, bitVoltsA),
-       Channel("ch1", "array1", 1, 1, 3, 1e6f, 30000.f, bitVoltsB)}};
+       Channel("ch1", "array0", 0, 1, 1, 1e6f, 30000.f, bitVoltsB)}};
   REQUIRE(nwbfile->createElectrodesTable(arrays) != nullptr);
-
-  std::vector<SizeType> containerIndices = {};
-  Status status =
-      nwbfile->createSpikeEventSeries(arrays,
-                                      getMockChannelArrayNames("spikedata"),
-                                      BaseDataType::I16,
-                                      containerIndices);
-  REQUIRE(status == Status::Success);
-  REQUIRE(containerIndices.size() == 2);
-
   auto recordingObjects = io->getRecordingObjects();
-  auto sesUniform = std::dynamic_pointer_cast<NWB::SpikeEventSeries>(
-      recordingObjects->getRecordingObject(containerIndices[0]));
-  auto sesMixed = std::dynamic_pointer_cast<NWB::SpikeEventSeries>(
-      recordingObjects->getRecordingObject(containerIndices[1]));
-  REQUIRE(sesUniform != nullptr);
-  REQUIRE(sesMixed != nullptr);
 
-  SECTION("uniform conversion is stored in data.conversion")
+  SECTION("default: per-channel factors are stored in channel_conversion")
   {
-    REQUIRE_FALSE(
-        io->objectExists(sesUniform->getPath() + "/channel_conversion"));
-    auto conversion = sesUniform->readDataConversion()->values().data;
-    REQUIRE(conversion.size() == 1);
-    REQUIRE(conversion[0] == Catch::Approx(bitVoltsA / 1e6f));
-  }
+    std::vector<SizeType> containerIndices = {};
+    Status status = nwbfile->createSpikeEventSeries(
+        arrays, {"spikedata"}, BaseDataType::I16, containerIndices);
+    REQUIRE(status == Status::Success);
+    auto ses = std::dynamic_pointer_cast<NWB::SpikeEventSeries>(
+        recordingObjects->getRecordingObject(containerIndices[0]));
+    REQUIRE(ses != nullptr);
 
-  SECTION("mixed conversion is stored in channel_conversion")
-  {
-    REQUIRE(io->objectExists(sesMixed->getPath() + "/channel_conversion"));
-    auto channelConversion = sesMixed->readChannelConversion()->values().data;
+    REQUIRE(io->objectExists(ses->getPath() + "/channel_conversion"));
+    auto channelConversion = ses->readChannelConversion()->values().data;
     REQUIRE(channelConversion.size() == 2);
     REQUIRE(channelConversion[0] == Catch::Approx(bitVoltsA / 1e6f));
     REQUIRE(channelConversion[1] == Catch::Approx(bitVoltsB / 1e6f));
-    auto conversion = sesMixed->readDataConversion()->values().data;
+    auto conversion = ses->readDataConversion()->values().data;
     REQUIRE(conversion.size() == 1);
     REQUIRE(conversion[0] == Catch::Approx(1.0f));
+  }
+
+  SECTION("useChannelConversion=false: first channel's factor in conversion")
+  {
+    std::vector<SizeType> containerIndices = {};
+    Status status = nwbfile->createSpikeEventSeries(
+        arrays, {"spikedata"}, BaseDataType::I16, containerIndices, false);
+    REQUIRE(status == Status::Success);
+    auto ses = std::dynamic_pointer_cast<NWB::SpikeEventSeries>(
+        recordingObjects->getRecordingObject(containerIndices[0]));
+    REQUIRE(ses != nullptr);
+
+    REQUIRE_FALSE(io->objectExists(ses->getPath() + "/channel_conversion"));
+    auto conversion = ses->readDataConversion()->values().data;
+    REQUIRE(conversion.size() == 1);
+    REQUIRE(conversion[0] == Catch::Approx(bitVoltsA / 1e6f));
   }
 
   io->close();
