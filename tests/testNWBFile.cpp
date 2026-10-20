@@ -736,7 +736,8 @@ TEST_CASE("createSpikeEventSeries chunking", "[nwb]")
                       currentTime,
                       getTestSubjectSpec());
 
-  // a 4-channel (tetrode) and a single-channel electrode
+  // a 4-channel (tetrode) and a single-channel electrode. Float data is used
+  // since the chunking is independent of the data type.
   std::vector<Types::ChannelVector> arrays = {
       {Channel("ch0", "array0", 0, 0, 0),
        Channel("ch1", "array0", 0, 1, 1),
@@ -754,7 +755,7 @@ TEST_CASE("createSpikeEventSeries chunking", "[nwb]")
   {
     REQUIRE(nwbfile->createSpikeEventSeries(arrays,
                                             {"tetrode", "single"},
-                                            BaseDataType::I16,
+                                            BaseDataType::F32,
                                             containerIndices,
                                             numSamples)
             == Status::Success);
@@ -778,7 +779,7 @@ TEST_CASE("createSpikeEventSeries chunking", "[nwb]")
   {
     REQUIRE(
         nwbfile->createSpikeEventSeries(
-            arrays, {"tetrode", "single"}, BaseDataType::I16, containerIndices)
+            arrays, {"tetrode", "single"}, BaseDataType::F32, containerIndices)
         == Status::Success);
     tetrode = std::dynamic_pointer_cast<NWB::SpikeEventSeries>(
         recordingObjects->getRecordingObject(containerIndices[0]));
@@ -793,8 +794,8 @@ TEST_CASE("createSpikeEventSeries chunking", "[nwb]")
   REQUIRE(tetrode != nullptr);
   REQUIRE(single != nullptr);
   REQUIRE(io->startRecording() == Status::Success);
-  std::vector<int16_t> tetrodeSpike(4 * numSamples, 1);
-  std::vector<int16_t> singleSpike(numSamples, 2);
+  std::vector<float> tetrodeSpike(4 * numSamples, 1.0f);
+  std::vector<float> singleSpike(numSamples, 2.0f);
   const std::vector<double> timestamps = {0.1, 0.35, 0.9, 1.2};  // irregular
   for (double timestamp : timestamps) {
     REQUIRE(tetrode->writeSpike(numSamples, 4, tetrodeSpike.data(), &timestamp)
