@@ -349,8 +349,7 @@ public:
    * in the `conversion` attribute of `data` and applies to all channels, and
    * no `channel_conversion` dataset is created. Use false when all channels
    * share the same conversion factor, e.g., for compatibility with readers
-   * that do not support `channel_conversion` for SpikeEventSeries (such as
-   * PyNWB).
+   * that do not support `channel_conversion` for SpikeEventSeries.
    * @return Status The status of the object creation operation.
    */
   Status createSpikeEventSeries(
