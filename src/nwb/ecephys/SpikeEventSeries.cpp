@@ -22,10 +22,16 @@ Status SpikeEventSeries::initialize(
     const std::string& description,
     const float& conversion,
     const float& resolution,
-    const float& offset)
+    const float& offset,
+    const bool createChannelConversion)
 {
-  auto esInitStatus = ElectricalSeries::initialize(
-      dataConfig, channelVector, description, conversion, resolution, offset);
+  auto esInitStatus = ElectricalSeries::initialize(dataConfig,
+                                                   channelVector,
+                                                   description,
+                                                   conversion,
+                                                   resolution,
+                                                   offset,
+                                                   createChannelConversion);
   this->m_eventsRecorded = 0;
   return esInitStatus;
 }

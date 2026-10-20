@@ -342,6 +342,13 @@ public:
    * @param dataType The data type of the elements in the data block.
    * @param containerIndexes This vector is updated with the indexes of the
    * created containers.
+   *
+   * If all channels of a ChannelVector share the same conversion factor
+   * (Channel::getConversion()), the factor is stored in the `conversion`
+   * attribute of the SpikeEventSeries `data` and no `channel_conversion`
+   * dataset is created. Otherwise, the per-channel factors are stored in
+   * `channel_conversion` and `conversion` is set to 1.
+   *
    * @return Status The status of the object creation operation.
    */
   Status createSpikeEventSeries(

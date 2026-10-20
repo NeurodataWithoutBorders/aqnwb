@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <filesystem>
 #include <fstream>
 #include <iomanip>
@@ -622,6 +623,7 @@ Status NWBFile::createSpikeEventSeries(
   }
 
   // Create datasets
+  Status overallStatus = Status::Success;
   for (size_t i = 0; i < recordingArrays.size(); ++i) {
     const auto& channelVector = recordingArrays[i];
     const std::string& recordingName = recordingNames[i];
@@ -650,16 +652,33 @@ Status NWBFile::createSpikeEventSeries(
         channelVector.size() == 1 ? SizeArray {SPIKE_CHUNK_XSIZE, 1}
                                   : SizeArray {SPIKE_CHUNK_XSIZE, 1, 1});
 
+    // If all channels share the same conversion factor, store it in the
+    // `conversion` attribute of `data` instead of in `channel_conversion`.
+    // This is the common case for spike waveforms and is supported by all
+    // readers (e.g., PyNWB does not read `channel_conversion` for
+    // SpikeEventSeries).
+    const float firstConversion = channelVector[0].getConversion();
+    const bool uniformConversion =
+        std::all_of(channelVector.begin(),
+                    channelVector.end(),
+                    [firstConversion](const Channel& ch)
+                    { return ch.getConversion() == firstConversion; });
+
     auto spikeEventSeries =
         this->createAquisitionSeries<SpikeEventSeries>(recordingName);
-    spikeEventSeries->initialize(
+    Status sesStatus = spikeEventSeries->initialize(
         config,
         channelVector,
-        "Stores spike waveforms from an extracellular ephys recording");
+        "Stores spike waveforms from an extracellular ephys recording",
+        uniformConversion ? firstConversion : 1.0f,
+        -1.0f,
+        0.0f,
+        !uniformConversion);
+    overallStatus = overallStatus && sesStatus;
     containerIndexes.push_back(spikeEventSeries->getRecordingObjectIndex());
   }
 
-  return Status::Success;
+  return overallStatus;
 }
 
 Status NWBFile::createAnnotationSeries(

@@ -55,13 +55,18 @@ public:
    *                   stored in the specified unit
    * @param offset Scalar to add to the data after scaling by 'conversion' to
    *               finalize its coercion to the specified 'unit'
+   * @param createChannelConversion If true (default), create the optional
+   *               `channel_conversion` dataset. See
+   *               ElectricalSeries::initialize() for details.
+   * @return The status of the initialization operation.
    */
   Status initialize(const IO::BaseArrayDataSetConfig& dataConfig,
                     const Types::ChannelVector& channelVector,
                     const std::string& description,
                     const float& conversion = 1.0f,
                     const float& resolution = -1.0f,
-                    const float& offset = 0.0f);
+                    const float& offset = 0.0f,
+                    const bool createChannelConversion = true);
 
   /**
    * @brief Write a single spike series event

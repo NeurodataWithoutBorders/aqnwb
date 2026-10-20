@@ -29,7 +29,8 @@ Status ElectricalSeries::initialize(
     const std::string& description,
     const float& conversion,
     const float& resolution,
-    const float& offset)
+    const float& offset,
+    const bool createChannelConversion)
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
@@ -77,35 +78,38 @@ Status ElectricalSeries::initialize(
   }
   m_samplesRecorded = SizeArray(channelVector.size(), 0);
 
-  // make channel conversion dataset (1D array with num_channels elements)
   // use default chunk size of 8192 or use the num_channels if less than 2
   // chunks would be created with the default chunk size
   SizeType channelChunkSize =
       channelVector.size() < 16385 ? channelVector.size() : 8192;
-  IO::ArrayDataSetConfig channelConversionConfig(
-      IO::BaseDataType::F32,
-      SizeArray {channelVector.size()},
-      SizeArray {channelChunkSize});
-  try {
-    ioPtr->createArrayDataSet(
-        channelConversionConfig,
-        AQNWB::mergePaths(getPath(), "/channel_conversion"));
-    auto channelConversionRecorder = recordChannelConversion();
-    channelConversionRecorder->writeDataBlock(
-        SizeArray(1, channelVector.size()),
+
+  // make channel conversion dataset (1D array with num_channels elements)
+  if (createChannelConversion) {
+    IO::ArrayDataSetConfig channelConversionConfig(
         IO::BaseDataType::F32,
-        &channelConversions[0]);
-    // add axis attribute for channel conversion
-    const signed int axis_value = 1;
-    ioPtr->createAttribute(IO::BaseDataType::I32,
-                           &axis_value,
-                           AQNWB::mergePaths(getPath(), "channel_conversion"),
-                           "axis",
-                           1);
-  } catch (const std::runtime_error& e) {
-    std::cerr << "Failed to create or write channel conversion dataset: "
-              << e.what() << std::endl;
-    return Status::Failure;
+        SizeArray {channelVector.size()},
+        SizeArray {channelChunkSize});
+    try {
+      ioPtr->createArrayDataSet(
+          channelConversionConfig,
+          AQNWB::mergePaths(getPath(), "/channel_conversion"));
+      auto channelConversionRecorder = recordChannelConversion();
+      channelConversionRecorder->writeDataBlock(
+          SizeArray(1, channelVector.size()),
+          IO::BaseDataType::F32,
+          &channelConversions[0]);
+      // add axis attribute for channel conversion
+      const signed int axis_value = 1;
+      ioPtr->createAttribute(IO::BaseDataType::I32,
+                             &axis_value,
+                             AQNWB::mergePaths(getPath(), "channel_conversion"),
+                             "axis",
+                             1);
+    } catch (const std::runtime_error& e) {
+      std::cerr << "Failed to create or write channel conversion dataset: "
+                << e.what() << std::endl;
+      return Status::Failure;
+    }
   }
 
   // make electrodes dataset (1D array with num_channels elements)
