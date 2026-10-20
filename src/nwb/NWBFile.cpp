@@ -591,7 +591,8 @@ Status NWBFile::createSpikeEventSeries(
     std::vector<Types::ChannelVector> recordingArrays,
     std::vector<std::string> recordingNames,
     const IO::BaseDataType& dataType,
-    std::vector<SizeType>& containerIndexes)
+    std::vector<SizeType>& containerIndexes,
+    const SizeType numSamples)
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
@@ -642,13 +643,25 @@ Status NWBFile::createSpikeEventSeries(
       elecGroup->initialize("description", "unknown", device);
     }
 
-    // Setup Spike Event Series datasets
-    IO::ArrayDataSetConfig config(
-        dataType,
-        channelVector.size() == 1 ? SizeArray {0, 0}
-                                  : SizeArray {0, channelVector.size(), 0},
-        channelVector.size() == 1 ? SizeArray {SPIKE_CHUNK_XSIZE, 1}
-                                  : SizeArray {SPIKE_CHUNK_XSIZE, 1, 1});
+    // Setup Spike Event Series datasets. If the number of samples per event is
+    // known, the channel and sample dimensions have a fixed size (chunking 0)
+    // and each chunk stores SPIKE_CHUNK_XSIZE complete events. Otherwise, all
+    // dimensions are extendable.
+    const bool singleChannel = channelVector.size() == 1;
+    SizeArray shape;
+    SizeArray chunking;
+    if (numSamples > 0) {
+      shape = singleChannel ? SizeArray {0, numSamples}
+                            : SizeArray {0, channelVector.size(), numSamples};
+      chunking = singleChannel ? SizeArray {SPIKE_CHUNK_XSIZE, 0}
+                               : SizeArray {SPIKE_CHUNK_XSIZE, 0, 0};
+    } else {
+      shape = singleChannel ? SizeArray {0, 0}
+                            : SizeArray {0, channelVector.size(), 0};
+      chunking = singleChannel ? SizeArray {SPIKE_CHUNK_XSIZE, 1}
+                               : SizeArray {SPIKE_CHUNK_XSIZE, 1, 1};
+    }
+    IO::ArrayDataSetConfig config(dataType, shape, chunking);
 
     auto spikeEventSeries =
         this->createAquisitionSeries<SpikeEventSeries>(recordingName);

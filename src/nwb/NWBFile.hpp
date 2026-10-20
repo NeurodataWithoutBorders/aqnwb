@@ -342,13 +342,22 @@ public:
    * @param dataType The data type of the elements in the data block.
    * @param containerIndexes This vector is updated with the indexes of the
    * created containers.
+   * @param numSamples The number of samples per event (spike waveform). If >0,
+   * the `data` dataset has a fixed size in the channel and sample dimension
+   * (i.e., shape [num_events, num_channels, numSamples], or [num_events,
+   * numSamples] for single-channel series) and is chunked by complete events.
+   * This is recommended since all events of a SpikeEventSeries store snapshots
+   * of equal duration. If 0 (default), the number of samples is not fixed and
+   * `data` is chunked with a chunk size of 1 in the channel and sample
+   * dimensions, which creates many small chunks.
    * @return Status The status of the object creation operation.
    */
   Status createSpikeEventSeries(
       std::vector<Types::ChannelVector> recordingArrays,
       std::vector<std::string> recordingNames,
       const IO::BaseDataType& dataType,
-      std::vector<SizeType>& containerIndexes);
+      std::vector<SizeType>& containerIndexes,
+      const SizeType numSamples = 0);
 
   /** @brief Create AnnotationSeries objects to record data into.
    * Created objects are automatically added to the I/O's RecordingObjects.

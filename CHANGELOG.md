@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+## [Unreleased]
+
+### Added
+* Added optional `numSamples` parameter to `NWBFile::createSpikeEventSeries` to specify the number of samples per event (spike waveform). If set, the `data` dataset has a fixed size in the channel and sample dimensions and is chunked by complete events (`{SPIKE_CHUNK_XSIZE, numChannels, numSamples}`), instead of using a chunk size of 1 in the channel and sample dimensions, which created many tiny chunks and inflated file sizes (e.g., 35 MB vs. 22 MB for a 10 s recording with two tetrodes). The default (0) keeps the previous behavior. (@oruebel, [#344](https://github.com/NeurodataWithoutBorders/aqnwb/pull/344))
+
 ## [0.4.0] - 2026-09-03
 
 ### Added
