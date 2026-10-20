@@ -10,13 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-* Added optional `createChannelConversion` parameter to `ElectricalSeries::initialize` and `SpikeEventSeries::initialize` to allow omitting the optional `channel_conversion` dataset when the scaling is fully described by the `conversion` attribute. (@oruebel, [#PR](https://github.com/NeurodataWithoutBorders/aqnwb/pulls))
+* Added optional `createChannelConversion` parameter to `ElectricalSeries::initialize` and `SpikeEventSeries::initialize` to allow omitting the optional `channel_conversion` dataset when the scaling is fully described by the `conversion` attribute. (@oruebel, [#341](https://github.com/NeurodataWithoutBorders/aqnwb/pull/341))
 
 ### Changed
-* Updated `NWBFile::createSpikeEventSeries` to store the conversion factor in the `conversion` attribute of `data` (and to omit `channel_conversion`) when all channels of a `SpikeEventSeries` share the same conversion factor. This is the common case for spike waveforms, and PyNWB does not read `channel_conversion` for `SpikeEventSeries`, so the scaling was previously lost when reading such files with PyNWB (and nwbinspector reported `check_electrical_series_unscaled_data`). Per-channel factors are still stored in `channel_conversion` if they differ. (@oruebel, [#PR](https://github.com/NeurodataWithoutBorders/aqnwb/pulls))
+* Updated `NWBFile::createSpikeEventSeries` to store the conversion factor in the `conversion` attribute of `data` (and to omit `channel_conversion`) when all channels of a `SpikeEventSeries` share the same conversion factor. This is the common case for spike waveforms, and PyNWB does not read `channel_conversion` for `SpikeEventSeries`, so the scaling was previously lost when reading such files with PyNWB (and nwbinspector reported `check_electrical_series_unscaled_data`). Per-channel factors are still stored in `channel_conversion` if they differ. (@oruebel, [#341](https://github.com/NeurodataWithoutBorders/aqnwb/pull/341))
 
 ### Fixed
-* Fixed `NWBFile::createSpikeEventSeries` ignoring the status of `SpikeEventSeries::initialize` and always returning `Status::Success`. (@oruebel, [#PR](https://github.com/NeurodataWithoutBorders/aqnwb/pulls))
+* Fixed `NWBFile::createSpikeEventSeries` ignoring the status of `SpikeEventSeries::initialize` and always returning `Status::Success`. (@oruebel, [#341](https://github.com/NeurodataWithoutBorders/aqnwb/pull/341))
 
 ## [0.4.0] - 2026-09-03
 
