@@ -30,7 +30,7 @@ Status ElectricalSeries::initialize(
     const float& conversion,
     const float& resolution,
     const float& offset,
-    const bool createChannelConversion)
+    const bool useChannelConversion)
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
@@ -84,7 +84,7 @@ Status ElectricalSeries::initialize(
       channelVector.size() < 16385 ? channelVector.size() : 8192;
 
   // make channel conversion dataset (1D array with num_channels elements)
-  if (createChannelConversion) {
+  if (useChannelConversion) {
     IO::ArrayDataSetConfig channelConversionConfig(
         IO::BaseDataType::F32,
         SizeArray {channelVector.size()},

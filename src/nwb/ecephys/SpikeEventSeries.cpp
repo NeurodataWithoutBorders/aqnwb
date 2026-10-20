@@ -23,7 +23,7 @@ Status SpikeEventSeries::initialize(
     const float& conversion,
     const float& resolution,
     const float& offset,
-    const bool createChannelConversion)
+    const bool useChannelConversion)
 {
   auto esInitStatus = ElectricalSeries::initialize(dataConfig,
                                                    channelVector,
@@ -31,7 +31,7 @@ Status SpikeEventSeries::initialize(
                                                    conversion,
                                                    resolution,
                                                    offset,
-                                                   createChannelConversion);
+                                                   useChannelConversion);
   this->m_eventsRecorded = 0;
   return esInitStatus;
 }
