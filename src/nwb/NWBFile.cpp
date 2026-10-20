@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cmath>
 #include <filesystem>
 #include <fstream>
 #include <iomanip>
@@ -658,11 +659,17 @@ Status NWBFile::createSpikeEventSeries(
     // readers (e.g., PyNWB does not read `channel_conversion` for
     // SpikeEventSeries).
     const float firstConversion = channelVector[0].getConversion();
-    const bool uniformConversion =
-        std::all_of(channelVector.begin(),
-                    channelVector.end(),
-                    [firstConversion](const Channel& ch)
-                    { return ch.getConversion() == firstConversion; });
+    const bool uniformConversion = std::all_of(
+        channelVector.begin(),
+        channelVector.end(),
+        [firstConversion](const Channel& ch)
+        {
+          // compare with a relative tolerance (float == is not safe)
+          const float diff = std::fabs(ch.getConversion() - firstConversion);
+          return diff <= 1e-6f
+              * std::max(std::fabs(ch.getConversion()),
+                         std::fabs(firstConversion));
+        });
 
     auto spikeEventSeries =
         this->createAquisitionSeries<SpikeEventSeries>(recordingName);
