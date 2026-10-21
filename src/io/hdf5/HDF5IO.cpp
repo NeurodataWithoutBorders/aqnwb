@@ -1324,13 +1324,20 @@ Status HDF5IO::createStringDataSet(const std::string& path,
     return Status::Failure;
   }
 
-  std::unique_ptr<H5::DataSet> dataset;
-  DataType H5type = getH5Type(IO::BaseDataType::STR(value.length()));
+  // HDF5 doesn't support fixed-length strings of size 0, so empty strings are
+  // stored with size 1 (null-padded, i.e., read back as an empty string)
+  DataType H5type =
+      getH5Type(IO::BaseDataType::STR(std::max<SizeType>(value.length(), 1)));
   DataSpace dSpace(H5S_SCALAR);
 
-  dataset = std::make_unique<H5::DataSet>(
-      m_file->createDataSet(path, H5type, dSpace));
-  dataset->write(value.c_str(), H5type);
+  try {
+    H5::DataSet dataset = m_file->createDataSet(path, H5type, dSpace);
+    dataset.write(value.c_str(), H5type);
+  } catch (const H5::Exception& error) {
+    std::cerr << "HDF5IO::createStringDataSet failed to create " << path << ": "
+              << error.getDetailMsg() << std::endl;
+    return Status::Failure;
+  }
 
   return Status::Success;
 }

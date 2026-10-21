@@ -617,6 +617,21 @@ TEST_CASE("HDF5IO; createStringDataSet", "[hdf5io]")
     REQUIRE(data.data == std::vector<std::string> {"value"});
   }
 
+  SECTION("empty scalar string")
+  {
+    REQUIRE(hdf5io.createStringDataSet("/empty", "") == Status::Success);
+    auto data =
+        IO::DataBlock<std::string>::fromGeneric(hdf5io.readDataset("/empty"));
+    REQUIRE(data.data.size() == 1);
+    REQUIRE(std::string(data.data[0].c_str()).empty());
+  }
+
+  SECTION("existing path fails")
+  {
+    REQUIRE(hdf5io.createStringDataSet("/scalar", "value") == Status::Success);
+    REQUIRE(hdf5io.createStringDataSet("/scalar", "value") == Status::Failure);
+  }
+
   SECTION("string array")
   {
     const std::vector<std::string> values = {"str1", "str2", "str3"};

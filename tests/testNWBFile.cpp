@@ -132,6 +132,22 @@ TEST_CASE("setSessionStartTime and setTimestampsReferenceTime", "[nwb]")
   readio->close();
 }
 
+TEST_CASE("initialize with an empty session description", "[nwb]")
+{
+  const std::string filename =
+      getTestFilePath("testInitializeEmptySessionDescription.nwb");
+  auto io = std::make_shared<IO::HDF5::HDF5IO>(filename);
+  io->open();
+  auto nwbfile = NWB::NWBFile::create(io);
+  REQUIRE(
+      nwbfile->initialize(generateUuid(), "", "", "", "", getTestSubjectSpec())
+      == Status::Success);
+  auto description = nwbfile->readSessionDescription()->values().data;
+  REQUIRE(description.size() == 1);
+  REQUIRE(std::string(description[0].c_str()).empty());
+  io->close();
+}
+
 TEST_CASE("initialize preserves existing subject metadata", "[nwb]")
 {
   const std::string filename =
