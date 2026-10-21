@@ -52,12 +52,14 @@ public:
   /**
    * @brief Set the size of the raw data chunk cache used for each dataset.
    *
-   * HDF5 caches chunks of each open dataset in a per-dataset cache, which is
-   * 1 MiB by default. If a chunk is larger than the cache, every partial write
-   * to the chunk (e.g., writing one channel at a time to a dataset that is
-   * chunked over many channels) results in a read-modify-write of the whole
-   * chunk on disk, which is very slow. Set the cache to (a multiple of) the
-   * size of the chunks being written, e.g., based on the number of channels.
+   * HDF5 caches chunks of each open dataset in a per-dataset cache (by
+   * default, e.g., 1 MiB in HDF5 1.14 and 8 MiB in HDF5 2.2, see
+   * getDefaultChunkCacheNumBytes()). If a chunk is larger than the cache, every
+   * partial write to the chunk (e.g., writing one channel at a time to a
+   * dataset that is chunked over many channels) results in a read-modify-write
+   * of the whole chunk on disk, which is very slow. Set the cache to (a
+   * multiple of) the size of the chunks being written, e.g., based on the
+   * number of channels.
    *
    * Must be called before the file is opened.
    *
@@ -80,6 +82,19 @@ public:
    * @return The chunk cache size, or 0 if the file is not open.
    */
   SizeType getChunkCacheNumBytes() const;
+
+  /**
+   * @brief Get the default size of the raw data chunk cache (per dataset) of
+   * the HDF5 library in bytes, i.e., the size used if setChunkCache() is not
+   * called.
+   *
+   * The default depends on the HDF5 version (e.g., 1 MiB in HDF5 1.14 and 8 MiB
+   * in HDF5 2.2). Applications can use it to avoid setting a smaller cache than
+   * the default, e.g., setChunkCache(std::max(needed,
+   * getDefaultChunkCacheNumBytes())).
+   * @return The default chunk cache size in bytes.
+   */
+  static SizeType getDefaultChunkCacheNumBytes();
 
   /**
    * @brief Opens an existing file or creates a new file for writing.

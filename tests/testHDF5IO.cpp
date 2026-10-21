@@ -2421,7 +2421,10 @@ TEST_CASE("getStorageObjectDataType", "[hdf5io]")
 
 TEST_CASE("HDF5IO; chunk cache", "[hdf5io]")
 {
-  const SizeType defaultCacheBytes = 1024 * 1024;  // HDF5 default
+  // HDF5 default (e.g., 1 MiB in HDF5 1.14 and 8 MiB in HDF5 2.2)
+  const SizeType defaultCacheBytes =
+      IO::HDF5::HDF5IO::getDefaultChunkCacheNumBytes();
+  REQUIRE(defaultCacheBytes > 0);
   const SizeType cacheBytes = 64 * 1024 * 1024;
 
   SECTION("default chunk cache")

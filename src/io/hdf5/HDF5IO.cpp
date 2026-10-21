@@ -97,6 +97,18 @@ SizeType HDF5IO::getChunkCacheNumBytes() const
   return static_cast<SizeType>(numBytes);
 }
 
+SizeType HDF5IO::getDefaultChunkCacheNumBytes()
+{
+  // A new file access property list has the library defaults
+  hid_t fapl = H5Pcreate(H5P_FILE_ACCESS);
+  size_t numBytes = 0;
+  if (fapl >= 0) {
+    H5Pget_cache(fapl, nullptr, nullptr, &numBytes, nullptr);
+    H5Pclose(fapl);
+  }
+  return static_cast<SizeType>(numBytes);
+}
+
 HDF5IO::~HDF5IO()
 {
   try {
