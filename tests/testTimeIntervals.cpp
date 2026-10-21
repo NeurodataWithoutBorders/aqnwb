@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <memory>
 #include <string>
 #include <vector>
@@ -292,15 +293,21 @@ TEST_CASE("TimeIntervals - float64 start_time and stop_time", "[TimeIntervals]")
 
     // replace the default float32 time columns with float64 columns
     auto specs = TimeIntervals::createDefaultDataSpecs("/intervals/epochs");
-    for (auto& spec : specs) {
-      if (spec->name == "start_time" || spec->name == "stop_time") {
-        spec = VectorData::createDataSpec(
-            spec->name,
-            ArrayDataSetConfig(
-                BaseDataType::F64, SizeArray {0}, SizeArray {100}),
-            "Start or stop time of the interval, in seconds.");
-      }
-    }
+    std::transform(
+        specs.begin(),
+        specs.end(),
+        specs.begin(),
+        [](const DynamicTable::DataSpecPtr& spec) -> DynamicTable::DataSpecPtr
+        {
+          if (spec->name != "start_time" && spec->name != "stop_time") {
+            return spec;
+          }
+          return VectorData::createDataSpec(
+              spec->name,
+              ArrayDataSetConfig(
+                  BaseDataType::F64, SizeArray {0}, SizeArray {100}),
+              "Start or stop time of the interval, in seconds.");
+        });
     REQUIRE(timeIntervals->initialize("Test epochs", specs) == Status::Success);
     for (size_t i = 0; i < startTimes.size(); ++i) {
       AQNWB::Types::RowData row = {{"start_time", startTimes[i]},
@@ -336,14 +343,21 @@ TEST_CASE("TimeIntervals - invalid start_time data type", "[TimeIntervals]")
   auto timeIntervals = TimeIntervals::create("/intervals/epochs", io);
   REQUIRE(timeIntervals != nullptr);
   auto specs = TimeIntervals::createDefaultDataSpecs("/intervals/epochs");
-  for (auto& spec : specs) {
-    if (spec->name == "start_time") {
-      spec = VectorData::createDataSpec(
-          spec->name,
-          ArrayDataSetConfig(BaseDataType::I32, SizeArray {0}, SizeArray {100}),
-          "Start time of the interval, in seconds.");
-    }
-  }
+  std::transform(
+      specs.begin(),
+      specs.end(),
+      specs.begin(),
+      [](const DynamicTable::DataSpecPtr& spec) -> DynamicTable::DataSpecPtr
+      {
+        if (spec->name != "start_time") {
+          return spec;
+        }
+        return VectorData::createDataSpec(
+            spec->name,
+            ArrayDataSetConfig(
+                BaseDataType::I32, SizeArray {0}, SizeArray {100}),
+            "Start time of the interval, in seconds.");
+      });
   // invalid column specs are rejected by DynamicTable::initialize
   REQUIRE_THROWS_AS(timeIntervals->initialize("Test epochs", specs),
                     std::invalid_argument);

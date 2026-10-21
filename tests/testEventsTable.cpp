@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>
 
@@ -319,16 +321,19 @@ TEST_CASE("EventsTable - float64 timestamp column", "[event]")
 
     // replace the default float32 timestamp column with a float64 column
     auto specs = NWB::EventsTable::createDefaultDataSpecs(1.0f / 30000.0f);
-    for (auto& spec : specs) {
-      if (spec->name == "timestamp") {
-        spec = std::make_shared<NWB::TimestampVectorData::DataSpec>(
+    const NWB::DynamicTable::DataSpecPtr float64Timestamp =
+        std::make_shared<NWB::TimestampVectorData::DataSpec>(
             "timestamp",
             IO::ArrayDataSetConfig(
                 IO::BaseDataType::F64, SizeArray {0}, SizeArray {100}),
             "Time of each event, in seconds.",
             1.0f / 30000.0f);
-      }
-    }
+    std::replace_if(
+        specs.begin(),
+        specs.end(),
+        [](const NWB::DynamicTable::DataSpecPtr& spec)
+        { return spec->name == "timestamp"; },
+        float64Timestamp);
     REQUIRE(eventsTable->initialize("Test events", "Test source", specs)
             == Status::Success);
     for (double timestamp : timestamps) {
