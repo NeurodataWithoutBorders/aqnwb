@@ -349,6 +349,14 @@ public:
    * numSamples] (or [num_events, numSamples] for single-channel series). `data`
    * is chunked by complete events, with the number of events per chunk chosen
    * such that a chunk is about 32 KiB.
+   * @param useChannelConversion If true (default), the per-channel conversion
+   * factors (Channel::getConversion()) are stored in the `channel_conversion`
+   * dataset and the `conversion` attribute of `data` is set to 1. If false,
+   * the conversion factor of the first channel of each ChannelVector is stored
+   * in the `conversion` attribute of `data` and applies to all channels, and
+   * no `channel_conversion` dataset is created. Use false when all channels
+   * share the same conversion factor, e.g., for compatibility with readers
+   * that do not support `channel_conversion` for SpikeEventSeries.
    * @return Status The status of the object creation operation.
    */
   Status createSpikeEventSeries(
@@ -356,7 +364,8 @@ public:
       std::vector<std::string> recordingNames,
       const IO::BaseDataType& dataType,
       std::vector<SizeType>& containerIndexes,
-      const SizeType numSamples);
+      const SizeType numSamples,
+      const bool useChannelConversion = true);
 
   /** @brief Create AnnotationSeries objects to record data into.
    * Created objects are automatically added to the I/O's RecordingObjects.
