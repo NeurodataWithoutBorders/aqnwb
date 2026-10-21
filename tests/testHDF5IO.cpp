@@ -602,6 +602,33 @@ TEST_CASE("HDF5IO; write datasets", "[hdf5io]")
   }
 }
 
+TEST_CASE("HDF5IO; createStringDataSet", "[hdf5io]")
+{
+  std::string path = getTestFilePath("test_createStringDataSet.h5");
+  IO::HDF5::HDF5IO hdf5io(path);
+  hdf5io.open();
+
+  SECTION("scalar string")
+  {
+    REQUIRE(hdf5io.createStringDataSet("/scalar", "value") == Status::Success);
+    auto data =
+        IO::DataBlock<std::string>::fromGeneric(hdf5io.readDataset("/scalar"));
+    REQUIRE(data.data == std::vector<std::string> {"value"});
+  }
+
+  SECTION("string array")
+  {
+    const std::vector<std::string> values = {"str1", "str2", "str3"};
+    REQUIRE(hdf5io.createStringDataSet("/array", values) == Status::Success);
+    auto data =
+        IO::DataBlock<std::string>::fromGeneric(hdf5io.readDataset("/array"));
+    REQUIRE(data.shape == std::vector<SizeType> {3});
+    REQUIRE(data.data == values);
+  }
+
+  hdf5io.close();
+}
+
 TEST_CASE("HDF5IO createArrayDataSet with filters", "[HDF5IO]")
 {
   const std::string fileName = getTestFilePath("test.h5");
