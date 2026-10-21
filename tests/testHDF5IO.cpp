@@ -6,6 +6,7 @@
 #include <thread>
 #include <vector>
 
+#include <H5Epublic.h>
 #include <H5Rpublic.h>
 #include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>
@@ -2443,6 +2444,46 @@ TEST_CASE("getStorageObjectDataType", "[hdf5io]")
   }
 
   // close file
+  hdf5io.close();
+}
+
+namespace
+{
+/// Counts the calls of the HDF5 automatic error handler (which prints the
+/// HDF5-DIAG error stack by default)
+herr_t countHDF5ErrorReports(hid_t, void* count)
+{
+  ++*static_cast<int*>(count);
+  return 0;
+}
+}  // namespace
+
+TEST_CASE("HDF5IO; probing missing objects doesn't report HDF5 errors",
+          "[hdf5io]")
+{
+  const std::string filename = getTestFilePath("testProbeMissingObjects.h5");
+  IO::HDF5::HDF5IO hdf5io(filename);
+  REQUIRE(hdf5io.open() == Status::Success);
+  REQUIRE(hdf5io.createGroup("/group") == Status::Success);
+
+  // Replace the automatic error handler to count the error reports
+  H5E_auto2_t oldHandler = nullptr;
+  void* oldData = nullptr;
+  H5Eget_auto2(H5E_DEFAULT, &oldHandler, &oldData);
+  int count = 0;
+  H5Eset_auto2(H5E_DEFAULT, countHDF5ErrorReports, &count);
+
+  REQUIRE(hdf5io.getStorageObjectType("/missing")
+          == StorageObjectType::Undefined);
+  REQUIRE(hdf5io.getStorageObjectType("/missing/child")
+          == StorageObjectType::Undefined);
+  REQUIRE(hdf5io.getStorageObjectType("/group/missing")
+          == StorageObjectType::Undefined);
+  REQUIRE_FALSE(hdf5io.objectExists("/group/missing"));
+  REQUIRE(hdf5io.getStorageObjectType("/group") == StorageObjectType::Group);
+
+  H5Eset_auto2(H5E_DEFAULT, oldHandler, oldData);
+  REQUIRE(count == 0);
   hdf5io.close();
 }
 

@@ -1719,13 +1719,18 @@ H5O_type_t HDF5IO::getH5ObjectType(const std::string& path) const
   H5O_info_t objInfo;  // Structure to hold information about the object
   herr_t status;
 
+  // Don't print the HDF5 error stack if the object doesn't exist
+  H5E_BEGIN_TRY
+  {
 #if H5_VERSION_GE(1, 12, 0)
-  status = H5Oget_info_by_name(
-      m_file->getId(), path.c_str(), &objInfo, H5O_INFO_BASIC, H5P_DEFAULT);
+    status = H5Oget_info_by_name(
+        m_file->getId(), path.c_str(), &objInfo, H5O_INFO_BASIC, H5P_DEFAULT);
 #else
-  status =
-      H5Oget_info_by_name(m_file->getId(), path.c_str(), &objInfo, H5P_DEFAULT);
+    status = H5Oget_info_by_name(
+        m_file->getId(), path.c_str(), &objInfo, H5P_DEFAULT);
 #endif
+  }
+  H5E_END_TRY
 
   // Check if the object exists
   if (status < 0) {
