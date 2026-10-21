@@ -10,16 +10,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-* Added optional `useChannelConversion` parameter (default `true`, unchanged behavior) to control whether per-channel conversion factors are stored in the optional `channel_conversion` dataset (@oruebel, [#341](https://github.com/NeurodataWithoutBorders/aqnwb/pull/341)):
+* Added optional `useChannelConversion` parameter (default `true`, unchanged behavior) to control whether per-channel conversion factors are stored in the optional `channel_conversion` dataset (@claude, @oruebel, [#341](https://github.com/NeurodataWithoutBorders/aqnwb/pull/341)):
    * `NWBFile::createSpikeEventSeries`: if `false`, the conversion factor of the first channel is stored in the `conversion` attribute of `data` and applies to all channels, and no `channel_conversion` dataset is created. This is useful when all channels share the same conversion factor and for compatibility with PyNWB, which does not read `channel_conversion` for `SpikeEventSeries` (PyNWB [#2272](https://github.com/NeurodataWithoutBorders/pynwb/issues/2272)).
    * `ElectricalSeries::initialize` and `SpikeEventSeries::initialize`: if `false`, no `channel_conversion` dataset is created and the scaling must be fully described by the `conversion` parameter.
 
 ### Changed
-* **[BREAKING]** Updated `NWBFile::createSpikeEventSeries` to require the number of samples per event (`numSamples`) and to chunk the `data` dataset by complete events. Previously, `data` was chunked with `{8, 1, 1}` (i.e., 16-byte chunks for `int16` waveforms), which created many tiny chunks and inflated file sizes (e.g., 35 MB vs. 22 MB for a 10 s recording with two tetrodes). Since all events of a `SpikeEventSeries` span the same channels and have the same duration, the channel and sample dimensions now have a fixed size, and the number of events per chunk is chosen such that a chunk is about 32 KiB. (@oruebel, [#344](https://github.com/NeurodataWithoutBorders/aqnwb/pull/344))
+* **[BREAKING]** Updated `NWBFile::createSpikeEventSeries` to require the number of samples per event (`numSamples`) and to chunk the `data` dataset by complete events. Previously, `data` was chunked with `{8, 1, 1}` (i.e., 16-byte chunks for `int16` waveforms), which created many tiny chunks and inflated file sizes (e.g., 35 MB vs. 22 MB for a 10 s recording with two tetrodes). Since all events of a `SpikeEventSeries` span the same channels and have the same duration, the channel and sample dimensions now have a fixed size, and the number of events per chunk is chosen such that a chunk is about 32 KiB. (@claude, @oruebel, [#344](https://github.com/NeurodataWithoutBorders/aqnwb/pull/344))
    * **Migration Note:** Pass the number of samples per spike waveform as the new `numSamples` argument, e.g., `createSpikeEventSeries(arrays, names, dataType, containerIndexes, numSamples)`. Series with different waveform lengths need separate calls. `numSamples` must match the `numSamples` passed to `SpikeEventSeries::writeSpike`.
 
 ### Fixed
-* Fixed `NWBFile::createSpikeEventSeries` ignoring the status of `SpikeEventSeries::initialize` and always returning `Status::Success`. (@oruebel, [#341](https://github.com/NeurodataWithoutBorders/aqnwb/pull/341))
+* Fixed `NWBFile::createSpikeEventSeries` ignoring the status of `SpikeEventSeries::initialize` and always returning `Status::Success`. (@claude, @oruebel, [#341](https://github.com/NeurodataWithoutBorders/aqnwb/pull/341))
 
 ## [0.4.0] - 2026-09-03
 
