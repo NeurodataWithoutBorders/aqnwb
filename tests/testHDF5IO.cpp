@@ -2418,3 +2418,56 @@ TEST_CASE("getStorageObjectDataType", "[hdf5io]")
   // close file
   hdf5io.close();
 }
+
+TEST_CASE("HDF5IO; chunk cache", "[hdf5io]")
+{
+  // HDF5 default (e.g., 1 MiB in HDF5 1.14 and 8 MiB in HDF5 2.2)
+  const SizeType defaultCacheBytes =
+      IO::HDF5::HDF5IO::getDefaultChunkCacheNumBytes();
+  REQUIRE(defaultCacheBytes > 0);
+  const SizeType cacheBytes = 64 * 1024 * 1024;
+
+  SECTION("default chunk cache")
+  {
+    IO::HDF5::HDF5IO io(getTestFilePath("testChunkCacheDefault.h5"));
+    REQUIRE(io.getChunkCacheNumBytes() == 0);  // not open
+    REQUIRE(io.open(IO::FileMode::Overwrite) == Status::Success);
+    REQUIRE(io.getChunkCacheNumBytes() == defaultCacheBytes);
+    io.close();
+  }
+
+  SECTION("configured chunk cache does not affect other files")
+  {
+    IO::HDF5::HDF5IO io(getTestFilePath("testChunkCache.h5"));
+    REQUIRE(io.open(IO::FileMode::Overwrite,
+                    IO::HDF5::ChunkCacheConfig {cacheBytes})
+            == Status::Success);
+    REQUIRE(io.getChunkCacheNumBytes() == cacheBytes);
+
+    // the cache setting must not leak into files opened afterwards
+    IO::HDF5::HDF5IO io2(getTestFilePath("testChunkCache2.h5"));
+    REQUIRE(io2.open(IO::FileMode::Overwrite) == Status::Success);
+    REQUIRE(io2.getChunkCacheNumBytes() == defaultCacheBytes);
+    io2.close();
+    io.close();
+  }
+
+  SECTION("custom number of slots and preemption policy")
+  {
+    IO::HDF5::HDF5IO io(getTestFilePath("testChunkCacheSlots.h5"));
+    REQUIRE(io.open(IO::FileMode::Overwrite,
+                    IO::HDF5::ChunkCacheConfig {cacheBytes, 1009, 0.5})
+            == Status::Success);
+    REQUIRE(io.getChunkCacheNumBytes() == cacheBytes);
+    io.close();
+  }
+
+  SECTION("invalid preemption policy")
+  {
+    IO::HDF5::HDF5IO io(getTestFilePath("testChunkCacheInvalid.h5"));
+    REQUIRE(io.open(IO::FileMode::Overwrite,
+                    IO::HDF5::ChunkCacheConfig {cacheBytes, 0, 1.5})
+            == Status::Failure);
+    REQUIRE(io.isOpen() == false);
+  }
+}
