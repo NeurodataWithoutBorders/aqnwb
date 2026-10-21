@@ -158,6 +158,56 @@ Status NWBFile::initialize(
   return initStatus;
 }
 
+namespace
+{
+Status overwriteTime(const std::shared_ptr<AQNWB::IO::BaseIO>& ioPtr,
+                     const std::string& path,
+                     const std::string& time,
+                     const std::string& caller)
+{
+  if (!ioPtr) {
+    std::cerr << caller << " IO object has been deleted." << std::endl;
+    return Status::Failure;
+  }
+  if (!AQNWB::isISO8601Date(time)) {
+    std::cerr << caller << " time not in ISO8601 format: " << time << std::endl;
+    return Status::Failure;
+  }
+  // Overwrite the value of the existing (scalar string) dataset. This does not
+  // change the structure of the file, so it is also possible in SWMR mode.
+  try {
+    auto dataset = ioPtr->getDataSet(path);
+    if (!dataset) {
+      return Status::Failure;
+    }
+    return dataset->writeDataBlock(SizeArray {},
+                                   SizeArray {},
+                                   ioPtr->getStorageObjectDataType(path),
+                                   std::vector<std::string> {time});
+  } catch (const std::exception& e) {
+    std::cerr << caller << " failed: " << e.what() << std::endl;
+    return Status::Failure;
+  }
+}
+}  // namespace
+
+Status NWBFile::setSessionStartTime(const std::string& sessionStartTime)
+{
+  return overwriteTime(getIO(),
+                       "/session_start_time",
+                       sessionStartTime,
+                       "NWBFile::setSessionStartTime");
+}
+
+Status NWBFile::setTimestampsReferenceTime(
+    const std::string& timestampsReferenceTime)
+{
+  return overwriteTime(getIO(),
+                       "/timestamps_reference_time",
+                       timestampsReferenceTime,
+                       "NWBFile::setTimestampsReferenceTime");
+}
+
 bool NWBFile::isInitialized() const
 {
   auto ioPtr = getIO();

@@ -1,5 +1,6 @@
 #include <numeric>
 
+#include <H5Cpp.h>
 #include <catch2/catch_approx.hpp>
 
 #include "io/hdf5/HDF5RecordingData.hpp"
@@ -223,4 +224,141 @@ TEST_CASE("HDF5RecordingData multi-dimensional operations",
   }
 
   hdf5io->close();
+}
+
+TEST_CASE("HDF5RecordingData overwrite scalar and fixed-size datasets",
+          "[hdf5recordingdata]")
+{
+  std::string path = getTestFilePath("test_HDF5RecordingData_overwrite.h5");
+  // Create a file with datasets that cannot be extended: a scalar fixed-length
+  // string, a scalar variable-length string, a numeric scalar, and a
+  // contiguous 1D dataset
+  {
+    IO::HDF5::HDF5IO hdf5io(path);
+    hdf5io.open(IO::FileMode::Overwrite);
+    REQUIRE(hdf5io.createStringDataSet("/fixed_str", "abcdef")
+            == Status::Success);
+    hdf5io.close();
+
+    H5::H5File file(path, H5F_ACC_RDWR);
+    H5::StrType vlenType(H5::PredType::C_S1, H5T_VARIABLE);
+    vlenType.setCset(H5T_CSET_UTF8);  // as AqNWB writes strings
+    H5::DataSet vlen =
+        file.createDataSet("/vlen_str", vlenType, H5::DataSpace(H5S_SCALAR));
+    const char* vlenValue = "variable";
+    vlen.write(&vlenValue, vlenType);
+    H5::DataSet scalarInt = file.createDataSet(
+        "/scalar_int", H5::PredType::NATIVE_INT32, H5::DataSpace(H5S_SCALAR));
+    const int32_t intValue = 1;
+    scalarInt.write(&intValue, H5::PredType::NATIVE_INT32);
+    const hsize_t dims[1] = {3};
+    H5::DataSet fixed1D = file.createDataSet(
+        "/fixed_1d", H5::PredType::NATIVE_INT32, H5::DataSpace(1, dims));
+    const std::vector<int32_t> fixedValues = {1, 2, 3};
+    fixed1D.write(fixedValues.data(), H5::PredType::NATIVE_INT32);
+  }
+
+  auto readString = [](IO::HDF5::HDF5IO& io, const std::string& dataPath)
+  {
+    auto data =
+        IO::DataBlock<std::string>::fromGeneric(io.readDataset(dataPath));
+    REQUIRE(data.data.size() == 1);
+    // fixed-length strings are padded with null characters
+    return std::string(data.data[0].c_str());
+  };
+
+  SECTION("overwrite datasets")
+  {
+    IO::HDF5::HDF5IO hdf5io(path);
+    REQUIRE(hdf5io.open(IO::FileMode::ReadWrite) == Status::Success);
+
+    // fixed-length string: same length and shorter values
+    const BaseDataType strType = hdf5io.getStorageObjectDataType("/fixed_str");
+    REQUIRE(strType.type == BaseDataType::Type::T_STR);
+    REQUIRE(strType.typeSize == 6);
+    auto fixedStr = hdf5io.getDataSet("/fixed_str");
+    REQUIRE(fixedStr->getNumDimensions() == 0);
+    REQUIRE(fixedStr->writeDataBlock(
+                {}, {}, strType, std::vector<std::string> {"uvwxyz"})
+            == Status::Success);
+    REQUIRE(readString(hdf5io, "/fixed_str") == "uvwxyz");
+    REQUIRE(fixedStr->writeDataBlock(
+                {}, {}, strType, std::vector<std::string> {"uvw"})
+            == Status::Success);
+    REQUIRE(readString(hdf5io, "/fixed_str") == "uvw");
+
+    // longer than the fixed length, or not exactly one value
+    REQUIRE(fixedStr->writeDataBlock(
+                {}, {}, strType, std::vector<std::string> {"abcdefg"})
+            == Status::Failure);
+    REQUIRE(fixedStr->writeDataBlock(
+                {}, {}, strType, std::vector<std::string> {"a", "b"})
+            == Status::Failure);
+    REQUIRE(readString(hdf5io, "/fixed_str") == "uvw");
+
+    // variable-length string
+    auto vlenStr = hdf5io.getDataSet("/vlen_str");
+    REQUIRE(vlenStr->writeDataBlock({},
+                                    {},
+                                    BaseDataType::V_STR,
+                                    std::vector<std::string> {"a longer value"})
+            == Status::Success);
+    REQUIRE(readString(hdf5io, "/vlen_str") == "a longer value");
+
+    // numeric scalar
+    const int32_t newInt = 42;
+    REQUIRE(hdf5io.getDataSet("/scalar_int")
+                ->writeDataBlock({}, {}, BaseDataType::I32, &newInt)
+            == Status::Success);
+    auto intData =
+        IO::DataBlock<int32_t>::fromGeneric(hdf5io.readDataset("/scalar_int"));
+    REQUIRE(intData.data == std::vector<int32_t> {42});
+
+    // fixed-size (contiguous) 1D dataset: overwriting works, extending fails
+    auto fixed1D = hdf5io.getDataSet("/fixed_1d");
+    const std::vector<int32_t> newValues = {7, 8};
+    REQUIRE(
+        fixed1D->writeDataBlock({2}, {1}, BaseDataType::I32, newValues.data())
+        == Status::Success);
+    auto fixedData =
+        IO::DataBlock<int32_t>::fromGeneric(hdf5io.readDataset("/fixed_1d"));
+    REQUIRE(fixedData.data == std::vector<int32_t> {1, 7, 8});
+    REQUIRE(
+        fixed1D->writeDataBlock({2}, {2}, BaseDataType::I32, newValues.data())
+        == Status::Failure);
+    hdf5io.close();
+  }
+
+  SECTION("overwrite in SWMR mode")
+  {
+    IO::HDF5::HDF5IO hdf5io(path);
+    REQUIRE(hdf5io.open(IO::FileMode::ReadWrite) == Status::Success);
+    REQUIRE(hdf5io.startRecording() == Status::Success);
+    REQUIRE(hdf5io.canModifyObjects() == false);
+    REQUIRE(
+        hdf5io.getDataSet("/fixed_str")
+            ->writeDataBlock(
+                {}, {}, BaseDataType::STR(6), std::vector<std::string> {"swmr"})
+        == Status::Success);
+    REQUIRE(hdf5io.stopRecording() == Status::Success);
+    hdf5io.close();
+
+    IO::HDF5::HDF5IO readio(path);
+    readio.open(IO::FileMode::ReadOnly);
+    REQUIRE(readString(readio, "/fixed_str") == "swmr");
+    readio.close();
+  }
+
+  SECTION("read-only file")
+  {
+    IO::HDF5::HDF5IO readio(path);
+    readio.open(IO::FileMode::ReadOnly);
+    REQUIRE(readio.getDataSet("/fixed_str")
+                ->writeDataBlock({},
+                                 {},
+                                 BaseDataType::STR(6),
+                                 std::vector<std::string> {"uvwxyz"})
+            == Status::Failure);
+    readio.close();
+  }
 }
