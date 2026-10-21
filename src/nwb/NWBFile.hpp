@@ -342,13 +342,22 @@ public:
    * @param dataType The data type of the elements in the data block.
    * @param containerIndexes This vector is updated with the indexes of the
    * created containers.
+   * @param useChannelConversion If true (default), the per-channel conversion
+   * factors (Channel::getConversion()) are stored in the `channel_conversion`
+   * dataset and the `conversion` attribute of `data` is set to 1. If false,
+   * the conversion factor of the first channel of each ChannelVector is stored
+   * in the `conversion` attribute of `data` and applies to all channels, and
+   * no `channel_conversion` dataset is created. Use false when all channels
+   * share the same conversion factor, e.g., for compatibility with readers
+   * that do not support `channel_conversion` for SpikeEventSeries.
    * @return Status The status of the object creation operation.
    */
   Status createSpikeEventSeries(
       std::vector<Types::ChannelVector> recordingArrays,
       std::vector<std::string> recordingNames,
       const IO::BaseDataType& dataType,
-      std::vector<SizeType>& containerIndexes);
+      std::vector<SizeType>& containerIndexes,
+      const bool useChannelConversion = true);
 
   /** @brief Create AnnotationSeries objects to record data into.
    * Created objects are automatically added to the I/O's RecordingObjects.

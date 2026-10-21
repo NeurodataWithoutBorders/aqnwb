@@ -591,7 +591,8 @@ Status NWBFile::createSpikeEventSeries(
     std::vector<Types::ChannelVector> recordingArrays,
     std::vector<std::string> recordingNames,
     const IO::BaseDataType& dataType,
-    std::vector<SizeType>& containerIndexes)
+    std::vector<SizeType>& containerIndexes,
+    const bool useChannelConversion)
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
@@ -622,6 +623,7 @@ Status NWBFile::createSpikeEventSeries(
   }
 
   // Create datasets
+  Status overallStatus = Status::Success;
   for (size_t i = 0; i < recordingArrays.size(); ++i) {
     const auto& channelVector = recordingArrays[i];
     const std::string& recordingName = recordingNames[i];
@@ -650,16 +652,24 @@ Status NWBFile::createSpikeEventSeries(
         channelVector.size() == 1 ? SizeArray {SPIKE_CHUNK_XSIZE, 1}
                                   : SizeArray {SPIKE_CHUNK_XSIZE, 1, 1});
 
+    // Either store per-channel conversion factors in `channel_conversion`, or
+    // store the conversion factor of the first channel in the `conversion`
+    // attribute of `data` (for all channels)
     auto spikeEventSeries =
         this->createAquisitionSeries<SpikeEventSeries>(recordingName);
-    spikeEventSeries->initialize(
+    Status sesStatus = spikeEventSeries->initialize(
         config,
         channelVector,
-        "Stores spike waveforms from an extracellular ephys recording");
+        "Stores spike waveforms from an extracellular ephys recording",
+        useChannelConversion ? 1.0f : channelVector[0].getConversion(),
+        -1.0f,
+        0.0f,
+        useChannelConversion);
+    overallStatus = overallStatus && sesStatus;
     containerIndexes.push_back(spikeEventSeries->getRecordingObjectIndex());
   }
 
-  return Status::Success;
+  return overallStatus;
 }
 
 Status NWBFile::createAnnotationSeries(

@@ -721,6 +721,79 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
   io->stopRecording();
 }
 
+TEST_CASE("createSpikeEventSeries conversion", "[nwb]")
+{
+  std::string filename = getTestFilePath("createSESConversion.nwb");
+
+  std::shared_ptr<HDF5::HDF5IO> io = std::make_shared<HDF5::HDF5IO>(filename);
+  io->open();
+  auto nwbfile = AQNWB::NWB::NWBFile::create(io);
+  auto currentTime = getCurrentTime();
+  nwbfile->initialize(generateUuid(),
+                      "a recording session",
+                      "data collection info",
+                      currentTime,
+                      currentTime,
+                      getTestSubjectSpec());
+
+  const float bitVoltsA = 0.195f;
+  const float bitVoltsB = 0.5f;
+  std::vector<Types::ChannelVector> arrays = {
+      {Channel("ch0", "array0", 0, 0, 0, 1e6f, 30000.f, bitVoltsA),
+       Channel("ch1", "array0", 0, 1, 1, 1e6f, 30000.f, bitVoltsB)}};
+  REQUIRE(nwbfile->createElectrodesTable(arrays) != nullptr);
+  auto recordingObjects = io->getRecordingObjects();
+  std::shared_ptr<NWB::SpikeEventSeries> ses = nullptr;
+
+  SECTION("default: per-channel factors are stored in channel_conversion")
+  {
+    std::vector<SizeType> containerIndices = {};
+    Status status = nwbfile->createSpikeEventSeries(
+        arrays, {"spikedata"}, BaseDataType::I16, containerIndices);
+    REQUIRE(status == Status::Success);
+    ses = std::dynamic_pointer_cast<NWB::SpikeEventSeries>(
+        recordingObjects->getRecordingObject(containerIndices[0]));
+    REQUIRE(ses != nullptr);
+
+    REQUIRE(io->objectExists(ses->getPath() + "/channel_conversion"));
+    auto channelConversion = ses->readChannelConversion()->values().data;
+    REQUIRE(channelConversion.size() == 2);
+    REQUIRE(channelConversion[0] == Catch::Approx(bitVoltsA / 1e6f));
+    REQUIRE(channelConversion[1] == Catch::Approx(bitVoltsB / 1e6f));
+    auto conversion = ses->readDataConversion()->values().data;
+    REQUIRE(conversion.size() == 1);
+    REQUIRE(conversion[0] == Catch::Approx(1.0f));
+  }
+
+  SECTION("useChannelConversion=false: first channel's factor in conversion")
+  {
+    std::vector<SizeType> containerIndices = {};
+    Status status = nwbfile->createSpikeEventSeries(
+        arrays, {"spikedata"}, BaseDataType::I16, containerIndices, false);
+    REQUIRE(status == Status::Success);
+    ses = std::dynamic_pointer_cast<NWB::SpikeEventSeries>(
+        recordingObjects->getRecordingObject(containerIndices[0]));
+    REQUIRE(ses != nullptr);
+
+    REQUIRE_FALSE(io->objectExists(ses->getPath() + "/channel_conversion"));
+    auto conversion = ses->readDataConversion()->values().data;
+    REQUIRE(conversion.size() == 1);
+    REQUIRE(conversion[0] == Catch::Approx(bitVoltsA / 1e6f));
+  }
+
+  // write a few spikes so that the file contains valid (non-empty) data
+  REQUIRE(io->startRecording() == Status::Success);
+  const SizeType numSamples = 5;
+  std::vector<int16_t> spike(arrays[0].size() * numSamples, 1);
+  const std::vector<double> timestamps = {0.1, 0.35, 0.9};  // irregular
+  for (double timestamp : timestamps) {
+    REQUIRE(
+        ses->writeSpike(numSamples, arrays[0].size(), spike.data(), &timestamp)
+        == Status::Success);
+  }
+  io->stopRecording();
+}
+
 TEST_CASE("createAnnotationSeries", "[nwb]")
 {
   std::string filename = getTestFilePath("createAnnotationSeries.nwb");
