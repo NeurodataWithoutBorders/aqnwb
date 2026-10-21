@@ -91,7 +91,8 @@ Status NWBFile::initialize(
     const std::string& dataCollection,
     const std::string& sessionStartTime,
     const std::string& timestampsReferenceTime,
-    const std::optional<AQNWB::NWB::Subject::SubjectSpec>& subjectSpec)
+    const std::optional<AQNWB::NWB::Subject::SubjectSpec>& subjectSpec,
+    const std::optional<GeneralMetadataSpec>& generalMetadataSpec)
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
@@ -155,7 +156,130 @@ Status NWBFile::initialize(
                 << std::endl;
     }
   }
+
+  // Create the datasets of the /general metadata if provided
+  if (generalMetadataSpec.has_value()) {
+    Status generalStatus = createGeneralMetadata(generalMetadataSpec.value());
+    initStatus = initStatus && generalStatus;
+  }
   return initStatus;
+}
+
+Status NWBFile::createGeneralMetadata(const GeneralMetadataSpec& spec)
+{
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    std::cerr << "NWBFile::createGeneralMetadata IO object has been deleted."
+              << std::endl;
+    return Status::Failure;
+  }
+  if (spec.sourceScript.has_value() != spec.sourceScriptFileName.has_value()) {
+    std::cerr << "NWBFile::createGeneralMetadata sourceScript and "
+                 "sourceScriptFileName must be set together."
+              << std::endl;
+    return Status::Failure;
+  }
+  if (!ioPtr->canModifyObjects()) {
+    return Status::Failure;
+  }
+
+  Status status = Status::Success;
+  // Returns false (with a warning) if the dataset already exists
+  auto isNew = [&ioPtr](const std::string& path)
+  {
+    if (ioPtr->objectExists(path)) {
+      std::cerr << "NWBFile::createGeneralMetadata " << path
+                << " already exists in the file. Skipping." << std::endl;
+      return false;
+    }
+    return true;
+  };
+  auto writeText =
+      [&](const std::string& name, const std::optional<std::string>& value)
+  {
+    const std::string path = mergePaths(NWBFile::GENERAL_PATH, name);
+    if (value.has_value() && isNew(path)) {
+      status = status && ioPtr->createStringDataSet(path, value.value());
+    }
+  };
+  auto writeTextArray =
+      [&](const std::string& name,
+          const std::optional<std::vector<std::string>>& values)
+  {
+    const std::string path = mergePaths(NWBFile::GENERAL_PATH, name);
+    if (values.has_value() && isNew(path)) {
+      status = status && ioPtr->createStringDataSet(path, values.value());
+    }
+  };
+
+  writeText("experiment_description", spec.experimentDescription);
+  writeTextArray("experimenter", spec.experimenter);
+  writeText("institution", spec.institution);
+  writeTextArray("keywords", spec.keywords);
+  writeText("lab", spec.lab);
+  writeText("notes", spec.notes);
+  writeText("pharmacology", spec.pharmacology);
+  writeText("protocol", spec.protocol);
+  writeTextArray("related_publications", spec.relatedPublications);
+  writeText("session_id", spec.sessionId);
+  writeText("slices", spec.slices);
+  writeText("stimulus", spec.stimulusNotes);
+  writeText("surgery", spec.surgery);
+  writeText("virus", spec.virus);
+
+  const std::string sourceScriptPath =
+      mergePaths(NWBFile::GENERAL_PATH, "source_script");
+  if (spec.sourceScript.has_value() && isNew(sourceScriptPath)) {
+    Status scriptStatus =
+        ioPtr->createStringDataSet(sourceScriptPath, spec.sourceScript.value());
+    if (scriptStatus == Status::Success) {
+      scriptStatus = ioPtr->createAttribute(
+          spec.sourceScriptFileName.value(), sourceScriptPath, "file_name");
+    }
+    status = status && scriptStatus;
+  }
+
+  // was_generated_by is a 2D text dataset with one (name, version) row per
+  // software package
+  const std::string wasGeneratedByPath =
+      mergePaths(NWBFile::GENERAL_PATH, "was_generated_by");
+  if (spec.wasGeneratedBy.has_value() && isNew(wasGeneratedByPath)) {
+    const auto& sources = spec.wasGeneratedBy.value();
+    std::vector<std::string> values;
+    values.reserve(2 * sources.size());
+    for (const auto& [name, version] : sources) {
+      values.push_back(name);
+      values.push_back(version);
+    }
+    const SizeType numSources = static_cast<SizeType>(sources.size());
+    IO::ArrayDataSetConfig config(
+        IO::BaseDataType::V_STR,
+        SizeArray {numSources, 2},
+        SizeArray {std::max<SizeType>(numSources, 1), 2});
+    std::unique_ptr<IO::BaseRecordingData> dataset;
+    try {
+      dataset = ioPtr->createArrayDataSet(config, wasGeneratedByPath);
+    } catch (const std::runtime_error& error) {
+      std::cerr << "NWBFile::createGeneralMetadata failed to create "
+                << wasGeneratedByPath << ": " << error.what() << std::endl;
+    }
+    if (!dataset) {
+      status = Status::Failure;
+    } else if (numSources > 0) {
+      status = status
+          && dataset->writeDataBlock(SizeArray {numSources, 2},
+                                     SizeArray {0, 0},
+                                     IO::BaseDataType::V_STR,
+                                     values);
+    }
+  }
+
+  if (status != Status::Success) {
+    std::cerr << "NWBFile::createGeneralMetadata failed to write the /general "
+                 "metadata."
+              << std::endl;
+  }
+  return status;
 }
 
 namespace

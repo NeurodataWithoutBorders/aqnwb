@@ -158,6 +158,126 @@ TEST_CASE("initialize preserves existing subject metadata", "[nwb]")
           == std::vector<std::string> {"existing-subject"});
 }
 
+TEST_CASE("initialize with general metadata", "[nwb]")
+{
+  const std::string filename = getTestFilePath("testGeneralMetadata.nwb");
+  NWB::NWBFile::GeneralMetadataSpec spec;
+  spec.withExperimentDescription("Test experiment")
+      .withExperimenter({"Last, First", "Other, Person"})
+      .withInstitution("Test institution")
+      .withKeywords({"test", "general metadata"})
+      .withLab("Test lab")
+      .withNotes("Test notes")
+      .withPharmacology("none")
+      .withProtocol("IACUC-1")
+      .withRelatedPublications({"doi:10.1000/test"})
+      .withSessionId("session-1")
+      .withSlices("none")
+      .withSourceScript("https://github.com/NeurodataWithoutBorders/aqnwb")
+      .withSourceScriptFileName("testNWBFile.cpp")
+      .withStimulusNotes("no stimulus")
+      .withSurgery("none")
+      .withVirus("none")
+      .withWasGeneratedBy({{"aqnwb", "0.4.0"}, {"test", "1.0"}});
+
+  SECTION("all fields are written and can be read back")
+  {
+    auto io = std::make_shared<IO::HDF5::HDF5IO>(filename);
+    io->open();
+    auto nwbfile = NWB::NWBFile::create(io);
+    REQUIRE(nwbfile->initialize(generateUuid(),
+                                "Test general metadata",
+                                "Test data collection",
+                                "",
+                                "",
+                                getTestSubjectSpec(),
+                                spec)
+            == Status::Success);
+    io->close();
+
+    auto readio = std::make_shared<IO::HDF5::HDF5IO>(filename);
+    readio->open(IO::FileMode::ReadOnly);
+    auto readFile = NWB::NWBFile::create(readio);
+    using Strings = std::vector<std::string>;
+    REQUIRE(readFile->readDataCollection()->values().data
+            == Strings {"Test data collection"});
+    REQUIRE(readFile->readExperimentDescription()->values().data
+            == Strings {"Test experiment"});
+    REQUIRE(readFile->readExperimenter()->values().data
+            == Strings {"Last, First", "Other, Person"});
+    REQUIRE(readFile->readInstitution()->values().data
+            == Strings {"Test institution"});
+    REQUIRE(readFile->readKeywords()->values().data
+            == Strings {"test", "general metadata"});
+    REQUIRE(readFile->readLab()->values().data == Strings {"Test lab"});
+    REQUIRE(readFile->readNotes()->values().data == Strings {"Test notes"});
+    REQUIRE(readFile->readPharmacology()->values().data == Strings {"none"});
+    REQUIRE(readFile->readProtocol()->values().data == Strings {"IACUC-1"});
+    REQUIRE(readFile->readRelatedPublications()->values().data
+            == Strings {"doi:10.1000/test"});
+    REQUIRE(readFile->readSessionId()->values().data == Strings {"session-1"});
+    REQUIRE(readFile->readSlices()->values().data == Strings {"none"});
+    REQUIRE(readFile->readSourceScript()->values().data
+            == Strings {"https://github.com/NeurodataWithoutBorders/aqnwb"});
+    REQUIRE(readFile->readSourceScriptFileName()->values().data
+            == Strings {"testNWBFile.cpp"});
+    REQUIRE(readFile->readStimulusNotes()->values().data
+            == Strings {"no stimulus"});
+    REQUIRE(readFile->readSurgery()->values().data == Strings {"none"});
+    REQUIRE(readFile->readVirus()->values().data == Strings {"none"});
+    auto wasGeneratedBy = readFile->readWasGeneratedBy()->values();
+    REQUIRE(wasGeneratedBy.shape == SizeArray {2, 2});
+    REQUIRE(wasGeneratedBy.data == Strings {"aqnwb", "0.4.0", "test", "1.0"});
+    readio->close();
+  }
+
+  SECTION("existing datasets are not changed")
+  {
+    auto io = std::make_shared<IO::HDF5::HDF5IO>(filename);
+    io->open();
+    auto nwbfile = NWB::NWBFile::create(io);
+    REQUIRE(nwbfile->initialize(generateUuid()) == Status::Success);
+    REQUIRE(io->createStringDataSet("/general/lab", "Existing lab")
+            == Status::Success);
+    REQUIRE(
+        nwbfile->initialize(generateUuid(), "", "", "", "", std::nullopt, spec)
+        == Status::Success);
+    REQUIRE(nwbfile->readLab()->values().data
+            == std::vector<std::string> {"Existing lab"});
+    REQUIRE(nwbfile->readInstitution()->values().data
+            == std::vector<std::string> {"Test institution"});
+    io->close();
+  }
+
+  SECTION("sourceScript requires sourceScriptFileName")
+  {
+    auto io = std::make_shared<IO::HDF5::HDF5IO>(filename);
+    io->open();
+    auto nwbfile = NWB::NWBFile::create(io);
+    NWB::NWBFile::GeneralMetadataSpec invalid;
+    invalid.withSourceScript("script.py");
+    REQUIRE(nwbfile->initialize(
+                generateUuid(), "Test", "", "", "", std::nullopt, invalid)
+            == Status::Failure);
+    REQUIRE_FALSE(io->objectExists("/general/source_script"));
+    io->close();
+  }
+
+  SECTION("fails after recording started")
+  {
+    auto io = std::make_shared<IO::HDF5::HDF5IO>(filename);
+    io->open();
+    auto nwbfile = NWB::NWBFile::create(io);
+    REQUIRE(nwbfile->initialize(generateUuid()) == Status::Success);
+    REQUIRE(io->startRecording() == Status::Success);
+    REQUIRE(
+        nwbfile->initialize(generateUuid(), "", "", "", "", std::nullopt, spec)
+        == Status::Failure);
+    REQUIRE(io->stopRecording() == Status::Success);
+    io->close();
+  }
+}
+
 TEST_CASE("initialize fails when Subject has an incompatible cached type",
           "[nwb]")
 {
