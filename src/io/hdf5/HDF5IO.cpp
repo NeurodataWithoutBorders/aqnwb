@@ -1324,13 +1324,20 @@ Status HDF5IO::createStringDataSet(const std::string& path,
     return Status::Failure;
   }
 
-  std::unique_ptr<H5::DataSet> dataset;
-  DataType H5type = getH5Type(IO::BaseDataType::STR(value.length()));
+  // HDF5 doesn't support fixed-length strings of size 0, so empty strings are
+  // stored with size 1 (null-padded, i.e., read back as an empty string)
+  DataType H5type =
+      getH5Type(IO::BaseDataType::STR(std::max<SizeType>(value.length(), 1)));
   DataSpace dSpace(H5S_SCALAR);
 
-  dataset = std::make_unique<H5::DataSet>(
-      m_file->createDataSet(path, H5type, dSpace));
-  dataset->write(value.c_str(), H5type);
+  try {
+    H5::DataSet dataset = m_file->createDataSet(path, H5type, dSpace);
+    dataset.write(value.c_str(), H5type);
+  } catch (const H5::Exception& error) {
+    std::cerr << "HDF5IO::createStringDataSet failed to create " << path << ": "
+              << error.getDetailMsg() << std::endl;
+    return Status::Failure;
+  }
 
   return Status::Success;
 }
@@ -1719,13 +1726,18 @@ H5O_type_t HDF5IO::getH5ObjectType(const std::string& path) const
   H5O_info_t objInfo;  // Structure to hold information about the object
   herr_t status;
 
+  // Don't print the HDF5 error stack if the object doesn't exist
+  H5E_BEGIN_TRY
+  {
 #if H5_VERSION_GE(1, 12, 0)
-  status = H5Oget_info_by_name(
-      m_file->getId(), path.c_str(), &objInfo, H5O_INFO_BASIC, H5P_DEFAULT);
+    status = H5Oget_info_by_name(
+        m_file->getId(), path.c_str(), &objInfo, H5O_INFO_BASIC, H5P_DEFAULT);
 #else
-  status =
-      H5Oget_info_by_name(m_file->getId(), path.c_str(), &objInfo, H5P_DEFAULT);
+    status = H5Oget_info_by_name(
+        m_file->getId(), path.c_str(), &objInfo, H5P_DEFAULT);
 #endif
+  }
+  H5E_END_TRY
 
   // Check if the object exists
   if (status < 0) {
