@@ -629,6 +629,70 @@ TEST_CASE("HDF5IO; createStringDataSet", "[hdf5io]")
   hdf5io.close();
 }
 
+TEST_CASE("HDF5IO; overwriteStringDataSet", "[hdf5io]")
+{
+  std::string path = getTestFilePath("test_overwriteStringDataSet.h5");
+  auto readString = [](IO::HDF5::HDF5IO& io, const std::string& dataPath)
+  {
+    auto data =
+        IO::DataBlock<std::string>::fromGeneric(io.readDataset(dataPath));
+    REQUIRE(data.data.size() == 1);
+    // fixed-length strings are padded with null characters
+    return std::string(data.data[0].c_str());
+  };
+
+  IO::HDF5::HDF5IO hdf5io(path);
+  hdf5io.open();
+  REQUIRE(hdf5io.createStringDataSet("/scalar", "abcdef") == Status::Success);
+  REQUIRE(
+      hdf5io.createStringDataSet("/array", std::vector<std::string> {"a", "b"})
+      == Status::Success);
+
+  SECTION("same length and shorter values")
+  {
+    REQUIRE(hdf5io.overwriteStringDataSet("/scalar", "uvwxyz")
+            == Status::Success);
+    REQUIRE(readString(hdf5io, "/scalar") == "uvwxyz");
+    REQUIRE(hdf5io.overwriteStringDataSet("/scalar", "uvw") == Status::Success);
+    REQUIRE(readString(hdf5io, "/scalar") == "uvw");
+    hdf5io.close();
+  }
+
+  SECTION("invalid writes")
+  {
+    // longer than the fixed string length
+    REQUIRE(hdf5io.overwriteStringDataSet("/scalar", "abcdefg")
+            == Status::Failure);
+    REQUIRE(readString(hdf5io, "/scalar") == "abcdef");
+    // not a scalar string dataset, or not existing
+    REQUIRE(hdf5io.overwriteStringDataSet("/array", "c") == Status::Failure);
+    REQUIRE(hdf5io.overwriteStringDataSet("/missing", "c") == Status::Failure);
+    hdf5io.close();
+
+    // read-only file
+    IO::HDF5::HDF5IO readio(path);
+    readio.open(IO::FileMode::ReadOnly);
+    REQUIRE(readio.overwriteStringDataSet("/scalar", "uvwxyz")
+            == Status::Failure);
+    readio.close();
+  }
+
+  SECTION("in SWMR mode")
+  {
+    REQUIRE(hdf5io.startRecording() == Status::Success);
+    REQUIRE(hdf5io.canModifyObjects() == false);
+    REQUIRE(hdf5io.overwriteStringDataSet("/scalar", "uvwxyz")
+            == Status::Success);
+    REQUIRE(hdf5io.stopRecording() == Status::Success);
+    hdf5io.close();
+
+    IO::HDF5::HDF5IO readio(path);
+    readio.open(IO::FileMode::ReadOnly);
+    REQUIRE(readString(readio, "/scalar") == "uvwxyz");
+    readio.close();
+  }
+}
+
 TEST_CASE("HDF5IO createArrayDataSet with filters", "[HDF5IO]")
 {
   const std::string fileName = getTestFilePath("test.h5");

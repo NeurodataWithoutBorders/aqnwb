@@ -1,3 +1,4 @@
+#include <chrono>
 #include <cstdio>
 #include <numeric>
 #include <unordered_map>
@@ -86,6 +87,49 @@ TEST_CASE("initialize", "[nwb]")
   nwbfile->finalize();  // Good practice since we don't call stop recording, but
                         // not essential
   io->close();  // close the io
+}
+
+TEST_CASE("setSessionStartTime and setTimestampsReferenceTime", "[nwb]")
+{
+  std::string filename = getTestFilePath("testSetReferenceTimes.nwb");
+  auto io = std::make_shared<IO::HDF5::HDF5IO>(filename);
+  io->open();
+  auto nwbfile = NWB::NWBFile::create(io);
+  REQUIRE(nwbfile->initialize(generateUuid(),
+                              "Test setting the reference times",
+                              "",
+                              "",
+                              "",
+                              getTestSubjectSpec())
+          == Status::Success);
+
+  // e.g., time zero of the timestamps is known only once recording started
+  REQUIRE(io->startRecording() == Status::Success);
+  const std::string time =
+      formatTime(std::chrono::system_clock::now() - std::chrono::seconds(2));
+  REQUIRE(nwbfile->setTimestampsReferenceTime(time) == Status::Success);
+  REQUIRE(nwbfile->setSessionStartTime(time) == Status::Success);
+
+  // invalid times
+  REQUIRE(nwbfile->setTimestampsReferenceTime("yesterday") == Status::Failure);
+  // valid, but longer than the value written by initialize
+  const std::string longerTime = time.substr(0, 26) + "0" + time.substr(26);
+  REQUIRE(isISO8601Date(longerTime));
+  REQUIRE(nwbfile->setSessionStartTime(longerTime) == Status::Failure);
+
+  REQUIRE(io->stopRecording() == Status::Success);
+  io->close();
+
+  auto readio = std::make_shared<IO::HDF5::HDF5IO>(filename);
+  readio->open(IO::FileMode::ReadOnly);
+  for (const std::string path :
+       {"/session_start_time", "/timestamps_reference_time"})
+  {
+    auto data =
+        IO::DataBlock<std::string>::fromGeneric(readio->readDataset(path));
+    REQUIRE(std::string(data.data[0].c_str()) == time);
+  }
+  readio->close();
 }
 
 TEST_CASE("initialize preserves existing subject metadata", "[nwb]")

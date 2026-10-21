@@ -169,15 +169,17 @@ static inline std::string generateUuid()
 }
 
 /**
- * @brief Get the current time in ISO 8601 format with the UTC offset.
- * @return The current time as a string in ISO 8601 format.
+ * @brief Format a time point in ISO 8601 format with microseconds and the
+ * local UTC offset, e.g., "2026-10-20T20:32:38.844767-07:00".
+ * @param timePoint The time point to format.
+ * @return The time as a string in ISO 8601 format.
  */
-static inline std::string getCurrentTime()
+static inline std::string formatTime(
+    const std::chrono::system_clock::time_point& timePoint)
 {
-  auto now = std::chrono::system_clock::now();
-  auto seconds = std::chrono::time_point_cast<std::chrono::seconds>(now);
+  auto seconds = std::chrono::floor<std::chrono::seconds>(timePoint);
   auto micros =
-      std::chrono::duration_cast<std::chrono::microseconds>(now - seconds)
+      std::chrono::duration_cast<std::chrono::microseconds>(timePoint - seconds)
           .count();
   std::time_t time_value = std::chrono::system_clock::to_time_t(seconds);
   std::tm local_tm = detail::to_local_time(time_value);
@@ -188,6 +190,15 @@ static inline std::string getCurrentTime()
   oss << '.' << std::setw(6) << std::setfill('0') << micros;
   oss << detail::format_utc_offset(offset_seconds);
   return oss.str();
+}
+
+/**
+ * @brief Get the current time in ISO 8601 format with the UTC offset.
+ * @return The current time as a string in ISO 8601 format.
+ */
+static inline std::string getCurrentTime()
+{
+  return formatTime(std::chrono::system_clock::now());
 }
 
 /**
