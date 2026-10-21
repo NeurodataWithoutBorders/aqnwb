@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <any>
 #include <optional>
 #include <string>
@@ -511,6 +512,36 @@ protected:
                                  const std::optional<IO::BaseDataType>&
                                      expectedDataType = std::nullopt) const
   {
+    std::vector<IO::BaseDataType> allowedDataTypes;
+    if (expectedDataType.has_value()) {
+      allowedDataTypes.push_back(expectedDataType.value());
+    }
+    return checkRequiredColumnSpec<RequiredDataSpec>(
+        requiredName, dataSpecs, allowedDataTypes);
+  }
+
+  /**
+   * @brief Check that a required column spec exists and has one of the
+   * allowed data types.
+   *
+   * Same as checkRequiredColumnSpec() with a single expected data type, but
+   * accepts any of the given data types (e.g., float32 or float64 for columns
+   * with dtype `float` in the schema).
+   *
+   * @param requiredName The name of the required column.
+   * @param dataSpecs The column specifications to check.
+   * @param allowedDataTypes The allowed data types. If empty, the data type is
+   * not checked.
+   * @return Status::Success if the column exists, uses the required concrete
+   * type, is one-dimensional, and has one of the allowed data types;
+   * otherwise Status::Failure.
+   */
+  template<typename RequiredDataSpec>
+  Status checkRequiredColumnSpec(
+      const std::string& requiredName,
+      const std::vector<DataSpecPtr>& dataSpecs,
+      const std::vector<IO::BaseDataType>& allowedDataTypes) const
+  {
     bool found = false;
     for (const auto& spec : dataSpecs) {
       if (!spec || spec->name != requiredName) {
@@ -530,8 +561,11 @@ protected:
                   << requiredName << "' must be one-dimensional." << std::endl;
         return Status::Failure;
       }
-      if (expectedDataType.has_value()
-          && !(spec->getType() == expectedDataType.value()))
+      if (!allowedDataTypes.empty()
+          && std::none_of(allowedDataTypes.begin(),
+                          allowedDataTypes.end(),
+                          [&spec](const IO::BaseDataType& dataType)
+                          { return spec->getType() == dataType; }))
       {
         std::cerr << "DynamicTable::checkRequiredColumnSpec: required column '"
                   << requiredName << "' has an invalid data type." << std::endl;

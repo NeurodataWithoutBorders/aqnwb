@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <memory>
 #include <string>
 #include <vector>
@@ -276,4 +277,89 @@ TEST_CASE("TimeIntervals - Initialize and Add Rows", "[TimeIntervals]")
       REQUIRE(tagsIndex[1] == 3);
     }
   }
+}
+TEST_CASE("TimeIntervals - float64 start_time and stop_time", "[TimeIntervals]")
+{
+  std::string filename = getTestFilePath("testTimeIntervalsFloat64.h5");
+  // times for which float32 is not precise enough (spacing ~0.24 ms at 1 h)
+  const std::vector<double> startTimes = {3600.0001, 3600.0002};
+  const std::vector<double> stopTimes = {3600.00015, 3600.00025};
+
+  {
+    auto io = createIO("HDF5", filename);
+    io->open(FileMode::Overwrite);
+    auto timeIntervals = TimeIntervals::create("/intervals/epochs", io);
+    REQUIRE(timeIntervals != nullptr);
+
+    // replace the default float32 time columns with float64 columns
+    auto specs = TimeIntervals::createDefaultDataSpecs("/intervals/epochs");
+    std::transform(
+        specs.begin(),
+        specs.end(),
+        specs.begin(),
+        [](const DynamicTable::DataSpecPtr& spec) -> DynamicTable::DataSpecPtr
+        {
+          if (spec->name != "start_time" && spec->name != "stop_time") {
+            return spec;
+          }
+          return VectorData::createDataSpec(
+              spec->name,
+              ArrayDataSetConfig(
+                  BaseDataType::F64, SizeArray {0}, SizeArray {100}),
+              "Start or stop time of the interval, in seconds.");
+        });
+    REQUIRE(timeIntervals->initialize("Test epochs", specs) == Status::Success);
+    for (size_t i = 0; i < startTimes.size(); ++i) {
+      AQNWB::Types::RowData row = {{"start_time", startTimes[i]},
+                                   {"stop_time", stopTimes[i]}};
+      REQUIRE(timeIntervals->addRow(row) == Status::Success);
+    }
+    REQUIRE(timeIntervals->finalize() == Status::Success);
+    io->close();
+  }
+
+  {
+    auto io = createIO("HDF5", filename);
+    io->open(FileMode::ReadOnly);
+    auto timeIntervals = TimeIntervals::create("/intervals/epochs", io);
+    REQUIRE(timeIntervals != nullptr);
+    REQUIRE(io->getStorageObjectDataType("/intervals/epochs/start_time")
+            == BaseDataType::F64);
+    auto readStart =
+        timeIntervals->readColumn<double>("start_time")->readData()->values();
+    auto readStop =
+        timeIntervals->readColumn<double>("stop_time")->readData()->values();
+    REQUIRE(readStart.data == startTimes);
+    REQUIRE(readStop.data == stopTimes);
+    io->close();
+  }
+}
+
+TEST_CASE("TimeIntervals - invalid start_time data type", "[TimeIntervals]")
+{
+  std::string filename = getTestFilePath("testTimeIntervalsInvalidType.h5");
+  auto io = createIO("HDF5", filename);
+  io->open(FileMode::Overwrite);
+  auto timeIntervals = TimeIntervals::create("/intervals/epochs", io);
+  REQUIRE(timeIntervals != nullptr);
+  auto specs = TimeIntervals::createDefaultDataSpecs("/intervals/epochs");
+  std::transform(
+      specs.begin(),
+      specs.end(),
+      specs.begin(),
+      [](const DynamicTable::DataSpecPtr& spec) -> DynamicTable::DataSpecPtr
+      {
+        if (spec->name != "start_time") {
+          return spec;
+        }
+        return VectorData::createDataSpec(
+            spec->name,
+            ArrayDataSetConfig(
+                BaseDataType::I32, SizeArray {0}, SizeArray {100}),
+            "Start time of the interval, in seconds.");
+      });
+  // invalid column specs are rejected by DynamicTable::initialize
+  REQUIRE_THROWS_AS(timeIntervals->initialize("Test epochs", specs),
+                    std::invalid_argument);
+  io->close();
 }
