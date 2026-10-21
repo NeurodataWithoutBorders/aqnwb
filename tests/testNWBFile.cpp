@@ -236,7 +236,9 @@ TEST_CASE("initialize with general metadata", "[nwb]")
     auto io = std::make_shared<IO::HDF5::HDF5IO>(filename);
     io->open();
     auto nwbfile = NWB::NWBFile::create(io);
-    REQUIRE(nwbfile->initialize(generateUuid()) == Status::Success);
+    REQUIRE(nwbfile->initialize(
+                generateUuid(), "Test", "", "", "", getTestSubjectSpec())
+            == Status::Success);
     REQUIRE(io->createStringDataSet("/general/lab", "Existing lab")
             == Status::Success);
     REQUIRE(
@@ -256,9 +258,10 @@ TEST_CASE("initialize with general metadata", "[nwb]")
     auto nwbfile = NWB::NWBFile::create(io);
     NWB::NWBFile::GeneralMetadataSpec invalid;
     invalid.withSourceScript("script.py");
-    REQUIRE(nwbfile->initialize(
-                generateUuid(), "Test", "", "", "", std::nullopt, invalid)
-            == Status::Failure);
+    REQUIRE(
+        nwbfile->initialize(
+            generateUuid(), "Test", "", "", "", getTestSubjectSpec(), invalid)
+        == Status::Failure);
     REQUIRE_FALSE(io->objectExists("/general/source_script"));
     io->close();
   }
@@ -268,7 +271,9 @@ TEST_CASE("initialize with general metadata", "[nwb]")
     auto io = std::make_shared<IO::HDF5::HDF5IO>(filename);
     io->open();
     auto nwbfile = NWB::NWBFile::create(io);
-    REQUIRE(nwbfile->initialize(generateUuid()) == Status::Success);
+    REQUIRE(nwbfile->initialize(
+                generateUuid(), "Test", "", "", "", getTestSubjectSpec())
+            == Status::Success);
     REQUIRE(io->startRecording() == Status::Success);
     REQUIRE(
         nwbfile->initialize(generateUuid(), "", "", "", "", std::nullopt, spec)
