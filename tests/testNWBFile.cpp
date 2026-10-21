@@ -680,8 +680,12 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
   SizeType numSamples = 5;
   std::vector<std::string> mockSpikeChannelNames =
       getMockChannelArrayNames("spikedata");
-  Status resultCreateSES = nwbfile->createSpikeEventSeries(
-      mockArrays, mockSpikeChannelNames, BaseDataType::F32, containerIndices);
+  Status resultCreateSES =
+      nwbfile->createSpikeEventSeries(mockArrays,
+                                      mockSpikeChannelNames,
+                                      BaseDataType::F32,
+                                      containerIndices,
+                                      numSamples);
   REQUIRE(resultCreateSES == Status::Success);
 
   // start recording
@@ -721,6 +725,105 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
   io->stopRecording();
 }
 
+TEST_CASE("createSpikeEventSeries chunking", "[nwb]")
+{
+  std::string filename = getTestFilePath("createSESChunking.nwb");
+
+  std::shared_ptr<HDF5::HDF5IO> io = std::make_shared<HDF5::HDF5IO>(filename);
+  io->open();
+  auto nwbfile = AQNWB::NWB::NWBFile::create(io);
+  auto currentTime = getCurrentTime();
+  nwbfile->initialize(generateUuid(),
+                      "a recording session",
+                      "data collection info",
+                      currentTime,
+                      currentTime,
+                      getTestSubjectSpec());
+
+  // a 4-channel (tetrode) and a single-channel electrode. Float data is used
+  // since the chunking is independent of the data type.
+  std::vector<Types::ChannelVector> arrays = {
+      {Channel("ch0", "array0", 0, 0, 0),
+       Channel("ch1", "array0", 0, 1, 1),
+       Channel("ch2", "array0", 0, 2, 2),
+       Channel("ch3", "array0", 0, 3, 3)},
+      {Channel("ch0", "array1", 1, 0, 4)}};
+  REQUIRE(nwbfile->createElectrodesTable(arrays) != nullptr);
+  auto recordingObjects = io->getRecordingObjects();
+  const SizeType numSamples = 40;
+  std::vector<SizeType> containerIndices = {};
+
+  // numSamples is required
+  REQUIRE(
+      nwbfile->createSpikeEventSeries(
+          arrays, {"tetrode", "single"}, BaseDataType::F32, containerIndices, 0)
+      == Status::Failure);
+  REQUIRE(containerIndices.empty());
+
+  // fixed waveform size and whole-event chunks of about 32 KiB
+  REQUIRE(nwbfile->createSpikeEventSeries(arrays,
+                                          {"tetrode", "single"},
+                                          BaseDataType::F32,
+                                          containerIndices,
+                                          numSamples)
+          == Status::Success);
+  auto tetrode = std::dynamic_pointer_cast<NWB::SpikeEventSeries>(
+      recordingObjects->getRecordingObject(containerIndices[0]));
+  auto single = std::dynamic_pointer_cast<NWB::SpikeEventSeries>(
+      recordingObjects->getRecordingObject(containerIndices[1]));
+  REQUIRE(tetrode != nullptr);
+  REQUIRE(single != nullptr);
+  std::string tetrodeData = tetrode->getPath() + "/data";
+  std::string singleData = single->getPath() + "/data";
+  REQUIRE(io->getStorageObjectShape(tetrodeData)
+          == SizeArray {0, 4, numSamples});
+  // 32768 bytes / (4 channels * 40 samples * 4 bytes) = 51 events
+  REQUIRE(io->getStorageObjectChunking(tetrodeData)
+          == SizeArray {51, 4, numSamples});
+  REQUIRE(io->getStorageObjectShape(singleData) == SizeArray {0, numSamples});
+  // 32768 bytes / (40 samples * 4 bytes) = 204 events
+  REQUIRE(io->getStorageObjectChunking(singleData)
+          == SizeArray {204, numSamples});
+
+  // events larger than the target chunk size are chunked one event at a time
+  const SizeType numSamplesLong = 10000;
+  REQUIRE(nwbfile->createSpikeEventSeries({arrays[0]},
+                                          {"long"},
+                                          BaseDataType::F32,
+                                          containerIndices,
+                                          numSamplesLong)
+          == Status::Success);
+  auto longEvents = std::dynamic_pointer_cast<NWB::SpikeEventSeries>(
+      recordingObjects->getRecordingObject(containerIndices[2]));
+  REQUIRE(longEvents != nullptr);
+  REQUIRE(io->getStorageObjectChunking(longEvents->getPath() + "/data")
+          == SizeArray {1, 4, numSamplesLong});
+
+  // write spikes and check that the datasets grow along the event dimension
+  REQUIRE(io->startRecording() == Status::Success);
+  std::vector<float> tetrodeSpike(4 * numSamples, 1.0f);
+  std::vector<float> singleSpike(numSamples, 2.0f);
+  std::vector<float> longSpike(4 * numSamplesLong, 3.0f);
+  const std::vector<double> timestamps = {0.1, 0.35, 0.9, 1.2};  // irregular
+  for (double timestamp : timestamps) {
+    REQUIRE(tetrode->writeSpike(numSamples, 4, tetrodeSpike.data(), &timestamp)
+            == Status::Success);
+    REQUIRE(single->writeSpike(numSamples, 1, singleSpike.data(), &timestamp)
+            == Status::Success);
+    REQUIRE(
+        longEvents->writeSpike(numSamplesLong, 4, longSpike.data(), &timestamp)
+        == Status::Success);
+  }
+  REQUIRE(io->flush() == Status::Success);
+  REQUIRE(io->getStorageObjectShape(tetrodeData)
+          == SizeArray {timestamps.size(), 4, numSamples});
+  REQUIRE(io->getStorageObjectShape(singleData)
+          == SizeArray {timestamps.size(), numSamples});
+  REQUIRE(io->getStorageObjectShape(longEvents->getPath() + "/data")
+          == SizeArray {timestamps.size(), 4, numSamplesLong});
+  io->stopRecording();
+}
+
 TEST_CASE("createSpikeEventSeries conversion", "[nwb]")
 {
   std::string filename = getTestFilePath("createSESConversion.nwb");
@@ -744,12 +847,13 @@ TEST_CASE("createSpikeEventSeries conversion", "[nwb]")
   REQUIRE(nwbfile->createElectrodesTable(arrays) != nullptr);
   auto recordingObjects = io->getRecordingObjects();
   std::shared_ptr<NWB::SpikeEventSeries> ses = nullptr;
+  const SizeType numSamples = 5;
 
   SECTION("default: per-channel factors are stored in channel_conversion")
   {
     std::vector<SizeType> containerIndices = {};
     Status status = nwbfile->createSpikeEventSeries(
-        arrays, {"spikedata"}, BaseDataType::I16, containerIndices);
+        arrays, {"spikedata"}, BaseDataType::I16, containerIndices, numSamples);
     REQUIRE(status == Status::Success);
     ses = std::dynamic_pointer_cast<NWB::SpikeEventSeries>(
         recordingObjects->getRecordingObject(containerIndices[0]));
@@ -768,8 +872,12 @@ TEST_CASE("createSpikeEventSeries conversion", "[nwb]")
   SECTION("useChannelConversion=false: first channel's factor in conversion")
   {
     std::vector<SizeType> containerIndices = {};
-    Status status = nwbfile->createSpikeEventSeries(
-        arrays, {"spikedata"}, BaseDataType::I16, containerIndices, false);
+    Status status = nwbfile->createSpikeEventSeries(arrays,
+                                                    {"spikedata"},
+                                                    BaseDataType::I16,
+                                                    containerIndices,
+                                                    numSamples,
+                                                    false);
     REQUIRE(status == Status::Success);
     ses = std::dynamic_pointer_cast<NWB::SpikeEventSeries>(
         recordingObjects->getRecordingObject(containerIndices[0]));
@@ -783,7 +891,6 @@ TEST_CASE("createSpikeEventSeries conversion", "[nwb]")
 
   // write a few spikes so that the file contains valid (non-empty) data
   REQUIRE(io->startRecording() == Status::Success);
-  const SizeType numSamples = 5;
   std::vector<int16_t> spike(arrays[0].size() * numSamples, 1);
   const std::vector<double> timestamps = {0.1, 0.35, 0.9};  // irregular
   for (double timestamp : timestamps) {

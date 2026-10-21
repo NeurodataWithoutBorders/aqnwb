@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <filesystem>
 #include <fstream>
 #include <iomanip>
@@ -28,8 +29,41 @@ using namespace AQNWB::NWB;
 
 constexpr SizeType CHUNK_XSIZE =
     2048;  // TODO - replace these with io settings input
-constexpr SizeType SPIKE_CHUNK_XSIZE =
-    8;  // TODO - replace with io settings input
+constexpr SizeType SPIKE_CHUNK_TARGET_BYTES =
+    32768;  // target size of a chunk of spike waveforms in bytes. TODO -
+            // replace with io settings input
+
+namespace
+{
+/**
+ * @brief Number of bytes of a single element of the given data type
+ */
+SizeType getNumBytes(const AQNWB::IO::BaseDataType& dataType)
+{
+  using AQNWB::IO::BaseDataType;
+  switch (dataType.type) {
+    case BaseDataType::T_U8:
+    case BaseDataType::T_I8:
+      return 1;
+    case BaseDataType::T_U16:
+    case BaseDataType::T_I16:
+      return 2;
+    case BaseDataType::T_U32:
+    case BaseDataType::T_I32:
+    case BaseDataType::T_F32:
+      return 4;
+    case BaseDataType::T_U64:
+    case BaseDataType::T_I64:
+    case BaseDataType::T_F64:
+      return 8;
+    case BaseDataType::T_STR:
+      return dataType.typeSize;
+    case BaseDataType::V_STR:
+    default:
+      return sizeof(void*);
+  }
+}
+}  // namespace
 
 // Initialize the static registered_ member to trigger registration
 REGISTER_SUBCLASS_IMPL(NWBFile)
@@ -592,6 +626,7 @@ Status NWBFile::createSpikeEventSeries(
     std::vector<std::string> recordingNames,
     const IO::BaseDataType& dataType,
     std::vector<SizeType>& containerIndexes,
+    const SizeType numSamples,
     const bool useChannelConversion)
 {
   auto ioPtr = getIO();
@@ -609,6 +644,12 @@ Status NWBFile::createSpikeEventSeries(
   }
 
   if (recordingNames.size() != recordingArrays.size()) {
+    return Status::Failure;
+  }
+
+  if (numSamples == 0) {
+    std::cerr << "NWBFile::createSpikeEventSeries numSamples must be > 0"
+              << std::endl;
     return Status::Failure;
   }
 
@@ -644,13 +685,21 @@ Status NWBFile::createSpikeEventSeries(
       elecGroup->initialize("description", "unknown", device);
     }
 
-    // Setup Spike Event Series datasets
+    // Setup Spike Event Series datasets. All events have the same number of
+    // channels and samples, so these dimensions have a fixed size (chunking 0)
+    // and each chunk stores complete events. The number of events per chunk is
+    // chosen such that a chunk is about SPIKE_CHUNK_TARGET_BYTES in size.
+    const bool singleChannel = channelVector.size() == 1;
+    const SizeType eventBytes =
+        channelVector.size() * numSamples * getNumBytes(dataType);
+    const SizeType eventsPerChunk =
+        std::max<SizeType>(1, SPIKE_CHUNK_TARGET_BYTES / eventBytes);
     IO::ArrayDataSetConfig config(
         dataType,
-        channelVector.size() == 1 ? SizeArray {0, 0}
-                                  : SizeArray {0, channelVector.size(), 0},
-        channelVector.size() == 1 ? SizeArray {SPIKE_CHUNK_XSIZE, 1}
-                                  : SizeArray {SPIKE_CHUNK_XSIZE, 1, 1});
+        singleChannel ? SizeArray {0, numSamples}
+                      : SizeArray {0, channelVector.size(), numSamples},
+        singleChannel ? SizeArray {eventsPerChunk, 0}
+                      : SizeArray {eventsPerChunk, 0, 0});
 
     // Either store per-channel conversion factors in `channel_conversion`, or
     // store the conversion factor of the first channel in the `conversion`
