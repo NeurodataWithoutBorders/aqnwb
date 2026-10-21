@@ -45,43 +45,33 @@ namespace
  * modifying such a copy would change the defaults for all files opened
  * afterwards (e.g., the virtual file driver set by openS3/openRemote).
  */
-FileAccPropList createFileAccessPropertyList(SizeType chunkCacheNumBytes,
-                                             SizeType chunkCacheNumSlots,
-                                             double chunkCachePreemption)
+FileAccPropList createFileAccessPropertyList(const ChunkCacheConfig& chunkCache)
 {
   FileAccPropList fapl;  // new property list (do not modify the shared DEFAULT)
   H5Pset_libver_bounds(fapl.getId(), H5F_LIBVER_LATEST, H5F_LIBVER_LATEST);
-  if (chunkCacheNumBytes > 0) {
+  if (chunkCache.numBytes > 0) {
+    const SizeType numSlots =
+        chunkCache.numSlots > 0 ? chunkCache.numSlots : 12421;
     H5Pset_cache(fapl.getId(),
                  0,
-                 static_cast<size_t>(chunkCacheNumSlots),
-                 static_cast<size_t>(chunkCacheNumBytes),
-                 chunkCachePreemption);
+                 static_cast<size_t>(numSlots),
+                 static_cast<size_t>(chunkCache.numBytes),
+                 chunkCache.preemptionPolicy);
   }
   return fapl;
 }
-}  // namespace
 
-Status HDF5IO::setChunkCache(SizeType numBytes,
-                             SizeType numSlots,
-                             double preemptionPolicy)
+/** Check the chunk cache configuration, printing an error if it is invalid */
+bool isValidChunkCacheConfig(const ChunkCacheConfig& chunkCache)
 {
-  if (m_opened) {
-    std::cerr << "HDF5IO::setChunkCache must be called before the file is "
-                 "opened"
+  if (chunkCache.preemptionPolicy < 0.0 || chunkCache.preemptionPolicy > 1.0) {
+    std::cerr << "HDF5IO: ChunkCacheConfig::preemptionPolicy must be in [0, 1]"
               << std::endl;
-    return Status::Failure;
+    return false;
   }
-  if (preemptionPolicy < 0.0 || preemptionPolicy > 1.0) {
-    std::cerr << "HDF5IO::setChunkCache preemptionPolicy must be in [0, 1]"
-              << std::endl;
-    return Status::Failure;
-  }
-  m_chunkCacheNumBytes = numBytes;
-  m_chunkCacheNumSlots = numSlots > 0 ? numSlots : 12421;
-  m_chunkCachePreemption = preemptionPolicy;
-  return Status::Success;
+  return true;
 }
+}  // namespace
 
 SizeType HDF5IO::getChunkCacheNumBytes() const
 {
@@ -129,9 +119,10 @@ HDF5IO::~HDF5IO()
 #ifdef H5_HAVE_ROS3_VFD
 Status HDF5IO::openS3(const std::string& aws_region,
                       const std::string& secret_id,
-                      const std::string& secret_key)
+                      const std::string& secret_key,
+                      const ChunkCacheConfig& chunkCache)
 {
-  if (m_opened) {
+  if (m_opened || !isValidChunkCacheConfig(chunkCache)) {
     return Status::Failure;
   }
 
@@ -152,8 +143,7 @@ Status HDF5IO::openS3(const std::string& aws_region,
   copyField(secret_id, ros3_fa.secret_id, sizeof(ros3_fa.secret_id));
   copyField(secret_key, ros3_fa.secret_key, sizeof(ros3_fa.secret_key));
 
-  FileAccPropList fapl = createFileAccessPropertyList(
-      m_chunkCacheNumBytes, m_chunkCacheNumSlots, m_chunkCachePreemption);
+  FileAccPropList fapl = createFileAccessPropertyList(chunkCache);
   const herr_t ros3Status = H5Pset_fapl_ros3(fapl.getId(), &ros3_fa);
   if (ros3Status < 0) {
     return Status::Failure;
@@ -172,14 +162,13 @@ Status HDF5IO::openS3(const std::string& aws_region,
 #endif  // H5_HAVE_ROS3_VFD
 
 #ifdef AQNWB_HAVE_REMFILE_VFD
-Status HDF5IO::openRemote()
+Status HDF5IO::openRemote(const ChunkCacheConfig& chunkCache)
 {
-  if (m_opened) {
+  if (m_opened || !isValidChunkCacheConfig(chunkCache)) {
     return Status::Failure;
   }
 
-  FileAccPropList fapl = createFileAccessPropertyList(
-      m_chunkCacheNumBytes, m_chunkCacheNumSlots, m_chunkCachePreemption);
+  FileAccPropList fapl = createFileAccessPropertyList(chunkCache);
   if (H5Pset_fapl_remfile(fapl.getId(), nullptr) < 0) {
     return Status::Failure;
   }
@@ -207,9 +196,14 @@ Status HDF5IO::open()
 
 Status HDF5IO::open(FileMode mode)
 {
+  return open(mode, ChunkCacheConfig());
+}
+
+Status HDF5IO::open(FileMode mode, const ChunkCacheConfig& chunkCache)
+{
   unsigned int accFlags = 0;
 
-  if (m_opened) {
+  if (m_opened || !isValidChunkCacheConfig(chunkCache)) {
     return Status::Failure;
   }
 
@@ -219,8 +213,7 @@ Status HDF5IO::open(FileMode mode)
     }
   }
 
-  FileAccPropList fapl = createFileAccessPropertyList(
-      m_chunkCacheNumBytes, m_chunkCacheNumSlots, m_chunkCachePreemption);
+  FileAccPropList fapl = createFileAccessPropertyList(chunkCache);
 
   switch (mode) {
     case FileMode::Overwrite:

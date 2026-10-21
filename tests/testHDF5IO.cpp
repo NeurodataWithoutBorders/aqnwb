@@ -2439,8 +2439,9 @@ TEST_CASE("HDF5IO; chunk cache", "[hdf5io]")
   SECTION("configured chunk cache does not affect other files")
   {
     IO::HDF5::HDF5IO io(getTestFilePath("testChunkCache.h5"));
-    REQUIRE(io.setChunkCache(cacheBytes) == Status::Success);
-    REQUIRE(io.open(IO::FileMode::Overwrite) == Status::Success);
+    REQUIRE(io.open(IO::FileMode::Overwrite,
+                    IO::HDF5::ChunkCacheConfig {cacheBytes})
+            == Status::Success);
     REQUIRE(io.getChunkCacheNumBytes() == cacheBytes);
 
     // the cache setting must not leak into files opened afterwards
@@ -2451,12 +2452,22 @@ TEST_CASE("HDF5IO; chunk cache", "[hdf5io]")
     io.close();
   }
 
-  SECTION("invalid use")
+  SECTION("custom number of slots and preemption policy")
+  {
+    IO::HDF5::HDF5IO io(getTestFilePath("testChunkCacheSlots.h5"));
+    REQUIRE(io.open(IO::FileMode::Overwrite,
+                    IO::HDF5::ChunkCacheConfig {cacheBytes, 1009, 0.5})
+            == Status::Success);
+    REQUIRE(io.getChunkCacheNumBytes() == cacheBytes);
+    io.close();
+  }
+
+  SECTION("invalid preemption policy")
   {
     IO::HDF5::HDF5IO io(getTestFilePath("testChunkCacheInvalid.h5"));
-    REQUIRE(io.setChunkCache(cacheBytes, 0, 1.5) == Status::Failure);
-    REQUIRE(io.open(IO::FileMode::Overwrite) == Status::Success);
-    REQUIRE(io.setChunkCache(cacheBytes) == Status::Failure);  // already open
-    io.close();
+    REQUIRE(io.open(IO::FileMode::Overwrite,
+                    IO::HDF5::ChunkCacheConfig {cacheBytes, 0, 1.5})
+            == Status::Failure);
+    REQUIRE(io.isOpen() == false);
   }
 }

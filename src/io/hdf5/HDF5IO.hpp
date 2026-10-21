@@ -32,6 +32,33 @@ namespace AQNWB::IO::HDF5
 class HDF5RecordingData;  // forward declaration
 
 /**
+ * @brief Configuration of the HDF5 raw data chunk cache used for each dataset
+ * of a file (see H5Pset_cache), passed to HDF5IO::open, HDF5IO::openS3, and
+ * HDF5IO::openRemote.
+ *
+ * HDF5 caches chunks of each open dataset in a per-dataset cache (by default,
+ * e.g., 1 MiB in HDF5 1.14 and 8 MiB in HDF5 2.2, see
+ * HDF5IO::getDefaultChunkCacheNumBytes()). If a chunk is larger than the cache,
+ * every partial write to the chunk (e.g., writing one channel at a time to a
+ * dataset that is chunked over many channels) results in a read-modify-write of
+ * the whole chunk on disk, which is very slow. Set the cache to (a multiple of)
+ * the size of the chunks being written, e.g., based on the number of channels.
+ */
+struct ChunkCacheConfig
+{
+  /// Size of the chunk cache of each dataset in bytes. If 0, the HDF5 default
+  /// is used (and numSlots and preemptionPolicy are ignored).
+  SizeType numBytes = 0;
+  /// Number of chunk slots in the cache (ideally a prime number about 100
+  /// times the number of chunks that fit into the cache). If 0, a default of
+  /// 12421 slots is used.
+  SizeType numSlots = 0;
+  /// Preference for evicting fully read or written chunks (between 0 and 1,
+  /// see H5Pset_cache).
+  double preemptionPolicy = 0.75;
+};
+
+/**
  * @brief The HDF5IO class provides an interface for reading and writing data to
  * HDF5 files.
  */
@@ -50,33 +77,6 @@ public:
   ~HDF5IO() override;
 
   /**
-   * @brief Set the size of the raw data chunk cache used for each dataset.
-   *
-   * HDF5 caches chunks of each open dataset in a per-dataset cache (by
-   * default, e.g., 1 MiB in HDF5 1.14 and 8 MiB in HDF5 2.2, see
-   * getDefaultChunkCacheNumBytes()). If a chunk is larger than the cache, every
-   * partial write to the chunk (e.g., writing one channel at a time to a
-   * dataset that is chunked over many channels) results in a read-modify-write
-   * of the whole chunk on disk, which is very slow. Set the cache to (a
-   * multiple of) the size of the chunks being written, e.g., based on the
-   * number of channels.
-   *
-   * Must be called before the file is opened.
-   *
-   * @param numBytes The size of the chunk cache of each dataset in bytes.
-   * @param numSlots The number of chunk slots in the cache (ideally a prime
-   * number about 100 times the number of chunks that fit into the cache). If 0,
-   * a default of 12421 slots is used.
-   * @param preemptionPolicy Preference for evicting fully read or written
-   * chunks (between 0 and 1, see H5Pset_cache).
-   * @return Status::Failure if the file is already open or the parameters are
-   * invalid, otherwise Status::Success.
-   */
-  Status setChunkCache(SizeType numBytes,
-                       SizeType numSlots = 0,
-                       double preemptionPolicy = 0.75);
-
-  /**
    * @brief Get the size of the raw data chunk cache (per dataset) of the open
    * file in bytes.
    * @return The chunk cache size, or 0 if the file is not open.
@@ -85,13 +85,13 @@ public:
 
   /**
    * @brief Get the default size of the raw data chunk cache (per dataset) of
-   * the HDF5 library in bytes, i.e., the size used if setChunkCache() is not
-   * called.
+   * the HDF5 library in bytes, i.e., the size used if no ChunkCacheConfig is
+   * given when opening a file.
    *
    * The default depends on the HDF5 version (e.g., 1 MiB in HDF5 1.14 and 8 MiB
    * in HDF5 2.2). Applications can use it to avoid setting a smaller cache than
-   * the default, e.g., setChunkCache(std::max(needed,
-   * getDefaultChunkCacheNumBytes())).
+   * the default, e.g., ChunkCacheConfig {std::max(needed,
+   * getDefaultChunkCacheNumBytes())}.
    * @return The default chunk cache size in bytes.
    */
   static SizeType getDefaultChunkCacheNumBytes();
@@ -108,6 +108,16 @@ public:
    * @return The status of the file opening operation.
    */
   Status open(FileMode mode) override;
+
+  /**
+   * @brief Opens an existing file or creates a new file for writing, with a
+   * custom raw data chunk cache.
+   * @param mode Access mode to use when opening the file.
+   * @param chunkCache Chunk cache used for each dataset of the file.
+   * @return The status of the file opening operation (Status::Failure if the
+   * chunk cache configuration is invalid).
+   */
+  Status open(FileMode mode, const ChunkCacheConfig& chunkCache);
 
 #ifdef H5_HAVE_ROS3_VFD
   /**
@@ -127,11 +137,13 @@ public:
    *                    May be empty if the region is configured elsewhere.
    * @param secret_id   The AWS access key ID.  May be empty.
    * @param secret_key  The AWS secret access key.  May be empty.
+   * @param chunkCache  Chunk cache used for each dataset of the file.
    * @return The status of the file opening operation.
    */
   Status openS3(const std::string& aws_region = "",
                 const std::string& secret_id = "",
-                const std::string& secret_key = "");
+                const std::string& secret_key = "",
+                const ChunkCacheConfig& chunkCache = ChunkCacheConfig());
 #endif  // H5_HAVE_ROS3_VFD
 
 #ifdef AQNWB_HAVE_REMFILE_VFD
@@ -148,9 +160,10 @@ public:
    * Reads are served from an in-memory chunk cache with adaptive
    * read-ahead (see https://github.com/catalystneuro/remfile-cpp).
    *
+   * @param chunkCache Chunk cache used for each dataset of the file.
    * @return The status of the file opening operation.
    */
-  Status openRemote();
+  Status openRemote(const ChunkCacheConfig& chunkCache = ChunkCacheConfig());
 #endif  // AQNWB_HAVE_REMFILE_VFD
 
   /**
@@ -619,14 +632,6 @@ private:
    * Set by @ref startRecording(bool) at the start of each recording cycle.
    */
   bool m_disableSWMRMode;
-
-  /**
-   * \brief Chunk cache configuration set via setChunkCache (0 bytes = HDF5
-   * default)
-   */
-  SizeType m_chunkCacheNumBytes = 0;
-  SizeType m_chunkCacheNumSlots = 0;
-  double m_chunkCachePreemption = 0.75;
 };
 
 }  // namespace AQNWB::IO::HDF5
