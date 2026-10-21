@@ -173,7 +173,21 @@ Status overwriteTime(const std::shared_ptr<AQNWB::IO::BaseIO>& ioPtr,
     std::cerr << caller << " time not in ISO8601 format: " << time << std::endl;
     return Status::Failure;
   }
-  return ioPtr->overwriteStringDataSet(path, time);
+  // Overwrite the value of the existing (scalar string) dataset. This does not
+  // change the structure of the file, so it is also possible in SWMR mode.
+  try {
+    auto dataset = ioPtr->getDataSet(path);
+    if (!dataset) {
+      return Status::Failure;
+    }
+    return dataset->writeDataBlock(SizeArray {},
+                                   SizeArray {},
+                                   ioPtr->getStorageObjectDataType(path),
+                                   std::vector<std::string> {time});
+  } catch (const std::exception& e) {
+    std::cerr << caller << " failed: " << e.what() << std::endl;
+    return Status::Failure;
+  }
 }
 }  // namespace
 

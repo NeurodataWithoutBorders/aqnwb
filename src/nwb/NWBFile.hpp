@@ -131,11 +131,11 @@ public:
   /**
    * @brief Change the session start time of an initialized file.
    *
-   * Overwrites `/session_start_time` in place, so this is also possible while
-   * recording (e.g., in SWMR mode), for applications that know the start time
-   * only after the file was created. The new value must not be longer than the
-   * value written by `initialize()` (e.g., a time from `formatTime()` if the
-   * default value of `initialize()` was used).
+   * Overwrites the value of `/session_start_time`, so this is also possible
+   * while recording (e.g., in SWMR mode), for applications that know the start
+   * time only after the file was created. The new value must not be longer than
+   * the value written by `initialize()` (e.g., a time from `formatTime()` if
+   * the default value of `initialize()` was used).
    * @param sessionStartTime ISO 8601 formatted time string.
    * @return The status of the operation.
    */
@@ -144,11 +144,11 @@ public:
   /**
    * @brief Change the timestamps reference time of an initialized file.
    *
-   * Overwrites `/timestamps_reference_time` in place, so this is also possible
-   * while recording (e.g., in SWMR mode), for applications that know time zero
-   * of their timestamps only after the file was created. The new value must not
-   * be longer than the value written by `initialize()` (e.g., a time from
-   * `formatTime()` if the default value of `initialize()` was used).
+   * Overwrites the value of `/timestamps_reference_time`, so this is also
+   * possible while recording (e.g., in SWMR mode), for applications that know
+   * time zero of their timestamps only after the file was created. The new
+   * value must not be longer than the value written by `initialize()` (e.g., a
+   * time from `formatTime()` if the default value of `initialize()` was used).
    * @param timestampsReferenceTime ISO 8601 formatted time string.
    * @return The status of the operation.
    */

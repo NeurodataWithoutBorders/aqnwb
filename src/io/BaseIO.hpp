@@ -862,20 +862,6 @@ public:
       const std::string& path, const std::vector<std::string>& values) = 0;
 
   /**
-   * @brief Overwrites the value of an existing scalar string dataset.
-   *
-   * Unlike the create methods, this does not change the structure of the
-   * file, so it is also possible while recording (e.g., in SWMR mode). For
-   * fixed-length strings, the new value must not be longer than the string
-   * length of the dataset (shorter values are padded).
-   * @param path The location in the file of the dataset.
-   * @param value The new string value of the dataset.
-   * @return The status of the write operation.
-   */
-  virtual Status overwriteStringDataSet(const std::string& path,
-                                        const std::string& value) = 0;
-
-  /**
    * @brief Creates a dataset that holds an array of references to groups within
    * the file.
    * @param path The location in the file of the new dataset.

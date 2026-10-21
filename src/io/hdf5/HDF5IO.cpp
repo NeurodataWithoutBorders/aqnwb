@@ -1362,53 +1362,6 @@ Status HDF5IO::createStringDataSet(const std::string& path,
   return Status::Success;
 }
 
-Status HDF5IO::overwriteStringDataSet(const std::string& path,
-                                      const std::string& value)
-{
-  if (!m_opened) {
-    return Status::Failure;
-  }
-  // Writing data requires write intent (also given in SWMR write mode)
-  unsigned int intent = 0;
-  if (H5Fget_intent(m_file->getId(), &intent) < 0
-      || (intent & H5F_ACC_RDWR) == 0)
-  {
-    return Status::Failure;
-  }
-  if (getStorageObjectType(path) != StorageObjectType::Dataset) {
-    return Status::Failure;
-  }
-
-  try {
-    DataSet dataset = m_file->openDataSet(path);
-    if (dataset.getTypeClass() != H5T_STRING
-        || dataset.getSpace().getSimpleExtentType() != H5S_SCALAR)
-    {
-      return Status::Failure;
-    }
-    StrType strType = dataset.getStrType();
-    if (strType.isVariableStr()) {
-      const char* dataPtr = value.c_str();
-      dataset.write(&dataPtr, strType);
-    } else {
-      if (value.size() > strType.getSize()) {
-        std::cerr << "HDF5IO::overwriteStringDataSet: the value is longer "
-                     "than the string length of "
-                  << path << std::endl;
-        return Status::Failure;
-      }
-      std::string padded = value;
-      padded.resize(strType.getSize(), '\0');
-      dataset.write(padded.data(), strType);
-    }
-  } catch (const H5::Exception& error) {
-    error.printErrorStack();
-    return Status::Failure;
-  }
-
-  return Status::Success;
-}
-
 Status HDF5IO::startRecording()
 {
   return startRecording(m_disableSWMRMode);
