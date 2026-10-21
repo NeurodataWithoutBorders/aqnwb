@@ -50,6 +50,38 @@ public:
   ~HDF5IO() override;
 
   /**
+   * @brief Set the size of the raw data chunk cache used for each dataset.
+   *
+   * HDF5 caches chunks of each open dataset in a per-dataset cache, which is
+   * 1 MiB by default. If a chunk is larger than the cache, every partial write
+   * to the chunk (e.g., writing one channel at a time to a dataset that is
+   * chunked over many channels) results in a read-modify-write of the whole
+   * chunk on disk, which is very slow. Set the cache to (a multiple of) the
+   * size of the chunks being written, e.g., based on the number of channels.
+   *
+   * Must be called before the file is opened.
+   *
+   * @param numBytes The size of the chunk cache of each dataset in bytes.
+   * @param numSlots The number of chunk slots in the cache (ideally a prime
+   * number about 100 times the number of chunks that fit into the cache). If 0,
+   * a default of 12421 slots is used.
+   * @param preemptionPolicy Preference for evicting fully read or written
+   * chunks (between 0 and 1, see H5Pset_cache).
+   * @return Status::Failure if the file is already open or the parameters are
+   * invalid, otherwise Status::Success.
+   */
+  Status setChunkCache(SizeType numBytes,
+                       SizeType numSlots = 0,
+                       double preemptionPolicy = 0.75);
+
+  /**
+   * @brief Get the size of the raw data chunk cache (per dataset) of the open
+   * file in bytes.
+   * @return The chunk cache size, or 0 if the file is not open.
+   */
+  SizeType getChunkCacheNumBytes() const;
+
+  /**
    * @brief Opens an existing file or creates a new file for writing.
    * @return The status of the file opening operation.
    */
@@ -572,6 +604,14 @@ private:
    * Set by @ref startRecording(bool) at the start of each recording cycle.
    */
   bool m_disableSWMRMode;
+
+  /**
+   * \brief Chunk cache configuration set via setChunkCache (0 bytes = HDF5
+   * default)
+   */
+  SizeType m_chunkCacheNumBytes = 0;
+  SizeType m_chunkCacheNumSlots = 0;
+  double m_chunkCachePreemption = 0.75;
 };
 
 }  // namespace AQNWB::IO::HDF5

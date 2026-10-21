@@ -2418,3 +2418,42 @@ TEST_CASE("getStorageObjectDataType", "[hdf5io]")
   // close file
   hdf5io.close();
 }
+
+TEST_CASE("HDF5IO; chunk cache", "[hdf5io]")
+{
+  const SizeType defaultCacheBytes = 1024 * 1024;  // HDF5 default
+  const SizeType cacheBytes = 64 * 1024 * 1024;
+
+  SECTION("default chunk cache")
+  {
+    IO::HDF5::HDF5IO io(getTestFilePath("testChunkCacheDefault.h5"));
+    REQUIRE(io.getChunkCacheNumBytes() == 0);  // not open
+    REQUIRE(io.open(IO::FileMode::Overwrite) == Status::Success);
+    REQUIRE(io.getChunkCacheNumBytes() == defaultCacheBytes);
+    io.close();
+  }
+
+  SECTION("configured chunk cache does not affect other files")
+  {
+    IO::HDF5::HDF5IO io(getTestFilePath("testChunkCache.h5"));
+    REQUIRE(io.setChunkCache(cacheBytes) == Status::Success);
+    REQUIRE(io.open(IO::FileMode::Overwrite) == Status::Success);
+    REQUIRE(io.getChunkCacheNumBytes() == cacheBytes);
+
+    // the cache setting must not leak into files opened afterwards
+    IO::HDF5::HDF5IO io2(getTestFilePath("testChunkCache2.h5"));
+    REQUIRE(io2.open(IO::FileMode::Overwrite) == Status::Success);
+    REQUIRE(io2.getChunkCacheNumBytes() == defaultCacheBytes);
+    io2.close();
+    io.close();
+  }
+
+  SECTION("invalid use")
+  {
+    IO::HDF5::HDF5IO io(getTestFilePath("testChunkCacheInvalid.h5"));
+    REQUIRE(io.setChunkCache(cacheBytes, 0, 1.5) == Status::Failure);
+    REQUIRE(io.open(IO::FileMode::Overwrite) == Status::Success);
+    REQUIRE(io.setChunkCache(cacheBytes) == Status::Failure);  // already open
+    io.close();
+  }
+}
