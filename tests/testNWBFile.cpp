@@ -945,6 +945,42 @@ TEST_CASE("createSpikeEventSeries conversion", "[nwb]")
   io->stopRecording();
 }
 
+TEST_CASE("createSpikeEventSeries fails for out-of-range channels", "[nwb]")
+{
+  // The file contains a SpikeEventSeries that could not be initialized, so it
+  // uses the .h5 extension to exclude it from the NWB validation of the test
+  // files
+  std::string filename = getTestFilePath("createSESOutOfRange.h5");
+
+  std::shared_ptr<HDF5::HDF5IO> io = std::make_shared<HDF5::HDF5IO>(filename);
+  io->open();
+  auto nwbfile = AQNWB::NWB::NWBFile::create(io);
+  auto currentTime = getCurrentTime();
+  nwbfile->initialize(generateUuid(),
+                      "a recording session",
+                      "data collection info",
+                      currentTime,
+                      currentTime,
+                      getTestSubjectSpec());
+
+  std::vector<Types::ChannelVector> electrodes = {
+      {Channel("ch0", "array0", 0, 0, 0), Channel("ch1", "array0", 0, 1, 1)}};
+  REQUIRE(nwbfile->createElectrodesTable(electrodes) != nullptr);
+
+  // The first series references electrode 5, which is not in the electrodes
+  // table; the second series is valid, and its success must not mask the
+  // failure of the first one
+  std::vector<Types::ChannelVector> arrays = {
+      {Channel("ch5", "array0", 0, 0, 5)}, {Channel("ch0", "array0", 0, 0, 0)}};
+  std::vector<SizeType> containerIndices = {};
+  Status status = nwbfile->createSpikeEventSeries(
+      arrays, {"invalid", "valid"}, BaseDataType::I16, containerIndices);
+  REQUIRE(status == Status::Failure);
+  REQUIRE(containerIndices.size() == 2);
+  REQUIRE(io->objectExists("/acquisition/valid"));
+  io->close();
+}
+
 TEST_CASE("createAnnotationSeries", "[nwb]")
 {
   std::string filename = getTestFilePath("createAnnotationSeries.nwb");
