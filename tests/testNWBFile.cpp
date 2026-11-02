@@ -917,6 +917,20 @@ TEST_CASE("createSpikeEventSeries chunking of array-valued types", "[nwb]")
   REQUIRE(ses != nullptr);
   REQUIRE(io->getStorageObjectChunking(ses->getPath() + "/data")
           == SizeArray {20, 4, numSamples});
+
+  // the same for float32 with typeSize 3:
+  // 32768 bytes / (4 channels * 40 samples * 3 * 4 bytes) = 17 events
+  REQUIRE(nwbfile->createSpikeEventSeries(arrays,
+                                          {"float32array"},
+                                          BaseDataType(BaseDataType::T_F32, 3),
+                                          containerIndices,
+                                          numSamples)
+          == Status::Success);
+  auto sesFloat = std::dynamic_pointer_cast<NWB::SpikeEventSeries>(
+      recordingObjects->getRecordingObject(containerIndices[1]));
+  REQUIRE(sesFloat != nullptr);
+  REQUIRE(io->getStorageObjectChunking(sesFloat->getPath() + "/data")
+          == SizeArray {17, 4, numSamples});
   io->close();
 }
 
