@@ -876,6 +876,50 @@ TEST_CASE("createSpikeEventSeries chunking", "[nwb]")
   io->stopRecording();
 }
 
+TEST_CASE("createSpikeEventSeries chunking of array-valued types", "[nwb]")
+{
+  // Array-valued types are not valid for SpikeEventSeries data in NWB, so the
+  // file uses the .h5 extension to exclude it from the NWB validation of the
+  // test files
+  std::string filename = getTestFilePath("createSESChunkingArrayType.h5");
+
+  std::shared_ptr<HDF5::HDF5IO> io = std::make_shared<HDF5::HDF5IO>(filename);
+  io->open();
+  auto nwbfile = AQNWB::NWB::NWBFile::create(io);
+  auto currentTime = getCurrentTime();
+  nwbfile->initialize(generateUuid(),
+                      "a recording session",
+                      "data collection info",
+                      currentTime,
+                      currentTime,
+                      getTestSubjectSpec());
+
+  std::vector<Types::ChannelVector> arrays = {
+      {Channel("ch0", "array0", 0, 0, 0),
+       Channel("ch1", "array0", 0, 1, 1),
+       Channel("ch2", "array0", 0, 2, 2),
+       Channel("ch3", "array0", 0, 3, 3)}};
+  REQUIRE(nwbfile->createElectrodesTable(arrays) != nullptr);
+  auto recordingObjects = io->getRecordingObjects();
+  const SizeType numSamples = 40;
+
+  // int16 with typeSize 5 is stored as an array of 5 values per element:
+  // 32768 bytes / (4 channels * 40 samples * 5 * 2 bytes) = 20 events
+  std::vector<SizeType> containerIndices = {};
+  REQUIRE(nwbfile->createSpikeEventSeries(arrays,
+                                          {"int16array"},
+                                          BaseDataType(BaseDataType::T_I16, 5),
+                                          containerIndices,
+                                          numSamples)
+          == Status::Success);
+  auto ses = std::dynamic_pointer_cast<NWB::SpikeEventSeries>(
+      recordingObjects->getRecordingObject(containerIndices[0]));
+  REQUIRE(ses != nullptr);
+  REQUIRE(io->getStorageObjectChunking(ses->getPath() + "/data")
+          == SizeArray {20, 4, numSamples});
+  io->close();
+}
+
 TEST_CASE("createSpikeEventSeries conversion", "[nwb]")
 {
   std::string filename = getTestFilePath("createSESConversion.nwb");
@@ -951,6 +995,42 @@ TEST_CASE("createSpikeEventSeries conversion", "[nwb]")
         == Status::Success);
   }
   io->stopRecording();
+}
+
+TEST_CASE("createSpikeEventSeries fails for out-of-range channels", "[nwb]")
+{
+  // The file contains a SpikeEventSeries that could not be initialized, so it
+  // uses the .h5 extension to exclude it from the NWB validation of the test
+  // files
+  std::string filename = getTestFilePath("createSESOutOfRange.h5");
+
+  std::shared_ptr<HDF5::HDF5IO> io = std::make_shared<HDF5::HDF5IO>(filename);
+  io->open();
+  auto nwbfile = AQNWB::NWB::NWBFile::create(io);
+  auto currentTime = getCurrentTime();
+  nwbfile->initialize(generateUuid(),
+                      "a recording session",
+                      "data collection info",
+                      currentTime,
+                      currentTime,
+                      getTestSubjectSpec());
+
+  std::vector<Types::ChannelVector> electrodes = {
+      {Channel("ch0", "array0", 0, 0, 0), Channel("ch1", "array0", 0, 1, 1)}};
+  REQUIRE(nwbfile->createElectrodesTable(electrodes) != nullptr);
+
+  // The first series references electrode 5, which is not in the electrodes
+  // table; the second series is valid, and its success must not mask the
+  // failure of the first one
+  std::vector<Types::ChannelVector> arrays = {
+      {Channel("ch5", "array0", 0, 0, 5)}, {Channel("ch0", "array0", 0, 0, 0)}};
+  std::vector<SizeType> containerIndices = {};
+  Status status = nwbfile->createSpikeEventSeries(
+      arrays, {"invalid", "valid"}, BaseDataType::I16, containerIndices);
+  REQUIRE(status == Status::Failure);
+  REQUIRE(containerIndices.size() == 2);
+  REQUIRE(io->objectExists("/acquisition/valid"));
+  io->close();
 }
 
 TEST_CASE("createAnnotationSeries", "[nwb]")
