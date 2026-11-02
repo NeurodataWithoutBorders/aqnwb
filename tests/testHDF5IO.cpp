@@ -623,7 +623,7 @@ TEST_CASE("HDF5IO; createStringDataSet", "[hdf5io]")
     auto data =
         IO::DataBlock<std::string>::fromGeneric(hdf5io.readDataset("/empty"));
     REQUIRE(data.data.size() == 1);
-    REQUIRE(std::string(data.data[0].c_str()).empty());
+    REQUIRE(data.data[0].empty());
   }
 
   SECTION("existing path fails")
@@ -2471,6 +2471,31 @@ herr_t countHDF5ErrorReports(hid_t, void* count)
   ++*static_cast<int*>(count);
   return 0;
 }
+
+/// Replaces the HDF5 automatic error handler with countHDF5ErrorReports and
+/// restores the previous handler on destruction, also if a failing assertion
+/// ends the test (the handler holds a pointer to the counter)
+class HDF5ErrorReportCounter
+{
+public:
+  HDF5ErrorReportCounter()
+  {
+    H5Eget_auto2(H5E_DEFAULT, &m_oldHandler, &m_oldData);
+    H5Eset_auto2(H5E_DEFAULT, countHDF5ErrorReports, &m_count);
+  }
+  ~HDF5ErrorReportCounter()
+  {
+    H5Eset_auto2(H5E_DEFAULT, m_oldHandler, m_oldData);
+  }
+  HDF5ErrorReportCounter(const HDF5ErrorReportCounter&) = delete;
+  HDF5ErrorReportCounter& operator=(const HDF5ErrorReportCounter&) = delete;
+  int count() const { return m_count; }
+
+private:
+  H5E_auto2_t m_oldHandler = nullptr;
+  void* m_oldData = nullptr;
+  int m_count = 0;
+};
 }  // namespace
 
 TEST_CASE("HDF5IO; probing missing objects doesn't report HDF5 errors",
@@ -2481,24 +2506,19 @@ TEST_CASE("HDF5IO; probing missing objects doesn't report HDF5 errors",
   REQUIRE(hdf5io.open() == Status::Success);
   REQUIRE(hdf5io.createGroup("/group") == Status::Success);
 
-  // Replace the automatic error handler to count the error reports
-  H5E_auto2_t oldHandler = nullptr;
-  void* oldData = nullptr;
-  H5Eget_auto2(H5E_DEFAULT, &oldHandler, &oldData);
-  int count = 0;
-  H5Eset_auto2(H5E_DEFAULT, countHDF5ErrorReports, &count);
-
-  REQUIRE(hdf5io.getStorageObjectType("/missing")
-          == StorageObjectType::Undefined);
-  REQUIRE(hdf5io.getStorageObjectType("/missing/child")
-          == StorageObjectType::Undefined);
-  REQUIRE(hdf5io.getStorageObjectType("/group/missing")
-          == StorageObjectType::Undefined);
-  REQUIRE_FALSE(hdf5io.objectExists("/group/missing"));
-  REQUIRE(hdf5io.getStorageObjectType("/group") == StorageObjectType::Group);
-
-  H5Eset_auto2(H5E_DEFAULT, oldHandler, oldData);
-  REQUIRE(count == 0);
+  {
+    // Count the error reports while probing the objects
+    HDF5ErrorReportCounter errorReports;
+    REQUIRE(hdf5io.getStorageObjectType("/missing")
+            == StorageObjectType::Undefined);
+    REQUIRE(hdf5io.getStorageObjectType("/missing/child")
+            == StorageObjectType::Undefined);
+    REQUIRE(hdf5io.getStorageObjectType("/group/missing")
+            == StorageObjectType::Undefined);
+    REQUIRE_FALSE(hdf5io.objectExists("/group/missing"));
+    REQUIRE(hdf5io.getStorageObjectType("/group") == StorageObjectType::Group);
+    REQUIRE(errorReports.count() == 0);
+  }
   hdf5io.close();
 }
 

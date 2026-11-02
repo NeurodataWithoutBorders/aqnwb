@@ -144,7 +144,30 @@ TEST_CASE("initialize with an empty session description", "[nwb]")
       == Status::Success);
   auto description = nwbfile->readSessionDescription()->values().data;
   REQUIRE(description.size() == 1);
-  REQUIRE(std::string(description[0].c_str()).empty());
+  REQUIRE(description[0].empty());
+  io->close();
+}
+
+TEST_CASE("initialize fails if a required dataset can't be created", "[nwb]")
+{
+  // The file is not a valid NWB file, so it uses the .h5 extension to exclude
+  // it from the NWB validation of the test files
+  const std::string filename =
+      getTestFilePath("testInitializeRequiredDatasetFails.h5");
+  auto io = std::make_shared<IO::HDF5::HDF5IO>(filename);
+  io->open();
+  // A dataset at the path of the required /session_description (the file has
+  // no groups yet, so it is still considered uninitialized)
+  REQUIRE(io->createStringDataSet("/session_description", "existing")
+          == Status::Success);
+  auto nwbfile = NWB::NWBFile::create(io);
+  REQUIRE(nwbfile->initialize(generateUuid(),
+                              "a recording session",
+                              "",
+                              "",
+                              "",
+                              getTestSubjectSpec())
+          == Status::Failure);
   io->close();
 }
 

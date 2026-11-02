@@ -407,8 +407,11 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
   // NWBFile::EVENTS_PATH and NWBFile::INTERVALS_PATH are optional and will
   // be created when the corresponding tables are created
 
+  // Status && evaluates both operands, so all datasets are created even if one
+  // of them fails
+  Status datasetsStatus = Status::Success;
   if (dataCollection != "") {
-    ioPtr->createStringDataSet(
+    datasetsStatus = ioPtr->createStringDataSet(
         mergePaths(NWBFile::GENERAL_PATH, "/data_collection"), dataCollection);
   }
 
@@ -425,14 +428,24 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
 
   // Create additional required datasets
   std::vector<std::string> timeVec = {sessionStartTime};
-  ioPtr->createStringDataSet("/file_create_date", timeVec);
-  ioPtr->createStringDataSet("/session_description", description);
-  ioPtr->createStringDataSet("/session_start_time", sessionStartTime);
-  ioPtr->createStringDataSet("/timestamps_reference_time",
-                             timestampsReferenceTime);
-  ioPtr->createStringDataSet("/identifier", identifierText);
+  datasetsStatus = datasetsStatus
+      && ioPtr->createStringDataSet("/file_create_date", timeVec);
+  datasetsStatus = datasetsStatus
+      && ioPtr->createStringDataSet("/session_description", description);
+  datasetsStatus = datasetsStatus
+      && ioPtr->createStringDataSet("/session_start_time", sessionStartTime);
+  datasetsStatus = datasetsStatus
+      && ioPtr->createStringDataSet("/timestamps_reference_time",
+                                    timestampsReferenceTime);
+  datasetsStatus = datasetsStatus
+      && ioPtr->createStringDataSet("/identifier", identifierText);
+  if (datasetsStatus != Status::Success) {
+    std::cerr << "NWBFile::createFileStructure: creating the datasets of the "
+                 "NWBFile failed"
+              << std::endl;
+  }
 
-  return Status::Success;
+  return datasetsStatus;
 }
 
 std::shared_ptr<ElectrodesTable> NWBFile::createElectrodesTable(
