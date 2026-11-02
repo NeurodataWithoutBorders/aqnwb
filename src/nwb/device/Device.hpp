@@ -68,7 +68,8 @@ public:
     /**
      * @brief Set the model of the device.
      * @param value The DeviceModel of the device (see
-     * NWBFile::createDeviceModel).
+     * NWBFile::createDeviceModel). The model must be in the same file as the
+     * device.
      * @return Reference to this DeviceSpec, to allow method chaining.
      */
     DeviceSpec& withModel(std::shared_ptr<DeviceModel> value)
@@ -97,7 +98,8 @@ public:
    * attributes, and linking it to its model (if set).
    *
    * @param spec The attributes of the device.
-   * @return Status::Success if successful, otherwise Status::Failure.
+   * @return Status::Success if successful, otherwise Status::Failure (e.g., if
+   * the model is in a different file than the device).
    */
   Status initialize(const DeviceSpec& spec);
 
