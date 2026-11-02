@@ -2501,10 +2501,11 @@ TEST_CASE("HDF5IO; chunk cache", "[hdf5io]")
                     IO::HDF5::ChunkCacheConfig {cacheBytes, 0, -0.5})
             == Status::Failure);
     REQUIRE(io.isOpen() == false);
-    REQUIRE(io.open(IO::FileMode::Overwrite,
-                    IO::HDF5::ChunkCacheConfig {
-                        cacheBytes, 0, std::numeric_limits<double>::quiet_NaN()})
-            == Status::Failure);
+    REQUIRE(
+        io.open(IO::FileMode::Overwrite,
+                IO::HDF5::ChunkCacheConfig {
+                    cacheBytes, 0, std::numeric_limits<double>::quiet_NaN()})
+        == Status::Failure);
     REQUIRE(io.isOpen() == false);
   }
 }
