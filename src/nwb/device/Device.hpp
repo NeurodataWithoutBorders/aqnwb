@@ -107,9 +107,16 @@ public:
    * @brief Initializes the device and writes the deprecated `manufacturer`
    * attribute.
    *
+   * This function writes the old-style layout of NWB versions before 2.11: the
+   * manufacturer is stored as the `manufacturer` attribute of the Device. The
+   * resulting files remain readable, but NWB 2.11 deprecated this attribute
+   * and stores the manufacturer in a DeviceModel that the Device links to via
+   * its `model` instead.
+   *
    * @deprecated The `manufacturer` attribute of Device is deprecated in NWB
-   * 2.11. Use initialize(const DeviceSpec&) and store the manufacturer in a
-   * DeviceModel (see NWBFile::createDeviceModel) instead.
+   * 2.11, so this function creates files with deprecated metadata. Use
+   * initialize(const DeviceSpec&) and store the manufacturer in a DeviceModel
+   * (see NWBFile::createDeviceModel and DeviceSpec::withModel) instead.
    *
    * @param description The description of the device (not written if empty).
    * @param manufacturer The manufacturer of the device.
@@ -138,22 +145,38 @@ public:
                           "model",
                           The model of the device)
 
+  // Keep clang-format from reflowing the descriptions of the deprecated fields
+  // clang-format off
   DEFINE_ATTRIBUTE_FIELD(readManufacturer,
                          std::string,
                          "manufacturer",
-                         DEPRECATED in NWB 2.11 : manufacturer of the device in
-                             files written with earlier versions)
+                         The manufacturer of the device in files written with
+                         NWB versions before 2.11.
+                         @deprecated The manufacturer attribute of Device is
+                         deprecated in NWB 2.11 and not written by
+                         initialize(const DeviceSpec&). For new files use
+                         readModel()->readManufacturer() instead.)
 
   DEFINE_ATTRIBUTE_FIELD(readModelNumber,
                          std::string,
                          "model_number",
-                         DEPRECATED in NWB 2.11 : model number of the device in
-                             files written with earlier versions)
+                         The model number of the device in files written with
+                         NWB versions before 2.11.
+                         @deprecated The model_number attribute of Device is
+                         deprecated in NWB 2.11 and not written by
+                         initialize(const DeviceSpec&). For new files use
+                         readModel()->readModelNumber() instead.)
 
   DEFINE_ATTRIBUTE_FIELD(readModelName,
                          std::string,
                          "model_name",
-                         DEPRECATED in NWB 2.11 : model name of the device in
-                             files written with earlier versions)
+                         The model name of the device in files written with
+                         NWB versions before 2.11.
+                         @deprecated The model_name attribute of Device is
+                         deprecated in NWB 2.11 and not written by
+                         initialize(const DeviceSpec&). For new files use
+                         the name of the model (readModel()->getName())
+                         instead.)
+  // clang-format on
 };
 }  // namespace AQNWB::NWB
