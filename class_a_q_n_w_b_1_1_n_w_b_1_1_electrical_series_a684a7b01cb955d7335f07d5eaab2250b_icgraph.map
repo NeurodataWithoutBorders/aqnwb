@@ -1,7 +1,11 @@
 <map id="AQNWB::NWB::ElectricalSeries::ElectricalSeries" name="AQNWB::NWB::ElectricalSeries::ElectricalSeries">
-<area shape="rect" id="Node000001" title="Constructor." alt="" coords="278,29,489,70"/>
-<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="425,13,411,10,383,8,358,10,342,15,336,21,338,30,334,27,331,19,339,10,357,5,383,3,412,5,431,14"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#af5b323ae3afbdf308f151cf233b2c0db" title="Constructor." alt="" coords="5,29,230,70"/>
-<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="260,50,230,52,230,47,265,50"/>
-<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="159,14,145,10,117,8,92,10,76,15,71,21,73,29,68,28,65,19,74,10,91,5,118,3,146,5,165,14"/>
+<area shape="rect" id="Node000001" title="Constructor." alt="" coords="550,51,761,91"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="698,35,683,32,656,29,630,31,615,36,609,42,611,51,606,49,604,41,612,32,629,26,656,24,684,26,703,35"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#acf3eb0d1772834adaa921d71fd906bc6" title=" " alt="" coords="284,5,496,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="532,50,496,46,496,41,537,50"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#af5b323ae3afbdf308f151cf233b2c0db" title="Constructor." alt="" coords="278,95,502,135"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="537,91,503,99,502,94,532,91"/>
+<area shape="poly" id="edge5_Node000003_Node000003" title=" " alt="" coords="432,79,417,76,390,73,364,75,349,80,343,86,345,95,340,93,338,85,346,76,363,70,390,68,418,70,437,79"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#a74f94bb3753e23f4a2047a2c4ed3d4ba" title=" " alt="" coords="5,95,230,135"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="260,115,230,118,230,112,265,115"/>
 </map>

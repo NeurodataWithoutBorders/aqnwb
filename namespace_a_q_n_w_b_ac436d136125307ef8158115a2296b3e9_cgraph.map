@@ -1,12 +1,17 @@
 <map id="AQNWB::getCurrentTime" name="AQNWB::getCurrentTime">
-<area shape="rect" id="Node000001" title="Get the current time in ISO 8601 format with the UTC offset." alt="" coords="5,70,176,96"/>
-<area shape="rect" id="Node000002" href="$namespace_a_q_n_w_b_1_1detail.html#ad0651da97ed82b774d723c172538375c" title="Format a UTC offset in seconds as a string (+HH:MM or &#45;HH:MM)." alt="" coords="224,5,380,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="140,67,212,49,207,52,142,72"/>
-<area shape="rect" id="Node000003" href="$namespace_a_q_n_w_b_1_1detail.html#af6ff85116f650b5a02fbca4c821b6c9b" title="Get the UTC offset in seconds for a given time_t value." alt="" coords="231,120,373,161"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="141,94,218,116,213,118,141,99"/>
-<area shape="rect" id="Node000004" href="$namespace_a_q_n_w_b_1_1detail.html#abcf2ceabe5c721ee1001c80fdc313fa3" title="Convert a std::time_t value to a local std::tm structure." alt="" coords="428,74,624,100"/>
-<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="176,81,414,84,411,88,176,86"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="373,121,451,104,457,104,374,126"/>
-<area shape="rect" id="Node000005" href="$namespace_a_q_n_w_b_1_1detail.html#a565fcac4f2e7942f33f35b3de5b717f1" title="Convert a std::time_t value to a UTC std::tm structure." alt="" coords="432,128,620,153"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="373,138,419,140,414,140,373,143"/>
+<area shape="rect" id="Node000001" title="Get the current time in ISO 8601 format with the UTC offset." alt="" coords="5,94,176,120"/>
+<area shape="poly" id="edge9_Node000001_Node000001" title=" " alt="" coords="55,94,48,86,53,76,67,70,91,68,116,70,131,79,126,80,115,75,90,73,68,75,56,80,54,85,60,93"/>
+<area shape="rect" id="Node000002" href="$namespace_a_q_n_w_b_1_1detail.html#ad0651da97ed82b774d723c172538375c" title="Format a UTC offset in seconds as a string (+HH:MM or &#45;HH:MM)." alt="" coords="224,29,380,70"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="140,91,212,73,207,76,142,96"/>
+<area shape="rect" id="Node000003" href="$namespace_a_q_n_w_b_1_1detail.html#af6ff85116f650b5a02fbca4c821b6c9b" title="Get the UTC offset in seconds for a given time_t value." alt="" coords="231,168,373,209"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="127,118,235,160,230,163,126,123"/>
+<area shape="rect" id="Node000004" href="$namespace_a_q_n_w_b_1_1detail.html#abcf2ceabe5c721ee1001c80fdc313fa3" title="Convert a std::time_t value to a local std::tm structure." alt="" coords="428,98,624,124"/>
+<area shape="poly" id="edge10_Node000001_Node000004" title=" " alt="" coords="176,105,414,108,411,112,176,110"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="262,28,260,19,266,10,281,5,302,3,325,5,340,14,335,14,323,10,302,8,282,10,270,15,265,20,267,30"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="262,166,260,158,266,149,281,143,302,141,325,144,340,153,335,152,323,149,302,147,282,149,270,153,265,159,267,169"/>
+<area shape="poly" id="edge5_Node000003_Node000004" title=" " alt="" coords="352,165,427,136,458,129,463,128,429,142,353,170"/>
+<area shape="rect" id="Node000005" href="$namespace_a_q_n_w_b_1_1detail.html#a565fcac4f2e7942f33f35b3de5b717f1" title="Convert a std::time_t value to a UTC std::tm structure." alt="" coords="432,176,620,201"/>
+<area shape="poly" id="edge7_Node000003_Node000005" title=" " alt="" coords="373,186,419,188,414,188,373,191"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="489,97,482,90,486,80,501,74,526,72,554,74,569,84,564,83,552,79,526,77,502,79,490,84,487,89,494,99"/>
+<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="489,174,482,167,486,157,501,151,526,149,554,152,569,161,564,160,552,157,526,154,502,156,490,161,487,166,494,176"/>
 </map>

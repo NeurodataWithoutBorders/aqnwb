@@ -1,0 +1,11 @@
+<map id="AQNWB::IO::BaseIO::createCommonNWBAttributes" name="AQNWB::IO::BaseIO::createCommonNWBAttributes">
+<area shape="rect" id="Node000001" title="Convenience function for creating NWB related attributes." alt="" coords="710,39,909,79"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#aa3f2c6871009254b8e3168de14b3c53f" title="Gets the BaseDataType of a dataset or attribute." alt="" coords="484,39,662,79"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="692,59,663,62,663,56,697,59"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html#a9db9ebc82f025b9aef92bf53c5e86146" title="Gets the BaseDataType of the target dataset." alt="" coords="239,39,436,79"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="466,59,436,62,436,56,471,59"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html#a13d7f50781e50fbe565b133a13cf3647" title="Gets the shape, chunking, and data type from the linked target dataset." alt="" coords="5,5,191,46"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="220,44,191,41,191,36,226,43"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html#a005446a702308bafc732b3c4b9520a94" title="Validates the target dataset against expected requirements." alt="" coords="5,71,191,111"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="220,75,192,81,191,76,226,74"/>
+</map>

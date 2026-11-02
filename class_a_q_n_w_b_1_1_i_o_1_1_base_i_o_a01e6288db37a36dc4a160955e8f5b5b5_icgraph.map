@@ -1,11 +1,16 @@
 <map id="AQNWB::IO::BaseIO::objectExists" name="AQNWB::IO::BaseIO::objectExists">
-<area shape="rect" id="Node000001" title="Checks whether a Dataset, Group, or Link already exists at the location in the file." alt="" coords="472,71,626,111"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a0b762c28ae74ea07599eb71bf2c5cfc6" title="Find the first object in the file whose path ends with the given name." alt="" coords="254,5,408,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="462,66,402,49,402,44,468,66"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a788603f4c9c2698aad610134ab89f8e1" title="Finds all datasets and groups of the given types in the HDF5 file." alt="" coords="254,71,408,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="454,91,409,94,409,88,459,91"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html#a7fccfbd5c0deb82ff9383627d3cf0477" title="Checks if the target path exists in the file. This is a convenience method to check if the link targe..." alt="" coords="239,136,424,177"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="468,116,402,138,401,133,462,117"/>
-<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html#a005446a702308bafc732b3c4b9520a94" title="Validates the target dataset against expected requirements." alt="" coords="5,136,191,177"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="221,157,191,159,191,154,226,156"/>
+<area shape="rect" id="Node000001" title="Checks whether a Dataset, Group, or Link already exists at the location in the file." alt="" coords="674,63,829,103"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a0b762c28ae74ea07599eb71bf2c5cfc6" title="Find the first object in the file whose path ends with the given name." alt="" coords="456,5,611,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="657,59,611,49,611,43,662,59"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a788603f4c9c2698aad610134ab89f8e1" title="Finds all datasets and groups of the given types in the HDF5 file." alt="" coords="5,5,160,46"/>
+<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="656,85,452,83,329,75,207,60,155,49,155,44,208,55,330,69,452,77,662,84"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html#a7fccfbd5c0deb82ff9383627d3cf0477" title="Checks if the target path exists in the file. This is a convenience method to check if the link targe..." alt="" coords="441,120,626,161"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="662,107,614,122,613,117,656,108"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a981d7a455b4c057f8ade5c511afbb2ba" title="Gets the list of storage objects (groups, datasets, attributes) inside a group." alt="" coords="223,5,378,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="439,35,378,37,378,32,444,34"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="393,14,459,17,454,18,393,19"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="205,36,161,37,159,32,210,33"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="174,14,225,16,220,18,176,19"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html#a005446a702308bafc732b3c4b9520a94" title="Validates the target dataset against expected requirements." alt="" coords="208,120,393,161"/>
+<area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="423,140,394,143,393,138,428,140"/>
 </map>

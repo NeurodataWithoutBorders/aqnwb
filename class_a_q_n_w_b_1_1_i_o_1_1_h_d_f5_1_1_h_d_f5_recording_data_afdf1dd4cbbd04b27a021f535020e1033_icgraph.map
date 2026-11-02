@@ -1,7 +1,9 @@
 <map id="AQNWB::IO::HDF5::HDF5RecordingData::writeDataBlockHelper" name="AQNWB::IO::HDF5::HDF5RecordingData::writeDataBlockHelper">
-<area shape="rect" id="Node000001" title="Allocate space and validate parameters." alt="" coords="293,39,532,79"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a46c696f828274f96765373e3ec5950d7" title="Writes a block of string data (any number of dimensions)." alt="" coords="5,5,245,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="275,44,245,42,245,37,280,43"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a98aad315b2d3f0a59642fe705c8a795a" title="Writes a block of data to the HDF5 dataset." alt="" coords="5,71,245,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="275,74,246,80,245,75,280,74"/>
+<area shape="rect" id="Node000001" title="Allocate space and validate parameters." alt="" coords="580,39,819,79"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a46c696f828274f96765373e3ec5950d7" title="Writes a block of string data (any number of dimensions)." alt="" coords="293,5,532,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="562,43,533,42,533,37,567,43"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a98aad315b2d3f0a59642fe705c8a795a" title="Writes a block of data to the HDF5 dataset." alt="" coords="293,71,532,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="567,74,533,80,532,75,562,74"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a8472e4dc3b686dc32c7d71ae5cba8927" title="Deleted copy assignment operator to prevent copying." alt="" coords="5,71,245,111"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="275,91,245,94,245,88,280,91"/>
 </map>

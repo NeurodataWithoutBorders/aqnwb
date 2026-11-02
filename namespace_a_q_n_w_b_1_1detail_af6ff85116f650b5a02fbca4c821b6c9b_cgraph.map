@@ -1,7 +1,10 @@
 <map id="AQNWB::detail::get_utc_offset_seconds" name="AQNWB::detail::get_utc_offset_seconds">
-<area shape="rect" id="Node000001" title="Get the UTC offset in seconds for a given time_t value." alt="" coords="5,23,148,64"/>
-<area shape="rect" id="Node000002" href="$namespace_a_q_n_w_b_1_1detail.html#abcf2ceabe5c721ee1001c80fdc313fa3" title="Convert a std::time_t value to a local std::tm structure." alt="" coords="196,5,392,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,33,183,31,178,32,149,38"/>
-<area shape="rect" id="Node000003" href="$namespace_a_q_n_w_b_1_1detail.html#a565fcac4f2e7942f33f35b3de5b717f1" title="Convert a std::time_t value to a UTC std::tm structure." alt="" coords="200,55,388,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="148,49,187,55,182,56,148,54"/>
+<area shape="rect" id="Node000001" title="Get the UTC offset in seconds for a given time_t value." alt="" coords="5,59,148,100"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="35,58,33,49,40,40,55,35,77,33,100,35,116,43,110,44,99,40,76,38,56,40,43,44,39,50,41,59"/>
+<area shape="rect" id="Node000002" href="$namespace_a_q_n_w_b_1_1detail.html#abcf2ceabe5c721ee1001c80fdc313fa3" title="Convert a std::time_t value to a local std::tm structure." alt="" coords="196,29,392,55"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="147,65,202,57,197,59,149,70"/>
+<area shape="rect" id="Node000003" href="$namespace_a_q_n_w_b_1_1detail.html#a565fcac4f2e7942f33f35b3de5b717f1" title="Convert a std::time_t value to a UTC std::tm structure." alt="" coords="200,103,388,128"/>
+<area shape="poly" id="edge4_Node000001_Node000003" title=" " alt="" coords="148,89,200,99,195,100,148,94"/>
+<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="257,28,251,21,255,11,270,5,294,3,320,5,335,15,330,14,319,10,294,8,271,10,259,15,256,20,262,30"/>
+<area shape="poly" id="edge5_Node000003_Node000003" title=" " alt="" coords="257,101,251,94,255,84,270,78,294,76,320,79,335,88,330,88,319,84,294,81,271,83,259,88,256,93,262,103"/>
 </map>

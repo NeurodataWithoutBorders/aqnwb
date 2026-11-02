@@ -1,5 +1,7 @@
 <map id="AQNWB::NWB::NWBFile::requireEventsGroup" name="AQNWB::NWB::NWBFile::requireEventsGroup">
-<area shape="rect" id="Node000001" title="Ensure that the events group exists in the NWB file." alt="" coords="246,5,419,46"/>
+<area shape="rect" id="Node000001" title="Ensure that the events group exists in the NWB file." alt="" coords="246,39,419,79"/>
 <area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_events_table.html#a5220d383bc2d9fc989aefadeb21740d0" title="Initialize the object." alt="" coords="5,5,198,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="228,26,198,28,198,23,233,25"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="228,45,198,42,198,37,233,44"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a941d5b775441fac6c787cd55a8276461" title="Deleted copy assignment operator to prevent copying." alt="" coords="15,71,188,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="228,74,189,82,188,76,233,73"/>
 </map>

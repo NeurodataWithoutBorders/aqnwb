@@ -1,13 +1,18 @@
 <map id="AQNWB::NWB::TimeIntervals::create" name="AQNWB::NWB::TimeIntervals::create">
-<area shape="rect" id="Node000001" title=" " alt="" coords="448,104,647,145"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a6f45bb65ce5c7d3829b57d19b37601a3" title="Create a TimeIntervals table in the INTERVALS_PATH group. Note, this function will fail if the file i..." alt="" coords="227,71,400,111"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="430,108,400,106,400,101,435,108"/>
-<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a4344e75329b02b900931c5514f4dc768" title="Create a TimeIntervals table in the INTERVALS_PATH group using a pre&#45;built column spec list." alt="" coords="227,136,400,177"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="435,140,401,147,400,142,430,140"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a605a7ea462b38135d0ee6f95447dd8f0" title="Create the Epochs table in the INTERVALS_PATH group." alt="" coords="5,5,179,46"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="225,67,164,49,164,44,230,65"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a318c4be532893dafd593f6d9ccf99684" title="Create the Invalid Times table in the INTERVALS_PATH group." alt="" coords="5,71,179,111"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="209,92,180,94,179,88,214,90"/>
-<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a8b42c61ec6bf627b3eebd2dc2f06bbbd" title="Create the Trials table in the INTERVALS_PATH group." alt="" coords="5,136,179,177"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="230,115,164,138,163,133,225,117"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="669,125,869,166"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a6f45bb65ce5c7d3829b57d19b37601a3" title="Create a TimeIntervals table in the INTERVALS_PATH group. Note, this function will fail if the file i..." alt="" coords="448,92,621,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="651,129,622,127,622,122,656,129"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a4344e75329b02b900931c5514f4dc768" title="Create a TimeIntervals table in the INTERVALS_PATH group using a pre&#45;built column spec list." alt="" coords="448,157,621,198"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="656,161,622,168,621,163,651,162"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a605a7ea462b38135d0ee6f95447dd8f0" title="Create the Epochs table in the INTERVALS_PATH group." alt="" coords="227,5,400,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="464,86,367,49,368,44,469,85"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a941d5b775441fac6c787cd55a8276461" title="Deleted copy assignment operator to prevent copying." alt="" coords="5,92,179,133"/>
+<area shape="poly" id="edge8_Node000002_Node000004" title=" " alt="" coords="430,109,400,111,227,111,180,112,178,107,227,106,400,106,435,109"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a318c4be532893dafd593f6d9ccf99684" title="Create the Invalid Times table in the INTERVALS_PATH group." alt="" coords="227,120,400,161"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="430,126,401,132,400,127,435,125"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a8b42c61ec6bf627b3eebd2dc2f06bbbd" title="Create the Trials table in the INTERVALS_PATH group." alt="" coords="227,185,400,226"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="465,138,449,148,401,175,372,187,371,182,399,170,447,143,460,140"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="243,54,147,94,145,89,247,50"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="209,128,180,126,179,121,214,127"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="241,179,226,175,138,136,139,131,228,170,246,179"/>
 </map>

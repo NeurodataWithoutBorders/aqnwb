@@ -1,0 +1,29 @@
+<map id="AQNWB::IO::BaseIO::getStorageObjects" name="AQNWB::IO::BaseIO::getStorageObjects">
+<area shape="rect" id="Node000001" title="Gets the list of storage objects (groups, datasets, attributes) inside a group." alt="" coords="5,148,160,189"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a0b762c28ae74ea07599eb71bf2c5cfc6" title="Find the first object in the file whose path ends with the given name." alt="" coords="208,83,362,123"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,150,230,128,226,131,161,155"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a788603f4c9c2698aad610134ab89f8e1" title="Finds all datasets and groups of the given types in the HDF5 file." alt="" coords="208,148,362,189"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="159,175,195,176,190,178,161,180"/>
+<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a1b9c28abd50f22cf2e0bca20380a12b9" title="Get the full name of the type from the attribute in the file." alt="" coords="208,213,362,254"/>
+<area shape="poly" id="edge14_Node000001_Node000010" title=" " alt="" coords="148,187,208,207,203,209,148,192"/>
+<area shape="poly" id="edge2_Node000002_Node000001" title=" " alt="" coords="205,121,140,144,138,140,209,117"/>
+<area shape="rect" id="Node000003" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="416,160,567,185"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="348,121,439,153,434,154,348,127"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a01e6288db37a36dc4a160955e8f5b5b5" title="Checks whether a Dataset, Group, or Link already exists at the location in the file." alt="" coords="414,5,569,46"/>
+<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="340,80,423,51,419,53,343,84"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="457,158,450,151,454,141,469,135,492,133,517,136,531,145,526,145,515,141,492,138,470,140,458,145,456,150,462,160"/>
+<area shape="poly" id="edge10_Node000005_Node000001" title=" " alt="" coords="205,161,176,162,174,157,210,158"/>
+<area shape="poly" id="edge11_Node000005_Node000003" title=" " alt="" coords="362,167,404,170,398,171,363,172"/>
+<area shape="poly" id="edge12_Node000005_Node000004" title=" " alt="" coords="342,145,360,133,376,114,383,96,392,77,408,57,414,56,418,53,412,61,396,79,388,98,380,117,364,137,345,150"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a06b5edf2bbd4c85adcafda13e7903873" title="Checks whether an Attribute exists at the location in the file." alt="" coords="414,71,569,111"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="340,145,423,116,419,118,342,150"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a20df6af7d661de38f4b8cb3baba48339" title="Factory method to create an DataBlock from a DataBlockGeneric." alt="" coords="410,275,573,315"/>
+<area shape="poly" id="edge8_Node000005_Node000007" title=" " alt="" coords="343,187,364,200,379,215,388,230,397,245,412,260,420,267,415,266,408,264,393,248,384,233,375,219,360,204,342,192"/>
+<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#aa9b3fc349e4149f6b1c75bb854deae07" title="Reads a attribute and determines the data type." alt="" coords="414,209,569,250"/>
+<area shape="poly" id="edge13_Node000005_Node000009" title=" " alt="" coords="356,187,409,204,403,205,356,192"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a8d7a3a3dd05f8bd7717b55fd6b4237e7" title=" " alt="" coords="621,275,785,315"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="574,292,608,295,603,295,574,298"/>
+<area shape="poly" id="edge16_Node000010_Node000003" title=" " alt="" coords="355,210,429,191,434,189,357,215"/>
+<area shape="poly" id="edge15_Node000010_Node000007" title=" " alt="" coords="356,252,409,270,403,270,356,257"/>
+<area shape="poly" id="edge17_Node000010_Node000009" title=" " alt="" coords="362,230,401,231,396,232,362,235"/>
+</map>

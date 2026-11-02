@@ -1,38 +1,38 @@
 <map id="AQNWB::NWB::NWBFile::readTimestampsReferenceTime" name="AQNWB::NWB::NWBFile::readTimestampsReferenceTime">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,231,221,271"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a116bb371a6ef2fec0a442530ce4c5344" title=" " alt="" coords="269,197,442,238"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="220,234,256,231,251,233,222,239"/>
-<area shape="rect" id="Node000017" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a4c5e30290b87e858aea55a327e835e77" title=" " alt="" coords="269,263,442,303"/>
-<area shape="poly" id="edge19_Node000001_Node000017" title=" " alt="" coords="221,263,256,269,250,270,222,268"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a1609e4048024fdbf5776df794cba91de" title=" " alt="" coords="490,165,663,206"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="442,203,477,200,472,201,443,208"/>
-<area shape="rect" id="Node000016" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a8389d66680e64980ab23337029e75753" title=" " alt="" coords="490,231,663,271"/>
-<area shape="poly" id="edge18_Node000002_Node000016" title=" " alt="" coords="442,228,477,235,472,236,443,233"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a3fe7a591293e64ca560f52f77fc59b57" title=" " alt="" coords="711,133,906,174"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="663,171,698,169,693,170,665,176"/>
-<area shape="rect" id="Node000015" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a477a8a431db2b70a1b8c80ea58d657df" title=" " alt="" coords="722,199,895,239"/>
-<area shape="poly" id="edge17_Node000003_Node000015" title=" " alt="" coords="664,196,709,204,704,205,664,201"/>
-<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a2f74050c96301fd6dc939e47d14d8fb8" title=" " alt="" coords="954,101,1141,142"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="906,138,941,136,936,137,907,143"/>
-<area shape="rect" id="Node000014" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ac26347469d25aeea9bd0421568ed2ddd" title=" " alt="" coords="961,167,1134,207"/>
-<area shape="poly" id="edge16_Node000004_Node000014" title=" " alt="" coords="906,165,948,173,943,173,906,170"/>
-<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aaf2e07b4e912fc34ab052d38f92e6cdd" title="Saves the specification files for the schema." alt="" coords="1446,5,1619,46"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="1141,101,1433,45,1428,46,1142,106"/>
-<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a71bd7b910a7ec89bdaf36304d67bfef1" title="Creates the default file structure. Note, this function will fail if the file is in a mode where new ..." alt="" coords="1189,153,1362,194"/>
-<area shape="poly" id="edge8_Node000005_Node000009" title=" " alt="" coords="1139,140,1176,150,1171,150,1139,145"/>
-<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab614b1609f536e88ed1f32762dc3894b" title="Get a shared pointer to the IO object." alt="" coords="1703,35,1914,75"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="1619,32,1690,42,1685,42,1620,38"/>
-<area shape="rect" id="Node000008" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="1733,193,1884,218"/>
-<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="1566,44,1777,184,1772,184,1564,49"/>
-<area shape="poly" id="edge9_Node000009_Node000006" title=" " alt="" coords="1296,150,1345,106,1376,83,1409,62,1435,53,1440,51,1412,67,1379,87,1348,111,1299,155"/>
-<area shape="poly" id="edge11_Node000009_Node000007" title=" " alt="" coords="1310,150,1356,127,1410,106,1480,88,1552,74,1690,61,1685,61,1553,79,1481,93,1411,111,1359,132,1312,155"/>
-<area shape="poly" id="edge15_Node000009_Node000008" title=" " alt="" coords="1291,192,1312,219,1340,250,1373,279,1411,301,1477,322,1531,327,1586,319,1654,300,1690,286,1724,267,1779,230,1784,228,1727,272,1692,291,1656,306,1587,324,1531,332,1476,327,1409,305,1370,283,1336,254,1308,223,1289,197"/>
-<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#aceded37c693bb2f6aa21a5945a13557c" title="Get all registered namespaces." alt="" coords="1410,365,1655,406"/>
-<area shape="poly" id="edge10_Node000009_Node000010" title=" " alt="" coords="1289,192,1336,267,1371,309,1412,345,1433,359,1427,358,1409,349,1367,313,1332,271,1286,197"/>
-<area shape="rect" id="Node000011" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a0b44558c283edd9db7d2fcf284c1a5ec" title="Get the schema namespace of the class type." alt="" coords="1446,120,1619,161"/>
-<area shape="poly" id="edge12_Node000009_Node000011" title=" " alt="" coords="1362,160,1433,153,1428,154,1363,165"/>
-<area shape="rect" id="Node000012" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ae22dafcb8cb963103fe0e2b4cbfd5dd8" title="Get the name of the class type." alt="" coords="1446,185,1619,226"/>
-<area shape="poly" id="edge13_Node000009_Node000012" title=" " alt="" coords="1363,182,1433,193,1428,193,1363,187"/>
-<area shape="rect" id="Node000013" href="$class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#a15d9c6f869f0270ad91a2af8067f5a88" title="Get the singleton instance of the NamespaceRegistry." alt="" coords="1410,251,1655,291"/>
-<area shape="poly" id="edge14_Node000009_Node000013" title=" " alt="" coords="1316,192,1411,235,1436,246,1431,245,1409,240,1315,197"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,223,221,264"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a116bb371a6ef2fec0a442530ce4c5344" title=" " alt="" coords="269,190,442,230"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="220,226,256,223,251,225,222,231"/>
+<area shape="rect" id="Node000017" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a4c5e30290b87e858aea55a327e835e77" title=" " alt="" coords="269,255,442,296"/>
+<area shape="poly" id="edge19_Node000001_Node000017" title=" " alt="" coords="221,255,256,261,250,263,222,260"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a1609e4048024fdbf5776df794cba91de" title=" " alt="" coords="490,158,663,198"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="442,195,477,192,472,194,443,200"/>
+<area shape="rect" id="Node000016" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a8389d66680e64980ab23337029e75753" title=" " alt="" coords="490,223,663,264"/>
+<area shape="poly" id="edge18_Node000002_Node000016" title=" " alt="" coords="442,221,477,228,472,228,443,226"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a3fe7a591293e64ca560f52f77fc59b57" title=" " alt="" coords="711,126,906,166"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="663,164,698,161,693,162,665,169"/>
+<area shape="rect" id="Node000015" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a477a8a431db2b70a1b8c80ea58d657df" title=" " alt="" coords="722,191,895,232"/>
+<area shape="poly" id="edge17_Node000003_Node000015" title=" " alt="" coords="664,188,709,197,704,197,664,193"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a2f74050c96301fd6dc939e47d14d8fb8" title=" " alt="" coords="954,94,1141,134"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="906,130,941,128,936,129,907,136"/>
+<area shape="rect" id="Node000014" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ac26347469d25aeea9bd0421568ed2ddd" title=" " alt="" coords="961,159,1134,200"/>
+<area shape="poly" id="edge16_Node000004_Node000014" title=" " alt="" coords="906,157,948,165,942,165,906,162"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aaf2e07b4e912fc34ab052d38f92e6cdd" title="Saves the specification files for the schema." alt="" coords="1446,22,1619,62"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="1141,98,1433,57,1428,58,1142,103"/>
+<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a71bd7b910a7ec89bdaf36304d67bfef1" title="Creates the default file structure. Note, this function will fail if the file is in a mode where new ..." alt="" coords="1189,136,1362,177"/>
+<area shape="poly" id="edge9_Node000005_Node000009" title=" " alt="" coords="1141,129,1177,138,1171,138,1141,134"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab614b1609f536e88ed1f32762dc3894b" title="Get a shared pointer to the IO object." alt="" coords="1703,79,1914,120"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="1620,57,1695,75,1690,75,1619,63"/>
+<area shape="rect" id="Node000008" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="1733,29,1884,55"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="1619,40,1720,42,1715,42,1620,45"/>
+<area shape="poly" id="edge8_Node000008_Node000008" title=" " alt="" coords="1763,28,1754,21,1760,11,1778,5,1808,3,1843,6,1861,16,1856,15,1842,11,1808,8,1779,10,1763,15,1759,20,1768,30"/>
+<area shape="poly" id="edge10_Node000009_Node000006" title=" " alt="" coords="1308,134,1355,106,1409,78,1441,69,1446,67,1411,83,1357,111,1310,139"/>
+<area shape="poly" id="edge12_Node000009_Node000007" title=" " alt="" coords="1354,133,1410,122,1554,107,1690,101,1685,102,1554,112,1411,127,1355,138"/>
+<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#aceded37c693bb2f6aa21a5945a13557c" title="Get all registered namespaces." alt="" coords="1410,136,1655,177"/>
+<area shape="poly" id="edge11_Node000009_Node000010" title=" " alt="" coords="1362,154,1397,157,1392,157,1363,159"/>
+<area shape="rect" id="Node000011" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a0b44558c283edd9db7d2fcf284c1a5ec" title="Get the schema namespace of the class type." alt="" coords="1446,202,1619,242"/>
+<area shape="poly" id="edge13_Node000009_Node000011" title=" " alt="" coords="1359,175,1438,198,1432,197,1358,180"/>
+<area shape="rect" id="Node000012" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ae22dafcb8cb963103fe0e2b4cbfd5dd8" title="Get the name of the class type." alt="" coords="1446,267,1619,308"/>
+<area shape="poly" id="edge14_Node000009_Node000012" title=" " alt="" coords="1301,175,1350,214,1412,252,1434,263,1429,263,1409,257,1347,219,1299,180"/>
+<area shape="rect" id="Node000013" href="$class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#a15d9c6f869f0270ad91a2af8067f5a88" title="Get the singleton instance of the NamespaceRegistry." alt="" coords="1410,332,1655,373"/>
+<area shape="poly" id="edge15_Node000009_Node000013" title=" " alt="" coords="1290,175,1337,246,1372,285,1412,317,1423,326,1418,325,1409,322,1368,288,1333,249,1287,180"/>
 </map>

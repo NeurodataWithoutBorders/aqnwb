@@ -1,7 +1,13 @@
 <map id="AQNWB::IO::BaseIO::attributeExists" name="AQNWB::IO::BaseIO::attributeExists">
-<area shape="rect" id="Node000001" title="Checks whether an Attribute exists at the location in the file." alt="" coords="239,39,393,79"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a788603f4c9c2698aad610134ab89f8e1" title="Finds all datasets and groups of the given types in the HDF5 file." alt="" coords="21,5,175,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="220,45,176,40,175,35,226,44"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html#a005446a702308bafc732b3c4b9520a94" title="Validates the target dataset against expected requirements." alt="" coords="5,71,191,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="221,73,191,80,191,75,226,72"/>
+<area shape="rect" id="Node000001" title="Checks whether an Attribute exists at the location in the file." alt="" coords="643,39,798,79"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a788603f4c9c2698aad610134ab89f8e1" title="Finds all datasets and groups of the given types in the HDF5 file." alt="" coords="426,5,580,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="625,45,580,40,580,35,630,45"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_link_array_data_set_config.html#a005446a702308bafc732b3c4b9520a94" title="Validates the target dataset against expected requirements." alt="" coords="410,71,595,111"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="630,72,596,80,595,75,625,73"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a981d7a455b4c057f8ade5c511afbb2ba" title="Gets the list of storage objects (groups, datasets, attributes) inside a group." alt="" coords="208,5,362,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="407,35,363,37,362,32,413,34"/>
+<area shape="poly" id="edge5_Node000003_Node000002" title=" " alt="" coords="377,14,428,17,422,17,378,19"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a0b762c28ae74ea07599eb71bf2c5cfc6" title="Find the first object in the file whose path ends with the given name." alt="" coords="5,5,160,46"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="190,35,160,37,159,32,195,34"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="174,14,210,16,205,18,175,19"/>
 </map>

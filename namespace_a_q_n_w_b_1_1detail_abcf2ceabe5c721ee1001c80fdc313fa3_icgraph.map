@@ -1,10 +1,11 @@
 <map id="AQNWB::detail::to_local_time" name="AQNWB::detail::to_local_time">
-<area shape="rect" id="Node000001" title="Convert a std::time_t value to a local std::tm structure." alt="" coords="635,42,832,68"/>
-<area shape="rect" id="Node000002" href="$namespace_a_q_n_w_b_1_1detail.html#af6ff85116f650b5a02fbca4c821b6c9b" title="Get the UTC offset in seconds for a given time_t value." alt="" coords="445,5,587,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="617,40,587,38,588,33,623,40"/>
-<area shape="rect" id="Node000003" href="$namespace_a_q_n_w_b.html#ac436d136125307ef8158115a2296b3e9" title="Get the current time in ISO 8601 format with the UTC offset." alt="" coords="227,42,397,68"/>
-<area shape="poly" id="edge4_Node000001_Node000003" title=" " alt="" coords="617,57,587,60,445,60,398,60,398,54,445,55,587,55,622,57"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="433,38,398,45,397,40,427,38"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#adb3e26c787d7f03124972d5963e511ba" title="Initializes the NWB file by setting up the file structure." alt="" coords="5,35,179,75"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="209,55,179,58,179,52,214,55"/>
+<area shape="rect" id="Node000001" title="Convert a std::time_t value to a local std::tm structure." alt="" coords="414,66,610,92"/>
+<area shape="poly" id="edge6_Node000001_Node000001" title=" " alt="" coords="549,51,537,47,512,45,489,47,477,52,474,57,481,67,476,65,469,58,473,48,488,42,512,40,539,42,554,52"/>
+<area shape="rect" id="Node000002" href="$namespace_a_q_n_w_b_1_1detail.html#af6ff85116f650b5a02fbca4c821b6c9b" title="Get the UTC offset in seconds for a given time_t value." alt="" coords="224,29,366,70"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="396,64,366,62,366,57,401,64"/>
+<area shape="rect" id="Node000003" href="$namespace_a_q_n_w_b.html#ac436d136125307ef8158115a2296b3e9" title="Get the current time in ISO 8601 format with the UTC offset." alt="" coords="5,66,176,92"/>
+<area shape="poly" id="edge5_Node000001_Node000003" title=" " alt="" coords="395,81,366,84,224,84,176,84,176,78,224,79,366,79,401,81"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="326,14,316,10,295,8,275,10,264,15,259,20,261,30,256,27,254,19,260,10,274,5,295,3,317,5,332,14"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="206,62,177,69,176,64,211,62"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="124,51,114,47,90,45,69,47,57,52,55,57,61,66,56,66,50,58,54,48,68,42,91,40,116,42,130,51"/>
 </map>

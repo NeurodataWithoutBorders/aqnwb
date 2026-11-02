@@ -1,7 +1,8 @@
 <map id="AQNWB::NWB::RegisteredType::readField" name="AQNWB::NWB::RegisteredType::readField">
-<area shape="rect" id="Node000001" title="Support reading of arbitrary fields by their relative path." alt="" coords="5,35,217,75"/>
+<area shape="rect" id="Node000001" title="Support reading of arbitrary fields by their relative path." alt="" coords="5,47,217,87"/>
 <area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab614b1609f536e88ed1f32762dc3894b" title="Get a shared pointer to the IO object." alt="" coords="265,5,476,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="217,40,252,39,246,40,218,46"/>
-<area shape="rect" id="Node000003" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="295,70,446,96"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="217,64,282,73,277,73,217,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="217,48,252,44,247,46,218,53"/>
+<area shape="rect" id="Node000003" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="295,94,446,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="217,81,282,93,277,93,217,86"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="327,93,319,86,324,76,342,70,370,68,403,70,420,80,415,79,401,75,370,73,343,75,328,80,325,85,332,95"/>
 </map>

@@ -1,5 +1,13 @@
 <map id="AQNWB::IO::HDF5::HDF5RecordingData::operator=" name="AQNWB::IO::HDF5::HDF5RecordingData::operator=">
-<area shape="rect" id="Node000001" title="Deleted copy assignment operator to prevent copying." alt="" coords="5,5,245,46"/>
+<area shape="rect" id="Node000001" title="Deleted copy assignment operator to prevent copying." alt="" coords="5,39,245,79"/>
 <area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#ad822c9112b15211f743fc540139a4dd4" title="Constructs an HDF5RecordingData object." alt="" coords="293,5,532,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="245,23,280,26,274,26,245,28"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="244,43,280,41,274,42,246,48"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a98aad315b2d3f0a59642fe705c8a795a" title="Writes a block of data to the HDF5 dataset." alt="" coords="293,71,532,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="245,70,280,76,274,76,245,75"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#adad97dc270883ff2e21a01fc68d58bef" title="Returns the HDF5 native data type for a given base data type." alt="" coords="602,37,797,78"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="532,74,590,70,584,71,533,80"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#afdf1dd4cbbd04b27a021f535020e1033" title="Allocate space and validate parameters." alt="" coords="580,103,819,143"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="532,102,567,108,562,108,532,107"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html#a01de766ba141485cbf422e5632d8cdba" title="Get the number of dimensions in the dataset." alt="" coords="867,103,1059,143"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="820,120,854,123,849,123,820,126"/>
 </map>
