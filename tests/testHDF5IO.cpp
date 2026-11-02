@@ -1357,7 +1357,69 @@ TEST_CASE("getH5Type", "[hdf5io]")
     hsize_t size = 5;
     H5::ArrayType expectedArrayType(H5::PredType::STD_I32LE, 1, &size);
     REQUIRE(h5TypeArray.getSize() == expectedArrayType.getSize());
+    REQUIRE(h5TypeArray.getClass() == H5T_ARRAY);
+
+    // all numeric types, including float32, are stored as arrays of typeSize
+    // values
+    for (const auto& type : {IO::BaseDataType::T_I16,
+                             IO::BaseDataType::T_F32,
+                             IO::BaseDataType::T_F64})
+    {
+      H5::DataType h5Type =
+          IO::HDF5::HDF5IO::getH5Type(IO::BaseDataType(type, 3));
+      REQUIRE(h5Type.getClass() == H5T_ARRAY);
+      REQUIRE(h5Type.getSize()
+              == 3
+                  * IO::HDF5::HDF5IO::getH5Type(IO::BaseDataType(type, 1))
+                        .getSize());
+    }
   }
+}
+
+TEST_CASE("getBaseDataType of array types", "[hdf5io]")
+{
+  // the typeSize is the number of values per element
+  hsize_t size = 5;
+  REQUIRE(IO::HDF5::HDF5IO::getBaseDataType(
+              H5::ArrayType(H5::PredType::NATIVE_INT32, 1, &size))
+          == IO::BaseDataType(IO::BaseDataType::T_I32, 5));
+  size = 3;
+  REQUIRE(IO::HDF5::HDF5IO::getBaseDataType(
+              H5::ArrayType(H5::PredType::NATIVE_FLOAT, 1, &size))
+          == IO::BaseDataType(IO::BaseDataType::T_F32, 3));
+  hsize_t dims[2] = {2, 3};
+  REQUIRE(IO::HDF5::HDF5IO::getBaseDataType(
+              H5::ArrayType(H5::PredType::NATIVE_DOUBLE, 2, dims))
+          == IO::BaseDataType(IO::BaseDataType::T_F64, 6));
+}
+
+TEST_CASE("HDF5IO; array-valued float32 dataset", "[hdf5io]")
+{
+  const std::string filename = getTestFilePath("testArrayValuedFloat32.h5");
+  const IO::BaseDataType type(IO::BaseDataType::T_F32, 3);
+  const std::vector<float> values = {
+      0.5f, 1.5f, 2.5f, 3.5f, 4.5f, 5.5f, 6.5f, 7.5f, 8.5f, 9.5f, 10.5f, 11.5f};
+  {
+    IO::HDF5::HDF5IO hdf5io(filename);
+    REQUIRE(hdf5io.open() == Status::Success);
+    auto dataset = hdf5io.createArrayDataSet(
+        IO::ArrayDataSetConfig(type, SizeArray {4}, SizeArray {4}), "/data");
+    REQUIRE(dataset != nullptr);
+    REQUIRE(dataset->writeDataBlock({4}, {0}, type, values.data())
+            == Status::Success);
+    REQUIRE(hdf5io.getStorageObjectDataType("/data") == type);
+    hdf5io.close();
+  }
+
+  // the file stores 4 elements of 3 float32 values each
+  H5::H5File file(filename, H5F_ACC_RDONLY);
+  H5::DataSet dataset = file.openDataSet("/data");
+  REQUIRE(dataset.getDataType().getClass() == H5T_ARRAY);
+  hsize_t size = 3;
+  std::vector<float> read(values.size());
+  dataset.read(read.data(),
+               H5::ArrayType(H5::PredType::NATIVE_FLOAT, 1, &size));
+  REQUIRE(read == values);
 }
 
 TEST_CASE("objectExists", "[hdf5io]")
