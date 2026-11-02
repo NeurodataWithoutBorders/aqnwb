@@ -126,13 +126,11 @@ Status NWBFile::initialize(
   return initStatus;
 }
 
-namespace
+Status NWBFile::overwriteTimeDataSet(const std::string& path,
+                                     const std::string& time,
+                                     const std::string& caller)
 {
-Status overwriteTime(const std::shared_ptr<AQNWB::IO::BaseIO>& ioPtr,
-                     const std::string& path,
-                     const std::string& time,
-                     const std::string& caller)
-{
+  auto ioPtr = getIO();
   if (!ioPtr) {
     std::cerr << caller << " IO object has been deleted." << std::endl;
     return Status::Failure;
@@ -157,23 +155,19 @@ Status overwriteTime(const std::shared_ptr<AQNWB::IO::BaseIO>& ioPtr,
     return Status::Failure;
   }
 }
-}  // namespace
 
 Status NWBFile::setSessionStartTime(const std::string& sessionStartTime)
 {
-  return overwriteTime(getIO(),
-                       "/session_start_time",
-                       sessionStartTime,
-                       "NWBFile::setSessionStartTime");
+  return overwriteTimeDataSet(
+      "/session_start_time", sessionStartTime, "NWBFile::setSessionStartTime");
 }
 
 Status NWBFile::setTimestampsReferenceTime(
     const std::string& timestampsReferenceTime)
 {
-  return overwriteTime(getIO(),
-                       "/timestamps_reference_time",
-                       timestampsReferenceTime,
-                       "NWBFile::setTimestampsReferenceTime");
+  return overwriteTimeDataSet("/timestamps_reference_time",
+                              timestampsReferenceTime,
+                              "NWBFile::setTimestampsReferenceTime");
 }
 
 bool NWBFile::isInitialized() const
