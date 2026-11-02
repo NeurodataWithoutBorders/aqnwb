@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Fixed `NWBFile::createSpikeEventSeries` always returning `Status::Success`, even if `SpikeEventSeries::initialize` failed. (@claude, @oruebel, [#341](https://github.com/NeurodataWithoutBorders/aqnwb/pull/341))
 * Fixed `HDF5IO::getH5Type` storing float32 types with `typeSize > 1` as scalars instead of arrays, and `HDF5IO::getBaseDataType` returning the number of array dimensions instead of the array length as `typeSize`. (@claude, @oruebel, [#344](https://github.com/NeurodataWithoutBorders/aqnwb/pull/344))
 * Fixed `EventsTable` and `TimeIntervals` rejecting float64 time columns, which the schema allows (the default columns remain float32), and added a `DynamicTable::checkRequiredColumnSpec` overload for a list of allowed data types. (@claude, @oruebel, [#345](https://github.com/NeurodataWithoutBorders/aqnwb/pull/345))
+* Fixed the coverage workflow failing with lcov 2.4 (Ubuntu 26.04) on inconsistent coverage records of the C++ standard library headers. (@claude, @oruebel, [#353](https://github.com/NeurodataWithoutBorders/aqnwb/pull/353))
 
 ## [0.4.0] - 2026-09-03
 
