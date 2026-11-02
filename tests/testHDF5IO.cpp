@@ -2,6 +2,7 @@
 #include <filesystem>
 #include <future>
 #include <iostream>
+#include <limits>
 #include <memory>
 #include <thread>
 #include <vector>
@@ -2570,6 +2571,15 @@ TEST_CASE("HDF5IO; chunk cache", "[hdf5io]")
     IO::HDF5::HDF5IO io(getTestFilePath("testChunkCacheInvalid.h5"));
     REQUIRE(io.open(IO::FileMode::Overwrite,
                     IO::HDF5::ChunkCacheConfig {cacheBytes, 0, 1.5})
+            == Status::Failure);
+    REQUIRE(io.isOpen() == false);
+    REQUIRE(io.open(IO::FileMode::Overwrite,
+                    IO::HDF5::ChunkCacheConfig {cacheBytes, 0, -0.5})
+            == Status::Failure);
+    REQUIRE(io.isOpen() == false);
+    REQUIRE(io.open(IO::FileMode::Overwrite,
+                    IO::HDF5::ChunkCacheConfig {
+                        cacheBytes, 0, std::numeric_limits<double>::quiet_NaN()})
             == Status::Failure);
     REQUIRE(io.isOpen() == false);
   }

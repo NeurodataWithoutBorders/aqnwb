@@ -61,10 +61,23 @@ FileAccPropList createFileAccessPropertyList(const ChunkCacheConfig& chunkCache)
   return fapl;
 }
 
+/**
+ * The value of a fixed-length string element: HDF5 pads shorter values with
+ * NUL characters (or terminates them with one), so the value ends at the
+ * first NUL, e.g., after a shorter value was written to an existing dataset
+ */
+std::string fixedLengthString(const char* data, size_t size)
+{
+  const char* end = std::find(data, data + size, '\0');
+  return std::string(data, static_cast<size_t>(end - data));
+}
+
 /** Check the chunk cache configuration, printing an error if it is invalid */
 bool isValidChunkCacheConfig(const ChunkCacheConfig& chunkCache)
 {
-  if (chunkCache.preemptionPolicy < 0.0 || chunkCache.preemptionPolicy > 1.0) {
+  // written as a check for membership in [0, 1], so that NaN is rejected too
+  if (!(chunkCache.preemptionPolicy >= 0.0
+        && chunkCache.preemptionPolicy <= 1.0)) {
     std::cerr << "HDF5IO: ChunkCacheConfig::preemptionPolicy must be in [0, 1]"
               << std::endl;
     return false;
@@ -545,7 +558,7 @@ std::vector<std::string> HDF5IO::readStringDataHelper(
         std::vector<char> buffer(numElements * strSize);
         dataset->read(buffer.data(), strType, memspace, dataspace);
         for (size_t i = 0; i < numElements; ++i) {
-          data[i] = std::string(buffer.data() + i * strSize, strSize);
+          data[i] = fixedLengthString(buffer.data() + i * strSize, strSize);
         }
       }
     }
@@ -583,7 +596,7 @@ std::vector<std::string> HDF5IO::readStringDataHelper(
         std::vector<char> buffer(numElements * strSize);
         attribute->read(strType, buffer.data());
         for (size_t i = 0; i < numElements; ++i) {
-          data[i] = std::string(buffer.data() + i * strSize, strSize);
+          data[i] = fixedLengthString(buffer.data() + i * strSize, strSize);
         }
       }
     } else {

@@ -37,25 +37,31 @@ namespace
 {
 /**
  * @brief Number of bytes of a single element of the given data type
+ *
+ * Integer and float64 types with a typeSize > 1 are stored as arrays of
+ * typeSize values per element (see HDF5IO::getH5Type), while float32 is
+ * always stored as a scalar.
  */
 SizeType getNumBytes(const AQNWB::IO::BaseDataType& dataType)
 {
   using AQNWB::IO::BaseDataType;
+  const SizeType arrayLength = std::max<SizeType>(1, dataType.typeSize);
   switch (dataType.type) {
     case BaseDataType::T_U8:
     case BaseDataType::T_I8:
-      return 1;
+      return arrayLength;
     case BaseDataType::T_U16:
     case BaseDataType::T_I16:
-      return 2;
+      return 2 * arrayLength;
     case BaseDataType::T_U32:
     case BaseDataType::T_I32:
+      return 4 * arrayLength;
     case BaseDataType::T_F32:
       return 4;
     case BaseDataType::T_U64:
     case BaseDataType::T_I64:
     case BaseDataType::T_F64:
-      return 8;
+      return 8 * arrayLength;
     case BaseDataType::T_STR:
       return dataType.typeSize;
     case BaseDataType::V_STR:
