@@ -1764,8 +1764,15 @@ AQNWB::IO::BaseDataType HDF5IO::getBaseDataType(const H5::DataType& nativeType)
     hid_t nativeTypeId = nativeType.getId();
     H5::ArrayType arrayType(nativeTypeId);
     H5::DataType baseType = arrayType.getSuper();
-    hsize_t size = static_cast<hsize_t>(arrayType.getArrayNDims());
-    return IO::BaseDataType(getBaseDataType(baseType).type, size);
+    // The typeSize is the number of values per element (the product of the
+    // array dimensions), not the number of array dimensions
+    const int numDims = arrayType.getArrayNDims();
+    std::vector<hsize_t> dims(static_cast<size_t>(std::max(numDims, 0)));
+    arrayType.getArrayDims(dims.data());
+    const hsize_t size = std::accumulate(
+        dims.begin(), dims.end(), hsize_t {1}, std::multiplies<hsize_t> {});
+    return IO::BaseDataType(getBaseDataType(baseType).type,
+                            static_cast<SizeType>(size));
   } else {
     // Default case: return a 32-bit integer type
     return IO::BaseDataType(IO::BaseDataType::Type::T_I32);
@@ -1802,7 +1809,7 @@ H5::DataType HDF5IO::getH5Type(IO::BaseDataType type)
       baseType = PredType::STD_U64LE;
       break;
     case BaseDataType::Type::T_F32:
-      return PredType::IEEE_F32LE;
+      baseType = PredType::IEEE_F32LE;
       break;
     case BaseDataType::Type::T_F64:
       baseType = PredType::IEEE_F64LE;
