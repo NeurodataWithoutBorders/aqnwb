@@ -36,16 +36,8 @@ HDF5IO::HDF5IO(const std::string& fileName)
 {
 }
 
-namespace
-{
-/**
- * @brief Create a new file access property list for opening a file.
- *
- * Copies of FileAccPropList::DEFAULT share the same HDF5 property list, so
- * modifying such a copy would change the defaults for all files opened
- * afterwards (e.g., the virtual file driver set by openS3/openRemote).
- */
-FileAccPropList createFileAccessPropertyList(const ChunkCacheConfig& chunkCache)
+FileAccPropList HDF5IO::createFileAccessPropertyList(
+    const ChunkCacheConfig& chunkCache)
 {
   FileAccPropList fapl;  // new property list (do not modify the shared DEFAULT)
   H5Pset_libver_bounds(fapl.getId(), H5F_LIBVER_LATEST, H5F_LIBVER_LATEST);
@@ -61,19 +53,7 @@ FileAccPropList createFileAccessPropertyList(const ChunkCacheConfig& chunkCache)
   return fapl;
 }
 
-/**
- * The value of a fixed-length string element: HDF5 pads shorter values with
- * NUL characters (or terminates them with one), so the value ends at the
- * first NUL, e.g., after a shorter value was written to an existing dataset
- */
-std::string fixedLengthString(const char* data, size_t size)
-{
-  const char* end = std::find(data, data + size, '\0');
-  return std::string(data, static_cast<size_t>(end - data));
-}
-
-/** Check the chunk cache configuration, printing an error if it is invalid */
-bool isValidChunkCacheConfig(const ChunkCacheConfig& chunkCache)
+bool HDF5IO::isValidChunkCacheConfig(const ChunkCacheConfig& chunkCache)
 {
   // written as a check for membership in [0, 1], so that NaN is rejected too
   if (!(chunkCache.preemptionPolicy >= 0.0
@@ -85,7 +65,12 @@ bool isValidChunkCacheConfig(const ChunkCacheConfig& chunkCache)
   }
   return true;
 }
-}  // namespace
+
+std::string HDF5IO::fixedLengthString(const char* data, size_t size)
+{
+  const char* end = std::find(data, data + size, '\0');
+  return std::string(data, static_cast<size_t>(end - data));
+}
 
 SizeType HDF5IO::getChunkCacheNumBytes() const
 {

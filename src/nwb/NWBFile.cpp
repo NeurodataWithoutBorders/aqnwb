@@ -33,42 +33,6 @@ constexpr SizeType SPIKE_CHUNK_TARGET_BYTES =
     32768;  // target size of a chunk of spike waveforms in bytes. TODO -
             // replace with io settings input
 
-namespace
-{
-/**
- * @brief Number of bytes of a single element of the given data type
- *
- * Numeric types with a typeSize > 1 are stored as arrays of typeSize values
- * per element (see HDF5IO::getH5Type).
- */
-SizeType getNumBytes(const AQNWB::IO::BaseDataType& dataType)
-{
-  using AQNWB::IO::BaseDataType;
-  const SizeType arrayLength = std::max<SizeType>(1, dataType.typeSize);
-  switch (dataType.type) {
-    case BaseDataType::T_U8:
-    case BaseDataType::T_I8:
-      return arrayLength;
-    case BaseDataType::T_U16:
-    case BaseDataType::T_I16:
-      return 2 * arrayLength;
-    case BaseDataType::T_U32:
-    case BaseDataType::T_I32:
-    case BaseDataType::T_F32:
-      return 4 * arrayLength;
-    case BaseDataType::T_U64:
-    case BaseDataType::T_I64:
-    case BaseDataType::T_F64:
-      return 8 * arrayLength;
-    case BaseDataType::T_STR:
-      return dataType.typeSize;
-    case BaseDataType::V_STR:
-    default:
-      return sizeof(void*);
-  }
-}
-}  // namespace
-
 // Initialize the static registered_ member to trigger registration
 REGISTER_SUBCLASS_IMPL(NWBFile)
 
@@ -315,13 +279,11 @@ Status NWBFile::createOptionalTextDataSet(
                : Status::Failure;
 }
 
-namespace
+Status NWBFile::overwriteTimeDataSet(const std::string& path,
+                                     const std::string& time,
+                                     const std::string& caller)
 {
-Status overwriteTime(const std::shared_ptr<AQNWB::IO::BaseIO>& ioPtr,
-                     const std::string& path,
-                     const std::string& time,
-                     const std::string& caller)
-{
+  auto ioPtr = getIO();
   if (!ioPtr) {
     std::cerr << caller << " IO object has been deleted." << std::endl;
     return Status::Failure;
@@ -346,23 +308,19 @@ Status overwriteTime(const std::shared_ptr<AQNWB::IO::BaseIO>& ioPtr,
     return Status::Failure;
   }
 }
-}  // namespace
 
 Status NWBFile::setSessionStartTime(const std::string& sessionStartTime)
 {
-  return overwriteTime(getIO(),
-                       "/session_start_time",
-                       sessionStartTime,
-                       "NWBFile::setSessionStartTime");
+  return overwriteTimeDataSet(
+      "/session_start_time", sessionStartTime, "NWBFile::setSessionStartTime");
 }
 
 Status NWBFile::setTimestampsReferenceTime(
     const std::string& timestampsReferenceTime)
 {
-  return overwriteTime(getIO(),
-                       "/timestamps_reference_time",
-                       timestampsReferenceTime,
-                       "NWBFile::setTimestampsReferenceTime");
+  return overwriteTimeDataSet("/timestamps_reference_time",
+                              timestampsReferenceTime,
+                              "NWBFile::setTimestampsReferenceTime");
 }
 
 bool NWBFile::isInitialized() const
@@ -997,5 +955,32 @@ void NWBFile::cacheSpecifications(const Types::NamespaceInfo& namespaceInfo)
     ioPtr->createStringDataSet(
         AQNWB::mergePaths(specFullVersionPath, std::string(name)),
         std::string(content));
+  }
+}
+
+SizeType NWBFile::getNumBytes(const IO::BaseDataType& dataType)
+{
+  using AQNWB::IO::BaseDataType;
+  const SizeType arrayLength = std::max<SizeType>(1, dataType.typeSize);
+  switch (dataType.type) {
+    case BaseDataType::T_U8:
+    case BaseDataType::T_I8:
+      return arrayLength;
+    case BaseDataType::T_U16:
+    case BaseDataType::T_I16:
+      return 2 * arrayLength;
+    case BaseDataType::T_U32:
+    case BaseDataType::T_I32:
+    case BaseDataType::T_F32:
+      return 4 * arrayLength;
+    case BaseDataType::T_U64:
+    case BaseDataType::T_I64:
+    case BaseDataType::T_F64:
+      return 8 * arrayLength;
+    case BaseDataType::T_STR:
+      return dataType.typeSize;
+    case BaseDataType::V_STR:
+    default:
+      return sizeof(void*);
   }
 }

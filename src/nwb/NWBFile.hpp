@@ -945,6 +945,32 @@ private:
       const std::optional<std::vector<std::string>>& values);
 
   /**
+   * @brief Number of bytes of a single element of the given data type.
+   *
+   * Numeric types with a typeSize > 1 are stored as arrays of typeSize values
+   * per element (see HDF5IO::getH5Type).
+   * @param dataType The data type.
+   * @return The number of bytes per element.
+   */
+  static SizeType getNumBytes(const IO::BaseDataType& dataType);
+
+  /**
+   * @brief Overwrites the value of an existing scalar time dataset (e.g.,
+   * `/session_start_time`).
+   *
+   * This does not change the structure of the file, so it is also possible
+   * in SWMR mode.
+   * @param path The path of the dataset.
+   * @param time The new time in ISO 8601 format.
+   * @param caller The name of the calling function for error messages.
+   * @return Status::Failure if the time is not in ISO 8601 format or the
+   * dataset could not be written, Status::Success otherwise.
+   */
+  Status overwriteTimeDataSet(const std::string& path,
+                              const std::string& time,
+                              const std::string& caller);
+
+  /**
    * @brief The ElectrodesTable for the file
    */
   std::unique_ptr<ElectrodesTable> m_electrodeTable;
