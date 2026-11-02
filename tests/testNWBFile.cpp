@@ -1026,7 +1026,7 @@ TEST_CASE("createSpikeEventSeries fails for out-of-range channels", "[nwb]")
       {Channel("ch5", "array0", 0, 0, 5)}, {Channel("ch0", "array0", 0, 0, 0)}};
   std::vector<SizeType> containerIndices = {};
   Status status = nwbfile->createSpikeEventSeries(
-      arrays, {"invalid", "valid"}, BaseDataType::I16, containerIndices);
+      arrays, {"invalid", "valid"}, BaseDataType::I16, containerIndices, 5);
   REQUIRE(status == Status::Failure);
   REQUIRE(containerIndices.size() == 2);
   REQUIRE(io->objectExists("/acquisition/valid"));
