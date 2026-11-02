@@ -16,6 +16,8 @@
 #include "nwb/base/NWBContainer.hpp"
 #include "nwb/base/ProcessingModule.hpp"
 #include "nwb/base/TimeSeries.hpp"
+#include "nwb/device/Device.hpp"
+#include "nwb/device/DeviceModel.hpp"
 #include "nwb/epoch/TimeIntervals.hpp"
 #include "nwb/event/EventsTable.hpp"
 #include "nwb/file/ElectrodesTable.hpp"
@@ -435,10 +437,49 @@ public:
   bool isInitialized() const;
 
   /**
+   * @brief Create a DeviceModel in `/general/devices/models`.
+   *
+   * Devices link to their model via Device::DeviceSpec::withModel.
+   * @param name The name of the model, i.e., the most common representation of
+   * the model name, e.g., "Neuropixels 1.0".
+   * @param spec The attributes of the model (the manufacturer is required).
+   * @return The DeviceModel, or nullptr if it could not be created (e.g., if a
+   * model with this name exists already or objects cannot be added to the
+   * file).
+   */
+  std::shared_ptr<DeviceModel> createDeviceModel(
+      const std::string& name, const DeviceModel::DeviceModelSpec& spec);
+
+  /**
+   * @brief Create a Device in `/general/devices`.
+   *
+   * To use the device for the electrodes of an electrode group, give it the
+   * name of the electrode group (Channel::getGroupName) and create it before
+   * createElectrodesTable. To use one device for several electrode groups,
+   * create the ElectrodeGroups linking to the device before
+   * createElectrodesTable.
+   * @param name The name of the device.
+   * @param spec The attributes of the device and its model (all optional).
+   * @return The Device, or nullptr if it could not be created (e.g., if a
+   * device with this name exists already or objects cannot be added to the
+   * file).
+   */
+  std::shared_ptr<Device> createDevice(const std::string& name,
+                                       const Device::DeviceSpec& spec);
+
+  /**
    * @brief Create ElectrodesTable.
    * Note, this function will fail if the file is in a mode where
    * new objects cannot be added, which can be checked via
    * nwbfile.io->canModifyObjects()
+   *
+   * For each electrode group (Channel::getGroupName) that does not exist yet
+   * in `/general/extracellular_ephys`, an ElectrodeGroup is created that links
+   * to the Device of the same name in `/general/devices`, which is created
+   * (without metadata) if it does not exist. To provide metadata for the
+   * devices, create them with createDevice before calling this function; to
+   * use one device for several electrode groups, create the ElectrodeGroups
+   * before calling this function.
    * @param recordingArrays vector of ChannelVector indicating the electrodes to
    *                        add to the table. This vector should contain all the
    *                        electrodes that are detected by the acquisition
@@ -631,6 +672,8 @@ public:
   /**
    * @brief Create SpikeEventSeries objects to record data into.
    * Created objects are automatically added to the I/O's RecordingObjects.
+   * Missing electrode groups and devices are created as in
+   * createElectrodesTable.
    * @param recordingArrays vector of ChannelVector indicating the electrodes to
    *                        record from. A separate ElectricalSeries will be
    *                        created for each ChannelVector.
@@ -909,6 +952,19 @@ private:
    * invalid, Status::Success otherwise.
    */
   Status createGeneralMetadata(const GeneralMetadataSpec& spec);
+
+  /**
+   * @brief Creates the ElectrodeGroup of an electrode group if it does not
+   * exist yet.
+   *
+   * The ElectrodeGroup is created in `/general/extracellular_ephys` and links
+   * to the Device of the same name in `/general/devices`, which is created
+   * without metadata if it does not exist (see createDevice).
+   * @param groupName The name of the electrode group (Channel::getGroupName).
+   * @return Status::Success if the ElectrodeGroup exists or was created,
+   * Status::Failure otherwise.
+   */
+  Status requireElectrodeGroup(const std::string& groupName);
 
   /**
    * @brief Checks whether an optional dataset can be created at the path.

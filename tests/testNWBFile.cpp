@@ -14,6 +14,7 @@
 #include "nwb/NWBFile.hpp"
 #include "nwb/base/TimeSeries.hpp"
 #include "nwb/ecephys/SpikeEventSeries.hpp"
+#include "nwb/file/ElectrodeGroup.hpp"
 #include "nwb/file/Subject.hpp"
 #include "nwb/hdmf/table/DynamicTable.hpp"
 #include "nwb/misc/AnnotationSeries.hpp"
@@ -645,6 +646,95 @@ TEST_CASE("createElectrodesTable", "[nwb]")
       "/general/extracellular_ephys/electrodes/id");
   REQUIRE(chunking.size() == 1);
   REQUIRE(chunking[0] == 50);
+}
+
+TEST_CASE("createDeviceModel and createDevice", "[nwb]")
+{
+  std::string filename = getTestFilePath("createDevice.nwb");
+  std::shared_ptr<IO::HDF5::HDF5IO> io =
+      std::make_shared<IO::HDF5::HDF5IO>(filename);
+  io->open();
+  auto nwbfile = NWB::NWBFile::create(io);
+  nwbfile->initialize(generateUuid(),
+                      "Test devices",
+                      "Test data collection",
+                      getCurrentTime(),
+                      getCurrentTime(),
+                      getTestSubjectSpec());
+
+  auto model = nwbfile->createDeviceModel(
+      "Neuropixels 1.0",
+      NWB::DeviceModel::DeviceModelSpec("Imec").withModelNumber(
+          "PRB_1_4_0480_1"));
+  REQUIRE(model != nullptr);
+  REQUIRE(model->getPath() == "/general/devices/models/Neuropixels 1.0");
+  auto device = nwbfile->createDevice(
+      "probe",
+      NWB::Device::DeviceSpec().withDescription("Probe A").withModel(model));
+  REQUIRE(device != nullptr);
+  REQUIRE(device->getPath() == "/general/devices/probe");
+  REQUIRE(device->readModel()->readManufacturer()->values().data[0] == "Imec");
+
+  // existing objects and the reserved name are rejected
+  REQUIRE(nwbfile->createDeviceModel("Neuropixels 1.0",
+                                     NWB::DeviceModel::DeviceModelSpec("Imec"))
+          == nullptr);
+  REQUIRE(nwbfile->createDevice("probe", NWB::Device::DeviceSpec()) == nullptr);
+  REQUIRE(nwbfile->createDevice("models", NWB::Device::DeviceSpec())
+          == nullptr);
+  io->close();
+}
+
+TEST_CASE("createElectrodesTable devices and electrode groups", "[nwb]")
+{
+  std::string filename = getTestFilePath("createElectrodesTableDevices.nwb");
+  std::shared_ptr<IO::HDF5::HDF5IO> io =
+      std::make_shared<IO::HDF5::HDF5IO>(filename);
+  io->open();
+  auto nwbfile = NWB::NWBFile::create(io);
+  nwbfile->initialize(generateUuid(),
+                      "Test electrodes table devices",
+                      "Test data collection",
+                      getCurrentTime(),
+                      getCurrentTime(),
+                      getTestSubjectSpec());
+
+  // array0: pre-created device of the same name
+  REQUIRE(nwbfile->createDevice(
+              "array0", NWB::Device::DeviceSpec().withDescription("Probe 0"))
+          != nullptr);
+  // array1 and array2: pre-created electrode groups sharing one device
+  auto sharedDevice = nwbfile->createDevice(
+      "shank_probe", NWB::Device::DeviceSpec().withDescription("Shank probe"));
+  REQUIRE(sharedDevice != nullptr);
+  for (const std::string name : {"array1", "array2"}) {
+    auto group =
+        NWB::ElectrodeGroup::create("/general/extracellular_ephys/" + name, io);
+    REQUIRE(group->initialize("shank", "CA1", sharedDevice) == Status::Success);
+  }
+  // array3: neither exists, so a device without metadata is created
+
+  std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(1, 4);
+  REQUIRE(nwbfile->createElectrodesTable(mockArrays) != nullptr);
+  io->flush();
+
+  auto readString = [&io](const std::string& path)
+  {
+    return IO::DataBlock<std::string>::fromGeneric(io->readAttribute(path))
+        .data[0];
+  };
+  const std::string groups = "/general/extracellular_ephys/";
+  REQUIRE(readString(groups + "array0/device/description") == "Probe 0");
+  for (const std::string name : {"array1", "array2"}) {
+    REQUIRE(readString(groups + name + "/device/description") == "Shank probe");
+    REQUIRE(readString(groups + name + "/location") == "CA1");
+    REQUIRE_FALSE(io->objectExists("/general/devices/" + name));
+  }
+  REQUIRE(io->objectExists("/general/devices/array3"));
+  REQUIRE(io->objectExists(groups + "array3/device"));
+  REQUIRE_FALSE(io->attributeExists("/general/devices/array3/manufacturer"));
+  REQUIRE_FALSE(io->attributeExists("/general/devices/array3/description"));
+  io->close();
 }
 
 TEST_CASE("createElectricalSeriesWithSubsetOfElectrodes", "[nwb]")

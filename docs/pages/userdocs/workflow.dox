@@ -67,6 +67,20 @@
  * critical for mapping information about which \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries"
  * were recorded from which electrodes.
  *
+ * Optionally, first describe the devices used for recording. Each electrode group
+ * (i.e., the group name of the channels) links to the \ref AQNWB::NWB::Device "Device" of the
+ * same name in ``/general/devices``. Devices that do not exist yet are created without metadata
+ * by \ref AQNWB::NWB::NWBFile::createElectrodesTable "createElectrodesTable". The
+ * manufacturer and model number are stored in a \ref AQNWB::NWB::DeviceModel "DeviceModel"
+ * (NWB 2.11 deprecated the corresponding attributes of the Device), which several devices can share.
+ * To link several electrode groups to the same device, create the
+ * \ref AQNWB::NWB::ElectrodeGroup "ElectrodeGroup" objects in ``/general/extracellular_ephys``
+ * before creating the electrodes table.
+ *
+ * \snippet tests/examples/testWorkflowExamples.cpp example_workflow_devices_snippet
+ *
+ * Then create the electrodes table:
+ *
  * \snippet tests/examples/testWorkflowExamples.cpp example_workflow_electrodes_table_snippet
  * 
  *
