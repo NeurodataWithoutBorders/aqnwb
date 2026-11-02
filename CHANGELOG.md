@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Fixed `EventsTable` and `TimeIntervals` rejecting float64 time columns, which the schema allows (the default columns remain float32), and added a `DynamicTable::checkRequiredColumnSpec` overload for a list of allowed data types. (@claude, @oruebel, [#345](https://github.com/NeurodataWithoutBorders/aqnwb/pull/345))
 * Fixed `HDF5IO::open`, `HDF5IO::openS3`, and `HDF5IO::openRemote` modifying the shared default file access property list, which applied their settings (e.g., the virtual file driver) to files opened later. (@claude, @oruebel, [#346](https://github.com/NeurodataWithoutBorders/aqnwb/pull/346))
 * Fixed `HDF5IO::createStringDataSet` with a vector of strings writing only the first string. (@claude, @oruebel, [#347](https://github.com/NeurodataWithoutBorders/aqnwb/pull/347))
+* Fixed the coverage workflow failing with lcov 2.4 (Ubuntu 26.04) on inconsistent coverage records of the C++ standard library headers. (@claude, @oruebel, [#353](https://github.com/NeurodataWithoutBorders/aqnwb/pull/353))
 
 ## [0.4.0] - 2026-09-03
 
