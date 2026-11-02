@@ -8,7 +8,7 @@ include(cmake/prelude.cmake)
 
 project(
     aqnwb
-    VERSION 0.4.0
+    VERSION 0.5.0
     DESCRIPTION "An API to acquire neurophysiology data in the NWB format"
     LANGUAGES CXX
 )

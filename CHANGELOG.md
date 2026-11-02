@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-## [Unreleased]
+## [0.5.0] - 2026-11-02
 
 ### Added
 * Added optional `useChannelConversion` parameter to `NWBFile::createSpikeEventSeries`, `ElectricalSeries::initialize`, and `SpikeEventSeries::initialize` to store the conversion factor in `data.conversion` instead of the `channel_conversion` dataset (e.g., for PyNWB, which does not read `channel_conversion` for `SpikeEventSeries`). (@claude, @oruebel, [#341](https://github.com/NeurodataWithoutBorders/aqnwb/pull/341))
