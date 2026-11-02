@@ -77,7 +77,8 @@ bool isValidChunkCacheConfig(const ChunkCacheConfig& chunkCache)
 {
   // written as a check for membership in [0, 1], so that NaN is rejected too
   if (!(chunkCache.preemptionPolicy >= 0.0
-        && chunkCache.preemptionPolicy <= 1.0)) {
+        && chunkCache.preemptionPolicy <= 1.0))
+  {
     std::cerr << "HDF5IO: ChunkCacheConfig::preemptionPolicy must be in [0, 1]"
               << std::endl;
     return false;
