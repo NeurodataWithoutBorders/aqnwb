@@ -495,6 +495,16 @@ private:
   void cacheSpecifications(const Types::NamespaceInfo& namespaceInfo);
 
   /**
+   * @brief Number of bytes of a single element of the given data type.
+   *
+   * Numeric types with a typeSize > 1 are stored as arrays of typeSize values
+   * per element (see HDF5IO::getH5Type).
+   * @param dataType The data type.
+   * @return The number of bytes per element.
+   */
+  static SizeType getNumBytes(const IO::BaseDataType& dataType);
+
+  /**
    * @brief The ElectrodesTable for the file
    */
   std::unique_ptr<ElectrodesTable> m_electrodeTable;
