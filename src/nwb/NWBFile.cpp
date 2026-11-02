@@ -439,6 +439,11 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
   return datasetsStatus;
 }
 
+bool NWBFile::isValidObjectName(const std::string& name)
+{
+  return !name.empty() && name.find('/') == std::string::npos;
+}
+
 std::shared_ptr<DeviceModel> NWBFile::createDeviceModel(
     const std::string& name, const DeviceModel::DeviceModelSpec& spec)
 {
@@ -446,6 +451,11 @@ std::shared_ptr<DeviceModel> NWBFile::createDeviceModel(
   if (!ioPtr || !ioPtr->canModifyObjects()) {
     std::cerr << "NWBFile::createDeviceModel cannot add objects to the file."
               << std::endl;
+    return nullptr;
+  }
+  if (!isValidObjectName(name)) {
+    std::cerr << "NWBFile::createDeviceModel invalid name '" << name
+              << "': the name must not be empty or contain '/'." << std::endl;
     return nullptr;
   }
   const std::string modelsPath = "/general/devices/models";
@@ -478,6 +488,11 @@ std::shared_ptr<Device> NWBFile::createDevice(const std::string& name,
               << std::endl;
     return nullptr;
   }
+  if (!isValidObjectName(name)) {
+    std::cerr << "NWBFile::createDevice invalid name '" << name
+              << "': the name must not be empty or contain '/'." << std::endl;
+    return nullptr;
+  }
   if (name == "models") {
     std::cerr << "NWBFile::createDevice the name 'models' is reserved for "
                  "the DeviceModel group."
@@ -508,15 +523,32 @@ Status NWBFile::requireElectrodeGroup(const std::string& groupName)
   const std::string electrodePath =
       AQNWB::mergePaths("/general/extracellular_ephys", groupName);
   if (ioPtr->objectExists(electrodePath)) {
+    if (std::dynamic_pointer_cast<ElectrodeGroup>(
+            RegisteredType::create(electrodePath, ioPtr))
+        == nullptr)
+    {
+      std::cerr << "NWBFile::requireElectrodeGroup " << electrodePath
+                << " exists but is not an ElectrodeGroup." << std::endl;
+      return Status::Failure;
+    }
     return Status::Success;
   }
 
   // Use the device of the same name, or create one without metadata
   const std::string devicePath =
       AQNWB::mergePaths("/general/devices", groupName);
-  std::shared_ptr<Device> device = ioPtr->objectExists(devicePath)
-      ? Device::create(devicePath, ioPtr)
-      : createDevice(groupName, Device::DeviceSpec());
+  std::shared_ptr<Device> device = nullptr;
+  if (ioPtr->objectExists(devicePath)) {
+    device = std::dynamic_pointer_cast<Device>(
+        RegisteredType::create(devicePath, ioPtr));
+    if (!device) {
+      std::cerr << "NWBFile::requireElectrodeGroup " << devicePath
+                << " exists but is not a Device." << std::endl;
+      return Status::Failure;
+    }
+  } else {
+    device = createDevice(groupName, Device::DeviceSpec());
+  }
   if (!device) {
     return Status::Failure;
   }

@@ -22,6 +22,13 @@ Status Device::initialize(const DeviceSpec& spec)
     std::cerr << "Device::initialize IO object has been deleted." << std::endl;
     return Status::Failure;
   }
+  // The link is resolved by path in this file, so the model must be in it
+  if (spec.model != nullptr && spec.model->getIO() != ioPtr) {
+    std::cerr << "Device::initialize the model must belong to the same file "
+                 "as the device."
+              << std::endl;
+    return Status::Failure;
+  }
 
   Status status = NWBContainer::initialize();
   if (spec.description.has_value()) {

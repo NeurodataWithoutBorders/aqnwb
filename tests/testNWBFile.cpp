@@ -682,7 +682,55 @@ TEST_CASE("createDeviceModel and createDevice", "[nwb]")
   REQUIRE(nwbfile->createDevice("probe", NWB::Device::DeviceSpec()) == nullptr);
   REQUIRE(nwbfile->createDevice("models", NWB::Device::DeviceSpec())
           == nullptr);
+
+  // names that are empty or contain '/' are rejected
+  for (const std::string name : {"", "/models/", "probe/shank"}) {
+    REQUIRE(nwbfile->createDevice(name, NWB::Device::DeviceSpec()) == nullptr);
+    REQUIRE(
+        nwbfile->createDeviceModel(name, NWB::DeviceModel::DeviceModelSpec("A"))
+        == nullptr);
+  }
+  REQUIRE_FALSE(io->attributeExists("/general/devices/models/neurodata_type"));
+
+  // a model from a different file is rejected
+  std::shared_ptr<IO::HDF5::HDF5IO> otherIO =
+      std::make_shared<IO::HDF5::HDF5IO>(
+          getTestFilePath("createDeviceOtherFile.h5"));
+  otherIO->open();
+  auto otherModel = NWB::DeviceModel::create("/model", otherIO);
+  REQUIRE(otherModel->initialize(NWB::DeviceModel::DeviceModelSpec("Imec"))
+          == Status::Success);
+  REQUIRE(nwbfile->createDevice("other_probe",
+                                NWB::Device::DeviceSpec().withModel(otherModel))
+          == nullptr);
+  REQUIRE_FALSE(io->objectExists("/general/devices/other_probe/model"));
+  otherIO->close();
   io->close();
+}
+
+TEST_CASE("createElectrodesTable rejects objects of a different type", "[nwb]")
+{
+  // an untyped group (e.g., /general/devices/models) is neither a Device nor
+  // an ElectrodeGroup
+  for (const std::string path :
+       {"/general/devices/array0", "/general/extracellular_ephys/array0"})
+  {
+    std::string filename = getTestFilePath("createElectrodesTableWrongType.h5");
+    std::shared_ptr<IO::HDF5::HDF5IO> io =
+        std::make_shared<IO::HDF5::HDF5IO>(filename);
+    io->open();
+    auto nwbfile = NWB::NWBFile::create(io);
+    nwbfile->initialize(generateUuid(),
+                        "Test electrodes table with wrong types",
+                        "Test data collection",
+                        getCurrentTime(),
+                        getCurrentTime(),
+                        getTestSubjectSpec());
+    REQUIRE(io->createGroup(path) == Status::Success);
+    REQUIRE(nwbfile->createElectrodesTable(getMockChannelArrays(1, 1))
+            == nullptr);
+    io->close();
+  }
 }
 
 TEST_CASE("createElectrodesTable devices and electrode groups", "[nwb]")

@@ -441,7 +441,8 @@ public:
    *
    * Devices link to their model via Device::DeviceSpec::withModel.
    * @param name The name of the model, i.e., the most common representation of
-   * the model name, e.g., "Neuropixels 1.0".
+   * the model name, e.g., "Neuropixels 1.0". It must not be empty or contain
+   * '/'.
    * @param spec The attributes of the model (the manufacturer is required).
    * @return The DeviceModel, or nullptr if it could not be created (e.g., if a
    * model with this name exists already or objects cannot be added to the
@@ -458,8 +459,10 @@ public:
    * createElectrodesTable. To use one device for several electrode groups,
    * create the ElectrodeGroups linking to the device before
    * createElectrodesTable.
-   * @param name The name of the device.
-   * @param spec The attributes of the device and its model (all optional).
+   * @param name The name of the device. It must not be empty, contain '/', or
+   * be "models" (reserved for the DeviceModels).
+   * @param spec The attributes of the device and its model (all optional). The
+   * model must belong to this file.
    * @return The Device, or nullptr if it could not be created (e.g., if a
    * device with this name exists already or objects cannot be added to the
    * file).
@@ -962,9 +965,18 @@ private:
    * without metadata if it does not exist (see createDevice).
    * @param groupName The name of the electrode group (Channel::getGroupName).
    * @return Status::Success if the ElectrodeGroup exists or was created,
-   * Status::Failure otherwise.
+   * Status::Failure otherwise (e.g., if an existing object at the path of the
+   * ElectrodeGroup or Device has a different type).
    */
   Status requireElectrodeGroup(const std::string& groupName);
+
+  /**
+   * @brief Check that a name can be used as the name of a single object.
+   *
+   * @param name The name of the object.
+   * @return True if the name is not empty and does not contain '/'.
+   */
+  static bool isValidObjectName(const std::string& name);
 
   /**
    * @brief Checks whether an optional dataset can be created at the path.
