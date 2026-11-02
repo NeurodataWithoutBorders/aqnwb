@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+## [Unreleased]
+
+### Fixed
+* Fixed the coverage workflow failing with lcov 2.4 (Ubuntu 26.04) on inconsistent coverage records of the C++ standard library headers. (@claude, @oruebel, [#353](https://github.com/NeurodataWithoutBorders/aqnwb/pull/353))
+
 ## [0.4.0] - 2026-09-03
 
 ### Added
