@@ -109,6 +109,10 @@ TEST_CASE("setSessionStartTime and setTimestampsReferenceTime", "[nwb]")
       formatTime(std::chrono::system_clock::now() - std::chrono::seconds(2));
   REQUIRE(nwbfile->setTimestampsReferenceTime(time) == Status::Success);
   REQUIRE(nwbfile->setSessionStartTime(time) == Status::Success);
+  // valid and shorter than the value written by initialize
+  const std::string shorterTime = time.substr(0, 19) + "Z";
+  REQUIRE(isISO8601Date(shorterTime));
+  REQUIRE(nwbfile->setSessionStartTime(shorterTime) == Status::Success);
 
   // invalid times
   REQUIRE(nwbfile->setTimestampsReferenceTime("yesterday") == Status::Failure);
@@ -120,15 +124,19 @@ TEST_CASE("setSessionStartTime and setTimestampsReferenceTime", "[nwb]")
   REQUIRE(io->stopRecording() == Status::Success);
   io->close();
 
+  // the values read through the public getters are the values that were set,
+  // without the padding of the fixed-length strings
   auto readio = std::make_shared<IO::HDF5::HDF5IO>(filename);
   readio->open(IO::FileMode::ReadOnly);
-  for (const std::string path :
-       {"/session_start_time", "/timestamps_reference_time"})
-  {
-    auto data =
-        IO::DataBlock<std::string>::fromGeneric(readio->readDataset(path));
-    REQUIRE(std::string(data.data[0].c_str()) == time);
-  }
+  auto readFile = NWB::NWBFile::create(readio);
+  const std::string sessionStartTime =
+      readFile->readSessionStartTime()->values().data[0];
+  const std::string referenceTime =
+      readFile->readTimestampsReferenceTime()->values().data[0];
+  REQUIRE(sessionStartTime == shorterTime);
+  REQUIRE(isISO8601Date(sessionStartTime));
+  REQUIRE(referenceTime == time);
+  REQUIRE(isISO8601Date(referenceTime));
   readio->close();
 }
 
