@@ -911,6 +911,40 @@ private:
   Status createGeneralMetadata(const GeneralMetadataSpec& spec);
 
   /**
+   * @brief Checks whether an optional dataset can be created at the path.
+   *
+   * Optional datasets that already exist are not changed, e.g., if
+   * `initialize` is called for an existing file.
+   * @param path The path of the dataset.
+   * @return False (with a warning) if an object exists at the path, true
+   * otherwise.
+   */
+  bool isNewOptionalDataSet(const std::string& path) const;
+
+  /**
+   * @brief Creates an optional text dataset if a value is set and the dataset
+   * doesn't exist yet (see isNewOptionalDataSet).
+   * @param path The path of the dataset.
+   * @param value The value of the dataset; no dataset is created if not set.
+   * @return Status::Failure if the dataset could not be created,
+   * Status::Success otherwise (also if no dataset was created).
+   */
+  Status createOptionalTextDataSet(const std::string& path,
+                                   const std::optional<std::string>& value);
+
+  /**
+   * @brief Creates an optional 1D text dataset if values are set and the
+   * dataset doesn't exist yet (see isNewOptionalDataSet).
+   * @param path The path of the dataset.
+   * @param values The values of the dataset; no dataset is created if not set.
+   * @return Status::Failure if the dataset could not be created,
+   * Status::Success otherwise (also if no dataset was created).
+   */
+  Status createOptionalTextDataSet(
+      const std::string& path,
+      const std::optional<std::vector<std::string>>& values);
+
+  /**
    * @brief The ElectrodesTable for the file
    */
   std::unique_ptr<ElectrodesTable> m_electrodeTable;

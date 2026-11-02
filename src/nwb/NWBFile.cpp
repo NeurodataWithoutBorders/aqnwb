@@ -187,53 +187,47 @@ Status NWBFile::createGeneralMetadata(const GeneralMetadataSpec& spec)
     return Status::Failure;
   }
 
+  const auto generalPath = [](const std::string& name)
+  { return mergePaths(NWBFile::GENERAL_PATH, name); };
+
+  // Status && evaluates both operands, so all fields are written even if one
+  // of them fails
   Status status = Status::Success;
-  // Returns false (with a warning) if the dataset already exists
-  auto isNew = [&ioPtr](const std::string& path)
-  {
-    if (ioPtr->objectExists(path)) {
-      std::cerr << "NWBFile::createGeneralMetadata " << path
-                << " already exists in the file. Skipping." << std::endl;
-      return false;
-    }
-    return true;
-  };
-  auto writeText =
-      [&](const std::string& name, const std::optional<std::string>& value)
-  {
-    const std::string path = mergePaths(NWBFile::GENERAL_PATH, name);
-    if (value.has_value() && isNew(path)) {
-      status = status && ioPtr->createStringDataSet(path, value.value());
-    }
-  };
-  auto writeTextArray =
-      [&](const std::string& name,
-          const std::optional<std::vector<std::string>>& values)
-  {
-    const std::string path = mergePaths(NWBFile::GENERAL_PATH, name);
-    if (values.has_value() && isNew(path)) {
-      status = status && ioPtr->createStringDataSet(path, values.value());
-    }
-  };
+  status = status
+      && createOptionalTextDataSet(generalPath("experiment_description"),
+                                   spec.experimentDescription);
+  status = status
+      && createOptionalTextDataSet(generalPath("experimenter"),
+                                   spec.experimenter);
+  status = status
+      && createOptionalTextDataSet(generalPath("institution"),
+                                   spec.institution);
+  status = status
+      && createOptionalTextDataSet(generalPath("keywords"), spec.keywords);
+  status = status && createOptionalTextDataSet(generalPath("lab"), spec.lab);
+  status =
+      status && createOptionalTextDataSet(generalPath("notes"), spec.notes);
+  status = status
+      && createOptionalTextDataSet(generalPath("pharmacology"),
+                                   spec.pharmacology);
+  status = status
+      && createOptionalTextDataSet(generalPath("protocol"), spec.protocol);
+  status = status
+      && createOptionalTextDataSet(generalPath("related_publications"),
+                                   spec.relatedPublications);
+  status = status
+      && createOptionalTextDataSet(generalPath("session_id"), spec.sessionId);
+  status =
+      status && createOptionalTextDataSet(generalPath("slices"), spec.slices);
+  status = status
+      && createOptionalTextDataSet(generalPath("stimulus"), spec.stimulusNotes);
+  status =
+      status && createOptionalTextDataSet(generalPath("surgery"), spec.surgery);
+  status =
+      status && createOptionalTextDataSet(generalPath("virus"), spec.virus);
 
-  writeText("experiment_description", spec.experimentDescription);
-  writeTextArray("experimenter", spec.experimenter);
-  writeText("institution", spec.institution);
-  writeTextArray("keywords", spec.keywords);
-  writeText("lab", spec.lab);
-  writeText("notes", spec.notes);
-  writeText("pharmacology", spec.pharmacology);
-  writeText("protocol", spec.protocol);
-  writeTextArray("related_publications", spec.relatedPublications);
-  writeText("session_id", spec.sessionId);
-  writeText("slices", spec.slices);
-  writeText("stimulus", spec.stimulusNotes);
-  writeText("surgery", spec.surgery);
-  writeText("virus", spec.virus);
-
-  const std::string sourceScriptPath =
-      mergePaths(NWBFile::GENERAL_PATH, "source_script");
-  if (spec.sourceScript.has_value() && isNew(sourceScriptPath)) {
+  const std::string sourceScriptPath = generalPath("source_script");
+  if (spec.sourceScript.has_value() && isNewOptionalDataSet(sourceScriptPath)) {
     Status scriptStatus =
         ioPtr->createStringDataSet(sourceScriptPath, spec.sourceScript.value());
     if (scriptStatus == Status::Success) {
@@ -245,9 +239,10 @@ Status NWBFile::createGeneralMetadata(const GeneralMetadataSpec& spec)
 
   // was_generated_by is a 2D text dataset with one (name, version) row per
   // software package
-  const std::string wasGeneratedByPath =
-      mergePaths(NWBFile::GENERAL_PATH, "was_generated_by");
-  if (spec.wasGeneratedBy.has_value() && isNew(wasGeneratedByPath)) {
+  const std::string wasGeneratedByPath = generalPath("was_generated_by");
+  if (spec.wasGeneratedBy.has_value()
+      && isNewOptionalDataSet(wasGeneratedByPath))
+  {
     const auto& sources = spec.wasGeneratedBy.value();
     std::vector<std::string> values;
     values.reserve(2 * sources.size());
@@ -284,6 +279,40 @@ Status NWBFile::createGeneralMetadata(const GeneralMetadataSpec& spec)
               << std::endl;
   }
   return status;
+}
+
+bool NWBFile::isNewOptionalDataSet(const std::string& path) const
+{
+  auto ioPtr = getIO();
+  if (ioPtr && ioPtr->objectExists(path)) {
+    std::cerr << "NWBFile: " << path
+              << " already exists in the file and is not changed." << std::endl;
+    return false;
+  }
+  return true;
+}
+
+Status NWBFile::createOptionalTextDataSet(
+    const std::string& path, const std::optional<std::string>& value)
+{
+  if (!value.has_value() || !isNewOptionalDataSet(path)) {
+    return Status::Success;
+  }
+  auto ioPtr = getIO();
+  return ioPtr ? ioPtr->createStringDataSet(path, value.value())
+               : Status::Failure;
+}
+
+Status NWBFile::createOptionalTextDataSet(
+    const std::string& path,
+    const std::optional<std::vector<std::string>>& values)
+{
+  if (!values.has_value() || !isNewOptionalDataSet(path)) {
+    return Status::Success;
+  }
+  auto ioPtr = getIO();
+  return ioPtr ? ioPtr->createStringDataSet(path, values.value())
+               : Status::Failure;
 }
 
 namespace
