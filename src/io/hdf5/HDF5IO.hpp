@@ -20,6 +20,7 @@ class Exception;
 class CommonFG;
 class PredType;
 class DataSpace;
+class FileAccPropList;
 }  // namespace H5
 
 /*!
@@ -526,6 +527,26 @@ protected:
   Status createGroupIfDoesNotExist(const std::string& path) override;
 
 private:
+  /**
+   * @brief Creates a new file access property list for opening a file.
+   *
+   * Copies of FileAccPropList::DEFAULT share the same HDF5 property list, so
+   * modifying such a copy would change the defaults for all files opened
+   * afterwards (e.g., the virtual file driver set by openS3/openRemote).
+   * @param chunkCache The chunk cache configuration.
+   * @return The new file access property list.
+   */
+  static H5::FileAccPropList createFileAccessPropertyList(
+      const ChunkCacheConfig& chunkCache);
+
+  /**
+   * @brief Checks the chunk cache configuration, printing an error if it is
+   * invalid.
+   * @param chunkCache The chunk cache configuration.
+   * @return True if the configuration is valid.
+   */
+  static bool isValidChunkCacheConfig(const ChunkCacheConfig& chunkCache);
+
   /**
    * @brief Reads data from an HDF5 dataset or attribute into a vector of the
    * appropriate type.
