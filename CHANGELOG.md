@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Fixed reading fixed-length strings returning the NUL padding of values that are shorter than the fixed length. (@claude, @oruebel, [#348](https://github.com/NeurodataWithoutBorders/aqnwb/pull/348))
 * Fixed HDF5 printing its error stack (`HDF5-DIAG`) to `stderr` when AqNWB checks whether an object exists. (@claude, @oruebel, [#352](https://github.com/NeurodataWithoutBorders/aqnwb/pull/352))
 * Fixed `HDF5IO::createStringDataSet` failing for empty scalar strings and throwing an exception instead of returning `Status::Failure` if the dataset can't be created, and `NWBFile::initialize` ignoring failures to create its datasets. (@claude, @oruebel, [#352](https://github.com/NeurodataWithoutBorders/aqnwb/pull/352))
+* Fixed the coverage workflow failing with lcov 2.4 (Ubuntu 26.04) on inconsistent coverage records of the C++ standard library headers. (@claude, @oruebel, [#353](https://github.com/NeurodataWithoutBorders/aqnwb/pull/353))
 
 ## [0.4.0] - 2026-09-03
 

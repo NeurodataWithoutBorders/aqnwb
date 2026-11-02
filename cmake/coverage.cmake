@@ -2,9 +2,15 @@
 
 # We use variables separate from what CTest uses, because those have
 # customization issues
+# lcov >= 2.x checks the consistency of the coverage data and aborts on
+# inconsistent records, e.g., in the C++ standard library headers of GCC 15
+# (Ubuntu 26.04). These records come from files outside of src/, which are
+# removed by the filter command below, so the error is ignored when capturing
+# and filtering the trace.
 set(
     COVERAGE_TRACE_COMMAND
     lcov -c --verbose
+    --ignore-errors inconsistent
     -o "${PROJECT_BINARY_DIR}/coverage_raw.info"
     -d "${PROJECT_BINARY_DIR}"
     CACHE STRING
@@ -19,6 +25,7 @@ set(
 set(
     COVERAGE_FILTER_COMMAND
     lcov --verbose
+    --ignore-errors inconsistent
     --extract "${PROJECT_BINARY_DIR}/coverage_raw.info"
     "${PROJECT_SOURCE_DIR}/src/*"
     -o "${PROJECT_BINARY_DIR}/coverage.info"
