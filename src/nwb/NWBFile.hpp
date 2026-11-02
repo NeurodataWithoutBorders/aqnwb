@@ -6,6 +6,7 @@
 #include <optional>
 #include <string>
 #include <string_view>
+#include <utility>
 #include <vector>
 
 #include "Types.hpp"
@@ -65,6 +66,269 @@ public:
   /// @brief The path to the root intervals group in the NWB file
   inline const static std::string INTERVALS_PATH = "/intervals";
 
+  /**
+   * @brief Optional metadata of the experiment in `/general`.
+   *
+   * All fields are optional; only the fields that are set are written. Pass an
+   * instance of this struct to NWBFile::initialize(). Field names follow
+   * PyNWB's `NWBFile` arguments (e.g., `stimulusNotes` for
+   * `/general/stimulus`). `data_collection` is set with the `dataCollection`
+   * argument of NWBFile::initialize().
+   */
+  struct GeneralMetadataSpec
+  {
+    /// @brief General description of the experiment (`experiment_description`).
+    std::optional<std::string> experimentDescription = std::nullopt;
+    /// @brief Name of person(s) who performed the experiment (`experimenter`),
+    /// e.g., "Last, First".
+    std::optional<std::vector<std::string>> experimenter = std::nullopt;
+    /// @brief Institution(s) where the experiment was performed
+    /// (`institution`).
+    std::optional<std::string> institution = std::nullopt;
+    /// @brief Terms to search over (`keywords`).
+    std::optional<std::vector<std::string>> keywords = std::nullopt;
+    /// @brief Laboratory where the experiment was performed (`lab`).
+    std::optional<std::string> lab = std::nullopt;
+    /// @brief Notes about the experiment (`notes`).
+    std::optional<std::string> notes = std::nullopt;
+    /// @brief Description of drugs used, including how and when they were
+    /// administered (`pharmacology`).
+    std::optional<std::string> pharmacology = std::nullopt;
+    /// @brief Experimental protocol, e.g., the IACUC protocol number
+    /// (`protocol`).
+    std::optional<std::string> protocol = std::nullopt;
+    /// @brief Publication information, e.g., PMID, DOI, URL
+    /// (`related_publications`).
+    std::optional<std::vector<std::string>> relatedPublications = std::nullopt;
+    /// @brief Lab-specific ID for the session (`session_id`).
+    std::optional<std::string> sessionId = std::nullopt;
+    /// @brief Description of slices, including preparation thickness,
+    /// orientation, temperature, and bath solution (`slices`).
+    std::optional<std::string> slices = std::nullopt;
+    /// @brief Script file or link to public source code used to create this NWB
+    /// file (`source_script`). Requires sourceScriptFileName.
+    std::optional<std::string> sourceScript = std::nullopt;
+    /// @brief Name of the script file (`file_name` attribute of
+    /// `source_script`). Required if sourceScript is set.
+    std::optional<std::string> sourceScriptFileName = std::nullopt;
+    /// @brief Notes about stimuli, such as how and where they were presented
+    /// (`/general/stimulus`).
+    std::optional<std::string> stimulusNotes = std::nullopt;
+    /// @brief Narrative description about surgery/surgeries, including date(s)
+    /// and who performed surgery (`surgery`).
+    std::optional<std::string> surgery = std::nullopt;
+    /// @brief Information about virus(es) used in experiments, including virus
+    /// ID, source, date made, injection location, volume (`virus`).
+    std::optional<std::string> virus = std::nullopt;
+    /// @brief Name and version of the software package(s) used to generate the
+    /// data in this file (`was_generated_by`), e.g., {{"Open Ephys GUI",
+    /// "1.1.0"}}.
+    std::optional<std::vector<std::pair<std::string, std::string>>>
+        wasGeneratedBy = std::nullopt;
+
+    /**
+     * @brief Set the experimentDescription field.
+     * @param value General description of the experiment
+     * (`experiment_description`).
+     * @return Reference to this GeneralMetadataSpec, to allow method chaining.
+     */
+    GeneralMetadataSpec& withExperimentDescription(std::string value)
+    {
+      experimentDescription = std::move(value);
+      return *this;
+    }
+
+    /**
+     * @brief Set the experimenter field.
+     * @param value Name of person(s) who performed the experiment
+     * (`experimenter`), e.g., "Last, First".
+     * @return Reference to this GeneralMetadataSpec, to allow method chaining.
+     */
+    GeneralMetadataSpec& withExperimenter(std::vector<std::string> value)
+    {
+      experimenter = std::move(value);
+      return *this;
+    }
+
+    /**
+     * @brief Set the institution field.
+     * @param value Institution(s) where the experiment was performed
+     * (`institution`).
+     * @return Reference to this GeneralMetadataSpec, to allow method chaining.
+     */
+    GeneralMetadataSpec& withInstitution(std::string value)
+    {
+      institution = std::move(value);
+      return *this;
+    }
+
+    /**
+     * @brief Set the keywords field.
+     * @param value Terms to search over (`keywords`).
+     * @return Reference to this GeneralMetadataSpec, to allow method chaining.
+     */
+    GeneralMetadataSpec& withKeywords(std::vector<std::string> value)
+    {
+      keywords = std::move(value);
+      return *this;
+    }
+
+    /**
+     * @brief Set the lab field.
+     * @param value Laboratory where the experiment was performed (`lab`).
+     * @return Reference to this GeneralMetadataSpec, to allow method chaining.
+     */
+    GeneralMetadataSpec& withLab(std::string value)
+    {
+      lab = std::move(value);
+      return *this;
+    }
+
+    /**
+     * @brief Set the notes field.
+     * @param value Notes about the experiment (`notes`).
+     * @return Reference to this GeneralMetadataSpec, to allow method chaining.
+     */
+    GeneralMetadataSpec& withNotes(std::string value)
+    {
+      notes = std::move(value);
+      return *this;
+    }
+
+    /**
+     * @brief Set the pharmacology field.
+     * @param value Description of drugs used, including how and when they were
+     * administered (`pharmacology`).
+     * @return Reference to this GeneralMetadataSpec, to allow method chaining.
+     */
+    GeneralMetadataSpec& withPharmacology(std::string value)
+    {
+      pharmacology = std::move(value);
+      return *this;
+    }
+
+    /**
+     * @brief Set the protocol field.
+     * @param value Experimental protocol, e.g., the IACUC protocol number
+     * (`protocol`).
+     * @return Reference to this GeneralMetadataSpec, to allow method chaining.
+     */
+    GeneralMetadataSpec& withProtocol(std::string value)
+    {
+      protocol = std::move(value);
+      return *this;
+    }
+
+    /**
+     * @brief Set the relatedPublications field.
+     * @param value Publication information, e.g., PMID, DOI, URL
+     * (`related_publications`).
+     * @return Reference to this GeneralMetadataSpec, to allow method chaining.
+     */
+    GeneralMetadataSpec& withRelatedPublications(std::vector<std::string> value)
+    {
+      relatedPublications = std::move(value);
+      return *this;
+    }
+
+    /**
+     * @brief Set the sessionId field.
+     * @param value Lab-specific ID for the session (`session_id`).
+     * @return Reference to this GeneralMetadataSpec, to allow method chaining.
+     */
+    GeneralMetadataSpec& withSessionId(std::string value)
+    {
+      sessionId = std::move(value);
+      return *this;
+    }
+
+    /**
+     * @brief Set the slices field.
+     * @param value Description of slices, including preparation thickness,
+     * orientation, temperature, and bath solution (`slices`).
+     * @return Reference to this GeneralMetadataSpec, to allow method chaining.
+     */
+    GeneralMetadataSpec& withSlices(std::string value)
+    {
+      slices = std::move(value);
+      return *this;
+    }
+
+    /**
+     * @brief Set the sourceScript field.
+     * @param value Script file or link to public source code used to create
+     * this NWB file (`source_script`). Requires sourceScriptFileName.
+     * @return Reference to this GeneralMetadataSpec, to allow method chaining.
+     */
+    GeneralMetadataSpec& withSourceScript(std::string value)
+    {
+      sourceScript = std::move(value);
+      return *this;
+    }
+
+    /**
+     * @brief Set the sourceScriptFileName field.
+     * @param value Name of the script file (`file_name` attribute of
+     * `source_script`). Required if sourceScript is set.
+     * @return Reference to this GeneralMetadataSpec, to allow method chaining.
+     */
+    GeneralMetadataSpec& withSourceScriptFileName(std::string value)
+    {
+      sourceScriptFileName = std::move(value);
+      return *this;
+    }
+
+    /**
+     * @brief Set the stimulusNotes field.
+     * @param value Notes about stimuli, such as how and where they were
+     * presented (`/general/stimulus`).
+     * @return Reference to this GeneralMetadataSpec, to allow method chaining.
+     */
+    GeneralMetadataSpec& withStimulusNotes(std::string value)
+    {
+      stimulusNotes = std::move(value);
+      return *this;
+    }
+
+    /**
+     * @brief Set the surgery field.
+     * @param value Narrative description about surgery/surgeries, including
+     * date(s) and who performed surgery (`surgery`).
+     * @return Reference to this GeneralMetadataSpec, to allow method chaining.
+     */
+    GeneralMetadataSpec& withSurgery(std::string value)
+    {
+      surgery = std::move(value);
+      return *this;
+    }
+
+    /**
+     * @brief Set the virus field.
+     * @param value Information about virus(es) used in experiments, including
+     * virus ID, source, date made, injection location, volume (`virus`).
+     * @return Reference to this GeneralMetadataSpec, to allow method chaining.
+     */
+    GeneralMetadataSpec& withVirus(std::string value)
+    {
+      virus = std::move(value);
+      return *this;
+    }
+
+    /**
+     * @brief Set the wasGeneratedBy field.
+     * @param value Name and version of the software package(s) used to generate
+     * the data in this file (`was_generated_by`), e.g., {{"Open Ephys GUI",
+     * "1.1.0"}}.
+     * @return Reference to this GeneralMetadataSpec, to allow method chaining.
+     */
+    GeneralMetadataSpec& withWasGeneratedBy(
+        std::vector<std::pair<std::string, std::string>> value)
+    {
+      wasGeneratedBy = std::move(value);
+      return *this;
+    }
+  };
+
   /** \brief Convenience factor method since the path is fixed to '/'
    * @param io A shared pointer to the IO object.
    * @return A shared pointer to the created NWBFile object, or nullptr if
@@ -119,14 +383,47 @@ public:
    * so no Subject group is created unless a SubjectSpec is supplied. For DANDI
    * validation, the supplied SubjectSpec must include subjectId, species, sex,
    * and either age or dateOfBirth.
+   * @param generalMetadataSpec Optional metadata of the experiment in
+   * `/general` (e.g., experimenter, institution, keywords). Defaults to @c
+   * std::nullopt. Fields whose dataset already exists in the file are not
+   * changed. Fails if `sourceScript` is set without `sourceScriptFileName`.
    */
-  Status initialize(const std::string& identifierText,
-                    const std::string& description = "a recording session",
-                    const std::string& dataCollection = "",
-                    const std::string& sessionStartTime = "",
-                    const std::string& timestampsReferenceTime = "",
-                    const std::optional<AQNWB::NWB::Subject::SubjectSpec>&
-                        subjectSpec = std::nullopt);
+  Status initialize(
+      const std::string& identifierText,
+      const std::string& description = "a recording session",
+      const std::string& dataCollection = "",
+      const std::string& sessionStartTime = "",
+      const std::string& timestampsReferenceTime = "",
+      const std::optional<AQNWB::NWB::Subject::SubjectSpec>& subjectSpec =
+          std::nullopt,
+      const std::optional<GeneralMetadataSpec>& generalMetadataSpec =
+          std::nullopt);
+
+  /**
+   * @brief Change the session start time of an initialized file.
+   *
+   * Overwrites the value of `/session_start_time`, so this is also possible
+   * while recording (e.g., in SWMR mode), for applications that know the start
+   * time only after the file was created. The new value must not be longer than
+   * the value written by `initialize()` (e.g., a time from `formatTime()` if
+   * the default value of `initialize()` was used).
+   * @param sessionStartTime ISO 8601 formatted time string.
+   * @return The status of the operation.
+   */
+  Status setSessionStartTime(const std::string& sessionStartTime);
+
+  /**
+   * @brief Change the timestamps reference time of an initialized file.
+   *
+   * Overwrites the value of `/timestamps_reference_time`, so this is also
+   * possible while recording (e.g., in SWMR mode), for applications that know
+   * time zero of their timestamps only after the file was created. The new
+   * value must not be longer than the value written by `initialize()` (e.g., a
+   * time from `formatTime()` if the default value of `initialize()` was used).
+   * @param timestampsReferenceTime ISO 8601 formatted time string.
+   * @return The status of the operation.
+   */
+  Status setTimestampsReferenceTime(const std::string& timestampsReferenceTime);
 
   /**
    * @brief Check if the NWB file is initialized.
@@ -342,13 +639,30 @@ public:
    * @param dataType The data type of the elements in the data block.
    * @param containerIndexes This vector is updated with the indexes of the
    * created containers.
+   * @param numSamples The number of samples per event (spike waveform). Must
+   * be > 0. All events of a SpikeEventSeries span the same channels and store
+   * snapshots of equal duration, so the `data` dataset has a fixed size in the
+   * channel and sample dimensions, i.e., shape [num_events, num_channels,
+   * numSamples] (or [num_events, numSamples] for single-channel series). `data`
+   * is chunked by complete events, with the number of events per chunk chosen
+   * such that a chunk is about 32 KiB.
+   * @param useChannelConversion If true (default), the per-channel conversion
+   * factors (Channel::getConversion()) are stored in the `channel_conversion`
+   * dataset and the `conversion` attribute of `data` is set to 1. If false,
+   * the conversion factor of the first channel of each ChannelVector is stored
+   * in the `conversion` attribute of `data` and applies to all channels, and
+   * no `channel_conversion` dataset is created. Use false when all channels
+   * share the same conversion factor, e.g., for compatibility with readers
+   * that do not support `channel_conversion` for SpikeEventSeries.
    * @return Status The status of the object creation operation.
    */
   Status createSpikeEventSeries(
       std::vector<Types::ChannelVector> recordingArrays,
       std::vector<std::string> recordingNames,
       const IO::BaseDataType& dataType,
-      std::vector<SizeType>& containerIndexes);
+      std::vector<SizeType>& containerIndexes,
+      const SizeType numSamples,
+      const bool useChannelConversion = true);
 
   /** @brief Create AnnotationSeries objects to record data into.
    * Created objects are automatically added to the I/O's RecordingObjects.
@@ -419,6 +733,115 @@ public:
                        Date and time corresponding to time zero of all
                            timestamps)
 
+  DEFINE_DATASET_FIELD(readDataCollection,
+                       recordDataCollection,
+                       std::string,
+                       "general/data_collection",
+                       Notes about data collection and analysis)
+
+  DEFINE_DATASET_FIELD(readExperimentDescription,
+                       recordExperimentDescription,
+                       std::string,
+                       "general/experiment_description",
+                       General description of the experiment)
+
+  DEFINE_DATASET_FIELD(readExperimenter,
+                       recordExperimenter,
+                       std::string,
+                       "general/experimenter",
+                       Name of person(s) who performed the experiment)
+
+  DEFINE_DATASET_FIELD(readInstitution,
+                       recordInstitution,
+                       std::string,
+                       "general/institution",
+                       Institution(s) where experiment was performed)
+
+  DEFINE_DATASET_FIELD(readKeywords,
+                       recordKeywords,
+                       std::string,
+                       "general/keywords",
+                       Terms to search over)
+
+  DEFINE_DATASET_FIELD(readLab,
+                       recordLab,
+                       std::string,
+                       "general/lab",
+                       Laboratory where experiment was performed)
+
+  DEFINE_DATASET_FIELD(readNotes,
+                       recordNotes,
+                       std::string,
+                       "general/notes",
+                       Notes about the experiment)
+
+  DEFINE_DATASET_FIELD(readPharmacology,
+                       recordPharmacology,
+                       std::string,
+                       "general/pharmacology",
+                       Description of drugs used)
+
+  DEFINE_DATASET_FIELD(readProtocol,
+                       recordProtocol,
+                       std::string,
+                       "general/protocol",
+                       Experimental protocol)
+
+  DEFINE_DATASET_FIELD(readRelatedPublications,
+                       recordRelatedPublications,
+                       std::string,
+                       "general/related_publications",
+                       Publication information)
+
+  DEFINE_DATASET_FIELD(readSessionId,
+                       recordSessionId,
+                       std::string,
+                       "general/session_id",
+                       Lab-specific ID for the session)
+
+  DEFINE_DATASET_FIELD(readSlices,
+                       recordSlices,
+                       std::string,
+                       "general/slices",
+                       Description of slices)
+
+  DEFINE_DATASET_FIELD(
+      readSourceScript,
+      recordSourceScript,
+      std::string,
+      "general/source_script",
+      Script file or link to public source code used to create this NWB file)
+
+  DEFINE_DATASET_FIELD(readStimulusNotes,
+                       recordStimulusNotes,
+                       std::string,
+                       "general/stimulus",
+                       Notes about stimuli)
+
+  DEFINE_DATASET_FIELD(readSurgery,
+                       recordSurgery,
+                       std::string,
+                       "general/surgery",
+                       Narrative description about surgery / surgeries)
+
+  DEFINE_DATASET_FIELD(readVirus,
+                       recordVirus,
+                       std::string,
+                       "general/virus",
+                       Information about virus(es) used in experiments)
+
+  DEFINE_DATASET_FIELD(readWasGeneratedBy,
+                       recordWasGeneratedBy,
+                       std::string,
+                       "general/was_generated_by",
+                       Name and version of software package(s) used to generate
+                           data in this file(shape[num_sources, 2]))
+
+  DEFINE_ATTRIBUTE_FIELD(readSourceScriptFileName,
+                         std::string,
+                         "general/source_script/file_name",
+                         Name of script file)
+
   DEFINE_UNNAMED_REGISTERED_FIELD(readAquisitionSeries,
                                   createAquisitionSeries,
                                   TimeSeries,
@@ -476,6 +899,76 @@ private:
    * specification
    */
   void cacheSpecifications(const Types::NamespaceInfo& namespaceInfo);
+
+  /**
+   * @brief Writes the fields of a GeneralMetadataSpec to `/general`.
+   *
+   * Fields whose dataset already exists are skipped with a warning.
+   * @param spec The metadata to write.
+   * @return Status::Failure if a dataset could not be written or the spec is
+   * invalid, Status::Success otherwise.
+   */
+  Status createGeneralMetadata(const GeneralMetadataSpec& spec);
+
+  /**
+   * @brief Checks whether an optional dataset can be created at the path.
+   *
+   * Optional datasets that already exist are not changed, e.g., if
+   * `initialize` is called for an existing file.
+   * @param path The path of the dataset.
+   * @return False (with a warning) if an object exists at the path, true
+   * otherwise.
+   */
+  bool isNewOptionalDataSet(const std::string& path) const;
+
+  /**
+   * @brief Creates an optional text dataset if a value is set and the dataset
+   * doesn't exist yet (see isNewOptionalDataSet).
+   * @param path The path of the dataset.
+   * @param value The value of the dataset; no dataset is created if not set.
+   * @return Status::Failure if the dataset could not be created,
+   * Status::Success otherwise (also if no dataset was created).
+   */
+  Status createOptionalTextDataSet(const std::string& path,
+                                   const std::optional<std::string>& value);
+
+  /**
+   * @brief Creates an optional 1D text dataset if values are set and the
+   * dataset doesn't exist yet (see isNewOptionalDataSet).
+   * @param path The path of the dataset.
+   * @param values The values of the dataset; no dataset is created if not set.
+   * @return Status::Failure if the dataset could not be created,
+   * Status::Success otherwise (also if no dataset was created).
+   */
+  Status createOptionalTextDataSet(
+      const std::string& path,
+      const std::optional<std::vector<std::string>>& values);
+
+  /**
+   * @brief Number of bytes of a single element of the given data type.
+   *
+   * Numeric types with a typeSize > 1 are stored as arrays of typeSize values
+   * per element (see HDF5IO::getH5Type).
+   * @param dataType The data type.
+   * @return The number of bytes per element.
+   */
+  static SizeType getNumBytes(const IO::BaseDataType& dataType);
+
+  /**
+   * @brief Overwrites the value of an existing scalar time dataset (e.g.,
+   * `/session_start_time`).
+   *
+   * This does not change the structure of the file, so it is also possible
+   * in SWMR mode.
+   * @param path The path of the dataset.
+   * @param time The new time in ISO 8601 format.
+   * @param caller The name of the calling function for error messages.
+   * @return Status::Failure if the time is not in ISO 8601 format or the
+   * dataset could not be written, Status::Success otherwise.
+   */
+  Status overwriteTimeDataSet(const std::string& path,
+                              const std::string& time,
+                              const std::string& caller);
 
   /**
    * @brief The ElectrodesTable for the file

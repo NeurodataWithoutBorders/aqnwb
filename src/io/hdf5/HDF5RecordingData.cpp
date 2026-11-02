@@ -98,6 +98,12 @@ Status HDF5RecordingData::writeDataBlock(const SizeArray& dataShape,
                                          const AQNWB::IO::BaseDataType& type,
                                          const std::vector<std::string>& data)
 {
+  if (getNumDimensions() == 0 && data.size() != 1) {
+    std::cerr << "HDF5RecordingData::writeDataBlock: a scalar dataset takes "
+                 "exactly one string"
+              << std::endl;
+    return Status::Failure;
+  }
   try {
     // validate and allocate space
     DataSpace mSpace;
@@ -174,20 +180,32 @@ Status HDF5RecordingData::writeDataBlockHelper(const SizeArray& dataShape,
     return Status::Failure;
   }
 
+  // Scalar dataset: the write replaces the value of the dataset
+  if (numDimensions == 0) {
+    mSpace = DataSpace(H5S_SCALAR);
+    fSpace = m_dataset->getSpace();
+    return Status::Success;
+  }
+
   // Ensure that we have enough space to accommodate new data
   std::vector<hsize_t> dSetDims(numDimensions), offset(numDimensions);
+  bool needsExtend = false;
   for (SizeType i = 0; i < numDimensions; ++i) {
     offset[i] = static_cast<hsize_t>(positionOffset[i]);
 
     if (dataShape[i] + offset[i] > m_shape[i]) {
       dSetDims[i] = dataShape[i] + offset[i];
+      needsExtend = true;
     } else {
       dSetDims[i] = m_shape[i];
     }
   }
 
-  // Adjust dataset dimensions if necessary
-  m_dataset->extend(dSetDims.data());
+  // Adjust dataset dimensions if necessary (only possible for chunked
+  // datasets, so datasets with a fixed size can be overwritten as well)
+  if (needsExtend) {
+    m_dataset->extend(dSetDims.data());
+  }
 
   // Set the size to the new size based on the updated dimensionality
   fSpace = m_dataset->getSpace();

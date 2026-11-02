@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <filesystem>
 #include <fstream>
 #include <iomanip>
@@ -28,8 +29,9 @@ using namespace AQNWB::NWB;
 
 constexpr SizeType CHUNK_XSIZE =
     2048;  // TODO - replace these with io settings input
-constexpr SizeType SPIKE_CHUNK_XSIZE =
-    8;  // TODO - replace with io settings input
+constexpr SizeType SPIKE_CHUNK_TARGET_BYTES =
+    32768;  // target size of a chunk of spike waveforms in bytes. TODO -
+            // replace with io settings input
 
 // Initialize the static registered_ member to trigger registration
 REGISTER_SUBCLASS_IMPL(NWBFile)
@@ -57,7 +59,8 @@ Status NWBFile::initialize(
     const std::string& dataCollection,
     const std::string& sessionStartTime,
     const std::string& timestampsReferenceTime,
-    const std::optional<AQNWB::NWB::Subject::SubjectSpec>& subjectSpec)
+    const std::optional<AQNWB::NWB::Subject::SubjectSpec>& subjectSpec,
+    const std::optional<GeneralMetadataSpec>& generalMetadataSpec)
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
@@ -121,7 +124,203 @@ Status NWBFile::initialize(
                 << std::endl;
     }
   }
+
+  // Create the datasets of the /general metadata if provided
+  if (generalMetadataSpec.has_value()) {
+    Status generalStatus = createGeneralMetadata(generalMetadataSpec.value());
+    initStatus = initStatus && generalStatus;
+  }
   return initStatus;
+}
+
+Status NWBFile::createGeneralMetadata(const GeneralMetadataSpec& spec)
+{
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    std::cerr << "NWBFile::createGeneralMetadata IO object has been deleted."
+              << std::endl;
+    return Status::Failure;
+  }
+  if (spec.sourceScript.has_value() != spec.sourceScriptFileName.has_value()) {
+    std::cerr << "NWBFile::createGeneralMetadata sourceScript and "
+                 "sourceScriptFileName must be set together."
+              << std::endl;
+    return Status::Failure;
+  }
+  if (!ioPtr->canModifyObjects()) {
+    return Status::Failure;
+  }
+
+  const auto generalPath = [](const std::string& name)
+  { return mergePaths(NWBFile::GENERAL_PATH, name); };
+
+  // Status && evaluates both operands, so all fields are written even if one
+  // of them fails
+  Status status = Status::Success;
+  status = status
+      && createOptionalTextDataSet(generalPath("experiment_description"),
+                                   spec.experimentDescription);
+  status = status
+      && createOptionalTextDataSet(generalPath("experimenter"),
+                                   spec.experimenter);
+  status = status
+      && createOptionalTextDataSet(generalPath("institution"),
+                                   spec.institution);
+  status = status
+      && createOptionalTextDataSet(generalPath("keywords"), spec.keywords);
+  status = status && createOptionalTextDataSet(generalPath("lab"), spec.lab);
+  status =
+      status && createOptionalTextDataSet(generalPath("notes"), spec.notes);
+  status = status
+      && createOptionalTextDataSet(generalPath("pharmacology"),
+                                   spec.pharmacology);
+  status = status
+      && createOptionalTextDataSet(generalPath("protocol"), spec.protocol);
+  status = status
+      && createOptionalTextDataSet(generalPath("related_publications"),
+                                   spec.relatedPublications);
+  status = status
+      && createOptionalTextDataSet(generalPath("session_id"), spec.sessionId);
+  status =
+      status && createOptionalTextDataSet(generalPath("slices"), spec.slices);
+  status = status
+      && createOptionalTextDataSet(generalPath("stimulus"), spec.stimulusNotes);
+  status =
+      status && createOptionalTextDataSet(generalPath("surgery"), spec.surgery);
+  status =
+      status && createOptionalTextDataSet(generalPath("virus"), spec.virus);
+
+  const std::string sourceScriptPath = generalPath("source_script");
+  if (spec.sourceScript.has_value() && isNewOptionalDataSet(sourceScriptPath)) {
+    Status scriptStatus =
+        ioPtr->createStringDataSet(sourceScriptPath, spec.sourceScript.value());
+    if (scriptStatus == Status::Success) {
+      scriptStatus = ioPtr->createAttribute(
+          spec.sourceScriptFileName.value(), sourceScriptPath, "file_name");
+    }
+    status = status && scriptStatus;
+  }
+
+  // was_generated_by is a 2D text dataset with one (name, version) row per
+  // software package
+  const std::string wasGeneratedByPath = generalPath("was_generated_by");
+  if (spec.wasGeneratedBy.has_value()
+      && isNewOptionalDataSet(wasGeneratedByPath))
+  {
+    const auto& sources = spec.wasGeneratedBy.value();
+    std::vector<std::string> values;
+    values.reserve(2 * sources.size());
+    for (const auto& [name, version] : sources) {
+      values.push_back(name);
+      values.push_back(version);
+    }
+    const SizeType numSources = static_cast<SizeType>(sources.size());
+    IO::ArrayDataSetConfig config(
+        IO::BaseDataType::V_STR,
+        SizeArray {numSources, 2},
+        SizeArray {std::max<SizeType>(numSources, 1), 2});
+    std::unique_ptr<IO::BaseRecordingData> dataset;
+    try {
+      dataset = ioPtr->createArrayDataSet(config, wasGeneratedByPath);
+    } catch (const std::runtime_error& error) {
+      std::cerr << "NWBFile::createGeneralMetadata failed to create "
+                << wasGeneratedByPath << ": " << error.what() << std::endl;
+    }
+    if (!dataset) {
+      status = Status::Failure;
+    } else if (numSources > 0) {
+      status = status
+          && dataset->writeDataBlock(SizeArray {numSources, 2},
+                                     SizeArray {0, 0},
+                                     IO::BaseDataType::V_STR,
+                                     values);
+    }
+  }
+
+  if (status != Status::Success) {
+    std::cerr << "NWBFile::createGeneralMetadata failed to write the /general "
+                 "metadata."
+              << std::endl;
+  }
+  return status;
+}
+
+bool NWBFile::isNewOptionalDataSet(const std::string& path) const
+{
+  auto ioPtr = getIO();
+  if (ioPtr && ioPtr->objectExists(path)) {
+    std::cerr << "NWBFile: " << path
+              << " already exists in the file and is not changed." << std::endl;
+    return false;
+  }
+  return true;
+}
+
+Status NWBFile::createOptionalTextDataSet(
+    const std::string& path, const std::optional<std::string>& value)
+{
+  if (!value.has_value() || !isNewOptionalDataSet(path)) {
+    return Status::Success;
+  }
+  auto ioPtr = getIO();
+  return ioPtr ? ioPtr->createStringDataSet(path, value.value())
+               : Status::Failure;
+}
+
+Status NWBFile::createOptionalTextDataSet(
+    const std::string& path,
+    const std::optional<std::vector<std::string>>& values)
+{
+  if (!values.has_value() || !isNewOptionalDataSet(path)) {
+    return Status::Success;
+  }
+  auto ioPtr = getIO();
+  return ioPtr ? ioPtr->createStringDataSet(path, values.value())
+               : Status::Failure;
+}
+
+Status NWBFile::overwriteTimeDataSet(const std::string& path,
+                                     const std::string& time,
+                                     const std::string& caller)
+{
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    std::cerr << caller << " IO object has been deleted." << std::endl;
+    return Status::Failure;
+  }
+  if (!AQNWB::isISO8601Date(time)) {
+    std::cerr << caller << " time not in ISO8601 format: " << time << std::endl;
+    return Status::Failure;
+  }
+  // Overwrite the value of the existing (scalar string) dataset. This does not
+  // change the structure of the file, so it is also possible in SWMR mode.
+  try {
+    auto dataset = ioPtr->getDataSet(path);
+    if (!dataset) {
+      return Status::Failure;
+    }
+    return dataset->writeDataBlock(SizeArray {},
+                                   SizeArray {},
+                                   ioPtr->getStorageObjectDataType(path),
+                                   std::vector<std::string> {time});
+  } catch (const std::exception& e) {
+    std::cerr << caller << " failed: " << e.what() << std::endl;
+    return Status::Failure;
+  }
+}
+
+Status NWBFile::setSessionStartTime(const std::string& sessionStartTime)
+{
+  return overwriteTimeDataSet(
+      "/session_start_time", sessionStartTime, "NWBFile::setSessionStartTime");
+}
+
+Status NWBFile::setTimestampsReferenceTime(
+    const std::string& timestampsReferenceTime)
+{
+  return overwriteTimeDataSet("/timestamps_reference_time",
+                              timestampsReferenceTime,
+                              "NWBFile::setTimestampsReferenceTime");
 }
 
 bool NWBFile::isInitialized() const
@@ -199,8 +398,11 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
   // NWBFile::EVENTS_PATH and NWBFile::INTERVALS_PATH are optional and will
   // be created when the corresponding tables are created
 
+  // Status && evaluates both operands, so all datasets are created even if one
+  // of them fails
+  Status datasetsStatus = Status::Success;
   if (dataCollection != "") {
-    ioPtr->createStringDataSet(
+    datasetsStatus = ioPtr->createStringDataSet(
         mergePaths(NWBFile::GENERAL_PATH, "/data_collection"), dataCollection);
   }
 
@@ -217,14 +419,24 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
 
   // Create additional required datasets
   std::vector<std::string> timeVec = {sessionStartTime};
-  ioPtr->createStringDataSet("/file_create_date", timeVec);
-  ioPtr->createStringDataSet("/session_description", description);
-  ioPtr->createStringDataSet("/session_start_time", sessionStartTime);
-  ioPtr->createStringDataSet("/timestamps_reference_time",
-                             timestampsReferenceTime);
-  ioPtr->createStringDataSet("/identifier", identifierText);
+  datasetsStatus = datasetsStatus
+      && ioPtr->createStringDataSet("/file_create_date", timeVec);
+  datasetsStatus = datasetsStatus
+      && ioPtr->createStringDataSet("/session_description", description);
+  datasetsStatus = datasetsStatus
+      && ioPtr->createStringDataSet("/session_start_time", sessionStartTime);
+  datasetsStatus = datasetsStatus
+      && ioPtr->createStringDataSet("/timestamps_reference_time",
+                                    timestampsReferenceTime);
+  datasetsStatus = datasetsStatus
+      && ioPtr->createStringDataSet("/identifier", identifierText);
+  if (datasetsStatus != Status::Success) {
+    std::cerr << "NWBFile::createFileStructure: creating the datasets of the "
+                 "NWBFile failed"
+              << std::endl;
+  }
 
-  return Status::Success;
+  return datasetsStatus;
 }
 
 std::shared_ptr<ElectrodesTable> NWBFile::createElectrodesTable(
@@ -591,7 +803,9 @@ Status NWBFile::createSpikeEventSeries(
     std::vector<Types::ChannelVector> recordingArrays,
     std::vector<std::string> recordingNames,
     const IO::BaseDataType& dataType,
-    std::vector<SizeType>& containerIndexes)
+    std::vector<SizeType>& containerIndexes,
+    const SizeType numSamples,
+    const bool useChannelConversion)
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
@@ -611,6 +825,12 @@ Status NWBFile::createSpikeEventSeries(
     return Status::Failure;
   }
 
+  if (numSamples == 0) {
+    std::cerr << "NWBFile::createSpikeEventSeries numSamples must be > 0"
+              << std::endl;
+    return Status::Failure;
+  }
+
   // Setup electrode table if it was not yet created
   bool electrodeTableCreated =
       ioPtr->objectExists(ElectrodesTable::electrodesTablePath);
@@ -622,6 +842,7 @@ Status NWBFile::createSpikeEventSeries(
   }
 
   // Create datasets
+  Status overallStatus = Status::Success;
   for (size_t i = 0; i < recordingArrays.size(); ++i) {
     const auto& channelVector = recordingArrays[i];
     const std::string& recordingName = recordingNames[i];
@@ -642,24 +863,40 @@ Status NWBFile::createSpikeEventSeries(
       elecGroup->initialize("description", "unknown", device);
     }
 
-    // Setup Spike Event Series datasets
+    // Setup Spike Event Series datasets. All events have the same number of
+    // channels and samples, so these dimensions have a fixed size (chunking 0)
+    // and each chunk stores complete events. The number of events per chunk is
+    // chosen such that a chunk is about SPIKE_CHUNK_TARGET_BYTES in size.
+    const bool singleChannel = channelVector.size() == 1;
+    const SizeType eventBytes =
+        channelVector.size() * numSamples * getNumBytes(dataType);
+    const SizeType eventsPerChunk =
+        std::max<SizeType>(1, SPIKE_CHUNK_TARGET_BYTES / eventBytes);
     IO::ArrayDataSetConfig config(
         dataType,
-        channelVector.size() == 1 ? SizeArray {0, 0}
-                                  : SizeArray {0, channelVector.size(), 0},
-        channelVector.size() == 1 ? SizeArray {SPIKE_CHUNK_XSIZE, 1}
-                                  : SizeArray {SPIKE_CHUNK_XSIZE, 1, 1});
+        singleChannel ? SizeArray {0, numSamples}
+                      : SizeArray {0, channelVector.size(), numSamples},
+        singleChannel ? SizeArray {eventsPerChunk, 0}
+                      : SizeArray {eventsPerChunk, 0, 0});
 
+    // Either store per-channel conversion factors in `channel_conversion`, or
+    // store the conversion factor of the first channel in the `conversion`
+    // attribute of `data` (for all channels)
     auto spikeEventSeries =
         this->createAquisitionSeries<SpikeEventSeries>(recordingName);
-    spikeEventSeries->initialize(
+    Status sesStatus = spikeEventSeries->initialize(
         config,
         channelVector,
-        "Stores spike waveforms from an extracellular ephys recording");
+        "Stores spike waveforms from an extracellular ephys recording",
+        useChannelConversion ? 1.0f : channelVector[0].getConversion(),
+        -1.0f,
+        0.0f,
+        useChannelConversion);
+    overallStatus = overallStatus && sesStatus;
     containerIndexes.push_back(spikeEventSeries->getRecordingObjectIndex());
   }
 
-  return Status::Success;
+  return overallStatus;
 }
 
 Status NWBFile::createAnnotationSeries(
@@ -718,5 +955,32 @@ void NWBFile::cacheSpecifications(const Types::NamespaceInfo& namespaceInfo)
     ioPtr->createStringDataSet(
         AQNWB::mergePaths(specFullVersionPath, std::string(name)),
         std::string(content));
+  }
+}
+
+SizeType NWBFile::getNumBytes(const IO::BaseDataType& dataType)
+{
+  using AQNWB::IO::BaseDataType;
+  const SizeType arrayLength = std::max<SizeType>(1, dataType.typeSize);
+  switch (dataType.type) {
+    case BaseDataType::T_U8:
+    case BaseDataType::T_I8:
+      return arrayLength;
+    case BaseDataType::T_U16:
+    case BaseDataType::T_I16:
+      return 2 * arrayLength;
+    case BaseDataType::T_U32:
+    case BaseDataType::T_I32:
+    case BaseDataType::T_F32:
+      return 4 * arrayLength;
+    case BaseDataType::T_U64:
+    case BaseDataType::T_I64:
+    case BaseDataType::T_F64:
+      return 8 * arrayLength;
+    case BaseDataType::T_STR:
+      return dataType.typeSize;
+    case BaseDataType::V_STR:
+    default:
+      return sizeof(void*);
   }
 }

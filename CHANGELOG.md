@@ -9,7 +9,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+* Added optional `useChannelConversion` parameter to `NWBFile::createSpikeEventSeries`, `ElectricalSeries::initialize`, and `SpikeEventSeries::initialize` to store the conversion factor in `data.conversion` instead of the `channel_conversion` dataset (e.g., for PyNWB, which does not read `channel_conversion` for `SpikeEventSeries`). (@claude, @oruebel, [#341](https://github.com/NeurodataWithoutBorders/aqnwb/pull/341))
+* Added optional `ChunkCacheConfig` parameter to `HDF5IO::open`, `HDF5IO::openS3`, and `HDF5IO::openRemote` to configure the HDF5 chunk cache to enable applications to adjust the cache to their write pattern, and `HDF5IO::getChunkCacheNumBytes` and `HDF5IO::getDefaultChunkCacheNumBytes` to query the cache size. (@claude, @oruebel, [#346](https://github.com/NeurodataWithoutBorders/aqnwb/pull/346), addresses [#26](https://github.com/NeurodataWithoutBorders/aqnwb/issues/26))
+* Added `NWBFile::setSessionStartTime` and `NWBFile::setTimestampsReferenceTime` to set these times after the file was created (also in SWMR mode), and `formatTime` to format a time point as an ISO 8601 string. (@claude, @oruebel, [#348](https://github.com/NeurodataWithoutBorders/aqnwb/pull/348))
+* Added `NWBFile::GeneralMetadataSpec` and an optional `generalMetadataSpec` parameter of `NWBFile::initialize` to write the optional metadata in `/general` (e.g., `experimenter`, `institution`, `keywords`, `was_generated_by`), and corresponding read methods (e.g., `NWBFile::readExperimenter`). (@claude, @oruebel, [#352](https://github.com/NeurodataWithoutBorders/aqnwb/pull/352), fixes [#350](https://github.com/NeurodataWithoutBorders/aqnwb/issues/350))
+
+### Changed
+* **[BREAKING]** Updated `NWBFile::createSpikeEventSeries` to require the number of samples per event (`numSamples`) and to chunk `data` by complete events (about 32 KiB per chunk) instead of `{8, 1, 1}`, which reduces the file size. (@claude, @oruebel, [#344](https://github.com/NeurodataWithoutBorders/aqnwb/pull/344))
+   * **Migration Note:** Pass the number of samples per spike waveform as the new `numSamples` argument; it must match the `numSamples` passed to `SpikeEventSeries::writeSpike`.
+* Updated `HDF5RecordingData::writeDataBlock` to support scalar datasets and to overwrite datasets that cannot be extended. (@claude, @oruebel, [#348](https://github.com/NeurodataWithoutBorders/aqnwb/pull/348))
+
 ### Fixed
+* Fixed `NWBFile::createSpikeEventSeries` always returning `Status::Success`, even if `SpikeEventSeries::initialize` failed. (@claude, @oruebel, [#341](https://github.com/NeurodataWithoutBorders/aqnwb/pull/341))
+* Fixed `HDF5IO::getH5Type` storing float32 types with `typeSize > 1` as scalars instead of arrays, and `HDF5IO::getBaseDataType` returning the number of array dimensions instead of the array length as `typeSize`. (@claude, @oruebel, [#344](https://github.com/NeurodataWithoutBorders/aqnwb/pull/344))
+* Fixed `EventsTable` and `TimeIntervals` rejecting float64 time columns, which the schema allows (the default columns remain float32), and added a `DynamicTable::checkRequiredColumnSpec` overload for a list of allowed data types. (@claude, @oruebel, [#345](https://github.com/NeurodataWithoutBorders/aqnwb/pull/345))
+* Fixed `HDF5IO::open`, `HDF5IO::openS3`, and `HDF5IO::openRemote` modifying the shared default file access property list, which applied their settings (e.g., the virtual file driver) to files opened later. (@claude, @oruebel, [#346](https://github.com/NeurodataWithoutBorders/aqnwb/pull/346))
+* Fixed `HDF5IO::createStringDataSet` with a vector of strings writing only the first string. (@claude, @oruebel, [#347](https://github.com/NeurodataWithoutBorders/aqnwb/pull/347))
+* Fixed reading fixed-length strings returning the NUL padding of values that are shorter than the fixed length. (@claude, @oruebel, [#348](https://github.com/NeurodataWithoutBorders/aqnwb/pull/348))
+* Fixed HDF5 printing its error stack (`HDF5-DIAG`) to `stderr` when AqNWB checks whether an object exists. (@claude, @oruebel, [#352](https://github.com/NeurodataWithoutBorders/aqnwb/pull/352))
+* Fixed `HDF5IO::createStringDataSet` failing for empty scalar strings and throwing an exception instead of returning `Status::Failure` if the dataset can't be created, and `NWBFile::initialize` ignoring failures to create its datasets. (@claude, @oruebel, [#352](https://github.com/NeurodataWithoutBorders/aqnwb/pull/352))
 * Fixed the coverage workflow failing with lcov 2.4 (Ubuntu 26.04) on inconsistent coverage records of the C++ standard library headers. (@claude, @oruebel, [#353](https://github.com/NeurodataWithoutBorders/aqnwb/pull/353))
 
 ## [0.4.0] - 2026-09-03

@@ -76,14 +76,17 @@ Status TimeIntervals::validateDataSpecs(
     return status;
   }
 
+  // dtype `float` in the schema: allow float32 and float64
+  const std::vector<IO::BaseDataType> timeDataTypes = {IO::BaseDataType::F32,
+                                                       IO::BaseDataType::F64};
   status = checkRequiredColumnSpec<VectorData::DataSpec>(
-      "start_time", dataSpecs, IO::BaseDataType::F32);
+      "start_time", dataSpecs, timeDataTypes);
   if (status != Status::Success) {
     return status;
   }
 
   return checkRequiredColumnSpec<VectorData::DataSpec>(
-      "stop_time", dataSpecs, IO::BaseDataType::F32);
+      "stop_time", dataSpecs, timeDataTypes);
 }
 
 // Initialize the object

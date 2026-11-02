@@ -54,6 +54,13 @@ public:
    *                   stored in the specified unit
    * @param offset Scalar to add to the data after scaling by 'conversion' to
    *               finalize its coercion to the specified 'unit'
+   * @param useChannelConversion If true (default), store the per-channel
+   *               conversion factors given by Channel::getConversion() of the
+   *               channels in channelVector in the optional
+   *               `channel_conversion` dataset. If false, no
+   *               `channel_conversion` dataset is created and the scaling must
+   *               be fully described by `conversion` (e.g., when all channels
+   *               share the same conversion factor).
    * @return The status of the initialization operation.
    */
   Status initialize(const IO::BaseArrayDataSetConfig& dataConfig,
@@ -61,7 +68,8 @@ public:
                     const std::string& description,
                     const float& conversion = 1.0f,
                     const float& resolution = -1.0f,
-                    const float& offset = 0.0f);
+                    const float& offset = 0.0f,
+                    const bool useChannelConversion = true);
 
   /**
    * @brief Writes a channel to an ElectricalSeries dataset.

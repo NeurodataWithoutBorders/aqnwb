@@ -1,3 +1,4 @@
+#include <chrono>
 #include <cstdio>
 #include <numeric>
 #include <unordered_map>
@@ -88,6 +89,96 @@ TEST_CASE("initialize", "[nwb]")
   io->close();  // close the io
 }
 
+TEST_CASE("setSessionStartTime and setTimestampsReferenceTime", "[nwb]")
+{
+  std::string filename = getTestFilePath("testSetReferenceTimes.nwb");
+  auto io = std::make_shared<IO::HDF5::HDF5IO>(filename);
+  io->open();
+  auto nwbfile = NWB::NWBFile::create(io);
+  REQUIRE(nwbfile->initialize(generateUuid(),
+                              "Test setting the reference times",
+                              "",
+                              "",
+                              "",
+                              getTestSubjectSpec())
+          == Status::Success);
+
+  // e.g., time zero of the timestamps is known only once recording started
+  REQUIRE(io->startRecording() == Status::Success);
+  const std::string time =
+      formatTime(std::chrono::system_clock::now() - std::chrono::seconds(2));
+  REQUIRE(nwbfile->setTimestampsReferenceTime(time) == Status::Success);
+  REQUIRE(nwbfile->setSessionStartTime(time) == Status::Success);
+  // valid and shorter than the value written by initialize
+  const std::string shorterTime = time.substr(0, 19) + "Z";
+  REQUIRE(isISO8601Date(shorterTime));
+  REQUIRE(nwbfile->setSessionStartTime(shorterTime) == Status::Success);
+
+  // invalid times
+  REQUIRE(nwbfile->setTimestampsReferenceTime("yesterday") == Status::Failure);
+  // valid, but longer than the value written by initialize
+  const std::string longerTime = time.substr(0, 26) + "0" + time.substr(26);
+  REQUIRE(isISO8601Date(longerTime));
+  REQUIRE(nwbfile->setSessionStartTime(longerTime) == Status::Failure);
+
+  REQUIRE(io->stopRecording() == Status::Success);
+  io->close();
+
+  // the values read through the public getters are the values that were set,
+  // without the padding of the fixed-length strings
+  auto readio = std::make_shared<IO::HDF5::HDF5IO>(filename);
+  readio->open(IO::FileMode::ReadOnly);
+  auto readFile = NWB::NWBFile::create(readio);
+  const std::string sessionStartTime =
+      readFile->readSessionStartTime()->values().data[0];
+  const std::string referenceTime =
+      readFile->readTimestampsReferenceTime()->values().data[0];
+  REQUIRE(sessionStartTime == shorterTime);
+  REQUIRE(isISO8601Date(sessionStartTime));
+  REQUIRE(referenceTime == time);
+  REQUIRE(isISO8601Date(referenceTime));
+  readio->close();
+}
+
+TEST_CASE("initialize with an empty session description", "[nwb]")
+{
+  const std::string filename =
+      getTestFilePath("testInitializeEmptySessionDescription.nwb");
+  auto io = std::make_shared<IO::HDF5::HDF5IO>(filename);
+  io->open();
+  auto nwbfile = NWB::NWBFile::create(io);
+  REQUIRE(
+      nwbfile->initialize(generateUuid(), "", "", "", "", getTestSubjectSpec())
+      == Status::Success);
+  auto description = nwbfile->readSessionDescription()->values().data;
+  REQUIRE(description.size() == 1);
+  REQUIRE(description[0].empty());
+  io->close();
+}
+
+TEST_CASE("initialize fails if a required dataset can't be created", "[nwb]")
+{
+  // The file is not a valid NWB file, so it uses the .h5 extension to exclude
+  // it from the NWB validation of the test files
+  const std::string filename =
+      getTestFilePath("testInitializeRequiredDatasetFails.h5");
+  auto io = std::make_shared<IO::HDF5::HDF5IO>(filename);
+  io->open();
+  // A dataset at the path of the required /session_description (the file has
+  // no groups yet, so it is still considered uninitialized)
+  REQUIRE(io->createStringDataSet("/session_description", "existing")
+          == Status::Success);
+  auto nwbfile = NWB::NWBFile::create(io);
+  REQUIRE(nwbfile->initialize(generateUuid(),
+                              "a recording session",
+                              "",
+                              "",
+                              "",
+                              getTestSubjectSpec())
+          == Status::Failure);
+  io->close();
+}
+
 TEST_CASE("initialize preserves existing subject metadata", "[nwb]")
 {
   const std::string filename =
@@ -112,6 +203,131 @@ TEST_CASE("initialize preserves existing subject metadata", "[nwb]")
           == Status::Success);
   REQUIRE(subject->readSubjectId()->values().data
           == std::vector<std::string> {"existing-subject"});
+}
+
+TEST_CASE("initialize with general metadata", "[nwb]")
+{
+  const std::string filename = getTestFilePath("testGeneralMetadata.nwb");
+  NWB::NWBFile::GeneralMetadataSpec spec;
+  spec.withExperimentDescription("Test experiment")
+      .withExperimenter({"Last, First", "Other, Person"})
+      .withInstitution("Test institution")
+      .withKeywords({"test", "general metadata"})
+      .withLab("Test lab")
+      .withNotes("Test notes")
+      .withPharmacology("none")
+      .withProtocol("IACUC-1")
+      .withRelatedPublications({"doi:10.1000/test"})
+      .withSessionId("session-1")
+      .withSlices("none")
+      .withSourceScript("https://github.com/NeurodataWithoutBorders/aqnwb")
+      .withSourceScriptFileName("testNWBFile.cpp")
+      .withStimulusNotes("no stimulus")
+      .withSurgery("none")
+      .withVirus("none")
+      .withWasGeneratedBy({{"aqnwb", "0.4.0"}, {"test", "1.0"}});
+
+  SECTION("all fields are written and can be read back")
+  {
+    auto io = std::make_shared<IO::HDF5::HDF5IO>(filename);
+    io->open();
+    auto nwbfile = NWB::NWBFile::create(io);
+    REQUIRE(nwbfile->initialize(generateUuid(),
+                                "Test general metadata",
+                                "Test data collection",
+                                "",
+                                "",
+                                getTestSubjectSpec(),
+                                spec)
+            == Status::Success);
+    io->close();
+
+    auto readio = std::make_shared<IO::HDF5::HDF5IO>(filename);
+    readio->open(IO::FileMode::ReadOnly);
+    auto readFile = NWB::NWBFile::create(readio);
+    using Strings = std::vector<std::string>;
+    REQUIRE(readFile->readDataCollection()->values().data
+            == Strings {"Test data collection"});
+    REQUIRE(readFile->readExperimentDescription()->values().data
+            == Strings {"Test experiment"});
+    REQUIRE(readFile->readExperimenter()->values().data
+            == Strings {"Last, First", "Other, Person"});
+    REQUIRE(readFile->readInstitution()->values().data
+            == Strings {"Test institution"});
+    REQUIRE(readFile->readKeywords()->values().data
+            == Strings {"test", "general metadata"});
+    REQUIRE(readFile->readLab()->values().data == Strings {"Test lab"});
+    REQUIRE(readFile->readNotes()->values().data == Strings {"Test notes"});
+    REQUIRE(readFile->readPharmacology()->values().data == Strings {"none"});
+    REQUIRE(readFile->readProtocol()->values().data == Strings {"IACUC-1"});
+    REQUIRE(readFile->readRelatedPublications()->values().data
+            == Strings {"doi:10.1000/test"});
+    REQUIRE(readFile->readSessionId()->values().data == Strings {"session-1"});
+    REQUIRE(readFile->readSlices()->values().data == Strings {"none"});
+    REQUIRE(readFile->readSourceScript()->values().data
+            == Strings {"https://github.com/NeurodataWithoutBorders/aqnwb"});
+    REQUIRE(readFile->readSourceScriptFileName()->values().data
+            == Strings {"testNWBFile.cpp"});
+    REQUIRE(readFile->readStimulusNotes()->values().data
+            == Strings {"no stimulus"});
+    REQUIRE(readFile->readSurgery()->values().data == Strings {"none"});
+    REQUIRE(readFile->readVirus()->values().data == Strings {"none"});
+    auto wasGeneratedBy = readFile->readWasGeneratedBy()->values();
+    REQUIRE(wasGeneratedBy.shape == SizeArray {2, 2});
+    REQUIRE(wasGeneratedBy.data == Strings {"aqnwb", "0.4.0", "test", "1.0"});
+    readio->close();
+  }
+
+  SECTION("existing datasets are not changed")
+  {
+    auto io = std::make_shared<IO::HDF5::HDF5IO>(filename);
+    io->open();
+    auto nwbfile = NWB::NWBFile::create(io);
+    REQUIRE(nwbfile->initialize(
+                generateUuid(), "Test", "", "", "", getTestSubjectSpec())
+            == Status::Success);
+    REQUIRE(io->createStringDataSet("/general/lab", "Existing lab")
+            == Status::Success);
+    REQUIRE(
+        nwbfile->initialize(generateUuid(), "", "", "", "", std::nullopt, spec)
+        == Status::Success);
+    REQUIRE(nwbfile->readLab()->values().data
+            == std::vector<std::string> {"Existing lab"});
+    REQUIRE(nwbfile->readInstitution()->values().data
+            == std::vector<std::string> {"Test institution"});
+    io->close();
+  }
+
+  SECTION("sourceScript requires sourceScriptFileName")
+  {
+    auto io = std::make_shared<IO::HDF5::HDF5IO>(filename);
+    io->open();
+    auto nwbfile = NWB::NWBFile::create(io);
+    NWB::NWBFile::GeneralMetadataSpec invalid;
+    invalid.withSourceScript("script.py");
+    REQUIRE(
+        nwbfile->initialize(
+            generateUuid(), "Test", "", "", "", getTestSubjectSpec(), invalid)
+        == Status::Failure);
+    REQUIRE_FALSE(io->objectExists("/general/source_script"));
+    io->close();
+  }
+
+  SECTION("fails after recording started")
+  {
+    auto io = std::make_shared<IO::HDF5::HDF5IO>(filename);
+    io->open();
+    auto nwbfile = NWB::NWBFile::create(io);
+    REQUIRE(nwbfile->initialize(
+                generateUuid(), "Test", "", "", "", getTestSubjectSpec())
+            == Status::Success);
+    REQUIRE(io->startRecording() == Status::Success);
+    REQUIRE(
+        nwbfile->initialize(generateUuid(), "", "", "", "", std::nullopt, spec)
+        == Status::Failure);
+    REQUIRE(io->stopRecording() == Status::Success);
+    io->close();
+  }
 }
 
 TEST_CASE("initialize fails when Subject has an incompatible cached type",
@@ -680,8 +896,12 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
   SizeType numSamples = 5;
   std::vector<std::string> mockSpikeChannelNames =
       getMockChannelArrayNames("spikedata");
-  Status resultCreateSES = nwbfile->createSpikeEventSeries(
-      mockArrays, mockSpikeChannelNames, BaseDataType::F32, containerIndices);
+  Status resultCreateSES =
+      nwbfile->createSpikeEventSeries(mockArrays,
+                                      mockSpikeChannelNames,
+                                      BaseDataType::F32,
+                                      containerIndices,
+                                      numSamples);
   REQUIRE(resultCreateSES == Status::Success);
 
   // start recording
@@ -719,6 +939,276 @@ TEST_CASE("createMultipleEcephysDatasets", "[nwb]")
   }
 
   io->stopRecording();
+}
+
+TEST_CASE("createSpikeEventSeries chunking", "[nwb]")
+{
+  std::string filename = getTestFilePath("createSESChunking.nwb");
+
+  std::shared_ptr<HDF5::HDF5IO> io = std::make_shared<HDF5::HDF5IO>(filename);
+  io->open();
+  auto nwbfile = AQNWB::NWB::NWBFile::create(io);
+  auto currentTime = getCurrentTime();
+  nwbfile->initialize(generateUuid(),
+                      "a recording session",
+                      "data collection info",
+                      currentTime,
+                      currentTime,
+                      getTestSubjectSpec());
+
+  // a 4-channel (tetrode) and a single-channel electrode. Float data is used
+  // since the chunking is independent of the data type.
+  std::vector<Types::ChannelVector> arrays = {
+      {Channel("ch0", "array0", 0, 0, 0),
+       Channel("ch1", "array0", 0, 1, 1),
+       Channel("ch2", "array0", 0, 2, 2),
+       Channel("ch3", "array0", 0, 3, 3)},
+      {Channel("ch0", "array1", 1, 0, 4)}};
+  REQUIRE(nwbfile->createElectrodesTable(arrays) != nullptr);
+  auto recordingObjects = io->getRecordingObjects();
+  const SizeType numSamples = 40;
+  std::vector<SizeType> containerIndices = {};
+
+  // numSamples is required
+  REQUIRE(
+      nwbfile->createSpikeEventSeries(
+          arrays, {"tetrode", "single"}, BaseDataType::F32, containerIndices, 0)
+      == Status::Failure);
+  REQUIRE(containerIndices.empty());
+
+  // fixed waveform size and whole-event chunks of about 32 KiB
+  REQUIRE(nwbfile->createSpikeEventSeries(arrays,
+                                          {"tetrode", "single"},
+                                          BaseDataType::F32,
+                                          containerIndices,
+                                          numSamples)
+          == Status::Success);
+  auto tetrode = std::dynamic_pointer_cast<NWB::SpikeEventSeries>(
+      recordingObjects->getRecordingObject(containerIndices[0]));
+  auto single = std::dynamic_pointer_cast<NWB::SpikeEventSeries>(
+      recordingObjects->getRecordingObject(containerIndices[1]));
+  REQUIRE(tetrode != nullptr);
+  REQUIRE(single != nullptr);
+  std::string tetrodeData = tetrode->getPath() + "/data";
+  std::string singleData = single->getPath() + "/data";
+  REQUIRE(io->getStorageObjectShape(tetrodeData)
+          == SizeArray {0, 4, numSamples});
+  // 32768 bytes / (4 channels * 40 samples * 4 bytes) = 51 events
+  REQUIRE(io->getStorageObjectChunking(tetrodeData)
+          == SizeArray {51, 4, numSamples});
+  REQUIRE(io->getStorageObjectShape(singleData) == SizeArray {0, numSamples});
+  // 32768 bytes / (40 samples * 4 bytes) = 204 events
+  REQUIRE(io->getStorageObjectChunking(singleData)
+          == SizeArray {204, numSamples});
+
+  // events larger than the target chunk size are chunked one event at a time
+  const SizeType numSamplesLong = 10000;
+  REQUIRE(nwbfile->createSpikeEventSeries({arrays[0]},
+                                          {"long"},
+                                          BaseDataType::F32,
+                                          containerIndices,
+                                          numSamplesLong)
+          == Status::Success);
+  auto longEvents = std::dynamic_pointer_cast<NWB::SpikeEventSeries>(
+      recordingObjects->getRecordingObject(containerIndices[2]));
+  REQUIRE(longEvents != nullptr);
+  REQUIRE(io->getStorageObjectChunking(longEvents->getPath() + "/data")
+          == SizeArray {1, 4, numSamplesLong});
+
+  // write spikes and check that the datasets grow along the event dimension
+  REQUIRE(io->startRecording() == Status::Success);
+  std::vector<float> tetrodeSpike(4 * numSamples, 1.0f);
+  std::vector<float> singleSpike(numSamples, 2.0f);
+  std::vector<float> longSpike(4 * numSamplesLong, 3.0f);
+  const std::vector<double> timestamps = {0.1, 0.35, 0.9, 1.2};  // irregular
+  for (double timestamp : timestamps) {
+    REQUIRE(tetrode->writeSpike(numSamples, 4, tetrodeSpike.data(), &timestamp)
+            == Status::Success);
+    REQUIRE(single->writeSpike(numSamples, 1, singleSpike.data(), &timestamp)
+            == Status::Success);
+    REQUIRE(
+        longEvents->writeSpike(numSamplesLong, 4, longSpike.data(), &timestamp)
+        == Status::Success);
+  }
+  REQUIRE(io->flush() == Status::Success);
+  REQUIRE(io->getStorageObjectShape(tetrodeData)
+          == SizeArray {timestamps.size(), 4, numSamples});
+  REQUIRE(io->getStorageObjectShape(singleData)
+          == SizeArray {timestamps.size(), numSamples});
+  REQUIRE(io->getStorageObjectShape(longEvents->getPath() + "/data")
+          == SizeArray {timestamps.size(), 4, numSamplesLong});
+  io->stopRecording();
+}
+
+TEST_CASE("createSpikeEventSeries chunking of array-valued types", "[nwb]")
+{
+  // Array-valued types are not valid for SpikeEventSeries data in NWB, so the
+  // file uses the .h5 extension to exclude it from the NWB validation of the
+  // test files
+  std::string filename = getTestFilePath("createSESChunkingArrayType.h5");
+
+  std::shared_ptr<HDF5::HDF5IO> io = std::make_shared<HDF5::HDF5IO>(filename);
+  io->open();
+  auto nwbfile = AQNWB::NWB::NWBFile::create(io);
+  auto currentTime = getCurrentTime();
+  nwbfile->initialize(generateUuid(),
+                      "a recording session",
+                      "data collection info",
+                      currentTime,
+                      currentTime,
+                      getTestSubjectSpec());
+
+  std::vector<Types::ChannelVector> arrays = {
+      {Channel("ch0", "array0", 0, 0, 0),
+       Channel("ch1", "array0", 0, 1, 1),
+       Channel("ch2", "array0", 0, 2, 2),
+       Channel("ch3", "array0", 0, 3, 3)}};
+  REQUIRE(nwbfile->createElectrodesTable(arrays) != nullptr);
+  auto recordingObjects = io->getRecordingObjects();
+  const SizeType numSamples = 40;
+
+  // int16 with typeSize 5 is stored as an array of 5 values per element:
+  // 32768 bytes / (4 channels * 40 samples * 5 * 2 bytes) = 20 events
+  std::vector<SizeType> containerIndices = {};
+  REQUIRE(nwbfile->createSpikeEventSeries(arrays,
+                                          {"int16array"},
+                                          BaseDataType(BaseDataType::T_I16, 5),
+                                          containerIndices,
+                                          numSamples)
+          == Status::Success);
+  auto ses = std::dynamic_pointer_cast<NWB::SpikeEventSeries>(
+      recordingObjects->getRecordingObject(containerIndices[0]));
+  REQUIRE(ses != nullptr);
+  REQUIRE(io->getStorageObjectChunking(ses->getPath() + "/data")
+          == SizeArray {20, 4, numSamples});
+
+  // the same for float32 with typeSize 3:
+  // 32768 bytes / (4 channels * 40 samples * 3 * 4 bytes) = 17 events
+  REQUIRE(nwbfile->createSpikeEventSeries(arrays,
+                                          {"float32array"},
+                                          BaseDataType(BaseDataType::T_F32, 3),
+                                          containerIndices,
+                                          numSamples)
+          == Status::Success);
+  auto sesFloat = std::dynamic_pointer_cast<NWB::SpikeEventSeries>(
+      recordingObjects->getRecordingObject(containerIndices[1]));
+  REQUIRE(sesFloat != nullptr);
+  REQUIRE(io->getStorageObjectChunking(sesFloat->getPath() + "/data")
+          == SizeArray {17, 4, numSamples});
+  io->close();
+}
+
+TEST_CASE("createSpikeEventSeries conversion", "[nwb]")
+{
+  std::string filename = getTestFilePath("createSESConversion.nwb");
+
+  std::shared_ptr<HDF5::HDF5IO> io = std::make_shared<HDF5::HDF5IO>(filename);
+  io->open();
+  auto nwbfile = AQNWB::NWB::NWBFile::create(io);
+  auto currentTime = getCurrentTime();
+  nwbfile->initialize(generateUuid(),
+                      "a recording session",
+                      "data collection info",
+                      currentTime,
+                      currentTime,
+                      getTestSubjectSpec());
+
+  const float bitVoltsA = 0.195f;
+  const float bitVoltsB = 0.5f;
+  std::vector<Types::ChannelVector> arrays = {
+      {Channel("ch0", "array0", 0, 0, 0, 1e6f, 30000.f, bitVoltsA),
+       Channel("ch1", "array0", 0, 1, 1, 1e6f, 30000.f, bitVoltsB)}};
+  REQUIRE(nwbfile->createElectrodesTable(arrays) != nullptr);
+  auto recordingObjects = io->getRecordingObjects();
+  std::shared_ptr<NWB::SpikeEventSeries> ses = nullptr;
+  const SizeType numSamples = 5;
+
+  SECTION("default: per-channel factors are stored in channel_conversion")
+  {
+    std::vector<SizeType> containerIndices = {};
+    Status status = nwbfile->createSpikeEventSeries(
+        arrays, {"spikedata"}, BaseDataType::I16, containerIndices, numSamples);
+    REQUIRE(status == Status::Success);
+    ses = std::dynamic_pointer_cast<NWB::SpikeEventSeries>(
+        recordingObjects->getRecordingObject(containerIndices[0]));
+    REQUIRE(ses != nullptr);
+
+    REQUIRE(io->objectExists(ses->getPath() + "/channel_conversion"));
+    auto channelConversion = ses->readChannelConversion()->values().data;
+    REQUIRE(channelConversion.size() == 2);
+    REQUIRE(channelConversion[0] == Catch::Approx(bitVoltsA / 1e6f));
+    REQUIRE(channelConversion[1] == Catch::Approx(bitVoltsB / 1e6f));
+    auto conversion = ses->readDataConversion()->values().data;
+    REQUIRE(conversion.size() == 1);
+    REQUIRE(conversion[0] == Catch::Approx(1.0f));
+  }
+
+  SECTION("useChannelConversion=false: first channel's factor in conversion")
+  {
+    std::vector<SizeType> containerIndices = {};
+    Status status = nwbfile->createSpikeEventSeries(arrays,
+                                                    {"spikedata"},
+                                                    BaseDataType::I16,
+                                                    containerIndices,
+                                                    numSamples,
+                                                    false);
+    REQUIRE(status == Status::Success);
+    ses = std::dynamic_pointer_cast<NWB::SpikeEventSeries>(
+        recordingObjects->getRecordingObject(containerIndices[0]));
+    REQUIRE(ses != nullptr);
+
+    REQUIRE_FALSE(io->objectExists(ses->getPath() + "/channel_conversion"));
+    auto conversion = ses->readDataConversion()->values().data;
+    REQUIRE(conversion.size() == 1);
+    REQUIRE(conversion[0] == Catch::Approx(bitVoltsA / 1e6f));
+  }
+
+  // write a few spikes so that the file contains valid (non-empty) data
+  REQUIRE(io->startRecording() == Status::Success);
+  std::vector<int16_t> spike(arrays[0].size() * numSamples, 1);
+  const std::vector<double> timestamps = {0.1, 0.35, 0.9};  // irregular
+  for (double timestamp : timestamps) {
+    REQUIRE(
+        ses->writeSpike(numSamples, arrays[0].size(), spike.data(), &timestamp)
+        == Status::Success);
+  }
+  io->stopRecording();
+}
+
+TEST_CASE("createSpikeEventSeries fails for out-of-range channels", "[nwb]")
+{
+  // The file contains a SpikeEventSeries that could not be initialized, so it
+  // uses the .h5 extension to exclude it from the NWB validation of the test
+  // files
+  std::string filename = getTestFilePath("createSESOutOfRange.h5");
+
+  std::shared_ptr<HDF5::HDF5IO> io = std::make_shared<HDF5::HDF5IO>(filename);
+  io->open();
+  auto nwbfile = AQNWB::NWB::NWBFile::create(io);
+  auto currentTime = getCurrentTime();
+  nwbfile->initialize(generateUuid(),
+                      "a recording session",
+                      "data collection info",
+                      currentTime,
+                      currentTime,
+                      getTestSubjectSpec());
+
+  std::vector<Types::ChannelVector> electrodes = {
+      {Channel("ch0", "array0", 0, 0, 0), Channel("ch1", "array0", 0, 1, 1)}};
+  REQUIRE(nwbfile->createElectrodesTable(electrodes) != nullptr);
+
+  // The first series references electrode 5, which is not in the electrodes
+  // table; the second series is valid, and its success must not mask the
+  // failure of the first one
+  std::vector<Types::ChannelVector> arrays = {
+      {Channel("ch5", "array0", 0, 0, 5)}, {Channel("ch0", "array0", 0, 0, 0)}};
+  std::vector<SizeType> containerIndices = {};
+  Status status = nwbfile->createSpikeEventSeries(
+      arrays, {"invalid", "valid"}, BaseDataType::I16, containerIndices, 5);
+  REQUIRE(status == Status::Failure);
+  REQUIRE(containerIndices.size() == 2);
+  REQUIRE(io->objectExists("/acquisition/valid"));
+  io->close();
 }
 
 TEST_CASE("createAnnotationSeries", "[nwb]")

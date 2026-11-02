@@ -36,6 +36,68 @@ HDF5IO::HDF5IO(const std::string& fileName)
 {
 }
 
+FileAccPropList HDF5IO::createFileAccessPropertyList(
+    const ChunkCacheConfig& chunkCache)
+{
+  FileAccPropList fapl;  // new property list (do not modify the shared DEFAULT)
+  H5Pset_libver_bounds(fapl.getId(), H5F_LIBVER_LATEST, H5F_LIBVER_LATEST);
+  if (chunkCache.numBytes > 0) {
+    const SizeType numSlots =
+        chunkCache.numSlots > 0 ? chunkCache.numSlots : 12421;
+    H5Pset_cache(fapl.getId(),
+                 0,
+                 static_cast<size_t>(numSlots),
+                 static_cast<size_t>(chunkCache.numBytes),
+                 chunkCache.preemptionPolicy);
+  }
+  return fapl;
+}
+
+bool HDF5IO::isValidChunkCacheConfig(const ChunkCacheConfig& chunkCache)
+{
+  // written as a check for membership in [0, 1], so that NaN is rejected too
+  if (!(chunkCache.preemptionPolicy >= 0.0
+        && chunkCache.preemptionPolicy <= 1.0))
+  {
+    std::cerr << "HDF5IO: ChunkCacheConfig::preemptionPolicy must be in [0, 1]"
+              << std::endl;
+    return false;
+  }
+  return true;
+}
+
+std::string HDF5IO::fixedLengthString(const char* data, size_t size)
+{
+  const char* end = std::find(data, data + size, '\0');
+  return std::string(data, static_cast<size_t>(end - data));
+}
+
+SizeType HDF5IO::getChunkCacheNumBytes() const
+{
+  if (!m_opened || m_file == nullptr) {
+    return 0;
+  }
+  hid_t fapl = H5Fget_access_plist(m_file->getId());
+  size_t numBytes = 0;
+  if (fapl >= 0) {
+    H5Pget_cache(fapl, nullptr, nullptr, &numBytes, nullptr);
+    H5Pclose(fapl);
+  }
+  return static_cast<SizeType>(numBytes);
+}
+
+SizeType HDF5IO::getDefaultChunkCacheNumBytes()
+{
+  // A new file access property list has the library defaults
+  hid_t fapl = H5Pcreate(H5P_FILE_ACCESS);
+  size_t numBytes = 0;
+  if (fapl >= 0) {
+    H5Pget_cache(fapl, nullptr, nullptr, &numBytes, nullptr);
+    H5Pclose(fapl);
+  }
+  return static_cast<SizeType>(numBytes);
+}
+
 HDF5IO::~HDF5IO()
 {
   try {
@@ -56,9 +118,10 @@ HDF5IO::~HDF5IO()
 #ifdef H5_HAVE_ROS3_VFD
 Status HDF5IO::openS3(const std::string& aws_region,
                       const std::string& secret_id,
-                      const std::string& secret_key)
+                      const std::string& secret_key,
+                      const ChunkCacheConfig& chunkCache)
 {
-  if (m_opened) {
+  if (m_opened || !isValidChunkCacheConfig(chunkCache)) {
     return Status::Failure;
   }
 
@@ -79,11 +142,9 @@ Status HDF5IO::openS3(const std::string& aws_region,
   copyField(secret_id, ros3_fa.secret_id, sizeof(ros3_fa.secret_id));
   copyField(secret_key, ros3_fa.secret_key, sizeof(ros3_fa.secret_key));
 
-  FileAccPropList fapl = FileAccPropList::DEFAULT;
-  const herr_t libverStatus =
-      H5Pset_libver_bounds(fapl.getId(), H5F_LIBVER_LATEST, H5F_LIBVER_LATEST);
+  FileAccPropList fapl = createFileAccessPropertyList(chunkCache);
   const herr_t ros3Status = H5Pset_fapl_ros3(fapl.getId(), &ros3_fa);
-  if (libverStatus < 0 || ros3Status < 0) {
+  if (ros3Status < 0) {
     return Status::Failure;
   }
 
@@ -100,13 +161,13 @@ Status HDF5IO::openS3(const std::string& aws_region,
 #endif  // H5_HAVE_ROS3_VFD
 
 #ifdef AQNWB_HAVE_REMFILE_VFD
-Status HDF5IO::openRemote()
+Status HDF5IO::openRemote(const ChunkCacheConfig& chunkCache)
 {
-  if (m_opened) {
+  if (m_opened || !isValidChunkCacheConfig(chunkCache)) {
     return Status::Failure;
   }
 
-  FileAccPropList fapl = FileAccPropList::DEFAULT;
+  FileAccPropList fapl = createFileAccessPropertyList(chunkCache);
   if (H5Pset_fapl_remfile(fapl.getId(), nullptr) < 0) {
     return Status::Failure;
   }
@@ -134,9 +195,14 @@ Status HDF5IO::open()
 
 Status HDF5IO::open(FileMode mode)
 {
+  return open(mode, ChunkCacheConfig());
+}
+
+Status HDF5IO::open(FileMode mode, const ChunkCacheConfig& chunkCache)
+{
   unsigned int accFlags = 0;
 
-  if (m_opened) {
+  if (m_opened || !isValidChunkCacheConfig(chunkCache)) {
     return Status::Failure;
   }
 
@@ -146,8 +212,7 @@ Status HDF5IO::open(FileMode mode)
     }
   }
 
-  FileAccPropList fapl = FileAccPropList::DEFAULT;
-  H5Pset_libver_bounds(fapl.getId(), H5F_LIBVER_LATEST, H5F_LIBVER_LATEST);
+  FileAccPropList fapl = createFileAccessPropertyList(chunkCache);
 
   switch (mode) {
     case FileMode::Overwrite:
@@ -479,7 +544,7 @@ std::vector<std::string> HDF5IO::readStringDataHelper(
         std::vector<char> buffer(numElements * strSize);
         dataset->read(buffer.data(), strType, memspace, dataspace);
         for (size_t i = 0; i < numElements; ++i) {
-          data[i] = std::string(buffer.data() + i * strSize, strSize);
+          data[i] = fixedLengthString(buffer.data() + i * strSize, strSize);
         }
       }
     }
@@ -517,7 +582,7 @@ std::vector<std::string> HDF5IO::readStringDataHelper(
         std::vector<char> buffer(numElements * strSize);
         attribute->read(strType, buffer.data());
         for (size_t i = 0; i < numElements; ++i) {
-          data[i] = std::string(buffer.data() + i * strSize, strSize);
+          data[i] = fixedLengthString(buffer.data() + i * strSize, strSize);
         }
       }
     } else {
@@ -1258,13 +1323,20 @@ Status HDF5IO::createStringDataSet(const std::string& path,
     return Status::Failure;
   }
 
-  std::unique_ptr<H5::DataSet> dataset;
-  DataType H5type = getH5Type(IO::BaseDataType::STR(value.length()));
+  // HDF5 doesn't support fixed-length strings of size 0, so empty strings are
+  // stored with size 1 (null-padded, i.e., read back as an empty string)
+  DataType H5type =
+      getH5Type(IO::BaseDataType::STR(std::max<SizeType>(value.length(), 1)));
   DataSpace dSpace(H5S_SCALAR);
 
-  dataset = std::make_unique<H5::DataSet>(
-      m_file->createDataSet(path, H5type, dSpace));
-  dataset->write(value.c_str(), H5type);
+  try {
+    H5::DataSet dataset = m_file->createDataSet(path, H5type, dSpace);
+    dataset.write(value.c_str(), H5type);
+  } catch (const H5::Exception& error) {
+    std::cerr << "HDF5IO::createStringDataSet failed to create " << path << ": "
+              << error.getDetailMsg() << std::endl;
+    return Status::Failure;
+  }
 
   return Status::Success;
 }
@@ -1288,8 +1360,10 @@ Status HDF5IO::createStringDataSet(const std::string& path,
     return Status::Failure;
   }
 
-  dataset->writeDataBlock(
-      SizeArray {1}, SizeArray {0}, IO::BaseDataType::V_STR, values);
+  dataset->writeDataBlock(SizeArray {values.size()},
+                          SizeArray {0},
+                          IO::BaseDataType::V_STR,
+                          values);
 
   return Status::Success;
 }
@@ -1651,13 +1725,18 @@ H5O_type_t HDF5IO::getH5ObjectType(const std::string& path) const
   H5O_info_t objInfo;  // Structure to hold information about the object
   herr_t status;
 
+  // Don't print the HDF5 error stack if the object doesn't exist
+  H5E_BEGIN_TRY
+  {
 #if H5_VERSION_GE(1, 12, 0)
-  status = H5Oget_info_by_name(
-      m_file->getId(), path.c_str(), &objInfo, H5O_INFO_BASIC, H5P_DEFAULT);
+    status = H5Oget_info_by_name(
+        m_file->getId(), path.c_str(), &objInfo, H5O_INFO_BASIC, H5P_DEFAULT);
 #else
-  status =
-      H5Oget_info_by_name(m_file->getId(), path.c_str(), &objInfo, H5P_DEFAULT);
+    status = H5Oget_info_by_name(
+        m_file->getId(), path.c_str(), &objInfo, H5P_DEFAULT);
 #endif
+  }
+  H5E_END_TRY
 
   // Check if the object exists
   if (status < 0) {
@@ -1764,8 +1843,15 @@ AQNWB::IO::BaseDataType HDF5IO::getBaseDataType(const H5::DataType& nativeType)
     hid_t nativeTypeId = nativeType.getId();
     H5::ArrayType arrayType(nativeTypeId);
     H5::DataType baseType = arrayType.getSuper();
-    hsize_t size = static_cast<hsize_t>(arrayType.getArrayNDims());
-    return IO::BaseDataType(getBaseDataType(baseType).type, size);
+    // The typeSize is the number of values per element (the product of the
+    // array dimensions), not the number of array dimensions
+    const int numDims = arrayType.getArrayNDims();
+    std::vector<hsize_t> dims(static_cast<size_t>(std::max(numDims, 0)));
+    arrayType.getArrayDims(dims.data());
+    const hsize_t size = std::accumulate(
+        dims.begin(), dims.end(), hsize_t {1}, std::multiplies<hsize_t> {});
+    return IO::BaseDataType(getBaseDataType(baseType).type,
+                            static_cast<SizeType>(size));
   } else {
     // Default case: return a 32-bit integer type
     return IO::BaseDataType(IO::BaseDataType::Type::T_I32);
@@ -1802,7 +1888,7 @@ H5::DataType HDF5IO::getH5Type(IO::BaseDataType type)
       baseType = PredType::STD_U64LE;
       break;
     case BaseDataType::Type::T_F32:
-      return PredType::IEEE_F32LE;
+      baseType = PredType::IEEE_F32LE;
       break;
     case BaseDataType::Type::T_F64:
       baseType = PredType::IEEE_F64LE;

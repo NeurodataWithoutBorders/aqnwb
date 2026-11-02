@@ -2,10 +2,12 @@
 #include <filesystem>
 #include <future>
 #include <iostream>
+#include <limits>
 #include <memory>
 #include <thread>
 #include <vector>
 
+#include <H5Epublic.h>
 #include <H5Rpublic.h>
 #include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>
@@ -600,6 +602,48 @@ TEST_CASE("HDF5IO; write datasets", "[hdf5io]")
     REQUIRE(dataOut2D == testData);
     hdf5io->close();
   }
+}
+
+TEST_CASE("HDF5IO; createStringDataSet", "[hdf5io]")
+{
+  std::string path = getTestFilePath("test_createStringDataSet.h5");
+  IO::HDF5::HDF5IO hdf5io(path);
+  hdf5io.open();
+
+  SECTION("scalar string")
+  {
+    REQUIRE(hdf5io.createStringDataSet("/scalar", "value") == Status::Success);
+    auto data =
+        IO::DataBlock<std::string>::fromGeneric(hdf5io.readDataset("/scalar"));
+    REQUIRE(data.data == std::vector<std::string> {"value"});
+  }
+
+  SECTION("empty scalar string")
+  {
+    REQUIRE(hdf5io.createStringDataSet("/empty", "") == Status::Success);
+    auto data =
+        IO::DataBlock<std::string>::fromGeneric(hdf5io.readDataset("/empty"));
+    REQUIRE(data.data.size() == 1);
+    REQUIRE(data.data[0].empty());
+  }
+
+  SECTION("existing path fails")
+  {
+    REQUIRE(hdf5io.createStringDataSet("/scalar", "value") == Status::Success);
+    REQUIRE(hdf5io.createStringDataSet("/scalar", "value") == Status::Failure);
+  }
+
+  SECTION("string array")
+  {
+    const std::vector<std::string> values = {"str1", "str2", "str3"};
+    REQUIRE(hdf5io.createStringDataSet("/array", values) == Status::Success);
+    auto data =
+        IO::DataBlock<std::string>::fromGeneric(hdf5io.readDataset("/array"));
+    REQUIRE(data.shape == std::vector<SizeType> {3});
+    REQUIRE(data.data == values);
+  }
+
+  hdf5io.close();
 }
 
 TEST_CASE("HDF5IO createArrayDataSet with filters", "[HDF5IO]")
@@ -1357,7 +1401,69 @@ TEST_CASE("getH5Type", "[hdf5io]")
     hsize_t size = 5;
     H5::ArrayType expectedArrayType(H5::PredType::STD_I32LE, 1, &size);
     REQUIRE(h5TypeArray.getSize() == expectedArrayType.getSize());
+    REQUIRE(h5TypeArray.getClass() == H5T_ARRAY);
+
+    // all numeric types, including float32, are stored as arrays of typeSize
+    // values
+    for (const auto& type : {IO::BaseDataType::T_I16,
+                             IO::BaseDataType::T_F32,
+                             IO::BaseDataType::T_F64})
+    {
+      H5::DataType h5Type =
+          IO::HDF5::HDF5IO::getH5Type(IO::BaseDataType(type, 3));
+      REQUIRE(h5Type.getClass() == H5T_ARRAY);
+      REQUIRE(h5Type.getSize()
+              == 3
+                  * IO::HDF5::HDF5IO::getH5Type(IO::BaseDataType(type, 1))
+                        .getSize());
+    }
   }
+}
+
+TEST_CASE("getBaseDataType of array types", "[hdf5io]")
+{
+  // the typeSize is the number of values per element
+  hsize_t size = 5;
+  REQUIRE(IO::HDF5::HDF5IO::getBaseDataType(
+              H5::ArrayType(H5::PredType::NATIVE_INT32, 1, &size))
+          == IO::BaseDataType(IO::BaseDataType::T_I32, 5));
+  size = 3;
+  REQUIRE(IO::HDF5::HDF5IO::getBaseDataType(
+              H5::ArrayType(H5::PredType::NATIVE_FLOAT, 1, &size))
+          == IO::BaseDataType(IO::BaseDataType::T_F32, 3));
+  hsize_t dims[2] = {2, 3};
+  REQUIRE(IO::HDF5::HDF5IO::getBaseDataType(
+              H5::ArrayType(H5::PredType::NATIVE_DOUBLE, 2, dims))
+          == IO::BaseDataType(IO::BaseDataType::T_F64, 6));
+}
+
+TEST_CASE("HDF5IO; array-valued float32 dataset", "[hdf5io]")
+{
+  const std::string filename = getTestFilePath("testArrayValuedFloat32.h5");
+  const IO::BaseDataType type(IO::BaseDataType::T_F32, 3);
+  const std::vector<float> values = {
+      0.5f, 1.5f, 2.5f, 3.5f, 4.5f, 5.5f, 6.5f, 7.5f, 8.5f, 9.5f, 10.5f, 11.5f};
+  {
+    IO::HDF5::HDF5IO hdf5io(filename);
+    REQUIRE(hdf5io.open() == Status::Success);
+    auto dataset = hdf5io.createArrayDataSet(
+        IO::ArrayDataSetConfig(type, SizeArray {4}, SizeArray {4}), "/data");
+    REQUIRE(dataset != nullptr);
+    REQUIRE(dataset->writeDataBlock({4}, {0}, type, values.data())
+            == Status::Success);
+    REQUIRE(hdf5io.getStorageObjectDataType("/data") == type);
+    hdf5io.close();
+  }
+
+  // the file stores 4 elements of 3 float32 values each
+  H5::H5File file(filename, H5F_ACC_RDONLY);
+  H5::DataSet dataset = file.openDataSet("/data");
+  REQUIRE(dataset.getDataType().getClass() == H5T_ARRAY);
+  hsize_t size = 3;
+  std::vector<float> read(values.size());
+  dataset.read(read.data(),
+               H5::ArrayType(H5::PredType::NATIVE_FLOAT, 1, &size));
+  REQUIRE(read == values);
 }
 
 TEST_CASE("objectExists", "[hdf5io]")
@@ -2417,4 +2523,108 @@ TEST_CASE("getStorageObjectDataType", "[hdf5io]")
 
   // close file
   hdf5io.close();
+}
+
+namespace
+{
+/// Counts the calls of the HDF5 automatic error handler (which prints the
+/// HDF5-DIAG error stack by default)
+herr_t countHDF5ErrorReports(hid_t, void* count)
+{
+  ++*static_cast<int*>(count);
+  return 0;
+}
+}  // namespace
+
+TEST_CASE("HDF5IO; probing missing objects doesn't report HDF5 errors",
+          "[hdf5io]")
+{
+  const std::string filename = getTestFilePath("testProbeMissingObjects.h5");
+  IO::HDF5::HDF5IO hdf5io(filename);
+  REQUIRE(hdf5io.open() == Status::Success);
+  REQUIRE(hdf5io.createGroup("/group") == Status::Success);
+
+  // Count the error reports while probing the objects. CHECK (not REQUIRE)
+  // doesn't end the test, so the previous handler is always restored (the
+  // handler holds a pointer to the local counter).
+  H5E_auto2_t oldHandler = nullptr;
+  void* oldData = nullptr;
+  H5Eget_auto2(H5E_DEFAULT, &oldHandler, &oldData);
+  int count = 0;
+  H5Eset_auto2(H5E_DEFAULT, countHDF5ErrorReports, &count);
+  CHECK(hdf5io.getStorageObjectType("/missing")
+        == StorageObjectType::Undefined);
+  CHECK(hdf5io.getStorageObjectType("/missing/child")
+        == StorageObjectType::Undefined);
+  CHECK(hdf5io.getStorageObjectType("/group/missing")
+        == StorageObjectType::Undefined);
+  CHECK_FALSE(hdf5io.objectExists("/group/missing"));
+  CHECK(hdf5io.getStorageObjectType("/group") == StorageObjectType::Group);
+  H5Eset_auto2(H5E_DEFAULT, oldHandler, oldData);
+
+  REQUIRE(count == 0);
+  hdf5io.close();
+}
+
+TEST_CASE("HDF5IO; chunk cache", "[hdf5io]")
+{
+  // HDF5 default (e.g., 1 MiB in HDF5 1.14 and 8 MiB in HDF5 2.2)
+  const SizeType defaultCacheBytes =
+      IO::HDF5::HDF5IO::getDefaultChunkCacheNumBytes();
+  REQUIRE(defaultCacheBytes > 0);
+  const SizeType cacheBytes = 64 * 1024 * 1024;
+
+  SECTION("default chunk cache")
+  {
+    IO::HDF5::HDF5IO io(getTestFilePath("testChunkCacheDefault.h5"));
+    REQUIRE(io.getChunkCacheNumBytes() == 0);  // not open
+    REQUIRE(io.open(IO::FileMode::Overwrite) == Status::Success);
+    REQUIRE(io.getChunkCacheNumBytes() == defaultCacheBytes);
+    io.close();
+  }
+
+  SECTION("configured chunk cache does not affect other files")
+  {
+    IO::HDF5::HDF5IO io(getTestFilePath("testChunkCache.h5"));
+    REQUIRE(io.open(IO::FileMode::Overwrite,
+                    IO::HDF5::ChunkCacheConfig {cacheBytes})
+            == Status::Success);
+    REQUIRE(io.getChunkCacheNumBytes() == cacheBytes);
+
+    // the cache setting must not leak into files opened afterwards
+    IO::HDF5::HDF5IO io2(getTestFilePath("testChunkCache2.h5"));
+    REQUIRE(io2.open(IO::FileMode::Overwrite) == Status::Success);
+    REQUIRE(io2.getChunkCacheNumBytes() == defaultCacheBytes);
+    io2.close();
+    io.close();
+  }
+
+  SECTION("custom number of slots and preemption policy")
+  {
+    IO::HDF5::HDF5IO io(getTestFilePath("testChunkCacheSlots.h5"));
+    REQUIRE(io.open(IO::FileMode::Overwrite,
+                    IO::HDF5::ChunkCacheConfig {cacheBytes, 1009, 0.5})
+            == Status::Success);
+    REQUIRE(io.getChunkCacheNumBytes() == cacheBytes);
+    io.close();
+  }
+
+  SECTION("invalid preemption policy")
+  {
+    IO::HDF5::HDF5IO io(getTestFilePath("testChunkCacheInvalid.h5"));
+    REQUIRE(io.open(IO::FileMode::Overwrite,
+                    IO::HDF5::ChunkCacheConfig {cacheBytes, 0, 1.5})
+            == Status::Failure);
+    REQUIRE(io.isOpen() == false);
+    REQUIRE(io.open(IO::FileMode::Overwrite,
+                    IO::HDF5::ChunkCacheConfig {cacheBytes, 0, -0.5})
+            == Status::Failure);
+    REQUIRE(io.isOpen() == false);
+    REQUIRE(
+        io.open(IO::FileMode::Overwrite,
+                IO::HDF5::ChunkCacheConfig {
+                    cacheBytes, 0, std::numeric_limits<double>::quiet_NaN()})
+        == Status::Failure);
+    REQUIRE(io.isOpen() == false);
+  }
 }
