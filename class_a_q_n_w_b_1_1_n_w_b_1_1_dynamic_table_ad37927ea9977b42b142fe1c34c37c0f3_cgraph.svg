@@ -47,7 +47,7 @@
   </g>
 </defs>
 <script type="application/ecmascript" xlink:href="svg.min.js"/>
-<svg id="graph" class="graph" data-view-width="1517" data-view-height="525" data-section-id="dynsection-20">
+<svg id="graph" class="graph" data-view-width="1517" data-view-height="525" data-section-id="dynsection-21">
 <g id="viewport">
 <title>AQNWB::NWB::DynamicTable::create</title>
 <!-- Node1 -->
@@ -545,6 +545,15 @@
 <g id="a_edge30_Node000022_Node000023"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M529.82,-334.25C540.46,-334.25 551.46,-334.25 562.28,-334.25"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="561.95,-337.75 571.95,-334.25 561.95,-330.75 561.95,-337.75"/>
+</a>
+</g>
+</g>
+<!-- Node23&#45;&gt;Node23 -->
+<g id="edge31_Node000023_Node000023" class="edge">
+<title>Node23&#45;&gt;Node23</title>
+<g id="a_edge31_Node000023_Node000023"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M615.14,-349.99C608.02,-359.06 619.64,-367.5 650,-367.5 666.6,-367.5 677.6,-364.97 683,-361.2"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="686.42,-361.92 684.62,-351.48 679.52,-360.77 686.42,-361.92"/>
 </a>
 </g>
 </g>

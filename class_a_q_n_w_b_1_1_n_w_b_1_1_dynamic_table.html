@@ -286,6 +286,9 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a913d63543213a32b6f1f8c069ee9136b" id="r_a913d63543213a32b6f1f8c069ee9136b"><td class="memTemplParams" colspan="2">template&lt;typename RequiredDataSpec&gt; </td></tr>
 <tr class="memitem:a913d63543213a32b6f1f8c069ee9136b template"><td class="memItemLeft"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a913d63543213a32b6f1f8c069ee9136b">checkRequiredColumnSpec</a> (const std::string &amp;requiredName, const std::vector&lt; <a class="el" href="#a81a2e0b8f0630420c8c5d11201ecf9b2">DataSpecPtr</a> &gt; &amp;dataSpecs, const std::optional&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">IO::BaseDataType</a> &gt; &amp;expectedDataType=std::nullopt) const</td></tr>
 <tr class="memdesc:a913d63543213a32b6f1f8c069ee9136b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate the concrete specification, shape, and optionally data type of a required column.  <br /></td></tr>
+<tr class="memitem:a655e5bb6fd7cd73d0c70d36cd620c963" id="r_a655e5bb6fd7cd73d0c70d36cd620c963"><td class="memTemplParams" colspan="2">template&lt;typename RequiredDataSpec&gt; </td></tr>
+<tr class="memitem:a655e5bb6fd7cd73d0c70d36cd620c963 template"><td class="memItemLeft"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a655e5bb6fd7cd73d0c70d36cd620c963">checkRequiredColumnSpec</a> (const std::string &amp;requiredName, const std::vector&lt; <a class="el" href="#a81a2e0b8f0630420c8c5d11201ecf9b2">DataSpecPtr</a> &gt; &amp;dataSpecs, const std::vector&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">IO::BaseDataType</a> &gt; &amp;allowedDataTypes) const</td></tr>
+<tr class="memdesc:a655e5bb6fd7cd73d0c70d36cd620c963"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check that a required column spec exists and has one of the allowed data types.  <br /></td></tr>
 <tr class="memitem:a591200640bbfa93856f4ec63719bc03c" id="r_a591200640bbfa93856f4ec63719bc03c"><td class="memItemLeft"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a591200640bbfa93856f4ec63719bc03c">writeColumnBuffer</a> (const <a class="el" href="struct_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_1_1_configured_column.html">ConfiguredColumn</a> &amp;configuredColumn, const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#a1308a49c22a6990922c7433eb45f59ca">IO::BaseDataType::BaseDataVectorVariant</a> &amp;buffer, <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> rowCount)</td></tr>
 <tr class="memdesc:a591200640bbfa93856f4ec63719bc03c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write a buffer of data to a configured column.  <br /></td></tr>
 <tr class="memitem:add07e0cb9577eee0ccbf5fb0efc48d44" id="r_add07e0cb9577eee0ccbf5fb0efc48d44"><td class="memItemLeft">std::vector&lt; int &gt;&#160;</td><td class="memItemRight"><a class="el" href="#add07e0cb9577eee0ccbf5fb0efc48d44">generateRowIDs</a> (<a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> rowCount)</td></tr>
@@ -736,7 +739,7 @@ Here is the caller graph for this function:</div>
 </div>
 </div>
 <a id="a913d63543213a32b6f1f8c069ee9136b" name="a913d63543213a32b6f1f8c069ee9136b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a913d63543213a32b6f1f8c069ee9136b">&#9670;&#160;</a></span>checkRequiredColumnSpec()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a913d63543213a32b6f1f8c069ee9136b">&#9670;&#160;</a></span>checkRequiredColumnSpec() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -786,10 +789,63 @@ template&lt;typename RequiredDataSpec&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Status::Success when every spec for the required column has the required concrete type, is one-dimensional, and has the expected data type when specified; otherwise Status::Failure. </dd></dl>
 <div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_a913d63543213a32b6f1f8c069ee9136b_cgraph.svg" width="215" height="76"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_a913d63543213a32b6f1f8c069ee9136b_icgraph.svg" width="100%" height="535"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
+
+</div>
+</div>
+<a id="a655e5bb6fd7cd73d0c70d36cd620c963" name="a655e5bb6fd7cd73d0c70d36cd620c963"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a655e5bb6fd7cd73d0c70d36cd620c963">&#9670;&#160;</a></span>checkRequiredColumnSpec() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename RequiredDataSpec&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> AQNWB::NWB::DynamicTable::checkRequiredColumnSpec </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>requiredName</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="#a81a2e0b8f0630420c8c5d11201ecf9b2">DataSpecPtr</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>dataSpecs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">IO::BaseDataType</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>allowedDataTypes</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Check that a required column spec exists and has one of the allowed data types. </p>
+<p>Same as <a class="el" href="#a913d63543213a32b6f1f8c069ee9136b" title="Validate the concrete specification, shape, and optionally data type of a required column.">checkRequiredColumnSpec()</a> with a single expected data type, but accepts any of the given data types (e.g., float32 or float64 for columns with dtype <span class="tt">float</span> in the schema).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">requiredName</td><td>The name of the required column. </td></tr>
+    <tr><td class="paramname">dataSpecs</td><td>The column specifications to check. </td></tr>
+    <tr><td class="paramname">allowedDataTypes</td><td>The allowed data types. If empty, the data type is not checked. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Status::Success if the column exists, uses the required concrete type, is one-dimensional, and has one of the allowed data types; otherwise Status::Failure. </dd></dl>
 
 </div>
 </div>
@@ -1914,7 +1970,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_a5ea71d7fbe67187452e960d281f56c56_cgraph.svg" width="466" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_a5ea71d7fbe67187452e960d281f56c56_cgraph.svg" width="466" height="76"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>

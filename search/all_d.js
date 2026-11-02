@@ -33,10 +33,12 @@ var searchData=
   ['existing_20file_20for_20reading_30',['Opening an existing file for reading',['../read_page.html#read_example_open',1,'']]],
   ['exists_31',['exists',['../class_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper.html#aa67d145711df12192d43d07c3a52546a',1,'AQNWB::IO::ReadDataWrapper']]],
   ['experimental_32',['experimental',['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_h_d_m_f___e_x_p_e_r_i_m_e_n_t_a_l.html#ac353ef164be0c431a75ad8f7a36129ca',1,'AQNWB::SPEC::HDMF_EXPERIMENTAL']]],
-  ['extension_33',['Extension',['../integrating_extensions_page.html#labmetadata_extension_schema',1,'Step 1: Get the Schema of the Extension'],['../integrating_extensions_page.html#labmetadata_extension_usage',1,'Step 4: Using the Extension']]],
-  ['extension_20demo_34',['LabMetaData Extension Demo',['../integrating_extensions_page.html#labmetadata_extension_demo',1,'']]],
-  ['extension_20with_20aqnwb_35',['Integrating LabMetaData Extension with AqNWB',['../user_demos.html#demos_labmetadata_extension',1,'']]],
-  ['extensions_20🧩_36',['Integrating NWB Extensions 🧩',['../integrating_extensions_page.html',1,'devdocs']]],
-  ['extracellular_20recording_20metadata_37',['Create the extracellular recording metadata',['../workflow.html#create_recmeta_ecephys',1,'']]],
-  ['extractindexvalue_38',['extractIndexValue',['../class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html#a6ed59fcb591ce449a19d8aab2a5729e1',1,'AQNWB::NWB::VectorIndex']]]
+  ['experimentdescription_33',['experimentDescription',['../struct_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_1_1_general_metadata_spec.html#abd0ba707c8fe9cd99f9fb5555657b546',1,'AQNWB::NWB::NWBFile::GeneralMetadataSpec']]],
+  ['experimenter_34',['experimenter',['../struct_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_1_1_general_metadata_spec.html#a4b921636fc0e71bd123f9602ed50137f',1,'AQNWB::NWB::NWBFile::GeneralMetadataSpec']]],
+  ['extension_35',['Extension',['../integrating_extensions_page.html#labmetadata_extension_schema',1,'Step 1: Get the Schema of the Extension'],['../integrating_extensions_page.html#labmetadata_extension_usage',1,'Step 4: Using the Extension']]],
+  ['extension_20demo_36',['LabMetaData Extension Demo',['../integrating_extensions_page.html#labmetadata_extension_demo',1,'']]],
+  ['extension_20with_20aqnwb_37',['Integrating LabMetaData Extension with AqNWB',['../user_demos.html#demos_labmetadata_extension',1,'']]],
+  ['extensions_20🧩_38',['Integrating NWB Extensions 🧩',['../integrating_extensions_page.html',1,'devdocs']]],
+  ['extracellular_20recording_20metadata_39',['Create the extracellular recording metadata',['../workflow.html#create_recmeta_ecephys',1,'']]],
+  ['extractindexvalue_40',['extractIndexValue',['../class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html#a6ed59fcb591ce449a19d8aab2a5729e1',1,'AQNWB::NWB::VectorIndex']]]
 ];

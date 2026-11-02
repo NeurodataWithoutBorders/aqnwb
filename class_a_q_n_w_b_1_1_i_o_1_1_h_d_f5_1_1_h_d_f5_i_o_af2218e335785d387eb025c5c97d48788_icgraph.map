@@ -1,0 +1,9 @@
+<map id="AQNWB::IO::HDF5::HDF5IO::createFileAccessPropertyList" name="AQNWB::IO::HDF5::HDF5IO::createFileAccessPropertyList">
+<area shape="rect" id="Node000001" title="Creates a new file access property list for opening a file." alt="" coords="248,71,448,111"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a338cc5cacca9f4c33022e3ef632800d4" title="Opens an existing file or creates a new file for writing, with a custom raw data chunk cache." alt="" coords="5,5,200,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="252,67,182,49,182,44,257,65"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#ac28c5097f58f4e923c2341ff8c28a8f4" title="Opens a remote file over HTTP(S) in read&#45;only mode using the remfile virtual file driver." alt="" coords="5,71,200,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="229,92,200,94,200,88,235,90"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#ac78b9e8964d6826ffd63d76e40f34ecb" title="Opens an existing file in read&#45;only mode using the ROS3 driver." alt="" coords="5,136,200,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="257,115,182,138,181,133,251,117"/>
+</map>

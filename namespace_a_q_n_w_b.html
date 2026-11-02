@@ -136,6 +136,8 @@ Classes</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:a7a202ee50288eeca65b9b98370226a82" id="r_a7a202ee50288eeca65b9b98370226a82"><td class="memItemLeft">static std::string&#160;</td><td class="memItemRight"><a class="el" href="#a7a202ee50288eeca65b9b98370226a82">generateUuid</a> ()</td></tr>
 <tr class="memdesc:a7a202ee50288eeca65b9b98370226a82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates a UUID (Universally Unique Identifier) as a string.  <br /></td></tr>
+<tr class="memitem:a95fd6651b3a8c6f28d4b3454a17fbaf8" id="r_a95fd6651b3a8c6f28d4b3454a17fbaf8"><td class="memItemLeft">static std::string&#160;</td><td class="memItemRight"><a class="el" href="#a95fd6651b3a8c6f28d4b3454a17fbaf8">formatTime</a> (const std::chrono::system_clock::time_point &amp;timePoint)</td></tr>
+<tr class="memdesc:a95fd6651b3a8c6f28d4b3454a17fbaf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Format a time point in ISO 8601 format with microseconds and the local UTC offset, e.g., "2026-10-20T20:32:38.844767-07:00".  <br /></td></tr>
 <tr class="memitem:ac436d136125307ef8158115a2296b3e9" id="r_ac436d136125307ef8158115a2296b3e9"><td class="memItemLeft">static std::string&#160;</td><td class="memItemRight"><a class="el" href="#ac436d136125307ef8158115a2296b3e9">getCurrentTime</a> ()</td></tr>
 <tr class="memdesc:ac436d136125307ef8158115a2296b3e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current time in ISO 8601 format with the UTC offset.  <br /></td></tr>
 <tr class="memitem:a4aacc6b82eca3064a8afe0070c44cde4" id="r_a4aacc6b82eca3064a8afe0070c44cde4"><td class="memItemLeft">static bool&#160;</td><td class="memItemRight"><a class="el" href="#a4aacc6b82eca3064a8afe0070c44cde4">isISO8601Date</a> (const std::string &amp;dateStr)</td></tr>
@@ -368,6 +370,50 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="a95fd6651b3a8c6f28d4b3454a17fbaf8" name="a95fd6651b3a8c6f28d4b3454a17fbaf8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95fd6651b3a8c6f28d4b3454a17fbaf8">&#9670;&#160;</a></span>formatTime()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string AQNWB::formatTime </td>
+          <td>(</td>
+          <td class="paramtype">const std::chrono::system_clock::time_point &amp;</td>          <td class="paramname"><span class="paramname"><em>timePoint</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Format a time point in ISO 8601 format with microseconds and the local UTC offset, e.g., "2026-10-20T20:32:38.844767-07:00". </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">timePoint</td><td>The time point to format. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The time as a string in ISO 8601 format. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="namespace_a_q_n_w_b_a95fd6651b3a8c6f28d4b3454a17fbaf8_cgraph.svg" width="606" height="215"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="namespace_a_q_n_w_b_a95fd6651b3a8c6f28d4b3454a17fbaf8_icgraph.svg" width="376" height="60"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
 <a id="a7a202ee50288eeca65b9b98370226a82" name="a7a202ee50288eeca65b9b98370226a82"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7a202ee50288eeca65b9b98370226a82">&#9670;&#160;</a></span>generateUuid()</h2>
 
@@ -434,7 +480,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="namespace_a_q_n_w_b_ac436d136125307ef8158115a2296b3e9_cgraph.svg" width="630" height="215"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="namespace_a_q_n_w_b_ac436d136125307ef8158115a2296b3e9_cgraph.svg" width="100%" height="461"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -522,7 +568,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="namespace_a_q_n_w_b_a4aacc6b82eca3064a8afe0070c44cde4_icgraph.svg" width="180" height="60"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="namespace_a_q_n_w_b_a4aacc6b82eca3064a8afe0070c44cde4_icgraph.svg" width="100%" height="555"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>

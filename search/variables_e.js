@@ -1,7 +1,20 @@
 var searchData=
 [
-  ['u16_0',['U16',['../class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#a4f81a3a672c34a8a02f3b56341673331',1,'AQNWB::IO::BaseDataType']]],
-  ['u32_1',['U32',['../class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#a2714edcd482a021be1455cb07ce8abf2',1,'AQNWB::IO::BaseDataType']]],
-  ['u64_2',['U64',['../class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#a3b677aa53324f06022819010d41ed6b5',1,'AQNWB::IO::BaseDataType']]],
-  ['u8_3',['U8',['../class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html#a69146c183a01f52dc3e034b1a91ff577',1,'AQNWB::IO::BaseDataType']]]
+  ['sessionid_0',['sessionId',['../struct_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_1_1_general_metadata_spec.html#a0caebff0b21d305317954b645fba6af8',1,'AQNWB::NWB::NWBFile::GeneralMetadataSpec']]],
+  ['sex_1',['sex',['../struct_a_q_n_w_b_1_1_n_w_b_1_1_subject_1_1_subject_spec.html#ac16285ad94244558c2563f4ba846e82b',1,'AQNWB::NWB::Subject::SubjectSpec']]],
+  ['shape_2',['shape',['../class_a_q_n_w_b_1_1_i_o_1_1_data_block_generic.html#a14c0d392b7a71a3a2bc4c8e24b1723ed',1,'AQNWB::IO::DataBlockGeneric::shape'],['../class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a0dd6888bd290c181623ef164ebb7b9e8',1,'AQNWB::IO::DataBlock::shape']]],
+  ['sizetypenotset_3',['SizeTypeNotSet',['../namespace_a_q_n_w_b_1_1_types.html#a489c41cdd124123f0595271873e00dbe',1,'AQNWB::Types']]],
+  ['slices_4',['slices',['../struct_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_1_1_general_metadata_spec.html#a9eff2da45a8d10d0a19c3facb350c55f',1,'AQNWB::NWB::NWBFile::GeneralMetadataSpec']]],
+  ['sourcescript_5',['sourceScript',['../struct_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_1_1_general_metadata_spec.html#a9f2dfa1e96aa9e30b9abd8e65c0c7ad4',1,'AQNWB::NWB::NWBFile::GeneralMetadataSpec']]],
+  ['sourcescriptfilename_6',['sourceScriptFileName',['../struct_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_1_1_general_metadata_spec.html#afef514fa1abbda159e82d462ad214cdf',1,'AQNWB::NWB::NWBFile::GeneralMetadataSpec']]],
+  ['sparse_7',['sparse',['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_h_d_m_f___c_o_m_m_o_n.html#aaf298a798626cba1e492c31b7f6cb9ec',1,'AQNWB::SPEC::HDMF_COMMON']]],
+  ['species_8',['species',['../struct_a_q_n_w_b_1_1_n_w_b_1_1_subject_1_1_subject_spec.html#a344a34f29566662d14911d79c2183d84',1,'AQNWB::NWB::Subject::SubjectSpec']]],
+  ['specifications_5fpath_9',['SPECIFICATIONS_PATH',['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aee84d1c16fb8aeec42166bd38e7816f2',1,'AQNWB::NWB::NWBFile']]],
+  ['specvariables_10',['specVariables',['../struct_a_q_n_w_b_1_1_types_1_1_namespace_info.html#ac1c94bdae8d97d96987b06aac06c091e',1,'AQNWB::Types::NamespaceInfo::specVariables'],['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_c_o_r_e.html#a1f870bff4b834d9817781bce3ac0a046',1,'AQNWB::SPEC::CORE::specVariables'],['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_h_d_m_f___c_o_m_m_o_n.html#a4f87f26379c40b2a91421ca1d6d47c26',1,'AQNWB::SPEC::HDMF_COMMON::specVariables'],['../namespace_a_q_n_w_b_1_1_s_p_e_c_1_1_h_d_m_f___e_x_p_e_r_i_m_e_n_t_a_l.html#af5c8a8f04e2049549326dad259d8c989',1,'AQNWB::SPEC::HDMF_EXPERIMENTAL::specVariables']]],
+  ['spike_5fchunk_5ftarget_5fbytes_11',['SPIKE_CHUNK_TARGET_BYTES',['../_n_w_b_file_8cpp.html#afaf9facb5eb2ff8e8ce0627c9d830449',1,'NWBFile.cpp']]],
+  ['stimulus_5fpath_12',['STIMULUS_PATH',['../class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a0c3fbd0acd94af626b3b1c9e29216c89',1,'AQNWB::NWB::NWBFile']]],
+  ['stimulusnotes_13',['stimulusNotes',['../struct_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_1_1_general_metadata_spec.html#a7f329bbb882f8d51f9a2db653c6e0277',1,'AQNWB::NWB::NWBFile::GeneralMetadataSpec']]],
+  ['strain_14',['strain',['../struct_a_q_n_w_b_1_1_n_w_b_1_1_subject_1_1_subject_spec.html#a3ef7faa5691b7953c1c9f205789de424',1,'AQNWB::NWB::Subject::SubjectSpec']]],
+  ['subjectid_15',['subjectId',['../struct_a_q_n_w_b_1_1_n_w_b_1_1_subject_1_1_subject_spec.html#a505c0ccc4285b6d0901ccfe183e0b68c',1,'AQNWB::NWB::Subject::SubjectSpec']]],
+  ['surgery_16',['surgery',['../struct_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_1_1_general_metadata_spec.html#abf2e2f58c48b328494accb1977c2214e',1,'AQNWB::NWB::NWBFile::GeneralMetadataSpec']]]
 ];

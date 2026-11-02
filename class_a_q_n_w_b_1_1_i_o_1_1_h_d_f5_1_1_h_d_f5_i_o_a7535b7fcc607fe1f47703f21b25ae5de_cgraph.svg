@@ -47,7 +47,7 @@
   </g>
 </defs>
 <script type="application/ecmascript" xlink:href="svg.min.js"/>
-<svg id="graph" class="graph" data-view-width="517" data-view-height="204" data-section-id="dynsection-45">
+<svg id="graph" class="graph" data-view-width="517" data-view-height="204" data-section-id="dynsection-49">
 <g id="viewport">
 <title>AQNWB::IO::HDF5::HDF5IO::readAttribute</title>
 <!-- Node1 -->
@@ -161,6 +161,25 @@
 <g id="a_edge4_Node000004_Node000004"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M222.42,-128.99C215.85,-138.06 226.58,-146.5 254.62,-146.5 269.96,-146.5 280.12,-143.97 285.1,-140.2"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="288.54,-140.9 286.6,-130.48 281.62,-139.83 288.54,-140.9"/>
+</a>
+</g>
+</g>
+<!-- Node7 -->
+<g id="Node000007" class="node">
+<title>Node7</title>
+<g id="a_Node000007"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#afe1cffb8ed04248b16c5cf68266d4b1b" target="_top" xlink:title="Returns the value of a fixed&#45;length string element.">
+<polygon fill="white" stroke="#666666" points="509.25,-30.5 363.5,-30.5 363.5,0 509.25,0 509.25,-30.5"/>
+<text xml:space="preserve" text-anchor="start" x="371.5" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::IO::HDF5::HDF5IO</text>
+<text xml:space="preserve" text-anchor="middle" x="436.38" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::fixedLengthString</text>
+</a>
+</g>
+</g>
+<!-- Node6&#45;&gt;Node7 -->
+<g id="edge7_Node000006_Node000007" class="edge">
+<title>Node6&#45;&gt;Node7</title>
+<g id="a_edge7_Node000006_Node000007"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M327.96,-15.25C335.85,-15.25 343.93,-15.25 351.94,-15.25"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="351.68,-18.75 361.68,-15.25 351.68,-11.75 351.68,-18.75"/>
 </a>
 </g>
 </g>

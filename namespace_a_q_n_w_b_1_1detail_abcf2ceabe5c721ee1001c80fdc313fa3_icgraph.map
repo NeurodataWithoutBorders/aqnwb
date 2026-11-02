@@ -1,11 +1,14 @@
 <map id="AQNWB::detail::to_local_time" name="AQNWB::detail::to_local_time">
-<area shape="rect" id="Node000001" title="Convert a std::time_t value to a local std::tm structure." alt="" coords="414,66,610,92"/>
-<area shape="poly" id="edge6_Node000001_Node000001" title=" " alt="" coords="549,51,537,47,512,45,489,47,477,52,474,57,481,67,476,65,469,58,473,48,488,42,512,40,539,42,554,52"/>
-<area shape="rect" id="Node000002" href="$namespace_a_q_n_w_b_1_1detail.html#af6ff85116f650b5a02fbca4c821b6c9b" title="Get the UTC offset in seconds for a given time_t value." alt="" coords="224,29,366,70"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="396,64,366,62,366,57,401,64"/>
-<area shape="rect" id="Node000003" href="$namespace_a_q_n_w_b.html#ac436d136125307ef8158115a2296b3e9" title="Get the current time in ISO 8601 format with the UTC offset." alt="" coords="5,66,176,92"/>
-<area shape="poly" id="edge5_Node000001_Node000003" title=" " alt="" coords="395,81,366,84,224,84,176,84,176,78,224,79,366,79,401,81"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="326,14,316,10,295,8,275,10,264,15,259,20,261,30,256,27,254,19,260,10,274,5,295,3,317,5,332,14"/>
-<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="206,62,177,69,176,64,211,62"/>
-<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="124,51,114,47,90,45,69,47,57,52,55,57,61,66,56,66,50,58,54,48,68,42,91,40,116,42,130,51"/>
+<area shape="rect" id="Node000001" title="Convert a std::time_t value to a local std::tm structure." alt="" coords="608,29,805,55"/>
+<area shape="poly" id="edge8_Node000001_Node000001" title=" " alt="" coords="743,14,732,10,706,8,684,10,671,15,669,20,675,30,670,28,663,21,668,11,682,5,707,3,733,5,748,15"/>
+<area shape="rect" id="Node000002" href="$namespace_a_q_n_w_b.html#a95fd6651b3a8c6f28d4b3454a17fbaf8" title="Format a time point in ISO 8601 format with microseconds and the local UTC offset,..." alt="" coords="224,29,370,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="590,29,560,29,489,26,418,29,371,34,370,28,418,24,489,21,560,24,596,28"/>
+<area shape="rect" id="Node000004" href="$namespace_a_q_n_w_b_1_1detail.html#af6ff85116f650b5a02fbca4c821b6c9b" title="Get the UTC offset in seconds for a given time_t value." alt="" coords="418,62,560,102"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="621,58,561,72,561,66,615,59"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="329,14,319,10,297,8,277,10,266,15,264,20,269,30,264,28,258,21,262,11,275,5,297,3,321,5,334,15"/>
+<area shape="rect" id="Node000003" href="$namespace_a_q_n_w_b.html#ac436d136125307ef8158115a2296b3e9" title="Get the current time in ISO 8601 format with the UTC offset." alt="" coords="5,29,176,55"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="205,43,176,45,176,40,211,42"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="125,15,114,10,90,8,69,10,57,15,55,20,61,29,56,29,49,21,53,11,67,5,91,3,116,5,130,14"/>
+<area shape="poly" id="edge6_Node000004_Node000002" title=" " alt="" coords="400,64,362,58,362,53,406,64"/>
+<area shape="poly" id="edge7_Node000004_Node000004" title=" " alt="" coords="519,46,509,43,489,40,471,42,460,47,456,53,457,63,453,60,451,52,457,43,470,37,489,35,510,38,524,47"/>
 </map>

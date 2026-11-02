@@ -16,6 +16,7 @@ var namespace_a_q_n_w_b =
     [ "checkStatus", "namespace_a_q_n_w_b.html#aa2ae7bd54f7ed396e61e6cec9d208140", null ],
     [ "convertFloatToInt16LE", "namespace_a_q_n_w_b.html#a222344ec88fdbd8803d14dabea0f97bc", null ],
     [ "createIO", "namespace_a_q_n_w_b.html#aae4545d930db6f70b4438e0167c500d0", null ],
+    [ "formatTime", "namespace_a_q_n_w_b.html#a95fd6651b3a8c6f28d4b3454a17fbaf8", null ],
     [ "generateUuid", "namespace_a_q_n_w_b.html#a7a202ee50288eeca65b9b98370226a82", null ],
     [ "getCurrentTime", "namespace_a_q_n_w_b.html#ac436d136125307ef8158115a2296b3e9", null ],
     [ "intToStatus", "namespace_a_q_n_w_b.html#a09b9a48d0ec26fe72452788634ee12bb", null ],

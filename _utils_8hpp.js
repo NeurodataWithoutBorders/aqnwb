@@ -5,6 +5,7 @@ var _utils_8hpp =
     [ "AQNWB::convertFloatToInt16LE", "namespace_a_q_n_w_b.html#a222344ec88fdbd8803d14dabea0f97bc", null ],
     [ "AQNWB::createIO", "namespace_a_q_n_w_b.html#aae4545d930db6f70b4438e0167c500d0", null ],
     [ "AQNWB::detail::format_utc_offset", "namespace_a_q_n_w_b_1_1detail.html#ad0651da97ed82b774d723c172538375c", null ],
+    [ "AQNWB::formatTime", "namespace_a_q_n_w_b.html#a95fd6651b3a8c6f28d4b3454a17fbaf8", null ],
     [ "AQNWB::generateUuid", "namespace_a_q_n_w_b.html#a7a202ee50288eeca65b9b98370226a82", null ],
     [ "AQNWB::detail::get_utc_offset_seconds", "namespace_a_q_n_w_b_1_1detail.html#af6ff85116f650b5a02fbca4c821b6c9b", null ],
     [ "AQNWB::getCurrentTime", "namespace_a_q_n_w_b.html#ac436d136125307ef8158115a2296b3e9", null ],

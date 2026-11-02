@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['known_20registeredtype_20objects_0',['Reading known RegisteredType objects',['../read_page.html#read_example_predefined_registered_type',1,'']]]
+  ['keywords_0',['keywords',['../struct_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_1_1_general_metadata_spec.html#ac3b712d510a3e2bb266fa4f333b45d31',1,'AQNWB::NWB::NWBFile::GeneralMetadataSpec']]],
+  ['known_20registeredtype_20objects_1',['Reading known RegisteredType objects',['../read_page.html#read_example_predefined_registered_type',1,'']]]
 ];

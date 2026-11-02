@@ -12,19 +12,19 @@
 <g id="Node000001" class="node">
 <title>Node1</title>
 <g id="a_Node000001"><a xlink:title="Get the number of dimensions in the dataset.">
-<polygon fill="#999999" stroke="#666666" points="790,-54.5 646.5,-54.5 646.5,-24 790,-24 790,-54.5"/>
-<text xml:space="preserve" text-anchor="start" x="654.5" y="-41" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::IO::BaseRecording</text>
-<text xml:space="preserve" text-anchor="middle" x="718.25" y="-29.75" font-family="Helvetica,sans-Serif" font-size="10.00">Data::getNumDimensions</text>
+<polygon fill="#999999" stroke="#666666" points="790,-57.5 646.5,-57.5 646.5,-27 790,-27 790,-57.5"/>
+<text xml:space="preserve" text-anchor="start" x="654.5" y="-44" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::IO::BaseRecording</text>
+<text xml:space="preserve" text-anchor="middle" x="718.25" y="-32.75" font-family="Helvetica,sans-Serif" font-size="10.00">Data::getNumDimensions</text>
 </a>
 </g>
 </g>
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#afdf1dd4cbbd04b27a021f535020e1033" target="_top" xlink:title="Allocate space and validate parameters.">
-<polygon fill="white" stroke="#666666" points="610.5,-54.5 431,-54.5 431,-24 610.5,-24 610.5,-54.5"/>
-<text xml:space="preserve" text-anchor="start" x="439" y="-41" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::IO::HDF5::HDF5Recording</text>
-<text xml:space="preserve" text-anchor="middle" x="520.75" y="-29.75" font-family="Helvetica,sans-Serif" font-size="10.00">Data::writeDataBlockHelper</text>
+<g id="a_Node000002"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a46c696f828274f96765373e3ec5950d7" target="_top" xlink:title="Writes a block of string data (any number of dimensions).">
+<polygon fill="white" stroke="#666666" points="395,-79.5 215.5,-79.5 215.5,-49 395,-49 395,-79.5"/>
+<text xml:space="preserve" text-anchor="start" x="223.5" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::IO::HDF5::HDF5Recording</text>
+<text xml:space="preserve" text-anchor="middle" x="305.25" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">Data::writeDataBlock</text>
 </a>
 </g>
 </g>
@@ -32,27 +32,36 @@
 <g id="edge1_Node000001_Node000002" class="edge">
 <title>Node1&#45;&gt;Node2</title>
 <g id="a_edge1_Node000001_Node000002"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M634.69,-39.25C626.8,-39.25 618.78,-39.25 610.84,-39.25"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="634.6,-42.75 644.6,-39.25 634.6,-35.75 634.6,-42.75"/>
+<path fill="none" stroke="#63b8ff" d="M634.84,-46.66C565.53,-50.37 466.65,-55.66 395.49,-59.47"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="634.82,-50.17 644.62,-46.14 634.44,-43.18 634.82,-50.17"/>
 </a>
 </g>
 </g>
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a46c696f828274f96765373e3ec5950d7" target="_top" xlink:title="Writes a block of string data (any number of dimensions).">
-<polygon fill="white" stroke="#666666" points="395,-79.5 215.5,-79.5 215.5,-49 395,-49 395,-79.5"/>
-<text xml:space="preserve" text-anchor="start" x="223.5" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::IO::HDF5::HDF5Recording</text>
-<text xml:space="preserve" text-anchor="middle" x="305.25" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">Data::writeDataBlock</text>
+<g id="a_Node000003"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#afdf1dd4cbbd04b27a021f535020e1033" target="_top" xlink:title="Allocate space and validate parameters.">
+<polygon fill="white" stroke="#666666" points="610.5,-36.5 431,-36.5 431,-6 610.5,-6 610.5,-36.5"/>
+<text xml:space="preserve" text-anchor="start" x="439" y="-23" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::IO::HDF5::HDF5Recording</text>
+<text xml:space="preserve" text-anchor="middle" x="520.75" y="-11.75" font-family="Helvetica,sans-Serif" font-size="10.00">Data::writeDataBlockHelper</text>
 </a>
 </g>
 </g>
-<!-- Node2&#45;&gt;Node3 -->
-<g id="edge2_Node000002_Node000003" class="edge">
-<title>Node2&#45;&gt;Node3</title>
-<g id="a_edge2_Node000002_Node000003"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M419.47,-50.99C411.45,-51.93 403.38,-52.88 395.45,-53.81"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="419.72,-54.49 429.25,-49.85 418.91,-47.53 419.72,-54.49"/>
+<!-- Node1&#45;&gt;Node3 -->
+<g id="edge2_Node000001_Node000003" class="edge">
+<title>Node1&#45;&gt;Node3</title>
+<g id="a_edge2_Node000001_Node000003"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M634.69,-33.38C626.8,-32.53 618.78,-31.67 610.84,-30.82"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="634.3,-36.86 644.61,-34.45 635.04,-29.9 634.3,-36.86"/>
+</a>
+</g>
+</g>
+<!-- Node3&#45;&gt;Node2 -->
+<g id="edge3_Node000003_Node000002" class="edge">
+<title>Node3&#45;&gt;Node2</title>
+<g id="a_edge3_Node000003_Node000002"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M430.68,-39.19C415.31,-42.28 399.43,-45.48 384.38,-48.51"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="431.17,-42.66 440.28,-37.26 429.79,-35.8 431.17,-42.66"/>
 </a>
 </g>
 </g>
@@ -66,12 +75,12 @@
 </a>
 </g>
 </g>
-<!-- Node2&#45;&gt;Node4 -->
-<g id="edge3_Node000002_Node000004" class="edge">
-<title>Node2&#45;&gt;Node4</title>
-<g id="a_edge3_Node000002_Node000004"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M419.47,-27.98C411.45,-27.08 403.38,-26.17 395.45,-25.28"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="418.92,-31.44 429.25,-29.08 419.7,-24.48 418.92,-31.44"/>
+<!-- Node3&#45;&gt;Node4 -->
+<g id="edge4_Node000003_Node000004" class="edge">
+<title>Node3&#45;&gt;Node4</title>
+<g id="a_edge4_Node000003_Node000004"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M419.47,-18.43C411.45,-18.21 403.38,-17.98 395.45,-17.76"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="419.15,-21.92 429.24,-18.71 419.34,-14.93 419.15,-21.92"/>
 </a>
 </g>
 </g>
@@ -86,9 +95,9 @@
 </g>
 </g>
 <!-- Node4&#45;&gt;Node5 -->
-<g id="edge4_Node000004_Node000005" class="edge">
+<g id="edge5_Node000004_Node000005" class="edge">
 <title>Node4&#45;&gt;Node5</title>
-<g id="a_edge4_Node000004_Node000005"><a xlink:title=" ">
+<g id="a_edge5_Node000004_Node000005"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M203.97,-15.25C195.95,-15.25 187.88,-15.25 179.95,-15.25"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="203.74,-18.75 213.74,-15.25 203.74,-11.75 203.74,-18.75"/>
 </a>

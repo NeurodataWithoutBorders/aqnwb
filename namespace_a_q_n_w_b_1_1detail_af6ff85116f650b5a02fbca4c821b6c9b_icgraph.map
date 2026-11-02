@@ -1,7 +1,10 @@
 <map id="AQNWB::detail::get_utc_offset_seconds" name="AQNWB::detail::get_utc_offset_seconds">
-<area shape="rect" id="Node000001" title="Get the UTC offset in seconds for a given time_t value." alt="" coords="224,29,366,70"/>
-<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="326,13,316,10,295,8,275,10,264,15,259,20,261,30,256,27,254,19,260,10,274,5,295,3,317,5,332,14"/>
-<area shape="rect" id="Node000002" href="$namespace_a_q_n_w_b.html#ac436d136125307ef8158115a2296b3e9" title="Get the current time in ISO 8601 format with the UTC offset." alt="" coords="5,37,176,62"/>
-<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="206,50,176,52,176,47,211,49"/>
-<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="124,22,114,18,90,15,69,17,57,22,55,28,61,37,56,36,50,28,54,18,68,12,91,10,116,13,130,22"/>
+<area shape="rect" id="Node000001" title="Get the UTC offset in seconds for a given time_t value." alt="" coords="418,29,560,70"/>
+<area shape="poly" id="edge5_Node000001_Node000001" title=" " alt="" coords="519,13,509,10,489,8,471,10,460,15,456,20,457,30,453,27,451,19,457,10,470,5,489,3,510,5,524,14"/>
+<area shape="rect" id="Node000002" href="$namespace_a_q_n_w_b.html#a95fd6651b3a8c6f28d4b3454a17fbaf8" title="Format a time point in ISO 8601 format with microseconds and the local UTC offset,..." alt="" coords="224,37,370,62"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="400,50,371,52,370,47,405,50"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="329,22,319,18,297,15,277,17,266,22,264,28,269,37,264,35,258,28,262,18,275,12,297,10,321,13,334,23"/>
+<area shape="rect" id="Node000003" href="$namespace_a_q_n_w_b.html#ac436d136125307ef8158115a2296b3e9" title="Get the current time in ISO 8601 format with the UTC offset." alt="" coords="5,37,176,62"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="205,50,176,52,176,47,211,49"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="125,22,114,18,90,15,69,17,57,22,55,28,61,37,56,36,49,28,53,18,67,12,91,10,116,13,130,22"/>
 </map>

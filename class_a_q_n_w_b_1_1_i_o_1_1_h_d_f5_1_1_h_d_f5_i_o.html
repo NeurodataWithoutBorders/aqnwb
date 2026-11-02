@@ -133,14 +133,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a97f6a87e029f8fc6dad03ffecde8f2ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html" title="The HDF5IO class provides an interface for reading and writing data to HDF5 files.">HDF5IO</a> class that takes a file name as input.  <br /></td></tr>
 <tr class="memitem:af492eb7675c4418ac4670e1c7fc9c9c2" id="r_af492eb7675c4418ac4670e1c7fc9c9c2"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#af492eb7675c4418ac4670e1c7fc9c9c2">~HDF5IO</a> () override</td></tr>
 <tr class="memdesc:af492eb7675c4418ac4670e1c7fc9c9c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <br /></td></tr>
+<tr class="memitem:aadb498a452c3fbabf17d27b3938e01fe" id="r_aadb498a452c3fbabf17d27b3938e01fe"><td class="memItemLeft"><a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a>&#160;</td><td class="memItemRight"><a class="el" href="#aadb498a452c3fbabf17d27b3938e01fe">getChunkCacheNumBytes</a> () const</td></tr>
+<tr class="memdesc:aadb498a452c3fbabf17d27b3938e01fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the size of the raw data chunk cache (per dataset) of the open file in bytes.  <br /></td></tr>
 <tr class="memitem:af13e43a73e40b98dcacd9cc587536143" id="r_af13e43a73e40b98dcacd9cc587536143"><td class="memItemLeft"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#af13e43a73e40b98dcacd9cc587536143">open</a> () override</td></tr>
 <tr class="memdesc:af13e43a73e40b98dcacd9cc587536143"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens an existing file or creates a new file for writing.  <br /></td></tr>
 <tr class="memitem:a4edb85857f5fe7d78cfe21aabe62a04d" id="r_a4edb85857f5fe7d78cfe21aabe62a04d"><td class="memItemLeft"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a4edb85857f5fe7d78cfe21aabe62a04d">open</a> (<a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html#a969d0800c8e9e2141f272541b85e8bed">FileMode</a> mode) override</td></tr>
 <tr class="memdesc:a4edb85857f5fe7d78cfe21aabe62a04d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens an existing file or creates a new file for writing.  <br /></td></tr>
-<tr class="memitem:ad677295c8d81010b08b399031d2c78e6" id="r_ad677295c8d81010b08b399031d2c78e6"><td class="memItemLeft"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#ad677295c8d81010b08b399031d2c78e6">openS3</a> (const std::string &amp;aws_region=&quot;&quot;, const std::string &amp;secret_id=&quot;&quot;, const std::string &amp;secret_key=&quot;&quot;)</td></tr>
-<tr class="memdesc:ad677295c8d81010b08b399031d2c78e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens an existing file in read-only mode using the ROS3 driver.  <br /></td></tr>
-<tr class="memitem:a0862e7e7433874d80835e467e413c3b3" id="r_a0862e7e7433874d80835e467e413c3b3"><td class="memItemLeft"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a0862e7e7433874d80835e467e413c3b3">openRemote</a> ()</td></tr>
-<tr class="memdesc:a0862e7e7433874d80835e467e413c3b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens a remote file over HTTP(S) in read-only mode using the remfile virtual file driver.  <br /></td></tr>
+<tr class="memitem:a338cc5cacca9f4c33022e3ef632800d4" id="r_a338cc5cacca9f4c33022e3ef632800d4"><td class="memItemLeft"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a338cc5cacca9f4c33022e3ef632800d4">open</a> (<a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html#a969d0800c8e9e2141f272541b85e8bed">FileMode</a> mode, const <a class="el" href="struct_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_chunk_cache_config.html">ChunkCacheConfig</a> &amp;chunkCache)</td></tr>
+<tr class="memdesc:a338cc5cacca9f4c33022e3ef632800d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens an existing file or creates a new file for writing, with a custom raw data chunk cache.  <br /></td></tr>
+<tr class="memitem:ac78b9e8964d6826ffd63d76e40f34ecb" id="r_ac78b9e8964d6826ffd63d76e40f34ecb"><td class="memItemLeft"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#ac78b9e8964d6826ffd63d76e40f34ecb">openS3</a> (const std::string &amp;aws_region=&quot;&quot;, const std::string &amp;secret_id=&quot;&quot;, const std::string &amp;secret_key=&quot;&quot;, const <a class="el" href="struct_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_chunk_cache_config.html">ChunkCacheConfig</a> &amp;chunkCache=<a class="el" href="struct_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_chunk_cache_config.html">ChunkCacheConfig</a>())</td></tr>
+<tr class="memdesc:ac78b9e8964d6826ffd63d76e40f34ecb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens an existing file in read-only mode using the ROS3 driver.  <br /></td></tr>
+<tr class="memitem:ac28c5097f58f4e923c2341ff8c28a8f4" id="r_ac28c5097f58f4e923c2341ff8c28a8f4"><td class="memItemLeft"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#ac28c5097f58f4e923c2341ff8c28a8f4">openRemote</a> (const <a class="el" href="struct_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_chunk_cache_config.html">ChunkCacheConfig</a> &amp;chunkCache=<a class="el" href="struct_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_chunk_cache_config.html">ChunkCacheConfig</a>())</td></tr>
+<tr class="memdesc:ac28c5097f58f4e923c2341ff8c28a8f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens a remote file over HTTP(S) in read-only mode using the remfile virtual file driver.  <br /></td></tr>
 <tr class="memitem:a969eb3d7ab2d93c5a83b58f27773e16f" id="r_a969eb3d7ab2d93c5a83b58f27773e16f"><td class="memItemLeft"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a969eb3d7ab2d93c5a83b58f27773e16f">close</a> () override</td></tr>
 <tr class="memdesc:a969eb3d7ab2d93c5a83b58f27773e16f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Closes the file.  <br /></td></tr>
 <tr class="memitem:af169224331c1c4f67ccf8521f5d778db" id="r_af169224331c1c4f67ccf8521f5d778db"><td class="memItemLeft"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#af169224331c1c4f67ccf8521f5d778db">flush</a> () override</td></tr>
@@ -229,6 +233,8 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a770e28b7c5907a72335e53a9987be12b" id="r_a770e28b7c5907a72335e53a9987be12b"><td class="memItemLeft">static <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a>&#160;</td><td class="memItemRight"><a class="el" href="#a770e28b7c5907a72335e53a9987be12b">getDefaultChunkCacheNumBytes</a> ()</td></tr>
+<tr class="memdesc:a770e28b7c5907a72335e53a9987be12b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the default size of the raw data chunk cache (per dataset) of the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> library in bytes, i.e., the size used if no <a class="el" href="struct_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_chunk_cache_config.html" title="Configuration of the HDF5 raw data chunk cache used for each dataset of a file (see H5Pset_cache),...">ChunkCacheConfig</a> is given when opening a file.  <br /></td></tr>
 <tr class="memitem:adad97dc270883ff2e21a01fc68d58bef" id="r_adad97dc270883ff2e21a01fc68d58bef"><td class="memItemLeft">static H5::DataType&#160;</td><td class="memItemRight"><a class="el" href="#adad97dc270883ff2e21a01fc68d58bef">getNativeType</a> (<a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">IO::BaseDataType</a> type)</td></tr>
 <tr class="memdesc:adad97dc270883ff2e21a01fc68d58bef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> native data type for a given base data type.  <br /></td></tr>
 <tr class="memitem:a23f8ab1bc13e2c729c76f14bb246c9b0" id="r_a23f8ab1bc13e2c729c76f14bb246c9b0"><td class="memItemLeft">static <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">IO::BaseDataType</a>&#160;</td><td class="memItemRight"><a class="el" href="#a23f8ab1bc13e2c729c76f14bb246c9b0">getBaseDataType</a> (const H5::DataType &amp;nativeType)</td></tr>
@@ -260,6 +266,15 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:a87d9b4075fd30c5ec692738985ae294c" id="r_a87d9b4075fd30c5ec692738985ae294c"><td class="memItemLeft">std::unique_ptr&lt; H5::Attribute &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a87d9b4075fd30c5ec692738985ae294c">getAttribute</a> (const std::string &amp;path) const</td></tr>
 <tr class="memitem:ada2e4de37006527cf23d0fdd50d33a0c" id="r_ada2e4de37006527cf23d0fdd50d33a0c"><td class="memItemLeft"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#ada2e4de37006527cf23d0fdd50d33a0c">closeFileImpl</a> ()</td></tr>
 <tr class="memdesc:ada2e4de37006527cf23d0fdd50d33a0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Non-virtual helper that performs the actual <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> file close.  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-static-methods" class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
+Static Private Member Functions</h2></td></tr>
+<tr class="memitem:af2218e335785d387eb025c5c97d48788" id="r_af2218e335785d387eb025c5c97d48788"><td class="memItemLeft">static H5::FileAccPropList&#160;</td><td class="memItemRight"><a class="el" href="#af2218e335785d387eb025c5c97d48788">createFileAccessPropertyList</a> (const <a class="el" href="struct_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_chunk_cache_config.html">ChunkCacheConfig</a> &amp;chunkCache)</td></tr>
+<tr class="memdesc:af2218e335785d387eb025c5c97d48788"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new file access property list for opening a file.  <br /></td></tr>
+<tr class="memitem:a6022c1c55f0e9193d0290c52f6930539" id="r_a6022c1c55f0e9193d0290c52f6930539"><td class="memItemLeft">static bool&#160;</td><td class="memItemRight"><a class="el" href="#a6022c1c55f0e9193d0290c52f6930539">isValidChunkCacheConfig</a> (const <a class="el" href="struct_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_chunk_cache_config.html">ChunkCacheConfig</a> &amp;chunkCache)</td></tr>
+<tr class="memdesc:a6022c1c55f0e9193d0290c52f6930539"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks the chunk cache configuration, printing an error if it is invalid.  <br /></td></tr>
+<tr class="memitem:afe1cffb8ed04248b16c5cf68266d4b1b" id="r_afe1cffb8ed04248b16c5cf68266d4b1b"><td class="memItemLeft">static std::string&#160;</td><td class="memItemRight"><a class="el" href="#afe1cffb8ed04248b16c5cf68266d4b1b">fixedLengthString</a> (const char *data, size_t size)</td></tr>
+<tr class="memdesc:afe1cffb8ed04248b16c5cf68266d4b1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the value of a fixed-length string element.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -748,6 +763,45 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
+<a id="af2218e335785d387eb025c5c97d48788" name="af2218e335785d387eb025c5c97d48788"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2218e335785d387eb025c5c97d48788">&#9670;&#160;</a></span>createFileAccessPropertyList()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">FileAccPropList HDF5IO::createFileAccessPropertyList </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_chunk_cache_config.html">ChunkCacheConfig</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>chunkCache</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a new file access property list for opening a file. </p>
+<p>Copies of FileAccPropList::DEFAULT share the same <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> property list, so modifying such a copy would change the defaults for all files opened afterwards (e.g., the virtual file driver set by openS3/openRemote). </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">chunkCache</td><td>The chunk cache configuration. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The new file access property list. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o_af2218e335785d387eb025c5c97d48788_icgraph.svg" width="454" height="183"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
 <a id="a22f7fbb78b3b211669010cc05f61e0e4" name="a22f7fbb78b3b211669010cc05f61e0e4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a22f7fbb78b3b211669010cc05f61e0e4">&#9670;&#160;</a></span>createGroup()</h2>
 
@@ -1128,6 +1182,50 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
+<a id="afe1cffb8ed04248b16c5cf68266d4b1b" name="afe1cffb8ed04248b16c5cf68266d4b1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe1cffb8ed04248b16c5cf68266d4b1b">&#9670;&#160;</a></span>fixedLengthString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string HDF5IO::fixedLengthString </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>size</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the value of a fixed-length string element. </p>
+<p><a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> pads values that are shorter than the fixed length with NUL characters (or terminates them with one), so the value ends at the first NUL, e.g., after a shorter value was written to an existing dataset. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>The characters of the element. </td></tr>
+    <tr><td class="paramname">size</td><td>The fixed length of the string type. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The value of the element. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o_afe1cffb8ed04248b16c5cf68266d4b1b_icgraph.svg" width="100%" height="437"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
 <a id="af169224331c1c4f67ccf8521f5d778db" name="af169224331c1c4f67ccf8521f5d778db"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af169224331c1c4f67ccf8521f5d778db">&#9670;&#160;</a></span>flush()</h2>
 
@@ -1243,6 +1341,26 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="aadb498a452c3fbabf17d27b3938e01fe" name="aadb498a452c3fbabf17d27b3938e01fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aadb498a452c3fbabf17d27b3938e01fe">&#9670;&#160;</a></span>getChunkCacheNumBytes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> HDF5IO::getChunkCacheNumBytes </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the size of the raw data chunk cache (per dataset) of the open file in bytes. </p>
+<dl class="section return"><dt>Returns</dt><dd>The chunk cache size, or 0 if the file is not open. </dd></dl>
+
+</div>
+</div>
 <a id="ad30cc17ff34fe88c839df40f1d7e4948" name="ad30cc17ff34fe88c839df40f1d7e4948"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad30cc17ff34fe88c839df40f1d7e4948">&#9670;&#160;</a></span>getDataSetImpl()</h2>
 
@@ -1276,6 +1394,35 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A shared pointer to the dataset. </dd></dl>
 
 <p>Implements <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a2d6f56531784d31794ac37b4b78cbd85">AQNWB::IO::BaseIO</a>.</p>
+
+</div>
+</div>
+<a id="a770e28b7c5907a72335e53a9987be12b" name="a770e28b7c5907a72335e53a9987be12b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a770e28b7c5907a72335e53a9987be12b">&#9670;&#160;</a></span>getDefaultChunkCacheNumBytes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> HDF5IO::getDefaultChunkCacheNumBytes </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the default size of the raw data chunk cache (per dataset) of the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> library in bytes, i.e., the size used if no <a class="el" href="struct_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_chunk_cache_config.html" title="Configuration of the HDF5 raw data chunk cache used for each dataset of a file (see H5Pset_cache),...">ChunkCacheConfig</a> is given when opening a file. </p>
+<p>The default depends on the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> version (e.g., 1 MiB in <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> 1.14 and 8 MiB in <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> 2.2). Applications can use it to avoid setting a smaller cache than the default, e.g., <a class="el" href="struct_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_chunk_cache_config.html" title="Configuration of the HDF5 raw data chunk cache used for each dataset of a file (see H5Pset_cache),...">ChunkCacheConfig</a> {std::max(needed,
+getDefaultChunkCacheNumBytes())}. </p><dl class="section return"><dt>Returns</dt><dd>The default chunk cache size in bytes. </dd></dl>
 
 </div>
 </div>
@@ -1612,6 +1759,45 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="a6022c1c55f0e9193d0290c52f6930539" name="a6022c1c55f0e9193d0290c52f6930539"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6022c1c55f0e9193d0290c52f6930539">&#9670;&#160;</a></span>isValidChunkCacheConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool HDF5IO::isValidChunkCacheConfig </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_chunk_cache_config.html">ChunkCacheConfig</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>chunkCache</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Checks the chunk cache configuration, printing an error if it is invalid. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">chunkCache</td><td>The chunk cache configuration. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the configuration is valid. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o_a6022c1c55f0e9193d0290c52f6930539_icgraph.svg" width="448" height="183"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
 <a id="ad384fb7900056f833e217252d3bfc41b" name="ad384fb7900056f833e217252d3bfc41b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad384fb7900056f833e217252d3bfc41b">&#9670;&#160;</a></span>objectExists()</h2>
 
@@ -1654,7 +1840,7 @@ Here is the caller graph for this function:</div>
 </div>
 </div>
 <a id="af13e43a73e40b98dcacd9cc587536143" name="af13e43a73e40b98dcacd9cc587536143"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af13e43a73e40b98dcacd9cc587536143">&#9670;&#160;</a></span>open() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af13e43a73e40b98dcacd9cc587536143">&#9670;&#160;</a></span>open() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1688,13 +1874,13 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o_af13e43a73e40b98dcacd9cc587536143_icgraph.svg" width="206" height="76"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o_af13e43a73e40b98dcacd9cc587536143_icgraph.svg" width="448" height="76"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
 <a id="a4edb85857f5fe7d78cfe21aabe62a04d" name="a4edb85857f5fe7d78cfe21aabe62a04d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4edb85857f5fe7d78cfe21aabe62a04d">&#9670;&#160;</a></span>open() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a4edb85857f5fe7d78cfe21aabe62a04d">&#9670;&#160;</a></span>open() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1729,13 +1915,49 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o_a4edb85857f5fe7d78cfe21aabe62a04d_cgraph.svg" width="408" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o_a4edb85857f5fe7d78cfe21aabe62a04d_cgraph.svg" width="650" height="76"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="a0862e7e7433874d80835e467e413c3b3" name="a0862e7e7433874d80835e467e413c3b3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0862e7e7433874d80835e467e413c3b3">&#9670;&#160;</a></span>openRemote()</h2>
+<a id="a338cc5cacca9f4c33022e3ef632800d4" name="a338cc5cacca9f4c33022e3ef632800d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a338cc5cacca9f4c33022e3ef632800d4">&#9670;&#160;</a></span>open() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> HDF5IO::open </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_a_q_n_w_b_1_1_i_o.html#a969d0800c8e9e2141f272541b85e8bed">FileMode</a></td>          <td class="paramname"><span class="paramname"><em>mode</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_chunk_cache_config.html">ChunkCacheConfig</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>chunkCache</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Opens an existing file or creates a new file for writing, with a custom raw data chunk cache. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mode</td><td>Access mode to use when opening the file. </td></tr>
+    <tr><td class="paramname">chunkCache</td><td>Chunk cache used for each dataset of the file. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the file opening operation (Status::Failure if the chunk cache configuration is invalid). </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o_a338cc5cacca9f4c33022e3ef632800d4_cgraph.svg" width="454" height="183"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="ac28c5097f58f4e923c2341ff8c28a8f4" name="ac28c5097f58f4e923c2341ff8c28a8f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac28c5097f58f4e923c2341ff8c28a8f4">&#9670;&#160;</a></span>openRemote()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1743,26 +1965,32 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a> HDF5IO::openRemote </td>
           <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="struct_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_chunk_cache_config.html">ChunkCacheConfig</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>chunkCache</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="struct_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_chunk_cache_config.html">ChunkCacheConfig</a>()</span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Opens a remote file over HTTP(S) in read-only mode using the remfile virtual file driver. </p>
-<p>The filename passed to the constructor must be an <a href="http://">http://</a> or <a href="https://">https://</a> URL of a file on a server that supports byte-range requests (e.g., a DANDI archive asset URL). Unlike <a class="el" href="#ad677295c8d81010b08b399031d2c78e6" title="openS3">openS3</a>, this does not require <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> to be built with ROS3 support and works with any HTTP(S) server, including presigned S3 URLs.</p>
+<p>The filename passed to the constructor must be an <a href="http://">http://</a> or <a href="https://">https://</a> URL of a file on a server that supports byte-range requests (e.g., a DANDI archive asset URL). Unlike <a class="el" href="#ac78b9e8964d6826ffd63d76e40f34ecb" title="openS3">openS3</a>, this does not require <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> to be built with ROS3 support and works with any HTTP(S) server, including presigned S3 URLs.</p>
 <p>Reads are served from an in-memory chunk cache with adaptive read-ahead (see <a href="https://github.com/catalystneuro/remfile-cpp">https://github.com/catalystneuro/remfile-cpp</a>).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">chunkCache</td><td>Chunk cache used for each dataset of the file. </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>The status of the file opening operation. </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o_a0862e7e7433874d80835e467e413c3b3_cgraph.svg" width="408" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o_ac28c5097f58f4e923c2341ff8c28a8f4_cgraph.svg" width="454" height="183"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="ad677295c8d81010b08b399031d2c78e6" name="ad677295c8d81010b08b399031d2c78e6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad677295c8d81010b08b399031d2c78e6">&#9670;&#160;</a></span>openS3()</h2>
+<a id="ac78b9e8964d6826ffd63d76e40f34ecb" name="ac78b9e8964d6826ffd63d76e40f34ecb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac78b9e8964d6826ffd63d76e40f34ecb">&#9670;&#160;</a></span>openS3()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1780,7 +2008,12 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>secret_key</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;&quot;</span>&#160;)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>secret_key</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;&quot;</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_chunk_cache_config.html">ChunkCacheConfig</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>chunkCache</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="struct_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_chunk_cache_config.html">ChunkCacheConfig</a>()</span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1793,6 +2026,7 @@ Here is the call graph for this function:</div>
     <tr><td class="paramname">aws_region</td><td>The AWS region of the S3 bucket (e.g. "us-east-1"). May be empty if the region is configured elsewhere. </td></tr>
     <tr><td class="paramname">secret_id</td><td>The AWS access key ID. May be empty. </td></tr>
     <tr><td class="paramname">secret_key</td><td>The AWS secret access key. May be empty. </td></tr>
+    <tr><td class="paramname">chunkCache</td><td>Chunk cache used for each dataset of the file. </td></tr>
   </table>
   </dd>
 </dl>
@@ -1800,7 +2034,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o_ad677295c8d81010b08b399031d2c78e6_cgraph.svg" width="408" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o_ac78b9e8964d6826ffd63d76e40f34ecb_cgraph.svg" width="454" height="183"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -2038,7 +2272,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o_ab7564591e00bb695e7c847a77acd995c_cgraph.svg" width="448" height="207"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o_ab7564591e00bb695e7c847a77acd995c_cgraph.svg" width="100%" height="455"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -2132,7 +2366,7 @@ template&lt;typename HDF5TYPE&gt; </div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o_a3b7d92f5cf720bb5f13b3bdc809b613c_cgraph.svg" width="448" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o_a3b7d92f5cf720bb5f13b3bdc809b613c_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -2193,6 +2427,11 @@ template&lt;typename HDF5TYPE&gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A vector containing the data. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o_a8b48955947cddf0659b0937bd1e58d39_cgraph.svg" width="448" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">

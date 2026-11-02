@@ -48,9 +48,9 @@
 </g>
 </g>
 <!-- Node1&#45;&gt;Node5 -->
-<g id="edge10_Node000001_Node000005" class="edge">
+<g id="edge11_Node000001_Node000005" class="edge">
 <title>Node1&#45;&gt;Node5</title>
-<g id="a_edge10_Node000001_Node000005"><a xlink:title=" ">
+<g id="a_edge11_Node000001_Node000005"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M577.85,-160.57C560.29,-175.89 535.18,-194.79 509.25,-204.25 450.76,-225.59 379.76,-229.19 327.78,-228.11"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="580.1,-163.26 585.19,-153.97 575.41,-158.06 580.1,-163.26"/>
 </a>
@@ -75,32 +75,13 @@
 </a>
 </g>
 </g>
-<!-- Node7 -->
-<g id="Node000007" class="node">
-<title>Node7</title>
-<g id="a_Node000007"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a4edb85857f5fe7d78cfe21aabe62a04d" target="_top" xlink:title="Opens an existing file or creates a new file for writing.">
-<polygon fill="white" stroke="#666666" points="509.25,-128.5 363.5,-128.5 363.5,-98 509.25,-98 509.25,-128.5"/>
-<text xml:space="preserve" text-anchor="start" x="371.5" y="-115" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::IO::HDF5::HDF5IO</text>
-<text xml:space="preserve" text-anchor="middle" x="436.38" y="-103.75" font-family="Helvetica,sans-Serif" font-size="10.00">::open</text>
-</a>
-</g>
-</g>
-<!-- Node1&#45;&gt;Node7 -->
-<g id="edge7_Node000001_Node000007" class="edge">
-<title>Node1&#45;&gt;Node7</title>
-<g id="a_edge7_Node000001_Node000007"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M533.79,-127.3C525.78,-126.13 517.59,-124.93 509.53,-123.76"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="533.07,-130.73 543.47,-128.71 534.08,-123.8 533.07,-130.73"/>
-</a>
-</g>
-</g>
 <!-- Node8 -->
 <g id="Node000008" class="node">
 <title>Node8</title>
-<g id="a_Node000008"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a0862e7e7433874d80835e467e413c3b3" target="_top" xlink:title="Opens a remote file over HTTP(S) in read&#45;only mode using the remfile virtual file driver.">
-<polygon fill="white" stroke="#666666" points="509.25,-79.5 363.5,-79.5 363.5,-49 509.25,-49 509.25,-79.5"/>
-<text xml:space="preserve" text-anchor="start" x="371.5" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::IO::HDF5::HDF5IO</text>
-<text xml:space="preserve" text-anchor="middle" x="436.38" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">::openRemote</text>
+<g id="a_Node000008"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a338cc5cacca9f4c33022e3ef632800d4" target="_top" xlink:title="Opens an existing file or creates a new file for writing, with a custom raw data chunk cache.">
+<polygon fill="white" stroke="#666666" points="509.25,-128.5 363.5,-128.5 363.5,-98 509.25,-98 509.25,-128.5"/>
+<text xml:space="preserve" text-anchor="start" x="371.5" y="-115" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::IO::HDF5::HDF5IO</text>
+<text xml:space="preserve" text-anchor="middle" x="436.38" y="-103.75" font-family="Helvetica,sans-Serif" font-size="10.00">::open</text>
 </a>
 </g>
 </g>
@@ -108,18 +89,18 @@
 <g id="edge8_Node000001_Node000008" class="edge">
 <title>Node1&#45;&gt;Node8</title>
 <g id="a_edge8_Node000001_Node000008"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M564.66,-116.34C547.97,-107.43 527.89,-97.26 509.25,-89.25 501.72,-86.02 493.63,-82.88 485.68,-79.99"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="562.79,-119.31 573.25,-120.98 566.11,-113.15 562.79,-119.31"/>
+<path fill="none" stroke="#63b8ff" d="M533.79,-127.3C525.78,-126.13 517.59,-124.93 509.53,-123.76"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="533.07,-130.73 543.47,-128.71 534.08,-123.8 533.07,-130.73"/>
 </a>
 </g>
 </g>
 <!-- Node9 -->
 <g id="Node000009" class="node">
 <title>Node9</title>
-<g id="a_Node000009"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#ad677295c8d81010b08b399031d2c78e6" target="_top" xlink:title="Opens an existing file in read&#45;only mode using the ROS3 driver.">
-<polygon fill="white" stroke="#666666" points="509.25,-30.5 363.5,-30.5 363.5,0 509.25,0 509.25,-30.5"/>
-<text xml:space="preserve" text-anchor="start" x="371.5" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::IO::HDF5::HDF5IO</text>
-<text xml:space="preserve" text-anchor="middle" x="436.38" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::openS3</text>
+<g id="a_Node000009"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#ac28c5097f58f4e923c2341ff8c28a8f4" target="_top" xlink:title="Opens a remote file over HTTP(S) in read&#45;only mode using the remfile virtual file driver.">
+<polygon fill="white" stroke="#666666" points="509.25,-79.5 363.5,-79.5 363.5,-49 509.25,-49 509.25,-79.5"/>
+<text xml:space="preserve" text-anchor="start" x="371.5" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::IO::HDF5::HDF5IO</text>
+<text xml:space="preserve" text-anchor="middle" x="436.38" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">::openRemote</text>
 </a>
 </g>
 </g>
@@ -127,6 +108,25 @@
 <g id="edge9_Node000001_Node000009" class="edge">
 <title>Node1&#45;&gt;Node9</title>
 <g id="a_edge9_Node000001_Node000009"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M564.66,-116.34C547.97,-107.43 527.89,-97.26 509.25,-89.25 501.72,-86.02 493.63,-82.88 485.68,-79.99"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="562.79,-119.31 573.25,-120.98 566.11,-113.15 562.79,-119.31"/>
+</a>
+</g>
+</g>
+<!-- Node10 -->
+<g id="Node000010" class="node">
+<title>Node10</title>
+<g id="a_Node000010"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#ac78b9e8964d6826ffd63d76e40f34ecb" target="_top" xlink:title="Opens an existing file in read&#45;only mode using the ROS3 driver.">
+<polygon fill="white" stroke="#666666" points="509.25,-30.5 363.5,-30.5 363.5,0 509.25,0 509.25,-30.5"/>
+<text xml:space="preserve" text-anchor="start" x="371.5" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::IO::HDF5::HDF5IO</text>
+<text xml:space="preserve" text-anchor="middle" x="436.38" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::openS3</text>
+</a>
+</g>
+</g>
+<!-- Node1&#45;&gt;Node10 -->
+<g id="edge10_Node000001_Node000010" class="edge">
+<title>Node1&#45;&gt;Node10</title>
+<g id="a_edge10_Node000001_Node000010"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M584.09,-112.64C567,-90.89 539.5,-59.68 509.25,-40.25 503.8,-36.75 497.81,-33.68 491.67,-30.99"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="581.19,-114.61 590.05,-120.41 586.74,-110.34 581.19,-114.61"/>
 </a>
@@ -185,6 +185,25 @@
 <g id="a_edge6_Node000006_Node000006"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M464.34,-189.2C459.77,-192.97 450.45,-195.5 436.38,-195.5 410.65,-195.5 400.8,-187.06 406.83,-177.99"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="467.78,-189.88 465.71,-179.48 460.85,-188.9 467.78,-189.88"/>
+</a>
+</g>
+</g>
+<!-- Node7 -->
+<g id="Node000007" class="node">
+<title>Node7</title>
+<g id="a_Node000007"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a4edb85857f5fe7d78cfe21aabe62a04d" target="_top" xlink:title="Opens an existing file or creates a new file for writing.">
+<polygon fill="white" stroke="#666666" points="327.5,-177.5 181.75,-177.5 181.75,-147 327.5,-147 327.5,-177.5"/>
+<text xml:space="preserve" text-anchor="start" x="189.75" y="-164" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::IO::HDF5::HDF5IO</text>
+<text xml:space="preserve" text-anchor="middle" x="254.62" y="-152.75" font-family="Helvetica,sans-Serif" font-size="10.00">::open</text>
+</a>
+</g>
+</g>
+<!-- Node6&#45;&gt;Node7 -->
+<g id="edge7_Node000006_Node000007" class="edge">
+<title>Node6&#45;&gt;Node7</title>
+<g id="a_edge7_Node000006_Node000007"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M351.79,-162.25C343.78,-162.25 335.7,-162.25 327.81,-162.25"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="351.53,-165.75 361.53,-162.25 351.53,-158.75 351.53,-165.75"/>
 </a>
 </g>
 </g>

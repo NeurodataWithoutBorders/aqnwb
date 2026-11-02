@@ -135,8 +135,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ae01cb16c642e895a4de05e64debd8dc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the schema namespace of the class type.  <br /></td></tr>
 <tr class="memitem:aea850f57fd309a4a048b6238cf1e8ae5" id="r_aea850f57fd309a4a048b6238cf1e8ae5"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aea850f57fd309a4a048b6238cf1e8ae5">~ElectricalSeries</a> () override</td></tr>
 <tr class="memdesc:aea850f57fd309a4a048b6238cf1e8ae5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <br /></td></tr>
-<tr class="memitem:a0e6e50dbde5f6aeda31b625049c93970" id="r_a0e6e50dbde5f6aeda31b625049c93970"><td class="memItemLeft"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a0e6e50dbde5f6aeda31b625049c93970">initialize</a> (const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_array_data_set_config.html">IO::BaseArrayDataSetConfig</a> &amp;dataConfig, const <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a17cc1d186ce80971c28e440471e910ff">Types::ChannelVector</a> &amp;channelVector, const std::string &amp;description, const float &amp;conversion=1.0f, const float &amp;resolution=-1.0f, const float &amp;offset=0.0f)</td></tr>
-<tr class="memdesc:a0e6e50dbde5f6aeda31b625049c93970"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the Electrical Series.  <br /></td></tr>
+<tr class="memitem:adb918a9d0425b638dd4e8151faa81988" id="r_adb918a9d0425b638dd4e8151faa81988"><td class="memItemLeft"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#adb918a9d0425b638dd4e8151faa81988">initialize</a> (const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_array_data_set_config.html">IO::BaseArrayDataSetConfig</a> &amp;dataConfig, const <a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a17cc1d186ce80971c28e440471e910ff">Types::ChannelVector</a> &amp;channelVector, const std::string &amp;description, const float &amp;conversion=1.0f, const float &amp;resolution=-1.0f, const float &amp;offset=0.0f, const bool useChannelConversion=true)</td></tr>
+<tr class="memdesc:adb918a9d0425b638dd4e8151faa81988"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the Electrical Series.  <br /></td></tr>
 <tr class="memitem:abd499ff69952a61324f86034ea91111b" id="r_abd499ff69952a61324f86034ea91111b"><td class="memItemLeft"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#abd499ff69952a61324f86034ea91111b">writeChannel</a> (<a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> channelInd, const <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &amp;numSamples, const void *dataInput, const void *timestampsInput, const void *controlInput=nullptr)</td></tr>
 <tr class="memdesc:abd499ff69952a61324f86034ea91111b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a channel to an <a class="el" href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html" title="General purpose time series.">ElectricalSeries</a> dataset.  <br /></td></tr>
 <tr class="memitem:a3e3382ab70376c6e1307b53ec77c399f" id="r_a3e3382ab70376c6e1307b53ec77c399f"><td class="memItemLeft"><a class="el" href="namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a3e3382ab70376c6e1307b53ec77c399f">writeAllChannels</a> (const <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> &amp;numSamples, const void *dataInput, const void *timestampsInput=nullptr, const void *controlInput=nullptr)</td></tr>
@@ -559,8 +559,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a0e6e50dbde5f6aeda31b625049c93970" name="a0e6e50dbde5f6aeda31b625049c93970"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0e6e50dbde5f6aeda31b625049c93970">&#9670;&#160;</a></span>initialize()</h2>
+<a id="adb918a9d0425b638dd4e8151faa81988" name="adb918a9d0425b638dd4e8151faa81988"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb918a9d0425b638dd4e8151faa81988">&#9670;&#160;</a></span>initialize()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -593,7 +593,12 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const float &amp;</td>          <td class="paramname"><span class="paramname"><em>offset</em></span><span class="paramdefsep"> = </span><span class="paramdefval">0.0f</span>&#160;)</td>
+          <td class="paramtype">const float &amp;</td>          <td class="paramname"><span class="paramname"><em>offset</em></span><span class="paramdefsep"> = </span><span class="paramdefval">0.0f</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const bool</td>          <td class="paramname"><span class="paramname"><em>useChannelConversion</em></span><span class="paramdefsep"> = </span><span class="paramdefval">true</span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -607,6 +612,7 @@ Here is the call graph for this function:</div>
     <tr><td class="paramname">conversion</td><td>Scalar to multiply each element in data to convert it to the specified 'unit' </td></tr>
     <tr><td class="paramname">resolution</td><td>Smallest meaningful difference between values in data, stored in the specified unit </td></tr>
     <tr><td class="paramname">offset</td><td>Scalar to add to the data after scaling by 'conversion' to finalize its coercion to the specified 'unit' </td></tr>
+    <tr><td class="paramname">useChannelConversion</td><td>If true (default), store the per-channel conversion factors given by <a class="el" href="class_a_q_n_w_b_1_1_channel.html#a5b8cbf2f2757c1744a3ac02b9cea993e" title="Getter for conversion factor.">Channel::getConversion()</a> of the channels in channelVector in the optional <span class="tt">channel_conversion</span> dataset. If false, no <span class="tt">channel_conversion</span> dataset is created and the scaling must be fully described by <span class="tt">conversion</span> (e.g., when all channels share the same conversion factor). </td></tr>
   </table>
   </dd>
 </dl>
@@ -615,12 +621,12 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series_a0e6e50dbde5f6aeda31b625049c93970_cgraph.svg" width="100%" height="587"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series_adb918a9d0425b638dd4e8151faa81988_cgraph.svg" width="100%" height="587"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series_a0e6e50dbde5f6aeda31b625049c93970_icgraph.svg" width="482" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series_adb918a9d0425b638dd4e8151faa81988_icgraph.svg" width="482" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

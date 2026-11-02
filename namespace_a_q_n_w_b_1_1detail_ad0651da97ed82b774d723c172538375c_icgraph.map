@@ -1,7 +1,10 @@
 <map id="AQNWB::detail::format_utc_offset" name="AQNWB::detail::format_utc_offset">
-<area shape="rect" id="Node000001" title="Format a UTC offset in seconds as a string (+HH:MM or &#45;HH:MM)." alt="" coords="224,29,380,70"/>
-<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="335,13,323,10,302,8,282,10,270,15,265,20,267,30,262,27,260,19,266,10,281,5,302,3,325,5,340,14"/>
-<area shape="rect" id="Node000002" href="$namespace_a_q_n_w_b.html#ac436d136125307ef8158115a2296b3e9" title="Get the current time in ISO 8601 format with the UTC offset." alt="" coords="5,37,176,62"/>
-<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="206,50,176,52,176,47,211,49"/>
-<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="126,22,115,18,90,15,68,17,56,22,54,28,60,36,55,36,48,28,53,18,67,12,91,10,116,13,131,22"/>
+<area shape="rect" id="Node000001" title="Format a UTC offset in seconds as a string (+HH:MM or &#45;HH:MM)." alt="" coords="418,29,574,70"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="527,13,516,10,496,8,477,10,466,15,462,20,463,30,459,27,456,19,463,10,476,5,496,3,518,5,532,14"/>
+<area shape="rect" id="Node000002" href="$namespace_a_q_n_w_b.html#a95fd6651b3a8c6f28d4b3454a17fbaf8" title="Format a time point in ISO 8601 format with microseconds and the local UTC offset,..." alt="" coords="224,37,370,62"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="400,50,371,52,371,47,405,50"/>
+<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="330,22,320,18,297,15,276,17,265,22,262,28,268,37,263,35,257,28,261,18,275,12,297,10,321,13,335,22"/>
+<area shape="rect" id="Node000003" href="$namespace_a_q_n_w_b.html#ac436d136125307ef8158115a2296b3e9" title="Get the current time in ISO 8601 format with the UTC offset." alt="" coords="5,37,176,62"/>
+<area shape="poly" id="edge4_Node000002_Node000003" title=" " alt="" coords="205,50,176,52,176,47,211,49"/>
+<area shape="poly" id="edge5_Node000003_Node000003" title=" " alt="" coords="125,22,114,18,90,15,69,17,57,22,55,28,61,37,56,36,49,28,53,18,67,12,91,10,116,13,130,22"/>
 </map>

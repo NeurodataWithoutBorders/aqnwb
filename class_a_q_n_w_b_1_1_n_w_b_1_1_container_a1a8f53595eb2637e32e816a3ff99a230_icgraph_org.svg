@@ -211,7 +211,7 @@
 <!-- Node7 -->
 <g id="Node000007" class="node">
 <title>Node7</title>
-<g id="a_Node000007"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a0fa114190b0940cf54f44c626a69f550" target="_top" xlink:title="Create SpikeEventSeries objects to record data into. Created objects are automatically added to the I...">
+<g id="a_Node000007"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#af8313c0843d1c3bea6b3a2af44979106" target="_top" xlink:title="Create SpikeEventSeries objects to record data into. Created objects are automatically added to the I...">
 <polygon fill="white" stroke="#666666" points="296,-373.5 166,-373.5 166,-343 296,-343 296,-373.5"/>
 <text xml:space="preserve" text-anchor="start" x="174" y="-360" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::NWBFile</text>
 <text xml:space="preserve" text-anchor="middle" x="231" y="-348.75" font-family="Helvetica,sans-Serif" font-size="10.00">::createSpikeEventSeries</text>
@@ -315,7 +315,7 @@
 <!-- Node17 -->
 <g id="Node000017" class="node">
 <title>Node17</title>
-<g id="a_Node000017"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#a0e6e50dbde5f6aeda31b625049c93970" target="_top" xlink:title="Initializes the Electrical Series.">
+<g id="a_Node000017"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_electrical_series.html#adb918a9d0425b638dd4e8151faa81988" target="_top" xlink:title="Initializes the Electrical Series.">
 <polygon fill="white" stroke="#666666" points="702.25,-275.5 543.75,-275.5 543.75,-245 702.25,-245 702.25,-275.5"/>
 <text xml:space="preserve" text-anchor="start" x="551.75" y="-262" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::ElectricalSeries</text>
 <text xml:space="preserve" text-anchor="middle" x="623" y="-250.75" font-family="Helvetica,sans-Serif" font-size="10.00">::initialize</text>
@@ -391,7 +391,7 @@
 <!-- Node24 -->
 <g id="Node000024" class="node">
 <title>Node24</title>
-<g id="a_Node000024"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#a11f811ece6d86305cdec7f3e7d37af2c" target="_top" xlink:title="Initializes the SpikeEventSeries.">
+<g id="a_Node000024"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_spike_event_series.html#aa064e27900ee8f8eb264eab107453dec" target="_top" xlink:title="Initializes the SpikeEventSeries.">
 <polygon fill="white" stroke="#666666" points="707.12,-128.5 538.88,-128.5 538.88,-98 707.12,-98 707.12,-128.5"/>
 <text xml:space="preserve" text-anchor="start" x="546.88" y="-115" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::SpikeEventSeries</text>
 <text xml:space="preserve" text-anchor="middle" x="623" y="-103.75" font-family="Helvetica,sans-Serif" font-size="10.00">::initialize</text>

@@ -111,7 +111,8 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_n_w_b_file_8c
   <div class="headertitle"><div class="title">NWBFile.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;filesystem&gt;</code><br />
+<div class="textblock"><code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;filesystem&gt;</code><br />
 <code>#include &lt;fstream&gt;</code><br />
 <code>#include &lt;iomanip&gt;</code><br />
 <code>#include &lt;iostream&gt;</code><br />
@@ -143,7 +144,7 @@ Include dependency graph for NWBFile.cpp:</div>
 <tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:adbda02c91b5119380633296d30bc945e" id="r_adbda02c91b5119380633296d30bc945e"><td class="memItemLeft">constexpr <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a>&#160;</td><td class="memItemRight"><a class="el" href="#adbda02c91b5119380633296d30bc945e">CHUNK_XSIZE</a></td></tr>
-<tr class="memitem:abe042d54087f436a95f277b71b09e260" id="r_abe042d54087f436a95f277b71b09e260"><td class="memItemLeft">constexpr <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a>&#160;</td><td class="memItemRight"><a class="el" href="#abe042d54087f436a95f277b71b09e260">SPIKE_CHUNK_XSIZE</a></td></tr>
+<tr class="memitem:afaf9facb5eb2ff8e8ce0627c9d830449" id="r_afaf9facb5eb2ff8e8ce0627c9d830449"><td class="memItemLeft">constexpr <a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a>&#160;</td><td class="memItemRight"><a class="el" href="#afaf9facb5eb2ff8e8ce0627c9d830449">SPIKE_CHUNK_TARGET_BYTES</a></td></tr>
 </table>
 <a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Variable Documentation</h2>
 <a id="adbda02c91b5119380633296d30bc945e" name="adbda02c91b5119380633296d30bc945e"></a>
@@ -170,8 +171,8 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="abe042d54087f436a95f277b71b09e260" name="abe042d54087f436a95f277b71b09e260"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abe042d54087f436a95f277b71b09e260">&#9670;&#160;</a></span>SPIKE_CHUNK_XSIZE</h2>
+<a id="afaf9facb5eb2ff8e8ce0627c9d830449" name="afaf9facb5eb2ff8e8ce0627c9d830449"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afaf9facb5eb2ff8e8ce0627c9d830449">&#9670;&#160;</a></span>SPIKE_CHUNK_TARGET_BYTES</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -180,7 +181,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> SPIKE_CHUNK_XSIZE</td>
+          <td class="memname"><a class="el" href="_channel_8hpp.html#aa890fbdbba8cf62d61a471a1f84537e9">SizeType</a> SPIKE_CHUNK_TARGET_BYTES</td>
         </tr>
       </table>
   </td>
@@ -189,8 +190,8 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">                                 =</div>
-<div class="line">8</div>
+<b>Initial value:</b><div class="fragment"><div class="line">                                        =</div>
+<div class="line">32768</div>
 </div><!-- fragment -->
 </div>
 </div>

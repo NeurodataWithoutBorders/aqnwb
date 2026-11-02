@@ -33,6 +33,7 @@ var hierarchy =
     ] ],
     [ "AQNWB::Types::CellValue", "struct_a_q_n_w_b_1_1_types_1_1_cell_value.html", null ],
     [ "AQNWB::Channel", "class_a_q_n_w_b_1_1_channel.html", null ],
+    [ "AQNWB::IO::HDF5::ChunkCacheConfig", "struct_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_chunk_cache_config.html", null ],
     [ "AQNWB::NWB::DynamicTable::ColumnReturnType&lt; T &gt;", "struct_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_1_1_column_return_type.html", null ],
     [ "AQNWB::NWB::DynamicTable::ConfiguredColumn", "struct_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_1_1_configured_column.html", null ],
     [ "AQNWB::IO::ConstMultiArrayView&lt; DTYPE, NDIMS &gt;", "class_a_q_n_w_b_1_1_i_o_1_1_const_multi_array_view.html", null ],
@@ -85,6 +86,7 @@ var hierarchy =
       [ "AQNWB::IO::isAllowedStorageObjectType< T >", "struct_a_q_n_w_b_1_1_i_o_1_1is_allowed_storage_object_type.html", null ],
       [ "AQNWB::NWB::DynamicTable::IsVectorDataTyped< T >", "struct_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_1_1_is_vector_data_typed.html", null ]
     ] ],
+    [ "AQNWB::NWB::NWBFile::GeneralMetadataSpec", "struct_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_1_1_general_metadata_spec.html", null ],
     [ "AQNWB::IO::HDF5::HDF5FilterConfig", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_filter_config.html", null ],
     [ "std::integral_constant", null, [
       [ "AQNWB::IO::ReadDataWrapper< OTYPE, VTYPE >::isDataset< U >", "struct_a_q_n_w_b_1_1_i_o_1_1_read_data_wrapper_1_1is_dataset.html", null ],

@@ -18,6 +18,7 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table =
     [ "addRow", "class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a7fb6730f68879bbba07b968cdecac4ba", null ],
     [ "addRows", "class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a2541ab21f542dfd45cfbcfe50314afd6", null ],
     [ "checkRequiredColumnSpec", "class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a913d63543213a32b6f1f8c069ee9136b", null ],
+    [ "checkRequiredColumnSpec", "class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a655e5bb6fd7cd73d0c70d36cd620c963", null ],
     [ "clearColumns", "class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#afeacfa62e05e57db534bea14cb591606", null ],
     [ "configureDataObject", "class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#af911859ba3c21bd6c0d045a9fb112756", null ],
     [ "configureDataObjects", "class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a37d84b97bc18f362d6bc76e58afaf2a3", null ],
