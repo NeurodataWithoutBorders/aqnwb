@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 * Fixed `NWBFile::createSpikeEventSeries` always returning `Status::Success`, even if `SpikeEventSeries::initialize` failed. (@claude, @oruebel, [#341](https://github.com/NeurodataWithoutBorders/aqnwb/pull/341))
+* Fixed the coverage workflow failing with lcov 2.4 (Ubuntu 26.04) on inconsistent coverage records of the C++ standard library headers. (@claude, @oruebel, [#353](https://github.com/NeurodataWithoutBorders/aqnwb/pull/353))
 
 ## [0.4.0] - 2026-09-03
 
