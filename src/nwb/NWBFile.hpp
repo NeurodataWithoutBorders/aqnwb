@@ -454,11 +454,13 @@ public:
   /**
    * @brief Create a Device in `/general/devices`.
    *
-   * To use the device for the electrodes of an electrode group, give it the
-   * name of the electrode group (Channel::getGroupName) and create it before
-   * createElectrodesTable. To use one device for several electrode groups,
-   * create the ElectrodeGroups linking to the device before
-   * createElectrodesTable.
+   * createElectrodesTable and createSpikeEventSeries find the device of an
+   * electrode group by name: they link the group to the device whose name is
+   * the group name of the channels (Channel::getGroupName). To use this device
+   * for the electrodes of a group, give it that name and create it before
+   * createElectrodesTable; a device with a different name is not used. To use
+   * one device for several electrode groups, create the ElectrodeGroups
+   * linking to the device before createElectrodesTable instead.
    * @param name The name of the device. It must not be empty, contain '/', or
    * be "models" (reserved for the DeviceModels).
    * @param spec The attributes of the device and its model (all optional). The
@@ -476,13 +478,22 @@ public:
    * new objects cannot be added, which can be checked via
    * nwbfile.io->canModifyObjects()
    *
-   * For each electrode group (Channel::getGroupName) that does not exist yet
-   * in `/general/extracellular_ephys`, an ElectrodeGroup is created that links
-   * to the Device of the same name in `/general/devices`, which is created
-   * (without metadata) if it does not exist. To provide metadata for the
-   * devices, create them with createDevice before calling this function; to
-   * use one device for several electrode groups, create the ElectrodeGroups
-   * before calling this function.
+   * Electrode groups and devices are matched by name: the `group` column of
+   * the table references the ElectrodeGroup
+   * `/general/extracellular_ephys/<group name>`, where the group name is
+   * Channel::getGroupName. For each group, this function
+   * - uses the existing ElectrodeGroup of that name (and its device), or
+   * - creates the ElectrodeGroup (with the placeholder description
+   *   "description" and location "unknown") and links it to the Device of the
+   *   same name, `/general/devices/<group name>`. If that device does not
+   *   exist, it is created without metadata.
+   *
+   * To provide metadata for a device, create it with createDevice before
+   * calling this function and give it the group name of its channels. A
+   * device with a different name is not used: the group then links to a new
+   * device without metadata. To use one device for several electrode groups,
+   * or to set the description and location of the groups, create the
+   * ElectrodeGroups before calling this function.
    * @param recordingArrays vector of ChannelVector indicating the electrodes to
    *                        add to the table. This vector should contain all the
    *                        electrodes that are detected by the acquisition
@@ -675,8 +686,9 @@ public:
   /**
    * @brief Create SpikeEventSeries objects to record data into.
    * Created objects are automatically added to the I/O's RecordingObjects.
-   * Missing electrode groups and devices are created as in
-   * createElectrodesTable.
+   * Electrode groups and devices are matched by the group name of the
+   * channels (Channel::getGroupName), and missing ones are created, as
+   * described in createElectrodesTable.
    * @param recordingArrays vector of ChannelVector indicating the electrodes to
    *                        record from. A separate ElectricalSeries will be
    *                        created for each ChannelVector.

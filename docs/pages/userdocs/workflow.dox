@@ -67,10 +67,13 @@
  * critical for mapping information about which \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries"
  * were recorded from which electrodes.
  *
- * Optionally, first describe the devices used for recording. Each electrode group
- * (i.e., the group name of the channels) links to the \ref AQNWB::NWB::Device "Device" of the
- * same name in ``/general/devices``. Devices that do not exist yet are created without metadata
- * by \ref AQNWB::NWB::NWBFile::createElectrodesTable "createElectrodesTable". The
+ * Optionally, first describe the devices used for recording. Electrode groups and devices are
+ * matched by name: \ref AQNWB::NWB::NWBFile::createElectrodesTable "createElectrodesTable"
+ * creates the \ref AQNWB::NWB::ElectrodeGroup "ElectrodeGroup" of each group name of the channels
+ * (\ref AQNWB::Channel::getGroupName "Channel::getGroupName") and links it to the
+ * \ref AQNWB::NWB::Device "Device" of the same name in ``/general/devices``. Therefore, name each
+ * device after the electrode group it is used for. A device with a different name is not used,
+ * and devices that do not exist yet are created without metadata. The
  * manufacturer and model number are stored in a \ref AQNWB::NWB::DeviceModel "DeviceModel"
  * (NWB 2.11 deprecated the corresponding attributes of the Device), which several devices can share.
  * To link several electrode groups to the same device, create the
