@@ -66,12 +66,38 @@ TEST_CASE("workflowExamples")
     // [example_workflow_nwbfile_snippet]
     REQUIRE(initStatus == Status::Success);
 
+    // [example_workflow_devices_snippet]
+    auto probeModel = nwbfile->createDeviceModel(
+        "Neuropixels 1.0",
+        NWB::DeviceModel::DeviceModelSpec("Imec")
+            .withModelNumber("PRB_1_4_0480_1")
+            .withDescription("Neuropixels 1.0 probe with 960 sites"));
+    for (const auto& channelVector : mockRecordingArrays) {
+      // createElectrodesTable links the electrode group of the channels to
+      // the device of the same name, so name the device after the group
+      auto probe = nwbfile->createDevice(channelVector[0].getGroupName(),
+                                         NWB::Device::DeviceSpec()
+                                             .withDescription("Probe in CA1")
+                                             .withModel(probeModel));
+      AQNWB::checkStatus(intToStatus(probe != nullptr), "Device creation");
+    }
+    // [example_workflow_devices_snippet]
+
     // [example_workflow_electrodes_table_snippet]
     auto elecTable = nwbfile->createElectrodesTable(mockRecordingArrays);
     Status elecTableStatus = intToStatus(elecTable != nullptr);
     AQNWB::checkStatus(elecTableStatus, "ElectrodesTable creation");
     // [example_workflow_electrodes_table_snippet]
     REQUIRE(elecTableStatus == Status::Success);
+    // the electrode groups link to the devices created above
+    for (const auto& channelVector : mockRecordingArrays) {
+      auto descriptionData =
+          io->readAttribute(AQNWB::mergePaths("/general/extracellular_ephys",
+                                              channelVector[0].getGroupName())
+                            + "/device/description");
+      REQUIRE(IO::DataBlock<std::string>::fromGeneric(descriptionData).data[0]
+              == "Probe in CA1");
+    }
 
     // [example_workflow_datasets_snippet]
     std::vector<SizeType> containerIndexes = {};

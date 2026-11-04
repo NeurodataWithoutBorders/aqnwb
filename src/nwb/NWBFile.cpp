@@ -439,6 +439,127 @@ Status NWBFile::createFileStructure(const std::string& identifierText,
   return datasetsStatus;
 }
 
+bool NWBFile::isValidObjectName(const std::string& name)
+{
+  return !name.empty() && name.find('/') == std::string::npos;
+}
+
+std::shared_ptr<DeviceModel> NWBFile::createDeviceModel(
+    const std::string& name, const DeviceModel::DeviceModelSpec& spec)
+{
+  auto ioPtr = getIO();
+  if (!ioPtr || !ioPtr->canModifyObjects()) {
+    std::cerr << "NWBFile::createDeviceModel cannot add objects to the file."
+              << std::endl;
+    return nullptr;
+  }
+  if (!isValidObjectName(name)) {
+    std::cerr << "NWBFile::createDeviceModel invalid name '" << name
+              << "': the name must not be empty or contain '/'." << std::endl;
+    return nullptr;
+  }
+  const std::string modelsPath = "/general/devices/models";
+  const std::string path = AQNWB::mergePaths(modelsPath, name);
+  if (ioPtr->objectExists(path)) {
+    std::cerr << "NWBFile::createDeviceModel " << path << " already exists."
+              << std::endl;
+    return nullptr;
+  }
+  if (!ioPtr->objectExists(modelsPath)
+      && ioPtr->createGroup(modelsPath) != Status::Success)
+  {
+    return nullptr;
+  }
+  auto model = DeviceModel::create(path, ioPtr);
+  if (!model || model->initialize(spec) != Status::Success) {
+    std::cerr << "NWBFile::createDeviceModel failed to create " << path << "."
+              << std::endl;
+    return nullptr;
+  }
+  return model;
+}
+
+std::shared_ptr<Device> NWBFile::createDevice(const std::string& name,
+                                              const Device::DeviceSpec& spec)
+{
+  auto ioPtr = getIO();
+  if (!ioPtr || !ioPtr->canModifyObjects()) {
+    std::cerr << "NWBFile::createDevice cannot add objects to the file."
+              << std::endl;
+    return nullptr;
+  }
+  if (!isValidObjectName(name)) {
+    std::cerr << "NWBFile::createDevice invalid name '" << name
+              << "': the name must not be empty or contain '/'." << std::endl;
+    return nullptr;
+  }
+  if (name == "models") {
+    std::cerr << "NWBFile::createDevice the name 'models' is reserved for "
+                 "the DeviceModel group."
+              << std::endl;
+    return nullptr;
+  }
+  const std::string path = AQNWB::mergePaths("/general/devices", name);
+  if (ioPtr->objectExists(path)) {
+    std::cerr << "NWBFile::createDevice " << path << " already exists."
+              << std::endl;
+    return nullptr;
+  }
+  auto device = Device::create(path, ioPtr);
+  if (!device || device->initialize(spec) != Status::Success) {
+    std::cerr << "NWBFile::createDevice failed to create " << path << "."
+              << std::endl;
+    return nullptr;
+  }
+  return device;
+}
+
+Status NWBFile::requireElectrodeGroup(const std::string& groupName)
+{
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    return Status::Failure;
+  }
+  const std::string electrodePath =
+      AQNWB::mergePaths("/general/extracellular_ephys", groupName);
+  if (ioPtr->objectExists(electrodePath)) {
+    if (std::dynamic_pointer_cast<ElectrodeGroup>(
+            RegisteredType::create(electrodePath, ioPtr))
+        == nullptr)
+    {
+      std::cerr << "NWBFile::requireElectrodeGroup " << electrodePath
+                << " exists but is not an ElectrodeGroup." << std::endl;
+      return Status::Failure;
+    }
+    return Status::Success;
+  }
+
+  // Use the device of the same name, or create one without metadata
+  const std::string devicePath =
+      AQNWB::mergePaths("/general/devices", groupName);
+  std::shared_ptr<Device> device = nullptr;
+  if (ioPtr->objectExists(devicePath)) {
+    device = std::dynamic_pointer_cast<Device>(
+        RegisteredType::create(devicePath, ioPtr));
+    if (!device) {
+      std::cerr << "NWBFile::requireElectrodeGroup " << devicePath
+                << " exists but is not a Device." << std::endl;
+      return Status::Failure;
+    }
+  } else {
+    device = createDevice(groupName, Device::DeviceSpec());
+  }
+  if (!device) {
+    return Status::Failure;
+  }
+
+  auto elecGroup = ElectrodeGroup::create(electrodePath, ioPtr);
+  if (!elecGroup) {
+    return Status::Failure;
+  }
+  return elecGroup->initialize("description", "unknown", device);
+}
+
 std::shared_ptr<ElectrodesTable> NWBFile::createElectrodesTable(
     std::vector<Types::ChannelVector> recordingArrays,
     bool finalizeTable,
@@ -480,23 +601,12 @@ std::shared_ptr<ElectrodesTable> NWBFile::createElectrodesTable(
     electrodeTable->addElectrodes(channelVector);
   }
 
-  for (size_t i = 0; i < recordingArrays.size(); ++i) {
-    const auto& channelVector = recordingArrays[i];
-
-    // Setup electrodes and devices
-    std::string groupName = channelVector[0].getGroupName();
-    std::string devicePath = AQNWB::mergePaths("/general/devices", groupName);
-    std::string electrodePath =
-        AQNWB::mergePaths("/general/extracellular_ephys", groupName);
-
-    // Check if device exists for groupName, create device and electrode group
-    // if it does not
-    if (!ioPtr->objectExists(devicePath)) {
-      auto device = NWB::Device::create(devicePath, ioPtr);
-      device->initialize("description", "unknown");
-
-      auto elecGroup = NWB::ElectrodeGroup::create(electrodePath, ioPtr);
-      elecGroup->initialize("description", "unknown", device);
+  // Setup the electrode groups and devices
+  for (const auto& channelVector : recordingArrays) {
+    if (requireElectrodeGroup(channelVector[0].getGroupName())
+        != Status::Success)
+    {
+      return nullptr;
     }
   }
   if (finalizeTable) {
@@ -847,21 +957,9 @@ Status NWBFile::createSpikeEventSeries(
     const auto& channelVector = recordingArrays[i];
     const std::string& recordingName = recordingNames[i];
 
-    // Setup electrodes and devices
-    std::string groupName = channelVector[0].getGroupName();
-    std::string devicePath = AQNWB::mergePaths("/general/devices", groupName);
-    std::string electrodePath =
-        AQNWB::mergePaths("/general/extracellular_ephys", groupName);
-
-    // Check if device exists for groupName, create device and electrode group
-    // if not
-    if (!ioPtr->objectExists(devicePath)) {
-      auto device = Device::create(devicePath, ioPtr);
-      device->initialize("description", "unknown");
-
-      auto elecGroup = ElectrodeGroup::create(electrodePath, ioPtr);
-      elecGroup->initialize("description", "unknown", device);
-    }
+    // Setup the electrode group and device
+    overallStatus =
+        overallStatus && requireElectrodeGroup(channelVector[0].getGroupName());
 
     // Setup Spike Event Series datasets. All events have the same number of
     // channels and samples, so these dimensions have a fixed size (chunking 0)

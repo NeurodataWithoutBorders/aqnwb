@@ -9,9 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+* Added `DeviceModel` with `DeviceModel::DeviceModelSpec`, `Device::DeviceSpec` (`description`, `serial_number`, and the link to the `model`), and `NWBFile::createDeviceModel` and `NWBFile::createDevice` to store device metadata as specified in NWB 2.11. (@claude, @oruebel, [#360](https://github.com/NeurodataWithoutBorders/aqnwb/pull/360), fixes [#343](https://github.com/NeurodataWithoutBorders/aqnwb/issues/343))
+
+### Changed
+* Updated `NWBFile::createElectrodesTable` and `NWBFile::createSpikeEventSeries` to use existing devices and electrode groups, and to create missing devices without the deprecated `manufacturer` attribute. (@claude, @oruebel, [#360](https://github.com/NeurodataWithoutBorders/aqnwb/pull/360), fixes [#343](https://github.com/NeurodataWithoutBorders/aqnwb/issues/343))
+
+### Deprecated
+* Deprecated `Device::initialize(description, manufacturer)`, since NWB 2.11 deprecated the `manufacturer` attribute of `Device`. Use `Device::initialize(const DeviceSpec&)` and a `DeviceModel` instead. (@claude, @oruebel, [#360](https://github.com/NeurodataWithoutBorders/aqnwb/pull/360), fixes [#343](https://github.com/NeurodataWithoutBorders/aqnwb/issues/343))
+
 ### Fixed
 * Fixed `HDF5IO::open` to return `Status::Failure` instead of throwing if HDF5 can't open or create the file and updated `HDF5IO::open`, `HDF5IO::openS3`, and `HDF5IO::openRemote` to print the HDF5 error if opening fails. (@claude, @oruebel, [#363](https://github.com/NeurodataWithoutBorders/aqnwb/pull/363))
 * Fixed the warnings of cppcheck 2.19 and 2.22, which the code scanning workflow reports since `ubuntu-latest` moved to Ubuntu 26.04. (@claude, @oruebel, [#364](https://github.com/NeurodataWithoutBorders/aqnwb/pull/364))
+
 
 
 ## [0.5.0] - 2026-11-03

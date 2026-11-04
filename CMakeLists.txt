@@ -34,6 +34,7 @@ add_library(
     src/nwb/base/ProcessingModule.cpp
     src/nwb/base/TimeSeries.cpp
     src/nwb/device/Device.cpp
+    src/nwb/device/DeviceModel.cpp
     src/nwb/ecephys/ElectricalSeries.cpp
     src/nwb/ecephys/SpikeEventSeries.cpp
     src/nwb/epoch/TimeIntervals.cpp
