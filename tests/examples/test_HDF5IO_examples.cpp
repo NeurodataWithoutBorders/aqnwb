@@ -162,7 +162,7 @@ TEST_CASE("HDF5FiltersExamples", "[hdf5io]")
     auto baseDataset = hdf5io->createArrayDataSet(config, "/filtered_dataset");
 
     // [Optional/Testing] Verify the dataset properties
-    auto dataset =
+    const auto* dataset =
         dynamic_cast<AQNWB::IO::HDF5::HDF5RecordingData*>(baseDataset.get());
     const H5::DataSet* h5Dataset = dataset->getDataSet();
     H5::DSetCreatPropList dcpl = h5Dataset->getCreatePlist();

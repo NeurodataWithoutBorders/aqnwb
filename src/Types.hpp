@@ -251,8 +251,7 @@ struct CellValue
     bool result = false;
     if constexpr (std::is_constructible_v<ScalarDataVariant, T>) {
       if (std::holds_alternative<ScalarDataVariant>(value)) {
-        result = result
-            || std::holds_alternative<T>(std::get<ScalarDataVariant>(value));
+        result = std::holds_alternative<T>(std::get<ScalarDataVariant>(value));
       }
     }
     if constexpr (std::is_constructible_v<VectorDataVariant, T>) {
