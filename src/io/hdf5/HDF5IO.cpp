@@ -7,6 +7,7 @@
 #include <memory>
 #include <numeric>
 #include <stdexcept>
+#include <system_error>
 #include <vector>
 
 #include "io/hdf5/HDF5IO.hpp"
@@ -142,19 +143,23 @@ Status HDF5IO::openS3(const std::string& aws_region,
   copyField(secret_id, ros3_fa.secret_id, sizeof(ros3_fa.secret_id));
   copyField(secret_key, ros3_fa.secret_key, sizeof(ros3_fa.secret_key));
 
-  FileAccPropList fapl = createFileAccessPropertyList(chunkCache);
-  const herr_t ros3Status = H5Pset_fapl_ros3(fapl.getId(), &ros3_fa);
-  if (ros3Status < 0) {
-    return Status::Failure;
-  }
-
+  // HDF5 throws if it can't open the file, e.g., if the URL is invalid or the
+  // file is not an HDF5 file
   try {
+    FileAccPropList fapl = createFileAccessPropertyList(chunkCache);
+    if (H5Pset_fapl_ros3(fapl.getId(), &ros3_fa) < 0) {
+      std::cerr << "HDF5IO::openS3: unable to set the ROS3 driver for file '"
+                << getFileName() << "'" << std::endl;
+      return Status::Failure;
+    }
     m_file = std::make_unique<H5::H5File>(
         getFileName(), H5F_ACC_RDONLY, FileCreatPropList::DEFAULT, fapl);
-    m_opened = true;
-  } catch (const H5::Exception&) {
+  } catch (const H5::Exception& e) {
+    std::cerr << "HDF5IO::openS3: error opening file '" << getFileName()
+              << "': " << e.getDetailMsg() << std::endl;
     return Status::Failure;
   }
+  m_opened = true;
 
   return Status::Success;
 }
@@ -167,18 +172,24 @@ Status HDF5IO::openRemote(const ChunkCacheConfig& chunkCache)
     return Status::Failure;
   }
 
-  FileAccPropList fapl = createFileAccessPropertyList(chunkCache);
-  if (H5Pset_fapl_remfile(fapl.getId(), nullptr) < 0) {
-    return Status::Failure;
-  }
-
+  // HDF5 throws if it can't open the file, e.g., if the URL is invalid or the
+  // file is not an HDF5 file
   try {
+    FileAccPropList fapl = createFileAccessPropertyList(chunkCache);
+    if (H5Pset_fapl_remfile(fapl.getId(), nullptr) < 0) {
+      std::cerr << "HDF5IO::openRemote: unable to set the remfile driver for "
+                   "file '"
+                << getFileName() << "'" << std::endl;
+      return Status::Failure;
+    }
     m_file = std::make_unique<H5::H5File>(
         getFileName(), H5F_ACC_RDONLY, FileCreatPropList::DEFAULT, fapl);
-    m_opened = true;
-  } catch (const H5::Exception&) {
+  } catch (const H5::Exception& e) {
+    std::cerr << "HDF5IO::openRemote: error opening file '" << getFileName()
+              << "': " << e.getDetailMsg() << std::endl;
     return Status::Failure;
   }
+  m_opened = true;
 
   return Status::Success;
 }
@@ -186,7 +197,8 @@ Status HDF5IO::openRemote(const ChunkCacheConfig& chunkCache)
 
 Status HDF5IO::open()
 {
-  if (std::filesystem::exists(getFileName())) {
+  std::error_code ec;  // use the non-throwing overload of exists
+  if (std::filesystem::exists(getFileName(), ec)) {
     return open(FileMode::ReadWrite);
   } else {
     return open(FileMode::Overwrite);
@@ -206,13 +218,12 @@ Status HDF5IO::open(FileMode mode, const ChunkCacheConfig& chunkCache)
     return Status::Failure;
   }
 
-  if (!std::filesystem::exists(getFileName())) {
+  std::error_code ec;  // use the non-throwing overload of exists
+  if (!std::filesystem::exists(getFileName(), ec)) {
     if (mode == FileMode::ReadWrite || mode == FileMode::ReadOnly) {
       return Status::Failure;
     }
   }
-
-  FileAccPropList fapl = createFileAccessPropertyList(chunkCache);
 
   switch (mode) {
     case FileMode::Overwrite:
@@ -225,11 +236,22 @@ Status HDF5IO::open(FileMode mode, const ChunkCacheConfig& chunkCache)
       accFlags = H5F_ACC_RDONLY | H5F_ACC_SWMR_READ;
       break;
     default:
-      throw std::invalid_argument("Invalid file mode");
+      std::cerr << "HDF5IO::open: invalid file mode for file '" << getFileName()
+                << "'" << std::endl;
+      return Status::Failure;
   }
 
-  m_file = std::make_unique<H5::H5File>(
-      getFileName(), accFlags, FileCreatPropList::DEFAULT, fapl);
+  // HDF5 throws if it can't open or create the file, e.g., if the file is not
+  // an HDF5 file or the directory does not exist or is not writable
+  try {
+    FileAccPropList fapl = createFileAccessPropertyList(chunkCache);
+    m_file = std::make_unique<H5::H5File>(
+        getFileName(), accFlags, FileCreatPropList::DEFAULT, fapl);
+  } catch (const H5::Exception& e) {
+    std::cerr << "HDF5IO::open: error opening file '" << getFileName()
+              << "': " << e.getDetailMsg() << std::endl;
+    return Status::Failure;
+  }
   m_opened = true;
 
   return Status::Success;
