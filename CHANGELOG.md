@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed
-* Fixed the warnings of cppcheck 2.19 and 2.22, which the code scanning workflow reports since `ubuntu-latest` moved to Ubuntu 26.04, and the check of `getFullTypeName` for an `ElectrodesTable` with the `DynamicTable` type of NWB <= 2.8 in `testEcephys.cpp`, which tested the wrong variable. (@claude, @oruebel, [#364](https://github.com/NeurodataWithoutBorders/aqnwb/pull/364))
+* Fixed the warnings of cppcheck 2.19 and 2.22, which the code scanning workflow reports since `ubuntu-latest` moved to Ubuntu 26.04. (@claude, @oruebel, [#364](https://github.com/NeurodataWithoutBorders/aqnwb/pull/364))
 
 ## [0.5.0] - 2026-11-03
 
