@@ -44,7 +44,7 @@ public:
     {
     }
 
-    virtual ~DataSpecBase() = default;
+    virtual ~DataSpecBase() override = default;
 
     /**
      * @brief Create the concrete Data object represented by this spec.
