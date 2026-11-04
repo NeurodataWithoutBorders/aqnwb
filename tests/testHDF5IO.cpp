@@ -673,7 +673,7 @@ TEST_CASE("HDF5IO createArrayDataSet with filters", "[HDF5IO]")
     REQUIRE(baseDataset != nullptr);
 
     // Cast to HDF5RecordingData to access getDataSet()
-    auto dataset =
+    const auto* dataset =
         dynamic_cast<IO::HDF5::HDF5RecordingData*>(baseDataset.get());
     REQUIRE(dataset != nullptr);
 
@@ -708,7 +708,7 @@ TEST_CASE("HDF5IO createArrayDataSet with filters", "[HDF5IO]")
     REQUIRE(baseDataset != nullptr);
 
     // Cast to HDF5RecordingData to access getDataSet()
-    auto dataset =
+    const auto* dataset =
         dynamic_cast<IO::HDF5::HDF5RecordingData*>(baseDataset.get());
     REQUIRE(dataset != nullptr);
 
@@ -746,7 +746,7 @@ TEST_CASE("HDF5IO createArrayDataSet with filters", "[HDF5IO]")
     REQUIRE(baseDataset != nullptr);
 
     // Cast to HDF5RecordingData to access getDataSet()
-    auto dataset =
+    const auto* dataset =
         dynamic_cast<IO::HDF5::HDF5RecordingData*>(baseDataset.get());
     REQUIRE(dataset != nullptr);
 
@@ -789,7 +789,7 @@ TEST_CASE("HDF5IO createArrayDataSet with filters", "[HDF5IO]")
     REQUIRE(baseDataset != nullptr);
 
     // Cast to HDF5RecordingData to access getDataSet()
-    auto dataset =
+    const auto* dataset =
         dynamic_cast<IO::HDF5::HDF5RecordingData*>(baseDataset.get());
     REQUIRE(dataset != nullptr);
 
@@ -2141,6 +2141,7 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     IO::ArrayDataSetConfig config {vstrType, SizeArray {3}, SizeArray {0}};
     std::unique_ptr<BaseRecordingData> dataset =
         hdf5io->createArrayDataSet(config, dataPath);
+    REQUIRE(dataset != nullptr);
 
     // Attempt to read the dataset and verify that it returns empty data
     auto readVStrData = hdf5io->readDataset(dataPath);
