@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+## [Unreleased]
+
+### Added
+* Added `DeviceModel` with `DeviceModel::DeviceModelSpec`, `Device::DeviceSpec` (`description`, `serial_number`, and the link to the `model`), and `NWBFile::createDeviceModel` and `NWBFile::createDevice` to store device metadata as specified in NWB 2.11. (@claude, @oruebel, [#360](https://github.com/NeurodataWithoutBorders/aqnwb/pull/360), fixes [#343](https://github.com/NeurodataWithoutBorders/aqnwb/issues/343))
+
+### Changed
+* Updated `NWBFile::createElectrodesTable` and `NWBFile::createSpikeEventSeries` to use existing devices and electrode groups, and to create missing devices without the deprecated `manufacturer` attribute. (@claude, @oruebel, [#360](https://github.com/NeurodataWithoutBorders/aqnwb/pull/360), fixes [#343](https://github.com/NeurodataWithoutBorders/aqnwb/issues/343))
+
+### Deprecated
+* Deprecated `Device::initialize(description, manufacturer)`, since NWB 2.11 deprecated the `manufacturer` attribute of `Device`. Use `Device::initialize(const DeviceSpec&)` and a `DeviceModel` instead. (@claude, @oruebel, [#360](https://github.com/NeurodataWithoutBorders/aqnwb/pull/360), fixes [#343](https://github.com/NeurodataWithoutBorders/aqnwb/issues/343))
+
 ## [0.5.0] - 2026-11-03
 
 ### Added
@@ -14,16 +25,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Added optional `ChunkCacheConfig` parameter to `HDF5IO::open`, `HDF5IO::openS3`, and `HDF5IO::openRemote` to configure the HDF5 chunk cache to enable applications to adjust the cache to their write pattern, and `HDF5IO::getChunkCacheNumBytes` and `HDF5IO::getDefaultChunkCacheNumBytes` to query the cache size. (@claude, @oruebel, [#346](https://github.com/NeurodataWithoutBorders/aqnwb/pull/346), addresses [#26](https://github.com/NeurodataWithoutBorders/aqnwb/issues/26))
 * Added `NWBFile::setSessionStartTime` and `NWBFile::setTimestampsReferenceTime` to set these times after the file was created (also in SWMR mode), and `formatTime` to format a time point as an ISO 8601 string. (@claude, @oruebel, [#348](https://github.com/NeurodataWithoutBorders/aqnwb/pull/348))
 * Added `NWBFile::GeneralMetadataSpec` and an optional `generalMetadataSpec` parameter of `NWBFile::initialize` to write the optional metadata in `/general` (e.g., `experimenter`, `institution`, `keywords`, `was_generated_by`), and corresponding read methods (e.g., `NWBFile::readExperimenter`). (@claude, @oruebel, [#352](https://github.com/NeurodataWithoutBorders/aqnwb/pull/352), fixes [#350](https://github.com/NeurodataWithoutBorders/aqnwb/issues/350))
-* Added `DeviceModel` with `DeviceModel::DeviceModelSpec`, `Device::DeviceSpec` (`description`, `serial_number`, and the link to the `model`), and `NWBFile::createDeviceModel` and `NWBFile::createDevice` to store device metadata as specified in NWB 2.11. (@claude, @oruebel, [#360](https://github.com/NeurodataWithoutBorders/aqnwb/pull/360), fixes [#343](https://github.com/NeurodataWithoutBorders/aqnwb/issues/343))
 
 ### Changed
 * **[BREAKING]** Updated `NWBFile::createSpikeEventSeries` to require the number of samples per event (`numSamples`) and to chunk `data` by complete events (about 32 KiB per chunk) instead of `{8, 1, 1}`, which reduces the file size. (@claude, @oruebel, [#344](https://github.com/NeurodataWithoutBorders/aqnwb/pull/344))
    * **Migration Note:** Pass the number of samples per spike waveform as the new `numSamples` argument; it must match the `numSamples` passed to `SpikeEventSeries::writeSpike`.
 * Updated `HDF5RecordingData::writeDataBlock` to support scalar datasets and to overwrite datasets that cannot be extended. (@claude, @oruebel, [#348](https://github.com/NeurodataWithoutBorders/aqnwb/pull/348))
-* Updated `NWBFile::createElectrodesTable` and `NWBFile::createSpikeEventSeries` to use existing devices and electrode groups, and to create missing devices without the deprecated `manufacturer` attribute. (@claude, @oruebel, [#360](https://github.com/NeurodataWithoutBorders/aqnwb/pull/360), fixes [#343](https://github.com/NeurodataWithoutBorders/aqnwb/issues/343))
-
-### Deprecated
-* Deprecated `Device::initialize(description, manufacturer)`, since NWB 2.11 deprecated the `manufacturer` attribute of `Device`. Use `Device::initialize(const DeviceSpec&)` and a `DeviceModel` instead. (@claude, @oruebel, [#360](https://github.com/NeurodataWithoutBorders/aqnwb/pull/360), fixes [#343](https://github.com/NeurodataWithoutBorders/aqnwb/issues/343))
 
 ### Fixed
 * Fixed `NWBFile::createSpikeEventSeries` always returning `Status::Success`, even if `SpikeEventSeries::initialize` failed. (@claude, @oruebel, [#341](https://github.com/NeurodataWithoutBorders/aqnwb/pull/341))
