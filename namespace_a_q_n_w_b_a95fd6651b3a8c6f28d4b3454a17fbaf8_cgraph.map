@@ -1,17 +1,12 @@
 <map id="AQNWB::formatTime" name="AQNWB::formatTime">
-<area shape="rect" id="Node000001" title="Format a time point in ISO 8601 format with microseconds and the local UTC offset,..." alt="" coords="5,94,152,120"/>
-<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="45,94,39,86,43,76,56,70,79,68,103,70,117,79,112,80,101,75,78,73,58,75,46,80,44,85,50,93"/>
-<area shape="rect" id="Node000002" href="$namespace_a_q_n_w_b_1_1detail.html#ad0651da97ed82b774d723c172538375c" title="Format a UTC offset in seconds as a string (+HH:MM or &#45;HH:MM)." alt="" coords="200,29,356,70"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="125,91,192,73,188,76,127,96"/>
-<area shape="rect" id="Node000003" href="$namespace_a_q_n_w_b_1_1detail.html#af6ff85116f650b5a02fbca4c821b6c9b" title="Get the UTC offset in seconds for a given time_t value." alt="" coords="207,168,349,209"/>
-<area shape="poly" id="edge4_Node000001_Node000003" title=" " alt="" coords="113,118,214,160,210,163,112,123"/>
-<area shape="rect" id="Node000004" href="$namespace_a_q_n_w_b_1_1detail.html#abcf2ceabe5c721ee1001c80fdc313fa3" title="Convert a std::time_t value to a local std::tm structure." alt="" coords="404,98,600,124"/>
-<area shape="poly" id="edge10_Node000001_Node000004" title=" " alt="" coords="152,105,389,108,387,112,152,110"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="240,28,238,19,244,10,258,5,278,3,300,5,314,13,309,14,298,10,278,8,259,10,248,15,243,20,245,30"/>
-<area shape="poly" id="edge5_Node000003_Node000003" title=" " alt="" coords="240,166,238,158,244,149,258,143,278,141,300,144,314,153,309,152,298,149,278,147,259,149,248,153,243,159,245,169"/>
-<area shape="poly" id="edge6_Node000003_Node000004" title=" " alt="" coords="328,165,403,136,434,129,439,128,405,142,329,170"/>
-<area shape="rect" id="Node000005" href="$namespace_a_q_n_w_b_1_1detail.html#a565fcac4f2e7942f33f35b3de5b717f1" title="Convert a std::time_t value to a UTC std::tm structure." alt="" coords="408,176,596,201"/>
-<area shape="poly" id="edge8_Node000003_Node000005" title=" " alt="" coords="349,186,395,188,390,188,349,191"/>
-<area shape="poly" id="edge7_Node000004_Node000004" title=" " alt="" coords="465,97,458,90,462,80,477,74,502,72,530,74,545,84,540,83,528,79,502,77,478,79,466,84,463,89,470,99"/>
-<area shape="poly" id="edge9_Node000005_Node000005" title=" " alt="" coords="465,174,458,167,462,157,477,151,502,149,530,152,545,161,540,160,528,157,502,154,478,156,466,161,463,166,470,176"/>
+<area shape="rect" id="Node000001" title="Format a time point in ISO 8601 format with microseconds and the local UTC offset,..." alt="" coords="5,70,152,96"/>
+<area shape="rect" id="Node000002" href="$namespace_a_q_n_w_b_1_1detail.html#ad0651da97ed82b774d723c172538375c" title="Format a UTC offset in seconds as a string (+HH:MM or &#45;HH:MM)." alt="" coords="200,5,356,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="125,67,192,49,188,52,127,72"/>
+<area shape="rect" id="Node000003" href="$namespace_a_q_n_w_b_1_1detail.html#af6ff85116f650b5a02fbca4c821b6c9b" title="Get the UTC offset in seconds for a given time_t value." alt="" coords="207,120,349,161"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="126,94,194,115,189,116,126,99"/>
+<area shape="rect" id="Node000004" href="$namespace_a_q_n_w_b_1_1detail.html#abcf2ceabe5c721ee1001c80fdc313fa3" title="Convert a std::time_t value to a local std::tm structure." alt="" coords="404,74,600,100"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="152,81,389,83,387,88,152,86"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="349,121,427,104,433,104,350,126"/>
+<area shape="rect" id="Node000005" href="$namespace_a_q_n_w_b_1_1detail.html#a565fcac4f2e7942f33f35b3de5b717f1" title="Convert a std::time_t value to a UTC std::tm structure." alt="" coords="408,128,596,153"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="349,138,395,140,390,140,349,143"/>
 </map>

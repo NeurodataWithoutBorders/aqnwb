@@ -10,7 +10,7 @@ var searchData=
   ['vectordata_2ecpp_7',['VectorData.cpp',['../_vector_data_8cpp.html',1,'']]],
   ['vectordata_2ehpp_8',['VectorData.hpp',['../_vector_data_8hpp.html',1,'']]],
   ['vectordatatyped_9',['VectorDataTyped',['../class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html',1,'AQNWB::NWB::VectorDataTyped&lt; DTYPE &gt;'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data_typed.html#ae1574fc67b4fc214d68267283d5b2dbf',1,'AQNWB::NWB::VectorDataTyped::VectorDataTyped()']]],
-  ['vectordatavariant_10',['VectorDataVariant',['../namespace_a_q_n_w_b_1_1_types.html#a61d7ff2c71fdd9d51c1b943ee3c0f141',1,'AQNWB::Types']]],
+  ['vectordatavariant_10',['VectorDataVariant',['../namespace_a_q_n_w_b_1_1_types.html#adab32fe4ba7cb85c3d107a6d2a80d013',1,'AQNWB::Types']]],
   ['vectorindex_11',['VectorIndex',['../class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html',1,'AQNWB::NWB::VectorIndex'],['../class_a_q_n_w_b_1_1_n_w_b_1_1_vector_index.html#aceb4864bf5304fd0630613497cf0fc41',1,'AQNWB::NWB::VectorIndex::VectorIndex()']]],
   ['vectorindex_2ecpp_12',['VectorIndex.cpp',['../_vector_index_8cpp.html',1,'']]],
   ['vectorindex_2ehpp_13',['VectorIndex.hpp',['../_vector_index_8hpp.html',1,'']]],

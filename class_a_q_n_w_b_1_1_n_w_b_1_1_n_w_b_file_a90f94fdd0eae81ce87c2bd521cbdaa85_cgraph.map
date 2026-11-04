@@ -1,10 +1,9 @@
 <map id="AQNWB::NWB::NWBFile::setTimestampsReferenceTime" name="AQNWB::NWB::NWBFile::setTimestampsReferenceTime">
-<area shape="rect" id="Node000001" title="Change the timestamps reference time of an initialized file." alt="" coords="5,47,214,87"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a9fbda87d24027e2aada2fa22e24195c8" title="Overwrites the value of an existing scalar time dataset (e.g., /session_start_time)." alt="" coords="262,47,435,87"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="214,64,249,67,243,67,214,70"/>
+<area shape="rect" id="Node000001" title="Change the timestamps reference time of an initialized file." alt="" coords="5,35,214,75"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a9fbda87d24027e2aada2fa22e24195c8" title="Overwrites the value of an existing scalar time dataset (e.g., /session_start_time)." alt="" coords="262,35,435,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="214,52,249,55,243,55,214,58"/>
 <area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab614b1609f536e88ed1f32762dc3894b" title="Get a shared pointer to the IO object." alt="" coords="483,5,694,46"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="435,49,465,47,470,46,436,55"/>
-<area shape="rect" id="Node000004" href="$namespace_a_q_n_w_b.html#a4aacc6b82eca3064a8afe0070c44cde4" title="Check that a string is formatted as an ISO 8601 datetime." alt="" coords="504,94,673,120"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="436,79,495,91,490,91,435,84"/>
-<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="549,93,541,86,546,76,562,70,589,68,619,70,635,80,630,79,617,75,589,73,563,75,549,80,546,85,554,95"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="435,42,465,41,470,40,436,47"/>
+<area shape="rect" id="Node000004" href="$namespace_a_q_n_w_b.html#a4aacc6b82eca3064a8afe0070c44cde4" title="Check that a string is formatted as an ISO 8601 datetime." alt="" coords="504,70,673,96"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="436,62,492,71,486,71,435,68"/>
 </map>

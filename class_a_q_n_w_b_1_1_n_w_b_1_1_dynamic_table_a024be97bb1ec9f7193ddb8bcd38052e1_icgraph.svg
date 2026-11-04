@@ -6,7 +6,7 @@
 <!-- Title: AQNWB::NWB::DynamicTable::flushColNames Pages: 1 -->
 <!--zoomable 406 -->
 
-<svg id="main" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve">
+<svg id="main" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" onload="init(evt)">
 
 <style type="text/css"><![CDATA[
 .node, .edge {opacity: 0.7;}
@@ -46,8 +46,13 @@
     <use xlink:href="#rim2" fill="#404040"><set attributeName="fill" to="#808080" begin="reset.mouseover" end="reset.mouseout"/></use>
   </g>
 </defs>
+<script type="application/ecmascript">
+var viewWidth = 1320;
+var viewHeight = 406;
+var sectionId = 'dynsection-31';
+</script>
 <script type="application/ecmascript" xlink:href="svg.min.js"/>
-<svg id="graph" class="graph" data-view-width="1320" data-view-height="406" data-section-id="dynsection-32">
+<svg id="graph" class="graph">
 <g id="viewport">
 <title>AQNWB::NWB::DynamicTable::flushColNames</title>
 <!-- Node1 -->
@@ -90,28 +95,28 @@
 </g>
 </g>
 <!-- Node1&#45;&gt;Node3 -->
-<g id="edge24_Node000001_Node000003" class="edge">
+<g id="edge23_Node000001_Node000003" class="edge">
 <title>Node1&#45;&gt;Node3</title>
-<g id="a_edge24_Node000001_Node000003"><a xlink:title=" ">
+<g id="a_edge23_Node000001_Node000003"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M1158.39,-284.2C1146.75,-286.51 1134.84,-288.63 1123.5,-290.25 1060.44,-299.28 988.26,-304.1 935.37,-306.62"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="1158.86,-287.68 1167.95,-282.25 1157.45,-280.82 1158.86,-287.68"/>
 </a>
 </g>
 </g>
-<!-- Node23 -->
-<g id="Node000023" class="node">
-<title>Node23</title>
-<g id="a_Node000023"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a67736e2e805af3bafc5826ba3a993d5b" target="_top" xlink:title="Sets the column names of the DynamicTable.">
+<!-- Node22 -->
+<g id="Node000022" class="node">
+<title>Node22</title>
+<g id="a_Node000022"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#a67736e2e805af3bafc5826ba3a993d5b" target="_top" xlink:title="Sets the column names of the DynamicTable.">
 <polygon fill="white" stroke="#666666" points="1123.5,-232.5 971,-232.5 971,-202 1123.5,-202 1123.5,-232.5"/>
 <text xml:space="preserve" text-anchor="start" x="979" y="-219" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::DynamicTable</text>
 <text xml:space="preserve" text-anchor="middle" x="1047.25" y="-207.75" font-family="Helvetica,sans-Serif" font-size="10.00">::setColNames</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node23 -->
-<g id="edge25_Node000001_Node000023" class="edge">
-<title>Node1&#45;&gt;Node23</title>
-<g id="a_edge25_Node000001_Node000023"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node22 -->
+<g id="edge24_Node000001_Node000022" class="edge">
+<title>Node1&#45;&gt;Node22</title>
+<g id="a_edge24_Node000001_Node000022"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M1163.98,-247.66C1145.53,-242.81 1125.83,-237.63 1108.01,-232.95"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="1162.95,-251 1173.51,-250.16 1164.72,-244.23 1162.95,-251"/>
 </a>
@@ -326,9 +331,9 @@
 </g>
 </g>
 <!-- Node13&#45;&gt;Node7 -->
-<g id="edge23_Node000013_Node000007" class="edge">
+<g id="edge22_Node000013_Node000007" class="edge">
 <title>Node13&#45;&gt;Node7</title>
-<g id="a_edge23_Node000013_Node000007"><a xlink:title=" ">
+<g id="a_edge22_Node000013_Node000007"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M813.58,-207.62C793.35,-216.61 768.92,-226.99 746.5,-235.25 737.78,-238.46 728.42,-241.61 719.28,-244.53"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="814.98,-210.83 822.67,-203.54 812.12,-204.44 814.98,-210.83"/>
 </a>
@@ -486,37 +491,18 @@
 </a>
 </g>
 </g>
-<!-- Node22 -->
-<g id="Node000022" class="node">
-<title>Node22</title>
-<g id="a_Node000022"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#ad37927ea9977b42b142fe1c34c37c0f3" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="152.5,-30.5 0,-30.5 0,0 152.5,0 152.5,-30.5"/>
-<text xml:space="preserve" text-anchor="start" x="8" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::DynamicTable</text>
-<text xml:space="preserve" text-anchor="middle" x="76.25" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::create</text>
-</a>
-</g>
-</g>
-<!-- Node21&#45;&gt;Node22 -->
-<g id="edge22_Node000021_Node000022" class="edge">
-<title>Node21&#45;&gt;Node22</title>
-<g id="a_edge22_Node000021_Node000022"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M176.91,-15.25C168.91,-15.25 160.84,-15.25 152.95,-15.25"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="176.65,-18.75 186.65,-15.25 176.65,-11.75 176.65,-18.75"/>
-</a>
-</g>
-</g>
 </g>
 </svg>
 
 <g id="navigator" transform="translate(0 0)" fill="#404254">
   <rect fill="#f2f5e9" fill-opacity="0.5" stroke="#606060" stroke-width=".5" x="0" y="0" width="60" height="60"/>
-  <use id="zoomplus" xlink:href="#zoomPlus" x="17" y="9" data-zoom="in"/>
-  <use id="zoomminus" xlink:href="#zoomMin" x="42" y="9" data-zoom="out"/>
-  <use id="reset" xlink:href="#resetDef" x="30" y="36" data-reset="true"/>
-  <use id="arrowup" xlink:href="#arrowUp" x="0" y="0" data-pan-x="0" data-pan-y="-1"/>
-  <use id="arrowright" xlink:href="#arrowRight" x="0" y="0" data-pan-x="1" data-pan-y="0"/>
-  <use id="arrowdown" xlink:href="#arrowDown" x="0" y="0" data-pan-x="0" data-pan-y="1"/>
-  <use id="arrowleft" xlink:href="#arrowLeft" x="0" y="0" data-pan-x="-1" data-pan-y="0"/>
+  <use id="zoomplus" xlink:href="#zoomPlus" x="17" y="9" onmousedown="handleZoom(evt,'in')"/>
+  <use id="zoomminus" xlink:href="#zoomMin" x="42" y="9" onmousedown="handleZoom(evt,'out')"/>
+  <use id="reset" xlink:href="#resetDef" x="30" y="36" onmousedown="handleReset()"/>
+   <use id="arrowup" xlink:href="#arrowUp" x="0" y="0" onmousedown="handlePan(0,-1)"/>
+  <use id="arrowright" xlink:href="#arrowRight" x="0" y="0" onmousedown="handlePan(1,0)"/>
+  <use id="arrowdown" xlink:href="#arrowDown" x="0" y="0" onmousedown="handlePan(0,1)"/>
+  <use id="arrowleft" xlink:href="#arrowLeft" x="0" y="0" onmousedown="handlePan(-1,0)"/>
 </g>
 <svg viewBox="0 0 15 15" width="100%" height="30px" preserveAspectRatio="xMaxYMin meet">
  <g id="arrow_out" transform="scale(0.3 0.3)">
@@ -536,4 +522,10 @@
 [data-mouse-over-selected='true']  { opacity: 1.0; }
 ]]>
 </style>
+<script type="application/ecmascript"><![CDATA[
+document.addEventListener('DOMContentLoaded', (event) => {
+  highlightEdges();
+  highlightAdjacentNodes();
+});
+]]></script>
 </svg>

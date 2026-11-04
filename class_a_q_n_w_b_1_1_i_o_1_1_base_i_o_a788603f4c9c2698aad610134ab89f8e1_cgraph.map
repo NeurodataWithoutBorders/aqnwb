@@ -1,29 +1,17 @@
 <map id="AQNWB::IO::BaseIO::findTypes" name="AQNWB::IO::BaseIO::findTypes">
-<area shape="rect" id="Node000001" title="Finds all datasets and groups of the given types in the HDF5 file." alt="" coords="5,204,160,245"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a06b5edf2bbd4c85adcafda13e7903873" title="Checks whether an Attribute exists at the location in the file." alt="" coords="208,5,362,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,202,138,136,170,97,206,62,223,52,220,56,209,66,174,101,142,139,98,205"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a20df6af7d661de38f4b8cb3baba48339" title="Factory method to create an DataBlock from a DataBlockGeneric." alt="" coords="612,76,776,117"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="112,201,156,176,207,154,309,127,414,110,512,100,599,97,594,98,513,105,414,115,310,132,209,159,158,181,116,206"/>
-<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a981d7a455b4c057f8ade5c511afbb2ba" title="Gets the list of storage objects (groups, datasets, attributes) inside a group." alt="" coords="208,204,362,245"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="159,231,195,232,190,234,161,236"/>
-<area shape="rect" id="Node000007" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="619,178,769,204"/>
-<area shape="poly" id="edge15_Node000001_Node000007" title=" " alt="" coords="153,201,237,181,339,162,452,152,509,152,565,156,638,173,633,174,564,162,509,157,452,157,340,168,238,186,155,206"/>
-<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a01e6288db37a36dc4a160955e8f5b5b5" title="Checks whether a Dataset, Group, or Link already exists at the location in the file." alt="" coords="617,331,771,371"/>
-<area shape="poly" id="edge16_Node000001_Node000008" title=" " alt="" coords="117,243,160,266,209,286,312,312,418,330,517,340,605,349,599,349,517,346,417,335,311,317,207,291,158,271,116,248"/>
-<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#aa9b3fc349e4149f6b1c75bb854deae07" title="Reads a attribute and determines the data type." alt="" coords="617,240,771,281"/>
-<area shape="poly" id="edge17_Node000001_Node000010" title=" " alt="" coords="158,243,241,262,343,279,453,289,509,289,564,286,599,283,604,282,565,291,509,295,453,294,342,284,240,267,158,248"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a8d7a3a3dd05f8bd7717b55fd6b4237e7" title=" " alt="" coords="824,76,987,117"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="776,94,811,96,806,97,776,99"/>
-<area shape="poly" id="edge10_Node000005_Node000001" title=" " alt="" coords="205,217,176,218,174,213,210,214"/>
-<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a0b762c28ae74ea07599eb71bf2c5cfc6" title="Find the first object in the file whose path ends with the given name." alt="" coords="410,236,564,277"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="362,243,398,250,392,251,362,248"/>
-<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a1b9c28abd50f22cf2e0bca20380a12b9" title="Get the full name of the type from the attribute in the file." alt="" coords="410,171,564,211"/>
-<area shape="poly" id="edge11_Node000005_Node000009" title=" " alt="" coords="361,209,398,205,393,207,363,214"/>
-<area shape="poly" id="edge6_Node000006_Node000005" title=" " alt="" coords="407,236,377,233,377,227,413,235"/>
-<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="553,233,634,210,639,208,554,238"/>
-<area shape="poly" id="edge9_Node000006_Node000008" title=" " alt="" coords="534,275,637,324,631,324,533,280"/>
-<area shape="poly" id="edge8_Node000007_Node000007" title=" " alt="" coords="659,177,653,170,657,160,671,154,694,152,719,154,734,164,728,163,718,159,694,157,672,159,661,164,658,169,664,179"/>
-<area shape="poly" id="edge12_Node000009_Node000003" title=" " alt="" coords="532,168,631,125,636,123,534,173"/>
-<area shape="poly" id="edge13_Node000009_Node000007" title=" " alt="" coords="564,188,606,191,601,191,565,194"/>
-<area shape="poly" id="edge14_Node000009_Node000010" title=" " alt="" coords="551,209,620,235,614,235,550,215"/>
+<area shape="rect" id="Node000001" title="Finds all datasets and groups of the given types in the HDF5 file." alt="" coords="5,165,160,206"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a06b5edf2bbd4c85adcafda13e7903873" title="Checks whether an Attribute exists at the location in the file." alt="" coords="212,5,366,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="98,163,143,111,173,82,206,57,218,52,214,56,209,61,177,86,147,115,102,166"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a20df6af7d661de38f4b8cb3baba48339" title="Factory method to create an DataBlock from a DataBlockGeneric." alt="" coords="208,71,371,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="123,163,207,122,224,116,220,119,209,127,126,167"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a981d7a455b4c057f8ade5c511afbb2ba" title="Gets the list of storage objects (groups, datasets, attributes) inside a group." alt="" coords="212,136,366,177"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="159,172,199,168,194,171,161,177"/>
+<area shape="rect" id="Node000006" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="214,201,364,226"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="159,193,201,200,196,202,160,199"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#a01e6288db37a36dc4a160955e8f5b5b5" title="Checks whether a Dataset, Group, or Link already exists at the location in the file." alt="" coords="212,251,366,291"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="131,204,209,237,223,244,218,245,207,241,131,209"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#aa9b3fc349e4149f6b1c75bb854deae07" title="Reads a attribute and determines the data type." alt="" coords="212,316,366,357"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="102,204,149,252,209,301,220,309,214,308,206,305,145,256,101,209"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_data_block.html#a8d7a3a3dd05f8bd7717b55fd6b4237e7" title=" " alt="" coords="419,71,582,111"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="371,88,406,90,401,92,372,94"/>
 </map>

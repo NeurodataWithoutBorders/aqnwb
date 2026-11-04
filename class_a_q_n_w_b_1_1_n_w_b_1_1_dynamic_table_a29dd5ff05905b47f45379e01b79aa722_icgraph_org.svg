@@ -237,9 +237,9 @@
 </g>
 </g>
 <!-- Node12&#45;&gt;Node6 -->
-<g id="edge22_Node000012_Node000006" class="edge">
+<g id="edge21_Node000012_Node000006" class="edge">
 <title>Node12&#45;&gt;Node6</title>
-<g id="a_edge22_Node000012_Node000006"><a xlink:title=" ">
+<g id="a_edge21_Node000012_Node000006"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M813.58,-207.62C793.35,-216.61 768.92,-226.99 746.5,-235.25 737.78,-238.46 728.42,-241.61 719.28,-244.53"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="814.98,-210.83 822.67,-203.54 812.12,-204.44 814.98,-210.83"/>
 </a>
@@ -394,25 +394,6 @@
 <g id="a_edge20_Node000019_Node000020"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M373.74,-15.25C362.91,-15.25 351.91,-15.25 341.28,-15.25"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="373.41,-18.75 383.41,-15.25 373.41,-11.75 373.41,-18.75"/>
-</a>
-</g>
-</g>
-<!-- Node21 -->
-<g id="Node000021" class="node">
-<title>Node21</title>
-<g id="a_Node000021"><a xlink:href="class_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table.html#ad37927ea9977b42b142fe1c34c37c0f3" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="152.5,-30.5 0,-30.5 0,0 152.5,0 152.5,-30.5"/>
-<text xml:space="preserve" text-anchor="start" x="8" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::NWB::DynamicTable</text>
-<text xml:space="preserve" text-anchor="middle" x="76.25" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::create</text>
-</a>
-</g>
-</g>
-<!-- Node20&#45;&gt;Node21 -->
-<g id="edge21_Node000020_Node000021" class="edge">
-<title>Node20&#45;&gt;Node21</title>
-<g id="a_edge21_Node000020_Node000021"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M176.91,-15.25C168.91,-15.25 160.84,-15.25 152.95,-15.25"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="176.65,-18.75 186.65,-15.25 176.65,-11.75 176.65,-18.75"/>
 </a>
 </g>
 </g>

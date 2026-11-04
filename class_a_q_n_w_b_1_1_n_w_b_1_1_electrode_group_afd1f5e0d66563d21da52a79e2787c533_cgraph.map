@@ -1,34 +1,7 @@
 <map id="AQNWB::NWB::ElectrodeGroup::create" name="AQNWB::NWB::ElectrodeGroup::create">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,169,216,210"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html#a7cfae9f37d17f90486921d0b6445a9cd" title="Constructor." alt="" coords="264,44,474,85"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,166,313,89,310,94,156,171"/>
-<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html#a4e6311727089b081d56bd9d948aeacb2" title="Initializes the ElectrodeGroup object." alt="" coords="264,136,474,177"/>
-<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="215,174,251,171,246,173,217,179"/>
-<area shape="rect" id="Node000013" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html#aa506d9dca995fef50994ac107a2234c2" title=" " alt="" coords="264,201,474,242"/>
-<area shape="poly" id="edge17_Node000001_Node000013" title=" " alt="" coords="216,200,251,206,245,207,216,205"/>
-<area shape="rect" id="Node000014" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html#aaa8759fc266e201b42936595f18d12c2" title=" " alt="" coords="264,267,474,307"/>
-<area shape="poly" id="edge18_Node000001_Node000014" title=" " alt="" coords="159,208,265,251,288,262,283,261,263,256,158,213"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="321,43,318,34,326,25,343,19,369,17,396,20,415,28,409,29,395,25,369,23,344,25,329,29,323,35,326,44"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html#aadbde40c8c04d80d7b65a26e77f4cc20" title="Constructor." alt="" coords="522,31,730,71"/>
-<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="474,56,509,56,504,58,475,61"/>
-<area shape="poly" id="edge7_Node000003_Node000003" title=" " alt="" coords="581,29,579,21,586,12,602,6,626,4,652,6,669,15,664,15,651,12,626,9,603,11,589,16,584,22,586,31"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a0ec16ae5d28267ea37464ffe2c2c34e5" title="Constructor." alt="" coords="778,29,955,70"/>
-<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="730,48,765,50,760,51,731,53"/>
-<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="822,27,819,19,827,10,842,5,867,3,892,5,909,14,904,14,891,10,866,8,844,10,830,15,824,21,826,30"/>
-<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aa1e04074725b7331d725bbda8156bc2d" title="Constructor." alt="" coords="1003,27,1214,67"/>
-<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="955,46,990,48,985,49,956,51"/>
-<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab614b1609f536e88ed1f32762dc3894b" title="Get a shared pointer to the IO object." alt="" coords="1003,92,1214,133"/>
-<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="474,140,522,135,770,120,990,114,984,115,771,125,522,140,475,145"/>
-<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_container.html#a80beeda4c4761fe414407e4cc0d4fe8c" title="Initialize the object." alt="" coords="522,149,730,190"/>
-<area shape="poly" id="edge10_Node000006_Node000008" title=" " alt="" coords="474,159,509,163,504,164,475,164"/>
-<area shape="rect" id="Node000012" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="551,238,701,264"/>
-<area shape="poly" id="edge15_Node000006_Node000012" title=" " alt="" coords="438,175,475,187,583,232,577,232,473,192,438,180"/>
-<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a420424e52795b5212d7dcb728396af6a" title="Initialize the container." alt="" coords="778,153,955,194"/>
-<area shape="poly" id="edge11_Node000008_Node000009" title=" " alt="" coords="731,169,765,172,760,172,731,174"/>
-<area shape="poly" id="edge12_Node000009_Node000007" title=" " alt="" coords="949,150,1008,138,1013,136,950,155"/>
-<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a1a8f53595eb2637e32e816a3ff99a230" title="Get the schema namespace of the class type." alt="" coords="1020,157,1196,198"/>
-<area shape="poly" id="edge13_Node000009_Node000010" title=" " alt="" coords="955,172,1008,176,1002,176,955,178"/>
-<area shape="rect" id="Node000011" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_container.html#a21e3abbea48e9455731f2859c7954c97" title="Get the name of the class type." alt="" coords="1020,223,1196,263"/>
-<area shape="poly" id="edge14_Node000009_Node000011" title=" " alt="" coords="941,192,1023,218,1017,218,940,197"/>
-<area shape="poly" id="edge16_Node000012_Node000012" title=" " alt="" coords="586,237,579,230,583,220,599,214,626,212,656,214,672,224,667,223,655,219,626,217,601,219,587,224,584,229,591,239"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,39,216,79"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html#aa506d9dca995fef50994ac107a2234c2" title=" " alt="" coords="264,5,474,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="216,43,251,41,245,42,217,48"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html#aaa8759fc266e201b42936595f18d12c2" title=" " alt="" coords="264,71,474,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="216,69,251,76,245,76,216,75"/>
 </map>

@@ -1,5 +1,9 @@
 var namespace_a_q_n_w_b =
 [
+    [ "IO", "namespace_a_q_n_w_b_1_1_i_o.html", "namespace_a_q_n_w_b_1_1_i_o" ],
+    [ "NWB", "namespace_a_q_n_w_b_1_1_n_w_b.html", "namespace_a_q_n_w_b_1_1_n_w_b" ],
+    [ "SPEC", "namespace_a_q_n_w_b_1_1_s_p_e_c.html", "namespace_a_q_n_w_b_1_1_s_p_e_c" ],
+    [ "Types", "namespace_a_q_n_w_b_1_1_types.html", "namespace_a_q_n_w_b_1_1_types" ],
     [ "detail", "namespace_a_q_n_w_b_1_1detail.html", [
       [ "format_utc_offset", "namespace_a_q_n_w_b_1_1detail.html#ad0651da97ed82b774d723c172538375c", null ],
       [ "get_utc_offset_seconds", "namespace_a_q_n_w_b_1_1detail.html#af6ff85116f650b5a02fbca4c821b6c9b", null ],
@@ -7,10 +11,6 @@ var namespace_a_q_n_w_b =
       [ "to_local_time", "namespace_a_q_n_w_b_1_1detail.html#abcf2ceabe5c721ee1001c80fdc313fa3", null ],
       [ "to_utc_time", "namespace_a_q_n_w_b_1_1detail.html#a565fcac4f2e7942f33f35b3de5b717f1", null ]
     ] ],
-    [ "IO", "namespace_a_q_n_w_b_1_1_i_o.html", "namespace_a_q_n_w_b_1_1_i_o" ],
-    [ "NWB", "namespace_a_q_n_w_b_1_1_n_w_b.html", "namespace_a_q_n_w_b_1_1_n_w_b" ],
-    [ "SPEC", "namespace_a_q_n_w_b_1_1_s_p_e_c.html", "namespace_a_q_n_w_b_1_1_s_p_e_c" ],
-    [ "Types", "namespace_a_q_n_w_b_1_1_types.html", "namespace_a_q_n_w_b_1_1_types" ],
     [ "Channel", "class_a_q_n_w_b_1_1_channel.html", "class_a_q_n_w_b_1_1_channel" ],
     [ "appendCellValueToBuffer", "namespace_a_q_n_w_b.html#ab61fb380a62609e576ed5fe352b3e94f", null ],
     [ "checkStatus", "namespace_a_q_n_w_b.html#aa2ae7bd54f7ed396e61e6cec9d208140", null ],

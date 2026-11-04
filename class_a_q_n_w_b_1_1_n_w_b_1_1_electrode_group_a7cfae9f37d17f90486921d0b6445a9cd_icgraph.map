@@ -1,13 +1,4 @@
 <map id="AQNWB::NWB::ElectrodeGroup::ElectrodeGroup" name="AQNWB::NWB::ElectrodeGroup::ElectrodeGroup">
-<area shape="rect" id="Node000001" title="Constructor." alt="" coords="706,39,917,79"/>
-<area shape="poly" id="edge6_Node000001_Node000001" title=" " alt="" coords="852,23,838,20,811,17,787,19,772,24,766,30,768,40,764,37,761,29,769,20,786,14,812,12,839,14,857,23"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_electrode_group.html#afd1f5e0d66563d21da52a79e2787c533" title=" " alt="" coords="448,39,658,79"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="688,59,659,62,659,56,693,59"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ad129b18fa04fe8eea386bd30398a3223" title="Create ElectrodesTable. Note, this function will fail if the file is in a mode where new objects cann..." alt="" coords="227,5,400,46"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="430,42,401,40,401,35,435,42"/>
-<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#af8313c0843d1c3bea6b3a2af44979106" title="Create SpikeEventSeries objects to record data into. Created objects are automatically added to the I..." alt="" coords="227,71,400,111"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="435,75,401,82,400,77,430,75"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a941d5b775441fac6c787cd55a8276461" title="Deleted copy assignment operator to prevent copying." alt="" coords="5,39,179,79"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="209,42,180,49,179,43,214,40"/>
-<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="209,76,179,74,179,69,214,76"/>
+<area shape="rect" id="Node000001" title="Constructor." alt="" coords="5,29,216,70"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="143,14,132,10,110,8,91,10,78,15,74,20,76,29,71,28,69,19,75,10,89,5,111,3,133,5,148,14"/>
 </map>

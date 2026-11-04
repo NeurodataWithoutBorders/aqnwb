@@ -80,6 +80,6 @@ var NAVTREEINDEX =
 "struct_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file_1_1_general_metadata_spec.html#a44eb8fe72a5dcc98b88d45d4fae9b3a0"
 ];
 
-const SYNCONMSG = 'click to disable panel synchronization';
-const SYNCOFFMSG = 'click to enable panel synchronization';
-const LISTOFALLMEMBERS = 'List of all members';
+var SYNCONMSG = 'click to disable panel synchronization';
+var SYNCOFFMSG = 'click to enable panel synchronization';
+var LISTOFALLMEMBERS = 'List of all members';

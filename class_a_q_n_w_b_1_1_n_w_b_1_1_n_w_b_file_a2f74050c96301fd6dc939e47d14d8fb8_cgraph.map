@@ -1,42 +1,42 @@
 <map id="AQNWB::NWB::NWBFile::createEventsTableInstance" name="AQNWB::NWB::NWBFile::createEventsTableInstance">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,522,193,562"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aaf2e07b4e912fc34ab052d38f92e6cdd" title="Saves the specification files for the schema." alt="" coords="498,22,671,62"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,521,113,458,139,371,157,323,179,275,206,230,239,188,264,163,293,141,355,105,420,78,484,60,480,64,422,83,358,110,296,146,268,167,243,192,211,233,184,278,162,325,144,373,119,460,106,522"/>
-<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a71bd7b910a7ec89bdaf36304d67bfef1" title="Creates the default file structure. Note, this function will fail if the file is in a mode where new ..." alt="" coords="241,202,414,242"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="113,520,301,253,304,258,117,523"/>
-<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a4e85f5d8d9c99479c648e9c6ae07a4e7" title="Writes the fields of a GeneralMetadataSpec to /general." alt="" coords="241,579,414,620"/>
-<area shape="poly" id="edge12_Node000001_Node000010" title=" " alt="" coords="182,560,231,574,226,576,183,566"/>
-<area shape="rect" id="Node000011" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a2990a55fe5e522a29fef55a115a55820" title="Creates an optional text dataset if a value is set and the dataset doesn&#39;t exist yet (see isNewOption..." alt="" coords="491,522,677,562"/>
-<area shape="poly" id="edge19_Node000001_Node000011" title=" " alt="" coords="192,540,477,540,474,544,193,545"/>
-<area shape="rect" id="Node000012" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a1fd86db9b7655ba62de181673d4260a7" title="Checks whether an optional dataset can be created at the path." alt="" coords="754,636,928,677"/>
-<area shape="poly" id="edge21_Node000001_Node000012" title=" " alt="" coords="125,560,177,597,209,615,242,629,306,647,373,660,440,669,507,673,633,674,742,669,736,670,633,679,507,679,440,674,372,666,305,652,240,634,206,620,175,602,125,566"/>
-<area shape="rect" id="Node000013" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a09afd2eff3b42a7d17a0bbdca52d32bc" title="Number of bytes of a single element of the given data type." alt="" coords="241,738,414,778"/>
-<area shape="poly" id="edge20_Node000001_Node000013" title=" " alt="" coords="113,560,165,636,201,679,242,717,259,731,254,730,239,722,197,683,160,639,111,565"/>
-<area shape="rect" id="Node000014" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a9fbda87d24027e2aada2fa22e24195c8" title="Overwrites the value of an existing scalar time dataset (e.g., /session_start_time)." alt="" coords="241,464,414,505"/>
-<area shape="poly" id="edge22_Node000001_Node000014" title=" " alt="" coords="181,519,231,508,227,511,184,524"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab614b1609f536e88ed1f32762dc3894b" title="Get a shared pointer to the IO object." alt="" coords="976,491,1187,532"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="671,57,819,95,885,118,911,131,929,144,964,182,993,225,1017,270,1037,317,1064,406,1078,477,1073,475,1059,407,1032,319,1013,273,989,227,960,185,926,148,908,136,883,123,818,100,672,62"/>
-<area shape="rect" id="Node000004" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="766,29,916,55"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="670,40,753,41,748,43,672,45"/>
-<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="801,29,793,21,798,11,814,5,841,3,871,5,887,15,882,15,869,11,841,8,815,10,802,15,799,20,806,29"/>
-<area shape="poly" id="edge6_Node000005_Node000002" title=" " alt="" coords="344,200,409,126,460,73,485,63,481,67,464,78,413,129,348,203"/>
-<area shape="poly" id="edge8_Node000005_Node000003" title=" " alt="" coords="401,199,462,188,586,169,641,170,707,188,766,214,822,248,874,287,922,329,1003,411,1058,479,1053,478,999,414,919,332,871,291,819,253,764,219,705,193,640,175,587,174,462,193,404,203"/>
-<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#aceded37c693bb2f6aa21a5945a13557c" title="Get all registered namespaces." alt="" coords="462,267,706,308"/>
-<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="410,241,489,262,484,264,411,246"/>
-<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a0b44558c283edd9db7d2fcf284c1a5ec" title="Get the schema namespace of the class type." alt="" coords="498,332,671,373"/>
-<area shape="poly" id="edge9_Node000005_Node000007" title=" " alt="" coords="351,240,402,280,463,317,486,328,480,329,461,322,399,284,352,246"/>
-<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ae22dafcb8cb963103fe0e2b4cbfd5dd8" title="Get the name of the class type." alt="" coords="498,87,671,128"/>
-<area shape="poly" id="edge10_Node000005_Node000008" title=" " alt="" coords="359,200,406,171,461,144,497,132,493,135,463,149,409,176,362,203"/>
-<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#a15d9c6f869f0270ad91a2af8067f5a88" title="Get the singleton instance of the NamespaceRegistry." alt="" coords="462,202,706,242"/>
-<area shape="poly" id="edge11_Node000005_Node000009" title=" " alt="" coords="413,220,448,221,444,223,415,225"/>
-<area shape="poly" id="edge17_Node000010_Node000003" title=" " alt="" coords="414,594,551,586,706,572,838,553,963,534,958,535,838,558,707,577,552,591,415,599"/>
-<area shape="poly" id="edge13_Node000010_Node000011" title=" " alt="" coords="414,578,478,565,473,567,415,583"/>
-<area shape="poly" id="edge18_Node000010_Node000012" title=" " alt="" coords="414,609,462,616,741,647,736,648,462,621,415,615"/>
-<area shape="poly" id="edge14_Node000011_Node000003" title=" " alt="" coords="678,534,962,518,957,520,678,539"/>
-<area shape="poly" id="edge15_Node000011_Node000012" title=" " alt="" coords="632,560,782,630,777,630,631,566"/>
-<area shape="poly" id="edge16_Node000012_Node000003" title=" " alt="" coords="892,633,926,616,987,577,1039,543,1044,540,990,582,929,620,894,638"/>
-<area shape="poly" id="edge23_Node000014_Node000003" title=" " alt="" coords="414,485,962,505,959,509,415,491"/>
-<area shape="rect" id="Node000015" href="$namespace_a_q_n_w_b.html#a4aacc6b82eca3064a8afe0070c44cde4" title="Check that a string is formatted as an ISO 8601 datetime." alt="" coords="500,421,669,447"/>
-<area shape="poly" id="edge24_Node000014_Node000015" title=" " alt="" coords="413,465,503,449,498,452,415,470"/>
-<area shape="poly" id="edge25_Node000015_Node000015" title=" " alt="" coords="541,421,534,413,539,403,556,397,584,395,616,397,633,407,628,407,615,403,584,400,557,402,542,407,539,412,547,421"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,584,193,625"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#aaf2e07b4e912fc34ab052d38f92e6cdd" title="Saves the specification files for the schema." alt="" coords="498,5,671,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,583,114,518,140,424,181,320,207,269,239,221,289,162,336,122,390,91,461,57,485,48,481,52,463,61,393,96,339,127,293,165,243,225,212,271,186,322,145,426,120,519,106,584"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a71bd7b910a7ec89bdaf36304d67bfef1" title="Creates the default file structure. Note, this function will fail if the file is in a mode where new ..." alt="" coords="241,235,414,275"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="112,582,302,287,307,290,116,585"/>
+<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a4e85f5d8d9c99479c648e9c6ae07a4e7" title="Writes the fields of a GeneralMetadataSpec to /general." alt="" coords="241,527,414,567"/>
+<area shape="poly" id="edge12_Node000001_Node000010" title=" " alt="" coords="181,581,231,570,227,573,184,586"/>
+<area shape="rect" id="Node000011" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a2990a55fe5e522a29fef55a115a55820" title="Creates an optional text dataset if a value is set and the dataset doesn&#39;t exist yet (see isNewOption..." alt="" coords="491,584,677,625"/>
+<area shape="poly" id="edge20_Node000001_Node000011" title=" " alt="" coords="192,602,477,602,474,607,193,607"/>
+<area shape="rect" id="Node000012" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a1fd86db9b7655ba62de181673d4260a7" title="Checks whether an optional dataset can be created at the path." alt="" coords="754,584,928,625"/>
+<area shape="poly" id="edge22_Node000001_Node000012" title=" " alt="" coords="193,616,298,629,427,639,566,642,706,634,754,628,749,629,707,639,567,648,426,645,298,634,193,622"/>
+<area shape="rect" id="Node000013" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a09afd2eff3b42a7d17a0bbdca52d32bc" title="Number of bytes of a single element of the given data type." alt="" coords="241,695,414,735"/>
+<area shape="poly" id="edge21_Node000001_Node000013" title=" " alt="" coords="140,622,242,674,268,688,262,688,239,679,139,628"/>
+<area shape="rect" id="Node000014" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a9fbda87d24027e2aada2fa22e24195c8" title="Overwrites the value of an existing scalar time dataset (e.g., /session_start_time)." alt="" coords="241,760,414,801"/>
+<area shape="poly" id="edge23_Node000001_Node000014" title=" " alt="" coords="117,622,169,683,204,716,242,745,253,753,247,752,239,749,201,720,166,686,115,628"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab614b1609f536e88ed1f32762dc3894b" title="Get a shared pointer to the IO object." alt="" coords="976,501,1187,542"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="671,40,708,57,773,104,833,160,888,220,937,282,1015,399,1065,488,1060,487,1011,402,932,285,884,224,829,164,769,109,705,61,672,45"/>
+<area shape="rect" id="Node000004" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="766,332,916,357"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="671,36,691,45,708,57,731,85,740,113,745,143,757,178,828,318,822,317,752,180,740,144,735,114,726,88,705,61,688,50,672,41"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="338,233,396,137,430,88,460,57,485,45,481,49,464,61,435,92,401,140,343,235"/>
+<area shape="poly" id="edge7_Node000005_Node000003" title=" " alt="" coords="351,273,402,312,463,350,592,403,725,445,852,477,963,502,958,503,851,483,724,451,590,408,461,355,399,317,352,278"/>
+<area shape="poly" id="edge11_Node000005_Node000004" title=" " alt="" coords="362,273,410,297,463,316,537,332,613,341,753,347,748,349,613,346,536,337,461,322,408,302,363,279"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#aceded37c693bb2f6aa21a5945a13557c" title="Get all registered namespaces." alt="" coords="462,71,706,111"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="342,232,391,177,424,147,461,122,476,116,473,120,463,127,427,152,395,181,346,236"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a0b44558c283edd9db7d2fcf284c1a5ec" title="Get the schema namespace of the class type." alt="" coords="498,136,671,177"/>
+<area shape="poly" id="edge8_Node000005_Node000007" title=" " alt="" coords="365,232,461,187,487,180,483,183,463,192,368,236"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#ae22dafcb8cb963103fe0e2b4cbfd5dd8" title="Get the name of the class type." alt="" coords="498,201,671,242"/>
+<area shape="poly" id="edge9_Node000005_Node000008" title=" " alt="" coords="413,241,485,233,480,236,416,246"/>
+<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_s_p_e_c_1_1_namespace_registry.html#a15d9c6f869f0270ad91a2af8067f5a88" title="Get the singleton instance of the NamespaceRegistry." alt="" coords="462,267,706,307"/>
+<area shape="poly" id="edge10_Node000005_Node000009" title=" " alt="" coords="413,263,449,269,444,271,415,268"/>
+<area shape="poly" id="edge17_Node000010_Node000003" title=" " alt="" coords="414,541,962,523,959,528,415,547"/>
+<area shape="poly" id="edge19_Node000010_Node000004" title=" " alt="" coords="364,524,461,475,634,408,783,361,779,363,636,413,463,480,367,528"/>
+<area shape="poly" id="edge13_Node000010_Node000011" title=" " alt="" coords="414,564,478,580,473,581,415,569"/>
+<area shape="poly" id="edge18_Node000010_Node000012" title=" " alt="" coords="414,546,552,553,707,570,750,580,745,580,706,575,552,558,415,551"/>
+<area shape="poly" id="edge14_Node000011_Node000003" title=" " alt="" coords="677,584,754,570,963,539,958,540,755,575,678,589"/>
+<area shape="poly" id="edge15_Node000011_Node000012" title=" " alt="" coords="678,602,742,604,736,605,678,607"/>
+<area shape="poly" id="edge16_Node000012_Node000003" title=" " alt="" coords="902,581,1003,548,1008,547,903,586"/>
+<area shape="poly" id="edge24_Node000014_Node000003" title=" " alt="" coords="414,762,690,703,828,668,885,650,927,634,960,616,992,594,1045,554,1050,551,995,598,963,620,929,639,886,656,830,673,691,709,415,767"/>
+<area shape="rect" id="Node000015" href="$namespace_a_q_n_w_b.html#a4aacc6b82eca3064a8afe0070c44cde4" title="Check that a string is formatted as an ISO 8601 datetime." alt="" coords="500,768,669,793"/>
+<area shape="poly" id="edge25_Node000014_Node000015" title=" " alt="" coords="414,778,487,780,482,780,414,783"/>
 </map>

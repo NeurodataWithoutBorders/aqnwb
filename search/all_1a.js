@@ -1,7 +1,7 @@
 var searchData=
 [
   ['s3_0',['Opening a file from S3',['../reads3_page.html#reads3_ros3_open',1,'']]],
-  ['scalardatavariant_1',['ScalarDataVariant',['../namespace_a_q_n_w_b_1_1_types.html#ad9967a8a1dcb24f6fe5fb3e78979972b',1,'AQNWB::Types']]],
+  ['scalardatavariant_1',['ScalarDataVariant',['../namespace_a_q_n_w_b_1_1_types.html#ad122c7c89e9e951c97aaf9c50b325c05',1,'AQNWB::Types']]],
   ['schema_2',['Updating the schema',['../nwb_schema_page.html#dev_docs_updating_nwb_schema_section',1,'']]],
   ['schema_20🧠_3',['NWB Schema 🧠',['../nwb_schema_page.html',1,'devdocs']]],
   ['schema_20header_20files_4',['Generating the schema header files',['../nwb_schema_page.html#dev_docs_generating_nwb_schema_headers_section',1,'']]],

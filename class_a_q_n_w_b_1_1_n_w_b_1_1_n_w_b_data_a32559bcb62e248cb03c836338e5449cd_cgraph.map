@@ -1,24 +1,12 @@
 <map id="AQNWB::NWB::NWBData::create" name="AQNWB::NWB::NWBData::create">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,96,186,137"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#ac0a68f39a709b9096ce797bce18c668f" title="Constructor." alt="" coords="472,29,656,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="136,94,182,74,233,58,290,48,347,41,458,38,453,40,348,47,290,53,234,63,184,79,139,98"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data.html#aac0fde847d74c0f50b0da2d8ca7594f9" title="Initialize the object." alt="" coords="234,162,414,202"/>
-<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="169,135,238,156,233,158,169,140"/>
-<area shape="rect" id="Node000010" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data.html#af1e7242a1cdebd3235d105b77bfdb7d4" title="Constructor." alt="" coords="234,96,414,137"/>
-<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="185,114,221,116,216,118,187,119"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="523,28,516,21,521,11,537,5,564,3,594,5,610,15,604,15,592,11,564,8,538,10,524,15,521,20,529,29"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aa1e04074725b7331d725bbda8156bc2d" title="Constructor." alt="" coords="730,22,941,62"/>
-<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="656,40,717,42,712,43,657,45"/>
-<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a811f11bd212eab51664e415740101f2b" title="Initialize the dataset for the Data object." alt="" coords="462,169,665,195"/>
-<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="414,180,449,182,444,183,415,185"/>
-<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab614b1609f536e88ed1f32762dc3894b" title="Get a shared pointer to the IO object." alt="" coords="730,92,941,133"/>
-<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="616,166,735,138,741,137,618,171"/>
-<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a4492a59ec08422039f9d0bc509ffd06d" title="Get the schema namespace of the class type." alt="" coords="713,157,958,183"/>
-<area shape="poly" id="edge7_Node000005_Node000007" title=" " alt="" coords="666,175,701,176,695,177,666,180"/>
-<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#a27b6db1fbbd11f84f76456be6c6a741e" title="Get the name of the class type." alt="" coords="717,207,954,232"/>
-<area shape="poly" id="edge8_Node000005_Node000008" title=" " alt="" coords="662,193,725,204,719,204,662,198"/>
-<area shape="rect" id="Node000009" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_array_data_set_config.html#afa73e29e69f976fb0dda013ae85fabeb" title="Checks if this configuration represents a link." alt="" coords="740,256,931,297"/>
-<area shape="poly" id="edge9_Node000005_Node000009" title=" " alt="" coords="594,193,650,217,714,242,738,252,732,251,712,247,648,222,593,198"/>
-<area shape="poly" id="edge11_Node000010_Node000002" title=" " alt="" coords="391,93,508,59,503,61,393,98"/>
-<area shape="poly" id="edge12_Node000010_Node000010" title=" " alt="" coords="281,95,279,87,286,77,301,72,324,70,349,72,365,81,359,81,347,77,324,75,302,77,289,82,284,88,286,97"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,22,186,62"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_data.html#ac0a68f39a709b9096ce797bce18c668f" title="Constructor." alt="" coords="462,29,646,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,28,234,24,324,20,414,24,449,28,444,29,414,29,324,25,234,29,187,33"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_data.html#af1e7242a1cdebd3235d105b77bfdb7d4" title="Constructor." alt="" coords="234,62,414,102"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="186,55,221,63,215,64,186,61"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="516,28,508,21,513,11,529,5,554,3,582,5,598,15,593,14,581,10,554,8,530,10,517,15,514,20,521,30"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#aa1e04074725b7331d725bbda8156bc2d" title="Constructor." alt="" coords="694,22,906,62"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="647,40,681,42,676,42,647,45"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="414,64,459,59,464,58,415,69"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="281,60,279,52,286,43,301,37,324,35,349,38,365,46,359,46,347,43,324,40,302,42,289,47,284,53,286,63"/>
 </map>

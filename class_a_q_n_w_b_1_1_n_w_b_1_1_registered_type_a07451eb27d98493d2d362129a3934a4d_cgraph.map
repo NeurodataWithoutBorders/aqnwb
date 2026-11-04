@@ -1,15 +1,14 @@
 <map id="AQNWB::NWB::RegisteredType::readField" name="AQNWB::NWB::RegisteredType::readField">
 <area shape="rect" id="Node000001" title="Read a field that is itself a RegisteredType." alt="" coords="5,103,217,143"/>
 <area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#a6f7d3d6d30763215c823452176ed876a" title="Create or retrieve the canonical instance of a registered subclass." alt="" coords="265,37,476,78"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,100,274,81,270,84,195,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,100,274,81,270,83,195,105"/>
 <area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab614b1609f536e88ed1f32762dc3894b" title="Get a shared pointer to the IO object." alt="" coords="265,103,476,143"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="217,120,252,122,247,124,218,126"/>
-<area shape="rect" id="Node000006" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="295,192,446,217"/>
-<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="179,141,314,185,310,187,178,147"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="217,120,252,123,246,123,217,126"/>
+<area shape="rect" id="Node000006" href="$namespace_a_q_n_w_b.html#a31983dbaaa85c2e355b9687fc0ef1881" title="Merge two paths into a single path, handling extra trailing and starting &quot;/&quot;." alt="" coords="295,168,446,193"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="206,141,296,163,291,164,206,147"/>
 <area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="322,36,319,27,327,18,344,13,370,11,398,13,416,22,411,22,397,18,370,16,345,18,330,23,325,29,327,38"/>
 <area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab7b0836d580db8f8e3791a6e81fcb9fa" title="Helper to get an existing recording object from the IO object." alt="" coords="524,5,735,46"/>
 <area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="476,42,511,40,506,41,477,47"/>
 <area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ac83aa589b9c3ab5a00bab462e58fdbd5" title="Get the factory map for creating instances of subclasses." alt="" coords="524,71,735,111"/>
 <area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="476,69,511,75,506,76,477,74"/>
-<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="327,190,319,183,324,173,342,167,370,165,403,168,420,178,415,177,401,173,370,170,343,172,328,177,325,182,332,192"/>
 </map>

@@ -5,10 +5,10 @@ var _types_8hpp =
     [ "AQNWB::Types::CellValue", "struct_a_q_n_w_b_1_1_types_1_1_cell_value.html", "struct_a_q_n_w_b_1_1_types_1_1_cell_value" ],
     [ "AQNWB::Types::ChannelVector", "namespace_a_q_n_w_b_1_1_types.html#a17cc1d186ce80971c28e440471e910ff", null ],
     [ "AQNWB::Types::RowData", "namespace_a_q_n_w_b_1_1_types.html#a6e60aeea6e3cf6ed2677338844fdab4a", null ],
-    [ "AQNWB::Types::ScalarDataVariant", "namespace_a_q_n_w_b_1_1_types.html#ad9967a8a1dcb24f6fe5fb3e78979972b", null ],
+    [ "AQNWB::Types::ScalarDataVariant", "namespace_a_q_n_w_b_1_1_types.html#ad122c7c89e9e951c97aaf9c50b325c05", null ],
     [ "AQNWB::Types::SizeArray", "namespace_a_q_n_w_b_1_1_types.html#adde13a31a0f254d84ebf8f02baaa2a97", null ],
     [ "AQNWB::Types::SizeType", "namespace_a_q_n_w_b_1_1_types.html#ae7b68dd97f314f45e450b2f636ad7c6e", null ],
-    [ "AQNWB::Types::VectorDataVariant", "namespace_a_q_n_w_b_1_1_types.html#a61d7ff2c71fdd9d51c1b943ee3c0f141", null ],
+    [ "AQNWB::Types::VectorDataVariant", "namespace_a_q_n_w_b_1_1_types.html#adab32fe4ba7cb85c3d107a6d2a80d013", null ],
     [ "AQNWB::Types::Status", "namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9", [
       [ "AQNWB::Types::Success", "namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9a0fdf7f95f5ff12921eb169611b2d9db3", null ],
       [ "AQNWB::Types::Failure", "namespace_a_q_n_w_b_1_1_types.html#a9f8b64371967b1e93cdb8e5caa8634c9a5e4ad53b09bd2f26e1b2f42bd1ad8fdf", null ]
