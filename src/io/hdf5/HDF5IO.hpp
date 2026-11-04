@@ -591,10 +591,10 @@ private:
    * @return A vector containing the data.
    */
   template<typename T, typename HDF5TYPE>
-  std::vector<T> readDataHelper(const HDF5TYPE& dataSource,
-                                size_t numElements,
-                                const H5::DataSpace& memspace,
-                                const H5::DataSpace& dataspace) const;
+  static std::vector<T> readDataHelper(const HDF5TYPE& dataSource,
+                                       size_t numElements,
+                                       const H5::DataSpace& memspace,
+                                       const H5::DataSpace& dataspace);
 
   /**
    * @brief Reads data from an HDF5 dataset or attribute into a vector of the
@@ -614,8 +614,8 @@ private:
    * @return A vector containing the data.
    */
   template<typename T, typename HDF5TYPE>
-  std::vector<T> readDataHelper(const HDF5TYPE& dataSource,
-                                size_t numElements) const;
+  static std::vector<T> readDataHelper(const HDF5TYPE& dataSource,
+                                       size_t numElements);
 
   /**
    * @brief Reads a variable-length string from an HDF5 dataset or attribute.
@@ -630,11 +630,11 @@ private:
    * @return A vector containing the data.
    */
   template<typename HDF5TYPE>
-  std::vector<std::string> readStringDataHelper(
+  static std::vector<std::string> readStringDataHelper(
       const HDF5TYPE& dataSource,
       size_t numElements,
       const H5::DataSpace& memspace,
-      const H5::DataSpace& dataspace) const;
+      const H5::DataSpace& dataspace);
 
   /**
    * @brief Reads a variable-length string from an HDF5 dataset or attribute.
@@ -652,8 +652,8 @@ private:
    * @return A vector containing the data.
    */
   template<typename HDF5TYPE>
-  std::vector<std::string> readStringDataHelper(const HDF5TYPE& dataSource,
-                                                size_t numElements) const;
+  static std::vector<std::string> readStringDataHelper(
+      const HDF5TYPE& dataSource, size_t numElements);
 
   std::unique_ptr<H5::Attribute> getAttribute(const std::string& path) const;
 

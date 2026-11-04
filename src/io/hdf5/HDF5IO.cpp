@@ -342,7 +342,8 @@ std::string HDF5IO::findObject(const std::string& name,
   // function pointer, so it cannot capture; all state travels via op_data.
   struct FindObjectContext
   {
-    const std::string* name;  //!< name (last path component) to search for
+    const std::string* name =
+        nullptr;  //!< name (last path component) to search for
     std::string starting_path;  //!< starting path ("/" for root)
     std::string result;  //!< full path of the first match (output)
   };
@@ -496,7 +497,7 @@ template<typename T, typename HDF5TYPE>
 std::vector<T> HDF5IO::readDataHelper(const HDF5TYPE& dataSource,
                                       size_t numElements,
                                       const H5::DataSpace& memspace,
-                                      const H5::DataSpace& dataspace) const
+                                      const H5::DataSpace& dataspace)
 {
   std::vector<T> data(numElements);
   if (const H5::DataSet* dataset =
@@ -518,9 +519,9 @@ std::vector<T> HDF5IO::readDataHelper(const HDF5TYPE& dataSource,
 
 template<typename T, typename HDF5TYPE>
 std::vector<T> HDF5IO::readDataHelper(const HDF5TYPE& dataSource,
-                                      size_t numElements) const
+                                      size_t numElements)
 {
-  return this->readDataHelper<T>(
+  return readDataHelper<T>(
       dataSource, numElements, H5::DataSpace(), H5::DataSpace());
 }
 
@@ -529,7 +530,7 @@ std::vector<std::string> HDF5IO::readStringDataHelper(
     const HDF5TYPE& dataSource,
     size_t numElements,
     const H5::DataSpace& memspace,
-    const H5::DataSpace& dataspace) const
+    const H5::DataSpace& dataspace)
 {
   std::vector<std::string> data(numElements);
 
@@ -624,10 +625,10 @@ std::vector<std::string> HDF5IO::readStringDataHelper(
 
 template<typename HDF5TYPE>
 std::vector<std::string> HDF5IO::readStringDataHelper(
-    const HDF5TYPE& dataSource, size_t numElements) const
+    const HDF5TYPE& dataSource, size_t numElements)
 {
   // Call the main readStringDataHelper function with default DataSpaces
-  return this->readStringDataHelper(
+  return readStringDataHelper(
       dataSource, numElements, H5::DataSpace(), H5::DataSpace());
 }
 
