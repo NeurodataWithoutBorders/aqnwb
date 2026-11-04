@@ -68,7 +68,7 @@ var sectionId = 'dynsection-26';
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a8b48955947cddf0659b0937bd1e58d39" target="_top" xlink:title="Reads a variable&#45;length string from an HDF5 dataset or attribute.">
+<g id="a_Node000002"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#aeeb9b986a2b444106cf7b2cbc4e6fb60" target="_top" xlink:title="Reads a variable&#45;length string from an HDF5 dataset or attribute.">
 <polygon fill="white" stroke="#666666" points="327.5,-79.5 181.75,-79.5 181.75,-49 327.5,-49 327.5,-79.5"/>
 <text xml:space="preserve" text-anchor="start" x="189.75" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::IO::HDF5::HDF5IO</text>
 <text xml:space="preserve" text-anchor="middle" x="254.62" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">::readStringDataHelper</text>
@@ -125,7 +125,7 @@ var sectionId = 'dynsection-26';
 <!-- Node5 -->
 <g id="Node000005" class="node">
 <title>Node5</title>
-<g id="a_Node000005"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a3b7d92f5cf720bb5f13b3bdc809b613c" target="_top" xlink:title="Reads a variable&#45;length string from an HDF5 dataset or attribute.">
+<g id="a_Node000005"><a xlink:href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a37ff969f74a5a748aa4e2c0fca84031e" target="_top" xlink:title="Reads a variable&#45;length string from an HDF5 dataset or attribute.">
 <polygon fill="white" stroke="#666666" points="145.75,-30.5 0,-30.5 0,0 145.75,0 145.75,-30.5"/>
 <text xml:space="preserve" text-anchor="start" x="8" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">AQNWB::IO::HDF5::HDF5IO</text>
 <text xml:space="preserve" text-anchor="middle" x="72.88" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::readStringDataHelper</text>

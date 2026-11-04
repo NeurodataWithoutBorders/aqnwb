@@ -159,7 +159,7 @@ Using Chunking and I/O Filters in AqNWB</h2>
 <div class="line">    <span class="keyword">auto</span> baseDataset = hdf5io-&gt;createArrayDataSet(config, <span class="stringliteral">&quot;/filtered_dataset&quot;</span>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// [Optional/Testing] Verify the dataset properties</span></div>
-<div class="line">    <span class="keyword">auto</span> dataset =</div>
+<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span>* dataset =</div>
 <div class="line">        <span class="keyword">dynamic_cast&lt;</span><a class="code hl_class" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html">AQNWB::IO::HDF5::HDF5RecordingData</a>*<span class="keyword">&gt;</span>(baseDataset.get());</div>
 <div class="line">    <span class="keyword">const</span> H5::DataSet* h5Dataset = dataset-&gt;<a class="code hl_function" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a7892398dd563ac3149c27dbbe8986e90">getDataSet</a>();</div>
 <div class="line">    H5::DSetCreatPropList dcpl = h5Dataset-&gt;getCreatePlist();</div>

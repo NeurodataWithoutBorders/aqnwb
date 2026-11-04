@@ -280,110 +280,109 @@ $(function() {
 <div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>    <span class="keywordtype">bool</span> result = <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>    <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (std::is_constructible_v&lt;ScalarDataVariant, T&gt;) {</div>
 <div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>      <span class="keywordflow">if</span> (std::holds_alternative&lt;ScalarDataVariant&gt;(<a class="code hl_variable" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a08be31670a67e887228341b5d61a0545">value</a>)) {</div>
-<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>        result = result</div>
-<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>            || std::holds_alternative&lt;T&gt;(std::get&lt;ScalarDataVariant&gt;(<a class="code hl_variable" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a08be31670a67e887228341b5d61a0545">value</a>));</div>
-<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>      }</div>
-<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>    }</div>
-<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>    <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (std::is_constructible_v&lt;VectorDataVariant, T&gt;) {</div>
-<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>      <span class="keywordflow">if</span> (std::holds_alternative&lt;VectorDataVariant&gt;(<a class="code hl_variable" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a08be31670a67e887228341b5d61a0545">value</a>)) {</div>
-<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>        result = result</div>
-<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>            || std::holds_alternative&lt;T&gt;(std::get&lt;VectorDataVariant&gt;(<a class="code hl_variable" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a08be31670a67e887228341b5d61a0545">value</a>));</div>
-<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>      }</div>
-<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>    }</div>
-<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>    <span class="keywordflow">return</span> result;</div>
-<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>  }</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>        result = std::holds_alternative&lt;T&gt;(std::get&lt;ScalarDataVariant&gt;(<a class="code hl_variable" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a08be31670a67e887228341b5d61a0545">value</a>));</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>      }</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>    }</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>    <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (std::is_constructible_v&lt;VectorDataVariant, T&gt;) {</div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>      <span class="keywordflow">if</span> (std::holds_alternative&lt;VectorDataVariant&gt;(<a class="code hl_variable" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a08be31670a67e887228341b5d61a0545">value</a>)) {</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>        result = result</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>            || std::holds_alternative&lt;T&gt;(std::get&lt;VectorDataVariant&gt;(<a class="code hl_variable" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a08be31670a67e887228341b5d61a0545">value</a>));</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>      }</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>    }</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>    <span class="keywordflow">return</span> result;</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>  }</div>
 </div>
-<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span></div>
-<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>  <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="foldopen" id="foldopen00276" data-start="{" data-end="}">
-<div class="line"><a id="l00276" name="l00276"></a><span class="lineno"><a class="line" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a2e7b7bfc3f94107aac5b3f5674f7bc17">  276</a></span>  <span class="keyword">const</span> T&amp; <a class="code hl_function" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a2e7b7bfc3f94107aac5b3f5674f7bc17">get</a>()<span class="keyword"> const</span></div>
-<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span><span class="keyword">  </span>{</div>
-<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>    <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (std::is_constructible_v&lt;VectorDataVariant, T&gt;) {</div>
-<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>      <span class="keywordflow">return</span> std::get&lt;T&gt;(std::get&lt;VectorDataVariant&gt;(<a class="code hl_variable" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a08be31670a67e887228341b5d61a0545">value</a>));</div>
-<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>      <span class="keywordflow">return</span> std::get&lt;T&gt;(std::get&lt;ScalarDataVariant&gt;(<a class="code hl_variable" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a08be31670a67e887228341b5d61a0545">value</a>));</div>
-<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>    }</div>
-<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>  }</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span></div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>  <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="foldopen" id="foldopen00275" data-start="{" data-end="}">
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno"><a class="line" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a2e7b7bfc3f94107aac5b3f5674f7bc17">  275</a></span>  <span class="keyword">const</span> T&amp; <a class="code hl_function" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a2e7b7bfc3f94107aac5b3f5674f7bc17">get</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span><span class="keyword">  </span>{</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>    <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (std::is_constructible_v&lt;VectorDataVariant, T&gt;) {</div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>      <span class="keywordflow">return</span> std::get&lt;T&gt;(std::get&lt;VectorDataVariant&gt;(<a class="code hl_variable" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a08be31670a67e887228341b5d61a0545">value</a>));</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>      <span class="keywordflow">return</span> std::get&lt;T&gt;(std::get&lt;ScalarDataVariant&gt;(<a class="code hl_variable" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a08be31670a67e887228341b5d61a0545">value</a>));</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>    }</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>  }</div>
 </div>
-<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span></div>
-<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>  <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T,</div>
-<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>           <span class="keyword">typename</span> = std::enable_if_t&lt;</div>
-<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>               std::is_constructible_v&lt;ScalarDataVariant, T&gt;</div>
-<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>               || std::is_constructible_v&lt;VectorDataVariant, T&gt;&gt;&gt;</div>
-<div class="foldopen" id="foldopen00305" data-start="{" data-end="}">
-<div class="line"><a id="l00305" name="l00305"></a><span class="lineno"><a class="line" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a3b92c2148deec949b58977dd54b5eee7">  305</a></span>  <span class="keyword">operator</span> T()<span class="keyword"> const</span></div>
-<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span><span class="keyword">  </span>{</div>
-<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a2e7b7bfc3f94107aac5b3f5674f7bc17">get&lt;T&gt;</a>();</div>
-<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>  }</div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span></div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>  <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T,</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>           <span class="keyword">typename</span> = std::enable_if_t&lt;</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>               std::is_constructible_v&lt;ScalarDataVariant, T&gt;</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>               || std::is_constructible_v&lt;VectorDataVariant, T&gt;&gt;&gt;</div>
+<div class="foldopen" id="foldopen00304" data-start="{" data-end="}">
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno"><a class="line" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a3b92c2148deec949b58977dd54b5eee7">  304</a></span>  <span class="keyword">operator</span> T()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span><span class="keyword">  </span>{</div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a2e7b7bfc3f94107aac5b3f5674f7bc17">get&lt;T&gt;</a>();</div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>  }</div>
 </div>
-<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span></div>
-<div class="foldopen" id="foldopen00314" data-start="{" data-end="}">
-<div class="line"><a id="l00314" name="l00314"></a><span class="lineno"><a class="line" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a242ad1f6bfcb275f6fa88195ab4236d6">  314</a></span>  std::string <a class="code hl_function" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a242ad1f6bfcb275f6fa88195ab4236d6">toString</a>()<span class="keyword"> const</span></div>
-<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span><span class="keyword">  </span>{</div>
-<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>    <span class="keywordflow">return</span> std::visit(</div>
-<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>        [](<span class="keyword">auto</span>&amp;&amp; arg) -&gt; std::string</div>
-<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>        {</div>
-<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>          <span class="keyword">using </span>T = std::decay_t&lt;<span class="keyword">decltype</span>(arg)&gt;;</div>
-<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>          <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (std::is_same_v&lt;T, ScalarDataVariant&gt;) {</div>
-<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>            <span class="keywordflow">return</span> std::visit(</div>
-<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>                [](<span class="keyword">auto</span>&amp;&amp; scalarArg) -&gt; std::string</div>
-<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>                {</div>
-<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>                  <span class="keyword">using </span>ScalarT = std::decay_t&lt;<span class="keyword">decltype</span>(scalarArg)&gt;;</div>
-<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>                  <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (std::is_same_v&lt;ScalarT, std::monostate&gt;) {</div>
-<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>                    <span class="keywordflow">return</span> <span class="stringliteral">&quot;null&quot;</span>;</div>
-<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>                  } <span class="keywordflow">else</span> <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (std::is_same_v&lt;ScalarT, std::string&gt;) {</div>
-<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>                    <span class="keywordflow">return</span> scalarArg;</div>
-<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>                  } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>                    <span class="keywordflow">return</span> std::to_string(scalarArg);</div>
-<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>                  }</div>
-<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>                },</div>
-<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>                arg);</div>
-<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>          } <span class="keywordflow">else</span> <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (std::is_same_v&lt;T, VectorDataVariant&gt;) {</div>
-<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>            <span class="keywordflow">return</span> std::visit(</div>
-<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>                [](<span class="keyword">auto</span>&amp;&amp; vectorArg) -&gt; std::string</div>
-<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>                {</div>
-<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>                  <span class="keyword">using </span>VectorT = std::decay_t&lt;<span class="keyword">decltype</span>(vectorArg)&gt;;</div>
-<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>                  <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (std::is_same_v&lt;VectorT, std::monostate&gt;) {</div>
-<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>                    <span class="keywordflow">return</span> <span class="stringliteral">&quot;[]&quot;</span>;</div>
-<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>                  } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>                    std::string res = <span class="stringliteral">&quot;[&quot;</span>;</div>
-<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span>                    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; vectorArg.size(); ++i) {</div>
-<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>                      <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (std::is_same_v&lt;VectorT,</div>
-<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>                                                   std::vector&lt;std::string&gt;&gt;) {</div>
-<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>                        res += vectorArg[i];</div>
-<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>                      } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>                        res += std::to_string(vectorArg[i]);</div>
-<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>                      }</div>
-<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>                      <span class="keywordflow">if</span> (i &lt; vectorArg.size() - 1) {</div>
-<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>                        res += <span class="stringliteral">&quot;, &quot;</span>;</div>
-<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>                      }</div>
-<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>                    }</div>
-<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>                    res += <span class="stringliteral">&quot;]&quot;</span>;</div>
-<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>                    <span class="keywordflow">return</span> res;</div>
-<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>                  }</div>
-<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>                },</div>
-<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>                arg);</div>
-<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>          } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>            <span class="keywordflow">return</span> <span class="stringliteral">&quot;Unknown&quot;</span>;</div>
-<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>          }</div>
-<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>        },</div>
-<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>        <a class="code hl_variable" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a08be31670a67e887228341b5d61a0545">value</a>);</div>
-<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>  }</div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span></div>
+<div class="foldopen" id="foldopen00313" data-start="{" data-end="}">
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno"><a class="line" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a242ad1f6bfcb275f6fa88195ab4236d6">  313</a></span>  std::string <a class="code hl_function" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a242ad1f6bfcb275f6fa88195ab4236d6">toString</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span><span class="keyword">  </span>{</div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>    <span class="keywordflow">return</span> std::visit(</div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>        [](<span class="keyword">auto</span>&amp;&amp; arg) -&gt; std::string</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>        {</div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>          <span class="keyword">using </span>T = std::decay_t&lt;<span class="keyword">decltype</span>(arg)&gt;;</div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>          <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (std::is_same_v&lt;T, ScalarDataVariant&gt;) {</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>            <span class="keywordflow">return</span> std::visit(</div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>                [](<span class="keyword">auto</span>&amp;&amp; scalarArg) -&gt; std::string</div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>                {</div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>                  <span class="keyword">using </span>ScalarT = std::decay_t&lt;<span class="keyword">decltype</span>(scalarArg)&gt;;</div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>                  <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (std::is_same_v&lt;ScalarT, std::monostate&gt;) {</div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>                    <span class="keywordflow">return</span> <span class="stringliteral">&quot;null&quot;</span>;</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>                  } <span class="keywordflow">else</span> <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (std::is_same_v&lt;ScalarT, std::string&gt;) {</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>                    <span class="keywordflow">return</span> scalarArg;</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>                  } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>                    <span class="keywordflow">return</span> std::to_string(scalarArg);</div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>                  }</div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>                },</div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>                arg);</div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>          } <span class="keywordflow">else</span> <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (std::is_same_v&lt;T, VectorDataVariant&gt;) {</div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>            <span class="keywordflow">return</span> std::visit(</div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>                [](<span class="keyword">auto</span>&amp;&amp; vectorArg) -&gt; std::string</div>
+<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>                {</div>
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>                  <span class="keyword">using </span>VectorT = std::decay_t&lt;<span class="keyword">decltype</span>(vectorArg)&gt;;</div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>                  <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (std::is_same_v&lt;VectorT, std::monostate&gt;) {</div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>                    <span class="keywordflow">return</span> <span class="stringliteral">&quot;[]&quot;</span>;</div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>                  } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>                    std::string res = <span class="stringliteral">&quot;[&quot;</span>;</div>
+<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>                    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; vectorArg.size(); ++i) {</div>
+<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span>                      <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (std::is_same_v&lt;VectorT,</div>
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>                                                   std::vector&lt;std::string&gt;&gt;) {</div>
+<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>                        res += vectorArg[i];</div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>                      } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>                        res += std::to_string(vectorArg[i]);</div>
+<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>                      }</div>
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>                      <span class="keywordflow">if</span> (i &lt; vectorArg.size() - 1) {</div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>                        res += <span class="stringliteral">&quot;, &quot;</span>;</div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>                      }</div>
+<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>                    }</div>
+<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>                    res += <span class="stringliteral">&quot;]&quot;</span>;</div>
+<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>                    <span class="keywordflow">return</span> res;</div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>                  }</div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>                },</div>
+<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>                arg);</div>
+<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>          } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>            <span class="keywordflow">return</span> <span class="stringliteral">&quot;Unknown&quot;</span>;</div>
+<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>          }</div>
+<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>        },</div>
+<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>        <a class="code hl_variable" href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a08be31670a67e887228341b5d61a0545">value</a>);</div>
+<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>  }</div>
 </div>
-<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>};</div>
+<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>};</div>
 </div>
-<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span></div>
-<div class="line"><a id="l00372" name="l00372"></a><span class="lineno"><a class="line" href="namespace_a_q_n_w_b_1_1_types.html#a6e60aeea6e3cf6ed2677338844fdab4a">  372</a></span><span class="keyword">using </span><a class="code hl_typedef" href="namespace_a_q_n_w_b_1_1_types.html#a6e60aeea6e3cf6ed2677338844fdab4a">RowData</a> = std::unordered_map&lt;std::string, CellValue&gt;;</div>
-<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span> </div>
-<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>}  <span class="comment">// namespace Types</span></div>
+<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span></div>
+<div class="line"><a id="l00371" name="l00371"></a><span class="lineno"><a class="line" href="namespace_a_q_n_w_b_1_1_types.html#a6e60aeea6e3cf6ed2677338844fdab4a">  371</a></span><span class="keyword">using </span><a class="code hl_typedef" href="namespace_a_q_n_w_b_1_1_types.html#a6e60aeea6e3cf6ed2677338844fdab4a">RowData</a> = std::unordered_map&lt;std::string, CellValue&gt;;</div>
+<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span> </div>
+<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span>}  <span class="comment">// namespace Types</span></div>
 </div>
-<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span>}  <span class="comment">// namespace AQNWB</span></div>
+<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>}  <span class="comment">// namespace AQNWB</span></div>
 <div class="ttc" id="aclass_a_q_n_w_b_1_1_channel_html"><div class="ttname"><a href="class_a_q_n_w_b_1_1_channel.html">AQNWB::Channel</a></div><div class="ttdoc">Class for storing acquisition system channel information.</div><div class="ttdef"><b>Definition</b> Channel.hpp:16</div></div>
 <div class="ttc" id="anamespace_a_q_n_w_b_1_1_types_html"><div class="ttname"><a href="namespace_a_q_n_w_b_1_1_types.html">AQNWB::Types</a></div><div class="ttdoc">Provides definitions for various types used in the project.</div><div class="ttdef"><b>Definition</b> Types.hpp:24</div></div>
 <div class="ttc" id="anamespace_a_q_n_w_b_1_1_types_html_a17cc1d186ce80971c28e440471e910ff"><div class="ttname"><a href="namespace_a_q_n_w_b_1_1_types.html#a17cc1d186ce80971c28e440471e910ff">AQNWB::Types::ChannelVector</a></div><div class="ttdeci">std::vector&lt; Channel &gt; ChannelVector</div><div class="ttdoc">Alias for a vector of channels.</div><div class="ttdef"><b>Definition</b> Types.hpp:120</div></div>
 <div class="ttc" id="anamespace_a_q_n_w_b_1_1_types_html_a3214a78395efe346c54719bf5df5f4a3"><div class="ttname"><a href="namespace_a_q_n_w_b_1_1_types.html#a3214a78395efe346c54719bf5df5f4a3">AQNWB::Types::storageObjectTypeToString</a></div><div class="ttdeci">std::string storageObjectTypeToString(StorageObjectType type)</div><div class="ttdoc">Convert StorageObjectType enum value to string.</div><div class="ttdef"><b>Definition</b> Types.hpp:72</div></div>
 <div class="ttc" id="anamespace_a_q_n_w_b_1_1_types_html_a489c41cdd124123f0595271873e00dbe"><div class="ttname"><a href="namespace_a_q_n_w_b_1_1_types.html#a489c41cdd124123f0595271873e00dbe">AQNWB::Types::SizeTypeNotSet</a></div><div class="ttdeci">constexpr SizeType SizeTypeNotSet</div><div class="ttdoc">Value to use to indicate that a SizeType index is not set.</div><div class="ttdef"><b>Definition</b> Types.hpp:109</div></div>
-<div class="ttc" id="anamespace_a_q_n_w_b_1_1_types_html_a6e60aeea6e3cf6ed2677338844fdab4a"><div class="ttname"><a href="namespace_a_q_n_w_b_1_1_types.html#a6e60aeea6e3cf6ed2677338844fdab4a">AQNWB::Types::RowData</a></div><div class="ttdeci">std::unordered_map&lt; std::string, CellValue &gt; RowData</div><div class="ttdoc">Represents a row of data in a DynamicTable.</div><div class="ttdef"><b>Definition</b> Types.hpp:372</div></div>
+<div class="ttc" id="anamespace_a_q_n_w_b_1_1_types_html_a6e60aeea6e3cf6ed2677338844fdab4a"><div class="ttname"><a href="namespace_a_q_n_w_b_1_1_types.html#a6e60aeea6e3cf6ed2677338844fdab4a">AQNWB::Types::RowData</a></div><div class="ttdeci">std::unordered_map&lt; std::string, CellValue &gt; RowData</div><div class="ttdoc">Represents a row of data in a DynamicTable.</div><div class="ttdef"><b>Definition</b> Types.hpp:371</div></div>
 <div class="ttc" id="anamespace_a_q_n_w_b_1_1_types_html_a74f9d53508a21d5bac5a7d842fac8cd8"><div class="ttname"><a href="namespace_a_q_n_w_b_1_1_types.html#a74f9d53508a21d5bac5a7d842fac8cd8">AQNWB::Types::operator&amp;&amp;</a></div><div class="ttdeci">Status operator&amp;&amp;(Status lhs, Status rhs)</div><div class="ttdoc">Overloaded &amp;&amp; operator for Status enum.</div><div class="ttdef"><b>Definition</b> Types.hpp:40</div></div>
 <div class="ttc" id="anamespace_a_q_n_w_b_1_1_types_html_a778ba605df5dabb117ede12e41111915"><div class="ttname"><a href="namespace_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915">AQNWB::Types::StorageObjectType</a></div><div class="ttdeci">StorageObjectType</div><div class="ttdoc">Types of object used in the NWB schema.</div><div class="ttdef"><b>Definition</b> Types.hpp:60</div></div>
 <div class="ttc" id="anamespace_a_q_n_w_b_1_1_types_html_a778ba605df5dabb117ede12e41111915a459ad320d6c923a4111734767c71b20c"><div class="ttname"><a href="namespace_a_q_n_w_b_1_1_types.html#a778ba605df5dabb117ede12e41111915a459ad320d6c923a4111734767c71b20c">AQNWB::Types::Attribute</a></div><div class="ttdeci">@ Attribute</div><div class="ttdef"><b>Definition</b> Types.hpp:63</div></div>
@@ -401,8 +400,8 @@ $(function() {
 <div class="ttc" id="anamespace_a_q_n_w_b_html"><div class="ttname"><a href="namespace_a_q_n_w_b.html">AQNWB</a></div><div class="ttdoc">The main namespace for AqNWB.</div><div class="ttdef"><b>Definition</b> Channel.hpp:11</div></div>
 <div class="ttc" id="astruct_a_q_n_w_b_1_1_types_1_1_cell_value_html_a08be31670a67e887228341b5d61a0545"><div class="ttname"><a href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a08be31670a67e887228341b5d61a0545">AQNWB::Types::CellValue::value</a></div><div class="ttdeci">std::variant&lt; ScalarDataVariant, VectorDataVariant &gt; value</div><div class="ttdef"><b>Definition</b> Types.hpp:191</div></div>
 <div class="ttc" id="astruct_a_q_n_w_b_1_1_types_1_1_cell_value_html_a17560be769643d44b01164a51c05989d"><div class="ttname"><a href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a17560be769643d44b01164a51c05989d">AQNWB::Types::CellValue::CellValue</a></div><div class="ttdeci">CellValue(const char *val)</div><div class="ttdoc">Implicit constructor for string literals.</div><div class="ttdef"><b>Definition</b> Types.hpp:237</div></div>
-<div class="ttc" id="astruct_a_q_n_w_b_1_1_types_1_1_cell_value_html_a242ad1f6bfcb275f6fa88195ab4236d6"><div class="ttname"><a href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a242ad1f6bfcb275f6fa88195ab4236d6">AQNWB::Types::CellValue::toString</a></div><div class="ttdeci">std::string toString() const</div><div class="ttdoc">Convert the cell value to a string representation.</div><div class="ttdef"><b>Definition</b> Types.hpp:314</div></div>
-<div class="ttc" id="astruct_a_q_n_w_b_1_1_types_1_1_cell_value_html_a2e7b7bfc3f94107aac5b3f5674f7bc17"><div class="ttname"><a href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a2e7b7bfc3f94107aac5b3f5674f7bc17">AQNWB::Types::CellValue::get</a></div><div class="ttdeci">const T &amp; get() const</div><div class="ttdoc">Helper method to extract the underlying value.</div><div class="ttdef"><b>Definition</b> Types.hpp:276</div></div>
+<div class="ttc" id="astruct_a_q_n_w_b_1_1_types_1_1_cell_value_html_a242ad1f6bfcb275f6fa88195ab4236d6"><div class="ttname"><a href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a242ad1f6bfcb275f6fa88195ab4236d6">AQNWB::Types::CellValue::toString</a></div><div class="ttdeci">std::string toString() const</div><div class="ttdoc">Convert the cell value to a string representation.</div><div class="ttdef"><b>Definition</b> Types.hpp:313</div></div>
+<div class="ttc" id="astruct_a_q_n_w_b_1_1_types_1_1_cell_value_html_a2e7b7bfc3f94107aac5b3f5674f7bc17"><div class="ttname"><a href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#a2e7b7bfc3f94107aac5b3f5674f7bc17">AQNWB::Types::CellValue::get</a></div><div class="ttdeci">const T &amp; get() const</div><div class="ttdoc">Helper method to extract the underlying value.</div><div class="ttdef"><b>Definition</b> Types.hpp:275</div></div>
 <div class="ttc" id="astruct_a_q_n_w_b_1_1_types_1_1_cell_value_html_ab458dfd1fd2bb623d6e82d0e2f183ca7"><div class="ttname"><a href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#ab458dfd1fd2bb623d6e82d0e2f183ca7">AQNWB::Types::CellValue::CellValue</a></div><div class="ttdeci">CellValue()=default</div></div>
 <div class="ttc" id="astruct_a_q_n_w_b_1_1_types_1_1_cell_value_html_ad68866dea10bf6d98c6ad1fd6ecce1ce"><div class="ttname"><a href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#ad68866dea10bf6d98c6ad1fd6ecce1ce">AQNWB::Types::CellValue::CellValue</a></div><div class="ttdeci">CellValue(T &amp;&amp;val)</div><div class="ttdoc">Implicit constructor for vector values.</div><div class="ttdef"><b>Definition</b> Types.hpp:224</div></div>
 <div class="ttc" id="astruct_a_q_n_w_b_1_1_types_1_1_cell_value_html_add242326abae341364b94cef8f017335"><div class="ttname"><a href="struct_a_q_n_w_b_1_1_types_1_1_cell_value.html#add242326abae341364b94cef8f017335">AQNWB::Types::CellValue::CellValue</a></div><div class="ttdeci">CellValue(T &amp;&amp;val)</div><div class="ttdoc">Implicit constructor for scalar values.</div><div class="ttdef"><b>Definition</b> Types.hpp:208</div></div>

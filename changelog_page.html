@@ -121,6 +121,8 @@ $(function() {
 <div class="line"> </div>
 <div class="line">### Fixed</div>
 <div class="line">* Fixed `HDF5IO::open` to return `Status::Failure` instead of throwing if HDF5 can&#39;t open or create the file and updated `HDF5IO::open`, `HDF5IO::openS3`, and `HDF5IO::openRemote` to print the HDF5 error if opening fails. (@claude, @oruebel, [#363](https://github.com/NeurodataWithoutBorders/aqnwb/pull/363))</div>
+<div class="line">* Fixed the warnings of cppcheck 2.19 and 2.22, which the code scanning workflow reports since `ubuntu-latest` moved to Ubuntu 26.04. (@claude, @oruebel, [#364](https://github.com/NeurodataWithoutBorders/aqnwb/pull/364))</div>
+<div class="line"> </div>
 <div class="line"> </div>
 <div class="line">## [0.5.0] - 2026-11-03</div>
 <div class="line"> </div>
