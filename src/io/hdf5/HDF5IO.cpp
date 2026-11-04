@@ -268,8 +268,10 @@ Status HDF5IO::flush()
 // in HDF5 1.12.0. On older versions (e.g. the 1.10.x that ships with Ubuntu's
 // libhdf5-serial package) the type is H5O_info_t and H5Ovisit takes one fewer
 // argument. This alias adapts the callback signature to the installed
-// version. H5_VERSION_GE is provided by H5public.h (pulled in via H5Opublic.h).
-#if H5_VERSION_GE(1, 12, 0)
+// version. H5_VERS_MAJOR/MINOR are provided by H5public.h (pulled in via
+// H5Opublic.h). We avoid the function-like H5_VERSION_GE macro so that tools
+// without the HDF5 headers (e.g., cppcheck) can still evaluate the condition.
+#if H5_VERS_MAJOR > 1 || (H5_VERS_MAJOR == 1 && H5_VERS_MINOR >= 12)
 using H5OInfoCompat = H5O_info2_t;
 #else
 using H5OInfoCompat = H5O_info_t;
@@ -387,7 +389,7 @@ std::string HDF5IO::findObject(const std::string& name,
   //
   // The 1.12+ signature takes a trailing `fields` argument (H5O_INFO_BASIC)
   // that requests only the object type; the 1.10 signature omits it.
-#if H5_VERSION_GE(1, 12, 0)
+#if H5_VERS_MAJOR > 1 || (H5_VERS_MAJOR == 1 && H5_VERS_MINOR >= 12)
   const herr_t status = H5Ovisit(startGroup.getId(),
                                  H5_INDEX_NAME,
                                  H5_ITER_INC,
@@ -1728,7 +1730,7 @@ H5O_type_t HDF5IO::getH5ObjectType(const std::string& path) const
   // Don't print the HDF5 error stack if the object doesn't exist
   H5E_BEGIN_TRY
   {
-#if H5_VERSION_GE(1, 12, 0)
+#if H5_VERS_MAJOR > 1 || (H5_VERS_MAJOR == 1 && H5_VERS_MINOR >= 12)
     status = H5Oget_info_by_name(
         m_file->getId(), path.c_str(), &objInfo, H5O_INFO_BASIC, H5P_DEFAULT);
 #else

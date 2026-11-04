@@ -1444,8 +1444,6 @@ TEST_CASE("setCanModifyObjectsMode", "[nwb]")
 
   // test that dataset creation fails after starting the recording
   std::vector<Types::ChannelVector> mockArrays = getMockChannelArrays(1, 2);
-  std::vector<std::string> mockChannelNames =
-      getMockChannelArrayNames("esdata");
   // create the Electrodes Table
   // This will fail because we cannot modify objects after starting the
   // recording

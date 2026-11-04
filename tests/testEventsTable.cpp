@@ -28,8 +28,6 @@ TEST_CASE("EventsTable", "[event]")
     std::string tablePath = "/events/test_events";
     std::string description = "Test events table";
     std::string sourceDescription = "Test source description";
-    float timestampResolution = 1.0f / 30000.0f;
-    float durationResolution = 1.0f / 30000.0f;
 
     std::vector<float> timestamps = {0.0f, 0.1f, 0.25f, 0.5f, 0.75f};
     std::vector<float> durations = {0.01f, 0.02f, 0.03f, 0.04f, 0.05f};
@@ -49,6 +47,8 @@ TEST_CASE("EventsTable", "[event]")
       auto eventsTable = AQNWB::NWB::EventsTable::create(tablePath, io);
       REQUIRE(eventsTable != nullptr);
 
+      float timestampResolution = 1.0f / 30000.0f;
+      float durationResolution = 1.0f / 30000.0f;
       auto specs = NWB::EventsTable::createDefaultDataSpecs(
           timestampResolution, true, durationResolution, true, 100);
       Status initStatus =
