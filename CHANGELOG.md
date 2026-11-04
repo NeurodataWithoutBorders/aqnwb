@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed
-* Fixed `HDF5IO::open` to return `Status::Failure` instead of throwing if HDF5 can't open or create the file (e.g., if the file is not an HDF5 file or the directory is not writable) or if the file mode is invalid, and `HDF5IO::open`, `HDF5IO::openS3`, and `HDF5IO::openRemote` to print the HDF5 error if opening fails. HDF5 exceptions do not derive from `std::exception`, so callers that check the returned status did not catch them. (@claude, @oruebel, [#362](https://github.com/NeurodataWithoutBorders/aqnwb/issues/362))
+* Fixed `HDF5IO::open` to return `Status::Failure` instead of throwing if HDF5 can't open or create the file (e.g., if the file is not an HDF5 file or the directory is not writable) or if the file mode is invalid, and `HDF5IO::open`, `HDF5IO::openS3`, and `HDF5IO::openRemote` to print the HDF5 error if opening fails. HDF5 exceptions do not derive from `std::exception`, so callers that check the returned status did not catch them. (@claude, @oruebel, [#363](https://github.com/NeurodataWithoutBorders/aqnwb/pull/363), fixes [#362](https://github.com/NeurodataWithoutBorders/aqnwb/issues/362))
 
 ## [0.5.0] - 2026-11-03
 
