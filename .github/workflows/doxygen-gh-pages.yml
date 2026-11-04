@@ -23,7 +23,18 @@ jobs:
           submodules: "true"
       
       - name: Install dependencies - macos
-        run: brew install hdf5 catch2 doxygen graphviz
+        run: brew install hdf5 catch2 graphviz
+
+      # Doxygen is pinned to 1.15.0: the layout of the docs (docs/layout/header.html and custom-modern.css)
+      # breaks with Doxygen 1.18, which Homebrew installs (the menu bar covers the logo in the sidebar).
+      # Remove the pin once the layout is updated for newer Doxygen versions.
+      - name: Install Doxygen 1.15.0
+        run: |
+          curl -sSfL -o "$RUNNER_TEMP/Doxygen.dmg" https://github.com/doxygen/doxygen/releases/download/Release_1_15_0/Doxygen-1.15.0.dmg
+          hdiutil attach -nobrowse -readonly -mountpoint "$RUNNER_TEMP/doxygen-dmg" "$RUNNER_TEMP/Doxygen.dmg"
+          DOXYGEN_BIN=$(find "$RUNNER_TEMP/doxygen-dmg" -name doxygen -type f -perm -u+x | head -1)
+          echo "$(dirname "$DOXYGEN_BIN")" >> "$GITHUB_PATH"
+          "$DOXYGEN_BIN" --version
 
       - name: Configure
         shell: pwsh

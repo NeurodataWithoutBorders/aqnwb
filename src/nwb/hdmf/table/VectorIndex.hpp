@@ -63,7 +63,7 @@ public:
     {
     }
 
-    virtual ~DataSpec() = default;
+    virtual ~DataSpec() override = default;
 
     std::string description;
     std::string targetPath;

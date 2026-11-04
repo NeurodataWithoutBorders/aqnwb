@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-## [Unreleased]
+## [0.5.0] - 2026-11-03
 
 ### Added
 * Added optional `useChannelConversion` parameter to `NWBFile::createSpikeEventSeries`, `ElectricalSeries::initialize`, and `SpikeEventSeries::initialize` to store the conversion factor in `data.conversion` instead of the `channel_conversion` dataset (e.g., for PyNWB, which does not read `channel_conversion` for `SpikeEventSeries`). (@claude, @oruebel, [#341](https://github.com/NeurodataWithoutBorders/aqnwb/pull/341))
@@ -30,6 +30,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Fixed HDF5 printing its error stack (`HDF5-DIAG`) to `stderr` when AqNWB checks whether an object exists. (@claude, @oruebel, [#352](https://github.com/NeurodataWithoutBorders/aqnwb/pull/352))
 * Fixed `HDF5IO::createStringDataSet` failing for empty scalar strings and throwing an exception instead of returning `Status::Failure` if the dataset can't be created, and `NWBFile::initialize` ignoring failures to create its datasets. (@claude, @oruebel, [#352](https://github.com/NeurodataWithoutBorders/aqnwb/pull/352))
 * Fixed the coverage workflow failing with lcov 2.4 (Ubuntu 26.04) on inconsistent coverage records of the C++ standard library headers. (@claude, @oruebel, [#353](https://github.com/NeurodataWithoutBorders/aqnwb/pull/353))
+* Fixed the layout of the online documentation (the menu bar covered the logo and version in the sidebar) by pinning Doxygen to 1.15.0 in the documentation workflows. (@claude, @oruebel, [#357](https://github.com/NeurodataWithoutBorders/aqnwb/pull/357))
+* Fixed several minor cppcheck warnings [#357](https://github.com/NeurodataWithoutBorders/aqnwb/pull/357)
 
 ## [0.4.0] - 2026-09-03
 

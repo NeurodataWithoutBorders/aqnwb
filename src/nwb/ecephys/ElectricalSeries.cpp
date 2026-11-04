@@ -198,6 +198,7 @@ Status ElectricalSeries::writeAllChannels(const SizeType& numSamples,
   // Only advance the sample counter for every channel if the write succeeded.
   if (status == Status::Success) {
     for (auto& count : m_samplesRecorded) {
+      // cppcheck-suppress useStlAlgorithm
       count += numSamples;
     }
   }

@@ -32,7 +32,7 @@ public:
              const IO::ArrayDataSetConfig& dataConfig,
              const std::string& columnDescription);
 
-    virtual ~DataSpec() = default;
+    virtual ~DataSpec() override = default;
 
     std::string description;
 

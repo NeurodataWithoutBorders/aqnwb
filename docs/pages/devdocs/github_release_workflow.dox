@@ -21,7 +21,7 @@
  *     - Doxygen retrieves the version from CMake, so no need to modify the docs. 
  *
  * @subsection release_steps_3 3. Commit and Push Changes
-*
+ *
  * @code
  * git add -u
  * git commit -m "Release vX.Y.Z: update version numbers and changelog"
@@ -53,8 +53,8 @@
  * @code
  * git checkout main
  * git pull
- * git tag -a vX.Y.Z -m "AqNWB vX.Y.Z release"
- * git push origin vX.Y.Z
+ * git tag -a X.Y.Z -m "AqNWB version X.Y.Z release"
+ * git push origin X.Y.Z
  * @endcode
  *
  * @subsection release_steps_7 7. Draft GitHub Release
