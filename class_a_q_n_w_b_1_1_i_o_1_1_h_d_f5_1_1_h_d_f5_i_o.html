@@ -1865,7 +1865,8 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Opens an existing file or creates a new file for writing. </p>
-<dl class="section return"><dt>Returns</dt><dd>The status of the file opening operation. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the file opening operation (Status::Failure if <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> can't open or create the file, see <a class="el" href="#a338cc5cacca9f4c33022e3ef632800d4" title="Opens an existing file or creates a new file for writing, with a custom raw data chunk cache.">open(FileMode, const
+ChunkCacheConfig&amp;)</a>). </dd></dl>
 
 <p>Implements <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#ae21e40d76449c4581f6dbc9e19d980c5">AQNWB::IO::BaseIO</a>.</p>
 <div class="dynheader">
@@ -1911,7 +1912,8 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The status of the file opening operation. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the file opening operation (Status::Failure if <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> can't open or create the file, see <a class="el" href="#a338cc5cacca9f4c33022e3ef632800d4" title="Opens an existing file or creates a new file for writing, with a custom raw data chunk cache.">open(FileMode, const
+ChunkCacheConfig&amp;)</a>). </dd></dl>
 
 <p>Implements <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_i_o.html#add759ed1f078712e4d527431821f6e1d">AQNWB::IO::BaseIO</a>.</p>
 <div class="dynheader">
@@ -1949,7 +1951,7 @@ Here is the call graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The status of the file opening operation (Status::Failure if the chunk cache configuration is invalid). </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the file opening operation. Status::Failure if the file is already open, the chunk cache configuration or the mode is invalid, the file does not exist in ReadWrite or ReadOnly mode, or <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> can't open or create the file (e.g., if the file is not an <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> file or the directory does not exist or is not writable). <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> errors are caught and printed to std::cerr. </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1982,7 +1984,7 @@ Here is the call graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The status of the file opening operation. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the file opening operation. Status::Failure if the file is already open, the chunk cache configuration is invalid, or <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> can't open the file (e.g., if the URL is invalid or the file is not an <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> file). <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> errors are caught and printed to std::cerr. </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -2032,7 +2034,7 @@ Here is the call graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The status of the file opening operation. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the file opening operation. Status::Failure if the file is already open, the chunk cache configuration is invalid, or <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> can't open the file (e.g., if the URL is invalid or the file is not an <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> file). <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> errors are caught and printed to std::cerr. </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
