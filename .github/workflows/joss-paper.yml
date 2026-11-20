@@ -1,0 +1,30 @@
+on:
+  push:
+    branches:
+      - joss_paper
+  pull_request:
+    branches:
+      - joss_paper
+  workflow_dispatch:
+
+jobs:
+  paper:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    name: Paper Draft
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build draft PDF
+        uses: openjournals/openjournals-draft-action@v1.0
+        with:
+          journal: joss
+          paper-path: paper/joss/paper.md
+      - uses: actions/upload-artifact@v4
+        id: artifact-upload-step
+        with:
+          name: paper
+          path: paper/joss/paper.pdf
+      - name: Output artifact URL
+        run:  echo 'Artifact URL is ${{ steps.artifact-upload-step.outputs.artifact-url }}'
