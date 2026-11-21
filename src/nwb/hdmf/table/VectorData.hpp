@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <optional>
 #include <string>
 #include <variant>
 #include <vector>
@@ -117,6 +118,22 @@ public:
    */
   virtual Status appendBuffer(
       const IO::BaseDataType::BaseDataVectorVariant& buffer);
+
+protected:
+  /**
+   * @brief Get the data type of the dataset for appending data.
+   *
+   * The data type is read from the file on first use and cached, since the
+   * data type of a dataset cannot change. Reading it for every append (which
+   * opens the dataset by its path) dominated the cost of appending rows to a
+   * DynamicTable one at a time.
+   */
+  IO::BaseDataType getAppendDataType();
+
+  /// Cached data type of the dataset (see getAppendDataType)
+  std::optional<IO::BaseDataType> m_appendDataType;
+
+public:
 
   DEFINE_ATTRIBUTE_FIELD(readDescription,
                          std::string,
