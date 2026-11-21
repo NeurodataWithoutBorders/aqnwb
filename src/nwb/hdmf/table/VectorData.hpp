@@ -134,7 +134,6 @@ protected:
   std::optional<IO::BaseDataType> m_appendDataType;
 
 public:
-
   DEFINE_ATTRIBUTE_FIELD(readDescription,
                          std::string,
                          "description",

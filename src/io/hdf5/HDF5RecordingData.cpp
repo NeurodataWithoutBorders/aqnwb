@@ -214,7 +214,6 @@ Status HDF5RecordingData::writeDataBlock(const SizeArray& dataShape,
   return Status::Success;
 }
 
-
 static_assert(sizeof(hid_t) == sizeof(int64_t), "hid_t is passed as int64_t");
 
 Status HDF5RecordingData::writeNumericBlock(const SizeArray& dataShape,
