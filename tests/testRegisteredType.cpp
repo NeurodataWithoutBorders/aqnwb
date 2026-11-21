@@ -120,15 +120,11 @@ TEST_CASE("RegisterType", "[base]")
   {
     // Prepare test data
     SizeType numSamples = 10;
-    std::string dataPath = "/tsdata";
     SizeArray dataShape = {numSamples};
     SizeArray positionOffset = {0};
     BaseDataType dataType = BaseDataType::F32;
     std::vector<float> data = getMockData1D(numSamples);
     std::vector<double> timestamps = getMockTimestamps(numSamples, 1);
-    std::vector<unsigned char> controlData = {0, 1, 0, 1, 0, 1, 0, 1, 0, 1};
-    std::vector<std::string> controlDescription = {
-        "c0", "c1", "c0", "c1", "c0", "c1", "c0", "c1", "c0", "c1"};
     std::string filename = getTestFilePath("testRegisteredTypeTimeseries.h5");
     std::string examplePath = "/tsdata";
 

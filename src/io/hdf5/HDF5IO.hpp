@@ -99,14 +99,18 @@ public:
 
   /**
    * @brief Opens an existing file or creates a new file for writing.
-   * @return The status of the file opening operation.
+   * @return The status of the file opening operation (Status::Failure if HDF5
+   * can't open or create the file, see open(FileMode, const
+   * ChunkCacheConfig&)).
    */
   Status open() override;
 
   /**
    * @brief Opens an existing file or creates a new file for writing.
    * @param mode Access mode to use when opening the file.
-   * @return The status of the file opening operation.
+   * @return The status of the file opening operation (Status::Failure if HDF5
+   * can't open or create the file, see open(FileMode, const
+   * ChunkCacheConfig&)).
    */
   Status open(FileMode mode) override;
 
@@ -115,8 +119,12 @@ public:
    * custom raw data chunk cache.
    * @param mode Access mode to use when opening the file.
    * @param chunkCache Chunk cache used for each dataset of the file.
-   * @return The status of the file opening operation (Status::Failure if the
-   * chunk cache configuration is invalid).
+   * @return The status of the file opening operation. Status::Failure if the
+   * file is already open, the chunk cache configuration or the mode is
+   * invalid, the file does not exist in ReadWrite or ReadOnly mode, or HDF5
+   * can't open or create the file (e.g., if the file is not an HDF5 file or
+   * the directory does not exist or is not writable). HDF5 errors are caught
+   * and printed to std::cerr.
    */
   Status open(FileMode mode, const ChunkCacheConfig& chunkCache);
 
@@ -139,7 +147,10 @@ public:
    * @param secret_id   The AWS access key ID.  May be empty.
    * @param secret_key  The AWS secret access key.  May be empty.
    * @param chunkCache  Chunk cache used for each dataset of the file.
-   * @return The status of the file opening operation.
+   * @return The status of the file opening operation. Status::Failure if the
+   * file is already open, the chunk cache configuration is invalid, or HDF5
+   * can't open the file (e.g., if the URL is invalid or the file is not an
+   * HDF5 file). HDF5 errors are caught and printed to std::cerr.
    */
   Status openS3(const std::string& aws_region = "",
                 const std::string& secret_id = "",
@@ -162,7 +173,10 @@ public:
    * read-ahead (see https://github.com/catalystneuro/remfile-cpp).
    *
    * @param chunkCache Chunk cache used for each dataset of the file.
-   * @return The status of the file opening operation.
+   * @return The status of the file opening operation. Status::Failure if the
+   * file is already open, the chunk cache configuration is invalid, or HDF5
+   * can't open the file (e.g., if the URL is invalid or the file is not an
+   * HDF5 file). HDF5 errors are caught and printed to std::cerr.
    */
   Status openRemote(const ChunkCacheConfig& chunkCache = ChunkCacheConfig());
 #endif  // AQNWB_HAVE_REMFILE_VFD
@@ -577,10 +591,10 @@ private:
    * @return A vector containing the data.
    */
   template<typename T, typename HDF5TYPE>
-  std::vector<T> readDataHelper(const HDF5TYPE& dataSource,
-                                size_t numElements,
-                                const H5::DataSpace& memspace,
-                                const H5::DataSpace& dataspace) const;
+  static std::vector<T> readDataHelper(const HDF5TYPE& dataSource,
+                                       size_t numElements,
+                                       const H5::DataSpace& memspace,
+                                       const H5::DataSpace& dataspace);
 
   /**
    * @brief Reads data from an HDF5 dataset or attribute into a vector of the
@@ -600,8 +614,8 @@ private:
    * @return A vector containing the data.
    */
   template<typename T, typename HDF5TYPE>
-  std::vector<T> readDataHelper(const HDF5TYPE& dataSource,
-                                size_t numElements) const;
+  static std::vector<T> readDataHelper(const HDF5TYPE& dataSource,
+                                       size_t numElements);
 
   /**
    * @brief Reads a variable-length string from an HDF5 dataset or attribute.
@@ -616,11 +630,11 @@ private:
    * @return A vector containing the data.
    */
   template<typename HDF5TYPE>
-  std::vector<std::string> readStringDataHelper(
+  static std::vector<std::string> readStringDataHelper(
       const HDF5TYPE& dataSource,
       size_t numElements,
       const H5::DataSpace& memspace,
-      const H5::DataSpace& dataspace) const;
+      const H5::DataSpace& dataspace);
 
   /**
    * @brief Reads a variable-length string from an HDF5 dataset or attribute.
@@ -638,8 +652,8 @@ private:
    * @return A vector containing the data.
    */
   template<typename HDF5TYPE>
-  std::vector<std::string> readStringDataHelper(const HDF5TYPE& dataSource,
-                                                size_t numElements) const;
+  static std::vector<std::string> readStringDataHelper(
+      const HDF5TYPE& dataSource, size_t numElements);
 
   std::unique_ptr<H5::Attribute> getAttribute(const std::string& path) const;
 
