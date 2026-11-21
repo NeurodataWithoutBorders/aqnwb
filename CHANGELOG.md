@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
-* Improved the speed of small writes: `VectorData::appendBuffer` and `VectorData::appendData` now cache the data type of the dataset instead of reading it from the file for every call, and `HDF5RecordingData::writeDataBlock` writes numeric data with the HDF5 C API, which avoids copying dataspaces and data types. Adding one row to an `EventsTable` is ~5x faster and `ElectricalSeries::writeChannel` ~2.5x faster (Apple M4, HDF5 1.14.3). (@claude, @oruebel, [#TODO](https://github.com/NeurodataWithoutBorders/aqnwb/pull/TODO))
+* Improved the speed of small writes: `VectorData::appendBuffer` and `VectorData::appendData` now cache the data type of the dataset instead of reading it from the file for every call, and `HDF5RecordingData::writeDataBlock` writes numeric data with the HDF5 C API, which avoids copying dataspaces and data types. `DynamicTable::addRows` now classifies the columns once per call instead of for every row. Adding one row to an `EventsTable` is ~5x faster, adding rows in batches of 100 to 1000 ~2-3x faster, and `ElectricalSeries::writeChannel` ~2.5x faster (Apple M4, HDF5 1.14.3). (@claude, @oruebel, [#TODO](https://github.com/NeurodataWithoutBorders/aqnwb/pull/TODO))
 
 ## [0.5.0] - 2026-11-03
 
