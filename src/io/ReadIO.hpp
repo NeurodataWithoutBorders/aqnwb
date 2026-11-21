@@ -212,6 +212,7 @@ public:
     assert(index < m_shape[0]);
     std::array<size_type, NDIMS - 1> sub_shape {};
     std::array<size_type, NDIMS - 1> sub_strides {};
+    // cppcheck-suppress knownConditionTrueFalse ; false positive, NDIMS > 1
     for (size_type i = 1; i < NDIMS; ++i) {
       sub_shape[i - 1] = m_shape[i];
       sub_strides[i - 1] = m_strides[i];
@@ -331,6 +332,7 @@ public:
 
     std::array<std::size_t, NDIMS> strides {};
     std::size_t stride = 1;
+    // cppcheck-suppress knownConditionTrueFalse ; false positive, NDIMS >= 1
     for (std::size_t i = NDIMS; i-- > 0;) {
       strides[i] = stride;
       stride *= shape_array[i];

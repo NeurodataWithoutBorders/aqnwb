@@ -9,7 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
-* Improved the speed of small writes: `VectorData::appendBuffer` and `VectorData::appendData` now cache the data type of the dataset instead of reading it from the file for every call, and `HDF5RecordingData::writeDataBlock` writes numeric data with the HDF5 C API, which avoids copying dataspaces and data types. `DynamicTable::addRows` now classifies the columns once per call instead of for every row. Adding one row to an `EventsTable` is ~5x faster, adding rows in batches of 100 to 1000 ~2-3x faster, and `ElectricalSeries::writeChannel` ~2.5x faster (Apple M4, HDF5 1.14.3). (@claude, @oruebel, [#TODO](https://github.com/NeurodataWithoutBorders/aqnwb/pull/TODO))
+* Improved the speed of small writes: `VectorData::appendBuffer` and `VectorData::appendData` now cache the data type of the dataset instead of reading it from the file for every call, and `HDF5RecordingData::writeDataBlock` writes numeric data with the HDF5 C API, which avoids copying dataspaces and data types. Adding one row to an `EventsTable` is ~5x faster and `ElectricalSeries::writeChannel` ~2.5x faster (Apple M4, HDF5 1.14.3). (@claude, @oruebel, [#TODO](https://github.com/NeurodataWithoutBorders/aqnwb/pull/TODO))
+* Improved the speed of `DynamicTable::addRows`, which now classifies the columns once per call instead of for every row. Adding rows in batches of 100 to 1000 is ~1.2-1.6x faster (Apple M4, HDF5 1.14.3). (@claude, @oruebel, [#TODO](https://github.com/NeurodataWithoutBorders/aqnwb/pull/TODO))
+
+### Fixed
+* Fixed `HDF5IO::open` to return `Status::Failure` instead of throwing if HDF5 can't open or create the file and updated `HDF5IO::open`, `HDF5IO::openS3`, and `HDF5IO::openRemote` to print the HDF5 error if opening fails. (@claude, @oruebel, [#363](https://github.com/NeurodataWithoutBorders/aqnwb/pull/363))
+* Fixed the warnings of cppcheck 2.19 and 2.22, which the code scanning workflow reports since `ubuntu-latest` moved to Ubuntu 26.04. (@claude, @oruebel, [#364](https://github.com/NeurodataWithoutBorders/aqnwb/pull/364))
+
 
 ## [0.5.0] - 2026-11-03
 

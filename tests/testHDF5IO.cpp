@@ -1,5 +1,6 @@
 
 #include <filesystem>
+#include <fstream>
 #include <future>
 #include <iostream>
 #include <limits>
@@ -170,6 +171,43 @@ TEST_CASE("open - hdf5 file modes", "[hdf5io]")
   {
     IO::HDF5::HDF5IO hdf5io(fileName);
     REQUIRE(hdf5io.open(IO::FileMode::ReadOnly) == Status::Failure);
+    REQUIRE_FALSE(hdf5io.isOpen());
+  }
+
+  SECTION("Open a file that is not an HDF5 file")
+  {
+    const std::string textFileName = getTestFilePath("test_open_not_hdf5.h5");
+    {
+      std::ofstream textFile(textFileName);
+      textFile << "not an HDF5 file";
+    }
+
+    for (const auto mode : {IO::FileMode::ReadWrite, IO::FileMode::ReadOnly}) {
+      IO::HDF5::HDF5IO hdf5io(textFileName);
+      REQUIRE(hdf5io.open(mode) == Status::Failure);
+      REQUIRE_FALSE(hdf5io.isOpen());
+    }
+    std::filesystem::remove(textFileName);
+  }
+
+  SECTION("Create a file in a non-existent directory")
+  {
+    const std::string missingDirFileName =
+        getTestFilePath("missing_directory/test_open_modes.h5");
+    REQUIRE_FALSE(std::filesystem::exists(
+        std::filesystem::path(missingDirFileName).parent_path()));
+
+    IO::HDF5::HDF5IO hdf5io(missingDirFileName);
+    REQUIRE(hdf5io.open(IO::FileMode::Overwrite) == Status::Failure);
+    REQUIRE_FALSE(hdf5io.isOpen());
+    // The IO can still be closed after a failed open
+    REQUIRE(hdf5io.close() == Status::Success);
+  }
+
+  SECTION("Open with an invalid file mode")
+  {
+    IO::HDF5::HDF5IO hdf5io(fileName);
+    REQUIRE(hdf5io.open(static_cast<IO::FileMode>(-1)) == Status::Failure);
     REQUIRE_FALSE(hdf5io.isOpen());
   }
 }
@@ -673,7 +711,7 @@ TEST_CASE("HDF5IO createArrayDataSet with filters", "[HDF5IO]")
     REQUIRE(baseDataset != nullptr);
 
     // Cast to HDF5RecordingData to access getDataSet()
-    auto dataset =
+    const auto* dataset =
         dynamic_cast<IO::HDF5::HDF5RecordingData*>(baseDataset.get());
     REQUIRE(dataset != nullptr);
 
@@ -708,7 +746,7 @@ TEST_CASE("HDF5IO createArrayDataSet with filters", "[HDF5IO]")
     REQUIRE(baseDataset != nullptr);
 
     // Cast to HDF5RecordingData to access getDataSet()
-    auto dataset =
+    const auto* dataset =
         dynamic_cast<IO::HDF5::HDF5RecordingData*>(baseDataset.get());
     REQUIRE(dataset != nullptr);
 
@@ -746,7 +784,7 @@ TEST_CASE("HDF5IO createArrayDataSet with filters", "[HDF5IO]")
     REQUIRE(baseDataset != nullptr);
 
     // Cast to HDF5RecordingData to access getDataSet()
-    auto dataset =
+    const auto* dataset =
         dynamic_cast<IO::HDF5::HDF5RecordingData*>(baseDataset.get());
     REQUIRE(dataset != nullptr);
 
@@ -789,7 +827,7 @@ TEST_CASE("HDF5IO createArrayDataSet with filters", "[HDF5IO]")
     REQUIRE(baseDataset != nullptr);
 
     // Cast to HDF5RecordingData to access getDataSet()
-    auto dataset =
+    const auto* dataset =
         dynamic_cast<IO::HDF5::HDF5RecordingData*>(baseDataset.get());
     REQUIRE(dataset != nullptr);
 
@@ -2141,6 +2179,7 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     IO::ArrayDataSetConfig config {vstrType, SizeArray {3}, SizeArray {0}};
     std::unique_ptr<BaseRecordingData> dataset =
         hdf5io->createArrayDataSet(config, dataPath);
+    REQUIRE(dataset != nullptr);
 
     // Attempt to read the dataset and verify that it returns empty data
     auto readVStrData = hdf5io->readDataset(dataPath);

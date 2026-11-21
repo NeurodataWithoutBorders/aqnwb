@@ -447,7 +447,7 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     // Ensure the mapping of the typename in the I/O works
     std::string electrodesTableTypeName3 =
         io->getFullTypeName(AQNWB::NWB::ElectrodesTable::electrodesTablePath);
-    REQUIRE(electrodesTableTypeName2 == "core::ElectrodesTable");
+    REQUIRE(electrodesTableTypeName3 == "core::ElectrodesTable");
 
     // Ensure that reading with ElectrodesTable type directly still works as
     // expected

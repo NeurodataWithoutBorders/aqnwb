@@ -759,7 +759,6 @@ TEST_CASE("DynamicTable", "[table]")
 
     // Add a string column using addColumn(vectorData, values)
     std::vector<std::string> initialValues = {"a", "b", "c"};
-    SizeArray dataShape = {initialValues.size()};
     SizeArray chunking = {10};  // chunked to allow append
     IO::ArrayDataSetConfig config(BaseDataType::V_STR, SizeArray {0}, chunking);
     auto col1 = NWB::VectorData::create(mergePaths(tablePath, "col1"), io);
