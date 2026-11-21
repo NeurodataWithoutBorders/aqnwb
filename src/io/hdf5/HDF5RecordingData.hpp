@@ -90,6 +90,16 @@ private:
                               H5::DataSpace& fSpace);
 
   /**
+   * @brief Write a block of numeric data with the HDF5 C API (see
+   * writeDataBlock). The dataset must have at least one dimension.
+   * @param memType The HDF5 native type (hid_t) of the data in memory
+   */
+  Status writeNumericBlock(const SizeArray& dataShape,
+                           const SizeArray& positionOffset,
+                           int64_t memType,
+                           const void* data);
+
+  /**
    * @brief Pointer to an extendable HDF5 dataset
    */
   std::unique_ptr<H5::DataSet> m_dataset;
