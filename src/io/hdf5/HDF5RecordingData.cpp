@@ -67,10 +67,14 @@ Status HDF5RecordingData::writeDataBlock(const SizeArray& dataShape,
       {
         return Status::Failure;
       }
-    } else if (writeBlock(dataShape, positionOffset, getMemType(type), data)
-               != Status::Success)
-    {
-      return Status::Failure;
+    } else {
+      // Regular path with the C++ API for array types (typeSize > 1), which
+      // have no predefined HDF5 type, and for scalar datasets
+      if (writeBlock(dataShape, positionOffset, getMemType(type), data)
+          != Status::Success)
+      {
+        return Status::Failure;
+      }
     }
 
     // Update position for simple extension
