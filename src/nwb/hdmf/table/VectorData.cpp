@@ -211,7 +211,7 @@ AQNWB::IO::BaseDataType VectorData::getAppendDataType()
   if (!m_appendDataType.has_value()) {
     m_appendDataType = getIO()->getStorageObjectDataType(this->getPath());
   }
-  return *m_appendDataType;
+  return m_appendDataType.value();
 }
 
 Status VectorData::appendBuffer(
