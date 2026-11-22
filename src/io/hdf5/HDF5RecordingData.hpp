@@ -92,7 +92,12 @@ private:
   /**
    * @brief Write a block of numeric data with the HDF5 C API (see
    * writeDataBlock). The dataset must have at least one dimension.
-   * @param memType The HDF5 native type (hid_t) of the data in memory
+   * @param dataShape The size of the data block.
+   * @param positionOffset The position of the data block to write to.
+   * @param memType The HDF5 native type (hid_t) of the data in memory, from
+   * HDF5IO::getNativeNumericTypeId
+   * @param data A pointer to the data block.
+   * @return The status of the write operation.
    */
   Status writeNumericBlock(const SizeArray& dataShape,
                            const SizeArray& positionOffset,

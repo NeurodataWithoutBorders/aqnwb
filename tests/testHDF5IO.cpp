@@ -1356,6 +1356,43 @@ TEST_CASE("getNativeType", "[hdf5io]")
   }
 }
 
+TEST_CASE("getNativeNumericTypeId", "[hdf5io]")
+{
+  SECTION("Numeric types match getNativeType")
+  {
+    const std::vector<IO::BaseDataType::Type> types = {IO::BaseDataType::T_I8,
+                                                       IO::BaseDataType::T_I16,
+                                                       IO::BaseDataType::T_I32,
+                                                       IO::BaseDataType::T_I64,
+                                                       IO::BaseDataType::T_U8,
+                                                       IO::BaseDataType::T_U16,
+                                                       IO::BaseDataType::T_U32,
+                                                       IO::BaseDataType::T_U64,
+                                                       IO::BaseDataType::T_F32,
+                                                       IO::BaseDataType::T_F64};
+    for (const auto t : types) {
+      IO::BaseDataType type(t, 1);
+      hid_t id = IO::HDF5::HDF5IO::getNativeNumericTypeId(type);
+      REQUIRE(id != H5I_INVALID_HID);
+      // getNativeType returns a copy of the type with its own ID
+      REQUIRE(H5Tequal(id, IO::HDF5::HDF5IO::getNativeType(type).getId()) > 0);
+    }
+  }
+
+  SECTION("Strings and array types have no native type ID")
+  {
+    REQUIRE(IO::HDF5::HDF5IO::getNativeNumericTypeId(
+                IO::BaseDataType(IO::BaseDataType::T_STR, 256))
+            == H5I_INVALID_HID);
+    REQUIRE(IO::HDF5::HDF5IO::getNativeNumericTypeId(
+                IO::BaseDataType(IO::BaseDataType::V_STR, 1))
+            == H5I_INVALID_HID);
+    REQUIRE(IO::HDF5::HDF5IO::getNativeNumericTypeId(
+                IO::BaseDataType(IO::BaseDataType::T_I32, 5))
+            == H5I_INVALID_HID);
+  }
+}
+
 TEST_CASE("getH5Type", "[hdf5io]")
 {
   SECTION("Integer Types")

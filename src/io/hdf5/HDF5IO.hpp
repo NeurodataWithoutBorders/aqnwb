@@ -504,6 +504,31 @@ public:
   static H5::DataType getNativeType(IO::BaseDataType type);
 
   /**
+   * @brief Returns the ID of the HDF5 native type for a numeric base data
+   * type, without creating an H5::DataType.
+   *
+   * This covers the numeric types of getNativeType (integers and floating
+   * point numbers with typeSize 1) and is meant for code that calls the HDF5
+   * C API directly, such as the write path of
+   * HDF5RecordingData::writeDataBlock. getNativeType returns an
+   * H5::DataType, which copies the type (H5Tcopy) and releases the copy again
+   * when it is destroyed (H5Tclose). For small writes, this costs more than
+   * the write itself. This function instead returns the ID of the predefined
+   * HDF5 type (e.g., H5T_NATIVE_INT16) without copying it.
+   *
+   * @note The returned ID belongs to the HDF5 library, not to the caller. It
+   * stays valid while the library is loaded, and the caller must not release
+   * it with H5Tclose.
+   *
+   * @param type The base data type.
+   * @return The ID of the HDF5 native type, or H5I_INVALID_HID if the type
+   * has no predefined native type: strings, array types (typeSize != 1), and
+   * unknown types (for which getNativeType falls back to NATIVE_INT32).
+   * @sa getNativeType
+   */
+  static hid_t getNativeNumericTypeId(const IO::BaseDataType& type);
+
+  /**
    * @brief Returns the BaseDataType for a given HDF5 native data type
    *
    * This function implements the opposite mapping of getNativeType.
@@ -541,27 +566,6 @@ protected:
   Status createGroupIfDoesNotExist(const std::string& path) override;
 
 private:
-  // Uses getNativeNumericTypeId for its fast write path
-  friend class HDF5RecordingData;
-
-  /**
-   * @brief Returns the ID of the HDF5 native type for a numeric base data
-   * type, without creating an H5::DataType.
-   *
-   * This is the numeric part of getNativeType. getNativeType returns an
-   * H5::DataType, which copies the type (H5Tcopy) and releases the copy when
-   * it is destroyed; for small writes, this costs more than the write itself.
-   * This function instead returns the ID of the predefined type (e.g.,
-   * H5T_NATIVE_INT16). Predefined types belong to the HDF5 library, so the
-   * caller doesn't own the returned ID and must not release it with H5Tclose.
-   *
-   * @param type The base data type.
-   * @return The ID of the HDF5 native type, or H5I_INVALID_HID for all other
-   * types: strings, array types (typeSize != 1), and unknown types (for which
-   * getNativeType falls back to NATIVE_INT32).
-   */
-  static hid_t getNativeNumericTypeId(const IO::BaseDataType& type);
-
   /**
    * @brief Creates a new file access property list for opening a file.
    *
