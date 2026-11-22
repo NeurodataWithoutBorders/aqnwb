@@ -97,6 +97,22 @@ private:
                       std::vector<uint64_t>& count);
 
   /**
+   * @brief Returns the HDF5 type in memory for writes with the C++ API.
+   *
+   * Strings and array types have no predefined HDF5 type, so
+   * HDF5IO::getNativeType creates a new type for every call (e.g., H5Tcopy,
+   * H5Tset_size and H5Tset_cset for a string, H5Tarray_create for an array
+   * type). This is a measurable part of the cost of small writes, e.g., one
+   * row of a table with a text column. A dataset is usually written with the
+   * same base data type, so the type of the last write is reused while the
+   * base data type stays the same.
+   * @param type The base data type of the data in memory.
+   * @return The HDF5 type, valid until the next call with a different base
+   * data type.
+   */
+  const H5::DataType& getMemType(const IO::BaseDataType& type);
+
+  /**
    * @brief Write a block of data with the HDF5 C++ API (see writeDataBlock).
    *
    * Used for strings, scalar datasets and array types.
@@ -132,14 +148,14 @@ private:
   std::unique_ptr<H5::DataSet> m_dataset;
 
   /**
-   * @brief The HDF5 type of the last string write and its base data type.
-   *
-   * Creating a string type (H5Tcopy, H5Tset_size, H5Tset_cset) for each
-   * write is a measurable part of the cost of small string writes (e.g., one
-   * row of a table with a text column), so the type is reused while the base
-   * data type of the writes stays the same.
+   * @brief The HDF5 type in memory of the last write with the C++ API (see
+   * getMemType)
    */
-  std::unique_ptr<H5::DataType> m_stringType;
-  std::optional<IO::BaseDataType> m_stringBaseType;
+  std::unique_ptr<H5::DataType> m_memType;
+
+  /**
+   * @brief The base data type that m_memType was created for
+   */
+  std::optional<IO::BaseDataType> m_memBaseType;
 };
 }  // namespace AQNWB::IO::HDF5

@@ -67,8 +67,7 @@ Status HDF5RecordingData::writeDataBlock(const SizeArray& dataShape,
       {
         return Status::Failure;
       }
-    } else if (writeBlock(
-                   dataShape, positionOffset, HDF5IO::getNativeType(type), data)
+    } else if (writeBlock(dataShape, positionOffset, getMemType(type), data)
                != Status::Success)
     {
       return Status::Failure;
@@ -106,13 +105,7 @@ Status HDF5RecordingData::writeDataBlock(const SizeArray& dataShape,
     return Status::Failure;
   }
   try {
-    if (!m_stringType || !m_stringBaseType.has_value()
-        || !(m_stringBaseType.value() == type))
-    {
-      m_stringType = std::make_unique<DataType>(HDF5IO::getNativeType(type));
-      m_stringBaseType = type;
-    }
-    const DataType& nativeType = *m_stringType;
+    const DataType& nativeType = getMemType(type);
     Status writeStatus = Status::Failure;
     if (type.type == BaseDataType::Type::V_STR) {
       // Handle variable length strings
@@ -241,6 +234,17 @@ Status HDF5RecordingData::prepareWrite(const SizeArray& dataShape,
     }
   }
   return Status::Success;
+}
+
+const DataType& HDF5RecordingData::getMemType(const BaseDataType& type)
+{
+  if (!m_memType || !m_memBaseType.has_value()
+      || !(m_memBaseType.value() == type))
+  {
+    m_memType = std::make_unique<DataType>(HDF5IO::getNativeType(type));
+    m_memBaseType = type;
+  }
+  return *m_memType;
 }
 
 Status HDF5RecordingData::writeBlock(const SizeArray& dataShape,
