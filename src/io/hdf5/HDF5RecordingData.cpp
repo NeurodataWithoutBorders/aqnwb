@@ -16,43 +16,6 @@
 using namespace H5;
 using namespace AQNWB::IO::HDF5;
 
-namespace
-{
-/// The HDF5 native type of a numeric BaseDataType with typeSize 1, or
-/// H5I_INVALID_HID for other types (strings, array types)
-hid_t nativeTypeId(const AQNWB::IO::BaseDataType& type)
-{
-  using AQNWB::IO::BaseDataType;
-  if (type.typeSize != 1) {
-    return H5I_INVALID_HID;  // array types: use the general path
-  }
-  switch (type.type) {
-    case BaseDataType::Type::T_I8:
-      return H5T_NATIVE_INT8;
-    case BaseDataType::Type::T_I16:
-      return H5T_NATIVE_INT16;
-    case BaseDataType::Type::T_I32:
-      return H5T_NATIVE_INT32;
-    case BaseDataType::Type::T_I64:
-      return H5T_NATIVE_INT64;
-    case BaseDataType::Type::T_U8:
-      return H5T_NATIVE_UINT8;
-    case BaseDataType::Type::T_U16:
-      return H5T_NATIVE_UINT16;
-    case BaseDataType::Type::T_U32:
-      return H5T_NATIVE_UINT32;
-    case BaseDataType::Type::T_U64:
-      return H5T_NATIVE_UINT64;
-    case BaseDataType::Type::T_F32:
-      return H5T_NATIVE_FLOAT;
-    case BaseDataType::Type::T_F64:
-      return H5T_NATIVE_DOUBLE;
-    default:
-      return H5I_INVALID_HID;
-  }
-}
-}  // namespace
-
 HDF5RecordingData::HDF5RecordingData(std::unique_ptr<H5::DataSet> data)
 {
   DataSpace dSpace = data->getSpace();
@@ -96,7 +59,7 @@ Status HDF5RecordingData::writeDataBlock(const SizeArray& dataShape,
     }
 
     // Fast path for numeric data in datasets with at least one dimension
-    const hid_t memType = nativeTypeId(type);
+    const hid_t memType = HDF5IO::getNativeTypeId(type);
     if (memType != H5I_INVALID_HID && this->getNumDimensions() > 0) {
       if (writeNumericBlock(dataShape, positionOffset, memType, data)
           != Status::Success)
