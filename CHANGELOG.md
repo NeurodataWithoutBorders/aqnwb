@@ -9,8 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
-* Improved the speed of appends to `VectorData`: `VectorData::appendBuffer` and `VectorData::appendData` now cache the data type of the dataset instead of reading it from the file for every call. Together with the faster `HDF5RecordingData::writeDataBlock` (see below), adding one row to an `EventsTable` is ~5x faster (Apple M4, HDF5 1.14.3). (@claude, @oruebel, [#366](https://github.com/NeurodataWithoutBorders/aqnwb/pull/366))
-* Improved the speed of small writes: `HDF5RecordingData::writeDataBlock` now writes numeric data with the HDF5 C API, which avoids copying dataspaces and data types. `ElectricalSeries::writeChannel` is ~2.5x faster (Apple M4, HDF5 1.14.3). (@claude, @oruebel, [#366](https://github.com/NeurodataWithoutBorders/aqnwb/pull/366))
+* Improved the speed of appends to `VectorData` by caching the data type of the dataset in `VectorData::appendBuffer` and `VectorData::appendData` instead of reading it from the file for every call. Together with the faster `HDF5RecordingData::writeDataBlock` (see below), adding one row to an `EventsTable` is ~5x faster (Apple M4, HDF5 1.14.3). (@claude, @oruebel, [#366](https://github.com/NeurodataWithoutBorders/aqnwb/pull/366))
+* Improved the speed of small writes by writing numeric data in `HDF5RecordingData::writeDataBlock` with the HDF5 C API, which avoids copying dataspaces and data types. `ElectricalSeries::writeChannel` is ~2.5x faster (Apple M4, HDF5 1.14.3). (@claude, @oruebel, [#366](https://github.com/NeurodataWithoutBorders/aqnwb/pull/366))
 
 ### Fixed
 * Fixed `HDF5IO::open` to return `Status::Failure` instead of throwing if HDF5 can't open or create the file and updated `HDF5IO::open`, `HDF5IO::openS3`, and `HDF5IO::openRemote` to print the HDF5 error if opening fails. (@claude, @oruebel, [#363](https://github.com/NeurodataWithoutBorders/aqnwb/pull/363))
