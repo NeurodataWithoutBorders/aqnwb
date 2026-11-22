@@ -125,7 +125,8 @@ TEST_CASE("HDF5RecordingData write operations", "[hdf5recordingdata]")
 
   SECTION("Append strings one block at a time")
   {
-    // Each write reuses the string type of the previous write
+    // Each write reuses the HDF5 type in memory of the previous write
+    // (HDF5RecordingData::getMemType)
     for (const auto& strType : {BaseDataType(BaseDataType::Type::T_STR, 8),
                                 BaseDataType(BaseDataType::Type::V_STR, 0)})
     {
@@ -161,7 +162,8 @@ TEST_CASE("HDF5RecordingData write operations", "[hdf5recordingdata]")
 
   SECTION("Append array types one block at a time")
   {
-    // Each write reuses the array type of the previous write
+    // Each write reuses the HDF5 type in memory of the previous write
+    // (HDF5RecordingData::getMemType)
     BaseDataType arrayType(BaseDataType::Type::T_I32, 3);
     IO::ArrayDataSetConfig config(arrayType, SizeArray {0}, SizeArray {2});
     auto dataset = hdf5io->createArrayDataSet(config, "/appendArray");
@@ -455,6 +457,11 @@ TEST_CASE("HDF5RecordingData overwrite scalar and fixed-size datasets",
                                  {},
                                  BaseDataType::STR(6),
                                  std::vector<std::string> {"uvwxyz"})
+            == Status::Failure);
+    // numeric data in a dataset with dimensions (written with the C API)
+    const std::vector<int32_t> values = {7, 8};
+    REQUIRE(readio.getDataSet("/fixed_1d")
+                ->writeDataBlock({2}, {0}, BaseDataType::I32, values.data())
             == Status::Failure);
     readio.close();
   }
