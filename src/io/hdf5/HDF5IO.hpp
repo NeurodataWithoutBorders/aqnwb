@@ -511,10 +511,12 @@ public:
    * point numbers with typeSize 1) and is meant for code that calls the HDF5
    * C API directly, such as the write path of
    * HDF5RecordingData::writeDataBlock. getNativeType returns an
-   * H5::DataType, which copies the type (H5Tcopy) and releases the copy again
-   * when it is destroyed (H5Tclose). For small writes, this costs more than
-   * the write itself. This function instead returns the ID of the predefined
-   * HDF5 type (e.g., H5T_NATIVE_INT16) without copying it.
+   * H5::DataType object, which holds a reference to the ID of the type:
+   * creating the object increments the reference count of the ID, and
+   * destroying it decrements it again (H5Tclose). For small writes, this is a
+   * measurable part of the cost (about 1 us per write with HDF5 1.14). This
+   * function instead returns the ID of the predefined HDF5 type (e.g.,
+   * H5T_NATIVE_INT16) without an object.
    *
    * @note The returned ID belongs to the HDF5 library, not to the caller. It
    * stays valid while the library is loaded, and the caller must not release
