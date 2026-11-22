@@ -31,6 +31,26 @@ TEST_CASE("HDF5RecordingData basic operations", "[hdf5recordingdata]")
   }
 }
 
+namespace
+{
+/// Writes {1, ..., 5} with writeDataBlock and checks the values read back
+template<typename T>
+void writeAndReadNumeric(IO::HDF5::HDF5IO& io,
+                         const BaseDataType& type,
+                         const std::string& path)
+{
+  std::vector<T> data = {1, 2, 3, 4, 5};
+  IO::ArrayDataSetConfig config(type, SizeArray {5}, SizeArray {5});
+  auto dataset = io.createArrayDataSet(config, path);
+  REQUIRE(dataset != nullptr);
+  REQUIRE(
+      dataset->writeDataBlock(SizeArray {5}, SizeArray {0}, type, data.data())
+      == Status::Success);
+  auto readData = IO::DataBlock<T>::fromGeneric(io.readDataset(path));
+  REQUIRE(readData.data == data);
+}
+}  // namespace
+
 TEST_CASE("HDF5RecordingData write operations", "[hdf5recordingdata]")
 {
   std::string path = getTestFilePath("test_HDF5RecordingData_write.h5");
@@ -63,6 +83,20 @@ TEST_CASE("HDF5RecordingData write operations", "[hdf5recordingdata]")
     }
   }
 
+  SECTION("Write and read back all numeric data types")
+  {
+    writeAndReadNumeric<int8_t>(*hdf5io, BaseDataType::I8, "/i8");
+    writeAndReadNumeric<int16_t>(*hdf5io, BaseDataType::I16, "/i16");
+    writeAndReadNumeric<int32_t>(*hdf5io, BaseDataType::I32, "/i32");
+    writeAndReadNumeric<int64_t>(*hdf5io, BaseDataType::I64, "/i64");
+    writeAndReadNumeric<uint8_t>(*hdf5io, BaseDataType::U8, "/u8");
+    writeAndReadNumeric<uint16_t>(*hdf5io, BaseDataType::U16, "/u16");
+    writeAndReadNumeric<uint32_t>(*hdf5io, BaseDataType::U32, "/u32");
+    writeAndReadNumeric<uint64_t>(*hdf5io, BaseDataType::U64, "/u64");
+    writeAndReadNumeric<float>(*hdf5io, BaseDataType::F32, "/f32");
+    writeAndReadNumeric<double>(*hdf5io, BaseDataType::F64, "/f64");
+  }
+
   SECTION("Write string data")
   {
     // Test fixed-length strings
@@ -87,6 +121,71 @@ TEST_CASE("HDF5RecordingData write operations", "[hdf5recordingdata]")
           dataset->writeDataBlock(SizeArray {5}, SizeArray {0}, strType, data);
       REQUIRE(status == Status::Success);
     }
+  }
+
+  SECTION("Append strings one block at a time")
+  {
+    // Each write reuses the HDF5 type in memory of the previous write
+    // (HDF5RecordingData::getMemType)
+    for (const auto& strType : {BaseDataType(BaseDataType::Type::T_STR, 8),
+                                BaseDataType(BaseDataType::Type::V_STR, 0)})
+    {
+      const std::string dsetPath = strType.type == BaseDataType::Type::T_STR
+          ? "/appendFixedStr"
+          : "/appendVarStr";
+      IO::ArrayDataSetConfig config(strType, SizeArray {0}, SizeArray {2});
+      auto dataset = hdf5io->createArrayDataSet(config, dsetPath);
+      std::vector<std::string> expected;
+      for (SizeType i = 0; i < 5; ++i) {
+        expected.push_back("row" + std::to_string(i));
+        REQUIRE(
+            dataset->writeDataBlock(SizeArray {1},
+                                    SizeArray {i},
+                                    strType,
+                                    std::vector<std::string> {expected.back()})
+            == Status::Success);
+      }
+      // A write with a different fixed length creates a new string type
+      if (strType.type == BaseDataType::Type::T_STR) {
+        REQUIRE(dataset->writeDataBlock(SizeArray {1},
+                                        SizeArray {5},
+                                        BaseDataType(BaseDataType::T_STR, 4),
+                                        std::vector<std::string> {"abcd"})
+                == Status::Success);
+        expected.push_back("abcd");
+      }
+      auto readData = IO::DataBlock<std::string>::fromGeneric(
+          hdf5io->readDataset(dsetPath));
+      REQUIRE(readData.data == expected);
+    }
+  }
+
+  SECTION("Append array types one block at a time")
+  {
+    // Each write reuses the HDF5 type in memory of the previous write
+    // (HDF5RecordingData::getMemType)
+    BaseDataType arrayType(BaseDataType::Type::T_I32, 3);
+    IO::ArrayDataSetConfig config(arrayType, SizeArray {0}, SizeArray {2});
+    auto dataset = hdf5io->createArrayDataSet(config, "/appendArray");
+    std::vector<int32_t> expected;
+    for (SizeType i = 0; i < 4; ++i) {
+      std::vector<int32_t> row = {static_cast<int32_t>(3 * i),
+                                  static_cast<int32_t>(3 * i + 1),
+                                  static_cast<int32_t>(3 * i + 2)};
+      REQUIRE(dataset->writeDataBlock(
+                  SizeArray {1}, SizeArray {i}, arrayType, row.data())
+              == Status::Success);
+      expected.insert(expected.end(), row.begin(), row.end());
+    }
+
+    const auto* hdf5Dataset =
+        dynamic_cast<const IO::HDF5::HDF5RecordingData*>(dataset.get());
+    REQUIRE(hdf5Dataset != nullptr);
+    hsize_t arraySize = 3;
+    H5::ArrayType memType(H5::PredType::NATIVE_INT32, 1, &arraySize);
+    std::vector<int32_t> readData(expected.size());
+    hdf5Dataset->getDataSet()->read(readData.data(), memType);
+    REQUIRE(readData == expected);
   }
 
   SECTION("Error cases")
@@ -358,6 +457,11 @@ TEST_CASE("HDF5RecordingData overwrite scalar and fixed-size datasets",
                                  {},
                                  BaseDataType::STR(6),
                                  std::vector<std::string> {"uvwxyz"})
+            == Status::Failure);
+    // numeric data in a dataset with dimensions (written with the C API)
+    const std::vector<int32_t> values = {7, 8};
+    REQUIRE(readio.getDataSet("/fixed_1d")
+                ->writeDataBlock({2}, {0}, BaseDataType::I32, values.data())
             == Status::Failure);
     readio.close();
   }

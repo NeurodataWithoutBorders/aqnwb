@@ -109,7 +109,7 @@ Status VectorData::appendData(const AQNWB::Types::CellValue& cellValue,
     return Status::Failure;
   }
 
-  auto dataType = ioPtr->getStorageObjectDataType(this->getPath());
+  auto dataType = getAppendDataType();
   if (!dataType.isCompatibleCellValue(cellValue)) {
     std::cerr << "VectorData::appendData: value type does not match dataset "
                  "type."
@@ -206,6 +206,14 @@ Status VectorData::appendData(const AQNWB::Types::CellValue& cellValue,
       cellValue.value);
 }
 
+AQNWB::IO::BaseDataType VectorData::getAppendDataType()
+{
+  if (!m_appendDataType.has_value()) {
+    m_appendDataType = getIO()->getStorageObjectDataType(this->getPath());
+  }
+  return m_appendDataType.value();
+}
+
 Status VectorData::appendBuffer(
     const IO::BaseDataType::BaseDataVectorVariant& buffer)
 {
@@ -224,7 +232,7 @@ Status VectorData::appendBuffer(
     return Status::Failure;
   }
 
-  auto dataType = ioPtr->getStorageObjectDataType(this->getPath());
+  auto dataType = getAppendDataType();
   if (!dataType.isCompatibleVector(buffer)) {
     std::cerr << "VectorData::appendBuffer: buffer type does not match dataset "
                  "type."
