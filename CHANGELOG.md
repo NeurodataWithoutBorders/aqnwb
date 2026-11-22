@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [Unreleased]
+## [0.5.1] - 2026-11-21
 
 ### Changed
 * Improved the speed of appends to `VectorData` by caching the data type of the dataset in `VectorData::appendBuffer` and `VectorData::appendData` instead of reading it from the file for every call. Together with the faster `HDF5RecordingData::writeDataBlock` (see below), adding one row to an `EventsTable` is ~5x faster, and to a table with a text column ~4.5x faster (Apple M4, HDF5 1.14.3). (@claude, @oruebel, [#366](https://github.com/NeurodataWithoutBorders/aqnwb/pull/366))
@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 * Fixed `HDF5IO::open` to return `Status::Failure` instead of throwing if HDF5 can't open or create the file and updated `HDF5IO::open`, `HDF5IO::openS3`, and `HDF5IO::openRemote` to print the HDF5 error if opening fails. (@claude, @oruebel, [#363](https://github.com/NeurodataWithoutBorders/aqnwb/pull/363))
 * Fixed the warnings of cppcheck 2.19 and 2.22, which the code scanning workflow reports since `ubuntu-latest` moved to Ubuntu 26.04. (@claude, @oruebel, [#364](https://github.com/NeurodataWithoutBorders/aqnwb/pull/364))
-* Fixed the Windows test workflow, which failed to configure since the runners use CMake 4.5: vcpkg's HDF5 wrapper uses `add_compile_definitions`, which CMake 4.5 reports as a `non-target-directive` warning, and the presets make developer warnings errors. The workflow now passes `-Wno-error=non-target-directive` on Windows. (@claude, @oruebel, [#369](https://github.com/NeurodataWithoutBorders/aqnwb/pull/369))
+* Fixed the Windows test workflow failing to configure since the runners use CMake 4.5, which reports the `add_compile_definitions` call in vcpkg's HDF5 wrapper as a `non-target-directive` warning that the presets make an error. The workflow now passes `-Wno-error=non-target-directive` on Windows. (@claude, @oruebel, [#369](https://github.com/NeurodataWithoutBorders/aqnwb/pull/369))
 
 
 ## [0.5.0] - 2026-11-03
