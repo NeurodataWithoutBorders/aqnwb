@@ -1833,6 +1833,37 @@ H5::DataType HDF5IO::getNativeType(IO::BaseDataType type)
   }
 }
 
+hid_t HDF5IO::getNativeTypeId(const IO::BaseDataType& type)
+{
+  if (type.typeSize != 1) {
+    return H5I_INVALID_HID;  // array types have no predefined native type
+  }
+  switch (type.type) {
+    case IO::BaseDataType::Type::T_I8:
+      return H5T_NATIVE_INT8;
+    case IO::BaseDataType::Type::T_I16:
+      return H5T_NATIVE_INT16;
+    case IO::BaseDataType::Type::T_I32:
+      return H5T_NATIVE_INT32;
+    case IO::BaseDataType::Type::T_I64:
+      return H5T_NATIVE_INT64;
+    case IO::BaseDataType::Type::T_U8:
+      return H5T_NATIVE_UINT8;
+    case IO::BaseDataType::Type::T_U16:
+      return H5T_NATIVE_UINT16;
+    case IO::BaseDataType::Type::T_U32:
+      return H5T_NATIVE_UINT32;
+    case IO::BaseDataType::Type::T_U64:
+      return H5T_NATIVE_UINT64;
+    case IO::BaseDataType::Type::T_F32:
+      return H5T_NATIVE_FLOAT;
+    case IO::BaseDataType::Type::T_F64:
+      return H5T_NATIVE_DOUBLE;
+    default:
+      return H5I_INVALID_HID;
+  }
+}
+
 AQNWB::IO::BaseDataType HDF5IO::getBaseDataType(const H5::DataType& nativeType)
 {
   if (nativeType == H5::PredType::NATIVE_INT8) {

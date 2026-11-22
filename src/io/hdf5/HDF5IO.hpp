@@ -504,6 +504,23 @@ public:
   static H5::DataType getNativeType(IO::BaseDataType type);
 
   /**
+   * @brief Returns the ID of the predefined HDF5 native type for a numeric
+   * base data type.
+   *
+   * Unlike getNativeType, this doesn't create an H5::DataType object, which
+   * copies the type (H5Tcopy) and closes it again. This is used by the write
+   * path for small writes, where these copies cost more than the write itself.
+   * The returned ID is a predefined type (e.g., H5T_NATIVE_INT16) and must not
+   * be closed.
+   *
+   * @param type The base data type.
+   * @return The ID of the HDF5 native type, or H5I_INVALID_HID for types
+   * without a predefined native type (strings and array types, i.e.,
+   * typeSize != 1).
+   */
+  static hid_t getNativeTypeId(const IO::BaseDataType& type);
+
+  /**
    * @brief Returns the BaseDataType for a given HDF5 native data type
    *
    * This function implements the opposite mapping of getNativeType.
