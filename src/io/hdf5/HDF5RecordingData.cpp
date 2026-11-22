@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <iostream>
 #include <memory>
+#include <type_traits>
 #include <vector>
 
 #include "io/hdf5/HDF5RecordingData.hpp"
@@ -66,22 +67,11 @@ Status HDF5RecordingData::writeDataBlock(const SizeArray& dataShape,
       {
         return Status::Failure;
       }
-    } else {
-      // validate and allocate space
-      DataSpace mSpace;
-      DataSpace fSpace;
-      Status setupStatus = writeDataBlockHelper(dataShape,
-                                                positionOffset,
-                                                mSpace,  // output
-                                                fSpace  // output
-      );
-      if (setupStatus == Status::Failure) {
-        return Status::Failure;
-      }
-
-      // Write the data
-      DataType nativeType = HDF5IO::getNativeType(type);
-      m_dataset->write(data, nativeType, mSpace, fSpace);
+    } else if (writeBlock(
+                   dataShape, positionOffset, HDF5IO::getNativeType(type), data)
+               != Status::Success)
+    {
+      return Status::Failure;
     }
 
     // Update position for simple extension
@@ -116,28 +106,22 @@ Status HDF5RecordingData::writeDataBlock(const SizeArray& dataShape,
     return Status::Failure;
   }
   try {
-    // validate and allocate space
-    DataSpace mSpace;
-    DataSpace fSpace;
-    Status setupStatus = writeDataBlockHelper(dataShape,
-                                              positionOffset,
-                                              mSpace,  // output
-                                              fSpace  // output
-    );
-    if (setupStatus == Status::Failure) {
-      return Status::Failure;
+    if (!m_stringType || !m_stringBaseType.has_value()
+        || !(m_stringBaseType.value() == type))
+    {
+      m_stringType = std::make_unique<DataType>(HDF5IO::getNativeType(type));
+      m_stringBaseType = type;
     }
-    // Write the data
-    // Write the data
-    DataType nativeType = HDF5IO::getNativeType(type);
+    const DataType& nativeType = *m_stringType;
+    Status writeStatus = Status::Failure;
     if (type.type == BaseDataType::Type::V_STR) {
       // Handle variable length strings
       std::vector<const char*> cstrBuffer(data.size());
       for (size_t i = 0; i < data.size(); ++i) {
         cstrBuffer[i] = data[i].c_str();
       }
-      // Write the data
-      m_dataset->write(cstrBuffer.data(), nativeType, mSpace, fSpace);
+      writeStatus =
+          writeBlock(dataShape, positionOffset, nativeType, cstrBuffer.data());
     } else if (type.type == BaseDataType::Type::T_STR) {
       // Handle fixed-length strings
       std::vector<char> buffer(data.size() * type.typeSize, '\0');
@@ -149,11 +133,15 @@ Status HDF5RecordingData::writeDataBlock(const SizeArray& dataShape,
         std::memcpy(&buffer[bufferIndex], str.c_str(), str.size());
         bufferIndex += type.typeSize;
       }
-      m_dataset->write(buffer.data(), nativeType, mSpace, fSpace);
+      writeStatus =
+          writeBlock(dataShape, positionOffset, nativeType, buffer.data());
     } else {
       std::cerr
           << "HDF5RecordingData::writeDataBlock non-string type for string data"
           << std::endl;
+      return Status::Failure;
+    }
+    if (writeStatus != Status::Success) {
       return Status::Failure;
     }
 
@@ -184,46 +172,23 @@ Status HDF5RecordingData::writeNumericBlock(const SizeArray& dataShape,
                                             int64_t memType,
                                             const void* data)
 {
-  // Same semantics as writeDataBlockHelper + DataSet::write, but with the HDF5
-  // C API: the C++ API copies the dataspaces and the data type (H5Scopy,
-  // H5Tcopy) on assignment, which dominated the cost of small writes (e.g.,
-  // one row of a DynamicTable or one channel of a block).
-  const SizeType numDimensions = this->getNumDimensions();
-  if (dataShape.size() != numDimensions
-      || positionOffset.size() != numDimensions)
+  // Same as writeBlock, but with the HDF5 C API, which avoids the overhead
+  // of the C++ API (e.g., reference counting of the IDs of H5::DataType and
+  // H5::DataSpace objects) for small writes, such as one channel of a block
+  std::vector<hsize_t> offset, count;
+  if (prepareWrite(dataShape, positionOffset, offset, count) != Status::Success)
   {
     return Status::Failure;
   }
-
-  std::vector<hsize_t> dims(numDimensions), offset(numDimensions),
-      count(numDimensions);
-  bool needsExtend = false;
-  for (SizeType i = 0; i < numDimensions; ++i) {
-    offset[i] = static_cast<hsize_t>(positionOffset[i]);
-    count[i] = dataShape[i] == 0 ? 1 : static_cast<hsize_t>(dataShape[i]);
-    const hsize_t end = static_cast<hsize_t>(dataShape[i]) + offset[i];
-    dims[i] = std::max(static_cast<hsize_t>(m_shape[i]), end);
-    needsExtend = needsExtend || end > m_shape[i];
-  }
-
+  const int numDimensions = static_cast<int>(count.size());
   const hid_t dataset = m_dataset->getId();
-  if (needsExtend) {
-    if (H5Dset_extent(dataset, dims.data()) < 0) {
-      return Status::Failure;
-    }
-    for (SizeType i = 0; i < numDimensions; ++i) {
-      m_shape[i] = static_cast<SizeType>(dims[i]);
-    }
-  }
-
   const hid_t fileSpace = H5Dget_space(dataset);
   if (fileSpace < 0) {
     return Status::Failure;
   }
   herr_t status = H5Sselect_hyperslab(
       fileSpace, H5S_SELECT_SET, offset.data(), nullptr, count.data(), nullptr);
-  const hid_t memSpace =
-      H5Screate_simple(static_cast<int>(numDimensions), count.data(), nullptr);
+  const hid_t memSpace = H5Screate_simple(numDimensions, count.data(), nullptr);
   if (status >= 0 && memSpace >= 0) {
     status = H5Dwrite(dataset, memType, memSpace, fileSpace, H5P_DEFAULT, data);
   }
@@ -234,63 +199,70 @@ Status HDF5RecordingData::writeNumericBlock(const SizeArray& dataShape,
   return (status >= 0 && memSpace >= 0) ? Status::Success : Status::Failure;
 }
 
-Status HDF5RecordingData::writeDataBlockHelper(const SizeArray& dataShape,
-                                               const SizeArray& positionOffset,
-                                               DataSpace& mSpace,
-                                               DataSpace& fSpace)
+static_assert(std::is_same_v<hsize_t, uint64_t>,
+              "hsize_t is passed as uint64_t");
+
+Status HDF5RecordingData::prepareWrite(const SizeArray& dataShape,
+                                       const SizeArray& positionOffset,
+                                       std::vector<uint64_t>& offset,
+                                       std::vector<uint64_t>& count)
 {
   // Check that the dataShape and positionOffset inputs match the dimensions
   // of the dataset
-  SizeType numDimensions = this->getNumDimensions();
+  const SizeType numDimensions = this->getNumDimensions();
   if (dataShape.size() != numDimensions
       || positionOffset.size() != numDimensions)
   {
     return Status::Failure;
   }
 
-  // Scalar dataset: the write replaces the value of the dataset
-  if (numDimensions == 0) {
-    mSpace = DataSpace(H5S_SCALAR);
-    fSpace = m_dataset->getSpace();
-    return Status::Success;
-  }
-
-  // Ensure that we have enough space to accommodate new data
-  std::vector<hsize_t> dSetDims(numDimensions), offset(numDimensions);
+  // Ensure that we have enough space to accommodate new data. A scalar
+  // dataset has no dimensions: the write replaces its value.
+  offset.assign(numDimensions, 0);
+  count.assign(numDimensions, 0);
+  std::vector<hsize_t> dims(numDimensions);
   bool needsExtend = false;
   for (SizeType i = 0; i < numDimensions; ++i) {
     offset[i] = static_cast<hsize_t>(positionOffset[i]);
-
-    if (dataShape[i] + offset[i] > m_shape[i]) {
-      dSetDims[i] = dataShape[i] + offset[i];
-      needsExtend = true;
-    } else {
-      dSetDims[i] = m_shape[i];
-    }
+    count[i] = dataShape[i] == 0 ? 1 : static_cast<hsize_t>(dataShape[i]);
+    const hsize_t end = static_cast<hsize_t>(dataShape[i]) + offset[i];
+    dims[i] = std::max(static_cast<hsize_t>(m_shape[i]), end);
+    needsExtend = needsExtend || end > m_shape[i];
   }
 
   // Adjust dataset dimensions if necessary (only possible for chunked
   // datasets, so datasets with a fixed size can be overwritten as well)
   if (needsExtend) {
-    m_dataset->extend(dSetDims.data());
+    if (H5Dset_extent(m_dataset->getId(), dims.data()) < 0) {
+      return Status::Failure;
+    }
+    for (SizeType i = 0; i < numDimensions; ++i) {
+      m_shape[i] = static_cast<SizeType>(dims[i]);
+    }
+  }
+  return Status::Success;
+}
+
+Status HDF5RecordingData::writeBlock(const SizeArray& dataShape,
+                                     const SizeArray& positionOffset,
+                                     const DataType& memType,
+                                     const void* data)
+{
+  std::vector<hsize_t> offset, count;
+  if (prepareWrite(dataShape, positionOffset, offset, count) != Status::Success)
+  {
+    return Status::Failure;
   }
 
-  // Set the size to the new size based on the updated dimensionality
-  fSpace = m_dataset->getSpace();
-  fSpace.getSimpleExtentDims(dSetDims.data());
-  for (SizeType i = 0; i < numDimensions; ++i) {
-    m_shape[i] = dSetDims[i];
+  // Initialize the dataspaces directly: assigning an H5::DataSpace to an
+  // existing one copies the dataspace (H5Scopy)
+  DataSpace fSpace = m_dataset->getSpace();
+  DataSpace mSpace = count.empty()
+      ? DataSpace(H5S_SCALAR)
+      : DataSpace(static_cast<int>(count.size()), count.data());
+  if (!count.empty()) {
+    fSpace.selectHyperslab(H5S_SELECT_SET, count.data(), offset.data());
   }
-
-  // Create memory space with the shape of the data
-  std::vector<hsize_t> dataDims(numDimensions);
-  for (SizeType i = 0; i < numDimensions; ++i) {
-    dataDims[i] = dataShape[i] == 0 ? 1 : static_cast<hsize_t>(dataShape[i]);
-  }
-  mSpace = DataSpace(static_cast<int>(numDimensions), dataDims.data());
-
-  // Select hyperslab in the file space
-  fSpace.selectHyperslab(H5S_SELECT_SET, dataDims.data(), offset.data());
-
+  m_dataset->write(data, memType, mSpace, fSpace);
   return Status::Success;
 }

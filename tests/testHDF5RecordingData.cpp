@@ -123,6 +123,42 @@ TEST_CASE("HDF5RecordingData write operations", "[hdf5recordingdata]")
     }
   }
 
+  SECTION("Append strings one block at a time")
+  {
+    // Each write reuses the string type of the previous write
+    for (const auto& strType : {BaseDataType(BaseDataType::Type::T_STR, 8),
+                                BaseDataType(BaseDataType::Type::V_STR, 0)})
+    {
+      const std::string dsetPath = strType.type == BaseDataType::Type::T_STR
+          ? "/appendFixedStr"
+          : "/appendVarStr";
+      IO::ArrayDataSetConfig config(strType, SizeArray {0}, SizeArray {2});
+      auto dataset = hdf5io->createArrayDataSet(config, dsetPath);
+      std::vector<std::string> expected;
+      for (SizeType i = 0; i < 5; ++i) {
+        expected.push_back("row" + std::to_string(i));
+        REQUIRE(
+            dataset->writeDataBlock(SizeArray {1},
+                                    SizeArray {i},
+                                    strType,
+                                    std::vector<std::string> {expected.back()})
+            == Status::Success);
+      }
+      // A write with a different fixed length creates a new string type
+      if (strType.type == BaseDataType::Type::T_STR) {
+        REQUIRE(dataset->writeDataBlock(SizeArray {1},
+                                        SizeArray {5},
+                                        BaseDataType(BaseDataType::T_STR, 4),
+                                        std::vector<std::string> {"abcd"})
+                == Status::Success);
+        expected.push_back("abcd");
+      }
+      auto readData = IO::DataBlock<std::string>::fromGeneric(
+          hdf5io->readDataset(dsetPath));
+      REQUIRE(readData.data == expected);
+    }
+  }
+
   SECTION("Error cases")
   {
     // Test dimension mismatch

@@ -1,11 +1,13 @@
 #pragma once
 
+#include <optional>
+
 #include "io/BaseIO.hpp"
 
 namespace H5
 {
 class DataSet;
-class DataSpace;
+class DataType;
 }  // namespace H5
 
 namespace AQNWB::IO::HDF5
@@ -77,17 +79,37 @@ public:
 
 private:
   /**
-   * @brief Allocate space and validate parameters
+   * @brief Checks the shape and position of a data block and extends the
+   * dataset if the block doesn't fit.
+   *
+   * Used by both write paths, writeBlock and writeNumericBlock.
    * @param dataShape The size of the data block.
    * @param positionOffset The position of the data block to write to.
-   * @param mSpace The HDF5 memory space (return value)
-   * @param fSpace The HDF5 file space (return value)
+   * @param offset The position of the block in the dataset (output; empty for
+   * a scalar dataset)
+   * @param count The size of the block in the dataset, with dimensions of size
+   * 0 written as 1 (output; empty for a scalar dataset)
+   * @return The status of the operation.
+   */
+  Status prepareWrite(const SizeArray& dataShape,
+                      const SizeArray& positionOffset,
+                      std::vector<uint64_t>& offset,
+                      std::vector<uint64_t>& count);
+
+  /**
+   * @brief Write a block of data with the HDF5 C++ API (see writeDataBlock).
+   *
+   * Used for strings, scalar datasets and array types.
+   * @param dataShape The size of the data block.
+   * @param positionOffset The position of the data block to write to.
+   * @param memType The HDF5 type of the data in memory.
+   * @param data A pointer to the data block.
    * @return The status of the write operation.
    */
-  Status writeDataBlockHelper(const SizeArray& dataShape,
-                              const SizeArray& positionOffset,
-                              H5::DataSpace& mSpace,
-                              H5::DataSpace& fSpace);
+  Status writeBlock(const SizeArray& dataShape,
+                    const SizeArray& positionOffset,
+                    const H5::DataType& memType,
+                    const void* data);
 
   /**
    * @brief Write a block of numeric data with the HDF5 C API (see
@@ -108,5 +130,16 @@ private:
    * @brief Pointer to an extendable HDF5 dataset
    */
   std::unique_ptr<H5::DataSet> m_dataset;
+
+  /**
+   * @brief The HDF5 type of the last string write and its base data type.
+   *
+   * Creating a string type (H5Tcopy, H5Tset_size, H5Tset_cset) for each
+   * write is a measurable part of the cost of small string writes (e.g., one
+   * row of a table with a text column), so the type is reused while the base
+   * data type of the writes stays the same.
+   */
+  std::unique_ptr<H5::DataType> m_stringType;
+  std::optional<IO::BaseDataType> m_stringBaseType;
 };
 }  // namespace AQNWB::IO::HDF5
