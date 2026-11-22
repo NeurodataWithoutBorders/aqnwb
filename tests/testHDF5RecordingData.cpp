@@ -159,6 +159,33 @@ TEST_CASE("HDF5RecordingData write operations", "[hdf5recordingdata]")
     }
   }
 
+  SECTION("Append array types one block at a time")
+  {
+    // Each write reuses the array type of the previous write
+    BaseDataType arrayType(BaseDataType::Type::T_I32, 3);
+    IO::ArrayDataSetConfig config(arrayType, SizeArray {0}, SizeArray {2});
+    auto dataset = hdf5io->createArrayDataSet(config, "/appendArray");
+    std::vector<int32_t> expected;
+    for (SizeType i = 0; i < 4; ++i) {
+      std::vector<int32_t> row = {static_cast<int32_t>(3 * i),
+                                  static_cast<int32_t>(3 * i + 1),
+                                  static_cast<int32_t>(3 * i + 2)};
+      REQUIRE(dataset->writeDataBlock(
+                  SizeArray {1}, SizeArray {i}, arrayType, row.data())
+              == Status::Success);
+      expected.insert(expected.end(), row.begin(), row.end());
+    }
+
+    const auto* hdf5Dataset =
+        dynamic_cast<const IO::HDF5::HDF5RecordingData*>(dataset.get());
+    REQUIRE(hdf5Dataset != nullptr);
+    hsize_t arraySize = 3;
+    H5::ArrayType memType(H5::PredType::NATIVE_INT32, 1, &arraySize);
+    std::vector<int32_t> readData(expected.size());
+    hdf5Dataset->getDataSet()->read(readData.data(), memType);
+    REQUIRE(readData == expected);
+  }
+
   SECTION("Error cases")
   {
     // Test dimension mismatch
