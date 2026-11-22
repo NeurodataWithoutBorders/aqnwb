@@ -234,6 +234,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memdesc:a770e28b7c5907a72335e53a9987be12b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the default size of the raw data chunk cache (per dataset) of the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> library in bytes, i.e., the size used if no <a class="el" href="struct_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_chunk_cache_config.html" title="Configuration of the HDF5 raw data chunk cache used for each dataset of a file (see H5Pset_cache),...">ChunkCacheConfig</a> is given when opening a file.  <br /></td></tr>
 <tr class="memitem:adad97dc270883ff2e21a01fc68d58bef" id="r_adad97dc270883ff2e21a01fc68d58bef"><td class="memItemLeft" align="right" valign="top">static H5::DataType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adad97dc270883ff2e21a01fc68d58bef">getNativeType</a> (<a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">IO::BaseDataType</a> type)</td></tr>
 <tr class="memdesc:adad97dc270883ff2e21a01fc68d58bef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> native data type for a given base data type.  <br /></td></tr>
+<tr class="memitem:a338bbaa2475bdfcdd5f3f53d77fc99b2" id="r_a338bbaa2475bdfcdd5f3f53d77fc99b2"><td class="memItemLeft" align="right" valign="top">static hid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a338bbaa2475bdfcdd5f3f53d77fc99b2">getNativeNumericTypeId</a> (const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">IO::BaseDataType</a> &amp;type)</td></tr>
+<tr class="memdesc:a338bbaa2475bdfcdd5f3f53d77fc99b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the ID of the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> native type for a numeric base data type, without creating an H5::DataType.  <br /></td></tr>
 <tr class="memitem:a23f8ab1bc13e2c729c76f14bb246c9b0" id="r_a23f8ab1bc13e2c729c76f14bb246c9b0"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">IO::BaseDataType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a23f8ab1bc13e2c729c76f14bb246c9b0">getBaseDataType</a> (const H5::DataType &amp;nativeType)</td></tr>
 <tr class="memdesc:a23f8ab1bc13e2c729c76f14bb246c9b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html" title="Represents a base data type.">BaseDataType</a> for a given <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> native data type.  <br /></td></tr>
 <tr class="memitem:acdb9d079f684ceb29d16ebc5e7e57127" id="r_acdb9d079f684ceb29d16ebc5e7e57127"><td class="memItemLeft" align="right" valign="top">static H5::DataType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acdb9d079f684ceb29d16ebc5e7e57127">getH5Type</a> (<a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">IO::BaseDataType</a> type)</td></tr>
@@ -1499,6 +1501,48 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="a338bbaa2475bdfcdd5f3f53d77fc99b2" name="a338bbaa2475bdfcdd5f3f53d77fc99b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a338bbaa2475bdfcdd5f3f53d77fc99b2">&#9670;&#160;</a></span>getNativeNumericTypeId()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">hid_t HDF5IO::getNativeNumericTypeId </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_base_data_type.html">IO::BaseDataType</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>type</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the ID of the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> native type for a numeric base data type, without creating an H5::DataType. </p>
+<p>This covers the numeric types of getNativeType (integers and floating point numbers with typeSize 1) and is meant for code that calls the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> C API directly, such as the write path of <a class="el" href="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a98aad315b2d3f0a59642fe705c8a795a" title="Writes a block of data to the HDF5 dataset.">HDF5RecordingData::writeDataBlock</a>. getNativeType returns an H5::DataType object, which holds a reference to the ID of the type: creating the object increments the reference count of the ID, and destroying it decrements it again (H5Tclose). For small writes, this is a measurable part of the cost (about 1 us per write with <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> 1.14). This function instead returns the ID of the predefined <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> type (e.g., H5T_NATIVE_INT16) without an object.</p>
+<dl class="section note"><dt>Note</dt><dd>The returned ID belongs to the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> library, not to the caller. It stays valid while the library is loaded, and the caller must not release it with H5Tclose.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">type</td><td>The base data type. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The ID of the <a class="el" href="namespace_a_q_n_w_b_1_1_i_o_1_1_h_d_f5.html" title="Namespace for all components of the HDF5 I/O backend.">HDF5</a> native type, or H5I_INVALID_HID if the type has no predefined native type: strings, array types (typeSize != 1), and unknown types (for which getNativeType falls back to NATIVE_INT32). </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#adad97dc270883ff2e21a01fc68d58bef" title="Returns the HDF5 native data type for a given base data type.">getNativeType</a> </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o_a338bbaa2475bdfcdd5f3f53d77fc99b2_icgraph.svg" width="492" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
 <a id="adad97dc270883ff2e21a01fc68d58bef" name="adad97dc270883ff2e21a01fc68d58bef"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adad97dc270883ff2e21a01fc68d58bef">&#9670;&#160;</a></span>getNativeType()</h2>
 
@@ -1534,7 +1578,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o_adad97dc270883ff2e21a01fc68d58bef_icgraph.svg" width="492" height="314"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o_adad97dc270883ff2e21a01fc68d58bef_icgraph.svg" width="100%" height="510"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>

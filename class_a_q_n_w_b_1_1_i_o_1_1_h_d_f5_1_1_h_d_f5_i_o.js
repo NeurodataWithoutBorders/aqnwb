@@ -28,6 +28,7 @@ var class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o =
     [ "getDefaultChunkCacheNumBytes", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a770e28b7c5907a72335e53a9987be12b", null ],
     [ "getH5ObjectType", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#ab665700f5c67a74022c82353ec3d73ef", null ],
     [ "getH5Type", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#acdb9d079f684ceb29d16ebc5e7e57127", null ],
+    [ "getNativeNumericTypeId", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a338bbaa2475bdfcdd5f3f53d77fc99b2", null ],
     [ "getNativeType", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#adad97dc270883ff2e21a01fc68d58bef", null ],
     [ "getStorageObjectChunking", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a14071a0041e2c4931ba760cdd2c0ad66", null ],
     [ "getStorageObjectDataType", "class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a5e0f1875a4e1a57493875dc89a19ee1d", null ],

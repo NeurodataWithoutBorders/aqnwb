@@ -1,9 +1,19 @@
 <map id="AQNWB::IO::HDF5::HDF5RecordingData::writeDataBlock" name="AQNWB::IO::HDF5::HDF5RecordingData::writeDataBlock">
-<area shape="rect" id="Node000001" title="Writes a block of data to the HDF5 dataset." alt="" coords="5,39,245,79"/>
-<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#adad97dc270883ff2e21a01fc68d58bef" title="Returns the HDF5 native data type for a given base data type." alt="" coords="315,5,510,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="245,42,302,38,297,39,245,48"/>
-<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#afdf1dd4cbbd04b27a021f535020e1033" title="Allocate space and validate parameters." alt="" coords="293,71,532,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="245,70,280,76,274,76,245,75"/>
-<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html#a01de766ba141485cbf422e5632d8cdba" title="Get the number of dimensions in the dataset." alt="" coords="580,71,771,111"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="533,88,567,91,562,91,533,94"/>
+<area shape="rect" id="Node000001" title="Writes a block of data to the HDF5 dataset." alt="" coords="5,128,245,169"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a36b117992090c12b18430301d96321a8" title="Returns the HDF5 type in memory for writes with the C++ API." alt="" coords="293,5,532,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="158,125,219,91,292,57,316,50,312,52,294,61,222,96,161,130"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#a338bbaa2475bdfcdd5f3f53d77fc99b2" title="Returns the ID of the HDF5 native type for a numeric base data type, without creating an H5::DataType..." alt="" coords="315,71,510,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="229,125,302,112,298,115,231,130"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_base_recording_data.html#a01de766ba141485cbf422e5632d8cdba" title="Get the number of dimensions in the dataset." alt="" coords="867,157,1059,198"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="245,150,853,171,851,176,245,155"/>
+<area shape="rect" id="Node000006" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a18c5e275b222146ea867f2aaac289008" title="Write a block of data with the HDF5 C++ API (see writeDataBlock)." alt="" coords="293,185,532,226"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="230,167,295,181,289,182,230,172"/>
+<area shape="rect" id="Node000008" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a8f69cf5ded5e232fce217aa4c504f25f" title="Write a block of numeric data with the HDF5 C API (see writeDataBlock). The dataset must have at leas..." alt="" coords="293,251,532,291"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="160,166,222,201,294,235,317,246,311,245,292,240,219,206,159,172"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_i_o.html#adad97dc270883ff2e21a01fc68d58bef" title="Returns the HDF5 native data type for a given base data type." alt="" coords="602,5,797,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="532,23,590,25,584,26,533,28"/>
+<area shape="rect" id="Node000007" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a18ddf58b5500fb059eae17d8d4bb0cb9" title="Checks the shape and position of a data block and extends the dataset if the block doesn&#39;t fit." alt="" coords="580,185,819,226"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="532,203,567,205,562,206,533,208"/>
+<area shape="poly" id="edge7_Node000007_Node000005" title=" " alt="" coords="820,190,854,189,849,190,820,196"/>
+<area shape="poly" id="edge9_Node000008_Node000007" title=" " alt="" coords="504,247,590,230,595,230,505,253"/>
 </map>

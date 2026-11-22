@@ -1,0 +1,12 @@
+<map id="AQNWB::IO::HDF5::HDF5RecordingData::prepareWrite" name="AQNWB::IO::HDF5::HDF5RecordingData::prepareWrite">
+<area shape="rect" id="Node000001" title="Checks the shape and position of a data block and extends the dataset if the block doesn&#39;t fit." alt="" coords="580,39,819,79"/>
+<area shape="rect" id="Node000002" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a18c5e275b222146ea867f2aaac289008" title="Write a block of data with the HDF5 C++ API (see writeDataBlock)." alt="" coords="293,5,532,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="562,43,533,42,533,37,567,43"/>
+<area shape="rect" id="Node000005" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a8f69cf5ded5e232fce217aa4c504f25f" title="Write a block of numeric data with the HDF5 C API (see writeDataBlock). The dataset must have at leas..." alt="" coords="293,71,532,111"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="567,74,533,80,532,75,562,74"/>
+<area shape="rect" id="Node000003" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a46c696f828274f96765373e3ec5950d7" title="Writes a block of string data (any number of dimensions)." alt="" coords="5,5,245,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="275,26,246,28,245,23,280,25"/>
+<area shape="rect" id="Node000004" href="$class_a_q_n_w_b_1_1_i_o_1_1_h_d_f5_1_1_h_d_f5_recording_data.html#a98aad315b2d3f0a59642fe705c8a795a" title="Writes a block of data to the HDF5 dataset." alt="" coords="5,71,245,111"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="308,49,218,73,217,67,302,51"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="275,91,245,94,245,88,280,91"/>
+</map>

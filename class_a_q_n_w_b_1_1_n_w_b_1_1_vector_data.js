@@ -8,9 +8,11 @@ var class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data =
     [ "create", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a1896987cb4ab1c22d10ca3a3ff94f60b", null ],
     [ "createDataSpec", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#aa8d368baba278380b96624f0ff464227", null ],
     [ "createReferenceVectorData", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#ab09082d981857c352ffb466b0e3170a3", null ],
+    [ "getAppendDataType", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a43f28bf2a4e3962f189513b26325cd9e", null ],
     [ "getNamespace", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a14d3fb14c1eb5cb40bf37a8666d32a91", null ],
     [ "getTypeName", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a9e1ef6be8f543a60dd03eef09d648c36", null ],
     [ "initialize", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a6a6c873a78cabd4d99098fa8febcf8cd", null ],
     [ "readDescription", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a3d6a9d8842807581b8071283295dae46", null ],
+    [ "m_appendDataType", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#acdb47964464975a6e11aa14821482668", null ],
     [ "registered_", "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a933cc5108110b652ec47b68367c9c994", null ]
 ];
