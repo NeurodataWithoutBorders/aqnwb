@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 * Fixed `HDF5IO::open` to return `Status::Failure` instead of throwing if HDF5 can't open or create the file and updated `HDF5IO::open`, `HDF5IO::openS3`, and `HDF5IO::openRemote` to print the HDF5 error if opening fails. (@claude, @oruebel, [#363](https://github.com/NeurodataWithoutBorders/aqnwb/pull/363))
 * Fixed the warnings of cppcheck 2.19 and 2.22, which the code scanning workflow reports since `ubuntu-latest` moved to Ubuntu 26.04. (@claude, @oruebel, [#364](https://github.com/NeurodataWithoutBorders/aqnwb/pull/364))
+* Fixed the Windows test workflow, which failed to configure since the runners use CMake 4.5: vcpkg's HDF5 wrapper uses `add_compile_definitions`, which CMake 4.5 reports as a `non-target-directive` warning, and the presets make developer warnings errors. The workflow now passes `-Wno-error=non-target-directive` on Windows. (@claude, @oruebel, [#TODO](https://github.com/NeurodataWithoutBorders/aqnwb/pull/TODO))
 
 
 ## [0.5.0] - 2026-11-03
