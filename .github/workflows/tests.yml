@@ -54,9 +54,13 @@ jobs:
         vcpkg install hdf5[cpp]:x64-windows catch2:x64-windows curl:x64-windows
         vcpkg integrate install
 
+    # On Windows, -Wno-error=non-target-directive keeps the warning that CMake >= 4.5 reports for the
+    # add_compile_definitions call in vcpkg's HDF5 wrapper (ports/hdf5/vcpkg-cmake-wrapper.cmake) from
+    # failing the build with the -Werror=dev of the presets. Remove it once vcpkg fixes the wrapper
+    # (https://github.com/microsoft/vcpkg/issues/55235).
     - name: Configure
       shell: pwsh
-      run: cmake "--preset=ci-$("${{ matrix.os }}".split("-")[0])" -DAQNWB_USE_REMFILE=ON
+      run: cmake "--preset=ci-$("${{ matrix.os }}".split("-")[0])" -DAQNWB_USE_REMFILE=ON ${{ matrix.os == 'windows-latest' && '-Wno-error=non-target-directive' || '' }}
 
     - name: Build
       run: cmake --build build --config Release -j 2
