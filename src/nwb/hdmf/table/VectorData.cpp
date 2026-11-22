@@ -73,9 +73,6 @@ Status VectorData::initialize(const IO::BaseArrayDataSetConfig& dataConfig,
     return Status::Failure;
   }
 
-  // The dataset (or the target of a link) may have a different data type
-  // than the one cached by an earlier append
-  m_appendDataType.reset();
   Status dataStatus = Data::initialize(dataConfig);
   if (dataConfig.isLink()) {
     const auto* linkConfig =
