@@ -413,16 +413,35 @@ Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
 
   SizeType rowCount = rows.size();
 
-  // 1. Identify target columns and cache them in VectorIndices
+  // 1. Classify the columns once per call: the VectorIndex columns with their
+  // targets, and the names of the target columns
+  struct ColumnPlan
+  {
+    std::shared_ptr<VectorIndex> vectorIndex;
+    std::shared_ptr<VectorData> target;  // target of vectorIndex
+    std::string targetName;
+    size_t existingTargetElements = 0;  // elements in the target on disk
+    bool isTarget = false;  // the column is the target of a VectorIndex
+    IO::BaseDataType::BaseDataVectorVariant* columnBuffer = nullptr;
+    IO::BaseDataType::BaseDataVectorVariant* indexBuffer = nullptr;
+  };
+  std::vector<ColumnPlan> plans(m_configuredColumns.size());
   std::unordered_set<std::string> targetColumns;
-  for (const auto& col : m_configuredColumns) {
-    auto vectorIndex = std::dynamic_pointer_cast<VectorIndex>(col.column);
-    if (vectorIndex) {
-      auto target = vectorIndex->readTarget();
-      if (target) {
-        targetColumns.insert(target->getName());
+  for (size_t c = 0; c < m_configuredColumns.size(); c++) {
+    auto& plan = plans[c];
+    plan.vectorIndex =
+        std::dynamic_pointer_cast<VectorIndex>(m_configuredColumns[c].column);
+    if (plan.vectorIndex) {
+      plan.target = plan.vectorIndex->readTarget();
+      if (plan.target) {
+        plan.targetName = plan.target->getName();
+        targetColumns.insert(plan.targetName);
       }
     }
+  }
+  for (size_t c = 0; c < m_configuredColumns.size(); c++) {
+    plans[c].isTarget =
+        targetColumns.find(m_configuredColumns[c].name) != targetColumns.end();
   }
 
   // 2. Validate that all rows have the required columns
@@ -444,8 +463,9 @@ Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
       }
     }
     // 2.2 Validate against the configured columns
-    for (const auto& col : m_configuredColumns) {
-      if (targetColumns.find(col.name) != targetColumns.end()) {
+    for (size_t c = 0; c < m_configuredColumns.size(); c++) {
+      const auto& col = m_configuredColumns[c];
+      if (plans[c].isTarget) {
         // Target columns must be present in the row
         if (row.find(col.name) == row.end()) {
           std::cerr
@@ -453,23 +473,20 @@ Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
               << col.name << "'." << std::endl;
           return Status::Failure;
         }
-      } else {
-        auto vectorIndex = std::dynamic_pointer_cast<VectorIndex>(col.column);
-        if (!vectorIndex) {
-          // Regular columns must be present in the row
-          auto cell = row.find(col.name);
-          if (cell == row.end()) {
-            std::cerr << "DynamicTable::addRows: Missing value for column '"
-                      << col.name << "'." << std::endl;
-            return Status::Failure;
-          }
-          if (std::holds_alternative<AQNWB::Types::VectorDataVariant>(
-                  cell->second.value))
-          {
-            std::cerr << "DynamicTable::addRows: Regular column '" << col.name
-                      << "' does not accept vector-valued cells." << std::endl;
-            return Status::Failure;
-          }
+      } else if (!plans[c].vectorIndex) {
+        // Regular columns must be present in the row
+        auto cell = row.find(col.name);
+        if (cell == row.end()) {
+          std::cerr << "DynamicTable::addRows: Missing value for column '"
+                    << col.name << "'." << std::endl;
+          return Status::Failure;
+        }
+        if (std::holds_alternative<AQNWB::Types::VectorDataVariant>(
+                cell->second.value))
+        {
+          std::cerr << "DynamicTable::addRows: Regular column '" << col.name
+                    << "' does not accept vector-valued cells." << std::endl;
+          return Status::Failure;
         }
       }
     }
@@ -489,49 +506,53 @@ Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
   // Initialize empty variants with the correct underlying vector type (e.g.
   // std::vector<float>) based on the column's data type, so that std::visit can
   // append to them later.
-  for (const auto& col : m_configuredColumns) {
-    auto vectorIndex = std::dynamic_pointer_cast<VectorIndex>(col.column);
-    if (vectorIndex) {
-      auto target = vectorIndex->readTarget();
-      if (!target)
+  for (size_t c = 0; c < m_configuredColumns.size(); c++) {
+    const auto& col = m_configuredColumns[c];
+    auto& plan = plans[c];
+    if (plan.vectorIndex) {
+      if (!plan.target)
         return Status::Failure;
-      std::string targetName = target->getName();
-      columnBuffers[targetName] = IO::BaseDataType::createEmptyVectorVariant(
-          target->readData()->getDataType());
+      auto targetData = plan.target->readData();
+      columnBuffers[plan.targetName] =
+          IO::BaseDataType::createEmptyVectorVariant(targetData->getDataType());
       indexBuffers[col.name] = IO::BaseDataType::createEmptyVectorVariant(
-          vectorIndex->readData()->getDataType());
-    } else if (targetColumns.find(col.name) == targetColumns.end()) {
+          plan.vectorIndex->readData()->getDataType());
+      // For ragged columns, we need to track how many elements exist in the
+      // target dataset so we know what the boundary index is for the current
+      // ragged element. Nothing is written before step 4, so this is constant.
+      if (targetData) {
+        auto shape = targetData->getShape();
+        if (!shape.empty()) {
+          plan.existingTargetElements = shape[0];
+        }
+      }
+    } else if (!plan.isTarget) {
       columnBuffers[col.name] =
           IO::BaseDataType::createEmptyVectorVariant(col.dataType);
+    }
+  }
+  // The maps are complete, so pointers to their values stay valid
+  for (size_t c = 0; c < m_configuredColumns.size(); c++) {
+    auto& plan = plans[c];
+    if (plan.vectorIndex) {
+      plan.columnBuffer = &columnBuffers[plan.targetName];
+      plan.indexBuffer = &indexBuffers[m_configuredColumns[c].name];
+    } else if (!plan.isTarget) {
+      plan.columnBuffer = &columnBuffers[m_configuredColumns[c].name];
     }
   }
 
   // Iterate over each user-provided row and serialize their cell values into
   // our memory buffers
   for (const auto& row : rows) {
-    for (const auto& col : m_configuredColumns) {
-      auto vectorIndex = std::dynamic_pointer_cast<VectorIndex>(col.column);
-      if (vectorIndex) {
-        auto target = vectorIndex->readTarget();
-        if (!target)
-          return Status::Failure;
-        std::string targetName = target->getName();
-        auto it = row.find(targetName);
+    for (size_t c = 0; c < m_configuredColumns.size(); c++) {
+      const auto& col = m_configuredColumns[c];
+      const auto& plan = plans[c];
+      if (plan.vectorIndex) {
+        auto it = row.find(plan.targetName);
         if (it != row.end()) {
-          // For ragged columns, we need to track how many elements exist in the
-          // target dataset so we know what the boundary index is for the
-          // current ragged element.
-          size_t existingTargetElements = 0;
-          auto targetData = target->readData();
-          if (targetData) {
-            auto shape = targetData->getShape();
-            if (!shape.empty()) {
-              existingTargetElements = shape[0];
-            }
-          }
-
           Status appendStatus =
-              appendCellValueToBuffer(columnBuffers[targetName], it->second);
+              appendCellValueToBuffer(*plan.columnBuffer, it->second);
           if (appendStatus != Status::Success) {
             std::cerr << "DynamicTable::addRows: Failed to append row to "
                          "VectorIndex '"
@@ -548,9 +569,9 @@ Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
                 else
                   return vec.size();
               },
-              columnBuffers[targetName]);
+              *plan.columnBuffer);
 
-          size_t newIndex = existingTargetElements + newTargetSize;
+          size_t newIndex = plan.existingTargetElements + newTargetSize;
           Status indexAppendStatus = std::visit(
               [newIndex, &col](auto& vec) -> Status
               {
@@ -579,18 +600,18 @@ Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
                   }
                 }
               },
-              indexBuffers[col.name]);
+              *plan.indexBuffer);
 
           if (indexAppendStatus != Status::Success) {
             return Status::Failure;
           }
         }
-      } else if (targetColumns.find(col.name) == targetColumns.end()) {
+      } else if (!plan.isTarget) {
         // Regular column (not a target of a VectorIndex)
         auto it = row.find(col.name);
         if (it != row.end()) {
           Status appendStatus =
-              appendCellValueToBuffer(columnBuffers[col.name], it->second);
+              appendCellValueToBuffer(*plan.columnBuffer, it->second);
           if (appendStatus != Status::Success) {
             std::cerr
                 << "DynamicTable::addRows: Failed to append value to column '"
@@ -603,13 +624,12 @@ Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
   }
 
   // 4. Write buffers to columns
-  for (const auto& col : m_configuredColumns) {
-    auto vectorIndex = std::dynamic_pointer_cast<VectorIndex>(col.column);
+  for (size_t c = 0; c < m_configuredColumns.size(); c++) {
+    const auto& col = m_configuredColumns[c];
+    const auto& vectorIndex = plans[c].vectorIndex;
     if (vectorIndex) {
-      auto target = vectorIndex->readTarget();
-      if (!target)
-        return Status::Failure;
-      std::string targetName = target->getName();
+      const auto& target = plans[c].target;
+      const std::string& targetName = plans[c].targetName;
 
       // Write index buffer
       IO::BaseDataType::BaseDataVectorVariant indexVariant =
@@ -635,7 +655,7 @@ Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
         // it
         columnBuffers.erase(targetName);
       }
-    } else if (targetColumns.find(col.name) == targetColumns.end()) {
+    } else if (!plans[c].isTarget) {
       // Write regular column buffer
       Status writeStatus = col.column->appendBuffer(columnBuffers[col.name]);
       if (writeStatus != Status::Success) {
