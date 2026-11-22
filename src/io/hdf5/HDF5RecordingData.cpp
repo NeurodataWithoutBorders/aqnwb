@@ -4,7 +4,6 @@
 #include <filesystem>
 #include <iostream>
 #include <memory>
-#include <type_traits>
 #include <vector>
 
 #include "io/hdf5/HDF5RecordingData.hpp"
@@ -162,11 +161,9 @@ Status HDF5RecordingData::writeDataBlock(const SizeArray& dataShape,
   return Status::Success;
 }
 
-static_assert(sizeof(hid_t) == sizeof(int64_t), "hid_t is passed as int64_t");
-
 Status HDF5RecordingData::writeNumericBlock(const SizeArray& dataShape,
                                             const SizeArray& positionOffset,
-                                            int64_t memType,
+                                            hid_t memType,
                                             const void* data)
 {
   // Same as writeBlock, but with the HDF5 C API, which avoids the overhead
@@ -196,13 +193,10 @@ Status HDF5RecordingData::writeNumericBlock(const SizeArray& dataShape,
   return (status >= 0 && memSpace >= 0) ? Status::Success : Status::Failure;
 }
 
-static_assert(std::is_same_v<hsize_t, uint64_t>,
-              "hsize_t is passed as uint64_t");
-
 Status HDF5RecordingData::prepareWrite(const SizeArray& dataShape,
                                        const SizeArray& positionOffset,
-                                       std::vector<uint64_t>& offset,
-                                       std::vector<uint64_t>& count)
+                                       std::vector<hsize_t>& offset,
+                                       std::vector<hsize_t>& count)
 {
   // Check that the dataShape and positionOffset inputs match the dimensions
   // of the dataset

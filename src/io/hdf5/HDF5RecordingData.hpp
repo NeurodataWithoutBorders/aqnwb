@@ -2,6 +2,8 @@
 
 #include <optional>
 
+#include <H5Ipublic.h>
+
 #include "io/BaseIO.hpp"
 
 namespace H5
@@ -93,8 +95,8 @@ private:
    */
   Status prepareWrite(const SizeArray& dataShape,
                       const SizeArray& positionOffset,
-                      std::vector<uint64_t>& offset,
-                      std::vector<uint64_t>& count);
+                      std::vector<hsize_t>& offset,
+                      std::vector<hsize_t>& count);
 
   /**
    * @brief Returns the HDF5 type in memory for writes with the C++ API.
@@ -132,14 +134,14 @@ private:
    * writeDataBlock). The dataset must have at least one dimension.
    * @param dataShape The size of the data block.
    * @param positionOffset The position of the data block to write to.
-   * @param memType The HDF5 native type (hid_t) of the data in memory, from
+   * @param memType The HDF5 native type of the data in memory, from
    * HDF5IO::getNativeNumericTypeId
    * @param data A pointer to the data block.
    * @return The status of the write operation.
    */
   Status writeNumericBlock(const SizeArray& dataShape,
                            const SizeArray& positionOffset,
-                           int64_t memType,
+                           hid_t memType,
                            const void* data);
 
   /**
