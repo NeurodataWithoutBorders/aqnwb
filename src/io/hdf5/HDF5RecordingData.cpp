@@ -59,7 +59,7 @@ Status HDF5RecordingData::writeDataBlock(const SizeArray& dataShape,
     }
 
     // Fast path for numeric data in datasets with at least one dimension
-    const hid_t memType = HDF5IO::getNativeTypeId(type);
+    const hid_t memType = HDF5IO::getNativeNumericTypeId(type);
     if (memType != H5I_INVALID_HID && this->getNumDimensions() > 0) {
       if (writeNumericBlock(dataShape, positionOffset, memType, data)
           != Status::Success)

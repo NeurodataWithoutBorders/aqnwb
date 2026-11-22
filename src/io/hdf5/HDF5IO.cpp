@@ -1833,7 +1833,7 @@ H5::DataType HDF5IO::getNativeType(IO::BaseDataType type)
   }
 }
 
-hid_t HDF5IO::getNativeTypeId(const IO::BaseDataType& type)
+hid_t HDF5IO::getNativeNumericTypeId(const IO::BaseDataType& type)
 {
   if (type.typeSize != 1) {
     return H5I_INVALID_HID;  // array types have no predefined native type

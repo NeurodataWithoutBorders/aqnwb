@@ -31,6 +31,26 @@ TEST_CASE("HDF5RecordingData basic operations", "[hdf5recordingdata]")
   }
 }
 
+namespace
+{
+/// Writes {1, ..., 5} with writeDataBlock and checks the values read back
+template<typename T>
+void writeAndReadNumeric(IO::HDF5::HDF5IO& io,
+                         const BaseDataType& type,
+                         const std::string& path)
+{
+  std::vector<T> data = {1, 2, 3, 4, 5};
+  IO::ArrayDataSetConfig config(type, SizeArray {5}, SizeArray {5});
+  auto dataset = io.createArrayDataSet(config, path);
+  REQUIRE(dataset != nullptr);
+  REQUIRE(
+      dataset->writeDataBlock(SizeArray {5}, SizeArray {0}, type, data.data())
+      == Status::Success);
+  auto readData = IO::DataBlock<T>::fromGeneric(io.readDataset(path));
+  REQUIRE(readData.data == data);
+}
+}  // namespace
+
 TEST_CASE("HDF5RecordingData write operations", "[hdf5recordingdata]")
 {
   std::string path = getTestFilePath("test_HDF5RecordingData_write.h5");
@@ -61,6 +81,20 @@ TEST_CASE("HDF5RecordingData write operations", "[hdf5recordingdata]")
           SizeArray {5}, SizeArray {0}, BaseDataType::F32, data.data());
       REQUIRE(status == Status::Success);
     }
+  }
+
+  SECTION("Write and read back all numeric data types")
+  {
+    writeAndReadNumeric<int8_t>(*hdf5io, BaseDataType::I8, "/i8");
+    writeAndReadNumeric<int16_t>(*hdf5io, BaseDataType::I16, "/i16");
+    writeAndReadNumeric<int32_t>(*hdf5io, BaseDataType::I32, "/i32");
+    writeAndReadNumeric<int64_t>(*hdf5io, BaseDataType::I64, "/i64");
+    writeAndReadNumeric<uint8_t>(*hdf5io, BaseDataType::U8, "/u8");
+    writeAndReadNumeric<uint16_t>(*hdf5io, BaseDataType::U16, "/u16");
+    writeAndReadNumeric<uint32_t>(*hdf5io, BaseDataType::U32, "/u32");
+    writeAndReadNumeric<uint64_t>(*hdf5io, BaseDataType::U64, "/u64");
+    writeAndReadNumeric<float>(*hdf5io, BaseDataType::F32, "/f32");
+    writeAndReadNumeric<double>(*hdf5io, BaseDataType::F64, "/f64");
   }
 
   SECTION("Write string data")
