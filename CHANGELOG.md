@@ -9,10 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
-* Updated the SWMR documentation (`docs/pages/userdocs/hdf5io.dox`) to explain that SWMR mode keeps the file consistent while periodic calls to `HDF5IO::flush` bound how much data a crash can lose, and how to open a file after a crash. (@claude, @oruebel, [#TBD](https://github.com/NeurodataWithoutBorders/aqnwb/pull/TBD))
+* Updated the SWMR documentation (`docs/pages/userdocs/hdf5io.dox`) to explain that SWMR mode keeps the file consistent while periodic calls to `HDF5IO::flush` bound how much data a crash can lose, and how to open a file after a crash. (@claude, @oruebel, [#372](https://github.com/NeurodataWithoutBorders/aqnwb/pull/372))
 
 ### Fixed
-* Fixed the example for reading a file in SWMR mode in `docs/pages/userdocs/hdf5io.dox`, which called the nonexistent function `H5Fstart_swmr_read` instead of opening the file with `H5F_ACC_SWMR_READ`. (@claude, @oruebel, [#TBD](https://github.com/NeurodataWithoutBorders/aqnwb/pull/TBD))
+* Fixed the example for reading a file in SWMR mode in `docs/pages/userdocs/hdf5io.dox`, which called the nonexistent function `H5Fstart_swmr_read` instead of opening the file with `H5F_ACC_SWMR_READ`. (@claude, @oruebel, [#372](https://github.com/NeurodataWithoutBorders/aqnwb/pull/372))
 
 ## [0.5.1] - 2026-11-21
 
