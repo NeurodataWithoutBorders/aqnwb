@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [Unreleased]
+
+### Fixed
+* Updated the SWMR documentation in `docs/pages/userdocs/hdf5io.dox` to explain that SWMR mode keeps the file consistent while periodic calls to `HDF5IO::flush` bound how much data a crash can lose, how to open a file after a crash, and to fix the example for reading in SWMR mode. (@claude, @oruebel, [#372](https://github.com/NeurodataWithoutBorders/aqnwb/pull/372))
+
 ## [0.5.1] - 2026-11-21
 
 ### Changed
