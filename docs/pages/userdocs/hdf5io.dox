@@ -206,10 +206,26 @@
  *   avoiding the need for intermediate storage solutions and complex inter-process communication
  *   or file locking mechanisms.
  *
+ * \subsection hdf5io_swmr_crash SWMR mode, flushing, and crashes
+ *
+ * SWMR mode and flushing protect the data in different ways, and data acquisition applications need both:
+ *
+ * - \b SWMR \b mode keeps the file consistent: HDF5 writes the file's metadata in an order that leaves
+ *   the file readable at any time, also if the application crashes while writing. Without SWMR mode, a
+ *   crash while HDF5 writes metadata (e.g., during a flush) can leave a file that can't be read.
+ * - \b Flushing determines how much data is in the file: data that has not been flushed may still be in
+ *   memory (e.g., in HDF5's caches) and is lost if the application crashes. AqNWB flushes the file
+ *   when the recording stops, but not during the recording. Applications should call
+ *   \ref AQNWB::IO::HDF5::HDF5IO::flush "HDF5IO::flush" periodically during the recording (e.g., every
+ *   few seconds); the flush interval bounds how much data a crash can lose.
+ *
  * \note
- * While SWMR mode ensures data integrity, some data loss may still occur if the application crashes.
- * Only data that has been completely written and flushed to disk will be readable. To manually
- * flush data to disk use \ref AQNWB::IO::HDF5::HDF5IO::flush  "HDF5IO::flush".
+ * After a crash, HDF5 still marks the file as open for writing, and opening the file normally (e.g.,
+ * with h5py or PyNWB) fails with "file is already open for write (may use <h5clear file> to clear
+ * file consistency flags)". Either open the file as an SWMR reader (see \ref hdf5io_swmr_read), or
+ * reset the flags once with `h5clear -s <file>`, after which all tools can open the file. `h5clear`
+ * only resets these flags; it is part of the HDF5 command-line tools (e.g., the `hdf5` package of
+ * conda-forge) but not of the h5py package.
  *
  * \subsection  hdf5io_swmr_workflow Writing an NWB file with SWMR mode
  *
@@ -267,12 +283,20 @@
  *
  * \subsection  hdf5io_swmr_read Reading with SWMR mode
  *
- * While the file is being written to in SWMR mode, readers must open the file with
- * the ``H5F_ACC_RDONLY`` flag and then enable SWMR read mode using the ``H5Fstart_swmr_read``
- * function, e.g.:
+ * While the file is being written to in SWMR mode, readers must open the file in SWMR read mode,
+ * i.e., with the ``H5F_ACC_RDONLY | H5F_ACC_SWMR_READ`` flags, e.g.:
  *
  * \code{.c}
- *  hid_t file_id = H5Fopen("example.h5", H5F_ACC_RDONLY, H5P_DEFAULT);
- *  H5Fstart_swmr_read(file_id);
+ *  hid_t file_id = H5Fopen("example.h5", H5F_ACC_RDONLY | H5F_ACC_SWMR_READ, H5P_DEFAULT);
  * \endcode
+ *
+ * or, in Python with h5py:
+ *
+ * \code{.py}
+ *  import h5py
+ *  f = h5py.File("example.h5", "r", swmr=True)
+ * \endcode
+ *
+ * Readers see the data up to the writer's last flush. To see data flushed after a dataset was opened,
+ * refresh the dataset (``H5Drefresh`` in C, ``Dataset.refresh()`` in h5py).
  */
