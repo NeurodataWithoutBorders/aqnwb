@@ -1,5 +1,6 @@
 var NAVTREEINDEX8 =
 {
+"integrating_extensions_page.html#register_namespace":[2,5,1,0],
 "legal_page.html":[2,9],
 "legal_page.html#legal_code_of_conduct":[2,9,0],
 "legal_page.html#legal_copyright":[2,9,2],
@@ -248,6 +249,5 @@ var NAVTREEINDEX8 =
 "struct_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_1_1_is_vector_data_typed_3_01_vector_data_typed_3_01_d_t_y_p_e_01_4_01_4.html":[4,0,0,1,19,2],
 "struct_a_q_n_w_b_1_1_n_w_b_1_1_dynamic_table_1_1_is_vector_data_typed_3_01_vector_data_typed_3_01_d_t_y_p_e_01_4_01_4.html":[5,0,0,1,19,2],
 "struct_a_q_n_w_b_1_1_n_w_b_1_1_element_identifiers_1_1_data_spec.html":[4,0,0,1,20,0],
-"struct_a_q_n_w_b_1_1_n_w_b_1_1_element_identifiers_1_1_data_spec.html":[5,0,0,1,20,0],
-"struct_a_q_n_w_b_1_1_n_w_b_1_1_element_identifiers_1_1_data_spec.html#a58e9c850739ee0ce55288206ae95b916":[4,0,0,1,20,0,0]
+"struct_a_q_n_w_b_1_1_n_w_b_1_1_element_identifiers_1_1_data_spec.html":[5,0,0,1,20,0]
 };

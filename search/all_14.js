@@ -72,6 +72,7 @@ var searchData=
   ['methods_20for_20unnamed_20neurodata_5ftype_20objects_69',['DEFINE_UNNAMED_REGISTERED_FIELD: Defining read methods for unnamed neurodata_type objects',['../registered_type_page.html#use_the_define_unnamed_registered_field_macro',1,'']]],
   ['mode_70',['Single-Writer Multiple-Reader (SWMR) Mode',['../hdf5io.html#hdf5io_swmr',1,'']]],
   ['mode_71',['mode',['../hdf5io.html#hdf5io_swmr_read',1,'Reading with SWMR mode'],['../hdf5io.html#hdf5io_swmr_features',1,'Why does AqNWB use SMWR mode?'],['../hdf5io.html#hdf5io_swmr_workflow',1,'Writing an NWB file with SWMR mode']]],
-  ['mode_20targets_72',['Developer Mode Targets',['../dev_install_page.html#devbuild_dev_mode_targets_subsec',1,'']]],
-  ['multiple_20reader_20swmr_20mode_73',['Single-Writer Multiple-Reader (SWMR) Mode',['../hdf5io.html#hdf5io_swmr',1,'']]]
+  ['mode_20flushing_20and_20crashes_72',['SWMR mode, flushing, and crashes',['../hdf5io.html#hdf5io_swmr_crash',1,'']]],
+  ['mode_20targets_73',['Developer Mode Targets',['../dev_install_page.html#devbuild_dev_mode_targets_subsec',1,'']]],
+  ['multiple_20reader_20swmr_20mode_74',['Single-Writer Multiple-Reader (SWMR) Mode',['../hdf5io.html#hdf5io_swmr',1,'']]]
 ];

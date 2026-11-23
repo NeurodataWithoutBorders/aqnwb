@@ -98,6 +98,7 @@ var userdocs =
       ] ],
       [ "Single-Writer Multiple-Reader (SWMR) Mode", "hdf5io.html#hdf5io_swmr", [
         [ "Why does AqNWB use SMWR mode?", "hdf5io.html#hdf5io_swmr_features", null ],
+        [ "SWMR mode, flushing, and crashes", "hdf5io.html#hdf5io_swmr_crash", null ],
         [ "Writing an NWB file with SWMR mode", "hdf5io.html#hdf5io_swmr_workflow", [
           [ "Code Examples", "hdf5io.html#hdf5io_swmr_examples", [
             [ "Workflow with SWMR", "hdf5io.html#hdf5io_swmr_examples_with_swmr", null ],

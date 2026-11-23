@@ -222,13 +222,14 @@ var NAVTREEINDEX7 =
 "hdf5io.html#hdf5io_data_layout":[1,6,0],
 "hdf5io.html#hdf5io_filters":[1,6,0,1],
 "hdf5io.html#hdf5io_filters_usage":[1,6,0,2],
-"hdf5io.html#hdf5io_noswmr_examples_without_swmr":[1,6,1,1,0,1],
+"hdf5io.html#hdf5io_noswmr_examples_without_swmr":[1,6,1,2,0,1],
 "hdf5io.html#hdf5io_swmr":[1,6,1],
-"hdf5io.html#hdf5io_swmr_examples":[1,6,1,1,0],
-"hdf5io.html#hdf5io_swmr_examples_with_swmr":[1,6,1,1,0,0],
+"hdf5io.html#hdf5io_swmr_crash":[1,6,1,1],
+"hdf5io.html#hdf5io_swmr_examples":[1,6,1,2,0],
+"hdf5io.html#hdf5io_swmr_examples_with_swmr":[1,6,1,2,0,0],
 "hdf5io.html#hdf5io_swmr_features":[1,6,1,0],
-"hdf5io.html#hdf5io_swmr_read":[1,6,1,2],
-"hdf5io.html#hdf5io_swmr_workflow":[1,6,1,1],
+"hdf5io.html#hdf5io_swmr_read":[1,6,1,3],
+"hdf5io.html#hdf5io_swmr_workflow":[1,6,1,2],
 "hdmf__common_8hpp.html":[6,0,1,2,1],
 "hdmf__common_8hpp_source.html":[6,0,1,2,1],
 "hdmf__experimental_8hpp.html":[6,0,1,2,2],
@@ -248,6 +249,5 @@ var NAVTREEINDEX7 =
 "integrating_extensions_page.html#labmetadata_extension_schema":[2,5,2,0],
 "integrating_extensions_page.html#labmetadata_extension_usage":[2,5,2,3],
 "integrating_extensions_page.html#namespace_lookup":[2,5,1,1],
-"integrating_extensions_page.html#namespace_registry":[2,5,1],
-"integrating_extensions_page.html#register_namespace":[2,5,1,0]
+"integrating_extensions_page.html#namespace_registry":[2,5,1]
 };

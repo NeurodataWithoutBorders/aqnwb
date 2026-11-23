@@ -79,5 +79,6 @@ var searchData=
   ['swmr_76',['Workflow with SWMR',['../hdf5io.html#hdf5io_swmr_examples_with_swmr',1,'']]],
   ['swmr_20disabled_77',['Workflow with SWMR disabled',['../hdf5io.html#hdf5io_noswmr_examples_without_swmr',1,'']]],
   ['swmr_20mode_78',['Single-Writer Multiple-Reader (SWMR) Mode',['../hdf5io.html#hdf5io_swmr',1,'']]],
-  ['swmr_20mode_79',['SWMR mode',['../hdf5io.html#hdf5io_swmr_read',1,'Reading with SWMR mode'],['../hdf5io.html#hdf5io_swmr_workflow',1,'Writing an NWB file with SWMR mode']]]
+  ['swmr_20mode_79',['SWMR mode',['../hdf5io.html#hdf5io_swmr_read',1,'Reading with SWMR mode'],['../hdf5io.html#hdf5io_swmr_workflow',1,'Writing an NWB file with SWMR mode']]],
+  ['swmr_20mode_20flushing_20and_20crashes_80',['SWMR mode, flushing, and crashes',['../hdf5io.html#hdf5io_swmr_crash',1,'']]]
 ];

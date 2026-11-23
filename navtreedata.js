@@ -76,7 +76,7 @@ var NAVTREEINDEX =
 "class_a_q_n_w_b_1_1_n_w_b_1_1_n_w_b_file.html#a1fd86db9b7655ba62de181673d4260a7",
 "class_a_q_n_w_b_1_1_n_w_b_1_1_registered_type.html#ab92081cf30cab76ac6e35125300f77a4",
 "class_a_q_n_w_b_1_1_n_w_b_1_1_vector_data.html#a6a6c873a78cabd4d99098fa8febcf8cd",
-"legal_page.html",
+"integrating_extensions_page.html#register_namespace",
 "struct_a_q_n_w_b_1_1_n_w_b_1_1_element_identifiers_1_1_data_spec.html#a58e9c850739ee0ce55288206ae95b916"
 ];
 
