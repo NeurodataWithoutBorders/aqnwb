@@ -210,10 +210,10 @@
  *
  * SWMR mode and flushing protect the data in different ways, and data acquisition applications need both:
  *
- * - **SWMR mode** keeps the file consistent: HDF5 writes the file's metadata in an order that leaves
+ * - **SWMR mode** keeps the file consistent. HDF5 writes the file's metadata in an order that leaves
  *   the file readable at any time, also if the application crashes while writing. Without SWMR mode, a
  *   crash while HDF5 writes metadata (e.g., during a flush) can leave a file that can't be read.
- * - **Flushing** determines how much data is in the file: data that has not been flushed may still be in
+ * - **Flushing** determines how much data is in the file. data that has not been flushed may still be in
  *   memory (e.g., in HDF5's caches) and is lost if the application crashes. AqNWB flushes the file
  *   when the recording stops, but not during the recording. Applications should call
  *   \ref AQNWB::IO::HDF5::HDF5IO::flush "HDF5IO::flush" periodically during the recording (e.g., every
