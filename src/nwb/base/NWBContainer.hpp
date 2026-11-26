@@ -28,6 +28,16 @@ public:
   REGISTER_SUBCLASS(NWBContainer, Container, AQNWB::SPEC::CORE::namespaceName)
 
   /**
+   * @brief Specification for initializing a NWBContainer.
+   *
+   * NWBContainer does not define any additional fields.
+   */
+  struct Spec : public Container::Spec
+  {
+    REGISTER_SPEC(NWBContainer, Container::Spec)
+  };
+
+  /**
    * @brief Virtual destructor.
    */
   virtual ~NWBContainer() override {}
@@ -37,6 +47,13 @@ public:
    * @return Status::Success if successful, otherwise Status::Failure.
    */
   Status initialize();
+
+  /**
+   * @brief Initialize the object from a spec.
+   * @param spec The specification of the object.
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
+  Status initialize(const Spec& spec);
 
 protected:
   /**

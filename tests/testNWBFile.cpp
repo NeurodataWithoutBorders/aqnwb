@@ -778,7 +778,7 @@ TEST_CASE("createElectricalSeries", "[nwb]")
       std::make_shared<IO::HDF5::HDF5IO>(filename);
   io->open();
   auto nwbfile = NWB::NWBFile::create(io);
-  AQNWB::NWB::Subject::SubjectSpec subjectSpec;
+  AQNWB::NWB::Subject::Spec subjectSpec;
   subjectSpec.subjectId = "mouse001";
   subjectSpec.species = "Mus musculus";
   subjectSpec.sex = "M";

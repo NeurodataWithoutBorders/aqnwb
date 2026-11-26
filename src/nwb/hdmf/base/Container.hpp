@@ -21,6 +21,17 @@ public:
                     RegisteredType,
                     AQNWB::SPEC::HDMF_COMMON::namespaceName)
 
+  /**
+   * @brief Specification for initializing a Container.
+   *
+   * Container does not define any fields. This is the root of the spec
+   * hierarchy for all group-based neurodata_types.
+   */
+  struct Spec : public RegisteredTypeSpec
+  {
+    REGISTER_SPEC(Container, RegisteredTypeSpec)
+  };
+
 protected:
   /**
    * @brief Constructor.
@@ -41,6 +52,16 @@ public:
    * @return Status::Success if successful, otherwise Status::Failure.
    */
   Status initialize();
+
+  /**
+   * @brief Initialize the container from a spec.
+   *
+   * Validates the spec and creates the group with the common attributes.
+   *
+   * @param spec The specification of the container.
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
+  Status initialize(const Spec& spec);
 
   // Define the data fields to expose for lazy read access
   DEFINE_ATTRIBUTE_FIELD(readNeurodataType,

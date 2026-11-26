@@ -50,9 +50,9 @@ inline std::string getTestFilePath(const std::string& filename)
   return filepath.generic_string();
 }
 
-inline NWB::Subject::SubjectSpec getTestSubjectSpec()
+inline NWB::Subject::Spec getTestSubjectSpec()
 {
-  NWB::Subject::SubjectSpec subjectSpec;
+  NWB::Subject::Spec subjectSpec;
   subjectSpec.age = "P90D";
   subjectSpec.ageReference = "birth";
   subjectSpec.dateOfBirth = "2024-01-15T00:00:00.000000+00:00";

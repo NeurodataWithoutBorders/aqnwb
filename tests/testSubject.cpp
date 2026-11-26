@@ -38,7 +38,7 @@ TEST_CASE("Subject", "[file]")
 
   SECTION("setting parameters via with function chaining")
   {
-    NWB::Subject::SubjectSpec subjectSpec;
+    NWB::Subject::Spec subjectSpec;
     subjectSpec.withAge("P90D")
         .withAgeReference("gestational")
         .withDateOfBirth("2024-01-15T00:00:00.000000+00:00")
@@ -69,7 +69,7 @@ TEST_CASE("Subject", "[file]")
     io->open();
     io->createGroup("/general");
 
-    NWB::Subject::SubjectSpec subjectSpec;
+    NWB::Subject::Spec subjectSpec;
     subjectSpec.age = "P90D";
     subjectSpec.ageReference = "gestational";
     subjectSpec.dateOfBirth = "2024-01-15T00:00:00.000000+00:00";
@@ -122,7 +122,7 @@ TEST_CASE("Subject", "[file]")
     io->open();
     io->createGroup("/general");
 
-    NWB::Subject::SubjectSpec subjectSpec;
+    NWB::Subject::Spec subjectSpec;
     subjectSpec.age = "P7D";
     auto subject = NWB::Subject::create("/general/subject", io);
 
@@ -142,7 +142,7 @@ TEST_CASE("Subject", "[file]")
     io->open();
     io->createGroup("/general");
 
-    NWB::Subject::SubjectSpec subjectSpec;
+    NWB::Subject::Spec subjectSpec;
     subjectSpec.dateOfBirth = "January 15, 2024";
     auto subject = NWB::Subject::create("/general/subject", io);
 
@@ -159,7 +159,7 @@ TEST_CASE("Subject", "[file]")
     auto io = std::make_shared<IO::HDF5::HDF5IO>(filename);
     io->open();
 
-    NWB::Subject::SubjectSpec subjectSpec;
+    NWB::Subject::Spec subjectSpec;
     subjectSpec.age = "P90D";
     subjectSpec.ageReference = "gestational";
     subjectSpec.dateOfBirth = "2024-01-15T00:00:00.000000+00:00";

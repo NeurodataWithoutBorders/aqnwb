@@ -32,3 +32,13 @@ Status Container::initialize()
 
   return createGroupStatus && createAttrsStatus;
 }
+
+Status Container::initialize(const Spec& spec)
+{
+  if (spec.validate() != AQNWB::Types::Status::Success) {
+    std::cerr << "Container::initialize: Invalid " << spec.getTypeName()
+              << " spec for " << m_path << std::endl;
+    return AQNWB::Types::Status::Failure;
+  }
+  return initialize();
+}

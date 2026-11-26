@@ -23,6 +23,69 @@ public:
                     TimeSeries,
                     AQNWB::SPEC::CORE::namespaceName)
 
+  /**
+   * @brief Specification for initializing an ElectricalSeries.
+   *
+   * The unit is fixed to "volts" by the schema and set by default.
+   *
+   * Example:
+   * @code
+   * IO::ArrayDataSetConfig config(
+   *     IO::BaseDataType::I16, {0, channels.size()}, {1024, channels.size()});
+   * auto spec = ElectricalSeries::Spec()
+   *                 .withData(config)
+   *                 .withChannelVector(channels)
+   *                 .withDescription("Raw extracellular recording");
+   * Status status = electricalSeries->initialize(spec);
+   * @endcode
+   */
+  struct Spec : public TimeSeries::Spec
+  {
+    REGISTER_SPEC(ElectricalSeries, TimeSeries::Spec)
+
+    /**
+     * @brief Constructor. Sets the unit to "volts" as required by the schema.
+     */
+    Spec() { unit = "volts"; }
+
+    /**
+     * @brief The channels (electrodes) recorded by this series. Must not be
+     * empty. The length must match the second dimension of the data.
+     */
+    DEFINE_SPEC_FIELD(
+        Spec, Types::ChannelVector, channelVector, withChannelVector, {})
+    /**
+     * @brief If true then store the per-channel conversion factors given by
+     * Channel::getConversion() in the optional channel_conversion dataset. If
+     * false then no channel_conversion dataset is created and the scaling must
+     * be fully described by conversion.
+     */
+    DEFINE_SPEC_FIELD(
+        Spec, bool, useChannelConversion, withUseChannelConversion, true)
+
+    INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withData)
+    INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withUnit)
+    INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withDescription)
+    INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withComments)
+    INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withConversion)
+    INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withResolution)
+    INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withOffset)
+    INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withContinuity)
+    INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withStartingTime)
+    INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withStartingTimeRate)
+    INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withControlDescription)
+
+    /**
+     * @brief Validate the spec.
+     *
+     * In addition to the checks of TimeSeries::Spec::validate(), checks that
+     * the channelVector is not empty and that the unit is "volts".
+     *
+     * @return Status::Success if the spec is valid, otherwise Status::Failure.
+     */
+    Status validate() const override;
+  };
+
 protected:
   /**
    * @brief Constructor.
@@ -63,6 +126,9 @@ public:
    *               share the same conversion factor).
    * @return The status of the initialization operation.
    */
+  [[deprecated(
+      "Use ElectricalSeries::initialize(const ElectricalSeries::Spec&) "
+      "instead")]]
   Status initialize(const IO::BaseArrayDataSetConfig& dataConfig,
                     const Types::ChannelVector& channelVector,
                     const std::string& description,
@@ -70,6 +136,19 @@ public:
                     const float& resolution = -1.0f,
                     const float& offset = 0.0f,
                     const bool useChannelConversion = true);
+
+  /**
+   * @brief Initializes the ElectricalSeries from a spec.
+   *
+   * In addition to the TimeSeries datasets and attributes, creates the
+   * electrodes dataset (a DynamicTableRegion referencing the electrodes table)
+   * and, if spec.useChannelConversion is true, the channel_conversion dataset.
+   * The electrodes table must have been created before.
+   *
+   * @param spec The specification of the ElectricalSeries.
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
+  Status initialize(const Spec& spec);
 
   /**
    * @brief Writes a channel to an ElectricalSeries dataset.

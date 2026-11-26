@@ -2,7 +2,11 @@
 
 #include <cstdint>
 #include <map>
+#include <memory>
+#include <optional>
 #include <string>
+#include <type_traits>
+#include <vector>
 
 #include "Utils.hpp"
 #include "io/BaseIO.hpp"
@@ -53,6 +57,125 @@ public:
    * is visualized, and what analysis methods are applicable.
    */
   static std::map<ContinuityType, std::string> ContinuityTypeNames;
+
+  /**
+   * @brief Specification for initializing a TimeSeries.
+   *
+   * Example:
+   * @code
+   * IO::ArrayDataSetConfig config(IO::BaseDataType::F32, {0, 4}, {1024, 4});
+   * auto spec = TimeSeries::Spec()
+   *                 .withData(config)
+   *                 .withUnit("volts")
+   *                 .withDescription("Filtered LFP signal");
+   * Status status = timeSeries->initialize(spec);
+   * @endcode
+   */
+  struct Spec : public NWBDataInterface::Spec
+  {
+    REGISTER_SPEC(TimeSeries, NWBDataInterface::Spec)
+
+    /// @brief Shared pointer to a dataset configuration (const)
+    using DataConfigPtr = std::shared_ptr<const IO::BaseArrayDataSetConfig>;
+
+    /**
+     * @brief Configuration for the data dataset including data type and shape
+     * and chunking. May also be a LinkArrayDataSetConfig to link to the data of
+     * another TimeSeries. Required.
+     */
+    DEFINE_SPEC_FIELD(Spec, DataConfigPtr, data, withData, nullptr)
+
+    /**
+     * @brief Set the configuration of the data dataset.
+     *
+     * Stores a copy of the given configuration.
+     *
+     * @tparam ConfigT The type of the configuration, e.g.,
+     * IO::ArrayDataSetConfig or IO::LinkArrayDataSetConfig.
+     * @param config The configuration of the data dataset.
+     * @return Reference to this spec to allow chaining.
+     */
+    template<typename ConfigT,
+             typename = std::enable_if_t<
+                 std::is_base_of_v<IO::BaseArrayDataSetConfig, ConfigT>>>
+    Spec& withData(const ConfigT& config)
+    {
+      data = std::make_shared<const ConfigT>(config);
+      return *this;
+    }
+
+    /**
+     * @brief Base unit of measurement for working with the data. Required.
+     */
+    DEFINE_SPEC_FIELD(Spec, std::string, unit, withUnit, "")
+    /**
+     * @brief Description of the time series. The description attribute is not
+     * written if set to an empty string.
+     */
+    DEFINE_SPEC_FIELD(
+        Spec, std::string, description, withDescription, "no description")
+    /**
+     * @brief Human-readable comments about the TimeSeries.
+     */
+    DEFINE_SPEC_FIELD(Spec, std::string, comments, withComments, "no comments")
+    /**
+     * @brief Scalar to multiply each element in data to convert it to the
+     * specified unit.
+     */
+    DEFINE_SPEC_FIELD(Spec, float, conversion, withConversion, 1.0f)
+    /**
+     * @brief Smallest meaningful difference between values in data stored in
+     * the specified unit. -1.0 means unknown.
+     */
+    DEFINE_SPEC_FIELD(Spec, float, resolution, withResolution, -1.0f)
+    /**
+     * @brief Scalar to add to the data after scaling by conversion to finalize
+     * its coercion to the specified unit.
+     */
+    DEFINE_SPEC_FIELD(Spec, float, offset, withOffset, 0.0f)
+    /**
+     * @brief Continuity of the data. The continuity attribute is not written if
+     * Undefined.
+     */
+    DEFINE_SPEC_FIELD(Spec,
+                      ContinuityType,
+                      continuity,
+                      withContinuity,
+                      ContinuityType::Undefined)
+    /**
+     * @brief Timestamp of the first sample in seconds. If set then the series
+     * uses a regular sampling rate (see startingTimeRate) and no timestamps
+     * dataset is created. If not set then timestamps are recorded explicitly.
+     */
+    DEFINE_SPEC_FIELD(Spec,
+                      std::optional<double>,
+                      startingTime,
+                      withStartingTime,
+                      std::nullopt)
+    /**
+     * @brief Sampling rate in Hz. Only used if startingTime is set.
+     */
+    DEFINE_SPEC_FIELD(Spec, float, startingTimeRate, withStartingTimeRate, 1.0f)
+    /**
+     * @brief Description of each control value. If not empty then the control
+     * and control_description datasets are created.
+     */
+    DEFINE_SPEC_FIELD(Spec,
+                      std::vector<std::string>,
+                      controlDescription,
+                      withControlDescription,
+                      {})
+
+    /**
+     * @brief Validate the spec.
+     *
+     * Checks that data is set, that unit is not empty, and that the
+     * startingTime and startingTimeRate are valid if startingTime is set.
+     *
+     * @return Status::Success if the spec is valid, otherwise Status::Failure.
+     */
+    Status validate() const override;
+  };
 
   /**
    * @brief Destructor
@@ -107,6 +230,7 @@ public:
    * TimeSeries.control_description->writeStringDataBlock() method.
    * @return Status::Success if successful, otherwise Status::Failure.
    */
+  [[deprecated("Use TimeSeries::initialize(const TimeSeries::Spec&) instead")]]
   Status initialize(
       const IO::BaseArrayDataSetConfig& dataConfig,
       const std::string& unit,
@@ -119,6 +243,20 @@ public:
       const double& startingTime = -1.0,
       const float& startingTimeRate = 1.0f,
       const std::vector<std::string>& controlDescription = {});
+
+  /**
+   * @brief Initializes the TimeSeries from a spec.
+   *
+   * Creates the data dataset and its attributes (conversion, resolution,
+   * offset, unit, and continuity), the description and comments attributes,
+   * either the timestamps or the starting_time dataset, and, if
+   * controlDescription is not empty, the control and control_description
+   * datasets.
+   *
+   * @param spec The specification of the TimeSeries.
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
+  Status initialize(const Spec& spec);
 
   /**
    * @brief Data type of the data.

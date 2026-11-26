@@ -28,8 +28,14 @@ public:
    * TimestampVectorData). This non-templated base provides a common storage
    * type while still allowing derived typed specs to implement concrete object
    * creation.
+   *
+   * DataSpecBase is also a RegisteredTypeSpec, i.e., the type name and
+   * namespace of the Data subclass to create can be retrieved via
+   * getTypeName() and getNamespace().
    */
-  struct DataSpecBase : public IO::ArrayDataSetConfig
+  struct DataSpecBase
+      : public IO::ArrayDataSetConfig
+      , public RegisteredTypeSpec
   {
     /**
      * @brief Construct the DataSpecBase.
@@ -99,6 +105,24 @@ public:
                                  std::shared_ptr<IO::BaseIO> io) const override
     {
       return DataT::create(path, io);
+    }
+
+    /**
+     * @brief Get the name of the Data subclass represented by this spec.
+     * @return The type name registered for DataT.
+     */
+    std::string getTypeName() const override
+    {
+      return DataT::getStaticTypeName();
+    }
+
+    /**
+     * @brief Get the namespace of the Data subclass represented by this spec.
+     * @return The namespace registered for DataT.
+     */
+    std::string getNamespace() const override
+    {
+      return DataT::getStaticNamespace();
     }
   };
 

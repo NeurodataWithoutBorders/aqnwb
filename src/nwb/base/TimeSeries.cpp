@@ -81,6 +81,34 @@ Status TimeSeries::createTimestampsAttributes(const std::string& path)
   return Status::Success;
 }
 
+Status TimeSeries::Spec::validate() const
+{
+  Status status = NWBDataInterface::Spec::validate();
+  if (data == nullptr) {
+    std::cerr << "TimeSeries::Spec::validate: data configuration is not set."
+              << std::endl;
+    status = Status::Failure;
+  }
+  if (unit.empty()) {
+    std::cerr << "TimeSeries::Spec::validate: unit must not be empty."
+              << std::endl;
+    status = Status::Failure;
+  }
+  if (startingTime.has_value()) {
+    if (startingTime.value() < 0.0) {
+      std::cerr << "TimeSeries::Spec::validate: startingTime must be >= 0."
+                << std::endl;
+      status = Status::Failure;
+    }
+    if (!(startingTimeRate > 0.0f)) {
+      std::cerr << "TimeSeries::Spec::validate: startingTimeRate must be > 0."
+                << std::endl;
+      status = Status::Failure;
+    }
+  }
+  return status;
+}
+
 Status TimeSeries::initialize(
     const IO::BaseArrayDataSetConfig& dataConfig,
     const std::string& unit,
@@ -94,13 +122,39 @@ Status TimeSeries::initialize(
     const float& startingTimeRate,
     const std::vector<std::string>& controlDescription)
 {
+  Spec spec;
+  // Non-owning pointer to the dataConfig, which outlives the call to
+  // initialize
+  spec.data = Spec::DataConfigPtr(std::shared_ptr<void>(), &dataConfig);
+  spec.unit = unit;
+  spec.description = description;
+  spec.comments = comments;
+  spec.conversion = conversion;
+  spec.resolution = resolution;
+  spec.offset = offset;
+  spec.continuity = continuity;
+  if (startingTime >= 0) {
+    spec.startingTime = startingTime;
+  }
+  spec.startingTimeRate = startingTimeRate;
+  spec.controlDescription = controlDescription;
+  return initialize(spec);
+}
+
+Status TimeSeries::initialize(const Spec& spec)
+{
   auto ioPtr = getIO();
   if (!ioPtr) {
     std::cerr << "TimeSeries::initialize: IO object is not valid." << std::endl;
     return Status::Failure;
   }
 
-  Status status = NWBDataInterface::initialize();
+  // Validate the spec and create the group
+  Status status = NWBDataInterface::initialize(spec);
+  if (status != Status::Success) {
+    return Status::Failure;
+  }
+  const IO::BaseArrayDataSetConfig& dataConfig = *spec.data;
 
   // Extract shape, chunking, and data type from the config
   SizeArray shape, chunking;
@@ -137,11 +191,11 @@ Status TimeSeries::initialize(
   }
 
   // create comments attribute
-  if (description != "") {
-    status =
-        status && ioPtr->createAttribute(description, m_path, "description");
+  if (spec.description != "") {
+    status = status
+        && ioPtr->createAttribute(spec.description, m_path, "description");
   }
-  status = status && ioPtr->createAttribute(comments, m_path, "comments");
+  status = status && ioPtr->createAttribute(spec.comments, m_path, "comments");
 
   // setup data datasets
   try {
@@ -165,8 +219,12 @@ Status TimeSeries::initialize(
       }
     } else {
       status = status
-          && this->createDataAttributes(
-              m_path, conversion, resolution, offset, unit, continuity);
+          && this->createDataAttributes(m_path,
+                                        spec.conversion,
+                                        spec.resolution,
+                                        spec.offset,
+                                        spec.unit,
+                                        spec.continuity);
     }
   } catch (const std::runtime_error& e) {
     std::cerr << "Failed to create data dataset: " << e.what() << std::endl;
@@ -175,7 +233,7 @@ Status TimeSeries::initialize(
 
   // setup timestamps datasets
   try {
-    if (startingTime < 0) {
+    if (!spec.startingTime.has_value()) {
       IO::ArrayDataSetConfig timestampsConfig(
           this->timestampsType, tsDsetSize, tsChunkSize);
       ioPtr->createArrayDataSet(timestampsConfig,
@@ -183,6 +241,7 @@ Status TimeSeries::initialize(
       status = status && this->createTimestampsAttributes(m_path);
     } else  // setup starting_time datasets
     {
+      const double startingTime = spec.startingTime.value();
       std::string startingTimePath = AQNWB::mergePaths(m_path, "starting_time");
       IO::ArrayDataSetConfig startingTimeConfig(
           AQNWB::IO::BaseDataType::F64, {1}, {1});
@@ -193,7 +252,7 @@ Status TimeSeries::initialize(
               {1}, AQNWB::IO::BaseDataType::F64, &startingTime);
       status = status
           && ioPtr->createAttribute(AQNWB::IO::BaseDataType::F32,
-                                    &startingTimeRate,
+                                    &spec.startingTimeRate,
                                     startingTimePath,
                                     "rate");
       status =
@@ -207,7 +266,7 @@ Status TimeSeries::initialize(
 
   // create control datasets if necessary
   try {
-    if (controlDescription.size() > 0) {
+    if (!spec.controlDescription.empty()) {
       // control matches data along first dimension
       IO::ArrayDataSetConfig controlConfig(
           AQNWB::IO::BaseDataType::U8, tsDsetSize, tsChunkSize);
@@ -216,8 +275,10 @@ Status TimeSeries::initialize(
 
       // control_description is its own data and contains for each control value
       // a string description
-      const SizeArray controlDescriptionShape = {controlDescription.size()};
-      const SizeArray controlDescriptionChunkSize = {controlDescription.size()};
+      const SizeArray controlDescriptionShape = {
+          spec.controlDescription.size()};
+      const SizeArray controlDescriptionChunkSize = {
+          spec.controlDescription.size()};
       const SizeArray controlDescriptionPositionOffset = {0};
       IO::BaseDataType controlDesriptionType(IO::BaseDataType::Type::V_STR,
                                              0);  // 0 indicates variable length
@@ -234,7 +295,7 @@ Status TimeSeries::initialize(
               controlDescriptionShape,
               controlDescriptionPositionOffset,
               controlDesriptionType,
-              controlDescription);
+              spec.controlDescription);
     }
   } catch (const std::runtime_error& e) {
     std::cerr << "Failed to create control dataset: " << e.what() << std::endl;

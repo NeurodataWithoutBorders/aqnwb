@@ -48,7 +48,7 @@ TEST_CASE("workflowExamples")
     // [example_workflow_nwbfile_snippet]
     auto nwbfile = NWB::NWBFile::create(io);
     auto subjectSpec =
-        AQNWB::NWB::Subject::SubjectSpec()
+        AQNWB::NWB::Subject::Spec()
             .withSubjectId("mouse001")
             .withSpecies("Mus musculus")
             .withSex("M")

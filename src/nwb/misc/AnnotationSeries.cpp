@@ -24,15 +24,33 @@ Status AnnotationSeries::initialize(
     const std::string& comments,
     const IO::BaseArrayDataSetConfig& dataConfig)
 {
-  auto tsInitStatus = TimeSeries::initialize(
-      dataConfig,
-      "n/a",  // unit fixed to "n/a"
-      description,
-      comments,
-      1.0f,  // conversion fixed to 1.0, since unit is n/a
-      -1.0f,  // resolution fixed to -1.0
-      0.0f);  // offset fixed to 0.0, since unit is n/a
-  return tsInitStatus;
+  Spec spec;
+  // Non-owning pointer to the dataConfig, which outlives the call to
+  // initialize
+  spec.data = Spec::DataConfigPtr(std::shared_ptr<void>(), &dataConfig);
+  spec.description = description;
+  spec.comments = comments;
+  return initialize(spec);
+}
+
+Status AnnotationSeries::Spec::validate() const
+{
+  Status status = TimeSeries::Spec::validate();
+  if (unit != "n/a") {
+    std::cerr << "AnnotationSeries::Spec::validate: unit must be 'n/a' but is '"
+              << unit << "'." << std::endl;
+    status = Status::Failure;
+  }
+  return status;
+}
+
+Status AnnotationSeries::initialize(const Spec& spec)
+{
+  Spec fixedSpec = spec;
+  fixedSpec.conversion = 1.0f;  // conversion fixed to 1.0, since unit is n/a
+  fixedSpec.resolution = -1.0f;  // resolution fixed to -1.0
+  fixedSpec.offset = 0.0f;  // offset fixed to 0.0, since unit is n/a
+  return TimeSeries::initialize(fixedSpec);
 }
 
 Status AnnotationSeries::writeAnnotation(

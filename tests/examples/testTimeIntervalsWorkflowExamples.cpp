@@ -31,7 +31,7 @@ TEST_CASE("timeIntervalsWorkflowExamples")
     // [example_timeintervals_rowbased_nwbfile_snippet]
     auto nwbfile = NWB::NWBFile::create(io);
     auto subjectSpec =
-        AQNWB::NWB::Subject::SubjectSpec()
+        AQNWB::NWB::Subject::Spec()
             .withSubjectId("mouse001")
             .withSpecies("Mus musculus")
             .withSex("M")
@@ -134,7 +134,7 @@ TEST_CASE("timeIntervalsWorkflowExamples")
     // [example_timeintervals_colbased_nwbfile_snippet]
     auto nwbfile = NWB::NWBFile::create(io);
     auto subjectSpec =
-        AQNWB::NWB::Subject::SubjectSpec()
+        AQNWB::NWB::Subject::Spec()
             .withSubjectId("mouse001")
             .withSpecies("Mus musculus")
             .withSex("M")

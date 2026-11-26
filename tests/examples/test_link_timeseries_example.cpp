@@ -54,17 +54,15 @@ TEST_CASE("LinkTimeSeriesExamples", "[timeseries][link]")
     double startingTime = 0.0;  // Start at 0 seconds
     float samplingRate = 1000.0;  // 1000 Hz
     status = originalSeries->initialize(
-        dataConfig,  // Data configuration
-        "m/s",  // unit for speed of the animal
-        "Original speed recording of the animal",  // description
-        "Coarse aligned with starting time but not aligned to "
-        "stimulus events",  // comment
-        1.0f,  // conversion
-        -1.0f,  // resolution (not specified)
-        0.0f,  // offset
-        TimeSeries::ContinuityType::Continuous,  // continuity
-        startingTime,  // starting time
-        samplingRate  // sampling rate
+        TimeSeries::Spec()
+            .withData(dataConfig)  // Data configuration
+            .withUnit("m/s")  // unit for speed of the animal
+            .withDescription("Original speed recording of the animal")
+            .withComments("Coarse aligned with starting time but not aligned "
+                          "to stimulus events")
+            .withContinuity(TimeSeries::ContinuityType::Continuous)
+            .withStartingTime(startingTime)  // starting time
+            .withStartingTimeRate(samplingRate)  // sampling rate
     );
     REQUIRE(status == Status::Success);
 
@@ -80,8 +78,9 @@ TEST_CASE("LinkTimeSeriesExamples", "[timeseries][link]")
     // Create a ProcessingModule for time-aligned data
     auto processingModule = nwbfile->createProcessingModule("time_alignment");
     REQUIRE(processingModule != nullptr);
-    status = processingModule->initialize(
-        "Time-aligned data relative to stimulus onset");
+    status =
+        processingModule->initialize(ProcessingModule::Spec().withDescription(
+            "Time-aligned data relative to stimulus onset"));
     REQUIRE(status == Status::Success);
     // [example_link_timeseries_processing_module]
 
@@ -103,16 +102,15 @@ TEST_CASE("LinkTimeSeriesExamples", "[timeseries][link]")
     // from the linked dataset to configure related datasets like timestamps
     // accordingly.
     status = linkedSeries->initialize(
-        linkConfig,  // Use link instead of creating new data
-        originalSeries->readDataUnit()
-            ->values()
-            .data[0],  // Same unit as original
-        "Time-aligned voltage data",  // Description
-        "Aligned to stimulus events with irregular timestamps",  // Comment
-        1.0f,  // conversion
-        -1.0f,  // resolution (not specified)
-        0.0f,  // offset
-        TimeSeries::ContinuityType::Continuous  // continuity
+        TimeSeries::Spec()
+            .withData(linkConfig)  // Use link instead of creating new data
+            .withUnit(originalSeries->readDataUnit()
+                          ->values()
+                          .data[0])  // Same unit as original
+            .withDescription("Time-aligned voltage data")
+            .withComments(
+                "Aligned to stimulus events with irregular timestamps")
+            .withContinuity(TimeSeries::ContinuityType::Continuous)
         // no sampling rate or starting time needed since we use timestamps
     );
     REQUIRE(status == Status::Success);

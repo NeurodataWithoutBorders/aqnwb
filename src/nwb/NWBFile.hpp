@@ -380,9 +380,9 @@ public:
    * @param timestampsReferenceTime ISO formatted time string with the timestamp
    * reference time. If empty (default), then the getCurrentTime() will be used.
    * @param subjectSpec Optional subject metadata. Defaults to @c std::nullopt,
-   * so no Subject group is created unless a SubjectSpec is supplied. For DANDI
-   * validation, the supplied SubjectSpec must include subjectId, species, sex,
-   * and either age or dateOfBirth.
+   * so no Subject group is created unless a Subject::Spec is supplied. For
+   * DANDI validation, the supplied Subject::Spec must include subjectId,
+   * species, sex, and either age or dateOfBirth.
    * @param generalMetadataSpec Optional metadata of the experiment in
    * `/general` (e.g., experimenter, institution, keywords). Defaults to @c
    * std::nullopt. Fields whose dataset already exists in the file are not
@@ -394,7 +394,7 @@ public:
       const std::string& dataCollection = "",
       const std::string& sessionStartTime = "",
       const std::string& timestampsReferenceTime = "",
-      const std::optional<AQNWB::NWB::Subject::SubjectSpec>& subjectSpec =
+      const std::optional<AQNWB::NWB::Subject::Spec>& subjectSpec =
           std::nullopt,
       const std::optional<GeneralMetadataSpec>& generalMetadataSpec =
           std::nullopt);

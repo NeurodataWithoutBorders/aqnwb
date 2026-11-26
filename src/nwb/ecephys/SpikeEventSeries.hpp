@@ -23,6 +23,32 @@ public:
                     ElectricalSeries,
                     AQNWB::SPEC::CORE::namespaceName)
 
+  /**
+   * @brief Specification for initializing a SpikeEventSeries.
+   *
+   * SpikeEventSeries does not define additional fields compared to
+   * ElectricalSeries::Spec. The data must be 2D [num_events, num_samples] for
+   * a single channel or 3D [num_events, num_channels, num_samples].
+   */
+  struct Spec : public ElectricalSeries::Spec
+  {
+    REGISTER_SPEC(SpikeEventSeries, ElectricalSeries::Spec)
+
+    INHERIT_SPEC_SETTER(Spec, ElectricalSeries::Spec, withData)
+    INHERIT_SPEC_SETTER(Spec, ElectricalSeries::Spec, withUnit)
+    INHERIT_SPEC_SETTER(Spec, ElectricalSeries::Spec, withDescription)
+    INHERIT_SPEC_SETTER(Spec, ElectricalSeries::Spec, withComments)
+    INHERIT_SPEC_SETTER(Spec, ElectricalSeries::Spec, withConversion)
+    INHERIT_SPEC_SETTER(Spec, ElectricalSeries::Spec, withResolution)
+    INHERIT_SPEC_SETTER(Spec, ElectricalSeries::Spec, withOffset)
+    INHERIT_SPEC_SETTER(Spec, ElectricalSeries::Spec, withContinuity)
+    INHERIT_SPEC_SETTER(Spec, ElectricalSeries::Spec, withStartingTime)
+    INHERIT_SPEC_SETTER(Spec, ElectricalSeries::Spec, withStartingTimeRate)
+    INHERIT_SPEC_SETTER(Spec, ElectricalSeries::Spec, withControlDescription)
+    INHERIT_SPEC_SETTER(Spec, ElectricalSeries::Spec, withChannelVector)
+    INHERIT_SPEC_SETTER(Spec, ElectricalSeries::Spec, withUseChannelConversion)
+  };
+
 protected:
   /**
    * @brief Constructor.
@@ -60,6 +86,9 @@ public:
    *               dataset. See ElectricalSeries::initialize() for details.
    * @return The status of the initialization operation.
    */
+  [[deprecated(
+      "Use SpikeEventSeries::initialize(const SpikeEventSeries::Spec&) "
+      "instead")]]
   Status initialize(const IO::BaseArrayDataSetConfig& dataConfig,
                     const Types::ChannelVector& channelVector,
                     const std::string& description,
@@ -67,6 +96,17 @@ public:
                     const float& resolution = -1.0f,
                     const float& offset = 0.0f,
                     const bool useChannelConversion = true);
+
+  /**
+   * @brief Initializes the SpikeEventSeries from a spec.
+   *
+   * See ElectricalSeries::initialize(const ElectricalSeries::Spec&) for
+   * details.
+   *
+   * @param spec The specification of the SpikeEventSeries.
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
+  Status initialize(const Spec& spec);
 
   /**
    * @brief Write a single spike series event

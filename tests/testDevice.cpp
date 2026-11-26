@@ -38,7 +38,9 @@ TEST_CASE("Device", "[device]")
 
     std::string description = "Test Device Description";
     std::string manufacturer = "Test Manufacturer";
-    device->initialize(description, manufacturer);
+    device->initialize(Device::Spec()
+                           .withDescription(description)
+                           .withManufacturer(manufacturer));
     io->flush();
     io->close();
 

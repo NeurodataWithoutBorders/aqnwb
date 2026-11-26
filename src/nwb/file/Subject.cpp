@@ -32,7 +32,7 @@ std::shared_ptr<Subject> Subject::create(std::shared_ptr<IO::BaseIO> io)
 }
 
 // Initialize the object
-Status Subject::initialize(const SubjectSpec& subjectSpec)
+Status Subject::initialize(const Spec& subjectSpec)
 {
   // Get the IO object
   auto ioPtr = getIO();
@@ -46,7 +46,7 @@ Status Subject::initialize(const SubjectSpec& subjectSpec)
 
   // Call parent initialize method.
   Status initStatus = Status::Success;
-  Status parentInitStatus = NWBContainer::initialize();
+  Status parentInitStatus = NWBContainer::initialize(subjectSpec);
   initStatus = initStatus && parentInitStatus;
 
   // Initialize attributes, datasets, and groups

@@ -22,6 +22,24 @@ ElectricalSeries::ElectricalSeries(const std::string& path,
 /** Destructor */
 ElectricalSeries::~ElectricalSeries() {}
 
+Status ElectricalSeries::Spec::validate() const
+{
+  Status status = TimeSeries::Spec::validate();
+  if (channelVector.empty()) {
+    std::cerr << "ElectricalSeries::Spec::validate: channelVector cannot be "
+                 "empty."
+              << std::endl;
+    status = Status::Failure;
+  }
+  if (unit != "volts") {
+    std::cerr << "ElectricalSeries::Spec::validate: unit must be 'volts' but "
+                 "is '"
+              << unit << "'." << std::endl;
+    status = Status::Failure;
+  }
+  return status;
+}
+
 /** Initialization function*/
 Status ElectricalSeries::initialize(
     const IO::BaseArrayDataSetConfig& dataConfig,
@@ -32,6 +50,24 @@ Status ElectricalSeries::initialize(
     const float& offset,
     const bool useChannelConversion)
 {
+  Spec spec;
+  // Non-owning pointer to the dataConfig, which outlives the call to
+  // initialize
+  spec.data = Spec::DataConfigPtr(std::shared_ptr<void>(), &dataConfig);
+  spec.channelVector = channelVector;
+  spec.description = description;
+  if (!channelVector.empty()) {
+    spec.comments = channelVector[0].getComments();
+  }
+  spec.conversion = conversion;
+  spec.resolution = resolution;
+  spec.offset = offset;
+  spec.useChannelConversion = useChannelConversion;
+  return initialize(spec);
+}
+
+Status ElectricalSeries::initialize(const Spec& spec)
+{
   auto ioPtr = getIO();
   if (!ioPtr) {
     std::cerr << "ElectricalSeries::initialize: IO object is not valid."
@@ -39,21 +75,14 @@ Status ElectricalSeries::initialize(
     return Status::Failure;
   }
 
-  // Validate channelVector is not empty
-  if (channelVector.empty()) {
-    std::cerr << "ElectricalSeries::initialize: channelVector cannot be empty."
-              << std::endl;
+  // Validate the spec and initialize the TimeSeries
+  auto tsInitStatus = TimeSeries::initialize(spec);
+  if (tsInitStatus != Status::Success) {
     return Status::Failure;
   }
 
-  auto tsInitStatus = TimeSeries::initialize(dataConfig,
-                                             "volts",
-                                             description,
-                                             channelVector[0].getComments(),
-                                             conversion,
-                                             resolution,
-                                             offset);
-
+  const Types::ChannelVector& channelVector = spec.channelVector;
+  const bool useChannelConversion = spec.useChannelConversion;
   this->m_channelVector = channelVector;
 
   // get the number of electrodes from the electrode table

@@ -18,17 +18,28 @@ Device::~Device() {}
 Status Device::initialize(const std::string& description,
                           const std::string& manufacturer)
 {
+  return initialize(
+      Spec().withDescription(description).withManufacturer(manufacturer));
+}
+
+Status Device::initialize(const Spec& spec)
+{
   auto ioPtr = getIO();
   if (!ioPtr) {
     std::cerr << "Device::initialize IO object has been deleted." << std::endl;
     return Status::Failure;
   }
-  auto ctrInitStatus = NWBContainer::initialize();
+  auto ctrInitStatus = NWBContainer::initialize(spec);
+  if (ctrInitStatus != Status::Success) {
+    return Status::Failure;
+  }
 
-  ioPtr->createCommonNWBAttributes(
-      m_path, this->getNamespace(), this->getTypeName());
-  if (description != "")
-    ioPtr->createAttribute(description, m_path, "description");
-  ioPtr->createAttribute(manufacturer, m_path, "manufacturer");
+  if (spec.description != "")
+    ctrInitStatus = ctrInitStatus
+        && ioPtr->createAttribute(spec.description, m_path, "description");
+  if (spec.manufacturer.has_value())
+    ctrInitStatus = ctrInitStatus
+        && ioPtr->createAttribute(
+            spec.manufacturer.value(), m_path, "manufacturer");
   return ctrInitStatus;
 }
