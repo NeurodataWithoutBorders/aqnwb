@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include <memory>
 #include <string>
 #include <vector>
@@ -9,6 +10,7 @@
 #include "io/ReadIO.hpp"
 #include "nwb/hdmf/table/DynamicTable.hpp"
 #include "nwb/hdmf/table/VectorData.hpp"
+#include "nwb/hdmf/table/VectorIndex.hpp"
 #include "nwb/ophys/ImagingPlane.hpp"
 #include "spec/core.hpp"
 
@@ -18,11 +20,13 @@ namespace AQNWB::NWB
  * @brief Results from image segmentation of a specific imaging plane.
  *
  * Each row of the table is a region of interest (ROI). The ROIs are described
- * by the `image_mask` column, i.e., a weight for each pixel of the imaging
- * plane (shape [num_rois, x, y] or [num_rois, x, y, z]).
- *
- * @note The `pixel_mask` and `voxel_mask` columns, which use compound data
- * types, are not supported yet (see issue #381).
+ * by one of the following columns:
+ * - `image_mask`: a weight for each pixel of the imaging plane (shape
+ *   [num_rois, x, y] or [num_rois, x, y, z]), see addImageMasks
+ * - `pixel_mask` (with `pixel_mask_index`): a list of (x, y, weight) entries
+ *   per ROI, see addPixelMasks
+ * - `voxel_mask` (with `voxel_mask_index`): a list of (x, y, z, weight)
+ *   entries per ROI, see addVoxelMasks
  */
 class PlaneSegmentation : public DynamicTable
 {
@@ -45,9 +49,54 @@ public:
    *                 .withImagingPlane(imagingPlane);
    * @endcode
    */
+  /**
+   * @brief An entry of a pixel mask, i.e., the pixel coordinates and weight.
+   */
+  struct PixelMaskEntry
+  {
+    uint32_t x;  ///< Pixel x-coordinate.
+    uint32_t y;  ///< Pixel y-coordinate.
+    float weight;  ///< Weight of the pixel.
+  };
+
+  /**
+   * @brief An entry of a voxel mask, i.e., the voxel coordinates and weight.
+   */
+  struct VoxelMaskEntry
+  {
+    uint32_t x;  ///< Voxel x-coordinate.
+    uint32_t y;  ///< Voxel y-coordinate.
+    uint32_t z;  ///< Voxel z-coordinate.
+    float weight;  ///< Weight of the voxel.
+  };
+
+  /**
+   * @brief Get the compound data type of the pixel_mask column.
+   * @return The data type matching PixelMaskEntry.
+   */
+  static IO::BaseDataType getPixelMaskType();
+
+  /**
+   * @brief Get the compound data type of the voxel_mask column.
+   * @return The data type matching VoxelMaskEntry.
+   */
+  static IO::BaseDataType getVoxelMaskType();
+
   struct Spec : public DynamicTable::Spec
   {
     REGISTER_SPEC(PlaneSegmentation, DynamicTable::Spec)
+
+    /**
+     * @brief If true, add the pixel_mask and pixel_mask_index columns (if not
+     * already part of the columns).
+     */
+    DEFINE_SPEC_FIELD(Spec, bool, pixelMask, withPixelMask, false)
+
+    /**
+     * @brief If true, add the voxel_mask and voxel_mask_index columns (if not
+     * already part of the columns).
+     */
+    DEFINE_SPEC_FIELD(Spec, bool, voxelMask, withVoxelMask, false)
 
     /// @brief Link to the ImagingPlane of the ROIs. Required.
     DEFINE_SPEC_FIELD(Spec,
@@ -108,6 +157,24 @@ public:
   static DataSpecPtr createImageMaskDataSpec(const SizeArray& maskShape);
 
   /**
+   * @brief Create the specs of the pixel_mask and pixel_mask_index columns.
+   * @param tablePath The path of the PlaneSegmentation.
+   * @param chunkSize Chunk size of the pixel_mask column (in entries).
+   * @return The DataSpecs of the pixel_mask and pixel_mask_index columns.
+   */
+  static std::vector<DataSpecPtr> createPixelMaskDataSpecs(
+      const std::string& tablePath, const SizeType chunkSize = 1024);
+
+  /**
+   * @brief Create the specs of the voxel_mask and voxel_mask_index columns.
+   * @param tablePath The path of the PlaneSegmentation.
+   * @param chunkSize Chunk size of the voxel_mask column (in entries).
+   * @return The DataSpecs of the voxel_mask and voxel_mask_index columns.
+   */
+  static std::vector<DataSpecPtr> createVoxelMaskDataSpecs(
+      const std::string& tablePath, const SizeType chunkSize = 1024);
+
+  /**
    * @brief Validate the column specs of the table.
    *
    * In addition to the checks of DynamicTable::validateDataSpecs, checks that
@@ -135,6 +202,54 @@ public:
                        const float* masks,
                        const std::vector<int>& ids = {});
 
+  /**
+   * @brief Append ROIs defined by pixel masks.
+   *
+   * Appends one row per mask, i.e., the entries of the masks and the ids of
+   * the ROIs. The table must have the pixel_mask column (see
+   * Spec::withPixelMask).
+   *
+   * @param masks The pixel masks, one list of entries per ROI.
+   * @param ids The ids of the ROIs. If empty, the ids are the row indices.
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
+  Status addPixelMasks(const std::vector<std::vector<PixelMaskEntry>>& masks,
+                       const std::vector<int>& ids = {});
+
+  /**
+   * @brief Append ROIs defined by voxel masks.
+   *
+   * Appends one row per mask, i.e., the entries of the masks and the ids of
+   * the ROIs. The table must have the voxel_mask column (see
+   * Spec::withVoxelMask).
+   *
+   * @param masks The voxel masks, one list of entries per ROI.
+   * @param ids The ids of the ROIs. If empty, the ids are the row indices.
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
+  Status addVoxelMasks(const std::vector<std::vector<VoxelMaskEntry>>& masks,
+                       const std::vector<int>& ids = {});
+
+  DEFINE_REGISTERED_FIELD(readPixelMask,
+                          VectorData,
+                          "pixel_mask",
+                          Pixel masks for each ROI)
+
+  DEFINE_REGISTERED_FIELD(readPixelMaskIndex,
+                          VectorIndex,
+                          "pixel_mask_index",
+                          Index into pixel_mask)
+
+  DEFINE_REGISTERED_FIELD(readVoxelMask,
+                          VectorData,
+                          "voxel_mask",
+                          Voxel masks for each ROI)
+
+  DEFINE_REGISTERED_FIELD(readVoxelMaskIndex,
+                          VectorIndex,
+                          "voxel_mask_index",
+                          Index into voxel_mask)
+
   DEFINE_REGISTERED_FIELD(readImageMask,
                           VectorData,
                           "image_mask",
@@ -146,6 +261,21 @@ public:
                           The imaging plane of the ROIs)
 
 protected:
+  /**
+   * @brief Append ragged masks to a mask column and its index column.
+   * @param maskName The name of the mask column.
+   * @param type The compound data type of the mask entries.
+   * @param entries Pointer to all entries of all masks (concatenated).
+   * @param maskSizes The number of entries of each mask.
+   * @param ids The ids of the ROIs. If empty, the ids are the row indices.
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
+  Status addRaggedMasks(const std::string& maskName,
+                        const IO::BaseDataType& type,
+                        const void* entries,
+                        const std::vector<SizeType>& maskSizes,
+                        const std::vector<int>& ids);
+
   /**
    * @brief Constructor.
    * @param path The location of the PlaneSegmentation in the file.

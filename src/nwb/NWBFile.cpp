@@ -997,6 +997,8 @@ SizeType NWBFile::getNumBytes(const IO::BaseDataType& dataType)
       return 8 * arrayLength;
     case BaseDataType::T_STR:
       return dataType.typeSize;
+    case BaseDataType::T_COMPOUND:
+      return dataType.compoundSize * arrayLength;
     case BaseDataType::V_STR:
     default:
       return sizeof(void*);

@@ -1,4 +1,5 @@
 #include <cmath>
+#include <cstddef>
 #include <filesystem>
 #include <fstream>
 #include <future>
@@ -726,6 +727,58 @@ TEST_CASE("HDF5IO; createScalarDataSet", "[hdf5io]")
   }
 
   hdf5io.close();
+}
+
+TEST_CASE("HDF5IO; compound data types", "[hdf5io]")
+{
+  struct PixelMask
+  {
+    uint32_t x;
+    uint32_t y;
+    float weight;
+  };
+  const IO::BaseDataType pixelMaskType = IO::BaseDataType::Compound(
+      {{"x", IO::BaseDataType::T_U32, offsetof(PixelMask, x)},
+       {"y", IO::BaseDataType::T_U32, offsetof(PixelMask, y)},
+       {"weight", IO::BaseDataType::T_F32, offsetof(PixelMask, weight)}},
+      sizeof(PixelMask));
+  REQUIRE(pixelMaskType.isCompound());
+  REQUIRE(pixelMaskType.members.size() == 3);
+  REQUIRE_FALSE(pixelMaskType == IO::BaseDataType::U32);
+
+  std::string path = getTestFilePath("test_compound.h5");
+  {
+    IO::HDF5::HDF5IO hdf5io(path);
+    hdf5io.open();
+    IO::ArrayDataSetConfig config(pixelMaskType, {0}, {10});
+    auto recorder = hdf5io.createArrayDataSet(config, "/pixel_mask");
+    REQUIRE(recorder != nullptr);
+    std::vector<PixelMask> block1 = {{1, 2, 0.5f}, {3, 4, 1.0f}};
+    std::vector<PixelMask> block2 = {{5, 6, 0.25f}};
+    REQUIRE(recorder->writeDataBlock({2}, {0}, pixelMaskType, block1.data())
+            == Status::Success);
+    REQUIRE(recorder->writeDataBlock({1}, {2}, pixelMaskType, block2.data())
+            == Status::Success);
+    hdf5io.close();
+  }
+
+  IO::HDF5::HDF5IO readio(path);
+  readio.open(IO::FileMode::ReadOnly);
+  auto block = readio.readDataset("/pixel_mask");
+  REQUIRE(block.shape == SizeArray {3});
+  REQUIRE(block.baseDataType.isCompound());
+  REQUIRE(block.baseDataType.compoundSize == sizeof(PixelMask));
+  REQUIRE(block.baseDataType.members.size() == 3);
+  REQUIRE(block.baseDataType.members[2].name == "weight");
+  REQUIRE(block.baseDataType.members[2].type == IO::BaseDataType::T_F32);
+  auto bytes = std::any_cast<std::vector<uint8_t>>(block.data);
+  REQUIRE(bytes.size() == 3 * sizeof(PixelMask));
+  const auto* values = reinterpret_cast<const PixelMask*>(bytes.data());
+  REQUIRE(values[0].x == 1);
+  REQUIRE(values[1].y == 4);
+  REQUIRE(values[2].x == 5);
+  REQUIRE(std::abs(values[2].weight - 0.25f) < 1e-6f);
+  readio.close();
 }
 
 TEST_CASE("HDF5IO createArrayDataSet with filters", "[HDF5IO]")
@@ -2295,8 +2348,20 @@ TEST_CASE("HDF5IO; read dataset", "[hdf5io]")
     H5::DataSet dataset =
         file.createDataSet("ComplexData", compoundType, dataspace);
 
-    // Attempt to read the dataset - should throw an exception
-    REQUIRE_THROWS_AS(hdf5io->readDataset("/ComplexData"), std::runtime_error);
+    // Compound data types are read as raw bytes with the members described
+    // by the baseDataType
+    auto block = hdf5io->readDataset("/ComplexData");
+    REQUIRE(block.baseDataType.isCompound());
+    REQUIRE(block.baseDataType.members.size() == 2);
+    REQUIRE(block.baseDataType.members[1].name == "imag");
+    REQUIRE(block.baseDataType.members[1].type == IO::BaseDataType::T_F64);
+    REQUIRE(std::any_cast<std::vector<uint8_t>>(block.data).size()
+            == 5 * 2 * sizeof(double));
+
+    // Opaque data types are not supported
+    H5::DataType opaqueType(H5T_OPAQUE, 4);
+    file.createDataSet("OpaqueData", opaqueType, dataspace);
+    REQUIRE_THROWS_AS(hdf5io->readDataset("/OpaqueData"), std::runtime_error);
 
     hdf5io->close();
   }

@@ -1,3 +1,4 @@
+#include <cstddef>
 #include <numeric>
 
 #include "nwb/ophys/PlaneSegmentation.hpp"
@@ -57,11 +58,96 @@ PlaneSegmentation::DataSpecPtr PlaneSegmentation::createImageMaskDataSpec(
       "imaging plane (or volume) and members of the ROI are finite non-zero.");
 }
 
+AQNWB::IO::BaseDataType PlaneSegmentation::getPixelMaskType()
+{
+  return IO::BaseDataType::Compound(
+      {{"x", IO::BaseDataType::T_U32, offsetof(PixelMaskEntry, x)},
+       {"y", IO::BaseDataType::T_U32, offsetof(PixelMaskEntry, y)},
+       {"weight", IO::BaseDataType::T_F32, offsetof(PixelMaskEntry, weight)}},
+      sizeof(PixelMaskEntry));
+}
+
+AQNWB::IO::BaseDataType PlaneSegmentation::getVoxelMaskType()
+{
+  return IO::BaseDataType::Compound(
+      {{"x", IO::BaseDataType::T_U32, offsetof(VoxelMaskEntry, x)},
+       {"y", IO::BaseDataType::T_U32, offsetof(VoxelMaskEntry, y)},
+       {"z", IO::BaseDataType::T_U32, offsetof(VoxelMaskEntry, z)},
+       {"weight", IO::BaseDataType::T_F32, offsetof(VoxelMaskEntry, weight)}},
+      sizeof(VoxelMaskEntry));
+}
+
+namespace
+{
+/**
+ * @brief Create the specs of a ragged mask column and its index column.
+ */
+std::vector<PlaneSegmentation::DataSpecPtr> createRaggedMaskDataSpecs(
+    const std::string& tablePath,
+    const std::string& maskName,
+    const AQNWB::IO::BaseDataType& type,
+    const std::string& description,
+    const SizeType chunkSize)
+{
+  return {VectorData::createDataSpec(
+              maskName,
+              AQNWB::IO::ArrayDataSetConfig(type, {0}, {chunkSize}),
+              description),
+          std::make_shared<VectorIndex::DataSpec>(
+              maskName + "_index",
+              AQNWB::IO::ArrayDataSetConfig(
+                  AQNWB::IO::BaseDataType::U32, {0}, {100}),
+              "Index into " + maskName + ".",
+              AQNWB::mergePaths(tablePath, maskName))};
+}
+}  // namespace
+
+std::vector<PlaneSegmentation::DataSpecPtr>
+PlaneSegmentation::createPixelMaskDataSpecs(const std::string& tablePath,
+                                            const SizeType chunkSize)
+{
+  return createRaggedMaskDataSpecs(
+      tablePath,
+      "pixel_mask",
+      getPixelMaskType(),
+      "Pixel masks for each ROI: a list of indices and weights for the ROI.",
+      chunkSize);
+}
+
+std::vector<PlaneSegmentation::DataSpecPtr>
+PlaneSegmentation::createVoxelMaskDataSpecs(const std::string& tablePath,
+                                            const SizeType chunkSize)
+{
+  return createRaggedMaskDataSpecs(
+      tablePath,
+      "voxel_mask",
+      getVoxelMaskType(),
+      "Voxel masks for each ROI: a list of indices and weights for the ROI.",
+      chunkSize);
+}
+
 Status PlaneSegmentation::validateDataSpecs(
     const std::vector<DataSpecPtr>& dataSpecs) const
 {
   Status status = DynamicTable::validateDataSpecs(dataSpecs);
   for (const auto& dataSpec : dataSpecs) {
+    if (dataSpec != nullptr
+        && (dataSpec->name == "pixel_mask" || dataSpec->name == "voxel_mask"))
+    {
+      const IO::BaseDataType expectedType = dataSpec->name == "pixel_mask"
+          ? getPixelMaskType()
+          : getVoxelMaskType();
+      if (!(dataSpec->getType() == expectedType)
+          || dataSpec->getShape().size() != 1)
+      {
+        std::cerr << "PlaneSegmentation::validateDataSpecs: " << dataSpec->name
+                  << " must be a 1D column of the compound type of "
+                     "getPixelMaskType() or getVoxelMaskType()."
+                  << std::endl;
+        status = Status::Failure;
+      }
+      continue;
+    }
     if (dataSpec == nullptr || dataSpec->name != "image_mask") {
       continue;
     }
@@ -93,6 +179,26 @@ Status PlaneSegmentation::initialize(const Spec& spec)
   Spec tableSpec = spec;
   if (tableSpec.columns.empty()) {
     tableSpec.columns = createDefaultDataSpecs();
+  }
+  // Add the pixel_mask and voxel_mask columns if requested
+  auto hasColumn = [&tableSpec](const std::string& name)
+  {
+    for (const auto& column : tableSpec.columns) {
+      if (column != nullptr && column->name == name) {
+        return true;
+      }
+    }
+    return false;
+  };
+  if (spec.pixelMask && !hasColumn("pixel_mask")) {
+    auto maskSpecs = createPixelMaskDataSpecs(m_path);
+    tableSpec.columns.insert(
+        tableSpec.columns.end(), maskSpecs.begin(), maskSpecs.end());
+  }
+  if (spec.voxelMask && !hasColumn("voxel_mask")) {
+    auto maskSpecs = createVoxelMaskDataSpecs(m_path);
+    tableSpec.columns.insert(
+        tableSpec.columns.end(), maskSpecs.begin(), maskSpecs.end());
   }
   Status status = DynamicTable::initialize(tableSpec);
   if (status != Status::Success) {
@@ -141,6 +247,94 @@ Status PlaneSegmentation::addImageMasks(const SizeType& numRois,
   positionOffset[0] = numRows;
   Status status = maskRecorder->writeDataBlock(
       blockShape, positionOffset, IO::BaseDataType::F32, masks);
+
+  // Append the ids of the ROIs
+  std::vector<int> roiIds = ids;
+  if (roiIds.empty()) {
+    roiIds.resize(numRois);
+    std::iota(roiIds.begin(), roiIds.end(), static_cast<int>(numRows));
+  }
+  status = status && setRowIDs(roiIds);
+  return status;
+}
+
+Status PlaneSegmentation::addPixelMasks(
+    const std::vector<std::vector<PixelMaskEntry>>& masks,
+    const std::vector<int>& ids)
+{
+  std::vector<PixelMaskEntry> entries;
+  std::vector<SizeType> maskSizes;
+  for (const auto& mask : masks) {
+    entries.insert(entries.end(), mask.begin(), mask.end());
+    maskSizes.push_back(mask.size());
+  }
+  return addRaggedMasks(
+      "pixel_mask", getPixelMaskType(), entries.data(), maskSizes, ids);
+}
+
+Status PlaneSegmentation::addVoxelMasks(
+    const std::vector<std::vector<VoxelMaskEntry>>& masks,
+    const std::vector<int>& ids)
+{
+  std::vector<VoxelMaskEntry> entries;
+  std::vector<SizeType> maskSizes;
+  for (const auto& mask : masks) {
+    entries.insert(entries.end(), mask.begin(), mask.end());
+    maskSizes.push_back(mask.size());
+  }
+  return addRaggedMasks(
+      "voxel_mask", getVoxelMaskType(), entries.data(), maskSizes, ids);
+}
+
+Status PlaneSegmentation::addRaggedMasks(const std::string& maskName,
+                                         const IO::BaseDataType& type,
+                                         const void* entries,
+                                         const std::vector<SizeType>& maskSizes,
+                                         const std::vector<int>& ids)
+{
+  auto maskColumn = getConfiguredColumn(maskName);
+  auto indexColumn = getConfiguredColumn(maskName + "_index");
+  if (maskColumn == nullptr || indexColumn == nullptr) {
+    std::cerr << "PlaneSegmentation::add" << maskName << "s: The table has no "
+              << maskName << " column." << std::endl;
+    return Status::Failure;
+  }
+  const SizeType numRois = maskSizes.size();
+  if (!ids.empty() && ids.size() != numRois) {
+    std::cerr << "PlaneSegmentation: The number of ids must match the number "
+                 "of ROIs."
+              << std::endl;
+    return Status::Failure;
+  }
+  if (numRois == 0) {
+    return Status::Success;
+  }
+
+  // Append the entries of the masks
+  auto maskRecorder = maskColumn->recordData();
+  const SizeArray maskShape = maskRecorder->getShape();
+  const SizeType numEntries = maskShape.empty() ? 0 : maskShape[0];
+  const SizeType numNewEntries =
+      std::accumulate(maskSizes.begin(), maskSizes.end(), SizeType {0});
+  Status status = Status::Success;
+  if (numNewEntries > 0) {
+    status = maskRecorder->writeDataBlock(
+        {numNewEntries}, {numEntries}, type, entries);
+  }
+
+  // Append the index, i.e., the end of each mask in the mask column
+  std::vector<uint32_t> indexValues(numRois);
+  SizeType end = numEntries;
+  for (SizeType i = 0; i < numRois; ++i) {
+    end += maskSizes[i];
+    indexValues[i] = static_cast<uint32_t>(end);
+  }
+  auto indexRecorder = indexColumn->recordData();
+  const SizeArray indexShape = indexRecorder->getShape();
+  const SizeType numRows = indexShape.empty() ? 0 : indexShape[0];
+  status = status
+      && indexRecorder->writeDataBlock(
+          {numRois}, {numRows}, IO::BaseDataType::U32, indexValues.data());
 
   // Append the ids of the ROIs
   std::vector<int> roiIds = ids;

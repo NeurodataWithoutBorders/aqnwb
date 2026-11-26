@@ -1016,6 +1016,17 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(const std::string& dataPath,
     result.data =
         readDataHelper<short>(dataset, numElements, memspace, dataspace);
     result.typeIndex = typeid(short);
+  } else if (dataType.getClass() == H5T_COMPOUND) {
+    // Compound data is returned as the raw bytes of the values in the
+    // memory layout described by result.baseDataType (members and
+    // compoundSize), i.e., it can be reinterpreted as an array of the
+    // corresponding C++ struct
+    const size_t compoundSize = result.baseDataType.compoundSize;
+    std::vector<uint8_t> buffer(numElements * compoundSize);
+    H5::DataType memType = getNativeType(result.baseDataType);
+    dataset.read(buffer.data(), memType, memspace, dataspace);
+    result.data = buffer;
+    result.typeIndex = typeid(uint8_t);
   } else {
     throw std::runtime_error("Unsupported data type");
   }
@@ -1869,6 +1880,15 @@ H5::DataType HDF5IO::getNativeType(IO::BaseDataType type)
       strType.setCset(H5T_CSET_UTF8);
       return strType;
     }
+    case IO::BaseDataType::Type::T_COMPOUND: {
+      H5::CompType compType(static_cast<size_t>(type.compoundSize));
+      for (const auto& member : type.members) {
+        compType.insertMember(member.name,
+                              static_cast<size_t>(member.offset),
+                              getNativeType(IO::BaseDataType(member.type)));
+      }
+      return compType;
+    }
     default:
       baseType = H5::PredType::NATIVE_INT32;
   }
@@ -1942,6 +1962,18 @@ AQNWB::IO::BaseDataType HDF5IO::getBaseDataType(const H5::DataType& nativeType)
       size_t size = nativeType.getSize();
       return IO::BaseDataType(IO::BaseDataType::Type::T_STR, size);
     }
+  } else if (nativeType.getClass() == H5T_COMPOUND) {
+    // Compound type: get the members and their offsets
+    H5::CompType compType(nativeType.getId());
+    std::vector<IO::BaseDataType::CompoundMember> members;
+    for (int i = 0; i < compType.getNmembers(); ++i) {
+      const unsigned memberIndex = static_cast<unsigned>(i);
+      members.push_back(
+          {compType.getMemberName(memberIndex),
+           getBaseDataType(compType.getMemberDataType(memberIndex)).type,
+           static_cast<SizeType>(compType.getMemberOffset(memberIndex))});
+    }
+    return IO::BaseDataType::Compound(members, compType.getSize());
   } else if (nativeType.getClass() == H5T_ARRAY) {
     // Array type: get the base type and size
     hid_t nativeTypeId = nativeType.getId();
@@ -2006,6 +2038,17 @@ H5::DataType HDF5IO::getH5Type(IO::BaseDataType type)
       StrType strType(PredType::C_S1, static_cast<size_t>(H5T_VARIABLE));
       strType.setCset(H5T_CSET_UTF8);
       return strType;
+    }
+    case BaseDataType::Type::T_COMPOUND: {
+      // Use the same layout in the file as in memory with little-endian
+      // member types
+      CompType compType(static_cast<size_t>(type.compoundSize));
+      for (const auto& member : type.members) {
+        compType.insertMember(member.name,
+                              static_cast<size_t>(member.offset),
+                              getH5Type(BaseDataType(member.type)));
+      }
+      return compType;
     }
     default:
       return PredType::STD_I32LE;

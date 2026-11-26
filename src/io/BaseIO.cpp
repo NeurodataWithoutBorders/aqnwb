@@ -16,6 +16,15 @@ BaseDataType::BaseDataType(BaseDataType::Type t, SizeType s)
 {
 }
 
+BaseDataType BaseDataType::Compound(const std::vector<CompoundMember>& members,
+                                    SizeType size)
+{
+  BaseDataType result(T_COMPOUND, 1);
+  result.members = members;
+  result.compoundSize = size;
+  return result;
+}
+
 BaseDataType BaseDataType::STR(SizeType size)
 {
   return BaseDataType(T_STR, size);

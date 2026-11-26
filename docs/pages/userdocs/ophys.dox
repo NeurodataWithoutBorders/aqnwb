@@ -77,7 +77,7 @@
  *
  * | Type | Description |
  * |------|-------------|
- * | \ref AQNWB::NWB::PlaneSegmentation "PlaneSegmentation" | A table with one row per ROI of an imaging plane. The ROIs are defined by the `image_mask` column, i.e., a weight per pixel. Stored in the \ref AQNWB::NWB::ImageSegmentation "ImageSegmentation" container. |
+ * | \ref AQNWB::NWB::PlaneSegmentation "PlaneSegmentation" | A table with one row per ROI of an imaging plane. The ROIs are defined by the `image_mask` column (a weight per pixel) or by the `pixel_mask` / `voxel_mask` columns (a list of pixels or voxels with weights per ROI). Stored in the \ref AQNWB::NWB::ImageSegmentation "ImageSegmentation" container. |
  * | \ref AQNWB::NWB::RoiResponseSeries "RoiResponseSeries" | The responses of the ROIs over time. The `rois` \ref AQNWB::NWB::DynamicTableRegion "DynamicTableRegion" references the rows of the PlaneSegmentation. Stored in the \ref AQNWB::NWB::Fluorescence "Fluorescence" or \ref AQNWB::NWB::DfOverF "DfOverF" container. |
  *
  * The functions \ref AQNWB::NWB::Ophys::createPlaneSegmentation "createPlaneSegmentation" and
@@ -86,9 +86,11 @@
  *
  * \snippet tests/testOphysRois.cpp example_ophys_rois_snippet
  *
- * \note
- * The `pixel_mask` and `voxel_mask` columns of the PlaneSegmentation, which use compound data types,
- * are not supported yet.
+ * Instead of an `image_mask`, the ROIs can also be defined by sparse pixel (or voxel) masks, i.e., a
+ * list of (x, y, weight) entries per ROI. These columns use compound data types (see
+ * \ref AQNWB::IO::BaseDataType::Compound "BaseDataType::Compound").
+ *
+ * \snippet tests/testOphysRois.cpp example_ophys_pixel_masks_snippet
  *
  * \section ophys_ogen Recording optogenetic stimulation
  *
