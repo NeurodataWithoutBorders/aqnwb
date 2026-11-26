@@ -49,6 +49,8 @@
  *
  * - `-DAQNWB_ENABLE_OPHYS=OFF` disables the optical physiology types (e.g., `TwoPhotonSeries`, `ImagingPlane`,
  *   see \ref ophys). If the module is enabled, `AQNWB_HAS_OPHYS` is defined.
+ * - `-DAQNWB_ENABLE_OGEN=OFF` disables the optogenetics types (`OptogeneticSeries`, `OptogeneticStimulusSite`,
+ *   see \ref ophys_ogen). If the module is enabled, `AQNWB_HAS_OGEN` is defined.
  *
  * Files with types of disabled modules can still be read, but the objects are represented by the
  * generic `Container` and `Data` classes (use `fallbackToBase=true` with `RegisteredType::create`).

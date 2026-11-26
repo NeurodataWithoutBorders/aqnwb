@@ -166,7 +166,7 @@ jobs:
         run: brew install hdf5 catch2
 
       - name: Configure (optional modules disabled)
-        run: cmake "--preset=ci-macos" -DAQNWB_ENABLE_OPHYS=OFF
+        run: cmake "--preset=ci-macos" -DAQNWB_ENABLE_OPHYS=OFF -DAQNWB_ENABLE_OGEN=OFF
 
       - name: Build
         run: cmake --build build --config Release -j 2
@@ -174,7 +174,7 @@ jobs:
       - name: Install
         run: |
           cmake --install build --config Release --prefix prefix
-          if [ -d prefix/include/aqnwb-*/nwb/ophys ] || [ -d prefix/include/aqnwb-*/nwb/image ]; then
+          if [ -d prefix/include/aqnwb-*/nwb/ophys ] || [ -d prefix/include/aqnwb-*/nwb/image ] || [ -d prefix/include/aqnwb-*/nwb/ogen ]; then
             echo "The headers of disabled modules must not be installed"
             exit 1
           fi

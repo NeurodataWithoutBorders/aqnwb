@@ -57,6 +57,9 @@ TEST_CASE("registerAllTypes", "[modules]")
 #ifdef AQNWB_HAS_OPHYS
   REQUIRE(registry.count("core::TwoPhotonSeries") == 1);
 #endif
+#ifdef AQNWB_HAS_OGEN
+  REQUIRE(registry.count("core::OptogeneticSeries") == 1);
+#endif
   // Registering the types again does not change the registry
   NWB::registerAllTypes();
   REQUIRE(NWB::RegisteredType::getRegistry().size() == registry.size());

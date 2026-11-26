@@ -100,6 +100,7 @@ AqNWB uses CMake presets extensively. Key presets:
 - `BUILD_DOCS`: Build Doxygen documentation - Default: OFF
 - `ENABLE_COVERAGE`: Enable coverage reporting - Default: OFF
 - `AQNWB_ENABLE_OPHYS`: Build the optical physiology module (`src/nwb/image`, `src/nwb/ophys`) - Default: ON. Defines `AQNWB_HAS_OPHYS` if enabled
+- `AQNWB_ENABLE_OGEN`: Build the optogenetics module (`src/nwb/ogen`) - Default: ON. Defines `AQNWB_HAS_OGEN` if enabled
 
 ### Standard Build Workflow
 

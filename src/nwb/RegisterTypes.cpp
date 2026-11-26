@@ -33,6 +33,11 @@
 #  include "nwb/ophys/TwoPhotonSeries.hpp"
 #endif
 
+#ifdef AQNWB_HAS_OGEN
+#  include "nwb/ogen/OptogeneticSeries.hpp"
+#  include "nwb/ogen/OptogeneticStimulusSite.hpp"
+#endif
+
 void AQNWB::NWB::registerAllTypes()
 {
   // Calling registerSubclass references the object file of each class, which
@@ -70,5 +75,10 @@ void AQNWB::NWB::registerAllTypes()
   OnePhotonSeries::registerSubclass();
   OpticalChannel::registerSubclass();
   TwoPhotonSeries::registerSubclass();
+#endif
+#ifdef AQNWB_HAS_OGEN
+  // core: optogenetics module
+  OptogeneticSeries::registerSubclass();
+  OptogeneticStimulusSite::registerSubclass();
 #endif
 }
