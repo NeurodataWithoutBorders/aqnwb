@@ -154,6 +154,35 @@ jobs:
           exit 1
         fi
 
+  test-without-optional-modules:
+    # Build and test with all optional neurodata_type modules disabled to check
+    # that the core library does not depend on them
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies - macos
+        run: brew install hdf5 catch2
+
+      - name: Configure (optional modules disabled)
+        run: cmake "--preset=ci-macos" -DAQNWB_ENABLE_OPHYS=OFF
+
+      - name: Build
+        run: cmake --build build --config Release -j 2
+
+      - name: Install
+        run: |
+          cmake --install build --config Release --prefix prefix
+          if [ -d prefix/include/aqnwb-*/nwb/ophys ] || [ -d prefix/include/aqnwb-*/nwb/image ]; then
+            echo "The headers of disabled modules must not be installed"
+            exit 1
+          fi
+
+      - name: Test
+        working-directory: build
+        run: ctest --output-on-failure --no-tests=error -C Release -j 2
+
   test-cxx23:
     runs-on: macos-latest
     steps:

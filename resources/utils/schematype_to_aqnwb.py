@@ -1084,7 +1084,6 @@ AQNWB_TODO_REFERENCES = {
     "nwbfile-helper": "src/nwb/NWBFile.cpp (NWBFile::createElectricalSeries)",
     "override": "src/nwb/ecephys/ElectricalSeries.hpp (ElectricalSeries::Spec)",
     "parent-spec": "src/nwb/RegisteredTypeSpec.hpp",
-    "scalar-dataset": "src/nwb/base/TimeSeries.cpp (starting_time dataset)",
     "table-columns": "src/nwb/event/EventsTable.cpp",
     "write-helper": "src/io/nwbio_utils.hpp",
 }
@@ -1343,7 +1342,7 @@ def get_spec_fields(neurodata_type: Spec, type_to_namespace_map: Dict[str, str])
     inherited from the parent type are handled by the Spec and initialize method of the parent.
 
     Each field is a dictionary with:
-    - ``kind``: One of "attribute", "dataset-config", "dataset-string", "link", "group", or "todo"
+    - ``kind``: One of "attribute", "dataset-config", "dataset-value", "link", "group", "child", or "todo"
     - ``var``/``setter``/``cpp_type``/``default``: The member variable, setter, C++ type, and
       default value of the field in the Spec (``var`` is None if the field is not part of the Spec)
     - ``required``: Whether the field is required
@@ -1467,12 +1466,12 @@ def get_spec_fields(neurodata_type: Spec, type_to_namespace_map: Dict[str, str])
             fields.append(field)
             continue
         if isinstance(spec, DatasetSpec):
-            if base_type is not None or spec.shape is not None:
+            if spec.shape is not None and len(spec.shape) > 1 and not isinstance(spec.shape[0], (list, tuple)):
                 field["todo"] += aqnwb_todo(
-                    "scalar-dataset", f"Create the scalar dataset '{path}' and write the value of the Spec")
+                    "dtype", f"Multi-dimensional dataset '{path}' with a value needs to be created manually")
                 field["kind"] = "todo"
             else:
-                field["kind"] = "dataset-string"
+                field["kind"] = "dataset-value"
         else:
             field["kind"] = "attribute"
         if fixed_value is not None:
@@ -1627,7 +1626,7 @@ def _render_field_init(field: Dict, class_name: str) -> str:
                 f"    status = status && ioPtr->createLink(AQNWB::mergePaths(\"/\" + m_path, \"{name}\"),\n"
                 f"                                         AQNWB::mergePaths(\"/\", spec.{field['var']}->getPath()));\n"
                 f"}}\n")
-    elif kind in ("attribute", "dataset-string"):
+    elif kind in ("attribute", "dataset-value"):
         if field["fixed"] is not None:
             code = f"const {field['cpp_type']} {snake_to_camel(path.replace('/', '_'), lower_camel=True)}Value = {field['fixed']};\n"
             value = f"{snake_to_camel(path.replace('/', '_'), lower_camel=True)}Value"
@@ -1635,8 +1634,22 @@ def _render_field_init(field: Dict, class_name: str) -> str:
         else:
             optional = field["cpp_type"].startswith("std::optional")
         val = f"{value}.value()" if optional else value
-        if kind == "dataset-string":
+        call = None
+        block = None
+        if kind == "dataset-value" and field["base_type"] is None:
             call = f"ioPtr->createStringDataSet({full_path_str}, {val})"
+        elif kind == "dataset-value" and field["spec"].shape is None:
+            call = f"ioPtr->createScalarDataSet({field['base_type']}, &{val}, {full_path_str})"
+        elif kind == "dataset-value":
+            recorder = f"{snake_to_camel(path.replace('/', '_'), lower_camel=True)}Recorder"
+            block = (f"auto {recorder} = ioPtr->createArrayDataSet(\n"
+                     f"    AQNWB::IO::ArrayDataSetConfig({field['base_type']}, SizeArray {{{val}.size()}}, SizeArray {{{val}.size()}}),\n"
+                     f"    {full_path_str});\n"
+                     f"if ({recorder} == nullptr) {{\n"
+                     f"    status = Status::Failure;\n"
+                     f"}} else {{\n"
+                     f"    status = status && {recorder}->writeDataBlock(SizeArray {{{val}.size()}}, {field['base_type']}, {val}.data());\n"
+                     f"}}\n")
         elif field["base_type"] is None:
             call = f'ioPtr->createAttribute({val}, {parent_path_str}, "{name}")'
         elif field["spec"].shape is not None:
@@ -1644,10 +1657,12 @@ def _render_field_init(field: Dict, class_name: str) -> str:
                     f'{parent_path_str}, "{name}", {val}.size())')
         else:
             call = f'ioPtr->createAttribute({field["base_type"]}, &{val}, {parent_path_str}, "{name}")'
+        if block is None:
+            block = f"status = status && {call};\n"
         if optional:
-            code += f"if ({value}.has_value()) {{\n    status = status && {call};\n}}\n"
+            code += f"if ({value}.has_value()) {{\n" + "".join(f"    {line}\n" for line in block.rstrip("\n").split("\n")) + "}\n"
         else:
-            code += f"status = status && {call};\n"
+            code += block
     if field["guard"] and code:
         code = f"if ({field['guard']}) {{\n" + "".join(f"    {line}\n" for line in code.rstrip("\n").split("\n")) + "}\n"
     src = field["todo"].replace("    // ", "// ") if field["todo"] else ""
@@ -1689,6 +1704,10 @@ def render_spec_cpp(neurodata_type: Spec, all_types: Dict[str, Spec], type_to_na
             condition = f"{field['var']}.empty()"
         else:
             continue
+        # Required fields of optional parents (e.g., attributes of optional datasets)
+        # are only required if the parent is created
+        if field["guard"]:
+            condition = f"{field['guard'].replace('spec.', '')} && {condition}"
         checks += f"""    if ({condition}) {{
         std::cerr << "{class_name}::Spec::validate: {field['var']} is required." << std::endl;
         status = Status::Failure;

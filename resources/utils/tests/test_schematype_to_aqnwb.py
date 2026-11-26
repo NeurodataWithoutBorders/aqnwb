@@ -68,6 +68,10 @@ EXTENSIONS_YAML = """groups:
   - name: firmware
     dtype: text
     doc: The firmware version
+  - name: temperature
+    dtype: float32
+    doc: The temperature
+    quantity: '?'
   - name: calibration
     dtype: float32
     shape:
@@ -80,6 +84,9 @@ EXTENSIONS_YAML = """groups:
       default_value: volts
       doc: The unit
       required: false
+    - name: source
+      dtype: text
+      doc: The source of the calibration
   groups:
   - neurodata_type_inc: NWBContainer
     doc: Components of the device
@@ -200,6 +207,11 @@ def test_initialize_and_validate(generated):
     assert 'ioPtr->createAttribute(fixedLabelValue, m_path, "fixed_label")' in impl
     assert 'spec.channels.data(), m_path, "channels", spec.channels.size()' in impl
     assert 'ioPtr->createStringDataSet(AQNWB::mergePaths(m_path, "firmware"), spec.firmware)' in impl
+    # Numeric scalar dataset
+    assert ("ioPtr->createScalarDataSet(AQNWB::IO::BaseDataType::F32, &spec.temperature.value(), "
+            'AQNWB::mergePaths(m_path, "temperature"))') in impl
+    # Required attributes of optional datasets are only required if the dataset is set
+    assert "if (calibration != nullptr && calibrationSource.empty())" in impl
     # The attribute of the optional dataset is only created if the dataset is created
     assert re.search(r"if \(spec\.calibration != nullptr\) \{\s*status = status && "
                      r"ioPtr->createAttribute\(spec\.calibrationUnit", impl)

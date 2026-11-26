@@ -1,0 +1,82 @@
+/**
+ * \page ophys Acquiring Optical Physiology Data 🔬
+ *
+ * \tableofcontents
+ *
+ * \section ophys_overview Overview
+ *
+ * AqNWB supports the acquisition of raw imaging data from one-photon and two-photon
+ * microscopes. The data is described by the following neurodata_types:
+ *
+ * | Type | Description |
+ * |------|-------------|
+ * | \ref AQNWB::NWB::ImagingPlane "ImagingPlane" | Metadata about an imaging plane (e.g., location, indicator, excitation wavelength), stored in `/general/optophysiology`. Owns one or more \ref AQNWB::NWB::OpticalChannel "OpticalChannel" objects and links to the \ref AQNWB::NWB::Device "Device" used for imaging. |
+ * | \ref AQNWB::NWB::OpticalChannel "OpticalChannel" | An optical channel (e.g., emission wavelength) used to record from an imaging plane. |
+ * | \ref AQNWB::NWB::TwoPhotonSeries "TwoPhotonSeries" | Frames recorded with a two-photon microscope. Links to its imaging plane. |
+ * | \ref AQNWB::NWB::OnePhotonSeries "OnePhotonSeries" | Frames recorded with a one-photon microscope. Links to its imaging plane. |
+ * | \ref AQNWB::NWB::ImageSeries "ImageSeries" | The general image series type that the series above inherit from. Also supports images stored in external files. |
+ *
+ * All types are initialized from a nested `Spec` struct, e.g.,
+ * \ref AQNWB::NWB::TwoPhotonSeries::Spec "TwoPhotonSeries::Spec", which is validated before any
+ * data is written. The convenience functions in the \ref AQNWB::NWB::Ophys "Ophys" namespace create the
+ * objects at the locations defined by NWB.
+ *
+ * \note
+ * The optical physiology types are part of an optional module that is enabled by default. It can be
+ * disabled at build time via the CMake option `-DAQNWB_ENABLE_OPHYS=OFF`. The preprocessor
+ * definition `AQNWB_HAS_OPHYS` indicates that the module is available.
+ *
+ * \section ophys_workflow Recording two-photon imaging data
+ *
+ * \subsection ophys_workflow_nwbfile 1. Create the NWBFile
+ *
+ * As usual, we first create the I/O and the \ref AQNWB::NWB::NWBFile "NWBFile" (see \ref workflow).
+ *
+ * \snippet tests/examples/testOphysWorkflowExamples.cpp example_ophys_nwbfile_snippet
+ *
+ * \subsection ophys_workflow_device 2. Create the Device
+ *
+ * Next, we create the \ref AQNWB::NWB::Device "Device" that represents the microscope.
+ *
+ * \snippet tests/examples/testOphysWorkflowExamples.cpp example_ophys_device_snippet
+ *
+ * \subsection ophys_workflow_imaging_plane 3. Create the ImagingPlane
+ *
+ * The \ref AQNWB::NWB::ImagingPlane "ImagingPlane" describes where and how the data is acquired.
+ * The optical channels are added to the spec via
+ * \ref AQNWB::NWB::ImagingPlane::Spec::withOpticalChannel "withOpticalChannel" and are created
+ * together with the imaging plane.
+ *
+ * \snippet tests/examples/testOphysWorkflowExamples.cpp example_ophys_imaging_plane_snippet
+ *
+ * \subsection ophys_workflow_series 4. Create the TwoPhotonSeries
+ *
+ * The data of an image series is a 3D `[frame, x, y]` (or 4D `[frame, x, y, z]`) array.
+ * \ref AQNWB::NWB::Ophys::getDefaultImageSeriesDataConfig "getDefaultImageSeriesDataConfig"
+ * creates a dataset configuration that is extendable in time and stores one frame per chunk.
+ * Here, the frames are acquired at a regular rate, so we specify the starting time and rate instead
+ * of recording timestamps for each frame.
+ *
+ * \snippet tests/examples/testOphysWorkflowExamples.cpp example_ophys_two_photon_series_snippet
+ *
+ * \subsection ophys_workflow_record 5. Record the frames
+ *
+ * During the recording, we append frames via
+ * \ref AQNWB::NWB::Ophys::writeImageSeriesFrames "writeImageSeriesFrames", using the recording
+ * object index of the series, or directly via
+ * \ref AQNWB::NWB::ImageSeries::writeFrames "ImageSeries::writeFrames". The frames are contiguous
+ * arrays in row-major order with the data type of the dataset.
+ *
+ * \snippet tests/examples/testOphysWorkflowExamples.cpp example_ophys_record_snippet
+ *
+ * \section ophys_reading Reading the data
+ *
+ * The data can be read via the read methods of the types, e.g.,
+ * \ref AQNWB::NWB::TwoPhotonSeries::readImagingPlane "TwoPhotonSeries::readImagingPlane" (see \ref read_page).
+ *
+ * \note
+ * When linking AqNWB statically, the linker only includes the classes that the application uses
+ * directly. Applications that read files with types they do not use directly should call
+ * \ref AQNWB::NWB::registerAllTypes "registerAllTypes()" before reading such that
+ * \ref AQNWB::NWB::RegisteredType::create "RegisteredType::create" can create objects of all types.
+ */

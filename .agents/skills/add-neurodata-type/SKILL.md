@@ -43,8 +43,7 @@ List them via `grep -rn "AQNWB-TODO" src/nwb/<module>`. Resolve one category at 
 | `child` | Owned neurodata_type objects are not in the Spec. Create them after `initialize` via `DEFINE_UNNAMED_REGISTERED_FIELD` create methods, or add nested specs for required children. | `src/nwb/NWBFile.hpp` |
 | `table-columns` | Add the required columns to `createDefaultDataSpecs`, and check them with `checkRequiredColumnSpec` in `validateDataSpecs`. | `src/nwb/event/EventsTable.cpp` |
 | `dataspec` | Dataset types (e.g., VectorData subtypes) need a nested `DataSpec` and a `createDataSpec` factory. | `src/nwb/event/TimestampVectorData.hpp` |
-| `dtype` | Reference, compound, undefined, or `numeric` dtypes. Restrict the allowed `BaseDataType`s in `validate()`. | `src/nwb/hdmf/table/DynamicTable.hpp` |
-| `scalar-dataset` | Numeric scalar datasets have to be created and written manually. | `src/nwb/base/TimeSeries.cpp` (`starting_time`) |
+| `dtype` | Reference, compound, undefined, or `numeric` dtypes, and multi-dimensional datasets with a value. Restrict the allowed `BaseDataType`s in `validate()`. | `src/nwb/hdmf/table/DynamicTable.hpp` |
 | `override` | Set the fixed or default value of an inherited field in the Spec constructor, and check it in `validate()`. | `src/nwb/ecephys/ElectricalSeries.hpp` |
 | `parent-spec` | The parent class has no `Spec`. Add one to the parent first. | `src/nwb/RegisteredTypeSpec.hpp` |
 | `link` | Unnamed links need custom handling. | `src/nwb/file/ElectrodeGroup.cpp` |

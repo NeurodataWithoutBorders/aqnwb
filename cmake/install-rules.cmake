@@ -11,12 +11,19 @@ include(GNUInstallDirs)
 
 set(package aqnwb)
 
+# Exclude the headers of disabled modules
+set(aqnwb_excluded_module_dirs "")
+if(NOT AQNWB_ENABLE_OPHYS)
+  list(APPEND aqnwb_excluded_module_dirs REGEX "/nwb/(image|ophys)(/|$)" EXCLUDE)
+endif()
+
 install(
     DIRECTORY
     src/
     "${PROJECT_BINARY_DIR}/export/"
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
     COMPONENT aqnwb_Development
+    ${aqnwb_excluded_module_dirs}
 )
 
 install(

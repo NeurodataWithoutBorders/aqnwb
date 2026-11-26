@@ -862,6 +862,20 @@ public:
       const std::string& path, const std::vector<std::string>& values) = 0;
 
   /**
+   * @brief Creates a non-modifiable scalar dataset with a numeric value.
+   *
+   * Use createStringDataSet for scalar string datasets.
+   *
+   * @param type The numeric data type of the dataset.
+   * @param data Pointer to the value of the dataset (of the given type).
+   * @param path The location in the file of the dataset.
+   * @return The status of the dataset creation operation.
+   */
+  virtual Status createScalarDataSet(const BaseDataType& type,
+                                     const void* data,
+                                     const std::string& path) = 0;
+
+  /**
    * @brief Creates a dataset that holds an array of references to groups within
    * the file.
    * @param path The location in the file of the new dataset.

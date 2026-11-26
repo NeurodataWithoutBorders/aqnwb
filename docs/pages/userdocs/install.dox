@@ -44,6 +44,15 @@
  *
  * Use the flag ``-DBUILD_SHARED_LIBS=ON`` to generate the shared library file.
  *
+ * AqNWB groups the classes of some neurodata_types in optional modules, which are enabled by default
+ * and can be disabled to reduce the size of the library and the installed headers:
+ *
+ * - `-DAQNWB_ENABLE_OPHYS=OFF` disables the optical physiology types (e.g., `TwoPhotonSeries`, `ImagingPlane`,
+ *   see \ref ophys). If the module is enabled, `AQNWB_HAS_OPHYS` is defined.
+ *
+ * Files with types of disabled modules can still be read, but the objects are represented by the
+ * generic `Container` and `Data` classes (use `fallbackToBase=true` with `RegisteredType::create`).
+ *
  * \note
  * If you are using a custom installation of **HDF5** that is not being detected
  * automatically by CMake, you can specify the `HDF5_ROOT` environment variable to
