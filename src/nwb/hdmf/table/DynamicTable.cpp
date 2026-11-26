@@ -70,6 +70,16 @@ Status DynamicTable::initialize(const std::string& description,
   return containerStatus && configureStatus;
 }
 
+Status DynamicTable::initialize(const Spec& spec)
+{
+  if (spec.validate() != Status::Success) {
+    std::cerr << "DynamicTable::initialize: Invalid " << spec.getTypeName()
+              << " spec for " << m_path << std::endl;
+    return Status::Failure;
+  }
+  return initialize(spec.description, spec.columns);
+}
+
 Status DynamicTable::validateDataSpecs(
     const std::vector<DataSpecPtr>& dataSpecs) const
 {

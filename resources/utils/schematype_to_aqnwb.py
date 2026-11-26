@@ -428,8 +428,7 @@ def get_initialize_method_parameters(neurodata_type: Spec, type_to_namespace_map
             type_name = obj.data_type
             full_type_name = type_name
             if type_name in type_to_namespace_map:
-                actual_cpp_namespace_name = to_cpp_namespace_name(type_to_namespace_map[type_name])
-                full_type_name = f"{actual_cpp_namespace_name}::{type_name}"
+                full_type_name = resolve_cpp_type(type_name, type_to_namespace_map)["cpp_class"]
             # If the dataset is a single object, then we pass it as a shared_ptr, otherwise
             # we pass a vector of shared_ptrs
             if obj.name is not None or obj.quantity in ["1", "?", "one_or_zero"]:
@@ -460,6 +459,9 @@ def get_initialize_method_parameters(neurodata_type: Spec, type_to_namespace_map
         # Attributes and datasets with a default value should be passed by value
         else:
             obj_cpp_type = get_cpp_type(obj.dtype)
+            # Use the resolved C++ class for references to other neurodata_types
+            if isinstance(obj.dtype, dict) and obj.dtype.get("target_type", None) in type_to_namespace_map:
+                obj_cpp_type = f"std::shared_ptr<{resolve_cpp_type(obj.dtype['target_type'], type_to_namespace_map)['cpp_class']}>"
             if obj.shape is None:
                 if obj_cpp_type == "std::string":
                     cpp_type_str = f"const {obj_cpp_type}&"
@@ -1007,6 +1009,10 @@ def get_referenced_types(neurodata_type: Spec, type_to_namespace_map: Dict[str, 
             target_type = spec.dtype.get("target_type", None)
             if target_type is not None:
                 referenced_types.append(target_type)
+    # Check the targets of links
+    for link in getattr(neurodata_type, "links", []):
+        if link.target_type is not None:
+            referenced_types.append(link.target_type)
     return set(referenced_types)  # Return unique types only
 
 
@@ -1035,9 +1041,7 @@ def render_forward_declarations(
     for referenced_type in sorted(referenced_types):
         if referenced_type == current_type_name:
             continue
-        referenced_namespace = to_cpp_namespace_name(
-            type_to_namespace_map.get(referenced_type, "")
-        )
+        referenced_namespace = resolve_cpp_type(referenced_type, type_to_namespace_map)["cpp_namespace"]
         declarations_by_namespace.setdefault(referenced_namespace, []).append(
             referenced_type
         )
@@ -1053,6 +1057,720 @@ def render_forward_declarations(
         forward_declarations += f"}}  // namespace {referenced_namespace}\n"
 
     return forward_declarations
+
+
+
+###############################################################################
+# Reuse of the neurodata_types implemented in AqNWB and resolution of C++ types
+###############################################################################
+
+# Context of the current code generation run. Set by main() (or by tests)
+GENERATOR_CONTEXT = {
+    # Mapping of (namespace, type_name) to information about the class implemented in AqNWB.
+    # Empty if existing AqNWB classes should not be reused.
+    "aqnwb_types": {},
+    # Mapping of neurodata_type names to their source schema file
+    "type_to_file_map": {},
+}
+
+# Categories of the AQNWB-TODO markers emitted by the generator. Each category is
+# associated with a reference implementation in AqNWB that shows how to resolve the TODO.
+AQNWB_TODO_REFERENCES = {
+    "child": "src/nwb/NWBFile.hpp (DEFINE_UNNAMED_REGISTERED_FIELD create methods)",
+    "chunking": "src/nwb/NWBFile.cpp (NWBFile::createSpikeEventSeries)",
+    "dataspec": "src/nwb/event/TimestampVectorData.hpp",
+    "dtype": "src/nwb/hdmf/table/DynamicTable.hpp (checkRequiredColumnSpec)",
+    "link": "src/nwb/file/ElectrodeGroup.cpp",
+    "nwbfile-helper": "src/nwb/NWBFile.cpp (NWBFile::createElectricalSeries)",
+    "override": "src/nwb/ecephys/ElectricalSeries.hpp (ElectricalSeries::Spec)",
+    "parent-spec": "src/nwb/RegisteredTypeSpec.hpp",
+    "scalar-dataset": "src/nwb/base/TimeSeries.cpp (starting_time dataset)",
+    "table-columns": "src/nwb/event/EventsTable.cpp",
+    "write-helper": "src/io/nwbio_utils.hpp",
+}
+
+
+def aqnwb_todo(category: str, message: str, indent: str = "    ") -> str:
+    """
+    Render a structured AQNWB-TODO comment.
+
+    The format is ``// AQNWB-TODO(<category>): <message> -- see <reference>`` such
+    that remaining TODOs can be found via ``grep AQNWB-TODO``.
+
+    Parameters:
+    category (str): The category of the TODO. Must be a key of AQNWB_TODO_REFERENCES.
+    message (str): Description of what needs to be done.
+    indent (str): Indentation to use.
+
+    Returns:
+    str: The rendered comment line(s) including a trailing newline.
+    """
+    reference = AQNWB_TODO_REFERENCES[category]
+    return f"{indent}// AQNWB-TODO({category}): {message} -- see {reference}\n"
+
+
+def _namespace_from_cpp_expression(expression: str) -> str:
+    """Map the namespace expression used in REGISTER_SUBCLASS to the schema namespace name."""
+    expression = expression.strip()
+    if expression.startswith('"') and expression.endswith('"'):
+        return expression.strip('"')
+    match = re.search(r"SPEC::(\w+)::namespaceName", expression)
+    if match:
+        return match.group(1).lower().replace("_", "-")
+    return expression
+
+
+def scan_aqnwb_types(src_dir: Path) -> Dict[Tuple[str, str], Dict]:
+    """
+    Scan the AqNWB source tree for neurodata_types that are already implemented.
+
+    Parameters:
+    src_dir (Path): Path to the ``src`` folder of AqNWB.
+
+    Returns:
+    Dict[Tuple[str, str], Dict]: Mapping of (namespace, type_name) to a dictionary with the
+        ``cpp_class``, ``include`` path, ``has_spec`` flag, and the ``setters`` of the Spec.
+    """
+    aqnwb_types = {}
+    nwb_dir = Path(src_dir) / "nwb"
+    if not nwb_dir.is_dir():
+        logger.warning(f"AqNWB source folder {nwb_dir} not found. Existing AqNWB classes are not reused.")
+        return aqnwb_types
+    register_pattern = re.compile(r"^\s*REGISTER_SUBCLASS\(\s*(\w+)\s*,\s*([\w:]+)\s*,\s*([^)]+?)\s*\)", re.MULTILINE)
+    setter_patterns = [
+        re.compile(r"DEFINE_SPEC_FIELD\(\s*Spec\s*,\s*[^,]+?\s*,\s*\w+\s*,\s*(\w+)"),
+        re.compile(r"INHERIT_SPEC_SETTER\(\s*Spec\s*,\s*[\w:]+\s*,\s*(\w+)\s*\)"),
+        re.compile(r"Spec&\s+(with\w+)\s*\("),
+    ]
+    for header in sorted(nwb_dir.rglob("*.hpp")):
+        text = header.read_text()
+        for match in register_pattern.finditer(text):
+            type_name, _, namespace_expr = match.groups()
+            setters = []
+            for pattern in setter_patterns:
+                for setter in pattern.findall(text):
+                    if setter not in setters:
+                        setters.append(setter)
+            aqnwb_types[(_namespace_from_cpp_expression(namespace_expr), type_name)] = {
+                "cpp_class": f"AQNWB::NWB::{type_name}",
+                "include": header.relative_to(src_dir).as_posix(),
+                "has_spec": "REGISTER_SPEC(" in text,
+                "setters": setters,
+            }
+    return aqnwb_types
+
+
+def get_aqnwb_type(type_name: str, type_to_namespace_map: Dict[str, str]) -> Dict:
+    """
+    Get the information about the AqNWB class implementing a neurodata_type.
+
+    Parameters:
+    type_name (str): The name of the neurodata_type.
+    type_to_namespace_map (Dict[str, str]): Mapping of types to their namespaces.
+
+    Returns:
+    Dict: The information about the class from scan_aqnwb_types or None if the type is not
+        implemented in AqNWB (or if existing classes should not be reused).
+    """
+    namespace = type_to_namespace_map.get(type_name, None)
+    return GENERATOR_CONTEXT["aqnwb_types"].get((namespace, type_name), None)
+
+
+def resolve_cpp_type(type_name: str, type_to_namespace_map: Dict[str, str]) -> Dict:
+    """
+    Resolve the C++ class and include path to use for a neurodata_type.
+
+    Types that are implemented in AqNWB use the existing class (e.g., ``AQNWB::NWB::TimeSeries``
+    from ``nwb/base/TimeSeries.hpp``). All other types use the generated class
+    (e.g., ``CORE::ImageSeries`` from ``core/image/ImageSeries.hpp``).
+
+    Parameters:
+    type_name (str): The name of the neurodata_type.
+    type_to_namespace_map (Dict[str, str]): Mapping of types to their namespaces.
+
+    Returns:
+    Dict: Dictionary with the ``cpp_namespace``, ``cpp_class``, ``include``, ``is_aqnwb_type``,
+        ``has_spec``, and ``setters`` (only for AqNWB types) of the type.
+    """
+    aqnwb_type = get_aqnwb_type(type_name, type_to_namespace_map)
+    if aqnwb_type is not None:
+        return {
+            "cpp_namespace": "AQNWB::NWB",
+            "cpp_class": aqnwb_type["cpp_class"],
+            "include": aqnwb_type["include"],
+            "is_aqnwb_type": True,
+            "has_spec": aqnwb_type["has_spec"],
+            "setters": aqnwb_type["setters"],
+        }
+    namespace = type_to_namespace_map.get(type_name, "")
+    cpp_namespace = to_cpp_namespace_name(namespace)
+    subfolder = get_schema_subfolder_name(GENERATOR_CONTEXT["type_to_file_map"].get(type_name, None))
+    return {
+        "cpp_namespace": cpp_namespace,
+        "cpp_class": f"{cpp_namespace}::{type_name}",
+        "include": f"{namespace}/{subfolder}/{type_name}.hpp",
+        "is_aqnwb_type": False,
+        "has_spec": True,
+        "setters": None,
+    }
+
+
+def get_spec_setters(type_name: str, all_types: Dict[str, Spec], type_to_namespace_map: Dict[str, str]) -> List[str]:
+    """
+    Get the names of all setters of the Spec of a neurodata_type, including inherited setters.
+
+    Parameters:
+    type_name (str): The name of the neurodata_type.
+    all_types (Dict[str, Spec]): A dictionary of all neurodata types.
+    type_to_namespace_map (Dict[str, str]): Mapping of types to their namespaces.
+
+    Returns:
+    List[str]: The names of the setters, e.g., ["withDescription", ...].
+    """
+    if type_name is None:
+        return []
+    resolved = resolve_cpp_type(type_name, type_to_namespace_map)
+    if resolved["is_aqnwb_type"]:
+        return list(resolved["setters"]) if resolved["has_spec"] else []
+    neurodata_type = all_types.get(type_name, None)
+    if neurodata_type is None or isinstance(neurodata_type, DatasetSpec):
+        return []
+    setters = get_spec_setters(getattr(neurodata_type, "neurodata_type_inc", None), all_types, type_to_namespace_map)
+    for field in get_spec_fields(neurodata_type, type_to_namespace_map):
+        if field.get("setter") and field["setter"] not in setters:
+            setters.append(field["setter"])
+    return setters
+
+
+def is_dynamic_table_type(type_name: str, all_types: Dict[str, Spec]) -> bool:
+    """Check whether a neurodata_type is DynamicTable or inherits from it."""
+    while type_name is not None:
+        if type_name == "DynamicTable":
+            return True
+        spec = all_types.get(type_name, None)
+        type_name = getattr(spec, "neurodata_type_inc", None) if spec is not None else None
+    return False
+
+
+def uses_aqnwb_dynamic_table(type_name: str, all_types: Dict[str, Spec], type_to_namespace_map: Dict[str, str]) -> bool:
+    """
+    Check whether a neurodata_type is a subtype of the DynamicTable class implemented in AqNWB.
+
+    Only subtypes of the AqNWB DynamicTable class support the DataSpec-based configuration of
+    the columns via createDefaultDataSpecs and validateDataSpecs.
+    """
+    return (type_name != "DynamicTable"
+            and is_dynamic_table_type(type_name, all_types)
+            and get_aqnwb_type("DynamicTable", type_to_namespace_map) is not None)
+
+
+def is_timeseries_type(type_name: str, all_types: Dict[str, Spec]) -> bool:
+    """Check whether a neurodata_type is TimeSeries or inherits from it."""
+    while type_name is not None:
+        if type_name == "TimeSeries":
+            return True
+        spec = all_types.get(type_name, None)
+        type_name = getattr(spec, "neurodata_type_inc", None) if spec is not None else None
+    return False
+
+
+def get_parent_class_info(neurodata_type: Spec, type_to_namespace_map: Dict[str, str]) -> Dict:
+    """
+    Determine the C++ parent class of a neurodata_type.
+
+    Parameters:
+    neurodata_type (Spec): The neurodata type spec.
+    type_to_namespace_map (Dict[str, str]): Mapping of types to their namespaces.
+
+    Returns:
+    Dict: Dictionary with the ``parent_type`` name (or None), the qualified ``parent_class``,
+        the ``include`` for the parent, and whether the parent ``is_aqnwb_type`` and ``has_spec``.
+    """
+    class_name = neurodata_type.neurodata_type_def
+    parent_type = getattr(neurodata_type, "neurodata_type_inc", None)
+    if class_name in ["Container", "Data"]:
+        # special case to avoid registering Container as a subclass of Container
+        return {"parent_type": None, "parent_class": "AQNWB::NWB::RegisteredType",
+                "include": "nwb/RegisteredType.hpp", "is_aqnwb_type": True, "has_spec": False}
+    if parent_type:
+        if "/" in parent_type:
+            parent_namespace, parent_name = parent_type.split("/")
+            return {"parent_type": parent_name, "parent_class": f"{parent_namespace}::{parent_name}",
+                    "include": None, "is_aqnwb_type": False, "has_spec": True}
+        resolved = resolve_cpp_type(parent_type, type_to_namespace_map)
+        return {"parent_type": parent_type, "parent_class": resolved["cpp_class"], "include": resolved["include"],
+                "is_aqnwb_type": resolved["is_aqnwb_type"], "has_spec": resolved["has_spec"]}
+    if isinstance(neurodata_type, DatasetSpec):
+        return {"parent_type": None, "parent_class": "AQNWB::NWB::Data",
+                "include": "nwb/hdmf/base/Data.hpp", "is_aqnwb_type": True, "has_spec": False}
+    return {"parent_type": None, "parent_class": "AQNWB::NWB::Container",
+            "include": "nwb/hdmf/base/Container.hpp", "is_aqnwb_type": True, "has_spec": True}
+
+
+###############################################################################
+# Rendering of the nested Spec and the initialize(const Spec&) method
+###############################################################################
+
+def _doc_comment(doc: str, indent: str = "    ") -> str:
+    """Render a Doxygen brief comment for a Spec field."""
+    doc = " ".join(str(doc).split()).replace("*/", "* /")
+    return f"{indent}/// @brief {doc}\n"
+
+
+def _attribute_cpp_value_type(spec: Spec) -> Tuple[str, str]:
+    """
+    Get the C++ value type and BaseDataType to use for an attribute or scalar dataset.
+
+    Returns:
+    Tuple[str, str]: The C++ type (e.g., ``float`` or ``std::vector<float>``) and the
+        BaseDataType (e.g., ``AQNWB::IO::BaseDataType::F32``). The BaseDataType is None for strings.
+    """
+    if spec.dtype == "numeric":
+        cpp_type, base_type = "double", "AQNWB::IO::BaseDataType::F64"
+    else:
+        cpp_type = get_cpp_type(spec.dtype)
+        base_type = None if cpp_type == "std::string" else get_basedata_type(spec.dtype)
+    if spec.shape is not None:
+        cpp_type = f"std::vector<{cpp_type}>"
+    return cpp_type, base_type
+
+
+def get_spec_fields(neurodata_type: Spec, type_to_namespace_map: Dict[str, str]) -> List[Dict]:
+    """
+    Get the fields of the nested Spec of a group neurodata_type and how to initialize them.
+
+    Only the fields that are defined (or overridden) by the type itself are included. Fields
+    inherited from the parent type are handled by the Spec and initialize method of the parent.
+
+    Each field is a dictionary with:
+    - ``kind``: One of "attribute", "dataset-config", "dataset-string", "link", "group", or "todo"
+    - ``var``/``setter``/``cpp_type``/``default``: The member variable, setter, C++ type, and
+      default value of the field in the Spec (``var`` is None if the field is not part of the Spec)
+    - ``required``: Whether the field is required
+    - ``fixed``: The C++ expression of the value if the value is fixed by the schema
+    - ``path``/``name``/``parent_path``: The path of the object relative to the type, the name of
+      the object, and the path of the parent relative to the type
+    - ``base_type``: The BaseDataType for numeric attributes
+    - ``doc``: The documentation of the field
+    - ``todo``: Rendered AQNWB-TODO comment(s) for things the generator cannot decide
+
+    Parameters:
+    neurodata_type (Spec): The neurodata type spec.
+    type_to_namespace_map (Dict[str, str]): Mapping of types to their namespaces.
+
+    Returns:
+    List[Dict]: The list of fields.
+    """
+    fields = []
+    params = get_initialize_method_parameters(
+        neurodata_type=neurodata_type,
+        type_to_namespace_map=type_to_namespace_map,
+        sorted=False)
+
+    def path_parts(path: str) -> Tuple[str, str]:
+        parts = path.rsplit("/", 1) if path else ["", ""]
+        return (parts[0], parts[1]) if len(parts) == 2 else ("", parts[0])
+
+    # Paths of untyped groups and datasets inherited from the parent. Their contents are
+    # handled by the parent as well.
+    inherited_paths = []
+
+    for param in params:
+        spec = param["spec"]
+        is_inherited = neurodata_type.is_inherited_spec(spec)
+        is_overridden = neurodata_type.is_overridden_spec(spec)
+        path = param["path"]
+        if path and any(path == p or path.startswith(p + "/") for p in inherited_paths):
+            continue
+        # Skip the contents of untyped groups inherited from the parent
+        parent_spec = param["parent_spec"]
+        if (parent_spec is not None and neurodata_type.is_inherited_spec(parent_spec)
+                and not neurodata_type.is_overridden_spec(parent_spec)):
+            continue
+        if is_inherited and not is_overridden and path and isinstance(spec, (GroupSpec, DatasetSpec)):
+            inherited_paths.append(path)
+        parent_path, name = path_parts(path)
+        doc = spec.get("doc", "") if hasattr(spec, "get") else ""
+        field = {"kind": "todo", "var": None, "setter": None, "cpp_type": None, "default": None,
+                 "required": spec.required, "fixed": None, "path": path, "name": name,
+                 "parent_path": parent_path, "base_type": None, "doc": doc, "todo": "", "spec": spec}
+        fixed_value = getattr(spec, "value", None)
+        default_value = getattr(spec, "default_value", None)
+
+        # Fields inherited from the parent are handled by the parent
+        if is_inherited and not is_overridden:
+            continue
+        if is_inherited and is_overridden:
+            if fixed_value is not None or default_value is not None:
+                value = fixed_value if fixed_value is not None else default_value
+                field["todo"] = aqnwb_todo(
+                    "override",
+                    f"{path} is inherited and set to {value!r} by this type. Set the value in the Spec "
+                    f"constructor and check it in validate()")
+                fields.append(field)
+            continue
+
+        # Typed groups and datasets owned by this type
+        if isinstance(spec, (GroupSpec, DatasetSpec)) and spec.data_type is not None:
+            requirement = "Required" if spec.required else "Optional"
+            if spec.name:
+                what = f"{requirement} {spec.data_type} child '{path}' is"
+            else:
+                what = f"{requirement} unnamed {spec.data_type} children (quantity {spec.quantity})"
+                what += (f" in '{path}'" if path else "") + " are"
+            field["todo"] = aqnwb_todo(
+                "child", f"{what} not part of the Spec. Create them after initialize or add a nested Spec")
+            field["kind"] = "child"
+            fields.append(field)
+            continue
+
+        # Untyped groups owned by this type
+        if isinstance(spec, GroupSpec):
+            field["kind"] = "group" if spec.required else "todo"
+            if not spec.required:
+                field["todo"] = aqnwb_todo("child", f"Optional group '{path}' is not created by initialize")
+            fields.append(field)
+            continue
+
+        var = param["variable_name"]
+        setter = f"with{var[0].upper()}{var[1:]}" if var else None
+
+        # Array datasets without a default value are configured via a dataset configuration.
+        # Scalar datasets are handled like attributes (i.e., via their value) below.
+        is_simple_dtype = spec.dtype is not None and not isinstance(spec.dtype, (list, dict))
+        if (isinstance(spec, DatasetSpec) and fixed_value is None and default_value is None
+                and (spec.shape is not None or not is_simple_dtype)):
+            field.update({"kind": "dataset-config", "var": var, "setter": setter,
+                          "cpp_type": "std::shared_ptr<const AQNWB::IO::BaseArrayDataSetConfig>",
+                          "default": "nullptr"})
+            if spec.dtype in ("numeric", None) or isinstance(spec.dtype, (list, dict)):
+                field["todo"] = aqnwb_todo(
+                    "dtype", f"Check that the data type of {var} is valid for the schema dtype {spec.dtype!r}")
+            fields.append(field)
+            continue
+
+        # Attributes and scalar datasets with a default or fixed value
+        if isinstance(spec.dtype, dict) or isinstance(spec.dtype, list) or spec.dtype is None:
+            field["todo"] = aqnwb_todo(
+                "dtype",
+                f"{'Attribute' if isinstance(spec, AttributeSpec) else 'Dataset'} '{path}' with dtype "
+                f"{spec.dtype!r} (reference, compound, or undefined dtype) is not part of the Spec")
+            fields.append(field)
+            continue
+        cpp_type, base_type = _attribute_cpp_value_type(spec)
+        field["base_type"] = base_type
+        if spec.dtype == "numeric":
+            field["todo"] = aqnwb_todo("dtype", f"{path} has dtype 'numeric'. The generator uses double")
+        if "bool" in cpp_type and spec.shape is not None:
+            field["todo"] = aqnwb_todo("dtype", f"{path} is an array of bool which is not supported")
+            field["kind"] = "todo"
+            fields.append(field)
+            continue
+        if isinstance(spec, DatasetSpec):
+            if base_type is not None or spec.shape is not None:
+                field["todo"] += aqnwb_todo(
+                    "scalar-dataset", f"Create the scalar dataset '{path}' and write the value of the Spec")
+                field["kind"] = "todo"
+            else:
+                field["kind"] = "dataset-string"
+        else:
+            field["kind"] = "attribute"
+        if fixed_value is not None:
+            field["fixed"] = param["cpp_default_value"]
+            field["cpp_type"] = cpp_type
+        else:
+            field.update({"var": var, "setter": setter})
+            if default_value is not None:
+                field["cpp_type"] = cpp_type
+                field["default"] = param["cpp_default_value"]
+            elif spec.required:
+                field["cpp_type"] = cpp_type
+                field["default"] = '""' if cpp_type == "std::string" else "{}"
+            else:
+                field["cpp_type"] = f"std::optional<{cpp_type}>"
+                field["default"] = "std::nullopt"
+        fields.append(field)
+
+    # Links
+    for link in getattr(neurodata_type, "links", []):
+        if neurodata_type.is_inherited_spec(link) and not neurodata_type.is_overridden_spec(link):
+            continue
+        field = {"kind": "link", "var": None, "setter": None, "cpp_type": None, "default": None,
+                 "required": link.required, "fixed": None, "path": link.name, "name": link.name,
+                 "parent_path": "", "base_type": None, "doc": link.doc, "todo": "", "spec": link}
+        if link.name is None:
+            field["kind"] = "todo"
+            field["todo"] = aqnwb_todo("link", f"Unnamed link(s) to {link.target_type} are not part of the Spec")
+        else:
+            var = snake_to_camel(link.name, lower_camel=True)
+            target = resolve_cpp_type(link.target_type, type_to_namespace_map)
+            field.update({"var": var, "setter": f"with{var[0].upper()}{var[1:]}",
+                          "cpp_type": f"std::shared_ptr<{target['cpp_class']}>", "default": "nullptr"})
+        fields.append(field)
+
+    # Guard fields whose parent object may not be created
+    by_path = {f["path"]: f for f in fields if f["path"]}
+    for field in fields:
+        parent = by_path.get(field["parent_path"], None)
+        field["guard"] = None
+        if parent is not None and field["parent_path"]:
+            if parent["kind"] == "dataset-config" and not parent["required"]:
+                field["guard"] = f"spec.{parent['var']} != nullptr"
+            elif parent["kind"] in ("todo", "child") and field["kind"] not in ("todo", "child"):
+                field["todo"] += aqnwb_todo(
+                    "child", f"'{field['path']}' is not created because its parent '{field['parent_path']}' is not")
+                field["kind"] = "todo"
+    return fields
+
+
+def render_spec_header(neurodata_type: Spec, all_types: Dict[str, Spec], type_to_namespace_map: Dict[str, str]) -> str:
+    """
+    Render the nested Spec struct and the declaration of the initialize method for a group type.
+
+    Parameters:
+    neurodata_type (Spec): The neurodata type spec.
+    all_types (Dict[str, Spec]): A dictionary of all neurodata types.
+    type_to_namespace_map (Dict[str, str]): Mapping of types to their namespaces.
+
+    Returns:
+    str: The rendered C++ code for the class body.
+    """
+    class_name = neurodata_type.neurodata_type_def
+    parent = get_parent_class_info(neurodata_type, type_to_namespace_map)
+    base_spec = f"{parent['parent_class']}::Spec" if parent["has_spec"] else "AQNWB::NWB::Container::Spec"
+    if class_name == "Container":
+        base_spec = "AQNWB::NWB::RegisteredTypeSpec"
+    fields = get_spec_fields(neurodata_type, type_to_namespace_map)
+
+    src = f"""
+    /**
+     * @brief Specification for initializing a {class_name}.
+     */
+    struct Spec : public {base_spec}
+    {{
+        REGISTER_SPEC({class_name}, {base_spec})
+
+"""
+    if not parent["has_spec"] and class_name != "Container":
+        src += aqnwb_todo("parent-spec", f"{parent['parent_class']} does not define a Spec", indent="        ")
+    for field in fields:
+        if field["var"] is not None:
+            src += _doc_comment(field["doc"], indent="        ")
+            src += f"        DEFINE_SPEC_FIELD(Spec, {field['cpp_type']}, {field['var']}, {field['setter']}, {field['default']})\n\n"
+    # Re-expose the inherited setters such that setters can be chained
+    inherited_setters = get_spec_setters(parent["parent_type"], all_types, type_to_namespace_map) if parent["parent_type"] else []
+    own_setters = {f["setter"] for f in fields if f["setter"]}
+    inherited_setters = [s for s in inherited_setters if s not in own_setters]
+    if inherited_setters:
+        src += "        // Setters inherited from the parent Spec\n"
+        for setter in inherited_setters:
+            src += f"        INHERIT_SPEC_SETTER(Spec, {base_spec}, {setter})\n"
+        src += "\n"
+    src += """        /**
+         * @brief Validate the spec.
+         * @return Status::Success if the spec is valid, otherwise Status::Failure.
+         */
+        Status validate() const override;
+    };
+
+    /**
+     * @brief Initialize the object from a spec.
+     * @param spec The specification of the object.
+     * @return Status::Success if successful, otherwise Status::Failure.
+     */
+    Status initialize(const Spec& spec);
+"""
+    if uses_aqnwb_dynamic_table(class_name, all_types, type_to_namespace_map):
+        src += """
+    /**
+     * @brief Create the default column specs of the table.
+     * @return Ordered default data specs for the table.
+     */
+    static std::vector<AQNWB::NWB::DynamicTable::DataSpecPtr> createDefaultDataSpecs();
+
+    /**
+     * @brief Validate the column specs of the table.
+     * @param dataSpecs The data specifications to validate.
+     * @return Status::Success if the specifications are valid, otherwise Status::Failure.
+     */
+    Status validateDataSpecs(
+        const std::vector<AQNWB::NWB::DynamicTable::DataSpecPtr>& dataSpecs) const override;
+"""
+    if is_timeseries_type(class_name, all_types):
+        src += "\n"
+        src += aqnwb_todo("nwbfile-helper", f"Add a convenience function to create {class_name} objects for acquisition if needed")
+        src += aqnwb_todo("write-helper", f"Add a helper function to write data to {class_name} objects if needed")
+        src += aqnwb_todo("chunking", f"Choose default chunking for the datasets of {class_name} in the helper functions")
+    return src
+
+
+def _render_field_init(field: Dict, class_name: str) -> str:
+    """Render the C++ code to initialize a single Spec field in the initialize method."""
+    path = field["path"]
+    name = field["name"]
+    parent_path_str = f'AQNWB::mergePaths(m_path, "{field["parent_path"]}")' if field["parent_path"] else "m_path"
+    full_path_str = f'AQNWB::mergePaths(m_path, "{path}")'
+    value = f"spec.{field['var']}" if field["var"] else None
+    code = ""
+    kind = field["kind"]
+    if kind == "group":
+        code = f"status = status && ioPtr->createGroup({full_path_str});\n"
+    elif kind == "dataset-config":
+        code = (f"if (spec.{field['var']} != nullptr) {{\n"
+                f"    auto {field['var']}Data = ioPtr->createArrayDataSet(*spec.{field['var']}, {full_path_str});\n"
+                f"    if ({field['var']}Data == nullptr && !spec.{field['var']}->isLink()) {{\n"
+                f"        status = Status::Failure;\n"
+                f"    }}\n"
+                f"}}\n")
+    elif kind == "link":
+        code = (f"if (spec.{field['var']} != nullptr) {{\n"
+                f"    status = status && ioPtr->createLink(AQNWB::mergePaths(\"/\" + m_path, \"{name}\"),\n"
+                f"                                         AQNWB::mergePaths(\"/\", spec.{field['var']}->getPath()));\n"
+                f"}}\n")
+    elif kind in ("attribute", "dataset-string"):
+        if field["fixed"] is not None:
+            code = f"const {field['cpp_type']} {snake_to_camel(path.replace('/', '_'), lower_camel=True)}Value = {field['fixed']};\n"
+            value = f"{snake_to_camel(path.replace('/', '_'), lower_camel=True)}Value"
+            optional = False
+        else:
+            optional = field["cpp_type"].startswith("std::optional")
+        val = f"{value}.value()" if optional else value
+        if kind == "dataset-string":
+            call = f"ioPtr->createStringDataSet({full_path_str}, {val})"
+        elif field["base_type"] is None:
+            call = f'ioPtr->createAttribute({val}, {parent_path_str}, "{name}")'
+        elif field["spec"].shape is not None:
+            call = (f"ioPtr->createAttribute({field['base_type']}, {val}.data(), "
+                    f'{parent_path_str}, "{name}", {val}.size())')
+        else:
+            call = f'ioPtr->createAttribute({field["base_type"]}, &{val}, {parent_path_str}, "{name}")'
+        if optional:
+            code += f"if ({value}.has_value()) {{\n    status = status && {call};\n}}\n"
+        else:
+            code += f"status = status && {call};\n"
+    if field["guard"] and code:
+        code = f"if ({field['guard']}) {{\n" + "".join(f"    {line}\n" for line in code.rstrip("\n").split("\n")) + "}\n"
+    src = field["todo"].replace("    // ", "// ") if field["todo"] else ""
+    src += code
+    return "".join(f"    {line}\n" if line else "\n" for line in src.rstrip("\n").split("\n")) if src else ""
+
+
+def render_spec_cpp(neurodata_type: Spec, all_types: Dict[str, Spec], type_to_namespace_map: Dict[str, str]) -> str:
+    """
+    Render the implementation of Spec::validate and initialize(const Spec&) for a group type.
+
+    Parameters:
+    neurodata_type (Spec): The neurodata type spec.
+    all_types (Dict[str, Spec]): A dictionary of all neurodata types.
+    type_to_namespace_map (Dict[str, str]): Mapping of types to their namespaces.
+
+    Returns:
+    str: The rendered C++ code.
+    """
+    class_name = neurodata_type.neurodata_type_def
+    parent = get_parent_class_info(neurodata_type, type_to_namespace_map)
+    base_spec = f"{parent['parent_class']}::Spec" if parent["has_spec"] else "AQNWB::NWB::Container::Spec"
+    fields = get_spec_fields(neurodata_type, type_to_namespace_map)
+    is_table = uses_aqnwb_dynamic_table(class_name, all_types, type_to_namespace_map)
+    if is_table:
+        # Columns of tables are handled via createDefaultDataSpecs instead
+        for field in fields:
+            if field["kind"] == "child" and isinstance(field["spec"], DatasetSpec):
+                field["todo"] = ""
+
+    # Spec::validate
+    checks = ""
+    for field in fields:
+        if field["var"] is None or not field["required"]:
+            continue
+        if field["cpp_type"].startswith("std::shared_ptr"):
+            condition = f"{field['var']} == nullptr"
+        elif field["cpp_type"] in ("std::string",) or field["cpp_type"].startswith("std::vector"):
+            condition = f"{field['var']}.empty()"
+        else:
+            continue
+        checks += f"""    if ({condition}) {{
+        std::cerr << "{class_name}::Spec::validate: {field['var']} is required." << std::endl;
+        status = Status::Failure;
+    }}
+"""
+    for field in fields:
+        if field["kind"] == "dataset-config" and "AQNWB-TODO(dtype)" in field["todo"]:
+            checks += field["todo"]
+    if class_name == "Container":
+        base_validate = "Status status = Status::Success;"
+    else:
+        base_validate = f"Status status = {base_spec}::validate();"
+    src = f"""
+// Validate the spec
+Status {class_name}::Spec::validate() const
+{{
+    {base_validate}
+{checks}    return status;
+}}
+"""
+
+    # initialize
+    if class_name == "Container":
+        parent_call = ("    if (spec.validate() != Status::Success) {\n        return Status::Failure;\n    }\n"
+                       "    Status status = Status::Success;\n"
+                       + aqnwb_todo("parent-spec", "Create the group and the common attributes"))
+    else:
+        spec_var = "spec"
+        parent_call = ""
+        if is_table:
+            parent_call += ("    // Use the default columns if no columns are specified\n"
+                            "    Spec tableSpec = spec;\n"
+                            "    if (tableSpec.columns.empty()) {\n"
+                            "        tableSpec.columns = createDefaultDataSpecs();\n"
+                            "    }\n")
+            spec_var = "tableSpec"
+        if parent["has_spec"]:
+            parent_call += f"    Status status = {parent['parent_class']}::initialize({spec_var});\n"
+        else:
+            parent_call += aqnwb_todo(
+                "parent-spec",
+                f"Call the initialize method of {parent['parent_class']}. Only the Container is initialized")
+            parent_call += f"    Status status = AQNWB::NWB::Container::initialize({spec_var});\n"
+        parent_call += "    if (status != Status::Success) {\n        return Status::Failure;\n    }\n"
+    fields_src = "".join(_render_field_init(field, class_name) for field in fields)
+    src += f"""
+// Initialize the object
+Status {class_name}::initialize(const Spec& spec)
+{{
+    auto ioPtr = getIO();
+    if (ioPtr == nullptr) {{
+        std::cerr << "IO object has been deleted. Can't initialize {class_name}: "
+                  << m_path << std::endl;
+        return Status::Failure;
+    }}
+
+    // Validate the spec and initialize the parent type
+{parent_call}
+    // Initialize attributes, datasets, groups, and links
+{fields_src}
+    return status;
+}}
+"""
+    if is_table:
+        columns = [f for f in fields if f["kind"] == "child" and isinstance(f["spec"], DatasetSpec)]
+        required = ", ".join(f"{f['spec'].name} ({f['spec'].data_type})" for f in columns if f["required"] and f["spec"].name) or "none"
+        optional = ", ".join(f"{f['spec'].name} ({f['spec'].data_type})" for f in columns if not f["required"] and f["spec"].name) or "none"
+        src += f"""
+// Create the default columns of the table
+std::vector<AQNWB::NWB::DynamicTable::DataSpecPtr> {class_name}::createDefaultDataSpecs()
+{{
+{aqnwb_todo("table-columns", f"Add the specs of the required columns: {required}. Optional columns: {optional}")}    return {parent['parent_class']}::createDefaultDataSpecs();
+}}
+
+// Validate the column specs of the table
+Status {class_name}::validateDataSpecs(
+    const std::vector<AQNWB::NWB::DynamicTable::DataSpecPtr>& dataSpecs) const
+{{
+{aqnwb_todo("table-columns", f"Check the required columns via checkRequiredColumnSpec: {required}")}    return {parent['parent_class']}::validateDataSpecs(dataSpecs);
+}}
+"""
+    return src
 
 
 def parse_schema_file(file_path: Path) -> Tuple[SpecNamespace, Dict[str, Spec], Dict[str, Path], Dict[str, str]]:
@@ -1188,26 +1906,11 @@ def generate_header_file(
     # Get documentation
     doc = getattr(neurodata_type, "doc", "No documentation provided")
 
-    # Determine parent class
-    parent_type = getattr(neurodata_type, "neurodata_type_inc", None)
-    if parent_type:
-        parent_class = parent_type
-        # Check if parent is from a different namespace
-        if "/" in parent_type:
-            parent_namespace, parent_type = parent_type.split("/")
-            parent_class = f"{parent_namespace}::{parent_type}"
-        else:
-            parent_class = to_cpp_namespace_name(type_to_namespace_map[parent_class]) + "::" + parent_class
-    else:
-        # TODO: Handle special case when we create HDMF_COMMON::Data and HDMF_COMMON::Container
-        # Default parent class based on neurodata_type
-        if isinstance(neurodata_type, DatasetSpec):
-            parent_class = "AQNWB::NWB::Data"
-        else:
-            parent_class = "AQNWB::NWB::Container"
-    
-    if class_name in ["Container", "Data"]:
-        parent_class = "AQNWB::NWB::RegisteredType" # special case for container type to avoid registering Container as a subclass of Container
+    # Determine parent class (using the existing AqNWB class if available)
+    parent_info = get_parent_class_info(neurodata_type, type_to_namespace_map)
+    parent_type = parent_info["parent_type"]
+    parent_class = parent_info["parent_class"]
+    is_group_type = not isinstance(neurodata_type, DatasetSpec)
 
     # Start building the header file
     header = """#pragma once
@@ -1225,30 +1928,10 @@ def generate_header_file(
 
     # Add additional includes based on parent class
     header += "// Include for parent type\n"
-    if parent_type:
-        if parent_type == "data":
-            header += '#include "nwb/hdmf/base/Data.hpp"\n'
-        elif "/" in parent_type:
-            # External namespace, need to include appropriate header
-            pass
-        else:
-            # Same namespace or different namespace, need to find the correct include path
-            if parent_type in type_to_file_map and parent_type in type_to_namespace_map:
-                parent_namespace = type_to_namespace_map[parent_type]
-                parent_source_file = type_to_file_map[parent_type]
-                parent_subfolder = get_schema_subfolder_name(parent_source_file)
-                parent_include_path = f"{parent_namespace}/{parent_subfolder}/{parent_type}.hpp"
-                header += f'#include "{parent_include_path}"\n'
-            else:
-                # Fallback to simple include
-                header += f'#include "{parent_type}.hpp"\n'
-    else:
-        # TODO: Handle special case when we create HDMF_COMMON::Data and HDMF_COMMON::Container
-        # No parent type specified, use default based on whether it's a Dataset or Group
-        if "Data" in parent_class:
-            header += '#include "nwb/hdmf/base/Data.hpp"\n'
-        else:
-            header += '#include "nwb/hdmf/base/Container.hpp"\n'
+    if parent_info["include"] is not None:
+        header += f'#include "{parent_info["include"]}"\n'
+    if is_group_type and uses_aqnwb_dynamic_table(type_name, all_types, type_to_namespace_map):
+        header += '#include "nwb/hdmf/table/DynamicTable.hpp"\n'
 
     # Add forward declarations for referenced types used in generated shared_ptr
     # accessors and initialize signatures. This avoids circular includes for
@@ -1271,10 +1954,20 @@ def generate_header_file(
     parent_neurodata_type_spec = all_types.get(parent_type) if parent_type else None
 
     # Get attributes, datasets, and groups
-    header_initialize_src = render_initialize_method_header(
-        neurodata_type=neurodata_type,
-        type_to_namespace_map=type_to_namespace_map,
-    )
+    if is_group_type:
+        header_initialize_src = render_spec_header(
+            neurodata_type=neurodata_type,
+            all_types=all_types,
+            type_to_namespace_map=type_to_namespace_map,
+        )
+    else:
+        header_initialize_src = aqnwb_todo(
+            "dataspec",
+            f"Define a nested DataSpec for {class_name} and update initialize to match the parent type")
+        header_initialize_src += render_initialize_method_header(
+            neurodata_type=neurodata_type,
+            type_to_namespace_map=type_to_namespace_map,
+        )
     header += f"""
 namespace {actual_cpp_namespace_name} {{
 
@@ -1339,7 +2032,7 @@ public:
         # Group/Dataset with a neurodata_type
         if (isinstance(spec, (GroupSpec, DatasetSpec))) and spec.data_type is not None:
             referenced_type = spec.data_type
-            referenced_namespace = to_cpp_namespace_name(type_to_namespace_map.get(referenced_type, namespace.name))
+            referenced_namespace = resolve_cpp_type(referenced_type, type_to_namespace_map)["cpp_namespace"]
             if spec.name is not None:
                 fieldDef = render_define_registered_field(
                     field_name=spec.name,
@@ -1373,6 +2066,8 @@ public:
                 target_type = spec.dtype.get("target_type", None)
             # if the attribute stores a reference to a RegisteredType
             if target_type is not None:
+                if target_type in type_to_namespace_map:
+                    target_type = resolve_cpp_type(target_type, type_to_namespace_map)["cpp_class"]
                 fieldDef = render_define_referenced_registered_field(
                     field_path=field_path,
                     registered_type=target_type,
@@ -1395,6 +2090,24 @@ public:
                 commented_fields.append(fieldDef)
             else:
                 header += fieldDef + "\n"
+    # Add read methods for links
+    for link in getattr(neurodata_type, "links", []):
+        if link.name is None:
+            continue
+        is_inherited = neurodata_type.is_inherited_spec(link)
+        is_overridden = neurodata_type.is_overridden_spec(link)
+        fieldDef = render_define_registered_field(
+            field_name=link.name,
+            field_path=link.name,
+            neurodata_type=link.target_type,
+            referenced_namespace=resolve_cpp_type(link.target_type, type_to_namespace_map)["cpp_namespace"],
+            doc=link.doc.replace("\n", " "),
+            is_inherited=is_inherited,
+            is_overridden=is_overridden)
+        if is_commented_field_def(fieldDef):
+            commented_fields.append(fieldDef)
+        else:
+            header += fieldDef + "\n"
     if len(commented_fields) > 0:
         header += "    // TODO: The following fields have been commented because they should have been inherited from the parent class.\n"
         header += "    //       They are included here for your convenience so you can decide which fields may still need be defined here.\n"
@@ -1459,37 +2172,30 @@ def generate_implementation_file(
     cpp_namespace_name = to_cpp_namespace_name(type_to_namespace_map[type_name])
     class_name = type_name
 
-    # Determine parent class
-    parent_type = getattr(neurodata_type, "neurodata_type_inc", None)
-    if parent_type:
-        parent_class = parent_type
-        # Check if parent is from a different namespace
-        if "/" in parent_type:
-            parent_namespace, parent_type = parent_type.split("/")
-            parent_class = f"{parent_namespace}::{parent_type}"
-        else:
-            parent_class = to_cpp_namespace_name(type_to_namespace_map[parent_class]) + "::" + parent_class
-    else:
-        # Default parent class based on neurodata_type
-        if isinstance(neurodata_type, DatasetSpec):
-            parent_class = "AQNWB::NWB::Data"
-        else:
-            parent_class = "AQNWB::NWB::Container"
-
-    if class_name in ["Container", "Data"]:
-        parent_class = "AQNWB::NWB::RegisteredType" # special case for container type to avoid registering Container as a subclass of Container
+    # Determine parent class (using the existing AqNWB class if available)
+    parent_info = get_parent_class_info(neurodata_type, type_to_namespace_map)
+    parent_type = parent_info["parent_type"]
+    parent_class = parent_info["parent_class"]
 
     # Get parent neurodata_type spec
     parent_neurodata_type_spec = all_types.get(parent_type) if parent_type else None
 
-    # Get attributes, datasets, and groups
-    cpp_initialize_src = render_initialize_method_cpp(
-        class_name=class_name,
-        parent_class_name=parent_class,
-        neurodata_type=neurodata_type,
-        type_to_namespace_map=type_to_namespace_map,
-        parent_neurodata_type=parent_neurodata_type_spec
-    )
+    if isinstance(neurodata_type, DatasetSpec):
+        # Get attributes, datasets, and groups
+        cpp_initialize_src = render_initialize_method_cpp(
+            class_name=class_name,
+            parent_class_name=parent_class,
+            neurodata_type=neurodata_type,
+            type_to_namespace_map=type_to_namespace_map,
+            # The initialize methods of the existing AqNWB Data types differ from the generated ones
+            parent_neurodata_type=None if parent_info["is_aqnwb_type"] else parent_neurodata_type_spec
+        )
+    else:
+        cpp_initialize_src = render_spec_cpp(
+            neurodata_type=neurodata_type,
+            all_types=all_types,
+            type_to_namespace_map=type_to_namespace_map,
+        )
 
     referenced_type_includes = ""
     referenced_types = get_referenced_types(neurodata_type, type_to_namespace_map)
@@ -1498,9 +2204,7 @@ def generate_implementation_file(
         for ref_type in sorted(referenced_types):
             if ref_type == class_name:
                 continue
-            ref_namespace = type_to_namespace_map.get(ref_type, namespace.name)
-            ref_subfolder = get_schema_subfolder_name(type_to_file_map.get(ref_type, None))
-            ref_include_path = f"{ref_namespace}/{ref_subfolder}/{ref_type}.hpp"
+            ref_include_path = resolve_cpp_type(ref_type, type_to_namespace_map)["include"]
             referenced_type_includes += f'#include "{ref_include_path}"\n'
 
     # Start building the implementation file
@@ -1667,10 +2371,15 @@ int main(int argc, char* argv[])
     for cpp_namespace, types in namespace_types.items():
         main_content += f"        // Testing {cpp_namespace} namespace types\n"
         for type_name in types:
+            spec_src = ""
+            if not isinstance(neurodata_types[type_name], DatasetSpec):
+                spec_src = f"""            {cpp_namespace}::{type_name}::Spec {type_name.lower()}_spec;
+            std::cout << "  ✓ " << {type_name.lower()}_spec.getFullTypeName() << " Spec created successfully" << std::endl;
+"""
             main_content += f"""        try {{
             std::string {type_name.lower()}_path = "/test_{type_name.lower()}";
             auto {type_name.lower()}_obj = AQNWB::NWB::RegisteredType::create<{cpp_namespace}::{type_name}>({type_name.lower()}_path, io);
-            std::cout << "  ✓ {type_name} instantiated successfully" << std::endl;
+{spec_src}            std::cout << "  ✓ {type_name} instantiated successfully" << std::endl;
         }} catch (const std::exception& e) {{
             std::cout << "  ✗ {type_name} instantiation failed: " << e.what() << std::endl;
         }}
@@ -1824,6 +2533,18 @@ def setup_parser(parser):
         action="store_true",
         help="Generate a test application to verify compilation of all generated classes"
     )
+    parser.add_argument(
+        "--aqnwb-src-dir",
+        default=str(Path(__file__).resolve().parent.parent.parent / "src"),
+        help="Path to the src folder of AqNWB. neurodata_types that are already implemented in AqNWB "
+             "are not generated and the generated classes use the existing AqNWB classes instead. "
+             "Default: the src folder of the AqNWB repository containing this script."
+    )
+    parser.add_argument(
+        "--no-reuse-aqnwb-types",
+        action="store_true",
+        help="Generate classes for all neurodata_types, including types already implemented in AqNWB"
+    )
 
 def main(args) -> None:
     """
@@ -1856,13 +2577,25 @@ def main(args) -> None:
         logger.error(f"Failed to create output directory {args.output_dir}: {e}")
         return
 
+    # Setup the context for resolving the C++ classes of neurodata_types
+    GENERATOR_CONTEXT["type_to_file_map"] = type_to_file_map
+    GENERATOR_CONTEXT["aqnwb_types"] = {}
+    if not getattr(args, "no_reuse_aqnwb_types", False):
+        GENERATOR_CONTEXT["aqnwb_types"] = scan_aqnwb_types(Path(getattr(args, "aqnwb_src_dir", "")))
+        logger.info(f"Found {len(GENERATOR_CONTEXT['aqnwb_types'])} neurodata_types implemented in AqNWB")
+
     # Track generated files for test app
     generated_cpp_files = []
+    generated_types = {}
     
     # Generate code for each neurodata type
     for type_name, neurodata_type in neurodata_types.items():
         class_name = type_name
         logger.info(f"Processing neurodata_type: {class_name}")
+        if get_aqnwb_type(type_name, type_to_namespace_map) is not None:
+            logger.info(f"    Skipping {class_name}: Using existing class {resolve_cpp_type(type_name, type_to_namespace_map)['cpp_class']}")
+            continue
+        generated_types[type_name] = neurodata_type
         
         # Get the original namespace for this type (not the including namespace)
         original_namespace = type_to_namespace_map.get(type_name, namespace.name)
@@ -1917,7 +2650,7 @@ def main(args) -> None:
             
         except Exception as e:
             logger.error(f"   Failed to generate implementation file {impl_path}: {e}")
-    logger.info(f"Generated {len(neurodata_types)} neurodata types in total.")
+    logger.info(f"Generated {len(generated_types)} neurodata types in total.")
 
     # Generate test app if requested
     if args.generate_test_app:
@@ -1925,7 +2658,7 @@ def main(args) -> None:
         generate_test_app(
             output_dir=output_dir,
             schema_file=args.schema_file,
-            neurodata_types=neurodata_types,
+            neurodata_types=generated_types,
             type_to_namespace_map=type_to_namespace_map,
             type_to_file_map=type_to_file_map,
             cpp_files=generated_cpp_files

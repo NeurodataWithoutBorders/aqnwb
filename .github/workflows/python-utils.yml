@@ -46,6 +46,10 @@ jobs:
             exit 1
           fi
 
+      - name: Run unit tests for schematype_to_aqnwb
+        run: |
+          uv run --with pytest --with hdmf --with pynwb --with ruamel.yaml pytest -v resources/utils/tests
+
       - name: Run schematype_to_aqnwb
         run: |
           output=$(uv run resources/utils/aqnwb_utils.py generate-types test_output/nwb-schema/core/nwb.namespace.yaml test_output 2>&1)
