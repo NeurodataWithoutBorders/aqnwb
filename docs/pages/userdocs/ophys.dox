@@ -69,6 +69,27 @@
  *
  * \snippet tests/examples/testOphysWorkflowExamples.cpp example_ophys_record_snippet
  *
+ * \section ophys_rois Recording regions of interest (ROIs) and their responses
+ *
+ * Acquisition systems that segment the images online can also store the regions of interest (ROIs) and
+ * their responses (e.g., fluorescence or dF/F). By convention, these are stored in the "ophys"
+ * \ref AQNWB::NWB::ProcessingModule "ProcessingModule":
+ *
+ * | Type | Description |
+ * |------|-------------|
+ * | \ref AQNWB::NWB::PlaneSegmentation "PlaneSegmentation" | A table with one row per ROI of an imaging plane. The ROIs are defined by the `image_mask` column, i.e., a weight per pixel. Stored in the \ref AQNWB::NWB::ImageSegmentation "ImageSegmentation" container. |
+ * | \ref AQNWB::NWB::RoiResponseSeries "RoiResponseSeries" | The responses of the ROIs over time. The `rois` \ref AQNWB::NWB::DynamicTableRegion "DynamicTableRegion" references the rows of the PlaneSegmentation. Stored in the \ref AQNWB::NWB::Fluorescence "Fluorescence" or \ref AQNWB::NWB::DfOverF "DfOverF" container. |
+ *
+ * The functions \ref AQNWB::NWB::Ophys::createPlaneSegmentation "createPlaneSegmentation" and
+ * \ref AQNWB::NWB::Ophys::createRoiResponseSeries "createRoiResponseSeries" create the processing module
+ * and containers if they do not exist.
+ *
+ * \snippet tests/testOphysRois.cpp example_ophys_rois_snippet
+ *
+ * \note
+ * The `pixel_mask` and `voxel_mask` columns of the PlaneSegmentation, which use compound data types,
+ * are not supported yet.
+ *
  * \section ophys_ogen Recording optogenetic stimulation
  *
  * Optogenetic stimulation is described by an
