@@ -128,9 +128,12 @@ TEST_CASE("RecordingObjects recording workflow tests", "[recording]")
     REQUIRE(containerIndexes.size() == mockChannelNames.size());
     // Added the following recording objects:
     // Index = 10; Type = core::ElectricalSeries; Path = /acquisition/esdata0;
-    // -- cache size: 2 Index = 11; Type = core::ElectricalSeries; Path =
-    // /acquisition/esdata1;  -- cache size: 2
-    expectedNumRecordingObjects += mockChannelNames.size();
+    // Index = 11; Type = hdmf-common::DynamicTableRegion; Path =
+    //   /acquisition/esdata0/electrodes;
+    // Index = 12; Type = core::ElectricalSeries; Path = /acquisition/esdata1;
+    // Index = 13; Type = hdmf-common::DynamicTableRegion; Path =
+    //   /acquisition/esdata1/electrodes;
+    expectedNumRecordingObjects += 2 * mockChannelNames.size();
     REQUIRE(recordingObjects->size() == expectedNumRecordingObjects);
 
     // Test that lookup by index works as expected
@@ -173,9 +176,13 @@ TEST_CASE("RecordingObjects recording workflow tests", "[recording]")
     std::string recObjStr = recordingObjects->toString();
     REQUIRE(recObjStr.find("Index = 0; Type = core::NWBFile; Path = /;")
             != std::string::npos);
-    REQUIRE(recObjStr.find("Index = 11; Type = core::ElectricalSeries; Path = "
+    REQUIRE(recObjStr.find("Index = 12; Type = core::ElectricalSeries; Path = "
                            "/acquisition/esdata1;")
             != std::string::npos);
+    REQUIRE(
+        recObjStr.find("Index = 13; Type = hdmf-common::DynamicTableRegion; "
+                       "Path = /acquisition/esdata1/electrodes;")
+        != std::string::npos);
 
     // out-of-range lookup returns nullptr
     REQUIRE(recordingObjects->getRecordingObject(99) == nullptr);
@@ -251,8 +258,8 @@ TEST_CASE("RecordingObjects recording workflow tests", "[recording]")
         mockArrays, mockNames, BaseDataType::I16, contIdx);
     REQUIRE(contIdx.size() == mockNames.size());
     // 10 from the finalized electrodes table (see SECTION 1) + 2
-    // ElectricalSeries
-    REQUIRE(recordingObjects->size() == 12);
+    // ElectricalSeries with their electrodes DynamicTableRegion
+    REQUIRE(recordingObjects->size() == 14);
 
     // Repeated calls to finalize should succeed without error
     for (SizeType i = 0; i < 4; i++) {

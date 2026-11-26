@@ -19,6 +19,7 @@ add_executable(aqnwb_test
     testDevice.cpp
     testDynamicTable.cpp
     testDynamicTableForwardDeclaredMeanings.cpp
+    testDynamicTableRegion.cpp
     testEcephys.cpp
     testElementIdentifiers.cpp
     testEventsTable.cpp

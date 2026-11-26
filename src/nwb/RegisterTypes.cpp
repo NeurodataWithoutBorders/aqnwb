@@ -19,6 +19,7 @@
 #include "nwb/hdmf/base/Container.hpp"
 #include "nwb/hdmf/base/Data.hpp"
 #include "nwb/hdmf/table/DynamicTable.hpp"
+#include "nwb/hdmf/table/DynamicTableRegion.hpp"
 #include "nwb/hdmf/table/ElementIdentifiers.hpp"
 #include "nwb/hdmf/table/MeaningsTable.hpp"
 #include "nwb/hdmf/table/VectorData.hpp"
@@ -46,6 +47,7 @@ void AQNWB::NWB::registerAllTypes()
   Container::registerSubclass();
   Data::registerSubclass();
   DynamicTable::registerSubclass();
+  DynamicTableRegion::registerSubclass();
   ElementIdentifiers::registerSubclass();
   MeaningsTable::registerSubclass();
   VectorData::registerSubclass();
