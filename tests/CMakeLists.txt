@@ -44,6 +44,7 @@ add_executable(aqnwb_test
     testVectorData.cpp
     testVectorIndex.cpp
     testTimeIntervals.cpp
+    testModules.cpp
     examples/test_HDF5IO_examples.cpp
     examples/test_example.cpp
     examples/testWorkflowExamples.cpp
@@ -56,6 +57,14 @@ add_executable(aqnwb_test
     examples/test_templated_RegisteredType_example.cpp
     examples/testTimeIntervalsWorkflowExamples.cpp
 )
+
+# Tests of the optional modules
+if(AQNWB_ENABLE_OPHYS)
+  target_sources(aqnwb_test PRIVATE
+      testOphys.cpp
+      examples/testOphysWorkflowExamples.cpp
+  )
+endif()
 
 # Ensure the aqnwb_test target can include headers from the current directory
 target_include_directories(aqnwb_test PRIVATE

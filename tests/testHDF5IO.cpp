@@ -1,4 +1,4 @@
-
+#include <cmath>
 #include <filesystem>
 #include <fstream>
 #include <future>
@@ -679,6 +679,50 @@ TEST_CASE("HDF5IO; createStringDataSet", "[hdf5io]")
         IO::DataBlock<std::string>::fromGeneric(hdf5io.readDataset("/array"));
     REQUIRE(data.shape == std::vector<SizeType> {3});
     REQUIRE(data.data == values);
+  }
+
+  hdf5io.close();
+}
+
+TEST_CASE("HDF5IO; createScalarDataSet", "[hdf5io]")
+{
+  std::string path = getTestFilePath("test_createScalarDataSet.h5");
+  IO::HDF5::HDF5IO hdf5io(path);
+  hdf5io.open();
+
+  SECTION("float")
+  {
+    const float value = 488.5f;
+    REQUIRE(hdf5io.createScalarDataSet(IO::BaseDataType::F32, &value, "/f32")
+            == Status::Success);
+    auto data = IO::DataBlock<float>::fromGeneric(hdf5io.readDataset("/f32"));
+    REQUIRE(data.shape.empty());
+    REQUIRE(data.data.size() == 1);
+    REQUIRE(std::abs(data.data[0] - value) < 1e-6f);
+  }
+
+  SECTION("unsigned integer")
+  {
+    const uint32_t value = 42;
+    REQUIRE(hdf5io.createScalarDataSet(IO::BaseDataType::U32, &value, "/u32")
+            == Status::Success);
+    auto data =
+        IO::DataBlock<uint32_t>::fromGeneric(hdf5io.readDataset("/u32"));
+    REQUIRE(data.data == std::vector<uint32_t> {42});
+  }
+
+  SECTION("invalid inputs fail")
+  {
+    const double value = 1.0;
+    REQUIRE(hdf5io.createScalarDataSet(IO::BaseDataType::F64, nullptr, "/null")
+            == Status::Failure);
+    REQUIRE(
+        hdf5io.createScalarDataSet(IO::BaseDataType::V_STR, &value, "/string")
+        == Status::Failure);
+    REQUIRE(hdf5io.createScalarDataSet(IO::BaseDataType::F64, &value, "/f64")
+            == Status::Success);
+    REQUIRE(hdf5io.createScalarDataSet(IO::BaseDataType::F64, &value, "/f64")
+            == Status::Failure);  // existing path
   }
 
   hdf5io.close();

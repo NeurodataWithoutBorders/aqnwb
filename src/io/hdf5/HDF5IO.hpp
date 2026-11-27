@@ -360,6 +360,17 @@ public:
                              const std::vector<std::string>& values) override;
 
   /**
+   * @brief Creates a non-modifiable scalar dataset with a numeric value.
+   * @param type The numeric data type of the dataset.
+   * @param data Pointer to the value of the dataset (of the given type).
+   * @param path The location in the file of the dataset.
+   * @return The status of the dataset creation operation.
+   */
+  Status createScalarDataSet(const IO::BaseDataType& type,
+                             const void* data,
+                             const std::string& path) override;
+
+  /**
    * @brief Creates a dataset that holds an array of references to groups within
    * the file.
    * @param path The location in the file of the new dataset.

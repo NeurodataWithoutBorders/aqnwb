@@ -28,6 +28,7 @@ add_library(
     src/io/RecordingObjects.cpp
     src/nwb/NWBFile.cpp
     src/nwb/RegisteredType.cpp
+    src/nwb/RegisterTypes.cpp
     src/nwb/base/NWBData.cpp
     src/nwb/base/NWBDataInterface.cpp
     src/nwb/base/NWBContainer.cpp
@@ -112,6 +113,42 @@ set_target_properties(aqnwb_aqnwb PROPERTIES
 )
 
 target_compile_definitions(aqnwb_aqnwb PUBLIC AQNWB_CXX_STANDARD=${AQNWB_CXX_STANDARD})
+
+# ---- Optional modules for neurodata_types ----
+# Each module adds the classes of a group of neurodata_types (e.g., optical
+# physiology). Disabling a module removes its classes from the library and the
+# installed headers. Files with these types can still be read, but the objects
+# are represented by the generic Container and Data classes.
+option(AQNWB_ENABLE_IMAGE "Build support for image neurodata_types (nwb/image, e.g., ImageSeries)" ON)
+option(AQNWB_ENABLE_OPHYS "Build support for optical physiology (nwb/ophys, requires AQNWB_ENABLE_IMAGE)" ON)
+
+# The optical physiology types build on the image types
+if(AQNWB_ENABLE_OPHYS AND NOT AQNWB_ENABLE_IMAGE)
+  message(STATUS "AQNWB_ENABLE_OPHYS requires the image module, enabling AQNWB_ENABLE_IMAGE")
+  set(AQNWB_ENABLE_IMAGE ON)
+endif()
+
+if(AQNWB_ENABLE_IMAGE)
+  target_sources(
+      aqnwb_aqnwb PRIVATE
+      src/nwb/image/ImageSeries.cpp
+  )
+  target_compile_definitions(aqnwb_aqnwb PUBLIC AQNWB_HAS_IMAGE)
+endif()
+message(STATUS "AqNWB image module (AQNWB_ENABLE_IMAGE): ${AQNWB_ENABLE_IMAGE}")
+
+if(AQNWB_ENABLE_OPHYS)
+  target_sources(
+      aqnwb_aqnwb PRIVATE
+      src/nwb/ophys/ImagingPlane.cpp
+      src/nwb/ophys/OnePhotonSeries.cpp
+      src/nwb/ophys/OphysUtils.cpp
+      src/nwb/ophys/OpticalChannel.cpp
+      src/nwb/ophys/TwoPhotonSeries.cpp
+  )
+  target_compile_definitions(aqnwb_aqnwb PUBLIC AQNWB_HAS_OPHYS)
+endif()
+message(STATUS "AqNWB optical physiology module (AQNWB_ENABLE_OPHYS): ${AQNWB_ENABLE_OPHYS}")
 
 # ---- Optional remfile VFD for reading remote files over HTTP(S) ----
 # remfile provides an HDF5 virtual file driver that reads remote files with

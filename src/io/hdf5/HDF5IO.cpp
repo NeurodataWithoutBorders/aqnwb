@@ -755,6 +755,18 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(
   } else if (dataType == H5::PredType::NATIVE_FLOAT) {
     result.data = readDataHelper<float>(attribute, numElements);
     result.typeIndex = typeid(float);
+  } else if (dataType == H5::PredType::NATIVE_INT8) {
+    result.data = readDataHelper<int8_t>(attribute, numElements);
+    result.typeIndex = typeid(int8_t);
+  } else if (dataType == H5::PredType::NATIVE_UINT8) {
+    result.data = readDataHelper<uint8_t>(attribute, numElements);
+    result.typeIndex = typeid(uint8_t);
+  } else if (dataType == H5::PredType::NATIVE_INT16) {
+    result.data = readDataHelper<int16_t>(attribute, numElements);
+    result.typeIndex = typeid(int16_t);
+  } else if (dataType == H5::PredType::NATIVE_UINT16) {
+    result.data = readDataHelper<uint16_t>(attribute, numElements);
+    result.typeIndex = typeid(uint16_t);
   } else if (dataType == H5::PredType::NATIVE_INT32) {
     result.data = readDataHelper<int32_t>(attribute, numElements);
     result.typeIndex = typeid(int32_t);
@@ -1339,6 +1351,42 @@ Status HDF5IO::createReferenceDataSet(
   }
 
   return intToStatus(writeStatus);
+}
+
+Status HDF5IO::createScalarDataSet(const IO::BaseDataType& type,
+                                   const void* data,
+                                   const std::string& path)
+{
+  if (!canModifyObjects()) {
+    return Status::Failure;
+  }
+  if (data == nullptr) {
+    std::cerr << "HDF5IO::createScalarDataSet: data must not be null for "
+              << path << std::endl;
+    return Status::Failure;
+  }
+  if (type.type == IO::BaseDataType::Type::T_STR
+      || type.type == IO::BaseDataType::Type::V_STR || type.typeSize != 1)
+  {
+    std::cerr << "HDF5IO::createScalarDataSet: only scalar numeric types are "
+                 "supported for "
+              << path << ". Use createStringDataSet for strings." << std::endl;
+    return Status::Failure;
+  }
+
+  DataType H5type = getH5Type(type);
+  DataType nativeType = getNativeType(type);
+  DataSpace dSpace(H5S_SCALAR);
+
+  try {
+    H5::DataSet dataset = m_file->createDataSet(path, H5type, dSpace);
+    dataset.write(data, nativeType);
+  } catch (const H5::Exception& error) {
+    std::cerr << "HDF5IO::createScalarDataSet failed to create " << path << ": "
+              << error.getDetailMsg() << std::endl;
+    return Status::Failure;
+  }
+  return Status::Success;
 }
 
 Status HDF5IO::createStringDataSet(const std::string& path,

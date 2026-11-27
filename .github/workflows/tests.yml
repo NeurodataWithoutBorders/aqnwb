@@ -154,6 +154,71 @@ jobs:
           exit 1
         fi
 
+    - name: Read the NWB files with PyNWB
+      run: |
+        python - <<'PYEOF'
+        import glob
+        import sys
+        import pynwb
+
+        failed = []
+        for path in sorted(glob.glob("nwb_files/**/*.nwb", recursive=True)):
+            try:
+                with pynwb.NWBHDF5IO(path, "r") as io:
+                    nwbfile = io.read()
+                    # Access the tables to check that all columns are consistent
+                    for obj in nwbfile.objects.values():
+                        if isinstance(obj, pynwb.core.DynamicTable):
+                            obj.to_dataframe()
+            except Exception as error:  # noqa: BLE001
+                failed.append(path)
+                print(f"Failed to read {path}: {error}")
+        if failed:
+            sys.exit(1)
+        PYEOF
+
+  test-without-optional-modules:
+    # Build and test with optional neurodata_type modules disabled to check that
+    # the core library (and the image module) do not depend on them
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: no optional modules
+            flags: -DAQNWB_ENABLE_OPHYS=OFF -DAQNWB_ENABLE_IMAGE=OFF
+            excluded: ophys image
+          - name: image module only
+            flags: -DAQNWB_ENABLE_OPHYS=OFF -DAQNWB_ENABLE_IMAGE=ON
+            excluded: ophys
+    name: test-without-optional-modules (${{ matrix.name }})
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies - macos
+        run: brew install hdf5 catch2
+
+      - name: Configure (optional modules disabled)
+        run: cmake "--preset=ci-macos" ${{ matrix.flags }}
+
+      - name: Build
+        run: cmake --build build --config Release -j 2
+
+      - name: Install
+        run: |
+          cmake --install build --config Release --prefix prefix
+          for module in ${{ matrix.excluded }}; do
+            if ls -d prefix/include/aqnwb-*/nwb/$module >/dev/null 2>&1; then
+              echo "The headers of the disabled $module module must not be installed"
+              exit 1
+            fi
+          done
+
+      - name: Test
+        working-directory: build
+        run: ctest --output-on-failure --no-tests=error -C Release -j 2
+
   test-cxx23:
     runs-on: macos-latest
     steps:
