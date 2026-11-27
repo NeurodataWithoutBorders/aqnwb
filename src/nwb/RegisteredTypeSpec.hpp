@@ -21,9 +21,29 @@ namespace AQNWB::NWB
  *
  * Separating the specification from the initialization makes it possible to
  * create, inspect, modify, and validate the configuration of an object before
- * any data is written to the file.
+ * any data is written to the file. Objects are created and initialized in two
+ * steps:
  *
- * Specs are defined using the macros `REGISTER_SPEC`, `DEFINE_SPEC_FIELD`, and
+ * @code
+ * auto obj = MyType::create(path, io);
+ * Status status = obj->initialize(MyType::Spec().withDescription("..."));
+ * @endcode
+ *
+ * The `initialize(const Spec&)` methods follow this contract:
+ * - All checks run before anything is written to the file, i.e., the
+ *   validate() method of the spec and the checks that depend on the file
+ *   (e.g., that a link target or the electrodes table exists). If a check
+ *   fails, initialize returns Status::Failure and writes nothing.
+ * - Failures after the checks are I/O errors. In this case, the object may be
+ *   partially written to the file. Changes are not rolled back.
+ *
+ * To follow the contract, types that check the file do so before calling the
+ * initialize method of their parent, which creates the object in the file.
+ * The spec itself is validated once by Container::initialize, which calls the
+ * virtual validate() method of the spec, i.e., derived types do not need to
+ * call validate() themselves.
+ *
+ * Specs are defined using the macros `DEFINE_SPEC_FIELD` and
  * `INHERIT_SPEC_SETTER`, e.g.:
  *
  * @code
@@ -34,7 +54,6 @@ namespace AQNWB::NWB
  *
  *   struct Spec : public NWBContainer::Spec
  *   {
- *     REGISTER_SPEC(MyType, NWBContainer::Spec)
  *     /// @brief Description of the object.
  *     DEFINE_SPEC_FIELD(Spec, std::string, description, withDescription, "")
  *   };
@@ -51,28 +70,6 @@ struct RegisteredTypeSpec
   virtual ~RegisteredTypeSpec() = default;
 
   /**
-   * @brief Get the name of the neurodata_type that this spec describes.
-   * @return The name of the type, e.g., "TimeSeries".
-   */
-  virtual std::string getTypeName() const = 0;
-
-  /**
-   * @brief Get the schema namespace of the neurodata_type that this spec
-   * describes.
-   * @return The namespace of the type, e.g., "core".
-   */
-  virtual std::string getNamespace() const = 0;
-
-  /**
-   * @brief Get the full name of the type, including the namespace.
-   * @return The full type name, e.g., "core::TimeSeries".
-   */
-  inline std::string getFullTypeName() const
-  {
-    return getNamespace() + "::" + getTypeName();
-  }
-
-  /**
    * @brief Validate the values of the spec against the schema.
    *
    * Validation checks that are possible without access to the file, e.g.,
@@ -85,50 +82,6 @@ struct RegisteredTypeSpec
 };
 
 }  // namespace AQNWB::NWB
-
-/**
- * @brief Macro to define the type information of a spec nested in a
- * RegisteredType.
- *
- * This macro must be used inside the definition of the nested `OWNER::Spec`
- * struct. It defines:
- * - `OwnerType` and `BaseSpecType` type aliases
- * - overrides of `getTypeName` and `getNamespace` that return the values
- *   registered for `OWNER` via `REGISTER_SUBCLASS`
- * - `createAndInitialize(path, io)` to create an `OWNER` object at the given
- *   path and initialize it with this spec. Returns nullptr if the creation or
- *   initialization fails.
- *
- * @note
- * The Doxyfile.in defines a simplified expansion of this macro for generating
- * the documentation, so changes to the macro should be reflected there as
- * well.
- *
- * @param OWNER The RegisteredType subclass that the spec describes.
- * @param BASE_SPEC The spec of the parent type of OWNER.
- */
-#define REGISTER_SPEC(OWNER, BASE_SPEC) \
-  using OwnerType = OWNER; \
-  using BaseSpecType = BASE_SPEC; \
-  std::string getTypeName() const override \
-  { \
-    return OWNER::getStaticTypeName(); \
-  } \
-  std::string getNamespace() const override \
-  { \
-    return OWNER::getStaticNamespace(); \
-  } \
-  std::shared_ptr<OWNER> createAndInitialize( \
-      const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io) const \
-  { \
-    auto obj = OWNER::create(path, io); \
-    if (obj == nullptr \
-        || obj->initialize(*this) != AQNWB::Types::Status::Success) \
-    { \
-      return nullptr; \
-    } \
-    return obj; \
-  }
 
 /**
  * @brief Macro to define a field of a spec along with a setter method.

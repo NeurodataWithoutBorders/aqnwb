@@ -26,8 +26,6 @@ public:
    */
   struct Spec : public NWBContainer::Spec
   {
-    REGISTER_SPEC(Device, NWBContainer::Spec)
-
     /**
      * @brief Description of the device as free-form text. The description
      * attribute is not written if empty.
@@ -42,9 +40,6 @@ public:
                       withManufacturer,
                       std::nullopt)
   };
-
-  // Bring base class initialize method into scope
-  using Container::initialize;
 
 protected:
   /**

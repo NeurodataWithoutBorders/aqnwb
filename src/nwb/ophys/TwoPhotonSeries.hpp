@@ -34,8 +34,6 @@ public:
    */
   struct Spec : public ImageSeries::Spec
   {
-    REGISTER_SPEC(TwoPhotonSeries, ImageSeries::Spec)
-
     /// @brief Photomultiplier gain. Optional.
     DEFINE_SPEC_FIELD(
         Spec, std::optional<float>, pmtGain, withPmtGain, std::nullopt)
