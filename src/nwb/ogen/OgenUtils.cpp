@@ -5,7 +5,7 @@
 using namespace AQNWB::NWB;
 
 std::shared_ptr<OptogeneticStimulusSite> Ogen::createOptogeneticStimulusSite(
-    NWBFile& nwbfile,
+    const NWBFile& nwbfile,
     const std::string& name,
     const OptogeneticStimulusSite::Spec& spec)
 {
@@ -27,7 +27,7 @@ std::shared_ptr<OptogeneticStimulusSite> Ogen::createOptogeneticStimulusSite(
 }
 
 std::shared_ptr<OptogeneticSeries> Ogen::createOptogeneticSeries(
-    NWBFile& nwbfile,
+    const NWBFile& nwbfile,
     const std::string& name,
     const OptogeneticSeries::Spec& spec)
 {
