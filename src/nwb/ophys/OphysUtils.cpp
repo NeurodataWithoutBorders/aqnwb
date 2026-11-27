@@ -5,7 +5,7 @@
 using namespace AQNWB::NWB;
 
 std::shared_ptr<ImagingPlane> Ophys::createImagingPlane(
-    const NWBFile& nwbfile,
+    const const NWBFile& nwbfile,
     const std::string& name,
     const ImagingPlane::Spec& spec)
 {
@@ -27,7 +27,7 @@ std::shared_ptr<ImagingPlane> Ophys::createImagingPlane(
 }
 
 std::shared_ptr<TwoPhotonSeries> Ophys::createTwoPhotonSeries(
-    const NWBFile& nwbfile,
+    const const NWBFile& nwbfile,
     const std::string& name,
     const TwoPhotonSeries::Spec& spec)
 {
@@ -41,7 +41,7 @@ std::shared_ptr<TwoPhotonSeries> Ophys::createTwoPhotonSeries(
 }
 
 std::shared_ptr<OnePhotonSeries> Ophys::createOnePhotonSeries(
-    const NWBFile& nwbfile,
+    const const NWBFile& nwbfile,
     const std::string& name,
     const OnePhotonSeries::Spec& spec)
 {
@@ -85,7 +85,7 @@ AQNWB::Types::Status Ophys::writeImageSeriesFrames(
 }
 
 std::shared_ptr<ProcessingModule> Ophys::getOrCreateOphysModule(
-    NWBFile& nwbfile)
+    const NWBFile& nwbfile)
 {
   auto module = nwbfile.readProcessingModule(OPHYS_MODULE_NAME);
   if (module != nullptr) {
@@ -112,7 +112,7 @@ namespace
  * and create it if it does not exist.
  */
 template<typename T>
-std::shared_ptr<T> getOrCreateOphysContainer(NWBFile& nwbfile,
+std::shared_ptr<T> getOrCreateOphysContainer(const NWBFile& nwbfile,
                                              const std::string& name)
 {
   auto module = Ophys::getOrCreateOphysModule(nwbfile);
@@ -135,7 +135,7 @@ std::shared_ptr<T> getOrCreateOphysContainer(NWBFile& nwbfile,
 }  // namespace
 
 std::shared_ptr<PlaneSegmentation> Ophys::createPlaneSegmentation(
-    NWBFile& nwbfile,
+    const NWBFile& nwbfile,
     const std::string& name,
     const PlaneSegmentation::Spec& spec)
 {
@@ -156,7 +156,7 @@ std::shared_ptr<PlaneSegmentation> Ophys::createPlaneSegmentation(
 }
 
 std::shared_ptr<RoiResponseSeries> Ophys::createRoiResponseSeries(
-    NWBFile& nwbfile,
+    const NWBFile& nwbfile,
     const RoiResponseContainer& container,
     const std::string& name,
     const RoiResponseSeries::Spec& spec)

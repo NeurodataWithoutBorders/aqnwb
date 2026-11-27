@@ -45,7 +45,7 @@ inline const std::string OPTOPHYSIOLOGY_PATH = "/general/optophysiology";
  * @return The initialized ImagingPlane or nullptr if the creation failed.
  */
 std::shared_ptr<ImagingPlane> createImagingPlane(
-    const NWBFile& nwbfile,
+    const const NWBFile& nwbfile,
     const std::string& name,
     const ImagingPlane::Spec& spec);
 
@@ -62,7 +62,7 @@ std::shared_ptr<ImagingPlane> createImagingPlane(
  * @return The initialized TwoPhotonSeries or nullptr if the creation failed.
  */
 std::shared_ptr<TwoPhotonSeries> createTwoPhotonSeries(
-    const NWBFile& nwbfile,
+    const const NWBFile& nwbfile,
     const std::string& name,
     const TwoPhotonSeries::Spec& spec);
 
@@ -76,7 +76,7 @@ std::shared_ptr<TwoPhotonSeries> createTwoPhotonSeries(
  * @return The initialized OnePhotonSeries or nullptr if the creation failed.
  */
 std::shared_ptr<OnePhotonSeries> createOnePhotonSeries(
-    const NWBFile& nwbfile,
+    const const NWBFile& nwbfile,
     const std::string& name,
     const OnePhotonSeries::Spec& spec);
 
@@ -133,7 +133,8 @@ enum class RoiResponseContainer
  * @param nwbfile The NWBFile.
  * @return The ProcessingModule or nullptr if the creation failed.
  */
-std::shared_ptr<ProcessingModule> getOrCreateOphysModule(NWBFile& nwbfile);
+std::shared_ptr<ProcessingModule> getOrCreateOphysModule(
+    const NWBFile& nwbfile);
 
 /**
  * @brief Create and initialize a PlaneSegmentation in
@@ -148,7 +149,7 @@ std::shared_ptr<ProcessingModule> getOrCreateOphysModule(NWBFile& nwbfile);
  * @return The initialized PlaneSegmentation or nullptr if the creation failed.
  */
 std::shared_ptr<PlaneSegmentation> createPlaneSegmentation(
-    NWBFile& nwbfile,
+    const NWBFile& nwbfile,
     const std::string& name,
     const PlaneSegmentation::Spec& spec);
 
@@ -166,7 +167,7 @@ std::shared_ptr<PlaneSegmentation> createPlaneSegmentation(
  * @return The initialized RoiResponseSeries or nullptr if the creation failed.
  */
 std::shared_ptr<RoiResponseSeries> createRoiResponseSeries(
-    NWBFile& nwbfile,
+    const NWBFile& nwbfile,
     const RoiResponseContainer& container,
     const std::string& name,
     const RoiResponseSeries::Spec& spec);
