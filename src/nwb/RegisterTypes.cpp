@@ -46,8 +46,10 @@
 
 void AQNWB::NWB::registerAllTypes()
 {
-  // Calling registerSubclass references the object file of each class, which
-  // ensures that the linker includes the class when linking statically
+  // registerSubclass refers to the factory of each class (which creates
+  // objects of the class), such that the linker includes the object file of
+  // each class when linking statically. Not thread-safe; call it once at
+  // startup.
   // hdmf-common
   Container::registerSubclass();
   Data::registerSubclass();
