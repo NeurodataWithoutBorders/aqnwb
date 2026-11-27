@@ -34,7 +34,10 @@ public:
     /// @brief Description of the stimulation site. Required.
     DEFINE_SPEC_FIELD(Spec, std::string, description, withDescription, "")
 
-    /// @brief Excitation wavelength, in nm. Required.
+    /**
+     * @brief Excitation wavelength, in nm. Required. Use NaN (e.g.,
+     * `std::numeric_limits<float>::quiet_NaN()`) if the wavelength is unknown.
+     */
     DEFINE_SPEC_FIELD(
         Spec, float, excitationLambda, withExcitationLambda, -1.0f)
 
