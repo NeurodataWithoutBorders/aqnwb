@@ -27,7 +27,7 @@ Status DynamicTableRegion::DataSpec::initialize(Data& data) const
               << std::endl;
     return Status::Failure;
   }
-  return region->initialize(static_cast<const IO::ArrayDataSetConfig&>(*this),
+  return region->initialize(getDataConfig(),
                             description,
                             tablePath);
 }
