@@ -35,11 +35,11 @@ TEST_CASE("ophysWorkflowExamples", "[ophys]")
 
     // [example_ophys_device_snippet]
     // Create the microscope used for imaging
-    auto microscope =
-        NWB::Device::Spec()
-            .withDescription("Two-photon microscope")
-            .withManufacturer("Example Inc.")
-            .createAndInitialize("/general/devices/microscope", io);
+    auto microscope = NWB::Device::create("/general/devices/microscope", io);
+    REQUIRE(microscope->initialize(NWB::Device::Spec()
+                                       .withDescription("Two-photon microscope")
+                                       .withManufacturer("Example Inc."))
+            == Status::Success);
     // [example_ophys_device_snippet]
     REQUIRE(microscope != nullptr);
 

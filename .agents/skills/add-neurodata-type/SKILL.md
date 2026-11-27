@@ -15,13 +15,15 @@ The developer docs are the source of truth. Read them first and follow them over
 ## 1. Generate the starting point
 
 ```bash
-mkdir -p gen/spec
-uv run resources/utils/aqnwb_utils.py generate-spec <schema_dir> gen/spec   # only for new namespaces
-uv run resources/utils/aqnwb_utils.py generate-types --generate-test-app <namespace.yaml> gen
+mkdir -p build/gen/spec   # build/ is ignored by git
+uv run resources/utils/aqnwb_utils.py generate-spec <schema_dir> build/gen/spec   # needed to compile the output
+uv run resources/utils/aqnwb_utils.py generate-types --generate-test-app <namespace.yaml> build/gen
 ```
 
 - Types already implemented in `src/nwb` are not generated; the generated classes use them.
-- Only take the files for the types you are adding. Do not commit the `gen` folder.
+- Types from included namespaces that AqNWB does not implement yet (e.g., a core type used by an extension)
+  are generated too. Add them to AqNWB instead of keeping them in an extension.
+- Only take the files for the types you are adding.
 
 ## 2. Move the files into the source tree
 
@@ -32,6 +34,9 @@ uv run resources/utils/aqnwb_utils.py generate-types --generate-test-app <namesp
   `Status` handling.
 - Add the `.cpp` file to `add_library(aqnwb_aqnwb ...)` in `CMakeLists.txt`. If the module has a CMake
   option (e.g., `AQNWB_ENABLE_OPHYS`), add the file under that option.
+- Register the type in `registerAllTypes()` (`src/nwb/RegisterTypes.cpp`): include the header and call
+  `T::registerSubclass()`, inside `#ifdef AQNWB_HAS_<MODULE>` for optional modules. Otherwise statically
+  linked applications cannot read the type.
 - Keep the `REGISTER_SUBCLASS` / `REGISTER_SUBCLASS_IMPL` names equal to the schema type and namespace.
 
 ## 3. Resolve all AQNWB-TODO markers
@@ -40,16 +45,16 @@ List them via `grep -rn "AQNWB-TODO" src/nwb/<module>`. Resolve one category at 
 
 | Category | What to do | Reference |
 |---|---|---|
-| `child` | Owned neurodata_type objects are not in the Spec. Create them after `initialize` via `DEFINE_UNNAMED_REGISTERED_FIELD` create methods, or add nested specs for required children. | `src/nwb/NWBFile.hpp` |
+| `child` | Owned neurodata_type objects (and optional untyped groups) are not in the Spec. Add nested specs for required children, or create them after `initialize` via `DEFINE_UNNAMED_REGISTERED_FIELD` create methods. | `src/nwb/ophys/ImagingPlane.hpp`, `src/nwb/NWBFile.hpp` |
 | `table-columns` | Add the required columns to `createDefaultDataSpecs`, and check them with `checkRequiredColumnSpec` in `validateDataSpecs`. | `src/nwb/event/EventsTable.cpp` |
 | `dataspec` | Dataset types (e.g., VectorData subtypes) need a nested `DataSpec` and a `createDataSpec` factory. | `src/nwb/event/TimestampVectorData.hpp` |
-| `dtype` | Reference, compound, undefined, or `numeric` dtypes, and multi-dimensional datasets with a value. Restrict the allowed `BaseDataType`s in `validate()`. | `src/nwb/hdmf/table/DynamicTable.hpp` |
-| `override` | Set the fixed or default value of an inherited field in the Spec constructor, and check it in `validate()`. | `src/nwb/ecephys/ElectricalSeries.hpp` |
-| `parent-spec` | The parent class has no `Spec`. Add one to the parent first. | `src/nwb/RegisteredTypeSpec.hpp` |
-| `link` | Unnamed links need custom handling. | `src/nwb/file/ElectrodeGroup.cpp` |
-| `nwbfile-helper` | For acquisition types, add a function to create and initialize the objects. Prefer free functions in the module over new `NWBFile` members (see issue #213). | `src/nwb/NWBFile.cpp` (`createElectricalSeries`) |
-| `write-helper` | Add a function to write data blocks by recording index. | `src/io/nwbio_utils.hpp` |
-| `chunking` | Choose default chunking for acquisition datasets (e.g., one frame per chunk for images). | `src/nwb/NWBFile.cpp` (`createSpikeEventSeries`) |
+| `dtype` | Compound, undefined, or `numeric` dtypes, reference arrays, and multi-dimensional datasets with a value. Restrict the allowed `BaseDataType`s in `validate()`. | `src/io/BaseIO.hpp` (`BaseDataType::Compound`), `src/nwb/hdmf/table/VectorIndex.cpp` |
+| `override` | Inherited fields redefined by the type: set fixed or default values in the Spec constructor (check fixed values in `validate()`), and restrict dtypes or shapes in `validate()`. Renamed fields that collide with inherited setters. | `src/nwb/ecephys/ElectricalSeries.hpp` |
+| `parent-spec` | The parent class has no `Spec` of its own (e.g., `TimeIntervals`), so only the nearest class with a Spec is initialized. Call the parent's initialize or add a Spec to the parent. | `src/nwb/RegisteredTypeSpec.hpp` |
+| `link` | Unnamed links need custom handling. | `src/nwb/NWBFile.hpp` (`DEFINE_UNNAMED_REGISTERED_FIELD`) |
+| `nwbfile-helper` | For acquisition types, add a function to create and initialize the objects. Prefer free functions in the module over new `NWBFile` members (see issue #213). | `src/nwb/ophys/OphysUtils.cpp` |
+| `write-helper` | Writing data is usually covered by `TimeSeries::appendSamples`. Add a write method or a function to write by recording index if needed. | `src/nwb/base/TimeSeries.hpp`, `src/nwb/ophys/OphysUtils.cpp` |
+| `chunking` | Choose default chunking for acquisition datasets (e.g., one frame per chunk for images). | `src/nwb/ophys/OphysUtils.cpp` (`getDefaultImageSeriesDataConfig`) |
 
 Rules for the Spec and `initialize` (see the developer docs for details):
 - Required fields use plain types and are checked in `Spec::validate()`. Optional fields use `std::optional`.

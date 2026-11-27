@@ -46,6 +46,10 @@ Status TwoPhotonSeries::initialize(const Spec& spec)
     return Status::Failure;
   }
 
+  // Check the link targets before anything is written
+  if (checkLinkTarget(spec.imagingPlane, "imagingPlane") != Status::Success) {
+    return Status::Failure;
+  }
   // Validate the spec and initialize the ImageSeries
   Status status = ImageSeries::initialize(spec);
   if (status != Status::Success) {

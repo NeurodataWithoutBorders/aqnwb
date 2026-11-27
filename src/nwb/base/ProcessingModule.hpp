@@ -36,8 +36,6 @@ public:
    */
   struct Spec : public NWBContainer::Spec
   {
-    REGISTER_SPEC(ProcessingModule, NWBContainer::Spec)
-
     /**
      * @brief Description of this collection of processed data.
      */

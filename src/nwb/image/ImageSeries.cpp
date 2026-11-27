@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "nwb/image/ImageSeries.hpp"
 
 #include "Utils.hpp"
@@ -46,6 +48,16 @@ Status ImageSeries::Spec::validate() const
                 << std::endl;
       status = Status::Failure;
     }
+    if (!externalFileStartingFrame.empty()
+        && (externalFileStartingFrame[0] != 0
+            || !std::is_sorted(externalFileStartingFrame.begin(),
+                               externalFileStartingFrame.end())))
+    {
+      std::cerr << "ImageSeries::Spec::validate: externalFileStartingFrame "
+                   "must start at 0 and be non-decreasing."
+                << std::endl;
+      status = Status::Failure;
+    }
   }
   // Check the shape and data type of the data (unless the data is a link,
   // which is validated when the link is created)
@@ -82,22 +94,17 @@ Status ImageSeries::initialize(const Spec& spec)
     return Status::Failure;
   }
 
+  // Check the link targets before anything is written
+  if (checkLinkTarget(spec.device, "device") != Status::Success) {
+    return Status::Failure;
+  }
   // Validate the spec and initialize the TimeSeries
   Status status = TimeSeries::initialize(spec);
   if (status != Status::Success) {
     return Status::Failure;
   }
 
-  // Remember the shape of a frame for writeFrames
-  SizeArray shape, chunking;
-  IO::BaseDataType dataType;
-  if (spec.data->getProperties(ioPtr.get(), shape, chunking, dataType)
-          == Status::Success
-      && !shape.empty())
-  {
-    m_frameShape = SizeArray(shape.begin() + 1, shape.end());
-  }
-  m_framesRecorded = 0;
+  m_isExternal = spec.format == "external";
 
   status = status
       && ioPtr->createStringDataSet(AQNWB::mergePaths(m_path, "format"),
@@ -156,22 +163,31 @@ Status ImageSeries::writeFrames(const SizeType& numFrames,
                                 const void* timestampsInput,
                                 const void* controlInput)
 {
-  if (m_frameShape.empty()) {
-    std::cerr << "ImageSeries::writeFrames: The frame shape is unknown. The "
-                 "ImageSeries must be initialized before writing frames."
-              << std::endl;
+  if (m_isExternal) {
+    std::cerr << "ImageSeries::writeFrames: " << m_path
+              << " stores the images in external files." << std::endl;
     return Status::Failure;
   }
+  return appendSamples(numFrames, dataInput, timestampsInput, controlInput);
+}
 
-  SizeArray dataShape = {numFrames};
-  dataShape.insert(dataShape.end(), m_frameShape.begin(), m_frameShape.end());
-  SizeArray positionOffset(dataShape.size(), 0);
-  positionOffset[0] = m_framesRecorded;
-
-  Status status = this->writeData(
-      dataShape, positionOffset, dataInput, timestampsInput, controlInput);
-  if (status == Status::Success) {
-    m_framesRecorded += numFrames;
+SizeArray ImageSeries::getFrameShape() const
+{
+  auto dataRecorder = const_cast<ImageSeries*>(this)->recordData();
+  if (dataRecorder == nullptr) {
+    return {};
   }
-  return status;
+  SizeArray shape = dataRecorder->getShape();
+  return shape.empty() ? SizeArray {}
+                       : SizeArray(shape.begin() + 1, shape.end());
+}
+
+SizeType ImageSeries::getNumFramesRecorded() const
+{
+  auto dataRecorder = const_cast<ImageSeries*>(this)->recordData();
+  if (dataRecorder == nullptr) {
+    return 0;
+  }
+  SizeArray shape = dataRecorder->getShape();
+  return shape.empty() ? 0 : shape[0];
 }

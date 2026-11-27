@@ -30,8 +30,6 @@ public:
    */
   struct Spec : public NWBContainer::Spec
   {
-    REGISTER_SPEC(OpticalChannel, NWBContainer::Spec)
-
     /// @brief Description or other notes about the channel. Required.
     DEFINE_SPEC_FIELD(Spec, std::string, description, withDescription, "")
 
