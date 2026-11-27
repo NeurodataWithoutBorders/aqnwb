@@ -5,6 +5,7 @@
 #include <optional>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 
 #include "Utils.hpp"
 #include "io/BaseIO.hpp"
@@ -416,6 +417,25 @@ public:
       const std::string& objectName) const;
 
 protected:
+  /**
+   * @brief Adds multiple rows to the table, except for the values of the
+   * skipped columns.
+   *
+   * Same as addRows, but the skipped columns (and the index columns of
+   * skipped ragged columns) are neither required in the rows nor written.
+   * Subclasses use it to write columns that RowData cannot represent (e.g.,
+   * multi-dimensional or compound columns) themselves, such that all columns
+   * keep the same number of rows.
+   *
+   * @param rows The vector of row data to add.
+   * @param rowIds The vector of row IDs (optional).
+   * @param skippedColumns The names of the columns written by the caller.
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
+  Status addRowsExcept(const std::vector<AQNWB::Types::RowData>& rows,
+                       const std::vector<int>& rowIds,
+                       const std::unordered_set<std::string>& skippedColumns);
+
   /**
    *  @brief Add a column name to m_colNames while preventing duplicates
    *

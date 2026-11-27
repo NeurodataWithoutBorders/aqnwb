@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include "nwb/ogen/OptogeneticStimulusSite.hpp"
 
 #include "Utils.hpp"
@@ -27,9 +29,10 @@ Status OptogeneticStimulusSite::Spec::validate() const
               << std::endl;
     status = Status::Failure;
   }
-  if (!(excitationLambda > 0.0f)) {
+  // NaN indicates an unknown wavelength
+  if (!std::isnan(excitationLambda) && !(excitationLambda > 0.0f)) {
     std::cerr << "OptogeneticStimulusSite::Spec::validate: excitationLambda "
-                 "must be > 0."
+                 "must be > 0 (or NaN if unknown)."
               << std::endl;
     status = Status::Failure;
   }

@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <memory>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -187,10 +188,57 @@ public:
       const std::vector<DataSpecPtr>& dataSpecs) const override;
 
   /**
+   * @brief The data of a region of interest (ROI), i.e., of a row of the
+   * table. See addRois.
+   */
+  struct RoiData
+  {
+    /**
+     * @brief The image mask of the ROI, i.e., a contiguous float32 array with
+     * one weight per pixel of shape [x, y(, z)] in row-major order. Required
+     * if the table has an image_mask column.
+     */
+    const float* imageMask = nullptr;
+
+    /**
+     * @brief The pixel mask of the ROI, i.e., a list of (x, y, weight)
+     * entries. Required if the table has a pixel_mask column.
+     */
+    std::optional<std::vector<PixelMaskEntry>> pixelMask;
+
+    /**
+     * @brief The voxel mask of the ROI, i.e., a list of (x, y, z, weight)
+     * entries. Required if the table has a voxel_mask column.
+     */
+    std::optional<std::vector<VoxelMaskEntry>> voxelMask;
+
+    /**
+     * @brief The values of the other columns of the table (e.g., user-defined
+     * columns), by column name. See DynamicTable::addRow.
+     */
+    Types::RowData columns;
+  };
+
+  /**
+   * @brief Append ROIs to the table.
+   *
+   * Appends one row per ROI, i.e., the masks of all mask columns of the table,
+   * the values of the other columns, and the ids. All inputs are checked
+   * before anything is written, i.e., every ROI must provide a mask for each
+   * mask column of the table and a value for each other column.
+   *
+   * @param rois The ROIs to append.
+   * @param ids The ids of the ROIs. If empty, the ids are the row indices.
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
+  Status addRois(const std::vector<RoiData>& rois,
+                 const std::vector<int>& ids = {});
+
+  /**
    * @brief Append ROIs defined by image masks.
    *
-   * Appends numRois rows to the table, i.e., the image masks and the ids of
-   * the ROIs. The table must have been initialized with an image_mask column.
+   * Shorthand for addRois for tables whose only columns are the id and
+   * image_mask columns.
    *
    * @param numRois The number of ROIs to append.
    * @param masks Pointer to the masks, i.e., a contiguous float32 array of
@@ -205,9 +253,9 @@ public:
   /**
    * @brief Append ROIs defined by pixel masks.
    *
-   * Appends one row per mask, i.e., the entries of the masks and the ids of
-   * the ROIs. The table must have the pixel_mask column (see
-   * Spec::withPixelMask).
+   * Shorthand for addRois for tables whose only mask column is the
+   * pixel_mask column (see Spec::withPixelMask) and that have no other
+   * columns besides the id.
    *
    * @param masks The pixel masks, one list of entries per ROI.
    * @param ids The ids of the ROIs. If empty, the ids are the row indices.
@@ -219,9 +267,9 @@ public:
   /**
    * @brief Append ROIs defined by voxel masks.
    *
-   * Appends one row per mask, i.e., the entries of the masks and the ids of
-   * the ROIs. The table must have the voxel_mask column (see
-   * Spec::withVoxelMask).
+   * Shorthand for addRois for tables whose only mask column is the
+   * voxel_mask column (see Spec::withVoxelMask) and that have no other
+   * columns besides the id.
    *
    * @param masks The voxel masks, one list of entries per ROI.
    * @param ids The ids of the ROIs. If empty, the ids are the row indices.
@@ -281,29 +329,20 @@ public:
 protected:
   /**
    * @brief Append ragged masks to a mask column and its index column.
+   *
+   * Used by addRois after the checks, i.e., does not write the ids or the
+   * other columns.
+   *
    * @param maskName The name of the mask column.
    * @param type The compound data type of the mask entries.
    * @param entries Pointer to all entries of all masks (concatenated).
    * @param maskSizes The number of entries of each mask.
-   * @param ids The ids of the ROIs. If empty, the ids are the row indices.
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  /**
-   * @brief Check that the table has no mask column other than maskName.
-   *
-   * The add*Masks methods append rows to a single mask column (and the id
-   * column), i.e., tables with several mask columns are not supported.
-   *
-   * @param maskName The name of the mask column to add rows to.
-   * @return Status::Success if no other mask column exists.
-   */
-  Status checkSingleMaskType(const std::string& maskName) const;
-
-  Status addRaggedMasks(const std::string& maskName,
-                        const IO::BaseDataType& type,
-                        const void* entries,
-                        const std::vector<SizeType>& maskSizes,
-                        const std::vector<int>& ids);
+  Status writeRaggedMasks(const std::string& maskName,
+                          const IO::BaseDataType& type,
+                          const void* entries,
+                          const std::vector<SizeType>& maskSizes);
 
   /**
    * @brief Constructor.

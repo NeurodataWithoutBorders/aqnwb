@@ -77,7 +77,22 @@ jobs:
           ./bin/schema_compilation_test
 
 # -----------------------------------------------------------------
-# 3. nwb_schema pipeline
+# 3. Extension with edge cases for the generator
+# -----------------------------------------------------------------
+      - name: Generate and compile the classes of the edge-case extension
+        run: |
+          mkdir -p test_output_edge/spec
+          uv run resources/utils/aqnwb_utils.py generate-spec resources/utils/tests/data/ndx-edge test_output_edge/spec
+          uv run resources/utils/aqnwb_utils.py generate-types --generate-test-app resources/utils/tests/data/ndx-edge/ndx-edge.namespace.yaml test_output_edge
+          cd test_output_edge/test_app
+          mkdir build
+          cd build
+          cmake -Daqnwb_DIR="${{ github.workspace }}/prefix/lib/cmake/aqnwb" ../
+          make -j 2
+          ./bin/schema_compilation_test
+
+# -----------------------------------------------------------------
+# 4. nwb_schema pipeline
 # -----------------------------------------------------------------
       - name: Clone latest NWB schema release
         run: |

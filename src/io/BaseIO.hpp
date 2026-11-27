@@ -176,6 +176,30 @@ public:
     return 0;
   }
 
+  /**
+   * @brief Get the number of bytes of a single element of this data type.
+   *
+   * Numeric types with a typeSize > 1 are arrays of typeSize values per
+   * element (see HDF5IO::getH5Type). Variable-length strings are stored as
+   * pointers.
+   *
+   * @return The number of bytes per element.
+   */
+  SizeType getNumBytes() const
+  {
+    const SizeType arrayLength = std::max<SizeType>(1, typeSize);
+    switch (type) {
+      case T_STR:
+        return typeSize;
+      case V_STR:
+        return sizeof(void*);
+      case T_COMPOUND:
+        return compoundSize * arrayLength;
+      default:
+        return getScalarNumBytes(type) * arrayLength;
+    }
+  }
+
   // Define the equality operator
   bool operator==(const BaseDataType& other) const
   {
@@ -868,6 +892,37 @@ public:
                                        const SizeArray& count = {},
                                        const SizeArray& stride = {},
                                        const SizeArray& block = {}) = 0;
+
+  /**
+   * @brief Reads a compound dataset into the given memory type.
+   *
+   * The members of memoryType are matched by name with the members in the
+   * file, and their values are converted to the member types of memoryType
+   * (e.g., uint16 values in the file to uint32). Members of the file that are
+   * not part of memoryType are not read. The result contains the raw bytes in
+   * the layout of memoryType, i.e., use DataBlock::fromGeneric to convert them
+   * to the C++ struct described by memoryType.
+   *
+   * The default implementation throws std::runtime_error. IO backends should
+   * override it.
+   *
+   * @param dataPath The path to the dataset within the file.
+   * @param memoryType The compound type to read the values into (see
+   * BaseDataType::Compound).
+   * @param start The starting indices for the slice (optional).
+   * @param count The number of elements to read for each dimension (optional).
+   * @param stride The stride for each dimension (optional).
+   * @param block The block size for each dimension (optional).
+   * @return The data, with memoryType as baseDataType.
+   * @throws std::invalid_argument if memoryType or the dataset is not a
+   * compound type, or if a member of memoryType is not in the file.
+   */
+  virtual DataBlockGeneric readCompoundDataset(const std::string& dataPath,
+                                               const BaseDataType& memoryType,
+                                               const SizeArray& start = {},
+                                               const SizeArray& count = {},
+                                               const SizeArray& stride = {},
+                                               const SizeArray& block = {});
 
   /**
    * @brief Reads a attribute  and determines the data type
