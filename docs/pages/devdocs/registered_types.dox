@@ -676,8 +676,9 @@
  * - `parent-spec`: The parent class does not define a Spec yet.
  * - `link`: Unnamed links.
  * - `nwbfile-helper`, `write-helper`, `chunking`: For `TimeSeries` types used during acquisition, consider
- *   adding convenience functions to create the objects (see `NWBFile::createElectricalSeries`), helper
- *   functions to write data (see `io/nwbio_utils.hpp`), and default chunking.
+ *   adding convenience functions to create the objects (see `NWBFile::createElectricalSeries`) and default
+ *   chunking. Writing data is covered by `TimeSeries::appendSamples` and `IO::appendTimeSeriesData`
+ *   (see `io/nwbio_utils.hpp`); override `appendSamples` to add type-specific checks.
  *
  * \note
  * The agent skill in `.agents/skills/add-neurodata-type/SKILL.md` (see also `AGENTS.md`) describes the
