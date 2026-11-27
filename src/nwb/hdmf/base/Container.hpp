@@ -29,7 +29,6 @@ public:
    */
   struct Spec : public RegisteredTypeSpec
   {
-    REGISTER_SPEC(Container, RegisteredTypeSpec)
   };
 
 protected:

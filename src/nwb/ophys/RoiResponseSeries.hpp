@@ -35,8 +35,6 @@ public:
    */
   struct Spec : public TimeSeries::Spec
   {
-    REGISTER_SPEC(RoiResponseSeries, TimeSeries::Spec)
-
     /// @brief The PlaneSegmentation with the ROIs of the series. Required.
     DEFINE_SPEC_FIELD(Spec,
                       std::shared_ptr<PlaneSegmentation>,
@@ -128,16 +126,5 @@ protected:
    * @param io A shared pointer to the IO object.
    */
   RoiResponseSeries(const std::string& path, std::shared_ptr<IO::BaseIO> io);
-
-  /**
-   * @brief The shape of a single sample (data shape without the first
-   * dimension).
-   */
-  SizeArray m_sampleShape;
-
-  /**
-   * @brief The number of samples written via writeSamples.
-   */
-  SizeType m_samplesRecorded = 0;
 };
 }  // namespace AQNWB::NWB

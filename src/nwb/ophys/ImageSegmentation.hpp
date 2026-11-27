@@ -35,7 +35,6 @@ public:
    */
   struct Spec : public NWBDataInterface::Spec
   {
-    REGISTER_SPEC(ImageSegmentation, NWBDataInterface::Spec)
   };
 
   /**

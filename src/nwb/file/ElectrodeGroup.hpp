@@ -27,8 +27,6 @@ public:
    */
   struct Spec : public NWBContainer::Spec
   {
-    REGISTER_SPEC(ElectrodeGroup, NWBContainer::Spec)
-
     /**
      * @brief Description of this electrode group. The description attribute is
      * not written if empty.

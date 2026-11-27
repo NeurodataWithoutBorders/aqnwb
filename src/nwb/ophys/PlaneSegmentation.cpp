@@ -1,6 +1,9 @@
 #include <algorithm>
 #include <cstddef>
+#include <limits>
 #include <numeric>
+#include <type_traits>
+#include <variant>
 
 #include "nwb/ophys/PlaneSegmentation.hpp"
 
@@ -36,7 +39,42 @@ Status PlaneSegmentation::Spec::validate() const
               << std::endl;
     status = Status::Failure;
   }
+  // The schema requires at least one of the mask columns
+  const bool hasMaskColumn = pixelMask || voxelMask
+      || std::any_of(columns.begin(),
+                     columns.end(),
+                     [](const DataSpecPtr& column)
+                     {
+                       return column != nullptr
+                           && (column->name == "image_mask"
+                               || column->name == "pixel_mask"
+                               || column->name == "voxel_mask");
+                     });
+  if (!hasMaskColumn) {
+    std::cerr << "PlaneSegmentation::Spec::validate: At least one of the "
+                 "image_mask, pixel_mask, or voxel_mask columns is required."
+              << std::endl;
+    status = Status::Failure;
+  }
   return status;
+}
+
+Status PlaneSegmentation::checkSingleMaskType(const std::string& maskName) const
+{
+  // The add*Masks methods append rows to one mask column and to the id
+  // column. With several mask columns, the other mask columns would get out
+  // of sync with the id column.
+  for (const std::string& name : {"image_mask", "pixel_mask", "voxel_mask"}) {
+    if (name != maskName && getConfiguredColumn(name) != nullptr) {
+      std::cerr << "PlaneSegmentation: Adding " << maskName
+                << " rows to a table that also has a " << name
+                << " column is not supported, since all columns must have "
+                   "the same number of rows."
+                << std::endl;
+      return Status::Failure;
+    }
+  }
+  return Status::Success;
 }
 
 std::vector<PlaneSegmentation::DataSpecPtr>
@@ -199,6 +237,10 @@ Status PlaneSegmentation::initialize(const Spec& spec)
     tableSpec.columns.insert(
         tableSpec.columns.end(), maskSpecs.begin(), maskSpecs.end());
   }
+  // Check the link targets before anything is written
+  if (checkLinkTarget(spec.imagingPlane, "imagingPlane") != Status::Success) {
+    return Status::Failure;
+  }
   Status status = DynamicTable::initialize(tableSpec);
   if (status != Status::Success) {
     return Status::Failure;
@@ -230,6 +272,14 @@ Status PlaneSegmentation::addImageMasks(const SizeType& numRois,
     std::cerr << "PlaneSegmentation::addImageMasks: The number of ids must "
                  "match the number of ROIs."
               << std::endl;
+    return Status::Failure;
+  }
+  if (numRois > 0 && masks == nullptr) {
+    std::cerr << "PlaneSegmentation::addImageMasks: masks must not be null."
+              << std::endl;
+    return Status::Failure;
+  }
+  if (checkSingleMaskType("image_mask") != Status::Success) {
     return Status::Failure;
   }
 
@@ -298,6 +348,9 @@ Status PlaneSegmentation::addRaggedMasks(const std::string& maskName,
               << maskName << " column." << std::endl;
     return Status::Failure;
   }
+  if (checkSingleMaskType(maskName) != Status::Success) {
+    return Status::Failure;
+  }
   const SizeType numRois = maskSizes.size();
   if (!ids.empty() && ids.size() != numRois) {
     std::cerr << "PlaneSegmentation: The number of ids must match the number "
@@ -326,14 +379,22 @@ Status PlaneSegmentation::addRaggedMasks(const std::string& maskName,
   SizeType end = numEntries;
   for (SizeType i = 0; i < numRois; ++i) {
     end += maskSizes[i];
+    if (end > std::numeric_limits<uint32_t>::max()) {
+      std::cerr << "PlaneSegmentation: The number of " << maskName
+                << " entries exceeds the range of the uint32 index."
+                << std::endl;
+      return Status::Failure;
+    }
     indexValues[i] = static_cast<uint32_t>(end);
   }
   auto indexRecorder = indexColumn->recordData();
   const SizeArray indexShape = indexRecorder->getShape();
-  const SizeType numRows = indexShape.empty() ? 0 : indexShape[0];
+  const SizeType numIndexRows = indexShape.empty() ? 0 : indexShape[0];
+  // Use the number of rows of the table for the default ids
+  const SizeType numRows = getNumberOfRows();
   status = status
       && indexRecorder->writeDataBlock(
-          {numRois}, {numRows}, IO::BaseDataType::U32, indexValues.data());
+          {numRois}, {numIndexRows}, IO::BaseDataType::U32, indexValues.data());
 
   // Append the ids of the ROIs
   std::vector<int> roiIds = ids;

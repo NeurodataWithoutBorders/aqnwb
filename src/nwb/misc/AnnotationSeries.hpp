@@ -31,8 +31,6 @@ public:
    */
   struct Spec : public TimeSeries::Spec
   {
-    REGISTER_SPEC(AnnotationSeries, TimeSeries::Spec)
-
     /**
      * @brief Constructor. Sets the unit to "n/a" as required by the schema.
      */

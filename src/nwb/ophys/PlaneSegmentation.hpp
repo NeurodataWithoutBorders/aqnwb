@@ -37,19 +37,6 @@ public:
                     AQNWB::SPEC::CORE::namespaceName)
 
   /**
-   * @brief Specification for initializing a PlaneSegmentation.
-   *
-   * Example:
-   * @code
-   * auto columns = PlaneSegmentation::createDefaultDataSpecs();
-   * columns.push_back(PlaneSegmentation::createImageMaskDataSpec({512, 512}));
-   * auto spec = PlaneSegmentation::Spec()
-   *                 .withDescription("ROIs detected online")
-   *                 .withColumns(columns)
-   *                 .withImagingPlane(imagingPlane);
-   * @endcode
-   */
-  /**
    * @brief An entry of a pixel mask, i.e., the pixel coordinates and weight.
    */
   struct PixelMaskEntry
@@ -82,10 +69,21 @@ public:
    */
   static IO::BaseDataType getVoxelMaskType();
 
+  /**
+   * @brief Specification for initializing a PlaneSegmentation.
+   *
+   * Example:
+   * @code
+   * auto columns = PlaneSegmentation::createDefaultDataSpecs();
+   * columns.push_back(PlaneSegmentation::createImageMaskDataSpec({512, 512}));
+   * auto spec = PlaneSegmentation::Spec()
+   *                 .withDescription("ROIs detected online")
+   *                 .withColumns(columns)
+   *                 .withImagingPlane(imagingPlane);
+   * @endcode
+   */
   struct Spec : public DynamicTable::Spec
   {
-    REGISTER_SPEC(PlaneSegmentation, DynamicTable::Spec)
-
     /**
      * @brief If true, add the pixel_mask and pixel_mask_index columns (if not
      * already part of the columns).
@@ -111,8 +109,10 @@ public:
     /**
      * @brief Validate the spec.
      *
-     * Checks that the description is not empty and that the imagingPlane is
-     * set. The columns are validated by validateDataSpecs.
+     * Checks that the description is not empty, that the imagingPlane is set,
+     * and that at least one mask column (image_mask, pixel_mask, or
+     * voxel_mask) is configured. The columns are validated by
+     * validateDataSpecs.
      *
      * @return Status::Success if the spec is valid, otherwise Status::Failure.
      */
@@ -288,6 +288,17 @@ protected:
    * @param ids The ids of the ROIs. If empty, the ids are the row indices.
    * @return Status::Success if successful, otherwise Status::Failure.
    */
+  /**
+   * @brief Check that the table has no mask column other than maskName.
+   *
+   * The add*Masks methods append rows to a single mask column (and the id
+   * column), i.e., tables with several mask columns are not supported.
+   *
+   * @param maskName The name of the mask column to add rows to.
+   * @return Status::Success if no other mask column exists.
+   */
+  Status checkSingleMaskType(const std::string& maskName) const;
+
   Status addRaggedMasks(const std::string& maskName,
                         const IO::BaseDataType& type,
                         const void* entries,

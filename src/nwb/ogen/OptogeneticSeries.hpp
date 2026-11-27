@@ -34,8 +34,6 @@ public:
    */
   struct Spec : public TimeSeries::Spec
   {
-    REGISTER_SPEC(OptogeneticSeries, TimeSeries::Spec)
-
     /**
      * @brief Constructor. Sets the unit to "watts" as required by the schema.
      */
@@ -114,16 +112,5 @@ protected:
    * @param io A shared pointer to the IO object.
    */
   OptogeneticSeries(const std::string& path, std::shared_ptr<IO::BaseIO> io);
-
-  /**
-   * @brief The shape of a single sample (data shape without the first
-   * dimension).
-   */
-  SizeArray m_sampleShape;
-
-  /**
-   * @brief The number of samples written via writeSamples.
-   */
-  SizeType m_samplesRecorded = 0;
 };
 }  // namespace AQNWB::NWB
