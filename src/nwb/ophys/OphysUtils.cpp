@@ -179,7 +179,6 @@ std::shared_ptr<RoiResponseSeries> Ophys::createRoiResponseSeries(
   return series;
 }
 
-
 std::shared_ptr<CorrectedImageStack> Ophys::createCorrectedImageStack(
     const NWBFile& nwbfile,
     const std::string& name,

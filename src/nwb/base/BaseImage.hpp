@@ -7,6 +7,7 @@
 #include "Utils.hpp"
 #include "io/BaseIO.hpp"
 #include "io/ReadIO.hpp"
+#include "nwb/RegisteredTypeSpec.hpp"
 #include "nwb/base/NWBData.hpp"
 #include "spec/core.hpp"
 
@@ -22,18 +23,59 @@ public:
   REGISTER_SUBCLASS(BaseImage, NWBData, AQNWB::SPEC::CORE::namespaceName)
 
   /**
+   * @brief Specification for initializing a BaseImage.
+   */
+  struct Spec : public RegisteredTypeSpec
+  {
+    /// @brief Shared pointer to a dataset configuration (const)
+    using DataConfigPtr = std::shared_ptr<const IO::BaseArrayDataSetConfig>;
+
+    /// @brief Configuration of the image dataset. Required.
+    DEFINE_SPEC_FIELD(Spec, DataConfigPtr, data, withData, nullptr)
+
+    /**
+     * @brief Set the configuration of the image dataset.
+     *
+     * Stores a copy of the configuration via
+     * IO::BaseArrayDataSetConfig::clone (see TimeSeries::Spec::withData).
+     *
+     * @param config The configuration of the image dataset.
+     * @return Reference to this spec to allow chaining.
+     */
+    Spec& withData(const IO::BaseArrayDataSetConfig& config)
+    {
+      data = config.clone();
+      return *this;
+    }
+
+    /// @brief Description of the image. Optional.
+    DEFINE_SPEC_FIELD(Spec,
+                      std::optional<std::string>,
+                      description,
+                      withDescription,
+                      std::nullopt)
+
+    /**
+     * @brief Validate the spec, i.e., check that the data is set.
+     * @return Status::Success if the spec is valid, otherwise Status::Failure.
+     */
+    Status validate() const override;
+  };
+
+  /**
    * @brief Destructor
    */
   ~BaseImage() override;
 
   /**
-   * @brief Initialize the image dataset.
-   * @param dataConfig The configuration of the image dataset.
-   * @param description Description of the image. Optional.
+   * @brief Initialize the image dataset from a spec.
+   *
+   * Validates the spec before anything is written.
+   *
+   * @param spec The specification of the image.
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status initialize(const IO::BaseArrayDataSetConfig& dataConfig,
-                    const std::optional<std::string>& description);
+  Status initialize(const Spec& spec);
 
   DEFINE_ATTRIBUTE_FIELD(readDescription,
                          std::string,
@@ -60,25 +102,58 @@ public:
   REGISTER_SUBCLASS(Image, BaseImage, AQNWB::SPEC::CORE::namespaceName)
 
   /**
+   * @brief Specification for initializing an Image (and its subtypes, e.g.,
+   * GrayscaleImage).
+   */
+  struct Spec : public BaseImage::Spec
+  {
+    /**
+     * @brief Pixel resolution of the image, in pixels per centimeter.
+     * Optional.
+     */
+    DEFINE_SPEC_FIELD(
+        Spec, std::optional<float>, resolution, withResolution, std::nullopt)
+
+    INHERIT_SPEC_SETTER(Spec, BaseImage::Spec, withData)
+    INHERIT_SPEC_SETTER(Spec, BaseImage::Spec, withDescription)
+
+    /**
+     * @brief Validate the spec.
+     *
+     * Checks that the data is set and numeric and that the resolution (if
+     * set) is > 0. The shape is checked by the image type (see checkSpec).
+     *
+     * @return Status::Success if the spec is valid, otherwise Status::Failure.
+     */
+    Status validate() const override;
+  };
+
+  /**
    * @brief Destructor
    */
   ~Image() override;
 
   /**
-   * @brief Initialize the image dataset.
+   * @brief Check a spec against the type of this image and the file.
    *
-   * Checks that the shape is valid for the type of the image (see
-   * isValidShape) and that the data is numeric.
+   * Validates the spec and checks that the shape of the data is valid for the
+   * type of the image (e.g., [x, y, 3] for an RGBImage). Used by initialize
+   * and Images::initialize before anything is written.
    *
-   * @param dataConfig The configuration of the image dataset.
-   * @param description Description of the image. Optional.
-   * @param resolution Pixel resolution of the image, in pixels per
-   * centimeter. Optional.
+   * @param spec The specification of the image.
+   * @return Status::Success if the spec can be used for this image.
+   */
+  Status checkSpec(const Spec& spec) const;
+
+  /**
+   * @brief Initialize the image dataset from a spec.
+   *
+   * Checks the spec (see checkSpec) before anything is written.
+   *
+   * @param spec The specification of the image.
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status initialize(const IO::BaseArrayDataSetConfig& dataConfig,
-                    const std::optional<std::string>& description,
-                    const std::optional<float>& resolution = std::nullopt);
+  Status initialize(const Spec& spec);
 
   /**
    * @brief Write the pixel values of the image.

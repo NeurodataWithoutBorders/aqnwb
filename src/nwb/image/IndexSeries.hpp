@@ -28,7 +28,8 @@ public:
   /**
    * @brief Specification for initializing an IndexSeries.
    *
-   * The unit is fixed to "N/A" by the schema and set by default.
+   * The unit is fixed to "N/A" by the schema. The spec sets it by default
+   * and does not re-expose withUnit. validate() fails for other units.
    */
   struct Spec : public TimeSeries::Spec
   {
@@ -55,7 +56,6 @@ public:
                       nullptr)
 
     INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withData)
-    INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withUnit)
     INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withDescription)
     INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withComments)
     INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withConversion)

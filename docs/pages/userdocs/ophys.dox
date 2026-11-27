@@ -121,7 +121,9 @@
  *
  * - \ref AQNWB::NWB::Images "Images" is a collection of \ref AQNWB::NWB::GrayscaleImage "GrayscaleImage",
  *   \ref AQNWB::NWB::RGBImage "RGBImage", and \ref AQNWB::NWB::RGBAImage "RGBAImage" objects with an optional
- *   order (`order_of_images`).
+ *   order (`order_of_images`). A collection requires at least one image, i.e., the images and their
+ *   \ref AQNWB::NWB::Image::Spec "Image::Spec" are part of the \ref AQNWB::NWB::Images::Spec "Images::Spec"
+ *   (see `withImage`). Further images can be added via \ref AQNWB::NWB::Images::addImage "addImage".
  * - \ref AQNWB::NWB::IndexSeries "IndexSeries" stores indices into the images of an Images collection,
  *   e.g., the order in which stimulus images were presented.
  * - \ref AQNWB::NWB::OpticalSeries "OpticalSeries" stores image data that is presented or recorded,

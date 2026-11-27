@@ -56,28 +56,30 @@ TEST_CASE("Images, IndexSeries, OpticalSeries, and ImageMaskSeries", "[ophys]")
           == Status::Success);
 
   // [example_images_snippet]
-  // A collection of stimulus images in /stimulus/templates
-  auto images = NWB::Images::create("/stimulus/templates/scenes", io);
-  REQUIRE(
-      images->initialize(NWB::Images::Spec().withDescription("Natural scenes"))
-      == Status::Success);
+  // A collection of stimulus images in /stimulus/templates. The images are
+  // part of the spec, since a collection requires at least one image.
   std::vector<uint8_t> grayPixels(4 * 3, 100);
-  auto gray = images->createImage<NWB::GrayscaleImage>("gray");
-  Status status = gray->initialize(
-      IO::ArrayDataSetConfig(IO::BaseDataType::U8, {4, 3}, {4, 3}),
-      "A gray image",
-      70.0f);
-  status = status
-      && gray->writeImage({4, 3}, IO::BaseDataType::U8, grayPixels.data());
   std::vector<uint8_t> rgbPixels(4 * 3 * 3, 200);
-  auto rgb = images->createImage<NWB::RGBImage>("rgb");
-  status = status
-      && rgb->initialize(
-          IO::ArrayDataSetConfig(IO::BaseDataType::U8, {4, 3, 3}, {4, 3, 3}),
-          "An RGB image");
-  status = status
-      && rgb->writeImage({4, 3, 3}, IO::BaseDataType::U8, rgbPixels.data());
-  status = status && images->setOrderOfImages({"gray", "rgb"});
+  auto images = NWB::Images::create("/stimulus/templates/scenes", io);
+  Status status = images->initialize(
+      NWB::Images::Spec()
+          .withDescription("Natural scenes")
+          .withImage<NWB::GrayscaleImage>(
+              "gray",
+              NWB::Image::Spec()
+                  .withData(IO::ArrayDataSetConfig(
+                      IO::BaseDataType::U8, {4, 3}, {4, 3}))
+                  .withDescription("A gray image")
+                  .withResolution(70.0f),
+              grayPixels.data())
+          .withImage<NWB::RGBImage>(
+              "rgb",
+              NWB::Image::Spec()
+                  .withData(IO::ArrayDataSetConfig(
+                      IO::BaseDataType::U8, {4, 3, 3}, {4, 3, 3}))
+                  .withDescription("An RGB image"),
+              rgbPixels.data())
+          .withOrderOfImages(std::vector<std::string> {"gray", "rgb"}));
 
   // The order in which the images were presented
   auto indexSeries =
@@ -97,17 +99,61 @@ TEST_CASE("Images, IndexSeries, OpticalSeries, and ImageMaskSeries", "[ophys]")
   REQUIRE(status == Status::Success);
 
   // Invalid images and specs
-  auto invalidRgb = images->createImage<NWB::RGBImage>("invalid_rgb");
-  REQUIRE(invalidRgb->initialize(
-              IO::ArrayDataSetConfig(IO::BaseDataType::U8, {4, 3}, {4, 3}),
-              std::nullopt)
-          == Status::Failure);  // RGB images are 3D
-  auto invalidRgba = images->createImage<NWB::RGBAImage>("invalid_rgba");
-  REQUIRE(
-      invalidRgba->initialize(
-          IO::ArrayDataSetConfig(IO::BaseDataType::U8, {4, 3, 3}, {4, 3, 3}),
-          std::nullopt)
-      == Status::Failure);  // RGBA images have 4 channels
+  REQUIRE(images->addImage<NWB::RGBImage>(
+              "invalid_rgb",
+              NWB::Image::Spec().withData(
+                  IO::ArrayDataSetConfig(IO::BaseDataType::U8, {4, 3}, {4, 3})),
+              grayPixels.data())
+          == nullptr);  // RGB images are 3D
+  REQUIRE_FALSE(io->objectExists("/stimulus/templates/scenes/invalid_rgb"));
+  REQUIRE(images->addImage<NWB::RGBAImage>(
+              "invalid_rgba",
+              NWB::Image::Spec().withData(IO::ArrayDataSetConfig(
+                  IO::BaseDataType::U8, {4, 3, 3}, {4, 3, 3})),
+              rgbPixels.data())
+          == nullptr);  // RGBA images have 4 channels
+  // Images can be added to an initialized collection
+  REQUIRE(images->addImage<NWB::GrayscaleImage>(
+              "gray2",
+              NWB::Image::Spec().withData(
+                  IO::ArrayDataSetConfig(IO::BaseDataType::U8, {4, 3}, {4, 3})),
+              grayPixels.data())
+          != nullptr);
+  REQUIRE(NWB::Image::Spec().validate() == Status::Failure);  // no data
+  REQUIRE(NWB::Image::Spec()
+              .withData(IO::ArrayDataSetConfig(
+                  IO::BaseDataType::V_STR, {4, 3}, {4, 3}))
+              .validate()
+          == Status::Failure);  // not numeric
+  REQUIRE(NWB::Images::Spec().withDescription("no images").validate()
+          == Status::Failure);  // at least one image
+  REQUIRE(NWB::Images::Spec()
+              .withDescription("duplicate")
+              .withImage<NWB::GrayscaleImage>(
+                  "a",
+                  NWB::Image::Spec().withData(IO::ArrayDataSetConfig(
+                      IO::BaseDataType::U8, {4, 3}, {4, 3})),
+                  grayPixels.data())
+              .withImage<NWB::GrayscaleImage>(
+                  "a",
+                  NWB::Image::Spec().withData(IO::ArrayDataSetConfig(
+                      IO::BaseDataType::U8, {4, 3}, {4, 3})),
+                  grayPixels.data())
+              .validate()
+          == Status::Failure);  // duplicate names
+  // An image with an invalid shape for its type fails before the collection
+  // is created
+  auto invalidImages = NWB::Images::create("/stimulus/templates/invalid", io);
+  REQUIRE(invalidImages->initialize(
+              NWB::Images::Spec()
+                  .withDescription("invalid")
+                  .withImage<NWB::RGBImage>(
+                      "rgb",
+                      NWB::Image::Spec().withData(IO::ArrayDataSetConfig(
+                          IO::BaseDataType::U8, {4, 3}, {4, 3})),
+                      grayPixels.data()))
+          == Status::Failure);
+  REQUIRE_FALSE(io->objectExists("/stimulus/templates/invalid"));
   REQUIRE(images->setOrderOfImages({"missing"}) == Status::Failure);
   REQUIRE(NWB::Images::Spec().validate() == Status::Failure);
   REQUIRE(
@@ -121,6 +167,13 @@ TEST_CASE("Images, IndexSeries, OpticalSeries, and ImageMaskSeries", "[ophys]")
           .withIndexedImages(images)
           .validate()
       == Status::Failure);  // data must be uint32
+  REQUIRE(
+      NWB::IndexSeries::Spec()
+          .withData(IO::ArrayDataSetConfig(IO::BaseDataType::U32, {0}, {10}))
+          .withIndexedImages(images)
+          .withUnit("seconds")
+          .validate()
+      == Status::Failure);  // the unit is fixed to N/A
 
   // OpticalSeries with RGB frames and an ImageMaskSeries for the frames
   auto opticalSeries =
@@ -360,8 +413,16 @@ TEST_CASE("IndexSeries checks", "[ophys]")
 
   SECTION("IndexSeries requires the order of the images")
   {
+    std::vector<uint8_t> pixels(4, 0);
     auto images = NWB::Images::create("/stimulus/templates/unordered", io);
-    REQUIRE(images->initialize(NWB::Images::Spec().withDescription("unordered"))
+    REQUIRE(images->initialize(
+                NWB::Images::Spec()
+                    .withDescription("unordered")
+                    .withImage<NWB::GrayscaleImage>(
+                        "gray",
+                        NWB::Image::Spec().withData(IO::ArrayDataSetConfig(
+                            IO::BaseDataType::U8, {2, 2}, {2, 2})),
+                        pixels.data()))
             == Status::Success);
     auto indexSeries =
         nwbfile->createAquisitionSeries<NWB::IndexSeries>("indices");
