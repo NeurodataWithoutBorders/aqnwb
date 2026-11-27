@@ -191,3 +191,49 @@ TEST_CASE("ophys ROI types", "[ophys]")
           == "core::Fluorescence");
   readIO->close();
 }
+
+TEST_CASE("PlaneSegmentation checks", "[ophys]")
+{
+  std::string path = getTestFilePath("testOphysRoiChecks.h5");
+  std::shared_ptr<IO::BaseIO> io = createIO("HDF5", path);
+  io->open();
+  auto nwbfile = NWB::NWBFile::create(io);
+  std::string currentTime = getCurrentTime();
+  REQUIRE(nwbfile->initialize(generateUuid(),
+                              "PlaneSegmentation checks",
+                              "",
+                              currentTime,
+                              currentTime,
+                              getTestSubjectSpec())
+          == Status::Success);
+  auto microscope = NWB::Device::create("/general/devices/microscope", io);
+  REQUIRE(
+      microscope->initialize(NWB::Device::Spec().withDescription("microscope"))
+      == Status::Success);
+  auto planeSpec = NWB::ImagingPlane::Spec()
+                       .withExcitationLambda(920.0f)
+                       .withIndicator("GCaMP6s")
+                       .withLocation("VISp")
+                       .withDevice(microscope)
+                       .withOpticalChannel("green",
+                                           NWB::OpticalChannel::Spec()
+                                               .withDescription("green channel")
+                                               .withEmissionLambda(510.0f));
+  auto imagingPlane =
+      NWB::Ophys::createImagingPlane(*nwbfile, "imaging_plane", planeSpec);
+  REQUIRE(imagingPlane != nullptr);
+
+  SECTION("a PlaneSegmentation requires a mask column")
+  {
+    auto noMaskSpec = NWB::PlaneSegmentation::Spec()
+                          .withDescription("no masks")
+                          .withImagingPlane(imagingPlane);
+    REQUIRE(noMaskSpec.validate() == Status::Failure);
+    // The factory validates before creating the parent containers
+    REQUIRE(NWB::Ophys::createPlaneSegmentation(*nwbfile, "none", noMaskSpec)
+            == nullptr);
+    REQUIRE_FALSE(io->objectExists("/processing/ophys"));
+  }
+
+  io->close();
+}
