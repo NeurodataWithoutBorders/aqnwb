@@ -57,7 +57,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
    * Documented the `[frame, width, height]` axis convention of image data and that `AQNWB_ENABLE_OPHYS` also covers the image types in `nwb/image`.
    * Added a step to the `validate` CI job that reads all NWB test files with PyNWB (including converting the tables to data frames).
 
-* Addressed the review of the `schematype_to_aqnwb` utility (@claude, @oruebel, [#PRH](https://github.com/NeurodataWithoutBorders/aqnwb/pull/PRH)):
+* Addressed the review of the `schematype_to_aqnwb` utility (@claude, @oruebel, [#398](https://github.com/NeurodataWithoutBorders/aqnwb/pull/398)):
    * Required untyped groups are created by the generated `initialize`, and the contents of optional untyped groups are marked with `AQNWB-TODO(child)` instead of being written unconditionally.
    * The AqNWB source tree is scanned per class. Types without their own Spec (e.g., `TimeIntervals`) use the Spec of their nearest base class with a Spec, and generated subtypes of such tables compile.
    * Spec fields are renamed if they collide with each other, with C++ keywords, or with inherited setters.
