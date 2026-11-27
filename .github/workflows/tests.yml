@@ -178,9 +178,20 @@ jobs:
         PYEOF
 
   test-without-optional-modules:
-    # Build and test with all optional neurodata_type modules disabled to check
-    # that the core library does not depend on them
+    # Build and test with optional neurodata_type modules disabled to check that
+    # the core library (and the image module) do not depend on them
     runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: no optional modules
+            flags: -DAQNWB_ENABLE_OPHYS=OFF -DAQNWB_ENABLE_IMAGE=OFF -DAQNWB_ENABLE_OGEN=OFF
+            excluded: ophys image ogen
+          - name: image module only
+            flags: -DAQNWB_ENABLE_OPHYS=OFF -DAQNWB_ENABLE_IMAGE=ON -DAQNWB_ENABLE_OGEN=OFF
+            excluded: ophys ogen
+    name: test-without-optional-modules (${{ matrix.name }})
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -189,7 +200,7 @@ jobs:
         run: brew install hdf5 catch2
 
       - name: Configure (optional modules disabled)
-        run: cmake "--preset=ci-macos" -DAQNWB_ENABLE_OPHYS=OFF -DAQNWB_ENABLE_OGEN=OFF
+        run: cmake "--preset=ci-macos" ${{ matrix.flags }}
 
       - name: Build
         run: cmake --build build --config Release -j 2
@@ -197,10 +208,12 @@ jobs:
       - name: Install
         run: |
           cmake --install build --config Release --prefix prefix
-          if [ -d prefix/include/aqnwb-*/nwb/ophys ] || [ -d prefix/include/aqnwb-*/nwb/image ] || [ -d prefix/include/aqnwb-*/nwb/ogen ]; then
-            echo "The headers of disabled modules must not be installed"
-            exit 1
-          fi
+          for module in ${{ matrix.excluded }}; do
+            if ls -d prefix/include/aqnwb-*/nwb/$module >/dev/null 2>&1; then
+              echo "The headers of the disabled $module module must not be installed"
+              exit 1
+            fi
+          done
 
       - name: Test
         working-directory: build

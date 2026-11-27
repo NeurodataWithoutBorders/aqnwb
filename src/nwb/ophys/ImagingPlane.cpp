@@ -1,3 +1,4 @@
+#include <cmath>
 #include <set>
 
 #include "nwb/ophys/ImagingPlane.hpp"
@@ -44,8 +45,10 @@ ImagingPlane::~ImagingPlane() {}
 Status ImagingPlane::Spec::validate() const
 {
   Status status = NWBContainer::Spec::validate();
-  if (!(excitationLambda > 0.0f)) {
-    std::cerr << "ImagingPlane::Spec::validate: excitationLambda must be > 0."
+  // NaN indicates an unknown wavelength
+  if (!std::isnan(excitationLambda) && !(excitationLambda > 0.0f)) {
+    std::cerr << "ImagingPlane::Spec::validate: excitationLambda must be > 0 "
+                 "(or NaN if unknown)."
               << std::endl;
     status = Status::Failure;
   }

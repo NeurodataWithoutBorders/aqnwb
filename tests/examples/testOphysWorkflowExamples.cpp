@@ -6,6 +6,7 @@
 #include "Types.hpp"
 #include "Utils.hpp"
 #include "io/BaseIO.hpp"
+#include "io/nwbio_utils.hpp"
 #include "nwb/NWBFile.hpp"
 #include "nwb/device/Device.hpp"
 #include "nwb/ophys/OphysUtils.hpp"
@@ -95,10 +96,10 @@ TEST_CASE("ophysWorkflowExamples", "[ophys]")
       std::iota(frames.begin(), frames.end(), static_cast<uint16_t>(block));
       // No timestamps are needed since the series uses a starting time and
       // rate. Pass the timestamps of the frames as last argument otherwise.
-      status = NWB::Ophys::writeImageSeriesFrames(io->getRecordingObjects(),
-                                                  containerIndex,
-                                                  numFramesPerBlock,
-                                                  frames.data());
+      status = IO::appendTimeSeriesData(io->getRecordingObjects(),
+                                        containerIndex,
+                                        numFramesPerBlock,
+                                        frames.data());
       REQUIRE(status == Status::Success);
     }
 

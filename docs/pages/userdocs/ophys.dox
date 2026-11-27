@@ -22,11 +22,11 @@
  * objects at the locations defined by NWB.
  *
  * \note
- * The optical physiology types and the image types in `nwb/image` (e.g., `ImageSeries`, `OpticalSeries`,
- * `IndexSeries`, and `GrayscaleImage`) are part of an optional module that is enabled by default. It can be
- * disabled at build time via the CMake option `-DAQNWB_ENABLE_OPHYS=OFF`. The preprocessor
- * definition `AQNWB_HAS_OPHYS` indicates that the module is available. The `Images` collection and the
- * `Image` base type are always available.
+ * The optical physiology types (`nwb/ophys`) and the image types (`nwb/image`, e.g., `ImageSeries`) are
+ * optional modules that are enabled by default. They can be disabled at build time via the CMake options
+ * `-DAQNWB_ENABLE_OPHYS=OFF` and `-DAQNWB_ENABLE_IMAGE=OFF`. The optical physiology module requires the
+ * image module, i.e., enabling `AQNWB_ENABLE_OPHYS` also enables `AQNWB_ENABLE_IMAGE`. The preprocessor
+ * definitions `AQNWB_HAS_OPHYS` and `AQNWB_HAS_IMAGE` indicate that the modules are available.
  *
  * \note
  * The write methods (e.g., `ImageSeries::writeFrames`) append after the data in the file (see
@@ -76,7 +76,7 @@
  * \subsection ophys_workflow_record 5. Record the frames
  *
  * During the recording, we append frames via
- * \ref AQNWB::NWB::Ophys::writeImageSeriesFrames "writeImageSeriesFrames", using the recording
+ * \ref AQNWB::IO::appendTimeSeriesData "IO::appendTimeSeriesData", using the recording
  * object index of the series, or directly via
  * \ref AQNWB::NWB::ImageSeries::writeFrames "ImageSeries::writeFrames". The frames are contiguous
  * arrays in row-major order with the data type of the dataset.

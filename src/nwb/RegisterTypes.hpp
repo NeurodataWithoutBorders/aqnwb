@@ -17,7 +17,8 @@ namespace AQNWB::NWB
  * Applications that read files with neurodata_types they do not use directly
  * (e.g., a reader for arbitrary NWB files) should call this function once
  * before reading. Calling it more than once is harmless. The types of
- * disabled optional modules (e.g., AQNWB_ENABLE_OPHYS=OFF) are not
+ * disabled optional modules (e.g., AQNWB_ENABLE_IMAGE=OFF or
+ * AQNWB_ENABLE_OPHYS=OFF) are not
  * registered.
  */
 void registerAllTypes();

@@ -75,23 +75,3 @@ AQNWB::IO::ArrayDataSetConfig Ophys::getDefaultImageSeriesDataConfig(
   chunking.insert(chunking.end(), frameShape.begin(), frameShape.end());
   return IO::ArrayDataSetConfig(dataType, shape, chunking);
 }
-
-AQNWB::Types::Status Ophys::writeImageSeriesFrames(
-    const std::shared_ptr<IO::RecordingObjects>& recordingObjects,
-    const SizeType& containerInd,
-    const SizeType& numFrames,
-    const void* data,
-    const void* timestamps)
-{
-  if (recordingObjects == nullptr) {
-    return Status::Failure;
-  }
-  auto imageSeries = std::dynamic_pointer_cast<ImageSeries>(
-      recordingObjects->getRecordingObject(containerInd));
-  if (imageSeries == nullptr) {
-    std::cerr << "Ophys::writeImageSeriesFrames: The recording object "
-              << containerInd << " is not an ImageSeries." << std::endl;
-    return Status::Failure;
-  }
-  return imageSeries->writeFrames(numFrames, data, timestamps);
-}

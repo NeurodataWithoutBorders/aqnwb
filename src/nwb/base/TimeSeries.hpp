@@ -302,11 +302,15 @@ public:
    * @param controlInput Pointer to the numSamples control values (uint8).
    * Optional. Requires that the series has a control dataset.
    * @return Status::Success if successful, otherwise Status::Failure.
+   *
+   * Subclasses override this method to add checks (e.g., ImageSeries fails
+   * for series with external files), such that IO::appendTimeSeriesData can
+   * write to any TimeSeries.
    */
-  Status appendSamples(const SizeType& numSamples,
-                       const void* dataInput,
-                       const void* timestampsInput = nullptr,
-                       const void* controlInput = nullptr);
+  virtual Status appendSamples(const SizeType& numSamples,
+                               const void* dataInput,
+                               const void* timestampsInput = nullptr,
+                               const void* controlInput = nullptr);
 
   /**
    * @brief Data type of the data.
