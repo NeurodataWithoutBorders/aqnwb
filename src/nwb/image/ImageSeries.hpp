@@ -163,6 +163,23 @@ public:
                      const void* controlInput = nullptr);
 
   /**
+   * @brief Append samples (i.e., frames) to the series.
+   *
+   * Same as TimeSeries::appendSamples, but fails for series with external
+   * files. Used by writeFrames and IO::appendTimeSeriesData.
+   *
+   * @param numSamples The number of frames to write.
+   * @param dataInput Pointer to the frames.
+   * @param timestampsInput Pointer to the timestamps (float64) or nullptr.
+   * @param controlInput Pointer to the control values (uint8) or nullptr.
+   * @return The status of the write operation.
+   */
+  Status appendSamples(const SizeType& numSamples,
+                       const void* dataInput,
+                       const void* timestampsInput = nullptr,
+                       const void* controlInput = nullptr) override;
+
+  /**
    * @brief Get the shape of a single frame, i.e., the shape of the data
    * without the first (time) dimension.
    * @return The frame shape. Empty if the data does not exist.

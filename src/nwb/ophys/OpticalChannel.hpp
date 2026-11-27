@@ -33,7 +33,11 @@ public:
     /// @brief Description or other notes about the channel. Required.
     DEFINE_SPEC_FIELD(Spec, std::string, description, withDescription, "")
 
-    /// @brief Emission wavelength for the channel, in nm. Required.
+    /**
+     * @brief Emission wavelength for the channel, in nm. Required. Use NaN
+     * (e.g., `std::numeric_limits<float>::quiet_NaN()`) if the wavelength is
+     * unknown.
+     */
     DEFINE_SPEC_FIELD(Spec, float, emissionLambda, withEmissionLambda, -1.0f)
 
     /**

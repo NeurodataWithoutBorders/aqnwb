@@ -24,25 +24,28 @@ public:
   /**
    * @brief Specification for initializing an AnnotationSeries.
    *
-   * The unit is fixed to "n/a" by the schema and set by default. The
-   * conversion, resolution, and offset are fixed to 1.0, -1.0, and 0.0,
-   * respectively, and the values set in the spec are ignored. The data type
-   * of the data configuration must be a variable-length string.
+   * The schema fixes the unit to "n/a" and the conversion, resolution, and
+   * offset to 1.0, -1.0, and 0.0. The spec sets these values by default and
+   * does not re-expose their setters. validate() fails if they are changed
+   * (e.g., via a reference to the TimeSeries::Spec). The data type of the
+   * data configuration must be a variable-length string.
    */
   struct Spec : public TimeSeries::Spec
   {
     /**
      * @brief Constructor. Sets the unit to "n/a" as required by the schema.
      */
-    Spec() { unit = "n/a"; }
+    Spec()
+    {
+      unit = "n/a";
+      conversion = 1.0f;
+      resolution = -1.0f;
+      offset = 0.0f;
+    }
 
     INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withData)
-    INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withUnit)
     INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withDescription)
     INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withComments)
-    INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withConversion)
-    INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withResolution)
-    INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withOffset)
     INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withContinuity)
     INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withStartingTime)
     INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withStartingTimeRate)

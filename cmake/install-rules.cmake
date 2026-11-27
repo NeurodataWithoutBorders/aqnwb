@@ -13,8 +13,11 @@ set(package aqnwb)
 
 # Exclude the headers of disabled modules
 set(aqnwb_excluded_module_dirs "")
+if(NOT AQNWB_ENABLE_IMAGE)
+  list(APPEND aqnwb_excluded_module_dirs REGEX "/nwb/image(/|$)" EXCLUDE)
+endif()
 if(NOT AQNWB_ENABLE_OPHYS)
-  list(APPEND aqnwb_excluded_module_dirs REGEX "/nwb/(image|ophys)(/|$)" EXCLUDE)
+  list(APPEND aqnwb_excluded_module_dirs REGEX "/nwb/ophys(/|$)" EXCLUDE)
 endif()
 if(NOT AQNWB_ENABLE_OGEN)
   list(APPEND aqnwb_excluded_module_dirs REGEX "/nwb/ogen(/|$)" EXCLUDE)
