@@ -319,29 +319,14 @@ Located in `.github/workflows/`:
    ```
 
 ### Adding New NWB Types
-1. **Generate from schema** (preferred):
-   ```bash
-   uv run resources/utils/aqnwb_utils.py generate-types <namespace_file> <output_dir>
-   ```
-   
-   **Note**: Generated code provides a starting point but will likely require additional updates:
-   - Review and modify the generated classes to implement full functionality
-   - Copy the generated files to the appropriate location in the AqNWB source tree (e.g., `src/nwb/`)
-   - Add the new source files to `CMakeLists.txt`
-   - Create corresponding test files
+Follow the agent skill in `.agents/skills/add-neurodata-type/SKILL.md`. It is shared by all coding agents and covers:
+- generating the starting point with `uv run resources/utils/aqnwb_utils.py generate-types <namespace_file> <output_dir>`
+- moving the generated files into `src/nwb/` and adding them to `CMakeLists.txt`
+- resolving the `AQNWB-TODO(<category>)` comments in the generated code, with a reference implementation for each category
+- the Spec convention (`T::Spec` and `initialize(const T::Spec&)`)
+- tests and nwbinspector validation
 
-2. **Manual creation**:
-   - Inherit from appropriate base class (RegisteredType, TimeSeries, etc.)
-   - Use `REGISTER_SUBCLASS` macro
-   - Implement required virtual methods
-   - Add to CMakeLists.txt
-   - Create corresponding test file
-   
-   **For more details**, see the [RegisteredType documentation](https://nwb.org/aqnwb/registered_type_page.html) or the [registered_types.dox](https://github.com/NeurodataWithoutBorders/aqnwb/blob/main/docs/pages/devdocs/registered_types.dox) file in the repository.
-
-3. **Add tests**: Create `tests/testYourType.cpp`
-   
-   **For comprehensive details on RegisteredType**, see the [RegisteredType documentation](https://nwb.org/aqnwb/registered_type_page.html) or the [registered_types.dox](https://github.com/NeurodataWithoutBorders/aqnwb/blob/main/docs/pages/devdocs/registered_types.dox) file.
+**For comprehensive details on RegisteredType**, see the [RegisteredType documentation](https://nwb.org/aqnwb/registered_type_page.html) or the [registered_types.dox](https://github.com/NeurodataWithoutBorders/aqnwb/blob/main/docs/pages/devdocs/registered_types.dox) file.
 
 ### Adding Schema Extensions
 

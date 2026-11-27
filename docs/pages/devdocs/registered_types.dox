@@ -678,6 +678,12 @@
  *   adding convenience functions to create the objects (see `NWBFile::createElectricalSeries`), helper
  *   functions to write data (see `io/nwbio_utils.hpp`), and default chunking.
  *
+ * \note
+ * The agent skill in `.agents/skills/add-neurodata-type/SKILL.md` (see also `AGENTS.md`) describes the
+ * complete workflow to add a neurodata_type to AqNWB based on the generated code, including how to resolve
+ * each category of `AQNWB-TODO` comments. It is written for AI coding agents but works just as well as a
+ * checklist for developers.
+ *
  * \subsection using_schematype_to_aqnwb_test_app Generating a test app
  *
  * We can also create a simple example app that instantiates all the generated classes to make it 
