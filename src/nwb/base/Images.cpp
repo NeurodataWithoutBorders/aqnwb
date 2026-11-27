@@ -129,6 +129,13 @@ Status Images::initialize(const Spec& spec)
   return status;
 }
 
+bool Images::hasOrderOfImages() const
+{
+  auto ioPtr = getIO();
+  return ioPtr != nullptr
+      && ioPtr->objectExists(AQNWB::mergePaths(m_path, "order_of_images"));
+}
+
 Status Images::writeImage(Image& image,
                           const Image::Spec& spec,
                           const void* data)

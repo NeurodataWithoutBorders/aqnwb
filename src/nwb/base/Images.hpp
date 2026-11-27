@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include <iostream>
 #include <memory>
 #include <string>
 #include <type_traits>
@@ -173,6 +174,11 @@ public:
 
   /**
    * @brief Add an image to an initialized collection.
+   *
+   * Fails for collections with an order of the images (order_of_images),
+   * since the order must list all images of the collection. Add all images
+   * before setting the order (see setOrderOfImages).
+   *
    * @tparam T The type of the image, i.e., Image or a subtype.
    * @param name The name of the image.
    * @param spec The specification of the image.
@@ -187,6 +193,12 @@ public:
   {
     static_assert(std::is_base_of_v<Image, T>,
                   "addImage requires Image or a subtype of Image");
+    if (hasOrderOfImages()) {
+      std::cerr << "Images::addImage: " << m_path
+                << " has an order of the images, which would not include "
+                << name << "." << std::endl;
+      return nullptr;
+    }
     auto image = createImage<T>(name);
     if (image == nullptr || writeImage(*image, spec, data) != Status::Success) {
       return nullptr;
@@ -216,6 +228,12 @@ public:
                           Ordered references to the images)
 
 protected:
+  /**
+   * @brief Check whether the collection has an order of the images.
+   * @return True if the order_of_images dataset exists.
+   */
+  bool hasOrderOfImages() const;
+
   /**
    * @brief Initialize an image and write its pixel values.
    * @param image The image to initialize.
