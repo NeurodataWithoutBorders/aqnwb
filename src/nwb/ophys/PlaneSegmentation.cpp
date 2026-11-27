@@ -490,8 +490,10 @@ std::vector<std::vector<EntryT>> readRaggedMasks(
   {
     return masks;
   }
-  auto entries = AQNWB::IO::DataBlock<EntryT>::fromCompound(
-      io->readDataset(maskPath), entryType);
+  // Read the entries into the layout of EntryT. HDF5 matches the members by
+  // name and converts their types (e.g., uint16 coordinates in the file).
+  auto entries = AQNWB::IO::DataBlock<EntryT>::fromGeneric(
+      io->readCompoundDataset(maskPath, entryType));
   // The index may use any unsigned integer type (e.g., uint8 in files
   // written by hdmf), so convert it to SizeType
   std::vector<SizeType> ends;

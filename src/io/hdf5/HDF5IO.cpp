@@ -847,6 +847,33 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(const std::string& dataPath,
                                                 const SizeArray& stride,
                                                 const SizeArray& block)
 {
+  return readDatasetImpl(dataPath, start, count, stride, block, nullptr);
+}
+
+AQNWB::IO::DataBlockGeneric HDF5IO::readCompoundDataset(
+    const std::string& dataPath,
+    const IO::BaseDataType& memoryType,
+    const SizeArray& start,
+    const SizeArray& count,
+    const SizeArray& stride,
+    const SizeArray& block)
+{
+  if (!memoryType.isCompound() || memoryType.compoundSize == 0) {
+    throw std::invalid_argument(
+        "HDF5IO::readCompoundDataset: The memory type must be a compound "
+        "type.");
+  }
+  return readDatasetImpl(dataPath, start, count, stride, block, &memoryType);
+}
+
+AQNWB::IO::DataBlockGeneric HDF5IO::readDatasetImpl(
+    const std::string& dataPath,
+    const SizeArray& start,
+    const SizeArray& count,
+    const SizeArray& stride,
+    const SizeArray& block,
+    const IO::BaseDataType* memoryType)
+{
   // Check that the dataset exists
   assert(H5Lexists(m_file->getId(), dataPath.c_str(), H5P_DEFAULT) > 0);
 
@@ -932,6 +959,38 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(const std::string& dataPath,
 
   // Read the dataset into a vector of the appropriate type
   H5::DataType dataType = toNativeNumericType(dataset.getDataType());
+  if (memoryType != nullptr) {
+    // Read the members of the memory type, matched by name by HDF5
+    if (dataType.getClass() != H5T_COMPOUND) {
+      throw std::invalid_argument("HDF5IO::readCompoundDataset: " + dataPath
+                                  + " is not a compound dataset.");
+    }
+    H5::CompType fileType(dataType.getId());
+    std::vector<std::string> fileMembers;
+    for (int i = 0; i < fileType.getNmembers(); ++i) {
+      fileMembers.push_back(fileType.getMemberName(static_cast<unsigned>(i)));
+    }
+    for (const auto& member : memoryType->members) {
+      if (std::find(fileMembers.begin(), fileMembers.end(), member.name)
+          == fileMembers.end())
+      {
+        throw std::invalid_argument("HDF5IO::readCompoundDataset: " + dataPath
+                                    + " has no member '" + member.name + "'.");
+      }
+    }
+    std::vector<uint8_t> buffer(numElements * memoryType->compoundSize);
+    try {
+      H5::DataType memType = getNativeType(*memoryType);
+      dataset.read(buffer.data(), memType, memspace, dataspace);
+    } catch (const H5::Exception& error) {
+      throw std::runtime_error("Failed to read compound data: "
+                               + error.getDetailMsg());
+    }
+    result.baseDataType = *memoryType;
+    result.data = buffer;
+    result.typeIndex = typeid(uint8_t);
+    return result;
+  }
   result.baseDataType = getBaseDataType(dataType);
   if (dataType.getClass() == H5T_STRING) {
     // Use readStringDataHelper to read string data

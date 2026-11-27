@@ -17,6 +17,24 @@ BaseDataType::BaseDataType(BaseDataType::Type t, SizeType s)
 {
 }
 
+DataBlockGeneric BaseIO::readCompoundDataset(const std::string& dataPath,
+                                             const BaseDataType& memoryType,
+                                             const SizeArray& start,
+                                             const SizeArray& count,
+                                             const SizeArray& stride,
+                                             const SizeArray& block)
+{
+  (void)memoryType;
+  (void)start;
+  (void)count;
+  (void)stride;
+  (void)block;
+  throw std::runtime_error(
+      "BaseIO::readCompoundDataset is not supported by "
+      "this IO backend: "
+      + dataPath);
+}
+
 BaseDataType BaseDataType::Compound(const std::vector<CompoundMember>& members,
                                     SizeType size)
 {

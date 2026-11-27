@@ -884,6 +884,30 @@ TEST_CASE("HDF5IO; compound data type validation and layouts", "[hdf5io]")
     invalidTarget.members[1].offset = 1000;
     REQUIRE_THROWS_AS(IO::DataBlock<Padded>::fromCompound(block, invalidTarget),
                       std::invalid_argument);
+
+    // Read into the memory type directly, which also converts member types
+    // and reads subsets of the members
+    auto direct = IO::DataBlock<Padded>::fromGeneric(
+        readio.readCompoundDataset("/padded", paddedType));
+    REQUIRE(direct.data[1].a == 2);
+    REQUIRE(std::abs(direct.data[0].b - 0.5) < 1e-12);
+    struct Wide
+    {
+      uint32_t a;
+    };
+    const IO::BaseDataType wideType = IO::BaseDataType::Compound(
+        {{"a", IO::BaseDataType::T_U32, offsetof(Wide, a)}}, sizeof(Wide));
+    auto wide = IO::DataBlock<Wide>::fromGeneric(
+        readio.readCompoundDataset("/padded", wideType));
+    REQUIRE(wide.data.size() == 2);
+    REQUIRE(wide.data[1].a == 2);
+    const IO::BaseDataType missingType = IO::BaseDataType::Compound(
+        {{"c", IO::BaseDataType::T_U32, 0}}, sizeof(uint32_t));
+    REQUIRE_THROWS_AS(readio.readCompoundDataset("/padded", missingType),
+                      std::invalid_argument);
+    REQUIRE_THROWS_AS(readio.readCompoundDataset(
+                          "/padded", IO::BaseDataType(IO::BaseDataType::T_U32)),
+                      std::invalid_argument);
     readio.close();
   }
 
