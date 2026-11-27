@@ -266,93 +266,15 @@ def test_no_reuse_aqnwb_types(tmp_path):
     assert "struct Spec : public CORE::Device::Spec" in header
 
 
-TORTURE_NAMESPACE_YAML = """namespaces:
-- author:
-  - Test Author
-  contact:
-  - test@example.com
-  doc: Extension with edge cases for the schematype_to_aqnwb utility
-  name: ndx-edge
-  schema:
-  - namespace: core
-    neurodata_types:
-    - NWBContainer
-    - TimeIntervals
-    - TimeSeries
-    - Device
-  - namespace: hdmf-common
-    neurodata_types:
-    - VectorData
-  - source: ndx-edge.extensions.yaml
-  version: 0.1.0
-"""
-
-TORTURE_EXTENSIONS_YAML = """groups:
-- neurodata_type_def: EdgeContainer
-  neurodata_type_inc: NWBContainer
-  doc: Container with edge cases
-  attributes:
-  - name: class
-    dtype: text
-    doc: A C++ keyword as name
-  - name: enabled
-    dtype: bool
-    default_value: true
-    doc: A bool with a default value
-    required: false
-  - name: device
-    dtype:
-      target_type: Device
-      reftype: object
-    doc: A reference to a device
-  datasets:
-  - name: meta_info
-    dtype: text
-    doc: Collides with meta/info
-  - name: count
-    dtype: int32
-    doc: A required numeric scalar
-  groups:
-  - name: meta
-    doc: A required untyped group
-    attributes:
-    - name: info
-      dtype: text
-      doc: Attribute of the group
-  - name: extra
-    doc: An optional untyped group
-    quantity: '?'
-    attributes:
-    - name: note
-      dtype: text
-      doc: Attribute of the optional group
-- neurodata_type_def: EdgeTrials
-  neurodata_type_inc: TimeIntervals
-  doc: A subtype of an AqNWB table without its own Spec
-- neurodata_type_def: EdgeSeries
-  neurodata_type_inc: TimeSeries
-  doc: A TimeSeries that redefines the data
-  datasets:
-  - name: data
-    dtype: float32
-    shape:
-    - null
-    doc: Redefined data
-datasets:
-- neurodata_type_def: EdgeColumn
-  neurodata_type_inc: VectorData
-  dtype: float32
-  doc: A dataset type
-"""
+# Extension with edge cases for the generator. The CI also compiles the generated code (see
+# .github/workflows/generate-classes.yml).
+EDGE_SCHEMA_DIR = Path(__file__).parent / "data" / "ndx-edge"
 
 
 @pytest.fixture(scope="module")
 def generated_edge(tmp_path_factory) -> Path:
     tmp_path = tmp_path_factory.mktemp("edge")
-    schema_dir = tmp_path / "schema"
-    schema_dir.mkdir()
-    (schema_dir / "ndx-edge.namespace.yaml").write_text(TORTURE_NAMESPACE_YAML)
-    (schema_dir / "ndx-edge.extensions.yaml").write_text(TORTURE_EXTENSIONS_YAML)
+    schema_dir = EDGE_SCHEMA_DIR
     output_dir = tmp_path / "output"
     parser = argparse.ArgumentParser()
     generator.setup_parser(parser)

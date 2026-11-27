@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include "nwb/ophys/OpticalChannel.hpp"
 
 #include "Utils.hpp"
@@ -27,8 +29,10 @@ Status OpticalChannel::Spec::validate() const
               << std::endl;
     status = Status::Failure;
   }
-  if (!(emissionLambda > 0.0f)) {
-    std::cerr << "OpticalChannel::Spec::validate: emissionLambda must be > 0."
+  // NaN indicates an unknown wavelength
+  if (!std::isnan(emissionLambda) && !(emissionLambda > 0.0f)) {
+    std::cerr << "OpticalChannel::Spec::validate: emissionLambda must be > 0 "
+                 "(or NaN if unknown)."
               << std::endl;
     status = Status::Failure;
   }

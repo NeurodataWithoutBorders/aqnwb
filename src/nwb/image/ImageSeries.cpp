@@ -163,12 +163,21 @@ Status ImageSeries::writeFrames(const SizeType& numFrames,
                                 const void* timestampsInput,
                                 const void* controlInput)
 {
+  return appendSamples(numFrames, dataInput, timestampsInput, controlInput);
+}
+
+Status ImageSeries::appendSamples(const SizeType& numSamples,
+                                  const void* dataInput,
+                                  const void* timestampsInput,
+                                  const void* controlInput)
+{
   if (m_isExternal) {
-    std::cerr << "ImageSeries::writeFrames: " << m_path
+    std::cerr << "ImageSeries::appendSamples: " << m_path
               << " stores the images in external files." << std::endl;
     return Status::Failure;
   }
-  return appendSamples(numFrames, dataInput, timestampsInput, controlInput);
+  return TimeSeries::appendSamples(
+      numSamples, dataInput, timestampsInput, controlInput);
 }
 
 SizeArray ImageSeries::getFrameShape() const

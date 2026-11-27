@@ -1,5 +1,6 @@
 #include <cmath>
 #include <cstddef>
+#include <cstring>
 #include <filesystem>
 #include <fstream>
 #include <future>
@@ -826,6 +827,60 @@ TEST_CASE("HDF5IO; compound data type validation and layouts", "[hdf5io]")
     auto block = readio.readDataset("/padded");
     // The file layout is packed (2 + 8 bytes)
     REQUIRE(block.baseDataType.compoundSize == 10);
+    readio.close();
+  }
+
+  SECTION("big-endian members are converted to the native type")
+  {
+    std::string path = getTestFilePath("test_compound_big_endian.h5");
+    {
+      IO::HDF5::HDF5IO hdf5io(path);
+      hdf5io.open();
+      hdf5io.close();
+    }
+    {
+      H5::H5File file(path, H5F_ACC_RDWR);
+      H5::CompType fileType(static_cast<size_t>(12));
+      fileType.insertMember("id", 0, H5::PredType::STD_I32BE);
+      fileType.insertMember("value", 4, H5::PredType::IEEE_F64BE);
+      H5::CompType memType(static_cast<size_t>(16));
+      memType.insertMember("id", 0, H5::PredType::NATIVE_INT32);
+      memType.insertMember("value", 8, H5::PredType::NATIVE_DOUBLE);
+      struct Entry
+      {
+        int32_t id;
+        double value;
+      };
+      std::vector<Entry> entries = {{7, 1.5}, {-3, 2.25}};
+      hsize_t dims[1] = {2};
+      file.createDataSet("data", fileType, H5::DataSpace(1, dims))
+          .write(entries.data(), memType);
+      std::vector<uint16_t> values = {1, 513};
+      file.createDataSet(
+              "scalars", H5::PredType::STD_U16BE, H5::DataSpace(1, dims))
+          .write(values.data(), H5::PredType::NATIVE_UINT16);
+    }
+    IO::HDF5::HDF5IO readio(path);
+    readio.open(IO::FileMode::ReadOnly);
+    auto block = readio.readDataset("/data");
+    REQUIRE(block.baseDataType.isCompound());
+    REQUIRE(block.baseDataType.members.size() == 2);
+    REQUIRE(block.baseDataType.members[0].type == IO::BaseDataType::T_I32);
+    REQUIRE(block.baseDataType.members[1].type == IO::BaseDataType::T_F64);
+    // The bytes are in the native byte order (with the packed layout)
+    const auto& bytes = std::any_cast<const std::vector<uint8_t>&>(block.data);
+    REQUIRE(bytes.size() == 24);
+    int32_t id = 0;
+    double value = 0.0;
+    std::memcpy(&id, bytes.data() + 12, sizeof(id));
+    std::memcpy(&value, bytes.data() + 16, sizeof(value));
+    REQUIRE(id == -3);
+    REQUIRE(std::abs(value - 2.25) < 1e-12);
+    REQUIRE(readio.getStorageObjectDataType("/scalars")
+            == IO::BaseDataType(IO::BaseDataType::T_U16));
+    auto scalars =
+        IO::DataBlock<uint16_t>::fromGeneric(readio.readDataset("/scalars"));
+    REQUIRE(scalars.data == std::vector<uint16_t> {1, 513});
     readio.close();
   }
 

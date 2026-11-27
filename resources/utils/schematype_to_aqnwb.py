@@ -2532,6 +2532,7 @@ def generate_test_app_main(neurodata_types: Dict[str, Spec], type_to_namespace_m
     
     # Generate the main.cpp content
     main_content = """#include <iostream>
+#include <stdexcept>
 #include <memory>
 #include <string>
 #include "io/hdf5/HDF5IO.hpp"
@@ -2551,6 +2552,7 @@ int main(int argc, char* argv[])
     
     // Create a temporary HDF5 file for testing
     std::string testFilePath = "test_compilation.nwb";
+    int numFailures = 0;
     
     try {
         // Create an IO object
@@ -2565,17 +2567,33 @@ int main(int argc, char* argv[])
     for cpp_namespace, types in namespace_types.items():
         main_content += f"        // Testing {cpp_namespace} namespace types\n"
         for type_name in types:
+            var = type_name.lower()
             spec_src = ""
             if not isinstance(neurodata_types[type_name], DatasetSpec):
-                spec_src = f"""            {cpp_namespace}::{type_name}::Spec {type_name.lower()}_spec;
-            std::cout << "  ✓ {type_name}::Spec created successfully: " << ({type_name.lower()}_spec.validate() == AQNWB::Types::Status::Success ? "valid" : "not valid (expected for default values)") << std::endl;
+                # initialize must not write anything for a spec that does not validate
+                spec_src = f"""            {cpp_namespace}::{type_name}::Spec {var}_spec;
+            if ({var}_spec.validate() != AQNWB::Types::Status::Success) {{
+                if ({var}_obj->initialize({var}_spec) != AQNWB::Types::Status::Failure
+                    || io->objectExists({var}_path)) {{
+                    std::cout << "  ✗ {type_name}::initialize wrote data for an invalid spec" << std::endl;
+                    ++numFailures;
+                }} else {{
+                    std::cout << "  ✓ {type_name}::initialize rejected the default spec without writing" << std::endl;
+                }}
+            }} else {{
+                std::cout << "  ✓ {type_name}::Spec is valid with default values" << std::endl;
+            }}
 """
             main_content += f"""        try {{
-            std::string {type_name.lower()}_path = "/test_{type_name.lower()}";
-            auto {type_name.lower()}_obj = AQNWB::NWB::RegisteredType::create<{cpp_namespace}::{type_name}>({type_name.lower()}_path, io);
+            std::string {var}_path = "/test_{var}";
+            auto {var}_obj = AQNWB::NWB::RegisteredType::create<{cpp_namespace}::{type_name}>({var}_path, io);
+            if ({var}_obj == nullptr) {{
+                throw std::runtime_error("create returned nullptr");
+            }}
 {spec_src}            std::cout << "  ✓ {type_name} instantiated successfully" << std::endl;
         }} catch (const std::exception& e) {{
             std::cout << "  ✗ {type_name} instantiation failed: " << e.what() << std::endl;
+            ++numFailures;
         }}
 
 """
@@ -2583,6 +2601,10 @@ int main(int argc, char* argv[])
     main_content += """        // Close the IO
         io->close();
         
+        if (numFailures > 0) {
+            std::cerr << "Compilation test failed for " << numFailures << " types" << std::endl;
+            return 1;
+        }
         std::cout << "Compilation test completed successfully!" << std::endl;
         
     } catch (const std::exception& e) {

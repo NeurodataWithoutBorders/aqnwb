@@ -945,16 +945,6 @@ private:
       const std::optional<std::vector<std::string>>& values);
 
   /**
-   * @brief Number of bytes of a single element of the given data type.
-   *
-   * Numeric types with a typeSize > 1 are stored as arrays of typeSize values
-   * per element (see HDF5IO::getH5Type).
-   * @param dataType The data type.
-   * @return The number of bytes per element.
-   */
-  static SizeType getNumBytes(const IO::BaseDataType& dataType);
-
-  /**
    * @brief Overwrites the value of an existing scalar time dataset (e.g.,
    * `/session_start_time`).
    *

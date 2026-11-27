@@ -51,23 +51,3 @@ std::shared_ptr<OptogeneticSeries> Ogen::createOptogeneticSeries(
   }
   return series;
 }
-
-AQNWB::Types::Status Ogen::writeOptogeneticSeriesData(
-    const std::shared_ptr<IO::RecordingObjects>& recordingObjects,
-    const SizeType& containerInd,
-    const SizeType& numSamples,
-    const void* data,
-    const void* timestamps)
-{
-  if (recordingObjects == nullptr) {
-    return Status::Failure;
-  }
-  auto series = std::dynamic_pointer_cast<OptogeneticSeries>(
-      recordingObjects->getRecordingObject(containerInd));
-  if (series == nullptr) {
-    std::cerr << "Ogen::writeOptogeneticSeriesData: The recording object "
-              << containerInd << " is not an OptogeneticSeries." << std::endl;
-    return Status::Failure;
-  }
-  return series->writeSamples(numSamples, data, timestamps);
-}

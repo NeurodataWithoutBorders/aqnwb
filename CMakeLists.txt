@@ -120,12 +120,27 @@ target_compile_definitions(aqnwb_aqnwb PUBLIC AQNWB_CXX_STANDARD=${AQNWB_CXX_STA
 # physiology). Disabling a module removes its classes from the library and the
 # installed headers. Files with these types can still be read, but the objects
 # are represented by the generic Container and Data classes.
-option(AQNWB_ENABLE_OPHYS "Build support for optical physiology (image and ophys neurodata_types)" ON)
+option(AQNWB_ENABLE_IMAGE "Build support for image neurodata_types (nwb/image, e.g., ImageSeries)" ON)
+option(AQNWB_ENABLE_OPHYS "Build support for optical physiology (nwb/ophys, requires AQNWB_ENABLE_IMAGE)" ON)
+
+# The optical physiology types build on the image types
+if(AQNWB_ENABLE_OPHYS AND NOT AQNWB_ENABLE_IMAGE)
+  message(STATUS "AQNWB_ENABLE_OPHYS requires the image module, enabling AQNWB_ENABLE_IMAGE")
+  set(AQNWB_ENABLE_IMAGE ON)
+endif()
+
+if(AQNWB_ENABLE_IMAGE)
+  target_sources(
+      aqnwb_aqnwb PRIVATE
+      src/nwb/image/ImageSeries.cpp
+  )
+  target_compile_definitions(aqnwb_aqnwb PUBLIC AQNWB_HAS_IMAGE)
+endif()
+message(STATUS "AqNWB image module (AQNWB_ENABLE_IMAGE): ${AQNWB_ENABLE_IMAGE}")
 
 if(AQNWB_ENABLE_OPHYS)
   target_sources(
       aqnwb_aqnwb PRIVATE
-      src/nwb/image/ImageSeries.cpp
       src/nwb/ophys/DfOverF.cpp
       src/nwb/ophys/Fluorescence.cpp
       src/nwb/ophys/ImageSegmentation.cpp
