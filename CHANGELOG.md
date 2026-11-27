@@ -37,7 +37,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 * Fixed `HDF5IO::readAttribute` to support 8-bit and 16-bit integer attributes (e.g., `OnePhotonSeries.binning`). (@claude, @oruebel, [#389](https://github.com/NeurodataWithoutBorders/aqnwb/pull/389))
-* Fixed the `schematype_to_aqnwb` utility to only require required fields of optional datasets in `Spec::validate` if the dataset is set. (@claude, @oruebel, [#389](https://github.com/NeurodataWithoutBorders/aqnwb/pull/389))
 * Fixed several bugs in the `schematype_to_aqnwb` utility: the test application was generated twice with `--generate-test-app`, list default values were rendered as `}...}` instead of `{...}`, the generated `.cpp` files did not use the namespace of a parent class from the same namespace (unlike the header), and the `datetime` dtype was misspelled as `datatime`. (@claude, @oruebel, [#385](https://github.com/NeurodataWithoutBorders/aqnwb/pull/385), addresses [#376](https://github.com/NeurodataWithoutBorders/aqnwb/issues/376))
 * Updated the SWMR documentation in `docs/pages/userdocs/hdf5io.dox` to explain that SWMR mode keeps the file consistent while periodic calls to `HDF5IO::flush` bound how much data a crash can lose, how to open a file after a crash, and to fix the example for reading in SWMR mode. (@claude, @oruebel, [#372](https://github.com/NeurodataWithoutBorders/aqnwb/pull/372))
 
