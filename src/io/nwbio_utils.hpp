@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include <iostream>
 #include <memory>
 #include <string>
 #include <vector>
@@ -177,6 +178,46 @@ static inline AQNWB::Types::Status writeSpikeEventData(
 
   return ses->writeSpike(
       numSamples, numChannels, data, timestamps, controlInput);
+}
+
+/**
+ * @brief Append samples to a TimeSeries recording object.
+ *
+ * Works for any TimeSeries (e.g., ImageSeries, RoiResponseSeries, or
+ * OptogeneticSeries) via TimeSeries::appendSamples, i.e., the samples are
+ * appended after the samples in the file.
+ *
+ * @param recording_objects A shared pointer to the RecordingObjects instance.
+ * @param containerInd The index of the TimeSeries in the recording objects.
+ * @param numSamples The number of samples (along the first dimension).
+ * @param data Pointer to the samples, i.e., a contiguous array of shape
+ * [numSamples, ...] in row-major order with the data type of the data.
+ * @param timestamps Pointer to the numSamples timestamps (float64). Required
+ * if the series uses timestamps and must be nullptr if the series uses
+ * startingTime and startingTimeRate.
+ * @param controlInput Pointer to the numSamples control values (uint8).
+ * Optional.
+ * @return The status of the write operation.
+ */
+static inline AQNWB::Types::Status appendTimeSeriesData(
+    std::shared_ptr<RecordingObjects> recording_objects,
+    const AQNWB::Types::SizeType& containerInd,
+    const AQNWB::Types::SizeType& numSamples,
+    const void* data,
+    const void* timestamps = nullptr,
+    const void* controlInput = nullptr)
+{
+  if (recording_objects == nullptr) {
+    return AQNWB::Types::Status::Failure;
+  }
+  auto ts = std::dynamic_pointer_cast<AQNWB::NWB::TimeSeries>(
+      recording_objects->getRecordingObject(containerInd));
+  if (ts == nullptr) {
+    std::cerr << "appendTimeSeriesData: The recording object " << containerInd
+              << " is not a TimeSeries." << std::endl;
+    return AQNWB::Types::Status::Failure;
+  }
+  return ts->appendSamples(numSamples, data, timestamps, controlInput);
 }
 
 /**
