@@ -54,8 +54,17 @@ TEST_CASE("registerAllTypes", "[modules]")
   REQUIRE(registry.count("hdmf-common::Container") == 1);
   REQUIRE(registry.count("core::TimeSeries") == 1);
   REQUIRE(registry.count("core::NWBFile") == 1);
+#ifdef AQNWB_HAS_IMAGE
+  REQUIRE(registry.count("core::ImageSeries") == 1);
+#else
+  REQUIRE(registry.count("core::ImageSeries") == 0);
+#endif
 #ifdef AQNWB_HAS_OPHYS
+  // The ophys module requires the image module
+  REQUIRE(registry.count("core::ImageSeries") == 1);
   REQUIRE(registry.count("core::TwoPhotonSeries") == 1);
+#else
+  REQUIRE(registry.count("core::TwoPhotonSeries") == 0);
 #endif
   // Registering the types again does not change the registry
   NWB::registerAllTypes();

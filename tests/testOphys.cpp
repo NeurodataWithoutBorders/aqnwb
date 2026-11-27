@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cmath>
+#include <limits>
 #include <memory>
 #include <string>
 #include <vector>
@@ -98,11 +99,24 @@ TEST_CASE("ophys spec validation", "[ophys]")
             == Status::Failure);  // missing description
     REQUIRE(NWB::OpticalChannel::Spec().withDescription("d").validate()
             == Status::Failure);  // missing emission wavelength
+    // NaN indicates an unknown wavelength
+    REQUIRE(NWB::OpticalChannel::Spec()
+                .withDescription("d")
+                .withEmissionLambda(std::numeric_limits<float>::quiet_NaN())
+                .validate()
+            == Status::Success);
   }
 
   SECTION("ImagingPlane")
   {
     REQUIRE(getTestImagingPlaneSpec(device).validate() == Status::Success);
+    REQUIRE(getTestImagingPlaneSpec(device)
+                .withExcitationLambda(std::numeric_limits<float>::quiet_NaN())
+                .validate()
+            == Status::Success);  // unknown wavelength
+    REQUIRE(
+        getTestImagingPlaneSpec(device).withExcitationLambda(0.0f).validate()
+        == Status::Failure);
     REQUIRE(getTestImagingPlaneSpec(nullptr).validate() == Status::Failure);
     REQUIRE(getTestImagingPlaneSpec(device).withIndicator("").validate()
             == Status::Failure);
