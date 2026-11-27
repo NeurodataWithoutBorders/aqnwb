@@ -63,10 +63,7 @@ Status DurationVectorData::DataSpec::initialize(Data& data) const
               << std::endl;
     return Status::Failure;
   }
-  return durationData->initialize(
-      static_cast<const AQNWB::IO::ArrayDataSetConfig&>(*this),
-      description,
-      resolution);
+  return durationData->initialize(getDataConfig(), description, resolution);
 }
 
 std::shared_ptr<DurationVectorData::DataSpec>
