@@ -121,10 +121,5 @@ protected:
    * @param io A shared pointer to the IO object.
    */
   IndexSeries(const std::string& path, std::shared_ptr<IO::BaseIO> io);
-
-  /**
-   * @brief The number of indices written via writeIndices.
-   */
-  SizeType m_samplesRecorded = 0;
 };
 }  // namespace AQNWB::NWB

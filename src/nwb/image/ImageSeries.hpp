@@ -22,6 +22,12 @@ namespace AQNWB::NWB
  * The data is stored as a 3D [frame, x, y] or 4D [frame, x, y, z] array. If
  * the images are stored in external files (format "external"), then the data
  * should be an empty 3D array and the paths are stored in external_file.
+ *
+ * @note NWB defines the axes as [frame, width, height(, depth)], where width
+ * is the fast scanning axis (x). Camera and microscope buffers are often
+ * stored as [row (height)][column (width)] in row-major order, i.e., they
+ * need to be transposed (or the shape configured accordingly) to follow this
+ * convention.
  */
 class ImageSeries : public TimeSeries
 {
@@ -139,8 +145,9 @@ public:
   /**
    * @brief Append frames to the data (and timestamps) of the ImageSeries.
    *
-   * The frames are appended after the frames that have already been written
-   * via this method.
+   * The frames are appended after the frames in the file (see
+   * TimeSeries::appendSamples), i.e., also after reopening a file. Fails for
+   * series with external files.
    *
    * @param numFrames The number of frames to write.
    * @param dataInput Pointer to the frames, i.e., a contiguous array of shape
@@ -160,16 +167,15 @@ public:
   /**
    * @brief Get the shape of a single frame, i.e., the shape of the data
    * without the first (time) dimension.
-   * @return The frame shape. Empty if the ImageSeries has not been initialized
-   * in this session.
+   * @return The frame shape. Empty if the data does not exist.
    */
-  inline const SizeArray& getFrameShape() const { return m_frameShape; }
+  SizeArray getFrameShape() const;
 
   /**
-   * @brief Get the number of frames written via writeFrames.
-   * @return The number of frames recorded.
+   * @brief Get the number of frames in the data.
+   * @return The current length of the first dimension of the data.
    */
-  inline SizeType getNumFramesRecorded() const { return m_framesRecorded; }
+  SizeType getNumFramesRecorded() const;
 
   DEFINE_DATASET_FIELD(readFormat,
                        recordFormat,
@@ -214,14 +220,9 @@ protected:
   ImageSeries(const std::string& path, std::shared_ptr<IO::BaseIO> io);
 
   /**
-   * @brief The shape of a single frame (data shape without the first
-   * dimension).
+   * @brief True if the images are stored in external files (set by
+   * initialize).
    */
-  SizeArray m_frameShape;
-
-  /**
-   * @brief The number of frames written via writeFrames.
-   */
-  SizeType m_framesRecorded = 0;
+  bool m_isExternal = false;
 };
 }  // namespace AQNWB::NWB

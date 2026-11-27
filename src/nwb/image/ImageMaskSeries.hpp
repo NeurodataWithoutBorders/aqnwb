@@ -14,6 +14,8 @@ namespace AQNWB::NWB
  *
  * The data are the masks (0 means transparent, 1 means opaque) for the frames
  * of the masked ImageSeries.
+ *
+ * @note ImageMaskSeries is DEPRECATED in the NWB schema.
  */
 class ImageMaskSeries : public ImageSeries
 {

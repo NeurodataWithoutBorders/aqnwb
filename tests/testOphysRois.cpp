@@ -10,7 +10,9 @@
 #include "io/BaseIO.hpp"
 #include "nwb/NWBFile.hpp"
 #include "nwb/RegisteredType.hpp"
+#include "nwb/base/Images.hpp"
 #include "nwb/device/Device.hpp"
+#include "nwb/image/IndexSeries.hpp"
 #include "nwb/ophys/OphysUtils.hpp"
 #include "testUtils.hpp"
 
@@ -299,4 +301,154 @@ TEST_CASE("PlaneSegmentation with pixel and voxel masks", "[ophys]")
   REQUIRE(voxelMasks[1].size() == 2);
   REQUIRE(voxelMasks[1][1].z == 9);
   readIO->close();
+}
+
+TEST_CASE("ophys review fixes", "[ophys]")
+{
+  std::string path = getTestFilePath("testOphysReviewFixes.h5");
+  std::shared_ptr<IO::BaseIO> io = createIO("HDF5", path);
+  io->open();
+  auto nwbfile = NWB::NWBFile::create(io);
+  std::string currentTime = getCurrentTime();
+  REQUIRE(nwbfile->initialize(generateUuid(),
+                              "review fixes",
+                              "",
+                              currentTime,
+                              currentTime,
+                              getTestSubjectSpec())
+          == Status::Success);
+  auto microscope = NWB::Device::Spec()
+                        .withDescription("microscope")
+                        .createAndInitialize("/general/devices/microscope", io);
+  auto planeSpec = NWB::ImagingPlane::Spec()
+                       .withExcitationLambda(920.0f)
+                       .withIndicator("GCaMP6s")
+                       .withLocation("VISp")
+                       .withDevice(microscope)
+                       .withOpticalChannel("green",
+                                           NWB::OpticalChannel::Spec()
+                                               .withDescription("green channel")
+                                               .withEmissionLambda(510.0f));
+  auto imagingPlane =
+      NWB::Ophys::createImagingPlane(*nwbfile, "imaging_plane", planeSpec);
+  REQUIRE(imagingPlane != nullptr);
+
+  SECTION("duplicate optical channel names are rejected")
+  {
+    auto duplicateSpec = NWB::ImagingPlane::Spec(planeSpec).withOpticalChannel(
+        "green",
+        NWB::OpticalChannel::Spec(planeSpec.opticalChannels[0].second));
+    REQUIRE(duplicateSpec.validate() == Status::Failure);
+    REQUIRE(NWB::Ophys::createImagingPlane(*nwbfile, "duplicate", duplicateSpec)
+            == nullptr);
+    REQUIRE_FALSE(io->objectExists("/general/optophysiology/duplicate"));
+  }
+
+  SECTION("a PlaneSegmentation requires a mask column")
+  {
+    auto noMaskSpec = NWB::PlaneSegmentation::Spec()
+                          .withDescription("no masks")
+                          .withImagingPlane(imagingPlane);
+    REQUIRE(noMaskSpec.validate() == Status::Failure);
+    // The factory validates before creating the parent containers
+    REQUIRE(NWB::Ophys::createPlaneSegmentation(*nwbfile, "none", noMaskSpec)
+            == nullptr);
+    REQUIRE_FALSE(io->objectExists("/processing/ophys"));
+  }
+
+  SECTION("only one mask type can be appended per table")
+  {
+    auto columns = NWB::PlaneSegmentation::createDefaultDataSpecs();
+    columns.push_back(NWB::PlaneSegmentation::createImageMaskDataSpec({2, 2}));
+    auto segmentation = NWB::Ophys::createPlaneSegmentation(
+        *nwbfile,
+        "mixed",
+        NWB::PlaneSegmentation::Spec()
+            .withDescription("image and pixel masks")
+            .withColumns(columns)
+            .withPixelMask(true)
+            .withImagingPlane(imagingPlane));
+    REQUIRE(segmentation != nullptr);
+    std::vector<float> masks(2 * 2, 1.0f);
+    REQUIRE(segmentation->addImageMasks(1, masks.data()) == Status::Failure);
+    REQUIRE(segmentation->addPixelMasks({{{0, 0, 1.0f}}}) == Status::Failure);
+    REQUIRE(segmentation->addImageMasks(1, nullptr) == Status::Failure);
+  }
+
+  SECTION("appending after reopening the file")
+  {
+    auto series = NWB::Ophys::createTwoPhotonSeries(
+        *nwbfile,
+        "TwoPhotonSeries",
+        NWB::TwoPhotonSeries::Spec()
+            .withData(NWB::Ophys::getDefaultImageSeriesDataConfig(
+                IO::BaseDataType::U16, {2, 2}))
+            .withUnit("n.a.")
+            .withImagingPlane(imagingPlane));
+    std::vector<uint16_t> frames(3 * 4, 7);
+    std::vector<double> timestamps = {0.0, 0.1, 0.2};
+    REQUIRE(series->writeFrames(3, frames.data(), timestamps.data())
+            == Status::Success);
+    // Timestamps are required for this series
+    REQUIRE(series->writeFrames(1, frames.data()) == Status::Failure);
+    nwbfile->finalize();
+    io->close();
+
+    std::shared_ptr<IO::BaseIO> rwIO = createIO("HDF5", path);
+    rwIO->open(IO::FileMode::ReadWrite);
+    auto reopened = NWB::RegisteredType::create<NWB::TwoPhotonSeries>(
+        "/acquisition/TwoPhotonSeries", rwIO);
+    REQUIRE(reopened->getFrameShape() == SizeArray {2, 2});
+    std::vector<double> moreTimestamps = {0.3, 0.4};
+    REQUIRE(reopened->writeFrames(2, frames.data(), moreTimestamps.data())
+            == Status::Success);
+    REQUIRE(reopened->getNumFramesRecorded() == 5);
+    rwIO->close();
+
+    std::shared_ptr<IO::BaseIO> readIO = createIO("HDF5", path);
+    readIO->open(IO::FileMode::ReadOnly);
+    auto readSeries = NWB::RegisteredType::create<NWB::TwoPhotonSeries>(
+        "/acquisition/TwoPhotonSeries", readIO);
+    REQUIRE(readSeries->readData<uint16_t>()->values().shape
+            == SizeArray {5, 2, 2});
+    REQUIRE(readSeries->readTimestamps<double>()->values().data.size() == 5);
+    readIO->close();
+    return;
+  }
+
+  SECTION("external image series")
+  {
+    auto series = nwbfile->createAquisitionSeries<NWB::ImageSeries>("movie");
+    auto spec =
+        NWB::ImageSeries::Spec()
+            .withData(IO::ArrayDataSetConfig(
+                IO::BaseDataType::U8, {0, 0, 0}, {1, 1, 1}))
+            .withUnit("n.a.")
+            .withFormat("external")
+            .withExternalFile(std::vector<std::string> {"a.avi", "b.avi"})
+            .withExternalFileStartingFrame({5, 10})
+            .withStartingTime(0.0)
+            .withStartingTimeRate(30.0f);
+    REQUIRE(spec.validate() == Status::Failure);  // must start at 0
+    spec.withExternalFileStartingFrame({0, 10});
+    REQUIRE(series->initialize(spec) == Status::Success);
+    std::vector<uint8_t> frame(1, 0);
+    REQUIRE(series->writeFrames(1, frame.data()) == Status::Failure);
+  }
+
+  SECTION("IndexSeries requires the order of the images")
+  {
+    auto images = NWB::Images::Spec()
+                      .withDescription("unordered")
+                      .createAndInitialize("/stimulus/templates/unordered", io);
+    auto indexSeries =
+        nwbfile->createAquisitionSeries<NWB::IndexSeries>("indices");
+    REQUIRE(indexSeries->initialize(NWB::IndexSeries::Spec()
+                                        .withData(IO::ArrayDataSetConfig(
+                                            IO::BaseDataType::U32, {0}, {10}))
+                                        .withIndexedImages(images))
+            == Status::Failure);
+    REQUIRE_FALSE(io->objectExists("/acquisition/indices"));
+  }
+  io->close();
 }

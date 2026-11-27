@@ -1,3 +1,5 @@
+#include <set>
+
 #include "nwb/ophys/ImagingPlane.hpp"
 
 #include "Utils.hpp"
@@ -84,14 +86,23 @@ Status ImagingPlane::Spec::validate() const
               << std::endl;
     status = Status::Failure;
   }
+  std::set<std::string> channelNames;
   for (const auto& [name, channelSpec] : opticalChannels) {
-    if (name.empty()) {
+    if (name.empty() || name.find('/') != std::string::npos) {
       std::cerr << "ImagingPlane::Spec::validate: the name of an optical "
-                   "channel must not be empty."
+                   "channel must not be empty or contain '/'."
                 << std::endl;
       status = Status::Failure;
     }
-    status = status && channelSpec.validate();
+    if (!channelNames.insert(name).second) {
+      std::cerr << "ImagingPlane::Spec::validate: duplicate optical channel "
+                   "name '"
+                << name << "'." << std::endl;
+      status = Status::Failure;
+    }
+    // Validate all channels to report all problems
+    const Status channelStatus = channelSpec.validate();
+    status = status && channelStatus;
   }
   return status;
 }

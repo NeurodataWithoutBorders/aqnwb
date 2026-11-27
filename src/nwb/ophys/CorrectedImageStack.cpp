@@ -26,8 +26,10 @@ Status CorrectedImageStack::Spec::validate() const
               << std::endl;
     status = Status::Failure;
   }
-  status = status && corrected.validate();
-  status = status && xyTranslation.validate();
+  // Validate both nested specs to report all problems
+  const Status correctedStatus = corrected.validate();
+  const Status xyTranslationStatus = xyTranslation.validate();
+  status = status && correctedStatus && xyTranslationStatus;
   if (xyTranslation.data != nullptr && !xyTranslation.data->isLink()) {
     SizeArray shape, chunking;
     IO::BaseDataType dataType;

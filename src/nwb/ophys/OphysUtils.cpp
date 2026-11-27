@@ -139,6 +139,10 @@ std::shared_ptr<PlaneSegmentation> Ophys::createPlaneSegmentation(
     const std::string& name,
     const PlaneSegmentation::Spec& spec)
 {
+  // Validate the spec before creating any parent containers
+  if (spec.validate() != Status::Success) {
+    return nullptr;
+  }
   auto imageSegmentation = getOrCreateOphysContainer<ImageSegmentation>(
       nwbfile, "ImageSegmentation");
   if (imageSegmentation == nullptr) {
@@ -161,6 +165,10 @@ std::shared_ptr<RoiResponseSeries> Ophys::createRoiResponseSeries(
     const std::string& name,
     const RoiResponseSeries::Spec& spec)
 {
+  // Validate the spec before creating any parent containers
+  if (spec.validate() != Status::Success) {
+    return nullptr;
+  }
   std::shared_ptr<RoiResponseSeries> series = nullptr;
   if (container == RoiResponseContainer::Fluorescence) {
     auto fluorescence =
@@ -204,6 +212,10 @@ std::shared_ptr<CorrectedImageStack> Ophys::createCorrectedImageStack(
     const std::string& name,
     const CorrectedImageStack::Spec& spec)
 {
+  // Validate the spec before creating any parent containers
+  if (spec.validate() != Status::Success) {
+    return nullptr;
+  }
   auto motionCorrection =
       getOrCreateOphysContainer<MotionCorrection>(nwbfile, "MotionCorrection");
   if (motionCorrection == nullptr) {
