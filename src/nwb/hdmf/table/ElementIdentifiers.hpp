@@ -29,8 +29,7 @@ public:
                   << std::endl;
         return Status::Failure;
       }
-      return elementIdentifiers->initialize(
-          static_cast<const IO::ArrayDataSetConfig&>(*this));
+      return elementIdentifiers->initialize(getDataConfig());
     }
   };
 

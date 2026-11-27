@@ -35,11 +35,11 @@ Status PlaneSegmentation::Spec::validate() const
     status = Status::Failure;
   }
   // The schema requires a mask column
-  const bool hasMaskColumn =
-      std::any_of(columns.begin(),
-                  columns.end(),
-                  [](const DataSpecPtr& column)
-                  { return column != nullptr && column->name == "image_mask"; });
+  const bool hasMaskColumn = std::any_of(
+      columns.begin(),
+      columns.end(),
+      [](const DataSpecPtr& column)
+      { return column != nullptr && column->name == "image_mask"; });
   if (!hasMaskColumn) {
     std::cerr << "PlaneSegmentation::Spec::validate: The image_mask column is "
                  "required (see createImageMaskDataSpec)."
@@ -126,6 +126,11 @@ Status PlaneSegmentation::addImageMasks(const SizeType& numRois,
                                         const float* masks,
                                         const std::vector<int>& ids)
 {
+  if (numRois > 0 && masks == nullptr) {
+    std::cerr << "PlaneSegmentation::addImageMasks: masks must not be null."
+              << std::endl;
+    return Status::Failure;
+  }
   auto imageMask = getConfiguredColumn("image_mask");
   if (imageMask == nullptr) {
     std::cerr << "PlaneSegmentation::addImageMasks: The table has no "
@@ -133,38 +138,75 @@ Status PlaneSegmentation::addImageMasks(const SizeType& numRois,
               << std::endl;
     return Status::Failure;
   }
-  if (!ids.empty() && ids.size() != numRois) {
-    std::cerr << "PlaneSegmentation::addImageMasks: The number of ids must "
-                 "match the number of ROIs."
+  // Number of weights of a mask, i.e., the product of the mask shape
+  const SizeArray maskShape = imageMask->recordData()->getShape();
+  SizeType maskSize = 1;
+  for (size_t i = 1; i < maskShape.size(); ++i) {
+    maskSize *= maskShape[i];
+  }
+  std::vector<RoiData> rois(numRois);
+  for (SizeType i = 0; i < numRois; ++i) {
+    rois[i].imageMask = masks + i * maskSize;
+  }
+  return addRois(rois, ids);
+}
+
+Status PlaneSegmentation::addRois(const std::vector<RoiData>& rois,
+                                  const std::vector<int>& ids)
+{
+  if (rois.empty()) {
+    return Status::Success;
+  }
+  if (!ids.empty() && ids.size() != rois.size()) {
+    std::cerr << "PlaneSegmentation::addRois: The number of ids must match "
+                 "the number of ROIs."
               << std::endl;
     return Status::Failure;
   }
-  if (numRois > 0 && masks == nullptr) {
-    std::cerr << "PlaneSegmentation::addImageMasks: masks must not be null."
-              << std::endl;
-    return Status::Failure;
+  // Check the masks of all ROIs before anything is written
+  auto imageMask = getConfiguredColumn("image_mask");
+  for (const auto& roi : rois) {
+    if ((imageMask != nullptr) != (roi.imageMask != nullptr)) {
+      std::cerr << "PlaneSegmentation::addRois: Each ROI must have an image "
+                   "mask if (and only if) the table has an image_mask column."
+                << std::endl;
+      return Status::Failure;
+    }
+  }
+  SizeArray maskShape;
+  if (imageMask != nullptr) {
+    maskShape = imageMask->recordData()->getShape();
+    if (maskShape.empty()) {
+      return Status::Failure;
+    }
   }
 
-  // Append the masks after the existing rows
-  auto maskRecorder = imageMask->recordData();
-  SizeArray maskShape = maskRecorder->getShape();
-  if (maskShape.empty()) {
-    return Status::Failure;
-  }
+  // Write the ids and the other columns (which also checks their values), and
+  // then the masks after the existing rows
   const SizeType numRows = getNumberOfRows();
-  SizeArray blockShape = maskShape;
-  blockShape[0] = numRois;
-  SizeArray positionOffset(maskShape.size(), 0);
-  positionOffset[0] = numRows;
-  Status status = maskRecorder->writeDataBlock(
-      blockShape, positionOffset, IO::BaseDataType::F32, masks);
-
-  // Append the ids of the ROIs
-  std::vector<int> roiIds = ids;
-  if (roiIds.empty()) {
-    roiIds.resize(numRois);
-    std::iota(roiIds.begin(), roiIds.end(), static_cast<int>(numRows));
+  std::vector<Types::RowData> rows;
+  rows.reserve(rois.size());
+  for (const auto& roi : rois) {
+    rows.push_back(roi.columns);
   }
-  status = status && setRowIDs(roiIds);
+  if (addRowsExcept(rows, ids, {"image_mask"}) != Status::Success) {
+    return Status::Failure;
+  }
+  Status status = Status::Success;
+  if (imageMask != nullptr) {
+    // The masks may not be contiguous, so write them one ROI at a time
+    auto maskRecorder = imageMask->recordData();
+    SizeArray blockShape = maskShape;
+    blockShape[0] = 1;
+    SizeArray positionOffset(maskShape.size(), 0);
+    for (size_t i = 0; i < rois.size(); ++i) {
+      positionOffset[0] = numRows + i;
+      status = status
+          && maskRecorder->writeDataBlock(blockShape,
+                                          positionOffset,
+                                          IO::BaseDataType::F32,
+                                          rois[i].imageMask);
+    }
+  }
   return status;
 }

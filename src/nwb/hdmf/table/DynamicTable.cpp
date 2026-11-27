@@ -411,6 +411,14 @@ std::string DynamicTable::toString(SizeType start,
 Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
                              const std::vector<int>& rowIds)
 {
+  return addRowsExcept(rows, rowIds, {});
+}
+
+Status DynamicTable::addRowsExcept(
+    const std::vector<AQNWB::Types::RowData>& rows,
+    const std::vector<int>& rowIds,
+    const std::unordered_set<std::string>& skippedColumns)
+{
   if (rows.empty()) {
     return Status::Success;
   }
@@ -440,6 +448,7 @@ Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
     std::string targetName;
     size_t existingTargetElements = 0;  // elements in the target on disk
     bool isTarget = false;  // the column is the target of a VectorIndex
+    bool skip = false;  // the column is written by the caller
     IO::BaseDataType::BaseDataVectorVariant* columnBuffer = nullptr;
     IO::BaseDataType::BaseDataVectorVariant* indexBuffer = nullptr;
   };
@@ -460,6 +469,8 @@ Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
   for (size_t c = 0; c < m_configuredColumns.size(); c++) {
     plans[c].isTarget =
         targetColumns.find(m_configuredColumns[c].name) != targetColumns.end();
+    plans[c].skip = skippedColumns.count(m_configuredColumns[c].name) > 0
+        || (plans[c].vectorIndex && skippedColumns.count(plans[c].targetName));
   }
 
   // 2. Validate that all rows have the required columns
@@ -469,6 +480,13 @@ Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
       if (key == "id") {
         std::cerr << "DynamicTable::addRows: Row IDs must be provided via the "
                      "rowIds parameter, not as an 'id' key in the row data."
+                  << std::endl;
+        return Status::Failure;
+      }
+      if (skippedColumns.count(key) > 0) {
+        std::cerr << "DynamicTable::addRows: Column '" << key
+                  << "' is written separately and must not be part of the "
+                     "row data."
                   << std::endl;
         return Status::Failure;
       }
@@ -482,6 +500,9 @@ Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
     }
     // 2.2 Validate against the configured columns
     for (size_t c = 0; c < m_configuredColumns.size(); c++) {
+      if (plans[c].skip) {
+        continue;
+      }
       const auto& col = m_configuredColumns[c];
       if (plans[c].isTarget) {
         // Target columns must be present in the row
@@ -527,6 +548,9 @@ Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
   for (size_t c = 0; c < m_configuredColumns.size(); c++) {
     const auto& col = m_configuredColumns[c];
     auto& plan = plans[c];
+    if (plan.skip) {
+      continue;
+    }
     if (plan.vectorIndex) {
       if (!plan.target)
         return Status::Failure;
@@ -552,6 +576,9 @@ Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
   // The maps are complete, so pointers to their values stay valid
   for (size_t c = 0; c < m_configuredColumns.size(); c++) {
     auto& plan = plans[c];
+    if (plan.skip) {
+      continue;
+    }
     if (plan.vectorIndex) {
       plan.columnBuffer = &columnBuffers[plan.targetName];
       plan.indexBuffer = &indexBuffers[m_configuredColumns[c].name];
@@ -566,6 +593,9 @@ Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
     for (size_t c = 0; c < m_configuredColumns.size(); c++) {
       const auto& col = m_configuredColumns[c];
       const auto& plan = plans[c];
+      if (plan.skip) {
+        continue;
+      }
       if (plan.vectorIndex) {
         auto it = row.find(plan.targetName);
         if (it != row.end()) {
@@ -643,6 +673,9 @@ Status DynamicTable::addRows(const std::vector<AQNWB::Types::RowData>& rows,
 
   // 4. Write buffers to columns
   for (size_t c = 0; c < m_configuredColumns.size(); c++) {
+    if (plans[c].skip) {
+      continue;
+    }
     const auto& col = m_configuredColumns[c];
     const auto& vectorIndex = plans[c].vectorIndex;
     if (vectorIndex) {

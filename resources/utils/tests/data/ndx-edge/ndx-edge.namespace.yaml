@@ -1,0 +1,19 @@
+namespaces:
+- author:
+  - Test Author
+  contact:
+  - test@example.com
+  doc: Extension with edge cases for the schematype_to_aqnwb utility
+  name: ndx-edge
+  schema:
+  - namespace: core
+    neurodata_types:
+    - NWBContainer
+    - TimeIntervals
+    - TimeSeries
+    - Device
+  - namespace: hdmf-common
+    neurodata_types:
+    - VectorData
+  - source: ndx-edge.extensions.yaml
+  version: 0.1.0

@@ -8,9 +8,11 @@
 #include "Types.hpp"
 #include "Utils.hpp"
 #include "io/BaseIO.hpp"
+#include "io/nwbio_utils.hpp"
 #include "nwb/NWBFile.hpp"
 #include "nwb/RegisteredType.hpp"
 #include "nwb/device/Device.hpp"
+#include "nwb/hdmf/table/VectorData.hpp"
 #include "nwb/ophys/OphysUtils.hpp"
 #include "testUtils.hpp"
 
@@ -104,11 +106,10 @@ TEST_CASE("ophys ROI types", "[ophys]")
   for (SizeType i = 0; i < samples.size(); ++i) {
     samples[i] = static_cast<float>(i % 17);
   }
-  status = NWB::Ophys::writeRoiResponseSeriesData(
-      io->getRecordingObjects(),
-      fluorescence->getRecordingObjectIndex(),
-      100,
-      samples.data());
+  status = IO::appendTimeSeriesData(io->getRecordingObjects(),
+                                    fluorescence->getRecordingObjectIndex(),
+                                    100,
+                                    samples.data());
   // [example_ophys_rois_snippet]
   REQUIRE(planeSegmentation != nullptr);
   REQUIRE(fluorescence != nullptr);
@@ -233,6 +234,47 @@ TEST_CASE("PlaneSegmentation checks", "[ophys]")
     REQUIRE(NWB::Ophys::createPlaneSegmentation(*nwbfile, "none", noMaskSpec)
             == nullptr);
     REQUIRE_FALSE(io->objectExists("/processing/ophys"));
+  }
+
+  SECTION("addRois writes the masks and the other columns together")
+  {
+    auto columns = NWB::PlaneSegmentation::createDefaultDataSpecs();
+    columns.push_back(NWB::PlaneSegmentation::createImageMaskDataSpec({2, 2}));
+    columns.push_back(NWB::VectorData::createDataSpec(
+        "quality",
+        IO::ArrayDataSetConfig(IO::BaseDataType::F32, {0}, {10}),
+        "quality of the ROI"));
+    auto segmentation = NWB::Ophys::createPlaneSegmentation(
+        *nwbfile,
+        "with_quality",
+        NWB::PlaneSegmentation::Spec()
+            .withDescription("ROIs with a quality column")
+            .withColumns(columns)
+            .withImagingPlane(imagingPlane));
+    REQUIRE(segmentation != nullptr);
+    std::vector<float> mask0(4, 0.5f), mask1(4, 1.0f);
+    std::vector<NWB::PlaneSegmentation::RoiData> rois(2);
+    rois[0].imageMask = mask0.data();
+    rois[0].columns = {{"quality", 0.9f}};
+    rois[1].imageMask = mask1.data();
+    rois[1].columns = {{"quality", 0.4f}};
+    REQUIRE(segmentation->addRois(rois, {10, 11}) == Status::Success);
+    REQUIRE(segmentation->getNumberOfRows() == 2);
+
+    // Missing values fail without writing anything
+    std::vector<NWB::PlaneSegmentation::RoiData> invalid(1);
+    invalid[0].imageMask = mask0.data();  // no quality
+    REQUIRE(segmentation->addRois(invalid) == Status::Failure);
+    invalid[0].imageMask = nullptr;
+    invalid[0].columns = {{"quality", 0.1f}};  // no mask
+    REQUIRE(segmentation->addRois(invalid) == Status::Failure);
+    // addImageMasks does not provide the values of the other columns
+    REQUIRE(segmentation->addImageMasks(1, mask0.data()) == Status::Failure);
+    REQUIRE(segmentation->getNumberOfRows() == 2);
+    const std::string tablePath = segmentation->getPath();
+    REQUIRE(io->getStorageObjectShape(tablePath + "/quality") == SizeArray {2});
+    REQUIRE(io->getStorageObjectShape(tablePath + "/image_mask")
+            == SizeArray {2, 2, 2});
   }
 
   io->close();

@@ -76,26 +76,6 @@ AQNWB::IO::ArrayDataSetConfig Ophys::getDefaultImageSeriesDataConfig(
   return IO::ArrayDataSetConfig(dataType, shape, chunking);
 }
 
-AQNWB::Types::Status Ophys::writeImageSeriesFrames(
-    const std::shared_ptr<IO::RecordingObjects>& recordingObjects,
-    const SizeType& containerInd,
-    const SizeType& numFrames,
-    const void* data,
-    const void* timestamps)
-{
-  if (recordingObjects == nullptr) {
-    return Status::Failure;
-  }
-  auto imageSeries = std::dynamic_pointer_cast<ImageSeries>(
-      recordingObjects->getRecordingObject(containerInd));
-  if (imageSeries == nullptr) {
-    std::cerr << "Ophys::writeImageSeriesFrames: The recording object "
-              << containerInd << " is not an ImageSeries." << std::endl;
-    return Status::Failure;
-  }
-  return imageSeries->writeFrames(numFrames, data, timestamps);
-}
-
 std::shared_ptr<ProcessingModule> Ophys::getOrCreateOphysModule(
     const NWBFile& nwbfile)
 {
@@ -197,24 +177,4 @@ std::shared_ptr<RoiResponseSeries> Ophys::createRoiResponseSeries(
     return nullptr;
   }
   return series;
-}
-
-AQNWB::Types::Status Ophys::writeRoiResponseSeriesData(
-    const std::shared_ptr<IO::RecordingObjects>& recordingObjects,
-    const SizeType& containerInd,
-    const SizeType& numSamples,
-    const void* data,
-    const void* timestamps)
-{
-  if (recordingObjects == nullptr) {
-    return Status::Failure;
-  }
-  auto series = std::dynamic_pointer_cast<RoiResponseSeries>(
-      recordingObjects->getRecordingObject(containerInd));
-  if (series == nullptr) {
-    std::cerr << "Ophys::writeRoiResponseSeriesData: The recording object "
-              << containerInd << " is not a RoiResponseSeries." << std::endl;
-    return Status::Failure;
-  }
-  return series->writeSamples(numSamples, data, timestamps);
 }

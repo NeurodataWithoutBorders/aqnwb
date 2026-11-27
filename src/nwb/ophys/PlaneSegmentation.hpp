@@ -120,10 +120,45 @@ public:
       const std::vector<DataSpecPtr>& dataSpecs) const override;
 
   /**
+   * @brief The data of a region of interest (ROI), i.e., of a row of the
+   * table. See addRois.
+   */
+  struct RoiData
+  {
+    /**
+     * @brief The image mask of the ROI, i.e., a contiguous float32 array with
+     * one weight per pixel of shape [x, y(, z)] in row-major order. Required
+     * if the table has an image_mask column.
+     */
+    const float* imageMask = nullptr;
+
+    /**
+     * @brief The values of the other columns of the table (e.g., user-defined
+     * columns), by column name. See DynamicTable::addRow.
+     */
+    Types::RowData columns;
+  };
+
+  /**
+   * @brief Append ROIs to the table.
+   *
+   * Appends one row per ROI, i.e., the masks of all mask columns of the table,
+   * the values of the other columns, and the ids. All inputs are checked
+   * before anything is written, i.e., every ROI must provide a mask for each
+   * mask column of the table and a value for each other column.
+   *
+   * @param rois The ROIs to append.
+   * @param ids The ids of the ROIs. If empty, the ids are the row indices.
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
+  Status addRois(const std::vector<RoiData>& rois,
+                 const std::vector<int>& ids = {});
+
+  /**
    * @brief Append ROIs defined by image masks.
    *
-   * Appends numRois rows to the table, i.e., the image masks and the ids of
-   * the ROIs. The table must have been initialized with an image_mask column.
+   * Shorthand for addRois for tables whose only columns are the id and
+   * image_mask columns.
    *
    * @param numRois The number of ROIs to append.
    * @param masks Pointer to the masks, i.e., a contiguous float32 array of

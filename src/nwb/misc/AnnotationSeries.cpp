@@ -41,16 +41,23 @@ Status AnnotationSeries::Spec::validate() const
               << unit << "'." << std::endl;
     status = Status::Failure;
   }
+  // The schema fixes these values, since the unit is n/a
+  auto differs = [](float value, float fixed)
+  { return value < fixed || value > fixed; };
+  if (differs(conversion, 1.0f) || differs(resolution, -1.0f)
+      || differs(offset, 0.0f))
+  {
+    std::cerr << "AnnotationSeries::Spec::validate: conversion, resolution, "
+                 "and offset must be 1.0, -1.0, and 0.0."
+              << std::endl;
+    status = Status::Failure;
+  }
   return status;
 }
 
 Status AnnotationSeries::initialize(const Spec& spec)
 {
-  Spec fixedSpec = spec;
-  fixedSpec.conversion = 1.0f;  // conversion fixed to 1.0, since unit is n/a
-  fixedSpec.resolution = -1.0f;  // resolution fixed to -1.0
-  fixedSpec.offset = 0.0f;  // offset fixed to 0.0, since unit is n/a
-  return TimeSeries::initialize(fixedSpec);
+  return TimeSeries::initialize(spec);
 }
 
 Status AnnotationSeries::writeAnnotation(
