@@ -63,7 +63,8 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
     io->createGroup("/general/extracellular_ephys");
 
     auto device = NWB::Device::create(devicePath, io);
-    device->initialize("description", "unknown");
+    device->initialize(
+        NWB::Device::DeviceSpec().withDescription("description"));
     auto elecGroup = NWB::ElectrodeGroup::create(electrodePath, io);
     elecGroup->initialize("description", "unknown", device);
 
@@ -335,7 +336,8 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
 
     // setup device and electrode group
     auto device = NWB::Device::create(devicePath, io);
-    device->initialize("description", "unknown");
+    device->initialize(
+        NWB::Device::DeviceSpec().withDescription("description"));
     auto elecGroup = NWB::ElectrodeGroup::create(electrodePath, io);
     elecGroup->initialize("description", "unknown", device);
 
@@ -396,7 +398,8 @@ TEST_CASE("ElectricalSeries", "[ecephys]")
 
     // setup device and electrode group
     auto device = NWB::Device::create(devicePath, io);
-    device->initialize("description", "unknown");
+    device->initialize(
+        NWB::Device::DeviceSpec().withDescription("description"));
     auto elecGroup = NWB::ElectrodeGroup::create(electrodePath, io);
     elecGroup->initialize("description", "unknown", device);
 
@@ -501,7 +504,8 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
 
     // setup device and electrode group
     auto device = NWB::Device::create(devicePath, io);
-    device->initialize("description", "unknown");
+    device->initialize(
+        NWB::Device::DeviceSpec().withDescription("description"));
     auto elecGroup = NWB::ElectrodeGroup::create(electrodePath, io);
     elecGroup->initialize("description", "unknown", device);
 
@@ -568,7 +572,8 @@ TEST_CASE("SpikeEventSeries", "[ecephys]")
 
     // setup device and electrode group
     auto device = NWB::Device::create(devicePath, io);
-    device->initialize("description", "unknown");
+    device->initialize(
+        NWB::Device::DeviceSpec().withDescription("description"));
     auto elecGroup = NWB::ElectrodeGroup::create(electrodePath, io);
     elecGroup->initialize("description", "unknown", device);
 

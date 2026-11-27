@@ -5,16 +5,20 @@
 
 #include "io/BaseIO.hpp"
 #include "nwb/device/Device.hpp"
+#include "nwb/device/DeviceModel.hpp"
 #include "testUtils.hpp"
 
 using namespace AQNWB::NWB;
 
 TEST_CASE("Device", "[device]")
 {
-  SECTION("test Device is registered as a subclass of RegisteredType")
+  SECTION(
+      "test Device and DeviceModel are registered as subclasses of "
+      "RegisteredType")
   {
     auto registry = AQNWB::NWB::RegisteredType::getRegistry();
     REQUIRE(registry.find("core::Device") != registry.end());
+    REQUIRE(registry.find("core::DeviceModel") != registry.end());
   }
 
   SECTION("test Device constructor")
@@ -28,39 +32,95 @@ TEST_CASE("Device", "[device]")
     REQUIRE(device->getIO() == io);
   }
 
-  SECTION("test Device write/read")
+  SECTION("test Device and DeviceModel write/read")
   {
-    // Create the device file
-    std::string path = "test_path";
+    std::string path = getTestFilePath("testDevice.h5");
     std::shared_ptr<BaseIO> io = createIO("HDF5", path);
     io->open();
-    auto device = Device::create(path, io);
-
-    std::string description = "Test Device Description";
-    std::string manufacturer = "Test Manufacturer";
-    device->initialize(description, manufacturer);
+    auto model = DeviceModel::create("/model", io);
+    REQUIRE(model->initialize(DeviceModel::DeviceModelSpec("Imec")
+                                  .withModelNumber("PRB_1_4_0480_1")
+                                  .withDescription("Neuropixels 1.0 probe"))
+            == Status::Success);
+    auto device = Device::create("/probe", io);
+    REQUIRE(device->initialize(Device::DeviceSpec()
+                                   .withDescription("Probe A")
+                                   .withSerialNumber("18005116521")
+                                   .withModel(model))
+            == Status::Success);
+    // the deprecated manufacturer attribute is not written
+    REQUIRE_FALSE(io->attributeExists("/probe/manufacturer"));
     io->flush();
     io->close();
 
     // Read data back from file
     std::shared_ptr<BaseIO> readio = createIO("HDF5", path);
     readio->open(FileMode::ReadOnly);
+    auto readDevice = std::dynamic_pointer_cast<Device>(
+        RegisteredType::create("/probe", readio));
+    REQUIRE(readDevice != nullptr);
+    REQUIRE(readDevice->readDescription()->values().data[0] == "Probe A");
+    REQUIRE(readDevice->readSerialNumber()->values().data[0] == "18005116521");
 
-    // Read all fields using the standard read methods
-    auto readRegisteredType = NWB::RegisteredType::create(path, readio);
-    auto readDevice =
-        std::dynamic_pointer_cast<NWB::Device>(readRegisteredType);
-
-    // Read the description via the readDescription field
-    auto descriptionData = readDevice->readDescription();
-    std::string descriptionStr = descriptionData->values().data[0];
-    REQUIRE(descriptionStr == description);
-
-    // Read the manufacturer via the readManufacturer field
-    auto manufacturerData = readDevice->readManufacturer();
-    std::string manufacturerStr = manufacturerData->values().data[0];
-    REQUIRE(manufacturerStr == manufacturer);
-
+    // the model is read via the link of the device
+    auto readModel = readDevice->readModel();
+    REQUIRE(readModel != nullptr);
+    REQUIRE(readModel->readManufacturer()->values().data[0] == "Imec");
+    REQUIRE(readModel->readModelNumber()->values().data[0] == "PRB_1_4_0480_1");
+    REQUIRE(readModel->readDescription()->values().data[0]
+            == "Neuropixels 1.0 probe");
     readio->close();
+  }
+
+  SECTION("test DeviceModel requires a manufacturer")
+  {
+    std::string path = getTestFilePath("testDeviceModelNoManufacturer.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+    auto model = DeviceModel::create("/model", io);
+    REQUIRE(model->initialize(DeviceModel::DeviceModelSpec(""))
+            == Status::Failure);
+    io->close();
+  }
+
+  SECTION("test Device without metadata")
+  {
+    std::string path = getTestFilePath("testDeviceNoMetadata.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+    auto device = Device::create("/device", io);
+    REQUIRE(device->initialize(Device::DeviceSpec()) == Status::Success);
+    REQUIRE_FALSE(io->attributeExists("/device/description"));
+    REQUIRE_FALSE(io->attributeExists("/device/manufacturer"));
+    REQUIRE_FALSE(io->objectExists("/device/model"));
+    io->close();
+  }
+
+  SECTION("test the deprecated Device::initialize with a manufacturer")
+  {
+    std::string path = getTestFilePath("testDeviceDeprecatedManufacturer.h5");
+    std::shared_ptr<BaseIO> io = createIO("HDF5", path);
+    io->open();
+    auto device = Device::create("/device", io);
+#if defined(__GNUC__) || defined(__clang__)
+#  pragma GCC diagnostic push
+#  pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(_MSC_VER)
+#  pragma warning(push)
+#  pragma warning(disable : 4996)
+#endif
+    REQUIRE(device->initialize("Test Device Description", "Test Manufacturer")
+            == Status::Success);
+#if defined(__GNUC__) || defined(__clang__)
+#  pragma GCC diagnostic pop
+#elif defined(_MSC_VER)
+#  pragma warning(pop)
+#endif
+    io->flush();
+    REQUIRE(device->readDescription()->values().data[0]
+            == "Test Device Description");
+    REQUIRE(device->readManufacturer()->values().data[0]
+            == "Test Manufacturer");
+    io->close();
   }
 }
