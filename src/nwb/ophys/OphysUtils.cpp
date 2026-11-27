@@ -198,3 +198,22 @@ AQNWB::Types::Status Ophys::writeRoiResponseSeriesData(
   }
   return series->writeSamples(numSamples, data, timestamps);
 }
+
+std::shared_ptr<CorrectedImageStack> Ophys::createCorrectedImageStack(
+    const NWBFile& nwbfile,
+    const std::string& name,
+    const CorrectedImageStack::Spec& spec)
+{
+  auto motionCorrection =
+      getOrCreateOphysContainer<MotionCorrection>(nwbfile, "MotionCorrection");
+  if (motionCorrection == nullptr) {
+    return nullptr;
+  }
+  auto stack = motionCorrection->createCorrectedImageStack(name);
+  if (stack == nullptr || stack->initialize(spec) != Status::Success) {
+    std::cerr << "Ophys::createCorrectedImageStack: Failed to create " << name
+              << std::endl;
+    return nullptr;
+  }
+  return stack;
+}

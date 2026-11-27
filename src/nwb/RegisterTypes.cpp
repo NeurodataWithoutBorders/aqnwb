@@ -1,6 +1,8 @@
 #include "nwb/RegisterTypes.hpp"
 
 #include "nwb/NWBFile.hpp"
+#include "nwb/base/BaseImage.hpp"
+#include "nwb/base/Images.hpp"
 #include "nwb/base/NWBContainer.hpp"
 #include "nwb/base/NWBData.hpp"
 #include "nwb/base/NWBDataInterface.hpp"
@@ -27,11 +29,19 @@
 #include "nwb/misc/AnnotationSeries.hpp"
 
 #ifdef AQNWB_HAS_OPHYS
+#  include "nwb/image/GrayscaleImage.hpp"
+#  include "nwb/image/ImageMaskSeries.hpp"
 #  include "nwb/image/ImageSeries.hpp"
+#  include "nwb/image/IndexSeries.hpp"
+#  include "nwb/image/OpticalSeries.hpp"
+#  include "nwb/image/RGBAImage.hpp"
+#  include "nwb/image/RGBImage.hpp"
+#  include "nwb/ophys/CorrectedImageStack.hpp"
 #  include "nwb/ophys/DfOverF.hpp"
 #  include "nwb/ophys/Fluorescence.hpp"
 #  include "nwb/ophys/ImageSegmentation.hpp"
 #  include "nwb/ophys/ImagingPlane.hpp"
+#  include "nwb/ophys/MotionCorrection.hpp"
 #  include "nwb/ophys/OnePhotonSeries.hpp"
 #  include "nwb/ophys/OpticalChannel.hpp"
 #  include "nwb/ophys/PlaneSegmentation.hpp"
@@ -59,6 +69,10 @@ void AQNWB::NWB::registerAllTypes()
   VectorIndex::registerSubclass();
   // core
   AnnotationSeries::registerSubclass();
+  BaseImage::registerSubclass();
+  Image::registerSubclass();
+  ImageReferences::registerSubclass();
+  Images::registerSubclass();
   Device::registerSubclass();
   DurationVectorData::registerSubclass();
   ElectricalSeries::registerSubclass();
@@ -77,7 +91,15 @@ void AQNWB::NWB::registerAllTypes()
   TimestampVectorData::registerSubclass();
 #ifdef AQNWB_HAS_OPHYS
   // core: optical physiology module
+  CorrectedImageStack::registerSubclass();
   DfOverF::registerSubclass();
+  GrayscaleImage::registerSubclass();
+  ImageMaskSeries::registerSubclass();
+  IndexSeries::registerSubclass();
+  MotionCorrection::registerSubclass();
+  OpticalSeries::registerSubclass();
+  RGBAImage::registerSubclass();
+  RGBImage::registerSubclass();
   Fluorescence::registerSubclass();
   ImageSeries::registerSubclass();
   ImageSegmentation::registerSubclass();

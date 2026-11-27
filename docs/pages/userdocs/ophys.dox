@@ -92,6 +92,28 @@
  *
  * \snippet tests/testOphysRois.cpp example_ophys_pixel_masks_snippet
  *
+ * \section ophys_motion_correction Storing motion-corrected images
+ *
+ * A \ref AQNWB::NWB::CorrectedImageStack "CorrectedImageStack" stores the motion-corrected frames, the
+ * x/y translation of each frame, and a link to the original series. Its spec contains the nested specs
+ * of the `corrected` \ref AQNWB::NWB::ImageSeries "ImageSeries" and the `xy_translation`
+ * \ref AQNWB::NWB::TimeSeries "TimeSeries", which are created by `initialize`.
+ *
+ * \snippet tests/testOphysDeferred.cpp example_motion_correction_snippet
+ *
+ * \section ophys_stimulus_images Stimulus images and other image types
+ *
+ * - \ref AQNWB::NWB::Images "Images" is a collection of \ref AQNWB::NWB::GrayscaleImage "GrayscaleImage",
+ *   \ref AQNWB::NWB::RGBImage "RGBImage", and \ref AQNWB::NWB::RGBAImage "RGBAImage" objects with an optional
+ *   order (`order_of_images`).
+ * - \ref AQNWB::NWB::IndexSeries "IndexSeries" stores indices into the images of an Images collection,
+ *   e.g., the order in which stimulus images were presented.
+ * - \ref AQNWB::NWB::OpticalSeries "OpticalSeries" stores image data that is presented or recorded,
+ *   e.g., a movie, and \ref AQNWB::NWB::ImageMaskSeries "ImageMaskSeries" stores a mask applied to another
+ *   ImageSeries.
+ *
+ * \snippet tests/testOphysDeferred.cpp example_images_snippet
+ *
  * \section ophys_ogen Recording optogenetic stimulation
  *
  * Optogenetic stimulation is described by an

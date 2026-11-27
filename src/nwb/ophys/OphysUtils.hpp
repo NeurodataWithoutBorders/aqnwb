@@ -13,6 +13,7 @@
 #include "nwb/ophys/Fluorescence.hpp"
 #include "nwb/ophys/ImageSegmentation.hpp"
 #include "nwb/ophys/ImagingPlane.hpp"
+#include "nwb/ophys/MotionCorrection.hpp"
 #include "nwb/ophys/OnePhotonSeries.hpp"
 #include "nwb/ophys/PlaneSegmentation.hpp"
 #include "nwb/ophys/RoiResponseSeries.hpp"
@@ -171,6 +172,25 @@ std::shared_ptr<RoiResponseSeries> createRoiResponseSeries(
     const RoiResponseContainer& container,
     const std::string& name,
     const RoiResponseSeries::Spec& spec);
+
+/**
+ * @brief Create and initialize a CorrectedImageStack in
+ * `/processing/ophys/MotionCorrection/<name>`.
+ *
+ * Creates the "ophys" ProcessingModule and the MotionCorrection container if
+ * they do not exist. Use CorrectedImageStack::readCorrected and
+ * readXyTranslation to record the corrected frames and the translations.
+ *
+ * @param nwbfile The NWBFile.
+ * @param name The name of the CorrectedImageStack.
+ * @param spec The specification of the CorrectedImageStack.
+ * @return The initialized CorrectedImageStack or nullptr if the creation
+ * failed.
+ */
+std::shared_ptr<CorrectedImageStack> createCorrectedImageStack(
+    const NWBFile& nwbfile,
+    const std::string& name,
+    const CorrectedImageStack::Spec& spec);
 
 /**
  * @brief Append samples to a RoiResponseSeries by its recording object index.

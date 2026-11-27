@@ -29,6 +29,8 @@ add_library(
     src/nwb/NWBFile.cpp
     src/nwb/RegisteredType.cpp
     src/nwb/RegisterTypes.cpp
+    src/nwb/base/BaseImage.cpp
+    src/nwb/base/Images.cpp
     src/nwb/base/NWBData.cpp
     src/nwb/base/NWBDataInterface.cpp
     src/nwb/base/NWBContainer.cpp
@@ -125,7 +127,15 @@ option(AQNWB_ENABLE_OPHYS "Build support for optical physiology (image and ophys
 if(AQNWB_ENABLE_OPHYS)
   target_sources(
       aqnwb_aqnwb PRIVATE
+      src/nwb/image/GrayscaleImage.cpp
+      src/nwb/image/ImageMaskSeries.cpp
       src/nwb/image/ImageSeries.cpp
+      src/nwb/image/IndexSeries.cpp
+      src/nwb/image/OpticalSeries.cpp
+      src/nwb/image/RGBAImage.cpp
+      src/nwb/image/RGBImage.cpp
+      src/nwb/ophys/CorrectedImageStack.cpp
+      src/nwb/ophys/MotionCorrection.cpp
       src/nwb/ophys/DfOverF.cpp
       src/nwb/ophys/Fluorescence.cpp
       src/nwb/ophys/ImageSegmentation.cpp
