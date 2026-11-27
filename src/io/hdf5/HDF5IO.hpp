@@ -542,6 +542,17 @@ public:
   static hid_t getNativeNumericTypeId(const IO::BaseDataType& type);
 
   /**
+   * @brief Get the native type of an integer or float type.
+   *
+   * Files may store non-native types (e.g., big-endian types). When they are
+   * read with the native type, HDF5 converts the values.
+   *
+   * @param type The type of a dataset or attribute in the file.
+   * @return The native type for integers and floats, otherwise the type.
+   */
+  static H5::DataType toNativeNumericType(const H5::DataType& type);
+
+  /**
    * @brief Returns the BaseDataType for a given HDF5 native data type
    *
    * This function implements the opposite mapping of getNativeType.

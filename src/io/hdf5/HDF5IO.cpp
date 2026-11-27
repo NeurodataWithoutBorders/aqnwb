@@ -500,15 +500,17 @@ std::vector<T> HDF5IO::readDataHelper(const HDF5TYPE& dataSource,
                                       const H5::DataSpace& dataspace)
 {
   std::vector<T> data(numElements);
+  // Read with the native type, such that HDF5 converts non-native (e.g.,
+  // big-endian) integers and floats
   if (const H5::DataSet* dataset =
           dynamic_cast<const H5::DataSet*>(&dataSource))
   {
-    H5::DataType type = dataset->getDataType();
+    H5::DataType type = toNativeNumericType(dataset->getDataType());
     dataset->read(data.data(), type, memspace, dataspace);
   } else if (const H5::Attribute* attribute =
                  dynamic_cast<const H5::Attribute*>(&dataSource))
   {
-    H5::DataType type = attribute->getDataType();
+    H5::DataType type = toNativeNumericType(attribute->getDataType());
     attribute->read(type, data.data());
   } else {
     throw std::runtime_error("Unsupported data source type");
@@ -708,7 +710,7 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(
   }
 
   H5::Attribute& attribute = *attributePtr;
-  H5::DataType dataType = attribute.getDataType();
+  H5::DataType dataType = toNativeNumericType(attribute.getDataType());
 
   // Determine the shape of the attribute
   H5::DataSpace dataspace = attribute.getSpace();
@@ -929,7 +931,7 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(const std::string& dataPath,
                                        std::multiplies<size_t> {});
 
   // Read the dataset into a vector of the appropriate type
-  H5::DataType dataType = dataset.getDataType();
+  H5::DataType dataType = toNativeNumericType(dataset.getDataType());
   result.baseDataType = getBaseDataType(dataType);
   if (dataType.getClass() == H5T_STRING) {
     // Use readStringDataHelper to read string data
@@ -1016,6 +1018,27 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(const std::string& dataPath,
     result.data =
         readDataHelper<short>(dataset, numElements, memspace, dataspace);
     result.typeIndex = typeid(short);
+  } else if (dataType.getClass() == H5T_COMPOUND) {
+    if (!result.baseDataType.isCompound()) {
+      throw std::runtime_error(
+          "Unsupported data type: compound data types are only supported if "
+          "all members are scalar numeric types");
+    }
+    // Compound data is returned as the raw bytes of the values in the
+    // memory layout described by result.baseDataType (members and
+    // compoundSize), i.e., it can be reinterpreted as an array of the
+    // corresponding C++ struct
+    const size_t compoundSize = result.baseDataType.compoundSize;
+    std::vector<uint8_t> buffer(numElements * compoundSize);
+    try {
+      H5::DataType memType = getNativeType(result.baseDataType);
+      dataset.read(buffer.data(), memType, memspace, dataspace);
+    } catch (const H5::Exception& error) {
+      throw std::runtime_error("Failed to read compound data: "
+                               + error.getDetailMsg());
+    }
+    result.data = buffer;
+    result.typeIndex = typeid(uint8_t);
   } else {
     throw std::runtime_error("Unsupported data type");
   }
@@ -1869,6 +1892,15 @@ H5::DataType HDF5IO::getNativeType(IO::BaseDataType type)
       strType.setCset(H5T_CSET_UTF8);
       return strType;
     }
+    case IO::BaseDataType::Type::T_COMPOUND: {
+      H5::CompType compType(static_cast<size_t>(type.compoundSize));
+      for (const auto& member : type.members) {
+        compType.insertMember(member.name,
+                              static_cast<size_t>(member.offset),
+                              getNativeType(IO::BaseDataType(member.type)));
+      }
+      return compType;
+    }
     default:
       baseType = H5::PredType::NATIVE_INT32;
   }
@@ -1912,29 +1944,52 @@ hid_t HDF5IO::getNativeNumericTypeId(const IO::BaseDataType& type)
   }
 }
 
+H5::DataType HDF5IO::toNativeNumericType(const H5::DataType& type)
+{
+  const H5T_class_t typeClass = type.getClass();
+  if (typeClass != H5T_INTEGER && typeClass != H5T_FLOAT) {
+    return type;
+  }
+  // The H5::DataType takes ownership of the new id
+  const hid_t nativeId = H5Tget_native_type(type.getId(), H5T_DIR_ASCEND);
+  if (nativeId < 0) {
+    return type;
+  }
+  return H5::DataType(nativeId);
+}
+
 AQNWB::IO::BaseDataType HDF5IO::getBaseDataType(const H5::DataType& nativeType)
 {
-  if (nativeType == H5::PredType::NATIVE_INT8) {
-    return IO::BaseDataType(IO::BaseDataType::Type::T_I8);
-  } else if (nativeType == H5::PredType::NATIVE_INT16) {
-    return IO::BaseDataType(IO::BaseDataType::Type::T_I16);
-  } else if (nativeType == H5::PredType::NATIVE_INT32) {
-    return IO::BaseDataType(IO::BaseDataType::Type::T_I32);
-  } else if (nativeType == H5::PredType::NATIVE_INT64) {
-    return IO::BaseDataType(IO::BaseDataType::Type::T_I64);
-  } else if (nativeType == H5::PredType::NATIVE_UINT8) {
-    return IO::BaseDataType(IO::BaseDataType::Type::T_U8);
-  } else if (nativeType == H5::PredType::NATIVE_UINT16) {
-    return IO::BaseDataType(IO::BaseDataType::Type::T_U16);
-  } else if (nativeType == H5::PredType::NATIVE_UINT32) {
-    return IO::BaseDataType(IO::BaseDataType::Type::T_U32);
-  } else if (nativeType == H5::PredType::NATIVE_UINT64) {
-    return IO::BaseDataType(IO::BaseDataType::Type::T_U64);
-  } else if (nativeType == H5::PredType::NATIVE_FLOAT) {
-    return IO::BaseDataType(IO::BaseDataType::Type::T_F32);
-  } else if (nativeType == H5::PredType::NATIVE_DOUBLE) {
-    return IO::BaseDataType(IO::BaseDataType::Type::T_F64);
-  } else if (nativeType.getClass() == H5T_STRING) {
+  // Classify integers and floats by their class, size, and sign, which also
+  // covers non-native types (e.g., big-endian types in files written on other
+  // systems). HDF5 converts them to the native type when reading.
+  const H5T_class_t typeClass = nativeType.getClass();
+  if (typeClass == H5T_INTEGER) {
+    const bool isSigned = H5Tget_sign(nativeType.getId()) == H5T_SGN_2;
+    switch (nativeType.getSize()) {
+      case 1:
+        return IO::BaseDataType(isSigned ? IO::BaseDataType::Type::T_I8
+                                         : IO::BaseDataType::Type::T_U8);
+      case 2:
+        return IO::BaseDataType(isSigned ? IO::BaseDataType::Type::T_I16
+                                         : IO::BaseDataType::Type::T_U16);
+      case 4:
+        return IO::BaseDataType(isSigned ? IO::BaseDataType::Type::T_I32
+                                         : IO::BaseDataType::Type::T_U32);
+      case 8:
+        return IO::BaseDataType(isSigned ? IO::BaseDataType::Type::T_I64
+                                         : IO::BaseDataType::Type::T_U64);
+      default:
+        break;
+    }
+  } else if (typeClass == H5T_FLOAT) {
+    if (nativeType.getSize() == 4) {
+      return IO::BaseDataType(IO::BaseDataType::Type::T_F32);
+    } else if (nativeType.getSize() == 8) {
+      return IO::BaseDataType(IO::BaseDataType::Type::T_F64);
+    }
+  }
+  if (typeClass == H5T_STRING) {
     if (nativeType.isVariableStr()) {
       return IO::BaseDataType(IO::BaseDataType::Type::V_STR);
     } else {
@@ -1942,6 +1997,26 @@ AQNWB::IO::BaseDataType HDF5IO::getBaseDataType(const H5::DataType& nativeType)
       size_t size = nativeType.getSize();
       return IO::BaseDataType(IO::BaseDataType::Type::T_STR, size);
     }
+  } else if (nativeType.getClass() == H5T_COMPOUND) {
+    // Compound type: get the members and their offsets
+    H5::CompType compType(nativeType.getId());
+    std::vector<IO::BaseDataType::CompoundMember> members;
+    for (int i = 0; i < compType.getNmembers(); ++i) {
+      const unsigned memberIndex = static_cast<unsigned>(i);
+      const H5::DataType memberType = compType.getMemberDataType(memberIndex);
+      const H5T_class_t memberClass = memberType.getClass();
+      if (memberClass != H5T_INTEGER && memberClass != H5T_FLOAT) {
+        // Compound types with non-numeric members (e.g., references or
+        // strings) are not supported. Use the default type as for other
+        // unsupported types. readDataset throws for such data.
+        return IO::BaseDataType(IO::BaseDataType::Type::T_I32);
+      }
+      members.push_back(
+          {compType.getMemberName(memberIndex),
+           getBaseDataType(memberType).type,
+           static_cast<SizeType>(compType.getMemberOffset(memberIndex))});
+    }
+    return IO::BaseDataType::Compound(members, compType.getSize());
   } else if (nativeType.getClass() == H5T_ARRAY) {
     // Array type: get the base type and size
     hid_t nativeTypeId = nativeType.getId();
@@ -2006,6 +2081,20 @@ H5::DataType HDF5IO::getH5Type(IO::BaseDataType type)
       StrType strType(PredType::C_S1, static_cast<size_t>(H5T_VARIABLE));
       strType.setCset(H5T_CSET_UTF8);
       return strType;
+    }
+    case BaseDataType::Type::T_COMPOUND: {
+      // Use the same layout in the file as in memory with little-endian
+      // member types
+      CompType compType(static_cast<size_t>(type.compoundSize));
+      for (const auto& member : type.members) {
+        compType.insertMember(member.name,
+                              static_cast<size_t>(member.offset),
+                              getH5Type(BaseDataType(member.type)));
+      }
+      // Pack the type such that padding bytes of the memory layout are not
+      // stored in the file
+      compType.pack();
+      return compType;
     }
     default:
       return PredType::STD_I32LE;

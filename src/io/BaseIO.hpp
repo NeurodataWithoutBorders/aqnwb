@@ -63,6 +63,28 @@ public:
     T_F64,  ///< 64-bit floating point
     T_STR,  ///< String
     V_STR,  ///< Variable length string
+    T_COMPOUND,  ///< Compound (struct) type, see members
+  };
+
+  /**
+   * @brief A member (field) of a compound data type.
+   *
+   * Members are scalar numeric types. The layout of a compound value in
+   * memory is described by the offset of each member and the total size of
+   * the compound type (see compoundSize), e.g., as given by `offsetof` and
+   * `sizeof` of a corresponding C++ struct.
+   */
+  struct CompoundMember
+  {
+    std::string name;  ///< The name of the member.
+    Type type = T_I32;  ///< The (scalar numeric) type of the member.
+    SizeType offset = 0;  ///< The offset of the member in bytes.
+
+    /// @brief Equality operator.
+    bool operator==(const CompoundMember& other) const
+    {
+      return name == other.name && type == other.type && offset == other.offset;
+    }
   };
 
   /**
@@ -75,6 +97,10 @@ public:
 
   Type type;  ///< The data type.
   SizeType typeSize;  ///< The size of the data type.
+  /// @brief The members of a compound type (only used for T_COMPOUND).
+  std::vector<CompoundMember> members;
+  /// @brief The size of a compound value in bytes (only used for T_COMPOUND).
+  SizeType compoundSize = 0;
 
   // handy accessors
   static const BaseDataType U8;  ///< Accessor for unsigned 8-bit integer.
@@ -91,10 +117,94 @@ public:
   static BaseDataType STR(
       SizeType size);  ///< Accessor for string with specified size.
 
+  /**
+   * @brief Create a compound data type.
+   *
+   * Example for a C++ struct:
+   * @code
+   * struct PixelMask { uint32_t x; uint32_t y; float weight; };
+   * auto type = BaseDataType::Compound(
+   *     {{"x", BaseDataType::T_U32, offsetof(PixelMask, x)},
+   *      {"y", BaseDataType::T_U32, offsetof(PixelMask, y)},
+   *      {"weight", BaseDataType::T_F32, offsetof(PixelMask, weight)}},
+   *     sizeof(PixelMask));
+   * @endcode
+   *
+   * @param members The members of the compound type. Must be scalar numeric
+   * types.
+   * @param size The size of a compound value in bytes.
+   * @return The compound data type.
+   * @throws std::invalid_argument if the members are empty, not scalar
+   * numeric types, have duplicate names, or do not fit into size bytes.
+   */
+  static BaseDataType Compound(const std::vector<CompoundMember>& members,
+                               SizeType size);
+
+  /**
+   * @brief Check whether this is a compound data type.
+   * @return True if the type is T_COMPOUND.
+   */
+  inline bool isCompound() const { return type == T_COMPOUND; }
+
+  /**
+   * @brief Get the number of bytes of a scalar numeric type.
+   * @param type The scalar numeric type.
+   * @return The number of bytes, or 0 for strings and compound types.
+   */
+  static SizeType getScalarNumBytes(Type type)
+  {
+    switch (type) {
+      case T_U8:
+      case T_I8:
+        return 1;
+      case T_U16:
+      case T_I16:
+        return 2;
+      case T_U32:
+      case T_I32:
+      case T_F32:
+        return 4;
+      case T_U64:
+      case T_I64:
+      case T_F64:
+        return 8;
+      case T_STR:
+      case V_STR:
+      case T_COMPOUND:
+        return 0;
+    }
+    return 0;
+  }
+
+  /**
+   * @brief Get the number of bytes of a single element of this data type.
+   *
+   * Numeric types with a typeSize > 1 are arrays of typeSize values per
+   * element (see HDF5IO::getH5Type). Variable-length strings are stored as
+   * pointers.
+   *
+   * @return The number of bytes per element.
+   */
+  SizeType getNumBytes() const
+  {
+    const SizeType arrayLength = std::max<SizeType>(1, typeSize);
+    switch (type) {
+      case T_STR:
+        return typeSize;
+      case V_STR:
+        return sizeof(void*);
+      case T_COMPOUND:
+        return compoundSize * arrayLength;
+      default:
+        return getScalarNumBytes(type) * arrayLength;
+    }
+  }
+
   // Define the equality operator
   bool operator==(const BaseDataType& other) const
   {
-    return type == other.type && typeSize == other.typeSize;
+    return type == other.type && typeSize == other.typeSize
+        && members == other.members && compoundSize == other.compoundSize;
   }
 
   // Variant data type for representing a single scalar with BaseDataType values
@@ -140,6 +250,9 @@ public:
       case T_STR:
       case V_STR:
         return std::vector<std::string> {};
+      case T_COMPOUND:
+        // Compound values are not supported by the vector variant
+        break;
     }
     return std::monostate {};
   }

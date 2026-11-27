@@ -883,7 +883,7 @@ Status NWBFile::createSpikeEventSeries(
     // chosen such that a chunk is about SPIKE_CHUNK_TARGET_BYTES in size.
     const bool singleChannel = channelVector.size() == 1;
     const SizeType eventBytes =
-        channelVector.size() * numSamples * getNumBytes(dataType);
+        channelVector.size() * numSamples * dataType.getNumBytes();
     const SizeType eventsPerChunk =
         std::max<SizeType>(1, SPIKE_CHUNK_TARGET_BYTES / eventBytes);
     IO::ArrayDataSetConfig config(
@@ -973,32 +973,5 @@ void NWBFile::cacheSpecifications(const Types::NamespaceInfo& namespaceInfo)
     ioPtr->createStringDataSet(
         AQNWB::mergePaths(specFullVersionPath, std::string(name)),
         std::string(content));
-  }
-}
-
-SizeType NWBFile::getNumBytes(const IO::BaseDataType& dataType)
-{
-  using AQNWB::IO::BaseDataType;
-  const SizeType arrayLength = std::max<SizeType>(1, dataType.typeSize);
-  switch (dataType.type) {
-    case BaseDataType::T_U8:
-    case BaseDataType::T_I8:
-      return arrayLength;
-    case BaseDataType::T_U16:
-    case BaseDataType::T_I16:
-      return 2 * arrayLength;
-    case BaseDataType::T_U32:
-    case BaseDataType::T_I32:
-    case BaseDataType::T_F32:
-      return 4 * arrayLength;
-    case BaseDataType::T_U64:
-    case BaseDataType::T_I64:
-    case BaseDataType::T_F64:
-      return 8 * arrayLength;
-    case BaseDataType::T_STR:
-      return dataType.typeSize;
-    case BaseDataType::V_STR:
-    default:
-      return sizeof(void*);
   }
 }

@@ -193,6 +193,99 @@ TEST_CASE("ophys ROI types", "[ophys]")
   readIO->close();
 }
 
+TEST_CASE("PlaneSegmentation with pixel and voxel masks", "[ophys]")
+{
+  std::string path = getTestFilePath("testOphysPixelMasks.nwb");
+  std::shared_ptr<IO::BaseIO> io = createIO("HDF5", path);
+  io->open();
+  auto nwbfile = NWB::NWBFile::create(io);
+  std::string currentTime = getCurrentTime();
+  REQUIRE(nwbfile->initialize(generateUuid(),
+                              "pixel mask session",
+                              "",
+                              currentTime,
+                              currentTime,
+                              getTestSubjectSpec())
+          == Status::Success);
+  auto microscope = NWB::Device::create("/general/devices/microscope", io);
+  REQUIRE(
+      microscope->initialize(NWB::Device::Spec().withDescription("microscope"))
+      == Status::Success);
+  auto imagingPlane = NWB::Ophys::createImagingPlane(
+      *nwbfile,
+      "imaging_plane",
+      NWB::ImagingPlane::Spec()
+          .withExcitationLambda(920.0f)
+          .withIndicator("GCaMP6s")
+          .withLocation("VISp")
+          .withDevice(microscope)
+          .withOpticalChannel("green",
+                              NWB::OpticalChannel::Spec()
+                                  .withDescription("green channel")
+                                  .withEmissionLambda(510.0f)));
+
+  // [example_ophys_pixel_masks_snippet]
+  // A PlaneSegmentation with the ROIs defined by pixel masks
+  auto pixelSegmentation = NWB::Ophys::createPlaneSegmentation(
+      *nwbfile,
+      "PixelSegmentation",
+      NWB::PlaneSegmentation::Spec()
+          .withDescription("ROIs defined by pixel masks")
+          .withImagingPlane(imagingPlane)
+          .withPixelMask(true));
+  // Each ROI is a list of (x, y, weight) entries
+  Status status = pixelSegmentation->addPixelMasks(
+      {{{0, 0, 1.0f}, {0, 1, 0.5f}},
+       {{5, 5, 1.0f}, {5, 6, 1.0f}, {6, 5, 1.0f}}});
+  // [example_ophys_pixel_masks_snippet]
+  REQUIRE(status == Status::Success);
+  REQUIRE(pixelSegmentation->addPixelMasks({{{9, 9, 0.25f}}})
+          == Status::Success);
+  REQUIRE(pixelSegmentation->addImageMasks(1, nullptr)
+          == Status::Failure);  // no image_mask column
+
+  auto voxelSegmentation = NWB::Ophys::createPlaneSegmentation(
+      *nwbfile,
+      "VoxelSegmentation",
+      NWB::PlaneSegmentation::Spec()
+          .withDescription("ROIs defined by voxel masks")
+          .withImagingPlane(imagingPlane)
+          .withVoxelMask(true));
+  REQUIRE(voxelSegmentation->addVoxelMasks(
+              {{{1, 2, 3, 1.0f}}, {{4, 5, 6, 0.5f}, {7, 8, 9, 0.5f}}})
+          == Status::Success);
+  REQUIRE(voxelSegmentation->addPixelMasks({{{0, 0, 1.0f}}})
+          == Status::Failure);  // no pixel_mask column
+  REQUIRE(nwbfile->finalize() == Status::Success);
+  io->close();
+
+  std::shared_ptr<IO::BaseIO> readIO = createIO("HDF5", path);
+  readIO->open(IO::FileMode::ReadOnly);
+  auto readPixels = NWB::RegisteredType::create<NWB::PlaneSegmentation>(
+      "/processing/ophys/ImageSegmentation/PixelSegmentation", readIO);
+  REQUIRE(readPixels->getNumberOfRows() == 3);
+  auto index = readPixels->readPixelMaskIndex()->readData<uint32_t>()->values();
+  REQUIRE(index.data == std::vector<uint32_t> {2, 5, 6});
+  auto block = readIO->readDataset(
+      "/processing/ophys/ImageSegmentation/PixelSegmentation/pixel_mask");
+  REQUIRE(block.baseDataType == NWB::PlaneSegmentation::getPixelMaskType());
+  auto bytes = std::any_cast<std::vector<uint8_t>>(block.data);
+  REQUIRE(bytes.size() == 6 * sizeof(NWB::PlaneSegmentation::PixelMaskEntry));
+  const auto* entries =
+      reinterpret_cast<const NWB::PlaneSegmentation::PixelMaskEntry*>(
+          bytes.data());
+  REQUIRE(entries[1].y == 1);
+  REQUIRE(entries[4].x == 6);
+  REQUIRE(std::abs(entries[5].weight - 0.25f) < 1e-6f);
+
+  auto readVoxels = NWB::RegisteredType::create<NWB::PlaneSegmentation>(
+      "/processing/ophys/ImageSegmentation/VoxelSegmentation", readIO);
+  REQUIRE(readVoxels->getNumberOfRows() == 2);
+  REQUIRE(readVoxels->readVoxelMaskIndex()->readData<uint32_t>()->values().data
+          == std::vector<uint32_t> {1, 3});
+  readIO->close();
+}
+
 TEST_CASE("PlaneSegmentation checks", "[ophys]")
 {
   std::string path = getTestFilePath("testOphysRoiChecks.h5");
@@ -275,6 +368,48 @@ TEST_CASE("PlaneSegmentation checks", "[ophys]")
     REQUIRE(io->getStorageObjectShape(tablePath + "/quality") == SizeArray {2});
     REQUIRE(io->getStorageObjectShape(tablePath + "/image_mask")
             == SizeArray {2, 2, 2});
+  }
+
+  SECTION("several mask types per table")
+  {
+    auto columns = NWB::PlaneSegmentation::createDefaultDataSpecs();
+    columns.push_back(NWB::PlaneSegmentation::createImageMaskDataSpec({2, 2}));
+    auto segmentation = NWB::Ophys::createPlaneSegmentation(
+        *nwbfile,
+        "mixed",
+        NWB::PlaneSegmentation::Spec()
+            .withDescription("image and pixel masks")
+            .withColumns(columns)
+            .withPixelMask(true)
+            .withImagingPlane(imagingPlane));
+    REQUIRE(segmentation != nullptr);
+    std::vector<float> masks(2 * 2, 1.0f);
+    std::vector<NWB::PlaneSegmentation::RoiData> rois(1);
+    rois[0].imageMask = masks.data();
+    rois[0].pixelMask =
+        std::vector<NWB::PlaneSegmentation::PixelMaskEntry> {{0, 1, 0.5f}};
+    REQUIRE(segmentation->addRois(rois) == Status::Success);
+
+    // All mask columns must be written, i.e., the shorthands for a single
+    // mask type and ROIs without one of the masks fail
+    REQUIRE(segmentation->addImageMasks(1, masks.data()) == Status::Failure);
+    REQUIRE(segmentation->addPixelMasks({{{0, 0, 1.0f}}}) == Status::Failure);
+    REQUIRE(segmentation->addImageMasks(1, nullptr) == Status::Failure);
+    rois[0].pixelMask.reset();
+    REQUIRE(segmentation->addRois(rois) == Status::Failure);
+    rois[0].pixelMask =
+        std::vector<NWB::PlaneSegmentation::PixelMaskEntry> {{0, 1, 0.5f}};
+    rois[0].voxelMask =
+        std::vector<NWB::PlaneSegmentation::VoxelMaskEntry> {{0, 1, 2, 0.5f}};
+    REQUIRE(segmentation->addRois(rois) == Status::Failure);  // no voxel_mask
+    REQUIRE(segmentation->getNumberOfRows() == 1);
+    const std::string tablePath = segmentation->getPath();
+    REQUIRE(io->getStorageObjectShape(tablePath + "/pixel_mask")
+            == SizeArray {1});
+    REQUIRE(io->getStorageObjectShape(tablePath + "/pixel_mask_index")
+            == SizeArray {1});
+    REQUIRE(io->getStorageObjectShape(tablePath + "/image_mask")
+            == SizeArray {1, 2, 2});
   }
 
   io->close();
