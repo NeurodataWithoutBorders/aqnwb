@@ -20,6 +20,7 @@
 #include "nwb/file/ElectrodeGroup.hpp"
 #include "nwb/file/ElectrodesTable.hpp"
 #include "nwb/file/Subject.hpp"
+#include "nwb/hdmf/table/DynamicTable.hpp"
 #include "nwb/hdmf/table/VectorData.hpp"
 #include "nwb/misc/AnnotationSeries.hpp"
 #include "testUtils.hpp"
@@ -286,6 +287,36 @@ TEST_CASE("Initialize RegisteredTypes from specs", "[spec]")
   }
 }
 
+TEST_CASE("Initialize a DynamicTable from a spec", "[spec]")
+{
+  std::string path = getTestFilePath("testSpecDynamicTable.h5");
+  std::shared_ptr<IO::BaseIO> io = createIO("HDF5", path);
+  io->open();
+
+  auto columns = NWB::DynamicTable::createDefaultDataSpecs();
+  columns.push_back(NWB::VectorData::createDataSpec(
+      "values",
+      IO::ArrayDataSetConfig(IO::BaseDataType::F32, {0}, {10}),
+      "the values"));
+  auto spec = NWB::DynamicTable::Spec()
+                  .withDescription("a test table")
+                  .withColumns(columns);
+
+  auto table = NWB::DynamicTable::create("/table", io);
+  REQUIRE(table->initialize(spec) == Status::Success);
+  REQUIRE(table->finalize() == Status::Success);
+  io->close();
+
+  std::shared_ptr<IO::BaseIO> readIO = createIO("HDF5", path);
+  readIO->open(IO::FileMode::ReadOnly);
+  auto readTable =
+      NWB::RegisteredType::create<NWB::DynamicTable>("/table", readIO);
+  REQUIRE(readTable->readDescription()->values().data[0] == "a test table");
+  REQUIRE(readIO->objectExists("/table/id"));
+  REQUIRE(readIO->objectExists("/table/values"));
+  readIO->close();
+}
+
 // Disable deprecation warnings to test the deprecated positional initialize
 // overloads, which are kept for backward compatibility
 #if defined(__clang__) || defined(__GNUC__)
@@ -471,6 +502,21 @@ TEST_CASE("Failed checks in initialize do not write anything", "[spec]")
     auto group = NWB::ElectrodeGroup::create("/group", io);
     REQUIRE(group->initialize(NWB::ElectrodeGroup::Spec()) == Status::Failure);
     REQUIRE_FALSE(io->objectExists("/group"));
+  }
+
+  SECTION("invalid column specs of a table")
+  {
+    std::vector<NWB::DynamicTable::DataSpecPtr> columns = {
+        NWB::VectorData::createDataSpec(
+            "values",
+            IO::ArrayDataSetConfig(IO::BaseDataType::F32, {0}, {10}),
+            "no id column")};
+    auto table = NWB::DynamicTable::create("/table", io);
+    REQUIRE(
+        table->initialize(
+            NWB::DynamicTable::Spec().withDescription("d").withColumns(columns))
+        == Status::Failure);
+    REQUIRE_FALSE(io->objectExists("/table"));
   }
 
   SECTION("missing electrodes table")

@@ -620,9 +620,9 @@
  * The `generate-types` command, included in the 
  * [AqNWB source repository](https://github.com/NeurodataWithoutBorders/aqnwb),
  * is a simple utility designed to create skeleton C++ source files for integrating new 
- * neurodata_types with AqNWB. While the generated source files are only an outline and are not guaranteed to compile, 
- * they serve as a helpful starting point. Look for `TODO` comments in the generated files, indicating
- * items that need to be addressed. For example, if you clone the [nwb-schema repo](https://github.com/NeurodataWithoutBorders/nwb-schema/),
+ * neurodata_types with AqNWB. While the generated source files are only an outline that needs to be
+ * reviewed and completed, they serve as a helpful starting point. For example, if you clone the
+ * [nwb-schema repo](https://github.com/NeurodataWithoutBorders/nwb-schema/),
  * then the following command will generate template code for AqNWB classes 
  * for all neurodata_types in the NWB schema:
  * 
@@ -631,8 +631,54 @@
  * @endcode
  *
  * The generated files will be placed in the folder hierarchy based on the name of the namespace and 
- * source yaml file where the type is defined. E.g, `TimeSeries` is defined in `nwb.base.yaml` in the 
- * `core` NWB namespace, and will be generated as `core/base/TimeSeries.hpp`. 
+ * source yaml file where the type is defined. E.g, `PatchClampSeries` is defined in `nwb.icephys.yaml` in the
+ * `core` NWB namespace, and will be generated as `core/icephys/PatchClampSeries.hpp`. Generated headers include
+ * the schema header of their namespace as `spec/<namespace>.hpp`, i.e., run `generate-spec` with
+ * `<output folder>/spec` as output folder when compiling the generated files (e.g., for the test app).
+ *
+ * \subsection using_schematype_to_aqnwb_output What the generate-types command generates
+ *
+ * The command generates the parts of a class that can be derived from the schema:
+ *
+ * - The class with the `REGISTER_SUBCLASS` macro and the read methods for attributes, datasets,
+ *   neurodata_type objects, and links (e.g., \ref DEFINE_ATTRIBUTE_FIELD and \ref DEFINE_REGISTERED_FIELD).
+ * - For group types, the nested `Spec` struct (see \ref implement_registered_type_spec) with a field and setter
+ *   for each attribute, dataset, and link defined by the type, the re-exposed setters of the parent
+ *   Spec, and `Spec::validate` with the checks for required fields.
+ * - The `initialize(const Spec&)` method, which calls the `initialize` method of the parent
+ *   type and creates the attributes, string datasets, array datasets (from the dataset configuration
+ *   in the spec), untyped groups, and links defined by the type.
+ *
+ * neurodata_types that are already implemented in AqNWB (e.g., `TimeSeries` or `DynamicTable`) are not
+ * generated. Instead, the generated classes use the existing AqNWB classes (e.g., a generated
+ * `ImageSeries` inherits from `AQNWB::NWB::TimeSeries`). The types are found by scanning the `src` folder
+ * of AqNWB, which can be set via `--aqnwb-src-dir`. Use `--no-reuse-aqnwb-types` to generate classes for
+ * all types instead.
+ *
+ * Everything that requires a design decision is marked with a structured comment of the form
+ * `// AQNWB-TODO(<category>): <what needs to be done> -- see <reference implementation>`. The remaining
+ * work can be found via `grep -rn "AQNWB-TODO" <output folder>`. The categories are:
+ *
+ * - `child`: neurodata_type objects (and optional untyped groups) owned by the type are not part of the Spec.
+ *   Create them after initialize (e.g., via the create methods defined by \ref DEFINE_UNNAMED_REGISTERED_FIELD)
+ *   or add nested specs.
+ * - `table-columns`: Columns of \ref AQNWB::NWB::DynamicTable "DynamicTable" types. Add the specs of the
+ *   required columns to the generated `createDefaultDataSpecs` and check them in `validateDataSpecs`
+ *   (see \ref AQNWB::NWB::EventsTable "EventsTable").
+ * - `dataspec`: Types that define a dataset (e.g., subtypes of \ref AQNWB::NWB::VectorData "VectorData")
+ *   should define a nested `DataSpec` (see \ref AQNWB::NWB::TimestampVectorData "TimestampVectorData").
+ * - `dtype`: Reference, compound, undefined, and `numeric` dtypes that need to be handled manually.
+ * - `scalar-dataset`: Numeric scalar datasets, which need to be created manually.
+ * - `override`: Fields inherited from the parent for which the type sets a fixed or default value. Set
+ *   the value in the constructor of the Spec and check it in `validate` (see
+ *   \ref AQNWB::NWB::ElectricalSeries::Spec "ElectricalSeries::Spec").
+ * - `parent-spec`: The parent class does not define a Spec yet.
+ * - `link`: Unnamed links.
+ * - `nwbfile-helper`, `write-helper`, `chunking`: For `TimeSeries` types used during acquisition, consider
+ *   adding convenience functions to create the objects (see `NWBFile::createElectricalSeries`), helper
+ *   functions to write data (see `io/nwbio_utils.hpp`), and default chunking.
+ *
+ * \subsection using_schematype_to_aqnwb_test_app Generating a test app
  *
  * We can also create a simple example app that instantiates all the generated classes to make it 
  * simplify testing that all the classes can be compiled. To generate the app, simply add the

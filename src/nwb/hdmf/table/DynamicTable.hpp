@@ -44,6 +44,25 @@ public:
                     Container,
                     AQNWB::SPEC::HDMF_COMMON::namespaceName)
 
+  /**
+   * @brief Specification for initializing a DynamicTable.
+   *
+   * Subtypes of DynamicTable extend this spec with their additional fields
+   * (e.g., links) and typically provide a `createDefaultDataSpecs` method to
+   * create the default columns.
+   */
+  struct Spec : public Container::Spec
+  {
+    /// @brief Description of what is in this dynamic table.
+    DEFINE_SPEC_FIELD(Spec, std::string, description, withDescription, "")
+
+    /**
+     * @brief Ordered configuration of the columns (data objects) to create.
+     * If empty, only the default id column is created.
+     */
+    DEFINE_SPEC_FIELD(Spec, std::vector<DataSpecPtr>, columns, withColumns, {})
+  };
+
 protected:
   /**
    * @brief Constructor.
@@ -71,6 +90,19 @@ public:
    */
   Status initialize(const std::string& description,
                     const std::vector<DataSpecPtr>& dataSpecs = {});
+
+  /**
+   * @brief Initializes the `DynamicTable` object from a spec.
+   *
+   * Validates the spec and the column specs (via validateDataSpecs) before
+   * anything is written, and then calls
+   * initialize(spec.description, spec.columns).
+   *
+   * @param spec The specification of the table.
+   * @return Status::Success if successful, otherwise Status::Failure (also
+   * if the column specs are invalid).
+   */
+  Status initialize(const Spec& spec);
 
   /**
    * @brief Validates the provided data specifications for the table.
