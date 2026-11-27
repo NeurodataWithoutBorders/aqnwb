@@ -53,7 +53,10 @@ TEST_CASE("RegisteredTypeSpec type information", "[spec]")
 
   SECTION("static type information of RegisteredTypes")
   {
+    // The static methods return compile-time constants
+    // cppcheck-suppress knownConditionTrueFalse
     REQUIRE(NWB::TimeSeries::getStaticTypeName() == "TimeSeries");
+    // cppcheck-suppress knownConditionTrueFalse
     REQUIRE(NWB::TimeSeries::getStaticNamespace() == "core");
   }
 
