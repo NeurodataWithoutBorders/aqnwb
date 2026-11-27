@@ -5,7 +5,9 @@
 using namespace AQNWB::NWB;
 
 std::shared_ptr<ImagingPlane> Ophys::createImagingPlane(
-    NWBFile& nwbfile, const std::string& name, const ImagingPlane::Spec& spec)
+    const NWBFile& nwbfile,
+    const std::string& name,
+    const ImagingPlane::Spec& spec)
 {
   auto ioPtr = nwbfile.getIO();
   if (!ioPtr) {
@@ -25,7 +27,7 @@ std::shared_ptr<ImagingPlane> Ophys::createImagingPlane(
 }
 
 std::shared_ptr<TwoPhotonSeries> Ophys::createTwoPhotonSeries(
-    NWBFile& nwbfile,
+    const NWBFile& nwbfile,
     const std::string& name,
     const TwoPhotonSeries::Spec& spec)
 {
@@ -39,7 +41,7 @@ std::shared_ptr<TwoPhotonSeries> Ophys::createTwoPhotonSeries(
 }
 
 std::shared_ptr<OnePhotonSeries> Ophys::createOnePhotonSeries(
-    NWBFile& nwbfile,
+    const NWBFile& nwbfile,
     const std::string& name,
     const OnePhotonSeries::Spec& spec)
 {

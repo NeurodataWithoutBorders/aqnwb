@@ -39,7 +39,9 @@ inline const std::string OPTOPHYSIOLOGY_PATH = "/general/optophysiology";
  * @return The initialized ImagingPlane or nullptr if the creation failed.
  */
 std::shared_ptr<ImagingPlane> createImagingPlane(
-    NWBFile& nwbfile, const std::string& name, const ImagingPlane::Spec& spec);
+    const NWBFile& nwbfile,
+    const std::string& name,
+    const ImagingPlane::Spec& spec);
 
 /**
  * @brief Create and initialize a TwoPhotonSeries in the acquisition group.
@@ -54,7 +56,7 @@ std::shared_ptr<ImagingPlane> createImagingPlane(
  * @return The initialized TwoPhotonSeries or nullptr if the creation failed.
  */
 std::shared_ptr<TwoPhotonSeries> createTwoPhotonSeries(
-    NWBFile& nwbfile,
+    const NWBFile& nwbfile,
     const std::string& name,
     const TwoPhotonSeries::Spec& spec);
 
@@ -68,7 +70,7 @@ std::shared_ptr<TwoPhotonSeries> createTwoPhotonSeries(
  * @return The initialized OnePhotonSeries or nullptr if the creation failed.
  */
 std::shared_ptr<OnePhotonSeries> createOnePhotonSeries(
-    NWBFile& nwbfile,
+    const NWBFile& nwbfile,
     const std::string& name,
     const OnePhotonSeries::Spec& spec);
 
