@@ -421,6 +421,23 @@ public:
 
 protected:
   /**
+   * @brief Check that the target of a link or object reference exists in the
+   * file.
+   *
+   * Used by the initialize methods to check link targets before anything is
+   * written to the file (see RegisteredTypeSpec). Unset targets (nullptr)
+   * are not checked, since they are reported by the validate method of the
+   * spec.
+   *
+   * @param target The object to link to.
+   * @param linkName The name of the link, used in the error message.
+   * @return Status::Success if the target is unset or exists in the file,
+   * otherwise Status::Failure.
+   */
+  Status checkLinkTarget(const std::shared_ptr<const RegisteredType>& target,
+                         const std::string& linkName) const;
+
+  /**
    * @brief Helper to get an existing recording object from the IO object.
    * @param path The path of the object.
    * @param io A shared pointer to the IO object.
@@ -494,7 +511,7 @@ protected:
  * - override getTypeName for the class to return the correct type name
  * - override getNamespace for the class to return the correct namespace used
  * - static getStaticTypeName and getStaticNamespace methods to get the type
- *   name and namespace without an instance (e.g., used by REGISTER_SPEC)
+ *   name and namespace without an instance
  *
  * @param T The subclass type to register. The name must match the type in the
  * schema.

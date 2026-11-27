@@ -73,6 +73,15 @@ class HDF5ArrayDataSetConfig : public ArrayDataSetConfig
 {
 public:
   /**
+   * @brief Create a copy of the configuration, including the filters.
+   * @return The copy.
+   */
+  std::shared_ptr<BaseArrayDataSetConfig> clone() const override
+  {
+    return std::make_shared<HDF5ArrayDataSetConfig>(*this);
+  }
+
+  /**
    * @brief Constructs an HDF5ArrayDataSetConfig object with the specified type,
    * shape, and chunking.
    * @param type The data type of the dataset.
