@@ -26,8 +26,10 @@ Status CorrectedImageStack::Spec::validate() const
               << std::endl;
     status = Status::Failure;
   }
-  status = status && corrected.validate();
-  status = status && xyTranslation.validate();
+  // Validate both nested specs to report all problems
+  const Status correctedStatus = corrected.validate();
+  const Status xyTranslationStatus = xyTranslation.validate();
+  status = status && correctedStatus && xyTranslationStatus;
   if (xyTranslation.data != nullptr && !xyTranslation.data->isLink()) {
     SizeArray shape, chunking;
     IO::BaseDataType dataType;
@@ -52,16 +54,38 @@ Status CorrectedImageStack::initialize(const Spec& spec)
               << std::endl;
     return Status::Failure;
   }
+  // Check the link targets and the data of the child series before anything
+  // is written
+  if (checkLinkTarget(spec.original, "original") != Status::Success
+      || checkLinkTarget(spec.corrected.device, "corrected/device")
+          != Status::Success)
+  {
+    return Status::Failure;
+  }
+  SizeArray shape, chunking;
+  IO::BaseDataType dataType;
+  if (TimeSeries::checkDataConfig(
+          spec.corrected, *ioPtr, shape, chunking, dataType)
+          != Status::Success
+      || TimeSeries::checkDataConfig(
+             spec.xyTranslation, *ioPtr, shape, chunking, dataType)
+          != Status::Success)
+  {
+    return Status::Failure;
+  }
   Status status = NWBDataInterface::initialize(spec);
   if (status != Status::Success) {
     return Status::Failure;
   }
 
-  auto corrected = spec.corrected.createAndInitialize(
-      AQNWB::mergePaths(m_path, "corrected"), ioPtr);
-  auto xyTranslation = spec.xyTranslation.createAndInitialize(
-      AQNWB::mergePaths(m_path, "xy_translation"), ioPtr);
-  if (corrected == nullptr || xyTranslation == nullptr) {
+  auto corrected =
+      ImageSeries::create(AQNWB::mergePaths(m_path, "corrected"), ioPtr);
+  auto xyTranslation =
+      TimeSeries::create(AQNWB::mergePaths(m_path, "xy_translation"), ioPtr);
+  if (corrected == nullptr || xyTranslation == nullptr
+      || corrected->initialize(spec.corrected) != Status::Success
+      || xyTranslation->initialize(spec.xyTranslation) != Status::Success)
+  {
     std::cerr << "CorrectedImageStack::initialize: Failed to create the "
                  "corrected or xy_translation series."
               << std::endl;

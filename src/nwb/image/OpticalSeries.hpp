@@ -29,8 +29,6 @@ public:
    */
   struct Spec : public ImageSeries::Spec
   {
-    REGISTER_SPEC(OpticalSeries, ImageSeries::Spec)
-
     /// @brief Distance from the camera or monitor to the target, in meters.
     DEFINE_SPEC_FIELD(
         Spec, std::optional<float>, distance, withDistance, std::nullopt)

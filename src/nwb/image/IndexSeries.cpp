@@ -56,11 +56,32 @@ Status IndexSeries::initialize(const Spec& spec)
               << std::endl;
     return Status::Failure;
   }
+  // Check the link targets before anything is written
+  if (checkLinkTarget(spec.indexedImages, "indexedImages") != Status::Success) {
+    return Status::Failure;
+  }
+  if (checkLinkTarget(spec.indexedTimeseries, "indexedTimeseries")
+      != Status::Success)
+  {
+    return Status::Failure;
+  }
+  // The schema requires that the indexed Images define the order of the
+  // images, which the indices refer to
+  if (spec.indexedImages != nullptr
+      && !ioPtr->objectExists(
+          AQNWB::mergePaths(spec.indexedImages->getPath(), "order_of_images")))
+  {
+    std::cerr << "IndexSeries::initialize: The indexed Images "
+              << spec.indexedImages->getPath()
+              << " must define the order of the images (see "
+                 "Images::setOrderOfImages)."
+              << std::endl;
+    return Status::Failure;
+  }
   Status status = TimeSeries::initialize(spec);
   if (status != Status::Success) {
     return Status::Failure;
   }
-  m_samplesRecorded = 0;
   if (spec.indexedImages != nullptr) {
     status = status
         && ioPtr->createLink(
@@ -80,10 +101,5 @@ Status IndexSeries::writeIndices(const SizeType& numSamples,
                                  const uint32_t* indices,
                                  const void* timestampsInput)
 {
-  Status status = this->writeData(
-      {numSamples}, {m_samplesRecorded}, indices, timestampsInput);
-  if (status == Status::Success) {
-    m_samplesRecorded += numSamples;
-  }
-  return status;
+  return appendSamples(numSamples, indices, timestampsInput);
 }

@@ -63,8 +63,6 @@ public:
    */
   struct Spec : public NWBDataInterface::Spec
   {
-    REGISTER_SPEC(Images, NWBDataInterface::Spec)
-
     /// @brief Description of this collection of images. Required.
     DEFINE_SPEC_FIELD(Spec, std::string, description, withDescription, "")
 

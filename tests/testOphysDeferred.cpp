@@ -57,9 +57,10 @@ TEST_CASE("Images, IndexSeries, OpticalSeries, and ImageMaskSeries", "[ophys]")
 
   // [example_images_snippet]
   // A collection of stimulus images in /stimulus/templates
-  auto images = NWB::Images::Spec()
-                    .withDescription("Natural scenes")
-                    .createAndInitialize("/stimulus/templates/scenes", io);
+  auto images = NWB::Images::create("/stimulus/templates/scenes", io);
+  REQUIRE(
+      images->initialize(NWB::Images::Spec().withDescription("Natural scenes"))
+      == Status::Success);
   std::vector<uint8_t> grayPixels(4 * 3, 100);
   auto gray = images->createImage<NWB::GrayscaleImage>("gray");
   Status status = gray->initialize(
@@ -211,9 +212,10 @@ TEST_CASE("MotionCorrection", "[ophys]")
                               currentTime,
                               getTestSubjectSpec())
           == Status::Success);
-  auto microscope = NWB::Device::Spec()
-                        .withDescription("microscope")
-                        .createAndInitialize("/general/devices/microscope", io);
+  auto microscope = NWB::Device::create("/general/devices/microscope", io);
+  REQUIRE(
+      microscope->initialize(NWB::Device::Spec().withDescription("microscope"))
+      == Status::Success);
   auto imagingPlane = NWB::Ophys::createImagingPlane(
       *nwbfile,
       "imaging_plane",
@@ -290,6 +292,25 @@ TEST_CASE("MotionCorrection", "[ophys]")
                                  .withUnit("pixels"))
           .validate()
       == Status::Failure);  // xy_translation must have 2 columns
+
+  // The data of the child series is checked before the stack is created
+  auto invalidStack = NWB::CorrectedImageStack::create(
+      "/processing/ophys/MotionCorrection/InvalidStack", io);
+  REQUIRE(invalidStack->initialize(
+              NWB::CorrectedImageStack::Spec()
+                  .withOriginal(raw)
+                  .withCorrected(
+                      NWB::ImageSeries::Spec()
+                          .withData(IO::LinkArrayDataSetConfig("/missing/data"))
+                          .withUnit("n.a."))
+                  .withXyTranslation(
+                      NWB::TimeSeries::Spec()
+                          .withData(IO::ArrayDataSetConfig(
+                              IO::BaseDataType::F32, {0, 2}, {100, 2}))
+                          .withUnit("pixels")))
+          == Status::Failure);
+  REQUIRE_FALSE(
+      io->objectExists("/processing/ophys/MotionCorrection/InvalidStack"));
   io->close();
 
   std::shared_ptr<IO::BaseIO> readIO = createIO("HDF5", path);
@@ -304,4 +325,52 @@ TEST_CASE("MotionCorrection", "[ophys]")
   REQUIRE(readStack->readOriginal()->readDataUnit()->values().data[0]
           == "n.a.");
   readIO->close();
+}
+
+TEST_CASE("IndexSeries checks", "[ophys]")
+{
+  std::string path = getTestFilePath("testOphysIndexChecks.h5");
+  std::shared_ptr<IO::BaseIO> io = createIO("HDF5", path);
+  io->open();
+  auto nwbfile = NWB::NWBFile::create(io);
+  std::string currentTime = getCurrentTime();
+  REQUIRE(nwbfile->initialize(generateUuid(),
+                              "IndexSeries checks",
+                              "",
+                              currentTime,
+                              currentTime,
+                              getTestSubjectSpec())
+          == Status::Success);
+  auto microscope = NWB::Device::create("/general/devices/microscope", io);
+  REQUIRE(
+      microscope->initialize(NWB::Device::Spec().withDescription("microscope"))
+      == Status::Success);
+  auto planeSpec = NWB::ImagingPlane::Spec()
+                       .withExcitationLambda(920.0f)
+                       .withIndicator("GCaMP6s")
+                       .withLocation("VISp")
+                       .withDevice(microscope)
+                       .withOpticalChannel("green",
+                                           NWB::OpticalChannel::Spec()
+                                               .withDescription("green channel")
+                                               .withEmissionLambda(510.0f));
+  auto imagingPlane =
+      NWB::Ophys::createImagingPlane(*nwbfile, "imaging_plane", planeSpec);
+  REQUIRE(imagingPlane != nullptr);
+
+  SECTION("IndexSeries requires the order of the images")
+  {
+    auto images = NWB::Images::create("/stimulus/templates/unordered", io);
+    REQUIRE(images->initialize(NWB::Images::Spec().withDescription("unordered"))
+            == Status::Success);
+    auto indexSeries =
+        nwbfile->createAquisitionSeries<NWB::IndexSeries>("indices");
+    REQUIRE(indexSeries->initialize(NWB::IndexSeries::Spec()
+                                        .withData(IO::ArrayDataSetConfig(
+                                            IO::BaseDataType::U32, {0}, {10}))
+                                        .withIndexedImages(images))
+            == Status::Failure);
+    REQUIRE_FALSE(io->objectExists("/acquisition/indices"));
+  }
+  io->close();
 }
