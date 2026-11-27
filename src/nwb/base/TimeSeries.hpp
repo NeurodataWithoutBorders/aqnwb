@@ -73,8 +73,6 @@ public:
    */
   struct Spec : public NWBDataInterface::Spec
   {
-    REGISTER_SPEC(TimeSeries, NWBDataInterface::Spec)
-
     /// @brief Shared pointer to a dataset configuration (const)
     using DataConfigPtr = std::shared_ptr<const IO::BaseArrayDataSetConfig>;
 
@@ -261,6 +259,29 @@ public:
    * @return Status::Success if successful, otherwise Status::Failure.
    */
   Status initialize(const Spec& spec);
+
+  /**
+   * @brief Check the data configuration of a spec against the file.
+   *
+   * Gets the shape, chunking, and data type of the data and, for linked data,
+   * checks that the target exists and has the attributes required by a
+   * TimeSeries. initialize calls this check before anything is written. Types
+   * that create TimeSeries as children (e.g., CorrectedImageStack) can call it
+   * before creating their own group. An unset data configuration is not
+   * checked, since it is reported by Spec::validate.
+   *
+   * @param spec The specification of the TimeSeries.
+   * @param io The IO object of the file.
+   * @param[out] shape The shape of the data.
+   * @param[out] chunking The chunking of the data.
+   * @param[out] dataType The data type of the data.
+   * @return Status::Success if the data configuration is valid for the file.
+   */
+  static Status checkDataConfig(const Spec& spec,
+                                const IO::BaseIO& io,
+                                SizeArray& shape,
+                                SizeArray& chunking,
+                                IO::BaseDataType& dataType);
 
   /**
    * @brief Append samples to the data (and timestamps and control) of the

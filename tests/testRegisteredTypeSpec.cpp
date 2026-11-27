@@ -26,32 +26,8 @@
 
 using namespace AQNWB;
 
-TEST_CASE("RegisteredTypeSpec type information", "[spec]")
+TEST_CASE("RegisteredTypeSpec base class", "[spec]")
 {
-  SECTION("specs report the type of their owner")
-  {
-    NWB::TimeSeries::Spec tsSpec;
-    REQUIRE(tsSpec.getTypeName() == "TimeSeries");
-    REQUIRE(tsSpec.getNamespace() == "core");
-    REQUIRE(tsSpec.getFullTypeName() == "core::TimeSeries");
-
-    NWB::ElectricalSeries::Spec esSpec;
-    REQUIRE(esSpec.getFullTypeName() == "core::ElectricalSeries");
-
-    NWB::Container::Spec containerSpec;
-    REQUIRE(containerSpec.getFullTypeName() == "hdmf-common::Container");
-
-    NWB::Subject::Spec subjectSpec;
-    REQUIRE(subjectSpec.getFullTypeName() == "core::Subject");
-  }
-
-  SECTION("type information is available via a base spec reference")
-  {
-    NWB::SpikeEventSeries::Spec sesSpec;
-    const NWB::RegisteredTypeSpec& baseRef = sesSpec;
-    REQUIRE(baseRef.getFullTypeName() == "core::SpikeEventSeries");
-  }
-
   SECTION("static type information of RegisteredTypes")
   {
     // The static methods return compile-time constants
@@ -68,7 +44,6 @@ TEST_CASE("RegisteredTypeSpec type information", "[spec]")
         IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {10}),
         "a column");
     std::shared_ptr<NWB::RegisteredTypeSpec> baseSpec = dataSpec;
-    REQUIRE(baseSpec->getFullTypeName() == "hdmf-common::VectorData");
     REQUIRE(baseSpec->validate() == Status::Success);
   }
 }
@@ -234,26 +209,28 @@ TEST_CASE("Initialize RegisteredTypes from specs", "[spec]")
     io->close();
   }
 
-  SECTION("createAndInitialize")
+  SECTION("create and initialize from a spec")
   {
-    std::string path = getTestFilePath("testSpecCreateAndInitialize.h5");
+    std::string path = getTestFilePath("testSpecCreateInitialize.h5");
     std::shared_ptr<IO::BaseIO> io = createIO("HDF5", path);
     io->open();
 
-    auto module = NWB::ProcessingModule::Spec()
-                      .withDescription("processed data")
-                      .createAndInitialize("/processing_module", io);
+    auto module = NWB::ProcessingModule::create("/processing_module", io);
     REQUIRE(module != nullptr);
+    REQUIRE(module->initialize(
+                NWB::ProcessingModule::Spec().withDescription("processed data"))
+            == Status::Success);
     REQUIRE(module->getPath() == "/processing_module");
 
-    auto device = NWB::Device::Spec()
-                      .withDescription("a device")
-                      .createAndInitialize("/device", io);
+    auto device = NWB::Device::create("/device", io);
     REQUIRE(device != nullptr);
+    REQUIRE(device->initialize(NWB::Device::Spec().withDescription("a device"))
+            == Status::Success);
 
-    auto invalidGroup =
-        NWB::ElectrodeGroup::Spec().createAndInitialize("/invalid_group", io);
-    REQUIRE(invalidGroup == nullptr);
+    auto invalidGroup = NWB::ElectrodeGroup::create("/invalid_group", io);
+    REQUIRE(invalidGroup->initialize(NWB::ElectrodeGroup::Spec())
+            == Status::Failure);
+    REQUIRE_FALSE(io->objectExists("/invalid_group"));
     io->close();
 
     std::shared_ptr<IO::BaseIO> readIO = createIO("HDF5", path);
@@ -309,7 +286,6 @@ TEST_CASE("Initialize a DynamicTable from a spec", "[spec]")
   auto spec = NWB::DynamicTable::Spec()
                   .withDescription("a test table")
                   .withColumns(columns);
-  REQUIRE(spec.getFullTypeName() == "hdmf-common::DynamicTable");
 
   auto table = NWB::DynamicTable::create("/table", io);
   REQUIRE(table->initialize(spec) == Status::Success);
@@ -490,39 +466,68 @@ TEST_CASE("TimeSeries::appendSamples", "[spec]")
   readIO->close();
 }
 
-TEST_CASE("Invalid specs do not create objects", "[spec]")
+TEST_CASE("Failed checks in initialize do not write anything", "[spec]")
 {
   std::string path = getTestFilePath("testSpecNoPartialObjects.h5");
   std::shared_ptr<IO::BaseIO> io = createIO("HDF5", path);
   io->open();
-  const SizeType numRecordingObjects = io->getRecordingObjects()->size();
 
-  // createAndInitialize validates the spec before creating the object
-  REQUIRE(NWB::ElectrodeGroup::Spec().createAndInitialize("/group", io)
-          == nullptr);
-  REQUIRE(io->getRecordingObjects()->size() == numRecordingObjects);
-  REQUIRE_FALSE(io->objectExists("/group"));
+  SECTION("invalid spec")
+  {
+    auto group = NWB::ElectrodeGroup::create("/group", io);
+    REQUIRE(group->initialize(NWB::ElectrodeGroup::Spec()) == Status::Failure);
+    REQUIRE_FALSE(io->objectExists("/group"));
+  }
 
-  // Invalid column specs of a table fail without creating the table
-  std::vector<NWB::DynamicTable::DataSpecPtr> columns = {
-      NWB::VectorData::createDataSpec(
-          "values",
-          IO::ArrayDataSetConfig(IO::BaseDataType::F32, {0}, {10}),
-          "no id column")};
-  auto table = NWB::DynamicTable::create("/table", io);
-  REQUIRE(
-      table->initialize(
-          NWB::DynamicTable::Spec().withDescription("d").withColumns(columns))
-      == Status::Failure);
-  REQUIRE_FALSE(io->objectExists("/table"));
+  SECTION("invalid column specs of a table")
+  {
+    std::vector<NWB::DynamicTable::DataSpecPtr> columns = {
+        NWB::VectorData::createDataSpec(
+            "values",
+            IO::ArrayDataSetConfig(IO::BaseDataType::F32, {0}, {10}),
+            "no id column")};
+    auto table = NWB::DynamicTable::create("/table", io);
+    REQUIRE(
+        table->initialize(
+            NWB::DynamicTable::Spec().withDescription("d").withColumns(columns))
+        == Status::Failure);
+    REQUIRE_FALSE(io->objectExists("/table"));
+  }
 
-  // An ElectricalSeries requires the electrodes table
-  auto es = NWB::ElectricalSeries::create("/es", io);
-  REQUIRE(es->initialize(NWB::ElectricalSeries::Spec()
-                             .withData(IO::ArrayDataSetConfig(
-                                 IO::BaseDataType::F32, {0, 2}, {10, 2}))
-                             .withChannelVector(getMockChannelArrays(2, 1)[0]))
-          == Status::Failure);
-  REQUIRE_FALSE(io->objectExists("/es"));
+  SECTION("missing electrodes table")
+  {
+    auto es = NWB::ElectricalSeries::create("/es", io);
+    REQUIRE(
+        es->initialize(NWB::ElectricalSeries::Spec()
+                           .withData(IO::ArrayDataSetConfig(
+                               IO::BaseDataType::F32, {0, 2}, {10, 2}))
+                           .withChannelVector(getMockChannelArrays(2, 1)[0]))
+        == Status::Failure);
+    REQUIRE_FALSE(io->objectExists("/es"));
+  }
+
+  SECTION("link target that is not in the file")
+  {
+    // The device object exists but has not been initialized in the file
+    auto device = NWB::Device::create("/device", io);
+    auto group = NWB::ElectrodeGroup::create("/group", io);
+    REQUIRE(group->initialize(NWB::ElectrodeGroup::Spec()
+                                  .withDescription("a group")
+                                  .withLocation("CA1")
+                                  .withDevice(device))
+            == Status::Failure);
+    REQUIRE_FALSE(io->objectExists("/group"));
+  }
+
+  SECTION("linked data with a missing target")
+  {
+    auto series = NWB::TimeSeries::create("/series", io);
+    REQUIRE(series->initialize(
+                NWB::TimeSeries::Spec()
+                    .withData(IO::LinkArrayDataSetConfig("/missing/data"))
+                    .withUnit("volts"))
+            == Status::Failure);
+    REQUIRE_FALSE(io->objectExists("/series"));
+  }
   io->close();
 }

@@ -116,6 +116,10 @@ Status ImagingPlane::initialize(const Spec& spec)
     return Status::Failure;
   }
 
+  // Check the link targets before anything is written
+  if (checkLinkTarget(spec.device, "device") != Status::Success) {
+    return Status::Failure;
+  }
   // Validate the spec and create the group
   Status status = NWBContainer::initialize(spec);
   if (status != Status::Success) {

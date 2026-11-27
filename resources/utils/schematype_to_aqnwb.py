@@ -1138,7 +1138,7 @@ def scan_aqnwb_types(src_dir: Path) -> Dict[Tuple[str, str], Dict]:
     """
     Scan the AqNWB source tree for neurodata_types that are already implemented.
 
-    The headers are scanned per class, i.e., the ``REGISTER_SUBCLASS``, ``REGISTER_SPEC``, and
+    The headers are scanned per class, i.e., the ``REGISTER_SUBCLASS``, the nested ``struct Spec``, and
     setters are only taken from the body of the class that registers the type. Types without
     their own Spec inherit the Spec of their nearest base class with a Spec.
 
@@ -1187,7 +1187,8 @@ def scan_aqnwb_types(src_dir: Path) -> Dict[Tuple[str, str], Dict]:
                 "spec_class": None,
                 "setters": [],
             }
-            own_specs[type_name] = setters if "REGISTER_SPEC(" in body else None
+            has_own_spec = re.search(r"\bstruct\s+Spec\s*:", body) is not None
+            own_specs[type_name] = setters if has_own_spec else None
     # Resolve the Spec of each type through the chain of base classes
     for key, info in aqnwb_types.items():
         class_name = key[1]
@@ -1706,8 +1707,6 @@ def render_spec_header(neurodata_type: Spec, all_types: Dict[str, Spec], type_to
      */
     struct Spec : public {base_spec}
     {{
-        REGISTER_SPEC({class_name}, {base_spec})
-
 """
     if not parent["has_spec"] and class_name != "Container":
         src += aqnwb_todo("parent-spec", f"{parent['parent_class']} does not define a Spec", indent="        ")
@@ -1929,6 +1928,13 @@ Status {class_name}::Spec::validate() const
                 f"Call the initialize method of {parent['parent_class']}. Only the Container is initialized")
             parent_call += f"    Status status = AQNWB::NWB::Container::initialize({spec_var});\n"
         parent_call += "    if (status != Status::Success) {\n        return Status::Failure;\n    }\n"
+        # Check the link targets before the parent creates the object in the file
+        link_checks = "".join(
+            f"    if (checkLinkTarget(spec.{f['var']}, \"{f['name']}\") != Status::Success) {{\n"
+            f"        return Status::Failure;\n    }}\n"
+            for f in fields if f["kind"] in ("link", "ref-attribute") and f["var"])
+        if link_checks:
+            parent_call = "    // Check the link targets before anything is written\n" + link_checks + parent_call
     fields_src = "".join(_render_field_init(field, class_name) for field in fields)
     src += f"""
 // Initialize the object
@@ -2562,7 +2568,7 @@ int main(int argc, char* argv[])
             spec_src = ""
             if not isinstance(neurodata_types[type_name], DatasetSpec):
                 spec_src = f"""            {cpp_namespace}::{type_name}::Spec {type_name.lower()}_spec;
-            std::cout << "  ✓ " << {type_name.lower()}_spec.getFullTypeName() << " Spec created successfully" << std::endl;
+            std::cout << "  ✓ {type_name}::Spec created successfully: " << ({type_name.lower()}_spec.validate() == AQNWB::Types::Status::Success ? "valid" : "not valid (expected for default values)") << std::endl;
 """
             main_content += f"""        try {{
             std::string {type_name.lower()}_path = "/test_{type_name.lower()}";

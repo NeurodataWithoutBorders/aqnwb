@@ -73,8 +73,8 @@ Status DynamicTable::initialize(const std::string& description,
 Status DynamicTable::initialize(const Spec& spec)
 {
   if (spec.validate() != Status::Success) {
-    std::cerr << "DynamicTable::initialize: Invalid " << spec.getTypeName()
-              << " spec for " << m_path << std::endl;
+    std::cerr << "DynamicTable::initialize: Invalid spec for " << getTypeName()
+              << " " << m_path << std::endl;
     return Status::Failure;
   }
   // Validate the columns before the table is created in the file

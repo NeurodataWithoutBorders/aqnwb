@@ -34,8 +34,6 @@ public:
    */
   struct Spec : public TimeSeries::Spec
   {
-    REGISTER_SPEC(OptogeneticSeries, TimeSeries::Spec)
-
     /**
      * @brief Constructor. Sets the unit to "watts" as required by the schema.
      */

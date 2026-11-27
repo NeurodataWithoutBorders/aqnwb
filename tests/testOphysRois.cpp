@@ -43,9 +43,10 @@ TEST_CASE("ophys ROI types", "[ophys]")
                               currentTime,
                               getTestSubjectSpec())
           == Status::Success);
-  auto microscope = NWB::Device::Spec()
-                        .withDescription("microscope")
-                        .createAndInitialize("/general/devices/microscope", io);
+  auto microscope = NWB::Device::create("/general/devices/microscope", io);
+  REQUIRE(
+      microscope->initialize(NWB::Device::Spec().withDescription("microscope"))
+      == Status::Success);
   auto imagingPlane = NWB::Ophys::createImagingPlane(
       *nwbfile,
       "imaging_plane",
@@ -207,9 +208,10 @@ TEST_CASE("PlaneSegmentation with pixel and voxel masks", "[ophys]")
                               currentTime,
                               getTestSubjectSpec())
           == Status::Success);
-  auto microscope = NWB::Device::Spec()
-                        .withDescription("microscope")
-                        .createAndInitialize("/general/devices/microscope", io);
+  auto microscope = NWB::Device::create("/general/devices/microscope", io);
+  REQUIRE(
+      microscope->initialize(NWB::Device::Spec().withDescription("microscope"))
+      == Status::Success);
   auto imagingPlane = NWB::Ophys::createImagingPlane(
       *nwbfile,
       "imaging_plane",
@@ -317,9 +319,10 @@ TEST_CASE("ophys review fixes", "[ophys]")
                               currentTime,
                               getTestSubjectSpec())
           == Status::Success);
-  auto microscope = NWB::Device::Spec()
-                        .withDescription("microscope")
-                        .createAndInitialize("/general/devices/microscope", io);
+  auto microscope = NWB::Device::create("/general/devices/microscope", io);
+  REQUIRE(
+      microscope->initialize(NWB::Device::Spec().withDescription("microscope"))
+      == Status::Success);
   auto planeSpec = NWB::ImagingPlane::Spec()
                        .withExcitationLambda(920.0f)
                        .withIndicator("GCaMP6s")
@@ -438,9 +441,9 @@ TEST_CASE("ophys review fixes", "[ophys]")
 
   SECTION("IndexSeries requires the order of the images")
   {
-    auto images = NWB::Images::Spec()
-                      .withDescription("unordered")
-                      .createAndInitialize("/stimulus/templates/unordered", io);
+    auto images = NWB::Images::create("/stimulus/templates/unordered", io);
+    REQUIRE(images->initialize(NWB::Images::Spec().withDescription("unordered"))
+            == Status::Success);
     auto indexSeries =
         nwbfile->createAquisitionSeries<NWB::IndexSeries>("indices");
     REQUIRE(indexSeries->initialize(NWB::IndexSeries::Spec()
