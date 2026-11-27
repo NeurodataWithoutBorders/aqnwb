@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <stdexcept>
 
 #include "io/BaseIO.hpp"
 

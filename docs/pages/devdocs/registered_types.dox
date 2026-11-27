@@ -349,8 +349,9 @@
  * - **Inheritance:** ``T::Spec`` inherits from the spec of the parent type of ``T`` (e.g.,
  *   \ref AQNWB::NWB::ElectricalSeries::Spec "ElectricalSeries::Spec" inherits from
  *   \ref AQNWB::NWB::TimeSeries::Spec "TimeSeries::Spec"), mirroring the inheritance in the schema.
- *   The root of the hierarchy is \ref AQNWB::NWB::RegisteredTypeSpec "RegisteredTypeSpec".
- *   Use the \ref REGISTER_SPEC macro to define the type information of the spec.
+ *   The root of the hierarchy is \ref AQNWB::NWB::RegisteredTypeSpec "RegisteredTypeSpec", which only
+ *   defines the virtual ``validate()`` method. A spec does not need a macro of its own; the type it
+ *   creates is determined by the class whose ``create`` and ``initialize`` methods are called.
  * - **Fields:** Use the \ref DEFINE_SPEC_FIELD macro to define a field together with a setter method
  *   (e.g., ``withDescription``) that returns a reference to the spec, so that setters can be chained.
  *   Document the field with a regular Doxygen comment preceding the macro.
@@ -362,16 +363,29 @@
  *     \ref AQNWB::NWB::TimeSeries::Spec::data "TimeSeries::Spec::data").
  *   - Links to other objects are defined as ``std::shared_ptr`` to the target type (see
  *     \ref AQNWB::NWB::ElectrodeGroup::Spec::device "ElectrodeGroup::Spec::device").
- *   - Values that are fixed by the schema are set in the constructor of the spec (e.g., the unit of an
- *     \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries" is always "volts") and checked in ``validate()``.
+ *   - Values of inherited fields that are fixed by the schema are set in the constructor of the spec (e.g.,
+ *     the unit of an \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries" is always "volts") and checked in
+ *     ``validate()``. Fixed values of the fields defined by the type itself are not part of the spec and are
+ *     written as constants by ``initialize``.
  * - **Inherited setters:** To allow chaining of inherited setters, re-expose them in the derived spec
  *   via the \ref INHERIT_SPEC_SETTER macro (one line per setter).
  * - **Validation:** Override ``Status validate() const`` to check the values of the spec against
  *   the schema (e.g., that required values are set). Validation must not require access to the file
  *   and overrides must call ``validate`` of their base spec first.
- * - **Initialization:** ``T::initialize(const T::Spec& spec)`` calls ``Parent::initialize(spec)`` first,
- *   which validates the spec (in \ref AQNWB::NWB::Container::initialize "Container::initialize") before
- *   any object is created, and then writes the fields defined by ``T``.
+ * - **Initialization:** ``T::initialize(const T::Spec& spec)`` follows a two-phase contract:
+ *   1. **Checks:** All checks run before anything is written. Checks that need the file (e.g., that a
+ *      link target exists via ``checkLinkTarget``, or that the electrodes table exists) run in ``T::initialize``
+ *      before ``Parent::initialize(spec)`` is called. The spec itself is validated once, by
+ *      \ref AQNWB::NWB::Container::initialize "Container::initialize", before the group is created. If a
+ *      check fails, ``initialize`` returns ``Status::Failure`` and nothing is written.
+ *      File checks skip unset fields (e.g., a ``nullptr`` link), which are reported by ``validate()``.
+ *   2. **Writes:** ``Parent::initialize(spec)`` creates the object, and ``T`` then writes its own fields.
+ *      Failures in this phase are I/O errors. The object may then be partially written, and changes are
+ *      not rolled back.
+ *
+ *   Objects are always created with ``T::create(path, io)`` and then initialized with ``initialize(spec)``.
+ *   Creating an object registers it with the I/O object (see \ref AQNWB::IO::RecordingObjects "RecordingObjects"),
+ *   which tracks the created objects independent of whether they have been initialized.
  *
  * *MyContainer.hpp*
  * @code
@@ -382,8 +396,6 @@
  *
  *   struct Spec : public NWBContainer::Spec
  *   {
- *     REGISTER_SPEC(MyContainer, NWBContainer::Spec)
- *
  *     /// @brief Location of the object. Required.
  *     DEFINE_SPEC_FIELD(Spec, std::string, location, withLocation, "")
  *
@@ -406,8 +418,15 @@
  *   Status initialize(const Spec& spec)
  *   {
  *     auto ioPtr = getIO();
+ *     if (!ioPtr) {
+ *       return Status::Failure;
+ *     }
+ *     // Checks that need the file come before anything is written
+ *     if (checkLinkTarget(spec.device, "device") != Status::Success) {
+ *       return Status::Failure;
+ *     }
  *     Status status = NWBContainer::initialize(spec);  // validates the spec
- *     if (!ioPtr || status != Status::Success) {
+ *     if (status != Status::Success) {
  *       return Status::Failure;
  *     }
  *     status = status && ioPtr->createAttribute(spec.location, m_path, "location");
@@ -426,8 +445,6 @@
  * @code
  * auto obj = MyContainer::create(path, io);
  * Status status = obj->initialize(MyContainer::Spec().withLocation("CA1").withDevice(device));
- * // or in a single step
- * auto obj2 = MyContainer::Spec().withLocation("CA1").withDevice(device).createAndInitialize(path2, io);
  * @endcode
  *
  * \note
