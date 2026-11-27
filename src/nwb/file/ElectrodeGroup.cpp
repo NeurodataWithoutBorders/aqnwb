@@ -53,6 +53,10 @@ Status ElectrodeGroup::initialize(const Spec& spec)
     return Status::Failure;
   }
 
+  // Check the link targets before anything is written
+  if (checkLinkTarget(spec.device, "device") != Status::Success) {
+    return Status::Failure;
+  }
   auto ctrInitStatus = NWBContainer::initialize(spec);
   if (ctrInitStatus != Status::Success) {
     return Status::Failure;

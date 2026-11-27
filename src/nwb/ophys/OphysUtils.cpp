@@ -15,6 +15,12 @@ std::shared_ptr<ImagingPlane> Ophys::createImagingPlane(
               << std::endl;
     return nullptr;
   }
+  // Validate the spec before creating the parent group
+  if (spec.validate() != Status::Success) {
+    std::cerr << "Ophys::createImagingPlane: Invalid spec for " << name
+              << std::endl;
+    return nullptr;
+  }
   if (!ioPtr->objectExists(OPTOPHYSIOLOGY_PATH)
       && ioPtr->createGroup(OPTOPHYSIOLOGY_PATH) != Status::Success)
   {
@@ -22,8 +28,14 @@ std::shared_ptr<ImagingPlane> Ophys::createImagingPlane(
               << OPTOPHYSIOLOGY_PATH << std::endl;
     return nullptr;
   }
-  return spec.createAndInitialize(AQNWB::mergePaths(OPTOPHYSIOLOGY_PATH, name),
-                                  ioPtr);
+  auto obj =
+      ImagingPlane::create(AQNWB::mergePaths(OPTOPHYSIOLOGY_PATH, name), ioPtr);
+  if (obj == nullptr || obj->initialize(spec) != Status::Success) {
+    std::cerr << "Ophys::createImagingPlane: Failed to create " << name
+              << std::endl;
+    return nullptr;
+  }
+  return obj;
 }
 
 std::shared_ptr<TwoPhotonSeries> Ophys::createTwoPhotonSeries(
@@ -139,6 +151,10 @@ std::shared_ptr<PlaneSegmentation> Ophys::createPlaneSegmentation(
     const std::string& name,
     const PlaneSegmentation::Spec& spec)
 {
+  // Validate the spec before creating any parent containers
+  if (spec.validate() != Status::Success) {
+    return nullptr;
+  }
   auto imageSegmentation = getOrCreateOphysContainer<ImageSegmentation>(
       nwbfile, "ImageSegmentation");
   if (imageSegmentation == nullptr) {
@@ -161,6 +177,10 @@ std::shared_ptr<RoiResponseSeries> Ophys::createRoiResponseSeries(
     const std::string& name,
     const RoiResponseSeries::Spec& spec)
 {
+  // Validate the spec before creating any parent containers
+  if (spec.validate() != Status::Success) {
+    return nullptr;
+  }
   std::shared_ptr<RoiResponseSeries> series = nullptr;
   if (container == RoiResponseContainer::Fluorescence) {
     auto fluorescence =

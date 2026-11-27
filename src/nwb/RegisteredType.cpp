@@ -72,6 +72,23 @@ std::string RegisteredType::getNamespace() const
   return "";
 }
 
+Status RegisteredType::checkLinkTarget(
+    const std::shared_ptr<const RegisteredType>& target,
+    const std::string& linkName) const
+{
+  if (target == nullptr) {
+    return Status::Success;
+  }
+  auto ioPtr = getIO();
+  if (ioPtr == nullptr || !ioPtr->objectExists(target->getPath())) {
+    std::cerr << getTypeName() << "::initialize: The target of " << linkName
+              << " (" << target->getPath() << ") must be initialized before "
+              << m_path << std::endl;
+    return Status::Failure;
+  }
+  return Status::Success;
+}
+
 std::shared_ptr<RegisteredType> RegisteredType::getExistingRecordingObject(
     const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io)
 {

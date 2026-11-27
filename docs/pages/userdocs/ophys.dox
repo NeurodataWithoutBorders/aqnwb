@@ -22,9 +22,21 @@
  * objects at the locations defined by NWB.
  *
  * \note
- * The optical physiology types are part of an optional module that is enabled by default. It can be
+ * The optical physiology types and the image types in `nwb/image` (e.g., `ImageSeries`, `OpticalSeries`,
+ * `IndexSeries`, and `GrayscaleImage`) are part of an optional module that is enabled by default. It can be
  * disabled at build time via the CMake option `-DAQNWB_ENABLE_OPHYS=OFF`. The preprocessor
- * definition `AQNWB_HAS_OPHYS` indicates that the module is available.
+ * definition `AQNWB_HAS_OPHYS` indicates that the module is available. The `Images` collection and the
+ * `Image` base type are always available.
+ *
+ * \note
+ * The write methods (e.g., `ImageSeries::writeFrames`) append after the data in the file (see
+ * \ref AQNWB::NWB::TimeSeries::appendSamples "TimeSeries::appendSamples"). Pass timestamps if the series
+ * uses timestamps, and `nullptr` if it uses a starting time and rate.
+ *
+ * \note
+ * Unsupported: `ExternalImage`, the deprecated `manifold` of `ImagingPlane`, and adding `ImageSeries` to the
+ * `reference_images` of a `PlaneSegmentation`. Rows of a `PlaneSegmentation` can be added via one mask type
+ * per table.
  *
  * \section ophys_workflow Recording two-photon imaging data
  *
@@ -51,7 +63,9 @@
  *
  * \subsection ophys_workflow_series 4. Create the TwoPhotonSeries
  *
- * The data of an image series is a 3D `[frame, x, y]` (or 4D `[frame, x, y, z]`) array.
+ * The data of an image series is a 3D `[frame, width, height]` (or 4D `[frame, width, height, depth]`) array,
+ * where width is the fast scanning axis. Note that camera buffers are often stored as `[row][column]`, i.e.,
+ * `[height][width]`, and need to be transposed to follow this convention.
  * \ref AQNWB::NWB::Ophys::getDefaultImageSeriesDataConfig "getDefaultImageSeriesDataConfig"
  * creates a dataset configuration that is extendable in time and stores one frame per chunk.
  * Here, the frames are acquired at a regular rate, so we specify the starting time and rate instead

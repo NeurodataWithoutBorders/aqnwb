@@ -87,7 +87,9 @@ std::shared_ptr<OnePhotonSeries> createOnePhotonSeries(
  * single frame (chunking [1, x, y(, z)]), which suits writing frame by frame.
  *
  * @param dataType The data type of the pixels, e.g., BaseDataType::U16.
- * @param frameShape The shape of a single frame, i.e., [x, y] or [x, y, z].
+ * @param frameShape The shape of a single frame, i.e., [width, height] or
+ * [width, height, depth], where width is the fast scanning axis (see the note
+ * in ImageSeries).
  * @return The dataset configuration.
  */
 IO::ArrayDataSetConfig getDefaultImageSeriesDataConfig(

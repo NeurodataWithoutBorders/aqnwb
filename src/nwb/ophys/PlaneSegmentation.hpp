@@ -84,8 +84,6 @@ public:
 
   struct Spec : public DynamicTable::Spec
   {
-    REGISTER_SPEC(PlaneSegmentation, DynamicTable::Spec)
-
     /**
      * @brief If true, add the pixel_mask and pixel_mask_index columns (if not
      * already part of the columns).
@@ -111,8 +109,10 @@ public:
     /**
      * @brief Validate the spec.
      *
-     * Checks that the description is not empty and that the imagingPlane is
-     * set. The columns are validated by validateDataSpecs.
+     * Checks that the description is not empty, that the imagingPlane is set,
+     * and that the image_mask column is configured. The columns are validated
+     * by
+     * validateDataSpecs.
      *
      * @return Status::Success if the spec is valid, otherwise Status::Failure.
      */

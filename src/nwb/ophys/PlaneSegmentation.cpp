@@ -36,6 +36,18 @@ Status PlaneSegmentation::Spec::validate() const
               << std::endl;
     status = Status::Failure;
   }
+  // The schema requires a mask column
+  const bool hasMaskColumn =
+      std::any_of(columns.begin(),
+                  columns.end(),
+                  [](const DataSpecPtr& column)
+                  { return column != nullptr && column->name == "image_mask"; });
+  if (!hasMaskColumn) {
+    std::cerr << "PlaneSegmentation::Spec::validate: The image_mask column is "
+                 "required (see createImageMaskDataSpec)."
+              << std::endl;
+    status = Status::Failure;
+  }
   return status;
 }
 
@@ -229,6 +241,11 @@ Status PlaneSegmentation::addImageMasks(const SizeType& numRois,
   if (!ids.empty() && ids.size() != numRois) {
     std::cerr << "PlaneSegmentation::addImageMasks: The number of ids must "
                  "match the number of ROIs."
+              << std::endl;
+    return Status::Failure;
+  }
+  if (numRois > 0 && masks == nullptr) {
+    std::cerr << "PlaneSegmentation::addImageMasks: masks must not be null."
               << std::endl;
     return Status::Failure;
   }
