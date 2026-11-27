@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cstddef>
 #include <numeric>
 
@@ -183,12 +184,10 @@ Status PlaneSegmentation::initialize(const Spec& spec)
   // Add the pixel_mask and voxel_mask columns if requested
   auto hasColumn = [&tableSpec](const std::string& name)
   {
-    for (const auto& column : tableSpec.columns) {
-      if (column != nullptr && column->name == name) {
-        return true;
-      }
-    }
-    return false;
+    return std::any_of(tableSpec.columns.begin(),
+                       tableSpec.columns.end(),
+                       [&name](const DataSpecPtr& column)
+                       { return column != nullptr && column->name == name; });
   };
   if (spec.pixelMask && !hasColumn("pixel_mask")) {
     auto maskSpecs = createPixelMaskDataSpecs(m_path);
