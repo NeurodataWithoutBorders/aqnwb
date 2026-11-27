@@ -500,15 +500,17 @@ std::vector<T> HDF5IO::readDataHelper(const HDF5TYPE& dataSource,
                                       const H5::DataSpace& dataspace)
 {
   std::vector<T> data(numElements);
+  // Read with the native type, such that HDF5 converts non-native (e.g.,
+  // big-endian) integers and floats
   if (const H5::DataSet* dataset =
           dynamic_cast<const H5::DataSet*>(&dataSource))
   {
-    H5::DataType type = dataset->getDataType();
+    H5::DataType type = toNativeNumericType(dataset->getDataType());
     dataset->read(data.data(), type, memspace, dataspace);
   } else if (const H5::Attribute* attribute =
                  dynamic_cast<const H5::Attribute*>(&dataSource))
   {
-    H5::DataType type = attribute->getDataType();
+    H5::DataType type = toNativeNumericType(attribute->getDataType());
     attribute->read(type, data.data());
   } else {
     throw std::runtime_error("Unsupported data source type");
@@ -708,7 +710,7 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readAttribute(
   }
 
   H5::Attribute& attribute = *attributePtr;
-  H5::DataType dataType = attribute.getDataType();
+  H5::DataType dataType = toNativeNumericType(attribute.getDataType());
 
   // Determine the shape of the attribute
   H5::DataSpace dataspace = attribute.getSpace();
@@ -929,7 +931,7 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(const std::string& dataPath,
                                        std::multiplies<size_t> {});
 
   // Read the dataset into a vector of the appropriate type
-  H5::DataType dataType = dataset.getDataType();
+  H5::DataType dataType = toNativeNumericType(dataset.getDataType());
   result.baseDataType = getBaseDataType(dataType);
   if (dataType.getClass() == H5T_STRING) {
     // Use readStringDataHelper to read string data
@@ -1942,29 +1944,52 @@ hid_t HDF5IO::getNativeNumericTypeId(const IO::BaseDataType& type)
   }
 }
 
+H5::DataType HDF5IO::toNativeNumericType(const H5::DataType& type)
+{
+  const H5T_class_t typeClass = type.getClass();
+  if (typeClass != H5T_INTEGER && typeClass != H5T_FLOAT) {
+    return type;
+  }
+  // The H5::DataType takes ownership of the new id
+  const hid_t nativeId = H5Tget_native_type(type.getId(), H5T_DIR_ASCEND);
+  if (nativeId < 0) {
+    return type;
+  }
+  return H5::DataType(nativeId);
+}
+
 AQNWB::IO::BaseDataType HDF5IO::getBaseDataType(const H5::DataType& nativeType)
 {
-  if (nativeType == H5::PredType::NATIVE_INT8) {
-    return IO::BaseDataType(IO::BaseDataType::Type::T_I8);
-  } else if (nativeType == H5::PredType::NATIVE_INT16) {
-    return IO::BaseDataType(IO::BaseDataType::Type::T_I16);
-  } else if (nativeType == H5::PredType::NATIVE_INT32) {
-    return IO::BaseDataType(IO::BaseDataType::Type::T_I32);
-  } else if (nativeType == H5::PredType::NATIVE_INT64) {
-    return IO::BaseDataType(IO::BaseDataType::Type::T_I64);
-  } else if (nativeType == H5::PredType::NATIVE_UINT8) {
-    return IO::BaseDataType(IO::BaseDataType::Type::T_U8);
-  } else if (nativeType == H5::PredType::NATIVE_UINT16) {
-    return IO::BaseDataType(IO::BaseDataType::Type::T_U16);
-  } else if (nativeType == H5::PredType::NATIVE_UINT32) {
-    return IO::BaseDataType(IO::BaseDataType::Type::T_U32);
-  } else if (nativeType == H5::PredType::NATIVE_UINT64) {
-    return IO::BaseDataType(IO::BaseDataType::Type::T_U64);
-  } else if (nativeType == H5::PredType::NATIVE_FLOAT) {
-    return IO::BaseDataType(IO::BaseDataType::Type::T_F32);
-  } else if (nativeType == H5::PredType::NATIVE_DOUBLE) {
-    return IO::BaseDataType(IO::BaseDataType::Type::T_F64);
-  } else if (nativeType.getClass() == H5T_STRING) {
+  // Classify integers and floats by their class, size, and sign, which also
+  // covers non-native types (e.g., big-endian types in files written on other
+  // systems). HDF5 converts them to the native type when reading.
+  const H5T_class_t typeClass = nativeType.getClass();
+  if (typeClass == H5T_INTEGER) {
+    const bool isSigned = H5Tget_sign(nativeType.getId()) == H5T_SGN_2;
+    switch (nativeType.getSize()) {
+      case 1:
+        return IO::BaseDataType(isSigned ? IO::BaseDataType::Type::T_I8
+                                         : IO::BaseDataType::Type::T_U8);
+      case 2:
+        return IO::BaseDataType(isSigned ? IO::BaseDataType::Type::T_I16
+                                         : IO::BaseDataType::Type::T_U16);
+      case 4:
+        return IO::BaseDataType(isSigned ? IO::BaseDataType::Type::T_I32
+                                         : IO::BaseDataType::Type::T_U32);
+      case 8:
+        return IO::BaseDataType(isSigned ? IO::BaseDataType::Type::T_I64
+                                         : IO::BaseDataType::Type::T_U64);
+      default:
+        break;
+    }
+  } else if (typeClass == H5T_FLOAT) {
+    if (nativeType.getSize() == 4) {
+      return IO::BaseDataType(IO::BaseDataType::Type::T_F32);
+    } else if (nativeType.getSize() == 8) {
+      return IO::BaseDataType(IO::BaseDataType::Type::T_F64);
+    }
+  }
+  if (typeClass == H5T_STRING) {
     if (nativeType.isVariableStr()) {
       return IO::BaseDataType(IO::BaseDataType::Type::V_STR);
     } else {

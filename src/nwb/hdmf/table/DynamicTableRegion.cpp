@@ -27,9 +27,7 @@ Status DynamicTableRegion::DataSpec::initialize(Data& data) const
               << std::endl;
     return Status::Failure;
   }
-  return region->initialize(static_cast<const IO::ArrayDataSetConfig&>(*this),
-                            description,
-                            tablePath);
+  return region->initialize(getDataConfig(), description, tablePath);
 }
 
 std::shared_ptr<DynamicTableRegion::DataSpec>

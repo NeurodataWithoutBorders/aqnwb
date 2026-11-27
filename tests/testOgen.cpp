@@ -1,4 +1,5 @@
 #include <cmath>
+#include <limits>
 #include <memory>
 #include <string>
 #include <vector>
@@ -8,6 +9,7 @@
 #include "Types.hpp"
 #include "Utils.hpp"
 #include "io/BaseIO.hpp"
+#include "io/nwbio_utils.hpp"
 #include "nwb/NWBFile.hpp"
 #include "nwb/RegisteredType.hpp"
 #include "nwb/device/Device.hpp"
@@ -48,6 +50,10 @@ TEST_CASE("ogen spec validation", "[ogen]")
               .withExcitationLambda(0.0f)
               .validate()
           == Status::Failure);
+  REQUIRE(NWB::OptogeneticStimulusSite::Spec(siteSpec)
+              .withExcitationLambda(std::numeric_limits<float>::quiet_NaN())
+              .validate()
+          == Status::Success);  // unknown wavelength
   REQUIRE(
       NWB::OptogeneticStimulusSite::Spec(siteSpec).withLocation("").validate()
       == Status::Failure);
@@ -118,11 +124,10 @@ TEST_CASE("ogenWorkflowExamples", "[ogen]")
     power[i] = (i % 100 < 10) ? 0.01f : 0.0f;  // 10 ms pulses at 10 Hz
   }
   for (int block = 0; block < 3; ++block) {
-    Status status =
-        NWB::Ogen::writeOptogeneticSeriesData(io->getRecordingObjects(),
-                                              series->getRecordingObjectIndex(),
-                                              power.size(),
-                                              power.data());
+    Status status = IO::appendTimeSeriesData(io->getRecordingObjects(),
+                                             series->getRecordingObjectIndex(),
+                                             power.size(),
+                                             power.data());
     REQUIRE(status == Status::Success);
   }
   io->stopRecording();
@@ -148,9 +153,8 @@ TEST_CASE("ogenWorkflowExamples", "[ogen]")
   REQUIRE(readSeries->readDataUnit()->values().data[0] == "watts");
   REQUIRE(readSeries->readSite()->readLocation()->values().data[0] == "VISp");
 
-  // Writing to an object that is not an OptogeneticSeries fails
-  REQUIRE(NWB::Ogen::writeOptogeneticSeriesData(
-              nullptr, 0, power.size(), power.data())
+  // Writing without recording objects fails
+  REQUIRE(IO::appendTimeSeriesData(nullptr, 0, power.size(), power.data())
           == Status::Failure);
   readIO->close();
 }

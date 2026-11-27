@@ -176,6 +176,30 @@ public:
     return 0;
   }
 
+  /**
+   * @brief Get the number of bytes of a single element of this data type.
+   *
+   * Numeric types with a typeSize > 1 are arrays of typeSize values per
+   * element (see HDF5IO::getH5Type). Variable-length strings are stored as
+   * pointers.
+   *
+   * @return The number of bytes per element.
+   */
+  SizeType getNumBytes() const
+  {
+    const SizeType arrayLength = std::max<SizeType>(1, typeSize);
+    switch (type) {
+      case T_STR:
+        return typeSize;
+      case V_STR:
+        return sizeof(void*);
+      case T_COMPOUND:
+        return compoundSize * arrayLength;
+      default:
+        return getScalarNumBytes(type) * arrayLength;
+    }
+  }
+
   // Define the equality operator
   bool operator==(const BaseDataType& other) const
   {

@@ -26,8 +26,10 @@
 #include "nwb/hdmf/table/VectorIndex.hpp"
 #include "nwb/misc/AnnotationSeries.hpp"
 
-#ifdef AQNWB_HAS_OPHYS
+#ifdef AQNWB_HAS_IMAGE
 #  include "nwb/image/ImageSeries.hpp"
+#endif
+#ifdef AQNWB_HAS_OPHYS
 #  include "nwb/ophys/DfOverF.hpp"
 #  include "nwb/ophys/Fluorescence.hpp"
 #  include "nwb/ophys/ImageSegmentation.hpp"
@@ -77,11 +79,14 @@ void AQNWB::NWB::registerAllTypes()
   TimeIntervals::registerSubclass();
   TimeSeries::registerSubclass();
   TimestampVectorData::registerSubclass();
+#ifdef AQNWB_HAS_IMAGE
+  // core: image module
+  ImageSeries::registerSubclass();
+#endif
 #ifdef AQNWB_HAS_OPHYS
   // core: optical physiology module
   DfOverF::registerSubclass();
   Fluorescence::registerSubclass();
-  ImageSeries::registerSubclass();
   ImageSegmentation::registerSubclass();
   ImagingPlane::registerSubclass();
   OnePhotonSeries::registerSubclass();

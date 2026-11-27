@@ -10,6 +10,7 @@
 #include "Utils.hpp"
 #include "io/BaseIO.hpp"
 #include "io/hdf5/HDF5ArrayDataSetConfig.hpp"
+#include "io/nwbio_utils.hpp"
 #include "nwb/RegisteredTypeSpec.hpp"
 #include "nwb/base/ProcessingModule.hpp"
 #include "nwb/base/TimeSeries.hpp"
@@ -95,6 +96,13 @@ TEST_CASE("RegisteredTypeSpec fields and setters", "[spec]")
     auto linkSpec = NWB::TimeSeries::Spec().withData(
         IO::LinkArrayDataSetConfig("/some/data"));
     REQUIRE(linkSpec.data->isLink());
+
+    // Column specs keep the dynamic type of the configuration as well
+    auto columnSpec =
+        NWB::VectorData::createDataSpec("col", hdf5Config, "a column");
+    REQUIRE(dynamic_cast<const IO::HDF5::HDF5ArrayDataSetConfig*>(
+                &columnSpec->getDataConfig())
+            != nullptr);
   }
 
   SECTION("chaining inherited setters returns the derived spec")
@@ -167,9 +175,16 @@ TEST_CASE("RegisteredTypeSpec validation", "[spec]")
   {
     REQUIRE(NWB::AnnotationSeries::Spec().withData(config).validate()
             == Status::Success);
+    // The fixed values can only be changed via the TimeSeries::Spec setters,
+    // which validate() rejects
     REQUIRE(NWB::AnnotationSeries::Spec()
                 .withData(config)
                 .withUnit("volts")
+                .validate()
+            == Status::Failure);
+    REQUIRE(NWB::AnnotationSeries::Spec()
+                .withData(config)
+                .withConversion(2.0f)
                 .validate()
             == Status::Failure);
   }
@@ -421,6 +436,14 @@ TEST_CASE("TimeSeries::appendSamples", "[spec]")
     std::vector<float> values = {1.0f, 2.0f, 3.0f, 4.0f};
     std::vector<double> timestamps = {0.0, 0.1};
     REQUIRE(rate->appendSamples(2, values.data()) == Status::Success);
+    // The generic helper appends to any TimeSeries recording object
+    REQUIRE(IO::appendTimeSeriesData(io->getRecordingObjects(),
+                                     rate->getRecordingObjectIndex(),
+                                     1,
+                                     values.data())
+            == Status::Success);
+    REQUIRE(IO::appendTimeSeriesData(nullptr, 0, 1, values.data())
+            == Status::Failure);
     // Timing mode mismatches fail instead of writing inconsistent data
     REQUIRE(rate->appendSamples(2, values.data(), timestamps.data())
             == Status::Failure);
@@ -456,8 +479,10 @@ TEST_CASE("TimeSeries::appendSamples", "[spec]")
   readIO->open(IO::FileMode::ReadOnly);
   auto readRate = NWB::RegisteredType::create<NWB::TimeSeries>("/rate", readIO);
   auto data = readRate->readData<float>()->values();
-  REQUIRE(data.shape == SizeArray {3, 2});
-  REQUIRE(data.data == std::vector<float> {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f});
+  REQUIRE(data.shape == SizeArray {4, 2});
+  REQUIRE(
+      data.data
+      == std::vector<float> {1.0f, 2.0f, 3.0f, 4.0f, 1.0f, 2.0f, 5.0f, 6.0f});
   auto readStamped =
       NWB::RegisteredType::create<NWB::TimeSeries>("/stamped", readIO);
   REQUIRE(readStamped->readData<float>()->values().shape == SizeArray {3});
