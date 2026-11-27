@@ -10,6 +10,7 @@
 #include "Types.hpp"
 #include "Utils.hpp"
 #include "io/BaseIO.hpp"
+#include "io/nwbio_utils.hpp"
 #include "nwb/NWBFile.hpp"
 #include "nwb/RegisteredType.hpp"
 #include "nwb/device/Device.hpp"
@@ -313,24 +314,22 @@ TEST_CASE("TwoPhotonSeries and OnePhotonSeries", "[ophys]")
                    timestamps.begin(),
                    [block](double timestamp)
                    { return timestamp + 0.5 * static_cast<double>(block); });
-    REQUIRE(
-        NWB::Ophys::writeImageSeriesFrames(io->getRecordingObjects(),
-                                           twoPhoton->getRecordingObjectIndex(),
-                                           3,
-                                           twoPhotonFrames.data(),
-                                           timestamps.data())
-        == Status::Success);
+    REQUIRE(IO::appendTimeSeriesData(io->getRecordingObjects(),
+                                     twoPhoton->getRecordingObjectIndex(),
+                                     3,
+                                     twoPhotonFrames.data(),
+                                     timestamps.data())
+            == Status::Success);
     REQUIRE(onePhoton->writeFrames(3, onePhotonFrames.data())
             == Status::Success);
   }
   REQUIRE(twoPhoton->getNumFramesRecorded() == 6);
 
-  // Writing to an object that is not an ImageSeries fails
-  REQUIRE(NWB::Ophys::writeImageSeriesFrames(
-              io->getRecordingObjects(),
-              imagingPlane->getRecordingObjectIndex(),
-              3,
-              twoPhotonFrames.data())
+  // Writing to an object that is not a TimeSeries fails
+  REQUIRE(IO::appendTimeSeriesData(io->getRecordingObjects(),
+                                   imagingPlane->getRecordingObjectIndex(),
+                                   3,
+                                   twoPhotonFrames.data())
           == Status::Failure);
   io->close();
 
@@ -530,6 +529,12 @@ TEST_CASE("ImagingPlane and ImageSeries checks", "[ophys]")
     REQUIRE(series->initialize(spec) == Status::Success);
     std::vector<uint8_t> frame(1, 0);
     REQUIRE(series->writeFrames(1, frame.data()) == Status::Failure);
+    // The generic helper uses the checks of the ImageSeries as well
+    REQUIRE(IO::appendTimeSeriesData(io->getRecordingObjects(),
+                                     series->getRecordingObjectIndex(),
+                                     1,
+                                     frame.data())
+            == Status::Failure);
   }
 
   io->close();

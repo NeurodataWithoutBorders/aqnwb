@@ -47,7 +47,7 @@ std::shared_ptr<ImagingPlane> createImagingPlane(
  * @brief Create and initialize a TwoPhotonSeries in the acquisition group.
  *
  * Use getRecordingObjectIndex() of the returned series to write frames via
- * writeImageSeriesFrames, or call ImageSeries::writeFrames directly.
+ * IO::appendTimeSeriesData, or call ImageSeries::writeFrames directly.
  *
  * @param nwbfile The NWBFile to add the series to.
  * @param name The name of the series.
@@ -88,24 +88,5 @@ std::shared_ptr<OnePhotonSeries> createOnePhotonSeries(
  */
 IO::ArrayDataSetConfig getDefaultImageSeriesDataConfig(
     const IO::BaseDataType& dataType, const SizeArray& frameShape);
-
-/**
- * @brief Append frames to an ImageSeries (e.g., a TwoPhotonSeries) by its
- * recording object index.
- *
- * @param recordingObjects The recording objects of the IO.
- * @param containerInd The recording object index of the ImageSeries.
- * @param numFrames The number of frames to write.
- * @param data Pointer to the frames. See ImageSeries::writeFrames.
- * @param timestamps Pointer to the numFrames timestamps or nullptr if the
- * series uses a starting time and rate.
- * @return Status::Success if successful, otherwise Status::Failure.
- */
-Types::Status writeImageSeriesFrames(
-    const std::shared_ptr<IO::RecordingObjects>& recordingObjects,
-    const SizeType& containerInd,
-    const SizeType& numFrames,
-    const void* data,
-    const void* timestamps = nullptr);
 
 }  // namespace AQNWB::NWB::Ophys
