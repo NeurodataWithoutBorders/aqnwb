@@ -414,3 +414,109 @@ TEST_CASE("getDefaultImageSeriesDataConfig", "[ophys]")
   REQUIRE(config3D.getShape() == SizeArray {0, 64, 64, 8});
   REQUIRE(config3D.getChunking() == SizeArray {1, 64, 64, 8});
 }
+
+TEST_CASE("ImagingPlane and ImageSeries checks", "[ophys]")
+{
+  std::string path = getTestFilePath("testOphysChecks.h5");
+  std::shared_ptr<IO::BaseIO> io = createIO("HDF5", path);
+  io->open();
+  auto nwbfile = NWB::NWBFile::create(io);
+  std::string currentTime = getCurrentTime();
+  REQUIRE(nwbfile->initialize(generateUuid(),
+                              "ImagingPlane and ImageSeries checks",
+                              "",
+                              currentTime,
+                              currentTime,
+                              getTestSubjectSpec())
+          == Status::Success);
+  auto microscope = NWB::Device::create("/general/devices/microscope", io);
+  REQUIRE(
+      microscope->initialize(NWB::Device::Spec().withDescription("microscope"))
+      == Status::Success);
+  auto planeSpec = NWB::ImagingPlane::Spec()
+                       .withExcitationLambda(920.0f)
+                       .withIndicator("GCaMP6s")
+                       .withLocation("VISp")
+                       .withDevice(microscope)
+                       .withOpticalChannel("green",
+                                           NWB::OpticalChannel::Spec()
+                                               .withDescription("green channel")
+                                               .withEmissionLambda(510.0f));
+  auto imagingPlane =
+      NWB::Ophys::createImagingPlane(*nwbfile, "imaging_plane", planeSpec);
+  REQUIRE(imagingPlane != nullptr);
+
+  SECTION("duplicate optical channel names are rejected")
+  {
+    auto duplicateSpec = NWB::ImagingPlane::Spec(planeSpec).withOpticalChannel(
+        "green",
+        NWB::OpticalChannel::Spec(planeSpec.opticalChannels[0].second));
+    REQUIRE(duplicateSpec.validate() == Status::Failure);
+    REQUIRE(NWB::Ophys::createImagingPlane(*nwbfile, "duplicate", duplicateSpec)
+            == nullptr);
+    REQUIRE_FALSE(io->objectExists("/general/optophysiology/duplicate"));
+  }
+
+  SECTION("appending after reopening the file")
+  {
+    auto series = NWB::Ophys::createTwoPhotonSeries(
+        *nwbfile,
+        "TwoPhotonSeries",
+        NWB::TwoPhotonSeries::Spec()
+            .withData(NWB::Ophys::getDefaultImageSeriesDataConfig(
+                IO::BaseDataType::U16, {2, 2}))
+            .withUnit("n.a.")
+            .withImagingPlane(imagingPlane));
+    std::vector<uint16_t> frames(3 * 4, 7);
+    std::vector<double> timestamps = {0.0, 0.1, 0.2};
+    REQUIRE(series->writeFrames(3, frames.data(), timestamps.data())
+            == Status::Success);
+    // Timestamps are required for this series
+    REQUIRE(series->writeFrames(1, frames.data()) == Status::Failure);
+    nwbfile->finalize();
+    io->close();
+
+    std::shared_ptr<IO::BaseIO> rwIO = createIO("HDF5", path);
+    rwIO->open(IO::FileMode::ReadWrite);
+    auto reopened = NWB::RegisteredType::create<NWB::TwoPhotonSeries>(
+        "/acquisition/TwoPhotonSeries", rwIO);
+    REQUIRE(reopened->getFrameShape() == SizeArray {2, 2});
+    std::vector<double> moreTimestamps = {0.3, 0.4};
+    REQUIRE(reopened->writeFrames(2, frames.data(), moreTimestamps.data())
+            == Status::Success);
+    REQUIRE(reopened->getNumFramesRecorded() == 5);
+    rwIO->close();
+
+    std::shared_ptr<IO::BaseIO> readIO = createIO("HDF5", path);
+    readIO->open(IO::FileMode::ReadOnly);
+    auto readSeries = NWB::RegisteredType::create<NWB::TwoPhotonSeries>(
+        "/acquisition/TwoPhotonSeries", readIO);
+    REQUIRE(readSeries->readData<uint16_t>()->values().shape
+            == SizeArray {5, 2, 2});
+    REQUIRE(readSeries->readTimestamps<double>()->values().data.size() == 5);
+    readIO->close();
+    return;
+  }
+
+  SECTION("external image series")
+  {
+    auto series = nwbfile->createAquisitionSeries<NWB::ImageSeries>("movie");
+    auto spec =
+        NWB::ImageSeries::Spec()
+            .withData(IO::ArrayDataSetConfig(
+                IO::BaseDataType::U8, {0, 0, 0}, {1, 1, 1}))
+            .withUnit("n.a.")
+            .withFormat("external")
+            .withExternalFile(std::vector<std::string> {"a.avi", "b.avi"})
+            .withExternalFileStartingFrame({5, 10})
+            .withStartingTime(0.0)
+            .withStartingTimeRate(30.0f);
+    REQUIRE(spec.validate() == Status::Failure);  // must start at 0
+    spec.withExternalFileStartingFrame({0, 10});
+    REQUIRE(series->initialize(spec) == Status::Success);
+    std::vector<uint8_t> frame(1, 0);
+    REQUIRE(series->writeFrames(1, frame.data()) == Status::Failure);
+  }
+
+  io->close();
+}
