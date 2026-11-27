@@ -5,6 +5,7 @@
 
 #include "Utils.hpp"
 #include "nwb/file/ElectrodesTable.hpp"
+#include "nwb/hdmf/table/DynamicTableRegion.hpp"
 
 using namespace AQNWB::NWB;
 
@@ -155,23 +156,23 @@ Status ElectricalSeries::initialize(const Spec& spec)
                                           SizeArray {channelVector.size()},
                                           SizeArray {channelChunkSize});
   try {
-    ioPtr->createArrayDataSet(electrodesConfig,
-                              AQNWB::mergePaths(getPath(), "electrodes"));
+    auto electrodes = DynamicTableRegion::create(
+        AQNWB::mergePaths(getPath(), "electrodes"), ioPtr);
+    if (electrodes == nullptr
+        || electrodes->initialize(
+               electrodesConfig,
+               "the electrodes that generated this electrical series",
+               ElectrodesTable::electrodesTablePath)
+            != Status::Success)
+    {
+      std::cerr << "Failed to create the electrodes dataset" << std::endl;
+      return Status::Failure;
+    }
 
     auto electrodesRecorder = recordElectrodes();
     electrodesRecorder->writeDataBlock(SizeArray {channelVector.size()},
                                        IO::BaseDataType::I32,
                                        &electrodeInds[0]);
-    auto electrodesPath = AQNWB::mergePaths(getPath(), "electrodes");
-    ioPtr->createCommonNWBAttributes(
-        electrodesPath, "hdmf-common", "DynamicTableRegion");
-    ioPtr->createAttribute(
-        "the electrodes that generated this electrical series",
-        electrodesPath,
-        "description");
-    ioPtr->createReferenceAttribute(ElectrodesTable::electrodesTablePath,
-                                    AQNWB::mergePaths(getPath(), "electrodes"),
-                                    "table");
   } catch (const std::runtime_error& e) {
     std::cerr << "Failed to create or write electrodes dataset: " << e.what()
               << std::endl;
