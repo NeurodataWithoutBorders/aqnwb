@@ -476,7 +476,10 @@ def get_initialize_method_parameters(neurodata_type: Spec, type_to_namespace_map
                 if obj.shape is None:
                     # Scalar string default value
                     if obj_cpp_type == "std::string":
-                        default_value = f'"{default_value}"'
+                        default_value = json.dumps(str(default_value))
+                    # Scalar bool default value
+                    elif isinstance(default_value, bool):
+                        default_value = "true" if default_value else "false"
                     # Scalar numeric default value
                     else:
                         default_value = str(default_value)
@@ -485,10 +488,10 @@ def get_initialize_method_parameters(neurodata_type: Spec, type_to_namespace_map
                     # TODO This does not handle multi-dimensional default values
                     # Default value is a list of strings
                     if "std::string" in obj_cpp_type:
-                        default_value = str([f'"{val}"' for val in default_value]).replace("[", "}").replace("]", "}")
+                        default_value = "{" + ", ".join(json.dumps(str(val)) for val in default_value) + "}"
                     # Default value is a list of numbers
                     else:
-                        default_value = str(default_value).replace("[", "}").replace("]", "}")
+                        default_value = str(default_value).replace("[", "{").replace("]", "}")
 
         parameter_list.append({
             'spec': obj,
@@ -884,7 +887,7 @@ def get_basedata_type(dtype: str) -> str:
         "uint64": "U64",
         "bool": "I8",
         "isodatetime": "DSTR",
-        "datatime": "DSTR",
+        "datetime": "DSTR",
     }
     # Reference type
     if isinstance(dtype, dict) and "reftype" in dtype:
@@ -930,7 +933,8 @@ def get_cpp_type(dtype: str) -> str:
         "uint64": "uint64_t",
         "bool": "bool",
         "isodatetime": "std::string",
-        "datatime": "std::string",
+        "datetime": "std::string",
+        "numeric": "std::any",
     }
     # Undefined dtype
     if dtype is None:
@@ -1429,7 +1433,7 @@ public:
     header += f"""
 }};
 
-}} // namespace {cpp_namespace_name}
+}} // namespace {actual_cpp_namespace_name}
 """
 
     return header
@@ -1467,6 +1471,8 @@ def generate_implementation_file(
         if "/" in parent_type:
             parent_namespace, parent_type = parent_type.split("/")
             parent_class = f"{parent_namespace}::{parent_type}"
+        else:
+            parent_class = to_cpp_namespace_name(type_to_namespace_map[parent_class]) + "::" + parent_class
     else:
         # Default parent class based on neurodata_type
         if isinstance(neurodata_type, DatasetSpec):
@@ -1887,13 +1893,14 @@ def main(args) -> None:
             logger.error(f"    Failed to create subfolder {original_namespace}/{subfolder_name}: {e}")
             continue
         
+        header_path = type_output_dir / f"{class_name}.hpp"
+        impl_path = type_output_dir / f"{class_name}.cpp"
         try:
             header_file_name = f"{class_name}.hpp"
             logger.info(f"    Generating header file: {header_file_name}")
             header_file = generate_header_file(
                 namespace, neurodata_type, neurodata_types, type_to_file_map, type_to_namespace_map
             )
-            header_path = type_output_dir / header_file_name
             with open(header_path, "w") as f:
                 f.write(header_file)
         except Exception as e:
@@ -1905,7 +1912,6 @@ def main(args) -> None:
             impl_file = generate_implementation_file(
                 namespace, neurodata_type, neurodata_types, type_to_file_map, type_to_namespace_map
             )
-            impl_path = type_output_dir / cpp_file_name
             with open(impl_path, "w") as f:
                 f.write(impl_file)
             
@@ -1916,18 +1922,6 @@ def main(args) -> None:
         except Exception as e:
             logger.error(f"   Failed to generate implementation file {impl_path}: {e}")
     logger.info(f"Generated {len(neurodata_types)} neurodata types in total.")
-
-    # Generate test app if requested
-    if args.generate_test_app:
-        logger.info("Generating test application...")
-        generate_test_app(
-            output_dir=output_dir,
-            schema_file=args.schema_file,
-            neurodata_types=neurodata_types,
-            type_to_namespace_map=type_to_namespace_map,
-            type_to_file_map=type_to_file_map,
-            cpp_files=generated_cpp_files
-        )
 
     # Generate test app if requested
     if args.generate_test_app:
