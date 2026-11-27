@@ -47,8 +47,6 @@ public:
    */
   struct Spec : public DynamicTable::Spec
   {
-    REGISTER_SPEC(PlaneSegmentation, DynamicTable::Spec)
-
     /// @brief Link to the ImagingPlane of the ROIs. Required.
     DEFINE_SPEC_FIELD(Spec,
                       std::shared_ptr<ImagingPlane>,
@@ -62,8 +60,10 @@ public:
     /**
      * @brief Validate the spec.
      *
-     * Checks that the description is not empty and that the imagingPlane is
-     * set. The columns are validated by validateDataSpecs.
+     * Checks that the description is not empty, that the imagingPlane is set,
+     * and that the image_mask column is configured. The columns are validated
+     * by
+     * validateDataSpecs.
      *
      * @return Status::Success if the spec is valid, otherwise Status::Failure.
      */
