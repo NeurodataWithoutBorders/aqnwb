@@ -34,8 +34,6 @@ public:
    */
   struct Spec : public NWBContainer::Spec
   {
-    REGISTER_SPEC(Subject, NWBContainer::Spec)
-
     /**
      * @brief Age of subject (e.g., "P90D" for 90 days post-natal).
      */

@@ -168,7 +168,8 @@ def test_existing_aqnwb_types_are_reused(generated):
 
 def test_spec_fields(generated):
     header = read(generated, "TestDevice", "hpp")
-    assert "REGISTER_SPEC(TestDevice, AQNWB::NWB::Device::Spec)" in header
+    assert "struct Spec : public AQNWB::NWB::Device::Spec" in header
+    assert "REGISTER_SPEC" not in header
     # Required attribute, optional attribute, and array attribute with a default value
     assert "DEFINE_SPEC_FIELD(Spec, std::string, assetTag, withAssetTag, \"\")" in header
     assert "DEFINE_SPEC_FIELD(Spec, std::optional<float>, gain, withGain, std::nullopt)" in header
@@ -251,3 +252,156 @@ def test_no_reuse_aqnwb_types(tmp_path):
     header = read(output_dir, "TestDevice", "hpp")
     assert "class TestDevice : public CORE::Device" in header
     assert "struct Spec : public CORE::Device::Spec" in header
+
+
+TORTURE_NAMESPACE_YAML = """namespaces:
+- author:
+  - Test Author
+  contact:
+  - test@example.com
+  doc: Extension with edge cases for the schematype_to_aqnwb utility
+  name: ndx-edge
+  schema:
+  - namespace: core
+    neurodata_types:
+    - NWBContainer
+    - TimeIntervals
+    - TimeSeries
+    - Device
+  - namespace: hdmf-common
+    neurodata_types:
+    - VectorData
+  - source: ndx-edge.extensions.yaml
+  version: 0.1.0
+"""
+
+TORTURE_EXTENSIONS_YAML = """groups:
+- neurodata_type_def: EdgeContainer
+  neurodata_type_inc: NWBContainer
+  doc: Container with edge cases
+  attributes:
+  - name: class
+    dtype: text
+    doc: A C++ keyword as name
+  - name: enabled
+    dtype: bool
+    default_value: true
+    doc: A bool with a default value
+    required: false
+  - name: device
+    dtype:
+      target_type: Device
+      reftype: object
+    doc: A reference to a device
+  datasets:
+  - name: meta_info
+    dtype: text
+    doc: Collides with meta/info
+  - name: count
+    dtype: int32
+    doc: A required numeric scalar
+  groups:
+  - name: meta
+    doc: A required untyped group
+    attributes:
+    - name: info
+      dtype: text
+      doc: Attribute of the group
+  - name: extra
+    doc: An optional untyped group
+    quantity: '?'
+    attributes:
+    - name: note
+      dtype: text
+      doc: Attribute of the optional group
+- neurodata_type_def: EdgeTrials
+  neurodata_type_inc: TimeIntervals
+  doc: A subtype of an AqNWB table without its own Spec
+- neurodata_type_def: EdgeSeries
+  neurodata_type_inc: TimeSeries
+  doc: A TimeSeries that redefines the data
+  datasets:
+  - name: data
+    dtype: float32
+    shape:
+    - null
+    doc: Redefined data
+datasets:
+- neurodata_type_def: EdgeColumn
+  neurodata_type_inc: VectorData
+  dtype: float32
+  doc: A dataset type
+"""
+
+
+@pytest.fixture(scope="module")
+def generated_edge(tmp_path_factory) -> Path:
+    tmp_path = tmp_path_factory.mktemp("edge")
+    schema_dir = tmp_path / "schema"
+    schema_dir.mkdir()
+    (schema_dir / "ndx-edge.namespace.yaml").write_text(TORTURE_NAMESPACE_YAML)
+    (schema_dir / "ndx-edge.extensions.yaml").write_text(TORTURE_EXTENSIONS_YAML)
+    output_dir = tmp_path / "output"
+    parser = argparse.ArgumentParser()
+    generator.setup_parser(parser)
+    args = parser.parse_args(
+        [str(schema_dir / "ndx-edge.namespace.yaml"), str(output_dir),
+         "--aqnwb-src-dir", str(AQNWB_SRC_DIR)])
+    generator.main(args)
+    return output_dir
+
+
+def test_scan_is_per_class():
+    aqnwb_types = generator.scan_aqnwb_types(AQNWB_SRC_DIR)
+    # Types without their own Spec inherit the Spec of their base class
+    time_intervals = aqnwb_types[("core", "TimeIntervals")]
+    assert time_intervals["has_spec"]
+    assert time_intervals["spec_class"] == "AQNWB::NWB::DynamicTable"
+    # Setters of other classes or structs in the same header are not included
+    assert aqnwb_types[("core", "NWBFile")]["spec_class"] == "AQNWB::NWB::NWBContainer"
+    assert not any(s.startswith("withExperiment") for s in aqnwb_types[("core", "NWBFile")]["setters"])
+
+
+def test_untyped_groups_and_names(generated_edge):
+    header = read(generated_edge, "EdgeContainer", "hpp")
+    impl = read(generated_edge, "EdgeContainer", "cpp")
+    # Required untyped groups are created before their attributes
+    assert 'ioPtr->createGroup(AQNWB::mergePaths(m_path, "meta"))' in impl
+    assert impl.index('createGroup(AQNWB::mergePaths(m_path, "meta"))') < impl.index('"info")')
+    # Attributes of optional untyped groups are not part of the Spec
+    assert "extraNote" not in header
+    assert "AQNWB-TODO(child): Optional group 'extra'" in impl
+    # C++ keywords and name collisions are renamed
+    assert "DEFINE_SPEC_FIELD(Spec, std::string, classValue, withClassValue" in header
+    assert header.count("DEFINE_SPEC_FIELD(Spec, std::string, metaInfo,") == 1
+    assert "metaInfo2" in header or "metaInfo" in header
+    # bool defaults and required numeric scalars
+    assert "DEFINE_SPEC_FIELD(Spec, bool, enabled, withEnabled, true)" in header
+    assert "DEFINE_SPEC_FIELD(Spec, std::optional<int32_t>, count, withCount, std::nullopt)" in header
+    assert "if (!count.has_value())" in impl
+    # Reference attributes
+    assert "std::shared_ptr<AQNWB::NWB::Device>, device, withDevice, nullptr" in header
+    assert 'ioPtr->createReferenceAttribute(spec.device->getPath(), m_path, "device")' in impl
+    # Link and reference targets are checked before anything is written
+    assert impl.index('checkLinkTarget(spec.device, "device")') < impl.index("NWBContainer::initialize(spec)")
+    assert "} // namespace NDX_EDGE" in header
+
+
+def test_subtype_of_aqnwb_table_without_own_spec(generated_edge):
+    header = read(generated_edge, "EdgeTrials", "hpp")
+    impl = read(generated_edge, "EdgeTrials", "cpp")
+    assert "struct Spec : public AQNWB::NWB::DynamicTable::Spec" in header
+    assert "Status status = AQNWB::NWB::DynamicTable::initialize(spec);" in impl
+    assert "AQNWB-TODO(parent-spec): AQNWB::NWB::TimeIntervals does not define its own Spec" in impl
+    assert "AQNWB-TODO(table-columns)" in impl
+    # No stubs that would call TimeIntervals::createDefaultDataSpecs without arguments
+    assert "createDefaultDataSpecs();" not in header
+
+
+def test_overrides_and_dataset_types(generated_edge):
+    impl = read(generated_edge, "EdgeSeries", "cpp")
+    assert "AQNWB-TODO(override): data is inherited and redefined by this type" in impl
+    header = read(generated_edge, "EdgeColumn", "hpp")
+    assert "AQNWB-TODO(dataspec)" in header
+    # Dataset types do not get the legacy positional initialize method
+    assert "Status initialize(" not in header

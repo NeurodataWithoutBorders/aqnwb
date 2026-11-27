@@ -53,8 +53,6 @@ public:
    */
   struct Spec : public Container::Spec
   {
-    REGISTER_SPEC(DynamicTable, Container::Spec)
-
     /// @brief Description of what is in this dynamic table.
     DEFINE_SPEC_FIELD(Spec, std::string, description, withDescription, "")
 
@@ -96,12 +94,13 @@ public:
   /**
    * @brief Initializes the `DynamicTable` object from a spec.
    *
-   * Validates the spec and then calls
+   * Validates the spec and the column specs (via validateDataSpecs) before
+   * anything is written, and then calls
    * initialize(spec.description, spec.columns).
    *
    * @param spec The specification of the table.
-   * @return Status::Success if successful, otherwise Status::Failure.
-   * @throw std::invalid_argument if the column specs are invalid.
+   * @return Status::Success if successful, otherwise Status::Failure (also
+   * if the column specs are invalid).
    */
   Status initialize(const Spec& spec);
 
