@@ -141,10 +141,15 @@ message(STATUS "AqNWB image module (AQNWB_ENABLE_IMAGE): ${AQNWB_ENABLE_IMAGE}")
 if(AQNWB_ENABLE_OPHYS)
   target_sources(
       aqnwb_aqnwb PRIVATE
+      src/nwb/ophys/DfOverF.cpp
+      src/nwb/ophys/Fluorescence.cpp
+      src/nwb/ophys/ImageSegmentation.cpp
       src/nwb/ophys/ImagingPlane.cpp
       src/nwb/ophys/OnePhotonSeries.cpp
       src/nwb/ophys/OphysUtils.cpp
       src/nwb/ophys/OpticalChannel.cpp
+      src/nwb/ophys/PlaneSegmentation.cpp
+      src/nwb/ophys/RoiResponseSeries.cpp
       src/nwb/ophys/TwoPhotonSeries.cpp
   )
   target_compile_definitions(aqnwb_aqnwb PUBLIC AQNWB_HAS_OPHYS)

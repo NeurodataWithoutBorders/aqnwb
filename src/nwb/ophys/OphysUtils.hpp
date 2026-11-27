@@ -7,9 +7,15 @@
 #include "io/BaseIO.hpp"
 #include "io/RecordingObjects.hpp"
 #include "nwb/NWBFile.hpp"
+#include "nwb/base/ProcessingModule.hpp"
 #include "nwb/image/ImageSeries.hpp"
+#include "nwb/ophys/DfOverF.hpp"
+#include "nwb/ophys/Fluorescence.hpp"
+#include "nwb/ophys/ImageSegmentation.hpp"
 #include "nwb/ophys/ImagingPlane.hpp"
 #include "nwb/ophys/OnePhotonSeries.hpp"
+#include "nwb/ophys/PlaneSegmentation.hpp"
+#include "nwb/ophys/RoiResponseSeries.hpp"
 #include "nwb/ophys/TwoPhotonSeries.hpp"
 
 /*!
@@ -88,5 +94,65 @@ std::shared_ptr<OnePhotonSeries> createOnePhotonSeries(
  */
 IO::ArrayDataSetConfig getDefaultImageSeriesDataConfig(
     const IO::BaseDataType& dataType, const SizeArray& frameShape);
+
+/**
+ * @brief Name of the ProcessingModule for processed optical physiology data.
+ */
+inline const std::string OPHYS_MODULE_NAME = "ophys";
+
+/**
+ * @brief The containers for RoiResponseSeries objects.
+ */
+enum class RoiResponseContainer
+{
+  /** Fluorescence data, stored in the Fluorescence container */
+  Fluorescence,
+  /** dF/F data, stored in the DfOverF container */
+  DfOverF
+};
+
+/**
+ * @brief Get the "ophys" ProcessingModule and create it if it does not exist.
+ * @param nwbfile The NWBFile.
+ * @return The ProcessingModule or nullptr if the creation failed.
+ */
+std::shared_ptr<ProcessingModule> getOrCreateOphysModule(
+    const NWBFile& nwbfile);
+
+/**
+ * @brief Create and initialize a PlaneSegmentation in
+ * `/processing/ophys/ImageSegmentation/<name>`.
+ *
+ * Creates the "ophys" ProcessingModule and the ImageSegmentation container if
+ * they do not exist. Use PlaneSegmentation::addImageMasks to add the ROIs.
+ *
+ * @param nwbfile The NWBFile.
+ * @param name The name of the PlaneSegmentation.
+ * @param spec The specification of the PlaneSegmentation.
+ * @return The initialized PlaneSegmentation or nullptr if the creation failed.
+ */
+std::shared_ptr<PlaneSegmentation> createPlaneSegmentation(
+    const NWBFile& nwbfile,
+    const std::string& name,
+    const PlaneSegmentation::Spec& spec);
+
+/**
+ * @brief Create and initialize a RoiResponseSeries in
+ * `/processing/ophys/<Fluorescence|DfOverF>/<name>`.
+ *
+ * Creates the "ophys" ProcessingModule and the Fluorescence or DfOverF
+ * container if they do not exist.
+ *
+ * @param nwbfile The NWBFile.
+ * @param container The container to store the series in.
+ * @param name The name of the RoiResponseSeries.
+ * @param spec The specification of the RoiResponseSeries.
+ * @return The initialized RoiResponseSeries or nullptr if the creation failed.
+ */
+std::shared_ptr<RoiResponseSeries> createRoiResponseSeries(
+    const NWBFile& nwbfile,
+    const RoiResponseContainer& container,
+    const std::string& name,
+    const RoiResponseSeries::Spec& spec);
 
 }  // namespace AQNWB::NWB::Ophys

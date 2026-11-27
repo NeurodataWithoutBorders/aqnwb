@@ -30,9 +30,14 @@
 #  include "nwb/image/ImageSeries.hpp"
 #endif
 #ifdef AQNWB_HAS_OPHYS
+#  include "nwb/ophys/DfOverF.hpp"
+#  include "nwb/ophys/Fluorescence.hpp"
+#  include "nwb/ophys/ImageSegmentation.hpp"
 #  include "nwb/ophys/ImagingPlane.hpp"
 #  include "nwb/ophys/OnePhotonSeries.hpp"
 #  include "nwb/ophys/OpticalChannel.hpp"
+#  include "nwb/ophys/PlaneSegmentation.hpp"
+#  include "nwb/ophys/RoiResponseSeries.hpp"
 #  include "nwb/ophys/TwoPhotonSeries.hpp"
 #endif
 
@@ -80,9 +85,14 @@ void AQNWB::NWB::registerAllTypes()
 #endif
 #ifdef AQNWB_HAS_OPHYS
   // core: optical physiology module
+  DfOverF::registerSubclass();
+  Fluorescence::registerSubclass();
+  ImageSegmentation::registerSubclass();
   ImagingPlane::registerSubclass();
   OnePhotonSeries::registerSubclass();
   OpticalChannel::registerSubclass();
+  PlaneSegmentation::registerSubclass();
+  RoiResponseSeries::registerSubclass();
   TwoPhotonSeries::registerSubclass();
 #endif
 #ifdef AQNWB_HAS_OGEN
