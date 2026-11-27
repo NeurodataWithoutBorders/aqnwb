@@ -9,6 +9,7 @@
 #include "Types.hpp"
 #include "Utils.hpp"
 #include "io/BaseIO.hpp"
+#include "io/hdf5/HDF5ArrayDataSetConfig.hpp"
 #include "nwb/RegisteredTypeSpec.hpp"
 #include "nwb/base/ProcessingModule.hpp"
 #include "nwb/base/TimeSeries.hpp"
@@ -105,6 +106,20 @@ TEST_CASE("RegisteredTypeSpec fields and setters", "[spec]")
     REQUIRE(spec.unit == "volts");
     REQUIRE(spec.startingTime.value() > 1.0);
     REQUIRE(spec.controlDescription.size() == 2);
+  }
+
+  SECTION("withData keeps the dynamic type of the configuration")
+  {
+    IO::HDF5::HDF5ArrayDataSetConfig hdf5Config(
+        IO::BaseDataType::F32, {0, 2}, {10, 2});
+    const IO::BaseArrayDataSetConfig& baseRef = hdf5Config;
+    auto spec = NWB::TimeSeries::Spec().withData(baseRef);
+    REQUIRE(std::dynamic_pointer_cast<const IO::HDF5::HDF5ArrayDataSetConfig>(
+                spec.data)
+            != nullptr);
+    auto linkSpec = NWB::TimeSeries::Spec().withData(
+        IO::LinkArrayDataSetConfig("/some/data"));
+    REQUIRE(linkSpec.data->isLink());
   }
 
   SECTION("chaining inherited setters returns the derived spec")
@@ -399,3 +414,104 @@ TEST_CASE("Deprecated positional initialize methods", "[spec]")
 #elif defined(_MSC_VER)
 #  pragma warning(pop)
 #endif
+
+TEST_CASE("TimeSeries::appendSamples", "[spec]")
+{
+  std::string path = getTestFilePath("testAppendSamples.h5");
+  {
+    std::shared_ptr<IO::BaseIO> io = createIO("HDF5", path);
+    io->open();
+    auto rate = NWB::TimeSeries::create("/rate", io);
+    REQUIRE(rate->initialize(NWB::TimeSeries::Spec()
+                                 .withData(IO::ArrayDataSetConfig(
+                                     IO::BaseDataType::F32, {0, 2}, {10, 2}))
+                                 .withUnit("volts")
+                                 .withStartingTime(0.0)
+                                 .withStartingTimeRate(10.0f))
+            == Status::Success);
+    auto stamped = NWB::TimeSeries::create("/stamped", io);
+    REQUIRE(stamped->initialize(NWB::TimeSeries::Spec()
+                                    .withData(IO::ArrayDataSetConfig(
+                                        IO::BaseDataType::F32, {0}, {10}))
+                                    .withUnit("volts"))
+            == Status::Success);
+    auto linked = NWB::TimeSeries::create("/linked", io);
+    REQUIRE(linked->initialize(
+                NWB::TimeSeries::Spec()
+                    .withData(IO::LinkArrayDataSetConfig("/stamped/data"))
+                    .withUnit("volts"))
+            == Status::Success);
+
+    std::vector<float> values = {1.0f, 2.0f, 3.0f, 4.0f};
+    std::vector<double> timestamps = {0.0, 0.1};
+    REQUIRE(rate->appendSamples(2, values.data()) == Status::Success);
+    // Timing mode mismatches fail instead of writing inconsistent data
+    REQUIRE(rate->appendSamples(2, values.data(), timestamps.data())
+            == Status::Failure);
+    REQUIRE(rate->writeData({1, 2}, {2, 0}, values.data(), timestamps.data())
+            == Status::Failure);  // no timestamps dataset
+    REQUIRE(
+        rate->writeData({1, 2}, {2, 0}, values.data(), nullptr, values.data())
+        == Status::Failure);  // no control dataset
+    REQUIRE(stamped->appendSamples(2, values.data()) == Status::Failure);
+    REQUIRE(stamped->appendSamples(2, values.data(), timestamps.data())
+            == Status::Success);
+    // Writing to linked data is refused
+    REQUIRE(linked->appendSamples(1, values.data(), timestamps.data())
+            == Status::Failure);
+    io->close();
+  }
+
+  // Append after reopening the file
+  std::shared_ptr<IO::BaseIO> io = createIO("HDF5", path);
+  io->open(IO::FileMode::ReadWrite);
+  auto rate = NWB::RegisteredType::create<NWB::TimeSeries>("/rate", io);
+  std::vector<float> values = {5.0f, 6.0f};
+  REQUIRE(rate->appendSamples(1, values.data()) == Status::Success);
+  io->close();
+
+  std::shared_ptr<IO::BaseIO> readIO = createIO("HDF5", path);
+  readIO->open(IO::FileMode::ReadOnly);
+  auto readRate = NWB::RegisteredType::create<NWB::TimeSeries>("/rate", readIO);
+  auto data = readRate->readData<float>()->values();
+  REQUIRE(data.shape == SizeArray {3, 2});
+  REQUIRE(data.data == std::vector<float> {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f});
+  readIO->close();
+}
+
+TEST_CASE("Invalid specs do not create objects", "[spec]")
+{
+  std::string path = getTestFilePath("testSpecNoPartialObjects.h5");
+  std::shared_ptr<IO::BaseIO> io = createIO("HDF5", path);
+  io->open();
+  const SizeType numRecordingObjects = io->getRecordingObjects()->size();
+
+  // createAndInitialize validates the spec before creating the object
+  REQUIRE(NWB::ElectrodeGroup::Spec().createAndInitialize("/group", io)
+          == nullptr);
+  REQUIRE(io->getRecordingObjects()->size() == numRecordingObjects);
+  REQUIRE_FALSE(io->objectExists("/group"));
+
+  // Invalid column specs of a table fail without creating the table
+  std::vector<NWB::DynamicTable::DataSpecPtr> columns = {
+      NWB::VectorData::createDataSpec(
+          "values",
+          IO::ArrayDataSetConfig(IO::BaseDataType::F32, {0}, {10}),
+          "no id column")};
+  auto table = NWB::DynamicTable::create("/table", io);
+  REQUIRE(
+      table->initialize(
+          NWB::DynamicTable::Spec().withDescription("d").withColumns(columns))
+      == Status::Failure);
+  REQUIRE_FALSE(io->objectExists("/table"));
+
+  // An ElectricalSeries requires the electrodes table
+  auto es = NWB::ElectricalSeries::create("/es", io);
+  REQUIRE(es->initialize(NWB::ElectricalSeries::Spec()
+                             .withData(IO::ArrayDataSetConfig(
+                                 IO::BaseDataType::F32, {0, 2}, {10, 2}))
+                             .withChannelVector(getMockChannelArrays(2, 1)[0]))
+          == Status::Failure);
+  REQUIRE_FALSE(io->objectExists("/es"));
+  io->close();
+}

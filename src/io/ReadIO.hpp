@@ -411,6 +411,11 @@ public:
     }
     const auto& bytes =
         std::any_cast<const std::vector<uint8_t>&>(genericData.data);
+    if (bytes.size() % sourceType.compoundSize != 0) {
+      throw std::invalid_argument(
+          "DataBlock::fromCompound: The size of the data is not a multiple of "
+          "the size of the compound values.");
+    }
     const SizeType numValues = bytes.size() / sourceType.compoundSize;
     std::vector<DTYPE> values(numValues);
 
@@ -451,9 +456,18 @@ public:
             "DataBlock::fromCompound: The data has no member '"
             + targetMember.name + "' of the expected type.");
       }
-      mappings.push_back({sourceMember->offset,
-                          targetMember.offset,
-                          BaseDataType::getScalarNumBytes(targetMember.type)});
+      const SizeType memberSize =
+          BaseDataType::getScalarNumBytes(targetMember.type);
+      if (memberSize == 0 || targetMember.offset + memberSize > sizeof(DTYPE)
+          || sourceMember->offset + memberSize > sourceType.compoundSize)
+      {
+        throw std::invalid_argument(
+            "DataBlock::fromCompound: The member '" + targetMember.name
+            + "' is not a scalar numeric type or does not fit into the "
+              "compound values.");
+      }
+      mappings.push_back(
+          {sourceMember->offset, targetMember.offset, memberSize});
     }
     auto* target = reinterpret_cast<uint8_t*>(values.data());
     for (SizeType i = 0; i < numValues; ++i) {

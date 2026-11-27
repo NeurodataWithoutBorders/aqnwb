@@ -77,8 +77,8 @@ public:
   struct CompoundMember
   {
     std::string name;  ///< The name of the member.
-    Type type;  ///< The (scalar numeric) type of the member.
-    SizeType offset;  ///< The offset of the member in bytes.
+    Type type = T_I32;  ///< The (scalar numeric) type of the member.
+    SizeType offset = 0;  ///< The offset of the member in bytes.
 
     /// @brief Equality operator.
     bool operator==(const CompoundMember& other) const
@@ -134,6 +134,8 @@ public:
    * types.
    * @param size The size of a compound value in bytes.
    * @return The compound data type.
+   * @throws std::invalid_argument if the members are empty, not scalar
+   * numeric types, have duplicate names, or do not fit into size bytes.
    */
   static BaseDataType Compound(const std::vector<CompoundMember>& members,
                                SizeType size);
@@ -375,6 +377,20 @@ public:
   virtual bool isLink() const { return false; }
 
   /**
+   * @brief Create a copy of the configuration with the same dynamic type.
+   *
+   * Used, e.g., by TimeSeries::Spec::withData to store a copy of a
+   * configuration without slicing backend-specific settings (e.g., the filters
+   * of an HDF5ArrayDataSetConfig). Subclasses should override this method.
+   *
+   * @return The copy, or nullptr if the configuration cannot be copied.
+   */
+  virtual std::shared_ptr<BaseArrayDataSetConfig> clone() const
+  {
+    return nullptr;
+  }
+
+  /**
    * @brief Gets the shape, chunking, and data type from the configuration.
    *
    * This method provides a unified interface to retrieve configuration
@@ -407,6 +423,15 @@ public:
 class ArrayDataSetConfig : public BaseArrayDataSetConfig
 {
 public:
+  /**
+   * @brief Create a copy of the configuration.
+   * @return The copy.
+   */
+  std::shared_ptr<BaseArrayDataSetConfig> clone() const override
+  {
+    return std::make_shared<ArrayDataSetConfig>(*this);
+  }
+
   /**
    * @brief Constructs an ArrayDataSetConfig object with the specified type,
    * shape, and chunking.
@@ -486,6 +511,15 @@ protected:
 class LinkArrayDataSetConfig : public BaseArrayDataSetConfig
 {
 public:
+  /**
+   * @brief Create a copy of the configuration.
+   * @return The copy.
+   */
+  std::shared_ptr<BaseArrayDataSetConfig> clone() const override
+  {
+    return std::make_shared<LinkArrayDataSetConfig>(*this);
+  }
+
   /**
    * @brief Constructs a LinkArrayDataSetConfig object with the target path.
    * @param targetPath The path to the target dataset to link to.
@@ -951,7 +985,8 @@ public:
   /**
    * @brief Creates a non-modifiable scalar dataset with a numeric value.
    *
-   * Use createStringDataSet for scalar string datasets.
+   * Use createStringDataSet for scalar string datasets. The default
+   * implementation returns Status::Failure. IO backends should override it.
    *
    * @param type The numeric data type of the dataset.
    * @param data Pointer to the value of the dataset (of the given type).
@@ -960,7 +995,15 @@ public:
    */
   virtual Status createScalarDataSet(const BaseDataType& type,
                                      const void* data,
-                                     const std::string& path) = 0;
+                                     const std::string& path)
+  {
+    (void)type;
+    (void)data;
+    std::cerr << "BaseIO::createScalarDataSet is not supported by this IO "
+                 "backend: "
+              << path << std::endl;
+    return Status::Failure;
+  }
 
   /**
    * @brief Creates a dataset that holds an array of references to groups within

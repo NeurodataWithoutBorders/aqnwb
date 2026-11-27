@@ -76,7 +76,31 @@ Status ElectricalSeries::initialize(const Spec& spec)
     return Status::Failure;
   }
 
-  // Validate the spec and initialize the TimeSeries
+  // Check the spec and the electrodes table before anything is written
+  if (spec.validate() != Status::Success) {
+    return Status::Failure;
+  }
+  std::string idPath =
+      AQNWB::mergePaths(ElectrodesTable::electrodesTablePath, "id");
+  if (!ioPtr->objectExists(idPath)) {
+    std::cerr << "ElectricalSeries::initialize: The electrodes table must be "
+                 "created before the ElectricalSeries."
+              << std::endl;
+    return Status::Failure;
+  }
+  SizeArray elecTableDsetSize = ioPtr->getStorageObjectShape(idPath);
+  SizeType numElectrodes = elecTableDsetSize.empty() ? 0 : elecTableDsetSize[0];
+  for (const auto& channel : spec.channelVector) {
+    if (channel.getGlobalIndex() >= numElectrodes) {
+      std::cerr << "ElectricalSeries::initialize electrode index "
+                << channel.getGlobalIndex()
+                << " is out of range. Number of electrodes: " << numElectrodes
+                << std::endl;
+      return Status::Failure;
+    }
+  }
+
+  // Initialize the TimeSeries
   auto tsInitStatus = TimeSeries::initialize(spec);
   if (tsInitStatus != Status::Success) {
     return Status::Failure;
@@ -85,12 +109,6 @@ Status ElectricalSeries::initialize(const Spec& spec)
   const Types::ChannelVector& channelVector = spec.channelVector;
   const bool useChannelConversion = spec.useChannelConversion;
   this->m_channelVector = channelVector;
-
-  // get the number of electrodes from the electrode table
-  std::string idPath =
-      AQNWB::mergePaths(ElectrodesTable::electrodesTablePath, "id");
-  SizeArray elecTableDsetSize = ioPtr->getStorageObjectShape(idPath);
-  SizeType numElectrodes = elecTableDsetSize[0];
 
   // setup variables based on number of channels
   std::vector<int> electrodeInds(channelVector.size());

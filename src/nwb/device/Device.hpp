@@ -43,9 +43,6 @@ public:
                       std::nullopt)
   };
 
-  // Bring base class initialize method into scope
-  using Container::initialize;
-
 protected:
   /**
    * @brief Constructor.

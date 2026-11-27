@@ -95,9 +95,10 @@ struct RegisteredTypeSpec
  * - `OwnerType` and `BaseSpecType` type aliases
  * - overrides of `getTypeName` and `getNamespace` that return the values
  *   registered for `OWNER` via `REGISTER_SUBCLASS`
- * - `createAndInitialize(path, io)` to create an `OWNER` object at the given
- *   path and initialize it with this spec. Returns nullptr if the creation or
- *   initialization fails.
+ * - `createAndInitialize(path, io)` to validate this spec, create an `OWNER`
+ *   object at the given path, and initialize it with this spec. Returns
+ *   nullptr if the validation, creation, or initialization fails (no object
+ *   is created if the validation fails).
  *
  * @note
  * The Doxyfile.in defines a simplified expansion of this macro for generating
@@ -121,6 +122,9 @@ struct RegisteredTypeSpec
   std::shared_ptr<OWNER> createAndInitialize( \
       const std::string& path, std::shared_ptr<AQNWB::IO::BaseIO> io) const \
   { \
+    if (this->validate() != AQNWB::Types::Status::Success) { \
+      return nullptr; \
+    } \
     auto obj = OWNER::create(path, io); \
     if (obj == nullptr \
         || obj->initialize(*this) != AQNWB::Types::Status::Success) \
