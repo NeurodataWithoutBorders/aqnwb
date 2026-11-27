@@ -34,7 +34,6 @@ public:
    */
   struct Spec : public Container::Spec
   {
-    REGISTER_SPEC(NWBContainer, Container::Spec)
   };
 
   /**

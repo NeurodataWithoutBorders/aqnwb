@@ -288,6 +288,20 @@ public:
   virtual bool isLink() const { return false; }
 
   /**
+   * @brief Create a copy of the configuration with the same dynamic type.
+   *
+   * Used, e.g., by TimeSeries::Spec::withData to store a copy of a
+   * configuration without slicing backend-specific settings (e.g., the filters
+   * of an HDF5ArrayDataSetConfig). Subclasses should override this method.
+   *
+   * @return The copy, or nullptr if the configuration cannot be copied.
+   */
+  virtual std::shared_ptr<BaseArrayDataSetConfig> clone() const
+  {
+    return nullptr;
+  }
+
+  /**
    * @brief Gets the shape, chunking, and data type from the configuration.
    *
    * This method provides a unified interface to retrieve configuration
@@ -320,6 +334,15 @@ public:
 class ArrayDataSetConfig : public BaseArrayDataSetConfig
 {
 public:
+  /**
+   * @brief Create a copy of the configuration.
+   * @return The copy.
+   */
+  std::shared_ptr<BaseArrayDataSetConfig> clone() const override
+  {
+    return std::make_shared<ArrayDataSetConfig>(*this);
+  }
+
   /**
    * @brief Constructs an ArrayDataSetConfig object with the specified type,
    * shape, and chunking.
@@ -399,6 +422,15 @@ protected:
 class LinkArrayDataSetConfig : public BaseArrayDataSetConfig
 {
 public:
+  /**
+   * @brief Create a copy of the configuration.
+   * @return The copy.
+   */
+  std::shared_ptr<BaseArrayDataSetConfig> clone() const override
+  {
+    return std::make_shared<LinkArrayDataSetConfig>(*this);
+  }
+
   /**
    * @brief Constructs a LinkArrayDataSetConfig object with the target path.
    * @param targetPath The path to the target dataset to link to.

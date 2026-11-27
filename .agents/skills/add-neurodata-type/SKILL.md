@@ -15,13 +15,15 @@ The developer docs are the source of truth. Read them first and follow them over
 ## 1. Generate the starting point
 
 ```bash
-mkdir -p gen/spec
-uv run resources/utils/aqnwb_utils.py generate-spec <schema_dir> gen/spec   # only for new namespaces
-uv run resources/utils/aqnwb_utils.py generate-types --generate-test-app <namespace.yaml> gen
+mkdir -p build/gen/spec   # build/ is ignored by git
+uv run resources/utils/aqnwb_utils.py generate-spec <schema_dir> build/gen/spec   # needed to compile the output
+uv run resources/utils/aqnwb_utils.py generate-types --generate-test-app <namespace.yaml> build/gen
 ```
 
 - Types already implemented in `src/nwb` are not generated; the generated classes use them.
-- Only take the files for the types you are adding. Do not commit the `gen` folder.
+- Types from included namespaces that AqNWB does not implement yet (e.g., a core type used by an extension)
+  are generated too. Add them to AqNWB instead of keeping them in an extension.
+- Only take the files for the types you are adding.
 
 ## 2. Move the files into the source tree
 

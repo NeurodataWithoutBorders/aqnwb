@@ -73,8 +73,6 @@ public:
    */
   struct Spec : public NWBDataInterface::Spec
   {
-    REGISTER_SPEC(TimeSeries, NWBDataInterface::Spec)
-
     /// @brief Shared pointer to a dataset configuration (const)
     using DataConfigPtr = std::shared_ptr<const IO::BaseArrayDataSetConfig>;
 
@@ -88,19 +86,23 @@ public:
     /**
      * @brief Set the configuration of the data dataset.
      *
-     * Stores a copy of the given configuration.
+     * Stores a copy of the given configuration via
+     * IO::BaseArrayDataSetConfig::clone, i.e., backend-specific settings (e.g.,
+     * the filters of an HDF5ArrayDataSetConfig) are preserved also if the
+     * configuration is passed via a base class reference.
      *
-     * @tparam ConfigT The type of the configuration, e.g.,
+     * @param config The configuration of the data dataset, e.g., an
      * IO::ArrayDataSetConfig or IO::LinkArrayDataSetConfig.
-     * @param config The configuration of the data dataset.
      * @return Reference to this spec to allow chaining.
      */
-    template<typename ConfigT,
-             typename = std::enable_if_t<
-                 std::is_base_of_v<IO::BaseArrayDataSetConfig, ConfigT>>>
-    Spec& withData(const ConfigT& config)
+    Spec& withData(const IO::BaseArrayDataSetConfig& config)
     {
-      data = std::make_shared<const ConfigT>(config);
+      data = config.clone();
+      if (data == nullptr) {
+        std::cerr << "TimeSeries::Spec::withData: The configuration does not "
+                     "support clone()."
+                  << std::endl;
+      }
       return *this;
     }
 
@@ -259,6 +261,54 @@ public:
   Status initialize(const Spec& spec);
 
   /**
+   * @brief Check the data configuration of a spec against the file.
+   *
+   * Gets the shape, chunking, and data type of the data and, for linked data,
+   * checks that the target exists and has the attributes required by a
+   * TimeSeries. initialize calls this check before anything is written. Types
+   * that create TimeSeries as children (e.g., CorrectedImageStack) can call it
+   * before creating their own group. An unset data configuration is not
+   * checked, since it is reported by Spec::validate.
+   *
+   * @param spec The specification of the TimeSeries.
+   * @param io The IO object of the file.
+   * @param[out] shape The shape of the data.
+   * @param[out] chunking The chunking of the data.
+   * @param[out] dataType The data type of the data.
+   * @return Status::Success if the data configuration is valid for the file.
+   */
+  static Status checkDataConfig(const Spec& spec,
+                                const IO::BaseIO& io,
+                                SizeArray& shape,
+                                SizeArray& chunking,
+                                IO::BaseDataType& dataType);
+
+  /**
+   * @brief Append samples to the data (and timestamps and control) of the
+   * series.
+   *
+   * The samples are appended along the first dimension of the data. The
+   * offset and the shape of a sample are taken from the current extent of the
+   * data in the file, such that appending also works after reopening a file.
+   *
+   * @param numSamples The number of samples (along the first dimension) to
+   * write.
+   * @param dataInput Pointer to the samples, i.e., a contiguous array of shape
+   * [numSamples, ...] (the remaining dimensions of the data) in row-major
+   * order with the data type of the data.
+   * @param timestampsInput Pointer to the numSamples timestamps (float64).
+   * Required if the series uses timestamps and must be nullptr if the series
+   * uses startingTime and startingTimeRate.
+   * @param controlInput Pointer to the numSamples control values (uint8).
+   * Optional. Requires that the series has a control dataset.
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
+  Status appendSamples(const SizeType& numSamples,
+                       const void* dataInput,
+                       const void* timestampsInput = nullptr,
+                       const void* controlInput = nullptr);
+
+  /**
    * @brief Data type of the data.
    */
   IO::BaseDataType m_dataType;
@@ -273,6 +323,28 @@ public:
    */
   IO::BaseDataType controlType = IO::BaseDataType::U8;
 
+protected:
+  /**
+   * @brief True if the data of the series is a link to the data of another
+   * series (set by initialize). appendSamples refuses to write to links.
+   */
+  bool m_dataIsLink = false;
+
+  /**
+   * @brief True if m_dataType has been set (by initialize or appendSamples).
+   */
+  bool m_dataTypeInitialized = false;
+
+  /**
+   * @brief The timing mode of the series, i.e., true if the series uses
+   * timestamps and false if it uses starting_time and rate. Set by initialize,
+   * or determined from the file on the first call of appendSamples (e.g.,
+   * after reopening a file), such that appendSamples does not query the file
+   * on every call.
+   */
+  std::optional<bool> m_usesTimestamps;
+
+public:
   // Define the data fields to expose for lazy read access
   DEFINE_ATTRIBUTE_FIELD(readDescription,
                          std::string,
