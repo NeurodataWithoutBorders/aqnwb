@@ -95,6 +95,13 @@ TEST_CASE("RegisteredTypeSpec fields and setters", "[spec]")
     auto linkSpec = NWB::TimeSeries::Spec().withData(
         IO::LinkArrayDataSetConfig("/some/data"));
     REQUIRE(linkSpec.data->isLink());
+
+    // Column specs keep the dynamic type of the configuration as well
+    auto columnSpec =
+        NWB::VectorData::createDataSpec("col", hdf5Config, "a column");
+    REQUIRE(dynamic_cast<const IO::HDF5::HDF5ArrayDataSetConfig*>(
+                &columnSpec->getDataConfig())
+            != nullptr);
   }
 
   SECTION("chaining inherited setters returns the derived spec")
@@ -167,9 +174,16 @@ TEST_CASE("RegisteredTypeSpec validation", "[spec]")
   {
     REQUIRE(NWB::AnnotationSeries::Spec().withData(config).validate()
             == Status::Success);
+    // The fixed values can only be changed via the TimeSeries::Spec setters,
+    // which validate() rejects
     REQUIRE(NWB::AnnotationSeries::Spec()
                 .withData(config)
                 .withUnit("volts")
+                .validate()
+            == Status::Failure);
+    REQUIRE(NWB::AnnotationSeries::Spec()
+                .withData(config)
+                .withConversion(2.0f)
                 .validate()
             == Status::Failure);
   }

@@ -46,7 +46,23 @@ public:
                  const IO::ArrayDataSetConfig& dataConfig)
         : IO::ArrayDataSetConfig(dataConfig)
         , name(datasetName)
+        , m_dataConfig(cloneConfig(dataConfig))
     {
+    }
+
+    /**
+     * @brief Get the dataset configuration of the object to create.
+     *
+     * The configuration is a copy of the configuration passed to the
+     * constructor, including the settings of backend-specific subclasses
+     * (e.g., the filters of an IO::HDF5ArrayDataSetConfig), which the
+     * IO::ArrayDataSetConfig base of the spec does not store.
+     *
+     * @return The dataset configuration.
+     */
+    const IO::ArrayDataSetConfig& getDataConfig() const
+    {
+      return *m_dataConfig;
     }
 
     virtual ~DataSpecBase() override = default;
@@ -69,6 +85,27 @@ public:
 
     /// @brief Dataset name relative to the owning table/container.
     std::string name;
+
+  private:
+    /**
+     * @brief Copy a dataset configuration without slicing it.
+     * @param dataConfig The configuration to copy.
+     * @return The copy (as IO::ArrayDataSetConfig if clone is not supported).
+     */
+    static std::shared_ptr<const IO::ArrayDataSetConfig> cloneConfig(
+        const IO::ArrayDataSetConfig& dataConfig)
+    {
+      auto copy = std::dynamic_pointer_cast<const IO::ArrayDataSetConfig>(
+          std::shared_ptr<const IO::BaseArrayDataSetConfig>(
+              dataConfig.clone()));
+      if (copy == nullptr) {
+        copy = std::make_shared<IO::ArrayDataSetConfig>(dataConfig);
+      }
+      return copy;
+    }
+
+    /// @brief Copy of the full dataset configuration (see getDataConfig).
+    std::shared_ptr<const IO::ArrayDataSetConfig> m_dataConfig;
   };
 
   /**
