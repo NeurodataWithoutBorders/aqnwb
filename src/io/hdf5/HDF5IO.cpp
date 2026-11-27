@@ -1389,12 +1389,6 @@ Status HDF5IO::createLink(const std::string& path, const std::string& reference)
 }
 
 Status HDF5IO::createReferenceDataSet(
-    const std::string& path, const std::vector<std::string>& references)
-{
-  return createReferenceDataSet(path, references, 0);
-}
-
-Status HDF5IO::createReferenceDataSet(
     const std::string& path,
     const std::vector<std::string>& references,
     const SizeType& chunkSize)

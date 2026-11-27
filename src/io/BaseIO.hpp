@@ -1063,39 +1063,21 @@ public:
   /**
    * @brief Creates a dataset that holds an array of references to groups within
    * the file.
-   * @param path The location in the file of the new dataset.
-   * @param references The array of references.
-   * @return The status of the dataset creation operation.
-   */
-  virtual Status createReferenceDataSet(
-      const std::string& path, const std::vector<std::string>& references) = 0;
-
-  /**
-   * @brief Creates a dataset of references that can be extended.
    *
-   * Same as createReferenceDataSet(path, references), but the dataset is
-   * chunked with the given chunk size and has an unlimited size, such that
-   * references can be appended via BaseRecordingData::writeReferences. The
-   * default implementation returns Status::Failure. IO backends should
-   * override it.
+   * With a chunk size > 0, the dataset is chunked and has an unlimited size,
+   * such that references can be appended via
+   * BaseRecordingData::writeReferences.
    *
    * @param path The location in the file of the new dataset.
    * @param references The array of references.
-   * @param chunkSize The chunk size of the dataset (> 0).
+   * @param chunkSize The chunk size of an extendable dataset, or 0 (default)
+   * for a dataset with a fixed size.
    * @return The status of the dataset creation operation.
    */
   virtual Status createReferenceDataSet(
       const std::string& path,
       const std::vector<std::string>& references,
-      const SizeType& chunkSize)
-  {
-    (void)references;
-    (void)chunkSize;
-    std::cerr << "BaseIO::createReferenceDataSet with a chunk size is not "
-                 "supported by this IO backend: "
-              << path << std::endl;
-    return Status::Failure;
-  }
+      const SizeType& chunkSize = 0) = 0;
 
   /**
    * @brief Starts the recording process.
