@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cmath>
 #include <memory>
 #include <string>
@@ -283,9 +284,11 @@ TEST_CASE("TwoPhotonSeries and OnePhotonSeries", "[ophys]")
   }
   std::vector<double> timestamps = {0.0, 0.1, 0.25};
   for (int block = 0; block < 2; ++block) {
-    for (double& timestamp : timestamps) {
-      timestamp += 0.5 * static_cast<double>(block);
-    }
+    std::transform(timestamps.begin(),
+                   timestamps.end(),
+                   timestamps.begin(),
+                   [block](double timestamp)
+                   { return timestamp + 0.5 * static_cast<double>(block); });
     REQUIRE(
         NWB::Ophys::writeImageSeriesFrames(io->getRecordingObjects(),
                                            twoPhoton->getRecordingObjectIndex(),
