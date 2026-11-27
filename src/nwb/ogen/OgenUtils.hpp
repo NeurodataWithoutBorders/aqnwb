@@ -38,7 +38,7 @@ inline const std::string OPTOGENETICS_PATH = "/general/optogenetics";
  * failed.
  */
 std::shared_ptr<OptogeneticStimulusSite> createOptogeneticStimulusSite(
-    NWBFile& nwbfile,
+    const NWBFile& nwbfile,
     const std::string& name,
     const OptogeneticStimulusSite::Spec& spec);
 
@@ -55,7 +55,7 @@ std::shared_ptr<OptogeneticStimulusSite> createOptogeneticStimulusSite(
  * @return The initialized OptogeneticSeries or nullptr if the creation failed.
  */
 std::shared_ptr<OptogeneticSeries> createOptogeneticSeries(
-    NWBFile& nwbfile,
+    const NWBFile& nwbfile,
     const std::string& name,
     const OptogeneticSeries::Spec& spec);
 
