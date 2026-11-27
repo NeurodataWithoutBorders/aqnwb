@@ -345,3 +345,57 @@ Status PlaneSegmentation::addRaggedMasks(const std::string& maskName,
   status = status && setRowIDs(roiIds);
   return status;
 }
+
+namespace
+{
+/**
+ * @brief Read a ragged compound mask column and split it into one list of
+ * entries per ROI.
+ */
+template<typename EntryT>
+std::vector<std::vector<EntryT>> readRaggedMasks(
+    const std::shared_ptr<AQNWB::IO::BaseIO>& io,
+    const std::string& tablePath,
+    const std::string& maskName,
+    const AQNWB::IO::BaseDataType& entryType)
+{
+  std::vector<std::vector<EntryT>> masks;
+  const std::string maskPath = AQNWB::mergePaths(tablePath, maskName);
+  const std::string indexPath = maskPath + "_index";
+  if (io == nullptr || !io->objectExists(maskPath)
+      || !io->objectExists(indexPath))
+  {
+    return masks;
+  }
+  auto entries = AQNWB::IO::DataBlock<EntryT>::fromCompound(
+      io->readDataset(maskPath), entryType);
+  auto index =
+      AQNWB::IO::DataBlock<uint32_t>::fromGeneric(io->readDataset(indexPath));
+  SizeType start = 0;
+  for (const uint32_t end : index.data) {
+    if (end < start || end > entries.data.size()) {
+      throw std::invalid_argument("PlaneSegmentation: invalid " + maskName
+                                  + "_index");
+    }
+    masks.emplace_back(
+        entries.data.begin() + static_cast<std::ptrdiff_t>(start),
+        entries.data.begin() + static_cast<std::ptrdiff_t>(end));
+    start = end;
+  }
+  return masks;
+}
+}  // namespace
+
+std::vector<std::vector<PlaneSegmentation::PixelMaskEntry>>
+PlaneSegmentation::readPixelMasks() const
+{
+  return readRaggedMasks<PixelMaskEntry>(
+      getIO(), m_path, "pixel_mask", getPixelMaskType());
+}
+
+std::vector<std::vector<PlaneSegmentation::VoxelMaskEntry>>
+PlaneSegmentation::readVoxelMasks() const
+{
+  return readRaggedMasks<VoxelMaskEntry>(
+      getIO(), m_path, "voxel_mask", getVoxelMaskType());
+}

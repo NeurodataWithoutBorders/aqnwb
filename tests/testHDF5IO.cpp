@@ -778,6 +778,52 @@ TEST_CASE("HDF5IO; compound data types", "[hdf5io]")
   REQUIRE(values[1].y == 4);
   REQUIRE(values[2].x == 5);
   REQUIRE(std::abs(values[2].weight - 0.25f) < 1e-6f);
+
+  // Typed read of the compound data via DataBlock
+  auto typed = IO::DataBlock<PixelMask>::fromGeneric(block);
+  REQUIRE(typed.data.size() == 3);
+  REQUIRE(typed.shape == SizeArray {3});
+  REQUIRE(typed.data[1].x == 3);
+  REQUIRE(std::abs(typed.data[1].weight - 1.0f) < 1e-6f);
+
+  // Read into a struct with a different member order by matching the names
+  struct ReorderedPixelMask
+  {
+    float weight;
+    uint32_t y;
+    uint32_t x;
+  };
+  const IO::BaseDataType reorderedType = IO::BaseDataType::Compound(
+      {{"weight",
+        IO::BaseDataType::T_F32,
+        offsetof(ReorderedPixelMask, weight)},
+       {"y", IO::BaseDataType::T_U32, offsetof(ReorderedPixelMask, y)},
+       {"x", IO::BaseDataType::T_U32, offsetof(ReorderedPixelMask, x)}},
+      sizeof(ReorderedPixelMask));
+  auto reordered =
+      IO::DataBlock<ReorderedPixelMask>::fromCompound(block, reorderedType);
+  REQUIRE(reordered.data[2].x == 5);
+  REQUIRE(reordered.data[2].y == 6);
+  REQUIRE(std::abs(reordered.data[2].weight - 0.25f) < 1e-6f);
+
+  // Mismatched layouts fail
+  struct WrongSize
+  {
+    uint32_t x;
+  };
+  REQUIRE_THROWS_AS(IO::DataBlock<WrongSize>::fromCompound(block),
+                    std::invalid_argument);
+  const IO::BaseDataType missingMemberType = IO::BaseDataType::Compound(
+      {{"z", IO::BaseDataType::T_U32, 0}}, sizeof(WrongSize));
+  REQUIRE_THROWS_AS(
+      IO::DataBlock<WrongSize>::fromCompound(block, missingMemberType),
+      std::invalid_argument);
+  // Non-compound data fails
+  IO::DataBlockGeneric numericBlock;
+  numericBlock.baseDataType = IO::BaseDataType::U32;
+  numericBlock.data = std::vector<uint8_t>(4);
+  REQUIRE_THROWS_AS(IO::DataBlock<PixelMask>::fromCompound(numericBlock),
+                    std::invalid_argument);
   readio.close();
 }
 

@@ -275,10 +275,28 @@ TEST_CASE("PlaneSegmentation with pixel and voxel masks", "[ophys]")
   REQUIRE(entries[4].x == 6);
   REQUIRE(std::abs(entries[5].weight - 0.25f) < 1e-6f);
 
+  // Typed read of the masks
+  auto pixelMasks = readPixels->readPixelMasks();
+  REQUIRE(pixelMasks.size() == 3);
+  REQUIRE(pixelMasks[0].size() == 2);
+  REQUIRE(pixelMasks[1].size() == 3);
+  REQUIRE(pixelMasks[1][2].x == 6);
+  REQUIRE(pixelMasks[2][0].x == 9);
+  auto typedEntries = readPixels->readPixelMask()
+                          ->readData<NWB::PlaneSegmentation::PixelMaskEntry>()
+                          ->values();
+  REQUIRE(typedEntries.data.size() == 6);
+  REQUIRE(typedEntries.data[3].y == 6);
+  REQUIRE(readPixels->readVoxelMasks().empty());  // no voxel_mask column
+
   auto readVoxels = NWB::RegisteredType::create<NWB::PlaneSegmentation>(
       "/processing/ophys/ImageSegmentation/VoxelSegmentation", readIO);
   REQUIRE(readVoxels->getNumberOfRows() == 2);
   REQUIRE(readVoxels->readVoxelMaskIndex()->readData<uint32_t>()->values().data
           == std::vector<uint32_t> {1, 3});
+  auto voxelMasks = readVoxels->readVoxelMasks();
+  REQUIRE(voxelMasks.size() == 2);
+  REQUIRE(voxelMasks[1].size() == 2);
+  REQUIRE(voxelMasks[1][1].z == 9);
   readIO->close();
 }

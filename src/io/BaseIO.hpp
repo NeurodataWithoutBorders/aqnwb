@@ -144,6 +144,36 @@ public:
    */
   inline bool isCompound() const { return type == T_COMPOUND; }
 
+  /**
+   * @brief Get the number of bytes of a scalar numeric type.
+   * @param type The scalar numeric type.
+   * @return The number of bytes, or 0 for strings and compound types.
+   */
+  static SizeType getScalarNumBytes(Type type)
+  {
+    switch (type) {
+      case T_U8:
+      case T_I8:
+        return 1;
+      case T_U16:
+      case T_I16:
+        return 2;
+      case T_U32:
+      case T_I32:
+      case T_F32:
+        return 4;
+      case T_U64:
+      case T_I64:
+      case T_F64:
+        return 8;
+      case T_STR:
+      case V_STR:
+      case T_COMPOUND:
+        return 0;
+    }
+    return 0;
+  }
+
   // Define the equality operator
   bool operator==(const BaseDataType& other) const
   {
