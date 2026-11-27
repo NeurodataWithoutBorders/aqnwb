@@ -1391,36 +1391,55 @@ Status HDF5IO::createLink(const std::string& path, const std::string& reference)
 Status HDF5IO::createReferenceDataSet(
     const std::string& path, const std::vector<std::string>& references)
 {
+  return createReferenceDataSet(path, references, 0);
+}
+
+Status HDF5IO::createReferenceDataSet(
+    const std::string& path,
+    const std::vector<std::string>& references,
+    const SizeType& chunkSize)
+{
   if (!canModifyObjects()) {
     return Status::Failure;
   }
 
   const hsize_t size = references.size();
-
-  hobj_ref_t* rdata = new hobj_ref_t[size * sizeof(hobj_ref_t)];
-
-  for (SizeType i = 0; i < size; i++) {
+  std::vector<hobj_ref_t> rdata(references.size());
+  for (SizeType i = 0; i < references.size(); i++) {
     m_file->reference(&rdata[i], references[i].c_str());
   }
 
-  hid_t space = H5Screate_simple(1, &size, NULL);
+  // A chunk size of 0 creates a dataset with a fixed size (contiguous layout)
+  const hsize_t maxSize = chunkSize > 0 ? H5S_UNLIMITED : size;
+  hid_t space = H5Screate_simple(1, &size, &maxSize);
+  hid_t dcpl = H5Pcreate(H5P_DATASET_CREATE);
+  if (chunkSize > 0) {
+    const hsize_t chunk = static_cast<hsize_t>(chunkSize);
+    H5Pset_chunk(dcpl, 1, &chunk);
+  }
 
   hid_t dset = H5Dcreate(m_file->getLocId(),
                          path.c_str(),
                          H5T_STD_REF_OBJ,
                          space,
                          H5P_DEFAULT,
-                         H5P_DEFAULT,
+                         dcpl,
                          H5P_DEFAULT);
+  H5Pclose(dcpl);
+  if (dset < 0) {
+    H5Sclose(space);
+    return Status::Failure;
+  }
 
-  herr_t writeStatus = H5Dwrite(dset,
-                                H5T_STD_REF_OBJ,
-                                H5S_ALL,
-                                H5S_ALL,
-                                H5P_DEFAULT,
-                                static_cast<const void*>(rdata));
-
-  delete[] rdata;
+  herr_t writeStatus = 0;
+  if (size > 0) {
+    writeStatus = H5Dwrite(dset,
+                           H5T_STD_REF_OBJ,
+                           H5S_ALL,
+                           H5S_ALL,
+                           H5P_DEFAULT,
+                           static_cast<const void*>(rdata.data()));
+  }
 
   herr_t dsetStatus = H5Dclose(dset);
   if (intToStatus(dsetStatus) == Status::Failure) {

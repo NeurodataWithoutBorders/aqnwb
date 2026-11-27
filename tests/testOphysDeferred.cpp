@@ -112,14 +112,16 @@ TEST_CASE("Images, IndexSeries, OpticalSeries, and ImageMaskSeries", "[ophys]")
                   IO::BaseDataType::U8, {4, 3, 3}, {4, 3, 3})),
               rgbPixels.data())
           == nullptr);  // RGBA images have 4 channels
-  // Images can be added to an initialized collection without an order of the
-  // images, since the order must list all images
+  // Images can be added to an initialized collection. They are appended to
+  // the order of the images, i.e., the existing indices stay valid.
   REQUIRE(images->addImage<NWB::GrayscaleImage>(
               "gray2",
               NWB::Image::Spec().withData(
                   IO::ArrayDataSetConfig(IO::BaseDataType::U8, {4, 3}, {4, 3})),
               grayPixels.data())
-          == nullptr);
+          != nullptr);
+  REQUIRE(images->readOrderOfImages()->recordData()->getShape()
+          == SizeArray {3});
   auto unordered = NWB::Images::create("/stimulus/templates/extra", io);
   REQUIRE(unordered->initialize(
               NWB::Images::Spec()

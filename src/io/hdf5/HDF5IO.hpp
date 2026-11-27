@@ -393,6 +393,14 @@ public:
       const std::vector<std::string>& references) override;
 
   /**
+   * @copydoc IO::BaseIO::createReferenceDataSet(const std::string&, const
+   * std::vector<std::string>&, const SizeType&)
+   */
+  Status createReferenceDataSet(const std::string& path,
+                                const std::vector<std::string>& references,
+                                const SizeType& chunkSize) override;
+
+  /**
    * @brief Start SWMR write to start recording process.
    * @return The status of the start recording operation.
    */

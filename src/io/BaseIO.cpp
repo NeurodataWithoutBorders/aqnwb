@@ -444,6 +444,20 @@ BaseRecordingData::BaseRecordingData() {}
 
 BaseRecordingData::~BaseRecordingData() {}
 
+Status BaseRecordingData::writeReferences(
+    const SizeArray& dataShape,
+    const SizeArray& positionOffset,
+    const std::vector<std::string>& references)
+{
+  (void)dataShape;
+  (void)positionOffset;
+  (void)references;
+  std::cerr << "BaseRecordingData::writeReferences is not supported by this "
+               "IO backend."
+            << std::endl;
+  return Status::Failure;
+}
+
 Status BaseIO::startRecording()
 {
   Status status = Status::Success;

@@ -1071,6 +1071,33 @@ public:
       const std::string& path, const std::vector<std::string>& references) = 0;
 
   /**
+   * @brief Creates a dataset of references that can be extended.
+   *
+   * Same as createReferenceDataSet(path, references), but the dataset is
+   * chunked with the given chunk size and has an unlimited size, such that
+   * references can be appended via BaseRecordingData::writeReferences. The
+   * default implementation returns Status::Failure. IO backends should
+   * override it.
+   *
+   * @param path The location in the file of the new dataset.
+   * @param references The array of references.
+   * @param chunkSize The chunk size of the dataset (> 0).
+   * @return The status of the dataset creation operation.
+   */
+  virtual Status createReferenceDataSet(
+      const std::string& path,
+      const std::vector<std::string>& references,
+      const SizeType& chunkSize)
+  {
+    (void)references;
+    (void)chunkSize;
+    std::cerr << "BaseIO::createReferenceDataSet with a chunk size is not "
+                 "supported by this IO backend: "
+              << path << std::endl;
+    return Status::Failure;
+  }
+
+  /**
    * @brief Starts the recording process.
    * @return The status of the operation.
    */
@@ -1298,6 +1325,24 @@ public:
                                 const SizeArray& positionOffset,
                                 const BaseDataType& type,
                                 const std::vector<std::string>& data) = 0;
+
+  /**
+   * @brief Writes a block of object references into a dataset of object
+   * references.
+   *
+   * Like writeDataBlock, the dataset is extended if needed, e.g., to append
+   * references to a dataset created via BaseIO::createReferenceDataSet with a
+   * chunk size. The default implementation returns Status::Failure. IO
+   * backends should override it.
+   *
+   * @param dataShape The size of the data block.
+   * @param positionOffset The position of the data block to write to.
+   * @param references The paths of the referenced objects in the file.
+   * @return The status of the write operation.
+   */
+  virtual Status writeReferences(const SizeArray& dataShape,
+                                 const SizeArray& positionOffset,
+                                 const std::vector<std::string>& references);
 
   /**
    * @brief Get the number of dimensions in the dataset.

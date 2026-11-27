@@ -33,10 +33,26 @@ public:
 
   /**
    * @brief Initialize the dataset with references to the given images.
+   *
+   * The dataset can be extended via append.
+   *
    * @param imagePaths The paths of the referenced images, in order.
    * @return Status::Success if successful, otherwise Status::Failure.
    */
   Status initialize(const std::vector<std::string>& imagePaths);
+
+  /**
+   * @brief Append references to images to the end of the dataset.
+   *
+   * The existing references keep their position, i.e., indices into the
+   * order (e.g., of an IndexSeries) stay valid. Fails for datasets with a
+   * fixed size (e.g., in files written by older versions).
+   *
+   * @param imagePaths The paths of the referenced images. The images must
+   * exist.
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
+  Status append(const std::vector<std::string>& imagePaths);
 
 protected:
   /**
@@ -175,9 +191,9 @@ public:
   /**
    * @brief Add an image to an initialized collection.
    *
-   * Fails for collections with an order of the images (order_of_images),
-   * since the order must list all images of the collection. Add all images
-   * before setting the order (see setOrderOfImages).
+   * If the collection has an order of the images (order_of_images), the
+   * image is appended to the order, since the order must list all images of
+   * the collection. The positions of the existing images do not change.
    *
    * @tparam T The type of the image, i.e., Image or a subtype.
    * @param name The name of the image.
@@ -193,14 +209,10 @@ public:
   {
     static_assert(std::is_base_of_v<Image, T>,
                   "addImage requires Image or a subtype of Image");
-    if (hasOrderOfImages()) {
-      std::cerr << "Images::addImage: " << m_path
-                << " has an order of the images, which would not include "
-                << name << "." << std::endl;
-      return nullptr;
-    }
     auto image = createImage<T>(name);
-    if (image == nullptr || writeImage(*image, spec, data) != Status::Success) {
+    if (image == nullptr || writeImage(*image, spec, data) != Status::Success
+        || appendToOrderOfImages(image->getPath()) != Status::Success)
+    {
       return nullptr;
     }
     return image;
@@ -229,10 +241,13 @@ public:
 
 protected:
   /**
-   * @brief Check whether the collection has an order of the images.
-   * @return True if the order_of_images dataset exists.
+   * @brief Append an image to the order of the images, if the collection has
+   * an order.
+   * @param imagePath The path of the image.
+   * @return Status::Success if the image was appended or the collection has
+   * no order, otherwise Status::Failure.
    */
-  bool hasOrderOfImages() const;
+  Status appendToOrderOfImages(const std::string& imagePath);
 
   /**
    * @brief Initialize an image and write its pixel values.

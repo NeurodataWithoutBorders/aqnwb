@@ -35,11 +35,40 @@ Status ImageReferences::initialize(const std::vector<std::string>& imagePaths)
       return Status::Failure;
     }
   }
-  Status status = ioPtr->createReferenceDataSet(m_path, imagePaths);
+  // Chunked, such that images can be appended to the order
+  Status status = ioPtr->createReferenceDataSet(m_path, imagePaths, 16);
   status = status
       && ioPtr->createCommonNWBAttributes(
           m_path, getNamespace(), getTypeName());
   return status;
+}
+
+Status ImageReferences::append(const std::vector<std::string>& imagePaths)
+{
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    std::cerr << "ImageReferences::append: IO object is not valid."
+              << std::endl;
+    return Status::Failure;
+  }
+  for (const auto& imagePath : imagePaths) {
+    if (!ioPtr->objectExists(imagePath)) {
+      std::cerr << "ImageReferences::append: The image " << imagePath
+                << " does not exist." << std::endl;
+      return Status::Failure;
+    }
+  }
+  if (imagePaths.empty()) {
+    return Status::Success;
+  }
+  auto recorder = recordData();
+  if (recorder == nullptr) {
+    return Status::Failure;
+  }
+  const SizeArray shape = recorder->getShape();
+  const SizeType numReferences = shape.empty() ? 0 : shape[0];
+  return recorder->writeReferences(
+      {imagePaths.size()}, {numReferences}, imagePaths);
 }
 
 /** Constructor */
@@ -129,11 +158,21 @@ Status Images::initialize(const Spec& spec)
   return status;
 }
 
-bool Images::hasOrderOfImages() const
+Status Images::appendToOrderOfImages(const std::string& imagePath)
 {
   auto ioPtr = getIO();
-  return ioPtr != nullptr
-      && ioPtr->objectExists(AQNWB::mergePaths(m_path, "order_of_images"));
+  if (ioPtr == nullptr
+      || !ioPtr->objectExists(AQNWB::mergePaths(m_path, "order_of_images")))
+  {
+    return Status::Success;  // no order of the images
+  }
+  auto order = readOrderOfImages();
+  if (order == nullptr || order->append({imagePath}) != Status::Success) {
+    std::cerr << "Images::addImage: Failed to append " << imagePath
+              << " to the order of the images of " << m_path << std::endl;
+    return Status::Failure;
+  }
+  return Status::Success;
 }
 
 Status Images::writeImage(Image& image,

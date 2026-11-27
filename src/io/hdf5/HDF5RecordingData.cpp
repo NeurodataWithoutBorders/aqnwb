@@ -234,6 +234,49 @@ Status HDF5RecordingData::prepareWrite(const SizeArray& dataShape,
   return Status::Success;
 }
 
+Status HDF5RecordingData::writeReferences(
+    const SizeArray& dataShape,
+    const SizeArray& positionOffset,
+    const std::vector<std::string>& references)
+{
+  const hid_t dataset = m_dataset->getId();
+  const hid_t fileType = H5Dget_type(dataset);
+  const bool isReference =
+      fileType >= 0 && H5Tget_class(fileType) == H5T_REFERENCE;
+  if (fileType >= 0) {
+    H5Tclose(fileType);
+  }
+  if (!isReference) {
+    std::cerr << "HDF5RecordingData::writeReferences: The dataset is not a "
+                 "dataset of references."
+              << std::endl;
+    return Status::Failure;
+  }
+  // Create the references in the file of the dataset
+  std::vector<hobj_ref_t> refs(references.size());
+  Status status = Status::Success;
+  for (size_t i = 0; i < references.size() && status == Status::Success; ++i) {
+    if (H5Rcreate(&refs[i], dataset, references[i].c_str(), H5R_OBJECT, -1) < 0)
+    {
+      std::cerr << "HDF5RecordingData::writeReferences: Failed to create a "
+                   "reference to "
+                << references[i] << std::endl;
+      status = Status::Failure;
+    }
+  }
+  if (status != Status::Success) {
+    return Status::Failure;
+  }
+  try {
+    return writeBlock(
+        dataShape, positionOffset, H5::PredType::STD_REF_OBJ, refs.data());
+  } catch (const H5::Exception& error) {
+    std::cerr << "HDF5RecordingData::writeReferences: " << error.getDetailMsg()
+              << std::endl;
+    return Status::Failure;
+  }
+}
+
 const DataType& HDF5RecordingData::getMemType(const BaseDataType& type)
 {
   if (!m_memType || !m_memBaseType.has_value()
