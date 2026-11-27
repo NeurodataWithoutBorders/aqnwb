@@ -845,7 +845,7 @@ TEST_CASE("HDF5IO; compound data type validation and layouts", "[hdf5io]")
         std::invalid_argument);  // non-numeric member
   }
 
-  SECTION("struct with padding is stored packed")
+  SECTION("struct with padding is stored packed and read by member name")
   {
     struct Padded
     {
@@ -872,6 +872,17 @@ TEST_CASE("HDF5IO; compound data type validation and layouts", "[hdf5io]")
     auto block = readio.readDataset("/padded");
     // The file layout is packed (2 + 8 bytes)
     REQUIRE(block.baseDataType.compoundSize == 10);
+    REQUIRE_THROWS_AS(IO::DataBlock<Padded>::fromGeneric(block),
+                      std::invalid_argument);
+    auto values = IO::DataBlock<Padded>::fromCompound(block, paddedType);
+    REQUIRE(values.data[1].a == 2);
+    REQUIRE(std::abs(values.data[1].b - 1.5) < 1e-12);
+
+    // Out-of-bounds offsets in the target type are rejected
+    IO::BaseDataType invalidTarget = paddedType;
+    invalidTarget.members[1].offset = 1000;
+    REQUIRE_THROWS_AS(IO::DataBlock<Padded>::fromCompound(block, invalidTarget),
+                      std::invalid_argument);
     readio.close();
   }
 

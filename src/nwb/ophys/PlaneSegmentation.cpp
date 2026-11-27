@@ -429,10 +429,29 @@ std::vector<std::vector<EntryT>> readRaggedMasks(
   }
   auto entries = AQNWB::IO::DataBlock<EntryT>::fromCompound(
       io->readDataset(maskPath), entryType);
-  auto index =
-      AQNWB::IO::DataBlock<uint32_t>::fromGeneric(io->readDataset(indexPath));
+  // The index may use any unsigned integer type (e.g., uint8 in files
+  // written by hdmf), so convert it to SizeType
+  std::vector<SizeType> ends;
+  std::visit(
+      [&ends](const auto& values)
+      {
+        using VectorT = std::decay_t<decltype(values)>;
+        if constexpr (std::is_same_v<VectorT, std::monostate>) {
+          throw std::invalid_argument(
+              "PlaneSegmentation: unsupported data type of the mask index");
+        } else if constexpr (std::is_integral_v<typename VectorT::value_type>) {
+          for (const auto& value : values) {
+            ends.push_back(static_cast<SizeType>(value));
+          }
+        } else {
+          throw std::invalid_argument(
+              "PlaneSegmentation: the mask index must "
+              "use an integer data type");
+        }
+      },
+      io->readDataset(indexPath).as_variant());
   SizeType start = 0;
-  for (const uint32_t end : index.data) {
+  for (const SizeType end : ends) {
     if (end < start || end > entries.data.size()) {
       throw std::invalid_argument("PlaneSegmentation: invalid " + maskName
                                   + "_index");
