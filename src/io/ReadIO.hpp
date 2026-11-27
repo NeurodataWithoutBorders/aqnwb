@@ -403,7 +403,7 @@ public:
       const std::optional<BaseDataType>& targetType = std::nullopt)
   {
     static_assert(std::is_trivially_copyable_v<DTYPE>,
-                  "fromCompound requires a trivially copyable type");
+                  "fromCompound requires a type that can be copied via memcpy");
     const BaseDataType& sourceType = genericData.baseDataType;
     if (!sourceType.isCompound() || sourceType.compoundSize == 0) {
       throw std::invalid_argument(
