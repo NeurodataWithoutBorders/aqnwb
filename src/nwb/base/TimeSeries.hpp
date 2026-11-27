@@ -314,6 +314,15 @@ protected:
    */
   bool m_dataTypeInitialized = false;
 
+  /**
+   * @brief The timing mode of the series, i.e., true if the series uses
+   * timestamps and false if it uses starting_time and rate. Set by initialize,
+   * or determined from the file on the first call of appendSamples (e.g.,
+   * after reopening a file), such that appendSamples does not query the file
+   * on every call.
+   */
+  std::optional<bool> m_usesTimestamps;
+
 public:
   // Define the data fields to expose for lazy read access
   DEFINE_ATTRIBUTE_FIELD(readDescription,

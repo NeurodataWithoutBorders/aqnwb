@@ -468,6 +468,12 @@ TEST_CASE("TimeSeries::appendSamples", "[spec]")
   auto rate = NWB::RegisteredType::create<NWB::TimeSeries>("/rate", io);
   std::vector<float> values = {5.0f, 6.0f};
   REQUIRE(rate->appendSamples(1, values.data()) == Status::Success);
+  // The timing mode is determined from the file after reopening
+  auto stamped = NWB::RegisteredType::create<NWB::TimeSeries>("/stamped", io);
+  std::vector<double> timestamps = {0.2};
+  REQUIRE(stamped->appendSamples(1, values.data()) == Status::Failure);
+  REQUIRE(stamped->appendSamples(1, values.data(), timestamps.data())
+          == Status::Success);
   io->close();
 
   std::shared_ptr<IO::BaseIO> readIO = createIO("HDF5", path);
@@ -476,6 +482,11 @@ TEST_CASE("TimeSeries::appendSamples", "[spec]")
   auto data = readRate->readData<float>()->values();
   REQUIRE(data.shape == SizeArray {3, 2});
   REQUIRE(data.data == std::vector<float> {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f});
+  auto readStamped =
+      NWB::RegisteredType::create<NWB::TimeSeries>("/stamped", readIO);
+  REQUIRE(readStamped->readData<float>()->values().shape == SizeArray {3});
+  REQUIRE(readStamped->readTimestamps()->values().data
+          == std::vector<double> {0.0, 0.1, 0.2});
   readIO->close();
 }
 
