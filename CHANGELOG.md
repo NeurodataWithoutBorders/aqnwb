@@ -57,6 +57,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
    * Documented the `[frame, width, height]` axis convention of image data and that `AQNWB_ENABLE_OPHYS` also covers the image types in `nwb/image`.
    * Added a step to the `validate` CI job that reads all NWB test files with PyNWB (including converting the tables to data frames).
 
+* Addressed the review of the `schematype_to_aqnwb` utility (@claude, @oruebel, [#PRH](https://github.com/NeurodataWithoutBorders/aqnwb/pull/PRH)):
+   * Required untyped groups are created by the generated `initialize`, and the contents of optional untyped groups are marked with `AQNWB-TODO(child)` instead of being written unconditionally.
+   * The AqNWB source tree is scanned per class. Types without their own Spec (e.g., `TimeIntervals`) use the Spec of their nearest base class with a Spec, and generated subtypes of such tables compile.
+   * Spec fields are renamed if they collide with each other, with C++ keywords, or with inherited setters.
+   * Required numeric scalars use `std::optional` and are checked in `validate`, attributes of optional scalar datasets are guarded, scalar object reference attributes are generated via `createReferenceAttribute`, bool defaults are rendered as `true`/`false`, and string defaults are escaped.
+   * Inherited fields that are redefined by a type without a value get an `AQNWB-TODO(override)`, with separate wording for fixed and default values. Types that define a dataset no longer get the legacy positional `initialize` method.
+   * Fixed the closing namespace comment of included types and the error handling if a file cannot be generated, updated the references of the `AQNWB-TODO` categories, and added tests for these cases. The agent skill now also describes how to register new types in `registerAllTypes`.
+
 ### Deprecated
 * Deprecated the positional `initialize` methods of `TimeSeries`, `ElectricalSeries`, `SpikeEventSeries`, `AnnotationSeries`, `Device`, `ElectrodeGroup`, and `ProcessingModule` in favor of `initialize(const Spec&)`, and renamed `Subject::SubjectSpec` to `Subject::Spec` (`Subject::SubjectSpec` remains as a deprecated alias). The deprecated methods will be removed in a future release. (@claude, @oruebel, [#384](https://github.com/NeurodataWithoutBorders/aqnwb/pull/384))
    * **Migration Note:** Replace, e.g., `ts->initialize(config, "volts", "description")` with `ts->initialize(TimeSeries::Spec().withData(config).withUnit("volts").withDescription("description"))`. With `Device::initialize(const Device::Spec&)` the `manufacturer` attribute is only written if `manufacturer` is set.
