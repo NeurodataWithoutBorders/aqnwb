@@ -29,8 +29,7 @@ Status VectorData::DataSpec::initialize(Data& data) const
               << std::endl;
     return Status::Failure;
   }
-  return vectorData->initialize(
-      static_cast<const IO::ArrayDataSetConfig&>(*this), description);
+  return vectorData->initialize(getDataConfig(), description);
 }
 
 std::shared_ptr<VectorData> VectorData::createReferenceVectorData(
