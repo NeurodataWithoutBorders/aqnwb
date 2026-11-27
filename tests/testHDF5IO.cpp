@@ -3020,3 +3020,39 @@ TEST_CASE("HDF5IO; chunk cache", "[hdf5io]")
     REQUIRE(io.isOpen() == false);
   }
 }
+
+TEST_CASE("HDF5IO; append object references", "[hdf5io]")
+{
+  std::string path = getTestFilePath("test_append_references.h5");
+  IO::HDF5::HDF5IO hdf5io(path);
+  hdf5io.open();
+  hdf5io.createGroup("/a");
+  hdf5io.createGroup("/b");
+  hdf5io.createGroup("/c");
+
+  // A chunked dataset of references can be extended
+  REQUIRE(hdf5io.createReferenceDataSet("/refs", {"/a"}, 4) == Status::Success);
+  auto recorder = hdf5io.getDataSet("/refs");
+  REQUIRE(recorder != nullptr);
+  REQUIRE(recorder->writeReferences({2}, {1}, {"/b", "/c"}) == Status::Success);
+  REQUIRE(recorder->getShape() == SizeArray {3});
+  // References to objects that do not exist fail
+  REQUIRE(recorder->writeReferences({1}, {3}, {"/missing"}) == Status::Failure);
+
+  // A dataset with a fixed size cannot be extended
+  REQUIRE(hdf5io.createReferenceDataSet("/fixed", {"/a"}) == Status::Success);
+  REQUIRE(hdf5io.getDataSet("/fixed")->writeReferences({1}, {1}, {"/b"})
+          == Status::Failure);
+
+  // References can only be written to datasets of references
+  hdf5io.createArrayDataSet(
+      IO::ArrayDataSetConfig(IO::BaseDataType::I32, {0}, {4}), "/numbers");
+  REQUIRE(hdf5io.getDataSet("/numbers")->writeReferences({1}, {0}, {"/a"})
+          == Status::Failure);
+  hdf5io.close();
+
+  IO::HDF5::HDF5IO readio(path);
+  readio.open(IO::FileMode::ReadOnly);
+  REQUIRE(readio.getStorageObjectShape("/refs") == SizeArray {3});
+  readio.close();
+}

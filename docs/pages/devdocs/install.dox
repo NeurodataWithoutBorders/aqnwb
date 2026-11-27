@@ -54,7 +54,8 @@
  * AqNWB groups the classes of some neurodata_types in optional modules, which are enabled by default
  * and can be disabled to reduce the size of the library and the installed headers:
  *
- * - `-DAQNWB_ENABLE_IMAGE=OFF` disables the image types in `nwb/image` (e.g., `ImageSeries`), which are also
+ * - `-DAQNWB_ENABLE_IMAGE=OFF` disables the image types in `nwb/image` (e.g., `ImageSeries`, `OpticalSeries`,
+ *   `IndexSeries`, `GrayscaleImage`), which are also
  *   used for behavior videos and visual stimuli. If the module is enabled, `AQNWB_HAS_IMAGE` is defined.
  * - `-DAQNWB_ENABLE_OPHYS=OFF` disables the optical physiology types (e.g., `TwoPhotonSeries`, `ImagingPlane`,
  *   see \ref ophys). If the module is enabled, `AQNWB_HAS_OPHYS` is defined. The module requires the image

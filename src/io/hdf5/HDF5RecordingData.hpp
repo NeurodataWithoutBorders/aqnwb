@@ -74,6 +74,13 @@ public:
                         const std::vector<std::string>& data) override;
 
   /**
+   * @copydoc IO::BaseRecordingData::writeReferences
+   */
+  Status writeReferences(const SizeArray& dataShape,
+                         const SizeArray& positionOffset,
+                         const std::vector<std::string>& references) override;
+
+  /**
    * @brief Gets a const pointer to the HDF5 dataset.
    * @return A const pointer to the HDF5 dataset.
    */

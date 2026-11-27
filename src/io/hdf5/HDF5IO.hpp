@@ -382,15 +382,11 @@ public:
                              const std::string& path) override;
 
   /**
-   * @brief Creates a dataset that holds an array of references to groups within
-   * the file.
-   * @param path The location in the file of the new dataset.
-   * @param references The array of references.
-   * @return The status of the dataset creation operation.
+   * @copydoc IO::BaseIO::createReferenceDataSet
    */
-  Status createReferenceDataSet(
-      const std::string& path,
-      const std::vector<std::string>& references) override;
+  Status createReferenceDataSet(const std::string& path,
+                                const std::vector<std::string>& references,
+                                const SizeType& chunkSize = 0) override;
 
   /**
    * @brief Start SWMR write to start recording process.

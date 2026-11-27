@@ -22,11 +22,13 @@
  * objects at the locations defined by NWB.
  *
  * \note
- * The optical physiology types (`nwb/ophys`) and the image types (`nwb/image`, e.g., `ImageSeries`) are
+ * The optical physiology types (`nwb/ophys`) and the image types (`nwb/image`, e.g., `ImageSeries`,
+ * `OpticalSeries`, `IndexSeries`, and `GrayscaleImage`) are
  * optional modules that are enabled by default. They can be disabled at build time via the CMake options
  * `-DAQNWB_ENABLE_OPHYS=OFF` and `-DAQNWB_ENABLE_IMAGE=OFF`. The optical physiology module requires the
  * image module, i.e., enabling `AQNWB_ENABLE_OPHYS` also enables `AQNWB_ENABLE_IMAGE`. The preprocessor
- * definitions `AQNWB_HAS_OPHYS` and `AQNWB_HAS_IMAGE` indicate that the modules are available.
+ * definitions `AQNWB_HAS_OPHYS` and `AQNWB_HAS_IMAGE` indicate that the modules are available. The `Images`
+ * collection and the `Image` base type (`nwb/base`) are always available.
  *
  * \note
  * The write methods (e.g., `ImageSeries::writeFrames`) append after the data in the file (see
@@ -105,6 +107,30 @@
  * \ref AQNWB::IO::BaseDataType::Compound "BaseDataType::Compound").
  *
  * \snippet tests/testOphysRois.cpp example_ophys_pixel_masks_snippet
+ *
+ * \section ophys_motion_correction Storing motion-corrected images
+ *
+ * A \ref AQNWB::NWB::CorrectedImageStack "CorrectedImageStack" stores the motion-corrected frames, the
+ * x/y translation of each frame, and a link to the original series. Its spec contains the nested specs
+ * of the `corrected` \ref AQNWB::NWB::ImageSeries "ImageSeries" and the `xy_translation`
+ * \ref AQNWB::NWB::TimeSeries "TimeSeries", which are created by `initialize`.
+ *
+ * \snippet tests/testOphysDeferred.cpp example_motion_correction_snippet
+ *
+ * \section ophys_stimulus_images Stimulus images and other image types
+ *
+ * - \ref AQNWB::NWB::Images "Images" is a collection of \ref AQNWB::NWB::GrayscaleImage "GrayscaleImage",
+ *   \ref AQNWB::NWB::RGBImage "RGBImage", and \ref AQNWB::NWB::RGBAImage "RGBAImage" objects with an optional
+ *   order (`order_of_images`). A collection requires at least one image, i.e., the images and their
+ *   \ref AQNWB::NWB::Image::Spec "Image::Spec" are part of the \ref AQNWB::NWB::Images::Spec "Images::Spec"
+ *   (see `withImage`). Further images can be added via \ref AQNWB::NWB::Images::addImage "addImage".
+ * - \ref AQNWB::NWB::IndexSeries "IndexSeries" stores indices into the images of an Images collection,
+ *   e.g., the order in which stimulus images were presented.
+ * - \ref AQNWB::NWB::OpticalSeries "OpticalSeries" stores image data that is presented or recorded,
+ *   e.g., a movie, and \ref AQNWB::NWB::ImageMaskSeries "ImageMaskSeries" stores a mask applied to another
+ *   ImageSeries.
+ *
+ * \snippet tests/testOphysDeferred.cpp example_images_snippet
  *
  * \section ophys_ogen Recording optogenetic stimulation
  *

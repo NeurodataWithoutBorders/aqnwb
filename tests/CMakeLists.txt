@@ -64,6 +64,7 @@ if(AQNWB_ENABLE_OPHYS)
   target_sources(aqnwb_test PRIVATE
       testOphys.cpp
       testOphysRois.cpp
+      testOphysDeferred.cpp
       examples/testOphysWorkflowExamples.cpp
   )
 endif()

@@ -1063,12 +1063,21 @@ public:
   /**
    * @brief Creates a dataset that holds an array of references to groups within
    * the file.
+   *
+   * With a chunk size > 0, the dataset is chunked and has an unlimited size,
+   * such that references can be appended via
+   * BaseRecordingData::writeReferences.
+   *
    * @param path The location in the file of the new dataset.
    * @param references The array of references.
+   * @param chunkSize The chunk size of an extendable dataset, or 0 (default)
+   * for a dataset with a fixed size.
    * @return The status of the dataset creation operation.
    */
   virtual Status createReferenceDataSet(
-      const std::string& path, const std::vector<std::string>& references) = 0;
+      const std::string& path,
+      const std::vector<std::string>& references,
+      const SizeType& chunkSize = 0) = 0;
 
   /**
    * @brief Starts the recording process.
@@ -1298,6 +1307,24 @@ public:
                                 const SizeArray& positionOffset,
                                 const BaseDataType& type,
                                 const std::vector<std::string>& data) = 0;
+
+  /**
+   * @brief Writes a block of object references into a dataset of object
+   * references.
+   *
+   * Like writeDataBlock, the dataset is extended if needed, e.g., to append
+   * references to a dataset created via BaseIO::createReferenceDataSet with a
+   * chunk size. The default implementation returns Status::Failure. IO
+   * backends should override it.
+   *
+   * @param dataShape The size of the data block.
+   * @param positionOffset The position of the data block to write to.
+   * @param references The paths of the referenced objects in the file.
+   * @return The status of the write operation.
+   */
+  virtual Status writeReferences(const SizeArray& dataShape,
+                                 const SizeArray& positionOffset,
+                                 const std::vector<std::string>& references);
 
   /**
    * @brief Get the number of dimensions in the dataset.
