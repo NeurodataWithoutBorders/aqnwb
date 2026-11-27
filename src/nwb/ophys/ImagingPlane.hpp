@@ -54,8 +54,6 @@ public:
    */
   struct Spec : public NWBContainer::Spec
   {
-    REGISTER_SPEC(ImagingPlane, NWBContainer::Spec)
-
     /// @brief List of (name, spec) pairs of the optical channels
     using NamedOpticalChannels =
         std::vector<std::pair<std::string, OpticalChannel::Spec>>;

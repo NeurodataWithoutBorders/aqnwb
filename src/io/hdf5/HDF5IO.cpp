@@ -1017,14 +1017,24 @@ AQNWB::IO::DataBlockGeneric HDF5IO::readDataset(const std::string& dataPath,
         readDataHelper<short>(dataset, numElements, memspace, dataspace);
     result.typeIndex = typeid(short);
   } else if (dataType.getClass() == H5T_COMPOUND) {
+    if (!result.baseDataType.isCompound()) {
+      throw std::runtime_error(
+          "Unsupported data type: compound data types are only supported if "
+          "all members are scalar numeric types");
+    }
     // Compound data is returned as the raw bytes of the values in the
     // memory layout described by result.baseDataType (members and
     // compoundSize), i.e., it can be reinterpreted as an array of the
     // corresponding C++ struct
     const size_t compoundSize = result.baseDataType.compoundSize;
     std::vector<uint8_t> buffer(numElements * compoundSize);
-    H5::DataType memType = getNativeType(result.baseDataType);
-    dataset.read(buffer.data(), memType, memspace, dataspace);
+    try {
+      H5::DataType memType = getNativeType(result.baseDataType);
+      dataset.read(buffer.data(), memType, memspace, dataspace);
+    } catch (const H5::Exception& error) {
+      throw std::runtime_error("Failed to read compound data: "
+                               + error.getDetailMsg());
+    }
     result.data = buffer;
     result.typeIndex = typeid(uint8_t);
   } else {
@@ -1968,9 +1978,17 @@ AQNWB::IO::BaseDataType HDF5IO::getBaseDataType(const H5::DataType& nativeType)
     std::vector<IO::BaseDataType::CompoundMember> members;
     for (int i = 0; i < compType.getNmembers(); ++i) {
       const unsigned memberIndex = static_cast<unsigned>(i);
+      const H5::DataType memberType = compType.getMemberDataType(memberIndex);
+      const H5T_class_t memberClass = memberType.getClass();
+      if (memberClass != H5T_INTEGER && memberClass != H5T_FLOAT) {
+        // Compound types with non-numeric members (e.g., references or
+        // strings) are not supported. Use the default type as for other
+        // unsupported types. readDataset throws for such data.
+        return IO::BaseDataType(IO::BaseDataType::Type::T_I32);
+      }
       members.push_back(
           {compType.getMemberName(memberIndex),
-           getBaseDataType(compType.getMemberDataType(memberIndex)).type,
+           getBaseDataType(memberType).type,
            static_cast<SizeType>(compType.getMemberOffset(memberIndex))});
     }
     return IO::BaseDataType::Compound(members, compType.getSize());
@@ -2048,6 +2066,9 @@ H5::DataType HDF5IO::getH5Type(IO::BaseDataType type)
                               static_cast<size_t>(member.offset),
                               getH5Type(BaseDataType(member.type)));
       }
+      // Pack the type such that padding bytes of the memory layout are not
+      // stored in the file
+      compType.pack();
       return compType;
     }
     default:

@@ -32,7 +32,6 @@ public:
    */
   struct Spec : public NWBDataInterface::Spec
   {
-    REGISTER_SPEC(DfOverF, NWBDataInterface::Spec)
   };
 
   /**

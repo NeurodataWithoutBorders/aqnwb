@@ -66,22 +66,15 @@ Status OptogeneticSeries::initialize(const Spec& spec)
     return Status::Failure;
   }
 
+  // Check the link targets before anything is written
+  if (checkLinkTarget(spec.site, "site") != Status::Success) {
+    return Status::Failure;
+  }
   // Validate the spec and initialize the TimeSeries
   Status status = TimeSeries::initialize(spec);
   if (status != Status::Success) {
     return Status::Failure;
   }
-
-  // Remember the shape of a sample for writeSamples
-  SizeArray shape, chunking;
-  IO::BaseDataType dataType;
-  if (spec.data->getProperties(ioPtr.get(), shape, chunking, dataType)
-          == Status::Success
-      && !shape.empty())
-  {
-    m_sampleShape = SizeArray(shape.begin() + 1, shape.end());
-  }
-  m_samplesRecorded = 0;
 
   status = status
       && ioPtr->createLink(AQNWB::mergePaths("/" + m_path, "site"),
@@ -94,15 +87,5 @@ Status OptogeneticSeries::writeSamples(const SizeType& numSamples,
                                        const void* timestampsInput,
                                        const void* controlInput)
 {
-  SizeArray dataShape = {numSamples};
-  dataShape.insert(dataShape.end(), m_sampleShape.begin(), m_sampleShape.end());
-  SizeArray positionOffset(dataShape.size(), 0);
-  positionOffset[0] = m_samplesRecorded;
-
-  Status status = this->writeData(
-      dataShape, positionOffset, dataInput, timestampsInput, controlInput);
-  if (status == Status::Success) {
-    m_samplesRecorded += numSamples;
-  }
-  return status;
+  return appendSamples(numSamples, dataInput, timestampsInput, controlInput);
 }

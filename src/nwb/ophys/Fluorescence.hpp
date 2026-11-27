@@ -34,7 +34,6 @@ public:
    */
   struct Spec : public NWBDataInterface::Spec
   {
-    REGISTER_SPEC(Fluorescence, NWBDataInterface::Spec)
   };
 
   /**
