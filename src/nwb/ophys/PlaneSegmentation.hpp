@@ -84,8 +84,6 @@ public:
 
   struct Spec : public DynamicTable::Spec
   {
-    REGISTER_SPEC(PlaneSegmentation, DynamicTable::Spec)
-
     /**
      * @brief If true, add the pixel_mask and pixel_mask_index columns (if not
      * already part of the columns).

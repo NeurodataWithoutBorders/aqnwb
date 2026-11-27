@@ -41,9 +41,10 @@ TEST_CASE("ophys ROI types", "[ophys]")
                               currentTime,
                               getTestSubjectSpec())
           == Status::Success);
-  auto microscope = NWB::Device::Spec()
-                        .withDescription("microscope")
-                        .createAndInitialize("/general/devices/microscope", io);
+  auto microscope = NWB::Device::create("/general/devices/microscope", io);
+  REQUIRE(
+      microscope->initialize(NWB::Device::Spec().withDescription("microscope"))
+      == Status::Success);
   auto imagingPlane = NWB::Ophys::createImagingPlane(
       *nwbfile,
       "imaging_plane",
@@ -205,9 +206,10 @@ TEST_CASE("PlaneSegmentation with pixel and voxel masks", "[ophys]")
                               currentTime,
                               getTestSubjectSpec())
           == Status::Success);
-  auto microscope = NWB::Device::Spec()
-                        .withDescription("microscope")
-                        .createAndInitialize("/general/devices/microscope", io);
+  auto microscope = NWB::Device::create("/general/devices/microscope", io);
+  REQUIRE(
+      microscope->initialize(NWB::Device::Spec().withDescription("microscope"))
+      == Status::Success);
   auto imagingPlane = NWB::Ophys::createImagingPlane(
       *nwbfile,
       "imaging_plane",

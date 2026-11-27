@@ -30,7 +30,8 @@ TEST_CASE("ogen spec validation", "[ogen]")
   std::string path = getTestFilePath("testOgenSpecValidation.h5");
   std::shared_ptr<IO::BaseIO> io = createIO("HDF5", path);
   io->open();
-  auto device = NWB::Device::Spec().createAndInitialize("/device", io);
+  auto device = NWB::Device::create("/device", io);
+  REQUIRE(device->initialize(NWB::Device::Spec()) == Status::Success);
   REQUIRE(device != nullptr);
 
   auto siteSpec = NWB::OptogeneticStimulusSite::Spec()
@@ -51,8 +52,8 @@ TEST_CASE("ogen spec validation", "[ogen]")
       NWB::OptogeneticStimulusSite::Spec(siteSpec).withLocation("").validate()
       == Status::Failure);
 
-  auto site = siteSpec.createAndInitialize("/site", io);
-  REQUIRE(site != nullptr);
+  auto site = NWB::OptogeneticStimulusSite::create("/site", io);
+  REQUIRE(site->initialize(siteSpec) == Status::Success);
   IO::ArrayDataSetConfig config(IO::BaseDataType::F32, {0}, {100});
   auto seriesSpec =
       NWB::OptogeneticSeries::Spec().withData(config).withSite(site);
@@ -87,9 +88,9 @@ TEST_CASE("ogenWorkflowExamples", "[ogen]")
 
   // [example_ogen_snippet]
   // Create the device and the stimulation site
-  auto laser = NWB::Device::Spec()
-                   .withDescription("473 nm laser")
-                   .createAndInitialize("/general/devices/laser", io);
+  auto laser = NWB::Device::create("/general/devices/laser", io);
+  REQUIRE(laser->initialize(NWB::Device::Spec().withDescription("473 nm laser"))
+          == Status::Success);
   auto site = NWB::Ogen::createOptogeneticStimulusSite(
       *nwbfile,
       "site",

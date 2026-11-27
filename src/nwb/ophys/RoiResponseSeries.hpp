@@ -35,8 +35,6 @@ public:
    */
   struct Spec : public TimeSeries::Spec
   {
-    REGISTER_SPEC(RoiResponseSeries, TimeSeries::Spec)
-
     /// @brief The PlaneSegmentation with the ROIs of the series. Required.
     DEFINE_SPEC_FIELD(Spec,
                       std::shared_ptr<PlaneSegmentation>,

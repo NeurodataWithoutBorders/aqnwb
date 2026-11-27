@@ -33,7 +33,6 @@ public:
    */
   struct Spec : public NWBDataInterface::Spec
   {
-    REGISTER_SPEC(MotionCorrection, NWBDataInterface::Spec)
   };
 
   /**

@@ -149,37 +149,29 @@ Status TimeSeries::initialize(const Spec& spec)
     return Status::Failure;
   }
 
+  // Check the data configuration (e.g., the target of linked data) before
+  // anything is written
+  SizeArray shape, chunking;
+  IO::BaseDataType dataType;
+  if (checkDataConfig(spec, *ioPtr, shape, chunking, dataType)
+      != Status::Success)
+  {
+    return Status::Failure;
+  }
+
   // Validate the spec and create the group
   Status status = NWBDataInterface::initialize(spec);
   if (status != Status::Success) {
     return Status::Failure;
   }
   const IO::BaseArrayDataSetConfig& dataConfig = *spec.data;
+  m_dataType = dataType;
   m_dataIsLink = dataConfig.isLink();
   m_dataTypeInitialized = true;
   m_usesTimestamps = !spec.startingTime.has_value();
 
-  // Extract shape, chunking, and data type from the config
-  SizeArray shape, chunking;
-  status = status
-      && dataConfig.getProperties(
-          ioPtr.get(), shape, chunking, this->m_dataType);
-  if (status != Status::Success) {
-    std::cerr << "TimeSeries::initialize: Failed to get properties from "
-                 "dataConfig"
-              << std::endl;
-    return Status::Failure;
-  }
-
-  // Validate and set timestamp and control shape
-  // timestamps match data along first dimension
-  SizeArray tsDsetSize;
-  if (shape.empty()) {
-    std::cerr << "TimeSeries::initialize: Shape cannot be empty" << std::endl;
-    return Status::Failure;
-  } else {
-    tsDsetSize = {shape[0]};
-  }
+  // timestamps and control match the data along the first dimension
+  const SizeArray tsDsetSize = {shape[0]};
 
   // Validate and set the timestamp and control chunking
   SizeArray tsChunkSize;
@@ -200,27 +192,11 @@ Status TimeSeries::initialize(const Spec& spec)
   }
   status = status && ioPtr->createAttribute(spec.comments, m_path, "comments");
 
-  // setup data datasets
+  // setup data datasets. Linked data has no attributes of its own (the
+  // attributes of the target are checked by checkDataConfig).
   try {
     ioPtr->createArrayDataSet(dataConfig, AQNWB::mergePaths(m_path, "data"));
-    if (dataConfig.isLink()) {
-      // For links, we don't set attributes since there is no dataset to attach
-      // them to. Instead, validate that the target has the required attributes.
-      const auto* linkConfig =
-          dynamic_cast<const IO::LinkArrayDataSetConfig*>(&dataConfig);
-      if (linkConfig) {
-        // Validate that the linked target has the required TimeSeries data
-        // attributes: conversion, resolution, offset, and unit.
-        status = status
-            && linkConfig->validateTarget(
-                *ioPtr, {}, {}, {"conversion", "resolution", "offset", "unit"});
-      } else {
-        std::cerr << "TimeSeries::initialize: dataConfig.isLink() is true but "
-                  << "dynamic_cast to LinkArrayDataSetConfig failed."
-                  << std::endl;
-        status = Status::Failure;
-      }
-    } else {
+    if (!dataConfig.isLink()) {
       status = status
           && this->createDataAttributes(m_path,
                                         spec.conversion,
@@ -305,6 +281,46 @@ Status TimeSeries::initialize(const Spec& spec)
     status = Status::Failure;
   }
   return status;
+}
+
+Status TimeSeries::checkDataConfig(const Spec& spec,
+                                   const IO::BaseIO& io,
+                                   SizeArray& shape,
+                                   SizeArray& chunking,
+                                   IO::BaseDataType& dataType)
+{
+  if (spec.data == nullptr) {
+    return Status::Success;  // reported by Spec::validate
+  }
+  const IO::BaseArrayDataSetConfig& dataConfig = *spec.data;
+  if (dataConfig.getProperties(&io, shape, chunking, dataType)
+      != Status::Success)
+  {
+    std::cerr << "TimeSeries::initialize: Failed to get properties from "
+                 "dataConfig"
+              << std::endl;
+    return Status::Failure;
+  }
+  if (shape.empty()) {
+    std::cerr << "TimeSeries::initialize: Shape cannot be empty" << std::endl;
+    return Status::Failure;
+  }
+  if (dataConfig.isLink()) {
+    // The linked target must have the attributes of the TimeSeries data
+    const auto* linkConfig =
+        dynamic_cast<const IO::LinkArrayDataSetConfig*>(&dataConfig);
+    if (linkConfig == nullptr
+        || linkConfig->validateTarget(
+               io, {}, {}, {"conversion", "resolution", "offset", "unit"})
+            != Status::Success)
+    {
+      std::cerr << "TimeSeries::initialize: The target of the linked data "
+                   "is not valid."
+                << std::endl;
+      return Status::Failure;
+    }
+  }
+  return Status::Success;
 }
 
 Status TimeSeries::writeData(const SizeArray& dataShape,

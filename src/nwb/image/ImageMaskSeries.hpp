@@ -28,8 +28,6 @@ public:
    */
   struct Spec : public ImageSeries::Spec
   {
-    REGISTER_SPEC(ImageMaskSeries, ImageSeries::Spec)
-
     /// @brief Link to the ImageSeries that the mask is applied to. Required.
     DEFINE_SPEC_FIELD(Spec,
                       std::shared_ptr<ImageSeries>,

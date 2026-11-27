@@ -36,7 +36,6 @@ public:
    */
   struct Spec : public NWBContainer::Spec
   {
-    REGISTER_SPEC(NWBDataInterface, NWBContainer::Spec)
   };
 
   /**

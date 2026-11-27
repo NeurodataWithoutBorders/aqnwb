@@ -32,8 +32,6 @@ public:
    */
   struct Spec : public ElectricalSeries::Spec
   {
-    REGISTER_SPEC(SpikeEventSeries, ElectricalSeries::Spec)
-
     INHERIT_SPEC_SETTER(Spec, ElectricalSeries::Spec, withData)
     INHERIT_SPEC_SETTER(Spec, ElectricalSeries::Spec, withUnit)
     INHERIT_SPEC_SETTER(Spec, ElectricalSeries::Spec, withDescription)

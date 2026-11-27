@@ -66,6 +66,10 @@ Status OptogeneticSeries::initialize(const Spec& spec)
     return Status::Failure;
   }
 
+  // Check the link targets before anything is written
+  if (checkLinkTarget(spec.site, "site") != Status::Success) {
+    return Status::Failure;
+  }
   // Validate the spec and initialize the TimeSeries
   Status status = TimeSeries::initialize(spec);
   if (status != Status::Success) {

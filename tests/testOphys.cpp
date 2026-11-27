@@ -87,7 +87,8 @@ TEST_CASE("ophys spec validation", "[ophys]")
   std::string path = getTestFilePath("testOphysSpecValidation.h5");
   std::shared_ptr<IO::BaseIO> io = createIO("HDF5", path);
   io->open();
-  auto device = NWB::Device::Spec().createAndInitialize("/device", io);
+  auto device = NWB::Device::create("/device", io);
+  REQUIRE(device->initialize(NWB::Device::Spec()) == Status::Success);
   REQUIRE(device != nullptr);
 
   SECTION("OpticalChannel")
@@ -119,9 +120,9 @@ TEST_CASE("ophys spec validation", "[ophys]")
 
   SECTION("TwoPhotonSeries")
   {
-    auto imagingPlane = getTestImagingPlaneSpec(device).createAndInitialize(
-        "/imaging_plane", io);
-    REQUIRE(imagingPlane != nullptr);
+    auto imagingPlane = NWB::ImagingPlane::create("/imaging_plane", io);
+    REQUIRE(imagingPlane->initialize(getTestImagingPlaneSpec(device))
+            == Status::Success);
     auto validSpec = NWB::TwoPhotonSeries::Spec()
                          .withData(NWB::Ophys::getDefaultImageSeriesDataConfig(
                              IO::BaseDataType::U16, {8, 8}))
@@ -156,6 +157,15 @@ TEST_CASE("ophys spec validation", "[ophys]")
                 NWB::TwoPhotonSeries::Spec(validSpec).withImagingPlane(nullptr))
             == Status::Failure);
     REQUIRE_FALSE(io->objectExists("/invalid_series"));
+
+    // The imaging plane must be initialized in the file before it is linked
+    auto uninitializedPlane =
+        NWB::ImagingPlane::create("/uninitialized_plane", io);
+    REQUIRE(series->initialize(
+                NWB::TwoPhotonSeries::Spec(validSpec).withImagingPlane(
+                    uninitializedPlane))
+            == Status::Failure);
+    REQUIRE_FALSE(io->objectExists("/invalid_series"));
   }
   io->close();
 }
@@ -165,9 +175,9 @@ TEST_CASE("ImagingPlane", "[ophys]")
   std::string path = getTestFilePath("testOphysImagingPlane.nwb");
   std::shared_ptr<IO::BaseIO> io = createIO("HDF5", path);
   auto nwbfile = createOphysTestFile(io);
-  auto device = NWB::Device::Spec()
-                    .withDescription("microscope")
-                    .createAndInitialize("/general/devices/microscope", io);
+  auto device = NWB::Device::create("/general/devices/microscope", io);
+  REQUIRE(device->initialize(NWB::Device::Spec().withDescription("microscope"))
+          == Status::Success);
   REQUIRE(device != nullptr);
 
   auto imagingPlane = NWB::Ophys::createImagingPlane(
@@ -230,9 +240,9 @@ TEST_CASE("TwoPhotonSeries and OnePhotonSeries", "[ophys]")
   std::string path = getTestFilePath("testOphysImageSeries.nwb");
   std::shared_ptr<IO::BaseIO> io = createIO("HDF5", path);
   auto nwbfile = createOphysTestFile(io);
-  auto device = NWB::Device::Spec()
-                    .withDescription("microscope")
-                    .createAndInitialize("/general/devices/microscope", io);
+  auto device = NWB::Device::create("/general/devices/microscope", io);
+  REQUIRE(device->initialize(NWB::Device::Spec().withDescription("microscope"))
+          == Status::Success);
   auto imagingPlane = NWB::Ophys::createImagingPlane(
       *nwbfile, "plane", getTestImagingPlaneSpec(device));
   REQUIRE(imagingPlane != nullptr);
