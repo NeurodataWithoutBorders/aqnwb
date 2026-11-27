@@ -391,6 +391,7 @@ def test_untyped_groups_and_names(generated_edge):
     assert "DEFINE_SPEC_FIELD(Spec, bool, enabled, withEnabled, true)" in header
     assert "DEFINE_SPEC_FIELD(Spec, std::optional<int32_t>, count, withCount, std::nullopt)" in header
     assert "if (!count.has_value())" in impl
+    assert "createScalarDataSet(AQNWB::IO::BaseDataType::I32, &spec.count.value()" in impl
     # Reference attributes
     assert "std::shared_ptr<AQNWB::NWB::Device>, device, withDevice, nullptr" in header
     assert 'ioPtr->createReferenceAttribute(spec.device->getPath(), m_path, "device")' in impl

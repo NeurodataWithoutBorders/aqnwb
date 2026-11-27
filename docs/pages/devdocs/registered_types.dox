@@ -667,8 +667,9 @@
  *   (see \ref AQNWB::NWB::EventsTable "EventsTable").
  * - `dataspec`: Types that define a dataset (e.g., subtypes of \ref AQNWB::NWB::VectorData "VectorData")
  *   should define a nested `DataSpec` (see \ref AQNWB::NWB::TimestampVectorData "TimestampVectorData").
- * - `dtype`: Reference, compound, undefined, and `numeric` dtypes, and multi-dimensional datasets with a value,
- *   which need to be handled manually.
+ * - `dtype`: Compound, undefined, and `numeric` dtypes, arrays of references, and multi-dimensional datasets
+ *   with a value, which need to be handled manually. Scalar object references in attributes are generated as
+ *   `std::shared_ptr` fields written via `createReferenceAttribute`.
  * - `override`: Fields inherited from the parent for which the type sets a fixed or default value. Set
  *   the value in the constructor of the Spec and check it in `validate` (see
  *   \ref AQNWB::NWB::ElectricalSeries::Spec "ElectricalSeries::Spec").

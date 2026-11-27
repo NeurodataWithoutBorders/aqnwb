@@ -1091,16 +1091,16 @@ GENERATOR_CONTEXT = {
 # Categories of the AQNWB-TODO markers emitted by the generator. Each category is
 # associated with a reference implementation in AqNWB that shows how to resolve the TODO.
 AQNWB_TODO_REFERENCES = {
-    "child": "src/nwb/NWBFile.hpp (DEFINE_UNNAMED_REGISTERED_FIELD create methods)",
-    "chunking": "src/nwb/NWBFile.cpp (NWBFile::createSpikeEventSeries)",
+    "child": "src/nwb/ophys/ImagingPlane.hpp (nested specs) and src/nwb/NWBFile.hpp (DEFINE_UNNAMED_REGISTERED_FIELD)",
+    "chunking": "src/nwb/ophys/OphysUtils.cpp (getDefaultImageSeriesDataConfig)",
     "dataspec": "src/nwb/event/TimestampVectorData.hpp",
-    "dtype": "src/nwb/hdmf/table/DynamicTable.hpp (checkRequiredColumnSpec)",
-    "link": "src/nwb/file/ElectrodeGroup.cpp",
-    "nwbfile-helper": "src/nwb/NWBFile.cpp (NWBFile::createElectricalSeries)",
+    "dtype": "src/io/BaseIO.hpp (BaseDataType::Compound) and src/nwb/hdmf/table/VectorIndex.cpp (createReferenceAttribute)",
+    "link": "src/nwb/NWBFile.hpp (DEFINE_UNNAMED_REGISTERED_FIELD)",
+    "nwbfile-helper": "src/nwb/ophys/OphysUtils.cpp (free functions instead of NWBFile methods)",
     "override": "src/nwb/ecephys/ElectricalSeries.hpp (ElectricalSeries::Spec)",
     "parent-spec": "src/nwb/RegisteredTypeSpec.hpp",
     "table-columns": "src/nwb/event/EventsTable.cpp",
-    "write-helper": "src/io/nwbio_utils.hpp",
+    "write-helper": "src/nwb/base/TimeSeries.hpp (appendSamples) and src/nwb/ophys/OphysUtils.cpp",
 }
 
 

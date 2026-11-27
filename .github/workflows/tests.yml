@@ -154,6 +154,29 @@ jobs:
           exit 1
         fi
 
+    - name: Read the NWB files with PyNWB
+      run: |
+        python - <<'PYEOF'
+        import glob
+        import sys
+        import pynwb
+
+        failed = []
+        for path in sorted(glob.glob("nwb_files/**/*.nwb", recursive=True)):
+            try:
+                with pynwb.NWBHDF5IO(path, "r") as io:
+                    nwbfile = io.read()
+                    # Access the tables to check that all columns are consistent
+                    for obj in nwbfile.objects.values():
+                        if isinstance(obj, pynwb.core.DynamicTable):
+                            obj.to_dataframe()
+            except Exception as error:  # noqa: BLE001
+                failed.append(path)
+                print(f"Failed to read {path}: {error}")
+        if failed:
+            sys.exit(1)
+        PYEOF
+
   test-without-optional-modules:
     # Build and test with all optional neurodata_type modules disabled to check
     # that the core library does not depend on them

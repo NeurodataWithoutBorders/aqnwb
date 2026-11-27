@@ -896,7 +896,8 @@ public:
   /**
    * @brief Creates a non-modifiable scalar dataset with a numeric value.
    *
-   * Use createStringDataSet for scalar string datasets.
+   * Use createStringDataSet for scalar string datasets. The default
+   * implementation returns Status::Failure. IO backends should override it.
    *
    * @param type The numeric data type of the dataset.
    * @param data Pointer to the value of the dataset (of the given type).
@@ -905,7 +906,15 @@ public:
    */
   virtual Status createScalarDataSet(const BaseDataType& type,
                                      const void* data,
-                                     const std::string& path) = 0;
+                                     const std::string& path)
+  {
+    (void)type;
+    (void)data;
+    std::cerr << "BaseIO::createScalarDataSet is not supported by this IO "
+                 "backend: "
+              << path << std::endl;
+    return Status::Failure;
+  }
 
   /**
    * @brief Creates a dataset that holds an array of references to groups within
