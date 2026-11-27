@@ -40,7 +40,9 @@ TEST_CASE("createProcessingModule", "[processingmodule]")
   // create and initialize a ProcessingModule
   auto processingModule = nwbfile->createProcessingModule("test_module");
   REQUIRE(processingModule != nullptr);
-  Status initStatus = processingModule->initialize("A test processing module");
+  Status initStatus = processingModule->initialize(
+      NWB::ProcessingModule::Spec().withDescription(
+          "A test processing module"));
   REQUIRE(initStatus == Status::Success);
 
   // verify the module path is correct
@@ -79,11 +81,15 @@ TEST_CASE("createMultipleProcessingModules", "[processingmodule]")
   // create and initialize two ProcessingModules
   auto module1 = nwbfile->createProcessingModule("module1");
   REQUIRE(module1 != nullptr);
-  REQUIRE(module1->initialize("First processing module") == Status::Success);
+  REQUIRE(module1->initialize(NWB::ProcessingModule::Spec().withDescription(
+              "First processing module"))
+          == Status::Success);
 
   auto module2 = nwbfile->createProcessingModule("module2");
   REQUIRE(module2 != nullptr);
-  REQUIRE(module2->initialize("Second processing module") == Status::Success);
+  REQUIRE(module2->initialize(NWB::ProcessingModule::Spec().withDescription(
+              "Second processing module"))
+          == Status::Success);
 
   // verify paths
   REQUIRE(module1->getPath() == "/processing/module1");
@@ -124,7 +130,9 @@ TEST_CASE("ProcessingModule createNWBDataInterface and readNWBDataInterface",
     // create processing module
     auto processingModule = nwbfile->createProcessingModule("ecephys");
     REQUIRE(processingModule != nullptr);
-    REQUIRE(processingModule->initialize("Processed ecephys data")
+    REQUIRE(processingModule->initialize(
+                NWB::ProcessingModule::Spec().withDescription(
+                    "Processed ecephys data"))
             == Status::Success);
 
     // create a TimeSeries inside the module via createNWBDataInterface
@@ -136,7 +144,11 @@ TEST_CASE("ProcessingModule createNWBDataInterface and readNWBDataInterface",
     // initialize the TimeSeries
     IO::ArrayDataSetConfig config(
         BaseDataType::F32, SizeArray {0}, SizeArray {numSamples});
-    Status tsStatus = ts->initialize(config, "volts", "Filtered LFP signal");
+    Status tsStatus =
+        ts->initialize(NWB::TimeSeries::Spec()
+                           .withData(config)
+                           .withUnit("volts")
+                           .withDescription("Filtered LFP signal"));
     REQUIRE(tsStatus == Status::Success);
 
     // write data
@@ -216,8 +228,10 @@ TEST_CASE("ProcessingModule createDynamicTable and readDynamicTable",
     // create processing module
     auto processingModule = nwbfile->createProcessingModule("analysis_module");
     REQUIRE(processingModule != nullptr);
-    REQUIRE(processingModule->initialize("Analysis results")
-            == Status::Success);
+    REQUIRE(
+        processingModule->initialize(
+            NWB::ProcessingModule::Spec().withDescription("Analysis results"))
+        == Status::Success);
 
     // create a DynamicTable inside the module via createDynamicTable
     auto table = processingModule->createDynamicTable("summary_table");
@@ -295,6 +309,7 @@ TEST_CASE("ProcessingModule initialize fails when IO is deleted",
   }
 
   // initialize should return Failure since the IO object has been deleted
-  Status result = processingModule->initialize("should fail");
+  Status result = processingModule->initialize(
+      NWB::ProcessingModule::Spec().withDescription("should fail"));
   REQUIRE(result == Status::Failure);
 }

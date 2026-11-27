@@ -25,13 +25,25 @@ Status SpikeEventSeries::initialize(
     const float& offset,
     const bool useChannelConversion)
 {
-  auto esInitStatus = ElectricalSeries::initialize(dataConfig,
-                                                   channelVector,
-                                                   description,
-                                                   conversion,
-                                                   resolution,
-                                                   offset,
-                                                   useChannelConversion);
+  Spec spec;
+  // Non-owning pointer to the dataConfig, which outlives the call to
+  // initialize
+  spec.data = Spec::DataConfigPtr(std::shared_ptr<void>(), &dataConfig);
+  spec.channelVector = channelVector;
+  spec.description = description;
+  if (!channelVector.empty()) {
+    spec.comments = channelVector[0].getComments();
+  }
+  spec.conversion = conversion;
+  spec.resolution = resolution;
+  spec.offset = offset;
+  spec.useChannelConversion = useChannelConversion;
+  return initialize(spec);
+}
+
+Status SpikeEventSeries::initialize(const Spec& spec)
+{
+  auto esInitStatus = ElectricalSeries::initialize(spec);
   this->m_eventsRecorded = 0;
   return esInitStatus;
 }

@@ -32,143 +32,78 @@ public:
    * All fields are optional. Pass an instance of this struct to
    * Subject::initialize() to create a Subject group in the NWB file.
    */
-  struct SubjectSpec
+  struct Spec : public NWBContainer::Spec
   {
-    /// @brief Age of subject (e.g., "P90D" for 90 days post-natal).
-    std::optional<std::string> age = std::nullopt;
-    /// @brief Age is with reference to this event. Can be ‘birth’ or
-    /// ‘gestational’. If reference is omitted, ‘birth’ is implied.
-    std::optional<std::string> ageReference = std::nullopt;
-    /// @brief Date of birth of subject as iso formatted date string
-    std::optional<std::string> dateOfBirth = std::nullopt;
-    /// @brief Description of subject and where subject came from.
-    std::optional<std::string> description = std::nullopt;
-    /// @brief Genetic strain. If absent, assume Wild Type (WT).
-    std::optional<std::string> genotype = std::nullopt;
-    /// @brief Biological sex of subject.
-    std::optional<std::string> sex = std::nullopt;
-    /// @brief Species of subject.
-    std::optional<std::string> species = std::nullopt;
-    /// @brief Strain of subject.
-    std::optional<std::string> strain = std::nullopt;
-    /// @brief ID of animal/person used/participating in experiment (lab
-    /// convention).
-    std::optional<std::string> subjectId = std::nullopt;
-    /// @brief Weight at time of experiment.
-    std::optional<std::string> weight = std::nullopt;
-
     /**
-     * @brief Set the age of the subject.
-     * @param value Age of subject (e.g., "P90D" for 90 days post-natal).
-     * @return Reference to this SubjectSpec, to allow method chaining.
+     * @brief Age of subject (e.g., "P90D" for 90 days post-natal).
      */
-    SubjectSpec& withAge(std::string value)
-    {
-      age = std::move(value);
-      return *this;
-    }
-
+    DEFINE_SPEC_FIELD(
+        Spec, std::optional<std::string>, age, withAge, std::nullopt)
     /**
-     * @brief Set the age reference event of the subject.
-     * @param value Age is with reference to this event. Can be ‘birth’ or
-     * ‘gestational’. If reference is omitted, ‘birth’ is implied.
-     * @return Reference to this SubjectSpec, to allow method chaining.
+     * @brief Age is with reference to this event. Can be "birth" or
+     * "gestational". If reference is omitted then "birth" is implied.
      */
-    SubjectSpec& withAgeReference(std::string value)
-    {
-      ageReference = std::move(value);
-      return *this;
-    }
-
+    DEFINE_SPEC_FIELD(Spec,
+                      std::optional<std::string>,
+                      ageReference,
+                      withAgeReference,
+                      std::nullopt)
     /**
-     * @brief Set the date of birth of the subject.
-     * @param value Date of birth of subject as iso formatted date string.
-     * @return Reference to this SubjectSpec, to allow method chaining.
+     * @brief Date of birth of subject as iso formatted date string
      */
-    SubjectSpec& withDateOfBirth(std::string value)
-    {
-      dateOfBirth = std::move(value);
-      return *this;
-    }
-
+    DEFINE_SPEC_FIELD(Spec,
+                      std::optional<std::string>,
+                      dateOfBirth,
+                      withDateOfBirth,
+                      std::nullopt)
     /**
-     * @brief Set the description of the subject.
-     * @param value Description of subject and where subject came from.
-     * @return Reference to this SubjectSpec, to allow method chaining.
+     * @brief Description of subject and where subject came from.
      */
-    SubjectSpec& withDescription(std::string value)
-    {
-      description = std::move(value);
-      return *this;
-    }
-
+    DEFINE_SPEC_FIELD(Spec,
+                      std::optional<std::string>,
+                      description,
+                      withDescription,
+                      std::nullopt)
     /**
-     * @brief Set the genotype of the subject.
-     * @param value Genetic strain. If absent, assume Wild Type (WT).
-     * @return Reference to this SubjectSpec, to allow method chaining.
+     * @brief Genetic strain. If absent, assume Wild Type (WT).
      */
-    SubjectSpec& withGenotype(std::string value)
-    {
-      genotype = std::move(value);
-      return *this;
-    }
-
+    DEFINE_SPEC_FIELD(
+        Spec, std::optional<std::string>, genotype, withGenotype, std::nullopt)
     /**
-     * @brief Set the biological sex of the subject.
-     * @param value Biological sex of subject.
-     * @return Reference to this SubjectSpec, to allow method chaining.
+     * @brief Biological sex of subject.
      */
-    SubjectSpec& withSex(std::string value)
-    {
-      sex = std::move(value);
-      return *this;
-    }
-
+    DEFINE_SPEC_FIELD(
+        Spec, std::optional<std::string>, sex, withSex, std::nullopt)
     /**
-     * @brief Set the species of the subject.
-     * @param value Species of subject.
-     * @return Reference to this SubjectSpec, to allow method chaining.
+     * @brief Species of subject.
      */
-    SubjectSpec& withSpecies(std::string value)
-    {
-      species = std::move(value);
-      return *this;
-    }
-
+    DEFINE_SPEC_FIELD(
+        Spec, std::optional<std::string>, species, withSpecies, std::nullopt)
     /**
-     * @brief Set the strain of the subject.
-     * @param value Strain of subject.
-     * @return Reference to this SubjectSpec, to allow method chaining.
+     * @brief Strain of subject.
      */
-    SubjectSpec& withStrain(std::string value)
-    {
-      strain = std::move(value);
-      return *this;
-    }
-
+    DEFINE_SPEC_FIELD(
+        Spec, std::optional<std::string>, strain, withStrain, std::nullopt)
     /**
-     * @brief Set the ID of the subject.
-     * @param value ID of animal/person used/participating in experiment (lab
+     * @brief ID of animal/person used/participating in experiment (lab
      * convention).
-     * @return Reference to this SubjectSpec, to allow method chaining.
      */
-    SubjectSpec& withSubjectId(std::string value)
-    {
-      subjectId = std::move(value);
-      return *this;
-    }
-
+    DEFINE_SPEC_FIELD(Spec,
+                      std::optional<std::string>,
+                      subjectId,
+                      withSubjectId,
+                      std::nullopt)
     /**
-     * @brief Set the weight of the subject.
-     * @param value Weight at time of experiment.
-     * @return Reference to this SubjectSpec, to allow method chaining.
+     * @brief Weight at time of experiment.
      */
-    SubjectSpec& withWeight(std::string value)
-    {
-      weight = std::move(value);
-      return *this;
-    }
+    DEFINE_SPEC_FIELD(
+        Spec, std::optional<std::string>, weight, withWeight, std::nullopt)
   };
+
+  /**
+   * @brief Alias for Subject::Spec for backward compatibility.
+   */
+  using SubjectSpec [[deprecated("Use Subject::Spec instead")]] = Spec;
 
   /** \brief Convenience factor method since the path is fixed to
    * '/general/subject'
@@ -185,10 +120,10 @@ public:
 
   /**
    * @brief Initialize the object
-   * @param subjectSpec The SubjectSpec object with the subject metadata
+   * @param subjectSpec The Subject::Spec object with the subject metadata
    * @return Status::Success if successful, otherwise Status::Failure.
    */
-  Status initialize(const SubjectSpec& subjectSpec);
+  Status initialize(const Spec& subjectSpec);
 
   // Define read methods
   DEFINE_DATASET_FIELD(

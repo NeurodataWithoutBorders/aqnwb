@@ -18,9 +18,33 @@ ElectrodeGroup::ElectrodeGroup(const std::string& path,
 /** Destructor */
 ElectrodeGroup::~ElectrodeGroup() {}
 
+Status ElectrodeGroup::Spec::validate() const
+{
+  Status status = NWBContainer::Spec::validate();
+  if (location.empty()) {
+    std::cerr << "ElectrodeGroup::Spec::validate: location must not be empty."
+              << std::endl;
+    status = Status::Failure;
+  }
+  if (device == nullptr) {
+    std::cerr << "ElectrodeGroup::Spec::validate: device must be set."
+              << std::endl;
+    status = Status::Failure;
+  }
+  return status;
+}
+
 Status ElectrodeGroup::initialize(const std::string& description,
                                   const std::string& location,
                                   const std::shared_ptr<Device>& device)
+{
+  return initialize(Spec()
+                        .withDescription(description)
+                        .withLocation(location)
+                        .withDevice(device));
+}
+
+Status ElectrodeGroup::initialize(const Spec& spec)
 {
   auto ioPtr = getIO();
   if (!ioPtr) {
@@ -29,11 +53,18 @@ Status ElectrodeGroup::initialize(const std::string& description,
     return Status::Failure;
   }
 
-  auto ctrInitStatus = NWBContainer::initialize();
-  if (description != "")
-    ioPtr->createAttribute(description, m_path, "description");
-  ioPtr->createAttribute(location, m_path, "location");
+  // Check the link targets before anything is written
+  if (checkLinkTarget(spec.device, "device") != Status::Success) {
+    return Status::Failure;
+  }
+  auto ctrInitStatus = NWBContainer::initialize(spec);
+  if (ctrInitStatus != Status::Success) {
+    return Status::Failure;
+  }
+  if (spec.description != "")
+    ioPtr->createAttribute(spec.description, m_path, "description");
+  ioPtr->createAttribute(spec.location, m_path, "location");
   ioPtr->createLink(AQNWB::mergePaths("/" + m_path, "device"),
-                    AQNWB::mergePaths("/", device->getPath()));
+                    AQNWB::mergePaths("/", spec.device->getPath()));
   return ctrInitStatus;
 }

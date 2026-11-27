@@ -30,6 +30,15 @@ public:
                     AQNWB::SPEC::CORE::namespaceName)
 
   /**
+   * @brief Specification for initializing a NWBDataInterface.
+   *
+   * NWBDataInterface does not define any additional fields.
+   */
+  struct Spec : public NWBContainer::Spec
+  {
+  };
+
+  /**
    * @brief Virtual destructor.
    */
   virtual ~NWBDataInterface() override {}
@@ -39,6 +48,13 @@ public:
    * @return Status::Success if successful, otherwise Status::Failure.
    */
   Status initialize();
+
+  /**
+   * @brief Initialize the object from a spec.
+   * @param spec The specification of the object.
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
+  Status initialize(const Spec& spec);
 
 protected:
   /**

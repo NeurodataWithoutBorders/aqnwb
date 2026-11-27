@@ -81,6 +81,34 @@ Status TimeSeries::createTimestampsAttributes(const std::string& path)
   return Status::Success;
 }
 
+Status TimeSeries::Spec::validate() const
+{
+  Status status = NWBDataInterface::Spec::validate();
+  if (data == nullptr) {
+    std::cerr << "TimeSeries::Spec::validate: data configuration is not set."
+              << std::endl;
+    status = Status::Failure;
+  }
+  if (unit.empty()) {
+    std::cerr << "TimeSeries::Spec::validate: unit must not be empty."
+              << std::endl;
+    status = Status::Failure;
+  }
+  if (startingTime.has_value()) {
+    if (startingTime.value() < 0.0) {
+      std::cerr << "TimeSeries::Spec::validate: startingTime must be >= 0."
+                << std::endl;
+      status = Status::Failure;
+    }
+    if (!(startingTimeRate > 0.0f)) {
+      std::cerr << "TimeSeries::Spec::validate: startingTimeRate must be > 0."
+                << std::endl;
+      status = Status::Failure;
+    }
+  }
+  return status;
+}
+
 Status TimeSeries::initialize(
     const IO::BaseArrayDataSetConfig& dataConfig,
     const std::string& unit,
@@ -94,35 +122,56 @@ Status TimeSeries::initialize(
     const float& startingTimeRate,
     const std::vector<std::string>& controlDescription)
 {
+  Spec spec;
+  // Non-owning pointer to the dataConfig, which outlives the call to
+  // initialize
+  spec.data = Spec::DataConfigPtr(std::shared_ptr<void>(), &dataConfig);
+  spec.unit = unit;
+  spec.description = description;
+  spec.comments = comments;
+  spec.conversion = conversion;
+  spec.resolution = resolution;
+  spec.offset = offset;
+  spec.continuity = continuity;
+  if (startingTime >= 0) {
+    spec.startingTime = startingTime;
+  }
+  spec.startingTimeRate = startingTimeRate;
+  spec.controlDescription = controlDescription;
+  return initialize(spec);
+}
+
+Status TimeSeries::initialize(const Spec& spec)
+{
   auto ioPtr = getIO();
   if (!ioPtr) {
     std::cerr << "TimeSeries::initialize: IO object is not valid." << std::endl;
     return Status::Failure;
   }
 
-  Status status = NWBDataInterface::initialize();
-
-  // Extract shape, chunking, and data type from the config
+  // Check the data configuration (e.g., the target of linked data) before
+  // anything is written
   SizeArray shape, chunking;
-  status = status
-      && dataConfig.getProperties(
-          ioPtr.get(), shape, chunking, this->m_dataType);
-  if (status != Status::Success) {
-    std::cerr << "TimeSeries::initialize: Failed to get properties from "
-                 "dataConfig"
-              << std::endl;
+  IO::BaseDataType dataType;
+  if (checkDataConfig(spec, *ioPtr, shape, chunking, dataType)
+      != Status::Success)
+  {
     return Status::Failure;
   }
 
-  // Validate and set timestamp and control shape
-  // timestamps match data along first dimension
-  SizeArray tsDsetSize;
-  if (shape.empty()) {
-    std::cerr << "TimeSeries::initialize: Shape cannot be empty" << std::endl;
+  // Validate the spec and create the group
+  Status status = NWBDataInterface::initialize(spec);
+  if (status != Status::Success) {
     return Status::Failure;
-  } else {
-    tsDsetSize = {shape[0]};
   }
+  const IO::BaseArrayDataSetConfig& dataConfig = *spec.data;
+  m_dataType = dataType;
+  m_dataIsLink = dataConfig.isLink();
+  m_dataTypeInitialized = true;
+  m_usesTimestamps = !spec.startingTime.has_value();
+
+  // timestamps and control match the data along the first dimension
+  const SizeArray tsDsetSize = {shape[0]};
 
   // Validate and set the timestamp and control chunking
   SizeArray tsChunkSize;
@@ -137,36 +186,24 @@ Status TimeSeries::initialize(
   }
 
   // create comments attribute
-  if (description != "") {
-    status =
-        status && ioPtr->createAttribute(description, m_path, "description");
+  if (spec.description != "") {
+    status = status
+        && ioPtr->createAttribute(spec.description, m_path, "description");
   }
-  status = status && ioPtr->createAttribute(comments, m_path, "comments");
+  status = status && ioPtr->createAttribute(spec.comments, m_path, "comments");
 
-  // setup data datasets
+  // setup data datasets. Linked data has no attributes of its own (the
+  // attributes of the target are checked by checkDataConfig).
   try {
     ioPtr->createArrayDataSet(dataConfig, AQNWB::mergePaths(m_path, "data"));
-    if (dataConfig.isLink()) {
-      // For links, we don't set attributes since there is no dataset to attach
-      // them to. Instead, validate that the target has the required attributes.
-      const auto* linkConfig =
-          dynamic_cast<const IO::LinkArrayDataSetConfig*>(&dataConfig);
-      if (linkConfig) {
-        // Validate that the linked target has the required TimeSeries data
-        // attributes: conversion, resolution, offset, and unit.
-        status = status
-            && linkConfig->validateTarget(
-                *ioPtr, {}, {}, {"conversion", "resolution", "offset", "unit"});
-      } else {
-        std::cerr << "TimeSeries::initialize: dataConfig.isLink() is true but "
-                  << "dynamic_cast to LinkArrayDataSetConfig failed."
-                  << std::endl;
-        status = Status::Failure;
-      }
-    } else {
+    if (!dataConfig.isLink()) {
       status = status
-          && this->createDataAttributes(
-              m_path, conversion, resolution, offset, unit, continuity);
+          && this->createDataAttributes(m_path,
+                                        spec.conversion,
+                                        spec.resolution,
+                                        spec.offset,
+                                        spec.unit,
+                                        spec.continuity);
     }
   } catch (const std::runtime_error& e) {
     std::cerr << "Failed to create data dataset: " << e.what() << std::endl;
@@ -175,7 +212,7 @@ Status TimeSeries::initialize(
 
   // setup timestamps datasets
   try {
-    if (startingTime < 0) {
+    if (!spec.startingTime.has_value()) {
       IO::ArrayDataSetConfig timestampsConfig(
           this->timestampsType, tsDsetSize, tsChunkSize);
       ioPtr->createArrayDataSet(timestampsConfig,
@@ -183,6 +220,7 @@ Status TimeSeries::initialize(
       status = status && this->createTimestampsAttributes(m_path);
     } else  // setup starting_time datasets
     {
+      const double startingTime = spec.startingTime.value();
       std::string startingTimePath = AQNWB::mergePaths(m_path, "starting_time");
       IO::ArrayDataSetConfig startingTimeConfig(
           AQNWB::IO::BaseDataType::F64, {1}, {1});
@@ -193,7 +231,7 @@ Status TimeSeries::initialize(
               {1}, AQNWB::IO::BaseDataType::F64, &startingTime);
       status = status
           && ioPtr->createAttribute(AQNWB::IO::BaseDataType::F32,
-                                    &startingTimeRate,
+                                    &spec.startingTimeRate,
                                     startingTimePath,
                                     "rate");
       status =
@@ -207,7 +245,7 @@ Status TimeSeries::initialize(
 
   // create control datasets if necessary
   try {
-    if (controlDescription.size() > 0) {
+    if (!spec.controlDescription.empty()) {
       // control matches data along first dimension
       IO::ArrayDataSetConfig controlConfig(
           AQNWB::IO::BaseDataType::U8, tsDsetSize, tsChunkSize);
@@ -216,8 +254,10 @@ Status TimeSeries::initialize(
 
       // control_description is its own data and contains for each control value
       // a string description
-      const SizeArray controlDescriptionShape = {controlDescription.size()};
-      const SizeArray controlDescriptionChunkSize = {controlDescription.size()};
+      const SizeArray controlDescriptionShape = {
+          spec.controlDescription.size()};
+      const SizeArray controlDescriptionChunkSize = {
+          spec.controlDescription.size()};
       const SizeArray controlDescriptionPositionOffset = {0};
       IO::BaseDataType controlDesriptionType(IO::BaseDataType::Type::V_STR,
                                              0);  // 0 indicates variable length
@@ -234,7 +274,7 @@ Status TimeSeries::initialize(
               controlDescriptionShape,
               controlDescriptionPositionOffset,
               controlDesriptionType,
-              controlDescription);
+              spec.controlDescription);
     }
   } catch (const std::runtime_error& e) {
     std::cerr << "Failed to create control dataset: " << e.what() << std::endl;
@@ -243,39 +283,172 @@ Status TimeSeries::initialize(
   return status;
 }
 
+Status TimeSeries::checkDataConfig(const Spec& spec,
+                                   const IO::BaseIO& io,
+                                   SizeArray& shape,
+                                   SizeArray& chunking,
+                                   IO::BaseDataType& dataType)
+{
+  if (spec.data == nullptr) {
+    return Status::Success;  // reported by Spec::validate
+  }
+  const IO::BaseArrayDataSetConfig& dataConfig = *spec.data;
+  if (dataConfig.getProperties(&io, shape, chunking, dataType)
+      != Status::Success)
+  {
+    std::cerr << "TimeSeries::initialize: Failed to get properties from "
+                 "dataConfig"
+              << std::endl;
+    return Status::Failure;
+  }
+  if (shape.empty()) {
+    std::cerr << "TimeSeries::initialize: Shape cannot be empty" << std::endl;
+    return Status::Failure;
+  }
+  if (dataConfig.isLink()) {
+    // The linked target must have the attributes of the TimeSeries data
+    const auto* linkConfig =
+        dynamic_cast<const IO::LinkArrayDataSetConfig*>(&dataConfig);
+    if (linkConfig == nullptr
+        || linkConfig->validateTarget(
+               io, {}, {}, {"conversion", "resolution", "offset", "unit"})
+            != Status::Success)
+    {
+      std::cerr << "TimeSeries::initialize: The target of the linked data "
+                   "is not valid."
+                << std::endl;
+      return Status::Failure;
+    }
+  }
+  return Status::Success;
+}
+
 Status TimeSeries::writeData(const SizeArray& dataShape,
                              const SizeArray& positionOffset,
                              const void* dataInput,
                              const void* timestampsInput,
                              const void* controlInput)
 {
-  // Write timestamps if they exist
-  Status tsStatus = Status::Success;
-  if (timestampsInput != nullptr) {
-    // timestamps should match shape of the first data dimension
-    const SizeArray timestampsShape = {dataShape[0]};
-    const SizeArray timestampsPositionOffset = {positionOffset[0]};
-    auto timestampsRecorder = this->recordTimestamps();
-    tsStatus = timestampsRecorder->writeDataBlock(timestampsShape,
-                                                  timestampsPositionOffset,
-                                                  this->timestampsType,
-                                                  timestampsInput);
+  if (dataShape.empty() || positionOffset.empty()) {
+    std::cerr << "TimeSeries::writeData: dataShape and positionOffset must "
+                 "not be empty."
+              << std::endl;
+    return Status::Failure;
   }
 
-  // Write the data
+  // Get all recorders before writing anything, such that a missing dataset
+  // does not leave partially written data
+  std::shared_ptr<IO::BaseRecordingData> timestampsRecorder = nullptr;
+  if (timestampsInput != nullptr) {
+    timestampsRecorder = this->recordTimestamps();
+    if (timestampsRecorder == nullptr) {
+      std::cerr << "TimeSeries::writeData: " << m_path
+                << " has no timestamps dataset (it uses starting_time and "
+                   "rate). Pass nullptr for the timestamps."
+                << std::endl;
+      return Status::Failure;
+    }
+  }
+  std::shared_ptr<IO::BaseRecordingData> controlRecorder = nullptr;
+  if (controlInput != nullptr) {
+    controlRecorder = this->recordControl();
+    if (controlRecorder == nullptr) {
+      std::cerr << "TimeSeries::writeData: " << m_path
+                << " has no control dataset. Set the controlDescription of "
+                   "the spec to record control values."
+                << std::endl;
+      return Status::Failure;
+    }
+  }
   auto dataRecorder = this->recordData();
+  if (dataRecorder == nullptr) {
+    std::cerr << "TimeSeries::writeData: " << m_path << " has no data dataset."
+              << std::endl;
+    return Status::Failure;
+  }
+
+  // timestamps and control match the shape of the first data dimension
+  const SizeArray timeShape = {dataShape[0]};
+  const SizeArray timePositionOffset = {positionOffset[0]};
+  Status tsStatus = Status::Success;
+  if (timestampsRecorder != nullptr) {
+    tsStatus = timestampsRecorder->writeDataBlock(
+        timeShape, timePositionOffset, this->timestampsType, timestampsInput);
+  }
   Status dataStatus = dataRecorder->writeDataBlock(
       dataShape, positionOffset, this->m_dataType, dataInput);
-
-  // Write the control data if it exists
-  if (controlInput != nullptr) {
-    // control should match shape of the first data dimension
-    const SizeArray controlShape = {dataShape[0]};
-    const SizeArray controlPositionOffset = {positionOffset[0]};
-    auto controlRecorder = this->recordControl();
-    tsStatus = controlRecorder->writeDataBlock(
-        controlShape, controlPositionOffset, this->controlType, controlInput);
+  Status controlStatus = Status::Success;
+  if (controlRecorder != nullptr) {
+    controlStatus = controlRecorder->writeDataBlock(
+        timeShape, timePositionOffset, this->controlType, controlInput);
   }
 
-  return dataStatus && tsStatus;
+  return dataStatus && tsStatus && controlStatus;
+}
+
+Status TimeSeries::appendSamples(const SizeType& numSamples,
+                                 const void* dataInput,
+                                 const void* timestampsInput,
+                                 const void* controlInput)
+{
+  auto ioPtr = getIO();
+  if (!ioPtr) {
+    std::cerr << "TimeSeries::appendSamples: IO object is not valid."
+              << std::endl;
+    return Status::Failure;
+  }
+  if (m_dataIsLink) {
+    std::cerr << "TimeSeries::appendSamples: The data of " << m_path
+              << " is a link. Write the data via the linked TimeSeries."
+              << std::endl;
+    return Status::Failure;
+  }
+  auto dataRecorder = this->recordData();
+  if (dataRecorder == nullptr) {
+    std::cerr << "TimeSeries::appendSamples: " << m_path
+              << " has no data dataset." << std::endl;
+    return Status::Failure;
+  }
+  // The current extent of the data determines the offset and the shape of a
+  // sample, such that appending also works after reopening a file
+  const SizeArray currentShape = dataRecorder->getShape();
+  if (currentShape.empty()) {
+    std::cerr << "TimeSeries::appendSamples: The data of " << m_path
+              << " must have at least one dimension." << std::endl;
+    return Status::Failure;
+  }
+  // The timing mode of the series determines whether timestamps are required
+  if (!m_usesTimestamps.has_value()) {
+    m_usesTimestamps =
+        ioPtr->objectExists(AQNWB::mergePaths(m_path, "timestamps"));
+  }
+  const bool usesTimestamps = m_usesTimestamps.value();
+  if (usesTimestamps && timestampsInput == nullptr) {
+    std::cerr << "TimeSeries::appendSamples: " << m_path
+              << " uses timestamps, i.e., the timestamps of the samples are "
+                 "required."
+              << std::endl;
+    return Status::Failure;
+  }
+  if (!usesTimestamps && timestampsInput != nullptr) {
+    std::cerr << "TimeSeries::appendSamples: " << m_path
+              << " uses starting_time and rate, i.e., timestamps must be "
+                 "nullptr."
+              << std::endl;
+    return Status::Failure;
+  }
+  if (!m_dataTypeInitialized) {
+    // Use the data type of the dataset if the series was not initialized in
+    // this session (e.g., after reopening the file)
+    m_dataType =
+        ioPtr->getStorageObjectDataType(AQNWB::mergePaths(m_path, "data"));
+    m_dataTypeInitialized = true;
+  }
+
+  SizeArray dataShape = currentShape;
+  dataShape[0] = numSamples;
+  SizeArray positionOffset(currentShape.size(), 0);
+  positionOffset[0] = currentShape[0];
+  return this->writeData(
+      dataShape, positionOffset, dataInput, timestampsInput, controlInput);
 }

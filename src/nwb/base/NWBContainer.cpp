@@ -18,3 +18,8 @@ Status NWBContainer::initialize()
 {
   return AQNWB::NWB::Container::initialize();
 }
+
+Status NWBContainer::initialize(const Spec& spec)
+{
+  return Container::initialize(spec);
+}

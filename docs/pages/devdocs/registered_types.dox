@@ -105,7 +105,9 @@
  *    or \ref AQNWB::NWB::Data "Data" types, then we will typically also need to implement an ``initialize`` 
  *    method, which is responsible for creating the relevant Groups, Datasets, and Attributes
  *    in the file for data write. Remember to also call the  ``initialize``  method of the
- *    parent class.
+ *    parent class. For group-based types (i.e., subtypes of \ref AQNWB::NWB::Container "Container"),
+ *    the values needed for initialization are defined via a nested ``Spec`` struct that is passed
+ *    to ``initialize(const Spec& spec)``. See \ref implement_registered_type_spec for details.
  *
  *
  * \note
@@ -331,6 +333,124 @@
  * relative path to the attribute that stores the reference, rather than the relative path
  * of the object itself. The generated read method then resolves the reference first and
  * then returns the instance of the object that is being referenced.
+ *
+ *
+ * \section implement_registered_type_spec How to define the Spec and initialize method of a RegisteredType
+ *
+ * Group-based neurodata_types (i.e., subtypes of \ref AQNWB::NWB::Container "Container") separate the
+ * *specification* of an object from its *initialization*. Each type ``T`` defines a nested struct
+ * ``T::Spec`` with the values needed to initialize the object (e.g., attributes, configurations of datasets,
+ * and links to other objects) and an ``initialize(const T::Spec& spec)`` method that writes the
+ * object to the file. This allows us to create, inspect, modify, and validate the configuration of an
+ * object before writing any data and avoids long lists of positional arguments.
+ *
+ * The specs follow these conventions:
+ *
+ * - **Inheritance:** ``T::Spec`` inherits from the spec of the parent type of ``T`` (e.g.,
+ *   \ref AQNWB::NWB::ElectricalSeries::Spec "ElectricalSeries::Spec" inherits from
+ *   \ref AQNWB::NWB::TimeSeries::Spec "TimeSeries::Spec"), mirroring the inheritance in the schema.
+ *   The root of the hierarchy is \ref AQNWB::NWB::RegisteredTypeSpec "RegisteredTypeSpec", which only
+ *   defines the virtual ``validate()`` method. A spec does not need a macro of its own; the type it
+ *   creates is determined by the class whose ``create`` and ``initialize`` methods are called.
+ * - **Fields:** Use the \ref DEFINE_SPEC_FIELD macro to define a field together with a setter method
+ *   (e.g., ``withDescription``) that returns a reference to the spec, so that setters can be chained.
+ *   Document the field with a regular Doxygen comment preceding the macro.
+ *   - Required fields use a plain type and must be checked in ``validate()``.
+ *   - Optional fields use ``std::optional<T>`` with ``std::nullopt`` as default. ``initialize`` only writes
+ *     the field if it has been set.
+ *   - Datasets are defined via a dataset configuration (e.g., \ref AQNWB::IO::ArrayDataSetConfig "ArrayDataSetConfig").
+ *     If the dataset may also be a link, use a ``std::shared_ptr<const IO::BaseArrayDataSetConfig>`` (see
+ *     \ref AQNWB::NWB::TimeSeries::Spec::data "TimeSeries::Spec::data").
+ *   - Links to other objects are defined as ``std::shared_ptr`` to the target type (see
+ *     \ref AQNWB::NWB::ElectrodeGroup::Spec::device "ElectrodeGroup::Spec::device").
+ *   - Values of inherited fields that are fixed by the schema are set in the constructor of the spec (e.g.,
+ *     the unit of an \ref AQNWB::NWB::ElectricalSeries "ElectricalSeries" is always "volts") and checked in
+ *     ``validate()``. Fixed values of the fields defined by the type itself are not part of the spec and are
+ *     written as constants by ``initialize``.
+ * - **Inherited setters:** To allow chaining of inherited setters, re-expose them in the derived spec
+ *   via the \ref INHERIT_SPEC_SETTER macro (one line per setter).
+ * - **Validation:** Override ``Status validate() const`` to check the values of the spec against
+ *   the schema (e.g., that required values are set). Validation must not require access to the file
+ *   and overrides must call ``validate`` of their base spec first.
+ * - **Initialization:** ``T::initialize(const T::Spec& spec)`` follows a two-phase contract:
+ *   1. **Checks:** All checks run before anything is written. Checks that need the file (e.g., that a
+ *      link target exists via ``checkLinkTarget``, or that the electrodes table exists) run in ``T::initialize``
+ *      before ``Parent::initialize(spec)`` is called. The spec itself is validated once, by
+ *      \ref AQNWB::NWB::Container::initialize "Container::initialize", before the group is created. If a
+ *      check fails, ``initialize`` returns ``Status::Failure`` and nothing is written.
+ *      File checks skip unset fields (e.g., a ``nullptr`` link), which are reported by ``validate()``.
+ *   2. **Writes:** ``Parent::initialize(spec)`` creates the object, and ``T`` then writes its own fields.
+ *      Failures in this phase are I/O errors. The object may then be partially written, and changes are
+ *      not rolled back.
+ *
+ *   Objects are always created with ``T::create(path, io)`` and then initialized with ``initialize(spec)``.
+ *   Creating an object registers it with the I/O object (see \ref AQNWB::IO::RecordingObjects "RecordingObjects"),
+ *   which tracks the created objects independent of whether they have been initialized.
+ *
+ * *MyContainer.hpp*
+ * @code
+ * class MyContainer : public AQNWB::NWB::NWBContainer
+ * {
+ * public:
+ *   REGISTER_SUBCLASS(MyContainer, NWBContainer, AQNWB::SPEC::MYNAMESPACE::namespaceName)
+ *
+ *   struct Spec : public NWBContainer::Spec
+ *   {
+ *     /// @brief Location of the object. Required.
+ *     DEFINE_SPEC_FIELD(Spec, std::string, location, withLocation, "")
+ *
+ *     /// @brief Optional comment.
+ *     DEFINE_SPEC_FIELD(Spec, std::optional<std::string>, comment, withComment, std::nullopt)
+ *
+ *     /// @brief Link to the device used. Required.
+ *     DEFINE_SPEC_FIELD(Spec, std::shared_ptr<Device>, device, withDevice, nullptr)
+ *
+ *     Status validate() const override
+ *     {
+ *       Status status = NWBContainer::Spec::validate();
+ *       if (location.empty() || device == nullptr) {
+ *         status = Status::Failure;
+ *       }
+ *       return status;
+ *     }
+ *   };
+ *
+ *   Status initialize(const Spec& spec)
+ *   {
+ *     auto ioPtr = getIO();
+ *     if (!ioPtr) {
+ *       return Status::Failure;
+ *     }
+ *     // Checks that need the file come before anything is written
+ *     if (checkLinkTarget(spec.device, "device") != Status::Success) {
+ *       return Status::Failure;
+ *     }
+ *     Status status = NWBContainer::initialize(spec);  // validates the spec
+ *     if (status != Status::Success) {
+ *       return Status::Failure;
+ *     }
+ *     status = status && ioPtr->createAttribute(spec.location, m_path, "location");
+ *     if (spec.comment.has_value()) {
+ *       status = status && ioPtr->createAttribute(spec.comment.value(), m_path, "comment");
+ *     }
+ *     status = status && ioPtr->createLink(AQNWB::mergePaths("/" + m_path, "device"),
+ *                                          AQNWB::mergePaths("/", spec.device->getPath()));
+ *     return status;
+ *   }
+ * };
+ * @endcode
+ *
+ * Users then create and initialize the object via:
+ *
+ * @code
+ * auto obj = MyContainer::create(path, io);
+ * Status status = obj->initialize(MyContainer::Spec().withLocation("CA1").withDevice(device));
+ * @endcode
+ *
+ * \note
+ * The specs of \ref AQNWB::NWB::Data "Data" types used as columns of a
+ * \ref AQNWB::NWB::DynamicTable "DynamicTable" (\ref AQNWB::NWB::Data::DataSpecBase "Data::DataSpecBase")
+ * are also \ref AQNWB::NWB::RegisteredTypeSpec "RegisteredTypeSpec" objects.
  *
  *
  * \section using_registered_subclass_with_typename How to implement a RegisteredType with a custom type name 
@@ -559,6 +679,7 @@
  *   \ref DEFINE_UNNAMED_REGISTERED_FIELD, \ref DEFINE_REGISTERED_FIELD, and \ref DEFINE_REFERENCED_REGISTERED_FIELD
  *    macros is working as expected, e.g. via: 
  *    \snippet tests/testVectorData.cpp example_test_vectordata_read_snippet
- * - Test that the `initialize` method is working as expected (if included).
+ * - Test that the `initialize` method is working as expected (if included), including that
+ *   `Spec::validate` rejects invalid specs.
  *    
  */

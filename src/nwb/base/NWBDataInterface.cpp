@@ -18,3 +18,8 @@ Status NWBDataInterface::initialize()
 {
   return NWBContainer::initialize();
 }
+
+Status NWBDataInterface::initialize(const Spec& spec)
+{
+  return NWBContainer::initialize(spec);
+}

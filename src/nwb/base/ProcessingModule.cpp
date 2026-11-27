@@ -16,6 +16,11 @@ ProcessingModule::ProcessingModule(const std::string& path,
 
 Status ProcessingModule::initialize(const std::string& description)
 {
+  return initialize(Spec().withDescription(description));
+}
+
+Status ProcessingModule::initialize(const Spec& spec)
+{
   auto ioPtr = getIO();
   if (!ioPtr) {
     std::cerr << "ProcessingModule::initialize IO object has been deleted."
@@ -23,10 +28,13 @@ Status ProcessingModule::initialize(const std::string& description)
     return Status::Failure;
   }
 
-  Status initStatus = NWBContainer::initialize();
+  Status initStatus = NWBContainer::initialize(spec);
+  if (initStatus != Status::Success) {
+    return Status::Failure;
+  }
 
   Status descrStatus =
-      ioPtr->createAttribute(description, m_path, "description");
+      ioPtr->createAttribute(spec.description, m_path, "description");
   initStatus = initStatus && descrStatus;
 
   return initStatus;

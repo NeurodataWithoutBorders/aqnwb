@@ -21,6 +21,47 @@ public:
                     TimeSeries,
                     AQNWB::SPEC::CORE::namespaceName)
 
+  /**
+   * @brief Specification for initializing an AnnotationSeries.
+   *
+   * The schema fixes the unit to "n/a" and the conversion, resolution, and
+   * offset to 1.0, -1.0, and 0.0. The spec sets these values by default and
+   * does not re-expose their setters. validate() fails if they are changed
+   * (e.g., via a reference to the TimeSeries::Spec). The data type of the
+   * data configuration must be a variable-length string.
+   */
+  struct Spec : public TimeSeries::Spec
+  {
+    /**
+     * @brief Constructor. Sets the unit to "n/a" as required by the schema.
+     */
+    Spec()
+    {
+      unit = "n/a";
+      conversion = 1.0f;
+      resolution = -1.0f;
+      offset = 0.0f;
+    }
+
+    INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withData)
+    INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withDescription)
+    INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withComments)
+    INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withContinuity)
+    INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withStartingTime)
+    INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withStartingTimeRate)
+    INHERIT_SPEC_SETTER(Spec, TimeSeries::Spec, withControlDescription)
+
+    /**
+     * @brief Validate the spec.
+     *
+     * In addition to the checks of TimeSeries::Spec::validate(), checks that
+     * the unit is "n/a".
+     *
+     * @return Status::Success if the spec is valid, otherwise Status::Failure.
+     */
+    Status validate() const override;
+  };
+
 protected:
   /**
    * @brief Constructor.
@@ -45,9 +86,19 @@ public:
    * schema.
    * @return Status::Success if successful, otherwise Status::Failure.
    */
+  [[deprecated(
+      "Use AnnotationSeries::initialize(const AnnotationSeries::Spec&) "
+      "instead")]]
   Status initialize(const std::string& description,
                     const std::string& comments,
                     const IO::BaseArrayDataSetConfig& dataConfig);
+
+  /**
+   * @brief Initializes the AnnotationSeries from a spec.
+   * @param spec The specification of the AnnotationSeries.
+   * @return Status::Success if successful, otherwise Status::Failure.
+   */
+  Status initialize(const Spec& spec);
 
   /**
    * @brief Writes a channel to an AnnotationSeries dataset.

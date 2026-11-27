@@ -50,18 +50,19 @@ TEST_CASE("TimeSeries", "[base]")
 
     IO::ArrayDataSetConfig config(dataType, SizeArray {0}, SizeArray {1});
     ts->initialize(
-        config,
-        unit,
-        description,
-        comments,
-        conversion,
-        resolution,
-        offset,
-        continuity,
-        -1.0,  // don't use starting time
-        1.0,  // starting time rate. Not used since starting time is -1
-        emptyControlDescription  // empty to NOT use a control and
-                                 // control_description dataset
+        NWB::TimeSeries::Spec()
+            .withData(config)
+            .withUnit(unit)
+            .withDescription(description)
+            .withComments(comments)
+            .withConversion(conversion)
+            .withResolution(resolution)
+            .withOffset(offset)
+            .withContinuity(continuity)
+            // no startingTime, i.e., use timestamps
+            .withControlDescription(
+                emptyControlDescription)  // empty to NOT use a control and
+                                          // control_description dataset
     );
     REQUIRE(ts->readTimestamps()->exists() == true);
     REQUIRE(ts->readStartingTime()->exists() == false);
@@ -188,17 +189,18 @@ TEST_CASE("TimeSeries", "[base]")
     float startingTimeRate = 1.0;
 
     IO::ArrayDataSetConfig config(dataType, SizeArray {0}, SizeArray {1});
-    ts->initialize(config,
-                   unit,
-                   description,
-                   comments,
-                   conversion,
-                   resolution,
-                   offset,
-                   continuity,
-                   startingTime,
-                   startingTimeRate,
-                   controlDescription);
+    ts->initialize(NWB::TimeSeries::Spec()
+                       .withData(config)
+                       .withUnit(unit)
+                       .withDescription(description)
+                       .withComments(comments)
+                       .withConversion(conversion)
+                       .withResolution(resolution)
+                       .withOffset(offset)
+                       .withContinuity(continuity)
+                       .withStartingTime(startingTime)
+                       .withStartingTimeRate(startingTimeRate)
+                       .withControlDescription(controlDescription));
     REQUIRE(ts->readTimestamps()->exists() == false);
     REQUIRE(ts->readStartingTime()->exists() == true);
     REQUIRE(ts->readControl()->exists() == true);
@@ -293,17 +295,18 @@ TEST_CASE("TimeSeries", "[base]")
 
     IO::ArrayDataSetConfig config(dataType, SizeArray {0}, SizeArray {1});
     ts->initialize(
-        config,
-        unit,
-        description,
-        comments,
-        conversion,
-        resolution,
-        offset,
-        continuity,
-        -1.0,  // don't use starting time
-        1.0,  // starting time rate. Not used since starting time is -1
-        controlDescription  // use control and control_description
+        NWB::TimeSeries::Spec()
+            .withData(config)
+            .withUnit(unit)
+            .withDescription(description)
+            .withComments(comments)
+            .withConversion(conversion)
+            .withResolution(resolution)
+            .withOffset(offset)
+            .withContinuity(continuity)
+            // no startingTime, i.e., use timestamps
+            .withControlDescription(
+                controlDescription)  // use control and control_description
     );
 
     // Test recordData method
@@ -324,17 +327,18 @@ TEST_CASE("TimeSeries", "[base]")
 
     // Initialize a second TimeSeries with starting_time
     auto ts2 = NWB::TimeSeries::create(dataPath + "/ts2", io);
-    ts2->initialize(config,
-                    unit,
-                    description,
-                    comments,
-                    conversion,
-                    resolution,
-                    offset,
-                    continuity,
-                    0.0,  // use starting time
-                    1.0,  // starting time rate
-                    emptyControlDescription);
+    ts2->initialize(NWB::TimeSeries::Spec()
+                        .withData(config)
+                        .withUnit(unit)
+                        .withDescription(description)
+                        .withComments(comments)
+                        .withConversion(conversion)
+                        .withResolution(resolution)
+                        .withOffset(offset)
+                        .withContinuity(continuity)
+                        .withStartingTime(0.0)  // use starting time
+                        .withStartingTimeRate(1.0f)  // starting time rate
+                        .withControlDescription(emptyControlDescription));
 
     // Test recordStartingTime method
     auto startingTimeRecorder = ts2->recordStartingTime();
@@ -376,17 +380,15 @@ TEST_CASE("LinkArrayDataSetConfig for TimeSeries data", "[base][link]")
         AQNWB::NWB::TimeSeries::Continuous;
 
     IO::ArrayDataSetConfig config1(dataType, SizeArray {0}, SizeArray {1});
-    Status status_ts1 = ts1->initialize(config1,
-                                        unit,
-                                        description,
-                                        "Original comments",
-                                        conversion,
-                                        resolution,
-                                        offset,
-                                        continuity,
-                                        -1.0,
-                                        1.0,
-                                        {});
+    Status status_ts1 = ts1->initialize(NWB::TimeSeries::Spec()
+                                            .withData(config1)
+                                            .withUnit(unit)
+                                            .withDescription(description)
+                                            .withComments("Original comments")
+                                            .withConversion(conversion)
+                                            .withResolution(resolution)
+                                            .withOffset(offset)
+                                            .withContinuity(continuity));
     REQUIRE(status_ts1 == Status::Success);
 
     // Write data to first TimeSeries
@@ -403,17 +405,16 @@ TEST_CASE("LinkArrayDataSetConfig for TimeSeries data", "[base][link]")
     REQUIRE(linkConfig.isLink() == true);
     REQUIRE(linkConfig.getTargetPath() == linkTarget);
 
-    Status status_ts2 = ts2->initialize(linkConfig,
-                                        unit,
-                                        "Linked TimeSeries with same data",
-                                        "Linked comments",
-                                        conversion,
-                                        resolution,
-                                        offset,
-                                        continuity,
-                                        -1.0,
-                                        1.0,
-                                        {});
+    Status status_ts2 =
+        ts2->initialize(NWB::TimeSeries::Spec()
+                            .withData(linkConfig)
+                            .withUnit(unit)
+                            .withDescription("Linked TimeSeries with same data")
+                            .withComments("Linked comments")
+                            .withConversion(conversion)
+                            .withResolution(resolution)
+                            .withOffset(offset)
+                            .withContinuity(continuity));
     REQUIRE(status_ts2 == Status::Success);
 
     // Write only timestamps to second TimeSeries (data is linked)
@@ -492,7 +493,11 @@ TEST_CASE("LinkArrayDataSetConfig for TimeSeries data", "[base][link]")
     // Create a dummy dataset first
     auto ts1 = NWB::TimeSeries::create(dataPath1, io);
     IO::ArrayDataSetConfig config1(dataType, SizeArray {0}, SizeArray {1});
-    ts1->initialize(config1, "volts", "Test", "comments", 1.0f, -1.0f, 0.0f);
+    ts1->initialize(NWB::TimeSeries::Spec()
+                        .withData(config1)
+                        .withUnit("volts")
+                        .withDescription("Test")
+                        .withComments("comments"));
 
     // Try to create a link
     std::string linkTarget = dataPath1 + "/data";
@@ -524,7 +529,11 @@ TEST_CASE("LinkArrayDataSetConfig for TimeSeries data", "[base][link]")
     // Linking to this target should fail because it lacks required attributes
     auto ts2 = NWB::TimeSeries::create("/linked_timeseries2", io);
     IO::LinkArrayDataSetConfig linkConfig(bareDatasetPath);
-    Status status = ts2->initialize(linkConfig, "volts", "Linked", "comments");
+    Status status = ts2->initialize(NWB::TimeSeries::Spec()
+                                        .withData(linkConfig)
+                                        .withUnit("volts")
+                                        .withDescription("Linked")
+                                        .withComments("comments"));
     REQUIRE(status == Status::Failure);
 
     io->close();

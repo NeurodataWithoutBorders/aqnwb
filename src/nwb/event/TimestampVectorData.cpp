@@ -61,10 +61,7 @@ Status TimestampVectorData::DataSpec::initialize(Data& data) const
               << std::endl;
     return Status::Failure;
   }
-  return timestampData->initialize(
-      static_cast<const AQNWB::IO::ArrayDataSetConfig&>(*this),
-      description,
-      resolution);
+  return timestampData->initialize(getDataConfig(), description, resolution);
 }
 
 std::shared_ptr<TimestampVectorData::DataSpec>

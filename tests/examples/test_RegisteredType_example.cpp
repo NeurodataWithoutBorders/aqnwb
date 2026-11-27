@@ -31,7 +31,7 @@ TEST_CASE("RegisterType Example", "[base]")
     auto ts = NWB::TimeSeries::create(dataPath, io);
     IO::ArrayDataSetConfig config(
         dataType, SizeArray {numSamples}, SizeArray {numSamples});
-    ts->initialize(config, "unit");
+    ts->initialize(NWB::TimeSeries::Spec().withData(config).withUnit("unit"));
 
     // Write data to file
     Status writeStatus = ts->writeData(

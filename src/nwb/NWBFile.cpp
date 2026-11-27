@@ -59,7 +59,7 @@ Status NWBFile::initialize(
     const std::string& dataCollection,
     const std::string& sessionStartTime,
     const std::string& timestampsReferenceTime,
-    const std::optional<AQNWB::NWB::Subject::SubjectSpec>& subjectSpec,
+    const std::optional<AQNWB::NWB::Subject::Spec>& subjectSpec,
     const std::optional<GeneralMetadataSpec>& generalMetadataSpec)
 {
   auto ioPtr = getIO();
@@ -493,10 +493,15 @@ std::shared_ptr<ElectrodesTable> NWBFile::createElectrodesTable(
     // if it does not
     if (!ioPtr->objectExists(devicePath)) {
       auto device = NWB::Device::create(devicePath, ioPtr);
-      device->initialize("description", "unknown");
+      device->initialize(NWB::Device::Spec()
+                             .withDescription("description")
+                             .withManufacturer("unknown"));
 
       auto elecGroup = NWB::ElectrodeGroup::create(electrodePath, ioPtr);
-      elecGroup->initialize("description", "unknown", device);
+      elecGroup->initialize(NWB::ElectrodeGroup::Spec()
+                                .withDescription("description")
+                                .withLocation("unknown")
+                                .withDevice(device));
     }
   }
   if (finalizeTable) {
@@ -788,10 +793,14 @@ Status NWBFile::createElectricalSeries(
     auto electricalSeries =
         this->createAquisitionSeries<ElectricalSeries>(recordingName);
     Status esStatus = electricalSeries->initialize(
-        config,
-        channelVector,
-        "Stores continuously sampled voltage data from an "
-        "extracellular ephys recording");
+        ElectricalSeries::Spec()
+            .withData(config)
+            .withChannelVector(channelVector)
+            .withDescription("Stores continuously sampled voltage data from an "
+                             "extracellular ephys recording")
+            .withComments(channelVector.empty()
+                              ? std::string("no comments")
+                              : channelVector[0].getComments()));
     overallStatus = overallStatus && esStatus;
     containerIndexes.push_back(electricalSeries->getRecordingObjectIndex());
   }
@@ -857,10 +866,15 @@ Status NWBFile::createSpikeEventSeries(
     // if not
     if (!ioPtr->objectExists(devicePath)) {
       auto device = Device::create(devicePath, ioPtr);
-      device->initialize("description", "unknown");
+      device->initialize(Device::Spec()
+                             .withDescription("description")
+                             .withManufacturer("unknown"));
 
       auto elecGroup = ElectrodeGroup::create(electrodePath, ioPtr);
-      elecGroup->initialize("description", "unknown", device);
+      elecGroup->initialize(ElectrodeGroup::Spec()
+                                .withDescription("description")
+                                .withLocation("unknown")
+                                .withDevice(device));
     }
 
     // Setup Spike Event Series datasets. All events have the same number of
@@ -885,13 +899,15 @@ Status NWBFile::createSpikeEventSeries(
     auto spikeEventSeries =
         this->createAquisitionSeries<SpikeEventSeries>(recordingName);
     Status sesStatus = spikeEventSeries->initialize(
-        config,
-        channelVector,
-        "Stores spike waveforms from an extracellular ephys recording",
-        useChannelConversion ? 1.0f : channelVector[0].getConversion(),
-        -1.0f,
-        0.0f,
-        useChannelConversion);
+        SpikeEventSeries::Spec()
+            .withData(config)
+            .withChannelVector(channelVector)
+            .withDescription(
+                "Stores spike waveforms from an extracellular ephys recording")
+            .withComments(channelVector[0].getComments())
+            .withConversion(
+                useChannelConversion ? 1.0f : channelVector[0].getConversion())
+            .withUseChannelConversion(useChannelConversion));
     overallStatus = overallStatus && sesStatus;
     containerIndexes.push_back(spikeEventSeries->getRecordingObjectIndex());
   }
@@ -926,9 +942,11 @@ Status NWBFile::createAnnotationSeries(
     auto annotationSeries =
         this->createAquisitionSeries<AnnotationSeries>(recordingName);
     annotationSeries->initialize(
-        "Stores user annotations made during an experiment",
-        "no comments",
-        config);
+        AnnotationSeries::Spec()
+            .withData(config)
+            .withDescription(
+                "Stores user annotations made during an experiment")
+            .withComments("no comments"));
     containerIndexes.push_back(annotationSeries->getRecordingObjectIndex());
   }
 

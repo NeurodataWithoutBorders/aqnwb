@@ -35,6 +35,7 @@ add_executable(aqnwb_test
     testRecordingWorkflow.cpp
     testRecordingObjects.cpp
     testRegisteredType.cpp
+    testRegisteredTypeSpec.cpp
     testSubject.cpp
     testTimeSeries.cpp
     testTimestampVectorData.cpp
