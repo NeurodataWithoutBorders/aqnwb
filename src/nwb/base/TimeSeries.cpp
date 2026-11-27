@@ -157,6 +157,7 @@ Status TimeSeries::initialize(const Spec& spec)
   const IO::BaseArrayDataSetConfig& dataConfig = *spec.data;
   m_dataIsLink = dataConfig.isLink();
   m_dataTypeInitialized = true;
+  m_usesTimestamps = !spec.startingTime.has_value();
 
   // Extract shape, chunking, and data type from the config
   SizeArray shape, chunking;
@@ -401,8 +402,11 @@ Status TimeSeries::appendSamples(const SizeType& numSamples,
     return Status::Failure;
   }
   // The timing mode of the series determines whether timestamps are required
-  const bool usesTimestamps =
-      ioPtr->objectExists(AQNWB::mergePaths(m_path, "timestamps"));
+  if (!m_usesTimestamps.has_value()) {
+    m_usesTimestamps =
+        ioPtr->objectExists(AQNWB::mergePaths(m_path, "timestamps"));
+  }
+  const bool usesTimestamps = m_usesTimestamps.value();
   if (usesTimestamps && timestampsInput == nullptr) {
     std::cerr << "TimeSeries::appendSamples: " << m_path
               << " uses timestamps, i.e., the timestamps of the samples are "
