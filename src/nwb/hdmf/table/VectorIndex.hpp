@@ -77,10 +77,7 @@ public:
                   << std::endl;
         return Status::Failure;
       }
-      return vectorIndex->initialize(
-          static_cast<const IO::ArrayDataSetConfig&>(*this),
-          description,
-          targetPath);
+      return vectorIndex->initialize(getDataConfig(), description, targetPath);
     }
   };
 
