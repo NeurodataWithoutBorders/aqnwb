@@ -20,6 +20,31 @@ BaseDataType::BaseDataType(BaseDataType::Type t, SizeType s)
 BaseDataType BaseDataType::Compound(const std::vector<CompoundMember>& members,
                                     SizeType size)
 {
+  if (members.empty() || size == 0) {
+    throw std::invalid_argument(
+        "BaseDataType::Compound: A compound type needs at least one member "
+        "and a size > 0.");
+  }
+  for (size_t i = 0; i < members.size(); ++i) {
+    const SizeType memberSize = getScalarNumBytes(members[i].type);
+    if (memberSize == 0) {
+      throw std::invalid_argument("BaseDataType::Compound: The member '"
+                                  + members[i].name
+                                  + "' must be a scalar numeric type.");
+    }
+    if (members[i].offset + memberSize > size) {
+      throw std::invalid_argument("BaseDataType::Compound: The member '"
+                                  + members[i].name
+                                  + "' does not fit into the compound size.");
+    }
+    for (size_t j = 0; j < i; ++j) {
+      if (members[j].name == members[i].name) {
+        throw std::invalid_argument(
+            "BaseDataType::Compound: Duplicate member name '" + members[i].name
+            + "'.");
+      }
+    }
+  }
   BaseDataType result(T_COMPOUND, 1);
   result.members = members;
   result.compoundSize = size;

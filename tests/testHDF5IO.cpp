@@ -781,6 +781,77 @@ TEST_CASE("HDF5IO; compound data types", "[hdf5io]")
   readio.close();
 }
 
+TEST_CASE("HDF5IO; compound data type validation and layouts", "[hdf5io]")
+{
+  SECTION("invalid compound types")
+  {
+    REQUIRE_THROWS_AS(IO::BaseDataType::Compound({}, 4), std::invalid_argument);
+    REQUIRE_THROWS_AS(
+        IO::BaseDataType::Compound({{"x", IO::BaseDataType::T_F64, 4}}, 8),
+        std::invalid_argument);  // does not fit
+    REQUIRE_THROWS_AS(
+        IO::BaseDataType::Compound({{"x", IO::BaseDataType::T_U32, 0},
+                                    {"x", IO::BaseDataType::T_U32, 4}},
+                                   8),
+        std::invalid_argument);  // duplicate names
+    REQUIRE_THROWS_AS(
+        IO::BaseDataType::Compound({{"s", IO::BaseDataType::V_STR, 0}}, 8),
+        std::invalid_argument);  // non-numeric member
+  }
+
+  SECTION("struct with padding is stored packed")
+  {
+    struct Padded
+    {
+      uint16_t a;
+      double b;
+    };
+    const IO::BaseDataType paddedType = IO::BaseDataType::Compound(
+        {{"a", IO::BaseDataType::T_U16, offsetof(Padded, a)},
+         {"b", IO::BaseDataType::T_F64, offsetof(Padded, b)}},
+        sizeof(Padded));
+    std::string path = getTestFilePath("test_compound_padded.h5");
+    {
+      IO::HDF5::HDF5IO hdf5io(path);
+      hdf5io.open();
+      auto recorder = hdf5io.createArrayDataSet(
+          IO::ArrayDataSetConfig(paddedType, {2}, {2}), "/padded");
+      std::vector<Padded> values = {{1, 0.5}, {2, 1.5}};
+      REQUIRE(recorder->writeDataBlock({2}, {0}, paddedType, values.data())
+              == Status::Success);
+      hdf5io.close();
+    }
+    IO::HDF5::HDF5IO readio(path);
+    readio.open(IO::FileMode::ReadOnly);
+    auto block = readio.readDataset("/padded");
+    // The file layout is packed (2 + 8 bytes)
+    REQUIRE(block.baseDataType.compoundSize == 10);
+    readio.close();
+  }
+
+  SECTION("compound types with non-numeric members are not supported")
+  {
+    std::string path = getTestFilePath("test_compound_string_member.h5");
+    {
+      IO::HDF5::HDF5IO hdf5io(path);
+      hdf5io.open();
+      hdf5io.close();
+    }
+    {
+      H5::H5File file(path, H5F_ACC_RDWR);
+      H5::CompType compoundType(static_cast<size_t>(12));
+      compoundType.insertMember("a", 0, H5::PredType::NATIVE_INT32);
+      compoundType.insertMember("name", 4, H5::StrType(H5::PredType::C_S1, 8));
+      hsize_t dims[1] = {2};
+      file.createDataSet("data", compoundType, H5::DataSpace(1, dims));
+    }
+    IO::HDF5::HDF5IO readio(path);
+    readio.open(IO::FileMode::ReadOnly);
+    REQUIRE_THROWS_AS(readio.readDataset("/data"), std::runtime_error);
+    readio.close();
+  }
+}
+
 TEST_CASE("HDF5IO createArrayDataSet with filters", "[HDF5IO]")
 {
   const std::string fileName = getTestFilePath("test.h5");
