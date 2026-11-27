@@ -150,6 +150,19 @@ if(AQNWB_ENABLE_OPHYS)
 endif()
 message(STATUS "AqNWB optical physiology module (AQNWB_ENABLE_OPHYS): ${AQNWB_ENABLE_OPHYS}")
 
+option(AQNWB_ENABLE_OGEN "Build support for optogenetics (ogen neurodata_types)" ON)
+
+if(AQNWB_ENABLE_OGEN)
+  target_sources(
+      aqnwb_aqnwb PRIVATE
+      src/nwb/ogen/OgenUtils.cpp
+      src/nwb/ogen/OptogeneticSeries.cpp
+      src/nwb/ogen/OptogeneticStimulusSite.cpp
+  )
+  target_compile_definitions(aqnwb_aqnwb PUBLIC AQNWB_HAS_OGEN)
+endif()
+message(STATUS "AqNWB optogenetics module (AQNWB_ENABLE_OGEN): ${AQNWB_ENABLE_OGEN}")
+
 # ---- Optional remfile VFD for reading remote files over HTTP(S) ----
 # remfile provides an HDF5 virtual file driver that reads remote files with
 # HTTP range requests and adaptive read-ahead caching. Unlike the ROS3 VFD,

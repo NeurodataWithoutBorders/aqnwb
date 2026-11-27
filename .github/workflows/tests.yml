@@ -186,11 +186,11 @@ jobs:
       matrix:
         include:
           - name: no optional modules
-            flags: -DAQNWB_ENABLE_OPHYS=OFF -DAQNWB_ENABLE_IMAGE=OFF
-            excluded: ophys image
+            flags: -DAQNWB_ENABLE_OPHYS=OFF -DAQNWB_ENABLE_IMAGE=OFF -DAQNWB_ENABLE_OGEN=OFF
+            excluded: ophys image ogen
           - name: image module only
-            flags: -DAQNWB_ENABLE_OPHYS=OFF -DAQNWB_ENABLE_IMAGE=ON
-            excluded: ophys
+            flags: -DAQNWB_ENABLE_OPHYS=OFF -DAQNWB_ENABLE_IMAGE=ON -DAQNWB_ENABLE_OGEN=OFF
+            excluded: ophys ogen
     name: test-without-optional-modules (${{ matrix.name }})
     steps:
       - name: Checkout repository

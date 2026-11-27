@@ -83,6 +83,21 @@
  *
  * \snippet tests/examples/testOphysWorkflowExamples.cpp example_ophys_record_snippet
  *
+ * \section ophys_ogen Recording optogenetic stimulation
+ *
+ * Optogenetic stimulation is described by an
+ * \ref AQNWB::NWB::OptogeneticStimulusSite "OptogeneticStimulusSite" (stored in `/general/optogenetics`),
+ * which links to the stimulation \ref AQNWB::NWB::Device "Device", and an
+ * \ref AQNWB::NWB::OptogeneticSeries "OptogeneticSeries" with the applied power in watts. The
+ * convenience functions are in the \ref AQNWB::NWB::Ogen "Ogen" namespace.
+ *
+ * \snippet tests/testOgen.cpp example_ogen_snippet
+ *
+ * \note
+ * The optogenetics types are part of an optional module that is enabled by default. It can be
+ * disabled via the CMake option `-DAQNWB_ENABLE_OGEN=OFF`. The preprocessor definition
+ * `AQNWB_HAS_OGEN` indicates that the module is available.
+ *
  * \section ophys_reading Reading the data
  *
  * The data can be read via the read methods of the types, e.g.,

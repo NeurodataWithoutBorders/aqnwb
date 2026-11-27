@@ -66,6 +66,10 @@ if(AQNWB_ENABLE_OPHYS)
   )
 endif()
 
+if(AQNWB_ENABLE_OGEN)
+  target_sources(aqnwb_test PRIVATE testOgen.cpp)
+endif()
+
 # Ensure the aqnwb_test target can include headers from the current directory
 target_include_directories(aqnwb_test PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}  # Include current directory

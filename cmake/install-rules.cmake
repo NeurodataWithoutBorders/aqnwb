@@ -19,6 +19,9 @@ endif()
 if(NOT AQNWB_ENABLE_OPHYS)
   list(APPEND aqnwb_excluded_module_dirs REGEX "/nwb/ophys(/|$)" EXCLUDE)
 endif()
+if(NOT AQNWB_ENABLE_OGEN)
+  list(APPEND aqnwb_excluded_module_dirs REGEX "/nwb/ogen(/|$)" EXCLUDE)
+endif()
 
 install(
     DIRECTORY

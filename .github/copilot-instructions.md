@@ -101,6 +101,7 @@ AqNWB uses CMake presets extensively. Key presets:
 - `ENABLE_COVERAGE`: Enable coverage reporting - Default: OFF
 - `AQNWB_ENABLE_IMAGE`: Build the image module (`src/nwb/image`) - Default: ON. Defines `AQNWB_HAS_IMAGE` if enabled
 - `AQNWB_ENABLE_OPHYS`: Build the optical physiology module (`src/nwb/ophys`, requires and enables `AQNWB_ENABLE_IMAGE`) - Default: ON. Defines `AQNWB_HAS_OPHYS` if enabled
+- `AQNWB_ENABLE_OGEN`: Build the optogenetics module (`src/nwb/ogen`) - Default: ON. Defines `AQNWB_HAS_OGEN` if enabled
 
 ### Standard Build Workflow
 
