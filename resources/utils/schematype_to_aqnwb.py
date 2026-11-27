@@ -1100,7 +1100,7 @@ AQNWB_TODO_REFERENCES = {
     "override": "src/nwb/ecephys/ElectricalSeries.hpp (ElectricalSeries::Spec)",
     "parent-spec": "src/nwb/RegisteredTypeSpec.hpp",
     "table-columns": "src/nwb/event/EventsTable.cpp",
-    "write-helper": "src/nwb/base/TimeSeries.hpp (appendSamples) and src/nwb/ophys/OphysUtils.cpp",
+    "write-helper": "src/nwb/base/TimeSeries.hpp (appendSamples) and src/io/nwbio_utils.hpp (appendTimeSeriesData)",
 }
 
 
@@ -1756,7 +1756,8 @@ def render_spec_header(neurodata_type: Spec, all_types: Dict[str, Spec], type_to
     if is_timeseries_type(class_name, all_types):
         src += "\n"
         src += aqnwb_todo("nwbfile-helper", f"Add a convenience function to create {class_name} objects for acquisition if needed")
-        src += aqnwb_todo("write-helper", f"Add a helper function to write data to {class_name} objects if needed")
+        src += aqnwb_todo("write-helper", f"Writing data to {class_name} is covered by TimeSeries::appendSamples and "
+                          f"IO::appendTimeSeriesData. Override appendSamples to add checks if needed")
         src += aqnwb_todo("chunking", f"Choose default chunking for the datasets of {class_name} in the helper functions")
     return src
 
