@@ -53,7 +53,7 @@ List them via `grep -rn "AQNWB-TODO" src/nwb/<module>`. Resolve one category at 
 | `parent-spec` | The parent class has no `Spec` of its own (e.g., `TimeIntervals`), so only the nearest class with a Spec is initialized. Call the parent's initialize or add a Spec to the parent. | `src/nwb/RegisteredTypeSpec.hpp` |
 | `link` | Unnamed links need custom handling. | `src/nwb/NWBFile.hpp` (`DEFINE_UNNAMED_REGISTERED_FIELD`) |
 | `nwbfile-helper` | For acquisition types, add a function to create and initialize the objects. Prefer free functions in the module over new `NWBFile` members (see issue #213). | `src/nwb/ophys/OphysUtils.cpp` |
-| `write-helper` | Writing data is usually covered by `TimeSeries::appendSamples`. Add a write method or a function to write by recording index if needed. | `src/nwb/base/TimeSeries.hpp`, `src/nwb/ophys/OphysUtils.cpp` |
+| `write-helper` | Writing data is covered by `TimeSeries::appendSamples` and `IO::appendTimeSeriesData` (by recording index). Override `appendSamples` to add type-specific checks (e.g., `ImageSeries` for external files). Do not add type-specific write helpers. | `src/nwb/base/TimeSeries.hpp`, `src/io/nwbio_utils.hpp`, `src/nwb/image/ImageSeries.cpp` |
 | `chunking` | Choose default chunking for acquisition datasets (e.g., one frame per chunk for images). | `src/nwb/ophys/OphysUtils.cpp` (`getDefaultImageSeriesDataConfig`) |
 
 Rules for the Spec and `initialize` (see the developer docs for details):
