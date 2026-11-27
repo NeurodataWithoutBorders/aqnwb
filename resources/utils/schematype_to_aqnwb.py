@@ -478,7 +478,10 @@ def get_initialize_method_parameters(neurodata_type: Spec, type_to_namespace_map
                 if obj.shape is None:
                     # Scalar string default value
                     if obj_cpp_type == "std::string":
-                        default_value = f'"{default_value}"'
+                        default_value = json.dumps(str(default_value))
+                    # Scalar bool default value
+                    elif isinstance(default_value, bool):
+                        default_value = "true" if default_value else "false"
                     # Scalar numeric default value
                     else:
                         default_value = str(default_value)
@@ -487,7 +490,7 @@ def get_initialize_method_parameters(neurodata_type: Spec, type_to_namespace_map
                     # TODO This does not handle multi-dimensional default values
                     # Default value is a list of strings
                     if "std::string" in obj_cpp_type:
-                        default_value = "{" + ", ".join(f'"{val}"' for val in default_value) + "}"
+                        default_value = "{" + ", ".join(json.dumps(str(val)) for val in default_value) + "}"
                     # Default value is a list of numbers
                     else:
                         default_value = str(default_value).replace("[", "{").replace("]", "}")
@@ -933,6 +936,7 @@ def get_cpp_type(dtype: str) -> str:
         "bool": "bool",
         "isodatetime": "std::string",
         "datetime": "std::string",
+        "numeric": "std::any",
     }
     # Undefined dtype
     if dtype is None:
@@ -2142,7 +2146,7 @@ public:
     header += f"""
 }};
 
-}} // namespace {cpp_namespace_name}
+}} // namespace {actual_cpp_namespace_name}
 """
 
     return header
@@ -2622,13 +2626,14 @@ def main(args) -> None:
             logger.error(f"    Failed to create subfolder {original_namespace}/{subfolder_name}: {e}")
             continue
         
+        header_path = type_output_dir / f"{class_name}.hpp"
+        impl_path = type_output_dir / f"{class_name}.cpp"
         try:
             header_file_name = f"{class_name}.hpp"
             logger.info(f"    Generating header file: {header_file_name}")
             header_file = generate_header_file(
                 namespace, neurodata_type, neurodata_types, type_to_file_map, type_to_namespace_map
             )
-            header_path = type_output_dir / header_file_name
             with open(header_path, "w") as f:
                 f.write(header_file)
         except Exception as e:
@@ -2640,7 +2645,6 @@ def main(args) -> None:
             impl_file = generate_implementation_file(
                 namespace, neurodata_type, neurodata_types, type_to_file_map, type_to_namespace_map
             )
-            impl_path = type_output_dir / cpp_file_name
             with open(impl_path, "w") as f:
                 f.write(impl_file)
             
