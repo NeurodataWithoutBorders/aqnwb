@@ -33,8 +33,6 @@ public:
    */
   struct Spec : public NWBDataInterface::Spec
   {
-    REGISTER_SPEC(CorrectedImageStack, NWBDataInterface::Spec)
-
     /// @brief Link to the original (uncorrected) ImageSeries. Required.
     DEFINE_SPEC_FIELD(
         Spec, std::shared_ptr<ImageSeries>, original, withOriginal, nullptr)

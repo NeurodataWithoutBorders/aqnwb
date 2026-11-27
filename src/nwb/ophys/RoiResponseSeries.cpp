@@ -70,6 +70,12 @@ Status RoiResponseSeries::initialize(const Spec& spec)
     return Status::Failure;
   }
 
+  // Check the link targets before anything is written
+  if (checkLinkTarget(spec.planeSegmentation, "planeSegmentation")
+      != Status::Success)
+  {
+    return Status::Failure;
+  }
   // Validate the spec and initialize the TimeSeries
   Status status = TimeSeries::initialize(spec);
   if (status != Status::Success) {

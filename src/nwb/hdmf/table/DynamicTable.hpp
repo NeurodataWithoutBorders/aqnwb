@@ -53,8 +53,6 @@ public:
    */
   struct Spec : public Container::Spec
   {
-    REGISTER_SPEC(DynamicTable, Container::Spec)
-
     /// @brief Description of what is in this dynamic table.
     DEFINE_SPEC_FIELD(Spec, std::string, description, withDescription, "")
 

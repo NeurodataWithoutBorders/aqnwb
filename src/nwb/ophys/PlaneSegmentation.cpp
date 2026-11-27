@@ -237,6 +237,10 @@ Status PlaneSegmentation::initialize(const Spec& spec)
     tableSpec.columns.insert(
         tableSpec.columns.end(), maskSpecs.begin(), maskSpecs.end());
   }
+  // Check the link targets before anything is written
+  if (checkLinkTarget(spec.imagingPlane, "imagingPlane") != Status::Success) {
+    return Status::Failure;
+  }
   Status status = DynamicTable::initialize(tableSpec);
   if (status != Status::Success) {
     return Status::Failure;

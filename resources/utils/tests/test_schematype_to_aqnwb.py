@@ -175,7 +175,8 @@ def test_existing_aqnwb_types_are_reused(generated):
 
 def test_spec_fields(generated):
     header = read(generated, "TestDevice", "hpp")
-    assert "REGISTER_SPEC(TestDevice, AQNWB::NWB::Device::Spec)" in header
+    assert "struct Spec : public AQNWB::NWB::Device::Spec" in header
+    assert "REGISTER_SPEC" not in header
     # Required attribute, optional attribute, and array attribute with a default value
     assert "DEFINE_SPEC_FIELD(Spec, std::string, assetTag, withAssetTag, \"\")" in header
     assert "DEFINE_SPEC_FIELD(Spec, std::optional<float>, gain, withGain, std::nullopt)" in header

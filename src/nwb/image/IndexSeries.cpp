@@ -56,6 +56,15 @@ Status IndexSeries::initialize(const Spec& spec)
               << std::endl;
     return Status::Failure;
   }
+  // Check the link targets before anything is written
+  if (checkLinkTarget(spec.indexedImages, "indexedImages") != Status::Success) {
+    return Status::Failure;
+  }
+  if (checkLinkTarget(spec.indexedTimeseries, "indexedTimeseries")
+      != Status::Success)
+  {
+    return Status::Failure;
+  }
   // The schema requires that the indexed Images define the order of the
   // images, which the indices refer to
   if (spec.indexedImages != nullptr

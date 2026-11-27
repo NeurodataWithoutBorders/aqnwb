@@ -15,6 +15,12 @@ std::shared_ptr<OptogeneticStimulusSite> Ogen::createOptogeneticStimulusSite(
               << std::endl;
     return nullptr;
   }
+  // Validate the spec before creating the parent group
+  if (spec.validate() != Status::Success) {
+    std::cerr << "Ogen::createOptogeneticStimulusSite: Invalid spec for "
+              << name << std::endl;
+    return nullptr;
+  }
   if (!ioPtr->objectExists(OPTOGENETICS_PATH)
       && ioPtr->createGroup(OPTOGENETICS_PATH) != Status::Success)
   {
@@ -22,8 +28,14 @@ std::shared_ptr<OptogeneticStimulusSite> Ogen::createOptogeneticStimulusSite(
               << OPTOGENETICS_PATH << std::endl;
     return nullptr;
   }
-  return spec.createAndInitialize(AQNWB::mergePaths(OPTOGENETICS_PATH, name),
-                                  ioPtr);
+  auto obj = OptogeneticStimulusSite::create(
+      AQNWB::mergePaths(OPTOGENETICS_PATH, name), ioPtr);
+  if (obj == nullptr || obj->initialize(spec) != Status::Success) {
+    std::cerr << "Ogen::createOptogeneticStimulusSite: Failed to create "
+              << name << std::endl;
+    return nullptr;
+  }
+  return obj;
 }
 
 std::shared_ptr<OptogeneticSeries> Ogen::createOptogeneticSeries(

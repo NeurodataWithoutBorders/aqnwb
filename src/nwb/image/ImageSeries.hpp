@@ -51,8 +51,6 @@ public:
    */
   struct Spec : public TimeSeries::Spec
   {
-    REGISTER_SPEC(ImageSeries, TimeSeries::Spec)
-
     /**
      * @brief Format of the images. "raw" if the data is stored in the data
      * dataset and "external" if the images are stored in external files (see

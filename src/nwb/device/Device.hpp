@@ -26,8 +26,6 @@ public:
    */
   struct Spec : public NWBContainer::Spec
   {
-    REGISTER_SPEC(Device, NWBContainer::Spec)
-
     /**
      * @brief Description of the device as free-form text. The description
      * attribute is not written if empty.

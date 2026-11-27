@@ -41,8 +41,6 @@ public:
    */
   struct Spec : public TimeSeries::Spec
   {
-    REGISTER_SPEC(ElectricalSeries, TimeSeries::Spec)
-
     /**
      * @brief Constructor. Sets the unit to "volts" as required by the schema.
      */

@@ -1153,7 +1153,7 @@ def scan_aqnwb_types(src_dir: Path) -> Dict[Tuple[str, str], Dict]:
             aqnwb_types[(_namespace_from_cpp_expression(namespace_expr), type_name)] = {
                 "cpp_class": f"AQNWB::NWB::{type_name}",
                 "include": header.relative_to(src_dir).as_posix(),
-                "has_spec": "REGISTER_SPEC(" in text,
+                "has_spec": re.search(r"\bstruct\s+Spec\s*:", text) is not None,
                 "setters": setters,
             }
     return aqnwb_types
@@ -1547,8 +1547,6 @@ def render_spec_header(neurodata_type: Spec, all_types: Dict[str, Spec], type_to
      */
     struct Spec : public {base_spec}
     {{
-        REGISTER_SPEC({class_name}, {base_spec})
-
 """
     if not parent["has_spec"] and class_name != "Container":
         src += aqnwb_todo("parent-spec", f"{parent['parent_class']} does not define a Spec", indent="        ")
@@ -2393,7 +2391,7 @@ int main(int argc, char* argv[])
             spec_src = ""
             if not isinstance(neurodata_types[type_name], DatasetSpec):
                 spec_src = f"""            {cpp_namespace}::{type_name}::Spec {type_name.lower()}_spec;
-            std::cout << "  ✓ " << {type_name.lower()}_spec.getFullTypeName() << " Spec created successfully" << std::endl;
+            std::cout << "  ✓ {type_name}::Spec created successfully: " << ({type_name.lower()}_spec.validate() == AQNWB::Types::Status::Success ? "valid" : "not valid (expected for default values)") << std::endl;
 """
             main_content += f"""        try {{
             std::string {type_name.lower()}_path = "/test_{type_name.lower()}";

@@ -38,6 +38,12 @@ Status ImageMaskSeries::initialize(const Spec& spec)
               << std::endl;
     return Status::Failure;
   }
+  // Check the link targets before anything is written
+  if (checkLinkTarget(spec.maskedImageSeries, "maskedImageSeries")
+      != Status::Success)
+  {
+    return Status::Failure;
+  }
   Status status = ImageSeries::initialize(spec);
   if (status != Status::Success) {
     return Status::Failure;

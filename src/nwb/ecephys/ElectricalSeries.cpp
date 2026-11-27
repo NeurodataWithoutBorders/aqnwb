@@ -76,10 +76,8 @@ Status ElectricalSeries::initialize(const Spec& spec)
     return Status::Failure;
   }
 
-  // Check the spec and the electrodes table before anything is written
-  if (spec.validate() != Status::Success) {
-    return Status::Failure;
-  }
+  // Check the electrodes table before anything is written. The spec itself is
+  // validated by TimeSeries::initialize.
   std::string idPath =
       AQNWB::mergePaths(ElectrodesTable::electrodesTablePath, "id");
   if (!ioPtr->objectExists(idPath)) {
@@ -114,13 +112,6 @@ Status ElectricalSeries::initialize(const Spec& spec)
   std::vector<int> electrodeInds(channelVector.size());
   std::vector<float> channelConversions(channelVector.size());
   for (size_t i = 0; i < channelVector.size(); ++i) {
-    SizeType globalIndex = channelVector[i].getGlobalIndex();
-    if (globalIndex >= numElectrodes) {
-      std::cerr << "ElectricalSeries::initialize electrode index "
-                << globalIndex << " is out of range. Max index is "
-                << (numElectrodes - 1) << std::endl;
-      return Status::Failure;
-    }
     electrodeInds[i] = static_cast<int>(channelVector[i].getGlobalIndex());
     channelConversions[i] = channelVector[i].getConversion();
   }
