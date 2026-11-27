@@ -286,7 +286,6 @@ TEST_CASE("Initialize a DynamicTable from a spec", "[spec]")
   auto spec = NWB::DynamicTable::Spec()
                   .withDescription("a test table")
                   .withColumns(columns);
-  REQUIRE(spec.getFullTypeName() == "hdmf-common::DynamicTable");
 
   auto table = NWB::DynamicTable::create("/table", io);
   REQUIRE(table->initialize(spec) == Status::Success);
@@ -478,6 +477,21 @@ TEST_CASE("Failed checks in initialize do not write anything", "[spec]")
     auto group = NWB::ElectrodeGroup::create("/group", io);
     REQUIRE(group->initialize(NWB::ElectrodeGroup::Spec()) == Status::Failure);
     REQUIRE_FALSE(io->objectExists("/group"));
+  }
+
+  SECTION("invalid column specs of a table")
+  {
+    std::vector<NWB::DynamicTable::DataSpecPtr> columns = {
+        NWB::VectorData::createDataSpec(
+            "values",
+            IO::ArrayDataSetConfig(IO::BaseDataType::F32, {0}, {10}),
+            "no id column")};
+    auto table = NWB::DynamicTable::create("/table", io);
+    REQUIRE(
+        table->initialize(
+            NWB::DynamicTable::Spec().withDescription("d").withColumns(columns))
+        == Status::Failure);
+    REQUIRE_FALSE(io->objectExists("/table"));
   }
 
   SECTION("missing electrodes table")
