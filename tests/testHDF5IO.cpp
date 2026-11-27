@@ -779,6 +779,52 @@ TEST_CASE("HDF5IO; compound data types", "[hdf5io]")
   REQUIRE(values[1].y == 4);
   REQUIRE(values[2].x == 5);
   REQUIRE(std::abs(values[2].weight - 0.25f) < 1e-6f);
+
+  // Typed read of the compound data via DataBlock
+  auto typed = IO::DataBlock<PixelMask>::fromGeneric(block);
+  REQUIRE(typed.data.size() == 3);
+  REQUIRE(typed.shape == SizeArray {3});
+  REQUIRE(typed.data[1].x == 3);
+  REQUIRE(std::abs(typed.data[1].weight - 1.0f) < 1e-6f);
+
+  // Read into a struct with a different member order by matching the names
+  struct ReorderedPixelMask
+  {
+    float weight;
+    uint32_t y;
+    uint32_t x;
+  };
+  const IO::BaseDataType reorderedType = IO::BaseDataType::Compound(
+      {{"weight",
+        IO::BaseDataType::T_F32,
+        offsetof(ReorderedPixelMask, weight)},
+       {"y", IO::BaseDataType::T_U32, offsetof(ReorderedPixelMask, y)},
+       {"x", IO::BaseDataType::T_U32, offsetof(ReorderedPixelMask, x)}},
+      sizeof(ReorderedPixelMask));
+  auto reordered =
+      IO::DataBlock<ReorderedPixelMask>::fromCompound(block, reorderedType);
+  REQUIRE(reordered.data[2].x == 5);
+  REQUIRE(reordered.data[2].y == 6);
+  REQUIRE(std::abs(reordered.data[2].weight - 0.25f) < 1e-6f);
+
+  // Mismatched layouts fail
+  struct WrongSize
+  {
+    uint32_t x;
+  };
+  REQUIRE_THROWS_AS(IO::DataBlock<WrongSize>::fromCompound(block),
+                    std::invalid_argument);
+  const IO::BaseDataType missingMemberType = IO::BaseDataType::Compound(
+      {{"z", IO::BaseDataType::T_U32, 0}}, sizeof(WrongSize));
+  REQUIRE_THROWS_AS(
+      IO::DataBlock<WrongSize>::fromCompound(block, missingMemberType),
+      std::invalid_argument);
+  // Non-compound data fails
+  IO::DataBlockGeneric numericBlock;
+  numericBlock.baseDataType = IO::BaseDataType::U32;
+  numericBlock.data = std::vector<uint8_t>(4);
+  REQUIRE_THROWS_AS(IO::DataBlock<PixelMask>::fromCompound(numericBlock),
+                    std::invalid_argument);
   readio.close();
 }
 
@@ -800,7 +846,7 @@ TEST_CASE("HDF5IO; compound data type validation and layouts", "[hdf5io]")
         std::invalid_argument);  // non-numeric member
   }
 
-  SECTION("struct with padding is stored packed")
+  SECTION("struct with padding is stored packed and read by member name")
   {
     struct Padded
     {
@@ -827,6 +873,41 @@ TEST_CASE("HDF5IO; compound data type validation and layouts", "[hdf5io]")
     auto block = readio.readDataset("/padded");
     // The file layout is packed (2 + 8 bytes)
     REQUIRE(block.baseDataType.compoundSize == 10);
+    REQUIRE_THROWS_AS(IO::DataBlock<Padded>::fromGeneric(block),
+                      std::invalid_argument);
+    auto values = IO::DataBlock<Padded>::fromCompound(block, paddedType);
+    REQUIRE(values.data[1].a == 2);
+    REQUIRE(std::abs(values.data[1].b - 1.5) < 1e-12);
+
+    // Out-of-bounds offsets in the target type are rejected
+    IO::BaseDataType invalidTarget = paddedType;
+    invalidTarget.members[1].offset = 1000;
+    REQUIRE_THROWS_AS(IO::DataBlock<Padded>::fromCompound(block, invalidTarget),
+                      std::invalid_argument);
+
+    // Read into the memory type directly, which also converts member types
+    // and reads subsets of the members
+    auto direct = IO::DataBlock<Padded>::fromGeneric(
+        readio.readCompoundDataset("/padded", paddedType));
+    REQUIRE(direct.data[1].a == 2);
+    REQUIRE(std::abs(direct.data[0].b - 0.5) < 1e-12);
+    struct Wide
+    {
+      uint32_t a;
+    };
+    const IO::BaseDataType wideType = IO::BaseDataType::Compound(
+        {{"a", IO::BaseDataType::T_U32, offsetof(Wide, a)}}, sizeof(Wide));
+    auto wide = IO::DataBlock<Wide>::fromGeneric(
+        readio.readCompoundDataset("/padded", wideType));
+    REQUIRE(wide.data.size() == 2);
+    REQUIRE(wide.data[1].a == 2);
+    const IO::BaseDataType missingType = IO::BaseDataType::Compound(
+        {{"c", IO::BaseDataType::T_U32, 0}}, sizeof(uint32_t));
+    REQUIRE_THROWS_AS(readio.readCompoundDataset("/padded", missingType),
+                      std::invalid_argument);
+    REQUIRE_THROWS_AS(readio.readCompoundDataset(
+                          "/padded", IO::BaseDataType(IO::BaseDataType::T_U32)),
+                      std::invalid_argument);
     readio.close();
   }
 

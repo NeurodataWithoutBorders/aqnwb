@@ -278,6 +278,24 @@ public:
   Status addVoxelMasks(const std::vector<std::vector<VoxelMaskEntry>>& masks,
                        const std::vector<int>& ids = {});
 
+  /**
+   * @brief Read the pixel masks of all ROIs.
+   * @return One list of (x, y, weight) entries per ROI. Empty if the table
+   * has no pixel_mask column.
+   * @throws std::invalid_argument if the pixel_mask column has an unexpected
+   * data type.
+   */
+  std::vector<std::vector<PixelMaskEntry>> readPixelMasks() const;
+
+  /**
+   * @brief Read the voxel masks of all ROIs.
+   * @return One list of (x, y, z, weight) entries per ROI. Empty if the table
+   * has no voxel_mask column.
+   * @throws std::invalid_argument if the voxel_mask column has an unexpected
+   * data type.
+   */
+  std::vector<std::vector<VoxelMaskEntry>> readVoxelMasks() const;
+
   DEFINE_REGISTERED_FIELD(readPixelMask,
                           VectorData,
                           "pixel_mask",

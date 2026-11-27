@@ -468,3 +468,78 @@ Status PlaneSegmentation::writeRaggedMasks(
           {numRois}, {numIndexRows}, IO::BaseDataType::U32, indexValues.data());
   return status;
 }
+
+namespace
+{
+/**
+ * @brief Read a ragged compound mask column and split it into one list of
+ * entries per ROI.
+ */
+template<typename EntryT>
+std::vector<std::vector<EntryT>> readRaggedMasks(
+    const std::shared_ptr<AQNWB::IO::BaseIO>& io,
+    const std::string& tablePath,
+    const std::string& maskName,
+    const AQNWB::IO::BaseDataType& entryType)
+{
+  std::vector<std::vector<EntryT>> masks;
+  const std::string maskPath = AQNWB::mergePaths(tablePath, maskName);
+  const std::string indexPath = maskPath + "_index";
+  if (io == nullptr || !io->objectExists(maskPath)
+      || !io->objectExists(indexPath))
+  {
+    return masks;
+  }
+  // Read the entries into the layout of EntryT. HDF5 matches the members by
+  // name and converts their types (e.g., uint16 coordinates in the file).
+  auto entries = AQNWB::IO::DataBlock<EntryT>::fromGeneric(
+      io->readCompoundDataset(maskPath, entryType));
+  // The index may use any unsigned integer type (e.g., uint8 in files
+  // written by hdmf), so convert it to SizeType
+  std::vector<SizeType> ends;
+  std::visit(
+      [&ends](const auto& values)
+      {
+        using VectorT = std::decay_t<decltype(values)>;
+        if constexpr (std::is_same_v<VectorT, std::monostate>) {
+          throw std::invalid_argument(
+              "PlaneSegmentation: unsupported data type of the mask index");
+        } else if constexpr (std::is_integral_v<typename VectorT::value_type>) {
+          for (const auto& value : values) {
+            ends.push_back(static_cast<SizeType>(value));
+          }
+        } else {
+          throw std::invalid_argument(
+              "PlaneSegmentation: the mask index must "
+              "use an integer data type");
+        }
+      },
+      io->readDataset(indexPath).as_variant());
+  SizeType start = 0;
+  for (const SizeType end : ends) {
+    if (end < start || end > entries.data.size()) {
+      throw std::invalid_argument("PlaneSegmentation: invalid " + maskName
+                                  + "_index");
+    }
+    masks.emplace_back(
+        entries.data.begin() + static_cast<std::ptrdiff_t>(start),
+        entries.data.begin() + static_cast<std::ptrdiff_t>(end));
+    start = end;
+  }
+  return masks;
+}
+}  // namespace
+
+std::vector<std::vector<PlaneSegmentation::PixelMaskEntry>>
+PlaneSegmentation::readPixelMasks() const
+{
+  return readRaggedMasks<PixelMaskEntry>(
+      getIO(), m_path, "pixel_mask", getPixelMaskType());
+}
+
+std::vector<std::vector<PlaneSegmentation::VoxelMaskEntry>>
+PlaneSegmentation::readVoxelMasks() const
+{
+  return readRaggedMasks<VoxelMaskEntry>(
+      getIO(), m_path, "voxel_mask", getVoxelMaskType());
+}

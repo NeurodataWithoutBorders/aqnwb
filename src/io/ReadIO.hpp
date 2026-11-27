@@ -1,12 +1,15 @@
 #pragma once
 
+#include <algorithm>
 #include <any>
 #include <array>
 #include <cassert>
 #include <cstdint>
+#include <cstring>
 #include <iostream>
 #include <memory>
 #include <numeric>
+#include <optional>
 #include <stdexcept>
 #include <string>
 #include <type_traits>
@@ -354,9 +357,129 @@ public:
   inline static DataBlock<DTYPE> fromGeneric(
       const DataBlockGeneric& genericData)
   {
+    // Compound data is stored as raw bytes. Convert it to the struct type.
+    if constexpr (std::is_class_v<DTYPE> && std::is_trivially_copyable_v<DTYPE>)
+    {
+      if (genericData.baseDataType.isCompound()) {
+        return fromCompound(genericData);
+      }
+    }
     auto result = DataBlock<DTYPE>(
         std::any_cast<std::vector<DTYPE>>(genericData.data), genericData.shape);
     return result;
+  }
+
+  /**
+   * @brief Factory method to create a DataBlock of structs from compound
+   * data.
+   *
+   * Compound data is read as raw bytes in the layout described by
+   * genericData.baseDataType (see BaseDataType::Compound). This function
+   * converts the data to an array of the struct DTYPE.
+   *
+   * - If targetType is not set, the layout of the data must match the
+   *   layout of DTYPE, i.e., the size of a compound value must be
+   *   sizeof(DTYPE) and the data is copied as is.
+   * - If targetType is set, it describes the layout of DTYPE (e.g., as
+   *   created via BaseDataType::Compound with offsetof and sizeof). The
+   *   members are then matched by name, such that the data can be read
+   *   independent of the order and padding of the members in the file.
+   *
+   * Example:
+   * @code
+   * struct PixelMask { uint32_t x; uint32_t y; float weight; };
+   * auto block = DataBlock<PixelMask>::fromCompound(
+   *     io->readDataset(path), pixelMaskType);
+   * @endcode
+   *
+   * @param genericData The DataBlockGeneric with compound data.
+   * @param targetType Optional compound type describing the layout of DTYPE.
+   * @return A DataBlock with the values.
+   * @throws std::invalid_argument if the data is not compound data or if the
+   * layout does not match DTYPE or targetType.
+   */
+  inline static DataBlock<DTYPE> fromCompound(
+      const DataBlockGeneric& genericData,
+      const std::optional<BaseDataType>& targetType = std::nullopt)
+  {
+    static_assert(std::is_trivially_copyable_v<DTYPE>,
+                  "fromCompound requires a type that can be copied via memcpy");
+    const BaseDataType& sourceType = genericData.baseDataType;
+    if (!sourceType.isCompound() || sourceType.compoundSize == 0) {
+      throw std::invalid_argument(
+          "DataBlock::fromCompound: The data is not compound data.");
+    }
+    const auto& bytes =
+        std::any_cast<const std::vector<uint8_t>&>(genericData.data);
+    if (bytes.size() % sourceType.compoundSize != 0) {
+      throw std::invalid_argument(
+          "DataBlock::fromCompound: The size of the data is not a multiple of "
+          "the size of the compound values.");
+    }
+    const SizeType numValues = bytes.size() / sourceType.compoundSize;
+    std::vector<DTYPE> values(numValues);
+
+    if (!targetType.has_value()) {
+      if (sourceType.compoundSize != sizeof(DTYPE)) {
+        throw std::invalid_argument(
+            "DataBlock::fromCompound: The size of the compound values does "
+            "not match the size of the type.");
+      }
+      std::memcpy(values.data(), bytes.data(), numValues * sizeof(DTYPE));
+      return DataBlock<DTYPE>(values, genericData.shape);
+    }
+
+    // Match the members of the target type by name
+    if (!targetType->isCompound() || targetType->compoundSize != sizeof(DTYPE))
+    {
+      throw std::invalid_argument(
+          "DataBlock::fromCompound: The target type must be a compound type "
+          "with the size of the type.");
+    }
+    struct MemberMapping
+    {
+      SizeType sourceOffset;
+      SizeType targetOffset;
+      SizeType size;
+    };
+    std::vector<MemberMapping> mappings;
+    for (const auto& targetMember : targetType->members) {
+      auto sourceMember = std::find_if(
+          sourceType.members.begin(),
+          sourceType.members.end(),
+          [&targetMember](const BaseDataType::CompoundMember& member)
+          { return member.name == targetMember.name; });
+      if (sourceMember == sourceType.members.end()
+          || sourceMember->type != targetMember.type)
+      {
+        throw std::invalid_argument(
+            "DataBlock::fromCompound: The data has no member '"
+            + targetMember.name + "' of the expected type.");
+      }
+      const SizeType memberSize =
+          BaseDataType::getScalarNumBytes(targetMember.type);
+      if (memberSize == 0 || targetMember.offset + memberSize > sizeof(DTYPE)
+          || sourceMember->offset + memberSize > sourceType.compoundSize)
+      {
+        throw std::invalid_argument(
+            "DataBlock::fromCompound: The member '" + targetMember.name
+            + "' is not a scalar numeric type or does not fit into the "
+              "compound values.");
+      }
+      mappings.push_back(
+          {sourceMember->offset, targetMember.offset, memberSize});
+    }
+    auto* target = reinterpret_cast<uint8_t*>(values.data());
+    for (SizeType i = 0; i < numValues; ++i) {
+      const uint8_t* sourceValue = bytes.data() + i * sourceType.compoundSize;
+      uint8_t* targetValue = target + i * sizeof(DTYPE);
+      for (const auto& mapping : mappings) {
+        std::memcpy(targetValue + mapping.targetOffset,
+                    sourceValue + mapping.sourceOffset,
+                    mapping.size);
+      }
+    }
+    return DataBlock<DTYPE>(values, genericData.shape);
   }
 
   /**

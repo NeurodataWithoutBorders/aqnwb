@@ -244,6 +244,17 @@ public:
                                           const SizeArray& block = {}) override;
 
   /**
+   * @copydoc IO::BaseIO::readCompoundDataset
+   */
+  AQNWB::IO::DataBlockGeneric readCompoundDataset(
+      const std::string& dataPath,
+      const IO::BaseDataType& memoryType,
+      const SizeArray& start = {},
+      const SizeArray& count = {},
+      const SizeArray& stride = {},
+      const SizeArray& block = {}) override;
+
+  /**
    * @brief Reads a attribute  and determines the data type
    *
    * We use IO::DataBlockGeneric here, i.e., the subclass must determine the
@@ -550,6 +561,25 @@ public:
    * @param type The type of a dataset or attribute in the file.
    * @return The native type for integers and floats, otherwise the type.
    */
+  /**
+   * @brief Implementation of readDataset and readCompoundDataset.
+   * @param dataPath The path to the dataset.
+   * @param start The starting indices for the slice.
+   * @param count The number of elements to read for each dimension.
+   * @param stride The stride for each dimension.
+   * @param block The block size for each dimension.
+   * @param memoryType Compound type to read the values into, or nullptr to
+   * read the values with the type in the file.
+   * @return The data.
+   */
+  AQNWB::IO::DataBlockGeneric readDatasetImpl(
+      const std::string& dataPath,
+      const SizeArray& start,
+      const SizeArray& count,
+      const SizeArray& stride,
+      const SizeArray& block,
+      const IO::BaseDataType* memoryType);
+
   static H5::DataType toNativeNumericType(const H5::DataType& type);
 
   /**
